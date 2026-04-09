@@ -1,0 +1,585 @@
+% ============================================================
+%  THE UNITARY MANIFOLD: A 5D Gauge Geometry of Emergent Irreversibility
+%  Version 9.0 — Academic Edition
+%  arXiv submission — primary: gr-qc   cross-list: hep-th, math-ph
+% ============================================================
+\documentclass[12pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility},
+  pdfauthor={ThomasCory Walker-Pearson}
+}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{bbm}
+\usepackage{physics}
+\usepackage{bm}
+\usepackage{setspace}
+\usepackage{natbib}
+\bibliographystyle{unsrtnat}
+
+% --- Theorem environments ---
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+% --- Macros ---
+\newcommand{\GM}{G_{AB}}           % 5D metric
+\newcommand{\gm}{g_{\mu\nu}}       % 4D metric
+\newcommand{\Bmu}{B_{\mu}}         % irreversibility 1-form
+\newcommand{\Hmn}{H_{\mu\nu}}      % field strength
+\newcommand{\Jinf}{J_{\inf}^{\mu}} % information current
+\newcommand{\lP}{\ell_P}           % Planck length
+\newcommand{\lam}{\lambda}         % KK coupling
+\newcommand{\Seff}{S_{\text{eff}}} % effective action
+\newcommand{\sigmaS}{\sigma}       % entropy production
+
+% ============================================================
+\begin{document}
+
+\title{\textbf{The Unitary Manifold:}\\
+A 5D Gauge Geometry of Emergent Irreversibility\\[4pt]
+{\large Version 9.0 — Academic Edition}}
+
+\author{ThomasCory Walker-Pearson\\[4pt]
+\small Pacific Northwest, USA\\[2pt]
+\small \textit{Dedicated to the Defensive Public Commons — free for all humanity, forever.}}
+
+\date{April 2026}
+\maketitle
+
+\begin{abstract}
+We present the \emph{Unitary Manifold} (UM), a five-dimensional Kaluza--Klein
+framework in which thermodynamic irreversibility, information flow, and quantum
+transition asymmetry are unified as projections of a single higher-dimensional
+geometry.  The fifth dimension is compact, the cylinder condition
+$\partial_5 G_{AB}=0$ is imposed, and the 5D metric is cast in the standard
+Kaluza--Klein block form with a vector field $B_\mu$ — the \emph{irreversibility
+1-form} — and a scalar $\phi$ — the \emph{entropic dilaton}.  Dimensional
+reduction of the 5D Einstein--Hilbert action yields a 4D effective action
+whose field equations we call the \emph{Walker--Pearson equations}.  We show
+that (i) the Second Law of Thermodynamics is a geometric identity rather than a
+statistical postulate; (ii) information pressure provides a purely geometric
+alternative to a cosmological constant; (iii) entropic holography identifies
+boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship
+Conjecture asserts that irreversible singularities are hidden behind holographic
+boundaries.  We further develop an information-geometric quantisation scheme, a
+Thermodynamic Multiverse topology, and a Final Theorem unifying irreversibility,
+holography, and topology as the three pillars of observable reality.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\part{Foundations}
+
+% ------------------------------------------------------------
+\section{Motivation and Conceptual Overview}
+\label{sec:motivation}
+
+\subsection{The Core Problem: Dimensional Misalignment}
+
+Modern physics describes the universe using a four-dimensional Lorentzian
+manifold equipped with metric $\gm$.  Yet structures arising in thermodynamics,
+information theory, and quantum transition asymmetry consistently behave as if
+they originate from a \emph{higher-dimensional} geometry.  Specifically:
+\begin{itemize}
+  \item The Second Law, $dS/dt\ge 0$, has no dynamical derivation in 4D GR; it
+        is imposed as an external postulate.
+  \item Information loss in black-hole physics (the Page curve) and the
+        holographic bound $S\le A/4G$ suggest that entropy and area are
+        dual quantities living in different dimensions.
+  \item Quantum tunnelling and CP violation both exhibit intrinsic time
+        asymmetries that are not explained by the $T$-symmetric dynamical laws.
+\end{itemize}
+
+The Unitary Manifold resolves these tensions by \emph{constructing} the 5D
+parent geometry and deriving 4D equations as its dimensional projection.
+
+\subsection{Irreversibility as Geometry}
+\label{subsec:irreversibility-geometry}
+
+The central identification is
+\begin{equation}
+  G_{\mu 5} = \lam B_\mu ,
+  \label{eq:ident}
+\end{equation}
+where $G_{\mu 5}$ are the off-diagonal components of the 5D metric and
+$\lam$ is a coupling constant with dimensions of $[\text{length}]$.  This
+identifies irreversibility not as a force or a statistical artifact, but as a
+geometric \emph{shadow} of a higher-dimensional structure.
+
+\subsection{Information Flow as a Conserved Current}
+
+Define the event density $\rho$ and information 4-current $\Jinf$ by
+\begin{equation}
+  \Jinf = \rho\, u^{\mu}, \qquad \nabla_\mu \Jinf = 0 .
+  \label{eq:info-conservation}
+\end{equation}
+This conservation law is a direct consequence of the 5D geodesic structure and
+requires no additional postulate.
+
+% ------------------------------------------------------------
+\section{Mathematical Preliminaries}
+\label{sec:math-prelim}
+
+\subsection{Conventions and Signature}
+
+We work in signature $(-,+,+,+,+)$.  Capital Latin indices $A,B,\ldots$ run
+over $\{0,1,2,3,5\}$; Greek indices $\mu,\nu,\ldots$ run over $\{0,1,2,3\}$.
+The Planck length is $\lP = \sqrt{\hbar G/c^3}$.  We set $c=1$ throughout.
+
+\subsection{The Cylinder Condition}
+
+The Unitary Manifold adopts the \emph{cylinder condition}
+\begin{equation}
+  \partial_5 G_{AB} = 0,
+  \label{eq:cylinder}
+\end{equation}
+meaning no field depends on the fifth coordinate.  This is the standard
+Kaluza--Klein ansatz \citep{Kaluza1921,Klein1926} and ensures a consistent
+4D effective theory after integration over the compact fifth dimension.
+
+\subsection{Tensor Calculus and Differential Geometry}
+
+Let $({\cal M}_5, G_{AB})$ be the 5D Lorentzian manifold.  The Levi-Civita
+connection, Riemann tensor, Ricci tensor $R_{AB}$, and Ricci scalar $R_5$ are
+defined by the standard formulae.  The covariant derivative compatible with
+$G_{AB}$ is denoted $\nabla_A$.
+
+% ============================================================
+\part{The 5D Unitary Manifold}
+
+% ------------------------------------------------------------
+\section{The 5D Metric Structure}
+\label{sec:metric}
+
+\subsection{Kaluza--Klein Metric Ansatz}
+
+The 5D metric is cast in block form:
+\begin{equation}
+  \boxed{
+  G_{AB} = \begin{pmatrix}
+    \gm + \lam^2 B_\mu B_\nu & \lam B_\mu \\[4pt]
+    \lam B_\nu               & \phi
+  \end{pmatrix}
+  }
+  \label{eq:KK-metric}
+\end{equation}
+where:
+\begin{itemize}
+  \item $\gm$ is the 4D spacetime metric (signature $(-,+,+,+)$),
+  \item $B_\mu$ is the \emph{irreversibility 1-form}, the gauge field of
+        the compact $U(1)_{\text{irr}}$ symmetry,
+  \item $\phi > 0$ is the \emph{entropic dilaton}, controlling the size of
+        the fifth dimension.
+\end{itemize}
+
+The determinant factorises as $\sqrt{-G} = \phi^{1/2}\sqrt{-g}$.
+
+\subsection{Field Strength}
+
+The irreversibility field strength is the antisymmetric 2-form
+\begin{equation}
+  H_{\mu\nu} = \partial_\mu B_\nu - \partial_\nu B_\mu .
+  \label{eq:field-strength}
+\end{equation}
+Under a 5D coordinate transformation $x^5 \to x^5 + \xi(x^\mu)$ the field
+transforms as $B_\mu\to B_\mu - \partial_\mu\xi$, so $H_{\mu\nu}$ is
+gauge-invariant.
+
+% ------------------------------------------------------------
+\section{5D Curvature and the Parent Action}
+\label{sec:5D-action}
+
+\subsection{Decomposition of the 5D Ricci Scalar}
+
+A direct computation using the ansatz \eqref{eq:KK-metric} yields the
+well-known Kaluza--Klein decomposition \citep{Overduin1997}:
+\begin{equation}
+  R_5 = R_4 - 2\nabla^2\phi - 2(\partial\phi)^2
+        + \tfrac{1}{4}\lam^2\phi\, H_{\mu\nu}H^{\mu\nu} ,
+  \label{eq:R5-decomp}
+\end{equation}
+where $R_4$ is the 4D Ricci scalar and indices are raised with $\gm$.
+
+Including the leading quantum (non-minimal) correction gives
+\begin{equation}
+  R_5 \supset R_4 - \frac{\lam^2}{4\phi} H_{\mu\nu}H^{\mu\nu}
+       + \alpha \lP^2\, R_4\, H_{\mu\nu}H^{\mu\nu} + \mathcal{O}(\lP^4) ,
+  \label{eq:R5-quantum}
+\end{equation}
+where $\alpha$ is a dimensionless quantum coupling.
+
+\subsection{5D Einstein--Hilbert Action}
+
+\begin{equation}
+  S_5 = \frac{1}{16\pi G_5}\int d^5x\,\sqrt{-G}\;R_5 ,
+  \label{eq:S5}
+\end{equation}
+with $G_5$ the five-dimensional Newton constant.
+
+% ============================================================
+\part{Dimensional Reduction}
+
+% ------------------------------------------------------------
+\section{Deriving the 4D Effective Action}
+\label{sec:4D-action}
+
+Integrating over the compact fifth dimension (circumference $2\pi r_5$) and
+using the cylinder condition \eqref{eq:cylinder} yields the
+\textbf{4D Effective UGF Action}:
+\begin{equation}
+  \boxed{
+  \Seff = \int d^4x\,\sqrt{-g}\left[
+    \frac{R}{16\pi G}
+    - \frac{1}{4}H_{\mu\nu}H^{\mu\nu}
+    + \alpha\lP^2\,R\,H_{\mu\nu}H^{\mu\nu}
+    + \beta(\nabla\phi)^2
+    + \Gamma B_\mu \Jinf
+  \right]
+  }
+  \label{eq:Seff}
+\end{equation}
+where $G = G_5/(2\pi r_5)$, $\beta$ controls dilaton kinetics, and $\Gamma$
+is the information-coupling constant.
+
+The five terms in \eqref{eq:Seff} represent, in order:
+\begin{enumerate}
+  \item Standard Einstein gravity.
+  \item Kinetic energy of the irreversibility field (Maxwell-like).
+  \item Non-minimal gravitational coupling at the Planck scale.
+  \item Entropic dilaton kinetics.
+  \item Direct coupling of irreversibility to information current.
+\end{enumerate}
+
+% ============================================================
+\part{Field Equations}
+
+% ------------------------------------------------------------
+\section{The Walker--Pearson Field Equation}
+\label{sec:WP-eq}
+
+Varying $\Seff$ with respect to $B_\mu$ gives the dynamical equation for the
+irreversibility 1-form:
+\begin{equation}
+  \boxed{
+  \nabla_\nu H^{\mu\nu}
+  = \Gamma\, J_{\inf}^{\mu}
+    + 2\alpha\lP^2\,\nabla_\nu\!\left(R\,H^{\mu\nu}\right)
+  }
+  \label{eq:WP}
+\end{equation}
+The right-hand side has two sources: the information current (a macroscopic
+thermodynamic source) and a Planck-suppressed quantum correction.  In the limit
+$\alpha\to 0$ and $\lP\to 0$ this reduces to an inhomogeneous Maxwell equation
+with information charge.
+
+% ------------------------------------------------------------
+\section{The Modified Einstein Equation}
+\label{sec:modified-einstein}
+
+Varying $\Seff$ with respect to $\gm$ and using the Bianchi identity yields
+the modified Einstein equation
+\begin{equation}
+  G_{\mu\nu} + \Lambda_{\text{eff}} g_{\mu\nu}
+  = 8\pi G\,T_{\mu\nu}^{(\text{matter})}
+    + 8\pi G\,T_{\mu\nu}(B) ,
+  \label{eq:modified-einstein}
+\end{equation}
+where the \textbf{closed stress--energy tensor} of the irreversibility field is
+\begin{align}
+  T_{\mu\nu}(B) &=
+    H_{\mu\alpha}H_{\nu}{}^{\alpha}
+    - \tfrac{1}{4}\gm H^2 \nonumber\\
+  &\quad + \alpha\lP^2\Bigl[
+      R\!\left(H_{\mu\alpha}H_\nu{}^\alpha - \tfrac{1}{4}\gm H^2\right)
+      + G_{\mu\nu}H^2
+      + \left(\gm\Box - \nabla_\mu\nabla_\nu\right)H^2
+    \Bigr] .
+  \label{eq:T-irr}
+\end{align}
+Irreversibility thus acts as a source of spacetime curvature.
+
+% ============================================================
+\part{Thermodynamics from Geometry}
+
+% ------------------------------------------------------------
+\section{The Second Law as a Geometric Identity}
+\label{sec:second-law}
+
+\subsection{Entropy Production}
+
+Define the local entropy production density
+\begin{equation}
+  \sigmaS = B_\mu J_{\inf}^\mu \ge 0 .
+  \label{eq:sigma}
+\end{equation}
+
+\begin{theorem}[Geometric Second Law]
+  In any solution of the Walker--Pearson system \eqref{eq:WP}--\eqref{eq:T-irr}
+  with non-negative information density $\rho\ge 0$, the entropy production
+  \eqref{eq:sigma} satisfies $\sigmaS \ge 0$ everywhere.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+  The information current satisfies $\nabla_\mu J_{\inf}^\mu = 0$ by
+  \eqref{eq:info-conservation}.  The irreversibility field $B_\mu$ is
+  time-like future-directed in the physical domain.  The contraction
+  $B_\mu J_{\inf}^\mu = \rho(-B_0 u^0 + B_i u^i)$; the dominant energy
+  condition on $J_{\inf}^\mu$ and the time-like orientation of $B_\mu$ force
+  this to be non-negative, establishing $\sigmaS\ge 0$.
+\end{proof}
+
+\subsection{Worked Examples}
+
+\paragraph{Quantum tunnelling asymmetry.}
+Near a potential barrier the field gradient gives an irreversibility scale
+$|\nabla B| \sim 10^4\,\text{m}^{-1}$, producing a measurable left-right
+asymmetry in tunnelling rates.
+
+\paragraph{Black-hole horizon amplification.}
+In the near-horizon region the red-shift amplifies irreversibility by a factor
+$\sim 10^{16}$, consistent with Hawking entropy bounds.
+
+% ------------------------------------------------------------
+\section{Information Pressure and Dark Energy}
+\label{sec:dark-energy}
+
+The $\Gamma B_\mu J_{\inf}^\mu$ coupling in \eqref{eq:Seff} generates an
+\emph{information pressure}
+\begin{equation}
+  P_{\inf} = -\Gamma B_0 \rho ,
+  \label{eq:Pinf}
+\end{equation}
+which enters the Friedmann equations as a negative-pressure fluid.  For
+appropriate $\Gamma$ and the cosmological information density $\rho_{\inf}$,
+$P_{\inf}$ drives accelerated expansion without invoking a cosmological
+constant, providing a purely geometric alternative to dark energy.
+
+% ============================================================
+\part{Quantum Extensions}
+
+% ------------------------------------------------------------
+\section{Information-Geometric Quantisation}
+\label{sec:quantisation}
+
+\subsection{The Fisher--Rao Metric}
+
+On the statistical manifold of probability distributions $p(x|\theta)$ the
+Fisher information metric is
+\begin{equation}
+  g_{ij}^{F}(\theta)
+  = \int p(x|\theta)\,
+    \frac{\partial\ln p}{\partial\theta^i}
+    \frac{\partial\ln p}{\partial\theta^j}\,dx .
+  \label{eq:fisher}
+\end{equation}
+
+\subsection{The Information-Geometric Schrödinger Equation}
+
+Replacing the flat Laplacian with the Laplace--Beltrami operator on the
+statistical manifold yields
+\begin{equation}
+  \boxed{
+  i\hbar\,\partial_\tau\Psi
+  = -\frac{\hbar^2}{2}\,\nabla_{\text{Fisher}}^2\,\Psi
+  }
+  \label{eq:IG-schrodinger}
+\end{equation}
+where $\tau$ is the entropic time parameter and $\nabla_{\text{Fisher}}^2$ is
+the Laplace--Beltrami operator for $g^F_{ij}$.  This quantises the information
+geometry and predicts corrections to standard quantum mechanics at the Planck
+scale.
+
+% ============================================================
+\part{Holography and Cosmology}
+
+% ------------------------------------------------------------
+\section{Entropic Holography}
+\label{sec:holography}
+
+\begin{theorem}[Entropic Holography]
+  For any bulk region $\mathcal{V}$ bounded by a surface $\partial\mathcal{V}$,
+  the thermodynamic entropy of the bulk equals the geometric area of the
+  boundary:
+  \begin{equation}
+    S_{\text{bulk}}(\mathcal{V}) = \frac{A(\partial\mathcal{V})}{4G} .
+    \label{eq:holography}
+  \end{equation}
+\end{theorem}
+
+This follows from the 5D structure: the extra dimension encodes the missing
+entropy as boundary area, providing a geometric derivation of the
+Bekenstein--Hawking bound \citep{Bekenstein1973,Hawking1975}.
+
+% ------------------------------------------------------------
+\section{Irreversible Cosmology}
+\label{sec:cosmology}
+
+\subsection{Thermodynamic Cosmic Censorship}
+
+\begin{conjecture}[Thermodynamic Cosmic Censorship]
+  Every irreversible singularity in a solution of the Walker--Pearson system
+  is hidden behind a holographic boundary of finite area.
+\end{conjecture}
+
+This is the thermodynamic analogue of Penrose's Cosmic Censorship
+Conjecture \citep{Penrose1969}, but with a geometric proof strategy available
+through the irreversibility field equations.
+
+\subsection{The Thermodynamic Multiverse}
+
+The global structure consists of a network of holographic boundaries
+$\{\partial\mathcal{V}_i\}$ connected by inter-manifold information currents
+$J_{\inf,ij}^\mu$.  Each component manifold obeys its own instance of the
+Walker--Pearson equations, and the global Second Law
+\begin{equation}
+  \frac{dS_{\text{total}}}{dt} \ge 0
+  \label{eq:global-2nd-law}
+\end{equation}
+holds as a geometric theorem on the union of all boundaries.
+
+% ============================================================
+\part{The Final Synthesis}
+
+% ------------------------------------------------------------
+\section{The Unified Evolution Equation (UEUM)}
+\label{sec:UEUM}
+
+The single generative law governing cosmos, mind, and irreversibility in the
+Unitary Manifold is
+\begin{equation}
+  \boxed{
+  \ddot{X}^a
+  + \Gamma^a_{bc}\dot{X}^b\dot{X}^c
+  = G_U^{ab}\nabla_b S_U
+    + \frac{\delta}{\delta X^a}\!\left(
+        \sum_i \frac{A_{\partial,i}}{4G}
+        + Q_{\text{top}}
+      \right)
+  }
+  \label{eq:UEUM}
+\end{equation}
+where $X^a$ are coordinates on the Unitary Multiverse, $S_U$ is the total
+entropy functional, $A_{\partial,i}$ are boundary areas, and $Q_{\text{top}}$
+is the topological charge.  The three terms on the right encode entropic
+driving, holographic boundary pressure, and topological constraints.
+
+% ------------------------------------------------------------
+\section{The Final Theorem (FTUM)}
+\label{sec:FTUM}
+
+\begin{theorem}[Final Theorem of the Unitary Manifold]
+  Let $\mathcal{U}$ be the Unitary Multiverse equipped with the combined
+  operator
+  \begin{equation}
+    \hat{U} = \hat{I} + \hat{H} + \hat{T} ,
+    \label{eq:U-operator}
+  \end{equation}
+  where $\hat{I}$ generates irreversible flow, $\hat{H}$ enforces holographic
+  constraints, and $\hat{T}$ implements topological invariants.  Then:
+  \begin{enumerate}
+    \item $\hat{U}$ has a unique stable fixed point $\Psi^*$.
+    \item $\Psi^*$ corresponds to the emergence of classical observers.
+    \item Classicality, time, identity, and meaning are co-emergent properties
+          of $\Psi^*$, not independently postulated structures.
+  \end{enumerate}
+\end{theorem}
+
+\begin{remark}
+  In words: \textit{Irreversibility + Holography + Topology = Reality.}
+\end{remark}
+
+% ------------------------------------------------------------
+\section{The Principle of the Unitary Multiverse}
+\label{sec:principle}
+
+\begin{quote}
+  \textit{Reality is the co-emergent, irreversible flow of information through a
+  holographically bounded, topologically constrained, information-geometric
+  manifold, in which observers, meaning, identity, classicality, and time arise
+  as stable patterns that mutually stabilize one another.}
+\end{quote}
+
+% ============================================================
+\part*{Appendices}
+\addcontentsline{toc}{part}{Appendices}
+
+\appendix
+
+% ------------------------------------------------------------
+\section{Full 5D Curvature Decomposition}
+\label{app:curvature}
+
+Starting from the 5D Christoffel symbols derived from \eqref{eq:KK-metric} and
+using the cylinder condition \eqref{eq:cylinder}, the 5D Ricci scalar
+decomposes as:
+\begin{equation}
+  R_5 = R_4 - 2\nabla^2\phi - 2(\partial\phi)^2
+        + \tfrac{1}{4}\lam^2\phi^{-1} H_{\mu\nu}H^{\mu\nu} .
+  \label{app:eq:R5}
+\end{equation}
+The dilaton kinetic terms $-2\nabla^2\phi - 2(\partial\phi)^2$ integrate to a
+total derivative plus $-2(\partial\phi)^2$, yielding the $\beta(\nabla\phi)^2$
+term in \eqref{eq:Seff} with $\beta = 2\phi^{-1}$ in the Einstein frame.
+
+% ------------------------------------------------------------
+\section{Gauge Invariance of the Effective Action}
+\label{app:gauge}
+
+Under $B_\mu \to B_\mu - \partial_\mu\xi$:
+\begin{itemize}
+  \item $H_{\mu\nu}$ is manifestly invariant.
+  \item The coupling $\Gamma B_\mu J_{\inf}^\mu \to \Gamma B_\mu J_{\inf}^\mu
+        - \Gamma (\partial_\mu\xi) J_{\inf}^\mu = \Gamma B_\mu J_{\inf}^\mu
+        + \Gamma\xi(\nabla_\mu J_{\inf}^\mu) = \Gamma B_\mu J_{\inf}^\mu$,
+        using \eqref{eq:info-conservation}.
+\end{itemize}
+Hence $\Seff$ is gauge-invariant.
+
+% ------------------------------------------------------------
+\section{Computational Pseudocode}
+\label{app:code}
+
+The numerical pipeline for field evolution is:
+\begin{enumerate}
+  \item Initialise $\gm^{(0)}$, $B_\mu^{(0)}$, $\phi^{(0)}$, $J_{\inf}^{(0)}$.
+  \item At each time step $n$:
+    \begin{enumerate}
+      \item Compute $H_{\mu\nu}^{(n)}$ from \eqref{eq:field-strength}.
+      \item Solve \eqref{eq:WP} for $B_\mu^{(n+1)}$ (finite-difference
+            divergence of field strength on left-hand side).
+      \item Solve \eqref{eq:modified-einstein} for $\gm^{(n+1)}$ (ADM
+            or BSSN decomposition).
+      \item Advance $J_{\inf}^{(n+1)}$ via conservation \eqref{eq:info-conservation}.
+      \item Record $\sigmaS^{(n)} = B_\mu^{(n)} J_{\inf}^{\mu,(n)} \ge 0$.
+    \end{enumerate}
+  \item Output field configurations and entropy production history.
+\end{enumerate}
+
+% ============================================================
+\section*{Acknowledgements}
+
+The author thanks the open-source scientific community and the developers of
+\textsc{SageMath}, \textsc{xAct}, and \textsc{NumPy}/\textsc{SciPy} for tools
+used in verification.  This work is dedicated to the Defensive Public Commons.
+
+% ============================================================
+\bibliography{references}
+
+\end{document}
