@@ -1,0 +1,66 @@
+{
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.0)",
+  "creators": [
+    {
+      "name": "Walker-Pearson, ThomasCory",
+      "affiliation": "Independent Researcher, Pacific Northwest, USA"
+    }
+  ],
+  "description": "We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The fifth dimension is compact, the cylinder condition is imposed, and the 5D metric is cast in the standard Kaluza-Klein block form with a vector field B_mu — the irreversibility 1-form — and a scalar phi — the entropic dilaton. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations we call the Walker-Pearson equations. We show that (i) the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate; (ii) information pressure provides a purely geometric alternative to a cosmological constant; (iii) entropic holography identifies boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture asserts that irreversible singularities are hidden behind holographic boundaries. A Thermodynamic Multiverse topology and a Final Theorem unifying irreversibility, holography, and topology as the three pillars of observable reality are also developed. Numerical implementation is provided for independent verification.",
+  "access_right": "open",
+  "license": "other-open",
+  "keywords": [
+    "Kaluza-Klein theory",
+    "5D gravity",
+    "irreversibility",
+    "information geometry",
+    "holography",
+    "thermodynamics",
+    "dark energy",
+    "Generalized Second Law",
+    "Walker-Pearson equations",
+    "entropic holography",
+    "multiverse",
+    "quantum gravity"
+  ],
+  "subjects": [
+    {
+      "term": "General Relativity and Quantum Cosmology",
+      "identifier": "gr-qc",
+      "scheme": "arXiv"
+    },
+    {
+      "term": "High Energy Physics - Theory",
+      "identifier": "hep-th",
+      "scheme": "arXiv"
+    },
+    {
+      "term": "Mathematical Physics",
+      "identifier": "math-ph",
+      "scheme": "arXiv"
+    }
+  ],
+  "language": "eng",
+  "notes": "This work is dedicated to the Defensive Public Commons. All ideas, methods, and scientific principles contained herein are freely available for public use without restriction. Version 9.0 — Academic Edition.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/wuzbak/Unitary-Manifold-",
+      "relation": "isSupplementedBy",
+      "resource_type": "software",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://wuzbak.github.io/Unitary-Manifold-/",
+      "relation": "isDescribedBy",
+      "resource_type": "other",
+      "scheme": "url"
+    }
+  ],
+  "version": "9.0",
+  "communities": [
+    {"identifier": "zenodo"},
+    {"identifier": "physics"}
+  ]
+}
