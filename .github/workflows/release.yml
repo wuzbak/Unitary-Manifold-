@@ -1,0 +1,73 @@
+name: Create GitHub Release
+
+# Triggers whenever a tag matching v* is pushed (e.g. v9.0, v9.1).
+# A GitHub Release is required for Zenodo to automatically archive the repo
+# and mint a DOI.  Make sure you have enabled this repo in your Zenodo
+# GitHub integration first: https://zenodo.org/account/settings/github/
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write   # needed to create the release
+
+jobs:
+  release:
+    name: Build release archive and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout full history so the archive is complete ──────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Build the source archive that will be attached to the release ─
+      - name: Build source archive
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          git archive \
+            --format=zip \
+            --prefix="unitary-manifold-${TAG}/" \
+            HEAD \
+            -o "unitary-manifold-${TAG}.zip"
+          echo "ARCHIVE=unitary-manifold-${TAG}.zip" >> "$GITHUB_ENV"
+          echo "TAG=${TAG}" >> "$GITHUB_ENV"
+
+      # ── 3. Create the GitHub Release ─────────────────────────────────────
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "The Unitary Manifold ${{ env.TAG }}"
+          tag_name: ${{ env.TAG }}
+          body: |
+            ## The Unitary Manifold — ${{ env.TAG }}
+
+            **A 5D Gauge Geometry of Emergent Irreversibility**
+            Author: ThomasCory Walker-Pearson
+
+            This release packages the full academic edition for archiving and citation:
+
+            | Resource | Link |
+            |---|---|
+            | Monograph PDF | `THEBOOKV9a (1).pdf` in the source archive |
+            | LaTeX source  | `arxiv/main.tex` + `arxiv/references.bib` |
+            | Numerical code | `src/` (Python, requires `numpy`/`scipy`) |
+            | arXiv guide | `arxiv/SUBMISSION_GUIDE.md` |
+            | Zenodo guide | `zenodo/SUBMISSION_GUIDE.md` |
+            | Citation | `CITATION.cff` |
+
+            ### Zenodo DOI
+            If you have enabled this repository at
+            https://zenodo.org/account/settings/github/
+            Zenodo will automatically archive this release and mint a DOI
+            within a few minutes.
+
+            ### License
+            Dedicated to the **Defensive Public Commons** — free for all
+            humanity, forever.
+          draft: false
+          prerelease: false
+          files: ${{ env.ARCHIVE }}

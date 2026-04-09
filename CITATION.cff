@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using the metadata in this file."
+type: article
+title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
+version: "9.0"
+date-released: "2026-04-09"
+authors:
+  - family-names: "Walker-Pearson"
+    given-names: "ThomasCory"
+    affiliation: "Independent Researcher, Pacific Northwest, USA"
+abstract: >
+  We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein
+  framework in which thermodynamic irreversibility, information flow, and
+  quantum transition asymmetry are unified as projections of a single
+  higher-dimensional geometry. Dimensional reduction of the 5D
+  Einstein-Hilbert action yields a 4D effective action whose field equations —
+  the Walker-Pearson equations — show that the Second Law of Thermodynamics is
+  a geometric identity rather than a statistical postulate.
+keywords:
+  - Kaluza-Klein theory
+  - 5D gravity
+  - irreversibility
+  - information geometry
+  - holography
+  - entropic cosmology
+  - Walker-Pearson equations
+license: "other-open"
+repository-code: "https://github.com/wuzbak/Unitary-Manifold-"
+url: "https://wuzbak.github.io/Unitary-Manifold-/"
