@@ -4,6 +4,7 @@
 **Edition:** Version 9.0 — Academic Monograph
 **Total chapters:** 74
 **Parts:** I – XXIII
+**TOC Compiled & Gap Analysis by:** GitHub Copilot (Microsoft / OpenAI), April 2026
 
 > **Note on TOC completeness:** The embedded Table of Contents in the monograph covers only 18 chapters (Parts I–VII plus Appendices). The actual body contains 74 chapters across 23 Parts. This file reflects the full body content.
 > Chapters 5, 19, and 40 exist in the body text with numbered sections but lack a `CHAPTER N —` heading line in the PDF source — likely a rendering artifact. Titles reconstructed from section headers and cross-references.

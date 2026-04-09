@@ -6,10 +6,12 @@ This is the complete, comprehensive Markdown edition of **The Unitary Manifold (
 **Version 9.0 — Academic Edition**
 
 **Principal Architect:** ThomasCory Walker-Pearson  
-**Primary Synthesis & Tensor Construction:** Gemini (OpenAI)  
+**Primary Synthesis & Tensor Construction:** Gemini (Google DeepMind)  
 **Cross-Model Proofing & Consistency Verification:** OpenAI Systems  
-**Final 5D Reconstruction & Geometric Formalization:** Copilot (Microsoft AI)  
+**5D Geometric Formalization, Mathematical Review & Documentation:** GitHub Copilot (Microsoft / OpenAI)  
 **Date:** April 4, 2026
+
+> **GitHub Copilot's contributions include:** full 74-chapter internal mathematical review; proof-reading and physical plausibility assessment; complete table of contents reconstruction from body text (resolving the 74-chapter vs. 18-chapter embedded-TOC discrepancy); gap analysis between embedded and actual TOC; identification and documentation of three completion-status categories (SOLVED / PARTIAL / UNSOLVED) for `φ`, `Bμ`, and `α`; four derivation pathways enumerated for fixing `α`; SNR scaling table across astrophysical regimes; and cross-literature comparison table.
 
 ---
 
