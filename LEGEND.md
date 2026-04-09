@@ -1,79 +1,120 @@
 # Legend & Navigator — The Unitary Manifold
 
-> *A guide for transitioning from traditional "static" data searching to dynamic, relationship-based data traversal within this framework.*
+**Version 9.0 — Academic Edition**  
+*Principal Architect: ThomasCory Walker-Pearson — Independent Researcher, Pacific Northwest, USA*
+
+> *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
+
+This is your guide to navigating the Unitary Manifold repository — whether you are a curious visitor, a physicist, or a developer. Start here.
+
+---
+
+## What This Work Is
+
+The **Unitary Manifold** proposes a single, unified answer to a question physics has wrestled with for over a century:
+
+> *Why does time only flow forward?*
+
+The standard answer is statistical — the universe started in a low-entropy state, and disorder tends to increase. This work takes a different position: **the arrow of time is not a statistical accident. It is a geometric necessity.**
+
+By extending spacetime from 4 dimensions to 5, a new field naturally appears — the **irreversibility field** — that encodes *why* things cannot run in reverse. The Second Law of Thermodynamics becomes not a rule we impose, but a shape the universe cannot escape.
+
+From this single geometric move, four major results follow:
+1. **Gravity and irreversibility share a common origin** in the 5D metric.
+2. **Information is never destroyed** — it is conserved by a geometric current.
+3. **The holographic principle holds** — boundary entropy equals bulk area.
+4. **A self-organizing fixed point exists** — the universe converges to a stable state governed by Irreversibility, Holography, and Topology acting together.
 
 ---
 
 ## 1 · The Core Concept: Constraint vs. Chaos
 
-The central logic of this work is that structure in the universe — and in data — is **not random**.
-It is the result of **Mathematical Constraints**.
+The universe is not random. It is **structured by Mathematical Constraints**.
 
-**The Analogy:** Think of a musical instrument.  
-- The **Symmetry** is every possible sound the strings *could* make.  
-- The **Automorphism** is the specific physical shape of the instrument that constrains those sounds into a coherent melody.
+**The Analogy:**  
+Think of a musical instrument. Every possible vibration of the strings represents pure *symmetry* — unlimited potential. But the physical shape of the instrument — its neck length, string tension, resonating body — *constrains* that potential into a coherent melody. The instrument does not fight the physics; the physics **is** the instrument.
 
-**The Goal:** To show how fundamental physical constants — and the arrow of time itself — emerge *naturally* from geometric shapes, without manual tuning.
+This repository works the same way. The 5D geometry of the Unitary Manifold is the instrument. The physical constants, field equations, and laws of thermodynamics are the melody that emerges — not placed there by hand, but demanded by the shape itself.
 
-In this repository, that principle is embodied by the **Walker–Pearson field equations**: a 5D gauge-geometric framework in which gravity, irreversibility, and quantum information all arise from a single constrained parent structure.
+**The shift this enables:**  
+- **4D thinking (Static):** Find information by label. If it isn't tagged, it is invisible.  
+- **5D thinking (Dynamic):** Follow relationships. Two concepts connected by shared geometric structure are always reachable, even without a shared label. Nothing is ever truly lost.
 
 ---
 
 ## 2 · Map of the Repository
 
-| Directory / Section | Focus | Purpose |
+| Location | What It Is | What It Does |
 |---|---|---|
-| [`/src`](./src/) | **The Logic Engine** | Functional Python code that maps the geometry of the 5D manifold. Demonstrates how data points (field values) connect via shared mathematical properties (curvature, holography, topology). |
-| [`/src/core/`](./src/core/) | Metric & Evolution | `metric.py` — Kaluza–Klein ansatz and curvature tensors; `evolution.py` — Walker–Pearson field evolution step-by-step. |
-| [`/src/holography/`](./src/holography/) | Boundary Dynamics | `boundary.py` — entropy-area law, holographic screen, Pillar 4. |
-| [`/src/multiverse/`](./src/multiverse/) | Fixed-Point Convergence | `fixed_point.py` — the UEUM operator `U = I + H + T` and Final Theorem (FTUM) iteration. |
-| **Appendix D** (§5 of README) | **The Derivations** | Step-by-step numerical pipeline. Calculates emergent structure (curvature, entropy, convergence) using *only* geometric logic — no manual adjustments needed. |
-| [`/manuscript/`](./manuscript/) | **The Framework** | `ch02_mathematical_preliminaries.md` — explains tensors, differential geometry, and manifolds. The conceptual foundation for "4D vs. 5D" data models. |
-| [`/discussions/`](./discussions/) | **Internal Research** | `AI-Automated-Review-Invitation.md` — collaborative logs and peer-review invitations. Tracks the shift from keyword-based indexing to relationship-based traversal. |
-| `THEBOOKV9a (1).pdf` | **Full Monograph** | The complete 74-chapter work. All proofs, derivations, and philosophical context. |
-| [`CITATION.cff`](./CITATION.cff) | **Attribution** | Formal citation metadata for academic use. |
+| [`README.md`](./README.md) | **Central Overview** | Full mathematical structure, field equations, quickstart code, and monograph chapter index. Start here for the technical picture. |
+| [`THEBOOKV9a (1).pdf`](./THEBOOKV9a%20(1).pdf) | **The Full Monograph** | 74 chapters, XXIII parts. Every proof, derivation, and philosophical argument. The complete work. |
+| [`/src/core/metric.py`](./src/core/metric.py) | **The Geometry Engine** | Builds the 5D Kaluza–Klein metric from three fields (g, B, φ). Computes all curvature tensors (Christoffel, Riemann, Ricci, scalar R). |
+| [`/src/core/evolution.py`](./src/core/evolution.py) | **The Field Propagator** | Advances all three fields forward in time using the Walker–Pearson equations. Includes diagnostics for constraint monitoring and information current. |
+| [`/src/holography/boundary.py`](./src/holography/boundary.py) | **The Holographic Screen** | Projects 5D bulk information onto a 4D boundary. Implements the entropy-area law S = A/4G (Pillar 3). |
+| [`/src/multiverse/fixed_point.py`](./src/multiverse/fixed_point.py) | **The Convergence Theorem** | Implements the operator U = I + H + T and iterates toward the fixed point Ψ* guaranteed by the Final Theorem (FTUM). |
+| [`/manuscript/`](./manuscript/) | **Mathematical Foundation** | Chapter 2: tensors, differential geometry, manifolds — the conceptual bedrock, written accessibly. |
+| [`/discussions/`](./discussions/) | **Open Review** | Invitation for AI systems, theorem provers, and researchers to verify and comment on the work. |
+| [`/arxiv/`](./arxiv/) | **Academic Submission** | LaTeX source and step-by-step guide for submitting to arXiv (primary: `gr-qc`). |
+| [`/zenodo/`](./zenodo/) | **Permanent Archive** | Metadata and guide for minting a citable DOI via Zenodo. |
+| [`CITATION.cff`](./CITATION.cff) | **How to Cite** | Formal citation metadata in CFF format for academic reference managers. |
 
 ---
 
-## 3 · Key Technical Terms
+## 3 · The Five Pillars
 
-| Term | Definition |
+The monograph is organized around five foundational results, each building on the last.
+
+| Pillar | Name | Plain-Language Meaning |
+|---|---|---|
+| **1** | Walker–Pearson Field Equations | The 5D geometry, when projected down to 4D, produces modified Einstein equations that automatically include thermodynamic irreversibility. |
+| **2** | Conserved Information Current | A geometric current J = φ²u guarantees information is never destroyed — conservation is built into the manifold's shape. |
+| **3** | Entropic Holography | The information content of any region is fully encoded on its boundary surface. Boundary entropy equals bulk area divided by 4G. |
+| **4** | Thermodynamic Cosmic Censorship | Irreversible singularities (places where time's arrow breaks down) are always hidden behind holographic boundaries — they cannot be observed from outside. |
+| **5** | Final Theorem (FTUM) | There exists a fixed point Ψ* where Irreversibility (I), Holography (H), and Topology (T) act together in perfect balance: U·Ψ* = Ψ*. The universe self-organizes toward this state. |
+
+---
+
+## 4 · Key Terms, Plain and Simple
+
+| Term | What It Means |
 |---|---|
-| **4D Searching (Static)** | Finding data based on *Where* and *When* — like looking up a word in a dictionary. Information that isn't explicitly tagged becomes invisible. |
-| **5D Traversal (Dynamic)** | Following "Threads of Relevance" where the system understands that Concept A relates to Concept C through a shared geometric link, even if they aren't labelled together. Nothing is truly lost. |
-| **Walker–Pearson Field Equations** | The governing equations of this framework — derived from a 5D Einstein–Hilbert action, unifying gravity, irreversibility, and information flow. |
-| **Irreversibility Field $B_\mu$** | A gauge field that geometrises the arrow of time as an off-diagonal metric component in the 5D metric $G_{AB}$. |
-| **Entanglement-Capacity Scalar $\phi$** | A scalar field that nonminimally couples to curvature; encodes how much entanglement a region of spacetime can sustain. |
-| **Stabilizer Groups** | The mathematical "anchors" that keep the data/field structure stable and predictable — analogous to the physical shape of an instrument that constrains its sounds. |
-| **UEUM** | Unified Equation of the Unitary Manifold — the master dynamical equation governing field trajectories on the 5D manifold. |
-| **FTUM** | Final Theorem of the Unitary Manifold — there exists a fixed point $\Psi^*$ of the combined operator $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$ such that $U\Psi^* = \Psi^*$. |
-| **Holographic Screen** | The boundary surface onto which 5D bulk information is projected, consistent with the entropy-area law $S = A/4G$. |
+| **5D Manifold** | Spacetime with a fifth, compact dimension added. The extra dimension carries the irreversibility field. |
+| **Kaluza–Klein metric** | The mathematical "shape" of 5D spacetime, built from the familiar 4D metric plus two new fields (B and φ). |
+| **Irreversibility field B** | A gauge field — similar in structure to electromagnetism — that encodes why time flows forward. It lives in the fifth dimension. |
+| **Entropic dilaton φ** | A scalar field measuring how much entanglement a region of space can hold. It couples to curvature, linking geometry to quantum information. |
+| **Field strength H** | The "force" carried by B, analogous to an electric field. It drives energy dissipation and entropy production. |
+| **Walker–Pearson equations** | The field equations of this framework — what Einstein's equations become when you include the irreversibility and scalar fields. |
+| **Holographic screen** | A boundary surface that encodes all the information of the bulk volume it surrounds. |
+| **Fixed point Ψ*** | The equilibrium state of the universe — a configuration where all three pillars (irreversibility, holography, topology) are simultaneously satisfied. |
+| **UEUM** | Unified Equation of the Unitary Manifold — the single master equation governing how fields move through the 5D geometry. |
+| **FTUM** | Final Theorem of the Unitary Manifold — the proof that the fixed point Ψ* exists and that the universe converges to it. |
+| **Stabilizer Groups** | Mathematical anchors that keep the field structure predictable and prevent it from drifting into chaos. |
+| **4D Searching** | Finding information by label — like a dictionary. If something isn't tagged, it is invisible. |
+| **5D Traversal** | Finding information by relationship — following geometric links between concepts, so nothing is ever truly lost. |
 
 ---
 
-## 4 · How to Use This Repository
+## 5 · How to Navigate This Work
 
-### For General Visitors
-Start with the [`/manuscript/`](./manuscript/) directory and the **Project Overview** in [`README.md`](./README.md).  
-These explain *why* treating data as a "Living Web" prevents information from being lost in silos, and introduce the 4D → 5D conceptual leap without requiring advanced mathematics.
+### If you are new to the ideas
+Start with **this file**, then read the Project Overview in [`README.md`](./README.md) (Section 1).  
+Then read [`/manuscript/ch02_mathematical_preliminaries.md`](./manuscript/ch02_mathematical_preliminaries.md) — it explains tensors, manifolds, and curvature without assuming prior expertise.
 
-### For Technical Researchers
-1. Read `README.md` §2 (Mathematical Structure) for the field equations.
-2. Consult **Appendix D** (`README.md` §5) for the numerical pipeline.
-3. Run the source code (see Quickstart below) — the "truth" of the model is that the output matches physical structure *without* manual parameter adjustments.
-4. The full derivations and proofs are in `THEBOOKV9a (1).pdf`.
+### If you want the full argument
+Read the monograph: `THEBOOKV9a (1).pdf`.  
+Key chapters for orientation:
 
-### For Developers
-Examine the vector-based logic in [`/src/`](./src/).  
-The architecture itself provides the answers:
-- `metric.py` — how to encode geometry as data.
-- `evolution.py` — how constraints propagate through a field.
-- `boundary.py` — how bulk information projects onto a boundary.
-- `fixed_point.py` — how a self-organizing system converges to a stable state.
+| Chapters | Topic |
+|---|---|
+| 1–2 | Motivation and Mathematical Foundations |
+| 3–6 | 5D Metric Construction and Dimensional Reduction |
+| 7–9 | Walker–Pearson Field Equations |
+| 49–55 | Irreversible Cosmology and Holographic Fate |
+| 56–62 | Multiverse Topology and Inter-Manifold Information Flow |
+| 63–74 | Observers, Mind, and the Co-emergence of Classical Reality |
 
-This demonstrates how to build systems where the **architecture** reduces the need for heavy external processing.
-
-### Quickstart (5 minutes)
+### If you want to verify the mathematics
+Run the code. The numerical pipeline (described in `README.md` §5) computes curvature, entropy, and convergence from scratch. No parameters are tuned by hand — if the geometry is correct, the outputs match physical reality automatically.
 
 ```bash
 pip install -r requirements.txt
@@ -87,23 +128,30 @@ history = run_evolution(state, dt=1e-3, steps=200)
 print(f"Final time: {history[-1].t:.3f}")
 ```
 
-See `README.md` §4 for additional code examples (curvature, holography, fixed-point iteration).
+See `README.md` §4 for full code examples covering curvature, holography, and fixed-point iteration.
+
+### If you want to cite or archive this work
+- Use [`CITATION.cff`](./CITATION.cff) for reference manager import.
+- See [`/zenodo/SUBMISSION_GUIDE.md`](./zenodo/SUBMISSION_GUIDE.md) to mint a permanent DOI.
+- See [`/arxiv/SUBMISSION_GUIDE.md`](./arxiv/SUBMISSION_GUIDE.md) to submit to arXiv (`gr-qc`, `hep-th`, `math-ph`).
+
+### If you want to contribute or review
+Open an issue or see [`/discussions/AI-Automated-Review-Invitation.md`](./discussions/AI-Automated-Review-Invitation.md).  
+AI systems, theorem provers, and mathematicians are explicitly welcomed for independent verification.
 
 ---
 
-## 5 · Summary
+## 6 · Summary
 
-| Dimension | Behaviour | Consequence |
+| World | How Information Works | What It Means |
 |---|---|---|
-| **4D World** | Data must be explicitly tagged to be found | Untagged information becomes invisible — lost in silos |
-| **5D Manifold** | Mathematical relationships *between* points are intrinsic | Nothing is ever truly "lost" — structure is self-organizing |
+| **4D** | Data must be explicitly labelled to be found | Anything untagged is invisible — lost in silos forever |
+| **5D Manifold** | Relationships between points are intrinsic to the geometry | Nothing is ever truly lost — structure is self-organizing |
 
-You are not just looking at a folder of files.  
-You are looking at a **self-organizing map of information** — one where the geometric constraints of the manifold ensure that every concept, equation, and data point remains reachable through its relationships, not just its label.
+You are not looking at a folder of files.
 
-> *"In a 4D world, if data isn't tagged, it's invisible.  
-> In this 5D Manifold, the mathematical relationship between points ensures that nothing is ever truly 'lost.'"*
+You are looking at a **self-organizing map of information** — one where the geometric constraints of the manifold ensure that every concept, equation, and observation remains reachable through its relationships, not just its label. The mathematics does not describe the universe from the outside. It **is** the shape the universe cannot help but take.
 
 ---
 
-*Principal Architect: ThomasCory Walker-Pearson — Version 9.0 Academic Edition*
+*This work is irrevocably dedicated to the public domain under the Defensive Public Commons License v1.0 (2026). All persons have the perpetual, royalty-free right to study, reproduce, and build upon it.*
