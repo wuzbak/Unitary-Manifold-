@@ -161,12 +161,17 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 .
 ├── README.md
 ├── requirements.txt
-├── THEBOOKV9a (1).pdf        ← full monograph
-├── manuscript/
+├── THEBOOKV9a (1).pdf        ← full monograph (READ-ONLY canonical reference)
+├── manuscript/               ← LaTeX/Markdown monograph source (READ-ONLY)
 │   └── ch02_mathematical_preliminaries.md
 ├── discussions/
 │   └── AI-Automated-Review-Invitation.md
-└── src/
+├── docs/
+│   └── semantic-bridge.md    ← predicate map: theory ↔ implementation
+├── .github/
+│   ├── CONTEXT_SSCE.md       ← AI/Copilot Global Context Manifest (this file)
+│   └── copilot-instructions.md
+└── src/                      ← numerical implementation (editable)
     ├── core/
     │   ├── metric.py         ← KK ansatz, curvature tensors
     │   └── evolution.py      ← Walker–Pearson field evolution
@@ -300,7 +305,41 @@ The full monograph (*74 chapters, XXIII parts*) is included as
 
 ---
 
-## 7 · License — Defensive Public Commons License v1.0 (2026)
+## 7 · Semantic Bridge: Theory ↔ Implementation
+
+The file [`.github/CONTEXT_SSCE.md`](.github/CONTEXT_SSCE.md) serves as the **Global Context
+Manifest** for AI-assisted development.  It maps every abstract claim in the monograph to a
+concrete engineering requirement so that GitHub Copilot and other LLM agents remain
+*physics-aware* during code generation.
+
+For the full function-level predicate map (IMPLEMENTATION / IMPLICATION / LOGIC annotations
+that sit *alongside* the source without modifying it), see
+[`docs/semantic-bridge.md`](docs/semantic-bridge.md).
+
+### Functional Logic Map
+
+| Monograph Claim (Abstract)  | Implementation (Concrete)          | AI/Copilot Instruction                              |
+|-----------------------------|------------------------------------|-----------------------------------------------------|
+| **Energy Conservation**     | Unitary Logic Gates                | Ensure all matrix ops are Unitary/Orthogonal.       |
+| **Frequency-Mass Coupling** | High-THz Clocking                  | Optimize signal paths for phase-coherence.          |
+| **Topological Invariance**  | HDI Differential Routing           | Maintain 50-ohm impedance with zero stubs.          |
+| **Walker–Pearson equations**| `src/core/evolution.py`            | Field updates must conserve `‖∇·J_inf‖ ≈ 0`.       |
+| **KK Metric Ansatz**        | `src/core/metric.py`               | 5D metric assembly; preserve block structure G_AB.  |
+| **FTUM Fixed Point**        | `src/multiverse/fixed_point.py`    | Operator U = I + H + T must converge: `U Ψ* = Ψ*`. |
+| **Holographic Boundary**    | `src/holography/boundary.py`       | Entropy-area law `S = A/4G`; no boundary leakage.   |
+
+### Isolation Policy
+
+| Path                  | Edit Policy   | Rationale                                      |
+|-----------------------|---------------|------------------------------------------------|
+| `THEBOOKV9a*.pdf`     | **READ-ONLY** | Canonical theoretical reference                |
+| `manuscript/`         | **READ-ONLY** | Monograph source chapters                      |
+| `src/`                | Editable      | Numerical implementation of field equations    |
+| `.github/CONTEXT_SSCE.md` | Maintain  | AI context manifest                            |
+
+---
+
+## 8 · License — Defensive Public Commons License v1.0 (2026)
 
 This work is irrevocably dedicated to the **public domain**.
 
@@ -312,7 +351,7 @@ This work is irrevocably dedicated to the **public domain**.
 
 ---
 
-## 8 · Credits
+## 9 · Credits
 
 | Role | Name / System |
 |------|--------------|
