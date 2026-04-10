@@ -1,0 +1,84 @@
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
+SPDX-License-Identifier: AGPL-3.0-or-later
+
+Copyright (C) 2026  ThomasCory Walker-Pearson
+
+────────────────────────────────────────────────────────────────────────────
+SCOPE — SOFTWARE ONLY
+────────────────────────────────────────────────────────────────────────────
+
+This license applies exclusively to the SOFTWARE in this repository:
+
+    src/           Python implementation of the Walker-Pearson field equations
+    scripts/       Numerical experiment scripts
+    tests/         Automated test suite
+    submission/    Supplementary demo and analysis scripts
+
+The theoretical content (manuscripts, equations, datasets, PDF monograph)
+remains under the Defensive Public Commons License v1.0 (2026); see LICENSE.
+
+────────────────────────────────────────────────────────────────────────────
+TERMS AND CONDITIONS
+────────────────────────────────────────────────────────────────────────────
+
+The software is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+The full AGPL-3.0 license text is available at:
+    https://www.gnu.org/licenses/agpl-3.0.html
+
+The terms of the AGPL-3.0 are incorporated here by reference and apply in
+their entirety.  The following is a plain-English summary of the key
+provisions most relevant to this project; it is NOT a substitute for the
+full license text.
+
+KEY PROVISIONS
+──────────────
+1. COPYLEFT  — If you distribute modified versions of this software, or
+   run a modified version as a network service that others can use, you
+   MUST release your modified source code to those users under the same
+   AGPL-3.0 terms.
+
+2. NETWORK USE COUNTS AS DISTRIBUTION  — Unlike the LGPL/GPL, the AGPL
+   closes the "ASP loophole": deploying a modified version over a network
+   (e.g., as a web service, API, or SaaS product) triggers the same
+   source-disclosure requirement as distributing binaries.
+
+3. NO PROPRIETARY LOCK-IN  — You may not apply this software (or any
+   derivative) in a closed-source product or service without releasing the
+   corresponding source code.
+
+4. PATENT GRANT  — Each contributor grants you a royalty-free patent
+   licence for any claims necessarily infringed by their contributions.
+
+5. PRESERVATION OF NOTICES  — You must retain this copyright notice and
+   the AGPL-3.0 licence header in all copies or substantial portions.
+
+INTENT — WHY AGPL-3.0?
+───────────────────────
+The DPC v1.0 (see LICENSE) expresses the author's irrevocable moral and
+legal commitment to keeping this work free for all.  The AGPL-3.0 adds
+legally enforceable copyleft teeth:
+
+  • Any company that forks or derives from this code and deploys it in a
+    product or service MUST publish their modified source publicly.
+  • This makes commercial lock-in on the software implementation
+    practically impossible while leaving the code open for non-commercial
+    and open-source use without restriction.
+  • Together, DPC v1.0 + AGPL-3.0 protect both the theory and the
+    implementation for the global public in perpetuity.
+
+────────────────────────────────────────────────────────────────────────────
+DISCLAIMER
+────────────────────────────────────────────────────────────────────────────
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.

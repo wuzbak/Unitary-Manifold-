@@ -24,6 +24,7 @@ keywords:
   - holography
   - entropic cosmology
   - Walker-Pearson equations
-license: "other-open"
+license: "AGPL-3.0-or-later"
+license-content: "other-open"
 repository-code: "https://github.com/wuzbak/Unitary-Manifold-"
 url: "https://wuzbak.github.io/Unitary-Manifold-/"
