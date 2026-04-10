@@ -184,10 +184,14 @@ def step(state: FieldState, dt: float) -> FieldState:
     # --- scalar update (semi-implicit):  □φ + α R φ + S[H] -----------------
     lap_phi = _laplacian(phi, dx)
     S_H = _source_scalar(H)
-    # Explicit source + semi-implicit Laplacian stabilisation
-    phi_new = (phi + dt * (alpha * R * phi + S_H)) / (1.0 - dt * 0.0)
-    # Apply Laplacian explicitly (small dt assumed stable for smooth fields)
-    phi_new = phi_new + dt * lap_phi
+    # Semi-implicit Laplacian stabilisation: treat the diagonal part of ∇²
+    # (coefficient −2/dx²) implicitly; off-diagonal part stays explicit.
+    # off_diag_lap = (φ_{i+1} + φ_{i-1}) / dx²  =  lap_phi + 2 φ / dx²
+    lap_coeff = 2.0 / dx**2          # |diagonal element of ∇²| in 1-D
+    off_diag_lap = lap_phi + lap_coeff * phi
+    # Unconditionally stable for the diffusion part:
+    #   φ^{n+1} = (φ^n + dt·(off_diag_lap + α R φ + S[H])) / (1 + dt·2/dx²)
+    phi_new = (phi + dt * (off_diag_lap + alpha * R * phi + S_H)) / (1.0 + dt * lap_coeff)
 
     return FieldState(g=g_new, B=B_new, phi=phi_new,
                       t=state.t + dt, dx=dx, lam=lam, alpha=alpha)
@@ -252,18 +256,70 @@ def information_current(g, phi, dx):
     return J
 
 
-def constraint_monitor(Ricci, R, B, phi):
+def constraint_monitor(Ricci, R, B, phi,
+                       g=None, H=None, dx=None, lam=1.0):
     """Return a dictionary of constraint violation norms.
 
     Checks:
       - Hamiltonian constraint: |R| (should remain bounded)
       - Momentum constraint: |∂_μ B^μ| via divergence of B
       - Scalar norm: |φ|_inf
+      - Stress-energy divergence: max |∂_x T^x_ν| (optional; requires g, H, dx)
+
+    Parameters
+    ----------
+    Ricci : ndarray, shape (N, 4, 4)
+    R     : ndarray, shape (N,)
+    B     : ndarray, shape (N, 4)
+    phi   : ndarray, shape (N,)
+    g     : ndarray, shape (N, 4, 4), optional — needed for ∇T check
+    H     : ndarray, shape (N, 4, 4), optional — needed for ∇T check
+    dx    : float, optional               — needed for ∇T check
+    lam   : float, optional               — KK coupling (default 1)
     """
-    return {
+    result = {
         "ricci_frob_mean": float(np.mean(np.linalg.norm(
             Ricci.reshape(-1, 16), axis=1))),
         "R_max": float(np.max(np.abs(R))),
         "B_norm_mean": float(np.mean(np.linalg.norm(B, axis=1))),
         "phi_max": float(np.max(np.abs(phi))),
     }
+    if g is not None and H is not None and dx is not None:
+        result["T_div_max"] = _stress_energy_divergence_max(g, H, dx, lam)
+    return result
+
+
+def _stress_energy_divergence_max(g, H, dx, lam=1.0):
+    """Max discrete divergence of the stress-energy tensor.
+
+    Computes max_ν |∂_x T^{x}_ν| as a gauge of whether the matter sector
+    satisfies the conservation law ∇_μ T^μν = 0 on the current slice.
+
+    Parameters
+    ----------
+    g   : ndarray, shape (N, 4, 4)
+    H   : ndarray, shape (N, 4, 4) — field-strength tensor
+    dx  : float
+    lam : float
+
+    Returns
+    -------
+    float — max over ν of ||∂_x T^x_ν||_∞
+    """
+    N = g.shape[0]
+    H2 = np.einsum('nij,nij->n', H, H)
+    T = np.zeros((N, 4, 4))
+    for mu in range(4):
+        for nu in range(4):
+            HHterm = np.einsum('nir,njr->nij', H, H)[:, mu, nu]
+            T[:, mu, nu] = lam**2 * (HHterm - 0.25 * (mu == nu) * H2)
+
+    # Raise one index: T^{x}_ν = g^{xα} T_{αν}  (x = spatial index 1)
+    g_inv = np.linalg.inv(g)
+    T_mixed = np.einsum('nai,nij->naj', g_inv, T)   # T^μ_ν
+
+    max_div = 0.0
+    for nu in range(4):
+        div = np.gradient(T_mixed[:, 1, nu], dx, edge_order=2)
+        max_div = max(max_div, float(np.max(np.abs(div))))
+    return max_div
