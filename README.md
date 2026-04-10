@@ -6,6 +6,20 @@
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
+[![Download ZIP](https://img.shields.io/badge/Download-ZIP-brightgreen?logo=github)](https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip)
+
+---
+
+## ⬇ Download
+
+| Method | Link |
+|--------|------|
+| **ZIP (latest main branch)** | [**Download ZIP ↓**](https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip) |
+| **Tarball (latest main branch)** | [Download tar.gz ↓](https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.tar.gz) |
+| **Releases page** | [GitHub Releases](https://github.com/wuzbak/Unitary-Manifold-/releases) |
+| **Full download guide** | [DOWNLOAD_GUIDE.md](DOWNLOAD_GUIDE.md) |
+
+> You can also click the green **`<> Code`** button on the repository home page and choose **Download ZIP**.
 
 ---
 
