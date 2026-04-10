@@ -1,0 +1,24 @@
+# GitHub Repository Topics
+# ========================
+# Apply these topics via: GitHub.com → Settings → Topics
+# or via the GitHub API:
+#   gh api -X PUT /repos/wuzbak/Unitary-Manifold- \
+#           -f topics[]='physics' -f topics[]='kaluza-klein' ... (etc.)
+#
+# Topic list:
+topics:
+  - physics
+  - kaluza-klein
+  - general-relativity
+  - quantum-gravity
+  - holography
+  - irreversibility
+  - thermodynamics
+  - information-geometry
+  - model-context-protocol
+  - mcp
+  - ai-ready
+  - jupyter-notebook
+  - python
+  - research
+  - open-science

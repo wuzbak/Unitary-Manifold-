@@ -28,7 +28,16 @@
 - [.zenodo.json](zenodo/.zenodo.json): Zenodo deposit metadata (keywords, subjects, license).
 - [mcp-config.json](mcp-config.json): MCP server configuration for agent access via GitHub MCP + Bright Data.
 
-## Optional
+## Policies & Discovery
 
-- [THEBOOKV9a (1).pdf](THEBOOKV9a%20(1).pdf): Full 74-chapter monograph (binary — skip for token efficiency).
-- [AI-Automated-Review-Invitation.md](discussions/AI-Automated-Review-Invitation.md): Open invitation for AI peer review.
+- [AGENTS.md](AGENTS.md): AI agent access policies, permitted actions, preferred ingest order, MCP connection guide.
+- [schema.jsonld](schema.jsonld): JSON-LD ScholarlyArticle structured data for knowledge graph embedding.
+- [.github/topics.yml](.github/topics.yml): GitHub repository topic tags.
+
+## Tests
+
+- [tests/conftest.py](tests/conftest.py): Shared pytest fixtures (FieldState, BoundaryState, networks).
+- [tests/test_metric.py](tests/test_metric.py): KK metric, Christoffel symbols, field strength, curvature.
+- [tests/test_evolution.py](tests/test_evolution.py): Walker-Pearson integrator, information current, constraints.
+- [tests/test_boundary.py](tests/test_boundary.py): Entropy-area law, boundary evolution, conservation.
+- [tests/test_fixed_point.py](tests/test_fixed_point.py): FTUM operators I/H/T, fixed-point iteration.

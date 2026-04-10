@@ -91,14 +91,32 @@ such that `UΨ* = Ψ*`.
 ├── discussions/
 │   └── AI-Automated-Review-Invitation.md
 │
+├── notebooks/
+│   ├── 01_quickstart.ipynb                # Field evolution demo
+│   ├── 02_holographic_boundary.ipynb      # Boundary dynamics demo
+│   └── 03_multiverse_fixed_point.ipynb    # FTUM convergence demo
+│
+├── tests/
+│   ├── conftest.py                        # Shared pytest fixtures
+│   ├── test_metric.py                     # Metric & curvature tests
+│   ├── test_evolution.py                  # Evolution + constraint tests
+│   ├── test_boundary.py                   # Boundary & entropy tests
+│   └── test_fixed_point.py               # FTUM & operator tests (81 total)
+│
 ├── zenodo/
-│   ├── .zenodo.json                   # Zenodo deposit metadata
+│   ├── .zenodo.json                       # Zenodo deposit metadata
 │   └── SUBMISSION_GUIDE.md
 │
+├── AGENTS.md                              # AI access policies + ingest order
+├── schema.jsonld                          # JSON-LD ScholarlyArticle metadata
+├── llms.txt                               # AI-discovery standard file
+├── mcp-config.json                        # MCP server config
+│
 └── .github/
+    ├── topics.yml                         # GitHub topic tags
     └── workflows/
-        ├── pages.yml                  # GitHub Pages deploy
-        └── release.yml                # Release automation
+        ├── pages.yml                      # GitHub Pages deploy
+        └── release.yml                    # Release automation
 ```
 
 ---
