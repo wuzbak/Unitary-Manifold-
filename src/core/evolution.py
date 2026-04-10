@@ -3,9 +3,9 @@ src/core/evolution.py
 =====================
 Walker–Pearson field evolution for the Unitary Manifold.
 
-Implements the explicit Euler (first-order) time integrator described in
-Appendix D of the monograph, with an optional semi-implicit correction for
-the scalar field to prevent blow-up.
+Implements the classical fourth-order Runge–Kutta (RK4) time integrator for
+the coupled field equations described in Appendix D of the monograph.  A
+first-order Euler integrator is also provided for accuracy benchmarking.
 
 Field equations (schematically):
 
@@ -24,11 +24,17 @@ FieldState
 FieldState.flat(N, dx, lam, alpha)
     Factory: flat Minkowski background with small perturbations.
 
-step(state, dt, dx, lam, alpha)
-    Advance state by one time step dt.
+step(state, dt)
+    Advance state by one RK4 timestep dt.  O(dt⁴) local truncation error.
 
-run_evolution(state, dt, steps, dx, lam, alpha, callback)
-    Iterate *steps* timesteps, collecting history.
+step_euler(state, dt)
+    Advance state by one first-order Euler timestep (for benchmarking).
+
+cfl_timestep(state, cfl)
+    Estimate a CFL-stable timestep for the scalar diffusion term.
+
+run_evolution(state, dt, steps, callback)
+    Iterate *steps* RK4 timesteps, collecting history.
 
 information_current(g, phi, dx)
     J^μ_inf = ρ u^μ (conserved information current).
@@ -138,15 +144,67 @@ def _source_scalar(H):
 
 
 # ---------------------------------------------------------------------------
-# Single timestep
+# Field equation right-hand sides
+# ---------------------------------------------------------------------------
+
+def _compute_rhs(state: FieldState) -> tuple:
+    """Evaluate the field equation right-hand sides at the current state.
+
+    Returns
+    -------
+    dg   : ndarray, shape (N, 4, 4) — ∂_t g_μν  (symmetrised)
+    dB   : ndarray, shape (N, 4)   — ∂_t B_μ
+    dphi : ndarray, shape (N,)     — ∂_t φ
+    """
+    g, B, phi = state.g, state.B, state.phi
+    dx, lam, alpha = state.dx, state.lam, state.alpha
+
+    _, _, Ricci, R = compute_curvature(g, B, phi, dx, lam)
+    H = field_strength(B, dx)
+
+    # ∂_t g_μν = −2 R_μν + T_μν
+    T = _stress_energy(B, phi, H, lam)
+    dg = -2.0 * Ricci + T
+    dg = 0.5 * (dg + dg.transpose(0, 2, 1))
+
+    # ∂_t B_μ = ∂_ν (λ² H^νμ)
+    g_inv = np.linalg.inv(g)
+    H_up = np.einsum('nai,nbj,nij->nab', g_inv, g_inv, H)
+    dB = np.zeros_like(B)
+    for mu in range(4):
+        dB[:, mu] = _divergence_vec(lam**2 * H_up[:, :, mu], dx)
+
+    # ∂_t φ = □φ + α R φ + S[H]
+    dphi = _laplacian(phi, dx) + alpha * R * phi + _source_scalar(H)
+
+    return dg, dB, dphi
+
+
+def _advance_fields(state: FieldState,
+                    dg: np.ndarray,
+                    dB: np.ndarray,
+                    dphi: np.ndarray,
+                    dt: float,
+                    t_new: float) -> FieldState:
+    """Return a new FieldState with each field advanced by dt * derivative."""
+    g_new = state.g + dt * dg
+    g_new = 0.5 * (g_new + g_new.transpose(0, 2, 1))
+    return FieldState(g=g_new,
+                      B=state.B + dt * dB,
+                      phi=state.phi + dt * dphi,
+                      t=t_new,
+                      dx=state.dx, lam=state.lam, alpha=state.alpha)
+
+
+# ---------------------------------------------------------------------------
+# Integrators
 # ---------------------------------------------------------------------------
 
 def step(state: FieldState, dt: float) -> FieldState:
-    """Advance *state* by one explicit-Euler timestep dt.
+    """Advance *state* by one RK4 timestep dt.
 
-    The scalar update uses a simple implicit stabilisation:
-        φ^{n+1} = (φ^n + dt * S[H]) / (1 − dt * □_coeff)
-    to suppress high-frequency blow-up.
+    Uses the classical fourth-order Runge–Kutta method, giving O(dt⁴) local
+    truncation error per step for all three dynamical fields (g_μν, B_μ, φ).
 
     Parameters
     ----------
@@ -157,40 +215,63 @@ def step(state: FieldState, dt: float) -> FieldState:
     -------
     FieldState  (new state at t + dt)
     """
-    g, B, phi = state.g.copy(), state.B.copy(), state.phi.copy()
-    dx, lam, alpha = state.dx, state.lam, state.alpha
+    t0 = state.t
+    half_dt = 0.5 * dt
 
-    # --- curvature ----------------------------------------------------------
-    Gamma, Riemann, Ricci, R = compute_curvature(g, B, phi, dx, lam)
+    k1g, k1B, k1phi = _compute_rhs(state)
 
-    # --- field strength -----------------------------------------------------
-    H = field_strength(B, dx)
+    s2 = _advance_fields(state, k1g, k1B, k1phi, half_dt, t0 + half_dt)
+    k2g, k2B, k2phi = _compute_rhs(s2)
 
-    # --- metric update:  ∂_t g_μν = −2 R_μν + T_μν -------------------------
-    T = _stress_energy(B, phi, H, lam)
-    dg = -2.0 * Ricci + T
-    g_new = g + dt * dg
-    # Symmetrise and protect against degeneracy
-    g_new = 0.5 * (g_new + g_new.transpose(0, 2, 1))
+    s3 = _advance_fields(state, k2g, k2B, k2phi, half_dt, t0 + half_dt)
+    k3g, k3B, k3phi = _compute_rhs(s3)
 
-    # --- gauge field update:  ∂_t B_μ = ∂_ν (λ² H^νμ) ----------------------
-    # H^νμ = g^να g^μβ H_αβ  — approximate with flat metric for efficiency
-    H_up = np.einsum('nai,nbj,nij->nab', np.linalg.inv(g), np.linalg.inv(g), H)
-    dB = np.zeros_like(B)
-    for mu in range(4):
-        dB[:, mu] = _divergence_vec(lam**2 * H_up[:, :, mu], dx)
-    B_new = B + dt * dB
+    s4 = _advance_fields(state, k3g, k3B, k3phi, dt, t0 + dt)
+    k4g, k4B, k4phi = _compute_rhs(s4)
 
-    # --- scalar update (semi-implicit):  □φ + α R φ + S[H] -----------------
-    lap_phi = _laplacian(phi, dx)
-    S_H = _source_scalar(H)
-    # Explicit source + semi-implicit Laplacian stabilisation
-    phi_new = (phi + dt * (alpha * R * phi + S_H)) / (1.0 - dt * 0.0)
-    # Apply Laplacian explicitly (small dt assumed stable for smooth fields)
-    phi_new = phi_new + dt * lap_phi
+    dg   = (k1g   + 2.0*k2g   + 2.0*k3g   + k4g)   / 6.0
+    dB   = (k1B   + 2.0*k2B   + 2.0*k3B   + k4B)   / 6.0
+    dphi = (k1phi + 2.0*k2phi + 2.0*k3phi + k4phi) / 6.0
 
-    return FieldState(g=g_new, B=B_new, phi=phi_new,
-                      t=state.t + dt, dx=dx, lam=lam, alpha=alpha)
+    return _advance_fields(state, dg, dB, dphi, dt, t0 + dt)
+
+
+def step_euler(state: FieldState, dt: float) -> FieldState:
+    """Advance *state* by one first-order Euler timestep dt.
+
+    Retained for accuracy benchmarking against the default RK4 integrator.
+    For production use, prefer :func:`step` (RK4).
+
+    Parameters
+    ----------
+    state : FieldState
+    dt    : float
+
+    Returns
+    -------
+    FieldState  (new state at t + dt)
+    """
+    dg, dB, dphi = _compute_rhs(state)
+    return _advance_fields(state, dg, dB, dphi, dt, state.t + dt)
+
+
+def cfl_timestep(state: FieldState, cfl: float = 0.4) -> float:
+    """Estimate a CFL-stable timestep for the scalar field equation.
+
+    The 1-D explicit stability condition for □φ requires
+        dt  ≤  cfl * dx²
+    The default safety factor cfl = 0.4 gives comfortable margin for RK4.
+
+    Parameters
+    ----------
+    state : FieldState
+    cfl   : float — CFL safety factor (default 0.4)
+
+    Returns
+    -------
+    dt_max : float
+    """
+    return float(cfl * state.dx**2)
 
 
 # ---------------------------------------------------------------------------

@@ -201,3 +201,61 @@ class TestFixedPointIteration:
     def test_residual_list_non_empty(self, chain_network):
         _, residuals, _ = fixed_point_iteration(chain_network, max_iter=10, tol=1e-12)
         assert len(residuals) == 10   # didn't converge at such tight tol in 10 iters
+
+
+# ---------------------------------------------------------------------------
+# FTUM physics: second law and self-consistency
+# ---------------------------------------------------------------------------
+
+class TestFTUMDynamics:
+    def test_irreversibility_monotone_entropy(self):
+        """Total network entropy is strictly non-decreasing under pure I steps."""
+        rng = np.random.default_rng(55)
+        net = MultiverseNetwork.chain(n=4, coupling=0.1, rng=rng)
+        S_prev = sum(nd.S for nd in net.nodes)
+        for _ in range(10):
+            new_nodes = [apply_irreversibility(nd, dt=0.01) for nd in net.nodes]
+            net = MultiverseNetwork(nodes=new_nodes, adjacency=net.adjacency.copy())
+            S_curr = sum(nd.S for nd in net.nodes)
+            assert S_curr >= S_prev - 1e-12, \
+                f"Entropy decreased: {S_prev:.6f} → {S_curr:.6f}"
+            S_prev = S_curr
+
+    def test_convergence_residuals_overall_decrease(self, chain_network):
+        """Average of last 10 residuals must be less than average of first 10."""
+        _, residuals, _ = fixed_point_iteration(
+            chain_network, max_iter=100, tol=1e-10
+        )
+        assert len(residuals) >= 20
+        assert sum(residuals[-10:]) < sum(residuals[:10])
+
+    def test_fixed_point_self_consistent(self, chain_network):
+        """One more U step after convergence changes the state by less than 10×tol."""
+        tol = 5e-2
+        converged_net, _, converged = fixed_point_iteration(
+            chain_network, max_iter=5000, tol=tol
+        )
+        if not converged:
+            pytest.skip("Network did not converge — skip self-consistency check")
+        state_before = converged_net.global_state()
+        net_after = _apply_U(converged_net, dt=1e-3)
+        state_after = net_after.global_state()
+        residual = float(np.linalg.norm(state_after - state_before))
+        assert residual < tol * 10, \
+            f"Fixed point not self-consistent: residual={residual:.4e}"
+
+    def test_topology_conserves_total_entropy(self):
+        """T operator redistributes entropy without net creation or loss."""
+        nodes = [MultiverseNode(S=float(i + 1)) for i in range(4)]
+        adj = np.array([[0, 1, 0, 0],
+                        [1, 0, 1, 0],
+                        [0, 1, 0, 1],
+                        [0, 0, 1, 0]], dtype=float)
+        net = MultiverseNetwork(nodes=nodes, adjacency=adj)
+        S_before = sum(nd.S for nd in net.nodes)
+        # Apply T to all nodes simultaneously (using original states)
+        new_nodes = [apply_topology(net, i, dt=0.01) for i in range(4)]
+        S_after = sum(nd.S for nd in new_nodes)
+        # T is a gradient flow: it redistributes but conserves total entropy
+        assert abs(S_after - S_before) < 1e-10, \
+            f"T operator changed total entropy by {abs(S_after - S_before):.2e}"

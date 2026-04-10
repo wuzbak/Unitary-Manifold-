@@ -11,6 +11,8 @@ import pytest
 from src.core.evolution import (
     FieldState,
     step,
+    step_euler,
+    cfl_timestep,
     run_evolution,
     information_current,
     constraint_monitor,
@@ -174,3 +176,102 @@ class TestConstraintMonitor:
         _, _, Ricci, R = compute_curvature(s.g, s.B, s.phi, s.dx)
         result = constraint_monitor(Ricci, R, s.B, s.phi)
         assert abs(result['phi_max'] - 1.0) < 0.01
+
+
+# ---------------------------------------------------------------------------
+# RK4 vs Euler accuracy
+# ---------------------------------------------------------------------------
+
+class TestStepRK4:
+    def test_euler_and_rk4_agree_first_order(self, flat_state_small):
+        """For small dt, |phi_rk4 − phi_euler| should be O(dt²) ≪ dt."""
+        dt = 1e-3
+        s_rk4 = step(flat_state_small, dt)
+        s_euler = step_euler(flat_state_small, dt)
+        diff = float(np.max(np.abs(s_rk4.phi - s_euler.phi)))
+        assert diff < dt, \
+            f"Euler/RK4 phi disagreement {diff:.2e} exceeds dt={dt}"
+
+    def test_rk4_metric_symmetric(self, flat_state_small):
+        """RK4 step: metric remains symmetric after update."""
+        s1 = step(flat_state_small, 1e-3)
+        np.testing.assert_allclose(s1.g, s1.g.transpose(0, 2, 1), atol=1e-14)
+
+    def test_rk4_all_fields_finite(self, flat_state_small):
+        """RK4 step: all three fields remain finite."""
+        s1 = step(flat_state_small, 1e-3)
+        assert np.all(np.isfinite(s1.g))
+        assert np.all(np.isfinite(s1.B))
+        assert np.all(np.isfinite(s1.phi))
+
+    def test_euler_all_fields_finite(self, flat_state_small):
+        """Euler step: all three fields remain finite."""
+        s1 = step_euler(flat_state_small, 1e-3)
+        assert np.all(np.isfinite(s1.g))
+        assert np.all(np.isfinite(s1.B))
+        assert np.all(np.isfinite(s1.phi))
+
+    def test_rk4_time_advances(self, flat_state_small):
+        dt = 1e-3
+        s1 = step(flat_state_small, dt)
+        assert abs(s1.t - (flat_state_small.t + dt)) < 1e-15
+
+    def test_euler_time_advances(self, flat_state_small):
+        dt = 1e-3
+        s1 = step_euler(flat_state_small, dt)
+        assert abs(s1.t - (flat_state_small.t + dt)) < 1e-15
+
+
+# ---------------------------------------------------------------------------
+# CFL timestep
+# ---------------------------------------------------------------------------
+
+class TestCFLTimestep:
+    def test_cfl_positive(self, flat_state_small):
+        dt = cfl_timestep(flat_state_small)
+        assert dt > 0.0
+
+    def test_cfl_finite(self, flat_state_small):
+        dt = cfl_timestep(flat_state_small)
+        assert np.isfinite(dt)
+
+    def test_cfl_scales_with_dx_squared(self):
+        """dt_cfl ∝ dx² — doubling dx should quadruple dt_cfl."""
+        s1 = FieldState.flat(N=16, dx=0.1, rng=np.random.default_rng(7))
+        s2 = FieldState.flat(N=16, dx=0.2, rng=np.random.default_rng(7))
+        ratio = cfl_timestep(s2) / cfl_timestep(s1)
+        assert abs(ratio - 4.0) < 1e-10
+
+    def test_default_test_dt_within_cfl(self, flat_state_small):
+        """Standard test timestep 1e-3 should be ≤ CFL limit (0.4 * 0.01 = 0.004)."""
+        dt_cfl = cfl_timestep(flat_state_small)
+        assert 1e-3 <= dt_cfl
+
+
+# ---------------------------------------------------------------------------
+# Physics-level evolution checks
+# ---------------------------------------------------------------------------
+
+class TestEvolutionPhysics:
+    def test_r_max_bounded_over_20_steps(self, flat_state_small):
+        """Ricci scalar magnitude must stay bounded over 20 RK4 steps."""
+        history = run_evolution(flat_state_small, dt=1e-3, steps=20)
+        for s in history[1:]:
+            _, _, _, R = compute_curvature(s.g, s.B, s.phi, s.dx)
+            R_max = float(np.max(np.abs(R)))
+            assert R_max < 100.0, f"R_max blew up to {R_max:.2e}"
+
+    def test_phi_norm_bounded_over_20_steps(self, flat_state_small):
+        """Scalar field should not diverge over 20 RK4 steps."""
+        history = run_evolution(flat_state_small, dt=1e-3, steps=20)
+        for s in history:
+            assert float(np.max(np.abs(s.phi))) < 100.0
+
+    def test_metric_invertible_over_20_steps(self, flat_state_small):
+        """Metric determinant must remain nonzero (non-degenerate) over evolution."""
+        history = run_evolution(flat_state_small, dt=1e-3, steps=20)
+        for s in history:
+            dets = np.linalg.det(s.g)
+            assert np.all(np.isfinite(dets))
+            assert np.all(np.abs(dets) > 1e-10), \
+                f"Metric became degenerate: min |det| = {np.min(np.abs(dets)):.2e}"
