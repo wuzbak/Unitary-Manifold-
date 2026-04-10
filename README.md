@@ -344,15 +344,27 @@ that sit *alongside* the source without modifying it), see
 
 ---
 
-## 8 · License — Defensive Public Commons License v1.0 (2026)
+## 8 · License — Dual-Layer Protection
 
-This work is irrevocably dedicated to the **public domain**.
+This repository uses two complementary licenses to protect the work for the
+global public in perpetuity.
 
-- **Universal Rights:** All persons have the perpetual, royalty-free right to
-  study, reproduce, and modify this work.
-- **Anti-Enclosure:** Exclusive claims, commercial patenting of the core
-  equations, or proprietary gatekeeping are **strictly prohibited**.
-- Attribution is requested but not legally required.
+| Layer | Scope | License |
+|-------|-------|---------|
+| **Theory & content** | Manuscripts, equations, datasets, PDF monograph | [Defensive Public Commons License v1.0 (2026)](LICENSE) |
+| **Software** | `src/` · `scripts/` · `tests/` · `submission/` | [GNU AGPL-3.0-or-later](LICENSE-AGPL) |
+
+**DPC v1.0** — Irrevocable public domain dedication.  No patents, no exclusive
+IP claims, no paywalls, no proprietary relicensing of the core equations or theory.
+
+**AGPL-3.0** — Strong copyleft for the software implementation.  Any company or
+individual who distributes or deploys a modified version — including as a network
+service or SaaS product — **must** release their modified source code under the
+same open terms.  This closes the "SaaS loophole" and makes commercial lock-in
+on the implementation legally impossible.
+
+Attribution is requested but not legally required.  See [NOTICE](NOTICE) for the
+full dual-license explanation.
 
 ---
 

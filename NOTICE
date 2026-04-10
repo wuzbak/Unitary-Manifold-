@@ -1,0 +1,57 @@
+NOTICE
+======
+Project: The Unitary Manifold (v9.0)
+Author:  ThomasCory Walker-Pearson
+Date:    2026
+
+────────────────────────────────────────────────────────────────────────────
+DUAL-LICENSE STRUCTURE
+────────────────────────────────────────────────────────────────────────────
+
+This repository uses two complementary licenses to protect the work for the
+global public in perpetuity:
+
+Layer 1 — THEORETICAL CONTENT (manuscripts, equations, datasets, PDF)
+    License: Defensive Public Commons License v1.0 (2026)
+    File:    LICENSE
+    Scope:   All non-software content: the Walker-Pearson field equations,
+             the Unitary Manifold framework (FTUM), manuscripts, notebooks,
+             figures, and the PDF monograph.
+    Effect:  Irrevocable public domain dedication.  No patents.  No
+             exclusive IP claims.  No paywalls.  No proprietary relicensing.
+
+Layer 2 — SOFTWARE IMPLEMENTATION (Python source code)
+    License: GNU Affero General Public License v3.0 or later (AGPL-3.0+)
+    File:    LICENSE-AGPL
+    SPDX:    AGPL-3.0-or-later
+    Scope:   src/   scripts/   tests/   submission/
+    Effect:  Strong copyleft.  Any company or individual who distributes or
+             deploys a modified version of this software — including as a
+             network service — MUST release their modified source code under
+             the same terms.  This closes the "SaaS loophole" and makes
+             commercial lock-in on the implementation legally impossible.
+
+────────────────────────────────────────────────────────────────────────────
+WHY BOTH LAYERS?
+────────────────────────────────────────────────────────────────────────────
+
+  • The DPC v1.0 is a clear statement of intent and prohibitions that any
+    reader can understand; it covers the mathematics and ideas which cannot
+    be owned by anyone.
+
+  • The AGPL-3.0 provides legally enforceable, court-tested copyleft for
+    the software.  Copyright (the usual enforcement lever) is retained by
+    the author specifically so that the AGPL can be enforced.
+
+  • Together they ensure that neither the theory nor the implementation can
+    be captured into a closed, proprietary, or commercially gated product.
+
+────────────────────────────────────────────────────────────────────────────
+ATTRIBUTION (REQUESTED, NOT REQUIRED)
+────────────────────────────────────────────────────────────────────────────
+
+    Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
+    Emergent Irreversibility (v9.0).
+    https://github.com/wuzbak/Unitary-Manifold-
+
+────────────────────────────────────────────────────────────────────────────
