@@ -283,10 +283,10 @@ def ueum_acceleration(node: MultiverseNode,
     S_U = node.S
     entropic = S_U * X / (X_norm2)
 
-    # Holographic + topological variation
+    # Holographic + topological variation — Hooke-law restoring force on all axes
     A_sum = sum(nd.A for nd in network.nodes)
-    holo_force = np.zeros(dim)
-    holo_force[0] = (A_sum / (4.0 * G4) + node.Q_top)   # projected onto first axis
+    C = A_sum / (4.0 * G4) + node.Q_top
+    holo_force = -C * X
 
     return geodesic + entropic + holo_force
 
@@ -303,10 +303,14 @@ def _apply_U(network: MultiverseNetwork, dt: float,
     for i, node in enumerate(network.nodes):
         # I — irreversibility
         node = apply_irreversibility(node, dt, kappa)
-        # T — topology (uses old network states for this sweep)
-        node_T = apply_topology(network, i, dt)
+        # T — topology: compute flow delta from old network states (Jacobi),
+        #     then accumulate on top of the post-I entropy
+        dS_topo = dt * sum(
+            network.adjacency[i, j] * (network.nodes[j].S - network.nodes[i].S)
+            for j in range(len(network.nodes))
+        )
         node = MultiverseNode(
-            dim=node.dim, S=node_T.S, A=node.A,
+            dim=node.dim, S=node.S + dS_topo, A=node.A,
             Q_top=node.Q_top, X=node.X.copy(), Xdot=node.Xdot.copy()
         )
         # H — holography (project onto bound)
