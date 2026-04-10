@@ -159,20 +159,24 @@ class MultiverseNetwork:
 # ---------------------------------------------------------------------------
 
 def apply_irreversibility(node: MultiverseNode, dt: float,
-                          kappa: float = 0.25) -> MultiverseNode:
-    """I operator: entropy growth dS/dt = κ A  (second law).
+                          kappa: float = 0.25,
+                          G4: float = 1.0) -> MultiverseNode:
+    """I operator: entropy relaxation toward holographic bound (second law).
+
+    dS/dt = κ (A/4G − S)   — contraction toward S* = A/4G
 
     Parameters
     ----------
     node  : MultiverseNode
     dt    : float
     kappa : surface gravity coefficient (default 0.25)
+    G4    : Newton's constant (default 1 in Planck units)
 
     Returns
     -------
     MultiverseNode with updated S
     """
-    dS = kappa * node.A * dt
+    dS = kappa * (node.A / (4.0 * G4) - node.S) * dt
     return MultiverseNode(
         dim=node.dim, S=node.S + dS, A=node.A,
         Q_top=node.Q_top, X=node.X.copy(), Xdot=node.Xdot.copy()
@@ -283,10 +287,10 @@ def ueum_acceleration(node: MultiverseNode,
     S_U = node.S
     entropic = S_U * X / (X_norm2)
 
-    # Holographic + topological variation
+    # Holographic + topological variation — Hooke-law restoring force on all axes
     A_sum = sum(nd.A for nd in network.nodes)
-    holo_force = np.zeros(dim)
-    holo_force[0] = (A_sum / (4.0 * G4) + node.Q_top)   # projected onto first axis
+    C = A_sum / (4.0 * G4) + node.Q_top
+    holo_force = -C * X
 
     return geodesic + entropic + holo_force
 
@@ -297,24 +301,29 @@ def ueum_acceleration(node: MultiverseNode,
 
 def _apply_U(network: MultiverseNetwork, dt: float,
              G4: float = 1.0,
-             kappa: float = 0.25) -> MultiverseNetwork:
+             kappa: float = 0.25,
+             gamma: float = 5.0) -> MultiverseNetwork:
     """Apply the combined operator U = I + H + T and advance UEUM geodesic."""
     new_nodes: List[MultiverseNode] = []
     for i, node in enumerate(network.nodes):
         # I — irreversibility
-        node = apply_irreversibility(node, dt, kappa)
-        # T — topology (uses old network states for this sweep)
-        node_T = apply_topology(network, i, dt)
+        node = apply_irreversibility(node, dt, kappa, G4)
+        # T — topology: compute flow delta from old network states (Jacobi),
+        #     then accumulate on top of the post-I entropy
+        dS_topo = dt * sum(
+            network.adjacency[i, j] * (network.nodes[j].S - network.nodes[i].S)
+            for j in range(len(network.nodes))
+        )
         node = MultiverseNode(
-            dim=node.dim, S=node_T.S, A=node.A,
+            dim=node.dim, S=node.S + dS_topo, A=node.A,
             Q_top=node.Q_top, X=node.X.copy(), Xdot=node.Xdot.copy()
         )
         # H — holography (project onto bound)
         node = apply_holography(node, G4)
 
-        # UEUM geodesic integration (explicit Euler)
+        # UEUM geodesic integration — semi-implicit friction damping
         Xddot = ueum_acceleration(node, network, i, G4)
-        Xdot_new = node.Xdot + dt * Xddot
+        Xdot_new = (node.Xdot + dt * Xddot) / (1.0 + dt * gamma)
         X_new = node.X + dt * Xdot_new
 
         new_nodes.append(MultiverseNode(
@@ -332,24 +341,31 @@ def fixed_point_iteration(
     network: MultiverseNetwork,
     max_iter: int = 500,
     tol: float = 1e-6,
-    dt: float = 1e-3,
+    dt: float = 0.2,
     G4: float = 1.0,
     kappa: float = 0.25,
+    gamma: float = 5.0,
 ) -> Tuple[MultiverseNetwork, List[float], bool]:
-    """Iterate U = I + H + T until ||Ψ^{n+1} − Ψ^n|| < tol.
+    """Iterate U = I + H + T until the holographic defect ‖A/4G − S‖ < tol.
 
     Implements the Fixed-Point Theorem of the Unitary Manifold (FTUM):
     reality is a fixed point of the combined operator U acting on the
-    multiverse state.
+    multiverse state.  Convergence is measured by the defect
+
+        defect = ‖A_i/4G − S_i‖  (should vanish at the fixed point)
+
+    rather than the step-size ‖Ψ^{n+1} − Ψ^n‖, which can plateau even
+    when the system is near the fixed point.
 
     Parameters
     ----------
     network  : MultiverseNetwork — initial multiverse state
-    max_iter : int  — maximum iterations
-    tol      : float — convergence tolerance
-    dt       : float — pseudo-timestep per iteration
+    max_iter : int   — maximum iterations (default 500)
+    tol      : float — convergence tolerance on the defect (default 1e-6)
+    dt       : float — pseudo-timestep per iteration (default 0.2)
     G4       : float — Newton's constant
     kappa    : float — surface gravity coefficient
+    gamma    : float — friction coefficient for UEUM geodesic (default 5.0)
 
     Returns
     -------
@@ -359,14 +375,15 @@ def fixed_point_iteration(
     converged = False
 
     for iteration in range(max_iter):
-        prev_state = network.global_state()
-        network = _apply_U(network, dt, G4, kappa)
-        curr_state = network.global_state()
+        network = _apply_U(network, dt, G4, kappa, gamma)
 
-        residual = float(np.linalg.norm(curr_state - prev_state))
-        residuals.append(residual)
+        # Defect: how far each node's entropy is from the holographic bound
+        defect = float(np.linalg.norm(
+            [node.A / (4.0 * G4) - node.S for node in network.nodes]
+        ))
+        residuals.append(defect)
 
-        if residual < tol:
+        if defect < tol:
             converged = True
             break
 
