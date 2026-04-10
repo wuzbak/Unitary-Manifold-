@@ -23,11 +23,11 @@ information.
 
 ### 5-D Metric Ansatz (Kaluza–Klein)
 
-The irreversibility field $B_\mu$ is encoded as an off-diagonal metric component:
+The irreversibility field $B_\mu$ and scalar $\phi$ are encoded in the off-diagonal and radion blocks of the 5D parent metric:
 
-$$G_{AB} = \begin{pmatrix} g_{\mu\nu} + \lambda^2\phi^2 B_\mu B_\nu & \lambda\phi B_\mu \\ \lambda\phi B_\nu & 1 \end{pmatrix}$$
+$$G_{AB} = \begin{pmatrix} g_{\mu\nu} + \lambda^2\phi^2 B_\mu B_\nu & \lambda\phi B_\mu \\ \lambda\phi B_\nu & \phi^2 \end{pmatrix}$$
 
-so that $G_{\mu 5} = \lambda B_\mu$.
+The lower-right entry $G_{55} = \phi^2$ means $\phi$ plays the role of the **KK radion** — it sets the size of the compact fifth dimension and is *not* frozen to a constant.  Setting $\phi = 1$ everywhere would hide all scalar dynamics and break the dimensional reduction.
 
 ### Key Fields
 
@@ -35,8 +35,105 @@ so that $G_{\mu 5} = \lambda B_\mu$.
 |--------|------|------|
 | $g_{\mu\nu}$ | 4-D metric | spacetime geometry |
 | $B_\mu$ | irreversibility field | gauge field for the arrow of time |
-| $\phi$ | entanglement-capacity scalar | nonminimal coupling to curvature |
+| $\phi$ | entanglement-capacity scalar / radion | nonminimal coupling to curvature; sets size of 5th dimension |
 | $H_{\mu\nu} = \partial_\mu B_\nu - \partial_\nu B_\mu$ | field strength | drives dissipation |
+
+---
+
+## 2a · The 4D → 5D → 4D Computation Pipeline
+
+Every call to `compute_curvature(g, B, phi, dx)` executes a three-stage
+dimensional pipeline.  Understanding this pipeline is essential for interpreting
+any curvature or evolution output.
+
+### Why go through 5D at all?
+
+Straightforward 4D curvature of $g_{\mu\nu}$ alone cannot see the
+irreversibility field $B_\mu$ or the scalar $\phi$.  The Kaluza–Klein ansatz
+packages all three fields into a single geometric object $G_{AB}$ so that
+Einstein's equations in 5D automatically generate the coupled
+Walker–Pearson equations upon dimensional reduction — no extra source terms
+need to be added by hand.
+
+### Stage 1 — Lift: 4D fields → 5D metric
+
+The three input fields are assembled into the $5\times 5$ parent metric:
+
+$$G_{AB} = \begin{pmatrix} g_{\mu\nu} + \lambda^2\phi^2 B_\mu B_\nu & \lambda\phi B_\mu \\ \lambda\phi B_\nu & \phi^2 \end{pmatrix}$$
+
+```python
+G5 = assemble_5d_metric(g, B, phi, lam)   # shape (N, 5, 5)
+```
+
+Key points:
+- The **4×4 block** $G_{\mu\nu}$ carries the metric and the kinetic term of $B_\mu$.
+- The **off-diagonal column/row** $G_{\mu 5} = \lambda\phi B_\mu$ encodes the irreversibility field.
+- The **radion** $G_{55} = \phi^2$ is dynamic; it must evolve with $\phi$, not be fixed at 1.
+
+### Stage 2 — Curve: 5D Christoffel symbols and Riemann tensor
+
+Standard differential geometry is applied to $G_{AB}$:
+
+$$\Gamma^C_{AB} = \tfrac{1}{2}\,G^{CD}\!\left(\partial_A G_{BD} + \partial_B G_{AD} - \partial_D G_{AB}\right)$$
+
+$$R^D{}_{CAB} = \partial_A\Gamma^D_{BC} - \partial_B\Gamma^D_{AC} + \Gamma^D_{AE}\Gamma^E_{BC} - \Gamma^D_{BE}\Gamma^E_{AC}$$
+
+```python
+Gamma5 = christoffel(G5, dx)               # shape (N, 5, 5, 5)
+Riem5  = _riemann_from_christoffel(Gamma5, dx)  # shape (N, 5, 5, 5, 5)
+```
+
+This step is where $B_\mu$ and $\phi$ contribute to the geometry — through
+the derivatives of $G_{AB}$ that appear inside $\Gamma$.
+
+### Stage 3 — Project: 5D Ricci → 4D Ricci block
+
+The 5D Ricci tensor $\mathcal{R}_{AB} = R^C{}_{ACB}$ is contracted and its
+$4\times 4$ block extracted:
+
+$$R_{\mu\nu}^{(4D)} = \mathcal{R}_{\mu\nu}|_{A,B \in \{0,1,2,3\}}$$
+
+$$R^{(4D)} = g^{\mu\nu}R_{\mu\nu}^{(4D)}$$
+
+```python
+# 5D Ricci (full 5×5)
+Ricci5[:, A, B] = sum_C Riem5[:, C, A, C, B]
+
+# Project: keep only the 4D block
+Ricci = Ricci5[:, :4, :4]          # (N, 4, 4) — effective 4D Ricci
+R     = einsum('nij,nij->n', g_inv, Ricci)  # (N,) — 4D scalar curvature
+```
+
+The returned `Gamma`, `Riemann`, `Ricci`, `R` are all the 4D blocks of the
+5D tensors — they contain the full KK contribution from $B_\mu$ and $\phi$
+that a naive 4D calculation would miss.
+
+### At a glance
+
+```
+  ┌──────────────────────────────────────────────────────────────────┐
+  │   4D inputs          5D geometry           4D outputs            │
+  │                                                                  │
+  │  g_μν (N,4,4)  ─┐                                               │
+  │  B_μ  (N,4)    ──┤→  G_AB (N,5,5)  →  Γ^C_AB  →  R^D_CAB      │
+  │  φ    (N,)     ─┘         ↑               ↓                     │
+  │                     assemble_5d_metric   contract → Ricci5       │
+  │                                               ↓                  │
+  │                                         Ricci5[:,:4,:4] → Ricci │
+  │                                         g⁻¹ · Ricci    → R     │
+  └──────────────────────────────────────────────────────────────────┘
+```
+
+### Common pitfalls
+
+| Mistake | Consequence |
+|---------|-------------|
+| Set $G_{55} = 1$ (freeze radion) | $\phi$ dynamics vanish; scalar equation decouples from geometry |
+| Compute Christoffel from $g$ directly | $B_\mu$ and $\phi$ contribute nothing to curvature; Walker–Pearson equations reduce to vacuum GR |
+| Apply explicit Euler to metric without Nyquist damping | High-frequency modes grow as $e^{t/dx^2}$; simulation blows up |
+| Use explicit-only scalar update | Same blow-up for $\phi$ at large $dt/dx^2$ |
+
+---
 
 ### Walker–Pearson Field Equations
 
@@ -104,7 +201,7 @@ print(f"Final time: {history[-1].t:.3f}")
 print(f"Final phi range: [{history[-1].phi.min():.4f}, {history[-1].phi.max():.4f}]")
 ```
 
-### Compute curvature
+### Compute curvature (via 4D→5D→4D pipeline)
 
 ```python
 from src.core.metric import compute_curvature
@@ -116,6 +213,7 @@ g   = np.tile(eta, (N, 1, 1))
 B   = np.zeros((N, 4))
 phi = np.ones(N)
 
+# Internally: assembles G_AB (5D) → 5D Christoffel/Riemann/Ricci → projects 4D block
 Gamma, Riemann, Ricci, R = compute_curvature(g, B, phi, dx)
 print("Scalar curvature (flat space):", R.mean())   # ≈ 0
 ```
@@ -152,22 +250,36 @@ print(f"Final residual: {residuals[-1]:.2e}")
 ## 5 · Numerical Pipeline (Appendix D)
 
 ```
-┌─────────────────────────────────────────────────────┐
-│              Numerical Evolution Pipeline            │
-│                                                     │
-│  1. Initialise  g_μν, B_μ, φ  (flat + perturbation)│
-│  2. Compute curvature  (Γ, Riemann, Ricci, R)       │
-│  3. Update fields  via Walker–Pearson equations     │
-│  4. Enforce constraints  (monitor ‖R‖, ‖∇·J‖)      │
-│  5. Project onto boundary  (holographic screen)     │
-│  6. Apply U = I + H + T  (multiverse update)        │
-│  7. Check FTUM convergence  ‖Ψⁿ⁺¹ − Ψⁿ‖ < ε       │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────┐
+│                    Numerical Evolution Pipeline                      │
+│                                                                      │
+│  1. Initialise  g_μν, B_μ, φ  (flat Minkowski + small perturbation) │
+│                                                                      │
+│  2. Curvature via 4D→5D→4D pipeline  (see §2a)                      │
+│       a. Lift: assemble G_AB (5×5) from g, B, φ                     │
+│       b. Curve: 5D Christoffel symbols → Riemann → Ricci5           │
+│       c. Project: Ricci = Ricci5[:,:4,:4],  R = g⁻¹·Ricci           │
+│                                                                      │
+│  3. Update fields  via Walker–Pearson equations                      │
+│       g:  semi-implicit Nyquist  g_new = (g + dt·dg + dt·c·η)       │
+│                                         ────────────────────────     │
+│                                              1 + dt·c,  c = 4/dx²   │
+│       B:  explicit  B_new = B + dt·∂_ν(λ² H^νμ)                     │
+│       φ:  semi-implicit  φ_new = (φ + dt·(αRφ + S_H + lap_φ))      │
+│                                  ─────────────────────────────      │
+│                                         1 + dt·2/dx²                │
+│                                                                      │
+│  4. Enforce constraints  (monitor ‖Ricci‖, ‖∇·J‖)                   │
+│  5. Project onto boundary  (holographic screen)                      │
+│  6. Apply U = I + H + T  (multiverse update)                        │
+│  7. Check FTUM convergence  ‖A_i/4G − S_i‖ < ε   (defect norm)     │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
 Recommended numerical settings:
+- `dt ≤ 0.01 * dx²` for the bulk fields (CFL-like condition)
 - Staggered grids for $B_\mu$ (gauge field)
-- Semi-implicit schemes for $\phi$ (scalar)
+- Semi-implicit schemes for both $g_{\mu\nu}$ and $\phi$ (already built-in)
 - Constraint damping coefficient ≥ 0.1 for long runs
 
 ---
