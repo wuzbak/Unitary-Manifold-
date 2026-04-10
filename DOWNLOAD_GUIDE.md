@@ -4,6 +4,26 @@ Three ways to get everything onto your PC, from easiest to most flexible.
 
 ---
 
+## Option 0 — Direct download link (one click, always current)
+
+| Format | URL |
+|--------|-----|
+| **ZIP** | https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip |
+| **Tarball** | https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.tar.gz |
+
+These URLs are permanent and always deliver the latest state of the `main`
+branch — no account, no login, no extra steps required.  Just click (or
+`curl`/`wget`) and extract.
+
+```bash
+# Download and extract in one go (Linux / macOS / WSL)
+curl -L https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip \
+     -o unitary-manifold.zip
+unzip unitary-manifold.zip
+```
+
+---
+
 ## Option 1 — GitHub "Download ZIP" button (simplest, no account needed)
 
 1. Go to the repository home page on GitHub.
