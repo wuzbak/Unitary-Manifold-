@@ -98,7 +98,22 @@ class MultiverseNode:
         )
 
     def state_vector(self) -> np.ndarray:
-        """Concatenate (S, A, Q_top, X, Xdot) into a single vector."""
+        """Concatenate (S, A, Q_top, X, Xdot) into a single vector.
+
+        The 3:2 ratio in the dimension formula (3 + 2*dim) is structural,
+        not arbitrary.  It reflects the operator decomposition U = I + H + T
+        established in the monograph:
+          • 3 independent thermodynamic/geometric scalars per universe
+                S      — bulk entropy          (drives operator I)
+                A      — boundary area         (drives operator H)
+                Q_top  — topological charge    (drives operator T)
+          • 2 UEUM phase-space vectors of dimension `dim` each
+                X      — geodesic position
+                Xdot   — geodesic velocity
+        The scalar sector (3) and the kinematic sector (2×dim) are
+        independently motivated by the theory; their ratio is a
+        consequence of the underlying geometry, not a packing choice.
+        """
         return np.concatenate([[self.S, self.A, self.Q_top], self.X, self.Xdot])
 
     def norm(self) -> float:

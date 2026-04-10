@@ -32,7 +32,12 @@ from src.multiverse.fixed_point import (
 # ---------------------------------------------------------------------------
 
 def test_node_state_vector_dimension():
-    """State vector has dimension 3 + 2*dim (S, A, Q_top, X, Xdot)."""
+    """State vector has dimension 3 + 2*dim (S, A, Q_top, X, Xdot).
+
+    The 3:2 ratio is structural (see monograph, operator decomposition U=I+H+T):
+      - 3 thermodynamic scalars: S (entropy), A (boundary area), Q_top (topology)
+      - 2 UEUM phase-space vectors: X (position), Xdot (velocity), each of length dim
+    """
     dim = 4
     node = MultiverseNode(dim=dim)
     sv = node.state_vector()
