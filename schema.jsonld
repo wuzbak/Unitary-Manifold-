@@ -1,0 +1,88 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://github.com/wuzbak/Unitary-Manifold-",
+  "name": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility",
+  "headline": "The Unitary Manifold (v9.0 — Academic Edition)",
+  "description": "A five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The Walker-Pearson field equations show that the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate.",
+  "version": "9.0",
+  "datePublished": "2026-04-09",
+  "author": {
+    "@type": "Person",
+    "name": "ThomasCory Walker-Pearson",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Independent Researcher, Pacific Northwest, USA"
+    }
+  },
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "url": "https://wuzbak.github.io/Unitary-Manifold-/",
+  "codeRepository": "https://github.com/wuzbak/Unitary-Manifold-",
+  "programmingLanguage": ["Python", "LaTeX"],
+  "keywords": [
+    "Kaluza-Klein theory",
+    "5D gravity",
+    "irreversibility",
+    "information geometry",
+    "holography",
+    "Walker-Pearson equations",
+    "entropic cosmology",
+    "multiverse",
+    "quantum gravity",
+    "thermodynamics"
+  ],
+  "about": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Walker-Pearson field equations",
+      "description": "G_μν + λ²(H_μρH_ν^ρ − ¼g_μν H²) + αRφ²g_μν = 8πG₄ T_μν"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Unified Equation of the Unitary Manifold (UEUM)",
+      "description": "Ẍ^a + Γ^a_{bc}Ẋ^bẊ^c = G_U^{ab}∇_b S_U + δ/δX^a(Σ A_{∂,i}/4G + Q_top)"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Final Theorem (FTUM)",
+      "description": "Fixed point Ψ* of U = I + H + T such that UΨ* = Ψ*"
+    }
+  ],
+  "citation": {
+    "@type": "CreativeWork",
+    "name": "THEBOOKV9a (1).pdf",
+    "description": "Full 74-chapter monograph (XXIII parts)"
+  },
+  "hasPart": [
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "src/core/metric.py",
+      "description": "Kaluza-Klein metric ansatz; Christoffel symbols, Riemann/Ricci tensors, scalar curvature"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "src/core/evolution.py",
+      "description": "Walker-Pearson explicit-Euler time integrator; FieldState dataclass"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "src/holography/boundary.py",
+      "description": "Entropy-area law; holographic boundary dynamics; Bekenstein-Hawking entropy"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "src/multiverse/fixed_point.py",
+      "description": "Operator U = I+H+T; FTUM fixed-point iteration; multiverse network"
+    },
+    {
+      "@type": "Dataset",
+      "name": "notebooks/",
+      "description": "Jupyter notebooks: quickstart, holographic boundary, multiverse fixed-point"
+    }
+  ],
+  "isPartOf": {
+    "@type": "ResearchProject",
+    "name": "Unitary Manifold Research Programme",
+    "url": "https://wuzbak.github.io/Unitary-Manifold-/"
+  }
+}

@@ -2,6 +2,11 @@
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
+[![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
+[![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
+[![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
+[![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
+
 ---
 
 ## 1 · Project Overview
