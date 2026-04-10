@@ -18,7 +18,8 @@
 % After each optimization run, check_unitarity() verifies
 %   ||U'*U - I||_F < epsilon
 %
-% License: MIT — see LICENSE
+% License: Defensive Public Commons License v1.0 (2026) — see LICENSE
+%          Free for all, forever. No patents. No commercial gatekeeping.
 % Author : ThomasCory Walker-Pearson, 2026
 
 function demo()
