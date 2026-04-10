@@ -46,27 +46,29 @@ implemented with periodic boundary conditions via `np.roll`.
 
 ## 3. Time Integration
 
-### Explicit Euler (default)
+### RK4 (default)
 
-The default integrator is first-order explicit Euler:
+The default integrator is the classical fourth-order Runge–Kutta (RK4) scheme,
+giving O(Δt⁴) local truncation error per step:
+
+$$\Psi^{n+1} = \Psi^n + \frac{\Delta t}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
+
+where $k_1 = F(\Psi^n)$, $k_2 = F(\Psi^n + \tfrac{\Delta t}{2}k_1)$, etc.
+
+This is implemented in `step(state, dt)` in `src/core/evolution.py`.
+A legacy first-order Euler integrator is available as `step_euler(state, dt)` for accuracy benchmarking.
+
+**CFL guidance:** Use `cfl_timestep(state)` to estimate the largest stable Δt.
+For $\Delta x = 0.1$, the CFL limit is $\Delta t_{\rm max} \approx 0.004$.
+Recommended value: $\Delta t = 10^{-3}$.
+
+### Legacy Euler Integrator (benchmarking)
+
+A first-order explicit Euler integrator is retained for comparison:
 
 $$\Psi^{n+1} = \Psi^n + \Delta t \cdot F(\Psi^n)$$
 
-This is implemented in `step(state, dt)` in `src/core/evolution.py`.
-
-**CFL stability condition:** For the scalar equation, explicit stability requires:
-
-$$\Delta t \lesssim \frac{\Delta x^2}{2}$$
-
-For $\Delta x = 0.1$, this gives $\Delta t \lesssim 5 \times 10^{-3}$. Recommended value: $\Delta t = 10^{-3}$.
-
-### Semi-implicit Scalar Stabilisation
-
-To suppress high-frequency blow-up in the scalar field, a partial implicit treatment is available:
-
-$$\phi^{n+1} = \frac{\phi^n + \Delta t\,(S[H] + \alpha R \phi^n)}{1 - \Delta t \cdot \kappa_{\rm damp}}$$
-
-where $\kappa_{\rm damp}$ is the constraint-damping coefficient (default 0; set ≥ 0.1 for long runs).
+Available via `step_euler(state, dt)`. For production use prefer `step` (RK4).
 
 ---
 

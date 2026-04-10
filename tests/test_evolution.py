@@ -182,7 +182,7 @@ class TestConstraintMonitor:
 # RK4 vs Euler accuracy
 # ---------------------------------------------------------------------------
 
-class TestStepRK4:
+class TestRK4VsEuler:
     def test_euler_and_rk4_agree_first_order(self, flat_state_small):
         """For small dt, |phi_rk4 − phi_euler| should be O(dt²) ≪ dt."""
         dt = 1e-3
