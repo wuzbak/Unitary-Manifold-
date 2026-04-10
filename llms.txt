@@ -1,0 +1,34 @@
+# Unitary Manifold
+
+> A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
+> information flow, and quantum transition asymmetry as projections of a single
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.0, 2026).
+
+## Start Here
+
+- [MCP Ingest Proof](MCP_INGEST.md): Complete low-token structured summary — read this first.
+- [README](README.md): Project overview, equations, quickstart code examples.
+- [Citation](CITATION.cff): CFF metadata for academic citation.
+
+## Source Code
+
+- [metric.py](src/core/metric.py): Kaluza-Klein ansatz; computes Christoffel symbols, Riemann/Ricci tensors, scalar curvature.
+- [evolution.py](src/core/evolution.py): Walker-Pearson time integrator; FieldState dataclass; run_evolution driver.
+- [boundary.py](src/holography/boundary.py): Holographic boundary; entropy-area law implementation.
+- [fixed_point.py](src/multiverse/fixed_point.py): Multiverse network; FTUM fixed-point iteration; operator U = I+H+T.
+
+## Theory Documents
+
+- [ch02_mathematical_preliminaries.md](manuscript/ch02_mathematical_preliminaries.md): Mathematical foundations chapter.
+- [main.tex](arxiv/main.tex): Full LaTeX source for arXiv submission.
+- [references.bib](arxiv/references.bib): Bibliography.
+
+## Metadata
+
+- [.zenodo.json](zenodo/.zenodo.json): Zenodo deposit metadata (keywords, subjects, license).
+- [mcp-config.json](mcp-config.json): MCP server configuration for agent access via GitHub MCP + Bright Data.
+
+## Optional
+
+- [THEBOOKV9a (1).pdf](THEBOOKV9a%20(1).pdf): Full 74-chapter monograph (binary — skip for token efficiency).
+- [AI-Automated-Review-Invitation.md](discussions/AI-Automated-Review-Invitation.md): Open invitation for AI peer review.

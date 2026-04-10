@@ -2,6 +2,10 @@
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
+[![MCP Ready](https://img.shields.io/badge/MCP-ready-blue?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTV6TTIgMTdsOCA0IDgtNE0yIDEybDggNCA4LTQiLz48L3N2Zz4=)](mcp-config.json)
+[![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
+[![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
+
 ---
 
 ## 1 · Project Overview
@@ -188,7 +192,26 @@ The full monograph (*74 chapters, XXIII parts*) is included as
 
 ---
 
-## 7 · License — Defensive Public Commons License v1.0 (2026)
+## 7 · MCP & AI Discovery
+
+This repository is optimised for ingestion by AI agents via
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io).
+
+| Resource | Purpose |
+|----------|---------|
+| [`MCP_INGEST.md`](MCP_INGEST.md) | Low-token structured proof of all repo content |
+| [`llms.txt`](llms.txt) | Standard AI-discovery file (llmstxt.org spec) |
+| [`mcp-config.json`](mcp-config.json) | MCP server config for GitHub + Bright Data bridge |
+
+**To connect Mythos (or any MCP agent):**
+```bash
+npx -y @modelcontextprotocol/server-github
+# set GITHUB_PERSONAL_ACCESS_TOKEN, then point agent at: wuzbak/Unitary-Manifold-
+```
+
+---
+
+## 8 · License — Defensive Public Commons License v1.0 (2026)
 
 This work is irrevocably dedicated to the **public domain**.
 
@@ -200,7 +223,7 @@ This work is irrevocably dedicated to the **public domain**.
 
 ---
 
-## 8 · Credits
+## 9 · Credits
 
 | Role | Name / System |
 |------|--------------|
