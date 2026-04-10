@@ -25,6 +25,12 @@
 
 ## 1 · Project Overview
 
+> ⚠️ **Key framing — read this first:**  
+> **This is not a higher-dimensional spacetime. It is a scaffolded reduction.**  
+> The fifth dimension is not ontologically additive. It is procedural: it exists
+> to encode irreversibility and enforce information flow, then is integrated out.
+> The output is standard 4D physics — enriched, not replaced.
+
 The **Unitary Manifold** is a 5-dimensional gauge-geometric framework that
 resolves the *dimensional misalignment* in modern physics.  Where traditional
 theory treats irreversibility and the arrow of time as statistical accidents,
@@ -35,6 +41,10 @@ manifests as thermodynamics and information flow.
 *Walker–Pearson field equations* — from a 5D Einstein–Hilbert action,
 providing a unified geometric origin for gravity, irreversibility, and quantum
 information.
+
+**What is preserved:** General Relativity, the Standard Model, and the Second
+Law are all recovered as exact limits of this framework.  No known physics is
+removed or contradicted.
 
 ---
 
@@ -151,6 +161,27 @@ that a naive 4D calculation would miss.
 | Compute Christoffel from $g$ directly | $B_\mu$ and $\phi$ contribute nothing to curvature; Walker–Pearson equations reduce to vacuum GR |
 | Apply explicit Euler to metric without Nyquist damping | High-frequency modes grow as $e^{t/dx^2}$; simulation blows up |
 | Use explicit-only scalar update | Same blow-up for $\phi$ at large $dt/dx^2$ |
+
+---
+
+## 2b · The 3:2 Scaffold Invariant
+
+A **3:2 structural ratio** runs through every layer of the framework.
+It is not a coincidence — it is the diagnostic signature of any theory built
+on a scaffolded reduction.
+
+| Context | Three | Two |
+|---------|-------|-----|
+| **Fields** | Three independent fields: $g_{\mu\nu}$, $B_\mu$, $\phi$ | Two sectors: geometric (metric + radion) and gauge (irreversibility field) |
+| **Pipeline stages** | Three stages: Lift → Curve → Project | Two dimensional transitions: 4D→5D (up) and 5D→4D (down) |
+| **Reduction equations** | Three decoupled 4D equations upon KK reduction (Einstein, Maxwell-like, Klein-Gordon-like) | Two parent structures: the 5D action and the compactification ansatz |
+| **Operator $U$** | Three pillars: $\mathbf{I}$ (Irreversibility) $+$ $\mathbf{H}$ (Holography) $+$ $\mathbf{T}$ (Topology) | Two fixed-point conditions: bulk convergence $U\Psi^*=\Psi^*$ and boundary saturation $S = A/4G$ |
+| **Constraints** | Three dynamic degrees of freedom ($g$, $B$, $\phi$) | Two conservation laws: $\nabla_\mu J^\mu_{\rm inf}=0$ and the Hamiltonian constraint |
+| **Entropy bookkeeping** | Three-dimensional bulk area $A$ (spatial volume boundary) | Two-dimensional holographic screen (one dimension lower than the bulk slice) |
+
+Whenever you see this ratio in the codebase — three field arrays, two
+constraint monitors, three pipeline steps, two convergence checks — it is the
+same scaffolded structure in a different coordinate.
 
 ---
 
@@ -358,7 +389,96 @@ that sit *alongside* the source without modifying it), see
 
 ---
 
-## 8 · License — Dual-Layer Protection
+## 8 · Minimal Falsification Conditions
+
+The framework makes the following **specific, testable predictions** beyond
+standard GR + the Standard Model.  Any confirmed observation inconsistent with
+these predictions would falsify or materially constrain the theory.
+
+### F-1 · Scalar breathing mode in gravitational waves
+
+The dynamic radion $\phi$ is not frozen.  In the strong-gravity regime
+(binary mergers, neutron-star collisions), $\phi$ evolves and sources a
+**scalar breathing mode** in gravitational radiation — a transverse-scalar
+polarisation absent in GR.
+
+**Falsified if:** Next-generation detectors (Einstein Telescope, LISA) confirm
+no scalar polarisation to the sensitivity floor set by the Walker–Pearson
+coupling $\alpha$.
+
+**Relevant code:** `src/core/evolution.py` — `step()` evolves $\phi$; its
+time-derivative directly sets the scalar radiation amplitude.
+
+---
+
+### F-2 · Frequency-dependent gravitational-wave dispersion
+
+The irreversibility field $B_\mu$ contributes $\lambda^2(H_{\mu\rho}H_\nu{}^\rho - \tfrac{1}{4}g_{\mu\nu}H^2)$
+to the stress-energy.  For $\lambda > 0$, this produces a small but
+**frequency-dependent phase velocity** for gravitational waves — group velocity
+$v_g(\omega) \neq c$ at high frequency.
+
+**Falsified if:** Multi-band GW observations (10 mHz – 10 kHz) confirm
+dispersion-free propagation at the level $|\Delta v/c| < 10^{-16}$, which
+constrains $\lambda^2 \lesssim 10^{-16} / \omega_{\rm peak}^2$.
+
+---
+
+### F-3 · CMB non-Gaussianity from entropic scalar dynamics
+
+If $\phi$ was dynamically active during inflation, its quantum fluctuations
+would generate **non-Gaussian correlations** in the CMB (non-zero
+$f_{\rm NL}^{\rm local}$ at a level set by $\alpha$).  ΛCDM predicts
+$f_{\rm NL} \approx 0$.
+
+**Falsified if:** Simons Observatory / CMB-S4 measure $f_{\rm NL}^{\rm local}$
+consistent with zero to $\sigma(f_{\rm NL}) < 1$, while the Walker–Pearson
+value for the best-fit $\alpha$ exceeds that bound.
+
+---
+
+### F-4 · Holographic entropy saturation at the fixed point
+
+The FTUM guarantees a fixed point $\Psi^*$ at which the defect
+$\|A/4G - S\| \to 0$.  The framework therefore predicts that **no isolated
+gravitational system maintains $S \ll A/4G$ indefinitely** — entropy must
+converge to the holographic bound.
+
+**Falsified if:** A thermodynamically isolated system (e.g., a black hole
+remnant) is confirmed to persist with $S/( A/4G) < \epsilon$ for all
+time, where $\epsilon \ll 1$.
+
+**Relevant code:** `src/multiverse/fixed_point.py` — `fixed_point_iteration()`
+tracks the defect norm; `src/holography/boundary.py` — `entropy_area()`
+computes $A/4G$.
+
+---
+
+### F-5 · GR recovery in the zero-coupling limit
+
+Setting $\lambda \to 0$ and $\phi \to \phi_0$ (constant) must **exactly**
+recover the Einstein field equations with a cosmological constant.  This is
+not a prediction to be confirmed experimentally — it is a hard internal
+consistency requirement that is continuously verified by the test suite.
+
+**Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
+residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify.
+
+---
+
+### Summary table
+
+| ID | Observable | Instrument | Falsification threshold |
+|----|-----------|-----------|------------------------|
+| F-1 | Scalar GW polarisation | ET / LISA | Non-detection at $\alpha$-predicted amplitude |
+| F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
+| F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
+| F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
+| F-5 | GR limit (internal) | `pytest` | Any non-zero GR-limit residual |
+
+---
+
+## 9 · License — Dual-Layer Protection
 
 This repository uses two complementary licenses to protect the work for the
 global public in perpetuity.
@@ -382,7 +502,7 @@ full dual-license explanation.
 
 ---
 
-## 9 · Credits
+## 10 · Credits
 
 | Role | Name / System |
 |------|--------------|
