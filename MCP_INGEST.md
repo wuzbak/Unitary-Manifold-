@@ -101,7 +101,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_metric.py                     # Metric & curvature tests
 │   ├── test_evolution.py                  # Evolution + constraint tests
 │   ├── test_boundary.py                   # Boundary & entropy tests
-│   └── test_fixed_point.py               # FTUM & operator tests (81 total)
+│   └── test_fixed_point.py               # FTUM & operator tests (98 total)
 │
 ├── zenodo/
 │   ├── .zenodo.json                       # Zenodo deposit metadata
@@ -136,7 +136,9 @@ such that `UΨ* = Ψ*`.
 |--------|-----------|---------|
 | `FieldState` | dataclass `(g, B, phi, t, dx, lam, alpha)` | — |
 | `FieldState.flat` | `(N=64, dx=0.1, lam=1.0, alpha=0.1)` | `FieldState` |
-| `step` | `(state, dt)` | `FieldState` |
+| `step` | `(state, dt)` — **RK4**, O(dt⁴) | `FieldState` |
+| `step_euler` | `(state, dt)` — first-order Euler | `FieldState` |
+| `cfl_timestep` | `(state, cfl=0.4)` → `0.4 * dx²` | `float` |
 | `run_evolution` | `(state, dt, steps, callback=None)` | `List[FieldState]` |
 | `information_current` | `(g, phi, dx)` | `J` ndarray `(N,4)` |
 | `constraint_monitor` | `(Ricci, R, B, phi)` | `dict` |
@@ -165,7 +167,7 @@ such that `UΨ* = Ψ*`.
 ```
 1. Init  g_μν, B_μ, φ  → FieldState.flat(N, dx)
 2. Curvature  Γ, Riemann, Ricci, R  → compute_curvature()
-3. Walker–Pearson update  → step(state, dt)
+3. Walker–Pearson RK4 update  → step(state, dt)    # O(dt⁴)
 4. Constraints  ‖R‖, ‖∇·J‖  → constraint_monitor()
 5. Boundary projection  → BoundaryState.from_bulk() + evolve_boundary()
 6. U = I + H + T  multiverse  → fixed_point_iteration()

@@ -93,15 +93,27 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
+### Verify the implementation (run tests)
+
+```bash
+pip install pytest
+python -m pytest tests/ -v
+# 98 tests across metric, evolution, boundary, and fixed-point modules
+```
+
 ### Run a bulk field simulation
 
 ```python
-from src.core.evolution import FieldState, run_evolution
+from src.core.evolution import FieldState, run_evolution, cfl_timestep
 
 # Flat Minkowski background, 64 grid points, spacing dx=0.1
 state = FieldState.flat(N=64, dx=0.1)
 
-# Evolve for 200 steps with dt=1e-3
+# Check CFL-stable timestep for the scalar diffusion term
+dt = cfl_timestep(state)          # 0.4 * dx² = 0.004
+print(f"CFL dt = {dt:.4f}")
+
+# Evolve 200 steps with RK4 (4th-order Runge–Kutta)
 history = run_evolution(state, dt=1e-3, steps=200)
 
 print(f"Final time: {history[-1].t:.3f}")
@@ -170,8 +182,9 @@ print(f"Final residual: {residuals[-1]:.2e}")
 ```
 
 Recommended numerical settings:
-- Staggered grids for $B_\mu$ (gauge field)
-- Semi-implicit schemes for $\phi$ (scalar)
+- RK4 (4th-order Runge–Kutta) for all three fields — use `step(state, dt)` (default)
+- `step_euler(state, dt)` available for first-order accuracy benchmarking
+- CFL timestep estimate: `cfl_timestep(state)` returns `0.4 * dx²`
 - Constraint damping coefficient ≥ 0.1 for long runs
 
 ---
@@ -231,5 +244,8 @@ This work is irrevocably dedicated to the **public domain**.
 | Synthesis & Verification | Gemini · ChatGPT · Microsoft Copilot |
 | Version | 9.0 — Academic Edition |
 
-For technical inquiries or peer-review submissions, use the LaTeX source files
-and BibLaTeX citations provided in the accompanying documentation.
+For technical inquiries, peer-review submissions, or to contribute numerical
+verifications, see **[CONTRIBUTING.md](CONTRIBUTING.md)**.
+
+Use the LaTeX source files and BibLaTeX citations provided in the accompanying
+documentation for formal citations.
