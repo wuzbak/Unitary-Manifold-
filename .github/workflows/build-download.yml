@@ -1,0 +1,45 @@
+name: Build Download Archive
+
+# Run this workflow manually from the Actions tab — no tag or push required.
+# When complete, a "unitary-manifold-<date>.zip" artifact will appear under
+# "Artifacts" in the workflow run summary.  Click it to download.
+
+on:
+  workflow_dispatch:
+    inputs:
+      archive_name:
+        description: 'Base name for the zip file (timestamp appended automatically)'
+        required: false
+        default: 'unitary-manifold'
+
+permissions:
+  contents: read
+
+jobs:
+  build-archive:
+    name: Package project files
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Check out the full repository ────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Build the archive with the included Python script ─────────────
+      - name: Build archive
+        run: |
+          python scripts/create_archive.py --out "${{ github.event.inputs.archive_name }}"
+          # Capture the generated filename so the upload step can find it
+          ARCHIVE=$(ls ${{ github.event.inputs.archive_name }}_*.zip | head -1)
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
+
+      # ── 3. Upload the zip as a downloadable workflow artifact ────────────
+      - name: Upload archive artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.archive_name }}
+          path: ${{ env.ARCHIVE }}
+          retention-days: 30        # artifact stays available for 30 days
+          if-no-files-found: error
