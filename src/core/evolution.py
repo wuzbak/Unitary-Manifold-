@@ -142,11 +142,17 @@ def _source_scalar(H):
 # ---------------------------------------------------------------------------
 
 def step(state: FieldState, dt: float) -> FieldState:
-    """Advance *state* by one explicit-Euler timestep dt.
+    """Advance *state* by one timestep dt using semi-implicit stabilisation.
 
-    The scalar update uses a simple implicit stabilisation:
-        φ^{n+1} = (φ^n + dt * S[H]) / (1 − dt * □_coeff)
-    to suppress high-frequency blow-up.
+    Metric update uses Nyquist semi-implicit stabilisation:
+        g_new * (1 + dt * lap_diag_coeff) = g + dt * dg + dt * lap_diag_coeff * η
+    where lap_diag_coeff = 4/dx² (maximum eigenvalue of the centred-diff
+    Laplacian) and η = diag(−1, 1, 1, 1) is the Minkowski background.
+
+    Scalar update uses semi-implicit Laplacian stabilisation:
+        φ^{n+1} = (φ + dt * (α R φ + S[H] + (2/dx²) φ)) / (1 + dt * 2/dx²)
+    where the (2/dx²)φ term in the numerator is the off-diagonal part of the
+    split Laplacian.
 
     Parameters
     ----------
@@ -160,34 +166,39 @@ def step(state: FieldState, dt: float) -> FieldState:
     g, B, phi = state.g.copy(), state.B.copy(), state.phi.copy()
     dx, lam, alpha = state.dx, state.lam, state.alpha
 
-    # --- curvature ----------------------------------------------------------
+    # --- curvature (via 5D KK pipeline) ------------------------------------
     Gamma, Riemann, Ricci, R = compute_curvature(g, B, phi, dx, lam)
 
     # --- field strength -----------------------------------------------------
     H = field_strength(B, dx)
 
-    # --- metric update:  ∂_t g_μν = −2 R_μν + T_μν -------------------------
+    # --- metric update (semi-implicit Nyquist stabilisation) ----------------
+    # lap_diag_coeff = 4/dx²  (max eigenvalue of centred-diff Laplacian)
+    lap_diag_coeff = 4.0 / dx**2
+    eta = np.diag([-1.0, 1.0, 1.0, 1.0])
     T = _stress_energy(B, phi, H, lam)
     dg = -2.0 * Ricci + T
-    g_new = g + dt * dg
-    # Symmetrise and protect against degeneracy
+    # g_new * (1 + dt*c) = g + dt*dg + dt*c*η  →  divide through
+    g_new = (g + dt * dg + dt * lap_diag_coeff * eta[None, :, :]) / (1.0 + dt * lap_diag_coeff)
+    # Symmetrise
     g_new = 0.5 * (g_new + g_new.transpose(0, 2, 1))
 
     # --- gauge field update:  ∂_t B_μ = ∂_ν (λ² H^νμ) ----------------------
-    # H^νμ = g^να g^μβ H_αβ  — approximate with flat metric for efficiency
     H_up = np.einsum('nai,nbj,nij->nab', np.linalg.inv(g), np.linalg.inv(g), H)
     dB = np.zeros_like(B)
     for mu in range(4):
         dB[:, mu] = _divergence_vec(lam**2 * H_up[:, :, mu], dx)
     B_new = B + dt * dB
 
-    # --- scalar update (semi-implicit):  □φ + α R φ + S[H] -----------------
-    lap_phi = _laplacian(phi, dx)
+    # --- scalar update (semi-implicit Laplacian stabilisation) --------------
+    # Split Laplacian: □φ = lap_phi (off-diagonal) + (-2/dx²)φ (diagonal).
+    # Move diagonal part to the denominator; keep off-diagonal in numerator.
+    lap_phi = _laplacian(phi, dx)                  # full centred-diff Laplacian
+    lap_off_diag = 2.0 / dx**2                    # absolute value of diagonal
     S_H = _source_scalar(H)
-    # Explicit source + semi-implicit Laplacian stabilisation
-    phi_new = (phi + dt * (alpha * R * phi + S_H)) / (1.0 - dt * 0.0)
-    # Apply Laplacian explicitly (small dt assumed stable for smooth fields)
-    phi_new = phi_new + dt * lap_phi
+    # Numerator includes off-diagonal lap contribution: lap_phi + (2/dx²)*phi
+    phi_new = (phi + dt * (alpha * R * phi + S_H + lap_off_diag * phi + lap_phi)) / \
+              (1.0 + dt * lap_off_diag)
 
     return FieldState(g=g_new, B=B_new, phi=phi_new,
                       t=state.t + dt, dx=dx, lam=lam, alpha=alpha)

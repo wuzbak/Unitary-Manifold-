@@ -4,17 +4,23 @@ src/core/metric.py
 Kaluza–Klein metric ansatz and curvature computation for the Unitary Manifold.
 
 The 5D parent metric G_AB is assembled from the 4D metric g_μν, the
-irreversibility gauge field B_μ, and the scalar (entanglement capacity) φ:
+irreversibility gauge field B_μ, and the scalar (entanglement capacity / radion) φ:
 
-    ┌                             ┐
+    ┌                               ┐
     │  g_μν + λ²φ² B_μ B_ν   λφ B_μ │
-G = │                             │
-    │  λφ B_ν                  1  │
-    └                             ┘
+G = │                               │
+    │  λφ B_ν                   φ²  │
+    └                               ┘
+
+G_55 = φ² so that φ plays the role of the KK radion; the 4D fields are
+obtained by dimensional reduction from the 5D Einstein equations.
 
 Curvature tensors are computed on a 1-D spatial grid using second-order
 central finite differences.  The convention follows MTW (Misner, Thorne,
 Wheeler) with signature (−, +, +, +) for the 4D block.
+
+Pipeline: 4D (g, B, φ) → assemble G_AB (5D) → 5D Christoffel/Riemann/Ricci
+          → project 4D block → return 4D Gamma, Riemann, Ricci, R.
 
 Public API
 ----------
@@ -25,10 +31,11 @@ assemble_5d_metric(g, B, phi, lam)
     Build the 5×5 KK metric G_AB at every grid point.
 
 christoffel(g, dx)
-    Christoffel symbols Γ^σ_μν from a 4×4 metric on a 1-D grid.
+    Christoffel symbols Γ^σ_μν from an arbitrary D×D metric on a 1-D grid.
 
 compute_curvature(g, B, phi, dx, lam)
-    Return (Gamma, Riemann, Ricci, R) — the full curvature hierarchy.
+    Return (Gamma, Riemann, Ricci, R) — the full curvature hierarchy computed
+    via the 5D metric and projected back to the 4D block.
 """
 
 import numpy as np
@@ -80,6 +87,12 @@ def field_strength(B, dx):
 def assemble_5d_metric(g, B, phi, lam=1.0):
     """Assemble the 5×5 Kaluza–Klein metric G_AB at each grid point.
 
+    The KK ansatz with φ as the radion field:
+
+        G_μν = g_μν + λ²φ² B_μ B_ν
+        G_μ5 = G_5μ = λφ B_μ
+        G_55 = φ²        (radion; NOT fixed to 1)
+
     Parameters
     ----------
     g   : ndarray, shape (N, 4, 4)
@@ -102,8 +115,8 @@ def assemble_5d_metric(g, B, phi, lam=1.0):
     # Off-diagonal: G_μ5 = G_5μ = λφ B_μ
     G5[:, :4, 4] = lam_phi_B
     G5[:, 4, :4] = lam_phi_B
-    # G_55 = 1 (radion fixed to unity)
-    G5[:, 4, 4] = 1.0
+    # G_55 = φ² (radion equals scalar field — not fixed to unity)
+    G5[:, 4, 4] = phi**2
     return G5
 
 
@@ -112,20 +125,21 @@ def assemble_5d_metric(g, B, phi, lam=1.0):
 # ---------------------------------------------------------------------------
 
 def christoffel(g, dx):
-    """Christoffel symbols Γ^σ_μν from the 4-D metric g on a 1-D grid.
+    """Christoffel symbols Γ^σ_μν from a D×D metric on a 1-D grid.
 
     Only the spatial (x) direction is discretised; the remaining indices
     are treated algebraically.  This is the correct reduction for the
     symmetry-reduced (1+1 effective) system used in the evolution module.
+    Works for any D (4 for the 4D block, 5 for the full KK metric).
 
     Parameters
     ----------
-    g  : ndarray, shape (N, 4, 4)
+    g  : ndarray, shape (N, D, D)
     dx : float
 
     Returns
     -------
-    Gamma : ndarray, shape (N, 4, 4, 4)
+    Gamma : ndarray, shape (N, D, D, D)
         Gamma[n, sigma, mu, nu]
     """
     N, D, _ = g.shape
@@ -190,33 +204,56 @@ def _riemann_from_christoffel(Gamma, dx):
 
 
 def compute_curvature(g, B, phi, dx, lam=1.0):
-    """Full curvature pipeline for the Walker–Pearson system.
+    """Full curvature pipeline: 4D → 5D KK metric → project back to 4D.
+
+    Steps
+    -----
+    1. Assemble the 5×5 Kaluza–Klein metric G_AB from (g, B, φ).
+    2. Compute 5D Christoffel symbols and Riemann tensor from G_AB.
+    3. Extract the 4D Ricci tensor and scalar from the 5D Ricci by
+       contracting over the 5D indices and projecting onto the 4D block.
 
     Parameters
     ----------
     g   : ndarray, shape (N, 4, 4)  — 4-D metric
     B   : ndarray, shape (N, 4)     — irreversibility gauge field
-    phi : ndarray, shape (N,)       — scalar (entanglement capacity)
+    phi : ndarray, shape (N,)       — scalar / radion (entanglement capacity)
     dx  : float                     — grid spacing
     lam : float                     — KK coupling constant λ
 
     Returns
     -------
-    Gamma  : ndarray, shape (N, 4, 4, 4)
-    Riemann: ndarray, shape (N, 4, 4, 4, 4)
-    Ricci  : ndarray, shape (N, 4, 4)
-    R      : ndarray, shape (N,)
+    Gamma  : ndarray, shape (N, 4, 4, 4)   — 4D Christoffel (from 5D projection)
+    Riemann: ndarray, shape (N, 4, 4, 4, 4) — 4D Riemann block
+    Ricci  : ndarray, shape (N, 4, 4)       — 4D Ricci (projected from 5D)
+    R      : ndarray, shape (N,)            — 4D Ricci scalar
     """
-    N, D = g.shape[0], g.shape[1]
-    Gamma = christoffel(g, dx)
-    Riemann = _riemann_from_christoffel(Gamma, dx)
-    # Ricci_μν = R^ρ_{μρν}  (contract first and third indices of Riemann)
-    Ricci = np.zeros((N, D, D))
-    for mu in range(D):
-        for nu in range(D):
-            for rho in range(D):
-                Ricci[:, mu, nu] += Riemann[:, rho, mu, rho, nu]
+    N = g.shape[0]
 
+    # Step 1: assemble full 5D metric
+    G5 = assemble_5d_metric(g, B, phi, lam)          # (N, 5, 5)
+
+    # Step 2: 5D Christoffel and Riemann
+    Gamma5  = christoffel(G5, dx)                     # (N, 5, 5, 5)
+    Riem5   = _riemann_from_christoffel(Gamma5, dx)   # (N, 5, 5, 5, 5)
+
+    # Step 3: project 5D Riemann → 4D Ricci and scalar
+    # 5D Ricci: Ricci5_{AB} = R^C_{ACB}  (contract index 0 and 2)
+    Ricci5 = np.zeros((N, 5, 5))
+    for A in range(5):
+        for Bx in range(5):
+            for C in range(5):
+                Ricci5[:, A, Bx] += Riem5[:, C, A, C, Bx]
+
+    # 4D block of the 5D Ricci gives the effective 4D Ricci tensor
+    Ricci = Ricci5[:, :4, :4]                         # (N, 4, 4)
+
+    # 4D Ricci scalar: R = g^μν Ricci_μν  (use 4D inverse metric)
     g_inv = np.linalg.inv(g)
-    R = np.einsum('nij,nij->n', g_inv, Ricci)
+    R = np.einsum('nij,nij->n', g_inv, Ricci)         # (N,)
+
+    # Return 4D Christoffel (4D block of the 5D Gamma) and 4D Riemann block
+    Gamma   = Gamma5[:, :4, :4, :4]                   # (N, 4, 4, 4)
+    Riemann = Riem5[:, :4, :4, :4, :4]                # (N, 4, 4, 4, 4)
+
     return Gamma, Riemann, Ricci, R
