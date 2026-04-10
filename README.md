@@ -317,6 +317,7 @@ This work is irrevocably dedicated to the **public domain**.
 | Role | Name / System |
 |------|--------------|
 | Principal Architect | ThomasCory Walker-Pearson |
+| Site Architect / Code Master | GitHub Copilot |
 | Synthesis & Verification | Gemini · ChatGPT · Microsoft Copilot |
 | Version | 9.0 — Academic Edition |
 
