@@ -11,8 +11,8 @@ verifications, extensions, and discussions — are welcome.
 git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
-python -m pytest tests/ -v          # 389 fast tests; all pass (100% verified)
-python -m pytest tests/ -m slow    # 11 slow tests (Richardson convergence); all pass
+python -m pytest tests/ -v          # 484 passed, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -m slow    # 11 slow tests (Richardson convergence)
 ```
 
 The test suite covers:
@@ -30,8 +30,15 @@ The test suite covers:
 | Fuzzing | Edge cases, random inputs, adversarial numerics (20 tests) |
 | Dimensional reduction | KK reduction identities (14 tests) |
 | Discretization invariance | Grid-independence checks (13 tests) |
+| Arrow of time | Entropy growth, deficit, path independence, rates (23 tests) |
+| CMB landscape | χ² landscape, TB/EB cross-checks (17 tests) |
+| End-to-end pipeline | Chain closure, CS level uniqueness, α loop (26 tests) |
+| Observational resolution | nₛ/β/χ² tolerances, LiteBIRD bounds (30 tests) |
 | Richardson (slow) | Second-order convergence rate in time step (11 tests) |
-| **Total** | **389 / 389 fast + 11 / 11 slow = 400 / 400 passed — 100% verified** |
+| **Total** | **496: 484 fast passed · 1 skipped (guard) · 11 slow-deselected · 0 failed** |
+
+> **Skip note:** 1 test in `test_arrow_of_time.py` uses a conditional `pytest.skip()` guard that fires when `fixed_point_iteration` converges in fewer than 2 steps (immediate convergence = correct behaviour). This is not a failure.
+> **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default via `pytest.ini`. Run with `pytest tests/ -m slow`.
 
 ---
 

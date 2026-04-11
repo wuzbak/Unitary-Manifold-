@@ -126,8 +126,14 @@ such that `UΨ* = Ψ*`.
 │   ├── test_fuzzing.py                   # Edge cases, random inputs (20)
 │   ├── test_dimensional_reduction.py     # KK reduction identities (14)
 │   ├── test_discretization_invariance.py # Grid-independence checks (13)
+│   ├── test_arrow_of_time.py             # Arrow of time: entropy growth, rates (23)
+│   ├── test_cmb_landscape.py             # χ² landscape, TB/EB cross-checks (17)
+│   ├── test_e2e_pipeline.py              # End-to-end chain closure, CS level (26)
+│   ├── test_observational_resolution.py  # nₛ/β/χ² tolerances, LiteBIRD (30)
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 400 tests — 389 fast (default) + 11 slow — 100% pass
+│   # Total: 496 tests — 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
+│   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
 ├── zenodo/
 │   ├── .zenodo.json                       # Zenodo deposit metadata
@@ -307,7 +313,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests for `metric.py`, `evolution.py`, `inflation.py`, and more — **389/400 passed (100% verified)** |
+| **Test suite** | `pytest` unit tests — **496 tests: 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
