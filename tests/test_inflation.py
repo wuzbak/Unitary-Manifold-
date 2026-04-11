@@ -1225,3 +1225,969 @@ class TestTBEBSpectrum:
             assert np.allclose(ratio, 1.0, rtol=1e-12), (
                 f"Achromaticity broken at ν={_NU_TB[j]} GHz"
             )
+
+
+# ---------------------------------------------------------------------------
+# Amplitude gap analysis tests
+# ---------------------------------------------------------------------------
+
+from src.core.inflation import (
+    slow_roll_amplitude,
+    cobe_normalization,
+    ftum_attractor_domain,
+    rs1_phase_scan,
+    classify_attractor_regime,
+    amplitude_attractor_scan,
+    scale_dependence_comparison,
+    foliation_clock_check,
+    amplitude_gap_report,
+    PLANCK_AS_CENTRAL,
+    M_PL_GEV,
+    ATTRACTOR_PHI0_EFF_TARGET,
+    ATTRACTOR_NS_TARGET,
+    ATTRACTOR_TOLERANCE,
+)
+
+
+class TestSlowRollAmplitude:
+    """Tests for slow_roll_amplitude() — term-by-term As breakdown."""
+
+    def test_returns_required_keys(self):
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        for key in ("As", "H_inf", "epsilon", "eta", "V", "dV", "d2V",
+                    "phi_star", "phi0_eff", "lam", "As_formula"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_As_positive(self):
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["As"] > 0.0
+
+    def test_H_inf_positive(self):
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["H_inf"] > 0.0
+
+    def test_As_equals_standard_slow_roll_formula(self):
+        """As = V^3 / (12 pi^2 dV^2)  and  As = H^2 / (8 pi^2 eps) must agree."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        As_alt = result["H_inf"]**2 / (8.0 * np.pi**2 * result["epsilon"])
+        assert abs(result["As"] - As_alt) / result["As"] < 1e-10
+
+    def test_As_scales_linearly_with_lambda(self):
+        """As(2*lam) = 2 * As(lam): the amplitude gap is closed by a single scale."""
+        r1 = slow_roll_amplitude(31.4159, lam=1.0)
+        r2 = slow_roll_amplitude(31.4159, lam=2.0)
+        assert abs(r2["As"] / r1["As"] - 2.0) < 1e-10
+
+    def test_phi_star_default_is_phi0_over_sqrt3(self):
+        phi0 = 31.4159
+        result = slow_roll_amplitude(phi0, lam=1.0)
+        assert abs(result["phi_star"] - phi0 / np.sqrt(3.0)) < 1e-10
+
+    def test_explicit_phi_star_respected(self):
+        phi0 = 31.4159
+        pstar = phi0 / 2.0
+        result = slow_roll_amplitude(phi0, lam=1.0, phi_star=pstar)
+        assert result["phi_star"] == pytest.approx(pstar)
+
+    def test_lam1_As_is_large_compared_to_planck_value(self):
+        """With lam=1 (natural units) As >> Planck: normalization is needed."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["As"] > 1e4 * PLANCK_AS_CENTRAL
+
+    def test_epsilon_small_for_valid_slow_roll(self):
+        """ε < 1 at φ* = φ₀/√3 — slow-roll is valid."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["epsilon"] < 1.0
+
+    def test_eta_near_zero_at_inflection_point(self):
+        """η ≈ 0 at the inflection point φ* = φ₀/√3 (V'' = 0 there)."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert abs(result["eta"]) < 1e-10
+
+
+class TestCOBENormalization:
+    """Tests for cobe_normalization() — the single free parameter that closes the gap."""
+
+    def test_returns_required_keys(self):
+        result = cobe_normalization()
+        for key in ("lam_cobe", "As_predicted", "As_target", "H_inf",
+                    "E_inf_MPlunits", "E_inf_GeV", "ns", "r",
+                    "r_planck_limit", "r_within_bound", "phi0_eff",
+                    "n_winding", "lam_independent_observables"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_As_predicted_matches_target(self):
+        """After solving for lambda_COBE, predicted As must equal target."""
+        result = cobe_normalization()
+        assert result["As_predicted"] == pytest.approx(result["As_target"], rel=1e-9)
+
+    def test_lam_cobe_positive_and_small(self):
+        """lambda_COBE must be positive and much less than 1 (COBE suppression)."""
+        result = cobe_normalization()
+        assert result["lam_cobe"] > 0.0
+        assert result["lam_cobe"] < 1e-10
+
+    def test_ns_within_planck_1sigma(self):
+        """nₛ must lie within 1σ of Planck 2018 (λ-independent)."""
+        result = cobe_normalization()
+        assert abs(result["ns"] - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_r_within_planck_bound(self):
+        """r < 0.10 (Planck 2018 95 % CL)."""
+        result = cobe_normalization()
+        assert result["r_within_bound"]
+
+    def test_E_inf_in_GUT_range(self):
+        """Inflation energy scale should be in the GUT range ~10^15–10^17 GeV."""
+        result = cobe_normalization()
+        assert 1e15 <= result["E_inf_GeV"] <= 1e18
+
+    def test_lam_independent_observables_listed(self):
+        """The five lambda-independent observables must be listed."""
+        result = cobe_normalization()
+        for obs in ("ns", "r", "nt", "alpha_s", "beta_deg"):
+            assert obs in result["lam_independent_observables"]
+
+    def test_custom_As_target(self):
+        """Doubling As_target should double lam_cobe (linear scaling)."""
+        r1 = cobe_normalization(As_target=PLANCK_AS_CENTRAL)
+        r2 = cobe_normalization(As_target=2.0 * PLANCK_AS_CENTRAL)
+        assert r2["lam_cobe"] == pytest.approx(2.0 * r1["lam_cobe"], rel=1e-9)
+
+    def test_h_inf_positive(self):
+        result = cobe_normalization()
+        assert result["H_inf"] > 0.0
+
+    def test_phi0_eff_matches_effective_phi0_kk(self):
+        from src.core.inflation import effective_phi0_kk
+        result = cobe_normalization(phi0_bare=1.0, n_winding=5)
+        expected = effective_phi0_kk(1.0, 5)
+        assert result["phi0_eff"] == pytest.approx(expected)
+
+
+class TestClassifyAttractorRegime:
+    """Tests for classify_attractor_regime() — regime labelling."""
+
+    def test_flat_s1_ftum_at_reference(self):
+        assert classify_attractor_regime(1.0, 5) == "Flat_S1_FTUM"
+
+    def test_flat_s1_ftum_within_band(self):
+        for phi0b in [0.96, 0.98, 1.0, 1.02, 1.04]:
+            assert classify_attractor_regime(phi0b, 5) == "Flat_S1_FTUM", (
+                f"phi0_bare={phi0b} should be Flat_S1_FTUM"
+            )
+
+    def test_flat_s1_outside_band_is_off_attractor(self):
+        assert classify_attractor_regime(0.5, 5) == "Off_Attractor"
+        assert classify_attractor_regime(2.0, 5) == "Off_Attractor"
+
+    def test_rs1_saturated_at_kr_c_12(self):
+        assert classify_attractor_regime(1.0, 7, k=1.0, r_c=12.0) == "RS1_Saturated"
+
+    def test_rs1_saturated_at_kr_c_15(self):
+        assert classify_attractor_regime(1.0, 7, k=1.0, r_c=15.0) == "RS1_Saturated"
+
+    def test_rs1_with_n_winding_5_is_off_attractor(self):
+        """RS1 geometry with n_w=5 gives phi0_eff ≈ 22 — excluded phase."""
+        assert classify_attractor_regime(1.0, 5, k=1.0, r_c=12.0) != "RS1_Saturated"
+
+    def test_wrong_n_winding_is_off_attractor(self):
+        assert classify_attractor_regime(1.0, 3) == "Off_Attractor"
+        assert classify_attractor_regime(1.0, 6) == "Off_Attractor"
+
+    def test_rs1_unsaturated_is_off_attractor(self):
+        """RS1 at small kr_c (J_RS not yet saturated) should be Off_Attractor."""
+        assert classify_attractor_regime(1.0, 7, k=1.0, r_c=0.1) == "Off_Attractor"
+
+    def test_returns_string(self):
+        result = classify_attractor_regime(1.0, 5)
+        assert isinstance(result, str)
+        assert result in ("Flat_S1_FTUM", "RS1_Saturated", "Off_Attractor")
+
+
+class TestAmplitudeAttractor:
+    """Tests for amplitude_attractor_scan() — branch-aware unified attractor."""
+
+    def test_returns_required_keys(self):
+        result = amplitude_attractor_scan()
+        for key in ("lam_values", "ns_vs_lam", "r_vs_lam", "As_vs_lam",
+                    "ns_lam_spread", "r_lam_spread", "As_lam_linearity",
+                    "attractor_set", "ns_attractor_spread",
+                    "phi0eff_attractor_spread_frac",
+                    "attractor_set_all_in_2sigma", "off_attractor_points",
+                    "ns_ref", "r_ref",
+                    "fraction_within_1sigma", "fraction_within_2sigma",
+                    "is_lam_independent", "is_ns_attractor", "is_As_linear"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_lam_independent_ns(self):
+        """nₛ must be exactly identical for all λ values — to machine precision."""
+        result = amplitude_attractor_scan()
+        assert result["is_lam_independent"], (
+            f"ns_lam_spread={result['ns_lam_spread']:.2e}, "
+            f"r_lam_spread={result['r_lam_spread']:.2e}"
+        )
+
+    def test_As_scales_linearly_with_lam(self):
+        """As(λ) / As(λ₀) = λ / λ₀ to machine precision."""
+        result = amplitude_attractor_scan()
+        assert result["is_As_linear"], (
+            f"As_lam_linearity = {result['As_lam_linearity']:.2e}"
+        )
+
+    def test_unified_ns_attractor(self):
+        """Both branches in set A must satisfy the unified attractor criterion."""
+        result = amplitude_attractor_scan()
+        assert result["is_ns_attractor"], (
+            f"ns_spread={result['ns_attractor_spread']:.4f}, "
+            f"phi0eff_spread_frac={result['phi0eff_attractor_spread_frac']:.4f}, "
+            f"all_in_2sigma={result['attractor_set_all_in_2sigma']}"
+        )
+
+    def test_attractor_set_contains_both_branches(self):
+        """Set A must contain at least one Flat_S1_FTUM and one RS1_Saturated point."""
+        result = amplitude_attractor_scan()
+        branches = {p["branch"] for p in result["attractor_set"]}
+        assert "Flat_S1_FTUM"  in branches, "Flat_S1_FTUM branch missing from attractor set"
+        assert "RS1_Saturated" in branches, "RS1_Saturated branch missing from attractor set"
+
+    def test_all_attractor_set_in_2sigma(self):
+        """Every point in set A must be within Planck 2σ."""
+        result = amplitude_attractor_scan()
+        assert result["attractor_set_all_in_2sigma"], (
+            f"Not all attractor-set points within Planck 2σ"
+        )
+
+    def test_ns_attractor_spread_tight(self):
+        """ns spread over set A (both branches) must be ≤ 0.011."""
+        result = amplitude_attractor_scan()
+        assert result["ns_attractor_spread"] <= 0.011, (
+            f"ns_attractor_spread = {result['ns_attractor_spread']:.4f} > 0.011"
+        )
+
+    def test_phi0eff_spread_within_two_percent(self):
+        """φ₀_eff fractional spread between the two canonical branches must be ≤ 1.5%.
+        The measured gap is ~1% (flat=31.42, RS1=31.10), a genuine geometric near-degeneracy."""
+        result = amplitude_attractor_scan()
+        assert result["phi0eff_attractor_spread_frac"] <= 0.015, (
+            f"phi0eff_spread_frac = {result['phi0eff_attractor_spread_frac']:.4f} > 0.015"
+        )
+
+    def test_majority_attractor_set_within_1sigma(self):
+        result = amplitude_attractor_scan()
+        assert result["fraction_within_1sigma"] >= 0.5
+
+    def test_all_attractor_set_within_2sigma(self):
+        result = amplitude_attractor_scan()
+        assert result["fraction_within_2sigma"] == pytest.approx(1.0)
+
+    def test_ns_ref_within_planck_1sigma(self):
+        result = amplitude_attractor_scan()
+        assert abs(result["ns_ref"] - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_As_increases_with_lam(self):
+        result = amplitude_attractor_scan()
+        assert np.all(np.diff(result["As_vs_lam"]) > 0)
+
+    def test_attractor_set_records_have_required_keys(self):
+        result = amplitude_attractor_scan()
+        for rec in result["attractor_set"]:
+            for k in ("phi0_bare", "branch", "phi0_eff", "ns", "r"):
+                assert k in rec, f"Attractor set record missing key: {k}"
+
+
+class TestScaleDependence:
+    """Tests for scale_dependence_comparison() — tilt/running/r vs Planck."""
+
+    def test_returns_required_keys(self):
+        result = scale_dependence_comparison()
+        for key in ("ns", "r", "nt", "alpha_s", "r_consistency",
+                    "ns_planck", "ns_deviation_sigma", "r_planck_limit",
+                    "r_within_bound", "alpha_s_planck_bound",
+                    "alpha_s_within_bound", "gap_is_normalization"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_ns_within_1sigma_planck(self):
+        result = scale_dependence_comparison()
+        assert result["ns_deviation_sigma"] < 1.0
+
+    def test_r_within_planck_bound(self):
+        result = scale_dependence_comparison()
+        assert result["r_within_bound"]
+
+    def test_r_consistency_relation(self):
+        """Tensor consistency: r + 8 nₜ = 0 to machine precision."""
+        result = scale_dependence_comparison()
+        assert result["r_consistency"] < 1e-12
+
+    def test_alpha_s_within_planck_bound(self):
+        """Spectral running |αₛ| < 0.013 (Planck 2018)."""
+        result = scale_dependence_comparison()
+        assert result["alpha_s_within_bound"], (
+            f"|alpha_s| = {abs(result['alpha_s']):.4e} exceeds Planck bound 0.013"
+        )
+
+    def test_gap_is_normalization(self):
+        """The gap is purely a normalization issue: nₛ and αₛ satisfy Planck bounds."""
+        result = scale_dependence_comparison()
+        assert result["gap_is_normalization"]
+
+    def test_nt_negative(self):
+        """Tensor tilt nₜ = -2ε must be negative (blue gravity wave is wrong)."""
+        result = scale_dependence_comparison()
+        assert result["nt"] < 0.0
+
+    def test_ns_planck_echo(self):
+        result = scale_dependence_comparison()
+        assert result["ns_planck"] == pytest.approx(PLANCK_NS_CENTRAL)
+
+
+class TestFoliationClock:
+    """Tests for foliation_clock_check() — FTUM entropy clock vs inflaton clock."""
+
+    def test_returns_required_keys(self):
+        result = foliation_clock_check()
+        for key in ("N_efolds", "N_target", "N_in_window", "epsilon_at_phi_star",
+                    "slow_roll_valid", "entropy_clock_correction",
+                    "foliations_consistent", "phi_star", "phi0_eff"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_N_efolds_in_canonical_window(self):
+        """With n_winding=5, phi0_bare=1: 50 ≤ N ≤ 70 e-folds."""
+        result = foliation_clock_check()
+        assert result["N_in_window"], (
+            f"N = {result['N_efolds']:.1f} not in [50, 70]"
+        )
+
+    def test_slow_roll_valid_at_phi_star(self):
+        """ε < 0.1 at horizon exit — slow roll is well-defined."""
+        result = foliation_clock_check()
+        assert result["slow_roll_valid"], (
+            f"epsilon = {result['epsilon_at_phi_star']:.4f} >= 0.1"
+        )
+
+    def test_foliations_consistent(self):
+        """FTUM entropy foliation is consistent with inflaton clock."""
+        result = foliation_clock_check()
+        assert result["foliations_consistent"]
+
+    def test_entropy_clock_correction_small(self):
+        """Accumulated entropy–clock deviation N * 2ε must be < 1 (sub-leading)."""
+        result = foliation_clock_check()
+        assert result["entropy_clock_correction"] < 1.0, (
+            f"Entropy clock correction = {result['entropy_clock_correction']:.3f} >= 1"
+        )
+
+    def test_phi_star_default_is_phi0_over_sqrt3(self):
+        result = foliation_clock_check()
+        phi0_eff = result["phi0_eff"]
+        assert result["phi_star"] == pytest.approx(phi0_eff / np.sqrt(3.0))
+
+    def test_N_efolds_positive(self):
+        result = foliation_clock_check()
+        assert result["N_efolds"] > 0.0
+
+
+class TestAmplitudeGapReport:
+    """Tests for amplitude_gap_report() — full consolidated gap analysis."""
+
+    def test_returns_required_keys(self):
+        result = amplitude_gap_report()
+        for key in ("slow_roll", "cobe", "scale_dependence", "attractor",
+                    "foliation", "gap_factor", "gap_summary", "fully_determined"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_gap_factor_equals_lambda_cobe(self):
+        """gap_factor should equal lam_cobe (they are the same quantity)."""
+        result = amplitude_gap_report()
+        assert result["gap_factor"] == pytest.approx(
+            result["cobe"]["lam_cobe"], rel=1e-9
+        )
+
+    def test_gap_factor_positive(self):
+        result = amplitude_gap_report()
+        assert result["gap_factor"] > 0.0
+
+    def test_gap_summary_is_string(self):
+        result = amplitude_gap_report()
+        assert isinstance(result["gap_summary"], str)
+        assert len(result["gap_summary"]) > 0
+
+    def test_fully_determined(self):
+        """Theory is fully determined up to a single normalization (lambda_COBE)."""
+        result = amplitude_gap_report()
+        assert result["fully_determined"], (
+            f"Not fully determined. Summary: {result['gap_summary']}"
+        )
+
+    def test_slow_roll_sub_dict_correct(self):
+        result = amplitude_gap_report()
+        assert "As" in result["slow_roll"]
+        assert result["slow_roll"]["lam"] == pytest.approx(1.0)
+
+    def test_sub_dicts_internally_consistent(self):
+        """ns from slow_roll and scale_dependence must agree."""
+        result = amplitude_gap_report()
+        ns_sr = result["cobe"]["ns"]
+        ns_sd = result["scale_dependence"]["ns"]
+        assert abs(ns_sr - ns_sd) < 1e-10
+
+    def test_gap_summary_contains_key_numbers(self):
+        """Summary string must mention lambda_COBE-related content and ns."""
+        result = amplitude_gap_report()
+        summary = result["gap_summary"]
+        assert "ns" in summary.lower() or "0.96" in summary
+        assert "gap" in summary.lower() or "lambda" in summary.lower()
+
+
+class TestFTUMAttractorDomain:
+    """Tests for ftum_attractor_domain() — domain definition and branch consistency."""
+
+    def test_returns_required_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("flat_branch", "rs1_branch", "excluded_rs1_phase",
+                    "phi0_bare_ref", "phi0_band_lo", "phi0_band_hi",
+                    "ns_branch_delta", "phi0eff_branch_delta_frac",
+                    "branches_consistent", "ftum_condition"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_flat_branch_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("phi0_eff", "ns", "r", "n_winding", "jacobian"):
+            assert key in result["flat_branch"], f"Missing flat_branch key: {key}"
+
+    def test_rs1_branch_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("phi0_eff", "ns", "r", "n_winding",
+                    "jacobian", "kr_c", "j_rs_saturated"):
+            assert key in result["rs1_branch"], f"Missing rs1_branch key: {key}"
+
+    def test_excluded_phase_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("phi0_eff", "ns", "r", "n_winding", "why_excluded"):
+            assert key in result["excluded_rs1_phase"], f"Missing excluded key: {key}"
+
+    def test_flat_branch_ns_within_planck_1sigma(self):
+        result = ftum_attractor_domain()
+        ns = result["flat_branch"]["ns"]
+        assert abs(ns - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_rs1_branch_ns_within_planck_1sigma(self):
+        result = ftum_attractor_domain()
+        ns = result["rs1_branch"]["ns"]
+        assert abs(ns - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_excluded_phase_outside_planck_1sigma(self):
+        """The excluded phase must be well outside Planck 1σ — it is a distinct phase."""
+        result = ftum_attractor_domain()
+        ns = result["excluded_rs1_phase"]["ns"]
+        assert abs(ns - PLANCK_NS_CENTRAL) > PLANCK_NS_SIGMA
+
+    def test_both_branches_consistent(self):
+        """Flat-S1 and RS1-saturated branches must agree within 1σ_Planck."""
+        result = ftum_attractor_domain()
+        assert result["branches_consistent"], (
+            f"ns_branch_delta = {result['ns_branch_delta']:.4f} >= {PLANCK_NS_SIGMA}"
+        )
+
+    def test_branches_agree_in_phi0eff_within_2pct(self):
+        """Both branches give phi0_eff within 2% of each other."""
+        result = ftum_attractor_domain()
+        assert result["phi0eff_branch_delta_frac"] < 0.02, (
+            f"phi0_eff branch difference = "
+            f"{100*result['phi0eff_branch_delta_frac']:.2f}% >= 2%"
+        )
+
+    def test_phi0_band_symmetric_around_ref(self):
+        result = ftum_attractor_domain(phi0_bare_ref=1.0, phi0_band_frac=0.05)
+        assert result["phi0_band_lo"] == pytest.approx(0.95)
+        assert result["phi0_band_hi"] == pytest.approx(1.05)
+
+    def test_flat_branch_phi0_eff_near_pi5(self):
+        """Flat-S1: phi0_eff = 5*2pi*sqrt(1) = 5*2pi = 31.416..."""
+        result = ftum_attractor_domain()
+        assert result["flat_branch"]["phi0_eff"] == pytest.approx(5 * 2 * np.pi, rel=1e-6)
+
+    def test_rs1_branch_jacobian_near_saturation(self):
+        """RS1 Jacobian at kr_c=12 must be within 1e-6 of 1/sqrt(2) for k=1."""
+        result = ftum_attractor_domain()
+        j_sat = result["rs1_branch"]["j_rs_saturated"]
+        j_actual = result["rs1_branch"]["jacobian"]
+        assert abs(j_actual - j_sat) < 1e-6
+
+    def test_excluded_phase_phi0eff_below_25(self):
+        """Excluded phase with n_w=5 on RS1 must have phi0_eff < 25 (off-attractor)."""
+        result = ftum_attractor_domain()
+        assert result["excluded_rs1_phase"]["phi0_eff"] < 25.0
+
+    def test_ftum_condition_is_string(self):
+        result = ftum_attractor_domain()
+        assert isinstance(result["ftum_condition"], str)
+        assert len(result["ftum_condition"]) > 0
+
+    def test_degeneracy_is_close(self):
+        """The two independent Jacobian flows give ns within 0.2*sigma of each other."""
+        result = ftum_attractor_domain()
+        ns_delta_in_sigma = result["ns_branch_delta"] / PLANCK_NS_SIGMA
+        assert ns_delta_in_sigma < 0.2, (
+            f"Branch ns delta = {ns_delta_in_sigma:.2f} sigma — "
+            f"degeneracy less tight than expected"
+        )
+
+
+class TestRS1PhaseScan:
+    """Tests for rs1_phase_scan() — Jacobian saturation and phase classification."""
+
+    def test_returns_required_keys(self):
+        result = rs1_phase_scan()
+        for key in ("kr_c_values", "J_RS_values", "J_RS_saturated",
+                    "J_RS_converged", "kr_c_saturation",
+                    "ns_natural", "ns_mixed",
+                    "ns_natural_spread", "natural_all_in_2sigma",
+                    "mixed_all_outside_1sigma",
+                    "phase_label_natural", "phase_label_mixed"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_j_rs_saturates_by_kr_c_5(self):
+        """J_RS must be converged to 1/sqrt(2k) for kr_c >= 3."""
+        result = rs1_phase_scan()
+        assert result["kr_c_saturation"] <= 3.0, (
+            f"Saturation only reached at kr_c={result['kr_c_saturation']:.1f}"
+        )
+
+    def test_j_rs_saturated_value_correct(self):
+        """Saturation value must equal 1/sqrt(2k) for k=1."""
+        result = rs1_phase_scan(k=1.0)
+        assert result["J_RS_saturated"] == pytest.approx(1.0 / np.sqrt(2.0), rel=1e-10)
+
+    def test_j_rs_monotone_increasing(self):
+        """J_RS must increase toward saturation as kr_c increases."""
+        result = rs1_phase_scan()
+        J = result["J_RS_values"]
+        assert np.all(np.diff(J) >= 0.0)
+
+    def test_natural_branch_all_within_planck_2sigma(self):
+        """Post-saturation RS1 ns (n_w=7) must all be within Planck 2σ."""
+        result = rs1_phase_scan()
+        assert result["natural_all_in_2sigma"], (
+            f"Some natural-branch ns outside Planck 2σ. "
+            f"ns range: [{result['ns_natural'].min():.4f}, "
+            f"{result['ns_natural'].max():.4f}]"
+        )
+
+    def test_mixed_phase_all_outside_planck_1sigma(self):
+        """RS1 mixed phase (n_w=5) must lie outside Planck 1σ — it is excluded."""
+        result = rs1_phase_scan()
+        assert result["mixed_all_outside_1sigma"], (
+            f"Some mixed-phase ns inside Planck 1σ. "
+            f"ns range: [{result['ns_mixed'].min():.4f}, "
+            f"{result['ns_mixed'].max():.4f}]"
+        )
+
+    def test_natural_branch_ns_spread_tiny_post_saturation(self):
+        """After saturation, ns must be constant to < 1e-4 (J_RS fully converged)."""
+        result = rs1_phase_scan()
+        assert result["ns_natural_spread"] < 1e-4, (
+            f"ns_natural_spread={result['ns_natural_spread']:.2e} after saturation"
+        )
+
+    def test_mixed_phase_ns_lower_than_natural(self):
+        """Excluded phase (n_w=5) gives systematically lower ns than natural (n_w=7)."""
+        result = rs1_phase_scan()
+        assert np.all(result["ns_mixed"] < result["ns_natural"])
+
+    def test_phase_labels_are_strings(self):
+        result = rs1_phase_scan()
+        assert isinstance(result["phase_label_natural"], str)
+        assert isinstance(result["phase_label_mixed"],   str)
+
+    def test_custom_r_c_values(self):
+        result = rs1_phase_scan(r_c_values=[5.0, 10.0, 15.0])
+        assert len(result["kr_c_values"]) == 3
+        assert len(result["ns_natural"])  == 3
+
+    def test_natural_ns_in_planck_window_at_saturation(self):
+        """At kr_c=12 (well into saturation), natural-branch ns within 1σ."""
+        result = rs1_phase_scan(r_c_values=[12.0])
+        ns = float(result["ns_natural"][0])
+        assert abs(ns - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+
+# ===========================================================================
+# Transfer function chain: B_mu → rotation → TB/EB   (6 new function tests)
+# ===========================================================================
+
+from src.core.inflation import (
+    b_mu_rotation_angle,
+    quadratic_correction_bound,
+    b_mu_kinetic_running,
+    verify_dual_jacobian_paths,
+    rs1_jacobian_trace,
+    birefringence_angle,
+    cs_axion_photon_coupling,
+    field_displacement_gw,
+    jacobian_rs_orbifold,
+    effective_phi0_kk,
+    effective_phi0_rs,
+    jacobian_5d_4d,
+    ATTRACTOR_PHI0_EFF_TARGET,
+    ATTRACTOR_NS_TARGET,
+    ATTRACTOR_TOLERANCE,
+    PLANCK_NS_SIGMA,
+)
+from src.core.transfer import (
+    birefringence_transfer_function,
+    propagate_primordial_amplitude,
+    tb_eb_spectrum,
+    PLANCK_2018_COSMO,
+)
+
+# shared model values used across tests
+_G_AGAMMA_TEST = cs_axion_photon_coupling(CS_LEVEL_PLANCK_MATCH, 1.0 / 137.036, 12.0)
+_DPHI_TEST     = field_displacement_gw(jacobian_rs_orbifold(1.0, 12.0) * 18.0)
+_BETA0_TEST    = birefringence_angle(_G_AGAMMA_TEST, _DPHI_TEST)   # ≈ 0.006132 rad
+_CHI_STAR      = PLANCK_2018_COSMO["chi_star"]                     # 13 740 Mpc
+_ELLS_TF       = np.array([2, 10, 50, 100, 500])
+
+
+# ---------------------------------------------------------------------------
+# TestBirefringenceTransferFunction
+# ---------------------------------------------------------------------------
+
+class TestBirefringenceTransferFunction:
+    """birefringence_transfer_function: physics, limits, monotonicity, error cases."""
+
+    def test_coherent_model_all_ones(self):
+        """model='coherent' returns T_ℓ = 1 for every ℓ — the UL-axion limit."""
+        T = birefringence_transfer_function(_ELLS_TF, model="coherent")
+        assert np.all(T == 1.0)
+
+    def test_coherent_shape(self):
+        """Output shape equals input ells length."""
+        T = birefringence_transfer_function(_ELLS_TF, model="coherent")
+        assert T.shape == (_ELLS_TF.shape[0],)
+
+    def test_gaussian_ul_axion_limit(self):
+        """gaussian with xi=1e12 Mpc (super-Hubble coherence) ≈ 1 at all CMB ells."""
+        T = birefringence_transfer_function(_ELLS_TF, model="gaussian",
+                                            coherence_scale_mpc=1e12)
+        assert np.allclose(T, 1.0, atol=1e-6), (
+            f"UL-axion limit failed: T = {T}"
+        )
+
+    def test_gaussian_qcd_axion_limit(self):
+        """gaussian with xi=1 Mpc (sub-pc coherence) → T_ℓ = 0 at all CMB ells."""
+        T = birefringence_transfer_function(_ELLS_TF, model="gaussian",
+                                            coherence_scale_mpc=1.0)
+        assert np.all(T == 0.0), f"QCD-axion limit failed: T = {T}"
+
+    def test_gaussian_monotonically_decreasing_in_ell(self):
+        """Gaussian suppression is strictly stronger at higher ℓ."""
+        ells = np.array([10, 50, 100, 500])
+        T = birefringence_transfer_function(ells, model="gaussian",
+                                            coherence_scale_mpc=1e7)
+        for i in range(len(T) - 1):
+            assert T[i] > T[i + 1], (
+                f"Not monotone: T[{ells[i]}]={T[i]:.6f} <= T[{ells[i+1]}]={T[i+1]:.6f}"
+            )
+
+    def test_gaussian_values_in_unit_interval(self):
+        """All T_ℓ values must be in [0, 1]."""
+        for xi in [1.0, 1e4, 1e7, 1e12]:
+            T = birefringence_transfer_function(_ELLS_TF, model="gaussian",
+                                                coherence_scale_mpc=xi)
+            assert np.all((T >= 0.0) & (T <= 1.0)), (
+                f"Out-of-range values at xi={xi}: {T}"
+            )
+
+    def test_invalid_model_raises(self):
+        """Unknown model string raises ValueError."""
+        with pytest.raises(ValueError, match="coherent.*gaussian"):
+            birefringence_transfer_function(_ELLS_TF, model="faraday")
+
+
+# ---------------------------------------------------------------------------
+# TestPropagatePrimordialAmplitude
+# ---------------------------------------------------------------------------
+
+class TestPropagatePrimordialAmplitude:
+    """propagate_primordial_amplitude: coherent limit, suppressed case, keys."""
+
+    _C_EE = np.array([1.0, 2.0, 4.0, 6.0, 8.0])   # arbitrary positive weights
+    _BETA = _BETA0_TEST
+
+    def test_coherent_t_eff_is_one(self):
+        """T_ℓ = 1 everywhere → T_eff = 1.0 exactly."""
+        r = propagate_primordial_amplitude(self._BETA, np.ones(5), self._C_EE)
+        assert r["T_eff"] == pytest.approx(1.0, rel=1e-12)
+
+    def test_coherent_required_equals_observed(self):
+        """T_eff=1 → required_beta_primordial = beta_obs (no extra amplitude needed)."""
+        r = propagate_primordial_amplitude(self._BETA, np.ones(5), self._C_EE)
+        assert r["required_beta_primordial"] == pytest.approx(self._BETA, rel=1e-12)
+
+    def test_coherent_no_extra_amplitude_needed(self):
+        """no_extra_amplitude_needed = True iff T_eff ≈ 1."""
+        r = propagate_primordial_amplitude(self._BETA, np.ones(5), self._C_EE)
+        assert r["no_extra_amplitude_needed"] is True
+        assert r["is_coherent_limit"] is True
+        assert r["amplitude_enhancement"] == pytest.approx(1.0, rel=1e-12)
+
+    def test_suppressed_requires_more_primordial_amplitude(self):
+        """T_eff=0.5 → required_beta_primordial = 2 × beta_obs."""
+        r = propagate_primordial_amplitude(self._BETA, np.full(5, 0.5), self._C_EE)
+        assert r["T_eff"] == pytest.approx(0.5, rel=1e-12)
+        assert r["required_beta_primordial"] == pytest.approx(2.0 * self._BETA, rel=1e-10)
+        assert r["no_extra_amplitude_needed"] is False
+
+    def test_c_ee_weighted_mean_correct(self):
+        """T_eff is the C_EE-weighted mean of T_ℓ, not an unweighted mean."""
+        T = np.array([1.0, 1.0, 0.5, 0.5, 0.5])
+        C = np.array([0.0, 0.0, 1.0, 1.0, 1.0])   # weight is entirely on suppressed modes
+        r = propagate_primordial_amplitude(self._BETA, T, C)
+        assert r["T_eff"] == pytest.approx(0.5, rel=1e-12)
+
+
+# ---------------------------------------------------------------------------
+# TestTBEBWithTransfer
+# ---------------------------------------------------------------------------
+
+_ELLS_TW = [10, 50, 100]
+_NU_TW   = [145.0]
+_NS_TW   = 0.9635
+
+class TestTBEBWithTransfer:
+    """tb_eb_spectrum transfer_ell parameter: backward compat, suppression."""
+
+    @classmethod
+    def _run(cls, transfer_ell=None, n_k=150):
+        return tb_eb_spectrum(
+            ells=_ELLS_TW, nu_array=_NU_TW, beta_0=_BETA0_TEST, ns=_NS_TW,
+            n_k=n_k, transfer_ell=transfer_ell,
+        )
+
+    def test_none_matches_explicit_ones(self):
+        """transfer_ell=None is identical to passing an array of ones."""
+        out_none = self._run()
+        out_ones = self._run(transfer_ell=np.ones(3))
+        assert np.allclose(out_none["C_TB"], out_ones["C_TB"], rtol=1e-12)
+        assert np.allclose(out_none["C_EB"], out_ones["C_EB"], rtol=1e-12)
+
+    def test_default_transfer_ell_is_ones_in_output(self):
+        """Output dict always contains transfer_ell; default is all-ones."""
+        out = self._run()
+        assert "transfer_ell" in out
+        assert np.all(out["transfer_ell"] == 1.0)
+
+    def test_half_transfer_halves_signal(self):
+        """T_ℓ = 0.5 uniformly halves both C_TB and C_EB."""
+        out_base = self._run()
+        out_half = self._run(transfer_ell=np.full(3, 0.5))
+        assert np.allclose(out_half["C_TB"] / out_base["C_TB"], 0.5, rtol=1e-12)
+        assert np.allclose(out_half["C_EB"] / out_base["C_EB"], 0.5, rtol=1e-12)
+
+    def test_wrong_shape_raises(self):
+        """transfer_ell with wrong length raises ValueError."""
+        with pytest.raises(ValueError):
+            self._run(transfer_ell=np.ones(5))   # 5 ≠ 3
+
+
+# ---------------------------------------------------------------------------
+# TestBMuRotationAngle
+# ---------------------------------------------------------------------------
+
+class TestBMuRotationAngle:
+    """b_mu_rotation_angle: normalization, linearity, quadratic sub-dominance."""
+
+    def test_consistent_with_birefringence_angle(self):
+        """α = (g/2)·(Δφ/L)·L = (g/2)·Δφ = birefringence_angle(g, Δφ) exactly."""
+        b_mu_rms = _DPHI_TEST / _CHI_STAR   # Δφ / L_LoS = temporal gradient
+        r = b_mu_rotation_angle(b_mu_rms, _G_AGAMMA_TEST, _CHI_STAR)
+        assert r["alpha_rad"] == pytest.approx(_BETA0_TEST, rel=1e-12), (
+            f"alpha_rad={r['alpha_rad']:.8f} != birefringence_angle={_BETA0_TEST:.8f}"
+        )
+
+    def test_is_linear_flag_always_true(self):
+        """is_linear must be True regardless of input values."""
+        r = b_mu_rotation_angle(0.001, 0.01, 5000.0)
+        assert r["is_linear"] is True
+
+    def test_linearity_double_b_mu_doubles_alpha(self):
+        """Doubling b_mu_rms doubles alpha_rad — explicit linear check."""
+        r1 = b_mu_rotation_angle(1e-6,   _G_AGAMMA_TEST, _CHI_STAR)
+        r2 = b_mu_rotation_angle(2e-6,   _G_AGAMMA_TEST, _CHI_STAR)
+        assert r2["alpha_rad"] == pytest.approx(2.0 * r1["alpha_rad"], rel=1e-12)
+
+    def test_coupling_factor_formula(self):
+        """coupling_factor = (g_agamma / 2) × integration_length_mpc."""
+        r = b_mu_rotation_angle(1.0, _G_AGAMMA_TEST, _CHI_STAR)
+        expected_cf = 0.5 * _G_AGAMMA_TEST * _CHI_STAR
+        assert r["coupling_factor"] == pytest.approx(expected_cf, rel=1e-12)
+
+    def test_quadratic_subdominant_for_model_beta(self):
+        """For the model β ≈ 0.006 rad, quadratic correction is < 0.1%."""
+        b_mu_rms = _DPHI_TEST / _CHI_STAR
+        r = b_mu_rotation_angle(b_mu_rms, _G_AGAMMA_TEST, _CHI_STAR)
+        assert r["quadratic_subdominant"] is True
+        assert r["quadratic_fraction"] < 0.001
+
+    def test_alpha_zero_for_zero_b_mu(self):
+        """Zero B_μ → zero rotation angle."""
+        r = b_mu_rotation_angle(0.0, _G_AGAMMA_TEST, _CHI_STAR)
+        assert r["alpha_rad"] == 0.0
+        assert r["quadratic_fraction"] == 0.0
+
+
+# ---------------------------------------------------------------------------
+# TestQuadraticCorrectionBound
+# ---------------------------------------------------------------------------
+
+class TestQuadraticCorrectionBound:
+    """quadratic_correction_bound: exact formula, limiting values, subdominance."""
+
+    def test_zero_alpha_exact_prefactor_is_one(self):
+        """sin(4α)/(4α) → 1 as α → 0 (L'Hôpital)."""
+        q = quadratic_correction_bound(0.0)
+        assert q["exact_prefactor"] == pytest.approx(1.0, rel=1e-12)
+        assert q["fractional_deviation"] == pytest.approx(0.0, abs=1e-14)
+
+    def test_model_beta_is_subdominant(self):
+        """For α ≈ 0.006 rad (β = 0.35°): fractional_deviation < 0.001 (0.1 %)."""
+        q = quadratic_correction_bound(_BETA0_TEST)
+        assert q["is_subdominant"] is True
+        assert q["fractional_deviation"] < 0.001
+
+    def test_analytic_approximation_accuracy(self):
+        """Leading-order estimate 8α²/3 agrees with exact to < 10 % for small α."""
+        alpha = 0.01
+        q = quadratic_correction_bound(alpha)
+        assert abs(q["analytic_approximation"] - q["fractional_deviation"]) / \
+               q["fractional_deviation"] < 0.10
+
+    def test_exact_prefactor_less_than_one_for_nonzero_alpha(self):
+        """sin(4α)/(4α) < 1 for all α ≠ 0 in (0, π/4) — suppression, not enhancement."""
+        for alpha in [0.001, 0.01, 0.1, 0.5]:
+            q = quadratic_correction_bound(alpha)
+            assert q["exact_prefactor"] < 1.0, (
+                f"expected < 1 for alpha={alpha}, got {q['exact_prefactor']}"
+            )
+
+
+# ---------------------------------------------------------------------------
+# TestBMuKineticRunning
+# ---------------------------------------------------------------------------
+
+class TestBMuKineticRunning:
+    """b_mu_kinetic_running: trivial default, power-law dependence, stub documentation."""
+
+    def test_default_gamma_zero_returns_one(self):
+        """gamma_B = 0 (default) → Z_B = 1.0 at any k_scale."""
+        for k in [1e-4, 0.05, 1.0, 100.0]:
+            assert b_mu_kinetic_running(k) == pytest.approx(1.0, rel=1e-12)
+
+    def test_power_law_scaling(self):
+        """Z_B(k) = (k/k_ref)^gamma_B: doubling k multiplies Z_B by 2^gamma_B."""
+        gamma = 1e-3
+        z1 = b_mu_kinetic_running(0.05, gamma_B=gamma)
+        z2 = b_mu_kinetic_running(0.10, gamma_B=gamma)
+        assert z2 / z1 == pytest.approx(2.0**gamma, rel=1e-10)
+
+    def test_perturbative_estimate_is_small(self):
+        """For gamma_B ~ alpha_em/(4pi) ~ 6e-4, Z_B deviates from 1 by < 1% at CMB scales.
+
+        At the extremes of the CMB k-range (k ~ 2e-4 to 0.2 Mpc^-1) relative to
+        the pivot k_ref=0.05 Mpc^-1, the maximum deviation is:
+            |Z_B - 1| = |(k/k_ref)^gamma_B - 1| ≈ gamma_B × |ln(k/k_ref)|
+        For gamma_B = 6e-4 and k/k_ref = 4e-3: |Z_B-1| ≈ 6e-4 × 5.5 ≈ 0.33%
+        This is physically negligible (< 1%) — confirming no running is required.
+        """
+        gamma_phys = 6e-4   # ~ alpha_em / (4*pi)
+        for k in [2e-4, 0.05, 0.2]:
+            z = b_mu_kinetic_running(k, gamma_B=gamma_phys)
+            assert abs(z - 1.0) < 0.01, (
+                f"Z_B({k})={z:.6f} deviates by {abs(z-1)*100:.3f}% > 1% for physical gamma_B"
+            )
+
+
+# ---------------------------------------------------------------------------
+# TestVerifyDualJacobianPaths
+# ---------------------------------------------------------------------------
+
+class TestVerifyDualJacobianPaths:
+    """verify_dual_jacobian_paths: both branches pass attractor, paths truly differ."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = verify_dual_jacobian_paths()
+
+    def test_both_branches_pass_attractor(self):
+        """Both flat-S¹ and RS1 branches must individually satisfy the attractor criterion."""
+        assert self.result["flat_branch"]["passes_attractor"] is True, (
+            f"Flat branch failed: phi0_eff={self.result['flat_branch']['phi0_eff']:.4f}, "
+            f"ns={self.result['flat_branch']['ns']:.4f}"
+        )
+        assert self.result["rs1_branch"]["passes_attractor"] is True, (
+            f"RS1 branch failed: phi0_eff={self.result['rs1_branch']['phi0_eff']:.4f}, "
+            f"ns={self.result['rs1_branch']['ns']:.4f}"
+        )
+
+    def test_jacobians_differ(self):
+        """The two Jacobian flows are genuinely different (different geometry)."""
+        assert self.result["paths_differ"] is True
+        jac_flat = self.result["flat_branch"]["jacobian"]
+        jac_rs1  = self.result["rs1_branch"]["jacobian"]
+        assert abs(jac_flat - jac_rs1) > 1.0, (
+            f"Jacobians too similar: {jac_flat:.4f} vs {jac_rs1:.4f}"
+        )
+
+    def test_dual_path_confirmed(self):
+        """dual_path_confirmed = paths_differ AND endpoints_agree."""
+        assert self.result["dual_path_confirmed"] is True
+
+    def test_regime_labels_correct(self):
+        """Each branch carries the correct geometric regime string."""
+        assert self.result["flat_branch"]["regime"] == "Flat_S1_FTUM"
+        assert self.result["rs1_branch"]["regime"]  == "RS1_Saturated"
+
+    def test_ns_delta_within_one_sigma(self):
+        """The two branches differ in nₛ by less than 1σ_Planck — a tight cluster."""
+        assert self.result["ns_delta_sigma"] < 1.0, (
+            f"ns_delta_sigma={self.result['ns_delta_sigma']:.3f} >= 1σ"
+        )
+
+
+# ---------------------------------------------------------------------------
+# TestRS1JacobianTrace
+# ---------------------------------------------------------------------------
+
+class TestRS1JacobianTrace:
+    """rs1_jacobian_trace: every step is instrumented, analytic 1% claim verified."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.trace = rs1_jacobian_trace()
+
+    def test_warp_factor_is_negligible_at_krc12(self):
+        """exp(-2π k r_c) at k=1, r_c=12 is effectively zero (< 10⁻³⁰)."""
+        assert self.trace["warp_factor"] < 1e-30
+
+    def test_jacobian_fully_saturated(self):
+        """J_RS equals J_sat = 1/√(2k) to machine precision at k r_c = 12."""
+        assert self.trace["is_saturated"] is True
+        assert self.trace["saturation_error"] < 1e-6
+
+    def test_delta_is_geometric(self):
+        """Numerical Δ matches analytic 7√2/10 − 1 to < 10⁻⁴."""
+        assert self.trace["delta_is_geometric"] is True
+        assert abs(self.trace["delta_fraction"] - self.trace["delta_analytic"]) < 1e-4
+
+    def test_delta_value_is_minus_one_percent(self):
+        """The RS1 branch lies −1.005 % below flat S¹: Δ = 7√2/10 − 1."""
+        assert self.trace["delta_fraction"] == pytest.approx(-0.010050506, rel=1e-6)
+
+    def test_phi0_eff_values_match_existing_functions(self):
+        """Trace values must agree with effective_phi0_rs and effective_phi0_kk."""
+        expected_rs1  = float(effective_phi0_rs(1.0, 1.0, 12.0, 7))
+        expected_flat = float(effective_phi0_kk(1.0, 5))
+        assert self.trace["phi0_eff_rs1"]  == pytest.approx(expected_rs1,  rel=1e-12)
+        assert self.trace["phi0_eff_flat"] == pytest.approx(expected_flat, rel=1e-12)

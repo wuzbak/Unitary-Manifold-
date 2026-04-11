@@ -111,7 +111,17 @@ tb_eb_spectrum(ells, nu_array, beta_0, ns, ...)
     C_TB[ℓ, ν] and C_EB[ℓ, ν] angular power spectra from cosmic birefringence.
     Non-zero only when β ≠ 0; identically zero in standard ΛCDM.
     Falsification handle: C_TB(ν₁)/C_TB(ν₂) = 1 iff achromatic birefringence.
-"""
+    Optional transfer_ell array applies T_ℓ^{B→EB} suppression factor per multipole.
+
+birefringence_transfer_function(ells, model, coherence_scale_mpc, chi_star)
+    T_ℓ ∈ [0,1] — mode-dependent suppression of the birefringence signal.
+    model="coherent"  → T_ℓ = 1  (UL axion, spatially uniform B_μ, default).
+    model="gaussian"  → T_ℓ = exp(−ℓ(ℓ+1) σ²/2) with σ = coherence_scale/χ★.
+
+propagate_primordial_amplitude(beta_obs_rad, T_ell, C_EE, ells)
+    Invert T_ℓ chain: required_beta_primordial = beta_obs / T_eff.
+    For coherent UL-axion model (T_eff = 1): no extra primordial amplitude needed.
+    Shows whether the amplitude gap is a suppression artefact or a real mismatch."""
 
 from __future__ import annotations
 
@@ -582,7 +592,313 @@ def tb_eb_spectrum(
     n_k: int = 1200,
     nu_ref_GHz: float = 145.0,
     frequency_achromatic: bool = True,
+    transfer_ell: np.ndarray | None = None,
 ) -> dict:
+    """TB and EB angular power spectra from cosmic birefringence.
+
+    Computes the 2D spectra C_TB[ℓ, ν] and C_EB[ℓ, ν] produced when a
+    uniform rotation by angle β rotates CMB polarisation before observation.
+    In the small-angle approximation (β ≪ 1 rad):
+
+    .. math::
+
+        C_\\ell^{TB}(\\nu) = 2\\,\\beta(\\nu)\\cdot T_\\ell \\cdot C_\\ell^{TE}
+
+        C_\\ell^{EB}(\\nu) = 2\\,\\beta(\\nu)\\cdot T_\\ell \\cdot C_\\ell^{EE}
+
+    where :math:`T_\\ell` is an optional mode-dependent transfer function
+    (see :func:`birefringence_transfer_function`).  When ``transfer_ell``
+    is ``None``, :math:`T_\\ell = 1` for all ℓ — the correct limit for the
+    UL-axion model where B_μ is spatially coherent across the last-scattering
+    surface.
+
+    Both spectra are **identically zero in standard ΛCDM** (which has
+    β = 0 by parity symmetry).  Non-zero detection is therefore a
+    clean non-ΛCDM signal.
+
+    The decisive falsification handle is frequency achromaticity:
+
+    .. math::
+
+        \\frac{C_\\ell^{TB}(\\nu_1)}{C_\\ell^{TB}(\\nu_2)} =
+        \\begin{cases}
+            1       & \\text{UL-axion birefringence (this model)} \\\\
+            (\\nu_2/\\nu_1)^2 & \\text{Faraday rotation} \\\\
+            \\text{beam/scan dependent} & \\text{instrumental systematics}
+        \\end{cases}
+
+    Only the ratio = 1 condition survives achromatic birefringence.
+
+    Parameters
+    ----------
+    ells                : list[int] or ndarray — multipoles ℓ to compute
+    nu_array            : list[float] or ndarray — frequencies [GHz]
+    beta_0              : float — achromatic rotation angle β₀ [radians]
+                          {derived from k_CS=74 via inflation.birefringence_angle;
+                           k_CS is a phenomenological fitted parameter — see
+                           FALLIBILITY.md §4 and the note in
+                           birefringence_angle_freq}
+    ns                  : float — scalar spectral index nₛ  {derived}
+    As                  : float — primordial amplitude Aₛ   {external, Planck}
+    k_pivot             : float — pivot wavenumber [Mpc⁻¹]
+    chi_star            : float — comoving distance to last scattering [Mpc]
+    rs_star             : float — sound horizon at recombination [Mpc]
+    k_silk              : float — Silk damping wavenumber [Mpc⁻¹]
+    silk_exponent       : float — Silk damping exponent
+    k_min               : float — lower k integration limit [Mpc⁻¹]
+    k_max               : float — upper k integration limit [Mpc⁻¹]
+    n_k                 : int   — number of log-spaced k points
+    nu_ref_GHz          : float — reference frequency for dispersive mode [GHz]
+    frequency_achromatic: bool  — True → UL-axion model; False → Faraday
+    transfer_ell        : ndarray of shape (n_ell,) or None —
+                          T_ℓ^{B→EB} transfer function values; must have the
+                          same length as ``ells``.  None → T_ℓ = 1 (default,
+                          backward-compatible, correct for coherent UL axion).
+                          Use :func:`birefringence_transfer_function` to build
+                          this array for non-coherent comparison models.
+
+    Returns
+    -------
+    dict with keys:
+
+    ``ells``                 : ndarray, shape (n_ell,)
+    ``nu_array``             : ndarray, shape (n_nu,)
+    ``C_TE``                 : ndarray, shape (n_ell,)  — base TE spectrum
+    ``C_EE``                 : ndarray, shape (n_ell,)  — base EE spectrum
+    ``C_TB``                 : ndarray, shape (n_ell, n_nu) — TB prediction
+    ``C_EB``                 : ndarray, shape (n_ell, n_nu) — EB prediction
+    ``beta_0``               : float — input β₀
+    ``frequency_achromatic`` : bool  — input flag
+    ``transfer_ell``         : ndarray, shape (n_ell,) — T_ℓ applied (1 if None)
+    """
+    ells     = np.asarray(ells,     dtype=int)
+    nu_array = np.asarray(nu_array, dtype=float)
+
+    # --- k grid (log-spaced, shared for all ℓ and ν) ---
+    k    = np.geomspace(k_min, k_max, n_k)
+    dlnk = np.gradient(np.log(k))
+
+    # --- source functions and primordial spectrum (no ν dependence) ---
+    P_R      = primordial_power_spectrum(k, ns, As, k_pivot)
+    S_TE_k   = te_source_function(k, rs_star, k_silk, silk_exponent)   # S_T · S_E
+    S_EE_k   = ee_source_function(k, rs_star, k_silk, silk_exponent) ** 2  # S_E²
+    x        = k * chi_star
+
+    weight_TE = P_R * S_TE_k * dlnk
+    weight_EE = P_R * S_EE_k * dlnk
+
+    # --- integrate over k for each ℓ ---
+    C_TE = np.empty(len(ells))
+    C_EE = np.empty(len(ells))
+    for i, ell in enumerate(ells):
+        jl2      = spherical_jn(int(ell), x) ** 2
+        C_TE[i]  = 4.0 * np.pi * np.sum(weight_TE * jl2)
+        C_EE[i]  = 4.0 * np.pi * np.sum(weight_EE * jl2)
+
+    # --- resolve transfer function (T_ℓ = 1 when not supplied) ---
+    if transfer_ell is None:
+        T_ell = np.ones(len(ells))
+    else:
+        T_ell = np.asarray(transfer_ell, dtype=float)
+        if T_ell.shape != (len(ells),):
+            raise ValueError(
+                f"transfer_ell must have shape ({len(ells)},), got {T_ell.shape}"
+            )
+
+    # --- apply birefringence rotation for each ν ---
+    C_TB = np.empty((len(ells), len(nu_array)))
+    C_EB = np.empty((len(ells), len(nu_array)))
+    for j, nu in enumerate(nu_array):
+        beta_nu     = birefringence_angle_freq(nu, beta_0, nu_ref_GHz,
+                                               frequency_achromatic)
+        C_TB[:, j]  = 2.0 * beta_nu * C_TE * T_ell
+        C_EB[:, j]  = 2.0 * beta_nu * C_EE * T_ell
+
+    return {
+        "ells":                  ells,
+        "nu_array":              nu_array,
+        "C_TE":                  C_TE,
+        "C_EE":                  C_EE,
+        "C_TB":                  C_TB,
+        "C_EB":                  C_EB,
+        "beta_0":                float(beta_0),
+        "frequency_achromatic":  bool(frequency_achromatic),
+        "transfer_ell":          T_ell,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Birefringence transfer function  T_ℓ^{B→EB}
+# ---------------------------------------------------------------------------
+
+def birefringence_transfer_function(
+    ells: list[int] | np.ndarray,
+    model: str = "coherent",
+    coherence_scale_mpc: float = np.inf,
+    chi_star: float = PLANCK_2018_COSMO["chi_star"],
+) -> np.ndarray:
+    """Mode-dependent transfer function T_ℓ^{B→EB} ∈ [0, 1].
+
+    Maps the suppression of the birefringence signal from primordial
+    B_μ fluctuations to the observed CMB TB/EB power spectra, as a
+    function of angular multipole ℓ.
+
+    **Physical picture.**
+    An UL-axion field with mass :math:`m_a \\ll H_0` is spatially coherent
+    across the entire Hubble volume, so :math:`T_\\ell = 1` for all CMB
+    multipoles — there is no suppression.  A finite coherence length
+    :math:`\\xi` (set by the axion Compton wavelength) introduces a
+    Gaussian suppression at :math:`\\ell \\gtrsim \\ell_{\\mathrm{coh}}
+    = \\chi_\\star / \\xi`.
+
+    **Models.**
+
+    ``"coherent"`` (default, UL-axion limit):
+        :math:`T_\\ell = 1 \\quad \\forall\\, \\ell`
+
+        Physically: B_μ is spatially uniform on the last-scattering surface.
+        No amplitude suppression.  This is the correct limit for the Unitary
+        Manifold model.
+
+    ``"gaussian"`` (general, finite coherence):
+        :math:`T_\\ell = \\exp\\!\\left(-\\ell(\\ell+1)\\,\\sigma_\\mathrm{coh}^2/2\\right)`
+
+        where :math:`\\sigma_\\mathrm{coh} = \\chi_\\star / \\xi` is the
+        **angular incoherence scale** (NOT the angular patch size).
+
+        - :math:`\\xi \\to \\infty` (UL axion, uniform B_μ):
+          :math:`\\sigma_\\mathrm{coh} \\to 0 \\Rightarrow T_\\ell \\to 1`
+          — no suppression, full coherent signal.
+        - :math:`\\xi \\to 0` (QCD axion, many oscillations cancel):
+          :math:`\\sigma_\\mathrm{coh} \\to \\infty \\Rightarrow T_\\ell \\to 0`
+          — complete cancellation along the line of sight.
+
+        T_ℓ ≥ 0.99 for all CMB multipoles requires
+        :math:`\\xi \\gtrsim \\chi_\\star \\times \\ell_\\max / \\sqrt{2}`,
+        i.e. ξ ≳ 10 Mpc × ℓ_max — satisfied only for super-horizon coherence.
+
+    Parameters
+    ----------
+    ells               : list[int] or ndarray — multipoles ℓ
+    model              : str  — "coherent" or "gaussian" (default: "coherent")
+    coherence_scale_mpc: float — physical coherence length ξ [Mpc]; only used
+                         for model="gaussian".  Default np.inf → T_ℓ = 1.
+    chi_star           : float — comoving distance to last scattering [Mpc]
+                         (default: Planck 2018 value 13740 Mpc)
+
+    Returns
+    -------
+    T_ell : ndarray of shape (n_ell,), values ∈ [0, 1]
+
+    Notes
+    -----
+    For the Unitary Manifold model, call with ``model="coherent"`` (the
+    default).  The "gaussian" model is provided for comparison with theories
+    that predict a finite B_μ coherence scale and to demonstrate that the
+    coherent limit is the *least* suppressed case.
+
+    Use :func:`propagate_primordial_amplitude` to translate T_ℓ values into
+    a required primordial β amplitude.
+    """
+    ells = np.asarray(ells, dtype=float)
+    if model == "coherent":
+        return np.ones(len(ells))
+
+    if model == "gaussian":
+        if not np.isfinite(coherence_scale_mpc) or coherence_scale_mpc <= 0.0:
+            # Infinite (or unphysical) coherence scale → no suppression
+            return np.ones(len(ells))
+        # sigma_coh is the angular incoherence scale [radians]:
+        #   sigma_coh = chi_star / coherence_scale_mpc
+        # This is the INVERSE of the patch angular size:
+        #   - large coherence_scale_mpc (UL axion, ξ → ∞) → sigma_coh → 0 → T_ℓ → 1
+        #   - small coherence_scale_mpc (QCD axion, ξ → 0) → sigma_coh → ∞ → T_ℓ → 0
+        # The formula exp(-ℓ(ℓ+1) σ² / 2) is the standard Gaussian window in ℓ-space
+        # derived from a Gaussian angular correlation function with width θ = 1/σ_coh.
+        sigma_coh = float(chi_star) / float(coherence_scale_mpc)   # NOT /chi_star
+        T_ell     = np.exp(-ells * (ells + 1.0) * sigma_coh**2 / 2.0)
+        return np.clip(T_ell, 0.0, 1.0)
+
+    raise ValueError(
+        f"Unknown model '{model}'. Choose 'coherent' or 'gaussian'."
+    )
+
+
+def propagate_primordial_amplitude(
+    beta_obs_rad: float,
+    T_ell: np.ndarray,
+    C_EE: np.ndarray,
+    ells: np.ndarray | None = None,
+) -> dict:
+    """Invert the T_ℓ chain: compute the required primordial β from observed β.
+
+    Given an observed birefringence angle β_obs and a transfer function T_ℓ,
+    the required primordial β (before projection/suppression) is:
+
+    .. math::
+
+        \\beta_{\\mathrm{primordial}} = \\frac{\\beta_{\\mathrm{obs}}}{T_{\\mathrm{eff}}}
+
+    where the effective transfer factor is the C_EE-weighted mean:
+
+    .. math::
+
+        T_{\\mathrm{eff}} = \\frac{\\sum_\\ell T_\\ell\\,C_\\ell^{EE}}
+                                   {\\sum_\\ell C_\\ell^{EE}}
+
+    **Key result for the Unitary Manifold model:** with ``model="coherent"``,
+    :math:`T_\\ell = 1` for all ℓ, so :math:`T_{\\mathrm{eff}} = 1` and
+    :math:`\\beta_{\\mathrm{primordial}} = \\beta_{\\mathrm{obs}}`.  No extra
+    primordial amplitude is required.  The amplitude gap is *not* caused by
+    a suppressive transfer function — it is purely a normalization (λ_COBE).
+
+    Parameters
+    ----------
+    beta_obs_rad : float — observed birefringence angle [radians]
+    T_ell        : ndarray of shape (n_ell,) — transfer function values ∈ [0, 1]
+    C_EE         : ndarray of shape (n_ell,) — EE power spectrum values
+    ells         : ndarray or None — multipoles (informational only; not used
+                   in the computation)
+
+    Returns
+    -------
+    dict with keys:
+
+    ``beta_obs_rad``            : float — input β_obs
+    ``T_eff``                   : float — C_EE-weighted mean transfer factor ∈ (0, 1]
+    ``required_beta_primordial``: float — β_obs / T_eff
+    ``suppression_factor``      : float — same as T_eff (1 = no suppression)
+    ``is_coherent_limit``       : bool  — True iff T_eff > 0.999 (≈ 1)
+    ``no_extra_amplitude_needed``: bool — True iff is_coherent_limit
+                                   (coherent: required_primordial = observed)
+    ``amplitude_enhancement``   : float — required_primordial / beta_obs = 1/T_eff
+                                   (= 1.0 for coherent model)
+    """
+    T_ell = np.asarray(T_ell, dtype=float)
+    C_EE  = np.asarray(C_EE,  dtype=float)
+
+    # C_EE-weighted mean of T_ell
+    total_weight = float(np.sum(C_EE))
+    if total_weight == 0.0:
+        T_eff = 1.0
+    else:
+        T_eff = float(np.sum(T_ell * C_EE) / total_weight)
+
+    # Guard against zero or near-zero T_eff (unphysical but protect division)
+    T_eff_safe = max(T_eff, 1e-30)
+    required   = float(beta_obs_rad) / T_eff_safe
+    enhancement = required / float(beta_obs_rad) if abs(beta_obs_rad) > 1e-30 else 1.0
+
+    return {
+        "beta_obs_rad":              float(beta_obs_rad),
+        "T_eff":                     T_eff,
+        "required_beta_primordial":  required,
+        "suppression_factor":        T_eff,
+        "is_coherent_limit":         bool(T_eff > 0.999),
+        "no_extra_amplitude_needed": bool(T_eff > 0.999),
+        "amplitude_enhancement":     enhancement,
+    }
+
     """TB and EB angular power spectra from cosmic birefringence.
 
     Computes the 2D spectra C_TB[ℓ, ν] and C_EB[ℓ, ν] produced when a
