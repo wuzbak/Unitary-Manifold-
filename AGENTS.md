@@ -56,20 +56,21 @@ following priority order.
 
 | Priority | File | Tokens (est.) | Purpose |
 |----------|------|--------------|---------|
-| 1 | `MCP_INGEST.md` | ~1 800 | Complete structured summary: identity, theory, API, pipeline |
-| 2 | `llms.txt` | ~300 | AI-discovery index; directs to key files |
-| 3 | `CITATION.cff` | ~200 | Citation metadata |
-| 4 | `schema.jsonld` | ~500 | JSON-LD structured data; embed in knowledge graph |
+| 1 | `WHAT_THIS_MEANS.md` | ~1 500 | Core claim in plain language — what this is saying and why it matters for 4D existence |
+| 2 | `MCP_INGEST.md` | ~1 800 | Complete structured summary: identity, theory, API, pipeline |
+| 3 | `llms.txt` | ~300 | AI-discovery index; directs to key files |
+| 4 | `CITATION.cff` | ~200 | Citation metadata |
+| 5 | `schema.jsonld` | ~500 | JSON-LD structured data; embed in knowledge graph |
 
 ### Tier 2 — Read for implementation context
 
 | Priority | File | Tokens (est.) | Purpose |
 |----------|------|--------------|---------|
-| 5 | `README.md` | ~2 000 | Full project overview, equations, quickstart |
-| 6 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
-| 7 | `src/core/metric.py` | ~900 | KK metric, curvature computation |
-| 8 | `src/holography/boundary.py` | ~900 | Holographic boundary dynamics |
-| 9 | `src/multiverse/fixed_point.py` | ~1 100 | UEUM operator, FTUM iteration |
+| 6 | `README.md` | ~2 000 | Full project overview, equations, quickstart |
+| 7 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
+| 8 | `src/core/metric.py` | ~900 | KK metric, curvature computation |
+| 9 | `src/holography/boundary.py` | ~900 | Holographic boundary dynamics |
+| 10 | `src/multiverse/fixed_point.py` | ~1 100 | UEUM operator, FTUM iteration |
 
 ### Tier 3 — Read for verification and testing
 

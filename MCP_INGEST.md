@@ -82,6 +82,7 @@ such that `UΨ* = Ψ*`.
 
 ```
 /
+├── WHAT_THIS_MEANS.md                 # ⭐ Core claim in plain language — start here
 ├── README.md                          # Project overview + quickstart
 ├── CITATION.cff                       # CFF citation metadata
 ├── requirements.txt                   # numpy>=1.24, scipy>=1.11

@@ -6,7 +6,8 @@
 
 ## Start Here
 
-- [MCP Ingest Proof](MCP_INGEST.md): Complete low-token structured summary — read this first.
+- [What This Means](WHAT_THIS_MEANS.md): **Core claim in plain language** — what this work is saying, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. Start here.
+- [MCP Ingest Proof](MCP_INGEST.md): Complete low-token structured summary — optimised for AI ingestion.
 - [README](README.md): Project overview, equations, quickstart code examples.
 - [Citation](CITATION.cff): CFF metadata for academic citation.
 
