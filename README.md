@@ -49,6 +49,15 @@ removed or contradicted.
 
 ---
 
+> ### 📄 [WHAT_THIS_MEANS.md](WHAT_THIS_MEANS.md) — Start here if you want to understand the *significance*
+>
+> A plain-language document explaining what this work is claiming, why it matters,
+> how it relates to our 4D existence, what the quantitative results mean, and
+> where the honest gaps are.  Written for physicists, the public, reviewers, and AI systems equally.
+> **This is the first thing to read before diving into the mathematics.**
+
+---
+
 ## 2 · Mathematical Structure
 
 ### 5-D Metric Ansatz (Kaluza–Klein)

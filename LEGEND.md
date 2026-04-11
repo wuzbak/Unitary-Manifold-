@@ -46,6 +46,7 @@ This repository works the same way. The 5D geometry of the Unitary Manifold is t
 
 | Location | What It Is | What It Does |
 |---|---|---|
+| [`WHAT_THIS_MEANS.md`](./WHAT_THIS_MEANS.md) | **⭐ START HERE — The Big Picture** | Plain-language explanation of the core claim, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. For all audiences. |
 | [`README.md`](./README.md) | **Central Overview** | Full mathematical structure, field equations, quickstart code, and monograph chapter index. Start here for the technical picture. |
 | [`THEBOOKV9a (1).pdf`](./THEBOOKV9a%20(1).pdf) | **The Full Monograph** | 74 chapters, XXIII parts. Every proof, derivation, and philosophical argument. The complete work. |
 | [`/src/core/metric.py`](./src/core/metric.py) | **The Geometry Engine** | Builds the 5D Kaluza–Klein metric from three fields (g, B, φ). Computes all curvature tensors (Christoffel, Riemann, Ricci, scalar R). |
