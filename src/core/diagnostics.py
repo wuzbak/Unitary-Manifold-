@@ -323,6 +323,11 @@ def compute_chi2_landscape(
 
     best_flat = int(np.argmin(chi2_matrix))
     best_i, best_j = divmod(best_flat, n_w)
+    # NOTE: with the simplified SW+acoustic transfer function the returned
+    # best_phi0 / best_n_winding reflect the *amplitude-driven* χ² minimum
+    # (lower nₛ partially compensates the ~5–7× amplitude underprediction).
+    # They do NOT represent the Planck-favoured parameter point.  Use this
+    # result only for *relative* Δχ² comparisons, not for absolute inference.
 
     return {
         "phi0_grid":        phi0_arr,

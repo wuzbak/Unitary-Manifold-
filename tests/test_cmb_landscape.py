@@ -97,7 +97,14 @@ def _chi2_for_ns(ns: float) -> tuple[float, float, int]:
 class TestChi2MinimumAtCanonicalParameters:
     """χ² landscape has its minimum at (φ₀_bare=1, n_w=5), not elsewhere."""
 
-    # Pre-compute χ² for the canonical prediction once
+    # NOTE: The χ² landscape minimum is NOT at the Planck nₛ central value when
+    # using this simplified SW+acoustic transfer function.  The simplified model
+    # underpredicts Dₗ by ~5–7× at acoustic peaks (pred/ref ≈ 0.15–0.30), so the
+    # minimum in χ² is amplitude-driven and lies at lower nₛ (which partially
+    # closes the amplitude gap).  The tests in this class therefore check that
+    # chi2_planck is *sensitive* to (φ₀, n_w) — not that its minimum coincides
+    # with the theoretical canonical point.  For absolute landscape minimisation
+    # a full Boltzmann solver is required.
     _NS_CANONICAL = None
     _CHI2_CANONICAL = None
 

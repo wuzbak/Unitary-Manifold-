@@ -183,16 +183,15 @@ class TestBackwardDeficitGrowth:
         node = _make_node(S=0.5, A=4.0)
         fwd = apply_irreversibility(node, dt=0.1)
         bwd = apply_irreversibility(fwd,  dt=-0.1)
-        # The exponential contraction is not exactly reversible for finite dt
-        # so S should return close to but not exactly equal to the initial value
-        # (exact equality would hold only in the infinitesimal limit)
-        # We verify asymmetry: the round-trip is not exact
-        # Actually for linear ODE dS/dt = κ(bound - S) the Euler forward step is:
-        # S1 = S0 + dt*κ*(bound-S0), then backward: S2 = S1 - dt*κ*(bound-S1)
-        # = S0 + dt*κ*(bound-S0) - dt*κ*(bound - S0 - dt*κ*(bound-S0))
-        # = S0 + dt*κ*(bound-S0) - dt*κ*(bound-S0)(1 - dt*κ)
-        # = S0 + dt*κ*(bound-S0)*dt*κ   ≠ S0  for finite dt
-        # So round trip leaves S slightly closer to bound, confirming asymmetry
+        # The contraction dS = κ(bound − S)dt is a linear ODE.  With Euler steps:
+        #   forward:   S₁ = S₀ + κ dt (bound − S₀)
+        #   backward:  S₂ = S₁ − κ dt (bound − S₁)
+        #            = S₀ + κ dt (bound−S₀) [1 − κ dt]   ≠ S₀ for finite dt
+        # The round trip overshoots by O((κ dt)²) toward the bound,
+        # so |bound − S₂| < |bound − S₀|.  This is a standard Euler dissipation
+        # artefact — it confirms asymmetry (the time-reversed process does not
+        # exactly undo the forward step at finite step size) and is NOT a
+        # time-reversal-invariance bug.
         bound = _holographic_bound(node)
         deficit_initial = abs(bound - node.S)
         deficit_roundtrip = abs(bound - bwd.S)
