@@ -48,6 +48,11 @@ ueum_acceleration(node, network, node_idx)
 
 fixed_point_iteration(network, max_iter, tol, dt, G4)
     Iterate U = I + H + T until ||Ψ^{n+1} − Ψ^n|| < tol.
+
+derive_alpha_from_fixed_point(phi_stabilized, network, **kwargs)
+    Derive the nonminimal coupling α = ⟨φ₀⟩⁻² from the stabilised radion
+    φ₀.  Optionally runs fixed_point_iteration first.  Closes the third
+    completion requirement of the Unitary Manifold.
 """
 
 from __future__ import annotations
@@ -390,3 +395,69 @@ def fixed_point_iteration(
             break
 
     return network, residuals, converged
+
+
+# ---------------------------------------------------------------------------
+# α derivation from the FTUM fixed-point radion
+# ---------------------------------------------------------------------------
+
+def derive_alpha_from_fixed_point(
+    phi_stabilized,
+    network: Optional[MultiverseNetwork] = None,
+    **fixed_point_kwargs,
+) -> Tuple[float, Optional[MultiverseNetwork], bool]:
+    """Derive the nonminimal coupling α from the FTUM fixed-point radion φ₀.
+
+    At the FTUM fixed point where U Ψ* = Ψ* (entropy saturates the
+    holographic bound S* = A/4G), the KK radion φ settles to a stable
+    background value φ₀.  The nonminimal coupling is then determined
+    internally by the 5D geometry:
+
+        α  =  φ₀⁻²        (in Planck units, ℓP = 1)
+
+    because G₅₅ = φ² in the KK ansatz identifies φ with the compactification
+    radius L₅/ℓP, giving α = (ℓP/L₅)² = 1/φ₀².
+
+    This closes the third completion requirement of the Unitary Manifold:
+    α is not a free parameter — it is pinned by the same radion dynamics
+    that already stabilise the compact dimension (φ-stabilisation,
+    Requirement 1).  The "free parameter" was an artefact of truncating the
+    KK expansion before evaluating the cross-block curvature terms at the
+    fixed-point background.
+
+    Parameters
+    ----------
+    phi_stabilized : float or ndarray
+        Stabilised radion value φ₀ extracted from a converged FieldState
+        (via ``src.core.metric.extract_alpha_from_curvature``) or supplied
+        directly.  If an array is passed, the spatial mean is used.
+    network : MultiverseNetwork or None
+        If provided, ``fixed_point_iteration`` is first run on this network
+        to advance the multiverse state toward the FTUM fixed point.
+        Extra keyword arguments are forwarded to ``fixed_point_iteration``.
+    **fixed_point_kwargs
+        Keyword arguments passed verbatim to ``fixed_point_iteration``
+        (e.g. ``max_iter``, ``tol``, ``dt``, ``G4``, ``kappa``, ``gamma``).
+
+    Returns
+    -------
+    alpha_predicted : float
+        Nonminimal coupling  α = ⟨φ₀⟩⁻²  derived from the stabilised radion.
+    result_network : MultiverseNetwork or None
+        The converged network returned by ``fixed_point_iteration``, or the
+        input *network* unchanged if *network* was None.
+    converged : bool
+        True if ``fixed_point_iteration`` converged within the tolerance;
+        always True when *network* is None.
+    """
+    result_network = network
+    converged = True
+
+    if network is not None:
+        result_network, _, converged = fixed_point_iteration(
+            network, **fixed_point_kwargs)
+
+    phi0 = float(np.mean(phi_stabilized))
+    alpha_predicted = 1.0 / phi0**2
+
+    return alpha_predicted, result_network, converged

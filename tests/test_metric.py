@@ -24,6 +24,7 @@ from src.core.metric import (
     christoffel,
     compute_curvature,
     _riemann_from_christoffel,
+    extract_alpha_from_curvature,
 )
 
 
