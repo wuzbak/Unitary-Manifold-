@@ -62,6 +62,30 @@ ns_from_phi0(phi0, lam, phi_star)
 
 planck2018_check(ns_predicted)
     Return True iff nₛ lies within the Planck 2018 1-σ window.
+
+Transfer function (full CMB spectrum comparison)
+------------------------------------------------
+The functions above produce a single observable, nₛ.  To compare the theory
+against the full observed CMB angular power spectrum Dₗ (μK²), use the
+companion module ``src.core.transfer``, which provides:
+
+* ``primordial_power_spectrum`` — Δ²_ℛ(k) from nₛ and Aₛ
+* ``cmb_source_function`` — Sachs-Wolfe + acoustic oscillations + Silk damping
+* ``angular_power_spectrum`` — Cₗ via spherical-Bessel line-of-sight integral
+* ``dl_from_cl`` — conversion to Dₗ [μK²]
+* ``chi2_planck`` — χ² comparison against built-in Planck 2018 Dₗ reference table
+
+Typical usage::
+
+    from src.core.inflation import ns_from_phi0
+    from src.core.transfer import angular_power_spectrum, dl_from_cl, chi2_planck
+    import numpy as np
+
+    ns, r, eps, eta = ns_from_phi0(phi0=1.0)
+    ells = np.array([10, 100, 220, 540, 810])
+    Cl   = angular_power_spectrum(ells, ns)
+    Dl   = dl_from_cl(ells, Cl)
+    chi2, chi2_dof, n_dof = chi2_planck(ells, Dl)
 """
 
 from __future__ import annotations
