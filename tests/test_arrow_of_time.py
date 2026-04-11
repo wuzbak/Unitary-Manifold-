@@ -238,6 +238,10 @@ class TestPathIndependence:
         Uses tol=0.01 because starting from S=1e-4 requires many iterations
         to reach the tighter default tolerance; the important property is that
         the defect is driven toward zero, not the exact numerical endpoint.
+
+        If this test ever becomes flaky, increase max_iter (e.g. 1000) before
+        tightening tol — loosening tol masks the convergence behaviour entirely,
+        while increasing max_iter preserves it at lower cost.
         """
         net = self._make_network_with_entropy(S_init=1e-4)
         _, _, converged = fixed_point_iteration(net, max_iter=500, tol=0.01)

@@ -455,6 +455,15 @@ def estimate_numerical_error(
     each matched multipole.  The χ²-weighted metric is the correct tolerance
     measure: a value < 1 means the numerical error is sub-Planck.
 
+    **Source of σₗ**: the uncertainties come from ``PLANCK_2018_DL_REF``
+    (``transfer.py``), which stores approximate Planck 2018 TT 1-σ values
+    taken from arXiv:1807.06209 (Table 1 / Fig. 1), rounded to the nearest
+    5 μK².  These are *real* observational uncertainties, not 10%-of-Dₗ
+    placeholders.  The rounded figures are adequate for deciding whether
+    numerical errors are sub-Planck, but they should be replaced with
+    the precise published Planck 2018 band-power uncertainties before using
+    ``chi2_error_per_ell`` for any absolute inference.
+
     At Silk-damped high-ℓ multipoles the raw relative Cₗ error can be large
     (Cₗ → 0), but the **absolute** Dₗ difference remains negligible compared
     with σₗ.  Always use ``chi2_error_per_ell`` for observational relevance.

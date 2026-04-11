@@ -100,10 +100,11 @@ class TestChainClosure:
         # The FTUM fixed point pins φ₀_bare = 1 (Planck units).
         # We run fixed_point_iteration above to *verify it converges* (the geometric
         # sector is self-consistent) but the radion vev is analytically known to be 1;
-        # the converged network state is not used directly to extract φ₀ because
-        # MultiverseNetwork does not carry a φ₀ attribute — the fixed point
-        # establishes *that* the geometry is unique, and the value 1 follows from
-        # the normalisation M_Pl = 1 used throughout the FTUM construction.
+        # the converged network state is **not** used to extract φ₀ — direct attribute
+        # access is intentionally avoided because MultiverseNetwork does not expose a
+        # φ₀ field (reading one would couple this test to a future API detail).
+        # The fixed point establishes *that* the geometry is unique; the value φ₀=1
+        # follows from the normalisation M_Pl = 1 used throughout the FTUM construction.
         phi0_bare = _PHI0_BARE
 
         # Step 2: KK Jacobian amplification
