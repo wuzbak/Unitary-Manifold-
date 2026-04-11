@@ -483,7 +483,8 @@ class TestEffectivePhi0KK:
         """φ₀_eff = J · φ₀_bare, so it grows faster than linearly in φ₀_bare."""
         p1 = effective_phi0_kk(phi0_bare=1.0, n_winding=2)
         p4 = effective_phi0_kk(phi0_bare=4.0, n_winding=2)
-        # J(4) = 2*J(1) and phi_eff(4) = J(4)*4 = 8*J(1) = 8*p1
+        # J(phi0=1) = 2*2π*√1 = 2*2π,  phi_eff(1) = J(1)*1 = p1
+        # J(phi0=4) = 2*2π*√4 = 2*J(1), phi_eff(4) = J(4)*4 = 2*J(1)*4 = 8*p1
         assert p4 == pytest.approx(8.0 * p1, rel=1e-12)
 
 
@@ -570,7 +571,9 @@ class TestCasimirAcFromPhiMin:
 
     def test_scales_as_phi_min_8_for_large_phi_min(self):
         """For φ_min ≫ φ₀, A_c ≈ λ φ_min⁸."""
-        phi_min = 100.0; phi0 = 1.0; lam = 1.0
+        phi_min = 100.0
+        phi0 = 1.0
+        lam = 1.0
         A_c = casimir_A_c_from_phi_min(phi_min, phi0, lam)
         assert A_c == pytest.approx(lam * phi_min**8, rel=1e-3)
 
