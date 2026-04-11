@@ -763,9 +763,19 @@ def birefringence_transfer_function(
     ``"gaussian"`` (general, finite coherence):
         :math:`T_\\ell = \\exp\\!\\left(-\\ell(\\ell+1)\\,\\sigma_\\mathrm{coh}^2/2\\right)`
 
-        where :math:`\\sigma_\\mathrm{coh} = \\xi / \\chi_\\star` is the
-        angular coherence scale.  As :math:`\\xi \\to \\infty`,
-        :math:`\\sigma_\\mathrm{coh} \\to 0` and :math:`T_\\ell \\to 1`.
+        where :math:`\\sigma_\\mathrm{coh} = \\chi_\\star / \\xi` is the
+        **angular incoherence scale** (NOT the angular patch size).
+
+        - :math:`\\xi \\to \\infty` (UL axion, uniform B_μ):
+          :math:`\\sigma_\\mathrm{coh} \\to 0 \\Rightarrow T_\\ell \\to 1`
+          — no suppression, full coherent signal.
+        - :math:`\\xi \\to 0` (QCD axion, many oscillations cancel):
+          :math:`\\sigma_\\mathrm{coh} \\to \\infty \\Rightarrow T_\\ell \\to 0`
+          — complete cancellation along the line of sight.
+
+        T_ℓ ≥ 0.99 for all CMB multipoles requires
+        :math:`\\xi \\gtrsim \\chi_\\star \\times \\ell_\\max / \\sqrt{2}`,
+        i.e. ξ ≳ 10 Mpc × ℓ_max — satisfied only for super-horizon coherence.
 
     Parameters
     ----------
@@ -798,7 +808,14 @@ def birefringence_transfer_function(
         if not np.isfinite(coherence_scale_mpc) or coherence_scale_mpc <= 0.0:
             # Infinite (or unphysical) coherence scale → no suppression
             return np.ones(len(ells))
-        sigma_coh = float(coherence_scale_mpc) / float(chi_star)
+        # sigma_coh is the angular incoherence scale [radians]:
+        #   sigma_coh = chi_star / coherence_scale_mpc
+        # This is the INVERSE of the patch angular size:
+        #   - large coherence_scale_mpc (UL axion, ξ → ∞) → sigma_coh → 0 → T_ℓ → 1
+        #   - small coherence_scale_mpc (QCD axion, ξ → 0) → sigma_coh → ∞ → T_ℓ → 0
+        # The formula exp(-ℓ(ℓ+1) σ² / 2) is the standard Gaussian window in ℓ-space
+        # derived from a Gaussian angular correlation function with width θ = 1/σ_coh.
+        sigma_coh = float(chi_star) / float(coherence_scale_mpc)   # NOT /chi_star
         T_ell     = np.exp(-ells * (ells + 1.0) * sigma_coh**2 / 2.0)
         return np.clip(T_ell, 0.0, 1.0)
 

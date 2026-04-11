@@ -1811,3 +1811,383 @@ class TestRS1PhaseScan:
         result = rs1_phase_scan(r_c_values=[12.0])
         ns = float(result["ns_natural"][0])
         assert abs(ns - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+
+# ===========================================================================
+# Transfer function chain: B_mu → rotation → TB/EB   (6 new function tests)
+# ===========================================================================
+
+from src.core.inflation import (
+    b_mu_rotation_angle,
+    quadratic_correction_bound,
+    b_mu_kinetic_running,
+    verify_dual_jacobian_paths,
+    rs1_jacobian_trace,
+    birefringence_angle,
+    cs_axion_photon_coupling,
+    field_displacement_gw,
+    jacobian_rs_orbifold,
+    effective_phi0_kk,
+    effective_phi0_rs,
+    jacobian_5d_4d,
+    ATTRACTOR_PHI0_EFF_TARGET,
+    ATTRACTOR_NS_TARGET,
+    ATTRACTOR_TOLERANCE,
+    PLANCK_NS_SIGMA,
+)
+from src.core.transfer import (
+    birefringence_transfer_function,
+    propagate_primordial_amplitude,
+    tb_eb_spectrum,
+    PLANCK_2018_COSMO,
+)
+
+# shared model values used across tests
+_G_AGAMMA_TEST = cs_axion_photon_coupling(CS_LEVEL_PLANCK_MATCH, 1.0 / 137.036, 12.0)
+_DPHI_TEST     = field_displacement_gw(jacobian_rs_orbifold(1.0, 12.0) * 18.0)
+_BETA0_TEST    = birefringence_angle(_G_AGAMMA_TEST, _DPHI_TEST)   # ≈ 0.006132 rad
+_CHI_STAR      = PLANCK_2018_COSMO["chi_star"]                     # 13 740 Mpc
+_ELLS_TF       = np.array([2, 10, 50, 100, 500])
+
+
+# ---------------------------------------------------------------------------
+# TestBirefringenceTransferFunction
+# ---------------------------------------------------------------------------
+
+class TestBirefringenceTransferFunction:
+    """birefringence_transfer_function: physics, limits, monotonicity, error cases."""
+
+    def test_coherent_model_all_ones(self):
+        """model='coherent' returns T_ℓ = 1 for every ℓ — the UL-axion limit."""
+        T = birefringence_transfer_function(_ELLS_TF, model="coherent")
+        assert np.all(T == 1.0)
+
+    def test_coherent_shape(self):
+        """Output shape equals input ells length."""
+        T = birefringence_transfer_function(_ELLS_TF, model="coherent")
+        assert T.shape == (_ELLS_TF.shape[0],)
+
+    def test_gaussian_ul_axion_limit(self):
+        """gaussian with xi=1e12 Mpc (super-Hubble coherence) ≈ 1 at all CMB ells."""
+        T = birefringence_transfer_function(_ELLS_TF, model="gaussian",
+                                            coherence_scale_mpc=1e12)
+        assert np.allclose(T, 1.0, atol=1e-6), (
+            f"UL-axion limit failed: T = {T}"
+        )
+
+    def test_gaussian_qcd_axion_limit(self):
+        """gaussian with xi=1 Mpc (sub-pc coherence) → T_ℓ = 0 at all CMB ells."""
+        T = birefringence_transfer_function(_ELLS_TF, model="gaussian",
+                                            coherence_scale_mpc=1.0)
+        assert np.all(T == 0.0), f"QCD-axion limit failed: T = {T}"
+
+    def test_gaussian_monotonically_decreasing_in_ell(self):
+        """Gaussian suppression is strictly stronger at higher ℓ."""
+        ells = np.array([10, 50, 100, 500])
+        T = birefringence_transfer_function(ells, model="gaussian",
+                                            coherence_scale_mpc=1e7)
+        for i in range(len(T) - 1):
+            assert T[i] > T[i + 1], (
+                f"Not monotone: T[{ells[i]}]={T[i]:.6f} <= T[{ells[i+1]}]={T[i+1]:.6f}"
+            )
+
+    def test_gaussian_values_in_unit_interval(self):
+        """All T_ℓ values must be in [0, 1]."""
+        for xi in [1.0, 1e4, 1e7, 1e12]:
+            T = birefringence_transfer_function(_ELLS_TF, model="gaussian",
+                                                coherence_scale_mpc=xi)
+            assert np.all((T >= 0.0) & (T <= 1.0)), (
+                f"Out-of-range values at xi={xi}: {T}"
+            )
+
+    def test_invalid_model_raises(self):
+        """Unknown model string raises ValueError."""
+        with pytest.raises(ValueError, match="coherent.*gaussian"):
+            birefringence_transfer_function(_ELLS_TF, model="faraday")
+
+
+# ---------------------------------------------------------------------------
+# TestPropagatePrimordialAmplitude
+# ---------------------------------------------------------------------------
+
+class TestPropagatePrimordialAmplitude:
+    """propagate_primordial_amplitude: coherent limit, suppressed case, keys."""
+
+    _C_EE = np.array([1.0, 2.0, 4.0, 6.0, 8.0])   # arbitrary positive weights
+    _BETA = _BETA0_TEST
+
+    def test_coherent_t_eff_is_one(self):
+        """T_ℓ = 1 everywhere → T_eff = 1.0 exactly."""
+        r = propagate_primordial_amplitude(self._BETA, np.ones(5), self._C_EE)
+        assert r["T_eff"] == pytest.approx(1.0, rel=1e-12)
+
+    def test_coherent_required_equals_observed(self):
+        """T_eff=1 → required_beta_primordial = beta_obs (no extra amplitude needed)."""
+        r = propagate_primordial_amplitude(self._BETA, np.ones(5), self._C_EE)
+        assert r["required_beta_primordial"] == pytest.approx(self._BETA, rel=1e-12)
+
+    def test_coherent_no_extra_amplitude_needed(self):
+        """no_extra_amplitude_needed = True iff T_eff ≈ 1."""
+        r = propagate_primordial_amplitude(self._BETA, np.ones(5), self._C_EE)
+        assert r["no_extra_amplitude_needed"] is True
+        assert r["is_coherent_limit"] is True
+        assert r["amplitude_enhancement"] == pytest.approx(1.0, rel=1e-12)
+
+    def test_suppressed_requires_more_primordial_amplitude(self):
+        """T_eff=0.5 → required_beta_primordial = 2 × beta_obs."""
+        r = propagate_primordial_amplitude(self._BETA, np.full(5, 0.5), self._C_EE)
+        assert r["T_eff"] == pytest.approx(0.5, rel=1e-12)
+        assert r["required_beta_primordial"] == pytest.approx(2.0 * self._BETA, rel=1e-10)
+        assert r["no_extra_amplitude_needed"] is False
+
+    def test_c_ee_weighted_mean_correct(self):
+        """T_eff is the C_EE-weighted mean of T_ℓ, not an unweighted mean."""
+        T = np.array([1.0, 1.0, 0.5, 0.5, 0.5])
+        C = np.array([0.0, 0.0, 1.0, 1.0, 1.0])   # weight is entirely on suppressed modes
+        r = propagate_primordial_amplitude(self._BETA, T, C)
+        assert r["T_eff"] == pytest.approx(0.5, rel=1e-12)
+
+
+# ---------------------------------------------------------------------------
+# TestTBEBWithTransfer
+# ---------------------------------------------------------------------------
+
+_ELLS_TW = [10, 50, 100]
+_NU_TW   = [145.0]
+_NS_TW   = 0.9635
+
+class TestTBEBWithTransfer:
+    """tb_eb_spectrum transfer_ell parameter: backward compat, suppression."""
+
+    @classmethod
+    def _run(cls, transfer_ell=None, n_k=150):
+        return tb_eb_spectrum(
+            ells=_ELLS_TW, nu_array=_NU_TW, beta_0=_BETA0_TEST, ns=_NS_TW,
+            n_k=n_k, transfer_ell=transfer_ell,
+        )
+
+    def test_none_matches_explicit_ones(self):
+        """transfer_ell=None is identical to passing an array of ones."""
+        out_none = self._run()
+        out_ones = self._run(transfer_ell=np.ones(3))
+        assert np.allclose(out_none["C_TB"], out_ones["C_TB"], rtol=1e-12)
+        assert np.allclose(out_none["C_EB"], out_ones["C_EB"], rtol=1e-12)
+
+    def test_default_transfer_ell_is_ones_in_output(self):
+        """Output dict always contains transfer_ell; default is all-ones."""
+        out = self._run()
+        assert "transfer_ell" in out
+        assert np.all(out["transfer_ell"] == 1.0)
+
+    def test_half_transfer_halves_signal(self):
+        """T_ℓ = 0.5 uniformly halves both C_TB and C_EB."""
+        out_base = self._run()
+        out_half = self._run(transfer_ell=np.full(3, 0.5))
+        assert np.allclose(out_half["C_TB"] / out_base["C_TB"], 0.5, rtol=1e-12)
+        assert np.allclose(out_half["C_EB"] / out_base["C_EB"], 0.5, rtol=1e-12)
+
+    def test_wrong_shape_raises(self):
+        """transfer_ell with wrong length raises ValueError."""
+        with pytest.raises(ValueError):
+            self._run(transfer_ell=np.ones(5))   # 5 ≠ 3
+
+
+# ---------------------------------------------------------------------------
+# TestBMuRotationAngle
+# ---------------------------------------------------------------------------
+
+class TestBMuRotationAngle:
+    """b_mu_rotation_angle: normalization, linearity, quadratic sub-dominance."""
+
+    def test_consistent_with_birefringence_angle(self):
+        """α = (g/2)·(Δφ/L)·L = (g/2)·Δφ = birefringence_angle(g, Δφ) exactly."""
+        b_mu_rms = _DPHI_TEST / _CHI_STAR   # Δφ / L_LoS = temporal gradient
+        r = b_mu_rotation_angle(b_mu_rms, _G_AGAMMA_TEST, _CHI_STAR)
+        assert r["alpha_rad"] == pytest.approx(_BETA0_TEST, rel=1e-12), (
+            f"alpha_rad={r['alpha_rad']:.8f} != birefringence_angle={_BETA0_TEST:.8f}"
+        )
+
+    def test_is_linear_flag_always_true(self):
+        """is_linear must be True regardless of input values."""
+        r = b_mu_rotation_angle(0.001, 0.01, 5000.0)
+        assert r["is_linear"] is True
+
+    def test_linearity_double_b_mu_doubles_alpha(self):
+        """Doubling b_mu_rms doubles alpha_rad — explicit linear check."""
+        r1 = b_mu_rotation_angle(1e-6,   _G_AGAMMA_TEST, _CHI_STAR)
+        r2 = b_mu_rotation_angle(2e-6,   _G_AGAMMA_TEST, _CHI_STAR)
+        assert r2["alpha_rad"] == pytest.approx(2.0 * r1["alpha_rad"], rel=1e-12)
+
+    def test_coupling_factor_formula(self):
+        """coupling_factor = (g_agamma / 2) × integration_length_mpc."""
+        r = b_mu_rotation_angle(1.0, _G_AGAMMA_TEST, _CHI_STAR)
+        expected_cf = 0.5 * _G_AGAMMA_TEST * _CHI_STAR
+        assert r["coupling_factor"] == pytest.approx(expected_cf, rel=1e-12)
+
+    def test_quadratic_subdominant_for_model_beta(self):
+        """For the model β ≈ 0.006 rad, quadratic correction is < 0.1%."""
+        b_mu_rms = _DPHI_TEST / _CHI_STAR
+        r = b_mu_rotation_angle(b_mu_rms, _G_AGAMMA_TEST, _CHI_STAR)
+        assert r["quadratic_subdominant"] is True
+        assert r["quadratic_fraction"] < 0.001
+
+    def test_alpha_zero_for_zero_b_mu(self):
+        """Zero B_μ → zero rotation angle."""
+        r = b_mu_rotation_angle(0.0, _G_AGAMMA_TEST, _CHI_STAR)
+        assert r["alpha_rad"] == 0.0
+        assert r["quadratic_fraction"] == 0.0
+
+
+# ---------------------------------------------------------------------------
+# TestQuadraticCorrectionBound
+# ---------------------------------------------------------------------------
+
+class TestQuadraticCorrectionBound:
+    """quadratic_correction_bound: exact formula, limiting values, subdominance."""
+
+    def test_zero_alpha_exact_prefactor_is_one(self):
+        """sin(4α)/(4α) → 1 as α → 0 (L'Hôpital)."""
+        q = quadratic_correction_bound(0.0)
+        assert q["exact_prefactor"] == pytest.approx(1.0, rel=1e-12)
+        assert q["fractional_deviation"] == pytest.approx(0.0, abs=1e-14)
+
+    def test_model_beta_is_subdominant(self):
+        """For α ≈ 0.006 rad (β = 0.35°): fractional_deviation < 0.001 (0.1 %)."""
+        q = quadratic_correction_bound(_BETA0_TEST)
+        assert q["is_subdominant"] is True
+        assert q["fractional_deviation"] < 0.001
+
+    def test_analytic_approximation_accuracy(self):
+        """Leading-order estimate 8α²/3 agrees with exact to < 10 % for small α."""
+        alpha = 0.01
+        q = quadratic_correction_bound(alpha)
+        assert abs(q["analytic_approximation"] - q["fractional_deviation"]) / \
+               q["fractional_deviation"] < 0.10
+
+    def test_exact_prefactor_less_than_one_for_nonzero_alpha(self):
+        """sin(4α)/(4α) < 1 for all α ≠ 0 in (0, π/4) — suppression, not enhancement."""
+        for alpha in [0.001, 0.01, 0.1, 0.5]:
+            q = quadratic_correction_bound(alpha)
+            assert q["exact_prefactor"] < 1.0, (
+                f"expected < 1 for alpha={alpha}, got {q['exact_prefactor']}"
+            )
+
+
+# ---------------------------------------------------------------------------
+# TestBMuKineticRunning
+# ---------------------------------------------------------------------------
+
+class TestBMuKineticRunning:
+    """b_mu_kinetic_running: trivial default, power-law dependence, stub documentation."""
+
+    def test_default_gamma_zero_returns_one(self):
+        """gamma_B = 0 (default) → Z_B = 1.0 at any k_scale."""
+        for k in [1e-4, 0.05, 1.0, 100.0]:
+            assert b_mu_kinetic_running(k) == pytest.approx(1.0, rel=1e-12)
+
+    def test_power_law_scaling(self):
+        """Z_B(k) = (k/k_ref)^gamma_B: doubling k multiplies Z_B by 2^gamma_B."""
+        gamma = 1e-3
+        z1 = b_mu_kinetic_running(0.05, gamma_B=gamma)
+        z2 = b_mu_kinetic_running(0.10, gamma_B=gamma)
+        assert z2 / z1 == pytest.approx(2.0**gamma, rel=1e-10)
+
+    def test_perturbative_estimate_is_small(self):
+        """For gamma_B ~ alpha_em/(4pi) ~ 6e-4, Z_B deviates from 1 by < 1% at CMB scales.
+
+        At the extremes of the CMB k-range (k ~ 2e-4 to 0.2 Mpc^-1) relative to
+        the pivot k_ref=0.05 Mpc^-1, the maximum deviation is:
+            |Z_B - 1| = |(k/k_ref)^gamma_B - 1| ≈ gamma_B × |ln(k/k_ref)|
+        For gamma_B = 6e-4 and k/k_ref = 4e-3: |Z_B-1| ≈ 6e-4 × 5.5 ≈ 0.33%
+        This is physically negligible (< 1%) — confirming no running is required.
+        """
+        gamma_phys = 6e-4   # ~ alpha_em / (4*pi)
+        for k in [2e-4, 0.05, 0.2]:
+            z = b_mu_kinetic_running(k, gamma_B=gamma_phys)
+            assert abs(z - 1.0) < 0.01, (
+                f"Z_B({k})={z:.6f} deviates by {abs(z-1)*100:.3f}% > 1% for physical gamma_B"
+            )
+
+
+# ---------------------------------------------------------------------------
+# TestVerifyDualJacobianPaths
+# ---------------------------------------------------------------------------
+
+class TestVerifyDualJacobianPaths:
+    """verify_dual_jacobian_paths: both branches pass attractor, paths truly differ."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = verify_dual_jacobian_paths()
+
+    def test_both_branches_pass_attractor(self):
+        """Both flat-S¹ and RS1 branches must individually satisfy the attractor criterion."""
+        assert self.result["flat_branch"]["passes_attractor"] is True, (
+            f"Flat branch failed: phi0_eff={self.result['flat_branch']['phi0_eff']:.4f}, "
+            f"ns={self.result['flat_branch']['ns']:.4f}"
+        )
+        assert self.result["rs1_branch"]["passes_attractor"] is True, (
+            f"RS1 branch failed: phi0_eff={self.result['rs1_branch']['phi0_eff']:.4f}, "
+            f"ns={self.result['rs1_branch']['ns']:.4f}"
+        )
+
+    def test_jacobians_differ(self):
+        """The two Jacobian flows are genuinely different (different geometry)."""
+        assert self.result["paths_differ"] is True
+        jac_flat = self.result["flat_branch"]["jacobian"]
+        jac_rs1  = self.result["rs1_branch"]["jacobian"]
+        assert abs(jac_flat - jac_rs1) > 1.0, (
+            f"Jacobians too similar: {jac_flat:.4f} vs {jac_rs1:.4f}"
+        )
+
+    def test_dual_path_confirmed(self):
+        """dual_path_confirmed = paths_differ AND endpoints_agree."""
+        assert self.result["dual_path_confirmed"] is True
+
+    def test_regime_labels_correct(self):
+        """Each branch carries the correct geometric regime string."""
+        assert self.result["flat_branch"]["regime"] == "Flat_S1_FTUM"
+        assert self.result["rs1_branch"]["regime"]  == "RS1_Saturated"
+
+    def test_ns_delta_within_one_sigma(self):
+        """The two branches differ in nₛ by less than 1σ_Planck — a tight cluster."""
+        assert self.result["ns_delta_sigma"] < 1.0, (
+            f"ns_delta_sigma={self.result['ns_delta_sigma']:.3f} >= 1σ"
+        )
+
+
+# ---------------------------------------------------------------------------
+# TestRS1JacobianTrace
+# ---------------------------------------------------------------------------
+
+class TestRS1JacobianTrace:
+    """rs1_jacobian_trace: every step is instrumented, analytic 1% claim verified."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.trace = rs1_jacobian_trace()
+
+    def test_warp_factor_is_negligible_at_krc12(self):
+        """exp(-2π k r_c) at k=1, r_c=12 is effectively zero (< 10⁻³⁰)."""
+        assert self.trace["warp_factor"] < 1e-30
+
+    def test_jacobian_fully_saturated(self):
+        """J_RS equals J_sat = 1/√(2k) to machine precision at k r_c = 12."""
+        assert self.trace["is_saturated"] is True
+        assert self.trace["saturation_error"] < 1e-6
+
+    def test_delta_is_geometric(self):
+        """Numerical Δ matches analytic 7√2/10 − 1 to < 10⁻⁴."""
+        assert self.trace["delta_is_geometric"] is True
+        assert abs(self.trace["delta_fraction"] - self.trace["delta_analytic"]) < 1e-4
+
+    def test_delta_value_is_minus_one_percent(self):
+        """The RS1 branch lies −1.005 % below flat S¹: Δ = 7√2/10 − 1."""
+        assert self.trace["delta_fraction"] == pytest.approx(-0.010050506, rel=1e-6)
+
+    def test_phi0_eff_values_match_existing_functions(self):
+        """Trace values must agree with effective_phi0_rs and effective_phi0_kk."""
+        expected_rs1  = float(effective_phi0_rs(1.0, 1.0, 12.0, 7))
+        expected_flat = float(effective_phi0_kk(1.0, 5))
+        assert self.trace["phi0_eff_rs1"]  == pytest.approx(expected_rs1,  rel=1e-12)
+        assert self.trace["phi0_eff_flat"] == pytest.approx(expected_flat, rel=1e-12)

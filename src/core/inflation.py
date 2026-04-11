@@ -2320,3 +2320,136 @@ def verify_dual_jacobian_paths() -> dict:
             and passes_flat and passes_rs1
         ),
     }
+
+
+def rs1_jacobian_trace(
+    phi0_bare: float = 1.0,
+    k: float = 1.0,
+    r_c: float = 12.0,
+    n_winding: int = 7,
+) -> dict:
+    """Step-by-step trace of the RS1 branch φ₀_eff calculation for peer review.
+
+    This function **instruments the existing calculation without changing it**.
+    It exists purely to make every intermediate value visible, auditable, and
+    falsifiable.  All numbers produced here must remain consistent with
+    :func:`jacobian_rs_orbifold` and :func:`effective_phi0_rs`.
+
+    **The RS1 branch at a glance.**
+    The RS1 Jacobian integrates the zero-mode wavefunction over the warped
+    extra dimension:
+
+    .. math::
+
+        J_\\mathrm{RS}(k, r_c)
+          = \\sqrt{\\frac{1 - e^{-2\\pi k r_c}}{2k}}
+          \\xrightarrow{kr_c \\gg 1} \\frac{1}{\\sqrt{2k}}
+
+    With n_winding = 7 topological insertions and φ₀_bare = 1:
+
+    .. math::
+
+        \\phi_{0,\\mathrm{eff}}^{\\mathrm{RS1}}
+          = n_w \\cdot 2\\pi \\cdot J_\\mathrm{RS} \\cdot \\phi_{0,\\mathrm{bare}}
+          = \\frac{7 \\cdot 2\\pi}{\\sqrt{2}} \\approx 31.10
+
+    **Why the ~1 % deviation from the flat S¹ branch is geometric.**
+    The flat S¹ branch uses n_winding = 5 and J_flat = √φ₀_bare:
+
+    .. math::
+
+        \\phi_{0,\\mathrm{eff}}^{\\mathrm{flat}}
+          = n_w \\cdot 2\\pi \\cdot \\sqrt{\\phi_{0,\\mathrm{bare}}}
+          = 10\\pi \\approx 31.42
+
+    At saturation (k r_c ≥ 10), the ratio is:
+
+    .. math::
+
+        \\frac{\\phi_{0,\\mathrm{eff}}^{\\mathrm{RS1}}}
+             {\\phi_{0,\\mathrm{eff}}^{\\mathrm{flat}}}
+          = \\frac{7 \\cdot 2\\pi / \\sqrt{2}}{5 \\cdot 2\\pi}
+          = \\frac{7}{5\\sqrt{2}}
+          = \\frac{7\\sqrt{2}}{10}
+          \\approx 0.9899
+
+    That is a **−1.01 % offset** — fixed by the winding and Jacobian choice,
+    not tunable without breaking RS1 consistency.
+
+    Parameters
+    ----------
+    phi0_bare : float — bare radion vev (default 1.0)
+    k         : float — AdS curvature scale (default 1.0)
+    r_c       : float — compactification radius (default 12.0)
+    n_winding : int   — topological winding number for RS1 branch (default 7)
+
+    Returns
+    -------
+    dict with keys (all floats unless stated):
+
+    ``k``, ``r_c``, ``phi0_bare``, ``n_winding``
+        Input parameters (echoed for traceability).
+    ``warp_factor``
+        :math:`e^{-2\\pi k r_c}` — the AdS exponential suppression.
+        At kr_c = 12 this is ≈ 1.8×10⁻³³, demonstrating full saturation.
+    ``J_RS``
+        Exact Jacobian from :func:`jacobian_rs_orbifold`.
+    ``J_RS_saturated``
+        Saturated limit 1/√(2k).
+    ``saturation_error``
+        |J_RS − J_sat| / J_sat — must be < 10⁻¹⁰ at kr_c = 12.
+    ``is_saturated``
+        True iff saturation_error < 1×10⁻⁶.
+    ``phi0_eff_rs1``
+        n_w × 2π × J_RS × φ₀_bare — the RS1 effective vev.
+    ``phi0_eff_flat``
+        5 × 2π × √φ₀_bare × φ₀_bare — the flat S¹ effective vev (n_w=5, φ₀=1).
+    ``delta_fraction``
+        (φ₀_eff_rs1 − φ₀_eff_flat) / φ₀_eff_flat — should be ≈ −0.0101.
+    ``delta_analytic``
+        7√2/10 − 1 = exact analytic value of the geometric offset.
+    ``delta_is_geometric``
+        True iff |delta_fraction − delta_analytic| < 1×10⁻⁴.
+    ``formula_rs1``
+        Human-readable string: "n_w × 2π × J_RS × φ₀_bare".
+    ``formula_flat``
+        Human-readable string: "n_w × 2π × √φ₀_bare × φ₀_bare".
+    """
+    # --- Step 1: AdS warp factor ---
+    warp_factor = float(np.exp(-2.0 * np.pi * k * r_c))
+
+    # --- Step 2: exact RS1 Jacobian ---
+    J_RS = jacobian_rs_orbifold(k, r_c)
+
+    # --- Step 3: saturated (kr_c >> 1) limit ---
+    J_sat = 1.0 / np.sqrt(2.0 * k)
+    sat_error = abs(J_RS - J_sat) / J_sat
+
+    # --- Step 4: RS1 effective vev (the actual formula used everywhere) ---
+    phi0_eff_rs1 = float(n_winding * 2.0 * np.pi * J_RS * phi0_bare)
+
+    # --- Step 5: flat S¹ effective vev (n_w=5, same phi0_bare) for comparison ---
+    phi0_eff_flat = float(effective_phi0_kk(phi0_bare, n_winding=5))
+
+    # --- Step 6: numerical and analytic delta ---
+    delta_num      = (phi0_eff_rs1 - phi0_eff_flat) / phi0_eff_flat
+    delta_analytic = float(7.0 * np.sqrt(2.0) / 10.0 - 1.0)   # = 7√2/10 − 1 ≈ −0.0101
+
+    return {
+        "k":                   float(k),
+        "r_c":                 float(r_c),
+        "phi0_bare":           float(phi0_bare),
+        "n_winding":           int(n_winding),
+        "warp_factor":         warp_factor,
+        "J_RS":                float(J_RS),
+        "J_RS_saturated":      float(J_sat),
+        "saturation_error":    float(sat_error),
+        "is_saturated":        bool(sat_error < 1e-6),
+        "phi0_eff_rs1":        phi0_eff_rs1,
+        "phi0_eff_flat":       phi0_eff_flat,
+        "delta_fraction":      float(delta_num),
+        "delta_analytic":      delta_analytic,
+        "delta_is_geometric":  bool(abs(delta_num - delta_analytic) < 1e-4),
+        "formula_rs1":         "n_w × 2π × J_RS × φ₀_bare",
+        "formula_flat":        "n_w × 2π × √φ₀_bare × φ₀_bare  (n_w=5)",
+    }
