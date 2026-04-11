@@ -2,7 +2,7 @@
 
 Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Result: 256 PASSED / 0 FAILED / 0 ERRORS**
+**Result: 286 PASSED / 0 FAILED / 0 ERRORS**
 
 ---
 
@@ -149,7 +149,7 @@ Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥
 
 ---
 
-## test_inflation.py — 111/111 PASSED
+## test_inflation.py — 141/141 PASSED
 
 | # | Test | Result |
 |---|------|--------|
@@ -264,6 +264,36 @@ Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥
 | 109 | `TestTripleConstraint::test_ns_passes_planck` | ✅ PASSED |
 | 110 | `TestTripleConstraint::test_beta_matches_target` | ✅ PASSED |
 | 111 | `TestTripleConstraint::test_r_positive_and_finite` | ✅ PASSED |
+| 112 | `TestEESourceFunction::test_small_k_limit` | ✅ PASSED |
+| 113 | `TestEESourceFunction::test_silk_damping_large_k` | ✅ PASSED |
+| 114 | `TestEESourceFunction::test_amplitude_factor` | ✅ PASSED |
+| 115 | `TestEESourceFunction::test_output_shape` | ✅ PASSED |
+| 116 | `TestEESourceFunction::test_phase_orthogonal_to_temperature` | ✅ PASSED |
+| 117 | `TestTESourceFunction::test_equals_product_of_t_and_e` | ✅ PASSED |
+| 118 | `TestTESourceFunction::test_small_k_limit` | ✅ PASSED |
+| 119 | `TestTESourceFunction::test_silk_damping_large_k` | ✅ PASSED |
+| 120 | `TestTESourceFunction::test_can_be_negative` | ✅ PASSED |
+| 121 | `TestTESourceFunction::test_output_shape` | ✅ PASSED |
+| 122 | `TestBirefringenceAngleFreq::test_achromatic_returns_beta0_at_any_nu` | ✅ PASSED |
+| 123 | `TestBirefringenceAngleFreq::test_achromatic_ratio_is_one` | ✅ PASSED |
+| 124 | `TestBirefringenceAngleFreq::test_dispersive_at_ref_freq_equals_beta0` | ✅ PASSED |
+| 125 | `TestBirefringenceAngleFreq::test_dispersive_scales_as_nu_minus2` | ✅ PASSED |
+| 126 | `TestBirefringenceAngleFreq::test_dispersive_ratio_not_one` | ✅ PASSED |
+| 127 | `TestTBEBSpectrum::test_output_shape_tb` | ✅ PASSED |
+| 128 | `TestTBEBSpectrum::test_output_shape_eb` | ✅ PASSED |
+| 129 | `TestTBEBSpectrum::test_c_te_shape` | ✅ PASSED |
+| 130 | `TestTBEBSpectrum::test_c_ee_positive` | ✅ PASSED |
+| 131 | `TestTBEBSpectrum::test_finite_values` | ✅ PASSED |
+| 132 | `TestTBEBSpectrum::test_lcdm_limit_tb_zero` | ✅ PASSED |
+| 133 | `TestTBEBSpectrum::test_lcdm_limit_eb_zero` | ✅ PASSED |
+| 134 | `TestTBEBSpectrum::test_model_tb_nonzero` | ✅ PASSED |
+| 135 | `TestTBEBSpectrum::test_model_eb_nonzero` | ✅ PASSED |
+| 136 | `TestTBEBSpectrum::test_tb_proportional_to_c_te` | ✅ PASSED |
+| 137 | `TestTBEBSpectrum::test_eb_proportional_to_c_ee` | ✅ PASSED |
+| 138 | `TestTBEBSpectrum::test_achromaticity_ratio_is_one` | ✅ PASSED |
+| 139 | `TestTBEBSpectrum::test_achromaticity_ratio_eb_is_one` | ✅ PASSED |
+| 140 | `TestTBEBSpectrum::test_faraday_ratio_not_one` | ✅ PASSED |
+| 141 | `TestTBEBSpectrum::test_achromaticity_invariant_across_all_nu_pairs` | ✅ PASSED |
 
 ---
 
@@ -312,6 +342,6 @@ Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥
 | `test_convergence.py` | 10 | 0 | 10 |
 | `test_evolution.py` | 49 | 0 | 49 |
 | `test_fixed_point.py` | 35 | 0 | 35 |
-| `test_inflation.py` | 111 | 0 | 111 |
+| `test_inflation.py` | 141 | 0 | 141 |
 | `test_metric.py` | 30 | 0 | 30 |
-| **Total** | **256** | **0** | **256** |
+| **Total** | **286** | **0** | **286** |

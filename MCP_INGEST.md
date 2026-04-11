@@ -116,7 +116,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_metric.py                     # Metric & curvature tests
 │   ├── test_evolution.py                  # Evolution + constraint tests
 │   ├── test_boundary.py                   # Boundary & entropy tests
-│   └── test_fixed_point.py               # FTUM & operator tests (256 total — 100% pass)
+│   └── test_fixed_point.py               # FTUM & operator tests (286 total — 100% pass)
 │
 ├── zenodo/
 │   ├── .zenodo.json                       # Zenodo deposit metadata
@@ -296,7 +296,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests for `metric.py`, `evolution.py`, `inflation.py`, and more — **256/256 passed (100% verified)** |
+| **Test suite** | `pytest` unit tests for `metric.py`, `evolution.py`, `inflation.py`, and more — **286/286 passed (100% verified)** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

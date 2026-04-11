@@ -294,7 +294,7 @@ Since `φ₀` is determined internally by the scalar stabilisation equation
 | `extract_alpha_from_curvature(g, B, phi, dx, lam)` | `src/core/metric.py` | 11 unit tests |
 | `derive_alpha_from_fixed_point(phi_stabilized, network)` | `src/multiverse/fixed_point.py` | 10 unit tests |
 
-All 131 tests pass (21 new tests added for α-derivation).
+All 286 tests pass (21 new tests added for α-derivation; suite has grown to 286 total including CMB transfer function, birefringence, and TB/EB spectrum tests).
 
 ### Remaining open parameter
 
