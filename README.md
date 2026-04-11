@@ -549,11 +549,13 @@ full dual-license explanation.
 
 ## 10 · Credits
 
+This repository is the product of genuine synthesis — theory and science from a human mind, code and document engineering from AI, verification from both.
+
 | Role | Name / System |
 |------|--------------|
-| Principal Architect | ThomasCory Walker-Pearson |
-| Site Architect / Code Master | GitHub Copilot |
-| Synthesis & Verification | Gemini · ChatGPT · Microsoft Copilot |
+| Principal Architect — theory, framework, scientific direction | ThomasCory Walker-Pearson |
+| Code Architecture, Test Suites, Document Engineering & Synthesis | GitHub Copilot (AI) |
+| Synthesis & Verification Support | ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot |
 | Version | 9.0 — Academic Edition |
 
 For technical inquiries or peer-review submissions, use the LaTeX source files
