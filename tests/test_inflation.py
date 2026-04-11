@@ -1225,3 +1225,359 @@ class TestTBEBSpectrum:
             assert np.allclose(ratio, 1.0, rtol=1e-12), (
                 f"Achromaticity broken at ν={_NU_TB[j]} GHz"
             )
+
+
+# ---------------------------------------------------------------------------
+# Amplitude gap analysis tests
+# ---------------------------------------------------------------------------
+
+from src.core.inflation import (
+    slow_roll_amplitude,
+    cobe_normalization,
+    amplitude_attractor_scan,
+    scale_dependence_comparison,
+    foliation_clock_check,
+    amplitude_gap_report,
+    PLANCK_AS_CENTRAL,
+    M_PL_GEV,
+)
+
+
+class TestSlowRollAmplitude:
+    """Tests for slow_roll_amplitude() — term-by-term As breakdown."""
+
+    def test_returns_required_keys(self):
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        for key in ("As", "H_inf", "epsilon", "eta", "V", "dV", "d2V",
+                    "phi_star", "phi0_eff", "lam", "As_formula"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_As_positive(self):
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["As"] > 0.0
+
+    def test_H_inf_positive(self):
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["H_inf"] > 0.0
+
+    def test_As_equals_standard_slow_roll_formula(self):
+        """As = V^3 / (12 pi^2 dV^2)  and  As = H^2 / (8 pi^2 eps) must agree."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        As_alt = result["H_inf"]**2 / (8.0 * np.pi**2 * result["epsilon"])
+        assert abs(result["As"] - As_alt) / result["As"] < 1e-10
+
+    def test_As_scales_linearly_with_lambda(self):
+        """As(2*lam) = 2 * As(lam): the amplitude gap is closed by a single scale."""
+        r1 = slow_roll_amplitude(31.4159, lam=1.0)
+        r2 = slow_roll_amplitude(31.4159, lam=2.0)
+        assert abs(r2["As"] / r1["As"] - 2.0) < 1e-10
+
+    def test_phi_star_default_is_phi0_over_sqrt3(self):
+        phi0 = 31.4159
+        result = slow_roll_amplitude(phi0, lam=1.0)
+        assert abs(result["phi_star"] - phi0 / np.sqrt(3.0)) < 1e-10
+
+    def test_explicit_phi_star_respected(self):
+        phi0 = 31.4159
+        pstar = phi0 / 2.0
+        result = slow_roll_amplitude(phi0, lam=1.0, phi_star=pstar)
+        assert result["phi_star"] == pytest.approx(pstar)
+
+    def test_lam1_As_is_large_compared_to_planck_value(self):
+        """With lam=1 (natural units) As >> Planck: normalization is needed."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["As"] > 1e4 * PLANCK_AS_CENTRAL
+
+    def test_epsilon_small_for_valid_slow_roll(self):
+        """ε < 1 at φ* = φ₀/√3 — slow-roll is valid."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert result["epsilon"] < 1.0
+
+    def test_eta_near_zero_at_inflection_point(self):
+        """η ≈ 0 at the inflection point φ* = φ₀/√3 (V'' = 0 there)."""
+        result = slow_roll_amplitude(31.4159, lam=1.0)
+        assert abs(result["eta"]) < 1e-10
+
+
+class TestCOBENormalization:
+    """Tests for cobe_normalization() — the single free parameter that closes the gap."""
+
+    def test_returns_required_keys(self):
+        result = cobe_normalization()
+        for key in ("lam_cobe", "As_predicted", "As_target", "H_inf",
+                    "E_inf_MPlunits", "E_inf_GeV", "ns", "r",
+                    "r_planck_limit", "r_within_bound", "phi0_eff",
+                    "n_winding", "lam_independent_observables"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_As_predicted_matches_target(self):
+        """After solving for lambda_COBE, predicted As must equal target."""
+        result = cobe_normalization()
+        assert result["As_predicted"] == pytest.approx(result["As_target"], rel=1e-9)
+
+    def test_lam_cobe_positive_and_small(self):
+        """lambda_COBE must be positive and much less than 1 (COBE suppression)."""
+        result = cobe_normalization()
+        assert result["lam_cobe"] > 0.0
+        assert result["lam_cobe"] < 1e-10
+
+    def test_ns_within_planck_1sigma(self):
+        """nₛ must lie within 1σ of Planck 2018 (λ-independent)."""
+        result = cobe_normalization()
+        assert abs(result["ns"] - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_r_within_planck_bound(self):
+        """r < 0.10 (Planck 2018 95 % CL)."""
+        result = cobe_normalization()
+        assert result["r_within_bound"]
+
+    def test_E_inf_in_GUT_range(self):
+        """Inflation energy scale should be in the GUT range ~10^15–10^17 GeV."""
+        result = cobe_normalization()
+        assert 1e15 <= result["E_inf_GeV"] <= 1e18
+
+    def test_lam_independent_observables_listed(self):
+        """The five lambda-independent observables must be listed."""
+        result = cobe_normalization()
+        for obs in ("ns", "r", "nt", "alpha_s", "beta_deg"):
+            assert obs in result["lam_independent_observables"]
+
+    def test_custom_As_target(self):
+        """Doubling As_target should double lam_cobe (linear scaling)."""
+        r1 = cobe_normalization(As_target=PLANCK_AS_CENTRAL)
+        r2 = cobe_normalization(As_target=2.0 * PLANCK_AS_CENTRAL)
+        assert r2["lam_cobe"] == pytest.approx(2.0 * r1["lam_cobe"], rel=1e-9)
+
+    def test_h_inf_positive(self):
+        result = cobe_normalization()
+        assert result["H_inf"] > 0.0
+
+    def test_phi0_eff_matches_effective_phi0_kk(self):
+        from src.core.inflation import effective_phi0_kk
+        result = cobe_normalization(phi0_bare=1.0, n_winding=5)
+        expected = effective_phi0_kk(1.0, 5)
+        assert result["phi0_eff"] == pytest.approx(expected)
+
+
+class TestAmplitudeAttractor:
+    """Tests for amplitude_attractor_scan() — attractor stability."""
+
+    def test_returns_required_keys(self):
+        result = amplitude_attractor_scan()
+        for key in ("lam_values", "ns_vs_lam", "r_vs_lam", "As_vs_lam",
+                    "ns_lam_spread", "r_lam_spread", "As_lam_linearity",
+                    "phi0_values", "ns_vs_phi0", "ns_phi0_spread",
+                    "fraction_within_1sigma", "fraction_within_2sigma",
+                    "ns_ref", "r_ref",
+                    "is_lam_independent", "is_ns_attractor", "is_As_linear"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_lam_independent_ns(self):
+        """nₛ must be exactly identical for all λ values — to machine precision."""
+        result = amplitude_attractor_scan()
+        assert result["is_lam_independent"], (
+            f"ns_lam_spread={result['ns_lam_spread']:.2e}, "
+            f"r_lam_spread={result['r_lam_spread']:.2e}"
+        )
+
+    def test_As_scales_linearly_with_lam(self):
+        """As(λ) / As(λ₀) = λ / λ₀ to machine precision."""
+        result = amplitude_attractor_scan()
+        assert result["is_As_linear"], (
+            f"As_lam_linearity = {result['As_lam_linearity']:.2e}"
+        )
+
+    def test_ns_attractor_in_ftum_neighborhood(self):
+        """Within ±5% FTUM perturbation, nₛ stays within 3σ of Planck."""
+        result = amplitude_attractor_scan()
+        assert result["is_ns_attractor"], (
+            f"ns_phi0_spread={result['ns_phi0_spread']:.4f} >= "
+            f"3*{PLANCK_NS_SIGMA}={3*PLANCK_NS_SIGMA:.4f}"
+        )
+
+    def test_all_neighborhood_points_within_2sigma(self):
+        """All ±5% FTUM neighborhood nₛ values must be within Planck 2σ."""
+        result = amplitude_attractor_scan()
+        assert result["fraction_within_2sigma"] == pytest.approx(1.0), (
+            f"Only {100*result['fraction_within_2sigma']:.0f}% of neighborhood "
+            f"within Planck 2σ (expected 100%)"
+        )
+
+    def test_majority_within_1sigma(self):
+        """Most ±5% FTUM neighborhood nₛ values should fall within Planck 1σ."""
+        result = amplitude_attractor_scan()
+        assert result["fraction_within_1sigma"] >= 0.5, (
+            f"Only {100*result['fraction_within_1sigma']:.0f}% of neighborhood "
+            f"within Planck 1σ (expected ≥ 50%)"
+        )
+
+    def test_grid_shapes(self):
+        lam_vals  = [0.1, 1.0, 10.0]
+        phi0_vals = [0.98, 1.0, 1.02]
+        result = amplitude_attractor_scan(lam_vals, phi0_vals)
+        assert len(result["ns_vs_lam"])  == 3
+        assert len(result["ns_vs_phi0"]) == 3
+
+    def test_ns_ref_within_planck_1sigma(self):
+        result = amplitude_attractor_scan()
+        assert abs(result["ns_ref"] - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_r_ref_positive(self):
+        result = amplitude_attractor_scan()
+        assert result["r_ref"] > 0.0
+
+    def test_As_increases_with_lam(self):
+        """As must be monotone increasing in λ."""
+        result = amplitude_attractor_scan()
+        As = result["As_vs_lam"]
+        assert np.all(np.diff(As) > 0)
+
+    def test_ns_monotone_with_phi0(self):
+        """nₛ must be monotone in φ₀_bare (larger φ₀ → larger φ₀_eff → larger nₛ)."""
+        result = amplitude_attractor_scan()
+        ns = result["ns_vs_phi0"]
+        assert np.all(np.diff(ns) > 0)
+
+
+class TestScaleDependence:
+    """Tests for scale_dependence_comparison() — tilt/running/r vs Planck."""
+
+    def test_returns_required_keys(self):
+        result = scale_dependence_comparison()
+        for key in ("ns", "r", "nt", "alpha_s", "r_consistency",
+                    "ns_planck", "ns_deviation_sigma", "r_planck_limit",
+                    "r_within_bound", "alpha_s_planck_bound",
+                    "alpha_s_within_bound", "gap_is_normalization"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_ns_within_1sigma_planck(self):
+        result = scale_dependence_comparison()
+        assert result["ns_deviation_sigma"] < 1.0
+
+    def test_r_within_planck_bound(self):
+        result = scale_dependence_comparison()
+        assert result["r_within_bound"]
+
+    def test_r_consistency_relation(self):
+        """Tensor consistency: r + 8 nₜ = 0 to machine precision."""
+        result = scale_dependence_comparison()
+        assert result["r_consistency"] < 1e-12
+
+    def test_alpha_s_within_planck_bound(self):
+        """Spectral running |αₛ| < 0.013 (Planck 2018)."""
+        result = scale_dependence_comparison()
+        assert result["alpha_s_within_bound"], (
+            f"|alpha_s| = {abs(result['alpha_s']):.4e} exceeds Planck bound 0.013"
+        )
+
+    def test_gap_is_normalization(self):
+        """The gap is purely a normalization issue: nₛ and αₛ satisfy Planck bounds."""
+        result = scale_dependence_comparison()
+        assert result["gap_is_normalization"]
+
+    def test_nt_negative(self):
+        """Tensor tilt nₜ = -2ε must be negative (blue gravity wave is wrong)."""
+        result = scale_dependence_comparison()
+        assert result["nt"] < 0.0
+
+    def test_ns_planck_echo(self):
+        result = scale_dependence_comparison()
+        assert result["ns_planck"] == pytest.approx(PLANCK_NS_CENTRAL)
+
+
+class TestFoliationClock:
+    """Tests for foliation_clock_check() — FTUM entropy clock vs inflaton clock."""
+
+    def test_returns_required_keys(self):
+        result = foliation_clock_check()
+        for key in ("N_efolds", "N_target", "N_in_window", "epsilon_at_phi_star",
+                    "slow_roll_valid", "entropy_clock_correction",
+                    "foliations_consistent", "phi_star", "phi0_eff"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_N_efolds_in_canonical_window(self):
+        """With n_winding=5, phi0_bare=1: 50 ≤ N ≤ 70 e-folds."""
+        result = foliation_clock_check()
+        assert result["N_in_window"], (
+            f"N = {result['N_efolds']:.1f} not in [50, 70]"
+        )
+
+    def test_slow_roll_valid_at_phi_star(self):
+        """ε < 0.1 at horizon exit — slow roll is well-defined."""
+        result = foliation_clock_check()
+        assert result["slow_roll_valid"], (
+            f"epsilon = {result['epsilon_at_phi_star']:.4f} >= 0.1"
+        )
+
+    def test_foliations_consistent(self):
+        """FTUM entropy foliation is consistent with inflaton clock."""
+        result = foliation_clock_check()
+        assert result["foliations_consistent"]
+
+    def test_entropy_clock_correction_small(self):
+        """Accumulated entropy–clock deviation N * 2ε must be < 1 (sub-leading)."""
+        result = foliation_clock_check()
+        assert result["entropy_clock_correction"] < 1.0, (
+            f"Entropy clock correction = {result['entropy_clock_correction']:.3f} >= 1"
+        )
+
+    def test_phi_star_default_is_phi0_over_sqrt3(self):
+        result = foliation_clock_check()
+        phi0_eff = result["phi0_eff"]
+        assert result["phi_star"] == pytest.approx(phi0_eff / np.sqrt(3.0))
+
+    def test_N_efolds_positive(self):
+        result = foliation_clock_check()
+        assert result["N_efolds"] > 0.0
+
+
+class TestAmplitudeGapReport:
+    """Tests for amplitude_gap_report() — full consolidated gap analysis."""
+
+    def test_returns_required_keys(self):
+        result = amplitude_gap_report()
+        for key in ("slow_roll", "cobe", "scale_dependence", "attractor",
+                    "foliation", "gap_factor", "gap_summary", "fully_determined"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_gap_factor_equals_lambda_cobe(self):
+        """gap_factor should equal lam_cobe (they are the same quantity)."""
+        result = amplitude_gap_report()
+        assert result["gap_factor"] == pytest.approx(
+            result["cobe"]["lam_cobe"], rel=1e-9
+        )
+
+    def test_gap_factor_positive(self):
+        result = amplitude_gap_report()
+        assert result["gap_factor"] > 0.0
+
+    def test_gap_summary_is_string(self):
+        result = amplitude_gap_report()
+        assert isinstance(result["gap_summary"], str)
+        assert len(result["gap_summary"]) > 0
+
+    def test_fully_determined(self):
+        """Theory is fully determined up to a single normalization (lambda_COBE)."""
+        result = amplitude_gap_report()
+        assert result["fully_determined"], (
+            f"Not fully determined. Summary: {result['gap_summary']}"
+        )
+
+    def test_slow_roll_sub_dict_correct(self):
+        result = amplitude_gap_report()
+        assert "As" in result["slow_roll"]
+        assert result["slow_roll"]["lam"] == pytest.approx(1.0)
+
+    def test_sub_dicts_internally_consistent(self):
+        """ns from slow_roll and scale_dependence must agree."""
+        result = amplitude_gap_report()
+        ns_sr = result["cobe"]["ns"]
+        ns_sd = result["scale_dependence"]["ns"]
+        assert abs(ns_sr - ns_sd) < 1e-10
+
+    def test_gap_summary_contains_key_numbers(self):
+        """Summary string must mention lambda_COBE-related content and ns."""
+        result = amplitude_gap_report()
+        summary = result["gap_summary"]
+        assert "ns" in summary.lower() or "0.96" in summary
+        assert "gap" in summary.lower() or "lambda" in summary.lower()
