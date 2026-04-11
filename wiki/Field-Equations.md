@@ -47,6 +47,14 @@ $$\mathcal{L}_{\rm 4D} = \frac{\phi}{16\pi G_4} R - \frac{\lambda^2 \phi}{4} H_{
 
 4. Variation with respect to $g^{\mu\nu}$ yields the Walker–Pearson equations above.
 
+### α is not a free parameter
+
+The cross-block 5D Riemann components $R^\mu{}_{5\nu5}$ (mixing the 4D block with the compact dimension) produce the $\alpha R H^2$ coupling with coefficient:
+
+$$\alpha \;=\; \left(\frac{\ell_P}{L_5}\right)^2 \;=\; \frac{1}{\phi_0^2}$$
+
+where $\phi_0$ is the stabilised radion value (from the scalar field equation, §Scalar Field Equation above) and $L_5 = \phi_0\,\ell_P$ is the compactification radius encoded in $G_{55} = \phi^2$.  See [Mathematical Framework §9](Mathematical-Framework#9-derivation-of-α-from-the-5d-riemann-cross-block-term-v91) for the full derivation.
+
 ---
 
 ## 4. Discretised Form (Numerical Implementation)

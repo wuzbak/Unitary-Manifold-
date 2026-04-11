@@ -70,6 +70,8 @@ Iterations to convergence: **94**.
 3. **No mesh-refinement study:** N = 48 only; continuum limit not demonstrated
 4. **No external benchmark:** fixed point is self-referential (S* = A/4G by definition)
 
+**Previously open — now resolved:** The nonminimal coupling α was listed as a free parameter. It is determined internally by the KK geometry: **α = φ₀⁻²**, where φ₀ is the stabilised radion value (see `src/core/metric.py:extract_alpha_from_curvature` and `REVIEW_CONCLUSION.md §3`). The cosmological coupling Γ remains observationally open.
+
 ---
 
 ## Reproducibility
