@@ -193,7 +193,7 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
-286 tests cover (all 286/286 pass — 100% verified):
+400 tests cover (389/389 fast + 11/11 slow = 400/400 pass — 100% verified):
 
 | File | Tests | Topics |
 |------|-------|--------|

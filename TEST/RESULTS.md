@@ -2,7 +2,9 @@
 
 Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Result: 286 PASSED / 0 FAILED / 0 ERRORS**
+**Result: 389 PASSED / 0 FAILED / 0 ERRORS** (fast suite, default)
+**Slow suite: 11 PASSED / 0 FAILED / 0 ERRORS** (run with `pytest -m slow`)
+**Grand total: 400 PASSED / 0 FAILED / 0 ERRORS**
 
 ---
 
@@ -344,4 +346,10 @@ Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥
 | `test_fixed_point.py` | 35 | 0 | 35 |
 | `test_inflation.py` | 141 | 0 | 141 |
 | `test_metric.py` | 30 | 0 | 30 |
-| **Total** | **286** | **0** | **286** |
+| `test_closure_batch1.py` | 25 | 0 | 25 |
+| `test_closure_batch2.py` | 31 | 0 | 31 |
+| `test_fuzzing.py` | 20 | 0 | 20 |
+| `test_dimensional_reduction.py` | 14 | 0 | 14 |
+| `test_discretization_invariance.py` | 13 | 0 | 13 |
+| `test_richardson_multitime.py` 🐌 | 11 | 0 | 11 |
+| **Total** | **400** | **0** | **400** |
