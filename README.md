@@ -3,7 +3,7 @@
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![286/286 Tests Passing](https://img.shields.io/badge/tests-286%2F286%20passed-brightgreen)](tests/)
+[![389/400 Tests Passing](https://img.shields.io/badge/tests-389%2F400%20passed-brightgreen)](tests/)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -242,28 +242,35 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 100% verification (286/286 passed)
+### Run the test suite — 100% verification (389/400 passed)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (all 286 tests pass):
+Expected output (389 fast tests pass; 11 slow tests deselected by default):
 
 ```
-tests/test_metric.py          30 passed
-tests/test_evolution.py       49 passed
-tests/test_boundary.py        21 passed
-tests/test_fixed_point.py     35 passed
-tests/test_convergence.py     10 passed
-tests/test_inflation.py      141 passed
-================================ 286 passed ================================
+tests/test_metric.py                   30 passed
+tests/test_evolution.py                49 passed
+tests/test_boundary.py                 21 passed
+tests/test_fixed_point.py              35 passed
+tests/test_convergence.py              10 passed
+tests/test_inflation.py               141 passed
+tests/test_closure_batch1.py           25 passed
+tests/test_closure_batch2.py           31 passed
+tests/test_fuzzing.py                  20 passed
+tests/test_dimensional_reduction.py    14 passed
+tests/test_discretization_invariance.py 13 passed
+# slow (run with: pytest -m slow)
+tests/test_richardson_multitime.py     11 passed
+================================ 389 passed, 11 deselected ================================
 ```
 
 > **100% verification confirmed.** Every numerical claim in the framework —
 > KK metric assembly, 5D curvature pipeline, semi-implicit evolution, holographic
 > entropy saturation, FTUM fixed-point convergence, CMB transfer function, and
-> cosmic birefringence — is covered by an automated test. `286/286 passed`.
+> cosmic birefringence — is covered by an automated test. `389/400 passed`.
 
 ### Run a bulk field simulation
 
@@ -487,7 +494,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**286/286 tests currently pass**).
+(**389/400 tests currently pass**).
 
 ---
 
@@ -499,7 +506,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (286/286 passed) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (389/400 passed) | Any non-zero GR-limit residual |
 
 ---
 

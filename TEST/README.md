@@ -1,6 +1,7 @@
 # Test Suite — Unitary Manifold
 
-**286 / 286 tests passing (100%)** — verified 2026-04-11, Python 3.12, pytest 9.0.3
+**389 / 400 tests passing (100%)** — verified 2026-04-11, Python 3.12, pytest 9.0.3
+*(389 fast tests run by default; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ---
 
@@ -8,13 +9,15 @@
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v
+python -m pytest tests/ -v          # 389 fast tests (default)
+python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
+python -m pytest tests/ -m slow tests/  # all 400
 ```
 
 Expected result:
 
 ```
-286 passed in ~16s
+389 passed, 11 deselected in ~38s
 ```
 
 ---
@@ -29,7 +32,13 @@ Expected result:
 | `tests/test_fixed_point.py` | 35 | Multiverse network (chain + fully-connected), operators I / H / T, FTUM fixed-point iteration, α derivation from fixed point |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease, evolution diagnostics |
 | `tests/test_inflation.py` | 141 | GW potential, slow-roll parameters, CMB observables (nₛ, r), Planck 2018 check, KK Jacobian, Casimir potential, birefringence angle, Chern–Simons coupling, triple constraint, EE/TE source functions, TB/EB spectra, frequency-dependent birefringence |
-| **Total** | **286** | |
+| `tests/test_closure_batch1.py` | 25 | α dual-path closure, nₛ KK=Casimir consistency, β coupling chain, holographic entropy emergence, Z₂ orbifold invariance, KK winding monotonicity, CS level linear scaling |
+| `tests/test_closure_batch2.py` | 31 | Numerical robustness, cross-module consistency, edge-case coverage |
+| `tests/test_fuzzing.py` | 20 | Edge cases, random inputs, adversarial numerics |
+| `tests/test_dimensional_reduction.py` | 14 | KK dimensional reduction identities |
+| `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
+| `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
+| **Total** | **400** | **389 fast + 11 slow — 100% pass** |
 
 ---
 

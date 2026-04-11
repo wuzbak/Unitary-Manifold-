@@ -11,7 +11,8 @@ verifications, extensions, and discussions — are welcome.
 git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
-python -m pytest tests/ -v          # 286 tests; all pass (100% verified)
+python -m pytest tests/ -v          # 389 fast tests; all pass (100% verified)
+python -m pytest tests/ -m slow    # 11 slow tests (Richardson convergence); all pass
 ```
 
 The test suite covers:
@@ -24,7 +25,13 @@ The test suite covers:
 | `src/multiverse/fixed_point.py` | FTUM convergence, second law, holographic bound (35 tests) |
 | `src/core/inflation.py` / `transfer.py` | CMB power spectrum, birefringence, triple constraint (141 tests) |
 | Convergence | O(dx²) gradient, Laplacian, Christoffel (10 tests) |
-| **Total** | **286 / 286 passed — 100% verified** |
+| Closure batch 1 | α dual-path, nₛ KK=Casimir, β coupling, holographic emergence (25 tests) |
+| Closure batch 2 | Numerical robustness, cross-module consistency (31 tests) |
+| Fuzzing | Edge cases, random inputs, adversarial numerics (20 tests) |
+| Dimensional reduction | KK reduction identities (14 tests) |
+| Discretization invariance | Grid-independence checks (13 tests) |
+| Richardson (slow) | Second-order convergence rate in time step (11 tests) |
+| **Total** | **389 / 389 fast + 11 / 11 slow = 400 / 400 passed — 100% verified** |
 
 ---
 
