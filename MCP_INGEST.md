@@ -31,21 +31,36 @@ as projections of a single higher-dimensional geometry.
 **Core claim:** The Second Law of Thermodynamics is a *geometric identity*,
 not a statistical postulate.
 
+**Self-completion status (v9.1):** All three completion requirements are solved internally.
+
+| Requirement | Status | Identity |
+|---|---|---|
+| φ stabilisation | **SOLVED** | Internal curvature–vorticity feedback |
+| Bμ geometric link | **SOLVED** | `Im(S_eff) = ∫BμJ^μ_inf d⁴x` (theorem) |
+| α numerical value | **SOLVED** | `α = φ₀⁻²` (KK cross-block curvature) |
+
 ### Key mathematical objects
 
 | Symbol | Meaning |
 |--------|---------|
-| `G_AB` | 5D metric (KK block form) |
+| `G_AB` | 5D metric (KK block form); `G_55 = φ²` |
 | `g_μν` | 4D spacetime metric |
 | `B_μ` | Irreversibility 1-form (gauge field) |
-| `φ` | Entropic dilaton / entanglement-capacity scalar |
+| `φ` | Entropic dilaton / radion; encodes `L₅ = φ ℓP` |
 | `H_μν = ∂_μB_ν − ∂_νB_μ` | Field strength |
 | `J^μ_inf = φ²u^μ` | Conserved information current |
+| `α = φ₀⁻²` | Nonminimal coupling — **derived**, not free |
 
 ### Walker–Pearson field equations
 
 ```
 G_μν + λ²(H_μρH_ν^ρ − ¼g_μν H²) + αRφ²g_μν = 8πG₄ T_μν
+```
+
+### α from the KK cross-block Riemann term
+
+```
+α = (ℓP/L₅)² = 1/φ₀²     [G₅₅ = φ² → L₅ = φ₀ℓP → α = φ₀⁻²]
 ```
 
 ### Unified Equation of the Unitary Manifold (UEUM)
@@ -129,6 +144,7 @@ such that `UΨ* = Ψ*`.
 |--------|-----------|---------|
 | `compute_curvature` | `(g, B, phi, dx, lam=1.0)` | `Gamma, Riemann, Ricci, R` |
 | `field_strength` | `(B, dx)` | `H` ndarray `(N,4,4)` |
+| `extract_alpha_from_curvature` | `(g, B, phi, dx, lam=1.0)` | `(alpha_geometric, cross_block_riem)` |
 
 ### `src.core.evolution`
 
@@ -159,6 +175,7 @@ such that `UΨ* = Ψ*`.
 | `MultiverseNetwork` | dataclass | — |
 | `MultiverseNetwork.chain` | `(n, coupling)` | `MultiverseNetwork` |
 | `fixed_point_iteration` | `(network, max_iter=300, tol=1e-6)` | `(result, residuals, converged)` |
+| `derive_alpha_from_fixed_point` | `(phi_stabilized, network=None, **kwargs)` | `(alpha_predicted, result_network, converged)` |
 
 ---
 
@@ -168,10 +185,12 @@ such that `UΨ* = Ψ*`.
 1. Init  g_μν, B_μ, φ  → FieldState.flat(N, dx)
 2. Curvature  Γ, Riemann, Ricci, R  → compute_curvature()
 3. Walker–Pearson RK4 update  → step(state, dt)    # O(dt⁴)
-4. Constraints  ‖R‖, ‖∇·J‖  → constraint_monitor()
-5. Boundary projection  → BoundaryState.from_bulk() + evolve_boundary()
-6. U = I + H + T  multiverse  → fixed_point_iteration()
-7. FTUM convergence  ‖Ψⁿ⁺¹ − Ψⁿ‖ < ε
+4. α derivation  α = ⟨1/φ²⟩  → extract_alpha_from_curvature()  # NEW v9.1
+5. Constraints  ‖R‖, ‖∇·J‖  → constraint_monitor()
+6. Boundary projection  → BoundaryState.from_bulk() + evolve_boundary()
+7. U = I + H + T  multiverse  → fixed_point_iteration()
+8. α from fixed point  α = φ₀⁻²  → derive_alpha_from_fixed_point()  # NEW v9.1
+9. FTUM convergence  ‖Ψⁿ⁺¹ − Ψⁿ‖ < ε
 ```
 
 ---

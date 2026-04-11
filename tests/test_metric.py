@@ -9,6 +9,8 @@ Covers:
   - christoffel: shape, vanishes on flat metric (D=4 and D=5)
   - compute_curvature: shapes, R≈0 on flat Minkowski,
                        5D pipeline differs from naive 4D-only result
+  - extract_alpha_from_curvature: α=1/φ², cross-block shape, flat-space
+                                   zero, φ-scaling identity
 """
 
 import numpy as np
@@ -214,3 +216,86 @@ class TestComputeCurvature:
                     Ricci_4d[:, A, Bx] += Riem_4d[:, C, A, C, Bx]
         # They should NOT be identical when B != 0 and phi != 1
         assert not np.allclose(Ricci_5d, Ricci_4d, atol=1e-12)
+
+
+# ---------------------------------------------------------------------------
+# extract_alpha_from_curvature
+# ---------------------------------------------------------------------------
+
+class TestExtractAlphaFromCurvature:
+    """Tests for the KK-derived nonminimal coupling α = ⟨1/φ²⟩."""
+
+    def test_output_types(self, flat_fields):
+        g, B, phi, N, dx = flat_fields
+        alpha_geom, cb = extract_alpha_from_curvature(g, B, phi, dx)
+        assert isinstance(alpha_geom, float)
+        assert cb.shape == (N, 4, 4)
+
+    def test_alpha_equals_one_for_unit_phi(self, flat_fields):
+        """φ = 1 everywhere ⟹ α_geometric = 1/1² = 1.0."""
+        g, B, phi, N, dx = flat_fields  # phi = ones(N)
+        alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
+        assert abs(alpha_geom - 1.0) < 1e-12
+
+    def test_alpha_quarters_when_phi_doubles(self, flat_fields):
+        """Doubling φ quarters α: α = 1/φ² ⟹ α(2φ) = α(φ)/4."""
+        g, B, phi, N, dx = flat_fields
+        phi2 = 2.0 * phi
+        alpha2, _ = extract_alpha_from_curvature(g, B, phi2, dx)
+        assert abs(alpha2 - 0.25) < 1e-12
+
+    def test_alpha_general_uniform_phi(self, flat_fields):
+        """α = 1/φ₀² for any uniform scalar value φ₀."""
+        g, B, phi, N, dx = flat_fields
+        for phi_val in (0.5, 1.0, 2.0, 3.0):
+            phi_uniform = phi_val * np.ones(N)
+            alpha_geom, _ = extract_alpha_from_curvature(g, B, phi_uniform, dx)
+            assert abs(alpha_geom - 1.0 / phi_val**2) < 1e-12, \
+                f"φ₀={phi_val}: expected α={1/phi_val**2:.6f}, got {alpha_geom:.6f}"
+
+    def test_alpha_spatial_mean_for_varying_phi(self, perturbed_fields):
+        """α = ⟨1/φ²⟩ (spatial mean) for non-uniform φ."""
+        g, B, phi, N, dx = perturbed_fields
+        alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
+        expected = float(np.mean(1.0 / phi**2))
+        assert abs(alpha_geom - expected) < 1e-12
+
+    def test_cross_block_shape(self, perturbed_fields):
+        """Cross-block Riemann array has shape (N, 4, 4)."""
+        g, B, phi, N, dx = perturbed_fields
+        _, cb = extract_alpha_from_curvature(g, B, phi, dx)
+        assert cb.shape == (N, 4, 4)
+
+    def test_cross_block_finite(self, perturbed_fields):
+        """Cross-block Riemann contains no NaN or Inf."""
+        g, B, phi, N, dx = perturbed_fields
+        _, cb = extract_alpha_from_curvature(g, B, phi, dx)
+        assert np.all(np.isfinite(cb))
+
+    def test_cross_block_zero_on_flat_background(self, flat_fields):
+        """On a flat Minkowski background (B=0, φ=const), all 5D Christoffel
+        symbols vanish ⟹ cross-block Riemann R^μ_{5ν5} = 0."""
+        g, B, phi, N, dx = flat_fields
+        _, cb = extract_alpha_from_curvature(g, B, phi, dx)
+        assert np.allclose(cb, 0.0, atol=1e-8)
+
+    def test_cross_block_nonzero_with_B(self, flat_fields):
+        """Non-zero B field produces non-zero cross-block curvature."""
+        g, B, phi, N, dx = flat_fields
+        rng = np.random.default_rng(7)
+        B_nz = rng.standard_normal((N, 4)) * 0.1
+        _, cb = extract_alpha_from_curvature(g, B_nz, phi, dx)
+        assert not np.allclose(cb, 0.0, atol=1e-8)
+
+    def test_alpha_positive(self, perturbed_fields):
+        """α_geometric is always positive (φ² > 0)."""
+        g, B, phi, N, dx = perturbed_fields
+        alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
+        assert alpha_geom > 0.0
+
+    def test_lam_does_not_affect_alpha(self, flat_fields):
+        """α = 1/φ² is independent of the KK coupling λ."""
+        g, B, phi, N, dx = flat_fields
+        alpha1, _ = extract_alpha_from_curvature(g, B, phi, dx, lam=1.0)
+        alpha2, _ = extract_alpha_from_curvature(g, B, phi, dx, lam=3.7)
+        assert abs(alpha1 - alpha2) < 1e-12

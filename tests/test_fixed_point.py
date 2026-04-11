@@ -11,6 +11,7 @@ Covers:
   - apply_topology: gradient-flow ΔS formula
   - ueum_acceleration: shape, finite
   - fixed_point_iteration: converges, returns correct types, defect < tol
+  - derive_alpha_from_fixed_point: α=1/φ₀², φ-scaling, network integration
 """
 
 import numpy as np
@@ -28,6 +29,7 @@ from src.multiverse.fixed_point import (
     apply_topology,
     ueum_acceleration,
     fixed_point_iteration,
+    derive_alpha_from_fixed_point,
 )
 
 
@@ -261,3 +263,79 @@ class TestFixedPointIteration:
             net, max_iter=500, tol=1e-6)
         for node in result_net.nodes:
             assert abs(node.S - node.A / 4.0) < 1e-4
+
+
+# ---------------------------------------------------------------------------
+# derive_alpha_from_fixed_point
+# ---------------------------------------------------------------------------
+
+class TestDeriveAlphaFromFixedPoint:
+    """Tests for α = φ₀⁻² — the KK coupling derived at the FTUM fixed point."""
+
+    def test_unit_phi_gives_alpha_one(self):
+        """φ₀ = 1 ⟹ α_predicted = 1/1² = 1.0."""
+        alpha, net, conv = derive_alpha_from_fixed_point(phi_stabilized=1.0)
+        assert abs(alpha - 1.0) < 1e-12
+        assert net is None
+        assert conv is True
+
+    def test_phi_two_gives_alpha_quarter(self):
+        """φ₀ = 2 ⟹ α_predicted = 1/4 = 0.25."""
+        alpha, _, _ = derive_alpha_from_fixed_point(phi_stabilized=2.0)
+        assert abs(alpha - 0.25) < 1e-12
+
+    def test_phi_half_gives_alpha_four(self):
+        """φ₀ = 0.5 ⟹ α_predicted = 1/0.25 = 4.0."""
+        alpha, _, _ = derive_alpha_from_fixed_point(phi_stabilized=0.5)
+        assert abs(alpha - 4.0) < 1e-12
+
+    def test_array_phi_uses_spatial_mean(self):
+        """Array φ: spatial mean ⟨φ⟩ = √2 ⟹ α = 1/(√2)² = 0.5."""
+        phi_arr = np.full(10, np.sqrt(2.0))
+        alpha, _, _ = derive_alpha_from_fixed_point(phi_stabilized=phi_arr)
+        assert abs(alpha - 0.5) < 1e-12
+
+    def test_alpha_positive_for_any_phi(self):
+        """α = 1/φ₀² is always positive."""
+        for phi_val in (0.1, 0.5, 1.0, 3.0, 10.0):
+            alpha, _, _ = derive_alpha_from_fixed_point(phi_stabilized=phi_val)
+            assert alpha > 0.0
+
+    def test_alpha_decreases_with_larger_phi(self):
+        """Larger radion → smaller nonminimal coupling (inverse-square law)."""
+        alpha1, _, _ = derive_alpha_from_fixed_point(phi_stabilized=1.0)
+        alpha2, _, _ = derive_alpha_from_fixed_point(phi_stabilized=2.0)
+        assert alpha1 > alpha2
+
+    def test_with_network_runs_fixed_point_iteration(self):
+        """When a network is provided, fixed_point_iteration is run and
+        the converged network is returned."""
+        rng = np.random.default_rng(42)
+        net = MultiverseNetwork.chain(n=4, coupling=0.05, rng=rng)
+        alpha, result_net, converged = derive_alpha_from_fixed_point(
+            phi_stabilized=1.0, network=net, max_iter=500, tol=1e-6)
+        assert isinstance(result_net, MultiverseNetwork)
+        assert converged
+        assert abs(alpha - 1.0) < 1e-12
+
+    def test_with_network_result_is_converged(self):
+        """The returned network satisfies the holographic entropy bound."""
+        rng = np.random.default_rng(42)
+        net = MultiverseNetwork.chain(n=4, coupling=0.05, rng=rng)
+        _, result_net, converged = derive_alpha_from_fixed_point(
+            phi_stabilized=1.0, network=net, max_iter=500, tol=1e-6)
+        assert converged
+        for node in result_net.nodes:
+            assert abs(node.S - node.A / 4.0) < 1e-4
+
+    def test_none_network_returns_none(self):
+        """Without a network, result_network is None."""
+        _, net, _ = derive_alpha_from_fixed_point(phi_stabilized=1.0)
+        assert net is None
+
+    def test_return_types(self):
+        """Return types are (float, None, bool) when no network supplied."""
+        alpha, net, conv = derive_alpha_from_fixed_point(phi_stabilized=1.5)
+        assert isinstance(alpha, float)
+        assert net is None
+        assert isinstance(conv, bool)
