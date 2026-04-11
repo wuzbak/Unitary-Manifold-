@@ -74,6 +74,10 @@ from src.core.transfer import (
     angular_power_spectrum,
     dl_from_cl,
     chi2_planck,
+    ee_source_function,
+    te_source_function,
+    birefringence_angle_freq,
+    tb_eb_spectrum,
     PLANCK_2018_DL_REF,
     PLANCK_2018_COSMO,
 )
@@ -955,3 +959,269 @@ class TestTripleConstraint:
         r = self._get_result()["r"]
         assert r > 0.0
         assert np.isfinite(r)
+
+
+# ===========================================================================
+# ee_source_function tests
+# ===========================================================================
+
+class TestEESourceFunction:
+    def test_small_k_limit(self):
+        """S_E(k→0) → 0 because sin(k rs_star) → 0."""
+        S = ee_source_function(1e-11)
+        assert abs(S) < 1e-8
+
+    def test_silk_damping_large_k(self):
+        """S_E is strongly suppressed at k >> k_silk."""
+        k_large = 10.0 * PLANCK_2018_COSMO["k_silk"]
+        assert abs(ee_source_function(k_large)) < 1e-10
+
+    def test_amplitude_factor(self):
+        """Peak amplitude bounded by √3/2 ≈ 0.866."""
+        k = np.linspace(1e-4, PLANCK_2018_COSMO["k_silk"], 2000)
+        assert np.max(np.abs(ee_source_function(k))) <= np.sqrt(3.0) / 2.0 + 1e-12
+
+    def test_output_shape(self):
+        """Returns array of same shape as k."""
+        k = np.linspace(0.001, 0.1, 40)
+        assert ee_source_function(k).shape == k.shape
+
+    def test_phase_orthogonal_to_temperature(self):
+        """S_E uses sin; S_T uses cos — they are π/2 out of phase."""
+        rs = PLANCK_2018_COSMO["rs_star"]
+        # At k·rs = π/2, cos = 0 (S_T node) and sin = 1 (S_E peak)
+        k_node = (np.pi / 2.0) / rs
+        S_T = cmb_source_function(k_node)
+        S_E = ee_source_function(k_node)
+        assert abs(S_T) < 0.02          # S_T near zero
+        assert abs(S_E) > abs(S_T)      # S_E dominant at T node
+
+
+# ===========================================================================
+# te_source_function tests
+# ===========================================================================
+
+class TestTESourceFunction:
+    def test_equals_product_of_t_and_e(self):
+        """S_TE(k) == S_T(k) * S_E(k) exactly."""
+        k = np.geomspace(1e-4, 0.3, 80)
+        S_TE = te_source_function(k)
+        S_T  = cmb_source_function(k)
+        S_E  = ee_source_function(k)
+        assert np.allclose(S_TE, S_T * S_E, rtol=1e-12)
+
+    def test_small_k_limit(self):
+        """S_TE(k→0) → 0 because S_E → 0."""
+        assert abs(te_source_function(1e-8)) < 1e-6
+
+    def test_silk_damping_large_k(self):
+        """S_TE suppressed at k >> k_silk."""
+        k_large = 10.0 * PLANCK_2018_COSMO["k_silk"]
+        assert abs(te_source_function(k_large)) < 1e-10
+
+    def test_can_be_negative(self):
+        """S_TE can be negative (sign of TE correlation changes with acoustic phase)."""
+        k = np.linspace(1e-3, 0.5, 2000)
+        vals = te_source_function(k)
+        assert np.any(vals < 0.0)
+
+    def test_output_shape(self):
+        """Returns array of same shape as k."""
+        k = np.linspace(0.001, 0.1, 35)
+        assert te_source_function(k).shape == k.shape
+
+
+# ===========================================================================
+# birefringence_angle_freq tests
+# ===========================================================================
+
+class TestBirefringenceAngleFreq:
+    _BETA0 = 0.006109   # β₀ ≈ 0.351° in radians (k_CS=74 model value)
+
+    def test_achromatic_returns_beta0_at_any_nu(self):
+        """Achromatic mode: β(ν) = β₀ for all ν."""
+        for nu in [30.0, 93.0, 145.0, 220.0, 353.0]:
+            assert birefringence_angle_freq(nu, self._BETA0) == pytest.approx(
+                self._BETA0, rel=1e-12
+            )
+
+    def test_achromatic_ratio_is_one(self):
+        """Achromatic: β(ν₁)/β(ν₂) = 1 for any pair."""
+        b93  = birefringence_angle_freq(93.0,  self._BETA0)
+        b145 = birefringence_angle_freq(145.0, self._BETA0)
+        b220 = birefringence_angle_freq(220.0, self._BETA0)
+        assert b93  / b145 == pytest.approx(1.0, rel=1e-12)
+        assert b220 / b145 == pytest.approx(1.0, rel=1e-12)
+
+    def test_dispersive_at_ref_freq_equals_beta0(self):
+        """Dispersive mode: β(ν_ref) = β₀ by construction."""
+        nu_ref = 145.0
+        b = birefringence_angle_freq(nu_ref, self._BETA0,
+                                     nu_ref_GHz=nu_ref,
+                                     frequency_achromatic=False)
+        assert b == pytest.approx(self._BETA0, rel=1e-12)
+
+    def test_dispersive_scales_as_nu_minus2(self):
+        """Dispersive: β(ν) ∝ ν⁻². Halving ν quadruples β."""
+        nu_ref = 145.0
+        b145 = birefringence_angle_freq(145.0, self._BETA0,
+                                        nu_ref_GHz=nu_ref,
+                                        frequency_achromatic=False)
+        b72  = birefringence_angle_freq(72.5, self._BETA0,
+                                        nu_ref_GHz=nu_ref,
+                                        frequency_achromatic=False)
+        assert b72 == pytest.approx(4.0 * b145, rel=1e-12)
+
+    def test_dispersive_ratio_not_one(self):
+        """Dispersive: β(93)/β(145) = (145/93)² ≠ 1 — fails achromaticity."""
+        nu_ref = 145.0
+        b93  = birefringence_angle_freq(93.0,  self._BETA0,
+                                        nu_ref_GHz=nu_ref,
+                                        frequency_achromatic=False)
+        b145 = birefringence_angle_freq(145.0, self._BETA0,
+                                        nu_ref_GHz=nu_ref,
+                                        frequency_achromatic=False)
+        expected = (nu_ref / 93.0) ** 2
+        assert b93 / b145 == pytest.approx(expected, rel=1e-10)
+        assert abs(b93 / b145 - 1.0) > 0.1   # clearly ≠ 1
+
+
+# ===========================================================================
+# tb_eb_spectrum tests
+# ===========================================================================
+
+# Shared geometry for birefringence (flat S¹/Z₂, k=1, kr_c=12)
+_J_RS_TB   = jacobian_rs_orbifold(1.0, 12.0)
+_DPHI_TB   = field_displacement_gw(_J_RS_TB * 18.0)
+_GAGG_TB   = cs_axion_photon_coupling(CS_LEVEL_PLANCK_MATCH,
+                                      1.0 / 137.036, 12.0)
+_BETA0_TB  = birefringence_angle(_GAGG_TB, _DPHI_TB)   # ≈ 0.006109 rad
+_NS_TB     = 0.9635
+_ELLS_TB   = [10, 50, 100, 200, 500]
+_NU_TB     = [93.0, 145.0, 220.0]
+
+
+class TestTBEBSpectrum:
+    """tb_eb_spectrum: shape, ΛCDM limit, signal, and frequency achromaticity."""
+
+    @classmethod
+    def _run(cls, beta=_BETA0_TB, achromatic=True, n_k=300):
+        return tb_eb_spectrum(
+            ells=_ELLS_TB, nu_array=_NU_TB,
+            beta_0=beta, ns=_NS_TB, n_k=n_k,
+            frequency_achromatic=achromatic,
+        )
+
+    # --- shape ---
+
+    def test_output_shape_tb(self):
+        """C_TB has shape (n_ell, n_nu)."""
+        out = self._run()
+        assert out["C_TB"].shape == (len(_ELLS_TB), len(_NU_TB))
+
+    def test_output_shape_eb(self):
+        """C_EB has shape (n_ell, n_nu)."""
+        out = self._run()
+        assert out["C_EB"].shape == (len(_ELLS_TB), len(_NU_TB))
+
+    def test_c_te_shape(self):
+        """C_TE has shape (n_ell,) — frequency-independent."""
+        out = self._run()
+        assert out["C_TE"].shape == (len(_ELLS_TB),)
+
+    def test_c_ee_positive(self):
+        """C_EE ≥ 0 everywhere (S_E² ≥ 0 integrand)."""
+        out = self._run()
+        assert np.all(out["C_EE"] >= 0.0)
+
+    def test_finite_values(self):
+        """No NaN or Inf in any output array."""
+        out = self._run()
+        for key in ("C_TE", "C_EE", "C_TB", "C_EB"):
+            assert np.all(np.isfinite(out[key])), f"{key} contains non-finite values"
+
+    # --- ΛCDM limit ---
+
+    def test_lcdm_limit_tb_zero(self):
+        """β = 0 → C_TB = 0 exactly.  Standard ΛCDM has no TB signal."""
+        out = self._run(beta=0.0)
+        assert np.allclose(out["C_TB"], 0.0, atol=0.0)
+
+    def test_lcdm_limit_eb_zero(self):
+        """β = 0 → C_EB = 0 exactly."""
+        out = self._run(beta=0.0)
+        assert np.allclose(out["C_EB"], 0.0, atol=0.0)
+
+    # --- non-ΛCDM signal ---
+
+    def test_model_tb_nonzero(self):
+        """β = β₀(k_CS=74) → C_TB ≠ 0 at all ℓ and ν."""
+        out = self._run()
+        assert np.any(out["C_TB"] != 0.0)
+
+    def test_model_eb_nonzero(self):
+        """β = β₀(k_CS=74) → C_EB ≠ 0 at all ℓ and ν."""
+        out = self._run()
+        assert np.any(out["C_EB"] != 0.0)
+
+    def test_tb_proportional_to_c_te(self):
+        """C_TB[:, j] = 2 β(ν_j) C_TE for each ν column."""
+        out  = self._run()
+        C_TE = out["C_TE"]
+        for j, nu in enumerate(_NU_TB):
+            beta_nu = birefringence_angle_freq(nu, _BETA0_TB)
+            expected = 2.0 * beta_nu * C_TE
+            assert np.allclose(out["C_TB"][:, j], expected, rtol=1e-12)
+
+    def test_eb_proportional_to_c_ee(self):
+        """C_EB[:, j] = 2 β(ν_j) C_EE for each ν column."""
+        out  = self._run()
+        C_EE = out["C_EE"]
+        for j, nu in enumerate(_NU_TB):
+            beta_nu = birefringence_angle_freq(nu, _BETA0_TB)
+            expected = 2.0 * beta_nu * C_EE
+            assert np.allclose(out["C_EB"][:, j], expected, rtol=1e-12)
+
+    # --- frequency achromaticity (the falsification handle) ---
+
+    def test_achromaticity_ratio_is_one(self):
+        """Achromatic model: C_TB(93 GHz) / C_TB(145 GHz) = 1 at all ℓ.
+
+        This is the unique Unitary Manifold signature.
+        ❌ Fails for Faraday rotation  (ratio = (145/93)² ≈ 2.43)
+        ❌ Fails for most instrumental systematics (beam/scan dependent)
+        ✅ Survives only for achromatic birefringence
+        """
+        out    = self._run(achromatic=True)
+        idx_93  = list(_NU_TB).index(93.0)
+        idx_145 = list(_NU_TB).index(145.0)
+        ratio = out["C_TB"][:, idx_93] / out["C_TB"][:, idx_145]
+        assert np.allclose(ratio, 1.0, rtol=1e-12)
+
+    def test_achromaticity_ratio_eb_is_one(self):
+        """Achromatic model: C_EB(93 GHz) / C_EB(145 GHz) = 1 at all ℓ."""
+        out     = self._run(achromatic=True)
+        idx_93  = list(_NU_TB).index(93.0)
+        idx_145 = list(_NU_TB).index(145.0)
+        ratio = out["C_EB"][:, idx_93] / out["C_EB"][:, idx_145]
+        assert np.allclose(ratio, 1.0, rtol=1e-12)
+
+    def test_faraday_ratio_not_one(self):
+        """Faraday (dispersive) mode: C_TB(93)/C_TB(145) = (145/93)² ≠ 1."""
+        out     = self._run(achromatic=False)
+        idx_93  = list(_NU_TB).index(93.0)
+        idx_145 = list(_NU_TB).index(145.0)
+        ratio    = out["C_TB"][:, idx_93] / out["C_TB"][:, idx_145]
+        expected = (145.0 / 93.0) ** 2
+        assert np.allclose(ratio, expected, rtol=1e-10)
+        assert not np.allclose(ratio, 1.0, rtol=0.01)
+
+    def test_achromaticity_invariant_across_all_nu_pairs(self):
+        """Achromatic: all ν-column ratios of C_TB equal 1 — not just one pair."""
+        out = self._run(achromatic=True)
+        col_0 = out["C_TB"][:, 0]
+        for j in range(1, len(_NU_TB)):
+            ratio = out["C_TB"][:, j] / col_0
+            assert np.allclose(ratio, 1.0, rtol=1e-12), (
+                f"Achromaticity broken at ν={_NU_TB[j]} GHz"
+            )
