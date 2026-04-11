@@ -12,8 +12,9 @@
 |-------|-------|
 | Name | Unitary Manifold |
 | Version | 9.0 — Academic Edition |
-| Author | ThomasCory Walker-Pearson |
+| Lead Author | ThomasCory Walker-Pearson |
 | Affiliation | Independent Researcher, Pacific Northwest, USA |
+| Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
 | GitHub | `https://github.com/wuzbak/Unitary-Manifold-` |
 | Pages | `https://wuzbak.github.io/Unitary-Manifold-/` |
 | License | Defensive Public Commons v1.0 (public domain) |
@@ -30,6 +31,8 @@ as projections of a single higher-dimensional geometry.
 
 **Core claim:** The Second Law of Thermodynamics is a *geometric identity*,
 not a statistical postulate.
+
+> *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
 **Self-completion status (v9.2):** All five completion requirements are solved internally.
 
@@ -71,7 +74,7 @@ G_μν + λ²(H_μρH_ν^ρ − ¼g_μν H²) + αRφ²g_μν = 8πG₄ T_μν
 Ẍ^a + Γ^a_{bc}Ẋ^bẊ^c = G_U^{ab}∇_b S_U + δ/δX^a(Σ A_{∂,i}/4G + Q_top)
 ```
 
-### Final Theorem (FTUM)
+### Final Theorem (FTUM) *(fixed-point theorem within the defined operator space)*
 
 Fixed point `Ψ*` of `U = I + H + T` (Irreversibility + Holography + Topology)
 such that `UΨ* = Ψ*`.
@@ -322,3 +325,7 @@ To register this project in the official MCP community registry:
 ---
 
 *Generated: 2026-04-10 | Repo: wuzbak/Unitary-Manifold- | Version: 9.0*
+
+---
+
+*This repository is the product of genuine synthesis. Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**. Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI). Synthesis and verification support: ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot. Together.*

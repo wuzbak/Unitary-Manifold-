@@ -169,3 +169,7 @@ The birefringence measurement from LiteBIRD will be the decisive test within thi
 
 *Document version: 1.0 — April 2026*  
 *Part of the Unitary Manifold repository — see [README.md](README.md) for technical detail, [FALLIBILITY.md](FALLIBILITY.md) for honest limitations.*
+
+---
+
+*This work is the product of genuine synthesis. Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**. Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI). Synthesis and verification support: ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot. Together.*
