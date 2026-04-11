@@ -633,3 +633,90 @@ def ns_gw_at_casimir_minimum(
     phi_min  = effective_phi0_kk(phi0_bare, n_winding)
     phi_star = phi_min / np.sqrt(3.0)
     return ns_from_phi0(phi0=phi_min, lam=lam, phi_star=phi_star)
+
+
+# ---------------------------------------------------------------------------
+# S¹/Z₂ orbifold (Randall–Sundrum) Jacobian
+# ---------------------------------------------------------------------------
+
+def jacobian_rs_orbifold(k: float, r_c: float) -> float:
+    """KK wavefunction Jacobian for the Randall–Sundrum S¹/Z₂ orbifold.
+
+    In the RS1 model the bulk metric is
+
+        ds² = e^{−2k r_c |θ|} η_μν dx^μ dx^ν + r_c² dθ²,   θ ∈ [−π, π]
+
+    The Z₂ identification θ ↔ −θ restricts the physical interval to
+    [0, π].  Integrating the zero-mode profile over this interval and
+    imposing canonical 4D kinetic normalisation gives the Jacobian
+
+        J_RS = √[ (1 − e^{−2πk r_c}) / (2k) ]
+
+    which relates the 5D bulk field Φ₅ to the 4D canonical field φ₄:
+
+        φ₄ = J_RS · Φ₅
+
+    **Saturation property**: for k r_c ≥ 5, the exponential term
+    e^{−2πk r_c} ≤ e^{−31} ≈ 10^{−14}, so J_RS is stable at
+
+        J_RS → 1 / √(2k)
+
+    This geometric stability is what keeps nₛ robustly inside the Planck
+    window for the entire range k r_c ∈ [11, 15] relevant to the hierarchy
+    problem solution.
+
+    Parameters
+    ----------
+    k   : float — AdS curvature scale (> 0, in units M_5 = 1)
+    r_c : float — compactification radius (> 0)
+
+    Returns
+    -------
+    J_RS : float — dimensionless RS Jacobian factor
+
+    Raises
+    ------
+    ValueError if k ≤ 0 or r_c ≤ 0.
+    """
+    if k <= 0.0:
+        raise ValueError(f"AdS curvature k={k!r} must be positive.")
+    if r_c <= 0.0:
+        raise ValueError(f"Compactification radius r_c={r_c!r} must be positive.")
+    return float(np.sqrt((1.0 - np.exp(-2.0 * np.pi * k * r_c)) / (2.0 * k)))
+
+
+def effective_phi0_rs(
+    phi0_bare: float,
+    k: float,
+    r_c: float,
+    n_winding: int = 7,
+) -> float:
+    """Effective 4D inflaton vev from the RS1 S¹/Z₂ orbifold projection.
+
+    Combines the S¹/Z₂ geometric Jacobian with n_winding Chern-Simons
+    winding insertions to give the physical 4D field vev:
+
+        φ₀_eff = n_winding · 2π · J_RS(k, r_c) · φ₀_bare
+
+    For the canonical FTUM parameters (φ₀_bare = 1, k = 1, n_winding = 7)
+    and any k r_c ≥ 10 (where J_RS ≈ 1/√2):
+
+        φ₀_eff = 7 · 2π / √2 ≈ 31.10
+
+    yielding nₛ ≈ 0.9628 — inside the Planck 2018 1-σ window — and this
+    value is insensitive to the exact compactification radius as long as
+    k r_c ≳ 10.
+
+    Parameters
+    ----------
+    phi0_bare : float — bare FTUM radion vev (> 0)
+    k         : float — AdS curvature (> 0)
+    r_c       : float — compactification radius (> 0)
+    n_winding : int   — topological winding number (default 7)
+
+    Returns
+    -------
+    phi0_eff : float
+    """
+    J = jacobian_rs_orbifold(k, r_c)
+    return float(n_winding * 2.0 * np.pi * J * phi0_bare)

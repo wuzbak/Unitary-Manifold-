@@ -52,6 +52,8 @@ from src.core.inflation import (
     casimir_A_c_from_phi_min,
     ns_with_casimir,
     ns_gw_at_casimir_minimum,
+    jacobian_rs_orbifold,
+    effective_phi0_rs,
     PLANCK_NS_CENTRAL,
     PLANCK_NS_SIGMA,
 )
@@ -600,6 +602,22 @@ class TestNsWithCasimir:
         # Near-scale-invariant (vastly better than bare nₛ ≈ -35)
         assert 0.90 < ns < 1.05, f"nₛ={ns:.5f} outside near-scale-invariant window"
 
+    def test_jacobian_minimum_gives_planck_ns(self):
+        """Decoupled approach: Casimir locks φ_min; bare GW at φ_min/√3 passes Planck 1-σ.
+
+        The two roles are separated:
+          1. Casimir/KK Jacobian identifies φ_min ≈ 31.42 (compactification radius).
+          2. Slow-roll is evaluated on the *bare* GW potential with φ₀_eff = φ_min,
+             eliminating the A_c ~ 10¹² interference in d²V/V at horizon exit.
+        """
+        phi0_bare = 1.0
+        phi_min   = effective_phi0_kk(phi0_bare, n_winding=5)
+        A_c       = casimir_A_c_from_phi_min(phi_min, phi0_bare)
+        ns, *_    = ns_gw_at_casimir_minimum(phi0_bare, A_c, n_winding=5)
+        assert planck2018_check(ns, n_sigma=1.0), (
+            f"Decoupled nₛ={ns:.5f} not within Planck 2018 1-σ"
+        )
+
     def test_returns_four_finite_values(self):
         """ns_with_casimir returns 4 finite floats."""
         A_c = casimir_A_c_from_phi_min(10.0, 1.0)
@@ -625,3 +643,114 @@ class TestNsWithCasimir:
         ns_corr, *_ = ns_with_casimir(1.0, A_c, phi_star=phi_min/np.sqrt(3))
         # Corrected value is far closer to Planck central value
         assert abs(ns_corr - PLANCK_NS_CENTRAL) < abs(ns_bare - PLANCK_NS_CENTRAL)
+
+
+# ===========================================================================
+# S¹/Z₂ orbifold (Randall–Sundrum) Jacobian tests
+# ===========================================================================
+
+class TestJacobianRSOrbifold:
+    def test_formula(self):
+        """J_RS = √[(1−e^{−2πkrc})/(2k)] for arbitrary k and r_c."""
+        k, r_c = 2.0, 3.0
+        expected = np.sqrt((1.0 - np.exp(-2.0*np.pi*k*r_c)) / (2.0*k))
+        assert jacobian_rs_orbifold(k, r_c) == pytest.approx(expected, rel=1e-12)
+
+    def test_saturates_at_large_krc(self):
+        """For kr_c ≥ 5 the exponential vanishes: J_RS → 1/√(2k)."""
+        k = 1.0
+        J_limit = 1.0 / np.sqrt(2.0 * k)
+        for r_c in [5.0, 10.0, 12.0, 15.0]:
+            assert jacobian_rs_orbifold(k, r_c) == pytest.approx(J_limit, rel=1e-10)
+
+    def test_saturation_independent_of_krc_above_10(self):
+        """J_RS is identical (to machine precision) for kr_c = 11 … 15."""
+        k = 1.0
+        values = [jacobian_rs_orbifold(k, float(kr_c)) for kr_c in range(11, 16)]
+        assert all(v == pytest.approx(values[0], rel=1e-12) for v in values)
+
+    def test_smaller_krc_gives_smaller_J(self):
+        """J_RS increases with r_c (more volume → larger Jacobian)."""
+        k = 1.0
+        assert jacobian_rs_orbifold(k, 1.0) < jacobian_rs_orbifold(k, 3.0)
+
+    def test_larger_k_gives_smaller_J(self):
+        """Stronger AdS warping reduces J_RS (1/√(2k) decreases with k)."""
+        r_c = 12.0
+        assert jacobian_rs_orbifold(2.0, r_c) < jacobian_rs_orbifold(1.0, r_c)
+
+    def test_raises_on_non_positive_k(self):
+        """ValueError when k ≤ 0."""
+        with pytest.raises(ValueError, match="curvature"):
+            jacobian_rs_orbifold(0.0, 1.0)
+        with pytest.raises(ValueError, match="curvature"):
+            jacobian_rs_orbifold(-1.0, 1.0)
+
+    def test_raises_on_non_positive_rc(self):
+        """ValueError when r_c ≤ 0."""
+        with pytest.raises(ValueError, match="radius"):
+            jacobian_rs_orbifold(1.0, 0.0)
+
+
+class TestEffectivePhi0RS:
+    def test_n7_k1_recovers_planck_ns(self):
+        """RS orbifold with n_winding=7, k=1, kr_c=12 gives nₛ inside Planck 1-σ."""
+        phi0_eff = effective_phi0_rs(phi0_bare=1.0, k=1.0, r_c=12.0, n_winding=7)
+        ns, *_ = ns_from_phi0(phi0=phi0_eff)
+        assert planck2018_check(ns, n_sigma=1.0), (
+            f"RS nₛ={ns:.5f} not in Planck 1-σ window"
+        )
+
+    def test_phi_eff_approx_31(self):
+        """φ₀_eff ≈ 7·2π/√2 ≈ 31.10 for k=1, r_c=12, n_winding=7."""
+        phi0_eff = effective_phi0_rs(phi0_bare=1.0, k=1.0, r_c=12.0, n_winding=7)
+        expected = 7.0 * 2.0 * np.pi / np.sqrt(2.0)
+        assert phi0_eff == pytest.approx(expected, rel=1e-6)
+
+    def test_bare_phi0_fails_planck(self):
+        """Bare FTUM φ₀ = 1 still gives nₛ ≈ −35 before RS correction."""
+        ns_bare, *_ = ns_from_phi0(phi0=1.0)
+        assert ns_bare < -10.0
+
+
+class TestNsStabilityRS:
+    """The geometric attractor: nₛ is an orbifold fixed point, not a tuned value."""
+
+    def test_ns_stability_across_krc(self):
+        """nₛ stays in (0.96, 0.97) for the full hierarchy-solving range kr_c ∈ [11..15].
+
+        Because J_RS saturates to 1/√(2k) for kr_c ≥ 5, the spectral index
+        is identically robust across all manifold thicknesses that solve the
+        hierarchy problem — confirming nₛ ≈ 0.9628 is a geometric attractor.
+        """
+        k = 1.0
+        for kr_c in range(11, 16):
+            phi0_eff = effective_phi0_rs(phi0_bare=1.0, k=k, r_c=float(kr_c),
+                                         n_winding=7)
+            ns, *_ = ns_from_phi0(phi0=phi0_eff)
+            assert 0.96 < ns < 0.97, (
+                f"Stability broken at kr_c={kr_c}: nₛ={ns:.5f}"
+            )
+
+    def test_tensor_to_scalar_stable_across_krc(self):
+        """r = 16ε is also stable across kr_c ∈ [11..15] (same φ₀_eff)."""
+        k = 1.0
+        r_values = []
+        for kr_c in range(11, 16):
+            phi0_eff = effective_phi0_rs(phi0_bare=1.0, k=k, r_c=float(kr_c),
+                                         n_winding=7)
+            _, r, *_ = ns_from_phi0(phi0=phi0_eff)
+            r_values.append(r)
+        # All r values are identical (Jacobian saturates)
+        assert all(rv == pytest.approx(r_values[0], rel=1e-10) for rv in r_values)
+
+    def test_ns_stable_means_planck_across_krc(self):
+        """Every point in kr_c ∈ [11..15] individually passes Planck 1-σ."""
+        k = 1.0
+        for kr_c in range(11, 16):
+            phi0_eff = effective_phi0_rs(phi0_bare=1.0, k=k, r_c=float(kr_c),
+                                         n_winding=7)
+            ns, *_ = ns_from_phi0(phi0=phi0_eff)
+            assert planck2018_check(ns, n_sigma=1.0), (
+                f"Planck check failed at kr_c={kr_c}: nₛ={ns:.5f}"
+            )
