@@ -16,6 +16,7 @@ from src.core.evolution import (
     run_evolution,
     information_current,
     constraint_monitor,
+    _project_metric_volume,
 )
 from src.core.metric import compute_curvature
 
@@ -275,3 +276,159 @@ class TestEvolutionPhysics:
             assert np.all(np.isfinite(dets))
             assert np.all(np.abs(dets) > 1e-10), \
                 f"Metric became degenerate: min |det| = {np.min(np.abs(dets)):.2e}"
+
+
+# ---------------------------------------------------------------------------
+# Radion stabilization  (Gemini Issue 1 & 3 fix)
+# ---------------------------------------------------------------------------
+
+class TestRadionStabilization:
+    """Tests for the Goldberger–Wise-style stabilization potential V(φ)."""
+
+    def test_zero_m_phi_recovers_original_behavior(self, flat_state_small):
+        """m_phi=0 leaves phi evolution identical to the unstabilised case."""
+        s0 = flat_state_small                                   # m_phi=0 default
+        s_stab = FieldState(g=s0.g.copy(), B=s0.B.copy(),
+                            phi=s0.phi.copy(), t=s0.t,
+                            dx=s0.dx, lam=s0.lam, alpha=s0.alpha,
+                            phi0=1.0, m_phi=0.0)
+        s1 = step(s0, 1e-3)
+        s2 = step(s_stab, 1e-3)
+        np.testing.assert_allclose(s1.phi, s2.phi, atol=1e-14)
+
+    def test_stabilization_restores_phi_toward_background(self):
+        """With m_phi>0, phi should be pulled back toward phi0 from a displaced IC."""
+        N = 16
+        rng = np.random.default_rng(42)
+        phi0 = 1.0
+        m_phi = 5.0          # strong restoring force
+        eta = np.diag([-1.0, 1.0, 1.0, 1.0])
+        g = np.tile(eta, (N, 1, 1))
+        B = np.zeros((N, 4))
+        # Displace phi away from phi0
+        phi = phi0 + 0.5 * np.ones(N)   # phi = 1.5
+        s = FieldState(g=g, B=B, phi=phi, t=0.0, dx=0.1,
+                       phi0=phi0, m_phi=m_phi)
+        # Evolve several steps; displacement should decrease
+        initial_disp = float(np.mean(np.abs(s.phi - phi0)))
+        for _ in range(20):
+            s = step(s, dt=1e-3)
+        final_disp = float(np.mean(np.abs(s.phi - phi0)))
+        assert final_disp < initial_disp, (
+            f"Stabilization failed: disp went from {initial_disp:.4f} "
+            f"to {final_disp:.4f}")
+
+    def test_phi0_and_m_phi_carried_through_evolution(self, flat_state_small):
+        """phi0 and m_phi must be preserved on the output FieldState."""
+        s = FieldState(g=flat_state_small.g.copy(),
+                       B=flat_state_small.B.copy(),
+                       phi=flat_state_small.phi.copy(),
+                       t=0.0, dx=flat_state_small.dx,
+                       phi0=2.5, m_phi=1.0)
+        s1 = step(s, 1e-3)
+        assert s1.phi0 == 2.5
+        assert s1.m_phi == 1.0
+
+    def test_flat_factory_accepts_phi0_and_m_phi(self):
+        """FieldState.flat() should expose phi0 and m_phi kwargs."""
+        s = FieldState.flat(N=16, dx=0.1, phi0=2.0, m_phi=0.5,
+                            rng=np.random.default_rng(7))
+        assert s.phi0 == 2.0
+        assert s.m_phi == 0.5
+
+
+# ---------------------------------------------------------------------------
+# Metric volume preservation  (Gemini Issue 5 fix)
+# ---------------------------------------------------------------------------
+
+class TestMetricVolumePreservation:
+    """Tests for the _project_metric_volume helper and its integration in step()."""
+
+    def test_project_enforces_target_det(self):
+        """_project_metric_volume must produce det(g) == det_target at every point."""
+        rng = np.random.default_rng(0)
+        N = 16
+        eta = np.diag([-1.0, 1.0, 1.0, 1.0])
+        g = np.tile(eta, (N, 1, 1)) + 1e-2 * rng.standard_normal((N, 4, 4))
+        g = 0.5 * (g + g.transpose(0, 2, 1))
+        g_proj = _project_metric_volume(g, det_target=-1.0)
+        dets = np.linalg.det(g_proj)
+        np.testing.assert_allclose(dets, -1.0, atol=1e-12,
+                                   err_msg="det(g) not pinned to −1 after projection")
+
+    def test_project_preserves_symmetry(self):
+        """Projection must preserve metric symmetry."""
+        rng = np.random.default_rng(1)
+        N = 16
+        eta = np.diag([-1.0, 1.0, 1.0, 1.0])
+        g = np.tile(eta, (N, 1, 1)) + 1e-2 * rng.standard_normal((N, 4, 4))
+        g = 0.5 * (g + g.transpose(0, 2, 1))
+        g_proj = _project_metric_volume(g)
+        np.testing.assert_allclose(g_proj, g_proj.transpose(0, 2, 1), atol=1e-14)
+
+    def test_project_identity_on_exact_minkowski(self):
+        """Exact Minkowski metric should be unchanged by projection."""
+        N = 8
+        eta = np.diag([-1.0, 1.0, 1.0, 1.0])
+        g = np.tile(eta, (N, 1, 1))
+        g_proj = _project_metric_volume(g)
+        np.testing.assert_allclose(g_proj, g, atol=1e-14)
+
+    def test_step_det_pinned_after_rk4(self, flat_state_small):
+        """After step(), det(g) must equal −1 at every grid point."""
+        s1 = step(flat_state_small, 1e-3)
+        dets = np.linalg.det(s1.g)
+        np.testing.assert_allclose(dets, -1.0, atol=1e-10,
+                                   err_msg="Volume drift not corrected by step()")
+
+    def test_euler_det_pinned_after_step(self, flat_state_small):
+        """After step_euler(), det(g) must equal −1 at every grid point."""
+        s1 = step_euler(flat_state_small, 1e-3)
+        dets = np.linalg.det(s1.g)
+        np.testing.assert_allclose(dets, -1.0, atol=1e-10,
+                                   err_msg="Volume drift not corrected by step_euler()")
+
+    def test_det_remains_pinned_over_20_steps(self, flat_state_small):
+        """det(g) ≈ −1 must hold throughout a 20-step evolution."""
+        history = run_evolution(flat_state_small, dt=1e-3, steps=20)
+        for i, s in enumerate(history[1:], start=1):
+            dets = np.linalg.det(s.g)
+            assert np.allclose(dets, -1.0, atol=1e-9), \
+                f"Volume drift at step {i}: max|det+1|={np.max(np.abs(dets+1)):.2e}"
+
+
+# ---------------------------------------------------------------------------
+# constraint_monitor with det_g_violation
+# ---------------------------------------------------------------------------
+
+class TestConstraintMonitorDetG:
+    """Tests for the optional det_g_violation diagnostic in constraint_monitor."""
+
+    def test_no_det_key_without_g(self, flat_state_small):
+        """Without the g argument, det_g_violation must not appear in output."""
+        s = flat_state_small
+        _, _, Ricci, R = compute_curvature(s.g, s.B, s.phi, s.dx)
+        result = constraint_monitor(Ricci, R, s.B, s.phi)
+        assert "det_g_violation" not in result
+
+    def test_det_key_present_with_g(self, flat_state_small):
+        """When g is supplied, det_g_violation must be present in output."""
+        s = flat_state_small
+        _, _, Ricci, R = compute_curvature(s.g, s.B, s.phi, s.dx)
+        result = constraint_monitor(Ricci, R, s.B, s.phi, g=s.g)
+        assert "det_g_violation" in result
+
+    def test_det_violation_near_zero_for_projected_metric(self, flat_state_small):
+        """After step(), the projected metric should have det_g_violation ≈ 0."""
+        s1 = step(flat_state_small, 1e-3)
+        _, _, Ricci, R = compute_curvature(s1.g, s1.B, s1.phi, s1.dx)
+        result = constraint_monitor(Ricci, R, s1.B, s1.phi, g=s1.g)
+        assert result["det_g_violation"] < 1e-9, \
+            f"det_g_violation too large: {result['det_g_violation']:.2e}"
+
+    def test_det_violation_finite(self, flat_state_small):
+        """det_g_violation must be a finite float."""
+        s = flat_state_small
+        _, _, Ricci, R = compute_curvature(s.g, s.B, s.phi, s.dx)
+        result = constraint_monitor(Ricci, R, s.B, s.phi, g=s.g)
+        assert np.isfinite(result["det_g_violation"])

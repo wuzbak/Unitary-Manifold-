@@ -11,23 +11,48 @@ first-order Euler integrator is also provided for accuracy benchmarking.
 
 Field equations (schematically):
 
-    ∂_t g_μν  = −2 R_μν + T_μν[B, φ]          (modified Einstein)
-    ∂_t B_μ   = ∇_ν (λ² H^νμ)                 (gauge / irreversibility)
-    ∂_t φ     = □φ + α R φ + S[H]              (nonminimally coupled scalar)
+    ∂_t g_μν  = −2 R_μν + T_μν[B, φ]                   (modified Einstein)
+    ∂_t B_μ   = ∇_ν (λ² H^νμ)                          (gauge / irreversibility)
+    ∂_t φ     = □φ + α R φ + S[H] − m²_φ (φ − φ₀)     (stabilised radion scalar)
 
-where H_μν = ∂_μ B_ν − ∂_ν B_μ is the field strength and
-T_μν[B,φ] is the matter stress-energy sourced by B and φ.
+where H_μν = ∂_μ B_ν − ∂_ν B_μ is the field strength,
+T_μν[B,φ] is the matter stress-energy sourced by B and φ, and the last
+term is a Goldberger–Wise–style mass potential that pins the KK radion φ
+to its background value φ₀, preventing both the collapse (φ → 0) and the
+run-away (φ → ∞) instabilities identified in the Gemini peer review.  The
+mass m_phi = 0 (default) recovers the original mass-less equation.
+
+**Time-synchronisation note (Gemini Issue 4)**
+The evolution parameter *t* here acts as the flow parameter λ that drives
+the irreversibility (analogous to Ricci-flow time), not as the coordinate
+time x⁰ embedded inside the metric tensor.  A fully diffeomorphism-invariant
+treatment would require an ADM 3+1 decomposition with lapse and shift; the
+present symmetry-reduced (1-D spatial grid) formulation treats x⁰ as a fixed
+gauge choice and evolves all fields in the single remaining spatial direction.
+Consumers of this code should be aware that the "double-counting" of time
+described in the review is therefore present by construction: λ and x⁰ are
+related but not formally synchronised within the current framework.
+
+**KK information-recovery note (Gemini Issue 2)**
+The simulation tracks only the zero-mode (4D) fields; higher Kaluza–Klein
+modes are truncated.  Apparent entropy increase visible in the zero-mode
+sector may therefore correspond to information encoded in the truncated KK
+tower rather than true, irreversible loss.  To verify physical irreversibility
+one would need to show the KK tower information is inaccessible, which is not
+established here.
 
 Public API
 ----------
 FieldState
     Dataclass holding (g, B, phi, t).
 
-FieldState.flat(N, dx, lam, alpha)
+FieldState.flat(N, dx, lam, alpha, phi0, m_phi)
     Factory: flat Minkowski background with small perturbations.
 
 step(state, dt)
     Advance state by one RK4 timestep dt.  O(dt⁴) local truncation error.
+    A metric volume-preservation projection is applied after each step to
+    suppress numerical drift of the spacetime volume element (det g).
 
 step_euler(state, dt)
     Advance state by one first-order Euler timestep (for benchmarking).
@@ -41,8 +66,9 @@ run_evolution(state, dt, steps, callback)
 information_current(g, phi, dx)
     J^μ_inf = ρ u^μ (conserved information current).
 
-constraint_monitor(Ricci, R, B, phi)
-    Returns a dict of constraint violation norms.
+constraint_monitor(Ricci, R, B, phi, g=None)
+    Returns a dict of constraint violation norms.  Pass g to also obtain
+    the det_g_violation diagnostic (max deviation of det g from −1).
 """
 
 from __future__ import annotations
@@ -61,6 +87,8 @@ from .metric import compute_curvature, field_strength
 
 _LAM_DEFAULT = 1.0
 _ALPHA_DEFAULT = 0.1   # nonminimal coupling  α R φ
+_PHI0_DEFAULT = 1.0    # background radion value for stabilization potential
+_M_PHI_DEFAULT = 0.0   # dilaton mass; 0 = unstabilised (backward-compatible)
 
 
 # ---------------------------------------------------------------------------
@@ -78,11 +106,14 @@ class FieldState:
     dx: float = 1.0
     lam: float = _LAM_DEFAULT
     alpha: float = _ALPHA_DEFAULT
+    phi0: float = _PHI0_DEFAULT   # background radion value φ₀ for V(φ) potential
+    m_phi: float = _M_PHI_DEFAULT # dilaton mass m_φ; 0 disables stabilization
 
     # ------------------------------------------------------------------
     @classmethod
     def flat(cls, N: int = 64, dx: float = 0.1,
              lam: float = _LAM_DEFAULT, alpha: float = _ALPHA_DEFAULT,
+             phi0: float = _PHI0_DEFAULT, m_phi: float = _M_PHI_DEFAULT,
              rng: Optional[np.random.Generator] = None) -> "FieldState":
         """Flat Minkowski background g = diag(-1,1,1,1) with small noise.
 
@@ -92,6 +123,10 @@ class FieldState:
         dx    : grid spacing
         lam   : KK coupling λ
         alpha : nonminimal coupling α
+        phi0  : background radion value φ₀ for the stabilization potential
+                V(φ) = ½ m²_φ (φ − φ₀)² (default 1.0)
+        m_phi : dilaton mass m_φ; set > 0 to activate radion stabilization and
+                suppress the "fifth force" from a massless dilaton (default 0.0)
         rng   : optional numpy random Generator for reproducibility
         """
         if rng is None:
@@ -105,7 +140,8 @@ class FieldState:
         B = 1e-4 * rng.standard_normal((N, 4))
         phi = 1.0 + 1e-4 * rng.standard_normal(N)
 
-        return cls(g=g, B=B, phi=phi, t=0.0, dx=dx, lam=lam, alpha=alpha)
+        return cls(g=g, B=B, phi=phi, t=0.0, dx=dx, lam=lam, alpha=alpha,
+                   phi0=phi0, m_phi=m_phi)
 
 
 # ---------------------------------------------------------------------------
@@ -160,6 +196,7 @@ def _compute_rhs(state: FieldState) -> tuple:
     """
     g, B, phi = state.g, state.B, state.phi
     dx, lam, alpha = state.dx, state.lam, state.alpha
+    phi0, m_phi = state.phi0, state.m_phi
 
     _, _, Ricci, R = compute_curvature(g, B, phi, dx, lam)
     H = field_strength(B, dx)
@@ -176,8 +213,13 @@ def _compute_rhs(state: FieldState) -> tuple:
     for mu in range(4):
         dB[:, mu] = _divergence_vec(lam**2 * H_up[:, :, mu], dx)
 
-    # ∂_t φ = □φ + α R φ + S[H]
-    dphi = _laplacian(phi, dx) + alpha * R * phi + _source_scalar(H)
+    # ∂_t φ = □φ + α R φ + S[H] − m²_φ (φ − φ₀)
+    # The last term is the Goldberger–Wise stabilization potential gradient
+    # V'(φ) = m²_φ (φ − φ₀), which provides a restoring force that pins the
+    # KK radion to its background value φ₀.  With m_phi=0 (default) this
+    # term vanishes and the original mass-less equation is recovered.
+    dphi = (_laplacian(phi, dx) + alpha * R * phi + _source_scalar(H)
+            - m_phi**2 * (phi - phi0))
 
     return dg, dB, dphi
 
@@ -195,7 +237,45 @@ def _advance_fields(state: FieldState,
                       B=state.B + dt * dB,
                       phi=state.phi + dt * dphi,
                       t=t_new,
-                      dx=state.dx, lam=state.lam, alpha=state.alpha)
+                      dx=state.dx, lam=state.lam, alpha=state.alpha,
+                      phi0=state.phi0, m_phi=state.m_phi)
+
+
+# ---------------------------------------------------------------------------
+# Metric volume-preservation projection
+# ---------------------------------------------------------------------------
+
+def _project_metric_volume(g: np.ndarray,
+                            det_target: float = -1.0) -> np.ndarray:
+    """Rescale each grid-point metric to enforce det(g) = det_target.
+
+    Suppresses numerical drift of the spacetime volume element that
+    accumulates over many RK4 steps (Gemini Issue 5 — numerical dissipation).
+    For Lorentzian signature (−,+,+,+), det_target = −1 corresponds to unit
+    Minkowski volume.
+
+    Each grid-point metric g_n is rescaled by a scalar factor
+
+        s_n = (det_target / det(g_n))^{1/4}
+
+    so that det(s_n · g_n) = s_n^4 · det(g_n) = det_target exactly.
+    The signature and symmetry of the metric are preserved; only the
+    overall volume element is corrected.
+
+    Parameters
+    ----------
+    g          : ndarray, shape (N, 4, 4)
+    det_target : float — target determinant value (default −1 for Lorentzian)
+
+    Returns
+    -------
+    g_projected : ndarray, shape (N, 4, 4)
+    """
+    dets = np.linalg.det(g)                              # (N,)
+    # Guard against exactly-zero determinants (degenerate metric)
+    safe_dets = np.where(np.abs(dets) > 1e-15, dets, det_target)
+    scales = (det_target / safe_dets) ** 0.25            # (N,)
+    return g * scales[:, None, None]
 
 
 # ---------------------------------------------------------------------------
@@ -207,6 +287,12 @@ def step(state: FieldState, dt: float) -> FieldState:
 
     Uses the classical fourth-order Runge–Kutta method, giving O(dt⁴) local
     truncation error per step for all three dynamical fields (g_μν, B_μ, φ).
+
+    A metric volume-preservation projection (_project_metric_volume) is applied
+    to the final result to enforce det(g) = −1 at every grid point, preventing
+    the accumulation of numerical drift in the spacetime volume element.  The
+    projection is NOT applied to intermediate RK4 stages (k2, k3, k4) so that
+    the fourth-order accuracy of the integration is preserved.
 
     Parameters
     ----------
@@ -235,14 +321,22 @@ def step(state: FieldState, dt: float) -> FieldState:
     dB   = (k1B   + 2.0*k2B   + 2.0*k3B   + k4B)   / 6.0
     dphi = (k1phi + 2.0*k2phi + 2.0*k3phi + k4phi) / 6.0
 
-    return _advance_fields(state, dg, dB, dphi, dt, t0 + dt)
+    result = _advance_fields(state, dg, dB, dphi, dt, t0 + dt)
+    # Enforce metric volume conservation to separate physical irreversibility
+    # from numerical dissipation (det-drift).
+    return FieldState(g=_project_metric_volume(result.g),
+                      B=result.B, phi=result.phi, t=result.t,
+                      dx=result.dx, lam=result.lam, alpha=result.alpha,
+                      phi0=result.phi0, m_phi=result.m_phi)
 
 
 def step_euler(state: FieldState, dt: float) -> FieldState:
     """Advance *state* by one first-order Euler timestep dt.
 
     Retained for accuracy benchmarking against the default RK4 integrator.
-    For production use, prefer :func:`step` (RK4).
+    For production use, prefer :func:`step` (RK4).  The same metric
+    volume-preservation projection as in :func:`step` is applied to the
+    result for consistency.
 
     Parameters
     ----------
@@ -254,7 +348,11 @@ def step_euler(state: FieldState, dt: float) -> FieldState:
     FieldState  (new state at t + dt)
     """
     dg, dB, dphi = _compute_rhs(state)
-    return _advance_fields(state, dg, dB, dphi, dt, state.t + dt)
+    result = _advance_fields(state, dg, dB, dphi, dt, state.t + dt)
+    return FieldState(g=_project_metric_volume(result.g),
+                      B=result.B, phi=result.phi, t=result.t,
+                      dx=result.dx, lam=result.lam, alpha=result.alpha,
+                      phi0=result.phi0, m_phi=result.m_phi)
 
 
 def cfl_timestep(state: FieldState, cfl: float = 0.4) -> float:
@@ -335,18 +433,35 @@ def information_current(g, phi, dx):
     return J
 
 
-def constraint_monitor(Ricci, R, B, phi):
+def constraint_monitor(Ricci, R, B, phi, g=None):
     """Return a dictionary of constraint violation norms.
 
     Checks:
       - Hamiltonian constraint: |R| (should remain bounded)
       - Momentum constraint: |∂_μ B^μ| via divergence of B
       - Scalar norm: |φ|_inf
+      - Volume drift: max |det(g) − (−1)| (only when g is supplied)
+
+    Parameters
+    ----------
+    Ricci : ndarray, shape (N, 4, 4)
+    R     : ndarray, shape (N,)
+    B     : ndarray, shape (N, 4)
+    phi   : ndarray, shape (N,)
+    g     : ndarray, shape (N, 4, 4) or None
+        Optional metric tensor.  When supplied, the ``det_g_violation``
+        diagnostic is included in the output: it measures the maximum
+        absolute deviation of det(g) from the Lorentzian target −1.  A
+        non-zero value indicates accumulated numerical volume drift.
     """
-    return {
+    result = {
         "ricci_frob_mean": float(np.mean(np.linalg.norm(
             Ricci.reshape(-1, 16), axis=1))),
         "R_max": float(np.max(np.abs(R))),
         "B_norm_mean": float(np.mean(np.linalg.norm(B, axis=1))),
         "phi_max": float(np.max(np.abs(phi))),
     }
+    if g is not None:
+        dets = np.linalg.det(g)
+        result["det_g_violation"] = float(np.max(np.abs(dets - (-1.0))))
+    return result
