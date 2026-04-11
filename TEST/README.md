@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**496 tests: 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-11, Python 3.12, pytest 9.0.3
+**664 tests: 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-11, Python 3.12, pytest 9.0.3
 
-*(484 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+*(652 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ### The 1 skipped test
 
@@ -18,15 +18,15 @@ All in `test_richardson_multitime.py`, decorated `@pytest.mark.slow`. Excluded f
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 484 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 652 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/             # all 485 fast + 11 slow
+python -m pytest tests/             # all 653 fast + 11 slow
 ```
 
 Expected result (default):
 
 ```
-484 passed, 1 skipped, 11 deselected in ~38s
+652 passed, 1 skipped, 11 deselected in ~38s
 ```
 
 ---
@@ -35,7 +35,8 @@ Expected result (default):
 
 | File | Tests | What It Covers |
 |------|------:|----------------|
-| `tests/test_inflation.py` | 141 | GW potential, slow-roll, CMB (nₛ, r), Planck check, KK Jacobian, Casimir, birefringence, CS coupling, triple constraint, EE/TE source, TB/EB spectra |
+| `tests/test_inflation.py` | 271 | GW potential, slow-roll, CMB (nₛ, r), Planck check, KK Jacobian, Casimir, birefringence, CS coupling, triple constraint, EE/TE source, TB/EB spectra, slow-roll amplitude, COBE normalisation, attractor classification, amplitude attractor, scale dependence, foliation clock, amplitude gap, FTUM attractor domain, RS1 phase scan, birefringence transfer, B_μ rotation angle, RS1 Jacobian trace |
+| `tests/test_parallel_validation.py` | 38 | Dual-branch independence, observable decoupling, amplitude closure (COBE), transfer function physics, extreme limits |
 | `tests/test_evolution.py` | 49 | RK4 integrator, FieldState, CFL timestep, information current, constraint monitor, radion stabilisation, metric volume preservation |
 | `tests/test_fixed_point.py` | 35 | Multiverse network, operators I/H/T, FTUM iteration, α derivation from fixed point |
 | `tests/test_closure_batch2.py` | 31 | Numerical robustness, cross-module consistency, edge-case coverage |
@@ -51,7 +52,7 @@ Expected result (default):
 | `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total** | **496** | **484 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| **Total** | **664** | **652 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 
@@ -115,7 +116,7 @@ Expected result (default):
 | `TestEvolutionDiagnostics` | 3 | φ energy bounded, Ricci symmetry preserved through step, information conservation stays finite |
 | `TestBoundaryDiagnostics` | 2 | Boundary entropy ≥ 0 after evolution, κ ≥ 0 after bulk step |
 
-### `test_inflation.py` (141 tests)
+### `test_inflation.py` (271 tests)
 
 | Class | Tests | What it verifies |
 |-------|------:|-----------------|

@@ -121,7 +121,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_boundary.py                   # Boundary & entropy tests (21)
 │   ├── test_fixed_point.py               # FTUM & operator tests (35)
 │   ├── test_convergence.py               # Pipeline convergence tests (10)
-│   ├── test_inflation.py                 # CMB power spectrum, birefringence (141)
+│   ├── test_inflation.py                 # CMB power spectrum, birefringence (271)
 │   ├── test_closure_batch1.py            # α/nₛ/β closure consistency (25)
 │   ├── test_closure_batch2.py            # Numerical robustness (31)
 │   ├── test_fuzzing.py                   # Edge cases, random inputs (20)
@@ -131,8 +131,9 @@ such that `UΨ* = Ψ*`.
 │   ├── test_cmb_landscape.py             # χ² landscape, TB/EB cross-checks (17)
 │   ├── test_e2e_pipeline.py              # End-to-end chain closure, CS level (26)
 │   ├── test_observational_resolution.py  # nₛ/β/χ² tolerances, LiteBIRD (30)
+│   ├── test_parallel_validation.py       # 5 independent theory claims (38)
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 496 tests — 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 664 tests — 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -314,7 +315,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **496 tests: 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **664 tests: 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
