@@ -51,6 +51,7 @@ from src.core.inflation import (
     casimir_effective_potential_derivs,
     casimir_A_c_from_phi_min,
     ns_with_casimir,
+    ns_gw_at_casimir_minimum,
     PLANCK_NS_CENTRAL,
     PLANCK_NS_SIGMA,
 )
