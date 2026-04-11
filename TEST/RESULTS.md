@@ -2,9 +2,9 @@
 
 Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 484 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): 652 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total: 496 collected · 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
+**Grand total: 664 collected · 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
 
 ⚑ **Skip explanation:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
@@ -159,7 +159,7 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 
 ---
 
-## test_inflation.py — 141/141 PASSED
+## test_inflation.py — 271/271 PASSED
 
 | # | Test | Result |
 |---|------|--------|
@@ -304,6 +304,136 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | 139 | `TestTBEBSpectrum::test_achromaticity_ratio_eb_is_one` | ✅ PASSED |
 | 140 | `TestTBEBSpectrum::test_faraday_ratio_not_one` | ✅ PASSED |
 | 141 | `TestTBEBSpectrum::test_achromaticity_invariant_across_all_nu_pairs` | ✅ PASSED |
+| 142 | `TestSlowRollAmplitude::test_returns_required_keys` | ✅ PASSED |
+| 143 | `TestSlowRollAmplitude::test_As_positive` | ✅ PASSED |
+| 144 | `TestSlowRollAmplitude::test_H_inf_positive` | ✅ PASSED |
+| 145 | `TestSlowRollAmplitude::test_As_equals_standard_slow_roll_formula` | ✅ PASSED |
+| 146 | `TestSlowRollAmplitude::test_As_scales_linearly_with_lambda` | ✅ PASSED |
+| 147 | `TestSlowRollAmplitude::test_phi_star_default_is_phi0_over_sqrt3` | ✅ PASSED |
+| 148 | `TestSlowRollAmplitude::test_explicit_phi_star_respected` | ✅ PASSED |
+| 149 | `TestSlowRollAmplitude::test_lam1_As_is_large_compared_to_planck_value` | ✅ PASSED |
+| 150 | `TestSlowRollAmplitude::test_epsilon_small_for_valid_slow_roll` | ✅ PASSED |
+| 151 | `TestSlowRollAmplitude::test_eta_near_zero_at_inflection_point` | ✅ PASSED |
+| 152 | `TestCOBENormalization::test_returns_required_keys` | ✅ PASSED |
+| 153 | `TestCOBENormalization::test_As_predicted_matches_target` | ✅ PASSED |
+| 154 | `TestCOBENormalization::test_lam_cobe_positive_and_small` | ✅ PASSED |
+| 155 | `TestCOBENormalization::test_ns_within_planck_1sigma` | ✅ PASSED |
+| 156 | `TestCOBENormalization::test_r_within_planck_bound` | ✅ PASSED |
+| 157 | `TestCOBENormalization::test_E_inf_in_GUT_range` | ✅ PASSED |
+| 158 | `TestCOBENormalization::test_lam_independent_observables_listed` | ✅ PASSED |
+| 159 | `TestCOBENormalization::test_custom_As_target` | ✅ PASSED |
+| 160 | `TestCOBENormalization::test_h_inf_positive` | ✅ PASSED |
+| 161 | `TestCOBENormalization::test_phi0_eff_matches_effective_phi0_kk` | ✅ PASSED |
+| 162 | `TestClassifyAttractorRegime::test_flat_s1_ftum_at_reference` | ✅ PASSED |
+| 163 | `TestClassifyAttractorRegime::test_flat_s1_ftum_within_band` | ✅ PASSED |
+| 164 | `TestClassifyAttractorRegime::test_flat_s1_outside_band_is_off_attractor` | ✅ PASSED |
+| 165 | `TestClassifyAttractorRegime::test_rs1_saturated_at_kr_c_12` | ✅ PASSED |
+| 166 | `TestClassifyAttractorRegime::test_rs1_saturated_at_kr_c_15` | ✅ PASSED |
+| 167 | `TestClassifyAttractorRegime::test_rs1_with_n_winding_5_is_off_attractor` | ✅ PASSED |
+| 168 | `TestClassifyAttractorRegime::test_wrong_n_winding_is_off_attractor` | ✅ PASSED |
+| 169 | `TestClassifyAttractorRegime::test_rs1_unsaturated_is_off_attractor` | ✅ PASSED |
+| 170 | `TestClassifyAttractorRegime::test_returns_string` | ✅ PASSED |
+| 171 | `TestAmplitudeAttractor::test_returns_required_keys` | ✅ PASSED |
+| 172 | `TestAmplitudeAttractor::test_lam_independent_ns` | ✅ PASSED |
+| 173 | `TestAmplitudeAttractor::test_As_scales_linearly_with_lam` | ✅ PASSED |
+| 174 | `TestAmplitudeAttractor::test_unified_ns_attractor` | ✅ PASSED |
+| 175 | `TestAmplitudeAttractor::test_attractor_set_contains_both_branches` | ✅ PASSED |
+| 176 | `TestAmplitudeAttractor::test_all_attractor_set_in_2sigma` | ✅ PASSED |
+| 177 | `TestAmplitudeAttractor::test_ns_attractor_spread_tight` | ✅ PASSED |
+| 178 | `TestAmplitudeAttractor::test_phi0eff_spread_within_two_percent` | ✅ PASSED |
+| 179 | `TestAmplitudeAttractor::test_majority_attractor_set_within_1sigma` | ✅ PASSED |
+| 180 | `TestAmplitudeAttractor::test_all_attractor_set_within_2sigma` | ✅ PASSED |
+| 181 | `TestAmplitudeAttractor::test_ns_ref_within_planck_1sigma` | ✅ PASSED |
+| 182 | `TestAmplitudeAttractor::test_As_increases_with_lam` | ✅ PASSED |
+| 183 | `TestAmplitudeAttractor::test_attractor_set_records_have_required_keys` | ✅ PASSED |
+| 184 | `TestScaleDependence::test_returns_required_keys` | ✅ PASSED |
+| 185 | `TestScaleDependence::test_ns_within_1sigma_planck` | ✅ PASSED |
+| 186 | `TestScaleDependence::test_r_within_planck_bound` | ✅ PASSED |
+| 187 | `TestScaleDependence::test_r_consistency_relation` | ✅ PASSED |
+| 188 | `TestScaleDependence::test_alpha_s_within_planck_bound` | ✅ PASSED |
+| 189 | `TestScaleDependence::test_gap_is_normalization` | ✅ PASSED |
+| 190 | `TestScaleDependence::test_nt_negative` | ✅ PASSED |
+| 191 | `TestScaleDependence::test_ns_planck_echo` | ✅ PASSED |
+| 192 | `TestFoliationClock::test_returns_required_keys` | ✅ PASSED |
+| 193 | `TestFoliationClock::test_N_efolds_in_canonical_window` | ✅ PASSED |
+| 194 | `TestFoliationClock::test_slow_roll_valid_at_phi_star` | ✅ PASSED |
+| 195 | `TestFoliationClock::test_foliations_consistent` | ✅ PASSED |
+| 196 | `TestFoliationClock::test_entropy_clock_correction_small` | ✅ PASSED |
+| 197 | `TestFoliationClock::test_phi_star_default_is_phi0_over_sqrt3` | ✅ PASSED |
+| 198 | `TestFoliationClock::test_N_efolds_positive` | ✅ PASSED |
+| 199 | `TestAmplitudeGapReport::test_returns_required_keys` | ✅ PASSED |
+| 200 | `TestAmplitudeGapReport::test_gap_factor_equals_lambda_cobe` | ✅ PASSED |
+| 201 | `TestAmplitudeGapReport::test_gap_factor_positive` | ✅ PASSED |
+| 202 | `TestAmplitudeGapReport::test_gap_summary_is_string` | ✅ PASSED |
+| 203 | `TestAmplitudeGapReport::test_fully_determined` | ✅ PASSED |
+| 204 | `TestAmplitudeGapReport::test_slow_roll_sub_dict_correct` | ✅ PASSED |
+| 205 | `TestAmplitudeGapReport::test_sub_dicts_internally_consistent` | ✅ PASSED |
+| 206 | `TestAmplitudeGapReport::test_gap_summary_contains_key_numbers` | ✅ PASSED |
+| 207 | `TestFTUMAttractorDomain::test_returns_required_keys` | ✅ PASSED |
+| 208 | `TestFTUMAttractorDomain::test_flat_branch_keys` | ✅ PASSED |
+| 209 | `TestFTUMAttractorDomain::test_rs1_branch_keys` | ✅ PASSED |
+| 210 | `TestFTUMAttractorDomain::test_excluded_phase_keys` | ✅ PASSED |
+| 211 | `TestFTUMAttractorDomain::test_flat_branch_ns_within_planck_1sigma` | ✅ PASSED |
+| 212 | `TestFTUMAttractorDomain::test_rs1_branch_ns_within_planck_1sigma` | ✅ PASSED |
+| 213 | `TestFTUMAttractorDomain::test_excluded_phase_outside_planck_1sigma` | ✅ PASSED |
+| 214 | `TestFTUMAttractorDomain::test_both_branches_consistent` | ✅ PASSED |
+| 215 | `TestFTUMAttractorDomain::test_branches_agree_in_phi0eff_within_2pct` | ✅ PASSED |
+| 216 | `TestFTUMAttractorDomain::test_phi0_band_symmetric_around_ref` | ✅ PASSED |
+| 217 | `TestFTUMAttractorDomain::test_flat_branch_phi0_eff_near_pi5` | ✅ PASSED |
+| 218 | `TestFTUMAttractorDomain::test_rs1_branch_jacobian_near_saturation` | ✅ PASSED |
+| 219 | `TestFTUMAttractorDomain::test_excluded_phase_phi0eff_below_25` | ✅ PASSED |
+| 220 | `TestFTUMAttractorDomain::test_ftum_condition_is_string` | ✅ PASSED |
+| 221 | `TestFTUMAttractorDomain::test_degeneracy_is_close` | ✅ PASSED |
+| 222 | `TestRS1PhaseScan::test_returns_required_keys` | ✅ PASSED |
+| 223 | `TestRS1PhaseScan::test_j_rs_saturates_by_kr_c_5` | ✅ PASSED |
+| 224 | `TestRS1PhaseScan::test_j_rs_saturated_value_correct` | ✅ PASSED |
+| 225 | `TestRS1PhaseScan::test_j_rs_monotone_increasing` | ✅ PASSED |
+| 226 | `TestRS1PhaseScan::test_natural_branch_all_within_planck_2sigma` | ✅ PASSED |
+| 227 | `TestRS1PhaseScan::test_mixed_phase_all_outside_planck_1sigma` | ✅ PASSED |
+| 228 | `TestRS1PhaseScan::test_natural_branch_ns_spread_tiny_post_saturation` | ✅ PASSED |
+| 229 | `TestRS1PhaseScan::test_mixed_phase_ns_lower_than_natural` | ✅ PASSED |
+| 230 | `TestRS1PhaseScan::test_phase_labels_are_strings` | ✅ PASSED |
+| 231 | `TestRS1PhaseScan::test_custom_r_c_values` | ✅ PASSED |
+| 232 | `TestRS1PhaseScan::test_natural_ns_in_planck_window_at_saturation` | ✅ PASSED |
+| 233 | `TestBirefringenceTransferFunction::test_coherent_model_all_ones` | ✅ PASSED |
+| 234 | `TestBirefringenceTransferFunction::test_coherent_shape` | ✅ PASSED |
+| 235 | `TestBirefringenceTransferFunction::test_gaussian_ul_axion_limit` | ✅ PASSED |
+| 236 | `TestBirefringenceTransferFunction::test_gaussian_qcd_axion_limit` | ✅ PASSED |
+| 237 | `TestBirefringenceTransferFunction::test_gaussian_monotonically_decreasing_in_ell` | ✅ PASSED |
+| 238 | `TestBirefringenceTransferFunction::test_gaussian_values_in_unit_interval` | ✅ PASSED |
+| 239 | `TestBirefringenceTransferFunction::test_invalid_model_raises` | ✅ PASSED |
+| 240 | `TestPropagatePrimordialAmplitude::test_coherent_t_eff_is_one` | ✅ PASSED |
+| 241 | `TestPropagatePrimordialAmplitude::test_coherent_required_equals_observed` | ✅ PASSED |
+| 242 | `TestPropagatePrimordialAmplitude::test_coherent_no_extra_amplitude_needed` | ✅ PASSED |
+| 243 | `TestPropagatePrimordialAmplitude::test_suppressed_requires_more_primordial_amplitude` | ✅ PASSED |
+| 244 | `TestPropagatePrimordialAmplitude::test_c_ee_weighted_mean_correct` | ✅ PASSED |
+| 245 | `TestTBEBWithTransfer::test_none_matches_explicit_ones` | ✅ PASSED |
+| 246 | `TestTBEBWithTransfer::test_default_transfer_ell_is_ones_in_output` | ✅ PASSED |
+| 247 | `TestTBEBWithTransfer::test_half_transfer_halves_signal` | ✅ PASSED |
+| 248 | `TestTBEBWithTransfer::test_wrong_shape_raises` | ✅ PASSED |
+| 249 | `TestBMuRotationAngle::test_consistent_with_birefringence_angle` | ✅ PASSED |
+| 250 | `TestBMuRotationAngle::test_is_linear_flag_always_true` | ✅ PASSED |
+| 251 | `TestBMuRotationAngle::test_linearity_double_b_mu_doubles_alpha` | ✅ PASSED |
+| 252 | `TestBMuRotationAngle::test_coupling_factor_formula` | ✅ PASSED |
+| 253 | `TestBMuRotationAngle::test_quadratic_subdominant_for_model_beta` | ✅ PASSED |
+| 254 | `TestBMuRotationAngle::test_alpha_zero_for_zero_b_mu` | ✅ PASSED |
+| 255 | `TestQuadraticCorrectionBound::test_zero_alpha_exact_prefactor_is_one` | ✅ PASSED |
+| 256 | `TestQuadraticCorrectionBound::test_model_beta_is_subdominant` | ✅ PASSED |
+| 257 | `TestQuadraticCorrectionBound::test_analytic_approximation_accuracy` | ✅ PASSED |
+| 258 | `TestQuadraticCorrectionBound::test_exact_prefactor_less_than_one_for_nonzero_alpha` | ✅ PASSED |
+| 259 | `TestBMuKineticRunning::test_default_gamma_zero_returns_one` | ✅ PASSED |
+| 260 | `TestBMuKineticRunning::test_power_law_scaling` | ✅ PASSED |
+| 261 | `TestBMuKineticRunning::test_perturbative_estimate_is_small` | ✅ PASSED |
+| 262 | `TestVerifyDualJacobianPaths::test_both_branches_pass_attractor` | ✅ PASSED |
+| 263 | `TestVerifyDualJacobianPaths::test_jacobians_differ` | ✅ PASSED |
+| 264 | `TestVerifyDualJacobianPaths::test_dual_path_confirmed` | ✅ PASSED |
+| 265 | `TestVerifyDualJacobianPaths::test_regime_labels_correct` | ✅ PASSED |
+| 266 | `TestVerifyDualJacobianPaths::test_ns_delta_within_one_sigma` | ✅ PASSED |
+| 267 | `TestRS1JacobianTrace::test_warp_factor_is_negligible_at_krc12` | ✅ PASSED |
+| 268 | `TestRS1JacobianTrace::test_jacobian_fully_saturated` | ✅ PASSED |
+| 269 | `TestRS1JacobianTrace::test_delta_is_geometric` | ✅ PASSED |
+| 270 | `TestRS1JacobianTrace::test_delta_value_is_minus_one_percent` | ✅ PASSED |
+| 271 | `TestRS1JacobianTrace::test_phi0_eff_values_match_existing_functions` | ✅ PASSED |
 
 ---
 
@@ -470,6 +600,51 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 
 ---
 
+## test_parallel_validation.py — 38/38 PASSED
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | `TestDualBranchIndependence::test_flat_phi0_eff_positive` | ✅ PASSED |
+| 2 | `TestDualBranchIndependence::test_rs1_phi0_eff_positive` | ✅ PASSED |
+| 3 | `TestDualBranchIndependence::test_flat_branch_passes_attractor` | ✅ PASSED |
+| 4 | `TestDualBranchIndependence::test_rs1_branch_passes_attractor` | ✅ PASSED |
+| 5 | `TestDualBranchIndependence::test_jacobians_differ_by_large_factor` | ✅ PASSED |
+| 6 | `TestDualBranchIndependence::test_paths_differ_flag` | ✅ PASSED |
+| 7 | `TestDualBranchIndependence::test_dual_path_confirmed` | ✅ PASSED |
+| 8 | `TestDualBranchIndependence::test_phi0eff_spread_matches_analytic_formula` | ✅ PASSED |
+| 9 | `TestDualBranchIndependence::test_rs1_jacobian_is_saturated` | ✅ PASSED |
+| 10 | `TestDualBranchIndependence::test_excluded_phase_is_excluded` | ✅ PASSED |
+| 11 | `TestObservableDecoupling::test_ns_constant_across_lambda_scan` | ✅ PASSED |
+| 12 | `TestObservableDecoupling::test_r_constant_across_lambda_scan` | ✅ PASSED |
+| 13 | `TestObservableDecoupling::test_As_does_change_with_lambda` | ✅ PASSED |
+| 14 | `TestObservableDecoupling::test_ns_within_planck_1sigma` | ✅ PASSED |
+| 15 | `TestObservableDecoupling::test_r_within_planck_bound` | ✅ PASSED |
+| 16 | `TestObservableDecoupling::test_alpha_s_within_bound` | ✅ PASSED |
+| 17 | `TestObservableDecoupling::test_gap_is_normalization_only` | ✅ PASSED |
+| 18 | `TestAmplitudeClosure::test_lam_cobe_is_finite_and_positive` | ✅ PASSED |
+| 19 | `TestAmplitudeClosure::test_lam_cobe_order_of_magnitude` | ✅ PASSED |
+| 20 | `TestAmplitudeClosure::test_as_predicted_matches_planck` | ✅ PASSED |
+| 21 | `TestAmplitudeClosure::test_inflation_energy_scale_is_gut_scale` | ✅ PASSED |
+| 22 | `TestAmplitudeClosure::test_ns_unchanged_by_normalisation` | ✅ PASSED |
+| 23 | `TestAmplitudeClosure::test_lam_independent_observables_listed` | ✅ PASSED |
+| 24 | `TestTransferFunctionPhysics::test_b_mu_angle_is_linear_in_b_mu_rms` | ✅ PASSED |
+| 25 | `TestTransferFunctionPhysics::test_b_mu_angle_consistent_with_birefringence_angle` | ✅ PASSED |
+| 26 | `TestTransferFunctionPhysics::test_quadratic_correction_is_subdominant` | ✅ PASSED |
+| 27 | `TestTransferFunctionPhysics::test_transfer_coherent_model_is_unity` | ✅ PASSED |
+| 28 | `TestTransferFunctionPhysics::test_transfer_gaussian_ul_axion_limit` | ✅ PASSED |
+| 29 | `TestTransferFunctionPhysics::test_transfer_gaussian_suppresses_high_ell` | ✅ PASSED |
+| 30 | `TestTransferFunctionPhysics::test_propagate_coherent_needs_no_extra_amplitude` | ✅ PASSED |
+| 31 | `TestExtremeLimits::test_transfer_near_infinite_coherence` | ✅ PASSED |
+| 32 | `TestExtremeLimits::test_transfer_zero_coherence` | ✅ PASSED |
+| 33 | `TestExtremeLimits::test_transfer_values_always_in_unit_interval` | ✅ PASSED |
+| 34 | `TestExtremeLimits::test_rotation_angle_zero_for_zero_coupling` | ✅ PASSED |
+| 35 | `TestExtremeLimits::test_rotation_angle_zero_for_zero_displacement` | ✅ PASSED |
+| 36 | `TestExtremeLimits::test_quadratic_bound_at_zero_alpha` | ✅ PASSED |
+| 37 | `TestExtremeLimits::test_jacobian_rs_positive_for_positive_inputs` | ✅ PASSED |
+| 38 | `TestExtremeLimits::test_ns_from_phi0_finite_at_low_multipoles` | ✅ PASSED |
+
+---
+
 ## Summary
 
 | File | Passed | Skipped | Failed | Total |
@@ -478,7 +653,7 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_convergence.py` | 10 | 0 | 0 | 10 |
 | `test_evolution.py` | 49 | 0 | 0 | 49 |
 | `test_fixed_point.py` | 35 | 0 | 0 | 35 |
-| `test_inflation.py` | 141 | 0 | 0 | 141 |
+| `test_inflation.py` | 271 | 0 | 0 | 271 |
 | `test_metric.py` | 30 | 0 | 0 | 30 |
 | `test_closure_batch1.py` | 25 | 0 | 0 | 25 |
 | `test_closure_batch2.py` | 31 | 0 | 0 | 31 |
@@ -489,7 +664,8 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_cmb_landscape.py` | 17 | 0 | 0 | 17 |
 | `test_e2e_pipeline.py` | 26 | 0 | 0 | 26 |
 | `test_observational_resolution.py` | 30 | 0 | 0 | 30 |
+| `test_parallel_validation.py` | 38 | 0 | 0 | 38 |
 | `test_richardson_multitime.py` 🐌 | 11 | 0 | 0 | 11 |
-| **Total** | **495** | **1** ⚑ | **0** | **496** |
+| **Total** | **663** | **1** ⚑ | **0** | **664** |
 
 ⚑ Guard skip: `TestEntropyProductionRate::test_defect_history_mostly_decreasing` — see header note.

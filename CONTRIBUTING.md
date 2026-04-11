@@ -11,7 +11,7 @@ verifications, extensions, and discussions — are welcome.
 git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
-python -m pytest tests/ -v          # 484 passed, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 652 passed, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow    # 11 slow tests (Richardson convergence)
 ```
 
@@ -23,7 +23,7 @@ The test suite covers:
 | `src/core/evolution.py` | RK4 integrator, Euler baseline, CFL estimate, physics bounds (49 tests) |
 | `src/holography/boundary.py` | Entropy-area law, boundary evolution, conservation (21 tests) |
 | `src/multiverse/fixed_point.py` | FTUM convergence, second law, holographic bound (35 tests) |
-| `src/core/inflation.py` / `transfer.py` | CMB power spectrum, birefringence, triple constraint (141 tests) |
+| `src/core/inflation.py` / `transfer.py` | CMB power spectrum, birefringence, triple constraint (271 tests) |
 | Convergence | O(dx²) gradient, Laplacian, Christoffel (10 tests) |
 | Closure batch 1 | α dual-path, nₛ KK=Casimir, β coupling, holographic emergence (25 tests) |
 | Closure batch 2 | Numerical robustness, cross-module consistency (31 tests) |
@@ -34,8 +34,9 @@ The test suite covers:
 | CMB landscape | χ² landscape, TB/EB cross-checks (17 tests) |
 | End-to-end pipeline | Chain closure, CS level uniqueness, α loop (26 tests) |
 | Observational resolution | nₛ/β/χ² tolerances, LiteBIRD bounds (30 tests) |
+| Parallel validation | 5 independent theory claims, dual-branch, transfer physics (38 tests) |
 | Richardson (slow) | Second-order convergence rate in time step (11 tests) |
-| **Total** | **496: 484 fast passed · 1 skipped (guard) · 11 slow-deselected · 0 failed** |
+| **Total** | **664: 652 fast passed · 1 skipped (guard) · 11 slow-deselected · 0 failed** |
 
 > **Skip note:** 1 test in `test_arrow_of_time.py` uses a conditional `pytest.skip()` guard that fires when `fixed_point_iteration` converges in fewer than 2 steps (immediate convergence = correct behaviour). This is not a failure.
 > **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default via `pytest.ini`. Run with `pytest tests/ -m slow`.

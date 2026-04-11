@@ -148,7 +148,7 @@ MECHANISM:   Irreversibility field B_μ in off-diagonal 5D metric block; survive
 RESULTS:     nₛ = 0.9635 (Planck 1σ), β = 0.3513° (within 1σ of 0.35°±0.14°), α = φ₀⁻² (derived)
 GAPS:        CMB amplitude ×4–7 suppressed; φ₀ self-consistency not fully closed in code
 FALSIFIER:   LiteBIRD birefringence measurement (β ≠ 0.35°) or ET/LISA null scalar GW
-TESTS:       496 total | 484 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
+TESTS:       664 total | 652 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py
 KEY FILE:    FALLIBILITY.md (full limitations), README.md (technical detail)
 ```
