@@ -133,9 +133,18 @@ cobe_normalization(phi0_bare, n_winding, As_target)
     Solve for the GW coupling λ_COBE that matches a target scalar amplitude Aₛ.
     Returns λ, H_inf, V_inf^(1/4), and consistency checks (r, nₛ, E_inf).
 
-amplitude_attractor_scan(phi0_bare_values, n_winding_values, lam)
-    Scan (φ₀_bare, n_winding) neighbourhood; show that nₛ and r are
-    attractor-like (insensitive to parameter perturbations).
+ftum_attractor_domain(phi0_bare_ref, n_winding_flat, k_rs1, r_c_rs1, n_winding_rs1)
+    Define and characterise the two FTUM-consistent attractor branches (flat S¹
+    with n_w=5 and RS1-saturated with n_w=7) and the excluded RS1 mixed phase.
+    Returns branch-by-branch ns/phi0_eff values and consistency flag.
+
+rs1_phase_scan(k, r_c_values, phi0_bare, n_winding_natural, n_winding_mixed)
+    Scan k r_c from 1 to 15; demonstrate J_RS saturation; classify the RS1
+    Planck-compatible branch (n_w=7) and the excluded mixed phase (n_w=5).
+
+amplitude_attractor_scan(lam_values, phi0_bare_values, n_winding)
+    Demonstrate the two-level attractor: (1) λ-independence of nₛ/r to machine
+    precision; (2) 100 % of the ±5 % FTUM neighbourhood within Planck 2σ.
 
 scale_dependence_comparison(phi0_bare, n_winding, lam, delta_phi0_frac)
     Compare the spectral tilt nₛ, running αₛ = dnₛ/d ln k, and tensor-to-scalar
@@ -1059,6 +1068,247 @@ PLANCK_AS_CENTRAL: float = 2.101e-9
 
 #: Reduced Planck mass in GeV (M_Pl = (8πG)^{-1/2} ≈ 2.435 × 10¹⁸ GeV).
 M_PL_GEV: float = 2.435e18
+
+
+def ftum_attractor_domain(
+    phi0_bare_ref: float = 1.0,
+    n_winding_flat: int = 5,
+    k_rs1: float = 1.0,
+    r_c_rs1: float = 12.0,
+    n_winding_rs1: int = 7,
+    phi0_band_frac: float = 0.05,
+) -> dict:
+    """Define and characterise the two FTUM-consistent attractor branches.
+
+    The theory admits two geometrically distinct paths to a Planck-compatible
+    nₛ ≈ 0.963.  Both originate from φ₀_bare ≈ 1 (the FTUM fixed point) but
+    use different Jacobians to project the 5D field onto the 4D observable:
+
+    1. **Flat S¹ branch** (primary):  uses the S¹ winding Jacobian
+       J_flat = n_w · 2π · √φ₀_bare, with n_w = 5.  At φ₀_bare = 1:
+       φ₀_eff = 5 · 2π ≈ 31.42 → nₛ ≈ 0.9635.
+
+    2. **RS1-saturated branch** (secondary):  uses the warped-geometry Jacobian
+       J_RS → 1/√(2k) (independent of r_c for k r_c ≫ 1), with n_w = 7.  At
+       saturation: φ₀_eff = 7 · 2π/√2 ≈ 31.10 → nₛ ≈ 0.9628.
+
+    The two branches agree to within 1 % in φ₀_eff and 0.1σ_Planck in nₛ.
+    This near-degeneracy is *not coincidental*: both Jacobians are normalised
+    to give the canonical 4D kinetic term, so they must produce the same
+    observable when the winding number is chosen to compensate the different
+    normalisation factors (√φ₀ ≈ 1 vs 1/√(2k) ≈ 0.707 for k = 1; 5 × 1 ≈
+    7 × 0.707 ≈ 5).
+
+    A third, observationally *excluded* phase exists when RS1 geometry is used
+    with n_w = 5: φ₀_eff ≈ 22.2 → nₛ ≈ 0.927 (≈ 9σ from Planck).  This phase
+    is dynamically stable but phenomenologically distinct, analogous to
+    Schwarzschild vs FRW solutions in GR.
+
+    Parameters
+    ----------
+    phi0_bare_ref   : float — FTUM fixed-point bare vev (default 1)
+    n_winding_flat  : int   — winding number for flat-S¹ branch (default 5)
+    k_rs1           : float — AdS curvature for RS1 branch (default 1)
+    r_c_rs1         : float — compactification radius for RS1 branch (default 12)
+    n_winding_rs1   : int   — winding number for RS1 branch (default 7)
+    phi0_band_frac  : float — half-width of FTUM neighbourhood as a fraction
+                              of phi0_bare_ref (default 0.05 = ±5%)
+
+    Returns
+    -------
+    dict with keys:
+
+    ``flat_branch``
+        Sub-dict: ``phi0_eff``, ``ns``, ``r``, ``n_winding``, ``jacobian``
+    ``rs1_branch``
+        Sub-dict: ``phi0_eff``, ``ns``, ``r``, ``n_winding``, ``jacobian``,
+        ``kr_c``, ``j_rs_saturated``
+    ``excluded_rs1_phase``
+        Sub-dict: ``phi0_eff``, ``ns``, ``r``, ``n_winding``, ``why_excluded``
+    ``phi0_bare_ref``    : float — FTUM fixed-point value
+    ``phi0_band_lo``     : float — lower edge of FTUM neighbourhood
+    ``phi0_band_hi``     : float — upper edge of FTUM neighbourhood
+    ``ns_branch_delta``  : float — |nₛ_flat − nₛ_RS1|
+    ``phi0eff_branch_delta_frac``: float — |φ₀_eff_flat − φ₀_eff_RS1| / φ₀_eff_flat
+    ``branches_consistent``: bool — True iff both Planck-compatible branches
+                                    agree to within 1σ_Planck in nₛ
+    ``ftum_condition``   : str  — plain-language description of the FTUM
+                                  consistency requirement
+    """
+    # --- Flat S¹ branch ---
+    phi0_eff_flat = effective_phi0_kk(phi0_bare_ref, n_winding_flat)
+    J_flat        = jacobian_5d_4d(phi0_bare_ref, n_winding_flat)
+    ns_flat, r_flat, *_ = ns_from_phi0(phi0_eff_flat)
+
+    # --- RS1-saturated branch ---
+    phi0_eff_rs1 = effective_phi0_rs(phi0_bare_ref, k_rs1, r_c_rs1, n_winding_rs1)
+    J_rs1        = jacobian_rs_orbifold(k_rs1, r_c_rs1)
+    j_rs_sat     = float(1.0 / np.sqrt(2.0 * k_rs1))   # analytic saturation value
+    ns_rs1, r_rs1, *_ = ns_from_phi0(phi0_eff_rs1)
+
+    # --- Excluded phase: RS1 geometry with flat winding (n_winding=5) ---
+    phi0_eff_excl = effective_phi0_rs(phi0_bare_ref, k_rs1, r_c_rs1, n_winding_flat)
+    ns_excl, r_excl, *_ = ns_from_phi0(phi0_eff_excl)
+
+    ns_branch_delta           = float(abs(ns_flat - ns_rs1))
+    phi0eff_branch_delta_frac = float(abs(phi0_eff_flat - phi0_eff_rs1) / phi0_eff_flat)
+    branches_consistent       = bool(ns_branch_delta < PLANCK_NS_SIGMA)
+
+    return {
+        "flat_branch": {
+            "phi0_eff":  float(phi0_eff_flat),
+            "ns":        float(ns_flat),
+            "r":         float(r_flat),
+            "n_winding": int(n_winding_flat),
+            "jacobian":  float(J_flat),
+        },
+        "rs1_branch": {
+            "phi0_eff":        float(phi0_eff_rs1),
+            "ns":              float(ns_rs1),
+            "r":               float(r_rs1),
+            "n_winding":       int(n_winding_rs1),
+            "jacobian":        float(J_rs1),
+            "kr_c":            float(k_rs1 * r_c_rs1),
+            "j_rs_saturated":  float(j_rs_sat),
+        },
+        "excluded_rs1_phase": {
+            "phi0_eff":     float(phi0_eff_excl),
+            "ns":           float(ns_excl),
+            "r":            float(r_excl),
+            "n_winding":    int(n_winding_flat),
+            "why_excluded": (
+                "RS1 geometry with flat-S1 winding (n_w=%d): "
+                "phi0_eff=%.2f -> ns=%.4f (%.1f sigma from Planck). "
+                "Dynamically stable but phenomenologically distinct phase."
+                % (n_winding_flat, phi0_eff_excl, ns_excl,
+                   abs(ns_excl - PLANCK_NS_CENTRAL) / PLANCK_NS_SIGMA)
+            ),
+        },
+        "phi0_bare_ref":              float(phi0_bare_ref),
+        "phi0_band_lo":               float(phi0_bare_ref * (1.0 - phi0_band_frac)),
+        "phi0_band_hi":               float(phi0_bare_ref * (1.0 + phi0_band_frac)),
+        "ns_branch_delta":            ns_branch_delta,
+        "phi0eff_branch_delta_frac":  phi0eff_branch_delta_frac,
+        "branches_consistent":        branches_consistent,
+        "ftum_condition": (
+            "phi0_bare within [%.2f, %.2f] AND n_winding in {%d (flat-S1), %d (RS1)}. "
+            "FTUM iteration converges to phi0_bare=%.1f; "
+            "points outside this band enter different attractor basins."
+            % (phi0_bare_ref * (1.0 - phi0_band_frac),
+               phi0_bare_ref * (1.0 + phi0_band_frac),
+               n_winding_flat, n_winding_rs1, phi0_bare_ref)
+        ),
+    }
+
+
+def rs1_phase_scan(
+    k: float = 1.0,
+    r_c_values: list[float] | None = None,
+    phi0_bare: float = 1.0,
+    n_winding_natural: int = 7,
+    n_winding_mixed: int = 5,
+) -> dict:
+    """Characterise the RS1 saturation branch and the excluded mixed phase.
+
+    Scans k r_c from 1 to 15 and computes:
+    - J_RS(k, r_c) to demonstrate Jacobian saturation
+    - nₛ for the **natural RS1 winding** n_w = 7 (Planck-compatible branch)
+    - nₛ for the **mixed winding** n_w = 5 (excluded phase)
+
+    This cleanly separates two concepts:
+    - *Jacobian stability*: J_RS saturates quickly (k r_c ≳ 3)
+    - *Observational viability*: requires n_w = 7, not n_w = 5
+
+    Parameters
+    ----------
+    k                 : float           — AdS curvature (default 1)
+    r_c_values        : list[float]|None — compactification radii to scan
+                        (default: [1, 2, 3, 5, 7, 10, 12, 14, 15])
+    phi0_bare         : float — bare vev (default 1)
+    n_winding_natural : int   — winding number for the Planck-compatible RS1 branch
+                                (default 7)
+    n_winding_mixed   : int   — winding number for the excluded mixed phase
+                                (default 5)
+
+    Returns
+    -------
+    dict with keys:
+
+    ``kr_c_values``       : list[float] — k × r_c values scanned
+    ``J_RS_values``       : ndarray     — J_RS at each k r_c
+    ``J_RS_saturated``    : float       — analytic saturation value 1/√(2k)
+    ``J_RS_converged``    : ndarray[bool] — True where |J_RS − J_sat| < 1e-6
+    ``kr_c_saturation``   : float       — smallest k r_c where J_RS is converged
+    ``ns_natural``        : ndarray     — nₛ with n_w=n_winding_natural (Planck branch)
+    ``ns_mixed``          : ndarray     — nₛ with n_w=n_winding_mixed   (excluded phase)
+    ``ns_natural_spread`` : float       — max − min of ns_natural after saturation
+    ``natural_all_in_2sigma``: bool     — True iff all post-saturation nₛ_natural
+                                          values are within Planck 2σ
+    ``mixed_all_outside_1sigma``: bool  — True iff all nₛ_mixed values are outside
+                                          Planck 1σ (confirming exclusion)
+    ``phase_label_natural``: str        — human-readable label
+    ``phase_label_mixed``  : str        — human-readable label
+    """
+    if r_c_values is None:
+        r_c_values = [1.0, 2.0, 3.0, 5.0, 7.0, 10.0, 12.0, 14.0, 15.0]
+
+    n      = len(r_c_values)
+    kr_c_v = np.array([k * rc for rc in r_c_values], dtype=float)
+    J_arr  = np.array([jacobian_rs_orbifold(k, rc) for rc in r_c_values])
+
+    J_sat  = float(1.0 / np.sqrt(2.0 * k))
+    J_conv = np.abs(J_arr - J_sat) < 1e-6
+
+    # smallest kr_c where J_RS is considered converged
+    sat_idx      = int(np.argmax(J_conv)) if np.any(J_conv) else n - 1
+    kr_c_sat     = float(kr_c_v[sat_idx])
+
+    ns_nat   = np.empty(n)
+    ns_mix   = np.empty(n)
+    for i, rc in enumerate(r_c_values):
+        phi0_nat  = effective_phi0_rs(phi0_bare, k, rc, n_winding_natural)
+        phi0_mix  = effective_phi0_rs(phi0_bare, k, rc, n_winding_mixed)
+        ns_nat[i] = ns_from_phi0(phi0_nat)[0]
+        ns_mix[i] = ns_from_phi0(phi0_mix)[0]
+
+    # Evaluate only post-saturation points for spread
+    post_sat          = J_conv
+    ns_nat_post       = ns_nat[post_sat] if np.any(post_sat) else ns_nat
+    ns_nat_spread     = float(np.max(ns_nat_post) - np.min(ns_nat_post))
+
+    ns_lo_2s = PLANCK_NS_CENTRAL - 2.0 * PLANCK_NS_SIGMA
+    ns_hi_2s = PLANCK_NS_CENTRAL + 2.0 * PLANCK_NS_SIGMA
+    ns_lo_1s = PLANCK_NS_CENTRAL - PLANCK_NS_SIGMA
+    ns_hi_1s = PLANCK_NS_CENTRAL + PLANCK_NS_SIGMA
+
+    nat_in_2s  = bool(np.all((ns_nat_post >= ns_lo_2s) & (ns_nat_post <= ns_hi_2s)))
+    mix_out_1s = bool(np.all((ns_mix < ns_lo_1s) | (ns_mix > ns_hi_1s)))
+
+    return {
+        "kr_c_values":             list(kr_c_v),
+        "J_RS_values":             J_arr,
+        "J_RS_saturated":          J_sat,
+        "J_RS_converged":          J_conv,
+        "kr_c_saturation":         kr_c_sat,
+        "ns_natural":              ns_nat,
+        "ns_mixed":                ns_mix,
+        "ns_natural_spread":       ns_nat_spread,
+        "natural_all_in_2sigma":   nat_in_2s,
+        "mixed_all_outside_1sigma":mix_out_1s,
+        "phase_label_natural":     (
+            "RS1-saturated (n_w=%d): Planck-compatible attractor, "
+            "ns=%.4f±%.4f over kr_c scan" % (
+                n_winding_natural,
+                float(np.mean(ns_nat_post)), ns_nat_spread)
+        ),
+        "phase_label_mixed": (
+            "RS1-mixed (n_w=%d): excluded phase, "
+            "ns=%.4f (%.1f sigma from Planck), dynamically stable" % (
+                n_winding_mixed,
+                float(np.mean(ns_mix)),
+                float(np.mean(np.abs(ns_mix - PLANCK_NS_CENTRAL))) / PLANCK_NS_SIGMA)
+        ),
+    }
 
 
 def slow_roll_amplitude(

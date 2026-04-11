@@ -1234,6 +1234,8 @@ class TestTBEBSpectrum:
 from src.core.inflation import (
     slow_roll_amplitude,
     cobe_normalization,
+    ftum_attractor_domain,
+    rs1_phase_scan,
     amplitude_attractor_scan,
     scale_dependence_comparison,
     foliation_clock_check,
@@ -1581,3 +1583,176 @@ class TestAmplitudeGapReport:
         summary = result["gap_summary"]
         assert "ns" in summary.lower() or "0.96" in summary
         assert "gap" in summary.lower() or "lambda" in summary.lower()
+
+
+class TestFTUMAttractorDomain:
+    """Tests for ftum_attractor_domain() — domain definition and branch consistency."""
+
+    def test_returns_required_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("flat_branch", "rs1_branch", "excluded_rs1_phase",
+                    "phi0_bare_ref", "phi0_band_lo", "phi0_band_hi",
+                    "ns_branch_delta", "phi0eff_branch_delta_frac",
+                    "branches_consistent", "ftum_condition"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_flat_branch_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("phi0_eff", "ns", "r", "n_winding", "jacobian"):
+            assert key in result["flat_branch"], f"Missing flat_branch key: {key}"
+
+    def test_rs1_branch_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("phi0_eff", "ns", "r", "n_winding",
+                    "jacobian", "kr_c", "j_rs_saturated"):
+            assert key in result["rs1_branch"], f"Missing rs1_branch key: {key}"
+
+    def test_excluded_phase_keys(self):
+        result = ftum_attractor_domain()
+        for key in ("phi0_eff", "ns", "r", "n_winding", "why_excluded"):
+            assert key in result["excluded_rs1_phase"], f"Missing excluded key: {key}"
+
+    def test_flat_branch_ns_within_planck_1sigma(self):
+        result = ftum_attractor_domain()
+        ns = result["flat_branch"]["ns"]
+        assert abs(ns - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_rs1_branch_ns_within_planck_1sigma(self):
+        result = ftum_attractor_domain()
+        ns = result["rs1_branch"]["ns"]
+        assert abs(ns - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
+
+    def test_excluded_phase_outside_planck_1sigma(self):
+        """The excluded phase must be well outside Planck 1σ — it is a distinct phase."""
+        result = ftum_attractor_domain()
+        ns = result["excluded_rs1_phase"]["ns"]
+        assert abs(ns - PLANCK_NS_CENTRAL) > PLANCK_NS_SIGMA
+
+    def test_both_branches_consistent(self):
+        """Flat-S1 and RS1-saturated branches must agree within 1σ_Planck."""
+        result = ftum_attractor_domain()
+        assert result["branches_consistent"], (
+            f"ns_branch_delta = {result['ns_branch_delta']:.4f} >= {PLANCK_NS_SIGMA}"
+        )
+
+    def test_branches_agree_in_phi0eff_within_2pct(self):
+        """Both branches give phi0_eff within 2% of each other."""
+        result = ftum_attractor_domain()
+        assert result["phi0eff_branch_delta_frac"] < 0.02, (
+            f"phi0_eff branch difference = "
+            f"{100*result['phi0eff_branch_delta_frac']:.2f}% >= 2%"
+        )
+
+    def test_phi0_band_symmetric_around_ref(self):
+        result = ftum_attractor_domain(phi0_bare_ref=1.0, phi0_band_frac=0.05)
+        assert result["phi0_band_lo"] == pytest.approx(0.95)
+        assert result["phi0_band_hi"] == pytest.approx(1.05)
+
+    def test_flat_branch_phi0_eff_near_pi5(self):
+        """Flat-S1: phi0_eff = 5*2pi*sqrt(1) = 5*2pi = 31.416..."""
+        result = ftum_attractor_domain()
+        assert result["flat_branch"]["phi0_eff"] == pytest.approx(5 * 2 * np.pi, rel=1e-6)
+
+    def test_rs1_branch_jacobian_near_saturation(self):
+        """RS1 Jacobian at kr_c=12 must be within 1e-6 of 1/sqrt(2) for k=1."""
+        result = ftum_attractor_domain()
+        j_sat = result["rs1_branch"]["j_rs_saturated"]
+        j_actual = result["rs1_branch"]["jacobian"]
+        assert abs(j_actual - j_sat) < 1e-6
+
+    def test_excluded_phase_phi0eff_below_25(self):
+        """Excluded phase with n_w=5 on RS1 must have phi0_eff < 25 (off-attractor)."""
+        result = ftum_attractor_domain()
+        assert result["excluded_rs1_phase"]["phi0_eff"] < 25.0
+
+    def test_ftum_condition_is_string(self):
+        result = ftum_attractor_domain()
+        assert isinstance(result["ftum_condition"], str)
+        assert len(result["ftum_condition"]) > 0
+
+    def test_degeneracy_is_close(self):
+        """The two independent Jacobian flows give ns within 0.2*sigma of each other."""
+        result = ftum_attractor_domain()
+        ns_delta_in_sigma = result["ns_branch_delta"] / PLANCK_NS_SIGMA
+        assert ns_delta_in_sigma < 0.2, (
+            f"Branch ns delta = {ns_delta_in_sigma:.2f} sigma — "
+            f"degeneracy less tight than expected"
+        )
+
+
+class TestRS1PhaseScan:
+    """Tests for rs1_phase_scan() — Jacobian saturation and phase classification."""
+
+    def test_returns_required_keys(self):
+        result = rs1_phase_scan()
+        for key in ("kr_c_values", "J_RS_values", "J_RS_saturated",
+                    "J_RS_converged", "kr_c_saturation",
+                    "ns_natural", "ns_mixed",
+                    "ns_natural_spread", "natural_all_in_2sigma",
+                    "mixed_all_outside_1sigma",
+                    "phase_label_natural", "phase_label_mixed"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_j_rs_saturates_by_kr_c_5(self):
+        """J_RS must be converged to 1/sqrt(2k) for kr_c >= 3."""
+        result = rs1_phase_scan()
+        assert result["kr_c_saturation"] <= 3.0, (
+            f"Saturation only reached at kr_c={result['kr_c_saturation']:.1f}"
+        )
+
+    def test_j_rs_saturated_value_correct(self):
+        """Saturation value must equal 1/sqrt(2k) for k=1."""
+        result = rs1_phase_scan(k=1.0)
+        assert result["J_RS_saturated"] == pytest.approx(1.0 / np.sqrt(2.0), rel=1e-10)
+
+    def test_j_rs_monotone_increasing(self):
+        """J_RS must increase toward saturation as kr_c increases."""
+        result = rs1_phase_scan()
+        J = result["J_RS_values"]
+        assert np.all(np.diff(J) >= 0.0)
+
+    def test_natural_branch_all_within_planck_2sigma(self):
+        """Post-saturation RS1 ns (n_w=7) must all be within Planck 2σ."""
+        result = rs1_phase_scan()
+        assert result["natural_all_in_2sigma"], (
+            f"Some natural-branch ns outside Planck 2σ. "
+            f"ns range: [{result['ns_natural'].min():.4f}, "
+            f"{result['ns_natural'].max():.4f}]"
+        )
+
+    def test_mixed_phase_all_outside_planck_1sigma(self):
+        """RS1 mixed phase (n_w=5) must lie outside Planck 1σ — it is excluded."""
+        result = rs1_phase_scan()
+        assert result["mixed_all_outside_1sigma"], (
+            f"Some mixed-phase ns inside Planck 1σ. "
+            f"ns range: [{result['ns_mixed'].min():.4f}, "
+            f"{result['ns_mixed'].max():.4f}]"
+        )
+
+    def test_natural_branch_ns_spread_tiny_post_saturation(self):
+        """After saturation, ns must be constant to < 1e-4 (J_RS fully converged)."""
+        result = rs1_phase_scan()
+        assert result["ns_natural_spread"] < 1e-4, (
+            f"ns_natural_spread={result['ns_natural_spread']:.2e} after saturation"
+        )
+
+    def test_mixed_phase_ns_lower_than_natural(self):
+        """Excluded phase (n_w=5) gives systematically lower ns than natural (n_w=7)."""
+        result = rs1_phase_scan()
+        assert np.all(result["ns_mixed"] < result["ns_natural"])
+
+    def test_phase_labels_are_strings(self):
+        result = rs1_phase_scan()
+        assert isinstance(result["phase_label_natural"], str)
+        assert isinstance(result["phase_label_mixed"],   str)
+
+    def test_custom_r_c_values(self):
+        result = rs1_phase_scan(r_c_values=[5.0, 10.0, 15.0])
+        assert len(result["kr_c_values"]) == 3
+        assert len(result["ns_natural"])  == 3
+
+    def test_natural_ns_in_planck_window_at_saturation(self):
+        """At kr_c=12 (well into saturation), natural-branch ns within 1σ."""
+        result = rs1_phase_scan(r_c_values=[12.0])
+        ns = float(result["ns_natural"][0])
+        assert abs(ns - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
