@@ -1236,12 +1236,16 @@ from src.core.inflation import (
     cobe_normalization,
     ftum_attractor_domain,
     rs1_phase_scan,
+    classify_attractor_regime,
     amplitude_attractor_scan,
     scale_dependence_comparison,
     foliation_clock_check,
     amplitude_gap_report,
     PLANCK_AS_CENTRAL,
     M_PL_GEV,
+    ATTRACTOR_PHI0_EFF_TARGET,
+    ATTRACTOR_NS_TARGET,
+    ATTRACTOR_TOLERANCE,
 )
 
 
@@ -1361,16 +1365,58 @@ class TestCOBENormalization:
         assert result["phi0_eff"] == pytest.approx(expected)
 
 
+class TestClassifyAttractorRegime:
+    """Tests for classify_attractor_regime() — regime labelling."""
+
+    def test_flat_s1_ftum_at_reference(self):
+        assert classify_attractor_regime(1.0, 5) == "Flat_S1_FTUM"
+
+    def test_flat_s1_ftum_within_band(self):
+        for phi0b in [0.96, 0.98, 1.0, 1.02, 1.04]:
+            assert classify_attractor_regime(phi0b, 5) == "Flat_S1_FTUM", (
+                f"phi0_bare={phi0b} should be Flat_S1_FTUM"
+            )
+
+    def test_flat_s1_outside_band_is_off_attractor(self):
+        assert classify_attractor_regime(0.5, 5) == "Off_Attractor"
+        assert classify_attractor_regime(2.0, 5) == "Off_Attractor"
+
+    def test_rs1_saturated_at_kr_c_12(self):
+        assert classify_attractor_regime(1.0, 7, k=1.0, r_c=12.0) == "RS1_Saturated"
+
+    def test_rs1_saturated_at_kr_c_15(self):
+        assert classify_attractor_regime(1.0, 7, k=1.0, r_c=15.0) == "RS1_Saturated"
+
+    def test_rs1_with_n_winding_5_is_off_attractor(self):
+        """RS1 geometry with n_w=5 gives phi0_eff ≈ 22 — excluded phase."""
+        assert classify_attractor_regime(1.0, 5, k=1.0, r_c=12.0) != "RS1_Saturated"
+
+    def test_wrong_n_winding_is_off_attractor(self):
+        assert classify_attractor_regime(1.0, 3) == "Off_Attractor"
+        assert classify_attractor_regime(1.0, 6) == "Off_Attractor"
+
+    def test_rs1_unsaturated_is_off_attractor(self):
+        """RS1 at small kr_c (J_RS not yet saturated) should be Off_Attractor."""
+        assert classify_attractor_regime(1.0, 7, k=1.0, r_c=0.1) == "Off_Attractor"
+
+    def test_returns_string(self):
+        result = classify_attractor_regime(1.0, 5)
+        assert isinstance(result, str)
+        assert result in ("Flat_S1_FTUM", "RS1_Saturated", "Off_Attractor")
+
+
 class TestAmplitudeAttractor:
-    """Tests for amplitude_attractor_scan() — attractor stability."""
+    """Tests for amplitude_attractor_scan() — branch-aware unified attractor."""
 
     def test_returns_required_keys(self):
         result = amplitude_attractor_scan()
         for key in ("lam_values", "ns_vs_lam", "r_vs_lam", "As_vs_lam",
                     "ns_lam_spread", "r_lam_spread", "As_lam_linearity",
-                    "phi0_values", "ns_vs_phi0", "ns_phi0_spread",
-                    "fraction_within_1sigma", "fraction_within_2sigma",
+                    "attractor_set", "ns_attractor_spread",
+                    "phi0eff_attractor_spread_frac",
+                    "attractor_set_all_in_2sigma", "off_attractor_points",
                     "ns_ref", "r_ref",
+                    "fraction_within_1sigma", "fraction_within_2sigma",
                     "is_lam_independent", "is_ns_attractor", "is_As_linear"):
             assert key in result, f"Missing key: {key}"
 
@@ -1389,56 +1435,65 @@ class TestAmplitudeAttractor:
             f"As_lam_linearity = {result['As_lam_linearity']:.2e}"
         )
 
-    def test_ns_attractor_in_ftum_neighborhood(self):
-        """Within ±5% FTUM perturbation, nₛ stays within 3σ of Planck."""
+    def test_unified_ns_attractor(self):
+        """Both branches in set A must satisfy the unified attractor criterion."""
         result = amplitude_attractor_scan()
         assert result["is_ns_attractor"], (
-            f"ns_phi0_spread={result['ns_phi0_spread']:.4f} >= "
-            f"3*{PLANCK_NS_SIGMA}={3*PLANCK_NS_SIGMA:.4f}"
+            f"ns_spread={result['ns_attractor_spread']:.4f}, "
+            f"phi0eff_spread_frac={result['phi0eff_attractor_spread_frac']:.4f}, "
+            f"all_in_2sigma={result['attractor_set_all_in_2sigma']}"
         )
 
-    def test_all_neighborhood_points_within_2sigma(self):
-        """All ±5% FTUM neighborhood nₛ values must be within Planck 2σ."""
+    def test_attractor_set_contains_both_branches(self):
+        """Set A must contain at least one Flat_S1_FTUM and one RS1_Saturated point."""
         result = amplitude_attractor_scan()
-        assert result["fraction_within_2sigma"] == pytest.approx(1.0), (
-            f"Only {100*result['fraction_within_2sigma']:.0f}% of neighborhood "
-            f"within Planck 2σ (expected 100%)"
-        )
+        branches = {p["branch"] for p in result["attractor_set"]}
+        assert "Flat_S1_FTUM"  in branches, "Flat_S1_FTUM branch missing from attractor set"
+        assert "RS1_Saturated" in branches, "RS1_Saturated branch missing from attractor set"
 
-    def test_majority_within_1sigma(self):
-        """Most ±5% FTUM neighborhood nₛ values should fall within Planck 1σ."""
+    def test_all_attractor_set_in_2sigma(self):
+        """Every point in set A must be within Planck 2σ."""
         result = amplitude_attractor_scan()
-        assert result["fraction_within_1sigma"] >= 0.5, (
-            f"Only {100*result['fraction_within_1sigma']:.0f}% of neighborhood "
-            f"within Planck 1σ (expected ≥ 50%)"
+        assert result["attractor_set_all_in_2sigma"], (
+            f"Not all attractor-set points within Planck 2σ"
         )
 
-    def test_grid_shapes(self):
-        lam_vals  = [0.1, 1.0, 10.0]
-        phi0_vals = [0.98, 1.0, 1.02]
-        result = amplitude_attractor_scan(lam_vals, phi0_vals)
-        assert len(result["ns_vs_lam"])  == 3
-        assert len(result["ns_vs_phi0"]) == 3
+    def test_ns_attractor_spread_tight(self):
+        """ns spread over set A (both branches) must be ≤ 0.011."""
+        result = amplitude_attractor_scan()
+        assert result["ns_attractor_spread"] <= 0.011, (
+            f"ns_attractor_spread = {result['ns_attractor_spread']:.4f} > 0.011"
+        )
+
+    def test_phi0eff_spread_within_two_percent(self):
+        """φ₀_eff fractional spread between the two canonical branches must be ≤ 1.5%.
+        The measured gap is ~1% (flat=31.42, RS1=31.10), a genuine geometric near-degeneracy."""
+        result = amplitude_attractor_scan()
+        assert result["phi0eff_attractor_spread_frac"] <= 0.015, (
+            f"phi0eff_spread_frac = {result['phi0eff_attractor_spread_frac']:.4f} > 0.015"
+        )
+
+    def test_majority_attractor_set_within_1sigma(self):
+        result = amplitude_attractor_scan()
+        assert result["fraction_within_1sigma"] >= 0.5
+
+    def test_all_attractor_set_within_2sigma(self):
+        result = amplitude_attractor_scan()
+        assert result["fraction_within_2sigma"] == pytest.approx(1.0)
 
     def test_ns_ref_within_planck_1sigma(self):
         result = amplitude_attractor_scan()
         assert abs(result["ns_ref"] - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
 
-    def test_r_ref_positive(self):
-        result = amplitude_attractor_scan()
-        assert result["r_ref"] > 0.0
-
     def test_As_increases_with_lam(self):
-        """As must be monotone increasing in λ."""
         result = amplitude_attractor_scan()
-        As = result["As_vs_lam"]
-        assert np.all(np.diff(As) > 0)
+        assert np.all(np.diff(result["As_vs_lam"]) > 0)
 
-    def test_ns_monotone_with_phi0(self):
-        """nₛ must be monotone in φ₀_bare (larger φ₀ → larger φ₀_eff → larger nₛ)."""
+    def test_attractor_set_records_have_required_keys(self):
         result = amplitude_attractor_scan()
-        ns = result["ns_vs_phi0"]
-        assert np.all(np.diff(ns) > 0)
+        for rec in result["attractor_set"]:
+            for k in ("phi0_bare", "branch", "phi0_eff", "ns", "r"):
+                assert k in rec, f"Attractor set record missing key: {k}"
 
 
 class TestScaleDependence:

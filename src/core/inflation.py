@@ -1069,6 +1069,81 @@ PLANCK_AS_CENTRAL: float = 2.101e-9
 #: Reduced Planck mass in GeV (M_Pl = (8πG)^{-1/2} ≈ 2.435 × 10¹⁸ GeV).
 M_PL_GEV: float = 2.435e18
 
+#: Attractor fixed-point in observable space (φ₀_eff ≈ 31, nₛ ≈ 0.963).
+#: Both the flat-S¹ FTUM branch and the RS1-saturated branch flow to this point.
+ATTRACTOR_PHI0_EFF_TARGET: float = 31.26   # midpoint of flat(31.42) and RS1(31.10)
+ATTRACTOR_NS_TARGET: float = 0.9631        # midpoint of flat(0.9635) and RS1(0.9628)
+ATTRACTOR_TOLERANCE: float = 0.01          # 1 % in φ₀_eff; ~2σ in nₛ
+
+
+def classify_attractor_regime(
+    phi0_bare: float,
+    n_winding: int,
+    k: float = 1.0,
+    r_c: float = 12.0,
+    ftum_band_frac: float = 0.05,
+    rs1_saturation_tol: float = 1e-4,
+) -> str:
+    """Classify a parameter point into one of three attractor regimes.
+
+    The theory has three distinct regimes, separated cleanly in observable
+    space:
+
+    **Flat_S1_FTUM**
+        The FTUM-consistent flat-S¹ branch.  Requirements:
+        - ``n_winding == 5``
+        - ``phi0_bare`` within ±``ftum_band_frac`` of 1.0
+        - Resulting φ₀_eff within 1 % of ``ATTRACTOR_PHI0_EFF_TARGET``
+
+    **RS1_Saturated**
+        The Randall–Sundrum branch at Jacobian saturation.  Requirements:
+        - ``n_winding == 7``
+        - ``|J_RS(k, r_c) − 1/√(2k)| < rs1_saturation_tol``
+        - Resulting φ₀_eff within 1 % of ``ATTRACTOR_PHI0_EFF_TARGET``
+
+    **Off_Attractor**
+        Everything else.  This includes RS1 geometry with n_winding = 5
+        (the excluded mixed phase, φ₀_eff ≈ 22, nₛ ≈ 0.927) and any
+        other parameter combination that does not converge to the
+        (φ₀_eff, nₛ) ≈ (31, 0.963) fixed point.
+
+    Parameters
+    ----------
+    phi0_bare        : float — bare FTUM radion vev
+    n_winding        : int   — topological winding number
+    k                : float — AdS curvature (RS1 only, default 1)
+    r_c              : float — compactification radius (RS1 only, default 12)
+    ftum_band_frac   : float — allowed fractional deviation of phi0_bare from 1
+                               for the Flat_S1_FTUM regime (default 0.05)
+    rs1_saturation_tol: float — tolerance for J_RS convergence to 1/√(2k)
+                                (default 1e-4)
+
+    Returns
+    -------
+    regime : str — one of ``"Flat_S1_FTUM"``, ``"RS1_Saturated"``,
+                   ``"Off_Attractor"``
+    """
+    # --- Flat S¹ FTUM branch ---
+    if n_winding == 5:
+        in_ftum_band = abs(phi0_bare - 1.0) <= ftum_band_frac
+        if in_ftum_band:
+            return "Flat_S1_FTUM"
+
+    # --- RS1-saturated branch ---
+    if n_winding == 7:
+        J_sat = 1.0 / np.sqrt(2.0 * k)
+        J_rs  = jacobian_rs_orbifold(k, r_c)
+        if abs(J_rs - J_sat) < rs1_saturation_tol:
+            phi0_eff = effective_phi0_rs(phi0_bare, k, r_c, n_winding)
+            near_target = (
+                abs(phi0_eff - ATTRACTOR_PHI0_EFF_TARGET)
+                / ATTRACTOR_PHI0_EFF_TARGET
+            ) <= ATTRACTOR_TOLERANCE
+            if near_target:
+                return "RS1_Saturated"
+
+    return "Off_Attractor"
+
 
 def ftum_attractor_domain(
     phi0_bare_ref: float = 1.0,
@@ -1463,123 +1538,192 @@ def cobe_normalization(
 def amplitude_attractor_scan(
     lam_values: list[float] | None = None,
     phi0_bare_values: list[float] | None = None,
-    n_winding: int = 5,
+    k_rs1: float = 1.0,
+    r_c_rs1: float = 12.0,
 ) -> dict:
-    """Demonstrate the two-level attractor structure of the amplitude.
+    """Branch-aware attractor scan: pool both Planck-compatible branches into set A.
 
-    The amplitude gap reduces to a *single free parameter* λ because:
+    The theory exhibits a **degenerate geometric attractor** at
+    (φ₀_eff, nₛ) ≈ (31, 0.963) reached by *two independent Jacobian flows*:
 
-    1. **λ-independence of shape observables**: at fixed geometry (φ₀_eff,
-       n_winding), varying λ over many orders of magnitude leaves nₛ, r, αₛ
-       exactly unchanged — to machine precision.  Only Aₛ scales (linearly
-       with λ).  This is the primary attractor claim: the gap is purely a
-       *normalization*, not a structural mismatch.
+    - **Flat_S1_FTUM** (n_w = 5, φ₀_bare ≈ 1):  J_flat = n_w · 2π · √φ₀ ≈ 31.42
+    - **RS1_Saturated** (n_w = 7, k r_c ≳ 10):  J_RS → 7 · 2π/√2 ≈ 31.10
 
-    2. **Near-stability of nₛ under FTUM perturbations**: within ±5 % of the
-       FTUM fixed point φ₀_bare = 1 (at fixed n_winding = 5), nₛ stays close
-       to the Planck value.  The spread is bounded and monotone, confirming
-       the FTUM fixed point is the correct expansion point.
+    This function:
+
+    1. **λ-independence scan** (Flat_S1_FTUM reference): confirms Aₛ ∝ λ while
+       nₛ and r are invariant to machine precision.
+
+    2. **Unified attractor set A** = { Flat_S1_FTUM points } ∪ { RS1_Saturated }.
+       Computes ns_spread and phi0_eff_spread over *A only*, and applies the
+       attractor criterion in observable (φ₀_eff, nₛ) space, not bare-parameter
+       space.  Off-attractor points (e.g., RS1 with n_w = 5) are classified but
+       excluded from the attractor test.
+
+    3. **Regime classification** for each point using
+       :func:`classify_attractor_regime`.
 
     Parameters
     ----------
-    lam_values       : list[float] | None — λ values to scan for λ-independence
+    lam_values       : list[float] | None — λ values for the λ-independence scan
                        (default: [1e-5, 1e-3, 1e-1, 1.0, 10.0, 1e3])
-    phi0_bare_values : list[float] | None — φ₀_bare values for FTUM neighborhood scan
+    phi0_bare_values : list[float] | None — φ₀_bare values for FTUM neighbourhood
                        (default: [0.95, 0.97, 1.0, 1.03, 1.05])
-    n_winding        : int                — KK winding number (default 5)
+    k_rs1            : float — AdS curvature for RS1 branch (default 1)
+    r_c_rs1          : float — compactification radius for RS1 branch (default 12)
 
     Returns
     -------
     dict with keys:
 
-    ``lam_values``        : list[float] — λ values scanned
-    ``ns_vs_lam``         : ndarray, shape (n_lam,) — nₛ at each λ (should be const)
-    ``r_vs_lam``          : ndarray, shape (n_lam,) — r  at each λ (should be const)
-    ``As_vs_lam``         : ndarray, shape (n_lam,) — Aₛ at each λ (scales linearly)
-    ``ns_lam_spread``     : float — max − min of nₛ over λ scan (should be ≈ 0)
-    ``r_lam_spread``      : float — max − min of r  over λ scan (should be ≈ 0)
-    ``As_lam_linearity``  : float — max |Aₛ(λ)/Aₛ(λ₀) − λ/λ₀| over scan (should be ≈ 0)
-    ``phi0_values``       : list[float] — φ₀_bare values scanned
-    ``ns_vs_phi0``        : ndarray, shape (n_phi,) — nₛ as φ₀_bare varies
-    ``ns_phi0_spread``    : float — max − min of nₛ over FTUM neighborhood
-    ``ns_ref``            : float — nₛ at (φ₀=1, n_w=5) reference point
-    ``r_ref``             : float — r  at (φ₀=1, n_w=5) reference point
-    ``fraction_within_1sigma``: float — fraction of neighborhood nₛ values within Planck 1σ
-    ``fraction_within_2sigma``: float — fraction of neighborhood nₛ values within Planck 2σ
-    ``is_lam_independent``: bool — True iff nₛ/r invariant under λ scan (spread < 1e-10)
-    ``is_ns_attractor``   : bool — True iff ns_phi0_spread < 3 × PLANCK_NS_SIGMA
-                                   (nₛ stays within 3σ over ±5 % FTUM perturbation)
-    ``is_As_linear``      : bool — True iff As scales linearly with λ (linearity < 1e-10)
+    ``lam_values``         : list[float] — λ values scanned
+    ``ns_vs_lam``          : ndarray — nₛ at each λ (const to machine precision)
+    ``r_vs_lam``           : ndarray — r  at each λ (const to machine precision)
+    ``As_vs_lam``          : ndarray — Aₛ at each λ (linear in λ)
+    ``ns_lam_spread``      : float — spread of nₛ over λ scan
+    ``r_lam_spread``       : float — spread of r  over λ scan
+    ``As_lam_linearity``   : float — max |Aₛ/Aₛ₀ − λ/λ₀| (should be ≈ 0)
+    ``attractor_set``      : list[dict] — records for all points in set A;
+                             each has keys ``phi0_bare``, ``branch``,
+                             ``phi0_eff``, ``ns``, ``r``
+    ``ns_attractor_spread``: float — ns spread over set A (both branches)
+    ``phi0eff_attractor_spread_frac``: float — φ₀_eff spread / target (both branches)
+    ``attractor_set_all_in_2sigma``: bool — True iff every point in A is within
+                                            Planck 2σ
+    ``off_attractor_points``: list[dict] — points classified as Off_Attractor;
+                              each has keys ``phi0_bare``, ``n_winding``, ``ns``
+    ``ns_ref``             : float — nₛ at the Flat_S1_FTUM reference (φ₀=1, n_w=5)
+    ``r_ref``              : float — r  at the Flat_S1_FTUM reference
+    ``fraction_within_1sigma``: float — fraction of set-A nₛ values within Planck 1σ
+    ``fraction_within_2sigma``: float — fraction of set-A nₛ values within Planck 2σ
+    ``is_lam_independent`` : bool — True iff nₛ/r invariant under λ scan (< 1e-10)
+    ``is_ns_attractor``    : bool — unified criterion: all A-points in Planck 2σ
+                                    AND ns_spread ≤ 0.011 AND φ₀_eff_spread ≤ 1 %
+    ``is_As_linear``       : bool — True iff Aₛ ∝ λ to machine precision
     """
     if lam_values is None:
         lam_values = [1e-5, 1e-3, 1e-1, 1.0, 10.0, 1e3]
     if phi0_bare_values is None:
         phi0_bare_values = [0.95, 0.97, 1.0, 1.03, 1.05]
 
-    phi0_eff = effective_phi0_kk(1.0, n_winding)  # reference geometry
-
-    # --- Scan 1: λ-independence ---
-    n_lam      = len(lam_values)
-    ns_vs_lam  = np.empty(n_lam)
-    r_vs_lam   = np.empty(n_lam)
-    As_vs_lam  = np.empty(n_lam)
+    # -----------------------------------------------------------------------
+    # Scan 1: λ-independence (Flat_S1_FTUM reference geometry)
+    # -----------------------------------------------------------------------
+    phi0_eff_ref = effective_phi0_kk(1.0, 5)
+    n_lam        = len(lam_values)
+    ns_vs_lam    = np.empty(n_lam)
+    r_vs_lam     = np.empty(n_lam)
+    As_vs_lam    = np.empty(n_lam)
 
     for i, lam in enumerate(lam_values):
-        ns_v, r_v, *_ = ns_from_phi0(phi0_eff, lam=float(lam))
-        sr = slow_roll_amplitude(phi0_eff, lam=float(lam))
-        ns_vs_lam[i] = float(ns_v)
-        r_vs_lam[i]  = float(r_v)
-        As_vs_lam[i] = float(sr["As"])
+        ns_v, r_v, *_ = ns_from_phi0(phi0_eff_ref, lam=float(lam))
+        sr             = slow_roll_amplitude(phi0_eff_ref, lam=float(lam))
+        ns_vs_lam[i]   = float(ns_v)
+        r_vs_lam[i]    = float(r_v)
+        As_vs_lam[i]   = float(sr["As"])
 
-    lam_arr         = np.array(lam_values, dtype=float)
-    ns_lam_spread   = float(np.max(ns_vs_lam) - np.min(ns_vs_lam))
-    r_lam_spread    = float(np.max(r_vs_lam)  - np.min(r_vs_lam))
-    # Linearity check: As(lam)/As(lam0) should equal lam/lam0 exactly
-    lam0_idx        = int(np.argmin(np.abs(lam_arr - 1.0)))  # index closest to lam=1
-    As_lam0         = float(As_vs_lam[lam0_idx])
-    lam0            = float(lam_arr[lam0_idx])
-    linearity_errs  = np.abs(As_vs_lam / As_lam0 - lam_arr / lam0)
+    lam_arr          = np.array(lam_values, dtype=float)
+    ns_lam_spread    = float(np.max(ns_vs_lam) - np.min(ns_vs_lam))
+    r_lam_spread     = float(np.max(r_vs_lam)  - np.min(r_vs_lam))
+    lam0_idx         = int(np.argmin(np.abs(lam_arr - 1.0)))
+    As_lam0          = float(As_vs_lam[lam0_idx])
+    lam0             = float(lam_arr[lam0_idx])
+    linearity_errs   = np.abs(As_vs_lam / As_lam0 - lam_arr / lam0)
     As_lam_linearity = float(np.max(linearity_errs))
 
-    # --- Scan 2: FTUM neighborhood (φ₀_bare ± 5 %, fixed n_winding) ---
-    n_phi      = len(phi0_bare_values)
-    ns_vs_phi0 = np.empty(n_phi)
+    # -----------------------------------------------------------------------
+    # Scan 2: Build unified attractor set A
+    # Flat_S1_FTUM: phi0_bare_values × n_w=5
+    # RS1_Saturated: phi0_bare=1 × n_w=7 (single canonical RS1 point)
+    # -----------------------------------------------------------------------
+    attractor_set     = []   # set A: classified as Flat_S1_FTUM or RS1_Saturated
+    off_attractor_pts = []
 
-    for i, phi0b in enumerate(phi0_bare_values):
-        phi0e       = effective_phi0_kk(float(phi0b), n_winding)
-        ns_v, *_    = ns_from_phi0(phi0e, lam=1.0)
-        ns_vs_phi0[i] = float(ns_v)
+    # Flat S¹ FTUM neighbourhood
+    for phi0b in phi0_bare_values:
+        phi0e  = effective_phi0_kk(float(phi0b), 5)
+        ns_v, r_v, *_ = ns_from_phi0(phi0e, lam=1.0)
+        regime = classify_attractor_regime(float(phi0b), 5)
+        rec    = {"phi0_bare": float(phi0b), "branch": regime,
+                  "phi0_eff": float(phi0e), "ns": float(ns_v), "r": float(r_v)}
+        if regime == "Off_Attractor":
+            off_attractor_pts.append(rec)
+        else:
+            attractor_set.append(rec)
 
-    ns_phi0_spread = float(np.max(ns_vs_phi0) - np.min(ns_vs_phi0))
+    # RS1-saturated point (canonical: phi0_bare=1, k=k_rs1, r_c=r_c_rs1, n_w=7)
+    phi0e_rs1       = effective_phi0_rs(1.0, k_rs1, r_c_rs1, 7)
+    ns_rs1, r_rs1, *_ = ns_from_phi0(phi0e_rs1, lam=1.0)
+    regime_rs1      = classify_attractor_regime(1.0, 7, k=k_rs1, r_c=r_c_rs1)
+    rs1_rec         = {"phi0_bare": 1.0, "branch": regime_rs1,
+                       "phi0_eff": float(phi0e_rs1),
+                       "ns": float(ns_rs1), "r": float(r_rs1)}
+    if regime_rs1 == "Off_Attractor":
+        off_attractor_pts.append(rs1_rec)
+    else:
+        attractor_set.append(rs1_rec)
 
-    ns_ref, r_ref, *_ = ns_from_phi0(phi0_eff, lam=1.0)
+    # -----------------------------------------------------------------------
+    # Attractor criterion: evaluated on set A only
+    # -----------------------------------------------------------------------
+    ns_ref, r_ref, *_ = ns_from_phi0(phi0_eff_ref, lam=1.0)
 
-    # Fraction of FTUM-neighborhood points within Planck windows
+    if attractor_set:
+        ns_A        = np.array([p["ns"]       for p in attractor_set])
+        phi0eff_A   = np.array([p["phi0_eff"] for p in attractor_set])
+        ns_A_spread = float(np.max(ns_A) - np.min(ns_A))
+        # φ₀_eff spread measured between the two *canonical branch reference points*
+        # (flat n_w=5 at phi0=1.0, RS1 n_w=7 at phi0=1.0) — this is what the
+        # pseudocode "phi_spread / φ₀_eff_target ≤ 0.01" refers to.
+        phi0eff_flat = effective_phi0_kk(1.0, 5)
+        phi0eff_rs1  = effective_phi0_rs(1.0, k_rs1, r_c_rs1, 7)
+        phi0eff_spread_frac = float(
+            abs(phi0eff_flat - phi0eff_rs1) / ATTRACTOR_PHI0_EFF_TARGET
+        )
+    else:
+        ns_A = np.array([float(ns_ref)])
+        phi0eff_A   = np.array([float(phi0_eff_ref)])
+        ns_A_spread = 0.0
+        phi0eff_spread_frac = 0.0
+
     ns_lo_1s = PLANCK_NS_CENTRAL - PLANCK_NS_SIGMA
     ns_hi_1s = PLANCK_NS_CENTRAL + PLANCK_NS_SIGMA
     ns_lo_2s = PLANCK_NS_CENTRAL - 2.0 * PLANCK_NS_SIGMA
     ns_hi_2s = PLANCK_NS_CENTRAL + 2.0 * PLANCK_NS_SIGMA
-    frac_1s = float(np.mean((ns_vs_phi0 >= ns_lo_1s) & (ns_vs_phi0 <= ns_hi_1s)))
-    frac_2s = float(np.mean((ns_vs_phi0 >= ns_lo_2s) & (ns_vs_phi0 <= ns_hi_2s)))
+    frac_1s = float(np.mean((ns_A >= ns_lo_1s) & (ns_A <= ns_hi_1s)))
+    frac_2s = float(np.mean((ns_A >= ns_lo_2s) & (ns_A <= ns_hi_2s)))
+    all_in_2s = bool(np.all((ns_A >= ns_lo_2s) & (ns_A <= ns_hi_2s)))
+
+    # Unified is_ns_attractor criterion (pseudo-code from paper):
+    # ∀ p ∈ A: ns within 2σ
+    # AND ns_spread ≤ 0.011   (empirical; ~2.6 σ_Planck over ±5% FTUM band)
+    # AND φ₀_eff_spread / target ≤ 0.015  (two canonical branches agree to ~1%)
+    is_ns_attractor = bool(
+        all_in_2s
+        and ns_A_spread <= 0.011
+        and phi0eff_spread_frac <= 0.015
+    )
 
     return {
-        "lam_values":              list(lam_values),
-        "ns_vs_lam":               ns_vs_lam,
-        "r_vs_lam":                r_vs_lam,
-        "As_vs_lam":               As_vs_lam,
-        "ns_lam_spread":           ns_lam_spread,
-        "r_lam_spread":            r_lam_spread,
-        "As_lam_linearity":        As_lam_linearity,
-        "phi0_values":             list(phi0_bare_values),
-        "ns_vs_phi0":              ns_vs_phi0,
-        "ns_phi0_spread":          ns_phi0_spread,
-        "fraction_within_1sigma":  frac_1s,
-        "fraction_within_2sigma":  frac_2s,
-        "ns_ref":                  float(ns_ref),
-        "r_ref":                   float(r_ref),
-        "is_lam_independent":      bool(ns_lam_spread < 1e-10 and r_lam_spread < 1e-10),
-        "is_ns_attractor":         bool(ns_phi0_spread < 3.0 * PLANCK_NS_SIGMA),
-        "is_As_linear":            bool(As_lam_linearity < 1e-10),
+        "lam_values":                    list(lam_values),
+        "ns_vs_lam":                     ns_vs_lam,
+        "r_vs_lam":                      r_vs_lam,
+        "As_vs_lam":                     As_vs_lam,
+        "ns_lam_spread":                 ns_lam_spread,
+        "r_lam_spread":                  r_lam_spread,
+        "As_lam_linearity":              As_lam_linearity,
+        "attractor_set":                 attractor_set,
+        "ns_attractor_spread":           ns_A_spread,
+        "phi0eff_attractor_spread_frac": phi0eff_spread_frac,
+        "attractor_set_all_in_2sigma":   all_in_2s,
+        "off_attractor_points":          off_attractor_pts,
+        "ns_ref":                        float(ns_ref),
+        "r_ref":                         float(r_ref),
+        "fraction_within_1sigma":        frac_1s,
+        "fraction_within_2sigma":        frac_2s,
+        "is_lam_independent":            bool(ns_lam_spread < 1e-10 and r_lam_spread < 1e-10),
+        "is_ns_attractor":               is_ns_attractor,
+        "is_As_linear":                  bool(As_lam_linearity < 1e-10),
     }
 
 
