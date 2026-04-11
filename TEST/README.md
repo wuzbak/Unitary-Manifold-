@@ -1,7 +1,16 @@
 # Test Suite — Unitary Manifold
 
-**389 / 400 tests passing (100%)** — verified 2026-04-11, Python 3.12, pytest 9.0.3
-*(389 fast tests run by default; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+**496 tests: 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-11, Python 3.12, pytest 9.0.3
+
+*(484 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+
+### The 1 skipped test
+
+`test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` produces fewer than 2 residuals. This fires when the operator converges in a single step — **correct and expected behaviour**, not an error. The guard documents that there is nothing to verify monotonicity of when convergence is immediate.
+
+### The 11 deselected tests
+
+All in `test_richardson_multitime.py`, decorated `@pytest.mark.slow`. Excluded from the default run by `addopts = -m "not slow"` in `pytest.ini`. They verify O(dt²) temporal convergence via Richardson extrapolation and are computationally expensive by design.
 
 ---
 
@@ -9,15 +18,15 @@
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 389 fast tests (default)
+python -m pytest tests/ -v          # 484 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ -m slow tests/  # all 400
+python -m pytest tests/             # all 485 fast + 11 slow
 ```
 
-Expected result:
+Expected result (default):
 
 ```
-389 passed, 11 deselected in ~38s
+484 passed, 1 skipped, 11 deselected in ~38s
 ```
 
 ---
@@ -26,19 +35,23 @@ Expected result:
 
 | File | Tests | What It Covers |
 |------|------:|----------------|
-| `tests/test_metric.py` | 30 | KK metric assembly, Christoffel symbols, Riemann/Ricci tensors, field strength, α derivation from curvature |
-| `tests/test_evolution.py` | 49 | RK4 integrator, FieldState dataclass, CFL timestep, information current, constraint monitor, radion stabilisation, metric volume preservation |
-| `tests/test_boundary.py` | 21 | Entropy-area law, Bekenstein–Hawking formula, holographic boundary construction and evolution, information conservation |
-| `tests/test_fixed_point.py` | 35 | Multiverse network (chain + fully-connected), operators I / H / T, FTUM fixed-point iteration, α derivation from fixed point |
-| `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease, evolution diagnostics |
-| `tests/test_inflation.py` | 141 | GW potential, slow-roll parameters, CMB observables (nₛ, r), Planck 2018 check, KK Jacobian, Casimir potential, birefringence angle, Chern–Simons coupling, triple constraint, EE/TE source functions, TB/EB spectra, frequency-dependent birefringence |
-| `tests/test_closure_batch1.py` | 25 | α dual-path closure, nₛ KK=Casimir consistency, β coupling chain, holographic entropy emergence, Z₂ orbifold invariance, KK winding monotonicity, CS level linear scaling |
+| `tests/test_inflation.py` | 141 | GW potential, slow-roll, CMB (nₛ, r), Planck check, KK Jacobian, Casimir, birefringence, CS coupling, triple constraint, EE/TE source, TB/EB spectra |
+| `tests/test_evolution.py` | 49 | RK4 integrator, FieldState, CFL timestep, information current, constraint monitor, radion stabilisation, metric volume preservation |
+| `tests/test_fixed_point.py` | 35 | Multiverse network, operators I/H/T, FTUM iteration, α derivation from fixed point |
 | `tests/test_closure_batch2.py` | 31 | Numerical robustness, cross-module consistency, edge-case coverage |
+| `tests/test_observational_resolution.py` | 30 | Angular resolution sufficiency, nₛ/β tolerance, χ² sensitivity, LiteBIRD pol-ratio bounds |
+| `tests/test_metric.py` | 30 | KK metric assembly, Christoffel symbols, Riemann/Ricci tensors, field strength, α derivation from curvature |
+| `tests/test_e2e_pipeline.py` | 26 | End-to-end chain closure, CS level uniqueness (k=74), α consistency loop, no-free-parameters verification |
+| `tests/test_closure_batch1.py` | 25 | α dual-path closure, nₛ KK=Casimir, β coupling chain, holographic entropy emergence |
+| `tests/test_arrow_of_time.py` | 23 | Forward entropy growth, backward deficit growth, path independence, entropy production rates |
+| `tests/test_boundary.py` | 21 | Entropy-area law, Bekenstein–Hawking formula, holographic boundary construction and evolution |
 | `tests/test_fuzzing.py` | 20 | Edge cases, random inputs, adversarial numerics |
+| `tests/test_cmb_landscape.py` | 17 | χ² landscape over (φ₀, n_w), TB/EB ratio cross-checks, amplitude analysis |
 | `tests/test_dimensional_reduction.py` | 14 | KK dimensional reduction identities |
 | `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
+| `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total** | **400** | **389 fast + 11 slow — 100% pass** |
+| **Total** | **496** | **484 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 

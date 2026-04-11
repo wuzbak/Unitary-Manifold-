@@ -2,9 +2,17 @@
 
 Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Result: 389 PASSED / 0 FAILED / 0 ERRORS** (fast suite, default)
-**Slow suite: 11 PASSED / 0 FAILED / 0 ERRORS** (run with `pytest -m slow`)
-**Grand total: 400 PASSED / 0 FAILED / 0 ERRORS**
+**Fast suite (default `pytest tests/ -v`): 484 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
+**Grand total: 496 collected · 484 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
+
+⚑ **Skip explanation:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
+calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
+converges in fewer than 2 iterations. Immediate convergence is **correct behaviour** — the guard
+documents there is nothing to check monotonicity of. This is not a failure.
+
+**Deselected explanation:** 11 tests in `test_richardson_multitime.py` carry `@pytest.mark.slow`
+and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest tests/ -m slow`.
 
 ---
 
@@ -336,20 +344,152 @@ Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥
 
 ---
 
+## test_arrow_of_time.py — 22/23 PASSED · 1 SKIPPED ⚑
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | `TestForwardEntropyGrowth::test_below_bound_entropy_increases` | ✅ PASSED |
+| 2 | `TestForwardEntropyGrowth::test_above_bound_entropy_decreases` | ✅ PASSED |
+| 3 | `TestForwardEntropyGrowth::test_at_bound_no_change` | ✅ PASSED |
+| 4 | `TestForwardEntropyGrowth::test_deficit_decreases_from_below` | ✅ PASSED |
+| 5 | `TestForwardEntropyGrowth::test_deficit_decreases_from_above` | ✅ PASSED |
+| 6 | `TestForwardEntropyGrowth::test_multiple_steps_converge_to_bound` | ✅ PASSED |
+| 7 | `TestForwardEntropyGrowth::test_kappa_scales_convergence_rate` | ✅ PASSED |
+| 8 | `TestForwardEntropyGrowth::test_area_unchanged_by_irreversibility` | ✅ PASSED |
+| 9 | `TestBackwardDeficitGrowth::test_backward_below_bound_entropy_decreases` | ✅ PASSED |
+| 10 | `TestBackwardDeficitGrowth::test_backward_above_bound_entropy_increases` | ✅ PASSED |
+| 11 | `TestBackwardDeficitGrowth::test_backward_deficit_grows_from_below` | ✅ PASSED |
+| 12 | `TestBackwardDeficitGrowth::test_forward_backward_not_symmetric` | ✅ PASSED |
+| 13 | `TestBackwardDeficitGrowth::test_arrow_of_time_sign` | ✅ PASSED |
+| 14 | `TestPathIndependence::test_converges_from_below_bound` | ✅ PASSED |
+| 15 | `TestPathIndependence::test_converges_from_above_bound` | ✅ PASSED |
+| 16 | `TestPathIndependence::test_same_fixed_point_from_below_and_above` | ✅ PASSED |
+| 17 | `TestPathIndependence::test_entropy_monotone_increasing_from_below` | ✅ PASSED |
+| 18 | `TestPathIndependence::test_different_initial_x_same_convergence` | ✅ PASSED |
+| 19 | `TestEntropyProductionRate::test_positive_production_rate_single_step` | ✅ PASSED |
+| 20 | `TestEntropyProductionRate::test_production_rate_proportional_to_deficit` | ✅ PASSED |
+| 21 | `TestEntropyProductionRate::test_defect_history_mostly_decreasing` | ⚑ SKIPPED |
+| 22 | `TestEntropyProductionRate::test_total_entropy_increase_over_run` | ✅ PASSED |
+| 23 | `TestEntropyProductionRate::test_entropy_rate_zero_at_fixed_point` | ✅ PASSED |
+
+⚑ Guard skip: `pytest.skip("Insufficient residual history to test monotonicity")` fires when `fixed_point_iteration` converges in < 2 steps. Immediate convergence = correct behaviour, not an error.
+
+---
+
+## test_cmb_landscape.py — 17/17 PASSED
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | `TestChi2LandscapeShape::test_returns_correct_shape` | ✅ PASSED |
+| 2 | `TestChi2LandscapeShape::test_all_finite` | ✅ PASSED |
+| 3 | `TestChi2LandscapeShape::test_all_positive` | ✅ PASSED |
+| 4 | `TestChi2LandscapeShape::test_landscape_varies_with_params` | ✅ PASSED |
+| 5 | `TestChi2MinimumAtCanonicalParameters::test_minimum_is_finite` | ✅ PASSED |
+| 6 | `TestChi2MinimumAtCanonicalParameters::test_canonical_chi2_is_positive` | ✅ PASSED |
+| 7 | `TestChi2MinimumAtCanonicalParameters::test_ns_shift_increases_chi2` | ✅ PASSED |
+| 8 | `TestChi2MinimumAtCanonicalParameters::test_landscape_minimum_phi0_in_range` | ✅ PASSED |
+| 9 | `TestChi2MinimumAtCanonicalParameters::test_landscape_minimum_nw_in_range` | ✅ PASSED |
+| 10 | `TestChi2MinimumAtCanonicalParameters::test_relative_delta_chi2_positive` | ✅ PASSED |
+| 11 | `TestChi2ExtractObservables::test_returns_expected_keys` | ✅ PASSED |
+| 12 | `TestChi2ExtractObservables::test_ns_finite` | ✅ PASSED |
+| 13 | `TestChi2ExtractObservables::test_r_positive` | ✅ PASSED |
+| 14 | `TestChi2ExtractObservables::test_chi2_positive` | ✅ PASSED |
+| 15 | `TestChi2ExtractObservables::test_dl_array_shape` | ✅ PASSED |
+| 16 | `TestChi2ExtractObservables::test_dl_finite` | ✅ PASSED |
+| 17 | `TestTBEBRatioCrossCheck::test_lcdm_has_zero_tb_at_any_beta0_input_of_zero` | ✅ PASSED |
+
+---
+
+## test_e2e_pipeline.py — 26/26 PASSED
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | `TestChainClosure::test_phi0_eff_approximately_31` | ✅ PASSED |
+| 2 | `TestChainClosure::test_ns_passes_planck_1sigma` | ✅ PASSED |
+| 3 | `TestChainClosure::test_r_is_positive_and_finite` | ✅ PASSED |
+| 4 | `TestChainClosure::test_beta_within_1sigma_planck` | ✅ PASSED |
+| 5 | `TestChainClosure::test_all_three_observables_simultaneously` | ✅ PASSED |
+| 6 | `TestChainClosure::test_chain_deterministic` | ✅ PASSED |
+| 7 | `TestChainClosure::test_rs_orbifold_chain_also_passes` | ✅ PASSED |
+| 8 | `TestUniquenessOfCSLevel::test_k74_minimises_beta_deviation` | ✅ PASSED |
+| 9 | `TestUniquenessOfCSLevel::test_k74_is_unique_minimiser` | ✅ PASSED |
+| 10 | `TestUniquenessOfCSLevel::test_k74_within_1sigma` | ✅ PASSED |
+| 11 | `TestUniquenessOfCSLevel::test_k73_further_than_k74` | ✅ PASSED |
+| 12 | `TestUniquenessOfCSLevel::test_k75_further_than_k74` | ✅ PASSED |
+| 13 | `TestUniquenessOfCSLevel::test_beta_monotone_in_k` | ✅ PASSED |
+| 14 | `TestUniquenessOfCSLevel::test_k74_beta_matches_target_to_2dp` | ✅ PASSED |
+| 15 | `TestAlphaConsistencyLoop::test_alpha_from_phi0_is_unity` | ✅ PASSED |
+| 16 | `TestAlphaConsistencyLoop::test_g5_round_trip` | ✅ PASSED |
+| 17 | `TestAlphaConsistencyLoop::test_birefringence_via_g5_route` | ✅ PASSED |
+| 18 | `TestAlphaConsistencyLoop::test_birefringence_direct_vs_g5_route_agree` | ✅ PASSED |
+| 19 | `TestAlphaConsistencyLoop::test_cs_level_inverts_back_to_74` | ✅ PASSED |
+| 20 | `TestNoFreeParameters::test_ns_uniquely_determined` | ✅ PASSED |
+| 21 | `TestNoFreeParameters::test_r_uniquely_determined` | ✅ PASSED |
+| 22 | `TestNoFreeParameters::test_beta_uniquely_determined` | ✅ PASSED |
+| 23 | `TestNoFreeParameters::test_alpha_pinned_by_phi0` | ✅ PASSED |
+| 24 | `TestNoFreeParameters::test_all_four_observables_finite` | ✅ PASSED |
+| 25 | `TestNoFreeParameters::test_changing_n_winding_breaks_planck` | ✅ PASSED |
+| 26 | `TestNoFreeParameters::test_changing_n_winding_6_breaks_planck` | ✅ PASSED |
+
+---
+
+## test_observational_resolution.py — 30/30 PASSED
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | `TestAngularResolutionSufficiency::test_spectra_finite_for_each_ell_max` | ✅ PASSED |
+| 2 | `TestAngularResolutionSufficiency::test_spectra_nonnegative_on_average` | ✅ PASSED |
+| 3 | `TestAngularResolutionSufficiency::test_chi2_finite_for_each_ell_max` | ✅ PASSED |
+| 4 | `TestAngularResolutionSufficiency::test_ns_prediction_stable_across_ell_max` | ✅ PASSED |
+| 5 | `TestAngularResolutionSufficiency::test_chi2_increases_monotonically_with_ell_max` | ✅ PASSED |
+| 6 | `TestAngularResolutionSufficiency::test_ell_max_2500_spectra_at_high_ell` | ✅ PASSED |
+| 7 | `TestNsTolerance::test_ns_within_planck_sigma_ns` | ✅ PASSED |
+| 8 | `TestNsTolerance::test_planck_sigma_ns_is_at_most_twice_planck_ns_sigma` | ✅ PASSED |
+| 9 | `TestNsTolerance::test_ns_shift_by_sigma_changes_chi2_by_at_least_chi2_tol` | ✅ PASSED |
+| 10 | `TestNsTolerance::test_chi2_sensitive_to_ns_near_central` | ✅ PASSED |
+| 11 | `TestNsTolerance::test_ns_model_within_1sigma_of_planck` | ✅ PASSED |
+| 12 | `TestNsTolerance::test_ns_2sigma_below_central_outside_1sigma` | ✅ PASSED |
+| 13 | `TestBetaTolerance::test_beta_within_planck_sigma_beta` | ✅ PASSED |
+| 14 | `TestBetaTolerance::test_planck_sigma_beta_matches_birefringence_sigma_deg` | ✅ PASSED |
+| 15 | `TestBetaTolerance::test_beta_shift_changes_ctb_by_detectable_fraction` | ✅ PASSED |
+| 16 | `TestBetaTolerance::test_beta_1sigma_above_target_still_nonzero` | ✅ PASSED |
+| 17 | `TestBetaTolerance::test_beta_1sigma_below_target_still_nonzero` | ✅ PASSED |
+| 18 | `TestBetaTolerance::test_beta_model_matches_k74_geometry` | ✅ PASSED |
+| 19 | `TestPolarizationRatioTolerance::test_achromatic_ctb_ratio_within_pol_ratio_tol` | ✅ PASSED |
+| 20 | `TestPolarizationRatioTolerance::test_achromatic_ceb_ratio_within_pol_ratio_tol` | ✅ PASSED |
+| 21 | `TestPolarizationRatioTolerance::test_dispersive_ratio_far_exceeds_pol_ratio_tol` | ✅ PASSED |
+| 22 | `TestPolarizationRatioTolerance::test_achromatic_vs_faraday_ratio_differ_by_more_than_pol_tol` | ✅ PASSED |
+| 23 | `TestPolarizationRatioTolerance::test_pol_ratio_tol_is_tight_enough_for_litebird` | ✅ PASSED |
+| 24 | `TestChi2Sensitivity::test_1sigma_ns_shift_increases_chi2_dof_by_at_least_chi2_tol` | ✅ PASSED |
+| 25 | `TestChi2Sensitivity::test_1sigma_ns_shift_downward_increases_chi2_dof` | ✅ PASSED |
+| 26 | `TestChi2Sensitivity::test_2sigma_shift_larger_delta_than_1sigma` | ✅ PASSED |
+| 27 | `TestChi2Sensitivity::test_chi2_finite_and_nonnegative_at_model` | ✅ PASSED |
+| 28 | `TestChi2Sensitivity::test_model_chi2_dof_is_large_and_amplitude_driven` | ✅ PASSED |
+| 29 | `TestChi2Sensitivity::test_chi2_tol_equals_spec_value` | ✅ PASSED |
+| 30 | `TestChi2Sensitivity::test_perfect_match_gives_chi2_zero` | ✅ PASSED |
+
+---
+
 ## Summary
 
-| File | Passed | Failed | Total |
-|------|-------:|-------:|------:|
-| `test_boundary.py` | 21 | 0 | 21 |
-| `test_convergence.py` | 10 | 0 | 10 |
-| `test_evolution.py` | 49 | 0 | 49 |
-| `test_fixed_point.py` | 35 | 0 | 35 |
-| `test_inflation.py` | 141 | 0 | 141 |
-| `test_metric.py` | 30 | 0 | 30 |
-| `test_closure_batch1.py` | 25 | 0 | 25 |
-| `test_closure_batch2.py` | 31 | 0 | 31 |
-| `test_fuzzing.py` | 20 | 0 | 20 |
-| `test_dimensional_reduction.py` | 14 | 0 | 14 |
-| `test_discretization_invariance.py` | 13 | 0 | 13 |
-| `test_richardson_multitime.py` 🐌 | 11 | 0 | 11 |
-| **Total** | **400** | **0** | **400** |
+| File | Passed | Skipped | Failed | Total |
+|------|-------:|--------:|-------:|------:|
+| `test_boundary.py` | 21 | 0 | 0 | 21 |
+| `test_convergence.py` | 10 | 0 | 0 | 10 |
+| `test_evolution.py` | 49 | 0 | 0 | 49 |
+| `test_fixed_point.py` | 35 | 0 | 0 | 35 |
+| `test_inflation.py` | 141 | 0 | 0 | 141 |
+| `test_metric.py` | 30 | 0 | 0 | 30 |
+| `test_closure_batch1.py` | 25 | 0 | 0 | 25 |
+| `test_closure_batch2.py` | 31 | 0 | 0 | 31 |
+| `test_fuzzing.py` | 20 | 0 | 0 | 20 |
+| `test_dimensional_reduction.py` | 14 | 0 | 0 | 14 |
+| `test_discretization_invariance.py` | 13 | 0 | 0 | 13 |
+| `test_arrow_of_time.py` | 22 | 1 ⚑ | 0 | 23 |
+| `test_cmb_landscape.py` | 17 | 0 | 0 | 17 |
+| `test_e2e_pipeline.py` | 26 | 0 | 0 | 26 |
+| `test_observational_resolution.py` | 30 | 0 | 0 | 30 |
+| `test_richardson_multitime.py` 🐌 | 11 | 0 | 0 | 11 |
+| **Total** | **495** | **1** ⚑ | **0** | **496** |
+
+⚑ Guard skip: `TestEntropyProductionRate::test_defect_history_mostly_decreasing` — see header note.
