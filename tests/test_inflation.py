@@ -54,6 +54,9 @@ from src.core.inflation import (
     ns_gw_at_casimir_minimum,
     jacobian_rs_orbifold,
     effective_phi0_rs,
+    gauge_coupling_4d,
+    gauge_coupling_5d_for_alpha,
+    fine_structure_rs,
     PLANCK_NS_CENTRAL,
     PLANCK_NS_SIGMA,
 )

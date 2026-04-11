@@ -720,3 +720,108 @@ def effective_phi0_rs(
     """
     J = jacobian_rs_orbifold(k, r_c)
     return float(n_winding * 2.0 * np.pi * J * phi0_bare)
+
+
+# ---------------------------------------------------------------------------
+# U(1) gauge coupling projection  (5D → 4D via S¹/Z₂ orbifold)
+# ---------------------------------------------------------------------------
+
+def gauge_coupling_4d(g5: float, k: float, r_c: float) -> float:
+    """Effective 4D gauge coupling from the 5D → 4D RS1 orbifold reduction.
+
+    In the RS1 model the 5D gauge kinetic term is
+
+        L ⊃ −1/(4g₅²) ∫d⁴x ∫₀^π r_c dθ  e^{−2kr_c θ} F_μν F^μν
+
+    (the AdS warp factor e^{−2kr_c θ} enters because the gauge-field indices
+    are contracted with the warped 4D metric).  Integrating over the extra
+    dimension gives the 4D gauge kinetic coefficient
+
+        1/g₄² = (1/g₅²) · (1 − e^{−2πkr_c}) / (2k)
+
+    and therefore
+
+        g₄ = g₅ / J_RS(k, r_c)
+
+    where J_RS is the **same** Jacobian that normalises the scalar zero-mode
+    (see ``jacobian_rs_orbifold``).  The scalar–gauge duality is:
+
+        scalar: φ₄ = J_RS · Φ₅   (amplified by J_RS)
+        gauge:  g₄ = g₅ / J_RS   (diluted by J_RS)
+
+    **Geometric stability**: for kr_c ≥ 5, J_RS → 1/√(2k), so
+
+        g₄ → g₅ · √(2k)
+
+    The effective coupling is insensitive to the exact compactification radius
+    once the hierarchy problem is solved (kr_c ≳ 10).
+
+    Parameters
+    ----------
+    g5  : float — dimensionful 5D gauge coupling (> 0, units [mass]^{−1/2})
+    k   : float — AdS curvature scale (> 0)
+    r_c : float — compactification radius (> 0)
+
+    Returns
+    -------
+    g4 : float — dimensionless 4D gauge coupling
+
+    Raises
+    ------
+    ValueError via ``jacobian_rs_orbifold`` if k ≤ 0 or r_c ≤ 0.
+    """
+    if g5 <= 0.0:
+        raise ValueError(f"5D coupling g5={g5!r} must be positive.")
+    return float(g5 / jacobian_rs_orbifold(k, r_c))
+
+
+def gauge_coupling_5d_for_alpha(
+    alpha_em: float,
+    k: float,
+    r_c: float,
+) -> float:
+    """Required 5D gauge coupling g₅ to reproduce target α_EM after RS reduction.
+
+    Inverts ``gauge_coupling_4d``:
+
+        g₄ = √(4π α_EM)
+        g₅ = g₄ · J_RS(k, r_c)
+
+    For the saturated RS Jacobian (kr_c ≥ 5):
+
+        g₅ ≈ √(4π α_EM) / √(2k)   →   g₅ ≈ √(2π α_EM / k)
+
+    Parameters
+    ----------
+    alpha_em : float — target fine-structure constant (> 0, typically 1/137.036)
+    k        : float — AdS curvature (> 0)
+    r_c      : float — compactification radius (> 0)
+
+    Returns
+    -------
+    g5 : float — 5D gauge coupling
+    """
+    if alpha_em <= 0.0:
+        raise ValueError(f"alpha_em={alpha_em!r} must be positive.")
+    g4 = np.sqrt(4.0 * np.pi * alpha_em)
+    return float(g4 * jacobian_rs_orbifold(k, r_c))
+
+
+def fine_structure_rs(g5: float, k: float, r_c: float) -> float:
+    """Fine-structure constant α = g₄²/(4π) after the RS orbifold projection.
+
+    Convenience wrapper: computes g₄ from g₅ via ``gauge_coupling_4d``, then
+    returns α = g₄²/(4π).
+
+    Parameters
+    ----------
+    g5  : float — 5D gauge coupling
+    k   : float — AdS curvature
+    r_c : float — compactification radius
+
+    Returns
+    -------
+    alpha : float — fine-structure constant in 4D
+    """
+    g4 = gauge_coupling_4d(g5, k, r_c)
+    return float(g4**2 / (4.0 * np.pi))
