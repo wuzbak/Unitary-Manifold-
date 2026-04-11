@@ -11,7 +11,7 @@ verifications, extensions, and discussions — are welcome.
 git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
-python -m pytest tests/ -v          # 256 tests; all pass (100% verified)
+python -m pytest tests/ -v          # 286 tests; all pass (100% verified)
 ```
 
 The test suite covers:
@@ -22,9 +22,9 @@ The test suite covers:
 | `src/core/evolution.py` | RK4 integrator, Euler baseline, CFL estimate, physics bounds (49 tests) |
 | `src/holography/boundary.py` | Entropy-area law, boundary evolution, conservation (21 tests) |
 | `src/multiverse/fixed_point.py` | FTUM convergence, second law, holographic bound (35 tests) |
-| `src/core/inflation.py` / `transfer.py` | CMB power spectrum, birefringence, triple constraint (111 tests) |
+| `src/core/inflation.py` / `transfer.py` | CMB power spectrum, birefringence, triple constraint (141 tests) |
 | Convergence | O(dx²) gradient, Laplacian, Christoffel (10 tests) |
-| **Total** | **256 / 256 passed — 100% verified** |
+| **Total** | **286 / 286 passed — 100% verified** |
 
 ---
 

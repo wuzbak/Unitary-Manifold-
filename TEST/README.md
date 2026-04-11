@@ -1,6 +1,6 @@
 # Test Suite — Unitary Manifold
 
-**256 / 256 tests passing (100%)** — verified 2026-04-11, Python 3.12, pytest 9.0.3
+**286 / 286 tests passing (100%)** — verified 2026-04-11, Python 3.12, pytest 9.0.3
 
 ---
 
@@ -14,7 +14,7 @@ python -m pytest tests/ -v
 Expected result:
 
 ```
-256 passed in ~16s
+286 passed in ~16s
 ```
 
 ---
@@ -28,8 +28,8 @@ Expected result:
 | `tests/test_boundary.py` | 21 | Entropy-area law, Bekenstein–Hawking formula, holographic boundary construction and evolution, information conservation |
 | `tests/test_fixed_point.py` | 35 | Multiverse network (chain + fully-connected), operators I / H / T, FTUM fixed-point iteration, α derivation from fixed point |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease, evolution diagnostics |
-| `tests/test_inflation.py` | 111 | GW potential, slow-roll parameters, CMB observables (nₛ, r), Planck 2018 check, KK Jacobian, Casimir potential, birefringence angle, Chern–Simons coupling, triple constraint |
-| **Total** | **256** | |
+| `tests/test_inflation.py` | 141 | GW potential, slow-roll parameters, CMB observables (nₛ, r), Planck 2018 check, KK Jacobian, Casimir potential, birefringence angle, Chern–Simons coupling, triple constraint, EE/TE source functions, TB/EB spectra, frequency-dependent birefringence |
+| **Total** | **286** | |
 
 ---
 
@@ -93,7 +93,7 @@ Expected result:
 | `TestEvolutionDiagnostics` | 3 | φ energy bounded, Ricci symmetry preserved through step, information conservation stays finite |
 | `TestBoundaryDiagnostics` | 2 | Boundary entropy ≥ 0 after evolution, κ ≥ 0 after bulk step |
 
-### `test_inflation.py` (111 tests)
+### `test_inflation.py` (141 tests)
 
 | Class | Tests | What it verifies |
 |-------|------:|-----------------|
@@ -123,6 +123,10 @@ Expected result:
 | `TestCsLevelForBirefringence` | 3 | Matches Planck constant k=74, round-trip, linear scaling with β |
 | `TestCosmicBirefringenceK74` | 4 | k=74 gives target β, β within 1σ (0.35°±0.14°), stable across k·r_c, topological consistency |
 | `TestTripleConstraint` | 4 | Returns all keys, nₛ passes Planck, β matches target, r positive and finite |
+| `TestEESourceFunction` | 5 | Small-k limit, Silk damping, amplitude factor, output shape, phase orthogonality to temperature |
+| `TestTESourceFunction` | 5 | Product formula, small-k limit, Silk damping, can be negative, output shape |
+| `TestBirefringenceAngleFreq` | 5 | Achromatic β at any ν, achromatic ratio=1, dispersive at ref freq, ν⁻² scaling, dispersive ratio≠1 |
+| `TestTBEBSpectrum` | 15 | Output shapes, C_TE/C_EE, finite values, ΛCDM limit (β=0→C_TB=C_EB=0), signal (β≠0), proportionality to C_TE/C_EE, achromaticity ratio=1, Faraday ratio≠1, invariance across ν pairs |
 
 ---
 

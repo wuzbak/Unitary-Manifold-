@@ -193,7 +193,7 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
-256 tests cover (all 256/256 pass — 100% verified):
+286 tests cover (all 286/286 pass — 100% verified):
 
 | File | Tests | Topics |
 |------|-------|--------|
@@ -202,4 +202,4 @@ python -m pytest tests/ -v
 | `test_boundary.py` | 21 | entropy bound, info conservation, evolve_boundary |
 | `test_fixed_point.py` | 35 | IHT operators, UEUM, convergence |
 | `test_convergence.py` | 10 | O(dx²) gradient, Laplacian, Christoffel convergence |
-| `test_inflation.py` | 111 | CMB power spectrum, ns/r, birefringence, triple constraint |
+| `test_inflation.py` | 141 | CMB power spectrum, ns/r, birefringence, triple constraint, EE/TE source functions, TB/EB spectra |
