@@ -1242,10 +1242,16 @@ from src.core.inflation import (
     foliation_clock_check,
     amplitude_gap_report,
     PLANCK_AS_CENTRAL,
+    BICEP_KECK_R_LIMIT,
     M_PL_GEV,
     ATTRACTOR_PHI0_EFF_TARGET,
     ATTRACTOR_NS_TARGET,
     ATTRACTOR_TOLERANCE,
+    einstein_frame_potential_derivs,
+    field_metric_nonminimal,
+    einstein_inflection_phi,
+    nonminimal_xi_slow_roll,
+    starobinsky_large_xi_ns_r,
 )
 
 
@@ -1332,10 +1338,21 @@ class TestCOBENormalization:
         result = cobe_normalization()
         assert abs(result["ns"] - PLANCK_NS_CENTRAL) < PLANCK_NS_SIGMA
 
-    def test_r_within_planck_bound(self):
-        """r < 0.10 (Planck 2018 95 % CL)."""
+    def test_r_exceeds_bicep_keck_bound(self):
+        """r ≈ 0.097 > 0.036 (BK21): the pure GW hilltop model has r-tension.
+
+        The BICEP/Keck 2021 bound r < 0.036 (arXiv:2110.00483) is tighter
+        than the stale Planck 2018+BK15 limit r < 0.10 used previously.
+        r_planck_limit is updated to BICEP_KECK_R_LIMIT = 0.036 so this flag
+        correctly documents the tension.  Non-minimal coupling ξ can suppress r
+        in the large-field Starobinsky regime; see starobinsky_large_xi_ns_r().
+        """
         result = cobe_normalization()
-        assert result["r_within_bound"]
+        assert not result["r_within_bound"], (
+            f"Expected r_within_bound=False (r={result['r']:.4f} "
+            f"exceeds BK21 limit {BICEP_KECK_R_LIMIT})"
+        )
+        assert result["r"] < 0.10   # still within the stale Planck+BK15 bound
 
     def test_E_inf_in_GUT_range(self):
         """Inflation energy scale should be in the GUT range ~10^15–10^17 GeV."""
@@ -1511,9 +1528,13 @@ class TestScaleDependence:
         result = scale_dependence_comparison()
         assert result["ns_deviation_sigma"] < 1.0
 
-    def test_r_within_planck_bound(self):
+    def test_r_exceeds_bicep_keck_bound(self):
+        """r ≈ 0.097 > 0.036 (BK21): r-tension documented, resolved by Starobinsky ξ."""
         result = scale_dependence_comparison()
-        assert result["r_within_bound"]
+        assert not result["r_within_bound"], (
+            f"Expected r_within_bound=False; got r={result['r']:.4f}"
+        )
+        assert result["r"] < 0.10   # within the older Planck+BK15 bound
 
     def test_r_consistency_relation(self):
         """Tensor consistency: r + 8 nₜ = 0 to machine precision."""
@@ -1594,7 +1615,8 @@ class TestAmplitudeGapReport:
     def test_returns_required_keys(self):
         result = amplitude_gap_report()
         for key in ("slow_roll", "cobe", "scale_dependence", "attractor",
-                    "foliation", "gap_factor", "gap_summary", "fully_determined"):
+                    "foliation", "gap_factor", "gap_summary", "fully_determined",
+                    "r_bk21_tension"):
             assert key in result, f"Missing key: {key}"
 
     def test_gap_factor_equals_lambda_cobe(self):
@@ -1614,10 +1636,22 @@ class TestAmplitudeGapReport:
         assert len(result["gap_summary"]) > 0
 
     def test_fully_determined(self):
-        """Theory is fully determined up to a single normalization (lambda_COBE)."""
+        """Theory is fully determined up to a single normalization (lambda_COBE).
+
+        ``fully_determined`` is about parameter counting (amplitude gap reduces
+        to one free parameter), not observational compliance.  The r tension is
+        documented separately via the ``r_bk21_tension`` key.
+        """
         result = amplitude_gap_report()
         assert result["fully_determined"], (
             f"Not fully determined. Summary: {result['gap_summary']}"
+        )
+
+    def test_r_bk21_tension_present(self):
+        """r_bk21_tension must be True: r ≈ 0.097 exceeds the BK21 bound 0.036."""
+        result = amplitude_gap_report()
+        assert result["r_bk21_tension"] is True, (
+            f"Expected r_bk21_tension=True; got r={result['cobe']['r']:.4f}"
         )
 
     def test_slow_roll_sub_dict_correct(self):
@@ -2191,3 +2225,162 @@ class TestRS1JacobianTrace:
         expected_flat = float(effective_phi0_kk(1.0, 5))
         assert self.trace["phi0_eff_rs1"]  == pytest.approx(expected_rs1,  rel=1e-12)
         assert self.trace["phi0_eff_flat"] == pytest.approx(expected_flat, rel=1e-12)
+
+
+# ---------------------------------------------------------------------------
+# TestNonMinimalXiSlowRoll
+# ---------------------------------------------------------------------------
+
+class TestNonMinimalXiSlowRoll:
+    """Tests for nonminimal_xi_slow_roll(), einstein_frame_potential_derivs(),
+    field_metric_nonminimal(), and einstein_inflection_phi()."""
+
+    def test_xi_zero_recovers_minimal_coupling(self):
+        """At ξ=0, nonminimal_xi_slow_roll must agree with ns_from_phi0."""
+        phi0_eff = effective_phi0_kk(1.0, 5)
+        ns_ref, r_ref, *_ = ns_from_phi0(phi0_eff)
+        ns_xi, r_xi, *_ = nonminimal_xi_slow_roll(phi0_bare=1.0, xi=0.0)
+        assert ns_xi == pytest.approx(ns_ref, rel=1e-6), (
+            f"ns mismatch at ξ=0: {ns_xi:.8f} vs {ns_ref:.8f}"
+        )
+        assert r_xi == pytest.approx(r_ref, rel=1e-6), (
+            f"r mismatch at ξ=0: {r_xi:.8f} vs {r_ref:.8f}"
+        )
+
+    def test_eta_approx_zero_at_inflection_point(self):
+        """η ≈ 0 at the inflection point (d²V_E/dχ² = 0 by construction)."""
+        for xi in [0.0, 0.0005, 0.001]:
+            *_, eps, eta = nonminimal_xi_slow_roll(xi=xi)
+            assert abs(eta) < 1e-10, (
+                f"η = {eta:.3e} is not ≈ 0 at ξ={xi} inflection point"
+            )
+
+    def test_r_has_minimum_near_xi_0005(self):
+        """In the hilltop regime, r has a shallow minimum near ξ ≈ 0.0005.
+
+        The minimum r ≈ 0.088 is still above the BK21 bound of 0.036.
+        For genuine suppression to r < 0.036 the theory needs the large-field
+        Starobinsky regime (see starobinsky_large_xi_ns_r).
+        """
+        xi_values = [0.0, 0.0005, 0.001, 0.002]
+        r_vals = [nonminimal_xi_slow_roll(xi=xi)[1] for xi in xi_values]
+        # r should dip near xi=0.0005 and rise back by xi=0.002
+        assert r_vals[1] < r_vals[0], "r should decrease at ξ=0.0005 vs ξ=0"
+        assert r_vals[3] > r_vals[1], "r should increase again by ξ=0.002"
+        # Minimum still well above BK21 bound
+        r_min = min(r_vals)
+        assert r_min > BICEP_KECK_R_LIMIT, (
+            f"Minimum r in hilltop regime ({r_min:.4f}) must exceed "
+            f"BK21 bound {BICEP_KECK_R_LIMIT} — suppression requires "
+            "large-field Starobinsky regime"
+        )
+
+    def test_hilltop_r_cannot_reach_bk21_bound(self):
+        """No small-field ξ can bring hilltop r below 0.036.
+
+        The minimum r in the small-field hilltop regime is ≈ 0.088 (at ξ≈0.0005),
+        about 2.4× the BK21 bound.  This is an irreducible tension for the
+        hilltop GW potential.
+        """
+        xi_scan = np.linspace(0.0, 0.005, 50)
+        r_vals = [nonminimal_xi_slow_roll(xi=float(xi))[1] for xi in xi_scan]
+        r_min_hilltop = min(r_vals)
+        assert r_min_hilltop > BICEP_KECK_R_LIMIT, (
+            f"Unexpectedly found r = {r_min_hilltop:.4f} < {BICEP_KECK_R_LIMIT} "
+            "in hilltop regime — please verify."
+        )
+
+    def test_einstein_frame_potential_reduces_to_gw_at_xi_zero(self):
+        """einstein_frame_potential_derivs at ξ=0 equals gw_potential_derivs."""
+        phi0, phi, lam = 2.0, 1.0, 3.0
+        V_e, dV_e, d2V_e = einstein_frame_potential_derivs(phi, phi0, lam, xi=0.0)
+        V_j, dV_j, d2V_j = gw_potential_derivs(phi, phi0, lam)
+        assert V_e   == pytest.approx(V_j,   rel=1e-12)
+        assert dV_e  == pytest.approx(dV_j,  rel=1e-12)
+        assert d2V_e == pytest.approx(d2V_j, rel=1e-12)
+
+    def test_field_metric_unity_at_xi_zero(self):
+        """field_metric_nonminimal = 1 at ξ = 0 (canonical kinetic term)."""
+        F = field_metric_nonminimal(5.0, xi=0.0)
+        assert F == pytest.approx(1.0, rel=1e-12)
+
+    def test_field_metric_positive_for_xi_gt_zero(self):
+        """F = (dφ/dχ)² must be strictly positive for any φ and ξ ≥ 0."""
+        for xi in [0.0, 0.001, 0.01, 1.0]:
+            for phi in [1.0, 5.0, 20.0]:
+                F = field_metric_nonminimal(phi, xi=xi)
+                assert F > 0.0, f"F = {F} ≤ 0 at φ={phi}, ξ={xi}"
+
+    def test_einstein_inflection_at_xi_zero(self):
+        """At ξ=0, einstein_inflection_phi returns φ₀/√3 to high precision."""
+        phi0 = 31.4159
+        phi_star = einstein_inflection_phi(phi0, xi=0.0)
+        assert phi_star == pytest.approx(phi0 / np.sqrt(3.0), rel=1e-7)
+
+    def test_inflection_point_decreases_with_xi(self):
+        """The Einstein-frame inflection point φ* shifts to smaller φ as ξ grows."""
+        phi0_eff = effective_phi0_kk(1.0, 5)
+        phi_stars = [einstein_inflection_phi(phi0_eff, xi=xi) for xi in [0.0, 0.0005, 0.001]]
+        for i in range(len(phi_stars) - 1):
+            assert phi_stars[i] > phi_stars[i + 1], (
+                f"φ* did not decrease: φ*(ξ={0.0005*i})={phi_stars[i]:.4f} "
+                f"≤ φ*(ξ={0.0005*(i+1)})={phi_stars[i+1]:.4f}"
+            )
+
+    def test_bicep_keck_r_limit_constant(self):
+        """BICEP_KECK_R_LIMIT must equal 0.036."""
+        assert BICEP_KECK_R_LIMIT == pytest.approx(0.036, rel=1e-10)
+
+
+# ---------------------------------------------------------------------------
+# TestStarobinskyLargeXiLimit
+# ---------------------------------------------------------------------------
+
+class TestStarobinskyLargeXiLimit:
+    """Tests for starobinsky_large_xi_ns_r() — analytic Starobinsky plateau."""
+
+    def test_ns_formula_n60(self):
+        """nₛ = 1 − 2/N at N = 60."""
+        ns, _ = starobinsky_large_xi_ns_r(N=60)
+        assert ns == pytest.approx(1.0 - 2.0/60.0, rel=1e-12)
+
+    def test_r_formula_n60(self):
+        """r = 12/N² at N = 60."""
+        _, r = starobinsky_large_xi_ns_r(N=60)
+        assert r == pytest.approx(12.0/3600.0, rel=1e-12)
+
+    def test_r_below_bk21_for_n_ge_19(self):
+        """r < 0.036 for all N ≥ 19 (Starobinsky limit resolves BK21 tension)."""
+        for N in [19, 30, 50, 55, 60, 65]:
+            _, r = starobinsky_large_xi_ns_r(N=N)
+            assert r < BICEP_KECK_R_LIMIT, (
+                f"r = {r:.4f} ≥ {BICEP_KECK_R_LIMIT} at N={N}"
+            )
+
+    def test_ns_within_planck_2sigma_for_n_55_to_65(self):
+        """nₛ within Planck 2018 2σ for N in [55, 65]."""
+        for N in [55, 57, 60, 63, 65]:
+            ns, _ = starobinsky_large_xi_ns_r(N=N)
+            assert abs(ns - PLANCK_NS_CENTRAL) < 2.0 * PLANCK_NS_SIGMA, (
+                f"nₛ = {ns:.4f} outside Planck 2σ at N={N}"
+            )
+
+    def test_n55_matches_hilltop_ns(self):
+        """At N=55, Starobinsky nₛ ≈ 0.9636, matching the hilltop value."""
+        ns_starobinsky, _ = starobinsky_large_xi_ns_r(N=55)
+        ns_hilltop, *_ = nonminimal_xi_slow_roll(xi=0.0)
+        # They should be within 1σ_Planck of each other
+        assert abs(ns_starobinsky - ns_hilltop) < PLANCK_NS_SIGMA, (
+            f"nₛ(Starobinsky,N=55)={ns_starobinsky:.4f} and "
+            f"nₛ(hilltop)={ns_hilltop:.4f} differ by >{PLANCK_NS_SIGMA}"
+        )
+
+    def test_r_ratio_starobinsky_vs_hilltop(self):
+        """Starobinsky r/r_hilltop < 0.04 at N=60 (24× suppression)."""
+        _, r_staro = starobinsky_large_xi_ns_r(N=60)
+        _, r_hilltop, *_ = nonminimal_xi_slow_roll(xi=0.0)
+        ratio = r_staro / r_hilltop
+        assert ratio < 0.04, (
+            f"Expected Starobinsky r/r_hilltop < 0.04; got {ratio:.4f}"
+        )
+

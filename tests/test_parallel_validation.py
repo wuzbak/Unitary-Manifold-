@@ -363,11 +363,18 @@ class TestObservableDecoupling:
             f"nₛ = {self.sd['ns']:.5f} is {ns_dev:.2f}σ from Planck — outside 1σ"
         )
 
-    def test_r_within_planck_bound(self):
-        """r < 0.036 (Planck+BICEP2 2023 95% CL upper bound)."""
-        assert self.sd["r_within_bound"] is True, (
-            f"r = {self.sd['r']:.4f} exceeds Planck upper bound"
+    def test_r_exceeds_bicep_keck_bound(self):
+        """r ≈ 0.097 > 0.036 (BK21): r-tension documented.
+
+        The BICEP/Keck 2021 bound r < 0.036 supersedes the older 0.10 limit.
+        The r_within_bound flag now correctly shows False (tension).  The
+        large-field Starobinsky regime with ξ >> 1/φ₀² resolves this tension;
+        see starobinsky_large_xi_ns_r().
+        """
+        assert self.sd["r_within_bound"] is False, (
+            f"Expected r_within_bound=False; got r={self.sd['r']:.4f}"
         )
+        assert self.sd["r"] < 0.10, "r should still be within the stale 0.10 bound"
 
     def test_alpha_s_within_bound(self):
         """
