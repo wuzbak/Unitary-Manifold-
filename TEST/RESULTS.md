@@ -2,9 +2,9 @@
 
 Run date: 2026-04-12 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 678 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): 737 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total: 690 collected · 678 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
+**Grand total: 749 collected · 737 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
 
 ⚑ **Skip explanation:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
@@ -58,6 +58,72 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | 8 | `TestEvolutionDiagnostics::test_information_conservation_stays_finite` | ✅ PASSED |
 | 9 | `TestBoundaryDiagnostics::test_boundary_entropy_non_negative_after_evolution` | ✅ PASSED |
 | 10 | `TestBoundaryDiagnostics::test_kappa_non_negative_after_bulk_step` | ✅ PASSED |
+
+---
+
+## test_derivation.py — 59/59 PASSED
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | `TestCSLevelDerivation::test_cs_level_planck_match_constant_is_74` | ✅ PASSED |
+| 2 | `TestCSLevelDerivation::test_cs_level_planck_match_is_int` | ✅ PASSED |
+| 3 | `TestCSLevelDerivation::test_cs_level_for_birefringence_returns_float_near_73p7` | ✅ PASSED |
+| 4 | `TestCSLevelDerivation::test_rounding_cs_float_gives_74` | ✅ PASSED |
+| 5 | `TestCSLevelDerivation::test_cs_level_float_between_73_and_74` | ✅ PASSED |
+| 6 | `TestCSLevelDerivation::test_k74_gives_beta_within_1sigma_planck` | ✅ PASSED |
+| 7 | `TestCSLevelDerivation::test_k73_deviation_exceeds_k74_deviation` | ✅ PASSED |
+| 8 | `TestCSLevelDerivation::test_k75_deviation_exceeds_k74_deviation` | ✅ PASSED |
+| 9 | `TestCSLevelDerivation::test_k74_uniquely_minimises_beta_deviation_over_1_to_100` | ✅ PASSED |
+| 10 | `TestCSLevelDerivation::test_cs_coupling_formula_is_k_alpha_over_2pi2_rc` | ✅ PASSED |
+| 11 | `TestCSLevelDerivation::test_k74_beta_approximately_0p35_degrees` | ✅ PASSED |
+| 12 | `TestCSLevelDerivation::test_k_cs_derivation_inverts_birefringence_formula` | ✅ PASSED |
+| 13 | `TestCSLevelDerivation::test_k_cs_is_positive_integer_greater_than_zero` | ✅ PASSED |
+| 14 | `TestCSLevelDerivation::test_g_agg_from_k74_is_positive_and_finite` | ✅ PASSED |
+| 15 | `TestCSLevelDerivation::test_beta_from_k74_is_positive_radians` | ✅ PASSED |
+| 16 | `TestKKWindingNumber::test_n_winding_5_is_default_for_effective_phi0_kk` | ✅ PASSED |
+| 17 | `TestKKWindingNumber::test_n_winding_5_gives_phi0_eff_equal_to_10pi` | ✅ PASSED |
+| 18 | `TestKKWindingNumber::test_n_winding_5_gives_ns_in_planck_1sigma` | ✅ PASSED |
+| 19 | `TestKKWindingNumber::test_n_winding_4_fails_planck_1sigma` | ✅ PASSED |
+| 20 | `TestKKWindingNumber::test_n_winding_6_fails_planck_1sigma` | ✅ PASSED |
+| 21 | `TestKKWindingNumber::test_only_n_winding_5_passes_planck_1sigma_among_1_to_10` | ✅ PASSED |
+| 22 | `TestKKWindingNumber::test_jacobian_kk_for_phi0_1_nw_5_equals_10pi` | ✅ PASSED |
+| 23 | `TestKKWindingNumber::test_jacobian_kk_scales_linearly_with_n_winding` | ✅ PASSED |
+| 24 | `TestKKWindingNumber::test_n_winding_5_gives_phi0_eff_approximately_31` | ✅ PASSED |
+| 25 | `TestKKWindingNumber::test_n_winding_kk_is_positive_integer` | ✅ PASSED |
+| 26 | `TestRSWindingNumber::test_n_winding_7_is_default_for_effective_phi0_rs` | ✅ PASSED |
+| 27 | `TestRSWindingNumber::test_n_winding_7_gives_phi0_eff_near_31p1` | ✅ PASSED |
+| 28 | `TestRSWindingNumber::test_n_winding_7_gives_ns_in_planck_1sigma` | ✅ PASSED |
+| 29 | `TestRSWindingNumber::test_n_winding_6_rs_fails_planck_1sigma` | ✅ PASSED |
+| 30 | `TestRSWindingNumber::test_n_winding_8_rs_fails_planck_1sigma` | ✅ PASSED |
+| 31 | `TestRSWindingNumber::test_only_n_winding_7_passes_planck_1sigma_rs_among_1_to_12` | ✅ PASSED |
+| 32 | `TestRSWindingNumber::test_rs_and_kk_winding_numbers_differ` | ✅ PASSED |
+| 33 | `TestRSWindingNumber::test_rs_phi0_eff_approximates_7_times_2pi_over_sqrt2` | ✅ PASSED |
+| 34 | `TestRSWindingNumber::test_both_branches_give_ns_within_1sigma` | ✅ PASSED |
+| 35 | `TestRSWindingNumber::test_both_branches_phi0_eff_within_1_percent_of_each_other` | ✅ PASSED |
+| 36 | `TestRSHierarchyProduct::test_k_rc_product_equals_12` | ✅ PASSED |
+| 37 | `TestRSHierarchyProduct::test_j_rs_for_k1_rc12_is_near_1_over_sqrt2` | ✅ PASSED |
+| 38 | `TestRSHierarchyProduct::test_j_rs_squared_is_near_half` | ✅ PASSED |
+| 39 | `TestRSHierarchyProduct::test_j_rs_saturation_exponential_negligible_at_krc12` | ✅ PASSED |
+| 40 | `TestRSHierarchyProduct::test_hierarchy_suppression_factor_represents_33_orders_of_magnitude` | ✅ PASSED |
+| 41 | `TestRSHierarchyProduct::test_j_rs_stable_for_krc_11_to_15` | ✅ PASSED |
+| 42 | `TestRSHierarchyProduct::test_rc_12_with_k_1_gives_integer_krc` | ✅ PASSED |
+| 43 | `TestRSHierarchyProduct::test_j_rs_formula_matches_direct_computation` | ✅ PASSED |
+| 44 | `TestRSHierarchyProduct::test_phi_min_phys_from_krc12_and_phi_min_bare_18` | ✅ PASSED |
+| 45 | `TestRSHierarchyProduct::test_krc_12_is_minimum_integer_achieving_saturation` | ✅ PASSED |
+| 46 | `TestGWMinimumInteger::test_phi_min_bare_18_is_positive` | ✅ PASSED |
+| 47 | `TestGWMinimumInteger::test_phi_min_phys_is_j_rs_times_18` | ✅ PASSED |
+| 48 | `TestGWMinimumInteger::test_delta_phi_from_phi_min_phys_is_positive` | ✅ PASSED |
+| 49 | `TestGWMinimumInteger::test_delta_phi_formula_is_phi_min_times_one_minus_one_over_sqrt3` | ✅ PASSED |
+| 50 | `TestGWMinimumInteger::test_phi_min_bare_18_closes_to_k_cs_74` | ✅ PASSED |
+| 51 | `TestGWMinimumInteger::test_phi_min_bare_exceeds_phi0_bare` | ✅ PASSED |
+| 52 | `TestGWMinimumInteger::test_phi_min_phys_approximately_12p7` | ✅ PASSED |
+| 53 | `TestDimensionalIntegers::test_total_dimensions_is_5` | ✅ PASSED |
+| 54 | `TestDimensionalIntegers::test_kk_jacobian_involves_sqrt_phi0_reflecting_single_extra_dim` | ✅ PASSED |
+| 55 | `TestDimensionalIntegers::test_5d_theory_has_exactly_one_extra_dimension` | ✅ PASSED |
+| 56 | `TestDimensionalIntegers::test_five_pillars_map_to_five_mathematical_integers` | ✅ PASSED |
+| 57 | `TestDimensionalIntegers::test_kk_reduction_factor_is_2pi_per_winding` | ✅ PASSED |
+| 58 | `TestDimensionalIntegers::test_4d_observables_determined_by_single_5d_parameter_phi0` | ✅ PASSED |
+| 59 | `TestDimensionalIntegers::test_five_dimensional_coupling_reduces_to_4d_fine_structure` | ✅ PASSED |
 
 ---
 
@@ -654,6 +720,7 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_evolution.py` | 49 | 0 | 0 | 49 |
 | `test_fixed_point.py` | 35 | 0 | 0 | 35 |
 | `test_inflation.py` | 271 | 0 | 0 | 271 |
+| `test_derivation.py` | 59 | 0 | 0 | 59 |
 | `test_metric.py` | 30 | 0 | 0 | 30 |
 | `test_closure_batch1.py` | 25 | 0 | 0 | 25 |
 | `test_closure_batch2.py` | 31 | 0 | 0 | 31 |
@@ -667,6 +734,6 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_parallel_validation.py` | 38 | 0 | 0 | 38 |
 | `test_quantum_unification.py` | 26 | 0 | 0 | 26 |
 | `test_richardson_multitime.py` 🐌 | 11 | 0 | 0 | 11 |
-| **Total** | **679** | **1** ⚑ | **0** | **690** |
+| **Total** | **738** | **1** ⚑ | **0** | **749** |
 
 ⚑ Guard skip: `TestEntropyProductionRate::test_defect_history_mostly_decreasing` — see header note.

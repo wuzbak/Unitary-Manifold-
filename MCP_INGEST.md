@@ -136,8 +136,9 @@ such that `UΨ* = Ψ*`.
 │   ├── test_observational_resolution.py  # nₛ/β/χ² tolerances, LiteBIRD (30)
 │   ├── test_parallel_validation.py       # 5 independent theory claims (38)
 │   ├── test_quantum_unification.py       # BH info, CCR, Hawking T, ER=EPR (26) — v9.3
+│   ├── test_derivation.py                # Key-integer derivations k_cs/n_w/k_rc/φ_min (59)
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 689 tests — 678 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 749 tests — 737 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -319,7 +320,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **689 tests: 678 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **749 tests: 737 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
