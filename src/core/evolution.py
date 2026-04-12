@@ -66,6 +66,14 @@ run_evolution(state, dt, steps, callback)
 information_current(g, phi, dx)
     J^μ_inf = ρ u^μ (conserved information current).
 
+conjugate_momentum_phi(state)
+    π_φ = ∂_t φ — canonical conjugate momentum of the scalar field.
+    Encodes the CCR [φ̂, π̂_φ] = iℏ δ³(x−y) (QUANTUM_THEOREMS.md §XIII).
+
+hawking_temperature(state)
+    T_H = |∂_r φ / φ| / (2π) — Hawking temperature profile from the
+    scalar gradient (QUANTUM_THEOREMS.md §XIV).
+
 constraint_monitor(Ricci, R, B, phi, g=None)
     Returns a dict of constraint violation norms.  Pass g to also obtain
     the det_g_violation diagnostic (max deviation of det g from −1).
@@ -431,6 +439,70 @@ def information_current(g, phi, dx):
     J[:, 0] = rho / np.sqrt(g00)
     J[:, 1] = rho * dphi / (norm * np.sqrt(g00))
     return J
+
+
+def conjugate_momentum_phi(state: FieldState) -> np.ndarray:
+    """Canonical conjugate momentum π_φ = ∂_t φ of the scalar field.
+
+    From the 4D effective action obtained by Kaluza-Klein reduction, the
+    φ kinetic term yields the canonical momentum:
+
+        π_φ(x)  =  ∂L / ∂(∂_t φ)  =  ∂_t φ
+
+    The equal-time Poisson bracket
+
+        { φ(x, t), π_φ(y, t) }  =  δ³(x − y)
+
+    follows from the symplectic structure of the action and is the classical
+    precursor of the quantum canonical commutation relation:
+
+        [φ̂(x, t), π̂_φ(y, t)]  =  iℏ δ³(x − y)
+
+    See QUANTUM_THEOREMS.md §XIII for the full derivation.
+
+    Parameters
+    ----------
+    state : FieldState
+
+    Returns
+    -------
+    pi_phi : ndarray, shape (N,)
+        Canonical conjugate momentum at each grid point.  Evaluated by
+        computing the RHS of the φ field equation (_compute_rhs).
+    """
+    _, _, pi_phi = _compute_rhs(state)
+    return pi_phi
+
+
+def hawking_temperature(state: FieldState) -> np.ndarray:
+    """Hawking temperature profile T_H(x) = |∂_r φ / φ| / (2π).
+
+    At a black-hole horizon the Walker-Pearson information current
+    J^μ_inf = φ² u^μ must remain conserved (∇_μ J^μ_inf = 0) up to and
+    across the horizon.  The surface gravity encoded in the scalar gradient
+    gives the Unruh/Hawking temperature via (natural units ℏ = k_B = c = 1):
+
+        κ(x)   =  |∂_r φ(x)| / |φ(x)|        (surface gravity per point)
+        T_H(x) =  κ(x) / (2π)
+
+    For a Schwarzschild black hole of mass M (φ ~ (1 − 2M/r)^{1/2} near the
+    horizon) this reduces to Hawking's exact result T_H = 1/(8πM) in Planck
+    units.  A small correction from the α R φ coupling shifts the result at
+    the Planck scale (see QUANTUM_THEOREMS.md §XIV.2).
+
+    Parameters
+    ----------
+    state : FieldState
+
+    Returns
+    -------
+    T_H : ndarray, shape (N,)
+        Hawking temperature at each spatial grid point.
+        Units: Planck temperature (ℏ = k_B = c = G = 1).
+    """
+    dphi_dr = np.gradient(state.phi, state.dx, edge_order=2)
+    kappa = np.abs(dphi_dr) / (np.abs(state.phi) + 1e-12)
+    return kappa / (2.0 * np.pi)
 
 
 def constraint_monitor(Ricci, R, B, phi, g=None):

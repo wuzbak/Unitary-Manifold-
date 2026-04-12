@@ -53,6 +53,11 @@ derive_alpha_from_fixed_point(phi_stabilized, network, **kwargs)
     Derive the nonminimal coupling α = ⟨φ₀⟩⁻² from the stabilised radion
     φ₀.  Optionally runs fixed_point_iteration first.  Closes the third
     completion requirement of the Unitary Manifold.
+
+shared_fixed_point_norm(network)
+    RMS pairwise entropy distance |S_i − S_j| across all node pairs.
+    Zero means every node shares the same entropy fixed point (maximally
+    entangled in the ER = EPR sense).  See QUANTUM_THEOREMS.md §XV.
 """
 
 from __future__ import annotations
@@ -461,3 +466,50 @@ def derive_alpha_from_fixed_point(
     alpha_predicted = 1.0 / phi0**2
 
     return alpha_predicted, result_network, converged
+
+
+# ---------------------------------------------------------------------------
+# Entanglement measure — ER = EPR (QUANTUM_THEOREMS.md §XV)
+# ---------------------------------------------------------------------------
+
+def shared_fixed_point_norm(network: MultiverseNetwork) -> float:
+    """Return the RMS pairwise entropy distance between all node pairs.
+
+    At the FTUM fixed point U Ψ* = Ψ* two nodes i, j are said to *share
+    the fixed point* when their entropy values coincide: S_i ≈ S_j.
+    This is the geometric signature of quantum entanglement in the
+    Walker-Pearson framework (QUANTUM_THEOREMS.md §XV — ER = EPR theorem):
+
+        entangled  ⟺  shared_fixed_point_norm → 0  (coupling → ∞)
+        separable  ⟺  shared_fixed_point_norm > 0  (coupling = 0)
+
+    The entropy equalization is driven by the topology operator T
+    (gradient flow on the entanglement graph):
+
+        ΔS_i = dt · Σ_j w_{ij} (S_j − S_i)
+
+    In the limit w_{ij} → ∞ the operator T equalises all connected
+    entropies, giving a single shared fixed-point entropy — the
+    analog of a maximally entangled Bell state.
+
+    Parameters
+    ----------
+    network : MultiverseNetwork
+        Typically a converged network returned by fixed_point_iteration,
+        but can be any network at any iteration.
+
+    Returns
+    -------
+    rms_dist : float
+        Root-mean-square pairwise |S_i − S_j| entropy distance.
+        Zero indicates maximal entanglement (shared fixed point).
+        Positive indicates partial or no entanglement (distinct fixed points).
+    """
+    entropies = np.array([nd.S for nd in network.nodes])
+    n = len(entropies)
+    dists_sq = [
+        (entropies[i] - entropies[j]) ** 2
+        for i in range(n)
+        for j in range(i + 1, n)
+    ]
+    return float(np.sqrt(np.mean(dists_sq))) if dists_sq else 0.0
