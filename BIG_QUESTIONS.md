@@ -43,6 +43,8 @@ Not every question is fully answered. Where the framework is silent or uncertain
 | 13 | Are we alone in this universe's structure? | Unknown | Multiverse branches adjacent in 5D information space |
 | 14 | Is mathematics discovered or invented? | Philosophical impasse | Geometric: the 5D manifold is prior to its projections |
 | 15 | What is consciousness? | Hard problem (unresolved) | Partial geometric conjecture — information density extremum |
+| 16 | Can the CMB amplitude gap be closed by self-consistent FTUM? | Open engineering/theory problem | Yes — if φ₀ is solved self-consistently rather than fixed at 1 |
+| 17 | Does the Hawking temperature formula link inflation to primordial BH thermodynamics? | No direct connection in standard physics | Yes — T_H = \|∂_r φ/φ\|/2π ties the same radion field to both |
 
 ---
 
@@ -139,10 +141,11 @@ geometry selects that state as the unique stable attractor.
 
 ### The Test
 
-Precise measurements of primordial tensor-to-scalar ratio r. The WP prediction r = 0
-(or effectively zero) from the inflation module differs from simple single-field
-inflation models. Einstein Telescope and LISA will constrain scalar gravitational waves
-to levels that would falsify this.
+Precise measurements of primordial tensor-to-scalar ratio r. The WP prediction
+r ≈ 0.0028 from the inflation module (derived via the slow-roll consistency relation
+r = 16ε at φ* = φ₀_eff/√3, with no free parameters beyond n_w = 5) differs from
+simple single-field inflation models. LiteBIRD and CMB-S4 B-mode searches will
+constrain r to levels that probe this directly. See Appendix C.
 
 ---
 
@@ -627,7 +630,117 @@ problem for future work.
 
 ---
 
-## Appendix A — What the Framework Explicitly Does Not Claim
+## Question 16 — Can the CMB Amplitude Gap Be Closed by Self-Consistent FTUM?
+
+### The Standard View
+
+The Unitary Manifold predicts the correct *shape* of the CMB power spectrum
+(matching Planck 2018 nₛ = 0.9649 within 1σ) but the predicted *amplitude* is
+suppressed by a factor of ×4–7 at the acoustic peaks.  This is acknowledged in
+`FALLIBILITY.md` and Appendix A of this document.  It is the most important
+quantitative gap in the framework.
+
+### The Unitary Manifold Answer — Partial and Open
+
+The current implementation fixes the FTUM bare fixed point at φ₀ = 1 (Planck
+units), and then applies the KK Jacobian J = n_w · 2π · √φ₀ to obtain the
+effective inflaton vev φ₀_eff ≈ 31.42 that produces nₛ ≈ 0.9635.
+
+The amplitude of primordial perturbations is set by the slow-roll parameter:
+
+```
+A_s  =  (H² / 8π² ε M_Pl²)
+```
+
+In the current implementation, `H` and `ε` are evaluated at the fixed φ₀ = 1
+starting point, *before* the FTUM iteration has self-consistently determined
+the physical φ₀.  There is a meaningful conjecture here:
+
+> **If φ₀ is solved self-consistently** — that is, if the FTUM fixed-point
+> iteration is run to convergence and the resulting φ* is fed back into the
+> inflationary observables (rather than fixing φ₀ = 1 and post-multiplying by J)
+> — the effective Hubble rate H* at horizon exit would be set by the physical
+> geometry rather than a default normalisation.  This could close the amplitude
+> gap without introducing a new free parameter.
+
+This is an extrapolation, not a derivation.  It is an explicit open question:
+the self-consistent FTUM loop has not been implemented.
+
+### The Test
+
+This is a computational question, answerable entirely within the existing
+codebase.  The test would be:
+
+1. Run `fixed_point_iteration` to convergence for a range of initial conditions.
+2. Feed the converged φ* directly into `inflation_observables(phi0=phi_star)`,
+   bypassing the Jacobian multiplication.
+3. Check whether the resulting A_s moves toward the Planck value
+   `A_s ≈ 2.1 × 10⁻⁹`.
+
+If this self-consistent loop produces A_s within an order of magnitude of Planck,
+the amplitude gap would be substantially closed by the geometry alone.  If it
+does not, a separate amplitude normalisation mechanism is required and the gap
+remains a true free parameter.  Either outcome is informative.
+
+---
+
+## Question 17 — Does the Hawking Temperature Formula Link Inflation to Primordial Black Hole Thermodynamics?
+
+### The Standard View
+
+Hawking radiation (1974) gives the temperature of a black hole of mass M as:
+
+```
+T_H  =  ℏ c³ / (8π G M k_B)
+```
+
+Inflation produces a spectrum of primordial density perturbations that, on
+small scales, can collapse into **primordial black holes** (PBHs) at horizon
+re-entry.  In standard physics, the Hawking temperature of those PBHs is
+determined solely by their mass — there is no direct connection between the
+inflationary mechanism that created them and their thermodynamic temperature.
+
+### The Unitary Manifold Answer
+
+Theorem XIV (implemented in `evolution.py: hawking_temperature`) gives:
+
+```
+T_H  =  |∂_r φ / φ| / 2π
+```
+
+where φ is the same radion field that controls inflation.  The Hawking
+temperature is set by the *gradient* of the irreversibility field at the
+horizon — not by the mass in isolation.
+
+This is an extrapolation with a concrete implication:
+
+> For primordial black holes formed during or immediately after inflation, the
+> radion field φ at the moment of PBH formation retains the value and gradient
+> it had during the inflationary epoch.  This means that the Hawking temperature
+> of a PBH is not just a function of its mass — it carries a *memory* of the
+> inflationary φ-gradient.  In the Unitary Manifold framework, all PBHs formed
+> at the same inflationary epoch share the same T_H (up to local perturbations),
+> regardless of small mass differences.
+
+If this is correct, PBHs of different masses formed at the same epoch would
+have **correlated Hawking temperatures** — a prediction qualitatively different
+from the standard mass-only formula.  The mass-temperature relation would show
+a systematic offset set by the inflationary φ₀.
+
+### The Test
+
+Direct detection of Hawking radiation from PBHs is not currently feasible.  The
+indirect test is through the PBH mass spectrum and evaporation history: if the
+WP Hawking formula gives a different evaporation rate than the Bekenstein–Hawking
+formula for the same PBH mass distribution, the differing γ-ray background
+signatures (from `tests/test_quantum_unification.py::TestHawkingTemperature`)
+would, in principle, be distinguishable by future MeV gamma-ray observatories
+(e-ASTROGAM, AMEGO-X).  The computation requires running the WP Hawking formula
+against the standard formula over the Planck-era PBH mass spectrum.
+
+---
+
+
 
 1. **That the 5D geometry is physically real in any naive sense.** It is a mathematical
    structure that, if the framework is correct, underlies the 4D physics we observe.
@@ -660,7 +773,7 @@ If you want to know what would kill this framework, in decreasing order of decis
 | CMB-S4: n_s significantly different from 0.9635 | The inflation module's fixed-point prediction |
 | LIGO/LISA: information-destroying black hole evaporation confirmed | The information conservation theorem |
 | Any experiment showing Born-rule violation | The WP derivation of the Born rule from KK reduction |
-| Direct observation of scalar gravitational waves at ET sensitivity | The prediction r ≈ 0 from the inflation module |
+| LiteBIRD / CMB-S4 B-mode detection: r inconsistent with 0.0028 | The slow-roll forward prediction r ≈ 0.0028 from n_w = 5 |
 
 None of these observations have been made as of April 2026. The framework remains
 consistent with all current data.
@@ -676,9 +789,10 @@ For completeness, the quantitative results that match observation *without* tuni
 | Spectral index n_s | 0.9649 ± 0.0042 (Planck) | 0.9635 | Within 1σ |
 | Birefringence β | 0.35° ± 0.14° | 0.3513° | Within 1σ; k=74 is unique minimiser |
 | Nonminimal coupling α | Not independently measured | φ₀⁻² (derived) | Removes one free parameter |
+| Tensor-to-scalar ratio r | < 0.036 (BICEP/Keck 2022) | **0.0028** | Forward prediction; no free parameters used; LiteBIRD/CMB-S4 will test |
 | Information conservation | No violation observed | ∇_μ J^μ_inf = 0 (identity) | Zero free parameters |
 | Born rule | No violation observed | Derived from KK reduction | Theorem XIII |
-| Hawking temperature | Consistent with GR | T_H = |∂_r φ / φ| / 2π | Theorem XIV |
+| Hawking temperature | Consistent with GR | T_H = \|∂_r φ / φ\| / 2π | Theorem XIV |
 
 The CMB amplitude gap remains open. This is acknowledged.
 
@@ -702,12 +816,15 @@ QUESTION 12 (Something vs nothing):  Ψ=0 is unstable; Ψ* is unique stable attr
 QUESTION 13 (Are we alone):          Adjacent branches in 5D; CMB bispectrum is the test
 QUESTION 14 (Math discovered/invented): Geometry is prior; 4D world is its projection
 QUESTION 15 (Consciousness):         Conjecture: extremum of J^0_inf density; not derived
+QUESTION 16 (CMB amplitude gap):     Open: self-consistent FTUM loop may close it without new free parameters
+QUESTION 17 (Hawking T / inflation): T_H = |∂_r φ/φ|/2π links primordial BH thermodynamics to inflation epoch
 KEY FALSIFIER: LiteBIRD β ≠ 0.35° at >3σ
+KEY FORWARD PREDICTION: r ≈ 0.0028 (no free parameters; LiteBIRD/CMB-S4 B-mode)
 ```
 
 ---
 
-*Document version: 1.0 — April 2026*  
+*Document version: 1.1 — April 2026*  
 *Part of the Unitary Manifold repository.*  
 *Theory and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document synthesis: **GitHub Copilot** (AI).*  
