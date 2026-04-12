@@ -19,7 +19,7 @@ What this file tests
 1. **TestAmplitudeMismatchIsDocumented**
    The model's Dₗ amplitude at acoustic peaks is ~5× below the Planck
    2018 measured values.  These tests verify the gap is there and quantify
-   it, so that the test badge ("737 passed") cannot be misread as "the
+   it, so that the test badge ("826 passed") cannot be misread as "the
    model reproduces the Planck TT spectrum."
 
 2. **TestSilkDampingRatioMatchesPlanck**

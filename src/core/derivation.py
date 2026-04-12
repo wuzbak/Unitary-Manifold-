@@ -174,6 +174,19 @@ class DerivationFailure(Exception):
     """
 
 
+def _resolve_phi_min_phys(phi_min_phys: Optional[float], r_c: float) -> float:
+    """Return *phi_min_phys*, computing it from geometry if None is given.
+
+    Used by both :func:`derive_cs_level` and :func:`_check_joint_consistency`
+    to avoid duplicating the same lazy-import + Jacobian calculation.
+    """
+    if phi_min_phys is None:
+        from .inflation import jacobian_rs_orbifold
+        j_rs = jacobian_rs_orbifold(1.0, r_c)
+        return float(j_rs * PHI_MIN_BARE_CANONICAL)
+    return phi_min_phys
+
+
 # ---------------------------------------------------------------------------
 # DerivationResult
 # ---------------------------------------------------------------------------
@@ -829,10 +842,7 @@ def derive_cs_level(
         If no candidate survives the structural constraints (should not
         happen for any k_max ≥ 1 with the current constraint set).
     """
-    if phi_min_phys is None:
-        from .inflation import jacobian_rs_orbifold, effective_phi0_rs
-        j_rs = jacobian_rs_orbifold(1.0, r_c)
-        phi_min_phys = j_rs * PHI_MIN_BARE_CANONICAL
+    phi_min_phys = _resolve_phi_min_phys(phi_min_phys, r_c)
 
     details: Dict[str, Any] = {}
     candidates: List[int] = []
@@ -962,9 +972,7 @@ def _check_joint_consistency(
         return False, info
 
     if phi_min_phys is None:
-        from .inflation import jacobian_rs_orbifold
-        j_rs = jacobian_rs_orbifold(1.0, r_c)
-        phi_min_phys = j_rs * PHI_MIN_BARE_CANONICAL
+        phi_min_phys = _resolve_phi_min_phys(None, r_c)
 
     try:
         ns, r, eps, eta = ns_from_phi0(phi0_eff)

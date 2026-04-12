@@ -20,7 +20,7 @@ All in `test_richardson_multitime.py`, decorated `@pytest.mark.slow`. Excluded f
 pip install numpy scipy pytest
 python -m pytest tests/ -v          # 826 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/             # all 738 fast + 11 slow
+python -m pytest tests/             # all 827 fast + 11 slow
 ```
 
 Expected result (default):
