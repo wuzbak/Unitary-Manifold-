@@ -3,6 +3,8 @@ import express from "express";
 import fetch from "node-fetch";
 import { execFile } from "child_process";
 import { promisify } from "util";
+import { readFileSync, existsSync } from "fs";
+import { join } from "path";
 
 const execFileAsync = promisify(execFile);
 const app = express();
@@ -12,6 +14,70 @@ const PORT = process.env.PORT || 3000;
 
 // Path to the repo root — adjust if the server is deployed elsewhere
 const REPO_ROOT = process.env.REPO_ROOT || "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-";
+
+// ---------------------------------------------------------------------------
+// Load full repository knowledge at startup
+// Files are read in AGENTS.md ingest order (Tier 1 first).
+// Missing files are silently skipped.
+// ---------------------------------------------------------------------------
+const REPO_DOCS_ORDERED = [
+  // Tier 1 — essential context
+  "WHAT_THIS_MEANS.md",
+  "MCP_INGEST.md",
+  "llms.txt",
+  // Tier 2 — implementation context
+  "README.md",
+  "UNIFICATION_PROOF.md",
+  "QUANTUM_THEOREMS.md",
+  "FALLIBILITY.md",
+  "BIG_QUESTIONS.md",
+  "UNDERSTANDABLE_EXPLANATION.md",
+  "LEGEND.md",
+  "RELAY.md",
+  // Wiki
+  "wiki/Home.md",
+  "wiki/Field-Equations.md",
+  "wiki/Mathematical-Framework.md",
+  "wiki/Numerical-Methods.md",
+  "wiki/API-Reference.md",
+  "wiki/Getting-Started.md",
+  // Manuscript & submission
+  "manuscript/ch02_mathematical_preliminaries.md",
+  "submission/one_page_summary.md",
+  "submission/falsification_report.md",
+  "docs/semantic-bridge.md",
+  // Review conclusions
+  "REVIEW_CONCLUSION.md",
+  "FINAL_REVIEW_CONCLUSION.md",
+  // Source
+  "src/core/metric.py",
+  "src/core/evolution.py",
+  "src/holography/boundary.py",
+  "src/multiverse/fixed_point.py",
+];
+
+function loadRepoContext() {
+  const parts = [];
+  for (const rel of REPO_DOCS_ORDERED) {
+    const full = join(REPO_ROOT, rel);
+    if (!existsSync(full)) continue;
+    try {
+      const text = readFileSync(full, "utf8");
+      parts.push(`
+
+${"=".repeat(60)}
+FILE: ${rel}
+${"=".repeat(60)}
+${text}`);
+    } catch {
+      // skip unreadable files
+    }
+  }
+  return parts.join("");
+}
+
+const REPO_CONTEXT = loadRepoContext();
+console.log(`📚 Loaded ${REPO_DOCS_ORDERED.filter(r => existsSync(join(REPO_ROOT, r))).length} repository documents into context.`);
 
 // ---------------------------------------------------------------------------
 // FTUM-grounded system prompt
@@ -314,16 +380,31 @@ for line in reversed(lines):
 // Build the augmented system prompt for a given request
 // ---------------------------------------------------------------------------
 function buildSystemPrompt(userText) {
+  // Base axioms + behavioral rules
   let augmented = SYSTEM_PROMPT;
 
+  // Append full repository knowledge (loaded at startup)
+  if (REPO_CONTEXT) {
+    augmented += `
+
+${"=".repeat(60)}
+FULL REPOSITORY KNOWLEDGE (loaded at startup)
+${"=".repeat(60)}${REPO_CONTEXT}`;
+  }
+
+  // Geometric structure hint for this specific question
   const structure = classifyQuestion(userText);
   if (structure) {
     const hint = driftHint(structure);
-    if (hint) augmented += `\n\n[INTERNAL: ${hint}]`;
+    if (hint) augmented += `
+
+[INTERNAL: ${hint}]`;
   }
 
   if (detectsStatisticalFraming(userText)) {
-    augmented += "\n\n[INTERNAL: User is framing this statistically. Apply Rule 2 correction — ground to geometric necessity.]";
+    augmented += "
+
+[INTERNAL: User is framing this statistically. Apply Rule 3 — meet them where they are, then gently correct to geometric necessity.]";
   }
 
   return augmented;

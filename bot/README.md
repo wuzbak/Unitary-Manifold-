@@ -132,18 +132,47 @@ See [`rag/DEPLOY.md`](rag/DEPLOY.md) for HuggingFace Spaces deployment.
 
 ---
 
-## Knowledge files (shared across all options)
+## Knowledge sync — full repository
 
-The `rag/knowledge/` directory contains five pre-chunked markdown files that
-are used by the RAG bot and can be uploaded to Custom GPT / Claude Projects:
+All four options are synced to the **complete repository knowledge**, not just
+a hand-written summary.  31 files, ~366K characters, ~91K tokens.
 
-| File | Content |
-|------|---------|
-| `01_core_theory.md` | 5D geometry, irreversibility field, KK reduction |
-| `02_equations.md` | All key equations and field symbol table |
-| `03_predictions.md` | nₛ, β, α predictions + gaps + falsification |
-| `04_python_api.md` | Python API usage with code examples |
-| `05_quantum_theorems.md` | Theorems XII–XV |
+### How it works
+
+| Option | How knowledge is loaded |
+|--------|------------------------|
+| Custom GPT / Claude Project | Upload `bot/context_snapshot.md` as a knowledge file |
+| GitHub Pages chatbot | Full knowledge inlined in `chatbot-widget.js` at build time |
+| Copilot Extension | All 31 repo documents loaded from disk at server startup |
+| RAG bot | Loads `bot/rag/knowledge/` summaries + full repo docs at runtime |
+
+### Keeping it fresh
+
+Whenever the repository content changes, regenerate the snapshot:
+
+```bash
+python bot/scripts/build_context.py
+```
+
+This reads every document in [AGENTS.md](../AGENTS.md) ingest order
+(Tier 1 → 4) and writes `bot/context_snapshot.md`.  The file is gitignored
+(generated, not hand-edited).  Re-upload it to your Custom GPT / Claude
+Project after any significant theory update.
+
+### What is indexed
+
+```
+Tier 1  WHAT_THIS_MEANS.md, MCP_INGEST.md, llms.txt, CITATION.cff, schema.jsonld
+Tier 2  README.md, UNIFICATION_PROOF.md, QUANTUM_THEOREMS.md, FALLIBILITY.md,
+        BIG_QUESTIONS.md, UNDERSTANDABLE_EXPLANATION.md, LEGEND.md, RELAY.md
+Tier 3  wiki/ (7 pages), manuscript/ch02, submission/, docs/semantic-bridge.md,
+        REVIEW_CONCLUSION.md, FINAL_REVIEW_CONCLUSION.md, discussions/
+Tier 4  src/core/metric.py, evolution.py, boundary.py, fixed_point.py
+```
+
+The monograph PDF (`THEBOOKV9a (1).pdf`) is not indexed by the RAG bot or
+Copilot Extension — it is too large for automated processing.  Upload it
+manually to Custom GPT / Claude Project if you want full 74-chapter coverage.
 
 ---
 
@@ -152,3 +181,4 @@ are used by the RAG bot and can be uploaded to Custom GPT / Claude Projects:
 - Main repo: <https://github.com/wuzbak/Unitary-Manifold->
 - Theory overview: [`MCP_INGEST.md`](../MCP_INGEST.md)
 - Plain-language summary: [`WHAT_THIS_MEANS.md`](../WHAT_THIS_MEANS.md)
+

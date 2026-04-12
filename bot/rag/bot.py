@@ -24,6 +24,50 @@ load_dotenv()
 # ---------------------------------------------------------------------------
 KNOWLEDGE_DIR = Path(__file__).parent / "knowledge"
 
+# Repo root is two levels above bot/rag/
+REPO_ROOT = Path(__file__).parent.parent.parent
+
+# Ordered ingest list following AGENTS.md Tier 1-4 priority.
+# Paths are relative to REPO_ROOT.  Missing files are silently skipped.
+REPO_DOCS_ORDERED = [
+    # Tier 1 — essential context
+    "WHAT_THIS_MEANS.md",
+    "MCP_INGEST.md",
+    "llms.txt",
+    # Tier 2 — implementation context
+    "README.md",
+    "UNIFICATION_PROOF.md",
+    "QUANTUM_THEOREMS.md",
+    "FALLIBILITY.md",
+    "BIG_QUESTIONS.md",
+    "UNDERSTANDABLE_EXPLANATION.md",
+    "LEGEND.md",
+    "RELAY.md",
+    # Tier 3 — wiki
+    "wiki/Home.md",
+    "wiki/Field-Equations.md",
+    "wiki/Mathematical-Framework.md",
+    "wiki/Numerical-Methods.md",
+    "wiki/API-Reference.md",
+    "wiki/Getting-Started.md",
+    "wiki/Monograph-Structure.md",
+    # Tier 4 — manuscript & submission
+    "manuscript/ch02_mathematical_preliminaries.md",
+    "submission/one_page_summary.md",
+    "submission/falsification_report.md",
+    "docs/semantic-bridge.md",
+    # Discussions
+    "discussions/AI-Automated-Review-Invitation.md",
+    # Review conclusions
+    "REVIEW_CONCLUSION.md",
+    "FINAL_REVIEW_CONCLUSION.md",
+    # Source code (Python)
+    "src/core/metric.py",
+    "src/core/evolution.py",
+    "src/holography/boundary.py",
+    "src/multiverse/fixed_point.py",
+]
+
 # ---------------------------------------------------------------------------
 # System prompt (same knowledge context used in the Copilot Extension)
 # ---------------------------------------------------------------------------
@@ -153,13 +197,26 @@ Python API:
 # ---------------------------------------------------------------------------
 
 def _load_knowledge_docs() -> list[dict]:
-    """Load all .md files from the knowledge directory."""
+    """Load knowledge from two sources, in priority order:
+    1. bot/rag/knowledge/ — curated summary chunks (always loaded first)
+    2. Full repository documents in AGENTS.md ingest order
+    """
     docs = []
-    if not KNOWLEDGE_DIR.exists():
-        return docs
-    for path in sorted(KNOWLEDGE_DIR.glob("*.md")):
-        text = path.read_text(encoding="utf-8")
-        docs.append({"filename": path.name, "text": text})
+    # Priority tier: hand-curated summaries
+    if KNOWLEDGE_DIR.exists():
+        for kpath in sorted(KNOWLEDGE_DIR.glob("*.md")):
+            text = kpath.read_text(encoding="utf-8")
+            docs.append({"filename": kpath.name, "text": text, "tier": "summary"})
+    # Full repository: load in AGENTS.md ingest order
+    for rel in REPO_DOCS_ORDERED:
+        full = REPO_ROOT / rel
+        if not full.exists():
+            continue
+        try:
+            text = full.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        docs.append({"filename": rel, "text": text, "tier": "repo"})
     return docs
 
 
