@@ -81,7 +81,7 @@ constraint_monitor(Ricci, R, B, phi, g=None)
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Callable, List, Optional
 
 import numpy as np

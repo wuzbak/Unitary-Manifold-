@@ -45,6 +45,8 @@ extract_alpha_from_curvature(g, B, phi, dx, lam)
     alpha_geometric = ⟨1/φ²⟩ is the KK-derived coupling constant.
 """
 
+from typing import Any, Dict, Tuple
+
 import numpy as np
 
 
@@ -343,7 +345,7 @@ def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0):
 def derive_nw_index_theorem(
     n_generations: int = 3,
     z2_removes: int = 1,
-) -> "tuple[int, dict]":
+) -> Tuple[int, Dict[str, Any]]:
     """Derive the winding number n_w from the Atiyah–Singer index theorem.
 
     In the 5D theory compactified on S¹/Z₂ the Dirac operator D₅ acting on
@@ -390,7 +392,6 @@ def derive_nw_index_theorem(
     ValueError
         If n_generations < 1 or z2_removes < 0 or the resulting n_w < 1.
     """
-    from typing import Dict, Any  # local import to avoid circular deps
     if n_generations < 1:
         raise ValueError(
             f"n_generations={n_generations!r} must be a positive integer."

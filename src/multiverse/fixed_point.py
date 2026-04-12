@@ -63,7 +63,7 @@ shared_fixed_point_norm(network)
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -566,7 +566,7 @@ def operator_spectral_radius(
     kappa: float = 0.25,
     n_test: int = 20,
     rng: Optional[np.random.Generator] = None,
-) -> dict:
+) -> Dict[str, Any]:
     """Estimate the spectral radius ρ(H + T) of the non-identity part of U.
 
     The operator U = I + H + T acts on the entropy subspace.  The fixed-point
@@ -667,7 +667,7 @@ def check_contraction_condition(
     G4: float = 1.0,
     kappa: float = 0.25,
     gamma: float = 5.0,
-) -> dict:
+) -> Dict[str, Any]:
     """Verify the Banach contraction condition for the FTUM operator U.
 
     The damped operator is

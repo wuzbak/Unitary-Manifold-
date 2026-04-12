@@ -50,7 +50,6 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-from ..core.metric import field_strength
 from ..core.evolution import information_current
 
 
@@ -268,7 +267,7 @@ def fefferman_graham_expansion(
     g_boundary: np.ndarray,
     L_ads: float = 1.0,
     order: int = 4,
-) -> dict:
+) -> Dict[str, Any]:
     """Fefferman–Graham (FG) expansion coefficients near the AdS₅ boundary.
 
     The FG expansion of the 5D metric near the conformal boundary r → ∞ is
@@ -344,7 +343,7 @@ def boundary_counterterms(
     L_ads: float = 1.0,
     dx: float = 1.0,
     G5: float = 1.0,
-) -> dict:
+) -> Dict[str, Any]:
     """Holographic boundary counterterms S_ct that cancel UV divergences.
 
     The holographic renormalisation counterterms for AdS₅/CFT₄ are (Emparan,
@@ -426,7 +425,7 @@ def holographic_renormalized_action(
     L_ads: float = 1.0,
     dx: float = 1.0,
     G5: float = 1.0,
-) -> dict:
+) -> Dict[str, Any]:
     """Holographically renormalised on-shell action S_ren = S_bulk + S_ct.
 
     The raw 5D on-shell action S_bulk diverges as the UV cutoff r_max → ∞
@@ -485,8 +484,6 @@ def holographic_renormalized_action(
 # abstract derivation layer.
 #
 # ---------------------------------------------------------------------------
-
-from typing import Dict, List, Optional, Tuple, Any  # noqa: E402
 
 #: SM fermion spectrum for the anomaly-inflow k_CS calculation.
 #: Each entry: (name, Y6, n_colors, n_weak_isospin, n_gen, chirality).

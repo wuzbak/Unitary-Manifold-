@@ -117,11 +117,9 @@ from .inflation import (
     ns_from_phi0,
     cs_axion_photon_coupling,
     birefringence_angle,
-    cs_level_for_birefringence,
     field_displacement_gw,
     BIREFRINGENCE_TARGET_DEG,
     BIREFRINGENCE_SIGMA_DEG,
-    CS_LEVEL_PLANCK_MATCH,
 )
 from ..multiverse.fixed_point import (
     MultiverseNetwork,
