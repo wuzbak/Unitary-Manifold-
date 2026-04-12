@@ -442,23 +442,23 @@ def check_holographic_stability(
             return MultiverseNetwork.chain(n=3, rng=np.random.default_rng(42))
 
     if ftum_kwargs is None:
-        ftom_kwargs_local = {"max_iter": FTUM_MAX_ITER, "tol": FTUM_TOL}
+        ftum_kwargs_local = {"max_iter": FTUM_MAX_ITER, "tol": FTUM_TOL}
     else:
-        ftom_kwargs_local = ftum_kwargs
+        ftum_kwargs_local = ftum_kwargs
 
     net = network_factory()
     converged_net, residuals, converged = fixed_point_iteration(
-        net, **ftom_kwargs_local
+        net, **ftum_kwargs_local
     )
 
     if not converged:
         return False, "FTUM did not converge; holographic stability cannot be verified"
 
     # Check entropy saturation: S ≈ A/(4G)
-    G4 = ftom_kwargs_local.get("G4", 1.0)
+    G4 = ftum_kwargs_local.get("G4", 1.0)
     defects = [abs(node.A / (4.0 * G4) - node.S) for node in converged_net.nodes]
     max_defect = max(defects)
-    tol = ftom_kwargs_local.get("tol", FTUM_TOL)
+    tol = ftum_kwargs_local.get("tol", FTUM_TOL)
 
     if max_defect > tol:
         return False, (
