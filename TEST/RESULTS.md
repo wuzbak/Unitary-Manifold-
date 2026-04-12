@@ -1,10 +1,10 @@
 # Full Test Results — Unitary Manifold
 
-Run date: 2026-04-11 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
+Run date: 2026-04-12 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 652 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): 678 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total: 664 collected · 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
+**Grand total: 690 collected · 678 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
 
 ⚑ **Skip explanation:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
@@ -665,7 +665,8 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_e2e_pipeline.py` | 26 | 0 | 0 | 26 |
 | `test_observational_resolution.py` | 30 | 0 | 0 | 30 |
 | `test_parallel_validation.py` | 38 | 0 | 0 | 38 |
+| `test_quantum_unification.py` | 26 | 0 | 0 | 26 |
 | `test_richardson_multitime.py` 🐌 | 11 | 0 | 0 | 11 |
-| **Total** | **663** | **1** ⚑ | **0** | **664** |
+| **Total** | **679** | **1** ⚑ | **0** | **690** |
 
 ⚑ Guard skip: `TestEntropyProductionRate::test_defect_history_mostly_decreasing` — see header note.

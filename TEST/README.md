@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**664 tests: 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-11, Python 3.12, pytest 9.0.3
+**689 tests: 678 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-12, Python 3.12, pytest 9.0.3
 
-*(652 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+*(678 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ### The 1 skipped test
 
@@ -18,15 +18,15 @@ All in `test_richardson_multitime.py`, decorated `@pytest.mark.slow`. Excluded f
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 652 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 678 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/             # all 653 fast + 11 slow
+python -m pytest tests/             # all 679 fast + 11 slow
 ```
 
 Expected result (default):
 
 ```
-652 passed, 1 skipped, 11 deselected in ~38s
+678 passed, 1 skipped, 11 deselected in ~38s
 ```
 
 ---
@@ -42,6 +42,7 @@ Expected result (default):
 | `tests/test_closure_batch2.py` | 31 | Numerical robustness, cross-module consistency, edge-case coverage |
 | `tests/test_observational_resolution.py` | 30 | Angular resolution sufficiency, nₛ/β tolerance, χ² sensitivity, LiteBIRD pol-ratio bounds |
 | `tests/test_metric.py` | 30 | KK metric assembly, Christoffel symbols, Riemann/Ricci tensors, field strength, α derivation from curvature |
+| `tests/test_quantum_unification.py` | 26 | BH information conservation, canonical commutation relation, Hawking temperature, ER=EPR via shared fixed point |
 | `tests/test_e2e_pipeline.py` | 26 | End-to-end chain closure, CS level uniqueness (k=74), α consistency loop, no-free-parameters verification |
 | `tests/test_closure_batch1.py` | 25 | α dual-path closure, nₛ KK=Casimir, β coupling chain, holographic entropy emergence |
 | `tests/test_arrow_of_time.py` | 23 | Forward entropy growth, backward deficit growth, path independence, entropy production rates |
@@ -52,7 +53,7 @@ Expected result (default):
 | `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total** | **664** | **652 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| **Total** | **689** | **678 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 

@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.0 — Academic Edition |
+| Version | 9.3 — Academic Edition |
 | Lead Author | ThomasCory Walker-Pearson |
 | Affiliation | Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.2):** All five completion requirements are solved internally.
+**Self-completion status (v9.3):** All five completion requirements are solved internally.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -135,8 +135,9 @@ such that `UΨ* = Ψ*`.
 │   ├── test_e2e_pipeline.py              # End-to-end chain closure, CS level (26)
 │   ├── test_observational_resolution.py  # nₛ/β/χ² tolerances, LiteBIRD (30)
 │   ├── test_parallel_validation.py       # 5 independent theory claims (38)
+│   ├── test_quantum_unification.py       # BH info, CCR, Hawking T, ER=EPR (26) — v9.3
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 664 tests — 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 689 tests — 678 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -225,7 +226,7 @@ such that `UΨ* = Ψ*`.
   author  = {Walker-Pearson, ThomasCory},
   year    = {2026},
   url     = {https://github.com/wuzbak/Unitary-Manifold-},
-  version = {9.0},
+  version = {9.3},
   license = {Defensive Public Commons v1.0}
 }
 ```
@@ -318,13 +319,13 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **664 tests: 652 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **689 tests: 678 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
 ---
 
-*Generated: 2026-04-10 | Repo: wuzbak/Unitary-Manifold- | Version: 9.0*
+*Generated: 2026-04-12 | Repo: wuzbak/Unitary-Manifold- | Version: 9.3*
 
 ---
 
