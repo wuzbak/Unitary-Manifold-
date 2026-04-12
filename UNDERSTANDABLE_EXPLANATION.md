@@ -33,12 +33,12 @@ The Unitary Manifold suggests that many long‑standing paradoxes arise because 
 
 The central idea is straightforward:
 
-> **The universe is fundamentally information‑preserving and reversible, but appears irreversible because we experience only a projection of a larger structure.**
+> **The arrow of time and the irreversibility of physical processes are not statistical accidents. They are geometric necessities — encoded in the shape of a five‑dimensional spacetime — and information is never destroyed.**
 
 In this view:
+- The Second Law is not a boundary condition added on top of physics; it is inside the physics, built into the geometry
 - Information is never truly destroyed
-- The one‑way flow of time is not fundamental, but emergent
-- Irreversibility comes from how observers are situated within the system
+- The irreversibility we experience is the four‑dimensional projection of a five‑dimensional geometric structure that mandates it
 
 This is not offered as belief, metaphor, or speculation.  
 It is supported by:
@@ -83,8 +83,8 @@ From a single five‑dimensional geometry, the framework reproduces:
 - Fundamental evolution preserves information
 
 ### Electromagnetism
-- Electric and magnetic fields appear as features of geometry
-- No extra assumptions are required
+- Electric and magnetic fields emerge from the geometric structure
+- The off‑diagonal block of the five‑dimensional metric — which in standard Kaluza–Klein encodes electromagnetism — is here identified with the irreversibility field B_μ; the precise relationship to electromagnetism is an active area of the framework
 
 ### Gravity
 - Einstein's equations appear as the four‑dimensional result
@@ -112,22 +112,22 @@ A question most people naturally ask is:
 > **If the laws of physics are reversible, why does time only move forward?**
 
 In this framework:
-- The full five‑dimensional system evolves reversibly
+- The full five‑dimensional system encodes irreversibility geometrically through the irreversibility field B_μ in the 5D metric
 - Observers experience only four‑dimensional "slices"
-- Motion along the extra dimension is hidden from direct experience
+- The 5D geometry preserves information while mandating the direction of its flow
 
-The result is **apparent irreversibility**:
-- Information seems to spread out
-- Disorder appears to increase
-- Processes feel one‑way
+The result is **geometric irreversibility with conserved information**:
+- Information seems to spread out — but is preserved in the full structure
+- Disorder appears to increase — because the 5D geometry requires it
+- Processes feel one‑way — because the geometry makes them one‑way
 
-But this behavior is not fundamental.
+This behavior is not an illusion born of limited perspective.
 
 A helpful image:
 - A shadow can stretch, blur, or distort
 - The object casting it remains whole
 
-Irreversibility reflects perspective, not destruction.
+Irreversibility is real and geometrically enforced; information is never destroyed.
 
 ---
 
@@ -191,7 +191,7 @@ Instead, it makes a precise claim:
 
 **Known open issues include:**
 - The predicted cosmic microwave background has the correct *shape* but a lower *overall strength* than observed.
-- Two key parameters were chosen to match observations rather than derived from first principles. Deriving them directly from the geometry remains an open task.
+- Two key parameters — the topological winding number **n_w = 5** and the Chern‑Simons level **k_CS = 74** — were chosen to match observations rather than derived from first principles. Deriving them directly from the geometry remains an open task.
 
 ---
 
@@ -206,7 +206,7 @@ This framework would fail if:
 - Quantum‑gravitational effects appear that cannot be projected from the structure
 
 A near‑term test is clear.  
-The **LiteBIRD satellite** will measure cosmic birefringence with high precision. The framework predicts a rotation of **0.35°**. A confirmed absence of such rotation would rule out the core mechanism.
+The **LiteBIRD satellite** will measure cosmic birefringence with high precision. The framework predicts a rotation of **β = 0.3513°**. A confirmed absence of such rotation would rule out the core mechanism.
 
 Future gravitational‑wave observatories, including **LISA** and the **Einstein Telescope**, provide a second test.
 
@@ -252,8 +252,8 @@ What it suggests is conditional:
 - **If** information is never destroyed,  
   **then** apparent loss may reflect perspective rather than finality.
 
-- **If** irreversibility is emergent,  
-  **then** time's arrow may not be the deepest feature of reality.
+- **If** irreversibility is geometrically encoded in a higher structure,  
+  **then** time's arrow is not a statistical accident but a structural feature of reality.
 
 - **If** separation arises from projection,  
   **then** interconnectedness may be structural, not merely poetic.
@@ -266,8 +266,8 @@ These are implications, not instructions.
 
 The Unitary Manifold proposes a simple, unifying idea:
 
-- Reality is fundamentally reversible and information‑preserving
-- Irreversibility emerges from perspective
+- Reality is information‑preserving: nothing is ever truly erased
+- Irreversibility is geometrically necessary: the 5D structure encodes it, not probability
 - Geometry, not ad‑hoc rules, explains the arrow of time
 
 The framework is mathematically defined, computationally implemented, and internally tested.
