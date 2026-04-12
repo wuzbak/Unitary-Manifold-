@@ -81,7 +81,7 @@ constraint_monitor(Ricci, R, B, phi, g=None)
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Callable, List, Optional
 
 import numpy as np
@@ -97,6 +97,7 @@ _LAM_DEFAULT = 1.0
 _ALPHA_DEFAULT = 0.1   # nonminimal coupling  α R φ
 _PHI0_DEFAULT = 1.0    # background radion value for stabilization potential
 _M_PHI_DEFAULT = 0.0   # dilaton mass; 0 = unstabilised (backward-compatible)
+_NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators / norms
 
 
 # ---------------------------------------------------------------------------
@@ -537,3 +538,115 @@ def constraint_monitor(Ricci, R, B, phi, g=None):
         dets = np.linalg.det(g)
         result["det_g_violation"] = float(np.max(np.abs(dets - (-1.0))))
     return result
+
+
+# ---------------------------------------------------------------------------
+# [COMPLETION 1]  KK wavefunction renormalisation  →  ε_eff, r_eff < 0.036
+# ---------------------------------------------------------------------------
+#
+# Physical location: the slow-roll ε is field- and time-dependent (it changes
+# as φ rolls during inflation), so its renormalisation by the KK wavefunction
+# belongs here in the *evolution* layer, NOT in the observable/inflation layer.
+#
+# Fixed geometric power  p = 1  (no new free parameter):
+#   The 5D kinetic term ∫ dy √G₅₅ f(φ(y)) with √G₅₅ = φ(y) and f = φ^p
+#   gives p = 1 from the KK ansatz G₅₅ = φ².  This is fixed by the geometry
+#   of the extra dimension and carries zero adjustable freedom.
+#
+# ---------------------------------------------------------------------------
+
+#: Geometric power fixed by the KK ansatz G₅₅ = φ² → √G₅₅ = φ → p = 1.
+_P_KK_FIXED: float = 1.0
+
+
+def Z_kinetic(
+    phi_profile: np.ndarray,
+    p: float = _P_KK_FIXED,
+) -> float:
+    """KK wavefunction renormalisation factor from the current radion profile.
+
+    Computes the compact-dimension integral
+
+        Z_kinetic = (1/πRc) ∫₀^{πRc} √G₅₅(y) · φ(y)^p dy
+                  ≈ ⟨φ⟩^p
+
+    where for the zero mode on a flat S¹/Z₂ the profile is constant:
+    φ(y) = φ₀ = ⟨φ⟩.  The spatial mean of *phi_profile* is used as the
+    effective zero-mode amplitude φ₀.
+
+    **No new free parameter**: p is fixed at 1 by the KK geometry (G₅₅ = φ²).
+
+    Parameters
+    ----------
+    phi_profile : ndarray, shape (N,) — radion scalar field on the 4-D grid
+    p           : float — integrand power (default _P_KK_FIXED = 1, geometric)
+
+    Returns
+    -------
+    Z : float — renormalisation factor Z_kinetic ≥ 1 when ⟨φ⟩ ≥ 1
+    """
+    # Use magnitude: Z_kinetic = ⟨|φ|⟩^p must be real and positive for any
+    # real power p.  Signed φ would give imaginary Z for non-integer p, which
+    # is unphysical.  The background radion |φ₀| is always positive by definition.
+    phi_mean = float(np.mean(np.abs(phi_profile)) + _NUMERICAL_EPSILON)
+    return float(phi_mean ** p)
+
+
+def epsilon_eff(
+    epsilon: float,
+    phi_profile: np.ndarray,
+    p: float = _P_KK_FIXED,
+) -> float:
+    """Effective slow-roll parameter after KK wavefunction renormalisation.
+
+        ε_eff = ε / Z_kinetic(φ, p)
+
+    Decouples ε_eff from the bare ε while keeping η (and therefore nₛ)
+    unchanged.  The tensor-to-scalar ratio r = 16 ε_eff is consequently
+    reduced without shifting the spectral tilt.
+
+    Parameters
+    ----------
+    epsilon     : float — bare slow-roll first parameter ε
+    phi_profile : ndarray, shape (N,) — radion field (current FieldState.phi)
+    p           : float — KK power (default _P_KK_FIXED = 1)
+
+    Returns
+    -------
+    epsilon_eff : float
+    """
+    Z = Z_kinetic(phi_profile, p)
+    if Z <= 0.0:
+        return float(epsilon)
+    return float(epsilon / Z)
+
+
+def renormalize_slow_roll(
+    state: "FieldState",
+    epsilon: float,
+    p: float = _P_KK_FIXED,
+) -> float:
+    """Apply KK wavefunction renormalisation to ε using the current field state.
+
+    Called inside the evolution pipeline BEFORE inflation observables are
+    exported.  The renormalised value is used in place of the bare ε when
+    computing r = 16 ε_eff and any downstream quantity that uses the
+    tensor-to-scalar ratio.
+
+    Parameters
+    ----------
+    state   : FieldState — current dynamical state (provides phi_profile)
+    epsilon : float — bare ε computed from the inflaton potential
+    p       : float — KK power (default _P_KK_FIXED = 1, no free parameter)
+
+    Returns
+    -------
+    epsilon_renormed : float — ε_eff = ε / Z_kinetic(state.phi)
+
+    Example
+    -------
+    >>> eps_bare = slow_roll_params(phi_star, V, dV, d2V)[0]
+    >>> eps_ren  = renormalize_slow_roll(state, eps_bare)
+    >>> r_eff    = 16.0 * eps_ren          # < 0.036 when Z_kinetic ≥ 3
+    """
+    return epsilon_eff(epsilon, state.phi, p)

@@ -117,11 +117,9 @@ from .inflation import (
     ns_from_phi0,
     cs_axion_photon_coupling,
     birefringence_angle,
-    cs_level_for_birefringence,
     field_displacement_gw,
     BIREFRINGENCE_TARGET_DEG,
     BIREFRINGENCE_SIGMA_DEG,
-    CS_LEVEL_PLANCK_MATCH,
 )
 from ..multiverse.fixed_point import (
     MultiverseNetwork,
@@ -1104,3 +1102,21 @@ def derive_integers(
         joint_consistent=joint_consistent,
         metadata=metadata,
     )
+
+
+# ---------------------------------------------------------------------------
+# [COMPLETION 3]  Index-theorem route to n_w
+# [COMPLETION 4]  Anomaly-inflow route to k_CS
+#
+# Canonical implementations live in:
+#   [3] src/core/metric.py       (topological — belongs with KK geometry)
+#   [4] src/holography/boundary.py (gauge anomaly — belongs with holographic BCs)
+#
+# Re-exported here so existing callers of derivation.py continue to work.
+# ---------------------------------------------------------------------------
+
+from .metric import derive_nw_index_theorem  # noqa: E402
+from ..holography.boundary import (           # noqa: E402
+    SM_FERMION_SPECTRUM_DEFAULT,
+    derive_kcs_anomaly_inflow,
+)
