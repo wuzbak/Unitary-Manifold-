@@ -305,6 +305,23 @@ class TestExtractAlphaFromCurvature:
 # Dark matter "ghost" force from the 5th dimension
 # ---------------------------------------------------------------------------
 
+# Minimum acceptable Pearson r between the 5D curvature proxy and the
+# analytic dark-matter density profile.  A value ≥ 0.98 demonstrates that
+# the spatial *shape* of the 5D ghost force matches the observed halo
+# distribution to within 2% correlation tolerance.
+_MIN_DM_CORRELATION: float = 0.98
+
+# Numerical-noise tolerance for the monotonicity check: finite-difference
+# stencil errors on a 1-D grid are O(dx²) ≈ 10⁻² for dx=0.1, so trace
+# fluctuations ≲ 10⁻¹² are purely numerical and must be ignored.
+_MONOTONE_NOISE_FLOOR: float = 1e-12
+
+# Maximum fraction of grid points allowed to violate strict decrease (10%).
+# Needed because edge points and central-difference stencil boundaries can
+# introduce small spurious upward fluctuations.
+_MAX_NONMONOTONE_FRACTION: float = 0.10
+
+
 class TestDarkMatterGhostForce5D:
     """
     The 5th dimension generates a specific 4D curvature that mimics dark matter.
@@ -327,18 +344,24 @@ class TestDarkMatterGhostForce5D:
 
     The tests below verify that the cross-block Riemann trace (the numerical
     output from ``extract_alpha_from_curvature``) reproduces this spatial profile
-    to high statistical accuracy (Pearson r ≥ 0.99), making this a genuine
-    *predictive* result of the 5D geometry.
+    to high statistical accuracy (Pearson r ≥ _MIN_DM_CORRELATION = 0.98),
+    making this a genuine *predictive* result of the 5D geometry.
     """
 
     @staticmethod
     def _galaxy_fields(N: int = 64, dx: float = 0.1,
-                       phi0: float = 1.0, R5: float = 2.0):
-        """Minkowski metric + NFW-like radion profile φ(r) = φ₀ / √(1+r/R₅)."""
+                       phi0: float = 1.0, R_5: float = 2.0):
+        """Minkowski metric + isothermal-sphere radion profile φ(r) = φ₀/√(1+r/R₅).
+
+        The profile φ(r) = φ₀/√(1+r/R₅) is an *isothermal-sphere* ansatz:
+        it gives an effective dark-matter density ρ_KK ∝ (1+r/R₅)⁻², which
+        produces exactly flat rotation curves (v_circ = const for r → ∞).
+        This is distinct from the NFW profile ρ_NFW ∝ 1/(r(1+r)²).
+        """
         r = np.arange(N) * dx + dx          # avoid r = 0
         g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (N, 1, 1))
         B = np.zeros((N, 4))
-        phi = phi0 / np.sqrt(1.0 + r / R5)
+        phi = phi0 / np.sqrt(1.0 + r / R_5)
         return g, B, phi, N, dx, r
 
     # ------------------------------------------------------------------
@@ -359,19 +382,24 @@ class TestDarkMatterGhostForce5D:
     def test_cross_block_trace_monotone_decreasing_with_radius(self):
         """The 5D dark-matter proxy decreases outward, like a galactic halo.
 
-        For the NFW-like profile φ(r) = φ₀/√(1+r/R₅), the gradient |∂φ|/φ
-        decreases with r, so the curvature contribution is concentrated near
-        the galactic centre — exactly where dark-matter halos are observed.
+        For the isothermal-sphere profile φ(r) = φ₀/√(1+r/R₅), the gradient
+        |∂φ|/φ decreases with r, so the curvature contribution is concentrated
+        near the galactic centre — exactly where dark-matter halos are observed.
+
+        Tolerance: up to ``_MAX_NONMONOTONE_FRACTION`` (10%) of consecutive
+        pairs may show a spurious upward fluctuation ≤ ``_MONOTONE_NOISE_FLOOR``
+        (1e-12) due to finite-difference stencil rounding near grid boundaries.
         """
-        g, B, phi, N, dx, _ = self._galaxy_fields(N=64, dx=0.1, R5=2.0)
+        g, B, phi, N, dx, _ = self._galaxy_fields(N=64, dx=0.1, R_5=2.0)
         _, cb = extract_alpha_from_curvature(g, B, phi, dx)
         trace = np.array([np.trace(cb[i]) for i in range(N)])
-        # Trace must be non-increasing (allow small numerical noise)
         diffs = np.diff(trace)
-        n_increasing = int(np.sum(diffs > 1e-12))
-        assert n_increasing <= N // 10, (
+        n_increasing = int(np.sum(diffs > _MONOTONE_NOISE_FLOOR))
+        max_allowed = int(_MAX_NONMONOTONE_FRACTION * (N - 1))
+        assert n_increasing <= max_allowed, (
             f"Curvature proxy must decrease outward; {n_increasing}/{N-1} "
-            "points show an increase (expected < 10%)"
+            f"points show an increase > {_MONOTONE_NOISE_FLOOR:.0e} "
+            f"(allowed ≤ {max_allowed})"
         )
 
     def test_5d_dark_matter_density_matches_isothermal_sphere_scaling(self):
@@ -384,22 +412,23 @@ class TestDarkMatterGhostForce5D:
         not an ad-hoc fit.
 
         Verification criterion: Pearson correlation between the computed trace
-        and the analytic formula (1 + r/R₅)⁻² must exceed 0.98.
+        and the analytic formula (1 + r/R₅)⁻² must exceed
+        ``_MIN_DM_CORRELATION`` = 0.98.
         """
-        R5 = 2.0
+        R_5 = 2.0
         N, dx = 64, 0.1
-        g, B, phi, _, dx_out, r = self._galaxy_fields(N=N, dx=dx, R5=R5)
+        g, B, phi, _, dx_out, r = self._galaxy_fields(N=N, dx=dx, R_5=R_5)
         _, cb = extract_alpha_from_curvature(g, B, phi, dx_out)
         trace = np.array([np.trace(cb[i]) for i in range(N)])
 
         # Analytic isothermal-sphere dark-matter density (5D prediction)
-        rho_dm_5d = 1.0 / (1.0 + r / R5) ** 2
+        rho_dm_5d = 1.0 / (1.0 + r / R_5) ** 2
 
         # Pearson correlation — tests whether the spatial *profile* matches
         corr = float(np.corrcoef(trace, rho_dm_5d)[0, 1])
-        assert corr >= 0.98, (
-            f"Cross-block Riemann trace must correlate ≥ 0.98 with the "
-            f"isothermal-sphere profile (1+r/R₅)⁻²; got r = {corr:.4f}"
+        assert corr >= _MIN_DM_CORRELATION, (
+            f"Cross-block Riemann trace must correlate ≥ {_MIN_DM_CORRELATION} "
+            f"with the isothermal-sphere profile (1+r/R₅)⁻²; got r = {corr:.4f}"
         )
 
     def test_ghost_force_zero_for_uniform_phi(self, flat_fields):
@@ -425,12 +454,12 @@ class TestDarkMatterGhostForce5D:
         N, dx = 64, 0.1
 
         # Compact halo: R₅ = 1.0 → steep gradient
-        g1, B1, phi1, _, _, _ = self._galaxy_fields(N=N, dx=dx, R5=1.0)
+        g1, B1, phi1, _, _, _ = self._galaxy_fields(N=N, dx=dx, R_5=1.0)
         _, cb1 = extract_alpha_from_curvature(g1, B1, phi1, dx)
         trace1_mean = float(np.mean([np.trace(cb1[i]) for i in range(N)]))
 
         # Diffuse halo: R₅ = 5.0 → gentle gradient
-        g2, B2, phi2, _, _, _ = self._galaxy_fields(N=N, dx=dx, R5=5.0)
+        g2, B2, phi2, _, _, _ = self._galaxy_fields(N=N, dx=dx, R_5=5.0)
         _, cb2 = extract_alpha_from_curvature(g2, B2, phi2, dx)
         trace2_mean = float(np.mean([np.trace(cb2[i]) for i in range(N)]))
 
@@ -445,11 +474,12 @@ class TestDarkMatterGhostForce5D:
         This cross-validates the analytic formula: the cross-block Riemann trace
         T(r) = Tr[R^μ_{5ν5}] at each grid point is proportional to (∂φ/φ)²,
         the standard KK dark-matter source term.
-        The Pearson correlation between T(r) and (∂φ/φ)² must exceed 0.98.
+        The Pearson correlation between T(r) and (∂φ/φ)² must exceed
+        ``_MIN_DM_CORRELATION`` = 0.98.
         """
-        R5 = 2.0
+        R_5 = 2.0
         N, dx = 64, 0.1
-        g, B, phi, _, dx_out, r = self._galaxy_fields(N=N, dx=dx, R5=R5)
+        g, B, phi, _, dx_out, r = self._galaxy_fields(N=N, dx=dx, R_5=R_5)
         _, cb = extract_alpha_from_curvature(g, B, phi, dx_out)
         trace = np.array([np.trace(cb[i]) for i in range(N)])
 
@@ -458,7 +488,7 @@ class TestDarkMatterGhostForce5D:
         rho_kk = (dphi / phi) ** 2
 
         corr = float(np.corrcoef(trace, rho_kk)[0, 1])
-        assert corr >= 0.98, (
-            f"Cross-block trace must correlate ≥ 0.98 with (∂φ/φ)²; "
-            f"got r = {corr:.4f}"
+        assert corr >= _MIN_DM_CORRELATION, (
+            f"Cross-block trace must correlate ≥ {_MIN_DM_CORRELATION} "
+            f"with (∂φ/φ)²; got r = {corr:.4f}"
         )

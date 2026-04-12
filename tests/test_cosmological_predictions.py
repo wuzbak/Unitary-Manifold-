@@ -190,9 +190,10 @@ class TestHubbleTension5D:
 
         Therefore  H₀(local)/H₀(CMB) = φ_CMB / φ_today.
 
-        At the CMB epoch (z ≈ 1100) the compact dimension had not yet settled to
-        its vacuum: φ_CMB = H₀(SNe)/H₀(CMB) ≈ 1.0831 (in Planck units).
-        Since then, the Goldberger–Wise potential has relaxed φ to φ₀ = 1.0.
+        At the CMB last-scattering epoch (z ≈ 1090) the compact dimension had
+        not yet settled to its vacuum: φ_CMB = H₀(SNe)/H₀(CMB) ≈ 1.0831
+        (in Planck units).  Since then, the Goldberger–Wise potential has
+        relaxed φ to φ₀ = 1.0.
 
         This test uses ``run_evolution`` (RK4 integrator) to:
           1. Start from φ_CMB ≈ 1.0831 with a stabilisation potential (m_phi > 0)
@@ -209,6 +210,15 @@ class TestHubbleTension5D:
         # 5D prediction: φ_CMB = H_SNe / H_CMB (normalised so φ_today = 1)
         phi_cmb = H_SNe / H_CMB        # ≈ 1.0831
 
+        # Integration parameters.  m_phi=10 gives a strong Goldberger–Wise
+        # restoring force that demonstrably moves φ toward φ₀ within 100 steps
+        # at dt=1e-3 (total code time = 0.1).  Larger m_phi would over-shoot;
+        # smaller would show negligible drift.  dt=1e-3 is well within the CFL
+        # stability limit 0.4 × dx² = 0.004.
+        _M_PHI_GW   = 10.0   # Goldberger–Wise mass — drives radion to vacuum
+        _DT_EVOLVE  = 1e-3   # RK4 timestep (< CFL limit = 0.004 for dx=0.1)
+        _N_STEPS    = 100    # 100 steps gives sufficient drift to verify
+
         # Initial bulk state: radion displaced to early-universe value
         N, dx = 32, 0.1
         g0 = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (N, 1, 1))
@@ -216,12 +226,12 @@ class TestHubbleTension5D:
             g=g0.copy(), B=np.zeros((N, 4)),
             phi=phi_cmb * np.ones(N),
             t=0.0, dx=dx,
-            phi0=1.0,      # vacuum value (today's φ₀)
-            m_phi=10.0,    # Goldberger–Wise restoring mass — drives φ → φ₀
+            phi0=1.0,           # vacuum value (today's φ₀)
+            m_phi=_M_PHI_GW,
         )
 
         # Run RK4 evolution: radion decays from φ_CMB toward φ₀ = 1.0
-        history = run_evolution(s0, dt=1e-3, steps=100)
+        history = run_evolution(s0, dt=_DT_EVOLVE, steps=_N_STEPS)
 
         phi_initial = float(np.mean(history[0].phi))
         phi_final   = float(np.mean(history[-1].phi))
@@ -241,10 +251,15 @@ class TestHubbleTension5D:
         # 5D H₀ prediction (single numerical value in km/s/Mpc)
         H0_predicted = H_CMB * (phi_initial / phi_final)
 
-        # ── The primary assertion: prediction bridges the tension gap ──
-        assert H_CMB <= H0_predicted <= H_SNe + 1.0, (
+        # Upper bound includes a +1.0 km/s/Mpc tolerance above H_SNe to
+        # accommodate radions that have not yet fully stabilised within the
+        # short integration window (100 steps × dt=1e-3 ≪ cosmological time).
+        # The physically relevant check is that H₀_predicted > H_CMB and
+        # lies close to H_SNe — i.e., the gap is bridged in the right direction.
+        _H_UPPER_TOLERANCE = 1.0   # km/s/Mpc — numerical buffer above H_SNe
+        assert H_CMB <= H0_predicted <= H_SNe + _H_UPPER_TOLERANCE, (
             f"H₀_predicted = {H0_predicted:.2f} km/s/Mpc is outside "
-            f"the Hubble tension window [{H_CMB}, {H_SNe}]"
+            f"the Hubble tension window [{H_CMB}, {H_SNe + _H_UPPER_TOLERANCE}]"
         )
 
         # Closer to the local (higher) value than to CMB
@@ -411,12 +426,17 @@ class TestMuonG2Anomaly5D:
         #   significance = Δa_μ / σ_exp  (how many σ away from SM zero)
         significance = delta_kk / sigma_exp
         fermilab_nsigma = 4.2          # reported by Fermilab 2021
-        tolerance = 0.05               # 5% relative tolerance → ±0.21σ
+        tolerance = 0.05               # 5% relative tolerance
+        # Allowed window: fermilab_nsigma × (1 ± tolerance) = 4.2 × [0.95, 1.05]
+        #                 = [3.990, 4.410] σ
+        sigma_tolerance = tolerance * fermilab_nsigma  # = 0.21σ
 
-        assert abs(significance - fermilab_nsigma) / fermilab_nsigma < tolerance, (
+        assert abs(significance - fermilab_nsigma) <= sigma_tolerance, (
             f"KK significance = {significance:.3f}σ; "
             f"Fermilab reported {fermilab_nsigma}σ "
-            f"(tolerance ±{tolerance*100:.0f}%)"
+            f"(allowed window ±{sigma_tolerance:.2f}σ = "
+            f"[{fermilab_nsigma - sigma_tolerance:.2f}, "
+            f"{fermilab_nsigma + sigma_tolerance:.2f}]σ)"
         )
 
         # ── Step 4: Prediction is inside the Fermilab confidence interval ─
