@@ -584,7 +584,7 @@ def Z_kinetic(
     -------
     Z : float — renormalisation factor Z_kinetic ≥ 1 when ⟨φ⟩ ≥ 1
     """
-    phi_mean = float(np.mean(np.abs(phi_profile) + 1e-30))
+    phi_mean = float(np.mean(np.abs(phi_profile)) + 1e-30)
     return float(phi_mean ** p)
 
 
