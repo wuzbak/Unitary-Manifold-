@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**749 tests: 737 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-12, Python 3.12, pytest 9.0.3
+**837 tests: 826 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-12, Python 3.12, pytest 9.0.3
 
-*(737 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+*(826 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ### The 1 skipped test
 
@@ -18,15 +18,15 @@ All in `test_richardson_multitime.py`, decorated `@pytest.mark.slow`. Excluded f
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 737 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 826 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/             # all 738 fast + 11 slow
+python -m pytest tests/             # all 827 fast + 11 slow
 ```
 
 Expected result (default):
 
 ```
-737 passed, 1 skipped, 11 deselected in ~38s
+826 passed, 1 skipped, 11 deselected in ~38s
 ```
 
 ---
@@ -54,7 +54,7 @@ Expected result (default):
 | `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total** | **749** | **737 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| **Total** | **837** | **826 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 
