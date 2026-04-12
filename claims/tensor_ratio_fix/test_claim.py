@@ -90,7 +90,7 @@ class TestTensorRatioTension:
         """n_w=4 gives ns below the Planck 2σ window."""
         phi0_eff = effective_phi0_kk(1.0, n_winding=4)
         ns, r, eps, eta = ns_from_phi0(phi0_eff)
-        sigma_ns = (PLANCK_NS_CENTRAL - ns) / PLANCK_NS_SIGMA   # ns too low → positive
+        sigma_ns = (PLANCK_NS_CENTRAL - ns) / PLANCK_NS_SIGMA   # positive when ns is below Planck centre
         assert sigma_ns > 1.5, (
             f"n_w=4: ns={ns:.5f} only {sigma_ns:.1f}σ below Planck centre. "
             "Expected > 1.5σ low."

@@ -3,7 +3,7 @@
 ## What is claimed
 
 When the 5D bulk Chern–Simons term κ₅ A∧F∧F is Kaluza–Klein-reduced on the
-flat S¹/Z₂ orbifold, the A₅ zero-mode plays the rôle of a 4D pseudo-scalar
+flat S¹/Z₂ orbifold, the A₅ zero-mode plays the role of a 4D pseudo-scalar
 (axion φ).  Its 4D photon coupling is:
 
 ```

@@ -9,7 +9,7 @@ sys.path.insert(0, ".")
 
 from src.core.inflation import ns_from_phi0, effective_phi0_kk, PLANCK_NS_CENTRAL, PLANCK_NS_SIGMA
 
-BICEP_KECK_R_LIMIT = 0.036   # 95 % CL upper bound, BICEP/Keck 2022
+BICEP_KECK_R_LIMIT = 0.036   # 95 % CL upper bound, BICEP/Keck Array + Planck 2022 (arXiv:2110.00483)
 N_SIGMA_PLANCK     = 1.0
 
 print("n_w scan — checking ns and r constraints simultaneously")

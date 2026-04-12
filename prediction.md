@@ -44,8 +44,8 @@
 | β = 0.35° ± 0.02° confirmed | **Theory supported**: consistent, but not proven — competing models must be checked |
 
 The **kill threshold** is β < 0.07°.  This is a bright line, not a soft
-preference: at that level the 1σ interval for β no longer overlaps with zero
-and r simultaneously, and k_CS = 74 is unambiguously excluded.
+preference: at that level the observed β is consistent with zero at 2.5σ,
+the birefringence hint is gone, and k_CS = 74 is unambiguously excluded.
 
 ---
 

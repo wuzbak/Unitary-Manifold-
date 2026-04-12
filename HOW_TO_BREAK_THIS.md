@@ -93,7 +93,7 @@ python -m pytest claims/amplitude_normalization/test_claim.py -v
 ## 5. Break the anomaly inflow coupling (wrong volume factor)
 
 **Handle:** In `cs_axion_photon_coupling()`, change the denominator from
-`2 * pi**2 * r_c` to `2 * pi * r_c` (wrong KK reduction).
+`2 * math.pi**2 * r_c` to `2 * math.pi * r_c` (wrong KK reduction).
 
 **Expected result:** g_aγγ increases by π and β ≈ 1.1°, far outside the
 1σ window.  `claims/anomaly_inflow/test_claim.py::test_coupling_formula_correct`
