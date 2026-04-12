@@ -17,7 +17,7 @@
 Each question is structured in three layers:
 
 1. **The Standard View** — what mainstream physics currently says, and why it is unsatisfying.
-2. **The Walker-Pearson Answer** — what the 5D geometry implies, derived from the field equations.
+2. **The Unitary Manifold Answer** — what the 5D geometry implies, derived from the field equations.
 3. **The Test** — how observation can settle it, and when.
 
 Not every question is fully answered. Where the framework is silent or uncertain, that is stated plainly. See `FALLIBILITY.md` for the full list of acknowledged gaps.
@@ -26,7 +26,7 @@ Not every question is fully answered. Where the framework is silent or uncertain
 
 ## Index of Questions
 
-| # | Question | Standard Status | WP Status |
+| # | Question | Standard Status | UM Status |
 |---|----------|----------------|-----------|
 | 1 | Is time really irreversible, or is that just the observer's perspective? | Statistical postulate | Geometric identity |
 | 2 | Why does entropy always increase? | Low-entropy initial condition (unexplained) | Encoded in 5D metric |
@@ -58,12 +58,12 @@ high-entropy states vastly outnumber low-entropy ones, disorder tends to increas
 This is consistent. It is also incomplete: it doesn't explain *why* the initial state
 was so special. That question gets deflected, not answered.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 Irreversibility is not a statistical approximation. It is a **geometric identity** built
 into the 5D metric from the outset.
 
-The off-diagonal block of the Walker-Pearson 5D metric:
+The off-diagonal block of the 5D Unitary Manifold metric:
 
 ```
          ┌  g_μν + λ²φ² B_μB_ν    λφ B_μ  ┐
@@ -115,7 +115,7 @@ from choosing to ignore certain microscopic degrees of freedom. Different choice
 coarse-graining give different entropies. There is no absolute, observer-independent
 entropy in this picture.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 In the WP framework, entropy production is tied directly to the field strength
 H_μν = ∂_μ B_ν − ∂_ν B_μ of the irreversibility 1-form. The entropy production
@@ -159,7 +159,7 @@ These two statements cannot both be correct.
 After fifty years, the paradox is unresolved, though many proposals exist (holography,
 firewall, fuzzball, island formula...).
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 **Information is a conserved charge.** Full stop. The conservation law:
 
@@ -200,7 +200,7 @@ spacetime. In quantum gravity, the "problem of time" is severe: the Wheeler-DeWi
 equation has no time variable at all. There is no consensus on what time *is* at the
 fundamental level, or why it seems to have a direction.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 **Time is the inverse convergence rate to the fixed point Ψ*.**
 
@@ -239,7 +239,7 @@ with no correlate in the physics.
 This is deeply at odds with lived experience, and many philosophers and physicists find
 it unsatisfying without claiming a better alternative.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 "Now" is the **current projection surface**: the 4D hypersurface obtained by
 integrating out the compact 5th dimension at the current value of the evolution
@@ -272,7 +272,7 @@ manifold is a mathematical object that includes them. But physically, the past c
 be accessed, and whether it "exists" is a metaphysical rather than physical question.
 The past is, in a precise sense, causally disconnected from our present.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 **Yes — the past is encoded in the 5D geometry.** Since ∇_μ J^μ_inf = 0, information is
 never destroyed. The complete history of every physical process is stored in the 5D
@@ -307,7 +307,7 @@ QM. Bell's theorem rules out local hidden variable theories. The randomness of q
 measurement outcomes is, on the standard interpretation, irreducible — it is not the
 result of ignorance about some deeper deterministic process.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 **Quantum randomness is not fundamental. It is the statistical shadow of a deterministic
 5D evolution projected onto a 4D slice.**
@@ -350,7 +350,7 @@ defers to "classical apparatus." Many-worlds avoids collapse by postulating all 
 occur in separate branches. Objective collapse theories add new physics. None is
 universally accepted.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 **There is no measurement problem in this framework, because there is no collapse.**
 
@@ -389,7 +389,7 @@ isotropic, but it does not explain what initiated inflation, or what came "befor
 Planck epoch. The Big Bang is a boundary — a singularity in GR where current equations
 break down. There is no physical account of what caused it.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 The Big Bang is not a singularity in the 5D description. It is the **beginning of the
 current convergence sequence** toward the fixed point Ψ*.
@@ -423,7 +423,7 @@ Quantum mechanics says no: measurement outcomes are irreducibly random. The univ
 is fundamentally stochastic at the microscopic level. Classical determinism was an
 approximation — correct at human scales, false at quantum scales.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 **The universe is deterministic in 5D and apparently random in 4D.** Both are true,
 at their respective levels of description.
@@ -462,7 +462,7 @@ and the cosmological constant Λ. None of these are derived from anything more
 fundamental. They are measured, not predicted. This is widely regarded as a significant
 conceptual gap.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 Several parameters that appear free in 4D physics are **derived geometric identities**
 in the WP 5D framework:
@@ -497,7 +497,7 @@ is the deepest question in philosophy. Quantum fluctuations from a vacuum can pr
 particles — but they require a pre-existing quantum vacuum with laws, which re-poses
 the question.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 The FTUM provides a partial geometric answer: **the non-trivial fixed point Ψ* is the
 only stable solution of U = I + H + T given non-zero action.**
@@ -528,7 +528,7 @@ Unknown. The Fermi paradox remains unresolved. The Drake equation is underconstr
 String theory's landscape of ~10^500 vacua gives a multiverse, but its branches are
 forever causally disconnected and cannot be tested.
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 The multiverse in this framework is **structurally adjacent in 5D information space**,
 not spatially separated. Other "branches" are characterized by different adjacency
@@ -562,7 +562,7 @@ unresolved. Wigner's "unreasonable effectiveness of mathematics in the natural s
 adds pressure: why should abstract mathematics, developed for its own sake, describe
 nature so accurately?
 
-### The Walker-Pearson Answer
+### The Unitary Manifold Answer
 
 This framework takes an implicit Platonist position at the level of geometry:
 **the 5D manifold is prior to its projections.** The mathematical structure is not
@@ -597,7 +597,7 @@ No physical theory currently addresses this. Neuroscience explains *how* brains
 process information; it does not explain *why* that processing is accompanied by
 experience.
 
-### The Walker-Pearson Answer (Conjecture Only)
+### The Unitary Manifold Answer (Conjecture Only)
 
 This is the most speculative entry in this document. The framework does not claim to
 solve the hard problem. What it offers is a geometric observation:

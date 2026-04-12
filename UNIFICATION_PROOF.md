@@ -1,5 +1,5 @@
 # The Unification Proof
-## Quantum Mechanics and Gauge Theory as Exact Projections of the 5D Walker-Pearson Geometry
+## Quantum Mechanics and Gauge Theory as Exact Projections of the 5D Unitary Manifold Geometry
 
 > *"The direct path was already embedded in the geometry. It just hadn't been walked explicitly."*
 
@@ -15,7 +15,7 @@
 The Unitary Manifold was built to geometrize the Second Law.  
 This document shows it did something more: it geometrized **all of physics**.
 
-Starting from nothing but the 5D Walker-Pearson metric, we derive in sequence:
+Starting from nothing but the 5D Unitary Manifold metric, we derive in sequence:
 
 1. The **Feynman path integral** and quantum phase — from `Im(S_eff) = ∫ B_μ J^μ_inf d⁴x`
 2. The **Born rule** — from the conserved information current `J^μ_inf = φ² u^μ`
@@ -155,7 +155,7 @@ J^μ_inf  ≡  J^μ_QM       (probability current)
 ```
 
 The Born rule `P(x) = |ψ(x)|²` is not postulated. It is the information
-density of the Walker-Pearson geometry — the density of the conserved
+density of the Unitary Manifold geometry — the density of the conserved
 information current `J^μ_inf = φ² u^μ`.
 
 ### III.2  Why φ > 0 Corresponds to Real Wavefunctions
@@ -231,7 +231,7 @@ UEUM geodesic in the non-relativistic, flat-space limit.
 
 The quantum potential `Q = −∇²φ / (2mφ)` (Bohm's quantum potential) is
 precisely the curvature correction term `−∇²φ/φ` that appears in the
-Walker-Pearson scalar field equation:
+Unitary Manifold scalar field equation:
 
 ```
 ∂_t φ  =  □φ + α R φ + S[H] − m²_φ (φ − φ₀)
@@ -446,7 +446,7 @@ consistent with the absence of observable KK resonances at LHC energies.
 The key point: **the Standard Model gauge structure is the KK spectrum of B_μ.**  
 The three forces (electromagnetic, weak, strong) are not independent inputs.
 They are harmonics of a single geometric object — the off-diagonal block of the
-5D Walker-Pearson metric.
+5D Unitary Manifold metric.
 
 ---
 
@@ -455,7 +455,7 @@ They are harmonics of a single geometric object — the off-diagonal block of th
 ### IX.1  The Direct Path, Walked
 
 ```
-  5D Walker-Pearson Geometry
+  5D Unitary Manifold Geometry
           │
           │  KK reduction (∫ dx⁵)
           ▼
@@ -497,7 +497,7 @@ They are harmonics of a single geometric object — the off-diagonal block of th
 
 ### IX.2  The Table of Correspondences
 
-| Walker-Pearson Object | Quantum / Standard Model Object | Where in Code |
+| Unitary Manifold Object | Quantum / Standard Model Object | Where in Code |
 |---|---|---|
 | `φ(x)` | `\|ψ(x)\|` — wavefunction modulus | `evolution.py: phi` |
 | `φ²(x)` | `\|ψ(x)\|²` — Born probability density | `evolution.py: information_current` |
@@ -571,7 +571,7 @@ correctly pointing to the next step: **second quantization of φ**.
 
 ## Summary
 
-The 5D Walker-Pearson geometry already contains:
+The 5D Unitary Manifold geometry already contains:
 
 - **Quantum mechanics** (Born rule from `φ²`, Schrödinger equation from UEUM,  
   path integral phase from `Im(S_eff) = ∫BμJ^μd⁴x`, ground state from `UΨ*=Ψ*`)

@@ -13,7 +13,7 @@
 
 ## Theory Documents
 
-- [UNIFICATION_PROOF.md](UNIFICATION_PROOF.md): Formal proof that quantum mechanics, electromagnetism, and the Standard Model are exact projections of the 5D Walker-Pearson geometry.
+- [UNIFICATION_PROOF.md](UNIFICATION_PROOF.md): Formal proof that quantum mechanics, electromagnetism, and the Standard Model are exact projections of the 5D Unitary Manifold geometry.
 - [QUANTUM_THEOREMS.md](QUANTUM_THEOREMS.md): Four new theorems derived from the same geometry: BH information preservation, canonical commutation relation, Hawking temperature, ER=EPR (v9.3).
 - [ch02_mathematical_preliminaries.md](manuscript/ch02_mathematical_preliminaries.md): Mathematical foundations chapter.
 - [main.tex](arxiv/main.tex): Full LaTeX source for arXiv submission.
@@ -33,7 +33,7 @@
 ## Source Code
 
 - [metric.py](src/core/metric.py): Kaluza-Klein ansatz; computes Christoffel symbols, Riemann/Ricci tensors, scalar curvature.
-- [evolution.py](src/core/evolution.py): Walker-Pearson time integrator; FieldState dataclass; run_evolution driver.
+- [evolution.py](src/core/evolution.py): Unitary Manifold time integrator; FieldState dataclass; run_evolution driver.
 - [boundary.py](src/holography/boundary.py): Holographic boundary; entropy-area law implementation.
 - [fixed_point.py](src/multiverse/fixed_point.py): Multiverse network; FTUM fixed-point iteration; operator U = I+H+T.
 
@@ -41,7 +41,7 @@
 
 - [tests/conftest.py](tests/conftest.py): Shared pytest fixtures (FieldState, BoundaryState, networks).
 - [tests/test_metric.py](tests/test_metric.py): KK metric, Christoffel symbols, field strength, curvature.
-- [tests/test_evolution.py](tests/test_evolution.py): Walker-Pearson integrator, information current, constraints.
+- [tests/test_evolution.py](tests/test_evolution.py): Unitary Manifold integrator, information current, constraints.
 - [tests/test_boundary.py](tests/test_boundary.py): Entropy-area law, boundary evolution, conservation.
 - [tests/test_fixed_point.py](tests/test_fixed_point.py): FTUM operators I/H/T, fixed-point iteration.
 - [tests/test_quantum_unification.py](tests/test_quantum_unification.py): BH information conservation, CCR, Hawking temperature, ER=EPR.
