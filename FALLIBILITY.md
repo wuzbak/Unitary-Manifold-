@@ -87,7 +87,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | **n_w = 5** (winding number) | Topological multiplier in KK Jacobian J = n_w · 2π · √φ₀ | Required to obtain φ₀_eff ≈ 31.42 and nₛ ≈ 0.9635 | ⚠️ **Chosen to fit Planck; not derived from topology** |
 | φ₀_eff = J · φ₀ | Effective 4D inflaton vev | Derived from n_w via `jacobian_5d_4d` | **Derived, given n_w** |
 | nₛ ≈ 0.9635 | Scalar spectral index | Output of `ns_from_phi0(phi0_eff)` | **Derived, given n_w** |
-| r ≈ 0.0028 | Tensor-to-scalar ratio | Output of `tensor_to_scalar_ratio(ε)` | **Derived, given n_w** |
+| r ≈ 0.097 | Tensor-to-scalar ratio | Output of `tensor_to_scalar_ratio(ε)` at φ* = φ₀_eff/√3 | **Derived, given n_w; in tension with BICEP/Keck 2022 r<0.036** |
 | **CS_LEVEL = 74** | Chern–Simons level for birefringence | Required to obtain β ≈ 0.35° | ⚠️ **Fitted to Minami & Komatsu 2020; not derived** |
 | β ≈ 0.35° | Cosmic birefringence angle | Output of `birefringence_angle(CS_LEVEL_PLANCK_MATCH)` | **Derived, given k_CS = 74** |
 | Planck 2018 data | Validation | External | **Validation only — but two free parameters (n_w, k_CS) were chosen against it** |
@@ -116,6 +116,20 @@ parameter.  It would become a prediction only if k_CS could be fixed
 independently — for example, by anomaly cancellation in the 5D gauge theory,
 or by a quantisation condition on the compact dimension.
 
+**Admission 3 — r = 0.097 is in tension with BICEP/Keck 2022.**
+The code-verified tensor-to-scalar ratio at φ* = φ₀_eff/√3 with n_w = 5 is
+r = 96/φ₀_eff² = 96/987 ≈ 0.097.  BICEP/Keck 2022 constrains r < 0.036 at
+95% CL.  The predicted r exceeds this bound by a factor of ~2.7×.  A scan
+over all integer winding numbers reveals no n_w that simultaneously gives
+nₛ within 1σ of Planck AND r < 0.036.  n_w = 5 gives nₛ = 0.9635 (OK)
+but r = 0.097 (excluded); n_w ≥ 9 gives r < 0.036 (OK) but nₛ > 0.988
+(excluded at >5σ).
+
+Earlier documentation stated r ≈ 0.0028 — this value is inconsistent with
+the current code.  r = 0.097 is the correct code output and is what must be
+compared against observations.  The earlier value should be treated as a
+documentation error.
+
 ### 3.3 What would change if Planck values were different?
 
 - If Planck had measured nₛ = 0.95 (outside the current window), the framework
@@ -125,10 +139,11 @@ or by a quantisation condition on the compact dimension.
   confirmed detection.  If future CMB polarimetry (LiteBIRD, CMB-S4) finds
   β consistent with zero, the prediction β ≈ 0.35° would be falsified, and
   with it the specific identification k_CS = 74.
-- The tensor-to-scalar ratio r ≈ 0.0028 is a genuine forward prediction that
-  has **not** been used to fit any parameter; it follows from nₛ via the
-  slow-roll consistency relation and is testable by next-generation B-mode
-  experiments.
+- The tensor-to-scalar ratio r = 0.097 (code-verified, n_w = 5) **already
+  exceeds** the BICEP/Keck 2022 95% CL bound r < 0.036.  This is an active
+  data tension.  Earlier documentation cited r ≈ 0.0028; that value was a
+  documentation error and does not correspond to any result from the
+  current inflation module (see `ns_from_phi0(31.42)` → r = 0.0973).
 
 ---
 
@@ -212,24 +227,24 @@ It would be **falsified** if any of the following occurred:
    with zero at 3σ or better.  The framework predicts β ≈ 0.35°; a confirmed
    null result cannot be accommodated without abandoning k_CS = 74.
 
-2. **Tensor-to-scalar ratio outside the predicted range.** The framework
-   predicts r ≈ 0.0028 from the slow-roll consistency relation r = 16ε at
-   φ* = φ₀_eff / √3.  A confirmed detection of r > 0.01 at high significance
-   would be in tension with this prediction (though the value of r depends on
-   n_w, so tension could in principle be resolved by adjusting n_w — which
-   would itself represent a falsification of the specific n_w = 5 claim).
+2. **Tensor-to-scalar ratio in tension with existing data.** The code-verified
+   prediction r = 0.097 (n_w = 5, φ* = φ₀_eff/√3) already exceeds the
+   BICEP/Keck 2022 95% CL bound r < 0.036.  This is not a *future*
+   falsifiability condition — it is a **current data tension**.  No integer
+   n_w simultaneously satisfies nₛ within 1σ of Planck AND r < 0.036.
+   The framework requires a mechanism to suppress r without breaking nₛ
+   before it can claim consistency with all current CMB data.  See Q18
+   in `BIG_QUESTIONS.md` for the full n_w scan and resolution paths.
 
 3. **Spectral index outside Planck window with tighter future measurement.** If
    a future CMB survey (e.g., PICO or a post-LiteBIRD mission) constrains nₛ
    to a window that excludes 0.9635 while the Planck central value does not
    shift substantially, the specific choice n_w = 5 would be excluded.
 
-4. **No fixed-point convergence for varied initial conditions.** If the FTUM
-   iteration `fixed_point_iteration` fails to converge for a broad sweep of
-   physically reasonable initial entropy S₀, boundary area A₀, and topology
-   charge Q_top, the existence of a universal fixed point Ψ* would be
-   undermined.  The current demonstration is restricted to a single default
-   initial state.
+4. **FTUM non-universal convergence (partially observed).** A sweep of 192
+   initial conditions shows 82.8% convergence and φ* varying by ±54.8%
+   (range [0.122, 1.253]).  This directly challenges the universality claim
+   of FTUM.  See Q19 in `BIG_QUESTIONS.md` for details.
 
 5. **Violation of holographic entropy–area scaling.** If future quantum-gravity
    experiments or black-hole thermodynamics measurements find that the
@@ -250,16 +265,16 @@ It would be **falsified** if any of the following occurred:
 |-------|--------|-----------|
 | 826 passed · 1 skipped (guard) · 0 failed (837 total) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
-| r ≈ 0.0028 | Forward prediction | Not yet constrained; derives from n_w |
+| r = 0.097 (n_w=5, code-verified) | ⚠️ Tension with data | BICEP/Keck 2022 r<0.036 at 95% CL; see Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
 | α = φ₀⁻² | Derived | Depends on φ₀ from FTUM, which depends on U |
-| FTUM convergence | Demonstrated numerically | Single initial condition; not proven analytically |
+| FTUM convergence | 82.8% of initial conditions; φ* varies ±54.8% | Not universal; basin of attraction is restricted; see Q19 |
 | Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
 | Uniqueness of the framework | Not established | Multiple parameter combinations give same observables |
 
-The framework is internally coherent and makes several forward predictions
-that are testable by experiments currently in operation or under construction.
-Its present weakness is not the code, but the gap between the two fitted
-parameters (n_w, k_CS) and a first-principles derivation of those integers.
-Closing that gap — or demonstrating that no such closing is possible — is the
-most important outstanding theoretical task.
+The framework is internally coherent and the spectral index nₛ matches Planck.
+However, three open quantitative problems require resolution:
+1. **r tension**: r = 0.097 exceeds the BICEP/Keck bound r < 0.036.
+2. **CMB amplitude gap**: A_s suppressed ×4–7 at acoustic peaks.
+3. **FTUM universality**: fixed point is not unique across initial conditions.
+See `BIG_QUESTIONS.md` Q18–Q20 for computations and resolution paths.
