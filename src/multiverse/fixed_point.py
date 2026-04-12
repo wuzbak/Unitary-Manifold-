@@ -478,7 +478,7 @@ def shared_fixed_point_norm(network: MultiverseNetwork) -> float:
     At the FTUM fixed point U Ψ* = Ψ* two nodes i, j are said to *share
     the fixed point* when their entropy values coincide: S_i ≈ S_j.
     This is the geometric signature of quantum entanglement in the
-    Walker-Pearson framework (QUANTUM_THEOREMS.md §XV — ER = EPR theorem):
+    Unitary Manifold framework (QUANTUM_THEOREMS.md §XV — ER = EPR theorem):
 
         entangled  ⟺  shared_fixed_point_norm → 0  (coupling → ∞)
         separable  ⟺  shared_fixed_point_norm > 0  (coupling = 0)

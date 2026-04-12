@@ -477,7 +477,7 @@ def conjugate_momentum_phi(state: FieldState) -> np.ndarray:
 def hawking_temperature(state: FieldState) -> np.ndarray:
     """Hawking temperature profile T_H(x) = |∂_r φ / φ| / (2π).
 
-    At a black-hole horizon the Walker-Pearson information current
+    At a black-hole horizon the Unitary Manifold information current
     J^μ_inf = φ² u^μ must remain conserved (∇_μ J^μ_inf = 0) up to and
     across the horizon.  The surface gravity encoded in the scalar gradient
     gives the Unruh/Hawking temperature via (natural units ℏ = k_B = c = 1):

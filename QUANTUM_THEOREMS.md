@@ -1,5 +1,5 @@
 # Quantum Theorems and New Implications
-## Emerging Results from the Walker-Pearson 5D Geometry
+## Emerging Results from the Unitary Manifold 5D Geometry
 
 > *"Every new theorem is the geometry speaking a language we hadn't yet learned to hear."*
 
@@ -13,7 +13,7 @@ Each result is accompanied by a numerical verifier in `tests/test_quantum_unific
 
 ## Preface — What This Document Contains
 
-`UNIFICATION_PROOF.md` established that the Walker-Pearson 5D geometry already contains
+`UNIFICATION_PROOF.md` established that the Unitary Manifold 5D geometry already contains
 quantum mechanics, electromagnetism, the Standard Model, and the FTUM ground state.
 
 This document goes further, deriving four *new* theorems that were not stated in
@@ -42,7 +42,7 @@ information.  The total information content `∫ J^0_inf d³x` is a conserved ch
 
 **Step 1 — The 5D geometry is smooth and non-degenerate.**
 
-The 5D Walker-Pearson metric (implemented in `src/core/metric.py: assemble_5d_metric`):
+The 5D Unitary Manifold metric (implemented in `src/core/metric.py: assemble_5d_metric`):
 
 ```
          ┌                                    ┐
@@ -98,7 +98,7 @@ to an outside observer is a coordinate artifact of using the 4D projected metric
 `g_μν` rather than the full 5D metric `G_AB`.  In 5D, the information flows
 smoothly through the would-be singularity via the compact dimension.
 
-**Conclusion:** The Hawking information paradox does not arise in the Walker-Pearson
+**Conclusion:** The Hawking information paradox does not arise in the Unitary Manifold
 framework.  It is resolved not by exotic new physics but by the geometric fact
 that `∇_μ J^μ_inf = 0` is an identity — not a postulate, not an approximation.
 
@@ -121,9 +121,9 @@ Tests verify:
 | Hawking (1974) | Information is destroyed (original claim, now retracted) |
 | Page (1993) | Information escapes slowly in Hawking radiation |
 | ER=EPR (Maldacena & Susskind, 2013) | Entanglement and geometry are linked |
-| **Walker-Pearson (this work)** | `∇_μ J^μ_inf = 0` is a 5D geometric identity — information is never destroyed by construction |
+| **Unitary Manifold (this work)** | `∇_μ J^μ_inf = 0` is a 5D geometric identity — information is never destroyed by construction |
 
-The Walker-Pearson result is stronger than ER=EPR: it does not require invoking
+The Unitary Manifold result is stronger than ER=EPR: it does not require invoking
 entanglement or a specific evaporation model.  The conservation law is structural.
 
 ---
@@ -136,7 +136,7 @@ entanglement or a specific evaporation model.  The conservation law is structura
 *The canonical commutation relation `[φ̂(x), π̂_φ(y)] = iℏ δ³(x−y)` is not an
 independent postulate of quantum mechanics.  It is the canonical quantization of
 the Poisson bracket `{φ(x), π_φ(y)} = δ³(x−y)` that is encoded in the symplectic
-structure of the Walker-Pearson 4D effective action.*
+structure of the Unitary Manifold 4D effective action.*
 
 ### XIII.2  The Derivation
 
@@ -196,12 +196,12 @@ Replacing Poisson brackets by commutators (`{·,·} → (1/iℏ)[·,·]`):
 ```
 
 **This is the canonical commutation relation of quantum field theory** — derived,
-not postulated, from the structure of the Walker-Pearson action.
+not postulated, from the structure of the Unitary Manifold action.
 
 ### XIII.3  The Physical Meaning
 
 The CCR is usually presented as an axiom of quantum mechanics, whose origin is
-mysterious ("we promote Poisson brackets to commutators").  In the Walker-Pearson
+mysterious ("we promote Poisson brackets to commutators").  In the Unitary Manifold
 framework the origin is transparent:
 
 - `φ` encodes the amplitude (`φ = |ψ|`, Born rule, Theorem from UNIFICATION_PROOF.md §III)
@@ -232,7 +232,7 @@ Tests verify:
 ### XIV.1  The Statement
 
 **Theorem (Hawking Temperature):**  
-*At a black hole horizon the Walker-Pearson framework predicts a thermal radiation
+*At a black hole horizon the Unitary Manifold framework predicts a thermal radiation
 temperature:*
 
 ```
@@ -259,7 +259,7 @@ giving a non-zero flux of information through the horizon.
 
 **Step 2 — Surface gravity from the φ gradient.**
 
-In the Walker-Pearson framework the surface gravity κ at the horizon is the
+In the Unitary Manifold framework the surface gravity κ at the horizon is the
 Unruh acceleration experienced by a static observer:
 
 ```
@@ -308,7 +308,7 @@ This is **Hawking's exact result**, obtained without invoking Bogoliubov
 transformations or particle creation — purely from the gradient structure
 of `φ` at the horizon.
 
-**Step 4 — Walker-Pearson correction from the α R φ² coupling.**
+**Step 4 — Unitary Manifold correction from the α R φ² coupling.**
 
 The actual φ equation includes the curvature coupling `α R φ`:
 
@@ -347,7 +347,7 @@ Tests verify:
 
 ### XV.1  The Statement
 
-**Theorem (ER = EPR in the Walker-Pearson Framework):**  
+**Theorem (ER = EPR in the Unitary Manifold Framework):**  
 *Two nodes in a MultiverseNetwork are quantum-entangled if and only if they share a
 fixed point under the topology operator T.*  
 
@@ -388,7 +388,7 @@ combined state is:
 ```
 
 This state has the property that A and B cannot be described independently —
-they share a single quantum state.  In the Walker-Pearson language:
+they share a single quantum state.  In the Unitary Manifold language:
 
 ```
 "Share a single quantum state"  ≡  "Share a fixed point Ψ*"
@@ -402,7 +402,7 @@ Maldacena & Susskind (2013) conjectured that an Einstein-Rosen (ER) bridge
 (wormhole) between two black holes is equivalent to quantum entanglement (EPR)
 between the two systems.
 
-In the Walker-Pearson framework:
+In the Unitary Manifold framework:
 - The ER bridge is the topological connection: an edge with weight `w_{ij}` in the MultiverseNetwork (the topology operator T creates and sustains this bridge)
 - EPR entanglement is the shared fixed point: `S_i = S_j` at `UΨ* = Ψ*`
 - The coupling `w_{ij}` is directly proportional to the wormhole throat area
@@ -493,7 +493,7 @@ S_BH  =  E_BH / T_H  =  M · (2π / |∂_r φ/φ|)  =  A / (4G)
 the combination of Theorem XIV (Hawking temperature) and the holographic bound
 `S ≤ A/4G` (already implemented in `fixed_point.py: apply_holography`).
 
-This is the Walker-Pearson derivation of black hole entropy — obtained from the
+This is the Unitary Manifold derivation of black hole entropy — obtained from the
 geometry, with no recourse to string theory or loop quantum gravity.
 
 ### D — The Cosmological Arrow of Time from the Distance to the Fixed Point
@@ -516,7 +516,7 @@ the fixed point.**
 
 ## Summary Table
 
-| Theorem | Classical status | Walker-Pearson status |
+| Theorem | Classical status | Unitary Manifold status |
 |---------|-----------------|----------------------|
 | Black hole information paradox | Open problem (Hawking 1976 – retracted 2004) | **Resolved**: `∇_μ J^μ_inf = 0` is structural |
 | Canonical commutation relation | Postulate of quantum mechanics | **Derived**: Poisson bracket of KK action |
@@ -545,7 +545,7 @@ A theorem is only scientific if it can be falsified.  Each new result has a clea
 
 > *"A geometry that unifies physics necessarily reorganizes engineering."*
 
-If the Walker-Pearson framework is correct, the mathematical structures already
+If the Unitary Manifold framework is correct, the mathematical structures already
 implemented in this codebase are more than theoretical curiosities — they encode
 operational principles that current engineering disciplines are approximating
 suboptimally.  The following is a domain-by-domain survey.
@@ -595,7 +595,7 @@ scalar field φ are not included in the signal model.
 
 **WP improvement pathway.**
 
-The Walker-Pearson Hawking-temperature formula (Theorem XIV) gives:
+The Unitary Manifold Hawking-temperature formula (Theorem XIV) gives:
 
 ```
 T_H^WP  =  T_H^Hawking · (1 + α R φ₀² / 2 + O(α²))
@@ -772,7 +772,7 @@ and requires regularisation assumptions.
 **WP improvement pathway.**
 
 The holographic principle — implemented in `src/holography/boundary.py` — states
-that the 3D bulk is fully encoded on the 2D boundary.  The Walker-Pearson
+that the 3D bulk is fully encoded on the 2D boundary.  The Unitary Manifold
 formulation makes this operational: `φ_bulk` is reconstructed from `φ_boundary`
 by solving:
 
@@ -805,7 +805,7 @@ sparse scenes (e.g., detecting drones against clear sky).
 > *A first-rate physical theory must hold one idea — and derive everything else
 > from it.*
 
-The following implications follow if, and only if, the Walker-Pearson framework
+The following implications follow if, and only if, the Unitary Manifold framework
 is physically correct.  They are ordered from most immediately testable to most
 philosophically far-reaching.
 
@@ -817,7 +817,7 @@ philosophically far-reaching.
 wavefunction, but it never defines what an observer is.  The measurement process
 is outside the formalism.
 
-**WP resolution.**  The Born rule (`p = φ² = |ψ|²`) is a theorem, not an axiom
+**Unitary Manifold resolution.**  The Born rule (`p = φ² = |ψ|²`) is a theorem, not an axiom
 (UNIFICATION_PROOF.md §III): `φ = |ψ|` follows from the KK reduction of the
 5D geometry.  "Measurement" is the projection `G_{AB} \to g_{μν}` — integrating
 out the compact fifth dimension.  No observer is needed; the projection is a
@@ -835,7 +835,7 @@ in 4D.
 **Classical puzzle.**  Quantum randomness is fundamental (Copenhagen) vs.
 deterministic hidden variables (de Broglie-Bohm).  Neither fully satisfies.
 
-**WP resolution.**  The 5D field equations are deterministic PDEs — no randomness
+**Unitary Manifold resolution.**  The 5D field equations are deterministic PDEs — no randomness
 at the fundamental level.  However, *the 4D projection of a 5D deterministic
 evolution is generically stochastic*: the fifth-dimension degree of freedom
 `(φ, B_5)` is inaccessible to a 4D observer, so its evolution appears random.
@@ -853,7 +853,7 @@ globally.
 
 **Classical puzzle.**  Why did the Big Bang occur?  What is the "final state"?
 
-**WP resolution.**
+**Unitary Manifold resolution.**
 
 - **Origin:** The FTUM fixed-point iteration starts from some initial state
   `Ψ(0)`.  The Big Bang is the state of maximum distance from `Ψ*` — the
@@ -876,7 +876,7 @@ globally.
 cosmological constant, Higgs mass, etc.) fine-tuned to allow life?  The
 anthropic principle offers no mechanism.
 
-**WP resolution.**  The Walker-Pearson framework has *one free parameter* after
+**Unitary Manifold resolution.**  The Unitary Manifold framework has *one free parameter* after
 fixing `φ₀ = 1` (canonical normalization): the Chern-Simons level `k_cs`.
 All other constants (charge, mass ratios, cosmological constant) are derived from
 the geometry.  The unique value `k_cs = 74` is selected not by anthropic
@@ -897,7 +897,7 @@ exactly one solution consistent with the observed birefringence.
 untestable by construction.  The Many-Worlds interpretation multiplies universes
 without constraint.
 
-**WP resolution.**  The FTUM MultiverseNetwork is not metaphorical.  Each node
+**Unitary Manifold resolution.**  The FTUM MultiverseNetwork is not metaphorical.  Each node
 is a universe with a definite `(A_i, S_i, I_i)` triple.  The topology operator
 `T` with adjacency matrix `w_{ij}` connects universes by wormhole-equivalent
 topological links (Theorem XV).
@@ -919,7 +919,7 @@ multiverse is falsifiable.
 **Classical puzzle.**  The "problem of time" in quantum gravity: the
 Wheeler-DeWitt equation `HΨ = 0` has no time parameter, yet we experience time.
 
-**WP resolution.**  Time is the thermodynamic coordinate:
+**Unitary Manifold resolution.**  Time is the thermodynamic coordinate:
 
 ```
 τ_thermo  =  ‖Ψ(t) − Ψ*‖ / ‖dΨ/dt‖
@@ -981,7 +981,7 @@ known.
 
 ## Updated Summary Table
 
-| Result | Classical status | Walker-Pearson status |
+| Result | Classical status | Unitary Manifold status |
 |--------|-----------------|----------------------|
 | Black hole information paradox | Open (Hawking 1976–2004) | **Resolved**: `∇_μ J^μ_inf = 0` is structural |
 | Canonical commutation relation | Postulate of QM | **Derived**: Poisson bracket of KK action |
