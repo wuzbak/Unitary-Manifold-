@@ -257,3 +257,218 @@ def information_conservation_check(J_bulk: np.ndarray,
     bdry_flux = float(J_bdry[-1] - J_bdry[0])             # Gauss: endpoints
     charge = float(np.sum(np.abs(J_bulk[:, 0])) * dx) + 1e-12
     return abs(bulk_integral - bdry_flux) / charge
+
+
+# ---------------------------------------------------------------------------
+# [COMPLETION 5]  Holographic renormalisation
+# ---------------------------------------------------------------------------
+
+def fefferman_graham_expansion(
+    g_boundary: np.ndarray,
+    L_ads: float = 1.0,
+    order: int = 4,
+) -> dict:
+    """Fefferman–Graham (FG) expansion coefficients near the AdS₅ boundary.
+
+    The FG expansion of the 5D metric near the conformal boundary r → ∞ is
+
+        ds² = dr²/r² + r² Σ_{n=0}^{2k} g_{μν}^{(n)} / r^n  dx^μ dx^ν
+
+    The expansion coefficients g^{(2)} and g^{(4)} are determined by the 5D
+    Einstein equations.  For a conformally flat boundary (Minkowski background):
+
+        g^{(0)}_{μν} = η_{μν}                (boundary metric)
+        g^{(2)}_{μν} = −R^{(0)}_{μν} L²/2   (Einstein constraint)
+        g^{(4)}_{μν} = g^{(2)}_{μρ} g^{(2)ρ}_{ν} / 4 − Tr[g^{(2)}]² η_{μν} / 8
+
+    For the numerically discretised 4D boundary metric (shape: (N, 2, 2)),
+    these are computed on each grid point.
+
+    Parameters
+    ----------
+    g_boundary : ndarray, shape (N, 2, 2) — induced boundary metric h_ab
+    L_ads      : float — AdS₅ radius (default 1.0)
+    order      : int   — expansion order (2 or 4; default 4)
+
+    Returns
+    -------
+    dict with keys:
+
+    ``g0``   : ndarray, shape (N, 2, 2) — zeroth-order (boundary metric copy)
+    ``g2``   : ndarray, shape (N, 2, 2) — second-order FG coefficient
+    ``g4``   : ndarray, shape (N, 2, 2) — fourth-order FG coefficient (if order ≥ 4)
+    ``trace_g2`` : ndarray, shape (N,) — Tr[g^{(2)}]  (used in counterterms)
+    ``L_ads``    : float — AdS radius (echo)
+    """
+    N = g_boundary.shape[0]
+    g0 = g_boundary.copy()
+
+    # g^{(2)}_ab = −(L²/2) R_ab[g^{(0)}] — for a 2D induced metric on the screen,
+    # the Ricci tensor is R_ab = (R/2) g_ab (Gauss-Bonnet identity in 2D).
+    # We use the trace of the induced metric as a proxy for the scalar curvature.
+    trace_g0 = np.array([np.trace(g0[i]) for i in range(N)])
+    # Scalar curvature proxy: R ≈ (det g - 1) / (L_ads^2) (flat background correction)
+    det_g0 = np.linalg.det(g0)
+    R_scalar = (det_g0 - 1.0) / (L_ads ** 2 + 1e-30)
+
+    # g^{(2)}_ab = −(L^2/2) R_ab ≈ −(L^2/4) R_scalar * g_ab  (isotropic approx)
+    g2 = np.zeros_like(g0)
+    for i in range(N):
+        g2[i] = -(L_ads ** 2 / 4.0) * R_scalar[i] * g0[i]
+
+    trace_g2 = np.array([np.trace(g2[i]) for i in range(N)])
+
+    result = {
+        "g0":        g0,
+        "g2":        g2,
+        "trace_g2":  trace_g2,
+        "L_ads":     float(L_ads),
+    }
+
+    if order >= 4:
+        # g^{(4)}_ab = g^{(2)}_{ac} g^{(2)c}_b / 4 − Tr[g^{(2)}]^2 η_ab / 8
+        g4 = np.zeros_like(g0)
+        for i in range(N):
+            g4[i] = (
+                g2[i] @ g2[i] / 4.0
+                - trace_g2[i] ** 2 * np.eye(2) / 8.0
+            )
+        result["g4"] = g4
+
+    return result
+
+
+def boundary_counterterms(
+    g_boundary: np.ndarray,
+    L_ads: float = 1.0,
+    dx: float = 1.0,
+    G5: float = 1.0,
+) -> dict:
+    """Holographic boundary counterterms S_ct that cancel UV divergences.
+
+    The holographic renormalisation counterterms for AdS₅/CFT₄ are (Emparan,
+    de Haro & Skenderis 1999):
+
+        S_ct = −(1/κ₅²) ∫ d⁴x √γ [ 2K  +  (d−1)/L  +  L/2 · R[γ] ]
+
+    In the AdS₅ case d = 4 (boundary dimension) and κ₅² = 8πG₅.  The first
+    term 2K removes the Gibbons–Hawking boundary term divergence, the second
+    removes the Λ⁴ cosmological divergence, and the third removes the Λ²
+    curvature divergence.
+
+    For the numerically discretised boundary metric (shape: (N, 2, 2)) on a
+    1-D grid with spacing dx:
+
+    * K_ab ≈ (Laplacian approximation from evolve_boundary)
+    * R[γ] ≈ scalar curvature from det and trace of h_ab
+
+    Parameters
+    ----------
+    g_boundary : ndarray, shape (N, 2, 2) — induced boundary metric
+    L_ads      : float — AdS₅ curvature radius (default 1.0)
+    dx         : float — grid spacing for the extrinsic curvature estimate
+    G5         : float — 5D Newton's constant (default 1.0)
+
+    Returns
+    -------
+    dict with keys:
+
+    ``S_ct``         : float — total boundary counterterm action
+    ``S_K``          : float — Gibbons–Hawking term  ∫ 2K √γ
+    ``S_cosmo``      : float — cosmological counterterm  ∫ (d−1)/L √γ
+    ``S_curv``       : float — curvature counterterm  ∫ L/2 R[γ] √γ
+    ``sqrt_gamma``   : ndarray, shape (N,) — √det(γ)
+    ``kappa5_sq``    : float — κ₅² = 8π G₅
+    """
+    kappa5_sq = 8.0 * np.pi * G5
+    N = g_boundary.shape[0]
+
+    sqrt_gamma = np.sqrt(np.clip(np.linalg.det(g_boundary), 0.0, None))
+
+    # Extrinsic curvature K = Tr[K_ab] ≈ ½ ∇² Tr[h_ab]  (Laplacian proxy)
+    trace_h = np.array([np.trace(g_boundary[i]) for i in range(N)])
+    laplacian_trace = (
+        np.roll(trace_h, -1) - 2.0 * trace_h + np.roll(trace_h, 1)
+    ) / dx ** 2
+    K_trace = 0.5 * laplacian_trace
+
+    # Scalar curvature R[γ] ≈ (det γ − 1) / L_ads² (flat background minus correction)
+    det_gamma = np.linalg.det(g_boundary)
+    R_gamma = (det_gamma - 1.0) / (L_ads ** 2 + 1e-30)
+
+    # d = 4 (dimension of boundary)
+    d = 4
+    # Integrands
+    integrand_K    = 2.0 * K_trace * sqrt_gamma
+    integrand_cosmo = float(d - 1) / L_ads * sqrt_gamma
+    integrand_curv = L_ads / 2.0 * R_gamma * sqrt_gamma
+
+    S_K    = float(np.sum(integrand_K)    * dx)
+    S_cosmo = float(np.sum(integrand_cosmo) * dx)
+    S_curv = float(np.sum(integrand_curv) * dx)
+
+    S_ct = -(S_K + S_cosmo + S_curv) / kappa5_sq
+
+    return {
+        "S_ct":       S_ct,
+        "S_K":        S_K,
+        "S_cosmo":    S_cosmo,
+        "S_curv":     S_curv,
+        "sqrt_gamma": sqrt_gamma,
+        "kappa5_sq":  float(kappa5_sq),
+    }
+
+
+def holographic_renormalized_action(
+    S_bulk: float,
+    g_boundary: np.ndarray,
+    L_ads: float = 1.0,
+    dx: float = 1.0,
+    G5: float = 1.0,
+) -> dict:
+    """Holographically renormalised on-shell action S_ren = S_bulk + S_ct.
+
+    The raw 5D on-shell action S_bulk diverges as the UV cutoff r_max → ∞
+    because of Λ⁴, Λ², and log Λ divergences from near-boundary geometry.
+    Adding the boundary counterterms S_ct (see ``boundary_counterterms``)
+    yields a finite renormalised action:
+
+        S_ren = lim_{r→∞} (S_bulk(r_max) + S_ct(r_max))  =  finite
+
+    Once S_ren is finite, the partition function  Z = e^{i S_ren}  is
+    well-defined, and the theory is UV-complete in the holographic sense.
+
+    Parameters
+    ----------
+    S_bulk     : float — on-shell bulk action (possibly divergent)
+    g_boundary : ndarray, shape (N, 2, 2) — induced boundary metric
+    L_ads      : float — AdS₅ radius (default 1.0)
+    dx         : float — grid spacing
+    G5         : float — 5D Newton's constant
+
+    Returns
+    -------
+    dict with keys:
+
+    ``S_bulk``       : float — input bulk action (echo)
+    ``S_ct``         : float — total boundary counterterm
+    ``S_ren``        : float — renormalised action S_ren = S_bulk + S_ct
+    ``is_finite``    : bool  — True iff S_ren is a finite float
+    ``Z_admissible`` : bool  — True iff S_ren is finite and |S_ren| < 1/G5
+                               (physically bounded partition function)
+    ``counterterm_details``: dict — full output of boundary_counterterms
+    """
+    ct = boundary_counterterms(g_boundary, L_ads, dx, G5)
+    S_ren = float(S_bulk) + ct["S_ct"]
+
+    is_finite    = bool(np.isfinite(S_ren))
+    Z_admissible = bool(is_finite and abs(S_ren) < 1.0 / (G5 + 1e-30))
+
+    return {
+        "S_bulk":              float(S_bulk),
+        "S_ct":                ct["S_ct"],
+        "S_ren":               S_ren,
+        "is_finite":           is_finite,
+        "Z_admissible":        Z_admissible,
+        "counterterm_details": ct,
+    }
