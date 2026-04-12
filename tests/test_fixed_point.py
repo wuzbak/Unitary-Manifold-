@@ -30,6 +30,7 @@ from src.multiverse.fixed_point import (
     ueum_acceleration,
     fixed_point_iteration,
     derive_alpha_from_fixed_point,
+    prove_banach_contraction,
 )
 
 
@@ -339,3 +340,114 @@ class TestDeriveAlphaFromFixedPoint:
         assert isinstance(alpha, float)
         assert net is None
         assert isinstance(conv, bool)
+
+
+# ---------------------------------------------------------------------------
+# prove_banach_contraction — Lipschitz / formal Banach theorem certificate
+# ---------------------------------------------------------------------------
+
+class TestProveBanachContraction:
+    """Tests for the explicit Lipschitz constant computation."""
+
+    def _make_net(self, n=3, rng_seed=42):
+        rng = np.random.default_rng(rng_seed)
+        return MultiverseNetwork.chain(n=n, coupling=0.05, rng=rng)
+
+    def test_returns_dict(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=10)
+        assert isinstance(result, dict)
+
+    def test_has_required_keys(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=10)
+        for key in ("L", "is_contraction", "L_margin", "theorem_holds",
+                    "convergence_rate", "n_iters_to_tol",
+                    "error_bound_formula", "banach_theorem", "n_pairs_sampled"):
+            assert key in result, f"Missing key: {key!r}"
+
+    def test_L_positive(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=20)
+        assert result["L"] >= 0.0
+
+    def test_L_finite(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=20)
+        assert np.isfinite(result["L"])
+
+    def test_is_contraction_true_for_canonical_network(self):
+        """Canonical 3-node chain should be contractive (L < 1)."""
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=30,
+                                          rng=np.random.default_rng(0))
+        assert result["is_contraction"] is True, (
+            f"Expected contraction but L = {result['L']:.4f}"
+        )
+
+    def test_theorem_holds_equals_is_contraction(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=10)
+        assert result["theorem_holds"] == result["is_contraction"]
+
+    def test_L_margin_equals_1_minus_L(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=10)
+        assert result["L_margin"] == pytest.approx(1.0 - result["L"], abs=1e-12)
+
+    def test_convergence_rate_equals_L(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=10)
+        assert result["convergence_rate"] == pytest.approx(result["L"], abs=1e-12)
+
+    def test_banach_theorem_nonempty_string(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=10)
+        assert isinstance(result["banach_theorem"], str)
+        assert len(result["banach_theorem"]) > 30
+
+    def test_banach_theorem_mentions_uniqueness_when_contractive(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=20,
+                                          rng=np.random.default_rng(0))
+        if result["is_contraction"]:
+            theorem = result["banach_theorem"].lower()
+            assert "unique" in theorem or "uniqueness" in theorem, (
+                "Theorem statement should mention uniqueness of fixed point"
+            )
+
+    def test_error_bound_formula_is_string(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=10)
+        assert isinstance(result["error_bound_formula"], str)
+        assert "L" in result["error_bound_formula"]
+
+    def test_n_pairs_sampled_leq_n_pairs(self):
+        net = self._make_net()
+        n_pairs = 15
+        result = prove_banach_contraction(net, n_pairs=n_pairs)
+        assert result["n_pairs_sampled"] <= n_pairs
+
+    def test_rng_reproducible(self):
+        net = self._make_net()
+        r1 = prove_banach_contraction(net, n_pairs=10, rng=np.random.default_rng(99))
+        r2 = prove_banach_contraction(net, n_pairs=10, rng=np.random.default_rng(99))
+        assert r1["L"] == pytest.approx(r2["L"], abs=1e-12)
+
+    def test_larger_network_also_contractive(self):
+        """Fully connected 5-node network should also be contractive."""
+        rng = np.random.default_rng(7)
+        net = MultiverseNetwork.fully_connected(n=5, coupling=0.05, rng=rng)
+        result = prove_banach_contraction(net, n_pairs=20,
+                                          rng=np.random.default_rng(7))
+        assert result["is_contraction"] is True, (
+            f"5-node fully-connected network: L = {result['L']:.4f}"
+        )
+
+    def test_n_iters_finite_when_contractive(self):
+        net = self._make_net()
+        result = prove_banach_contraction(net, n_pairs=20,
+                                          rng=np.random.default_rng(0))
+        if result["is_contraction"]:
+            assert np.isfinite(result["n_iters_to_tol"])
+            assert result["n_iters_to_tol"] > 0
