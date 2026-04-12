@@ -69,6 +69,13 @@ import numpy as np
 
 
 # ---------------------------------------------------------------------------
+# Module-level constants
+# ---------------------------------------------------------------------------
+
+_NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators / norms
+
+
+# ---------------------------------------------------------------------------
 # MultiverseNode
 # ---------------------------------------------------------------------------
 
@@ -611,7 +618,7 @@ def operator_spectral_radius(
     for _ in range(n_test):
         # Random entropy perturbation vector v in R^n
         v = rng.standard_normal(n)
-        v /= np.linalg.norm(v) + 1e-30
+        v /= np.linalg.norm(v) + _NUMERICAL_EPSILON
 
         # Apply H + T once: H projects toward A_i/4G; T diffuses on graph
         # Combined action on entropy subspace:
@@ -636,7 +643,7 @@ def operator_spectral_radius(
         else:
             # Power iteration fallback for large networks
             v_new = HT_mat @ v
-            norm_new = np.linalg.norm(v_new) + 1e-30
+            norm_new = np.linalg.norm(v_new) + _NUMERICAL_EPSILON
             rho_i = float(norm_new)
 
         rho_estimates.append(rho_i)
@@ -646,7 +653,7 @@ def operator_spectral_radius(
     margin = float(1.0 - rho)
     # Minimum γ to ensure contraction: ρ(U_damped) = ρ / (1 + γ dt) < 1
     # → γ > (ρ − 1) / dt  (only relevant when ρ ≥ 1)
-    gamma_critical = float(max(0.0, (rho - 1.0) / (dt + 1e-30)))
+    gamma_critical = float(max(0.0, (rho - 1.0) / (dt + _NUMERICAL_EPSILON)))
 
     return {
         "rho":               rho,
@@ -717,7 +724,7 @@ def check_contraction_condition(
     holds = bool(rho_damped < 1.0)
 
     if holds and rho_damped > 0.0:
-        n_to_1pct = float(np.log(0.01) / np.log(rho_damped + 1e-30))
+        n_to_1pct = float(np.log(0.01) / np.log(rho_damped + _NUMERICAL_EPSILON))
     else:
         n_to_1pct = float("inf")
 
@@ -729,7 +736,7 @@ def check_contraction_condition(
             f"(≈{n_to_1pct:.1f} iterations to 1% accuracy)."
         )
     else:
-        dt_threshold = (rho_HT - 1.0) / (gamma + 1e-30)
+        dt_threshold = (rho_HT - 1.0) / (gamma + _NUMERICAL_EPSILON)
         conclusion = (
             f"Banach contraction FAILS: ρ(U)={rho_damped:.4f} ≥ 1. "
             f"Increase γ above γ_critical={sr['gamma_critical']:.4f} "

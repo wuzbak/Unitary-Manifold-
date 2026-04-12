@@ -97,6 +97,7 @@ _LAM_DEFAULT = 1.0
 _ALPHA_DEFAULT = 0.1   # nonminimal coupling  α R φ
 _PHI0_DEFAULT = 1.0    # background radion value for stabilization potential
 _M_PHI_DEFAULT = 0.0   # dilaton mass; 0 = unstabilised (backward-compatible)
+_NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators / norms
 
 
 # ---------------------------------------------------------------------------
@@ -584,7 +585,7 @@ def Z_kinetic(
     -------
     Z : float — renormalisation factor Z_kinetic ≥ 1 when ⟨φ⟩ ≥ 1
     """
-    phi_mean = float(np.mean(np.abs(phi_profile)) + 1e-30)
+    phi_mean = float(np.mean(np.abs(phi_profile)) + _NUMERICAL_EPSILON)
     return float(phi_mean ** p)
 
 

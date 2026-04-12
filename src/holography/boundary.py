@@ -58,6 +58,7 @@ from ..core.evolution import information_current
 # ---------------------------------------------------------------------------
 
 _G4_DEFAULT = 1.0   # Newton's constant in Planck units
+_NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators
 
 
 # ---------------------------------------------------------------------------
@@ -309,7 +310,7 @@ def fefferman_graham_expansion(
     trace_g0 = np.array([np.trace(g0[i]) for i in range(N)])
     # Scalar curvature proxy: R ≈ (det g - 1) / (L_ads^2) (flat background correction)
     det_g0 = np.linalg.det(g0)
-    R_scalar = (det_g0 - 1.0) / (L_ads ** 2 + 1e-30)
+    R_scalar = (det_g0 - 1.0) / (L_ads ** 2 + _NUMERICAL_EPSILON)
 
     # g^{(2)}_ab = −(L^2/2) R_ab ≈ −(L^2/4) R_scalar * g_ab  (isotropic approx)
     g2 = np.zeros_like(g0)
@@ -394,7 +395,7 @@ def boundary_counterterms(
 
     # Scalar curvature R[γ] ≈ (det γ − 1) / L_ads² (flat background minus correction)
     det_gamma = np.linalg.det(g_boundary)
-    R_gamma = (det_gamma - 1.0) / (L_ads ** 2 + 1e-30)
+    R_gamma = (det_gamma - 1.0) / (L_ads ** 2 + _NUMERICAL_EPSILON)
 
     # d = 4 (dimension of boundary)
     d = 4
@@ -462,7 +463,7 @@ def holographic_renormalized_action(
     S_ren = float(S_bulk) + ct["S_ct"]
 
     is_finite    = bool(np.isfinite(S_ren))
-    Z_admissible = bool(is_finite and abs(S_ren) < 1.0 / (G5 + 1e-30))
+    Z_admissible = bool(is_finite and abs(S_ren) < 1.0 / (G5 + _NUMERICAL_EPSILON))
 
     return {
         "S_bulk":              float(S_bulk),

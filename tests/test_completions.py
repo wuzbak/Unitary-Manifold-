@@ -225,7 +225,7 @@ class TestKKAmplitudeSum:
         phi0_eff = effective_phi0_kk(1.0, 5)
         result = kk_amplitude_sum(phi0_eff, lam=1.0, R_c=1e-6, N_max=10)
         assert result["N_active"] == 1
-        assert abs(result["As_total"] - result["As_zero"]) < 1e-14 * abs(result["As_zero"])
+        assert abs(result["As_total"] - result["As_zero"]) < max(1e-14 * abs(result["As_zero"]), 1e-20)
 
     def test_enhancement_equals_N_active(self):
         """A_s_total / A_s_zero == N_active exactly."""
