@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 664 automated tests (653 fast-selected + 11 slow-deselected) in `tests/` confirm that the numerical implementations
+The 689 automated tests (679 fast-selected + 11 slow-deselected) in `tests/` confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -27,7 +27,8 @@ metric curvature (`test_metric.py`), field evolution
 `test_convergence.py`), inflation observables including the CMB transfer
 function (`test_inflation.py`), the arrow of time (`test_arrow_of_time.py`),
 the CMB χ² landscape (`test_cmb_landscape.py`), end-to-end chain closure
-(`test_e2e_pipeline.py`), and observational resolution (`test_observational_resolution.py`).
+(`test_e2e_pipeline.py`), observational resolution (`test_observational_resolution.py`),
+and quantum unification theorems (`test_quantum_unification.py`).
 
 Internal verification does **not** constitute empirical confirmation of the
 framework as a description of nature.  Specifically:
@@ -40,7 +41,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "652 passed · 1 skipped · 0 failed," this is a statement about
+When the README badge reads "678 passed · 1 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -247,7 +248,7 @@ It would be **falsified** if any of the following occurred:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 652 passed · 1 skipped (guard) · 0 failed (664 total) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
+| 678 passed · 1 skipped (guard) · 0 failed (689 total) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r ≈ 0.0028 | Forward prediction | Not yet constrained; derives from n_w |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |

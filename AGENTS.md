@@ -67,20 +67,23 @@ following priority order.
 | Priority | File | Tokens (est.) | Purpose |
 |----------|------|--------------|---------|
 | 6 | `README.md` | ~2 000 | Full project overview, equations, quickstart |
-| 7 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
-| 8 | `src/core/metric.py` | ~900 | KK metric, curvature computation |
-| 9 | `src/holography/boundary.py` | ~900 | Holographic boundary dynamics |
-| 10 | `src/multiverse/fixed_point.py` | ~1 100 | UEUM operator, FTUM iteration |
+| 7 | `UNIFICATION_PROOF.md` | ~2 500 | Formal proof: QM, EM, SM as exact projections of the 5D geometry |
+| 8 | `QUANTUM_THEOREMS.md` | ~3 000 | New theorems: BH information, CCR, Hawking T, ER=EPR (v9.3) |
+| 9 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
+| 10 | `src/core/metric.py` | ~900 | KK metric, curvature computation |
+| 11 | `src/holography/boundary.py` | ~900 | Holographic boundary dynamics |
+| 12 | `src/multiverse/fixed_point.py` | ~1 100 | UEUM operator, FTUM iteration |
 
 ### Tier 3 — Read for verification and testing
 
 | Priority | File | Purpose |
 |----------|------|---------|
-| 10 | `tests/conftest.py` | Shared pytest fixtures |
-| 11 | `tests/test_metric.py` | Metric & curvature tests |
-| 12 | `tests/test_evolution.py` | Evolution + constraint tests |
-| 13 | `tests/test_boundary.py` | Boundary & entropy tests |
-| 14 | `tests/test_fixed_point.py` | FTUM & operator tests |
+| 13 | `tests/conftest.py` | Shared pytest fixtures |
+| 14 | `tests/test_metric.py` | Metric & curvature tests |
+| 15 | `tests/test_evolution.py` | Evolution + constraint tests |
+| 16 | `tests/test_boundary.py` | Boundary & entropy tests |
+| 17 | `tests/test_fixed_point.py` | FTUM & operator tests |
+| 18 | `tests/test_quantum_unification.py` | BH info, CCR, Hawking T, ER=EPR tests |
 
 ### Tier 4 — Read for theory depth
 

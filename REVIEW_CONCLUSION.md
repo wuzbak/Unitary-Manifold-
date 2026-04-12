@@ -243,7 +243,7 @@ The CMB transfer function pipeline in `src/core/transfer.py` elevates falsifiabi
 
 **Open parameters:** The cosmological coupling Γ (dark-energy proxy) and the topological winding number n_w remain constrained observationally rather than theoretically, which is the correct scientific status for matter-coupling and topology parameters. The local Gauss-law constraint, full-U convergence, mesh-refinement study, and external benchmark remain open research questions (documented in `submission/falsification_report.md`).
 
-**Verification:** 664 tests across 17 test files (652 fast passed · 1 skipped/guard · 11 slow-deselected · 0 failed — see `TEST/RESULTS.md` and `FINAL_REVIEW_CONCLUSION.md`).
+**Verification:** 689 tests across 18 test files (678 fast passed · 1 skipped/guard · 11 slow-deselected · 0 failed — see `TEST/RESULTS.md` and `FINAL_REVIEW_CONCLUSION.md`).
 
 The realistic verification path remains astrophysical: near black-hole horizons the Walker–Pearson signal is amplified by ~10¹⁶. With `α = φ₀⁻²` now determined, a measured `Δθ_WP` by next-generation VLBI and EHT-successor surveys directly measures the compactification radius `L₅ = ℓP/√α`. The birefringence signal β is additionally accessible to ongoing CMB polarimetry experiments (BICEP/Keck, LiteBIRD, CMB-S4).
 
@@ -263,7 +263,7 @@ The realistic verification path remains astrophysical: near black-hole horizons 
 4. Implementation: `jacobian_rs_orbifold`, `effective_phi0_rs` — S¹/Z₂ orbifold Jacobian (nₛ stable for kr_c ∈ [11,15])
 5. Cosmic birefringence prediction: `cs_axion_photon_coupling`, `birefringence_angle`, `triple_constraint` — β=0.3513° (k_cs=74, within 1σ of Planck)
 6. Full CMB transfer function pipeline: `src/core/transfer.py` — primordial spectrum → D_ℓ → χ²_Planck
-7. 168 new tests added since v9.4 (suite grew from 131 at v9.1 to 286, then to 400 at v9.3, then to 496 at v9.4, then to 664 at v9.5 with parallel-validation and expanded inflation tests); 652 fast passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+7. 168 new tests added since v9.4 (suite grew from 131 at v9.1 to 286, then to 400 at v9.3, then to 496 at v9.4, then to 664 at v9.5 with parallel-validation and expanded inflation tests, then to 689 at v9.3 with quantum unification); 678 fast passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 8. Extended completion requirements framework from 3 to 5 requirements (adding nₛ and β)
 9. Triple-constraint table (nₛ, r, β) simultaneously satisfied from a single geometric origin
 10. Updated comparison table, SNR discussion, and conclusion to reflect v9.2 self-completion
