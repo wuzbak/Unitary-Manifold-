@@ -262,8 +262,10 @@ class TestClassifyBundle:
         cat = build_bundle_catalog()
         su3 = next(b for b in cat if b.name == "SU(3)")
         clf = classify_bundle(su3)
-        # SU(3) vacuum: c2 = 0 → is_nontrivial False → fails
-        # But it is anomaly-free and integer-quantized.
+        # SU(3) vacuum: c2 = 0 → is_nontrivial is False → passes_all is False.
+        # However the bundle is anomaly-free and integer-quantized.
+        assert clf.passes_all is False
+        assert clf.is_nontrivial is False
         assert clf.is_integer_quantized is True
         assert clf.is_anomaly_free is True
 
@@ -620,8 +622,9 @@ class TestIntegration:
         assert "KK-U(1)" in passing
         assert "SU(2)_L" in passing
         assert "U(1)_Y" in passing
-        # Trivial must fail
+        # Trivial and SU(3) vacuum both fail (c₂ = 0 → not non-trivial)
         assert "Trivial" not in passing
+        assert "SU(3)" not in passing
 
     def test_summary_contains_table_header(self):
         result = bundle_topology_scan()

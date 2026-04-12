@@ -28,7 +28,9 @@ For a principal G-bundle P → M₄:
 
   * U(1) bundles: first Chern class  c₁ = (1/2π) ∮_Σ F ∈ ℤ.
   * SU(N) bundles: second Chern class  c₂ = (1/8π²) ∫ Tr(F∧F) ∈ ℤ.
-  * All bundles: first Pontryagin class  p₁ = −(1/8π²) ∫ Tr(F∧F) = −c₂.
+  * SU(N) bundles: first Pontryagin class  p₁ = −(1/8π²) ∫ Tr(F∧F) = −2 c₂.
+  * U(1) bundles: first Pontryagin class  p₁ = c₁²  (Pontryagin formula on
+    spin M₄).
 
 For U(1) bundles c₁ is the defining integer; for SU(N) bundles c₂ is.
 
@@ -595,21 +597,11 @@ def check_global_anomaly_cancellation(
 
         A_grav + A_KK = A_SU2 + A_SU3 + A_U1Y  (mod integers)
 
-    is equivalent to:
+    is equivalent to the *difference* condition:
 
-        k_cs ≡ 0  (mod n_w)   and   k_cs + 1 ≡ 0  (mod n_w)
+        k_cs ≡ n_w − 1  (mod n_w)   i.e.   (k_cs + 1) ≡ 0  (mod n_w)
 
-    For k_cs = 74, n_w = 5:
-        74 mod 5 = 4  ≠ 0.  The raw modular condition does not hold.
-
-    The Unitary Manifold uses the *difference* condition instead:
-        k_cs − n_w × floor(k_cs / n_w) = k_cs mod n_w ∈ {0, 1, …, n_w−1}
-    and anomaly cancellation is satisfied when
-
-        (k_cs mod n_w) + 1 == n_w   →   k_cs ≡ n_w − 1  (mod n_w)
-
-    which is the condition that (k_cs + 1) is divisible by n_w.  For
-    k_cs = 74, n_w = 5:  74 + 1 = 75 = 5 × 15 → PASSES.
+    For k_cs = 74, n_w = 5:  74 + 1 = 75 = 5 × 15 → PASSES.
 
     Parameters
     ----------
