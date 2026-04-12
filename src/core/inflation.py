@@ -2553,7 +2553,7 @@ def field_metric_nonminimal(phi: float, xi: float) -> float:
 
         \\mathcal{L}_{\\mathrm{kin}} = -\\tfrac{1}{2} F(\\phi)\\,(\\partial\\phi)^2,
         \\quad
-        F(\\phi) = \\frac{d\\phi}{d\\chi}\\bigg)^2
+        F(\\phi) = \\left(\\frac{d\\phi}{d\\chi}\\right)^2
                  = \\frac{\\Omega^4}{G(\\phi)}
 
     where G(φ) = 1 + (1 + 6ξ)ξφ² encodes the field-space curvature from both

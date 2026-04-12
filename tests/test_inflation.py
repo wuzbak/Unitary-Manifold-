@@ -1352,7 +1352,10 @@ class TestCOBENormalization:
             f"Expected r_within_bound=False (r={result['r']:.4f} "
             f"exceeds BK21 limit {BICEP_KECK_R_LIMIT})"
         )
-        assert result["r"] < 0.10   # still within the stale Planck+BK15 bound
+        # r is between the tighter BK21 bound (0.036) and the stale Planck+BK15 bound (0.10)
+        assert BICEP_KECK_R_LIMIT < result["r"] < 0.10, (
+            f"r={result['r']:.4f} not in the expected range (0.036, 0.10)"
+        )
 
     def test_E_inf_in_GUT_range(self):
         """Inflation energy scale should be in the GUT range ~10^15–10^17 GeV."""
