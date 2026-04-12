@@ -308,7 +308,11 @@ def fefferman_graham_expansion(
     # the Ricci tensor is R_ab = (R/2) g_ab (Gauss-Bonnet identity in 2D).
     # We use the trace of the induced metric as a proxy for the scalar curvature.
     trace_g0 = np.array([np.trace(g0[i]) for i in range(N)])
-    # Scalar curvature proxy: R ≈ (det g - 1) / (L_ads^2) (flat background correction)
+    # Scalar curvature proxy: R ≈ (det g − 1) / L²
+    # For a conformally flat metric g_ab = e^{2σ} δ_ab with σ small,
+    # det g ≈ e^{2 d σ} ≈ 1 + 2 d σ so (det g − 1) / L² ≈ 2 σ / (L/√d)²,
+    # which tracks the conformal factor and acts as the leading scalar curvature
+    # contribution relative to the flat (det g = 1) background.
     det_g0 = np.linalg.det(g0)
     R_scalar = (det_g0 - 1.0) / (L_ads ** 2 + _NUMERICAL_EPSILON)
 
@@ -455,8 +459,13 @@ def holographic_renormalized_action(
     ``S_ct``         : float — total boundary counterterm
     ``S_ren``        : float — renormalised action S_ren = S_bulk + S_ct
     ``is_finite``    : bool  — True iff S_ren is a finite float
-    ``Z_admissible`` : bool  — True iff S_ren is finite and |S_ren| < 1/G5
-                               (physically bounded partition function)
+    ``Z_admissible`` : bool  — True iff S_ren is finite and |S_ren| < 1/G5.
+                               The bound |S_ren| < 1/G5 is the holographic
+                               admissibility condition: the Euclidean partition
+                               function Z = exp(−S_ren) satisfies Z > exp(−1/G5),
+                               i.e. the saddle-point contribution does not
+                               exponentially suppress the path integral beyond
+                               the Planck suppression floor set by Newton's constant.
     ``counterterm_details``: dict — full output of boundary_counterterms
     """
     ct = boundary_counterterms(g_boundary, L_ads, dx, G5)

@@ -585,6 +585,9 @@ def Z_kinetic(
     -------
     Z : float — renormalisation factor Z_kinetic ≥ 1 when ⟨φ⟩ ≥ 1
     """
+    # Use magnitude: Z_kinetic = ⟨|φ|⟩^p must be real and positive for any
+    # real power p.  Signed φ would give imaginary Z for non-integer p, which
+    # is unphysical.  The background radion |φ₀| is always positive by definition.
     phi_mean = float(np.mean(np.abs(phi_profile)) + _NUMERICAL_EPSILON)
     return float(phi_mean ** p)
 
