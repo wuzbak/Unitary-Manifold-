@@ -193,7 +193,7 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
-689 tests (679 fast-selected + 11 slow-deselected): 678 passed · 1 skipped (guard) · 0 failed.
+748 tests (738 fast-selected + 11 slow-deselected): 737 passed · 1 skipped (guard) · 0 failed.
 
 > **Skip:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` uses a `pytest.skip()` guard that fires on immediate convergence — correct behaviour, not a failure.
 > **Slow:** 11 tests in `test_richardson_multitime.py` marked `@pytest.mark.slow`; run with `pytest tests/ -m slow`.
@@ -206,6 +206,7 @@ python -m pytest tests/ -v
 | `test_fixed_point.py` | 35 | IHT operators, UEUM, convergence |
 | `test_convergence.py` | 10 | O(dx²) gradient, Laplacian, Christoffel convergence |
 | `test_inflation.py` | 271 | CMB power spectrum, ns/r, birefringence, triple constraint, EE/TE source functions, TB/EB spectra |
+| `test_derivation.py` | 59 | KK derivation chain, field equations, Walker–Pearson EOM, information current |
 | `test_parallel_validation.py` | 38 | dual-branch independence, observable decoupling, amplitude closure, transfer physics |
 | `test_arrow_of_time.py` | 23 | entropy growth, backward deficit, path independence, production rates |
 | `test_cmb_landscape.py` | 17 | χ² landscape, TB/EB cross-checks, amplitude analysis |
