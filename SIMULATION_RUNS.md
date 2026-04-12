@@ -193,7 +193,7 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
-689 tests (679 fast-selected + 11 slow-deselected): 678 passed · 1 skipped (guard) · 0 failed.
+749 tests (738 fast-selected + 11 slow-deselected): 737 passed · 1 skipped (guard) · 0 failed.
 
 > **Skip:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` uses a `pytest.skip()` guard that fires on immediate convergence — correct behaviour, not a failure.
 > **Slow:** 11 tests in `test_richardson_multitime.py` marked `@pytest.mark.slow`; run with `pytest tests/ -m slow`.

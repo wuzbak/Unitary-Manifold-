@@ -3,7 +3,7 @@
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![689 Tests: 678 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-678%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![749 Tests: 737 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-737%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -253,16 +253,17 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (689 tests: 678 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (749 tests: 737 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (678 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (737 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
+tests/test_derivation.py                       59 passed
 tests/test_evolution.py                        49 passed
 tests/test_parallel_validation.py              38 passed
 tests/test_fixed_point.py                      35 passed
@@ -281,7 +282,7 @@ tests/test_discretization_invariance.py        13 passed
 tests/test_convergence.py                      10 passed
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 678 passed, 1 skipped, 11 deselected ================================
+================================ 737 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -510,7 +511,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**689 tests: 678 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**749 tests: 737 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -522,7 +523,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (689 tests: 678 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (749 tests: 737 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

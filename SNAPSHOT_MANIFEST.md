@@ -17,7 +17,7 @@ future changes to the live repository.
 | Branch at time of snapshot | `main` |
 | Total files (excl. `.git`) | 161 |
 | Total size (excl. `.git`) | 5.5 MB |
-| Test suite | 678 fast + 11 slow tests, all passing |
+| Test suite | 737 fast + 11 slow tests, all passing |
 
 ---
 
@@ -89,7 +89,7 @@ Or download the auto-generated archive from the corresponding GitHub Release:
 | `src/multiverse/__init__.py` | Multiverse package init |
 | `src/multiverse/fixed_point.py` | UEUM operator, FTUM iteration |
 
-### Test suite (`tests/`) — 689 total tests (678 fast + 11 slow)
+### Test suite (`tests/`) — 749 total tests (738 fast + 11 slow)
 | File | Tests | Coverage |
 |---|---|---|
 | `tests/conftest.py` | — | Shared pytest fixtures |
