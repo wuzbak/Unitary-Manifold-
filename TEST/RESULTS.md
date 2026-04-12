@@ -2,9 +2,9 @@
 
 Run date: 2026-04-12 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 826 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): 1119 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total: 837 collected · 826 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
+**Grand total: 1130 collected · 1119 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
 
 ⚑ **Skip explanation:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
@@ -180,6 +180,109 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | 47 | `TestConstraintMonitorDetG::test_det_key_present_with_g` | ✅ PASSED |
 | 48 | `TestConstraintMonitorDetG::test_det_violation_near_zero_for_projected_metric` | ✅ PASSED |
 | 49 | `TestConstraintMonitorDetG::test_det_violation_finite` | ✅ PASSED |
+
+---
+
+## test_fiber_bundle.py — 96/96 PASSED
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | `TestConstants::test_n_w_canonical` | ✅ PASSED |
+| 2 | `TestConstants::test_k_cs_canonical` | ✅ PASSED |
+| 3 | `TestBuildBundleCatalog::test_catalog_length` | ✅ PASSED |
+| 4 | `TestBuildBundleCatalog::test_catalog_names` | ✅ PASSED |
+| 5 | `TestBuildBundleCatalog::test_no_duplicate_names` | ✅ PASSED |
+| 6 | `TestBuildBundleCatalog::test_all_are_principal_bundle` | ✅ PASSED |
+| 7 | `TestBuildBundleCatalog::test_kk_bundle_flag` | ✅ PASSED |
+| 8 | `TestBuildBundleCatalog::test_kk_bundle_characteristic_integer_equals_k_cs` | ✅ PASSED |
+| 9 | `TestBuildBundleCatalog::test_su2_characteristic_integer_equals_n_w` | ✅ PASSED |
+| 10 | `TestBuildBundleCatalog::test_su3_vacuum_sector` | ✅ PASSED |
+| 11 | `TestBuildBundleCatalog::test_u1y_unit_charge` | ✅ PASSED |
+| 12 | `TestBuildBundleCatalog::test_trivial_zero_integer` | ✅ PASSED |
+| 13 | `TestBuildBundleCatalog::test_kk_bundle_structure_group` | ✅ PASSED |
+| 14 | `TestBuildBundleCatalog::test_su2_structure_group` | ✅ PASSED |
+| 15 | `TestBuildBundleCatalog::test_su3_structure_group` | ✅ PASSED |
+| 16 | `TestBuildBundleCatalog::test_trivial_structure_group` | ✅ PASSED |
+| 17 | `TestBuildBundleCatalog::test_custom_n_w` | ✅ PASSED |
+| 18 | `TestBuildBundleCatalog::test_custom_k_cs` | ✅ PASSED |
+| 19 | `TestBuildBundleCatalog::test_rank_values` | ✅ PASSED |
+| 20 | `TestBuildBundleCatalog::test_description_nonempty_for_physical_bundles` | ✅ PASSED |
+| 21 | `TestComputeCharacteristicClasses::test_trivial_all_zero` | ✅ PASSED |
+| 22 | `TestComputeCharacteristicClasses::test_u1_c1_equals_n` | ✅ PASSED |
+| 23 | `TestComputeCharacteristicClasses::test_u1_c2_is_none` | ✅ PASSED |
+| 24 | `TestComputeCharacteristicClasses::test_u1_p1_is_c1_squared` | ✅ PASSED |
+| 25 | `TestComputeCharacteristicClasses::test_su2_c1_is_none` | ✅ PASSED |
+| 26 | `TestComputeCharacteristicClasses::test_su2_c2_equals_n` | ✅ PASSED |
+| 27 | `TestComputeCharacteristicClasses::test_su2_p1_is_minus_2_c2` | ✅ PASSED |
+| 28 | `TestComputeCharacteristicClasses::test_su3_c2_equals_n` | ✅ PASSED |
+| 29 | `TestComputeCharacteristicClasses::test_su3_p1_vacuum` | ✅ PASSED |
+| 30 | `TestComputeCharacteristicClasses::test_su3_nonzero_instanton` | ✅ PASSED |
+| 31 | `TestComputeCharacteristicClasses::test_u1_unit_charge` | ✅ PASSED |
+| 32 | `TestComputeCharacteristicClasses::test_returns_characteristic_classes_instance` | ✅ PASSED |
+| 33 | `TestComputeCharacteristicClasses::test_kk_bundle_p1` | ✅ PASSED |
+| 34 | `TestComputeCharacteristicClasses::test_euler_class_none_for_all` | ✅ PASSED |
+| 35 | `TestClassifyBundle::test_kk_bundle_passes_all` | ✅ PASSED |
+| 36 | `TestClassifyBundle::test_su2_bundle_passes_all` | ✅ PASSED |
+| 37 | `TestClassifyBundle::test_su3_passes_all` | ✅ PASSED |
+| 38 | `TestClassifyBundle::test_u1y_passes_all` | ✅ PASSED |
+| 39 | `TestClassifyBundle::test_trivial_fails` | ✅ PASSED |
+| 40 | `TestClassifyBundle::test_trivial_fail_reasons_nonempty` | ✅ PASSED |
+| 41 | `TestClassifyBundle::test_kk_topological_type` | ✅ PASSED |
+| 42 | `TestClassifyBundle::test_su2_topological_type` | ✅ PASSED |
+| 43 | `TestClassifyBundle::test_trivial_topological_type` | ✅ PASSED |
+| 44 | `TestClassifyBundle::test_u1y_topological_type` | ✅ PASSED |
+| 45 | `TestClassifyBundle::test_unit_instanton_type` | ✅ PASSED |
+| 46 | `TestClassifyBundle::test_anti_instanton_type` | ✅ PASSED |
+| 47 | `TestClassifyBundle::test_kk_consistency_fail_wrong_c1` | ✅ PASSED |
+| 48 | `TestClassifyBundle::test_kk_consistency_pass` | ✅ PASSED |
+| 49 | `TestClassifyBundle::test_su2_index_fail_wrong_c2` | ✅ PASSED |
+| 50 | `TestClassifyBundle::test_su2_index_pass` | ✅ PASSED |
+| 51 | `TestClassifyBundle::test_returns_bundle_classification_instance` | ✅ PASSED |
+| 52 | `TestClassifyBundle::test_characteristic_classes_embedded` | ✅ PASSED |
+| 53 | `TestClassifyBundle::test_non_kk_u1_kk_consistency_not_applicable` | ✅ PASSED |
+| 54 | `TestClassifyBundle::test_su3_index_not_applicable` | ✅ PASSED |
+| 55 | `TestGlobalAnomalyCancellation::test_canonical_values_cancel` | ✅ PASSED |
+| 56 | `TestGlobalAnomalyCancellation::test_gs_condition_74_plus_1_divisible_by_5` | ✅ PASSED |
+| 57 | `TestGlobalAnomalyCancellation::test_wrong_k_cs_fails` | ✅ PASSED |
+| 58 | `TestGlobalAnomalyCancellation::test_wrong_k_cs_correct_mod` | ✅ PASSED |
+| 59 | `TestGlobalAnomalyCancellation::test_explanation_is_string` | ✅ PASSED |
+| 60 | `TestGlobalAnomalyCancellation::test_missing_bundle_returns_false` | ✅ PASSED |
+| 61 | `TestBundleTopologyScan::test_returns_bundle_scan_result` | ✅ PASSED |
+| 62 | `TestBundleTopologyScan::test_canonical_scan_globally_consistent` | ✅ PASSED |
+| 63 | `TestBundleTopologyScan::test_n_w_recorded` | ✅ PASSED |
+| 64 | `TestBundleTopologyScan::test_k_cs_recorded` | ✅ PASSED |
+| 65 | `TestBundleTopologyScan::test_all_integer_quantized` | ✅ PASSED |
+| 66 | `TestBundleTopologyScan::test_kk_bundle_consistent` | ✅ PASSED |
+| 67 | `TestBundleTopologyScan::test_su2_bundle_consistent` | ✅ PASSED |
+| 68 | `TestBundleTopologyScan::test_global_anomaly_cancelled` | ✅ PASSED |
+| 69 | `TestBundleTopologyScan::test_classifications_dict_has_five_entries` | ✅ PASSED |
+| 70 | `TestBundleTopologyScan::test_classifications_contains_all_names` | ✅ PASSED |
+| 71 | `TestBundleTopologyScan::test_summary_is_nonempty_string` | ✅ PASSED |
+| 72 | `TestBundleTopologyScan::test_wrong_k_cs_fails_global` | ✅ PASSED |
+| 73 | `TestBundleTopologyScan::test_wrong_n_w_fails_global` | ✅ PASSED |
+| 74 | `TestBundleTopologyScan::test_trivial_bundle_fails_in_scan` | ✅ PASSED |
+| 75 | `TestBundleTopologyScan::test_kk_bundle_passes_in_scan` | ✅ PASSED |
+| 76 | `TestBundleTopologyScan::test_su2_passes_in_scan` | ✅ PASSED |
+| 77 | `TestBundleTopologyScan::test_u1y_passes_in_scan` | ✅ PASSED |
+| 78 | `TestCompareBundleTopologies::test_same_bundle_equivalent` | ✅ PASSED |
+| 79 | `TestCompareBundleTopologies::test_kk_and_u1y_inequivalent` | ✅ PASSED |
+| 80 | `TestCompareBundleTopologies::test_kk_and_u1y_same_group` | ✅ PASSED |
+| 81 | `TestCompareBundleTopologies::test_kk_and_u1y_different_c1` | ✅ PASSED |
+| 82 | `TestCompareBundleTopologies::test_kk_and_su2_different_group` | ✅ PASSED |
+| 83 | `TestCompareBundleTopologies::test_distinguishing_invariant_is_c1_for_u1_bundles` | ✅ PASSED |
+| 84 | `TestCompareBundleTopologies::test_distinguishing_invariant_is_c2_for_su_bundles` | ✅ PASSED |
+| 85 | `TestCompareBundleTopologies::test_trivial_vs_nontrivial` | ✅ PASSED |
+| 86 | `TestCompareBundleTopologies::test_returns_dict` | ✅ PASSED |
+| 87 | `TestCompareBundleTopologies::test_all_five_bundles_pairwise_distinct_except_trivial_su3` | ✅ PASSED |
+| 88 | `TestIntegration::test_canonical_kk_c1` | ✅ PASSED |
+| 89 | `TestIntegration::test_canonical_su2_c2` | ✅ PASSED |
+| 90 | `TestIntegration::test_canonical_kk_p1` | ✅ PASSED |
+| 91 | `TestIntegration::test_canonical_su2_p1` | ✅ PASSED |
+| 92 | `TestIntegration::test_exactly_four_physical_bundles_pass_all` | ✅ PASSED |
+| 93 | `TestIntegration::test_summary_contains_table_header` | ✅ PASSED |
+| 94 | `TestIntegration::test_summary_contains_pass_indicator` | ✅ PASSED |
+| 95 | `TestIntegration::test_gs_condition_uniquely_selects_k_cs_74_among_1_to_100` | ✅ PASSED |
+| 96 | `TestIntegration::test_anomaly_condition_encodes_k_cs` | ✅ PASSED |
 
 ---
 
@@ -718,6 +821,7 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_boundary.py` | 21 | 0 | 0 | 21 |
 | `test_convergence.py` | 10 | 0 | 0 | 10 |
 | `test_evolution.py` | 49 | 0 | 0 | 49 |
+| `test_fiber_bundle.py` | 96 | 0 | 0 | 96 |
 | `test_fixed_point.py` | 35 | 0 | 0 | 35 |
 | `test_inflation.py` | 271 | 0 | 0 | 271 |
 | `test_derivation.py` | 59 | 0 | 0 | 59 |
@@ -736,6 +840,6 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_derivation_module.py` | 59 | 0 | 0 | 59 |
 | `test_external_benchmarks.py` | 30 | 0 | 0 | 30 |
 | `test_richardson_multitime.py` 🐌 | 11 | 0 | 0 | 11 |
-| **Total** | **827** | **1** ⚑ | **0** | **837** |
+| **Total** | **1120** | **1** ⚑ | **0** | **1130** |
 
 ⚑ Guard skip: `TestEntropyProductionRate::test_defect_history_mostly_decreasing` — see header note.
