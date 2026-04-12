@@ -729,10 +729,11 @@ def check_contraction_condition(
             f"(≈{n_to_1pct:.1f} iterations to 1% accuracy)."
         )
     else:
+        dt_threshold = (rho_HT - 1.0) / (gamma + 1e-30)
         conclusion = (
             f"Banach contraction FAILS: ρ(U)={rho_damped:.4f} ≥ 1. "
             f"Increase γ above γ_critical={sr['gamma_critical']:.4f} "
-            f"or decrease dt below {(rho_HT - 1.0) / gamma:.4f} to restore contraction."
+            f"or decrease dt below {dt_threshold:.4f} to restore contraction."
         )
 
     return {
