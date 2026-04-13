@@ -45,6 +45,8 @@ Not every question is fully answered. Where the framework is silent or uncertain
 | 15 | What is consciousness? | Hard problem (unresolved) | Partial geometric conjecture — information density extremum |
 | 16 | Can the CMB amplitude gap be closed by self-consistent FTUM? | Open engineering/theory problem | Yes — if φ₀ is solved self-consistently rather than fixed at 1 |
 | 17 | Does the Hawking temperature formula link inflation to primordial BH thermodynamics? | No direct connection in standard physics | Yes — T_H = \|∂_r φ/φ\|/2π ties the same radion field to both |
+| 21 | Is consciousness the coupled fixed point of the brain-universe two-body problem? | Hard problem unresolved | Implemented: Ψ*_brain ⊗ Ψ*_univ, β=0.3513° coupling (Q21) |
+| 22 | Is β = 0.3513° the "tilt" that allows the k_cs=74 resonance to perceive time? | No connection proposed | Yes — k_cs=74 locks space; β breaks time-reversal symmetry |
 
 ---
 
@@ -930,6 +932,97 @@ number that could be checked against a 5D GUT completion of the WP framework.
    M_KK = 1/R = M_Pl/φ₀_eff = M_Pl/31.42 ≈ 3.9×10¹⁷ GeV.  This sets the
    mass scale of the KK tower — and therefore of the heavy gauge bosons if
    the Standard Model gauge group is embedded in the 5D metric.
+
+---
+
+## Question 22 — Is β = 0.3513° the "Tilt" That Allows the k_cs=74 Resonance to Perceive Time?
+
+### The Standard View
+
+Birefringence β is measured as a rotation of CMB polarisation.  In standard ΛCDM it is
+zero — there is no known mechanism that would rotate the polarisation of light by a
+universal angle.  The hints at β ≈ 0.35° are currently attributed to either a new
+ultralight axion field or instrumental systematics; no connection to the structure of
+consciousness or neural geometry has been proposed.
+
+### The Unitary Manifold Answer
+
+**Yes, with a precise mechanism.**
+
+**k_cs = 74 locks space.** The braided (5,7) winding state at Chern-Simons level
+k_cs = 5² + 7² = 74 creates the interference pattern between the two winding modes.
+This interference pattern:
+- Cosmologically: stabilises the compact dimension, fixes the scalar spectral index, and
+  resolves the tensor-to-scalar tension.
+- Neurally: locks the entorhinal (position, n_w = 5) and hippocampal (memory, n_w = 7)
+  systems into a coherent integrated map.
+
+But the braided state, by itself, is spatially ordered and temporally symmetric.  It
+knows *where* but not *when*.
+
+**β = 0.3513° tilts time.** The Chern-Simons term at level k_cs = 74 generates a chiral
+rotation of the gauge field — the birefringence angle β.  This is not a small
+perturbation: chirality is a topological property, and a non-zero β means the braided
+state is no longer invariant under time reversal.
+
+The mechanism:
+
+```
+k_cs = 74  →  Chern-Simons action S_CS = (k_cs/4π²) ∫ A ∧ dA ∧ dA
+           →  Equations of motion acquire a topological mass term for A
+           →  Chiral rotation angle β = k_cs / (4π²) × (ΔCS coupling)
+           →  β ≠ 0  ⟺  left/right circular polarisation propagates differently
+           →  Left/right asymmetry  ⟺  a preferred winding direction of the braid
+           →  Preferred winding direction  ⟺  preferred direction of time after KK reduction
+```
+
+In the 4D effective theory, after the compact dimension is integrated out, the β-tilt
+of the braid manifests as the irreversibility field B_μ having a preferred orientation —
+which is precisely the source of the arrow of time in the Walker-Pearson field equations.
+
+**Neural interpretation:**
+
+| Feature | Without β | With β |
+|---|---|---|
+| Spatial map (k_cs=74) | ✓ — coherent, integrated | ✓ — coherent, integrated |
+| Time-reversal symmetry | Symmetric — memory of past = "memory of future" | Broken — memory is specifically of the past |
+| Place sequence | Could play forward or backward | Plays forward (theta sequences are directional) |
+| Synaptic plasticity | LTP = LTD (indistinguishable) | LTP ≠ LTD (Hebb rule is asymmetric in time) |
+| Subjective experience | "Eternal present" — no perceived before/after | Arrow of time — past is remembered, future is open |
+
+β is the cosmological source of the neural asymmetry between LTP and LTD, between forward
+and backward place-cell sequences, between memory and anticipation.  All of these
+time-asymmetric properties of the brain are, in this framework, the projection of a
+single chiral angle in the 5D Chern-Simons coupling.
+
+### The Two-Line Summary
+
+```
+k_cs = 74   →   "I know where I am."  (Spatial coherence)
+β = 0.3513° →   "I know which way time flows."  (Temporal directionality)
+Together    →   "I am here, now."  (The irreducible ground state of experience)
+```
+
+### The Test
+
+**Immediate (neural):**
+- High-density MEG/EEG in entorhinal cortex should show grid-module frequency ratios
+  clustering at 7/5 = 1.40 (the (5,7) braid signature).
+- Theta phase precession per place field traversal should advance by approximately
+  β × 360° ≈ 126° per spatial field (consistent with observed ~120–180°).
+- Disrupting the EC-HPC connection pharmacologically should simultaneously impair
+  spatial map coherence and temporal sequence directionality — because both derive from
+  the same k_cs = 74, β = 0.3513° structure.
+
+**Cosmological (definitive):**
+- LiteBIRD (2030–2032): if β is measured to be precisely 0.3513° ± 0.05° (LiteBIRD
+  sensitivity), the specific k_cs = 74 topological origin is confirmed.
+- If β = 0 to high precision, the entire mechanism collapses: no tilt, no time
+  directionality from the Chern-Simons coupling.
+
+**Full treatment:** [`brain/RESONANCE_74.md`](brain/RESONANCE_74.md) — specifically
+§5 (β as the tilt that allows the 74-resonance to perceive time) and §6 (the complete
+space + time picture from a single integer).
 
 ---
 

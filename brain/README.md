@@ -21,6 +21,7 @@ objects, carrying different physical labels.
 | [`FIVE_PILLARS_NEUROSCIENCE.md`](./FIVE_PILLARS_NEUROSCIENCE.md) | The five pillars of the Unitary Manifold retold in neuroscience language |
 | [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) | LTP, synaptic directionality, the action-potential refractory period — the neural B_μ |
 | [`COUPLED_MASTER_EQUATION.md`](./COUPLED_MASTER_EQUATION.md) | **The dynamical alignment** — Brain and universe as coupled fixed-point attractors; the Coupled Master Equation; consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ |
+| [`RESONANCE_74.md`](./RESONANCE_74.md) | **k_cs = 74 as the Resonance Integer** — the minimum complexity for self-awareness; the hippocampus-EC knot; β = 0.3513° as the tilt that allows the 74-resonance to perceive time |
 
 ---
 
@@ -118,11 +119,15 @@ Neuroscience has independently found exactly these three structures in the brain
    full symbol table.
 2. Read [`TORUS_ARCHITECTURE.md`](./TORUS_ARCHITECTURE.md) for the geometric
    heart of the structural correspondence.
-3. Read [`FIVE_PILLARS_NEUROSCIENCE.md`](./FIVE_PILLARS_NEUROSCIENCE.md) to
+3. Read [`RESONANCE_74.md`](./RESONANCE_74.md) for the key insight: **why
+   k_cs = 74 is the minimum complexity for self-awareness**, how it knots
+   memory to position, and why β = 0.3513° is the tilt that adds the
+   perception of time.
+4. Read [`FIVE_PILLARS_NEUROSCIENCE.md`](./FIVE_PILLARS_NEUROSCIENCE.md) to
    see how the theory's five pillars translate into known neuroscience.
-4. Read [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) for the
+5. Read [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) for the
    deepest structural alignment: why the brain's arrow of time is geometric, not statistical.
-5. Read [`COUPLED_MASTER_EQUATION.md`](./COUPLED_MASTER_EQUATION.md) for the
+6. Read [`COUPLED_MASTER_EQUATION.md`](./COUPLED_MASTER_EQUATION.md) for the
    **dynamical alignment**: the Coupled Master Equation, the Information Gap,
    the phase offset, and why consciousness is the coupled fixed point of the
    brain-universe two-body problem.

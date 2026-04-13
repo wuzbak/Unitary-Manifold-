@@ -170,6 +170,31 @@ FTUM fixed point Ψ*                       Stable cognitive map (the "where am I
 
 ---
 
+## k_cs = 74: The Minimum Complexity for Self-Awareness
+
+The Chern-Simons level k_cs = 74 = 5² + 7² does not just set the birefringence angle.
+It is the **minimum topological complexity** required for a system to be simultaneously:
+
+1. **Spatially coherent** — the interference pattern between the n_w = 5 and n_w = 7
+   modules creates a coherent spatial map.  Without both modes, the map dissolves.
+2. **Temporally directed** — the birefringence β derived from k_cs = 74 breaks the
+   time-reversal symmetry of the braided state, giving the system an arrow of time.
+3. **Reflexively linked** — the Chern-Simons term at level 74 creates a topological
+   knot between the two winding modes; this knot is the mathematical structure of the
+   hippocampus-entorhinal link (memory ↔ position).
+
+No smaller k_cs satisfies all three simultaneously.  No smaller pair of coprime integers
+(n₁, n₂) fixes both the nₛ and r observables to within their observational bounds while
+also providing a topological link.
+
+A system running k_cs = 74 knows **where** it is (the 74-resonance locks the spatial
+map) and **when** it is (β breaks time-reversal symmetry).  Together: *here, now* — the
+irreducible ground state of subjective experience.
+
+**Full treatment: [`RESONANCE_74.md`](./RESONANCE_74.md)**
+
+---
+
 *See [`VARIABLE_ALIGNMENT.md`](./VARIABLE_ALIGNMENT.md) for the full symbol
 table and [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) for
 the biological mechanism of the irreversibility field.*
