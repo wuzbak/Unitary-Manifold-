@@ -47,6 +47,11 @@ Not every question is fully answered. Where the framework is silent or uncertain
 | 17 | Does the Hawking temperature formula link inflation to primordial BH thermodynamics? | No direct connection in standard physics | Yes — T_H = \|∂_r φ/φ\|/2π ties the same radion field to both |
 | 21 | Is consciousness the coupled fixed point of the brain-universe two-body problem? | Hard problem unresolved | Implemented: Ψ*_brain ⊗ Ψ*_univ, β=0.3513° coupling (Q21) |
 | 22 | Is β = 0.3513° the "tilt" that allows the k_cs=74 resonance to perceive time? | No connection proposed | Yes — k_cs=74 locks space; β breaks time-reversal symmetry |
+| 23 | Is chemistry a projection of 5D geometry? | No — treated as separate discipline | Yes — bonds as φ-minima, kinetics via B_μ, periodic table from winding numbers |
+| 24 | Are stars and planets FTUM fixed points? | Stars as gravitational equilibria; no geometric unification | Yes — hydrostatic equilibrium = UΨ* = Ψ*; Jeans mass from B_μ collapse |
+| 25 | Is plate tectonics driven by the same field as quantum irreversibility? | No connection | Yes — mantle convection = slow-mode B_μ fluid; same equations, different scale |
+| 26 | Is life a fixed-point theorem? | Life as complex chemistry; no deeper principle | Yes — life is a local FTUM fixed point satisfying UΨ*=Ψ* with continuous B_μ input |
+| 27 | Does evolution have a geometric interpretation? | Selection pressure as metaphor | Yes — fitness landscape = FTUM landscape; species = stable fixed points; extinction = annihilation |
 
 ---
 

@@ -3,19 +3,21 @@
 > **Purpose:** Copy-paste this entire file into a new AI conversation to restore
 > full working context without re-reading the repository.  
 > **Keep it current:** update after every significant development session.  
-> **Last updated:** 2026-04-11
+> **Last updated:** 2026-04-13
 
 ---
 
 ## 1. What this project is (one paragraph)
 
-The **Unitary Manifold** (v9.0) is a 5D Kaluza–Klein framework that derives the
+The **Unitary Manifold** (v9.7) is a 5D Kaluza–Klein framework that derives the
 Second Law of Thermodynamics as a geometric identity rather than a statistical
 postulate.  The fifth dimension encodes irreversibility; its radion field φ plays
 the role of the CMB inflaton.  Key outputs are the scalar spectral index nₛ,
 tensor-to-scalar ratio r, and cosmic birefringence angle β — all claimed to
-arise from a single geometric compactification.  The full Python implementation
-lives at `https://github.com/wuzbak/Unitary-Manifold-`.  256 tests pass
+arise from a single geometric compactification.  v9.7 extends the framework
+across all natural sciences (chemistry, astronomy, Earth sciences, biology) via
+13 geometric pillars implemented in Python.  The full Python implementation
+lives at `https://github.com/wuzbak/Unitary-Manifold-`.  1967 tests pass
 (internal consistency only; see FALLIBILITY.md for scope).
 
 ---
