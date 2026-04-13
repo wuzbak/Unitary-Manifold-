@@ -1,7 +1,7 @@
 # Python API — Unitary Manifold
 
 The repository contains a Python implementation of the full theory. The
-test suite has 826 passing tests and 0 failures.
+test suite has 1153 passing tests and 0 failures (1165 total: 1153 fast passed · 1 skipped (guard) · 11 slow-deselected).
 
 ## Installation
 
@@ -14,9 +14,13 @@ pip install -r requirements.txt   # numpy>=1.24, scipy>=1.11
 | Module | Key functions / classes |
 |--------|------------------------|
 | `src/core/metric.py` | `compute_curvature()`, `field_strength()`, `extract_alpha_from_curvature()` |
-| `src/core/evolution.py` | `FieldState`, `step()`, `run_evolution()` |
-| `src/holography/boundary.py` | `entropy_area()`, holographic boundary dynamics |
-| `src/multiverse/fixed_point.py` | `fixed_point_iteration()`, FTUM convergence |
+| `src/core/evolution.py` | `FieldState`, `step()`, `run_evolution()`, `Z_kinetic()`, `epsilon_eff()`, `renormalize_slow_roll()` |
+| `src/holography/boundary.py` | `entropy_area()`, `fefferman_graham_expansion()`, `boundary_counterterms()`, `holographic_renormalized_action()`, `derive_kcs_anomaly_inflow()` |
+| `src/multiverse/fixed_point.py` | `fixed_point_iteration()`, `prove_banach_contraction()`, FTUM convergence |
+| `src/core/boltzmann.py` | `baryon_loading_factor()`, `baryon_corrected_rs()`, `baryon_loaded_spectrum()`, `dl_baryon()`, `accuracy_vs_tight_coupling()` |
+| `src/core/derivation.py` | `derive_winding_number()`, `derive_cs_level()`, `derive_integers()`, `check_round_trip_closure()`, `check_anomaly_cancellation()` |
+| `src/core/fiber_bundle.py` | `build_bundle_catalog()`, `compute_characteristic_classes()`, `classify_bundle()`, `check_global_anomaly_cancellation()`, `bundle_topology_scan()` |
+| `src/core/uniqueness.py` | `uniqueness_scan()`, `lcdm_nogo_comparison()`, `joint_prediction_overlap()`, `integer_quantization_discriminant()`, `full_uniqueness_report()` |
 
 ---
 
@@ -152,7 +156,7 @@ random initial states far from the vacuum, convergence is not guaranteed.
 
 ```bash
 python -m pytest tests/ -v
-# Expected: 826 passed, 0 failed
+# Expected: 1153 passed, 0 failed
 ```
 
 Individual test modules:
@@ -163,4 +167,8 @@ python -m pytest tests/test_evolution.py -v
 python -m pytest tests/test_boundary.py -v
 python -m pytest tests/test_fixed_point.py -v
 python -m pytest tests/test_quantum_unification.py -v
+python -m pytest tests/test_fiber_bundle.py -v
+python -m pytest tests/test_uniqueness.py -v
+python -m pytest tests/test_boltzmann.py -v
+python -m pytest tests/test_cosmological_predictions.py -v
 ```

@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 837 automated tests (826 fast-selected + 11 slow-deselected) in `tests/` confirm that the numerical implementations
+The 1165 automated tests (1154 fast-selected + 11 slow-deselected) in `tests/` confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -41,7 +41,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "826 passed · 1 skipped · 0 failed," this is a statement about
+When the README badge reads "1153 passed · 1 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -263,7 +263,7 @@ It would be **falsified** if any of the following occurred:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 826 passed · 1 skipped (guard) · 0 failed (837 total) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
+| 1153 passed · 1 skipped (guard) · 0 failed (1165 total) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r = 0.097 (n_w=5, code-verified) | ⚠️ Tension with data | BICEP/Keck 2022 r<0.036 at 95% CL; see Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |

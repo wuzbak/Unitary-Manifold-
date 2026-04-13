@@ -2,9 +2,9 @@
 
 Run date: 2026-04-12 | Python 3.12.3 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 1119 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): 1153 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total: 1130 collected · 1119 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
+**Grand total: 1165 collected · 1153 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures**
 
 ⚑ **Skip explanation:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
@@ -822,10 +822,10 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_convergence.py` | 10 | 0 | 0 | 10 |
 | `test_evolution.py` | 49 | 0 | 0 | 49 |
 | `test_fiber_bundle.py` | 96 | 0 | 0 | 96 |
-| `test_fixed_point.py` | 35 | 0 | 0 | 35 |
+| `test_fixed_point.py` | 50 | 0 | 0 | 50 |
 | `test_inflation.py` | 271 | 0 | 0 | 271 |
 | `test_derivation.py` | 59 | 0 | 0 | 59 |
-| `test_metric.py` | 30 | 0 | 0 | 30 |
+| `test_metric.py` | 36 | 0 | 0 | 36 |
 | `test_closure_batch1.py` | 25 | 0 | 0 | 25 |
 | `test_closure_batch2.py` | 31 | 0 | 0 | 31 |
 | `test_fuzzing.py` | 20 | 0 | 0 | 20 |
@@ -839,7 +839,11 @@ and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest 
 | `test_quantum_unification.py` | 26 | 0 | 0 | 26 |
 | `test_derivation_module.py` | 59 | 0 | 0 | 59 |
 | `test_external_benchmarks.py` | 30 | 0 | 0 | 30 |
+| `test_completions.py` | 72 | 0 | 0 | 72 |
+| `test_uniqueness.py` | 61 | 0 | 0 | 61 |
+| `test_boltzmann.py` | 49 | 0 | 0 | 49 |
+| `test_cosmological_predictions.py` | 28 | 0 | 0 | 28 |
 | `test_richardson_multitime.py` 🐌 | 11 | 0 | 0 | 11 |
-| **Total** | **1120** | **1** ⚑ | **0** | **1130** |
+| **Total** | **1153** | **1** ⚑ | **0** | **1165** |
 
 ⚑ Guard skip: `TestEntropyProductionRate::test_defect_history_mostly_decreasing` — see header note.

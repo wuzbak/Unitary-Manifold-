@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**837 tests: 826 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-12, Python 3.12, pytest 9.0.3
+**1165 tests: 1153 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-12, Python 3.12, pytest 9.0.3
 
-*(826 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+*(1153 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ### The 1 skipped test
 
@@ -18,15 +18,15 @@ All in `test_richardson_multitime.py`, decorated `@pytest.mark.slow`. Excluded f
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 826 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 1153 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/             # all 827 fast + 11 slow
+python -m pytest tests/             # all 1154 fast + 11 slow
 ```
 
 Expected result (default):
 
 ```
-826 passed, 1 skipped, 11 deselected in ~38s
+1153 passed, 1 skipped, 11 deselected in ~38s
 ```
 
 ---
@@ -36,13 +36,20 @@ Expected result (default):
 | File | Tests | What It Covers |
 |------|------:|----------------|
 | `tests/test_inflation.py` | 271 | GW potential, slow-roll, CMB (nₛ, r), Planck check, KK Jacobian, Casimir, birefringence, CS coupling, triple constraint, EE/TE source, TB/EB spectra, slow-roll amplitude, COBE normalisation, attractor classification, amplitude attractor, scale dependence, foliation clock, amplitude gap, FTUM attractor domain, RS1 phase scan, birefringence transfer, B_μ rotation angle, RS1 Jacobian trace |
+| `tests/test_fiber_bundle.py` | 96 | Principal bundles over M₄ (KK U(1), SU(2)_L, SU(3), U(1)_Y, trivial), characteristic classes, c₁[KK U(1)]=k_cs=74, c₂[SU(2)_L]=n_w=5, global anomaly cancellation |
+| `tests/test_completions.py` | 72 | Completion and endpoint tests |
+| `tests/test_uniqueness.py` | 61 | S¹/Z₂ uniqueness scan (8 candidate topologies), ΛCDM no-go comparison, integer quantization discriminant, joint prediction overlap, full uniqueness report |
 | `tests/test_derivation.py` | 59 | Key-integer derivations: k_cs=74, n_w_kk=5, n_w_rs=7, k_rc=12, φ_min=18 — all geometry-forced, no free parameters |
-| `tests/test_parallel_validation.py` | 38 | Dual-branch independence, observable decoupling, amplitude closure (COBE), transfer function physics, extreme limits |
+| `tests/test_derivation_module.py` | 59 | Stage 0–3 constraint derivation module |
+| `tests/test_fixed_point.py` | 50 | Multiverse network, operators I/H/T, FTUM iteration, α derivation from fixed point, Banach contraction proof |
 | `tests/test_evolution.py` | 49 | RK4 integrator, FieldState, CFL timestep, information current, constraint monitor, radion stabilisation, metric volume preservation |
-| `tests/test_fixed_point.py` | 35 | Multiverse network, operators I/H/T, FTUM iteration, α derivation from fixed point |
+| `tests/test_boltzmann.py` | 49 | Baryon-loaded CMB transfer (cs²=1/(3(1+R))), baryon-corrected sound horizon r_s★, odd/even peak ratio, D_ℓ accuracy ~10–15% |
+| `tests/test_parallel_validation.py` | 38 | Dual-branch independence, observable decoupling, amplitude closure (COBE), transfer function physics, extreme limits |
+| `tests/test_metric.py` | 36 | KK metric assembly, Christoffel symbols, Riemann/Ricci tensors, field strength, α derivation from curvature |
 | `tests/test_closure_batch2.py` | 31 | Numerical robustness, cross-module consistency, edge-case coverage |
 | `tests/test_observational_resolution.py` | 30 | Angular resolution sufficiency, nₛ/β tolerance, χ² sensitivity, LiteBIRD pol-ratio bounds |
-| `tests/test_metric.py` | 30 | KK metric assembly, Christoffel symbols, Riemann/Ricci tensors, field strength, α derivation from curvature |
+| `tests/test_external_benchmarks.py` | 30 | External / published benchmark validation |
+| `tests/test_cosmological_predictions.py` | 28 | Hubble tension (5D radion H_eff), muon g-2 (KK graviton loops), dark matter rotation curves (KK δΦ), GW echoes (compact 5th dimension cavity) |
 | `tests/test_quantum_unification.py` | 26 | BH information conservation, canonical commutation relation, Hawking temperature, ER=EPR via shared fixed point |
 | `tests/test_e2e_pipeline.py` | 26 | End-to-end chain closure, CS level uniqueness (k=74), α consistency loop, no-free-parameters verification |
 | `tests/test_closure_batch1.py` | 25 | α dual-path closure, nₛ KK=Casimir, β coupling chain, holographic entropy emergence |
@@ -54,7 +61,7 @@ Expected result (default):
 | `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total** | **837** | **826 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| **Total** | **1165** | **1153 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 

@@ -17,7 +17,7 @@ future changes to the live repository.
 | Branch at time of snapshot | `main` |
 | Total files (excl. `.git`) | 161 |
 | Total size (excl. `.git`) | 5.5 MB |
-| Test suite | 826 fast + 11 slow tests, all passing |
+| Test suite | 1153 fast + 11 slow tests, all passing |
 
 ---
 
@@ -81,35 +81,47 @@ Or download the auto-generated archive from the corresponding GitHub Release:
 | `src/core/__init__.py` | Core package init |
 | `src/core/metric.py` | Kaluza-Klein metric, curvature computation |
 | `src/core/evolution.py` | Walker-Pearson integrator, FieldState API |
-| `src/core/inflation.py` | Inflationary dynamics |
+| `src/core/inflation.py` | Inflationary dynamics, KK Jacobian, birefringence |
 | `src/core/transfer.py` | CMB transfer function, Planck 2018 reference data |
 | `src/core/diagnostics.py` | CMB diagnostics: chi2, power spectra, observables |
+| `src/core/boltzmann.py` | Baryon-loaded CMB transfer function; improves D_ℓ to ~10–15% accuracy |
+| `src/core/derivation.py` | Symbolic integer derivations and constraint checks |
+| `src/core/fiber_bundle.py` | Principal bundle topology and anomaly cancellation |
+| `src/core/uniqueness.py` | Geometric uniqueness and ΛCDM no-go |
 | `src/holography/__init__.py` | Holography package init |
 | `src/holography/boundary.py` | Holographic boundary dynamics |
 | `src/multiverse/__init__.py` | Multiverse package init |
 | `src/multiverse/fixed_point.py` | UEUM operator, FTUM iteration |
 
-### Test suite (`tests/`) — 837 total tests (738 fast + 11 slow)
+### Test suite (`tests/`) — 1165 total tests (1154 fast + 11 slow)
 | File | Tests | Coverage |
 |---|---|---|
 | `tests/conftest.py` | — | Shared pytest fixtures |
-| `tests/test_metric.py` | 30 | Metric & curvature |
+| `tests/test_metric.py` | 36 | Metric & curvature |
 | `tests/test_evolution.py` | 49 | Evolution + constraints |
 | `tests/test_boundary.py` | 21 | Boundary & entropy |
-| `tests/test_fixed_point.py` | 35 | FTUM & operator |
+| `tests/test_fixed_point.py` | 50 | FTUM & operator |
 | `tests/test_convergence.py` | 10 | Numerical convergence |
-| `tests/test_inflation.py` | 141 | Inflationary dynamics |
+| `tests/test_inflation.py` | 271 | Inflationary dynamics |
 | `tests/test_closure_batch1.py` | 25 | Closure batch 1 |
 | `tests/test_closure_batch2.py` | 31 | Closure batch 2 |
 | `tests/test_fuzzing.py` | 20 | Fuzz / stress tests |
 | `tests/test_dimensional_reduction.py` | 14 | Dimensional reduction |
 | `tests/test_discretization_invariance.py` | 13 | Grid independence |
-| `tests/test_arrow_of_time.py` | 22 | Entropy / irreversibility |
-| `tests/test_cmb_landscape.py` | 24 | CMB chi2 landscape |
-| `tests/test_e2e_pipeline.py` | 43 | End-to-end pipeline |
-| `tests/test_observational_resolution.py` | 31 | Observational constraints |
+| `tests/test_arrow_of_time.py` | 23 | Entropy / irreversibility |
+| `tests/test_cmb_landscape.py` | 17 | CMB chi2 landscape |
+| `tests/test_e2e_pipeline.py` | 26 | End-to-end pipeline |
+| `tests/test_observational_resolution.py` | 30 | Observational constraints |
 | `tests/test_parallel_validation.py` | 38 | Parallel theory validation |
 | `tests/test_quantum_unification.py` | 26 | BH info, CCR, Hawking T, ER=EPR |
+| `tests/test_derivation.py` | 59 | Key-integer derivations |
+| `tests/test_derivation_module.py` | 59 | Stage 0–3 constraint derivations |
+| `tests/test_external_benchmarks.py` | 30 | External benchmark validation |
+| `tests/test_fiber_bundle.py` | 96 | Fiber bundle topology, anomaly cancellation |
+| `tests/test_completions.py` | 72 | Completion and endpoint tests |
+| `tests/test_uniqueness.py` | 61 | Uniqueness scan, ΛCDM no-go |
+| `tests/test_boltzmann.py` | 49 | Baryon-loaded CMB transfer |
+| `tests/test_cosmological_predictions.py` | 28 | Hubble tension, muon g-2, dark matter, GW echoes |
 | `tests/test_richardson_multitime.py` | 11 *(slow)* | Richardson extrapolation |
 
 ### Notebooks (`notebooks/`)

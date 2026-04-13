@@ -95,11 +95,18 @@ such that `UΨ* = Ψ*`.
 ├── src/
 │   ├── core/
 │   │   ├── metric.py                  # KK ansatz, Γ, Riemann, Ricci, R
-│   │   └── evolution.py               # Walker–Pearson time integrator
+│   │   ├── evolution.py               # Walker–Pearson time integrator; Z_kinetic, renorm. slow roll
+│   │   ├── inflation.py               # CMB/inflation; kk_amplitude_sum, attractor, B_μ rotation
+│   │   ├── transfer.py                # CMB transfer; birefringence_transfer, TB/EB spectrum
+│   │   ├── boltzmann.py               # Baryon-loaded CMB transfer; D_ℓ accuracy ~10–15%
+│   │   ├── derivation.py              # Symbolic integer derivations; constraint checks
+│   │   ├── diagnostics.py             # CMB diagnostics: chi2, observables, convergence
+│   │   ├── fiber_bundle.py            # Principal bundle topology; anomaly cancellation; SM structure
+│   │   └── uniqueness.py              # Geometric uniqueness; ΛCDM no-go; integer discriminant
 │   ├── holography/
-│   │   └── boundary.py                # Entropy-area, boundary dynamics
+│   │   └── boundary.py                # Entropy-area, boundary dynamics; holographic renormaliz.
 │   └── multiverse/
-│       └── fixed_point.py             # UEUM operator U, FTUM iteration
+│       └── fixed_point.py             # UEUM operator U, FTUM iteration; Banach contraction proof
 │
 ├── manuscript/
 │   └── ch02_mathematical_preliminaries.md
@@ -119,12 +126,18 @@ such that `UΨ* = Ψ*`.
 │
 ├── tests/
 │   ├── conftest.py                        # Shared pytest fixtures
-│   ├── test_metric.py                     # Metric & curvature tests (30)
+│   ├── test_metric.py                     # Metric & curvature tests (36)
 │   ├── test_evolution.py                  # Evolution + constraint tests (49)
 │   ├── test_boundary.py                   # Boundary & entropy tests (21)
-│   ├── test_fixed_point.py               # FTUM & operator tests (35)
+│   ├── test_fixed_point.py               # FTUM & operator tests (50)
 │   ├── test_convergence.py               # Pipeline convergence tests (10)
 │   ├── test_inflation.py                 # CMB power spectrum, birefringence (271)
+│   ├── test_fiber_bundle.py              # Fiber bundle topology, anomaly cancellation (96) — NEW
+│   ├── test_completions.py               # Completion and endpoint tests (72) — NEW
+│   ├── test_uniqueness.py                # Uniqueness scan, ΛCDM no-go (61) — NEW
+│   ├── test_boltzmann.py                 # Baryon-loaded CMB transfer (49) — NEW
+│   ├── test_cosmological_predictions.py  # Hubble tension, muon g-2, dark matter, GW echoes (28) — NEW
+│   ├── test_derivation_module.py         # Stage 0–3 constraint derivation (59)
 │   ├── test_closure_batch1.py            # α/nₛ/β closure consistency (25)
 │   ├── test_closure_batch2.py            # Numerical robustness (31)
 │   ├── test_fuzzing.py                   # Edge cases, random inputs (20)
@@ -138,7 +151,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_quantum_unification.py       # BH info, CCR, Hawking T, ER=EPR (26) — v9.3
 │   ├── test_derivation.py                # Key-integer derivations k_cs/n_w/k_rc/φ_min (59)
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 837 tests — 826 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 1165 tests — 1153 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -320,7 +333,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **837 tests: 826 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **1165 tests: 1153 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

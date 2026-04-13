@@ -127,7 +127,7 @@ This "Manifold Signature" constitutes a predictive, simultaneously falsifiable s
 φ₀ → α=φ₀⁻² → nₛ → Δ²_ℛ(k) → S(k) [SW + acoustic + Silk] → Cₗ → D_ℓ [μK²] → χ²_Planck
 ```
 
-The pipeline uses the tight-coupling, instantaneous-recombination approximation (Seljak 1994; Hu & Sugiyama 1995) with Planck 2018 best-fit cosmological parameters, reproducing the TT power spectrum to ~20–30 % accuracy for ℓ ∈ [2, 1500]. Verified by `TestPrimordialPowerSpectrum`, `TestCMBSourceFunction`, `TestAngularPowerSpectrum`, `TestDlFromCl`, and `TestChi2Planck`.
+The pipeline uses the tight-coupling, instantaneous-recombination approximation (Seljak 1994; Hu & Sugiyama 1995) with Planck 2018 best-fit cosmological parameters, reproducing the TT power spectrum to ~20–30 % accuracy for ℓ ∈ [2, 1500]. The new `src/core/boltzmann.py` module improves this to ~10–15% via baryon loading (sound speed cs² = 1/(3(1+R)), baryon-corrected r_s★, odd/even peak ratio). Verified by `TestPrimordialPowerSpectrum`, `TestCMBSourceFunction`, `TestAngularPowerSpectrum`, `TestDlFromCl`, `TestChi2Planck`, and `test_boltzmann.py` (49 tests).
 
 ---
 
@@ -239,7 +239,7 @@ The "free parameter" `α` was an artefact of a truncated KK expansion. The non-t
 
 The nₛ≈−35 failure of the bare FTUM fixed point was an artefact of truncating the 5D→4D canonical normalisation. Including the KK wavefunction Jacobian J = n_w · 2π · √φ₀_bare with n_w=5 gives φ₀_eff≈31.42 and nₛ≈0.9635. A one-loop Casimir correction provides an independent derivation of the same rescaling. The tensor-to-scalar ratio r≈0.099 is within current bounds (r < 0.11). The birefringence prediction β=0.3513° from CS level k_cs=74 is a third, independent CMB observable. These three observables (nₛ, r, β) form the "Manifold Signature" — a simultaneously falsifiable triplet from one geometric model.
 
-The CMB transfer function pipeline in `src/core/transfer.py` elevates falsifiability from a single nₛ number to the full angular power spectrum D_ℓ, enabling χ² comparison against the Planck 2018 TT reference table. A full Boltzmann code (CAMB/CLASS) comparison is the natural next step for precision cosmology verification.
+The CMB transfer function pipeline in `src/core/transfer.py` elevates falsifiability from a single nₛ number to the full angular power spectrum D_ℓ, enabling χ² comparison against the Planck 2018 TT reference table. A full Boltzmann code (CAMB/CLASS) comparison is the natural next step for precision cosmology verification; the new `boltzmann.py` module already achieves ~10–15% D_ℓ accuracy via baryon loading.
 
 **Open parameters:** The cosmological coupling Γ (dark-energy proxy) and the topological winding number n_w remain constrained observationally rather than theoretically, which is the correct scientific status for matter-coupling and topology parameters. The local Gauss-law constraint, full-U convergence, mesh-refinement study, and external benchmark remain open research questions (documented in `submission/falsification_report.md`).
 

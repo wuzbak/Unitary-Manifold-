@@ -74,3 +74,55 @@ the 5D geometry.
 - `UNIFICATION_PROOF.md` — formal proof of QM/EM/SM as projections
 - `src/core/metric.py` — Python implementation of the 5D metric
 - `src/core/evolution.py` — Walker-Pearson field evolution
+
+---
+
+## Uniqueness Theorem (v9.3)
+
+The module `src/core/uniqueness.py` proves that S¹/Z₂ with winding number
+n_w = 5 is the **unique** compact 1D orbifold satisfying all structural
+constraints. Eight candidate topologies were tested (S¹, S¹/Z₂, S¹/Z₄,
+T², T²/Z₂, S², CP¹, S³); only S¹/Z₂ passes all eight constraints C1–C8.
+
+Verified by `tests/test_uniqueness.py` (61 tests).
+
+## ΛCDM No-Go Theorem (v9.3)
+
+`lcdm_nogo_comparison()` in `src/core/uniqueness.py` establishes that ΛCDM
+and its common extensions (ΛCDM + single slow-roll, ΛCDM + continuous axion,
+RS1/RS2) **cannot simultaneously reproduce** (nₛ, r, β). The Unitary Manifold
+sweeps a 1-parameter curve constrained to integer k_cs — a discrete,
+falsifiable prediction set.
+
+**Integer quantization discriminant:** β is quantized (integer k_cs),
+distinguishing the Unitary Manifold from continuous-axion models. Current
+CMB-S4 / LiteBIRD sensitivity can resolve adjacent integers.
+
+## Fiber Bundle / Standard Model Structure (v9.3)
+
+`src/core/fiber_bundle.py` shows that the five principal bundles over M₄
+(KK U(1), SU(2)_L, SU(3), U(1)_Y, trivial) have their characteristic classes
+matched to SM gauge structure:
+
+- c₁[KK U(1)] = k_cs = 74
+- c₂[SU(2)_L] = n_w = 5
+
+Global anomaly cancellation is verified analytically by
+`check_global_anomaly_cancellation()`. Verified by `tests/test_fiber_bundle.py`
+(96 tests).
+
+## Banach Contraction Proof — FTUM Convergence (v9.3)
+
+`prove_banach_contraction()` in `src/multiverse/fixed_point.py` provides an
+**analytical** contraction-mapping argument for the UEUM operator. FTUM
+convergence is now proven both numerically and analytically.
+
+## Holographic Renormalization (v9.3)
+
+`src/holography/boundary.py` implements the complete holographic renormalization
+program: `fefferman_graham_expansion()` expands the boundary metric to O(z⁴),
+`boundary_counterterms()` removes divergences, and
+`holographic_renormalized_action()` yields the finite renormalized result.
+
+`derive_kcs_anomaly_inflow()` gives an independent derivation of k_cs = 74
+from boundary anomaly inflow — consistent with the birefringence derivation.
