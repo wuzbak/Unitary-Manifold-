@@ -1,9 +1,9 @@
-# The Unitary Manifold (v9.3 — Academic Edition)
+# The Unitary Manifold (v9.5 — Academic Edition)
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![1293 Tests: 1281 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-1281%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![1464 Tests: 1452 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-1452%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -244,7 +244,10 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     │   ├── fiber_bundle.py   ← fiber-bundle geometry, connection, curvature forms
     │   ├── inflation.py      ← slow-roll inflation, KK Jacobian, birefringence
     │   ├── transfer.py       ← CMB transfer function, Planck 2018 reference spectra
-    │   └── uniqueness.py     ← uniqueness theorems for Walker–Pearson equations
+    │   ├── uniqueness.py     ← uniqueness theorems for Walker–Pearson equations
+    │   ├── black_hole_transceiver.py ← Pillar 6: BH transceiver, Hubble tension, GW echoes ✓
+    │   ├── particle_geometry.py      ← Pillar 7: particles as geometric windings
+    │   └── dark_matter_geometry.py   ← Pillar 8: dark matter as Irreversibility Field B_μ
     ├── holography/
     │   └── boundary.py       ← Pillar 4: entropy-area, boundary dynamics
     └── multiverse/
@@ -261,13 +264,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (1293 tests: 1281 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (1464 tests: 1452 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (1281 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (1452 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -297,9 +300,12 @@ tests/test_cmb_landscape.py                    17 passed
 tests/test_dimensional_reduction.py            14 passed
 tests/test_discretization_invariance.py        13 passed
 tests/test_convergence.py                      10 passed
+tests/test_black_hole_transceiver.py           75 passed  ← Pillar 6: BH transceiver ✓
+tests/test_particle_geometry.py                51 passed  ← Pillar 7: particles as windings ✓
+tests/test_dark_matter_geometry.py             45 passed  ← Pillar 8: dark matter as B_μ ✓
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 1281 passed, 1 skipped, 11 deselected ================================
+================================ 1452 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -365,9 +371,43 @@ print(f"Converged: {converged}  after {len(residuals)} iterations")
 print(f"Final residual: {residuals[-1]:.2e}")
 ```
 
----
+### Black Hole Transceiver (Pillar 6)
 
-## 5 · Numerical Pipeline (Appendix D)
+```python
+from src.core.black_hole_transceiver import BlackHoleTransceiver
+
+bh = BlackHoleTransceiver(mass_solar=10.0)
+kappa = bh.horizon_saturation()
+print(f"Horizon saturation κ_H = {kappa:.6f}")   # → 1.0 (information encoded, not destroyed)
+
+h_ratio = bh.hubble_tension_ratio()
+print(f"H_local / H_CMB = {h_ratio:.4f}")         # → ~1.083 (bridging the Hubble tension)
+```
+
+### Particles as Geometric Windings (Pillar 7)
+
+```python
+from src.core.particle_geometry import ParticleGeometry
+
+pg = ParticleGeometry()
+electron_mass = pg.mass_from_curvature(generation=1)
+print(f"Electron mass scale: {electron_mass:.4e} GeV")
+
+gauge_groups = pg.gauge_groups()
+print(f"Emergent gauge groups: {gauge_groups}")    # → ['U(1)', 'SU(2)', 'SU(3)']
+```
+
+### Dark Matter as B_μ Geometry (Pillar 8)
+
+```python
+from src.core.dark_matter_geometry import DarkMatterGeometry
+
+dm = DarkMatterGeometry(rho_0=0.3, r_s=8.5)      # rho_0 in GeV/cm³, r_s in kpc
+v_flat = dm.flat_rotation_velocity(r_kpc=10.0)
+print(f"Flat rotation velocity: {v_flat:.1f} km/s")
+```
+
+
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -528,7 +568,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**1293 tests: 1281 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**1464 tests: 1452 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -540,7 +580,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (1293 tests: 1281 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (1464 tests: 1452 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
@@ -577,7 +617,7 @@ This repository is the product of genuine synthesis — theory and science from 
 | Principal Architect — theory, framework, scientific direction | ThomasCory Walker-Pearson |
 | Code Architecture, Test Suites, Document Engineering & Synthesis | GitHub Copilot (AI) |
 | Synthesis & Verification Support | ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot |
-| Version | 9.3 — Academic Edition |
+| Version | 9.5 — Academic Edition |
 
 For technical inquiries or peer-review submissions, use the LaTeX source files
 and BibLaTeX citations provided in the accompanying documentation.
