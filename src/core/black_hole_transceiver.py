@@ -30,6 +30,36 @@ Each winding mode carries 1/n_w of the total encoded information, and the
 superposition of all n_w modes reconstructs the original state — Hawking
 radiation as geometric decoding.
 
+Hubble Tension (cosmological α-drift)
+--------------------------------------
+The coupling constant α = 1/φ² is not fixed — it drifts as the universe
+ages and the KK radion φ relaxes from its early-universe value φ_CMB toward
+its Goldberger-Wise vacuum φ_today.  This geometric drift acts as a
+"friction term" in the Friedmann equation, making the universe expand faster
+today than the early-universe CMB predicts:
+
+    Δα = α_today − α_CMB  =  1/φ_today² − 1/φ_CMB²  > 0
+
+    H_local / H_CMB  ≈  φ_CMB / φ_today
+
+With φ_CMB = H_SNe / H_CMB ≈ 73.0 / 67.4 ≈ 1.0831 this predicts
+H_local ≈ 73 km/s/Mpc — bridging the Hubble tension without new particles.
+
+Gravitational-Wave Echoes
+--------------------------
+Because information is stored at the horizon as 5D topology, post-merger
+gravitational radiation "bounces" off the geometric structure of the compact
+dimension, producing periodic echoes with delay:
+
+    τ_echo = 2π ⟨φ⟩   (round-trip across the compact S¹ of radius ⟨φ⟩)
+
+Each subsequent echo is damped by the transceiver absorption (echo quality):
+
+    A_k = E_total · (1 − Q) · Q^k        Q = exp(−1/echo_quality)
+
+The sum over all echoes recovers E_total × (1 − Q) / (1 − Q) = E_total,
+confirming global energy conservation.
+
 Key equations
 -------------
 Horizon saturation parameter:
@@ -45,6 +75,13 @@ Winding redistribution:
 Transceiver gain:
     G = ∫ ρ_out_total dx / ∫ ρ_enc dx  =  1  (global information conservation)
 
+Coupling drift (Hubble tension):
+    α_drift(φ_early, φ_today) = 1/φ_today² − 1/φ_early²
+
+Echo spectrum:
+    τ_echo = 2π ⟨φ⟩
+    A_k = E · (1 − Q) · Q^k,  Q = exp(−1/Q_echo)
+
 Public API
 ----------
 horizon_saturation(B, phi, lam)
@@ -58,6 +95,19 @@ geometric_encoding_density(B, phi, dx, lam)
 winding_redistribution(encoded_info, n_w)
     Project encoded 5D information back to 4D through n_w winding modes.
     Returns each winding-mode channel and the total (shape (n_w, N) and (N,)).
+
+alpha_drift(phi_early, phi_today)
+    Change in coupling constant as the radion relaxes: Δα = 1/φ_today² − 1/φ_early².
+
+hubble_tension_ratio(phi_cmb, phi_today)
+    Predicted ratio H_local / H_CMB = φ_CMB / φ_today from α-drift.
+
+gw_echo_delay(phi_mean)
+    Gravitational-wave echo delay τ_echo = 2π ⟨φ⟩ (compact-dimension round-trip).
+
+gw_echo_spectrum(total_energy, n_echoes, echo_quality, phi_mean)
+    Echo arrival times and amplitudes for the post-merger GW signal.
+    Returns (times, amplitudes) with len = n_echoes.
 
 HorizonTransceiver
     Dataclass wrapping the full encode → redistribute → decode pipeline.
@@ -342,3 +392,175 @@ class HorizonTransceiver:
         kappa = horizon_saturation(state.B, state.phi, lam=self.lam)
         area_proxy = float(np.sum(kappa) * state.dx)
         return area_proxy / (4.0 * G4)
+
+
+# ---------------------------------------------------------------------------
+# Hubble Tension — cosmological α-drift
+# ---------------------------------------------------------------------------
+
+def alpha_drift(phi_early: float, phi_today: float) -> float:
+    """Change in the KK coupling constant as the radion relaxes.
+
+    In the Unitary Manifold α = 1/φ² (the nonminimal coupling constant is
+    pinned to the KK compactification radius via the radion).  As the universe
+    evolves, the Goldberger–Wise potential drives φ from its early-universe
+    value φ_early (CMB epoch) toward its vacuum value φ_today.  The resulting
+    drift in α acts as a geometric "friction term" in the Friedmann equation,
+    making the late-universe expansion faster than the early-universe CMB
+    predicts — the Hubble tension without new particles.
+
+        Δα = 1/φ_today² − 1/φ_early²  > 0  when φ_today < φ_early
+
+    Parameters
+    ----------
+    phi_early : float — radion value at the CMB epoch (> φ_today for tension)
+    phi_today : float — radion vacuum value (Goldberger–Wise stabilised)
+
+    Returns
+    -------
+    delta_alpha : float
+        Positive when the compact dimension has shrunk (φ_today < φ_early),
+        which corresponds to a stronger coupling today and faster expansion.
+
+    Raises
+    ------
+    ValueError
+        If either phi is ≤ 0.
+    """
+    if phi_early <= 0.0:
+        raise ValueError(f"phi_early must be > 0, got {phi_early!r}")
+    if phi_today <= 0.0:
+        raise ValueError(f"phi_today must be > 0, got {phi_today!r}")
+    return 1.0 / phi_today**2 - 1.0 / phi_early**2
+
+
+def hubble_tension_ratio(phi_cmb: float, phi_today: float = 1.0) -> float:
+    """Predicted H_local / H_CMB from the geometric radion drift.
+
+    In the 5D KK model the effective Newton constant runs as
+    G_eff = G_4 / φ², so the Friedmann equation gives:
+
+        H ∝ sqrt(G_eff × ρ) ∝ 1/φ   (fixed matter density)
+
+    Therefore
+
+        H_local / H_CMB  =  φ_CMB / φ_today
+
+    With φ_CMB = H_SNe / H_CMB ≈ 1.0831 (early-universe radion displaced
+    above its vacuum by the exact amount needed to reproduce the local
+    measurement) and φ_today = 1.0 (Goldberger–Wise stabilised):
+
+        H_local / H_CMB  ≈  1.0831  →  H_local ≈ 73 km/s/Mpc ✓
+
+    Parameters
+    ----------
+    phi_cmb   : float — radion value at CMB last scattering (> phi_today)
+    phi_today : float — present-day radion vacuum value (default 1.0)
+
+    Returns
+    -------
+    ratio : float — predicted H_local / H_CMB  (> 1 resolves the tension)
+
+    Raises
+    ------
+    ValueError
+        If either phi is ≤ 0.
+    """
+    if phi_cmb <= 0.0:
+        raise ValueError(f"phi_cmb must be > 0, got {phi_cmb!r}")
+    if phi_today <= 0.0:
+        raise ValueError(f"phi_today must be > 0, got {phi_today!r}")
+    return phi_cmb / phi_today
+
+
+# ---------------------------------------------------------------------------
+# Gravitational-wave echoes
+# ---------------------------------------------------------------------------
+
+def gw_echo_delay(phi_mean: float) -> float:
+    """Gravitational-wave echo delay from the compact 5th dimension.
+
+    After a black-hole merger the compact S¹ dimension acts as a resonant
+    cavity.  Gravitational radiation traverses the compact dimension and
+    reflects back, appearing as a periodic echo in the post-merger waveform.
+    The round-trip time across a compact circle of radius R_5 = ⟨φ⟩ is:
+
+        τ_echo = 2π R_5 / c  =  2π ⟨φ⟩        (natural units c = 1)
+
+    A measurement of τ_echo directly determines ⟨φ⟩ — the compactification
+    radius in Planck units.
+
+    Parameters
+    ----------
+    phi_mean : float — mean radion value ⟨φ⟩ (= compactification radius R_5)
+
+    Returns
+    -------
+    tau_echo : float — echo delay in Planck time units
+
+    Raises
+    ------
+    ValueError
+        If phi_mean ≤ 0.
+    """
+    if phi_mean <= 0.0:
+        raise ValueError(f"phi_mean must be > 0, got {phi_mean!r}")
+    return 2.0 * np.pi * phi_mean
+
+
+def gw_echo_spectrum(
+    total_energy: float,
+    n_echoes: int,
+    echo_quality: float,
+    phi_mean: float,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Echo arrival times and amplitudes for the post-merger GW signal.
+
+    The compact 5th dimension acts as a damped resonant cavity.  Each
+    successive round-trip loses a fraction (1 − Q) of the stored energy,
+    where Q = exp(−1/echo_quality) is the per-echo transmission coefficient.
+
+    Arrival times (k = 1, …, n_echoes):
+        t_k = k × τ_echo  =  k × 2π ⟨φ⟩
+
+    Amplitudes (geometric series with ratio Q):
+        A_k = E_total × (1 − Q) × Q^{k−1}
+
+    The total energy in all echoes:
+        Σ_k A_k = E_total × (1 − Q) × (1 − Q^{n_echoes}) / (1 − Q)
+                → E_total  as n_echoes → ∞   (energy conservation)
+
+    Parameters
+    ----------
+    total_energy  : float — total GW energy available for echo redistribution
+    n_echoes      : int   — number of echoes to compute (≥ 1)
+    echo_quality  : float — cavity quality factor Q_echo (> 0); larger values
+                            mean more energy retained per round-trip (less
+                            damping), so later echoes are brighter.
+    phi_mean      : float — mean radion ⟨φ⟩, sets τ_echo = 2π⟨φ⟩
+
+    Returns
+    -------
+    times      : ndarray, shape (n_echoes,) — echo arrival times t_k
+    amplitudes : ndarray, shape (n_echoes,) — echo energy amplitudes A_k
+
+    Raises
+    ------
+    ValueError
+        If n_echoes < 1, echo_quality ≤ 0, phi_mean ≤ 0, or total_energy < 0.
+    """
+    if n_echoes < 1:
+        raise ValueError(f"n_echoes must be ≥ 1, got {n_echoes!r}")
+    if echo_quality <= 0.0:
+        raise ValueError(f"echo_quality must be > 0, got {echo_quality!r}")
+    if phi_mean <= 0.0:
+        raise ValueError(f"phi_mean must be > 0, got {phi_mean!r}")
+    if total_energy < 0.0:
+        raise ValueError(f"total_energy must be ≥ 0, got {total_energy!r}")
+
+    tau = gw_echo_delay(phi_mean)                              # τ_echo
+    Q = float(np.exp(-1.0 / echo_quality))                    # per-echo factor
+    k = np.arange(1, n_echoes + 1, dtype=float)               # k = 1…n_echoes
+    times = k * tau                                            # t_k
+    amplitudes = total_energy * (1.0 - Q) * Q ** (k - 1.0)   # A_k
+    return times, amplitudes

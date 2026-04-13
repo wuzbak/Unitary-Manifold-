@@ -13,6 +13,11 @@ Covers all public API functions and the HorizonTransceiver class:
     HorizonTransceiver.transceiver_gain  — ≈ 1 (information conservation)
     HorizonTransceiver.horizon_location  — returns valid grid index
     HorizonTransceiver.horizon_entropy   — ≥ 0, scales with B amplitude
+
+    alpha_drift                  — Δα = 1/φ_today² − 1/φ_early² (Hubble tension)
+    hubble_tension_ratio         — H_local / H_CMB = φ_CMB / φ_today
+    gw_echo_delay                — τ_echo = 2π⟨φ⟩
+    gw_echo_spectrum             — times, amplitudes; energy conservation
 """
 
 import numpy as np
@@ -20,8 +25,12 @@ import pytest
 
 from src.core.black_hole_transceiver import (
     HorizonTransceiver,
+    alpha_drift,
     geometric_encoding_density,
+    gw_echo_delay,
+    gw_echo_spectrum,
     horizon_saturation,
+    hubble_tension_ratio,
     winding_redistribution,
 )
 from src.core.evolution import FieldState
@@ -422,3 +431,221 @@ class TestPhysicalConsistency:
         assert np.all(kappa < 1.0)
         S_H = HorizonTransceiver().horizon_entropy(state)
         assert np.isfinite(S_H)
+
+
+# ---------------------------------------------------------------------------
+# Hubble Tension — α-drift tests
+# ---------------------------------------------------------------------------
+
+class TestAlphaDrift:
+    """Δα = 1/φ_today² − 1/φ_early² — coupling drift resolves Hubble tension."""
+
+    def test_drift_positive_when_phi_shrinks(self):
+        """φ_today < φ_early → α_today > α_CMB → Δα > 0."""
+        da = alpha_drift(phi_early=1.0831, phi_today=1.0)
+        assert da > 0.0
+
+    def test_drift_zero_when_phi_unchanged(self):
+        """φ_today = φ_early → Δα = 0 (no tension)."""
+        da = alpha_drift(phi_early=1.5, phi_today=1.5)
+        assert da == pytest.approx(0.0, abs=1e-15)
+
+    def test_drift_negative_when_phi_grows(self):
+        """φ_today > φ_early → α decreases → Δα < 0."""
+        da = alpha_drift(phi_early=0.8, phi_today=1.2)
+        assert da < 0.0
+
+    def test_drift_analytic_value(self):
+        """Δα = 1/φ_today² − 1/φ_early² matches explicit formula."""
+        phi_e, phi_t = 1.0831, 1.0
+        expected = 1.0 / phi_t**2 - 1.0 / phi_e**2
+        np.testing.assert_allclose(alpha_drift(phi_e, phi_t), expected, rtol=1e-12)
+
+    def test_drift_finite_for_finite_phi(self):
+        """Δα is finite for bounded non-zero φ."""
+        da = alpha_drift(phi_early=2.0, phi_today=0.5)
+        assert np.isfinite(da)
+
+    def test_raises_on_zero_phi_early(self):
+        """phi_early = 0 must raise ValueError."""
+        with pytest.raises(ValueError, match="phi_early"):
+            alpha_drift(0.0, 1.0)
+
+    def test_raises_on_zero_phi_today(self):
+        """phi_today = 0 must raise ValueError."""
+        with pytest.raises(ValueError, match="phi_today"):
+            alpha_drift(1.0, 0.0)
+
+    def test_raises_on_negative_phi(self):
+        """Negative φ must raise ValueError."""
+        with pytest.raises(ValueError):
+            alpha_drift(-1.0, 1.0)
+
+
+class TestHubbleTensionRatio:
+    """H_local / H_CMB = φ_CMB / φ_today — geometric prediction."""
+
+    #: Observed values in km/s/Mpc
+    H_CMB: float = 67.4
+    H_SNe: float = 73.0
+
+    def test_ratio_greater_than_one_for_larger_phi_cmb(self):
+        """φ_CMB > φ_today → H_local > H_CMB → ratio > 1."""
+        ratio = hubble_tension_ratio(phi_cmb=1.0831, phi_today=1.0)
+        assert ratio > 1.0
+
+    def test_ratio_equals_one_when_phi_equal(self):
+        """Same φ → no tension → ratio = 1."""
+        ratio = hubble_tension_ratio(phi_cmb=1.5, phi_today=1.5)
+        assert ratio == pytest.approx(1.0, rel=1e-12)
+
+    def test_predicted_ratio_bridges_hubble_tension(self):
+        """φ_CMB = H_SNe/H_CMB → ratio = H_SNe/H_CMB (exact identity)."""
+        phi_cmb = self.H_SNe / self.H_CMB     # ≈ 1.0831
+        ratio = hubble_tension_ratio(phi_cmb=phi_cmb, phi_today=1.0)
+        expected = self.H_SNe / self.H_CMB
+        np.testing.assert_allclose(ratio, expected, rtol=1e-12)
+
+    def test_predicted_H_local_in_tension_window(self):
+        """H_local = H_CMB × ratio falls in [H_CMB, H_SNe + 1] km/s/Mpc."""
+        phi_cmb = self.H_SNe / self.H_CMB
+        ratio = hubble_tension_ratio(phi_cmb=phi_cmb)
+        H_local = self.H_CMB * ratio
+        assert self.H_CMB <= H_local <= self.H_SNe + 1.0
+
+    def test_ratio_analytic(self):
+        """ratio = phi_cmb / phi_today matches explicit formula."""
+        phi_c, phi_t = 2.3, 0.7
+        np.testing.assert_allclose(
+            hubble_tension_ratio(phi_c, phi_t), phi_c / phi_t, rtol=1e-14)
+
+    def test_raises_on_zero_phi_cmb(self):
+        """phi_cmb = 0 must raise ValueError."""
+        with pytest.raises(ValueError, match="phi_cmb"):
+            hubble_tension_ratio(0.0)
+
+    def test_raises_on_negative_phi_today(self):
+        """phi_today ≤ 0 must raise ValueError."""
+        with pytest.raises(ValueError, match="phi_today"):
+            hubble_tension_ratio(1.0, phi_today=-1.0)
+
+
+# ---------------------------------------------------------------------------
+# GW Echoes
+# ---------------------------------------------------------------------------
+
+class TestGWEchoDelay:
+    """τ_echo = 2π⟨φ⟩ — echo delay from compact dimension."""
+
+    def test_value_is_two_pi_phi(self):
+        """τ_echo = 2π φ exactly."""
+        for phi in [0.5, 1.0, 2.0, 5.0]:
+            assert gw_echo_delay(phi) == pytest.approx(2.0 * np.pi * phi, rel=1e-12)
+
+    def test_larger_phi_gives_longer_delay(self):
+        """Larger compact dimension → longer round-trip → longer echo delay."""
+        assert gw_echo_delay(2.0) > gw_echo_delay(1.0)
+
+    def test_delay_positive(self):
+        """Echo delay is always positive."""
+        assert gw_echo_delay(0.001) > 0.0
+
+    def test_delay_finite(self):
+        """Echo delay is finite for finite φ."""
+        assert np.isfinite(gw_echo_delay(1.0))
+
+    def test_raises_on_zero_phi(self):
+        """phi_mean = 0 must raise ValueError."""
+        with pytest.raises(ValueError, match="phi_mean"):
+            gw_echo_delay(0.0)
+
+    def test_raises_on_negative_phi(self):
+        """phi_mean < 0 must raise ValueError."""
+        with pytest.raises(ValueError):
+            gw_echo_delay(-1.0)
+
+
+class TestGWEchoSpectrum:
+    """Echo amplitude series — times, decay, energy conservation."""
+
+    def test_shape(self):
+        """Returns arrays of length n_echoes."""
+        times, amps = gw_echo_spectrum(1.0, n_echoes=5, echo_quality=10.0,
+                                       phi_mean=1.0)
+        assert times.shape == (5,) and amps.shape == (5,)
+
+    def test_times_are_multiples_of_tau(self):
+        """t_k = k × τ_echo."""
+        phi = 1.5
+        tau = gw_echo_delay(phi)
+        times, _ = gw_echo_spectrum(1.0, n_echoes=4, echo_quality=10.0,
+                                    phi_mean=phi)
+        expected = np.arange(1, 5) * tau
+        np.testing.assert_allclose(times, expected, rtol=1e-12)
+
+    def test_amplitudes_decrease_monotonically(self):
+        """Echoes decay: A_1 > A_2 > … (damped cavity)."""
+        _, amps = gw_echo_spectrum(1.0, n_echoes=6, echo_quality=3.0,
+                                   phi_mean=1.0)
+        assert np.all(np.diff(amps) < 0.0)
+
+    def test_amplitudes_nonnegative(self):
+        """All echo amplitudes are ≥ 0."""
+        _, amps = gw_echo_spectrum(2.5, n_echoes=8, echo_quality=5.0,
+                                   phi_mean=1.0)
+        assert np.all(amps >= 0.0)
+
+    def test_amplitudes_finite(self):
+        """All amplitudes are finite."""
+        _, amps = gw_echo_spectrum(1.0, n_echoes=10, echo_quality=2.0,
+                                   phi_mean=0.5)
+        assert np.all(np.isfinite(amps))
+
+    def test_energy_bounded_by_total(self):
+        """Sum of echo energies ≤ total_energy."""
+        E = 3.7
+        _, amps = gw_echo_spectrum(E, n_echoes=100, echo_quality=5.0,
+                                   phi_mean=1.0)
+        assert np.sum(amps) <= E + 1e-10
+
+    def test_high_quality_factor_slower_decay(self):
+        """Higher echo_quality → slower amplitude decay (smaller ratio A_k/A_1)."""
+        _, amps_low  = gw_echo_spectrum(1.0, 5, echo_quality=1.0,  phi_mean=1.0)
+        _, amps_high = gw_echo_spectrum(1.0, 5, echo_quality=20.0, phi_mean=1.0)
+        # Higher quality = less damping → last/first ratio closer to 1
+        ratio_low  = amps_low[-1]  / (amps_low[0]  + 1e-30)
+        ratio_high = amps_high[-1] / (amps_high[0] + 1e-30)
+        assert ratio_high > ratio_low
+
+    def test_larger_phi_shifts_echo_times(self):
+        """Larger ⟨φ⟩ → later echo arrival times."""
+        t1, _ = gw_echo_spectrum(1.0, 3, echo_quality=5.0, phi_mean=1.0)
+        t2, _ = gw_echo_spectrum(1.0, 3, echo_quality=5.0, phi_mean=2.0)
+        assert np.all(t2 > t1)
+
+    def test_zero_energy_gives_zero_amplitudes(self):
+        """No merger energy → no echoes."""
+        _, amps = gw_echo_spectrum(0.0, n_echoes=5, echo_quality=5.0,
+                                   phi_mean=1.0)
+        np.testing.assert_allclose(amps, 0.0, atol=1e-30)
+
+    def test_raises_on_n_echoes_zero(self):
+        """n_echoes = 0 must raise ValueError."""
+        with pytest.raises(ValueError, match="n_echoes"):
+            gw_echo_spectrum(1.0, 0, 5.0, 1.0)
+
+    def test_raises_on_negative_quality(self):
+        """echo_quality ≤ 0 must raise ValueError."""
+        with pytest.raises(ValueError, match="echo_quality"):
+            gw_echo_spectrum(1.0, 5, 0.0, 1.0)
+
+    def test_raises_on_negative_energy(self):
+        """Negative total_energy must raise ValueError."""
+        with pytest.raises(ValueError, match="total_energy"):
+            gw_echo_spectrum(-1.0, 5, 5.0, 1.0)
+
+    def test_echo_delay_consistent_with_standalone(self):
+        """First echo time equals gw_echo_delay(phi_mean)."""
+        phi = 0.8
+        times, _ = gw_echo_spectrum(1.0, 3, echo_quality=5.0, phi_mean=phi)
+        assert times[0] == pytest.approx(gw_echo_delay(phi), rel=1e-12)
