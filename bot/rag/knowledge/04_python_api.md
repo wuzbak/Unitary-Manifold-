@@ -1,7 +1,7 @@
 # Python API — Unitary Manifold
 
 The repository contains a Python implementation of the full theory. The
-test suite has 1153 passing tests and 0 failures (1165 total: 1153 fast passed · 1 skipped (guard) · 11 slow-deselected).
+test suite has 1281 passing tests and 0 failures (1293 total: 1281 fast passed · 1 skipped (guard) · 11 slow-deselected).
 
 ## Installation
 
@@ -156,7 +156,7 @@ random initial states far from the vacuum, convergence is not guaranteed.
 
 ```bash
 python -m pytest tests/ -v
-# Expected: 1153 passed, 0 failed
+# Expected: 1281 passed, 0 failed
 ```
 
 Individual test modules:

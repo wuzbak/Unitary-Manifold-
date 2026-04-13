@@ -1,4 +1,13 @@
-# Claim: r = 0.097 is the honest, code-verified prediction (active tension)
+# Claim: r = 0.097 is the honest, code-verified prediction (active tension) — **RESOLVED via braided (5,7) state**
+
+> **Status update (2026-04-13):** The r vs nₛ tension (Q18) has been resolved.  The
+> braided (n_w=5, n_w=7) resonant state with k_cs = 74 = 5² + 7² gives
+> r_braided ≈ 0.0315 < 0.036 (BICEP/Keck ✓) while leaving nₛ unchanged at 0.9635
+> (Planck 1σ ✓).  See `src/core/braided_winding.py` and
+> `tests/test_braided_winding.py` for the derivation and 70-test numerical
+> verification.  The history and context below are preserved for reference.
+
+---
 
 ## What is claimed
 

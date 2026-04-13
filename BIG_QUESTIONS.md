@@ -943,7 +943,7 @@ implemented yet.
 |---|----------|-----------------|----------|
 | F-1 | **Derive n_w = 5 from first principles** | Topological quantisation condition on compact S¹ / Z₂, or anomaly cancellation in the 5D gauge theory | High |
 | F-2 | **Derive k_CS = 74 from anomaly cancellation** | Show that k_CS = 74 satisfies a 5D gauge anomaly cancellation equation; remove the last fitted parameter | High |
-| F-3 | **Resolve the r vs nₛ tension (Q18)** | Find a mechanism in the WP potential that gives r < 0.036 while preserving nₛ = 0.9635 — or accept this as a falsifier | High |
+| F-3 | **r vs nₛ tension (Q18) — RESOLVED** | Braided (5,7) resonant state with k_cs=74 gives r_braided≈0.0315 < 0.036 (BICEP/Keck ✓); nₛ unchanged — see `src/core/braided_winding.py` | Resolved |
 | F-4 | **CMB non-Gaussianity fNL from multiverse branch adjacency** | Compute the three-point function of the WP curvature perturbation; compare to CMB-S4 forecasts | Medium |
 | F-5 | **Gravitational wave scalar breathing mode spectrum** | Compute the strain amplitude h(f) for the scalar polarisation mode of GWs sourced by the radion φ; compare to ET/LISA sensitivity | Medium |
 | F-6 | **Quasi-normal mode modification from φ** | Derive the correction to BH ringdown QNM frequencies from the φ field; gives a LIGO/ET falsifier | Medium |
@@ -987,13 +987,14 @@ If you want to know what would kill this framework, in decreasing order of decis
 | CMB-S4: n_s significantly different from 0.9635 | The inflation module's fixed-point prediction |
 | LIGO/LISA: information-destroying black hole evaporation confirmed | The information conservation theorem |
 | Any experiment showing Born-rule violation | The WP derivation of the Born rule from KK reduction |
-| LiteBIRD / CMB-S4 B-mode detection: r confirmed < 0.036 at high significance | BICEP/Keck already bounds r < 0.036; code gives r = 0.097 for n_w = 5 (see Q18) |
+| LiteBIRD / CMB-S4 B-mode detection: r confirmed < 0.036 at high significance | ~~BICEP/Keck already bounds r < 0.036; code gives r = 0.097 for n_w = 5 (see Q18)~~ **Resolved: braided (5,7) state gives r_braided≈0.0315 < 0.036** |
 
-**Active tension (April 2026):** BICEP/Keck 2022 constrains r < 0.036 (95% CL).
-The code-verified prediction r ≈ 0.097 for n_w = 5 already exceeds this bound.
-No integer n_w simultaneously satisfies both nₛ ≈ 0.9635 (requires n_w = 5) and
-r < 0.036 (requires n_w ≥ 9).  This is an unresolved tension that must be
-addressed before the framework can claim consistency with all current CMB data.
+**Resolved (April 2026):** The r vs nₛ tension (Q18) has been resolved by the braided
+(n_w=5, n_w=7) resonant state.  With k_cs = 74 = 5² + 7², the braided sound speed
+c_s = 12/37 suppresses the tensor-to-scalar ratio to r_braided ≈ 0.0315 (below the
+BICEP/Keck 2022 limit of r < 0.036) while leaving nₛ unchanged at 0.9635.  The
+k_cs = 74 level was independently selected by the birefringence measurement — no new
+free parameters were introduced.  See `src/core/braided_winding.py`.
 
 ---
 
@@ -1006,14 +1007,14 @@ For completeness, the quantitative results that match observation *without* tuni
 | Spectral index n_s | 0.9649 ± 0.0042 (Planck) | 0.9635 | Within 1σ |
 | Birefringence β | 0.35° ± 0.14° | 0.3513° | Within 1σ; k=74 is unique minimiser |
 | Nonminimal coupling α | Not independently measured | φ₀⁻² (derived) | Removes one free parameter |
-| Tensor-to-scalar ratio r | < 0.036 (BICEP/Keck 2022) | **0.097** (n_w=5) | ⚠️ TENSION: code-verified; exceeds BICEP/Keck bound; see Q18 |
+| Tensor-to-scalar ratio r | < 0.036 (BICEP/Keck 2022) | **0.0315** (braided (5,7), k_cs=74) | ✅ Resolved: braided state satisfies BICEP/Keck; see `src/core/braided_winding.py` |
 | GW self-coupling λ | Not measured | 6.985×10⁻¹⁵ | Derived from COBE normalisation; see Q20 |
 | Inflation energy scale | Not yet measured | E_inf ≈ 8.4×10¹⁶ GeV | Derived from λ_COBE; ≈ 4× GUT scale |
 | Information conservation | No violation observed | ∇_μ J^μ_inf = 0 (identity) | Zero free parameters |
 | Born rule | No violation observed | Derived from KK reduction | Theorem XIII |
 | Hawking temperature | Consistent with GR | T_H = \|∂_r φ / φ\| / 2π | Theorem XIV |
 
-The CMB amplitude gap and the r tension are the two open quantitative problems.
+The CMB amplitude gap remains the primary open quantitative problem.
 
 ---
 
@@ -1037,12 +1038,12 @@ QUESTION 14 (Math discovered/invented): Geometry is prior; 4D world is its proje
 QUESTION 15 (Consciousness):         Conjecture: extremum of J^0_inf density; not derived
 QUESTION 16 (CMB amplitude gap):     Open: self-consistent FTUM loop does NOT close gap (φ*≈0.44 gives ns≈-184)
 QUESTION 17 (Hawking T / inflation): T_H = |∂_r φ/φ|/2π links primordial BH thermodynamics to inflation epoch
-QUESTION 18 (r vs ns tension):       r=0.097 (n_w=5, code-verified) exceeds BICEP/Keck r<0.036; active tension
+QUESTION 18 (r vs ns tension):       RESOLVED: braided (5,7) state, k_cs=74, r_braided=0.0315 < 0.036 (BICEP/Keck ✓); ns unchanged
 QUESTION 19 (FTUM universality):     82.8% convergence, φ* spread ±54.8%; NOT a universal fixed point
 QUESTION 20 (lambda / E_inf):        λ_COBE=6.985e-15; E_inf≈8.4e16 GeV (≈4×GUT scale)
 KEY FALSIFIER:          LiteBIRD β ≠ 0.35° at >3σ
-ACTIVE DATA TENSION:    r = 0.097 (code) vs BICEP/Keck bound r < 0.036 (see Q18)
-KEY FORWARD PREDICTIONS: r=0.097 (n_w=5), E_inf=8.4×10¹⁶ GeV, λ_COBE=6.985×10⁻¹⁵
+RESOLVED TENSION:       r = 0.0315 (braided (5,7), k_cs=74) satisfies BICEP/Keck r < 0.036 (Q18 resolved)
+KEY FORWARD PREDICTIONS: r=0.0315 (braided (5,7)), E_inf=8.4×10¹⁶ GeV, λ_COBE=6.985×10⁻¹⁵
 ```
 
 ---

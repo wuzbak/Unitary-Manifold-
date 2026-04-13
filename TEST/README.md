@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**1165 tests: 1153 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-12, Python 3.12, pytest 9.0.3
+**1293 tests: 1281 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-13, Python 3.12, pytest 9.0.3
 
-*(1153 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+*(1281 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ### The 1 skipped test
 
@@ -18,7 +18,7 @@ All in `test_richardson_multitime.py`, decorated `@pytest.mark.slow`. Excluded f
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 1153 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 1281 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 python -m pytest tests/             # all 1154 fast + 11 slow
 ```
@@ -26,7 +26,7 @@ python -m pytest tests/             # all 1154 fast + 11 slow
 Expected result (default):
 
 ```
-1153 passed, 1 skipped, 11 deselected in ~38s
+1281 passed, 1 skipped, 11 deselected in ~74s
 ```
 
 ---
@@ -61,7 +61,7 @@ Expected result (default):
 | `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total** | **1165** | **1153 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| **Total** | **1293** | **1281 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 
