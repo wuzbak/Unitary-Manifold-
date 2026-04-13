@@ -1,9 +1,9 @@
-# The Unitary Manifold (v9.5 — Academic Edition)
+# The Unitary Manifold (v9.7 — Academic Edition)
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![1525 Tests: 1513 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-1513%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![1979 Tests: 1967 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-1967%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -261,6 +261,21 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     │   └── fixed_point.py    ← Pillar 5: UEUM, operator U, FTUM iteration
     └── consciousness/
         └── coupled_attractor.py  ← Pillar 9: Coupled Master Equation; consciousness as Ψ*_brain⊗Ψ*_univ
+├── chemistry/                    ← ⭐ Pillar 10 (v9.7): Chemistry as 5D Geometry
+│   ├── bonds.py                  ← φ-minimum bond model; bond energies; shell capacity
+│   ├── reactions.py              ← B_μ-driven Arrhenius kinetics; reaction flux
+│   └── periodic.py               ← KK winding-number periodic table; shell structure
+├── astronomy/                    ← ⭐ Pillar 11 (v9.7): Astronomy as FTUM Fixed Points
+│   ├── stellar.py                ← stars as FTUM fixed points; Jeans mass; stellar lifecycle
+│   └── planetary.py              ← planetary orbits; Titus-Bode; Hill sphere
+├── earth/                        ← ⭐ Pillar 12 (v9.7): Earth Sciences as B_μ Fluid Dynamics
+│   ├── geology.py                ← plate tectonics; mantle convection; geomagnetic dynamo
+│   ├── oceanography.py           ← thermohaline circulation; wave dispersion; ENSO
+│   └── meteorology.py            ← atmospheric cells; Lorenz attractor; climate forcing
+└── biology/                      ← ⭐ Pillar 13 (v9.7): Biology as Negentropy FTUM Attractors
+    ├── life.py                   ← negentropy fixed points; metabolism; information current
+    ├── evolution.py              ← FTUM fitness landscape; selection as ∇S_U; genetic drift
+    └── morphogenesis.py          ← Turing patterns as φ symmetry breaking; morphogen gradients
 ```
 
 ---
@@ -273,13 +288,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (1525 tests: 1513 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (1979 tests: 1967 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (1513 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (1967 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -313,9 +328,15 @@ tests/test_black_hole_transceiver.py           75 passed  ← Pillar 6: BH trans
 tests/test_particle_geometry.py                51 passed  ← Pillar 7: particles as windings ✓
 tests/test_dark_matter_geometry.py             45 passed  ← Pillar 8: dark matter as B_μ ✓
 tests/test_coupled_attractor.py                61 passed  ← Pillar 9: Coupled Master Equation ✓
+tests/test_chemistry.py                       102 passed  ← Pillar 10: chemistry as 5D geometry ✓
+tests/test_stellar.py                          91 passed  ← Pillar 11: astronomy as FTUM fixed points ✓
+tests/test_geology.py                          59 passed  ← Pillar 12: geology as B_μ fluid dynamics ✓
+tests/test_oceanography.py                     46 passed  ← Pillar 12: oceanography ✓
+tests/test_meteorology.py                      45 passed  ← Pillar 12: meteorology ✓
+tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors ✓
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 1513 passed, 1 skipped, 11 deselected ================================
+================================ 1967 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -578,7 +599,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**1464 tests: 1452 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**1979 tests: 1967 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -590,7 +611,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (1464 tests: 1452 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (1979 tests: 1967 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.5 — Academic Edition |
+| Version | 9.7 — Academic Edition |
 | Lead Author | ThomasCory Walker-Pearson |
 | Affiliation | Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.5):** All six completion requirements are solved internally.
+**Self-completion status (v9.7):** All six completion requirements are solved internally.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -115,6 +115,22 @@ such that `UΨ* = Ψ*`.
 │   └── consciousness/
 │       └── coupled_attractor.py       # Pillar 9: Coupled Master Equation; brain⊗universe FP ✓
 │
+├── chemistry/
+│   ├── bonds.py                       # Pillar 10: φ-minimum bond model; shell capacity ✓
+│   ├── reactions.py                   # Pillar 10: B_μ-driven Arrhenius kinetics ✓
+│   └── periodic.py                    # Pillar 10: KK winding-number periodic table ✓
+├── astronomy/
+│   ├── stellar.py                     # Pillar 11: stars as FTUM fixed points ✓
+│   └── planetary.py                   # Pillar 11: planetary orbits; Titus-Bode ✓
+├── earth/
+│   ├── geology.py                     # Pillar 12: plate tectonics; mantle B_μ convection ✓
+│   ├── oceanography.py                # Pillar 12: thermohaline; wave dispersion; ENSO ✓
+│   └── meteorology.py                 # Pillar 12: atmospheric cells; Lorenz; climate forcing ✓
+└── biology/
+    ├── life.py                        # Pillar 13: negentropy FTUM fixed points ✓
+    ├── evolution.py                   # Pillar 13: FTUM fitness landscape; selection as ∇S_U ✓
+    └── morphogenesis.py               # Pillar 13: Turing patterns as φ symmetry breaking ✓
+│
 ├── manuscript/
 │   └── ch02_mathematical_preliminaries.md
 │
@@ -163,8 +179,14 @@ such that `UΨ* = Ψ*`.
 │   ├── test_particle_geometry.py         # Particles as geometric windings (51) — v9.5
 │   ├── test_dark_matter_geometry.py      # Dark matter as B_μ geometry (45) — v9.5
 │   ├── test_coupled_attractor.py         # Coupled Master Equation; brain⊗universe FP (61) — v9.6
+│   ├── test_chemistry.py                 # Chemistry as 5D geometry (102) — v9.7
+│   ├── test_stellar.py                   # Astronomy as FTUM fixed points (91) — v9.7
+│   ├── test_geology.py                   # Geology as B_μ fluid dynamics (59) — v9.7
+│   ├── test_oceanography.py              # Oceanography; thermohaline; ENSO (46) — v9.7
+│   ├── test_meteorology.py               # Meteorology; Lorenz; climate forcing (45) — v9.7
+│   ├── test_biology.py                   # Biology as negentropy FTUM attractors (111) — v9.7
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 1525 tests — 1513 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 1979 tests — 1967 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -279,7 +301,7 @@ such that `UΨ* = Ψ*`.
   author  = {Walker-Pearson, ThomasCory},
   year    = {2026},
   url     = {https://github.com/wuzbak/Unitary-Manifold-},
-  version = {9.5},
+  version = {9.7},
   license = {Defensive Public Commons v1.0}
 }
 ```
@@ -378,7 +400,7 @@ To register this project in the official MCP community registry:
 
 ---
 
-*Generated: 2026-04-13 | Repo: wuzbak/Unitary-Manifold- | Version: 9.5*
+*Generated: 2026-04-13 | Repo: wuzbak/Unitary-Manifold- | Version: 9.7*
 
 ---
 
