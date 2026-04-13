@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.3):** All five completion requirements are solved internally.
+**Self-completion status (v9.4):** All six completion requirements are solved internally.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -43,6 +43,7 @@ not a statistical postulate.
 | α numerical value | **SOLVED** | `α = φ₀⁻²` (KK cross-block curvature) |
 | CMB spectral index nₛ | **SOLVED** | KK Jacobian J≈31.42 → nₛ≈0.9635 (Planck 2018 1σ) |
 | Cosmic birefringence β | **SOLVED** | CS level k_cs=74 → β=0.3513° (within 1σ of 0.35°±0.14°) |
+| Tensor-to-scalar ratio r | **SOLVED** | Braided (5,7) state: r_braided≈0.0315 < 0.036 (BICEP/Keck ✓); nₛ unchanged |
 
 ### Key mathematical objects
 
@@ -99,6 +100,7 @@ such that `UΨ* = Ψ*`.
 │   │   ├── inflation.py               # CMB/inflation; kk_amplitude_sum, attractor, B_μ rotation
 │   │   ├── transfer.py                # CMB transfer; birefringence_transfer, TB/EB spectrum
 │   │   ├── boltzmann.py               # Baryon-loaded CMB transfer; D_ℓ accuracy ~10–15%
+│   │   ├── braided_winding.py         # Braided (5,7) resonance; k_cs=74; r-tension resolution ✓
 │   │   ├── derivation.py              # Symbolic integer derivations; constraint checks
 │   │   ├── diagnostics.py             # CMB diagnostics: chi2, observables, convergence
 │   │   ├── fiber_bundle.py            # Principal bundle topology; anomaly cancellation; SM structure
@@ -150,8 +152,10 @@ such that `UΨ* = Ψ*`.
 │   ├── test_parallel_validation.py       # 5 independent theory claims (38)
 │   ├── test_quantum_unification.py       # BH info, CCR, Hawking T, ER=EPR (26) — v9.3
 │   ├── test_derivation.py                # Key-integer derivations k_cs/n_w/k_rc/φ_min (59)
+│   ├── test_braided_winding.py           # Braided (5,7) resonance; r-tension resolution (70) — NEW
+│   ├── test_higher_harmonics.py          # Higher harmonic n_w=7 analysis; GW-track constraints (58) — NEW
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 1165 tests — 1153 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 1293 tests — 1281 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -333,13 +337,13 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **1165 tests: 1153 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **1293 tests: 1281 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
 ---
 
-*Generated: 2026-04-12 | Repo: wuzbak/Unitary-Manifold- | Version: 9.3*
+*Generated: 2026-04-13 | Repo: wuzbak/Unitary-Manifold- | Version: 9.4*
 
 ---
 

@@ -17,7 +17,7 @@ future changes to the live repository.
 | Branch at time of snapshot | `main` |
 | Total files (excl. `.git`) | 161 |
 | Total size (excl. `.git`) | 5.5 MB |
-| Test suite | 1153 fast + 11 slow tests, all passing |
+| Test suite | 1281 fast + 11 slow tests, all passing |
 
 ---
 
@@ -85,6 +85,7 @@ Or download the auto-generated archive from the corresponding GitHub Release:
 | `src/core/transfer.py` | CMB transfer function, Planck 2018 reference data |
 | `src/core/diagnostics.py` | CMB diagnostics: chi2, power spectra, observables |
 | `src/core/boltzmann.py` | Baryon-loaded CMB transfer function; improves D_ℓ to ~10–15% accuracy |
+| `src/core/braided_winding.py` | Braided (5,7) resonance; k_cs=74; r-tension resolution |
 | `src/core/derivation.py` | Symbolic integer derivations and constraint checks |
 | `src/core/fiber_bundle.py` | Principal bundle topology and anomaly cancellation |
 | `src/core/uniqueness.py` | Geometric uniqueness and ΛCDM no-go |
@@ -93,7 +94,7 @@ Or download the auto-generated archive from the corresponding GitHub Release:
 | `src/multiverse/__init__.py` | Multiverse package init |
 | `src/multiverse/fixed_point.py` | UEUM operator, FTUM iteration |
 
-### Test suite (`tests/`) — 1165 total tests (1154 fast + 11 slow)
+### Test suite (`tests/`) — 1293 total tests (1282 fast + 11 slow)
 | File | Tests | Coverage |
 |---|---|---|
 | `tests/conftest.py` | — | Shared pytest fixtures |
@@ -122,6 +123,8 @@ Or download the auto-generated archive from the corresponding GitHub Release:
 | `tests/test_uniqueness.py` | 61 | Uniqueness scan, ΛCDM no-go |
 | `tests/test_boltzmann.py` | 49 | Baryon-loaded CMB transfer |
 | `tests/test_cosmological_predictions.py` | 28 | Hubble tension, muon g-2, dark matter, GW echoes |
+| `tests/test_braided_winding.py` | 70 | Braided (5,7) resonance, r-tension resolution |
+| `tests/test_higher_harmonics.py` | 58 | Higher harmonic n_w=7 analysis, GW-track constraints |
 | `tests/test_richardson_multitime.py` | 11 *(slow)* | Richardson extrapolation |
 
 ### Notebooks (`notebooks/`)

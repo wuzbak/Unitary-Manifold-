@@ -25,11 +25,12 @@ lives at `https://github.com/wuzbak/Unitary-Manifold-`.  256 tests pass
 | Observable | Prediction | Target | Status |
 |------------|-----------|--------|--------|
 | nₛ | 0.9635 | 0.9649 ± 0.0042 (Planck 2018, 1σ) | ✅ inside 1σ |
-| r | 0.0028 | < 0.056 (BICEP/Keck 2021) | ✅ allowed |
+| r | 0.0315 (braided (5,7), k_cs=74) | < 0.036 (BICEP/Keck 2021) | ✅ resolved — braided state satisfies bound |
 | β (birefringence) | 0.351° | 0.35° ± 0.14° (Minami & Komatsu 2020) | ✅ inside 1σ |
 | α (nonminimal coupling) | φ₀⁻² ≈ 1.0 | — | derived |
 
-These are computed in `src/core/inflation.py` → `triple_constraint()`.
+These are computed in `src/core/inflation.py` → `triple_constraint()` and
+`src/core/braided_winding.py` → `braided_predictions(5, 7)`.
 
 ---
 
@@ -52,7 +53,7 @@ J_KK = n_w · 2π · √φ₀ ≈ 31.42     [derived given n_w]
         ↓
 φ₀_eff = J_KK · φ₀_bare ≈ 31.42   [derived]
         ↓
-nₛ ≈ 0.9635,  r ≈ 0.0028           [derived given n_w]
+nₛ ≈ 0.9635,  r_braided ≈ 0.0315  [derived given n_w, braided (5,7)]
 
 k_CS = 74  (Chern–Simons level)     ⚠️ FITTED — chosen to give β ≈ 0.35°
         ↓                              not derived from 5D gauge theory
@@ -74,6 +75,7 @@ g_aγγ = k_CS · α_EM / (2π² r_c)   [derived given k_CS]
 | File | Key functions | Role |
 |------|--------------|------|
 | `src/core/inflation.py` | `jacobian_5d_4d`, `effective_phi0_kk`, `ns_from_phi0`, `cs_axion_photon_coupling`, `birefringence_angle`, `triple_constraint` | Inflation observables, birefringence |
+| `src/core/braided_winding.py` | `braided_predictions`, `resonance_identity`, `braided_sound_speed` | Braided (5,7) r-tension resolution |
 | `src/core/transfer.py` | `primordial_power_spectrum`, `angular_power_spectrum`, `dl_from_cl`, `chi2_planck` | CMB TT spectrum vs Planck 2018 |
 | `src/core/metric.py` | `assemble_5d_metric`, `christoffel`, `compute_curvature`, `extract_alpha_from_curvature` | 5D geometry, α derivation |
 | `src/core/evolution.py` | `step`, `step_euler`, `constraint_monitor` | Walker–Pearson time evolution |

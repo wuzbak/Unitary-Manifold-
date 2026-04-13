@@ -294,7 +294,7 @@ Since `φ₀` is determined internally by the scalar stabilisation equation
 | `extract_alpha_from_curvature(g, B, phi, dx, lam)` | `src/core/metric.py` | 11 unit tests |
 | `derive_alpha_from_fixed_point(phi_stabilized, network)` | `src/multiverse/fixed_point.py` | 10 unit tests |
 
-1165 tests: 1153 fast passed · 1 skipped (guard, not a failure) · 11 slow-deselected · 0 failures. Suite covers metric, evolution, boundary, fixed-point, inflation/CMB, arrow of time, CMB landscape, end-to-end pipeline, observational resolution, closure consistency, fuzzing, dimensional reduction, discretization invariance, parallel validation, quantum unification theorems, derivation integers, fiber bundle topology, uniqueness/ΛCDM no-go, baryon-loaded Boltzmann, cosmological predictions, and Richardson temporal convergence.
+1293 tests: 1281 fast passed · 1 skipped (guard, not a failure) · 11 slow-deselected · 0 failures. Suite covers metric, evolution, boundary, fixed-point, inflation/CMB, arrow of time, CMB landscape, end-to-end pipeline, observational resolution, closure consistency, fuzzing, dimensional reduction, discretization invariance, parallel validation, quantum unification theorems, derivation integers, fiber bundle topology, uniqueness/ΛCDM no-go, baryon-loaded Boltzmann, cosmological predictions, and Richardson temporal convergence.
 
 ### Remaining open parameter
 
