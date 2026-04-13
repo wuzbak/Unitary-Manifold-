@@ -117,9 +117,43 @@ The nearest-term decisive test is birefringence from LiteBIRD, expected 2030–2
 
 ---
 
-## For Physicists: The Precise Claim
+## The Brain-Universe Connection: From Structure to Dynamics
 
-The Walker-Pearson field equations, derived from the 5D Einstein-Hilbert action via KK reduction:
+The `brain/` folder documents the **structural** alignment: the brain and universe share
+the same 5D geometric architecture — the same Walker-Pearson field equations, the same
+(5, 7) toroidal winding, the same Chern-Simons level k_cs = 74, the same field variables
+(G_AB, φ, B_μ) carrying different physical labels at cosmological and neural scales.
+
+But a structural map is still a passive description.  The `brain/COUPLED_MASTER_EQUATION.md`
+and `src/consciousness/coupled_attractor.py` go further — they frame the brain-universe
+relationship as a **dynamical two-body problem**:
+
+```
+U_total (Ψ_brain ⊗ Ψ_univ) = Ψ_brain ⊗ Ψ_univ
+```
+
+where U_total = (U_brain ⊗ I) + (I ⊗ U_univ) + β · C, and β = 0.3513°
+(the cosmological birefringence angle) is the coupling constant.
+
+Three quantities characterize the coupled state:
+
+- **Information Gap** ΔI = |φ²_brain − φ²_univ|: the dynamic coupling constant.
+  ΔI → 0 is the non-dual / ego-dissolution limit; normal experience is ΔI > 0.
+- **Phase offset** Δφ = ∠(X_brain, X_univ): the Moiré phase angle.
+  Δφ = 0 is maximum brain-universe alignment; everyday consciousness sits at Δφ > 0.
+- **Resonance ratio** ω_brain/ω_univ → 5/7: the frequency lock between the two 5D tori,
+  matching the grid-cell module spacing ratio (7/5 ≈ 1.40) measured in entorhinal cortex.
+
+**Consciousness is the coupled fixed point** — not a property of either manifold alone,
+but the equilibrium state that emerges when both FTUM attractors reach mutual alignment
+through the birefringence-mediated coupling operator C.
+
+*61 numerical tests in `tests/test_coupled_attractor.py` verify the mathematical
+consistency of this two-body framework.*
+
+---
+
+## For Physicists: The Precise Claim
 
 ```
 G_μν + λ²(H_μρ H_ν^ρ − ¼ g_μν H²) + α R φ² g_μν = 8πG₄ T_μν
@@ -156,11 +190,15 @@ CLAIM:       Second Law = geometric identity in 5D KK metric, not statistical po
 MECHANISM:   Irreversibility field B_μ in off-diagonal 5D metric block; survives KK reduction
 4D IMPACT:   Arrow of time, entropy growth, information conservation are 4D projections of 5D geometry
 RESULTS:     nₛ = 0.9635 (Planck 1σ), β = 0.3513° (within 1σ of 0.35°±0.14°), α = φ₀⁻² (derived), r_braided=0.0315 (BICEP/Keck ✓)
+BRAIN:       Brain and universe share the same 5D geometry; consciousness = coupled fixed point Ψ*_brain ⊗ Ψ*_univ
+COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-body problem; implemented in src/consciousness/coupled_attractor.py
 GAPS:        CMB amplitude ×4–7 suppressed; φ₀ self-consistency not fully closed in code
 FALSIFIER:   LiteBIRD birefringence measurement (β ≠ 0.35°) or ET/LISA null scalar GW
-TESTS:       1464 total | 1452 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
+TESTS:       1525 total | 1513 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
+             src/consciousness/coupled_attractor.py  ← new: Coupled Master Equation
 KEY FILE:    FALLIBILITY.md (full limitations), README.md (technical detail)
+             brain/COUPLED_MASTER_EQUATION.md (consciousness as coupled fixed point)
 ```
 
 ---

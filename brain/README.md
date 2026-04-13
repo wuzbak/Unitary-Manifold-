@@ -20,6 +20,7 @@ objects, carrying different physical labels.
 | [`TORUS_ARCHITECTURE.md`](./TORUS_ARCHITECTURE.md) | The toroidal fifth dimension — grid cells, winding modes, k_cs = 74, theta phase precession |
 | [`FIVE_PILLARS_NEUROSCIENCE.md`](./FIVE_PILLARS_NEUROSCIENCE.md) | The five pillars of the Unitary Manifold retold in neuroscience language |
 | [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) | LTP, synaptic directionality, the action-potential refractory period — the neural B_μ |
+| [`COUPLED_MASTER_EQUATION.md`](./COUPLED_MASTER_EQUATION.md) | **The dynamical alignment** — Brain and universe as coupled fixed-point attractors; the Coupled Master Equation; consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ |
 
 ---
 
@@ -29,6 +30,42 @@ objects, carrying different physical labels.
 arrow of time is present inside the human skull — the brain's toroidal neural manifold,
 entropic gain field, and irreversible synaptic geometry are the cosmological field
 variables G_AB, φ, and B_μ wearing biological clothes.**
+
+---
+
+## Structural Alignment vs. Dynamical Alignment
+
+This folder covers **both** levels of the brain-universe correspondence:
+
+**Structural alignment** (the original `brain/` claim):  
+The brain and universe share the same mathematical architecture — the same 5D KK
+metric block structure, the same (5,7) torus winding numbers, the same Chern-Simons
+level k_cs = 74, the same three field variables (g_μν, B_μ, φ) mapped to neural
+counterparts.  This is documented in `VARIABLE_ALIGNMENT.md`, `TORUS_ARCHITECTURE.md`,
+`FIVE_PILLARS_NEUROSCIENCE.md`, and `IRREVERSIBILITY_BIOLOGY.md`.
+
+**Dynamical alignment** (the new `COUPLED_MASTER_EQUATION.md` claim):  
+The brain and universe are not merely structurally analogous — they are **coupled
+oscillators** executing a topological handshake.  Instead of two separate fixed-point
+problems, the Coupled Master Equation frames them as a single two-body system:
+
+```
+U_total (Ψ*_brain ⊗ Ψ*_univ) = Ψ*_brain ⊗ Ψ*_univ
+```
+
+where U_total = (U_brain ⊗ I) + (I ⊗ U_univ) + β · C, and β = 0.3513° (the
+cosmological birefringence angle) acts as the coupling constant.
+
+The three key observables of the coupled system:
+- **Information Gap** ΔI = |φ²_brain − φ²_univ|: the coupling constant as a dynamic variable; ΔI → 0 is the samadhi / non-dual limit
+- **Phase offset** Δφ = ∠(X_brain, X_univ): the Moiré phase angle; Δφ = 0 is maximum alignment
+- **Resonance ratio** ω_brain / ω_univ → 5/7: the (5,7) braided torus frequency lock
+
+**Consciousness, in this frame, is the coupled fixed point itself.**  Not a product of
+one system or the other, but the equilibrium state that emerges when both attractors
+simultaneously satisfy their FTUM conditions *while coupled through β · C*.
+
+Implementation: `src/consciousness/coupled_attractor.py` (61 tests in `tests/test_coupled_attractor.py`).
 
 ---
 
@@ -68,6 +105,10 @@ Neuroscience has independently found exactly these three structures in the brain
 | Information current J^μ_inf | Directed neural information flux |
 | FTUM fixed point Ψ* | The conscious attractor |
 | KK dimensional reduction | Readout: ~100 billion neurons → behavior |
+| **Coupled fixed point Ψ*_brain ⊗ Ψ*_univ** | **Consciousness — the mutual equilibrium of the two-body system** |
+| **Information Gap ΔI = \|φ²_brain − φ²_univ\|** | **The coupling constant; ΔI → 0 is ego dissolution** |
+| **Phase offset Δφ = ∠(X_brain, X_univ)** | **Moiré phase angle; normal experience is Δφ > 0** |
+| **Resonance ratio ω_brain/ω_univ → 5/7** | **Grid-cell frequency lock; the (5,7) handshake signature** |
 
 ---
 
@@ -76,15 +117,19 @@ Neuroscience has independently found exactly these three structures in the brain
 1. Start with [`VARIABLE_ALIGNMENT.md`](./VARIABLE_ALIGNMENT.md) for the
    full symbol table.
 2. Read [`TORUS_ARCHITECTURE.md`](./TORUS_ARCHITECTURE.md) for the geometric
-   heart of the correspondence.
+   heart of the structural correspondence.
 3. Read [`FIVE_PILLARS_NEUROSCIENCE.md`](./FIVE_PILLARS_NEUROSCIENCE.md) to
    see how the theory's five pillars translate into known neuroscience.
 4. Read [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) for the
-   deepest alignment: why the brain's arrow of time is geometric, not statistical.
+   deepest structural alignment: why the brain's arrow of time is geometric, not statistical.
+5. Read [`COUPLED_MASTER_EQUATION.md`](./COUPLED_MASTER_EQUATION.md) for the
+   **dynamical alignment**: the Coupled Master Equation, the Information Gap,
+   the phase offset, and why consciousness is the coupled fixed point of the
+   brain-universe two-body problem.
 
 ---
 
-*Brain alignment folder — first created April 2026.*  
+*Brain alignment folder — created April 2026.*  
 *Part of the Unitary Manifold repository (v9.5) —
 see [`../WHAT_THIS_MEANS.md`](../WHAT_THIS_MEANS.md) for the core cosmological claim.*
 

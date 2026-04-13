@@ -213,8 +213,9 @@ class TestPhaseOffset:
         assert phase_offset(b, u) == pytest.approx(0.0)
 
     def test_range_zero_to_pi(self):
+        NUM_RANDOM_TRIALS = 20
         rng = np.random.default_rng(42)
-        for _ in range(20):
+        for _ in range(NUM_RANDOM_TRIALS):
             X_b = rng.standard_normal(4)
             X_u = rng.standard_normal(4)
             node_b = MultiverseNode(S=1., A=1., Q_top=0., X=X_b, Xdot=np.zeros(4))
@@ -569,8 +570,8 @@ class TestInformationGapAlignment:
         dI_final = information_gap(sys.brain, sys.universe)
         assert dI_final < dI_initial
 
-    def test_coupling_preserves_total_phi_squared(self):
-        """φ²_brain + φ²_univ is NOT conserved (only φ_brain + φ_univ is)."""
+    def test_coupling_preserves_total_phi(self):
+        """φ_brain + φ_univ (linear sum) is conserved; φ²_brain + φ²_univ is NOT."""
         node_b = MultiverseNode(S=1., A=4., Q_top=0., X=np.ones(4), Xdot=np.zeros(4))
         node_u = MultiverseNode(S=1., A=4., Q_top=0., X=np.ones(4), Xdot=np.zeros(4))
         b = ManifoldState(node=node_b, phi=0.5, label="brain")
@@ -579,5 +580,5 @@ class TestInformationGapAlignment:
         phi_total_before = sys.brain.phi + sys.universe.phi
         sys2 = _apply_coupling(sys, dt=1.0)
         phi_total_after = sys2.brain.phi + sys2.universe.phi
-        # φ total is conserved
+        # φ total (linear) is conserved
         assert phi_total_after == pytest.approx(phi_total_before, abs=1e-12)

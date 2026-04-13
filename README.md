@@ -3,7 +3,7 @@
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![1464 Tests: 1452 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-1452%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![1525 Tests: 1513 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-1513%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -224,6 +224,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 ├── THEBOOKV9a (1).pdf        ← full monograph (READ-ONLY canonical reference)
 ├── UNIFICATION_PROOF.md      ← formal proof: QM/EM/SM as projections of the 5D geometry
 ├── QUANTUM_THEOREMS.md       ← new theorems: BH info, CCR, Hawking T, ER=EPR (v9.3)
+├── brain/                    ← brain-universe correspondence (structural + dynamical)
+│   ├── README.md             ← overview (structural AND dynamical alignment)
+│   ├── VARIABLE_ALIGNMENT.md ← symbol-by-symbol: monograph ↔ neural
+│   ├── TORUS_ARCHITECTURE.md ← toroidal 5th dimension; grid cells; k_cs=74
+│   ├── FIVE_PILLARS_NEUROSCIENCE.md
+│   ├── IRREVERSIBILITY_BIOLOGY.md ← neural B_μ; LTP; synaptic directionality
+│   └── COUPLED_MASTER_EQUATION.md ← ⭐ Pillar 9: consciousness as coupled FP
 ├── manuscript/               ← LaTeX/Markdown monograph source (READ-ONLY)
 │   └── ch02_mathematical_preliminaries.md
 ├── discussions/
@@ -250,8 +257,10 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     │   └── dark_matter_geometry.py   ← Pillar 8: dark matter as Irreversibility Field B_μ
     ├── holography/
     │   └── boundary.py       ← Pillar 4: entropy-area, boundary dynamics
-    └── multiverse/
-        └── fixed_point.py    ← Pillar 5: UEUM, operator U, FTUM iteration
+    ├── multiverse/
+    │   └── fixed_point.py    ← Pillar 5: UEUM, operator U, FTUM iteration
+    └── consciousness/
+        └── coupled_attractor.py  ← Pillar 9: Coupled Master Equation; consciousness as Ψ*_brain⊗Ψ*_univ
 ```
 
 ---
@@ -264,13 +273,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (1464 tests: 1452 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (1525 tests: 1513 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (1452 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (1513 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -303,9 +312,10 @@ tests/test_convergence.py                      10 passed
 tests/test_black_hole_transceiver.py           75 passed  ← Pillar 6: BH transceiver ✓
 tests/test_particle_geometry.py                51 passed  ← Pillar 7: particles as windings ✓
 tests/test_dark_matter_geometry.py             45 passed  ← Pillar 8: dark matter as B_μ ✓
+tests/test_coupled_attractor.py                61 passed  ← Pillar 9: Coupled Master Equation ✓
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 1452 passed, 1 skipped, 11 deselected ================================
+================================ 1513 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.

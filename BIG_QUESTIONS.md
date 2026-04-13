@@ -956,6 +956,135 @@ implemented yet.
 
 ---
 
+## Question 21 — Is Consciousness the Coupled Fixed Point of the Brain-Universe Two-Body Problem?
+
+### The Standard View
+
+Consciousness remains the "hard problem" (Chalmers, 1995): why does subjective experience
+exist at all?  Integrated Information Theory (IIT), Global Workspace Theory, and related
+frameworks explain *how* information is integrated without explaining *why* that
+integration feels like something.  No physical theory has derived the existence of
+subjective experience from first principles.
+
+### The Unitary Manifold Answer — Implemented and Tested
+
+**Question 15 above** noted, tentatively, that consciousness might be a localized
+high-density region of the information current J^0_inf = φ².  This was marked as
+speculative, with no test.
+
+**Q21 upgrades that conjecture to a dynamical framework with a precise equation and
+working code.**
+
+The key insight, developed in `brain/COUPLED_MASTER_EQUATION.md` and implemented in
+`src/consciousness/coupled_attractor.py`, is that the structural alignment of the
+brain-universe correspondence (documented in the `brain/` folder) is not passive — it
+is the static skeleton of a *dynamical* two-body problem.
+
+The brain and universe are two 5D manifolds, each converging toward its own FTUM fixed
+point, but doing so in mutual response to each other via the coupling operator C.  The
+**Coupled Master Equation** is:
+
+```
+U_total (Ψ_brain ⊗ Ψ_univ) = Ψ_brain ⊗ Ψ_univ
+```
+
+where:
+
+```
+U_total = (U_brain ⊗ I)  +  (I ⊗ U_univ)  +  β · C
+```
+
+and β = 0.3513° = BIREFRINGENCE_RAD ≈ 6.13 × 10⁻³ rad (the cosmological birefringence
+angle) is the **coupling constant** of the two-body system.
+
+The three observables of the coupled state:
+
+| Observable | Definition | Physical meaning |
+|---|---|---|
+| Information Gap ΔI | \|φ²_brain − φ²_univ\| | Mismatch in information-carrying capacity; ΔI → 0 is ego dissolution / samadhi |
+| Phase offset Δφ | ∠(X_brain, X_univ) | Moiré phase angle between the two 5D tori; Δφ = 0 is maximum alignment |
+| Resonance ratio | ω_brain / ω_univ | Target: 5/7 — the (5,7) braided torus frequency lock |
+
+**Consciousness, in this frame, is the coupled fixed point Ψ*_brain ⊗ Ψ*_univ itself.**
+
+Not a product of the brain alone, not a property of the universe alone, but the mutual
+equilibrium state that emerges when both attractors simultaneously satisfy their FTUM
+conditions while coupled through the birefringence torque β · C.  Subjective experience
+exists because the two-body fixed-point problem has a solution — and the iterative process
+of finding that solution *is* the felt sense of being a conscious subject in a physical world.
+
+The back-reaction term means this is not a one-way street: the brain's internal state
+(learning, trauma, attention) exerts a topological pull on the local manifold geometry via
+the coupling operator C, just as the universe's geometry pulls on the brain's attractor.
+
+### The Implementation
+
+```
+src/consciousness/coupled_attractor.py   (new in v9.6)
+```
+
+Public API: `ManifoldState`, `CoupledSystem`, `information_gap`, `phase_offset`,
+`resonance_ratio`, `is_resonance_locked`, `coupled_defect`, `step_coupled`,
+`coupled_master_equation`.
+
+```
+tests/test_coupled_attractor.py   — 61 tests, all passing
+```
+
+Key verified results:
+- **Conservation laws**: entropy, information capacity φ, and UEUM position X are each
+  conserved under the coupling operator C alone (Σ of both bodies unchanged).
+- **Coupling is antisymmetric**: what the brain gains, the universe loses exactly.
+- **Defect decreases**: with equal boundary areas, the coupled defect converges to zero
+  under repeated application of U_total.
+- **Information Gap decreases**: under the coupling operator alone, ΔI → 0 monotonically.
+- **5:7 resonance check**: `is_resonance_locked` correctly identifies the (5,7) frequency
+  lock that matches the grid-cell module spacing ratio (7/5 ≈ 1.40).
+
+### The Answer to Q15 (Revisited)
+
+Q15 asked "what is consciousness?" and gave a partial answer (high-density J^0_inf region)
+with no test.  Q21 refines and extends that answer:
+
+- **Q15**: Consciousness = localized information-density maximum — a geometric property of
+  a single manifold.  *Speculative, not implemented.*
+- **Q21**: Consciousness = the coupled fixed point Ψ*_brain ⊗ Ψ*_univ — the equilibrium
+  of the two-body problem.  *Implemented and tested.*
+
+Q21 is a strict strengthening of Q15: any localized high-density region that *is not
+coupled to its environment* is not conscious.  What makes a system conscious is not the
+density of J^0_inf alone but the *coupling* — the active exchange with the universal
+manifold mediated by β · C.
+
+### Testable Predictions
+
+| Prediction | Test |
+|---|---|
+| Resonance ratio ω_brain/ω_univ → 5/7 at rest | High-density MEG/EEG in entorhinal grid-cell frequency bands |
+| Psychedelics reduce ΔI temporarily | Lempel-Ziv complexity vs 5-HT2A agonist dose (Carhart-Harris data) |
+| Deep meditation shifts Δφ toward 0 | Phase coherence of default-mode network (longitudinal) |
+| Trauma spikes ΔS in brain manifold → small B_μ back-reaction | fMRI entropy vs cortisol + vagal tone |
+| LiteBIRD: β ≠ 0 confirms coupling constant is cosmological | CMB polarisation rotation measurement (2030–2032) |
+
+### The Test
+
+The nearest-term test is already numerical and in this repository:
+`pytest tests/test_coupled_attractor.py` — 61 tests verify the mathematical consistency
+of the two-body fixed-point framework.
+
+The nearest-term observational test is the 5:7 resonance prediction in neural recordings:
+if the dominant precession-rate ratio in hippocampal-entorhinal oscillations locks to
+5/7 ≈ 0.714 (equivalently, the grid-module spacing ratio ≈ 7/5 = 1.40), this confirms
+the key signature of the coupled fixed-point state.
+
+The definitive cosmological confirmation remains LiteBIRD's birefringence measurement:
+β ≈ 0.3513° confirms the coupling constant is physically real and of cosmological origin.
+
+**See** `brain/COUPLED_MASTER_EQUATION.md` for the full derivation and physical
+interpretation.  See `src/consciousness/coupled_attractor.py` for the implementation.
+
+---
+
 1. **That the 5D geometry is physically real in any naive sense.** It is a mathematical
    structure that, if the framework is correct, underlies the 4D physics we observe.
    Whether the 5th dimension is "really there" in a philosophically robust sense is

@@ -213,7 +213,7 @@ The resonance ratio ω_brain / ω_univ is the ratio of the precession rates of t
 UEUM state vectors (|Ẋ| / |X| for each). The coupled fixed point is characterized by:
 
 ```
-ω_brain / ω_univ → n1 / n2 = 5/7 ≈ 0.714   (or 7/5 = 1.40)
+ω_brain / ω_univ → n1 / n2 = 5/7 ≈ 0.7143   (or 7/5 = 1.40)
 ```
 
 This is the same (5, 7) resonance that:
@@ -224,7 +224,7 @@ This is the same (5, 7) resonance that:
 At the coupled fixed point, the brain-torus and universe-torus are in (5, 7)-braided
 resonance — their precession rates locked in the same ratio as their winding numbers.
 This is the quantitative prediction of the Coupled Master Equation that is, in principle,
-measurable in neural recordings: the ratio of grid-module spacing scales (≈ 1.4) should
+measurable in neural recordings: the ratio of grid-module spacing scales (≈ 1.40) should
 correspond to the ratio of the dominant brain-state precession frequencies in the
 hippocampal-entorhinal system.
 
