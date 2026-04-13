@@ -4,7 +4,7 @@ tests/test_chemistry.py
 Unit tests for src/chemistry/bonds.py, src/chemistry/reactions.py,
 and src/chemistry/periodic.py.
 
-Covers every public function in the chemistry package with ≥ 45 tests total.
+Covers every public function in the chemistry package (100 tests total).
 """
 
 import sys
@@ -151,6 +151,10 @@ class TestBondLength:
     def test_raises_phi_zero(self):
         with pytest.raises(ValueError):
             bond_length_from_winding(1, 0.0)
+
+    def test_raises_lam_zero(self):
+        with pytest.raises(ValueError):
+            bond_length_from_winding(1, 1.0, lam=0.0)
 
 
 # ===========================================================================
@@ -401,7 +405,7 @@ class TestFieldStrengthTensor:
         B = np.linspace(0.0, 1.0, 100)
         dx = B[1] - B[0]
         H = field_strength_tensor(B, dx=dx)
-        # |dB/dx| = 1/dx * dx = 1 at each point (linear spacing → constant gradient)
+        # B goes from 0 to 1 over 100 points → slope = 1.0, so |dB/dx| ≈ 1.0
         assert np.allclose(H[2:-2], 1.0, atol=1e-6)
 
     def test_shape_preserved(self):
@@ -538,6 +542,10 @@ class TestShellRadius:
     def test_raises_n0(self):
         with pytest.raises(ValueError):
             shell_radius(0)
+
+    def test_raises_a0_zero(self):
+        with pytest.raises(ValueError):
+            shell_radius(1, a0=0.0)
 
 
 # ===========================================================================
