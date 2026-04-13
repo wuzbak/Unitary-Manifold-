@@ -485,9 +485,9 @@ class TestAlphaDrift:
 class TestHubbleTensionRatio:
     """H_local / H_CMB = φ_CMB / φ_today — geometric prediction."""
 
-    #: Observed values in km/s/Mpc
-    H_CMB: float = 67.4
-    H_SNe: float = 73.0
+    #: Observed Hubble constant values in km/s/Mpc
+    H_CMB: float = 67.4    # Planck 2018 CMB measurement
+    H_SNe: float = 73.0    # SH0ES supernova distance-ladder measurement
 
     def test_ratio_greater_than_one_for_larger_phi_cmb(self):
         """φ_CMB > φ_today → H_local > H_CMB → ratio > 1."""

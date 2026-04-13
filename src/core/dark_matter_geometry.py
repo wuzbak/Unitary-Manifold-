@@ -77,6 +77,9 @@ import numpy as np
 _LAM_DEFAULT: float = 1.0
 _G4_DEFAULT: float = 1.0
 _NUMERICAL_EPSILON: float = 1e-30
+#: Minimum-radius fraction used by dark_field_profile: r_min = _MIN_RADIUS_FRACTION × r_scale.
+#: Keeps r > 0 to avoid the 1/r singularity at the galactic centre.
+_MIN_RADIUS_FRACTION: float = 0.05
 
 
 # ---------------------------------------------------------------------------
@@ -337,9 +340,7 @@ def dark_field_profile(
     -------
     DarkFieldProfile
     """
-    r = np.linspace(0.05 * r_scale, r_max, N)   # avoid r = 0
-
-    # Exponential-sphere baryonic mass (same as TestDarkMatterRotationCurve5D)
+    r = np.linspace(_MIN_RADIUS_FRACTION * r_scale, r_max, N)   # avoid r = 0
     x = r / R_disk
     M_baryon = M_total * (1.0 - (1.0 + x + 0.5 * x**2) * np.exp(-x))
     v_baryon = np.sqrt(np.clip(G4 * M_baryon / (r + _NUMERICAL_EPSILON), 0.0, None))

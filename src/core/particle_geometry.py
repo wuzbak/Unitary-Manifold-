@@ -136,9 +136,11 @@ _NW = 5
 #: Effective φ for each generation: gen-2 particles see a tighter 5D loop,
 #: giving a larger KK mass.  The ratios reproduce the observed lepton mass
 #: hierarchy at order of magnitude (no fine-tuning beyond φ₀ choice).
+#: Derivation: φ_gen2 ≈ m_e / m_μ ≈ 0.511 / 105.66 ≈ 0.00484 (lepton ratio)
+#:             φ_gen3 ≈ m_e / m_τ ≈ 0.511 / 1776.86 ≈ 0.000288
 _PHI_GEN1 = 1.0          # electron/light quarks (stabilised vacuum)
-_PHI_GEN2 = 0.00484      # muon / charm / strange  (φ ~ m_e / m_μ ~ 1/207)
-_PHI_GEN3 = 0.000288     # tau / top / bottom      (φ ~ m_e / m_τ ~ 1/3477)
+_PHI_GEN2 = 0.00484      # muon / charm / strange  (φ ≈ m_e/m_μ ≈ 1/207)
+_PHI_GEN3 = 0.000288     # tau / top / bottom      (φ ≈ m_e/m_τ ≈ 1/3477)
 
 PARTICLE_CATALOG: Dict[str, GeometricParticle] = {
     "electron": GeometricParticle(
@@ -331,7 +333,7 @@ def muon_kk_correction(
     the 4.2σ Fermilab anomaly Δa_μ ≈ 2.51 × 10⁻⁹ for R₅ ~ 10⁶ ℓ_P.
 
     See also: QUANTUM_THEOREMS.md §XIV and tests/test_cosmological_predictions.py
-    TestMuonG2Anomaly5D for the full precision test.
+    (TestMuonG2Anomaly5D) for the full precision test against Fermilab data.
 
     Parameters
     ----------

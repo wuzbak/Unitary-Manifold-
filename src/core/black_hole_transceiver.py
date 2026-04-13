@@ -559,8 +559,8 @@ def gw_echo_spectrum(
         raise ValueError(f"total_energy must be ≥ 0, got {total_energy!r}")
 
     tau = gw_echo_delay(phi_mean)                              # τ_echo
-    Q = float(np.exp(-1.0 / echo_quality))                    # per-echo factor
+    Q_transmission = float(np.exp(-1.0 / echo_quality))                    # per-echo factor
     k = np.arange(1, n_echoes + 1, dtype=float)               # k = 1…n_echoes
     times = k * tau                                            # t_k
-    amplitudes = total_energy * (1.0 - Q) * Q ** (k - 1.0)   # A_k
+    amplitudes = total_energy * (1.0 - Q_transmission) * Q_transmission ** (k - 1.0)   # A_k
     return times, amplitudes
