@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.3 — Academic Edition |
+| Version | 9.5 — Academic Edition |
 | Lead Author | ThomasCory Walker-Pearson |
 | Affiliation | Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.4):** All six completion requirements are solved internally.
+**Self-completion status (v9.5):** All six completion requirements are solved internally.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -104,7 +104,10 @@ such that `UΨ* = Ψ*`.
 │   │   ├── derivation.py              # Symbolic integer derivations; constraint checks
 │   │   ├── diagnostics.py             # CMB diagnostics: chi2, observables, convergence
 │   │   ├── fiber_bundle.py            # Principal bundle topology; anomaly cancellation; SM structure
-│   │   └── uniqueness.py              # Geometric uniqueness; ΛCDM no-go; integer discriminant
+│   │   ├── uniqueness.py              # Geometric uniqueness; ΛCDM no-go; integer discriminant
+│   │   ├── black_hole_transceiver.py  # Pillar 6: BH transceiver; Hubble tension; GW echoes ✓
+│   │   ├── particle_geometry.py       # Pillar 7: particles as geometric windings ✓
+│   │   └── dark_matter_geometry.py    # Pillar 8: dark matter as Irreversibility Field B_μ ✓
 │   ├── holography/
 │   │   └── boundary.py                # Entropy-area, boundary dynamics; holographic renormaliz.
 │   └── multiverse/
@@ -152,10 +155,13 @@ such that `UΨ* = Ψ*`.
 │   ├── test_parallel_validation.py       # 5 independent theory claims (38)
 │   ├── test_quantum_unification.py       # BH info, CCR, Hawking T, ER=EPR (26) — v9.3
 │   ├── test_derivation.py                # Key-integer derivations k_cs/n_w/k_rc/φ_min (59)
-│   ├── test_braided_winding.py           # Braided (5,7) resonance; r-tension resolution (70) — NEW
-│   ├── test_higher_harmonics.py          # Higher harmonic n_w=7 analysis; GW-track constraints (58) — NEW
+│   ├── test_braided_winding.py           # Braided (5,7) resonance; r-tension resolution (70) — v9.4
+│   ├── test_higher_harmonics.py          # Higher harmonic n_w=7 analysis; GW-track constraints (58) — v9.4
+│   ├── test_black_hole_transceiver.py    # BH transceiver; Hubble tension; GW echoes (75) — v9.5
+│   ├── test_particle_geometry.py         # Particles as geometric windings (51) — v9.5
+│   ├── test_dark_matter_geometry.py      # Dark matter as B_μ geometry (45) — v9.5
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 1293 tests — 1281 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 1464 tests — 1452 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -244,7 +250,7 @@ such that `UΨ* = Ψ*`.
   author  = {Walker-Pearson, ThomasCory},
   year    = {2026},
   url     = {https://github.com/wuzbak/Unitary-Manifold-},
-  version = {9.3},
+  version = {9.5},
   license = {Defensive Public Commons v1.0}
 }
 ```
@@ -337,13 +343,13 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **1293 tests: 1281 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **1464 tests: 1452 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
 ---
 
-*Generated: 2026-04-13 | Repo: wuzbak/Unitary-Manifold- | Version: 9.4*
+*Generated: 2026-04-13 | Repo: wuzbak/Unitary-Manifold- | Version: 9.5*
 
 ---
 

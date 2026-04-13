@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-version: "9.3"
-date-released: "2026-04-09"
+version: "9.5"
+date-released: "2026-04-13"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
