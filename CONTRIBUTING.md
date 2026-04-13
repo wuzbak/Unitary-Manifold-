@@ -25,12 +25,12 @@ The test suite covers:
 | `src/multiverse/fixed_point.py` | FTUM convergence, second law, holographic bound (35 tests) |
 | `src/core/inflation.py` / `transfer.py` | CMB power spectrum, birefringence, triple constraint (271 tests) |
 | `src/core/fiber_bundle.py` | Principal bundle topology, characteristic classes, anomaly cancellation (96 tests) |
-| `src/core/completions.py` | Completion and endpoint tests (72 tests) |
+| `tests/test_completions.py` | Completion and endpoint tests (72 tests) |
 | `src/core/uniqueness.py` | Uniqueness theorems, ΛCDM no-go comparison (61 tests) |
 | `src/core/derivation.py` (module) | Stage 0–3 symbolic constraint derivation (59 tests) |
 | `src/core/boltzmann.py` | Baryon-loaded CMB transfer, Boltzmann H-theorem, entropy monotonicity (49 tests) |
 | `src/core/diagnostics.py` | CMB diagnostics, chi2, observables, convergence (30 tests) |
-| `src/cosmological_predictions` | Hubble tension, muon g-2, dark matter curves, GW echoes (28 tests) |
+| `tests/test_cosmological_predictions.py` | Hubble tension, muon g-2, dark matter curves, GW echoes (28 tests) |
 | Convergence | O(dx²) gradient, Laplacian, Christoffel (10 tests) |
 | Closure batch 1 | α dual-path, nₛ KK=Casimir, β coupling, holographic emergence (25 tests) |
 | Closure batch 2 | Numerical robustness, cross-module consistency (31 tests) |
