@@ -36,12 +36,47 @@
 - [evolution.py](src/core/evolution.py): Unitary Manifold time integrator; FieldState dataclass; run_evolution driver.
 - [boundary.py](src/holography/boundary.py): Holographic boundary; entropy-area law implementation.
 - [fixed_point.py](src/multiverse/fixed_point.py): Multiverse network; FTUM fixed-point iteration; operator U = I+H+T.
+- [boltzmann.py](src/core/boltzmann.py): Boltzmann entropy, H-theorem, and irreversibility module.
+- [derivation.py](src/core/derivation.py): Step-by-step symbolic derivations of key field equations.
+- [diagnostics.py](src/core/diagnostics.py): CMB diagnostic APIs: compute_cmb_spectra, extract_observables, chi2 landscape, numerical error estimates.
+- [fiber_bundle.py](src/core/fiber_bundle.py): Fiber-bundle geometry; connection and curvature forms.
+- [inflation.py](src/core/inflation.py): Inflationary slow-roll dynamics; spectral index and tensor ratio.
+- [transfer.py](src/core/transfer.py): CMB transfer functions; Planck 2018 reference spectra.
+- [uniqueness.py](src/core/uniqueness.py): Uniqueness theorems for the Walker-Pearson field equations.
 
 ## Tests
 
 - [tests/conftest.py](tests/conftest.py): Shared pytest fixtures (FieldState, BoundaryState, networks).
-- [tests/test_metric.py](tests/test_metric.py): KK metric, Christoffel symbols, field strength, curvature.
+- [tests/test_metric.py](tests/test_metric.py): KK metric, Christoffel symbols, field strength, curvature, dark matter ghost force.
 - [tests/test_evolution.py](tests/test_evolution.py): Unitary Manifold integrator, information current, constraints.
 - [tests/test_boundary.py](tests/test_boundary.py): Entropy-area law, boundary evolution, conservation.
 - [tests/test_fixed_point.py](tests/test_fixed_point.py): FTUM operators I/H/T, fixed-point iteration.
 - [tests/test_quantum_unification.py](tests/test_quantum_unification.py): BH information conservation, CCR, Hawking temperature, ER=EPR.
+- [tests/test_arrow_of_time.py](tests/test_arrow_of_time.py): Thermodynamic arrow of time, entropy production, defect history.
+- [tests/test_boltzmann.py](tests/test_boltzmann.py): Boltzmann H-theorem and entropy monotonicity.
+- [tests/test_closure_batch1.py](tests/test_closure_batch1.py): Closure and self-consistency batch 1.
+- [tests/test_closure_batch2.py](tests/test_closure_batch2.py): Closure and self-consistency batch 2.
+- [tests/test_cmb_landscape.py](tests/test_cmb_landscape.py): Chi2 landscape over CMB parameter space.
+- [tests/test_completions.py](tests/test_completions.py): Completion and endpoint tests.
+- [tests/test_convergence.py](tests/test_convergence.py): Numerical convergence and stability tests.
+- [tests/test_cosmological_predictions.py](tests/test_cosmological_predictions.py): Quantitative cosmological predictions vs observations.
+- [tests/test_derivation.py](tests/test_derivation.py): Step-by-step equation derivations (59 tests).
+- [tests/test_derivation_module.py](tests/test_derivation_module.py): Derivation module unit tests.
+- [tests/test_dimensional_reduction.py](tests/test_dimensional_reduction.py): 5D → 4D dimensional reduction.
+- [tests/test_discretization_invariance.py](tests/test_discretization_invariance.py): Grid-independence and discretization invariance.
+- [tests/test_e2e_pipeline.py](tests/test_e2e_pipeline.py): End-to-end pipeline; uniqueness of CS level (k=74).
+- [tests/test_external_benchmarks.py](tests/test_external_benchmarks.py): Comparison against external / published benchmarks.
+- [tests/test_fiber_bundle.py](tests/test_fiber_bundle.py): Fiber bundle geometry, connection, curvature (96 tests).
+- [tests/test_fuzzing.py](tests/test_fuzzing.py): Property-based fuzzing and stress tests.
+- [tests/test_inflation.py](tests/test_inflation.py): Inflationary slow-roll, non-minimal ξ, Starobinsky large-ξ limit.
+- [tests/test_observational_resolution.py](tests/test_observational_resolution.py): Observational resolution and detection thresholds.
+- [tests/test_parallel_validation.py](tests/test_parallel_validation.py): Parallel independent validation of five theory claims (38 tests).
+- [tests/test_richardson_multitime.py](tests/test_richardson_multitime.py): Richardson extrapolation and multi-timescale convergence (slow).
+- [tests/test_uniqueness.py](tests/test_uniqueness.py): Uniqueness theorem verification.
+
+## Claims (Independent Verification)
+
+- [claims/amplitude_normalization/](claims/amplitude_normalization/): Self-contained claim: amplitude normalisation fix with verify.py and test_claim.py.
+- [claims/anomaly_inflow/](claims/anomaly_inflow/): Self-contained claim: anomaly inflow mechanism with verify.py and test_claim.py.
+- [claims/integer_derivation/](claims/integer_derivation/): Self-contained claim: integer-valued CS level derivation with verify.py and test_claim.py.
+- [claims/tensor_ratio_fix/](claims/tensor_ratio_fix/): Self-contained claim: tensor-to-scalar ratio correction with verify.py and test_claim.py.
