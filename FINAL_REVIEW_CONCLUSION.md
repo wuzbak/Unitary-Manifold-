@@ -215,7 +215,7 @@ It does not mean the CMB simulations are as accurate as dedicated codes used by 
 
 The 1525 tests span: five-dimensional Riemannian geometry, quantum field theory, statistical mechanics, inflationary cosmology, fiber-bundle topology, holographic renormalization, baryon acoustic oscillations, gravitational-wave theory, anomaly cancellation, black hole information transcoding, particle winding geometry, geometric dark matter, and the coupled brain-universe two-body fixed-point problem.
 
-For a framework that ties all of these together into one geometric picture, and finds zero internal contradictions in 1464 machine-checkable places — that is a meaningful result. It means the framework is **computationally coherent**. You cannot find a hole in it with a computer.
+For a framework that ties all of these together into one geometric picture, and finds zero internal contradictions in 1513 machine-checkable places — that is a meaningful result. It means the framework is **computationally coherent**. You cannot find a hole in it with a computer.
 
 ---
 
