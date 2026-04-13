@@ -51,6 +51,9 @@ The FTUM fixed-point theorem (UΨ* = Ψ*) governs **stable structure at every sc
         │
         └── BIOLOGY            [Pillar 13] src/biology/
                 life as negentropy attractors · evolution on FTUM landscape · Turing morphogenesis
+        │
+        └── ATOMIC STRUCTURE   [Pillar 14] src/core/atomic_structure.py
+                quarks → nucleons → nuclei → hydrogen atom → electron shells
 ```
 
 ---
@@ -215,6 +218,50 @@ The shell capacity formula **2n²** (period 1: 2, period 2: 8, period 3: 8, peri
 
 ---
 
+## Pillar 14 — Atomic Structure (`src/core/atomic_structure.py`)
+
+### The Core Claim
+
+**The atom is the output of a five-step geometric chain** — from winding
+configurations on S¹/Z₂ through colour-singlet bound states, nuclear binding,
+and the Coulomb-Schrödinger system — producing quantised energy levels, spectral
+lines, and electron-shell structure entirely from the 5D geometry.
+
+### The Five-Step Chain
+
+```
+Step 1  Quarks         KK winding on S¹/Z₂; m_q = λn_w/⟨φ_q⟩
+Step 2  Nucleons       Colour-singlet SU(3) + gluon flux-tube energy
+Step 3  Nuclei         Bethe–Weizsäcker B_μ binding; Fe-56 = FTUM maximum
+Step 4  Hydrogen atom  Coulomb U(1) + UEUM geodesic → Schrödinger
+Step 5  Electron shells 2n² winding states → periodic table (Pillar 10)
+```
+
+### Key Derivations
+
+| Result | Formula | UM source |
+|---|---|---|
+| Proton content | uud (SU(3) colour-singlet) | Fiber bundle topology |
+| Quark mass | m_q = λ n_w / ⟨φ_q⟩ | KK mass formula |
+| Proton mass | m_q_sum + E_QCD flux tube | B_μ^SU3 field energy |
+| Bohr radius | a₀ = ⟨φ⟩ / (m_e α) | KK compactification |
+| Rydberg energy | E₁ = m_e α²/2 = 13.6 eV | UEUM geodesic |
+| Energy levels | E_n = −E₁/n² | Schrödinger + Coulomb |
+| Lyman α | λ = 8π/(3E₁) ≈ 121.6 nm | Rydberg formula |
+| Shell capacity | 2n² | KK winding quantisation |
+| Orbital radius | r_n = n² a₀ | Shell winding × Bohr unit |
+| Iron peak | B/A max at Fe-56 | FTUM fixed-point stability |
+
+### Implementation
+
+| File | Contents |
+|---|---|
+| `src/core/atomic_structure.py` | `HADRON_CATALOG`, `quark_content`, `constituent_quark_mass`, `hadron_mass`, `qcd_flux_tube_energy`, `bohr_radius_kk`, `rydberg_energy`, `hydrogen_energy_level`, `hydrogen_wavelength`, `hydrogen_1s_radial_density`, `atomic_orbital_radius`, `nuclear_binding_energy`, `nuclear_binding_per_nucleon` |
+| `tests/test_atomic_structure.py` | 110 tests |
+| `ATOMIC_STRUCTURE.md` | Full narrative derivation with worked equations |
+
+---
+
 ## The Cross-Science Symmetry Table
 
 Every natural science maps to the same mathematical skeleton:
@@ -248,7 +295,7 @@ The natural sciences are not separate disciplines connected by analogy. They are
 
 ---
 
-## Test Summary (v9.7)
+## Test Summary (v9.8)
 
 | Module | File | Tests |
 |---|---|---|
@@ -258,8 +305,9 @@ The natural sciences are not separate disciplines connected by analogy. They are
 | Oceanography | `tests/test_oceanography.py` | 46 |
 | Meteorology | `tests/test_meteorology.py` | 45 |
 | Biology | `tests/test_biology.py` | 111 |
-| **New total (Pillars 10–13)** | | **454** |
-| **Grand total (all pillars)** | | **1979 collected · 1967 passed · 1 skipped · 11 slow-deselected** |
+| **Atomic Structure** | `tests/test_atomic_structure.py` | **110** |
+| **New total (Pillars 10–14)** | | **564** |
+| **Grand total (all pillars)** | | **2089 collected · 2077 passed · 1 skipped · 11 slow-deselected** |
 
 ---
 

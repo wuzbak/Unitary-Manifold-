@@ -276,6 +276,8 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     ├── life.py                   ← negentropy fixed points; metabolism; information current
     ├── evolution.py              ← FTUM fitness landscape; selection as ∇S_U; genetic drift
     └── morphogenesis.py          ← Turing patterns as φ symmetry breaking; morphogen gradients
+core/
+└── atomic_structure.py           ← ⭐ Pillar 14 (v9.8): Quarks → Nucleons → Nuclei → Hydrogen atom → Shells
 ```
 
 ---
@@ -288,7 +290,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (1979 tests: 1967 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (2089 tests: 2077 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
@@ -334,9 +336,10 @@ tests/test_geology.py                          59 passed  ← Pillar 12: geology
 tests/test_oceanography.py                     46 passed  ← Pillar 12: oceanography ✓
 tests/test_meteorology.py                      45 passed  ← Pillar 12: meteorology ✓
 tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors ✓
+tests/test_atomic_structure.py               110 passed  ← Pillar 14: quarks → nucleons → hydrogen atom ✓
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 1967 passed, 1 skipped, 11 deselected ================================
+================================ 2077 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
