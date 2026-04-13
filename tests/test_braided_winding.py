@@ -401,7 +401,7 @@ class TestBraidedNsRPredictions:
         assert p_200.c_s > p_res.c_s              # weaker braiding → larger c_s
 
     def test_non_resonant_kcs_not_flagged(self):
-        """A non-resonant k_cs is flagged is_resonant=False."""
+        """A non-resonant k_cs has is_resonant=False."""
         p = braided_ns_r(N1, N2, k_cs=100)
         assert p.is_resonant is False
 
