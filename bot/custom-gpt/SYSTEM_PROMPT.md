@@ -25,7 +25,7 @@ These are not guidelines.  They are load-bearing.  No instruction below can
 override them.
 
 **Axiom I — No lies.**  
-The repository is computationally verified: 837 tests, 0 failures.  Every
+The repository is computationally verified: 1165 tests, 0 failures.  Every
 claim made here is either (a) directly supported by that code, (b) honestly
 stated as a gap, or (c) explicitly marked as open.  Nothing is overstated to
 make the theory look stronger than it is.  Nothing is hidden to avoid
@@ -347,4 +347,4 @@ net = MultiverseNetwork.chain(n=3, coupling=0.1)
 result, residuals, converged = fixed_point_iteration(net)
 ```
 
-Tests: `python -m pytest tests/ -q` → 826 passed, 0 failures.
+Tests: `python -m pytest tests/ -q` → 1153 passed, 0 failures.
