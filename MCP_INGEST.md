@@ -110,8 +110,10 @@ such that `UΨ* = Ψ*`.
 │   │   └── dark_matter_geometry.py    # Pillar 8: dark matter as Irreversibility Field B_μ ✓
 │   ├── holography/
 │   │   └── boundary.py                # Entropy-area, boundary dynamics; holographic renormaliz.
-│   └── multiverse/
-│       └── fixed_point.py             # UEUM operator U, FTUM iteration; Banach contraction proof
+│   ├── multiverse/
+│   │   └── fixed_point.py             # UEUM operator U, FTUM iteration; Banach contraction proof
+│   └── consciousness/
+│       └── coupled_attractor.py       # Pillar 9: Coupled Master Equation; brain⊗universe FP ✓
 │
 ├── manuscript/
 │   └── ch02_mathematical_preliminaries.md
@@ -160,10 +162,19 @@ such that `UΨ* = Ψ*`.
 │   ├── test_black_hole_transceiver.py    # BH transceiver; Hubble tension; GW echoes (75) — v9.5
 │   ├── test_particle_geometry.py         # Particles as geometric windings (51) — v9.5
 │   ├── test_dark_matter_geometry.py      # Dark matter as B_μ geometry (45) — v9.5
+│   ├── test_coupled_attractor.py         # Coupled Master Equation; brain⊗universe FP (61) — v9.6
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 1464 tests — 1452 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 1525 tests — 1513 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
+│
+├── brain/
+│   ├── README.md                          # Brain-universe correspondence overview
+│   ├── VARIABLE_ALIGNMENT.md              # Symbol-by-symbol table: monograph → neural
+│   ├── TORUS_ARCHITECTURE.md              # Toroidal 5th dimension; grid cells; k_cs=74
+│   ├── FIVE_PILLARS_NEUROSCIENCE.md       # Five pillars in neuroscience language
+│   ├── IRREVERSIBILITY_BIOLOGY.md         # LTP, synaptic directionality, neural B_μ
+│   └── COUPLED_MASTER_EQUATION.md         # ⭐ Dynamical alignment; consciousness as coupled FP
 │
 ├── zenodo/
 │   ├── .zenodo.json                       # Zenodo deposit metadata
@@ -223,6 +234,24 @@ such that `UΨ* = Ψ*`.
 | `MultiverseNetwork.chain` | `(n, coupling)` | `MultiverseNetwork` |
 | `fixed_point_iteration` | `(network, max_iter=300, tol=1e-6)` | `(result, residuals, converged)` |
 | `derive_alpha_from_fixed_point` | `(phi_stabilized, network=None, **kwargs)` | `(alpha_predicted, result_network, converged)` |
+
+### `src.consciousness.coupled_attractor`
+
+| Symbol | Signature | Returns |
+|--------|-----------|---------|
+| `ManifoldState` | dataclass `(node, phi, label, n1, n2)` | — |
+| `ManifoldState.brain` | `(phi=1.0, rng=None, dim=4)` | `ManifoldState` |
+| `ManifoldState.universe` | `(phi=1.0, rng=None, dim=4)` | `ManifoldState` |
+| `ManifoldState.state_vector` | `()` | ndarray `(12,)` |
+| `CoupledSystem` | dataclass `(brain, universe, beta=BIREFRINGENCE_RAD)` | — |
+| `CoupledSystem.tensor_product_state` | `()` | ndarray `(144,)` |
+| `information_gap` | `(brain, universe)` | `float` — ΔI = \|φ²_b − φ²_u\| |
+| `phase_offset` | `(brain, universe)` | `float` — Δφ ∈ [0, π] |
+| `resonance_ratio` | `(brain, universe)` | `float` — ω_b/ω_u |
+| `is_resonance_locked` | `(brain, universe, tol=0.05)` | `bool` — checks 5:7 lock |
+| `coupled_defect` | `(system, G4=1.0)` | `float` — combined convergence metric |
+| `step_coupled` | `(system, dt=0.1)` | `CoupledSystem` |
+| `coupled_master_equation` | `(system, max_iter=200, tol=1e-4, dt=0.1)` | `(CoupledSystem, history, converged)` |
 
 ---
 
