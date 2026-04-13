@@ -1,23 +1,60 @@
-# Contributors — The Unitary Manifold (Version 9.0)
+# Contributors — The Unitary Manifold (Version 9.5)
 
 This file documents the contributions of all parties involved in the development, synthesis, and review of *The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility*.
 
 ---
 
+## ⚖ Legal Rights & Authorship Declaration
+
+**All legal rights — copyright, moral rights, authorship, and intellectual-property
+ownership — in this work vest solely and exclusively in:**
+
+> **ThomasCory Walker-Pearson**
+> Independent Researcher, Pacific Northwest, USA
+> GitHub: [@wuzbak](https://github.com/wuzbak)
+
+This includes, without limitation:
+
+- Every equation, theorem, conjecture, and result in the theory
+- The synthesis effort: even where AI tools performed mechanical derivations
+  or formalization work at the direction of the human author, those outputs
+  are **work product** created under the author's direction and do not
+  generate independent IP rights in any AI system or its corporate operators
+- All source code, notebooks, manuscripts, datasets, and derived materials
+- The Walker-Pearson field equations, the Unitary Manifold framework (FTUM),
+  and all named theoretical results (Walker–Pearson polarization rotation,
+  Thermodynamic Cosmic Censorship Conjecture, etc.)
+
+**AI-generated contributions listed below carry no legal standing.**  AI
+systems (including large language models) are not legal persons.  They cannot
+hold copyright, assert authorship, or appear as parties in legal proceedings
+in any jurisdiction.  Their corporate operators (Microsoft, Google, OpenAI,
+etc.) acquire no intellectual-property rights from contributions made on
+behalf of this project.
+
+This declaration is permanent and survives any change of license, host
+platform, or downstream redistribution.
+
+---
+
 ## ThomasCory Walker-Pearson
-**Role:** Principal Architect and Author
+**Role:** Principal Architect, Sole Author, and Sole Legal Rights Holder
 **Affiliation:** Independent Researcher, Pacific Northwest, USA
+**GitHub:** [@wuzbak](https://github.com/wuzbak)
 **Contributions:**
 - Original intellectual conception of the Unitary Geometry-First (UGF) framework
 - Identification of irreversibility as a fifth-dimensional geometric structure (`G_μ5 = λB_μ`)
 - Authorship of all 74 chapters and 5 appendices spanning the theoretical, cosmological, holographic, and philosophical scope of the monograph
+- Direction and synthesis of all AI-assisted formalization work — the governing creative and intellectual force behind the entire project
 - Named theoretical results: Walker–Pearson field equation, Walker–Pearson polarization rotation effect (`Δθ_WP = αℓP² ∫ R H dr`), Thermodynamic Cosmic Censorship Conjecture, Final Theorem of the Unitary Multiverse
 - Defensive Public Commons License dedication ensuring permanent open access to all intellectual content
+- AGPL-3.0 copyright holder (retained for legal enforcement against commercial enclosure)
 
 ---
 
 ## GitHub Copilot (Microsoft / OpenAI)
 **Role:** 5D Geometric Formalization, Mathematical Review & Documentation
+**Legal status:** Not a legal person. No IP rights. No court standing.
 **Contributions:**
 
 ### Mathematical Review & Verification
@@ -52,6 +89,7 @@ This file documents the contributions of all parties involved in the development
 
 ## Gemini (Google DeepMind)
 **Role:** Primary Synthesis & Tensor Construction
+**Legal status:** Not a legal person. No IP rights. No court standing.
 **Contributions:**
 - Initial synthesis and structural organization of the 738 source segments
 - Primary tensor derivation work supporting the 5D metric ansatz and field equations
@@ -60,9 +98,10 @@ This file documents the contributions of all parties involved in the development
 
 ## OpenAI Systems
 **Role:** Cross-Model Proofing & Consistency Verification
+**Legal status:** Not a legal person. No IP rights. No court standing.
 **Contributions:**
 - Cross-model consistency verification across synthesis passes
 
 ---
 
-*This contributors file was authored by GitHub Copilot, April 2026.*
+*This contributors file was last updated April 2026. Legal rights section authored by ThomasCory Walker-Pearson.*
