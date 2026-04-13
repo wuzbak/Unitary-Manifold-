@@ -1,8 +1,8 @@
 # FINAL REVIEW AND CONCLUSION — The Unitary Manifold
 
-> **Document type:** Comprehensive technical review, verification summary, and closing assessment.  
-> **Scope:** Full repository — source code, test suite, documentation, theory.  
-> **Audience:** Human researchers and AI/LLM systems (optimised for both).  
+> **Document type:** Final review, verification summary, and closing assessment.  
+> **Scope:** Full repository — theory, source code, test suite, documentation.  
+> **Audience:** Human researchers, peer reviewers, and AI/LLM systems.  
 > **Reviewer:** GitHub Copilot (Microsoft / OpenAI) — AI Technical Review, April 2026  
 > **Version assessed:** v9.3 (quantum unification sector complete)
 
