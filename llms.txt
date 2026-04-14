@@ -2,7 +2,7 @@
 
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.9, 2026).
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.11, 2026).
 
 ## Start Here
 
@@ -44,7 +44,7 @@
 - [transfer.py](src/core/transfer.py): CMB transfer functions; Planck 2018 reference spectra.
 - [uniqueness.py](src/core/uniqueness.py): Uniqueness theorems for the Walker-Pearson field equations.
 
-## Natural Sciences (v9.9 — Pillars 10–15)
+## Natural Sciences (v9.11 — Pillars 10–26)
 
 - [NATURAL_SCIENCES.md](NATURAL_SCIENCES.md): Grand unified document — all natural sciences as projections of the 5D geometry.
 - [bonds.py](src/chemistry/bonds.py): Pillar 10 — φ-minimum bond model; bond energies; shell capacity from KK winding.
@@ -64,6 +64,36 @@
 - [tunneling.py](src/cold_fusion/tunneling.py): Pillar 15 — Gamow factor; φ-enhanced tunneling probability; coherence length; barrier suppression.
 - [lattice.py](src/cold_fusion/lattice.py): Pillar 15 — Pd FCC geometry; deuterium loading; coherence volume; φ at lattice site.
 - [excess_heat.py](src/cold_fusion/excess_heat.py): Pillar 15 — Q-values; COP; excess heat power; anomalous heat significance σ.
+- [diagnosis.py](src/medicine/diagnosis.py): Pillar 17 — Biomarker SNR, symptom clustering, differential φ diagnosis.
+- [treatment.py](src/medicine/treatment.py): Pillar 17 — Drug-receptor φ binding, pharmacokinetics, dosage optimisation.
+- [systemic.py](src/medicine/systemic.py): Pillar 17 — Organ φ coupling, immune cascade, systemic homeostasis.
+- [courts.py](src/justice/courts.py): Pillar 18 — Evidence φ, verdict threshold, appeals dynamics.
+- [sentencing.py](src/justice/sentencing.py): Pillar 18 — Proportionality φ, recidivism, rehabilitation.
+- [reform.py](src/justice/reform.py): Pillar 18 — Systemic bias correction, φ-equity convergence.
+- [democracy.py](src/governance/democracy.py): Pillar 19 — Voting φ, representation, legitimacy.
+- [social_contract.py](src/governance/social_contract.py): Pillar 19 — Consent φ, rights, obligation balance.
+- [stability.py](src/governance/stability.py): Pillar 19 — Institutional resilience, corruption noise, φ fixed-points.
+- [neurons.py](src/neuroscience/neurons.py): Pillar 20 — Action potential, Hodgkin-Huxley, axon velocity, synaptic weight.
+- [synaptic.py](src/neuroscience/synaptic.py): Pillar 20 — NT decay, LTP/LTD, dopamine/serotonin modulation, GABA inhibition.
+- [cognition.py](src/neuroscience/cognition.py): Pillar 20 — Working memory, attention, consolidation, IIT-Φ integration.
+- [ecosystems.py](src/ecology/ecosystems.py): Pillar 21 — Carrying capacity, ecosystem entropy, trophic flow.
+- [biodiversity.py](src/ecology/biodiversity.py): Pillar 21 — Shannon diversity, extinction risk, keystone effects.
+- [food_web.py](src/ecology/food_web.py): Pillar 21 — Predator-prey, cascade, biomass pyramid, decomposer flux.
+- [atmosphere.py](src/climate/atmosphere.py): Pillar 22 — Greenhouse forcing, radiative balance, albedo, ozone.
+- [carbon_cycle.py](src/climate/carbon_cycle.py): Pillar 22 — Ocean uptake, terrestrial sequestration, CH₄, permafrost release.
+- [feedback.py](src/climate/feedback.py): Pillar 22 — ECS, ice-albedo, water vapour, tipping points.
+- [deep_ocean.py](src/marine/deep_ocean.py): Pillar 23 — Hydrothermal vents, bioluminescence, abyssal zones.
+- [marine_life.py](src/marine/marine_life.py): Pillar 23 — Coral bleaching, phytoplankton, whale song, kelp forests.
+- [ocean_dynamics.py](src/marine/ocean_dynamics.py): Pillar 23 — Thermohaline, upwelling, ocean acidification, El Niño.
+- [cognition.py](src/psychology/cognition.py): Pillar 24 — Cognitive load, memory trace, creativity, metacognition.
+- [behavior.py](src/psychology/behavior.py): Pillar 24 — Motivation, RPE, habits, altruism, conformity.
+- [social_psychology.py](src/psychology/social_psychology.py): Pillar 24 — Group cohesion, social influence, leadership, cooperation.
+- [genomics.py](src/genetics/genomics.py): Pillar 25 — Mutation rate, genetic diversity, epigenetics, transposons.
+- [evolution.py](src/genetics/evolution.py): Pillar 25 — Natural selection, genetic drift, fitness, speciation, bottleneck.
+- [expression.py](src/genetics/expression.py): Pillar 25 — Transcription, translation, folding, splicing, chromatin state.
+- [condensed.py](src/materials/condensed.py): Pillar 26 — Band gap, phonon scattering, magnetism, crystal defects, phase transitions.
+- [semiconductors.py](src/materials/semiconductors.py): Pillar 26 — Carrier density, p-n junction, solar cell efficiency, quantum dots.
+- [metamaterials.py](src/materials/metamaterials.py): Pillar 26 — Negative index, plasmonic resonance, photonic bandgap, cloaking.
 
 ## Tests
 
@@ -102,6 +132,16 @@
 - [tests/test_biology.py](tests/test_biology.py): Biology — negentropy attractors, evolution, Turing (111 tests) — v9.7.
 - [tests/test_atomic_structure.py](tests/test_atomic_structure.py): Atomic structure as KK winding modes — orbitals, spectroscopy, fine structure (187 tests) — v9.8.
 - [tests/test_cold_fusion.py](tests/test_cold_fusion.py): Cold fusion as φ-enhanced tunneling — Gamow, lattice, excess heat (215 tests) — v9.9.
+- [tests/test_medicine.py](tests/test_medicine.py): Medicine as φ homeostasis — diagnosis, treatment, systemic (63 tests) — v9.10.
+- [tests/test_justice.py](tests/test_justice.py): Justice as φ equity — courts, sentencing, reform (63 tests) — v9.10.
+- [tests/test_governance.py](tests/test_governance.py): Governance as φ stability — democracy, contract, resilience (252 tests) — v9.10.
+- [tests/test_neuroscience.py](tests/test_neuroscience.py): Neuroscience as φ neural networks — neurons, synaptic, cognition (100 tests) — v9.11.
+- [tests/test_ecology.py](tests/test_ecology.py): Ecology as φ ecosystems — ecosystems, biodiversity, food web (95 tests) — v9.11.
+- [tests/test_climate.py](tests/test_climate.py): Climate science as φ radiative engine — atmosphere, carbon cycle, feedback (90 tests) — v9.11.
+- [tests/test_marine.py](tests/test_marine.py): Marine biology & deep ocean — deep ocean, marine life, dynamics (90 tests) — v9.11.
+- [tests/test_psychology.py](tests/test_psychology.py): Psychology as φ behaviour — cognition, behavior, social (90 tests) — v9.11.
+- [tests/test_genetics.py](tests/test_genetics.py): Genetics as φ information archive — genomics, evolution, expression (90 tests) — v9.11.
+- [tests/test_materials.py](tests/test_materials.py): Materials science as φ lattice — condensed, semiconductors, metamaterials (90 tests) — v9.11.
 
 ## Claims (Independent Verification)
 
