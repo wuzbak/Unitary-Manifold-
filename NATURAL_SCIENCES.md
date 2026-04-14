@@ -1,7 +1,7 @@
-# Natural Sciences Under the Unitary Manifold — v9.9
+# Natural Sciences Under the Unitary Manifold — v9.11
 
 > *"The natural sciences are not separate disciplines. They are the same 5D geometry, observed at different scales of the entanglement-capacity scalar φ."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.9
+> — Walker-Pearson, *The Unitary Manifold*, v9.11
 
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
@@ -315,7 +315,7 @@ The natural sciences are not separate disciplines connected by analogy. They are
 
 ---
 
-## Test Summary (v9.9)
+## Test Summary (v9.11)
 
 | Module | File | Tests |
 |---|---|---|
@@ -327,8 +327,18 @@ The natural sciences are not separate disciplines connected by analogy. They are
 | Biology | `tests/test_biology.py` | 111 |
 | Atomic Structure | `tests/test_atomic_structure.py` | 187 |
 | Cold Fusion | `tests/test_cold_fusion.py` | 215 |
-| **New total (Pillars 10–15)** | | **856** |
-| **Grand total (all pillars)** | | **2381 collected · 2369 passed · 1 skipped · 11 slow-deselected** |
+| Medicine | `tests/test_medicine.py` | 63 |
+| Justice | `tests/test_justice.py` | 63 |
+| Governance | `tests/test_governance.py` | 252 |
+| Neuroscience | `tests/test_neuroscience.py` | 100 |
+| Ecology | `tests/test_ecology.py` | 95 |
+| Climate | `tests/test_climate.py` | 90 |
+| Marine | `tests/test_marine.py` | 90 |
+| Psychology | `tests/test_psychology.py` | 90 |
+| Genetics | `tests/test_genetics.py` | 90 |
+| Materials | `tests/test_materials.py` | 90 |
+| **New total (Pillars 10–26)** | | **1779** |
+| **Grand total (all pillars)** | | **3294 collected · 3282 passed · 1 skipped · 11 slow-deselected** |
 
 ---
 

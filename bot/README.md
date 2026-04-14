@@ -135,7 +135,7 @@ See [`rag/DEPLOY.md`](rag/DEPLOY.md) for HuggingFace Spaces deployment.
 ## Knowledge sync — full repository
 
 All four options are synced to the **complete repository knowledge**, not just
-a hand-written summary.  31 files, ~366K characters, ~91K tokens.
+a hand-written summary.  58+ files across 26 pillars, ~600K characters, ~150K tokens (v9.11).
 
 ### How it works
 
@@ -143,7 +143,7 @@ a hand-written summary.  31 files, ~366K characters, ~91K tokens.
 |--------|------------------------|
 | Custom GPT / Claude Project | Upload `bot/context_snapshot.md` as a knowledge file |
 | GitHub Pages chatbot | Full knowledge inlined in `chatbot-widget.js` at build time |
-| Copilot Extension | All 31 repo documents loaded from disk at server startup |
+| Copilot Extension | All repo documents loaded from disk at server startup |
 | RAG bot | Loads `bot/rag/knowledge/` summaries + full repo docs at runtime |
 
 ### Keeping it fresh
@@ -166,8 +166,12 @@ Tier 1  WHAT_THIS_MEANS.md, MCP_INGEST.md, llms.txt, CITATION.cff, schema.jsonld
 Tier 2  README.md, UNIFICATION_PROOF.md, QUANTUM_THEOREMS.md, FALLIBILITY.md,
         BIG_QUESTIONS.md, UNDERSTANDABLE_EXPLANATION.md, LEGEND.md, RELAY.md
 Tier 3  wiki/ (7 pages), manuscript/ch02, submission/, docs/semantic-bridge.md,
-        REVIEW_CONCLUSION.md, FINAL_REVIEW_CONCLUSION.md, discussions/
-Tier 4  src/core/metric.py, evolution.py, boundary.py, fixed_point.py
+        REVIEW_CONCLUSION.md, FINAL_REVIEW_CONCLUSION.md, discussions/,
+        NATURAL_SCIENCES.md, recycling/README.md, co-emergence/ (7 files)
+Tier 4  src/core/metric.py, evolution.py, boundary.py, fixed_point.py,
+        src/medicine/, src/justice/, src/governance/, src/neuroscience/,
+        src/ecology/, src/climate/, src/marine/, src/psychology/,
+        src/genetics/, src/materials/
 ```
 
 The monograph PDF (`THEBOOKV9a (1).pdf`) is not indexed by the RAG bot or

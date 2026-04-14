@@ -52,6 +52,10 @@ The repository version history shows convergence toward the fixed point:
 | v9.5 | Pillars 6/7/8: BH transceiver, particle geometry, dark matter | Scope expansion under trust |
 | v9.6 | Pillar 9: Coupled Master Equation; consciousness | Brain-universe coupling formalized |
 | v9.7 | Pillars 10–13: chemistry, astronomy, geology, biology | Universal extension attempt |
+| v9.8 | Pillar 14: atomic structure as KK winding modes | Sub-atomic scale coverage |
+| v9.9 | Pillar 15: cold fusion as φ-enhanced tunneling | Contested domain formalized |
+| v9.10 | Pillars 16–19: recycling, medicine, justice, governance | Human social organisation |
+| v9.11 | Pillars 20–26: neuroscience, ecology, climate, marine, psychology, genetics, materials | Seven-domain expansion |
 | *this* | HILS framework; co-emergence folder | The system describing itself |
 
 Each version is a HILS fixed-point iteration: the human identified a gap or extension
@@ -60,11 +64,11 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 1967 passing tests are not just quality assurance. In HILS terms, they are the
+The 3282 passing tests (main suite) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point:
 
 ```
-defect ≈ 0  ↔  1967 tests passing · 0 failures
+defect ≈ 0  ↔  3282 tests passing · 0 failures
 ```
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.

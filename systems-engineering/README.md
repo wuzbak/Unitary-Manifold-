@@ -93,7 +93,7 @@ logic.  Scale changes.  Structure does not.
 ---
 
 *Systems Engineering folder — created April 2026.*  
-*Part of the Unitary Manifold repository (v9.9).*
+*Part of the Unitary Manifold repository (v9.11).*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Document engineering and synthesis: **GitHub Copilot** (AI).*
