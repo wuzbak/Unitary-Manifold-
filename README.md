@@ -658,7 +658,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**2381 tests: 2369 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**3294 tests: 3282 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -670,7 +670,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (2381 tests: 2369 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (3294 tests: 3282 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

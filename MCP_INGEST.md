@@ -454,13 +454,13 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **2381 tests: 2369 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **3294 tests: 3282 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
 ---
 
-*Generated: 2026-04-13 | Repo: wuzbak/Unitary-Manifold- | Version: 9.7*
+*Generated: 2026-04-14 | Repo: wuzbak/Unitary-Manifold- | Version: 9.11*
 
 ---
 

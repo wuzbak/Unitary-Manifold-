@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 2381 automated tests (2369 fast-selected + 11 slow-deselected) in `tests/` confirm that the numerical implementations
+The 3294 automated tests (3282 fast-selected + 11 slow-deselected + 1 skipped) in `tests/` confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -41,7 +41,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "2369 passed · 1 skipped · 0 failed," this is a statement about
+When the README badge reads "3282 passed · 1 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -269,7 +269,7 @@ It would be **falsified** if any of the following occurred:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 2369 passed · 1 skipped (guard) · 0 failed (2381 total) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
+| 3282 passed · 1 skipped (guard) · 0 failed (3294 total) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18; see `src/core/braided_winding.py` |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
