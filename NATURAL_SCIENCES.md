@@ -1,7 +1,7 @@
-# Natural Sciences Under the Unitary Manifold — v9.7
+# Natural Sciences Under the Unitary Manifold — v9.9
 
 > *"The natural sciences are not separate disciplines. They are the same 5D geometry, observed at different scales of the entanglement-capacity scalar φ."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.7
+> — Walker-Pearson, *The Unitary Manifold*, v9.9
 
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
@@ -49,8 +49,14 @@ The FTUM fixed-point theorem (UΨ* = Ψ*) governs **stable structure at every sc
         ├── EARTH SCIENCES     [Pillar 12] src/earth/
         │       geology · oceanography · meteorology as B_μ fluid dynamics
         │
-        └── BIOLOGY            [Pillar 13] src/biology/
-                life as negentropy attractors · evolution on FTUM landscape · Turing morphogenesis
+        ├── BIOLOGY            [Pillar 13] src/biology/
+        │       life as negentropy attractors · evolution on FTUM landscape · Turing morphogenesis
+        │
+        ├── ATOMIC STRUCTURE   [Pillar 14] src/atomic_structure/
+        │       orbitals as KK modes · Rydberg from curvature · spectroscopy from geometry
+        │
+        └── COLD FUSION / LENR [Pillar 15] src/cold_fusion/
+                φ-enhanced Gamow tunneling · Pd lattice coherence · excess heat COP
 ```
 
 ---
@@ -215,12 +221,78 @@ The shell capacity formula **2n²** (period 1: 2, period 2: 8, period 3: 8, peri
 
 ---
 
+## Pillar 14 — Atomic Structure (`src/atomic_structure/`)
+
+### The Core Claim
+
+Atomic orbitals are not quantum postulates placed on top of geometry — they are the KK winding modes of the compact S¹/Z₂ dimension. The principal quantum number n is the winding number; the shell capacity 2n² is the count of allowed winding states on S¹/Z₂; the Rydberg energy formula E_n = −α²/(2n²) emerges from the KK curvature energy with no free parameters.
+
+### The Predictions
+
+| Observable | Unitary Manifold derivation |
+|---|---|
+| Shell capacity 2n² | Winding quantization C(n) = 2n² on S¹/Z₂ |
+| Hydrogen energy levels E_n | KK curvature energy: E_n = −α_fs²/(2n²) |
+| Orbital radii r_n = n²a₀ | KK zero-mode radius: r_n = n² φ_mean |
+| Rydberg constant R_∞ | R = α_fs²/(2φ_eff²) — from geometry |
+| Lyman/Balmer series | Transitions between KK modes |
+| Spin-orbit coupling | KK spin connection ω_spin = φ/(2π n_w) |
+| Fine structure (Dirac) | 5D Dirac operator projected to 4D |
+| Zeeman splitting | Magnetic winding angular momentum |
+| Stark shift | E-field perturbation of KK potential well |
+| Landé g-factor | Spin-orbit geometry of fiber bundle |
+
+### Module API
+
+| File | Contents |
+|---|---|
+| `src/atomic_structure/orbitals.py` | `hydrogen_energy_level`, `orbital_radius`, `wavefunction_amplitude`, `quantum_degeneracy`, `angular_momentum_squared`, `magnetic_quantum_states`, `spin_orbital_coupling`, `transition_energy`, `lyman_wavelength`, `balmer_wavelength`, `phi_field_at_orbital`, `selection_rule_allowed` |
+| `src/atomic_structure/spectroscopy.py` | `rydberg_constant_from_geometry`, `series_wavelengths`, `emission_intensity`, `absorption_cross_section`, `doppler_width`, `natural_linewidth`, `einstein_A_coefficient`, `photoionization_threshold`, `stark_shift`, `zeeman_splitting`, `phi_emission_enhancement`, `b_field_line_broadening` |
+| `src/atomic_structure/fine_structure.py` | `fine_structure_constant_from_kk`, `dirac_energy`, `lamb_shift_estimate`, `hyperfine_splitting`, `g_factor_anomaly`, `relativistic_correction`, `spin_orbit_j_values`, `total_angular_momentum_magnitude`, `lande_g_factor`, `kk_spin_connection` |
+| `tests/test_atomic_structure.py` | 187 tests |
+
+---
+
+## Pillar 15 — Cold Fusion / LENR (`src/cold_fusion/`)
+
+### The Core Claim
+
+Low-energy nuclear reactions (cold fusion / LENR) in Pd–D systems are reframed as coherent quantum tunneling enhanced by the local entanglement-capacity scalar φ. When deuterium nuclei are densely loaded into a Pd FCC lattice, the φ field concentrates at octahedral sites, reducing the effective Gamow tunneling exponent from its free-space value by a factor of φ_local. For φ_local > 1 the suppression becomes multiplicative rather than exponential, making room-temperature D+D fusion energetically accessible in coherent lattice domains. The coherence length ξ = ħ/√(2m*φ²kT) sets the size of those domains; the excess heat COP and anomalous heat signature σ are the falsifiability criteria.
+
+This is the **first formal geometric mechanism** proposed for LENR. Whether cold fusion occurs in practice is an open experimental question. The Unitary Manifold prediction is precise: COP > 1 when φ_local > φ_threshold, with a quantitative anomalous significance σ = P_excess/√variance that can be measured in a calorimeter.
+
+### The Predictions
+
+| Observable | Unitary Manifold derivation |
+|---|---|
+| Gamow enhancement | G_eff = exp(−2πη/φ_local), φ_local > 1 increases T |
+| φ at Pd lattice site | φ_site = φ_bulk × (ρ_loading/ρ_ref)^0.5 |
+| Coherence domain size | ξ = 1/√(2 m* φ² kT) |
+| Loading threshold | ρ_min from barrier analysis, φ_site(ρ_min) = φ_threshold |
+| Excess heat power | P = N_active × R_fusion × Q_DD |
+| COP | P_out / P_in — testable in electrochemical cell |
+| Anomalous significance | σ = P_excess / √var — quantitative falsifiability criterion |
+| Pd shell number | 5 (period 5; 5th KK shell — same n_w = 5 as CMB) |
+
+### Module API
+
+| File | Contents |
+|---|---|
+| `src/cold_fusion/tunneling.py` | `sommerfeld_parameter`, `gamow_factor`, `phi_enhanced_gamow`, `tunneling_probability`, `coherence_length`, `barrier_suppression_factor`, `wkb_barrier_width`, `phi_barrier_height`, `tunneling_rate_per_pair`, `enhancement_ratio`, `minimum_phi_for_fusion` |
+| `src/cold_fusion/lattice.py` | `pd_lattice_constant`, `deuterium_loading_ratio`, `lattice_site_density`, `octahedral_site_fraction`, `coherence_volume`, `sites_in_coherence_volume`, `phi_at_lattice_site`, `lattice_strain`, `effective_mass_deuteron`, `b_field_at_site`, `loading_threshold_for_fusion`, `pd_shell_number` |
+| `src/cold_fusion/excess_heat.py` | `dd_fusion_q_value`, `dd_proton_branch_q_value`, `fusion_rate_per_site`, `excess_heat_power`, `cop`, `is_excess_heat`, `phi_coherent_enhancement`, `b_field_coherence_factor`, `energy_per_event`, `cumulative_heat`, `heat_to_electrical_efficiency`, `anomalous_heat_signature` |
+| `tests/test_cold_fusion.py` | 215 tests |
+
+---
+
 ## The Cross-Science Symmetry Table
 
 Every natural science maps to the same mathematical skeleton:
 
 | Science | Scale | B_μ drives | φ measures | FTUM fixed points | J^μ_inf carries |
 |---|---|---|---|---|---|
+| Cold Fusion | 10⁻¹⁵ m | D+D fusion rate | Lattice coherence | Coherent tunneling domain | Nuclear energy |
+| Atomic Structure | 10⁻¹⁰ m | Ionization/excitation | Orbital φ(n) = φ₀/n | Orbitals (KK modes) | Photon / spectral line |
 | Particle Physics | 10⁻¹⁵ m | Symmetry breaking | Vacuum | Particles, bound states | Quantum information |
 | Chemistry | 10⁻¹⁰ m | Reaction kinetics | Bond order | Molecules, phases | Chemical potential |
 | Cell Biology | 10⁻⁶ m | Metabolism | Complexity | Cells, organelles | Biochemical signal |
@@ -232,7 +304,7 @@ Every natural science maps to the same mathematical skeleton:
 | Astronomy | 10⁹ m | Stellar formation | Luminosity | Star types, planets | Radiation |
 | Cosmology | 10²⁶ m | Arrow of time | Radion | Universe itself | CMB photons |
 
-The factor spanning **41 orders of magnitude** from quarks to the observable universe is the same field φ, the same field B_μ, and the same operator U.
+The factor spanning **41 orders of magnitude** from nuclear fusion to the observable universe is the same field φ, the same field B_μ, and the same operator U.
 
 ---
 
@@ -248,7 +320,7 @@ The natural sciences are not separate disciplines connected by analogy. They are
 
 ---
 
-## Test Summary (v9.7)
+## Test Summary (v9.9)
 
 | Module | File | Tests |
 |---|---|---|
@@ -258,8 +330,10 @@ The natural sciences are not separate disciplines connected by analogy. They are
 | Oceanography | `tests/test_oceanography.py` | 46 |
 | Meteorology | `tests/test_meteorology.py` | 45 |
 | Biology | `tests/test_biology.py` | 111 |
-| **New total (Pillars 10–13)** | | **454** |
-| **Grand total (all pillars)** | | **1979 collected · 1967 passed · 1 skipped · 11 slow-deselected** |
+| Atomic Structure | `tests/test_atomic_structure.py` | 187 |
+| Cold Fusion | `tests/test_cold_fusion.py` | 215 |
+| **New total (Pillars 10–15)** | | **856** |
+| **Grand total (all pillars)** | | **2381 collected · 2369 passed · 1 skipped · 11 slow-deselected** |
 
 ---
 

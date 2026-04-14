@@ -1,9 +1,9 @@
-# The Unitary Manifold (v9.7 — Academic Edition)
+# The Unitary Manifold (v9.9 — Academic Edition)
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![1979 Tests: 1967 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-1967%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![2381 Tests: 2369 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-2369%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -272,10 +272,18 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 │   ├── geology.py                ← plate tectonics; mantle convection; geomagnetic dynamo
 │   ├── oceanography.py           ← thermohaline circulation; wave dispersion; ENSO
 │   └── meteorology.py            ← atmospheric cells; Lorenz attractor; climate forcing
-└── biology/                      ← ⭐ Pillar 13 (v9.7): Biology as Negentropy FTUM Attractors
-    ├── life.py                   ← negentropy fixed points; metabolism; information current
-    ├── evolution.py              ← FTUM fitness landscape; selection as ∇S_U; genetic drift
-    └── morphogenesis.py          ← Turing patterns as φ symmetry breaking; morphogen gradients
+├── biology/                      ← ⭐ Pillar 13 (v9.7): Biology as Negentropy FTUM Attractors
+│   ├── life.py                   ← negentropy fixed points; metabolism; information current
+│   ├── evolution.py              ← FTUM fitness landscape; selection as ∇S_U; genetic drift
+│   └── morphogenesis.py          ← Turing patterns as φ symmetry breaking; morphogen gradients
+├── atomic_structure/             ← ⭐ Pillar 14 (v9.8): Atomic Structure as KK Winding Modes
+│   ├── orbitals.py               ← hydrogen levels, radii, degeneracy, selection rules
+│   ├── spectroscopy.py           ← Rydberg constant, series wavelengths, Einstein A, Zeeman/Stark
+│   └── fine_structure.py         ← Dirac energy, Lamb shift, hyperfine, Landé g-factor
+└── cold_fusion/                  ← ⭐ Pillar 15 (v9.9): Cold Fusion as φ-Enhanced Tunneling
+    ├── tunneling.py              ← Gamow factor, φ-enhanced tunneling, coherence length
+    ├── lattice.py                ← Pd FCC geometry, deuterium loading, B-field at site
+    └── excess_heat.py            ← Q-values, COP, excess heat power, anomalous heat signature
 ```
 
 ---
@@ -288,13 +296,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (1979 tests: 1967 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (2381 tests: 2369 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (1967 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (2369 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -334,9 +342,11 @@ tests/test_geology.py                          59 passed  ← Pillar 12: geology
 tests/test_oceanography.py                     46 passed  ← Pillar 12: oceanography ✓
 tests/test_meteorology.py                      45 passed  ← Pillar 12: meteorology ✓
 tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors ✓
+tests/test_atomic_structure.py                187 passed  ← Pillar 14: atomic structure as KK modes ✓
+tests/test_cold_fusion.py                     215 passed  ← Pillar 15: cold fusion as φ tunneling ✓
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 1967 passed, 1 skipped, 11 deselected ================================
+================================ 2369 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -599,7 +609,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**1979 tests: 1967 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**2381 tests: 2369 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -611,7 +621,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (1979 tests: 1967 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (2381 tests: 2369 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
