@@ -1,9 +1,9 @@
-# The Unitary Manifold (v9.9 — Academic Edition)
+# The Unitary Manifold (v9.11 — Academic Edition)
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![2381 Tests: 2369 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-2369%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![3294 Tests: 3282 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3282%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -284,10 +284,46 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     ├── tunneling.py              ← Gamow factor, φ-enhanced tunneling, coherence length
     ├── lattice.py                ← Pd FCC geometry, deuterium loading, B-field at site
     └── excess_heat.py            ← Q-values, COP, excess heat power, anomalous heat signature
-# Additionally in src/core/:
-# ├── atomic_structure.py         ← Quarks → Nucleons → Nuclei → Hydrogen atom (full derivation chain)
-# └── cold_fusion.py              ← 5D KK-enhanced Gamow factor; lattice loading; rate pipeline
-```
+├── medicine/                     ← ⭐ Pillar 17 (v9.10): Medicine as φ-Field Homeostasis
+│   ├── diagnosis.py              ← biomarker SNR, symptom clustering, differential φ
+│   ├── treatment.py              ← drug-receptor φ, dosage, pharmacokinetics
+│   └── systemic.py               ← organ φ coupling, immune cascade, systemic balance
+├── justice/                      ← ⭐ Pillar 18 (v9.10): Justice as φ-Field Equity
+│   ├── courts.py                 ← evidence φ, verdict threshold, appeals dynamics
+│   ├── sentencing.py             ← proportionality φ, recidivism, rehabilitation
+│   └── reform.py                 ← systemic bias correction, φ-equity convergence
+├── governance/                   ← ⭐ Pillar 19 (v9.10): Governance as φ-Field Stability
+│   ├── democracy.py              ← voting φ, representation, legitimacy
+│   ├── social_contract.py        ← consent φ, rights, obligation balance
+│   └── stability.py              ← institutional resilience, corruption noise, φ fixed-points
+├── neuroscience/                 ← ⭐ Pillar 20 (v9.11): Neuroscience as φ-Field Neural Networks
+│   ├── neurons.py                ← action potential, HH model, axon velocity, synaptic weight
+│   ├── synaptic.py               ← NT decay, LTP/LTD, dopamine/serotonin, GABA inhibition
+│   └── cognition.py              ← working memory, attention, consolidation, IIT-Φ
+├── ecology/                      ← ⭐ Pillar 21 (v9.11): Ecology as φ-Field Ecosystem Dynamics
+│   ├── ecosystems.py             ← carrying capacity, entropy, energy transfer, trophic flow
+│   ├── biodiversity.py           ← Shannon diversity, extinction risk, keystone effects
+│   └── food_web.py               ← predator-prey, cascade, biomass pyramid, decomposer flux
+├── climate/                      ← ⭐ Pillar 22 (v9.11): Climate Science as φ-Field Radiative Engine
+│   ├── atmosphere.py             ← greenhouse forcing, radiative balance, albedo, ozone
+│   ├── carbon_cycle.py           ← ocean uptake, terrestrial sequestration, CH₄, permafrost
+│   └── feedback.py               ← ECS, ice-albedo, water vapour, tipping points
+├── marine/                       ← ⭐ Pillar 23 (v9.11): Marine Biology & Deep Ocean Science
+│   ├── deep_ocean.py             ← hydrothermal vents, bioluminescence, abyssal zones
+│   ├── marine_life.py            ← coral bleaching, phytoplankton, whale song, kelp forests
+│   └── ocean_dynamics.py         ← thermohaline, upwelling, acidification, El Niño
+├── psychology/                   ← ⭐ Pillar 24 (v9.11): Psychology as φ-Field Behaviour
+│   ├── cognition.py              ← load, memory trace, creativity, IEF, metacognition
+│   ├── behavior.py               ← motivation, RPE, habits, altruism, conformity
+│   └── social_psychology.py      ← cohesion, influence, prejudice, leadership, cooperation
+├── genetics/                     ← ⭐ Pillar 25 (v9.11): Genetics as φ-Field Information Archive
+│   ├── genomics.py               ← mutation rate, diversity, epigenetics, transposons
+│   ├── evolution.py              ← selection, drift, fitness, speciation, bottleneck
+│   └── expression.py             ← transcription, translation, folding, splicing, chromatin
+└── materials/                    ← ⭐ Pillar 26 (v9.11): Materials Science as φ-Field Lattice Dynamics
+    ├── condensed.py              ← band gap, phonon scattering, magnetism, defects, phase transitions
+    ├── semiconductors.py         ← carrier density, p-n junction, solar cell, quantum dots
+    └── metamaterials.py          ← negative index, plasmonic resonance, photonic bandgap, cloaking
 
 ---
 
@@ -299,13 +335,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (2381 tests: 2369 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (3294 tests: 3282 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (2369 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (3282 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -347,9 +383,19 @@ tests/test_meteorology.py                      45 passed  ← Pillar 12: meteoro
 tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors ✓
 tests/test_atomic_structure.py                187 passed  ← Pillar 14: atomic structure as KK modes ✓
 tests/test_cold_fusion.py                     215 passed  ← Pillar 15: cold fusion as φ tunneling ✓
+tests/test_medicine.py                         63 passed  ← Pillar 17: medicine as φ homeostasis ✓
+tests/test_justice.py                          63 passed  ← Pillar 18: justice as φ equity ✓
+tests/test_governance.py                      252 passed  ← Pillar 19: governance as φ stability ✓
+tests/test_neuroscience.py                    100 passed  ← Pillar 20: neuroscience as φ neural nets ✓
+tests/test_ecology.py                          95 passed  ← Pillar 21: ecology as φ ecosystems ✓
+tests/test_climate.py                          90 passed  ← Pillar 22: climate as φ radiative engine ✓
+tests/test_marine.py                           90 passed  ← Pillar 23: marine biology & deep ocean ✓
+tests/test_psychology.py                       90 passed  ← Pillar 24: psychology as φ behaviour ✓
+tests/test_genetics.py                         90 passed  ← Pillar 25: genetics as φ information ✓
+tests/test_materials.py                        90 passed  ← Pillar 26: materials science as φ lattice ✓
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 2369 passed, 1 skipped, 11 deselected ================================
+================================ 3282 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.

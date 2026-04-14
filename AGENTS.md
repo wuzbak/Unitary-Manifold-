@@ -86,6 +86,16 @@ following priority order.
 | 18 | `tests/test_quantum_unification.py` | BH info, CCR, Hawking T, ER=EPR tests |
 | 19 | `tests/test_atomic_structure.py` | Pillar 14: atomic orbitals, spectroscopy, fine structure (187 tests) |
 | 20 | `tests/test_cold_fusion.py` | Pillar 15: φ-enhanced tunneling, Pd lattice, excess heat (215 tests) |
+| 21 | `tests/test_medicine.py` | Pillar 17: diagnosis, treatment, systemic φ homeostasis (63 tests) |
+| 22 | `tests/test_justice.py` | Pillar 18: courts, sentencing, reform as φ equity (63 tests) |
+| 23 | `tests/test_governance.py` | Pillar 19: democracy, social contract, stability (252 tests) |
+| 24 | `tests/test_neuroscience.py` | Pillar 20: neurons, synaptic, cognition as φ nets (100 tests) |
+| 25 | `tests/test_ecology.py` | Pillar 21: ecosystems, biodiversity, food web (95 tests) |
+| 26 | `tests/test_climate.py` | Pillar 22: atmosphere, carbon cycle, feedback (90 tests) |
+| 27 | `tests/test_marine.py` | Pillar 23: deep ocean, marine life, ocean dynamics (90 tests) |
+| 28 | `tests/test_psychology.py` | Pillar 24: cognition, behavior, social psychology (90 tests) |
+| 29 | `tests/test_genetics.py` | Pillar 25: genomics, evolution, gene expression (90 tests) |
+| 30 | `tests/test_materials.py` | Pillar 26: condensed matter, semiconductors, metamaterials (90 tests) |
 
 ### Tier 4 — Read for theory depth
 

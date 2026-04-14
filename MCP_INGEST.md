@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.9):** All six completion requirements are solved internally.
+**Self-completion status (v9.11):** All six completion requirements are solved internally.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -138,6 +138,46 @@ such that `UΨ* = Ψ*`.
     ├── tunneling.py                   # Pillar 15: Gamow factor; φ-enhanced tunneling ✓
     ├── lattice.py                     # Pillar 15: Pd FCC geometry; D-loading; coherence volume ✓
     └── excess_heat.py                 # Pillar 15: Q-values; COP; excess heat; anomalous σ ✓
+├── medicine/                          # Pillar 17: medicine as φ-field homeostasis ✓  (v9.10)
+│   ├── diagnosis.py                   # biomarker SNR, symptom clustering, differential φ ✓
+│   ├── treatment.py                   # drug-receptor φ, dosage, pharmacokinetics ✓
+│   └── systemic.py                    # organ coupling, immune cascade, systemic balance ✓
+├── justice/                           # Pillar 18: justice as φ-field equity ✓  (v9.10)
+│   ├── courts.py                      # evidence φ, verdict threshold, appeals ✓
+│   ├── sentencing.py                  # proportionality φ, recidivism, rehabilitation ✓
+│   └── reform.py                      # systemic bias correction, φ-equity convergence ✓
+├── governance/                        # Pillar 19: governance as φ-field stability ✓  (v9.10)
+│   ├── democracy.py                   # voting φ, representation, legitimacy ✓
+│   ├── social_contract.py             # consent φ, rights, obligation balance ✓
+│   └── stability.py                   # institutional resilience, corruption noise ✓
+├── neuroscience/                      # Pillar 20: neuroscience as φ-field neural nets ✓  (v9.11)
+│   ├── neurons.py                     # action potential, HH model, axon velocity ✓
+│   ├── synaptic.py                    # NT decay, LTP/LTD, dopamine/serotonin ✓
+│   └── cognition.py                   # working memory, attention, IIT-Φ ✓
+├── ecology/                           # Pillar 21: ecology as φ-field ecosystems ✓  (v9.11)
+│   ├── ecosystems.py                  # carrying capacity, entropy, trophic flow ✓
+│   ├── biodiversity.py                # Shannon diversity, extinction risk, keystone ✓
+│   └── food_web.py                    # predator-prey, cascade, biomass pyramid ✓
+├── climate/                           # Pillar 22: climate science as φ-field radiative engine ✓  (v9.11)
+│   ├── atmosphere.py                  # greenhouse forcing, albedo, ozone ✓
+│   ├── carbon_cycle.py                # ocean/terrestrial C-cycle, CH₄, permafrost ✓
+│   └── feedback.py                    # ECS, ice-albedo, water vapour, tipping points ✓
+├── marine/                            # Pillar 23: marine biology & deep ocean science ✓  (v9.11)
+│   ├── deep_ocean.py                  # hydrothermal vents, bioluminescence, abyssal ✓
+│   ├── marine_life.py                 # coral, phytoplankton, whale song, kelp ✓
+│   └── ocean_dynamics.py              # thermohaline, upwelling, acidification, El Niño ✓
+├── psychology/                        # Pillar 24: psychology as φ-field behaviour ✓  (v9.11)
+│   ├── cognition.py                   # load, memory, creativity, metacognition ✓
+│   ├── behavior.py                    # motivation, RPE, habits, altruism ✓
+│   └── social_psychology.py           # cohesion, influence, leadership, cooperation ✓
+├── genetics/                          # Pillar 25: genetics as φ-field information archive ✓  (v9.11)
+│   ├── genomics.py                    # mutation rate, diversity, epigenetics ✓
+│   ├── evolution.py                   # selection, drift, fitness, speciation ✓
+│   └── expression.py                  # transcription, translation, folding, chromatin ✓
+└── materials/                         # Pillar 26: materials science as φ-field lattice ✓  (v9.11)
+    ├── condensed.py                   # band gap, phonon scattering, magnetism, defects ✓
+    ├── semiconductors.py              # carrier density, p-n junction, solar cell, QDs ✓
+    └── metamaterials.py               # negative index, plasmonic, photonic BG, cloaking ✓
 │
 ├── manuscript/
 │   └── ch02_mathematical_preliminaries.md
@@ -195,8 +235,18 @@ such that `UΨ* = Ψ*`.
 │   ├── test_biology.py                   # Biology as negentropy FTUM attractors (111) — v9.7
 │   ├── test_atomic_structure.py          # Atomic structure as KK winding modes (187) — v9.8
 │   ├── test_cold_fusion.py               # Cold fusion as φ-enhanced tunneling (215) — v9.9
+│   ├── test_medicine.py                  # Medicine as φ homeostasis (63) — v9.10
+│   ├── test_justice.py                   # Justice as φ equity (63) — v9.10
+│   ├── test_governance.py                # Governance as φ stability (252) — v9.10
+│   ├── test_neuroscience.py              # Neuroscience as φ neural networks (100) — v9.11
+│   ├── test_ecology.py                   # Ecology as φ ecosystems (95) — v9.11
+│   ├── test_climate.py                   # Climate science as φ radiative engine (90) — v9.11
+│   ├── test_marine.py                    # Marine biology & deep ocean (90) — v9.11
+│   ├── test_psychology.py                # Psychology as φ behaviour (90) — v9.11
+│   ├── test_genetics.py                  # Genetics as φ information archive (90) — v9.11
+│   ├── test_materials.py                 # Materials science as φ lattice (90) — v9.11
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 2381 tests — 2369 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 3294 tests — 3282 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
