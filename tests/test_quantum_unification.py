@@ -66,8 +66,9 @@ class TestInformationConservation:
         state = FieldState(g=g, B=np.zeros((N, 4)), phi=phi, t=0.0, dx=dx)
         div = self._spatial_divergence(state)
         # Expected: ∂_x J^x ≈ 2 * b * φ / √|g00| ≈ 2 * 0.01 * 1 = 0.02
+        # Measured: ~0.021; tolerance set to 2× observed value.
         # Use interior points only (boundary stencil has higher truncation error)
-        assert np.max(np.abs(div[1:-1])) < 0.1
+        assert np.max(np.abs(div[1:-1])) < 0.04
 
     def test_J0_proportional_to_phi_squared(self):
         """J^0 = φ²/√|g00| — doubling φ should quadruple J^0."""

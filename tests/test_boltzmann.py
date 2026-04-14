@@ -203,7 +203,7 @@ class TestBaryonLoadedSource:
         # At k → 0, S should be approximately A_sw (from the cos(0) = 1 factor)
         S = float(baryon_loaded_source(1e-6))
         A_sw = sw_amplitude(baryon_loading_factor())
-        assert abs(S - A_sw) < 0.1 * A_sw
+        assert abs(S - A_sw) < 0.01 * A_sw
 
     def test_zero_at_null_of_cosine(self):
         # k r_s★ = π/2 → first zero of cos

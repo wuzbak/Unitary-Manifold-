@@ -111,7 +111,7 @@ python3 -m pytest tests/test_quantum_unification.py::TestInformationConservation
 Tests verify:
 - `∂_x J^x ≈ 0` for near-flat initial conditions
 - `J^0 ≥ 0` throughout evolution (information density is non-negative)
-- Total information `∫ J^0 dx` is approximately conserved over 20 RK4 steps
+- Total information `∫ J^0 dx` is conserved to relative error < 3% over 20 RK4 steps
 - Conservation persists with the Goldberger–Wise stabilisation active
 
 ### XII.4  Relationship to Known Results
