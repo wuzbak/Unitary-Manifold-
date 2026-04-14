@@ -151,7 +151,17 @@ We are paying back less than half our collective φ-debt.
 
 ```
 recycling/
-├── README.md                      ← you are here
+├── README.md                      ← you are here (theory overview)
+│
+├── ── Plain-English Guides (no physics required) ──────────────────────────
+├── GUIDE_FOR_EVERYONE.md          ← Why recycling fails and what to do; for anyone
+├── IMPLEMENTATION_SPECS.md        ← Build specs by budget tier ($0 → $2 M)
+├── ONBOARDING.md                  ← Step-by-step checklists to start an initiative
+├── EWASTE_AND_BATTERIES.md        ← Electronics, batteries, certified routes
+├── FOREVER_CHEMICALS_PFAS.md      ← PFAS: what they are, where they hide, what to do
+├── THERMOPLASTICS.md              ← All 7 resin codes, degradation science, design
+│
+├── ── Physics Modules ─────────────────────────────────────────────────────
 ├── __init__.py
 ├── polymers.py                    ← Pillar 16a: plastics as φ-chain topology
 ├── thermochemical.py              ← Pillar 16b: chemical recovery as B_μ phase transitions
@@ -161,6 +171,17 @@ recycling/
     ├── __init__.py
     └── test_recycling.py          ← 316 unit tests
 ```
+
+### Reading order for new contributors
+
+| Goal | Read first | Then |
+|---|---|---|
+| Understand the problem | `GUIDE_FOR_EVERYONE.md` | `IMPLEMENTATION_SPECS.md` |
+| Start a community initiative | `ONBOARDING.md` | `IMPLEMENTATION_SPECS.md` |
+| Electronics / battery questions | `EWASTE_AND_BATTERIES.md` | — |
+| PFAS / forever chemicals | `FOREVER_CHEMICALS_PFAS.md` | — |
+| Plastic types and recycling science | `THERMOPLASTICS.md` | `polymers.py` |
+| Full physics framework | `README.md` (this file) | `polymers.py`, `entropy_ledger.py` |
 
 ---
 
