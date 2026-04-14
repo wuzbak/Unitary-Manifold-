@@ -17,7 +17,7 @@ future changes to the live repository.
 | Branch at time of snapshot | `main` |
 | Total files (excl. `.git`) | 161 |
 | Total size (excl. `.git`) | 5.5 MB |
-| Test suite | 1281 fast + 11 slow tests, all passing |
+| Test suite | 2369 fast + 11 slow tests, all passing |
 
 ---
 

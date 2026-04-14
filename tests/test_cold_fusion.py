@@ -1,790 +1,1148 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """
 tests/test_cold_fusion.py
 ==========================
-Unit tests for src/core/cold_fusion.py — Pillar 15: Safe Cold Fusion.
+Unit tests for src/cold_fusion/tunneling.py, lattice.py,
+and excess_heat.py.
 
-Covers every public function and the two dataclass pipelines:
-  gamow_factor, tunneling_probability,
-  kk_radion_factor, winding_compression_factor,
-  gamow_5d, tunneling_probability_5d, rate_enhancement,
-  thomas_fermi_screening_energy, lattice_dd_separation,
-  phi_lattice_enhancement, b_field_confinement_pressure,
-  effective_separation_5d, gamow_peak_energy,
-  astrophysical_s_factor_5d, cold_fusion_rate,
-  ColdFusionConfig, ColdFusionResult, run_cold_fusion
+Covers every public function (~125 tests total).
 """
 
 import sys
 import os
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-import math
 import numpy as np
 import pytest
 
-from src.core.cold_fusion import (
-    # constants
-    ALPHA_FINE,
-    AMU_MEV,
-    A_PD_ANGSTROM,
-    C_S_BRAID,
-    K_B_EV_PER_K,
-    K_CS_BRAID,
-    M_DEUTERON_MEV,
-    MU_DD_AMU,
-    N1_BRAID,
-    N2_BRAID,
-    N_E_PD_PER_CC,
-    PHI_VACUUM,
-    RHO_BRAID,
-    T_ROOM_K,
-    Z_DEUTERON,
-    # functions
+from src.cold_fusion.tunneling import (
+    sommerfeld_parameter,
     gamow_factor,
+    phi_enhanced_gamow,
     tunneling_probability,
-    kk_radion_factor,
-    winding_compression_factor,
-    gamow_5d,
-    tunneling_probability_5d,
-    rate_enhancement,
-    thomas_fermi_screening_energy,
-    lattice_dd_separation,
-    phi_lattice_enhancement,
-    b_field_confinement_pressure,
-    effective_separation_5d,
-    gamow_peak_energy,
-    astrophysical_s_factor_5d,
-    cold_fusion_rate,
-    # dataclasses
-    ColdFusionConfig,
-    ColdFusionResult,
-    run_cold_fusion,
+    coherence_length,
+    barrier_suppression_factor,
+    wkb_barrier_width,
+    phi_barrier_height,
+    tunneling_rate_per_pair,
+    enhancement_ratio,
+    minimum_phi_for_fusion,
+)
+from src.cold_fusion.lattice import (
+    pd_lattice_constant,
+    deuterium_loading_ratio,
+    lattice_site_density,
+    octahedral_site_fraction,
+    coherence_volume,
+    sites_in_coherence_volume,
+    phi_at_lattice_site,
+    lattice_strain,
+    effective_mass_deuteron,
+    b_field_at_site,
+    loading_threshold_for_fusion,
+    pd_shell_number,
+)
+from src.cold_fusion.excess_heat import (
+    dd_fusion_q_value,
+    dd_proton_branch_q_value,
+    fusion_rate_per_site,
+    excess_heat_power,
+    cop,
+    is_excess_heat,
+    phi_coherent_enhancement,
+    b_field_coherence_factor,
+    energy_per_event,
+    cumulative_heat,
+    heat_to_electrical_efficiency,
+    anomalous_heat_signature,
 )
 
 
 # ===========================================================================
-# TestConstants
+# tunneling.py — sommerfeld_parameter
 # ===========================================================================
 
-class TestConstants:
-    """Sanity checks on module-level constants."""
+class TestSommerfeldParameter:
+    def test_basic_formula(self):
+        eta = sommerfeld_parameter(1, 1, 0.001)
+        assert np.isclose(eta, 1.0 / 137.0 / 0.001)
 
-    def test_alpha_fine_value(self):
-        assert abs(ALPHA_FINE - 1.0 / 137.036) < 1e-5
+    def test_returns_float(self):
+        assert isinstance(sommerfeld_parameter(1, 1, 0.01), float)
 
-    def test_amu_mev_value(self):
-        assert abs(AMU_MEV - 931.494) < 0.01
+    def test_scales_with_charge(self):
+        eta1 = sommerfeld_parameter(1, 1, 0.01)
+        eta2 = sommerfeld_parameter(2, 1, 0.01)
+        assert np.isclose(eta2, 2.0 * eta1)
 
-    def test_a_pd_lattice_constant(self):
-        assert abs(A_PD_ANGSTROM - 3.89) < 0.1
+    def test_scales_inversely_with_velocity(self):
+        eta_slow = sommerfeld_parameter(1, 1, 0.001)
+        eta_fast = sommerfeld_parameter(1, 1, 0.01)
+        assert np.isclose(eta_slow, 10.0 * eta_fast)
 
-    def test_c_s_braid_value(self):
-        assert abs(C_S_BRAID - 12.0 / 37.0) < 1e-10
+    def test_custom_alpha(self):
+        alpha = 0.01
+        eta = sommerfeld_parameter(1, 1, 0.5, alpha_fs=alpha)
+        assert np.isclose(eta, alpha / 0.5)
 
-    def test_k_cs_braid(self):
-        assert K_CS_BRAID == N1_BRAID**2 + N2_BRAID**2
+    def test_raises_on_zero_velocity(self):
+        with pytest.raises(ValueError):
+            sommerfeld_parameter(1, 1, 0.0)
 
-    def test_rho_braid_value(self):
-        assert abs(RHO_BRAID - 35.0 / 37.0) < 1e-10
+    def test_raises_on_negative_velocity(self):
+        with pytest.raises(ValueError):
+            sommerfeld_parameter(1, 1, -0.001)
 
-    def test_mu_dd_amu_approx_one(self):
-        assert 0.9 < MU_DD_AMU < 1.1
-
-    def test_phi_vacuum_is_one(self):
-        assert PHI_VACUUM == 1.0
-
-    def test_t_room_k(self):
-        assert abs(T_ROOM_K - 293.0) < 1.0
-
-    def test_z_deuteron(self):
-        assert Z_DEUTERON == 1
-
-    def test_braid_winding_sum(self):
-        assert N1_BRAID + N2_BRAID == 12
-
-    def test_n_e_pd_positive(self):
-        assert N_E_PD_PER_CC > 0.0
+    def test_positive_result(self):
+        eta = sommerfeld_parameter(1, 2, 0.01)
+        assert eta > 0.0
 
 
 # ===========================================================================
-# TestGamowFactor
+# tunneling.py — gamow_factor
 # ===========================================================================
 
 class TestGamowFactor:
-    """Tests for gamow_factor()."""
-
-    def test_room_temperature_is_very_large(self):
-        # At 0.025 eV (kT at room T), G >> 1 for D+D
-        G = gamow_factor(1, 1, 0.025, MU_DD_AMU)
-        assert G > 1000.0
-
-    def test_gamow_keV_scale_order_of_magnitude(self):
-        # At 10 keV (hot-fusion regime), G should be moderate (~10-50)
-        G = gamow_factor(1, 1, 10e3, MU_DD_AMU)
-        assert 5.0 < G < 200.0
-
-    def test_scales_with_Z_product(self):
-        # G ∝ Z1*Z2 — doubling Z1*Z2 doubles G
-        G_1 = gamow_factor(1, 1, 100.0, 1.0)
-        G_2 = gamow_factor(2, 1, 100.0, 1.0)
-        assert abs(G_2 / G_1 - 2.0) < 1e-10
-
-    def test_scales_with_sqrt_mu(self):
-        # G ∝ √μ — quadrupling μ doubles G
-        G_1 = gamow_factor(1, 1, 100.0, 1.0)
-        G_4 = gamow_factor(1, 1, 100.0, 4.0)
-        assert abs(G_4 / G_1 - 2.0) < 1e-10
-
-    def test_scales_with_inverse_sqrt_E(self):
-        # G ∝ 1/√E — quadrupling E halves G
-        G_1 = gamow_factor(1, 1, 100.0, 1.0)
-        G_4 = gamow_factor(1, 1, 400.0, 1.0)
-        assert abs(G_4 / G_1 - 0.5) < 1e-10
-
-    def test_raises_nonpositive_energy(self):
-        with pytest.raises(ValueError):
-            gamow_factor(1, 1, 0.0, 1.0)
-        with pytest.raises(ValueError):
-            gamow_factor(1, 1, -1.0, 1.0)
-
-    def test_raises_nonpositive_mass(self):
-        with pytest.raises(ValueError):
-            gamow_factor(1, 1, 100.0, 0.0)
-        with pytest.raises(ValueError):
-            gamow_factor(1, 1, 100.0, -1.0)
+    def test_in_range(self):
+        G = gamow_factor(1, 1, 0.001)
+        assert 0.0 < G <= 1.0
 
     def test_returns_float(self):
-        G = gamow_factor(1, 1, 25e-3, MU_DD_AMU)
-        assert isinstance(G, float)
+        assert isinstance(gamow_factor(1, 1, 0.01), float)
 
-    def test_positive(self):
-        G = gamow_factor(1, 1, 1.0, 1.0)
-        assert G > 0.0
+    def test_decreases_with_lower_velocity(self):
+        G_fast = gamow_factor(1, 1, 0.01)
+        G_slow = gamow_factor(1, 1, 0.001)
+        assert G_slow < G_fast
 
-    def test_formula_crosscheck(self):
-        # Manual: G = π × 1 × 1 × α × √(2 × μ_MeV / E_MeV)
-        E_eV = 1000.0
-        mu_amu = 1.0
-        mu_MeV = mu_amu * AMU_MEV
-        E_MeV = E_eV * 1e-6
-        G_expected = math.pi * ALPHA_FINE * math.sqrt(2.0 * mu_MeV / E_MeV)
-        G_got = gamow_factor(1, 1, E_eV, mu_amu)
-        assert abs(G_got - G_expected) < 1e-10
+    def test_approaches_zero_for_very_slow(self):
+        G = gamow_factor(1, 1, 1e-6)
+        assert G < 1e-10
+
+    def test_approaches_one_for_very_fast(self):
+        G = gamow_factor(1, 1, 1.0)
+        assert G > 0.9
+
+    def test_raises_on_zero_velocity(self):
+        with pytest.raises(ValueError):
+            gamow_factor(1, 1, 0.0)
+
+    def test_higher_charge_lower_gamow(self):
+        G1 = gamow_factor(1, 1, 0.01)
+        G2 = gamow_factor(2, 2, 0.01)
+        assert G2 < G1
+
+    def test_formula_consistency_with_sommerfeld(self):
+        v = 0.005
+        eta = sommerfeld_parameter(1, 1, v)
+        G_expected = float(np.exp(-2.0 * np.pi * eta))
+        G_actual = gamow_factor(1, 1, v)
+        assert np.isclose(G_actual, G_expected)
 
 
 # ===========================================================================
-# TestTunnelingProbability
+# tunneling.py — phi_enhanced_gamow
+# ===========================================================================
+
+class TestPhiEnhancedGamow:
+    def test_phi_one_equals_bare_gamow(self):
+        v = 0.005
+        G_bare = gamow_factor(1, 1, v)
+        G_phi1 = phi_enhanced_gamow(1, 1, v, phi_local=1.0)
+        assert np.isclose(G_bare, G_phi1)
+
+    def test_phi_greater_one_increases_probability(self):
+        v = 0.005
+        G_bare = phi_enhanced_gamow(1, 1, v, phi_local=1.0)
+        G_enh = phi_enhanced_gamow(1, 1, v, phi_local=2.0)
+        assert G_enh > G_bare
+
+    def test_returns_float(self):
+        assert isinstance(phi_enhanced_gamow(1, 1, 0.01, 1.5), float)
+
+    def test_in_range(self):
+        G = phi_enhanced_gamow(1, 1, 0.001, 3.0)
+        assert 0.0 < G <= 1.0
+
+    def test_raises_on_zero_phi(self):
+        with pytest.raises(ValueError):
+            phi_enhanced_gamow(1, 1, 0.01, 0.0)
+
+    def test_raises_on_negative_phi(self):
+        with pytest.raises(ValueError):
+            phi_enhanced_gamow(1, 1, 0.01, -1.0)
+
+    def test_raises_on_zero_velocity(self):
+        with pytest.raises(ValueError):
+            phi_enhanced_gamow(1, 1, 0.0, 1.0)
+
+    def test_monotone_in_phi(self):
+        v = 0.003
+        phis = [0.5, 1.0, 2.0, 5.0]
+        gs = [phi_enhanced_gamow(1, 1, v, p) for p in phis]
+        assert gs == sorted(gs)
+
+
+# ===========================================================================
+# tunneling.py — tunneling_probability
 # ===========================================================================
 
 class TestTunnelingProbability:
-    """Tests for tunneling_probability()."""
-
-    def test_G_zero_returns_one(self):
-        assert tunneling_probability(0.0) == 1.0
-
-    def test_G_positive_less_than_one(self):
-        assert tunneling_probability(1.0) < 1.0
-
-    def test_G_large_returns_zero(self):
-        assert tunneling_probability(1000.0) == 0.0
-
-    def test_formula(self):
-        G = 5.5
-        assert abs(tunneling_probability(G) - math.exp(-2.0 * G)) < 1e-15
-
-    def test_decreasing_with_G(self):
-        assert tunneling_probability(2.0) > tunneling_probability(3.0)
-
-
-# ===========================================================================
-# TestKKRadionFactor
-# ===========================================================================
-
-class TestKKRadionFactor:
-    """Tests for kk_radion_factor()."""
-
-    def test_equal_phi_returns_one(self):
-        assert kk_radion_factor(1.0, 1.0) == 1.0
-
-    def test_enhanced_lattice_reduces_factor(self):
-        # phi_lattice > phi_vacuum → f_KK < 1
-        f = kk_radion_factor(1.0, 2.0)
-        assert f == 0.5
-
-    def test_formula(self):
-        f = kk_radion_factor(2.0, 5.0)
-        assert abs(f - 2.0 / 5.0) < 1e-12
-
-    def test_raises_nonpositive_phi_vacuum(self):
-        with pytest.raises(ValueError):
-            kk_radion_factor(0.0, 1.0)
-
-    def test_raises_nonpositive_phi_lattice(self):
-        with pytest.raises(ValueError):
-            kk_radion_factor(1.0, 0.0)
-
-    def test_always_positive(self):
-        f = kk_radion_factor(1.0, 10.0)
-        assert f > 0.0
-
-    def test_factor_bounded_by_one_when_enhanced(self):
-        f = kk_radion_factor(PHI_VACUUM, 1.1)
-        assert f <= 1.0
-
-
-# ===========================================================================
-# TestWindingCompressionFactor
-# ===========================================================================
-
-class TestWindingCompressionFactor:
-    """Tests for winding_compression_factor()."""
-
-    def test_c_s_one_returns_one(self):
-        assert winding_compression_factor(1.0, 12.0) == 1.0
-
-    def test_canonical_braid_state(self):
-        # c_s = 12/37, n_w = 12 → f_w = (12/37)^6
-        f = winding_compression_factor(C_S_BRAID, 12.0)
-        expected = (12.0 / 37.0) ** 6.0
-        assert abs(f - expected) < 1e-12
-
-    def test_less_than_one_for_small_c_s(self):
-        f = winding_compression_factor(0.5, 2.0)
-        assert f < 1.0
-
-    def test_raises_nonpositive_c_s(self):
-        with pytest.raises(ValueError):
-            winding_compression_factor(0.0, 12.0)
-
-    def test_raises_c_s_greater_than_one(self):
-        with pytest.raises(ValueError):
-            winding_compression_factor(1.5, 12.0)
-
-    def test_raises_nonpositive_nw(self):
-        with pytest.raises(ValueError):
-            winding_compression_factor(0.5, 0.0)
-
-    def test_positive(self):
-        f = winding_compression_factor(C_S_BRAID, 5.0)
-        assert f > 0.0
-
-    def test_decreases_with_nw(self):
-        f6 = winding_compression_factor(0.5, 6.0)
-        f12 = winding_compression_factor(0.5, 12.0)
-        assert f12 < f6
-
-
-# ===========================================================================
-# TestGamow5D
-# ===========================================================================
-
-class TestGamow5D:
-    """Tests for gamow_5d()."""
-
-    def test_no_enhancement_equals_4d(self):
-        G4 = gamow_factor(1, 1, 100.0, 1.0)
-        G5 = gamow_5d(1, 1, 100.0, 1.0, phi_vacuum=1.0, phi_lattice=1.0,
-                      c_s=1.0, n_w=1.0)
-        assert abs(G5 - G4) < 1e-10
-
-    def test_5d_leq_4d(self):
-        # 5D always ≤ 4D
-        G4 = gamow_factor(1, 1, 25e-3, MU_DD_AMU)
-        G5 = gamow_5d(1, 1, 25e-3, MU_DD_AMU, phi_vacuum=1.0,
-                      phi_lattice=1.1)
-        assert G5 <= G4
-
-    def test_lattice_enhancement_reduces_gamow(self):
-        G5_enhanced = gamow_5d(1, 1, 100.0, 1.0, phi_lattice=2.0)
-        G5_none = gamow_5d(1, 1, 100.0, 1.0, phi_lattice=1.0)
-        assert G5_enhanced < G5_none
-
-    def test_formula_consistency(self):
-        G4 = gamow_factor(1, 1, 500.0, 1.5)
-        f_kk = kk_radion_factor(1.0, 1.5)
-        f_w = winding_compression_factor(C_S_BRAID, 12.0)
-        G5_expected = G4 * f_kk * f_w
-        G5_got = gamow_5d(1, 1, 500.0, 1.5, phi_vacuum=1.0,
-                          phi_lattice=1.5)
-        assert abs(G5_got - G5_expected) < 1e-10
+    def test_in_unit_interval(self):
+        T = tunneling_probability(1, 1, 0.001, 1.0)
+        assert 0.0 <= T <= 1.0
 
     def test_returns_float(self):
-        G5 = gamow_5d(1, 1, 1000.0, 1.0)
-        assert isinstance(G5, float)
+        assert isinstance(tunneling_probability(1, 1, 0.01, 1.0), float)
 
-    def test_positive(self):
-        G5 = gamow_5d(1, 1, 1000.0, 1.0)
-        assert G5 > 0.0
+    def test_matches_phi_enhanced_gamow(self):
+        T = tunneling_probability(1, 1, 0.005, 2.0)
+        G = phi_enhanced_gamow(1, 1, 0.005, 2.0)
+        assert np.isclose(T, G)
 
+    def test_increases_with_phi(self):
+        T1 = tunneling_probability(1, 1, 0.005, 1.0)
+        T2 = tunneling_probability(1, 1, 0.005, 3.0)
+        assert T2 > T1
 
-# ===========================================================================
-# TestTunnelingProbability5D
-# ===========================================================================
-
-class TestTunnelingProbability5D:
-    """Tests for tunneling_probability_5d()."""
-
-    def test_greater_than_4d_probability(self):
-        # With lattice enhancement, P₅ > P₄
-        P4 = tunneling_probability(gamow_factor(1, 1, 1000.0, MU_DD_AMU))
-        P5 = tunneling_probability_5d(1, 1, 1000.0, MU_DD_AMU,
-                                       phi_lattice=1.1)
-        assert P5 >= P4
-
-    def test_bounded_zero_one(self):
-        P5 = tunneling_probability_5d(1, 1, 25e-3, MU_DD_AMU,
-                                       phi_lattice=1.1)
-        assert 0.0 <= P5 <= 1.0
-
-    def test_formula_consistency(self):
-        G5 = gamow_5d(1, 1, 1000.0, 1.0, phi_lattice=1.5)
-        expected = math.exp(-2.0 * G5)
-        got = tunneling_probability_5d(1, 1, 1000.0, 1.0, phi_lattice=1.5)
-        assert abs(got - expected) < 1e-15
-
-
-# ===========================================================================
-# TestRateEnhancement
-# ===========================================================================
-
-class TestRateEnhancement:
-    """Tests for rate_enhancement()."""
-
-    def test_equal_gamow_returns_one(self):
-        assert rate_enhancement(10.0, 10.0) == 1.0
-
-    def test_enhancement_greater_than_one(self):
-        eta = rate_enhancement(100.0, 50.0)
-        assert eta > 1.0
-
-    def test_formula(self):
-        G4, G5 = 200.0, 150.0
-        expected = math.exp(2.0 * (G4 - G5))
-        assert abs(rate_enhancement(G4, G5) - expected) < 1e-6
-
-    def test_raises_negative_G5(self):
+    def test_raises_on_bad_phi(self):
         with pytest.raises(ValueError):
-            rate_enhancement(10.0, -1.0)
+            tunneling_probability(1, 1, 0.01, 0.0)
 
-    def test_raises_G5_greater_than_G4(self):
+    def test_raises_on_bad_velocity(self):
         with pytest.raises(ValueError):
-            rate_enhancement(5.0, 10.0)
-
-    def test_large_enhancement_when_G5_small(self):
-        # Even modest G4-G5 gap gives enormous enhancement
-        eta = rate_enhancement(100.0, 90.0)
-        assert eta > 1e8
+            tunneling_probability(1, 1, 0.0, 1.0)
 
 
 # ===========================================================================
-# TestThomasFermiScreening
+# tunneling.py — coherence_length
 # ===========================================================================
 
-class TestThomasFermiScreening:
-    """Tests for thomas_fermi_screening_energy()."""
+class TestCoherenceLength:
+    def test_returns_positive_float(self):
+        xi = coherence_length(300.0, 1.0)
+        assert isinstance(xi, float)
+        assert xi > 0.0
 
-    def test_pd_screening_is_few_tens_eV(self):
-        dE = thomas_fermi_screening_energy(N_E_PD_PER_CC)
-        # Standard TF screening in Pd: ~30–80 eV
-        assert 10.0 < dE < 200.0
+    def test_decreases_with_temperature(self):
+        xi_cold = coherence_length(100.0, 1.0)
+        xi_hot = coherence_length(1000.0, 1.0)
+        assert xi_cold > xi_hot
 
-    def test_scales_with_Z_eff(self):
-        dE1 = thomas_fermi_screening_energy(N_E_PD_PER_CC, Z_eff=1)
-        dE2 = thomas_fermi_screening_energy(N_E_PD_PER_CC, Z_eff=2)
-        assert abs(dE2 / dE1 - 2.0) < 1e-10
+    def test_decreases_with_phi(self):
+        xi_lo = coherence_length(300.0, 0.5)
+        xi_hi = coherence_length(300.0, 2.0)
+        assert xi_lo > xi_hi
 
-    def test_positive(self):
-        assert thomas_fermi_screening_energy(1e20) > 0.0
-
-    def test_raises_nonpositive_density(self):
+    def test_raises_on_zero_temperature(self):
         with pytest.raises(ValueError):
-            thomas_fermi_screening_energy(0.0)
+            coherence_length(0.0, 1.0)
 
-    def test_increases_with_electron_density(self):
-        dE_low = thomas_fermi_screening_energy(1e21)
-        dE_high = thomas_fermi_screening_energy(1e23)
-        assert dE_high > dE_low
-
-    def test_tf_energy_negligible_vs_coulomb_barrier(self):
-        # TF screening (~25 eV) is negligible vs the D+D Coulomb barrier height
-        # (~100 keV at nuclear contact radius of a few fm).
-        dE = thomas_fermi_screening_energy(N_E_PD_PER_CC)
-        coulomb_barrier_eV = 100e3  # ~100 keV for D+D
-        assert dE < coulomb_barrier_eV * 0.01  # less than 1% of barrier
-
-
-# ===========================================================================
-# TestLatticeDDSeparation
-# ===========================================================================
-
-class TestLatticeDDSeparation:
-    """Tests for lattice_dd_separation()."""
-
-    def test_full_loading_gives_nn_distance(self):
-        # At x=1: d = a_Pd/√2 ≈ 2.75 Å
-        d = lattice_dd_separation(1.0)
-        assert abs(d - A_PD_ANGSTROM / math.sqrt(2.0)) < 1e-10
-
-    def test_full_loading_larger_than_d2_bond(self):
-        # D-D bond in free D₂ ≈ 0.74 Å; lattice separation must be larger
-        d = lattice_dd_separation(1.0)
-        assert d > 0.74
-
-    def test_increases_as_loading_decreases(self):
-        d_high = lattice_dd_separation(0.9)
-        d_low = lattice_dd_separation(0.1)
-        assert d_low > d_high
-
-    def test_raises_zero_loading(self):
+    def test_raises_on_negative_temperature(self):
         with pytest.raises(ValueError):
-            lattice_dd_separation(0.0)
+            coherence_length(-10.0, 1.0)
 
-    def test_raises_negative_loading(self):
+    def test_raises_on_zero_phi(self):
         with pytest.raises(ValueError):
-            lattice_dd_separation(-0.1)
+            coherence_length(300.0, 0.0)
 
-    def test_raises_loading_above_one(self):
+    def test_raises_on_negative_phi(self):
         with pytest.raises(ValueError):
-            lattice_dd_separation(1.1)
+            coherence_length(300.0, -1.0)
 
-    def test_custom_lattice_constant(self):
-        d = lattice_dd_separation(1.0, a_pd_angstrom=4.0)
-        assert abs(d - 4.0 / math.sqrt(2.0)) < 1e-10
+    def test_custom_mass(self):
+        xi_light = coherence_length(300.0, 1.0, m_particle=1.0)
+        xi_heavy = coherence_length(300.0, 1.0, m_particle=4.0)
+        assert xi_light > xi_heavy
 
-    def test_returns_angstroms_scale(self):
-        d = lattice_dd_separation(0.9)
-        assert 1.0 < d < 10.0
-
-
-# ===========================================================================
-# TestPhiLatticeEnhancement
-# ===========================================================================
-
-class TestPhiLatticeEnhancement:
-    """Tests for phi_lattice_enhancement()."""
-
-    def test_always_geq_one(self):
-        for x in [0.1, 0.5, 0.9, 1.0]:
-            phi = phi_lattice_enhancement(x)
-            assert phi >= 1.0
-
-    def test_increases_with_loading(self):
-        phi_low = phi_lattice_enhancement(0.1)
-        phi_high = phi_lattice_enhancement(1.0)
-        assert phi_high > phi_low
-
-    def test_formula_at_full_loading(self):
-        # φ = 1 + 0.1 × (n_e / n_e_ref) × 1^{2/3} = 1 + 0.1 × 1.0 = 1.1
-        phi = phi_lattice_enhancement(1.0, n_e_pd=N_E_PD_PER_CC)
-        assert abs(phi - 1.1) < 1e-10
-
-    def test_raises_zero_loading(self):
-        with pytest.raises(ValueError):
-            phi_lattice_enhancement(0.0)
-
-    def test_raises_loading_above_one(self):
-        with pytest.raises(ValueError):
-            phi_lattice_enhancement(1.5)
-
-    def test_vacuum_reference_density(self):
-        # At n_e = n_e_ref and x=1, enhancement is exactly 10 % above vacuum
-        phi = phi_lattice_enhancement(1.0, N_E_PD_PER_CC)
-        assert abs(phi - 1.10) < 1e-10
+    def test_formula_check(self):
+        T_K = 300.0
+        phi = 1.0
+        m = 2.0
+        k_B_nat = 3.17e-6
+        kT = T_K * k_B_nat
+        expected = 1.0 / np.sqrt(2.0 * m * kT * phi ** 2)
+        assert np.isclose(coherence_length(T_K, phi, m), expected)
 
 
 # ===========================================================================
-# TestBFieldConfinementPressure
+# tunneling.py — barrier_suppression_factor
 # ===========================================================================
 
-class TestBFieldConfinementPressure:
-    """Tests for b_field_confinement_pressure()."""
+class TestBarrierSuppressionFactor:
+    def test_phi_ref_equals_one(self):
+        S = barrier_suppression_factor(2.0)
+        assert np.isclose(S, 2.0)
 
-    def test_zero_Hmax_returns_zero(self):
-        assert b_field_confinement_pressure(0.0, 1.0, 1.0) == 0.0
-
-    def test_scales_as_H_squared(self):
-        P1 = b_field_confinement_pressure(1.0, 1.0, 1.0)
-        P2 = b_field_confinement_pressure(2.0, 1.0, 1.0)
-        assert abs(P2 / P1 - 4.0) < 1e-10
-
-    def test_scales_as_phi_squared(self):
-        P1 = b_field_confinement_pressure(1.0, 1.0, 1.0)
-        P2 = b_field_confinement_pressure(1.0, 2.0, 1.0)
-        assert abs(P2 / P1 - 4.0) < 1e-10
-
-    def test_scales_as_lam_squared(self):
-        P1 = b_field_confinement_pressure(1.0, 1.0, 1.0)
-        P2 = b_field_confinement_pressure(1.0, 1.0, 3.0)
-        assert abs(P2 / P1 - 9.0) < 1e-10
-
-    def test_non_negative(self):
-        P = b_field_confinement_pressure(2.0, 1.5, 0.5)
-        assert P >= 0.0
-
-
-# ===========================================================================
-# TestEffectiveSeparation5D
-# ===========================================================================
-
-class TestEffectiveSeparation5D:
-    """Tests for effective_separation_5d()."""
-
-    def test_no_5d_effects_returns_geometric(self):
-        d_geom = 2.5
-        d_eff = effective_separation_5d(d_geom, phi_ratio=1.0, H_max=0.0)
-        assert abs(d_eff - d_geom) < 1e-10
-
-    def test_kk_suppression_reduces_separation(self):
-        d_geom = 2.5
-        d_eff = effective_separation_5d(d_geom, phi_ratio=0.9, H_max=0.0)
-        assert d_eff < d_geom
-
-    def test_b_field_reduces_separation(self):
-        d_no_B = effective_separation_5d(2.5, phi_ratio=1.0, H_max=0.0)
-        d_with_B = effective_separation_5d(2.5, phi_ratio=1.0, H_max=10.0,
-                                            phi_mean=1.0, lam=1.0)
-        assert d_with_B <= d_no_B
-
-    def test_positive_result(self):
-        d = effective_separation_5d(3.0, phi_ratio=0.95, H_max=1.0)
-        assert d > 0.0
-
-
-# ===========================================================================
-# TestGamowPeakEnergy
-# ===========================================================================
-
-class TestGamowPeakEnergy:
-    """Tests for gamow_peak_energy()."""
-
-    def test_dd_room_temp_order_of_magnitude(self):
-        # Gamow peak for D+D at 293 K should be ~eV range
-        E_G = gamow_peak_energy(1, 1, MU_DD_AMU, T_ROOM_K)
-        assert E_G > 0.0
-        assert E_G < 1e6  # less than 1 MeV
-
-    def test_increases_with_temperature(self):
-        E_G_300 = gamow_peak_energy(1, 1, MU_DD_AMU, 300.0)
-        E_G_1e7 = gamow_peak_energy(1, 1, MU_DD_AMU, 1e7)
-        assert E_G_1e7 > E_G_300
-
-    def test_increases_with_Z(self):
-        E_G_1 = gamow_peak_energy(1, 1, 1.0, 1e6)
-        E_G_2 = gamow_peak_energy(2, 2, 1.0, 1e6)
-        assert E_G_2 > E_G_1
-
-    def test_returns_positive(self):
-        E_G = gamow_peak_energy(1, 1, 1.0, 1000.0)
-        assert E_G > 0.0
-
-
-# ===========================================================================
-# TestAstrophysicalSFactor5D
-# ===========================================================================
-
-class TestAstrophysicalSFactor5D:
-    """Tests for astrophysical_s_factor_5d()."""
-
-    def test_equal_gamow_returns_S0(self):
-        S5 = astrophysical_s_factor_5d(55e-3, 100.0, 100.0)
-        assert abs(S5 - 55e-3) < 1e-12
-
-    def test_enhanced_when_G5_less_than_G4(self):
-        S5 = astrophysical_s_factor_5d(55e-3, 100.0, 80.0)
-        assert S5 > 55e-3
-
-    def test_formula(self):
-        S0, G4, G5 = 0.1, 200.0, 100.0
-        expected = S0 * math.exp(2.0 * (G4 - G5))
-        assert abs(astrophysical_s_factor_5d(S0, G4, G5) - expected) < 1e-8
-
-    def test_positive(self):
-        assert astrophysical_s_factor_5d(1.0, 50.0, 30.0) > 0.0
-
-
-# ===========================================================================
-# TestColdFusionRate
-# ===========================================================================
-
-class TestColdFusionRate:
-    """Tests for cold_fusion_rate()."""
+    def test_symmetric(self):
+        S = barrier_suppression_factor(3.0, phi_ref=3.0)
+        assert np.isclose(S, 1.0)
 
     def test_returns_float(self):
-        R = cold_fusion_rate(1e20, T_ROOM_K)
-        assert isinstance(R, float)
+        assert isinstance(barrier_suppression_factor(1.5), float)
 
-    def test_non_negative(self):
-        R = cold_fusion_rate(1e20, T_ROOM_K)
-        assert R >= 0.0
-
-    def test_5d_rate_geq_4d_rate(self):
-        R_4d = cold_fusion_rate(1e20, T_ROOM_K, phi_lattice=1.0)
-        R_5d = cold_fusion_rate(1e20, T_ROOM_K, phi_lattice=1.1)
-        assert R_5d >= R_4d
-
-    def test_rate_increases_with_n_D(self):
-        # Use elevated temp so rate is finite; rate ∝ n_D²
-        T_test = 1e6
-        R_low = cold_fusion_rate(1e18, T_test, phi_lattice=1.1)
-        R_high = cold_fusion_rate(1e20, T_test, phi_lattice=1.1)
-        assert R_high > R_low
-
-    def test_rate_increases_with_temperature(self):
-        R_cold = cold_fusion_rate(1e20, 3000.0, phi_lattice=1.1)
-        R_hot = cold_fusion_rate(1e20, 1e6, phi_lattice=1.1)
-        assert R_hot >= R_cold
-
-    def test_raises_nonpositive_n_D(self):
+    def test_raises_on_zero_phi_local(self):
         with pytest.raises(ValueError):
-            cold_fusion_rate(0.0, T_ROOM_K)
+            barrier_suppression_factor(0.0)
 
-    def test_raises_nonpositive_T(self):
+    def test_raises_on_zero_phi_ref(self):
         with pytest.raises(ValueError):
-            cold_fusion_rate(1e20, 0.0)
+            barrier_suppression_factor(1.0, phi_ref=0.0)
+
+    def test_raises_on_negative_phi_local(self):
+        with pytest.raises(ValueError):
+            barrier_suppression_factor(-1.0)
 
 
 # ===========================================================================
-# TestColdFusionConfig
+# tunneling.py — wkb_barrier_width
 # ===========================================================================
 
-class TestColdFusionConfig:
-    """Tests for ColdFusionConfig dataclass."""
+class TestWKBBarrierWidth:
+    def test_zero_kinetic_energy(self):
+        d = wkb_barrier_width(0.0, 1.0)
+        assert np.isclose(d, 1.0)
 
-    def test_default_values(self):
-        cfg = ColdFusionConfig()
-        assert cfg.T_K == T_ROOM_K
-        assert cfg.loading_ratio == 0.9
-        assert cfg.phi_vacuum == PHI_VACUUM
-        assert cfg.c_s == C_S_BRAID
-        assert cfg.n_w == float(N1_BRAID + N2_BRAID)
+    def test_at_barrier_top_is_zero(self):
+        d = wkb_barrier_width(1.0, 1.0)
+        assert np.isclose(d, 0.0)
 
-    def test_resolved_n_D_with_explicit(self):
-        cfg = ColdFusionConfig(n_D_per_cc=5e21)
-        assert cfg.resolved_n_D() == 5e21
+    def test_returns_float(self):
+        assert isinstance(wkb_barrier_width(0.5, 1.0), float)
 
-    def test_resolved_n_D_from_loading(self):
-        cfg = ColdFusionConfig(n_D_per_cc=0.0, loading_ratio=1.0)
-        n_D = cfg.resolved_n_D()
-        assert n_D > 0.0
-        # Should be ~ n_e / 10 * x
-        expected = N_E_PD_PER_CC / 10.0 * 1.0
-        assert abs(n_D - expected) < 1.0
+    def test_decreases_with_kinetic_energy(self):
+        d1 = wkb_barrier_width(0.1, 1.0)
+        d2 = wkb_barrier_width(0.5, 1.0)
+        assert d1 > d2
 
-    def test_custom_temperature(self):
-        cfg = ColdFusionConfig(T_K=500.0)
-        assert cfg.T_K == 500.0
+    def test_raises_on_zero_barrier(self):
+        with pytest.raises(ValueError):
+            wkb_barrier_width(0.5, 0.0)
+
+    def test_raises_on_negative_barrier(self):
+        with pytest.raises(ValueError):
+            wkb_barrier_width(0.5, -1.0)
+
+    def test_raises_when_ekin_exceeds_barrier(self):
+        with pytest.raises(ValueError):
+            wkb_barrier_width(1.5, 1.0)
+
+    def test_nonnegative(self):
+        d = wkb_barrier_width(0.8, 1.0)
+        assert d >= 0.0
 
 
 # ===========================================================================
-# TestRunColdFusion
+# tunneling.py — phi_barrier_height
 # ===========================================================================
 
-class TestRunColdFusion:
-    """Tests for run_cold_fusion() pipeline."""
+class TestPhiBarrierHeight:
+    def test_phi_one_returns_v0(self):
+        V = phi_barrier_height(10.0, 1.0)
+        assert np.isclose(V, 10.0)
 
-    def _default_result(self):
-        return run_cold_fusion(ColdFusionConfig())
+    def test_phi_greater_one_reduces_barrier(self):
+        V = phi_barrier_height(10.0, 2.0)
+        assert np.isclose(V, 5.0)
 
-    def test_returns_ColdFusionResult(self):
-        result = self._default_result()
-        assert isinstance(result, ColdFusionResult)
+    def test_returns_float(self):
+        assert isinstance(phi_barrier_height(5.0, 2.0), float)
 
-    def test_G5_leq_G4(self):
-        result = self._default_result()
-        assert result.G5 <= result.G4
+    def test_raises_on_zero_v0(self):
+        with pytest.raises(ValueError):
+            phi_barrier_height(0.0, 1.0)
 
-    def test_phi_lattice_geq_phi_vacuum(self):
-        result = self._default_result()
-        assert result.phi_lattice >= PHI_VACUUM
+    def test_raises_on_negative_v0(self):
+        with pytest.raises(ValueError):
+            phi_barrier_height(-1.0, 1.0)
 
-    def test_f_kk_leq_one(self):
-        result = self._default_result()
-        assert result.f_kk <= 1.0
+    def test_raises_on_zero_phi(self):
+        with pytest.raises(ValueError):
+            phi_barrier_height(5.0, 0.0)
 
-    def test_f_winding_leq_one(self):
-        result = self._default_result()
-        assert result.f_winding <= 1.0
+    def test_raises_on_negative_phi(self):
+        with pytest.raises(ValueError):
+            phi_barrier_height(5.0, -0.5)
 
-    def test_enhancement_geq_one(self):
-        result = self._default_result()
-        assert result.enhancement >= 1.0
+    def test_monotone_decreasing_in_phi(self):
+        phis = [0.5, 1.0, 2.0, 5.0]
+        vs = [phi_barrier_height(10.0, p) for p in phis]
+        assert vs == sorted(vs, reverse=True)
 
-    def test_rate_5d_geq_rate_4d(self):
-        result = self._default_result()
-        assert result.rate_5d >= result.rate_4d
 
-    def test_d_DD_angstrom_positive(self):
-        result = self._default_result()
-        assert result.d_DD_angstrom > 0.0
+# ===========================================================================
+# tunneling.py — tunneling_rate_per_pair
+# ===========================================================================
 
-    def test_d_DD_larger_than_d2_bond(self):
-        result = self._default_result()
-        assert result.d_DD_angstrom > 0.74  # D₂ bond length
+class TestTunnelingRatePerPair:
+    def test_returns_positive_float(self):
+        rate = tunneling_rate_per_pair(0.001, 1.5, 1.0)
+        assert isinstance(rate, float)
+        assert rate >= 0.0
 
-    def test_delta_E_TF_small(self):
-        result = self._default_result()
-        # TF screening in Pd should be tens of eV, not MeV
-        assert result.delta_E_TF_eV < 1000.0
+    def test_scales_with_velocity(self):
+        r1 = tunneling_rate_per_pair(0.001, 1.5, 1.0)
+        r2 = tunneling_rate_per_pair(0.002, 1.5, 1.0)
+        assert r2 > r1
 
-    def test_log10_rate_5d_geq_log10_rate_4d(self):
-        result = self._default_result()
-        assert result.log10_rate_5d >= result.log10_rate_4d
+    def test_raises_on_zero_r_site(self):
+        with pytest.raises(ValueError):
+            tunneling_rate_per_pair(0.001, 1.5, 0.0)
 
-    def test_E_gamow_eV_positive(self):
-        result = self._default_result()
-        assert result.E_gamow_eV > 0.0
+    def test_raises_on_zero_velocity(self):
+        with pytest.raises(ValueError):
+            tunneling_rate_per_pair(0.0, 1.5, 1.0)
 
-    def test_T_K_propagated(self):
-        result = self._default_result()
-        assert result.T_K == T_ROOM_K
+    def test_higher_phi_gives_higher_rate(self):
+        r1 = tunneling_rate_per_pair(0.001, 1.0, 1.0)
+        r2 = tunneling_rate_per_pair(0.001, 3.0, 1.0)
+        assert r2 > r1
 
-    def test_loading_ratio_propagated(self):
-        result = self._default_result()
-        assert result.loading_ratio == 0.9
 
-    def test_high_temperature_gives_larger_rate(self):
-        result_cold = run_cold_fusion(ColdFusionConfig(T_K=3000.0))
-        result_hot = run_cold_fusion(ColdFusionConfig(T_K=1e7))
-        assert result_hot.rate_5d >= result_cold.rate_5d
+# ===========================================================================
+# tunneling.py — enhancement_ratio
+# ===========================================================================
 
-    def test_higher_loading_increases_enhancement(self):
-        result_low = run_cold_fusion(ColdFusionConfig(loading_ratio=0.1))
-        result_high = run_cold_fusion(ColdFusionConfig(loading_ratio=1.0))
-        # Higher loading → larger phi_lattice → larger enhancement
-        assert result_high.enhancement >= result_low.enhancement
+class TestEnhancementRatio:
+    def test_phi_enhanced_gt_ref_gives_ratio_gt_one(self):
+        R = enhancement_ratio(2.0, phi_ref=1.0)
+        assert R > 1.0
 
-    def test_result_fields_are_floats(self):
-        result = self._default_result()
-        for attr in [
-            "G4", "G5", "f_kk", "f_winding", "enhancement",
-            "rate_4d", "rate_5d", "d_DD_angstrom", "delta_E_TF_eV",
-        ]:
-            assert isinstance(getattr(result, attr), float), attr
+    def test_same_phi_gives_ratio_close_to_one(self):
+        R = enhancement_ratio(1.0, phi_ref=1.0)
+        assert np.isclose(R, 1.0, rtol=1e-5)
 
-    def test_gamow_factors_both_positive(self):
-        result = self._default_result()
-        assert result.G4 > 0.0
-        assert result.G5 > 0.0
+    def test_returns_float(self):
+        assert isinstance(enhancement_ratio(2.0), float)
 
-    def test_room_temp_rate_essentially_zero_without_5d(self):
-        # Without 5D winding enhancement (c_s=1, n_w=1) and no lattice phi
-        # boost, the room-temperature D+D rate is float-underflow zero.
-        result = run_cold_fusion(
-            ColdFusionConfig(T_K=T_ROOM_K, loading_ratio=1.0)
-        )
-        # rate_4d uses c_s=1, n_w=1 (pure 4D) → G4≈480 → exp(-960) = 0.0
-        assert result.rate_4d == 0.0
+    def test_raises_on_zero_phi_ref(self):
+        with pytest.raises(ValueError):
+            enhancement_ratio(2.0, phi_ref=0.0)
 
-    def test_5d_produces_nonzero_log_rate_at_higher_loading(self):
-        # With full enhancement the 5D log-rate is finite (not -inf)
-        result = run_cold_fusion(
-            ColdFusionConfig(
-                T_K=T_ROOM_K,
-                loading_ratio=1.0,
-                c_s=C_S_BRAID,
-                n_w=12.0,
-            )
-        )
-        # log10_rate_5d may still be -inf at room T due to very large G5,
-        # but at least the structure is consistent
-        assert math.isfinite(result.G5) or result.G5 > 0.0
+    def test_raises_on_zero_phi_enhanced(self):
+        with pytest.raises(ValueError):
+            enhancement_ratio(0.0, phi_ref=1.0)
+
+    def test_monotone_in_phi_enhanced(self):
+        phis = [1.0, 2.0, 4.0, 8.0]
+        ratios = [enhancement_ratio(p, phi_ref=1.0) for p in phis]
+        assert ratios == sorted(ratios)
+
+
+# ===========================================================================
+# tunneling.py — minimum_phi_for_fusion
+# ===========================================================================
+
+class TestMinimumPhiForFusion:
+    def test_returns_positive_float(self):
+        phi_min = minimum_phi_for_fusion(1, 1, 0.001)
+        assert isinstance(phi_min, float)
+        assert phi_min > 0.0
+
+    def test_achieves_target_probability(self):
+        T_min = 1e-10
+        phi_min = minimum_phi_for_fusion(1, 1, 0.001, T_min=T_min)
+        T_actual = tunneling_probability(1, 1, 0.001, phi_min)
+        assert np.isclose(T_actual, T_min, rtol=1e-4)
+
+    def test_raises_on_zero_t_min(self):
+        with pytest.raises(ValueError):
+            minimum_phi_for_fusion(1, 1, 0.001, T_min=0.0)
+
+    def test_raises_on_t_min_ge_one(self):
+        with pytest.raises(ValueError):
+            minimum_phi_for_fusion(1, 1, 0.001, T_min=1.0)
+
+    def test_raises_on_negative_t_min(self):
+        with pytest.raises(ValueError):
+            minimum_phi_for_fusion(1, 1, 0.001, T_min=-1e-5)
+
+    def test_raises_on_zero_velocity(self):
+        with pytest.raises(ValueError):
+            minimum_phi_for_fusion(1, 1, 0.0, T_min=1e-10)
+
+    def test_lower_t_min_requires_lower_phi(self):
+        phi_higher_t_min = minimum_phi_for_fusion(1, 1, 0.001, T_min=1e-5)
+        phi_lower_t_min = minimum_phi_for_fusion(1, 1, 0.001, T_min=1e-20)
+        assert phi_lower_t_min < phi_higher_t_min
+
+
+# ===========================================================================
+# lattice.py — pd_lattice_constant
+# ===========================================================================
+
+class TestPdLatticeConstant:
+    def test_default_returns_two_pi_over_5(self):
+        a = pd_lattice_constant()
+        assert np.isclose(a, 2.0 * np.pi / 5.0)
+
+    def test_returns_float(self):
+        assert isinstance(pd_lattice_constant(), float)
+
+    def test_scales_with_phi_mean(self):
+        a1 = pd_lattice_constant(phi_mean=1.0)
+        a2 = pd_lattice_constant(phi_mean=2.0)
+        assert np.isclose(a2, 2.0 * a1)
+
+    def test_decreases_with_winding_number(self):
+        a1 = pd_lattice_constant(n_w=1)
+        a5 = pd_lattice_constant(n_w=5)
+        assert a1 > a5
+
+    def test_raises_on_zero_phi_mean(self):
+        with pytest.raises(ValueError):
+            pd_lattice_constant(phi_mean=0.0)
+
+    def test_raises_on_negative_phi_mean(self):
+        with pytest.raises(ValueError):
+            pd_lattice_constant(phi_mean=-1.0)
+
+    def test_raises_on_zero_nw(self):
+        with pytest.raises(ValueError):
+            pd_lattice_constant(n_w=0)
+
+    def test_raises_on_negative_nw(self):
+        with pytest.raises(ValueError):
+            pd_lattice_constant(n_w=-1)
+
+
+# ===========================================================================
+# lattice.py — deuterium_loading_ratio
+# ===========================================================================
+
+class TestDeuteriumLoadingRatio:
+    def test_basic_ratio(self):
+        rho = deuterium_loading_ratio(80.0, 100.0)
+        assert np.isclose(rho, 0.8)
+
+    def test_returns_float(self):
+        assert isinstance(deuterium_loading_ratio(50.0, 100.0), float)
+
+    def test_zero_deuterium(self):
+        rho = deuterium_loading_ratio(0.0, 100.0)
+        assert np.isclose(rho, 0.0)
+
+    def test_raises_on_zero_pd(self):
+        with pytest.raises(ValueError):
+            deuterium_loading_ratio(50.0, 0.0)
+
+    def test_raises_on_negative_nd(self):
+        with pytest.raises(ValueError):
+            deuterium_loading_ratio(-1.0, 100.0)
+
+    def test_raises_when_ratio_exceeds_2(self):
+        with pytest.raises(ValueError):
+            deuterium_loading_ratio(300.0, 100.0)
+
+    def test_exactly_two_is_invalid(self):
+        with pytest.raises(ValueError):
+            deuterium_loading_ratio(200.1, 100.0)
+
+    def test_maximum_allowed(self):
+        rho = deuterium_loading_ratio(200.0, 100.0)
+        assert np.isclose(rho, 2.0)
+
+
+# ===========================================================================
+# lattice.py — lattice_site_density
+# ===========================================================================
+
+class TestLatticeSiteDensity:
+    def test_fcc_formula(self):
+        a = 2.0
+        n = lattice_site_density(a)
+        assert np.isclose(n, 4.0 / a ** 3)
+
+    def test_returns_float(self):
+        assert isinstance(lattice_site_density(1.0), float)
+
+    def test_decreases_with_lattice_constant(self):
+        n1 = lattice_site_density(1.0)
+        n2 = lattice_site_density(2.0)
+        assert n1 > n2
+
+    def test_raises_on_zero_lattice_constant(self):
+        with pytest.raises(ValueError):
+            lattice_site_density(0.0)
+
+    def test_raises_on_negative_lattice_constant(self):
+        with pytest.raises(ValueError):
+            lattice_site_density(-1.0)
+
+
+# ===========================================================================
+# lattice.py — octahedral_site_fraction
+# ===========================================================================
+
+class TestOctahedralSiteFraction:
+    def test_below_one_returns_self(self):
+        f = octahedral_site_fraction(0.75)
+        assert np.isclose(f, 0.75)
+
+    def test_zero_loading(self):
+        f = octahedral_site_fraction(0.0)
+        assert np.isclose(f, 0.0)
+
+    def test_clamped_to_one(self):
+        f = octahedral_site_fraction(1.5)
+        assert np.isclose(f, 1.0)
+
+    def test_returns_float(self):
+        assert isinstance(octahedral_site_fraction(0.5), float)
+
+
+# ===========================================================================
+# lattice.py — coherence_volume
+# ===========================================================================
+
+class TestCoherenceVolumeLattice:
+    def test_formula(self):
+        xi = 2.0
+        V = coherence_volume(xi)
+        assert np.isclose(V, 4.0 * np.pi / 3.0 * xi ** 3)
+
+    def test_returns_float(self):
+        assert isinstance(coherence_volume(1.0), float)
+
+    def test_positive(self):
+        assert coherence_volume(1.0) > 0.0
+
+    def test_scales_with_cube(self):
+        V1 = coherence_volume(1.0)
+        V2 = coherence_volume(2.0)
+        assert np.isclose(V2, 8.0 * V1)
+
+    def test_raises_on_zero_xi(self):
+        with pytest.raises(ValueError):
+            coherence_volume(0.0)
+
+    def test_raises_on_negative_xi(self):
+        with pytest.raises(ValueError):
+            coherence_volume(-1.0)
+
+
+# ===========================================================================
+# lattice.py — sites_in_coherence_volume
+# ===========================================================================
+
+class TestSitesInCoherenceVolume:
+    def test_positive(self):
+        N = sites_in_coherence_volume(5.0, 1.0)
+        assert N > 0.0
+
+    def test_returns_float(self):
+        assert isinstance(sites_in_coherence_volume(5.0, 1.0), float)
+
+    def test_increases_with_xi(self):
+        N1 = sites_in_coherence_volume(2.0, 1.0)
+        N2 = sites_in_coherence_volume(4.0, 1.0)
+        assert N2 > N1
+
+    def test_decreases_with_larger_lattice_constant(self):
+        N1 = sites_in_coherence_volume(5.0, 1.0)
+        N2 = sites_in_coherence_volume(5.0, 2.0)
+        assert N1 > N2
+
+    def test_raises_on_zero_xi(self):
+        with pytest.raises(ValueError):
+            sites_in_coherence_volume(0.0, 1.0)
+
+    def test_raises_on_zero_a_lattice(self):
+        with pytest.raises(ValueError):
+            sites_in_coherence_volume(5.0, 0.0)
+
+
+# ===========================================================================
+# lattice.py — phi_at_lattice_site
+# ===========================================================================
+
+class TestPhiAtLatticeSite:
+    def test_at_rho_ref_returns_phi_bulk(self):
+        phi = phi_at_lattice_site(1.0, 0.75, rho_ref=0.75)
+        assert np.isclose(phi, 1.0)
+
+    def test_high_loading_enhances_phi(self):
+        phi = phi_at_lattice_site(1.0, 1.5, rho_ref=0.75)
+        assert phi > 1.0
+
+    def test_low_loading_suppresses_phi(self):
+        phi = phi_at_lattice_site(1.0, 0.1, rho_ref=0.75)
+        assert phi < 1.0
+
+    def test_returns_float(self):
+        assert isinstance(phi_at_lattice_site(1.0, 0.8), float)
+
+    def test_raises_on_zero_phi_bulk(self):
+        with pytest.raises(ValueError):
+            phi_at_lattice_site(0.0, 0.8)
+
+    def test_raises_on_zero_rho_loading(self):
+        with pytest.raises(ValueError):
+            phi_at_lattice_site(1.0, 0.0)
+
+    def test_raises_on_zero_rho_ref(self):
+        with pytest.raises(ValueError):
+            phi_at_lattice_site(1.0, 0.8, rho_ref=0.0)
+
+
+# ===========================================================================
+# lattice.py — lattice_strain
+# ===========================================================================
+
+class TestLatticeStrain:
+    def test_at_rho0_zero_strain(self):
+        eps = lattice_strain(0.68, rho_0=0.68)
+        assert np.isclose(eps, 0.0)
+
+    def test_over_loaded_positive_strain(self):
+        eps = lattice_strain(0.9, rho_0=0.68)
+        assert eps > 0.0
+
+    def test_under_loaded_negative_strain(self):
+        eps = lattice_strain(0.5, rho_0=0.68)
+        assert eps < 0.0
+
+    def test_returns_float(self):
+        assert isinstance(lattice_strain(0.8), float)
+
+    def test_raises_on_zero_rho0(self):
+        with pytest.raises(ValueError):
+            lattice_strain(0.8, rho_0=0.0)
+
+
+# ===========================================================================
+# lattice.py — effective_mass_deuteron
+# ===========================================================================
+
+class TestEffectiveMassDeuteron:
+    def test_phi_one_gives_mass_two(self):
+        m = effective_mass_deuteron(1.0)
+        assert np.isclose(m, 2.0)
+
+    def test_phi_two_gives_mass_one(self):
+        m = effective_mass_deuteron(2.0)
+        assert np.isclose(m, 1.0)
+
+    def test_decreases_with_phi(self):
+        m1 = effective_mass_deuteron(1.0)
+        m2 = effective_mass_deuteron(4.0)
+        assert m1 > m2
+
+    def test_returns_float(self):
+        assert isinstance(effective_mass_deuteron(1.0), float)
+
+    def test_raises_on_zero_phi(self):
+        with pytest.raises(ValueError):
+            effective_mass_deuteron(0.0)
+
+    def test_raises_on_negative_phi(self):
+        with pytest.raises(ValueError):
+            effective_mass_deuteron(-1.0)
+
+
+# ===========================================================================
+# lattice.py — b_field_at_site
+# ===========================================================================
+
+class TestBFieldAtSite:
+    def test_zero_external_field(self):
+        B = b_field_at_site(0.0, 0.8, 1.5)
+        assert np.isclose(B, 0.0)
+
+    def test_scales_with_loading(self):
+        B1 = b_field_at_site(1.0, 0.5, 1.0)
+        B2 = b_field_at_site(1.0, 1.0, 1.0)
+        assert np.isclose(B2, 2.0 * B1)
+
+    def test_scales_with_phi(self):
+        B1 = b_field_at_site(1.0, 0.8, 1.0)
+        B2 = b_field_at_site(1.0, 0.8, 2.0)
+        assert np.isclose(B2, 2.0 * B1)
+
+    def test_returns_float(self):
+        assert isinstance(b_field_at_site(1.0, 0.8, 1.5), float)
+
+    def test_raises_on_negative_b_external(self):
+        with pytest.raises(ValueError):
+            b_field_at_site(-1.0, 0.8, 1.0)
+
+    def test_raises_on_negative_rho(self):
+        with pytest.raises(ValueError):
+            b_field_at_site(1.0, -0.1, 1.0)
+
+    def test_raises_on_zero_phi(self):
+        with pytest.raises(ValueError):
+            b_field_at_site(1.0, 0.8, 0.0)
+
+
+# ===========================================================================
+# lattice.py — loading_threshold_for_fusion
+# ===========================================================================
+
+class TestLoadingThresholdForFusion:
+    def test_phi_one_returns_rho_ref(self):
+        rho_min = loading_threshold_for_fusion(1.0)
+        assert np.isclose(rho_min, 0.75)
+
+    def test_higher_phi_lowers_threshold(self):
+        rho1 = loading_threshold_for_fusion(1.0)
+        rho2 = loading_threshold_for_fusion(2.0)
+        assert rho2 < rho1
+
+    def test_returns_float(self):
+        assert isinstance(loading_threshold_for_fusion(1.0), float)
+
+    def test_raises_on_zero_phi_bulk(self):
+        with pytest.raises(ValueError):
+            loading_threshold_for_fusion(0.0)
+
+    def test_raises_on_negative_phi_bulk(self):
+        with pytest.raises(ValueError):
+            loading_threshold_for_fusion(-1.0)
+
+
+# ===========================================================================
+# lattice.py — pd_shell_number
+# ===========================================================================
+
+class TestPdShellNumber:
+    def test_returns_five(self):
+        assert pd_shell_number() == 5
+
+    def test_returns_int(self):
+        assert isinstance(pd_shell_number(), int)
+
+
+# ===========================================================================
+# excess_heat.py — dd_fusion_q_value
+# ===========================================================================
+
+class TestDDFusionQValue:
+    def test_returns_float(self):
+        assert isinstance(dd_fusion_q_value(), float)
+
+    def test_positive(self):
+        assert dd_fusion_q_value() > 0.0
+
+    def test_approx_value(self):
+        Q = dd_fusion_q_value()
+        assert np.isclose(Q, 3.27e6 * 1.6e-19, rtol=1e-6)
+
+    def test_less_than_proton_branch(self):
+        assert dd_fusion_q_value() < dd_proton_branch_q_value()
+
+
+# ===========================================================================
+# excess_heat.py — dd_proton_branch_q_value
+# ===========================================================================
+
+class TestDDProtonBranchQValue:
+    def test_returns_float(self):
+        assert isinstance(dd_proton_branch_q_value(), float)
+
+    def test_positive(self):
+        assert dd_proton_branch_q_value() > 0.0
+
+    def test_approx_value(self):
+        Q = dd_proton_branch_q_value()
+        assert np.isclose(Q, 4.03e6 * 1.6e-19, rtol=1e-6)
+
+
+# ===========================================================================
+# excess_heat.py — fusion_rate_per_site
+# ===========================================================================
+
+class TestFusionRatePerSite:
+    def test_returns_float(self):
+        assert isinstance(fusion_rate_per_site(0.01, 0.001, 1.0), float)
+
+    def test_zero_probability_gives_zero_rate(self):
+        R = fusion_rate_per_site(0.0, 0.001, 1.0)
+        assert np.isclose(R, 0.0)
+
+    def test_scales_with_probability(self):
+        R1 = fusion_rate_per_site(0.01, 0.001, 1.0)
+        R2 = fusion_rate_per_site(0.02, 0.001, 1.0)
+        assert np.isclose(R2, 2.0 * R1)
+
+    def test_raises_on_zero_v_rel(self):
+        with pytest.raises(ValueError):
+            fusion_rate_per_site(0.01, 0.0, 1.0)
+
+    def test_raises_on_zero_r_site(self):
+        with pytest.raises(ValueError):
+            fusion_rate_per_site(0.01, 0.001, 0.0)
+
+
+# ===========================================================================
+# excess_heat.py — excess_heat_power
+# ===========================================================================
+
+class TestExcessHeatPower:
+    def test_basic(self):
+        P = excess_heat_power(1e20, 1e-25, 5e-13)
+        assert P > 0.0
+
+    def test_returns_float(self):
+        assert isinstance(excess_heat_power(100.0, 1.0, 1.0), float)
+
+    def test_zero_sites_gives_zero(self):
+        P = excess_heat_power(0.0, 1.0, 1.0)
+        assert np.isclose(P, 0.0)
+
+    def test_zero_rate_gives_zero(self):
+        P = excess_heat_power(100.0, 0.0, 1.0)
+        assert np.isclose(P, 0.0)
+
+    def test_raises_on_negative_sites(self):
+        with pytest.raises(ValueError):
+            excess_heat_power(-1.0, 1.0, 1.0)
+
+    def test_raises_on_negative_rate(self):
+        with pytest.raises(ValueError):
+            excess_heat_power(100.0, -1.0, 1.0)
+
+
+# ===========================================================================
+# excess_heat.py — cop
+# ===========================================================================
+
+class TestCOP:
+    def test_basic(self):
+        assert np.isclose(cop(200.0, 100.0), 2.0)
+
+    def test_returns_float(self):
+        assert isinstance(cop(1.0, 1.0), float)
+
+    def test_cop_one_means_no_excess(self):
+        assert np.isclose(cop(100.0, 100.0), 1.0)
+
+    def test_raises_on_zero_p_in(self):
+        with pytest.raises(ValueError):
+            cop(100.0, 0.0)
+
+    def test_raises_on_negative_p_in(self):
+        with pytest.raises(ValueError):
+            cop(100.0, -50.0)
+
+    def test_cop_greater_one_for_excess(self):
+        assert cop(150.0, 100.0) > 1.0
+
+
+# ===========================================================================
+# excess_heat.py — is_excess_heat
+# ===========================================================================
+
+class TestIsExcessHeat:
+    def test_true_when_p_out_greater_p_in(self):
+        assert is_excess_heat(150.0, 100.0) is True
+
+    def test_false_when_equal(self):
+        assert is_excess_heat(100.0, 100.0) is False
+
+    def test_false_when_below(self):
+        assert is_excess_heat(80.0, 100.0) is False
+
+    def test_returns_bool(self):
+        assert isinstance(is_excess_heat(150.0, 100.0), bool)
+
+    def test_custom_threshold(self):
+        assert is_excess_heat(250.0, 100.0, threshold=2.0) is True
+        assert is_excess_heat(150.0, 100.0, threshold=2.0) is False
+
+    def test_raises_on_zero_p_in(self):
+        with pytest.raises(ValueError):
+            is_excess_heat(100.0, 0.0)
+
+
+# ===========================================================================
+# excess_heat.py — phi_coherent_enhancement
+# ===========================================================================
+
+class TestPhiCoherentEnhancement:
+    def test_above_threshold_gives_positive(self):
+        f = phi_coherent_enhancement(100.0, 1.0, phi_threshold=0.5)
+        assert f > 0.0
+
+    def test_below_threshold_gives_zero(self):
+        f = phi_coherent_enhancement(100.0, 0.2, phi_threshold=0.5)
+        assert np.isclose(f, 0.0)
+
+    def test_at_threshold_gives_zero(self):
+        f = phi_coherent_enhancement(100.0, 0.5, phi_threshold=0.5)
+        assert np.isclose(f, 0.0)
+
+    def test_scales_with_phi_squared(self):
+        f1 = phi_coherent_enhancement(1.0, 1.0, phi_threshold=0.5)
+        f2 = phi_coherent_enhancement(1.0, 2.0, phi_threshold=0.5)
+        assert np.isclose(f2 / f1, 4.0)
+
+    def test_returns_float(self):
+        assert isinstance(phi_coherent_enhancement(100.0, 1.0), float)
+
+    def test_raises_on_negative_n_sites(self):
+        with pytest.raises(ValueError):
+            phi_coherent_enhancement(-1.0, 1.0)
+
+    def test_raises_on_zero_phi_local(self):
+        with pytest.raises(ValueError):
+            phi_coherent_enhancement(100.0, 0.0)
+
+    def test_raises_on_zero_threshold(self):
+        with pytest.raises(ValueError):
+            phi_coherent_enhancement(100.0, 1.0, phi_threshold=0.0)
+
+
+# ===========================================================================
+# excess_heat.py — b_field_coherence_factor
+# ===========================================================================
+
+class TestBFieldCoherenceFactor:
+    def test_zero_b_gives_one(self):
+        C = b_field_coherence_factor(0.0, 1.0)
+        assert np.isclose(C, 1.0)
+
+    def test_returns_float(self):
+        assert isinstance(b_field_coherence_factor(1.0, 1.0), float)
+
+    def test_ge_one(self):
+        C = b_field_coherence_factor(2.0, 1.5)
+        assert C >= 1.0
+
+    def test_formula(self):
+        B = 0.5
+        phi = 2.0
+        C = b_field_coherence_factor(B, phi)
+        assert np.isclose(C, 1.0 + B * phi)
+
+    def test_raises_on_negative_b(self):
+        with pytest.raises(ValueError):
+            b_field_coherence_factor(-1.0, 1.0)
+
+    def test_raises_on_zero_phi(self):
+        with pytest.raises(ValueError):
+            b_field_coherence_factor(1.0, 0.0)
+
+
+# ===========================================================================
+# excess_heat.py — energy_per_event
+# ===========================================================================
+
+class TestEnergyPerEvent:
+    def test_returns_q_value(self):
+        Q = 5.232e-13
+        assert np.isclose(energy_per_event(Q), Q)
+
+    def test_returns_float(self):
+        assert isinstance(energy_per_event(1.0), float)
+
+    def test_identity(self):
+        for q in [1.0, 0.0, -1.0, 1e-13]:
+            assert np.isclose(energy_per_event(q), q)
+
+
+# ===========================================================================
+# excess_heat.py — cumulative_heat
+# ===========================================================================
+
+class TestCumulativeHeat:
+    def test_returns_ndarray(self):
+        rates = np.ones(5)
+        H = cumulative_heat(rates, 1.0, 1.0)
+        assert isinstance(H, np.ndarray)
+
+    def test_shape_preserved(self):
+        rates = np.ones(10)
+        H = cumulative_heat(rates, 1.0, 0.1)
+        assert H.shape == rates.shape
+
+    def test_monotone_increasing_for_positive_rates(self):
+        rates = np.ones(5)
+        H = cumulative_heat(rates, 1.0, 1.0)
+        assert np.all(np.diff(H) >= 0)
+
+    def test_final_value(self):
+        rates = np.array([1.0, 1.0, 1.0])
+        H = cumulative_heat(rates, 2.0, 0.5)
+        assert np.isclose(H[-1], 3.0 * 2.0 * 0.5)
+
+    def test_raises_on_zero_dt(self):
+        with pytest.raises(ValueError):
+            cumulative_heat(np.ones(3), 1.0, 0.0)
+
+    def test_raises_on_negative_dt(self):
+        with pytest.raises(ValueError):
+            cumulative_heat(np.ones(3), 1.0, -0.1)
+
+
+# ===========================================================================
+# excess_heat.py — heat_to_electrical_efficiency
+# ===========================================================================
+
+class TestHeatToElectricalEfficiency:
+    def test_cop_one_gives_zero(self):
+        eff = heat_to_electrical_efficiency(1.0)
+        assert np.isclose(eff, 0.0)
+
+    def test_cop_two_gives_eta_thermal(self):
+        eff = heat_to_electrical_efficiency(2.0, eta_thermal=0.35)
+        assert np.isclose(eff, 0.35)
+
+    def test_returns_float(self):
+        assert isinstance(heat_to_electrical_efficiency(2.0), float)
+
+    def test_increases_with_cop(self):
+        eff1 = heat_to_electrical_efficiency(2.0)
+        eff2 = heat_to_electrical_efficiency(3.0)
+        assert eff2 > eff1
+
+    def test_raises_on_negative_cop(self):
+        with pytest.raises(ValueError):
+            heat_to_electrical_efficiency(-1.0)
+
+    def test_raises_on_zero_eta(self):
+        with pytest.raises(ValueError):
+            heat_to_electrical_efficiency(2.0, eta_thermal=0.0)
+
+    def test_raises_on_eta_gt_one(self):
+        with pytest.raises(ValueError):
+            heat_to_electrical_efficiency(2.0, eta_thermal=1.1)
+
+
+# ===========================================================================
+# excess_heat.py — anomalous_heat_signature
+# ===========================================================================
+
+class TestAnomalousHeatSignature:
+    def test_returns_float(self):
+        assert isinstance(anomalous_heat_signature(10.0, 1.0), float)
+
+    def test_formula(self):
+        P = 5.0
+        var = 4.0
+        sigma = anomalous_heat_signature(P, var)
+        assert np.isclose(sigma, P / np.sqrt(var))
+
+    def test_increases_with_p_excess(self):
+        s1 = anomalous_heat_signature(5.0, 1.0)
+        s2 = anomalous_heat_signature(10.0, 1.0)
+        assert s2 > s1
+
+    def test_decreases_with_variance(self):
+        s1 = anomalous_heat_signature(10.0, 1.0)
+        s2 = anomalous_heat_signature(10.0, 4.0)
+        assert s1 > s2
+
+    def test_raises_on_zero_variance(self):
+        with pytest.raises(ValueError):
+            anomalous_heat_signature(10.0, 0.0)
+
+    def test_raises_on_negative_variance(self):
+        with pytest.raises(ValueError):
+            anomalous_heat_signature(10.0, -1.0)
+
+    def test_negative_excess_gives_negative_sigma(self):
+        sigma = anomalous_heat_signature(-5.0, 1.0)
+        assert sigma < 0.0

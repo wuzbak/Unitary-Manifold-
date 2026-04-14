@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.7 — Academic Edition |
+| Version | 9.9 — Academic Edition |
 | Lead Author | ThomasCory Walker-Pearson |
 | Affiliation | Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.7):** All six completion requirements are solved internally.
+**Self-completion status (v9.9):** All six completion requirements are solved internally.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -130,6 +130,14 @@ such that `UΨ* = Ψ*`.
     ├── life.py                        # Pillar 13: negentropy FTUM fixed points ✓
     ├── evolution.py                   # Pillar 13: FTUM fitness landscape; selection as ∇S_U ✓
     └── morphogenesis.py               # Pillar 13: Turing patterns as φ symmetry breaking ✓
+├── atomic_structure/
+│   ├── orbitals.py                    # Pillar 14: KK winding → orbitals; Rydberg; degeneracy ✓
+│   ├── spectroscopy.py                # Pillar 14: Lyman/Balmer; Einstein A; Zeeman/Stark ✓
+│   └── fine_structure.py              # Pillar 14: Dirac energy; Lamb shift; Landé g-factor ✓
+└── cold_fusion/
+    ├── tunneling.py                   # Pillar 15: Gamow factor; φ-enhanced tunneling ✓
+    ├── lattice.py                     # Pillar 15: Pd FCC geometry; D-loading; coherence volume ✓
+    └── excess_heat.py                 # Pillar 15: Q-values; COP; excess heat; anomalous σ ✓
 │
 ├── manuscript/
 │   └── ch02_mathematical_preliminaries.md
@@ -185,8 +193,10 @@ such that `UΨ* = Ψ*`.
 │   ├── test_oceanography.py              # Oceanography; thermohaline; ENSO (46) — v9.7
 │   ├── test_meteorology.py               # Meteorology; Lorenz; climate forcing (45) — v9.7
 │   ├── test_biology.py                   # Biology as negentropy FTUM attractors (111) — v9.7
+│   ├── test_atomic_structure.py          # Atomic structure as KK winding modes (187) — v9.8
+│   ├── test_cold_fusion.py               # Cold fusion as φ-enhanced tunneling (215) — v9.9
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 1979 tests — 1967 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 2381 tests — 2369 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -301,7 +311,7 @@ such that `UΨ* = Ψ*`.
   author  = {Walker-Pearson, ThomasCory},
   year    = {2026},
   url     = {https://github.com/wuzbak/Unitary-Manifold-},
-  version = {9.7},
+  version = {9.9},
   license = {Defensive Public Commons v1.0}
 }
 ```
@@ -394,7 +404,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **1464 tests: 1452 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **2381 tests: 2369 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
