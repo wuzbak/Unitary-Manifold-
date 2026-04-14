@@ -407,7 +407,7 @@ class TestThomasFermiScreening:
 
     def test_tf_energy_negligible_vs_coulomb_barrier(self):
         # TF screening (~25 eV) is negligible vs the D+D Coulomb barrier height
-        # (~100 keV at nuclear contact radius ~few fm).
+        # (~100 keV at nuclear contact radius of a few fm).
         dE = thomas_fermi_screening_energy(N_E_PD_PER_CC)
         coulomb_barrier_eV = 100e3  # ~100 keV for D+D
         assert dE < coulomb_barrier_eV * 0.01  # less than 1% of barrier
@@ -755,8 +755,10 @@ class TestRunColdFusion:
 
     def test_result_fields_are_floats(self):
         result = self._default_result()
-        for attr in ("G4", "G5", "f_kk", "f_winding", "enhancement",
-                     "rate_4d", "rate_5d", "d_DD_angstrom", "delta_E_TF_eV"):
+        for attr in [
+            "G4", "G5", "f_kk", "f_winding", "enhancement",
+            "rate_4d", "rate_5d", "d_DD_angstrom", "delta_E_TF_eV",
+        ]:
             assert isinstance(getattr(result, attr), float), attr
 
     def test_gamow_factors_both_positive(self):
