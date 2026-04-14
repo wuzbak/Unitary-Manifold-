@@ -180,8 +180,8 @@ class TestZKineticEvolution:
         ns_ren = 1.0 - 6.0 * eps_ren + 2.0 * eta
         # ns_ren > ns_bare (less red tilt from ε)
         assert ns_ren > ns_bare, "KK renorm should reduce the ε contribution to tilt"
-        # Both are within 0.1 of each other (η dominates the tilt)
-        assert abs(ns_ren - ns_bare) < 0.1
+        # Both are within 0.05 of each other (η dominates the tilt; measured diff ≈ 0.035)
+        assert abs(ns_ren - ns_bare) < 0.05
 
     # --- renormalize_slow_roll ---
 

@@ -1,6 +1,6 @@
 % ============================================================
 %  THE UNITARY MANIFOLD: A 5D Gauge Geometry of Emergent Irreversibility
-%  Version 9.0 — Academic Edition
+%  Version 9.9 — Academic Edition
 %  arXiv submission — primary: gr-qc   cross-list: hep-th, math-ph
 % ============================================================
 \documentclass[12pt,a4paper]{article}
@@ -52,7 +52,7 @@
 
 \title{\textbf{The Unitary Manifold:}\\
 A 5D Gauge Geometry of Emergent Irreversibility\\[4pt]
-{\large Version 9.0 — Academic Edition}}
+{\large Version 9.9 — Academic Edition}}
 
 \author{ThomasCory Walker-Pearson\\[4pt]
 \small Pacific Northwest, USA\\[2pt]
@@ -129,6 +129,7 @@ Define the event density $\rho$ and information 4-current $\Jinf$ by
 \begin{equation}
   \Jinf = \rho\, u^{\mu}, \qquad \nabla_\mu \Jinf = 0 .
   \label{eq:info-conservation}
+  % \texttt{src/core/evolution.py}: \texttt{information\_current()}
 \end{equation}
 This conservation law is a direct consequence of the 5D geodesic structure and
 requires no additional postulate.
@@ -179,6 +180,7 @@ The 5D metric is cast in block form:
   \end{pmatrix}
   }
   \label{eq:KK-metric}
+  % \texttt{src/core/metric.py}: \texttt{assemble\_5d\_metric()}
 \end{equation}
 where:
 \begin{itemize}
@@ -197,6 +199,7 @@ The irreversibility field strength is the antisymmetric 2-form
 \begin{equation}
   H_{\mu\nu} = \partial_\mu B_\nu - \partial_\nu B_\mu .
   \label{eq:field-strength}
+  % \texttt{src/core/metric.py}: \texttt{field\_strength()}
 \end{equation}
 Under a 5D coordinate transformation $x^5 \to x^5 + \xi(x^\mu)$ the field
 transforms as $B_\mu\to B_\mu - \partial_\mu\xi$, so $H_{\mu\nu}$ is
@@ -214,6 +217,7 @@ well-known Kaluza--Klein decomposition \citep{Overduin1997}:
   R_5 = R_4 - 2\nabla^2\phi - 2(\partial\phi)^2
         + \tfrac{1}{4}\lam^2\phi\, H_{\mu\nu}H^{\mu\nu} ,
   \label{eq:R5-decomp}
+  % \texttt{src/core/metric.py}: \texttt{compute\_curvature()}
 \end{equation}
 where $R_4$ is the 4D Ricci scalar and indices are raised with $\gm$.
 
@@ -254,6 +258,7 @@ using the cylinder condition \eqref{eq:cylinder} yields the
   \right]
   }
   \label{eq:Seff}
+  % \texttt{src/core/evolution.py}: \texttt{\_compute\_rhs()}, \texttt{\_stress\_energy()}
 \end{equation}
 where $G = G_5/(2\pi r_5)$, $\beta$ controls dilaton kinetics, and $\Gamma$
 is the information-coupling constant.
@@ -283,6 +288,7 @@ irreversibility 1-form:
     + 2\alpha\lP^2\,\nabla_\nu\!\left(R\,H^{\mu\nu}\right)
   }
   \label{eq:WP}
+  % \texttt{src/core/evolution.py}: \texttt{\_compute\_rhs()}, \texttt{step()}
 \end{equation}
 The right-hand side has two sources: the information current (a macroscopic
 thermodynamic source) and a Planck-suppressed quantum correction.  In the limit
@@ -328,6 +334,7 @@ Define the local entropy production density
 \begin{equation}
   \sigmaS = B_\mu J_{\inf}^\mu \ge 0 .
   \label{eq:sigma}
+  % \texttt{src/core/evolution.py}: \texttt{constraint\_monitor()}
 \end{equation}
 
 \begin{theorem}[Geometric Second Law]
@@ -474,6 +481,7 @@ Unitary Manifold is
       \right)
   }
   \label{eq:UEUM}
+  % \texttt{src/multiverse/fixed\_point.py}: \texttt{ueum\_acceleration()}
 \end{equation}
 where $X^a$ are coordinates on the Unitary Multiverse, $S_U$ is the total
 entropy functional, $A_{\partial,i}$ are boundary areas, and $Q_{\text{top}}$
@@ -490,6 +498,7 @@ driving, holographic boundary pressure, and topological constraints.
   \begin{equation}
     \hat{U} = \hat{I} + \hat{H} + \hat{T} ,
     \label{eq:U-operator}
+    % \texttt{src/multiverse/fixed\_point.py}: \texttt{\_apply\_U()}, \texttt{fixed\_point\_iteration()}
   \end{equation}
   where $\hat{I}$ generates irreversible flow, $\hat{H}$ enforces holographic
   constraints, and $\hat{T}$ implements topological invariants.  Then:

@@ -136,7 +136,47 @@ python -m pytest tests/test_arrow_of_time.py -v
 
 ---
 
-## Summary: test map for each claim
+## 8. Break Pillar 14: atomic structure (φ-corrected spectroscopy)
+
+**Handle:** In `src/core/atomic_structure.py`, remove the φ-correction factor
+from `phi_corrected_energy()` so it returns the bare Bohr energy unchanged.
+
+**Expected result:** `tests/test_atomic_structure.py` fails at tests that
+verify the φ-shift produces measurable fine-structure corrections — e.g.
+`test_phi_correction_nonzero` and `test_hydrogen_1s_phi_shift`.
+
+**What this tests:** The claim that the 5D radion leaves a signature in
+atomic spectra at the level of the measured fine-structure constant.
+
+```bash
+# Mutant: return bare_energy in phi_corrected_energy, then:
+python -m pytest tests/test_atomic_structure.py -v -k "phi"
+# → FAIL (phi-correction tests)
+```
+
+---
+
+## 9. Break Pillar 15: cold-fusion φ-enhanced tunnelling
+
+**Handle:** In `src/core/cold_fusion.py`, set the φ-enhancement factor to 1.0
+(no enhancement) in `phi_enhanced_tunneling_probability()`.
+
+**Expected result:** `tests/test_cold_fusion.py` fails at tests that verify
+excess-heat predictions exceed the bare quantum-tunnelling baseline — e.g.
+`test_enhancement_exceeds_bare` and `test_excess_heat_positive`.
+
+**What this tests:** The claim that the 5D geometry amplifies sub-barrier
+fusion rates in Pd-D lattices beyond the bare WKB prediction.
+
+```bash
+# Mutant: set phi_factor = 1.0 in phi_enhanced_tunneling_probability, then:
+python -m pytest tests/test_cold_fusion.py -v -k "enhancement or excess"
+# → FAIL
+```
+
+---
+
+
 
 | Break point | Failing test file | Key test name |
 |-------------|-------------------|---------------|
@@ -147,6 +187,8 @@ python -m pytest tests/test_arrow_of_time.py -v
 | Wrong coupling formula | `claims/anomaly_inflow/test_claim.py` | `test_coupling_formula_correct` |
 | FTUM non-convergent | `tests/test_fixed_point.py` | convergence tests |
 | Entropy decreases | `tests/test_arrow_of_time.py` | entropy monotonicity |
+| φ-correction removed (atomic) | `tests/test_atomic_structure.py` | phi-correction tests |
+| φ-enhancement removed (cold fusion) | `tests/test_cold_fusion.py` | enhancement/excess-heat tests |
 
 ---
 
