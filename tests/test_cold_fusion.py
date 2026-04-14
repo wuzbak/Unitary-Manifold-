@@ -464,9 +464,9 @@ class TestMinimumPhiForFusion:
             minimum_phi_for_fusion(1, 1, 0.0, T_min=1e-10)
 
     def test_lower_t_min_requires_lower_phi(self):
-        phi_a = minimum_phi_for_fusion(1, 1, 0.001, T_min=1e-5)
-        phi_b = minimum_phi_for_fusion(1, 1, 0.001, T_min=1e-20)
-        assert phi_b < phi_a
+        phi_higher_t_min = minimum_phi_for_fusion(1, 1, 0.001, T_min=1e-5)
+        phi_lower_t_min = minimum_phi_for_fusion(1, 1, 0.001, T_min=1e-20)
+        assert phi_lower_t_min < phi_higher_t_min
 
 
 # ===========================================================================
