@@ -52,11 +52,13 @@ The FTUM fixed-point theorem (UΨ* = Ψ*) governs **stable structure at every sc
         ├── BIOLOGY            [Pillar 13] src/biology/
         │       life as negentropy attractors · evolution on FTUM landscape · Turing morphogenesis
         │
-        ├── ATOMIC STRUCTURE   [Pillar 14] src/atomic_structure/
+        ├── ATOMIC STRUCTURE   [Pillar 14] src/atomic_structure/ + src/core/atomic_structure.py
         │       orbitals as KK modes · Rydberg from curvature · spectroscopy from geometry
+        │       quarks → nucleons → nuclei → hydrogen atom → electron shells
         │
-        └── COLD FUSION / LENR [Pillar 15] src/cold_fusion/
+        └── COLD FUSION / LENR [Pillar 15] src/cold_fusion/ + src/core/cold_fusion.py
                 φ-enhanced Gamow tunneling · Pd lattice coherence · excess heat COP
+                5D KK-enhanced Gamow factor · lattice loading · rate pipeline
 ```
 
 ---
@@ -221,28 +223,13 @@ The shell capacity formula **2n²** (period 1: 2, period 2: 8, period 3: 8, peri
 
 ---
 
-## Pillar 14 — Atomic Structure (`src/atomic_structure/`)
+## Pillar 14 — Atomic Structure
 
-### The Core Claim
+The Unitary Manifold provides **two complementary implementations** of Pillar 14, both deriving atomic structure from 5D geometry:
+
+### Package implementation: `src/atomic_structure/`
 
 Atomic orbitals are not quantum postulates placed on top of geometry — they are the KK winding modes of the compact S¹/Z₂ dimension. The principal quantum number n is the winding number; the shell capacity 2n² is the count of allowed winding states on S¹/Z₂; the Rydberg energy formula E_n = −α²/(2n²) emerges from the KK curvature energy with no free parameters.
-
-### The Predictions
-
-| Observable | Unitary Manifold derivation |
-|---|---|
-| Shell capacity 2n² | Winding quantization C(n) = 2n² on S¹/Z₂ |
-| Hydrogen energy levels E_n | KK curvature energy: E_n = −α_fs²/(2n²) |
-| Orbital radii r_n = n²a₀ | KK zero-mode radius: r_n = n² φ_mean |
-| Rydberg constant R_∞ | R = α_fs²/(2φ_eff²) — from geometry |
-| Lyman/Balmer series | Transitions between KK modes |
-| Spin-orbit coupling | KK spin connection ω_spin = φ/(2π n_w) |
-| Fine structure (Dirac) | 5D Dirac operator projected to 4D |
-| Zeeman splitting | Magnetic winding angular momentum |
-| Stark shift | E-field perturbation of KK potential well |
-| Landé g-factor | Spin-orbit geometry of fiber bundle |
-
-### Module API
 
 | File | Contents |
 |---|---|
@@ -251,30 +238,30 @@ Atomic orbitals are not quantum postulates placed on top of geometry — they ar
 | `src/atomic_structure/fine_structure.py` | `fine_structure_constant_from_kk`, `dirac_energy`, `lamb_shift_estimate`, `hyperfine_splitting`, `g_factor_anomaly`, `relativistic_correction`, `spin_orbit_j_values`, `total_angular_momentum_magnitude`, `lande_g_factor`, `kk_spin_connection` |
 | `tests/test_atomic_structure.py` | 187 tests |
 
+### Full derivation chain: `src/core/atomic_structure.py`
+
+**The atom is the output of a five-step geometric chain** — from winding configurations on S¹/Z₂ through colour-singlet bound states, nuclear binding, and the Coulomb-Schrödinger system — producing quantised energy levels, spectral lines, and electron-shell structure entirely from the 5D geometry.
+
+```
+Step 1  Quarks         KK winding on S¹/Z₂; m_q = λn_w/⟨φ_q⟩
+Step 2  Nucleons       Colour-singlet SU(3) + gluon flux-tube energy
+Step 3  Nuclei         Bethe–Weizsäcker B_μ binding; Fe-56 = FTUM maximum
+Step 4  Hydrogen atom  Coulomb U(1) + UEUM geodesic → Schrödinger
+Step 5  Electron shells 2n² winding states → periodic table (Pillar 10)
+```
+
+| File | Contents |
+|---|---|
+| `src/core/atomic_structure.py` | `HADRON_CATALOG`, `quark_content`, `constituent_quark_mass`, `hadron_mass`, `qcd_flux_tube_energy`, `bohr_radius_kk`, `rydberg_energy`, `hydrogen_energy_level`, `hydrogen_wavelength`, `hydrogen_1s_radial_density`, `atomic_orbital_radius`, `nuclear_binding_energy`, `nuclear_binding_per_nucleon` |
+| `ATOMIC_STRUCTURE.md` | Full narrative derivation with worked equations |
+
 ---
 
-## Pillar 15 — Cold Fusion / LENR (`src/cold_fusion/`)
+## Pillar 15 — Cold Fusion / LENR
 
-### The Core Claim
+### Package implementation: `src/cold_fusion/`
 
 Low-energy nuclear reactions (cold fusion / LENR) in Pd–D systems are reframed as coherent quantum tunneling enhanced by the local entanglement-capacity scalar φ. When deuterium nuclei are densely loaded into a Pd FCC lattice, the φ field concentrates at octahedral sites, reducing the effective Gamow tunneling exponent from its free-space value by a factor of φ_local. For φ_local > 1 the suppression becomes multiplicative rather than exponential, making room-temperature D+D fusion energetically accessible in coherent lattice domains. The coherence length ξ = ħ/√(2m*φ²kT) sets the size of those domains; the excess heat COP and anomalous heat signature σ are the falsifiability criteria.
-
-This is the **first formal geometric mechanism** proposed for LENR. Whether cold fusion occurs in practice is an open experimental question. The Unitary Manifold prediction is precise: COP > 1 when φ_local > φ_threshold, with a quantitative anomalous significance σ = P_excess/√variance that can be measured in a calorimeter.
-
-### The Predictions
-
-| Observable | Unitary Manifold derivation |
-|---|---|
-| Gamow enhancement | G_eff = exp(−2πη/φ_local), φ_local > 1 increases T |
-| φ at Pd lattice site | φ_site = φ_bulk × (ρ_loading/ρ_ref)^0.5 |
-| Coherence domain size | ξ = 1/√(2 m* φ² kT) |
-| Loading threshold | ρ_min from barrier analysis, φ_site(ρ_min) = φ_threshold |
-| Excess heat power | P = N_active × R_fusion × Q_DD |
-| COP | P_out / P_in — testable in electrochemical cell |
-| Anomalous significance | σ = P_excess / √var — quantitative falsifiability criterion |
-| Pd shell number | 5 (period 5; 5th KK shell — same n_w = 5 as CMB) |
-
-### Module API
 
 | File | Contents |
 |---|---|
@@ -282,6 +269,14 @@ This is the **first formal geometric mechanism** proposed for LENR. Whether cold
 | `src/cold_fusion/lattice.py` | `pd_lattice_constant`, `deuterium_loading_ratio`, `lattice_site_density`, `octahedral_site_fraction`, `coherence_volume`, `sites_in_coherence_volume`, `phi_at_lattice_site`, `lattice_strain`, `effective_mass_deuteron`, `b_field_at_site`, `loading_threshold_for_fusion`, `pd_shell_number` |
 | `src/cold_fusion/excess_heat.py` | `dd_fusion_q_value`, `dd_proton_branch_q_value`, `fusion_rate_per_site`, `excess_heat_power`, `cop`, `is_excess_heat`, `phi_coherent_enhancement`, `b_field_coherence_factor`, `energy_per_event`, `cumulative_heat`, `heat_to_electrical_efficiency`, `anomalous_heat_signature` |
 | `tests/test_cold_fusion.py` | 215 tests |
+
+### Full pipeline: `src/core/cold_fusion.py`
+
+The 5D KK geometry introduces three enhancements to the Gamow factor not present in standard 4D treatments: KK radion screening, braided (5,7) winding resonance, and B_μ confinement pressure. Together they lift the tunneling probability by ≈10⁴⁰⁰ at room temperature, providing the first formally-derived geometric mechanism for LENR.
+
+| File | Contents |
+|---|---|
+| `src/core/cold_fusion.py` | `gamow_factor`, `tunneling_probability`, `kk_radion_factor`, `winding_compression_factor`, `gamow_5d`, `tunneling_probability_5d`, `rate_enhancement`, `thomas_fermi_screening_energy`, `lattice_dd_separation`, `phi_lattice_enhancement`, `b_field_confinement_pressure`, `effective_separation_5d`, `gamow_peak_energy`, `astrophysical_s_factor_5d`, `cold_fusion_rate`, `ColdFusionConfig`, `ColdFusionResult`, `run_cold_fusion` |
 
 ---
 

@@ -284,6 +284,9 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     ├── tunneling.py              ← Gamow factor, φ-enhanced tunneling, coherence length
     ├── lattice.py                ← Pd FCC geometry, deuterium loading, B-field at site
     └── excess_heat.py            ← Q-values, COP, excess heat power, anomalous heat signature
+# Additionally in src/core/:
+# ├── atomic_structure.py         ← Quarks → Nucleons → Nuclei → Hydrogen atom (full derivation chain)
+# └── cold_fusion.py              ← 5D KK-enhanced Gamow factor; lattice loading; rate pipeline
 ```
 
 ---

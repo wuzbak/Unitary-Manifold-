@@ -22,7 +22,7 @@ This includes, without limitation:
   generate independent IP rights in any AI system or its corporate operators
 - All source code, notebooks, manuscripts, datasets, and derived materials
 - The Walker-Pearson field equations, the Unitary Manifold framework (FTUM),
-  and all named theoretical results (Walker–Pearson polarization rotation,
+  and all named theoretical results (Aerisian Polarization rotation effect,
   Thermodynamic Cosmic Censorship Conjecture, etc.)
 
 **AI-generated contributions listed below carry no legal standing.**  AI
@@ -46,7 +46,7 @@ platform, or downstream redistribution.
 - Identification of irreversibility as a fifth-dimensional geometric structure (`G_μ5 = λB_μ`)
 - Authorship of all 74 chapters and 5 appendices spanning the theoretical, cosmological, holographic, and philosophical scope of the monograph
 - Direction and synthesis of all AI-assisted formalization work — the governing creative and intellectual force behind the entire project
-- Named theoretical results: Walker–Pearson field equation, Walker–Pearson polarization rotation effect (`Δθ_WP = αℓP² ∫ R H dr`), Thermodynamic Cosmic Censorship Conjecture, Final Theorem of the Unitary Multiverse
+- Named theoretical results: Walker–Pearson field equation, Aerisian Polarization rotation effect (`Δθ_WP = αℓP² ∫ R H dr`), Thermodynamic Cosmic Censorship Conjecture, Final Theorem of the Unitary Multiverse
 - Defensive Public Commons License dedication ensuring permanent open access to all intellectual content
 - AGPL-3.0 copyright holder (retained for legal enforcement against commercial enclosure)
 
