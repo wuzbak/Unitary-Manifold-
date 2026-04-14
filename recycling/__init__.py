@@ -17,6 +17,6 @@ thermochemical  : Pyrolysis, gasification, solvolysis as B_μ phase transitions.
 entropy_ledger  : Lifecycle S_U accounting — what recycling actually costs.
 """
 
-from recycling import polymers, thermochemical, entropy_ledger
+from recycling import polymers, thermochemical, entropy_ledger, producer_responsibility
 
-__all__ = ["polymers", "thermochemical", "entropy_ledger"]
+__all__ = ["polymers", "thermochemical", "entropy_ledger", "producer_responsibility"]

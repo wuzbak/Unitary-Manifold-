@@ -6,11 +6,12 @@ recycling/tests/test_recycling.py
 Unit tests for Pillar 16: Material Recovery & Recycling.
 
 Covers every public function in:
-  - recycling/polymers.py          (~70 tests)
-  - recycling/thermochemical.py    (~70 tests)
-  - recycling/entropy_ledger.py    (~75 tests)
+  - recycling/polymers.py              (~70 tests)
+  - recycling/thermochemical.py        (~70 tests)
+  - recycling/entropy_ledger.py        (~75 tests)
+  - recycling/producer_responsibility.py (~80 tests)
 
-Total: ~215 tests.
+Total: ~295 tests.
 """
 
 import sys
@@ -18,6 +19,7 @@ import os
 
 # Allow imports from the repo root and from the recycling package
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
+
 
 import numpy as np
 import pytest
@@ -62,6 +64,18 @@ from recycling.entropy_ledger import (
     closed_loop_criterion,
     open_loop_entropy_budget,
     downcycling_depth,
+)
+from recycling.producer_responsibility import (
+    phi_return_force,
+    producer_phi_debt,
+    epr_levy,
+    deposit_refund_amount,
+    closed_loop_radius,
+    return_probability,
+    takeback_efficiency,
+    phi_origin_label,
+    systemic_entropy_saved,
+    lifecycle_return_incentive,
 )
 
 
@@ -1103,3 +1117,555 @@ class TestFullLifecycleScenario:
     def test_co2_reduction_from_chemical_recycling(self):
         f = co2_reduction_factor(phi_recovery=1.8, phi_virgin=self.PHI_VIRGIN)
         assert f < 0.5  # significant CO2 reduction
+
+
+# ===========================================================================
+# producer_responsibility.py — TestPhiReturnForce
+# ===========================================================================
+
+class TestPhiReturnForce:
+    def test_zero_at_equal_phi(self):
+        f = phi_return_force(2.0, 2.0, r=1.0)
+        assert np.isclose(f, 0.0)
+
+    def test_decays_with_distance(self):
+        f1 = phi_return_force(2.0, 1.0, r=1.0)
+        f2 = phi_return_force(2.0, 1.0, r=2.0)
+        assert f2 < f1
+
+    def test_zero_distance(self):
+        f = phi_return_force(2.0, 1.0, r=0.0)
+        expected = 1.0 * (2.0 - 1.0) * np.exp(0.0)
+        assert np.isclose(f, expected)
+
+    def test_kappa_scales_linearly(self):
+        f1 = phi_return_force(2.0, 1.0, r=1.0, kappa=1.0)
+        f2 = phi_return_force(2.0, 1.0, r=1.0, kappa=3.0)
+        assert np.isclose(f2, 3.0 * f1)
+
+    def test_xi_controls_decay(self):
+        # Longer xi → slower decay → larger force at same distance
+        f_short = phi_return_force(2.0, 1.0, r=2.0, xi=1.0)
+        f_long  = phi_return_force(2.0, 1.0, r=2.0, xi=5.0)
+        assert f_long > f_short
+
+    def test_larger_phi_gap_larger_force(self):
+        f1 = phi_return_force(2.0, 1.5, r=1.0)
+        f2 = phi_return_force(2.0, 0.5, r=1.0)
+        assert f2 > f1
+
+    def test_formula(self):
+        f = phi_return_force(3.0, 1.0, r=2.0, kappa=2.0, xi=4.0)
+        expected = 2.0 * (3.0 - 1.0) * np.exp(-2.0 / 4.0)
+        assert np.isclose(f, expected)
+
+    def test_non_negative(self):
+        # Even when phi_waste > phi_origin the clamp keeps force ≥ 0
+        f = phi_return_force(1.0, 1.5, r=0.0)
+        assert f >= 0.0
+
+    def test_phi_origin_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi_return_force(0.0, 1.0, r=1.0)
+
+    def test_phi_waste_negative_raises(self):
+        with pytest.raises(ValueError):
+            phi_return_force(2.0, -0.1, r=1.0)
+
+    def test_r_negative_raises(self):
+        with pytest.raises(ValueError):
+            phi_return_force(2.0, 1.0, r=-0.5)
+
+    def test_kappa_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi_return_force(2.0, 1.0, r=1.0, kappa=0.0)
+
+    def test_xi_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi_return_force(2.0, 1.0, r=1.0, xi=0.0)
+
+    def test_returns_float(self):
+        assert isinstance(phi_return_force(2.0, 1.0, r=1.0), float)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestProducerPhiDebt
+# ===========================================================================
+
+class TestProducerPhiDebt:
+    def test_zero_a_score_full_debt(self):
+        assert np.isclose(producer_phi_debt(2.0, 0.0), 2.0)
+
+    def test_full_a_score_no_debt(self):
+        assert np.isclose(producer_phi_debt(2.0, 1.0), 0.0)
+
+    def test_partial_a_score(self):
+        assert np.isclose(producer_phi_debt(2.0, 0.5), 1.0)
+
+    def test_high_a_score_small_debt(self):
+        d = producer_phi_debt(2.0, 0.95)
+        assert np.isclose(d, 2.0 * 0.05)
+
+    def test_scales_with_phi_virgin(self):
+        d1 = producer_phi_debt(1.0, 0.3)
+        d2 = producer_phi_debt(4.0, 0.3)
+        assert np.isclose(d2, 4.0 * d1)
+
+    def test_phi_virgin_zero_raises(self):
+        with pytest.raises(ValueError):
+            producer_phi_debt(0.0, 0.5)
+
+    def test_a_score_negative_raises(self):
+        with pytest.raises(ValueError):
+            producer_phi_debt(2.0, -0.1)
+
+    def test_a_score_above_one_raises(self):
+        with pytest.raises(ValueError):
+            producer_phi_debt(2.0, 1.1)
+
+    def test_returns_float(self):
+        assert isinstance(producer_phi_debt(2.0, 0.5), float)
+
+    def test_non_negative(self):
+        assert producer_phi_debt(2.0, 0.99) >= 0.0
+
+
+# ===========================================================================
+# producer_responsibility.py — TestEprLevy
+# ===========================================================================
+
+class TestEprLevy:
+    def test_equal_phi_zero_levy(self):
+        # phi_waste == phi_virgin → no entropy gap → zero levy
+        assert np.isclose(epr_levy(2.0, 2.0), 0.0)
+
+    def test_higher_entropy_gap_higher_levy(self):
+        L1 = epr_levy(2.0, 1.0)
+        L2 = epr_levy(2.0, 0.5)
+        assert L2 > L1
+
+    def test_formula(self):
+        L = epr_levy(np.e, 1.0, c_levy=1.0, k_B=1.0)
+        assert np.isclose(L, 1.0)
+
+    def test_c_levy_scales_linearly(self):
+        L1 = epr_levy(2.0, 1.0, c_levy=1.0)
+        L2 = epr_levy(2.0, 1.0, c_levy=3.0)
+        assert np.isclose(L2, 3.0 * L1)
+
+    def test_k_B_scales_linearly(self):
+        L1 = epr_levy(2.0, 1.0, k_B=1.0)
+        L2 = epr_levy(2.0, 1.0, k_B=2.0)
+        assert np.isclose(L2, 2.0 * L1)
+
+    def test_phi_virgin_zero_raises(self):
+        with pytest.raises(ValueError):
+            epr_levy(0.0, 1.0)
+
+    def test_phi_waste_zero_raises(self):
+        with pytest.raises(ValueError):
+            epr_levy(2.0, 0.0)
+
+    def test_c_levy_negative_raises(self):
+        with pytest.raises(ValueError):
+            epr_levy(2.0, 1.0, c_levy=-1.0)
+
+    def test_returns_non_negative(self):
+        assert epr_levy(2.0, 1.0) >= 0.0
+
+    def test_returns_float(self):
+        assert isinstance(epr_levy(2.0, 1.0), float)
+
+    def test_clamps_when_waste_exceeds_virgin(self):
+        # phi_waste > phi_virgin is clamped → levy = 0
+        assert np.isclose(epr_levy(1.0, 2.0), 0.0)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestDepositRefundAmount
+# ===========================================================================
+
+class TestDepositRefundAmount:
+    def test_zero_phi_gap_zero_deposit(self):
+        assert np.isclose(deposit_refund_amount(2.0, 2.0), 0.0)
+
+    def test_formula(self):
+        d = deposit_refund_amount(3.0, 1.0, c_levy=2.0, collection_efficiency=0.5)
+        assert np.isclose(d, 2.0 * 2.0 / 0.5)
+
+    def test_lower_collection_higher_deposit(self):
+        d1 = deposit_refund_amount(2.0, 1.0, collection_efficiency=0.9)
+        d2 = deposit_refund_amount(2.0, 1.0, collection_efficiency=0.5)
+        assert d2 > d1
+
+    def test_perfect_collection_equals_phi_gap(self):
+        d = deposit_refund_amount(3.0, 1.0, c_levy=1.0, collection_efficiency=1.0)
+        assert np.isclose(d, 2.0)
+
+    def test_phi_virgin_zero_raises(self):
+        with pytest.raises(ValueError):
+            deposit_refund_amount(0.0, 1.0)
+
+    def test_phi_waste_negative_raises(self):
+        with pytest.raises(ValueError):
+            deposit_refund_amount(2.0, -0.1)
+
+    def test_c_levy_negative_raises(self):
+        with pytest.raises(ValueError):
+            deposit_refund_amount(2.0, 1.0, c_levy=-1.0)
+
+    def test_collection_zero_raises(self):
+        with pytest.raises(ValueError):
+            deposit_refund_amount(2.0, 1.0, collection_efficiency=0.0)
+
+    def test_collection_above_one_raises(self):
+        with pytest.raises(ValueError):
+            deposit_refund_amount(2.0, 1.0, collection_efficiency=1.1)
+
+    def test_returns_non_negative(self):
+        assert deposit_refund_amount(2.0, 1.0) >= 0.0
+
+    def test_returns_float(self):
+        assert isinstance(deposit_refund_amount(2.0, 1.0), float)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestClosedLoopRadius
+# ===========================================================================
+
+class TestClosedLoopRadius:
+    def test_no_phi_gap_returns_minus_one(self):
+        assert closed_loop_radius(1.0, 1.0) == -1.0
+
+    def test_waste_exceeds_origin_returns_minus_one(self):
+        assert closed_loop_radius(1.0, 2.0) == -1.0
+
+    def test_force_at_zero_below_F_min_returns_minus_one(self):
+        # kappa * delta_phi < F_min
+        r = closed_loop_radius(1.001, 1.0, kappa=1.0, xi=1.0, F_min=10.0)
+        assert r == -1.0
+
+    def test_positive_radius(self):
+        r = closed_loop_radius(2.0, 0.0, kappa=1.0, xi=1.0, F_min=1e-3)
+        assert r > 0.0
+
+    def test_larger_xi_larger_radius(self):
+        r1 = closed_loop_radius(2.0, 0.0, kappa=1.0, xi=1.0, F_min=0.01)
+        r2 = closed_loop_radius(2.0, 0.0, kappa=1.0, xi=2.0, F_min=0.01)
+        assert r2 > r1
+
+    def test_formula(self):
+        r = closed_loop_radius(3.0, 1.0, kappa=2.0, xi=5.0, F_min=0.1)
+        expected = 5.0 * np.log(2.0 * 2.0 / 0.1)
+        assert np.isclose(r, expected)
+
+    def test_phi_origin_zero_raises(self):
+        with pytest.raises(ValueError):
+            closed_loop_radius(0.0, 0.0)
+
+    def test_phi_waste_negative_raises(self):
+        with pytest.raises(ValueError):
+            closed_loop_radius(2.0, -0.1)
+
+    def test_kappa_zero_raises(self):
+        with pytest.raises(ValueError):
+            closed_loop_radius(2.0, 1.0, kappa=0.0)
+
+    def test_xi_zero_raises(self):
+        with pytest.raises(ValueError):
+            closed_loop_radius(2.0, 1.0, xi=0.0)
+
+    def test_F_min_zero_raises(self):
+        with pytest.raises(ValueError):
+            closed_loop_radius(2.0, 1.0, F_min=0.0)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestReturnProbability
+# ===========================================================================
+
+class TestReturnProbability:
+    def test_zero_debt_certainty(self):
+        assert np.isclose(return_probability(0.0, k_econ=1.0), 1.0)
+
+    def test_large_debt_low_probability(self):
+        p = return_probability(100.0, k_econ=1.0)
+        assert p < 1e-10
+
+    def test_higher_k_econ_higher_probability(self):
+        p1 = return_probability(2.0, k_econ=1.0)
+        p2 = return_probability(2.0, k_econ=5.0)
+        assert p2 > p1
+
+    def test_probability_in_unit_interval(self):
+        for d in [0.0, 0.5, 1.0, 5.0]:
+            p = return_probability(d, k_econ=1.0)
+            assert 0.0 < p <= 1.0
+
+    def test_formula(self):
+        p = return_probability(2.0, k_econ=4.0)
+        assert np.isclose(p, np.exp(-0.5))
+
+    def test_phi_debt_negative_raises(self):
+        with pytest.raises(ValueError):
+            return_probability(-0.1)
+
+    def test_k_econ_zero_raises(self):
+        with pytest.raises(ValueError):
+            return_probability(1.0, k_econ=0.0)
+
+    def test_returns_float(self):
+        assert isinstance(return_probability(1.0), float)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestTakebackEfficiency
+# ===========================================================================
+
+class TestTakebackEfficiency:
+    def test_perfect_both(self):
+        assert np.isclose(takeback_efficiency(1.0, 1.0), 1.0)
+
+    def test_zero_a_score(self):
+        assert np.isclose(takeback_efficiency(0.0, 0.8), 0.0)
+
+    def test_zero_collection(self):
+        assert np.isclose(takeback_efficiency(0.9, 0.0), 0.0)
+
+    def test_formula(self):
+        assert np.isclose(takeback_efficiency(0.8, 0.7), 0.56)
+
+    def test_in_unit_interval(self):
+        eta = takeback_efficiency(0.7, 0.85)
+        assert 0.0 <= eta <= 1.0
+
+    def test_a_score_negative_raises(self):
+        with pytest.raises(ValueError):
+            takeback_efficiency(-0.1, 0.5)
+
+    def test_a_score_above_one_raises(self):
+        with pytest.raises(ValueError):
+            takeback_efficiency(1.1, 0.5)
+
+    def test_collection_negative_raises(self):
+        with pytest.raises(ValueError):
+            takeback_efficiency(0.5, -0.1)
+
+    def test_collection_above_one_raises(self):
+        with pytest.raises(ValueError):
+            takeback_efficiency(0.5, 1.1)
+
+    def test_returns_float(self):
+        assert isinstance(takeback_efficiency(0.5, 0.5), float)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestPhiOriginLabel
+# ===========================================================================
+
+class TestPhiOriginLabel:
+    def test_in_range(self):
+        lbl = phi_origin_label(2.0, 10, 1.5, phi_max=10.0)
+        assert 0.0 <= lbl < 10.0
+
+    def test_deterministic(self):
+        lbl1 = phi_origin_label(2.0, 5, 3.0)
+        lbl2 = phi_origin_label(2.0, 5, 3.0)
+        assert lbl1 == lbl2
+
+    def test_different_seeds_different_labels(self):
+        # Use phi_virgin=1.7, n_w=3 so (1.7*3*seed) % 10 differs for seed=1 vs 2
+        lbl1 = phi_origin_label(1.7, 3, 1.0)
+        lbl2 = phi_origin_label(1.7, 3, 2.0)
+        # Seeds differ → labels should generally differ
+        assert not np.isclose(lbl1, lbl2)
+
+    def test_different_n_w_different_labels(self):
+        lbl1 = phi_origin_label(2.0, 3, 1.0)
+        lbl2 = phi_origin_label(2.0, 7, 1.0)
+        assert not np.isclose(lbl1, lbl2)
+
+    def test_formula(self):
+        phi_max = 10.0
+        lbl = phi_origin_label(2.0, 5, 3.0, phi_max=phi_max)
+        expected = (2.0 * 5 * 3.0) % phi_max
+        assert np.isclose(lbl, expected)
+
+    def test_phi_virgin_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi_origin_label(0.0, 5, 1.0)
+
+    def test_n_w_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi_origin_label(2.0, 0, 1.0)
+
+    def test_producer_seed_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi_origin_label(2.0, 5, 0.0)
+
+    def test_phi_max_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi_origin_label(2.0, 5, 1.0, phi_max=0.0)
+
+    def test_returns_float(self):
+        assert isinstance(phi_origin_label(2.0, 5, 1.0), float)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestSystemicEntropySaved
+# ===========================================================================
+
+class TestSystemicEntropySaved:
+    def test_epr_better_than_municipal_positive(self):
+        ds = systemic_entropy_saved(1000, 2.0, 0.85, 0.50)
+        assert ds > 0.0
+
+    def test_equal_scores_zero_benefit(self):
+        ds = systemic_entropy_saved(1000, 2.0, 0.60, 0.60)
+        assert np.isclose(ds, 0.0)
+
+    def test_epr_worse_negative(self):
+        ds = systemic_entropy_saved(100, 2.0, 0.30, 0.70)
+        assert ds < 0.0
+
+    def test_formula(self):
+        ds = systemic_entropy_saved(500, 4.0, 0.9, 0.6)
+        assert np.isclose(ds, 500 * 4.0 * 0.3)
+
+    def test_scales_with_n_products(self):
+        ds1 = systemic_entropy_saved(100, 2.0, 0.8, 0.5)
+        ds2 = systemic_entropy_saved(200, 2.0, 0.8, 0.5)
+        assert np.isclose(ds2, 2.0 * ds1)
+
+    def test_zero_products_zero_benefit(self):
+        assert np.isclose(systemic_entropy_saved(0, 2.0, 0.9, 0.5), 0.0)
+
+    def test_phi_virgin_zero_raises(self):
+        with pytest.raises(ValueError):
+            systemic_entropy_saved(100, 0.0, 0.8, 0.5)
+
+    def test_n_products_negative_raises(self):
+        with pytest.raises(ValueError):
+            systemic_entropy_saved(-1, 2.0, 0.8, 0.5)
+
+    def test_a_score_epr_negative_raises(self):
+        with pytest.raises(ValueError):
+            systemic_entropy_saved(100, 2.0, -0.1, 0.5)
+
+    def test_a_score_municipal_above_one_raises(self):
+        with pytest.raises(ValueError):
+            systemic_entropy_saved(100, 2.0, 0.8, 1.1)
+
+    def test_returns_float(self):
+        assert isinstance(systemic_entropy_saved(10, 2.0, 0.8, 0.5), float)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestLifecycleReturnIncentive
+# ===========================================================================
+
+class TestLifecycleReturnIncentive:
+    def test_single_element_zero_incentive(self):
+        result = lifecycle_return_incentive([2.0])
+        assert result == [0.0]
+
+    def test_strictly_increasing_phi_zero_incentive(self):
+        # No φ loss → no levy
+        result = lifecycle_return_incentive([1.0, 2.0, 3.0])
+        assert all(np.isclose(x, 0.0) for x in result)
+
+    def test_strictly_decreasing_phi(self):
+        result = lifecycle_return_incentive([3.0, 2.0, 1.0], c_levy=1.0)
+        assert np.isclose(result[0], 0.0)
+        assert np.isclose(result[1], 1.0)
+        assert np.isclose(result[2], 1.0)
+
+    def test_mixed_trace(self):
+        # [1.0, 3.0, 2.0] → losses at step 2 (1.0), zero at step 1
+        result = lifecycle_return_incentive([1.0, 3.0, 2.0], c_levy=2.0)
+        assert np.isclose(result[0], 0.0)
+        assert np.isclose(result[1], 0.0)   # increase: no levy
+        assert np.isclose(result[2], 2.0)   # decrease of 1.0 × c_levy=2.0
+
+    def test_c_levy_scales_linearly(self):
+        r1 = lifecycle_return_incentive([3.0, 1.0], c_levy=1.0)
+        r2 = lifecycle_return_incentive([3.0, 1.0], c_levy=5.0)
+        assert np.isclose(r2[1], 5.0 * r1[1])
+
+    def test_length_preserved(self):
+        trace = [2.0, 1.8, 1.5, 0.9]
+        result = lifecycle_return_incentive(trace)
+        assert len(result) == len(trace)
+
+    def test_first_element_always_zero(self):
+        result = lifecycle_return_incentive([5.0, 1.0, 0.5])
+        assert np.isclose(result[0], 0.0)
+
+    def test_empty_trace_raises(self):
+        with pytest.raises(ValueError):
+            lifecycle_return_incentive([])
+
+    def test_phi_zero_in_trace_raises(self):
+        with pytest.raises(ValueError):
+            lifecycle_return_incentive([2.0, 0.0, 1.0])
+
+    def test_c_levy_negative_raises(self):
+        with pytest.raises(ValueError):
+            lifecycle_return_incentive([2.0, 1.0], c_levy=-1.0)
+
+    def test_returns_list(self):
+        result = lifecycle_return_incentive([2.0, 1.0])
+        assert isinstance(result, list)
+
+
+# ===========================================================================
+# producer_responsibility.py — TestIntegration
+# ===========================================================================
+
+class TestProducerResponsibilityIntegration:
+    """End-to-end scenarios combining multiple functions."""
+
+    PHI_VIRGIN = 2.0
+    PHI_WASTE  = 0.4
+
+    def test_deposit_covers_epr_levy_at_full_collection(self):
+        # If collection_efficiency = 1, deposit should equal φ-gap × c_levy
+        deposit = deposit_refund_amount(
+            self.PHI_VIRGIN, self.PHI_WASTE, c_levy=1.0, collection_efficiency=1.0
+        )
+        assert np.isclose(deposit, self.PHI_VIRGIN - self.PHI_WASTE)
+
+    def test_high_a_score_clears_debt(self):
+        debt = producer_phi_debt(self.PHI_VIRGIN, a_score=0.97)
+        assert debt < 0.1
+
+    def test_levy_positive_when_waste_below_virgin(self):
+        L = epr_levy(self.PHI_VIRGIN, self.PHI_WASTE)
+        assert L > 0.0
+
+    def test_return_force_positive_and_finite(self):
+        f = phi_return_force(self.PHI_VIRGIN, self.PHI_WASTE, r=5.0)
+        assert np.isfinite(f) and f > 0.0
+
+    def test_epr_outperforms_municipal_entropy(self):
+        ds = systemic_entropy_saved(10_000, self.PHI_VIRGIN, 0.88, 0.45)
+        assert ds > 0.0
+
+    def test_lifecycle_incentive_sums_to_total_levy(self):
+        trace = [self.PHI_VIRGIN, 1.6, 1.0, self.PHI_WASTE]
+        c_levy = 2.0
+        incentives = lifecycle_return_incentive(trace, c_levy=c_levy)
+        total = sum(incentives)
+        # Total levy should equal c_levy × total φ-loss across chain
+        phi_loss = sum(max(trace[i] - trace[i + 1], 0.0) for i in range(len(trace) - 1))
+        assert np.isclose(total, c_levy * phi_loss)
+
+    def test_takeback_vs_return_probability_consistency(self):
+        a_score = 0.85
+        collect  = 0.75
+        eta = takeback_efficiency(a_score, collect)
+        debt = producer_phi_debt(self.PHI_VIRGIN, a_score * collect)
+        # Higher take-back efficiency → lower remaining debt → higher return prob
+        p = return_probability(debt, k_econ=1.0)
+        assert eta > 0.0
+        assert 0.0 < p <= 1.0
