@@ -328,12 +328,13 @@ class TestLymanWavelength:
     def test_wavelength_increases_with_n(self):
         lam2 = lyman_wavelength(2)
         lam3 = lyman_wavelength(3)
-        lam_inf = lyman_wavelength(100)
-        assert lam2 > lam3 > lam_inf
+        lam_near_limit = lyman_wavelength(100)
+        assert lam2 > lam3  # wavelength decreases with increasing n
+        assert lam3 > lam_near_limit  # n=100 approaches series limit
 
     def test_series_limit(self):
-        lam = lyman_wavelength(1000)
-        assert abs(lam - 1.0) < 0.01
+        lam_near_limit = lyman_wavelength(1000)
+        assert abs(lam_near_limit - 1.0) < 0.01
 
     def test_n1_raises(self):
         with pytest.raises(ValueError):
