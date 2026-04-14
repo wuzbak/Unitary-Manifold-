@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-src/consciousness/unitary_pentad.py
-====================================
+Unitary Pentad/unitary_pentad.py
+=================================
 The Unitary Pentad — 5-body HILS Coupled Master Equation.
 
 Background
@@ -137,8 +137,10 @@ import numpy as np
 
 import sys
 import os
+
+# Ensure the repository root is on the path so src.* imports resolve.
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_ROOT = os.path.dirname(os.path.dirname(_HERE))
+_ROOT = os.path.dirname(_HERE)
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
