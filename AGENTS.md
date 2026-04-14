@@ -84,6 +84,8 @@ following priority order.
 | 16 | `tests/test_boundary.py` | Boundary & entropy tests |
 | 17 | `tests/test_fixed_point.py` | FTUM & operator tests |
 | 18 | `tests/test_quantum_unification.py` | BH info, CCR, Hawking T, ER=EPR tests |
+| 19 | `tests/test_atomic_structure.py` | Pillar 14: atomic orbitals, spectroscopy, fine structure (187 tests) |
+| 20 | `tests/test_cold_fusion.py` | Pillar 15: φ-enhanced tunneling, Pd lattice, excess heat (215 tests) |
 
 ### Tier 4 — Read for theory depth
 

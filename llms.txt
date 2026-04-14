@@ -2,7 +2,7 @@
 
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.7, 2026).
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.9, 2026).
 
 ## Start Here
 
@@ -44,7 +44,7 @@
 - [transfer.py](src/core/transfer.py): CMB transfer functions; Planck 2018 reference spectra.
 - [uniqueness.py](src/core/uniqueness.py): Uniqueness theorems for the Walker-Pearson field equations.
 
-## Natural Sciences (v9.7 — Pillars 10–13)
+## Natural Sciences (v9.9 — Pillars 10–15)
 
 - [NATURAL_SCIENCES.md](NATURAL_SCIENCES.md): Grand unified document — all natural sciences as projections of the 5D geometry.
 - [bonds.py](src/chemistry/bonds.py): Pillar 10 — φ-minimum bond model; bond energies; shell capacity from KK winding.
@@ -58,6 +58,12 @@
 - [life.py](src/biology/life.py): Pillar 13 — Life as negentropy FTUM attractors; metabolism; information current.
 - [evolution.py](src/biology/evolution.py): Pillar 13 — Evolution as gradient ascent on FTUM fitness landscape; genetic drift.
 - [morphogenesis.py](src/biology/morphogenesis.py): Pillar 13 — Turing patterns as φ symmetry breaking; morphogen gradients; segment counts.
+- [orbitals.py](src/atomic_structure/orbitals.py): Pillar 14 — Atomic orbitals as KK winding modes; hydrogen energy levels; Rydberg from geometry.
+- [spectroscopy.py](src/atomic_structure/spectroscopy.py): Pillar 14 — Lyman/Balmer series; Einstein A coefficient; Zeeman and Stark shifts.
+- [fine_structure.py](src/atomic_structure/fine_structure.py): Pillar 14 — Dirac energy; Lamb shift; hyperfine; Landé g-factor; KK spin connection.
+- [tunneling.py](src/cold_fusion/tunneling.py): Pillar 15 — Gamow factor; φ-enhanced tunneling probability; coherence length; barrier suppression.
+- [lattice.py](src/cold_fusion/lattice.py): Pillar 15 — Pd FCC geometry; deuterium loading; coherence volume; φ at lattice site.
+- [excess_heat.py](src/cold_fusion/excess_heat.py): Pillar 15 — Q-values; COP; excess heat power; anomalous heat significance σ.
 
 ## Tests
 
@@ -94,6 +100,8 @@
 - [tests/test_oceanography.py](tests/test_oceanography.py): Oceanography — thermohaline, waves, ENSO (46 tests) — v9.7.
 - [tests/test_meteorology.py](tests/test_meteorology.py): Meteorology — atmospheric cells, Lorenz, climate (45 tests) — v9.7.
 - [tests/test_biology.py](tests/test_biology.py): Biology — negentropy attractors, evolution, Turing (111 tests) — v9.7.
+- [tests/test_atomic_structure.py](tests/test_atomic_structure.py): Atomic structure as KK winding modes — orbitals, spectroscopy, fine structure (187 tests) — v9.8.
+- [tests/test_cold_fusion.py](tests/test_cold_fusion.py): Cold fusion as φ-enhanced tunneling — Gamow, lattice, excess heat (215 tests) — v9.9.
 
 ## Claims (Independent Verification)
 
