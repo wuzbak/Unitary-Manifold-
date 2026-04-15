@@ -491,7 +491,7 @@ class TestTrustMaintenanceCost:
 
 
 # ---------------------------------------------------------------------------
-# regime_transition_signal — early-warning observables
+# regime_transition_signal — attractor-robustness observables
 # ---------------------------------------------------------------------------
 
 def _set_phi(ps: PentadSystem, label: str, phi: float) -> PentadSystem:
@@ -537,7 +537,7 @@ class TestRegimeTransitionSignalType:
         for lbl in sig.saturated_pair:
             assert lbl in PENTAD_LABELS
 
-    def test_early_warning_is_bool(self):
+    def test_attractor_degraded_is_bool(self):
         ps = PentadSystem.default()
         assert isinstance(regime_transition_signal(ps).attractor_degraded, bool)
 
@@ -593,7 +593,7 @@ class TestRegimeTransitionSignalBounds:
     def test_transition_proximity_threshold_positive(self):
         assert TRANSITION_PROXIMITY_THRESHOLD > 1.0
 class TestRegimeTransitionSignalHarmonicBaseline:
-    """Flat (Harmonic) system: load is distributed evenly, no early warning."""
+    """Flat (Harmonic) system: load is distributed evenly; attractor is robust."""
 
     def setup_method(self):
         self.ps  = _flat_harmonic_pentad()
@@ -616,7 +616,7 @@ class TestRegimeTransitionSignalHarmonicBaseline:
 
 
 class TestRegimeTransitionSignalStressedChannel:
-    """One overloaded channel: early-warning should fire."""
+    """One overloaded channel: attractor_degraded should fire."""
 
     def setup_method(self):
         self.ps  = _stressed_pentad()
