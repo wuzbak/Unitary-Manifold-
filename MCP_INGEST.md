@@ -447,7 +447,7 @@ To register this project in the official MCP community registry:
 | Action | Value |
 |--------|-------|
 | **Add `llms.txt`** | Standardised AI-discovery file at repo root (per llmstxt.org spec) listing key files + one-line summaries |
-| **Zenodo DOI** | Deposit monograph → get citable DOI; link in README and CITATION.cff |
+| **Zenodo DOI** | ✅ DOI minted: [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531) — linked in README, CITATION.cff, LICENSE, schema.jsonld |
 | **arXiv submission** | Use `/arxiv/main.tex` to submit to `gr-qc` + `hep-th` |
 | **GitHub Pages MathJax** | Render LaTeX equations live on the Pages site |
 | **Add `sitemap.xml`** | Improves discoverability by search engines and web-scraping MCP tools |

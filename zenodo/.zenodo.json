@@ -71,6 +71,11 @@
       "relation": "isDescribedBy",
       "resource_type": "other",
       "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.19584531",
+      "relation": "isIdenticalTo",
+      "scheme": "doi"
     }
   ],
   "version": "9.11",

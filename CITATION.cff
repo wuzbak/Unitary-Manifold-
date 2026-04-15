@@ -4,6 +4,11 @@ type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
 version: "9.11"
 date-released: "2026-04-15"
+doi: "10.5281/zenodo.19584531"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.19584531"
+    description: "Zenodo DOI for version 9.11"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
