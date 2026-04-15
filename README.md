@@ -348,7 +348,7 @@ Expected output (3282 fast tests pass, 1 skips via guard, 11 slow tests deselect
 tests/test_inflation.py                       271 passed
 tests/test_fiber_bundle.py                     96 passed  ← fiber-bundle geometry
 tests/test_completions.py                      72 passed  ← completion/endpoint tests
-tests/test_braided_winding.py                  70 passed  ← braided (5,7) resonance, r-tension ✓
+tests/test_braided_winding.py                 108 passed  ← braided (5,7) resonance, r-tension ✓, 3 adversarial attacks
 tests/test_uniqueness.py                       61 passed  ← uniqueness theorems
 tests/test_derivation.py                       59 passed
 tests/test_derivation_module.py                59 passed  ← Stage 0–3 constraint derivation
