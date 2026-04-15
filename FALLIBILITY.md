@@ -228,10 +228,26 @@ them systematically.
 The Unitary Manifold framework makes several observational commitments.
 It would be **falsified** if any of the following occurred:
 
-1. **Birefringence null result.** Future CMB polarimetry (LiteBIRD, CMB-S4,
-   Simons Observatory) measures the cosmic birefringence angle β consistent
-   with zero at 3σ or better.  The framework predicts β ≈ 0.35°; a confirmed
-   null result cannot be accommodated without abandoning k_CS = 74.
+1. **Birefringence null result or shift outside the two-point window.**
+   Future CMB polarimetry (LiteBIRD, CMB-S4, Simons Observatory) measures the
+   cosmic birefringence angle β outside the interval [0.223°, 0.381°] — or
+   consistent with zero at 3σ — with canonical parameters (r_c = 12,
+   Δφ = 5.072).  Within that interval, only **two** discrete SOS-resonant
+   states survive the triple constraint (SOS ∩ Planck nₛ ∩ BICEP/Keck r):
+
+   | State | k_cs | β predicted | r_eff  |
+   |-------|------|-------------|--------|
+   | (5,6) | 61   | 0.273°      | 0.0175 |
+   | (5,7) | 74   | 0.331°      | 0.0315 |
+
+   A β measurement outside [0.223°, 0.381°] yields zero viable states.  Any
+   measurement in the gap (0.29°–0.31°) — between the two predicted values —
+   also yields zero viable states.  The SOS locus is dense in k-space
+   (~15–22 integers per 1σ window), but the triple constraint is sparse: only
+   these two points survive.  CMB-S4 at ±0.05° precision can discriminate
+   them; LiteBIRD at ±0.10° cannot.  See
+   `src/core/braided_winding.birefringence_scenario_scan` and
+   `tests/test_braided_winding.TestBirefringenceScenarioScan`.
 
 2. **Tensor-to-scalar ratio — resolved via braided (5,7) state.** The bare
    prediction r = 0.097 (n_w = 5) previously exceeded the BICEP/Keck 2022
@@ -262,6 +278,76 @@ It would be **falsified** if any of the following occurred:
    If a simpler model — with no freely chosen winding number — reproduces the
    same set of observables (nₛ, r, β, α), the Unitary Manifold's claim to
    uniqueness or predictive economy would be negated by Occam's razor.
+
+---
+
+## VI. Three Adversarial Attacks — Results
+
+The following attacks attempt to break the explanatory claim of the (5,7)
+braided-winding architecture.  All three have been implemented as code and
+verified by automated tests.  See `src/core/braided_winding.py` for the
+implementations and `tests/test_braided_winding.py` for the test classes.
+
+### Attack 1 — Projection Degeneracy Test
+*Can a pure-4D EFT reproduce the same locked relations without hidden tuning?*
+
+A 4D EFT has **3 independent parameters** to fit 3 observables (nₛ, r, β).
+Any triplet is achievable.  The 5D framework uses **2 integer parameters**
+(n₁, n₂) to lock all three via the chain nₛ=nₛ(n₁), k_cs=n₁²+n₂², β=β(k_cs),
+r_eff=r_bare×(n₂²−n₁²)/k_cs.  This is a 2D surface in (nₛ, r, β) space.
+
+The **tuning fraction** — what fraction of a 4D EFT prior volume
+(3σ nₛ window × r∈[0,0.2] × β∈[0°,1°]) accidentally satisfies the 5D
+constraint within LiteBIRD/future-r resolution — is:
+
+    tuning_fraction ≈ 4 × 10⁻⁴   (roughly 1 in 2400)
+
+A 4D counterexample EXISTS in the sense that multi-field inflation with
+a free c_s and a free axion-photon coupling can reproduce any individual
+(nₛ, r, β) triplet.  But it cannot reproduce the *integer constraint*
+k_cs = n₁²+n₂² = 74 — a specific rational number c_s = 12/37 = 24/74 is
+natural only if both integers (n₁, n₂) are identified topologically.  Without
+the 5D topology, c_s = 12/37 must be tuned in.  The explanatory claim
+survives Attack 1.  See `projection_degeneracy_fraction()`.
+
+### Attack 2 — Robustness to Data Drift
+*Does any other integer pair enter the admissible region as β shifts?*
+
+A systematic sweep of all SOS-resonant pairs (n₁, n₂) over the full
+LiteBIRD uncertainty range shows:
+
+- The current 1σ window (β = 0.35° ± 0.14°) contains **22 SOS integers** but
+  only **2 triply-viable pairs**: (5,6) at β≈0.273° and (5,7) at β≈0.331°.
+- LiteBIRD at ±0.10°: still 2 viable pairs, indistinguishable.
+- CMB-S4 at ±0.05°: **1 viable pair** (discriminating).
+- Any β outside [0.223°, 0.381°]: **0 viable pairs** → falsification.
+- The gap [0.29°, 0.31°] between the two predictions: **0 viable pairs**
+  at ±0.01° resolution.
+
+Uniqueness does **not** hold at LiteBIRD precision (two viable states) but
+**does** hold at CMB-S4 precision (one state per ±0.05° window).
+The framework survives Attack 2 with a testable prediction: β ∈ {0.273°, 0.331°}.
+See `birefringence_scenario_scan()`.
+
+### Attack 3 — Full-tower Consistency
+*Does including higher KK modes collapse the c_s floor?*
+
+Two independent mechanisms protect the floor c_s = 12/37:
+
+**(A) KK scaling invariance.**  The k-th KK tower mode has winding
+(k·5, k·7) and resonance level k²×74.  The sound speed is
+c_s(k) = (49k²−25k²)/(74k²) = 24/74 = 12/37, identical to the zero mode
+at every KK level.  The ratio is invariant under the k² rescaling.
+
+**(B) Kinematic decoupling.**  The off-diagonal mixing between the zero mode
+and the k-th KK mode is |ρ_{0k}| = k×ρ₀ = k×(70/74).  For k=1 this is
+ρ₀≈0.946 < 1 (physical); for k≥2 it is ≥1.892 > 1, violating unitarity.
+Higher KK modes are **kinematically forbidden** from coupling into the
+zero-mode resonant sector.  The floor is protected by the same integer
+constraint that defines the braid.
+
+The (5,7) c_s floor is preserved against the full KK tower.
+The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 ---
 

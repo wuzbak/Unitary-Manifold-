@@ -67,6 +67,9 @@ import pytest
 
 from src.core.braided_winding import (
     BraidedPrediction,
+    BirefringenceScenario,
+    KKTowerResult,
+    ProjectionDegeneracyResult,
     resonant_kcs,
     is_resonant,
     braided_cs_mixing,
@@ -74,8 +77,13 @@ from src.core.braided_winding import (
     braided_r_effective,
     braided_ns_r,
     resonance_scan,
+    birefringence_scenario_scan,
+    kk_tower_cs_floor,
+    projection_degeneracy_fraction,
     R_BICEP_KECK_95,
     R_PLANCK_95,
+    _ALPHA_EM_CANONICAL,
+    _R_C_CANONICAL,
 )
 from src.core.inflation import (
     effective_phi0_kk,
@@ -578,3 +586,317 @@ class TestArrowOfTimeDecoupling:
         assert ns_ok,   f"ns failed: {pred.ns_sigma:.2f}σ from Planck"
         assert r_ok,    f"r failed:  r_eff={pred.r_eff:.5f} > {R_BICEP_KECK_95}"
         assert beta_ok, f"β failed:  β={beta:.4f}° outside window"
+
+
+# ===========================================================================
+# 9. TestBirefringenceScenarioScan  (Attack 2 — Robustness to Data Drift)
+# ===========================================================================
+
+class TestBirefringenceScenarioScan:
+    """Attack 2: sweep β over LiteBIRD uncertainty; check admissible region.
+
+    Key numerical results (canonical params: r_c=12, Δφ≈5.072):
+        (5,6): k=61, β≈0.273°, r_eff≈0.018, c_s≈0.180
+        (5,7): k=74, β≈0.331°, r_eff≈0.031, c_s≈0.324
+
+    These are the ONLY two triply-viable SOS states.
+    """
+
+    # --- Return-type correctness ---
+
+    def test_returns_birefringence_scenario(self):
+        """birefringence_scenario_scan returns a BirefringenceScenario."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        assert isinstance(result, BirefringenceScenario)
+
+    def test_k_window_ordering(self):
+        """k_lo < k_hi for any positive β centre and sigma."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        assert result.k_lo < result.k_hi
+
+    # --- Current measurement: two viable states ---
+
+    def test_current_measurement_two_viable_states(self):
+        """β=0.35±0.14° (current data) contains exactly 2 triply-viable states."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        assert len(result.triply_viable) == 2
+
+    def test_current_measurement_viable_pairs_are_56_and_57(self):
+        """The two viable states are (5,6) and (5,7) — no others."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        winding_pairs = {(p.n1, p.n2) for p in result.triply_viable}
+        assert winding_pairs == {(5, 6), (5, 7)}
+
+    def test_current_measurement_sos_density(self):
+        """The window contains many SOS integers but only 2 survive the triple
+        constraint — demonstrating that the SOS locus alone is not selective."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        # At least 15 SOS integers in the 0.35±0.14 window
+        assert result.n_sos_in_window >= 15
+        # But only 2 pass all three filters
+        assert len(result.triply_viable) == 2
+
+    # --- LiteBIRD 1σ precision ---
+
+    def test_litebird_1sigma_still_two_viable(self):
+        """LiteBIRD ±0.10° precision: both viable states remain in window."""
+        result = birefringence_scenario_scan(0.35, 0.10)
+        assert len(result.triply_viable) == 2
+
+    def test_litebird_cannot_discriminate_56_from_57(self):
+        """At ±0.10°, a β=0.33° measurement still contains both (5,6) and (5,7)
+        — LiteBIRD alone cannot separate the two predictions."""
+        result = birefringence_scenario_scan(0.33, 0.10)
+        assert len(result.triply_viable) == 2
+
+    # --- CMB-S4 discrimination ---
+
+    def test_cmbs4_near_k74_selects_unique_state(self):
+        """CMB-S4 ±0.05° centred near β(k=74)≈0.331° isolates (5,7) uniquely."""
+        result = birefringence_scenario_scan(0.331, 0.05)
+        assert result.uniqueness_holds
+        assert len(result.triply_viable) == 1
+        assert result.triply_viable[0].n1 == 5
+        assert result.triply_viable[0].n2 == 7
+
+    def test_cmbs4_near_k61_selects_unique_state(self):
+        """CMB-S4 ±0.05° centred near β(k=61)≈0.273° isolates (5,6) uniquely."""
+        result = birefringence_scenario_scan(0.273, 0.05)
+        assert result.uniqueness_holds
+        assert len(result.triply_viable) == 1
+        assert result.triply_viable[0].n1 == 5
+        assert result.triply_viable[0].n2 == 6
+
+    # --- Gap between the two viable points ---
+
+    def test_gap_region_has_no_viable_state(self):
+        """A CMB-S4 measurement at β=0.30° ± 0.01° falls in the gap between
+        the two viable states (0.273° and 0.331°) and finds zero viable pairs,
+        falsifying the braided-winding mechanism."""
+        result = birefringence_scenario_scan(0.30, 0.01)
+        assert len(result.triply_viable) == 0
+
+    # --- Null result (falsification) ---
+
+    def test_null_result_zero_viable_states(self):
+        """β≈0 (null birefringence) gives zero triply-viable states — outright
+        falsification of the Chern–Simons mechanism."""
+        result = birefringence_scenario_scan(0.00, 0.05)
+        assert len(result.triply_viable) == 0
+
+    # --- Far-shifted β (falsification) ---
+
+    def test_high_beta_no_viable_states(self):
+        """β=0.50° ± 0.05° is above the r_braided floor for all (n1=5, n2) pairs;
+        every SOS state in this window fails BICEP/Keck."""
+        result = birefringence_scenario_scan(0.50, 0.05)
+        assert len(result.triply_viable) == 0
+
+    # --- beta_predicted values ---
+
+    def test_beta_predicted_values_match_k61_and_k74(self):
+        """The two predicted β values correspond to k=61 and k=74."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        betas = sorted(result.beta_predicted)
+        assert len(betas) == 2
+        # k=61 → β≈0.273°,  k=74 → β≈0.331°
+        assert abs(betas[0] - 0.273) < 0.005
+        assert abs(betas[1] - 0.331) < 0.005
+
+    # --- r_eff of each viable state ---
+
+    def test_viable_r_eff_satisfy_bicep_keck(self):
+        """Both triply-viable states satisfy BICEP/Keck r < 0.036."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        for pred in result.triply_viable:
+            assert pred.r_eff < R_BICEP_KECK_95
+
+    def test_r_eff_57_matches_known_value(self):
+        """The (5,7) viable state has r_eff ≈ 0.0315."""
+        result = birefringence_scenario_scan(0.35, 0.14)
+        pred_57 = next(p for p in result.triply_viable if p.n2 == 7)
+        assert abs(pred_57.r_eff - 0.0315) < 0.001
+
+
+# ===========================================================================
+# 10. TestKKTowerCsFloor  (Attack 3 — Full-tower Consistency)
+# ===========================================================================
+
+class TestKKTowerCsFloor:
+    """Attack 3: verify the KK tower cannot shift the braided c_s floor.
+
+    Two mechanisms protect the floor:
+    (A) KK scaling invariance: c_s is the same at every KK level.
+    (B) Kinematic decoupling: off-diagonal mixing |ρ_{0k}| ≥ 1 for all k ≥ 2.
+    """
+
+    def test_returns_kk_tower_result(self):
+        """kk_tower_cs_floor returns a KKTowerResult."""
+        result = kk_tower_cs_floor(5, 7)
+        assert isinstance(result, KKTowerResult)
+
+    def test_zero_mode_c_s_value(self):
+        """The zero-mode c_s equals 12/37 ≈ 0.3243."""
+        result = kk_tower_cs_floor(5, 7)
+        assert abs(result.c_s_zero_mode - 12.0 / 37.0) < 1e-10
+
+    # --- KK scaling invariance (mechanism A) ---
+
+    def test_kk_c_s_invariant_flag(self):
+        """c_s_invariant is True: every KK mode has exactly the same c_s."""
+        result = kk_tower_cs_floor(5, 7)
+        assert result.c_s_invariant is True
+
+    def test_all_kk_levels_have_same_c_s(self):
+        """c_s at every KK level matches the zero-mode value to machine precision."""
+        result = kk_tower_cs_floor(5, 7, n_kk_max=10)
+        for cs in result.kk_c_s_values:
+            assert abs(cs - result.c_s_zero_mode) < 1e-10
+
+    def test_kk_scaling_analytic_identity(self):
+        """(k·n1, k·n2) gives c_s = (n2²-n1²)/(n1²+n2²) analytically."""
+        for k_scale in [1, 2, 3, 5]:
+            n1, n2 = 5 * k_scale, 7 * k_scale
+            k_cs = n1**2 + n2**2
+            rho = 2 * n1 * n2 / k_cs
+            c_s = (n2**2 - n1**2) / k_cs   # algebraic shortcut at SOS resonance
+            assert abs(c_s - 12.0 / 37.0) < 1e-12, (
+                f"KK level scale={k_scale}: c_s={c_s:.6f} ≠ 12/37"
+            )
+
+    # --- Kinematic decoupling (mechanism B) ---
+
+    def test_floor_protected_flag(self):
+        """floor_protected is True: all k ≥ 2 off-diagonal mixings exceed 1."""
+        result = kk_tower_cs_floor(5, 7)
+        assert result.floor_protected is True
+
+    def test_zero_mode_to_kk1_mixing_is_physical(self):
+        """Zero-mode ↔ first KK level: |ρ_{01}| = ρ₀ < 1 (same state)."""
+        result = kk_tower_cs_floor(5, 7)
+        assert result.off_diagonal_physical[0] is True
+
+    def test_kk2_mixing_is_unphysical(self):
+        """|ρ_{02}| = 2ρ₀ ≈ 1.892 ≥ 1: kinematically forbidden."""
+        result = kk_tower_cs_floor(5, 7)
+        assert result.rho_off_diagonal[1] >= 1.0
+        assert result.off_diagonal_physical[1] is False
+
+    def test_rho_off_diagonal_grows_linearly(self):
+        """|ρ_{0k}| = k × ρ₀ grows linearly with k — all k ≥ 2 are forbidden."""
+        result = kk_tower_cs_floor(5, 7)
+        rho0 = result.rho_off_diagonal[0]
+        for k, rho_k in enumerate(result.rho_off_diagonal, start=1):
+            assert abs(rho_k - k * rho0) < 1e-10
+
+    def test_floor_preserved_for_5_6_braid(self):
+        """The second viable braid (5,6) also has floor_protected=True."""
+        result = kk_tower_cs_floor(5, 6)
+        assert result.floor_protected is True
+        assert result.c_s_invariant is True
+
+    # --- No floor collapse ---
+
+    def test_c_s_floor_above_zero(self):
+        """c_s > 0 at all KK levels — unitarity is never violated."""
+        result = kk_tower_cs_floor(5, 7, n_kk_max=10)
+        for cs in result.kk_c_s_values:
+            assert cs > 0.0
+
+    def test_c_s_floor_satisfies_bicep_keck(self):
+        """c_s × r_bare < 0.036 at the zero-mode level (floor is BICEP-safe)."""
+        result = kk_tower_cs_floor(5, 7)
+        r_bare = 0.097
+        r_eff = result.c_s_zero_mode * r_bare
+        assert r_eff < R_BICEP_KECK_95
+
+
+# ===========================================================================
+# 11. TestProjectionDegeneracy  (Attack 1 — Projection Degeneracy Test)
+# ===========================================================================
+
+class TestProjectionDegeneracy:
+    """Attack 1: prove no pure-4D EFT reproduces the 5D lock without tuning.
+
+    The 5D framework has 2 integer parameters (n1, n2) governing 3 observables
+    (ns, r, β) via the locked chain: ns=ns(n1), k_cs=n1²+n2², β=β(k_cs),
+    r_eff=r_bare(n1)×(n2²-n1²)/k_cs.
+
+    A 4D EFT has 3 free parameters.  The tuning fraction ~4×10⁻⁴ quantifies
+    how improbable it is for a 4D model to accidentally land on the 5D surface.
+    """
+
+    def test_returns_projection_degeneracy_result(self):
+        """projection_degeneracy_fraction returns a ProjectionDegeneracyResult."""
+        result = projection_degeneracy_fraction()
+        assert isinstance(result, ProjectionDegeneracyResult)
+
+    def test_4d_has_more_free_parameters_than_5d(self):
+        """The 4D EFT needs 3 parameters vs 2 integers for the 5D framework."""
+        result = projection_degeneracy_fraction()
+        assert result.n_4d_params == 3
+        assert result.n_5d_params == 2
+        assert result.n_4d_params > result.n_5d_params
+
+    def test_exactly_two_viable_points(self):
+        """There are exactly 2 discrete triply-viable (n1, n2) pairs in the
+        default prior cube — not a continuum."""
+        result = projection_degeneracy_fraction()
+        assert result.n_viable_points == 2
+
+    def test_tuning_fraction_is_small(self):
+        """The tuning fraction is < 10⁻² — a 4D EFT needs to be fine-tuned
+        to better than 1% to accidentally reproduce the 5D constraint."""
+        result = projection_degeneracy_fraction()
+        assert result.tuning_fraction < 1e-2
+
+    def test_tuning_fraction_is_very_small(self):
+        """The tuning fraction is < 10⁻³ with default LiteBIRD resolution."""
+        result = projection_degeneracy_fraction()
+        assert result.tuning_fraction < 1e-3
+
+    def test_prior_volume_positive(self):
+        """The prior volume is a positive finite number."""
+        result = projection_degeneracy_fraction()
+        assert result.prior_volume > 0.0
+        assert result.prior_volume < float("inf")
+
+    def test_viable_volume_much_less_than_prior(self):
+        """The viable volume is much smaller than the prior volume."""
+        result = projection_degeneracy_fraction()
+        assert result.viable_volume < result.prior_volume / 100.0
+
+    def test_constraint_not_violated_at_canonical_params(self):
+        """The default (canonical) parameter set has viable solutions —
+        the framework is not self-contradictory."""
+        result = projection_degeneracy_fraction()
+        assert result.constraint_violated is False
+
+    def test_constraint_violated_for_impossible_beta(self):
+        """With β prior restricted to [0.6°, 1.0°] — far from both viable
+        states — the constraint IS violated (zero viable points)."""
+        result = projection_degeneracy_fraction(
+            beta_prior=(0.6, 1.0),
+        )
+        assert result.constraint_violated is True
+        assert result.n_viable_points == 0
+
+    def test_tuning_fraction_scales_with_resolution(self):
+        """Tuning fraction is proportional to the resolution volume:
+        halving all resolutions reduces tuning fraction by 8×."""
+        r1 = projection_degeneracy_fraction(
+            ns_resolution=0.0042, r_resolution=0.005, beta_resolution=0.05
+        )
+        r2 = projection_degeneracy_fraction(
+            ns_resolution=0.0021, r_resolution=0.0025, beta_resolution=0.025
+        )
+        # r2 resolution volume is (1/2)^3 = 1/8 of r1
+        ratio = r1.tuning_fraction / r2.tuning_fraction
+        assert abs(ratio - 8.0) < 0.01
+
+    def test_5d_prediction_is_discrete_not_continuous(self):
+        """The viable set is a discrete collection of (n1,n2) integer pairs,
+        not a continuous manifold — confirming topological origin."""
+        result = projection_degeneracy_fraction()
+        # Discrete means n_viable_points is a small integer, not O(10^3)
+        assert result.n_viable_points < 10

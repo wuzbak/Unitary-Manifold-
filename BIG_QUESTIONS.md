@@ -1209,7 +1209,9 @@ If you want to know what would kill this framework, in decreasing order of decis
 
 | Observation | Would rule out... |
 |------------|-----------------|
-| LiteBIRD: β measured far from 0.35° | The specific topological mechanism for geometric irreversibility |
+| LiteBIRD: β measured outside [0.22°, 0.38°] | The braided-winding mechanism entirely |
+| LiteBIRD/CMB-S4: β lands in gap [0.29°–0.31°] between (5,6) and (5,7) predictions | Both triply-viable states simultaneously — framework falsified |
+| CMB-S4 ±0.05°: β≠0.273° AND β≠0.331° | Both specific SOS predictions — no viable state survives |
 | LiteBIRD: β = 0 (no birefringence) | The irreversibility field B_μ has no topological coupling |
 | CMB-S4: n_s significantly different from 0.9635 | The inflation module's fixed-point prediction |
 | LIGO/LISA: information-destroying black hole evaporation confirmed | The information conservation theorem |
@@ -1222,6 +1224,21 @@ c_s = 12/37 suppresses the tensor-to-scalar ratio to r_braided ≈ 0.0315 (below
 BICEP/Keck 2022 limit of r < 0.036) while leaving nₛ unchanged at 0.9635.  The
 k_cs = 74 level was independently selected by the birefringence measurement — no new
 free parameters were introduced.  See `src/core/braided_winding.py`.
+
+**Three adversarial attacks (April 2026):**
+1. **Projection Degeneracy** — A 4D EFT can reproduce any single triplet (nₛ,r,β)
+   but needs tuning fraction ~4×10⁻⁴ to accidentally satisfy the 5D integer lock.
+   No pure-4D mechanism naturally produces c_s = 12/37 without imposing the same
+   integer structure.  Attack survived.
+2. **Data Drift** — Sweeping β over the LiteBIRD 1σ window finds only two triply-viable
+   SOS states: (5,6) at β≈0.273° and (5,7) at β≈0.331°.  LiteBIRD (±0.10°) cannot
+   discriminate them; CMB-S4 (±0.05°) can.  No third viable state enters for any
+   β in [0.22°, 0.50°].  Attack survived with testable two-point prediction.
+3. **KK Tower** — c_s = 12/37 is invariant under (5k, 7k) KK rescaling.
+   Off-diagonal zero-mode ↔ KK-mode mixing |ρ_{0k}|=k×0.946 ≥ 1.892 for k≥2:
+   kinematically forbidden (|ρ|<1 required).  Floor cannot be shifted by the tower.
+   Attack survived.
+See `src/core/braided_winding.py` and `tests/test_braided_winding.py`.
 
 ---
 
@@ -1258,7 +1275,7 @@ QUESTION 7 (Quantum randomness):     Statistical shadow of deterministic 5D evol
 QUESTION 8 (Measurement problem):    No collapse. Measurement = projection G_AB → g_μν
 QUESTION 9 (Big Bang cause):         Branch selection by FTUM adjacency; not a singularity in 5D
 QUESTION 10 (Determinism):           Deterministic in 5D; apparently random in 4D projection
-QUESTION 11 (Constants of nature):   Several derived: α=φ₀⁻², n_s=0.9635, β=0.3513°, λ_COBE=6.98e-15
+QUESTION 11 (Constants of nature):   Several derived: α=φ₀⁻², n_s=0.9635, β∈{0.273°,0.331°}, λ_COBE=6.98e-15
 QUESTION 12 (Something vs nothing):  Ψ=0 is unstable; Ψ* is unique stable attractor
 QUESTION 13 (Are we alone):          Adjacent branches in 5D; CMB bispectrum is the test
 QUESTION 14 (Math discovered/invented): Geometry is prior; 4D world is its projection
@@ -1268,9 +1285,14 @@ QUESTION 17 (Hawking T / inflation): T_H = |∂_r φ/φ|/2π links primordial BH
 QUESTION 18 (r vs ns tension):       RESOLVED: braided (5,7) state, k_cs=74, r_braided=0.0315 < 0.036 (BICEP/Keck ✓); ns unchanged
 QUESTION 19 (FTUM universality):     82.8% convergence, φ* spread ±54.8%; NOT a universal fixed point
 QUESTION 20 (lambda / E_inf):        λ_COBE=6.985e-15; E_inf≈8.4e16 GeV (≈4×GUT scale)
-KEY FALSIFIER:          LiteBIRD β ≠ 0.35° at >3σ
+KEY FALSIFIER:          β outside [0.22°, 0.38°] at >1σ, OR β in gap [0.29°–0.31°]
+TWO-POINT PREDICTION:   β ∈ {0.273° (k=61, (5,6)), 0.331° (k=74, (5,7))} — CMB-S4 discriminable
 RESOLVED TENSION:       r = 0.0315 (braided (5,7), k_cs=74) satisfies BICEP/Keck r < 0.036 (Q18 resolved)
 KEY FORWARD PREDICTIONS: r=0.0315 (braided (5,7)), E_inf=8.4×10¹⁶ GeV, λ_COBE=6.985×10⁻¹⁵
+ATTACK RESULTS (April 2026):
+  Attack 1 (Projection Degeneracy):  Survived. 4D EFT tuning fraction ~4e-4; c_s=12/37 requires 5D integer topology.
+  Attack 2 (Data Drift β sweep):     Survived. Only (5,6)@0.273° and (5,7)@0.331° triply viable. LiteBIRD cannot discriminate; CMB-S4 can.
+  Attack 3 (KK Tower Consistency):   Survived. c_s invariant under KK rescaling; off-diagonal |ρ_{0k}|≥1.892 for k≥2 (kinematically forbidden).
 ```
 
 ---
