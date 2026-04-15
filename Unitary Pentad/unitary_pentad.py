@@ -97,7 +97,9 @@ PENTAD_LABELS : tuple[str, ...]
     Ordered tuple of the 5 label strings.
 
 PentadSystem
-    5-body system: dict[label → ManifoldState], plus coupling constant β.
+    5-body system: dict[label → ManifoldState], plus coupling constant β,
+    and optional grace-period fields (grace_steps, grace_decay,
+    _trust_reservoir, _grace_elapsed) for Trust Hysteresis.
     Factory: PentadSystem.default(dim, rng)
 
 pentad_pairwise_gaps(system) → dict[tuple[str,str], float]
@@ -107,7 +109,14 @@ pentad_pairwise_phases(system) → dict[tuple[str,str], float]
     All 10 pairwise Moiré phase angles.
 
 trust_modulation(system) → float
-    Current trust-modulation factor φ_trust ∈ [0, 1].
+    Effective trust-modulation factor φ_trust ∈ [0, 1].
+    When grace_steps > 0, returns max(live_phi, reservoir × exp(-k × elapsed))
+    so the coupling field decays slowly rather than collapsing instantly when
+    the human element becomes erratic.
+
+tick_grace_period(system) → PentadSystem
+    Advance the grace-period state machine by one step.  Called automatically
+    by step_pentad.  No-op when grace_steps == 0.
 
 pentad_defect(system, G4) → float
     Combined 5-body convergence defect (RMS of 5 individual FTUM defects
@@ -117,7 +126,8 @@ _apply_pentagonal_coupling(system, dt) → PentadSystem
     Apply the full pentagonal coupling operator C_pentad.
 
 step_pentad(system, dt, G4, kappa, gamma) → PentadSystem
-    One step of U_pentad: apply U_i to each body, then C_pentad.
+    One step of U_pentad: apply U_i to each body, then C_pentad, then
+    tick_grace_period.
 
 pentad_master_equation(system, ...) → (PentadSystem, list[dict], bool)
     Iterate U_pentad until the pentad fixed point is reached.
@@ -129,7 +139,8 @@ pentad_eigenspectrum(system) → np.ndarray
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import math
+from dataclasses import dataclass, field
 from itertools import combinations
 from typing import Dict, List, Optional, Tuple
 
@@ -245,10 +256,27 @@ class PentadSystem:
         Must contain exactly the 5 keys in PENTAD_LABELS.
     beta   : float
         Base coupling constant β (default: birefringence in radians).
+    grace_steps : int
+        Number of pseudo-timesteps the Trust Reservoir ("grace period") lasts
+        after φ_trust drops below TRUST_PHI_MIN.  0 (default) disables
+        hysteresis — trust_modulation reads the live φ_trust directly.
+    grace_decay : float
+        Exponential decay constant k in the reservoir formula
+        ``φ_reservoir × exp(-k × elapsed)``.  Only used when grace_steps > 0.
+    _trust_reservoir : float
+        Internal — last "good" φ_trust value captured while trust was healthy.
+        Automatically maintained by tick_grace_period / step_pentad.
+    _grace_elapsed : int
+        Internal — number of steps since trust last dropped below TRUST_PHI_MIN.
+        Reset to 0 whenever trust recovers.
     """
 
     bodies: Dict[str, ManifoldState]
     beta:   float = BIREFRINGENCE_RAD
+    grace_steps:      int   = 0
+    grace_decay:      float = 0.2
+    _trust_reservoir: float = field(default=1.0, repr=False)
+    _grace_elapsed:   int   = field(default=0,   repr=False)
 
     def __post_init__(self) -> None:
         missing = set(PENTAD_LABELS) - set(self.bodies)
@@ -352,18 +380,91 @@ def pentad_pairwise_phases(
 
 
 def trust_modulation(system: PentadSystem) -> float:
-    """Trust-modulation factor φ_trust ∈ [0, 1] (clipped).
+    """Effective trust-modulation factor φ_trust ∈ [0, 1].
 
     The Trust field body acts as a global amplifier / attenuator of all
     inter-body couplings.  Its radion φ_trust scales the effective coupling
     between the four non-trust bodies.
 
+    When ``system.grace_steps == 0`` (default), the live φ_trust is returned
+    directly (original stateless behaviour).
+
+    When ``system.grace_steps > 0`` (Trust Reservoir / Hysteresis active),
+    the effective trust is::
+
+        φ_effective = max(live_phi, _trust_reservoir × exp(-grace_decay × _grace_elapsed))
+
+    This prevents the coupling field from collapsing instantly when the human
+    element becomes erratic.  The reservoir decays over ``grace_steps`` ticks
+    until the human signal re-aligns or the grace window closes.
+
     Returns
     -------
-    float — φ_trust clamped to [0, 1].
+    float — effective φ_trust clamped to [0, 1].
     """
-    raw = system.bodies[PentadLabel.TRUST].phi
-    return float(np.clip(raw, 0.0, 1.0))
+    live = float(np.clip(system.bodies[PentadLabel.TRUST].phi, 0.0, 1.0))
+    if system.grace_steps == 0:
+        return live
+    if system._grace_elapsed == 0:
+        # No decay has occurred yet — return the better of live and reservoir.
+        return float(np.clip(max(live, system._trust_reservoir), 0.0, 1.0))
+    reservoir_val = system._trust_reservoir * math.exp(
+        -system.grace_decay * system._grace_elapsed
+    )
+    return float(np.clip(max(live, reservoir_val), 0.0, 1.0))
+
+
+def tick_grace_period(system: PentadSystem) -> PentadSystem:
+    """Advance the grace-period (Trust Reservoir) state machine by one step.
+
+    Called automatically at the end of each ``step_pentad``.  When
+    ``grace_steps == 0`` the function is a no-op and returns the system
+    unchanged.
+
+    State transitions
+    -----------------
+    * **Trust healthy** (live φ_trust ≥ TRUST_PHI_MIN):
+      Refresh the reservoir to the current live value; reset elapsed counter.
+    * **Trust erratic, within grace window** (_grace_elapsed < grace_steps):
+      Increment the elapsed counter; keep reservoir value for decay calculation.
+    * **Grace exhausted** (_grace_elapsed ≥ grace_steps):
+      Stop protecting — the reservoir drains to the live (low) value and the
+      elapsed counter is held at its current position.
+
+    Parameters
+    ----------
+    system : PentadSystem
+
+    Returns
+    -------
+    PentadSystem — same bodies/β, with updated _trust_reservoir / _grace_elapsed.
+    """
+    if system.grace_steps == 0:
+        return system
+
+    live = float(np.clip(system.bodies[PentadLabel.TRUST].phi, 0.0, 1.0))
+
+    if live >= TRUST_PHI_MIN:
+        # Trust is healthy — refresh the reservoir and reset the counter.
+        new_reservoir = live
+        new_elapsed = 0
+    elif system._grace_elapsed < system.grace_steps:
+        # Still inside the grace window — advance the decay clock.
+        new_reservoir = system._trust_reservoir
+        new_elapsed = system._grace_elapsed + 1
+    else:
+        # Grace exhausted — let the reservoir drain to the live value.
+        new_reservoir = live
+        new_elapsed = system._grace_elapsed
+
+    return PentadSystem(
+        bodies=system.bodies,
+        beta=system.beta,
+        grace_steps=system.grace_steps,
+        grace_decay=system.grace_decay,
+        _trust_reservoir=new_reservoir,
+        _grace_elapsed=new_elapsed,
+    )
 
 
 def pentad_coupling_matrix(system: PentadSystem) -> np.ndarray:
@@ -531,7 +632,14 @@ def _apply_pentagonal_coupling(
             label=old.label,
         )
 
-    return PentadSystem(bodies=new_bodies, beta=system.beta)
+    return PentadSystem(
+        bodies=new_bodies,
+        beta=system.beta,
+        grace_steps=system.grace_steps,
+        grace_decay=system.grace_decay,
+        _trust_reservoir=system._trust_reservoir,
+        _grace_elapsed=system._grace_elapsed,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -583,9 +691,18 @@ def step_pentad(
             label=old.label,
         )
 
-    evolved = PentadSystem(bodies=new_bodies, beta=system.beta)
-    # Apply pentagonal coupling (topological handshake)
-    return _apply_pentagonal_coupling(evolved, dt)
+    evolved = PentadSystem(
+        bodies=new_bodies,
+        beta=system.beta,
+        grace_steps=system.grace_steps,
+        grace_decay=system.grace_decay,
+        _trust_reservoir=system._trust_reservoir,
+        _grace_elapsed=system._grace_elapsed,
+    )
+    # Apply pentagonal coupling (topological handshake), then advance
+    # the Trust Reservoir state machine for the next iteration.
+    coupled = _apply_pentagonal_coupling(evolved, dt)
+    return tick_grace_period(coupled)
 
 
 # ---------------------------------------------------------------------------
