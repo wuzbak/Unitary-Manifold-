@@ -102,6 +102,38 @@ is_resonant(n1, n2, k_cs) -> bool
 resonance_scan(n_max, k_cs) -> list[BraidedPrediction]
     Scan all ordered pairs (n1, n2) with n1 < n2 ≤ n_max; return all
     resonant pairs with both ns within 2σ of Planck and r_eff < r_limit.
+
+Attack functions — three adversarial probes of the (5,7) architecture
+----------------------------------------------------------------------
+birefringence_scenario_scan(beta_center_deg, beta_sigma_deg) -> BirefringenceScenario
+    Attack 2 — Robustness to Data Drift.
+    Map any future β measurement with its uncertainty to the set of
+    SOS-resonant (n1, n2) pairs inside the measurement window, and
+    identify which of those survive the triple constraint (SOS ∩ Planck
+    nₛ ∩ BICEP/Keck r).  With canonical parameters (r_c = 12,
+    Δφ = 5.072), only two triply-viable points exist:
+        (5, 6) at k = 61, β ≈ 0.273°
+        (5, 7) at k = 74, β ≈ 0.331°
+    Any β measurement outside [0.223°, 0.381°] leaves zero viable states.
+
+kk_tower_cs_floor(n1, n2, k_cs, n_kk_max) -> KKTowerResult
+    Attack 3 — Full-tower Consistency.
+    Show that c_s = (n2²−n1²)/(n1²+n2²) is invariant under KK tower
+    rescaling (n1,n2) → (k·n1, k·n2), and that the off-diagonal kinetic
+    mixing between the zero mode and any higher KK mode is kinematically
+    forbidden (|ρ_{0k}| ≥ 2 for all k ≥ 2, which exceeds the unitarity
+    bound |ρ| < 1).  The stability floor therefore cannot be shifted by
+    the KK tower.
+
+projection_degeneracy_fraction(ns_prior, r_prior, beta_prior,
+                                ns_resolution, r_resolution,
+                                beta_resolution) -> ProjectionDegeneracyResult
+    Attack 1 — Projection Degeneracy Test.
+    Quantify the fine-tuning required for a pure-4D EFT to accidentally
+    satisfy the 5D locked relation  r_eff = r_bare(nₛ) × c_s(nₛ, β)
+    without invoking the 5D integer topology.  Returns the fraction of
+    the prior parameter volume that satisfies the constraint, and the
+    number of degrees of freedom consumed by the 4D vs 5D descriptions.
 """
 
 from __future__ import annotations
@@ -123,14 +155,25 @@ from src.core.inflation import (
     ns_from_phi0,
     PLANCK_NS_CENTRAL,
     PLANCK_NS_SIGMA,
+    cs_axion_photon_coupling,
+    birefringence_angle,
+    field_displacement_gw,
+    cs_level_for_birefringence,
 )
 
 # ---------------------------------------------------------------------------
-# Observational limits (used in resonance_scan)
+# Observational limits (used in resonance_scan and attack functions)
 # ---------------------------------------------------------------------------
 R_BICEP_KECK_95: float = 0.036   # BICEP/Keck 2021, 95 % CL
 R_PLANCK_95:     float = 0.056   # Planck 2018,     95 % CL
 PHI0_BARE_FTUM:  float = 1.0     # FTUM fixed-point bare vev
+
+# ---------------------------------------------------------------------------
+# Canonical birefringence parameters (flat S¹/Z₂, r_c = 12 M_Pl⁻¹)
+# These reproduce k_cs ≈ 73.7 → 74 for β_target = 0.35°.
+# ---------------------------------------------------------------------------
+_ALPHA_EM_CANONICAL: float = 1.0 / 137.036
+_R_C_CANONICAL:      float = 12.0          # compactification radius [M_Pl⁻¹]
 
 
 # ---------------------------------------------------------------------------
@@ -384,3 +427,382 @@ def resonance_scan(
             if pred.ns_sigma <= ns_sigma_max and pred.r_eff < r_limit:
                 passing.append(pred)
     return passing
+
+
+# ===========================================================================
+# Attack dataclasses
+# ===========================================================================
+
+@dataclass
+class BirefringenceScenario:
+    """Result of scanning resonant braided states inside a future β window.
+
+    Produced by :func:`birefringence_scenario_scan`.
+
+    Attributes
+    ----------
+    beta_center_deg  : float — assumed or measured β centre value [degrees]
+    beta_sigma_deg   : float — 1σ measurement uncertainty on β [degrees]
+    k_lo             : float — continuous k_cs at the lower β edge
+    k_hi             : float — continuous k_cs at the upper β edge
+    n_sos_in_window  : int   — number of SOS integers in [k_lo, k_hi]
+    all_sos_in_window: list[BraidedPrediction] — every resonant pair in window
+    triply_viable    : list[BraidedPrediction] — pairs also satisfying
+                       Planck nₛ (ns_sigma ≤ ns_sigma_max) AND r_eff < r_limit
+    beta_predicted   : list[float] — β [degrees] for each triply-viable pair
+    uniqueness_holds : bool — True iff ≤ 1 triply-viable pair is in the window
+    """
+    beta_center_deg: float
+    beta_sigma_deg: float
+    k_lo: float
+    k_hi: float
+    n_sos_in_window: int
+    all_sos_in_window: List[BraidedPrediction]
+    triply_viable: List[BraidedPrediction]
+    beta_predicted: List[float]
+    uniqueness_holds: bool
+
+
+@dataclass
+class KKTowerResult:
+    """KK tower consistency check for a braided (n1, n2) zero mode.
+
+    Produced by :func:`kk_tower_cs_floor`.
+
+    Attributes
+    ----------
+    n1, n2              : int   — zero-mode winding numbers
+    k_cs                : int   — zero-mode CS level (= n1²+n2²)
+    c_s_zero_mode       : float — zero-mode sound speed
+    kk_c_s_values       : list[float] — c_s for KK modes k=1,2,...,n_kk_max
+    c_s_invariant       : bool  — True iff all KK modes have the same c_s
+    rho_off_diagonal    : list[float] — |ρ_{0k}| for k=1,...,n_kk_max
+    off_diagonal_physical: list[bool] — True iff |ρ_{0k}| < 1 (kinemat. allowed)
+    floor_protected     : bool  — True iff all k ≥ 2 have |ρ_{0k}| ≥ 1
+                          (kinematic decoupling of higher KK modes)
+    """
+    n1: int
+    n2: int
+    k_cs: int
+    c_s_zero_mode: float
+    kk_c_s_values: List[float]
+    c_s_invariant: bool
+    rho_off_diagonal: List[float]
+    off_diagonal_physical: List[bool]
+    floor_protected: bool
+
+
+@dataclass
+class ProjectionDegeneracyResult:
+    """Quantified fine-tuning required for a 4D EFT to fake the 5D lock.
+
+    Produced by :func:`projection_degeneracy_fraction`.
+
+    Attributes
+    ----------
+    n_4d_params         : int   — free parameters in the 4D EFT (ns, r, β → 3)
+    n_5d_params         : int   — free integer parameters in the 5D framework
+                          (n1, n2 → 2)
+    prior_volume        : float — volume of the 4D EFT prior cube
+    viable_volume       : float — volume occupied by all triply-viable 5D points
+    tuning_fraction     : float — viable_volume / prior_volume
+    n_viable_points     : int   — number of discrete triply-viable (n1, n2) pairs
+    constraint_violated : bool  — True iff the locked relation
+                          r_eff ≈ r_bare(ns) × c_s(ns, β) has NO solution at
+                          the given (ns, β) input (i.e. no integer solution exists)
+    """
+    n_4d_params: int
+    n_5d_params: int
+    prior_volume: float
+    viable_volume: float
+    tuning_fraction: float
+    n_viable_points: int
+    constraint_violated: bool
+
+
+# ===========================================================================
+# Attack 2 — Robustness to Data Drift
+# ===========================================================================
+
+def birefringence_scenario_scan(
+    beta_center_deg: float,
+    beta_sigma_deg: float,
+    r_c: float = _R_C_CANONICAL,
+    alpha_em: float = _ALPHA_EM_CANONICAL,
+    n_max: int = 15,
+    ns_sigma_max: float = 2.0,
+    r_limit: float = R_BICEP_KECK_95,
+) -> BirefringenceScenario:
+    """Map a future β measurement to the set of SOS-resonant admissible states.
+
+    For a birefringence measurement β_center ± β_sigma (degrees), compute the
+    implied Chern–Simons level window [k_lo, k_hi] via the flat S¹/Z₂ formula
+
+        k_cs = β_rad · 4π² r_c / (α_EM · |Δφ|)
+
+    and enumerate every sum-of-squares integer k ∈ [k_lo, k_hi] with at least
+    one ordered pair (n1, n2) satisfying n1 < n2 and n1²+n2² = k.  Of those,
+    the *triply-viable* subset must additionally satisfy:
+
+        |nₛ(n1) − 0.9649| ≤ ns_sigma_max × 0.0042    (Planck nₛ window)
+        r_eff < r_limit                                 (BICEP/Keck r bound)
+
+    With canonical parameters (r_c = 12, alpha_em = 1/137.036) the full β range
+    that contains at least one triply-viable state is [0.223°, 0.381°], within
+    which exactly two states exist:
+
+        (5, 6) at k = 61, β ≈ 0.273°, r_eff ≈ 0.018, c_s ≈ 0.180
+        (5, 7) at k = 74, β ≈ 0.331°, r_eff ≈ 0.031, c_s ≈ 0.324
+
+    Any β measurement outside that range — including a null result — yields zero
+    triply-viable states, falsifying the braided-winding mechanism.
+
+    Parameters
+    ----------
+    beta_center_deg : float — centre of the β measurement [degrees]
+    beta_sigma_deg  : float — 1σ uncertainty [degrees]
+    r_c             : float — compactification radius [M_Pl⁻¹] (default 12)
+    alpha_em        : float — fine-structure constant (default 1/137.036)
+    n_max           : int   — maximum winding number to scan (default 15)
+    ns_sigma_max    : float — Planck nₛ acceptance window in σ (default 2.0)
+    r_limit         : float — r upper limit (default R_BICEP_KECK_95 = 0.036)
+
+    Returns
+    -------
+    BirefringenceScenario
+    """
+    delta_phi = field_displacement_gw(r_c)
+
+    beta_lo = max(1e-6, beta_center_deg - beta_sigma_deg)
+    beta_hi = beta_center_deg + beta_sigma_deg
+    k_lo = cs_level_for_birefringence(beta_lo, alpha_em, r_c, delta_phi)
+    k_hi = cs_level_for_birefringence(beta_hi, alpha_em, r_c, delta_phi)
+
+    all_sos: List[BraidedPrediction] = []
+    triply_viable: List[BraidedPrediction] = []
+    beta_predicted: List[float] = []
+
+    for n1 in range(1, n_max):
+        for n2 in range(n1 + 1, n_max + 1):
+            k = n1 * n1 + n2 * n2
+            if k < k_lo or k > k_hi:
+                continue
+            try:
+                pred = braided_ns_r(n1, n2)
+            except ValueError:
+                continue
+            all_sos.append(pred)
+            if pred.ns_sigma <= ns_sigma_max and pred.r_eff < r_limit:
+                g_agg = cs_axion_photon_coupling(k, alpha_em, r_c)
+                beta_deg = float(np.degrees(birefringence_angle(g_agg, delta_phi)))
+                triply_viable.append(pred)
+                beta_predicted.append(beta_deg)
+
+    return BirefringenceScenario(
+        beta_center_deg=float(beta_center_deg),
+        beta_sigma_deg=float(beta_sigma_deg),
+        k_lo=float(k_lo),
+        k_hi=float(k_hi),
+        n_sos_in_window=len(all_sos),
+        all_sos_in_window=all_sos,
+        triply_viable=triply_viable,
+        beta_predicted=beta_predicted,
+        uniqueness_holds=len(triply_viable) <= 1,
+    )
+
+
+# ===========================================================================
+# Attack 3 — Full-tower Consistency
+# ===========================================================================
+
+def kk_tower_cs_floor(
+    n1: int,
+    n2: int,
+    k_cs: int | None = None,
+    n_kk_max: int = 8,
+) -> KKTowerResult:
+    """Check whether the KK tower preserves the braided sound-speed floor.
+
+    Two mechanisms are tested:
+
+    1. **KK scaling invariance.**
+       The k-th KK tower mode has winding numbers (k·n1, k·n2) and resonance
+       CS level k_cs(k) = (kn1)²+(kn2)² = k²·k_cs₀.  The sound speed is
+
+           c_s(k) = |(kn2)²−(kn1)²| / k²·k_cs₀
+                  = k²(n2²−n1²) / k²(n1²+n2²)
+                  = (n2²−n1²)/(n1²+n2²) = c_s₀
+
+       so c_s is the **same** at every KK level.  The floor is invariant.
+
+    2. **Kinematic decoupling of off-diagonal mixing.**
+       The off-diagonal mixing between the zero mode and the k-th KK mode
+       (with winding n2·k in the secondary sector) is
+
+           |ρ_{0k}| = 2 n1 (n2·k) / k_cs₀ = k · (2 n1 n2 / k_cs₀) = k · ρ₀
+
+       For the (5, 7) braid, ρ₀ = 70/74 ≈ 0.946.  For k ≥ 2, |ρ_{0k}| ≥ 1.892,
+       which violates the unitarity bound |ρ| < 1.  Higher KK modes therefore
+       **cannot** kinematically couple into the zero-mode resonant sector — they
+       are forbidden by the same integer constraint that defines the braid.  The
+       zero-mode c_s is protected, not just approximately preserved.
+
+    Parameters
+    ----------
+    n1      : int      — primary winding number
+    n2      : int      — secondary winding number (n2 > n1)
+    k_cs    : int|None — CS level; if None uses resonant value n1²+n2²
+    n_kk_max: int      — number of KK levels to test (default 8)
+
+    Returns
+    -------
+    KKTowerResult
+    """
+    if k_cs is None:
+        k_cs = resonant_kcs(n1, n2)
+
+    rho0 = braided_cs_mixing(n1, n2, k_cs)
+    c_s0 = float(np.sqrt(1.0 - rho0**2))
+
+    kk_c_s: List[float] = []
+    rho_off: List[float] = []
+    off_physical: List[bool] = []
+
+    for level in range(1, n_kk_max + 1):
+        # KK mode (level*n1, level*n2) at its own resonant CS level
+        k_kk = level * level * k_cs  # = (level*n1)² + (level*n2)²
+        rho_kk = 2.0 * (level * n1) * (level * n2) / float(k_kk)
+        c_s_kk = float(np.sqrt(1.0 - rho_kk**2))
+        kk_c_s.append(c_s_kk)
+
+        # Off-diagonal mixing between zero mode and level-th KK mode
+        rho_0k = abs(2.0 * n1 * (n2 * level) / float(k_cs))
+        rho_off.append(rho_0k)
+        off_physical.append(bool(rho_0k < 1.0))
+
+    c_s_invariant = all(
+        abs(cs - c_s0) < 1e-12 for cs in kk_c_s
+    )
+    # k=1 mode is the zero mode itself; all k>=2 should be unphysical
+    floor_protected = all(
+        not phys for phys in off_physical[1:]  # levels 2, 3, ... must be forbidden
+    )
+
+    return KKTowerResult(
+        n1=n1,
+        n2=n2,
+        k_cs=k_cs,
+        c_s_zero_mode=c_s0,
+        kk_c_s_values=kk_c_s,
+        c_s_invariant=c_s_invariant,
+        rho_off_diagonal=rho_off,
+        off_diagonal_physical=off_physical,
+        floor_protected=floor_protected,
+    )
+
+
+# ===========================================================================
+# Attack 1 — Projection Degeneracy Test
+# ===========================================================================
+
+def projection_degeneracy_fraction(
+    ns_prior: tuple[float, float] = (
+        PLANCK_NS_CENTRAL - 3.0 * PLANCK_NS_SIGMA,
+        PLANCK_NS_CENTRAL + 3.0 * PLANCK_NS_SIGMA,
+    ),
+    r_prior: tuple[float, float] = (0.0, 0.2),
+    beta_prior: tuple[float, float] = (0.0, 1.0),
+    ns_resolution: float = PLANCK_NS_SIGMA,
+    r_resolution: float = 0.005,
+    beta_resolution: float = 0.05,
+    r_c: float = _R_C_CANONICAL,
+    alpha_em: float = _ALPHA_EM_CANONICAL,
+    n_max: int = 15,
+    ns_sigma_max: float = 2.0,
+    r_limit: float = R_BICEP_KECK_95,
+) -> ProjectionDegeneracyResult:
+    """Quantify the fine-tuning required for a 4D EFT to reproduce the 5D lock.
+
+    A **pure-4D EFT** has three independent parameters to fit three observables
+    (nₛ, r, β): the spectral tilt, the tensor amplitude, and the axion-photon
+    coupling constant.  Any triplet (nₛ, r, β) is achievable with no constraint.
+
+    The **5D braided-winding framework** has two integer parameters (n1, n2).
+    These fix all three observables through the locked chain:
+
+        nₛ   = nₛ(n1)                         [KK Jacobian, one winding]
+        k_cs = n1² + n2²                       [SOS resonance identity]
+        β    = β(k_cs)                         [birefringence formula]
+        r_eff = r_bare(n1) × (n2²−n1²)/k_cs  [braided tensor ratio]
+
+    The constraint reduces three independent observables to two integers.  A
+    4D EFT can reproduce any specific triplet — but it must be *tuned* to lie
+    on the 2D surface in (nₛ, r, β) space defined by the 5D relation.  The
+    **tuning fraction** measures what fraction of the prior parameter volume
+    satisfies this constraint within observational resolution.
+
+    The calculation:
+
+        tuning_fraction = (N_viable × V_resolution) / V_prior
+
+    where V_prior is the prior cube volume, V_resolution is the volume per
+    viable 5D point (set by instrumental precision), and N_viable is the number
+    of discrete triply-viable (n1, n2) pairs.
+
+    With default parameters (3σ Planck nₛ window, LiteBIRD β resolution 0.05°,
+    future r precision 0.005), tuning_fraction ~ 4 × 10⁻⁴ (roughly 1 in 2400).
+
+    Parameters
+    ----------
+    ns_prior        : (lo, hi) — prior range for nₛ (default: 3σ Planck window)
+    r_prior         : (lo, hi) — prior range for r (default: [0, 0.2])
+    beta_prior      : (lo, hi) — prior range for β in degrees (default: [0°, 1°])
+    ns_resolution   : float   — observational resolution on nₛ (default 1σ)
+    r_resolution    : float   — observational resolution on r (default 0.005)
+    beta_resolution : float   — observational resolution on β [degrees] (default 0.05)
+    r_c             : float   — compactification radius (default 12)
+    alpha_em        : float   — fine-structure constant (default 1/137.036)
+    n_max           : int     — maximum winding number scanned (default 15)
+    ns_sigma_max    : float   — Planck window in σ (default 2.0)
+    r_limit         : float   — BICEP/Keck r bound (default 0.036)
+
+    Returns
+    -------
+    ProjectionDegeneracyResult
+    """
+    delta_phi = field_displacement_gw(r_c)
+
+    # Collect all triply-viable (n1, n2) pairs
+    viable: List[BraidedPrediction] = []
+    for n1 in range(1, n_max):
+        for n2 in range(n1 + 1, n_max + 1):
+            try:
+                pred = braided_ns_r(n1, n2)
+            except ValueError:
+                continue
+            if pred.ns_sigma <= ns_sigma_max and pred.r_eff < r_limit:
+                k = n1 * n1 + n2 * n2
+                g_agg = cs_axion_photon_coupling(k, alpha_em, r_c)
+                beta_deg = float(np.degrees(birefringence_angle(g_agg, delta_phi)))
+                if beta_prior[0] <= beta_deg <= beta_prior[1]:
+                    viable.append(pred)
+
+    # Volume calculations
+    prior_vol = (
+        (ns_prior[1] - ns_prior[0])
+        * (r_prior[1] - r_prior[0])
+        * (beta_prior[1] - beta_prior[0])
+    )
+    viable_vol_per_point = ns_resolution * r_resolution * beta_resolution
+    viable_vol = len(viable) * viable_vol_per_point
+    tuning = viable_vol / prior_vol if prior_vol > 0 else float("inf")
+
+    return ProjectionDegeneracyResult(
+        n_4d_params=3,
+        n_5d_params=2,
+        prior_volume=float(prior_vol),
+        viable_volume=float(viable_vol),
+        tuning_fraction=float(tuning),
+        n_viable_points=len(viable),
+        constraint_violated=len(viable) == 0,
+    )
