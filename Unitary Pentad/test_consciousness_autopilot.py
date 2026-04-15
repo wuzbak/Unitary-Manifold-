@@ -91,6 +91,7 @@ from collective_braid import (
     moire_alignment_score,
     MOIRE_ALIGNMENT_TOL,
 )
+from src.consciousness.coupled_attractor import ManifoldState
 
 
 # ===========================================================================
@@ -670,7 +671,6 @@ class TestIsAtCoupledFixedPoint:
     def test_trust_floor_required(self):
         """System with zero trust cannot be at fixed point."""
         u = AutopilotUniverse.default()
-        from src.consciousness.coupled_attractor import ManifoldState
         old = u.core.bodies[PentadLabel.TRUST]
         new_trust = ManifoldState(
             node=old.node, phi=0.0,  # zero trust
@@ -678,7 +678,6 @@ class TestIsAtCoupledFixedPoint:
         )
         new_bodies = dict(u.core.bodies)
         new_bodies[PentadLabel.TRUST] = new_trust
-        from unitary_pentad import PentadSystem
         bad_core = PentadSystem(bodies=new_bodies, beta=u.core.beta)
         bad_u = AutopilotUniverse(core=bad_core, layer=u.layer)
         assert not is_at_coupled_fixed_point(bad_u, tol=1e6)

@@ -190,6 +190,13 @@ LAYER_DRIFT_RATE: float = 0.05
 #: Moire alignment score above which a bifurcation phase shift is triggered.
 #: When the human–universe Information Gap exceeds this, autopilot cannot
 #: bridge the gap without deliberate human intent.
+#:
+#: Value rationale: the moire_alignment_score = |φ_human² − φ_univ²|.
+#: With default radions φ_univ = 1.0 and φ_human = 0.6, the converged
+#: gap after pentad_master_equation is typically < 0.01.  A threshold of
+#: 0.15 corresponds to a ~15% deviation of the squared radions — roughly
+#: the magnitude of a single pentagonal coupling step at the BICEP/Keck
+#: tensor limit (r_eff ≈ 0.031 × c_s⁻¹ ≈ 0.096 → δφ² ≈ 0.15).
 AUTOPILOT_SHIFT_THRESHOLD: float = 0.15
 
 #: RMS layer deviation above which an entropy-spike phase shift is triggered.
@@ -244,6 +251,14 @@ assert len(LAYER_LABELS) == N_LAYER, "LAYER_LABELS must have exactly N_LAYER ent
 #: The minimum (HORIZON = 0.35) is just above the braided sound speed
 #: c_s = 12/37 ≈ 0.324, anchoring the outer layer to the (5,7) braid
 #: stability floor.  Mean at equilibrium ≈ 0.657.
+#:
+#: Derivation: the seven equilibria are spaced in steps of 0.10 across the
+#: interval [c_s + ε, 1.0], mapping the 7 spectral modes (harmonics of the
+#: n_layer = 7 winding) onto a monotone sequence from the holographic horizon
+#: (closest to the braid floor) to thermodynamic entropy (closest to unity).
+#: This ensures the mean Φ_layer ≈ 0.657 lies between the 5-core's trust
+#: floor (TRUST_PHI_MIN = 0.1) and the cosmological radion (φ_univ = 1.0),
+#: providing a mid-range ambient field for the 5-core Pentad.
 LAYER_EQUILIBRIA: Dict[str, float] = {
     LayerLabel.ENTROPY:  0.95,  # near-maximal; thermodynamic arrow dominates
     LayerLabel.GEOMETRY: 0.85,  # spacetime is near-flat at cosmological scale
@@ -502,11 +517,17 @@ def _tick_layer(
     layer: SevenBodyLayer,
     dt: float = 1.0,
 ) -> SevenBodyLayer:
-    """Advance the 7-body layer by one step: Ornstein–Uhlenbeck drift.
+    """Advance the 7-body layer by one step: deterministic exponential relaxation.
 
-    Each body's radion relaxes toward its equilibrium:
+    Each body's radion decays toward its equilibrium at rate ``drift_rate``:
 
         φ(t + dt) = φ(t) + drift_rate × (φ_eq − φ(t)) × dt
+
+    This is the deterministic (noise-free) component of an Ornstein–Uhlenbeck
+    process.  The stochastic term is omitted because the 5-core's pentagonal
+    coupling already injects bounded fluctuations into the 5-body manifolds;
+    the 7-layer is the *damping* medium and is modelled as a pure restoring
+    force to keep it analytically tractable.
 
     Parameters
     ----------
