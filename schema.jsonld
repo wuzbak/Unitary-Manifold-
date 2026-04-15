@@ -1,12 +1,17 @@
 {
   "@context": "https://schema.org",
   "@type": "ScholarlyArticle",
-  "@id": "https://github.com/wuzbak/Unitary-Manifold-",
+  "@id": "https://doi.org/10.5281/zenodo.19584531",
+  "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "doi",
+    "value": "10.5281/zenodo.19584531"
+  },
   "name": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility",
-  "headline": "The Unitary Manifold (v9.9 — Academic Edition)",
+  "headline": "The Unitary Manifold (v9.11 — Academic Edition)",
   "description": "A five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The Walker-Pearson field equations show that the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate.",
-  "version": "9.9",
-  "datePublished": "2026-04-14",
+  "version": "9.11",
+  "datePublished": "2026-04-15",
   "author": {
     "@type": "Person",
     "name": "ThomasCory Walker-Pearson",
@@ -17,6 +22,7 @@
   },
   "license": "https://creativecommons.org/publicdomain/zero/1.0/",
   "url": "https://wuzbak.github.io/Unitary-Manifold-/",
+  "sameAs": "https://doi.org/10.5281/zenodo.19584531",
   "codeRepository": "https://github.com/wuzbak/Unitary-Manifold-",
   "programmingLanguage": ["Python", "LaTeX"],
   "keywords": [

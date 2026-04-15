@@ -42,7 +42,8 @@ Attribution is **requested but not legally required**.  Preferred citation:
 
 ```
 Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
-Emergent Irreversibility (v9.0). https://github.com/wuzbak/Unitary-Manifold-
+Emergent Irreversibility (v9.11). Zenodo.
+https://doi.org/10.5281/zenodo.19584531
 ```
 
 ---

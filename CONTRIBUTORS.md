@@ -1,4 +1,4 @@
-# Contributors — The Unitary Manifold (Version 9.5)
+# Contributors — The Unitary Manifold (Version 9.11)
 
 This file documents the contributions of all parties involved in the development, synthesis, and review of *The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility*.
 
@@ -105,3 +105,5 @@ platform, or downstream redistribution.
 ---
 
 *This contributors file was last updated April 2026. Legal rights section authored by ThomasCory Walker-Pearson.*
+
+**DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)

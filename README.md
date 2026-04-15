@@ -4,6 +4,7 @@
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![3294 Tests: 3282 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3282%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
@@ -707,7 +708,35 @@ This repository is the product of genuine synthesis — theory and science from 
 | Principal Architect — theory, framework, scientific direction | ThomasCory Walker-Pearson |
 | Code Architecture, Test Suites, Document Engineering & Synthesis | GitHub Copilot (AI) |
 | Synthesis & Verification Support | ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot |
-| Version | 9.5 — Academic Edition |
+| Version | 9.11 — Academic Edition |
+
+---
+
+## 11 · Citation
+
+If you use this work, please cite it as:
+
+```
+Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
+Emergent Irreversibility (v9.11). Zenodo.
+https://doi.org/10.5281/zenodo.19584531
+```
+
+BibTeX:
+
+```bibtex
+@misc{walkerPearson2026unitary,
+  author    = {Walker-Pearson, ThomasCory},
+  title     = {The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility},
+  year      = {2026},
+  version   = {9.11},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.19584531},
+  url       = {https://doi.org/10.5281/zenodo.19584531}
+}
+```
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 
 For technical inquiries or peer-review submissions, use the LaTeX source files
 and BibLaTeX citations provided in the accompanying documentation.
