@@ -102,23 +102,28 @@ trust_maintenance_cost(system, n_steps, dt) -> float
     Estimate the coupling energy per step required to keep φ_trust ≥ floor.
 
 RegimeTransitionSignal
-    Dataclass: early-warning observables that fire *before* collapse.
-    Fields: coupling_variance, saturated_pair, saturated_channel_load,
-    mean_channel_load, transition_proximity, active_dof_estimate,
-    early_warning.
+    Dataclass: attractor-robustness observables.  Indicates that the
+    *current* regime is losing stability — NOT a prediction of what regime
+    comes next.  Fields: coupling_variance, saturated_pair,
+    saturated_channel_load, mean_channel_load, transition_proximity,
+    active_dof_estimate, attractor_degraded.
 
 TRANSITION_PROXIMITY_THRESHOLD : float
-    transition_proximity above this value raises the early_warning flag
-    (default 3.0 — one channel carrying ≥ 3× the mean load).
+    transition_proximity above this value sets attractor_degraded = True
+    (default 2.0 — one channel carrying ≥ 2× the mean load signals that the
+    current attractor is no longer distributing work robustly).
 
 regime_transition_signal(system) -> RegimeTransitionSignal
-    Compute the pre-collapse early-warning observables.  Returns the
-    channel-load variance, the most-saturated pair, and a normalised
-    transition_proximity scalar that spikes before a regime switch
-    (while the global harmonic metrics still look healthy).
+    Compute attractor-robustness observables.  Returns the channel-load
+    variance, the most-saturated pair, and a normalised
+    transition_proximity scalar.  When transition_proximity ≥
+    TRANSITION_PROXIMITY_THRESHOLD the attractor_degraded flag fires,
+    meaning: *the current attractor is no longer robust*.  The signal does
+    NOT predict which regime replaces the current one — only that the
+    present constraint surface is failing to distribute load evenly.
     Also returns active_dof_estimate: number of statistically significant
-    degrees of freedom in the 5-body state matrix — rises sharply when the
-    system is probing new constraint surfaces near a transition.
+    degrees of freedom in the 5-body state matrix — rises as the system
+    begins exploring new constraint surfaces.
 """
 
 from __future__ import annotations
@@ -593,9 +598,9 @@ def trust_maintenance_cost(
 # Regime-transition early-warning signal
 # ---------------------------------------------------------------------------
 
-#: transition_proximity threshold above which early_warning fires.
-#: A value of 3.0 means one channel is bearing ≥ 3× the mean channel load —
-#: the hallmark of saturation-driven constraint reconfiguration.
+#: transition_proximity above this value sets attractor_degraded = True.
+#: 2.0 means one channel bearing ≥ 2× the mean load — the current attractor
+#: is no longer distributing work robustly.  Does NOT predict the next regime.
 TRANSITION_PROXIMITY_THRESHOLD: float = 2.0
 
 #: Singular-value floor used when computing active_dof_estimate.
@@ -608,33 +613,45 @@ _RTS_EPS: float = 1e-12
 
 @dataclass
 class RegimeTransitionSignal:
-    """Pre-collapse early-warning observables for the Unitary Pentad.
+    """Attractor-robustness observables for the Unitary Pentad.
 
-    These metrics fire *before* a full collapse is detectable by
-    ``detect_collapse_mode``, capturing the moment the system begins
-    shifting which channels bear the load — the observable signature of
-    constraint reconfiguration (not entropy reversal).
+    **What this signal means:**
+    The current attractor is no longer robust — the system has begun
+    concentrating load on a subset of channels rather than distributing it
+    evenly.  This is the observable signature of *constraint reconfiguration*
+    (Prigogine dissipative-structure language: a new dissipation topology is
+    being explored).
+
+    **What this signal does NOT mean:**
+    It does not predict what happens next.  The system may re-stabilise on
+    the same attractor, switch to a new one, or enter a transient.  The
+    signal only says: "this attractor is no longer robust."
 
     Attributes
     ----------
     coupling_variance      : float — variance of the 10 channel loads
-                             τ_{ij} × ΔI_{ij}.  Near zero in the Harmonic
-                             State; rises as load concentrates on one channel.
+                             τ_{ij} × ΔI_{ij}.  Zero in the Harmonic State
+                             (all channels share the load equally); rises as
+                             load concentrates on fewer channels.
     saturated_pair         : tuple[str, str] — the body pair carrying the
                              highest channel load at this moment.
-    saturated_channel_load : float — load on the saturated pair (max).
+    saturated_channel_load : float — load on the saturated pair.
     mean_channel_load      : float — mean load across all 10 channels.
     transition_proximity   : float — saturated_channel_load /
-                             (mean_channel_load + ε).  Spikes before regime
-                             switch.  ≥ 1.0 always; ≥ TRANSITION_PROXIMITY_
-                             THRESHOLD triggers early_warning.
+                             (mean_channel_load + ε).  1.0 when all channels
+                             are equally loaded (Harmonic State).  Rises as
+                             load concentrates; ≥ TRANSITION_PROXIMITY_
+                             THRESHOLD sets attractor_degraded = True.
     active_dof_estimate    : int — number of statistically significant
                              singular values in the 5-body state matrix
                              (those ≥ _ACTIVE_DOF_SV_FLOOR × σ_max).
-                             Rises toward 5 as the system explores new
+                             Rises as bodies decouple and explore independent
                              constraint surfaces near a transition.
-    early_warning          : bool — True iff transition_proximity ≥
+    attractor_degraded     : bool — True iff transition_proximity ≥
                              TRANSITION_PROXIMITY_THRESHOLD.
+                             Meaning: the current attractor is no longer
+                             distributing load robustly.
+                             NOT a prediction of the next state.
     """
     coupling_variance:      float
     saturated_pair:         Tuple[str, str]
@@ -642,38 +659,47 @@ class RegimeTransitionSignal:
     mean_channel_load:      float
     transition_proximity:   float
     active_dof_estimate:    int
-    early_warning:          bool
+    attractor_degraded:     bool
 
 
 def regime_transition_signal(system: PentadSystem) -> RegimeTransitionSignal:
-    """Compute pre-collapse early-warning observables.
+    """Compute attractor-robustness observables.
 
-    The key insight from non-equilibrium thermodynamics: a regime switch is
-    not announced by a global entropy signal — it is announced by *load
-    concentration* on a single channel while the global metrics still look
-    healthy.  An observer who tracks only the mean is blind to it.
+    Framing
+    -------
+    Entropy does not reverse — the system changes which degrees of freedom
+    are doing the work (Prigogine; dissipative structures).  What looks like
+    "entropy changing direction" from inside the system is really constraint
+    reconfiguration: one channel saturates, load shifts to adjacent channels,
+    and a new dissipation topology is explored.
+
+    This function measures that shift.  The returned ``attractor_degraded``
+    flag means exactly: **"the current attractor is no longer robust."**
+    It does NOT predict what happens next — only that the present constraint
+    surface is no longer distributing work evenly across all channels.
 
     Observable markers (mapped to Pentad quantities)
     -------------------------------------------------
     1. **Channel load** for pair (i, j):
            load_{ij} = τ_{ij} × ΔI_{ij}
-       where τ_{ij} is the coupling strength from the pentagonal coupling
-       matrix and ΔI_{ij} is the pairwise Information Gap.
+       where τ_{ij} is the coupling strength and ΔI_{ij} is the pairwise
+       Information Gap.  This is the actual work the coupling operator is
+       doing on that channel right now.
 
     2. **coupling_variance**: variance of the 10 channel loads.  Zero in the
        Harmonic State (all channels share the load equally).  Rises as load
-       concentrates — the earliest warning signal.
+       concentrates — the primary robustness signal.
 
     3. **transition_proximity**: saturated_channel_load / mean_channel_load.
-       Dimensionless ratio that spikes before the saturated channel fails and
-       flow re-routes to adjacent channels.  This is the "which channel is
-       doing the work" observable demanded by the dissipative-structure framing.
+       1.0 when perfectly balanced; rises as one channel dominates.  At
+       threshold the attractor_degraded flag fires.  This is the observable
+       the dissipative-structure framing asks for: "what marks the transition
+       between regimes?"
 
-    4. **active_dof_estimate**: effective rank of the 5-body state matrix
-       (count of singular values ≥ 10% of the maximum).  At the Harmonic
-       fixed point the five bodies are phase-locked → low effective rank.
-       Near a transition the bodies are exploring independent constraint
-       surfaces → effective rank rises toward 5.
+    4. **active_dof_estimate**: effective rank of the 5-body state matrix.
+       At the Harmonic fixed point bodies are phase-locked → low rank.
+       As the system begins exploring new constraint surfaces, bodies
+       decouple → rank rises toward 5.
 
     Parameters
     ----------
@@ -716,7 +742,7 @@ def regime_transition_signal(system: PentadSystem) -> RegimeTransitionSignal:
     floor  = _ACTIVE_DOF_SV_FLOOR * sv_max
     active_dof_estimate = int(np.sum(sv >= floor)) if sv_max > _RTS_EPS else 1
 
-    early_warning = transition_proximity >= TRANSITION_PROXIMITY_THRESHOLD
+    attractor_degraded = transition_proximity >= TRANSITION_PROXIMITY_THRESHOLD
 
     return RegimeTransitionSignal(
         coupling_variance=coupling_variance,
@@ -725,5 +751,5 @@ def regime_transition_signal(system: PentadSystem) -> RegimeTransitionSignal:
         mean_channel_load=mean_channel_load,
         transition_proximity=transition_proximity,
         active_dof_estimate=active_dof_estimate,
-        early_warning=early_warning,
+        attractor_degraded=attractor_degraded,
     )

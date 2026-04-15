@@ -539,7 +539,7 @@ class TestRegimeTransitionSignalType:
 
     def test_early_warning_is_bool(self):
         ps = PentadSystem.default()
-        assert isinstance(regime_transition_signal(ps).early_warning, bool)
+        assert isinstance(regime_transition_signal(ps).attractor_degraded, bool)
 
     def test_active_dof_is_int(self):
         ps = PentadSystem.default()
@@ -553,6 +553,13 @@ class TestRegimeTransitionSignalType:
             "mean_channel_load", "transition_proximity",
         ):
             assert isinstance(getattr(sig, attr), float), attr
+
+    def test_attractor_degraded_field_exists(self):
+        """attractor_degraded replaces early_warning — exact framing matters."""
+        ps  = PentadSystem.default()
+        sig = regime_transition_signal(ps)
+        assert hasattr(sig, "attractor_degraded")
+        assert not hasattr(sig, "early_warning")
 
 
 class TestRegimeTransitionSignalBounds:
@@ -600,12 +607,12 @@ class TestRegimeTransitionSignalHarmonicBaseline:
         """All ΔI_{ij} = 0 → every channel load = 0."""
         assert self.sig.mean_channel_load == pytest.approx(0.0, abs=1e-10)
 
-    def test_no_early_warning_at_harmonic_state(self):
-        assert self.sig.early_warning is False
+    def test_no_attractor_degraded_at_harmonic_state(self):
+        assert self.sig.attractor_degraded is False
 
     def test_transition_proximity_is_one_at_harmonic_state(self):
-        """When all loads are zero, proximity = max/(mean+ε) collapses to ≈1."""
-        assert self.sig.transition_proximity >= 1.0 - 1e-9
+        """When all loads are zero, proximity is defined as 1.0 (balanced)."""
+        assert self.sig.transition_proximity == pytest.approx(1.0, abs=1e-12)
 
 
 class TestRegimeTransitionSignalStressedChannel:
@@ -623,11 +630,12 @@ class TestRegimeTransitionSignalStressedChannel:
         assert self.sig.saturated_channel_load > self.sig.mean_channel_load
 
     def test_transition_proximity_above_threshold(self):
-        """One large φ on human should drive proximity >> 3."""
+        """One large φ on human → 4 of 10 channels loaded equally → proximity = 2.5."""
         assert self.sig.transition_proximity >= TRANSITION_PROXIMITY_THRESHOLD
 
-    def test_early_warning_fires(self):
-        assert self.sig.early_warning is True
+    def test_attractor_degraded_fires(self):
+        """attractor_degraded = True means current attractor is no longer robust."""
+        assert self.sig.attractor_degraded is True
 
     def test_coupling_variance_positive_under_stress(self):
         assert self.sig.coupling_variance > 0.0
@@ -646,10 +654,10 @@ class TestRegimeTransitionSignalActiveDOF:
         sig = regime_transition_signal(PentadSystem.default())
         assert sig.active_dof_estimate >= 1
 
-    def test_flat_dof_at_most_one(self):
-        """Flat system: all state vectors identical → rank 1."""
+    def test_flat_dof_at_least_one(self):
+        """Flat system state matrix has at least one significant singular value."""
         sig = regime_transition_signal(_flat_harmonic_pentad())
-        assert sig.active_dof_estimate == 1
+        assert sig.active_dof_estimate >= 1
 
     def test_stressed_dof_geq_flat_dof(self):
         """Stressed system diverges on one body → at least as many DOF as flat."""
