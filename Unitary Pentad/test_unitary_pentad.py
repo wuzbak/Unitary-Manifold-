@@ -47,6 +47,7 @@ from unitary_pentad import (
     pentad_pairwise_gaps,
     pentad_pairwise_phases,
     trust_modulation,
+    tick_grace_period,
     pentad_coupling_matrix,
     pentad_eigenspectrum,
     pentad_defect,
@@ -722,3 +723,229 @@ class TestPentagonalSymmetry:
         for i in range(5):
             non_zero = np.count_nonzero(mat[i, :])
             assert non_zero == 4
+
+
+# ---------------------------------------------------------------------------
+# Grace Period / Trust Hysteresis
+# ---------------------------------------------------------------------------
+
+def _set_trust_phi(ps: PentadSystem, phi_val: float) -> PentadSystem:
+    """Return a copy of ps with the Trust body's φ replaced by phi_val."""
+    trust = ps.bodies[PentadLabel.TRUST]
+    new_trust = ManifoldState(
+        node=trust.node, phi=phi_val,
+        n1=trust.n1, n2=trust.n2, k_cs=trust.k_cs, label=trust.label,
+    )
+    new_bodies = dict(ps.bodies)
+    new_bodies[PentadLabel.TRUST] = new_trust
+    return PentadSystem(
+        bodies=new_bodies,
+        beta=ps.beta,
+        grace_steps=ps.grace_steps,
+        grace_decay=ps.grace_decay,
+        _trust_reservoir=ps._trust_reservoir,
+        _grace_elapsed=ps._grace_elapsed,
+    )
+
+
+class TestGracePeriod:
+    """Tests for the Trust Reservoir / Trust Hysteresis (grace period) feature."""
+
+    # ------------------------------------------------------------------
+    # Regression: grace_steps=0 must preserve existing behaviour exactly
+    # ------------------------------------------------------------------
+
+    def test_default_grace_steps_zero(self):
+        """PentadSystem.default() must have grace_steps=0."""
+        ps = PentadSystem.default()
+        assert ps.grace_steps == 0
+
+    def test_no_grace_trust_modulation_unchanged(self):
+        """With grace_steps=0, trust_modulation returns the live φ_trust."""
+        ps = PentadSystem.default()
+        ps_low = _set_trust_phi(ps, 0.0)
+        assert trust_modulation(ps_low) == pytest.approx(0.0)
+
+    def test_no_grace_tick_is_noop(self):
+        """tick_grace_period is a no-op when grace_steps=0."""
+        ps = PentadSystem.default()
+        ps2 = tick_grace_period(ps)
+        assert ps2 is ps   # same object returned unchanged
+
+    # ------------------------------------------------------------------
+    # Reservoir initialisation
+    # ------------------------------------------------------------------
+
+    def test_reservoir_initial_value(self):
+        """Freshly constructed PentadSystem has _trust_reservoir=1.0."""
+        ps = PentadSystem.default(beta=BIREFRINGENCE_RAD)
+        assert ps._trust_reservoir == pytest.approx(1.0)
+        assert ps._grace_elapsed == 0
+
+    def test_custom_grace_fields_accepted(self):
+        """PentadSystem constructor accepts grace_steps and grace_decay."""
+        ps = PentadSystem.default()
+        ps2 = PentadSystem(
+            bodies=ps.bodies,
+            beta=ps.beta,
+            grace_steps=5,
+            grace_decay=0.3,
+        )
+        assert ps2.grace_steps == 5
+        assert ps2.grace_decay == pytest.approx(0.3)
+
+    # ------------------------------------------------------------------
+    # tick_grace_period state-machine transitions
+    # ------------------------------------------------------------------
+
+    def test_tick_refreshes_reservoir_on_healthy_trust(self):
+        """When live φ ≥ TRUST_PHI_MIN, tick refreshes reservoir and resets elapsed."""
+        ps = PentadSystem.default()
+        # Manufacture a system where the counter is non-zero
+        ps_with_elapsed = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=5, grace_decay=0.2,
+            _trust_reservoir=0.5, _grace_elapsed=3,
+        )
+        # Healthy live trust
+        ps_healthy = _set_trust_phi(ps_with_elapsed, 0.8)
+        ticked = tick_grace_period(ps_healthy)
+        assert ticked._grace_elapsed == 0
+        assert ticked._trust_reservoir == pytest.approx(0.8)
+
+    def test_tick_increments_elapsed_within_grace_window(self):
+        """When trust is low and elapsed < grace_steps, elapsed advances by 1."""
+        ps = PentadSystem.default()
+        ps_grace = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=5, grace_decay=0.2,
+            _trust_reservoir=0.8, _grace_elapsed=2,
+        )
+        ps_low = _set_trust_phi(ps_grace, 0.0)
+        ticked = tick_grace_period(ps_low)
+        assert ticked._grace_elapsed == 3
+        assert ticked._trust_reservoir == pytest.approx(0.8)
+
+    def test_tick_drains_reservoir_when_grace_exhausted(self):
+        """When elapsed >= grace_steps, reservoir drains to the live value."""
+        ps = PentadSystem.default()
+        ps_exhausted = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=3, grace_decay=0.2,
+            _trust_reservoir=0.8, _grace_elapsed=3,  # already at limit
+        )
+        ps_low = _set_trust_phi(ps_exhausted, 0.05)
+        ticked = tick_grace_period(ps_low)
+        assert ticked._trust_reservoir == pytest.approx(0.05)
+
+    # ------------------------------------------------------------------
+    # trust_modulation with hysteresis active
+    # ------------------------------------------------------------------
+
+    def test_trust_modulation_uses_reservoir_when_live_drops(self):
+        """With grace active, trust_modulation > live φ while reservoir holds."""
+        ps = PentadSystem.default()
+        ps_grace = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=5, grace_decay=0.2,
+            _trust_reservoir=0.8, _grace_elapsed=0,
+        )
+        ps_low = _set_trust_phi(ps_grace, 0.0)
+        # Effective trust should be the (undecayed) reservoir, not 0
+        effective = trust_modulation(ps_low)
+        assert effective == pytest.approx(0.8)
+        assert effective > TRUST_PHI_MIN
+
+    def test_trust_modulation_decays_over_elapsed_steps(self):
+        """Reservoir decays exponentially: reservoir × exp(-k × elapsed)."""
+        import math
+        ps = PentadSystem.default()
+        reservoir = 0.8
+        k = 0.2
+        elapsed = 4
+        ps_grace = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=10, grace_decay=k,
+            _trust_reservoir=reservoir, _grace_elapsed=elapsed,
+        )
+        ps_low = _set_trust_phi(ps_grace, 0.0)
+        expected = reservoir * math.exp(-k * elapsed)
+        assert trust_modulation(ps_low) == pytest.approx(expected, rel=1e-9)
+
+    def test_trust_modulation_collapses_when_grace_exhausted(self):
+        """After exhaustion (elapsed ≥ grace_steps), effective trust = live value."""
+        ps = PentadSystem.default()
+        # With a large decay constant and elapsed = grace_steps, the
+        # reservoir has fully drained to near 0.
+        ps_exhausted = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=3, grace_decay=10.0,   # very fast decay
+            _trust_reservoir=0.8, _grace_elapsed=3,
+        )
+        ps_low = _set_trust_phi(ps_exhausted, 0.0)
+        # After tick, reservoir = live = 0.0
+        ticked = tick_grace_period(ps_low)
+        assert trust_modulation(ticked) == pytest.approx(0.0, abs=1e-9)
+
+    # ------------------------------------------------------------------
+    # Integration: step_pentad propagates grace fields
+    # ------------------------------------------------------------------
+
+    def test_step_pentad_preserves_grace_steps(self):
+        """step_pentad must carry grace_steps through to the returned system."""
+        ps = PentadSystem.default()
+        ps_grace = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=7, grace_decay=0.15,
+            _trust_reservoir=0.9, _grace_elapsed=0,
+        )
+        ps2 = step_pentad(ps_grace, dt=0.1)
+        assert ps2.grace_steps == 7
+        assert ps2.grace_decay == pytest.approx(0.15)
+
+    def test_step_pentad_advances_elapsed_when_trust_low(self):
+        """After a step with low trust, _grace_elapsed increments (within window)."""
+        ps = PentadSystem.default()
+        ps_grace = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=10, grace_decay=0.2,
+            _trust_reservoir=0.8, _grace_elapsed=0,
+        )
+        ps_low_trust = _set_trust_phi(ps_grace, 0.0)
+        ps2 = step_pentad(ps_low_trust, dt=0.1)
+        # elapsed should be 1 after one step with low trust
+        assert ps2._grace_elapsed == 1
+
+    def test_grace_period_coupling_stays_above_floor_for_grace_steps(self):
+        """During the grace window, coupling is above TRUST_PHI_MIN × β."""
+        ps = PentadSystem.default()
+        grace = 5
+        ps_grace = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=grace, grace_decay=0.05,  # slow decay
+            _trust_reservoir=0.8, _grace_elapsed=0,
+        )
+        ps_low = _set_trust_phi(ps_grace, 0.0)
+        # For all steps within the window, effective trust > TRUST_PHI_MIN
+        current = ps_low
+        for step_num in range(1, grace + 1):
+            tau = trust_modulation(current)
+            assert tau > TRUST_PHI_MIN, (
+                f"Expected effective trust > TRUST_PHI_MIN at step {step_num}, "
+                f"got {tau}"
+            )
+            current = tick_grace_period(current)
+
+    def test_grace_period_trust_recovery_resets_elapsed(self):
+        """If trust recovers before grace exhaustion, elapsed resets to 0."""
+        ps = PentadSystem.default()
+        ps_grace = PentadSystem(
+            bodies=ps.bodies, beta=ps.beta,
+            grace_steps=10, grace_decay=0.2,
+            _trust_reservoir=0.8, _grace_elapsed=3,
+        )
+        # Trust recovers above TRUST_PHI_MIN
+        ps_recovered = _set_trust_phi(ps_grace, 0.5)
+        ticked = tick_grace_period(ps_recovered)
+        assert ticked._grace_elapsed == 0
+        assert ticked._trust_reservoir == pytest.approx(0.5)
