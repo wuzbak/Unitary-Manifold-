@@ -100,6 +100,30 @@ is_deception_detectable(system, phi_lied, tol) -> bool
 
 trust_maintenance_cost(system, n_steps, dt) -> float
     Estimate the coupling energy per step required to keep φ_trust ≥ floor.
+
+RegimeTransitionSignal
+    Dataclass: attractor-robustness observables.  Indicates that the
+    *current* regime is losing stability — NOT a prediction of what regime
+    comes next.  Fields: coupling_variance, saturated_pair,
+    saturated_channel_load, mean_channel_load, transition_proximity,
+    active_dof_estimate, attractor_degraded.
+
+TRANSITION_PROXIMITY_THRESHOLD : float
+    transition_proximity above this value sets attractor_degraded = True
+    (default 2.0 — one channel carrying ≥ 2× the mean load signals that the
+    current attractor is no longer distributing work robustly).
+
+regime_transition_signal(system) -> RegimeTransitionSignal
+    Compute attractor-robustness observables.  Returns the channel-load
+    variance, the most-saturated pair, and a normalised
+    transition_proximity scalar.  When transition_proximity ≥
+    TRANSITION_PROXIMITY_THRESHOLD the attractor_degraded flag fires,
+    meaning: *the current attractor is no longer robust*.  The signal does
+    NOT predict which regime replaces the current one — only that the
+    present constraint surface is failing to distribute load evenly.
+    Also returns active_dof_estimate: number of statistically significant
+    degrees of freedom in the 5-body state matrix — rises as the system
+    begins exploring new constraint surfaces.
 """
 
 from __future__ import annotations
@@ -568,3 +592,164 @@ def trust_maintenance_cost(
         phi_after  = trust_modulation(current)
         total_delta += abs(phi_after - phi_before)
     return float(total_delta / n_steps)
+
+
+# ---------------------------------------------------------------------------
+# Regime-transition early-warning signal
+# ---------------------------------------------------------------------------
+
+#: transition_proximity above this value sets attractor_degraded = True.
+#: 2.0 means one channel bearing ≥ 2× the mean load — the current attractor
+#: is no longer distributing work robustly.  Does NOT predict the next regime.
+TRANSITION_PROXIMITY_THRESHOLD: float = 2.0
+
+#: Singular-value floor used when computing active_dof_estimate.
+#: Singular values below this fraction of the maximum are treated as noise.
+_ACTIVE_DOF_SV_FLOOR: float = 0.10
+
+#: Numerical epsilon used in this module's division guards.
+_RTS_EPS: float = 1e-12
+
+
+@dataclass
+class RegimeTransitionSignal:
+    """Attractor-robustness observables for the Unitary Pentad.
+
+    **What this signal means:**
+    The current attractor is no longer robust — the system has begun
+    concentrating load on a subset of channels rather than distributing it
+    evenly.  This is the observable signature of *constraint reconfiguration*
+    (Prigogine dissipative-structure language: a new dissipation topology is
+    being explored).
+
+    **What this signal does NOT mean:**
+    It does not predict what happens next.  The system may re-stabilise on
+    the same attractor, switch to a new one, or enter a transient.  The
+    signal only says: "this attractor is no longer robust."
+
+    Attributes
+    ----------
+    coupling_variance      : float — variance of the 10 channel loads
+                             τ_{ij} × ΔI_{ij}.  Zero in the Harmonic State
+                             (all channels share the load equally); rises as
+                             load concentrates on fewer channels.
+    saturated_pair         : tuple[str, str] — the body pair carrying the
+                             highest channel load at this moment.
+    saturated_channel_load : float — load on the saturated pair.
+    mean_channel_load      : float — mean load across all 10 channels.
+    transition_proximity   : float — saturated_channel_load /
+                             (mean_channel_load + ε).  1.0 when all channels
+                             are equally loaded (Harmonic State).  Rises as
+                             load concentrates; ≥ TRANSITION_PROXIMITY_
+                             THRESHOLD sets attractor_degraded = True.
+    active_dof_estimate    : int — number of statistically significant
+                             singular values in the 5-body state matrix
+                             (those ≥ _ACTIVE_DOF_SV_FLOOR × σ_max).
+                             Rises as bodies decouple and explore independent
+                             constraint surfaces near a transition.
+    attractor_degraded     : bool — True iff transition_proximity ≥
+                             TRANSITION_PROXIMITY_THRESHOLD.
+                             Meaning: the current attractor is no longer
+                             distributing load robustly.
+                             NOT a prediction of the next state.
+    """
+    coupling_variance:      float
+    saturated_pair:         Tuple[str, str]
+    saturated_channel_load: float
+    mean_channel_load:      float
+    transition_proximity:   float
+    active_dof_estimate:    int
+    attractor_degraded:     bool
+
+
+def regime_transition_signal(system: PentadSystem) -> RegimeTransitionSignal:
+    """Compute attractor-robustness observables.
+
+    Framing
+    -------
+    Entropy does not reverse — the system changes which degrees of freedom
+    are doing the work (Prigogine; dissipative structures).  What looks like
+    "entropy changing direction" from inside the system is really constraint
+    reconfiguration: one channel saturates, load shifts to adjacent channels,
+    and a new dissipation topology is explored.
+
+    This function measures that shift.  The returned ``attractor_degraded``
+    flag means exactly: **"the current attractor is no longer robust."**
+    It does NOT predict what happens next — only that the present constraint
+    surface is no longer distributing work evenly across all channels.
+
+    Observable markers (mapped to Pentad quantities)
+    -------------------------------------------------
+    1. **Channel load** for pair (i, j):
+           load_{ij} = τ_{ij} × ΔI_{ij}
+       where τ_{ij} is the coupling strength and ΔI_{ij} is the pairwise
+       Information Gap.  This is the actual work the coupling operator is
+       doing on that channel right now.
+
+    2. **coupling_variance**: variance of the 10 channel loads.  Zero in the
+       Harmonic State (all channels share the load equally).  Rises as load
+       concentrates — the primary robustness signal.
+
+    3. **transition_proximity**: saturated_channel_load / mean_channel_load.
+       1.0 when perfectly balanced; rises as one channel dominates.  At
+       threshold the attractor_degraded flag fires.  This is the observable
+       the dissipative-structure framing asks for: "what marks the transition
+       between regimes?"
+
+    4. **active_dof_estimate**: effective rank of the 5-body state matrix.
+       At the Harmonic fixed point bodies are phase-locked → low rank.
+       As the system begins exploring new constraint surfaces, bodies
+       decouple → rank rises toward 5.
+
+    Parameters
+    ----------
+    system : PentadSystem
+
+    Returns
+    -------
+    RegimeTransitionSignal
+    """
+    from itertools import combinations as _comb
+
+    # --- Channel loads: τ_{ij} × ΔI_{ij} for all C(5,2) = 10 pairs ---
+    gaps    = pentad_pairwise_gaps(system)
+    tau_mat = pentad_coupling_matrix(system)
+
+    channel_loads: Dict[Tuple[str, str], float] = {}
+    for li, lj in _comb(PENTAD_LABELS, 2):
+        idx_i = PENTAD_LABELS.index(li)
+        idx_j = PENTAD_LABELS.index(lj)
+        tau_ij = float(tau_mat[idx_i, idx_j])
+        channel_loads[(li, lj)] = tau_ij * gaps[(li, lj)]
+
+    load_values = list(channel_loads.values())
+
+    coupling_variance      = float(np.var(load_values))
+    saturated_pair         = max(channel_loads, key=lambda k: channel_loads[k])
+    saturated_channel_load = float(channel_loads[saturated_pair])
+    mean_channel_load      = float(np.mean(load_values))
+    # When all channel loads are zero (Harmonic State) the system is perfectly
+    # balanced.  Define proximity = 1.0 to indicate "no saturation signal".
+    if mean_channel_load < _RTS_EPS:
+        transition_proximity = 1.0
+    else:
+        transition_proximity = saturated_channel_load / (mean_channel_load + _RTS_EPS)
+
+    # --- Active degrees of freedom: effective rank of 5-body state matrix ---
+    state_mat = system.state_matrix()          # shape (5, state_len)
+    sv = np.linalg.svd(state_mat, compute_uv=False)
+    sv_max = float(sv[0]) if len(sv) > 0 else 0.0
+    floor  = _ACTIVE_DOF_SV_FLOOR * sv_max
+    active_dof_estimate = int(np.sum(sv >= floor)) if sv_max > _RTS_EPS else 1
+
+    attractor_degraded = transition_proximity >= TRANSITION_PROXIMITY_THRESHOLD
+
+    return RegimeTransitionSignal(
+        coupling_variance=coupling_variance,
+        saturated_pair=saturated_pair,
+        saturated_channel_load=saturated_channel_load,
+        mean_channel_load=mean_channel_load,
+        transition_proximity=transition_proximity,
+        active_dof_estimate=active_dof_estimate,
+        attractor_degraded=attractor_degraded,
+    )
