@@ -405,6 +405,9 @@ def trust_modulation(system: PentadSystem) -> float:
     live = float(np.clip(system.bodies[PentadLabel.TRUST].phi, 0.0, 1.0))
     if system.grace_steps == 0:
         return live
+    if system._grace_elapsed == 0:
+        # No decay has occurred yet — return the better of live and reservoir.
+        return float(np.clip(max(live, system._trust_reservoir), 0.0, 1.0))
     reservoir_val = system._trust_reservoir * math.exp(
         -system.grace_decay * system._grace_elapsed
     )

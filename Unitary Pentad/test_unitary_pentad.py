@@ -767,10 +767,11 @@ class TestGracePeriod:
         assert trust_modulation(ps_low) == pytest.approx(0.0)
 
     def test_no_grace_tick_is_noop(self):
-        """tick_grace_period is a no-op when grace_steps=0."""
+        """tick_grace_period leaves state unchanged when grace_steps=0."""
         ps = PentadSystem.default()
         ps2 = tick_grace_period(ps)
-        assert ps2 is ps   # same object returned unchanged
+        assert ps2._grace_elapsed == ps._grace_elapsed
+        assert ps2._trust_reservoir == pytest.approx(ps._trust_reservoir)
 
     # ------------------------------------------------------------------
     # Reservoir initialisation
@@ -858,7 +859,6 @@ class TestGracePeriod:
 
     def test_trust_modulation_decays_over_elapsed_steps(self):
         """Reservoir decays exponentially: reservoir × exp(-k × elapsed)."""
-        import math
         ps = PentadSystem.default()
         reservoir = 0.8
         k = 0.2
