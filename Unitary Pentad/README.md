@@ -81,7 +81,14 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | File | Purpose |
 |------|---------|
 | `unitary_pentad.py` | Complete 5-body implementation |
-| `test_unitary_pentad.py` | Full test suite (constants, factories, coupling, convergence) |
+| `test_unitary_pentad.py` | Core test suite (79 tests: constants, factories, coupling, convergence) |
+| `five_seven_architecture.py` | 5-Core / 7-Layer architecture analysis — why (5,7) and not (5,6) |
+| `test_five_seven_architecture.py` | Architecture test suite (74 tests) |
+| `pentad_scenarios.py` | Good/Bad/Wildcard scenario engine — Harmonic State, Collapse modes, Deception detection, Trust cost |
+| `test_pentad_scenarios.py` | Scenario test suite (60 tests) |
+| `STABILITY_ANALYSIS.md` | Formal orbital stability conditions and failure mode analysis |
+| `FIVE_CORE_SEVEN_LAYER.md` | Mathematical derivation of the 5-core / 7-layer architecture |
+| `IMPLICATIONS.md` | The Good (Harmonic State), the Bad (Pentagonal Collapse), the Wildcard (Trust as Energy) |
 | `__init__.py` | Package entry-point |
 | `README.md` | This document |
 
