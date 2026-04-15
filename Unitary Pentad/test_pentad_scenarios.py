@@ -47,6 +47,9 @@ from pentad_scenarios import (
     deception_phase_offset,
     is_deception_detectable,
     trust_maintenance_cost,
+    TRANSITION_PROXIMITY_THRESHOLD,
+    RegimeTransitionSignal,
+    regime_transition_signal,
 )
 from unitary_pentad import (
     PentadSystem,
@@ -485,3 +488,171 @@ class TestTrustMaintenanceCost:
     def test_single_step(self):
         ps = PentadSystem.default()
         assert trust_maintenance_cost(ps, n_steps=1) >= 0.0
+
+
+# ---------------------------------------------------------------------------
+# regime_transition_signal — early-warning observables
+# ---------------------------------------------------------------------------
+
+def _set_phi(ps: PentadSystem, label: str, phi: float) -> PentadSystem:
+    """Return a copy with the named body's φ set to phi."""
+    new_bodies = dict(ps.bodies)
+    old = ps.bodies[label]
+    new_bodies[label] = ManifoldState(
+        node=old.node, phi=phi,
+        n1=old.n1, n2=old.n2, k_cs=old.k_cs, label=old.label,
+    )
+    return PentadSystem(bodies=new_bodies, beta=ps.beta)
+
+
+def _stressed_pentad() -> PentadSystem:
+    """Return a pentad where one channel (human–ai) is heavily loaded.
+
+    All bodies have φ = 1.0 except Ψ_human which has φ = 5.0, creating a
+    large Information Gap on that single channel while the rest remain near
+    zero.  This is the pre-collapse saturation pattern.
+    """
+    ps = _flat_harmonic_pentad()          # all φ = 1.0
+    return _set_phi(ps, PentadLabel.HUMAN, 5.0)
+
+
+class TestRegimeTransitionSignalType:
+    """regime_transition_signal returns the correct type and structure."""
+
+    def test_returns_dataclass(self):
+        ps = PentadSystem.default()
+        sig = regime_transition_signal(ps)
+        assert isinstance(sig, RegimeTransitionSignal)
+
+    def test_saturated_pair_is_tuple_of_two_strings(self):
+        ps = PentadSystem.default()
+        sig = regime_transition_signal(ps)
+        assert isinstance(sig.saturated_pair, tuple)
+        assert len(sig.saturated_pair) == 2
+        assert all(isinstance(s, str) for s in sig.saturated_pair)
+
+    def test_saturated_pair_labels_valid(self):
+        ps = PentadSystem.default()
+        sig = regime_transition_signal(ps)
+        for lbl in sig.saturated_pair:
+            assert lbl in PENTAD_LABELS
+
+    def test_early_warning_is_bool(self):
+        ps = PentadSystem.default()
+        assert isinstance(regime_transition_signal(ps).early_warning, bool)
+
+    def test_active_dof_is_int(self):
+        ps = PentadSystem.default()
+        assert isinstance(regime_transition_signal(ps).active_dof_estimate, int)
+
+    def test_all_float_fields_are_float(self):
+        ps  = PentadSystem.default()
+        sig = regime_transition_signal(ps)
+        for attr in (
+            "coupling_variance", "saturated_channel_load",
+            "mean_channel_load", "transition_proximity",
+        ):
+            assert isinstance(getattr(sig, attr), float), attr
+
+
+class TestRegimeTransitionSignalBounds:
+    """Invariant bounds that must hold for any well-formed PentadSystem."""
+
+    def test_coupling_variance_non_negative(self):
+        for ps in [PentadSystem.default(), _flat_harmonic_pentad(), _stressed_pentad()]:
+            assert regime_transition_signal(ps).coupling_variance >= 0.0
+
+    def test_saturated_load_geq_mean_load(self):
+        for ps in [PentadSystem.default(), _flat_harmonic_pentad(), _stressed_pentad()]:
+            sig = regime_transition_signal(ps)
+            assert sig.saturated_channel_load >= sig.mean_channel_load - 1e-12
+
+    def test_transition_proximity_geq_one(self):
+        # proximity = max/mean ≥ 1 whenever mean > 0;
+        # equals 1.0 by definition when all loads are zero.
+        for ps in [PentadSystem.default(), _flat_harmonic_pentad(), _stressed_pentad()]:
+            sig = regime_transition_signal(ps)
+            assert sig.transition_proximity >= 1.0 - 1e-12
+
+    def test_mean_channel_load_non_negative(self):
+        for ps in [PentadSystem.default(), _flat_harmonic_pentad(), _stressed_pentad()]:
+            assert regime_transition_signal(ps).mean_channel_load >= 0.0
+
+    def test_active_dof_between_one_and_five(self):
+        for ps in [PentadSystem.default(), _flat_harmonic_pentad(), _stressed_pentad()]:
+            dof = regime_transition_signal(ps).active_dof_estimate
+            assert 1 <= dof <= 5, f"active_dof_estimate={dof} out of [1, 5]"
+
+    def test_transition_proximity_threshold_positive(self):
+        assert TRANSITION_PROXIMITY_THRESHOLD > 1.0
+class TestRegimeTransitionSignalHarmonicBaseline:
+    """Flat (Harmonic) system: load is distributed evenly, no early warning."""
+
+    def setup_method(self):
+        self.ps  = _flat_harmonic_pentad()
+        self.sig = regime_transition_signal(self.ps)
+
+    def test_coupling_variance_near_zero(self):
+        """All channels have equal φ → equal ΔI → coupling_variance ≈ 0."""
+        assert self.sig.coupling_variance == pytest.approx(0.0, abs=1e-10)
+
+    def test_mean_channel_load_near_zero(self):
+        """All ΔI_{ij} = 0 → every channel load = 0."""
+        assert self.sig.mean_channel_load == pytest.approx(0.0, abs=1e-10)
+
+    def test_no_early_warning_at_harmonic_state(self):
+        assert self.sig.early_warning is False
+
+    def test_transition_proximity_is_one_at_harmonic_state(self):
+        """When all loads are zero, proximity = max/(mean+ε) collapses to ≈1."""
+        assert self.sig.transition_proximity >= 1.0 - 1e-9
+
+
+class TestRegimeTransitionSignalStressedChannel:
+    """One overloaded channel: early-warning should fire."""
+
+    def setup_method(self):
+        self.ps  = _stressed_pentad()
+        self.sig = regime_transition_signal(self.ps)
+
+    def test_saturated_pair_involves_human(self):
+        """Human has a large φ deviation; its pairs should dominate."""
+        assert PentadLabel.HUMAN in self.sig.saturated_pair
+
+    def test_saturated_load_greater_than_mean(self):
+        assert self.sig.saturated_channel_load > self.sig.mean_channel_load
+
+    def test_transition_proximity_above_threshold(self):
+        """One large φ on human should drive proximity >> 3."""
+        assert self.sig.transition_proximity >= TRANSITION_PROXIMITY_THRESHOLD
+
+    def test_early_warning_fires(self):
+        assert self.sig.early_warning is True
+
+    def test_coupling_variance_positive_under_stress(self):
+        assert self.sig.coupling_variance > 0.0
+
+    def test_proximity_higher_than_harmonic(self):
+        """Stressed system has higher proximity than the flat baseline."""
+        flat_prox    = regime_transition_signal(_flat_harmonic_pentad()).transition_proximity
+        stressed_prox = self.sig.transition_proximity
+        assert stressed_prox > flat_prox
+
+
+class TestRegimeTransitionSignalActiveDOF:
+    """active_dof_estimate rises when bodies are less correlated."""
+
+    def test_default_dof_at_least_one(self):
+        sig = regime_transition_signal(PentadSystem.default())
+        assert sig.active_dof_estimate >= 1
+
+    def test_flat_dof_at_most_one(self):
+        """Flat system: all state vectors identical → rank 1."""
+        sig = regime_transition_signal(_flat_harmonic_pentad())
+        assert sig.active_dof_estimate == 1
+
+    def test_stressed_dof_geq_flat_dof(self):
+        """Stressed system diverges on one body → at least as many DOF as flat."""
+        flat_dof     = regime_transition_signal(_flat_harmonic_pentad()).active_dof_estimate
+        stressed_dof = regime_transition_signal(_stressed_pentad()).active_dof_estimate
+        assert stressed_dof >= flat_dof
