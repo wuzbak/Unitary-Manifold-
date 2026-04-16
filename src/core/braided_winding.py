@@ -128,12 +128,18 @@ kk_tower_cs_floor(n1, n2, k_cs, n_kk_max) -> KKTowerResult
 projection_degeneracy_fraction(ns_prior, r_prior, beta_prior,
                                 ns_resolution, r_resolution,
                                 beta_resolution) -> ProjectionDegeneracyResult
-    Attack 1 — Projection Degeneracy Test.
+    Attack 1 — Projection Degeneracy Test (with Look-Elsewhere Effect).
     Quantify the fine-tuning required for a pure-4D EFT to accidentally
     satisfy the 5D locked relation  r_eff = r_bare(nₛ) × c_s(nₛ, β)
     without invoking the 5D integer topology.  Returns the fraction of
-    the prior parameter volume that satisfies the constraint, and the
-    number of degrees of freedom consumed by the 4D vs 5D descriptions.
+    the prior parameter volume that satisfies the constraint, the
+    number of degrees of freedom consumed by the 4D vs 5D descriptions,
+    and the LEE-corrected global p-value answering: "could a 4D theorist
+    argue that any integer pair would have been declared meaningful?"
+    The result includes lee_trials_factor, lee_corrected_tuning,
+    lee_sigma_equivalent, and isolation_confirmed — the last being True
+    when each viable k_cs value has a *unique* SOS decomposition, making
+    the conditional LEE trials factor exactly 1.
 """
 
 from __future__ import annotations
@@ -492,6 +498,61 @@ class KKTowerResult:
     floor_protected: bool
 
 
+# ---------------------------------------------------------------------------
+# LEE helper utilities (no external deps beyond math)
+# ---------------------------------------------------------------------------
+
+def _sigma_from_onetail_p(p: float) -> float:
+    """Convert a one-sided p-value to a Gaussian-equivalent sigma.
+
+    Uses the Abramowitz & Stegun rational approximation (26.2.17),
+    maximum absolute error < 4.5 × 10⁻⁴.  Valid for p ∈ (0, 0.5].
+
+    Parameters
+    ----------
+    p : float — one-tailed p-value
+
+    Returns
+    -------
+    float — Gaussian sigma z such that P(Z > z) ≈ p
+    """
+    import math
+    if p <= 0.0:
+        return float("inf")
+    if p >= 0.5:
+        return 0.0
+    t = math.sqrt(-2.0 * math.log(p))
+    c0, c1, c2 = 2.515517, 0.802853, 0.010328
+    d1, d2, d3 = 1.432788, 0.189269, 0.001308
+    t_sq = t * t
+    return t - (c0 + c1 * t + c2 * t_sq) / (
+        1.0 + d1 * t + d2 * t_sq + d3 * t_sq * t
+    )
+
+
+def _count_sos_decompositions(k: int, n_max: int) -> int:
+    """Count ordered pairs (n1, n2) with 1 ≤ n1 < n2 ≤ n_max and n1²+n2² == k.
+
+    Used to determine whether a given CS level k is the *unique* sum-of-squares
+    decomposition within the scan range (isolation test for the LEE).
+
+    Parameters
+    ----------
+    k     : int — target sum-of-squares value
+    n_max : int — maximum winding number in the scan
+
+    Returns
+    -------
+    int — number of distinct (n1, n2) pairs satisfying the constraint
+    """
+    count = 0
+    for n1 in range(1, n_max):
+        for n2 in range(n1 + 1, n_max + 1):
+            if n1 * n1 + n2 * n2 == k:
+                count += 1
+    return count
+
+
 @dataclass
 class ProjectionDegeneracyResult:
     """Quantified fine-tuning required for a 4D EFT to fake the 5D lock.
@@ -505,11 +566,37 @@ class ProjectionDegeneracyResult:
                           (n1, n2 → 2)
     prior_volume        : float — volume of the 4D EFT prior cube
     viable_volume       : float — volume occupied by all triply-viable 5D points
-    tuning_fraction     : float — viable_volume / prior_volume
+    tuning_fraction     : float — viable_volume / prior_volume  (local p-value)
     n_viable_points     : int   — number of discrete triply-viable (n1, n2) pairs
     constraint_violated : bool  — True iff the locked relation
                           r_eff ≈ r_bare(ns) × c_s(ns, β) has NO solution at
                           the given (ns, β) input (i.e. no integer solution exists)
+    n_candidates        : int   — total integer pairs (n1, n2) with n1 < n2 ≤ n_max
+                          scanned; equals n_max × (n_max − 1) / 2.  This is the
+                          Look-Elsewhere Effect (LEE) trials factor: the number
+                          of distinct integer hypotheses that were in principle
+                          testable.
+    lee_trials_factor   : int   — equals n_candidates; the number of independent
+                          integer-pair hypotheses a 4D theorist could point to as
+                          "would have been declared meaningful."
+    lee_corrected_tuning: float — global p-value after LEE correction:
+                              1 − (1 − tuning_fraction)^lee_trials_factor
+                          This is the probability that at least one of the N
+                          candidate pairs would accidentally satisfy the 5D locked
+                          constraint in a random 4D EFT, granting the maximum
+                          possible post-hoc flexibility to the 4D description.
+    lee_sigma_equivalent: float — Gaussian sigma equivalent of lee_corrected_tuning
+                          (one-tailed).  Values ≥ 3 indicate the coincidence is
+                          statistically isolated even after full LEE correction.
+    isolation_confirmed : bool  — True iff every triply-viable (n1, n2) pair has
+                          a *unique* SOS decomposition within the scan range, i.e.
+                          its CS level k_cs = n1² + n2² cannot be written as
+                          m1² + m2² for any other m1 < m2 ≤ n_max.  When True,
+                          the conditional LEE trials factor is exactly 1: k_cs was
+                          derived independently from birefringence data, so there
+                          was never a search over multiple pairs — the (5,7)
+                          solution was the only possibility, making the coincidence
+                          argument mathematically untenable.
     """
     n_4d_params: int
     n_5d_params: int
@@ -518,6 +605,11 @@ class ProjectionDegeneracyResult:
     tuning_fraction: float
     n_viable_points: int
     constraint_violated: bool
+    n_candidates: int
+    lee_trials_factor: int
+    lee_corrected_tuning: float
+    lee_sigma_equivalent: float
+    isolation_confirmed: bool
 
 
 # ===========================================================================
@@ -741,7 +833,7 @@ def projection_degeneracy_fraction(
     **tuning fraction** measures what fraction of the prior parameter volume
     satisfies this constraint within observational resolution.
 
-    The calculation:
+    The local calculation:
 
         tuning_fraction = (N_viable × V_resolution) / V_prior
 
@@ -751,6 +843,28 @@ def projection_degeneracy_fraction(
 
     With default parameters (3σ Planck nₛ window, LiteBIRD β resolution 0.05°,
     future r precision 0.005), tuning_fraction ~ 4 × 10⁻⁴ (roughly 1 in 2400).
+
+    Look-Elsewhere Effect (LEE) correction
+    ---------------------------------------
+    A 4D sceptic might argue: "you scanned N integer pairs and picked the one
+    that works — any pair might have been declared 'the answer', so you have N
+    effective trials."  The function addresses this rigorously:
+
+    1. **Unconditional LEE**: the full search space contains
+           n_candidates = n_max × (n_max − 1) / 2
+       integer pairs.  The LEE-corrected global p-value is
+           lee_corrected_tuning = 1 − (1 − tuning_fraction)^n_candidates
+       which is always larger (less impressive) than the local value.
+
+    2. **Conditional isolation**: k_cs = 74 was derived *independently* from
+       the birefringence measurement β ≈ 0.35° *before* any search over (n1, n2)
+       pairs.  The relevant question is therefore not "how many pairs were
+       scanned?" but "given k_cs = 74, how many (n1, n2) pairs satisfy
+       n1² + n2² = 74?"  The answer is exactly 1: (5, 7).  When
+       ``isolation_confirmed`` is True every triply-viable k_cs value has a
+       *unique* SOS decomposition in the scan range, so the conditional LEE
+       trials factor is 1 and the coincidence argument is mathematically
+       untenable — there was never a multiple-hypothesis search.
 
     Parameters
     ----------
@@ -797,6 +911,34 @@ def projection_degeneracy_fraction(
     viable_vol = len(viable) * viable_vol_per_point
     tuning = viable_vol / prior_vol if prior_vol > 0 else float("inf")
 
+    # -----------------------------------------------------------------------
+    # Look-Elsewhere Effect (LEE) correction
+    # -----------------------------------------------------------------------
+    # The full scan covers every ordered pair (n1, n2) with n1 < n2 <= n_max.
+    n_candidates = n_max * (n_max - 1) // 2
+
+    # Global p-value: probability that at least one of the n_candidates pairs
+    # accidentally satisfies the 5D locked constraint in a random 4D EFT.
+    if tuning <= 0.0:
+        lee_corrected = 0.0
+    elif tuning >= 1.0:
+        lee_corrected = 1.0
+    else:
+        lee_corrected = float(1.0 - (1.0 - tuning) ** n_candidates)
+
+    lee_sigma = _sigma_from_onetail_p(lee_corrected) if lee_corrected > 0 else float("inf")
+
+    # Isolation: every viable k_cs must have exactly one SOS decomposition
+    # within the scan range.  If True the conditional LEE trials factor is 1:
+    # k_cs was derived independently from birefringence data, so there was
+    # never a choice among competing integer-pair hypotheses.
+    isolation_confirmed = bool(
+        len(viable) > 0
+        and all(
+            _count_sos_decompositions(v.k_cs, n_max) == 1 for v in viable
+        )
+    )
+
     return ProjectionDegeneracyResult(
         n_4d_params=3,
         n_5d_params=2,
@@ -805,4 +947,9 @@ def projection_degeneracy_fraction(
         tuning_fraction=float(tuning),
         n_viable_points=len(viable),
         constraint_violated=len(viable) == 0,
+        n_candidates=n_candidates,
+        lee_trials_factor=n_candidates,
+        lee_corrected_tuning=float(lee_corrected),
+        lee_sigma_equivalent=float(lee_sigma),
+        isolation_confirmed=isolation_confirmed,
     )
