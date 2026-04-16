@@ -1,4 +1,4 @@
-# Pillar 16 — Material Recovery & Recycling [TIER 3 — Analogical Application]
+# recycling — Material Recovery & Recycling (TIER 3)
 
 > **Epistemic status:** This module applies the φ/Bμ mathematical framework as a
 > modeling language for material entropy.  Tests confirm the accounting is

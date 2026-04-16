@@ -72,7 +72,7 @@ class KKMode:
     label:      str     # physical identification
 
 
-def kk_mode_mass(n: int, R: float, lam: float = 1.0) -> float:
+def kk_mode_mass(n: int, R: float) -> float:
     """Mass of the n-th KK mode.
 
     m_n = |n| / R
@@ -86,7 +86,6 @@ def kk_mode_mass(n: int, R: float, lam: float = 1.0) -> float:
     ----------
     n   : int    KK mode number
     R   : float  compactification radius
-    lam : float  KK coupling (affects interaction strength, not mass)
 
     Returns
     -------
@@ -117,7 +116,7 @@ def kk_spectrum_1d(R: float = 1.0, lam: float = 1.0,
     """
     modes = []
     for n in range(-n_modes, n_modes + 1):
-        mass = kk_mode_mass(n, R, lam)
+        mass = kk_mode_mass(n, R)
         if n == 0:
             label = 'photon (zero mode, massless U(1) gauge boson)'
             gauge = 'U(1)'

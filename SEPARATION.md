@@ -178,7 +178,7 @@ physics theory being right.
 
 ---
 
-## What the 3330 Passing Tests Actually Mean
+## What the Passing Tests Actually Mean
 
 | Test file | Tier | What "passing" proves |
 |-----------|------|-----------------------|
@@ -198,7 +198,7 @@ physics theory being right.
 | `test_governance.py` | 3 | φ-stability model of governance internally consistent |
 
 **Summary:**
-> 3330 passing tests means: **the code is correct.**  
+> Passing tests means: **the code is correct.**  
 > It does not mean: **all the claims are physically true.**
 
 The FALLIBILITY.md document states this at the level of a refereed submission.

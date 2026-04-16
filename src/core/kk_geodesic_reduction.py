@@ -87,6 +87,9 @@ from .metric import (
     field_strength,
 )
 
+# Minimum radion value used to guard division-by-zero in e/m ratio computation.
+_PHI_MIN = 1e-14
+
 
 # ---------------------------------------------------------------------------
 # Named result type
@@ -214,7 +217,7 @@ def lorentz_acceleration(B: np.ndarray, phi: np.ndarray,
 
     # Conceptual charge-to-mass ratio e/m = λ p₅ / φ  (for reference)
     p5 = fifth_momentum(B, phi, u4, u5, lam)
-    em = lam * p5 / np.where(phi > 1e-14, phi, 1e-14)          # (N,)
+    em = lam * p5 / np.where(phi > _PHI_MIN, phi, _PHI_MIN)          # (N,)
     return acc_lor, em
 
 
@@ -270,7 +273,7 @@ def geodesic_decomposition(g: np.ndarray, B: np.ndarray, phi: np.ndarray,
     acc_lor   = -2.0 * np.einsum('nij,nj,n->ni', Gamma_nu5, u4, u5)  # (N, 4)
 
     # Conceptual e/m for reference
-    em = lam * p5 / np.where(phi > 1e-14, phi, 1e-14)
+    em = lam * p5 / np.where(phi > _PHI_MIN, phi, _PHI_MIN)
 
     acc_total = acc_geo + acc_lor                  # (N, 4)
 

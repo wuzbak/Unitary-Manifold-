@@ -294,8 +294,8 @@ def schrodinger_derivation_steps() -> list:
             'output':   'iℏ ∂_t ψ = [−ℏ²∇²/2m + V] ψ',
             'type':     'MATH',
             'location': 'UNIFICATION_PROOF.md §IV.3',
-            'note':     'Write ψ = φ exp(iS_cl). The □φ term is Bohm\'s '
-                        'quantum potential. Non-relativistic + flat-space limit.',
+            'note':     ("Write ψ = φ exp(iS_cl). The □φ term is Bohm's "
+                         "quantum potential. Non-relativistic + flat-space limit."),
         },
     ]
 
