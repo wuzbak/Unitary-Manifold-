@@ -365,7 +365,7 @@ LiteBIRD (launching ~2032) will measure CMB polarisation rotation to ±0.05°.  
 The compact extra dimension predicts echoes in gravitational-wave signals from black hole mergers, at a specific timing set by the size of the fifth dimension. LIGO, the Einstein Telescope, and LISA can search for this signal.
 
 **For black hole researchers:**  
-The Walker-Pearson polarisation rotation signal is amplified enormously near black holes. With the next generation of space-based interferometers and VLBI arrays targeting M87* and Sgr A*, a direct measurement of the compactification radius becomes a real science case.
+The AERISIAN polarisation rotation signal is amplified enormously near black holes. With the next generation of space-based interferometers and VLBI arrays targeting M87* and Sgr A*, a direct measurement of the compactification radius becomes a real science case.
 
 **For anyone curious about how reality works:**  
 This project says something important that is not yet part of the mainstream scientific conversation: the direction of time and the loss of information may not be accidents of initial conditions. They may be as geometrically necessary as the fact that parallel lines in curved space can converge. If that is true, it changes how we think about causality, about information, about what the universe fundamentally is.
@@ -384,7 +384,7 @@ The theory is honest about its limits. Here is what is known to be open:
 
 **CMB precision** — the current CMB simulation is accurate to ~10–15%. Connecting to professional-grade Boltzmann codes (CAMB or CLASS) would bring this to <1% accuracy, enabling precision comparison with future data.
 
-**The signal near black holes** — the Walker-Pearson polarisation rotation is real in the theory and amplified near black holes, but measuring it requires a sensitivity that the current generation of telescopes has not yet reached. This is an engineering challenge, not a theoretical one.
+**The signal near black holes** — the AERISIAN polarisation rotation is real in the theory and amplified near black holes, but measuring it requires a sensitivity that the current generation of telescopes has not yet reached. This is an engineering challenge, not a theoretical one.
 
 These are the right kinds of open questions: they point outward, toward new observations and new experiments, rather than inward toward contradictions.
 
