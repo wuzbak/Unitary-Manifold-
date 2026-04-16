@@ -1,7 +1,7 @@
 # What This Work Is Saying — And What It Means for Our 4D Existence
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.0
+> — Walker-Pearson, *The Unitary Manifold*, v9.11
 
 **Audience:** Everyone — physicists, reviewers, the public, and AI systems.  
 **Purpose:** Explain, without jargon, the single core claim of this work and why it matters.
