@@ -135,7 +135,7 @@ See [`rag/DEPLOY.md`](rag/DEPLOY.md) for HuggingFace Spaces deployment.
 ## Knowledge sync — full repository
 
 All four options are synced to the **complete repository knowledge**, not just
-a hand-written summary.  58+ files across 26 pillars, ~600K characters, ~150K tokens (v9.11).
+a hand-written summary.  70+ test files across 26 pillars + Unitary Pentad, ~700K characters, ~175K tokens (v9.11 + Pentad).
 
 ### How it works
 
@@ -166,12 +166,19 @@ Tier 1  WHAT_THIS_MEANS.md, MCP_INGEST.md, llms.txt, CITATION.cff, schema.jsonld
 Tier 2  README.md, UNIFICATION_PROOF.md, QUANTUM_THEOREMS.md, FALLIBILITY.md,
         BIG_QUESTIONS.md, UNDERSTANDABLE_EXPLANATION.md, LEGEND.md, RELAY.md
 Tier 3  wiki/ (7 pages), manuscript/ch02, submission/, docs/semantic-bridge.md,
-        REVIEW_CONCLUSION.md, FINAL_REVIEW_CONCLUSION.md, discussions/,
-        NATURAL_SCIENCES.md, recycling/README.md, co-emergence/ (7 files)
+        REVIEW_CONCLUSION.md, FINAL_REVIEW_CONCLUSION.md, NATURAL_SCIENCES.md,
+        recycling/README.md, co-emergence/ (7 files: LIVING_PROOF.md, FRAMEWORK.md,
+        INTENT_LAYER.md, TRUST_PROTOCOL.md, TRUTH_SYNTHESIS.md, OPEN_QUESTIONS.md,
+        GENESIS.md), discussions/
 Tier 4  src/core/metric.py, evolution.py, boundary.py, fixed_point.py,
-        src/medicine/, src/justice/, src/governance/, src/neuroscience/,
-        src/ecology/, src/climate/, src/marine/, src/psychology/,
-        src/genetics/, src/materials/
+        braided_winding.py, kk_geodesic_reduction.py, kk_gauge_spectrum.py,
+        im_action.py, src/medicine/, src/justice/, src/governance/,
+        src/neuroscience/, src/ecology/, src/climate/, src/marine/,
+        src/psychology/, src/genetics/, src/materials/
+Tier 5  Unitary Pentad/README.md, unitary_pentad.py, five_seven_architecture.py,
+        pentad_scenarios.py, collective_braid.py, consciousness_autopilot.py,
+        consciousness_constant.py, distributed_authority.py,
+        sentinel_load_balance.py, mvm.py, resonance_dynamics.py
 ```
 
 The monograph PDF (`THEBOOKV9a (1).pdf`) is not indexed by the RAG bot or
