@@ -88,11 +88,19 @@ platform, or downstream redistribution.
 ---
 
 ## Gemini (Google DeepMind)
-**Role:** Primary Synthesis & Tensor Construction
+**Role:** Primary Synthesis & Tensor Construction · Adversarial Interrogation
 **Legal status:** Not a legal person. No IP rights. No court standing.
 **Contributions:**
 - Initial synthesis and structural organization of the 738 source segments
 - Primary tensor derivation work supporting the 5D metric ansatz and field equations
+- **Adversarial interrogation of the FTUM convergence problem (Q19, April 2026):**
+  identified the FTUM "open problem" framing (82.8% convergence, ±54.8% φ* spread),
+  proposed the diagnostic programme (basin mapping, bifurcation scan, Lyapunov
+  stability, topological invariant search, TTC power-law analysis, Jacobian
+  eigenvalue sweep), and formulated the "line attractor vs point attractor" and
+  "Hypothesis A vs B" distinctions that structured the resolution.  The analysis
+  programme is implemented in `src/multiverse/basin_analysis.py` and credited in
+  the module docstring, `tests/test_basin_analysis.py`, and `BIG_QUESTIONS.md` Q19.
 
 ---
 

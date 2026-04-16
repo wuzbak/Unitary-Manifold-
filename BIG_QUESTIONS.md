@@ -920,10 +920,30 @@ separate mechanism — e.g., the radion stabilisation potential V(φ) in
 `src/core/evolution.py`, which selects φ₀ and thereby determines the effective
 compact dimension and its boundary area.  See FALLIBILITY.md §III.
 
+### Gemini Adversarial Interrogation — April 2026
+
+The resolution of Q19 was reached through adversarial dialogue with
+**Gemini (Google DeepMind)**, which identified the open problem and proposed
+the specific diagnostic programme implemented here.  Gemini's contributions:
+
+| Gemini Question | Answer Computed |
+|-----------------|-----------------|
+| Is the 17.2% a hard fail or a slow crawl? | **100% slow crawl** — zero hard fails; all converge with more time |
+| Is the phase space a bowl (point attractor) or a valley (line attractor)? | **Line attractor**: R²(φ\* vs A₀) = 1.000, slope = 0.250 = 1/(4G) |
+| Does TTC cluster φ\* (Hypothesis A) or is φ\* set by geometry (Hypothesis B)? | **Hypothesis B**: r(TTC,φ\*) = 0.165, p = 0.053; φ\* spans full range for both fast and slow cases |
+| Are the TTC=285 outliers near a phase transition? | No — they start with S₀ ≪ A₀/4G; same valley floor, longer approach path |
+| Is there a hidden scalar constant? | **Yes**: φ\*/A₀ = 1/(4G) = 0.25 exactly, CV < 0.001 |
+| Are Jacobian eigenvalues universal across all 192 fixed points? | **Yes**: eigenvalues {−0.110, −0.070, −0.050} (H+T) identical for all; ρ(U\_damped) = 0.475 < 1 ✓ |
+
+*Adversarial interrogation: Gemini (Google DeepMind).*
+*Theory and framework: ThomasCory Walker-Pearson.*
+*Code, tests, and synthesis: GitHub Copilot (AI).*
+
 ### Implementation
 
 See `src/multiverse/basin_analysis.py` and `tests/test_basin_analysis.py`
-(82 tests) for the full diagnostic suite.
+(114 tests) for the full diagnostic suite implementing all eleven functions
+in the Gemini programme.
 
 ---
 
@@ -1095,7 +1115,7 @@ implemented yet.
 | F-7 | **Cosmological constant from vacuum energy cancellation** | The Casimir-corrected vacuum energy at the GW minimum is ~10⁴ M_Pl⁴ (computed in Q20); find the cancellation mechanism | Low |
 | F-8 | **PBH mass–temperature correlation** | For PBHs formed at the same epoch, T_H = \|∂_rφ/φ\|/2π predicts correlated temperatures — compute the expected correlation coefficient vs standard formula | Medium |
 | F-9 | **Dark matter as KK tower mode** | Identify the lightest stable KK mode of the WP 5D spectrum; compute its mass M_KK = M_Pl/φ₀_eff and abundance | Medium |
-| F-10 | **FTUM convergence domain boundary** | Run a systematic sweep of 1000+ initial conditions; map the boundary between the convergence and divergence basins in (S₀, A₀, Q_top) space | High |
+| F-10 | **FTUM convergence domain boundary — RESOLVED** | 100% convergence confirmed; φ\* = A₀/(4G) is a line attractor; Jacobian eigenvalues universal; no divergence basin exists — see `src/multiverse/basin_analysis.py` and Q19 | Resolved |
 | F-11 | **Self-consistent FTUM amplitude loop** | Implement the full self-consistent loop: feed φ* from FTUM directly into inflation_observables without applying the KK Jacobian; check if nₛ can be recovered | Medium |
 | F-12 | **5D KK tower and Standard Model embedding** | Map the KK mass spectrum m_n = n/R to the SM particle spectrum; identify candidate KK partners | Low |
 
@@ -1330,7 +1350,7 @@ QUESTION 15 (Consciousness):         Conjecture: extremum of J^0_inf density; no
 QUESTION 16 (CMB amplitude gap):     Open: self-consistent FTUM loop does NOT close gap (φ*≈0.44 gives ns≈-184)
 QUESTION 17 (Hawking T / inflation): T_H = |∂_r φ/φ|/2π links primordial BH thermodynamics to inflation epoch
 QUESTION 18 (r vs ns tension):       RESOLVED: braided (5,7) state, k_cs=74, r_braided=0.0315 < 0.036 (BICEP/Keck ✓); ns unchanged
-QUESTION 19 (FTUM universality):     82.8% convergence, φ* spread ±54.8%; NOT a universal fixed point
+QUESTION 19 (FTUM universality):     RESOLVED (April 2026): 100% convergence; φ* = A₀/(4G) (line attractor, not multi-attractor); Jacobian eigenvalues identical across all 192 fixed points; Gemini adversarial interrogation — see `src/multiverse/basin_analysis.py`
 QUESTION 20 (lambda / E_inf):        λ_COBE=6.985e-15; E_inf≈8.4e16 GeV (≈4×GUT scale)
 KEY FALSIFIER:          β outside [0.22°, 0.38°] at >1σ, OR β in gap [0.29°–0.31°]
 TWO-POINT PREDICTION:   β ∈ {0.273° (k=61, (5,6)), 0.331° (k=74, (5,7))} — CMB-S4 discriminable

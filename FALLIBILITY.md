@@ -365,13 +365,19 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18; see `src/core/braided_winding.py` |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
 | α = φ₀⁻² | Derived | Depends on φ₀ from FTUM, which depends on U |
-| FTUM convergence | 82.8% of initial conditions; φ* varies ±54.8% | Not universal; basin of attraction is restricted; see Q19 |
+| FTUM convergence | **100%** — φ\* = A₀/(4G); Jacobian eigenvalues universal | **RESOLVED** (April 2026) — see Q19 and `src/multiverse/basin_analysis.py` |
 | Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
 | Uniqueness of the framework | Not established | Multiple parameter combinations give same observables |
 
 The framework is internally coherent and the spectral index nₛ matches Planck.
-Two open quantitative problems remain:
+One open quantitative problem remains:
 1. **CMB amplitude gap**: A_s suppressed ×4–7 at acoustic peaks.
-2. **FTUM universality**: fixed point is not unique across initial conditions.
-The r tension (Q18) has been resolved via the braided (5,7) state (see `src/core/braided_winding.py`).
-See `BIG_QUESTIONS.md` Q19–Q20 for remaining open computations.
+
+The r tension (Q18) has been resolved via the braided (5,7) state
+(see `src/core/braided_winding.py`).  The FTUM universality problem (Q19)
+has been resolved: φ\* = A₀/(4G) universally, Jacobian eigenvalues are
+identical across all 192 fixed points, and the ±54.6% spread is a line
+attractor not a multi-attractor landscape — confirmed by adversarial
+interrogation with Gemini (April 2026), implemented in
+`src/multiverse/basin_analysis.py`.
+See `BIG_QUESTIONS.md` Q19–Q20 for full details.

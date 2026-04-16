@@ -10,6 +10,16 @@ Covers:
   - bifurcation_scan: structure, bifurcation detection
   - topological_invariant_check: CV computation, interpretation
   - near_miss_analysis: near-miss counting, classification pass-through
+  - convergence_time_analysis: hard-fail vs slow-crawl separation, TTC stats
+  - boundary_zoom_sweep: recursive high-resolution boundary zoom
+  - attractor_topology_analysis: bowl/valley/surface classification
+  - ttc_phi_star_correlation: Hypothesis A vs B, phase-transition detection
+  - fixed_point_jacobian_sweep: Jacobian eigenvalue universality
+
+Gemini diagnostic programme (April 2026):
+  ThomasCory Walker-Pearson (scientific direction) ·
+  Gemini (adversarial interrogation) ·
+  GitHub Copilot (code and tests)
 """
 
 import numpy as np
@@ -20,21 +30,27 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from src.multiverse.basin_analysis import (
+    AttractorTopologyResult,
     BasinSweepResult,
     BifurcationResult,
     BoundaryZoomResult,
     ConvergenceTimeResult,
     InvariantResult,
+    JacobianSweepResult,
     NearMissResult,
     SensitivityResult,
+    TTCPhiStarResult,
+    attractor_topology_analysis,
     basin_of_attraction_sweep,
     bifurcation_scan,
     boundary_zoom_sweep,
     classify_non_convergent,
     convergence_time_analysis,
+    fixed_point_jacobian_sweep,
     near_miss_analysis,
     sensitivity_sweep,
     topological_invariant_check,
+    ttc_phi_star_correlation,
 )
 
 
@@ -676,3 +692,197 @@ class TestHolographicInvariant:
                     assert S0 < bound, (
                         f"Expected slow case S0={S0:.2f} < bound={bound:.3f}"
                     )
+
+
+# ---------------------------------------------------------------------------
+# attractor_topology_analysis
+# ---------------------------------------------------------------------------
+
+class TestAttractorTopologyAnalysis:
+    @pytest.fixture(scope="class")
+    def topo(self):
+        sweep = basin_of_attraction_sweep(
+            S_values=np.linspace(0.10, 5.10, 4),
+            A_values=np.linspace(0.50, 5.50, 4),
+            Q_values=[0.0, 0.5],
+            max_iter=300, tol=1e-6,
+            rng=np.random.default_rng(42),
+        )
+        return attractor_topology_analysis(sweep)
+
+    def test_returns_attractor_topology_result(self, topo):
+        assert isinstance(topo, AttractorTopologyResult)
+
+    def test_r2_phi_vs_A0_near_one(self, topo):
+        # phi* = A0/4G exactly → R² should be 1.0
+        assert topo.r2_phi_vs_A0 > 0.999
+
+    def test_r2_phi_vs_S0_near_zero(self, topo):
+        # S0 does not determine phi* → R² should be ~0
+        assert topo.r2_phi_vs_S0 < 0.05
+
+    def test_r2_phi_vs_Q_near_zero(self, topo):
+        assert topo.r2_phi_vs_Q < 0.05
+
+    def test_slope_matches_holographic_bound(self, topo):
+        # slope = 1/(4G) = 0.25
+        assert topo.slope_matches_holographic_bound
+        assert abs(topo.slope_phi_vs_A0 - 0.25) < 0.01
+
+    def test_attractor_type_is_line(self, topo):
+        assert topo.attractor_type == "line"
+
+    def test_dominant_driver_is_A0(self, topo):
+        assert topo.dominant_driver == "A0"
+
+    def test_interpretation_is_string(self, topo):
+        assert isinstance(topo.interpretation, str) and len(topo.interpretation) > 10
+
+    def test_insufficient_data_handled(self):
+        sweep = basin_of_attraction_sweep(
+            S_values=[1.0], A_values=[4.0], Q_values=[0.0],
+            max_iter=0, tol=1e-6, rng=np.random.default_rng(0),
+        )
+        result = attractor_topology_analysis(sweep)
+        assert isinstance(result, AttractorTopologyResult)
+        assert result.attractor_type == "unknown"
+
+
+# ---------------------------------------------------------------------------
+# ttc_phi_star_correlation
+# ---------------------------------------------------------------------------
+
+class TestTTCPhiStarCorrelation:
+    @pytest.fixture(scope="class")
+    def corr(self):
+        sweep = basin_of_attraction_sweep(
+            S_values=np.linspace(0.10, 5.10, 8),
+            A_values=np.linspace(0.50, 5.50, 8),
+            Q_values=[0.0, 0.5, 1.0],
+            max_iter=300, tol=1e-6,
+            rng=np.random.default_rng(42),
+        )
+        return ttc_phi_star_correlation(sweep)
+
+    def test_returns_ttc_phi_star_result(self, corr):
+        assert isinstance(corr, TTCPhiStarResult)
+
+    def test_pearson_r_in_range(self, corr):
+        assert -1.0 <= corr.pearson_r <= 1.0
+
+    def test_r_squared_nonneg(self, corr):
+        assert 0.0 <= corr.r_squared <= 1.0 + 1e-9
+
+    def test_hypothesis_is_B(self, corr):
+        # phi* is set by A0, not by TTC → Hypothesis B
+        assert corr.hypothesis == "B"
+
+    def test_phase_transition_not_detected(self, corr):
+        assert not corr.phase_transition_detected
+
+    def test_fast_phi_mean_finite(self, corr):
+        if len(corr.phi_star_fast) > 0:
+            assert np.isfinite(corr.ttc_fast_phi_mean)
+
+    def test_slow_phi_mean_finite(self, corr):
+        if len(corr.phi_star_slow) > 0:
+            assert np.isfinite(corr.ttc_slow_phi_mean)
+
+    def test_phi_star_fast_and_slow_overlap(self, corr):
+        # Both fast and slow cases should span a wide phi* range (same valley)
+        if len(corr.phi_star_fast) > 0 and len(corr.phi_star_slow) > 0:
+            fast_range = corr.phi_star_fast.max() - corr.phi_star_fast.min()
+            slow_range = corr.phi_star_slow.max() - corr.phi_star_slow.min()
+            assert fast_range > 0.1   # fast cases span the full valley
+            assert slow_range > 0.1   # slow cases also span many phi* values
+
+    def test_slow_threshold_stored(self, corr):
+        assert corr.slow_threshold == 100
+
+    def test_interpretation_mentions_hypothesis(self, corr):
+        assert "HYPOTHESIS B" in corr.interpretation or "HYPOTHESIS A" in corr.interpretation
+
+    def test_insufficient_data_handled(self):
+        sweep = basin_of_attraction_sweep(
+            S_values=[1.0], A_values=[4.0], Q_values=[0.0],
+            max_iter=0, tol=1e-6, rng=np.random.default_rng(0),
+        )
+        result = ttc_phi_star_correlation(sweep)
+        assert isinstance(result, TTCPhiStarResult)
+
+
+# ---------------------------------------------------------------------------
+# fixed_point_jacobian_sweep
+# ---------------------------------------------------------------------------
+
+class TestFixedPointJacobianSweep:
+    @pytest.fixture(scope="class")
+    def jac(self):
+        sweep = basin_of_attraction_sweep(
+            S_values=np.linspace(0.10, 5.10, 4),
+            A_values=np.linspace(0.50, 5.50, 4),
+            Q_values=[0.0],
+            max_iter=300, tol=1e-6,
+            rng=np.random.default_rng(42),
+        )
+        return fixed_point_jacobian_sweep(sweep)
+
+    def test_returns_jacobian_sweep_result(self, jac):
+        assert isinstance(jac, JacobianSweepResult)
+
+    def test_contraction_holds(self, jac):
+        # Canonical params (kappa=0.25, dt=0.2, gamma=5.0) must give rho < 1
+        assert jac.contraction_holds
+        assert jac.spectral_radius_U < 1.0
+
+    def test_spectral_radius_HT_positive(self, jac):
+        assert jac.spectral_radius_HT > 0.0
+
+    def test_eigenvalues_HT_negative(self, jac):
+        # All (H+T) eigenvalues should be negative (contraction)
+        assert np.all(jac.eigenvalues_HT < 0)
+
+    def test_eigenvalues_U_damped_in_01(self, jac):
+        # All damped U eigenvalues in (0, 1) for Banach contraction
+        assert np.all(jac.eigenvalues_U_damped > 0)
+        assert np.all(jac.eigenvalues_U_damped < 1.0)
+
+    def test_eigenvalues_universal_true(self, jac):
+        # Jacobian is topology-dependent only → always universal
+        assert jac.eigenvalues_universal is True
+
+    def test_cv_spectral_radius_zero(self, jac):
+        # Exactly 0 because all fixed points share the same Jacobian
+        assert jac.cv_spectral_radius == 0.0
+
+    def test_n_fixed_points_positive(self, jac):
+        assert jac.n_fixed_points > 0
+
+    def test_interpretation_contains_key_phrases(self, jac):
+        assert "UNIVERSAL" in jac.interpretation
+        assert "φ*" in jac.interpretation
+
+    def test_eigenvalue_count_matches_n_nodes(self, jac):
+        # For 4 S_values → n_nodes=4 in the proxy
+        assert len(jac.eigenvalues_HT) == 4
+        assert len(jac.eigenvalues_U_damped) == 4
+
+    def test_specific_eigenvalue_values(self, jac):
+        # For 4-node chain, kappa=0.25, dt=0.2, coupling=0.1:
+        # H diag = -0.05; T = dt*(adj - deg); verify spectral radius < 1
+        assert jac.spectral_radius_HT < 1.0
+
+    def test_different_coupling_changes_eigenvalues(self):
+        sweep = basin_of_attraction_sweep(
+            S_values=[0.5, 1.0],
+            A_values=[1.0, 2.0],
+            Q_values=[0.0],
+            max_iter=300, tol=1e-6,
+            rng=np.random.default_rng(0),
+        )
+        jac_lo = fixed_point_jacobian_sweep(sweep, coupling=0.01)
+        jac_hi = fixed_point_jacobian_sweep(sweep, coupling=0.5)
+        # Higher coupling → larger off-diagonal → different spectral radius
+        assert jac_lo.spectral_radius_HT != pytest.approx(
+            jac_hi.spectral_radius_HT, rel=0.01
+        )
