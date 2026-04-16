@@ -753,3 +753,202 @@ def regime_transition_signal(system: PentadSystem) -> RegimeTransitionSignal:
         active_dof_estimate=active_dof_estimate,
         attractor_degraded=attractor_degraded,
     )
+
+
+# ---------------------------------------------------------------------------
+# Total Trust Erasure — the "Wildcard" failure mode
+# ---------------------------------------------------------------------------
+
+@dataclass
+class TrustErasureResult:
+    """Outcome of an instantaneous total trust erasure event.
+
+    **What "Total Trust Erasure" means:**
+    β·C drops to zero *instantly* (not gradually).  This is distinct from
+    "Trust Erosion" (slow decay) — it models the catastrophic case where the
+    coupling field collapses in a single step, e.g., a betrayal event or an
+    AI safety interlock triggering an emergency decoupling.
+
+    Attributes
+    ----------
+    phi_trust_before   : float — φ_trust immediately before erasure
+    phi_trust_after    : float — φ_trust immediately after erasure (0.0)
+    delta_beta_C       : float — loss of coupling energy = β × φ_trust_before
+    eigenvalue_before  : float — λ_min of coupling matrix before erasure
+    eigenvalue_after   : float — λ_min of coupling matrix after erasure
+    stability_lost     : bool  — True iff eigenvalue_after < BRAIDED_SOUND_SPEED
+    cascade_risk       : float — fraction of coupling energy destroyed (0→1)
+    description        : str   — human-readable summary
+    """
+    phi_trust_before:  float
+    phi_trust_after:   float
+    delta_beta_C:      float
+    eigenvalue_before: float
+    eigenvalue_after:  float
+    stability_lost:    bool
+    cascade_risk:      float
+    description:       str
+
+
+def total_trust_erasure(system: PentadSystem) -> TrustErasureResult:
+    """Model the instantaneous collapse of β·C to zero.
+
+    This is the "Wildcard" failure: not a gradual Trust Erosion but a
+    sudden, complete zeroing of the coupling field.  The function:
+
+        1. Records the pre-erasure state (eigenvalue, φ_trust, β·C energy).
+        2. Constructs the post-erasure system (φ_trust = 0).
+        3. Measures the post-erasure eigenvalue of the now-decoupled matrix.
+        4. Computes the cascade_risk — the fraction of coupling energy lost.
+
+    The cascade_risk is always 1.0 for a total erasure, but the function
+    also exposes delta_beta_C so callers can compare partial vs total events.
+
+    Parameters
+    ----------
+    system : PentadSystem — pre-erasure state
+
+    Returns
+    -------
+    TrustErasureResult
+    """
+    tau_before = trust_modulation(system)
+    eigs_before = pentad_eigenspectrum(system)
+    lmin_before = float(eigs_before[0])
+
+    # Build post-erasure system: φ_trust → 0
+    new_bodies = dict(system.bodies)
+    old_trust = system.bodies[PentadLabel.TRUST]
+    new_bodies[PentadLabel.TRUST] = ManifoldState(
+        node=old_trust.node,
+        phi=0.0,
+        n1=old_trust.n1,
+        n2=old_trust.n2,
+        k_cs=old_trust.k_cs,
+        label=old_trust.label,
+    )
+    erased = PentadSystem(bodies=new_bodies, beta=system.beta)
+
+    eigs_after = pentad_eigenspectrum(erased)
+    lmin_after = float(eigs_after[0])
+
+    delta_beta_C = system.beta * tau_before
+    cascade_risk = float(np.clip(tau_before, 0.0, 1.0))  # fraction of field destroyed
+
+    stability_lost = lmin_after < BRAIDED_SOUND_SPEED
+
+    description = (
+        f"Total trust erasure: φ_trust {tau_before:.4f} → 0.  "
+        f"Coupling energy lost: β·C = {delta_beta_C:.6f}.  "
+        f"λ_min: {lmin_before:.4f} → {lmin_after:.4f}.  "
+        + ("STABILITY LOST — all ten inter-body couplings zeroed; "
+           "pentagonal orbit disintegrated."
+           if stability_lost else
+           "Stability margin preserved (residual trust-body coupling).")
+    )
+
+    return TrustErasureResult(
+        phi_trust_before=tau_before,
+        phi_trust_after=0.0,
+        delta_beta_C=delta_beta_C,
+        eigenvalue_before=lmin_before,
+        eigenvalue_after=lmin_after,
+        stability_lost=stability_lost,
+        cascade_risk=cascade_risk,
+        description=description,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Asymmetric Coupling Stress Test (5,7)-braid under non-reciprocal load
+# ---------------------------------------------------------------------------
+
+@dataclass
+class AsymmetricStressResult:
+    """Per-point result of an asymmetric coupling sweep.
+
+    Attributes
+    ----------
+    w_ai_to_human    : float — AI→Human weight multiplier at this point
+    berry_phase_rad  : float — Berry phase accumulated per orbit cycle (rad)
+    stability_margin : float — λ_min(τ^sym) − c_s (positive → braid holds)
+    min_eigenvalue   : float — λ_min of the symmetrised coupling matrix
+    braid_holds      : bool  — True iff stability_margin ≥ 0
+    """
+    w_ai_to_human:    float
+    berry_phase_rad:  float
+    stability_margin: float
+    min_eigenvalue:   float
+    braid_holds:      bool
+
+
+def asymmetric_coupling_stress_test(
+    system: PentadSystem,
+    weight_range: float = 3.0,
+    n_points: int = 20,
+) -> List[AsymmetricStressResult]:
+    """Stress-test the (5,7) braid under asymmetric AI→Human coupling.
+
+    Sweeps the AI-to-Human coupling weight from 1× (symmetric) to
+    weight_range× (e.g. 3× = AI exerts 3× the influence it receives) in
+    n_points steps.  For each weight the symmetrised eigenvalue is checked
+    against the (5,7) braid stability floor c_s.
+
+    The Berry phase per orbit is also computed — this accumulates whenever
+    the coupling is non-reciprocal and is observable as a residual phase
+    offset between the Human and AI bodies.
+
+    Parameters
+    ----------
+    system       : PentadSystem — current state
+    weight_range : float — maximum AI→Human multiplier (default 3.0)
+    n_points     : int   — sweep resolution (default 20)
+
+    Returns
+    -------
+    list[AsymmetricStressResult]
+    """
+    import math as _math
+
+    results: List[AsymmetricStressResult] = []
+    tau = trust_modulation(system)
+    beta = system.beta
+    tau_other = beta * tau
+    trust_idx = PENTAD_LABELS.index(PentadLabel.TRUST)
+    human_idx = PENTAD_LABELS.index(PentadLabel.HUMAN)
+    ai_idx    = PENTAD_LABELS.index(PentadLabel.AI)
+    n = len(PENTAD_LABELS)
+
+    for w_ai in np.linspace(1.0, weight_range, n_points):
+        # Build the non-Hermitian coupling matrix for this weight
+        mat = np.zeros((n, n))
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    continue
+                if i == trust_idx or j == trust_idx:
+                    mat[i, j] = beta
+                elif i == human_idx and j == ai_idx:
+                    mat[i, j] = tau_other * 1.0        # Human → AI stays at 1×
+                elif i == ai_idx and j == human_idx:
+                    mat[i, j] = tau_other * float(w_ai)  # AI → Human at w_ai×
+                else:
+                    mat[i, j] = tau_other
+
+        sym_mat = (mat + mat.T) / 2.0
+        eigs    = np.sort(np.linalg.eigvalsh(sym_mat))
+        lmin    = float(eigs[0])
+        margin  = lmin - BRAIDED_SOUND_SPEED
+
+        # Berry phase: π × (w_ai − 1) / (w_ai + 1 + ε)
+        berry = (_math.pi / 2.0) * (float(w_ai) - 1.0) / (float(w_ai) + 1.0 + 1e-14)
+
+        results.append(AsymmetricStressResult(
+            w_ai_to_human=float(w_ai),
+            berry_phase_rad=berry,
+            stability_margin=margin,
+            min_eigenvalue=lmin,
+            braid_holds=margin >= 0.0,
+        ))
+
+    return results
