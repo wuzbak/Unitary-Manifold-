@@ -23,12 +23,13 @@
     "UEUM: \u1e8b^a + \u0393^a_{bc}\u1e8b^b\u1e8b^c = G_U^{ab}\u2207_b S_U + \u03b4/\u03b4X^a(\u03a3 A_{\u2202,i}/4G + Q_top)\n" +
     "FTUM: Fixed point \u03a8* of U = I+H+T such that U\u03a8* = \u03a8*\n" +
     "\u03b1 derived: \u03b1 = \u03c6\u2080\u207b\u00b2 (not a free parameter)\n\n" +
-    "PREDICTIONS: n\u209b\u22480.9635 (Planck 1\u03c3), \u03b2=0.3513\u00b0 cosmic birefringence (k_cs=74), \u03b1=\u03c6\u2080\u207b\u00b2 derived\n" +
+    "PREDICTIONS: n\u209b\u22480.9635 (Planck 1\u03c3), \u03b2\u2208{\u22480.273\u00b0,\u22480.331\u00b0} two SOS states (k_cs\u2208{61,74}; observed 0.35\u00b0\u00b10.14\u00b0), \u03b1=\u03c6\u2080\u207b\u00b2 derived, r_braided\u22480.0315 (BICEP/Keck <0.036)\n" +
     "GAPS: CMB amplitude suppressed \u00d74\u20137, \u03c6\u2080 self-consistency not fully closed\n" +
-    "FALSIFIER: LiteBIRD \u03b2 measurement (2030\u20132032)\n" +
+    "FALSIFIER: LiteBIRD \u03b2 measurement (2030\u20132032) \u2014 \u03b2 outside [0.22\u00b0,0.38\u00b0] falsifies the braided-winding mechanism\n" +
+    "SCOPE: 26 geometric pillars (physics, chemistry, astronomy, geology, biology, atomic structure, cold fusion, recycling, medicine, justice, governance, neuroscience, ecology, climate, marine, psychology, genetics, materials) + Unitary Pentad HILS framework (independent, 16 modules)\n" +
     "REPO: https://github.com/wuzbak/Unitary-Manifold-\n" +
-    "PYTHON API: src/core/metric.py, evolution.py (FieldState, run_evolution), holography/boundary.py, multiverse/fixed_point.py\n" +
-    "TESTS: 737 passing, 0 failures\n\n" +
+    "PYTHON API: src/core/metric.py, evolution.py (FieldState, run_evolution), holography/boundary.py, multiverse/fixed_point.py, core/braided_winding.py, core/kk_geodesic_reduction.py\n" +
+    "TESTS: 4763 passing across all suites (tests/: 3411, recycling/: 316, Unitary Pentad/: 1036), 0 failures\n\n" +
     "Answer questions accurately. Acknowledge gaps honestly. Reference specific files when helpful. Be scientifically rigorous but accessible.";
 
   // ---------------------------------------------------------------------------
