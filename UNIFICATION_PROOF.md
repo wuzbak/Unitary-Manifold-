@@ -6,7 +6,8 @@
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
 **Date:** April 2026  
-**Status:** Formal derivation — all steps grounded in equations already implemented in this repository.
+**Status:** Formal derivation attempt — all steps grounded in equations already implemented in this repository.
+**See [Part XII](#part-xii--critical-review-where-identifications-replace-derivations) for known gaps where identifications are made rather than derivations completed.**
 
 ---
 
@@ -601,3 +602,103 @@ The laws were always the same law.
 *All equations grounded in code already present in this repository.*  
 *See [`src/core/metric.py`](src/core/metric.py), [`src/core/evolution.py`](src/core/evolution.py),*  
 *[`src/multiverse/fixed_point.py`](src/multiverse/fixed_point.py) for the implementation.*
+
+---
+
+## Part XII — Critical Review: Where Identifications Replace Derivations
+
+*This section is an honest audit of Parts I–XI.  It identifies the five specific points at which the document asserts an identification rather than completing a derivation.  The underlying geometry is not invalidated by these gaps; the gaps define what a complete proof would need to supply.*
+
+---
+
+### Gap 1: Path integral phase (Part II)
+
+**What the document claims:** `Im(S_eff) = ∫ B_μ J^μ_inf d⁴x` produces the Feynman path integral phase `e^{iS/ℏ}`.
+
+**What is missing:** In standard quantum field theory the path integral arises from the quantisation procedure — canonical quantisation or the Faddeev–Popov construction — applied to the classical action.  Selecting the imaginary part of an effective action and calling it the path integral phase does not constitute this.  The document does not show:
+
+- why this specific term dominates the phase (rather than the full action)
+- that the resulting amplitudes reproduce known scattering cross-sections quantitatively
+- that the evolution operator `e^{-iHt/ℏ}` is recovered with the correct Hamiltonian
+
+**Status:** Identification.  A full derivation requires a quantisation procedure starting from the 5D action.
+
+---
+
+### Gap 2: Born rule (Part III)
+
+**What the document claims:** φ² = |ψ|² — the information density of the Unitary Manifold is the Born probability.
+
+**What is missing:** The Born rule is not just a continuity equation.  It requires:
+
+- **Linearity** — the wave equation must be linear in ψ so that superposition holds
+- **Hilbert space structure** — inner product, orthogonality of energy eigenstates
+- **Measurement postulates** — the connection between the wavefunction and the outcome of a measurement
+
+Matching a conserved current (∇·J = 0) to the quantum probability current establishes a structural analogy, not a derivation.  The φ field in `evolution.py` is a classical c-number field; it does not satisfy the superposition principle by construction.
+
+**Status:** Identification.  A full derivation requires quantising φ as an operator and recovering the Hilbert space structure.
+
+---
+
+### Gap 3: Schrödinger equation (Part IV)
+
+**What the document claims:** The UEUM geodesic reduces to the Schrödinger equation in the non-relativistic limit.
+
+**What is missing:** The derivation runs *backwards* — it starts from the known Schrödinger equation and shows it is consistent with the UEUM in a particular limit.  A genuine forward derivation would:
+
+1. Begin only with the 5D action
+2. Apply a quantisation procedure to obtain a wave equation
+3. Take the non-relativistic limit and *arrive* at the Schrödinger equation without inserting it
+
+The steps in Part IV instead (a) take the Hamilton–Jacobi equation (classical mechanics), (b) introduce the polar decomposition ψ = φ e^{iS_cl} by hand, (c) substitute into the Klein–Gordon equation (which is already a quantum equation) and recover the Schrödinger equation.  Step (b) is the insertion of quantum mechanics, not its derivation.
+
+**Status:** Reverse-engineering.  The result is consistent but not independently derived.
+
+---
+
+### Gap 4: Electromagnetism — λBμ = Aμ (Part V)
+
+**What the document claims:** The identification `λBμ ≡ Aμ` means electromagnetism *is* the theory.
+
+**What is valid:** The U(1) gauge invariance of H_μν and the structure of the Maxwell stress-energy tensor are correctly reproduced.  This is the part of the document that stands on the firmest ground — it is standard Kaluza–Klein electromagnetism.
+
+**What is missing:** `λBμ = Aμ` is a declaration, not a consequence.  In the original Kaluza–Klein theory the identification is forced by comparing the 4D effective equations against the known Maxwell equations.  The same is true here.  That is legitimate, but it means electromagnetism is *recovered* (by construction) rather than *predicted* as a new consequence.  It cannot be used as independent evidence for the framework.
+
+**Status:** Recovery, not prediction.  The gauge structure is correct; the identification is by construction.
+
+---
+
+### Gap 5: Standard Model gauge groups (Part VIII)
+
+**What the document claims:** The KK tower of Bμ yields photon + W/Z + gluons; the Standard Model gauge structure is the KK spectrum.
+
+**What is missing:** The Standard Model gauge group is SU(3) × SU(2) × U(1).  A 5D U(1) theory compactified on S¹ produces a tower of massive U(1) bosons — not SU(2) or SU(3).  To obtain non-Abelian gauge symmetry from a KK construction requires either:
+
+- a higher-dimensional internal space (e.g. compactification on a coset space G/H)
+- an orbifold with the correct fixed-point structure
+- explicit matter content with the correct representation structure
+
+None of these are present in the current construction.  Additionally, the Standard Model requires **chiral fermions** — left- and right-handed components with different gauge charges.  Standard KK compactification does not produce chiral fermions without additional structure (typically an orbifold or D-brane construction).
+
+**Status:** Unsupported.  KK U(1) + non-Abelian extension by hand does not constitute a derivation of the Standard Model.
+
+---
+
+### Summary of gaps
+
+| Part | Claim | Status |
+|------|-------|--------|
+| II | Im(S_eff) → path integral | Identification; quantisation procedure missing |
+| III | φ² = Born rule | Identification; Hilbert space structure not derived |
+| IV | UEUM → Schrödinger equation | Reverse-engineered; forward derivation not provided |
+| V | λBμ = Aμ | Recovery by construction; not an independent prediction |
+| VIII | KK tower = Standard Model | Unsupported; SU(2)×U(1), SU(3), chiral fermions not derived |
+
+**What remains:** The KK geometry, the gauge field structure of H_μν, and the α = φ₀⁻² derivation (Part X of `FALLIBILITY.md`, `src/core/metric.py`) are not affected by these gaps.  They stand on their own.  The unification claim — that *all* of physics follows — does not yet stand, because the five bridges above are identifications, not derivations.
+
+A valid completion would require: (1) a quantisation procedure applied to the 5D action; (2) derivation of the Hilbert space structure from that procedure; (3) a compactification geometry that forces SU(3)×SU(2)×U(1) and chiral fermions without additional assumptions.  These are hard, open problems — not embarrassments.  They are the frontier.
+
+---
+
+*Part XII added April 2026 following independent technical review.*
