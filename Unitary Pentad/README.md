@@ -102,6 +102,7 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | `test_seed_protocol.py` | Seed protocol test suite |
 | `lesson_plan.py` | Lesson plan — trust-building intervention sequences |
 | `test_lesson_plan.py` | Lesson plan test suite |
+| `CONCEPTUAL_ROOTS.md` | March 28–31 design artifacts (QuantumManifold, RectifiedGridGovernor, Bayesian trust loop, adaptive trust simulation) — the intellectual ancestry of every module in this folder |
 | `STABILITY_ANALYSIS.md` | Formal orbital stability conditions and failure mode analysis |
 | `FIVE_CORE_SEVEN_LAYER.md` | Mathematical derivation of the 5-core / 7-layer architecture |
 | `IMPLICATIONS.md` | The Good (Harmonic State), the Bad (Pentagonal Collapse), the Wildcard (Trust as Energy) |
