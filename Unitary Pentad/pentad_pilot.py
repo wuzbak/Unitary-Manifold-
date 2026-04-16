@@ -250,9 +250,15 @@ def _arduino_thread(state: PilotState, arduino: object) -> None:
                     line = line.strip()
                     if line.startswith("P "):
                         parts = line.split()
-                        if len(parts) == 3:
-                            trust_pot = float(parts[1])   # 0.0 – 1.0
-                            human_pot = float(parts[2])   # 0.0 – 1.0
+                        if len(parts) >= 3:
+                            try:
+                                trust_pot = float(parts[1])   # 0.0 – 1.0
+                                human_pot = float(parts[2])   # 0.0 – 1.0
+                            except ValueError:
+                                state.last_error = (
+                                    f"Bad pot data from Arduino: {line!r:.60s}"
+                                )
+                                continue
                             trust_phi = PHI_MIN + trust_pot * (PHI_MAX - PHI_MIN)
                             human_phi = PHI_MIN + human_pot * (PHI_MAX - PHI_MIN)
                             with state.lock:

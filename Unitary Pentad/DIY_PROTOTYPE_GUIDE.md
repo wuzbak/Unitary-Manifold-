@@ -660,10 +660,13 @@ This is a **voltage divider**:
 3. Same connections as above
 
 **Wearing the probes:**
-- Place Coin 1 on the palm of your right hand, index finger
-- Place Coin 2 on the palm of your right hand, ring finger
-- Hold them gently — do not squeeze hard (that saturates the sensor)
-- Let your skin make light contact
+- Place Coin 1 on the inside of your **right hand index finger** (pad, not nail)
+- Place Coin 2 on the inside of your **left hand index finger**
+- This cross-hand placement measures conductance across the longest skin path,
+  giving the clearest signal
+- Hold them gently against your skin — do not squeeze hard (that saturates the sensor)
+- If both coins on the same hand is more convenient, use index and ring finger of
+  the right hand — this also works, but the signal will be smaller
 
 ---
 
