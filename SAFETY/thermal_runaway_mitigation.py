@@ -52,7 +52,16 @@ Condition 3 defines the **Thermal Runaway Risk**:
     occupation blocks KK propagation at very high filling).  Reduce loading
     ratio.
 
-This module implements these three layers as a configurable guard that wraps
+  Layer 4 — Neutron flux (radiological):  Φ_n > neutron_flux_limit
+    If the estimated fast-neutron flux at the detector distance exceeds the
+    regulatory uncontrolled-area threshold (~1 n/cm²/s), a radiological
+    shutdown is triggered.  D+D → ³He + n (50% branch, 2.45 MeV neutrons)
+    represents the primary biological hazard in a functional device.  This
+    layer fires in simulation to warn that the modelled rate would require
+    professional radiation monitoring and containment before any physical
+    experiment is attempted.
+
+This module implements these four layers as a configurable guard that wraps
 the run_cold_fusion() pipeline from src/core/cold_fusion.py.
 
 Physical constants and defaults
@@ -63,24 +72,35 @@ convention), r_φ is set by the fundamental scale; the numerical estimate
 places T_5D at approximately 1200 K for bulk Pd geometry.  The operator can
 override this.
 
+Layer 4 neutron flux limit (neutron_flux_limit) defaults to 1.0 n/cm²/s,
+which is the approximate regulatory threshold for fast neutrons in uncontrolled
+areas (corresponding to ~0.1 mrem/h dose rate).  The estimated flux is:
+
+    Φ_n ≈ 0.5 × R × V / (4π d²)   [neutrons / (cm² · s)]
+
+where R is the rate (fusions/cm³/s), V is the active volume (cm³), d is the
+detector distance (cm), and 0.5 is the D+D → ³He+n branching ratio.
+
 Public API
 ----------
 ThermalRunawayError
     Exception raised when a thermal runaway condition is detected.
 
 ThermalRunawayReport
-    Dataclass: T_K, loading_ratio, phi_lattice, cop, layer, status, message.
+    Dataclass: T_K, loading_ratio, phi_lattice, cop, neutron_flux, layer, status, message.
 
-ThermalRunawayGuard(T_max_K, T_5D_K, x_max, cop_min, cop_max)
+ThermalRunawayGuard(T_max_K, T_5D_K, x_max, cop_min, cop_max,
+                    neutron_flux_limit, detector_distance_cm, active_volume_cc)
     Configurable guard.  Call .check(T_K, loading_ratio, cop) or
     .run_safe(config) for a full pipeline run.
 
-ThermalRunawayGuard.check(T_K, loading_ratio, phi_lattice, cop) -> ThermalRunawayReport
+ThermalRunawayGuard.check(T_K, loading_ratio, phi_lattice, cop, reaction_rate)
+    -> ThermalRunawayReport
     Inspect current state.  Raises ThermalRunawayError if any layer fires.
 
 ThermalRunawayGuard.run_safe(config) -> ColdFusionResult or None
-    Run the full cold fusion pipeline with thermal safety monitoring.
-    Returns None (and logs) if any layer fires before completion.
+    Run the full cold fusion pipeline with thermal and radiological safety
+    monitoring.  Returns None (and logs) if any layer fires before completion.
 """
 
 from __future__ import annotations
@@ -131,6 +151,18 @@ COP_MIN_DEFAULT: float = 1.0
 
 #: Default maximum COP (above this the model is extrapolating dangerously)
 COP_MAX_DEFAULT: float = 1e6
+
+#: Default neutron flux limit (n/cm²/s) — regulatory uncontrolled-area threshold
+NEUTRON_FLUX_LIMIT_DEFAULT: float = 1.0   # ~0.1 mrem/h for 2.45 MeV fast neutrons
+
+#: Default detector distance (cm) for flux estimation
+DETECTOR_DISTANCE_CM_DEFAULT: float = 100.0  # 1 metre
+
+#: Default active volume for flux estimation (cm³)
+ACTIVE_VOLUME_CC_DEFAULT: float = 1.0
+
+#: D+D → ³He+n branching fraction (~50% at low energy)
+DD_NEUTRON_BRANCH: float = 0.5
 
 #: Warning fraction — issue WARNING when within this fraction of a limit
 WARN_FRACTION_DEFAULT: float = 0.8
@@ -199,6 +231,7 @@ class ThermalRunawayReport:
     loading_ratio: float
     phi_lattice: float
     cop: Optional[float]
+    neutron_flux: Optional[float]
     layer: Optional[int]
     status: str
     message: str
@@ -229,6 +262,14 @@ class ThermalRunawayGuard:
     cop_max : float
         Maximum COP before the model is considered to be extrapolating
         dangerously beyond its calibration range.  Default 1e6.
+    neutron_flux_limit : float
+        Layer 4 shutdown: maximum fast-neutron flux in n/cm²/s.
+        Default 1.0 n/cm²/s (regulatory uncontrolled-area threshold).
+    detector_distance_cm : float
+        Distance from the active volume to the nearest unshielded person
+        or detector (cm).  Used for flux estimation.  Default 100 cm.
+    active_volume_cc : float
+        Active volume of the Pd–D lattice (cm³).  Default 1.0 cm³.
     warn_fraction : float
         Fraction of each limit at which to issue WARNING.  Default 0.8.
     """
@@ -240,6 +281,9 @@ class ThermalRunawayGuard:
         x_max: float = X_MAX_DEFAULT,
         cop_min: float = COP_MIN_DEFAULT,
         cop_max: float = COP_MAX_DEFAULT,
+        neutron_flux_limit: float = NEUTRON_FLUX_LIMIT_DEFAULT,
+        detector_distance_cm: float = DETECTOR_DISTANCE_CM_DEFAULT,
+        active_volume_cc: float = ACTIVE_VOLUME_CC_DEFAULT,
         warn_fraction: float = WARN_FRACTION_DEFAULT,
     ) -> None:
         self.T_max_K = float(T_max_K)
@@ -247,9 +291,10 @@ class ThermalRunawayGuard:
         self.x_max = float(x_max)
         self.cop_min = float(cop_min)
         self.cop_max = float(cop_max)
+        self.neutron_flux_limit = float(neutron_flux_limit)
+        self.detector_distance_cm = float(detector_distance_cm)
+        self.active_volume_cc = float(active_volume_cc)
         self._warn_fraction = float(warn_fraction)
-
-    # ------------------------------------------------------------------
 
     def check(
         self,
@@ -257,6 +302,7 @@ class ThermalRunawayGuard:
         loading_ratio: float,
         phi_lattice: Optional[float] = None,
         cop: Optional[float] = None,
+        reaction_rate: Optional[float] = None,
     ) -> ThermalRunawayReport:
         """Inspect current operating conditions.
 
@@ -271,6 +317,9 @@ class ThermalRunawayGuard:
         cop : float, optional
             Current coefficient of performance.  If None, Layer 3 COP check
             is skipped.
+        reaction_rate : float, optional
+            Estimated reaction rate R in fusions/(cm³·s).  If provided, a
+            Layer 4 neutron flux check is performed.
 
         Returns
         -------
@@ -285,6 +334,15 @@ class ThermalRunawayGuard:
                 loading_ratio=max(loading_ratio, 1e-9)
             )
 
+        # Estimate neutron flux if reaction_rate is provided
+        neutron_flux: Optional[float] = None
+        if reaction_rate is not None and reaction_rate > 0.0:
+            d = self.detector_distance_cm
+            V = self.active_volume_cc
+            neutron_flux = (
+                DD_NEUTRON_BRANCH * reaction_rate * V / (4.0 * np.pi * d**2)
+            )
+
         # ── Layer 1: absolute temperature limit ────────────────────────
         if T_K > self.T_max_K:
             msg = (
@@ -292,15 +350,6 @@ class ThermalRunawayGuard:
                 f"{self.T_max_K:.1f} K.  "
                 f"Cut loading ratio to zero to quench the reaction.  "
                 f"Pd lattice stability requires T < {self.T_max_K:.0f} K."
-            )
-            report = ThermalRunawayReport(
-                T_K=T_K,
-                loading_ratio=loading_ratio,
-                phi_lattice=phi_lattice,
-                cop=cop,
-                layer=1,
-                status="SHUTDOWN",
-                message=msg,
             )
             raise ThermalRunawayError(1, T_K, loading_ratio, msg)
 
@@ -314,15 +363,6 @@ class ThermalRunawayGuard:
                 f"φ-enhancement is no longer geometric — set phi_lattice → phi_vacuum.  "
                 f"Allow lattice to cool passively before resuming."
             )
-            report = ThermalRunawayReport(
-                T_K=T_K,
-                loading_ratio=loading_ratio,
-                phi_lattice=phi_lattice,
-                cop=cop,
-                layer=2,
-                status="SHUTDOWN",
-                message=msg,
-            )
             raise ThermalRunawayError(2, T_K, loading_ratio, msg)
 
         # ── Layer 3: loading ratio runaway ─────────────────────────────
@@ -332,15 +372,6 @@ class ThermalRunawayGuard:
                 f"exceeds x_max = {self.x_max:.4f}.  "
                 f"Lattice stress at near-saturation loading blocks KK propagation.  "
                 f"Reduce D loading before continuing."
-            )
-            report = ThermalRunawayReport(
-                T_K=T_K,
-                loading_ratio=loading_ratio,
-                phi_lattice=phi_lattice,
-                cop=cop,
-                layer=3,
-                status="SHUTDOWN",
-                message=msg,
             )
             raise ThermalRunawayError(3, T_K, loading_ratio, msg)
 
@@ -354,6 +385,20 @@ class ThermalRunawayGuard:
             )
             raise ThermalRunawayError(3, T_K, loading_ratio, msg)
 
+        # ── Layer 4: radiological — neutron flux ───────────────────────
+        if neutron_flux is not None and neutron_flux > self.neutron_flux_limit:
+            msg = (
+                f"RADIOLOGICAL SHUTDOWN LAYER 4: estimated fast-neutron flux "
+                f"Φ_n = {neutron_flux:.3e} n/cm²/s at {self.detector_distance_cm:.0f} cm "
+                f"exceeds regulatory limit {self.neutron_flux_limit:.1f} n/cm²/s.  "
+                f"D+D → ³He + n (2.45 MeV, 50% branch).  "
+                f"Professional radiation monitoring, boron-doped shielding, and a "
+                f"radioactive materials licence are required before any physical "
+                f"experiment at this modelled rate.  "
+                f"See SAFETY/RADIOLOGICAL_SAFETY.md for shielding requirements."
+            )
+            raise ThermalRunawayError(4, T_K, loading_ratio, msg)
+
         # ── Warnings ───────────────────────────────────────────────────
         warnings = []
         if T_K > self._warn_fraction * self.T_max_K:
@@ -366,6 +411,11 @@ class ThermalRunawayGuard:
                 f"loading_ratio = {loading_ratio:.3f} is within "
                 f"{100*(1-self._warn_fraction):.0f}% of x_max = {self.x_max:.3f}"
             )
+        if neutron_flux is not None and neutron_flux > self._warn_fraction * self.neutron_flux_limit:
+            warnings.append(
+                f"neutron flux = {neutron_flux:.3e} n/cm²/s approaching limit "
+                f"{self.neutron_flux_limit:.1f} n/cm²/s (Layer 4)"
+            )
 
         if warnings:
             msg = "WARNING: " + "; ".join(warnings) + ".  Monitor closely."
@@ -373,7 +423,7 @@ class ThermalRunawayGuard:
         else:
             msg = (
                 f"OK: T = {T_K:.1f} K, x = {loading_ratio:.3f}, "
-                f"phi_lattice = {phi_lattice:.4f}.  All thermal safety layers clear."
+                f"phi_lattice = {phi_lattice:.4f}.  All four safety layers clear."
             )
             status = "OK"
 
@@ -382,6 +432,7 @@ class ThermalRunawayGuard:
             loading_ratio=loading_ratio,
             phi_lattice=phi_lattice,
             cop=cop,
+            neutron_flux=neutron_flux,
             layer=None,
             status=status,
             message=msg,
@@ -392,10 +443,10 @@ class ThermalRunawayGuard:
     def run_safe(
         self, config: ColdFusionConfig
     ) -> Optional["ColdFusionResult"]:  # noqa: F821
-        """Run the cold fusion pipeline with thermal safety monitoring.
+        """Run the cold fusion pipeline with thermal and radiological safety monitoring.
 
         Performs a pre-flight check on the config, runs run_cold_fusion(),
-        then performs a post-flight check on the result COP.
+        then performs a post-flight check on the result COP and neutron flux.
 
         Parameters
         ----------
@@ -406,7 +457,7 @@ class ThermalRunawayGuard:
         -------
         ColdFusionResult or None
             The result if all safety checks pass; None if a thermal runaway
-            condition was detected (error is printed to stderr, not raised).
+            or radiological condition was detected (error is printed to stderr).
         """
         # Pre-flight
         try:
@@ -429,13 +480,14 @@ class ThermalRunawayGuard:
         # Run pipeline
         result = run_cold_fusion(config)
 
-        # Post-flight COP check
+        # Post-flight check: COP + neutron flux
         try:
             self.check(
                 T_K=config.T_K,
                 loading_ratio=config.loading_ratio,
                 phi_lattice=phi_lattice,
                 cop=result.cop,
+                reaction_rate=result.rate_per_cc_s,
             )
         except ThermalRunawayError as exc:
             print(
