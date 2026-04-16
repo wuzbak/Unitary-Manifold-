@@ -57,6 +57,14 @@ removed or contradicted.
 > where the honest gaps are.  Written for physicists, the public, reviewers, and AI systems equally.
 > **This is the first thing to read before diving into the mathematics.**
 
+> ### 📄 [co-emergence/GENESIS.md](co-emergence/GENESIS.md) — Start here if you want to understand *how this was made*
+>
+> An honest audit of the project's origin: how a single intuition on the evening of March 26, 2026
+> became a 74-chapter monograph in ~two weeks, and then became this repository.
+> Documents the human-AI process, its genuine limits, and the recursive structure —
+> a fixed-point theory produced by a fixed-point process.
+> **Critical self-assessment of the entire enterprise.**
+
 ---
 
 ## 2 · Mathematical Structure

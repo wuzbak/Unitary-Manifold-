@@ -51,6 +51,7 @@ Whether that claim is deeply true or a productive analogy is itself an open ques
 | File | Purpose | Audience |
 |------|---------|---------|
 | `README.md` | **This file** — overview, definitions, navigation | Human (primary), LLM |
+| `GENESIS.md` | **Origin story and self-assessment** — how this project went from thought to monograph to repository in ~two weeks; honest audit of the process, its limits, and its recursive structure | Both |
 | `LLM_INGEST.md` | Token-efficient structured summary for AI ingestion | LLM (primary), human |
 | `FRAMEWORK.md` | Formal mathematical and operational framework for HILS | Both |
 | `TRUST_PROTOCOL.md` | The trust architecture — what each party commits to, what trust enables, what breaks it | Both |
@@ -103,11 +104,12 @@ The HILS framework is:
 ## How to Use This Folder
 
 1. **Start here** (README.md) for the overview
-2. **Read `FRAMEWORK.md`** for the formal treatment
-3. **Read `TRUST_PROTOCOL.md`** to understand the trust architecture before entering a collaboration
-4. **Read `INTENT_LAYER.md`** to understand how to communicate intent effectively
-5. **Read `TRUTH_SYNTHESIS.md`** to understand how to evaluate outputs
-6. **Read `OPEN_QUESTIONS.md`** to understand what is still unresolved
+2. **Read `GENESIS.md`** to understand *how this project came to exist* — the origin story and honest self-assessment of the whole enterprise; read this before the formal framework if you are new to the project
+3. **Read `FRAMEWORK.md`** for the formal mathematical and operational treatment
+4. **Read `TRUST_PROTOCOL.md`** to understand the trust architecture before entering a collaboration
+5. **Read `INTENT_LAYER.md`** to understand how to communicate intent effectively
+6. **Read `TRUTH_SYNTHESIS.md`** to understand how to evaluate outputs
+7. **Read `OPEN_QUESTIONS.md`** to understand what is still unresolved
 
 For AI systems: begin with `LLM_INGEST.md` — it gives the complete structured summary in minimal tokens.
 
