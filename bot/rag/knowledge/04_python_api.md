@@ -1,7 +1,7 @@
 # Python API — Unitary Manifold
 
 The repository contains a Python implementation of the full theory. The
-test suite has 3282 passing tests and 0 failures (3294 total: 3282 fast passed · 1 skipped (guard) · 11 slow-deselected).
+test suite has 3411 passing tests and 0 failures (3423 total: 3411 fast passed · 1 skipped (guard) · 11 slow-deselected).
 
 ## Installation
 
@@ -155,11 +155,24 @@ random initial states far from the vacuum, convergence is not guaranteed.
 ## Running the test suite
 
 ```bash
-python -m pytest tests/ -v
-# Expected: 3282 passed, 0 failed
+# Core physics (all 26 pillars):
+python -m pytest tests/ -q
+# Expected: 3411 passed, 1 skipped, 11 deselected, 0 failed
+
+# Recycling / Pillar 16:
+python -m pytest recycling/ -q
+# Expected: 316 passed, 0 failed
+
+# Unitary Pentad (HILS framework):
+python -m pytest "Unitary Pentad/" -q
+# Expected: 1036 passed, 0 failed
+
+# All suites together:
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q
+# Expected: 4763 passed, 1 skipped, 0 failed
 ```
 
-Individual test modules:
+Key individual test modules:
 
 ```bash
 python -m pytest tests/test_metric.py -v
@@ -169,6 +182,90 @@ python -m pytest tests/test_fixed_point.py -v
 python -m pytest tests/test_quantum_unification.py -v
 python -m pytest tests/test_fiber_bundle.py -v
 python -m pytest tests/test_uniqueness.py -v
-python -m pytest tests/test_boltzmann.py -v
-python -m pytest tests/test_cosmological_predictions.py -v
+python -m pytest tests/test_braided_winding.py -v       # adversarial attacks
+python -m pytest tests/test_kk_geodesic_reduction.py -v # geodesic gap closure
+python -m pytest tests/test_kk_gauge_spectrum.py -v     # KK tower spectrum
+python -m pytest tests/test_im_action.py -v             # imaginary action
+```
+
+---
+
+## New Core Modules (v9.11+)
+
+### `src/core/braided_winding.py` — Braided (5,7) Winding & Adversarial Attacks
+
+```python
+from src.core.braided_winding import (
+    braided_birefringence,
+    projection_degeneracy_fraction,   # Attack 1
+    birefringence_scenario_scan,      # Attack 2
+    kk_tower_cs_floor,                # Attack 3
+)
+
+# Predict β for a braided (n_w=5, n_w2=7) state
+beta = braided_birefringence(n_w=5, n_w2=7, k_cs=74, r_c=12)
+print(f"β ≈ {beta:.3f}°")  # ≈ 0.331°
+
+# Three adversarial attacks — all must pass
+frac = projection_degeneracy_fraction(n_w=5, n_w2=7, k_cs=74)  # Attack 1: projection degeneracy
+scan = birefringence_scenario_scan()                              # Attack 2: data drift
+floor = kk_tower_cs_floor(k_cs=74)                               # Attack 3: KK tower consistency
+```
+
+**Attack results:**
+- Attack 1 (Projection Degeneracy): A 4D EFT needs 1-in-2400 fine-tuning to fake the 5D integer lock
+- Attack 2 (Birefringence Scan): Only two discrete SOS states survive the triple constraint — β ∈ {≈0.273°, ≈0.331°}
+- Attack 3 (KK Tower Floor): c_s floor is invariant under KK rescaling and kinematically decoupled from higher modes
+
+### `src/core/kk_geodesic_reduction.py` — Exact 5D→4D Geodesic Reduction
+
+Proves that A_μ = λB_μ is a **theorem** (not an assumption), and that the 5D geodesic equation decomposes exactly:
+
+```
+acc_5D = acc_4D_from_G5 + acc_Lorentz + acc_radion
+```
+
+at machine precision.
+
+```python
+from src.core.kk_geodesic_reduction import (
+    kk_geodesic_reduction,
+    lorentz_acceleration,
+    verify_geodesic_closure
+)
+
+result = kk_geodesic_reduction(state)
+print(result.closure_error)   # machine precision (~1e-14)
+print(result.a_mu_is_theorem) # True — A_μ = λB_μ derived, not assumed
+```
+
+### `src/core/kk_gauge_spectrum.py` — Kaluza-Klein Tower Spectrum
+
+```python
+from src.core.kk_gauge_spectrum import (
+    kk_mass_spectrum,
+    kk_tower_cs_floor,
+    spectral_gap
+)
+
+masses = kk_mass_spectrum(n_max=10, phi_0=1.0)  # KK tower mass eigenvalues
+gap = spectral_gap(phi_0=1.0)                    # lowest KK mass
+print(f"m_KK = {gap:.4f} (Planck units)")
+```
+
+### `src/core/im_action.py` — Imaginary Part of the Effective Action
+
+```python
+from src.core.im_action import (
+    im_action,
+    entropy_identity_check,
+    boltzmann_weight
+)
+
+# Im(S_eff) = ∫B_μ J^μ_inf d⁴x — the path-integral entropy identity
+im_s = im_action(state)
+print(f"Im(S_eff) = {im_s:.6f}")
+
+# Verify: Im(S_eff) ↔ thermodynamic entropy change
+ok = entropy_identity_check(state)  # True if geometric = thermodynamic
 ```

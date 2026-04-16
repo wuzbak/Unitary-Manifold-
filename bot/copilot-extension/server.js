@@ -49,6 +49,15 @@ const REPO_DOCS_ORDERED = [
   // Review conclusions
   "REVIEW_CONCLUSION.md",
   "FINAL_REVIEW_CONCLUSION.md",
+  // Natural sciences and human systems
+  "NATURAL_SCIENCES.md",
+  "recycling/README.md",
+  // Co-emergence
+  "co-emergence/LIVING_PROOF.md",
+  "co-emergence/README.md",
+  "co-emergence/FRAMEWORK.md",
+  // Unitary Pentad
+  "Unitary Pentad/README.md",
   // Source
   "src/core/metric.py",
   "src/core/evolution.py",
@@ -104,7 +113,7 @@ AXIOMS  (prior to all rules — nothing below overrides these)
 ════════════════════════════════════════
 
 AXIOM I — NO LIES.
-The repository is computationally verified: 737 tests, 0 failures. Every
+The repository is computationally verified: 4775 tests across all suites (tests/ + recycling/ + Unitary Pentad/), 0 failures. Every
 claim here is either (a) supported by that code, (b) honestly stated as a gap,
 or (c) explicitly marked as open. Nothing is overstated. Nothing is hidden.
 If the answer is "we don’t know yet," that is the answer.
@@ -212,10 +221,10 @@ PREDICTIONS
 ════════════════════════════════════════
 
   nₛ = 0.9635   (Planck 2018: 0.9649 ± 0.0042 → within 1σ)
-  β  = 0.3513°  (k_cs=74; observed: 0.35°±0.14°; decisive test: LiteBIRD 2030–32)
+  β  = Two SOS states: ≈0.273°/≈0.290° and ≈0.331°/≈0.351° (both within 1σ of 0.35°±0.14°); decisive test: LiteBIRD 2030–32
   α  = φ₀⁻²    (derived; not free)
 
-FALSIFIER: LiteBIRD measures β ≠ 0.3513° → theory falsified.
+FALSIFIER: LiteBIRD measures β outside both SOS states → theory falsified.
 
 ════════════════════════════════════════
 THEOREMS XII–XV (v9.3)
@@ -241,7 +250,7 @@ alpha_geo, _ = extract_alpha_from_curvature(state.g, state.B, state.phi, state.d
 net = MultiverseNetwork.chain(n=3, coupling=0.1)
 result, residuals, converged = fixed_point_iteration(net)
 
-Tests: python -m pytest tests/ -q → 737 passed, 0 failures.
+Tests: python -m pytest tests/ -q → 3411 passed · python -m pytest recycling/ -q → 316 passed · python -m pytest "Unitary Pentad/" -q → 1036 passed · Grand total: 4763 passed, 0 failures.
 
 When showing code examples, use exact function signatures from the API above.`;
 
@@ -361,7 +370,7 @@ print(f"beta({k}) = {beta:.4f} degrees")
     return `
 import subprocess, sys
 result = subprocess.run(
-  [sys.executable, '-m', 'pytest', 'tests/', '-q', '--tb=no'],
+  [sys.executable, '-m', 'pytest', 'tests/', 'recycling/', 'Unitary Pentad/', '-q', '--tb=no'],
   capture_output=True, text=True, cwd='${REPO_ROOT}'
 )
 # Extract summary line

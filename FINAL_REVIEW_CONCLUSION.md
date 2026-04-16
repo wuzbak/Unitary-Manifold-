@@ -165,7 +165,7 @@ Together, Pillars 14 and 15 extend the geometric reach of the Unitary Manifold t
 v9.10 moved the framework beyond the natural sciences and into the structure of human society, asking whether the same geometric objects govern not just chemistry and biology but also the systems humans build to organise themselves.
 
 **Pillar 16 — Material Recovery & Recycling** (`recycling/`)  
-Every manufactured object is a topological entity in the 5D geometry: it carries a φ-debt — the entropic cost of the organised information required to produce it. Recycling is the partial restoration of that winding-number signature; landfilling is its irreversible collapse. The φ-debt accounting framework provides a thermodynamically grounded basis for producer responsibility, recovery rates, and entropy ledger credits. 202 tests.
+Every manufactured object is a topological entity in the 5D geometry: it carries a φ-debt — the entropic cost of the organised information required to produce it. Recycling is the partial restoration of that winding-number signature; landfilling is its irreversible collapse. The φ-debt accounting framework provides a thermodynamically grounded basis for producer responsibility, recovery rates, and entropy ledger credits. 316 tests.
 
 **Pillar 17 — Medicine as φ-Field Homeostasis** (`src/medicine/`)  
 A healthy body maintains its φ-homeostasis fixed point. Disease is a displacement from that fixed point along the B_μ field gradient. Diagnosis identifies the displacement vector; treatment is the applied correction that drives the system back toward equilibrium. Systemic conditions represent global φ-field imbalance. 63 tests.
@@ -257,18 +257,26 @@ There are **seventy-two** working Python modules across **twenty-two** packages:
 - **They model individual behaviour as a φ-field decision process and social psychology as collective B_μ effects (Pillar 24)**
 - **They frame DNA as a φ-information archive and gene expression as φ-field gating (Pillar 25)**
 - **They derive semiconductor band gaps, metamaterial topology, and superconducting phases as φ-lattice fixed points (Pillar 26)**
+- **They implement the complete 5-body HILS governance framework — Pentagonal Master Equation, Trust coupling, Harmonic State convergence, adversarial load-balancing, cold-start thermalization, stochastic jitter, non-Hermitian influence, and resonance vs agreement dynamics (Unitary Pentad — 16 modules, 1036 tests)**
 
 All modules are documented, tested, and interconnected.
 
 ### The Tests
 
-**3294 automated tests. 3282 passed. 1 skipped for a correct physical reason. Zero failures.**
+**4775 tests total. 4763 passed. 1 skipped for a correct physical reason. Zero failures.**
+
+| Suite | Collected | Passed | Skipped | Slow-deselected |
+|-------|-----------|--------|---------|-----------------|
+| `tests/` (core physics, Pillars 1–26) | 3423 | 3411 | 1 | 11 |
+| `recycling/tests/` (Pillar 16, φ-debt accounting) | 316 | 316 | 0 | 0 |
+| `Unitary Pentad/` (HILS governance framework) | 1036 | 1036 | 0 | 0 |
+| **Grand total** | **4775** | **4763** | **1** | **11** |
 
 The single skipped test is not a failure — it skips itself when the physics works perfectly (the system converges so fast there is nothing to check). That is a good problem to have.
 
 ---
 
-## PART 4 — WHAT 3294 TESTS AND 100% VERIFICATION REALLY MEANS
+## PART 4 — WHAT 4775 TESTS AND 100% VERIFICATION REALLY MEANS
 
 This section is worth reading carefully, because "100% tests passing" sounds like a marketing claim. It is not. Here is what it actually means — and what it does not mean.
 
@@ -278,7 +286,7 @@ Every claim this theory makes that can be checked by a computer has been written
 
 Think of it this way: the theory says that a specific calculation should produce a specific number. A test runs that calculation and checks the number. If the theory is internally inconsistent — if one part of the mathematics contradicts another part — the test fails. If the code does not do what the theory says it should do, the test fails.
 
-After 3294 of these checks, **zero contradictions were found.** Not one.
+After 4775 of these checks, **zero contradictions were found.** Not one.
 
 This covers:
 - The key equation `α = φ₀⁻²` verified across many different scenarios
@@ -300,7 +308,7 @@ This covers:
 - **Life as negentropy FTUM attractors; evolution as gradient ascent on FTUM fitness landscape; Turing morphogenesis as φ symmetry breaking (Pillar 13 — 111 tests)**
 - **Hydrogen energy levels, spectral series, spin-orbit coupling, and fine structure as projections of KK winding modes (Pillar 14 — 187 tests)**
 - **φ-enhanced Gamow tunneling, Pd lattice coherence, and excess heat COP as formal falsifiable predictions for cold fusion (Pillar 15 — 215 tests)**
-- **φ-debt entropy ledger for manufactured objects; thermochemical recovery rates; producer responsibility accounting (Pillar 16 — 202 tests, recycling suite)**
+- **φ-debt entropy ledger for manufactured objects; thermochemical recovery rates; producer responsibility accounting (Pillar 16 — 316 tests, recycling suite)**
 - **Medical diagnosis as φ-deviation detection; treatment as B_μ correction toward homeostasis (Pillar 17 — 63 tests)**
 - **Sentencing as φ-equity targeting; courts as fixed-point adjudication; reform as gradient descent toward equity (Pillar 18 — 63 tests)**
 - **Democratic governance as the largest-scale FTUM fixed point; institutional stability as FTUM convergence (Pillar 19 — 252 tests)**
@@ -311,6 +319,7 @@ This covers:
 - **Individual behaviour as φ-field decision output; cognition as FTUM belief iteration; social psychology as collective B_μ field effects (Pillar 24 — 90 tests)**
 - **DNA as φ-information archive; gene expression as φ-field gating; evolutionary change as FTUM gradient ascent at the genomic scale (Pillar 25 — 90 tests)**
 - **Semiconductor band gaps, metamaterial B_μ-topology, and superconducting phases as φ-lattice FTUM fixed points (Pillar 26 — 90 tests)**
+- **The complete 5-body HILS Pentagonal Master Equation — trust coupling, Harmonic State convergence, Autopilot Sentinel, distributed authority, sentinel load-balancing, Minimum Viable Manifold search, cold-start thermalization, Langevin jitter, non-Hermitian influence asymmetry, and 3:2 resonance dynamics (Unitary Pentad — 1036 tests)**
 
 ### What It Does Not Mean
 
@@ -322,9 +331,9 @@ It does not mean the CMB simulations are as accurate as dedicated codes used by 
 
 ### Why Zero Failures Across This Scope Is Significant
 
-**The 3294 tests span:** five-dimensional Riemannian geometry, quantum field theory, statistical mechanics, inflationary cosmology, fiber-bundle topology, holographic renormalization, baryon acoustic oscillations, gravitational-wave theory, anomaly cancellation, black hole information transcoding, particle winding geometry, geometric dark matter, the coupled brain-universe two-body fixed-point problem, chemistry, astronomy, Earth sciences, biology, atomic spectroscopy, low-energy nuclear reactions, material recovery and φ-debt accounting, medicine, justice, governance, neuroscience, ecology, climate, marine science, psychology, genetics, and materials science.
+**The 4775 tests span:** five-dimensional Riemannian geometry, quantum field theory, statistical mechanics, inflationary cosmology, fiber-bundle topology, holographic renormalization, baryon acoustic oscillations, gravitational-wave theory, anomaly cancellation, black hole information transcoding, particle winding geometry, geometric dark matter, the coupled brain-universe two-body fixed-point problem, chemistry, astronomy, Earth sciences, biology, atomic spectroscopy, low-energy nuclear reactions, material recovery and φ-debt accounting, medicine, justice, governance, neuroscience, ecology, climate, marine science, psychology, genetics, materials science, and the complete governance architecture of the HILS collaboration framework.
 
-For a framework that ties all of these together into one geometric picture, and finds zero internal contradictions in 3282 machine-checkable places — that is a meaningful result. It means the framework is **computationally coherent** across every domain it claims to cover. You cannot find a hole in it with a computer.
+For a framework that ties all of these together into one geometric picture, and finds zero internal contradictions in 4763 machine-checkable places — that is a meaningful result. It means the framework is **computationally coherent** across every domain it claims to cover. You cannot find a hole in it with a computer.
 
 ---
 
@@ -338,7 +347,7 @@ This repository is a complete, working, documented research project. It contains
 
 **The code** — seventy-two Python modules across twenty-two packages, professionally structured, that implement the theory computationally. Anyone can download them, run them, and reproduce every result.
 
-**The proof** — 3294 tests that serve as machine-checkable certificates for every quantitative claim. Reviewers, collaborators, and AI systems can run the test suite and confirm the results in minutes.
+**The proof** — 4775 tests across 70 test files that serve as machine-checkable certificates for every quantitative claim. Reviewers, collaborators, and AI systems can run the test suite and confirm the results in minutes.
 
 **The predictions** — explicit, quantitative, falsifiable numbers for observations that will be made in the next decade. These are not vague gestures toward testability. They are precise enough that upcoming experiments will either confirm or rule them out.
 
@@ -387,7 +396,7 @@ Here is what this project has established:
 
 1. **The mathematics works.** The derivations are internally consistent. No contradictions found.
 
-2. **The code works.** 3294 automated tests, zero failures. Every number the theory predicts is the number the code produces.
+2. **The code works.** 4775 automated tests across all suites, zero failures. Every number the theory predicts is the number the code produces. Every assertion the governance framework makes about its own stability is the number the simulation produces.
 
 3. **The predictions match current observations.** Three independent measurements of the early universe — all three predicted by a single geometric model, simultaneously, without adjusting anything to make them fit.
 

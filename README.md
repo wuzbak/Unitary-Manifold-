@@ -3,7 +3,7 @@
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![3294 Tests: 3282 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3282%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![3423 Tests: 3411 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3411%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
@@ -359,13 +359,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (3294 tests: 3282 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (3423 tests: 3411 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (3282 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (3411 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -421,12 +421,38 @@ tests/test_genetics.py                         90 passed  ← Pillar 25: genetic
 tests/test_materials.py                        90 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 3282 passed, 1 skipped, 11 deselected ================================
+================================ 3411 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
 >
 > **The 11 deselected tests** are in `test_richardson_multitime.py`, marked `@pytest.mark.slow`, and excluded from the default run by `addopts = -m "not slow"` in `pytest.ini`. They verify O(dt²) temporal convergence via Richardson extrapolation. Run with `pytest tests/ -m slow`.
+
+---
+
+## 4a · Unitary Pentad [Independent Framework]
+
+> **Epistemic status:** The Unitary Pentad is an independent governance and
+> decision-making architecture *inspired by* the mathematical structure of the
+> Unitary Manifold.  It is not itself a physics claim.  See [SEPARATION.md](SEPARATION.md).
+
+The **`Unitary Pentad/`** folder implements a complete 5-body HILS (Human-in-the-Loop Systems)
+governance framework: the full generalisation of the brain⊗universe 2-body system to five
+interacting manifolds (physical, biological, intentional, computational, and relational).
+
+**Key modules:** `unitary_pentad.py` · `five_seven_architecture.py` · `pentad_scenarios.py` ·
+`collective_braid.py` · `consciousness_autopilot.py` · `consciousness_constant.py` ·
+`seed_protocol.py` · `lesson_plan.py` · `distributed_authority.py` · `sentinel_load_balance.py` ·
+`mvm.py` · `hils_thermalization.py` · `stochastic_jitter.py` · `non_hermitian_coupling.py` ·
+`resonance_dynamics.py` · `pentad_pilot.py`
+
+**Test suite:** 1036 tests — all passing.
+
+```bash
+python -m pytest "Unitary Pentad/" -q
+```
+
+See [`Unitary Pentad/README.md`](Unitary%20Pentad/README.md) for full documentation.
 
 ### Run a bulk field simulation
 
@@ -684,7 +710,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**3294 tests: 3282 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**3423 tests: 3411 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -696,7 +722,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (3294 tests: 3282 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (3423 tests: 3411 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
