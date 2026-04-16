@@ -92,9 +92,20 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | `test_five_seven_architecture.py` | Architecture test suite (74 tests) |
 | `pentad_scenarios.py` | Good/Bad/Wildcard scenario engine — Harmonic State, Collapse modes, Deception detection, Trust cost |
 | `test_pentad_scenarios.py` | Scenario test suite (60 tests) |
+| `collective_braid.py` | Collective stability floor, Moiré alignment, ripple effect, observer trust field |
+| `test_collective_braid.py` | Collective braid test suite |
+| `consciousness_autopilot.py` | Autopilot Sentinel — 5-core / 7-layer state machine, human-in-the-loop phase shifts |
+| `test_consciousness_autopilot.py` | Autopilot test suite |
+| `consciousness_constant.py` | Consciousness coupling constant Ξ_c = 35/74; human coupling fraction Ξ_human = 35/888 |
+| `test_consciousness_constant.py` | Consciousness constant test suite |
+| `seed_protocol.py` | Seed protocol — canonical initial-condition seeding |
+| `test_seed_protocol.py` | Seed protocol test suite |
+| `lesson_plan.py` | Lesson plan — trust-building intervention sequences |
+| `test_lesson_plan.py` | Lesson plan test suite |
 | `STABILITY_ANALYSIS.md` | Formal orbital stability conditions and failure mode analysis |
 | `FIVE_CORE_SEVEN_LAYER.md` | Mathematical derivation of the 5-core / 7-layer architecture |
 | `IMPLICATIONS.md` | The Good (Harmonic State), the Bad (Pentagonal Collapse), the Wildcard (Trust as Energy) |
+| `HIL_POPULATION_AND_ENTROPY.md` | HIL population size effects, collective stability saturation, zero-HIL entropy dynamics, and the Autopilot Sentinel |
 | `__init__.py` | Package entry-point |
 | `README.md` | This document |
 
@@ -137,3 +148,23 @@ python -m pytest "Unitary Pentad/test_unitary_pentad.py" -v
 - **`src/multiverse/fixed_point.py`** — FTUM fixed-point operator (used by each body)
 
 The Unitary Pentad is the completion of the HILS framework: not just a brain observing a universe, not just a human directing an AI, but all five manifolds — physical, biological, intentional, computational, and relational — converging simultaneously to a shared fixed point under the (5,7) braid frequency.
+
+---
+
+## HIL Population Size and Entropy — Key Results
+
+For a full derivation see **`HIL_POPULATION_AND_ENTROPY.md`**.  Summary:
+
+- **Very large (finite) HIL population:** The collective stability floor
+  `floor(n) = min(1.0, c_s + n × (c_s / 7))` saturates to 1.0 at n ≥ 15 aligned
+  operators.  Beyond that, additional operators provide no further lift.
+- **Maximum thermodynamic entropy** is already the Pentad's rest state
+  (φ_eq[ENTROPY] = 0.95); entropy *spikes* are deviations from that rest state
+  caused by external perturbations, not by HIL count.
+- **Zero HIL** does not initiate entropy-driven logic changes — it makes them
+  impossible to complete.  When a trigger fires with zero HIL, the 5-core is
+  permanently frozen in `AWAITING_SHIFT`.
+- **The Autopilot Sentinel** (`detect_phase_shift()`) handles trigger detection
+  and core preservation autonomously.  Resolution always requires at least one
+  deliberate human `intent_delta` via `human_shift()`.  Minimum HIL for a
+  resolvable logic change: **1**.
