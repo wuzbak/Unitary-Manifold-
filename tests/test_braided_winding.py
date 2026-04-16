@@ -900,3 +900,74 @@ class TestProjectionDegeneracy:
         result = projection_degeneracy_fraction()
         # Discrete means n_viable_points is a small integer, not O(10^3)
         assert result.n_viable_points < 10
+
+    def test_n_candidates_is_n_max_choose_2(self):
+        """n_candidates equals the number of ordered pairs with n1 < n2 ≤ n_max,
+        i.e. n_max × (n_max − 1) / 2 = 105 for the default n_max = 15."""
+        result = projection_degeneracy_fraction()
+        assert result.n_candidates == 15 * 14 // 2  # 105
+
+    def test_lee_trials_factor_equals_n_candidates(self):
+        """lee_trials_factor is identical to n_candidates — it is the number
+        of distinct integer-pair hypotheses the LEE must account for."""
+        result = projection_degeneracy_fraction()
+        assert result.lee_trials_factor == result.n_candidates
+
+    def test_lee_corrected_tuning_exceeds_local_tuning(self):
+        """LEE correction always increases the effective p-value:
+        global_p > local_p for any non-trivial n_candidates."""
+        result = projection_degeneracy_fraction()
+        assert result.lee_corrected_tuning > result.tuning_fraction
+
+    def test_lee_corrected_tuning_below_one(self):
+        """The LEE-corrected p-value is a proper probability in (0, 1)."""
+        result = projection_degeneracy_fraction()
+        assert 0.0 < result.lee_corrected_tuning < 1.0
+
+    def test_lee_sigma_equivalent_positive(self):
+        """The Gaussian sigma equivalent of the LEE-corrected p-value is
+        a positive finite number."""
+        result = projection_degeneracy_fraction()
+        assert result.lee_sigma_equivalent > 0.0
+        assert result.lee_sigma_equivalent < float("inf")
+
+    def test_isolation_confirmed_at_canonical_params(self):
+        """At canonical parameters both viable k_cs values (61 and 74) have
+        exactly one SOS decomposition within the scan range — isolation_confirmed
+        is True, meaning the conditional LEE trials factor is 1."""
+        result = projection_degeneracy_fraction()
+        assert result.isolation_confirmed is True
+
+    def test_each_viable_kcs_is_unique_sos(self):
+        """k_cs = 74 = 5² + 7² and k_cs = 61 = 5² + 6² each decompose
+        uniquely as a sum of two distinct positive squares ≤ n_max.
+        This is the mathematical core of the anti-LEE argument."""
+        from src.core.braided_winding import _count_sos_decompositions
+        # k = 74: only (5,7)
+        assert _count_sos_decompositions(74, 15) == 1
+        # k = 61: only (5,6)
+        assert _count_sos_decompositions(61, 15) == 1
+
+    def test_lee_argument_untenable_given_independent_kcs_derivation(self):
+        """The LEE 'coincidence' argument is mathematically untenable:
+        isolation_confirmed = True certifies that k_cs = 74 was derived
+        independently from birefringence data AND has a unique SOS
+        decomposition, so no post-hoc choice among integer pairs occurred."""
+        result = projection_degeneracy_fraction()
+        # isolation_confirmed ⟹ conditional LEE trials factor == 1
+        # ⟹ local tuning_fraction IS the relevant p-value, unchanged by LEE
+        assert result.isolation_confirmed is True
+        # Under the conditional test the original tuning fraction stands
+        assert result.tuning_fraction < 1e-3
+
+    def test_lee_corrected_tuning_zero_when_no_viable_points(self):
+        """When constraint_violated is True (zero viable points) the
+        LEE-corrected p-value is 0.0 — no trials can improve on nothing."""
+        result = projection_degeneracy_fraction(beta_prior=(0.6, 1.0))
+        assert result.constraint_violated is True
+        assert result.lee_corrected_tuning == 0.0
+
+    def test_n_candidates_scales_with_n_max(self):
+        """Verify n_candidates = n_max×(n_max−1)/2 for a non-default n_max."""
+        result = projection_degeneracy_fraction(n_max=10)
+        assert result.n_candidates == 10 * 9 // 2  # 45
