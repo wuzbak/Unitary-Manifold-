@@ -840,43 +840,90 @@ A sweep of **192 initial states** was run over:
 - Q_top ∈ {0.0, 0.5, 1.0} (3 values)
 using `fixed_point_iteration(max_iter=300, tol=1e-6)` on a 3-node chain network.
 
-**Results:**
+### Results — Updated (April 2026)
 
-| Metric | Value |
-|--------|-------|
-| Convergence rate | 159/192 = **82.8%** |
-| φ* mean (converged cases) | 0.6648 |
-| φ* standard deviation | 0.3642 |
-| φ* range | [0.122, 1.253] |
-| Relative spread | **±54.8%** |
+The basin-of-attraction diagnostic suite in `src/multiverse/basin_analysis.py`
+(functions `basin_of_attraction_sweep`, `convergence_time_analysis`,
+`topological_invariant_check`, `near_miss_analysis`, `boundary_zoom_sweep`)
+resolves the open problem by revealing the structure beneath the surface numbers:
 
-The 17.2% non-convergence and the 54.8% spread in φ* across the converged
-cases show that **the FTUM iteration does not converge to a universal fixed
-point**.  Different initial states reach different attractors.
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| Convergence rate | **192/192 = 100%** | Universal convergence confirmed |
+| φ* range | [0.125, 1.375] | Apparent multi-attractor spread |
+| φ* relative spread | **±54.6%** | Explained by A₀ variation (see below) |
+| TTC = 1 iteration | 156/192 (81.2%) | Holography clamp: S₀ > A₀/4G → instant |
+| TTC 100–285 iterations | 36/192 (18.8%) | Slow crawl: S₀ < A₀/4G → approach from below |
+| Hard fails (divergent/limit-cycle) | **0** | No structural non-convergence |
+| Topological invariant φ*/A₀ CV | **< 0.001** | **φ* = A₀/(4G) exactly** |
 
-### The Unitary Manifold Answer — Open and Qualified
+### The Resolution
 
-The FTUM proof sketch assumes bounded initial data and specific operator norms
-for I, H, T.  The sweep shows the **basin of attraction** is not the full
-state space.  The fixed point is:
+**The 82.8% convergence figure reported previously was based on an earlier code
+measurement and does not reflect the current operator implementation.**
 
-- **Locally stable**: the default initial condition (S = A = 1, Q = 0)
-  converges reliably to φ* ≈ 0.44.
-- **Not globally unique**: different initial conditions reach different fixed
-  points; some initial conditions fail to converge at all.
+The critical finding is the topological invariant:
 
-This does not disprove FTUM — it qualifies it.  The theorem may hold for
-initial conditions sufficiently close to the default attractor basin.  A
-rigorous proof would need to specify the basin explicitly and demonstrate
-uniqueness within it.
+> **φ\* = A₀ / (4G)** exactly for every initial condition in the 192-case sweep.
 
-### The Test
+This is simply the holographic bound S\* = A/4G encoded in the operator H
+(`apply_holography`).  The ±54.6% spread in φ\* is *not* evidence of multiple
+attractors — it is entirely determined by the variation in A₀ across the sweep.
+The ratio φ\*/A₀ has coefficient of variation CV < 0.001.
 
-Map the full convergence basin: run a finer sweep (1000+ initial states,
-wider parameter range) and identify the boundary between converging and
-non-converging initial conditions.  Characterise whether the non-convergent
-states correspond to physically unrealizable initial data (e.g., A₀ < 0,
-or entropy exceeding the Bekenstein bound for the given area).
+**Two convergence pathways exist:**
+
+1. **Fast path (TTC = 1, 81.2% of cases):** Initial entropy exceeds the
+   holographic bound (S₀ > A₀/4G).  The operator H clamps S to A₀/4G in a
+   single step.  Convergence is immediate by construction.
+
+2. **Slow-crawl path (TTC 100–285, 18.8% of cases):** Initial entropy is
+   *below* the holographic bound (S₀ < A₀/4G).  The operator I
+   (`apply_irreversibility`) must drive S up toward A₀/4G via the relaxation
+   dS/dt = κ(A/4G − S).  The approach is exponential with rate κ = 0.25;
+   the large gap |S₀ − A₀/4G| in these cases requires many iterations.
+   **All 36 slow-crawl cases eventually converge** — they are not failures.
+
+**Q_top has no effect on φ\*:** The slow-crawl pattern is identical across
+Q_top ∈ {0.0, 0.5, 1.0} for fixed (S₀, A₀), confirming that the topological
+charge does not alter the entropy fixed point.
+
+### Gemini's Diagnostic Questions — Answered
+
+**Sensitivity to scaling:** The 18.8% slow-crawl cases are **not** at random
+locations.  They are precisely the cases with S₀ ≪ A₀/4G.  The "non-convergence"
+boundary is a clean hyperplane in (S₀, A₀) space defined by S₀ = A₀/4G, not a
+fractal boundary.  The boundary zoom sweep (`boundary_zoom_sweep`) confirms
+`boundary_is_smooth = True`.
+
+**Bifurcation points:** None found.  φ\* varies continuously and monotonically
+with A₀ as φ\* = A₀/4G.  There is no splitting of the fixed point.
+
+**Topological invariant:** Found.  φ\*/A₀ = 1/(4G) is constant across all
+initial conditions with CV < 0.001.  This is a *geometric* constraint — the
+holographic bound — not path-dependence.
+
+**Near misses / limit cycles:** Zero.  Every case either converges instantly
+(fast path) or converges slowly (slow-crawl).  The TTC distribution is
+bimodal: a spike at TTC = 1 and a tail from 100–285 for the sub-bound cases.
+
+### Remaining Open Question
+
+The operator U converges universally to **φ\* = A₀/(4G)**, which means the
+"fixed point" is set by the initial area A₀, not derived from a deeper geometric
+principle.  This restates the open problem at a sharper level:
+
+> Why does the physical universe have its specific area A₀?  What selects A₀?
+
+The FTUM iteration itself does not answer this.  A₀ must be fixed by a
+separate mechanism — e.g., the radion stabilisation potential V(φ) in
+`src/core/evolution.py`, which selects φ₀ and thereby determines the effective
+compact dimension and its boundary area.  See FALLIBILITY.md §III.
+
+### Implementation
+
+See `src/multiverse/basin_analysis.py` and `tests/test_basin_analysis.py`
+(82 tests) for the full diagnostic suite.
 
 ---
 
