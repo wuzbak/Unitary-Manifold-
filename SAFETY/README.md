@@ -63,14 +63,36 @@ This is not legal distancing — it is a moral statement. The license removes th
 
 ---
 
+## Safety Dimensions — Full Table
+
+| Dimension | Risk level | Description | Mitigation |
+|-----------|-----------|-------------|-----------|
+| **Physical — manifold tear** | High (if ρ → 1) | Kinetic sector singularity; c_s → 0; field equations degenerate | `unitarity_sentinel.py` Layer 1 shutdown at ρ ≥ 0.95 |
+| **Physical — Pentagonal Collapse** | High (if Z diverges) | Scalar curvature proxy exits 5-edge admissible polytope | `admissibility_checker.py` five-edge check |
+| **Physical — neutron flux** | High (if functional device) | D+D → ³He + n (2.45 MeV fast neutrons, 50% branch); QF ≈ 20 | `thermal_runaway_mitigation.py` Layer 4; boron-doped shielding; dosimetry programme |
+| **Physical — tritium** | High (if functional device) | D+D → T + p; tritium outgassing; metabolic hazard if inhaled | Sealed negative-pressure glovebox; tritium-in-air monitor |
+| **Thermal — lattice overheating** | Medium | Pd melts at 1828 K; positive T feedback increases rate | Layer 1 shutdown (T > 400 K); thermocouple instrumentation |
+| **Thermal — 5D coupling loss** | Medium | kT approaches compactification scale; φ-coherence destroyed | Layer 2 shutdown (T > 1200 K) |
+| **Chemical — Pd/D₂** | Medium | Pressurised deuterium; Pd embrittlement under thermal cycling | Deuterium regulator; slow loading ramp; foil not powder |
+| **Loading ratio runaway** | Medium | x > 0.95 blocks KK propagation; lattice stress | Layer 3 shutdown |
+| **Model extrapolation** | Low–Medium | COP > 10⁶ is outside calibration range; physically unconstrained | Layer 3 (COP) shutdown |
+| **Intellectual — pathological science** | Low | LENR history of unreproducible results; economic/reputational risk | Blind analysis; control cell; neutron coincidence requirement |
+| **Intellectual — premature scaling** | Low | DIY assembly before safety characterisation | Do not scale beyond µW regime without licensed radiation monitoring |
+| **Regulatory** | Medium | Measurable neutron flux requires radioactive materials licence | Contact national nuclear authority before any physical construction |
+
+See [`RADIOLOGICAL_SAFETY.md`](RADIOLOGICAL_SAFETY.md) for the full handling protocol.
+
+---
+
 ## Contents of This Folder
 
 | File | Purpose |
 |------|---------|
 | `unitarity_sentinel.py` | Real-time monitor: kills field evolution if ρ → 1 (manifold tear) |
 | `admissibility_checker.py` | Z-admissibility bound: blocks scalar curvature proxy from entering Pentagonal Collapse |
-| `thermal_runaway_mitigation.py` | Pillar 15 safety: shuts down φ-enhancement if lattice temperature exceeds 5D coupling stability |
+| `thermal_runaway_mitigation.py` | 4-layer guard: temperature, 5D coupling, loading ratio, neutron flux |
 | `PROOF_OF_UNIQUENESS.md` | Mathematical proof of (5,7) braid brittleness — why there is no safe nearby alternative |
+| `RADIOLOGICAL_SAFETY.md` | Neutron flux, tritium, D+D products, Pd/D₂ handling, scientific integrity protocol |
 
 ---
 
@@ -99,10 +121,16 @@ for i in range(1000):
 from SAFETY.thermal_runaway_mitigation import ThermalRunawayGuard
 from src.core.cold_fusion import ColdFusionConfig, run_cold_fusion
 
-guard = ThermalRunawayGuard(T_max_K=400.0)   # kill if lattice exceeds 400 K
+guard = ThermalRunawayGuard(
+    T_max_K=400.0,            # Layer 1: temperature kill
+    T_5D_K=1200.0,            # Layer 2: 5D coupling kill
+    x_max=0.95,               # Layer 3: loading ratio kill
+    neutron_flux_limit=1.0,   # Layer 4: radiological kill (n/cm²/s)
+    detector_distance_cm=100.0,
+)
 
 config = ColdFusionConfig(T_K=293.0, loading_ratio=0.9)
-result = guard.run_safe(config)   # returns None if shutdown triggered
+result = guard.run_safe(config)   # returns None if any shutdown triggered
 ```
 
 ---
