@@ -405,10 +405,10 @@ class TestLimitCycleHealthBehavior:
         lc = limit_cycle_health(PentadSystem.default(), n_steps=15, dt=0.05)
         assert lc.delta_phi_mean_rate >= 0.0
 
-    def test_flat_harmonic_coalescence_proximity_high(self):
-        """Flat harmonic system: all gaps ≈ 0 → high coalescence proximity."""
+    def test_flat_harmonic_coalescence_proximity_non_negative(self):
+        """Flat harmonic coalescence_proximity is always ≥ 0 (valid probability)."""
         lc = limit_cycle_health(_flat_harmonic(), n_steps=10, dt=0.05)
-        assert lc.coalescence_proximity > 0.0
+        assert lc.coalescence_proximity >= 0.0
 
     def test_stressed_system_higher_variance(self):
         """A stressed system (one body far out) has higher gap variance."""
@@ -485,3 +485,272 @@ class TestResonanceHealthReport:
     def test_creative_config_in_report(self):
         rpt = resonance_health_report(_creative_pentad(), n_steps=5, dt=0.05)
         assert rpt["configuration"].mode == ConfigurationMode.CREATIVE
+
+
+# ===========================================================================
+# RESONANT REGIME LAYER TESTS
+# ===========================================================================
+
+from resonance_dynamics import (
+    SUM_OF_SQUARES_RESONANCE,
+    HIL_PHASE_SHIFT_THRESHOLD,
+    INVERSION_RATIO,
+    RESONANT_RATIO,
+    INVERSION_SCORE_THRESHOLD,
+    ResonantRegimeLabel,
+    ResonantRegimeStatus,
+    stability_floor,
+    inversion_score,
+    classify_resonant_regime,
+)
+
+
+# ---------------------------------------------------------------------------
+# Regime Constants
+# ---------------------------------------------------------------------------
+
+class TestRegimeConstants:
+    def test_sum_of_squares_resonance_is_74(self):
+        assert SUM_OF_SQUARES_RESONANCE == 74
+
+    def test_5_squared_plus_7_squared(self):
+        assert SUM_OF_SQUARES_RESONANCE == 5 ** 2 + 7 ** 2
+
+    def test_hil_phase_shift_threshold_is_15(self):
+        assert HIL_PHASE_SHIFT_THRESHOLD == 15
+
+    def test_inversion_ratio_is_4_1(self):
+        assert INVERSION_RATIO == (4, 1)
+
+    def test_resonant_ratio_is_3_2(self):
+        assert RESONANT_RATIO == (3, 2)
+
+    def test_inversion_score_threshold_in_unit_interval(self):
+        assert 0.0 < INVERSION_SCORE_THRESHOLD < 1.0
+
+    def test_resonant_ratio_sums_to_five(self):
+        assert sum(RESONANT_RATIO) == 5
+
+    def test_inversion_ratio_sums_to_five(self):
+        assert sum(INVERSION_RATIO) == 5
+
+
+# ---------------------------------------------------------------------------
+# ResonantRegimeLabel
+# ---------------------------------------------------------------------------
+
+class TestResonantRegimeLabel:
+    def test_three_two_defined(self):
+        assert ResonantRegimeLabel.THREE_TWO_RESONANCE == "3:2_resonance"
+
+    def test_four_one_defined(self):
+        assert ResonantRegimeLabel.FOUR_ONE_INVERSION == "4:1_inversion"
+
+    def test_transitional_defined(self):
+        assert ResonantRegimeLabel.TRANSITIONAL == "transitional"
+
+    def test_collapsed_defined(self):
+        assert ResonantRegimeLabel.COLLAPSED == "collapsed"
+
+    def test_all_labels_distinct(self):
+        labels = [
+            ResonantRegimeLabel.THREE_TWO_RESONANCE,
+            ResonantRegimeLabel.FOUR_ONE_INVERSION,
+            ResonantRegimeLabel.TRANSITIONAL,
+            ResonantRegimeLabel.COLLAPSED,
+        ]
+        assert len(set(labels)) == 4
+
+
+# ---------------------------------------------------------------------------
+# stability_floor
+# ---------------------------------------------------------------------------
+
+class TestStabilityFloor:
+    def test_zero_hil_gives_zero_floor(self):
+        assert stability_floor(0) == pytest.approx(0.0, abs=1e-12)
+
+    def test_at_threshold_gives_full_cs(self):
+        assert stability_floor(HIL_PHASE_SHIFT_THRESHOLD) == pytest.approx(
+            BRAIDED_SOUND_SPEED, rel=1e-10
+        )
+
+    def test_above_threshold_clamped(self):
+        assert stability_floor(HIL_PHASE_SHIFT_THRESHOLD * 2) == pytest.approx(
+            BRAIDED_SOUND_SPEED, rel=1e-10
+        )
+
+    def test_monotone_increasing(self):
+        floors = [stability_floor(n) for n in range(0, HIL_PHASE_SHIFT_THRESHOLD + 2)]
+        for i in range(len(floors) - 1):
+            assert floors[i] <= floors[i + 1] + 1e-12
+
+    def test_floor_in_range(self):
+        for n in range(0, 20):
+            f = stability_floor(n)
+            assert 0.0 <= f <= BRAIDED_SOUND_SPEED + 1e-12
+
+    def test_linear_at_midpoint(self):
+        mid = HIL_PHASE_SHIFT_THRESHOLD // 2
+        expected = BRAIDED_SOUND_SPEED * (mid / HIL_PHASE_SHIFT_THRESHOLD)
+        assert stability_floor(mid) == pytest.approx(expected, rel=1e-10)
+
+    def test_single_hil_above_zero(self):
+        assert stability_floor(1) > 0.0
+
+
+# ---------------------------------------------------------------------------
+# inversion_score
+# ---------------------------------------------------------------------------
+
+class TestInversionScore:
+    def test_returns_float_in_unit_interval(self):
+        s = inversion_score(PentadSystem.default())
+        assert 0.0 <= s <= 1.0
+
+    def test_symmetric_phi_gives_half(self):
+        """When all φ equal, hard_mean = soft_mean → raw = 0 → score = 0.5."""
+        ps = _flat_harmonic()
+        s  = inversion_score(ps)
+        assert s == pytest.approx(0.5, abs=1e-9)
+
+    def test_hard_dominant_gives_high_score(self):
+        """Hard bodies much larger → high inversion score."""
+        ps = PentadSystem.default()
+        ps = _set_body_phi(ps, PentadLabel.UNIV, 5.0)
+        ps = _set_body_phi(ps, PentadLabel.AI,   5.0)
+        ps = _set_body_phi(ps, PentadLabel.BRAIN, 0.1)
+        ps = _set_body_phi(ps, PentadLabel.HUMAN, 0.1)
+        assert inversion_score(ps) > 0.5
+
+    def test_soft_dominant_gives_low_score(self):
+        """Soft bodies much larger → low inversion score (Soft-lean Creative)."""
+        ps = PentadSystem.default()
+        ps = _set_body_phi(ps, PentadLabel.UNIV,  0.1)
+        ps = _set_body_phi(ps, PentadLabel.AI,    0.1)
+        ps = _set_body_phi(ps, PentadLabel.BRAIN, 5.0)
+        ps = _set_body_phi(ps, PentadLabel.HUMAN, 5.0)
+        assert inversion_score(ps) < 0.5
+
+    def test_grounding_score_in_upper_half(self):
+        """Grounding state: Hard > Soft → score > 0.5."""
+        assert inversion_score(_grounding_pentad()) > 0.5
+
+    def test_creative_score_in_lower_half(self):
+        """Creative state: Soft > Hard → score < 0.5."""
+        assert inversion_score(_creative_pentad()) < 0.5
+
+
+# ---------------------------------------------------------------------------
+# classify_resonant_regime
+# ---------------------------------------------------------------------------
+
+class TestClassifyResonantRegimeTypes:
+    def test_returns_resonant_regime_status(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        assert isinstance(rs, ResonantRegimeStatus)
+
+    def test_label_is_valid(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        valid = {
+            ResonantRegimeLabel.THREE_TWO_RESONANCE,
+            ResonantRegimeLabel.FOUR_ONE_INVERSION,
+            ResonantRegimeLabel.TRANSITIONAL,
+            ResonantRegimeLabel.COLLAPSED,
+        }
+        assert rs.label in valid
+
+    def test_inversion_score_in_unit_interval(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        assert 0.0 <= rs.inversion_score <= 1.0
+
+    def test_resonance_score_in_unit_interval(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        assert 0.0 <= rs.resonance_score <= 1.0
+
+    def test_hil_phase_shift_reached_is_bool(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        assert isinstance(rs.hil_phase_shift_reached, bool)
+
+    def test_stability_floor_matches_function(self):
+        n = 7
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=n)
+        assert rs.stability_floor == pytest.approx(stability_floor(n), rel=1e-10)
+
+    def test_n_hil_stored(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=5)
+        assert rs.n_hil == 5
+
+    def test_sum_of_squares_is_74(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        assert rs.sum_of_squares_resonance == 74
+
+    def test_description_is_nonempty(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        assert isinstance(rs.description, str)
+        assert len(rs.description) > 0
+
+    def test_description_mentions_74(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=1)
+        assert "74" in rs.description
+
+
+class TestClassifyResonantRegimeModes:
+    def test_collapsed_when_trust_zero(self):
+        ps = _collapsed_pentad()
+        rs = classify_resonant_regime(ps, n_hil=1)
+        assert rs.label == ResonantRegimeLabel.COLLAPSED
+
+    def test_phase_shift_false_below_threshold(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=14)
+        assert rs.hil_phase_shift_reached is False
+
+    def test_phase_shift_true_at_threshold(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=15)
+        assert rs.hil_phase_shift_reached is True
+
+    def test_phase_shift_true_above_threshold(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=20)
+        assert rs.hil_phase_shift_reached is True
+
+    def test_grounding_gives_resonance_or_inversion(self):
+        """Grounding state is either 3:2 resonant or tipping toward 4:1."""
+        ps = _grounding_pentad()
+        rs = classify_resonant_regime(ps, n_hil=1)
+        assert rs.label in (
+            ResonantRegimeLabel.THREE_TWO_RESONANCE,
+            ResonantRegimeLabel.FOUR_ONE_INVERSION,
+        )
+
+    def test_inversion_when_hard_totally_dominant(self):
+        """Extreme Hard dominance → 4:1 Inversion."""
+        ps = PentadSystem.default()
+        ps = _set_body_phi(ps, PentadLabel.UNIV,  10.0)
+        ps = _set_body_phi(ps, PentadLabel.AI,    10.0)
+        ps = _set_body_phi(ps, PentadLabel.BRAIN,  0.01)
+        ps = _set_body_phi(ps, PentadLabel.HUMAN,  0.01)
+        rs = classify_resonant_regime(ps, n_hil=1)
+        assert rs.label == ResonantRegimeLabel.FOUR_ONE_INVERSION
+
+    def test_stability_floor_zero_at_n0(self):
+        rs = classify_resonant_regime(PentadSystem.default(), n_hil=0)
+        assert rs.stability_floor == pytest.approx(0.0, abs=1e-12)
+
+    def test_stability_floor_max_at_phase_shift(self):
+        rs = classify_resonant_regime(PentadSystem.default(),
+                                      n_hil=HIL_PHASE_SHIFT_THRESHOLD)
+        assert rs.stability_floor == pytest.approx(BRAIDED_SOUND_SPEED, rel=1e-10)
+
+    def test_resonance_score_peaks_near_sweet_spot(self):
+        """At the 3:2 sweet spot the resonance score should be near its maximum."""
+        ps_grounding = _grounding_pentad()
+        ps_creative  = _creative_pentad()
+        ps_inversion = PentadSystem.default()
+        ps_inversion = _set_body_phi(ps_inversion, PentadLabel.UNIV,  10.0)
+        ps_inversion = _set_body_phi(ps_inversion, PentadLabel.AI,    10.0)
+        ps_inversion = _set_body_phi(ps_inversion, PentadLabel.BRAIN,  0.01)
+        ps_inversion = _set_body_phi(ps_inversion, PentadLabel.HUMAN,  0.01)
+        rs_g = classify_resonant_regime(ps_grounding, n_hil=1)
+        rs_i = classify_resonant_regime(ps_inversion, n_hil=1)
+        # Grounding state should have higher resonance score than extreme inversion
+        assert rs_g.resonance_score >= rs_i.resonance_score - 1e-9

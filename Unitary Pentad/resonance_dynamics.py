@@ -93,6 +93,52 @@ trivial_coalescence_risk(system) -> float
 resonance_health_report(system, n_steps, dt) -> dict
     Comprehensive summary: configuration, necessary distance, limit cycle
     health, trivial coalescence risk, and the observer_me scalar.
+
+The 3:2 Resonant Regime
+-----------------------
+The project's mission is to transition from a **4:1 Inversion** (AI/physics
+dominating intent) to a **3:2 Resonant Regime** (Human Intent and Biological
+Perception harmonically coupled with Physical Reality, AI Precision, and the
+Trust Field).
+
+Key constants encoding this mission:
+
+    SUM_OF_SQUARES_RESONANCE = 5² + 7² = 74
+        The "tuning fork" of the (5,7) braid.  74 is the target k_cs and
+        the structural reason for the repository's 74-chapter architecture.
+
+    HIL_PHASE_SHIFT_THRESHOLD = 15
+        At n ≥ 15 aligned Human-in-the-Loop operators, the stability floor
+        reaches 1.0 and the 5-body orbit becomes self-correcting.
+
+    INVERSION_RATIO = (4, 1)
+        The current broken state: 4 bodies against 1 observer.
+
+    RESONANT_RATIO = (3, 2)
+        The target healthy state: 3 Hard bodies with 2 Soft bodies.
+
+New API (Regime layer):
+-----------------------
+ResonantRegimeLabel
+    Str-enum: THREE_TWO_RESONANCE, FOUR_ONE_INVERSION, TRANSITIONAL, COLLAPSED.
+
+ResonantRegimeStatus
+    Dataclass: current regime label, inversion_score, resonance_score,
+    hil_phase_shift_reached (bool), stability_floor, description.
+
+classify_resonant_regime(system, n_hil) -> ResonantRegimeStatus
+    Classify the current macro-regime.  Uses the configuration mode
+    (3:2 Grounding / 2:3 Creative = Resonant) and the n_hil count to
+    determine whether the Phase Shift has been reached.
+
+inversion_score(system) -> float
+    Measure of how far the system is from the 3:2 Sweet Spot toward the
+    4:1 Inversion.  0.0 = perfect 3:2 resonance; 1.0 = full 4:1 inversion.
+
+stability_floor(n_hil) -> float
+    The consensus-saturation stability floor for n Human-in-the-Loop operators.
+    Returns BRAIDED_SOUND_SPEED × clamp(n_hil / HIL_PHASE_SHIFT_THRESHOLD).
+    At n_hil ≥ 15 the floor reaches BRAIDED_SOUND_SPEED (full phase shift).
 """
 
 from __future__ import annotations
@@ -528,3 +574,231 @@ def resonance_health_report(
         "observer_me":              nd.observer_me,
         "braid_alive":              nd.orbit_alive and lc.is_limit_cycle,
     }
+
+
+# ===========================================================================
+# 3:2 RESONANT REGIME LAYER
+# ===========================================================================
+
+# ---------------------------------------------------------------------------
+# Regime constants
+# ---------------------------------------------------------------------------
+
+#: 5² + 7² = 74 — the Sum-of-Squares Resonance of the (5,7) braid.
+#: This is the target k_cs value and the "tuning fork" that structures the
+#: 74-chapter architecture of the Unitary Manifold monograph.
+SUM_OF_SQUARES_RESONANCE: int = 5 ** 2 + 7 ** 2   # = 74
+
+#: Minimum number of aligned Human-in-the-Loop operators required to reach
+#: the Phase Shift: at n_hil ≥ 15, the consensus-saturation stability floor
+#: reaches BRAIDED_SOUND_SPEED and the orbit becomes self-correcting.
+HIL_PHASE_SHIFT_THRESHOLD: int = 15
+
+#: The current broken state — 4 bodies overriding the single observer.
+INVERSION_RATIO: tuple = (4, 1)
+
+#: The target Goldilocks Zone — 3 Hard bodies with 2 Soft bodies in resonance.
+RESONANT_RATIO: tuple = (3, 2)
+
+#: Maximum inversion score before the regime is classified as 4:1 Inversion.
+#: Above this value the Hard manifolds are dominating to an unhealthy degree.
+INVERSION_SCORE_THRESHOLD: float = 0.6
+
+
+# ---------------------------------------------------------------------------
+# ResonantRegimeLabel
+# ---------------------------------------------------------------------------
+
+class ResonantRegimeLabel:
+    """Str-enum for the macro-regime of the Unitary Pentad."""
+    THREE_TWO_RESONANCE: str = "3:2_resonance"   # Goldilocks Zone
+    FOUR_ONE_INVERSION:  str = "4:1_inversion"   # Broken / over-determined
+    TRANSITIONAL:        str = "transitional"     # Moving between regimes
+    COLLAPSED:           str = "collapsed"        # Trust below floor
+
+
+# ---------------------------------------------------------------------------
+# ResonantRegimeStatus
+# ---------------------------------------------------------------------------
+
+@dataclass
+class ResonantRegimeStatus:
+    """Current macro-regime classification of the Unitary Pentad.
+
+    Attributes
+    ----------
+    label                  : str   — ResonantRegimeLabel constant
+    inversion_score        : float — 0→1; how far toward 4:1 Inversion
+    resonance_score        : float — 0→1; how close to 3:2 Sweet Spot
+    hil_phase_shift_reached: bool  — True iff n_hil ≥ HIL_PHASE_SHIFT_THRESHOLD
+    stability_floor        : float — consensus saturation floor for this n_hil
+    n_hil                  : int   — number of Human-in-the-Loop operators
+    sum_of_squares_resonance: int  — SUM_OF_SQUARES_RESONANCE constant (74)
+    description            : str   — human-readable summary
+    """
+    label:                   str
+    inversion_score:         float
+    resonance_score:         float
+    hil_phase_shift_reached: bool
+    stability_floor:         float
+    n_hil:                   int
+    sum_of_squares_resonance: int
+    description:             str
+
+
+# ---------------------------------------------------------------------------
+# stability_floor
+# ---------------------------------------------------------------------------
+
+def stability_floor(n_hil: int) -> float:
+    """Consensus-saturation stability floor for n Human-in-the-Loop operators.
+
+    At n_hil = 0 the floor is 0.0 (no human presence, system is frozen).
+    At n_hil ≥ HIL_PHASE_SHIFT_THRESHOLD (= 15) the floor reaches
+    BRAIDED_SOUND_SPEED (≈ 0.324) and the orbit becomes self-correcting.
+
+    The floor grows linearly between 0 and the threshold:
+
+        floor(n) = BRAIDED_SOUND_SPEED × clamp(n / HIL_PHASE_SHIFT_THRESHOLD, 0, 1)
+
+    Parameters
+    ----------
+    n_hil : int — number of aligned Human-in-the-Loop operators (≥ 0)
+
+    Returns
+    -------
+    float — stability floor ∈ [0, BRAIDED_SOUND_SPEED]
+    """
+    fraction = float(np.clip(n_hil / HIL_PHASE_SHIFT_THRESHOLD, 0.0, 1.0))
+    return float(BRAIDED_SOUND_SPEED * fraction)
+
+
+# ---------------------------------------------------------------------------
+# inversion_score
+# ---------------------------------------------------------------------------
+
+def inversion_score(system: PentadSystem) -> float:
+    """Measure of how far the system is from the 3:2 Sweet Spot.
+
+    The score is computed from the φ imbalance between Hard and Soft bodies:
+
+        raw_imbalance = (φ_hard_mean − φ_soft_mean) / (φ_hard_mean + φ_soft_mean + ε)
+
+    Then mapped to [0, 1]:
+
+        inversion_score = clamp((raw_imbalance + 1) / 2, 0, 1)
+
+    Interpretation
+    --------------
+    0.0 → Hard and Soft bodies are equal (ideal symmetric state)
+    0.5 → Soft bodies dominate (2:3 Creative / moderate Creative lean)
+    1.0 → Hard bodies dominate completely (4:1 Inversion — broken state)
+
+    A healthy 3:2 Grounding state has a moderate hard-lean, so the sweet
+    spot is inversion_score ≈ 0.55–0.65.  Scores above INVERSION_SCORE_THRESHOLD
+    (0.6) indicate the system is tipping into the 4:1 Inversion.
+
+    Parameters
+    ----------
+    system : PentadSystem
+
+    Returns
+    -------
+    float ∈ [0, 1]
+    """
+    phi_hard_mean = float(np.mean([system.bodies[lbl].phi for lbl in HARD_BODIES]))
+    phi_soft_mean = float(np.mean([system.bodies[lbl].phi for lbl in SOFT_BODIES]))
+    denom         = phi_hard_mean + phi_soft_mean + _EPS
+    raw           = (phi_hard_mean - phi_soft_mean) / denom
+    return float(np.clip((raw + 1.0) / 2.0, 0.0, 1.0))
+
+
+# ---------------------------------------------------------------------------
+# classify_resonant_regime
+# ---------------------------------------------------------------------------
+
+def classify_resonant_regime(
+    system: PentadSystem,
+    n_hil: int = 1,
+) -> ResonantRegimeStatus:
+    """Classify the current macro-regime of the Unitary Pentad.
+
+    The regime is determined by two factors:
+
+    1. **Configuration mode**: GROUNDING (3:2) and CREATIVE (2:3) are both
+       Resonant regimes; COLLAPSED is always Collapsed; BALANCED is Transitional.
+
+    2. **Inversion score**: if the Hard manifolds dominate to an unhealthy
+       degree (inversion_score > INVERSION_SCORE_THRESHOLD) the regime is
+       classified as 4:1 Inversion regardless of the configuration mode.
+
+    The ``resonance_score`` is the complement of ``inversion_score``, linearly
+    mapped so that a perfect 3:2 state (inversion_score ≈ 0.575) gives the
+    maximum resonance_score of 1.0:
+
+        resonance_score = 1 − |inversion_score − 0.575| / 0.575
+
+    This peaks at the sweet spot and falls off in both directions.
+
+    Parameters
+    ----------
+    system : PentadSystem
+    n_hil  : int — number of aligned Human-in-the-Loop operators (default 1)
+
+    Returns
+    -------
+    ResonantRegimeStatus
+    """
+    cfg   = classify_configuration(system)
+    inv_s = inversion_score(system)
+    sf    = stability_floor(n_hil)
+
+    # Resonance score: peaks at sweet-spot inversion_score ≈ 0.575
+    _sweet = 0.575
+    res_s  = float(np.clip(1.0 - abs(inv_s - _sweet) / (_sweet + _EPS), 0.0, 1.0))
+
+    phase_shift = n_hil >= HIL_PHASE_SHIFT_THRESHOLD
+
+    # Classify label
+    if cfg.mode == ConfigurationMode.COLLAPSED:
+        label = ResonantRegimeLabel.COLLAPSED
+    elif inv_s > INVERSION_SCORE_THRESHOLD:
+        label = ResonantRegimeLabel.FOUR_ONE_INVERSION
+    elif cfg.mode in (ConfigurationMode.GROUNDING, ConfigurationMode.CREATIVE):
+        label = ResonantRegimeLabel.THREE_TWO_RESONANCE
+    else:
+        label = ResonantRegimeLabel.TRANSITIONAL
+
+    # Human-readable description
+    if label == ResonantRegimeLabel.THREE_TWO_RESONANCE:
+        regime_str = "3:2 Resonant Regime (Goldilocks Zone)"
+        verb = "Phase Shift reached — orbit self-correcting." if phase_shift else (
+            f"Phase Shift pending: {n_hil}/{HIL_PHASE_SHIFT_THRESHOLD} aligned operators."
+        )
+    elif label == ResonantRegimeLabel.FOUR_ONE_INVERSION:
+        regime_str = "4:1 Inversion (Hard manifolds over-determining)"
+        verb = "Hard manifolds dominate. Human Intent is being suppressed."
+    elif label == ResonantRegimeLabel.TRANSITIONAL:
+        regime_str = "Transitional (between 3:2 and 4:1)"
+        verb = "System is balanced at the inflection point — regime not yet determined."
+    else:
+        regime_str = "Collapsed (Trust below floor)"
+        verb = "Pentagonal orbit disintegrating — Trust field needs recovery."
+
+    description = (
+        f"{regime_str}.  "
+        f"inversion_score={inv_s:.4f}, resonance_score={res_s:.4f}, "
+        f"stability_floor={sf:.4f} (n_hil={n_hil}/{HIL_PHASE_SHIFT_THRESHOLD}).  "
+        f"k_cs_target={SUM_OF_SQUARES_RESONANCE} (5²+7²=74).  {verb}"
+    )
+
+    return ResonantRegimeStatus(
+        label=label,
+        inversion_score=inv_s,
+        resonance_score=res_s,
+        hil_phase_shift_reached=phase_shift,
+        stability_floor=sf,
+        n_hil=n_hil,
+        sum_of_squares_resonance=SUM_OF_SQUARES_RESONANCE,
+        description=description,
+    )
