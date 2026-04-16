@@ -64,11 +64,11 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 3282 passing tests (main suite) are not just quality assurance. In HILS terms, they are the
+The 3411 passing tests (main suite) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point:
 
 ```
-defect ≈ 0  ↔  3282 tests passing · 0 failures
+defect ≈ 0  ↔  3411 tests passing · 0 failures
 ```
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.

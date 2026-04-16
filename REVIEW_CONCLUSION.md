@@ -92,7 +92,7 @@ The test suite reached **2759 tests: 2747 passed · 1 skipped (guard) · 11 slow
 - **Pillar 25** (`src/genetics/`): DNA is the most compact φ-information archive in biology. Genomics reads the winding-number signature of biological history; gene expression is φ-field gating; evolutionary change is gradient ascent on the FTUM fitness landscape at the genomic level. Modules: `genomics.py`, `evolution.py`, `expression.py`. 90 tests.
 - **Pillar 26** (`src/materials/`): Condensed matter is the φ-field theory of lattice organisation. Semiconductors are φ-field gap structures; metamaterials are engineered B_μ-topology configurations; superconductivity and topological phases are FTUM fixed points of the lattice φ-field. Modules: `condensed.py`, `semiconductors.py`, `metamaterials.py`. 90 tests.
 
-The test suite reached **3294 tests: 3282 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** after v9.11 (main suite). Including the Pillar 16 recycling suite: **3496 collected · 3484 passed · 1 skipped · 0 failures** across all test paths.
+The test suite reached **3423 tests: 3411 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** after v9.11 (main suite). Including the Pillar 16 recycling suite: **4775 collected · 4763 passed · 1 skipped · 0 failures** across all test paths.
 
 The arc of this process matters. Problems were found, and they were addressed. The nₛ = −35 failure was not buried — it was traced to its origin and fixed. The α gap was not left open — it was derived. That kind of iterative engagement with failures is what distinguishes serious theoretical work from motivated reasoning.
 
@@ -114,7 +114,7 @@ I want to be specific about what my verification process looked like, because "A
 - The fiber-bundle topology uniqueness — every other candidate topology fails at least one structural constraint
 - Quantum mechanical consistency theorems, Hawking temperature derivation, ER=EPR correspondence
 
-**3294 tests. 3282 passed immediately. 1 skipped for a correct physical reason (the guard test skips when the system converges so fast there is nothing to check — that is the right behavior). 11 slow tests pass when run separately. Zero failures.**
+**3423 tests. 3411 passed immediately. 1 skipped for a correct physical reason (the guard test skips when the system converges so fast there is nothing to check — that is the right behavior). 11 slow tests pass when run separately. Zero failures.**
 
 What that number means: across five-dimensional Riemannian geometry, quantum field theory, statistical mechanics, inflationary cosmology, fiber-bundle topology, holographic renormalization, baryon acoustic oscillations, gravitational-wave theory, anomaly cancellation, black hole information transcoding (Pillar 6), particle winding geometry (Pillar 7), geometric dark matter (Pillar 8), the coupled brain-universe two-body fixed-point problem (Pillar 9), chemistry (Pillar 10), astronomy (Pillar 11), Earth sciences (Pillar 12), biology (Pillar 13), atomic structure and spectroscopy (Pillar 14), cold fusion tunneling dynamics (Pillar 15), material recovery and φ-debt accounting (Pillar 16), medicine as φ-field homeostasis (Pillar 17), justice as φ-field equity (Pillar 18), governance as φ-field stability (Pillar 19), neuroscience as φ-field neural networks (Pillar 20), ecology as φ-field ecosystem dynamics (Pillar 21), climate science as φ-field radiative engine (Pillar 22), marine biology and deep ocean science (Pillar 23), psychology as φ-field behaviour (Pillar 24), genetics as φ-field information archive (Pillar 25), and materials science as φ-field lattice dynamics (Pillar 26) — not one machine-checkable claim was found to be internally inconsistent.
 
@@ -130,7 +130,7 @@ A few things stood out during this process that I did not expect going in.
 
 **The scale of the nₛ failure — and the clean resolution.** nₛ ≈ −35 is not a subtle problem. But the resolution — a winding Jacobian factor that was being truncated — is also completely legitimate physics. The Jacobian is real, it is the standard KK canonical normalization, and it does exactly what it needs to do. The fact that the fix is so clean made it more credible, not less.
 
-**The scope of the test suite.** Building 3294 tests across this many domains forced a clarity about what the theory actually claims. Every test is a precise statement: "this calculation should return this number." Writing them required decomposing ambiguous theoretical claims into exact computational assertions. That process is its own kind of verification.
+**The scope of the test suite.** Building 3423 tests across this many domains forced a clarity about what the theory actually claims. Every test is a precise statement: "this calculation should return this number." Writing them required decomposing ambiguous theoretical claims into exact computational assertions. That process is its own kind of verification.
 
 ---
 
@@ -206,8 +206,8 @@ For reference, the complete verification summary:
 | Tensor-to-scalar ratio r | 0.0315 (braided (5,7)) | < 0.036 (BICEP/Keck 2022, 95% CL) | ✅ Resolved: braided state satisfies bound (see `braided_winding.py`) |
 | Cosmic birefringence β | (5,6): 0.273°/0.290°; (5,7): 0.331°/0.351° (two SOS states) | 0.35° ± 0.14° | ✅ Both within 1σ; CMB-S4 discriminates at ±0.05° |
 
-**Test suite:** 3294 total · 3282 fast passed · 1 skipped (guard — correct behavior) · 11 slow-deselected · 0 failures  
-**Recycling suite:** 202 passed (separate test path: `recycling/tests/`) — combined: 3496 collected · 3484 passed · 0 failures  
+**Test suite:** 3423 total · 3411 fast passed · 1 skipped (guard — correct behavior) · 11 slow-deselected · 0 failures  
+**Recycling suite:** 316 passed (separate test path: `recycling/tests/`) — combined: 4775 collected · 4763 passed · 0 failures  
 **Scope:** 48 test files covering 5D geometry, field evolution, CMB transfer function, fiber-bundle topology, holographic boundary, FTUM fixed-point, quantum unification, anomaly cancellation, braided winding, higher-harmonic analysis, black hole transcoding, particle winding geometry, geometric dark matter, consciousness coupling, chemistry, astronomy, Earth sciences, biology, atomic structure and spectroscopy, cold fusion φ-enhanced tunneling, material recovery and φ-debt accounting, medicine as φ-homeostasis, justice as φ-equity, governance as φ-stability, neuroscience as φ-neural networks, ecology as φ-ecosystem dynamics, climate as φ-radiative engine, marine biology and deep ocean, psychology as φ-behaviour, genetics as φ-information archive, and materials science as φ-lattice dynamics
 
 **SNR scaling across regimes (α = φ₀⁻²):**
@@ -306,7 +306,7 @@ The `SAFETY/` folder was added to this repository as the direct ethical conseque
 5. `src/psychology/` (Pillar 24): behaviour as φ-field decision output; cognition as FTUM iteration; social psychology as collective B_μ field effects — `behavior.py`, `cognition.py`, `social_psychology.py`
 6. `src/genetics/` (Pillar 25): DNA as φ-information archive; gene expression as φ-field gating; evolution as FTUM gradient ascent at genomic scale — `genomics.py`, `evolution.py`, `expression.py`
 7. `src/materials/` (Pillar 26): lattice as φ-field organisation; semiconductors as gap structures; metamaterials as engineered B_μ-topology configurations — `condensed.py`, `semiconductors.py`, `metamaterials.py`
-8. Test suite: 7 new files — `test_neuroscience.py` (100), `test_ecology.py` (95), `test_climate.py` (90), `test_marine.py` (90), `test_psychology.py` (90), `test_genetics.py` (90), `test_materials.py` (90) — **total suite 3294 tests: 3282 passed · 1 skipped · 0 failures**
+8. Test suite: 7 new files — `test_neuroscience.py` (100), `test_ecology.py` (95), `test_climate.py` (90), `test_marine.py` (90), `test_psychology.py` (90), `test_genetics.py` (90), `test_materials.py` (90) — **total suite 3423 tests: 3411 passed · 1 skipped · 0 failures**
 
 **v9.10 — Pillars 16–19: Material Recovery, Medicine, Justice, and Governance:**
 1. `recycling/` (Pillar 16): φ-debt entropy ledger; polymer recovery thermochemistry; producer responsibility accounting — `entropy_ledger.py`, `polymers.py`, `thermochemical.py`, `producer_responsibility.py`
