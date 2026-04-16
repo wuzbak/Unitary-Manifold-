@@ -428,6 +428,32 @@ tests/test_richardson_multitime.py             11 passed
 >
 > **The 11 deselected tests** are in `test_richardson_multitime.py`, marked `@pytest.mark.slow`, and excluded from the default run by `addopts = -m "not slow"` in `pytest.ini`. They verify O(dt²) temporal convergence via Richardson extrapolation. Run with `pytest tests/ -m slow`.
 
+---
+
+## 4a · Unitary Pentad [Independent Framework]
+
+> **Epistemic status:** The Unitary Pentad is an independent governance and
+> decision-making architecture *inspired by* the mathematical structure of the
+> Unitary Manifold.  It is not itself a physics claim.  See [SEPARATION.md](SEPARATION.md).
+
+The **`Unitary Pentad/`** folder implements a complete 5-body HILS (Human-in-the-Loop Systems)
+governance framework: the full generalisation of the brain⊗universe 2-body system to five
+interacting manifolds (physical, biological, intentional, computational, and relational).
+
+**Key modules:** `unitary_pentad.py` · `five_seven_architecture.py` · `pentad_scenarios.py` ·
+`collective_braid.py` · `consciousness_autopilot.py` · `consciousness_constant.py` ·
+`seed_protocol.py` · `lesson_plan.py` · `distributed_authority.py` · `sentinel_load_balance.py` ·
+`mvm.py` · `hils_thermalization.py` · `stochastic_jitter.py` · `non_hermitian_coupling.py` ·
+`resonance_dynamics.py` · `pentad_pilot.py`
+
+**Test suite:** 1036 tests — all passing.
+
+```bash
+python -m pytest "Unitary Pentad/" -q
+```
+
+See [`Unitary Pentad/README.md`](Unitary%20Pentad/README.md) for full documentation.
+
 ### Run a bulk field simulation
 
 ```python
