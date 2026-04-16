@@ -113,6 +113,15 @@ Astrophysical S-factor (5D modified):
 
     S₅(E) = S₀ × exp(−G₄ × (1 − f_KK × f_winding))              [10]
 
+Implementation note
+-------------------
+The call ``np.exp(-2.0 * G)`` will naturally return ``0.0`` for 4D
+calculations at room temperature due to floating-point underflow (the
+actual value is ≈ 10^{-10000}, far below the smallest IEEE 754 double).
+The 5D results bring these probabilities into a range where the computer
+(and physics) can actually operate.  All rate calculations in this module
+therefore use ``G5`` rather than ``G4`` directly.
+
 Physical constants
 ------------------
 All energies in MeV unless otherwise stated.  Nuclear distances in fm.
@@ -287,9 +296,13 @@ def gamow_factor(
 def tunneling_probability(G: float) -> float:
     """WKB tunneling probability P = exp(−2 G).
 
-    For very large G (e.g. cold fusion at room temperature, G ≈ 19 000), this
-    returns exactly 0.0 due to float underflow — which is the correct physics:
-    the probability is negligibly small.
+    For very large G (e.g. cold fusion at room temperature, G₄ ≈ 19 000),
+    this returns exactly 0.0 due to floating-point underflow — the actual
+    value is approximately 10^{-10000}, far below the smallest representable
+    float64.  This is the correct physics: the 4D tunneling probability is
+    negligibly small.  The 5D-modified Gamow factor G₅ brings the exponent
+    into a range where the computer (and physics) can actually operate; see
+    ``tunneling_probability_5d`` for the enhanced calculation.
 
     Parameters
     ----------
