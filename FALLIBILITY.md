@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.9 — ThomasCory Walker-Pearson, 2026*
+*Unitary Manifold v9.11 — ThomasCory Walker-Pearson, 2026*
 
 ---
 
