@@ -173,6 +173,23 @@ framework's structure (5D geometry, fixed points, attractor dynamics) but
 operating as an independent system.  Its correctness does not depend on the
 physics theory being right.
 
+**Modules (as of v1.1):**
+
+| File | Purpose |
+|---|---|
+| `unitary_pentad.py` | 5-body master equation; PentadSystem; pentagonal coupling |
+| `pentad_scenarios.py` | Collapse detection; Trust Erasure; asymmetric stress test |
+| `stochastic_jitter.py` | Langevin noise extension; (5,7)-braid jitter-suppression test |
+| `non_hermitian_coupling.py` | Directed AI↔Human influence; Berry phase accumulation |
+| `hils_thermalization.py` | Cold-start handover protocol; deception-guard warm-up |
+| `consciousness_autopilot.py` | 5+7 body autopilot; AWAITING\_SHIFT / SETTLING state machine |
+| `collective_braid.py` | Moiré alignment; observer stabilisation; ripple effect |
+| `seed_protocol.py` | Adversarial survival protocol |
+| `lesson_plan.py` | Pedagogical fixed-point sequence |
+| `distributed_authority.py` | Beacon entropy; manipulation resistance |
+| `sentinel_load_balance.py` | Sentinel capacity; load redistribution |
+| `mvm.py` | Minimum Viable Manifold search |
+
 **Tests:** `python3 -m pytest "Unitary Pentad/" -q`  
 **What the tests prove:** The Pentad system's internal logic is correct.
 

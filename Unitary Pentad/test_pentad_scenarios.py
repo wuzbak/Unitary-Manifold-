@@ -50,6 +50,10 @@ from pentad_scenarios import (
     TRANSITION_PROXIMITY_THRESHOLD,
     RegimeTransitionSignal,
     regime_transition_signal,
+    TrustErasureResult,
+    total_trust_erasure,
+    AsymmetricStressResult,
+    asymmetric_coupling_stress_test,
 )
 from unitary_pentad import (
     PentadSystem,
@@ -664,3 +668,146 @@ class TestRegimeTransitionSignalActiveDOF:
         flat_dof     = regime_transition_signal(_flat_harmonic_pentad()).active_dof_estimate
         stressed_dof = regime_transition_signal(_stressed_pentad()).active_dof_estimate
         assert stressed_dof >= flat_dof
+
+
+# ---------------------------------------------------------------------------
+# total_trust_erasure — Wildcard: instantaneous β·C collapse
+# ---------------------------------------------------------------------------
+
+class TestTotalTrustErasure:
+    def setup_method(self):
+        self.ps  = PentadSystem.default()
+        self.rpt = total_trust_erasure(self.ps)
+
+    def test_returns_trust_erasure_result(self):
+        assert isinstance(self.rpt, TrustErasureResult)
+
+    def test_phi_trust_after_is_zero(self):
+        assert self.rpt.phi_trust_after == pytest.approx(0.0, abs=1e-12)
+
+    def test_phi_trust_before_matches_live(self):
+        from unitary_pentad import trust_modulation
+        assert self.rpt.phi_trust_before == pytest.approx(
+            trust_modulation(self.ps), rel=1e-10
+        )
+
+    def test_delta_beta_C_positive(self):
+        assert self.rpt.delta_beta_C > 0.0
+
+    def test_delta_beta_C_formula(self):
+        from unitary_pentad import trust_modulation
+        expected = self.ps.beta * trust_modulation(self.ps)
+        assert self.rpt.delta_beta_C == pytest.approx(expected, rel=1e-10)
+
+    def test_stability_lost_is_bool(self):
+        assert isinstance(self.rpt.stability_lost, bool)
+
+    def test_stability_lost_true_at_default(self):
+        """After total erasure all inter-body couplings collapse → unstable."""
+        assert self.rpt.stability_lost is True
+
+    def test_cascade_risk_in_unit_interval(self):
+        assert 0.0 <= self.rpt.cascade_risk <= 1.0
+
+    def test_cascade_risk_equals_phi_trust_before(self):
+        assert self.rpt.cascade_risk == pytest.approx(
+            self.rpt.phi_trust_before, rel=1e-10
+        )
+
+    def test_description_is_string(self):
+        assert isinstance(self.rpt.description, str)
+        assert len(self.rpt.description) > 0
+
+    def test_description_mentions_erasure(self):
+        assert "erasure" in self.rpt.description.lower()
+
+    def test_eigenvalue_after_less_than_before(self):
+        """Erasing trust removes coupling → eigenvalue must drop."""
+        assert self.rpt.eigenvalue_after <= self.rpt.eigenvalue_before + 1e-9
+
+    def test_flat_system_also_loses_stability(self):
+        ps  = _flat_harmonic_pentad()
+        rpt = total_trust_erasure(ps)
+        assert rpt.stability_lost is True
+
+    def test_original_system_unmodified(self):
+        phi_trust_before = self.ps.bodies[PentadLabel.TRUST].phi
+        total_trust_erasure(self.ps)
+        assert self.ps.bodies[PentadLabel.TRUST].phi == pytest.approx(
+            phi_trust_before, rel=1e-12
+        )
+
+
+# ---------------------------------------------------------------------------
+# asymmetric_coupling_stress_test — (5,7) braid under AI→Human weight sweep
+# ---------------------------------------------------------------------------
+
+class TestAsymmetricCouplingStressTest:
+    def setup_method(self):
+        self.ps      = PentadSystem.default()
+        self.results = asymmetric_coupling_stress_test(
+            self.ps, weight_range=3.0, n_points=10
+        )
+
+    def test_returns_list(self):
+        assert isinstance(self.results, list)
+
+    def test_length_matches_n_points(self):
+        assert len(self.results) == 10
+
+    def test_each_item_is_asymmetric_stress_result(self):
+        for r in self.results:
+            assert isinstance(r, AsymmetricStressResult)
+
+    def test_first_weight_is_one(self):
+        assert self.results[0].w_ai_to_human == pytest.approx(1.0, rel=1e-6)
+
+    def test_last_weight_is_weight_range(self):
+        assert self.results[-1].w_ai_to_human == pytest.approx(3.0, rel=1e-6)
+
+    def test_berry_phase_zero_at_symmetric(self):
+        assert self.results[0].berry_phase_rad == pytest.approx(0.0, abs=1e-10)
+
+    def test_berry_phase_positive_for_w_gt_1(self):
+        for r in self.results[1:]:
+            assert r.berry_phase_rad > 0.0
+
+    def test_berry_phase_monotone_increasing(self):
+        phases = [r.berry_phase_rad for r in self.results]
+        for i in range(len(phases) - 1):
+            assert phases[i] <= phases[i + 1] + 1e-10
+
+    def test_berry_phase_bounded_below_pi_half(self):
+        for r in self.results:
+            assert r.berry_phase_rad < math.pi / 2 + 1e-9
+
+    def test_stability_margin_is_float(self):
+        for r in self.results:
+            assert isinstance(r.stability_margin, float)
+            assert math.isfinite(r.stability_margin)
+
+    def test_braid_holds_consistent_with_margin(self):
+        for r in self.results:
+            if r.stability_margin >= 0.0:
+                assert r.braid_holds is True
+            else:
+                assert r.braid_holds is False
+
+    def test_min_eigenvalue_finite(self):
+        """Symmetrised eigenvalue is always a finite float."""
+        for r in self.results:
+            assert math.isfinite(r.min_eigenvalue)
+
+    def test_2x_ai_weight_scenario(self):
+        """The problem statement's key stress test: AI body has 2× influence."""
+        results_2x = asymmetric_coupling_stress_test(
+            self.ps, weight_range=2.0, n_points=5
+        )
+        r_max = results_2x[-1]
+        assert r_max.w_ai_to_human == pytest.approx(2.0, rel=1e-6)
+        # Berry phase at 2× weight: (π/2) × (2−1)/(2+1) = π/6 ≈ 0.524 rad
+        assert r_max.berry_phase_rad == pytest.approx(math.pi / 6, rel=1e-6)
+
+    def test_custom_n_points(self):
+        r = asymmetric_coupling_stress_test(self.ps, weight_range=2.0, n_points=5)
+        assert len(r) == 5
