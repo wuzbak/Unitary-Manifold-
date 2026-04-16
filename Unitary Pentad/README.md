@@ -1,4 +1,10 @@
-# Unitary Pentad
+# Unitary Pentad [TIER 4 — Independent Framework]
+
+> **Epistemic status:** The Unitary Pentad is an independent governance and
+> decision-making architecture *inspired by* the Unitary Manifold's mathematical
+> structure.  Its tests validate its own internal logic only.  It does not
+> depend on the 5D physics theory being physically correct, and it is not
+> itself a physics claim.  See [SEPARATION.md](../SEPARATION.md).
 
 > *"The (5,7) braid isn't just a physical constant; it's the winding frequency that allows these 5 disparate 'bodies' to maintain a stable orbit without the system flying apart."*
 

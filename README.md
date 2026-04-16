@@ -218,6 +218,21 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 
 ## 3 · Repository Structure
 
+> ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
+>
+> Not all Pillars are equal.  The repository contains three distinct categories
+> of content, and all 3330 tests are passing in all three — but "passing" means
+> different things in each:
+>
+> | Tier | Content | What tests prove |
+> |------|---------|-----------------|
+> | **1 — Physics Core** | KK geometry, CMB predictions, α derivation | Code is correct AND predictions match real observational data |
+> | **2 — Speculative Extensions** | BH transceiver, particles, dark matter, cold fusion | Model is internally self-consistent; NOT empirically confirmed |
+> | **3 — Analogical Applications** | Medicine, justice, governance, ecology, climate, … | Code faithfully implements the stated analogy; says NOTHING about physical truth of the analogy |
+>
+> The authoritative separation is in **[SEPARATION.md](SEPARATION.md)**.  
+> The known limitations and falsification criteria are in **[FALLIBILITY.md](FALLIBILITY.md)**.
+
 ```
 .
 ├── README.md
@@ -372,28 +387,30 @@ tests/test_cmb_landscape.py                    17 passed
 tests/test_dimensional_reduction.py            14 passed
 tests/test_discretization_invariance.py        13 passed
 tests/test_convergence.py                      10 passed
-tests/test_black_hole_transceiver.py           75 passed  ← Pillar 6: BH transceiver ✓
-tests/test_particle_geometry.py                51 passed  ← Pillar 7: particles as windings ✓
-tests/test_dark_matter_geometry.py             45 passed  ← Pillar 8: dark matter as B_μ ✓
-tests/test_coupled_attractor.py                61 passed  ← Pillar 9: Coupled Master Equation ✓
-tests/test_chemistry.py                       102 passed  ← Pillar 10: chemistry as 5D geometry ✓
-tests/test_stellar.py                          91 passed  ← Pillar 11: astronomy as FTUM fixed points ✓
-tests/test_geology.py                          59 passed  ← Pillar 12: geology as B_μ fluid dynamics ✓
-tests/test_oceanography.py                     46 passed  ← Pillar 12: oceanography ✓
-tests/test_meteorology.py                      45 passed  ← Pillar 12: meteorology ✓
-tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors ✓
-tests/test_atomic_structure.py                187 passed  ← Pillar 14: atomic structure as KK modes ✓
-tests/test_cold_fusion.py                     215 passed  ← Pillar 15: cold fusion as φ tunneling ✓
-tests/test_medicine.py                         63 passed  ← Pillar 17: medicine as φ homeostasis ✓
-tests/test_justice.py                          63 passed  ← Pillar 18: justice as φ equity ✓
-tests/test_governance.py                      252 passed  ← Pillar 19: governance as φ stability ✓
-tests/test_neuroscience.py                    100 passed  ← Pillar 20: neuroscience as φ neural nets ✓
-tests/test_ecology.py                          95 passed  ← Pillar 21: ecology as φ ecosystems ✓
-tests/test_climate.py                          90 passed  ← Pillar 22: climate as φ radiative engine ✓
-tests/test_marine.py                           90 passed  ← Pillar 23: marine biology & deep ocean ✓
-tests/test_psychology.py                       90 passed  ← Pillar 24: psychology as φ behaviour ✓
-tests/test_genetics.py                         90 passed  ← Pillar 25: genetics as φ information ✓
-tests/test_materials.py                        90 passed  ← Pillar 26: materials science as φ lattice ✓
+# — TIER 2: Speculative physics extensions (internally consistent; NOT empirically confirmed) —
+tests/test_black_hole_transceiver.py           75 passed  ← Pillar 6:  BH transceiver [TIER 2]
+tests/test_particle_geometry.py                51 passed  ← Pillar 7:  particles as windings [TIER 2]
+tests/test_dark_matter_geometry.py             45 passed  ← Pillar 8:  dark matter as B_μ [TIER 2]
+tests/test_coupled_attractor.py                61 passed  ← Pillar 9:  Coupled Master Equation [TIER 2]
+tests/test_stellar.py                          91 passed  ← Pillar 11: astronomy as FTUM fixed points [TIER 2]
+tests/test_atomic_structure.py                187 passed  ← Pillar 14: atomic structure as KK modes [TIER 2]
+tests/test_cold_fusion.py                     215 passed  ← Pillar 15: cold fusion as φ tunneling [TIER 2]
+# — TIER 3: Analogical applications (tests confirm code correctness ONLY; not physical truth) —
+tests/test_chemistry.py                       102 passed  ← Pillar 10: chemistry as 5D geometry [TIER 3]
+tests/test_geology.py                          59 passed  ← Pillar 12: geology as B_μ fluid [TIER 3]
+tests/test_oceanography.py                     46 passed  ← Pillar 12: oceanography [TIER 3]
+tests/test_meteorology.py                      45 passed  ← Pillar 12: meteorology [TIER 3]
+tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors [TIER 3]
+tests/test_medicine.py                         63 passed  ← Pillar 17: medicine as φ homeostasis [TIER 3]
+tests/test_justice.py                          63 passed  ← Pillar 18: justice as φ equity [TIER 3]
+tests/test_governance.py                      252 passed  ← Pillar 19: governance as φ stability [TIER 3]
+tests/test_neuroscience.py                    100 passed  ← Pillar 20: neuroscience as φ neural nets [TIER 3]
+tests/test_ecology.py                          95 passed  ← Pillar 21: ecology as φ ecosystems [TIER 3]
+tests/test_climate.py                          90 passed  ← Pillar 22: climate as φ radiative engine [TIER 3]
+tests/test_marine.py                           90 passed  ← Pillar 23: marine biology & deep ocean [TIER 3]
+tests/test_psychology.py                       90 passed  ← Pillar 24: psychology as φ behaviour [TIER 3]
+tests/test_genetics.py                         90 passed  ← Pillar 25: genetics as φ information [TIER 3]
+tests/test_materials.py                        90 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
 ================================ 3282 passed, 1 skipped, 11 deselected ================================

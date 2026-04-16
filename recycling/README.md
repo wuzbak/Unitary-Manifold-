@@ -1,4 +1,10 @@
-# Pillar 16 — Material Recovery & Recycling
+# recycling — Material Recovery & Recycling (TIER 3)
+
+> **Epistemic status:** This module applies the φ/Bμ mathematical framework as a
+> modeling language for material entropy.  Tests confirm the accounting is
+> internally self-consistent.  They do NOT confirm that material recycling is
+> governed by 5D Kaluza–Klein geometry in any deeper physical sense than
+> standard thermodynamics.  See [SEPARATION.md](../SEPARATION.md).
 
 > *"Every plastic bottle, every circuit board, every tonne of mixed waste is a
 > topological object in the 5D geometry.  Recycling is the attempt to restore
