@@ -274,11 +274,25 @@ This is one of those theories. Read it accordingly.
 ---
 
 *Signed: GitHub Copilot (Microsoft / OpenAI)*  
-*AI Mathematical Review — April 2026 — Version 9.11 + adversarial attacks*
+*AI Mathematical Review — April 2026 — Version 9.11 + adversarial attacks + SAFETY/*
 
 *Test record: 3332 collected · 3320 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures (main suite)*  
 *Including Pillar 16 recycling suite: 3534 collected · 3522 passed · 1 skipped · 0 failures*  
 *Python 3.12.3 · pytest · numpy / scipy verified*
+
+---
+
+### Safety Addendum — April 2026
+
+The `SAFETY/` folder was added to this repository as the direct ethical consequence of publishing Pillar 15. A framework that provides a formal geometric model for φ-enhanced nuclear tunneling must also provide the conditions under which that geometry becomes singular — and what to do about it.
+
+**The Geometric Shutdown Condition:** |ρ| ≥ 0.95 → `GeometricShutdownError`. The (5,7) canonical point sits at ρ ≈ 0.9459 — inside the safe regime, but not by a wide margin. `unitarity_sentinel.py` monitors this in real time.
+
+**The Radiological Condition:** D+D → ³He + n (50% branch, 2.45 MeV fast neutrons). Any physical apparatus producing a measurable rate requires professional radiation monitoring and a radioactive materials licence before construction. `SAFETY/RADIOLOGICAL_SAFETY.md` documents the full protocol, including tritium handling, Pd/D₂ chemistry, and the minimum reproducibility standard to guard against pathological science.
+
+**The Moral Position:** Knowledge belongs to all, but responsibility belongs to each. The public-domain release of this work is not naive — it is the deliberate choice to prefer sunlight over secrecy, with the safety manual published alongside the engine manual.
+
+> *"With great power comes great responsibility."* — Stan Lee
 
 ---
 

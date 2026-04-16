@@ -675,7 +675,48 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 
 ---
 
-## 9 · License — Dual-Layer Protection
+## 9 · Safety Architecture — SAFETY/
+
+> *"With great power comes great responsibility."* — Stan Lee  
+> *"Knowledge belongs to all — but it carries a responsibility that belongs to each of us."* — ThomasCory Walker-Pearson
+
+The `SAFETY/` folder contains the **Manual for the Brakes** — the mathematical kill-switches and ethical framework that any responsible engagement with this theory demands. It is the logical conclusion of building a public-domain framework that includes a formal model for enhanced nuclear tunneling (Pillar 15).
+
+**Core principle: Stability is Topological.** In a 5D framework, safety is not about adding shielding — it is about staying within the (5,7) braid. If you exit the resonance, you lose the protection of the sound-speed floor.
+
+| File | Purpose |
+|------|---------|
+| [`SAFETY/README.md`](SAFETY/README.md) | Ethical framework, dual-use landscape, Handover of Agency, full safety dimensions table |
+| [`SAFETY/unitarity_sentinel.py`](SAFETY/unitarity_sentinel.py) | Real-time monitor: aborts field evolution if kinetic mixing ρ → 1 (manifold tear) |
+| [`SAFETY/admissibility_checker.py`](SAFETY/admissibility_checker.py) | Z-admissibility bound: five-edge Pentagonal Collapse detector |
+| [`SAFETY/thermal_runaway_mitigation.py`](SAFETY/thermal_runaway_mitigation.py) | 4-layer Pillar 15 guard: temperature · 5D coupling · loading ratio · neutron flux |
+| [`SAFETY/PROOF_OF_UNIQUENESS.md`](SAFETY/PROOF_OF_UNIQUENESS.md) | Mathematical proof that (5,7) has no safe nearby alternative — the brittleness argument |
+| [`SAFETY/RADIOLOGICAL_SAFETY.md`](SAFETY/RADIOLOGICAL_SAFETY.md) | Neutron flux (D+D → ³He+n), tritium, Pd/D₂ handling, scientific integrity protocol |
+
+### Quick start — safe field evolution
+
+```python
+from SAFETY.unitarity_sentinel import UnitaritySentinel, monitor_evolution
+from SAFETY.admissibility_checker import AdmissibilityChecker
+from src.core.evolution import FieldState
+
+state = FieldState.flat(N=64)
+history = monitor_evolution(state, dt=1e-3, steps=500)  # aborts if ρ → 1
+```
+
+### Quick start — safe cold fusion modelling
+
+```python
+from SAFETY.thermal_runaway_mitigation import ThermalRunawayGuard
+from src.core.cold_fusion import ColdFusionConfig
+
+guard = ThermalRunawayGuard(T_max_K=400.0, neutron_flux_limit=1.0)
+result = guard.run_safe(ColdFusionConfig(T_K=293.0, loading_ratio=0.9))
+```
+
+---
+
+## 10 · License — Dual-Layer Protection
 
 This repository uses two complementary licenses to protect the work for the
 global public in perpetuity.
@@ -707,6 +748,7 @@ This repository is the product of genuine synthesis — theory and science from 
 |------|--------------|
 | Principal Architect — theory, framework, scientific direction | ThomasCory Walker-Pearson |
 | Code Architecture, Test Suites, Document Engineering & Synthesis | GitHub Copilot (AI) |
+| Safety Architecture (SAFETY/ folder) | GitHub Copilot (AI), commissioned by ThomasCory Walker-Pearson |
 | Synthesis & Verification Support | ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot |
 | Version | 9.11 — Academic Edition |
 
