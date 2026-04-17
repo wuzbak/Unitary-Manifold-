@@ -1,3 +1,7 @@
 
 # Generated knowledge snapshot (re-run bot/scripts/build_context.py to refresh)
 bot/context_snapshot.md
+
+# Python bytecode
+__pycache__/
+*.py[cod]
