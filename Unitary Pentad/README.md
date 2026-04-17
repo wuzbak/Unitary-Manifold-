@@ -121,6 +121,7 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | `pentad_interrogation.py` | Pentad Interrogation — Gemini adversarial sweep, phase alignment, TTC intent analysis |
 | `test_pentad_interrogation.py` | Pentad interrogation test suite (74 tests) |
 | `pentad_pilot.py` | Pentad Pilot Node (PPN-1) — real-time Human-in-the-Loop interface (software + optional Arduino hardware) |
+| `test_pentad_pilot.py` | Pilot node test suite (25 = 5² tests: constants, clamp, bar, PilotState, inject/reset logic) |
 | `CONCEPTUAL_ROOTS.md` | March 28–31 design artifacts (QuantumManifold, RectifiedGridGovernor, Bayesian trust loop, adaptive trust simulation) — the intellectual ancestry of every module in this folder |
 | `STABILITY_ANALYSIS.md` | Formal orbital stability conditions and failure mode analysis |
 | `FIVE_CORE_SEVEN_LAYER.md` | Mathematical derivation of the 5-core / 7-layer architecture |
@@ -154,7 +155,7 @@ print(f"Trust at convergence: {history[-1]['trust']:.4f}")
 From the repository root:
 
 ```bash
-# Full Unitary Pentad suite (1209 tests):
+# Full Unitary Pentad suite (1234 tests):
 python -m pytest "Unitary Pentad/" -v
 
 # Or run individual test files:

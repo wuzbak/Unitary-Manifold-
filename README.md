@@ -3,7 +3,7 @@
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![3537 Tests: 3525 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3525%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![3586 Tests: 3574 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3574%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
@@ -229,7 +229,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 3525 tests are passing in all three — but "passing" means
+> of content, and all 3574 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -359,13 +359,13 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (3537 tests: 3525 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (3586 tests: 3574 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (3525 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (3574 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -401,6 +401,7 @@ tests/test_particle_geometry.py                51 passed  ← Pillar 7:  particl
 tests/test_dark_matter_geometry.py             45 passed  ← Pillar 8:  dark matter as B_μ [TIER 2]
 tests/test_coupled_attractor.py                61 passed  ← Pillar 9:  Coupled Master Equation [TIER 2]
 tests/test_stellar.py                          91 passed  ← Pillar 11: astronomy as FTUM fixed points [TIER 2]
+tests/test_planetary.py                        49 passed  ← Pillar 11: planetary orbitals, braid resonances (7²) [TIER 2]
 tests/test_atomic_structure.py                187 passed  ← Pillar 14: atomic structure as KK modes [TIER 2]
 tests/test_cold_fusion.py                     215 passed  ← Pillar 15: cold fusion as φ tunneling [TIER 2]
 # — TIER 3: Analogical applications (tests confirm code correctness ONLY; not physical truth) —
@@ -421,7 +422,7 @@ tests/test_genetics.py                         78 passed  ← Pillar 25: genetic
 tests/test_materials.py                        75 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 3525 passed, 1 skipped, 11 deselected ================================
+================================ 3574 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -446,8 +447,8 @@ interacting manifolds (physical, biological, intentional, computational, and rel
 `mvm.py` · `hils_thermalization.py` · `stochastic_jitter.py` · `non_hermitian_coupling.py` ·
 `resonance_dynamics.py` · `pentad_pilot.py` · `pentad_interrogation.py` · `braid_topology.py`
 
-**Test suite:** 1209 tests — all passing.
-*(includes `test_pentad_interrogation.py`: **74 tests = k_cs = 5² + 7²** — manifold fingerprint)*
+**Test suite:** 1234 tests — all passing.
+*(includes `test_pentad_interrogation.py`: **74 tests = k_cs = 5² + 7²** — manifold fingerprint; `test_pentad_pilot.py`: **25 = 5²** tests for the PPN-1 interface)*
 
 ```bash
 python -m pytest "Unitary Pentad/" -q
@@ -711,7 +712,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**3537 tests: 3525 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**3586 tests: 3574 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -723,7 +724,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (3537 tests: 3525 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (3586 tests: 3574 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
