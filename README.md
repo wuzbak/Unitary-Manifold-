@@ -3,7 +3,7 @@
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![3423 Tests: 3411 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3411%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![3537 Tests: 3525 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-3525%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
@@ -229,7 +229,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 3330 tests are passing in all three — but "passing" means
+> of content, and all 3525 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -359,19 +359,19 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (3423 tests: 3411 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (3537 tests: 3525 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (3411 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (3525 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
 tests/test_fiber_bundle.py                     96 passed  ← fiber-bundle geometry
 tests/test_completions.py                      72 passed  ← completion/endpoint tests
-tests/test_braided_winding.py                 108 passed  ← braided (5,7) resonance, r-tension ✓, 3 adversarial attacks
+tests/test_braided_winding.py                 118 passed  ← braided (5,7) resonance, r-tension ✓, 3 adversarial attacks
 tests/test_uniqueness.py                       61 passed  ← uniqueness theorems
 tests/test_derivation.py                       59 passed
 tests/test_derivation_module.py                59 passed  ← Stage 0–3 constraint derivation
@@ -409,19 +409,19 @@ tests/test_geology.py                          59 passed  ← Pillar 12: geology
 tests/test_oceanography.py                     46 passed  ← Pillar 12: oceanography [TIER 3]
 tests/test_meteorology.py                      45 passed  ← Pillar 12: meteorology [TIER 3]
 tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors [TIER 3]
-tests/test_medicine.py                         63 passed  ← Pillar 17: medicine as φ homeostasis [TIER 3]
-tests/test_justice.py                          63 passed  ← Pillar 18: justice as φ equity [TIER 3]
-tests/test_governance.py                      252 passed  ← Pillar 19: governance as φ stability [TIER 3]
-tests/test_neuroscience.py                    100 passed  ← Pillar 20: neuroscience as φ neural nets [TIER 3]
-tests/test_ecology.py                          95 passed  ← Pillar 21: ecology as φ ecosystems [TIER 3]
-tests/test_climate.py                          90 passed  ← Pillar 22: climate as φ radiative engine [TIER 3]
-tests/test_marine.py                           90 passed  ← Pillar 23: marine biology & deep ocean [TIER 3]
-tests/test_psychology.py                       90 passed  ← Pillar 24: psychology as φ behaviour [TIER 3]
-tests/test_genetics.py                         90 passed  ← Pillar 25: genetics as φ information [TIER 3]
-tests/test_materials.py                        90 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
+tests/test_medicine.py                        139 passed  ← Pillar 17: medicine as φ homeostasis [TIER 3]
+tests/test_justice.py                         124 passed  ← Pillar 18: justice as φ equity [TIER 3]
+tests/test_governance.py                      115 passed  ← Pillar 19: governance as φ stability [TIER 3]
+tests/test_neuroscience.py                     92 passed  ← Pillar 20: neuroscience as φ neural nets [TIER 3]
+tests/test_ecology.py                          70 passed  ← Pillar 21: ecology as φ ecosystems [TIER 3]
+tests/test_climate.py                          66 passed  ← Pillar 22: climate as φ radiative engine [TIER 3]
+tests/test_marine.py                           72 passed  ← Pillar 23: marine biology & deep ocean [TIER 3]
+tests/test_psychology.py                       82 passed  ← Pillar 24: psychology as φ behaviour [TIER 3]
+tests/test_genetics.py                         78 passed  ← Pillar 25: genetics as φ information [TIER 3]
+tests/test_materials.py                        75 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 3411 passed, 1 skipped, 11 deselected ================================
+================================ 3525 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -711,7 +711,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**3423 tests: 3411 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**3537 tests: 3525 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 ---
 
@@ -723,7 +723,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (3423 tests: 3411 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (3537 tests: 3525 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

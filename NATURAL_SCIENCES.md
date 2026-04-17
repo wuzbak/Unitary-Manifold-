@@ -327,18 +327,18 @@ The natural sciences are not separate disciplines connected by analogy. They are
 | Biology | `tests/test_biology.py` | 111 |
 | Atomic Structure | `tests/test_atomic_structure.py` | 187 |
 | Cold Fusion | `tests/test_cold_fusion.py` | 215 |
-| Medicine | `tests/test_medicine.py` | 63 |
-| Justice | `tests/test_justice.py` | 63 |
-| Governance | `tests/test_governance.py` | 252 |
-| Neuroscience | `tests/test_neuroscience.py` | 100 |
-| Ecology | `tests/test_ecology.py` | 95 |
-| Climate | `tests/test_climate.py` | 90 |
-| Marine | `tests/test_marine.py` | 90 |
-| Psychology | `tests/test_psychology.py` | 90 |
-| Genetics | `tests/test_genetics.py` | 90 |
-| Materials | `tests/test_materials.py` | 90 |
-| **New total (Pillars 10–26)** | | **1779** |
-| **Grand total (all pillars)** | | **3423 collected · 3411 passed · 1 skipped · 11 slow-deselected** |
+| Medicine | `tests/test_medicine.py` | 139 |
+| Justice | `tests/test_justice.py` | 124 |
+| Governance | `tests/test_governance.py` | 115 |
+| Neuroscience | `tests/test_neuroscience.py` | 92 |
+| Ecology | `tests/test_ecology.py` | 70 |
+| Climate | `tests/test_climate.py` | 66 |
+| Marine | `tests/test_marine.py` | 72 |
+| Psychology | `tests/test_psychology.py` | 82 |
+| Genetics | `tests/test_genetics.py` | 78 |
+| Materials | `tests/test_materials.py` | 75 |
+| **New total (Pillars 10–26)** | | **1920** |
+| **Grand total (all pillars)** | | **3537 collected · 3525 passed · 1 skipped · 11 slow-deselected** |
 
 ---
 

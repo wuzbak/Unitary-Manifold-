@@ -80,7 +80,7 @@ The single-winding-mode theory (n_w = 5) predicts r = 0.097, which exceeds the B
     r_braided = r_bare × c_s ≈ 0.097 × 0.3243 ≈ 0.0315   (below BICEP/Keck limit ✓)
     ns_braided ≈ 0.9635                                    (Planck 1σ, unchanged ✓)
 
-The integer k_cs = 74 was already independently selected by the birefringence measurement — the fact that it also equals 5² + 7² is the **resonance identity**: the Chern–Simons level is precisely the Euclidean norm-squared of the braid vector.  This resolves Q18 without introducing any new free parameters.  See `src/core/braided_winding.py` for the derivation and `tests/test_braided_winding.py` (70 tests) for numerical verification.
+The integer k_cs = 74 was already independently selected by the birefringence measurement — the fact that it also equals 5² + 7² is the **resonance identity**: the Chern–Simons level is precisely the Euclidean norm-squared of the braid vector.  This resolves Q18 without introducing any new free parameters.  See `src/core/braided_winding.py` for the derivation and `tests/test_braided_winding.py` (118 tests) for numerical verification.
 
 These four results emerging from the same framework without independent tuning is the primary evidence that the geometry is capturing something real.
 
@@ -194,7 +194,7 @@ BRAIN:       Brain and universe share the same 5D geometry; consciousness = coup
 COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-body problem; implemented in src/consciousness/coupled_attractor.py
 GAPS:        CMB amplitude ×4–7 suppressed; φ₀ self-consistency not fully closed in code
 FALSIFIER:   LiteBIRD birefringence measurement (β ≠ 0.35°) or ET/LISA null scalar GW
-TESTS:       3423 total | 3411 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
+TESTS:       3537 total | 3525 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
              src/consciousness/coupled_attractor.py  ← Pillar 9: Coupled Master Equation
              src/chemistry/{bonds,reactions,periodic}.py  ← Pillar 10: Chemistry
