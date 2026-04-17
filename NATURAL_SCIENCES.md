@@ -338,7 +338,7 @@ The natural sciences are not separate disciplines connected by analogy. They are
 | Genetics | `tests/test_genetics.py` | 78 |
 | Materials | `tests/test_materials.py` | 75 |
 | **New total (Pillars 10–26)** | | **1920** |
-| **Grand total (all pillars)** | | **3537 collected · 3525 passed · 1 skipped · 11 slow-deselected** |
+| **Grand total (all pillars)** | | **3586 collected · 3574 passed · 1 skipped · 11 slow-deselected** |
 
 ---
 

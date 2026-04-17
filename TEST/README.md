@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**3537 tests: 3525 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-17, Python 3.12, pytest 9.0.3
+**3586 tests: 3574 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-17, Python 3.12, pytest 9.0.3
 
-*(3525 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+*(3574 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ### The 1 skipped test
 
@@ -46,7 +46,7 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 3525 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 3574 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 python -m pytest tests/             # all fast + slow
 ```
@@ -54,7 +54,7 @@ python -m pytest tests/             # all fast + slow
 Expected result (default):
 
 ```
-3525 passed, 1 skipped, 11 deselected in ~80s
+3574 passed, 1 skipped, 11 deselected in ~80s
 ```
 
 ---
@@ -75,6 +75,7 @@ Expected result (default):
 | `tests/test_fiber_bundle.py` | 96 | Principal bundles over M₄ (KK U(1), SU(2)_L, SU(3), U(1)_Y, trivial), characteristic classes, c₁[KK U(1)]=k_cs=74, c₂[SU(2)_L]=n_w=5, global anomaly cancellation |
 | `tests/test_neuroscience.py` | 92 | Neurons, synaptic dynamics, cognition as φ networks |
 | `tests/test_stellar.py` | 91 | Stellar structure, nucleosynthesis, compact objects |
+| `tests/test_planetary.py` | 49 | Planetary orbitals, braid scaling laws, (5,7) resonance checks (7² tests) |
 | `tests/test_psychology.py` | 82 | Cognition, behaviour, social psychology |
 | `tests/test_genetics.py` | 78 | Genomics, gene expression, molecular evolution |
 | `tests/test_materials.py` | 75 | Condensed matter, semiconductors, metamaterials |
@@ -117,7 +118,7 @@ Expected result (default):
 | `tests/test_kk_gauge_spectrum.py` | 36 | KK gauge boson mass spectrum, mode coupling, gauge group emergence |
 | `tests/test_kk_geodesic_reduction.py` | 23 | Lorentz force as geodesic theorem, Γ^μ_{ν5} identity, A_μ = λB_μ derivation |
 | `tests/test_im_action.py` | 22 | Irreversibility measure action, boundary terms, entropy current |
-| **Total** | **3537** | **3525 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| **Total** | **3586** | **3574 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 
