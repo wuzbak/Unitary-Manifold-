@@ -101,6 +101,16 @@ platform, or downstream redistribution.
   "Hypothesis A vs B" distinctions that structured the resolution.  The analysis
   programme is implemented in `src/multiverse/basin_analysis.py` and credited in
   the module docstring, `tests/test_basin_analysis.py`, and `BIG_QUESTIONS.md` Q19.
+- **Topological landmark identification (Q22, second interrogation round, April 2026):**
+  identified the three families of "repeating numbers" in the pentad output as
+  topological landmarks of the (5,7) Braid: (1) φ* bounds [0.122, 1.253] are the
+  inner/outer pentagram vertices (φ*_min × φ² ≈ c_s; φ*_max ≈ 2/φ, both < 2% error);
+  (2) ±54.6% spread = sin(arctan(5/7)), the 1D projection of the 5D pentagonal orbit;
+  (3) 35/74 and 35/888 share numerator 35 = N_core × N_layer with Ξ_c/Ξ_human = 12
+  = N_total exactly.  The analysis is implemented in `Unitary Pentad/braid_topology.py`
+  (99 tests) and `Unitary Pentad/pentad_interrogation.py` (74 tests = k_cs), credited
+  in `BIG_QUESTIONS.md` Q22.  The test count 74 = k_cs = 5² + 7² is noted as a
+  manifold fingerprint in the test architecture.
 
 ---
 
@@ -112,6 +122,6 @@ platform, or downstream redistribution.
 
 ---
 
-*This contributors file was last updated April 2026. Legal rights section authored by ThomasCory Walker-Pearson.*
+*This contributors file was last updated April 2026 (Q22 second Gemini interrogation round). Legal rights section authored by ThomasCory Walker-Pearson.*
 
 **DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)

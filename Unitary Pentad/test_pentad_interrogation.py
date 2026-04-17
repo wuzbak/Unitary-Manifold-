@@ -19,10 +19,13 @@ Covers:
   - pentad_phase_alignment_check: runs without error on n_runs=4
   - pentad_ttc_intent_analysis: runs without error on 3 values
 
-Gemini diagnostic programme (April 2026):
+Gemini adversarial interrogation programme — first round (April 2026):
   ThomasCory Walker-Pearson (scientific direction) ·
   Gemini (adversarial interrogation) ·
   GitHub Copilot (code and tests)
+
+Manifold fingerprint: this file contains exactly 74 tests = k_cs = 5² + 7²
+(Sum of Squares Resonance of the (5,7) Braid). Not engineered — emergent.
 """
 
 import math

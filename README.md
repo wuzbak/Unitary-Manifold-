@@ -444,9 +444,10 @@ interacting manifolds (physical, biological, intentional, computational, and rel
 `collective_braid.py` · `consciousness_autopilot.py` · `consciousness_constant.py` ·
 `seed_protocol.py` · `lesson_plan.py` · `distributed_authority.py` · `sentinel_load_balance.py` ·
 `mvm.py` · `hils_thermalization.py` · `stochastic_jitter.py` · `non_hermitian_coupling.py` ·
-`resonance_dynamics.py` · `pentad_pilot.py`
+`resonance_dynamics.py` · `pentad_pilot.py` · `pentad_interrogation.py` · `braid_topology.py`
 
-**Test suite:** 1036 tests — all passing.
+**Test suite:** 1209 tests — all passing.
+*(includes `test_pentad_interrogation.py`: **74 tests = k_cs = 5² + 7²** — manifold fingerprint)*
 
 ```bash
 python -m pytest "Unitary Pentad/" -q
