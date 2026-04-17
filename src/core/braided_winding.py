@@ -111,9 +111,9 @@ birefringence_scenario_scan(beta_center_deg, beta_sigma_deg) -> BirefringenceSce
     SOS-resonant (n1, n2) pairs inside the measurement window, and
     identify which of those survive the triple constraint (SOS ∩ Planck
     nₛ ∩ BICEP/Keck r).  With canonical parameters (r_c = 12,
-    Δφ = 5.072), only two triply-viable points exist:
-        (5, 6) at k = 61, β ≈ 0.273°
-        (5, 7) at k = 74, β ≈ 0.331°
+    Δφ ≈ 5.38), only two triply-viable points exist:
+        (5, 6) at k = 61, β ≈ 0.290°
+        (5, 7) at k = 74, β ≈ 0.351°
     Any β measurement outside [0.223°, 0.381°] leaves zero viable states.
 
 kk_tower_cs_floor(n1, n2, k_cs, n_kk_max) -> KKTowerResult
@@ -165,6 +165,7 @@ from src.core.inflation import (
     birefringence_angle,
     field_displacement_gw,
     cs_level_for_birefringence,
+    jacobian_rs_orbifold,
 )
 
 # ---------------------------------------------------------------------------
@@ -180,6 +181,17 @@ PHI0_BARE_FTUM:  float = 1.0     # FTUM fixed-point bare vev
 # ---------------------------------------------------------------------------
 _ALPHA_EM_CANONICAL: float = 1.0 / 137.036
 _R_C_CANONICAL:      float = 12.0          # compactification radius [M_Pl⁻¹]
+_PHI_MIN_BARE:       float = 18.0          # GW bare minimum field value [M_Pl]
+
+# Correct canonical field displacement:
+#   Δφ = J_KK(k=1, r_c) × φ_min_bare × (1 − 1/√3)
+# where J_KK = jacobian_rs_orbifold(k=1, r_c) = 1/√2 at saturation.
+# Do NOT use field_displacement_gw(r_c) — that passes the radius as though
+# it were phi_min_phys, giving Δφ ≈ 5.07 and shifting k_cs → 78 by ~6%.
+def _canonical_phi_min_phys(r_c: float = _R_C_CANONICAL,
+                             phi_min_bare: float = _PHI_MIN_BARE) -> float:
+    """4D canonical GW minimum: J_KK(r_c) × phi_min_bare."""
+    return float(jacobian_rs_orbifold(k=1, r_c=r_c) * phi_min_bare)
 
 
 # ---------------------------------------------------------------------------
@@ -639,12 +651,13 @@ def birefringence_scenario_scan(
         |nₛ(n1) − 0.9649| ≤ ns_sigma_max × 0.0042    (Planck nₛ window)
         r_eff < r_limit                                 (BICEP/Keck r bound)
 
-    With canonical parameters (r_c = 12, alpha_em = 1/137.036) the full β range
-    that contains at least one triply-viable state is [0.223°, 0.381°], within
-    which exactly two states exist:
+    With canonical parameters (r_c = 12, alpha_em = 1/137.036,
+    Δφ = J_KK × 18 × (1−1/√3) ≈ 5.38) the full β range that contains at
+    least one triply-viable state is [0.223°, 0.381°], within which
+    exactly two states exist:
 
-        (5, 6) at k = 61, β ≈ 0.273°, r_eff ≈ 0.018, c_s ≈ 0.180
-        (5, 7) at k = 74, β ≈ 0.331°, r_eff ≈ 0.031, c_s ≈ 0.324
+        (5, 6) at k = 61, β ≈ 0.290°, r_eff ≈ 0.018, c_s ≈ 0.180
+        (5, 7) at k = 74, β ≈ 0.351°, r_eff ≈ 0.031, c_s ≈ 0.324
 
     Any β measurement outside that range — including a null result — yields zero
     triply-viable states, falsifying the braided-winding mechanism.
@@ -663,7 +676,7 @@ def birefringence_scenario_scan(
     -------
     BirefringenceScenario
     """
-    delta_phi = field_displacement_gw(r_c)
+    delta_phi = field_displacement_gw(_canonical_phi_min_phys(r_c))
 
     beta_lo = max(1e-6, beta_center_deg - beta_sigma_deg)
     beta_hi = beta_center_deg + beta_sigma_deg
@@ -884,7 +897,7 @@ def projection_degeneracy_fraction(
     -------
     ProjectionDegeneracyResult
     """
-    delta_phi = field_displacement_gw(r_c)
+    delta_phi = field_displacement_gw(_canonical_phi_min_phys(r_c))
 
     # Collect all triply-viable (n1, n2) pairs
     viable: List[BraidedPrediction] = []
