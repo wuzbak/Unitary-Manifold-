@@ -295,13 +295,85 @@ These are not defects hidden by the validation. They are the validation.
 
 ---
 
+## CI Validation — GitHub Actions
+
+Every push and pull request to this repository runs the full validation pipeline
+automatically via GitHub Actions. The badge at the top of `README.md` reflects the
+live status of the most recent run.
+
+[![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
+
+### The Tests Workflow (`.github/workflows/tests.yml`)
+
+Triggers on every `push` to any branch and every `pull_request`. Runs **6 parallel jobs**
+on `ubuntu-latest` with Python 3.12.
+
+| Job | Command | What it covers | Expected result |
+|-----|---------|----------------|-----------------|
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–26 — fast suite | 3574 passed · 1 skipped · 11 deselected · 0 failed |
+| `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
+| `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
+| `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
+| `test-pentad` | `pytest "Unitary Pentad/" -v` | HILS governance framework, 18 modules | 1234 passed · 0 failed |
+| `algebra-proof` | `python3 ALGEBRA_PROOF.py` | 114-check formal falsification proof (§1–§13) | exit code 0 |
+
+All 6 jobs must pass for the workflow badge to show green. A failure in any single job
+turns the badge red and blocks merge.
+
+### The Claims Suite (`claims/`)
+
+The `claims/` directory isolates four of the theory's central quantitative claims into
+self-contained, individually falsifiable proofs. Each claim has its own `verify.py`
+(runnable demonstration) and `test_claim.py` (pytest tests that *fail* if the claim is
+removed or numerically violated).
+
+| Claim | What it asserts | Key number | What would falsify it |
+|-------|-----------------|------------|-----------------------|
+| [`integer_derivation/`](claims/integer_derivation/) | k_CS = 74 is derived from (5,7) braid geometry — not a fit | k_CS = 74 = 5²+7² | β null result at 3σ; or k_CS found to require external input |
+| [`tensor_ratio_fix/`](claims/tensor_ratio_fix/) | r ≈ 0.097 under single-winding; braided state resolves to r ≈ 0.0315 | r = 0.097 (single) / 0.0315 (braided) | CMB-S4 confirms r < 0.036 for single-winding |
+| [`amplitude_normalization/`](claims/amplitude_normalization/) | COBE amplitude λ uniquely fixes the overall normalisation; nₛ and r are λ-free | λ = 6.99 × 10⁻¹⁵ | λ-dependence found in nₛ or r |
+| [`anomaly_inflow/`](claims/anomaly_inflow/) | 5D Chern-Simons inflow generates the axion-photon coupling g_aγγ → β ≈ 0.35° | g_aγγ ≈ 2.28 × 10⁻³ | β null result at 3σ; or formula shown inconsistent with 5D CS action |
+
+These tests provide a sharper target than the main suite: they are written so that
+if any one of the four core quantitative claims is weakened, its test suite immediately
+turns red in CI.
+
+### Other Workflows
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `build-download.yml` | Manual (`workflow_dispatch`) | Packages the full repository into a timestamped ZIP artifact (30-day retention) for offline distribution |
+| `release.yml` | Tag push matching `v*` or manual dispatch | Creates a GitHub Release with a source archive attached; triggers Zenodo automatic archiving and DOI minting |
+| `pages.yml` | Push to `main` | Deploys the repository as a GitHub Pages site via Jekyll |
+
+### What CI Validates (and What It Does Not)
+
+CI validation confirms exactly the same things as local validation — no more, no less:
+
+✅ **What CI confirms:**
+- Every test in all five suites passes on a clean `ubuntu-latest` environment with Python 3.12
+- The `ALGEBRA_PROOF.py` script exits 0 on a fresh checkout
+- The claims suite does not silently regress on any push
+- All of the above hold for every branch and every pull request, not just `main`
+
+❌ **What CI does not confirm:**
+- That the theory describes the real universe (requires telescopes)
+- That the CMB simulations are publication-accurate (they are ~10–15% accurate; CAMB/CLASS not used)
+- That the open failure modes documented in `submission/falsification_report.md` have been resolved
+- That the primary falsification condition (LiteBIRD β measurement) has been tested
+
+The CI badge being green is a necessary condition for confidence in the codebase.
+It is not a sufficient condition for physical truth.
+
+---
+
 ## Running the Validation Yourself
 
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Full test suite (all three suites, ~90 seconds)
+# Full test suite (core physics + recycling + Pentad, ~90 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
 # Expected: 5124 passed, 1 skipped, 11 deselected, 0 failed
 
@@ -313,12 +385,21 @@ python3 -m pytest tests/ -q
 python3 -m pytest tests/ -m slow
 # Expected: 11 passed, 0 failed
 
+# Claims suite (four isolated core-claim proofs)
+python3 -m pytest claims/ -v
+# Expected: all pass
+
 # Formal algebraic proof (114 checks, §1–§13)
 python3 ALGEBRA_PROOF.py
 # Expected: exit code 0 (all 114 pass)
 # Or equivalently:
 python3 -m pytest ALGEBRA_PROOF.py -v
 ```
+
+The GitHub Actions CI runs all of the above automatically on every push and pull request.
+The live badge reflects the current status of the `main` branch:
+
+[![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 
 ---
 
@@ -331,6 +412,11 @@ python3 -m pytest ALGEBRA_PROOF.py -v
 | [`REVIEW_CONCLUSION.md`](REVIEW_CONCLUSION.md) | Version-by-version technical audit; shows the working and the failures fixed |
 | [`submission/falsification_report.md`](submission/falsification_report.md) | Pre-submission adversarial assessment; every known failure mode stated first |
 | [`ALGEBRA_PROOF.py`](ALGEBRA_PROOF.py) | 114 executable algebraic checks; lossless 5D pipeline proof in §13 |
+| [`claims/`](claims/) | Four isolated core-claim suites (integer_derivation, tensor_ratio_fix, amplitude_normalization, anomaly_inflow) |
+| [`.github/workflows/tests.yml`](.github/workflows/tests.yml) | CI: 6-job parallel test pipeline; runs on every push and pull request |
+| [`.github/workflows/release.yml`](.github/workflows/release.yml) | CI: creates GitHub Release + triggers Zenodo archiving on `v*` tag push |
+| [`.github/workflows/build-download.yml`](.github/workflows/build-download.yml) | CI: manual ZIP artifact build for offline distribution |
+| [`.github/workflows/pages.yml`](.github/workflows/pages.yml) | CI: deploys GitHub Pages site on push to `main` |
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
 | [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
 | [`TEST/RESULTS.md`](TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
