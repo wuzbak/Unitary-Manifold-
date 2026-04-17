@@ -595,9 +595,9 @@ class TestArrowOfTimeDecoupling:
 class TestBirefringenceScenarioScan:
     """Attack 2: sweep β over LiteBIRD uncertainty; check admissible region.
 
-    Key numerical results (canonical params: r_c=12, Δφ≈5.072):
-        (5,6): k=61, β≈0.273°, r_eff≈0.018, c_s≈0.180
-        (5,7): k=74, β≈0.331°, r_eff≈0.031, c_s≈0.324
+    Key numerical results (canonical params: r_c=12, Δφ≈5.38):
+        (5,6): k=61, β≈0.290°, r_eff≈0.018, c_s≈0.180
+        (5,7): k=74, β≈0.351°, r_eff≈0.031, c_s≈0.324
 
     These are the ONLY two triply-viable SOS states.
     """
@@ -652,16 +652,18 @@ class TestBirefringenceScenarioScan:
     # --- CMB-S4 discrimination ---
 
     def test_cmbs4_near_k74_selects_unique_state(self):
-        """CMB-S4 ±0.05° centred near β(k=74)≈0.331° isolates (5,7) uniquely."""
-        result = birefringence_scenario_scan(0.331, 0.05)
+        """CMB-S4 ±0.05° centred at β(k=74)≈0.351° isolates (5,7) uniquely.
+        (canonical Δφ≈5.38; window [0.301°, 0.401°] excludes k=61 at 0.290°)"""
+        result = birefringence_scenario_scan(0.351, 0.05)
         assert result.uniqueness_holds
         assert len(result.triply_viable) == 1
         assert result.triply_viable[0].n1 == 5
         assert result.triply_viable[0].n2 == 7
 
     def test_cmbs4_near_k61_selects_unique_state(self):
-        """CMB-S4 ±0.05° centred near β(k=61)≈0.273° isolates (5,6) uniquely."""
-        result = birefringence_scenario_scan(0.273, 0.05)
+        """CMB-S4 ±0.05° centred at β(k=61)≈0.290° isolates (5,6) uniquely.
+        (canonical Δφ≈5.38; window [0.240°, 0.340°] excludes k=74 at 0.351°)"""
+        result = birefringence_scenario_scan(0.290, 0.05)
         assert result.uniqueness_holds
         assert len(result.triply_viable) == 1
         assert result.triply_viable[0].n1 == 5
@@ -671,7 +673,7 @@ class TestBirefringenceScenarioScan:
 
     def test_gap_region_has_no_viable_state(self):
         """A CMB-S4 measurement at β=0.30° ± 0.01° falls in the gap between
-        the two viable states (0.273° and 0.331°) and finds zero viable pairs,
+        the two viable states (0.290° and 0.351°) and finds zero viable pairs,
         falsifying the braided-winding mechanism."""
         result = birefringence_scenario_scan(0.30, 0.01)
         assert len(result.triply_viable) == 0
@@ -699,9 +701,9 @@ class TestBirefringenceScenarioScan:
         result = birefringence_scenario_scan(0.35, 0.14)
         betas = sorted(result.beta_predicted)
         assert len(betas) == 2
-        # k=61 → β≈0.273°,  k=74 → β≈0.331°
-        assert abs(betas[0] - 0.273) < 0.005
-        assert abs(betas[1] - 0.331) < 0.005
+        # k=61 → β≈0.290°,  k=74 → β≈0.351°  (canonical Δφ≈5.38)
+        assert abs(betas[0] - 0.290) < 0.005
+        assert abs(betas[1] - 0.351) < 0.005
 
     # --- r_eff of each viable state ---
 
