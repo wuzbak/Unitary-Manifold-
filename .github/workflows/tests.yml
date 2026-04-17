@@ -7,6 +7,9 @@ on:
     branches: ["**"]
 
 jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 1: Fast test suite (tests/ — excludes @pytest.mark.slow)
+  # ──────────────────────────────────────────────────────────────────────────
   test:
     runs-on: ubuntu-latest
     permissions:
@@ -18,5 +21,90 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest
-      - name: Run pytest
+      - name: Run pytest (fast suite — tests/)
         run: python -m pytest tests/ -v
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 2: Slow test suite (tests/ -m slow — Richardson extrapolation etc.)
+  # ──────────────────────────────────────────────────────────────────────────
+  test-slow:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      - name: Run pytest (slow suite — tests/ -m slow)
+        run: python -m pytest tests/ -m slow -v
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 3: Claims verification (claims/ — integer derivation, birefringence, etc.)
+  # ──────────────────────────────────────────────────────────────────────────
+  test-claims:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      - name: Run pytest (claims/)
+        run: python -m pytest claims/ -v
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 4: Recycling suite (recycling/ — Pillar 16 φ-debt entropy accounting)
+  # ──────────────────────────────────────────────────────────────────────────
+  test-recycling:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      - name: Run pytest (recycling/)
+        run: python -m pytest recycling/ -v
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 5: Unitary Pentad suite (Unitary Pentad/ — HILS governance framework)
+  # ──────────────────────────────────────────────────────────────────────────
+  test-pentad:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      - name: Run pytest (Unitary Pentad/)
+        run: python -m pytest "Unitary Pentad/" -v
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 6: ALGEBRA_PROOF.py — 114-check formal falsification proof
+  # ──────────────────────────────────────────────────────────────────────────
+  algebra-proof:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest sympy
+      - name: Run ALGEBRA_PROOF.py (114 formal checks)
+        run: python3 ALGEBRA_PROOF.py
