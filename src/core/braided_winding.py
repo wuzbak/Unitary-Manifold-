@@ -184,13 +184,20 @@ _R_C_CANONICAL:      float = 12.0          # compactification radius [M_Pl⁻¹]
 _PHI_MIN_BARE:       float = 18.0          # GW bare minimum field value [M_Pl]
 
 # Correct canonical field displacement:
-#   Δφ = J_KK(k=1, r_c) × φ_min_bare × (1 − 1/√3)
+#   φ_min_phys = J_KK(k=1, r_c) × φ_min_bare    (returned by _canonical_phi_min_phys)
+#   Δφ         = φ_min_phys × (1 − 1/√3)          (applied downstream by field_displacement_gw)
 # where J_KK = jacobian_rs_orbifold(k=1, r_c) = 1/√2 at saturation.
 # Do NOT use field_displacement_gw(r_c) — that passes the radius as though
 # it were phi_min_phys, giving Δφ ≈ 5.07 and shifting k_cs → 78 by ~6%.
 def _canonical_phi_min_phys(r_c: float = _R_C_CANONICAL,
                              phi_min_bare: float = _PHI_MIN_BARE) -> float:
-    """4D canonical GW minimum: J_KK(r_c) × phi_min_bare."""
+    """4D canonical GW minimum field value: J_KK(k=1, r_c) × phi_min_bare.
+
+    This is the physical (4D Einstein-frame) field minimum obtained by
+    projecting the 5D bare minimum through the orbifold Jacobian.  Pass
+    the return value to ``field_displacement_gw`` to obtain the physical
+    field displacement Δφ = φ_min_phys × (1 − 1/√3) ≈ 5.38 (for r_c=12).
+    """
     return float(jacobian_rs_orbifold(k=1, r_c=r_c) * phi_min_bare)
 
 

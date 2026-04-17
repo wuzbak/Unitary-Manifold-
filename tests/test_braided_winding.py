@@ -652,7 +652,8 @@ class TestBirefringenceScenarioScan:
     # --- CMB-S4 discrimination ---
 
     def test_cmbs4_near_k74_selects_unique_state(self):
-        """CMB-S4 ±0.05° centred at β(k=74)≈0.351° isolates (5,7) uniquely."""
+        """CMB-S4 ±0.05° centred at β(k=74)≈0.351° isolates (5,7) uniquely.
+        (canonical Δφ≈5.38; window [0.301°, 0.401°] excludes k=61 at 0.290°)"""
         result = birefringence_scenario_scan(0.351, 0.05)
         assert result.uniqueness_holds
         assert len(result.triply_viable) == 1
@@ -660,7 +661,8 @@ class TestBirefringenceScenarioScan:
         assert result.triply_viable[0].n2 == 7
 
     def test_cmbs4_near_k61_selects_unique_state(self):
-        """CMB-S4 ±0.05° centred at β(k=61)≈0.290° isolates (5,6) uniquely."""
+        """CMB-S4 ±0.05° centred at β(k=61)≈0.290° isolates (5,6) uniquely.
+        (canonical Δφ≈5.38; window [0.240°, 0.340°] excludes k=74 at 0.351°)"""
         result = birefringence_scenario_scan(0.290, 0.05)
         assert result.uniqueness_holds
         assert len(result.triply_viable) == 1
