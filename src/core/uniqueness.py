@@ -114,6 +114,7 @@ from src.core.inflation import (
     cs_axion_photon_coupling,
     birefringence_angle,
     field_displacement_gw,
+    jacobian_rs_orbifold,
 )
 
 
@@ -126,6 +127,17 @@ PHI0_FTUM: float = 1.0       # FTUM fixed-point bare radion vev (Planck units)
 N_EFOLDS_MIN: int = 60       # Minimum e-folds for inflation
 ALPHA_EM: float = 1.0 / 137.036
 R_C_CANONICAL: float = 12.0  # Compactification radius [M_Pl = 1]
+PHI_MIN_BARE: float = 18.0   # GW bare minimum field value (Planck units)
+# Canonical 4D Einstein-frame field displacement (the "smoking gun" constant).
+# Correct formula: delta_phi = J_KK * PHI_MIN_BARE * (1 - 1/sqrt(3))
+#   where J_KK = jacobian_rs_orbifold(k=1, r_c=R_C_CANONICAL) = 1/sqrt(2).
+# This is NOT field_displacement_gw(R_C_CANONICAL) — that call incorrectly
+# passes the compactification radius as phi_min_phys and produces delta_phi ≈ 5.07,
+# shifting k_cs → 78 and β off by ~6%.  The correct value is ≈ 5.38.
+def _canonical_phi_min_phys(r_c: float = R_C_CANONICAL,
+                             phi_min_bare: float = PHI_MIN_BARE) -> float:
+    """4D canonical GW minimum: J_KK(r_c) * phi_min_bare."""
+    return float(jacobian_rs_orbifold(k=1, r_c=r_c) * phi_min_bare)
 
 
 # ---------------------------------------------------------------------------
@@ -861,7 +873,7 @@ def integer_quantization_discriminant(
     IntegerQuantizationDiscriminant
     """
     if phi_min_phys is None:
-        phi_min_phys = field_displacement_gw(r_c)
+        phi_min_phys = field_displacement_gw(_canonical_phi_min_phys(r_c))
 
     # Compute β(k) for all k in range
     betas = []
@@ -943,7 +955,7 @@ def full_uniqueness_report(
     phi0_eff = effective_phi0_kk(phi0_bare, n_w)
     ns, r, eps, eta = ns_from_phi0(phi0_eff)
     g_agg = cs_axion_photon_coupling(k_cs, alpha_em, r_c)
-    dphi = field_displacement_gw(r_c)
+    dphi = field_displacement_gw(_canonical_phi_min_phys(r_c))
     beta_deg = float(np.degrees(birefringence_angle(g_agg, dphi)))
 
     scan = uniqueness_scan()
