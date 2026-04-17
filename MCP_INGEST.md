@@ -246,7 +246,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_genetics.py                  # Genetics as φ information archive (90) — v9.11
 │   ├── test_materials.py                 # Materials science as φ lattice (90) — v9.11
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 3423 tests — 3411 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # Total: 3537 tests — 3525 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
 │   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
 │   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
 │
@@ -454,7 +454,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **3423 tests: 3411 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **3537 tests: 3525 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

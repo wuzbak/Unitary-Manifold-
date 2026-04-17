@@ -107,7 +107,7 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | `sentinel_load_balance.py` | Sentinel Load-Balancing — per-axiom entropy capacity, redistribution, overload detection |
 | `test_sentinel_load_balance.py` | Sentinel load-balance test suite (55 tests) |
 | `mvm.py` | Minimum Viable Manifold (MVM) — hardware-constrained architecture search, MVM constraints, minimum viable configuration |
-| `test_mvm.py` | MVM test suite (70 tests) |
+| `test_mvm.py` | MVM test suite (63 tests) |
 | `hils_thermalization.py` | Sentinel Handover — cold-start thermalization protocol for zero-HIL → first-HIL transition |
 | `test_hils_thermalization.py` | Thermalization test suite |
 | `stochastic_jitter.py` | Observer-Induced Jitter — Langevin phase-noise extension to the master equation |
@@ -116,6 +116,10 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | `test_non_hermitian_coupling.py` | Non-Hermitian coupling test suite |
 | `resonance_dynamics.py` | Resonance vs Agreement — 3:2/2:3 oscillation dynamics, SUM_OF_SQUARES_RESONANCE=74, HIL phase-shift threshold n=15 |
 | `test_resonance_dynamics.py` | Resonance dynamics test suite |
+| `braid_topology.py` | Braid Topology — pentagram bounds, variance winding, gear ratios, (5,7) resonance topology |
+| `test_braid_topology.py` | Braid topology test suite (99 tests) |
+| `pentad_interrogation.py` | Pentad Interrogation — Gemini adversarial sweep, phase alignment, TTC intent analysis |
+| `test_pentad_interrogation.py` | Pentad interrogation test suite (74 tests) |
 | `pentad_pilot.py` | Pentad Pilot Node (PPN-1) — real-time Human-in-the-Loop interface (software + optional Arduino hardware) |
 | `CONCEPTUAL_ROOTS.md` | March 28–31 design artifacts (QuantumManifold, RectifiedGridGovernor, Bayesian trust loop, adaptive trust simulation) — the intellectual ancestry of every module in this folder |
 | `STABILITY_ANALYSIS.md` | Formal orbital stability conditions and failure mode analysis |
@@ -150,7 +154,7 @@ print(f"Trust at convergence: {history[-1]['trust']:.4f}")
 From the repository root:
 
 ```bash
-# Full Unitary Pentad suite (1036 tests):
+# Full Unitary Pentad suite (1209 tests):
 python -m pytest "Unitary Pentad/" -v
 
 # Or run individual test files:

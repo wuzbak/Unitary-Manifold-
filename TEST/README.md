@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**3342 tests: 3330 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-16, Python 3.12, pytest 9.0.3
+**3537 tests: 3525 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-17, Python 3.12, pytest 9.0.3
 
-*(3330 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
+*(3525 fast tests pass by default; 1 test skips via a `pytest.skip()` guard on immediate convergence — see note below; 11 slow Richardson convergence tests run with `pytest -m slow`)*
 
 ### The 1 skipped test
 
@@ -46,7 +46,7 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 3330 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 3525 fast pass, 1 skipped (guard), 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 python -m pytest tests/             # all fast + slow
 ```
@@ -54,7 +54,7 @@ python -m pytest tests/             # all fast + slow
 Expected result (default):
 
 ```
-3330 passed, 1 skipped, 11 deselected in ~80s
+3525 passed, 1 skipped, 11 deselected in ~80s
 ```
 
 ---
@@ -113,7 +113,11 @@ Expected result (default):
 | `tests/test_discretization_invariance.py` | 13 | Grid-independence and discretization-invariance checks |
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total** | **3342** | **3330 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| `tests/test_basin_analysis.py` | 114 | FTUM 192-case convergence sweep, sensitivity analysis, bifurcation scan, topological invariants, Jacobian eigenvalues |
+| `tests/test_kk_gauge_spectrum.py` | 36 | KK gauge boson mass spectrum, mode coupling, gauge group emergence |
+| `tests/test_kk_geodesic_reduction.py` | 23 | Lorentz force as geodesic theorem, Γ^μ_{ν5} identity, A_μ = λB_μ derivation |
+| `tests/test_im_action.py` | 22 | Irreversibility measure action, boundary terms, entropy current |
+| **Total** | **3537** | **3525 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
 
 ---
 
