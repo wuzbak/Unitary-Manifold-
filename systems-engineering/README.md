@@ -23,8 +23,11 @@ you the field equations.**
 
 | File | What it covers |
 |------|---------------|
+| [`QUICK_REFERENCE.md`](./QUICK_REFERENCE.md) | **One page — print it** — four numbers with thresholds, three conditions with diagnostics, failure taxonomy decision table, ten firmware fixes in one line each |
+| [`AUDIENCE_GUIDE.md`](./AUDIENCE_GUIDE.md) | **Start here if you are new** — level-by-level explanations from student/hobbyist → entry engineer → architect → scientist → educator → executive → board member, with bridges between every level |
+| [`UPGRADE_ROADMAP.md`](./UPGRADE_ROADMAP.md) | **Start here if you want to act** — phased roadmap (Phase 0 baseline → Phase 4 hardware integration) with decision gates, success criteria, rollback plans, and a responsibility matrix for every role |
 | [`MANIFOLD_SYSTEM_STABILITY.md`](./MANIFOLD_SYSTEM_STABILITY.md) | Field-variable mapping table; stability as a fixed-point problem; why the FTUM guarantees equilibrium and what breaks it |
-| [`CURRENT_SYSTEMS_FAILURE_ANALYSIS.md`](./CURRENT_SYSTEMS_FAILURE_ANALYSIS.md) | Domain-by-domain failure analysis: telecommunications, sensory/IoT, social media, gaming — every failure mapped to a specific field-variable deviation |
+| [`CURRENT_SYSTEMS_FAILURE_ANALYSIS.md`](./CURRENT_SYSTEMS_FAILURE_ANALYSIS.md) | Domain-by-domain failure analysis across 14 domains: telecommunications, IoT/AI, social media, gaming, financial markets, healthcare, critical infrastructure — every failure mapped to a specific field-variable deviation |
 | [`FUTURE_SOFTWARE_HARDWARE.md`](./FUTURE_SOFTWARE_HARDWARE.md) | Architecture patterns, protocol redesigns, and hardware concepts that embed manifold-aligned stability guarantees into next-generation systems |
 | [`FIRMWARE_FIXES.md`](./FIRMWARE_FIXES.md) | Immediate, actionable firmware patches for deployed systems — buffer management, clock sync, radio phase correction, sensor fusion, congestion control |
 
@@ -69,6 +72,17 @@ maps to exactly one of these three violations.
 
 ## Reading Order
 
+**If you have 10 minutes and a system is behaving oddly:**  
+→ [`QUICK_REFERENCE.md`](./QUICK_REFERENCE.md) — four numbers, six failure types, ten fixes, one page.
+
+**If you are new to the framework, or you are an executive or board member:**  
+→ [`AUDIENCE_GUIDE.md`](./AUDIENCE_GUIDE.md) — find your level and read that section only.
+
+**If you want to know what to do right now:**  
+→ [`UPGRADE_ROADMAP.md`](./UPGRADE_ROADMAP.md) — Phase 0 is one week of measurement, no code changes.
+
+**If you are a systems engineer or architect ready to go deep:**
+
 1. **Start here** — this `README.md` for the field-variable table and stability guarantee.
 2. **[`MANIFOLD_SYSTEM_STABILITY.md`](./MANIFOLD_SYSTEM_STABILITY.md)** — understand *why* systems are stable or unstable at the geometric level.
 3. **[`CURRENT_SYSTEMS_FAILURE_ANALYSIS.md`](./CURRENT_SYSTEMS_FAILURE_ANALYSIS.md)** — see your domain's failure modes diagnosed precisely.
@@ -92,7 +106,7 @@ logic.  Scale changes.  Structure does not.
 
 ---
 
-*Systems Engineering folder — created April 2026.*  
+*Systems Engineering folder — updated April 2026 (v2: multi-audience bridge + upgrade roadmap).*  
 *Part of the Unitary Manifold repository (v9.11).*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.

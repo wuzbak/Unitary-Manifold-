@@ -349,7 +349,302 @@ strategies should have equal information content about winning.
 
 ---
 
-## 5. Cross-Domain Summary
+## 5. Financial Systems
+
+---
+
+### 5.1 Algorithmic Trading Instability
+
+**What it does:** High-frequency and algorithmic trading systems submit, modify, and
+cancel millions of orders per second.  Price-discovery algorithms react to order flow;
+execution algorithms react to price.  Market makers provide liquidity by continuously
+quoting bid and ask prices.
+
+**Where it breaks:**
+- Within minutes, a single large automated order can trigger cascading sell orders
+  across thousands of independent algorithms, evaporating liquidity and dropping prices
+  by 5–10% before any human can react — the "flash crash" pattern
+- Liquidity collapses at the precise moment it is most needed (during stress events)
+- Co-location arms races push latency to microseconds, making the feedback loop too fast
+  for any circuit-breaker designed for human reaction times
+- Correlated strategies (many funds using the same factor model) create `G_AB` coupling
+  that appears diagonal at calm times and becomes strongly off-diagonal under stress
+
+**Manifold diagnosis — violated condition: `∇_μ B^μ` → ∞ + wrong `Ψ*`**
+
+A flash crash is the most precise demonstration of `B_μ` divergence in any domain.
+The feedback gain of the combined algorithmic ecosystem exceeds 1: a price move triggers
+sell orders, which move price further, which trigger more sell orders.  There is no drain
+mechanism — no slow participant who absorbs the flow.  The irreversibility field diverges
+at the rate of automated execution, which is microseconds.
+
+The system's `Ψ*` — the equilibrium it was designed to find — is "fair price for a
+liquid market".  The true fixed point the system converges to under the wrong reward
+geometry is "maximum order cancellation rate at minimum visible inventory" — a
+degenerate equilibrium indistinguishable from a market with no liquidity.
+
+**Root cause:** Each algorithmic participant optimises its own local `φ` (fill rate,
+P&L per unit of risk).  None is accountable for the global `B_μ` divergence.  The
+market's field equations are non-cooperative — each agent's `G_AB` is diagonal,
+ignoring the coupling to all other agents.  Under stress, the off-diagonal terms
+dominate and the system has no fixed point at the local-optimum state.
+
+**Leading indicators:**
+- Bid-ask spread widening above 3× the daily mean
+- Order book imbalance ratio (ask depth / bid depth) exceeding 10:1
+- Quote-to-trade ratio increasing beyond 50:1 (high cancellation, low execution)
+- Market depth at top five price levels falling below 20% of 30-day average
+
+---
+
+### 5.2 Payment and Settlement System Failures
+
+**What it does:** Payment networks (ACH, SWIFT, real-time gross settlement systems)
+move money between accounts.  Settlement systems reconcile interbank positions.  The
+core invariant: money is neither created nor destroyed in transfer — it moves from
+one account to another atomically.
+
+**Where it breaks:**
+- A transaction is debited on the sending side but never credited on the receiving side
+  (or vice versa) due to a network timeout or partial commit
+- Reconciliation batches run hours after transactions, creating a window where books
+  don't balance across institutions
+- Retry logic re-sends a transaction that had partially completed, causing double
+  credits or double debits
+- Message routing failures cause transactions to be silently dropped without error
+  acknowledgement
+
+**Manifold diagnosis — violated condition: `∇_μ J^μ ≠ 0`**
+
+Payment settlement is the purest real-world instance of the information conservation
+law.  Money is an information token — a claim on real value — and the conservation
+equation `∇_μ J^μ_inf = 0` translates directly to: *the sum of all balances in the
+system must be constant*.  Any transaction that partially completes is a violation.
+
+The nostro/vostro reconciliation process that every bank runs — comparing its internal
+records against its correspondent bank's records — is exactly the `entropy_balance`
+check: `produced − consumed − dropped ≈ 0`.  When reconciliation finds discrepancies,
+it is detecting `∇_μ J^μ ≠ 0` violations that the system's own error handling missed.
+
+**Root cause:** The system boundary between two banks is a holographic surface.  The
+information conservation law must hold *at the boundary*, not only within each
+institution.  Architectures that treat the inter-bank boundary as eventually consistent
+(rather than atomically consistent) are treating the holographic surface as leaky.
+Every leak is a `∇_μ J^μ ≠ 0` event.  At scale, small leaks compound into large
+reconciliation failures.
+
+**Leading indicators:**
+- Nostro/vostro reconciliation breaks increasing in frequency or magnitude
+- Transaction retry rate above 0.1% (most retries are safe, but the rate is a signal)
+- Settlement finality latency increasing (time from transaction to irrevocable settlement)
+- Any increase in the number of "suspense" or "exception" accounts (holding accounts
+  for transactions that couldn't be cleanly settled)
+
+---
+
+## 6. Healthcare Systems
+
+---
+
+### 6.1 EHR Interoperability Failure
+
+**What it does:** Electronic Health Record systems maintain a patient's complete
+medical history — diagnoses, medications, allergies, lab results, imaging, notes.
+The clinical hypothesis is that a treating clinician has access to the full
+information field `φ_patient` when making decisions.
+
+**Where it breaks:**
+- A patient transferred between two hospitals arrives with no accessible prior records,
+  forcing clinicians to reconstruct history from patient memory under emergency conditions
+- Duplicate medications are prescribed because the prescribing system cannot see that
+  the same drug was already prescribed by a different specialist on a different platform
+- Critical allergy information stored in System A is not visible to System B, which is
+  ordering medications
+- Lab results from an outpatient clinic are not incorporated into the hospital EHR,
+  causing the same tests to be re-ordered
+- Discharge summaries reach the patient's primary care physician days or weeks after
+  the patient has already followed up on their own
+
+**Manifold diagnosis — violated condition: `G_AB` degenerate across institutions**
+
+The patient's clinical information has a single source of truth in the physical world
+— the patient — but is fragmented across dozens of institutional databases that do not
+speak to each other.  The `G_AB` of the healthcare information system is block-diagonal:
+each institution is a disconnected node.  Information cannot flow between them through
+any causal path in real time.
+
+The dilaton `φ_patient` — the effective information capacity available to the treating
+clinician — is high within a single institution and drops sharply at every institutional
+boundary.  A clinician treating a new patient from a different health system is
+operating with `φ_patient → 0`: the information is physically present somewhere in the
+world but inaccessible at the decision point.
+
+**Root cause:** EHR systems were designed as institutional record-keeping tools, not as
+nodes in a coherent information network.  The `G_AB` was explicitly designed to be
+disconnected — patient data was treated as proprietary to the institution that collected
+it.  HL7/FHIR standards are an attempt to restore metric non-degeneracy, but adoption is
+incomplete, and the data models remain partially incompatible.
+
+**Leading indicators:**
+- Medication reconciliation discrepancy rate at admission > 5% (medication list
+  from patient memory differs from pharmacy records)
+- Time from transfer-of-care to availability of prior records > 4 hours
+- Rate of "duplicate" diagnostic tests (same test ordered within 30 days, different
+  institution) in a patient population
+- Rate of adverse drug events attributed to unknown allergy or drug interaction
+
+---
+
+### 6.2 ICU Alarm Fatigue
+
+**What it does:** Intensive care monitoring systems continuously measure vital signs —
+heart rate, blood pressure, oxygen saturation, ventilator parameters, infusion pump
+rates — and generate alarms when values exceed configured thresholds.  The design
+intent: no clinically significant deterioration goes unnoticed.
+
+**Where it breaks:**
+- A typical ICU generates 40–400 alarms per patient per day; 85–99% are false alarms
+  or non-actionable
+- Clinicians learn to suppress their response to alarms — alarm fatigue causes genuine
+  critical alarms to be treated the same as noise
+- Alarm settings are not individualised to the patient's baseline, generating alarms
+  for normal variation in one patient that would be clinically significant in another
+- Multiple alarm systems (cardiac monitor, ventilator, infusion pump, EHR alert)
+  each maintain independent alarm logic with no unified priority queue
+
+**Manifold diagnosis — violated condition: `∇_μ B^μ` → ∞ in the alert channel + wrong `Ψ*`**
+
+The alarm system is an information channel with a severely violated `B_μ` condition.
+The intended data flow: physiological deterioration → alarm → clinical assessment →
+intervention.  The actual data flow: physiological noise → alarm → ignored →
+physiological deterioration → alarm → ignored → ... → catastrophic event → alarm →
+now too late.
+
+The system's `Ψ*` was designed to be: "every alarm gets a response within 60 seconds".
+The true `Ψ*` the system converges to under the alarm density is: "alarms are treated as
+background noise and acknowledged to silence them, not to initiate assessment".  This is
+a degenerate fixed point — the system has converged to a state where its primary function
+(early warning) is completely disabled.
+
+The information conservation law is violated in the worst possible way: the signal
+(genuine deterioration) is indistinguishable from noise in the `B_μ` field because the
+signal-to-noise ratio `φ_alert` has been driven to zero by the alarm flood.
+
+**Root cause:** Alarm thresholds were set for the general patient population, not for
+individual patients.  The effective dilaton `φ_alert = signal_rate / total_alarm_rate`
+is approximately 0.01 to 0.15 in a typical ICU.  A system where 99% of alarms are
+false has `φ_alert ≈ 0.01` — it is below the dilaton floor for any useful clinical
+decision.  The information channel is saturated with noise.
+
+**Leading indicators:**
+- False alarm rate per patient per day exceeding 30 (>95% of alarms non-actionable)
+- Median time from alarm to clinician response exceeding 60 seconds
+- "Alarm override" rate (alarm acknowledged without patient assessment) above 40%
+- Rate of "alarm storm" events (>10 alarms in <5 minutes from a single patient)
+
+---
+
+## 7. Critical Infrastructure
+
+---
+
+### 7.1 Power Grid Cascading Failure
+
+**What it does:** Interconnected power grids balance generation and load in real time
+across hundreds of thousands of nodes — generation plants, transmission lines,
+substations, distribution feeders — spanning entire continents.  Frequency (60 Hz in
+North America, 50 Hz in Europe) is the grid's phase-alignment metric: all generators
+must be synchronised.
+
+**Where it breaks:**
+- A single line trips due to overload → power re-routes to neighbouring lines →
+  those lines overload → they trip → the cascade accelerates beyond human reaction time
+- A software fault in a monitoring system causes operators to lose situational awareness
+  of the transmission network state — the informational `G_AB` becomes degenerate even
+  though the physical grid is still connected
+- Rapid introduction of variable renewable generation creates `φ` volatility: available
+  firm generation capacity can drop faster than load-following resources can respond
+- Cyberattacks targeting SCADA systems introduce `B_μ` ordering violations: control
+  commands arrive in wrong sequence or are replayed from old states
+
+**Manifold diagnosis — violated condition: `G_AB` degenerate + `φ → 0` + `∇_μ B^μ` → ∞**
+
+A cascading grid failure is a simultaneous tri-violation — the rarest and most
+catastrophic failure class.  The 2003 North American blackout is the canonical example:
+it began with a software alarm failure (an information system `G_AB` degeneracy — the
+control room lost connectivity to its own state data), which prevented operators from
+re-dispatching generation in time, which caused the physical `φ` (firm generation
+headroom) to fall to zero on an overloaded corridor, which caused the `B_μ` divergence
+(power flows cascading across lines not designed to carry them) to proceed unchecked.
+
+Each failure type would have been individually recoverable.  The simultaneous
+violation of all three conditions meant the system had no path back to its fixed point.
+
+**Root cause:** The grid is designed for `N-1` contingency: the loss of any single
+component should be survivable.  A cascading failure starts when `N-1` protection
+is simultaneously exhausted at multiple geographically coupled nodes faster than the
+protection systems can re-establish the conditions.  The `G_AB` of the physical grid
+is non-diagonal (all nodes are coupled through common transmission impedances), but
+the `N-1` design assumption treats it as approximately diagonal.  Under simultaneous
+stress, the off-diagonal coupling terms dominate — the same fundamental misspecification
+as in the flash crash.
+
+**Leading indicators:**
+- N-1 contingency analysis showing any corridor within 15% of its emergency rating
+- System frequency deviation exceeding ±0.1 Hz sustained for > 10 seconds
+- Spinning reserve below 5% of load (the power system's `φ_min`)
+- Any SCADA alarm processing backlog (the information system's `B_div`)
+
+---
+
+### 7.2 Air Traffic Control System Failure
+
+**What it does:** Air traffic control systems maintain a consistent, temporally ordered
+picture of all aircraft positions within controlled airspace.  Separation assurance —
+the core safety function — requires that every controller's display shows the same
+positions, at the same time, with a correct causal ordering of state updates.
+
+**Where it breaks:**
+- Radar data from multiple sensors arrives with inconsistent timestamps, causing a
+  track-association algorithm to create ghost tracks or lose real tracks
+- A network partition between two control sectors produces inconsistent separation
+  pictures: Sector A believes two aircraft are converging; Sector B believes they are
+  diverging
+- Controller workload peaks cause cognitive `φ` collapse: the controller has more
+  aircraft in their sector than can be safely managed, but the system does not indicate
+  this
+- Communication system failures cause pilot readback to fail silently — a clearance is
+  issued but not received — without generating a CPDLC error or audio alert
+
+**Manifold diagnosis — violated condition: `Δφ → π` + `B_μ` ordering + `∇_μ J^μ ≠ 0`**
+
+Air traffic control is a `Δφ` problem at its core.  The phase offset between the
+controller's mental model and aircraft actual position must be bounded to within the
+separation standard (typically 5 nautical miles horizontal, 1000 ft vertical).  Every
+source of display latency, sensor lag, and track-correlation error contributes to
+`Δφ`.  When `Δφ` exceeds the separation standard, the controller's mental model no
+longer reflects the actual situation.
+
+The `B_μ` ordering condition is strict: aircraft position updates must arrive in
+temporal order to the controller's display.  Out-of-order updates cause a track to
+appear to jump backwards — a direct `B_μ` violation that can confuse automated
+separation tools into issuing incorrect Traffic Collision Avoidance System (TCAS)
+advisories.
+
+The communication failure scenario is the `∇_μ J^μ ≠ 0` case: a clearance was
+produced (information entered the system) but never consumed (the pilot did not receive
+it).  Without explicit acknowledgement (the readback), the information gap is
+undetected.
+
+**Leading indicators:**
+- Track update rate below 1 Hz from any primary radar (sensor `φ_min` violation)
+- Track correlation false alarm rate above 0.1% (ghost tracks)
+- Sector traffic count above controller workload certification threshold
+- Communication failure rate above one in 10,000 clearances
+
+---
+
+## 8. Cross-Domain Summary
 
 | Domain | Primary failure | Violated condition | Key observable |
 |--------|----------------|-------------------|---------------|
@@ -361,6 +656,12 @@ strategies should have equal information content about winning.
 | Social media | Polarisation, misinformation | Wrong `Ψ*` + `H_μν` rot. | Content corridor narrowing |
 | Game netcode | Rubber-banding, desync | `Δφ` + `B_μ` ordering | Jitter > 8 ms, reorder > 0.5% |
 | Game balance | Meta collapse | `G_AB` anisotropy | Strategy entropy declining |
+| Algorithmic trading | Flash crash, liquidity collapse | `∇_μ B^μ` → ∞ + wrong `Ψ*` | Bid-ask spread > 3× mean, book imbalance > 10:1 |
+| Payment settlement | Silent money loss, reconciliation breaks | `∇_μ J^μ ≠ 0` | Nostro/vostro discrepancies, retry rate > 0.1% |
+| EHR / healthcare IT | Missing history, duplicate medication | `G_AB` degenerate (cross-institution) | Medication reconciliation error rate > 5% |
+| ICU alarm fatigue | Genuine alarms missed | `∇_μ B^μ` → ∞ + wrong `Ψ*` | False alarm rate > 30/patient/day |
+| Power grid cascade | Continent-scale blackout | `G_AB` + `φ → 0` + `∇_μ B^μ` (tri-violation) | Spinning reserve < 5%, frequency deviation > 0.1 Hz |
+| Air traffic control | Separation loss, ghost tracks | `Δφ` + `B_μ` ordering + `∇_μ J^μ` | Track update rate < 1 Hz, comm failure rate > 1 in 10,000 |
 
 ---
 
