@@ -118,6 +118,45 @@ On almost every system you will ever work on, the single highest-impact early fi
 
 See [`FIRMWARE_FIXES.md` → F1 and F5](./FIRMWARE_FIXES.md) for copy-paste pseudocode.
 
+### Your First 30 Minutes on Any New System
+
+This is not a theoretical exercise.  Do this with every new system you touch.
+
+**Step 1 — Find the bottleneck (5 minutes)**  
+Run `top`/`htop`/equivalent on every node.  Check link utilisation from your monitoring
+system.  Find the single resource with the highest utilisation.  That is where `φ_min`
+is lowest.  Write that number down.
+
+**Step 2 — Find the fastest-growing queue (5 minutes)**  
+Look at your message queue depths, database write-ahead log sizes, network interface
+output drops, and disk I/O wait times.  Sort by current value.  If any is increasing
+over the last 15 minutes, `B_div > 0` for that queue.  Write down which one.
+
+**Step 3 — Check the clock skew (5 minutes)**  
+Run `ntpq -p` or equivalent.  Look at the offset column.  If any node's offset is
+larger than your system's smallest time step (or larger than 10 ms if you don't know),
+`Δφ` is in the warning zone.  Write it down.
+
+**Step 4 — Check for silent loss (5 minutes)**  
+Ask: does this system have a counter for events produced vs. events consumed?  If
+the answer is "I don't know" or "no", that is your answer — the system has no
+`entropy_balance` measurement, which means silent loss is undetectable.  Write down
+"no entropy ledger".
+
+**Step 5 — Write the four-number summary (5 minutes)**
+
+```
+System:   [name]
+Date:     [today]
+φ_min:    [1 - max_utilisation]     healthy if > 0.15
+B_div:    [fastest growing queue]   healthy if ≤ 0
+Δφ:       [max clock offset]        healthy if < T_step/2
+entropy:  [balance known?]          healthy if ≈ 0
+```
+
+This one-page summary is more actionable than a 50-page architecture document.  Share
+it in your first team standup.  It will start the right conversation.
+
 **Bridge to Level 3:**  
 When you know the three numbers, the next question is: *how do you architect a system
 so that these numbers stay healthy by construction?*  Level 3 gives you the patterns.
@@ -254,6 +293,56 @@ Below this threshold, the system will oscillate or require external watchdog int
 for every non-trivial perturbation.  In practice: build your recovery state machines
 with at least `{NOMINAL, DEGRADED, CORRECTING, RECOVERING}` × a 10-step transition
 history.  74 effective states emerge naturally from this structure.
+
+### Failure Taxonomy Decision Tree
+
+When something is going wrong, use this tree to identify which condition is violated
+before choosing a fix.  Each leaf maps to a firmware fix number in
+[`FIRMWARE_FIXES.md`](./FIRMWARE_FIXES.md).
+
+```
+START: Something is wrong.
+│
+├── Is data disappearing without a trace? (entropy_balance ≠ 0)
+│   └── YES → Condition: ∇_μ J^μ ≠ 0
+│             Fix: Add entropy ledger (F5, F7)
+│             Root cause: Silent drop — no produced/consumed/dropped accounting
+│
+├── Is latency growing or queues filling over time? (B_div > 0)
+│   ├── YES, and it keeps growing monotonically:
+│   │   └── Condition: ∇_μ B^μ unbounded
+│   │         Fix: AQM (F1), FTUM-aligned congestion control (F6)
+│   │         Root cause: Arrival rate ≥ drain rate; no backpressure
+│   │
+│   └── YES, but it oscillates — goes up, then corrects, then up again:
+│       └── Condition: H_μν large (feedback gain > 1)
+│             Fix: Hysteretic state machine (F8), k_cs state space
+│             Root cause: Recovery FSM oscillating; < 74 effective states
+│
+├── Is a resource saturated — CPU/link/memory above 85%? (φ_min < 0.15)
+│   └── YES → Condition: φ → 0
+│             Fix: Dilaton floor alarm (F10), capacity-weighted routing
+│             Root cause: No headroom budget; load shedding not designed in
+│
+├── Are two nodes inconsistent about shared state? (Δφ large)
+│   ├── Clocks differ (NTP offset / PTP jitter large):
+│   │   └── Condition: Δφ (phase offset)
+│   │         Fix: Geometric clock correction (F2)
+│   │         Root cause: Step corrections creating B_μ discontinuities
+│   │
+│   └── Sensors/cameras/sources disagree on the same measurement:
+│       └── Condition: ΔI (information gap between modalities)
+│             Fix: Dilaton-weighted sensor fusion (F4)
+│             Root cause: Failed sensor has φ → 0; fixed R in Kalman doesn't adapt
+│
+└── Is a component unreachable from the rest of the system?
+    └── YES → Condition: G_AB degenerate
+                Fix: Restore connectivity; add redundant path
+                Root cause: SPOF activated; dependency graph has > 1 SCC
+```
+
+Use the decision tree when the symptom is clear.  Use the four-number dashboard when
+you are monitoring preventively.  They answer the same question from opposite directions.
 
 ### The Long Horizon: Embedding Stability by Design
 
@@ -436,35 +525,68 @@ geometric conditions being violated.**  This means:
 
 ### The Cost of Not Doing This
 
-| Failure mode | Industry-typical cost | Manifold name |
-|-------------|----------------------|--------------|
-| Buffer bloat / queue explosion | 20–40% latency SLO breach rate; ×2–5 on-call load | `∇_μ B^μ` unbounded |
-| Capacity collapse at peak | Revenue loss during highest-traffic periods | `φ → 0` |
-| Architectural split / partition | Multi-hour outages; data consistency failures | `G_AB` degenerate |
-| Wrong recommendation fixed point | User churn, regulatory risk, brand damage | `Ψ*` misaligned |
-| Silent data loss | Compliance failures, reconciliation cost, legal exposure | `∇_μ J^μ ≠ 0` |
+| Failure mode | What it costs per incident | Annual frequency (mid-scale) | Manifold name |
+|-------------|--------------------------|------------------------------|--------------|
+| Buffer bloat / queue explosion | $50K–$500K (SLO penalties + on-call + customer support) | 12–60× per year | `∇_μ B^μ` unbounded |
+| Capacity collapse at peak | 0.1–2% of annual revenue (lost transactions at highest-demand moment) | 2–6× per year | `φ → 0` |
+| Architectural split / partition | $500K–$5M (multi-hour outage + data consistency remediation) | 1–4× per year | `G_AB` degenerate |
+| Wrong recommendation fixed point | 5–15% user churn over 18 months; regulatory fine risk | Continuous / slow | `Ψ*` misaligned |
+| Silent data loss | $1M–$50M (compliance audit, reconciliation, legal exposure) | 1–2× per year (if undetected) | `∇_μ J^μ ≠ 0` |
 
-The combined cost of these five failure categories for a mid-size technology company
-(100–1,000 engineers, $100M+ ARR) is typically $5M–$50M per year in lost revenue,
-incident response, and engineering remediation.
+**Rule of thumb:** The fully-loaded annual cost of these five categories for a
+company with 100–500 engineers and $100M–$1B ARR runs $10M–$100M.  
+Most of it is invisible — absorbed into on-call labour, support cost, and the
+engineering work that gets cancelled because an incident took priority.
+
+**The hidden multiplier:** Every P0 incident consumes approximately 3× its direct
+engineering cost in secondary effects: delayed roadmap items, reduced engineer
+retention, and the opportunity cost of the features that weren't built.  An incident
+that takes 10 engineer-days to resolve has a true cost of 30 engineer-days.
 
 ### The Investment Case
 
-**Phase 1 (0–6 months): Observability + AQM patches**  
-Cost: 2–4 senior engineer-weeks per major system  
-Return: Typically 30–70% reduction in P99 latency incidents; immediate reduction in
-on-call alert volume from queue-related alarms.  Break-even: 3–6 months.
+The payback on this framework is unusually fast because it targets cost that is
+already being paid, not hypothetical future cost.
 
-**Phase 2 (6–18 months): Architecture alignment**  
-Cost: 2–6 engineer-months per platform  
-Return: Elimination of the capacity-collapse failure mode; 50–80% reduction in
-hotspot-related incidents.  Break-even: 12–18 months.
+**Phase 1 (0–6 months): Observability + queue fixes**  
+Cost: 2–4 engineer-weeks per major system (one-time)  
+Direct savings: 30–70% reduction in latency-related SLO breaches; on-call queue
+shrinks by 20–40% within 90 days.  
+Break-even: 6–12 weeks at typical on-call and SLO-penalty rates.
+
+**Phase 2 (6–18 months): Architectural alignment**  
+Cost: 2–6 engineer-months per platform (one-time redesign)  
+Direct savings: Capacity-collapse incidents eliminated (these are the $500K–$5M events);
+autoscaling becomes reactive to geometry instead of reactive to crisis.  
+Break-even: First major incident that doesn't happen.
 
 **Phase 3 (18–36 months): Systemic redesign**  
-Cost: Platform-level investment (varies by scale)  
-Return: Stable `Ψ*` for recommendation systems reduces churn and regulatory risk.
-Geometric netcode eliminates a major source of competitive disadvantage in real-time
-products.
+Cost: Platform-level investment — depends on organisation scale  
+Return: Stable `Ψ*` for recommendation systems reduces churn and regulatory exposure;
+geometric netcode eliminates a principal competitive disadvantage in real-time products;
+distribution-shift monitoring prevents AI model failures that cost $1M–$10M to
+remediate once they are in production.
+
+**The compounding effect:** Phase 1 pays for Phase 2.  Phase 2 pays for Phase 3.
+The engineering capacity freed by eliminating incidents is the resource that funds
+the architectural improvements.
+
+### Three Questions to Walk Out of This Meeting With
+
+1. **What is our `φ_min` right now?**  
+   If no one on the engineering team can answer in under 60 seconds, you are flying
+   blind.  Minimum viable answer: the single most-constrained resource in production
+   and its current utilisation percentage.
+
+2. **What is our fully-loaded annual incident cost?**  
+   Not just the direct engineering hours — include on-call burden, delayed roadmap,
+   SLO penalties, and customer support escalations.  Most organisations have never
+   computed this number.  The team that computes it first has the clearest investment
+   case for Phase 1.
+
+3. **Which of our systems has a `G_AB` degeneracy — a single point of failure that,
+   if it activates, partitions the system?**  
+   This is the $5M question.  Every large-scale outage has started here.
 
 ### The Governance Implication
 
