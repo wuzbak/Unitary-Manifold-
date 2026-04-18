@@ -43,6 +43,13 @@ extract_alpha_from_curvature(g, B, phi, dx, lam)
     Derive the nonminimal coupling α from the 5D Riemann cross-block term
     R^μ_{5ν5}.  Returns (alpha_geometric, cross_block_riem) where
     alpha_geometric = ⟨1/φ²⟩ is the KK-derived coupling constant.
+
+assemble_warped_5d_metric(g, B, phi, r_c_field, k, lam)
+    Build the 5×5 warped Randall–Sundrum KK metric with a **dynamical**
+    compactification radius r_c(x) promoted to an independent field.
+    G_55 = r_c(x)² rather than φ².  The entanglement scalar φ and the
+    radion r_c are coupled through the Goldberger–Wise radion potential
+    V(φ, r_c) = λ_GW φ²(r_c − r_c*)² (implemented in inflation.py).
 """
 
 from typing import Any, Dict, Tuple
@@ -425,3 +432,88 @@ def derive_nw_index_theorem(
         ),
     }
     return int(n_w), details
+
+
+# ---------------------------------------------------------------------------
+# Warped (Randall–Sundrum) 5D metric with dynamical compactification radius
+# ---------------------------------------------------------------------------
+
+def assemble_warped_5d_metric(
+    g,
+    B,
+    phi,
+    r_c_field,
+    k: float = 1.0,
+    lam: float = 1.0,
+):
+    """Assemble the 5×5 warped KK metric G_AB with a dynamical compactification
+    radius r_c(x), promoting the "frozen scaffold" to a breathing manifold.
+
+    The warped Randall–Sundrum ansatz is:
+
+        ds² = e^{−2k|y|r_c(x)} g_μν dx^μ dx^ν + r_c(x)² dy²
+
+    In the zero-mode (y-integrated) projection the warp factor is encoded by
+    ``jacobian_rs_orbifold``; the on-slice 5×5 metric assembles as:
+
+        G_μν = g_μν + λ²φ² B_μ B_ν    (4D block — same as flat case)
+        G_μ5 = G_5μ = λφ B_μ           (off-diagonal — unchanged)
+        G_55 = r_c(x)²                  (radion size — NOW a separate field)
+
+    The critical difference from :func:`assemble_5d_metric` (where G_55 = φ²)
+    is that here *r_c* and *φ* are **independent** fields coupled through the
+    Goldberger–Wise radion potential
+
+        V(φ, r_c) = λ_GW φ² (r_c − r_c*)²
+
+    implemented in ``src.core.inflation.goldberger_wise_radion_potential``.
+
+    **Compatibility with ALGEBRA_PROOF.py**: the existing symbolic checks in
+    §1 (G_55 = φ²) and §10 (α = φ⁻²) apply to the *flat S¹* reduction where
+    r_c ≡ φ.  This function is the *warped* variant that separates the two
+    degrees of freedom; it leaves every existing check intact.
+
+    Parameters
+    ----------
+    g         : ndarray, shape (N, 4, 4) — 4D metric tensor
+    B         : ndarray, shape (N, 4)    — irreversibility gauge field B_μ
+    phi       : ndarray, shape (N,)      — entanglement scalar φ (NOT r_c)
+    r_c_field : ndarray, shape (N,)      — local compactification radius [M_Pl⁻¹]
+    k         : float                    — AdS curvature scale (default 1)
+    lam       : float                    — KK coupling constant λ (default 1)
+
+    Returns
+    -------
+    G5 : ndarray, shape (N, 5, 5)
+        Full 5×5 warped KK metric at each grid point.
+
+    Raises
+    ------
+    ValueError
+        If any entry of r_c_field is non-positive (compactification radius
+        must be positive for the RS geometry to be well-defined).
+    """
+    r_c_arr = np.asarray(r_c_field, dtype=float)
+    if np.any(r_c_arr <= 0.0):
+        raise ValueError(
+            "r_c_field must be strictly positive at every grid point; "
+            f"got min(r_c_field) = {float(np.min(r_c_arr))!r}."
+        )
+
+    N = g.shape[0]
+    G5 = np.zeros((N, 5, 5))
+
+    lam_phi   = lam * phi               # shape (N,)
+    lam_phi_B = lam_phi[:, None] * B    # shape (N, 4)
+
+    # 4×4 block: g_μν + λ²φ² B_μ B_ν  (unchanged from flat case)
+    G5[:, :4, :4] = (
+        g + (lam_phi**2)[:, None, None] * np.einsum("ni,nj->nij", B, B)
+    )
+    # Off-diagonal: G_μ5 = G_5μ = λφ B_μ  (unchanged)
+    G5[:, :4, 4] = lam_phi_B
+    G5[:, 4, :4] = lam_phi_B
+    # G_55 = r_c(x)²  ← dynamical radion field, NOT φ²
+    G5[:, 4, 4] = r_c_arr**2
+
+    return G5

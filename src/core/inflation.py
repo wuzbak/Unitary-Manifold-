@@ -160,6 +160,27 @@ amplitude_gap_report(phi0_bare, n_winding, As_target)
     the amplitude gap, identify the single free parameter (λ_COBE), and confirm
     all other predictions survive.
 
+Dynamical radion (breathing manifold)
+--------------------------------------
+goldberger_wise_radion_potential(phi, r_c, r_c_star, lam_gw)
+    Goldberger–Wise radion-φ stabilisation potential:
+    V(φ, r_c) = λ_GW · φ² · (r_c − r_c*)²
+    Returns potential value(s); also exports scalar derivatives.
+
+dynamical_radion_sweep(r_c_min, r_c_max, n_points, k, phi_min_bare,
+                       k_cs, alpha_em, beta_safe_lo, beta_safe_hi)
+    Sweep r_c ∈ [r_c_min, r_c_max] with φ_min(r_c) coupled via the RS
+    Jacobian.  At each r_c compute Δφ(r_c), g_aγγ(r_c), and β(r_c) [deg].
+    Flag points inside the β ∈ [beta_safe_lo, beta_safe_hi] safety window
+    and identify the saturation floor (kr_c ≥ 5).
+
+ftum_radion_stability_scan(phi0_init, r_c_init, phi_star_target,
+                           r_c_star_target, lam_gw, ...)
+    Jointly iterate the FTUM operator (φ) and gradient-descent on V(φ,r_c)
+    (r_c) to find the (φ*, r_c*) fixed point.  Reports convergence history,
+    Jacobian eigenvalues of the linearised coupled map, β at the fixed point,
+    and whether the result clears the LiteBIRD β safety rail.
+
 Transfer function (full CMB spectrum comparison)
 ------------------------------------------------
 The functions above produce a single observable, nₛ.  To compare the theory
@@ -2550,4 +2571,395 @@ def kk_amplitude_sum(
         "R_c":         float(R_c),
         "phi_star":    float(phi_star),
         "As_formula":  "A_s_total = A_s_zero * N_active  (N_active = #{n : n/R_c < H_*})",
+    }
+
+
+# ===========================================================================
+# DYNAMICAL RADION — breathing manifold extension
+# ===========================================================================
+#
+# The three functions below promote r_c from a frozen scaffold constant to a
+# dynamical field.  They are self-contained within inflation.py and use only
+# the functions already defined above:
+#
+#   jacobian_rs_orbifold(k, r_c)         — RS wavefunction Jacobian
+#   field_displacement_gw(phi_min_phys)  — Δφ = φ_min × (1 − 1/√3)
+#   cs_axion_photon_coupling(k_cs, α, r_c) — g_aγγ ∝ 1/r_c
+#   birefringence_angle(g_agg, delta_phi)  — β = (g_aγγ/2) |Δφ|
+#
+# None of the existing functions are modified, so ALGEBRA_PROOF.py §1–§13
+# remain intact.
+#
+# Stability condition (step-size guard)
+# --------------------------------------
+# The r_c gradient-descent update:
+#
+#   r_c_{n+1} = r_c_n − dt_rc · 2·λ_GW·φ_n²·(r_c_n − r_c*)
+#
+# is a contraction when  dt_rc · 2·λ_GW·φ_n²  <  2,  i.e.
+#
+#   dt_rc  <  1 / (λ_GW · φ_n²)
+#
+# The safe step is therefore:
+#
+#   dt_rc_safe = safety_factor / (λ_GW · φ_max²)    [safety_factor < 1]
+#
+# This is computed automatically from the initial conditions and the target
+# φ*, and an optional Hubble-style friction term − H_fric·(r_c − r_c*) / φ²
+# is available to damp early over-shoots when φ has not yet settled.
+# ===========================================================================
+
+
+def goldberger_wise_radion_potential(
+    phi: float | np.ndarray,
+    r_c: float | np.ndarray,
+    r_c_star: float = 12.0,
+    lam_gw: float = 1.0,
+) -> float | np.ndarray:
+    """Goldberger–Wise radion-φ stabilisation potential.
+
+    Couples the entanglement scalar φ to the compactification radius r_c via
+
+        V(φ, r_c) = λ_GW · φ² · (r_c − r_c*)²
+
+    This is the minimal coupling that:
+
+    * stabilises r_c at r_c* when φ ≠ 0 (the potential is minimised at
+      r_c = r_c* for any fixed φ > 0);
+    * leaves the inflaton potential V_GW(φ) untouched at the canonical
+      r_c = r_c* (the correction vanishes there).
+
+    Partial derivatives (used by ``ftum_radion_stability_scan``):
+
+        ∂V/∂r_c = 2·λ_GW·φ²·(r_c − r_c*)          → 0 at r_c = r_c*
+        ∂V/∂φ   = 2·λ_GW·φ ·(r_c − r_c*)²         → 0 at r_c = r_c* (or φ=0)
+        ∂²V/∂r_c² = 2·λ_GW·φ²                      > 0 (stable in r_c direction)
+
+    The r_c stability is φ-dependent: larger φ → stiffer r_c well → faster
+    radion convergence.  This means the "ladder" only locks in once φ has
+    found its FTUM fixed point, which is precisely the desired behaviour.
+
+    Parameters
+    ----------
+    phi      : float or ndarray — entanglement scalar φ
+    r_c      : float or ndarray — compactification radius [M_Pl⁻¹]
+    r_c_star : float            — target (minimum) compactification radius
+                                  (default 12, the canonical FTUM value)
+    lam_gw   : float            — Goldberger–Wise coupling λ_GW (> 0, default 1)
+
+    Returns
+    -------
+    V : float or ndarray — potential energy ≥ 0
+
+    Raises
+    ------
+    ValueError if lam_gw ≤ 0.
+    """
+    if lam_gw <= 0.0:
+        raise ValueError(f"lam_gw={lam_gw!r} must be positive.")
+    return lam_gw * phi**2 * (r_c - r_c_star)**2
+
+
+def dynamical_radion_sweep(
+    r_c_min: float = 1.0,
+    r_c_max: float = 20.0,
+    n_points: int = 80,
+    k: float = 1.0,
+    phi_min_bare: float = 18.0,
+    k_cs: int = 74,
+    alpha_em: float = 1.0 / 137.036,
+    beta_safe_lo: float = 0.22,
+    beta_safe_hi: float = 0.38,
+) -> dict:
+    """Sweep the compactification radius and compute the β birefringence stability map.
+
+    For each r_c ∈ [r_c_min, r_c_max]:
+
+    1. Compute the RS Jacobian  J(r_c) = √[(1 − e^{−2πkr_c}) / (2k)].
+    2. Map to the physical field-minimum:  φ_min_phys = J(r_c) · φ_min_bare.
+    3. Compute the field displacement:     Δφ(r_c) = φ_min_phys · (1 − 1/√3).
+    4. Compute the axion-photon coupling:  g_aγγ(r_c) = k_cs α_EM / (2π²r_c).
+    5. Compute the birefringence angle:    β(r_c) = (g_aγγ/2) · |Δφ|  [deg].
+    6. Flag ``safe``: β ∈ [beta_safe_lo, beta_safe_hi].
+
+    The saturation floor is identified as the smallest r_c with kr_c ≥ 5
+    (where J_RS has converged to 1/√(2k) to < 10⁻⁶ precision).
+
+    This scan answers the question: *for how large a range of r_c does the
+    LiteBIRD β safety rail remain intact?*  A wide safe zone means the
+    "breathing manifold" (dynamical r_c) is physically viable.
+
+    Parameters
+    ----------
+    r_c_min      : float — lower bound of r_c scan (default 1.0)
+    r_c_max      : float — upper bound of r_c scan (default 20.0)
+    n_points     : int   — number of scan points (default 80)
+    k            : float — AdS curvature scale (default 1)
+    phi_min_bare : float — bare GW field minimum (default 18, canonical)
+    k_cs         : int   — Chern–Simons level (default 74)
+    alpha_em     : float — fine-structure constant (default 1/137.036)
+    beta_safe_lo : float — lower β safety rail [deg] (default 0.22)
+    beta_safe_hi : float — upper β safety rail [deg] (default 0.38)
+
+    Returns
+    -------
+    dict with keys:
+
+    ``r_c_values``          : ndarray  — r_c grid
+    ``beta_deg``            : ndarray  — β [degrees] at each r_c
+    ``delta_phi``           : ndarray  — Δφ(r_c) at each r_c
+    ``J_RS``                : ndarray  — RS Jacobian at each r_c
+    ``safe_mask``           : ndarray[bool] — True inside β safety window
+    ``safe_r_c_lo``         : float    — smallest safe r_c (nan if none)
+    ``safe_r_c_hi``         : float    — largest  safe r_c (nan if none)
+    ``n_safe``              : int      — number of safe grid points
+    ``saturation_r_c_floor``: float    — r_c where J_RS saturation begins
+    ``beta_at_canonical``   : float    — β at r_c = 12 (canonical)
+    ``canonical_is_safe``   : bool     — whether canonical r_c clears the rail
+    ``beta_safe_lo``        : float    — lower safety bound (echo)
+    ``beta_safe_hi``        : float    — upper safety bound (echo)
+    ``k_cs``                : int      — Chern–Simons level (echo)
+    ``k``                   : float    — AdS curvature (echo)
+
+    Raises
+    ------
+    ValueError if r_c_min ≤ 0 or n_points < 2.
+    """
+    if r_c_min <= 0.0:
+        raise ValueError(f"r_c_min={r_c_min!r} must be positive.")
+    if n_points < 2:
+        raise ValueError(f"n_points={n_points!r} must be at least 2.")
+
+    r_c_arr       = np.linspace(r_c_min, r_c_max, n_points)
+    beta_arr      = np.zeros(n_points)
+    delta_phi_arr = np.zeros(n_points)
+    J_arr         = np.zeros(n_points)
+
+    for i, r_c in enumerate(r_c_arr):
+        J             = jacobian_rs_orbifold(k, r_c)
+        phi_min_phys  = J * phi_min_bare
+        delta_phi     = field_displacement_gw(phi_min_phys)
+        g_agg         = cs_axion_photon_coupling(k_cs, alpha_em, r_c)
+        beta_rad      = birefringence_angle(g_agg, delta_phi)
+        J_arr[i]         = J
+        delta_phi_arr[i] = delta_phi
+        beta_arr[i]      = float(np.degrees(beta_rad))
+
+    safe_mask = (beta_arr >= beta_safe_lo) & (beta_arr <= beta_safe_hi)
+    safe_r_c  = r_c_arr[safe_mask]
+
+    # Saturation floor: smallest r_c where kr_c ≥ 5
+    sat_mask      = (k * r_c_arr) >= 5.0
+    sat_r_c_floor = float(r_c_arr[sat_mask][0]) if np.any(sat_mask) else float(r_c_max)
+
+    # Canonical r_c = 12 result
+    idx_can = int(np.argmin(np.abs(r_c_arr - 12.0)))
+
+    return {
+        "r_c_values":           r_c_arr,
+        "beta_deg":             beta_arr,
+        "delta_phi":            delta_phi_arr,
+        "J_RS":                 J_arr,
+        "safe_mask":            safe_mask,
+        "safe_r_c_lo":          float(safe_r_c[0])  if len(safe_r_c) else float("nan"),
+        "safe_r_c_hi":          float(safe_r_c[-1]) if len(safe_r_c) else float("nan"),
+        "n_safe":               int(safe_mask.sum()),
+        "saturation_r_c_floor": sat_r_c_floor,
+        "beta_at_canonical":    float(beta_arr[idx_can]),
+        "canonical_is_safe":    bool(safe_mask[idx_can]),
+        "beta_safe_lo":         float(beta_safe_lo),
+        "beta_safe_hi":         float(beta_safe_hi),
+        "k_cs":                 int(k_cs),
+        "k":                    float(k),
+    }
+
+
+def ftum_radion_stability_scan(
+    phi0_init: float = 1.0,
+    r_c_init: float = 6.0,
+    phi_star_target: float = 12.0,
+    r_c_star_target: float = 12.0,
+    lam_gw: float = 1.0,
+    kappa_phi: float = 0.1,
+    hubble_fric: float = 0.0,
+    dt_rc: float | None = None,
+    safety_factor: float = 0.5,
+    max_iter: int = 500,
+    tol: float = 1e-8,
+    k: float = 1.0,
+    k_cs: int = 74,
+    alpha_em: float = 1.0 / 137.036,
+    phi_min_bare: float = 18.0,
+    beta_safe_lo: float = 0.22,
+    beta_safe_hi: float = 0.38,
+) -> dict:
+    """Jointly iterate FTUM (φ) and Goldberger–Wise gradient descent (r_c) to
+    the coupled (φ*, r_c*) fixed point.
+
+    **Iteration scheme**
+
+    The two-field update per step n → n+1 is:
+
+        φ_{n+1} = φ_n + κ_φ · (φ* − φ_n)
+                = φ_n · (1 − κ_φ) + κ_φ · φ*_target
+
+    This mimics the FTUM I-operator  dS/dt = κ (A/4G − S)  in discrete time.
+    The exponential approach contracts φ geometrically toward the line attractor
+    φ* = A₀/(4G) (= ``phi_star_target``).
+
+        r_c_{n+1} = r_c_n − dt_rc · ∂V/∂r_c
+                  = r_c_n − dt_rc · 2 λ_GW φ_n² (r_c_n − r_c*)
+                  − hubble_fric · (r_c_n − r_c*) / (φ_n² + ε)
+
+    The optional *Hubble friction* term provides φ-independent damping of early
+    overshoots (analogous to Hubble drag on an inflaton).
+
+    **Step-size guard**
+
+    The r_c update is a contraction when
+
+        dt_rc · 2 λ_GW φ_n²  <  2    ⟺    dt_rc  <  1 / (λ_GW φ_n²)
+
+    If ``dt_rc`` is *None* (default), the safe value is auto-computed as:
+
+        dt_rc_safe = safety_factor / (λ_GW · φ_max²)
+
+    where φ_max = max(|φ₀_init|, |φ*_target|) × 1.01 (1 % headroom).
+    Explicit ``dt_rc`` overrides the guard; a warning key ``step_is_safe`` is
+    returned so callers can detect instability risk.
+
+    Parameters
+    ----------
+    phi0_init       : float — initial φ value (default 1)
+    r_c_init        : float — initial r_c value [M_Pl⁻¹] (default 6)
+    phi_star_target : float — FTUM φ attractor φ* (default 12 = A₀/4G)
+    r_c_star_target : float — GW r_c minimum r_c* (default 12)
+    lam_gw          : float — GW radion coupling λ_GW (default 1)
+    kappa_phi       : float — φ contraction rate per step (0 < κ ≤ 1, default 0.1)
+    hubble_fric     : float — optional φ-independent r_c friction (default 0)
+    dt_rc           : float|None — r_c step size; None → auto from safety_factor
+    safety_factor   : float — fraction of stability boundary for auto dt_rc (default 0.5)
+    max_iter        : int   — iteration cap (default 500)
+    tol             : float — convergence tolerance ||Δ(φ,r_c)||₂ (default 1e-8)
+    k               : float — AdS curvature scale (default 1)
+    k_cs            : int   — Chern–Simons level (default 74)
+    alpha_em        : float — fine-structure constant (default 1/137.036)
+    phi_min_bare    : float — bare GW field minimum (default 18)
+    beta_safe_lo    : float — lower β safety rail [deg] (default 0.22)
+    beta_safe_hi    : float — upper β safety rail [deg] (default 0.38)
+
+    Returns
+    -------
+    dict with keys:
+
+    ``phi_history``    : list[float] — φ at each iteration
+    ``r_c_history``    : list[float] — r_c at each iteration
+    ``residual``       : list[float] — ‖(φ,r_c)_{n+1}−(φ,r_c)_n‖₂
+    ``converged``      : bool  — True if residual < tol before max_iter
+    ``n_iter``         : int   — iterations taken
+    ``phi_star``       : float — φ at convergence (or final value)
+    ``r_c_star``       : float — r_c at convergence (or final value)
+    ``beta_at_fp``     : float — β [deg] at (φ*, r_c*)
+    ``fp_is_safe``     : bool  — True if β at fixed point clears safety rail
+    ``step_is_safe``   : bool  — True if dt_rc is within the stability bound
+    ``dt_rc_used``     : float — actual dt_rc applied
+    ``jacobian_eig``   : tuple — (eig_phi, eig_rc) eigenvalues of the linearised
+                                 coupled map at the fixed point
+    ``saturation_ok``  : bool  — True if r_c* satisfies k·r_c* ≥ 5 (J_RS saturated)
+    ``phi_star_target``: float — target φ* (echo)
+    ``r_c_star_target``: float — target r_c* (echo)
+
+    Raises
+    ------
+    ValueError if kappa_phi not in (0, 1] or lam_gw ≤ 0.
+    """
+    if not (0.0 < kappa_phi <= 1.0):
+        raise ValueError(f"kappa_phi={kappa_phi!r} must be in (0, 1].")
+    if lam_gw <= 0.0:
+        raise ValueError(f"lam_gw={lam_gw!r} must be positive.")
+    if safety_factor <= 0.0 or safety_factor >= 1.0:
+        raise ValueError(f"safety_factor={safety_factor!r} must be in (0, 1).")
+
+    _EPS = 1e-30
+
+    # Auto-compute safe dt_rc from the maximum φ the system will visit
+    phi_max   = max(abs(phi0_init), abs(phi_star_target)) * 1.01
+    dt_rc_safe = float(safety_factor / (lam_gw * phi_max**2 + _EPS))
+    if dt_rc is None:
+        dt_rc_used = dt_rc_safe
+    else:
+        dt_rc_used = float(dt_rc)
+
+    step_is_safe = bool(dt_rc_used <= dt_rc_safe / safety_factor)
+
+    # Initialise
+    phi = float(phi0_init)
+    r_c = float(r_c_init)
+
+    phi_history: list[float] = [phi]
+    r_c_history: list[float] = [r_c]
+    residuals:   list[float] = []
+
+    converged = False
+    n_iter    = 0
+
+    for n in range(max_iter):
+        phi_prev = phi
+        r_c_prev = r_c
+
+        # φ update: exponential decay toward FTUM attractor
+        phi = phi_prev + kappa_phi * (phi_star_target - phi_prev)
+
+        # r_c update: gradient descent on V(φ, r_c) + optional Hubble friction
+        grad_rc  = 2.0 * lam_gw * phi_prev**2 * (r_c_prev - r_c_star_target)
+        fric_rc  = hubble_fric * (r_c_prev - r_c_star_target) / (phi_prev**2 + _EPS)
+        r_c = r_c_prev - dt_rc_used * grad_rc - fric_rc
+
+        phi_history.append(phi)
+        r_c_history.append(r_c)
+
+        res = float(np.sqrt((phi - phi_prev)**2 + (r_c - r_c_prev)**2))
+        residuals.append(res)
+        n_iter += 1
+
+        if res < tol:
+            converged = True
+            break
+
+    phi_fp = phi
+    r_c_fp = r_c
+
+    # β at the fixed point
+    J_fp         = jacobian_rs_orbifold(k, max(r_c_fp, 1e-6))
+    phi_min_phys = J_fp * phi_min_bare
+    delta_phi    = field_displacement_gw(phi_min_phys)
+    g_agg        = cs_axion_photon_coupling(k_cs, alpha_em, max(r_c_fp, 1e-6))
+    beta_fp_deg  = float(np.degrees(birefringence_angle(g_agg, delta_phi)))
+
+    fp_is_safe    = bool(beta_safe_lo <= beta_fp_deg <= beta_safe_hi)
+    saturation_ok = bool(k * r_c_fp >= 5.0)
+
+    # Linearised Jacobian eigenvalues at the fixed point
+    # φ map:  φ_{n+1} = (1 − κ) φ_n + κ φ*   → eigenvalue = 1 − κ_φ
+    # r_c map: r_c_{n+1} = (1 − dt_rc·2λ_GW·φ*²) r_c_n + const
+    #                     → eigenvalue = 1 − dt_rc·2λ_GW·φ*²
+    eig_phi = float(1.0 - kappa_phi)
+    eig_rc  = float(1.0 - dt_rc_used * 2.0 * lam_gw * phi_fp**2)
+
+    return {
+        "phi_history":     phi_history,
+        "r_c_history":     r_c_history,
+        "residual":        residuals,
+        "converged":       converged,
+        "n_iter":          n_iter,
+        "phi_star":        phi_fp,
+        "r_c_star":        r_c_fp,
+        "beta_at_fp":      beta_fp_deg,
+        "fp_is_safe":      fp_is_safe,
+        "step_is_safe":    step_is_safe,
+        "dt_rc_used":      dt_rc_used,
+        "jacobian_eig":    (eig_phi, eig_rc),
+        "saturation_ok":   saturation_ok,
+        "phi_star_target": float(phi_star_target),
+        "r_c_star_target": float(r_c_star_target),
     }
