@@ -4,6 +4,15 @@
 """
 scripts/live_report.py
 ======================
+Thin wrapper — delegates to ``realworld/live_report.py``.
+
+For the full report (prediction impact + framework-vs-observed), prefer::
+
+    python realworld/live_report.py [--live] [--update] [--impact] [--compare]
+
+This script is retained for backwards compatibility with the original
+command-line interface.
+
 Command-line driver for the Unitary Manifold real-world comparison.
 
 Usage::
