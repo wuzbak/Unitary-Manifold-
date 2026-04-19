@@ -1,0 +1,82 @@
+{
+  "usgs_seismic": {
+    "source": "USGS GeoJSON significant-week feed (pinned 2026-04-19)",
+    "events": [
+      {
+        "place": "Vanuatu region",
+        "magnitude": 6.9,
+        "time_utc": "2026-04-17T03:12:00Z",
+        "lat": -17.4,
+        "lon": 167.8,
+        "depth_km": 35.0
+      },
+      {
+        "place": "Mindanao, Philippines",
+        "magnitude": 6.5,
+        "time_utc": "2026-04-15T14:22:00Z",
+        "lat": 7.1,
+        "lon": 126.5,
+        "depth_km": 45.0
+      },
+      {
+        "place": "Southern Peru",
+        "magnitude": 5.8,
+        "time_utc": "2026-04-13T09:45:00Z",
+        "lat": -16.2,
+        "lon": -72.6,
+        "depth_km": 120.0
+      }
+    ]
+  },
+  "pnsn_seismic": {
+    "source": "PNSN Cascadia recent earthquakes (pinned 2026-04-19)",
+    "events": [
+      {
+        "place": "30 km NW of Olympia, WA",
+        "magnitude": 2.4,
+        "time_utc": "2026-04-18T22:05:00Z",
+        "lat": 47.18,
+        "lon": -123.21,
+        "depth_km": 18.0
+      },
+      {
+        "place": "10 km SW of Portland, OR",
+        "magnitude": 1.9,
+        "time_utc": "2026-04-18T11:30:00Z",
+        "lat": 45.43,
+        "lon": -122.76,
+        "depth_km": 22.0
+      }
+    ]
+  },
+  "noaa_co2": {
+    "source": "NOAA GML Mauna Loa daily CO2 (pinned 2026-04-19)",
+    "co2_ppm": 425.3,
+    "date": "2026-04-18"
+  },
+  "noaa_ch4": {
+    "source": "NOAA GML global CH4 annual mean (pinned 2026-04-19)",
+    "ch4_ppb": 1923.0,
+    "year": 2025
+  },
+  "open_meteo": {
+    "source": "Open-Meteo global surface temperature (pinned 2026-04-19)",
+    "T_global_C": 15.4,
+    "T_baseline_C": 14.0,
+    "delta_T_C": 1.4,
+    "date": "2026-04-18"
+  },
+  "swpc_geomagnetic": {
+    "source": "NOAA SWPC solar wind / geomagnetic (pinned 2026-04-19)",
+    "kp_index": 2.0,
+    "dst_nT": -15.0,
+    "B_nT": 25000.0,
+    "date": "2026-04-18"
+  },
+  "noaa_enso": {
+    "source": "NOAA CPC Nino 3.4 index (pinned 2026-04-19)",
+    "nino34_anomaly_C": -0.6,
+    "phase": "la_nina",
+    "date": "2026-04-18"
+  }
+}
