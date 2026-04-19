@@ -145,10 +145,10 @@ class TestClassifyBranchCanonical:
 class TestClassifyBranchOtherPairs:
     """All non-triply-viable branches are lossy (loss_function > 0)."""
 
-    _LOSSY_PAIRS = [(1, 2), (1, 3), (2, 3), (3, 4), (2, 5), (3, 7), (4, 5),
+    _KNOWN_LOSSY_PAIRS = [(1, 2), (1, 3), (2, 3), (3, 4), (2, 5), (3, 7), (4, 5),
                     (4, 7), (6, 7), (7, 8), (8, 9), (9, 10)]
 
-    @pytest.mark.parametrize("n1,n2", _LOSSY_PAIRS)
+    @pytest.mark.parametrize("n1,n2", _KNOWN_LOSSY_PAIRS)
     def test_lossy_branch(self, n1, n2):
         b = classify_branch(n1, n2)
         assert b.loss_function > 0.0, (

@@ -153,30 +153,30 @@ class TestBraidingEventCanonical:
 class TestBraidingEventOtherPairs:
     """Energy conservation and structure for arbitrary (n₁, n₂) pairs."""
 
-    _PAIRS = [(1, 2), (2, 3), (3, 5), (4, 7), (6, 8), (1, 10)]
+    _EXAMPLE_WINDING_PAIRS = [(1, 2), (2, 3), (3, 5), (4, 7), (6, 8), (1, 10)]
 
-    @pytest.mark.parametrize("n1,n2", _PAIRS)
+    @pytest.mark.parametrize("n1,n2", _EXAMPLE_WINDING_PAIRS)
     def test_energy_conservation(self, n1, n2):
         evt = big_bang_braiding_event(n1, n2)
         total = evt.energy_adiabatic + evt.energy_isocurvature
         assert total == pytest.approx(evt.energy_pre, rel=1e-12)
 
-    @pytest.mark.parametrize("n1,n2", _PAIRS)
+    @pytest.mark.parametrize("n1,n2", _EXAMPLE_WINDING_PAIRS)
     def test_k_cs_is_sum_of_squares(self, n1, n2):
         evt = big_bang_braiding_event(n1, n2)
         assert evt.k_cs == n1**2 + n2**2
 
-    @pytest.mark.parametrize("n1,n2", _PAIRS)
+    @pytest.mark.parametrize("n1,n2", _EXAMPLE_WINDING_PAIRS)
     def test_fractions_sum_to_one(self, n1, n2):
         evt = big_bang_braiding_event(n1, n2)
         assert evt.adiabatic_fraction + evt.iso_fraction == pytest.approx(1.0)
 
-    @pytest.mark.parametrize("n1,n2", _PAIRS)
+    @pytest.mark.parametrize("n1,n2", _EXAMPLE_WINDING_PAIRS)
     def test_c_s_positive_and_sub_unity(self, n1, n2):
         evt = big_bang_braiding_event(n1, n2)
         assert 0.0 < evt.c_s < 1.0
 
-    @pytest.mark.parametrize("n1,n2", _PAIRS)
+    @pytest.mark.parametrize("n1,n2", _EXAMPLE_WINDING_PAIRS)
     def test_is_sos_resonance_always_true(self, n1, n2):
         evt = big_bang_braiding_event(n1, n2)
         assert evt.is_sos_resonance is True
