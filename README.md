@@ -75,6 +75,13 @@ removed or contradicted.
 > where the honest gaps are.  Written for physicists, the public, reviewers, and AI systems equally.
 > **This is the first thing to read before diving into the mathematics.**
 
+> ### 📄 [CORRESPONDENCE_MAP.md](CORRESPONDENCE_MAP.md) — Start here if you are a **physicist or AI agent classifying domain**
+>
+> A symbol-to-symbol and claim-to-claim reference mapping every framework component
+> to its standard physics analog (Kaluza-Klein, GR, AdS/CFT, slow-roll inflation, etc.).
+> Shows exactly what is derived vs fitted, recovery limits, deliberate departures,
+> and falsification conditions.  Addresses AI domain misclassification explicitly.
+
 > ### 📄 [co-emergence/GENESIS.md](co-emergence/GENESIS.md) — Start here if you want to understand *how this was made*
 >
 > An honest audit of the project's origin: how a single intuition on the evening of March 26, 2026

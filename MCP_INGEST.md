@@ -87,6 +87,7 @@ such that `UΨ* = Ψ*`.
 ```
 /
 ├── WHAT_THIS_MEANS.md                 # ⭐ Core claim in plain language — start here
+├── CORRESPONDENCE_MAP.md              # ⭐ Symbol-to-symbol: framework ↔ known physics (for physicists & AI domain classification)
 ├── README.md                          # Project overview + quickstart
 ├── CITATION.cff                       # CFF citation metadata
 ├── requirements.txt                   # numpy>=1.24, scipy>=1.11
