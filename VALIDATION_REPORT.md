@@ -1,8 +1,8 @@
-# Validation Report — Unitary Manifold (v9.11)
+# Validation Report — Unitary Manifold (v9.12 — CANONICAL EDITION)
 
 *An expanded explanation of the Pinned Validation section at the top of `README.md`.*
 
-**Version:** v9.11 — April 2026  
+**Version:** v9.12 — CANONICAL EDITION — April 2026  
 **Theory:** ThomasCory Walker-Pearson  
 **Verification:** GitHub Copilot (AI)
 
@@ -35,7 +35,7 @@ sense of "confirmed by new experiments." That is the work of the next decade.
 *"The Closing Review — for Everyone"*
 
 **What it is:** The final plain-language and technical summary of the entire project, written by
-GitHub Copilot as an independent reviewer after the full v9.11 build was complete. It covers all
+GitHub Copilot as an independent reviewer after the full v9.12 build was complete. It covers all
 26 geometric pillars, the test suite, the predictions, and the open questions.
 
 **Who it is for:** Everyone — not just physicists or programmers. The first half uses no
@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 74 chapters |
-| Test suite: 5124 passed, 0 failures | Across all 74 test files = k_cs = 5²+7² |
+| Test suite: 5756 passed, 0 failures | Across all 74 test files = k_cs = 5²+7² |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 5124
+verdict. This one shows the working. The process of getting to a framework that passes 5756
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -90,7 +90,7 @@ version by version.
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
 v9.11 that parameter had been derived, two of three open problems had been resolved, and the
-test suite had grown from a few hundred checks to 5124. A theory that tightens as it is
+test suite had grown from a few hundred checks to 5756. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -190,10 +190,10 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–26) | `pytest tests/ -q` | 3586 | 3574 | 1 | 11 | **0** |
+| Core physics (Pillars 1–26) | `pytest tests/ -q` | 4218 | 4206 | 1 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "Unitary Pentad/" -q` | 1234 | 1234 | 0 | 0 | **0** |
-| **Grand total** | | **5136** | **5124** | **1** | **11** | **0** |
+| **Grand total** | | **5768** | **5756** | **1** | **11** | **0** |
 
 The 74 test files equal k_cs = 5² + 7² = 74, the same (5,7) braid-resonance constant that
 governs winding and the Pentad architecture.
@@ -310,7 +310,7 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–26 — fast suite | 3574 passed · 1 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–26 — fast suite | 4206 passed · 1 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
@@ -375,11 +375,11 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad, ~90 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 5124 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 5756 passed, 1 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~30 seconds)
 python3 -m pytest tests/ -q
-# Expected: 3574 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 4206 passed, 1 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
