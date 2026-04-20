@@ -21,6 +21,7 @@
 > | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.11: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 114 algebraic checks (§1–§13), all passing; run `python3 ALGEBRA_PROOF.py` |
+> | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 8 checks — ns, r, birefringence, topology uniqueness, FTUM — all PASS in < 1 s; run `python VERIFY.py` |
 > | **[.github/workflows/tests.yml](.github/workflows/tests.yml)** | CI pipeline — 6 parallel jobs (fast, slow, claims, recycling, Pentad, algebra-proof); runs on every push and PR |
 
 ---
