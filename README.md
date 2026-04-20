@@ -1,6 +1,7 @@
 # The Unitary Manifold (v9.12 — CANONICAL EDITION)
 
-> *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
+> *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
+> — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![5768 Tests: 5756 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-5756%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
@@ -9,6 +10,42 @@
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
 [![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
 [![Download ZIP](https://img.shields.io/badge/Download-ZIP-brightgreen?logo=github)](https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip)
+
+---
+
+> ## ⚡ 30-Second Physics Check — Try It Now
+>
+> A single integer pair `(n₁, n₂) = (5, 7)` from 5D Kaluza-Klein topology predicts
+> three independent CMB observables that all pass current constraints — from arithmetic alone.
+>
+> ```bash
+> pip install numpy scipy    # one-time
+> python VERIFY.py
+> ```
+>
+> Expected output:
+>
+> ```
+> ────────────────────────────────────────────────────────────────────────
+>   UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF
+>   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.35°  (< 1 s)
+> ────────────────────────────────────────────────────────────────────────
+>   Check                         Value                   Reference       Result
+> ────────────────────────────────────────────────────────────────────────
+>   1.  k_cs = 5²+7²              74                      = 74 (exact)    [PASS] ✓
+>   2.  c_s = 12/37               0.324324                12/37=0.324324  [PASS] ✓
+>   3.  nₛ (Planck 1σ check)      0.9635  (0.33σ)         0.9649±0.0042   [PASS] ✓
+>   4.  r < BICEP/Keck 0.036      0.0315                  < 0.036         [PASS] ✓
+>   5.  β (birefringence 1σ)      0.351°  (0.01σ)         0.35°±0.14°     [PASS] ✓
+>   6.  Unique pairs (nₛ+r pass)  2 pair(s): (5,6), (5,7) expect 2        [PASS] ✓
+>   7.  Unique topology           S¹/Z₂ (1 of 8)          S¹/Z₂ only      [PASS] ✓
+>   8.  FTUM fixed point          S=0.250000  (128 iter)  S*=0.2500       [PASS] ✓
+> ────────────────────────────────────────────────────────────────────────
+>   VERDICT: 8/8 PASS  —  elapsed 0.0s
+> ```
+>
+> **This is falsifiable.** LiteBIRD (~2032) will measure β to ±0.01°.
+> If β ≠ 0.351° the birefringence sector is dead. See [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md).
 
 ---
 
