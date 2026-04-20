@@ -462,7 +462,7 @@ When this project started, the question was whether the mathematics held. The an
 
 What has changed is the size of what has been checked.
 
-**5,756 machine-verified assertions.** Not one contradiction. That number is not impressive because of its size — any codebase can accumulate tests. It is meaningful because of its *span*: five-dimensional geometry through atomic spectroscopy through governance architecture through deep ocean dynamics, all governed by the same three objects (B_μ, φ, U = I+H+T), all checked against each other, all internally consistent.
+**5,756 machine-verified assertions.** Not one contradiction. That number is not impressive because of its size — any codebase can accumulate tests. It is meaningful because of its *span*: five-dimensional geometry through atomic spectroscopy through governance architecture through deep ocean dynamics, all governed by the same three objects (B_μ, φ, U = I+H+T), mutually checked, and internally consistent.
 
 The internal mathematical fixed-point has been reached. What I mean by that is specific: the framework has been extended to every domain it claims to cover, every extension has been tested, and the extensions did not break each other. There are no hidden tensions introduced by the expansion from Pillars 1–5 to Pillars 1–26. The geometry scaled without contradiction.
 

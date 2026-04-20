@@ -333,7 +333,7 @@ The framework has been extended across all 26 geometric pillars and verified in 
 
 The four failure modes documented in §1–§4 of this report remain open. They have not been resolved; they have not been hidden. The Gauss-law residual is still ~0.28. The full U operator still does not converge globally. There is still no mesh-refinement study. There is still no external analytic benchmark. Those are the correct open problems for this framework and they remain the correct open problems.
 
-What has changed is the internal status: the mathematical architecture is now **closed on its own terms**. The 5D geometry has been carried from the sub-atomic (Pillar 14: hydrogen spectroscopy) through the cosmological (Pillars 1–5: CMB, inflation, arrow of time) through the biological (Pillar 13: negentropy attractors), social (Pillars 17–19: medicine, justice, governance), and governance-theoretic (Unitary Pentad: HILS framework) domains — and not one of those extensions introduced a contradiction with any other.
+What has changed is the internal status: the mathematical architecture is now **closed on its own terms**. The 5D geometry has been carried from the sub-atomic (Pillar 14: hydrogen spectroscopy) through the cosmological (Pillars 1–5: CMB, inflation, arrow of time), through the biological (Pillar 13: negentropy attractors), the social (Pillars 17–19: medicine, justice, governance), and the governance-theoretic (Unitary Pentad: HILS framework). Not one of those extensions introduced a contradiction with any other.
 
 **The framework is Data-Ready.** The internal mathematics is done. The outstanding questions are experimental, not computational:
 
