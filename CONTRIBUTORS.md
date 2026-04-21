@@ -1,4 +1,4 @@
-# Contributors — The Unitary Manifold (Version 9.11)
+# Contributors — The Unitary Manifold (Version 9.12)
 
 This file documents the contributions of all parties involved in the development, synthesis, and review of *The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility*.
 
@@ -9,8 +9,9 @@ This file documents the contributions of all parties involved in the development
 **All legal rights — copyright, moral rights, authorship, and intellectual-property
 ownership — in this work vest solely and exclusively in:**
 
-> **ThomasCory Walker-Pearson**
-> Independent Researcher, Pacific Northwest, USA
+> **ThomasCory Walker-Pearson**  
+> Operating commercially as **AxiomZero Technologies** (DBA, registered March 26, 2026, United States)  
+> Independent Researcher, Pacific Northwest, USA  
 > GitHub: [@wuzbak](https://github.com/wuzbak)
 
 This includes, without limitation:
@@ -38,9 +39,10 @@ platform, or downstream redistribution.
 ---
 
 ## ThomasCory Walker-Pearson
-**Role:** Principal Architect, Sole Author, and Sole Legal Rights Holder
-**Affiliation:** Independent Researcher, Pacific Northwest, USA
-**GitHub:** [@wuzbak](https://github.com/wuzbak)
+**Role:** Principal Architect, Sole Author, and Sole Legal Rights Holder  
+**Commercial identity:** AxiomZero Technologies (DBA commenced March 26, 2026)  
+**Affiliation:** Independent Researcher, Pacific Northwest, USA  
+**GitHub:** [@wuzbak](https://github.com/wuzbak)  
 **Contributions:**
 - Original intellectual conception of the Unitary Geometry-First (UGF) framework
 - Identification of irreversibility as a fifth-dimensional geometric structure (`G_μ5 = λB_μ`)
@@ -49,6 +51,7 @@ platform, or downstream redistribution.
 - Named theoretical results: Walker–Pearson field equation, Aerisian Polarization rotation effect (`Δθ_WP = αℓP² ∫ R H dr`), Thermodynamic Cosmic Censorship Conjecture, Final Theorem of the Unitary Multiverse
 - Defensive Public Commons License dedication ensuring permanent open access to all intellectual content
 - AGPL-3.0 copyright holder (retained for legal enforcement against commercial enclosure)
+- Founder of AxiomZero Technologies; all code, documentation, and sub-products in this repository (including the Unitary Pentad governance framework) are AxiomZero Technologies products
 
 ---
 
@@ -130,6 +133,6 @@ platform, or downstream redistribution.
 
 ---
 
-*This contributors file was last updated April 2026 (Q22 third Gemini interrogation round — closing verification). Legal rights section authored by ThomasCory Walker-Pearson.*
+*This contributors file was last updated April 2026 (Q22 third Gemini interrogation round — closing verification; AxiomZero Technologies DBA added). Legal rights section authored by ThomasCory Walker-Pearson.*
 
 **DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)
