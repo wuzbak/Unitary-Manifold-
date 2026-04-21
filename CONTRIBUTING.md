@@ -109,7 +109,13 @@ correct results are also always welcome.
 This repository is released under the
 **Defensive Public Commons License v1.0 (2026)** — effectively public domain.
 You are free to fork, reproduce, and build on this work without restriction.
-Attribution to *ThomasCory Walker-Pearson* is requested but not required.
+Attribution to *ThomasCory Walker-Pearson / AxiomZero Technologies* is requested but not required.
+
+All source code, documentation, and sub-products in this repository (including the Unitary Pentad
+governance framework) are original works of ThomasCory Walker-Pearson, produced under the
+**AxiomZero Technologies** trade name (DBA commenced March 26, 2026, United States).  Copyright is
+retained by ThomasCory Walker-Pearson; the DPC v1.0 and AGPL-3.0 licenses grant you broad
+freedoms to use and build upon this work — they do not transfer ownership.
 
 ---
 

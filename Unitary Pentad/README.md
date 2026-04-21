@@ -10,6 +10,7 @@
 
 **Folder:** `Unitary Pentad/`
 **Version:** 1.0 — April 2026
+**Product:** AxiomZero Technologies (AxiomZero Technologies DBA, ThomasCory Walker-Pearson)
 **Theory:** ThomasCory Walker-Pearson
 **Implementation & Synthesis:** GitHub Copilot (AI)
 **Status:** Active — complete implementation of the 5-body HILS Coupled Master Equation
