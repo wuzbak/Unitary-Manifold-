@@ -503,8 +503,10 @@ def aerisian_amplification_ratio(
         A = Δθ_WP(BH) / Δθ_WP(cosmo)
 
     A ≫ 1 means the BH amplifies the Walker-Pearson signal enormously compared
-    to the flat-FRW baseline.  This ratio is independent of α (it cancels),
-    depending instead on M_BH, H₀, and the integration window.
+    to the flat-FRW baseline.  The BH signal scales as α² (since R_KK ∝ α
+    and the integration prefactor is α), while the cosmological background
+    scales as α, so the ratio A ∝ α.  The parameter alpha_em is still required
+    for the individual signal calculations and directly influences the ratio.
 
     Parameters
     ----------

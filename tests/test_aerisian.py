@@ -162,25 +162,25 @@ class TestAerisianRotationAngle:
     def test_known_uniform_value(self):
         # ∫₀¹⁰ 1 × 1 dr = 10; Δθ = α × 10
         r = np.linspace(0.0, 10.0, 10001)
-        R = np.ones(10001)
-        H = np.ones(10001)
-        result = aerisian_rotation_angle(R, H, r, alpha_em=1.0)
+        R_arr = np.ones(10001)
+        H_arr = np.ones(10001)
+        result = aerisian_rotation_angle(R_arr, H_arr, r, alpha_em=1.0)
         assert result == pytest.approx(10.0, rel=1e-4)
 
     def test_alpha_em_linearity(self):
         r = _uniform_grid()
-        R = np.random.default_rng(42).random(50) + 0.1
-        H = np.random.default_rng(7).random(50) + 0.1
-        val1 = aerisian_rotation_angle(R, H, r, alpha_em=1.0)
-        val2 = aerisian_rotation_angle(R, H, r, alpha_em=2.0)
+        R_arr = np.random.default_rng(42).random(50) + 0.1
+        H_arr = np.random.default_rng(7).random(50) + 0.1
+        val1 = aerisian_rotation_angle(R_arr, H_arr, r, alpha_em=1.0)
+        val2 = aerisian_rotation_angle(R_arr, H_arr, r, alpha_em=2.0)
         assert val2 == pytest.approx(2.0 * val1, rel=1e-10)
 
     def test_R_linearity(self):
         r = _uniform_grid()
-        R = np.ones(50)
-        H = np.ones(50)
-        val1 = aerisian_rotation_angle(R, H, r, alpha_em=1.0)
-        val3 = aerisian_rotation_angle(3.0 * R, H, r, alpha_em=1.0)
+        R_arr = np.ones(50)
+        H_arr = np.ones(50)
+        val1 = aerisian_rotation_angle(R_arr, H_arr, r, alpha_em=1.0)
+        val3 = aerisian_rotation_angle(3.0 * R_arr, H_arr, r, alpha_em=1.0)
         assert val3 == pytest.approx(3.0 * val1, rel=1e-10)
 
     def test_negative_R_gives_negative_angle(self):
@@ -248,13 +248,11 @@ class TestRicciScalarKKBH:
         assert np.all(np.isfinite(R))
 
     def test_decreases_with_r(self):
-        # R_KK should fall with r for r > r_s (g_eff*(r_s/r)^3 / (1-x)^2)
-        # At large r (say r_min_rs = 5 to r_max_rs = 50), the (r_s/r)^3
-        # term dominates the fall-off.
+        # R_KK should fall monotonically with r for r > r_s, when far from
+        # the horizon (r_min_rs = 5): the (r_s/r)^3 term dominates the fall-off.
         r = _bh_grid(r_min_rs=5.0, r_max_rs=50.0, N=200)
-        R = ricci_scalar_kk_bh(r, M_bh=1.0)
-        # Last value should be less than the first
-        assert R[-1] < R[0]
+        R_arr = ricci_scalar_kk_bh(r, M_bh=1.0)
+        assert np.all(np.diff(R_arr) <= 0.0)
 
     def test_near_horizon_larger_than_far(self):
         r_close = np.array([2.1])    # r ≈ 1.05 r_s  (M=1, r_s=2)
