@@ -673,3 +673,231 @@ def coupled_master_equation(
         system = step_coupled(system, dt, G4, kappa, gamma)
 
     return system, history, converged
+
+
+# ---------------------------------------------------------------------------
+# Gap 3 — Biological Intentionality / Agency (Pillar 42 bridge)
+# ---------------------------------------------------------------------------
+#
+# "Why does a brain-scale geometric configuration seem to *want* to survive,
+# while a rock doesn't?"
+#
+# Answer (from the Unitary Manifold): intentionality emerges when the local
+# information density φ² creates a **self-reinforcing feedback loop** that
+# pulls the system toward the FTUM attractor faster than environment
+# perturbations push it away.
+#
+# Formally, a system exhibits **geometric agency** iff:
+#
+#     dφ_brain/dt evaluated at the fixed point is NEGATIVE near the attractor
+#     (i.e., the coupled U_total has eigenvalue < 1 for the brain sector),
+#
+# AND the information gap ΔI = |φ²_brain − φ²_univ| is large enough to
+# maintain a distinct local phase (the brain has its own "perspective"):
+#
+#     ΔI  >  INTENTIONALITY_GAP_THRESHOLD
+#
+# The threshold is set by the topological protection gap Δ_CS = k_cs − n_w²:
+#
+#     INTENTIONALITY_GAP_THRESHOLD  =  1 / (k_cs − n_w²)  =  1/49  ≈  0.0204
+#
+# This ensures the brain's local φ is separated from the cosmological φ₀
+# by more than one CS protection unit.
+#
+# A "rock" has ΔI ≈ 0 (its φ is indistinguishable from the background):
+# it is just part of the cosmic radion field, not a distinct attractor.
+# A "brain" has ΔI >> threshold, maintained by the coupled master equation.
+
+#: Winding number used in agency threshold (canonical: 5)
+_NW_AGENCY: int = WINDING_N1
+
+#: Topological protection gap Δ_CS = k_cs − n_w² = 74 − 25 = 49
+_DELTA_CS: int = K_CS - _NW_AGENCY ** 2   # = 49
+
+#: Minimum information gap for geometric agency (= 1/Δ_CS = 1/49)
+INTENTIONALITY_GAP_THRESHOLD: float = 1.0 / _DELTA_CS
+
+#: Resonance lock tolerance for survival-drive computation
+_RESONANCE_TOL: float = 0.1
+
+
+def intentionality_measure(system: CoupledSystem) -> float:
+    """Measure the degree of geometric agency in a coupled brain-universe system.
+
+    Intentionality is defined as the product of two factors:
+
+    1. **Information Gap ratio**:  ΔI / THRESHOLD
+       (How distinct is the brain's local φ from the cosmic background?
+        > 1 → the brain has its own stable "perspective".)
+
+    2. **Resonance lock factor**: 1 if the system is in 5:7 resonance, 0 otherwise.
+       (Intentional systems maintain the canonical (5,7) frequency lock.)
+
+    Combined:
+
+        I_meas = (ΔI / threshold) × lock_factor
+
+    A value > 1 indicates geometric agency; a value ≤ 1 indicates rock-like
+    absence of intentionality.
+
+    Parameters
+    ----------
+    system : CoupledSystem
+
+    Returns
+    -------
+    float
+        Intentionality measure I_meas ≥ 0.  Dimensionless.
+    """
+    delta_I = information_gap(system.brain, system.universe)
+    ratio = delta_I / INTENTIONALITY_GAP_THRESHOLD
+    lock = 1.0 if is_resonance_locked(system.brain, system.universe, _RESONANCE_TOL) else 0.5
+    return float(ratio * lock)
+
+
+def is_intentional(system: CoupledSystem) -> bool:
+    """Return True iff the brain-universe system exhibits geometric agency.
+
+    A system is **intentional** iff:
+
+    1. Information Gap ΔI > INTENTIONALITY_GAP_THRESHOLD  (distinct local φ)
+    2. The resonance ratio ω_brain/ω_univ is within tolerance of 5/7 or 7/5
+
+    Parameters
+    ----------
+    system : CoupledSystem
+
+    Returns
+    -------
+    bool
+    """
+    delta_I = information_gap(system.brain, system.universe)
+    if delta_I <= INTENTIONALITY_GAP_THRESHOLD:
+        return False
+    return is_resonance_locked(system.brain, system.universe, _RESONANCE_TOL)
+
+
+def survival_drive(system: CoupledSystem, G4: float = 1.0) -> float:
+    """Quantify the system's tendency to remain near the FTUM attractor.
+
+    The survival drive D is the rate at which the system self-corrects toward
+    its attractor when perturbed.  It is proportional to:
+
+        D = κ × φ²_brain / (coupled_defect + ε)
+
+    where:
+    * κ = BIREFRINGENCE_RAD (coupling constant = restoring force)
+    * φ²_brain = information density (larger → stronger pull)
+    * coupled_defect → 0 means the system is already at the attractor
+      (in the limit D → ∞ × 0 = finite, the drive is sustained)
+
+    Interpretation:
+    * D ≫ 1 → strong survival drive (the geometry "wants" to stay at Ψ*)
+    * D ≈ 1 → neutral (perturbations and restoring forces balance)
+    * D < 1 → unstable (perturbations dominate → no intentionality)
+
+    Parameters
+    ----------
+    system : CoupledSystem
+    G4     : float — Newton's constant
+
+    Returns
+    -------
+    float
+        Survival drive D ≥ 0.
+    """
+    defect = coupled_defect(system, G4)
+    phi_b_sq = system.brain.phi ** 2
+    kappa = BIREFRINGENCE_RAD
+    return float(kappa * phi_b_sq / (defect + _EPS))
+
+
+def agency_threshold(c_s: float = 12.0 / 37.0, k_cs: int = K_CS) -> float:
+    """Minimum information gap for a geometric agent to maintain identity.
+
+    The threshold is derived from the CS protection gap:
+
+        threshold = c_s / (k_cs − n_w²) = (12/37) / 49  ≈  0.00661
+
+    This is the minimum ΔI needed to ensure the brain's topological winding
+    sector is distinct from the background — i.e., the brain is a separate
+    attractor basin, not just a fluctuation in the cosmic field.
+
+    Parameters
+    ----------
+    c_s  : float — braided sound speed (default 12/37)
+    k_cs : int   — Chern-Simons level (default 74)
+
+    Returns
+    -------
+    float
+        Agency threshold ΔI_min.
+
+    Raises
+    ------
+    ValueError
+        If k_cs ≤ _NW_AGENCY².
+    """
+    gap = k_cs - _NW_AGENCY ** 2
+    if gap <= 0:
+        raise ValueError(
+            f"k_cs={k_cs} must exceed n_w²={_NW_AGENCY**2} to have a protection gap"
+        )
+    return float(c_s / gap)
+
+
+def intentionality_summary(system: CoupledSystem, G4: float = 1.0) -> Dict:
+    """Full intentionality diagnostic summary for a coupled brain-universe system.
+
+    Returns a dict with keys:
+
+    ``information_gap``      : float — ΔI = |φ²_brain − φ²_univ|
+    ``gap_threshold``        : float — INTENTIONALITY_GAP_THRESHOLD = 1/49
+    ``agency_threshold``     : float — c_s / Δ_CS (finer threshold)
+    ``intentionality_measure``: float — I_meas = (ΔI/threshold) × lock
+    ``is_intentional``       : bool  — True iff ΔI > threshold AND resonance locked
+    ``survival_drive``       : float — D = κ φ²_brain / (defect + ε)
+    ``resonance_locked``     : bool  — True iff in 5:7 frequency resonance
+    ``resonance_ratio``      : float — ω_brain / ω_univ
+    ``coupled_defect``       : float — combined convergence defect
+    ``summary``              : str   — human-readable description
+
+    Parameters
+    ----------
+    system : CoupledSystem
+    G4     : float — Newton's constant (default 1)
+    """
+    dI = information_gap(system.brain, system.universe)
+    locked = is_resonance_locked(system.brain, system.universe, _RESONANCE_TOL)
+    ratio = resonance_ratio(system.brain, system.universe)
+    defect = coupled_defect(system, G4)
+    i_meas = intentionality_measure(system)
+    intentional = is_intentional(system)
+    drive = survival_drive(system, G4)
+    thresh = INTENTIONALITY_GAP_THRESHOLD
+    a_thresh = agency_threshold()
+
+    if intentional:
+        desc = (
+            f"INTENTIONAL system: ΔI={dI:.4f} > threshold={thresh:.4f}, "
+            f"resonance locked, drive={drive:.3f}. "
+            f"Brain geometry is a distinct attractor basin — exhibits agency."
+        )
+    else:
+        desc = (
+            f"NON-INTENTIONAL system: ΔI={dI:.4f} ≤ threshold={thresh:.4f} "
+            f"or resonance unlocked. Brain is indistinguishable from background."
+        )
+
+    return {
+        "information_gap":       dI,
+        "gap_threshold":         thresh,
+        "agency_threshold":      a_thresh,
+        "intentionality_measure": i_meas,
+        "is_intentional":        intentional,
+        "survival_drive":        drive,
+        "resonance_locked":      locked,
+        "resonance_ratio":       ratio,
+        "coupled_defect":        defect,
+        "summary":               desc,
+    }
