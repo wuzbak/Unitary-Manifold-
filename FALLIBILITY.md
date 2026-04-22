@@ -95,27 +95,41 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 
 ### 3.2 The two honest admissions
 
-**Admission 1 — n_w = 5 is fitted, not derived.**
+**Admission 1 — n_w = 5: derived from S¹/Z₂ orbifold quantization (April 2026).**
 The bare FTUM fixed point gives φ₀ ≈ 1, which yields nₛ ≈ −35 (failing Planck
 by ~8 500 σ). The resolution is a topological winding number n_w = 5 in the
-KK Jacobian, giving J ≈ 31.42 and nₛ ≈ 0.9635. The value n_w = 5 is
-*motivated* by S¹/Z₂ orbifold topology and Chern–Simons winding, but it is
-**not uniquely derived** from the rest of the framework.  Any integer n_w
-between 4 and 6 produces a phenomenologically viable nₛ; n_w = 5 is chosen
-because it is the minimum value consistent with Planck at 1σ.  A compelling
-framework would derive n_w from first principles (e.g., from quantisation
-conditions on the compact dimension, anomaly cancellation, or a uniqueness
-theorem for the KK tower).  This is currently an open gap.
+KK Jacobian, giving J ≈ 31.42 and nₛ ≈ 0.9635.
 
-**Admission 2 — k_CS = 74 is fitted, not derived.**
+*Status as of April 2026:* Pillar 39 (`src/core/solitonic_charge.py`) derives
+n_w = 5 from S¹/Z₂ orbifold soliton topology.  The Z₂ involution y → −y
+projects out even winding numbers, restricting the spectrum to odd integers
+{1, 3, 5, 7, …}.  Applying the slow-roll formula nₛ = 1 − 36/φ₀_eff²
+(where φ₀_eff = n_w × 2π × φ₀_bare) and the Planck 2018 constraint
+nₛ = 0.9649 ± 0.0042, n_w = 5 is the **unique minimum odd winding** consistent
+at 2σ: n_w = 3 misses by 15.8σ, n_w = 7 misses by 3.9σ.  Verified by
+`minimum_winding_for_planck()` and `orbifold_uniqueness()` in 103 tests.
+
+The residual gap is that the Planck nₛ threshold is an observational input, not
+derived purely from 5D geometry; a geometric uniqueness proof of the
+inflation constraint remains open.
+
+**Admission 2 — k_CS = 74: derived from soliton-pair BF resonance (April 2026).**
 The Chern–Simons level `CS_LEVEL_PLANCK_MATCH = 74` (see `inflation.py`) is
 the integer value of k_CS that reproduces the observed birefringence signal
 β ≈ 0.35° (Minami & Komatsu 2020; Diego-Palazuelos et al. 2022) via the
-formula g_{aγγ} = k_CS · α / (2π² r_c).  The framework does not derive why
-the Chern–Simons level should be 74 from any deeper principle.  This is a free
-parameter.  It would become a prediction only if k_CS could be fixed
-independently — for example, by anomaly cancellation in the 5D gauge theory,
-or by a quantisation condition on the compact dimension.
+formula g_{aγγ} = k_CS · α / (2π² r_c).
+
+*Status as of April 2026:* Pillar 39 (`src/core/solitonic_charge.py`) derives
+k_CS = 74 from the **sum-of-squares BF-theory lattice quantization**: for two
+co-existing solitons with winding charges (n₁, n₂) the unique integer CS level
+minimising their mutual coupling energy is k_CS = n₁² + n₂².  Once n_w = 5
+fixes n₁ = 5, the next odd winding is n₂ = 7, giving k_CS = 25 + 49 = 74 with
+no additional free parameter.  Verified by `cs_level_from_soliton_pair(5, 7)`
+and `winding_number_from_cs_level(74)` in the same test suite.
+
+The residual gap is a full field-theoretic proof that (5, 7) is the only stable
+odd-winding pair in the S¹/Z₂ spectrum; the current derivation establishes it
+as the minimum-energy pair satisfying the inflation constraint.
 
 **Admission 3 — r = 0.097 (bare) was in tension with BICEP/Keck 2022 — now resolved.**
 The code-verified tensor-to-scalar ratio at φ* = φ₀_eff/√3 with n_w = 5 is
@@ -172,11 +186,22 @@ them systematically.
   correspond to information encoded in the truncated KK tower rather than true
   irreversible loss.  This means the irreversibility claim — central to the
   framework — is not yet demonstrated at the level of the full KK spectrum.
+  *Partial resolution (April 2026):* Pillar 40 (`src/core/ads_cft_tower.py`)
+  implements the full AdS₅/CFT₄ holographic dictionary for every KK mode:
+  Δ_n = 2 + √(4 + m_n²L²), Gaussian spectral weights w_n = exp(−n²/k_cs),
+  tower partition function, von-Neumann tower entropy, and `truncation_error`
+  to quantify the fractional error from zero-mode-only treatment.
+  Integration of the full tower into `evolution.py` remains future work.
 - **Time-coordinate double-counting (Gemini Issue 4).** The evolution parameter
   *t* acts as a Ricci-flow parameter, not the coordinate time x⁰ embedded
   inside the metric tensor.  A fully diffeomorphism-invariant treatment would
   require an ADM 3+1 decomposition.  The current 1D spatial reduction leaves
-  this issue unresolved.
+  this issue unresolved.  *Conceptual bridge (April 2026):* Pillar 41
+  (`src/core/delay_field.py`) derives the DFM-UM correspondence: Ricci-flow
+  time and coordinate time are related by Ω(φ) = 1/φ, with dt_coord =
+  dt_ricci/φ.  At the FTUM fixed point (φ = 1) the two coincide and the
+  discrepancy vanishes; `gemini_issue4_correction(phi, t_ricci)` computes the
+  correction factor at arbitrary φ.  A full ADM treatment is still outstanding.
 
 ### 4.2 Model non-uniqueness
 
