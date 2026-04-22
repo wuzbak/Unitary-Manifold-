@@ -17,7 +17,6 @@ Code architecture, test suites, document engineering, and synthesis: GitHub Copi
 from __future__ import annotations
 
 import math
-from typing import Dict
 
 # ---------------------------------------------------------------------------
 # Module-level constants (Planck units)
@@ -84,7 +83,7 @@ def ricci_from_coord_time(t_coord: float, phi: float) -> float:
     return t_coord * phi
 
 
-def gemini_issue4_correction(phi: float, t_ricci: float) -> Dict[str, float]:
+def gemini_issue4_correction(phi: float, t_ricci: float) -> dict[str, float]:
     """Compute the Gemini Issue 4 time-reckoning correction.
 
     Returns a dict with keys:
@@ -167,7 +166,7 @@ def dfm_um_consistency_check(phi: float, delta_tau: float, tol: float = 1e-10) -
 # Braided delay spectrum
 # ---------------------------------------------------------------------------
 
-def braided_delay_spectrum(n1: int, n2: int, k_cs: int) -> Dict[str, float]:
+def braided_delay_spectrum(n1: int, n2: int, k_cs: int) -> dict[str, float]:
     """Compute the two-mode braided delay spectrum.
 
     c_s = (n2² - n1²) / k_cs
@@ -207,7 +206,7 @@ def causal_arrow_of_time(phi_initial: float, phi_final: float) -> str:
 # Summary convenience function
 # ---------------------------------------------------------------------------
 
-def dfm_summary(phi: float = PHI_STAR, t_ricci: float = 1.0) -> Dict[str, float]:
+def dfm_summary(phi: float = PHI_STAR, t_ricci: float = 1.0) -> dict[str, float]:
     """Return a dict of all primary DFM-derived quantities for given φ and t_ricci."""
     correction = gemini_issue4_correction(phi, t_ricci)
     return {

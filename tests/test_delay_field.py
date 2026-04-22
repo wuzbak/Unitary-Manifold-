@@ -3,7 +3,7 @@
 """
 test_delay_field.py — Tests for Pillar 41: 5D Delay Field Model (DFM)
 
-~90 tests covering all public functions in src/core/delay_field.py.
+~75 tests covering all public functions in src/core/delay_field.py.
 
 Theory and scientific direction: ThomasCory Walker-Pearson.
 Code and tests: GitHub Copilot (AI).
