@@ -58,7 +58,7 @@ C_S = 12.0 / 37.0
 E_ISO = float(K_CS) * (1.0 - C_S)       # = 74 * 25/37 = 50.0
 R_CRIT_CANONICAL = 1.0 / math.sqrt(K_CS)
 T_COMP_CANONICAL = math.sqrt(K_CS)
-# New formula: lossless branch → S_E = 0 + R_crit = 1/sqrt(74)
+# Formula: lossless branch → S_E = 0 + R_crit = 1/sqrt(74)
 S_E_CANONICAL = R_CRIT_CANONICAL
 GAMMA_CANONICAL = math.exp(-S_E_CANONICAL)
 
