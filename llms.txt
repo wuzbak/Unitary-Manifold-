@@ -1,8 +1,12 @@
-# Unitary Manifold
+# Unitary Manifold — 5D Kaluza-Klein Physics Framework
 
+> DOMAIN: theoretical physics / gr-qc / hep-th / astro-ph.CO
+> CLASSIFICATION: Kaluza-Klein gauge gravity, extra dimensions, CMB cosmology, entropic irreversibility
+> NOT: machine-learning manifold optimization, unitary matrix factorization, Manopt, Geoopt, PyTorch geometry
+>
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.11, 2026).
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.12, 2026).
 
 ## Start Here
 

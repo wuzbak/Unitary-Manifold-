@@ -1,4 +1,4 @@
-# The Unitary Manifold (v9.12 — CANONICAL EDITION)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.12)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
