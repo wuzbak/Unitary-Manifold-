@@ -29,6 +29,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from src.consciousness.coupled_attractor import (
     BIREFRINGENCE_DEG,
     BIREFRINGENCE_RAD,
+    INTENTIONALITY_GAP_THRESHOLD,
     RESONANCE_RATIO,
     WINDING_N1,
     WINDING_N2,
@@ -36,10 +37,15 @@ from src.consciousness.coupled_attractor import (
     ManifoldState,
     CoupledSystem,
     information_gap,
+    intentionality_measure,
+    intentionality_summary,
+    is_intentional,
+    is_resonance_locked,
+    agency_threshold,
+    coupled_defect,
     phase_offset,
     resonance_ratio,
-    is_resonance_locked,
-    coupled_defect,
+    survival_drive,
     step_coupled,
     coupled_master_equation,
     _apply_coupling,
@@ -582,3 +588,188 @@ class TestInformationGapAlignment:
         phi_total_after = sys2.brain.phi + sys2.universe.phi
         # φ total (linear) is conserved
         assert phi_total_after == pytest.approx(phi_total_before, abs=1e-12)
+
+
+# ---------------------------------------------------------------------------
+# Gap 3 — Intentionality / Agency tests
+# ---------------------------------------------------------------------------
+
+def _intentional_system():
+    """Build a system with large ΔI and approximate 5:7 resonance."""
+    node_b = MultiverseNode(
+        S=1.0, A=4.0, Q_top=0.0,
+        X=np.array([1.0, 0.0, 0.0, 0.0]),
+        Xdot=np.array([5.0, 0.0, 0.0, 0.0]),
+    )
+    node_u = MultiverseNode(
+        S=5.0, A=40.0, Q_top=0.0,
+        X=np.array([1.0, 0.0, 0.0, 0.0]),
+        Xdot=np.array([7.0, 0.0, 0.0, 0.0]),
+    )
+    # Large ΔI: |0.8² − 0.1²| = 0.63 > threshold=1/49≈0.0204
+    b = ManifoldState(node=node_b, phi=0.8, label="brain")
+    u = ManifoldState(node=node_u, phi=0.1, label="universe")
+    return CoupledSystem(brain=b, universe=u)
+
+
+def _rock_system():
+    """Build a system with tiny ΔI — rock-like, no agency."""
+    node = MultiverseNode(
+        S=1.0, A=4.0, Q_top=0.0,
+        X=np.array([1.0, 0.0, 0.0, 0.0]),
+        Xdot=np.ones(4) * 0.5,
+    )
+    # ΔI ≈ 0 (same φ) — rock
+    b = ManifoldState(node=node, phi=1.0, label="brain")
+    u = ManifoldState(node=node, phi=1.0, label="universe")
+    return CoupledSystem(brain=b, universe=u)
+
+
+class TestIntentionalityConstants:
+    def test_gap_threshold_value(self):
+        # INTENTIONALITY_GAP_THRESHOLD = 1/(k_cs - n_w²) = 1/49
+        expected = 1.0 / (74 - 25)
+        assert abs(INTENTIONALITY_GAP_THRESHOLD - expected) < 1e-12
+
+    def test_gap_threshold_positive(self):
+        assert INTENTIONALITY_GAP_THRESHOLD > 0.0
+
+
+class TestIntentionalityMeasure:
+    def test_intentional_system_measure_gt_1(self):
+        sys = _intentional_system()
+        assert intentionality_measure(sys) > 1.0
+
+    def test_rock_system_measure_small(self):
+        sys = _rock_system()
+        assert intentionality_measure(sys) < 1.0
+
+    def test_non_negative(self):
+        for sys in [_intentional_system(), _rock_system()]:
+            assert intentionality_measure(sys) >= 0.0
+
+    def test_scales_with_info_gap(self):
+        """Larger ΔI → higher intentionality measure."""
+        node_b = MultiverseNode(
+            S=1.0, A=4.0, Q_top=0.0,
+            X=np.array([1.0, 0.0, 0.0, 0.0]),
+            Xdot=np.array([5.0, 0.0, 0.0, 0.0]),
+        )
+        node_u = MultiverseNode(
+            S=5.0, A=40.0, Q_top=0.0,
+            X=np.array([1.0, 0.0, 0.0, 0.0]),
+            Xdot=np.array([7.0, 0.0, 0.0, 0.0]),
+        )
+        b_small = ManifoldState(node=node_b, phi=0.5, label="brain")
+        b_large = ManifoldState(node=node_b, phi=0.9, label="brain")
+        u = ManifoldState(node=node_u, phi=0.1, label="universe")
+        sys_small = CoupledSystem(brain=b_small, universe=u)
+        sys_large = CoupledSystem(brain=b_large, universe=u)
+        i_small = intentionality_measure(sys_small)
+        i_large = intentionality_measure(sys_large)
+        # larger phi_brain → larger ΔI → higher intentionality
+        assert i_large > i_small
+
+
+class TestIsIntentional:
+    def test_intentional_system_is_intentional(self):
+        sys = _intentional_system()
+        assert is_intentional(sys) is True
+
+    def test_rock_not_intentional(self):
+        sys = _rock_system()
+        assert is_intentional(sys) is False
+
+    def test_no_resonance_not_intentional(self):
+        """High ΔI but no resonance lock → not intentional."""
+        node_b = MultiverseNode(
+            S=1.0, A=4.0, Q_top=0.0,
+            X=np.array([1.0, 0.0, 0.0, 0.0]),
+            Xdot=np.array([100.0, 0.0, 0.0, 0.0]),  # far from 5:7
+        )
+        node_u = MultiverseNode(
+            S=5.0, A=40.0, Q_top=0.0,
+            X=np.array([1.0, 0.0, 0.0, 0.0]),
+            Xdot=np.array([1.0, 0.0, 0.0, 0.0]),
+        )
+        b = ManifoldState(node=node_b, phi=0.9, label="brain")
+        u = ManifoldState(node=node_u, phi=0.1, label="universe")
+        sys = CoupledSystem(brain=b, universe=u)
+        # ΔI > threshold but resonance not locked
+        assert not is_intentional(sys)
+
+
+class TestSurvivalDrive:
+    def test_positive(self):
+        sys = _intentional_system()
+        assert survival_drive(sys) > 0.0
+
+    def test_rock_drive_small(self):
+        sys = _rock_system()
+        # Rock: φ²_brain tiny → small drive
+        node = MultiverseNode(S=1.0, A=4.0, Q_top=0.0,
+                              X=np.ones(4), Xdot=np.zeros(4))
+        b = ManifoldState(node=node, phi=1e-6, label="brain")
+        u = ManifoldState(node=node, phi=1.0, label="universe")
+        rock = CoupledSystem(brain=b, universe=u)
+        assert survival_drive(rock) < survival_drive(_intentional_system())
+
+    def test_larger_phi_brain_larger_drive(self):
+        node = MultiverseNode(S=0.0, A=4.0, Q_top=0.0,
+                              X=np.ones(4), Xdot=np.zeros(4))
+        u = ManifoldState(node=node, phi=0.0, label="universe")
+        b1 = ManifoldState(node=node, phi=1.0, label="brain")
+        b2 = ManifoldState(node=node, phi=2.0, label="brain")
+        s1 = CoupledSystem(brain=b1, universe=u)
+        s2 = CoupledSystem(brain=b2, universe=u)
+        assert survival_drive(s2) > survival_drive(s1)
+
+
+class TestAgencyThreshold:
+    def test_positive(self):
+        thresh = agency_threshold()
+        assert thresh > 0.0
+
+    def test_formula(self):
+        c_s = 12.0 / 37.0
+        gap = 74 - 25  # k_cs - n_w^2 = 49
+        expected = c_s / gap
+        assert abs(agency_threshold() - expected) < 1e-12
+
+    def test_less_than_intentionality_gap_threshold(self):
+        # agency_threshold (c_s/49) < INTENTIONALITY_GAP_THRESHOLD (1/49)
+        assert agency_threshold() < INTENTIONALITY_GAP_THRESHOLD
+
+
+class TestIntentionalitySummary:
+    def setup_method(self):
+        self.summary = intentionality_summary(_intentional_system())
+
+    def test_keys_present(self):
+        for key in [
+            "information_gap", "gap_threshold", "agency_threshold",
+            "intentionality_measure", "is_intentional", "survival_drive",
+            "resonance_locked", "resonance_ratio", "coupled_defect", "summary"
+        ]:
+            assert key in self.summary
+
+    def test_is_intentional_bool(self):
+        assert isinstance(self.summary["is_intentional"], bool)
+
+    def test_gap_threshold_value(self):
+        assert abs(self.summary["gap_threshold"] - INTENTIONALITY_GAP_THRESHOLD) < 1e-12
+
+    def test_summary_string(self):
+        s = self.summary["summary"]
+        assert isinstance(s, str)
+        assert len(s) > 0
+
+    def test_rock_summary_not_intentional(self):
+        rock_sum = intentionality_summary(_rock_system())
+        assert rock_sum["is_intentional"] is False
+
+    def test_survival_drive_positive(self):
+        assert self.summary["survival_drive"] > 0.0
+
+    def test_information_gap_non_negative(self):
+        assert self.summary["information_gap"] >= 0.0
