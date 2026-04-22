@@ -3,7 +3,8 @@
 """
 tests/test_boundary_completions.py
 =====================================
-Final 21 tests to reach the 5756-test milestone.
+Boundary completion tests (originally contributed at the 5756-test milestone;
+now part of the larger 7646+ test suite).
 
 These tests fill in the remaining mutation-testing gaps in the holographic
 boundary module: the `derive_kcs_anomaly_inflow` branch that handles a

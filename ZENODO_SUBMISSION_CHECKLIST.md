@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.11, 3525 tests, 26 pillars, expanded keywords
+- [x] `zenodo/.zenodo.json` — updated to v9.14, 7647 tests, 26+ pillars, expanded keywords
 - [x] `CITATION.cff` — updated to v9.11, date 2026-04-15
 - [x] `arxiv/main.tex` — header updated to v9.11
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -115,16 +115,18 @@ Law of Thermodynamics is a geometric identity rather than a statistical
 postulate; (ii) information pressure provides a geometric alternative to
 dark energy; (iii) entropic holography identifies boundary entropy with
 bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture holds.
-Version 9.11 extends the framework to 26 physical pillars (atomic
+Version 9.14 extends the framework to 26+ physical pillars (atomic
 structure, cold fusion, medicine, justice, governance, neuroscience,
-ecology, climate, marine biology, psychology, genetics, materials science)
-with 3525 passing tests. Numerical code for independent verification at
+ecology, climate, marine biology, psychology, genetics, materials science,
+observational frontiers, solitonic charge, AdS/CFT KK tower, delay field,
+three generations, collider resonances, geometric collapse, coupled history)
+with 7646 passing tests. Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
 ```
 
 **Comments field:**
 ```
-72 pages, 0 figures. Numerical implementation (3525 tests) at
+72 pages, 0 figures. Numerical implementation (7646 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.

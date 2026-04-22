@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.11 — Academic Edition |
+| Version | 9.14 — Current Edition |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -247,9 +247,8 @@ such that `UΨ* = Ψ*`.
 │   ├── test_genetics.py                  # Genetics as φ information archive (90) — v9.11
 │   ├── test_materials.py                 # Materials science as φ lattice (90) — v9.11
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 3586 tests — 3574 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
-│   # Skip:  test_defect_history_mostly_decreasing fires pytest.skip() on immediate convergence
-│   # Slow:  @pytest.mark.slow in pytest.ini addopts; run with: pytest tests/ -m slow
+│   # Total: 6097 collected — 6096 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
+│   # (88 test files; new pillars 27–45+ added since last update)
 │
 ├── brain/
 │   ├── README.md                          # Brain-universe correspondence overview
@@ -362,7 +361,7 @@ such that `UΨ* = Ψ*`.
   author  = {Walker-Pearson, ThomasCory},
   year    = {2026},
   url     = {https://github.com/wuzbak/Unitary-Manifold-},
-  version = {9.11},
+  version = {9.14},
   license = {Defensive Public Commons v1.0}
 }
 ```
@@ -455,13 +454,13 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **3586 tests: 3574 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** |
+| **Test suite** | `pytest` unit tests — **7647 tests: 7646 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** (tests/ + recycling/ + Unitary Pentad/) |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
 ---
 
-*Generated: 2026-04-14 | Repo: wuzbak/Unitary-Manifold- | Version: 9.11*
+*Generated: 2026-04-22 | Repo: wuzbak/Unitary-Manifold- | Version: 9.14*
 
 ---
 

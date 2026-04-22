@@ -17,7 +17,7 @@ HILS governance framework (Unitary Pentad), and supporting AI assistant infrastr
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: 3574 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 6096 passed, 1 skipped, 11 deselected, 0 failed
 
 # Recycling suite:
 python -m pytest recycling/ -q
@@ -29,7 +29,7 @@ python -m pytest "Unitary Pentad/" -q
 
 # Full repository (takes ~90 seconds):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 5124 passed, 1 skipped, 0 failed
+# Expected: 7646 passed, 1 skipped, 0 failed
 ```
 
 ## Repository Structure
@@ -45,7 +45,7 @@ src/neuroscience/ src/ecology/ src/climate/ src/marine/
 src/psychology/ src/genetics/ src/materials/
 recycling/          ← Pillar 16: φ-debt entropy accounting
 Unitary Pentad/     ← Independent HILS governance framework (18 modules)
-tests/              ← 55 test files, ~3574 passing tests
+tests/              ← 88 test files, ~6096 passing tests
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 co-emergence/       ← HILS framework documentation
 ```

@@ -291,7 +291,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 3574 tests are passing in all three — but "passing" means
+> of content, and all 7646 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -422,13 +422,13 @@ src/core/bh_remnant.py            ← ⭐ Pillar 28 (v9.12): KK BH Remnant — G
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (3586 tests: 3574 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 7647 collected, 7646 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (3574 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (6096 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -486,7 +486,7 @@ tests/test_genetics.py                         78 passed  ← Pillar 25: genetic
 tests/test_materials.py                        75 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 3574 passed, 1 skipped, 11 deselected ================================
+================================ 6096 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
