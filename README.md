@@ -410,6 +410,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     ├── condensed.py              ← band gap, phonon scattering, magnetism, defects, phase transitions
     ├── semiconductors.py         ← carrier density, p-n junction, solar cell, quantum dots
     └── metamaterials.py          ← negative index, plasmonic resonance, photonic bandgap, cloaking
+src/core/bh_remnant.py            ← ⭐ Pillar 28 (v9.12): KK BH Remnant — GW floor halts evaporation (Theorem XVII)
 
 ---
 
@@ -466,6 +467,7 @@ tests/test_stellar.py                          91 passed  ← Pillar 11: astrono
 tests/test_planetary.py                        49 passed  ← Pillar 11: planetary orbitals, braid resonances (7²) [TIER 2]
 tests/test_atomic_structure.py                187 passed  ← Pillar 14: atomic structure as KK modes [TIER 2]
 tests/test_cold_fusion.py                     215 passed  ← Pillar 15: cold fusion as φ tunneling [TIER 2]
+tests/test_bh_remnant.py                       80 passed  ← Pillar 28: KK BH remnant — GW floor, Theorem XVII [TIER 2]
 # — TIER 3: Analogical applications (tests confirm code correctness ONLY; not physical truth) —
 tests/test_chemistry.py                       102 passed  ← Pillar 10: chemistry as 5D geometry [TIER 3]
 tests/test_geology.py                          59 passed  ← Pillar 12: geology as B_μ fluid [TIER 3]
