@@ -189,11 +189,11 @@ class TestRemnantTemperature:
         M = remnant_mass(PHI_MIN, M_PHI, PHI0)
         assert T * M == pytest.approx(1.0 / (16.0 * math.pi ** 2), rel=1e-12)
 
-    def test_increases_as_phi_min_approaches_phi0(self):
-        """Extremal remnant (phi_min → phi0): T_H_max → 0+ since delta → 0."""
+    def test_temperature_decreases_as_phi_min_approaches_phi0(self):
+        """As phi_min → phi0, delta = phi0 - phi_min → 0, so T_H_max → 0."""
         T_small_gap = remnant_temperature(0.99, 1.0, M_PHI)
         T_large_gap = remnant_temperature(0.1, 1.0, M_PHI)
-        # With small delta (phi0-phi_min small) and large phi_min, T is small
+        # Large phi_min (small delta) → small T; small phi_min (large delta/phi_min) → large T
         assert T_small_gap < T_large_gap
 
     def test_large_phi_min_small_temperature(self):

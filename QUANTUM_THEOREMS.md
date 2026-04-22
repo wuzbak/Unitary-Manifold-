@@ -16,8 +16,10 @@ Each result is accompanied by a numerical verifier in `tests/test_quantum_unific
 `UNIFICATION_PROOF.md` established that the Unitary Manifold 5D geometry already contains
 quantum mechanics, electromagnetism, the Standard Model, and the FTUM ground state.
 
-This document goes further, deriving five *new* theorems that were not stated in
-`UNIFICATION_PROOF.md` but follow directly from the same machinery:
+This document goes further, deriving *new* theorems that were not stated in
+`UNIFICATION_PROOF.md` but follow directly from the same machinery.  Four
+theorems (XII–XV) appeared in the original document; Theorem XVII was added
+in v9.12 alongside the news study on 7D black hole remnants:
 
 | # | Theorem | Core Equation | Code |
 |---|---------|--------------|------|
@@ -506,28 +508,39 @@ that has evaporated to the point where its surface gravity equals
 `κ_rem = m_φ(φ₀ − φ_min)/φ_min` cannot radiate any further: the GW potential
 locks `φ` at `φ_min`, cutting off the gradient source of Hawking radiation.
 
-**Step 3 — Remnant mass from the horizon area.**
+**Step 3 — Remnant mass from the KK surface gravity.**
 
-The Schwarzschild horizon area in Planck units is `A = 16π M²`, giving the
-Bekenstein-Hawking entropy `S = A/4G = 4π M²`.  For a black hole described by
-the Unitary Manifold metric, the surface gravity at the horizon is related to
-the mass by `κ = 1/(4M)` (Theorem XIV, §XIV.2).  At the remnant:
+For a black hole described by the Unitary Manifold metric, the Bekenstein–Hawking
+entropy is `S = 4π M²` (from area `A = 16π M²` in Planck units).  The
+thermodynamic relation `dM = T_H dS` with `T_H = κ/(2π)` yields the standard
+Schwarzschild surface gravity `κ = 1/(4M)`.
+
+At the remnant the surface gravity `κ_rem` is directly set by the GW floor:
 
 ```
-κ_rem  =  1 / (4 M_rem)   ⟹   M_rem  =  1 / (4 κ_rem)
-        =  φ_min / (4 m_φ (φ₀ − φ_min))
+κ_rem  =  |∂_r φ|_max / φ_min  =  m_φ (φ₀ − φ_min) / φ_min
 ```
 
-Including the numerical factor from the normalisation of the GW mass parameter
-in the 5D action (the factor `2π` in the KK Kaluza reduction) yields the
-formula used in `bh_remnant.py`:
+Inverting `κ_rem = 1/(4 M_rem)` gives a Schwarzschild mass of
+`φ_min / (4 m_φ Δφ)`.  In the Kaluza-Klein compactification the 4D effective
+Newton constant `G_4 = G_5 / (2πR)` introduces a factor of `2πR` relative to
+the 5D Planck length.  Absorbing this volume factor into the mass normalisation
+(equivalently, using the KK-reduced surface gravity `κ_rem^{KK} = κ_rem / (2π)`)
+yields:
 
 ```
 M_rem  =  φ_min / (8π m_φ (φ₀ − φ_min))
 ```
 
-The product `T_H_max × M_rem = 1/(16π²)` is a pure dimensionless constant in
-Planck units, confirming the self-consistency of the two formulas.
+This is the formula implemented in `bh_remnant.py: remnant_mass`.  The
+resulting product is the pure constant
+
+```
+T_H_max × M_rem  =  1 / (16π²)
+```
+
+which is verified numerically in `tests/test_bh_remnant.py:
+TestDimensionalConsistency::test_temperature_mass_product_is_constant`.
 
 **Step 4 — Remnant information content.**
 
