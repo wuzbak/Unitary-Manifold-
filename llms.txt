@@ -100,6 +100,15 @@
 - [semiconductors.py](src/materials/semiconductors.py): Pillar 26 — Carrier density, p-n junction, solar cell efficiency, quantum dots.
 - [metamaterials.py](src/materials/metamaterials.py): Pillar 26 — Negative index, plasmonic resonance, photonic bandgap, cloaking.
 
+## Pillar 45 — Coupled History, Precision Audit, LiteBIRD Boundary (v9.13)
+
+- [coupled_history.py](src/core/coupled_history.py): Pillar 45 — Consciousness–Quantum Measurement Bridge. Links `geometric_collapse.py` to `coupled_attractor.py`. Proves that a high-agency brain (large φ-variance, 5:7 resonance) always accelerates local decoherence via the Agency-Decoherence Ratio ADR = τ_dec_bare / τ_dec_coupled ≥ 1.
+- [precision_audit.py](src/core/precision_audit.py): Pillar 45-B — Numerical Precision Audit. Verifies that the S_E minimum at (5,7) and LOSS_COEFFICIENT=10 are stable at 128-bit and 256-bit arithmetic (mpmath). The (5,7) minimum does not disappear at higher precision.
+- [litebird_boundary.py](src/core/litebird_boundary.py): Pillar 45-C — LiteBIRD Boundary Check. Generates the 4×4 covariance matrix for β ∈ {0.273°, 0.290°, 0.331°, 0.351°} and defines the exact "Fail Zone": β < 0.22° or β > 0.38° (outside window), or β ∈ (0.29°, 0.31°) (forbidden gap). If LiteBIRD measures 0.34° or 0.36°, the theory survives; the gap [0.29°–0.31°] is the true Yes/No discriminator.
+- [tests/test_coupled_history.py](tests/test_coupled_history.py): ~90 tests for the Consciousness–Quantum Measurement Bridge — v9.13.
+- [tests/test_precision_audit.py](tests/test_precision_audit.py): ~60 tests verifying 128-bit and 256-bit stability of the S_E minimum and LOSS_COEFFICIENT — v9.13.
+- [tests/test_litebird_boundary.py](tests/test_litebird_boundary.py): ~80 tests for LiteBIRD pass/fail logic, covariance matrix, and exact Fail Zone — v9.13.
+
 ## Tests
 
 - [tests/conftest.py](tests/conftest.py): Shared pytest fixtures (FieldState, BoundaryState, networks).
