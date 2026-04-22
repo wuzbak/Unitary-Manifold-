@@ -369,15 +369,129 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 | Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
 | Uniqueness of the framework | Not established | Multiple parameter combinations give same observables |
 
-The framework is internally coherent and the spectral index nₛ matches Planck.
-One open quantitative problem remains:
-1. **CMB amplitude gap**: A_s suppressed ×4–7 at acoustic peaks.
+---
 
-The r tension (Q18) has been resolved via the braided (5,7) state
-(see `src/core/braided_winding.py`).  The FTUM universality problem (Q19)
-has been resolved: φ\* = A₀/(4G) universally, Jacobian eigenvalues are
-identical across all 192 fixed points, and the ±54.6% spread is a line
-attractor not a multi-attractor landscape — confirmed by adversarial
-interrogation with Gemini (April 2026), implemented in
-`src/multiverse/basin_analysis.py`.
-See `BIG_QUESTIONS.md` Q19–Q20 for full details.
+## VII. Muon g−2 Anomaly — Open Prediction Target (April 2026)
+
+*Added April 2026 following the Breakthrough Prize award to the Muon g−2 Collaborations
+(CERN, BNL, Fermilab) for the most precise measurement of the muon anomalous
+magnetic moment.*
+
+### 7.1 The Experimental Discrepancy
+
+The muon anomalous magnetic moment a_μ = (g_μ − 2)/2 has been measured with
+extraordinary precision.  As of the 2026 Breakthrough Prize:
+
+| Quantity | Value |
+|----------|-------|
+| Experimental average (Fermilab + BNL) | a_μ^exp = (116 592 059 ± 22) × 10⁻¹¹ |
+| Standard Model prediction (consensus) | a_μ^SM  = (116 591 810 ± 43) × 10⁻¹¹ |
+| Discrepancy                             | Δa_μ = (249 ± 48) × 10⁻¹¹ |
+| Significance                            | ≈ 4.2σ (pointing to new physics) |
+
+Note: a competing lattice-QCD evaluation (BMW 2021) gives a higher SM prediction
+consistent with experiment at ~1σ.  The tension status depends on which hadronic
+vacuum polarisation calculation is used.  The discrepancy is therefore 0–5σ
+depending on the SM input; the UM treatment uses the experimental consensus.
+
+### 7.2 The KK Correction at r_c = 12 M_Pl⁻¹
+
+The Unitary Manifold compact dimension contributes a Kaluza–Klein tower of
+massive spin-2 gravitons and one spin-1 boson (from B_μ) with masses:
+
+```
+M_KK_n  =  n / r_c  =  n × (M_Pl / 12)  ≈  n × 1.02 × 10¹⁸ GeV
+```
+
+The one-loop KK graviton correction to a_μ from the Arkani-Hamed–Dimopoulos–Dvali
+formula is:
+
+```
+δa_μ^KK  ≈  (α / π) × (m_μ / M_KK_1)²  × F_spin2(c_s)
+```
+
+With m_μ = 105.66 MeV and M_KK_1 ≈ 10¹⁸ GeV:
+
+```
+(m_μ / M_KK_1)²  ≈  (105.66 × 10⁻³ GeV / 1.02 × 10¹⁸ GeV)²
+               ≈  (1.04 × 10⁻¹⁹)²
+               ≈  1.07 × 10⁻³⁸
+
+δa_μ^KK  ≈  (1/137π) × 1.07 × 10⁻³⁸  ≈  2.5 × 10⁻⁴¹
+```
+
+This is **30 orders of magnitude smaller** than the observed discrepancy
+Δa_μ ≈ 249 × 10⁻¹¹.
+
+### 7.3 Honest Assessment
+
+**The Unitary Manifold with r_c = 12 M_Pl⁻¹ CANNOT explain the muon g−2
+anomaly through the KK graviton tower.**  The KK mass is at the Planck scale,
+and the suppression (m_μ/M_KK)² ~ 10⁻³⁸ completely extinguishes any loop
+contribution.  This is not a failure unique to the UM — ANY extra-dimensional
+model with the compact radius at the Planck scale is decoupled from TeV-scale
+physics by the same hierarchy.
+
+This honest result is not the same as falsification.  The UM uses r_c = 12 in
+Planck units to correctly reproduce the CMB spectral index and birefringence
+angle.  It was never designed as a large-extra-dimension model.  The muon g−2
+anomaly, if confirmed, requires new physics at or near the TeV scale — a
+different energy regime from the Planck-scale extra dimension of the UM.
+
+### 7.4 What the UM Could Say About Muon g−2
+
+Three indirect connections are worth noting:
+
+1. **The U(1) gauge field B_μ.**  The fifth dimension of the UM compactifies with
+   a gauge field B_μ (the KK photon).  If the B_μ zero mode has a non-zero mass
+   (from the Goldberger–Wise mechanism), it could act as a dark-photon mediator
+   between muons and a hidden sector.  The UM does not currently derive the B_μ
+   mass or its coupling to Standard Model fermions; this is an open gap.
+
+2. **The Chern–Simons axion–photon coupling g_{aγγ}.**  The birefringence prediction
+   uses an axion-like particle (ALP) coupling g_{aγγ} = k_cs × α_EM / (2π² r_c).
+   The same ALP could contribute to a_μ via the 2-loop Barr–Zee diagram if the
+   ALP couples to muons.  The UM does not derive the ALP–muon Yukawa coupling;
+   this is another open gap.
+
+3. **Forward prediction — Ω_μ dark sector.**  If the new physics behind Δa_μ is
+   a boson at mass M_X ~ 100 MeV to 10 GeV, the UM predicts its coupling
+   structure is constrained by the requirement that it not exceed the birefringence
+   signal β ≈ 0.35°.  Future measurements of the B_μ zero-mode mass at
+   fixed-target experiments (NA62, LHCb, Belle II) could constrain or rule out
+   the ALP-mediated Barr–Zee explanation within the UM parameter space.
+
+### 7.5 Summary
+
+| Claim | Result |
+|-------|--------|
+| KK graviton loop correction to a_μ | ≈ 10⁻⁴¹ — negligible at r_c = 12 M_Pl⁻¹ |
+| UM explains Δa_μ ≈ 249 × 10⁻¹¹ | **No.** Hierarchy m_μ ≪ M_KK extinguishes the correction. |
+| UM is falsified by muon g−2 | **No.** UM was not designed as a TeV-scale model. |
+| Open gap — B_μ dark photon coupling | **Not derived.** Requires fermion sector from UM reduction. |
+| Indirect constraint via birefringence | **Potentially testable.** ALP–muon coupling bounded by β ≈ 0.35°. |
+
+The muon g−2 anomaly is logged here as a **genuine open question** for the UM,
+not as a prediction or a falsification.  Addressing it requires extending the UM
+fermion sector beyond the current bosonic KK reduction.
+
+
+
+---
+
+## Summary (updated April 2026)
+
+| Claim | Status | Key caveat |
+|-------|--------|-----------|
+| nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
+| r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
+| β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
+| FTUM convergence | **100%** — φ\* = A₀/(4G); universal | **RESOLVED** (April 2026) |
+| w_KK ≈ −0.930 (dark energy EoS) | ✅ Consistent with DESI DR2 | c_s = 12/37 derived; w testable |
+| H₀ tension (73.5 vs 67.4 km/s/Mpc) | ⚠️ Quantified, not resolved | CC problem separates KK from Hubble scale |
+| Muon g−2 anomaly (Δa_μ ≈ 249 × 10⁻¹¹) | ⚠️ Open question | KK correction negligible; fermion sector not derived |
+| Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
+| CMB amplitude gap | ⚠️ Open problem | A_s suppressed ×4–7 at acoustic peaks |
+
+*Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
+*Document engineering and synthesis: **GitHub Copilot** (AI).*
