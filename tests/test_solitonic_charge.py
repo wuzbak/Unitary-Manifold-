@@ -4,7 +4,7 @@
 test_solitonic_charge.py — Test suite for Pillar 39: solitonic topological
 charge quantization (src/core/solitonic_charge.py).
 
-~110 tests covering all public functions, constants, edge cases, and
+~105 tests covering all public functions, constants, edge cases, and
 cross-module physics consistency.
 
 Theory and scientific direction: ThomasCory Walker-Pearson.
@@ -191,6 +191,11 @@ class TestMinimumWindingForPlanck:
 
     def test_n3_not_within_2sigma(self):
         phi_eff = effective_phi0(3, 1.0)
+        ns = spectral_index_from_phi0eff(phi_eff)
+        assert abs(ns - NS_PLANCK) > 2.0 * NS_SIGMA
+
+    def test_n1_not_within_2sigma(self):
+        phi_eff = effective_phi0(1, 1.0)
         ns = spectral_index_from_phi0eff(phi_eff)
         assert abs(ns - NS_PLANCK) > 2.0 * NS_SIGMA
 

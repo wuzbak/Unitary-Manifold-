@@ -73,23 +73,23 @@ def soliton_energy(n: int, R: float) -> float:
 
 
 def orbifold_allowed_windings(max_n: int, z2_order: int = Z2_ORDER) -> list[int]:
-    """Return the winding numbers allowed by the S¹/Z₂ orbifold projection.
+    """Return the winding numbers allowed by the S¹/Z_k orbifold projection.
 
-    The Z₂ involution y→−y projects out even winding numbers; only odd
-    windings survive. For a general Z_k orbifold with k=2 the result is
-    {1, 3, 5, ..., max_n} (all positive odd integers ≤ max_n).
+    The Z_k involution projects out winding numbers that are multiples of k;
+    only windings coprime to k (i.e. not divisible by k) survive.
+    For k=2 (Z₂) this yields all positive odd integers ≤ max_n.
 
     Parameters
     ----------
     max_n : int
         Upper bound (inclusive) for the search.
     z2_order : int
-        Orbifold group order (default 2 for Z₂).
+        Orbifold group order k (default 2 for Z₂).
 
     Returns
     -------
     list[int]
-        Sorted list of allowed positive odd winding numbers.
+        Sorted list of allowed positive winding numbers (n not divisible by k).
     """
     if max_n < 1:
         return []
