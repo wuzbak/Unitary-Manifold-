@@ -82,7 +82,7 @@ class TestConstants:
 # agency_decoherence_ratio
 # ---------------------------------------------------------------------------
 
-class TestAgencyDecohereenceRatio:
+class TestAgencyDecohereRatio:
     def test_zero_var_gives_one(self):
         adr = agency_decoherence_ratio(0.0, phi_spread_bare=0.1)
         assert adr == pytest.approx(1.0)

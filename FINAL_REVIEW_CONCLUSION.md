@@ -396,7 +396,7 @@ Here is what this project has established:
 
 1. **The mathematics works.** The derivations are internally consistent. No contradictions found.
 
-2. **The code works.** 7534 automated tests across all suites, zero failures. Every number the theory predicts is the number the code produces. Every assertion the governance framework makes about its own stability is the number the simulation produces.
+2. **The code works.** 7534 automated tests across all three suites (tests/ + recycling/ + Unitary Pentad/), zero failures. The tests/ suite alone contains 5984 passing tests (1 skipped, 11 slow-deselected). Every number the theory predicts is the number the code produces. Every assertion the governance framework makes about its own stability is the number the simulation produces.
 
 3. **The predictions match current observations.** Three independent measurements of the early universe — all three predicted by a single geometric model, simultaneously, without adjusting anything to make them fit.
 
