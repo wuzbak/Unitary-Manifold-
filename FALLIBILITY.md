@@ -374,25 +374,48 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 ## VII. Muon g−2 Anomaly — Open Prediction Target (April 2026)
 
 *Added April 2026 following the Breakthrough Prize award to the Muon g−2 Collaborations
-(CERN, BNL, Fermilab) for the most precise measurement of the muon anomalous
-magnetic moment.*
+(CERN, BNL, Fermilab).  Updated with the final Fermilab result announced June 3, 2025.*
 
-### 7.1 The Experimental Discrepancy
+### 7.1 The Experimental Result (Final, June 2025)
 
 The muon anomalous magnetic moment a_μ = (g_μ − 2)/2 has been measured with
-extraordinary precision.  As of the 2026 Breakthrough Prize:
+extraordinary precision across six years of data collection at Fermilab.
+
+The **final result**, incorporating the complete dataset and announced June 3, 2025:
+
+```
+a_μ = 0.001 165 920 705  (±114_stat  ±91_syst)
+    = (116 592 070.5 ± 146) × 10⁻¹²
+```
+
+Achieved precision: **127 parts per billion** — exceeding the original design
+goal of 140 ppb.  Equivalent to measuring a football field with an error thinner
+than a human hair.
 
 | Quantity | Value |
 |----------|-------|
-| Experimental average (Fermilab + BNL) | a_μ^exp = (116 592 059 ± 22) × 10⁻¹¹ |
-| Standard Model prediction (consensus) | a_μ^SM  = (116 591 810 ± 43) × 10⁻¹¹ |
-| Discrepancy                             | Δa_μ = (249 ± 48) × 10⁻¹¹ |
-| Significance                            | ≈ 4.2σ (pointing to new physics) |
+| Final Fermilab result (June 3, 2025) | a_μ^exp = 0.001 165 920 705 (±114_stat ±91_syst) |
+| Combined experimental precision | 127 ppb (better than 140 ppb design goal) |
+| SM prediction — data-driven (WP2023) | a_μ^SM = (116 591 810 ± 43) × 10⁻¹¹ |
+| SM prediction — lattice QCD (BMW+)   | a_μ^SM = (116 591 954 ± 55) × 10⁻¹¹ (approx.) |
+| Discrepancy vs data-driven theory    | Δa_μ ≈ +261 × 10⁻¹¹ ≈ +2.6 × 10⁻⁹ |
+| Significance vs data-driven theory   | ≈ **5σ** (strong new-physics hint) |
+| Significance vs lattice QCD          | ≈ **1σ** (consistent with SM) |
 
-Note: a competing lattice-QCD evaluation (BMW 2021) gives a higher SM prediction
-consistent with experiment at ~1σ.  The tension status depends on which hadronic
-vacuum polarisation calculation is used.  The discrepancy is therefore 0–5σ
-depending on the SM input; the UM treatment uses the experimental consensus.
+**The theoretical situation is unresolved.**  Two distinct SM calculation
+strategies produce incompatible central values:
+
+- **Data-driven (dispersive, White Paper 2023):** Uses e⁺e⁻ → hadrons cross-section
+  data to evaluate the hadronic vacuum polarisation (HVP) contribution.  Gives a
+  ~5σ discrepancy with the final Fermilab result.  If correct, requires new physics.
+- **Lattice QCD (BMW 2020/2021, CLS 2024, etc.):** Computes the HVP directly from
+  first principles.  Gives agreement with experiment at ~1σ.  If correct, the
+  Standard Model is sufficient and no new particles are needed.
+
+The Muon g−2 Theory Initiative is actively working to reconcile these two methods.
+Until they agree, the muon g−2 anomaly is a **genuine puzzle** — not a confirmed
+signal of new physics and not a confirmed non-issue.  The discrepancy status is
+0–5σ depending on which SM calculation is taken as reference.
 
 ### 7.2 The KK Correction at r_c = 12 M_Pl⁻¹
 
@@ -420,8 +443,9 @@ With m_μ = 105.66 MeV and M_KK_1 ≈ 10¹⁸ GeV:
 δa_μ^KK  ≈  (1/137π) × 1.07 × 10⁻³⁸  ≈  2.5 × 10⁻⁴¹
 ```
 
-This is **30 orders of magnitude smaller** than the observed discrepancy
-Δa_μ ≈ 249 × 10⁻¹¹.
+This is **30 orders of magnitude smaller** than even the lattice-QCD-consistent
+SM remainder, and ≈ 30 orders below the data-driven discrepancy
+Δa_μ ≈ 261 × 10⁻¹¹ (≈ 2.6 × 10⁻⁹).
 
 ### 7.3 Honest Assessment
 
@@ -466,7 +490,7 @@ Three indirect connections are worth noting:
 | Claim | Result |
 |-------|--------|
 | KK graviton loop correction to a_μ | ≈ 10⁻⁴¹ — negligible at r_c = 12 M_Pl⁻¹ |
-| UM explains Δa_μ ≈ 249 × 10⁻¹¹ | **No.** Hierarchy m_μ ≪ M_KK extinguishes the correction. |
+| UM explains Δa_μ ≈ 261 × 10⁻¹¹ (data-driven gap) | **No.** Hierarchy m_μ ≪ M_KK extinguishes the correction. |
 | UM is falsified by muon g−2 | **No.** UM was not designed as a TeV-scale model. |
 | Open gap — B_μ dark photon coupling | **Not derived.** Requires fermion sector from UM reduction. |
 | Indirect constraint via birefringence | **Potentially testable.** ALP–muon coupling bounded by β ≈ 0.35°. |
@@ -489,7 +513,7 @@ fermion sector beyond the current bosonic KK reduction.
 | FTUM convergence | **100%** — φ\* = A₀/(4G); universal | **RESOLVED** (April 2026) |
 | w_KK ≈ −0.930 (dark energy EoS) | ✅ Consistent with DESI DR2 | c_s = 12/37 derived; w testable |
 | H₀ tension (73.5 vs 67.4 km/s/Mpc) | ⚠️ Quantified, not resolved | CC problem separates KK from Hubble scale |
-| Muon g−2 anomaly (Δa_μ ≈ 249 × 10⁻¹¹) | ⚠️ Open question | KK correction negligible; fermion sector not derived |
+| Muon g−2 anomaly (final result June 2025; Δa_μ ≈ 261 × 10⁻¹¹ vs data-driven; ~1σ vs lattice QCD) | ⚠️ Open question | KK correction negligible; fermion sector not derived; theory debate unresolved |
 | Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
 | CMB amplitude gap | ⚠️ Open problem | A_s suppressed ×4–7 at acoustic peaks |
 
