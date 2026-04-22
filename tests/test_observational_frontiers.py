@@ -618,6 +618,6 @@ class TestCanonicalSummary:
 
     def test_module_level_w_kk_canonical(self):
         """W_KK_CANONICAL constant matches formula."""
-        cs = _C_S_CANONICAL = 12.0 / 37.0
+        cs = 12.0 / 37.0
         expected = -1.0 + (2.0 / 3.0) * cs ** 2
         assert W_KK_CANONICAL == pytest.approx(expected, rel=1e-12)
