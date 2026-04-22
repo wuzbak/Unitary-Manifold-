@@ -51,7 +51,10 @@ from src.core.transfer import (
 
 _NS   = 0.9635          # Unitary Manifold prediction
 _AS   = PLANCK_2018_COSMO["As"]
-_BETA = 0.006109        # ≈ birefringence_angle for k_CS=74 [radians]
+# β₀ ≈ birefringence_angle(cs_axion_photon_coupling(k_CS=74, ...), ...) [radians]
+# This value is used as a representative β for testing; the exact formula is in
+# src/core/inflation.birefringence_angle / cs_axion_photon_coupling (k_CS=74).
+_BETA = 0.006109
 
 # Small ℓ set for fast integration (n_k=200 is enough for shape / monotonicity)
 _ELLS_SMALL = [10, 50, 100, 200, 500]
@@ -588,8 +591,8 @@ class TestTBEBSpectrum:
         sensitivity (σ ≈ few %) would falsify the model.
         """
         out     = self._run(achromatic=True)
-        idx_93  = list(_NU_3).index(93.0)
-        idx_145 = list(_NU_3).index(145.0)
+        idx_93  = _NU_3.index(93.0)
+        idx_145 = _NU_3.index(145.0)
         C_93    = out["C_TB"][:, idx_93]
         C_145   = out["C_TB"][:, idx_145]
         assert np.allclose(C_93 / C_145, 1.0, rtol=1e-12)
@@ -597,8 +600,8 @@ class TestTBEBSpectrum:
     def test_achromatic_ceb_ratio_equals_one(self):
         """Achromatic: C_EB(93 GHz) / C_EB(145 GHz) = 1."""
         out     = self._run(achromatic=True)
-        idx_93  = list(_NU_3).index(93.0)
-        idx_145 = list(_NU_3).index(145.0)
+        idx_93  = _NU_3.index(93.0)
+        idx_145 = _NU_3.index(145.0)
         ratio   = out["C_EB"][:, idx_93] / out["C_EB"][:, idx_145]
         assert np.allclose(ratio, 1.0, rtol=1e-12)
 
@@ -615,16 +618,16 @@ class TestTBEBSpectrum:
     def test_faraday_ratio_is_inverse_square(self):
         """Dispersive model: C_TB(93) / C_TB(145) = (145/93)²."""
         out     = self._run(achromatic=False)
-        idx_93  = list(_NU_3).index(93.0)
-        idx_145 = list(_NU_3).index(145.0)
+        idx_93  = _NU_3.index(93.0)
+        idx_145 = _NU_3.index(145.0)
         ratio   = out["C_TB"][:, idx_93] / out["C_TB"][:, idx_145]
         assert np.allclose(ratio, (145.0 / 93.0) ** 2, rtol=1e-10)
 
     def test_faraday_ratio_is_not_one(self):
         """Faraday model: ratio ≠ 1 — distinguishable from UL-axion."""
         out     = self._run(achromatic=False)
-        idx_93  = list(_NU_3).index(93.0)
-        idx_145 = list(_NU_3).index(145.0)
+        idx_93  = _NU_3.index(93.0)
+        idx_145 = _NU_3.index(145.0)
         ratio   = out["C_TB"][:, idx_93] / out["C_TB"][:, idx_145]
         assert not np.allclose(ratio, 1.0, rtol=0.01)
 
