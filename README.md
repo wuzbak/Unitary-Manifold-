@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![5768 Tests: 5756 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-5756%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![7647 Tests: 7646 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-7646%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
@@ -291,7 +291,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 3574 tests are passing in all three — but "passing" means
+> of content, and all 7646 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -422,13 +422,13 @@ src/core/bh_remnant.py            ← ⭐ Pillar 28 (v9.12): KK BH Remnant — G
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (3586 tests: 3574 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 7647 collected, 7646 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-Expected output (3574 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output (6096 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
 
 ```
 tests/test_inflation.py                       271 passed
@@ -486,7 +486,7 @@ tests/test_genetics.py                         78 passed  ← Pillar 25: genetic
 tests/test_materials.py                        75 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
 # slow (run with: pytest -m slow)
 tests/test_richardson_multitime.py             11 passed
-================================ 3574 passed, 1 skipped, 11 deselected ================================
+================================ 6096 passed, 1 skipped, 11 deselected ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -776,7 +776,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**5756 tests: 5756 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**7647 tests: 7646 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -798,7 +798,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (5756 tests: 5756 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (7646 tests: 7646 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
