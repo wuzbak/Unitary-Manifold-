@@ -60,6 +60,10 @@ from src.multiverse.observational_frontiers import (
     h0dn_tension_sigma,
     roman_h0_forecast_sigma,
     roman_w_forecast_sigma,
+    BH_REMNANT_N_BH_PER_MPC3_CANONICAL,
+    OMEGA_DM_PLANCK_2018,
+    bh_remnant_omega,
+    bh_remnant_dm_fraction,
 )
 
 
@@ -621,3 +625,138 @@ class TestCanonicalSummary:
         cs = 12.0 / 37.0
         expected = -1.0 + (2.0 / 3.0) * cs ** 2
         assert W_KK_CANONICAL == pytest.approx(expected, rel=1e-12)
+
+
+# ===========================================================================
+# TestBhRemnantConstants  (4 tests)
+# ===========================================================================
+
+class TestBhRemnantConstants:
+
+    def test_omega_dm_planck_2018(self):
+        assert OMEGA_DM_PLANCK_2018 == pytest.approx(0.264, rel=1e-6)
+
+    def test_n_bh_canonical_positive(self):
+        assert BH_REMNANT_N_BH_PER_MPC3_CANONICAL > 0.0
+
+    def test_n_bh_canonical_value(self):
+        assert BH_REMNANT_N_BH_PER_MPC3_CANONICAL == pytest.approx(1e3, rel=1e-6)
+
+    def test_omega_dm_between_0_and_1(self):
+        assert 0.0 < OMEGA_DM_PLANCK_2018 < 1.0
+
+
+# ===========================================================================
+# TestBhRemnantOmega  (10 tests)
+# ===========================================================================
+
+class TestBhRemnantOmega:
+
+    def test_returns_float(self):
+        assert isinstance(bh_remnant_omega(1e-3, 1e3), float)
+
+    def test_positive(self):
+        assert bh_remnant_omega(1e-3, 1e3) > 0.0
+
+    def test_negligible_for_um_canonical(self):
+        from src.core.bh_remnant import remnant_mass
+        M_rem = remnant_mass(0.1, 1.0, 1.0)
+        omega = bh_remnant_omega(M_rem)
+        assert omega < 1e-30
+
+    def test_linear_in_mass(self):
+        o1 = bh_remnant_omega(1e-3, 1e3)
+        o2 = bh_remnant_omega(2e-3, 1e3)
+        assert o2 == pytest.approx(2.0 * o1, rel=1e-8)
+
+    def test_linear_in_density(self):
+        o1 = bh_remnant_omega(1e-3, 1e3)
+        o2 = bh_remnant_omega(1e-3, 2e3)
+        assert o2 == pytest.approx(2.0 * o1, rel=1e-8)
+
+    def test_zero_density_gives_zero(self):
+        assert bh_remnant_omega(1e-3, 0.0) == pytest.approx(0.0, abs=1e-100)
+
+    def test_negative_mass_raises(self):
+        with pytest.raises(ValueError, match="M_rem_planck"):
+            bh_remnant_omega(-1.0, 1e3)
+
+    def test_zero_mass_raises(self):
+        with pytest.raises(ValueError, match="M_rem_planck"):
+            bh_remnant_omega(0.0, 1e3)
+
+    def test_negative_density_raises(self):
+        with pytest.raises(ValueError, match="n_bh_per_mpc3"):
+            bh_remnant_omega(1e-3, -1.0)
+
+    def test_default_density_used(self):
+        o_explicit = bh_remnant_omega(1e-3, BH_REMNANT_N_BH_PER_MPC3_CANONICAL)
+        o_default = bh_remnant_omega(1e-3)
+        assert o_default == pytest.approx(o_explicit, rel=1e-12)
+
+
+# ===========================================================================
+# TestBhRemnantDmFraction  (8 tests)
+# ===========================================================================
+
+class TestBhRemnantDmFraction:
+
+    def test_returns_float(self):
+        assert isinstance(bh_remnant_dm_fraction(1e-3, 1e3), float)
+
+    def test_positive(self):
+        assert bh_remnant_dm_fraction(1e-3, 1e3) > 0.0
+
+    def test_negligible_for_um_canonical(self):
+        from src.core.bh_remnant import remnant_mass
+        M_rem = remnant_mass(0.1, 1.0, 1.0)
+        f = bh_remnant_dm_fraction(M_rem)
+        assert f < 1e-30
+
+    def test_formula(self):
+        M, n = 1e-3, 1e3
+        omega = bh_remnant_omega(M, n)
+        f = bh_remnant_dm_fraction(M, n, OMEGA_DM_PLANCK_2018)
+        assert f == pytest.approx(omega / OMEGA_DM_PLANCK_2018, rel=1e-12)
+
+    def test_zero_omega_dm_raises(self):
+        with pytest.raises(ValueError, match="omega_dm"):
+            bh_remnant_dm_fraction(1e-3, 1e3, omega_dm=0.0)
+
+    def test_negative_omega_dm_raises(self):
+        with pytest.raises(ValueError, match="omega_dm"):
+            bh_remnant_dm_fraction(1e-3, 1e3, omega_dm=-0.1)
+
+    def test_linear_in_mass(self):
+        f1 = bh_remnant_dm_fraction(1e-3, 1e3)
+        f2 = bh_remnant_dm_fraction(2e-3, 1e3)
+        assert f2 == pytest.approx(2.0 * f1, rel=1e-8)
+
+    def test_default_omega_dm_used(self):
+        M, n = 1e-3, 1e3
+        f_explicit = bh_remnant_dm_fraction(M, n, OMEGA_DM_PLANCK_2018)
+        f_default = bh_remnant_dm_fraction(M, n)
+        assert f_default == pytest.approx(f_explicit, rel=1e-12)
+
+
+# ===========================================================================
+# TestCanonicalSummaryOmegaRemnant  (4 tests)
+# ===========================================================================
+
+class TestCanonicalSummaryOmegaRemnant:
+
+    def test_has_omega_bh_remnant_field(self):
+        s = canonical_frontier_summary()
+        assert hasattr(s, "omega_bh_remnant")
+
+    def test_omega_bh_remnant_positive(self):
+        s = canonical_frontier_summary()
+        assert s.omega_bh_remnant > 0.0
+
+    def test_omega_bh_remnant_negligible(self):
+        s = canonical_frontier_summary()
+        assert s.omega_bh_remnant < 1e-30
+
+    def test_omega_bh_remnant_type(self):
+        s = canonical_frontier_summary()
+        assert isinstance(s.omega_bh_remnant, float)

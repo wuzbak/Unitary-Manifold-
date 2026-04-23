@@ -19,7 +19,8 @@ quantum mechanics, electromagnetism, the Standard Model, and the FTUM ground sta
 This document goes further, deriving *new* theorems that were not stated in
 `UNIFICATION_PROOF.md` but follow directly from the same machinery.  Four
 theorems (XII–XV) appeared in the original document; Theorem XVII was added
-in v9.12 alongside the news study on 7D black hole remnants:
+in v9.12 alongside the new study on 7D black hole remnants; Pillar 48 was
+added in v9.13 to formalise the G₂/torsion comparison (Pinčák et al., 2026):
 
 | # | Theorem | Core Equation | Code |
 |---|---------|--------------|------|
@@ -28,6 +29,7 @@ in v9.12 alongside the news study on 7D black hole remnants:
 | XIV | **Hawking Temperature** | `T_H = \|∂_r φ / φ\| / 2π` at horizon | `evolution.py: hawking_temperature` |
 | XV | **ER = EPR** | entanglement ↔ shared fixed point under T | `fixed_point.py: shared_fixed_point_norm` |
 | XVII | **Kaluza-Klein Black Hole Remnant** | `M_rem = φ_min / (8π m_φ Δφ)` | `bh_remnant.py: remnant_mass` |
+| 48 | **EC-KK Torsion Comparison (Pillar)** | G₂ M_rem ≈ 4.1×10⁻³³ M_Pl vs UM ≈ 4.4×10⁻³ M_Pl | `torsion_remnant.py: compare_frameworks` |
 
 None of these require new assumptions.  The geometry already contains them.
 
@@ -561,34 +563,55 @@ final static topology is the remnant.
 
 ### XVII.3  Comparison to 7D Remnant Frameworks
 
-A recent theoretical study (Platania et al., 2024–2025) arrives at a similar
-conclusion — black holes do not evaporate completely — but requires **three
-extra hidden dimensions** (total spacetime dimension = 7) to generate the
-repulsive force that halts evaporation.
+Two independent theoretical studies arrive at a similar qualitative conclusion —
+black holes do not evaporate completely — but through different extra-dimensional
+mechanisms.
+
+**Platania et al. (2024–2025)** use asymptotic-safety running coupling constants
+to generate the repulsive force, in a 7-dimensional spacetime setting.
+
+**Pinčák R. et al. (2026)** — "Geometric origin of a stable black hole remnant
+from torsion in G₂-manifold geometry" (*Gen. Rel. Grav.* 58, 2026;
+https://doi.org/10.1007/s10714-026-03528-z) — use a 7-dimensional
+Einstein–Cartan theory on a G₂-manifold (a 7-manifold with G₂-holonomy,
+structurally related to octonion algebra) where spacetime *torsion* — the
+antisymmetric part of the connection — generates a spin-torsion contact
+interaction p_T ∝ ρ² that halts Hawking evaporation at Planck density.  The
+predicted remnant mass is ≈ 9 × 10⁻⁴¹ kg ≈ 4.1 × 10⁻³³ M_Planck.  The
+dimensional reduction of this model also links torsion to the Higgs mechanism
+at the electroweak scale (~246 GeV), offering a geometric origin for the
+hierarchy problem.
 
 The Unitary Manifold makes the same qualitative prediction in **five
-dimensions** (one extra dimension).  The comparison is implemented in
-`bh_remnant.py: compare_7d_vs_5d_remnant`:
+dimensions** (one extra dimension), without torsion.  The comparison is
+implemented in `bh_remnant.py: compare_7d_vs_5d_remnant` and extended in
+`src/core/torsion_remnant.py` (Pillar 48):
 
-| Property | Unitary Manifold (5D) | 7D framework |
-|----------|-----------------------|--------------|
+| Property | Unitary Manifold (5D) | Pinčák et al. 2026 (7D G₂) |
+|----------|-----------------------|-----------------------------|
 | Total spacetime dimensions | 5 | 7 |
 | Extra dimensions | 1 | 3 |
-| Halting mechanism | GW stabilisation floor `φ ≥ φ_min` | Repulsion from twisted extra dimensions |
-| Remnant mass scale | `φ_min / (8π m_φ Δφ)` | `~ O(1) M_Planck` |
-| Information stored | 5D topological geometry (Theorem XII) | Stable remnant |
-| Observable signature | GW echoes terminating at `S_rem` | Stable sub-Planck remnant |
+| Geometric structure | Riemannian KK (torsion-free) | Riemann-Cartan G₂ (torsion) |
+| Halting mechanism | GW stabilisation floor `φ ≥ φ_min` | Spin-torsion repulsion p_T ∝ ρ² |
+| Remnant mass scale | `φ_min / (8π m_φ Δφ)` ≈ 4.4 × 10⁻³ M_Pl | ≈ 4.1 × 10⁻³³ M_Pl |
+| Information storage | 5D topological winding states (Theorem XII) | Long-lived quasi-normal modes |
+| EW scale link | Not derived (hierarchy problem open) | G₂ torsion → Higgs VEV ~246 GeV |
+| Observable signature | GW echoes terminating at `S_rem` | Stable sub-Planck remnant (DM?) |
 
 Both frameworks predict that:
 1. Black holes do not evaporate completely.
 2. The remnant stores the information originally swallowed.
 3. Unitarity is preserved.
 
-The UM result is dimensionally more parsimonious: it achieves the same
-physical outcome with one extra dimension rather than three.  Whether
-LiteBIRD (β measurement), next-generation gravitational-wave detectors
-(echo spectroscopy), or Planck-scale remnant searches will distinguish the
-two frameworks remains an open observational question.
+**Important honest assessment:** The UM does not currently derive the Higgs VEV
+or resolve the hierarchy problem — a documented gap in §4.5 of `FALLIBILITY.md`.
+The UM's remnant mass is 30 orders of magnitude larger than the G₂ prediction;
+these are different theories that happen to share a qualitative conclusion, not
+competing predictions of the same quantity.
+
+BH remnants are a negligible dark matter component in both frameworks:
+Ω_rem ≪ 10⁻³⁰ for astrophysically reasonable primordial BH densities
+(see `src/multiverse/observational_frontiers.py: bh_remnant_omega`, Pillar 38).
 
 ### XVII.4  Relationship to the Hawking Paradox
 
