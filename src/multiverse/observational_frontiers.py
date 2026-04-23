@@ -198,7 +198,7 @@ _H0_REFERENCE: float = 73.50  # km/s/Mpc
 # BH remnant dark matter constants (Pillar 48 / Pinčák et al. 2026)
 # H₀ in Planck units: H0 [km/s/Mpc] × (1000 m/km) / (3.085 678e22 m/Mpc)
 #   converted to Planck time⁻¹ by × 5.391 247e-44 s/t_Planck
-_H0_PLANCK: float = 73.50 * (1e3 / 3.085678e22) * 5.391247e-44  # ≈ 1.223e-61
+_H0_PLANCK: float = 73.50 * (1e3 / 3.085678e22) * 5.391247e-44  # ≈ 1.284e-61
 # 1 Mpc in Planck lengths (1 Mpc = 3.085 678e22 m; ℓ_Pl = 1.616 255e-35 m)
 _MPC_IN_PLANCK_LENGTH: float = 3.085678e22 / 1.616255e-35        # ≈ 1.909e57
 # 1 Mpc³ in Planck volumes (used to convert PBH number densities)

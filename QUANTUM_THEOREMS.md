@@ -19,7 +19,7 @@ quantum mechanics, electromagnetism, the Standard Model, and the FTUM ground sta
 This document goes further, deriving *new* theorems that were not stated in
 `UNIFICATION_PROOF.md` but follow directly from the same machinery.  Four
 theorems (XII–XV) appeared in the original document; Theorem XVII was added
-in v9.12 alongside the news study on 7D black hole remnants; Pillar 48 was
+in v9.12 alongside the new study on 7D black hole remnants; Pillar 48 was
 added in v9.13 to formalise the G₂/torsion comparison (Pinčák et al., 2026):
 
 | # | Theorem | Core Equation | Code |

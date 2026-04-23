@@ -541,6 +541,8 @@ def qnm_information_capacity_bits(M_rem: float, l_max: int = 10) -> float:
     l_max_physical = l_max
     if M_rem < 1.0:
         # Maximum l such that ω_R(l) is geometrically resolvable: l ≤ 3√3 M - 0.5
+        # For M_rem very small, 3√3 M - 0.5 < 0; int() gives 0 or negative, and
+        # max(2, ...) ensures l_max_physical is always at least 2 (fundamental mode).
         l_max_physical = min(l_max, max(2, int(3.0 * _sqrt3 * M_rem - 0.5) + 1))
     qnm_sum = sum(math.log2(2 * l + 1) for l in range(2, l_max_physical + 1))
     # Cap at Bekenstein–Hawking entropy: QNMs cannot store more information than
