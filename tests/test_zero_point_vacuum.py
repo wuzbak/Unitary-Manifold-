@@ -1285,12 +1285,15 @@ class TestCasimirKKRippleDeviation:
         # δ(d) should rise from 0 as d increases, reach a maximum near d~R_KK,
         # then fall back to 0 for d ≫ R_KK
         R = 1.0
-        devs = [casimir_kk_ripple_deviation(d * R, R)
-                for d in [1e-6, 0.01, 0.5, 1.0, 5.0, 100.0]]
-        # Tiny d → very small deviation (d² factor)
-        assert devs[0] < devs[3]   # d=1e-6*R much smaller than d=R (peak)
-        # Large d → small deviation (exponential suppression)
-        assert devs[5] < devs[3]   # d=100*R smaller than d=R (peak)
+        d_fracs = [1e-6, 0.01, 0.5, 1.0, 5.0, 100.0]
+        devs = {frac: casimir_kk_ripple_deviation(frac * R, R) for frac in d_fracs}
+        dev_at_tiny_d = devs[1e-6]    # d = 1e-6 × R_KK (d² factor → tiny)
+        dev_at_peak   = devs[1.0]     # d = R_KK (near first KK mode peak)
+        dev_at_far    = devs[100.0]   # d = 100 × R_KK (exponentially suppressed)
+        # Tiny d → very small deviation
+        assert dev_at_tiny_d < dev_at_peak
+        # Large d → small deviation
+        assert dev_at_far < dev_at_peak
 
     def test_canonical_peak_magnitude(self):
         # At d = R_KK, peak deviation ≈ 0.05%–0.5% (within detection reach)
@@ -1357,17 +1360,17 @@ class TestCasimirRipplePeakDeviation:
         R = 1.0
         assert casimir_ripple_peak_deviation(1, R) > 0
 
-    def test_n1_larger_than_n3(self):
+    def test_n1_and_n3_both_positive(self):
         # The individual n=1 mode's CONTRIBUTION (w_n × x² × exp(-2x)) peaks at x=1.
         # But the TOTAL deviation (sum over all n) at d=R/n is dominated by all active
         # modes.  At d=R/3, modes n=1,2,3 all contribute, so the total can exceed
         # the value at d=R (where only n=1 is near its individual peak).
-        # Check that both peak deviations are positive and finite.
+        # Both peak deviations must be positive and finite.
         R = 1.0
-        d1 = casimir_ripple_peak_deviation(1, R)
-        d3 = casimir_ripple_peak_deviation(3, R)
-        assert d1 > 0
-        assert d3 > 0
+        dev_at_n1_peak = casimir_ripple_peak_deviation(1, R)
+        dev_at_n3_peak = casimir_ripple_peak_deviation(3, R)
+        assert dev_at_n1_peak > 0
+        assert dev_at_n3_peak > 0
 
     def test_matches_deviation_at_peak_d(self):
         R = 1.0
