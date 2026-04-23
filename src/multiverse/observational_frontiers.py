@@ -119,6 +119,13 @@ FrontierSummary
 
 canonical_frontier_summary()
     Assemble a FrontierSummary for the canonical (5,7) branch.
+
+bh_remnant_omega(M_rem_planck, n_bh_per_mpc3)
+    Fractional contribution of evaporated BH remnants to the closure density Ω_rem.
+    Connects to Pillar 48 (torsion_remnant.py) and Pinčák et al. (2026).
+
+bh_remnant_dm_fraction(M_rem_planck, n_bh_per_mpc3, omega_dm)
+    Fraction of the observed DM density that could be BH remnants.
 """
 
 from __future__ import annotations
@@ -187,6 +194,20 @@ _ROMAN_WL_COEFF: float = 100.0
 
 # Roman H₀ calibration reference value
 _H0_REFERENCE: float = 73.50  # km/s/Mpc
+
+# BH remnant dark matter constants (Pillar 48 / Pinčák et al. 2026)
+# H₀ in Planck units: H0 [km/s/Mpc] × (1000 m/km) / (3.085 678e22 m/Mpc)
+#   converted to Planck time⁻¹ by × 5.391 247e-44 s/t_Planck
+_H0_PLANCK: float = 73.50 * (1e3 / 3.085678e22) * 5.391247e-44  # ≈ 1.223e-61
+# 1 Mpc in Planck lengths (1 Mpc = 3.085 678e22 m; ℓ_Pl = 1.616 255e-35 m)
+_MPC_IN_PLANCK_LENGTH: float = 3.085678e22 / 1.616255e-35        # ≈ 1.909e57
+# 1 Mpc³ in Planck volumes (used to convert PBH number densities)
+_MPC3_IN_PLANCK_VOL: float = _MPC_IN_PLANCK_LENGTH ** 3
+# Canonical dark matter density parameter (Planck 2018 cosmological parameters)
+OMEGA_DM_PLANCK_2018: float = 0.264
+# Representative primordial BH number density for Ω_rem estimate
+# (order-of-magnitude: ~ 10³ evaporated PBHs per Mpc³ is a generous upper bound)
+BH_REMNANT_N_BH_PER_MPC3_CANONICAL: float = 1.0e3  # [Mpc⁻³]
 
 
 # ---------------------------------------------------------------------------
@@ -694,6 +715,98 @@ def roman_w_forecast_sigma(
 
 
 # ---------------------------------------------------------------------------
+# BH remnant dark matter density (Pillar 48 / Pinčák et al. 2026 connection)
+# ---------------------------------------------------------------------------
+
+def bh_remnant_omega(
+    M_rem_planck: float,
+    n_bh_per_mpc3: float = BH_REMNANT_N_BH_PER_MPC3_CANONICAL,
+) -> float:
+    """Fractional contribution of evaporated BH remnants to the closure density Ω.
+
+    Computes
+
+        Ω_rem = ρ_rem / ρ_crit
+
+    where
+
+        ρ_rem  = n_bh × M_rem               [Planck units: M_Pl / ℓ_Pl³]
+        ρ_crit = 3 H₀² / (8π)               [Planck units, G = 1]
+
+    and n_bh is the physical remnant number density converted from Mpc⁻³ to
+    Planck units internally.
+
+    **Result:** For any astrophysically reasonable primordial BH density
+    (n_bh ≲ 10³ Mpc⁻³) and the UM canonical remnant mass (≈ 4.4 × 10⁻³ M_Pl),
+    Ω_rem ≪ 10⁻³⁰ — completely negligible.  For the G₂/Pinčák (2026) remnant
+    mass (≈ 4.1 × 10⁻³³ M_Pl), Ω_rem is even smaller.  BH remnants are not a
+    viable dark matter component in either framework at standard PBH densities.
+
+    Parameters
+    ----------
+    M_rem_planck : float
+        Remnant mass in Planck units (> 0).
+    n_bh_per_mpc3 : float
+        Comoving number density of evaporated PBH remnants [Mpc⁻³] (≥ 0).
+        Default: BH_REMNANT_N_BH_PER_MPC3_CANONICAL = 10³ Mpc⁻³.
+
+    Returns
+    -------
+    float
+        Ω_rem ≥ 0 (dimensionless closure fraction).
+
+    Raises
+    ------
+    ValueError
+        If M_rem_planck ≤ 0 or n_bh_per_mpc3 < 0.
+    """
+    if M_rem_planck <= 0.0:
+        raise ValueError(f"M_rem_planck must be > 0; got {M_rem_planck!r}")
+    if n_bh_per_mpc3 < 0.0:
+        raise ValueError(f"n_bh_per_mpc3 must be ≥ 0; got {n_bh_per_mpc3!r}")
+    n_bh_planck = n_bh_per_mpc3 / _MPC3_IN_PLANCK_VOL
+    rho_rem = n_bh_planck * M_rem_planck
+    rho_crit = 3.0 * _H0_PLANCK ** 2 / (8.0 * math.pi)
+    return rho_rem / rho_crit
+
+
+def bh_remnant_dm_fraction(
+    M_rem_planck: float,
+    n_bh_per_mpc3: float = BH_REMNANT_N_BH_PER_MPC3_CANONICAL,
+    omega_dm: float = OMEGA_DM_PLANCK_2018,
+) -> float:
+    """Fraction of the observed DM density that could be accounted for by BH remnants.
+
+        f_rem = Ω_rem / Ω_DM
+
+    For all astrophysically reasonable parameter combinations this is ≪ 1
+    (remnants are a subdominant DM component).
+
+    Parameters
+    ----------
+    M_rem_planck : float
+        Remnant mass [M_Pl] (> 0).
+    n_bh_per_mpc3 : float
+        Remnant number density [Mpc⁻³] (≥ 0).
+    omega_dm : float
+        Observed dark matter density parameter (default 0.264, Planck 2018).
+
+    Returns
+    -------
+    float
+        f_rem = Ω_rem / Ω_DM ≥ 0.
+
+    Raises
+    ------
+    ValueError
+        If M_rem_planck ≤ 0, n_bh_per_mpc3 < 0, or omega_dm ≤ 0.
+    """
+    if omega_dm <= 0.0:
+        raise ValueError(f"omega_dm must be > 0; got {omega_dm!r}")
+    return bh_remnant_omega(M_rem_planck, n_bh_per_mpc3) / omega_dm
+
+
+# ---------------------------------------------------------------------------
 # Canonical April 2026 summary
 # ---------------------------------------------------------------------------
 
@@ -714,6 +827,7 @@ class FrontierSummary:
     w_kk_canonical       : float — UM canonical dark energy EoS (≈ −0.9302)
     wa_kk_canonical      : float — UM dark energy running (always 0.0)
     desi_wcdm_consistent : bool  — True if w₀CDM tension < 2σ
+    omega_bh_remnant     : float — Ω_rem for UM canonical remnant at n_bh=10³ Mpc⁻³
     """
 
     h0_local: float
@@ -725,6 +839,7 @@ class FrontierSummary:
     w_kk_canonical: float
     wa_kk_canonical: float
     desi_wcdm_consistent: bool
+    omega_bh_remnant: float
 
 
 def canonical_frontier_summary() -> FrontierSummary:
@@ -736,10 +851,13 @@ def canonical_frontier_summary() -> FrontierSummary:
         Encapsulates all April 2026 observational constraints with their
         implications for the canonical (5, 7) Kaluza–Klein winding branch.
     """
+    from src.core.bh_remnant import remnant_mass as _bh_remnant_mass
     tension_sig, bad_prob = h0dn_canonical_tension()
     desi_exc = desi_survey_excess_fraction()
     wcdm_ten, wcdm_ok = desi_wcdm_um_tension(_N1_CANONICAL, _N2_CANONICAL)
     chi2 = desi_um_w0wa_chi2(_N1_CANONICAL, _N2_CANONICAL)
+    M_rem_canon = _bh_remnant_mass(0.1, 1.0, 1.0)
+    omega_rem = bh_remnant_omega(M_rem_canon, BH_REMNANT_N_BH_PER_MPC3_CANONICAL)
     return FrontierSummary(
         h0_local=H0_LOCAL_H0DN,
         h0_tension_sigma=tension_sig,
@@ -750,4 +868,5 @@ def canonical_frontier_summary() -> FrontierSummary:
         w_kk_canonical=W_KK_CANONICAL,
         wa_kk_canonical=WA_KK_CANONICAL,
         desi_wcdm_consistent=wcdm_ok,
+        omega_bh_remnant=omega_rem,
     )

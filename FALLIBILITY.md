@@ -246,6 +246,58 @@ them systematically.
   triangulations, causal set theory) achieve an emergent arrow of time without
   a compact extra dimension.
 
+### 4.5 Non-uniqueness of the information paradox resolution
+
+The UM resolves the black hole information paradox via two mechanisms
+(Pillars 28 and 36):
+  (a) the Goldberger–Wise potential provides a hard radion floor φ_min that
+  prevents complete evaporation (remnant mass M_rem ≈ 4.4 × 10⁻³ M_Pl at
+  canonical parameters), and
+  (b) the 5D holographic bound encodes all information in the remnant's
+  topological geometry (Theorem XII).
+
+An independent 2026 study — Pinčák R. et al. (2026) "Geometric origin of a
+stable black hole remnant from torsion in G₂-manifold geometry", *Gen. Rel.
+Grav.* — reaches the same qualitative conclusion through an entirely different
+geometric mechanism:
+
+- **Geometry**: 7-dimensional Einstein–Cartan theory on a G₂-manifold (3 extra
+  dimensions, non-metric torsion), vs the UM's 5D Kaluza–Klein metric with
+  torsion-free Levi–Civita connection.
+- **Halting mechanism**: Spin-torsion contact interaction p_T ∝ ρ² (repulsive
+  at Planck density), vs UM's Goldberger–Wise restoring potential.
+- **Remnant mass**: G₂ prediction ≈ 9 × 10⁻⁴¹ kg ≈ 4.1 × 10⁻³³ M_Pl; UM
+  prediction ≈ 4.4 × 10⁻³ M_Pl — different by ~30 orders of magnitude.
+- **Information storage**: G₂ uses long-lived quasi-normal modes; UM uses
+  5D topological winding states.
+- **Electroweak scale link**: The G₂ paper claims torsion derives the Higgs
+  VEV at 246 GeV; the UM has no equivalent derivation (hierarchy problem
+  remains open in the UM — see §4.2).
+
+**What this means for the UM:**
+
+1. The UM's information paradox resolution is *not unique*: extra-dimensional
+   geometry generally prevents complete evaporation.  The UM cannot claim to be
+   the only such framework.
+
+2. The 30-order-of-magnitude difference in remnant mass is not a contradiction —
+   it reflects different compactification schemes — but it means the two
+   frameworks make very different testable predictions if remnant signatures
+   are ever observed.
+
+3. BH remnants from either framework are a negligible dark matter component:
+   Ω_rem ≪ 10⁻³⁰ for any astrophysically reasonable primordial BH density
+   (see `src/multiverse/observational_frontiers.py: bh_remnant_omega`,
+   Pillar 38).
+
+4. The UM currently has no torsion term in its metric ansatz.  A full
+   Einstein-Cartan-KK extension would require adding a contorsion tensor
+   K^λ_μν to the connection — this is documented in
+   `src/core/torsion_remnant.py` (Pillar 48) as a perturbative estimate only.
+
+*Reference:* Pinčák R. et al. (2026), https://doi.org/10.1007/s10714-026-03528-z.
+*Code:* `src/core/torsion_remnant.py` (Pillar 48), `tests/test_torsion_remnant.py`.
+
 ---
 
 ## V. Explicit Falsifiability Conditions
