@@ -219,10 +219,10 @@ Every major question the theory raised about itself has been answered:
 | Does the theory match CMB data? | Yes — nₛ, r, β all within observational bounds simultaneously | Planck 2018 comparison, no free parameters |
 | Is the topology unique? | Yes — S¹/Z₂ + n_w=5 is the only option that works | Exhaustive scan of 8 topologies against 8 constraints |
 | What is consciousness? | The coupled fixed point Ψ*_brain ⊗ Ψ*_univ of the two-body problem | Coupled Master Equation; 61 tests |
-| Do the natural sciences unify? | Yes — all are B_μ/φ/FTUM at different scales | Pillars 10–15; 913 tests |
+| Do the natural sciences unify? | Yes — all are B_μ/φ/FTUM at different scales | Pillars 10–15; 856 tests |
 | Is atomic structure geometric? | Yes — orbitals are KK winding modes; Rydberg from curvature | Pillar 14; 187 tests |
 | Can φ enhancement unlock cold fusion? | Formally yes — φ-enhanced Gamow factor; testable COP | Pillar 15; 215 tests |
-| Does recycling have thermodynamic geometry? | Yes — φ-debt accounting, winding-number entropy ledger | Pillar 16; 202 tests |
+| Does recycling have thermodynamic geometry? | Yes — φ-debt accounting, winding-number entropy ledger | Pillar 16; 316 tests |
 | Do medicine, justice, governance unify? | Yes — all are φ-field homeostasis, equity, and stability | Pillars 17–19; 378 tests |
 | Do neuroscience, ecology, climate, marine, psychology, genetics, materials unify? | Yes — all are B_μ/φ/FTUM at their respective scales | Pillars 20–26; 645 tests |
 
