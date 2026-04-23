@@ -856,7 +856,7 @@ class TestCrossConsistency:
     def test_canonical_braid_formula_matches_n1_n2(self):
         # c_s = (n2² - n1²)/k_cs, n1=5, n2=7, k_cs=74
         c_s_check = (7 ** 2 - 5 ** 2) / 74
-        assert abs(c_s_check - C_S_CANONICAL) < 1e-14
+        assert abs(c_s_check - C_S_CANONICAL) < ABS
 
     def test_k_cs_is_sum_of_squares(self):
         assert K_CS_CANONICAL == 5 ** 2 + 7 ** 2

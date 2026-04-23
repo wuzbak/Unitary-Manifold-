@@ -199,6 +199,10 @@ PLANCK_ENERGY_GEV: float = 1.220890e19  # [GeV]
 # The pre-factor below is π²/90 = 0.10966...
 CASIMIR_PREFACTOR: float = math.pi ** 2 / 90.0
 
+# Precomputed (2π)⁴ used in the Casimir denominator to avoid repeating
+# the computation on every call to kk_casimir_energy_density.
+TWO_PI_TO_4: float = (2.0 * math.pi) ** 4
+
 # Casimir force between two parallel plates (standard QED):
 #   F/A = −π² / (240 d⁴)  in natural units
 CASIMIR_PLATE_PREFACTOR: float = math.pi ** 2 / 240.0
@@ -263,8 +267,7 @@ def kk_casimir_energy_density(R_KK: float, n_eff: float) -> float:
         raise ValueError(f"R_KK must be > 0, got {R_KK}")
     if n_eff < 0:
         raise ValueError(f"n_eff must be >= 0, got {n_eff}")
-    circumference = 2.0 * math.pi * R_KK
-    return -CASIMIR_PREFACTOR * n_eff / circumference ** 4
+    return -CASIMIR_PREFACTOR * n_eff / (TWO_PI_TO_4 * R_KK ** 4)
 
 
 def braid_cancellation_factor(
@@ -428,8 +431,9 @@ def orders_of_magnitude_resolved(
     """Return how many orders of magnitude of the vacuum catastrophe are resolved.
 
     The vacuum catastrophe spans ≈ 120 orders.  This function returns
-    log₁₀(ρ_naive / |ρ_eff|), the number of orders suppressed by the UM
+    log₁₀(ρ_naive / ρ_eff), the number of orders suppressed by the UM
     mechanism.  Higher is better; 120 would mean complete resolution.
+    Returns +∞ when ρ_eff ≤ 0 (Casimir energy overshoots the ZPE).
 
     For canonical Planck-scale compactification (R_KK = l_Pl = 1):
     the braid alone resolves ≈ 2.85 orders.
