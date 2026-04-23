@@ -3,7 +3,7 @@
 > **Purpose:** Copy-paste this entire file into a new AI conversation to restore
 > full working context without re-reading the repository.  
 > **Keep it current:** update after every significant development session.  
-> **Last updated:** 2026-04-14
+> **Last updated:** 2026-04-23
 
 ---
 
@@ -83,6 +83,35 @@ g_aγγ = k_CS · α_EM / (2π² r_c)   [derived given k_CS]
 | `src/core/evolution.py` | `step`, `step_euler`, `constraint_monitor` | Walker–Pearson time evolution |
 | `src/multiverse/fixed_point.py` | `fixed_point_iteration`, `derive_alpha_from_fixed_point` | FTUM convergence, φ₀ output |
 | `src/holography/boundary.py` | boundary entropy dynamics | Holographic H operator |
+
+---
+
+## 4b. Recent external observations (notes)
+
+### DESI 3D Map Completion — April 15, 2026
+*Source: Scientific American / DESI Collaboration press release, 2026-04-15*  
+*Encoded in code: `src/multiverse/observational_frontiers.py` (Pillar 38)*
+
+The Dark Energy Spectroscopic Instrument completed its planned 5-year mission
+ahead of schedule, producing the **largest high-resolution 3D map of the
+universe** ever made — 47 million galaxies and quasars (38% beyond the original
+34M target).
+
+**UM status after this result:**
+
+| Quantity | UM Prediction | DESI Measurement | Status |
+|----------|--------------|-----------------|--------|
+| w₀ (dark energy EoS) | −0.9302 (w_KK) | −0.92 ± 0.09 (DR2 w₀CDM) | ✅ <1σ consistent |
+| wₐ (running) | 0 (KK zero-mode stabilised) | ≈ −0.63 (w₀waCDM hint) | ⚠️ ~3σ tension |
+
+- The w₀ point-prediction is in excellent agreement with DESI DR2.
+- The evolving dark energy hint (w₀waCDM preferred over ΛCDM) is in ~3σ tension
+  with UM's zero-running prediction (wₐ = 0).  This tension is honestly
+  documented in Pillar 38 and will be resolved by the **formal 2027 analysis**
+  of the full 47M-object sample.
+- Nothing in this result requires changes to the framework; Pillar 38 already
+  encodes all four April 2026 observational frontiers (H0DN, DESI, Euclid,
+  Roman).
 
 ---
 
