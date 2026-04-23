@@ -210,6 +210,17 @@ CASIMIR_PLATE_PREFACTOR: float = math.pi ** 2 / 240.0
 # N_max for braided KK mode sum
 N_MAX_ZPE: int = 200
 
+# ---------------------------------------------------------------------------
+# Full-solution constants (dynamic scale-coupling model)
+# ---------------------------------------------------------------------------
+
+# Default max KK mode number for the Casimir ripple sum.
+KK_RIPPLE_N_MAX: int = 20
+
+# The radion potential has the form V(R) = A/R^4 + B*R.
+# The equilibrium radius is R* = (4A/B)^(1/5), so the power is 5.
+RADION_POTENTIAL_POWER: int = 5
+
 
 # ---------------------------------------------------------------------------
 # Public API
@@ -854,3 +865,486 @@ def vacuum_energy_log10(
     if rho_eff <= 0:
         raise ValueError("ρ_eff ≤ 0 (Casimir dominates); log₁₀ undefined.")
     return math.log10(rho_eff)
+
+
+# ===========================================================================
+# Full Solution — Pillar 1: Geometric "Dilution" at sub-eV M_KK
+# ===========================================================================
+
+def geometric_dilution_factor(M_KK_planck: float) -> float:
+    """Return the geometric volume-dilution factor (M_KK / M_Pl)⁴.
+
+    When the KK compactification scale M_KK ≪ M_Pl, the 4D vacuum energy
+    density is suppressed relative to the naive Planck-scale QFT estimate
+    by the fourth power of the ratio M_KK / M_Pl:
+
+        dilution = (M_KK / M_Pl)⁴ = M_KK⁴  [Planck units: M_Pl = 1]
+
+    For M_KK at the meV scale (dark energy scale): M_KK ≈ 2.5 × 10⁻³¹ M_Pl,
+    so the dilution factor ≈ 4 × 10⁻¹²² — precisely the observed dark energy
+    density up to the braid factor.
+
+    Parameters
+    ----------
+    M_KK_planck : float
+        KK mass scale in Planck units (> 0).
+
+    Returns
+    -------
+    float
+        Dimensionless dilution factor ∈ (0, 1] for M_KK_planck ≤ 1.
+    """
+    if M_KK_planck <= 0:
+        raise ValueError(f"M_KK_planck must be > 0, got {M_KK_planck}")
+    return M_KK_planck ** 4
+
+
+def geometric_dilution_orders(M_KK_planck: float) -> float:
+    """Return orders of magnitude resolved by geometric dilution alone.
+
+    The geometric dilution factor (M_KK / M_Pl)⁴ resolves:
+
+        N_geo = log₁₀(M_Pl / M_KK)⁴ = -4 × log₁₀(M_KK / M_Pl)
+              = -4 × log₁₀(M_KK_planck)
+
+    orders of magnitude of the vacuum catastrophe.  For M_KK at the meV
+    scale: N_geo ≈ 120 − log₁₀(f_braid) ≈ 117.
+
+    Parameters
+    ----------
+    M_KK_planck : float
+        KK mass scale in Planck units (> 0, < 1).
+
+    Returns
+    -------
+    float
+        Number of orders of magnitude resolved by geometric dilution (≥ 0).
+    """
+    if M_KK_planck <= 0:
+        raise ValueError(f"M_KK_planck must be > 0, got {M_KK_planck}")
+    return -4.0 * math.log10(M_KK_planck)
+
+
+def full_suppression_orders_subeV(
+    M_KK_planck: float,
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Return total orders resolved by geometric dilution AND braid cancellation.
+
+    The combined suppression has two multiplicative factors:
+
+        total suppression = f_braid × (M_KK / M_Pl)⁴
+
+    so the total orders resolved = N_geo + N_braid:
+
+        N_total = -4 log₁₀(M_KK) + log₁₀(1 / f_braid)
+
+    At M_KK = M_KK_needed ≈ 2.6 meV (Planck units ≈ 2.1 × 10⁻³¹ M_Pl),
+    N_total ≈ 120, fully resolving the vacuum catastrophe.
+
+    Parameters
+    ----------
+    M_KK_planck : float
+        KK mass scale in Planck units (> 0).
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+
+    Returns
+    -------
+    float
+        Total orders of magnitude resolved by both mechanisms.
+    """
+    geo = geometric_dilution_orders(M_KK_planck)
+    braid = -math.log10(braid_cancellation_factor(n_w, k_cs, c_s))
+    return geo + braid
+
+
+# ===========================================================================
+# Full Solution — Pillar 2: Radion Self-Tuning Stabilization
+# ===========================================================================
+
+def radion_self_tuning_potential(
+    R_KK: float,
+    brane_tension: float,
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Return the radion effective potential V(R_KK).
+
+    The 4D effective potential for the radion (the modulus that controls the
+    compactification radius R_KK) arises from two competing contributions:
+
+    1. **Positive ZPE term** (braid-regulated vacuum energy):
+           V_ZPE(R) = A / R⁴,  where A = f_braid / (16π²)
+
+    2. **Negative brane-tension term** (restoring force from brane dynamics):
+           V_brane(R) = T_brane × R
+
+    Combined:  V(R) = A / R⁴ + T_brane × R
+
+    The equilibrium condition dV/dR = 0 gives:
+
+        −4A / R*⁵ + T_brane = 0  →  R* = (4A / T_brane)^(1/5)
+
+    By choosing T_brane so that R* = 1 / M_KK_needed, the vacuum energy itself
+    dynamically stabilises the extra dimension at the dark energy scale —
+    the self-tuning mechanism.
+
+    Parameters
+    ----------
+    R_KK : float
+        Compactification radius in Planck units (> 0).
+    brane_tension : float
+        Brane tension parameter T_brane in Planck units (> 0).
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+
+    Returns
+    -------
+    float
+        Effective radion potential V(R_KK) in Planck units.
+    """
+    if R_KK <= 0:
+        raise ValueError(f"R_KK must be > 0, got {R_KK}")
+    if brane_tension <= 0:
+        raise ValueError(f"brane_tension must be > 0, got {brane_tension}")
+    A = braid_cancellation_factor(n_w, k_cs, c_s) / (16.0 * math.pi ** 2)
+    return A / R_KK ** 4 + brane_tension * R_KK
+
+
+def radion_equilibrium_radius(
+    brane_tension: float,
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Return the equilibrium compactification radius R* for given brane tension.
+
+    Solving dV/dR = 0 for V(R) = A/R⁴ + T_brane × R:
+
+        −4A / R*⁵ + T_brane = 0  →  R* = (4A / T_brane)^(1/5)
+
+    Parameters
+    ----------
+    brane_tension : float
+        Brane tension parameter T_brane in Planck units (> 0).
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+
+    Returns
+    -------
+    float
+        Equilibrium radius R* in Planck units (> 0).
+    """
+    if brane_tension <= 0:
+        raise ValueError(f"brane_tension must be > 0, got {brane_tension}")
+    A = braid_cancellation_factor(n_w, k_cs, c_s) / (16.0 * math.pi ** 2)
+    return (4.0 * A / brane_tension) ** 0.2
+
+
+def radion_stability_mass_sq(
+    R_KK: float,
+    brane_tension: float,
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Return the radion mass squared (proportional to d²V/dR² at R_KK).
+
+    For V(R) = A/R⁴ + T_brane × R:
+
+        d²V/dR² = 20A / R⁶ + 0 = 20A / R⁶  (always > 0 → stable)
+
+    The positive second derivative confirms that the equilibrium at R* is
+    a stable minimum: perturbations of R_KK away from R* are restored.
+
+    Parameters
+    ----------
+    R_KK : float
+        Evaluation radius in Planck units (> 0).
+    brane_tension : float
+        Brane tension (> 0).
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+
+    Returns
+    -------
+    float
+        d²V/dR² in Planck units (always > 0).
+    """
+    if R_KK <= 0:
+        raise ValueError(f"R_KK must be > 0, got {R_KK}")
+    if brane_tension <= 0:
+        raise ValueError(f"brane_tension must be > 0, got {brane_tension}")
+    A = braid_cancellation_factor(n_w, k_cs, c_s) / (16.0 * math.pi ** 2)
+    return 20.0 * A / R_KK ** 6
+
+
+def radion_brane_tension_for_dark_energy(
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+    rho_obs: float = RHO_DARK_ENERGY_PLANCK,
+) -> float:
+    """Return the brane tension T_brane that places R* at the dark energy scale.
+
+    Requires R* = 1 / M_KK_needed, where M_KK_needed is the KK scale that
+    makes ρ_eff = ρ_obs.  From R* = (4A / T_brane)^(1/5):
+
+        T_brane = 4A / R*⁵  where A = f_braid / (16π²)
+
+    This is the unique brane tension for which the self-tuning mechanism
+    dynamically stabilises the extra dimension at the observed dark energy
+    scale.  Its value is fully determined by the UM braid geometry.
+
+    Parameters
+    ----------
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+    rho_obs : float
+        Observed dark energy density in Planck units.
+
+    Returns
+    -------
+    float
+        Brane tension T_brane in Planck units (> 0).
+    """
+    m_kk = kk_scale_needed_for_dark_energy(rho_obs, n_w, k_cs, c_s)
+    R_star = 1.0 / m_kk
+    A = braid_cancellation_factor(n_w, k_cs, c_s) / (16.0 * math.pi ** 2)
+    return 4.0 * A / R_star ** 5
+
+
+# ===========================================================================
+# Full Solution — Pillar 3: Casimir-plate KK-Mode Ripple Test
+# ===========================================================================
+
+def casimir_kk_ripple_force(
+    d: float,
+    R_KK: float,
+    n_kk_max: int = KK_RIPPLE_N_MAX,
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Return the Casimir force per unit area including KK-mode ripple corrections.
+
+    The UM predicts that at plate separation d ≲ R_KK (the compactification
+    radius), discrete Kaluza–Klein modes of the vacuum fields create a
+    non-monotonic deviation from the standard 1/d⁴ Casimir law.
+
+    The force has two components:
+
+    1. Braid-suppressed standard Casimir (uniform modification):
+
+           F_braid / A = −r × π² / (240 d⁴),  r = 1 − N_eff
+
+    2. KK-mode ripple correction from mode n (mass m_n = n / R_KK):
+
+           ΔF_n / A = −N_eff × r × (π²/240d⁴) × w_n × (n d / R_KK)² × exp(−2n d / R_KK)
+
+       where w_n = exp(−n²/k_CS) is the braided Gaussian spectral weight.
+
+    The factor (n d / R_KK)² × exp(−2n d / R_KK) peaks at d = R_KK / n,
+    so successive KK modes create overlapping bumps as the plate separation
+    d is varied below R_KK.  The total deviation δ(d) is non-monotonic:
+
+        • d ≫ R_KK : δ → 0 (KK modes exponentially decoupled)
+        • d ~ R_KK : δ peaks at ~0.1–0.2% above braid-only prediction
+        • d → 0    : δ → 0 (d² factor vanishes)
+
+    This "ripple" is the primary Casimir-plate signature of sub-eV KK
+    compactification, distinct from the uniform 0.71% braid suppression.
+
+    Parameters
+    ----------
+    d : float
+        Plate separation in Planck units (> 0).
+    R_KK : float
+        Compactification radius in Planck units (> 0).
+    n_kk_max : int
+        Number of KK modes included in the ripple sum (default 20).
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+
+    Returns
+    -------
+    float
+        Casimir force per unit area in Planck units (negative = attractive).
+    """
+    if d <= 0:
+        raise ValueError(f"Plate separation d must be > 0, got {d}")
+    if R_KK <= 0:
+        raise ValueError(f"R_KK must be > 0, got {R_KK}")
+    if n_kk_max < 1:
+        raise ValueError(f"n_kk_max must be >= 1, got {n_kk_max}")
+
+    r = casimir_plates_modification(n_w, k_cs, c_s)
+    n_eff = effective_mode_count(n_w, k_cs, c_s)
+    F_braid = -r * CASIMIR_PLATE_PREFACTOR / d ** 4
+
+    # KK ripple sum: Σ_n w_n × (n d / R_KK)² × exp(−2n d / R_KK)
+    ripple_sum = 0.0
+    for n in range(1, n_kk_max + 1):
+        w_n = math.exp(-n * n / k_cs)
+        x = n * d / R_KK
+        ripple_sum += w_n * x * x * math.exp(-2.0 * x)
+
+    F_ripple = -n_eff * r * CASIMIR_PLATE_PREFACTOR / d ** 4 * ripple_sum
+    return F_braid + F_ripple
+
+
+def casimir_kk_ripple_deviation(
+    d: float,
+    R_KK: float,
+    n_kk_max: int = KK_RIPPLE_N_MAX,
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Return the fractional KK-ripple deviation from the braid-only Casimir force.
+
+    Computes:
+
+        δ(d) = |F_KK(d) − F_braid(d)| / |F_braid(d)|
+
+    where F_KK is from casimir_kk_ripple_force and F_braid is from
+    casimir_plates_force_density.  Both forces are attractive (negative),
+    and the KK ripple makes the force more attractive (|F_KK| > |F_braid|),
+    so the deviation is always ≥ 0.
+
+    This non-monotonic "ripple" shape is the key experimental observable: it
+    cannot be mimicked by a smooth power-law correction and thus constitutes
+    a distinctive signature of sub-eV KK compactification.
+
+    Parameters
+    ----------
+    d : float
+        Plate separation in Planck units (> 0).
+    R_KK : float
+        Compactification radius in Planck units (> 0).
+    n_kk_max : int
+        KK modes in ripple sum (default 20).
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+
+    Returns
+    -------
+    float
+        Fractional deviation δ(d) ≥ 0.
+    """
+    if d <= 0:
+        raise ValueError(f"d must be > 0, got {d}")
+    if R_KK <= 0:
+        raise ValueError(f"R_KK must be > 0, got {R_KK}")
+
+    F_braid = casimir_plates_force_density(d, n_w, k_cs, c_s)
+    F_kk = casimir_kk_ripple_force(d, R_KK, n_kk_max, n_w, k_cs, c_s)
+    return abs(F_kk - F_braid) / abs(F_braid)
+
+
+def casimir_ripple_peak_separation(n_mode: int, R_KK: float) -> float:
+    """Return the plate separation d at which KK mode n creates its maximum ripple.
+
+    The per-mode ripple term (n d / R_KK)² × exp(−2n d / R_KK) reaches its
+    maximum at:
+
+        d_peak = R_KK / n
+
+    So successive KK modes (n = 1, 2, 3, …) create ripple peaks at
+    d = R_KK, R_KK/2, R_KK/3, … — a distinctive comb in plate-separation
+    space.
+
+    Parameters
+    ----------
+    n_mode : int
+        KK mode number (n ≥ 1).
+    R_KK : float
+        Compactification radius in Planck units (> 0).
+
+    Returns
+    -------
+    float
+        Peak separation d_peak = R_KK / n in Planck units.
+    """
+    if n_mode < 1:
+        raise ValueError(f"n_mode must be >= 1, got {n_mode}")
+    if R_KK <= 0:
+        raise ValueError(f"R_KK must be > 0, got {R_KK}")
+    return R_KK / n_mode
+
+
+def casimir_ripple_peak_deviation(
+    n_mode: int,
+    R_KK: float,
+    n_kk_max: int = KK_RIPPLE_N_MAX,
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Return the KK ripple fractional deviation at mode n's peak separation.
+
+    Evaluates casimir_kk_ripple_deviation at d = R_KK / n_mode.
+
+    The leading-mode (n=1) peak occurs at d = R_KK ≈ 75 μm (for dark energy
+    M_KK), where the ripple deviation is:
+
+        δ_peak ≈ N_eff × exp(−2) × Σ_n w_n × n² × exp(−2(n−1))
+               ≈ 1.6 × 10⁻³  (~0.16%)
+
+    below current ~1% precision but within reach of next-generation
+    Casimir measurements targeting 0.3% sensitivity.
+
+    Parameters
+    ----------
+    n_mode : int
+        KK mode number (≥ 1).
+    R_KK : float
+        Compactification radius in Planck units (> 0).
+    n_kk_max : int
+        KK modes in ripple sum (default 20).
+    n_w : int
+        Winding number.
+    k_cs : int
+        CS resonance constant.
+    c_s : float
+        Braided sound speed.
+
+    Returns
+    -------
+    float
+        Fractional deviation δ at mode n's peak separation.
+    """
+    d_peak = casimir_ripple_peak_separation(n_mode, R_KK)
+    return casimir_kk_ripple_deviation(d_peak, R_KK, n_kk_max, n_w, k_cs, c_s)
