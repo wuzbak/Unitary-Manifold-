@@ -1836,15 +1836,14 @@ class TestBraidNaturalKKScale:
         lam2 = ew.braid_natural_kk_scale(higgs_mass_gev=200.0)
         assert lam2 > lam1
 
-    def test_increases_with_top_mass(self):
-        """Heavier top raises Yukawa and thus |δm_H²|, bringing Λ_nat down."""
-        # Actually heavier top at same Yukawa raises correction → lower Λ_nat
-        # but here TOP_YUKAWA is derived from TOP_MASS_GEV, so keep fixed
+    def test_varies_with_top_mass(self):
+        """Varying top mass changes Λ_nat; heavier top → higher Λ_nat at fixed y_top."""
         lam_light = ew.braid_natural_kk_scale(m_top_gev=150.0)
         lam_heavy = ew.braid_natural_kk_scale(m_top_gev=200.0)
-        # Result must be positive and finite in both cases
+        # At fixed Yukawa, heavier top raises the log term → Λ_nat moves higher
         assert lam_light > ew.TOP_MASS_GEV
         assert lam_heavy > ew.TOP_MASS_GEV
+        assert lam_heavy > lam_light
 
     def test_returns_float(self):
         assert isinstance(ew.braid_natural_kk_scale(), float)
