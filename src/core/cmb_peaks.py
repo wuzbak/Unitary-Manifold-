@@ -403,13 +403,13 @@ def closure_summary(
     lkk = _ell_kk(k_cs)
     l_silk = silk_damping_scale(n_winding, k_cs)
 
-    raw_def = audit["peak_deficit_raw"]
-    corr_def = audit["peak_deficit_corrected"]
+    raw_deficit = audit["peak_deficit_raw"]
+    corrected_deficit = audit["peak_deficit_corrected"]
 
     return {
-        "raw_deficit":         raw_def,
-        "corrected_deficit":   corr_def,
-        "resolution_achieved": corr_def < RESOLUTION_THRESHOLD,
+        "raw_deficit":         raw_deficit,
+        "corrected_deficit":   corrected_deficit,
+        "resolution_achieved": corrected_deficit < RESOLUTION_THRESHOLD,
         "phi_ratio":           phi_r,
         "ell_kk":              lkk,
         "silk_scale":          l_silk,
