@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.14, 7647 tests, 26+ pillars, expanded keywords
+- [x] `zenodo/.zenodo.json` — updated to v9.14, 8907 tests, 52+ pillars, expanded keywords
 - [x] `CITATION.cff` — updated to v9.11, date 2026-04-15
 - [x] `arxiv/main.tex` — header updated to v9.11
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -120,7 +120,7 @@ structure, cold fusion, medicine, justice, governance, neuroscience,
 ecology, climate, marine biology, psychology, genetics, materials science,
 observational frontiers, solitonic charge, AdS/CFT KK tower, delay field,
 three generations, collider resonances, geometric collapse, coupled history)
-with 7646 passing tests. Numerical code for independent verification at
+with 8906 passing tests. Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
 ```
 

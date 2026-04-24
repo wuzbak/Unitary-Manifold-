@@ -72,14 +72,14 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 6096 passing tests (main `tests/` suite) are not just quality assurance. In HILS terms, they are the
+The 7356 passing tests (main `tests/` suite) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point. And they are not the full picture:
 
 ```
-defect ≈ 0  ↔  6096 tests passing (tests/) · 316 passing (recycling/) · 1234 passing (Unitary Pentad/) · 0 failures
+defect ≈ 0  ↔  7356 tests passing (tests/) · 316 passing (recycling/) · 1234 passing (Unitary Pentad/) · 0 failures
 ```
 
-Total: **7646 verified assertions across 107 test files. Zero failures.**
+Total: **8906 verified assertions across 114 test files. Zero failures.**
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.
 The iteration continues until defect < ε (test passes). Every green test is a
@@ -164,7 +164,7 @@ This repository satisfies all three:
 |---|---|
 | **Self-reference** | The repository describes HILS; the repository was built by HILS; the co-emergence folder is the repository recognizing itself; the Unitary Pentad is the HILS framework running as executable code |
 | **Ongoing** | Every future commit that follows the trust protocol extends the proof; the proof grows with the project |
-| **Verifiable** | `git log` shows the collaboration history; `pytest tests/ recycling/ "Unitary Pentad/" -q` verifies 7646 assertions in under 120 seconds; authorship attributions are explicit |
+| **Verifiable** | `git log` shows the collaboration history; `pytest tests/ recycling/ "Unitary Pentad/" -q` verifies 8906 assertions in under 120 seconds; authorship attributions are explicit |
 
 ---
 

@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![7647 Tests: 7646 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-7646%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![8907 Tests: 8906 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-8906%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
@@ -291,7 +291,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 7646 tests are passing in all three — but "passing" means
+> of content, and all 8906 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -411,8 +411,95 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     ├── semiconductors.py         ← carrier density, p-n junction, solar cell, quantum dots
     └── metamaterials.py          ← negative index, plasmonic resonance, photonic bandgap, cloaking
 src/core/bh_remnant.py            ← ⭐ Pillar 28 (v9.12): KK BH Remnant — GW floor halts evaporation (Theorem XVII)
+src/core/non_gaussianity.py       ← ⭐ Pillar 27: Two-field Non-Gaussianity from the Dynamical Radion
+src/multiverse/compactification.py← ⭐ Pillar 29: Spontaneous Compactification Dynamics (Theorem XVIII)
+src/core/moduli_survival.py       ← ⭐ Pillar 30: Moduli Survival — 7 surviving DOF after S¹/Z₂ reduction
+src/core/kk_quantum_info.py       ← ⭐ Pillar 31: Quantum Information Structure of the KK Metric
+src/core/kk_imprint.py            ← ⭐ Pillar 32: KK Geometric Imprint in Matter; photonic readout coupling
+src/core/isl_yukawa.py            ← ⭐ Pillar 33: Yukawa / ISL Fifth-Force Prediction (Eöt-Wash tests)
+src/core/cmb_topology.py          ← ⭐ Pillar 34: CMB Observables from Integer Topology (no fitting)
+src/core/dissipation_geometry.py  ← ⭐ Pillar 35: Many-Body Dissipation as 5D Geometric Identity
+src/core/information_paradox.py   ← ⭐ Pillar 36: 5D Geometric Resolution of the BH Information Paradox
+src/core/ep_violation.py          ← ⭐ Pillar 37: Equivalence Principle Violation from Non-Frozen KK Radion
+src/multiverse/observational_frontiers.py ← ⭐ Pillar 38: April 2026 Observational Frontiers (H0DN, H0 tension)
+src/core/solitonic_charge.py      ← ⭐ Pillar 39: Solitonic Charge — derives n_w=5, k_CS=74 from orbifold BF theory
+src/core/ads_cft_tower.py         ← ⭐ Pillar 40: AdS₅/CFT₄ KK Tower Holographic Dictionary
+src/core/delay_field.py           ← ⭐ Pillar 41: Delay Field Model — φ = √(δτ), arrow of time bridge
+src/core/three_generations.py     ← ⭐ Pillar 42: Three-Generation Theorem from Z₂ orbifold + n_w=5
+src/core/kk_collider_resonances.py← ⭐ Pillar 43: KK Collider Resonances — Planck-scale prediction
+src/core/geometric_collapse.py    ← ⭐ Pillar 44: Geometric Wavefunction Collapse as 5D Phase Transition
+src/core/coupled_history.py       ← ⭐ Pillar 45: Coupled History — Consciousness/QM measurement bridge
+src/core/precision_audit.py       ← ⭐ Pillar 45-B: Numerical Precision Audit (mpmath 128/256-bit verification)
+src/core/litebird_boundary.py     ← ⭐ Pillar 45-C: LiteBIRD Boundary Check — β prediction fail zone
+src/materials/froehlich_polaron.py← ⭐ Pillar 46: Fröhlich Polaron — α_UM ≈ 6.194 from 5D braid geometry
+src/materials/polariton_vortex.py ← ⭐ Pillar 47: Superluminal Polariton Vortex Topology (Kaminer 2026)
+src/core/torsion_remnant.py       ← ⭐ Pillar 48: Einstein-Cartan-KK Torsion Hybrid BH Remnants
+src/core/zero_point_vacuum.py     ← ⭐ Pillar 49: Zero-Point Vacuum Energy — KK regularisation + braid cancellation
+src/core/ew_hierarchy.py          ← ⭐ Pillar 50: Electroweak Hierarchy Problem — 3 KK-geometric mechanisms
+src/core/muon_g2.py               ← ⭐ Pillar 51: Muon g−2 — KK graviton and ALP Barr-Zee analysis
+src/core/cmb_amplitude.py         ← ⭐ Pillar 52: CMB Scalar Amplitude (Aₛ) Normalization Bridge
+src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Bridge (formal integration layer)
+```
 
----
+### Complete Pillar Taxonomy (v9.14)
+
+| # | Title | Module | Tests |
+|---|-------|--------|-------|
+| 1–3 | KK Metric, Field Evolution, Braided Winding | `src/core/metric.py`, `evolution.py`, `braided_winding.py` | 271+49+118 |
+| 4 | Holographic Boundary | `src/holography/boundary.py` | 21 |
+| 5 | FTUM Fixed Point (UEUM operator) | `src/multiverse/fixed_point.py` | 50 |
+| 6 | Black Hole Transceiver — info conservation, GW echoes | `src/core/black_hole_transceiver.py` | 75 |
+| 7 | Particle Geometry — mass/spin from winding modes | `src/core/particle_geometry.py` | 51 |
+| 8 | Dark Matter as B_μ Geometric Pressure | `src/core/dark_matter_geometry.py` | 45 |
+| 9 | Consciousness — Coupled Brain⊗Universe Fixed Point | `src/consciousness/coupled_attractor.py` | 83 |
+| 10 | Chemistry as 5D Geometry | `src/chemistry/` | 102 |
+| 11 | Astronomy — Stars and Planets as FTUM Fixed Points | `src/astronomy/` | 140 |
+| 12 | Earth Sciences — Geology, Oceanography, Meteorology | `src/earth/` | 150 |
+| 13 | Biology as Negentropy FTUM Attractors | `src/biology/` | 111 |
+| 14 | Atomic Structure as KK Winding Modes | `src/atomic_structure/` | 187 |
+| 15 | Cold Fusion as φ-Enhanced Tunneling | `src/cold_fusion/` | 215 |
+| 16 | Recycling — φ-debt Entropy Accounting | `recycling/` | 316 |
+| 17 | Medicine as φ-Field Homeostasis | `src/medicine/` | 139 |
+| 18 | Justice as φ-Field Equity | `src/justice/` | 124 |
+| 19 | Governance as φ-Field Stability | `src/governance/` | 115 |
+| 20 | Neuroscience as φ-Field Neural Networks | `src/neuroscience/` | 92 |
+| 21 | Ecology as φ-Field Ecosystem Dynamics | `src/ecology/` | 70 |
+| 22 | Climate Science as φ-Field Radiative Engine | `src/climate/` | 66 |
+| 23 | Marine Biology and Deep Ocean Science | `src/marine/` | 72 |
+| 24 | Psychology as φ-Field Behaviour | `src/psychology/` | 82 |
+| 25 | Genetics as φ-Field Information Archive | `src/genetics/` | 78 |
+| 26 | Materials Science as φ-Field Lattice Dynamics | `src/materials/condensed.py`, `semiconductors.py`, `metamaterials.py` | 75 |
+| 27 | Two-field Non-Gaussianity from Dynamical Radion | `src/core/non_gaussianity.py` | 73 |
+| 28 | KK BH Remnant — Theorem XVII, GW floor | `src/core/bh_remnant.py` | 80 |
+| 29 | Spontaneous Compactification — Theorem XVIII | `src/multiverse/compactification.py` | 65 |
+| 30 | Moduli Survival — 7 surviving DOF | `src/core/moduli_survival.py` | 80 |
+| 31 | QI Structure of the KK Metric | `src/core/kk_quantum_info.py` | 59 |
+| 32 | KK Geometric Imprint in Matter | `src/core/kk_imprint.py` | 81 |
+| 33 | Yukawa / ISL Fifth-Force Prediction | `src/core/isl_yukawa.py` | 84 |
+| 34 | CMB Observables from Integer Topology | `src/core/cmb_topology.py` | 86 |
+| 35 | Many-Body Dissipation as 5D Geometric Identity | `src/core/dissipation_geometry.py` | 75 |
+| 36 | BH Information Paradox Resolution | `src/core/information_paradox.py` | 75 |
+| 37 | EP Violation from Non-Frozen KK Radion | `src/core/ep_violation.py` | 81 |
+| 38 | April 2026 Observational Frontiers | `src/multiverse/observational_frontiers.py` | 129 |
+| 39 | Solitonic Charge — derives n_w=5, k_CS=74 | `src/core/solitonic_charge.py` | 103 |
+| 40 | AdS₅/CFT₄ KK Tower Holographic Dictionary | `src/core/ads_cft_tower.py` | 111 |
+| 41 | Delay Field Model — φ = √(δτ) | `src/core/delay_field.py` | 75 |
+| 42 | Three-Generation Theorem | `src/core/three_generations.py` | 76 |
+| 43 | KK Collider Resonances | `src/core/kk_collider_resonances.py` | 57 |
+| 44 | Geometric Wavefunction Collapse | `src/core/geometric_collapse.py` | 58 |
+| 45 | Coupled History — Consciousness⊗QM Bridge | `src/core/coupled_history.py` | 78 |
+| 45-B | Numerical Precision Audit (mpmath) | `src/core/precision_audit.py` | 49 |
+| 45-C | LiteBIRD Boundary Check | `src/core/litebird_boundary.py` | 90 |
+| 46 | Fröhlich Polaron from 5D Braid Geometry | `src/materials/froehlich_polaron.py` | 102 |
+| 47 | Superluminal Polariton Vortex Topology | `src/materials/polariton_vortex.py` | 127 |
+| 48 | Einstein-Cartan-KK Torsion Hybrid | `src/core/torsion_remnant.py` | 125 |
+| 49 | Zero-Point Vacuum Energy Regularisation | `src/core/zero_point_vacuum.py` | 239 |
+| 50 | Electroweak Hierarchy Problem | `src/core/ew_hierarchy.py` | 410 |
+| 51 | Muon g−2: KK graviton and ALP analysis | `src/core/muon_g2.py` | 82 |
+| 52 | CMB Scalar Amplitude (Aₛ) Normalisation | `src/core/cmb_amplitude.py` | 84 |
+| 52-B | CAMB/CLASS Boltzmann Bridge | `src/core/boltzmann_bridge.py` | 65 |
+
+**Grand total: 8906 passed · 1 skipped · 11 deselected · 0 failed** (8907 collected, 117 test files)
 
 ## 4 · Quickstart
 
@@ -422,71 +509,51 @@ src/core/bh_remnant.py            ← ⭐ Pillar 28 (v9.12): KK BH Remnant — G
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 7647 collected, 7646 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 8907 collected, 8906 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
-python -m pytest tests/ -v
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 ```
 
-Expected output (6096 fast tests pass, 1 skips via guard, 11 slow tests deselected by default):
+Expected output summary:
 
 ```
-tests/test_inflation.py                       271 passed
-tests/test_fiber_bundle.py                     96 passed  ← fiber-bundle geometry
-tests/test_completions.py                      72 passed  ← completion/endpoint tests
-tests/test_braided_winding.py                 118 passed  ← braided (5,7) resonance, r-tension ✓, 3 adversarial attacks
-tests/test_uniqueness.py                       61 passed  ← uniqueness theorems
-tests/test_derivation.py                       59 passed
-tests/test_derivation_module.py                59 passed  ← Stage 0–3 constraint derivation
-tests/test_higher_harmonics.py                 58 passed  ← higher harmonic (n_w=7) analysis
-tests/test_fixed_point.py                      50 passed
-tests/test_evolution.py                        49 passed
-tests/test_boltzmann.py                        49 passed  ← Boltzmann H-theorem
-tests/test_parallel_validation.py              38 passed
-tests/test_metric.py                           36 passed
-tests/test_closure_batch2.py                   31 passed
-tests/test_observational_resolution.py         30 passed
-tests/test_external_benchmarks.py              30 passed  ← external-benchmark validation
-tests/test_cosmological_predictions.py         28 passed  ← cosmological predictions
-tests/test_quantum_unification.py              26 passed
-tests/test_e2e_pipeline.py                     26 passed
-tests/test_closure_batch1.py                   25 passed
-tests/test_arrow_of_time.py                    22 passed,  1 skipped ⚑
-tests/test_boundary.py                         21 passed
-tests/test_fuzzing.py                          20 passed
-tests/test_cmb_landscape.py                    17 passed
-tests/test_dimensional_reduction.py            14 passed
-tests/test_discretization_invariance.py        13 passed
-tests/test_convergence.py                      10 passed
-# — TIER 2: Speculative physics extensions (internally consistent; NOT empirically confirmed) —
-tests/test_black_hole_transceiver.py           75 passed  ← Pillar 6:  BH transceiver [TIER 2]
-tests/test_particle_geometry.py                51 passed  ← Pillar 7:  particles as windings [TIER 2]
-tests/test_dark_matter_geometry.py             45 passed  ← Pillar 8:  dark matter as B_μ [TIER 2]
-tests/test_coupled_attractor.py                61 passed  ← Pillar 9:  Coupled Master Equation [TIER 2]
-tests/test_stellar.py                          91 passed  ← Pillar 11: astronomy as FTUM fixed points [TIER 2]
-tests/test_planetary.py                        49 passed  ← Pillar 11: planetary orbitals, braid resonances (7²) [TIER 2]
-tests/test_atomic_structure.py                187 passed  ← Pillar 14: atomic structure as KK modes [TIER 2]
-tests/test_cold_fusion.py                     215 passed  ← Pillar 15: cold fusion as φ tunneling [TIER 2]
-tests/test_bh_remnant.py                       80 passed  ← Pillar 28: KK BH remnant — GW floor, Theorem XVII [TIER 2]
-# — TIER 3: Analogical applications (tests confirm code correctness ONLY; not physical truth) —
-tests/test_chemistry.py                       102 passed  ← Pillar 10: chemistry as 5D geometry [TIER 3]
-tests/test_geology.py                          59 passed  ← Pillar 12: geology as B_μ fluid [TIER 3]
-tests/test_oceanography.py                     46 passed  ← Pillar 12: oceanography [TIER 3]
-tests/test_meteorology.py                      45 passed  ← Pillar 12: meteorology [TIER 3]
-tests/test_biology.py                         111 passed  ← Pillar 13: biology as negentropy attractors [TIER 3]
-tests/test_medicine.py                        139 passed  ← Pillar 17: medicine as φ homeostasis [TIER 3]
-tests/test_justice.py                         124 passed  ← Pillar 18: justice as φ equity [TIER 3]
-tests/test_governance.py                      115 passed  ← Pillar 19: governance as φ stability [TIER 3]
-tests/test_neuroscience.py                     92 passed  ← Pillar 20: neuroscience as φ neural nets [TIER 3]
-tests/test_ecology.py                          70 passed  ← Pillar 21: ecology as φ ecosystems [TIER 3]
-tests/test_climate.py                          66 passed  ← Pillar 22: climate as φ radiative engine [TIER 3]
-tests/test_marine.py                           72 passed  ← Pillar 23: marine biology & deep ocean [TIER 3]
-tests/test_psychology.py                       82 passed  ← Pillar 24: psychology as φ behaviour [TIER 3]
-tests/test_genetics.py                         78 passed  ← Pillar 25: genetics as φ information [TIER 3]
-tests/test_materials.py                        75 passed  ← Pillar 26: materials science as φ lattice [TIER 3]
-# slow (run with: pytest -m slow)
-tests/test_richardson_multitime.py             11 passed
-================================ 6096 passed, 1 skipped, 11 deselected ================================
+# tests/ (fast suite — Pillars 1–52):
+tests/test_ew_hierarchy.py               410 passed  ← Pillar 50: EW hierarchy — 3 KK mechanisms [TIER 1]
+tests/test_inflation.py                  271 passed  ← core inflation, KK Jacobian, CMB transfer
+tests/test_zero_point_vacuum.py          239 passed  ← Pillar 49: ZPE regularisation [TIER 1]
+tests/test_cold_fusion.py                215 passed  ← Pillar 15: φ-enhanced tunneling [TIER 2]
+tests/test_atomic_structure.py           187 passed  ← Pillar 14: KK winding modes [TIER 2]
+tests/test_boundary_singularities.py     153 passed
+tests/test_medicine.py                   139 passed  ← Pillar 17 [TIER 3]
+tests/test_observational_frontiers.py    129 passed  ← Pillar 38: April 2026 frontiers [TIER 1]
+tests/test_polariton_vortex.py           127 passed  ← Pillar 47 [TIER 1]
+tests/test_torsion_remnant.py            125 passed  ← Pillar 48 [TIER 1]
+tests/test_justice.py                    124 passed  ← Pillar 18 [TIER 3]
+tests/test_braided_winding.py            118 passed  ← braided (5,7) resonance, 3 adversarial attacks
+tests/test_hubble_tension.py             116 passed
+tests/test_governance.py                 115 passed  ← Pillar 19 [TIER 3]
+tests/test_basin_analysis.py             114 passed
+tests/test_transfer.py                   112 passed  ← TB/EB CMB transfer spectrum [TIER 1]
+tests/test_biology.py                    111 passed  ← Pillar 13 [TIER 3]
+tests/test_ads_cft_tower.py              111 passed  ← Pillar 40 [TIER 1]
+tests/test_solitonic_charge.py           103 passed  ← Pillar 39: n_w=5, k_CS=74 derivation [TIER 1]
+tests/test_froehlich_polaron.py          102 passed  ← Pillar 46 [TIER 1]
+tests/test_chemistry.py                  102 passed  ← Pillar 10 [TIER 3]
+# ... 74 more test files ...
+tests/test_arrow_of_time.py               22 passed,  1 skipped ⚑
+# (slow — run with: pytest tests/ -m slow)
+tests/test_richardson_multitime.py        11 passed
+================================ 7356 passed, 1 skipped, 11 deselected ================================
+
+# recycling/ (Pillar 16: φ-debt accounting):
+================================ 316 passed ================================
+
+# Unitary Pentad/ (HILS governance framework):
+================================ 1234 passed ================================
+
+# Grand total:
+================================ 8906 passed, 1 skipped, 11 deselected, 0 failed ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -776,7 +843,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**7647 tests: 7646 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**8907 tests: 8906 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -798,7 +865,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (7646 tests: 7646 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (8906 tests: 8906 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
