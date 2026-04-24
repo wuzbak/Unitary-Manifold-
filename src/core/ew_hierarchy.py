@@ -162,6 +162,33 @@ Comparison:
   compare_hierarchy_mechanisms(phi0, higgs_vev_gev, m_planck_gev, n_w, k_cs,
                                 m_kk, lambda_h, k_rs, n_max)
 
+§4 — Higgs Quartic Coupling (λ Problem):
+  kk_geometric_quartic(c_s, k_cs)
+  quartic_discrepancy_factor(lambda_h, c_s, k_cs)
+  higgs_mass_from_cs_squared(higgs_vev_gev, c_s)
+  higgs_mass_discrepancy_gev(higgs_mass_gev, higgs_vev_gev, c_s)
+  higgs_mass_fractional_discrepancy(higgs_mass_gev, higgs_vev_gev, c_s)
+  vacuum_stability_condition(lambda_h)
+  kk_vacuum_stability_geometric(c_s)
+
+§5 — Yukawa Coupling Hierarchy (Flavor Puzzle):
+  yukawa_geometric_mass_ratio(n_gen, n_w)
+  observed_lepton_mass_ratio(n_gen)
+  yukawa_discrepancy_log10(n_gen, n_w)
+  rs1_yukawa_overlap(n_gen, kpi_R, delta_c)
+  rs1_yukawa_mass_ratio(n_gen, kpi_R, delta_c)
+  rs1_delta_c_for_ratio(target_ratio, n_gen, kpi_R)
+  lepton_mass_from_geometry(n_gen, reference_mass_gev, n_w)
+
+§6 — (5,7) Braid Topology and the Warp Factor:
+  braid_topological_kpi_R(n1, n2)
+  braid_ew_vev_gev(n1, n2, m_planck_gev)
+  braid_hierarchy_discrepancy_fraction(n1, n2, higgs_vev_gev, m_planck_gev)
+  braid_linking_number(n1, n2)
+  braid_yukawa_from_linking(n_gen, n1, n2, k_cs)
+  braid_yukawa_mass_ratio(n_gen, n1, n2, k_cs)
+  braid_yukawa_discrepancy_log10(n_gen, n1, n2, k_cs)
+
 References
 ----------
 Randall L., Sundrum R. (1999) "A Large Mass Hierarchy from a Small Extra
@@ -170,6 +197,7 @@ Goldberger W., Wise M. (1999) "Moduli Stabilization with Bulk Fields",
     Phys. Rev. Lett. 83, 4922–4925.
 Pinčák R. et al. (2026) Gen. Rel. Grav. 58 — torsion_remnant.py (Pillar 48).
 ads_cft_tower.py (Pillar 40) — AdS₅/CFT₄ KK tower dictionary.
+three_generations.py (Pillar 42) — KK generation eigenvalue ratios.
 
 Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
@@ -1200,3 +1228,854 @@ def compare_hierarchy_mechanisms(
         mechanism3_requires_fine_tuning=True,
         any_mechanism_closed_gap=False,
     )
+
+
+# ---------------------------------------------------------------------------
+# §4 — Higgs Quartic Coupling: Geometric Prediction and Gap
+# ---------------------------------------------------------------------------
+
+def kk_geometric_quartic(
+    c_s: float = C_S_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+) -> float:
+    """Geometric analog of the Higgs quartic coupling: λ_KK = c_s².
+
+    In the UM braided-winding sector the only dimensionless O(1) scalar
+    self-coupling available from the 5D KK geometry is the braided sound
+    speed squared:
+
+        λ_KK = c_s² = (12/37)² ≈ 0.1052
+
+    The observed Higgs quartic is λ_h = m_H²/(2v²) ≈ 0.1293, a 23%
+    discrepancy.  This is **not** a derivation of λ; it is the closest
+    geometric analog and a consistency cross-check.
+
+    The 23% gap is comparable to the expected radiative correction from the
+    top-quark Yukawa loop, which runs λ upward by Δλ ≈ 0.02–0.03 between
+    the Planck and EW scales.
+
+    Parameters
+    ----------
+    c_s : float
+        Braided sound speed (default 12/37).
+    k_cs : int
+        Chern-Simons level (default 74).  Accepted for API symmetry; the
+        result depends only on c_s.
+
+    Returns
+    -------
+    float
+        λ_KK = c_s² ≈ 0.1052.
+
+    Raises
+    ------
+    ValueError
+        If c_s ≤ 0 or k_cs ≤ 0.
+    """
+    if c_s <= 0.0:
+        raise ValueError(f"c_s must be > 0, got {c_s!r}")
+    if k_cs <= 0:
+        raise ValueError(f"k_cs must be > 0, got {k_cs!r}")
+    return c_s ** 2
+
+
+def quartic_discrepancy_factor(
+    lambda_h: float = HIGGS_QUARTIC,
+    c_s: float = C_S_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+) -> float:
+    """Ratio λ_h / λ_KK = λ_observed / c_s² — quantifies the quartic gap.
+
+    A value of 1.0 would mean the braided geometry exactly predicts λ.
+    The canonical result is ≈ 1.23, meaning the geometric analog undershoots
+    the observed quartic by 23%.
+
+    Parameters
+    ----------
+    lambda_h : float
+        Observed Higgs quartic coupling (default m_H²/(2v²) ≈ 0.1293).
+    c_s : float
+        Braided sound speed (default 12/37).
+    k_cs : int
+        Chern-Simons level (default 74).
+
+    Returns
+    -------
+    float
+        λ_h / c_s² > 0.
+
+    Raises
+    ------
+    ValueError
+        If lambda_h ≤ 0.
+    """
+    if lambda_h <= 0.0:
+        raise ValueError(f"lambda_h must be > 0, got {lambda_h!r}")
+    return lambda_h / kk_geometric_quartic(c_s, k_cs)
+
+
+def higgs_mass_from_cs_squared(
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Geometric Higgs mass prediction using λ_KK = c_s².
+
+    From the tree-level SM relation m_H = v × √(2λ), substituting
+    λ_KK = c_s²:
+
+        m_H^{geom} = v_EW × √(2 c_s²) = v_EW × √2 × c_s
+                   = 246 × √2 × (12/37) ≈ 112.9 GeV
+
+    The observed Higgs mass is 125.09 GeV — a 9.8% discrepancy.
+
+    **Honest assessment:** The 9.8% undershoot is comparable to the SM
+    one-loop correction from the top-quark loop, which shifts m_H upward
+    by ~ 10–15 GeV.  This is therefore a plausible geometric origin of the
+    Higgs mass — the best available within the UM — but not a derivation.
+
+    Parameters
+    ----------
+    higgs_vev_gev : float
+        Higgs VEV [GeV] (default 246).
+    c_s : float
+        Braided sound speed (default 12/37).
+
+    Returns
+    -------
+    float
+        Predicted Higgs mass in GeV ≈ 112.9.
+
+    Raises
+    ------
+    ValueError
+        If higgs_vev_gev ≤ 0 or c_s ≤ 0.
+    """
+    if higgs_vev_gev <= 0.0:
+        raise ValueError(f"higgs_vev_gev must be > 0, got {higgs_vev_gev!r}")
+    if c_s <= 0.0:
+        raise ValueError(f"c_s must be > 0, got {c_s!r}")
+    return higgs_vev_gev * math.sqrt(2.0) * c_s
+
+
+def higgs_mass_discrepancy_gev(
+    higgs_mass_gev: float = HIGGS_MASS_GEV,
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Absolute discrepancy |m_H^{geom} − m_H^{obs}| in GeV.
+
+        = |v_EW × √2 × c_s − 125.09|  ≈ |112.9 − 125.09| ≈ 12.2 GeV
+
+    Parameters
+    ----------
+    higgs_mass_gev : float
+        Observed Higgs mass [GeV] (default 125.09).
+    higgs_vev_gev : float
+        Higgs VEV [GeV] (default 246).
+    c_s : float
+        Braided sound speed (default 12/37).
+
+    Returns
+    -------
+    float
+        |Δm_H| in GeV ≥ 0.
+
+    Raises
+    ------
+    ValueError
+        If higgs_mass_gev ≤ 0.
+    """
+    if higgs_mass_gev <= 0.0:
+        raise ValueError(f"higgs_mass_gev must be > 0, got {higgs_mass_gev!r}")
+    return abs(higgs_mass_from_cs_squared(higgs_vev_gev, c_s) - higgs_mass_gev)
+
+
+def higgs_mass_fractional_discrepancy(
+    higgs_mass_gev: float = HIGGS_MASS_GEV,
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    c_s: float = C_S_CANONICAL,
+) -> float:
+    """Fractional discrepancy (m_H^{geom} − m_H^{obs}) / m_H^{obs}.
+
+    Returns a negative number (≈ −0.098) meaning the geometric prediction
+    undershoots the observed mass by ≈ 9.8%.
+
+    Parameters
+    ----------
+    higgs_mass_gev : float
+        Observed Higgs mass [GeV] (default 125.09).
+    higgs_vev_gev : float
+        Higgs VEV [GeV] (default 246).
+    c_s : float
+        Braided sound speed (default 12/37).
+
+    Returns
+    -------
+    float
+        (m_geom − m_obs) / m_obs  (negative when m_geom < m_obs).
+
+    Raises
+    ------
+    ValueError
+        If higgs_mass_gev ≤ 0.
+    """
+    if higgs_mass_gev <= 0.0:
+        raise ValueError(f"higgs_mass_gev must be > 0, got {higgs_mass_gev!r}")
+    m_geom = higgs_mass_from_cs_squared(higgs_vev_gev, c_s)
+    return (m_geom - higgs_mass_gev) / higgs_mass_gev
+
+
+def vacuum_stability_condition(lambda_h: float = HIGGS_QUARTIC) -> bool:
+    """Return True iff the Higgs quartic coupling indicates a stable vacuum.
+
+    The Higgs potential V = −μ²|H|² + λ|H|⁴ requires λ > 0 for the
+    vacuum to be stable (bounded below).  At tree level the SM vacuum is
+    stable with λ ≈ 0.1293.
+
+    Radiative corrections from the top-quark Yukawa coupling drive λ
+    negative at μ ≈ 10¹⁰ GeV, rendering the SM vacuum metastable —
+    an open problem the UM does not yet address geometrically.
+
+    Parameters
+    ----------
+    lambda_h : float
+        Higgs quartic coupling (default ≈ 0.1293).
+
+    Returns
+    -------
+    bool
+        True if λ_h > 0 (stable at tree level).
+
+    Raises
+    ------
+    TypeError
+        If lambda_h is not numeric.
+    """
+    try:
+        return float(lambda_h) > 0.0
+    except (TypeError, ValueError) as exc:
+        raise TypeError(
+            f"lambda_h must be numeric, got {type(lambda_h).__name__!r}"
+        ) from exc
+
+
+def kk_vacuum_stability_geometric(c_s: float = C_S_CANONICAL) -> bool:
+    """Return True iff the geometric quartic λ_KK = c_s² > 0.
+
+    Since c_s = (n₂² − n₁²) / k_CS > 0 for any braid pair with n₂ > n₁,
+    the geometric quartic is *always* positive.  This is the one firm
+    geometric statement the UM can make about vacuum stability: the braided
+    structure guarantees λ_KK > 0 without any parameter tuning.
+
+    Parameters
+    ----------
+    c_s : float
+        Braided sound speed (must be > 0).
+
+    Returns
+    -------
+    bool
+        Always True when c_s > 0 (validated on entry).
+
+    Raises
+    ------
+    ValueError
+        If c_s ≤ 0.
+    """
+    if c_s <= 0.0:
+        raise ValueError(f"c_s must be > 0, got {c_s!r}")
+    return True  # c_s² > 0 is guaranteed for any c_s > 0
+
+
+# ---------------------------------------------------------------------------
+# §5 — Yukawa Coupling Hierarchy (Flavor Puzzle)
+# ---------------------------------------------------------------------------
+
+# Observed lepton masses [GeV] — PDG 2024
+ELECTRON_MASS_GEV: float = 0.51099895e-3   # 0.511 MeV
+MUON_MASS_GEV: float = 105.6583755e-3      # 105.66 MeV
+TAU_MASS_GEV: float = 1.77686              # 1776.86 MeV
+
+# Observed lepton mass ratios (normalised to electron = 1)
+LEPTON_MASS_RATIO_MU_E: float = MUON_MASS_GEV / ELECTRON_MASS_GEV   # ≈ 206.77
+LEPTON_MASS_RATIO_TAU_E: float = TAU_MASS_GEV / ELECTRON_MASS_GEV   # ≈ 3477.2
+
+
+def yukawa_geometric_mass_ratio(
+    n_gen: int,
+    n_w: int = N_W_CANONICAL,
+) -> float:
+    """Geometric mass ratio m_{n_gen} / m_0 from Pillar-42 KK eigenvalues.
+
+    From the S¹/Z₂ orbifold stability condition (Pillar 42,
+    three_generations.py), the effective radion eigenvalue for generation n
+    gives a mass ratio:
+
+        m_n / m_0 = √(1 + n² / n_w)
+
+        n=0: ratio = 1.000  (lightest, reference)
+        n=1: ratio = √(6/5) ≈ 1.095
+        n=2: ratio = √(9/5) ≈ 1.342
+
+    The observed lepton mass ratios are m_μ/m_e ≈ 207 and m_τ/m_e ≈ 3477,
+    many orders of magnitude larger.  The gap is quantified by
+    yukawa_discrepancy_log10().
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index n ≥ 0 (0 = lightest).
+    n_w : int
+        Winding number (default 5).
+
+    Returns
+    -------
+    float
+        Geometric mass ratio ≥ 1.
+
+    Raises
+    ------
+    ValueError
+        If n_gen < 0 or n_w ≤ 0.
+    """
+    if n_gen < 0:
+        raise ValueError(f"n_gen must be >= 0, got {n_gen!r}")
+    if n_w <= 0:
+        raise ValueError(f"n_w must be > 0, got {n_w!r}")
+    return math.sqrt(1.0 + n_gen ** 2 / n_w)
+
+
+def observed_lepton_mass_ratio(n_gen: int) -> float:
+    """Observed lepton mass ratio m_{n_gen} / m_electron (PDG 2024).
+
+        n=0 (electron): 1.000
+        n=1 (muon):    ≈ 206.77
+        n=2 (tau):     ≈ 3477.2
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index (0, 1, or 2).
+
+    Returns
+    -------
+    float
+        Observed mass ratio ≥ 1.
+
+    Raises
+    ------
+    ValueError
+        If n_gen not in {0, 1, 2}.
+    """
+    if n_gen == 0:
+        return 1.0
+    elif n_gen == 1:
+        return LEPTON_MASS_RATIO_MU_E
+    elif n_gen == 2:
+        return LEPTON_MASS_RATIO_TAU_E
+    else:
+        raise ValueError(f"n_gen must be 0, 1, or 2; got {n_gen!r}")
+
+
+def yukawa_discrepancy_log10(
+    n_gen: int,
+    n_w: int = N_W_CANONICAL,
+) -> float:
+    """log₁₀(geometric ratio / observed ratio) — quantifies the Yukawa gap.
+
+    A large negative value indicates the geometric prediction severely
+    underestimates the observed mass ratio:
+
+        n=0:  log₁₀(1.000 / 1.000)       =  0.00  (exact, reference)
+        n=1:  log₁₀(1.095 / 206.77)     ≈ −2.28
+        n=2:  log₁₀(1.342 / 3477.2)     ≈ −3.41
+
+    The UM explains the *number* of generations (Pillar 42) but not their
+    *mass hierarchy* — this is the Flavor Puzzle gap.
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index (0, 1, or 2).
+    n_w : int
+        Winding number (default 5).
+
+    Returns
+    -------
+    float
+        log₁₀ ratio ≤ 0 for n_gen ≥ 1.
+    """
+    geom = yukawa_geometric_mass_ratio(n_gen, n_w)
+    obs = observed_lepton_mass_ratio(n_gen)
+    return math.log10(geom / obs)
+
+
+def rs1_yukawa_overlap(
+    n_gen: int,
+    kpi_R: float = RS1_KPI_R_CANONICAL,
+    delta_c: float = 0.1,
+) -> float:
+    """RS1-type Yukawa coupling from fermion wavefunction overlap.
+
+    In the Randall-Sundrum model, fermions with different bulk masses c_n
+    are localised at different positions in the extra dimension.  The 4D
+    Yukawa coupling is suppressed by the overlap with the Higgs brane:
+
+        y_n / y_0 = exp(−n × δc × kπR)
+
+    where δc is the inter-generation bulk-mass splitting.  With δc ≈ 0.1
+    and kπR ≈ 38.44, the suppression per generation is exp(−3.84) ≈ 0.021,
+    producing an exponential mass hierarchy without O(1) fine-tuning of δc.
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index n ≥ 0 (0 = heaviest, higher n = lighter).
+    kpi_R : float
+        RS1 warp exponent kπR (default ≈ 38.44).
+    delta_c : float
+        Bulk-mass splitting between adjacent generations (default 0.1).
+
+    Returns
+    -------
+    float
+        Normalised Yukawa coupling y_n / y_0 = exp(−n δc kπR) ∈ (0, 1].
+
+    Raises
+    ------
+    ValueError
+        If n_gen < 0, kpi_R < 0, or delta_c < 0.
+    """
+    if n_gen < 0:
+        raise ValueError(f"n_gen must be >= 0, got {n_gen!r}")
+    if kpi_R < 0.0:
+        raise ValueError(f"kpi_R must be >= 0, got {kpi_R!r}")
+    if delta_c < 0.0:
+        raise ValueError(f"delta_c must be >= 0, got {delta_c!r}")
+    return math.exp(-n_gen * delta_c * kpi_R)
+
+
+def rs1_yukawa_mass_ratio(
+    n_gen: int,
+    kpi_R: float = RS1_KPI_R_CANONICAL,
+    delta_c: float = 0.1,
+) -> float:
+    """Mass ratio m_0 / m_{n_gen} from the RS1 wavefunction overlap model.
+
+    Assuming masses proportional to Yukawa couplings (y_n / y_0):
+
+        m_0 / m_{n_gen} = exp(+n × δc × kπR)
+
+    For δc = 0.1 and canonical kπR ≈ 38.44:
+        n=1: m_0/m_1 = exp(3.844) ≈  46.8
+        n=2: m_0/m_2 = exp(7.688) ≈ 2190
+
+    Observed: m_τ/m_μ ≈ 16.8, m_τ/m_e ≈ 3477.  Adjusting δc with
+    rs1_delta_c_for_ratio() can match any target ratio.
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index n ≥ 0 (0 = heaviest).
+    kpi_R : float
+        RS1 kπR (default ≈ 38.44).
+    delta_c : float
+        Bulk-mass splitting (default 0.1).
+
+    Returns
+    -------
+    float
+        Mass ratio m_0 / m_{n_gen} ≥ 1.
+    """
+    return 1.0 / rs1_yukawa_overlap(n_gen, kpi_R, delta_c)
+
+
+def rs1_delta_c_for_ratio(
+    target_ratio: float,
+    n_gen: int,
+    kpi_R: float = RS1_KPI_R_CANONICAL,
+) -> float:
+    """Bulk-mass splitting δc that reproduces a target mass ratio m_0/m_{n_gen}.
+
+    From m_0/m_n = exp(n × δc × kπR):
+
+        δc = ln(target_ratio) / (n × kπR)
+
+    Example — matching the tau/electron ratio:
+        δc = ln(3477.2) / (2 × 38.44) ≈ 8.154 / 76.88 ≈ 0.106
+
+    This O(0.1) splitting does not require fine-tuning, in contrast to the
+    enormous hierarchy it generates (m_τ / m_e ≈ 3477).
+
+    Parameters
+    ----------
+    target_ratio : float
+        Target mass ratio m_0 / m_{n_gen} > 1.
+    n_gen : int
+        Generation index (must be ≥ 1).
+    kpi_R : float
+        RS1 kπR (default ≈ 38.44).
+
+    Returns
+    -------
+    float
+        Required δc > 0.
+
+    Raises
+    ------
+    ValueError
+        If target_ratio ≤ 1, n_gen ≤ 0, or kpi_R ≤ 0.
+    """
+    if target_ratio <= 1.0:
+        raise ValueError(f"target_ratio must be > 1, got {target_ratio!r}")
+    if n_gen <= 0:
+        raise ValueError(f"n_gen must be >= 1, got {n_gen!r}")
+    if kpi_R <= 0.0:
+        raise ValueError(f"kpi_R must be > 0, got {kpi_R!r}")
+    return math.log(target_ratio) / (n_gen * kpi_R)
+
+
+def lepton_mass_from_geometry(
+    n_gen: int,
+    reference_mass_gev: float,
+    n_w: int = N_W_CANONICAL,
+) -> float:
+    """Predicted lepton mass from Pillar-42 KK eigenvalues given a reference.
+
+    Applies the geometric mass ratio m_n / m_0 = √(1 + n²/n_w) to scale
+    reference_mass_gev to the n-th generation.
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index (≥ 0; 0 returns reference_mass_gev unchanged).
+    reference_mass_gev : float
+        Mass of the lightest generation (n=0) [GeV] (must be > 0).
+    n_w : int
+        Winding number (default 5).
+
+    Returns
+    -------
+    float
+        Predicted mass in GeV.
+
+    Raises
+    ------
+    ValueError
+        If reference_mass_gev ≤ 0.
+    """
+    if reference_mass_gev <= 0.0:
+        raise ValueError(
+            f"reference_mass_gev must be > 0, got {reference_mass_gev!r}"
+        )
+    return reference_mass_gev * yukawa_geometric_mass_ratio(n_gen, n_w)
+
+
+# ---------------------------------------------------------------------------
+# §6 — (5,7) Braid Topology and the Warp Factor
+#
+# Core finding: kπR_topo = π(n₁+n₂) = 12π ≈ 37.70 is within 1.9% of the
+# RS1 requirement kπR_obs ≈ 38.44.  The (5,7) braid supplies 98.1% of the
+# hierarchy suppression topologically; the Goldberger-Wise mechanism provides
+# the residual 1.9%.
+# ---------------------------------------------------------------------------
+
+BRAID_N1: int = 5    # first winding (n_w, Planck-side brane)
+BRAID_N2: int = 7    # second winding (TeV-side, G₂ octonion sector)
+BRAID_CROSSING_SUM: int = BRAID_N1 + BRAID_N2         # = 12
+BRAID_LINKING_NUMBER_CANONICAL: int = BRAID_N1 * BRAID_N2  # = 35 (CS linking)
+BRAID_KPI_R_TOPOLOGICAL: float = math.pi * (BRAID_N1 + BRAID_N2)  # ≈ 37.70
+BRAID_EW_VEV_GEV_TOPOLOGICAL: float = (
+    PLANCK_MASS_GEV * math.exp(-BRAID_KPI_R_TOPOLOGICAL)
+)  # ≈ 531 GeV (topological prediction before GW correction)
+
+
+def braid_topological_kpi_R(
+    n1: int = BRAID_N1,
+    n2: int = BRAID_N2,
+) -> float:
+    """Topological kπR estimate from (n1,n2) braid: π × (n1 + n2).
+
+    The (n1, n2) torus braid has a crossing sum n1 + n2, which sets the
+    natural length of the extra dimension in crossing-number units.  The
+    associated warp exponent is:
+
+        kπR_topo = π × (n1 + n2)
+
+    For the canonical (5,7) UM braid:
+        kπR_topo = 12π ≈ 37.699
+
+    This is within 1.9% of the observed requirement kπR_obs ≈ 38.44,
+    suggesting the braid topology provides the *leading-order* hierarchy
+    suppression.  The Goldberger-Wise stabilisation potential then supplies
+    the residual fine-tuning.
+
+    Parameters
+    ----------
+    n1 : int
+        First strand winding number (default 5 = n_w).
+    n2 : int
+        Second strand winding number (default 7).
+
+    Returns
+    -------
+    float
+        kπR_topo = π(n1 + n2) > 0.
+
+    Raises
+    ------
+    ValueError
+        If n1 ≤ 0 or n2 ≤ 0.
+    """
+    if n1 <= 0:
+        raise ValueError(f"n1 must be > 0, got {n1!r}")
+    if n2 <= 0:
+        raise ValueError(f"n2 must be > 0, got {n2!r}")
+    return math.pi * (n1 + n2)
+
+
+def braid_ew_vev_gev(
+    n1: int = BRAID_N1,
+    n2: int = BRAID_N2,
+    m_planck_gev: float = PLANCK_MASS_GEV,
+) -> float:
+    """EW VEV in GeV predicted from braid topology alone.
+
+        v_EW^{braid} = M_Planck × exp(−π(n1+n2)) ≈ 531 GeV
+
+    The topological prediction overshoots 246 GeV by a factor ≈ 2.16,
+    meaning the braid mechanism alone compresses the scale to within a
+    factor of 2 of the EW scale.  The Goldberger-Wise correction accounts
+    for the remaining factor.
+
+    Parameters
+    ----------
+    n1 : int
+        First winding (default 5).
+    n2 : int
+        Second winding (default 7).
+    m_planck_gev : float
+        Planck mass [GeV] (default 1.220890 × 10¹⁹).
+
+    Returns
+    -------
+    float
+        Topological EW VEV in GeV (> 246 GeV at canonical values).
+
+    Raises
+    ------
+    ValueError
+        If m_planck_gev ≤ 0.
+    """
+    if m_planck_gev <= 0.0:
+        raise ValueError(f"m_planck_gev must be > 0, got {m_planck_gev!r}")
+    kpi_R = braid_topological_kpi_R(n1, n2)
+    return m_planck_gev * math.exp(-kpi_R)
+
+
+def braid_hierarchy_discrepancy_fraction(
+    n1: int = BRAID_N1,
+    n2: int = BRAID_N2,
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    m_planck_gev: float = PLANCK_MASS_GEV,
+) -> float:
+    """Fractional discrepancy (kπR_topo − kπR_obs) / kπR_obs.
+
+    For canonical (5,7):
+        kπR_topo = 12π ≈ 37.699
+        kπR_obs  ≈ 38.443
+        fraction ≈ −0.0193  (−1.93%)
+
+    A negative value means the braid under-predicts the required warp;
+    GW stabilisation must supply an additional +1.93% of kπR.
+
+    Parameters
+    ----------
+    n1 : int
+        First winding (default 5).
+    n2 : int
+        Second winding (default 7).
+    higgs_vev_gev : float
+        Observed Higgs VEV [GeV] (default 246).
+    m_planck_gev : float
+        Planck mass [GeV] (default 1.220890 × 10¹⁹).
+
+    Returns
+    -------
+    float
+        Fractional discrepancy ∈ (−1, 0) for any realistic braid.
+    """
+    kpi_R_topo = braid_topological_kpi_R(n1, n2)
+    kpi_R_obs = rs1_kpi_R_for_ew_scale(higgs_vev_gev, m_planck_gev)
+    return (kpi_R_topo - kpi_R_obs) / kpi_R_obs
+
+
+def braid_linking_number(
+    n1: int = BRAID_N1,
+    n2: int = BRAID_N2,
+) -> int:
+    """Topological linking number of the (n1,n2) torus braid: n1 × n2.
+
+    For a coprime (p,q) torus knot the self-linking number (with zero
+    framing) equals p × q.  In the UM this equals n_w × n₂ = 5 × 7 = 35.
+
+    In Chern-Simons gauge theory at level k_CS = n1² + n2² = 74, the
+    Wilson loop expectation value is modulated by the self-linking number.
+    The value 35 appears in the braid-Yukawa coupling model (§6).
+
+    Parameters
+    ----------
+    n1 : int
+        First winding (default 5).
+    n2 : int
+        Second winding (default 7).
+
+    Returns
+    -------
+    int
+        Linking number n1 × n2.
+
+    Raises
+    ------
+    ValueError
+        If n1 ≤ 0 or n2 ≤ 0.
+    """
+    if n1 <= 0:
+        raise ValueError(f"n1 must be > 0, got {n1!r}")
+    if n2 <= 0:
+        raise ValueError(f"n2 must be > 0, got {n2!r}")
+    return n1 * n2
+
+
+def braid_yukawa_from_linking(
+    n_gen: int,
+    n1: int = BRAID_N1,
+    n2: int = BRAID_N2,
+    k_cs: int = K_CS_CANONICAL,
+) -> float:
+    """Yukawa coupling from the Chern-Simons braid-linking invariant.
+
+    In a Chern-Simons / knot-theoretic model, the Yukawa coupling for
+    generation n is suppressed by the CS phase acquired by the fermion
+    worldline encircling n inter-generation braid crossings:
+
+        y_n = exp(−n_gen × π × n1 × n2 / k_cs)
+            = exp(−n_gen × π × 35 / 74)
+
+        n=0: y_0 = 1.000  (heaviest generation, reference)
+        n=1: y_1 = exp(−π × 35/74) ≈ 0.226
+        n=2: y_2 = exp(−2π × 35/74) ≈ 0.051
+
+    Mass ratios (heaviest / lighter generation):
+        m_0/m_1 ≈ 4.42  vs  m_τ/m_μ ≈ 16.8 (observed)
+        m_0/m_2 ≈ 19.5  vs  m_τ/m_e ≈ 3477 (observed)
+
+    **Honest assessment:** The linking-number model produces O(10) ratios,
+    improving by 1–2 orders of magnitude on the pure KK-geometric O(1)
+    ratios, but still falls 1–2 orders short of the observed lepton
+    hierarchy.  A complete solution likely requires combining the CS
+    mechanism with the RS1 wavefunction overlap (δc tuning, §5).
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index n ≥ 0 (0 = heaviest).
+    n1 : int
+        First winding (default 5).
+    n2 : int
+        Second winding (default 7).
+    k_cs : int
+        Chern-Simons level (default 74).
+
+    Returns
+    -------
+    float
+        Normalised Yukawa coupling y_n / y_0 ∈ (0, 1].
+
+    Raises
+    ------
+    ValueError
+        If n_gen < 0, n1 ≤ 0, n2 ≤ 0, or k_cs ≤ 0.
+    """
+    if n_gen < 0:
+        raise ValueError(f"n_gen must be >= 0, got {n_gen!r}")
+    if n1 <= 0:
+        raise ValueError(f"n1 must be > 0, got {n1!r}")
+    if n2 <= 0:
+        raise ValueError(f"n2 must be > 0, got {n2!r}")
+    if k_cs <= 0:
+        raise ValueError(f"k_cs must be > 0, got {k_cs!r}")
+    return math.exp(-n_gen * math.pi * n1 * n2 / k_cs)
+
+
+def braid_yukawa_mass_ratio(
+    n_gen: int,
+    n1: int = BRAID_N1,
+    n2: int = BRAID_N2,
+    k_cs: int = K_CS_CANONICAL,
+) -> float:
+    """Mass ratio m_0 / m_{n_gen} from the braid CS-linking model.
+
+    m_0 / m_{n_gen} = 1 / braid_yukawa_from_linking(n_gen, n1, n2, k_cs)
+                    = exp(+n_gen × π × n1 × n2 / k_cs)
+
+        n=1: ≈ 4.42
+        n=2: ≈ 19.5
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index (0 = heaviest; ratio ≥ 1).
+    n1 : int
+        First winding (default 5).
+    n2 : int
+        Second winding (default 7).
+    k_cs : int
+        Chern-Simons level (default 74).
+
+    Returns
+    -------
+    float
+        Mass ratio ≥ 1.
+    """
+    return 1.0 / braid_yukawa_from_linking(n_gen, n1, n2, k_cs)
+
+
+def braid_yukawa_discrepancy_log10(
+    n_gen: int,
+    n1: int = BRAID_N1,
+    n2: int = BRAID_N2,
+    k_cs: int = K_CS_CANONICAL,
+) -> float:
+    """log₁₀(braid mass ratio / observed lepton ratio) for generation n_gen.
+
+    Compares the braid-CS prediction to observed lepton masses:
+
+        n=0:  log₁₀(1.00 / 1.00)       =  0.00  (exact, reference)
+        n=1:  log₁₀(4.42 / 206.77)    ≈ −1.67  (braid underpredicts by 1.7 orders)
+        n=2:  log₁₀(19.5 / 3477.2)    ≈ −2.25  (braid underpredicts by 2.3 orders)
+
+    The braid model improves on the pure KK result (§5: −2.28, −3.41) but
+    does not close the flavor gap.
+
+    Parameters
+    ----------
+    n_gen : int
+        Generation index (0, 1, or 2).
+    n1 : int
+        First winding (default 5).
+    n2 : int
+        Second winding (default 7).
+    k_cs : int
+        Chern-Simons level (default 74).
+
+    Returns
+    -------
+    float
+        log₁₀ ratio ≤ 0.
+    """
+    if n_gen == 0:
+        return 0.0
+    braid_ratio = braid_yukawa_mass_ratio(n_gen, n1, n2, k_cs)
+    obs_ratio = observed_lepton_mass_ratio(n_gen)
+    return math.log10(braid_ratio / obs_ratio)
