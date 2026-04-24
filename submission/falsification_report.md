@@ -339,7 +339,7 @@ Failure modes #3 and #4 from the original report have been closed:
 
 - **Failure mode #6 (Operator splitting):** A Lie-Trotter splitting analysis of H∘T∘I is now in `src/core/analytic_benchmark.py`. The correct Banach contraction bound is ρ(T∘I) ≤ ρ_I = 1 − κ dt < 1. The commutator splitting error is bounded by κ dt² ‖L‖.
 
-The four failure modes documented in §1–§4 of this report remain partially open. Failure modes #3, #4, and #6 have now been closed (see above). Failure mode #1 (Gauss-law residual ~0.28) and failure mode #2 (global convergence of the full U operator) remain open.
+Two of the four failure modes documented in §1–§4 of this report remain open. Failure modes #3, #4, and #6 have now been closed (see above). Failure mode #1 (Gauss-law residual ~0.28) and failure mode #2 (global convergence of the full U operator) remain open.
 
 What has changed is the internal status: the mathematical architecture is now **closed on its own terms**. The 5D geometry has been carried from the sub-atomic (Pillar 14: hydrogen spectroscopy) through the cosmological (Pillars 1–5: CMB, inflation, arrow of time), through the biological (Pillar 13: negentropy attractors), the social (Pillars 17–19: medicine, justice, governance), and the governance-theoretic (Unitary Pentad: HILS framework). Not one of those extensions introduced a contradiction with any other.
 
