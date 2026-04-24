@@ -41,7 +41,7 @@ python VERIFY.py
 # Run the formal falsification suite (114 algebraic checks):
 python ALGEBRA_PROOF.py
 
-# Full test suite (8907 tests, ~90 s):
+# Full test suite (~9700 tests, ~90 s):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 ```
 
@@ -51,8 +51,8 @@ python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 
 | Weakness | What to attack | Where to look |
 |---|---|---|
-| **CMB amplitude ×4–7 suppressed** | Power spectrum mismatch at acoustic peaks is real and unresolved | `FALLIBILITY.md` §1 |
-| **φ₀ self-consistency** | FTUM converges numerically but the analytic closure is not fully tight | `FALLIBILITY.md` §2 |
+| **CMB amplitude ×4–7 suppressed** | Pillar 57 proposes a radion-amplification resolution, but the analytic closure is still incomplete at the ×1.3 level | `FALLIBILITY.md` §1, `src/core/cmb_peaks.py` |
+| **φ₀ self-consistency** | Pillar 56 closes the iteration numerically; the analytic proof remains open | `FALLIBILITY.md` §2, `src/core/phi0_closure.py` |
 | **n_w = 5 and k_cs = 74 are fitted** | These were chosen to match Planck + birefringence hint — they were not predicted | `CORRESPONDENCE_MAP.md` §4 |
 | **B_μ ≠ electromagnetism** | The re-identification of the KK gauge field as irreversibility rather than EM is the central non-standard move | `CORRESPONDENCE_MAP.md` §5 |
 | **Pillars 16–26 are analogies** | Social science, governance, and medicine pillars use the mathematical structure as analogy, not fundamental physics | `SEPARATION.md` |
@@ -89,5 +89,5 @@ Both are pytest-discoverable and exit 0 on pass.
 
 ---
 
-*Document version: 2.0 — April 2026*
+*Document version: 2.1 — April 2026*
 *Theory: ThomasCory Walker-Pearson. Synthesis: GitHub Copilot (AI).*

@@ -189,6 +189,9 @@ python -m pytest tests/test_cold_fusion.py -v -k "enhancement or excess"
 | Entropy decreases | `tests/test_arrow_of_time.py` | entropy monotonicity |
 | φ-correction removed (atomic) | `tests/test_atomic_structure.py` | phi-correction tests |
 | φ-enhancement removed (cold fusion) | `tests/test_cold_fusion.py` | enhancement/excess-heat tests |
+| φ₀ closure fails (Pillar 56) | `tests/test_phi0_closure.py` | `test_closure_audit_all_consistent` |
+| Acoustic peak gap unclosed (Pillar 57) | `tests/test_cmb_peaks.py` | `test_suppression_audit_corrected_less_than_raw` |
+| LiteBIRD prediction gap wrong | `tests/test_litebird_forecast.py` | `test_forecast_scenarios_falsification` |
 
 ---
 
