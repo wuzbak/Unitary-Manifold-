@@ -482,7 +482,7 @@ class TestLeptonRatioComparison:
 
     def test_open_gap_mentions_yukawa(self):
         gap = lepton_ratio_comparison()["open_gap"]
-        assert "Yukawa" in gap or "yukawa" in gap.lower() or "yukawa" in gap
+        assert "yukawa" in gap.lower()
 
 
 # ---------------------------------------------------------------------------
