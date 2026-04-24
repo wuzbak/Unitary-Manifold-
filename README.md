@@ -4,7 +4,8 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![8907 Tests: 8906 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-8906%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![9299 Tests: 9298 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-9298%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)

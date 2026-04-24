@@ -687,3 +687,26 @@ class TestEdgeCases:
         # braid_coupling should scale with beta
         braid = dep.to_chemistry()["braid_coupling"]
         assert math.isclose(braid, 0.5 * dep.bridge_state().phi_eff)
+
+    def test_perfect_57_resonance_n_effective(self):
+        """Perfect 5:7 braid lock → n_eff = phi_eff² / info_gap = 35/24.
+
+        Derivation (from the model formula):
+            phi_eff²  = phi_brain × phi_univ = 5 × 7 = 35
+            info_gap  = |phi_brain² − phi_univ²| = |25 − 49| = 24
+            n_eff     = 35 / 24 ≈ 1.458…
+
+        This is the bipolarity fixed-point of the 5:7 braid geometry — the
+        system trends toward n_eff > 1.0 (two distinct winding strands) rather
+        than toward 1.0 (unified) or 2.0 (balanced bipolarity).  35/24 is the
+        exact, derivable fixed-point; no empirical tuning required.
+        """
+        brain_57 = ManifoldState.brain(phi=5.0)
+        univ_57  = ManifoldState.universe(phi=7.0)
+        system_57 = CoupledSystem(brain=brain_57, universe=univ_57)
+        dep = ConsciousnessBridgeDeployment(system_57)
+        n_eff = dep.to_governance()["n_effective_sources"]
+        assert math.isclose(n_eff, 35 / 24, rel_tol=1e-9), (
+            f"Expected 35/24 ≈ {35/24:.10f}, got {n_eff:.10f}"
+        )
+        assert n_eff > 1.0, "5:7 lock is bimodal, not unified (n_eff must exceed 1)"
