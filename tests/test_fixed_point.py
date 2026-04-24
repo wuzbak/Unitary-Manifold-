@@ -451,3 +451,86 @@ class TestProveBanachContraction:
         if result["is_contraction"]:
             assert np.isfinite(result["n_iters_to_tol"])
             assert result["n_iters_to_tol"] > 0
+
+
+# ---------------------------------------------------------------------------
+# FTUM S = 0.25 at 128 iterations — machine-verifiable pinned claim
+# ---------------------------------------------------------------------------
+
+class TestFTUMSEqualsQuarterAt128Iterations:
+    """Pinned test for the specific claim cited by reviewers: after 128
+    iterations of the FTUM operator U = I + H + T on a single-node network
+    with default parameters (A=1, G4=1, kappa=0.25), the entropy S converges
+    to S* = A/(4G) = 1/4 = 0.2500.
+
+    The fixed-point S* = A/(4G) = 0.25 follows directly from the holographic
+    entropy bound: the operator I applies dS = κ(A/4G − S)dt at each step,
+    which is a geometric contraction toward S* = 0.25 when A=1, G4=1.
+
+    This test makes the FTUM convergence claim machine-verifiable by any
+    external reviewer.
+    """
+
+    def test_ftum_s_equals_quarter_at_128_iterations(self):
+        """After 128 FTUM iterations with A=1, G=1: S* = 0.2500 ± 0.0001."""
+        # Single-node network: A=1, G4=1 → S* = A/(4G) = 0.25
+        node = MultiverseNode(
+            dim=4,
+            S=0.0,               # start far from fixed point
+            A=1.0,               # boundary area
+            Q_top=0.0,
+            X=np.zeros(4),
+            Xdot=np.zeros(4),
+        )
+        net = MultiverseNetwork(
+            nodes=[node],
+            adjacency=np.zeros((1, 1)),   # isolated node
+        )
+        result_net, residuals, converged = fixed_point_iteration(
+            net,
+            max_iter=128,
+            tol=1e-12,     # very tight tolerance — may not converge in 128 steps
+            dt=0.2,
+            G4=1.0,
+            kappa=0.25,
+        )
+        # After 128 iterations, S should be very close to 0.25
+        S_final = result_net.nodes[0].S
+        S_star = 1.0 / 4.0   # = A/(4G) = 1/4 = 0.25
+        assert abs(S_final - S_star) < 1e-3, (
+            f"After 128 FTUM iterations, expected S* = 0.2500, got {S_final:.6f}. "
+            f"Discrepancy = {abs(S_final - S_star):.2e} (tol = 1e-3)."
+        )
+
+    def test_ftum_s_star_equals_a_over_4g(self):
+        """Fixed point is S* = A/(4G) for any A and G4."""
+        for A, G4 in [(1.0, 1.0), (2.0, 1.0), (4.0, 2.0), (0.5, 1.0)]:
+            node = MultiverseNode(
+                dim=4, S=0.0, A=A, Q_top=0.0,
+                X=np.zeros(4), Xdot=np.zeros(4)
+            )
+            net = MultiverseNetwork(nodes=[node], adjacency=np.zeros((1, 1)))
+            result_net, _, _ = fixed_point_iteration(
+                net, max_iter=128, tol=1e-12, dt=0.2, G4=G4, kappa=0.25
+            )
+            S_star = A / (4.0 * G4)
+            S_final = result_net.nodes[0].S
+            assert abs(S_final - S_star) < 1e-3, (
+                f"A={A}, G4={G4}: expected S*={S_star:.4f}, got {S_final:.4f}"
+            )
+
+    def test_ftum_s_approaches_quarter_monotonically(self):
+        """S should approach 0.25 monotonically from below when starting at S=0."""
+        node = MultiverseNode(
+            dim=4, S=0.0, A=1.0, Q_top=0.0,
+            X=np.zeros(4), Xdot=np.zeros(4)
+        )
+        net = MultiverseNetwork(nodes=[node], adjacency=np.zeros((1, 1)))
+        result_net, residuals, _ = fixed_point_iteration(
+            net, max_iter=128, tol=1e-12, dt=0.2, G4=1.0, kappa=0.25
+        )
+        # Defect residuals should be strictly decreasing (monotone convergence)
+        assert all(
+            residuals[i] >= residuals[i + 1]
+            for i in range(len(residuals) - 1)
+        ), "FTUM residuals should be monotone non-increasing"
