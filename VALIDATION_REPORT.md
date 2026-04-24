@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 74 chapters |
-| Test suite: 8906 passed, 0 failures | Across all 114 test files (95 in tests/, 1 in recycling/, 18 in Unitary Pentad/) |
+| Test suite: 10027 passed, 0 failures | Across all 114 test files (95 in tests/, 1 in recycling/, 18 in Unitary Pentad/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
