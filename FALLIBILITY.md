@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 6097 automated tests (6096 fast-selected + 11 slow-deselected + 1 skipped) in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/` (**7647 total · 7646 passed**), confirm that the numerical implementations
+The 8841 automated tests (7292 fast-selected + 11 slow-deselected + 1 skipped in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/`) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -29,6 +29,10 @@ function (`test_inflation.py`), the arrow of time (`test_arrow_of_time.py`),
 the CMB χ² landscape (`test_cmb_landscape.py`), end-to-end chain closure
 (`test_e2e_pipeline.py`), observational resolution (`test_observational_resolution.py`),
 and quantum unification theorems (`test_quantum_unification.py`).
+Pillar 51 (`test_muon_g2.py`) covers the KK graviton and ALP Barr–Zee
+contributions to the muon anomalous magnetic moment.  Pillar 52
+(`test_cmb_amplitude.py`) covers the COBE normalization chain and the
+acoustic-peak suppression audit.
 
 Internal verification does **not** constitute empirical confirmation of the
 framework as a description of nature.  Specifically:
@@ -41,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "7646 passed · 1 skipped · 0 failed," this is a statement about
+When the README badge reads "8841 passed · 1 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -590,9 +594,9 @@ fermion sector beyond the current bosonic KK reduction.
 | FTUM convergence | **100%** — φ\* = A₀/(4G); universal | **RESOLVED** (April 2026) |
 | w_KK ≈ −0.930 (dark energy EoS) | ✅ Consistent with DESI DR2 | c_s = 12/37 derived; w testable |
 | H₀ tension (73.5 vs 67.4 km/s/Mpc) | ⚠️ Quantified, not resolved | CC problem separates KK from Hubble scale |
-| Muon g−2 anomaly (final result June 2025; Δa_μ ≈ 261 × 10⁻¹¹ vs data-driven; ~1σ vs lattice QCD) | ⚠️ Open question | KK correction negligible; fermion sector not derived; theory debate unresolved |
+| Muon g−2 anomaly (Pillar 51; final result June 2025; Δa_μ ≈ 261 × 10⁻¹¹ vs data-driven; ~1σ vs lattice QCD) | ⚠️ Open question — bridged | KK correction δa_μ^KK ~ 10⁻⁴¹ (30 orders below anomaly); ALP Barr–Zee upper bound derived; fermion sector still not derived. Code: `src/core/muon_g2.py`, 98 tests. |
 | Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
-| CMB amplitude gap | ⚠️ Open problem | A_s suppressed ×4–7 at acoustic peaks |
+| CMB amplitude gap (Pillar 52) | ⚠️ Open problem — audited | A_s at pivot resolved by COBE normalization (λ_COBE unique). Acoustic peaks still suppressed ×4–7; requires full Boltzmann transport. Code: `src/core/cmb_amplitude.py`, 68 tests. |
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
