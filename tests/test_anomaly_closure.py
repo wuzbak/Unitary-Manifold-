@@ -705,7 +705,8 @@ class TestGapClosureStatus:
         assert self.status["derived"]["uniqueness_confirmed"]
 
     def test_still_open_references_n1(self):
-        assert "n₁" in self.status["still_open"]["gap"] or "n1" in self.status["still_open"]["gap"].lower()
+        gap = self.status["still_open"]["gap"]
+        assert "n₁" in gap or "n1" in gap.lower()
 
     def test_triple_constraint_unique(self):
         assert self.status["triple_constraint_unique"]
