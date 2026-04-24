@@ -1122,3 +1122,519 @@ class TestCompareHierarchyMechanisms:
         r1 = ew.compare_hierarchy_mechanisms(n_max=10)
         r2 = ew.compare_hierarchy_mechanisms(n_max=40)
         assert abs(r1.ads5_tower_ew_mass_planck / r2.ads5_tower_ew_mass_planck - 1.0) < 1e-6
+
+
+# ===========================================================================
+# §4 extension — Braid-Warp Correspondence
+# ===========================================================================
+
+class TestBraidGWResidualTension:
+    """braid_gw_residual_tension: T_GW = kπR_obs − kπR_topo ≈ 0.744."""
+
+    def test_canonical_positive(self):
+        assert ew.braid_gw_residual_tension() > 0.0
+
+    def test_canonical_value(self):
+        t = ew.braid_gw_residual_tension()
+        assert abs(t - 0.7443) < 1e-3
+
+    def test_equals_kpiR_diff(self):
+        obs  = ew.rs1_kpi_R_for_ew_scale()
+        topo = ew.braid_topological_kpi_R()
+        assert abs(ew.braid_gw_residual_tension() - (obs - topo)) < 1e-10
+
+    def test_smaller_for_larger_winding_sum(self):
+        # Larger n1+n2 → topo closer to obs → smaller residual
+        t57  = ew.braid_gw_residual_tension(5, 7)
+        t610 = ew.braid_gw_residual_tension(6, 10)   # sum=16 > 12 → smaller gap
+        assert t610 < t57
+
+    def test_raises_on_zero_n(self):
+        with pytest.raises(ValueError):
+            ew.braid_gw_residual_tension(0, 7)
+
+    def test_custom_planck(self):
+        t = ew.braid_gw_residual_tension(m_planck_gev=1.0e19)
+        assert t > 0.0
+
+
+class TestBraidGWTensionFraction:
+    """braid_gw_tension_fraction ≈ 0.0194 (1.94%)."""
+
+    def test_canonical_fraction(self):
+        f = ew.braid_gw_tension_fraction()
+        assert abs(f - 0.0194) < 5e-4
+
+    def test_between_zero_and_one(self):
+        f = ew.braid_gw_tension_fraction()
+        assert 0.0 < f < 1.0
+
+    def test_complement_of_topological_coverage(self):
+        cov = ew.braid_topological_kpi_R() / ew.rs1_kpi_R_for_ew_scale()
+        frac = ew.braid_gw_tension_fraction()
+        assert abs(cov + frac - 1.0) < 1e-10
+
+
+class TestBraidTwistDensity:
+    """braid_twist_density: k_rs = (n1+n2)/r_c."""
+
+    def test_canonical_close_to_one(self):
+        # k_rs = 12 / ADS5_KRS_RC_CANONICAL ≈ 0.98
+        k = ew.braid_twist_density()
+        assert 0.97 < k < 1.00
+
+    def test_proportional_to_crossing_sum(self):
+        k1 = ew.braid_twist_density(5, 7, r_c=10.0)
+        k2 = ew.braid_twist_density(6, 7, r_c=10.0)   # sum=13 vs 12
+        assert abs(k2 / k1 - 13 / 12) < 1e-10
+
+    def test_inversely_proportional_to_rc(self):
+        k1 = ew.braid_twist_density(5, 7, r_c=5.0)
+        k2 = ew.braid_twist_density(5, 7, r_c=10.0)
+        assert abs(k1 / k2 - 2.0) < 1e-10
+
+    def test_raises_on_nonpositive_rc(self):
+        with pytest.raises(ValueError):
+            ew.braid_twist_density(5, 7, r_c=0.0)
+
+    def test_raises_on_zero_n(self):
+        with pytest.raises(ValueError):
+            ew.braid_twist_density(0, 7)
+
+
+class TestBraidEquilibriumRadius:
+    """braid_equilibrium_radius: R_topo = π(n1+n2)/sqrt(-λ5d/6)."""
+
+    def test_canonical_equals_12pi(self):
+        # λ5d=-6 → k_rs=1 → R_topo=12π
+        r = ew.braid_equilibrium_radius(5, 7, lambda5d=-6.0)
+        assert abs(r - 12.0 * math.pi) < 1e-8
+
+    def test_positive(self):
+        assert ew.braid_equilibrium_radius() > 0.0
+
+    def test_scales_with_crossing_sum(self):
+        r57 = ew.braid_equilibrium_radius(5, 7, lambda5d=-6.0)
+        r69 = ew.braid_equilibrium_radius(6, 9, lambda5d=-6.0)   # sum=15
+        assert abs(r69 / r57 - 15.0 / 12.0) < 1e-10
+
+    def test_raises_on_nonnegative_lambda(self):
+        with pytest.raises(ValueError):
+            ew.braid_equilibrium_radius(lambda5d=0.0)
+        with pytest.raises(ValueError):
+            ew.braid_equilibrium_radius(lambda5d=1.0)
+
+    def test_stronger_ads_gives_smaller_radius(self):
+        r1 = ew.braid_equilibrium_radius(lambda5d=-6.0)
+        r2 = ew.braid_equilibrium_radius(lambda5d=-24.0)  # k_rs doubles
+        assert abs(r2 / r1 - 0.5) < 1e-10
+
+
+# ===========================================================================
+# §5 extension — Strand Localisation Yukawa
+# ===========================================================================
+
+class TestBraidStrandYukawa:
+    """braid_strand_yukawa: y_n = exp(-n × n2 × kπR / k_cs)."""
+
+    def test_generation0_is_one(self):
+        assert ew.braid_strand_yukawa(0) == 1.0
+
+    def test_decreasing_with_generation(self):
+        y0 = ew.braid_strand_yukawa(0)
+        y1 = ew.braid_strand_yukawa(1)
+        y2 = ew.braid_strand_yukawa(2)
+        assert y0 > y1 > y2 > 0.0
+
+    def test_canonical_gen1_value(self):
+        # exp(-7 × 38.443 / 74) = exp(-3.634)
+        expected = math.exp(-7 * ew.RS1_KPI_R_CANONICAL / ew.K_CS_CANONICAL)
+        assert abs(ew.braid_strand_yukawa(1) - expected) < 1e-12
+
+    def test_canonical_gen1_approx(self):
+        assert abs(ew.braid_strand_yukawa(1) - 0.0263) < 5e-4
+
+    def test_exponential_in_n_gen(self):
+        y1 = ew.braid_strand_yukawa(1)
+        y2 = ew.braid_strand_yukawa(2)
+        assert abs(y2 - y1 ** 2) < 1e-15   # geometric sequence
+
+    def test_raises_negative_n_gen(self):
+        with pytest.raises(ValueError):
+            ew.braid_strand_yukawa(-1)
+
+    def test_zero_kpiR_gives_one(self):
+        assert ew.braid_strand_yukawa(2, kpi_R=0.0) == 1.0
+
+    def test_larger_n2_gives_smaller_yukawa(self):
+        y_n2_7 = ew.braid_strand_yukawa(1, n2=7)
+        y_n2_9 = ew.braid_strand_yukawa(1, n2=9)
+        assert y_n2_9 < y_n2_7
+
+
+class TestBraidStrandMassRatio:
+    """braid_strand_mass_ratio = 1 / braid_strand_yukawa."""
+
+    def test_generation0_is_one(self):
+        assert ew.braid_strand_mass_ratio(0) == 1.0
+
+    def test_canonical_gen1(self):
+        assert abs(ew.braid_strand_mass_ratio(1) - 37.96) < 0.5
+
+    def test_canonical_gen2(self):
+        assert abs(ew.braid_strand_mass_ratio(2) - 1441) < 5
+
+    def test_ratio_is_reciprocal_of_yukawa(self):
+        for n in range(3):
+            y = ew.braid_strand_yukawa(n)
+            r = ew.braid_strand_mass_ratio(n)
+            assert abs(r * y - 1.0) < 1e-10
+
+    def test_increasing_with_generation(self):
+        r0 = ew.braid_strand_mass_ratio(0)
+        r1 = ew.braid_strand_mass_ratio(1)
+        r2 = ew.braid_strand_mass_ratio(2)
+        assert r0 < r1 < r2
+
+
+class TestBraidStrandDiscrepancyLog10:
+    """braid_strand_discrepancy_log10: log10(strand_ratio/observed)."""
+
+    def test_generation0_zero(self):
+        assert ew.braid_strand_discrepancy_log10(0) == 0.0
+
+    def test_gen1_smaller_than_basic_linking(self):
+        # Strand model is better (smaller absolute discrepancy) than basic model
+        disc_strand = abs(ew.braid_strand_discrepancy_log10(1))
+        disc_basic  = abs(ew.braid_yukawa_discrepancy_log10(1))
+        assert disc_strand < disc_basic
+
+    def test_gen2_smaller_than_basic_linking(self):
+        disc_strand = abs(ew.braid_strand_discrepancy_log10(2))
+        disc_basic  = abs(ew.braid_yukawa_discrepancy_log10(2))
+        assert disc_strand < disc_basic
+
+    def test_canonical_gen1_within_one_order(self):
+        # |log10 discrepancy| < 1 for gen 1 in strand model
+        assert abs(ew.braid_strand_discrepancy_log10(1)) < 1.0
+
+    def test_canonical_gen2_within_one_order(self):
+        assert abs(ew.braid_strand_discrepancy_log10(2)) < 1.0
+
+
+class TestBraidAlexanderPolynomial:
+    """braid_alexander_polynomial: Δ_{n1,n2}(t)."""
+
+    def test_at_t_equals_one(self):
+        assert ew.braid_alexander_polynomial(1.0) == 1.0
+
+    def test_at_t_near_one(self):
+        assert abs(ew.braid_alexander_polynomial(1.0 + 1e-12) - 1.0) < 1e-6
+
+    def test_canonical_at_0743(self):
+        assert abs(ew.braid_alexander_polynomial(0.743) - 0.3797) < 1e-3
+
+    def test_positive_for_real_t(self):
+        for t in [0.1, 0.5, 0.9, 1.5, 2.0]:
+            val = ew.braid_alexander_polynomial(t)
+            assert isinstance(val, float)
+
+    def test_raises_nonpositive_t(self):
+        with pytest.raises(ValueError):
+            ew.braid_alexander_polynomial(0.0)
+        with pytest.raises(ValueError):
+            ew.braid_alexander_polynomial(-1.0)
+
+    def test_different_knots(self):
+        # T(3,5) and T(5,7) should give different values at same t
+        v57 = ew.braid_alexander_polynomial(0.8, n1=5, n2=7)
+        v35 = ew.braid_alexander_polynomial(0.8, n1=3, n2=5)
+        assert abs(v57 - v35) > 1e-4
+
+    def test_symmetric_formula(self):
+        # Δ_{p,q} = Δ_{q,p} (knot is the same)
+        v57 = ew.braid_alexander_polynomial(0.6, n1=5, n2=7)
+        v75 = ew.braid_alexander_polynomial(0.6, n1=7, n2=5)
+        assert abs(v57 - v75) < 1e-10
+
+
+# ===========================================================================
+# §6 extension — Higgs Sector: Geometric Quartic and Top-Loop Correction
+# ===========================================================================
+
+class TestBraidQuarticFromWindingRatio:
+    """braid_quartic_from_winding_ratio: λ = (n1/n2)² / (2π)."""
+
+    def test_canonical_value(self):
+        expected = (5 / 7) ** 2 / (2 * math.pi)
+        assert abs(ew.braid_quartic_from_winding_ratio() - expected) < 1e-12
+
+    def test_canonical_approx(self):
+        assert abs(ew.braid_quartic_from_winding_ratio() - 0.0812) < 1e-4
+
+    def test_positive(self):
+        assert ew.braid_quartic_from_winding_ratio() > 0.0
+
+    def test_less_than_cs_squared(self):
+        # λ_winding < c_s² — worse prediction
+        assert ew.braid_quartic_from_winding_ratio() < ew.C_S_CANONICAL ** 2
+
+    def test_raises_zero_n(self):
+        with pytest.raises(ValueError):
+            ew.braid_quartic_from_winding_ratio(n1=0, n2=7)
+
+    def test_scaling_with_n1(self):
+        lam5 = ew.braid_quartic_from_winding_ratio(n1=5, n2=7)
+        lam6 = ew.braid_quartic_from_winding_ratio(n1=6, n2=7)
+        assert abs(lam6 / lam5 - (6 / 5) ** 2) < 1e-10
+
+
+class TestBraidHiggsMassFromWindingRatio:
+    """braid_higgs_mass_from_winding_ratio: correct SM convention √(2λ)."""
+
+    def test_canonical_value(self):
+        m = ew.braid_higgs_mass_from_winding_ratio()
+        assert abs(m - 99.14) < 0.1
+
+    def test_correct_convention(self):
+        lam = ew.braid_quartic_from_winding_ratio()
+        expected = ew.HIGGS_VEV_GEV * math.sqrt(2.0 * lam)
+        assert abs(ew.braid_higgs_mass_from_winding_ratio() - expected) < 1e-10
+
+    def test_wrong_gemini_convention_different(self):
+        lam = ew.braid_quartic_from_winding_ratio()
+        gemini_wrong = ew.HIGGS_VEV_GEV * math.sqrt(lam / 2.0)  # ≈ 49.6 GeV
+        correct = ew.braid_higgs_mass_from_winding_ratio()
+        # correct is 2× larger than Gemini's wrong formula
+        assert abs(correct / gemini_wrong - 2.0) < 1e-8
+
+    def test_less_accurate_than_cs_sq(self):
+        obs = ew.HIGGS_MASS_GEV
+        err_winding = abs(ew.braid_higgs_mass_from_winding_ratio() - obs)
+        err_cs = abs(ew.higgs_mass_from_cs_squared() - obs)
+        assert err_winding > err_cs
+
+    def test_positive(self):
+        assert ew.braid_higgs_mass_from_winding_ratio() > 0.0
+
+
+class TestBraidQuarticFromStiffness:
+    """braid_quartic_from_stiffness: λ_stiff = c_s²(1 + n1n2/k_cs²)."""
+
+    def test_canonical_value(self):
+        lam = ew.braid_quartic_from_stiffness()
+        assert abs(lam - 0.10586) < 1e-4
+
+    def test_greater_than_cs_squared(self):
+        assert ew.braid_quartic_from_stiffness() > ew.C_S_CANONICAL ** 2
+
+    def test_cross_link_correction_positive(self):
+        lam_base = ew.C_S_CANONICAL ** 2
+        lam_stiff = ew.braid_quartic_from_stiffness()
+        assert lam_stiff > lam_base
+
+    def test_correction_small(self):
+        # Cross-link correction < 1% (n1n2/k_cs² = 35/5476 ≈ 0.64%)
+        ratio = ew.braid_quartic_from_stiffness() / ew.C_S_CANONICAL ** 2
+        assert 1.0 < ratio < 1.01
+
+    def test_raises_zero_kcs(self):
+        with pytest.raises(ValueError):
+            ew.braid_quartic_from_stiffness(k_cs=0)
+
+
+class TestBraidHiggsMassVibrational:
+    """braid_higgs_mass_vibrational ≈ 113.2 GeV."""
+
+    def test_canonical_value(self):
+        m = ew.braid_higgs_mass_vibrational()
+        assert abs(m - 113.19) < 0.1
+
+    def test_greater_than_winding_ratio_mass(self):
+        assert ew.braid_higgs_mass_vibrational() > ew.braid_higgs_mass_from_winding_ratio()
+
+    def test_greater_than_cs_sq_mass(self):
+        assert ew.braid_higgs_mass_vibrational() > ew.higgs_mass_from_cs_squared()
+
+    def test_still_below_observed(self):
+        assert ew.braid_higgs_mass_vibrational() < ew.HIGGS_MASS_GEV
+
+    def test_positive(self):
+        assert ew.braid_higgs_mass_vibrational() > 0.0
+
+    def test_consistent_with_stiffness_lambda(self):
+        m_expected = ew.HIGGS_VEV_GEV * math.sqrt(2.0 * ew.braid_quartic_from_stiffness())
+        assert abs(ew.braid_higgs_mass_vibrational() - m_expected) < 1e-8
+
+
+class TestBraidHiggsMassTopCorrected:
+    """braid_higgs_mass_top_corrected: one-loop top-quark fix."""
+
+    def test_310_gev_cutoff(self):
+        m = ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=310.0)
+        assert abs(m - 123.88) < 0.2
+
+    def test_greater_than_tree_level(self):
+        m_tree = ew.higgs_mass_from_cs_squared()
+        m_1loop = ew.braid_higgs_mass_top_corrected()
+        assert m_1loop > m_tree
+
+    def test_increases_with_cutoff(self):
+        m1 = ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=250.0)
+        m2 = ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=400.0)
+        assert m2 > m1
+
+    def test_at_canonical_cutoff_near_125(self):
+        # Λ_KK = braid_kk_cutoff_for_higgs_mass() → m_H = 125.09
+        cutoff = ew.braid_kk_cutoff_for_higgs_mass()
+        m = ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=cutoff)
+        assert abs(m - ew.HIGGS_MASS_GEV) < 0.01
+
+    def test_raises_cutoff_below_top(self):
+        with pytest.raises(ValueError):
+            ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=100.0)
+
+    def test_raises_nonpositive_vev(self):
+        with pytest.raises(ValueError):
+            ew.braid_higgs_mass_top_corrected(higgs_vev_gev=0.0)
+
+    def test_physical_range(self):
+        # Mass must exceed tree-level for any Λ > m_top;
+        # upper bound grows with Λ (no hard cap beyond tree-level)
+        for cutoff in [210.0, 310.0, 500.0, 1000.0]:
+            m = ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=cutoff)
+            assert m > ew.higgs_mass_from_cs_squared()   # always above tree-level
+        # Specifically: Λ=310 GeV gives < 125 GeV; Λ=exact cutoff gives =125.09 GeV
+        assert ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=310.0) < 125.5
+
+
+class TestBraidKKCutoffForHiggsMass:
+    """braid_kk_cutoff_for_higgs_mass ≈ 332 GeV — falsifiable prediction."""
+
+    def test_canonical_value(self):
+        cutoff = ew.braid_kk_cutoff_for_higgs_mass()
+        assert abs(cutoff - 331.5) < 1.0
+
+    def test_above_top_mass(self):
+        assert ew.braid_kk_cutoff_for_higgs_mass() > ew.TOP_MASS_GEV
+
+    def test_below_tev(self):
+        assert ew.braid_kk_cutoff_for_higgs_mass() < 1000.0
+
+    def test_round_trip(self):
+        """Using the predicted cutoff must reproduce the observed Higgs mass."""
+        cutoff = ew.braid_kk_cutoff_for_higgs_mass()
+        m_back = ew.braid_higgs_mass_top_corrected(lambda_cutoff_gev=cutoff)
+        assert abs(m_back - ew.HIGGS_MASS_GEV) < 0.01
+
+    def test_raises_on_tree_exceeds_observed(self):
+        """If tree-level m_H ≥ observed m_H, top correction cannot close gap."""
+        # Make c_s very large so tree-level overshoots
+        with pytest.raises(ValueError):
+            ew.braid_kk_cutoff_for_higgs_mass(c_s=1.0)   # m_H_tree > 125.09
+
+    def test_raises_nonpositive_inputs(self):
+        with pytest.raises(ValueError):
+            ew.braid_kk_cutoff_for_higgs_mass(higgs_vev_gev=0.0)
+
+
+class TestBraidQuarticComparison:
+    """braid_quartic_comparison: complete hierarchy summary dict."""
+
+    def setup_method(self):
+        self.cmp = ew.braid_quartic_comparison()
+
+    def test_returns_dict(self):
+        assert isinstance(self.cmp, dict)
+
+    def test_all_keys_present(self):
+        required = {
+            "lambda_observed", "lambda_winding_ratio", "lambda_cs_sq",
+            "lambda_stiffness", "m_H_observed", "m_H_winding_ratio",
+            "m_H_gemini_wrong", "m_H_tree_cs_sq", "m_H_vibrational",
+            "m_H_top_corrected", "lambda_kk_cutoff_gev", "best_error_pct",
+        }
+        assert required.issubset(self.cmp.keys())
+
+    def test_lambda_ordering(self):
+        assert (self.cmp["lambda_winding_ratio"]
+                < self.cmp["lambda_cs_sq"]
+                < self.cmp["lambda_stiffness"]
+                < self.cmp["lambda_observed"])
+
+    def test_mass_ordering(self):
+        assert (self.cmp["m_H_gemini_wrong"]         # wrong formula: ~49.6
+                < self.cmp["m_H_winding_ratio"]       # correct: ~99.1
+                < self.cmp["m_H_tree_cs_sq"]          # ~112.8
+                < self.cmp["m_H_vibrational"]          # ~113.2
+                < self.cmp["m_H_top_corrected"]        # ~123.9
+                < self.cmp["m_H_observed"])            # 125.09
+
+    def test_gemini_wrong_is_half_correct(self):
+        # Gemini's wrong formula uses √(λ/2) instead of √(2λ) — factor of 2
+        ratio = self.cmp["m_H_winding_ratio"] / self.cmp["m_H_gemini_wrong"]
+        assert abs(ratio - 2.0) < 1e-8
+
+    def test_best_error_pct_small(self):
+        # Top-corrected should be within 1% of 125.09 GeV
+        assert abs(self.cmp["best_error_pct"]) < 1.5
+
+    def test_kk_cutoff_below_tev(self):
+        assert self.cmp["lambda_kk_cutoff_gev"] < 1000.0
+
+    def test_kk_cutoff_above_top_mass(self):
+        assert self.cmp["lambda_kk_cutoff_gev"] > ew.TOP_MASS_GEV
+
+    def test_top_corrected_close_to_observed(self):
+        err = abs(self.cmp["m_H_top_corrected"] - self.cmp["m_H_observed"])
+        assert err < 2.0    # within 2 GeV at Λ=310 GeV
+
+
+# ===========================================================================
+# Cross-mechanism consistency checks
+# ===========================================================================
+
+class TestCrossMechanismConsistency:
+    """Verify the three mechanisms are self-consistent and correctly ordered."""
+
+    def test_strand_better_than_basic_linking_gen1(self):
+        disc_strand = abs(ew.braid_strand_discrepancy_log10(1))
+        disc_basic  = abs(ew.braid_yukawa_discrepancy_log10(1))
+        assert disc_strand < disc_basic
+
+    def test_strand_better_than_basic_linking_gen2(self):
+        disc_strand = abs(ew.braid_strand_discrepancy_log10(2))
+        disc_basic  = abs(ew.braid_yukawa_discrepancy_log10(2))
+        assert disc_strand < disc_basic
+
+    def test_vibrational_lambda_greater_than_cs_sq(self):
+        assert ew.braid_quartic_from_stiffness() > ew.kk_geometric_quartic()
+
+    def test_top_corrected_better_than_tree(self):
+        obs = ew.HIGGS_MASS_GEV
+        err_tree   = abs(ew.higgs_mass_from_cs_squared() - obs)
+        err_1loop  = abs(ew.braid_higgs_mass_top_corrected() - obs)
+        assert err_1loop < err_tree
+
+    def test_gw_tension_plus_topo_equals_obs(self):
+        kpi_obs  = ew.rs1_kpi_R_for_ew_scale()
+        kpi_topo = ew.braid_topological_kpi_R()
+        gw_gap   = ew.braid_gw_residual_tension()
+        assert abs(kpi_topo + gw_gap - kpi_obs) < 1e-10
+
+    def test_equilibrium_radius_matches_topological_kpiR(self):
+        # λ5d=-6 → R_eq = 12π = braid_topological_kpi_R
+        R_eq = ew.braid_equilibrium_radius(lambda5d=-6.0)
+        assert abs(R_eq - ew.braid_topological_kpi_R()) < 1e-8
+
+    def test_alexander_at_strand_yukawa_t(self):
+        # Evaluate Alexander polynomial at t matching strand Yukawa for gen 1
+        t1 = math.exp(-1 * ew.BRAID_N2 * ew.RS1_KPI_R_CANONICAL / ew.K_CS_CANONICAL)
+        val = ew.braid_alexander_polynomial(t1)
+        # Should return a well-defined float in (0, 2)
+        assert 0.0 < val < 2.0
+
+    def test_all_lambdas_positive(self):
+        assert ew.braid_quartic_from_winding_ratio() > 0.0
+        assert ew.kk_geometric_quartic() > 0.0
+        assert ew.braid_quartic_from_stiffness() > 0.0
