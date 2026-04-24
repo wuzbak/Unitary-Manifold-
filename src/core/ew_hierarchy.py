@@ -2584,3 +2584,256 @@ def braid_quartic_comparison(
         "lambda_kk_cutoff_gev": lam_kk,
         "best_error_pct":       (m_top_corr - higgs_mass_gev) / higgs_mass_gev * 100.0,
     }
+
+
+# ---------------------------------------------------------------------------
+# §6 continued — Hard-cutoff scheme, naturalness, and scheme comparison
+# ---------------------------------------------------------------------------
+# The existing braid_higgs_mass_top_corrected uses dimensional regularisation
+# (MS-bar): only the logarithmic term survives, giving a POSITIVE correction
+# and m_H ≈ 125.1 GeV at Λ_KK ≈ 332 GeV.
+#
+# A physical hard UV cutoff (appropriate when KK modes provide the actual
+# UV completion) yields BOTH a quadratic AND a logarithmic term.  The
+# quadratic term carries a minus sign (fermion loop) and dominates for
+# Λ > m_t × exp(1/2) ≈ 285 GeV, so the hard-cutoff correction is NEGATIVE.
+# This gives m_H < m_H_tree ≈ 112.9 GeV and the model goes tachyonic at
+# Λ_tach ≈ 480 GeV.  The naturalness bound (|δm²| = m_H_obs²) is Λ_nat ≈ 524 GeV.
+#
+# Scheme dependence is an honest open gap: the UM does not yet specify which
+# regularisation correctly describes the physical KK UV completion.
+
+
+def braid_hard_cutoff_delta_mh_sq(
+    m_top_gev: float = TOP_MASS_GEV,
+    y_top: float = TOP_YUKAWA,
+    lambda_cutoff_gev: float = 332.0,
+) -> float:
+    """Hard-cutoff top-loop correction δm_H² [GeV²] (negative for Λ > 285 GeV).
+
+    In a theory with a hard momentum cutoff Λ the top-quark one-loop
+    contribution to the Higgs mass squared is:
+
+        δm_H² = 3 y_t² / (4π²) × (−Λ² + m_t² ln(Λ²/m_t²))
+
+    The first term (quadratic, negative) dominates for Λ > m_t × exp(½) ≈ 285 GeV,
+    making the hard-cutoff correction negative — the core of the naturalness
+    problem.  At Λ = 332 GeV: δm_H² ≈ −5 345 GeV².
+
+    Parameters
+    ----------
+    lambda_cutoff_gev : float
+        Hard UV cutoff Λ [GeV].  Must be > 0.
+    """
+    if lambda_cutoff_gev <= 0.0:
+        raise ValueError(f"lambda_cutoff_gev must be > 0, got {lambda_cutoff_gev!r}")
+    if m_top_gev <= 0.0:
+        raise ValueError(f"m_top_gev must be > 0, got {m_top_gev!r}")
+    if y_top <= 0.0:
+        raise ValueError(f"y_top must be > 0, got {y_top!r}")
+    prefactor = 3.0 * y_top ** 2 / (4.0 * math.pi ** 2)
+    return prefactor * (
+        -(lambda_cutoff_gev ** 2)
+        + m_top_gev ** 2 * math.log((lambda_cutoff_gev / m_top_gev) ** 2)
+    )
+
+
+def braid_higgs_mass_hard_cutoff(
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    c_s: float = C_S_CANONICAL,
+    m_top_gev: float = TOP_MASS_GEV,
+    y_top: float = TOP_YUKAWA,
+    lambda_cutoff_gev: float = 332.0,
+) -> float:
+    """Higgs mass [GeV] in the hard-cutoff (quadratic + log) scheme.
+
+    Combines the geometric tree-level prediction (λ_tree = c_s²) with the
+    hard-cutoff top-loop correction:
+
+        m_H² = 2 c_s² v² + 3 y_t²/(4π²) × (−Λ² + m_t² ln(Λ²/m_t²))
+
+    Key results at canonical inputs:
+        Λ = 200 GeV → m_H ≈ 112.3 GeV (barely below tree-level)
+        Λ = 332 GeV → m_H ≈  85.9 GeV (well below tree-level 112.9 GeV)
+        Λ ≈ 480 GeV → m_H →    0 GeV  (tachyonic threshold)
+
+    Contrast with the dim-reg formula (braid_higgs_mass_top_corrected):
+        Λ = 332 GeV → m_H ≈ 125.1 GeV (above tree-level)
+
+    The scheme dependence is an honest open gap in the UM framework.
+
+    Raises
+    ------
+    ValueError
+        If m_H² < 0 (tachyonic — use braid_tachyon_kk_scale to find threshold).
+    """
+    if higgs_vev_gev <= 0.0:
+        raise ValueError(f"higgs_vev_gev must be > 0, got {higgs_vev_gev!r}")
+    if c_s <= 0.0:
+        raise ValueError(f"c_s must be > 0, got {c_s!r}")
+    m_tree_sq = 2.0 * c_s ** 2 * higgs_vev_gev ** 2
+    delta = braid_hard_cutoff_delta_mh_sq(m_top_gev, y_top, lambda_cutoff_gev)
+    m_sq = m_tree_sq + delta
+    if m_sq < 0.0:
+        raise ValueError(
+            f"Hard-cutoff Higgs mass² = {m_sq:.1f} GeV² < 0 (tachyonic) "
+            f"at Λ = {lambda_cutoff_gev} GeV.  "
+            "Use braid_tachyon_kk_scale() to find the tachyonic threshold."
+        )
+    return math.sqrt(m_sq)
+
+
+def braid_hard_cutoff_finetuning(
+    higgs_mass_gev: float = HIGGS_MASS_GEV,
+    m_top_gev: float = TOP_MASS_GEV,
+    y_top: float = TOP_YUKAWA,
+    lambda_cutoff_gev: float = 332.0,
+) -> float:
+    """Fine-tuning measure Δ_FT = |δm_H²(hard)| / m_H_obs² at a given cutoff.
+
+    A value > 1 means the correction exceeds the physical Higgs mass squared
+    — i.e. the model is unnatural at this scale.  At Λ_nat the measure = 1.
+
+    Canonical result: Δ_FT(332 GeV) ≈ 0.342 (34% fine-tuning, mildly unnatural).
+    """
+    if higgs_mass_gev <= 0.0:
+        raise ValueError(f"higgs_mass_gev must be > 0, got {higgs_mass_gev!r}")
+    delta_sq = braid_hard_cutoff_delta_mh_sq(m_top_gev, y_top, lambda_cutoff_gev)
+    return abs(delta_sq) / (higgs_mass_gev ** 2)
+
+
+def _hard_cutoff_f(lam: float, m_top: float, y_top: float, target_sq: float) -> float:
+    """Helper: hard-cutoff correction magnitude minus target [GeV²]."""
+    prefactor = 3.0 * y_top ** 2 / (4.0 * math.pi ** 2)
+    val = prefactor * (lam ** 2 - m_top ** 2 * math.log((lam / m_top) ** 2))
+    return val - target_sq
+
+
+def braid_natural_kk_scale(
+    higgs_mass_gev: float = HIGGS_MASS_GEV,
+    m_top_gev: float = TOP_MASS_GEV,
+    y_top: float = TOP_YUKAWA,
+) -> float:
+    """Naturalness bound Λ_nat [GeV] where |δm_H²(hard)| = m_H_obs².
+
+    Above this scale the model requires > 100% cancellation between the
+    braid tree-level quartic and the top-loop correction — the definition
+    of unnaturalness in the hard-cutoff scheme.
+
+    Solved via bisection.  Canonical result: Λ_nat ≈ 524 GeV.
+
+    Physical implication: if the first KK resonance lies below ≈ 524 GeV
+    the UM is at most mildly unnatural (Δ_FT < 1).  Current LHC bounds on
+    RS1 KK gravitons are ≳ 1–4 TeV (coupling-dependent), so the UM is
+    technically unnatural by this measure — an honest open gap.
+    """
+    target = higgs_mass_gev ** 2
+    lo, hi = m_top_gev * 1.01, 5000.0
+    for _ in range(80):
+        mid = 0.5 * (lo + hi)
+        if _hard_cutoff_f(mid, m_top_gev, y_top, target) < 0.0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def braid_tachyon_kk_scale(
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    c_s: float = C_S_CANONICAL,
+    m_top_gev: float = TOP_MASS_GEV,
+    y_top: float = TOP_YUKAWA,
+) -> float:
+    """Hard-cutoff tachyonic threshold Λ_tach [GeV] where m_H²(hard) → 0.
+
+    Above this scale the hard-cutoff formula predicts an imaginary Higgs mass
+    (tachyon), signalling breakdown of the perturbative EFT.  In the UM the
+    tachyonic threshold sets a hard upper limit on the physical KK cutoff if
+    the hard-cutoff scheme is used.
+
+    Canonical result: Λ_tach ≈ 480 GeV.
+    """
+    if higgs_vev_gev <= 0.0:
+        raise ValueError(f"higgs_vev_gev must be > 0, got {higgs_vev_gev!r}")
+    if c_s <= 0.0:
+        raise ValueError(f"c_s must be > 0, got {c_s!r}")
+    tree_sq = 2.0 * c_s ** 2 * higgs_vev_gev ** 2  # > 0
+    lo, hi = m_top_gev * 1.01, 5000.0
+    for _ in range(80):
+        mid = 0.5 * (lo + hi)
+        if _hard_cutoff_f(mid, m_top_gev, y_top, tree_sq) < 0.0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def braid_higgs_mass_scheme_comparison(
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    higgs_mass_gev: float = HIGGS_MASS_GEV,
+    c_s: float = C_S_CANONICAL,
+    m_top_gev: float = TOP_MASS_GEV,
+    y_top: float = TOP_YUKAWA,
+    lambda_cutoff_gev: float = 332.0,
+) -> dict:
+    """Compare dim-reg vs hard-cutoff Higgs mass predictions at Λ = lambda_cutoff_gev.
+
+    Returns
+    -------
+    dict with keys:
+        m_H_observed          — 125.09 GeV (PDG target)
+        m_H_tree              — ≈ 112.9 GeV  (tree-level, λ = c_s²)
+        m_H_dim_reg           — ≈ 125.1 GeV  (MS-bar/dim-reg at Λ=332 GeV) [CORRECT]
+        m_H_hard_cutoff       — ≈  85.9 GeV  (hard-cutoff at Λ=332 GeV, or None if tachyonic)
+        delta_mh_sq_dim_reg   — ≈ +2 927 GeV² (positive log correction)
+        delta_mh_sq_hard      — ≈ −5 345 GeV² (negative quad+log correction)
+        finetuning_hard       — ≈  0.342       (34% at Λ=332 GeV)
+        lambda_nat_gev        — ≈  524 GeV     (naturalness bound)
+        lambda_tach_gev       — ≈  480 GeV     (tachyonic threshold)
+        scheme_gap_gev        — |m_H_dim_reg − m_H_hard_cutoff|
+        dim_reg_error_pct     — % error of dim-reg vs observed
+        honest_assessment     — str
+    """
+    m_tree = higgs_mass_from_cs_squared(higgs_vev_gev, c_s)
+    m_dr = braid_higgs_mass_top_corrected(
+        higgs_vev_gev, c_s, m_top_gev, y_top, lambda_cutoff_gev
+    )
+    delta_dr = (
+        3.0 * y_top ** 2 * m_top_gev ** 2
+        / (4.0 * math.pi ** 2)
+        * math.log((lambda_cutoff_gev / m_top_gev) ** 2)
+    )
+    delta_hard = braid_hard_cutoff_delta_mh_sq(m_top_gev, y_top, lambda_cutoff_gev)
+    try:
+        m_hard: float | None = braid_higgs_mass_hard_cutoff(
+            higgs_vev_gev, c_s, m_top_gev, y_top, lambda_cutoff_gev
+        )
+    except ValueError:
+        m_hard = None
+
+    ft = braid_hard_cutoff_finetuning(higgs_mass_gev, m_top_gev, y_top, lambda_cutoff_gev)
+    lam_nat = braid_natural_kk_scale(higgs_mass_gev, m_top_gev, y_top)
+    lam_tach = braid_tachyon_kk_scale(higgs_vev_gev, c_s, m_top_gev, y_top)
+    scheme_gap = abs(m_dr - m_hard) if m_hard is not None else None
+    dr_err = (m_dr - higgs_mass_gev) / higgs_mass_gev * 100.0
+
+    return {
+        "m_H_observed":        higgs_mass_gev,
+        "m_H_tree":            m_tree,
+        "m_H_dim_reg":         m_dr,
+        "m_H_hard_cutoff":     m_hard,
+        "delta_mh_sq_dim_reg": delta_dr,
+        "delta_mh_sq_hard":    delta_hard,
+        "finetuning_hard":     ft,
+        "lambda_nat_gev":      lam_nat,
+        "lambda_tach_gev":     lam_tach,
+        "scheme_gap_gev":      scheme_gap,
+        "dim_reg_error_pct":   dr_err,
+        "honest_assessment": (
+            "Dim-reg gives m_H ≈ 125 GeV at Λ_KK ≈ 332 GeV (0.03% error); "
+            "hard-cutoff gives m_H ≈ 85.9 GeV at the same scale (tachyonic at "
+            "Λ ≈ 480 GeV). Scheme dependence is an honest open gap — the UM "
+            "does not yet specify which regularisation describes the physical "
+            "KK UV completion."
+        ),
+    }
