@@ -1,14 +1,14 @@
 {
   "upload_type": "publication",
   "publication_type": "preprint",
-  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.11)",
+  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.13)",
   "creators": [
     {
       "name": "Walker-Pearson, ThomasCory",
       "affiliation": "Independent Researcher, Pacific Northwest, USA"
     }
   ],
-  "description": "We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The fifth dimension is compact, the cylinder condition is imposed, and the 5D metric is cast in the standard Kaluza-Klein block form with a vector field B_mu — the irreversibility 1-form — and a scalar phi — the entropic dilaton. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations we call the Walker-Pearson equations. We show that (i) the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate; (ii) information pressure provides a purely geometric alternative to a cosmological constant; (iii) entropic holography identifies boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture asserts that irreversible singularities are hidden behind holographic boundaries. A Thermodynamic Multiverse topology and a Final Theorem unifying irreversibility, holography, and topology as the three pillars of observable reality are also developed. Version 9.11 extends the framework to 26 physical pillars spanning atomic spectroscopy (Pillar 14), phi-enhanced cold-fusion tunnelling (Pillar 15), medicine (Pillar 17), justice (Pillar 18), governance (Pillar 19), neuroscience (Pillar 20), ecology (Pillar 21), climate science (Pillar 22), marine biology (Pillar 23), psychology (Pillar 24), genetics (Pillar 25), and materials science (Pillar 26). Numerical implementation covering 3411 passing tests is provided for independent verification.",
+  "description": "We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The fifth dimension is compact, the cylinder condition is imposed, and the 5D metric is cast in the standard Kaluza-Klein block form with a vector field B_mu \u2014 the irreversibility 1-form \u2014 and a scalar phi \u2014 the entropic dilaton. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations we call the Walker-Pearson equations. We show that (i) the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate; (ii) information pressure provides a purely geometric alternative to a cosmological constant; (iii) entropic holography identifies boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture asserts that irreversible singularities are hidden behind holographic boundaries. Version 9.13 extends the framework to 57 geometric pillars, including Pillar 56 (phi_0 self-consistency closure via FTUM iteration), Pillar 57 (CMB acoustic peak resolution via radion amplification), and dedicated LiteBIRD observational forecast and Fermilab g-2 watch modules. Numerical implementation covering ~9700 passing tests is provided for independent verification. DOI: 10.5281/zenodo.19584531",
   "access_right": "open",
   "license": "other-open",
   "keywords": [
@@ -38,7 +38,12 @@
     "materials science",
     "governance",
     "medicine",
-    "justice"
+    "justice",
+    "phi0 self-consistency",
+    "CMB acoustic peaks",
+    "LiteBIRD forecast",
+    "muon g-2",
+    "birefringence"
   ],
   "subjects": [
     {
@@ -58,7 +63,7 @@
     }
   ],
   "language": "eng",
-  "notes": "This work is dedicated to the Defensive Public Commons. All ideas, methods, and scientific principles contained herein are freely available for public use without restriction. Version 9.11 — Academic Edition. 3411 automated tests pass; full test suite available at https://github.com/wuzbak/Unitary-Manifold-",
+  "notes": "This work is dedicated to the Defensive Public Commons. All ideas, methods, and scientific principles contained herein are freely available for public use without restriction. Version 9.11 \u2014 Academic Edition. 3411 automated tests pass; full test suite available at https://github.com/wuzbak/Unitary-Manifold-",
   "related_identifiers": [
     {
       "identifier": "https://github.com/wuzbak/Unitary-Manifold-",
@@ -78,9 +83,13 @@
       "scheme": "doi"
     }
   ],
-  "version": "9.11",
+  "version": "9.13",
   "communities": [
-    {"identifier": "zenodo"},
-    {"identifier": "physics"}
+    {
+      "identifier": "zenodo"
+    },
+    {
+      "identifier": "physics"
+    }
   ]
 }

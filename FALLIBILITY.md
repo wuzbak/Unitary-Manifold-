@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.11 — ThomasCory Walker-Pearson, 2026*
+*Unitary Manifold v9.13 — ThomasCory Walker-Pearson, 2026*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 8906 automated tests (7292 fast-selected + 11 slow-deselected + 1 skipped in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/`) confirm that the numerical implementations
+The ~9700 automated tests (~7900 fast-selected + 11 slow-deselected + 1 skipped in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/`) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "8906 passed · 1 skipped · 0 failed," this is a statement about
+When the README badge reads "~9700 passed · 1 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -441,7 +441,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 8906 passed · 1 skipped (guard) · 0 failed (8918 total: tests/ + recycling/ + Unitary Pentad/) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
+| ~9700 passed · 1 skipped (guard) · 0 failed | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18; see `src/core/braided_winding.py` |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
@@ -596,7 +596,7 @@ fermion sector beyond the current bosonic KK reduction.
 | H₀ tension (73.5 vs 67.4 km/s/Mpc) | ⚠️ Quantified, not resolved | CC problem separates KK from Hubble scale |
 | Muon g−2 anomaly (Pillar 51; final result June 2025; Δa_μ ≈ 261 × 10⁻¹¹ vs data-driven; ~1σ vs lattice QCD) | ⚠️ Open question — bridged | KK correction δa_μ^KK ~ 10⁻⁴¹ (30 orders below anomaly); ALP Barr–Zee upper bound derived; fermion sector still not derived. Code: `src/core/muon_g2.py`, 98 tests. |
 | Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
-| CMB amplitude gap (Pillar 52) | ⚠️ Open problem — audited | A_s at pivot resolved by COBE normalization (λ_COBE unique). Acoustic peaks still suppressed ×4–7; requires full Boltzmann transport. Code: `src/core/cmb_amplitude.py`, 68 tests. |
+| CMB amplitude gap (Pillars 52, 57) | ⚠️ Partially addressed — residual open | A_s at pivot resolved by COBE normalization (λ_COBE unique). Pillar 57 (`src/core/cmb_peaks.py`) proposes radion amplification (φ_today/φ_SLS = n_w×2π≈31.4) to reduce acoustic-peak deficit from ×4–7 to ×1.3, but full analytic closure requires Boltzmann transport. |
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
