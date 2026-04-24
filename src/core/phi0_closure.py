@@ -402,7 +402,7 @@ def phi0_uncertainty_band(n_sigma: float = 1.0) -> dict:
     dict with keys:
 
     ``phi0_central`` : float — φ₀_eff at NS_TARGET.
-    ``phi0_lower``   : float — φ₀_eff at NS_TARGET + n_sigma × NS_SIGMA (lower nₛ → smaller φ₀ via this).
+    ``phi0_lower``   : float — φ₀_eff at NS_TARGET - n_sigma × NS_SIGMA (lower nₛ → smaller φ₀).
     ``phi0_upper``   : float — φ₀_eff at NS_TARGET − n_sigma × NS_SIGMA.
     ``delta_phi0``   : float — |φ₀_upper − φ₀_central|.
     ``n_sigma``      : float — echo of input.
