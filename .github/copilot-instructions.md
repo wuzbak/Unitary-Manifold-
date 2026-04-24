@@ -5,7 +5,7 @@ on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework with 26 geometric pillars, a complete
+A 5-dimensional Kaluza-Klein physics framework with 52 geometric pillars, a complete
 HILS governance framework (Unitary Pentad), and supporting AI assistant infrastructure.
 
 **Theory:** ThomasCory Walker-Pearson (2026)  
@@ -17,7 +17,7 @@ HILS governance framework (Unitary Pentad), and supporting AI assistant infrastr
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: 6096 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 7356 passed, 1 skipped, 11 deselected, 0 failed
 
 # Recycling suite:
 python -m pytest recycling/ -q
@@ -29,23 +29,23 @@ python -m pytest "Unitary Pentad/" -q
 
 # Full repository (takes ~90 seconds):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 7646 passed, 1 skipped, 0 failed
+# Expected: 8906 passed, 1 skipped, 11 deselected, 0 failed
 ```
 
 ## Repository Structure
 
 ```
-src/core/           ← 5D metric, field evolution, KK geometry, braided winding
-src/holography/     ← holographic boundary, entropy-area
-src/multiverse/     ← FTUM fixed-point iteration
-src/consciousness/  ← coupled brain-universe attractor
-src/atomic_structure/ src/cold_fusion/ src/chemistry/ src/astronomy/
-src/earth/ src/biology/ src/medicine/ src/justice/ src/governance/
-src/neuroscience/ src/ecology/ src/climate/ src/marine/
-src/psychology/ src/genetics/ src/materials/
+src/core/           ← 5D metric, field evolution, KK geometry, braided winding (Pillars 1–5, 27–52)
+src/holography/     ← holographic boundary, entropy-area (Pillar 4)
+src/multiverse/     ← FTUM fixed-point iteration (Pillar 5, 29, 38)
+src/consciousness/  ← coupled brain-universe attractor (Pillar 9)
+src/atomic_structure/ src/cold_fusion/ src/chemistry/ src/astronomy/ (Pillars 10–15)
+src/earth/ src/biology/ src/medicine/ src/justice/ src/governance/ (Pillars 12–13, 17–19)
+src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
+src/psychology/ src/genetics/ src/materials/ (Pillars 24–26, 46–47)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 Unitary Pentad/     ← Independent HILS governance framework (18 modules)
-tests/              ← 88 test files, ~6096 passing tests
+tests/              ← 95 test files, ~7356 fast-passing tests (Pillars 1–52)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 co-emergence/       ← HILS framework documentation
 ```

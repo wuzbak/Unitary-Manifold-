@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![8842 Tests: 8841 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-8841%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![8907 Tests: 8906 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-8906%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
 [![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
@@ -291,7 +291,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 8841 tests are passing in all three — but "passing" means
+> of content, and all 8906 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -499,7 +499,7 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 | 52 | CMB Scalar Amplitude (Aₛ) Normalisation | `src/core/cmb_amplitude.py` | 84 |
 | 52-B | CAMB/CLASS Boltzmann Bridge | `src/core/boltzmann_bridge.py` | 65 |
 
-**Grand total: 8841 passed · 1 skipped · 11 deselected · 0 failed** (8842 collected, 117 test files)
+**Grand total: 8906 passed · 1 skipped · 11 deselected · 0 failed** (8907 collected, 117 test files)
 
 ## 4 · Quickstart
 
@@ -509,7 +509,7 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 8842 collected, 8841 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 8907 collected, 8906 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
@@ -544,7 +544,7 @@ tests/test_chemistry.py                  102 passed  ← Pillar 10 [TIER 3]
 tests/test_arrow_of_time.py               22 passed,  1 skipped ⚑
 # (slow — run with: pytest tests/ -m slow)
 tests/test_richardson_multitime.py        11 passed
-================================ 7291 passed, 1 skipped, 11 deselected ================================
+================================ 7356 passed, 1 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
@@ -553,7 +553,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 1234 passed ================================
 
 # Grand total:
-================================ 8841 passed, 1 skipped, 11 deselected, 0 failed ================================
+================================ 8906 passed, 1 skipped, 11 deselected, 0 failed ================================
 ```
 
 > ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
@@ -843,7 +843,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**7647 tests: 7646 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**8907 tests: 8906 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -865,7 +865,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (7646 tests: 7646 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (8906 tests: 8906 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

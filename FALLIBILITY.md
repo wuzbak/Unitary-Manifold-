@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 8841 automated tests (7292 fast-selected + 11 slow-deselected + 1 skipped in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/`) confirm that the numerical implementations
+The 8906 automated tests (7292 fast-selected + 11 slow-deselected + 1 skipped in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/`) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "8841 passed · 1 skipped · 0 failed," this is a statement about
+When the README badge reads "8906 passed · 1 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -441,7 +441,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 7646 passed · 1 skipped (guard) · 0 failed (7647 total: tests/ + recycling/ + Unitary Pentad/) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
+| 8906 passed · 1 skipped (guard) · 0 failed (8918 total: tests/ + recycling/ + Unitary Pentad/) | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18; see `src/core/braided_winding.py` |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
