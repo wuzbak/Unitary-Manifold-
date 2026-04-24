@@ -87,6 +87,22 @@ still required.
 `src/core/dark_matter_geometry.py`, `src/consciousness/`, `src/astronomy/`,
 `src/atomic_structure/`, `src/cold_fusion/`
 
+#### Tier 2→3 Bridge (Pillar 9-B)
+
+**Location:** `src/consciousness/consciousness_deployment.py`
+
+A dedicated bridge module maps the converged ``CoupledSystem`` (Pillar 9) onto
+the 17 analogical application domains (Pillars 10–26).  It extracts the bridge
+observables (``phi_eff``, ``info_gap``, ``resonance_quality``,
+``entropy_coherence``, ``beta``) and provides one deployment method per domain.
+
+**Epistemic status:** sits at the Tier 2→3 boundary.  The consciousness-bridge
+side is speculative (Tier 2); the domain-model side is analogical (Tier 3).
+The bridge does **not** claim that the physics is "solved," nor that medicine,
+justice, or governance are literally 5D geometric phenomena.
+
+**Tests:** `tests/test_consciousness_deployment.py` (~104 tests).
+
 **What it is:**
 Consequences that follow *mathematically* if Tier 1 is correct.  These extend
 the framework into domains where it makes contact with real physics, but where
