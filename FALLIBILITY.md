@@ -381,6 +381,13 @@ is the same free parameter admitted in §II (the Yukawa coupling λ).  The
 stabilisation *mechanism* is in place; the stabilisation *scale* requires one
 additional input from the GW sector.
 
+**Summary.**  The cylinder condition is not an ad hoc assumption imposed by
+hand — it is a structural consequence of the Z₂ orbifold geometry.  The
+radion is not a runaway modulus — it is stabilised by the same
+Goldberger-Wise potential that drives inflation.  The UM therefore does not
+suffer from the two standard KK criticisms at the classical level; only the
+GW coupling scale λ_GW remains as an unresolved parameter.
+
 ---
 
 ## V. Explicit Falsifiability Conditions

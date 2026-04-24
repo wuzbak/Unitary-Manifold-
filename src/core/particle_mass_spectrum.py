@@ -473,7 +473,7 @@ def lepton_ratio_comparison() -> Dict[str, object]:
             "hierarchy_direction_correct": direction_ok,
             "status": "matches_direction" if direction_ok and factor > 10 else "matches",
             "honest_note": (
-                f"Geometric prediction {pred:.4f} vs PDG {obs:.2f}. "
+                f"Geometric prediction {pred:.4f} vs PDG {obs:.1f}. "
                 f"Discrepancy factor: {factor:.1f}×. "
                 "A bulk Yukawa / RS localisation mechanism is needed to bridge the gap."
             ),
@@ -579,7 +579,7 @@ def pillar60_gap_report() -> Dict[str, object]:
 
     failures = [
         f"Geometric m_μ/m_e = {geom['m1_over_m0']:.4f} vs PDG {pdg['mu_over_e']:.1f} → factor {pdg['mu_over_e']/geom['m1_over_m0']:.0f}× discrepancy.",
-        f"Geometric m_τ/m_e = {geom['m2_over_m0']:.4f} vs PDG {pdg['tau_over_e']:.0f} → factor {pdg['tau_over_e']/geom['m2_over_m0']:.0f}× discrepancy.",
+        f"Geometric m_τ/m_e = {geom['m2_over_m0']:.4f} vs PDG {pdg['tau_over_e']:.1f} → factor {pdg['tau_over_e']/geom['m2_over_m0']:.0f}× discrepancy.",
         "Absolute lepton masses require ONE free parameter λ per sector (fitted).",
         "PDG mass ratio magnitudes require RS-type Yukawa localisation: open gap.",
     ]

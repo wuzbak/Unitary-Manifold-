@@ -135,6 +135,11 @@ from typing import Dict, Tuple
 import numpy as np
 
 # ---------------------------------------------------------------------------
+# Compatibility shim for NumPy ≥ 2.0 (np.trapz → np.trapezoid)
+# ---------------------------------------------------------------------------
+_NP_TRAPZ = getattr(np, "trapezoid", getattr(np, "trapz", None))
+
+# ---------------------------------------------------------------------------
 # Module-level constants (ALL_CAPS, natural / cosmological units)
 # ---------------------------------------------------------------------------
 
@@ -325,9 +330,10 @@ def matter_power_spectrum(
     # We use the convention P(k) = 2π² Δ²(k) / k³, so:
     #   P(k) = A_s (k/k_pivot)^{n_s-1} T²(k) × (2π²/k³) is dimensional.
     # Here we keep the dimensionless Δ²(k) and convert for σ₈ integration.
-    Delta2 = primordial * T_bbks**2 * f_kk**2
+    # Dimensionless power spectrum Δ²(k) = A_s (k/k_pivot)^{n_s-1} T²(k) f_KK²(k)
+    dimensionless_power = primordial * T_bbks**2 * f_kk**2
     # Return P(k) = 2π²Δ²(k)/k³  [units: Mpc³]
-    return (2.0 * math.pi**2) * Delta2 / k**3
+    return (2.0 * math.pi**2) * dimensionless_power / k**3
 
 
 def tophat_window(k: float, R: float) -> float:
@@ -394,8 +400,7 @@ def sigma8_from_power_spectrum(
     ])
     # Trapezoidal integration in log k: dk = k d(ln k)
     log_k = np.log(k_arr)
-    _trapz = getattr(np, "trapezoid", getattr(np, "trapz", None))
-    integral = float(_trapz(integrand * k_arr, log_k))  # ∫ f dk = ∫ f k d(lnk)
+    integral = float(_NP_TRAPZ(integrand * k_arr, log_k))  # ∫ f dk = ∫ f k d(lnk)
     sigma8_sq = integral / (2.0 * math.pi**2)
     return float(math.sqrt(max(sigma8_sq, 0.0)))
 
@@ -636,8 +641,7 @@ def weak_lensing_power_spectrum(
         P_kk = matter_power_spectrum(k_limber, A_s, n_s, k_pivot, k_eq, k_KK, gamma_KK)
         integrand[i] = W**2 * P_kk / chi**2
 
-    _trapz = getattr(np, "trapezoid", getattr(np, "trapz", None))
-    return float(_trapz(integrand, chi_arr))
+    return float(_NP_TRAPZ(integrand, chi_arr))
 
 
 def power_spectrum_ratio(
