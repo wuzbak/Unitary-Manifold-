@@ -1638,3 +1638,382 @@ class TestCrossMechanismConsistency:
         assert ew.braid_quartic_from_winding_ratio() > 0.0
         assert ew.kk_geometric_quartic() > 0.0
         assert ew.braid_quartic_from_stiffness() > 0.0
+
+
+# ===========================================================================
+# §11  Hard-cutoff Higgs mass additions (Pillar 50 extension)
+# ===========================================================================
+
+class TestBraidHardCutoffDeltaMhSq:
+    """braid_hard_cutoff_delta_mh_sq: top-loop δm_H² in hard-cutoff scheme."""
+
+    def test_canonical_value(self):
+        """At Λ = 332 GeV δm_H² ≈ −5 339 GeV²."""
+        delta = ew.braid_hard_cutoff_delta_mh_sq()
+        assert abs(delta - (-5339.23)) < 1.0
+
+    def test_always_negative(self):
+        """Hard-cutoff correction is negative for all physical Λ."""
+        for lam in [50.0, 172.0, 200.0, 285.0, 332.0, 480.0, 1000.0]:
+            assert ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=lam) < 0.0
+
+    def test_monotonically_more_negative_with_cutoff(self):
+        """Larger Λ gives a more negative correction."""
+        d200 = ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=200.0)
+        d332 = ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=332.0)
+        d600 = ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=600.0)
+        assert d200 > d332 > d600
+
+    def test_at_200_gev(self):
+        delta = ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=200.0)
+        assert abs(delta - (-2343.15)) < 1.0
+
+    def test_scales_quadratically_for_large_cutoff(self):
+        """For large Λ the −Λ² term dominates; doubling Λ roughly quadruples |δm_H²|."""
+        d500 = abs(ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=500.0))
+        d1000 = abs(ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=1000.0))
+        ratio = d1000 / d500
+        # Exact quadratic scaling gives ratio 4; log correction makes it slightly < 4
+        assert 3.0 < ratio < 5.0
+
+    def test_nondefault_top_mass(self):
+        """Varying top mass changes δm_H²; result is still negative."""
+        d_heavy = ew.braid_hard_cutoff_delta_mh_sq(m_top_gev=200.0)
+        assert d_heavy < 0.0
+
+    def test_nondefault_yukawa(self):
+        """Larger Yukawa gives larger |δm_H²|."""
+        d1 = ew.braid_hard_cutoff_delta_mh_sq(y_top=1.0)
+        d2 = ew.braid_hard_cutoff_delta_mh_sq(y_top=1.5)
+        assert d2 < d1
+
+    def test_raises_nonpositive_cutoff(self):
+        with pytest.raises(ValueError):
+            ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=0.0)
+
+    def test_raises_negative_cutoff(self):
+        with pytest.raises(ValueError):
+            ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=-100.0)
+
+    def test_raises_nonpositive_top_mass(self):
+        with pytest.raises(ValueError):
+            ew.braid_hard_cutoff_delta_mh_sq(m_top_gev=0.0)
+
+    def test_raises_nonpositive_yukawa(self):
+        with pytest.raises(ValueError):
+            ew.braid_hard_cutoff_delta_mh_sq(y_top=0.0)
+
+    def test_returns_float(self):
+        assert isinstance(ew.braid_hard_cutoff_delta_mh_sq(), float)
+
+
+class TestBraidHiggsMassHardCutoff:
+    """braid_higgs_mass_hard_cutoff: physical Higgs mass in hard-cutoff scheme."""
+
+    def test_canonical_value_at_200_gev(self):
+        """At Λ = 200 GeV (below tachyonic threshold) m_H ≈ 101.9 GeV."""
+        m = ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=200.0)
+        assert abs(m - 101.92) < 0.1
+
+    def test_canonical_value_at_332_gev(self):
+        """At Λ = 332 GeV m_H ≈ 85.97 GeV (hard-cutoff scheme)."""
+        m = ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=332.0)
+        assert abs(m - 85.97) < 0.1
+
+    def test_below_tree_level(self):
+        """Hard-cutoff mass is below tree-level (negative correction dominates)."""
+        m_tree = ew.higgs_mass_from_cs_squared()
+        m_hard = ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=200.0)
+        assert m_hard < m_tree
+
+    def test_decreases_with_cutoff(self):
+        """Higher Λ → more negative correction → lower hard-cutoff m_H."""
+        m200 = ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=200.0)
+        m300 = ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=300.0)
+        assert m200 > m300
+
+    def test_raises_tachyonic(self):
+        """Above the tachyonic threshold (≈ 480 GeV) a ValueError is raised."""
+        lam_tach = ew.braid_tachyon_kk_scale()
+        with pytest.raises(ValueError):
+            ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=lam_tach + 50.0)
+
+    def test_raises_nonpositive_vev(self):
+        with pytest.raises(ValueError):
+            ew.braid_higgs_mass_hard_cutoff(higgs_vev_gev=0.0)
+
+    def test_raises_nonpositive_cs(self):
+        with pytest.raises(ValueError):
+            ew.braid_higgs_mass_hard_cutoff(c_s=0.0)
+
+    def test_positive(self):
+        assert ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=200.0) > 0.0
+
+
+class TestBraidHardCutoffFinetuning:
+    """braid_hard_cutoff_finetuning: Δ_FT = |δm_H²(hard)| / m_H_obs²."""
+
+    def test_canonical_value(self):
+        """At Λ = 332 GeV Δ_FT ≈ 0.341 (34% fine-tuning)."""
+        ft = ew.braid_hard_cutoff_finetuning()
+        assert abs(ft - 0.341) < 0.005
+
+    def test_below_one_at_canonical_cutoff(self):
+        """At Λ = 332 GeV model is mildly unnatural but Δ_FT < 1."""
+        assert ew.braid_hard_cutoff_finetuning() < 1.0
+
+    def test_below_one_at_200_gev(self):
+        """At Λ = 200 GeV Δ_FT ≈ 0.15 < 1."""
+        ft = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=200.0)
+        assert ft < 1.0
+
+    def test_above_one_at_600_gev(self):
+        """At Λ = 600 GeV correction exceeds m_H_obs² — model is unnatural."""
+        ft = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=600.0)
+        assert ft > 1.0
+
+    def test_monotonically_increases_with_cutoff(self):
+        """Fine-tuning grows with cutoff because |δm_H²| ∝ Λ²."""
+        ft200 = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=200.0)
+        ft332 = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=332.0)
+        ft600 = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=600.0)
+        assert ft200 < ft332 < ft600
+
+    def test_equals_one_at_lambda_nat(self):
+        """By construction Δ_FT = 1 exactly at the naturalness bound Λ_nat."""
+        lam_nat = ew.braid_natural_kk_scale()
+        ft = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=lam_nat)
+        assert abs(ft - 1.0) < 1e-4
+
+    def test_positive(self):
+        assert ew.braid_hard_cutoff_finetuning() > 0.0
+
+    def test_larger_higgs_mass_reduces_finetuning(self):
+        """If m_H_obs² is larger the denominator grows and Δ_FT decreases."""
+        ft1 = ew.braid_hard_cutoff_finetuning(higgs_mass_gev=125.09)
+        ft2 = ew.braid_hard_cutoff_finetuning(higgs_mass_gev=200.0)
+        assert ft2 < ft1
+
+    def test_raises_nonpositive_higgs_mass(self):
+        with pytest.raises(ValueError):
+            ew.braid_hard_cutoff_finetuning(higgs_mass_gev=0.0)
+
+    def test_raises_nonpositive_cutoff(self):
+        with pytest.raises(ValueError):
+            ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=0.0)
+
+    def test_returns_float(self):
+        assert isinstance(ew.braid_hard_cutoff_finetuning(), float)
+
+
+class TestBraidNaturalKKScale:
+    """braid_natural_kk_scale: bisection root Λ_nat where |δm_H²| = m_H_obs²."""
+
+    def test_canonical_value(self):
+        """Λ_nat ≈ 524 GeV."""
+        lam = ew.braid_natural_kk_scale()
+        assert abs(lam - 524.4) < 1.0
+
+    def test_above_top_mass(self):
+        assert ew.braid_natural_kk_scale() > ew.TOP_MASS_GEV
+
+    def test_below_tev(self):
+        assert ew.braid_natural_kk_scale() < 1000.0
+
+    def test_above_tachyon_scale(self):
+        """Λ_nat > Λ_tach: naturalness bound lies beyond the tachyonic threshold."""
+        assert ew.braid_natural_kk_scale() > ew.braid_tachyon_kk_scale()
+
+    def test_round_trip_finetuning_equals_one(self):
+        """Finetuning at Λ_nat must equal 1 to within numerical precision."""
+        lam_nat = ew.braid_natural_kk_scale()
+        ft = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=lam_nat)
+        assert abs(ft - 1.0) < 1e-4
+
+    def test_increases_with_higgs_mass(self):
+        """Larger observed m_H_obs → correction can be larger → higher Λ_nat."""
+        lam1 = ew.braid_natural_kk_scale(higgs_mass_gev=125.09)
+        lam2 = ew.braid_natural_kk_scale(higgs_mass_gev=200.0)
+        assert lam2 > lam1
+
+    def test_varies_with_top_mass(self):
+        """Varying top mass changes Λ_nat; heavier top → higher Λ_nat at fixed y_top."""
+        lam_light = ew.braid_natural_kk_scale(m_top_gev=150.0)
+        lam_heavy = ew.braid_natural_kk_scale(m_top_gev=200.0)
+        # At fixed Yukawa, heavier top raises the log term → Λ_nat moves higher
+        assert lam_light > ew.TOP_MASS_GEV
+        assert lam_heavy > ew.TOP_MASS_GEV
+        assert lam_heavy > lam_light
+
+    def test_returns_float(self):
+        assert isinstance(ew.braid_natural_kk_scale(), float)
+
+    def test_finetuning_below_one_before_nat(self):
+        """Below Λ_nat the fine-tuning is < 1 (model is natural)."""
+        lam_nat = ew.braid_natural_kk_scale()
+        ft_below = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=lam_nat - 50.0)
+        assert ft_below < 1.0
+
+    def test_finetuning_above_one_after_nat(self):
+        """Above Λ_nat the fine-tuning exceeds 1 (model becomes unnatural)."""
+        lam_nat = ew.braid_natural_kk_scale()
+        ft_above = ew.braid_hard_cutoff_finetuning(lambda_cutoff_gev=lam_nat + 50.0)
+        assert ft_above > 1.0
+
+
+class TestBraidTachyonKKScale:
+    """braid_tachyon_kk_scale: Λ_tach where m_H²(hard) → 0."""
+
+    def test_canonical_value(self):
+        """Λ_tach ≈ 480 GeV."""
+        lam = ew.braid_tachyon_kk_scale()
+        assert abs(lam - 480.5) < 1.0
+
+    def test_above_top_mass(self):
+        assert ew.braid_tachyon_kk_scale() > ew.TOP_MASS_GEV
+
+    def test_below_tev(self):
+        assert ew.braid_tachyon_kk_scale() < 1000.0
+
+    def test_below_natural_scale(self):
+        """Λ_tach < Λ_nat: tachyonic breakdown precedes the naturalness scale."""
+        assert ew.braid_tachyon_kk_scale() < ew.braid_natural_kk_scale()
+
+    def test_round_trip_delta_equals_neg_tree(self):
+        """At Λ_tach the hard-cutoff correction exactly cancels the tree mass²."""
+        lam_tach = ew.braid_tachyon_kk_scale()
+        delta = ew.braid_hard_cutoff_delta_mh_sq(lambda_cutoff_gev=lam_tach)
+        tree_sq = 2.0 * ew.C_S_CANONICAL ** 2 * ew.HIGGS_VEV_GEV ** 2
+        assert abs(delta + tree_sq) < 1e-6
+
+    def test_hard_cutoff_raises_above_tachyon(self):
+        """braid_higgs_mass_hard_cutoff raises ValueError above Λ_tach."""
+        lam_tach = ew.braid_tachyon_kk_scale()
+        with pytest.raises(ValueError):
+            ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=lam_tach + 10.0)
+
+    def test_hard_cutoff_ok_below_tachyon(self):
+        """braid_higgs_mass_hard_cutoff succeeds below Λ_tach."""
+        lam_tach = ew.braid_tachyon_kk_scale()
+        m = ew.braid_higgs_mass_hard_cutoff(lambda_cutoff_gev=lam_tach - 50.0)
+        assert m > 0.0
+
+    def test_increases_with_vev(self):
+        """Larger tree-level mass (via larger vev) raises the tachyonic threshold."""
+        lam1 = ew.braid_tachyon_kk_scale(higgs_vev_gev=246.0)
+        lam2 = ew.braid_tachyon_kk_scale(higgs_vev_gev=300.0)
+        assert lam2 > lam1
+
+    def test_increases_with_cs(self):
+        """Larger c_s → larger tree-level m_H² → harder to go tachyonic → higher Λ_tach."""
+        lam1 = ew.braid_tachyon_kk_scale(c_s=ew.C_S_CANONICAL)
+        lam2 = ew.braid_tachyon_kk_scale(c_s=0.5)
+        assert lam2 > lam1
+
+    def test_raises_nonpositive_vev(self):
+        with pytest.raises(ValueError):
+            ew.braid_tachyon_kk_scale(higgs_vev_gev=0.0)
+
+    def test_raises_nonpositive_cs(self):
+        with pytest.raises(ValueError):
+            ew.braid_tachyon_kk_scale(c_s=0.0)
+
+    def test_returns_float(self):
+        assert isinstance(ew.braid_tachyon_kk_scale(), float)
+
+
+class TestBraidHiggsMassSchemeComparison:
+    """braid_higgs_mass_scheme_comparison: dim-reg vs hard-cutoff dict."""
+
+    def setup_method(self):
+        self.cmp = ew.braid_higgs_mass_scheme_comparison()
+
+    def test_returns_dict(self):
+        assert isinstance(self.cmp, dict)
+
+    def test_all_keys_present(self):
+        required = {
+            "m_H_observed", "m_H_tree", "m_H_dim_reg", "m_H_hard_cutoff",
+            "delta_mh_sq_dim_reg", "delta_mh_sq_hard", "finetuning_hard",
+            "lambda_nat_gev", "lambda_tach_gev", "scheme_gap_gev",
+            "dim_reg_error_pct", "honest_assessment",
+        }
+        assert required.issubset(self.cmp.keys())
+
+    def test_m_H_observed_matches_constant(self):
+        assert self.cmp["m_H_observed"] == ew.HIGGS_MASS_GEV
+
+    def test_m_H_tree_near_113_gev(self):
+        assert abs(self.cmp["m_H_tree"] - 112.83) < 0.1
+
+    def test_m_H_dim_reg_near_125_gev(self):
+        assert abs(self.cmp["m_H_dim_reg"] - 125.11) < 0.1
+
+    def test_m_H_hard_cutoff_near_86_gev(self):
+        assert abs(self.cmp["m_H_hard_cutoff"] - 85.97) < 0.1
+
+    def test_dim_reg_above_tree(self):
+        assert self.cmp["m_H_dim_reg"] > self.cmp["m_H_tree"]
+
+    def test_hard_cutoff_below_tree(self):
+        assert self.cmp["m_H_hard_cutoff"] < self.cmp["m_H_tree"]
+
+    def test_dim_reg_error_pct_tiny(self):
+        """Dim-reg reproduces observed Higgs mass to < 0.1%."""
+        assert abs(self.cmp["dim_reg_error_pct"]) < 0.1
+
+    def test_delta_dim_reg_positive(self):
+        """Dim-reg (MS-bar log) correction is positive."""
+        assert self.cmp["delta_mh_sq_dim_reg"] > 0.0
+
+    def test_delta_hard_negative(self):
+        """Hard-cutoff correction is negative (quadratic term dominates)."""
+        assert self.cmp["delta_mh_sq_hard"] < 0.0
+
+    def test_finetuning_matches_standalone(self):
+        """finetuning_hard in dict equals braid_hard_cutoff_finetuning()."""
+        ft_standalone = ew.braid_hard_cutoff_finetuning()
+        assert abs(self.cmp["finetuning_hard"] - ft_standalone) < 1e-10
+
+    def test_lambda_nat_matches_standalone(self):
+        lam_nat = ew.braid_natural_kk_scale()
+        assert abs(self.cmp["lambda_nat_gev"] - lam_nat) < 1e-6
+
+    def test_lambda_tach_matches_standalone(self):
+        lam_tach = ew.braid_tachyon_kk_scale()
+        assert abs(self.cmp["lambda_tach_gev"] - lam_tach) < 1e-6
+
+    def test_lambda_nat_above_lambda_tach(self):
+        assert self.cmp["lambda_nat_gev"] > self.cmp["lambda_tach_gev"]
+
+    def test_scheme_gap_positive(self):
+        """dim-reg gives higher m_H than hard-cutoff at Λ=332 GeV."""
+        assert self.cmp["scheme_gap_gev"] > 0.0
+
+    def test_scheme_gap_near_39_gev(self):
+        assert abs(self.cmp["scheme_gap_gev"] - 39.14) < 0.5
+
+    def test_hard_cutoff_none_above_tachyon(self):
+        """When Λ > Λ_tach the hard-cutoff result is None (tachyonic)."""
+        cmp_tach = ew.braid_higgs_mass_scheme_comparison(lambda_cutoff_gev=600.0)
+        assert cmp_tach["m_H_hard_cutoff"] is None
+        assert cmp_tach["scheme_gap_gev"] is None
+
+    def test_scheme_gap_none_implies_tachyonic(self):
+        """scheme_gap_gev is None iff m_H_hard_cutoff is None."""
+        cmp_tach = ew.braid_higgs_mass_scheme_comparison(lambda_cutoff_gev=600.0)
+        assert (cmp_tach["m_H_hard_cutoff"] is None) == (cmp_tach["scheme_gap_gev"] is None)
+
+    def test_honest_assessment_is_string(self):
+        assert isinstance(self.cmp["honest_assessment"], str)
+
+    def test_honest_assessment_mentions_scheme(self):
+        assert "scheme" in self.cmp["honest_assessment"].lower()
+
+    def test_custom_cutoff_consistent(self):
+        """With a custom Λ=200 GeV all derived values remain consistent."""
+        cmp200 = ew.braid_higgs_mass_scheme_comparison(lambda_cutoff_gev=200.0)
+        # dim-reg mass at 200 GeV is lower than at 332 GeV
+        assert cmp200["m_H_dim_reg"] < self.cmp["m_H_dim_reg"]
+        # hard-cutoff mass is higher (less correction) at 200 GeV
+        assert cmp200["m_H_hard_cutoff"] > self.cmp["m_H_hard_cutoff"]
