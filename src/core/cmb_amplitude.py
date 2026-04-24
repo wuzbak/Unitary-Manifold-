@@ -133,6 +133,7 @@ def _slow_roll_As(phi0_eff: float, lam: float = 1.0) -> float:
     # V(φ) = λ(φ² − φ₀²)²  at φ = φ*
     V  = lam * (phi_star ** 2 - phi0_eff ** 2) ** 2
     dV = lam * 4.0 * phi_star * (phi_star ** 2 - phi0_eff ** 2)
+    # DERIVATIVE_EPSILON: guards against exact cancellation at φ* = φ₀ (degenerate limit)
     if abs(dV) < 1e-30:
         return 0.0
     return V ** 3 / (12.0 * math.pi ** 2 * dV ** 2)

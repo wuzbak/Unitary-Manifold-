@@ -160,7 +160,8 @@ class TestKKGravitonCorrection:
             kk_graviton_correction(m_mu_GeV=0.0)
 
     def test_canonical_value_matches_hand_calculation(self):
-        # Manual: (α/π) × (m_μ/M_KK)² × (1 + c_s²)
+        # Intentional formula duplication for independent verification:
+        # δa_μ^KK = (α/π) × (m_μ/M_KK)² × (1 + c_s²)
         expected = (ALPHA_EM / math.pi) * (M_MU_GEV / M_KK_1_GEV) ** 2 * (1 + C_S ** 2)
         result = kk_graviton_correction()
         assert abs(result - expected) / expected < 1e-10

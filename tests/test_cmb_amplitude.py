@@ -396,8 +396,7 @@ class TestAmplitudeGapAudit:
         assert len(self.audit["path_to_closure"]) > 50
 
     def test_path_mentions_boltzmann(self):
-        assert "Boltzmann" in self.audit["path_to_closure"] or \
-               "boltzmann" in self.audit["path_to_closure"].lower()
+        assert "boltzmann" in self.audit["path_to_closure"].lower()
 
     def test_residual_info_is_dict(self):
         assert isinstance(self.audit["residual_info"], dict)

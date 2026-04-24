@@ -276,7 +276,7 @@ def bmu_dark_photon_mass_estimate(
         raise ValueError(f"phi0_eff must be > 0, got {phi0_eff}")
     # Goldberger–Wise suppression: exponentially light compared to M_KK
     exponent = math.pi * r_c * phi0_eff
-    # Clamp to avoid underflow
+    # Clamp to prevent exp() underflow (Python's exp() underflows around -700)
     if exponent > 700:
         return 0.0
     return (1.0 / r_c) * math.exp(-exponent)

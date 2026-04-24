@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 8841 automated tests (7137 fast-selected + 11 slow-deselected + 1 skipped in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/`) confirm that the numerical implementations
+The 8841 automated tests (7292 fast-selected + 11 slow-deselected + 1 skipped in `tests/`, plus 316 in `recycling/` and 1234 in `Unitary Pentad/`) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
