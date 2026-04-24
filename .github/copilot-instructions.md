@@ -29,7 +29,7 @@ python -m pytest "Unitary Pentad/" -q
 
 # Full repository (takes ~90 seconds):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 9713 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 10027 passed, 1 skipped, 11 deselected, 0 failed
 ```
 
 ## Repository Structure
