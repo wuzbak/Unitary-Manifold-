@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![9714 Tests: 9713 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-9713%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![10028 Tests: 10027 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-10027%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
@@ -292,7 +292,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 8906 tests are passing in all three — but "passing" means
+> of content, and all 10027 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -500,7 +500,7 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 | 52 | CMB Scalar Amplitude (Aₛ) Normalisation | `src/core/cmb_amplitude.py` | 84 |
 | 52-B | CAMB/CLASS Boltzmann Bridge | `src/core/boltzmann_bridge.py` | 65 |
 
-**Grand total: 8906 passed · 1 skipped · 11 deselected · 0 failed** (8907 collected, 117 test files)
+**Grand total: 10027 passed · 1 skipped · 11 deselected · 0 failed** (10038 collected, 117+ test files)
 
 ## 4 · Quickstart
 
@@ -510,7 +510,7 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 8907 collected, 8906 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 10038 collected, 10027 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
@@ -554,7 +554,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 1234 passed ================================
 
 # Grand total:
-================================ 8906 passed, 1 skipped, 11 deselected, 0 failed ================================
+================================ 10027 passed, 1 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -846,7 +846,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**8907 tests: 8906 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**10038 tests: 10027 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.

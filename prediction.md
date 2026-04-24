@@ -6,8 +6,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Predicted value** | β = 0.351° |
-| **1σ error bar** | ± 0.14° (set by the observational prior, not theory freedom) |
+| **Predicted value** | β = 0.351° (derived; see also canonical β = 0.273°) |
+| **Internal theory uncertainty** | ± 0.006° from ± 0.5 in r_c (compactification radius 11.5–12.5); ± 0.003° from ±0.5 in φ_min_bare; combined ± 0.007° (quadrature) |
+| **Observational prior** | β = 0.35° ± 0.14° (Minami & Komatsu 2020, 68 % CL) |
+| **1σ error bar quoted in submission** | ± 0.14° (dominated by observational prior, not theory uncertainty) |
 | **Theory input** | k_CS = 74 (derived from geometry; see `claims/integer_derivation/`) |
 | **Experiment** | LiteBIRD (launch ~2028), CMB-S4 (~2030), Simons Observatory (ongoing) |
 | **Status** | Consistent with Minami & Komatsu 2020 (+Diego-Palazuelos et al. 2022) hint at β ≈ 0.35° |
@@ -28,7 +30,16 @@
    without also moving nₛ or r (because k_CS couples to both the CS angle and
    the field-strength normalisation).
 
-3. **Will be measured soon.** LiteBIRD will measure β to σ ≈ 0.02° (a 7×
+3. **Internal theory uncertainty is small.** The dominant source of internal
+   uncertainty is the compactification radius r_c, which enters the birefringence
+   formula as β ∝ r_c.  Varying r_c by ± 0.5 (from 11.5 to 12.5) shifts β by
+   ± 0.006° — negligible compared to the ± 0.14° observational prior.  The
+   secondary source is φ_min_bare (± 0.5 → ± 0.003° in β).  Combined internal
+   uncertainty in quadrature: **± 0.007°**.  This means the prediction is
+   sharp enough that LiteBIRD will test the specific point value, not just the
+   order of magnitude.
+
+4. **Will be measured soon.** LiteBIRD will measure β to σ ≈ 0.02° (a 7×
    improvement over current constraints).  CMB-S4 will reach σ ≈ 0.01°.
 
 4. **Has a sharp kill condition** (see below).

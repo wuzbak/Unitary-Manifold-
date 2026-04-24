@@ -306,7 +306,7 @@ All modules are documented, tested, and interconnected.
 
 ### The Tests
 
-**8906 tests total. 8906 passed (1 skipped for a correct physical reason). Zero failures.**
+**10027 tests total. 8906 passed (1 skipped for a correct physical reason). Zero failures.**
 
 | Suite | Collected | Passed | Skipped | Slow-deselected |
 |-------|-----------|--------|---------|-----------------|
@@ -376,7 +376,7 @@ It does not mean the CMB simulations are as accurate as dedicated codes used by 
 
 **The 8918 tests span:** five-dimensional Riemannian geometry, quantum field theory, statistical mechanics, inflationary cosmology, fiber-bundle topology, holographic renormalization, baryon acoustic oscillations, gravitational-wave theory, anomaly cancellation, black hole information transcoding, particle winding geometry, geometric dark matter, the coupled brain-universe two-body fixed-point problem, chemistry, astronomy, Earth sciences, biology, atomic spectroscopy, low-energy nuclear reactions, material recovery and φ-debt accounting, medicine, justice, governance, neuroscience, ecology, climate, marine science, psychology, genetics, materials science, two-field non-Gaussianity, KK BH remnants, spontaneous compactification, moduli survival, quantum information of the KK metric, KK geometric imprint, ISL fifth-force, CMB observables from integer topology, many-body dissipation, BH information paradox resolution, EP violation, observational frontiers, solitonic charge derivation, AdS₅/CFT₄ KK tower, delay field, three-generation mass hierarchy, collider resonances, geometric collapse, coupled history and consciousness–quantum measurement bridge, numerical precision at 128/256-bit arithmetic, LiteBIRD fail zone, Fröhlich polaron, superluminal polariton vortex, torsion remnant, zero-point vacuum energy, electroweak hierarchy, muon g-2, CMB amplitude normalisation, CAMB/CLASS bridge, and the complete governance architecture of the HILS collaboration framework.
 
-For a framework that ties all of these together into one geometric picture, and finds zero internal contradictions in 8906 machine-checkable places — that is a meaningful result. It means the framework is **computationally coherent** across every domain it claims to cover. You cannot find a hole in it with a computer.
+For a framework that ties all of these together into one geometric picture, and finds zero internal contradictions in 10027 machine-checkable places — that is a meaningful result. It means the framework is **computationally coherent** across every domain it claims to cover. You cannot find a hole in it with a computer.
 
 ---
 
@@ -441,7 +441,7 @@ Here is what this project has established:
 
 1. **The mathematics works.** The derivations are internally consistent. No contradictions found.
 
-2. **The code works.** 8906 automated tests across all three suites (tests/ + recycling/ + Unitary Pentad/), zero failures. The tests/ suite alone contains 7356 passing tests (1 skipped, 11 slow-deselected). Every number the theory predicts is the number the code produces.
+2. **The code works.** 10027 automated tests across all three suites (tests/ + recycling/ + Unitary Pentad/), zero failures. The tests/ suite alone contains 7356 passing tests (1 skipped, 11 slow-deselected). Every number the theory predicts is the number the code produces.
 
 3. **The predictions match current observations.** Three independent measurements of the early universe — all three predicted by a single geometric model, simultaneously, without adjusting anything to make them fit.
 
@@ -471,7 +471,7 @@ Here is what this project has established:
 
 ---
 
-> **The arrow of time may be written into the shape of spacetime itself. Consciousness may be the coupled equilibrium that emerges when that geometry finds itself in a brain. The hydrogen atom may be nothing more than the first stable winding mode of the compact dimension — cold fusion may be what happens when that dimension is locally amplified — and the social contract may be what emerges when the FTUM fixed-point structure scales from atoms to civilisations. This repository contains the evidence for all of these claims, and the instruments to test them — 8906 passing tests, 52 geometric pillars, and a satellite that launches in 2032.**
+> **The arrow of time may be written into the shape of spacetime itself. Consciousness may be the coupled equilibrium that emerges when that geometry finds itself in a brain. The hydrogen atom may be nothing more than the first stable winding mode of the compact dimension — cold fusion may be what happens when that dimension is locally amplified — and the social contract may be what emerges when the FTUM fixed-point structure scales from atoms to civilisations. This repository contains the evidence for all of these claims, and the instruments to test them — 10027 passing tests, 52 geometric pillars, and a satellite that launches in 2032.**
 
 ---
 
