@@ -177,7 +177,26 @@ Broken down by test path:
 
 The single skipped test is not a failure — it skips itself when the physics works perfectly (the system converges so fast there is nothing to check). That is a good problem to have.
 
-What that number means: across five-dimensional Riemannian geometry, quantum field theory, statistical mechanics, inflationary cosmology, fiber-bundle topology, holographic renormalization, baryon acoustic oscillations, gravitational-wave theory, anomaly cancellation, black hole information transcoding (Pillar 6), particle winding geometry (Pillar 7), geometric dark matter (Pillar 8), the coupled brain-universe two-body fixed-point problem (Pillar 9), chemistry (Pillar 10), astronomy (Pillar 11), Earth sciences (Pillar 12), biology (Pillar 13), atomic structure and spectroscopy (Pillar 14), cold fusion tunneling dynamics (Pillar 15), material recovery and φ-debt accounting (Pillar 16), medicine as φ-field homeostasis (Pillar 17), justice as φ-field equity (Pillar 18), governance as φ-field stability (Pillar 19), neuroscience as φ-field neural networks (Pillar 20), ecology as φ-field ecosystem dynamics (Pillar 21), climate science as φ-field radiative engine (Pillar 22), marine biology and deep ocean science (Pillar 23), psychology as φ-field behaviour (Pillar 24), genetics as φ-field information archive (Pillar 25), materials science as φ-field lattice dynamics (Pillar 26), two-field non-Gaussianity (Pillar 27), KK BH remnants (Pillar 28), spontaneous compactification (Pillar 29), moduli survival (Pillar 30), quantum information structure of the KK metric (Pillar 31), KK geometric imprint (Pillar 32), ISL fifth-force (Pillar 33), CMB observables from integer topology (Pillar 34), many-body dissipation as 5D identity (Pillar 35), BH information paradox resolution (Pillar 36), EP violation (Pillar 37), observational frontiers (Pillar 38), solitonic charge and orbifold winding (Pillar 39), AdS₅/CFT₄ KK tower (Pillar 40), delay field model (Pillar 41), three-generation mass hierarchy (Pillar 42), KK collider resonances (Pillar 43), geometric collapse (Pillar 44), coupled history and consciousness–quantum measurement bridge (Pillar 45), numerical precision audit (Pillar 45-B), LiteBIRD boundary and fail zone (Pillar 45-C), Fröhlich polaron (Pillar 46), superluminal polariton vortex topology (Pillar 47), Einstein-Cartan-KK torsion hybrid (Pillar 48), zero-point vacuum energy regularisation (Pillar 49), electroweak hierarchy problem (Pillar 50), muon g-2 (Pillar 51), CMB amplitude normalisation (Pillar 52), CAMB/CLASS Boltzmann bridge (Pillar 52-B), and the entire HILS governance architecture of the Unitary Pentad — not one machine-checkable claim was found to be internally inconsistent.
+What that number means, broken down by domain:
+
+| Pillars | Domain | What is verified |
+|---------|--------|-----------------|
+| 1–3 | 5D KK geometry, field evolution, braided winding | Metric structure, curvature extraction, α=φ₀⁻², braided sound speed c_s=12/37 |
+| 4–5 | Holographic boundary, FTUM fixed point | Entropy-area law, fixed-point convergence, UEUM operator |
+| 6–8 | Black holes, particles, dark matter | BH transceiver, particle masses from winding, B_μ rotation curves |
+| 9 | Consciousness | Two-body Ψ*_brain ⊗ Ψ*_univ fixed point, birefringence coupling |
+| 10–13 | Natural sciences (chemistry, astronomy, earth, biology) | Bonds, spectral series, plate tectonics, evolution as FTUM |
+| 14–15 | Atomic structure, cold fusion | KK winding modes = orbitals, φ-enhanced Gamow tunneling |
+| 16 | Recycling (φ-debt accounting) | Entropy ledger, producer responsibility, thermochemistry |
+| 17–19 | Medicine, justice, governance | φ-homeostasis, φ-equity, FTUM stability |
+| 20–26 | Neuroscience through materials | φ-field analogies across all remaining natural sciences |
+| 27–38 | New first-principles pillars | Non-Gaussianity, BH remnants, compactification, moduli, ISL, CMB topology, dissipation, EP violation, observational frontiers |
+| 39–44 | Derivation frontier | Solitonic charge (n_w=5 argument), AdS₅/CFT₄ tower, delay field, three generations, collider resonances, geometric collapse |
+| 45–45-C | Precision and boundaries | Consciousness–QM bridge, 128/256-bit audit, LiteBIRD fail zone |
+| 46–52-B | Materials and vacuum | Fröhlich polaron, polariton vortex, torsion, zero-point vacuum, EW hierarchy, muon g-2, CMB amplitude, CAMB/CLASS bridge |
+| Pentad | HILS governance framework | 18-module Pentagonal Master Equation, Sentinel, Pilot, thermalization |
+
+Not one machine-checkable claim was found to be internally inconsistent.
 
 What it does not mean: it does not tell you whether the universe agrees. It tells you the framework is computationally coherent. You cannot find a hole in it with a computer.
 

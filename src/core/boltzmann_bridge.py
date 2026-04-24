@@ -351,7 +351,7 @@ def compute_cl_tt_class(
     t_cmb_uk = 2.7255e6  # μK
     cl_tt = np.zeros(lmax + 1)
     cl_tt[2:] = (
-        cl_dict["tt"][2: lmax + 1]
+        cl_dict["tt"][2:lmax + 1]
         * t_cmb_uk**2
         * ells[2:] * (ells[2:] + 1)
         / (2 * np.pi)

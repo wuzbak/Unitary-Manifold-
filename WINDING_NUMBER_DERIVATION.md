@@ -32,28 +32,21 @@ than chosen to match data.
 ### 2.1 Z₂ projection: only odd winding numbers survive
 
 The compact dimension has orbifold symmetry S¹/Z₂: the Z₂ involution acts as
-y → −y on the extra coordinate. Under this symmetry, field configurations are
-required to be Z₂-even (the orbifold projects out Z₂-odd modes).
+y → −y on the extra coordinate. Different fields transform differently under
+this involution.
 
-A winding configuration with winding number n wraps the S¹ n times. Under y → −y:
-- **Even n:** the configuration is periodic under the Z₂ identification, so it
-  **survives** the projection.
-- **Odd n:** the configuration changes sign under y → −y, making it Z₂-**odd**
-  and therefore projected out.
+For the *irreversibility field* B_μ (the Kaluza-Klein gauge field), the fifth
+component picks up a sign: B₄ → −B₄ under y → −y. The Chern-Simons term
+∝ B_μ ∂_ν B_ρ ε^μνρσ is therefore *odd* under the Z₂ involution. For this
+term to be well-defined and non-zero at the orbifold fixed points y = 0 and
+y = πR, the winding configuration must itself be odd — contributing boundary
+Chern-Simons charge. Even winding numbers produce zero CS charge at the fixed
+points and cannot support the B_μ topological sector.
 
-Wait — the opposite is the case. For the *radion field* φ, Z₂ symmetry requires
-φ(y) = φ(−y) (even). A zero-mode winding with n even respects this; a winding
-with n odd does not, and is eliminated by the orbifold projection.
-
-**However**, for the *Chern-Simons winding* (the topological solitonic charge),
-the Z₂ involution acts differently: it is the *irreversibility field* B_μ that
-picks up a sign, B₄ → −B₄ under y → −y. A Chern-Simons term ∝ B_μ ∂_ν B_ρ ε^μνρσ
-is odd under this operation — so the boundary conditions at the orbifold fixed
-points y = 0 and y = πR require **odd winding**. Even windings have zero Chern-Simons
-charge at the fixed points and cannot support the B_μ topological sector.
+Consequently: **n_w ∈ {1, 3, 5, 7, 9, …}** — only odd winding numbers are
+consistent with the orbifold boundary conditions on the Chern-Simons sector.
 
 This argument is implemented in `solitonic_charge.orbifold_odd_winding_unique()`.
-The result: **n_w ∈ {1, 3, 5, 7, 9, …}** — odd integers only.
 
 ### 2.2 Observational selection: n_w = 5 is the unique odd integer in Planck 2σ
 
