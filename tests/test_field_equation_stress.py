@@ -54,13 +54,11 @@ from src.core.braided_winding import (
 # ---------------------------------------------------------------------------
 
 N_W_CANONICAL: int   = 5        # Planck-selected winding number
-N_W_NEXT: int        = 7        # next odd winding (BICEP/Keck excluded)
+N_W_NEXT: int        = 7        # next odd winding (excluded by Planck nₛ at 3.9σ)
 K_CS_CANONICAL: int  = 74       # Chern-Simons level = 5² + 7²
-K_CS_NEXT: int       = 49 + 81  # = 7² + 9² = 130 (next candidate for n_w=7)
 C_S_CANONICAL: float = 12.0 / 37.0   # braided sound speed (5,7)
 BICEP_KECK_R_LIMIT: float = 0.036    # BICEP/Keck 2022 upper bound
 PHI0_BARE: float = 1.0               # FTUM bare fixed-point radion
-R_BARE: float    = 16.0 / (12.0 / 37.0) ** 2  # bare tensor-to-scalar before braiding
 
 
 # ===========================================================================
