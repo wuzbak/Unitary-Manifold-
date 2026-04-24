@@ -255,9 +255,10 @@ def new_physics_scale_from_anomaly(
     Parameters
     ----------
     delta_a_mu:
-        The anomalous magnetic moment contribution (dimensionless a_μ units).
-        For the data-driven discrepancy, pass discrepancy_dd()['delta'] × 10⁻¹²
-        (i.e., convert from 10⁻¹² units back to dimensionless).
+        The anomalous magnetic moment contribution in dimensionless a_μ units.
+        The module stores values in units of 10⁻¹²; to get the dimensionless
+        value, multiply discrepancy_dd()['delta'] by 10⁻¹²
+        (e.g., 260.5 × 10⁻¹² ≈ 2.605 × 10⁻¹⁰ in standard a_μ notation).
     loop_factor:
         Dimensionless loop suppression factor.  Default = 1/(16π²).
 
