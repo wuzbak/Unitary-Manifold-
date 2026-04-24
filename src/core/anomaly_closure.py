@@ -601,7 +601,7 @@ def r_bound_unique_n2_verified(
         if r < r_max:
             satisfying.append(n2)
 
-    unique_n2 = satisfying[0] if len(satisfying) == 1 else (satisfying[0] if satisfying else None)
+    unique_n2 = satisfying[0] if satisfying else None
     return {
         "n1": n1,
         "r_max": r_max,
