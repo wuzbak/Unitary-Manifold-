@@ -6,7 +6,7 @@ src/consciousness/consciousness_deployment.py
 Consciousness-Bridge Deployment — Pillar 9-B.
 
 Maps the converged CoupledSystem (Ψ_brain ⊗ Ψ_univ) state from Pillar 9
-onto the 17 analogical application domains (Pillars 10–26), constituting
+onto 13 analogical application domains (Pillars 10, 12–13, 17–26), constituting
 the formal "deployment" of the consciousness-bridge into the full Unitary
 Manifold application framework.
 
@@ -20,13 +20,13 @@ epistemic taxonomy.
   physical model.  Whether consciousness is *actually* a 5D fixed-point
   phenomenon is unconfirmed.
 
-* Tier 3 (Pillars 10–26): the φ-field mathematics is used as a *modeling
+* Tier 3 (Pillars 10, 12–13, 17–26): the φ-field mathematics is used as a *modeling
   language* for complex domains.  The bridge does **not** claim that
   medicine, justice, or governance are literally 5D geometric phenomena.
 
 The bridge provides a principled, internally consistent way to seed each
 application-domain model from a shared Pillar-9 base state, so that all
-17 domain models are simultaneously consistent with a single coupled
+13 implemented domain models are simultaneously consistent with a single coupled
 (brain ⊗ universe) attractor.
 
 Physical derivation of the bridge quantities

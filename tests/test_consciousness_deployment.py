@@ -201,7 +201,12 @@ class TestDeploymentConstruction:
 # ---------------------------------------------------------------------------
 
 class TestPhiEffConsistency:
-    """phi_eff and info_gap must be identical across all domain methods."""
+    """Domains that directly expose phi_eff as a named output must match bridge_state.phi_eff.
+
+    Note: ``to_biology()`` intentionally uses ``phi_eff²`` (not ``phi_eff``) for
+    ``negentropy_rate``; ``to_earth()`` intentionally uses ``phi_univ`` for
+    ``tectonic_phi``.  These are excluded from this consistency check.
+    """
 
     _phi_eff_keys = {
         # "earth" uses phi_univ (not phi_eff) for tectonic_phi — intentional
