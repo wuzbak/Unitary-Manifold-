@@ -302,6 +302,85 @@ geometric mechanism:
 *Reference:* Pinčák R. et al. (2026), https://doi.org/10.1007/s10714-026-03528-z.
 *Code:* `src/core/torsion_remnant.py` (Pillar 48), `tests/test_torsion_remnant.py`.
 
+### IV.6 The Cylinder Condition and Moduli Stabilization
+
+A standard criticism of Kaluza-Klein theories is that the "cylinder condition"
+(∂_y fields = 0 — no variation along the 5th dimension for low-energy modes)
+must be *imposed* as an ad hoc assumption, and that the radion scalar φ is a
+dangerous runaway field unless a separate stabilisation mechanism is introduced.
+Both concerns are addressed in the UM framework; this section states the
+resolution explicitly.
+
+**Cylinder condition — automatic from Z₂ parity.**
+The compact fifth dimension of the UM is the orbifold S¹/Z₂, not the circle
+S¹.  The Z₂ involution y → −y projects the 5D field content onto two sectors:
+
+- **Z₂-even fields** (scalar under y → −y): these have mode functions
+  φ_n(y) = A_n cos(ny/R), with boundary conditions ∂_y φ_n|_{y=0, πR} = 0
+  (Neumann).  At the zero-mode level (n=0), the cosine is constant and
+  ∂_y φ₀ = 0 identically — the cylinder condition is *automatically* satisfied.
+- **Z₂-odd fields** (pseudoscalar under y → −y): these have mode functions
+  ∝ sin(ny/R) and vanish at the fixed points y = 0, πR.  Their zero-modes
+  are absent by symmetry, not by assumption.
+
+The 4D graviton, KK photon B_μ, and radion φ are all Z₂-even zero-modes.
+Their ∂_y-independence at the classical level is a *consequence* of the
+orbifold structure, not an additional assumption.  This is standard in
+Randall-Sundrum and Horava-Witten constructions.
+
+*Code reference:* `src/core/solitonic_charge.py` (Pillar 39, Z₂ orbifold
+involution and spectral-index selection); `src/core/three_generations.py`
+(Pillar 42, Neumann boundary conditions for KK mode functions).
+
+**Radion stabilization — Goldberger-Wise mechanism.**
+The radion scalar φ (the 5D metric component G₅₅ = φ²) is not left as a
+free modulus.  In the UM, the compact radius R is stabilised by the same
+dynamics that generate the inflaton potential.  Specifically, the
+Goldberger-Wise (GW) mechanism provides a brane-bulk scalar field whose
+profile along y generates an effective potential for φ:
+
+    V_GW(φ)  =  λ_GW (φ² − φ₀²)²
+
+with a minimum at φ = φ₀.  The same potential drives inflation: the inflaton
+rolls away from an unstable plateau (φ ≠ φ₀) toward the GW minimum (φ = φ₀).
+At the FTUM fixed point (Pillar 5), the entropy saturation condition
+S* = A/(4G) selects φ* = φ₀, closing the self-consistency loop.
+
+The radion mass m_φ from the second derivative of V_GW at φ₀ is
+
+    m_φ²  =  8 λ_GW φ₀²
+
+This mass is heavy (m_φ ~ M_KK) for natural GW couplings, so the radion is
+not a light, long-range force but a massive stable modulus.
+
+*Code reference:* `src/core/evolution.py` (Goldberger-Wise potential V_GW
+in the FieldState evolution); `src/multiverse/fixed_point.py` (FTUM fixed
+point selects φ* = φ₀); `src/core/moduli_survival.py` (Pillar 30, survival
+conditions for zero-mode and braid-locked KK modes).
+
+**Why the UM evades the "extra scalar problem".**
+In generic KK theories the radion is a massless Brans-Dicke scalar that
+mediates a fifth force violating solar-system tests of GR.  The UM avoids
+this because:
+
+1. The GW potential gives m_φ ~ M_KK ≫ H₀ → radion exchange is short-range
+   (Yukawa-suppressed at cosmological distances).
+2. The CS coupling at level k_CS = 74 topologically locks the radion to the
+   braid vacuum, preventing perturbative rolling to the Brans-Dicke limit.
+3. The FTUM operator U enforces S = A/(4G) at the IR fixed point, removing the
+   residual modular freedom.
+
+*Code reference:* `src/core/solitonic_charge.py` §CS lock, Pillar 39;
+`src/multiverse/fixed_point.py`; `src/core/anomaly_closure.py` Pillar 58.
+
+**Residual limitation.**
+While the GW mechanism stabilises φ₀ in principle, the exact numerical value
+of λ_GW (and hence m_φ) is not independently derived within the UM — it is
+treated as the coupling that produces the correct inflationary plateau.  This
+is the same free parameter admitted in §II (the Yukawa coupling λ).  The
+stabilisation *mechanism* is in place; the stabilisation *scale* requires one
+additional input from the GW sector.
+
 ---
 
 ## V. Explicit Falsifiability Conditions
