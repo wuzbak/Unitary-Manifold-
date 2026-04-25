@@ -57,6 +57,7 @@ from src.cold_fusion.excess_heat import (
     cumulative_heat,
     heat_to_electrical_efficiency,
     anomalous_heat_signature,
+    calculate_energy_branching_ratio,
 )
 
 
@@ -1146,3 +1147,146 @@ class TestAnomalousHeatSignature:
     def test_negative_excess_gives_negative_sigma(self):
         sigma = anomalous_heat_signature(-5.0, 1.0)
         assert sigma < 0.0
+
+
+# ===========================================================================
+# excess_heat.py — calculate_energy_branching_ratio
+# ===========================================================================
+
+class TestCalculateEnergyBranchingRatio:
+    """Tests for the B_μ momentum-sink energy branching ratio."""
+
+    def test_returns_dict(self):
+        result = calculate_energy_branching_ratio(1.0, 1.0)
+        assert isinstance(result, dict)
+
+    def test_required_keys(self):
+        result = calculate_energy_branching_ratio(1.0, 1.0)
+        required = {
+            "B_site", "phi_local", "alpha_fs", "B_effective",
+            "Gamma_gamma", "Gamma_phonon", "Gamma_total",
+            "phonon_fraction", "gamma_fraction",
+            "suppression_pct", "is_safe",
+        }
+        assert required.issubset(result.keys())
+
+    def test_fractions_sum_to_one(self):
+        result = calculate_energy_branching_ratio(2.0, 3.0)
+        assert abs(result["phonon_fraction"] + result["gamma_fraction"] - 1.0) < 1e-12
+
+    def test_phonon_fraction_in_unit_interval(self):
+        result = calculate_energy_branching_ratio(5.0, 2.0)
+        assert 0.0 <= result["phonon_fraction"] <= 1.0
+
+    def test_gamma_fraction_in_unit_interval(self):
+        result = calculate_energy_branching_ratio(5.0, 2.0)
+        assert 0.0 <= result["gamma_fraction"] <= 1.0
+
+    def test_zero_B_site_gives_all_gamma(self):
+        result = calculate_energy_branching_ratio(0.0, 1.0)
+        assert result["phonon_fraction"] == 0.0
+        assert result["gamma_fraction"] == 1.0
+
+    def test_zero_B_site_not_safe(self):
+        result = calculate_energy_branching_ratio(0.0, 1.0)
+        assert result["is_safe"] is False
+
+    def test_high_B_site_mostly_phonon(self):
+        # B_eff = 200 → phonon_fraction = 200/201 ≈ 0.995 > 0.99
+        result = calculate_energy_branching_ratio(100.0, 2.0)
+        assert result["phonon_fraction"] > 0.99
+
+    def test_high_B_site_is_safe(self):
+        result = calculate_energy_branching_ratio(100.0, 2.0)
+        assert result["is_safe"] is True
+
+    def test_B_effective_equals_B_site_times_phi(self):
+        B_site = 3.5
+        phi_local = 4.2
+        result = calculate_energy_branching_ratio(B_site, phi_local)
+        assert abs(result["B_effective"] - B_site * phi_local) < 1e-12
+
+    def test_phonon_fraction_formula(self):
+        B_site, phi_local = 5.0, 3.0
+        result = calculate_energy_branching_ratio(B_site, phi_local)
+        B_eff = B_site * phi_local
+        expected_phonon = B_eff / (1.0 + B_eff)
+        assert abs(result["phonon_fraction"] - expected_phonon) < 1e-12
+
+    def test_gamma_fraction_formula(self):
+        B_site, phi_local = 5.0, 3.0
+        result = calculate_energy_branching_ratio(B_site, phi_local)
+        B_eff = B_site * phi_local
+        expected_gamma = 1.0 / (1.0 + B_eff)
+        assert abs(result["gamma_fraction"] - expected_gamma) < 1e-12
+
+    def test_suppression_pct_consistent(self):
+        result = calculate_energy_branching_ratio(10.0, 2.0)
+        expected_pct = (1.0 - result["gamma_fraction"]) * 100.0
+        assert abs(result["suppression_pct"] - expected_pct) < 1e-10
+
+    def test_is_safe_threshold_at_99pct(self):
+        # B_eff = 99 → gamma_fraction = 1/100 = 0.01 → NOT safe
+        result_99 = calculate_energy_branching_ratio(99.0, 1.0)
+        # B_eff = 100 → gamma_fraction = 1/101 < 0.01 → safe
+        result_100 = calculate_energy_branching_ratio(100.0, 1.0)
+        assert result_99["is_safe"] is False
+        assert result_100["is_safe"] is True
+
+    def test_Gamma_total_equals_sum(self):
+        result = calculate_energy_branching_ratio(5.0, 2.0)
+        assert abs(result["Gamma_total"] - (result["Gamma_gamma"] + result["Gamma_phonon"])) < 1e-15
+
+    def test_Gamma_phonon_to_gamma_ratio_equals_B_eff(self):
+        B_site, phi_local = 4.0, 5.0
+        result = calculate_energy_branching_ratio(B_site, phi_local)
+        ratio = result["Gamma_phonon"] / result["Gamma_gamma"]
+        assert abs(ratio - result["B_effective"]) < 1e-10
+
+    def test_custom_alpha_fs(self):
+        alpha = 1.0 / 100.0
+        result = calculate_energy_branching_ratio(1.0, 1.0, alpha_fs=alpha)
+        assert abs(result["alpha_fs"] - alpha) < 1e-15
+        assert abs(result["Gamma_gamma"] - alpha) < 1e-15
+
+    def test_alpha_fs_cancels_in_fractions(self):
+        # Branching fractions are independent of alpha_fs
+        r1 = calculate_energy_branching_ratio(3.0, 2.0, alpha_fs=1.0 / 137.0)
+        r2 = calculate_energy_branching_ratio(3.0, 2.0, alpha_fs=1.0 / 100.0)
+        assert abs(r1["phonon_fraction"] - r2["phonon_fraction"]) < 1e-14
+        assert abs(r1["gamma_fraction"] - r2["gamma_fraction"]) < 1e-14
+
+    def test_monotone_in_B_site(self):
+        results = [calculate_energy_branching_ratio(b, 2.0) for b in [0.5, 1.0, 5.0, 20.0]]
+        phonon_fracs = [r["phonon_fraction"] for r in results]
+        assert phonon_fracs == sorted(phonon_fracs)
+
+    def test_monotone_in_phi_local(self):
+        results = [calculate_energy_branching_ratio(1.0, phi) for phi in [1.0, 2.0, 5.0, 10.0]]
+        phonon_fracs = [r["phonon_fraction"] for r in results]
+        assert phonon_fracs == sorted(phonon_fracs)
+
+    def test_invalid_B_site_negative(self):
+        with pytest.raises(ValueError):
+            calculate_energy_branching_ratio(-1.0, 1.0)
+
+    def test_invalid_phi_local_zero(self):
+        with pytest.raises(ValueError):
+            calculate_energy_branching_ratio(1.0, 0.0)
+
+    def test_invalid_phi_local_negative(self):
+        with pytest.raises(ValueError):
+            calculate_energy_branching_ratio(1.0, -1.0)
+
+    def test_realistic_LENR_conditions(self):
+        # Realistic Pd-D cell: B_site ≈ 0.8 (moderate field), phi_local ≈ 1.5
+        # B_eff = 1.2 → phonon_fraction ≈ 0.545 (not yet safe, but showing mechanism)
+        result = calculate_energy_branching_ratio(0.8, 1.5)
+        assert result["phonon_fraction"] > 0.5
+        assert result["B_effective"] == pytest.approx(1.2, rel=1e-10)
+
+    def test_high_loading_regime_safe(self):
+        # High loading: B_site = 10, phi_local = 15 → B_eff = 150 → >99% suppression
+        result = calculate_energy_branching_ratio(10.0, 15.0)
+        assert result["is_safe"] is True
+        assert result["suppression_pct"] > 99.0

@@ -73,6 +73,9 @@ from src.core.zero_point_vacuum import (
     # Functions — full-solution Pillar 4: neutrino-mass radion tie-in
     brane_tension_from_neutrino_mass,
     radion_self_consistency_check,
+    derive_R_from_neutrino_mass,
+    # Functions — full-solution Pillar 7: Universal Resonance Identity
+    prove_resonance_identity,
     # Functions — full-solution Pillar 5: braid-fermion ZPE cancellation
     fermionic_zpe_offset,
     # Functions — full-solution Pillar 6: running braid factor
@@ -1729,3 +1732,256 @@ class TestBraidRunningFactor:
         with pytest.raises(ValueError):
             braid_running_factor(mu_UV=1.0, mu_IR=0.0)
 
+
+
+# ===========================================================================
+# 40. derive_R_from_neutrino_mass
+# ===========================================================================
+
+class TestDeriveRFromNeutrinoMass:
+    """Tests for the Neutrino-Radion Identity entry point."""
+
+    def test_returns_dict(self):
+        result = derive_R_from_neutrino_mass()
+        assert isinstance(result, dict)
+
+    def test_required_keys(self):
+        result = derive_R_from_neutrino_mass()
+        required = {
+            "m_nu_eV", "m_nu_planck", "R_KK_planck", "R_KK_m", "R_KK_um",
+            "M_KK_planck", "f_braid", "rho_eff_planck", "rho_obs_planck",
+            "ratio_rho", "orders_gap", "m_nu_exact_eV",
+            "closure_pct_err", "loop_closed_1pct", "mechanism",
+        }
+        assert required.issubset(result.keys())
+
+    def test_default_m_nu_is_canonical(self):
+        result = derive_R_from_neutrino_mass()
+        assert result["m_nu_eV"] == M_NU_CANONICAL_EV
+
+    def test_R_KK_equals_inverse_m_nu(self):
+        m_nu_eV = 50e-3
+        result = derive_R_from_neutrino_mass(m_nu_eV)
+        m_nu_planck = m_nu_eV / (PLANCK_ENERGY_GEV * 1e9)
+        expected_R = 1.0 / m_nu_planck
+        assert abs(result["R_KK_planck"] / expected_R - 1.0) < 1e-10
+
+    def test_M_KK_equals_m_nu(self):
+        m_nu_eV = 80e-3
+        result = derive_R_from_neutrino_mass(m_nu_eV)
+        m_nu_planck = m_nu_eV / (PLANCK_ENERGY_GEV * 1e9)
+        assert abs(result["M_KK_planck"] / m_nu_planck - 1.0) < 1e-10
+
+    def test_R_KK_in_metres_positive(self):
+        result = derive_R_from_neutrino_mass()
+        assert result["R_KK_m"] > 0
+
+    def test_R_KK_microns_consistent(self):
+        result = derive_R_from_neutrino_mass()
+        assert abs(result["R_KK_um"] - result["R_KK_m"] * 1e6) < 1e-30
+
+    def test_rho_eff_positive(self):
+        result = derive_R_from_neutrino_mass()
+        assert result["rho_eff_planck"] > 0
+
+    def test_rho_eff_matches_braid_times_zpe(self):
+        """ρ_eff = f_braid × M_KK⁴ / (16π²)."""
+        import math
+        m_nu_eV = 60e-3
+        result = derive_R_from_neutrino_mass(m_nu_eV)
+        m_nu_p = m_nu_eV / (PLANCK_ENERGY_GEV * 1e9)
+        f = result["f_braid"]
+        rho_expected = f * m_nu_p ** 4 / (16.0 * math.pi ** 2)
+        assert abs(result["rho_eff_planck"] / rho_expected - 1.0) < 1e-9
+
+    def test_exact_closure_at_m_nu_exact(self):
+        """At m_nu_exact, loop_closed_1pct should be True."""
+        result_default = derive_R_from_neutrino_mass()
+        m_exact = result_default["m_nu_exact_eV"]
+        result_exact = derive_R_from_neutrino_mass(m_exact)
+        assert result_exact["loop_closed_1pct"] is True
+        assert result_exact["closure_pct_err"] < 1.0
+
+    def test_ratio_rho_at_exact_closure_near_one(self):
+        result_default = derive_R_from_neutrino_mass()
+        m_exact = result_default["m_nu_exact_eV"]
+        result_exact = derive_R_from_neutrino_mass(m_exact)
+        assert abs(result_exact["ratio_rho"] - 1.0) < 0.01
+
+    def test_larger_m_nu_gives_larger_rho_eff(self):
+        r1 = derive_R_from_neutrino_mass(50e-3)
+        r2 = derive_R_from_neutrino_mass(110e-3)
+        assert r2["rho_eff_planck"] > r1["rho_eff_planck"]
+
+    def test_larger_m_nu_gives_smaller_R_KK(self):
+        r1 = derive_R_from_neutrino_mass(50e-3)
+        r2 = derive_R_from_neutrino_mass(110e-3)
+        assert r2["R_KK_planck"] < r1["R_KK_planck"]
+
+    def test_orders_gap_zero_when_ratio_above_one(self):
+        result = derive_R_from_neutrino_mass()
+        m_exact = result["m_nu_exact_eV"]
+        result_large = derive_R_from_neutrino_mass(m_exact * 2)
+        # rho_eff > rho_obs → orders_gap = 0
+        assert result_large["orders_gap"] == 0.0
+
+    def test_orders_gap_positive_when_under_threshold(self):
+        result = derive_R_from_neutrino_mass(10e-3)  # 10 meV → under-threshold
+        assert result["orders_gap"] > 0.0
+
+    def test_mechanism_string_present(self):
+        result = derive_R_from_neutrino_mass()
+        assert "Neutrino-Radion" in result["mechanism"]
+        assert "μm" in result["mechanism"]
+
+    def test_f_braid_matches_braid_cancellation_factor(self):
+        from src.core.zero_point_vacuum import braid_cancellation_factor
+        result = derive_R_from_neutrino_mass()
+        expected = braid_cancellation_factor()
+        assert abs(result["f_braid"] / expected - 1.0) < 1e-10
+
+    def test_m_nu_exact_consistent_with_kk_scale_needed(self):
+        from src.core.zero_point_vacuum import kk_scale_needed_for_dark_energy
+        result = derive_R_from_neutrino_mass()
+        m_kk_planck = kk_scale_needed_for_dark_energy()
+        m_kk_eV = m_kk_planck * PLANCK_ENERGY_GEV * 1e9
+        assert abs(result["m_nu_exact_eV"] / m_kk_eV - 1.0) < 1e-8
+
+    def test_invalid_m_nu_zero(self):
+        with pytest.raises(ValueError):
+            derive_R_from_neutrino_mass(0.0)
+
+    def test_invalid_m_nu_negative(self):
+        with pytest.raises(ValueError):
+            derive_R_from_neutrino_mass(-50e-3)
+
+    def test_R_KK_um_at_exact_closure_approx_75um(self):
+        """At exact closure, R_KK ≈ 1.792 μm (M_KK ≈ 110.13 meV = macroscopic)."""
+        result = derive_R_from_neutrino_mass()
+        m_exact = result["m_nu_exact_eV"]
+        result_exact = derive_R_from_neutrino_mass(m_exact)
+        # M_KK_needed ≈ 110.13 meV → R_KK ≈ 1.79 μm
+        assert 1.5 < result_exact["R_KK_um"] < 2.1
+
+    def test_consistency_with_radion_self_consistency_check(self):
+        """derive_R_from_neutrino_mass and radion_self_consistency_check agree."""
+        m_nu_eV = 75e-3
+        r1 = derive_R_from_neutrino_mass(m_nu_eV)
+        r2 = radion_self_consistency_check(m_nu_eV)
+        assert abs(r1["rho_eff_planck"] / r2["rho_eff_planck"] - 1.0) < 1e-8
+        assert abs(r1["ratio_rho"] / r2["ratio_rho"] - 1.0) < 1e-8
+
+
+# ===========================================================================
+# 41. prove_resonance_identity
+# ===========================================================================
+
+class TestProveResonanceIdentity:
+    """Tests for the Universal Resonance Identity: m_ν/M_Pl ≈ (ρ_obs)^(1/4)."""
+
+    def test_returns_dict(self):
+        assert isinstance(prove_resonance_identity(), dict)
+
+    def test_required_keys(self):
+        result = prove_resonance_identity()
+        required = {
+            "m_nu_eV", "m_nu_planck", "rho_obs_planck",
+            "rho_obs_fourth_root", "f_braid", "f_braid_fourth_root",
+            "M_KK_needed_planck", "M_KK_needed_eV",
+            "identity_ratio", "bridge_ratio", "deviation_pct",
+            "identity_holds_10pct", "mechanism",
+        }
+        assert required.issubset(result.keys())
+
+    def test_rho_fourth_root_positive(self):
+        result = prove_resonance_identity()
+        assert result["rho_obs_fourth_root"] > 0
+
+    def test_f_braid_fourth_root_positive(self):
+        result = prove_resonance_identity()
+        assert result["f_braid_fourth_root"] > 0
+
+    def test_f_braid_fourth_root_formula(self):
+        result = prove_resonance_identity()
+        expected = result["f_braid"] ** 0.25
+        assert abs(result["f_braid_fourth_root"] / expected - 1.0) < 1e-12
+
+    def test_rho_fourth_root_formula(self):
+        result = prove_resonance_identity()
+        expected = result["rho_obs_planck"] ** 0.25
+        assert abs(result["rho_obs_fourth_root"] / expected - 1.0) < 1e-12
+
+    def test_identity_ratio_formula(self):
+        result = prove_resonance_identity()
+        expected = result["m_nu_planck"] / result["rho_obs_fourth_root"]
+        assert abs(result["identity_ratio"] / expected - 1.0) < 1e-12
+
+    def test_bridge_ratio_at_exact_closure_equals_one(self):
+        """At m_ν = M_KK_needed, bridge_ratio = m_ν/M_KK_needed = 1.0 exactly."""
+        r0 = prove_resonance_identity()
+        m_exact = r0["M_KK_needed_eV"]
+        r_exact = prove_resonance_identity(m_nu_eV=m_exact)
+        assert abs(r_exact["bridge_ratio"] - 1.0) < 1e-8
+
+    def test_deviation_pct_at_exact_closure_near_zero(self):
+        r0 = prove_resonance_identity()
+        m_exact = r0["M_KK_needed_eV"]
+        r_exact = prove_resonance_identity(m_nu_eV=m_exact)
+        assert r_exact["deviation_pct"] < 1e-4
+
+    def test_identity_holds_10pct_at_exact_closure(self):
+        r0 = prove_resonance_identity()
+        m_exact = r0["M_KK_needed_eV"]
+        r_exact = prove_resonance_identity(m_nu_eV=m_exact)
+        assert r_exact["identity_holds_10pct"] is True
+
+    def test_bridge_ratio_is_m_nu_over_M_KK_needed(self):
+        """bridge_ratio is the exact self-consistency check: m_ν / M_KK_needed."""
+        m_nu_eV = 75e-3
+        result = prove_resonance_identity(m_nu_eV=m_nu_eV)
+        expected = result["m_nu_planck"] / result["M_KK_needed_planck"]
+        assert abs(result["bridge_ratio"] / expected - 1.0) < 1e-12
+
+    def test_M_KK_needed_eV_is_110meV(self):
+        result = prove_resonance_identity()
+        # M_KK_needed ≈ 110 meV — the dark energy scale
+        assert 50.0 < result["M_KK_needed_eV"] * 1e3 < 200.0
+
+    def test_bridge_ratio_monotone_in_m_nu(self):
+        # Larger m_ν → larger identity_ratio → larger bridge_ratio
+        r1 = prove_resonance_identity(m_nu_eV=50e-3)
+        r2 = prove_resonance_identity(m_nu_eV=110e-3)
+        assert r2["bridge_ratio"] > r1["bridge_ratio"]
+
+    def test_mechanism_string_present(self):
+        result = prove_resonance_identity()
+        assert "Resonance Identity" in result["mechanism"]
+        assert "braid" in result["mechanism"]
+
+    def test_f_braid_matches_canonical(self):
+        result = prove_resonance_identity()
+        expected_f = braid_cancellation_factor()
+        assert abs(result["f_braid"] / expected_f - 1.0) < 1e-12
+
+    def test_invalid_m_nu_zero(self):
+        with pytest.raises(ValueError):
+            prove_resonance_identity(m_nu_eV=0.0)
+
+    def test_invalid_m_nu_negative(self):
+        with pytest.raises(ValueError):
+            prove_resonance_identity(m_nu_eV=-0.05)
+
+    def test_deviation_pct_is_percentage(self):
+        result = prove_resonance_identity()
+        assert 0.0 <= result["deviation_pct"]
+
+    def test_bridge_ratio_positive(self):
+        result = prove_resonance_identity()
+        assert result["bridge_ratio"] > 0
+
+    def test_consistency_across_functions(self):
+        """M_KK_needed is consistent with kk_scale_needed_for_dark_energy."""
+        result = prove_resonance_identity()
+        from src.core.zero_point_vacuum import kk_scale_needed_for_dark_energy
+        m_kk = kk_scale_needed_for_dark_energy()
+        assert abs(result["M_KK_needed_planck"] / m_kk - 1.0) < 1e-10
