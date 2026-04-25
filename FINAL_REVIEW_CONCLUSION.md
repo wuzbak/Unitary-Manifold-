@@ -168,38 +168,38 @@ v9.10 moved the framework beyond the natural sciences and into the structure of 
 Every manufactured object is a topological entity in the 5D geometry: it carries a φ-debt — the entropic cost of the organised information required to produce it. Recycling is the partial restoration of that winding-number signature; landfilling is its irreversible collapse. The φ-debt accounting framework provides a thermodynamically grounded basis for producer responsibility, recovery rates, and entropy ledger credits. 316 tests.
 
 **Pillar 17 — Medicine as φ-Field Homeostasis** (`src/medicine/`)  
-A healthy body maintains its φ-homeostasis fixed point. Disease is a displacement from that fixed point along the B_μ field gradient. Diagnosis identifies the displacement vector; treatment is the applied correction that drives the system back toward equilibrium. Systemic conditions represent global φ-field imbalance. 63 tests.
+A healthy body maintains its φ-homeostasis fixed point. Disease is a displacement from that fixed point along the B_μ field gradient. Diagnosis identifies the displacement vector; treatment is the applied correction that drives the system back toward equilibrium. Systemic conditions represent global φ-field imbalance. 139 tests.
 
 **Pillar 18 — Justice as φ-Field Equity** (`src/justice/`)  
-A just legal system minimises the variance of φ across sentencing outcomes for equivalent offences and corrects for accumulated φ-inequity through principled reform. Courts are fixed-point adjudication systems; sentencing distributions that diverge from φ-equity are detectable, quantifiable, and correctable. 63 tests.
+A just legal system minimises the variance of φ across sentencing outcomes for equivalent offences and corrects for accumulated φ-inequity through principled reform. Courts are fixed-point adjudication systems; sentencing distributions that diverge from φ-equity are detectable, quantifiable, and correctable. 124 tests.
 
 **Pillar 19 — Governance as φ-Field Stability** (`src/governance/`)  
-Democratic governance is the largest-scale FTUM fixed point that human social organisation has produced. Democracy is the φ-maximising mechanism for collective decision-making; the social contract is the coupling operator; institutional stability is the convergence criterion. 252 tests in `test_governance.py` — the largest single-pillar test file in the suite.
+Democratic governance is the largest-scale FTUM fixed point that human social organisation has produced. Democracy is the φ-maximising mechanism for collective decision-making; the social contract is the coupling operator; institutional stability is the convergence criterion. 115 tests in `test_governance.py`.
 
 ### Step 10 — Seven New Frontiers (v9.11)
 
 v9.11 deployed seven new geometric pillars in a single session — the most expansive extension of the framework to date. Each pillar asks the same question that every pillar before it asked: does the same geometric machinery that governs spacetime also govern this domain?
 
 **Pillar 20 — Neuroscience as φ-Field Neural Networks** (`src/neuroscience/`)  
-Neurons are φ-field oscillators. Synaptic transmission is B_μ-driven information transfer across the neural interface. Cognition is a FTUM fixed-point process at the network scale. This is Pillar 9 (consciousness) resolved at the cellular level: where Pillar 9 describes the two-body problem of brain and universe, Pillar 20 describes the many-body problem of neurons within the brain. 100 tests.
+Neurons are φ-field oscillators. Synaptic transmission is B_μ-driven information transfer across the neural interface. Cognition is a FTUM fixed-point process at the network scale. This is Pillar 9 (consciousness) resolved at the cellular level: where Pillar 9 describes the two-body problem of brain and universe, Pillar 20 describes the many-body problem of neurons within the brain. 92 tests.
 
 **Pillar 21 — Ecology as φ-Field Ecosystem Dynamics** (`src/ecology/`)  
-Ecosystems are collective FTUM attractors. Biodiversity measures the φ-field variance across species; a high-diversity ecosystem is a wider basin of attraction. Food webs are B_μ energy-transfer networks; trophic cascades are B_μ field disruptions. Ecosystem collapse is the loss of the fixed point. 95 tests.
+Ecosystems are collective FTUM attractors. Biodiversity measures the φ-field variance across species; a high-diversity ecosystem is a wider basin of attraction. Food webs are B_μ energy-transfer networks; trophic cascades are B_μ field disruptions. Ecosystem collapse is the loss of the fixed point. 70 tests.
 
 **Pillar 22 — Climate Science as φ-Field Radiative Engine** (`src/climate/`)  
-The climate system is a driven radiative FTUM engine. The atmosphere is a B_μ fluid maintaining a φ-radiative equilibrium; the carbon cycle is the slow B_μ feedback loop that shifts that equilibrium; anthropogenic forcing is a perturbation driving the system toward a new, higher-entropy fixed point. This is the thermodynamic physics of climate change stated in geometric terms. 90 tests.
+The climate system is a driven radiative FTUM engine. The atmosphere is a B_μ fluid maintaining a φ-radiative equilibrium; the carbon cycle is the slow B_μ feedback loop that shifts that equilibrium; anthropogenic forcing is a perturbation driving the system toward a new, higher-entropy fixed point. This is the thermodynamic physics of climate change stated in geometric terms. 66 tests.
 
 **Pillar 23 — Marine Biology and Deep Ocean Science** (`src/marine/`)  
-The deep ocean is the planetary φ-buffer: the largest thermodynamic reservoir at the surface. Ocean dynamics are thermohaline B_μ vortex flows; marine life occupies negentropy φ-attractors in the water column; deep-ocean chemistry is the long-timescale φ-field stabiliser of surface climate. 90 tests.
+The deep ocean is the planetary φ-buffer: the largest thermodynamic reservoir at the surface. Ocean dynamics are thermohaline B_μ vortex flows; marine life occupies negentropy φ-attractors in the water column; deep-ocean chemistry is the long-timescale φ-field stabiliser of surface climate. 72 tests.
 
 **Pillar 24 — Psychology as φ-Field Behaviour** (`src/psychology/`)  
-Individual behaviour is the output of a φ-field decision process operating under the uncertainty of the B_μ information gradient. Cognition is FTUM iteration over the belief landscape; social psychology documents the collective B_μ field effects on individual φ-trajectories. 90 tests.
+Individual behaviour is the output of a φ-field decision process operating under the uncertainty of the B_μ information gradient. Cognition is FTUM iteration over the belief landscape; social psychology documents the collective B_μ field effects on individual φ-trajectories. 82 tests.
 
 **Pillar 25 — Genetics as φ-Field Information Archive** (`src/genetics/`)  
-DNA is the most compact φ-information archive in biology. Genomics reads the winding-number signature of biological history; gene expression is φ-field gating — the selective activation of winding modes under environmental B_μ signals; evolutionary change is gradient ascent on the FTUM fitness landscape at the genomic scale. 90 tests.
+DNA is the most compact φ-information archive in biology. Genomics reads the winding-number signature of biological history; gene expression is φ-field gating — the selective activation of winding modes under environmental B_μ signals; evolutionary change is gradient ascent on the FTUM fitness landscape at the genomic scale. 78 tests.
 
 **Pillar 26 — Materials Science as φ-Field Lattice Dynamics** (`src/materials/`)  
-Condensed matter is the φ-field theory of lattice organisation. Semiconductors are φ-field band-gap structures; metamaterials are engineered B_μ-topology configurations; superconductivity and topological phases are FTUM fixed points of the lattice φ-field that standard solid-state theory describes empirically but does not derive geometrically. 90 tests.
+Condensed matter is the φ-field theory of lattice organisation. Semiconductors are φ-field band-gap structures; metamaterials are engineered B_μ-topology configurations; superconductivity and topological phases are FTUM fixed points of the lattice φ-field that standard solid-state theory describes empirically but does not derive geometrically. 75 tests.
 
 ### Step 11 — The Precision and Derivation Frontier: Pillars 27–52 (v9.12–v9.14)
 
@@ -344,7 +344,7 @@ This covers:
 - **Gravitational-wave echo timing from the compact dimension (Pillar 6)**
 - **Particle masses from 5D loop curvature; three generations from φ-pitch (Pillar 7 — 51 tests)**
 - **Flat galactic rotation curves from B_μ geometric pressure ρ ∝ 1/r² (Pillar 8 — 45 tests)**
-- **Consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ; information conservation under coupling C; 5:7 resonance lock; Information Gap ΔI as coupling constant (Pillar 9 — 61 tests)**
+- **Consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ; information conservation under coupling C; 5:7 resonance lock; Information Gap ΔI as coupling constant (Pillar 9 — 83 tests)**
 - **Chemical bonds as φ-minima; Arrhenius kinetics from B_μ barriers; periodic table from KK winding numbers (Pillar 10 — 102 tests)**
 - **Stars and planets as FTUM fixed points; Jeans mass from B_μ collapse; Titus-Bode from winding geometry (Pillar 11 — 91 tests)**
 - **Plate tectonics, thermohaline circulation, and atmospheric cells as B_μ fluid dynamics at planetary scale (Pillar 12 — 150 tests)**
@@ -352,16 +352,16 @@ This covers:
 - **Hydrogen energy levels, spectral series, spin-orbit coupling, and fine structure as projections of KK winding modes (Pillar 14 — 187 tests)**
 - **φ-enhanced Gamow tunneling, Pd lattice coherence, and excess heat COP as formal falsifiable predictions for cold fusion (Pillar 15 — 215 tests)**
 - **φ-debt entropy ledger for manufactured objects; thermochemical recovery rates; producer responsibility accounting (Pillar 16 — 316 tests, recycling suite)**
-- **Medical diagnosis as φ-deviation detection; treatment as B_μ correction toward homeostasis (Pillar 17 — 63 tests)**
-- **Sentencing as φ-equity targeting; courts as fixed-point adjudication; reform as gradient descent toward equity (Pillar 18 — 63 tests)**
-- **Democratic governance as the largest-scale FTUM fixed point; institutional stability as FTUM convergence (Pillar 19 — 252 tests)**
-- **Neurons as φ-oscillators; synaptic B_μ transfer; cognition as FTUM iteration at the neural network scale (Pillar 20 — 100 tests)**
-- **Ecosystems as collective FTUM attractors; biodiversity as φ-variance; food webs as B_μ energy-transfer networks (Pillar 21 — 95 tests)**
-- **Climate as driven radiative FTUM engine; carbon cycle as slow B_μ feedback loop; anthropogenic forcing as φ-equilibrium perturbation (Pillar 22 — 90 tests)**
-- **Deep ocean as planetary φ-buffer; thermohaline as B_μ vortex flow; marine life as φ-attractors in the water column (Pillar 23 — 90 tests)**
-- **Individual behaviour as φ-field decision output; cognition as FTUM belief iteration; social psychology as collective B_μ field effects (Pillar 24 — 90 tests)**
-- **DNA as φ-information archive; gene expression as φ-field gating; evolutionary change as FTUM gradient ascent at the genomic scale (Pillar 25 — 90 tests)**
-- **Semiconductor band gaps, metamaterial B_μ-topology, and superconducting phases as φ-lattice FTUM fixed points (Pillar 26 — 90 tests)**
+- **Medical diagnosis as φ-deviation detection; treatment as B_μ correction toward homeostasis (Pillar 17 — 139 tests)**
+- **Sentencing as φ-equity targeting; courts as fixed-point adjudication; reform as gradient descent toward equity (Pillar 18 — 124 tests)**
+- **Democratic governance as the largest-scale FTUM fixed point; institutional stability as FTUM convergence (Pillar 19 — 115 tests)**
+- **Neurons as φ-oscillators; synaptic B_μ transfer; cognition as FTUM iteration at the neural network scale (Pillar 20 — 92 tests)**
+- **Ecosystems as collective FTUM attractors; biodiversity as φ-variance; food webs as B_μ energy-transfer networks (Pillar 21 — 70 tests)**
+- **Climate as driven radiative FTUM engine; carbon cycle as slow B_μ feedback loop; anthropogenic forcing as φ-equilibrium perturbation (Pillar 22 — 66 tests)**
+- **Deep ocean as planetary φ-buffer; thermohaline as B_μ vortex flow; marine life as φ-attractors in the water column (Pillar 23 — 72 tests)**
+- **Individual behaviour as φ-field decision output; cognition as FTUM belief iteration; social psychology as collective B_μ field effects (Pillar 24 — 82 tests)**
+- **DNA as φ-information archive; gene expression as φ-field gating; evolutionary change as FTUM gradient ascent at the genomic scale (Pillar 25 — 78 tests)**
+- **Semiconductor band gaps, metamaterial B_μ-topology, and superconducting phases as φ-lattice FTUM fixed points (Pillar 26 — 75 tests)**
 - **The complete 5-body HILS Pentagonal Master Equation — trust coupling, Harmonic State convergence, Autopilot Sentinel, distributed authority, sentinel load-balancing, Minimum Viable Manifold search, cold-start thermalization, Langevin jitter, non-Hermitian influence asymmetry, 3:2 resonance dynamics, and the real-time Pilot interface (Unitary Pentad — 1234 tests)**
 
 ### What It Does Not Mean

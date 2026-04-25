@@ -497,8 +497,19 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 | 49 | Zero-Point Vacuum Energy Regularisation | `src/core/zero_point_vacuum.py` | 239 |
 | 50 | Electroweak Hierarchy Problem | `src/core/ew_hierarchy.py` | 410 |
 | 51 | Muon g−2: KK graviton and ALP analysis | `src/core/muon_g2.py` | 82 |
+| 51-B | Fermilab Watch — live muon g-2 constraint tracker | `src/core/fermilab_watch.py` | 85 |
 | 52 | CMB Scalar Amplitude (Aₛ) Normalisation | `src/core/cmb_amplitude.py` | 84 |
 | 52-B | CAMB/CLASS Boltzmann Bridge | `src/core/boltzmann_bridge.py` | 65 |
+| 53 | ADM Decomposition Engine | `src/core/adm_engine.py` | 72 |
+| 54 | Fermion Emergence from Orbifold Parity | `src/core/fermion_emergence.py` | 104 |
+| 55 | Anomaly Uniqueness — (5,7) selection proof | `src/core/anomaly_uniqueness.py` | 111 |
+| 56 | φ₀ Self-Consistency Closure | `src/core/phi0_closure.py` | 122 |
+| 57 | CMB Acoustic Peaks from KK Geometry | `src/core/cmb_peaks.py` | 92 |
+| 58 | Algebraic Identity Theorem (Anomaly Closure) | `src/core/anomaly_closure.py` | 144 |
+| 59 | Matter Power Spectrum from 5D Topology | `src/core/matter_power_spectrum.py` | 109 |
+| 60 | Particle Mass Spectrum from KK Modes | `src/core/particle_mass_spectrum.py` | 105 |
+| 9-B | Consciousness Deployment — 5:7 resonance scaling | `src/consciousness/consciousness_deployment.py` | 105 |
+| 45-D | LiteBIRD Forecast — full covariance matrix | `src/core/litebird_forecast.py` | 116 |
 
 **Grand total: 10244 passed · 1 skipped · 11 deselected · 0 failed** (10256 collected, 129 test files)
 
