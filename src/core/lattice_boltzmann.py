@@ -785,3 +785,113 @@ def lattice_heat_power(
     phonon_fraction = 1.0 - P_gamma
     Q_J = Q_MeV * MEV_TO_J
     return n_DD_per_cc_s * Q_J * phonon_fraction
+
+
+# ---------------------------------------------------------------------------
+# Coefficient of Performance (COP)
+# ---------------------------------------------------------------------------
+
+
+def calculate_cop(
+    n_DD_per_cc_s: float,
+    W_input_W_per_cc: float,
+    volume_cc: float = 1.0,
+    Q_MeV: float = DD_Q_HE3_MEV,
+    radion_coupling: float | None = None,
+    gamma_standard: float = DD_GAMMA_STANDARD,
+) -> dict:
+    """Coefficient of Performance for the UM-enhanced Pd-D cold-fusion cell.
+
+    Connects the Gamow-entry side (fusion event rate per cm³ per second) to
+    the heat-output side (Boltzmann transport efficiency) in a single COP
+    calculation:
+
+        COP = Q_lattice_total / W_input_total
+            = (n_DD/s × V × Q_DD × phonon_fraction) / (W_input/cc × V)
+            = (n_DD/s × Q_DD × phonon_fraction) / (W_input/cc)
+
+    **Epistemics note:** The fusion event rate ``n_DD_per_cc_s`` must be
+    supplied by the caller (typically from ``src.core.cold_fusion.cold_fusion_rate``
+    or from experimental calorimetry).  This function computes the
+    *thermodynamic output efficiency* of those events — what fraction of the
+    Q-value reaches the lattice as useful heat — and folds it into the COP.
+
+    Break-even condition: COP ≥ 1.0.
+
+    Parameters
+    ----------
+    n_DD_per_cc_s : float
+        D-D fusion event rate per cm³ per second (events / cm³ / s).
+        Obtain from ``cold_fusion.cold_fusion_rate()`` or experiment.
+    W_input_W_per_cc : float
+        Electrical (or other) work input per cm³ per second [W/cm³].
+        Must be > 0.
+    volume_cc : float
+        Active volume of the cell [cm³] (default 1.0).  Cancels in the
+        COP ratio but is retained for absolute power accounting.
+    Q_MeV : float
+        D-D fusion Q-value [MeV] (default 3.27 MeV).
+    radion_coupling : float or None
+        Phonon-radion coupling g.  Defaults to canonical.
+    gamma_standard : float
+        Standard gamma branching fraction (pre-UM).
+
+    Returns
+    -------
+    dict with keys:
+        ``n_DD_per_cc_s``      : float — fusion rate input [/cm³/s]
+        ``W_input_W_per_cc``   : float — work input [W/cm³]
+        ``volume_cc``          : float — active volume [cm³]
+        ``Q_MeV``              : float — fusion Q-value [MeV]
+        ``radion_coupling``    : float — phonon-radion coupling g
+        ``phonon_fraction``    : float — fraction of Q reaching lattice
+        ``Q_lattice_W_per_cc`` : float — heat output rate [W/cm³]
+        ``Q_lattice_W_total``  : float — total heat output [W]
+        ``W_input_W_total``    : float — total work input [W]
+        ``COP``                : float — Coefficient of Performance
+        ``break_even``         : bool — True if COP ≥ 1.0
+        ``COP_margin``         : float — COP − 1.0 (positive = above break-even)
+        ``prompt_gamma_ratio`` : float — UM-suppressed P_γ
+
+    Raises
+    ------
+    ValueError
+        If W_input_W_per_cc ≤ 0 or volume_cc ≤ 0.
+    """
+    if W_input_W_per_cc <= 0.0:
+        raise ValueError(
+            f"W_input_W_per_cc must be positive, got {W_input_W_per_cc}"
+        )
+    if volume_cc <= 0.0:
+        raise ValueError(f"volume_cc must be positive, got {volume_cc}")
+
+    if radion_coupling is None:
+        radion_coupling = radion_phonon_coupling()
+
+    P_gamma = prompt_gamma_ratio(radion_coupling, gamma_standard)
+    phonon_fraction = 1.0 - P_gamma
+
+    Q_lattice_W_per_cc = lattice_heat_power(
+        n_DD_per_cc_s, Q_MeV, radion_coupling, gamma_standard
+    )
+    Q_lattice_W_total = Q_lattice_W_per_cc * volume_cc
+    W_input_W_total = W_input_W_per_cc * volume_cc
+
+    COP_val = Q_lattice_W_total / W_input_W_total
+    break_even = bool(COP_val >= 1.0)
+
+    return {
+        "n_DD_per_cc_s": float(n_DD_per_cc_s),
+        "W_input_W_per_cc": float(W_input_W_per_cc),
+        "volume_cc": float(volume_cc),
+        "Q_MeV": float(Q_MeV),
+        "radion_coupling": float(radion_coupling),
+        "phonon_fraction": float(phonon_fraction),
+        "Q_lattice_W_per_cc": float(Q_lattice_W_per_cc),
+        "Q_lattice_W_total": float(Q_lattice_W_total),
+        "W_input_W_total": float(W_input_W_total),
+        "COP": float(COP_val),
+        "break_even": break_even,
+        "COP_margin": float(COP_val - 1.0),
+        "prompt_gamma_ratio": float(P_gamma),
+    }

@@ -41,6 +41,7 @@ from src.core.lattice_boltzmann import (
     # functions
     bmu_relaxation_time,
     bose_einstein,
+    calculate_cop,
     energy_branching,
     lattice_heat_power,
     phonon_distribution_evolution,
@@ -685,3 +686,134 @@ class TestLatticeHeatPower:
     def test_finite(self):
         P = lattice_heat_power(1e15)
         assert np.isfinite(P)
+
+
+# ===========================================================================
+# calculate_cop
+# ===========================================================================
+
+
+class TestCalculateCop:
+    """COP = Q_heat / W_input; break-even at COP ≥ 1.0."""
+
+    def _cop_above_breakeven(self):
+        """Scenario where COP > 1: high fusion rate, low work input."""
+        # 1e15 fusions/cm³/s is an optimistic scenario for illustrative testing.
+        # The UM does NOT assert this rate is achievable at room temperature;
+        # it asserts that IF that rate occurs, the COP is as computed.
+        return calculate_cop(
+            n_DD_per_cc_s=1e15,
+            W_input_W_per_cc=1.0,
+        )
+
+    def _cop_below_breakeven(self):
+        """Scenario where COP < 1: low fusion rate, high work input."""
+        return calculate_cop(
+            n_DD_per_cc_s=1.0,
+            W_input_W_per_cc=1.0,
+        )
+
+    def test_returns_dict(self):
+        result = calculate_cop(1e10, 1.0)
+        assert isinstance(result, dict)
+
+    def test_required_keys(self):
+        result = calculate_cop(1e10, 1.0)
+        required = {
+            "n_DD_per_cc_s", "W_input_W_per_cc", "volume_cc", "Q_MeV",
+            "radion_coupling", "phonon_fraction", "Q_lattice_W_per_cc",
+            "Q_lattice_W_total", "W_input_W_total", "COP", "break_even",
+            "COP_margin", "prompt_gamma_ratio",
+        }
+        assert required <= set(result.keys())
+
+    def test_cop_positive(self):
+        result = calculate_cop(1e10, 1.0)
+        assert result["COP"] > 0.0
+
+    def test_cop_above_breakeven_scenario(self):
+        result = self._cop_above_breakeven()
+        assert result["COP"] > 1.0
+        assert result["break_even"] is True
+        assert result["COP_margin"] > 0.0
+
+    def test_cop_below_breakeven_scenario(self):
+        result = self._cop_below_breakeven()
+        assert result["COP"] < 1.0
+        assert result["break_even"] is False
+        assert result["COP_margin"] < 0.0
+
+    def test_cop_scales_with_fusion_rate(self):
+        r1 = calculate_cop(1e12, 1.0)
+        r2 = calculate_cop(2e12, 1.0)
+        assert r2["COP"] == pytest.approx(2.0 * r1["COP"], rel=1e-8)
+
+    def test_cop_inversely_scales_with_work(self):
+        r1 = calculate_cop(1e12, 1.0)
+        r2 = calculate_cop(1e12, 2.0)
+        assert r2["COP"] == pytest.approx(r1["COP"] / 2.0, rel=1e-8)
+
+    def test_volume_cancels_in_cop(self):
+        r1 = calculate_cop(1e12, 1.0, volume_cc=1.0)
+        r2 = calculate_cop(1e12, 1.0, volume_cc=10.0)
+        assert r2["COP"] == pytest.approx(r1["COP"], rel=1e-10)
+
+    def test_volume_affects_absolute_power(self):
+        r1 = calculate_cop(1e12, 1.0, volume_cc=1.0)
+        r2 = calculate_cop(1e12, 1.0, volume_cc=5.0)
+        assert r2["Q_lattice_W_total"] == pytest.approx(
+            5.0 * r1["Q_lattice_W_total"], rel=1e-10
+        )
+
+    def test_phonon_fraction_close_to_unity(self):
+        result = calculate_cop(1e12, 1.0)
+        assert result["phonon_fraction"] > 0.999
+
+    def test_t_channel_higher_q(self):
+        r_he3 = calculate_cop(1e12, 1.0, Q_MeV=DD_Q_HE3_MEV)
+        r_t = calculate_cop(1e12, 1.0, Q_MeV=DD_Q_T_MEV)
+        assert r_t["COP"] > r_he3["COP"]
+
+    def test_invalid_work_input_zero(self):
+        with pytest.raises(ValueError):
+            calculate_cop(1e12, 0.0)
+
+    def test_invalid_work_input_negative(self):
+        with pytest.raises(ValueError):
+            calculate_cop(1e12, -1.0)
+
+    def test_invalid_volume(self):
+        with pytest.raises(ValueError):
+            calculate_cop(1e12, 1.0, volume_cc=0.0)
+        with pytest.raises(ValueError):
+            calculate_cop(1e12, 1.0, volume_cc=-1.0)
+
+    def test_cop_margin_formula(self):
+        result = calculate_cop(1e12, 1.0)
+        assert result["COP_margin"] == pytest.approx(
+            result["COP"] - 1.0, rel=1e-10
+        )
+
+    def test_zero_fusion_gives_zero_cop(self):
+        result = calculate_cop(0.0, 1.0)
+        assert result["COP"] == pytest.approx(0.0, abs=1e-40)
+        assert result["break_even"] is False
+
+    def test_all_floats_finite(self):
+        result = calculate_cop(1e12, 1.0)
+        for key, val in result.items():
+            if isinstance(val, float):
+                assert np.isfinite(val), f"Non-finite for key {key!r}: {val}"
+
+    def test_prompt_gamma_ratio_matches_standalone(self):
+        g = radion_phonon_coupling()
+        result = calculate_cop(1e12, 1.0, radion_coupling=g)
+        expected_pg = prompt_gamma_ratio(g)
+        assert result["prompt_gamma_ratio"] == pytest.approx(expected_pg, rel=1e-10)
+
+    def test_cop_consistency_with_heat_power(self):
+        rate = 1e13
+        W_in = 0.5
+        result = calculate_cop(rate, W_in, volume_cc=2.0)
+        expected_q = lattice_heat_power(rate) * 2.0
+        assert result["Q_lattice_W_total"] == pytest.approx(expected_q, rel=1e-8)
