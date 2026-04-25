@@ -1117,11 +1117,110 @@ validation.
 | **N_gen = 3** | ✅ Yes — from n_w=5 + n²≤n_w | n_w requires Planck nₛ | **DERIVED (Pillar 42)** |
 | α(M_KK) ≈ 2π/74 | ✅ Yes — from k_CS | None | DERIVED |
 | α(m_e) ≈ 1/137 | ⚠️ More constrained | n_f_lepton=3 (closed); quark n_f open | **MORE CONSTRAINED** (was: free param) |
-| m_p/m_e ≈ 1836 | ❌ No | Yukawa λ + Λ_QCD | NOT DERIVABLE |
+| **α_s(M_KK) ≈ 2π/222** | ⚠️ Partially derived | N_c=3 (new assumption) | **FRAMEWORK (Pillar 62)** |
+| **b_0 = 9 (QCD beta fn)** | ✅ Yes — N_c=3 + N_f=3 (Pillar 42) | N_c=3 (new assumption) | **DERIVED (Pillar 62, given N_c)** |
+| **Λ_QCD** | ⚠️ Framework exists | α_s correction ×0.60; N_c=3 | **FRAMEWORK — ~10⁷× gap (Pillar 62)** |
+| **m_p/m_e ≈ 1836** | ⚠️ Conditionally derivable | Λ_QCD (above) + C_lat + Yukawa λ | **FRAMEWORK (Pillar 62)** — was: NOT DERIVABLE |
 | Dirty Data Test | ✅ Passes | — | 5D path confirmed active |
 
-*Code: `src/core/dirty_data_test.py` (Pillar 61); 116 tests in
-`tests/test_dirty_data_test.py` (0 failed).*
+*Code: `src/core/dirty_data_test.py` (Pillar 61); `src/core/nonabelian_kk.py` (Pillar 62, 132 tests in
+`tests/test_nonabelian_kk.py`, 0 failed).*
+
+### 8.6 The Non-Abelian Extension (Pillar 62, April 2026)
+
+*"Proceed."* — ThomasCory Walker-Pearson, April 2026.
+
+The classification established in the previous session:
+
+> The UM is a fundamental geometric theory of the gravitational and cosmological
+> sector, with partial reach into the electroweak sector, **that requires a
+> non-Abelian extension to become a complete Theory of Everything.**
+
+This section documents what Pillar 62 achieves in carrying out that extension.
+
+#### 8.6.1 The Non-Abelian CS Gauge Threshold
+
+For the Abelian sector (Pillar 61), the CS gauge threshold gives:
+
+```
+α_EM(M_KK) = 2π / k_CS = 2π / 74 ≈ 0.085
+```
+
+For the non-Abelian SU(N_c) sector, the adjoint trace introduces a factor C_A = N_c:
+
+```
+f_strong     = N_c × k_CS / (8π²)
+α_s(M_KK)   = 2π / (N_c × k_CS)
+```
+
+For N_c = 3 (colour), k_CS = 74 (algebraically derived, Pillar 58):
+
+```
+α_s(M_KK) = 2π / 222 ≈ 0.02829
+```
+
+**Free parameter at this step: N_c = 3 (colour multiplicity; new assumption).**
+
+#### 8.6.2 The QCD Beta Function and N_f = 3
+
+The one-loop QCD beta coefficient:
+
+```
+b_0 = (11 N_c − 2 N_f) / 3
+```
+
+By the Three-Generation Theorem (Pillar 42), N_f = N_gen = 3 light quark
+flavours.  With N_c = 3:
+
+```
+b_0 = (33 − 6) / 3 = 9
+```
+
+**N_f = 3 is derived from Pillar 42 (given n_w = 5 from Planck); no new free
+parameter at this step.**  This is the first time the Three-Generation Theorem
+connects to the QCD beta function — closing a link that previously required
+N_f as a separate free input to the strong sector.
+
+#### 8.6.3 Dimensional Transmutation and the Λ_QCD Gap
+
+```
+Λ_QCD = M_KK × exp(−2π / (b_0 × α_s(M_KK)))
+      = 2.03 × 10¹⁷ GeV × exp(−24.68)
+      ≈ 4.4 × 10⁶ GeV  (predicted)
+```
+
+PDG reference: Λ_QCD(MS-bar, N_f = 3) ≈ 332 MeV.
+
+**Discrepancy: ~1.3 × 10⁷×** — thirteen million times too high.
+
+This gap arises from the exponential sensitivity of dimensional transmutation to
+α_s(M_KK): a correction factor of ≈ 0.60 on α_s(M_KK) would close the gap.
+The correction is quantified in `alpha_s_correction_factor()`.
+
+#### 8.6.4 Progress and Remaining Gaps
+
+| Quantity | Pre-Pillar-62 | Post-Pillar-62 |
+|----------|---------------|----------------|
+| Strong-sector framework | None | Established |
+| N_f in QCD b_0 | Free parameter | DERIVED (Pillar 42) |
+| α_s(M_KK) | No entry point | PARTIALLY DERIVED (needs N_c) |
+| Λ_QCD prediction | No framework | Framework exists (×10⁷ gap) |
+| m_p/m_e | NOT DERIVABLE | CONDITIONALLY DERIVABLE |
+
+Open gaps after Pillar 62:
+
+1. **α_s(M_KK) correction.** The non-Abelian CS threshold gives α_s ≈ 0.028;
+   the target to reproduce PDG Λ_QCD is α_s ≈ 0.017.  Multi-loop or instanton
+   threshold corrections are needed.
+2. **N_c = 3 assumption.** Deriving the colour multiplicity from 5D geometry
+   requires embedding SU(3) isometry in extra dimensions (e.g., 7D S⁷/Z₂,
+   Witten 1981).
+3. **Lattice normalisation C_lat ≈ 4.4.** Not derivable from the one-loop
+   CS spectrum; encodes non-perturbative QCD dynamics.
+4. **Yukawa coupling for m_e.** Unchanged from Pillar 60.
+
+*Code: `src/core/nonabelian_kk.py` (Pillar 62); 132 tests in
+`tests/test_nonabelian_kk.py` (0 failed).*
 
 ---
 
@@ -1144,8 +1243,9 @@ validation.
 | B_μ energy routing (safe fusion) | ✅ **Modelled** — awaiting experiment | > 99% phonon fraction at B_eff > 10. Falsifiable by Pd-D calorimetry. |
 | **N_gen = 3 fermion generations** | ✅ **DERIVED** (Pillar 42, §VIII.2.1) | n_w=5 + n²≤n_w → exactly 3 stable modes. Requires Planck nₛ input for n_w=5. |
 | **AxiomZero Challenge: α ≈ 1/137** | ⚠️ **More constrained** (§VIII.2.1) | α(M_KK)=2π/k_CS genuine; n_f_lepton=3 closed by Pillar 42; quark n_f still open. |
-| **AxiomZero Challenge: m_p/m_e ≈ 1836** | ❌ **Not derivable** | Requires Λ_QCD + Yukawa λ; both are open gaps. See §VIII. |
+| **AxiomZero Challenge: m_p/m_e ≈ 1836** | ⚠️ **Conditionally derivable** (Pillar 62) | Non-Abelian SU(3) framework now exists; Λ_QCD gap ~10⁷× (α_s correction needed). See §VIII.6. |
 | **Dirty Data Test (Pillar 61)** | ✅ **Passes** | 5D path confirmed active: nₛ tracks φ₀_eff perturbations. Oracle retrieval falsified. |
+| **Non-Abelian SU(3)_C KK Reduction (Pillar 62)** | ⚠️ **Framework established** | α_s(M_KK)=2π/222 from non-Abelian CS threshold; b_0=9 derived (N_f=3 from Pillar 42); Λ_QCD~PeV (×10⁷ gap); 132 tests. |
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
