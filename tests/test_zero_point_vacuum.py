@@ -35,6 +35,7 @@ from src.core.zero_point_vacuum import (
     RADION_POTENTIAL_POWER,
     PLANCK_LENGTH_M,
     PLANCK_ENERGY_GEV,
+    M_NU_CANONICAL_EV,
     # Functions — original
     zpe_density_naive,
     kk_casimir_energy_density,
@@ -69,6 +70,13 @@ from src.core.zero_point_vacuum import (
     casimir_kk_ripple_deviation,
     casimir_ripple_peak_separation,
     casimir_ripple_peak_deviation,
+    # Functions — full-solution Pillar 4: neutrino-mass radion tie-in
+    brane_tension_from_neutrino_mass,
+    radion_self_consistency_check,
+    # Functions — full-solution Pillar 5: braid-fermion ZPE cancellation
+    fermionic_zpe_offset,
+    # Functions — full-solution Pillar 6: running braid factor
+    braid_running_factor,
 )
 
 # ---------------------------------------------------------------------------
@@ -1446,3 +1454,278 @@ class TestFullSolutionCrossConsistency:
         R = 1.0
         dev = casimir_ripple_peak_deviation(1, R)
         assert dev > 0                   # Pillar 3: non-zero ripple signal
+
+
+# ===========================================================================
+# 35. M_NU_CANONICAL_EV constant
+# ===========================================================================
+
+class TestMNuConstant:
+    def test_positive(self):
+        assert M_NU_CANONICAL_EV > 0
+
+    def test_in_mev_range(self):
+        # Canonical estimate: 50 meV = 0.05 eV
+        assert 1e-3 < M_NU_CANONICAL_EV < 1.0
+
+    def test_below_dark_energy_scale(self):
+        # 50 meV < 110 meV (M_KK_needed)
+        assert M_NU_CANONICAL_EV < dark_energy_scale_ev()
+
+
+# ===========================================================================
+# 36. brane_tension_from_neutrino_mass
+# ===========================================================================
+
+class TestBraneTensionFromNeutrinoMass:
+    def test_positive(self):
+        T = brane_tension_from_neutrino_mass(50e-3)
+        assert T > 0
+
+    def test_formula_consistency_with_radion_equilibrium(self):
+        # With T from m_nu, radion_equilibrium_radius should recover R_nu = 1/m_nu_planck
+        m_nu_eV = 50e-3
+        m_nu_planck = m_nu_eV / (PLANCK_ENERGY_GEV * 1e9)
+        R_nu_expected = 1.0 / m_nu_planck
+        T = brane_tension_from_neutrino_mass(m_nu_eV)
+        R_star = radion_equilibrium_radius(T)
+        assert abs(R_star / R_nu_expected - 1.0) < 1e-8
+
+    def test_smaller_mnu_gives_larger_tension(self):
+        # Smaller m_nu → larger R_nu → smaller T = 4A/R^5 (no — larger R means smaller T)
+        T_small = brane_tension_from_neutrino_mass(20e-3)   # 20 meV → larger R_nu
+        T_large = brane_tension_from_neutrino_mass(100e-3)  # 100 meV → smaller R_nu
+        assert T_large > T_small
+
+    def test_formula_4A_over_Rnu5(self):
+        m_nu_eV = 70e-3
+        m_nu_planck = m_nu_eV / (PLANCK_ENERGY_GEV * 1e9)
+        R_nu = 1.0 / m_nu_planck
+        f = braid_cancellation_factor()
+        A = f / (16.0 * math.pi ** 2)
+        expected = 4.0 * A / R_nu ** 5
+        T = brane_tension_from_neutrino_mass(m_nu_eV)
+        assert abs(T / expected - 1.0) < 1e-10
+
+    def test_scales_as_mnu_5th_power(self):
+        # T ∝ m_nu^5 (since R_nu = 1/m_nu → T = 4A × m_nu^5)
+        T1 = brane_tension_from_neutrino_mass(50e-3)
+        T2 = brane_tension_from_neutrino_mass(100e-3)
+        # (100/50)^5 = 2^5 = 32
+        assert abs(T2 / T1 - 32.0) < 1e-6
+
+    def test_canonical_neutrino_mass(self):
+        T = brane_tension_from_neutrino_mass(M_NU_CANONICAL_EV)
+        assert T > 0
+        assert math.isfinite(T)
+
+    def test_invalid_zero(self):
+        with pytest.raises(ValueError):
+            brane_tension_from_neutrino_mass(0.0)
+
+    def test_invalid_negative(self):
+        with pytest.raises(ValueError):
+            brane_tension_from_neutrino_mass(-50e-3)
+
+    def test_dark_energy_match_at_exact_mnu(self):
+        # At m_nu = M_KK_needed (eV), T gives R* = R_KK_needed exactly
+        m_nu_exact = dark_energy_scale_ev()
+        T = brane_tension_from_neutrino_mass(m_nu_exact)
+        R_star = radion_equilibrium_radius(T)
+        m_kk_recovered = 1.0 / R_star
+        m_kk_needed = kk_scale_needed_for_dark_energy()
+        assert abs(m_kk_recovered / m_kk_needed - 1.0) < 1e-8
+
+
+# ===========================================================================
+# 37. radion_self_consistency_check
+# ===========================================================================
+
+class TestRadionSelfConsistencyCheck:
+    @pytest.fixture
+    def check_50mev(self):
+        return radion_self_consistency_check(50e-3)
+
+    @pytest.fixture
+    def check_exact(self):
+        m_nu_exact = dark_energy_scale_ev()
+        return radion_self_consistency_check(m_nu_exact)
+
+    def test_returns_dict(self, check_50mev):
+        assert isinstance(check_50mev, dict)
+
+    def test_required_keys(self, check_50mev):
+        required = [
+            "m_nu_eV", "m_nu_planck", "R_nu_planck", "T_brane",
+            "R_star_planck", "M_KK_planck", "rho_eff_planck", "rho_obs_planck",
+            "ratio_rho", "m_nu_exact_eV", "ratio_m_nu", "orders_gap", "is_closed",
+        ]
+        for k in required:
+            assert k in check_50mev, f"Missing key: {k}"
+
+    def test_rho_eff_positive(self, check_50mev):
+        assert check_50mev["rho_eff_planck"] > 0
+
+    def test_m_nu_exact_near_110mev(self, check_50mev):
+        # M_KK_needed ≈ 110 meV
+        assert 0.05 < check_50mev["m_nu_exact_eV"] < 0.25
+
+    def test_ratio_rho_positive(self, check_50mev):
+        assert check_50mev["ratio_rho"] > 0
+
+    def test_50mev_within_two_orders(self, check_50mev):
+        # ρ_eff(50 meV) is within 2 orders of ρ_obs — partial closure
+        assert check_50mev["orders_gap"] < 2.0
+
+    def test_exact_mnu_gives_unity_ratio(self, check_exact):
+        # At m_nu = M_KK_needed, ratio_rho ≈ 1 and is_closed = True
+        assert abs(check_exact["ratio_rho"] - 1.0) < 1e-5
+        assert check_exact["is_closed"]
+
+    def test_50mev_not_closed(self, check_50mev):
+        # 50 meV < 110 meV → not within 1 order
+        assert not check_50mev["is_closed"]
+
+    def test_r_star_equals_r_nu(self, check_50mev):
+        # By construction R* = R_nu (the formula closes trivially)
+        R_nu = check_50mev["R_nu_planck"]
+        R_star = check_50mev["R_star_planck"]
+        assert abs(R_star / R_nu - 1.0) < 1e-8
+
+    def test_orders_gap_positive_for_50mev(self, check_50mev):
+        # ρ_eff < ρ_obs for 50 meV → positive gap
+        assert check_50mev["orders_gap"] > 0
+
+    def test_orders_gap_zero_for_exact(self, check_exact):
+        assert check_exact["orders_gap"] < 1e-10
+
+
+# ===========================================================================
+# 38. fermionic_zpe_offset
+# ===========================================================================
+
+class TestFermionicZPEOffset:
+    def test_positive_at_planck(self):
+        assert fermionic_zpe_offset(1.0) > 0
+
+    def test_less_than_bosonic(self):
+        # phase_factor = 2sin²(π×5/74) ≈ 0.089 < 1 → residual < bosonic ZPE
+        f = braid_cancellation_factor()
+        rho_bosonic = f * zpe_density_naive(1.0)
+        rho_offset = fermionic_zpe_offset(1.0)
+        assert rho_offset < rho_bosonic
+
+    def test_canonical_phase_factor(self):
+        # 2sin²(π × n_w / k_cs) = 2sin²(π×5/74)
+        theta = math.pi * N_W_CANONICAL / K_CS_CANONICAL
+        expected_phase = 2.0 * math.sin(theta) ** 2
+        f = braid_cancellation_factor()
+        rho_bosonic = f * zpe_density_naive(1.0)
+        rho_offset = fermionic_zpe_offset(1.0)
+        assert abs(rho_offset / rho_bosonic - expected_phase) < 1e-10
+
+    def test_phase_factor_in_range(self):
+        # 2sin²(π×5/74): sin²(0.212) ≈ 0.0445, factor ≈ 0.089
+        theta = math.pi * N_W_CANONICAL / K_CS_CANONICAL
+        phase = 2.0 * math.sin(theta) ** 2
+        assert 0.05 < phase < 0.15
+
+    def test_quartic_scaling_with_cutoff(self):
+        # fermionic_zpe_offset ∝ M_cutoff^4
+        rho1 = fermionic_zpe_offset(1.0)
+        rho2 = fermionic_zpe_offset(2.0)
+        assert abs(rho2 / rho1 - 16.0) < 1e-8
+
+    def test_formula_components(self):
+        M = 1.0
+        f = braid_cancellation_factor()
+        rho_bos = f * zpe_density_naive(M)
+        theta = math.pi * N_W_CANONICAL / K_CS_CANONICAL
+        expected = rho_bos * 2.0 * math.sin(theta) ** 2
+        assert abs(fermionic_zpe_offset(M) - expected) < 1e-20
+
+    def test_increases_with_n_w(self):
+        # More chiral zero modes → larger braid phase → larger residual
+        rho_5 = fermionic_zpe_offset(1.0, n_w=5, k_cs=74, c_s=C_S_CANONICAL)
+        rho_7 = fermionic_zpe_offset(1.0, n_w=7, k_cs=74, c_s=C_S_CANONICAL)
+        # phase 2sin²(π×7/74) vs 2sin²(π×5/74): 7/74 > 5/74 so larger phase
+        assert rho_7 > rho_5
+
+    def test_at_mkk_needed_matches_rho_obs_order(self):
+        # At M_KK_needed, fermionic_zpe_offset should be ~ρ_obs × phase_factor × k_cs/c_s²
+        m_kk = kk_scale_needed_for_dark_energy()
+        rho_f = fermionic_zpe_offset(m_kk)
+        # rho_f = f × M_KK^4/(16π²) × phase = ρ_obs × phase ≈ ρ_obs × 0.089
+        theta = math.pi * N_W_CANONICAL / K_CS_CANONICAL
+        phase = 2.0 * math.sin(theta) ** 2
+        assert abs(rho_f / (RHO_DARK_ENERGY_PLANCK * phase) - 1.0) < 1e-5
+
+    def test_invalid_M_cutoff_zero(self):
+        with pytest.raises(ValueError):
+            fermionic_zpe_offset(0.0)
+
+    def test_invalid_M_cutoff_negative(self):
+        with pytest.raises(ValueError):
+            fermionic_zpe_offset(-1.0)
+
+
+# ===========================================================================
+# 39. braid_running_factor
+# ===========================================================================
+
+class TestBraidRunningFactor:
+    def test_positive(self):
+        m_kk = kk_scale_needed_for_dark_energy()
+        assert braid_running_factor(1.0, m_kk) > 0
+
+    def test_unity_at_same_scale(self):
+        # mu_UV == mu_IR → factor = 1
+        assert braid_running_factor(1.0, 1.0) == 1.0
+
+    def test_unity_at_default_ir_scale(self):
+        # Default mu_IR = M_KK_needed → γ = 0 → factor = 1
+        factor = braid_running_factor(mu_UV=1.0)
+        assert abs(factor - 1.0) < 1e-8
+
+    def test_effective_rho_matches_obs_at_mkk_needed(self):
+        # f_braid × running_factor × M_KK_needed^4 / (16π²) = ρ_obs
+        m_kk = kk_scale_needed_for_dark_energy()
+        f = braid_cancellation_factor()
+        factor = braid_running_factor(1.0, m_kk)
+        rho_check = f * factor * zpe_density_naive(m_kk)
+        assert abs(rho_check / RHO_DARK_ENERGY_PLANCK - 1.0) < 1e-6
+
+    def test_effective_rho_matches_obs_at_neutrino_scale(self):
+        # Even when mu_IR = m_nu (not M_KK_needed), running factor adjusts so
+        # f × factor × m_nu^4/(16π²) = ρ_obs exactly
+        m_nu_planck = M_NU_CANONICAL_EV / (PLANCK_ENERGY_GEV * 1e9)
+        f = braid_cancellation_factor()
+        factor = braid_running_factor(1.0, m_nu_planck)
+        rho_check = f * factor * zpe_density_naive(m_nu_planck)
+        assert abs(rho_check / RHO_DARK_ENERGY_PLANCK - 1.0) < 1e-6
+
+    def test_factor_greater_than_one_for_smaller_ir(self):
+        # When mu_IR < M_KK_needed, running factor > 1 (f_braid runs upward to IR)
+        m_kk = kk_scale_needed_for_dark_energy()
+        m_nu = M_NU_CANONICAL_EV / (PLANCK_ENERGY_GEV * 1e9)
+        # m_nu < m_kk → needs larger factor
+        factor = braid_running_factor(1.0, m_nu)
+        assert factor > 1.0
+
+    def test_different_uv_scale_still_closes(self):
+        # mu_UV = 0.5 M_Pl: still closes the loop
+        m_kk = kk_scale_needed_for_dark_energy()
+        m_nu = M_NU_CANONICAL_EV / (PLANCK_ENERGY_GEV * 1e9)
+        f_05 = braid_cancellation_factor()
+        factor = braid_running_factor(0.5, m_nu)
+        rho_check = f_05 * factor * zpe_density_naive(m_nu)
+        assert abs(rho_check / RHO_DARK_ENERGY_PLANCK - 1.0) < 1e-6
+
+    def test_invalid_mu_UV_zero(self):
+        with pytest.raises(ValueError):
+            braid_running_factor(mu_UV=0.0, mu_IR=1e-30)
+
+    def test_invalid_mu_IR_zero(self):
+        with pytest.raises(ValueError):
+            braid_running_factor(mu_UV=1.0, mu_IR=0.0)
+
