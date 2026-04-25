@@ -139,6 +139,8 @@ such that `UΨ* = Ψ*`.
     ├── tunneling.py                   # Pillar 15: Gamow factor; φ-enhanced tunneling ✓
     ├── lattice.py                     # Pillar 15: Pd FCC geometry; D-loading; coherence volume ✓
     └── excess_heat.py                 # Pillar 15: Q-values; COP; excess heat; anomalous σ ✓
+├── physics/
+│   └── lattice_dynamics.py            # Pillar 15-B: collective Gamow, phonon-radion bridge, B_μ time-arrow lock ✓  (v9.16)
 ├── medicine/                          # Pillar 17: medicine as φ-field homeostasis ✓  (v9.10)
 │   ├── diagnosis.py                   # biomarker SNR, symptom clustering, differential φ ✓
 │   ├── treatment.py                   # drug-receptor φ, dosage, pharmacokinetics ✓
@@ -246,9 +248,11 @@ such that `UΨ* = Ψ*`.
 │   ├── test_psychology.py                # Psychology as φ behaviour (90) — v9.11
 │   ├── test_genetics.py                  # Genetics as φ information archive (90) — v9.11
 │   ├── test_materials.py                 # Materials science as φ lattice (90) — v9.11
+│   ├── test_lattice_dynamics.py          # Pillar 15-B: collective Gamow, phonon-radion bridge (98) — v9.16
+│   ├── test_lattice_boltzmann.py         # Pillar 15-C: KK-mediated radion COP pipeline (187) — v9.16
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 8706 collected — 8694 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures
-│   # (110 test files; Pillars 1–60+ fully implemented)
+│   # Total: 9052 collected — 9039 passed · 2 skipped · 11 slow-deselected · 0 failures
+│   # (112 test files; Pillars 1–60+ + 15-B/15-C fully implemented)
 │
 ├── brain/
 │   ├── README.md                          # Brain-universe correspondence overview
@@ -454,13 +458,13 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **10256 tests: 10244 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** (tests/ + recycling/ + Unitary Pentad/) |
+| **Test suite** | `pytest` unit tests — **10602 tests: 10589 passed · 2 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + Unitary Pentad/) |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
 ---
 
-*Generated: 2026-04-22 | Repo: wuzbak/Unitary-Manifold- | Version: 9.14*
+*Generated: 2026-04-25 | Repo: wuzbak/Unitary-Manifold- | Version: 9.16*
 
 ---
 

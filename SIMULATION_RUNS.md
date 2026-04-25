@@ -189,11 +189,11 @@ Reducing `dt` reduces the floor proportionally.
 The full automated test suite is in `tests/` and can be run with:
 
 ```bash
-pip install pytest
-python -m pytest tests/ -v
+pip install pytest numpy scipy
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 ```
 
-1293 tests (1282 fast-selected + 11 slow-deselected): 1281 passed · 1 skipped (guard) · 0 failed.
+10602 tests (9052 fast-selected + 11 slow-deselected + recycling/ 316 + Unitary Pentad/ 1234): 10589 passed · 2 skipped · 0 failed.
 
 > **Skip:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` uses a `pytest.skip()` guard that fires on immediate convergence — correct behaviour, not a failure.
 > **Slow:** 11 tests in `test_richardson_multitime.py` marked `@pytest.mark.slow`; run with `pytest tests/ -m slow`.
