@@ -55,7 +55,7 @@
 > | Document | Description |
 > |----------|-------------|
 > | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 60+ pillars, written by GitHub Copilot (AI), April 2026 |
+> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 60 pillars (individually listed), written by GitHub Copilot (AI), April 2026 |
 > | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.12: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 114 algebraic checks (§1–§13), all passing; run `python3 ALGEBRA_PROOF.py` |
@@ -440,19 +440,33 @@ src/core/ew_hierarchy.py          ← ⭐ Pillar 50: Electroweak Hierarchy Probl
 src/core/muon_g2.py               ← ⭐ Pillar 51: Muon g−2 — KK graviton and ALP Barr-Zee analysis
 src/core/cmb_amplitude.py         ← ⭐ Pillar 52: CMB Scalar Amplitude (Aₛ) Normalization Bridge
 src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Bridge (formal integration layer)
+src/core/adm_engine.py            ← ⭐ Pillar 53: ADM 3+1 Decomposition Engine — numerical relativity layer
+src/core/fermion_emergence.py     ← ⭐ Pillar 54: Fermion Emergence from Z₂ Orbifold Zero Modes
+src/core/anomaly_uniqueness.py    ← ⭐ Pillar 55: Anomaly Uniqueness — (5,7) gauge group selection proof
+src/core/phi0_closure.py          ← ⭐ Pillar 56: φ₀ Self-Consistency Closure
+src/core/cmb_peaks.py             ← ⭐ Pillar 57: CMB Acoustic Peaks Diagnostic from KK Geometry
+src/core/anomaly_closure.py       ← ⭐ Pillar 58: Algebraic Identity Theorem — k_CS = n₁²+n₂² for all braid pairs
+src/core/matter_power_spectrum.py ← ⭐ Pillar 59: Matter Power Spectrum P(k) from 5D Topology
+src/core/particle_mass_spectrum.py← ⭐ Pillar 60: Particle Mass Spectrum from KK Mode Quantisation
+src/core/litebird_forecast.py     ← ⭐ Pillar 45-D: LiteBIRD Full Forecast — covariance matrix + β discrimination
+src/core/fermilab_watch.py        ← ⭐ Pillar 51-B: Fermilab Watch — live muon g-2 constraint tracker
+src/consciousness/consciousness_deployment.py ← ⭐ Pillar 9-B: Consciousness Deployment — 5:7 resonance scaling
 ```
 
-### Complete Pillar Taxonomy (v9.14)
+### Complete Pillar Taxonomy (v9.15 — all 60 pillars + sub-pillars)
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
-| 1–3 | KK Metric, Field Evolution, Braided Winding | `src/core/metric.py`, `evolution.py`, `braided_winding.py` | 271+49+118 |
+| 1 | 5D KK Metric & Curvature Tensor | `src/core/metric.py` | 271 |
+| 2 | Field Evolution (Walker-Pearson Integrator) | `src/core/evolution.py` | 49 |
+| 3 | Braided Winding — (5,7) state; c_s=12/37, k_CS=74 | `src/core/braided_winding.py` | 118 |
 | 4 | Holographic Boundary | `src/holography/boundary.py` | 21 |
 | 5 | FTUM Fixed Point (UEUM operator) | `src/multiverse/fixed_point.py` | 50 |
 | 6 | Black Hole Transceiver — info conservation, GW echoes | `src/core/black_hole_transceiver.py` | 75 |
 | 7 | Particle Geometry — mass/spin from winding modes | `src/core/particle_geometry.py` | 51 |
 | 8 | Dark Matter as B_μ Geometric Pressure | `src/core/dark_matter_geometry.py` | 45 |
 | 9 | Consciousness — Coupled Brain⊗Universe Fixed Point | `src/consciousness/coupled_attractor.py` | 83 |
+| 9-B | Consciousness Deployment — 5:7 resonance scaling | `src/consciousness/consciousness_deployment.py` | 105 |
 | 10 | Chemistry as 5D Geometry | `src/chemistry/` | 102 |
 | 11 | Astronomy — Stars and Planets as FTUM Fixed Points | `src/astronomy/` | 140 |
 | 12 | Earth Sciences — Geology, Oceanography, Meteorology | `src/earth/` | 150 |
@@ -491,6 +505,7 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 | 45 | Coupled History — Consciousness⊗QM Bridge | `src/core/coupled_history.py` | 78 |
 | 45-B | Numerical Precision Audit (mpmath) | `src/core/precision_audit.py` | 49 |
 | 45-C | LiteBIRD Boundary Check | `src/core/litebird_boundary.py` | 90 |
+| 45-D | LiteBIRD Forecast — full covariance matrix | `src/core/litebird_forecast.py` | 116 |
 | 46 | Fröhlich Polaron from 5D Braid Geometry | `src/materials/froehlich_polaron.py` | 102 |
 | 47 | Superluminal Polariton Vortex Topology | `src/materials/polariton_vortex.py` | 127 |
 | 48 | Einstein-Cartan-KK Torsion Hybrid | `src/core/torsion_remnant.py` | 125 |
@@ -508,8 +523,6 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 | 58 | Algebraic Identity Theorem (Anomaly Closure) | `src/core/anomaly_closure.py` | 144 |
 | 59 | Matter Power Spectrum from 5D Topology | `src/core/matter_power_spectrum.py` | 109 |
 | 60 | Particle Mass Spectrum from KK Modes | `src/core/particle_mass_spectrum.py` | 105 |
-| 9-B | Consciousness Deployment — 5:7 resonance scaling | `src/consciousness/consciousness_deployment.py` | 105 |
-| 45-D | LiteBIRD Forecast — full covariance matrix | `src/core/litebird_forecast.py` | 116 |
 
 **Grand total: 10244 passed · 1 skipped · 11 deselected · 0 failed** (10256 collected, 129 test files)
 
