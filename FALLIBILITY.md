@@ -1120,7 +1120,7 @@ validation.
 | m_p/m_e ≈ 1836 | ❌ No | Yukawa λ + Λ_QCD | NOT DERIVABLE |
 | Dirty Data Test | ✅ Passes | — | 5D path confirmed active |
 
-*Code: `src/core/dirty_data_test.py` (Pillar 61); 113 tests in
+*Code: `src/core/dirty_data_test.py` (Pillar 61); 116 tests in
 `tests/test_dirty_data_test.py` (0 failed).*
 
 ---

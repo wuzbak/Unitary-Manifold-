@@ -829,13 +829,17 @@ def three_generation_n_f_constraint() -> dict[str, Any]:
         upgrade_from_prior  — str: how this improves on prior "n_f is free" status
     """
     n_w = N_W  # = 5
-    # Compute stable modes via stability condition n² ≤ n_w
-    stable_modes = [n for n in range(n_w + 1) if n * n <= n_w]
+    # Compute stable modes via stability condition n² ≤ n_w.
+    # Only n ≤ floor(√n_w) can satisfy n² ≤ n_w, so we search that range.
+    max_n = int(math.isqrt(n_w))
+    stable_modes = [n for n in range(max_n + 1) if n * n <= n_w]
     n_gen = len(stable_modes)
     fourth_excluded = (3 * 3) > n_w  # 9 > 5 → True
     # Survey n_w ∈ {1, …, 10} for N_gen = 3
-    nw_giving_3 = [nw for nw in range(1, 11)
-                   if len([n for n in range(nw + 1) if n * n <= nw]) == 3]
+    nw_giving_3 = [
+        nw for nw in range(1, 11)
+        if sum(1 for n in range(int(math.isqrt(nw)) + 1) if n * n <= nw) == 3
+    ]
     return {
         "n_w":                    n_w,
         "n_gen":                  n_gen,

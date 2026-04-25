@@ -6,7 +6,7 @@ tests/test_dirty_data_test.py
 Test suite for Pillar 61: The AxiomZero Challenge — Internal Falsifier Suite
 (src/core/dirty_data_test.py).
 
-~98 tests covering:
+~116 tests covering:
   - Module-level constants
   - ns_from_phi0_eff: correctness, edge cases
   - r_from_phi0_eff: correctness
