@@ -17,7 +17,7 @@ HILS governance framework (Unitary Pentad), and supporting AI assistant infrastr
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: ~8694 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: ~9039 passed, 2 skipped, 11 deselected, 0 failed
 
 # Recycling suite:
 python -m pytest recycling/ -q
@@ -29,7 +29,7 @@ python -m pytest "Unitary Pentad/" -q
 
 # Full repository (takes ~90 seconds):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 10244 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 10589 passed, 2 skipped, 11 deselected, 0 failed
 ```
 
 ## Repository Structure
@@ -40,12 +40,13 @@ src/holography/     ← holographic boundary, entropy-area (Pillar 4)
 src/multiverse/     ← FTUM fixed-point iteration (Pillar 5, 29, 38)
 src/consciousness/  ← coupled brain-universe attractor (Pillar 9)
 src/atomic_structure/ src/cold_fusion/ src/chemistry/ src/astronomy/ (Pillars 10–15)
+src/physics/        ← Pillar 15-B: lattice_dynamics.py (collective Gamow, phonon-radion bridge)
 src/earth/ src/biology/ src/medicine/ src/justice/ src/governance/ (Pillars 12–13, 17–19)
 src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26, 46–47)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 Unitary Pentad/     ← Independent HILS governance framework (18 modules)
-tests/              ← 110 test files, ~8694 fast-passing tests (Pillars 1–60+)
+tests/              ← 112 test files, ~9039 fast-passing tests (Pillars 1–60+, 15-B, 15-C)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 co-emergence/       ← HILS framework documentation
 ```

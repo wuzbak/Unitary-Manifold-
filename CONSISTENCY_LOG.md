@@ -323,7 +323,9 @@ their test suites (0 failures):
 | `bmu_time_arrow_lock()` | `src/physics/lattice_dynamics.py` | 19 | B_μ energy routing proof |
 | `calculate_energy_branching_ratio()` | `src/cold_fusion/excess_heat.py` | 25 | Phonon/gamma branching |
 
-**Grand total test count: 10,402 passed, 2 skipped, 0 failed.**
+**Grand total test count: 10,589 passed, 2 skipped, 0 failed.**
+
+*Additions since last log: Pillar 15-C (lattice_boltzmann.py, 187 tests) added; test_zero_point_vacuum.py expanded to 323 tests; test_lattice_dynamics.py expanded to 98 tests.*
 
 ---
 

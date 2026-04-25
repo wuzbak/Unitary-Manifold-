@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The ~10,402 automated tests (~8,556 fast-selected + 11 slow-deselected + 2 skipped in `tests/`, plus 316 in `recycling/` and 1,234 in `Unitary Pentad/`) confirm that the numerical implementations
+The ~10,589 automated tests (~9,039 fast-selected + 11 slow-deselected + 2 skipped in `tests/`, plus 316 in `recycling/` and 1,234 in `Unitary Pentad/`) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "~10,402 passed · 2 skipped · 0 failed," this is a statement about
+When the README badge reads "~10,589 passed · 2 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -452,7 +452,7 @@ giving R_KK ≈ 1.792 μm.  All code in this repository uses the correct value.
   pumps the radion field at loaded D-sites via (5,7) braid commensurability.
 - Collective coherence (N ≈ 17,600 atoms at phi=1.5) drives the Gamow factor
   into the ignition regime — "room-temperature fusion as localised vacuum engineering."
-- Code: `src/physics/lattice_dynamics.py:phonon_radion_bridge()`, `lattice_coherence_gain()` — 95 tests
+- Code: `src/physics/lattice_dynamics.py:phonon_radion_bridge()`, `lattice_coherence_gain()` — 98 tests
 
 **Pillar C — B_μ Time-Arrow Lock (`bmu_time_arrow_lock`, `calculate_energy_branching_ratio`):**
 - The B_μ irreversibility field couples to the fusion exit channel with coupling
@@ -474,7 +474,7 @@ shifts from "Why is M_KK ≈ 110 meV?" to "Why is the lightest neutrino mass ≈
 `derive_R_from_neutrino_mass()`, `prove_resonance_identity()`,
 `brane_tension_from_neutrino_mass()`, `radion_self_consistency_check()`,
 `fermionic_zpe_offset()`, `braid_running_factor()`.
-Total: 315 tests in `tests/test_zero_point_vacuum.py` (0 failed).
+Total: 323 tests in `tests/test_zero_point_vacuum.py` (0 failed).
 See also: `CONSISTENCY_LOG.md` for the full self-consistency run.
 
 ### IV.8 Pillar 15-C: Unitary Collision Integral — Honest Accounting
@@ -793,7 +793,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| ~9700 passed · 1 skipped (guard) · 0 failed | ✅ Confirmed | Internal consistency only; 1 guard skip on immediate convergence is correct behaviour |
+| 10589 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only; 2 skips are correct (guard skip + mpmath optional) |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18; see `src/core/braided_winding.py` |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |

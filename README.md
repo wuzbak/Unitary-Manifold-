@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![10245 Tests: 10244 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-10244%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![10591 Tests: 10589 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-10589%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
@@ -292,7 +292,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 10244 tests are passing in all three — but "passing" means
+> of content, and all 10589 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -473,6 +473,8 @@ src/consciousness/consciousness_deployment.py ← ⭐ Pillar 9-B: Consciousness 
 | 13 | Biology as Negentropy FTUM Attractors | `src/biology/` | 111 |
 | 14 | Atomic Structure as KK Winding Modes | `src/atomic_structure/` | 187 |
 | 15 | Cold Fusion as φ-Enhanced Tunneling | `src/cold_fusion/` | 215 |
+| 15-B | Lattice Dynamics — collective Gamow, phonon-radion bridge | `src/physics/lattice_dynamics.py` | 98 |
+| 15-C | Lattice Boltzmann — KK-mediated radion coupling, COP pipeline | `src/core/lattice_boltzmann.py` | 187 |
 | 16 | Recycling — φ-debt Entropy Accounting | `recycling/` | 316 |
 | 17 | Medicine as φ-Field Homeostasis | `src/medicine/` | 139 |
 | 18 | Justice as φ-Field Equity | `src/justice/` | 124 |
@@ -509,7 +511,7 @@ src/consciousness/consciousness_deployment.py ← ⭐ Pillar 9-B: Consciousness 
 | 46 | Fröhlich Polaron from 5D Braid Geometry | `src/materials/froehlich_polaron.py` | 102 |
 | 47 | Superluminal Polariton Vortex Topology | `src/materials/polariton_vortex.py` | 127 |
 | 48 | Einstein-Cartan-KK Torsion Hybrid | `src/core/torsion_remnant.py` | 125 |
-| 49 | Zero-Point Vacuum Energy Regularisation | `src/core/zero_point_vacuum.py` | 239 |
+| 49 | Zero-Point Vacuum Energy Regularisation | `src/core/zero_point_vacuum.py` | 323 |
 | 50 | Electroweak Hierarchy Problem | `src/core/ew_hierarchy.py` | 410 |
 | 51 | Muon g−2: KK graviton and ALP analysis | `src/core/muon_g2.py` | 82 |
 | 51-B | Fermilab Watch — live muon g-2 constraint tracker | `src/core/fermilab_watch.py` | 85 |
@@ -524,7 +526,7 @@ src/consciousness/consciousness_deployment.py ← ⭐ Pillar 9-B: Consciousness 
 | 59 | Matter Power Spectrum from 5D Topology | `src/core/matter_power_spectrum.py` | 109 |
 | 60 | Particle Mass Spectrum from KK Modes | `src/core/particle_mass_spectrum.py` | 105 |
 
-**Grand total: 10244 passed · 1 skipped · 11 deselected · 0 failed** (10256 collected, 129 test files)
+**Grand total: 10589 passed · 2 skipped · 11 deselected · 0 failed** (10602 collected, 131 test files)
 
 ## 4 · Quickstart
 
@@ -534,7 +536,7 @@ src/consciousness/consciousness_deployment.py ← ⭐ Pillar 9-B: Consciousness 
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 10256 collected, 10244 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 10602 collected, 10589 passed · 2 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
@@ -546,8 +548,9 @@ Expected output summary:
 # tests/ (fast suite — Pillars 1–60):
 tests/test_ew_hierarchy.py               410 passed  ← Pillar 50: EW hierarchy — 3 KK mechanisms [TIER 1]
 tests/test_inflation.py                  271 passed  ← core inflation, KK Jacobian, CMB transfer
-tests/test_zero_point_vacuum.py          239 passed  ← Pillar 49: ZPE regularisation [TIER 1]
+tests/test_zero_point_vacuum.py          323 passed  ← Pillar 49: ZPE regularisation + neutrino-radion closure [TIER 1]
 tests/test_cold_fusion.py                215 passed  ← Pillar 15: φ-enhanced tunneling [TIER 2]
+tests/test_lattice_boltzmann.py          187 passed  ← Pillar 15-C: KK-mediated radion coupling, COP pipeline [TIER 2]
 tests/test_atomic_structure.py           187 passed  ← Pillar 14: KK winding modes [TIER 2]
 tests/test_boundary_singularities.py     153 passed
 tests/test_medicine.py                   139 passed  ← Pillar 17 [TIER 3]
@@ -565,11 +568,12 @@ tests/test_ads_cft_tower.py              111 passed  ← Pillar 40 [TIER 1]
 tests/test_solitonic_charge.py           103 passed  ← Pillar 39: n_w=5, k_CS=74 derivation [TIER 1]
 tests/test_froehlich_polaron.py          102 passed  ← Pillar 46 [TIER 1]
 tests/test_chemistry.py                  102 passed  ← Pillar 10 [TIER 3]
-# ... 87 more test files ...
-tests/test_arrow_of_time.py               22 passed,  1 skipped ⚑
+tests/test_lattice_dynamics.py            98 passed  ← Pillar 15-B: collective Gamow, phonon-radion bridge [TIER 2]
+# ... 88 more test files ...
+tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 # (slow — run with: pytest tests/ -m slow)
 tests/test_richardson_multitime.py        11 passed
-================================ 8694 passed, 1 skipped, 11 deselected ================================
+================================ 9039 passed, 2 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
@@ -578,12 +582,14 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 1234 passed ================================
 
 # Grand total:
-================================ 10244 passed, 1 skipped, 11 deselected, 0 failed ================================
+================================ 10589 passed, 2 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
 
-> ⚑ **The 1 skip is not a failure.** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
+> ⚑ **The 2 skips are not failures.**
+> 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
+> 2. `test_precision_audit.py` skips one test when the optional `mpmath` library is not installed. Install with `pip install mpmath` to run the 128/256-bit precision checks.
 >
 > **The 11 deselected tests** are in `test_richardson_multitime.py`, marked `@pytest.mark.slow`, and excluded from the default run by `addopts = -m "not slow"` in `pytest.ini`. They verify O(dt²) temporal convergence via Richardson extrapolation. Run with `pytest tests/ -m slow`.
 
@@ -870,7 +876,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**10256 tests: 10244 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**10602 tests: 10589 passed, 2 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -892,7 +898,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (10256 collected: 10244 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (10602 collected: 10589 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

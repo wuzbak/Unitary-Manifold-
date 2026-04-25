@@ -1,12 +1,14 @@
 # Test Suite — Unitary Manifold
 
-**10256 tests: 10244 passed · 1 skipped (guard) · 11 slow-deselected · 0 failures** — verified 2026-04-25, Python 3.12.13, pytest 9.0.3
+**10602 tests: 10589 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified 2026-04-25, Python 3.12.13, pytest 9.0.3
 
-*(tests/ suite: 8706 collected, 8694 fast pass, 1 guard-skip, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1234)*
+*(tests/ suite: 9052 collected, 9039 fast pass, 2 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1234)*
 
-### The 1 skipped test
+### The 2 skipped tests
 
-`test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` produces fewer than 2 residuals. This fires when the operator converges in a single step — **correct and expected behaviour**, not an error. The guard documents that there is nothing to verify monotonicity of when convergence is immediate.
+1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` produces fewer than 2 residuals. This fires when the operator converges in a single step — **correct and expected behaviour**, not an error. The guard documents that there is nothing to verify monotonicity of when convergence is immediate.
+
+2. `test_precision_audit.py` skips one test when optional `mpmath` library is not installed. Install with `pip install mpmath` to activate 128/256-bit precision checks.
 
 ### The 11 deselected tests
 
@@ -46,15 +48,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 8694 fast pass, 1 skipped (guard), 11 deselected (slow)
+python -m pytest tests/ -v          # 9039 fast pass, 2 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 10244 pass
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 10589 pass
 ```
 
 Expected result (default):
 
 ```
-8694 passed, 1 skipped, 11 deselected in ~90s
+9039 passed, 2 skipped, 11 deselected in ~90s
 ```
 
 ---
@@ -118,7 +120,7 @@ Expected result (default):
 | `tests/test_kk_gauge_spectrum.py` | 36 | KK gauge boson mass spectrum, mode coupling, gauge group emergence |
 | `tests/test_kk_geodesic_reduction.py` | 23 | Lorentz force as geodesic theorem, Γ^μ_{ν5} identity, A_μ = λB_μ derivation |
 | `tests/test_im_action.py` | 22 | Irreversibility measure action, boundary terms, entropy current |
-| **Total (tests/ suite)** | **8706** | **8694 fast passed · 1 skipped (guard) · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **9052** | **9039 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
 
 ---
 

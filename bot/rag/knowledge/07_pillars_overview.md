@@ -124,16 +124,16 @@ These are the original pillars of the theory.
 | Resonance | `resonance_dynamics.py` | 3:2/2:3 oscillation; SOS=74; HIL threshold n=15; 4:1 inversion | — |
 | Pilot | `pentad_pilot.py` | Real-time HIL interface; keyboard or Arduino hardware | — |
 
-**Total Pentad tests: 1234 · Total repository tests: 10244 passed / 10256 collected**
+**Total Pentad tests: 1234 · Total repository tests: 10589 passed / 10602 collected**
 
 ## Quick Reference — Running All Suites
 
 ```bash
-python -m pytest tests/ -q                    # 8694 passed (Pillars 1–60+ core)
+python -m pytest tests/ -q                    # 9039 passed (Pillars 1–60+ core)
 python -m pytest recycling/ -q               # 316 passed (Pillar 16)
 python -m pytest "Unitary Pentad/" -q        # 1234 passed (HILS framework)
 
 # All at once:
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# → 10244 passed, 1 skipped, 0 failed
+# → 10589 passed, 2 skipped, 0 failed
 ```
