@@ -146,16 +146,16 @@
 - [tests/test_biology.py](tests/test_biology.py): Biology — negentropy attractors, evolution, Turing (111 tests) — v9.7.
 - [tests/test_atomic_structure.py](tests/test_atomic_structure.py): Atomic structure as KK winding modes — orbitals, spectroscopy, fine structure (187 tests) — v9.8.
 - [tests/test_cold_fusion.py](tests/test_cold_fusion.py): Cold fusion as φ-enhanced tunneling — Gamow, lattice, excess heat (215 tests) — v9.9.
-- [tests/test_medicine.py](tests/test_medicine.py): Medicine as φ homeostasis — diagnosis, treatment, systemic (63 tests) — v9.10.
-- [tests/test_justice.py](tests/test_justice.py): Justice as φ equity — courts, sentencing, reform (63 tests) — v9.10.
-- [tests/test_governance.py](tests/test_governance.py): Governance as φ stability — democracy, contract, resilience (252 tests) — v9.10.
-- [tests/test_neuroscience.py](tests/test_neuroscience.py): Neuroscience as φ neural networks — neurons, synaptic, cognition (100 tests) — v9.11.
-- [tests/test_ecology.py](tests/test_ecology.py): Ecology as φ ecosystems — ecosystems, biodiversity, food web (95 tests) — v9.11.
-- [tests/test_climate.py](tests/test_climate.py): Climate science as φ radiative engine — atmosphere, carbon cycle, feedback (90 tests) — v9.11.
-- [tests/test_marine.py](tests/test_marine.py): Marine biology & deep ocean — deep ocean, marine life, dynamics (90 tests) — v9.11.
-- [tests/test_psychology.py](tests/test_psychology.py): Psychology as φ behaviour — cognition, behavior, social (90 tests) — v9.11.
-- [tests/test_genetics.py](tests/test_genetics.py): Genetics as φ information archive — genomics, evolution, expression (90 tests) — v9.11.
-- [tests/test_materials.py](tests/test_materials.py): Materials science as φ lattice — condensed, semiconductors, metamaterials (90 tests) — v9.11.
+- [tests/test_medicine.py](tests/test_medicine.py): Medicine as φ homeostasis — diagnosis, treatment, systemic (139 tests) — v9.10.
+- [tests/test_justice.py](tests/test_justice.py): Justice as φ equity — courts, sentencing, reform (124 tests) — v9.10.
+- [tests/test_governance.py](tests/test_governance.py): Governance as φ stability — democracy, contract, resilience (115 tests) — v9.10.
+- [tests/test_neuroscience.py](tests/test_neuroscience.py): Neuroscience as φ neural networks — neurons, synaptic, cognition (92 tests) — v9.11.
+- [tests/test_ecology.py](tests/test_ecology.py): Ecology as φ ecosystems — ecosystems, biodiversity, food web (70 tests) — v9.11.
+- [tests/test_climate.py](tests/test_climate.py): Climate science as φ radiative engine — atmosphere, carbon cycle, feedback (66 tests) — v9.11.
+- [tests/test_marine.py](tests/test_marine.py): Marine biology & deep ocean — deep ocean, marine life, dynamics (72 tests) — v9.11.
+- [tests/test_psychology.py](tests/test_psychology.py): Psychology as φ behaviour — cognition, behavior, social (82 tests) — v9.11.
+- [tests/test_genetics.py](tests/test_genetics.py): Genetics as φ information archive — genomics, evolution, expression (78 tests) — v9.11.
+- [tests/test_materials.py](tests/test_materials.py): Materials science as φ lattice — condensed, semiconductors, metamaterials (75 tests) — v9.11.
 
 ## Claims (Independent Verification)
 

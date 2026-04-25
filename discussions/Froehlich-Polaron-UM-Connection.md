@@ -184,7 +184,7 @@ from src.materials.froehlich_polaron import (
 )
 ```
 
-Run `python -m pytest tests/test_froehlich_polaron.py -v` to verify all 100 tests pass.
+Run `python -m pytest tests/test_froehlich_polaron.py -v` to verify all 102 tests pass.
 
 ---
 

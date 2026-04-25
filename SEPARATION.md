@@ -11,7 +11,7 @@ automated tests, and a "✓ passed" badge.  That visual equality is **misleading
 
 The epistemic status of
 
-> "test_medicine.py passes 63 tests"
+> "test_medicine.py passes 139 tests"
 
 is fundamentally different from
 

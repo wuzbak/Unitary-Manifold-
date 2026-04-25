@@ -194,8 +194,8 @@ BRAIN:       Brain and universe share the same 5D geometry; consciousness = coup
 COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-body problem; implemented in src/consciousness/coupled_attractor.py
 GAPS:        CMB amplitude ×4–7 suppressed; φ₀ self-consistency not fully closed in code
 FALSIFIER:   LiteBIRD birefringence measurement (β ≠ 0.35°) or ET/LISA null scalar GW
-TESTS:       10038 fast-collected (tests/ + recycling/ + Unitary Pentad/) | 10027 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
-             (Badge shows 8907 = pass + skip total; 8918 = all fast-collected including deselected)
+TESTS:       10256 fast-collected (tests/ + recycling/ + Unitary Pentad/) | 10244 pass · 1 skip (guard) · 11 slow-deselected · 0 failures
+             (10245 selected + 11 slow-deselected = 10256 total collected)
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
              src/consciousness/coupled_attractor.py  ← Pillar 9: Coupled Master Equation
              src/chemistry/{bonds,reactions,periodic}.py  ← Pillar 10: Chemistry

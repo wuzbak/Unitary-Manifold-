@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.12
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![10028 Tests: 10027 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-10027%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![10245 Tests: 10244 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-10244%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
@@ -292,7 +292,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 10027 tests are passing in all three — but "passing" means
+> of content, and all 10244 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -497,10 +497,21 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 | 49 | Zero-Point Vacuum Energy Regularisation | `src/core/zero_point_vacuum.py` | 239 |
 | 50 | Electroweak Hierarchy Problem | `src/core/ew_hierarchy.py` | 410 |
 | 51 | Muon g−2: KK graviton and ALP analysis | `src/core/muon_g2.py` | 82 |
+| 51-B | Fermilab Watch — live muon g-2 constraint tracker | `src/core/fermilab_watch.py` | 85 |
 | 52 | CMB Scalar Amplitude (Aₛ) Normalisation | `src/core/cmb_amplitude.py` | 84 |
 | 52-B | CAMB/CLASS Boltzmann Bridge | `src/core/boltzmann_bridge.py` | 65 |
+| 53 | ADM Decomposition Engine | `src/core/adm_engine.py` | 72 |
+| 54 | Fermion Emergence from Orbifold Parity | `src/core/fermion_emergence.py` | 104 |
+| 55 | Anomaly Uniqueness — (5,7) selection proof | `src/core/anomaly_uniqueness.py` | 111 |
+| 56 | φ₀ Self-Consistency Closure | `src/core/phi0_closure.py` | 122 |
+| 57 | CMB Acoustic Peaks from KK Geometry | `src/core/cmb_peaks.py` | 92 |
+| 58 | Algebraic Identity Theorem (Anomaly Closure) | `src/core/anomaly_closure.py` | 144 |
+| 59 | Matter Power Spectrum from 5D Topology | `src/core/matter_power_spectrum.py` | 109 |
+| 60 | Particle Mass Spectrum from KK Modes | `src/core/particle_mass_spectrum.py` | 105 |
+| 9-B | Consciousness Deployment — 5:7 resonance scaling | `src/consciousness/consciousness_deployment.py` | 105 |
+| 45-D | LiteBIRD Forecast — full covariance matrix | `src/core/litebird_forecast.py` | 116 |
 
-**Grand total: 10027 passed · 1 skipped · 11 deselected · 0 failed** (10038 collected, 117+ test files)
+**Grand total: 10244 passed · 1 skipped · 11 deselected · 0 failed** (10256 collected, 129 test files)
 
 ## 4 · Quickstart
 
@@ -510,7 +521,7 @@ src/core/boltzmann_bridge.py      ← ⭐ Pillar 52-B: CAMB/CLASS Boltzmann Brid
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 10038 collected, 10027 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 10256 collected, 10244 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
@@ -541,11 +552,11 @@ tests/test_ads_cft_tower.py              111 passed  ← Pillar 40 [TIER 1]
 tests/test_solitonic_charge.py           103 passed  ← Pillar 39: n_w=5, k_CS=74 derivation [TIER 1]
 tests/test_froehlich_polaron.py          102 passed  ← Pillar 46 [TIER 1]
 tests/test_chemistry.py                  102 passed  ← Pillar 10 [TIER 3]
-# ... 74 more test files ...
+# ... 87 more test files ...
 tests/test_arrow_of_time.py               22 passed,  1 skipped ⚑
 # (slow — run with: pytest tests/ -m slow)
 tests/test_richardson_multitime.py        11 passed
-================================ 7356 passed, 1 skipped, 11 deselected ================================
+================================ 8694 passed, 1 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
@@ -554,7 +565,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 1234 passed ================================
 
 # Grand total:
-================================ 10027 passed, 1 skipped, 11 deselected, 0 failed ================================
+================================ 10244 passed, 1 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -846,7 +857,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**10038 tests: 10027 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
+(**10256 tests: 10244 passed, 1 skipped (guard), 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -868,7 +879,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (8906 tests: 8906 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (10256 collected: 10244 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
