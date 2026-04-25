@@ -445,13 +445,14 @@ class TestAcousticPeakPositions:
         assert 1250.0 < pos["peak_3"] < 1800.0
 
     def test_integer_ratios(self):
-        """Peak positions are in ratio 1:2:3:4:5 from the first peak."""
+        """Peak positions are in ratio 1:2:3:4:5 relative to the first peak."""
+        _TOL = 0.01   # 1% tolerance on exact integer harmonic ratios
         pos = acoustic_peak_positions()
         p1 = pos["peak_1"]
-        assert abs(pos["trough_1"] / p1 - 2.0) < 0.01
-        assert abs(pos["peak_2"] / p1 - 3.0) < 0.01
-        assert abs(pos["trough_2"] / p1 - 4.0) < 0.01
-        assert abs(pos["peak_3"] / p1 - 5.0) < 0.01
+        assert abs(pos["trough_1"] / p1 - 2.0) < _TOL
+        assert abs(pos["peak_2"] / p1 - 3.0) < _TOL
+        assert abs(pos["trough_2"] / p1 - 4.0) < _TOL
+        assert abs(pos["peak_3"] / p1 - 5.0) < _TOL
 
     def test_rs_star_echoed(self):
         pos = acoustic_peak_positions(rs_star=144.7)

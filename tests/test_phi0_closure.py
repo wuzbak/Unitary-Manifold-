@@ -594,7 +594,7 @@ class TestNsFromPhi0Braided:
         ns_br = ns_from_phi0_braided(phi0_ftum, C_S)
         assert abs(ns_br - NS_TARGET) < 5e-4
 
-    def test_larger_than_canonical_formula_at_same_phi0(self):
+    def test_smaller_than_canonical_formula_at_same_phi0(self):
         """Braided formula always gives smaller ns at same phi0 (larger epsilon)."""
         phi0 = N_WINDING * 2.0 * math.pi
         ns_can = ns_from_phi0(phi0)
