@@ -87,13 +87,14 @@ derive α one would need to:
           function determined by the 5D geometry.  The KK-scale coupling is:
 
               α(M_KK) = 1 / (4π · f_gauge)
+                       = 1 / (4π · k_CS / (8π²))
+                       = 2π / k_CS
 
-          where f_gauge = k_CS / (8π²) is the gauge threshold correction from
-          integrating out one KK mode.  This gives:
+          For k_CS = 74:
 
-              α(M_KK) ≈ 8π / k_CS  = 8π / 74  ≈  0.340
+              α(M_KK) = 2π / 74 ≈ 0.085
 
-          (This is an O(1) quantity, not ≈ 1/137 — the KK-scale coupling is
+          (This is an O(0.1) quantity, not ≈ 1/137 — the KK-scale coupling is
           not the low-energy electromagnetic fine structure constant.)
 
   Step 2: Run α from M_KK down to low energies via RG equations:
@@ -238,7 +239,7 @@ NS_PLANCK_SIGMA: float = 0.0042
 # Leading-order slow-roll nₛ from the GW potential at the inflection point
 # φ* = φ₀_eff / √3.  At the inflection point η = 0, ε = 6 / φ₀_eff², so:
 #     nₛ = 1 − 6ε = 1 − 36 / φ₀_eff²
-# For φ₀_eff ≈ 31.416:  nₛ ≈ 1 − 36/987 ≈ 0.9635  ✓
+# For φ₀_eff = 5·2π ≈ 31.416:  φ₀_eff² ≈ 987.5, nₛ ≈ 1 − 36/987.5 ≈ 0.9635
 NS_CANONICAL: float = 1.0 - 36.0 / PHI0_EFF_CANONICAL**2   # ≈ 0.9635
 
 #: Proton mass in MeV (PDG 2024)
@@ -271,7 +272,8 @@ def ns_from_phi0_eff(phi0_eff: float, lam: float = 1.0) -> float:
 
     Raises
     ------
-    ValueError if phi0_eff ≤ 0.
+    ValueError
+        If phi0_eff ≤ 0.
     """
     if phi0_eff <= 0.0:
         raise ValueError(f"phi0_eff must be positive; got {phi0_eff!r}")

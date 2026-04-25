@@ -6,7 +6,7 @@ tests/test_dirty_data_test.py
 Test suite for Pillar 61: The AxiomZero Challenge — Internal Falsifier Suite
 (src/core/dirty_data_test.py).
 
-~62 tests covering:
+~98 tests covering:
   - Module-level constants
   - ns_from_phi0_eff: correctness, edge cases
   - r_from_phi0_eff: correctness
@@ -568,7 +568,7 @@ class TestMpOverMeGapReport:
 # XIV. axiomzero_challenge_summary
 # ---------------------------------------------------------------------------
 
-class TestAxiomzeroChallengeummary:
+class TestAxiomZeroChallengeSummary:
     def test_keys_present(self):
         summary = axiomzero_challenge_summary()
         for key in ("dirty_data_test", "alpha_derivation",
