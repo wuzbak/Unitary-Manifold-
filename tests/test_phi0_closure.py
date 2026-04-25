@@ -31,12 +31,16 @@ from src.core.phi0_closure import (
     AS_PLANCK,
     R_BRAIDED,
     R_BICEP_LIMIT,
+    _F_BRAIDED,
     phi0_eff_from_ns,
     ns_from_phi0,
     lambda_cobe,
     ftum_phi0_iteration,
     closure_audit,
     phi0_uncertainty_band,
+    ns_from_phi0_braided,
+    phi0_eff_from_ns_braided,
+    braided_closure_audit,
 )
 
 # ---------------------------------------------------------------------------
@@ -569,3 +573,255 @@ class TestPhysicsSanity:
         # Within 1 sigma
         sigma_deviation = abs(NS_TARGET - NS_PLANCK) / NS_SIGMA
         assert sigma_deviation < 1.0
+
+
+# ---------------------------------------------------------------------------
+# ns_from_phi0_braided tests
+# ---------------------------------------------------------------------------
+
+class TestNsFromPhi0Braided:
+    def test_reduces_to_canonical_at_ftum(self):
+        """The exact identity: ns_braided(phi0_FTUM, c_s) = ns_canonical(phi0_canonical)."""
+        phi0_canonical = N_WINDING * 2.0 * math.pi
+        phi0_ftum = N_WINDING * 2.0 * math.pi * _F_BRAIDED
+        ns_braided_at_ftum = ns_from_phi0_braided(phi0_ftum, C_S)
+        ns_canonical_at_canonical = ns_from_phi0(phi0_canonical)
+        assert abs(ns_braided_at_ftum - ns_canonical_at_canonical) < 1e-12
+
+    def test_matches_ns_target_at_ftum(self):
+        """ns_braided(phi0_FTUM) ≈ NS_TARGET to < 0.05% (rounding limit)."""
+        phi0_ftum = N_WINDING * 2.0 * math.pi * _F_BRAIDED
+        ns_br = ns_from_phi0_braided(phi0_ftum, C_S)
+        assert abs(ns_br - NS_TARGET) < 5e-4
+
+    def test_larger_than_canonical_formula_at_same_phi0(self):
+        """Braided formula always gives smaller ns at same phi0 (larger epsilon)."""
+        phi0 = N_WINDING * 2.0 * math.pi
+        ns_can = ns_from_phi0(phi0)
+        ns_br = ns_from_phi0_braided(phi0, C_S)
+        assert ns_br < ns_can
+
+    def test_cs_one_gives_double_correction(self):
+        """At c_s=1, the braided formula gives ns = 1 - 72/phi0^2 (double canonical)."""
+        phi0 = 30.0
+        ns_br = ns_from_phi0_braided(phi0, 1.0)
+        expected = 1.0 - 36.0 * 2.0 / phi0**2
+        assert abs(ns_br - expected) < 1e-12
+
+    def test_cs_zero_limit_approaches_canonical(self):
+        """As c_s → 0, ns_braided → ns_canonical."""
+        phi0 = 30.0
+        ns_br = ns_from_phi0_braided(phi0, 1e-6)
+        ns_can = ns_from_phi0(phi0)
+        assert abs(ns_br - ns_can) < 1e-10
+
+    def test_known_value(self):
+        phi0 = 10.0
+        c_s = 0.5
+        expected = 1.0 - 36.0 * (1.0 + 0.25) / 100.0
+        assert abs(ns_from_phi0_braided(phi0, c_s) - expected) < 1e-12
+
+    def test_zero_phi0_raises(self):
+        with pytest.raises(ValueError):
+            ns_from_phi0_braided(0.0, C_S)
+
+    def test_negative_phi0_raises(self):
+        with pytest.raises(ValueError):
+            ns_from_phi0_braided(-5.0, C_S)
+
+    def test_zero_cs_raises(self):
+        with pytest.raises(ValueError):
+            ns_from_phi0_braided(30.0, 0.0)
+
+    def test_negative_cs_raises(self):
+        with pytest.raises(ValueError):
+            ns_from_phi0_braided(30.0, -0.3)
+
+    def test_result_is_float(self):
+        assert isinstance(ns_from_phi0_braided(30.0, C_S), float)
+
+    def test_large_phi0_approaches_one(self):
+        ns = ns_from_phi0_braided(1e6, C_S)
+        assert abs(ns - 1.0) < 1e-6
+
+    def test_planck_window_at_ftum(self):
+        """ns_braided(phi0_FTUM) lies within Planck 2018 2σ window."""
+        phi0_ftum = N_WINDING * 2.0 * math.pi * _F_BRAIDED
+        ns = ns_from_phi0_braided(phi0_ftum, C_S)
+        assert abs(ns - NS_PLANCK) < 2.0 * NS_SIGMA
+
+
+# ---------------------------------------------------------------------------
+# phi0_eff_from_ns_braided tests
+# ---------------------------------------------------------------------------
+
+class TestPhi0EffFromNsBraided:
+    def test_equals_phi0_ftum_at_ns_target(self):
+        """phi0_eff_from_ns_braided(NS_TARGET) ≈ phi0_FTUM to < 0.05%."""
+        phi0_ftum = N_WINDING * 2.0 * math.pi * _F_BRAIDED
+        phi0_br = phi0_eff_from_ns_braided(NS_TARGET, C_S)
+        assert abs(phi0_br - phi0_ftum) / phi0_ftum < 5e-4
+
+    def test_equals_canonical_times_f_braided(self):
+        """phi0_braided = phi0_canonical × sqrt(1+c_s^2) to < 0.05%."""
+        phi0_canonical = N_WINDING * 2.0 * math.pi
+        phi0_br = phi0_eff_from_ns_braided(NS_TARGET, C_S)
+        expected = phi0_canonical * _F_BRAIDED
+        assert abs(phi0_br - expected) / expected < 5e-4
+
+    def test_larger_than_canonical_formula(self):
+        """Braided phi0 > canonical phi0 for same ns (c_s > 0)."""
+        phi0_can = phi0_eff_from_ns(NS_TARGET)
+        phi0_br = phi0_eff_from_ns_braided(NS_TARGET, C_S)
+        assert phi0_br > phi0_can
+
+    def test_ratio_equals_f_braided_approximately(self):
+        """phi0_braided / phi0_canonical ≈ sqrt(1+c_s^2)."""
+        phi0_can = phi0_eff_from_ns(NS_TARGET)
+        phi0_br = phi0_eff_from_ns_braided(NS_TARGET, C_S)
+        ratio = phi0_br / phi0_can
+        assert abs(ratio - _F_BRAIDED) < 1e-10
+
+    def test_round_trip_braided(self):
+        """phi0_eff_from_ns_braided(ns_from_phi0_braided(x)) == x."""
+        phi0 = 33.0
+        ns = ns_from_phi0_braided(phi0, C_S)
+        if 0.0 < ns < 1.0:
+            phi0_back = phi0_eff_from_ns_braided(ns, C_S)
+            assert abs(phi0_back - phi0) < 1e-8
+
+    def test_cs_one_gives_sqrt2_times_canonical(self):
+        """At c_s=1: phi0_braided = sqrt(2) × phi0_canonical."""
+        phi0_can = phi0_eff_from_ns(NS_TARGET)
+        phi0_br = phi0_eff_from_ns_braided(NS_TARGET, 1.0)
+        assert abs(phi0_br / phi0_can - math.sqrt(2.0)) < 1e-10
+
+    def test_ns_1_raises(self):
+        with pytest.raises(ValueError):
+            phi0_eff_from_ns_braided(1.0, C_S)
+
+    def test_ns_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi0_eff_from_ns_braided(0.0, C_S)
+
+    def test_ns_negative_raises(self):
+        with pytest.raises(ValueError):
+            phi0_eff_from_ns_braided(-0.1, C_S)
+
+    def test_cs_zero_raises(self):
+        with pytest.raises(ValueError):
+            phi0_eff_from_ns_braided(NS_TARGET, 0.0)
+
+    def test_result_is_float(self):
+        assert isinstance(phi0_eff_from_ns_braided(NS_TARGET, C_S), float)
+
+    def test_result_positive(self):
+        assert phi0_eff_from_ns_braided(NS_TARGET, C_S) > 0.0
+
+    @pytest.mark.parametrize("ns", [0.9, 0.95, 0.9635, 0.97, 0.99])
+    def test_ns_round_trip_parametrize(self, ns):
+        phi0 = phi0_eff_from_ns_braided(ns, C_S)
+        ns_back = ns_from_phi0_braided(phi0, C_S)
+        assert abs(ns_back - ns) < 1e-12
+
+
+# ---------------------------------------------------------------------------
+# braided_closure_audit tests
+# ---------------------------------------------------------------------------
+
+class TestBraidedClosureAudit:
+    def setup_method(self):
+        self.audit = braided_closure_audit()
+
+    def test_all_consistent(self):
+        """The braided closure audit reports all conditions satisfied."""
+        assert self.audit["all_consistent"] is True
+
+    def test_phi0_canonical_correct(self):
+        expected = N_WINDING * 2.0 * math.pi
+        assert abs(self.audit["phi0_canonical"] - expected) < 1e-10
+
+    def test_phi0_ftum_correct(self):
+        expected = N_WINDING * 2.0 * math.pi * _F_BRAIDED
+        assert abs(self.audit["phi0_ftum"] - expected) < 1e-10
+
+    def test_phi0_ftum_greater_than_canonical(self):
+        assert self.audit["phi0_ftum"] > self.audit["phi0_canonical"]
+
+    def test_ftum_canonical_frac_about_5_percent(self):
+        """FTUM attractor is ~5% above canonical (c_s = 12/37)."""
+        frac = self.audit["ftum_canonical_frac"]
+        assert 0.04 < frac < 0.07
+
+    def test_ns_exact_identity(self):
+        """The exact algebraic identity holds: ns_braided(phi0_FTUM) == ns_can(phi0_canonical)."""
+        assert self.audit["ns_exact_identity"] is True
+
+    def test_ns_at_ftum_braided_close_to_target(self):
+        """ns_braided(phi0_FTUM) ≈ NS_TARGET to < 0.05%."""
+        err = self.audit["ns_braided_error"]
+        assert err < 5e-4
+
+    def test_ns_at_ftum_canonical_differs_from_target(self):
+        """ns_canonical(phi0_FTUM) ≠ NS_TARGET (canonical formula at wrong phi0)."""
+        ns_can = self.audit["ns_at_ftum_canonical"]
+        assert abs(ns_can - NS_TARGET) > 1e-3
+
+    def test_lambda_cobe_positive(self):
+        assert self.audit["lambda_cobe_ftum"] > 0.0
+
+    def test_lambda_cobe_small(self):
+        """λ_COBE should be ~10^-12."""
+        assert 1e-14 < self.audit["lambda_cobe_ftum"] < 1e-9
+
+    def test_as_ratio_close_to_one(self):
+        assert abs(self.audit["as_ratio_ftum"] - 1.0) < 1e-10
+
+    def test_ftum_converged(self):
+        assert self.audit["ftum_converged"] is True
+
+    def test_r_within_bicep(self):
+        assert self.audit["r_check"]["within_bicep"] is True
+
+    def test_phi0_from_ns_braided_close_to_ftum(self):
+        """phi0_from_ns_braided ≈ phi0_FTUM to < 0.05%."""
+        phi0_br = self.audit["phi0_from_ns_braided"]
+        phi0_ftum = self.audit["phi0_ftum"]
+        assert abs(phi0_br - phi0_ftum) / phi0_ftum < 5e-4
+
+    def test_result_keys_complete(self):
+        expected = {
+            "phi0_canonical", "phi0_ftum", "phi0_from_ns_braided",
+            "ftum_canonical_frac", "ns_at_ftum_braided", "ns_at_ftum_canonical",
+            "ns_braided_error", "ns_exact_identity", "lambda_cobe_ftum",
+            "as_ratio_ftum", "ftum_converged", "r_check", "all_consistent",
+        }
+        assert expected.issubset(self.audit.keys())
+
+    def test_braided_formula_closes_gap(self):
+        """The braided formula gives NS_TARGET at phi0_FTUM; canonical does not."""
+        # Canonical formula at phi0_FTUM gives a different ns
+        ns_can = self.audit["ns_at_ftum_canonical"]
+        ns_br = self.audit["ns_at_ftum_braided"]
+        # Braided is closer to NS_TARGET than canonical
+        assert abs(ns_br - NS_TARGET) < abs(ns_can - NS_TARGET)
+
+    def test_f_braided_factor_equals_sqrt_1_plus_cs_squared(self):
+        """The FTUM correction factor f_braided = sqrt(1 + c_s^2)."""
+        phi0_can = self.audit["phi0_canonical"]
+        phi0_ftum = self.audit["phi0_ftum"]
+        f_computed = phi0_ftum / phi0_can
+        f_expected = math.sqrt(1.0 + C_S**2)
+        assert abs(f_computed - f_expected) < 1e-12
+
+    def test_four_way_closure_summary(self):
+        """Verify all four closure conditions independently."""
+        # 1. ns braided consistency
+        assert self.audit["ns_braided_error"] < 5e-4
+        # 2. As consistency
+        assert abs(self.audit["as_ratio_ftum"] - 1.0) < 1e-10
+        # 3. FTUM convergence
+        assert self.audit["ftum_converged"] is True
+        # 4. r < BICEP limit
+        assert self.audit["r_check"]["within_bicep"] is True
+
