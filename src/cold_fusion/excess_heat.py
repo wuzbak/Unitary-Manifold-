@@ -75,6 +75,11 @@ heat_to_electrical_efficiency(cop, eta_thermal)
 
 anomalous_heat_signature(P_excess, background_variance)
     σ = P_excess / sqrt(background_variance).
+
+calculate_energy_branching_ratio(B_site, phi_local, alpha_fs)
+    Returns phonon/gamma branching fractions from B_μ momentum-sink mechanism.
+    phonon_fraction = B_eff / (1 + B_eff),  B_eff = B_site × φ_local.
+    is_safe is True when gamma_fraction < 0.01 (>99% gamma suppression).
 """
 
 from __future__ import annotations
@@ -492,3 +497,126 @@ def anomalous_heat_signature(
             f"background_variance must be > 0, got {background_variance!r}"
         )
     return float(P_excess / np.sqrt(background_variance))
+
+
+# ---------------------------------------------------------------------------
+# B_μ energy branching ratio (phonon vs gamma)
+# ---------------------------------------------------------------------------
+
+def calculate_energy_branching_ratio(
+    B_site: float,
+    phi_local: float,
+    alpha_fs: float = 1.0 / 137.0,
+) -> dict:
+    """Calculate the phonon/gamma branching ratio via the B_μ momentum-sink mechanism.
+
+    Physical mechanism
+    ------------------
+    In standard D-D fusion the nuclear Q-value exits as free kinetic energy of
+    the products (neutron/proton + He-3/Tritium), which quickly scatter and
+    produce secondary gammas and fast neutrons — the "deadly radiation" problem.
+
+    In the Unitary Manifold, the B_μ irreversibility field acts as a
+    **momentum sink**: it couples to the outgoing momenta of the fusion products
+    and distributes them into lattice phonon modes *before* a photon can be
+    emitted.  The phonon coupling rate is boosted by the local radion field φ,
+    which concentrates at the loaded D-occupied sites.
+
+    Rate model
+    ----------
+    The photon (gamma) emission rate per unit energy is set by the fine-structure
+    constant (classical electromagnetic decay):
+
+        Γ_γ = α_fs   [in natural units, per energy unit]
+
+    The B_μ-induced phonon coupling rate is amplified by the local field product
+    B_site × φ_local (both dimensionless in Planck units):
+
+        Γ_ph = B_site × φ_local × Γ_γ
+
+    The total decay width is:
+
+        Γ_total = Γ_γ + Γ_ph = Γ_γ × (1 + B_eff)
+
+    where  B_eff = B_site × φ_local  is the effective B_μ coupling.
+
+    Branching fractions
+    -------------------
+        f_phonon = Γ_ph / Γ_total = B_eff / (1 + B_eff)
+        f_gamma  = Γ_γ  / Γ_total = 1    / (1 + B_eff)
+
+    For B_eff ≫ 1 (strong B_μ coupling), f_phonon → 1 and f_gamma → 0:
+    essentially all fusion energy becomes heat rather than radiation.
+
+    Safety threshold
+    ----------------
+    The prompt-gamma suppression is considered safe (below detectable harm
+    threshold for a Pd-D cell) when:
+
+        f_gamma < 0.01   (>99% of energy goes to phonons)
+
+    This requires  B_eff > 99, e.g. B_site = 1.0 with φ_local ≥ 99.
+
+    Parameters
+    ----------
+    B_site : float
+        Effective local B_μ field strength at the fusion site (≥ 0, Planck units).
+        Computed via `src.cold_fusion.lattice.b_field_at_site`.
+    phi_local : float
+        Local φ radion field at the lattice site (must be > 0, Planck units).
+        Computed via `src.cold_fusion.lattice.phi_at_lattice_site`.
+    alpha_fs : float
+        Fine-structure constant (default 1/137).  Sets the absolute gamma rate;
+        cancels in the branching fractions but is included for completeness.
+
+    Returns
+    -------
+    dict with keys:
+        B_site          : float — input B_μ field strength
+        phi_local       : float — input local φ field
+        alpha_fs        : float — fine-structure constant used
+        B_effective     : float — B_eff = B_site × φ_local (dimensionless coupling)
+        Gamma_gamma     : float — photon emission rate (in α_fs units)
+        Gamma_phonon    : float — phonon coupling rate (in α_fs units)
+        Gamma_total     : float — total decay rate (in α_fs units)
+        phonon_fraction : float — f_ph = B_eff / (1 + B_eff) ∈ [0, 1)
+        gamma_fraction  : float — f_γ  = 1 / (1 + B_eff)    ∈ (0, 1]
+        suppression_pct : float — gamma suppression = (1 − f_γ) × 100%
+        is_safe         : bool  — True if f_γ < 0.01 (>99% gamma suppression)
+
+    Raises
+    ------
+    ValueError
+        If B_site < 0 or phi_local ≤ 0.
+    """
+    if B_site < 0.0:
+        raise ValueError(f"B_site must be ≥ 0, got {B_site!r}")
+    if phi_local <= 0.0:
+        raise ValueError(f"phi_local must be > 0, got {phi_local!r}")
+
+    # Effective B_μ coupling
+    B_eff = float(B_site * phi_local)
+
+    # Rate components (in units of alpha_fs)
+    Gamma_gamma = float(alpha_fs)
+    Gamma_phonon = float(B_eff * alpha_fs)
+    Gamma_total = float((1.0 + B_eff) * alpha_fs)
+
+    # Branching fractions
+    phonon_fraction = float(B_eff / (1.0 + B_eff))
+    gamma_fraction = float(1.0 / (1.0 + B_eff))
+    suppression_pct = float((1.0 - gamma_fraction) * 100.0)
+
+    return {
+        "B_site": B_site,
+        "phi_local": phi_local,
+        "alpha_fs": alpha_fs,
+        "B_effective": B_eff,
+        "Gamma_gamma": Gamma_gamma,
+        "Gamma_phonon": Gamma_phonon,
+        "Gamma_total": Gamma_total,
+        "phonon_fraction": phonon_fraction,
+        "gamma_fraction": gamma_fraction,
+        "suppression_pct": suppression_pct,
+        "is_safe": gamma_fraction < 0.01,
+    }
