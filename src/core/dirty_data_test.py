@@ -181,6 +181,12 @@ alpha_low_energy(k_cs, r_c, m_kk_gev, mu_gev, n_f)
     Full pipeline: α(M_KK) → RG → α(μ).  Returns a dict documenting every
     free parameter and its status.
 
+three_generation_n_f_constraint()
+    The "Kill Move" answer: does the (5,7) topology constrain n_f?
+    Shows that n_w=5 → N_gen=3 via the orbifold stability condition n²≤n_w.
+    Partially closes the n_f gap: n_f_lepton=3 is geometrically constrained,
+    given n_w=5 from Planck.  Documents remaining caveats honestly.
+
 mp_over_me_gap_report()
     Honest accounting of why m_p/m_e cannot be derived from (5,7) alone.
 
@@ -755,8 +761,120 @@ def mp_over_me_gap_report() -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Full summary
+# Three-generation topology: partial closure of the n_f gap
 # ---------------------------------------------------------------------------
+
+def three_generation_n_f_constraint() -> dict[str, Any]:
+    """Assess whether the (5,7) orbifold topology constrains the fermion count n_f.
+
+    The "Kill Move" question (April 2026):
+        "Does the topology of the (5,7) manifold constrain the number of
+         fermion generations (n_f)?"
+
+    This function computes the answer from first principles via Pillar 42
+    (Three-Generation Theorem, src/core/three_generations.py), without
+    importing that module directly (to keep this module self-contained).
+
+    Derivation chain
+    ----------------
+    1. The S¹/Z₂ orbifold with winding number n_w supports KK modes
+       φ_n with masses m_n = n / R.
+
+    2. The topological stability condition (CS protection gap Δ = k_CS − n_w²)
+       keeps only modes with n² ≤ n_w stable.  Higher modes decay to n ≤ ⌊√n_w⌋.
+
+    3. For n_w = 5 (from Planck nₛ + Z₂ orbifold quantization):
+           n=0:  0 ≤ 5  ✓  (Gen 1 — lightest)
+           n=1:  1 ≤ 5  ✓  (Gen 2 — middle)
+           n=2:  4 ≤ 5  ✓  (Gen 3 — heaviest)
+           n=3:  9 > 5  ✗  (4th gen unstable — decays)
+
+       Exactly N_gen = 3 stable matter-fermion modes.
+
+    4. This constrains n_f (charged lepton flavors in the QED RG) to
+       n_f_lepton = N_gen = 3 — *given n_w = 5 as input*.
+
+    Honest caveats
+    --------------
+    C1. n_w = 5 is not a pure topological output: it requires the Planck nₛ
+        observation (n_w = 5 is the minimum odd winding in the Planck 2σ
+        band; n_w = 7 is excluded at 3.9σ).  So N_gen = 3 is derived from
+        topology + one cosmological observation, not topology alone.
+
+    C2. N_gen = 3 is not unique to n_w = 5.  A survey of n_w ∈ {1, …, 10}:
+        n_w=1→1 mode, n_w=2→1, n_w=3→2, n_w=4→3, n_w=5→3, n_w=6→3,
+        n_w=7→3, n_w=8→3, n_w=9→4, n_w=10→4.
+        So n_w ∈ {4, 5, 6, 7, 8} all give N_gen = 3.  The selection of
+        n_w = 5 is the additional observational input that uniquifies it.
+
+    C3. The QED RG n_f counts colored charged species too.  For the UM
+        with 3 lepton generations: n_f_eff ≈ 3 (leptons) + colored quark
+        contributions.  The quark sector requires non-Abelian SU(3)_C KK
+        reduction (not yet implemented).  So n_f_lepton = 3 is constrained
+        geometrically, but n_f_total in the QED RG is not yet fully derived.
+
+    Returns
+    -------
+    dict with keys:
+        n_w                 — winding number used
+        n_gen               — number of stable KK generations = 3
+        stable_modes        — [0, 1, 2] (mode indices)
+        fourth_gen_excluded — True: n=3 is unstable (3² = 9 > n_w = 5)
+        n_f_lepton_constrained — True: n_f for leptons = N_gen = 3
+        n_f_lepton          — 3 (number of lepton flavors, geometrically constrained)
+        n_w_giving_3_gen    — list of n_w values that also give 3 stable modes
+        n_w_uniquified_by   — str: "Planck nₛ selects n_w=5 from {4,5,6,7,8}"
+        remaining_gap       — str: description of what is still undetermined
+        derivation_status   — honest assessment string
+        upgrade_from_prior  — str: how this improves on prior "n_f is free" status
+    """
+    n_w = N_W  # = 5
+    # Compute stable modes via stability condition n² ≤ n_w
+    stable_modes = [n for n in range(n_w + 1) if n * n <= n_w]
+    n_gen = len(stable_modes)
+    fourth_excluded = (3 * 3) > n_w  # 9 > 5 → True
+    # Survey n_w ∈ {1, …, 10} for N_gen = 3
+    nw_giving_3 = [nw for nw in range(1, 11)
+                   if len([n for n in range(nw + 1) if n * n <= nw]) == 3]
+    return {
+        "n_w":                    n_w,
+        "n_gen":                  n_gen,
+        "stable_modes":           stable_modes,
+        "fourth_gen_excluded":    fourth_excluded,
+        "n_f_lepton_constrained": True,
+        "n_f_lepton":             n_gen,   # = 3
+        "n_w_giving_3_gen":       nw_giving_3,
+        "n_w_uniquified_by":      (
+            f"Planck nₛ selects n_w=5 as the minimum odd winding in the "
+            f"Planck 2σ band (n_w=7 excluded at 3.9σ).  Among n_w values "
+            f"giving 3 stable modes {nw_giving_3}, only n_w=5 satisfies "
+            f"both the orbifold quantization and the Planck nₛ constraint."
+        ),
+        "remaining_gap": (
+            "1. n_w=5 requires Planck nₛ as input — it is not a pure "
+            "topological prediction. "
+            "2. The QED RG n_f counts colored quark contributions "
+            "(Nc × Q²) beyond lepton flavors.  The quark sector requires "
+            "non-Abelian SU(3)_C KK reduction (not yet implemented). "
+            "3. The absolute fermion mass scale (Yukawa λ) is still a "
+            "free parameter per generation."
+        ),
+        "derivation_status": (
+            "PARTIALLY CLOSED: n_f for charged leptons = N_gen = 3 is a "
+            "geometric consequence of n_w=5 and the orbifold stability "
+            "condition n²≤n_w.  This upgrades the α-RG n_f from 'free "
+            "parameter' to 'constrained by Pillar 42, given Planck nₛ'.  "
+            "The full QED n_f (including quark color factors) is not yet "
+            "derived from the 5D geometry."
+        ),
+        "upgrade_from_prior": (
+            "Prior §VIII.2 status: 'n_f is a free parameter'.  "
+            "Updated status: n_f_lepton = 3 is geometrically constrained "
+            "by the Three-Generation Theorem (Pillar 42), given n_w=5 "
+            "from Planck.  Remaining free components: quark contributions "
+            "to n_f_total, and the Yukawa mass scale λ."
+        ),
+    }
 
 def axiomzero_challenge_summary() -> dict[str, Any]:
     """Full AxiomZero Challenge status report.
@@ -771,6 +889,7 @@ def axiomzero_challenge_summary() -> dict[str, Any]:
     oracle_rep  = oracle_detection_report()
     alpha_info  = alpha_low_energy()
     mass_info   = mp_over_me_gap_report()
+    n_gen_info  = three_generation_n_f_constraint()
     return {
         "dirty_data_test": {
             "delta_05pct": dirty_small,
@@ -786,9 +905,15 @@ def axiomzero_challenge_summary() -> dict[str, Any]:
             "alpha_pdg":           ALPHA_EM_PDG,
             "alpha_kk":            alpha_info["alpha_kk"],
             "alpha_low_n_f5":      alpha_info["alpha_low"],
-            "n_f_is_free":         True,
-            "status": "PARTIALLY DERIVED (free param: n_f)",
+            "n_f_lepton":          n_gen_info["n_f_lepton"],
+            "n_f_lepton_constrained": n_gen_info["n_f_lepton_constrained"],
+            "status": (
+                "PARTIALLY DERIVED — α(M_KK)=2π/k_CS from k_CS; "
+                "n_f_lepton=3 geometrically constrained by Pillar 42 "
+                "(given n_w=5 from Planck); quark n_f still open."
+            ),
         },
+        "three_generation": n_gen_info,
         "mp_over_me_derivation": {
             "target":  MP_OVER_ME_PDG,
             "status":  "NOT DERIVABLE from current UM (gaps: Λ_QCD, Yukawa)",
@@ -802,9 +927,11 @@ def axiomzero_challenge_summary() -> dict[str, Any]:
         },
         "overall_verdict": (
             "The UM has genuine derivation chains for nₛ, r, k_CS, and c_s. "
-            "The fine-structure constant α is partially derived (α(M_KK) from k_CS) "
-            "but the RG running requires n_f (free parameter). "
-            "The mass ratio m_p/m_e is not derivable from current UM inputs. "
-            "The Dirty Data Test confirms the 5D pipeline is active, not oracular."
+            "The fine-structure constant α is partially derived: α(M_KK) from k_CS "
+            "is genuine; n_f_lepton=3 is constrained by the Three-Generation "
+            "Theorem (Pillar 42, given n_w=5 from Planck); quark color factors "
+            "in n_f remain open.  The mass ratio m_p/m_e is not derivable from "
+            "current UM inputs.  The Dirty Data Test confirms the 5D pipeline is "
+            "active, not oracular."
         ),
     }

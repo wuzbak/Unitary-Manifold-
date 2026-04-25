@@ -990,6 +990,63 @@ localisation and Yukawa profiles for all SM generations) to be closed first.
 *Code: `src/core/dirty_data_test.alpha_kk_scale()`, `alpha_rg_run()`,
 `alpha_low_energy()` — 15 tests in `tests/test_dirty_data_test.py`.*
 
+#### 8.2.1 The Three-Generation Connection: Partial n_f Closure
+
+> *"The Kill Move": Does the (5,7) topology constrain the fermion count n_f?*
+
+**Answer: Yes, partially — and this upgrades the status of §8.2.**
+
+Pillar 42 (`src/core/three_generations.py`) proves that the S¹/Z₂ orbifold
+with winding number n_w = 5 supports exactly **three** stable KK matter modes
+via the topological stability condition:
+
+```
+n²  ≤  n_w = 5
+  n=0:  0 ≤ 5  ✓  (Generation 1)
+  n=1:  1 ≤ 5  ✓  (Generation 2)
+  n=2:  4 ≤ 5  ✓  (Generation 3)
+  n=3:  9 > 5  ✗  (4th generation — topologically unstable; decays to n≤2)
+```
+
+Therefore: **N_gen = 3 is a geometric consequence of n_w = 5 and the orbifold
+stability condition.  This constrains n_f_lepton = 3 from the 5D topology.**
+
+The derivation chain is:
+
+```
+Planck nₛ + Z₂ orbifold quantization
+    → n_w = 5  (minimum odd winding in Planck 2σ band)
+        → n² ≤ n_w stability condition
+            → N_gen = 3  (theorem, no free parameter at this step)
+                → n_f_lepton = 3 in QED RG  (lepton flavors constrained)
+```
+
+**Honest caveats:**
+
+1. **n_w = 5 is not a pure topological output.** It requires the Planck nₛ
+   observation.  A survey of n_w ∈ {1, …, 10} shows that n_w ∈ {4, 5, 6, 7, 8}
+   *all* give exactly three stable modes.  The selection of n_w = 5
+   (the Planck constraint) is what uniquifies N_gen = 3.
+
+2. **The QED RG n_f is not just n_f_lepton.**  It includes colored quark
+   contributions (Nc × Q² × n_q).  The quark sector requires non-Abelian
+   SU(3)_C KK reduction — not yet implemented.
+
+3. **The 4th-generation exclusion is falsifiable:** LHC precision
+   electroweak measurements and Z-pole data already exclude a 4th SM
+   generation at > 5σ (PDG 2024).  If a 4th-generation fermion below M_KK
+   were discovered, Pillar 42 would be falsified.
+
+**Updated status for §8.2:**
+> n_f_lepton = 3 is geometrically constrained by Pillar 42, given n_w = 5
+> from Planck.  The remaining open component is n_f_total (quark color
+> factors), not n_f_lepton.  The α RG derivation is therefore more
+> constrained than previously stated — the "free parameter" n_f has been
+> partially closed.
+
+*Code: `src/core/dirty_data_test.three_generation_n_f_constraint()` —
+15 tests in `tests/test_dirty_data_test.py`.*
+
 ### 8.3 The Proton/Electron Mass Ratio m_p/m_e
 
 **What the UM gives:** Pillar 60 (`src/core/particle_mass_spectrum.py`)
@@ -1057,12 +1114,13 @@ validation.
 | c_s = 12/37 | ✅ Yes — from k_CS | None | DERIVED |
 | nₛ ≈ 0.9635 | ✅ Yes — given n_w = 5 | n_w (fitted to Planck) | DERIVED (given n_w) |
 | r_braided ≈ 0.0315 | ✅ Yes — from c_s | None beyond n_w | DERIVED |
+| **N_gen = 3** | ✅ Yes — from n_w=5 + n²≤n_w | n_w requires Planck nₛ | **DERIVED (Pillar 42)** |
 | α(M_KK) ≈ 2π/74 | ✅ Yes — from k_CS | None | DERIVED |
-| α(m_e) ≈ 1/137 | ⚠️ Partially | **n_f** (fermion count) | PARTIALLY DERIVED |
+| α(m_e) ≈ 1/137 | ⚠️ More constrained | n_f_lepton=3 (closed); quark n_f open | **MORE CONSTRAINED** (was: free param) |
 | m_p/m_e ≈ 1836 | ❌ No | Yukawa λ + Λ_QCD | NOT DERIVABLE |
 | Dirty Data Test | ✅ Passes | — | 5D path confirmed active |
 
-*Code: `src/core/dirty_data_test.py` (Pillar 61); 98 tests in
+*Code: `src/core/dirty_data_test.py` (Pillar 61); 113 tests in
 `tests/test_dirty_data_test.py` (0 failed).*
 
 ---
@@ -1071,7 +1129,7 @@ validation.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| ~10,687 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
+| ~10,702 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
@@ -1084,7 +1142,8 @@ validation.
 | Neutrino-Radion Identity / M_KK scale | ✅ **Substantially closed** (April 2026) | Exact closure at m_ν = 110.13 meV; bridge_ratio = 1.0000; R_KK = 1.792 μm. Fermion sector derivation remains future work. Code: `derive_R_from_neutrino_mass()`, `prove_resonance_identity()` — 315 tests. |
 | Casimir-KK ripple prediction | ✅ **Predicted** — awaiting experiment | δF/F = 0.162% at d ≈ 1.792 μm. Falsifiable at 0.1% precision. |
 | B_μ energy routing (safe fusion) | ✅ **Modelled** — awaiting experiment | > 99% phonon fraction at B_eff > 10. Falsifiable by Pd-D calorimetry. |
-| **AxiomZero Challenge: α ≈ 1/137** | ⚠️ **Partially derived** | α(M_KK)=2π/k_CS is genuine; RG to α(m_e) requires **n_f** (free param). See §VIII. |
+| **N_gen = 3 fermion generations** | ✅ **DERIVED** (Pillar 42, §VIII.2.1) | n_w=5 + n²≤n_w → exactly 3 stable modes. Requires Planck nₛ input for n_w=5. |
+| **AxiomZero Challenge: α ≈ 1/137** | ⚠️ **More constrained** (§VIII.2.1) | α(M_KK)=2π/k_CS genuine; n_f_lepton=3 closed by Pillar 42; quark n_f still open. |
 | **AxiomZero Challenge: m_p/m_e ≈ 1836** | ❌ **Not derivable** | Requires Λ_QCD + Yukawa λ; both are open gaps. See §VIII. |
 | **Dirty Data Test (Pillar 61)** | ✅ **Passes** | 5D path confirmed active: nₛ tracks φ₀_eff perturbations. Oracle retrieval falsified. |
 

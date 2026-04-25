@@ -65,6 +65,7 @@ from src.core.dirty_data_test import (
     alpha_kk_scale,
     alpha_rg_run,
     alpha_low_energy,
+    three_generation_n_f_constraint,
     mp_over_me_gap_report,
     axiomzero_challenge_summary,
 )
@@ -565,13 +566,87 @@ class TestMpOverMeGapReport:
 
 
 # ---------------------------------------------------------------------------
-# XIV. axiomzero_challenge_summary
+# XIV. three_generation_n_f_constraint
+# ---------------------------------------------------------------------------
+
+class TestThreeGenerationNfConstraint:
+    def test_keys_present(self):
+        rep = three_generation_n_f_constraint()
+        for key in ("n_w", "n_gen", "stable_modes", "fourth_gen_excluded",
+                    "n_f_lepton_constrained", "n_f_lepton",
+                    "n_w_giving_3_gen", "n_w_uniquified_by",
+                    "remaining_gap", "derivation_status", "upgrade_from_prior"):
+            assert key in rep
+
+    def test_n_w_is_5(self):
+        rep = three_generation_n_f_constraint()
+        assert rep["n_w"] == 5
+
+    def test_n_gen_is_3(self):
+        rep = three_generation_n_f_constraint()
+        assert rep["n_gen"] == 3
+
+    def test_stable_modes(self):
+        rep = three_generation_n_f_constraint()
+        assert rep["stable_modes"] == [0, 1, 2]
+
+    def test_fourth_gen_excluded(self):
+        # 3² = 9 > n_w = 5 → excluded
+        rep = three_generation_n_f_constraint()
+        assert rep["fourth_gen_excluded"] is True
+
+    def test_n_f_lepton_constrained(self):
+        rep = three_generation_n_f_constraint()
+        assert rep["n_f_lepton_constrained"] is True
+
+    def test_n_f_lepton_is_3(self):
+        rep = three_generation_n_f_constraint()
+        assert rep["n_f_lepton"] == 3
+
+    def test_n_w_giving_3_gen_contains_5(self):
+        rep = three_generation_n_f_constraint()
+        assert 5 in rep["n_w_giving_3_gen"]
+
+    def test_n_w_giving_3_gen_contains_expected(self):
+        # n_w ∈ {4,5,6,7,8} all give 3 stable modes
+        rep = three_generation_n_f_constraint()
+        for nw in [4, 5, 6, 7, 8]:
+            assert nw in rep["n_w_giving_3_gen"]
+
+    def test_n_w_9_not_in_3gen_list(self):
+        # n_w=9 gives 4 stable modes (0,1,2,3 since 3²=9≤9)
+        rep = three_generation_n_f_constraint()
+        assert 9 not in rep["n_w_giving_3_gen"]
+
+    def test_derivation_status_says_partially_closed(self):
+        rep = three_generation_n_f_constraint()
+        assert "PARTIALLY CLOSED" in rep["derivation_status"]
+
+    def test_remaining_gap_mentions_planck(self):
+        rep = three_generation_n_f_constraint()
+        assert "Planck" in rep["remaining_gap"]
+
+    def test_remaining_gap_mentions_quarks(self):
+        rep = three_generation_n_f_constraint()
+        assert "quark" in rep["remaining_gap"].lower()
+
+    def test_upgrade_from_prior_mentions_pillar_42(self):
+        rep = three_generation_n_f_constraint()
+        assert "Pillar 42" in rep["upgrade_from_prior"]
+
+    def test_uniquified_by_mentions_planck(self):
+        rep = three_generation_n_f_constraint()
+        assert "Planck" in rep["n_w_uniquified_by"]
+
+
+# ---------------------------------------------------------------------------
+# XV. axiomzero_challenge_summary
 # ---------------------------------------------------------------------------
 
 class TestAxiomZeroChallengeSummary:
     def test_keys_present(self):
         summary = axiomzero_challenge_summary()
-        for key in ("dirty_data_test", "alpha_derivation",
+        for key in ("dirty_data_test", "alpha_derivation", "three_generation",
                     "mp_over_me_derivation", "ns_r_derivation",
                     "overall_verdict"):
             assert key in summary
@@ -584,9 +659,18 @@ class TestAxiomZeroChallengeSummary:
         summary = axiomzero_challenge_summary()
         assert summary["dirty_data_test"]["oracle_falsified"] is True
 
-    def test_alpha_n_f_is_free(self):
+    def test_alpha_n_f_lepton_constrained(self):
         summary = axiomzero_challenge_summary()
-        assert summary["alpha_derivation"]["n_f_is_free"] is True
+        assert summary["alpha_derivation"]["n_f_lepton_constrained"] is True
+
+    def test_alpha_n_f_lepton_is_3(self):
+        summary = axiomzero_challenge_summary()
+        assert summary["alpha_derivation"]["n_f_lepton"] == 3
+
+    def test_three_generation_key_present(self):
+        summary = axiomzero_challenge_summary()
+        assert "three_generation" in summary
+        assert summary["three_generation"]["n_gen"] == 3
 
     def test_mp_over_me_not_derivable(self):
         summary = axiomzero_challenge_summary()
@@ -596,3 +680,7 @@ class TestAxiomZeroChallengeSummary:
         summary = axiomzero_challenge_summary()
         assert isinstance(summary["overall_verdict"], str)
         assert len(summary["overall_verdict"]) > 50
+
+    def test_overall_verdict_mentions_three_generation(self):
+        summary = axiomzero_challenge_summary()
+        assert "Three-Generation" in summary["overall_verdict"]
