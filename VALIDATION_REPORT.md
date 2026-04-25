@@ -407,7 +407,7 @@ The live badge reflects the current status of the `main` branch:
 | Document | Role in validation |
 |----------|--------------------|
 | `VALIDATION_REPORT.md` ← *this file* | Expanded explanation of what validation means and how each document fits |
-| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 26 pillars |
+| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 60+ pillars |
 | [`REVIEW_CONCLUSION.md`](REVIEW_CONCLUSION.md) | Version-by-version technical audit; shows the working and the failures fixed |
 | [`submission/falsification_report.md`](submission/falsification_report.md) | Pre-submission adversarial assessment; every known failure mode stated first |
 | [`ALGEBRA_PROOF.py`](ALGEBRA_PROOF.py) | 114 executable algebraic checks; lossless 5D pipeline proof in §13 |

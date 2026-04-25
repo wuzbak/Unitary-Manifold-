@@ -6,7 +6,7 @@
 
 ## Why This Document Exists
 
-All 26 "Pillars" in this repository look the same: each has Python source code,
+All 60+ "Pillars" in this repository look the same: each has Python source code,
 automated tests, and a "✓ passed" badge.  That visual equality is **misleading**.
 
 The epistemic status of
