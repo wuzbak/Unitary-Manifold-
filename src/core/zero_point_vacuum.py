@@ -175,7 +175,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 import numpy as np
 
@@ -1616,7 +1616,7 @@ def fermionic_zpe_offset(
 
 def braid_running_factor(
     mu_UV: float = 1.0,
-    mu_IR: float = None,
+    mu_IR: Optional[float] = None,
     k_cs: int = K_CS_CANONICAL,
     c_s: float = C_S_CANONICAL,
     rho_obs: float = RHO_DARK_ENERGY_PLANCK,
