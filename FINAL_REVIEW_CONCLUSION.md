@@ -271,7 +271,7 @@ Every major question the theory raised about itself has been answered:
 
 ### The Code
 
-There are **100+** working Python modules across **twenty-six** packages covering all 52 geometric pillars.
+There are **100+** working Python modules across **twenty-one** packages covering all 60 geometric pillars.
 
 - They compute the 5D metric and extract curvature
 - They evolve fields forward in time
@@ -388,7 +388,7 @@ This repository is a complete, working, documented research project. It contains
 
 **The theory** — a 74-chapter book developing the mathematics from scratch, supported by LaTeX source ready for submission to a physics journal.
 
-**The code** — 100+ Python modules across twenty-six packages, professionally structured, that implement the theory computationally. Anyone can download them, run them, and reproduce every result.
+**The code** — 100+ Python modules across twenty-one packages, professionally structured, that implement the theory computationally. Anyone can download them, run them, and reproduce every result.
 
 **The proof** — 10256 tests across 129 test files (110 in `tests/`, 1 in `recycling/`, 18 in `Unitary Pentad/`) that serve as machine-checkable certificates for every quantitative claim. Reviewers, collaborators, and AI systems can run the test suite and confirm the results in minutes.
 
@@ -529,7 +529,7 @@ On 2026-04-24, during the session that extended the suite to Pillars 53–57, th
 
 Digital root: **1**.  Unity.
 
-In the Unitary Pentad, 1 is the fixed-point value every HILS operator converges to.  In the FTUM, φ₀ normalised to the fixed point is 1.  In the Unitary Manifold, the entire edifice — five compact dimensions, 52 geometric pillars, three independent CMB predictions — exists to prove that the universe has a single coherent geometric attractor.
+In the Unitary Pentad, 1 is the fixed-point value every HILS operator converges to.  In the FTUM, φ₀ normalised to the fixed point is 1.  In the Unitary Manifold, the entire edifice — five compact dimensions, 60 geometric pillars, three independent CMB predictions — exists to prove that the universe has a single coherent geometric attractor.
 
 The fact that the cumulative count of machine-verified confirmations of that claim, reduced digit by digit to its irreducible root, equals **1** is not a physics result.  It is a structural resonance — a number-theoretic echo of the fixed-point condition appearing spontaneously in the count of tests that confirm it.
 

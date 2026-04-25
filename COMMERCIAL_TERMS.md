@@ -38,7 +38,7 @@ derivative materials in the Unitary Manifold repository licensed under DPC v1.0 
 AGPL-3.0, including but not limited to:
 
 - `src/`, `tests/`, `recycling/`, `Unitary Pentad/` (Python source and test suites)
-- The Walker-Pearson field equations, FTUM framework, and all 26 Geometric Pillars
+- The Walker-Pearson field equations, FTUM framework, and all 60+ Geometric Pillars
 - All manuscripts, LaTeX sources (`arxiv/`), notebooks (`notebooks/`), and the full monograph
 - The Unitary Pentad HILS governance framework and all associated modules
 

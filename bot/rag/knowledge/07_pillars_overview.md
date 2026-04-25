@@ -1,7 +1,7 @@
-# The 26 Pillars — Complete Framework Overview
+# The 60+ Geometric Pillars — Complete Framework Overview
 
 The Unitary Manifold extends a single geometric claim — irreversibility as 5D geometry —
-across 26 domains of knowledge. Each pillar asks the same question: does the same
+across 60+ domains of knowledge. Each pillar asks the same question: does the same
 machinery (B_μ, φ, FTUM operator U = I+H+T) govern this domain?
 
 ## Core Physics (Pillars 1–5)
@@ -57,7 +57,55 @@ These are the original pillars of the theory.
 | 25 | `src/genetics/` | DNA as φ-information archive; gene expression as φ-field gating; evolutionary change as FTUM gradient ascent at genomic scale | 90 |
 | 26 | `src/materials/` | Semiconductor band gaps, metamaterial B_μ-topology, superconducting phases as φ-lattice FTUM fixed points | 90 |
 
-## Unitary Pentad (HILS — Independent Framework)
+## The Precision Frontier (Pillars 27–52-B)
+
+| Pillar | Module | Claim | Tests |
+|--------|--------|-------|-------|
+| 27 | `src/core/non_gaussianity.py` | Dynamical r_c as 2nd inflation field; f_NL bispectrum from (5,7) two-field coupling | 73 |
+| 28 | `src/core/bh_remnant.py` | Theorem XVII — KK winding-mode GW pressure halts Hawking evaporation; stable Planck-scale remnant | 80 |
+| 29 | `src/core/compactification.py` | Theorem XVIII — (5,7) vacuum selected by dynamical tower event; only braid pair with zero branch lossiness | 65 |
+| 30 | `src/core/moduli_survival.py` | Exactly 7 DOF survive S¹/Z₂ reduction (5 zero-mode + 2 braid-locked); Seven-of-Swords problem solved | 80 |
+| 31 | `src/core/kk_quantum_info.py` | KK decomposition g_MN → {g_μν, A_μ, φ} as quantum channel; 4D field entanglement entropy | 59 |
+| 32 | `src/core/kk_imprint.py` | (n₁,n₂) braid pair geometric fingerprint in 4D matter sector; photonic coupling | 81 |
+| 33 | `src/core/isl_yukawa.py` | Yukawa ISL correction testable by Eöt-Wash; KK scale M_KK → Yukawa range λ ≈ R_KK | 84 |
+| 34 | `src/core/cmb_topology.py` | nₛ, r, β derived from integer (n₁,n₂) via SOS chain — no fitting; exactly 2 pairs pass triple constraint | 86 |
+| 35 | `src/core/dissipation_geometry.py` | Im(S_eff) = ∫B_μ J^μ_inf d⁴x — entropy is primary geometric quantity, not emergent | 75 |
+| 36 | `src/core/information_paradox.py` | Three geometric mechanisms resolve information paradox: topology, B_μ encoding, holographic decoding | 75 |
+| 37 | `src/core/ep_violation.py` | Dynamical radion → EP-violating fifth force; η < 2×10⁻¹³ at Eöt-Wash boundary | 81 |
+| 38 | `src/core/observational_frontiers.py` | H0DN, DESI DR2 BAO, JWST anomalous structures, Planck PR4 encoded and confronted | 129 |
+| 39 | `src/core/solitonic_charge.py` | n_w=5 from Z₂ orbifold + Planck nₛ (n_w=3 misses 15.8σ, n_w=7 misses 3.9σ); k_CS=74=5²+7² from BF lattice | 103 |
+| 40 | `src/core/ads_cft_tower.py` | Full AdS₅/CFT₄ KK tower: Δ_n=2+√(4+(nL/R)²), w_n=exp(-n²/k_cs), partition function, entropy, CMB amplitude | 111 |
+| 41 | `src/core/delay_field.py` | 5th dimension = causal delay δτ; φ=√(δτ) → arrow of time; decoherence time from φ²_mean/φ²_spread | 75 |
+| 42 | `src/core/three_generations.py` | Exactly 3 fermion generations from Z₂ orbifold with n_w=5; KK tower projected into 3 sectors | 76 |
+| 43 | `src/core/kk_collider_resonances.py` | KK graviton resonances at collider energy scale; lightest KK graviton mass predicted | 57 |
+| 44 | `src/core/geometric_collapse.py` | Wavefunction collapse = 5D B_μ phase transition; measurement problem resolved geometrically | 58 |
+| 45 | `src/core/coupled_history.py` | Bridge between Pillar 9 (consciousness) and Pillar 44 (collapse); ΔI=|φ²_brain−φ²_univ| as coupling constant | 78 |
+| 45-B | `src/core/precision_audit.py` | 128-bit/256-bit mpmath verification: S_E minimum at (5,7) not a floating-point artefact | 49 |
+| 45-C | `src/core/litebird_boundary.py` | LiteBIRD β covariance matrix; exact fail zone for β≈0.351°; primary falsification gap [0.29°–0.31°] | 90 |
+| 45-D | `src/core/litebird_forecast.py` | Full LiteBIRD sensitivity forecast; SNR curves for both canonical β states | 116 |
+| 46 | `src/materials/froehlich_polaron.py` | α_UM = n_w×k_CS×c_s²/(2π) ≈ 6.194 from 5D braid geometry; BiOI range (4–7) satisfied | 102 |
+| 47 | `src/materials/polariton_vortex.py` | Kaminer 2026 superluminal vortex: v_feat/c = c_s/sin(θ); superluminal for θ < arcsin(c_s) ≈ 18.93° | 127 |
+| 48 | `src/core/torsion_remnant.py` | Einstein-Cartan torsion (Pinčák 2026) in 5D KK; H_MNP from B-field stabilises BH remnants | 125 |
+| 49 | `src/core/zero_point_vacuum.py` | Vacuum catastrophe: KK cutoff at M_KK + braid suppression f_braid≈1.42×10⁻³ + Casimir; three mechanisms | 239 |
+| 9-B | `src/consciousness/consciousness_deployment.py` | Deployment-grade consciousness coupling; (5,7) resonance lock; AUTOPILOT state machine | 104 |
+| 50 | `src/core/ew_hierarchy.py` | EW hierarchy: RS1 warp factor + braid hard cutoff + KK loop corrections; Higgs mass in correct range | 410 |
+| 51 | `src/core/muon_g2.py` | Fermilab muon g-2 final result vs KK graviton and ALP Barr-Zee; KK mass scale constrained | 82 |
+| 51-B | `src/core/fermilab_watch.py` | Continuous Fermilab g-2 monitoring; parameter-space exclusion curves updated in real time | 85 |
+| 52 | `src/core/cmb_amplitude.py` | COBE/Planck Aₛ from UM field geometry; acoustic-peak suppression (×4–7) diagnosed | 84 |
+| 52-B | `src/core/boltzmann_bridge.py` | CAMB/CLASS integration layer; feeds UM primordial spectrum to professional Boltzmann code; C_ℓ^TT at sub-percent accuracy | 65 |
+
+## The Extended Precision Frontier (Pillars 53–60)
+
+| Pillar | Module | Claim | Tests |
+|--------|--------|-------|-------|
+| 53 | `src/core/adm_engine.py` | ADM (3+1) decomposition of UM 5D metric; Hamiltonian and momentum constraints computed | 72 |
+| 54 | `src/core/fermion_emergence.py` | Dirac fermions emerge from 5D KK spinor fields on S¹/Z₂; chirality from Z₂ projection | 104 |
+| 55 | `src/core/anomaly_uniqueness.py` | Gauge anomaly cancellation uniquely selects (5,7) braid pair among all admissible pairs | 111 |
+| 56 | `src/core/phi0_closure.py` | φ₀ self-consistency: iterative solution of φ₀ = f(φ₀) to arbitrary precision | 122 |
+| 57 | `src/core/cmb_peaks.py` | Acoustic-peak amplitude: radion amplification φ_today/φ_SLS=n_w×2π≈31.4 reduces deficit from ×4–7 to ×1.3 | 92 |
+| 58 | `src/core/anomaly_closure.py` | Algebraic Identity Theorem: k_CS=n₁²+n₂² holds for ALL braid pairs on S¹/Z₂; not an empirical fit | 144 |
+| 59 | `src/core/matter_power_spectrum.py` | Matter power spectrum P(k) from UM transfer function; BAO feature scale from KK winding geometry | 92 |
+| 60 | `src/core/particle_mass_spectrum.py` | SM particle masses from KK winding mode spectrum; mass ratios from φ-pitch variation | 81 |
 
 | Component | Module | Claim | Tests |
 |-----------|--------|-------|-------|
@@ -76,16 +124,16 @@ These are the original pillars of the theory.
 | Resonance | `resonance_dynamics.py` | 3:2/2:3 oscillation; SOS=74; HIL threshold n=15; 4:1 inversion | — |
 | Pilot | `pentad_pilot.py` | Real-time HIL interface; keyboard or Arduino hardware | — |
 
-**Total Pentad tests: 1209 · Total repository tests: 5050 passed / 5062 collected**
+**Total Pentad tests: 1234 · Total repository tests: 10244 passed / 10256 collected**
 
 ## Quick Reference — Running All Suites
 
 ```bash
-python -m pytest tests/ -q                    # 3525 passed (Pillars 1–26 core)
+python -m pytest tests/ -q                    # 8694 passed (Pillars 1–60+ core)
 python -m pytest recycling/ -q               # 316 passed (Pillar 16)
-python -m pytest "Unitary Pentad/" -q        # 1209 passed (HILS framework)
+python -m pytest "Unitary Pentad/" -q        # 1234 passed (HILS framework)
 
 # All at once:
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# → 5050 passed, 1 skipped, 0 failed
+# → 10244 passed, 1 skipped, 0 failed
 ```

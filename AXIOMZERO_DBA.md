@@ -55,7 +55,7 @@ The following are produced under the AxiomZero Technologies trade name:
 |---------|----------|-------------|
 | Unitary Manifold (v9.12) | `src/`, `tests/`, `recycling/` | 5D Kaluza-Klein physics framework |
 | Unitary Pentad | `Unitary Pentad/` | 5-body HILS governance framework |
-| All 26 Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
+| All 60+ Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
 | Bot / AI assistant infrastructure | `bot/` | RAG, Copilot Extension, Custom GPT |
 
 ---

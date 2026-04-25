@@ -226,9 +226,9 @@ change — which then breaks the others.
 
 ---
 
-## §12 — 26-Pillar No-Regression Checks
+## §12 — 60+-Pillar No-Regression Checks
 
-**What it proves:** The live Python codebase (all 26 original pillars)
+**What it proves:** The live Python codebase (all 60+ geometric pillars)
 exports constants that agree with the canonical algebraic values to
 machine precision. Any code change that shifts these constants causes
 `ALGEBRA_PROOF.py` to exit 1 — a hard CI failure.
