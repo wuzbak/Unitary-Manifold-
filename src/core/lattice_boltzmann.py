@@ -136,6 +136,21 @@ validate_um_predictions(tau_Bmu, radion_coupling)
 lattice_heat_power(n_DD_per_cc_s, Q_MeV, radion_coupling, gamma_standard)
     Net lattice heat deposition rate [W/cm³].
 
+calculate_cop(n_DD_per_cc_s, W_input_W_per_cc, ...)
+    Coefficient of Performance connecting Gamow entry to heat exit.
+
+sensitivity_sweep(g_min, g_max, n_points, tau_Bmu, gamma_standard)
+    Sweep radion coupling g; compute P_γ and τ_eff at each point.
+
+gamma_breakeven_coupling(gamma_threshold, gamma_standard)
+    Minimum g to keep prompt gamma ratio below gamma_threshold.
+
+tau_breakeven_tau_bmu(tau_eff_min_fs, radion_coupling)
+    Minimum τ_Bmu to keep τ_eff ≥ tau_eff_min_fs at a given g.
+
+braid_coupling_comparison(tau_Bmu)
+    Side-by-side comparison: g_canon (n_w=5) vs. g_braid (n_w=12).
+
 Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
 GitHub Copilot (AI).
@@ -214,8 +229,37 @@ K_CS: int = 74
 C_S: float = 12.0 / 37.0
 
 #: Canonical phonon-radion coupling g = N_W × √K_CS × C_S
-#: g ≈ 5 × 8.602 × 0.3243 ≈ 13.95  →  g² ≈ 194.6
+#: Uses the primary cosmological winding number N_W = 5 (Planck-selected).
+#: g ≈ 5 × 8.602 × 0.3243 ≈ 13.95  →  g² ≈ 194.6  →  (1+g²) ≈ 195.6
 RADION_COUPLING_CANON: float = N_W * np.sqrt(K_CS) * C_S
+
+# ---------------------------------------------------------------------------
+# Total-braid coupling constants  (Gemini / cross-check analysis, 2026-04-25)
+# ---------------------------------------------------------------------------
+
+#: Total braid winding number N_W_BRAID = n₁ + n₂ = 5 + 7 = 12.
+#:
+#: This is the quantity Gemini (April 2026) proposes as the correct n_w for
+#: the *phonon-radion* coupling, arguing that both strands of the (5,7) braid
+#: participate in the lattice phonon sector simultaneously.  The value 12 is
+#: also the default winding number used by cold_fusion.py in the winding
+#: compression factor (N1_BRAID + N2_BRAID = 12).
+#:
+#: Contrast with N_W = 5, which is the primary cosmological winding selected
+#: by the Planck nₛ constraint (Pillar 39).  The choice of n_w = 5 vs. n_w = 12
+#: for this coupling is an **open question documented in FALLIBILITY.md §IV.8**.
+N_W_BRAID: int = 12  # = 5 + 7 = N1_BRAID + N2_BRAID
+
+#: Total-braid phonon-radion coupling g_braid = N_W_BRAID × √K_CS × C_S
+#: g_braid ≈ 12 × 8.602 × 0.3243 ≈ 33.48  →  g² ≈ 1120.9  →  (1+g²) ≈ 1121.9
+#:
+#: Consequences vs. RADION_COUPLING_CANON (g ≈ 13.95):
+#:   τ_eff (canonical τ_Bmu = 1e-13 s):   0.51 fs  →  0.089 fs (attosecond)
+#:   P_γ (DD_GAMMA_STANDARD):             7.8e-12  →  2.4e-13 (6× safer)
+#:   Both P_γ values satisfy the < 10⁻⁶ benchmark.
+#:   At g_braid, τ_eff falls below 0.1 fs into attosecond range.
+#:   A longer τ_Bmu (weaker B_μ field) restores femtosecond thermalization.
+RADION_COUPLING_BRAID: float = N_W_BRAID * np.sqrt(K_CS) * C_S
 
 # ---------------------------------------------------------------------------
 # Equilibrium distribution
@@ -894,4 +938,332 @@ def calculate_cop(
         "break_even": break_even,
         "COP_margin": float(COP_val - 1.0),
         "prompt_gamma_ratio": float(P_gamma),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Sensitivity sweep (Gemini 2026-04-25 verification request)
+# ---------------------------------------------------------------------------
+
+
+def sensitivity_sweep(
+    g_min: float = 10.0,
+    g_max: float = 40.0,
+    n_points: int = 61,
+    tau_Bmu: float | None = None,
+    gamma_standard: float = DD_GAMMA_STANDARD,
+) -> dict:
+    """Sweep radion coupling g; compute P_γ and τ_eff at each point.
+
+    Implements the "Parameter Sweep" verification requested by Gemini
+    (April 2026): vary g from g_min to g_max and find the gamma break-even
+    and tau break-even points.
+
+    This sweep answers three questions:
+
+    1. For what minimum g does P_γ < 10⁻⁶?  (gamma break-even)
+    2. For what maximum g does τ_eff remain ≥ 0.1 fs?  (tau limit)
+    3. How do both metrics compare at g_canon (≈13.95) vs g_braid (≈33.47)?
+
+    Physical interpretation
+    -----------------------
+    The sweep confirms that:
+    - P_γ < 10⁻⁶ is satisfied for **any** g > g_breakeven_gamma (typically g < 1).
+    - τ_eff ≥ 0.1 fs requires g ≤ g_breakeven_tau ≈ 31.6 at canonical τ_Bmu.
+    - g_canon (13.95) is comfortably inside the safe zone for both metrics.
+    - g_braid (33.47) satisfies P_γ << 10⁻⁶ but pushes τ_eff to attosecond
+      range (0.089 fs) at canonical τ_Bmu.  A longer τ_Bmu (weaker B_μ field)
+      brings τ_eff back to femtosecond range.
+
+    Parameters
+    ----------
+    g_min : float
+        Lower bound of the coupling sweep (default 10.0).
+    g_max : float
+        Upper bound of the coupling sweep (default 40.0).
+    n_points : int
+        Number of points in the sweep (default 61, giving Δg = 0.5).
+    tau_Bmu : float or None
+        B_μ relaxation time [s].  Defaults to canonical (1e-13 s).
+    gamma_standard : float
+        Standard gamma branching fraction.
+
+    Returns
+    -------
+    dict with keys:
+        ``g_arr``               : ndarray — coupling values swept
+        ``P_gamma_arr``         : ndarray — P_γ at each g
+        ``tau_eff_fs_arr``      : ndarray — τ_eff [fs] at each g
+        ``g_canon``             : float — RADION_COUPLING_CANON (n_w=5)
+        ``g_braid``             : float — RADION_COUPLING_BRAID (n_w=12)
+        ``P_gamma_canon``       : float — P_γ at g_canon
+        ``P_gamma_braid``       : float — P_γ at g_braid
+        ``tau_eff_fs_canon``    : float — τ_eff [fs] at g_canon
+        ``tau_eff_fs_braid``    : float — τ_eff [fs] at g_braid
+        ``tau_Bmu_s``           : float — τ_Bmu used
+        ``g_tau_limit``         : float — max g for τ_eff ≥ 0.1 fs
+        ``g_gamma_breakeven``   : float — min g for P_γ < 1e-6 (or 0 if already satisfied)
+        ``canon_tau_in_range``  : bool — τ_eff at g_canon ∈ [0.1, 100] fs
+        ``braid_tau_in_range``  : bool — τ_eff at g_braid ∈ [0.1, 100] fs
+        ``canon_gamma_safe``    : bool — P_γ at g_canon < 1e-6
+        ``braid_gamma_safe``    : bool — P_γ at g_braid < 1e-6
+
+    Raises
+    ------
+    ValueError
+        If g_min ≥ g_max or n_points < 2.
+    """
+    if g_min >= g_max:
+        raise ValueError(f"g_min ({g_min}) must be < g_max ({g_max})")
+    if n_points < 2:
+        raise ValueError(f"n_points must be ≥ 2, got {n_points}")
+    if tau_Bmu is None:
+        tau_Bmu = bmu_relaxation_time()
+
+    g_arr = np.linspace(g_min, g_max, n_points)
+    P_gamma_arr = gamma_standard / (1.0 + g_arr ** 2) ** 2
+    tau_eff_fs_arr = (tau_Bmu / (1.0 + g_arr ** 2)) / FS_TO_S
+
+    g_c = RADION_COUPLING_CANON
+    g_b = RADION_COUPLING_BRAID
+    P_c = prompt_gamma_ratio(g_c, gamma_standard)
+    P_b = prompt_gamma_ratio(g_b, gamma_standard)
+    t_c = thermalization_time_fs(tau_Bmu, g_c)
+    t_b = thermalization_time_fs(tau_Bmu, g_b)
+
+    # Maximum g for which τ_eff ≥ 0.1 fs:
+    # τ_Bmu / (1+g²) ≥ 0.1e-15  →  g ≤ sqrt(τ_Bmu/0.1e-15 - 1)
+    g_tau_limit = float(np.sqrt(max(0.0, tau_Bmu / (0.1 * FS_TO_S) - 1.0)))
+
+    # Minimum g for P_γ < 1e-6:
+    # gamma_standard / (1+g²)² < 1e-6  →  (1+g²) > sqrt(gamma_standard/1e-6)
+    if gamma_standard < 1e-6:
+        g_gamma_breakeven = 0.0  # already below threshold without any enhancement
+    else:
+        g_gamma_breakeven = float(
+            np.sqrt(max(0.0, np.sqrt(gamma_standard / 1e-6) - 1.0))
+        )
+
+    return {
+        "g_arr": g_arr,
+        "P_gamma_arr": P_gamma_arr,
+        "tau_eff_fs_arr": tau_eff_fs_arr,
+        "g_canon": float(g_c),
+        "g_braid": float(g_b),
+        "P_gamma_canon": float(P_c),
+        "P_gamma_braid": float(P_b),
+        "tau_eff_fs_canon": float(t_c),
+        "tau_eff_fs_braid": float(t_b),
+        "tau_Bmu_s": float(tau_Bmu),
+        "g_tau_limit": float(g_tau_limit),
+        "g_gamma_breakeven": float(g_gamma_breakeven),
+        "canon_tau_in_range": bool(0.1 <= t_c <= 100.0),
+        "braid_tau_in_range": bool(0.1 <= t_b <= 100.0),
+        "canon_gamma_safe": bool(P_c < 1e-6),
+        "braid_gamma_safe": bool(P_b < 1e-6),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Breakeven utilities
+# ---------------------------------------------------------------------------
+
+
+def gamma_breakeven_coupling(
+    gamma_threshold: float = 1e-6,
+    gamma_standard: float = DD_GAMMA_STANDARD,
+) -> float:
+    """Minimum radion coupling g to keep prompt gamma ratio below threshold.
+
+    Solves P_γ < gamma_threshold for g:
+
+        gamma_standard / (1 + g²)² < gamma_threshold
+        (1 + g²)² > gamma_standard / gamma_threshold
+        g_min = sqrt( sqrt(gamma_standard / gamma_threshold) − 1 )
+
+    If gamma_standard is already below gamma_threshold (e.g., DD_GAMMA_STANDARD
+    = 3×10⁻⁷ < 10⁻⁶), the break-even g is 0 — no UM enhancement is needed
+    to satisfy the threshold.  The UM enhancement then provides additional
+    safety margin (P_γ drops to ~10⁻¹²).
+
+    Parameters
+    ----------
+    gamma_threshold : float
+        Target P_γ upper bound (default 1e-6).
+    gamma_standard : float
+        Standard D + D → He-4 + γ branching fraction (default 3×10⁻⁷).
+
+    Returns
+    -------
+    float
+        Minimum g satisfying P_γ < gamma_threshold.  Returns 0.0 when the
+        standard value already satisfies the threshold.
+
+    Raises
+    ------
+    ValueError
+        If gamma_threshold ≤ 0 or gamma_standard < 0.
+    """
+    if gamma_threshold <= 0.0:
+        raise ValueError(f"gamma_threshold must be positive, got {gamma_threshold}")
+    if gamma_standard < 0.0:
+        raise ValueError(f"gamma_standard must be ≥ 0, got {gamma_standard}")
+    if gamma_standard < gamma_threshold:
+        return 0.0  # already below threshold without UM
+    return float(np.sqrt(max(0.0, np.sqrt(gamma_standard / gamma_threshold) - 1.0)))
+
+
+def tau_breakeven_tau_bmu(
+    tau_eff_min_fs: float = 0.1,
+    radion_coupling: float | None = None,
+) -> float:
+    """Minimum τ_Bmu [s] to keep τ_eff ≥ tau_eff_min_fs at a given coupling.
+
+    Solves τ_eff = τ_Bmu / (1 + g²) ≥ tau_eff_min_fs × 1e-15 for τ_Bmu:
+
+        τ_Bmu_min = tau_eff_min_fs × FS_TO_S × (1 + g²)
+
+    This answers the question: "For a given radion coupling g, how strong
+    (in terms of τ_Bmu) must the B_μ confinement be to ensure thermalization
+    stays in the femtosecond range?"
+
+    At g_braid ≈ 33.47 (N_W_BRAID = 12), the minimum τ_Bmu ≈ 1.12×10⁻¹³ s,
+    which is just above the canonical value of 1×10⁻¹³ s.  This means the
+    canonical B_μ field is marginally too strong at the braid coupling —
+    τ_eff falls to 0.089 fs (attosecond regime).  A 12% reduction in H_max
+    or phi_mean restores femtosecond thermalization.
+
+    Parameters
+    ----------
+    tau_eff_min_fs : float
+        Target minimum effective thermalization time [fs] (default 0.1 fs).
+    radion_coupling : float or None
+        Phonon-radion coupling g.  Defaults to canonical (g ≈ 13.95).
+
+    Returns
+    -------
+    float
+        Minimum τ_Bmu in seconds.
+
+    Raises
+    ------
+    ValueError
+        If tau_eff_min_fs ≤ 0.
+    """
+    if tau_eff_min_fs <= 0.0:
+        raise ValueError(f"tau_eff_min_fs must be positive, got {tau_eff_min_fs}")
+    if radion_coupling is None:
+        radion_coupling = radion_phonon_coupling()
+    return tau_eff_min_fs * FS_TO_S * (1.0 + radion_coupling ** 2)
+
+
+# ---------------------------------------------------------------------------
+# Braid coupling comparison
+# ---------------------------------------------------------------------------
+
+
+def braid_coupling_comparison(
+    tau_Bmu: float | None = None,
+    gamma_standard: float = DD_GAMMA_STANDARD,
+) -> dict:
+    """Side-by-side comparison of the two phonon-radion coupling values.
+
+    Compares the primary cosmological coupling (g_canon, n_w = 5) with the
+    total-braid coupling (g_braid, n_w = 12 = N₁ + N₂).  The discrepancy
+    was raised by Gemini (April 2026) and documents an honest open question
+    in the UM framework.
+
+    Physics summary
+    ---------------
+    Both coupling values give prompt gamma ratios far below 10⁻⁶:
+
+        g_canon ≈ 13.95 :  P_γ ≈ 7.8×10⁻¹²,  τ_eff ≈ 0.51 fs  ✓ (femtosecond)
+        g_braid ≈ 33.47 :  P_γ ≈ 2.4×10⁻¹³,  τ_eff ≈ 0.089 fs  ⚠️ (attosecond)
+
+    The gamma benchmark (P_γ < 10⁻⁶) is satisfied by both.
+    The tau benchmark (τ_eff ∈ [0.1, 100] fs) is satisfied by g_canon but
+    not by g_braid at canonical τ_Bmu.  A 12% reduction in H_max × phi_mean
+    from the canonical value restores femtosecond thermalization at g_braid.
+
+    Open question
+    -------------
+    In the lattice phonon sector, should the coupling use:
+    (a) n_w = 5 (primary cosmological winding, selected by Planck nₛ), or
+    (b) n_w = 12 (total braid winding = N₁+N₂, default in cold_fusion.py)?
+
+    Both are physically motivated; a derivation from first principles of the
+    phonon-radion vertex in the Pd lattice would resolve this.
+    See FALLIBILITY.md §IV.8 for the full discussion.
+
+    Parameters
+    ----------
+    tau_Bmu : float or None
+        B_μ relaxation time [s].  Defaults to canonical.
+    gamma_standard : float
+        Standard gamma branching fraction.
+
+    Returns
+    -------
+    dict with keys:
+        ``g_canon``                 : float — coupling using n_w=5
+        ``g_braid``                 : float — coupling using n_w=12
+        ``n_w_canon``               : int — 5
+        ``n_w_braid``               : int — 12
+        ``g_squared_canon``         : float — g_canon²
+        ``g_squared_braid``         : float — g_braid²
+        ``enhancement_canon``       : float — (1+g_canon²)
+        ``enhancement_braid``       : float — (1+g_braid²)
+        ``P_gamma_canon``           : float — P_γ at g_canon
+        ``P_gamma_braid``           : float — P_γ at g_braid
+        ``tau_eff_fs_canon``        : float — τ_eff [fs] at g_canon
+        ``tau_eff_fs_braid``        : float — τ_eff [fs] at g_braid
+        ``tau_Bmu_s``               : float — τ_Bmu used
+        ``canon_gamma_safe``        : bool — P_γ_canon < 1e-6
+        ``braid_gamma_safe``        : bool — P_γ_braid < 1e-6
+        ``canon_tau_in_range``      : bool — τ_eff_canon ∈ [0.1, 100] fs
+        ``braid_tau_in_range``      : bool — τ_eff_braid ∈ [0.1, 100] fs
+        ``tau_Bmu_min_for_braid_fs`` : float — min τ_Bmu [s] for τ_eff ≥ 0.1 fs at g_braid
+        ``braid_needs_weaker_field`` : bool — True if τ_eff at g_braid < 0.1 fs
+        ``open_question``           : str — human-readable description of ambiguity
+    """
+    if tau_Bmu is None:
+        tau_Bmu = bmu_relaxation_time()
+
+    g_c = RADION_COUPLING_CANON
+    g_b = RADION_COUPLING_BRAID
+    P_c = prompt_gamma_ratio(g_c, gamma_standard)
+    P_b = prompt_gamma_ratio(g_b, gamma_standard)
+    t_c = thermalization_time_fs(tau_Bmu, g_c)
+    t_b = thermalization_time_fs(tau_Bmu, g_b)
+    tau_min_braid = tau_breakeven_tau_bmu(0.1, g_b)
+
+    return {
+        "g_canon": float(g_c),
+        "g_braid": float(g_b),
+        "n_w_canon": N_W,
+        "n_w_braid": N_W_BRAID,
+        "g_squared_canon": float(g_c ** 2),
+        "g_squared_braid": float(g_b ** 2),
+        "enhancement_canon": float(1.0 + g_c ** 2),
+        "enhancement_braid": float(1.0 + g_b ** 2),
+        "P_gamma_canon": float(P_c),
+        "P_gamma_braid": float(P_b),
+        "tau_eff_fs_canon": float(t_c),
+        "tau_eff_fs_braid": float(t_b),
+        "tau_Bmu_s": float(tau_Bmu),
+        "canon_gamma_safe": bool(P_c < 1e-6),
+        "braid_gamma_safe": bool(P_b < 1e-6),
+        "canon_tau_in_range": bool(0.1 <= t_c <= 100.0),
+        "braid_tau_in_range": bool(0.1 <= t_b <= 100.0),
+        "tau_Bmu_min_for_braid_fs": float(tau_min_braid),
+        "braid_needs_weaker_field": bool(t_b < 0.1),
+        "open_question": (
+            "In the Pd lattice phonon sector, the correct n_w for the "
+            "phonon-radion coupling is either 5 (primary cosmological winding, "
+            "Planck nₛ-selected) or 12 (total braid winding N₁+N₂, as used in "
+            "cold_fusion.py winding compression). Both satisfy P_γ << 10⁻⁶. "
+            "At canonical τ_Bmu, n_w=12 pushes τ_eff to 0.089 fs (attosecond); "
+            "a 12% reduction in H_max×phi_mean restores femtosecond range. "
+            "See FALLIBILITY.md §IV.8 for full discussion."
+        ),
     }

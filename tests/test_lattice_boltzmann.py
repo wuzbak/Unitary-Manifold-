@@ -33,20 +33,26 @@ from src.core.lattice_boltzmann import (
     K_CS,
     MEV_TO_J,
     N_W,
+    N_W_BRAID,
     OMEGA_DEBYE_PD,
     PHI_MEAN_CANONICAL,
+    RADION_COUPLING_BRAID,
     RADION_COUPLING_CANON,
     T_DEBYE_PD_K,
     TAU_PHONON_PD_S,
     # functions
     bmu_relaxation_time,
     bose_einstein,
+    braid_coupling_comparison,
     calculate_cop,
     energy_branching,
+    gamma_breakeven_coupling,
     lattice_heat_power,
     phonon_distribution_evolution,
     prompt_gamma_ratio,
     radion_phonon_coupling,
+    sensitivity_sweep,
+    tau_breakeven_tau_bmu,
     thermalization_time,
     thermalization_time_fs,
     unitary_collision_integral,
@@ -114,6 +120,33 @@ class TestConstants:
 
     def test_fs_to_s_value(self):
         assert FS_TO_S == pytest.approx(1e-15, rel=1e-10)
+
+    # --- Braid coupling constants (Gemini analysis, April 2026) ---
+
+    def test_nw_braid_is_12(self):
+        assert N_W_BRAID == 12
+
+    def test_nw_braid_is_n1_plus_n2(self):
+        assert N_W_BRAID == 5 + 7
+
+    def test_radion_coupling_braid_positive(self):
+        assert RADION_COUPLING_BRAID > 0.0
+
+    def test_radion_coupling_braid_formula(self):
+        expected = N_W_BRAID * np.sqrt(K_CS) * C_S
+        assert RADION_COUPLING_BRAID == pytest.approx(expected, rel=1e-10)
+
+    def test_radion_coupling_braid_approx_33(self):
+        # g_braid ≈ 33.48 for n_w=12
+        assert 32.0 < RADION_COUPLING_BRAID < 35.0
+
+    def test_braid_coupling_larger_than_canon(self):
+        assert RADION_COUPLING_BRAID > RADION_COUPLING_CANON
+
+    def test_braid_to_canon_ratio(self):
+        # ratio = N_W_BRAID / N_W = 12/5 = 2.4
+        ratio = RADION_COUPLING_BRAID / RADION_COUPLING_CANON
+        assert ratio == pytest.approx(N_W_BRAID / N_W, rel=1e-10)
 
 
 # ===========================================================================
@@ -817,3 +850,360 @@ class TestCalculateCop:
         result = calculate_cop(rate, W_in, volume_cc=2.0)
         expected_q = lattice_heat_power(rate) * 2.0
         assert result["Q_lattice_W_total"] == pytest.approx(expected_q, rel=1e-8)
+
+
+# ===========================================================================
+# sensitivity_sweep
+# ===========================================================================
+
+
+class TestSensitivitySweep:
+    """Gemini's requested sweep: g from 10 to 40, gamma/tau breakeven."""
+
+    def _default_sweep(self):
+        return sensitivity_sweep()
+
+    def test_returns_dict(self):
+        assert isinstance(self._default_sweep(), dict)
+
+    def test_required_keys(self):
+        sw = self._default_sweep()
+        required = {
+            "g_arr", "P_gamma_arr", "tau_eff_fs_arr",
+            "g_canon", "g_braid", "P_gamma_canon", "P_gamma_braid",
+            "tau_eff_fs_canon", "tau_eff_fs_braid", "tau_Bmu_s",
+            "g_tau_limit", "g_gamma_breakeven",
+            "canon_tau_in_range", "braid_tau_in_range",
+            "canon_gamma_safe", "braid_gamma_safe",
+        }
+        assert required <= set(sw.keys())
+
+    def test_g_arr_shape(self):
+        sw = sensitivity_sweep(g_min=10.0, g_max=40.0, n_points=61)
+        assert len(sw["g_arr"]) == 61
+
+    def test_g_arr_bounds(self):
+        sw = sensitivity_sweep(g_min=10.0, g_max=40.0, n_points=31)
+        assert sw["g_arr"][0] == pytest.approx(10.0, rel=1e-10)
+        assert sw["g_arr"][-1] == pytest.approx(40.0, rel=1e-10)
+
+    def test_P_gamma_decreasing(self):
+        sw = self._default_sweep()
+        # P_γ monotonically decreases as g increases
+        assert np.all(np.diff(sw["P_gamma_arr"]) <= 0.0)
+
+    def test_tau_eff_decreasing(self):
+        sw = self._default_sweep()
+        # τ_eff monotonically decreases as g increases
+        assert np.all(np.diff(sw["tau_eff_fs_arr"]) <= 0.0)
+
+    def test_all_P_gamma_positive(self):
+        sw = self._default_sweep()
+        assert np.all(sw["P_gamma_arr"] > 0.0)
+
+    def test_all_tau_eff_positive(self):
+        sw = self._default_sweep()
+        assert np.all(sw["tau_eff_fs_arr"] > 0.0)
+
+    def test_canon_gamma_safe(self):
+        sw = self._default_sweep()
+        assert sw["canon_gamma_safe"] is True
+
+    def test_braid_gamma_safe(self):
+        # g_braid ≈ 33.47 also gives P_γ << 1e-6
+        sw = self._default_sweep()
+        assert sw["braid_gamma_safe"] is True
+
+    def test_canon_tau_in_range(self):
+        # g_canon (n_w=5): τ_eff ≈ 0.51 fs ∈ [0.1, 100] fs
+        sw = self._default_sweep()
+        assert sw["canon_tau_in_range"] is True
+
+    def test_braid_tau_not_in_range_at_canonical_tau_bmu(self):
+        # g_braid (n_w=12): τ_eff ≈ 0.089 fs < 0.1 fs at canonical τ_Bmu
+        sw = self._default_sweep()
+        assert sw["braid_tau_in_range"] is False
+
+    def test_g_tau_limit_formula(self):
+        # g_max for τ_eff ≥ 0.1 fs: g ≤ sqrt(τ_Bmu/0.1fs - 1)
+        tau_Bmu = bmu_relaxation_time()
+        expected = np.sqrt(max(0.0, tau_Bmu / (0.1e-15) - 1.0))
+        sw = sensitivity_sweep(tau_Bmu=tau_Bmu)
+        assert sw["g_tau_limit"] == pytest.approx(expected, rel=1e-6)
+
+    def test_g_tau_limit_is_31_approx(self):
+        # With canonical τ_Bmu = 1e-13 s: g_limit ≈ sqrt(1000-1) ≈ 31.6
+        sw = self._default_sweep()
+        assert 30.0 < sw["g_tau_limit"] < 33.0
+
+    def test_g_gamma_breakeven_zero_for_small_standard(self):
+        # DD_GAMMA_STANDARD = 3e-7 < 1e-6 → breakeven g = 0
+        sw = self._default_sweep()
+        assert sw["g_gamma_breakeven"] == pytest.approx(0.0, abs=1e-10)
+
+    def test_g_gamma_breakeven_positive_for_large_standard(self):
+        sw = sensitivity_sweep(gamma_standard=5e-6)
+        assert sw["g_gamma_breakeven"] > 0.0
+        assert sw["g_gamma_breakeven"] < 5.0
+
+    def test_canon_braid_values_stored(self):
+        sw = self._default_sweep()
+        assert sw["g_canon"] == pytest.approx(RADION_COUPLING_CANON, rel=1e-10)
+        assert sw["g_braid"] == pytest.approx(RADION_COUPLING_BRAID, rel=1e-10)
+
+    def test_P_gamma_at_canon_matches_standalone(self):
+        sw = self._default_sweep()
+        expected = prompt_gamma_ratio(RADION_COUPLING_CANON)
+        assert sw["P_gamma_canon"] == pytest.approx(expected, rel=1e-10)
+
+    def test_tau_eff_at_canon_matches_standalone(self):
+        tau_Bmu = bmu_relaxation_time()
+        sw = sensitivity_sweep(tau_Bmu=tau_Bmu)
+        expected = thermalization_time_fs(tau_Bmu, RADION_COUPLING_CANON)
+        assert sw["tau_eff_fs_canon"] == pytest.approx(expected, rel=1e-10)
+
+    def test_braid_P_gamma_smaller_than_canon(self):
+        sw = self._default_sweep()
+        assert sw["P_gamma_braid"] < sw["P_gamma_canon"]
+
+    def test_braid_tau_smaller_than_canon(self):
+        sw = self._default_sweep()
+        assert sw["tau_eff_fs_braid"] < sw["tau_eff_fs_canon"]
+
+    def test_invalid_g_range(self):
+        with pytest.raises(ValueError):
+            sensitivity_sweep(g_min=40.0, g_max=10.0)
+
+    def test_invalid_n_points(self):
+        with pytest.raises(ValueError):
+            sensitivity_sweep(n_points=1)
+
+    def test_custom_tau_bmu(self):
+        tau = 5e-13  # longer τ_Bmu → larger g_tau_limit
+        sw1 = sensitivity_sweep(tau_Bmu=bmu_relaxation_time())
+        sw2 = sensitivity_sweep(tau_Bmu=tau)
+        assert sw2["g_tau_limit"] > sw1["g_tau_limit"]
+
+
+# ===========================================================================
+# gamma_breakeven_coupling
+# ===========================================================================
+
+
+class TestGammaBreakevenCoupling:
+
+    def test_zero_for_standard_below_threshold(self):
+        # DD_GAMMA_STANDARD = 3e-7 < 1e-6
+        g = gamma_breakeven_coupling(1e-6, DD_GAMMA_STANDARD)
+        assert g == pytest.approx(0.0, abs=1e-10)
+
+    def test_positive_for_standard_above_threshold(self):
+        g = gamma_breakeven_coupling(1e-6, 5e-6)
+        assert g > 0.0
+
+    def test_formula_above_threshold(self):
+        gamma_std = 1e-4
+        threshold = 1e-6
+        expected = np.sqrt(max(0.0, np.sqrt(gamma_std / threshold) - 1.0))
+        g = gamma_breakeven_coupling(threshold, gamma_std)
+        assert g == pytest.approx(expected, rel=1e-10)
+
+    def test_verification_at_breakeven(self):
+        # At g = g_min, P_γ should be just below threshold
+        gamma_std = 5e-6
+        threshold = 1e-6
+        g_min = gamma_breakeven_coupling(threshold, gamma_std)
+        P = gamma_std / (1.0 + g_min ** 2) ** 2
+        assert P <= threshold
+
+    def test_decreases_with_higher_threshold(self):
+        # Higher threshold → need less suppression → smaller g_min
+        g1 = gamma_breakeven_coupling(1e-6, 5e-6)
+        g2 = gamma_breakeven_coupling(1e-4, 5e-6)
+        assert g2 < g1
+
+    def test_increases_with_higher_standard(self):
+        # Higher standard → need more suppression → larger g_min
+        g1 = gamma_breakeven_coupling(1e-6, 5e-6)
+        g2 = gamma_breakeven_coupling(1e-6, 1e-3)
+        assert g2 > g1
+
+    def test_invalid_threshold(self):
+        with pytest.raises(ValueError):
+            gamma_breakeven_coupling(0.0)
+        with pytest.raises(ValueError):
+            gamma_breakeven_coupling(-1e-6)
+
+    def test_invalid_gamma_standard(self):
+        with pytest.raises(ValueError):
+            gamma_breakeven_coupling(1e-6, -1e-7)
+
+    def test_canon_coupling_above_breakeven_for_any_reasonable_standard(self):
+        # Even at gamma_std = 1e-4, g_min < 10 << g_canon ≈ 13.95
+        g_min = gamma_breakeven_coupling(1e-6, 1e-4)
+        assert RADION_COUPLING_CANON > g_min
+
+
+# ===========================================================================
+# tau_breakeven_tau_bmu
+# ===========================================================================
+
+
+class TestTauBreakevenTauBmu:
+
+    def test_positive(self):
+        t = tau_breakeven_tau_bmu(0.1, RADION_COUPLING_CANON)
+        assert t > 0.0
+
+    def test_formula(self):
+        g = RADION_COUPLING_CANON
+        tau_min_fs = 0.5
+        expected = tau_min_fs * FS_TO_S * (1.0 + g ** 2)
+        assert tau_breakeven_tau_bmu(tau_min_fs, g) == pytest.approx(expected, rel=1e-10)
+
+    def test_canonical_coupling_gives_small_tau_Bmu(self):
+        # For g_canon, 0.1 fs requires only a small τ_Bmu
+        t = tau_breakeven_tau_bmu(0.1, RADION_COUPLING_CANON)
+        # 0.1e-15 * (1 + 194.6) ≈ 1.956e-14 s << canonical τ_Bmu = 1e-13 s
+        assert t < bmu_relaxation_time()
+
+    def test_braid_coupling_needs_longer_tau_Bmu(self):
+        # For g_braid, 0.1 fs requires longer τ_Bmu than canonical
+        t_canon = tau_breakeven_tau_bmu(0.1, RADION_COUPLING_CANON)
+        t_braid = tau_breakeven_tau_bmu(0.1, RADION_COUPLING_BRAID)
+        assert t_braid > t_canon
+
+    def test_braid_needs_tau_bmu_just_above_canonical(self):
+        # At g_braid, need τ_Bmu ≈ 1.12e-13 s, canonical is 1e-13 s (12% short)
+        canonical_tau = bmu_relaxation_time()
+        needed = tau_breakeven_tau_bmu(0.1, RADION_COUPLING_BRAID)
+        ratio = needed / canonical_tau
+        # Should be between 1.0 and 1.5 (marginal deficit)
+        assert 1.0 < ratio < 1.5
+
+    def test_scales_with_tau_min(self):
+        g = RADION_COUPLING_CANON
+        t1 = tau_breakeven_tau_bmu(0.1, g)
+        t2 = tau_breakeven_tau_bmu(0.2, g)
+        assert t2 == pytest.approx(2.0 * t1, rel=1e-10)
+
+    def test_defaults_to_canonical_coupling(self):
+        t_explicit = tau_breakeven_tau_bmu(0.1, RADION_COUPLING_CANON)
+        t_default = tau_breakeven_tau_bmu(0.1)
+        assert t_default == pytest.approx(t_explicit, rel=1e-10)
+
+    def test_invalid_tau_min(self):
+        with pytest.raises(ValueError):
+            tau_breakeven_tau_bmu(0.0)
+        with pytest.raises(ValueError):
+            tau_breakeven_tau_bmu(-1.0)
+
+
+# ===========================================================================
+# braid_coupling_comparison
+# ===========================================================================
+
+
+class TestBraidCouplingComparison:
+
+    def test_returns_dict(self):
+        cmp = braid_coupling_comparison()
+        assert isinstance(cmp, dict)
+
+    def test_required_keys(self):
+        cmp = braid_coupling_comparison()
+        required = {
+            "g_canon", "g_braid", "n_w_canon", "n_w_braid",
+            "g_squared_canon", "g_squared_braid",
+            "enhancement_canon", "enhancement_braid",
+            "P_gamma_canon", "P_gamma_braid",
+            "tau_eff_fs_canon", "tau_eff_fs_braid",
+            "tau_Bmu_s", "canon_gamma_safe", "braid_gamma_safe",
+            "canon_tau_in_range", "braid_tau_in_range",
+            "tau_Bmu_min_for_braid_fs", "braid_needs_weaker_field",
+            "open_question",
+        }
+        assert required <= set(cmp.keys())
+
+    def test_n_w_values(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["n_w_canon"] == 5
+        assert cmp["n_w_braid"] == 12
+
+    def test_g_values_match_constants(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["g_canon"] == pytest.approx(RADION_COUPLING_CANON, rel=1e-10)
+        assert cmp["g_braid"] == pytest.approx(RADION_COUPLING_BRAID, rel=1e-10)
+
+    def test_braid_larger_than_canon(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["g_braid"] > cmp["g_canon"]
+        assert cmp["g_squared_braid"] > cmp["g_squared_canon"]
+        assert cmp["enhancement_braid"] > cmp["enhancement_canon"]
+
+    def test_both_gamma_safe(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["canon_gamma_safe"] is True
+        assert cmp["braid_gamma_safe"] is True
+
+    def test_braid_P_gamma_smaller(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["P_gamma_braid"] < cmp["P_gamma_canon"]
+
+    def test_canon_tau_in_range(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["canon_tau_in_range"] is True
+
+    def test_braid_tau_not_in_range_at_canonical_tau_bmu(self):
+        # Key finding: g_braid pushes τ_eff below 0.1 fs at canonical B_μ
+        cmp = braid_coupling_comparison()
+        assert cmp["braid_tau_in_range"] is False
+        assert cmp["braid_needs_weaker_field"] is True
+
+    def test_braid_tau_eff_is_attosecond(self):
+        # 0.089 fs: sub-femtosecond, attosecond regime
+        cmp = braid_coupling_comparison()
+        assert 0.0 < cmp["tau_eff_fs_braid"] < 0.1
+
+    def test_tau_bmu_min_for_braid_fs(self):
+        cmp = braid_coupling_comparison()
+        # Minimum τ_Bmu for g_braid to give τ_eff ≥ 0.1 fs
+        expected = tau_breakeven_tau_bmu(0.1, RADION_COUPLING_BRAID)
+        assert cmp["tau_Bmu_min_for_braid_fs"] == pytest.approx(expected, rel=1e-10)
+
+    def test_braid_tau_bmu_min_slightly_above_canonical(self):
+        # 1.12e-13 > 1e-13: canonical B_μ is marginally too strong for g_braid
+        canonical = bmu_relaxation_time()
+        cmp = braid_coupling_comparison()
+        assert cmp["tau_Bmu_min_for_braid_fs"] > canonical
+
+    def test_open_question_is_string(self):
+        cmp = braid_coupling_comparison()
+        assert isinstance(cmp["open_question"], str)
+        assert len(cmp["open_question"]) > 20
+
+    def test_g_squared_formula(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["g_squared_canon"] == pytest.approx(RADION_COUPLING_CANON**2, rel=1e-10)
+        assert cmp["g_squared_braid"] == pytest.approx(RADION_COUPLING_BRAID**2, rel=1e-10)
+
+    def test_enhancement_formula(self):
+        cmp = braid_coupling_comparison()
+        assert cmp["enhancement_canon"] == pytest.approx(1.0 + RADION_COUPLING_CANON**2, rel=1e-10)
+        assert cmp["enhancement_braid"] == pytest.approx(1.0 + RADION_COUPLING_BRAID**2, rel=1e-10)
+
+    def test_with_weaker_bmu_braid_enters_fs_range(self):
+        # If we pass a longer τ_Bmu (weaker B_μ), braid coupling returns to fs range
+        tau_needed = tau_breakeven_tau_bmu(0.2, RADION_COUPLING_BRAID)
+        cmp = braid_coupling_comparison(tau_Bmu=tau_needed * 1.01)  # 1% margin
+        assert cmp["braid_tau_in_range"] is True
+
+    def test_braid_enhancement_approx_1122(self):
+        cmp = braid_coupling_comparison()
+        # (1 + 33.47²) ≈ 1121.9
+        assert 1100.0 < cmp["enhancement_braid"] < 1150.0
+
+    def test_canon_enhancement_approx_196(self):
+        cmp = braid_coupling_comparison()
+        # (1 + 13.95²) ≈ 195.6
+        assert 190.0 < cmp["enhancement_canon"] < 200.0
