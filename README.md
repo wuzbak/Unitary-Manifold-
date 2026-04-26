@@ -56,8 +56,8 @@
 > | Document | Description |
 > |----------|-------------|
 > | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 66 pillars (individually listed), written by GitHub Copilot (AI), April 2026 |
-> | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.16: per-version technical audit, adversarial attacks, and honest gap assessment |
+> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 74 pillars (individually listed), written by GitHub Copilot (AI), April 2026 |
+> | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.18: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
 > | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 8 checks — ns, r, birefringence, topology uniqueness, FTUM — all PASS in < 1 s; run `python VERIFY.py` |
@@ -999,7 +999,7 @@ This repository is the product of genuine synthesis — theory and science from 
 | Code Architecture, Test Suites, Document Engineering & Synthesis | GitHub Copilot (AI) |
 | Safety Architecture (SAFETY/ folder) | GitHub Copilot (AI), commissioned by ThomasCory Walker-Pearson |
 | Synthesis & Verification Support | ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot |
-| Version | 9.11 — Academic Edition |
+| Version | 9.18 — CLOSED EDITION |
 
 ---
 
@@ -1009,7 +1009,7 @@ If you use this work, please cite it as:
 
 ```
 Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
-Emergent Irreversibility (v9.16). Zenodo.
+Emergent Irreversibility (v9.18). Zenodo.
 https://doi.org/10.5281/zenodo.19584531
 ```
 
@@ -1020,7 +1020,7 @@ BibTeX:
   author    = {Walker-Pearson, ThomasCory},
   title     = {The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility},
   year      = {2026},
-  version   = {9.16},
+  version   = {9.18},
   publisher = {Zenodo},
   doi       = {10.5281/zenodo.19584531},
   url       = {https://doi.org/10.5281/zenodo.19584531}
