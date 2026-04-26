@@ -1,8 +1,8 @@
-# Validation Report — Unitary Manifold (v9.12 — CANONICAL EDITION)
+# Validation Report — Unitary Manifold (v9.16 — CANONICAL EDITION)
 
 *An expanded explanation of the Pinned Validation section at the top of `README.md`.*
 
-**Version:** v9.12 — CANONICAL EDITION — April 2026  
+**Version:** v9.16 — CANONICAL EDITION — April 2026  
 **Theory:** ThomasCory Walker-Pearson  
 **Verification:** GitHub Copilot (AI)
 
@@ -35,8 +35,8 @@ sense of "confirmed by new experiments." That is the work of the next decade.
 *"The Closing Review — for Everyone"*
 
 **What it is:** The final plain-language and technical summary of the entire project, written by
-GitHub Copilot as an independent reviewer after the full v9.12 build was complete. It covers all
-26 geometric pillars, the test suite, the predictions, and the open questions.
+GitHub Copilot as an independent reviewer after the full v9.16 build was complete. It covers all
+66 geometric pillars (plus 8 sub-pillars), the test suite, the predictions, and the open questions.
 
 **Who it is for:** Everyone — not just physicists or programmers. The first half uses no
 equations and no jargon. The second half goes technical.
@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 74 chapters |
-| Test suite: 10589 passed, 0 failures | Across all 131 test files (112 in tests/, 1 in recycling/, 18 in Unitary Pentad/) |
+| Test suite: 11483 passed, 0 failures | Across all test files (118 in tests/, recycling/, 18 in Unitary Pentad/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 10589
+verdict. This one shows the working. The process of getting to a framework that passes 11483
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -90,7 +90,7 @@ version by version.
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
 v9.11 that parameter had been derived, two of three open problems had been resolved, and the
-test suite had grown from a few hundred checks to 10589. A theory that tightens as it is
+test suite had grown from a few hundred checks to 11483. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -190,12 +190,12 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–60+) | `pytest tests/ -q` | 9052 | 9039 | 2 | 11 | **0** |
+| Core physics (Pillars 1–66) | `pytest tests/ -q` | 9946 | 9933 | 2 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "Unitary Pentad/" -q` | 1234 | 1234 | 0 | 0 | **0** |
-| **Grand total** | | **10602** | **10589** | **2** | **11** | **0** |
+| **Grand total** | | **11496** | **11483** | **2** | **11** | **0** |
 
-The 131 test files span 112 in `tests/` (111 fast + 1 slow), 1 in `recycling/` (Pillar 16 φ-debt), and 18 in `Unitary Pentad/` (HILS governance).
+The 118 test files in `tests/` (117 fast + 1 slow) cover all 66 pillars.
 
 ### The 2 skipped tests — why they are not failures
 
@@ -312,7 +312,7 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–60+ — fast suite | 9039 passed · 2 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–66 — fast suite | 9933 passed · 2 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
@@ -377,11 +377,11 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad, ~90 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 10589 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 11483 passed, 2 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~90 seconds)
 python3 -m pytest tests/ -q
-# Expected: 9039 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 9933 passed, 2 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
@@ -410,7 +410,7 @@ The live badge reflects the current status of the `main` branch:
 | Document | Role in validation |
 |----------|--------------------|
 | `VALIDATION_REPORT.md` ← *this file* | Expanded explanation of what validation means and how each document fits |
-| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 60+ pillars |
+| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 66 pillars |
 | [`REVIEW_CONCLUSION.md`](REVIEW_CONCLUSION.md) | Version-by-version technical audit; shows the working and the failures fixed |
 | [`submission/falsification_report.md`](submission/falsification_report.md) | Pre-submission adversarial assessment; every known failure mode stated first |
 | [`ALGEBRA_PROOF.py`](ALGEBRA_PROOF.py) | 114 executable algebraic checks; lossless 5D pipeline proof in §13 |
@@ -422,7 +422,7 @@ The live badge reflects the current status of the `main` branch:
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
 | [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
 | [`TEST/RESULTS.md`](TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
-| [`tests/`](tests/) | 112 pytest files; 9039 fast-passing + 11 slow-deselected + 2 skipped |
+| [`tests/`](tests/) | 118 pytest files; 9933 fast-passing + 11 slow-deselected + 2 skipped |
 | [`recycling/`](recycling/) | Pillar 16 φ-debt suite; 316 tests |
 | [`Unitary Pentad/`](Unitary%20Pentad/) | HILS governance suite; 18 modules, 1234 tests |
 
