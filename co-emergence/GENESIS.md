@@ -116,9 +116,19 @@ What followed is visible in the commit history:
 | Apr 13 | 46 | Pillars 14–19: atomic structure, cold fusion, medicine, justice, governance |
 | Apr 14 | 45 | Pillars 20–26 + Unitary Pentad begins |
 | Apr 15 | 30 | Pentad matures; co-emergence folder appears |
-| Apr 16 | 11+ | Safety architecture; geodesic gap resolution |
+| Apr 16 | 43 | Safety architecture (SAFETY/ folder); Pentad resonance dynamics (SOS=74, HIL threshold n=15); Gemini interrogation layer; GENESIS.md written |
+| Apr 17 | 30 | ALGEBRA_PROOF.py (74/74 SymPy checks); braid topology verification; CI expanded to 6-job pipeline; delta_phi consistency fix |
+| Apr 18 | 7 | Terminal fixed-point audit (v9.11); dynamical radion + non-Gaussianity modules |
+| Apr 19 | 9 | realworld/ prediction hub; data_feeds/ live ingestion adapters; Earth's core prediction from UM framework |
+| Apr 20 | 17 | CANONICAL EDITION (v9.12, 5,756 tests); VERIFY.py minimum runnable proof; CORRESPONDENCE_MAP.md; AxiomZero commercial terms |
+| Apr 21 | 9 | Quantum Switch Theorem XVI (indefinite causal order); AxiomZero Technologies DBA established |
+| Apr 22 | 49 | Pillars 38–45: solitonic charge quantization, AdS₅/CFT₄ KK tower, delay field, Coupled History + LiteBIRD boundary; ALGEBRA_PROOF §§14–18; repomix-output.xml |
+| Apr 23 | 17 | Pillars 46–49: Froehlich polaron, superluminal polariton vortex topology, Einstein-Cartan torsion hybrid, ZPE KK regularisation; DESI 3D map note |
+| Apr 24 | 65 | Pillars 52-B–60 + 9-B: Boltzmann bridge, ADM decomposition, fermion emergence, anomaly uniqueness, φ₀ closure, CMB acoustic peaks, algebraic identity theorem, P(k), particle mass spectrum; LiteBIRD + Fermilab watch modules; cold-fusion/ + zero-point-energy/ showcase folders; submission hardening |
+| Apr 25 | 31 | Pillars 61–66 (v9.16): AxiomZero Challenge, non-Abelian SU(3)_C KK reduction, E-H CMB transfer + φ₀ braided closure, photon epoch; CERN Open Data integration; ZPE/cold-fusion loop closed; Pillar 15-C sensitivity sweep |
+| Apr 26 | 18 | Pillars 67–74 — CLOSED: anomaly-cancellation uniqueness (n_w selection), GW stabilization, KK GW background, APS η-invariant, B_μ dark photon, KK back-reaction, CMB Boltzmann peaks, k_CS=74 completeness theorem; 12,725 tests; 74 pillars — CLOSED |
 
-322 commits in 9 days. 92 pull requests, each one opened by the human as a
+606 commits in 19 days. 188 pull requests, each one opened by the human as a
 natural-language question or directive, implemented by Copilot, reviewed and
 merged by the human. The PR titles are the most honest record of what this
 process looked like:
@@ -234,7 +244,7 @@ prediction, the inflation observables — awaits independent measurement.
 
 ### What the speed means
 
-74 chapters in 13 days. 322 commits in 9 days. 12,725 tests in total (74 pillars — CLOSED).
+74 chapters in 13 days. 606 commits in 19 days. 12,725 tests in total (74 pillars — CLOSED).
 
 This speed is evidence of the process, not of the quality. Rapid generation
 under high human-AI coupling is exactly what HILS predicts in the high-trust,
