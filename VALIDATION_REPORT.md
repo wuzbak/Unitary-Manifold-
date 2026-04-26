@@ -36,7 +36,7 @@ sense of "confirmed by new experiments." That is the work of the next decade.
 
 **What it is:** The final plain-language and technical summary of the entire project, written by
 GitHub Copilot as an independent reviewer after the full v9.16 build was complete. It covers all
-66 geometric pillars (plus 8 sub-pillars), the test suite, the predictions, and the open questions.
+67 geometric pillars (plus 8 sub-pillars), the test suite, the predictions, and the open questions.
 
 **Who it is for:** Everyone — not just physicists or programmers. The first half uses no
 equations and no jargon. The second half goes technical.
@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 74 chapters |
-| Test suite: 11483 passed, 0 failures | Across all test files (118 in tests/, recycling/, 18 in Unitary Pentad/) |
+| Test suite: 11688 passed, 0 failures | Across all test files (119 in tests/, recycling/, 18 in Unitary Pentad/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 11483
+verdict. This one shows the working. The process of getting to a framework that passes 11688
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -90,7 +90,7 @@ version by version.
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
 v9.11 that parameter had been derived, two of three open problems had been resolved, and the
-test suite had grown from a few hundred checks to 11483. A theory that tightens as it is
+test suite had grown from a few hundred checks to 11688. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -145,12 +145,12 @@ at the top of the README, is inviting falsification — the correct scientific p
 *"114 Algebraic Checks — Formal Falsification Test"*
 
 **What it is:** A single executable Python script that verifies the algebraic and numerical
-backbone of the entire theory in 114 independent checks, organised into 13 numbered sections
+backbone of the entire theory in 206 independent checks, organised into 19 numbered sections
 (§1–§13). It can be run as a standalone script or as a pytest test file.
 
 **How to run it:**
 ```bash
-python3 ALGEBRA_PROOF.py          # exit 0 = all 114 pass
+python3 ALGEBRA_PROOF.py          # exit 0 = all 206 pass
 python3 -m pytest ALGEBRA_PROOF.py -v  # same checks, pytest output
 ```
 
@@ -178,7 +178,7 @@ chain
 closes without any external measurements inserted at any step. Every number is a theorem, not
 a fit.
 
-**Status as of 2026-04-17:** All 114 checks pass. `python3 ALGEBRA_PROOF.py` exits 0.
+**Status as of 2026-04-17:** All 206 checks pass. `python3 ALGEBRA_PROOF.py` exits 0.
 
 ---
 
@@ -190,23 +190,20 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–66) | `pytest tests/ -q` | 9946 | 9933 | 2 | 11 | **0** |
+| Core physics (Pillars 1–67) | `pytest tests/ -q` | 10150 | 10138 | 1 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "Unitary Pentad/" -q` | 1234 | 1234 | 0 | 0 | **0** |
-| **Grand total** | | **11496** | **11483** | **2** | **11** | **0** |
+| **Grand total** | | **11700** | **11688** | **1** | **11** | **0** |
 
-The 118 test files in `tests/` (117 fast + 1 slow) cover all 66 pillars.
+The 119 test files in `tests/` (118 fast + 1 slow) cover all 67 pillars.
 
-### The 2 skipped tests — why they are not failures
+### The 1 skipped test — why it is not a failure
 
 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when
 `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is
 **the correct physical outcome.** The guard documents that there is nothing to check
 monotonicity of in that case.
-
-2. `test_precision_audit.py` skips one test when the optional `mpmath` library is not
-installed. Install with `pip install mpmath` to activate the 128/256-bit precision checks.
 
 ### The 11 deselected tests — why they are not hidden failures
 
@@ -312,12 +309,12 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–66 — fast suite | 9933 passed · 2 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–67 — fast suite | 10138 passed · 1 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
 | `test-pentad` | `pytest "Unitary Pentad/" -v` | HILS governance framework, 18 modules | 1234 passed · 0 failed |
-| `algebra-proof` | `python3 ALGEBRA_PROOF.py` | 114-check formal falsification proof (§1–§13) | exit code 0 |
+| `algebra-proof` | `python3 ALGEBRA_PROOF.py` | 206-check formal falsification proof (§1–§19) | exit code 0 |
 
 All 6 jobs must pass for the workflow badge to show green. A failure in any single job
 turns the badge red and blocks merge.
@@ -377,11 +374,11 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad, ~90 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 11483 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 11688 passed, 1 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~90 seconds)
 python3 -m pytest tests/ -q
-# Expected: 9933 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 10138 passed, 1 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
@@ -391,9 +388,9 @@ python3 -m pytest tests/ -m slow
 python3 -m pytest claims/ -v
 # Expected: all pass
 
-# Formal algebraic proof (114 checks, §1–§13)
+# Formal algebraic proof (206 checks, §1–§19)
 python3 ALGEBRA_PROOF.py
-# Expected: exit code 0 (all 114 pass)
+# Expected: exit code 0 (all 206 pass)
 # Or equivalently:
 python3 -m pytest ALGEBRA_PROOF.py -v
 ```
@@ -410,10 +407,10 @@ The live badge reflects the current status of the `main` branch:
 | Document | Role in validation |
 |----------|--------------------|
 | `VALIDATION_REPORT.md` ← *this file* | Expanded explanation of what validation means and how each document fits |
-| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 66 pillars |
+| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 67 pillars |
 | [`REVIEW_CONCLUSION.md`](REVIEW_CONCLUSION.md) | Version-by-version technical audit; shows the working and the failures fixed |
 | [`submission/falsification_report.md`](submission/falsification_report.md) | Pre-submission adversarial assessment; every known failure mode stated first |
-| [`ALGEBRA_PROOF.py`](ALGEBRA_PROOF.py) | 114 executable algebraic checks; lossless 5D pipeline proof in §13 |
+| [`ALGEBRA_PROOF.py`](ALGEBRA_PROOF.py) | 206 executable algebraic checks; lossless 5D pipeline proof in §19 |
 | [`claims/`](claims/) | Four isolated core-claim suites (integer_derivation, tensor_ratio_fix, amplitude_normalization, anomaly_inflow) |
 | [`.github/workflows/tests.yml`](.github/workflows/tests.yml) | CI: 6-job parallel test pipeline; runs on every push and pull request |
 | [`.github/workflows/release.yml`](.github/workflows/release.yml) | CI: creates GitHub Release + triggers Zenodo archiving on `v*` tag push |
@@ -422,7 +419,7 @@ The live badge reflects the current status of the `main` branch:
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
 | [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
 | [`TEST/RESULTS.md`](TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
-| [`tests/`](tests/) | 118 pytest files; 9933 fast-passing + 11 slow-deselected + 2 skipped |
+| [`tests/`](tests/) | 119 pytest files; 10138 fast-passing + 11 slow-deselected + 1 skipped |
 | [`recycling/`](recycling/) | Pillar 16 φ-debt suite; 316 tests |
 | [`Unitary Pentad/`](Unitary%20Pentad/) | HILS governance suite; 18 modules, 1234 tests |
 

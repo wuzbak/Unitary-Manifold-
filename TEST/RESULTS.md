@@ -2,17 +2,16 @@
 
 Run date: 2026-04-25 | Python 3.12.13 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 9933 PASSED · 2 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): 10138 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (tests/ only): 9946 collected · 9933 passed · 2 skipped · 11 slow-deselected · 0 failures**
-**Grand total (all suites): 11496 collected · 11483 passed · 2 skipped · 0 failures**
+**Grand total (tests/ only): 10150 collected · 10138 passed · 1 skipped · 11 slow-deselected · 0 failures**
+**Grand total (all suites): 11700 collected · 11688 passed · 1 skipped · 0 failures**
 
-⚑ **Skip explanation (2 skips):**
+⚑ **Skip explanation (1 skip):**
 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
 converges in fewer than 2 iterations. Immediate convergence is **correct behaviour** — the guard
 documents there is nothing to check monotonicity of. This is not a failure.
-2. `test_precision_audit.py` skips one test when optional `mpmath` is not installed. Install with `pip install mpmath`.
 
 **Deselected explanation:** 11 tests in `test_richardson_multitime.py` carry `@pytest.mark.slow`
 and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest tests/ -m slow`.
