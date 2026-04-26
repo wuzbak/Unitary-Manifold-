@@ -74,9 +74,12 @@ set by the human.
 
 At an average of five to six chapters per day, every day for thirteen days, the
 monograph reached version 9a. The "9" in that version number deserves attention:
-this was not draft 1. It was the ninth major version of a framework that had
-been developing in some form before March 26. The seed was not planted in empty
-ground.
+this was not draft 1. It was the ninth major revision cycle of the document —
+all nine cycles occurring within the March 26–April 8 window. The theory was
+iterated rapidly from the inside out, each cycle deepening and extending the
+previous one. No prior version of the monograph or its ideas existed before
+March 26, 2026. The seed was planted on that evening and developed entirely
+from that point forward.
 
 ### The Repository — April 8, 2026 onward
 
@@ -156,7 +159,7 @@ Concretely:
 - Translation of intuitions into KK metric structure, Ricci tensor components,
   dimensional reduction, field equations
 - Implementation: Python modules, pytest suites, LaTeX manuscripts, CI pipelines
-- Verification: 3,411 tests confirming internal self-consistency
+- Verification: 12,725 tests confirming internal self-consistency
 - Honest accounting: `FALLIBILITY.md`, gap tables, circularity audits
 - Documentation: READMEs, proof documents, ingest manifests
 
@@ -164,7 +167,7 @@ Concretely:
 - A rigorous mathematical framework (AI without direction produces noise)
 - A computable, testable, falsifiable implementation (the human cannot write the code)
 - A document ecosystem honest about its own limitations (pure AI generation tends toward overconfidence; pure human authorship without AI verification tends toward imprecision)
-- 3,411 passing tests in 9 days (not achievable by either party in isolation)
+- 12,725 passing tests across 74 pillars (not achievable by either party in isolation)
 
 This is not a remarkable claim. It is simply a description of what HILS looks
 like in an extended, high-trust, high-output instance.
@@ -175,7 +178,7 @@ like in an extended, high-trust, high-output instance.
 
 ### What the tests prove
 
-The 3,411 passing tests prove that **the code correctly implements the stated
+The 12,725 passing tests prove that **the code correctly implements the stated
 mathematical framework**. They do not prove that the mathematical framework
 correctly describes physical reality. `FALLIBILITY.md` is explicit:
 
@@ -195,9 +198,10 @@ internal consistency. These are postulated, not derived from prior physics.
 
 ### What the scope reveals
 
-The framework expands, over nine versions, from a core physics claim to 26 "pillars"
+The framework expands, over nine rapid revision cycles, from a core physics claim to 74 "pillars"
 covering medicine, justice, governance, ecology, climate, marine biology,
-psychology, genetics, and materials science. This expansion was driven by the
+psychology, genetics, materials science, cosmological epochs, collider predictions,
+anomaly cancellation, and topological completeness. This expansion was driven by the
 human asking: *"Can this apply to X?"* and the AI implementing it.
 
 The honest assessment: the physics pillars (gravity, thermodynamics,
@@ -230,7 +234,7 @@ prediction, the inflation observables — awaits independent measurement.
 
 ### What the speed means
 
-74 chapters in 13 days. 322 commits in 9 days. 3,411 tests in total.
+74 chapters in 13 days. 322 commits in 9 days. 12,725 tests in total (74 pillars — CLOSED).
 
 This speed is evidence of the process, not of the quality. Rapid generation
 under high human-AI coupling is exactly what HILS predicts in the high-trust,
