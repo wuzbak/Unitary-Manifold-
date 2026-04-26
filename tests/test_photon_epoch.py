@@ -418,11 +418,10 @@ class TestSilkDiffusionScale:
         assert K_SILK_PLANCK / 2.0 < k_D < 2.0 * K_SILK_PLANCK
 
     def test_more_baryons_reduces_k_D(self):
-        """Higher Ω_b → longer photon mean free path → smaller k_D (larger r_D)."""
+        """Higher Ω_b → shorter photon mean free path → more scattering → larger k_D."""
         k_D_low = silk_diffusion_scale(omega_b=0.03)
         k_D_high = silk_diffusion_scale(omega_b=0.07)
-        # More baryons reduce mean free path → more scattering → larger k_D (smaller r_D)
-        # Actually, more baryons increase n_b → shorter mean free path → smaller r_D → larger k_D
+        # More baryons increase n_b → shorter mean free path → smaller r_D → larger k_D
         assert k_D_high > k_D_low
 
     def test_zero_omega_b_raises(self):

@@ -785,19 +785,19 @@ def recombination_redshift(
 
     # Convert threshold to temperature bounds:
     # x_e = 0.1 at T ≈ 3000–4000 K (fully neutral below, fully ionised above)
-    T_hi = 50_000.0    # K — fully ionised
-    T_lo = T_cmb_K     # K — fully neutral today
+    T_upper = 50_000.0    # K — fully ionised at this bound
+    T_lower = T_cmb_K     # K — fully neutral at this bound (today)
 
     for _ in range(60):
-        T_mid = 0.5 * (T_hi + T_lo)
+        T_mid = 0.5 * (T_upper + T_lower)
         x_mid = saha_ionization_fraction(T_mid, omega_b_h2)
-        # x_e increases with temperature: x_e(T_hi) > threshold, x_e(T_lo) < threshold.
+        # x_e increases with temperature: x_e(T_upper) > threshold, x_e(T_lower) < threshold.
         if x_mid > x_e_threshold:
-            T_hi = T_mid   # too hot — lower upper bound
+            T_upper = T_mid   # too hot — lower upper bound
         else:
-            T_lo = T_mid   # too cold — raise lower bound
+            T_lower = T_mid   # too cold — raise lower bound
 
-    T_rec = 0.5 * (T_hi + T_lo)
+    T_rec = 0.5 * (T_upper + T_lower)
     z_rec = T_rec / T_cmb_K - 1.0
     return z_rec
 
