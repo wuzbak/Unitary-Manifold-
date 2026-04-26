@@ -36,6 +36,13 @@ from src.core.kk_collider_resonances import (
     kk_resonance_summary,
     kk_tower_masses_gev,
     lhc_reach_ratio,
+    CMS_RS1_EXCLUSION_GEV,
+    CMS_ADD_MD_N6_GEV,
+    CMS_ADD_MD_N2_GEV,
+    CMS_95GEV_MASS_GEV,
+    CMS_95GEV_SIGNIFICANCE_SIGMA,
+    cms_run2_kk_exclusion_floor,
+    cms_95gev_diphoton_alp_check,
 )
 
 
@@ -334,3 +341,138 @@ class TestPhysicsConsistency:
     def test_phi0_equals_nw_times_2pi(self):
         """φ₀ = n_w × 2π from Pillar 39."""
         assert abs(PHI_0_CANONICAL - N_W_CANONICAL * 2 * math.pi) < 1e-12
+
+
+# ---------------------------------------------------------------------------
+# CERN Open Data constants (new)
+# ---------------------------------------------------------------------------
+
+class TestCERNOpenDataConstants:
+    def test_cms_rs1_exclusion_gev_order(self):
+        # RS1 exclusion at ~1.8 TeV
+        assert 1.0e3 < CMS_RS1_EXCLUSION_GEV < 5.0e3
+
+    def test_cms_add_md_n6_gev_order(self):
+        # ADD M_D exclusion for n_ED=6 at ~5.6 TeV
+        assert 3.0e3 < CMS_ADD_MD_N6_GEV < 10.0e3
+
+    def test_cms_add_md_n2_larger_than_n6(self):
+        # Tighter ADD constraint for smaller n_ED
+        assert CMS_ADD_MD_N2_GEV > CMS_ADD_MD_N6_GEV
+
+    def test_cms_95gev_mass_physical(self):
+        # Excess mass must be in the electroweak range
+        assert 80.0 < CMS_95GEV_MASS_GEV < 130.0
+
+    def test_cms_95gev_significance_below_discovery(self):
+        # 2.9σ — below the 5σ discovery threshold
+        assert CMS_95GEV_SIGNIFICANCE_SIGMA < 5.0
+        assert CMS_95GEV_SIGNIFICANCE_SIGMA > 1.0
+
+
+# ---------------------------------------------------------------------------
+# cms_run2_kk_exclusion_floor
+# ---------------------------------------------------------------------------
+
+class TestCMSRun2KKExclusionFloor:
+    def setup_method(self):
+        self.result = cms_run2_kk_exclusion_floor(N_W_CANONICAL)
+
+    def test_m1_um_gev_matches_kk_mode(self):
+        expected = kk_mode_mass_gev(1, N_W_CANONICAL)
+        assert abs(self.result["m1_um_gev"] - expected) < 1e-3
+
+    def test_cms_rs1_exclusion_stored(self):
+        assert self.result["cms_rs1_exclusion_gev"] == CMS_RS1_EXCLUSION_GEV
+
+    def test_cms_add_md_n6_stored(self):
+        assert self.result["cms_add_md_n6_gev"] == CMS_ADD_MD_N6_GEV
+
+    def test_cms_add_md_n2_stored(self):
+        assert self.result["cms_add_md_n2_gev"] == CMS_ADD_MD_N2_GEV
+
+    def test_um_above_rs1_floor_huge(self):
+        # UM m_1 must be >> RS1 exclusion floor
+        assert self.result["um_above_rs1_floor"] > 1e10
+
+    def test_um_above_add_floor_huge(self):
+        assert self.result["um_above_add_floor"] > 1e10
+
+    def test_consistent_is_true(self):
+        # Non-observation is consistent with Planck-scale UM
+        assert self.result["consistent"] is True
+
+    def test_reference_is_string(self):
+        assert isinstance(self.result["reference"], str)
+        assert "arXiv" in self.result["reference"]
+
+    def test_summary_is_string(self):
+        assert isinstance(self.result["summary"], str)
+        assert "CONSISTENT" in self.result["summary"]
+
+    def test_ratio_formula(self):
+        m1 = kk_mode_mass_gev(1, N_W_CANONICAL)
+        expected_ratio = m1 / CMS_RS1_EXCLUSION_GEV
+        assert abs(self.result["um_above_rs1_floor"] - expected_ratio) < 1e-3 * expected_ratio
+
+    def test_different_nw_still_consistent(self):
+        # Even with n_w = 3, m_1 is still >> LHC reach
+        result3 = cms_run2_kk_exclusion_floor(3)
+        assert result3["consistent"] is True
+        assert result3["um_above_rs1_floor"] > 1e10
+
+    def test_m1_um_above_add_exclusion(self):
+        m1 = self.result["m1_um_gev"]
+        assert m1 > self.result["cms_add_md_n6_gev"]
+        assert m1 > self.result["cms_add_md_n2_gev"]
+
+
+# ---------------------------------------------------------------------------
+# cms_95gev_diphoton_alp_check
+# ---------------------------------------------------------------------------
+
+class TestCMS95GeVDiphotonALPCheck:
+    def setup_method(self):
+        self.result = cms_95gev_diphoton_alp_check(N_W_CANONICAL, K_CS_CANONICAL)
+
+    def test_excess_mass_gev_correct(self):
+        assert self.result["excess_mass_gev"] == CMS_95GEV_MASS_GEV
+
+    def test_cms_significance_correct(self):
+        assert self.result["cms_significance"] == CMS_95GEV_SIGNIFICANCE_SIGMA
+
+    def test_m1_um_matches_kk_mode(self):
+        expected = kk_mode_mass_gev(1, N_W_CANONICAL)
+        assert abs(self.result["m1_um_gev"] - expected) < 1e-3
+
+    def test_m_alp_cs_positive(self):
+        assert self.result["m_alp_cs_gev"] > 0.0
+
+    def test_m_alp_cs_much_larger_than_excess(self):
+        # Both natural UM mass scales are >> 95 GeV
+        assert self.result["m_alp_cs_gev"] > 1e10
+
+    def test_ratio_m1_to_excess_huge(self):
+        assert self.result["ratio_m1_to_excess"] > 1e13
+
+    def test_um_does_not_explain_excess(self):
+        assert self.result["um_explains_excess"] is False
+
+    def test_birefringence_incompatible(self):
+        assert self.result["birefringence_compatible"] is False
+
+    def test_required_radius_positive(self):
+        assert self.result["required_radius_pl"] > 0.0
+
+    def test_required_radius_much_larger_than_canonical_phi0(self):
+        # To get 95 GeV from KK, need φ₀' >> 5×2π
+        assert self.result["required_radius_pl"] > 1e10 * PHI_0_CANONICAL
+
+    def test_summary_mentions_not_explained(self):
+        assert "NOT EXPLAINED" in self.result["summary"]
+
+    def test_m_alp_cs_formula(self):
+        m1 = kk_mode_mass_gev(1, N_W_CANONICAL)
+        expected = m1 / K_CS_CANONICAL
+        assert abs(self.result["m_alp_cs_gev"] - expected) < 1e-3 * expected
+

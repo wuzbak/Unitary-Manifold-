@@ -39,6 +39,8 @@ from src.core.nonabelian_kk import (
     R_C_CANONICAL, M_PL_GEV_REDUCED, M_KK_CANONICAL_GEV, ALPHA_S_KK_CANONICAL,
     C_LAT_CANONICAL, C_LAT_PDG, LAMBDA_QCD_PDG_MEV, MP_PDG_MEV, ME_PDG_MEV,
     MP_OVER_ME_PDG, ALPHA_S_MZ_PDG, M_Z_GEV, M_CHARM_GEV,
+    CMS_ALPHAS_MZ, CMS_ALPHAS_MZ_UNC, CMS_ALPHAS_1TEV, CMS_ALPHAS_1TEV_UNC,
+    CMS_SCALE_1TEV,
     # Functions
     su3_casimir_data,
     evolve_coupling,
@@ -52,6 +54,7 @@ from src.core.nonabelian_kk import (
     alpha_s_at_mz_prediction,
     nonabelian_kk_gap_report,
     nonabelian_kk_summary,
+    cms_alphas_rg_consistency,
 )
 
 
@@ -896,3 +899,122 @@ class TestPhysicsConsistency:
     def test_summary_alpha_s_matches_canonical(self):
         s = nonabelian_kk_summary()
         assert abs(s["constants"]["ALPHA_S_KK"] - ALPHA_S_KK_CANONICAL) < 1e-12
+
+
+# ===========================================================================
+# CERN Open Data constants
+# ===========================================================================
+
+class TestCERNOpenDataConstants:
+    def test_cms_alphas_mz_pdg_consistent(self):
+        # CMS α_s(M_Z) should match the PDG value
+        assert abs(CMS_ALPHAS_MZ - ALPHA_S_MZ_PDG) < 1e-10
+
+    def test_cms_alphas_mz_unc_small(self):
+        assert 0.0 < CMS_ALPHAS_MZ_UNC < 0.01
+
+    def test_cms_alphas_1tev_smaller_than_mz(self):
+        # α_s decreases with increasing scale (asymptotic freedom)
+        assert CMS_ALPHAS_1TEV < CMS_ALPHAS_MZ
+
+    def test_cms_alphas_1tev_positive(self):
+        assert CMS_ALPHAS_1TEV > 0.0
+
+    def test_cms_scale_1tev_value(self):
+        assert abs(CMS_SCALE_1TEV - 1000.0) < 1e-6
+
+
+# ===========================================================================
+# cms_alphas_rg_consistency
+# ===========================================================================
+
+class TestCMSAlphaSRGConsistency:
+    def setup_method(self):
+        self.result = cms_alphas_rg_consistency()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_alpha_s_kk_present(self):
+        assert "alpha_s_kk" in self.result
+        assert abs(self.result["alpha_s_kk"] - ALPHA_S_KK_CANONICAL) < 1e-12
+
+    def test_m_kk_gev_present(self):
+        assert "m_kk_gev" in self.result
+        assert self.result["m_kk_gev"] > 0.0
+
+    def test_cms_data_is_list(self):
+        assert isinstance(self.result["cms_data"], list)
+        assert len(self.result["cms_data"]) == 2  # two default CMS points
+
+    def test_cms_data_has_required_keys(self):
+        for entry in self.result["cms_data"]:
+            assert "scale_gev" in entry
+            assert "alpha_s_cms" in entry
+            assert "alpha_s_um_pred" in entry
+            assert "fractional_deviation" in entry
+            assert "status" in entry
+
+    def test_cms_mz_entry_scale_correct(self):
+        mz_entry = self.result["cms_data"][0]
+        assert abs(mz_entry["scale_gev"] - M_Z_GEV) < 0.01
+
+    def test_cms_mz_entry_measured_value(self):
+        mz_entry = self.result["cms_data"][0]
+        assert abs(mz_entry["alpha_s_cms"] - CMS_ALPHAS_MZ) < 1e-10
+
+    def test_cms_1tev_entry_scale_correct(self):
+        tev_entry = self.result["cms_data"][1]
+        assert abs(tev_entry["scale_gev"] - CMS_SCALE_1TEV) < 1e-3
+
+    def test_cms_1tev_entry_measured_value(self):
+        tev_entry = self.result["cms_data"][1]
+        assert abs(tev_entry["alpha_s_cms"] - CMS_ALPHAS_1TEV) < 1e-10
+
+    def test_pdg_upward_check_present(self):
+        assert "pdg_upward_check" in self.result
+        assert isinstance(self.result["pdg_upward_check"], dict)
+
+    def test_pdg_upward_alpha_s_mz_pdg_correct(self):
+        upward = self.result["pdg_upward_check"]
+        if "alpha_s_mz_pdg" in upward:
+            assert abs(upward["alpha_s_mz_pdg"] - CMS_ALPHAS_MZ) < 1e-10
+
+    def test_pdg_upward_run_positive(self):
+        upward = self.result["pdg_upward_check"]
+        if "alpha_s_at_mkk_from_mz" in upward:
+            assert upward["alpha_s_at_mkk_from_mz"] > 0.0
+
+    def test_pdg_upward_run_smaller_than_mz(self):
+        # Running upward (higher energy) → smaller coupling (asymptotic freedom)
+        upward = self.result["pdg_upward_check"]
+        if "alpha_s_at_mkk_from_mz" in upward:
+            assert upward["alpha_s_at_mkk_from_mz"] < CMS_ALPHAS_MZ
+
+    def test_overall_consistent_key_present(self):
+        assert "overall_consistent" in self.result
+        assert isinstance(self.result["overall_consistent"], bool)
+
+    def test_reference_is_string(self):
+        assert isinstance(self.result["reference"], str)
+        assert "CMS" in self.result["reference"]
+
+    def test_verdict_is_string(self):
+        assert isinstance(self.result["verdict"], str)
+        assert len(self.result["verdict"]) > 20
+
+    def test_custom_measurement_single_point(self):
+        custom = [(M_Z_GEV, 0.1179, 0.001)]
+        result = cms_alphas_rg_consistency(cms_measurements=custom)
+        assert len(result["cms_data"]) == 1
+        assert abs(result["cms_data"][0]["alpha_s_cms"] - 0.1179) < 1e-10
+
+    def test_custom_alpha_s_kk_used(self):
+        result = cms_alphas_rg_consistency(alpha_s_kk=0.1)
+        assert abs(result["alpha_s_kk"] - 0.1) < 1e-10
+
+    def test_status_is_string_for_each_entry(self):
+        for entry in self.result["cms_data"]:
+            assert isinstance(entry["status"], str)
+            assert len(entry["status"]) > 10
+
