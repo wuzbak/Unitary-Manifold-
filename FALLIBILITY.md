@@ -104,18 +104,31 @@ The bare FTUM fixed point gives φ₀ ≈ 1, which yields nₛ ≈ −35 (failin
 by ~8 500 σ). The resolution is a topological winding number n_w = 5 in the
 KK Jacobian, giving J ≈ 31.42 and nₛ ≈ 0.9635.
 
-*Status as of April 2026:* Pillar 39 (`src/core/solitonic_charge.py`) derives
-n_w = 5 from S¹/Z₂ orbifold soliton topology.  The Z₂ involution y → −y
-projects out even winding numbers, restricting the spectrum to odd integers
-{1, 3, 5, 7, …}.  Applying the slow-roll formula nₛ = 1 − 36/φ₀_eff²
-(where φ₀_eff = n_w × 2π × φ₀_bare) and the Planck 2018 constraint
-nₛ = 0.9649 ± 0.0042, n_w = 5 is the **unique minimum odd winding** consistent
-at 2σ: n_w = 3 misses by 15.8σ, n_w = 7 misses by 3.9σ.  Verified by
-`minimum_winding_for_planck()` and `orbifold_uniqueness()` in 103 tests.
+*Status as of April 2026 (updated with Pillar 67):*
 
-The residual gap is that the Planck nₛ threshold is an observational input, not
-derived purely from 5D geometry; a geometric uniqueness proof of the
-inflation constraint remains open.
+**What is proved without observational input:**
+1. Pillar 39 (`src/core/solitonic_charge.py`): Z₂ involution y → −y restricts
+   n_w to odd integers {1, 3, 5, 7, …}.
+2. **Pillar 67** (`src/core/nw_anomaly_selection.py`): the CS anomaly protection
+   gap Δ_CS = n_w (Pillar 42 stability condition: n² ≤ n_w) combined with the
+   requirement of exactly N_gen = 3 stable KK matter species constrains
+   n_w ∈ [4, 8].  Combined with Z₂ oddness: **n_w ∈ {5, 7}**.
+3. **Pillar 67**: For the minimum-step braid (n_w, n_w+2), the Euclidean CS action
+   is ∝ k_eff = n_w² + (n_w+2)².  Over the two candidates: k_eff(5) = 74 < k_eff(7) = 130.
+   **n_w = 5 is the dominant saddle** in the 5D path integral.
+
+**What still requires observational input:**
+Applying the slow-roll formula nₛ = 1 − 36/φ₀_eff² (where φ₀_eff = n_w × 2π × φ₀_bare)
+and the Planck 2018 constraint nₛ = 0.9649 ± 0.0042, n_w = 5 is the **unique**
+candidate consistent at 2σ: n_w = 3 misses by 15.8σ, n_w = 7 misses by 3.9σ.
+Verified by `minimum_winding_for_planck()` and `orbifold_uniqueness()` in 103 tests.
+
+**Residual gap (narrowed by Pillar 67):** The Planck nₛ threshold is still needed
+for a *uniqueness* claim.  The specific missing ingredient is the quantization class
+of the APS η-invariant at the S¹/Z₂ orbifold fixed points: η̄(5) = ½ mod 1 and
+η̄(7) = 0 mod 1 are distinct; if the bulk anomaly inflow requires η̄ ≡ ½ mod 1,
+n_w = 5 would be the unique first-principles selection.  See
+`eta_invariant_schematic()` and `first_principles_gap_report()` in Pillar 67.
 
 **Admission 2 — k_CS = 74: derived from soliton-pair BF resonance (April 2026).**
 The Chern–Simons level `CS_LEVEL_PLANCK_MATCH = 74` (see `inflation.py`) is
