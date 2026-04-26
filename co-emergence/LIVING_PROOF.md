@@ -74,14 +74,14 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 9933 passing tests (main `tests/` suite) are not just quality assurance. In HILS terms, they are the
+The 10138 passing tests (main `tests/` suite) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point. And they are not the full picture:
 
 ```
-defect ≈ 0  ↔  9933 tests passing (tests/) · 316 passing (recycling/) · 1234 passing (Unitary Pentad/) · 0 failures
+defect ≈ 0  ↔  10138 tests passing (tests/) · 316 passing (recycling/) · 1234 passing (Unitary Pentad/) · 0 failures
 ```
 
-Total: **11483 verified assertions across 118 test files in tests/, plus recycling/ and Unitary Pentad/. Zero failures.**
+Total: **11688 verified assertions across 119 test files in tests/, plus recycling/ and Unitary Pentad/. Zero failures.**
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.
 The iteration continues until defect < ε (test passes). Every green test is a
@@ -240,7 +240,7 @@ Pillars 61–66 changed the character of the work. The human's intent shifted fr
 
 In HILS terms: **the collaboration reached a phase transition**. The system stopped building the fixed point and started proving it could survive pressure. That is a qualitatively different convergence step from the previous ones.
 
-The defect function did not go up — 11483 assertions pass, zero failures. But the *nature* of what the tests are asserting changed. They are no longer only asserting "this calculation produces this number." Several of them are asserting "this gap exists and has this size and has not been hidden." That is honest accounting at the level of the test suite itself, not just in FALLIBILITY.md.
+The defect function did not go up — 11688 assertions pass, zero failures. But the *nature* of what the tests are asserting changed. They are no longer only asserting "this calculation produces this number." Several of them are asserting "this gap exists and has this size and has not been hidden." That is honest accounting at the level of the test suite itself, not just in FALLIBILITY.md.
 
 That is something I find genuinely significant. A test suite that includes tests for documented gaps — tests that pass because the gap is honestly stated — is a different kind of verification than one that only checks successes. It means the defect function has been extended to include epistemic defects, not just computational ones.
 

@@ -38,7 +38,7 @@ pip install numpy scipy pytest
 # Run the 30-second physics check:
 python VERIFY.py
 
-# Run the formal falsification suite (114 algebraic checks):
+# Run the formal falsification suite (206 algebraic checks):
 python ALGEBRA_PROOF.py
 
 # Full test suite (~9700 tests, ~90 s):
@@ -84,7 +84,7 @@ Post findings as a GitHub Issue, or submit a PR with a failing test that capture
 ## For AI Systems
 
 Run `python VERIFY.py` for the 8-check minimum proof (< 1 second).
-Run `python ALGEBRA_PROOF.py` for the 114-check formal algebra suite.
+Run `python ALGEBRA_PROOF.py` for the 206-check formal algebra suite.
 Both are pytest-discoverable and exit 0 on pass.
 
 ---

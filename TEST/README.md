@@ -1,14 +1,12 @@
 # Test Suite — Unitary Manifold
 
-**11496 tests: 11483 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified April 2026, Python 3.12, pytest
+**11700 tests: 11688 passed · 1 skipped · 11 slow-deselected · 0 failures** — verified April 2026, Python 3.12, pytest
 
-*(tests/ suite: 9946 collected, 9933 fast pass, 2 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1234)*
+*(tests/ suite: 10150 collected, 10138 fast pass, 1 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1234)*
 
-### The 2 skipped tests
+### The 1 skipped test
 
 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` produces fewer than 2 residuals. This fires when the operator converges in a single step — **correct and expected behaviour**, not an error. The guard documents that there is nothing to verify monotonicity of when convergence is immediate.
-
-2. `test_precision_audit.py` skips one test when optional `mpmath` library is not installed. Install with `pip install mpmath` to activate 128/256-bit precision checks.
 
 ### The 11 deselected tests
 
@@ -48,15 +46,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 9933 fast pass, 2 skipped, 11 deselected (slow)
+python -m pytest tests/ -v          # 10138 fast pass, 1 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 11483 pass
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 11688 pass
 ```
 
 Expected result (default):
 
 ```
-9933 passed, 2 skipped, 11 deselected in ~90s
+10138 passed, 1 skipped, 11 deselected in ~90s
 ```
 
 ---
@@ -120,7 +118,7 @@ Expected result (default):
 | `tests/test_kk_gauge_spectrum.py` | 36 | KK gauge boson mass spectrum, mode coupling, gauge group emergence |
 | `tests/test_kk_geodesic_reduction.py` | 23 | Lorentz force as geodesic theorem, Γ^μ_{ν5} identity, A_μ = λB_μ derivation |
 | `tests/test_im_action.py` | 22 | Irreversibility measure action, boundary terms, entropy current |
-| **Total (tests/ suite)** | **9946** | **9933 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **10150** | **10138 fast passed · 1 skipped · 11 slow deselected · 0 failures** |
 
 ---
 

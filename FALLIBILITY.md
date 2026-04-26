@@ -958,7 +958,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 10589 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only; 2 skips are correct (guard skip + mpmath optional); updated to 11483/11496 as of v9.16 |
+| 10589 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only; updated to 11688/11700 as of v9.17 (1 skip: arrow-of-time guard skip; mpmath now required) |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18; see `src/core/braided_winding.py` |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |

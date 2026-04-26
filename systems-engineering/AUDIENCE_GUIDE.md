@@ -425,9 +425,9 @@ python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
 # Expected: 5124 passed, 1 skipped, 0 failed
 ```
 
-ALGEBRA_PROOF.py runs 114 formal algebraic checks including live codebase imports:
+ALGEBRA_PROOF.py runs 206 formal algebraic checks including live codebase imports:
 ```bash
-python3 ALGEBRA_PROOF.py   # exit 0 = all 114 checks pass
+python3 ALGEBRA_PROOF.py   # exit 0 = all 206 checks pass
 ```
 
 **Bridge to Level 6:**  
