@@ -5,7 +5,7 @@ on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework with 60 geometric pillars, a complete
+A 5-dimensional Kaluza-Klein physics framework with 66 geometric pillars, a complete
 HILS governance framework (Unitary Pentad), and supporting AI assistant infrastructure.
 
 **Theory:** ThomasCory Walker-Pearson (2026)  
@@ -17,7 +17,7 @@ HILS governance framework (Unitary Pentad), and supporting AI assistant infrastr
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: ~9039 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: ~9933 passed, 2 skipped, 11 deselected, 0 failed
 
 # Recycling suite:
 python -m pytest recycling/ -q
@@ -29,7 +29,7 @@ python -m pytest "Unitary Pentad/" -q
 
 # Full repository (takes ~90 seconds):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 10589 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 11483 passed, 2 skipped, 11 deselected, 0 failed
 ```
 
 ## Repository Structure
@@ -46,7 +46,7 @@ src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26, 46–47)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 Unitary Pentad/     ← Independent HILS governance framework (18 modules)
-tests/              ← 112 test files, ~9039 fast-passing tests (Pillars 1–60+, 15-B, 15-C)
+tests/              ← 118 test files, ~9933 fast-passing tests (Pillars 1–66, all sub-pillars)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 co-emergence/       ← HILS framework documentation
 ```

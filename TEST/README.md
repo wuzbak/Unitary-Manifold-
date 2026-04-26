@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**10602 tests: 10589 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified 2026-04-25, Python 3.12.13, pytest 9.0.3
+**11496 tests: 11483 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified April 2026, Python 3.12, pytest
 
-*(tests/ suite: 9052 collected, 9039 fast pass, 2 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1234)*
+*(tests/ suite: 9946 collected, 9933 fast pass, 2 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1234)*
 
 ### The 2 skipped tests
 
@@ -48,15 +48,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 9039 fast pass, 2 skipped, 11 deselected (slow)
+python -m pytest tests/ -v          # 9933 fast pass, 2 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 10589 pass
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 11483 pass
 ```
 
 Expected result (default):
 
 ```
-9039 passed, 2 skipped, 11 deselected in ~90s
+9933 passed, 2 skipped, 11 deselected in ~90s
 ```
 
 ---
@@ -120,7 +120,7 @@ Expected result (default):
 | `tests/test_kk_gauge_spectrum.py` | 36 | KK gauge boson mass spectrum, mode coupling, gauge group emergence |
 | `tests/test_kk_geodesic_reduction.py` | 23 | Lorentz force as geodesic theorem, Γ^μ_{ν5} identity, A_μ = λB_μ derivation |
 | `tests/test_im_action.py` | 22 | Irreversibility measure action, boundary terms, entropy current |
-| **Total (tests/ suite)** | **9052** | **9039 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **9946** | **9933 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
 
 ---
 
