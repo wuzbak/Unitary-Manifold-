@@ -266,6 +266,28 @@ All three pass. Source: `src/core/braided_winding.py`; tests: `tests/test_braide
 
 ---
 
+## AI Peer Review — April 2026 (PR #189)
+
+In April 2026, an automated AI peer review ([PR #189](https://github.com/wuzbak/Unitary-Manifold-/pull/189))
+flagged three substantive issues with the framework — not style or formatting problems, but genuine
+mathematical gaps. All three were acknowledged, addressed with new code, and closed before merge.
+
+| Issue | Concern raised | Resolution |
+|-------|---------------|------------|
+| **N_gen = 3 derivation status** | N_gen=3 was labelled a *derived* result but one input (n_w=5 from Planck nₛ) was observational, making it a conditional theorem rather than a pure derivation | `three_generations.py` → `n_gen_derivation_status()`: returns a 5-step chain with explicit `INPUT` / `DERIVED` labels; the single observational input is isolated and every subsequent step is pure mathematics |
+| **KK tower truncation hiding irreversibility** | Truncating to the zero mode might conceal a cancellation from higher KK modes that would undermine the arrow-of-time claim | `kk_backreaction.py` → `kk_tower_irreversibility_proof()`: proves each mode n satisfies dS_n/dt ≥ 0 independently (κ_n ≥ 0, each starts below its Bekenstein-Hawking bound), so dS_total/dt = Σ dS_n/dt ≥ dS_0/dt > 0; zero-mode truncation is a *lower bound*, not a hiding place |
+| **Banach fixed-point proof numerical only** | The contraction certificate was demonstrated by sampling, not derived analytically; a worst-case input could potentially evade it | `fixed_point.py` → `analytic_banach_proof()`: derives the Lipschitz constant L = max(ρ_S, ρ_X) in closed form via the graph Laplacian spectral radius λ_max, with three explicit checkable sufficient conditions; for canonical parameters L = 0.95 < 1 ✓ |
+
+**Supporting changes from PR #189:** 57 new tests across three test files; `FALLIBILITY.md` §4.1
+truncation note and tracking tables updated with closure status; `submission/falsification_report.md`
+§2 Banach concern replaced with its resolution; `ALGEBRA_PROOF_GUIDE.md` expanded with analytic proof
+and N_gen epistemic table.
+
+The peer review is significant not just because the issues were fixed, but because the process worked
+as intended: independent scrutiny found real gaps, and the framework became tighter as a result.
+
+---
+
 ## Primary Falsification Condition
 
 The most important single test this framework faces is the LiteBIRD CMB polarisation
