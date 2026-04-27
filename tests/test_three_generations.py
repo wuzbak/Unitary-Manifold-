@@ -513,7 +513,6 @@ class TestNGenDerivationStatus:
         assert result["n_gen"] == 4
 
     def test_invalid_nw_raises(self):
-        import pytest
         with pytest.raises(ValueError):
             n_gen_derivation_status(0)
         with pytest.raises(ValueError):

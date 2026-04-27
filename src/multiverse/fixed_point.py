@@ -1014,9 +1014,9 @@ def analytic_banach_proof(
 
     For the canonical parameters (κ=0.25, γ=5.0, dt=0.2, chain coupling=0.1):
 
-        λ_max = 0.1 (single neighbour × coupling 0.1 for chain network)
-        ρ_S   = max(1−0.05, |1−0.07|) = max(0.95, 0.93) = 0.95
-        ρ_X   = 1/(1+1.0) = 1/2 = 0.50
+        λ_max = 0.2 (two neighbours × coupling 0.1 for interior chain nodes)
+        ρ_S   = max(1−0.05, |1−(0.25+0.2)×0.2|) = max(0.95, |1−0.09|) = max(0.95, 0.91) = 0.95
+        ρ_X   = 1/(1+5.0×0.2) = 1/2 = 0.50
         L_analytic = max(0.95, 0.50) = 0.95 < 1  ✓
 
     Parameters

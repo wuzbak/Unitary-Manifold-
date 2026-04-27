@@ -560,8 +560,8 @@ def n_gen_derivation_status(n_w: int = N_W_CANONICAL) -> Dict[str, object]:
             "label": "DERIVED",
             "description": (
                 f"Stable modes = {stable} (those with n² ≤ {n_w}). "
-                f"First unstable mode: n = {n_w + 1 if n_gen == 0 else max(stable) + 1} "
-                f"(n² = {(max(stable) + 1) ** 2 if stable else 1} > {n_w})."
+                f"First unstable mode: n = {max(stable) + 1 if stable else 1}, "
+                f"n² = {(max(stable) + 1) ** 2 if stable else 1} > {n_w}."
             ),
         },
         {

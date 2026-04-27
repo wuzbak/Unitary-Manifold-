@@ -802,19 +802,16 @@ class TestKkTowerIrreversibilityProof:
         assert "lower bound" in summary
 
     def test_invalid_phi0_raises(self):
-        import pytest
         with pytest.raises(ValueError):
             kk_tower_irreversibility_proof(phi0=0.0)
         with pytest.raises(ValueError):
             kk_tower_irreversibility_proof(phi0=-1.0)
 
     def test_invalid_n_modes_raises(self):
-        import pytest
         with pytest.raises(ValueError):
             kk_tower_irreversibility_proof(n_modes=0)
 
     def test_invalid_kappa_raises(self):
-        import pytest
         with pytest.raises(ValueError):
             kk_tower_irreversibility_proof(kappa=-0.1)
 
