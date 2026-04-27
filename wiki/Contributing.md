@@ -12,8 +12,10 @@ The most valuable contributions are rigorous checks of the theoretical framework
 
 - **Verify proofs:** Check the derivations in the Walker–Pearson field equations (Chapters 7–9).
 - **Check dimensional reduction:** Confirm that the 5D Einstein–Hilbert action correctly reduces to the 4D effective action.
+- **Braided winding:** Verify the $(5, 7)$ braided-winding resolution and the resonance identity $k_\text{CS} = 5^2 + 7^2 = 74$.
 - **Conserved currents:** Verify that $\nabla_\mu J^\mu_{\rm inf} = 0$ follows from the field equations.
 - **FTUM:** Provide a formal proof or counterexample for the fixed-point theorem.
+- **Completeness theorem:** Verify that all 7 independent constraints converge to $k_\text{CS} = 74$ (see `src/core/completeness_theorem.py`).
 
 See the [AI & Automated Review Invitation](../discussions/AI-Automated-Review-Invitation.md) for a structured checklist of verification tasks.
 
@@ -21,11 +23,12 @@ See the [AI & Automated Review Invitation](../discussions/AI-Automated-Review-In
 
 Improvements to the numerical implementation are welcome. Areas of particular interest:
 
-- **Higher-order time integrators** (RK4, symplectic integrators) for `src/core/evolution.py`
-- **Staggered-grid discretisation** for the gauge field $B_\mu$
-- **3D/full 4D spatial grid** support (current code is 1D)
-- **Visualisation utilities** for field evolution and entropy diagnostics
-- **Test suite** with unit tests for all public API functions
+- **CMB amplitude:** The power spectrum amplitude is suppressed ×4–7 at acoustic peaks (see `FALLIBILITY.md §IV.9`) — any progress on resolving this is valuable.
+- **φ₀ self-consistency:** The full FTUM self-consistency loop (φ₀ → α → nₛ → back to φ₀) needs verification; see `src/core/phi0_closure.py`.
+- **3D/full 4D spatial grid** support (current evolution code is 1D).
+- **Staggered-grid discretisation** for the gauge field $B_\mu$.
+- **Visualisation utilities** for field evolution and entropy diagnostics.
+- **New falsifiable pillar extensions** following the existing pillar pattern.
 
 ### Documentation
 
@@ -39,17 +42,53 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 
 1. **Fork** the repository on GitHub.
 2. **Create a branch** for your change: `git checkout -b feature/my-improvement`
-3. **Make your changes** following the conventions below.
-4. **Run the existing tests** (if any) and verify that the quickstart examples still work.
-5. **Open a Pull Request** with a clear description of what you changed and why.
+3. **Run the test suite before making changes** to establish a baseline:
+   ```bash
+   python -m pytest tests/ recycling/ "Unitary Pentad/" -q
+   # Expected: 12 733 passed, 2 skipped, 11 deselected, 0 failed
+   ```
+4. **Make your changes** following the conventions below.
+5. **Run the test suite again** after your changes; 0 failures is a hard requirement.
+6. **Open a Pull Request** with a clear description of what you changed and why.
+
+---
+
+## Test Suite Reference
+
+```bash
+# Fast suite — core physics:
+python -m pytest tests/ -q
+# Expected: ~10 000 passed, 2 skipped, 11 deselected, 0 failed
+
+# Recycling / φ-debt entropy (Pillar 16):
+python -m pytest recycling/ -q
+# Expected: 316 passed, 0 failed
+
+# Unitary Pentad governance (18 modules):
+python -m pytest "Unitary Pentad/" -q
+# Expected: 1234 passed, 0 failed
+
+# Full repository (~90 s):
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q
+# Expected: 12 733 passed, 2 skipped, 11 deselected, 0 failed
+
+# Slow tests (Richardson extrapolation convergence):
+python -m pytest tests/ -m slow
+```
+
+> **Skip note:** 2 tests use conditional `pytest.skip()` guards for edge cases (immediate FTUM convergence, etc.). These are not failures.
+> **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default. Run explicitly with `-m slow`.
 
 ---
 
 ## Code Conventions
 
-- Python 3.9+, NumPy style throughout.
+- **Python 3.12+**, NumPy/SciPy only (no deep learning frameworks in core).
+- All physical quantities in **natural units** (Planck units unless otherwise noted).
 - Public functions must have a NumPy-style docstring with `Parameters`, `Returns`, and a one-line summary.
 - Array shapes must be documented in the docstring (e.g., `ndarray (N, 4, 4)`).
+- Constants live at **module top level in `ALL_CAPS`**; derived quantities in `__init__`.
+- Every new module must have a corresponding test file in `tests/`.
 - Avoid introducing new dependencies unless strictly necessary; prefer NumPy/SciPy.
 - Keep changes focused — one logical change per pull request.
 
@@ -64,7 +103,8 @@ If you use the Unitary Manifold framework in your research, please cite it using
   author    = {Walker-Pearson, ThomasCory},
   title     = {The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility},
   year      = {2026},
-  version   = {9.0},
+  version   = {9.14},
+  doi       = {10.5281/zenodo.19584531},
   url       = {https://github.com/wuzbak/Unitary-Manifold-},
 }
 ```
@@ -77,6 +117,15 @@ For mathematical peer review and automated verification, see the discussion thre
 [`discussions/AI-Automated-Review-Invitation.md`](../discussions/AI-Automated-Review-Invitation.md)
 
 For technical questions or suggestions, open an [Issue](https://github.com/wuzbak/Unitary-Manifold-/issues) on GitHub.
+
+---
+
+## Authorship Standard
+
+Every substantive document must end with:
+
+> *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+> *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
 
 ---
 
