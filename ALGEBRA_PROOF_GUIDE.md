@@ -129,15 +129,42 @@ The spectral radius ρ(U_damped) ≈ 0.475 < 1.
 
 **Key check:** 192/192 = 100% convergence, fixed point S* = A₀/(4G).
 
+**Closed-form analytic proof (Issue 4 — April 2026):**
+
+`analytic_banach_proof()` in `src/multiverse/fixed_point.py` derives a
+**closed-form Lipschitz constant** for U without any random sampling:
+
+- **Entropy subspace:** deviation ε = S − S* obeys ε' = M_S ε where
+  M_S = I − κ dt I − dt L (L = graph Laplacian). Spectral radius
+  ρ_S = max(|1−κdt|, |1−(κ+λ_max)dt|) where λ_max is the max weighted degree.
+  The H clamping operator can only reduce |ε|, so ρ(I+H+T|_S) ≤ ρ_S.
+
+- **Geodesic subspace:** friction term divides Ẋ by (1+γdt) at each step,
+  giving ρ_X = 1/(1+γdt) < 1 for all γ > 0.
+
+- **Combined Lipschitz constant:** L = max(ρ_S, ρ_X).
+
+**Sufficient conditions for L < 1** (three checkable conditions):
+1. κ dt < 2   (entropy relaxation does not overshoot)
+2. (κ + λ_max) dt < 2   (topology + relaxation do not overshoot)
+3. γ > 0   (friction guarantees geodesic contraction)
+
+For canonical parameters (κ=0.25, γ=5.0, dt=0.2, chain coupling=0.1):
+- λ_max = 0.2, ρ_S = max(0.95, 0.91) = 0.95, ρ_X = 0.50 → L = 0.95 < 1 ✓
+- All three sufficient conditions satisfied.
+
 **Test suite cross-reference:**
 - `tests/test_fixed_point.py` → `TestFTUMSEqualsQuarterAt128Iterations`
   directly calls `fixed_point_iteration(max_iter=128)` and asserts
   S_final ≈ 0.2500 ± 0.0001.
+- `tests/test_fixed_point.py` → `TestAnalyticBanachProof` (20 tests):
+  closed-form certificate, `rho_X` formula, `lambda_max` chain check,
+  single-node isolation, large-dt violation.
 - `src/multiverse/basin_analysis.py` + corresponding tests: 192-case sweep.
 
 ---
 
-## §7 — Atiyah-Singer Index → n_w = 5
+## §7 — Atiyah-Singer Index → n_w = 5 and N_gen = 3 Epistemic Status
 
 **What it proves:** The winding number n_w = 5 is not chosen by hand — it
 is the unique value consistent with:
@@ -150,7 +177,24 @@ is the unique value consistent with:
 n_generations = 3 (itself an experimental fact, not a free parameter
 within the framework).
 
+**N_gen = 3 epistemic status (Issue 2 — April 2026):**
+
+`n_gen_derivation_status()` in `src/core/three_generations.py` documents
+the full 5-step logical chain and labels each step as INPUT or DERIVED:
+
+| Step | Label | Content |
+|------|-------|---------|
+| 0 | INPUT | n_w = 5 from Planck nₛ measurement (one observational datum) |
+| 1 | DERIVED | Atiyah-Singer: n_L = n_w = 5 zero modes |
+| 2 | DERIVED | CS protection gap: mode stable iff n² ≤ n_w |
+| 3 | DERIVED | Stable modes = {0, 1, 2} (three modes survive) |
+| 4 | DERIVED | N_gen = 3 (one SM generation per stable mode) |
+
+**Verdict:** N_gen = 3 is a *conditional theorem* — mathematical
+given n_w = 5.  It is NOT a postulate or free-parameter fit.
+
 **Test suite cross-reference:**
+- `tests/test_three_generations.py` → `TestNGenDerivationStatus` (18 tests)
 - `tests/test_braided_winding.py` → winding-number spectral-index tests.
 - `tests/test_solitonic_charge.py` → Z₂ orbifold selection rules (Pillar 39).
 

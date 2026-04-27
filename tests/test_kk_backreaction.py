@@ -721,3 +721,114 @@ class TestSummary:
         for key, val in result.items():
             if isinstance(val, float):
                 assert math.isfinite(val), f"Non-finite for key {key}"
+
+
+# ---------------------------------------------------------------------------
+# kk_tower_irreversibility_proof — Issue 3 closure
+# ---------------------------------------------------------------------------
+
+from src.core.kk_backreaction import kk_tower_irreversibility_proof
+
+
+class TestKkTowerIrreversibilityProof:
+    """Tests for kk_tower_irreversibility_proof(): Issue 3 (KK truncation)."""
+
+    def test_returns_dict(self):
+        result = kk_tower_irreversibility_proof()
+        assert isinstance(result, dict)
+
+    def test_has_required_keys(self):
+        result = kk_tower_irreversibility_proof()
+        for key in (
+            "mode_entropy_rates", "total_production_rate", "zero_mode_rate",
+            "tower_exceeds_zero_mode", "all_modes_positive",
+            "truncation_error_bound", "irreversibility_holds", "proof_summary",
+        ):
+            assert key in result, f"Missing key: {key!r}"
+
+    def test_all_modes_positive(self):
+        result = kk_tower_irreversibility_proof()
+        assert result["all_modes_positive"] is True
+
+    def test_irreversibility_holds(self):
+        result = kk_tower_irreversibility_proof()
+        assert result["irreversibility_holds"] is True
+
+    def test_tower_exceeds_zero_mode(self):
+        """Full tower rate ≥ zero-mode rate (lower bound)."""
+        result = kk_tower_irreversibility_proof()
+        assert result["tower_exceeds_zero_mode"] is True
+
+    def test_total_rate_positive(self):
+        result = kk_tower_irreversibility_proof()
+        assert result["total_production_rate"] > 0.0
+
+    def test_total_rate_ge_zero_mode_rate(self):
+        result = kk_tower_irreversibility_proof()
+        assert result["total_production_rate"] >= result["zero_mode_rate"] - 1e-14
+
+    def test_mode_count_matches_n_modes(self):
+        for n in (1, 3, 5, 10):
+            result = kk_tower_irreversibility_proof(n_modes=n)
+            assert len(result["mode_entropy_rates"]) == n
+
+    def test_each_mode_has_required_fields(self):
+        result = kk_tower_irreversibility_proof(n_modes=3)
+        for entry in result["mode_entropy_rates"]:
+            for field in ("n", "m_n", "A_n", "S_n_star", "S_n_initial",
+                          "kappa_n", "dS_n_dt", "positive"):
+                assert field in entry
+
+    def test_all_individual_rates_nonneg(self):
+        result = kk_tower_irreversibility_proof(n_modes=5)
+        for entry in result["mode_entropy_rates"]:
+            assert entry["dS_n_dt"] >= 0.0
+
+    def test_truncation_error_bound_nonneg(self):
+        result = kk_tower_irreversibility_proof()
+        assert result["truncation_error_bound"] >= 0.0
+
+    def test_truncation_error_bound_less_than_1(self):
+        """Zero mode is always a strictly positive fraction of the total."""
+        result = kk_tower_irreversibility_proof()
+        assert result["truncation_error_bound"] < 1.0
+
+    def test_proof_summary_is_str(self):
+        result = kk_tower_irreversibility_proof()
+        assert isinstance(result["proof_summary"], str)
+
+    def test_proof_summary_mentions_lower_bound(self):
+        summary = kk_tower_irreversibility_proof()["proof_summary"].lower()
+        assert "lower bound" in summary
+
+    def test_invalid_phi0_raises(self):
+        import pytest
+        with pytest.raises(ValueError):
+            kk_tower_irreversibility_proof(phi0=0.0)
+        with pytest.raises(ValueError):
+            kk_tower_irreversibility_proof(phi0=-1.0)
+
+    def test_invalid_n_modes_raises(self):
+        import pytest
+        with pytest.raises(ValueError):
+            kk_tower_irreversibility_proof(n_modes=0)
+
+    def test_invalid_kappa_raises(self):
+        import pytest
+        with pytest.raises(ValueError):
+            kk_tower_irreversibility_proof(kappa=-0.1)
+
+    def test_more_modes_increases_total_rate(self):
+        """Adding more modes should increase the total entropy production."""
+        r3 = kk_tower_irreversibility_proof(n_modes=3)
+        r5 = kk_tower_irreversibility_proof(n_modes=5)
+        assert r5["total_production_rate"] >= r3["total_production_rate"]
+
+    def test_kappa_zero_gives_zero_rate(self):
+        """When κ=0, entropy relaxation stops; all rates should be zero."""
+        result = kk_tower_irreversibility_proof(kappa=0.0)
+        assert result["total_production_rate"] == pytest.approx(0.0, abs=1e-12)
+        assert all(
+            e["dS_n_dt"] == pytest.approx(0.0, abs=1e-12)
+            for e in result["mode_entropy_rates"]
+        )
