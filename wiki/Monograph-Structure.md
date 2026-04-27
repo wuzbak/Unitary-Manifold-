@@ -1,6 +1,8 @@
 # Monograph Structure
 
-The full monograph *The Unitary Manifold* (v9.0, Academic Edition) is included in the repository as [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf). It spans **74 chapters** organised into **XXIII parts**.
+The full monograph *The Unitary Manifold* (v9.14, Academic Edition) is included in the repository as [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf). It spans **74 chapters** organised into **XXIII parts**.
+
+A complete chapter-by-chapter table of contents is in [`TABLE_OF_CONTENTS.md`](../TABLE_OF_CONTENTS.md).
 
 ---
 
@@ -8,70 +10,171 @@ The full monograph *The Unitary Manifold* (v9.0, Academic Edition) is included i
 
 | Parts | Chapters | Theme |
 |-------|----------|-------|
-| I–II | 1–2 | Motivation & Mathematical Preliminaries |
+| I–II | 1–2 | Foundations: Motivation & Mathematical Preliminaries |
 | III–VI | 3–6 | 5D Metric Construction & Dimensional Reduction |
 | VII–IX | 7–9 | Walker–Pearson Field Equations |
-| X–XIV | 10–30 | Entropy Geometry, Information Currents & Holographic Screens |
-| XV–XIX | 31–48 | Quantum Information, Transition Asymmetry & Entanglement Capacity |
-| XX–XXI | 49–55 | Irreversible Friedmann Equations & Holographic Fate |
-| XXII | 56–62 | Multiverse Topology & Inter-Manifold Information Flow |
-| XXIII | 63–74 | Observers, Mind & Co-emergence of Classical Reality |
+| X–XI | 10–11 | Information Current & Quantum/Statistical Origins |
+| XII–XIII | 12–13 | Scaling Laws & Worked Examples |
+| XIV–XV | 14–15 | Cosmology & Perturbations |
+| XVI–XVII | 16–17 | Astrophysics & Thermodynamics |
+| XVIII–XX | 18–20 | Quantum Information, Hilbert Bundle, Algebraic Foundations |
+| XXI | 21–22 | Symmetries, Noether Currents, Hamiltonian Structure |
+| — | 23–29 | Canonical Quantization, Path Integrals, Renormalization, Holography |
+| — | 30–34 | Topology, Attractors, Nonlinear Dynamics |
+| — | 35–48 | Entropy Geometry, Statistical Mechanics, Information Geometry |
+| XXI (Cosmology) | 49–55 | Irreversible Friedmann Equations, Holographic Fate, Dark Energy |
+| XXII | 56–62 | Thermodynamic Multiverse & Inter-Manifold Information Flow |
+| XXIII | 63–74 | Observers, Measurement, Decoherence, Co-Emergence of Mind |
 
 ---
 
-## Chapter Highlights
+## Chapter Map
 
 ### Foundational (Chapters 1–9)
 
-| Chapter | Title / Topic |
-|---------|--------------|
-| 1 | Motivation: dimensional misalignment in modern physics |
-| 2 | Mathematical Preliminaries: tensors, differential geometry, manifolds |
-| 3 | The 5D Metric Ansatz (Kaluza–Klein) |
-| 4 | Assembling $G_{AB}$: off-diagonal embedding of $B_\mu$ |
-| 5 | Dimensional Reduction of the 5D Einstein–Hilbert Action |
-| 6 | The 4D Effective Action and Its Symmetries |
-| 7 | Deriving the Walker–Pearson Field Equations |
-| 8 | The Irreversibility Field Equation and $H_{\mu\nu}$ |
-| 9 | The Scalar Equation and Nonminimal Coupling |
+| Chapter | Title |
+|---------|-------|
+| 1 | Motivation and Conceptual Overview |
+| 2 | Mathematical Preliminaries |
+| 3 | The 5D Metric Structure |
+| 4 | 5D Curvature and Action |
+| 5 | Compactification and Cylinder Condition |
+| 6 | Deriving the 4D Effective Action |
+| 7 | Variation with Respect to $B_\mu$ |
+| 8 | Variation with Respect to $g_{\mu\nu}$ |
+| 9 | Scalar Sector and Thermodynamic Interpretation |
 
-### Core Theory (Chapters 10–48)
+### Information and Scaling (Chapters 10–13)
 
-| Chapters | Topic |
-|----------|-------|
-| 10–14 | Entropy geometry and the information metric |
-| 15–20 | Conserved information current $J^\mu_{\rm inf}$ and its physical content |
-| 21–25 | Holographic screens: entropy-area law and boundary projection |
-| 26–30 | Gaussian curvature of entropy landscapes |
-| 31–36 | Quantum transition asymmetry from $B_\mu$ |
-| 37–42 | Entanglement capacity scalar $\phi$ and quantum information flow |
-| 43–48 | Arrow of time as a gauge phenomenon |
+| Chapter | Title |
+|---------|-------|
+| 10 | Information Current and Irreversibility |
+| 11 | Quantum and Statistical Origins of the Irreversibility Field |
+| 12 | Scaling Laws and Regimes of the Unitary Manifold |
+| 13 | Worked Examples Across Physical Scales |
 
-### Cosmology (Chapters 49–55)
+### Cosmology (Chapters 14–15)
 
-| Chapters | Topic |
-|----------|-------|
-| 49–51 | Irreversible Friedmann equations (modified Hubble expansion) |
-| 52–53 | Holographic fate of the universe: entropy saturation |
-| 54–55 | Dark energy as a geometric effect of $B_\mu$ |
+| Chapter | Title |
+|---------|-------|
+| 14 | Cosmological Dynamics of the Unitary Manifold |
+| 15 | Cosmological Perturbations and Structure Formation |
 
-### Multiverse (Chapters 56–62)
+### Astrophysics & Quantum Information (Chapters 16–20)
 
-| Chapters | Topic |
-|----------|-------|
-| 56–58 | Multiverse topology: inter-manifold information channels |
-| 59–60 | The UEUM geodesic equation |
-| 61 | The Final Theorem of the Unitary Manifold (FTUM) |
-| 62 | Numerical evidence for the fixed point |
+| Chapter | Title |
+|---------|-------|
+| 16 | Compact Objects and Strong-Field Phenomena |
+| 17 | Thermodynamics, Entropy, and Information Geometry |
+| 18 | Quantum Information, Coherence, and the 5D Projection |
+| 19 | The 5D Hilbert Bundle: Fiber Metric, Connection, and Curvature |
+| 20 | Algebraic and Categorical Foundations of the Unitary Manifold |
 
-### Observers and Mind (Chapters 63–74)
+### Symmetries and Quantization (Chapters 21–25)
 
-| Chapters | Topic |
-|----------|-------|
-| 63–65 | The observer as a boundary condition |
-| 66–68 | Co-emergence of classical reality from holographic projection |
-| 69–71 | Consciousness and the irreversibility field |
-| 72–74 | Open questions and future directions |
+| Chapter | Title |
+|---------|-------|
+| 21 | Symmetries, Noether Currents, and the Geometry of Conservation |
+| 22 | Hamiltonian Structure, Canonical Variables, and Phase-Space Geometry |
+| 23 | Canonical Quantization of the Unitary Manifold |
+| 24 | Path Integrals, Decoherence, and the Geometry of Quantum Histories |
+| 25 | Renormalization Group Flow and the Quantum Scaling of Irreversibility |
+
+### Holography (Chapters 26–29)
+
+| Chapter | Title |
+|---------|-------|
+| 26 | Holographic Duality and the Boundary Interpretation of Irreversibility |
+| 27 | Entropic Holography and the Thermodynamics of Boundary Data |
+| 28 | Causal Structure and Information-Theoretic Light Cones |
+| 29 | Global Causal Structure and Penrose-Like Diagrams of the Unitary Manifold |
+
+### Topology and Attractors (Chapters 30–34)
+
+| Chapter | Title |
+|---------|-------|
+| 30 | Topological Invariants, Global Charges, and the 5D Information Topology |
+| 31 | Dynamical Topology: Evolution, Transitions, and Quantum Stability |
+| 32 | Dynamical Attractors, Irreversibility Cycles, and Long-Term Evolution |
+| 33 | Linear Stability, Perturbation Theory, and Fluctuation Dynamics Around Attractors |
+| 34 | Nonlinear Stability, Bifurcations, and Chaotic Regimes |
+
+### Entropy Geometry (Chapters 35–44)
+
+| Chapter | Title |
+|---------|-------|
+| 35 | The Entropy Functional, Monotonicity, and the Generalized Second Law |
+| 36 | Thermodynamic Potentials, Free Energies, and the Legendre Structure |
+| 37 | Statistical Mechanics of Microstates and Geometric–Information Configurations |
+| 38 | Partition Functions, Ensembles, and the Statistical Field Theory |
+| 39 | Renormalized Partition Functions, Effective Actions, and Wilsonian RG |
+| 40 | The Fisher Metric, Statistical Manifold, and Geodesics of Coarse-Graining |
+| 41 | Thermodynamic Length, Information-Geometric Speed Limits |
+| 42 | The Information-Geometric Hamiltonian and Symplectic Geometry |
+| 43 | Quantization of Information Geometry: The Information-Geometric Schrödinger Equation |
+| 44 | The Information-Geometric Path Integral and Quantum Action |
+
+### Global Topology (Chapters 45–48)
+
+| Chapter | Title |
+|---------|-------|
+| 45 | Global Causal Structure, Conformal Diagrams, and Topology of the Unitary Manifold |
+| 46 | Global Thermodynamic Phase Portraits, Limit Cycles, and RG Trajectories |
+| 47 | Holographic Boundaries, Global Encoding, and Topology of Boundary States |
+| 48 | The Global Holographic Dictionary |
+
+### Irreversible Cosmology (Chapters 49–55)
+
+| Chapter | Title |
+|---------|-------|
+| 49 | Irreversible Cosmological Evolution, Global Thermodynamics, and Holographic Fate |
+| 50 | Irreversible Cosmological Perturbation Theory, Vorticity Modes |
+| 51 | Nonlinear Irreversible Cosmological Dynamics: Shocks, Vorticity Cascades |
+| 52 | Thermodynamic Singularity Theorems |
+| 53 | The Thermodynamic Cosmic Censorship Conjecture |
+| 54 | Thermodynamic Horizon Mechanics |
+| 55 | The Global Thermodynamic Arrow: Irreversibility, Boundary Formation, Fate of Cosmic Time |
+
+### Thermodynamic Multiverse (Chapters 56–62)
+
+| Chapter | Title |
+|---------|-------|
+| 56 | The Multiverse as an Ensemble of Unitary Manifolds |
+| 57 | The Quantum Multiverse: Wavefunctionals of Manifold Ensembles |
+| 58 | Global Multiverse Thermodynamics: Entropy Flow and Boundary-Network Equilibria |
+| 59 | Topological Multiverse Structure: Boundary Homotopy and Global Invariants |
+| 60 | Information-Geometric Multiverse Dynamics: Fisher Geometry |
+| 61 | Boundary-Network Evolution: Branching, Merging, Reconnection |
+| 62 | The Global Multiverse Action Principle |
+
+### Observers, Mind, and Co-Emergence (Chapters 63–74)
+
+| Chapter | Title |
+|---------|-------|
+| 63 | Emergent Observers: Decoherence, Information Localization, and Classicality |
+| 64 | Emergence of Classical Spacetime: Observer-Induced Geometry |
+| 65 | Emergence of Agency, Memory, and Self-Reference |
+| 66 | Emergence of Meaning, Semantics, and Communication |
+| 67 | The Final Synthesis of Mind and Cosmos |
+| 68 | The Principle of Co-Emergent Reality |
+| 69 | The Unified Equation of the Unitary Multiverse |
+| 70 | The Implications of the Unified Equation |
+| 71 | The Final Theorem of the Unitary Multiverse |
+| 72 | Existence in an Irreversible Multiverse |
+| 73 | The Final Synthesis: The Unitary Multiverse as a Self-Generating Whole |
+| 74 | The Principle of the Unitary Multiverse: A Single Statement That Contains the Whole |
+
+---
+
+## Appendices
+
+| Appendix | Content |
+|----------|---------|
+| A | Full 5D Curvature Decomposition |
+| B | Full Variation of the Action |
+| C | Units, Dimensions, and Scaling |
+| D | Computational Recipes and Simulation Code (Pseudocode) |
+| E | Glossary of Symbols and Definitions |
 
 ---
 
@@ -83,8 +186,13 @@ The numerical implementations in `src/` correspond directly to key chapters:
 |-------------|-------------------|
 | `src/core/metric.py` | 3–6 |
 | `src/core/evolution.py` | 7–9, Appendix D |
-| `src/holography/boundary.py` | 21–25, 49–55 |
+| `src/holography/boundary.py` | 26–29, 49–55 |
 | `src/multiverse/fixed_point.py` | 56–62 |
+| `src/core/inflation.py` | 14–15, 50 |
+| `src/core/braided_winding.py` | 15, 50 (braided extension) |
+| `src/core/cmb_transfer.py` | 15, 50 (E-H transfer) |
+| `src/core/completeness_theorem.py` | 74 |
+| `src/consciousness/coupled_attractor.py` | 65–68 |
 
 ---
 
@@ -93,3 +201,7 @@ The numerical implementations in `src/` correspond directly to key chapters:
 The LaTeX source for the arXiv submission is in [`arxiv/main.tex`](../arxiv/main.tex) with bibliography in [`arxiv/references.bib`](../arxiv/references.bib).
 
 Chapter 2 is also available as standalone Markdown in [`manuscript/ch02_mathematical_preliminaries.md`](../manuscript/ch02_mathematical_preliminaries.md).
+
+---
+
+*Monograph version: v9.14 — ThomasCory Walker-Pearson (2026)*
