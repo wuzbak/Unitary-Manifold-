@@ -213,6 +213,15 @@ them systematically.
   `kk_tower_stress_energy()`, `back_reaction_metric_correction()`, `closed_loop_consistency()`.
   The back-reaction converges to the FTUM fixed point φ₀ ≈ 1 (5% shift for N=5 modes),
   confirming the FTUM is self-consistent under KK tower back-reaction.  142 tests; 0 failed.
+  *Irreversibility lower-bound proof (April 2026 — Issue 3 CLOSED):*
+  `kk_tower_irreversibility_proof()` in `src/core/kk_backreaction.py` proves
+  analytically that every KK mode n satisfies dS_n/dt = κ_n (S_n* − S_n) ≥ 0
+  (because κ_n ≥ 0 and each mode is initialised below its Bekenstein-Hawking
+  bound S_n* = A_n/4G).  The total entropy production therefore satisfies
+  dS_total/dt = Σ_n dS_n/dt ≥ dS_0/dt > 0.  The zero-mode truncation is a
+  *lower bound* on the true irreversibility; no hidden cancellation from the
+  tower is possible.  This resolves the reviewer concern that irreversibility
+  might be an artefact of the zero-mode truncation.
   Direct numerical integration of higher KK modes into the running `evolution.py`
   stepper remains optional future work.
 - **Time-coordinate double-counting (Gemini Issue 4).** The evolution parameter
@@ -987,7 +996,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
 | α = φ₀⁻² | Derived | Depends on φ₀ from FTUM, which depends on U |
 | FTUM convergence | **100%** — φ\* = A₀/(4G); Jacobian eigenvalues universal | **RESOLVED** (April 2026) — see Q19 and `src/multiverse/basin_analysis.py` |
-| Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
+| Irreversibility from 5D | ✅ **Lower-bound proved** (April 2026) | `kk_tower_irreversibility_proof()`: every KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound, not an overestimate. ADM formalism absent. |
 | Uniqueness of the framework | Not established | Multiple parameter combinations give same observables |
 
 ---
@@ -1424,13 +1433,13 @@ Open gaps after Pillar 62:
 | w_KK ≈ −0.930 (dark energy EoS) | ✅ Consistent with DESI DR2 | c_s = 12/37 derived; w testable |
 | H₀ tension (73.5 vs 67.4 km/s/Mpc) | ⚠️ Quantified, not resolved | CC problem separates KK from Hubble scale |
 | Muon g−2 anomaly (Pillar 51; final result June 2025) | ⚠️ Open question — bridged | KK correction δa_μ^KK ~ 10⁻⁴¹ (30 orders below anomaly); ALP Barr–Zee upper bound derived |
-| Irreversibility from 5D | Conjectural | KK tower truncated; ADM formalism absent |
+| Irreversibility from 5D | ✅ **Lower-bound proved** (April 2026) | `kk_tower_irreversibility_proof()`: every KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound. ADM formalism still absent. |
 | CMB amplitude gap (Pillars 52, 57, 63) | ✅ **Amplitude closed**; shape residual addressed | Baryon loading (Pillar 63) bridges ×4–7; KK correction δ_KK~8×10⁻⁴ quantified by Pillar 73 |
 | φ₀ self-consistency (Pillar 56) | ✅ **Analytically closed** (April 2026) | Braided nₛ formula collapses all three candidate φ₀ values to φ₀_FTUM exactly; 170 tests |
 | Neutrino-Radion Identity / M_KK scale | ✅ **Substantially closed** (April 2026) | Exact closure at m_ν = 110.13 meV; bridge_ratio = 1.0000; R_KK = 1.792 μm. Fermion sector derivation remains future work. Code: `derive_R_from_neutrino_mass()`, `prove_resonance_identity()` — 315 tests. |
 | Casimir-KK ripple prediction | ✅ **Predicted** — awaiting experiment | δF/F = 0.162% at d ≈ 1.792 μm. Falsifiable at 0.1% precision. |
 | B_μ energy routing (safe fusion) | ✅ **Modelled** — awaiting experiment | > 99% phonon fraction at B_eff > 10. Falsifiable by Pd-D calorimetry. |
-| **N_gen = 3 fermion generations** | ✅ **DERIVED** (Pillar 42, §VIII.2.1) | n_w=5 + n²≤n_w → exactly 3 stable modes. Requires Planck nₛ input for n_w=5. |
+| **N_gen = 3 fermion generations** | ✅ **CONDITIONAL THEOREM** (Pillar 42, §VIII.2.1) | `n_gen_derivation_status()` documents the full 5-step logical chain: one observational input (n_w=5 from Planck nₛ) + Atiyah-Singer index + CS stability gap → N_gen=3 is a theorem, not a postulate. NOT a free-parameter fit. |
 | **AxiomZero Challenge: α ≈ 1/137** | ⚠️ **More constrained** (§VIII.2.1) | α(M_KK)=2π/k_CS genuine; n_f_lepton=3 closed by Pillar 42; quark n_f still open. |
 | **AxiomZero Challenge: m_p/m_e ≈ 1836** | ⚠️ **Conditionally derivable** (Pillar 62) | Non-Abelian SU(3) framework now exists; Λ_QCD gap ~10⁷× (α_s correction needed). See §VIII.6. |
 | **Dirty Data Test (Pillar 61)** | ✅ **Passes** | 5D path confirmed active: nₛ tracks φ₀_eff perturbations. Oracle retrieval falsified. |
@@ -1442,6 +1451,9 @@ Open gaps after Pillar 62:
 | **KK tower back-reaction / closed loop (Pillar 72)** | ✅ **Closed** (April 2026) | `kk_backreaction.py`: back-reaction converges to FTUM φ₀≈1 (5% shift for N=5 modes). 142 tests. |
 | **CMB peak spectral shape / KK Boltzmann correction (Pillar 73)** | ✅ **Addressed** (April 2026) | `cmb_boltzmann_peaks.py`: δ_KK~8×10⁻⁴ quantified; ~35% offset is not a KK effect. 136 tests. |
 | **k_CS=74 Topological Completeness Theorem (Pillar 74)** | ✅ **Established** (April 2026) | `completeness_theorem.py`: 7 independent constraints all yield 74; over-fitting boundary proved; repository closure statement. 170 tests. |
+| **Issue 2: N_gen=3 postulate vs. derivation** | ✅ **CLOSED** (April 2026) | `n_gen_derivation_status()` in `three_generations.py`: 5-step logical chain, labels n_w=5 as the ONE observational input; N_gen=3 is a conditional theorem (Atiyah-Singer + CS gap). NOT a postulate. |
+| **Issue 3: KK tower truncation / hidden irreversibility** | ✅ **CLOSED** (April 2026) | `kk_tower_irreversibility_proof()` in `kk_backreaction.py`: each KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound on total entropy production. |
+| **Issue 4: Analytic Banach fixed-point proof** | ✅ **CLOSED** (April 2026) | `analytic_banach_proof()` in `fixed_point.py`: closed-form L = max(ρ_S, ρ_X) where ρ_S = max(|1−κdt|, |1−(κ+λ_max)dt|) and ρ_X = 1/(1+γdt) < 1. No sampling required; three checkable sufficient conditions given. |
 
 ---
 

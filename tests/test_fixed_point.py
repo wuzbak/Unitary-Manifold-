@@ -534,3 +534,143 @@ class TestFTUMSEqualsQuarterAt128Iterations:
             residuals[i] >= residuals[i + 1]
             for i in range(len(residuals) - 1)
         ), "FTUM residuals should be monotone non-increasing"
+
+
+# ---------------------------------------------------------------------------
+# analytic_banach_proof — Issue 4 closure (closed-form Banach certificate)
+# ---------------------------------------------------------------------------
+
+from src.multiverse.fixed_point import analytic_banach_proof
+
+
+class TestAnalyticBanachProof:
+    """Tests for analytic_banach_proof(): closed-form Lipschitz bound."""
+
+    def _canon_net(self, n=3, coupling=0.1):
+        rng = np.random.default_rng(42)
+        return MultiverseNetwork.chain(n=n, coupling=coupling, rng=rng)
+
+    def test_returns_dict(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert isinstance(result, dict)
+
+    def test_has_required_keys(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        for key in (
+            "lambda_max", "rho_S", "rho_X", "L_analytic",
+            "is_contraction", "L_margin", "condition_1_holds",
+            "condition_2_holds", "condition_3_holds",
+            "all_conditions_hold", "n_nodes", "analytic_proof",
+        ):
+            assert key in result, f"Missing key: {key!r}"
+
+    def test_L_analytic_positive(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert result["L_analytic"] >= 0.0
+
+    def test_L_analytic_finite(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert np.isfinite(result["L_analytic"])
+
+    def test_canonical_network_is_contraction(self):
+        """Canonical 3-node chain (κ=0.25, γ=5.0, dt=0.2) must satisfy L < 1."""
+        net = self._canon_net()
+        result = analytic_banach_proof(net, dt=0.2, kappa=0.25, gamma=5.0)
+        assert result["is_contraction"] is True, (
+            f"Expected contraction but L_analytic={result['L_analytic']:.4f}"
+        )
+
+    def test_all_conditions_hold_for_canonical(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net, dt=0.2, kappa=0.25, gamma=5.0)
+        assert result["all_conditions_hold"] is True
+
+    def test_L_margin_equals_1_minus_L(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert result["L_margin"] == pytest.approx(1.0 - result["L_analytic"], abs=1e-12)
+
+    def test_rho_X_formula(self):
+        """ρ_X = 1 / (1 + γ dt) analytically."""
+        net = self._canon_net()
+        for gamma, dt in [(5.0, 0.2), (2.0, 0.1), (10.0, 0.5)]:
+            result = analytic_banach_proof(net, dt=dt, gamma=gamma)
+            expected_rho_X = 1.0 / (1.0 + gamma * dt)
+            assert result["rho_X"] == pytest.approx(expected_rho_X, rel=1e-10)
+
+    def test_rho_X_less_than_1_for_positive_gamma(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net, gamma=0.1, dt=0.2)
+        assert result["rho_X"] < 1.0
+
+    def test_lambda_max_nonneg(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert result["lambda_max"] >= 0.0
+
+    def test_lambda_max_chain_equals_coupling(self):
+        """For a chain graph the max degree is exactly the coupling (one neighbour)."""
+        coupling = 0.1
+        net = self._canon_net(n=5, coupling=coupling)
+        result = analytic_banach_proof(net)
+        # Interior nodes have two neighbours; max degree = 2 × coupling
+        assert result["lambda_max"] == pytest.approx(2.0 * coupling, rel=1e-10)
+
+    def test_condition1_is_bool(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert isinstance(result["condition_1_holds"], bool)
+
+    def test_condition3_false_when_gamma_zero(self):
+        """γ=0 violates condition 3 (no geodesic friction)."""
+        net = self._canon_net()
+        result = analytic_banach_proof(net, gamma=0.0)
+        assert result["condition_3_holds"] is False
+
+    def test_analytic_proof_is_str(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert isinstance(result["analytic_proof"], str)
+
+    def test_analytic_proof_contains_banach(self):
+        net = self._canon_net()
+        proof = analytic_banach_proof(net)["analytic_proof"].upper()
+        assert "BANACH" in proof
+
+    def test_n_nodes_correct(self):
+        for n in (1, 3, 5):
+            net = MultiverseNetwork.chain(n=n, rng=np.random.default_rng(0))
+            result = analytic_banach_proof(net)
+            assert result["n_nodes"] == n
+
+    def test_rho_S_le_1_for_canonical(self):
+        net = self._canon_net()
+        result = analytic_banach_proof(net)
+        assert result["rho_S"] <= 1.0
+
+    def test_L_analytic_is_max_rho_S_rho_X(self):
+        net = self._canon_net()
+        r = analytic_banach_proof(net)
+        assert r["L_analytic"] == pytest.approx(max(r["rho_S"], r["rho_X"]), abs=1e-12)
+
+    def test_large_dt_can_violate_contraction(self):
+        """Very large dt violates the sufficient conditions."""
+        net = self._canon_net()
+        result = analytic_banach_proof(net, dt=100.0, kappa=0.25, gamma=0.001)
+        # With such a large dt condition 1 or 2 should fail
+        assert not result["all_conditions_hold"]
+
+    def test_single_node_zero_coupling(self):
+        """Single isolated node: λ_max=0, L_analytic = max(1-κdt, 1/(1+γdt))."""
+        node = MultiverseNode(S=1.0, A=4.0)
+        net = MultiverseNetwork(nodes=[node], adjacency=np.zeros((1, 1)))
+        dt, kappa, gamma = 0.2, 0.25, 5.0
+        result = analytic_banach_proof(net, dt=dt, kappa=kappa, gamma=gamma)
+        assert result["lambda_max"] == pytest.approx(0.0, abs=1e-12)
+        expected_rho_S = abs(1.0 - kappa * dt)
+        assert result["rho_S"] == pytest.approx(expected_rho_S, rel=1e-10)
+        assert result["is_contraction"] is True

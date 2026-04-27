@@ -111,11 +111,20 @@ Global anomaly cancellation is verified analytically by
 `check_global_anomaly_cancellation()`. Verified by `tests/test_fiber_bundle.py`
 (96 tests).
 
-## Banach Contraction Proof — FTUM Convergence (v9.3)
+## Banach Contraction Proof — FTUM Convergence (v9.3+)
 
-`prove_banach_contraction()` in `src/multiverse/fixed_point.py` provides an
-**analytical** contraction-mapping argument for the UEUM operator. FTUM
-convergence is now proven both numerically and analytically.
+`prove_banach_contraction()` in `src/multiverse/fixed_point.py` provides a
+**numerical** Lipschitz certificate for the UEUM operator via random
+perturbation sampling.
+
+`analytic_banach_proof()` (April 2026) provides a **closed-form analytic**
+Banach contraction certificate:
+- Entropy subspace: ρ_S = max(|1−κdt|, |1−(κ+λ_max)dt|) < 1
+  when κdt < 2 and (κ+λ_max)dt < 2.
+- Geodesic subspace: ρ_X = 1/(1+γdt) < 1 for γ > 0.
+- Combined: L = max(ρ_S, ρ_X) < 1.  Three checkable sufficient conditions.
+
+FTUM convergence is now proven both analytically (closed-form) and numerically.
 
 ## Holographic Renormalization (v9.3)
 

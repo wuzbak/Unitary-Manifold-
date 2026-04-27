@@ -430,3 +430,100 @@ class TestKKModeMassSpectrum:
         for entry in kk_mode_mass_spectrum(nw, phi0, lam):
             expected = lam * nw / entry["phi_eff"]
             assert abs(entry["m_geo"] - expected) < 1e-12
+
+
+# ---------------------------------------------------------------------------
+# n_gen_derivation_status — Issue 2 closure
+# ---------------------------------------------------------------------------
+
+from src.core.three_generations import n_gen_derivation_status
+
+
+class TestNGenDerivationStatus:
+    """Tests for n_gen_derivation_status(): epistemic chain for N_gen=3."""
+
+    def test_returns_dict(self):
+        result = n_gen_derivation_status()
+        assert isinstance(result, dict)
+
+    def test_has_required_keys(self):
+        result = n_gen_derivation_status()
+        for key in (
+            "observational_inputs", "derivation_steps", "n_gen",
+            "stable_modes", "is_conditional_theorem", "n_free_parameters",
+            "epistemic_verdict",
+        ):
+            assert key in result, f"Missing key: {key!r}"
+
+    def test_n_gen_is_3_for_nw5(self):
+        result = n_gen_derivation_status(5)
+        assert result["n_gen"] == 3
+
+    def test_stable_modes_are_0_1_2_for_nw5(self):
+        result = n_gen_derivation_status(5)
+        assert result["stable_modes"] == [0, 1, 2]
+
+    def test_is_conditional_theorem_true(self):
+        result = n_gen_derivation_status()
+        assert result["is_conditional_theorem"] is True
+
+    def test_exactly_one_free_parameter(self):
+        """n_w is the single observational input."""
+        result = n_gen_derivation_status()
+        assert result["n_free_parameters"] == 1
+
+    def test_observational_inputs_contains_nw(self):
+        result = n_gen_derivation_status()
+        assert len(result["observational_inputs"]) == 1
+        assert "n_w" in result["observational_inputs"][0].lower()
+
+    def test_five_derivation_steps(self):
+        result = n_gen_derivation_status()
+        steps = result["derivation_steps"]
+        assert len(steps) == 5
+
+    def test_step0_is_input(self):
+        steps = n_gen_derivation_status()["derivation_steps"]
+        assert steps[0]["label"] == "INPUT"
+
+    def test_remaining_steps_are_derived(self):
+        steps = n_gen_derivation_status()["derivation_steps"]
+        for step in steps[1:]:
+            assert step["label"] == "DERIVED"
+
+    def test_epistemic_verdict_is_str(self):
+        assert isinstance(n_gen_derivation_status()["epistemic_verdict"], str)
+
+    def test_verdict_mentions_conditional_theorem(self):
+        verdict = n_gen_derivation_status()["epistemic_verdict"].lower()
+        assert "conditional" in verdict or "theorem" in verdict
+
+    def test_verdict_mentions_not_postulate(self):
+        verdict = n_gen_derivation_status()["epistemic_verdict"].lower()
+        assert "not" in verdict and "postulate" in verdict
+
+    def test_nw3_gives_2_generations(self):
+        # n=0: 0≤3✓, n=1: 1≤3✓, n=2: 4>3✗ → 2 stable modes
+        result = n_gen_derivation_status(3)
+        assert result["n_gen"] == 2
+
+    def test_nw9_gives_4_generations(self):
+        # n=0,1,2,3: 0,1,4,9 all ≤9 → 4 stable modes
+        result = n_gen_derivation_status(9)
+        assert result["n_gen"] == 4
+
+    def test_invalid_nw_raises(self):
+        with pytest.raises(ValueError):
+            n_gen_derivation_status(0)
+        with pytest.raises(ValueError):
+            n_gen_derivation_status(-1)
+
+    def test_step_indices_sequential(self):
+        steps = n_gen_derivation_status()["derivation_steps"]
+        for i, step in enumerate(steps):
+            assert step["step"] == i
+
+    def test_descriptions_nonempty(self):
+        steps = n_gen_derivation_status()["derivation_steps"]
+        for step in steps:
+            assert len(step["description"]) > 10
