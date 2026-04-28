@@ -41,12 +41,14 @@ from five_seven_architecture import (
     C_S_STABILITY_FLOOR,
     DEFAULT_R_LIMIT,
     CoreLayerArchitecture,
+    FiveSixSevenDuality,
     architecture_report,
     is_stable_architecture,
     compare_layer_candidates,
     canonical_57,
     stability_floor_comparison,
     moiree_phase_sync_quality,
+    five_six_seven_duality_report,
 )
 from src.core.braided_winding import R_BICEP_KECK_95
 
@@ -388,3 +390,150 @@ class TestArchitectureDataclass:
     def test_r_eff_equals_r_bare_times_c_s(self):
         arch = canonical_57()
         assert arch.r_eff == pytest.approx(arch.r_bare * arch.c_s, rel=1e-8)
+
+
+# ---------------------------------------------------------------------------
+# FiveSixSevenDuality / five_six_seven_duality_report
+# ---------------------------------------------------------------------------
+
+class TestFiveSixSevenDualityReport:
+    """Tests for the exact-rational (5,7)/(5,6) duality report.
+
+    All expected values are derived from the braid integers alone:
+        c_s(5,7) = 12/37,  c_s(5,6) = 11/61
+        Δc_s     = 325/2257  (exact reduced fraction)
+        λ_min    = 407/732   (exact reduced fraction)
+        S_E(5,7) = 1/√74,   S_E(5,6) = 1/√61
+    """
+
+    def setup_method(self):
+        self.r = five_six_seven_duality_report()
+
+    # --- return type ---
+
+    def test_returns_duality_dataclass(self):
+        assert isinstance(self.r, FiveSixSevenDuality)
+
+    # --- sound speeds ---
+
+    def test_c_s_57_is_12_over_37(self):
+        assert self.r.c_s_57 == pytest.approx(12 / 37, rel=1e-12)
+
+    def test_c_s_56_is_11_over_61(self):
+        assert self.r.c_s_56 == pytest.approx(11 / 61, rel=1e-12)
+
+    def test_57_sound_speed_exceeds_56(self):
+        assert self.r.c_s_57 > self.r.c_s_56
+
+    def test_56_sound_speed_below_stability_floor(self):
+        assert self.r.c_s_56 < C_S_STABILITY_FLOOR
+
+    def test_57_sound_speed_equals_stability_floor(self):
+        """The stability floor is defined as c_s(5,7) = 12/37."""
+        assert self.r.c_s_57 == pytest.approx(C_S_STABILITY_FLOOR, rel=1e-12)
+
+    # --- Δc_s ---
+
+    def test_delta_cs_exact_string(self):
+        assert self.r.delta_cs_exact == "325/2257"
+
+    def test_delta_cs_float_value(self):
+        assert self.r.delta_cs == pytest.approx(325 / 2257, rel=1e-12)
+
+    def test_delta_cs_positive(self):
+        assert self.r.delta_cs > 0.0
+
+    def test_delta_cs_equals_c_s_difference(self):
+        assert self.r.delta_cs == pytest.approx(self.r.c_s_57 - self.r.c_s_56, rel=1e-12)
+
+    def test_delta_cs_equals_stability_deficit(self):
+        """Δc_s = how far (5,6) falls below the floor (= c_s(5,7))."""
+        deficit = C_S_STABILITY_FLOOR - self.r.c_s_56
+        assert self.r.delta_cs == pytest.approx(deficit, rel=1e-12)
+
+    # --- λ_min ratio ---
+
+    def test_lambda_min_ratio_exact_string(self):
+        assert self.r.lambda_min_ratio_exact == "407/732"
+
+    def test_lambda_min_ratio_float_value(self):
+        assert self.r.lambda_min_ratio == pytest.approx(407 / 732, rel=1e-12)
+
+    def test_lambda_min_ratio_in_unit_interval(self):
+        assert 0.0 < self.r.lambda_min_ratio < 1.0
+
+    def test_lambda_min_ratio_equals_cs_quotient(self):
+        assert self.r.lambda_min_ratio == pytest.approx(
+            self.r.c_s_56 / self.r.c_s_57, rel=1e-12
+        )
+
+    # --- entropy capacity ratio ---
+
+    def test_entropy_capacity_ratio_equals_lambda_squared(self):
+        assert self.r.entropy_capacity_ratio == pytest.approx(
+            self.r.lambda_min_ratio ** 2, rel=1e-12
+        )
+
+    def test_entropy_capacity_ratio_value(self):
+        assert self.r.entropy_capacity_ratio == pytest.approx(
+            (407 / 732) ** 2, rel=1e-12
+        )
+
+    def test_entropy_capacity_ratio_below_one_third(self):
+        """(5,6) can sustain less than 1/3 of (5,7)'s eigenvalue-gap capacity."""
+        assert self.r.entropy_capacity_ratio < 1.0 / 3.0
+
+    # --- Euclidean actions ---
+
+    def test_se_57_is_one_over_sqrt74(self):
+        assert self.r.se_57 == pytest.approx(1.0 / math.sqrt(74), rel=1e-12)
+
+    def test_se_56_is_one_over_sqrt61(self):
+        assert self.r.se_56 == pytest.approx(1.0 / math.sqrt(61), rel=1e-12)
+
+    def test_se_gap_is_positive(self):
+        """(5,7) has strictly lower Euclidean action — it is the ground state."""
+        assert self.r.se_gap > 0.0
+
+    def test_se_gap_value(self):
+        assert self.r.se_gap == pytest.approx(
+            1.0 / math.sqrt(61) - 1.0 / math.sqrt(74), rel=1e-12
+        )
+
+    def test_se_gap_equals_se_56_minus_se_57(self):
+        assert self.r.se_gap == pytest.approx(self.r.se_56 - self.r.se_57, rel=1e-12)
+
+    def test_se_57_is_minimum_flag(self):
+        assert self.r.se_57_is_minimum is True
+
+    # --- label ---
+
+    def test_label_is_string(self):
+        assert isinstance(self.r.label, str)
+
+    def test_label_mentions_metastable(self):
+        assert "metastable" in self.r.label.lower()
+
+    def test_label_mentions_under_resolved(self):
+        assert "under-resolved" in self.r.label
+
+    def test_label_mentions_euclidean_action(self):
+        assert "euclidean action" in self.r.label.lower()
+
+    def test_label_mentions_stability_deficit(self):
+        assert "325/2257" in self.r.label
+
+    # --- consistency with architecture_report ---
+
+    def test_c_s_57_consistent_with_architecture_report(self):
+        arch57 = architecture_report(5, 7)
+        assert self.r.c_s_57 == pytest.approx(arch57.c_s, rel=1e-8)
+
+    def test_c_s_56_consistent_with_architecture_report(self):
+        arch56 = architecture_report(5, 6)
+        assert self.r.c_s_56 == pytest.approx(arch56.c_s, rel=1e-8)
+
+    def test_57_is_stable_56_is_not(self):
+        """Ground-state / metastable ordering is consistent with stability flags."""
+        assert is_stable_architecture(5, 7) is True
+        assert is_stable_architecture(5, 6) is False
