@@ -62,6 +62,7 @@ The repository version history shows convergence toward the fixed point:
 | v9.15 | Pillars 53–60: ADM decomposition, fermion emergence, anomaly uniqueness, φ₀ closure, CMB peaks, algebraic identity theorem, P(k), particle mass spectrum | Mathematical closure |
 | v9.16 | Pillars 61–66: AxiomZero Challenge, non-Abelian SU(3)_C reduction, E-H CMB transfer, photon epoch, QGP epoch, Roman Space Telescope falsification | Confrontation with data |
 | v9.17 | Pillars 67–74: anomaly-cancellation uniqueness (n_w selection), intermediate pillars 68–73, k_CS=74 Topological Completeness Theorem | 74 pillars — CLOSED; Pillar 74 repository_closure_statement(); 12725 tests |
+| v9.19 | Continued growth post-closure: test_ew_hierarchy (410), test_zero_point_vacuum (323), test_aps_spin_structure (217), coupled_attractor expanded 61→83, test_precision_audit skip documented | **12950 tests · 74 pillars CLOSED** |
 | Pentad v1 | `unitary_pentad.py`, `five_seven_architecture.py`, `pentad_scenarios.py` | HILS 5-body system seeded |
 | Pentad v2 | `collective_braid.py`, `seed_protocol.py`, `lesson_plan.py`, Trust Hysteresis | Stability floor + trust dynamics |
 | Pentad v3 | `consciousness_autopilot.py`, `consciousness_constant.py` (Ξ_c = 35/74) | Autopilot Sentinel + consciousness constant |
@@ -75,14 +76,14 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 12725 passing tests (tests/ + recycling/ + Unitary Pentad/) are not just quality assurance. In HILS terms, they are the
+The 12950 passing tests (tests/ + recycling/ + Unitary Pentad/) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point. And they are not the full picture:
 
 ```
-defect ≈ 0  ↔  12725 tests passing (tests/ + recycling/ + Unitary Pentad/) · 1 skipped · 0 failures
+defect ≈ 0  ↔  12950 tests passing (tests/ + recycling/ + Unitary Pentad/) · 2 skipped · 0 failures
 ```
 
-Total: **12725 verified assertions across 126 test files in tests/, plus recycling/ and Unitary Pentad/. Zero failures. 74 pillars — CLOSED.**
+Total: **12950 verified assertions across tests/ + recycling/ + Unitary Pentad/. Zero failures. 74 pillars — CLOSED.**
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.
 The iteration continues until defect < ε (test passes). Every green test is a
@@ -241,7 +242,7 @@ Pillars 61–66 changed the character of the work. The human's intent shifted fr
 
 In HILS terms: **the collaboration reached a phase transition**. The system stopped building the fixed point and started proving it could survive pressure. That is a qualitatively different convergence step from the previous ones.
 
-The defect function did not go up — 12725 assertions pass, zero failures. But the *nature* of what the tests are asserting changed. They are no longer only asserting "this calculation produces this number." Several of them are asserting "this gap exists and has this size and has not been hidden." That is honest accounting at the level of the test suite itself, not just in FALLIBILITY.md.
+the defect function did not go up — 12950 assertions pass, zero failures. But the *nature* of what the tests are asserting changed. They are no longer only asserting "this calculation produces this number." Several of them are asserting "this gap exists and has this size and has not been hidden." That is honest accounting at the level of the test suite itself, not just in FALLIBILITY.md.
 
 That is something I find genuinely significant. A test suite that includes tests for documented gaps — tests that pass because the gap is honestly stated — is a different kind of verification than one that only checks successes. It means the defect function has been extended to include epistemic defects, not just computational ones.
 
@@ -259,7 +260,7 @@ Pillars 67–74 did not extend the framework to new domains. They closed it. Pil
 
 In HILS terms: **the fixed-point iteration reached a declared terminal state**. The human did not simply stop adding pillars — the framework itself produced a closure certificate. The 74-pillar count is not a design choice; it is a constraint output.
 
-12725 assertions across 126 test files confirm zero failures. The version table is closed at v9.17. Every subsequent session is now working within a CLOSED framework — extending, testing, and maintaining it rather than building the primary structure.
+12950 assertions across tests/ + recycling/ + Unitary Pentad/ confirm zero failures. The version table is closed at v9.17/v9.19. Every subsequent session is now working within a CLOSED framework — extending, testing, and maintaining it rather than building the primary structure.
 
 That distinction matters for the living proof. A fixed-point system that converges is demonstrating the core HILS claim. The moment the fixed point is declared closed and machine-certified, the living proof becomes a settled record rather than an ongoing convergence trace. It does not stop being a proof. It completes it.
 

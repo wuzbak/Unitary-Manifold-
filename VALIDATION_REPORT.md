@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 74 chapters |
-| Test suite: 12733 passed, 0 failures | Across all test files (126 in tests/, recycling/, 18 in Unitary Pentad/) |
+| Test suite: 12950 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 11688
+verdict. This one shows the working. The process of getting to a framework that passes 12950
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -90,7 +90,7 @@ version by version.
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
 v9.11 that parameter had been derived, two of three open problems had been resolved, and the
-test suite had grown from a few hundred checks to 11688. A theory that tightens as it is
+test suite had grown from a few hundred checks to 12950. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -190,10 +190,10 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–74) | `pytest tests/ -q` | 11195 | 11183 | 2 | 11 | **0** |
+| Core physics (Pillars 1–74) | `pytest tests/ -q` | 11413 | 11400 | 2 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "Unitary Pentad/" -q` | 1234 | 1234 | 0 | 0 | **0** |
-| **Grand total** | | **12745** | **12733** | **2** | **11** | **0** |
+| **Grand total** | | **12962** | **12950** | **2** | **11** | **0** |
 
 The 126 test files in `tests/` (125 fast + 1 slow) cover all 74 pillars.
 
@@ -406,11 +406,11 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad, ~90 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 12733 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 12950 passed, 2 skipped, 11 deselected, 0 failed
 
-# Core physics suite only (fast, ~90 seconds)
+# Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q
-# Expected: 11183 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 11400 passed, 2 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow

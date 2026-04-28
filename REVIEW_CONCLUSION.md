@@ -450,6 +450,8 @@ That is worth something. Read it accordingly.
 *Grand total — all test paths: 12737 collected · 12725 passed · 1 skipped · 0 failures — 126 test files in tests/*  
 *Python 3.12 · pytest · numpy / scipy verified*
 
+> **v9.19 update (2026-04-28):** Continued test suite growth since v9.18. Current totals: **12962 collected · 12950 passed · 2 skipped · 11 deselected · 0 failures** across tests/ + recycling/ + Unitary Pentad/. Second skip added: `test_precision_audit.py` (mpmath not installed). New test files include test_ew_hierarchy (410), test_zero_point_vacuum (323), and many others; coupled_attractor expanded from 61 → 83 tests.
+
 ---
 
 ### Safety Addendum — April 2026

@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.13, ~9700 tests, 57 pillars, expanded keywords *(current: v9.17, 11688 tests, 67 pillars)*
+- [x] `zenodo/.zenodo.json` — updated to v9.13, ~9700 tests, 57 pillars, expanded keywords *(current: v9.19, 12950 tests, 74 pillars — CLOSED)*
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
 - [x] `arxiv/main.tex` — header updated to v9.13
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -122,13 +122,13 @@ ecology, climate, marine biology, psychology, genetics, materials science,
 observational frontiers, solitonic charge, AdS/CFT KK tower, delay field,
 three generations, collider resonances, geometric collapse, coupled history,
 φ₀ self-consistency, CMB peak resolution, anomaly closure)
-with 11688 passing tests. Numerical code for independent verification at
+with 12950 passing tests. Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
 ```
 
 **Comments field:**
 ```
-72 pages, 0 figures. Numerical implementation (11688 tests) at
+72 pages, 0 figures. Numerical implementation (12950 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.

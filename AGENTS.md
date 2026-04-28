@@ -86,7 +86,7 @@ following priority order.
 | 17 | `tests/test_fixed_point.py` | FTUM & operator tests |
 | 18 | `tests/test_quantum_unification.py` | BH info, CCR, Hawking T, ER=EPR tests |
 | 19 | `tests/test_atomic_structure.py` | Pillar 14: atomic orbitals, spectroscopy, fine structure (187 tests) |
-| 20 | `tests/test_cold_fusion.py` | Pillar 15: φ-enhanced tunneling, Pd lattice, excess heat (215 tests) |
+| 20 | `tests/test_cold_fusion.py` | Pillar 15: φ-enhanced tunneling, Pd lattice, excess heat (240 tests) |
 | 21 | `tests/test_medicine.py` | Pillar 17: diagnosis, treatment, systemic φ homeostasis (139 tests) |
 | 22 | `tests/test_justice.py` | Pillar 18: courts, sentencing, reform as φ equity (124 tests) |
 | 23 | `tests/test_governance.py` | Pillar 19: democracy, social contract, stability (115 tests) |

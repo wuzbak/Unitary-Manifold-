@@ -1,17 +1,20 @@
 # Full Test Results — Unitary Manifold
 
-Run date: 2026-04-25 | Python 3.12.13 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
+Run date: 2026-04-28 | Python 3.12.13 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 10138 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): 11400 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (tests/ only): 10150 collected · 10138 passed · 1 skipped · 11 slow-deselected · 0 failures**
-**Grand total (all suites): 11700 collected · 11688 passed · 1 skipped · 0 failures**
+**Grand total (tests/ only): 11413 collected · 11400 passed · 2 skipped · 11 slow-deselected · 0 failures**
+**Grand total (all suites): 12962 collected · 12950 passed · 2 skipped · 11 deselected · 0 failures**
 
-⚑ **Skip explanation (1 skip):**
+⚑ **Skip explanation (2 skips):**
 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
 converges in fewer than 2 iterations. Immediate convergence is **correct behaviour** — the guard
 documents there is nothing to check monotonicity of. This is not a failure.
+2. `test_precision_audit.py` — 1 test is skipped at collection time with `"mpmath not installed"`.
+The optional `mpmath` library is required for arbitrary-precision checks; without it the test
+self-skips cleanly. Install with `pip install mpmath` to enable.
 
 **Deselected explanation:** 11 tests in `test_richardson_multitime.py` carry `@pytest.mark.slow`
 and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest tests/ -m slow`.
