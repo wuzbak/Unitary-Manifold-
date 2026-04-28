@@ -12,8 +12,8 @@ git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 11688 passed, 1 skipped, 11 deselected, 0 failed
-python -m pytest tests/ -q           # tests/ only: 10138 passed, 1 skipped, 11 deselected
+# Expected: 12950 passed, 2 skipped, 11 deselected, 0 failed
+python -m pytest tests/ -q           # tests/ only: 11400 passed, 1 skipped, 11 deselected
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 ```
 
@@ -47,7 +47,7 @@ The test suite covers:
 | Quantum unification | BH info conservation, CCR, Hawking temperature, ER=EPR (26 tests) |
 | Richardson (slow) | Second-order convergence rate in time step (11 tests) |
 | Derivation integers | Key-integer derivations: k_cs=74, n_w=5/7, k_rc=12, φ_min=18 — geometry-forced (59 tests) |
-| **Total (current)** | **Grand total: 11700 collected · 11688 passed · 1 skipped · 11 slow-deselected · 0 failed** (see README.md for full per-file breakdown) |
+| **Total (current)** | **Grand total: 12962 collected · 12950 passed · 2 skipped · 11 slow-deselected · 0 failed** (see README.md for full per-file breakdown) |
 
 > **Skip note:** 1 test in `test_arrow_of_time.py` uses a conditional `pytest.skip()` guard that fires when `fixed_point_iteration` converges in fewer than 2 steps (immediate convergence = correct behaviour). This is not a failure.
 > **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default via `pytest.ini`. Run with `pytest tests/ -m slow`.

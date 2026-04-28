@@ -5,7 +5,7 @@ Each subdirectory isolates one big claim of the Unitary Manifold theory.
 | Claim | What it asserts | Key number | Falsifier |
 |-------|-----------------|------------|-----------|
 | [`integer_derivation/`](integer_derivation/) | k_CS = 74 is derived, not fit | k_CS = 74 | β null result at 3σ |
-| [`tensor_ratio_fix/`](tensor_ratio_fix/) | r = 0.097 is real (active tension with r < 0.036) | r = 0.097 | CMB-S4 confirms r < 0.036 |
+| [`tensor_ratio_fix/`](tensor_ratio_fix/) | r tension RESOLVED via braided (5,7) state: r_braided ≈ 0.0315 < 0.036 ✓ | r_braided = 0.0315 | CMB-S4 / LiteBIRD confirms r > 0.036 |
 | [`amplitude_normalization/`](amplitude_normalization/) | λ_COBE uniquely fixes amplitude; nₛ, r are λ-free | λ = 6.99×10⁻¹⁵ | λ-dependence found in nₛ/r |
 | [`anomaly_inflow/`](anomaly_inflow/) | 5D CS inflow generates g_aγγ → β ≈ 0.35° | g_aγγ ≈ 2.28×10⁻³ | β null result; wrong g formula |
 
