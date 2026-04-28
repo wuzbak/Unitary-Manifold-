@@ -19,6 +19,11 @@ the Unitary Manifold framework to a general audience.
 | `post-09-instruction-manual.md` | "An Instruction Manual for Human-AI Collaboration" | Publish 10th |
 | `post-10-signal-noise-grounding.md` | "Signal, Noise, and Grounding: Why the Output Is Only as Good as the Input" | Publish 11th |
 | `post-11-safety-problem.md` | "The Safety Problem: What AI Gets Wrong — and What the Pentad Gets Right" | Publish 12th |
+| `post-12-braided-winding.md` | "How the Braid Saved the Theory" | Publish 13th |
+| `post-13-black-hole-information.md` | "What Happens to Information When a Black Hole Dies" | Publish 14th |
+| `post-14-consciousness-coupling.md` | "The Brain and the Universe as Coupled Oscillators" | Publish 15th |
+| `post-15-unitary-pentad-standalone.md` | "The Unitary Pentad: A Governance Architecture, Not a Physics Claim" | Publish 16th |
+| `post-16-domain-applications.md` | "The Same Geometry, Everywhere Else" | Publish 17th |
 
 ## Format Rules (apply to every post)
 
@@ -50,10 +55,22 @@ Each post draws directly from these repository documents:
 | `prediction.md` | Post 3 |
 | `SEPARATION.md` | Post 6, and all posts for tier framing |
 | `submission/falsification_report.md` | Post 5 |
-| `Unitary Pentad/IMPLICATIONS.md` | Post 11 |
-| `Unitary Pentad/README.md` | Post 11 |
+| `Unitary Pentad/IMPLICATIONS.md` | Post 11, Post 15 |
+| `Unitary Pentad/README.md` | Post 11, Post 15 |
 | `co-emergence/` HILS documentation | Post 9 |
 | `src/multiverse/fixed_point.py` | Post 10 |
+| `src/core/braided_winding.py` | Post 12 |
+| `src/core/anomaly_closure.py` | Post 12 |
+| `QUANTUM_THEOREMS.md` (Theorem XII) | Post 13 |
+| `src/core/bh_remnant.py` | Post 13 |
+| `src/consciousness/coupled_attractor.py` | Post 14 |
+| `Unitary Pentad/five_seven_architecture.py` | Post 15 |
+| `Unitary Pentad/HIL_POPULATION_AND_ENTROPY.md` | Post 15 |
+| `Unitary Pentad/consciousness_autopilot.py` | Post 15 |
+| `src/medicine/` | Post 16 |
+| `src/justice/` | Post 16 |
+| `src/ecology/` | Post 16 |
+| `src/governance/` | Post 16 |
 
 ---
 
