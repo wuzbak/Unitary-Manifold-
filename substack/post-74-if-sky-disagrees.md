@@ -1,6 +1,6 @@
 # Everything We Built, Where We Are, and What Comes Next
 
-*Post 73 of the Unitary Manifold series — the final post.*
+*Post 74 of the Unitary Manifold series — the final post.*
 *This is the capstone. It summarizes what this series argued, what the framework
 has established, where the honest gaps remain, and what the next decade will
 determine. The falsification conditions have been stated in every previous post;
@@ -83,7 +83,7 @@ that systems which accumulate entropy faster than they can correct toward their
 fixed point are unstable — and that this applies to courts, markets, and schools
 as clearly as it applies to thermodynamic systems.
 
-**Immigration** (Post 72b). The 11 million people encoded in the fabric of American
+**Immigration** (Post 73). The 11 million people encoded in the fabric of American
 society whose legal status the country has refused to resolve for decades. The
 information encoding is not metaphorical: they are here. Policy that refuses to
 acknowledge them is not operating on reality. This is the HILS failure: the people
