@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.13, ~9700 tests, 57 pillars, expanded keywords *(current: v9.19, 12950 tests, 74 pillars — CLOSED)*
+- [x] `zenodo/.zenodo.json` — updated to v9.19, 12950 tests, 74 pillars — CLOSED, expanded keywords
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
 - [x] `arxiv/main.tex` — header updated to v9.13
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -51,9 +51,9 @@ If filling manually, use these exact values:
 |-------|-------|
 | **Upload type** | Publication |
 | **Publication type** | Preprint |
-| **Title** | The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.11) |
+| **Title** | The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.19) |
 | **Authors** | Walker-Pearson, ThomasCory — Independent Researcher, Pacific Northwest, USA |
-| **Version** | 9.11 |
+| **Version** | 9.19 |
 | **License** | Other (Open) |
 | **Access** | Open Access |
 | **Keywords** | Kaluza-Klein theory, 5D gravity, irreversibility, information geometry, holography, Walker-Pearson equations, entropic cosmology, quantum gravity, cold fusion, neuroscience, ecology, climate science, psychology, genetics, materials science |
@@ -116,19 +116,22 @@ Law of Thermodynamics is a geometric identity rather than a statistical
 postulate; (ii) information pressure provides a geometric alternative to
 dark energy; (iii) entropic holography identifies boundary entropy with
 bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture holds.
-Version 9.14 extends the framework to 58 physical pillars (atomic
-structure, cold fusion, medicine, justice, governance, neuroscience,
-ecology, climate, marine biology, psychology, genetics, materials science,
-observational frontiers, solitonic charge, AdS/CFT KK tower, delay field,
+Version 9.19 extends the framework to 74 geometric pillars (CLOSED — k_CS=74 Topological
+Completeness Theorem proved), covering atomic structure, cold fusion, medicine, justice,
+governance, neuroscience, ecology, climate, marine biology, psychology, genetics, materials
+science, observational frontiers, solitonic charge, AdS/CFT KK tower, delay field,
 three generations, collider resonances, geometric collapse, coupled history,
-φ₀ self-consistency, CMB peak resolution, anomaly closure)
-with 12950 passing tests. Numerical code for independent verification at
+φ₀ self-consistency, CMB peak resolution, anomaly-cancellation n_w uniqueness,
+APS spin structure, Goldberger-Wise stabilisation, KK gravitational-wave background,
+B_μ dark photon, KK backreaction, CMB transfer function, photon epoch, QGP radion,
+electroweak hierarchy, and zero-point vacuum energy.
+12950 passing tests. Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
 ```
 
 **Comments field:**
 ```
-72 pages, 0 figures. Numerical implementation (12950 tests) at
+74 pages, 0 figures. 74 geometric pillars — CLOSED. Numerical implementation (12950 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.
