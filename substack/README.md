@@ -45,6 +45,42 @@ the Unitary Manifold framework to a general audience.
 | `post-35-gravitational-waves.md` | "Gravitational Waves — The Signal the Framework Cannot Send (Yet)" | Publish 36th |
 | `post-36-nine-ways-to-break-it.md` | "Nine Ways to Break This Theory — A Guide for Adversarial Reviewers" | Publish 37th |
 | `post-37-human-ai-collaboration.md` | "What Human-AI Collaboration Actually Looks Like From the Inside" | Publish 38th |
+| `post-38-fixed-point-soul.md` | "The Fixed Point That Looks Like a Soul" | Batch A |
+| `post-39-god-and-geometry.md` | "God and Geometry: What Physics Can and Cannot Say About Creation" | Batch A |
+| `post-40-afterlife-information.md` | "The Afterlife Question: Information Conservation and What It Does (and Doesn't) Imply" | Batch A |
+| `post-41-prayer-meditation-phase-locking.md` | "Prayer, Meditation, and Phase-Locking" | Batch A |
+| `post-42-what-religion-got-right.md` | "What Every Religion Got Right (and the One Thing They All Got Wrong)" | Batch A |
+| `post-43-free-will.md` | "Free Will in a Deterministic 5D Universe" | Batch A |
+| `post-44-simulation-hypothesis.md` | "The Simulation Hypothesis: Where Geometry Ends and Code Begins" | Batch A |
+| `post-45-evil-entropy-suffering.md` | "Evil, Entropy, and the Geometry of Suffering" | Batch A |
+| `post-46-synchronicity.md` | "Synchronicity, Coincidence, and the 5D Pattern" | Batch A |
+| `post-47-time-travel.md` | "Time Travel: What the Framework Permits and What It Forbids" | Batch B |
+| `post-48-parallel-universes.md` | "Parallel Universes Are Real (But Not Like the Movies)" | Batch B |
+| `post-49-quantum-measurement.md` | "The Quantum Measurement Problem, Dissolved" | Batch B |
+| `post-50-medicine-implications.md` | "If This Theory Is Correct: What Changes About Medicine" | Batch B |
+| `post-51-justice-implications.md` | "If This Theory Is Correct: What Changes About Justice" | Batch B |
+| `post-52-economics-implications.md` | "If This Theory Is Correct: What Changes About Economics" | Batch B |
+| `post-53-education-implications.md` | "If This Theory Is Correct: What Changes About Education" | Batch B |
+| `post-54-ai-implications.md` | "If This Theory Is Correct: What Changes About AI" | Batch B |
+| `post-55-anthropic-question.md` | "Does the Universe Know We're Here? The Anthropic Question" | Batch B |
+| `post-56-what-is-time.md` | "What Is Time? (The Full Technical Answer)" | Batch C |
+| `post-57-mathematics-discovered-invented.md` | "What Is Mathematics? Is the Manifold Discovered or Invented?" | Batch C |
+| `post-58-hard-problem-consciousness.md` | "The Hard Problem of Consciousness: Does the Framework Solve It?" | Batch C |
+| `post-59-why-not-prl.md` | "Why This Wasn't Published in Physical Review Letters" | Batch C |
+| `post-60-open-falsification-review.md` | "The Open Falsification Invitation — And What Happened When We Issued It" | Batch C |
+| `post-61-science-without-lab.md` | "Building Science Without a Lab" | Batch C |
+| `post-62-ethics-public-before-review.md` | "The Ethics of Going Public Before Peer Review" | Batch C |
+| `post-63-ai-authorship.md` | "When AI Writes the Math: Authorship, Credit, and the Future of Theory" | Batch C |
+| `post-64-twelve-objections.md` | "The Twelve Objections: A Socratic Dialogue" | Batch C |
+| `post-65-cmb-amplitude-gap.md` | "The CMB Acoustic Peak Problem: The One Gap We Cannot Hide" | Batch D |
+| `post-66-winding-conjecture.md` | "The Winding Number Conjecture: The One Proof We Still Need" | Batch D |
+| `post-67-two-years-waiting.md` | "Two Years of Waiting: What We Know, What We Don't, and What's Coming" | Batch D |
+| `post-68-letter-to-litebird.md` | "The Letter to LiteBIRD" | Batch D |
+| `post-69-abrahamic-traditions.md` | "What Islam, Judaism, and Christianity Each Say About the Fixed Point" | Batch D |
+| `post-70-buddhism-hinduism.md` | "What Buddhism and Hinduism Say About Ψ*" | Batch D |
+| `post-71-indigenous-cosmologies.md` | "Indigenous Cosmologies and the Fifth Dimension" | Batch D |
+| `post-72-theory-of-everything-isnt.md` | "The Theory of Everything That Isn't" | Batch D |
+| `post-73-if-sky-disagrees.md` | "If the Sky Disagrees: What We Do When LiteBIRD Says No" | **Final post** |
 
 ## Format Rules (apply to every post)
 
@@ -113,6 +149,19 @@ Each post draws directly from these repository documents:
 | `src/core/kk_gw_background.py`, `src/core/inflation.py` | Post 35 |
 | `HOW_TO_BREAK_THIS.md`, `claims/` directory | Post 36 |
 | `co-emergence/GENESIS.md`, `co-emergence/FRAMEWORK.md` | Post 37 |
+| `src/multiverse/fixed_point.py`, `QUANTUM_THEOREMS.md` | Posts 38–40 |
+| `src/consciousness/coupled_attractor.py` | Posts 41, 46, 54, 55 |
+| `SOUL_AND_SCIENCE.md`, `BIG_QUESTIONS.md` | Posts 38–46, 56–58, 69–71 |
+| `src/core/evolution.py`, `src/core/metric.py` | Posts 43, 47, 49, 56 |
+| `src/core/braided_winding.py`, `src/multiverse/fixed_point.py:multiverse_branch_catalog` | Posts 44, 48, 52 |
+| `src/medicine/`, `src/justice/`, `recycling/` | Posts 50–52 |
+| `src/core/completeness_theorem.py` | Posts 57 |
+| `FALLIBILITY.md`, `HOW_TO_BREAK_THIS.md`, `discussions/` | Posts 59–65 |
+| `src/core/aps_spin_structure.py` | Post 66 |
+| `predictions.md` | Posts 67, 68, 73 |
+| `src/core/inflation.py:birefringence_angle` | Post 68 |
+| `SOUL_AND_SCIENCE.md`, `BIG_QUESTIONS.md` | Posts 69–71 |
+| `README.md`, `WHAT_THIS_MEANS.md` | Post 72 |
 
 ---
 
