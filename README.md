@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.19
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![12951 Tests: 12950 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-12950%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![13032 Tests: 13031 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-13031%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![74 Pillars — CLOSED](https://img.shields.io/badge/pillars-74%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
@@ -298,7 +298,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 12950 tests are passing in all three — but "passing" means
+> of content, and all 13031 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -557,7 +557,7 @@ src/core/completeness_theorem.py  ← ⭐ Pillar 74: k_CS=74 Topological Complet
 | 73 | CMB Boltzmann Peak Structure — KK correction δ_KK~8×10⁻⁴ | `src/core/cmb_boltzmann_peaks.py` | 136 |
 | 74 | k_CS=74 Topological Completeness Theorem — 7 constraints; CLOSED | `src/core/completeness_theorem.py` | 170 |
 
-**Grand total: 12950 passed · 2 skipped · 11 deselected · 0 failed** (12962 collected, tests/ + recycling/ + Unitary Pentad/)
+**Grand total: 13031 passed · 1 skipped · 11 deselected · 0 failed** (13043 collected, tests/ + recycling/ + Unitary Pentad/)
 
 > 🔒 **Repository CLOSED at 74 pillars — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
@@ -573,7 +573,7 @@ src/core/completeness_theorem.py  ← ⭐ Pillar 74: k_CS=74 Topological Complet
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 12962 collected, 12950 passed · 2 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 13043 collected, 13031 passed · 1 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
@@ -607,10 +607,10 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 316 passed ================================
 
 # Unitary Pentad/ (HILS governance framework):
-================================ 1234 passed ================================
+================================ 1266 passed ================================
 
 # Grand total:
-================================ 12950 passed, 2 skipped, 11 deselected, 0 failed ================================
+================================ 13031 passed, 1 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -638,7 +638,7 @@ interacting manifolds (physical, biological, intentional, computational, and rel
 `mvm.py` · `hils_thermalization.py` · `stochastic_jitter.py` · `non_hermitian_coupling.py` ·
 `resonance_dynamics.py` · `pentad_pilot.py` · `pentad_interrogation.py` · `braid_topology.py`
 
-**Test suite:** 1234 tests — all passing.
+**Test suite:** 1266 tests — all passing.
 *(includes `test_pentad_interrogation.py`: **74 tests = k_cs = 5² + 7²** — manifold fingerprint; `test_pentad_pilot.py`: **25 = 5²** tests for the PPN-1 interface)*
 
 ```bash
@@ -903,7 +903,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**12962 tests: 12950 passed, 2 skipped, 11 slow-deselected, 0 failures**).
+(**13043 tests: 13031 passed, 1 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -925,7 +925,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (12962 collected: 12950 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (13043 collected: 13031 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

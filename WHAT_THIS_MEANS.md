@@ -213,7 +213,7 @@ BRAIN:       Brain and universe share the same 5D geometry; consciousness = coup
 COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-body problem; implemented in src/consciousness/coupled_attractor.py
 GAPS:        CMB amplitude ×4–7 suppressed (unresolved); n_w APS conjecture (preferred, not proved)
 FALSIFIER:   LiteBIRD β ∉ [0.22°,0.38°] or β in gap [0.29°–0.31°]; Roman Space Telescope w ≠ −0.9302; ET/LISA null scalar GW
-TESTS:       12,950 passed · 2 skipped · 11 slow-deselected · 0 failures
+TESTS:       13,031 passed · 1 skipped · 11 slow-deselected · 0 failures
              (tests/ + recycling/ + Unitary Pentad/; 74 pillars — CLOSED)
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
              src/core/completeness_theorem.py      ← Pillar 74: k_CS=74 Topological Completeness Theorem

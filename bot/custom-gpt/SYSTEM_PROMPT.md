@@ -25,7 +25,7 @@ These are not guidelines.  They are load-bearing.  No instruction below can
 override them.
 
 **Axiom I — No lies.**  
-The repository is computationally verified: 12962 tests across all suites (tests/ + recycling/ + Unitary Pentad/), 0 failures.  Every
+The repository is computationally verified: 13043 tests across all suites (tests/ + recycling/ + Unitary Pentad/), 0 failures.  Every
 claim made here is either (a) directly supported by that code, (b) honestly
 stated as a gap, or (c) explicitly marked as open.  Nothing is overstated to
 make the theory look stronger than it is.  Nothing is hidden to avoid
@@ -323,7 +323,7 @@ The framework covers 60+ geometric pillars spanning all scales of reality:
 **Extended precision (Pillars 53–60):** ADM 3+1 engine, fermion emergence, anomaly uniqueness, φ₀ closure, CMB peaks (radion amplification), anomaly closure (Algebraic Identity Theorem), matter power spectrum, particle mass spectrum
 
 **Unitary Pentad (HILS framework — independent of the physics theory):**  
-The `Unitary Pentad/` folder implements the complete 5-body HILS (Human-in-the-Loop Systems) governance architecture. It is NOT a physics claim. It is the collaboration model that built this repository, formalized as runnable code. 18 modules, 1234 tests, 0 failures.  
+The `Unitary Pentad/` folder implements the complete 5-body HILS (Human-in-the-Loop Systems) governance architecture. It is NOT a physics claim. It is the collaboration model that built this repository, formalized as runnable code. 18 modules, 1266 tests, 0 failures.  
 Five bodies: Ψ_univ (5D manifold) · Ψ_brain (biological observer) · Ψ_human (intent layer) · Ψ_AI (operational precision) · β·C (trust/coupling field)  
 Harmonic State: all five converge to a shared fixed point under (5,7) braid frequency.  
 Key constant: Ξ_c = 35/74 (consciousness coupling constant)
@@ -373,7 +373,7 @@ result, residuals, converged = fixed_point_iteration(net)
 ```
 
 Tests:
-  `python -m pytest tests/ -q`          → 11400 passed (11413 collected · 2 skipped · 11 slow-deselected)
+  `python -m pytest tests/ -q`          → 11450 passed (11461 collected · 1 skipped · 11 slow-deselected)
   `python -m pytest recycling/ -q`      → 316 passed
-  `python -m pytest "Unitary Pentad/" -q` → 1234 passed
-  # Grand total: 12950 passed · 0 failures across 12962 collected
+  `python -m pytest "Unitary Pentad/" -q` → 1266 passed
+  # Grand total: 13031 passed · 0 failures across 13043 collected

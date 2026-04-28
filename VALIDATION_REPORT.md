@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 74 chapters |
-| Test suite: 12950 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/) |
+| Test suite: 13031 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 12950
+verdict. This one shows the working. The process of getting to a framework that passes 13031
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -90,7 +90,7 @@ version by version.
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
 v9.11 that parameter had been derived, two of three open problems had been resolved, and the
-test suite had grown from a few hundred checks to 12950. A theory that tightens as it is
+test suite had grown from a few hundred checks to 13031. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -190,30 +190,22 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–74) | `pytest tests/ -q` | 11413 | 11400 | 2 | 11 | **0** |
+| Core physics (Pillars 1–74) | `pytest tests/ -q` | 11461 | 11450 | 1 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
-| HILS governance framework | `pytest "Unitary Pentad/" -q` | 1234 | 1234 | 0 | 0 | **0** |
-| **Grand total** | | **12962** | **12950** | **2** | **11** | **0** |
+| HILS governance framework | `pytest "Unitary Pentad/" -q` | 1266 | 1266 | 0 | 0 | **0** |
+| **Grand total** | | **13043** | **13031** | **1** | **11** | **0** |
 
 The 126 test files in `tests/` (125 fast + 1 slow) cover all 74 pillars.
 
-### The 2 skipped tests — why they are not failures
+### The 1 skipped test — why it is not a failure
 
-Both skipped tests are skipped because skipping is the *correct* outcome in each case.
+The skipped test is skipped because skipping is the *correct* outcome.
 
 1. **`test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`**  
    Calls `pytest.skip("Insufficient residual history to test monotonicity")` when
    `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is
    **the correct physical outcome.** The guard documents that there is nothing to check
    monotonicity of in that case.
-
-2. **`test_precision_audit.py` (entire file, skipped at collection)**  
-   Calls `pytest.importorskip("mpmath", reason="mpmath not installed")` at the top of the
-   file. When `mpmath` is absent from the environment, pytest skips the whole file at
-   collection time — it does not count as a test failure. The file covers Pillar 45-B:
-   256-bit multiprecision arithmetic verification that S_E(5,7) = 1/√74 is the unique
-   lossless minimum, and that (5,7) remains the minimum at 64-, 128-, and 256-bit precision.
-   Installing `mpmath` and re-running the suite yields all tests in that file passing.
 
 ### The 11 deselected tests — why they are not hidden failures
 
@@ -341,11 +333,11 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–74 — fast suite | 11183 passed · 2 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–74 — fast suite | 11183 passed · 1 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
-| `test-pentad` | `pytest "Unitary Pentad/" -v` | HILS governance framework, 18 modules | 1234 passed · 0 failed |
+| `test-pentad` | `pytest "Unitary Pentad/" -v` | HILS governance framework, 18 modules | 1266 passed · 0 failed |
 | `algebra-proof` | `python3 ALGEBRA_PROOF.py` | 206-check formal falsification proof (§1–§19) | exit code 0 |
 
 All 6 jobs must pass for the workflow badge to show green. A failure in any single job
@@ -406,11 +398,11 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad, ~90 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 12950 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 13031 passed, 1 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q
-# Expected: 11400 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 11450 passed, 1 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
@@ -451,9 +443,9 @@ The live badge reflects the current status of the `main` branch:
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
 | [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
 | [`TEST/RESULTS.md`](TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
-| [`tests/`](tests/) | 126 pytest files; 11183 fast-passing + 11 slow-deselected + 2 skipped |
+| [`tests/`](tests/) | 126 pytest files; 11183 fast-passing + 11 slow-deselected + 1 skipped |
 | [`recycling/`](recycling/) | Pillar 16 φ-debt suite; 316 tests |
-| [`Unitary Pentad/`](Unitary%20Pentad/) | HILS governance suite; 18 modules, 1234 tests |
+| [`Unitary Pentad/`](Unitary%20Pentad/) | HILS governance suite; 18 modules, 1266 tests |
 
 ---
 

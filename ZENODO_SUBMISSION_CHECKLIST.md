@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.19, 12950 tests, 74 pillars — CLOSED, expanded keywords
+- [x] `zenodo/.zenodo.json` — updated to v9.19, 13031 tests, 74 pillars — CLOSED, expanded keywords
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
 - [x] `arxiv/main.tex` — header updated to v9.13
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -125,13 +125,13 @@ three generations, collider resonances, geometric collapse, coupled history,
 APS spin structure, Goldberger-Wise stabilisation, KK gravitational-wave background,
 B_μ dark photon, KK backreaction, CMB transfer function, photon epoch, QGP radion,
 electroweak hierarchy, and zero-point vacuum energy.
-12950 passing tests. Numerical code for independent verification at
+13031 passing tests. Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
 ```
 
 **Comments field:**
 ```
-74 pages, 0 figures. 74 geometric pillars — CLOSED. Numerical implementation (12950 tests) at
+74 pages, 0 figures. 74 geometric pillars — CLOSED. Numerical implementation (13031 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.
