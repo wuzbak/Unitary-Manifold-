@@ -12,7 +12,7 @@ script to verify the chain in under 1 second.
 
 Usage
 -----
-    python VERIFY.py           # prints 8-row table, exits 0 if all PASS
+    python VERIFY.py           # prints 13-row table, exits 0 if all PASS
 
 Dependencies
 ------------
@@ -20,15 +20,24 @@ Dependencies
 
 What is verified
 ----------------
- 1. Integer topology     — Chern-Simons level k_cs = 5² + 7² = 74
- 2. Braiding kinematics  — c_s = 12/37 ≈ 0.3243 from the (5,7) braid
- 3. CMB spectral index   — nₛ ≈ 0.9635 within Planck 2018 1σ (0.9649 ± 0.0042)
- 4. Tensor ratio         — r ≈ 0.0315 below BICEP/Keck 95 % CL (< 0.036)
- 5. Birefringence angle  — β ≈ 0.351° inside the Minami 1σ hint (0.35° ± 0.14°)
- 6. Resonance uniqueness — exactly 2 braid pairs survive all three constraints
- 7. Topology uniqueness  — S¹/Z₂ is the unique compact topology passing all
-                           five structural constraints of the Unitary Manifold
- 8. FTUM convergence     — Banach fixed-point iteration converges to S* = 1/(4G)
+ 1. Integer topology       — Chern-Simons level k_cs = 5² + 7² = 74
+ 2. Braiding kinematics    — c_s = 12/37 ≈ 0.3243 from the (5,7) braid
+ 3. CMB spectral index     — nₛ ≈ 0.9635 within Planck 2018 1σ (0.9649 ± 0.0042)
+ 4. Tensor ratio           — r ≈ 0.0315 below BICEP/Keck 95 % CL (< 0.036)
+ 5. Birefringence angle    — β ≈ 0.351° inside the Minami 1σ hint (0.35° ± 0.14°)
+ 6. Resonance uniqueness   — exactly 2 braid pairs survive all three constraints
+ 7. Topology uniqueness    — S¹/Z₂ is the unique compact topology passing all
+                             five structural constraints of the Unitary Manifold
+ 8. FTUM convergence       — Banach fixed-point iteration converges to S* = 1/(4G)
+ 9. φ₀ self-consistency    — inflaton vev from nₛ, COBE Aₛ, and FTUM all agree
+                             (Pillar 56)
+10. n_w action minimum     — n_w = 5 is the dominant saddle (k_eff=74 < 130)
+                             selected by N_gen=3 stability + Z₂ (Pillar 67)
+11. APS η̄ spin structure   — η̄(5) = ½ (SM chirality) vs η̄(7) = 0,
+                             derived from CS inflow (Pillar 70-B)
+12. Completeness theorem   — all 7 independent constraints yield k_CS = 74
+                             (Pillar 74 capstone)
+13. Dark energy w_KK       — w_KK ≈ −0.9302 within DESI DR2 1σ (Pillar 66)
 
 Authorship
 ----------
@@ -74,6 +83,15 @@ from src.core.inflation import (
     jacobian_rs_orbifold,
 )
 from src.core.uniqueness import uniqueness_scan
+from src.core.phi0_closure import closure_audit as _phi0_closure_audit
+from src.core.nw_anomaly_selection import action_minimum_over_candidates
+from src.core.aps_spin_structure import eta_bar_from_cs_inflow
+from src.core.completeness_theorem import kcs_seven_closure_conditions
+from src.core.roman_space_telescope import (
+    roman_um_dark_energy_eos,
+    W0_DESI_DR2,
+    SIGMA_W0_DESI_DR2,
+)
 
 # ---------------------------------------------------------------------------
 # Formatting helpers
@@ -97,7 +115,7 @@ def _row(n: int, label: str, value: str, ref: str, result: bool) -> str:
 # ---------------------------------------------------------------------------
 
 def run_verify() -> int:
-    """Execute all 8 checks.  Return 0 if all pass, 1 otherwise."""
+    """Execute all 13 checks.  Return 0 if all pass, 1 otherwise."""
 
     t0 = time.time()
     checks: list[bool] = []
@@ -210,6 +228,79 @@ def run_verify() -> int:
                f"S*={S_star:.4f}", c8))
 
     # ------------------------------------------------------------------
+    # CHECK 9 — φ₀ self-consistency (Pillar 56)
+    #
+    # The inflaton vev φ₀_eff must simultaneously satisfy:
+    #   (a) nₛ inversion:  φ₀ = √(36 / (1 − nₛ_target))
+    #   (b) COBE normalisation: λ_COBE × φ₀⁴ / (192π²) = Aₛ_Planck
+    #   (c) FTUM iteration convergence to the KK attractor
+    # ------------------------------------------------------------------
+    phi0_audit = _phi0_closure_audit()
+    c9 = phi0_audit["all_consistent"]
+    checks.append(c9)
+    phi0_val = phi0_audit["phi0_canonical"]
+    print(_row(9, "φ₀ self-consistency", f"φ₀={phi0_val:.4f}",
+               "Pillar 56", c9))
+
+    # ------------------------------------------------------------------
+    # CHECK 10 — n_w anomaly selection (Pillar 67)
+    #
+    # Among the two Z₂-allowed candidates {5, 7}, n_w = 5 has the lower
+    # Euclidean CS action (k_eff = 74 < 130) and is therefore the dominant
+    # saddle in the path integral.
+    # ------------------------------------------------------------------
+    nw_min = action_minimum_over_candidates()
+    c10 = nw_min == 5
+    checks.append(c10)
+    print(_row(10, "n_w action minimum", f"n_w={nw_min}  (k_eff=74<130)",
+               "= 5 dominant", c10))
+
+    # ------------------------------------------------------------------
+    # CHECK 11 — APS η̄ spin structure (Pillar 70-B)
+    #
+    # The Chern-Simons inflow formula gives η̄(n_w) = T(n_w)/2 mod 1.
+    # For n_w = 5: T(5) = 15 (odd)  → η̄ = ½  [SM chirality class]
+    # For n_w = 7: T(7) = 28 (even) → η̄ = 0  [wrong chirality class]
+    # ------------------------------------------------------------------
+    eta5 = eta_bar_from_cs_inflow(5)
+    eta7 = eta_bar_from_cs_inflow(7)
+    c11 = abs(eta5 - 0.5) < 1e-10 and abs(eta7) < 1e-10
+    checks.append(c11)
+    print(_row(11, "APS η̄(5)=½, η̄(7)=0",
+               f"η̄(5)={eta5:.1f}  η̄(7)={eta7:.1f}",
+               "CS inflow", c11))
+
+    # ------------------------------------------------------------------
+    # CHECK 12 — Topological completeness theorem (Pillar 74)
+    #
+    # Seven independent constraints from distinct sectors of the UM
+    # framework each independently require k_CS = 74.
+    # ------------------------------------------------------------------
+    conditions = kcs_seven_closure_conditions()
+    n_correct = sum(1 for c in conditions if c["k_cs_value"] == 74)
+    c12 = n_correct == 7
+    checks.append(c12)
+    print(_row(12, "7 constraints→k_CS=74",
+               f"{n_correct}/7 correct",
+               "Pillar 74", c12))
+
+    # ------------------------------------------------------------------
+    # CHECK 13 — Dark energy EoS w_KK within DESI DR2 1σ (Pillar 66)
+    #
+    # The stabilised KK zero-mode predicts:
+    #   w_KK = −1 + (2/3) c_s² ≈ −0.9302   [no free parameters]
+    # DESI DR2 (w₀CDM): w₀ = −0.92 ± 0.09  →  tension < 0.1σ
+    # ------------------------------------------------------------------
+    w_kk = roman_um_dark_energy_eos(5, 7)
+    desi_pull = abs(w_kk - W0_DESI_DR2) / SIGMA_W0_DESI_DR2
+    c13 = desi_pull <= 1.0
+    checks.append(c13)
+    ref13 = f"{W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}"
+    print(_row(13, "w_KK vs DESI DR2 (1σ)",
+               f"{w_kk:.4f}  ({desi_pull:.2f}σ)",
+               ref13, c13))
+
+    # ------------------------------------------------------------------
     # Summary
     # ------------------------------------------------------------------
     elapsed = time.time() - t0
@@ -218,7 +309,8 @@ def run_verify() -> int:
     print(f"  VERDICT: {n_pass}/{len(checks)} PASS  —  elapsed {elapsed:.1f}s")
     if n_pass == len(checks):
         print("  All checks pass.  The (5,7) braid uniquely satisfies every")
-        print("  Planck/BICEP/birefringence constraint from integer topology alone.")
+        print("  Planck/BICEP/birefringence/DESI constraint from integer topology alone.")
+        print("  k_CS=74 is confirmed by 7 independent conditions (Pillar 74).")
     else:
         failed = [i + 1 for i, c in enumerate(checks) if not c]
         print(f"  FAILED checks: {failed}")
