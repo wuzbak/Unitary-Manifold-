@@ -120,11 +120,31 @@ KK Jacobian, giving J ≈ 31.42 and nₛ ≈ 0.9635.
 3. **Pillar 67**: For the minimum-step braid (n_w, n_w+2), the Euclidean CS action
    is ∝ k_eff = n_w² + (n_w+2)².  Over the two candidates: k_eff(5) = 74 < k_eff(7) = 130.
    **n_w = 5 is the dominant saddle** in the 5D path integral.
-4. **Pillar 70** (`src/core/aps_eta_invariant.py`): the APS η-invariant of the
-   boundary Dirac operator satisfies η̄(5) = ½ (non-trivial spin structure) and
-   η̄(7) = 0 (trivial).  Under the conjecture that the path integral requires a
-   non-trivial spin structure, n_w = 5 is the unique selection.  **This step
-   is labelled CONJECTURAL** — it is a physically motivated conjecture, not a proof.
+4. **Pillar 70** (`src/core/aps_eta_invariant.py` + **Pillar 70-B** `src/core/aps_spin_structure.py`):
+   the APS η-invariant of the boundary Dirac operator satisfies η̄(5) = ½
+   (non-trivial spin structure) and η̄(7) = 0 (trivial).
+
+   *Pillar 70-B sharpens this in two directions:*
+
+   **Step 2 (now DERIVED):** The formula η̄(n_w) = T(n_w)/2 mod 1, where
+   T(n_w) = n_w(n_w+1)/2 is the triangular number, is derived via three
+   independent analytic methods:
+   (a) Hurwitz ζ-function: η(0,α)=1−2α (exact formula, not a truncation);
+   (b) CS inflow: CS₃(n_w) = T(n_w)/2 mod 1 on the orbifold boundary;
+   (c) zero-mode Z₂ parity: (−1)^{T(n_w)} determines the braid class.
+   All three give η̄(5)=½, η̄(7)=0 (verified in `eta_bar_consistent()`).
+   Previous SCHEMATIC label → now **DERIVED**.
+
+   **Step 3 (now PHYSICALLY-MOTIVATED):** The Standard Model has left-handed
+   weak-isospin doublets at the orbifold fixed points.  Left-handed zero
+   modes survive the Z₂ projection only under Ω_spin=−Γ⁵, which is the
+   η̄=½ spin-structure class.  Combined with the DERIVED Step 2: η̄=½ ↔
+   n_w≡1 (mod 4) → **n_w=5 uniquely selected from {5,7}**.
+   Previous CONJECTURAL label → now **PHYSICALLY-MOTIVATED**.
+
+   **What remains OPEN:** A purely geometric proof that the 5D metric
+   boundary conditions alone force Ω_spin=−Γ⁵ without invoking SM chirality
+   as input.  This would elevate Step 3 to PROVED.
 
 **What still requires observational input:**
 Applying the slow-roll formula nₛ = 1 − 36/φ₀_eff² (where φ₀_eff = n_w × 2π × φ₀_bare)
@@ -133,10 +153,12 @@ candidate consistent at 2σ: n_w = 3 misses by 15.8σ, n_w = 7 misses by 3.9σ.
 Verified by `minimum_winding_for_planck()` and `orbifold_uniqueness()` in the Pillar 67 test suite.
 
 **Residual gap:** The Planck nₛ threshold is still needed for a *uniqueness* claim
-unless Pillar 70's APS conjecture is elevated to a proof.  Both the saddle-point
-argument (Pillar 67) and the APS constraint (Pillar 70) independently prefer n_w = 5
-over n_w = 7, making the observational selection consistent with the geometric
-structure rather than arbitrary.
+unless Pillar 70-B's Step 3 (currently PHYSICALLY-MOTIVATED) is elevated to a
+purely geometric proof.  Both the saddle-point argument (Pillar 67) and the APS
+constraint (Pillars 70 + 70-B) independently prefer n_w = 5 over n_w = 7,
+making the observational selection consistent with the geometric structure rather
+than arbitrary.  Pillar 70-B elevates Step 2 from SCHEMATIC to DERIVED and
+Step 3 from CONJECTURED to PHYSICALLY-MOTIVATED.
 
 **Admission 2 — k_CS = 74: algebraically derived from the braid pair (April 2026 — Pillar 58).**
 The Chern–Simons level `CS_LEVEL_PLANCK_MATCH = 74` (see `inflation.py`) was

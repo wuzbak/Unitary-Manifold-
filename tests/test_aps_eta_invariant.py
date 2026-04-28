@@ -507,8 +507,8 @@ class TestNwSelectionFromAps:
     def test_selected_nw_is_5(self):
         assert self.result["selected_nw"] == 5
 
-    def test_honest_status_conjectured(self):
-        assert self.result["honest_status"] == "CONJECTURED"
+    def test_honest_status_physically_motivated(self):
+        assert self.result["honest_status"] == "PHYSICALLY-MOTIVATED"
 
     def test_selection_basis_is_str(self):
         assert isinstance(self.result["selection_basis"], str)
@@ -516,8 +516,8 @@ class TestNwSelectionFromAps:
     def test_caveat_is_str(self):
         assert isinstance(self.result["caveat"], str)
 
-    def test_caveat_mentions_conjecture(self):
-        assert "conjecture" in self.result["caveat"].lower()
+    def test_caveat_mentions_geometric_proof(self):
+        assert "geometric proof" in self.result["caveat"].lower()
 
     def test_selection_basis_mentions_aps(self):
         assert "APS" in self.result["selection_basis"]
@@ -569,11 +569,11 @@ class TestApsUniquenessAudit:
     def test_step_1_proved(self):
         assert self.audit["proof_steps"]["step_1"]["status"] == "PROVED"
 
-    def test_step_2_schematic(self):
-        assert self.audit["proof_steps"]["step_2"]["status"] == "SCHEMATIC"
+    def test_step_2_derived(self):
+        assert self.audit["proof_steps"]["step_2"]["status"] == "DERIVED"
 
-    def test_step_3_conjectured(self):
-        assert self.audit["proof_steps"]["step_3"]["status"] == "CONJECTURED"
+    def test_step_3_physically_motivated(self):
+        assert self.audit["proof_steps"]["step_3"]["status"] == "PHYSICALLY-MOTIVATED"
 
     def test_honest_status_key(self):
         assert "honest_status" in self.audit
@@ -584,8 +584,8 @@ class TestApsUniquenessAudit:
     def test_honest_status_proved(self):
         assert "PROVED" in self.audit["honest_status"]
 
-    def test_honest_status_conjectured(self):
-        assert "CONJECTURED" in self.audit["honest_status"]
+    def test_honest_status_physically_motivated(self):
+        assert "PHYSICALLY-MOTIVATED" in self.audit["honest_status"]
 
     def test_honest_status_open(self):
         assert "OPEN" in self.audit["honest_status"]
