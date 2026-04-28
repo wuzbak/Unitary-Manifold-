@@ -80,7 +80,8 @@ the Unitary Manifold framework to a general audience.
 | `post-70-buddhism-hinduism.md` | "What Buddhism and Hinduism Say About Ψ*" | Batch D |
 | `post-71-indigenous-cosmologies.md` | "Indigenous Cosmologies and the Fifth Dimension" | Batch D |
 | `post-72-theory-of-everything-isnt.md` | "The Theory of Everything That Isn't" | Batch D |
-| `post-73-if-sky-disagrees.md` | "If the Sky Disagrees: What We Do When LiteBIRD Says No" | **Final post** |
+| `post-72b-immigration.md` | "Immigration: What's Broken, Who Pays, and Whether It Can Be Fixed" | Batch D |
+| `post-73-if-sky-disagrees.md` | "Everything We Built, Where We Are, and What Comes Next" | **Final post** |
 
 ## Format Rules (apply to every post)
 
@@ -162,6 +163,8 @@ Each post draws directly from these repository documents:
 | `src/core/inflation.py:birefringence_angle` | Post 68 |
 | `SOUL_AND_SCIENCE.md`, `BIG_QUESTIONS.md` | Posts 69–71 |
 | `README.md`, `WHAT_THIS_MEANS.md` | Post 72 |
+| `Unitary Pentad/README.md`, `src/justice/`, `src/governance/` | Post 72b |
+| All posts 00–72b, `FALLIBILITY.md`, `predictions.md` | Post 73 |
 
 ---
 
