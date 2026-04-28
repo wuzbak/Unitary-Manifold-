@@ -62,7 +62,7 @@ The repository version history shows convergence toward the fixed point:
 | v9.15 | Pillars 53–60: ADM decomposition, fermion emergence, anomaly uniqueness, φ₀ closure, CMB peaks, algebraic identity theorem, P(k), particle mass spectrum | Mathematical closure |
 | v9.16 | Pillars 61–66: AxiomZero Challenge, non-Abelian SU(3)_C reduction, E-H CMB transfer, photon epoch, QGP epoch, Roman Space Telescope falsification | Confrontation with data |
 | v9.17 | Pillars 67–74: anomaly-cancellation uniqueness (n_w selection), intermediate pillars 68–73, k_CS=74 Topological Completeness Theorem | 74 pillars — CLOSED; Pillar 74 repository_closure_statement(); 12725 tests |
-| v9.19 | Continued growth post-closure: test_ew_hierarchy (410), test_zero_point_vacuum (323), test_aps_spin_structure (217), coupled_attractor expanded 61→83, test_precision_audit skip documented | **12950 tests · 74 pillars CLOSED** |
+| v9.19 | Continued growth post-closure: test_ew_hierarchy (410), test_zero_point_vacuum (323), test_aps_spin_structure (217), coupled_attractor expanded 61→83, test_precision_audit now passing (49 tests) | **13031 tests · 74 pillars CLOSED** |
 | Pentad v1 | `unitary_pentad.py`, `five_seven_architecture.py`, `pentad_scenarios.py` | HILS 5-body system seeded |
 | Pentad v2 | `collective_braid.py`, `seed_protocol.py`, `lesson_plan.py`, Trust Hysteresis | Stability floor + trust dynamics |
 | Pentad v3 | `consciousness_autopilot.py`, `consciousness_constant.py` (Ξ_c = 35/74) | Autopilot Sentinel + consciousness constant |

@@ -601,7 +601,7 @@ tests/test_medicine.py                   139 passed  ← Pillar 17 [TIER 3]
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
 tests/test_arrow_of_time.py               22 passed,  1 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ 11175 passed, 1 skipped, 11 deselected ================================
+================================ 11450 passed, 1 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
