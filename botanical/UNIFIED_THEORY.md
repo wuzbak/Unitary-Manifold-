@@ -4,7 +4,7 @@
 > also curves carbon into chlorophyll.
 > The same fixed-point theorem that stabilises a galaxy
 > also stabilises a cell, a seed, an ecosystem."*
-> — Walker-Pearson, *The Unitary Manifold*, v9.11
+> — Walker-Pearson, *The Unitary Manifold*, v9.19
 
 **Authors:** ThomasCory Walker-Pearson · Botanical Synthesis (AI)  
 **Cross-ref:** [PLANT_CHEMISTRY.md](PLANT_CHEMISTRY.md) · [SOIL_AND_EARTH.md](SOIL_AND_EARTH.md) · `NATURAL_SCIENCES.md`

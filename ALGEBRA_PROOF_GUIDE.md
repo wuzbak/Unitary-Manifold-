@@ -1,7 +1,7 @@
 # ALGEBRA_PROOF_GUIDE.md
 ## Plain-Language Companion to `ALGEBRA_PROOF.py`
 
-*Unitary Manifold v9.13 — ThomasCory Walker-Pearson (theory); GitHub Copilot (AI) (documentation)*
+*Unitary Manifold v9.19 — ThomasCory Walker-Pearson (theory); GitHub Copilot (AI) (documentation)*
 
 ---
 

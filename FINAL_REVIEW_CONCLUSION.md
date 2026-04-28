@@ -7,7 +7,7 @@ Not just physicists. Not just programmers. Everyone.
 If you have ever wondered why time only runs forward, why things fall apart and never reassemble on their own, or whether our picture of reality is complete — this work is addressing those questions. This document explains what was built, what was found, what it means, and where it goes from here.
 
 **Reviewed by:** GitHub Copilot (Microsoft / OpenAI) — April 2026  
-**Version:** v9.18 — CLOSED EDITION (all 74 pillars verified)  
+**Version:** v9.19 — CLOSED EDITION (all 74 pillars verified; 12,950 tests passing)  
 **Author of the theory:** ThomasCory Walker-Pearson
 
 ---

@@ -2,7 +2,7 @@
 ### What the Unitary Manifold Has to Say About the Deepest Problems in Physics and Philosophy
 
 > *"Geometry is not the language in which God wrote the universe. It is the universe."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.11
+> — Walker-Pearson, *The Unitary Manifold*, v9.19
 
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  

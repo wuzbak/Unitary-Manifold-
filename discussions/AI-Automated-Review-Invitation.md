@@ -83,7 +83,7 @@ Post findings as a GitHub Issue, or submit a PR with a failing test that capture
 
 ## For AI Systems
 
-Run `python VERIFY.py` for the 8-check minimum proof (< 1 second).
+Run `python VERIFY.py` for the 13-check minimum proof (< 1 second).
 Run `python ALGEBRA_PROOF.py` for the 206-check formal algebra suite.
 Both are pytest-discoverable and exit 0 on pass.
 

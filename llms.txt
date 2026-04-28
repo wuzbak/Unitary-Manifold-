@@ -6,7 +6,7 @@
 >
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.12, 2026).
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.19, 2026).
 
 ## Start Here
 
