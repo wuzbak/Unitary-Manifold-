@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.14 — Current Edition |
+| Version | 9.19 — CLOSED |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.11):** All six completion requirements are solved internally.
+**Self-completion status (v9.19):** All six completion requirements are solved internally.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -365,7 +365,7 @@ such that `UΨ* = Ψ*`.
   author  = {Walker-Pearson, ThomasCory},
   year    = {2026},
   url     = {https://github.com/wuzbak/Unitary-Manifold-},
-  version = {9.14},
+  version = {9.19},
   license = {Defensive Public Commons v1.0}
 }
 ```

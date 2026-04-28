@@ -5,7 +5,7 @@ on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework with 66 geometric pillars, a complete
+A 5-dimensional Kaluza-Klein physics framework with 74 geometric pillars (CLOSED), a complete
 HILS governance framework (Unitary Pentad), and supporting AI assistant infrastructure.
 
 **Theory:** ThomasCory Walker-Pearson (2026)  
@@ -17,7 +17,7 @@ HILS governance framework (Unitary Pentad), and supporting AI assistant infrastr
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: ~9933 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 11400 passed, 2 skipped, 11 deselected, 0 failed
 
 # Recycling suite:
 python -m pytest recycling/ -q
@@ -27,9 +27,9 @@ python -m pytest recycling/ -q
 python -m pytest "Unitary Pentad/" -q
 # Expected: 1234 passed, 0 failed
 
-# Full repository (takes ~90 seconds):
+# Full repository (takes ~130 seconds):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 11483 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 12950 passed, 2 skipped, 11 deselected, 0 failed
 ```
 
 ## Repository Structure
@@ -46,7 +46,7 @@ src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26, 46–47)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 Unitary Pentad/     ← Independent HILS governance framework (18 modules)
-tests/              ← 118 test files, ~9933 fast-passing tests (Pillars 1–66, all sub-pillars)
+tests/              ← 127 test files, 11400 fast-passing tests (Pillars 1–74 + Pillar 70-B, all sub-pillars)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 co-emergence/       ← HILS framework documentation
 ```
@@ -101,8 +101,10 @@ Every substantive document must end with:
 
 ## Known Open Problems (Do Not Try to "Fix" by Hiding Them)
 
-1. CMB power spectrum amplitude suppressed ×4–7 at acoustic peaks — documented in `FALLIBILITY.md`
-2. φ₀ self-consistency not fully closed analytically — documented in `FALLIBILITY.md`
+1. CMB power spectrum amplitude suppressed ×4–7 at acoustic peaks — documented in `FALLIBILITY.md` (Admission 2; addressed by Pillars 57+63)
+2. n_w = 5 uniqueness not yet proved from first principles alone — Steps 1–3 in Pillar 67 narrow to {5,7}; Planck nₛ provides the final selection (Admission 3 in `FALLIBILITY.md`)
+
+Note: φ₀ self-consistency was **closed** by Pillar 56 (`src/core/phi0_closure.py`). It is no longer an open problem.
 
 ## Falsification Conditions
 

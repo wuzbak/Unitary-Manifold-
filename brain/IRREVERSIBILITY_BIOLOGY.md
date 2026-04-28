@@ -1,7 +1,7 @@
 # Irreversibility Biology: The Neural B_μ Field
 
 > *"The Second Law is not a statistical postulate — it is a geometric identity."*
-> — Walker-Pearson, *The Unitary Manifold*, v9.11
+> — Walker-Pearson, *The Unitary Manifold*, v9.19
 
 > *"LTP is not a probabilistic outcome — it is a geometric change in the
 > synaptic connection landscape that cannot be undone by the same signal

@@ -23,7 +23,7 @@ architecture, and AI governance services provided by the Registrant.
 
 AxiomZero Technologies is established to facilitate the development and deployment of
 high-speed "Authority Engines" and software architectures based on the
-Unitary Manifold (v9.12) framework.  Key activities include:
+Unitary Manifold (v9.19) framework.  Key activities include:
 
 - **Performance Engineering** — Production of digital assets with zero-tolerance load
   architectures.
@@ -53,7 +53,7 @@ The following are produced under the AxiomZero Technologies trade name:
 
 | Product | Location | Description |
 |---------|----------|-------------|
-| Unitary Manifold (v9.12) | `src/`, `tests/`, `recycling/` | 5D Kaluza-Klein physics framework |
+| Unitary Manifold (v9.19) | `src/`, `tests/`, `recycling/` | 5D Kaluza-Klein physics framework |
 | Unitary Pentad | `Unitary Pentad/` | 5-body HILS governance framework |
 | All 60+ Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
 | Bot / AI assistant infrastructure | `bot/` | RAG, Copilot Extension, Custom GPT |

@@ -1,6 +1,6 @@
 # Separation of Concerns — What Is Physics, What Is Application
 
-*Unitary Manifold v9.11 — ThomasCory Walker-Pearson, 2026*
+*Unitary Manifold v9.19 — ThomasCory Walker-Pearson, 2026*
 
 ---
 

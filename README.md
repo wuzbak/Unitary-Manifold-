@@ -1,7 +1,7 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.18 — CLOSED)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.19 — CLOSED)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.18
+> — Walker-Pearson, *The Unitary Manifold*, v9.19
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![12951 Tests: 12950 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-12950%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
@@ -42,8 +42,13 @@
 >   6.  Unique pairs (nₛ+r pass)  2 pair(s): (5,6), (5,7) expect 2        [PASS] ✓
 >   7.  Unique topology           S¹/Z₂ (1 of 8)          S¹/Z₂ only      [PASS] ✓
 >   8.  FTUM fixed point          S=0.250000  (128 iter)  S*=0.2500       [PASS] ✓
+>   9.  φ₀ self-consistency       φ₀=31.4159              Pillar 56       [PASS] ✓
+>   10.  n_w action minimum       n_w=5  (k_eff=74<130)   = 5 dominant    [PASS] ✓
+>   11.  APS η̄(5)=½, η̄(7)=0     η̄(5)=0.5  η̄(7)=0.0    CS inflow       [PASS] ✓
+>   12.  7 constraints→k_CS=74    7/7 correct             Pillar 74       [PASS] ✓
+>   13.  w_KK vs DESI DR2 (1σ)    -0.9299  (0.11σ)        -0.92±0.09      [PASS] ✓
 > ────────────────────────────────────────────────────────────────────────
->   VERDICT: 8/8 PASS  —  elapsed 0.0s
+>   VERDICT: 13/13 PASS  —  elapsed 0.0s
 > ```
 >
 > **This is falsifiable.** LiteBIRD (~2032) will measure β to ±0.01°.
@@ -57,10 +62,10 @@
 > |----------|-------------|
 > | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
 > | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 74 pillars (individually listed), written by GitHub Copilot (AI), April 2026 |
-> | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.18: per-version technical audit, adversarial attacks, and honest gap assessment |
+> | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.19: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
-> | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 8 checks — ns, r, birefringence, topology uniqueness, FTUM — all PASS in < 1 s; run `python VERIFY.py` |
+> | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 13 checks — ns, r, birefringence, topology uniqueness, FTUM, φ₀ closure, n_w selection, APS η̄, completeness theorem (k_CS=74), dark energy w_KK — all PASS in < 1 s; run `python VERIFY.py` |
 > | **[.github/workflows/tests.yml](.github/workflows/tests.yml)** | CI pipeline — 6 parallel jobs (fast, slow, claims, recycling, Pentad, algebra-proof); runs on every push and PR |
 
 ---

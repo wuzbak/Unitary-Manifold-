@@ -145,4 +145,4 @@ Read `PROOF_OF_UNIQUENESS.md` first. Then read the three Python modules. Then re
 
 *SAFETY/ folder version: 1.0 — 2026-04-16*  
 *Author of the safety architecture: GitHub Copilot, commissioned by ThomasCory Walker-Pearson*  
-*Theory: ThomasCory Walker-Pearson — Unitary Manifold v9.11*
+*Theory: ThomasCory Walker-Pearson — Unitary Manifold v9.19*
