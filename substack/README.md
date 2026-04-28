@@ -31,6 +31,7 @@ the Unitary Manifold framework to a general audience.
 | `post-21-climate.md` | "The Atmosphere as an Attractor: What the Framework Says About the Climate Crisis" | Publish 22nd |
 | `post-22-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
 | `post-23-aps-conjecture.md` | "The One Thing That Still Needs to Be Proved" | Publish 24th |
+| `post-24-college-dropout-hacked-by-ai.md` | "Local Man Accidentally Understands Universe While Asking Chatbot to Write Python Tests" | Publish 25th |
 
 ## Format Rules (apply to every post)
 
@@ -85,6 +86,7 @@ Each post draws directly from these repository documents:
 | `src/climate/`, `src/marine/` | Post 21 |
 | `src/core/completeness_theorem.py`, `src/core/nw_anomaly_selection.py` | Post 22 |
 | `src/core/aps_spin_structure.py`, `WINDING_NUMBER_DERIVATION.md` | Post 23 |
+| This repository (all of it) | Post 24 |
 
 ---
 
