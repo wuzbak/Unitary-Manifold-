@@ -338,7 +338,7 @@ class TestKkSpectrumZ2Even:
 
     def test_n_w_5_integer_modes(self):
         spec = kk_spectrum_z2_even(5, n_modes=4)
-        assert spec == pytest.approx([0.0, 1.0, 2.0, 3.0, 4.0], rel=1e-10)
+        assert spec == [0.0, 1.0, 2.0, 3.0, 4.0]
 
     def test_n_w_7_starts_at_half(self):
         spec = kk_spectrum_z2_even(7, n_modes=5)

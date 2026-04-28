@@ -369,7 +369,7 @@ def reduced_eta_bar_from_holonomy(alpha: float) -> float:
     ValueError
         If alpha is not in [0, ½].
     """
-    if alpha < 0.0 or alpha > 0.5 + 1e-12:
+    if alpha < 0.0 or alpha > 0.5 + 1e-14:
         raise ValueError(
             f"alpha must be in [0, ½], got {alpha!r}."
         )
