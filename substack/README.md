@@ -31,7 +31,7 @@ the Unitary Manifold framework to a general audience.
 | `post-21-climate.md` | "The Atmosphere as an Attractor: What the Framework Says About the Climate Crisis" | Publish 22nd |
 | `post-22-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
 | `post-23-aps-conjecture.md` | "The One Thing That Still Needs to Be Proved" | Publish 24th |
-| `post-24-college-dropout-hacked-by-ai.md` | "Local Man Accidentally Understands Universe While Asking Chatbot to Write Python Tests" | Publish 25th |
+| `post-24-educational-systems.md` | "What Would It Take to Actually Fix Education?" | Publish 25th |
 | `post-25-reader-mail.md` | "Frequently Asked Questions (That No One Has Actually Asked Yet)" | Publish 26th |
 | `post-26-psychology.md` | "The Mind in the Numbers: Psychology as φ-Field Dynamics" | Publish 27th |
 | `post-27-genetics-evolution.md` | "Life's Code: Genetics and Evolution as φ-Field Selection Dynamics" | Publish 28th |
@@ -135,7 +135,7 @@ Each post draws directly from these repository documents:
 | `src/climate/`, `src/marine/` | Post 21 |
 | `src/core/completeness_theorem.py`, `src/core/nw_anomaly_selection.py` | Post 22 |
 | `src/core/aps_spin_structure.py`, `WINDING_NUMBER_DERIVATION.md` | Post 23 |
-| This repository (all of it) | Post 24 |
+| `src/multiverse/fixed_point.py`, `src/consciousness/coupled_attractor.py` | Post 24 |
 | This repository (all of it — Q&A format) | Post 25 |
 | `src/psychology/` | Post 26 |
 | `src/genetics/` | Post 27 |
