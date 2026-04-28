@@ -32,7 +32,7 @@ the Unitary Manifold framework to a general audience.
 | `post-22-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
 | `post-23-aps-conjecture.md` | "The One Thing That Still Needs to Be Proved" | Publish 24th |
 | `post-24-college-dropout-hacked-by-ai.md` | "Local Man Accidentally Understands Universe While Asking Chatbot to Write Python Tests" | Publish 25th |
-| *(Post 25 — comic break)* | *(visual / meme — not a markdown file)* | Publish 26th |
+| `post-25-reader-mail.md` | "Frequently Asked Questions (That No One Has Actually Asked Yet)" | Publish 26th |
 | `post-26-psychology.md` | "The Mind in the Numbers: Psychology as φ-Field Dynamics" | Publish 27th |
 | `post-27-genetics-evolution.md` | "Life's Code: Genetics and Evolution as φ-Field Selection Dynamics" | Publish 28th |
 | `post-28-materials-science.md` | "Building With Geometry: Materials Science From the Fifth Dimension" | Publish 29th |
@@ -100,6 +100,7 @@ Each post draws directly from these repository documents:
 | `src/core/completeness_theorem.py`, `src/core/nw_anomaly_selection.py` | Post 22 |
 | `src/core/aps_spin_structure.py`, `WINDING_NUMBER_DERIVATION.md` | Post 23 |
 | This repository (all of it) | Post 24 |
+| This repository (all of it — Q&A format) | Post 25 |
 | `src/psychology/` | Post 26 |
 | `src/genetics/` | Post 27 |
 | `src/materials/`, `src/physics/lattice_dynamics.py` | Post 28 |
