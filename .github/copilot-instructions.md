@@ -103,8 +103,7 @@ Every substantive document must end with:
 
 1. CMB power spectrum amplitude suppressed ×4–7 at acoustic peaks — documented in `FALLIBILITY.md` (Admission 2; addressed by Pillars 57+63)
 2. n_w = 5 uniqueness not yet proved from first principles alone — Steps 1–3 in Pillar 67 narrow to {5,7}; Planck nₛ provides the final selection (Admission 3 in `FALLIBILITY.md`)
-
-Note: φ₀ self-consistency was **closed** by Pillar 56 (`src/core/phi0_closure.py`). It is no longer an open problem.
+   - Note: φ₀ self-consistency was **closed** by Pillar 56 (`src/core/phi0_closure.py`) and is no longer an open problem
 
 ## Falsification Conditions
 
