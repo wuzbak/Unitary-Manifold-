@@ -103,10 +103,23 @@ canonical_57() -> CoreLayerArchitecture
 stability_floor_comparison() -> dict
     Dictionary mapping candidate (n_core, n_layer) pairs to their c_s values,
     demonstrating that (5, 7) provides the optimal stability floor.
+
+FiveSixSevenDuality
+    Dataclass summarising the duality between the (5, 7) ground-state braid
+    and the (5, 6) metastable braid, expressed as exact-rational comparators.
+
+five_six_seven_duality_report() -> FiveSixSevenDuality
+    Collect the key exact-rational comparators between the two lossless braid
+    states — Δc_s = 325/2257, λ_min ratio = 407/732, entropy capacity ratio,
+    and S_E gap = 1/√61 − 1/√74 — into one labelled report.  The label
+    records the precise epistemic status: (5, 6) is the metastable twin,
+    triply-viable but eigenvalue-under-resolved, ordered above (5, 7) by the
+    Euclidean action.
 """
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from typing import List, Dict, Tuple
 
@@ -453,3 +466,142 @@ def moiree_phase_sync_quality(n_core: int, n_layer: int) -> float:
     except ValueError:
         return 0.0
     return float(c_s / beat)
+
+
+# ---------------------------------------------------------------------------
+# (5,7) / (5,6) duality report
+# ---------------------------------------------------------------------------
+
+@dataclass
+class FiveSixSevenDuality:
+    """Exact-rational comparators between the (5, 7) ground-state and (5, 6)
+    metastable braid architectures.
+
+    All quantities derive solely from the braid-pair integers (5, 7) and
+    (5, 6) via the sum-of-squares resonance condition k_cs = n₁² + n₂² and
+    the Euclidean action S_E = 1/√k_cs.  No observational inputs are used
+    beyond the integers themselves.
+
+    Attributes
+    ----------
+    c_s_57             : float — braided sound speed of (5, 7) = 12/37 ≈ 0.3243
+    c_s_56             : float — braided sound speed of (5, 6) = 11/61 ≈ 0.1803
+    delta_cs           : float — c_s(5,7) − c_s(5,6) ≈ 0.1440  [exact: 325/2257]
+    delta_cs_exact     : str  — "325/2257" (reduced rational form)
+    lambda_min_ratio   : float — c_s(5,6) / c_s(5,7) ≈ 0.5560  [exact: 407/732]
+    lambda_min_ratio_exact : str — "407/732" (reduced rational form)
+    entropy_capacity_ratio : float — (c_s(5,6)/c_s(5,7))² ≈ 0.3091
+        Fraction of (5, 7)'s maximum information throughput sustainable by
+        (5, 6), derived from the quadratic scaling of eigenvalue-gap capacity.
+    se_57              : float — Euclidean action of (5, 7) = 1/√74 ≈ 0.1162
+    se_56              : float — Euclidean action of (5, 6) = 1/√61 ≈ 0.1280
+    se_gap             : float — se_56 − se_57 > 0; (5, 7) is the ground state
+    se_57_is_minimum   : bool — True: (5, 7) has strictly lower Euclidean action
+    label              : str  — human-readable epistemic status statement
+    """
+    c_s_57:                float
+    c_s_56:                float
+    delta_cs:              float
+    delta_cs_exact:        str
+    lambda_min_ratio:      float
+    lambda_min_ratio_exact: str
+    entropy_capacity_ratio: float
+    se_57:                 float
+    se_56:                 float
+    se_gap:                float
+    se_57_is_minimum:      bool
+    label:                 str
+
+
+def five_six_seven_duality_report() -> FiveSixSevenDuality:
+    """Return exact-rational duality comparators for the (5, 7) and (5, 6) braids.
+
+    The (5, 7) and (5, 6) architectures are the only two *triply-viable*
+    braid states — pairs that simultaneously satisfy the Planck nₛ window,
+    the BICEP/Keck r limit, and the CMB birefringence window.  Despite both
+    being viable from observational data, they differ sharply in their
+    algebraic stability properties:
+
+    Ground-state ordering (Euclidean action):
+        S_E(5, 7) = 1/√74 ≈ 0.1162  <  S_E(5, 6) = 1/√61 ≈ 0.1280
+
+    Eigenvalue-gap deficit:
+        Δc_s = c_s(5,7) − c_s(5,6) = 12/37 − 11/61 = 325/2257 ≈ 0.1440
+
+    The stability floor C_S_STABILITY_FLOOR is defined as c_s(5,7) = 12/37.
+    Therefore Δc_s is simultaneously the amount by which (5, 6) falls *below*
+    the stability floor — the precise eigenvalue-gap deficit of the metastable
+    state.
+
+    Exact-rational derivations
+    --------------------------
+    Let n₁ = 5 (shared core), n₂ = 7 (ground layer), n₂' = 6 (metastable layer).
+
+        k_57  = 5² + 7²  = 74;   k_56  = 5² + 6²  = 61
+        c_s(5,7) = (7²−5²)/(7²+5²) = 24/74 = 12/37
+        c_s(5,6) = (6²−5²)/(6²+5²) = 11/61
+
+        Δc_s  = 12/37 − 11/61 = (12·61 − 11·37) / (37·61)
+              = (732 − 407) / 2257  =  325/2257
+
+        λ_min ratio = (11/61) / (12/37) = (11·37) / (61·12) = 407/732
+
+        S_E gap = 1/√61 − 1/√74  > 0   [ground-state ordering]
+
+    Epistemic note
+    --------------
+    This function reports only what the integer arithmetic of the braid
+    geometry directly implies.  It does not claim that the (5, 6) state
+    corresponds to any specific physical phenomenon (decoherence, dark energy,
+    black holes, etc.).  Those interpretations require additional theoretical
+    bridges not present in the current framework.
+
+    Returns
+    -------
+    FiveSixSevenDuality — dataclass with all comparators and exact-rational
+    string representations.
+    """
+    # -----------------------------------------------------------------------
+    # Exact rational arithmetic (verified: fractions reduce to these values)
+    # -----------------------------------------------------------------------
+    c_s_57 = 12.0 / 37.0          # (7²−5²)/(7²+5²) = 24/74 = 12/37
+    c_s_56 = 11.0 / 61.0          # (6²−5²)/(6²+5²) = 11/61
+
+    # Δc_s = 12/37 − 11/61 = (732 − 407)/2257 = 325/2257
+    delta_cs = c_s_57 - c_s_56
+
+    # λ_min ratio = (11/61) / (12/37) = (11·37)/(61·12) = 407/732
+    lambda_min_ratio = c_s_56 / c_s_57
+
+    # Entropy capacity ratio = (λ_min ratio)²  [quadratic eigenvalue-gap scaling]
+    entropy_capacity_ratio = lambda_min_ratio ** 2
+
+    # Euclidean actions: S_E = 1/√k_cs
+    se_57 = 1.0 / math.sqrt(74.0)  # ground state
+    se_56 = 1.0 / math.sqrt(61.0)  # metastable state
+
+    # se_gap > 0 confirms (5,7) is the lower-action ground state
+    se_gap = se_56 - se_57
+
+    label = (
+        "(5,6) is the metastable twin: a triply-viable but eigenvalue-under-resolved "
+        "state that the Euclidean action orders above (5,7).  "
+        "The (5,7) braid is the unique ground state: S_E(5,7) = 1/√74 < S_E(5,6) = 1/√61.  "
+        "The stability deficit Δc_s = 325/2257 is the exact amount by which "
+        "the (5,6) eigenvalue gap falls below the (5,7) stability floor (12/37)."
+    )
+
+    return FiveSixSevenDuality(
+        c_s_57=c_s_57,
+        c_s_56=c_s_56,
+        delta_cs=delta_cs,
+        delta_cs_exact="325/2257",
+        lambda_min_ratio=lambda_min_ratio,
+        lambda_min_ratio_exact="407/732",
+        entropy_capacity_ratio=entropy_capacity_ratio,
+        se_57=se_57,
+        se_56=se_56,
+        se_gap=se_gap,
+        se_57_is_minimum=bool(se_57 < se_56),
+        label=label,
+    )
