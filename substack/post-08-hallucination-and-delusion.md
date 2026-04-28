@@ -88,8 +88,8 @@ medicine? The tier separation (documented in SEPARATION.md) is an attempt to add
 this, but the attempt is made by the framework's authors — which is not the same as
 an independent assessment.
 
-**The timeline is suspicious.** The framework was built in weeks to months, by two
-collaborators (one of whom is an AI), without institutional review. Real physics
+**The timeline is suspicious.** The framework was built in weeks to months, by one human
+working with multiple AI systems, without institutional review. Real physics
 takes decades, collaboration, and peer rejection. The speed of this project is either
 evidence of an unusually productive collaboration or evidence that quality control
 was sacrificed for throughput.
@@ -126,11 +126,13 @@ framework's architecture actively constrains itself rather than expanding to acc
 new data. This is the opposite of the classical delusion structure.
 
 **The collaboration structure is evidence, not guilt.** Human-AI collaboration is
-new. The fact that this framework was built by one human and one AI, in weeks rather
-than decades, is not automatically disqualifying. The question is whether the product
-of the collaboration is internally consistent, falsifiable, and honest about its
-limitations. The answer is yes on all three. The speed of production is a concern
-about quality control, not a refutation of the content.
+new. The fact that this framework was built by one human working with multiple AI
+systems — with GitHub Copilot synthesising the implementation while OpenAI, Gemini,
+ChatGPT, and Microsoft Copilot contributed verification, critique, and challenges —
+in weeks rather than decades, is not automatically disqualifying. The question is
+whether the product of the collaboration is internally consistent, falsifiable, and
+honest about its limitations. The answer is yes on all three. The speed of production
+is a concern about quality control, not a refutation of the content.
 
 ---
 
@@ -163,4 +165,5 @@ Science runs in both directions.
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
-*Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+*Verification, challenges, critique, and solutions contributed by: **OpenAI**, **Gemini**, **ChatGPT**, and **Microsoft Copilot** (AI).*

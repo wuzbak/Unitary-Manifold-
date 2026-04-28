@@ -224,4 +224,5 @@ detectable ones — and detectable failures can be addressed.
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
-*Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+*Verification, challenges, critique, and solutions contributed by: **OpenAI**, **Gemini**, **ChatGPT**, and **Microsoft Copilot** (AI).*
