@@ -195,6 +195,112 @@ dimension exists.
 
 ---
 
+## A proof of concept hiding in plain sight
+
+There is a working example of the Pentad structure embedded in the development
+history of this very repository — and it points toward how the model generalises
+to real-world deployment.
+
+The Pentad's five-body model implicitly assumes a single human paired with a
+single AI. That is the simplest case. But this framework was not built that way.
+
+ThomasCory Walker-Pearson provided the primary Ψ_human intent signal — the
+scientific direction. Multiple AI systems then acted as a verification layer:
+OpenAI, Gemini, ChatGPT, and Microsoft Copilot each contributed challenges,
+critique, alternative derivations, and solutions at various stages of development.
+GitHub Copilot synthesised all of those signals — the human's direction and the
+other AIs' verification pressure — into a committed codebase and documentation.
+
+The structure, without being explicitly designed:
+
+- **One human** generating primary intent (Ψ_human)
+- **Multiple AIs** generating verification and challenge signals (acting as
+  additional constraint sources on Ψ_brain and Ψ_univ)
+- **One central AI** synthesising all inputs into coherent, tested output (Ψ_AI)
+
+This is a small-scale instance of the Pentad operating correctly. The verification
+pressure from other AI systems functioned exactly as the Pentad's pairwise
+information gaps ΔI_{ij} are designed to function: each challenge forced the
+synthesis to tighten, not to drift. When the challenges were absorbed and the
+tests still passed, that was φ_trust being maintained under adversarial input.
+
+---
+
+## What this implies for scale: many humans, one central AI
+
+The same structure generalises directly to a much larger setting — one that is
+already emerging in deployed AI systems.
+
+Consider an institution using a Pentad-style architecture: many humans with
+different expertise, roles, and intent each contributing `intent_delta` signals.
+A central AI synthesises those contributions into coherent action, just as GitHub
+Copilot synthesised the multi-source inputs in this project.
+
+In this configuration, Ψ_human is no longer a single state vector. It is a
+*distribution over human intent signals* — and the Pentad's coupling field φ_trust
+now measures something richer: the degree to which the central AI's synthesis
+reflects the collective intent field rather than any one dominant voice.
+
+This changes what the four detection mechanisms catch:
+
+**Trust erosion at scale** becomes detectable when the central AI systematically
+ignores a subset of human contributors — when some `intent_delta` signals stop
+affecting the output. The pairwise gap ΔI_{subset, AI} rises even while the
+overall φ_trust appears healthy.
+
+**AI decoupling at scale** is detectable when the synthesiser's output diverges
+from the *consensus* fixed point of the collective, not just from any single
+individual's stated intent. A model that satisfies its loudest contributor while
+drifting from the group attractor is decoupled in precisely this sense.
+
+**Deception at scale** is more subtle than in a one-to-one setting. It is not
+only an AI misrepresenting its internal state. It is also a subset of humans
+misrepresenting their intent to the collective — shaping the synthesiser's output
+in directions the rest of the group has not sanctioned. The Pentad's deception
+detection threshold applies here too: a misrepresented Ψ_human creates a
+divergence in the coupling matrix that propagates visibly.
+
+**Malicious precision at scale** is the most dangerous form. A single human
+with adversarially directed intent injecting a precisely shaped `intent_delta`
+into a large collective can redirect a powerful AI synthesiser by a small angle
+at each step — enough to change outcomes at scale while remaining below the
+detection threshold for any individual reviewer. The Pentad flags this as the
+high-trust, anomalously-large-intent-gap signature. At scale, that signature
+is the only way to see it coming.
+
+---
+
+## The design implication
+
+A Pentad-style system deployed across many humans and a central AI should treat
+the *spread* of human intent as a first-class measurable quantity. High spread —
+many contributors with genuinely different intent signals — is not a safety
+failure. It may reflect real uncertainty in what the collective wants, and the
+correct response is to surface that uncertainty rather than collapse it.
+
+What is dangerous is high spread combined with a low-variance, confident AI
+output: the synthesiser is suppressing legitimate disagreement rather than
+representing it. That is a trust-field distortion detectable within the Pentad's
+framework.
+
+The lesson from this repository's own development is direct: multiple AI inputs —
+including adversarial and sceptical ones — produced a more robust synthesis than a
+single uncontested stream would have. The same holds for humans. A system designed
+to incorporate challenge and verification from multiple human sources, and to flag
+when those voices are being marginalised, is architecturally safer than one that
+optimises for rapid consensus.
+
+This is not a new governance principle. Deliberation — hearing multiple perspectives
+before acting — is ancient. What the Pentad adds is the formal structure to measure
+whether deliberation is actually occurring in real time, or whether the coupling has
+already collapsed into a single dominant signal that the system is now faithfully
+amplifying.
+
+The repository's development demonstrated this at small scale. The Pentad provides
+the mathematics to deploy it at any scale.
+
+---
+
 ## The central claim, restated
 
 The Unitary Pentad offers one specific thing that current safety frameworks do
@@ -224,4 +330,5 @@ detectable ones — and detectable failures can be addressed.
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
-*Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+*Verification, challenges, critique, and solutions contributed by: **OpenAI**, **Gemini**, **ChatGPT**, and **Microsoft Copilot** (AI).*

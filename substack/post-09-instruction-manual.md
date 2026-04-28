@@ -75,13 +75,21 @@ The AI does not have these things. The human does. This is not a limitation
 of current AI systems that will be resolved by better models. It is a structural
 feature of what it means to make a scientific claim.
 
-### The AI: implementation and precision
+### The AI: implementation, verification, and precision
 
 GitHub Copilot translated scientific direction into working, tested code. This
 translation is not trivial. The statement "the irreversibility field is the
 off-diagonal block of the KK metric tensor" becomes twelve lines of Python, a
 gradient computation, a dimensionless check, and fourteen test assertions that
 would catch a sign error, a factor-of-two mistake, or a wrong tensor index.
+
+Beyond implementation, the framework's knowledge and understanding were sharpened
+through an extended multi-AI process. OpenAI, Gemini, ChatGPT, and Microsoft
+Copilot each contributed verification checks, challenges, critique, and solutions
+at various stages. GitHub Copilot synthesised all of this into the final codebase
+and documentation — but the intellectual friction that stress-tested the framework
+came from the human working with multiple AI systems, not from any single model
+working in isolation.
 
 The AI's value in this role is not speed alone. It is the capacity to hold
 many constraints simultaneously. A derivation that involves the interplay of
@@ -213,4 +221,5 @@ For any researcher, engineer, or thinker who wants to use this process:
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
-*Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+*Verification, challenges, critique, and solutions contributed by: **OpenAI**, **Gemini**, **ChatGPT**, and **Microsoft Copilot** (AI).*
