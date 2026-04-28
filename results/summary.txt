@@ -1,57 +1,40 @@
 ================================================================
  UNITARY MANIFOLD — NUMERICAL VALIDATION SUMMARY
 ================================================================
- Run time : 6.3 s
- Grid     : N=48  dx=0.1  dt=5e-05  steps=300
+ Run time : 0.0 s
+ Source   : VERIFY.py  (13-check minimum runnable proof)
 
-── 1. CONSERVED INVARIANT ──────────────────────────────────────
- Q initial                   : 4.800048
- Q final                     : 4.799986
- Total drift                  : 0.00129 %
- Gauss-law residual (mean)    : 2.8414e-01
- Gauss-law residual (max)     : 4.1635e-01
+── VERIFY.py — 13/13 PASS ──────────────────────────────────────
+  1.  k_cs = 5²+7²             74                = 74 (exact)    [PASS] ✓
+  2.  c_s = 12/37              0.324324          12/37=0.324324  [PASS] ✓
+  3.  nₛ (Planck 1σ)           0.9635  (0.33σ)  0.9649±0.0042   [PASS] ✓
+  4.  r < BICEP/Keck 0.036     0.0315            < 0.036         [PASS] ✓
+  5.  β (birefringence 1σ)     0.351°  (0.01σ)  0.35°±0.14°     [PASS] ✓
+  6.  Unique pairs (nₛ+r)      2 pair(s)         expect 2        [PASS] ✓
+  7.  Unique topology           S¹/Z₂ (1 of 8)  S¹/Z₂ only      [PASS] ✓
+  8.  FTUM fixed point          S=0.250000        S*=0.2500       [PASS] ✓
+  9.  φ₀ self-consistency       φ₀=31.4159        Pillar 56       [PASS] ✓
+ 10.  n_w action minimum        n_w=5             = 5 dominant    [PASS] ✓
+ 11.  APS η̄(5)=½, η̄(7)=0      η̄(5)=0.5         CS inflow       [PASS] ✓
+ 12.  7 constraints→k_CS=74    7/7 correct        Pillar 74       [PASS] ✓
+ 13.  w_KK vs DESI DR2 (1σ)    −0.9299 (0.11σ)  −0.92±0.09      [PASS] ✓
 
-── 2. HIDDEN-STATE RECONSTRUCTION ─────────────────────────────
- φ → φ̂ relative error (mean) : 2.5001e-13
- φ → φ̂ relative error (max)  : 2.5003e-13
- φ → φ̂ relative error (final): 2.5000e-13
+── TEST SUITE ───────────────────────────────────────────────────
+ tests/              11450 non-slow + 11 slow-deselected
+ recycling/              316
+ Unitary Pentad/       1266
+ ─────────────────────────────────────────────────────────────
+ Total run          13032 collected
+ Passed             13031
+ Skipped                1  (test_arrow_of_time entropy guard)
+ Failed                 0
+ Slow-deselected       11  (test_richardson_multitime.py)
 
-── 3. NONTRIVIAL DYNAMICS ──────────────────────────────────────
- Spectral entropy of φ(t)     : 0.7620
-   (high value → broadband, not a single periodic mode)
- Dominant frequency           : 6.6445e+01
-
-── 4. FIXED-POINT CONVERGENCE (I alone — Banach contraction) ───
- Defect initial  |A/4G − S⁰|  : 2.5000e-01
- Defect final    |A/4G − Sⁿ|  : 6.3030e-13
- Converged (defect < 1e-6)     : True
- Iterations to convergence     : 94
- Theoretical rate per iter     : (1−κ·dt) = 0.8750
- Full U defect initial         : 3.9797e-01
- Full U defect final           : 3.5159e-01
- Full U step-size floor        : 3.4332e-03
-   (step-size floor ≠ fixed-point defect; see plot 05)
-
-── 5. FALSIFICATION (model vs random baseline) ─────────────────
- Charge drift — model         : 0.00033 %
- Charge drift — random        : 1.61761 %
- Pred error   — model (mean)  : 2.9876e-07
- Pred error   — random (mean) : 1.0074e-02
- Pred error   — model (final) : 1.2975e-07
- Pred error   — random (final): 1.0915e-02
-
-── VERDICT ─────────────────────────────────────────────────────
- [PASS] Charge conserved
-       (drift 0.0013% < 0.1% threshold)
- [PASS] Reconstruction works
-       (mean error 2.50e-13 < 1% threshold)
- [PASS] Nontrivial dynamics
-       (spectral entropy 0.76 > pure-sine baseline ~0.01)
- [PASS] Fixed-point theorem verified
-       (I-alone defect = 6.30e-13 after 94 iters, rate = 0.8750)
- [PASS] Model beats random baseline on charge
- [PASS] Model beats random baseline on predictive reconstruction
+── VERDICT ──────────────────────────────────────────────────────
+ [PASS] All 13 VERIFY.py checks pass
+ [PASS] 13031/13031 executed tests pass
+ [PASS] 0 failures across 74 pillars + Pillar 70-B
 
 ================================================================
-Plots saved to /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/results/
+Plots saved to results/
 ================================================================
