@@ -24,6 +24,13 @@ the Unitary Manifold framework to a general audience.
 | `post-14-consciousness-coupling.md` | "The Brain and the Universe as Coupled Oscillators" | Publish 15th |
 | `post-15-unitary-pentad-standalone.md` | "The Unitary Pentad: A Governance Architecture, Not a Physics Claim" | Publish 16th |
 | `post-16-domain-applications.md` | "The Same Geometry, Everywhere Else" | Publish 17th |
+| `post-17-cold-fusion.md` | "What If Cold Fusion Is Real? A First-Principles Account" | Publish 18th |
+| `post-18-phi-debt-recycling.md` | "The φ-Debt: Why Recycling Is a Topological Problem" | Publish 19th |
+| `post-19-roman-telescope.md` | "The Next Telescope: What the Roman Space Telescope Will Tell Us" | Publish 20th |
+| `post-20-neuroscience.md` | "The Brain Is a 5D Object: Neuroscience Without Mysticism" | Publish 21st |
+| `post-21-climate.md` | "The Atmosphere as an Attractor: What the Framework Says About the Climate Crisis" | Publish 22nd |
+| `post-22-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
+| `post-23-aps-conjecture.md` | "The One Thing That Still Needs to Be Proved" | Publish 24th |
 
 ## Format Rules (apply to every post)
 
@@ -71,6 +78,13 @@ Each post draws directly from these repository documents:
 | `src/justice/` | Post 16 |
 | `src/ecology/` | Post 16 |
 | `src/governance/` | Post 16 |
+| `src/cold_fusion/tunneling.py`, `src/physics/lattice_dynamics.py` | Post 17 |
+| `recycling/README.md`, `recycling/polymers.py`, `recycling/producer_responsibility.py` | Post 18 |
+| `src/core/roman_space_telescope.py` | Post 19 |
+| `src/neuroscience/`, `src/consciousness/coupled_attractor.py`, `brain/` | Post 20 |
+| `src/climate/`, `src/marine/` | Post 21 |
+| `src/core/completeness_theorem.py`, `src/core/nw_anomaly_selection.py` | Post 22 |
+| `src/core/aps_spin_structure.py`, `WINDING_NUMBER_DERIVATION.md` | Post 23 |
 
 ---
 
