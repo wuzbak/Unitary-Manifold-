@@ -40,6 +40,11 @@ the Unitary Manifold framework to a general audience.
 | `post-30-early-universe.md` | "From the First Microsecond: The Early Universe in the Unitary Manifold" | Publish 31st |
 | `post-31-standard-model-particles.md` | "Particles From Geometry: The Standard Model, Three Generations, and the Muon Anomaly" | Publish 32nd |
 | `post-32-falsification-map.md` | "The Full Falsification Map: What We Are Waiting For" | Publish 33rd |
+| `post-33-dark-matter-geometry.md` | "Dark Matter Without Dark Matter — The B_μ Geometry Hypothesis" | Publish 34th |
+| `post-34-vacuum-catastrophe.md` | "The Vacuum Catastrophe — 120 Orders of Magnitude" | Publish 35th |
+| `post-35-gravitational-waves.md` | "Gravitational Waves — The Signal the Framework Cannot Send (Yet)" | Publish 36th |
+| `post-36-nine-ways-to-break-it.md` | "Nine Ways to Break This Theory — A Guide for Adversarial Reviewers" | Publish 37th |
+| `post-37-human-ai-collaboration.md` | "What Human-AI Collaboration Actually Looks Like From the Inside" | Publish 38th |
 
 ## Format Rules (apply to every post)
 
@@ -102,6 +107,11 @@ Each post draws directly from these repository documents:
 | `src/core/photon_epoch.py`, `src/core/quark_gluon_epoch.py` | Post 30 |
 | `src/core/three_generations.py`, `src/core/particle_mass_spectrum.py`, `src/core/muon_g2.py`, `src/core/fermion_emergence.py` | Post 31 |
 | `src/core/completeness_theorem.py`, `FALLIBILITY.md`, `prediction.md`, `VERIFY.py` | Post 32 |
+| `src/core/dark_matter_geometry.py`, `src/core/metric.py` | Post 33 |
+| `src/core/zero_point_vacuum.py`, `FALLIBILITY.md` §IV.7 | Post 34 |
+| `src/core/kk_gw_background.py`, `src/core/inflation.py` | Post 35 |
+| `HOW_TO_BREAK_THIS.md`, `claims/` directory | Post 36 |
+| `co-emergence/GENESIS.md`, `co-emergence/FRAMEWORK.md` | Post 37 |
 
 ---
 
