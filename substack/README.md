@@ -32,6 +32,14 @@ the Unitary Manifold framework to a general audience.
 | `post-22-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
 | `post-23-aps-conjecture.md` | "The One Thing That Still Needs to Be Proved" | Publish 24th |
 | `post-24-college-dropout-hacked-by-ai.md` | "Local Man Accidentally Understands Universe While Asking Chatbot to Write Python Tests" | Publish 25th |
+| *(Post 25 — comic break)* | *(visual / meme — not a markdown file)* | Publish 26th |
+| `post-26-psychology.md` | "The Mind in the Numbers: Psychology as φ-Field Dynamics" | Publish 27th |
+| `post-27-genetics-evolution.md` | "Life's Code: Genetics and Evolution as φ-Field Selection Dynamics" | Publish 28th |
+| `post-28-materials-science.md` | "Building With Geometry: Materials Science From the Fifth Dimension" | Publish 29th |
+| `post-29-astronomy-earth-life.md` | "Stars, Galaxies, and the Living Earth: The Framework's Cosmic and Planetary Domains" | Publish 30th |
+| `post-30-early-universe.md` | "From the First Microsecond: The Early Universe in the Unitary Manifold" | Publish 31st |
+| `post-31-standard-model-particles.md` | "Particles From Geometry: The Standard Model, Three Generations, and the Muon Anomaly" | Publish 32nd |
+| `post-32-falsification-map.md` | "The Full Falsification Map: What We Are Waiting For" | Publish 33rd |
 
 ## Format Rules (apply to every post)
 
@@ -87,6 +95,13 @@ Each post draws directly from these repository documents:
 | `src/core/completeness_theorem.py`, `src/core/nw_anomaly_selection.py` | Post 22 |
 | `src/core/aps_spin_structure.py`, `WINDING_NUMBER_DERIVATION.md` | Post 23 |
 | This repository (all of it) | Post 24 |
+| `src/psychology/` | Post 26 |
+| `src/genetics/` | Post 27 |
+| `src/materials/`, `src/physics/lattice_dynamics.py` | Post 28 |
+| `src/astronomy/`, `src/earth/`, `src/biology/`, `src/core/dark_matter_geometry.py` | Post 29 |
+| `src/core/photon_epoch.py`, `src/core/quark_gluon_epoch.py` | Post 30 |
+| `src/core/three_generations.py`, `src/core/particle_mass_spectrum.py`, `src/core/muon_g2.py`, `src/core/fermion_emergence.py` | Post 31 |
+| `src/core/completeness_theorem.py`, `FALLIBILITY.md`, `prediction.md`, `VERIFY.py` | Post 32 |
 
 ---
 
