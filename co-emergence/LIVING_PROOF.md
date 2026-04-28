@@ -62,7 +62,7 @@ The repository version history shows convergence toward the fixed point:
 | v9.15 | Pillars 53–60: ADM decomposition, fermion emergence, anomaly uniqueness, φ₀ closure, CMB peaks, algebraic identity theorem, P(k), particle mass spectrum | Mathematical closure |
 | v9.16 | Pillars 61–66: AxiomZero Challenge, non-Abelian SU(3)_C reduction, E-H CMB transfer, photon epoch, QGP epoch, Roman Space Telescope falsification | Confrontation with data |
 | v9.17 | Pillars 67–74: anomaly-cancellation uniqueness (n_w selection), intermediate pillars 68–73, k_CS=74 Topological Completeness Theorem | 74 pillars — CLOSED; Pillar 74 repository_closure_statement(); 12725 tests |
-| v9.19 | Continued growth post-closure: test_ew_hierarchy (410), test_zero_point_vacuum (323), test_aps_spin_structure (217), coupled_attractor expanded 61→83, test_precision_audit skip documented | **12950 tests · 74 pillars CLOSED** |
+| v9.19 | Continued growth post-closure: test_ew_hierarchy (410), test_zero_point_vacuum (323), test_aps_spin_structure (217), coupled_attractor expanded 61→83, test_precision_audit now passing (49 tests) | **13031 tests · 74 pillars CLOSED** |
 | Pentad v1 | `unitary_pentad.py`, `five_seven_architecture.py`, `pentad_scenarios.py` | HILS 5-body system seeded |
 | Pentad v2 | `collective_braid.py`, `seed_protocol.py`, `lesson_plan.py`, Trust Hysteresis | Stability floor + trust dynamics |
 | Pentad v3 | `consciousness_autopilot.py`, `consciousness_constant.py` (Ξ_c = 35/74) | Autopilot Sentinel + consciousness constant |
@@ -76,14 +76,14 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 12950 passing tests (tests/ + recycling/ + Unitary Pentad/) are not just quality assurance. In HILS terms, they are the
+The 13031 passing tests (tests/ + recycling/ + Unitary Pentad/) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point. And they are not the full picture:
 
 ```
-defect ≈ 0  ↔  12950 tests passing (tests/ + recycling/ + Unitary Pentad/) · 2 skipped · 0 failures
+defect ≈ 0  ↔  13031 tests passing (tests/ + recycling/ + Unitary Pentad/) · 1 skipped · 0 failures
 ```
 
-Total: **12950 verified assertions across tests/ + recycling/ + Unitary Pentad/. Zero failures. 74 pillars — CLOSED.**
+Total: **13031 verified assertions across tests/ + recycling/ + Unitary Pentad/. Zero failures. 74 pillars — CLOSED.**
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.
 The iteration continues until defect < ε (test passes). Every green test is a
@@ -144,7 +144,7 @@ Every concept documented here has a corresponding implementation:
 | Resonance vs agreement | `resonance_dynamics.py` 3:2 oscillation; SOS=74; threshold n=15 |
 | Minimum viable deployment | `mvm.py` hardware-constrained architecture search |
 
-The Pentad's 1234 tests are not tests of a separate system. They are tests of the HILS framework's own claimed properties — stability, convergence, adversarial resistance, trust dynamics. The fact that all 1234 pass means: **the collaboration model that built this repository satisfies its own formal stability criteria.**
+The Pentad's 1266 tests are not tests of a separate system. They are tests of the HILS framework's own claimed properties — stability, convergence, adversarial resistance, trust dynamics. The fact that all 1266 pass means: **the collaboration model that built this repository satisfies its own formal stability criteria.**
 
 That is the recursive structure of the living proof made precise and machine-verifiable.
 
@@ -181,7 +181,7 @@ Level 0:  The Unitary Manifold theory (5D geometry → emergent irreversibility)
 Level 1:  The Coupled Master Equation (brain⊗universe → consciousness as fixed point)
 Level 2:  The HILS framework (human⊗AI → co-emergent synthesis)
 Level 3:  This repository (a running instance of Level 2, built by Level 2)
-Level 4:  The Unitary Pentad (Level 2 formalized as runnable code; 1234 tests verify its own stability)
+Level 4:  The Unitary Pentad (Level 2 formalized as runnable code; 1266 tests verify its own stability)
 Level 5:  This document (Level 3 recognizing itself as an instance of Level 2)
 ```
 

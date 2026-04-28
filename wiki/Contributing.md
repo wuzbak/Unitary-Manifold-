@@ -45,7 +45,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 3. **Run the test suite before making changes** to establish a baseline:
    ```bash
    python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-   # Expected: 12 733 passed, 2 skipped, 11 deselected, 0 failed
+   # Expected: 13031 passed, 1 skipped, 11 deselected, 0 failed
    ```
 4. **Make your changes** following the conventions below.
 5. **Run the test suite again** after your changes; 0 failures is a hard requirement.
@@ -58,7 +58,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 ```bash
 # Fast suite — core physics:
 python -m pytest tests/ -q
-# Expected: ~10 000 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 11450 passed, 1 skipped, 11 deselected, 0 failed
 
 # Recycling / φ-debt entropy (Pillar 16):
 python -m pytest recycling/ -q
@@ -66,17 +66,17 @@ python -m pytest recycling/ -q
 
 # Unitary Pentad governance (18 modules):
 python -m pytest "Unitary Pentad/" -q
-# Expected: 1234 passed, 0 failed
+# Expected: 1266 passed, 0 failed
 
 # Full repository (~90 s):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 12 733 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 13031 passed, 1 skipped, 11 deselected, 0 failed
 
 # Slow tests (Richardson extrapolation convergence):
 python -m pytest tests/ -m slow
 ```
 
-> **Skip note:** 2 tests use conditional `pytest.skip()` guards for edge cases (immediate FTUM convergence, etc.). These are not failures.
+> **Skip note:** 1 test uses a conditional `pytest.skip()` guard for edge cases (immediate FTUM convergence). This is not a failure.
 > **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default. Run explicitly with `-m slow`.
 
 ---

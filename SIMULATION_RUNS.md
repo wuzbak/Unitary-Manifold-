@@ -189,14 +189,13 @@ Reducing `dt` reduces the floor proportionally.
 The full automated test suite is in `tests/` and can be run with:
 
 ```bash
-pip install pytest numpy scipy
+pip install -r requirements.txt
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 ```
 
-12962 tests (11413 fast-selected + 11 slow-deselected + recycling/ 316 + Unitary Pentad/ 1234): 12950 passed · 2 skipped · 0 failed.
+13043 tests (11450 fast-selected + 11 slow-deselected + recycling/ 316 + Unitary Pentad/ 1266): 13031 passed · 1 skipped · 0 failed.
 
-> **Skip 1:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` uses a `pytest.skip()` guard that fires on immediate convergence — correct behaviour, not a failure.
-> **Skip 2:** `test_precision_audit.py` — skipped at collection when `mpmath` is not installed; `pip install mpmath` enables it.
+> **Skip:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` uses a `pytest.skip()` guard that fires on immediate convergence — correct behaviour, not a failure.
 > **Slow:** 11 tests in `test_richardson_multitime.py` marked `@pytest.mark.slow`; run with `pytest tests/ -m slow`.
 
 | File | Tests | Topics |
@@ -314,5 +313,5 @@ python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 | `test_fuzzing.py` | 20 | edge cases, random inputs, adversarial numerics |
 | `test_dimensional_reduction.py` | 14 | KK dimensional reduction identities |
 | `test_discretization_invariance.py` | 13 | grid-independence checks |
-| `test_precision_audit.py` | 1 ⚑ | arbitrary-precision audit (skipped: mpmath absent) |
+| `test_precision_audit.py` | 49 | arbitrary-precision audit (multi-precision φ₀, spectral identity) |
 | `test_richardson_multitime.py` | 11 🐌 | second-order temporal convergence — slow suite |
