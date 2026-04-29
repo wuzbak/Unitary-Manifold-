@@ -45,7 +45,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 3. **Run the test suite before making changes** to establish a baseline:
    ```bash
    python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-   # Expected: 13031 passed, 1 skipped, 11 deselected, 0 failed
+   # Expected: 14109 passed, 1 skipped, 11 deselected, 0 failed
    ```
 4. **Make your changes** following the conventions below.
 5. **Run the test suite again** after your changes; 0 failures is a hard requirement.
@@ -70,7 +70,7 @@ python -m pytest "Unitary Pentad/" -q
 
 # Full repository (~90 s):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 13031 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 14109 passed, 1 skipped, 11 deselected, 0 failed
 
 # Slow tests (Richardson extrapolation convergence):
 python -m pytest tests/ -m slow

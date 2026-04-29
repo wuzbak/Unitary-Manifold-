@@ -1,6 +1,6 @@
 # CONSISTENCY_LOG.md — Radion-Neutrino Identity Self-Consistency Run
 
-*Unitary Manifold v9.19 — ThomasCory Walker-Pearson, 2026*  
+*Unitary Manifold v9.22 — ThomasCory Walker-Pearson, 2026*  
 *Generated: April 2026 by GitHub Copilot (AI)*
 
 ---

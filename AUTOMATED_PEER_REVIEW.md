@@ -165,7 +165,7 @@ All six CI jobs passed on the merged commit:
 | `test-pentad` | `pytest "Unitary Pentad/" -v` | ✅ passed |
 | `algebra-proof` | `python3 ALGEBRA_PROOF.py` | ✅ exit 0 |
 
-**Grand total (post-merge):** 13031 passed · 1 skipped · 11 deselected · 0 failed
+**Grand total (post-merge):** 14109 passed · 1 skipped · 11 deselected · 0 failed
 
 ---
 

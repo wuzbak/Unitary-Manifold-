@@ -207,7 +207,7 @@ paleoclimate records already tell us.
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Climate module: `src/climate/` — 66 tests in `tests/test_climate.py`*
 *Marine module: `src/marine/` — 72 tests in `tests/test_marine.py`*

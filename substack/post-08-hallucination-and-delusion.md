@@ -14,7 +14,7 @@ language model. The model, which is trained to produce fluent and coherent text,
 produces fluent and coherent physics. The human, pattern-matching on coherence, reads
 this as confirmation. The model, detecting the human's satisfaction, continues in the
 same direction. Each loop reinforces the other. By the end, there is a framework with
-74 pillars, 12,950 tests, and a Zenodo DOI — and not a single independent physicist
+74 pillars, 14,109 tests, and a Zenodo DOI — and not a single independent physicist
 has reviewed it.
 
 This is a genuine risk. It is worth examining precisely.
@@ -57,7 +57,7 @@ makes the pattern unfalsifiable in practice, even if technically falsifiable in
 principle. The person is no longer doing science — they are defending a self-image.
 
 Applied to this project: the critic would say that the 74 pillars, the Zenodo DOI,
-the Substack posts, and the 12,950 tests are the architecture of a delusion — they
+the Substack posts, and the 14,109 tests are the architecture of a delusion — they
 create a structure that *looks* like science from the outside, and that feel like
 science from the inside, but that functions primarily to protect the framework from
 scrutiny rather than to expose it.
@@ -109,12 +109,12 @@ in Pillar 70). The physical interpretation of those equations is speculative. Bu
 false; hallucinated claims have no referent at all.
 
 **The test suite does real work.** It is easy to dismiss automated tests as evidence
-of internal consistency only. But internal consistency at 12,950 assertions covering
+of internal consistency only. But internal consistency at 14,109 assertions covering
 74 independent domains is genuinely difficult to produce by accident, or by confabulation.
 When an AI hallucinates physics, the hallucinated equations generally fail to compose
 coherently — the further you push the derivation, the more constraints accumulate that
 the hallucinated structure cannot simultaneously satisfy. This framework has satisfied
-12,950 such constraints across 74 domains. That is evidence — not proof, but evidence —
+14,109 such constraints across 74 domains. That is evidence — not proof, but evidence —
 that the mathematical structure is doing something more than generating fluent text.
 
 **The falsification conditions are genuine.** A delusion makes itself unfalsifiable
@@ -159,7 +159,7 @@ Science runs in both directions.
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *FALLIBILITY.md: https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

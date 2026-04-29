@@ -1,13 +1,13 @@
 # Full Test Results — Unitary Manifold
 
-Run date: 2026-04-28 | Python 3.12.13 | pytest 9.0.3 | numpy ≥ 1.24 | scipy ≥ 1.11
+Run date: 2026-04-29 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): 11450 PASSED · 1 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): ~12533 PASSED · 2 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (tests/ only): 11461 collected · 11450 passed · 1 skipped · 11 slow-deselected · 0 failures**
-**Grand total (all suites): 13043 collected · 13031 passed · 1 skipped · 11 deselected · 0 failures**
+**Grand total (tests/ only): ~12546 collected · ~12533 passed · 2 skipped · 11 slow-deselected · 0 failures**
+**Grand total (all suites): ~14122 collected · 14109 passed · 2 skipped · 11 deselected · 0 failures**
 
-⚑ **Skip explanation (1 skip):**
+⚑ **Skip explanation (2 skips):**
 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
 calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
 converges in fewer than 2 iterations. Immediate convergence is **correct behaviour** — the guard

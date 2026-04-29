@@ -131,7 +131,7 @@ What it can say is: given the geometry, the programmer is redundant.
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point theorem: `src/multiverse/fixed_point.py`*
 *Birefringence prediction: `src/core/inflation.py:birefringence_angle`*

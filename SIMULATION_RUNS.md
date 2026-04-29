@@ -193,7 +193,7 @@ pip install -r requirements.txt
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 ```
 
-13043 tests (11450 fast-selected + 11 slow-deselected + recycling/ 316 + Unitary Pentad/ 1266): 13031 passed · 1 skipped · 0 failed.
+14,122 tests (~12,533 fast-selected + 11 slow-deselected + recycling/ 316 + Unitary Pentad/ ~1,266): 14,109 passed · 2 skipped · 0 failed.
 
 > **Skip:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` uses a `pytest.skip()` guard that fires on immediate convergence — correct behaviour, not a failure.
 > **Slow:** 11 tests in `test_richardson_multitime.py` marked `@pytest.mark.slow`; run with `pytest tests/ -m slow`.
