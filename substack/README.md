@@ -8,6 +8,7 @@ the Unitary Manifold framework to a general audience.
 | File | Post | Status |
 |------|------|--------|
 | `post-00-what-this-is.md` | "What this newsletter is — and isn't" | **Pin this first** |
+| `post-00a-axiomzero.md` | "AxiomZero: Who We Are, What We Need, and How We Do This Ethically" | Publish after Post 0 |
 | `post-01-core-claim.md` | "The arrow of time is a shadow" | Publish 2nd |
 | `post-02-four-numbers.md` | "Four numbers that keep agreeing" | Publish 3rd |
 | `post-03-litebird-2032.md` | "Mark your calendar: 2032" | Publish 4th |
