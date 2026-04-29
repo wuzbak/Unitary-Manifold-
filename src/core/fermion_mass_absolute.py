@@ -338,6 +338,88 @@ C_L_BOTTOM_PILLAR81: float = 0.6850224639114458
 # Public functions
 # ---------------------------------------------------------------------------
 
+def bulk_mass_from_gw_naturalness(
+    fermion: str = "electron",
+    c_L: float = C_L_ELECTRON_PILLAR75,
+    c_R: float = C_R_DEFAULT,
+    lambda_gw: float = LAMBDA_GW_NATURAL,
+    k_RS: float = K_RS_CANONICAL,
+    pi_kR: float = PI_KR_CANONICAL,
+) -> Dict[str, object]:
+    """Derive the 5D Yukawa coupling Ŷ₅ for a fermion from GW naturalness.
+
+    Given the zero-mode wavefunction overlap f₀^L(0) × f₀^R(0) and the
+    observed 4D Yukawa (y_4d = m_f / v_H), the required 5D Yukawa coupling is:
+
+        Ŷ₅ = y_4d / (f₀^L × f₀^R)
+
+    GW naturalness requires Ŷ₅ ≲ √(λ_GW) (natural if O(1)).  For the
+    electron, Ŷ₅ ~ 1.4, which is marginally natural under GW.
+
+    Parameters
+    ----------
+    fermion   : str    Label for output (default 'electron').
+    c_L       : float  Bulk mass for left-handed zero mode (default electron).
+    c_R       : float  Bulk mass for right-handed zero mode (default 0.5).
+    lambda_gw : float  GW coupling (default 1.0).
+    k_RS      : float  AdS curvature k (Planck units, default 1.0).
+    pi_kR     : float  π k R (default 37.0).
+
+    Returns
+    -------
+    dict
+        'fermion'        : str — label.
+        'c_L'            : float — left bulk mass.
+        'c_R'            : float — right bulk mass.
+        'f0_L'           : float — left zero-mode wavefunction at UV brane.
+        'f0_R'           : float — right zero-mode wavefunction at UV brane.
+        'overlap'        : float — f₀^L × f₀^R.
+        'y_4d_electron'  : float — 4D Yukawa = m_e / v_H.
+        'Y5_required'    : float — required 5D Yukawa = y_4d / overlap.
+        'Y5_natural_upper': float — GW naturalness bound √(λ_GW).
+        'is_natural'     : bool — True if Y5_required ≤ Y5_natural_upper.
+        'status'         : str.
+    """
+    f0_L = _rs_wavefunction_zero_mode(c_L, k_RS, pi_kR)
+    f0_R = _rs_wavefunction_zero_mode(c_R, k_RS, pi_kR)
+    overlap = _yukawa_overlap(c_L, c_R, k_RS, pi_kR)
+
+    # 4D Yukawa coupling y_4d = m_e / v_H
+    y_4d = M_ELECTRON_MEV / V_HIGGS_MEV
+
+    Y5_required = y_4d / overlap if overlap > 0 else float("inf")
+    Y5_natural_upper = math.sqrt(lambda_gw)
+    is_natural = Y5_required <= Y5_natural_upper
+
+    status = (
+        f"Y5_required = y_4d / (f₀^L × f₀^R) = {y_4d:.4e} / {overlap:.4e} = {Y5_required:.4f}. "
+        f"GW naturalness bound: Ŷ₅ ≤ √(λ_GW) = {Y5_natural_upper:.4f}. "
+        + ("NATURAL — Ŷ₅ ≤ bound." if is_natural else
+           f"MARGINALLY UNNATURAL — Ŷ₅ = {Y5_required:.2f} > {Y5_natural_upper:.2f}. "
+           "Physical interpretation: bulk mass c_L fine-tuned below RS IR endpoint, "
+           "OR λ_GW must be > 1 (O(1) fine-tuning). Documented in FALLIBILITY.md.")
+    )
+    return {
+        "fermion": fermion,
+        "c_L": c_L,
+        "c_R": c_R,
+        "f0_L": f0_L,
+        "f0_R": f0_R,
+        "overlap": overlap,
+        "y_4d_electron": y_4d,
+        "Y5_required": Y5_required,
+        "Y5_natural_upper": Y5_natural_upper,
+        "is_natural": is_natural,
+        "status": status,
+        "derivation": (
+            f"For {fermion}: c_L = {c_L:.6f}, c_R = {c_R:.3f}, "
+            f"f₀^L = {f0_L:.5f}, f₀^R = {f0_R:.5f}, overlap = {overlap:.5e}. "
+            f"y_4d = m_e / v_H = {M_ELECTRON_MEV:.4f} / {V_HIGGS_MEV:.1f} = {y_4d:.4e}. "
+            f"Required Ŷ₅ = {Y5_required:.4f}. Natural bound = {Y5_natural_upper:.4f}."
+        ),
+    }
+
+
 def gw_naturalness_bound(
     lambda_gw: float = LAMBDA_GW_NATURAL,
     k_over_M5: float = K_OVER_M5_CANONICAL,

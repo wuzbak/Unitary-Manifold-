@@ -453,3 +453,116 @@ def uv_constraints_audit() -> Dict[str, Any]:
             "Full non-perturbative quantum back-reaction (beyond leading-order)",
         ],
     }
+
+
+def derive_uv_embedding(
+    n_w: int = N_W,
+    k_cs: int = K_CS,
+    phi0: float = PHI0_BARE,
+) -> Dict[str, object]:
+    """Derive the UV embedding of the 5D UM geometry in a candidate string framework.
+
+    This function walks through the chain of constraints that must be satisfied
+    for the (n_w=5, k_cs=74, φ₀=1) Unitary Manifold geometry to have a
+    consistent UV completion in a 10D/11D framework (M-theory or Type II).
+
+    Steps evaluated
+    ---------------
+    Step 1 — APS η̄ = ½ (Pillar 70-B, CLOSED):
+        The Atiyah-Patodi-Singer η̄ constraint selects n_w = 5 and forces
+        the bulk fermion spectrum to have half-integral η̄ at the orbifold
+        boundary.  Status: PROVED.
+
+    Step 2 — Anomaly cancellation via k_CS = n_w² + n₂² = 74 (Pillar 58, CLOSED):
+        The Chern-Simons level k_CS = 5² + 7² = 74 cancels all 5D gauge
+        anomalies for the braided winding pair (5, 7).  Status: ALGEBRAIC THEOREM.
+
+    Step 3 — FTUM fixed-point stability at φ₀ = 1 (Pillar 72, CLOSED):
+        The FTUM operator contracts to a stable attractor at φ₀ = 1 in
+        Planck units.  This corresponds to φ_bare = φ₀ × M_Pl — the GW
+        radion VEV.  Status: PROVED (numerical and analytic).
+
+    Step 4 — String/M-theory flux matching (OPEN):
+        The (5, 7) braid maps to a flux-compactification sector with
+        G₄-flux quanta (M_5, M_7) = (5, 7) in M-theory.  The relation
+        k_CS = M_5² + M_7² = 74 is required for consistency of the
+        Chern-Simons 5-form on the compact 7-manifold.  An explicit G₄-flux
+        construction has not been provided.  Status: STRUCTURAL CONJECTURE.
+
+    Parameters
+    ----------
+    n_w   : int    Winding number (default 5).
+    k_cs  : int    Chern-Simons level (default 74).
+    phi0  : float  FTUM fixed-point value (default 1.0 Planck units).
+
+    Returns
+    -------
+    dict
+        'pillar'         : int — 92 (UV completion pillar).
+        'steps'          : dict — step-by-step status.
+        'overall_status' : str.
+        'remaining_gap'  : str — honest description of what is still open.
+        'n_w'            : int.
+        'k_cs'           : int.
+        'phi0'           : float.
+    """
+    # Step 1: APS constraint
+    aps_ok = (n_w == 5)
+    aps_status = "PROVED (Pillar 70-B)" if aps_ok else f"FAILS — n_w={n_w} ≠ 5"
+
+    # Step 2: Anomaly cancellation
+    # k_CS = n_w² + 7² = 25 + 49 = 74; check k_cs consistency
+    n2_candidate = round(math.sqrt(max(0.0, k_cs - n_w ** 2)))
+    k_cs_reconstructed = n_w ** 2 + n2_candidate ** 2
+    anom_ok = (k_cs_reconstructed == k_cs and n2_candidate > 0)
+    anom_status = (
+        f"ALGEBRAIC THEOREM (Pillar 58) — k_CS = {n_w}² + {n2_candidate}² = {k_cs}"
+        if anom_ok else
+        f"INCONSISTENT — k_CS = {k_cs} ≠ {n_w}² + {n2_candidate}² = {k_cs_reconstructed}"
+    )
+
+    # Step 3: FTUM fixed point
+    ftum_ok = abs(phi0 - 1.0) < 0.01
+    ftum_status = (
+        f"PROVED (Pillar 72) — φ₀ = {phi0:.4f} ≈ 1 (Planck)" if ftum_ok else
+        f"TENSION — φ₀ = {phi0:.4f} ≠ 1 (expected by FTUM)"
+    )
+
+    # Step 4: M-theory flux matching — always OPEN at this stage
+    flux_status = (
+        f"STRUCTURAL CONJECTURE — G₄-flux quanta (M_n1, M_n2) = ({n_w}, {n2_candidate}) "
+        f"required; k_CS = M_n1² + M_n2² = {k_cs}. "
+        "Explicit G₄-flux construction not yet provided. OPEN."
+    )
+
+    all_closed = aps_ok and anom_ok and ftum_ok
+    overall_status = (
+        "STEPS 1–3 CLOSED; STEP 4 (flux matching) OPEN — "
+        "consistent UV embedding is structurally expected but not explicitly constructed."
+        if all_closed else
+        "PARTIAL — one or more steps inconsistent; check parameters."
+    )
+
+    remaining_gap = (
+        "Explicit M-theory/Type IIA G₄-flux construction for the (5,7) braid. "
+        "Required: a compact 7-manifold with G₄ quanta (M_5, M_7) = (5,7) and "
+        "consistent holonomy for N=1 supersymmetry in 4D. "
+        "This is the primary open gap in the UV completion chain. "
+        "It does not affect the 4D predictions (n_s, r, birefringence, Wolfenstein) "
+        "which depend only on the 5D effective theory."
+    )
+
+    return {
+        "pillar": 92,
+        "n_w": n_w,
+        "k_cs": k_cs,
+        "phi0": phi0,
+        "steps": {
+            "step1_aps_eta": aps_status,
+            "step2_anomaly_cancellation": anom_status,
+            "step3_ftum_fixed_point": ftum_status,
+            "step4_flux_matching": flux_status,
+        },
+        "overall_status": overall_status,
+        "remaining_gap": remaining_gap,
+    }
