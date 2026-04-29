@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.19 — ThomasCory Walker-Pearson, 2026 (74 pillars closed, 12,950 tests)*
+*Unitary Manifold v9.20 — ThomasCory Walker-Pearson, 2026 (88 pillars/modules closed, 13,889 tests)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 13,031 automated tests (74 pillars closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 1 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 13,889 automated tests (88 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 1 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -509,8 +509,20 @@ the **exact** statement is bridge_ratio = m_ν / M_KK_needed = 1.0 at closure.
 | ρ_eff / ρ_obs at m_ν = 110.13 meV | **1.0000 (< 4 × 10⁻⁸ error)** | `derive_R_from_neutrino_mass(110.1e-3)` |
 | bridge_ratio at m_ν = 110.13 meV | **1.0000 (loop closed)** | `prove_resonance_identity(110.1e-3)` |
 | Self-consistency error | **< 0.001%** | `CONSISTENCY_LOG.md` |
-| Consistent with Planck Σm_ν < 120 meV? | **Yes** | Planck 2018 |
-| Consistent with neutrino oscillation data? | **Yes** (lightest eigenstate m_ν ≈ 110 meV) | Particle Data Group |
+| Consistent with Planck Σm_ν < 120 meV? | **⚠ TENSION — see note below** | Planck 2018 |
+| Consistent with neutrino oscillation data? | **⚠ Open — depends on interpretation** | Particle Data Group |
+
+> **⚠ Critical correction (v9.20):** If the neutrino-radion identity is interpreted as
+> m_ν₁ = M_KK = 110 meV (the lightest active neutrino mass equals the compactification
+> scale), then **Σm_ν ≈ 333 meV in normal ordering** — violating the Planck 2018
+> constraint Σm_ν < 120 meV by a factor of 2.8. This is *not* consistent with
+> current cosmological data. The resolution is that M_KK = 110 meV sets the
+> *compactification scale*, not the active neutrino mass. Active neutrino masses arise
+> from a separate RS Yukawa brane mechanism (Pillar 75/Pillar 83) and can independently
+> satisfy Σm_ν < 120 meV. The dark-energy closure result is unaffected. This tension
+> is now honestly documented and tracked; resolution requires a clear separation of the
+> compactification scale from the active neutrino mass spectrum. See `COMPLETION_REPORT.md`
+> and `src/core/neutrino_pmns.py` (Pillar 83) for the full disclosure.
 
 **Important note on R_KK:** The exact closure radius is R_KK ≈ 1.792 μm, not 75 μm.
 The "75 μm" figure cited in some informal summaries refers to an earlier (incorrect)
