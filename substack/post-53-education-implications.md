@@ -138,7 +138,7 @@ empirical testing. The framework proposes a vocabulary. The testing is still nee
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point iteration: `src/multiverse/fixed_point.py`*
 *Coupled attractor (Information Gap): `src/consciousness/coupled_attractor.py`*

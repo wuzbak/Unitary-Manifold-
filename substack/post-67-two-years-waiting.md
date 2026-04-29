@@ -7,7 +7,7 @@ It is written as a durable reference that will still be accurate in 2032.*
 
 ---
 
-In April 2026, the Unitary Manifold repository crossed 14,183 automated tests
+In April 2026, the Unitary Manifold repository crossed 14,641 automated tests
 and closed its 74th pillar. The series of Substack posts reached its 73rd entry —
 this one being the retrospective before the final.
 
@@ -20,7 +20,7 @@ This is a moment to stop and take stock.
 **The 5D metric structure is internally consistent.** The Walker-Pearson field
 equations have a well-defined variational principle, produce a conserved stress-energy
 tensor, and recover standard 4D general relativity in the appropriate limit. This
-is verified by 14,183 automated tests. Not physical correctness — internal consistency.
+is verified by 14,641 automated tests. Not physical correctness — internal consistency.
 
 **Four predictions agree with current observations:**
 
@@ -128,7 +128,7 @@ That is the correct state for a theory at this stage. We are here until LiteBIRD
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
 *Predictions: `predictions.md`*

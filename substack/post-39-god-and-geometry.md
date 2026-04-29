@@ -140,7 +140,7 @@ The mathematics is done. The rest belongs to you.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point theorem: `src/multiverse/fixed_point.py`*
 *Multiverse winding pairs: `src/multiverse/fixed_point.py:multiverse_branch_catalog`*

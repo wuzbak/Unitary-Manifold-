@@ -28,7 +28,7 @@ but not the future — is not a statistical accident. It is a geometric necessit
 encoded in the shape of a five-dimensional spacetime.
 
 The framework is fully implemented in working software, publicly available on GitHub,
-with over 14,183 automated tests verifying its internal consistency. Those tests
+with over 14,641 automated tests verifying its internal consistency. Those tests
 confirm that the code faithfully implements the stated mathematics. They do not confirm
 that the mathematics describes nature. That is a different question, answered by
 experiment.
@@ -102,7 +102,7 @@ the framework.
 ## What peer review this work has — and hasn't — had
 
 The framework has not been through conventional journal peer review. It has been
-through extensive automated testing (14,183 automated tests, zero failures), public
+through extensive automated testing (14,641 automated tests, zero failures), public
 GitHub scrutiny, AI-assisted review by multiple large language models, and an open
 invitation to reviewers posted in the repository's discussions folder.
 
@@ -129,7 +129,7 @@ I will post on a schedule that allows time to respond to technical questions.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

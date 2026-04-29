@@ -14,7 +14,7 @@ better predictions with fewer assumptions.*
 
 The first fifteen posts in this series focused on the physics core: five dimensions,
 winding modes, birefringence, black holes, and the governance architecture inspired
-by it. Post 6 mentioned that the framework extends to 92 pillars across domains
+by it. Post 6 mentioned that the framework extends to 96 pillars across domains
 including medicine, justice, ecology, neuroscience, and governance.
 
 This post goes into four of those domains specifically: not to claim they are
@@ -281,7 +281,7 @@ collaboration. That is the open invitation the framework extends.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Medicine: `src/medicine/` — 139 tests in `tests/test_medicine.py`*
 *Justice: `src/justice/` — 124 tests in `tests/test_justice.py`*

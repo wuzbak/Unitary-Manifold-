@@ -144,7 +144,7 @@ now says: if the geometry is right, n_w = 5 is the only possibility.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *APS spin structure (Pillar 70-B): `src/core/aps_spin_structure.py` — 256 tests in `tests/test_aps_spin_structure.py`*
 *Topological derivation (Pillar 80): `src/core/aps_step3_topological.py`*

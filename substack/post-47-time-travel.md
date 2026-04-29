@@ -116,7 +116,7 @@ The actual physics of time is more interesting than the stories, and less dramat
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point uniqueness: `src/multiverse/fixed_point.py`*
 *Information current: `QUANTUM_THEOREMS.md` (Theorem XII)*

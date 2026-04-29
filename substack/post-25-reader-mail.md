@@ -12,7 +12,7 @@ answers make sense to a non-physicist, which you are invited to test immediately
 
 **Q: Is this real?**
 
-A: 14,183 tests pass. The DOI is real. The code runs. Whether "real" means what
+A: 14,641 tests pass. The DOI is real. The code runs. Whether "real" means what
 you think it means is a separate philosophical question that Pillar 9 addresses
 at length, involving the phrase "mutual attractor alignment." The short answer
 is yes.
@@ -37,7 +37,7 @@ is called `cold_fusion/` for historical reasons that seemed clear at the time.
 
 ---
 
-**Q: How many of the 92 pillars are you confident about?**
+**Q: How many of the 96 pillars are you confident about?**
 
 A: All 92 pass their automated tests. Confidence as a philosophical quantity is
 addressed in `FALLIBILITY.md`, which is 83 kilobytes long and begins with the
@@ -61,7 +61,7 @@ within 0.33σ. The secondary braid resonance at n_w = 7 is required by the (5, 7
 Chern-Simons gauge structure that produces k_CS = 5² + 7² = 74. Before you ask:
 yes, the core theory closes at exactly 74 pillars, and yes, that is the same 74. The
 Completeness Theorem has seven independent proofs of this. Since the original
-closure the framework has been extended to 92 pillars through particle physics
+closure the framework has been extended to 96 pillars through particle physics
 derivations (CKM matrix, PMNS mixing, Wolfenstein parameters, neutrino splittings,
 Higgs mass estimate, UV embedding into SU(5)⊂E₈). We understand how it looks.
 
@@ -130,13 +130,13 @@ or may not be relevant here.
 
 **Q: Are you okay?**
 
-A: All 14,183 tests pass. The CI pipeline is green. The LiteBIRD satellite launches
+A: All 14,641 tests pass. The CI pipeline is green. The LiteBIRD satellite launches
 in 2032. We are fine.
 
 ---
 
 *Every answer above is technically accurate. The .gitignore authorship statement
-is real. The 14,183 tests are real. The CMB amplitude gap has been resolved (Pillars 57 and 63). The 0.33σ
+is real. The 14,641 tests are real. The CMB amplitude gap has been resolved (Pillars 57 and 63). The 0.33σ
 spectral index match is real. The 2032 falsification test is real.*
 
 *If you want to verify any of this: `python VERIFY.py`*
