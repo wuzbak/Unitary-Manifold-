@@ -2887,9 +2887,8 @@ def higgs_mass_from_ftum_critical(
         'status'          : str.
         'derivation'      : str.
     """
-    import math as _math
     lambda_H_crit = (n_w ** 2) / (2.0 * k_cs)
-    m_H_geo = higgs_vev_gev * _math.sqrt(2.0 * lambda_H_crit)
+    m_H_geo = higgs_vev_gev * math.sqrt(2.0 * lambda_H_crit)
     pct_err = abs(m_H_geo - higgs_mass_obs_gev) / higgs_mass_obs_gev * 100.0
 
     if pct_err < 5.0:
