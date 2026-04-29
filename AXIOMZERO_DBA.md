@@ -55,7 +55,7 @@ The following are produced under the AxiomZero Technologies trade name:
 |---------|----------|-------------|
 | Unitary Manifold (v9.19) | `src/`, `tests/`, `recycling/` | 5D Kaluza-Klein physics framework |
 | Unitary Pentad | `Unitary Pentad/` | 5-body HILS governance framework |
-| All 60+ Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
+| All 74 Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
 | Bot / AI assistant infrastructure | `bot/` | RAG, Copilot Extension, Custom GPT |
 
 ---
@@ -93,6 +93,15 @@ explicit, that:
 
 ---
 
-*Document version: 1.0 — April 2026*  
+## 6 · Consolidated Legal Reference
+
+For a single plain-language document synthesizing all legal instruments
+(DPC v1.0, AGPL-3.0, Common Law Trademark, Commercial Terms), the open-core
+business model, the conflict-of-interest disclosure, and the no-contradiction
+statement, see [`LEGAL.md`](LEGAL.md).
+
+---
+
+*Document version: 1.1 — April 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

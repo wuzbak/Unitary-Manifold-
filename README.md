@@ -989,8 +989,14 @@ service or SaaS product — **must** release their modified source code under th
 same open terms.  This closes the "SaaS loophole" and makes commercial lock-in
 on the implementation legally impossible.
 
+**Common Law Trademark** — "AxiomZero Technologies" and the "AZ" monogram are
+asserted trademarks of ThomasCory Walker-Pearson as of March 26, 2026.  This
+applies to the trade name only — not to any intellectual content.
+
 Attribution is requested but not legally required.  See [NOTICE](NOTICE) for the
-full dual-license explanation.
+dual-license notice and [**LEGAL.md**](LEGAL.md) for the full consolidated legal
+reference covering all instruments, the open-core business model, and the
+conflict-of-interest disclosure.
 
 ---
 
@@ -1004,7 +1010,7 @@ This repository is the product of genuine synthesis — theory and science from 
 | Code Architecture, Test Suites, Document Engineering & Synthesis | GitHub Copilot (AI) |
 | Safety Architecture (SAFETY/ folder) | GitHub Copilot (AI), commissioned by ThomasCory Walker-Pearson |
 | Synthesis & Verification Support | ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot |
-| Version | 9.18 — CLOSED EDITION |
+| Version | 9.19 — CLOSED EDITION |
 
 ---
 
@@ -1014,7 +1020,7 @@ If you use this work, please cite it as:
 
 ```
 Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
-Emergent Irreversibility (v9.18). Zenodo.
+Emergent Irreversibility (v9.19). Zenodo.
 https://doi.org/10.5281/zenodo.19584531
 ```
 

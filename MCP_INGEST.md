@@ -17,7 +17,7 @@
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
 | GitHub | `https://github.com/wuzbak/Unitary-Manifold-` |
 | Pages | `https://wuzbak.github.io/Unitary-Manifold-/` |
-| License | Defensive Public Commons v1.0 (public domain) |
+| License | Defensive Public Commons v1.0 (theory/content) · AGPL-3.0 (software) · see [`LEGAL.md`](LEGAL.md) |
 | Language | Python 3.12, LaTeX |
 | Dependencies | numpy ≥ 1.24, scipy ≥ 1.11 |
 
