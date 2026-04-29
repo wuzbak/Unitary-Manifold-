@@ -220,7 +220,7 @@ class TestVacuumGeometricProofChain:
         self.r = vacuum_geometric_proof_chain()
 
     def test_pillar_number(self):
-        assert self.r["pillar"] == 87
+        assert self.r["pillar"] == 89
 
     def test_all_steps_present(self):
         for step in ("A", "B", "C", "D"):
@@ -251,7 +251,7 @@ class TestVacuumGeometricProofChain:
         assert "relationship_to_pillar_84" in self.r
 
     def test_four_arguments_total(self):
-        # Pillar 84 gave 3, Pillar 87 gives 1 → total 4
+        # Pillar 84 gave 3, Pillar 89 gives 1 → total 4
         rel = self.r["relationship_to_pillar_84"]["consistency"]
         assert "4" in rel or "four" in rel.lower()
 
@@ -270,7 +270,7 @@ class TestVacuumGeometricProofStatus:
         self.r = vacuum_geometric_proof_status()
 
     def test_pillar_number(self):
-        assert self.r["pillar"] == 87
+        assert self.r["pillar"] == 89
 
     def test_aps_chain_complete(self):
         assert self.r["aps_chain_complete"] is True

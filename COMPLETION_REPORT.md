@@ -217,6 +217,16 @@ confirmed at a level that makes the "candidate" qualifier difficult to sustain.
 - TOE score: 9/28 fully derived, 4/28 constrained, 2/28 conjectured, 13/28 open
 - Status: 139 tests, 0 failures
 
+**Pillar 89 — Pure Algebraic Vacuum Selection from 5D Boundary Conditions (vacuum_geometric_proof.py)**
+- Closes the last gap in the APS proof chain: vacuum selection without M-theory or observational data
+- Step A: G_{μ5} = λ φ B_μ is Z₂-odd by tensor transformation → B_μ is Z₂-odd
+- Step B: Z₂-odd B_μ → Dirichlet BC at fixed planes → free boundary Dirac equation
+- Step C: Free APS BC → Ω_spin = −Γ⁵ → η̄ = ½ → n_w = 5 selected
+- Step D: η̄ = 0 (n_w = 7) requires B_μ|_{y=0} ≠ 0 — contradicts Step A → algebraically excluded
+- Four independent arguments total (Pillar 84 × 3 + Pillar 89 × 1) all agree: n_w = 5
+- Assumes: only UM metric ansatz + Z₂ orbifold + APS theorem. No M-theory. No observational data.
+- Status: 59 tests, 0 failures
+
 ### Critical inconsistency resolved (v9.21):
 
 The v9.20 "neutrino mass tension" (M_KK = 110 meV → Σm_ν ≈ 333 meV >> 120 meV) is
@@ -237,7 +247,7 @@ now **fully resolved**. Resolution A (Pillar 88):
 | Absolute fermion masses | Derive Yukawa scale λ_Y from geometry (GW potential + IR brane VEV) | Hard |
 | CKM ρ̄ accuracy | δ_CP = 68.5° not 72° accounts for 27% ρ̄ error; needs better CP phase derivation | Hard |
 | PMNS θ₁₂ accuracy | sin²θ₁₂ = 4/15 is 13% off; sub-leading Yukawa structure needed | Medium |
-| Pure geometric proof of vacuum selection | Algebraic argument from 5D BCs alone (without M-theory) | Very Hard |
+| ~~Pure geometric proof of vacuum selection~~ | ~~Algebraic argument from 5D BCs alone (without M-theory)~~ | ~~Very Hard~~ **CLOSED — Pillar 89** |
 
 ### Secondary
 

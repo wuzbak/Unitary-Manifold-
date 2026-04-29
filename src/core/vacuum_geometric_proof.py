@@ -3,7 +3,7 @@
 """
 src/core/vacuum_geometric_proof.py
 =====================================
-Pillar 87 — Pure Algebraic Vacuum Selection from 5D Boundary Conditions.
+Pillar 89 — Pure Algebraic Vacuum Selection from 5D Boundary Conditions.
 
 Physical Context
 ----------------
@@ -414,7 +414,7 @@ def vacuum_geometric_proof_chain() -> Dict[str, object]:
     step_d = eta0_sector_algebraic_exclusion()
 
     return {
-        "pillar": 87,
+        "pillar": 89,
         "name": "Pure Algebraic Vacuum Selection from 5D Boundary Conditions",
         "proof_steps": {
             "A": step_a,
@@ -446,11 +446,11 @@ def vacuum_geometric_proof_chain() -> Dict[str, object]:
                 "Three independent physical arguments (HW, saddle, Planck nₛ) "
                 "all select n_w = 5."
             ),
-            "pillar_87": (
+            "pillar_89": (
                 "Pure algebraic proof from 5D metric BCs alone. "
                 "Closes the last gap in the APS chain without additional inputs."
             ),
-            "consistency": "All four arguments (84 × 3 + 87 × 1) agree: n_w = 5.",
+            "consistency": "All four arguments (84 × 3 + 89 × 1) agree: n_w = 5.",
         },
     }
 
@@ -464,7 +464,7 @@ def vacuum_geometric_proof_status() -> Dict[str, object]:
         Status table for the full APS + vacuum selection chain.
     """
     return {
-        "pillar": 87,
+        "pillar": 89,
         "aps_chain_complete": True,
         "steps": {
             "n_w_in_5_7": "PROVED — Pillars 39, 67 (Z₂ + N_gen=3)",
@@ -472,7 +472,7 @@ def vacuum_geometric_proof_status() -> Dict[str, object]:
             "pontryagin_cs3": "PROVED — Pillar 80 (topological derivation)",
             "vacuum_selection_physical": "PHYSICALLY SELECTED — Pillar 84 (three arguments)",
             "vacuum_selection_algebraic": (
-                "ALGEBRAICALLY PROVED — Pillar 87 "
+                "ALGEBRAICALLY PROVED — Pillar 89 "
                 "(G_{μ5} Z₂-parity → Dirichlet BC → APS η̄=½)"
             ),
         },
@@ -484,7 +484,7 @@ def vacuum_geometric_proof_status() -> Dict[str, object]:
             "This is a technical exercise in 5D tensor calculus, not a conceptual gap."
         ),
         "honest_assessment": (
-            "The algebraic proof (Pillar 87) closes the last structural gap in the "
+            "The algebraic proof (Pillar 89) closes the last structural gap in the "
             "APS chain.  Combined with Pillar 84 (three independent physical arguments), "
             "the vacuum selection n_w = 5 is now established by FOUR independent proofs. "
             "The minor remaining gap (axiomatic Z₂-parity of B_μ from 5D action variation) "
