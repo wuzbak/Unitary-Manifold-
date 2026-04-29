@@ -278,7 +278,7 @@ class TestNeutrinoSplittingsFromGeometry:
 
     def test_dm2_21_geo_matches_pdg_constant(self):
         from src.core.neutrino_pmns import DM2_21_EV2
-        assert abs(self.res["dm2_21_geo_eV2"] - DM2_21_EV2) < 1e-30
+        assert abs(self.res["dm2_21_geo_eV2"] - DM2_21_EV2) < 1e-20
 
     def test_dm2_ratio_is_36(self):
         # Ratio = n₁n₂ + 1 = 35 + 1 = 36

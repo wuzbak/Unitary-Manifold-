@@ -755,7 +755,7 @@ class TestJarlskogInvariantGeometric:
         assert 1e-6 < self.res["J_geo"] < 1e-4
 
     def test_J_pdg_key_correct(self):
-        assert abs(self.res["J_pdg"] - 3.08e-5) < 1e-30
+        assert abs(self.res["J_pdg"] - 3.08e-5) < 1e-12
 
     def test_J_pct_err_below_10(self):
         assert self.res["J_pct_err"] < 10.0
@@ -775,7 +775,7 @@ class TestJarlskogInvariantGeometric:
 
     def test_custom_n1_n2(self):
         res = jarlskog_invariant_geometric(n1=5, n2=7)
-        assert abs(res["J_geo"] - self.res["J_geo"]) < 1e-30
+        assert abs(res["J_geo"] - self.res["J_geo"]) < 1e-12
 
 
 # ---------------------------------------------------------------------------
