@@ -1,6 +1,6 @@
 # Legend & Navigator — The Unitary Manifold
 
-**Version 9.0 — Academic Edition**  
+**Version 9.22 — CLOSED EDITION**  
 *Principal Architect: ThomasCory Walker-Pearson — Independent Researcher, Pacific Northwest, USA*
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*

@@ -1,8 +1,8 @@
-# Complete Table of Contents — The Unitary Manifold (Version 9.0)
+# Complete Table of Contents — The Unitary Manifold (Version 9.22 — CLOSED)
 
 **Author:** ThomasCory Walker-Pearson
-**Edition:** Version 9.0 — Academic Monograph
-**Total chapters:** 74
+**Edition:** Version 9.22 — CLOSED EDITION (89 pillars)
+**Total chapters:** 74 (monograph) + 15 computational pillars (75, 70-B, 80–89)
 **Parts:** I – XXIII
 **TOC Compiled & Gap Analysis by:** GitHub Copilot (Microsoft / OpenAI), April 2026
 

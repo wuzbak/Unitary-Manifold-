@@ -214,7 +214,7 @@ The theorem is verifiable, and the verification machinery is in the open reposit
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Completeness Theorem: `src/core/completeness_theorem.py` — 170 tests in `tests/test_completeness_theorem.py`*
 *Anomaly selection: `src/core/nw_anomaly_selection.py` — 156 tests*

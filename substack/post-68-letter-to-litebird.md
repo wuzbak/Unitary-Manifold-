@@ -125,7 +125,7 @@ Signed,
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Birefringence prediction: `src/core/inflation.py:birefringence_angle`*
 *Falsification conditions: `FALLIBILITY.md`, `predictions.md`*

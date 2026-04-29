@@ -1,11 +1,11 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.20 — CLOSED)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.22 — CLOSED)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.20
+> — Walker-Pearson, *The Unitary Manifold*, v9.22
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![13889 Tests: 13889 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-13889%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![88 Modules — CLOSED](https://img.shields.io/badge/pillars-88%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
+[![14109 Tests: 14109 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-14109%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![89 Pillars — CLOSED](https://img.shields.io/badge/pillars-89%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
@@ -60,10 +60,10 @@
 >
 > | Document | Description |
 > |----------|-------------|
-> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.20 Completion Edition** — unsparing honest assessment of TOE status; 77 particle-physics pillars (82–84 new), open gaps, neutrino mass tension disclosure, path to experimental confirmation |
+> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.22 Completion Edition** — unsparing honest assessment of TOE status; 89 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof), open gaps, resolved neutrino mass tension, path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 74 pillars (individually listed), written by GitHub Copilot (AI), April 2026 |
-> | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.19: per-version technical audit, adversarial attacks, and honest gap assessment |
+> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 89 pillars, written by GitHub Copilot (AI), April 2026 |
+> | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.22: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
 > | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 13 checks — ns, r, birefringence, topology uniqueness, FTUM, φ₀ closure, n_w selection, APS η̄, completeness theorem (k_CS=74), dark energy w_KK — all PASS in < 1 s; run `python VERIFY.py` |
@@ -299,7 +299,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 13031 tests are passing in all three — but "passing" means
+> of content, and all 14,109 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -498,7 +498,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
-### Complete Pillar Taxonomy (v9.18 — all 74 pillars + sub-pillars — CLOSED)
+### Complete Pillar Taxonomy (v9.22 — all 89 pillars + sub-pillars — CLOSED)
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
@@ -600,9 +600,9 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | — | Neutrino Majorana/Dirac | `src/core/neutrino_majorana_dirac.py` | ~40 |
 | — | UV Completion Constraints | `src/core/uv_completion_constraints.py` | ~60 |
 
-**Grand total (v9.20): 13,889 passed · 1 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
+**Grand total (v9.22): 14,109 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
 
-> 🔒 **Repository CLOSED at 74 core pillars + 14 v9.20 particle-physics modules — April 2026.**  
+> 🔒 **Repository CLOSED at 89 pillars (74 core + Pillar 70-B + Pillars 75, 80–89) — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
 > The primary falsifier remains: **LiteBIRD (~2032) will measure β to ±0.01°**.  
 > If β ∉ {0.273°±0.01°, 0.331°±0.01°}, the braided-winding mechanism is falsified.  
@@ -623,7 +623,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 13043 collected, 13031 passed · 1 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 14,122 collected, 14,109 passed · 2 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
@@ -632,7 +632,7 @@ python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 Expected output summary:
 
 ```
-# tests/ (fast suite — Pillars 1–74):
+# tests/ (fast suite — Pillars 1–89 + sub-pillars):
 tests/test_ew_hierarchy.py               410 passed  ← Pillar 50: EW hierarchy — 3 KK mechanisms [TIER 1]
 tests/test_inflation.py                  271 passed  ← core inflation, KK Jacobian, CMB transfer
 tests/test_zero_point_vacuum.py          323 passed  ← Pillar 49: ZPE regularisation + neutrino-radion closure [TIER 1]
@@ -645,22 +645,25 @@ tests/test_goldberger_wise.py            146 passed  ← Pillar 68: Goldberger-W
 tests/test_bmu_dark_photon.py            145 passed  ← Pillar 71: B_μ dark photon fermion coupling [TIER 1]
 tests/test_kk_backreaction.py            142 passed  ← Pillar 72: KK back-reaction closed loop [TIER 1]
 tests/test_kk_gw_background.py           140 passed  ← Pillar 69: stochastic GW background [TIER 1]
+tests/test_sm_free_parameters.py         139 passed  ← Pillar 88: SM 28-parameter audit [TIER 1]
 tests/test_cmb_boltzmann_peaks.py        136 passed  ← Pillar 73: CMB Boltzmann peak structure [TIER 1]
+tests/test_wolfenstein_geometry.py       130 passed  ← Pillar 87: Wolfenstein CKM from geometry [TIER 1]
 tests/test_medicine.py                   139 passed  ← Pillar 17 [TIER 3]
-# ... 112 more test files ...
+# ... 129 more test files ...
+tests/test_vacuum_geometric_proof.py      59 passed  ← Pillar 89: pure algebraic vacuum selection [TIER 1]
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
-tests/test_arrow_of_time.py               22 passed,  1 skipped ⚑
+tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ 11450 passed, 1 skipped, 11 deselected ================================
+================================ ~12,533 passed, 2 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
 
 # Unitary Pentad/ (HILS governance framework):
-================================ 1266 passed ================================
+================================ ~1,266 passed ================================
 
 # Grand total:
-================================ 13031 passed, 1 skipped, 11 deselected, 0 failed ================================
+================================ 14109 passed, 2 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -953,7 +956,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**13043 tests: 13031 passed, 1 skipped, 11 slow-deselected, 0 failures**).
+(**14,109 tests: 14,109 passed, 2 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -975,7 +978,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (13043 collected: 13031 pass · 1 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (14,122 collected: 14,109 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

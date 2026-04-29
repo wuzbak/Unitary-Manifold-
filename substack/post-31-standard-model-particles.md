@@ -279,7 +279,7 @@ all 19 SM parameters can be geometrically derived — is unknown.
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Three generations (Pillar 42): `src/core/three_generations.py`*
 *Particle mass spectrum (Pillar 60): `src/core/particle_mass_spectrum.py`*

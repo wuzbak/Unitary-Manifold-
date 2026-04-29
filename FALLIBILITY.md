@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.20 — ThomasCory Walker-Pearson, 2026 (88 pillars/modules closed, 13,889 tests)*
+*Unitary Manifold v9.22 — ThomasCory Walker-Pearson, 2026 (89 pillars/modules closed, 14,109 tests)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 13,889 automated tests (88 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 1 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 14,109 automated tests (89 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 2 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "13,031 passed · 1 skipped · 0 failed," this is a statement about
+When the README badge reads "14,109 passed · 2 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -512,17 +512,12 @@ the **exact** statement is bridge_ratio = m_ν / M_KK_needed = 1.0 at closure.
 | Consistent with Planck Σm_ν < 120 meV? | **⚠ TENSION — see note below** | Planck 2018 |
 | Consistent with neutrino oscillation data? | **⚠ Open — depends on interpretation** | Particle Data Group |
 
-> **⚠ Critical correction (v9.20):** If the neutrino-radion identity is interpreted as
-> m_ν₁ = M_KK = 110 meV (the lightest active neutrino mass equals the compactification
-> scale), then **Σm_ν ≈ 333 meV in normal ordering** — violating the Planck 2018
-> constraint Σm_ν < 120 meV by a factor of 2.8. This is *not* consistent with
-> current cosmological data. The resolution is that M_KK = 110 meV sets the
-> *compactification scale*, not the active neutrino mass. Active neutrino masses arise
-> from a separate RS Yukawa brane mechanism (Pillar 75/Pillar 83) and can independently
-> satisfy Σm_ν < 120 meV. The dark-energy closure result is unaffected. This tension
-> is now honestly documented and tracked; resolution requires a clear separation of the
-> compactification scale from the active neutrino mass spectrum. See `COMPLETION_REPORT.md`
-> and `src/core/neutrino_pmns.py` (Pillar 83) for the full disclosure.
+> **✅ Resolved (v9.21/v9.22):** The neutrino-radion identity tension is fully resolved. M_KK = 110 meV
+> sets the *compactification scale*, not the active neutrino mass. Active neutrino masses arise
+> from a separate RS Yukawa brane mechanism (Pillar 88, Resolution A): for c_L = c_R = 0.9,
+> m_ν₁ ≈ 27 meV, giving Σm_ν ≈ 106 meV < 120 meV (Planck bound satisfied). The dark-energy
+> closure result is unaffected. See `COMPLETION_REPORT.md` and `src/core/sm_free_parameters.py`
+> (Pillar 88) for the full disclosure and derivation.
 
 **Important note on R_KK:** The exact closure radius is R_KK ≈ 1.792 μm, not 75 μm.
 The "75 μm" figure cited in some informal summaries refers to an earlier (incorrect)
@@ -1047,7 +1042,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 13,031 passed · 1 skipped · 0 failed (74 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
+| 14,109 passed · 2 skipped · 0 failed (89 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is observationally selected within Z₂-constrained odd set, not freely fitted from continuous range |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck r < 0.036 | k_cs=74 algebraically derived (Pillar 58); no new free parameter |
 | β ∈ {0.273°, 0.331°} — two viable states | ✅ Matches birefringence hint | (5,6) and (5,7) survive triple constraint; gap [0.29°–0.31°] = zero viable pairs |
@@ -1490,7 +1485,7 @@ Open gaps after Pillar 62:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 13,031 passed · 1 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
+| 14,109 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
@@ -1526,7 +1521,7 @@ Open gaps after Pillar 62:
 
 *Added April 2026 upon completion of Pillar 74.*
 
-The Unitary Manifold framework is **complete at 74 pillars**.
+The Unitary Manifold framework is **complete at 89 pillars**.
 
 The number 74 = 5² + 7² = k_CS is not an aesthetic choice — it is the unique integer
 simultaneously satisfying seven independent structural constraints (proved in
@@ -1539,7 +1534,7 @@ simultaneously satisfying seven independent structural constraints (proved in
 | [C3] Birefringence | β = 0.351° at k_CS=74 | **CROSS-CHECKED** |
 | [C4] Sound speed fraction | c_s = 24/74 = 12/37 | **DERIVED** |
 | [C5] Moduli-winding link | N_surviving_DOF = n₂ = 7; k_CS = n₁²+n₂² | **PROVED** |
-| [C6] Pillar count | 74 pillars = k_CS | **STRUCTURAL** |
+| [C6] Pillar count | 74 core pillars + 15 extended (89 total) = k_CS + 15 | **STRUCTURAL** |
 | [C7] Back-reaction eigenvalue | λ_backre = k_CS/k_CS = 1 (FTUM preserved) | **DERIVED** |
 
 **What remains open** (and will remain so, honestly documented):

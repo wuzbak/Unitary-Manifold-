@@ -249,7 +249,7 @@ What the tests do not confirm:
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zero-point vacuum (Pillar 49): `src/core/zero_point_vacuum.py`*
 *Honest gaps: `FALLIBILITY.md` §IV.7*

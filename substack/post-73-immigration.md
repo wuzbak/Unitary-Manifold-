@@ -486,7 +486,7 @@ The geometry does not answer that question. Only the people do.
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Governance framework: `Unitary Pentad/`*
 *HILS principles: `Unitary Pentad/README.md`*

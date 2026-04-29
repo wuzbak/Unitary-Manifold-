@@ -139,7 +139,7 @@ That is the most honest thing the mathematics can say.
 
 ---
 
-*Full source code, derivations, and 12,950+ automated tests:*
+*Full source code, derivations, and 14,109 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Evolution equations: `src/core/evolution.py`*
 *Dimensional reduction structure: `src/core/metric.py`*

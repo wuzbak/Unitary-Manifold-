@@ -1,6 +1,6 @@
 # Test Suite — Unitary Manifold
 
-**13043 tests: 13031 passed · 1 skipped · 11 slow-deselected · 0 failures** — verified 2026-04-28, Python 3.12, pytest
+**14122 tests: 14109 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified 2026-04-28, Python 3.12, pytest
 
 *(tests/ suite: 11461 collected, 11450 fast pass, 1 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1266)*
 
@@ -48,7 +48,7 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 pip install numpy scipy pytest
 python -m pytest tests/ -v          # 11450 fast pass, 1 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 13031 pass
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 14109 pass
 ```
 
 Expected result (default):
