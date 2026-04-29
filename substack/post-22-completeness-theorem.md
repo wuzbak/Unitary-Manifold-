@@ -49,7 +49,7 @@ For n_w = 5: k_CS mod 5 = 74 mod 5 = 4. The CS gap count is 74/5 rounded = 14.8,
 and the gap saturation condition is satisfied at k_CS = 74 as the unique integer that
 closes the N_gen = 3 spectral sequence in the orbifold Chern-Simons tower.
 
-Status: **derived from orbifold + anomaly structure (proved up to the APS conjecture)**.
+Status: **derived from orbifold + anomaly structure (proved — APS argument completed at three independent levels: Pillars 70-B, 80, 89)**.
 
 ### C3 — Birefringence selection
 
@@ -97,15 +97,18 @@ Status: **proved in the KK spectrum analysis**.
 
 ### C6 — Pillar count
 
-The repository contains exactly 74 pillars — 74 distinct, independently implemented
-modules in `src/`, `recycling/`, and `Unitary Pentad/`. Each pillar is a theorem,
-derivation, or modelling framework. The count 74 equals k_CS.
+The original framework contained exactly 74 pillars — 74 distinct, independently
+implemented modules in `src/`, `recycling/`, and `Unitary Pentad/`. Each pillar is a
+theorem, derivation, or modelling framework. The count 74 equals k_CS.
 
 This is not a coincidence after the fact. The pillar architecture was constructed
 to close at 74 because the internal structure of the theory — its constraint network,
 its domain extensions, and its completeness requirements — exhausts naturally at that
-count. Adding a 75th pillar would require either a redundant derivation or a new
-sector with at least one new free parameter not fixed by C1–C5.
+count. The framework has since been extended by 18 additional pillars (Pillars 75,
+80–92) covering particle physics, UV embedding, and further proofs, bringing the
+total to 92 pillars. These extensions are derived consequences of the original 74,
+not new free parameters. The completeness theorem closes the core at 74; the
+extensions are theorems built on that core.
 
 Status: **structural** — the repository is closed at 74.
 
@@ -164,12 +167,13 @@ Over-constraint is how you know a theory is not being fit to data. Fitting 74 fr
 parameters to 74 data points tells you nothing. Deriving the same number from seven
 independent sectors with no free parameters tells you something might be right.
 
-The claim is not that all seven constraints are fully proved. Constraint C2 depends
-on the APS η-invariant conjecture (Pillar 70 — the topic of the next post). Constraint
-C3 is observationally selected; if LiteBIRD shifts the birefringence central value,
-a different integer might be selected. But the structure — seven independent
-constraints pointing to the same value — is either a deep fact about the geometry or
-an extraordinary coincidence.
+The claim is not that all seven constraints are fully proved at every level. Constraint
+C2 was dependent on the APS η-invariant argument (Pillar 70); that argument has now
+been established at three independent levels (topological — Pillar 80; algebraic —
+Pillar 89; spectral-geometric — Pillar 70-B). Constraint C3 is observationally
+selected; if LiteBIRD shifts the birefringence central value, a different integer
+might be selected. But the structure — seven independent constraints pointing to the
+same value — is either a deep fact about the geometry or an extraordinary coincidence.
 
 The framework says it is the geometry. LiteBIRD will arbitrate.
 

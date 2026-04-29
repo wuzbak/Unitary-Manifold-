@@ -2,7 +2,7 @@
 
 *Post 61 of the Unitary Manifold series.*
 *No falsifiable physics claim is made in this post. It is an epistemological
-examination of the status of 13,000 automated assertions as evidence — what they
+examination of the status of 14,183 automated assertions as evidence — what they
 prove, what they don't prove, and how they fit into the broader evidential structure
 that science requires.*
 

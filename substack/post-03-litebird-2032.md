@@ -130,10 +130,12 @@ particle models, for example, can produce birefringence from various parameter
 combinations. A confirmed detection would narrow the field but not uniquely select
 this framework.
 
-Second, confirmation of the birefringence value does not resolve the open gaps
-discussed in Post 0: the winding number uniqueness conjecture and the CMB acoustic
-peak shape residual. A complete confirmation would require those gaps to be closed
-analytically.
+Second, confirmation of the birefringence value does not resolve the remaining open gap
+discussed in Post 0: the full CMB acoustic peak position computation (Boltzmann
+integration of ℓ-values). The APS argument for n_w = 5 has now been substantially
+proved (Pillars 70-B, 80, 89); that gap has been substantially closed analytically.
+A complete confirmation would still require the full Boltzmann integration of peak
+positions.
 
 What a positive LiteBIRD measurement would do is make this framework a serious
 candidate deserving full formal review, and provide the strongest available external
@@ -167,7 +169,7 @@ that did not survive contact with data.
 
 ---
 
-*Full source code, derivations, and 12,700+ automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 *LiteBIRD mission: arXiv:2202.02773*

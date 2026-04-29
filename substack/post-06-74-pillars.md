@@ -140,17 +140,28 @@ not claimed).
 
 ---
 
-## The scope as a research programme
+## The scope as a research programme — and how it grew beyond 74
 
-The 74-pillar architecture is better understood as a research programme than as a
-completed theory. The core claims (Tier 1) are specific and testable. The extensions
-(Tier 2) are derivable consequences awaiting experimental test. The applications
-(Tier 3) are frameworks awaiting domain-expert engagement. The governance system
-(Tier 4) is independent and does not depend on the physics.
+The 74-pillar architecture was the original completed theory. Since the Topological
+Completeness Theorem closed the core at 74, the framework has been extended by 18
+additional pillars (Pillars 75, 80–92), bringing the current total to **92 pillars
+and 14,183 tests**. These extensions include:
 
-This is a large scope. It is not unlimited scope. The framework closes at 74 because
-74 satisfies the Topological Completeness Theorem. Additional extensions would require
-additional free parameters. That constraint is mathematical, not editorial.
+- **Particle physics sector (Pillars 80–88):** Derivations of the CKM matrix, PMNS
+  neutrino mixing matrix, Wolfenstein parameters (A = √(5/7), η̄ from R_b sin(72°)),
+  CP-violating phase δ = 2π/n_w = 72°, and lepton/quark mass hierarchies via the
+  Randall-Sundrum bulk Yukawa mechanism.
+- **Neutrino and Higgs sector (Pillars 90–91):** Neutrino mass splittings derived
+  from geometry; Higgs mass tree-level estimate ≈ 124 GeV (top-corrected).
+- **UV embedding (Pillar 92):** n_w = 5 → SU(5) ⊂ E₈; φ₀ = 1 ↔ M-theory radius;
+  k_CS = 74 = 2×37 (Green-Schwarz-West). Step 4 (G₄-flux) remains open.
+
+The core 74 pillars remain closed by the seven constraints. The additional 18 pillars
+are derived extensions that inherit those constraints without introducing new free
+parameters at the geometric level. The core claims (Tier 1) are specific and testable.
+The extensions (Tier 2) are derivable consequences awaiting experimental test. The
+applications (Tier 3) are frameworks awaiting domain-expert engagement. The governance
+system (Tier 4) is independent and does not depend on the physics.
 
 ---
 
@@ -168,7 +179,7 @@ not confirm.
 
 ---
 
-*Full source code, derivations, and 12,700+ automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *SEPARATION.md: https://github.com/wuzbak/Unitary-Manifold-/blob/main/SEPARATION.md*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

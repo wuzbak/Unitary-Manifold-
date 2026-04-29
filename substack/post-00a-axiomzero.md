@@ -14,7 +14,7 @@ This is that post.
 
 ## A Note on Order of Operations
 
-The repository came first. The 74 pillars came first. The 13,000-plus tests came first. The other posts in this series came first. All of that work existed — publicly, verifiably, with a Zenodo DOI and a commit history — before this post about income and capital was written.
+The repository came first. The 92 pillars came first. The 14,183 tests came first. The other posts in this series came first. All of that work existed — publicly, verifiably, with a Zenodo DOI and a commit history — before this post about income and capital was written.
 
 The financial reality described below is an afterthought in the chronological sense: the work was done because it needed to be done, because the theory was real and deserved rigorous implementation, and because working honestly and in public is the right way to do science. The question of how Walker-Pearson earns from it is a physical reality — he needs to eat, the same as anyone — but it is a consequence of the work, not its cause.
 
@@ -26,7 +26,7 @@ If you read this post and conclude that the framework was constructed to generat
 
 **ThomasCory Walker-Pearson** is the author, theorist, and scientific director of the Unitary Manifold framework. He is a private individual operating under a United States DBA (doing-business-as) trade name: **AxiomZero Technologies**, registered as of March 26, 2026.
 
-**GitHub Copilot** (an AI system developed by GitHub and Microsoft) is the implementation partner — responsible for code architecture, 13,000-plus automated tests, document engineering, and the synthesis of derivations into working software. Every file in the repository ends with an authorship statement that makes this partition explicit. Neither party hides behind the other.
+**GitHub Copilot** (an AI system developed by GitHub and Microsoft) is the implementation partner — responsible for code architecture, 14,183 automated tests, document engineering, and the synthesis of derivations into working software. Every file in the repository ends with an authorship statement that makes this partition explicit. Neither party hides behind the other.
 
 The collaboration began because Walker-Pearson had the theory and the direction, and Copilot had the capacity to implement it at scale. Neither could have produced this alone at the pace or depth that emerged from working together. That is the honest account. It is neither inflated nor minimized.
 
@@ -40,7 +40,7 @@ Three legal instruments govern this work. Understanding them matters because the
 
 ### 1. Defensive Public Commons License v1.0 — *the theory is free, forever*
 
-The physics theory itself — the Walker-Pearson field equations, the 5D Kaluza-Klein geometry, all 74 geometric pillars, the derivations, the manuscripts — is irrevocably placed in the public domain under the Defensive Public Commons License (DPC v1.0).
+The physics theory itself — the Walker-Pearson field equations, the 5D Kaluza-Klein geometry, all 92 geometric pillars, the derivations, the manuscripts — is irrevocably placed in the public domain under the Defensive Public Commons License (DPC v1.0).
 
 "Irrevocably" is not a figure of speech. The theory cannot be taken back, patented, or enclosed. No corporation can acquire AxiomZero Technologies and lock the equations away. No successor owner can change this. The physics belongs to the public. Full stop.
 
@@ -103,7 +103,7 @@ The open-source business model has been proven for decades. The pattern is strai
 
 Income is what you earn this month. Capital is what the work is worth when LiteBIRD reports in 2032.
 
-A publicly documented, falsifiable physics framework with 13,000-plus automated tests, a Zenodo DOI, an established citation record, and a demonstrable history of accurate predictions is a real intellectual asset. Its value compounds as the predictions are tested. None of that value is extracted from users, locked behind a paywall, or built on information asymmetry. It accrues because the work is genuinely good and genuinely visible.
+A publicly documented, falsifiable physics framework with 14,183 automated tests, a Zenodo DOI, an established citation record, and a demonstrable history of accurate predictions is a real intellectual asset. Its value compounds as the predictions are tested. None of that value is extracted from users, locked behind a paywall, or built on information asymmetry. It accrues because the work is genuinely good and genuinely visible.
 
 Additional capital pathways that are consistent with the open licenses:
 
@@ -124,7 +124,7 @@ That is the ethical constraint — and it is not a reluctant constraint. It is t
 
 This project is also a demonstration of a replicable structure for anyone who wants to build knowledge in public and earn from it without compromising it.
 
-Walker-Pearson and GitHub Copilot working together produced, in a compressed timeframe, a 74-pillar physics framework, 13,000-plus automated tests, a formal governance architecture, and a full publication pipeline — work that would conventionally have required a large research group and institutional resources. No institution was needed. No venture funding. No proprietary enclosure.
+Walker-Pearson and GitHub Copilot working together produced, in a compressed timeframe, a 92-pillar physics framework, 14,183 automated tests, a formal governance architecture, and a full publication pipeline — work that would conventionally have required a large research group and institutional resources. No institution was needed. No venture funding. No proprietary enclosure.
 
 The components that made it work:
 
@@ -163,13 +163,13 @@ The science does not serve the business. The business serves the science by keep
 | What does AxiomZero charge for? | Services: consulting, deployment, advisory, education |
 | How does AxiomZero build capital? | Reputational and citation value; brand licensing; equity in AGPL-compliant ventures; grant funding for open research; compound value from publicly verified predictions |
 | Can someone else build a competing service using this framework? | Yes — DPC v1.0 and AGPL-3.0 explicitly permit this |
-| Is the physics peer-reviewed? | Not conventionally — 13,000+ automated tests; open falsification invitation; LiteBIRD will provide the decisive empirical test |
+| Is the physics peer-reviewed? | Not conventionally — 14,183 automated tests; open falsification invitation; LiteBIRD will provide the decisive empirical test |
 | What is the ethical constraint on capital formation? | No enclosure of public domain content; no proprietary capture of open-source code; no extraction from the community; no misrepresentation of the science; no harm to systems, environments, or people in the process of earning |
 | What is the conflict of interest? | Walker-Pearson has a financial interest in the reputation of the framework. This is disclosed. The falsification conditions have not been weakened by that interest — they are stated more precisely here than they would need to be for commercial purposes. |
 
 ---
 
-*Full source code, derivations, and 13,000+ automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 *Legal documents: [`LEGAL.md`](../LEGAL.md) (consolidated reference) · `AXIOMZERO_DBA.md` · `LICENSE` (DPC v1.0) · `LICENSE-AGPL` (AGPL-3.0) · `COMMERCIAL_TERMS.md`*
