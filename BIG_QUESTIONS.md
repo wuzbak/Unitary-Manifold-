@@ -1592,6 +1592,7 @@ QUESTION 22 (Topological landmarks): RESOLVED (April 2026): φ* bounds = pentagr
 QUESTION 28 (Branch catalog / lossless):  IMPLEMENTED (April 2026): all (n₁,n₂) branches enumerated; L=max(ns_viol, r_viol, beta_viol); exactly 2 lossless states: {(5,6)@k=61, (5,7)@k=74}; 67 tests — `src/multiverse/branch_catalog.py`
 QUESTION 29 (Big Bang layering):          IMPLEMENTED (April 2026): BB = CS resonance locking of n_w=5,7 layers of same S¹/Z₂; NOT parallel-universe collision; E_adiab=24, E_iso=50, E_pre=74 (conserved); c_s=12/37 sets r=0.0315; 105 tests — `src/multiverse/layering.py`
 QUESTION 30 (Dual-sector β discriminability): CLOSED (April 2026, Pillar 95): (5,6) β=0.273° independently proved via CS formula g_aγγ=k_cs·α/(2π²r_c); β ratio = 61/74 exactly; gap=0.058°=2.9σ_LB; LiteBIRD (~2032) discriminates; Big Bang initial condition = degenerate ground state of both braid geometries; FTUM fixed point S*=A/(4G) reached identically from both sectors (sector-agnostic equilibrium); 93 tests — `src/core/dual_sector_convergence.py`
+QUESTION 31 (Analytic uniqueness of lossless sectors): CLOSED (April 2026, Pillar 96 — UNITARY CLOSURE): Analytic proof (not enumeration) that {(5,6),(5,7)} are the ONLY viable braid sectors. Three-constraint argument: [C1] nₛ→n_w=5; [C2] r<0.036 algebraically forces n₂≤7; [C3] β-window admits n₂∈{6,7}. FTUM fixed point S*=A/(4G) is sector-agnostic. Unitary Summation: 10 closure steps. 59 tests → 14,641=11⁴ total tests. REPOSITORY CLOSED — `src/core/unitary_closure.py`
 KEY FALSIFIER:          β outside [0.22°, 0.38°] at >1σ, OR β in gap [0.29°–0.31°] → FRAMEWORK FALSIFIED
 TWO-POINT PREDICTION:   β ∈ {0.273° (k=61, (5,6)), 0.331° (k=74, (5,7))} — LiteBIRD discriminates at 2.9σ (Pillar 95 CLOSED)
 RESOLVED TENSION:       r = 0.0315 (braided (5,7), k_cs=74) satisfies BICEP/Keck r < 0.036 (Q18 resolved)
@@ -1604,9 +1605,10 @@ ATTACK RESULTS (April 2026):
 
 ---
 
-*Document version: 1.5 — April 2026*  
+*Document version: 1.6 — April 2026*  
 *Q28–Q29 added: branch catalog + lossless criterion; Big Bang layering mechanism.*  
 *Q30 added (Pillar 95): dual-sector β discriminability — (5,6) β=0.273° proved; LiteBIRD resolves at 2.9σ.*  
+*Q31 added (Pillar 96): Unitary Closure — analytic uniqueness theorem; Unitary Summation; 14,641=11⁴ tests; REPOSITORY CLOSED.*  
 *Q18–Q22 and Future Questions added with numerical results from existing codebase.*  
 *Part of the Unitary Manifold repository.*  
 *Theory and scientific direction: **ThomasCory Walker-Pearson**.*  
