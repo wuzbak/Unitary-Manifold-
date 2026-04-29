@@ -6,7 +6,7 @@
 >
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.23, 92 pillars, 14,183 tests, 2026).
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.24, 95 pillars, 14,582 tests, 2026).
 
 ## Start Here
 
@@ -37,6 +37,7 @@
 
 ## Source Code
 
+- [dual_sector_convergence.py](src/core/dual_sector_convergence.py): Pillar 95 — Dual-sector convergence: (5,6) β=0.273° independently proved; LiteBIRD discriminates (5,6) from (5,7) at 2.9σ; Big Bang degenerate ground state interpretation; 93 tests.
 - [metric.py](src/core/metric.py): Kaluza-Klein ansatz; computes Christoffel symbols, Riemann/Ricci tensors, scalar curvature.
 - [evolution.py](src/core/evolution.py): Unitary Manifold time integrator; FieldState dataclass; run_evolution driver.
 - [boundary.py](src/holography/boundary.py): Holographic boundary; entropy-area law implementation.

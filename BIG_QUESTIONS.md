@@ -1359,8 +1359,8 @@ A numerical sweep over all (n₁, n₂) with n_max = 12 (66 branches total) find
 
 | Branch | k_cs | nₛ | r_eff | β | L |
 |--------|------|-----|-------|---|---|
-| **(5, 6)** | **61** | **0.9635** | **0.0175** | **0.290°** | **0** |
-| **(5, 7)** | **74** | **0.9635** | **0.0315** | **0.351°** | **0** |
+| **(5, 6)** | **61** | **0.9635** | **0.0175** | **0.273°** | **0** |
+| **(5, 7)** | **74** | **0.9635** | **0.0315** | **0.331°** | **0** |
 
 This is precisely the **two-point prediction** from the adversarial Attack 2
 (birefringence_scenario_scan): only two triply-viable SOS states exist inside
@@ -1368,15 +1368,16 @@ the CMB observational window.  Every other branch has L > 0.
 
 The canonical "main branch" is (5, 7) — selected by the birefringence measurement
 β ≈ 0.35° (which uniquely identifies k_cs = 74) independently of the resonance.
-The (5, 6) branch is the secondary viable state, distinguished by β ≈ 0.290°.
-CMB-S4 (precision ±0.05°) can discriminate between them; LiteBIRD (±0.10°) cannot.
+The (5, 6) branch is the secondary viable state, distinguished by β ≈ 0.273°.
+**LiteBIRD (~2032) discriminates between them at 2.9σ** (gap = 0.058°, σ_LB = 0.020°)
+— proved in Pillar 95 (`src/core/dual_sector_convergence.py`, 93 tests).
 
 ### The Test
 
-CMB-S4 birefringence measurement at ±0.05° precision:
-- β confirmed ≈ 0.351° → (5, 7) branch (k_cs = 74) selected
-- β confirmed ≈ 0.290° → (5, 6) branch (k_cs = 61) selected
-- Any other β → zero lossless branches remain; framework falsified
+LiteBIRD birefringence measurement at ±0.020° precision:
+- β confirmed ≈ 0.331° → (5, 7) primary sector selected (k_cs = 74)
+- β confirmed ≈ 0.273° → (5, 6) shadow sector selected (k_cs = 61)
+- β in gap [0.29°–0.31°] or outside [0.22°, 0.38°] → framework FALSIFIED
 
 ### Implementation
 
@@ -1510,12 +1511,13 @@ If you want to know what would kill this framework, in decreasing order of decis
 |------------|-----------------|
 | LiteBIRD: β measured outside [0.22°, 0.38°] | The braided-winding mechanism entirely |
 | LiteBIRD/CMB-S4: β lands in gap [0.29°–0.31°] between (5,6) and (5,7) predictions | Both triply-viable states simultaneously — framework falsified |
-| CMB-S4 ±0.05°: β≠0.273° AND β≠0.331° | Both specific SOS predictions — no viable state survives |
+| LiteBIRD ±0.020°: β≠0.273° AND β≠0.331° | Both specific SOS predictions — no viable state survives |
 | LiteBIRD: β = 0 (no birefringence) | The irreversibility field B_μ has no topological coupling |
 | CMB-S4: n_s significantly different from 0.9635 | The inflation module's fixed-point prediction |
 | LIGO/LISA: information-destroying black hole evaporation confirmed | The information conservation theorem |
 | Any experiment showing Born-rule violation | The WP derivation of the Born rule from KK reduction |
 | LiteBIRD / CMB-S4 B-mode detection: r confirmed < 0.036 at high significance | ~~BICEP/Keck already bounds r < 0.036; code gives r = 0.097 for n_w = 5 (see Q18)~~ **Resolved: braided (5,7) state gives r_braided≈0.0315 < 0.036** |
+| **LiteBIRD sector selection (Pillar 95):** β=0.273° selects (5,6); β=0.331° selects (5,7); gap=2.9σ | Discriminates the Big Bang initial sector; framework survives either outcome |
 
 **Resolved (April 2026):** The r vs nₛ tension (Q18) has been resolved by the braided
 (n_w=5, n_w=7) resonant state.  With k_cs = 74 = 5² + 7², the braided sound speed
@@ -1530,9 +1532,10 @@ free parameters were introduced.  See `src/core/braided_winding.py`.
    No pure-4D mechanism naturally produces c_s = 12/37 without imposing the same
    integer structure.  Attack survived.
 2. **Data Drift** — Sweeping β over the LiteBIRD 1σ window finds only two triply-viable
-   SOS states: (5,6) at β≈0.273° and (5,7) at β≈0.331°.  LiteBIRD (±0.10°) cannot
-   discriminate them; CMB-S4 (±0.05°) can.  No third viable state enters for any
-   β in [0.22°, 0.50°].  Attack survived with testable two-point prediction.
+   SOS states: (5,6) at β≈0.273° and (5,7) at β≈0.331°.  **LiteBIRD discriminates them
+   at 2.9σ** (gap = 0.058° vs σ_LB = 0.020°; proved in Pillar 95, `dual_sector_convergence.py`).
+   No third viable state enters for any β in [0.22°, 0.50°].  Attack survived with fully
+   falsifiable two-point prediction.
 3. **KK Tower** — c_s = 12/37 is invariant under (5k, 7k) KK rescaling.
    Off-diagonal zero-mode ↔ KK-mode mixing |ρ_{0k}|=k×0.946 ≥ 1.892 for k≥2:
    kinematically forbidden (|ρ|<1 required).  Floor cannot be shifted by the tower.
@@ -1588,20 +1591,22 @@ QUESTION 21 (Consciousness):         IMPLEMENTED: Ψ*(brain⊗univ) coupled fixe
 QUESTION 22 (Topological landmarks): RESOLVED (April 2026): φ* bounds = pentagram vertices (φ*_min×φ²≈c_s, φ*_max≈2/φ); ±54.6%=sin(arctan(5/7)); Ξ_c/Ξ_human=12=N_total (exact); braid_topology_report() 4/4; test_pentad_interrogation.py 74=k_cs tests — `Unitary Pentad/braid_topology.py`
 QUESTION 28 (Branch catalog / lossless):  IMPLEMENTED (April 2026): all (n₁,n₂) branches enumerated; L=max(ns_viol, r_viol, beta_viol); exactly 2 lossless states: {(5,6)@k=61, (5,7)@k=74}; 67 tests — `src/multiverse/branch_catalog.py`
 QUESTION 29 (Big Bang layering):          IMPLEMENTED (April 2026): BB = CS resonance locking of n_w=5,7 layers of same S¹/Z₂; NOT parallel-universe collision; E_adiab=24, E_iso=50, E_pre=74 (conserved); c_s=12/37 sets r=0.0315; 105 tests — `src/multiverse/layering.py`
-KEY FALSIFIER:          β outside [0.22°, 0.38°] at >1σ, OR β in gap [0.29°–0.31°]
-TWO-POINT PREDICTION:   β ∈ {0.273° (k=61, (5,6)), 0.331° (k=74, (5,7))} — CMB-S4 discriminable
+QUESTION 30 (Dual-sector β discriminability): CLOSED (April 2026, Pillar 95): (5,6) β=0.273° independently proved via CS formula g_aγγ=k_cs·α/(2π²r_c); β ratio = 61/74 exactly; gap=0.058°=2.9σ_LB; LiteBIRD (~2032) discriminates; Big Bang initial condition = degenerate ground state of both braid geometries; FTUM fixed point S*=A/(4G) reached identically from both sectors (sector-agnostic equilibrium); 93 tests — `src/core/dual_sector_convergence.py`
+KEY FALSIFIER:          β outside [0.22°, 0.38°] at >1σ, OR β in gap [0.29°–0.31°] → FRAMEWORK FALSIFIED
+TWO-POINT PREDICTION:   β ∈ {0.273° (k=61, (5,6)), 0.331° (k=74, (5,7))} — LiteBIRD discriminates at 2.9σ (Pillar 95 CLOSED)
 RESOLVED TENSION:       r = 0.0315 (braided (5,7), k_cs=74) satisfies BICEP/Keck r < 0.036 (Q18 resolved)
 KEY FORWARD PREDICTIONS: r=0.0315 (braided (5,7)), E_inf=8.4×10¹⁶ GeV, λ_COBE=6.985×10⁻¹⁵
 ATTACK RESULTS (April 2026):
   Attack 1 (Projection Degeneracy):  Survived. 4D EFT tuning fraction ~4e-4; c_s=12/37 requires 5D integer topology.
-  Attack 2 (Data Drift β sweep):     Survived. Only (5,6)@0.273° and (5,7)@0.331° triply viable. LiteBIRD cannot discriminate; CMB-S4 can.
+  Attack 2 (Data Drift β sweep):     Survived. Only (5,6)@0.273° and (5,7)@0.331° triply viable. LiteBIRD discriminates at 2.9σ (Pillar 95).
   Attack 3 (KK Tower Consistency):   Survived. c_s invariant under KK rescaling; off-diagonal |ρ_{0k}|≥1.892 for k≥2 (kinematically forbidden).
 ```
 
 ---
 
-*Document version: 1.4 — April 2026*  
+*Document version: 1.5 — April 2026*  
 *Q28–Q29 added: branch catalog + lossless criterion; Big Bang layering mechanism.*  
+*Q30 added (Pillar 95): dual-sector β discriminability — (5,6) β=0.273° proved; LiteBIRD resolves at 2.9σ.*  
 *Q18–Q22 and Future Questions added with numerical results from existing codebase.*  
 *Part of the Unitary Manifold repository.*  
 *Theory and scientific direction: **ThomasCory Walker-Pearson**.*  

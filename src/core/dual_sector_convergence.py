@@ -3,7 +3,7 @@
 """
 src/core/dual_sector_convergence.py
 ====================================
-Pillar 93 — Dual-Sector Convergence: (5,6) ⊕ (5,7) as the Big Bang Initial Condition.
+Pillar 95 — Dual-Sector Convergence: (5,6) ⊕ (5,7) as the Big Bang Initial Condition.
 
 Physical motivation
 --------------------

@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.23 — ThomasCory Walker-Pearson, 2026 (92 pillars/modules closed, 14,183 tests)*
+*Unitary Manifold v9.24 — ThomasCory Walker-Pearson, 2026 (95 pillars/modules closed, 14,582 tests)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 14,183 automated tests (92 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 2 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 14,582 automated tests (95 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 2 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "14,183 passed · 2 skipped · 0 failed," this is a statement about
+When the README badge reads "14,582 passed · 2 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -1042,7 +1042,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 14,183 passed · 2 skipped · 0 failed (92 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
+| 14,582 passed · 2 skipped · 0 failed (95 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is observationally selected within Z₂-constrained odd set, not freely fitted from continuous range |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck r < 0.036 | k_cs=74 algebraically derived (Pillar 58); no new free parameter |
 | β ∈ {0.273°, 0.331°} — two viable states | ✅ Matches birefringence hint | (5,6) and (5,7) survive triple constraint; gap [0.29°–0.31°] = zero viable pairs |
@@ -1485,7 +1485,7 @@ Open gaps after Pillar 62:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 14,183 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
+| 14,582 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
@@ -1511,6 +1511,7 @@ Open gaps after Pillar 62:
 | **KK tower back-reaction / closed loop (Pillar 72)** | ✅ **Closed** (April 2026) | `kk_backreaction.py`: back-reaction converges to FTUM φ₀≈1 (5% shift for N=5 modes). 142 tests. |
 | **CMB peak spectral shape / KK Boltzmann correction (Pillar 73)** | ✅ **Addressed** (April 2026) | `cmb_boltzmann_peaks.py`: δ_KK~8×10⁻⁴ quantified; ~35% offset is not a KK effect. 136 tests. |
 | **k_CS=74 Topological Completeness Theorem (Pillar 74)** | ✅ **Established** (April 2026) | `completeness_theorem.py`: 7 independent constraints all yield 74; over-fitting boundary proved; repository closure statement. 170 tests. |
+| **Dual-sector β discriminability (Pillar 95)** | ✅ **CLOSED** (April 2026) | `dual_sector_convergence.py`: (5,6) β=0.273° independently proved via same CS formula; gap=0.058°=2.9σ_LB; LiteBIRD (~2032) discriminates; 93 tests. |
 | **Issue 2: N_gen=3 postulate vs. derivation** | ✅ **CLOSED** (April 2026) | `n_gen_derivation_status()` in `three_generations.py`: 5-step logical chain, labels n_w=5 as the ONE observational input; N_gen=3 is a conditional theorem (Atiyah-Singer + CS gap). NOT a postulate. |
 | **Issue 3: KK tower truncation / hidden irreversibility** | ✅ **CLOSED** (April 2026) | `kk_tower_irreversibility_proof()` in `kk_backreaction.py`: each KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound on total entropy production. |
 | **Issue 4: Analytic Banach fixed-point proof** | ✅ **CLOSED** (April 2026) | `analytic_banach_proof()` in `fixed_point.py`: closed-form L = max(ρ_S, ρ_X) where ρ_S = max(|1−κdt|, |1−(κ+λ_max)dt|) and ρ_X = 1/(1+γdt) < 1. No sampling required; three checkable sufficient conditions given. |
@@ -1521,7 +1522,7 @@ Open gaps after Pillar 62:
 
 *Added April 2026 upon completion of Pillar 74.*
 
-The Unitary Manifold framework is **complete at 92 pillars**.
+The Unitary Manifold framework is **complete at 95 pillars**.
 
 The number 74 = 5² + 7² = k_CS is not an aesthetic choice — it is the unique integer
 simultaneously satisfying seven independent structural constraints (proved in
@@ -1534,7 +1535,7 @@ simultaneously satisfying seven independent structural constraints (proved in
 | [C3] Birefringence | β = 0.351° at k_CS=74 | **CROSS-CHECKED** |
 | [C4] Sound speed fraction | c_s = 24/74 = 12/37 | **DERIVED** |
 | [C5] Moduli-winding link | N_surviving_DOF = n₂ = 7; k_CS = n₁²+n₂² | **PROVED** |
-| [C6] Pillar count | 74 core pillars + 18 extended (92 total) = k_CS + 18 | **STRUCTURAL** |
+| [C6] Pillar count | 74 core pillars + 21 extended (95 total) = k_CS + 21 | **STRUCTURAL** |
 | [C7] Back-reaction eigenvalue | λ_backre = k_CS/k_CS = 1 (FTUM preserved) | **DERIVED** |
 
 **What remains open** (and will remain so, honestly documented):
@@ -1543,10 +1544,15 @@ simultaneously satisfying seven independent structural constraints (proved in
 - Λ_QCD ×10⁷ gap in the non-Abelian KK sector (Pillar 62)
 - CMB peak positions from full numerical Boltzmann integration
 
-**The primary falsifier remains unchanged:**
-LiteBIRD (~2032) will measure β to ±0.01°.
-If β ∉ {0.273° ± 0.01°, 0.331° ± 0.01°}, or if β lands in the predicted gap [0.29°–0.31°],
-the braided-winding mechanism is falsified.
+**The primary falsifier — sharpened by Pillar 95:**
+LiteBIRD (~2032) will measure β to ±0.02°.  
+β(5,7) ≈ 0.331°, β(5,6) ≈ 0.273°; gap = 0.058° = **2.9σ_LB — LiteBIRD discriminates the sectors**.  
+Three falsifiable outcomes:
+- β ≈ 0.273° → (5,6) shadow sector selected; (5,7) disfavoured at ~2.9σ
+- β ≈ 0.331° → (5,7) primary sector selected; (5,6) disfavoured at ~2.9σ  
+- β in gap [0.29°–0.31°] or outside [0.22°, 0.38°] → **framework FALSIFIED**
+
+See `src/core/dual_sector_convergence.py` (Pillar 95) and `tests/test_dual_sector_convergence.py` (93 tests).
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*

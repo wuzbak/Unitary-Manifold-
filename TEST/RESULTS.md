@@ -2,10 +2,10 @@
 
 Run date: 2026-04-29 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): ~12601 PASSED · 2 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): ~13000 PASSED · 2 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (tests/ only): ~12613 collected · ~12601 passed · 2 skipped · 11 slow-deselected · 0 failures**
-**Grand total (all suites): ~14195 collected · 14183 passed · 2 skipped · 11 deselected · 0 failures**
+**Grand total (tests/ only): ~13013 collected · ~13000 passed · 2 skipped · 11 slow-deselected · 0 failures**
+**Grand total (all suites): ~14595 collected · 14582 passed · 2 skipped · 11 deselected · 0 failures**
 
 ⚑ **Skip explanation (2 skips):**
 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
