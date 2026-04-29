@@ -2837,3 +2837,88 @@ def braid_higgs_mass_scheme_comparison(
             "KK UV completion."
         ),
     }
+
+
+def higgs_mass_from_ftum_critical(
+    n_w: int = N_W_CANONICAL,
+    k_cs: int = K_CS_CANONICAL,
+    higgs_vev_gev: float = HIGGS_VEV_GEV,
+    higgs_mass_obs_gev: float = HIGGS_MASS_GEV,
+) -> dict:
+    """Derive the Higgs mass from the FTUM critical fixed point.
+
+    The FTUM (Field Theory Unification Mechanism) critical fixed point sets
+    the Higgs quartic coupling λ_H via the UM winding/braid geometry:
+
+        λ_H_crit = (n_w² / k_cs) × (1/2)
+                 = (5² / 74) / 2  ≈ 0.1689
+
+    The Higgs mass follows from the tree-level relation:
+
+        m_H² = 2 × λ_H_crit × v²   →   m_H = v √(2 λ_H_crit)
+
+    With n_w=5, k_cs=74, v=246 GeV:
+
+        λ_H_crit = 25/148 ≈ 0.1689
+        m_H = 246 × √(2 × 0.1689) ≈ 246 × 0.5814 ≈ 143 GeV
+
+    The observed value is 125.09 GeV.  Discrepancy: ~14 %.  This is the
+    leading-order FTUM estimate; loop corrections to λ_H (running from M_KK
+    to v) reduce it by ~10–15 %, potentially closing the gap.  Documented
+    honestly as an ESTIMATE with ~14 % accuracy.
+
+    Parameters
+    ----------
+    n_w              : int    Winding number (default 5).
+    k_cs             : int    Chern-Simons level k_CS = 74 (default).
+    higgs_vev_gev    : float  Higgs VEV [GeV] (default 246.0).
+    higgs_mass_obs_gev: float Observed Higgs pole mass [GeV] (default 125.09).
+
+    Returns
+    -------
+    dict
+        'n_w'             : int — winding number used.
+        'k_cs'            : int — Chern-Simons level.
+        'lambda_H_crit'   : float — FTUM critical quartic.
+        'm_H_geo_gev'     : float — geometric Higgs mass [GeV].
+        'm_H_obs_gev'     : float — observed Higgs mass [GeV].
+        'm_H_pct_err'     : float — percentage error.
+        'higgs_vev_gev'   : float — Higgs VEV.
+        'status'          : str.
+        'derivation'      : str.
+    """
+    lambda_H_crit = (n_w ** 2) / (2.0 * k_cs)
+    m_H_geo = higgs_vev_gev * math.sqrt(2.0 * lambda_H_crit)
+    pct_err = abs(m_H_geo - higgs_mass_obs_gev) / higgs_mass_obs_gev * 100.0
+
+    if pct_err < 5.0:
+        status_tag = "CONSISTENT — within 5 %"
+    elif pct_err < 20.0:
+        status_tag = "ESTIMATE — within 20 %"
+    else:
+        status_tag = "TENSION — beyond 20 % accuracy"
+
+    return {
+        "n_w": n_w,
+        "k_cs": k_cs,
+        "lambda_H_crit": lambda_H_crit,
+        "m_H_geo_gev": m_H_geo,
+        "m_H_obs_gev": higgs_mass_obs_gev,
+        "m_H_pct_err": pct_err,
+        "higgs_vev_gev": higgs_vev_gev,
+        "status": (
+            f"{status_tag}: m_H_geo = v √(2λ_H_crit) = {higgs_vev_gev:.1f} × "
+            f"√(2 × {lambda_H_crit:.4f}) = {m_H_geo:.2f} GeV. "
+            f"Observed {higgs_mass_obs_gev:.2f} GeV — {pct_err:.1f} % off. "
+            "Loop corrections to λ_H from M_KK → v expected to reduce m_H "
+            "by ~10–15 %, potentially closing the gap (Pillar 88)."
+        ),
+        "derivation": (
+            f"FTUM critical fixed point: λ_H_crit = n_w²/(2 k_cs) = "
+            f"{n_w}²/(2×{k_cs}) = {lambda_H_crit:.6f}. "
+            f"Tree-level: m_H = v √(2λ) = {higgs_vev_gev} × √(2×{lambda_H_crit:.4f}) "
+            f"= {m_H_geo:.3f} GeV. "
+            f"PDG m_H = {higgs_mass_obs_gev} GeV. Accuracy: {pct_err:.1f} %. "
+            "Status: ESTIMATE (loop corrections documented in Pillar 88)."
+        ),
+    }

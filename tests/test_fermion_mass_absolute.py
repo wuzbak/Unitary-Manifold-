@@ -49,6 +49,7 @@ from src.core.fermion_mass_absolute import (
     C_L_STRANGE_PILLAR81,
     C_L_BOTTOM_PILLAR81,
     # Functions
+    bulk_mass_from_gw_naturalness,
     gw_naturalness_bound,
     ir_brane_vev_from_gw,
     yukawa_scale_from_electron,
@@ -426,3 +427,59 @@ class TestAbsoluteMassClosureReport:
 
     def test_quark_predictions_present(self):
         assert "quark_mass_predictions" in self.r
+
+
+# ---------------------------------------------------------------------------
+# TestBulkMassFromGWNaturalness
+# ---------------------------------------------------------------------------
+
+class TestBulkMassFromGWNaturalness:
+    """Tests for bulk_mass_from_gw_naturalness()."""
+
+    def setup_method(self):
+        self.res = bulk_mass_from_gw_naturalness()
+
+    def test_returns_dict(self):
+        assert isinstance(self.res, dict)
+
+    def test_fermion_label_is_electron(self):
+        assert self.res["fermion"] == "electron"
+
+    def test_f0_L_positive(self):
+        assert self.res["f0_L"] > 0
+
+    def test_f0_R_positive(self):
+        assert self.res["f0_R"] > 0
+
+    def test_overlap_positive(self):
+        assert self.res["overlap"] > 0
+
+    def test_Y5_required_positive(self):
+        assert self.res["Y5_required"] > 0
+
+    def test_Y5_natural_upper_is_sqrt_lambda_gw(self):
+        expected = math.sqrt(LAMBDA_GW_NATURAL)
+        assert abs(self.res["Y5_natural_upper"] - expected) < 1e-12
+
+    def test_y_4d_electron_from_m_over_v(self):
+        expected = M_ELECTRON_MEV / V_HIGGS_MEV
+        assert abs(self.res["y_4d_electron"] - expected) < 1e-12
+
+    def test_Y5_equals_y_4d_over_overlap(self):
+        y4d = self.res["y_4d_electron"]
+        overlap = self.res["overlap"]
+        Y5_expected = y4d / overlap
+        assert abs(self.res["Y5_required"] - Y5_expected) < 1e-12
+
+    def test_status_string_nonempty(self):
+        assert len(self.res["status"]) > 20
+
+    def test_derivation_string_nonempty(self):
+        assert len(self.res["derivation"]) > 20
+
+    def test_is_natural_bool(self):
+        assert isinstance(self.res["is_natural"], bool)
+
+    def test_custom_fermion_label(self):
+        r = bulk_mass_from_gw_naturalness(fermion="muon", c_L=C_L_MUON_PILLAR75)
+        assert r["fermion"] == "muon"

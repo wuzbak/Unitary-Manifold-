@@ -208,10 +208,13 @@ class TestGeometricEstimates:
         assert "CONSISTENT" in geo["theta23"]["status"] or "near-maximal" in geo["theta23"]["status"].lower()
 
     def test_theta12_sin2_formula(self):
-        """sin2 theta12 = (n_w-1)/(3n_w) = 4/15 for n_w=5."""
+        """sin2 theta12 uses second-order correction formula for n_w=5:
+        sin²θ₁₂ = (n_w-1)(4n_w+3)/(12n_w²) = 4×23/300 = 92/300."""
         geo = pmns_geometric_estimate(5)
-        expected = 4.0 / 15.0
+        expected = (5 - 1) * (4 * 5 + 3) / (12.0 * 5 ** 2)  # = 92/300
         assert abs(geo["theta12"]["sin2_geometric"] - expected) < 1e-10
+        # Status should reflect the closure
+        assert "CLOSED" in geo["theta12"]["status"]
 
     def test_theta13_sin2_formula(self):
         """sin2 theta13 = 1/(2n_w^2) = 1/50 for n_w=5."""
@@ -253,3 +256,49 @@ class TestGapReport:
     def test_gap_report_contains_resolution(self):
         report = pmns_gap_report()
         assert "RESOLUTION" in report or "Resolution" in report or "CLOSED" in report
+
+
+# ---------------------------------------------------------------------------
+# TestNeutrinoSplittingsFromGeometry  (new function, Pillar 83 v9.22)
+# ---------------------------------------------------------------------------
+
+class TestNeutrinoSplittingsFromGeometry:
+    """Tests for neutrino_splittings_from_geometry() — mass-squared splittings
+    derived from the (n₁, n₂) = (5, 7) braid geometry."""
+
+    def setup_method(self):
+        from src.core.neutrino_pmns import neutrino_splittings_from_geometry
+        self.res = neutrino_splittings_from_geometry()
+
+    def test_returns_dict(self):
+        assert isinstance(self.res, dict)
+
+    def test_braid_product_is_35(self):
+        assert self.res["braid_product_n1_n2"] == 35
+
+    def test_dm2_21_geo_matches_pdg_constant(self):
+        from src.core.neutrino_pmns import DM2_21_EV2
+        assert abs(self.res["dm2_21_geo_eV2"] - DM2_21_EV2) < 1e-20
+
+    def test_dm2_ratio_is_36(self):
+        # Ratio = n₁n₂ + 1 = 35 + 1 = 36
+        assert abs(self.res["dm2_ratio_geo"] - 36.0) < 1e-10
+
+    def test_dm2_31_pct_err_below_15(self):
+        assert self.res["dm2_31_pct_err"] < 15.0
+
+    def test_sum_mnu_within_planck_limit(self):
+        assert self.res["planck_consistent"] is True
+
+    def test_mass_ratio_r_equals_sqrt35(self):
+        expected = math.sqrt(35)
+        assert abs(self.res["mass_ratio_r"] - expected) < 1e-10
+
+    def test_masses_ordered_normal_hierarchy(self):
+        assert self.res["m_nu1_eV"] < self.res["m_nu2_eV"] < self.res["m_nu3_eV"]
+
+    def test_status_string_nonempty(self):
+        assert len(self.res["status"]) > 20
+
+    def test_derivation_string_nonempty(self):
+        assert len(self.res["derivation"]) > 20

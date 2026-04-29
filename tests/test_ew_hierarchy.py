@@ -2017,3 +2017,58 @@ class TestBraidHiggsMassSchemeComparison:
         assert cmp200["m_H_dim_reg"] < self.cmp["m_H_dim_reg"]
         # hard-cutoff mass is higher (less correction) at 200 GeV
         assert cmp200["m_H_hard_cutoff"] > self.cmp["m_H_hard_cutoff"]
+
+
+# ============================================================================
+# TestHiggsMassFromFTUMCritical
+# ============================================================================
+
+class TestHiggsMassFromFTUMCritical:
+    """Tests for ew.higgs_mass_from_ftum_critical() — Pillar 88."""
+
+    def setup_method(self):
+        self.res = ew.higgs_mass_from_ftum_critical()
+
+    def test_returns_dict(self):
+        assert isinstance(self.res, dict)
+
+    def test_n_w_is_5(self):
+        assert self.res["n_w"] == 5
+
+    def test_k_cs_is_74(self):
+        assert self.res["k_cs"] == 74
+
+    def test_lambda_H_crit_value(self):
+        # λ_H = n_w²/(2k_cs) = 25/148
+        expected = 25.0 / 148.0
+        assert abs(self.res["lambda_H_crit"] - expected) < 1e-12
+
+    def test_lambda_H_crit_positive(self):
+        assert self.res["lambda_H_crit"] > 0
+
+    def test_m_H_geo_gev_positive(self):
+        assert self.res["m_H_geo_gev"] > 0
+
+    def test_m_H_geo_gev_formula(self):
+        # m_H = v √(2λ)
+        expected = ew.HIGGS_VEV_GEV * math.sqrt(2.0 * self.res["lambda_H_crit"])
+        assert abs(self.res["m_H_geo_gev"] - expected) < 1e-10
+
+    def test_m_H_obs_gev_matches_constant(self):
+        assert abs(self.res["m_H_obs_gev"] - ew.HIGGS_MASS_GEV) < 1e-12
+
+    def test_m_H_pct_err_below_20(self):
+        assert self.res["m_H_pct_err"] < 20.0
+
+    def test_m_H_geo_in_reasonable_range(self):
+        # Tree-level estimate — expect 100–200 GeV
+        assert 100.0 < self.res["m_H_geo_gev"] < 200.0
+
+    def test_status_string_nonempty(self):
+        assert len(self.res["status"]) > 20
+
+    def test_derivation_string_nonempty(self):
+        assert len(self.res["derivation"]) > 20
+
+    def test_higgs_vev_key(self):
+        assert abs(self.res["higgs_vev_gev"] - ew.HIGGS_VEV_GEV) < 1e-12

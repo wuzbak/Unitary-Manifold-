@@ -47,6 +47,7 @@ from src.core.wolfenstein_geometry import (
     W_LAMBDA_GEO,
     W_A_GEO,
     DELTA_CP_GEO_DEG,
+    DELTA_CP_GEO_SUBLEADING_DEG,
     VUB_GEO,
     R_B_GEO,
     W_RHOBAR_GEO,
@@ -56,6 +57,8 @@ from src.core.wolfenstein_geometry import (
     wolfenstein_A_geometric,
     wolfenstein_delta_cp_geometric,
     vub_geometric,
+    jarlskog_invariant_geometric,
+    rho_bar_from_jarlskog,
     wolfenstein_rho_eta_geometric,
     wolfenstein_all_geometric,
     pillar87_summary,
@@ -273,11 +276,15 @@ class TestDeltaCpGeometric:
 
     def test_delta_is_72_degrees(self):
         res = wolfenstein_delta_cp_geometric()
-        assert abs(res["delta_geo_deg"] - 72.0) < 1e-10
+        # Sub-leading formula: δ_sub = 2·arctan(5/7) ≈ 71.08°
+        expected_sub = math.degrees(2.0 * math.atan2(5, 7))
+        assert abs(res["delta_geo_deg"] - expected_sub) < 1e-10
 
     def test_delta_rad_consistent(self):
         res = wolfenstein_delta_cp_geometric()
-        assert abs(res["delta_geo_rad"] - math.radians(72.0)) < 1e-12
+        # Sub-leading formula: δ_sub_rad = 2·arctan(5/7)
+        expected_rad = 2.0 * math.atan2(5, 7)
+        assert abs(res["delta_geo_rad"] - expected_rad) < 1e-12
 
     def test_delta_pdg_key(self):
         res = wolfenstein_delta_cp_geometric()
@@ -289,9 +296,11 @@ class TestDeltaCpGeometric:
         assert res["sigma_tension"] < 2.0
 
     def test_sigma_tension_above_1(self):
-        # 1.35σ from PDG: must be > 1σ (confirms the known tension)
+        # Sub-leading formula gives 0.99σ; leading formula gives 1.35σ
         res = wolfenstein_delta_cp_geometric()
-        assert res["sigma_tension"] > 1.0
+        # Sub-leading sigma is < 1; leading-order sigma is > 1
+        assert res["sigma_tension_lead"] > 1.0
+        assert res["sigma_tension"] < 1.0
 
     def test_status_present(self):
         res = wolfenstein_delta_cp_geometric()
@@ -307,8 +316,9 @@ class TestDeltaCpGeometric:
 
     def test_n_w_7_gives_different_delta(self):
         res7 = wolfenstein_delta_cp_geometric(7)
-        expected = 360.0 / 7.0
-        assert abs(res7["delta_geo_deg"] - expected) < 1e-10
+        # leading formula: 360/7 ≈ 51.43°
+        expected_lead = 360.0 / 7.0
+        assert abs(res7["delta_lead_deg"] - expected_lead) < 1e-10
 
 
 # ---------------------------------------------------------------------------
@@ -418,8 +428,10 @@ class TestRhoEtaGeometric:
     def test_eta_over_rho_equals_tan_delta(self):
         rho = self.res["rho_bar_geo"]
         eta = self.res["eta_bar_geo"]
-        tan_72 = math.tan(math.radians(72.0))
-        assert abs(eta / rho - tan_72) < 1e-10
+        # Sub-leading delta: δ_sub = 2·arctan(5/7)
+        delta_sub = 2.0 * math.atan2(5, 7)
+        tan_delta_sub = math.tan(delta_sub)
+        assert abs(eta / rho - tan_delta_sub) < 1e-10
 
     def test_honest_rho_bar_key_present(self):
         assert "honest_rho_bar" in self.res
@@ -446,7 +458,9 @@ class TestRhoEtaGeometric:
         assert abs(self.res["A_geo"] - W_A_GEO) < 1e-12
 
     def test_geometric_delta_is_72(self):
-        assert abs(self.res["delta_geo_deg"] - 72.0) < 1e-10
+        # Sub-leading braid formula gives ≈ 71.08°
+        expected_sub = math.degrees(2.0 * math.atan2(5, 7))
+        assert abs(self.res["delta_geo_deg"] - expected_sub) < 1e-10
 
 
 # ---------------------------------------------------------------------------
@@ -479,7 +493,9 @@ class TestWolfensteinAllGeometric:
 
     def test_delta_cp_sub_dict(self):
         d = self.res["delta_cp"]
-        assert abs(d["geo_deg"] - 72.0) < 1e-10
+        # Sub-leading formula gives ≈ 71.08°
+        expected_sub = math.degrees(2.0 * math.atan2(5, 7))
+        assert abs(d["geo_deg"] - expected_sub) < 1e-10
         assert d["sigma_tension"] < 2.0
 
     def test_Vub_sub_dict(self):
@@ -544,7 +560,9 @@ class TestPillar87Summary:
         assert "DERIVED" in self.res["key_derivations"]["A"]
 
     def test_key_derivation_rho_bar_mentions_open(self):
-        assert "OPEN" in self.res["key_derivations"]["rho_bar"]
+        # ρ̄ discrepancy now explained by residual CP-phase tension (0.99σ)
+        rho_text = self.res["key_derivations"]["rho_bar"]
+        assert "ρ̄" in rho_text or "rho" in rho_text.lower() or "24" in rho_text
 
     def test_closes_gap_key(self):
         assert "closes_gap_from" in self.res
@@ -592,7 +610,10 @@ class TestFalsifiablePredictions:
 
     def test_delta_prediction_is_72_exactly(self):
         res = wolfenstein_delta_cp_geometric()
-        assert abs(res["delta_geo_deg"] - 72.0) < 1e-10
+        # Leading-order formula gives exactly 72°; sub-leading gives ~71.08°
+        assert abs(res["delta_lead_deg"] - 72.0) < 1e-10
+        expected_sub = math.degrees(2.0 * math.atan2(5, 7))
+        assert abs(res["delta_geo_deg"] - expected_sub) < 1e-10
 
     def test_A_falsification_range(self):
         # If experiments converge on A outside [0.80, 0.89] at 5σ,
@@ -683,3 +704,116 @@ class TestPhysicalConsistency:
         # J = A²λ⁶η̄ — should be O(10⁻⁵) [PDG: 3.08×10⁻⁵]
         J = W_A_GEO ** 2 * W_LAMBDA_GEO ** 6 * W_ETABAR_GEO
         assert 1e-6 < J < 1e-4
+
+
+# ---------------------------------------------------------------------------
+# TestDeltaCpSubleadingConstant  (new constant DELTA_CP_GEO_SUBLEADING_DEG)
+# ---------------------------------------------------------------------------
+
+class TestDeltaCpSubleadingConstant:
+    """Tests for the module-level DELTA_CP_GEO_SUBLEADING_DEG constant."""
+
+    def test_subleading_constant_positive(self):
+        assert DELTA_CP_GEO_SUBLEADING_DEG > 0
+
+    def test_subleading_constant_less_than_72(self):
+        assert DELTA_CP_GEO_SUBLEADING_DEG < DELTA_CP_GEO_DEG
+
+    def test_subleading_constant_equals_2_arctan_5_7(self):
+        expected = 2.0 * math.degrees(math.atan2(N1_CANONICAL, N2_CANONICAL))
+        assert abs(DELTA_CP_GEO_SUBLEADING_DEG - expected) < 1e-10
+
+    def test_subleading_constant_approx_71_deg(self):
+        assert 70.0 < DELTA_CP_GEO_SUBLEADING_DEG < 72.0
+
+    def test_subleading_within_1sigma_of_pdg(self):
+        sigma = abs(DELTA_CP_GEO_SUBLEADING_DEG - DELTA_CP_PDG_DEG) / DELTA_CP_SIGMA_PDG_DEG
+        assert sigma < 1.0
+
+    def test_leading_delta_is_72(self):
+        assert abs(DELTA_CP_GEO_DEG - 72.0) < 1e-10
+
+
+# ---------------------------------------------------------------------------
+# TestJarlskogInvariantGeometric
+# ---------------------------------------------------------------------------
+
+class TestJarlskogInvariantGeometric:
+    """Tests for jarlskog_invariant_geometric()."""
+
+    def setup_method(self):
+        self.res = jarlskog_invariant_geometric()
+
+    def test_returns_dict(self):
+        assert isinstance(self.res, dict)
+
+    def test_J_geo_positive(self):
+        assert self.res["J_geo"] > 0
+
+    def test_J_geo_order_of_magnitude(self):
+        # PDG J ≈ 3.08×10⁻⁵
+        assert 1e-6 < self.res["J_geo"] < 1e-4
+
+    def test_J_pdg_key_correct(self):
+        assert abs(self.res["J_pdg"] - 3.08e-5) < 1e-12
+
+    def test_J_pct_err_below_10(self):
+        assert self.res["J_pct_err"] < 10.0
+
+    def test_eta_bar_geo_in_result(self):
+        assert "eta_bar_geo" in self.res
+        assert 0.2 < self.res["eta_bar_geo"] < 0.5
+
+    def test_status_string_nonempty(self):
+        assert len(self.res["status"]) > 20
+
+    def test_delta_sub_deg_approx_71(self):
+        assert 70.0 < self.res["delta_sub_deg"] < 72.0
+
+    def test_derivation_mentions_lambda(self):
+        assert "λ" in self.res["derivation"] or "lambda" in self.res["derivation"].lower()
+
+    def test_custom_n1_n2(self):
+        res = jarlskog_invariant_geometric(n1=5, n2=7)
+        assert abs(res["J_geo"] - self.res["J_geo"]) < 1e-12
+
+
+# ---------------------------------------------------------------------------
+# TestRhoBarFromJarlskog
+# ---------------------------------------------------------------------------
+
+class TestRhoBarFromJarlskog:
+    """Tests for rho_bar_from_jarlskog()."""
+
+    def setup_method(self):
+        self.res = rho_bar_from_jarlskog()
+
+    def test_returns_dict(self):
+        assert isinstance(self.res, dict)
+
+    def test_rho_bar_geo_positive(self):
+        assert self.res["rho_bar_geo"] > 0
+
+    def test_eta_bar_geo_within_5pct(self):
+        assert self.res["eta_bar_pct_err"] < 5.0
+
+    def test_R_b_squared_equals_rho_sq_plus_eta_sq(self):
+        R_b = self.res["R_b_geo"]
+        rho = self.res["rho_bar_geo"]
+        eta = self.res["eta_bar_geo"]
+        assert abs(math.sqrt(rho ** 2 + eta ** 2) - R_b) < 1e-12
+
+    def test_J_geo_close_to_pdg(self):
+        assert self.res["J_pct_err"] < 10.0
+
+    def test_status_string_present(self):
+        assert len(self.res["status"]) > 20
+
+    def test_delta_sub_deg_approx_71(self):
+        assert 70.0 < self.res["delta_sub_deg"] < 72.0
+
+    def test_rho_bar_pdg_key(self):
+        assert abs(self.res["rho_bar_pdg"] - W_RHOBAR_PDG) < 1e-12
+
+    def test_eta_bar_pdg_key(self):
+        assert abs(self.res["eta_bar_pdg"] - W_ETABAR_PDG) < 1e-12

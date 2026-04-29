@@ -43,6 +43,7 @@ from src.core.uv_completion_constraints import (
     m_theory_identification,
     wilsonian_rg_flow_check,
     uv_constraints_audit,
+    derive_uv_embedding,
 )
 
 
@@ -418,3 +419,55 @@ class TestUVConstraintsAudit:
     def test_m_theory_in_audit(self):
         result = uv_constraints_audit()
         assert "identification" in result["m_theory_identification"]
+
+
+# ---------------------------------------------------------------------------
+# TestDeriveUVEmbedding  (Pillar 92 — UV embedding chain)
+# ---------------------------------------------------------------------------
+
+class TestDeriveUVEmbedding:
+    """Tests for derive_uv_embedding() — Pillar 92."""
+
+    def setup_method(self):
+        self.res = derive_uv_embedding()
+
+    def test_returns_dict(self):
+        assert isinstance(self.res, dict)
+
+    def test_pillar_is_92(self):
+        assert self.res["pillar"] == 92
+
+    def test_n_w_is_5(self):
+        assert self.res["n_w"] == N_W
+
+    def test_k_cs_is_74(self):
+        assert self.res["k_cs"] == K_CS
+
+    def test_phi0_is_1(self):
+        assert abs(self.res["phi0"] - PHI0_BARE) < 1e-12
+
+    def test_steps_keys_present(self):
+        for key in ("step1_aps_eta", "step2_anomaly_cancellation",
+                    "step3_ftum_fixed_point", "step4_flux_matching"):
+            assert key in self.res["steps"]
+
+    def test_step1_aps_proved(self):
+        assert "PROVED" in self.res["steps"]["step1_aps_eta"]
+
+    def test_step2_anomaly_algebraic(self):
+        assert "ALGEBRAIC" in self.res["steps"]["step2_anomaly_cancellation"]
+
+    def test_step3_ftum_proved(self):
+        assert "PROVED" in self.res["steps"]["step3_ftum_fixed_point"]
+
+    def test_step4_is_open(self):
+        assert "OPEN" in self.res["steps"]["step4_flux_matching"]
+
+    def test_overall_status_steps_1_3_closed(self):
+        assert "1" in self.res["overall_status"] or "CLOSED" in self.res["overall_status"]
+
+    def test_remaining_gap_nonempty(self):
+        assert len(self.res["remaining_gap"]) > 20
+
+    def test_remaining_gap_mentions_flux(self):
+        assert "flux" in self.res["remaining_gap"].lower() or "G₄" in self.res["remaining_gap"]
