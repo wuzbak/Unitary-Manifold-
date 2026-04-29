@@ -260,7 +260,7 @@ invites domain experts to test the specific predictions.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Psychology module: `src/psychology/` — 82 tests in `tests/test_psychology.py`*
 *Neuroscience module: `src/neuroscience/` — 92 tests*

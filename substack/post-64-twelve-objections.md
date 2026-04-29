@@ -68,7 +68,7 @@ prediction that requires neural experiments to evaluate. If high-precision measu
 rule out 7/5 as a preferred ratio, that specific prediction is falsified. The module
 is labeled Tier 2 speculative extension throughout.
 
-**Q:** You have 14,183 tests. But tests that you wrote for your own framework are
+**Q:** You have 14,641 tests. But tests that you wrote for your own framework are
 not independent verification. You could write tests that pass by construction.
 
 **A:** True, and this is a real limitation. The tests verify internal consistency,
@@ -113,7 +113,7 @@ selection. This is the right question to ask, and we're glad you asked it last.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
 *Break handles: `HOW_TO_BREAK_THIS.md`*

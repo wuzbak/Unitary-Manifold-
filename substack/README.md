@@ -171,3 +171,61 @@ Each post draws directly from these repository documents:
 
 *Series concept and content strategy: ThomasCory Walker-Pearson.*
 *Draft writing and document engineering: GitHub Copilot (AI).*
+
+## Posts 75–96: The Closing Arc (v9.25 — UNITARY CLOSURE EDITION)
+
+| File | Post | Topic |
+|------|------|-------|
+| `post-75-standard-model-parameters.md` | Post 75 | "The Standard Model Has 28 Free Parameters. How Many Are Actually Free?" — Pillar 88 SM audit |
+| `post-76-wolfenstein-geometry.md` | Post 76 | "The CKM Matrix Without Free Parameters" — Pillar 87 Wolfenstein geometry |
+| `post-77-neutrino-mixing-cp-phase.md` | Post 77 | "Neutrino Mixing and the CP Phase That Came Out Right" — Pillars 83, 86 |
+| `post-78-neutrino-mass-tension-resolved.md` | Post 78 | "Neutrino Masses: The Tension That Was There and How It Resolved" — Pillar 90 |
+| `post-79-higgs-mass-geometry.md` | Post 79 | "The Higgs Boson From Geometry — 125 GeV Without Fine-Tuning" — Pillar 91 |
+| `post-80-grand-unification-e8.md` | Post 80 | "Grand Unification: How E₈ Sees Five Dimensions" — Pillars 92, 94 |
+| `post-81-four-proofs-winding-five.md` | Post 81 | "Four Independent Reasons the Winding Number Is 5" — Pillars 84, 89 |
+| `post-82-aps-topology-vacuum.md` | Post 82 | "The Topology Proof — How Boundary Conditions Select the Vacuum" — Pillars 70-B, 80, 89 |
+| `post-83-embryology-five-dimensions.md` | Post 83 | "Embryology From Five Dimensions" — embryology-manifold predictions |
+| `post-84-yukawa-geometry-fermion-masses.md` | Post 84 | "Fermion Masses From Bulk Curvature — The Yukawa Geometry" — Pillar 93 |
+| `post-85-dual-sectors-5-6-and-5-7.md` | Post 85 | "Two Universes in One Geometry — The (5,6) and (5,7) Sectors" — Pillar 95 |
+| `post-86-the-2-9-sigma-gap.md` | Post 86 | "The 2.9σ Gap — What LiteBIRD Will Actually Measure" |
+| `post-87-fourteen-thousand-641-equals-11-to-the-4th.md` | Post 87 | "14,641 = 11⁴ — The Number That Wasn't Planned" |
+| `post-88-96-pillars-architecture.md` | Post 88 | "96 Pillars — The Architecture of What Was Built" |
+| `post-89-what-we-cannot-claim.md` | Post 89 | "What We Cannot Claim — The Remaining Open Questions at Closure" |
+| `post-90-science-without-funding.md` | Post 90 | "Science Without Funding — What This Project Demonstrates" |
+| `post-91-if-you-are-a-physicist.md` | Post 91 | "If You Are a Physicist — What to Check, What to Break" |
+| `post-92-recycling-geometry-revisited.md` | Post 92 | "The Recycling Problem Is a Geometry Problem" |
+| `post-93-governance-is-a-physics-problem.md` | Post 93 | "The Governance Problem Is a Physics Problem" |
+| `post-94-information-that-cannot-be-lost.md` | Post 94 | "The Information That Cannot Be Lost" |
+| `post-95-unitary-closure-theorem.md` | Post 95 | "The Unitary Closure Theorem — The Final Analytic Result" — Pillar 96 |
+| `post-96-conclusion-96-pillars-14641-tests.md` | Post 96 | **"96 Pillars, 14,641 Tests, and What It All Means for Humanity" — CONCLUSION** |
+
+## Source Documents for Posts 75–96
+
+| Document | Used in |
+|----------|---------|
+| `src/core/sm_free_parameters.py` | Post 75 |
+| `src/core/wolfenstein_geometry.py` | Post 76 |
+| `src/core/neutrino_pmns.py`, `src/core/neutrino_majorana_dirac.py` | Post 77 |
+| `FALLIBILITY.md` §neutrino tension | Post 78 |
+| `src/core/` — Higgs estimate (Pillar 91) | Post 79 |
+| `src/core/uv_completion_constraints.py`, `src/core/su5_orbifold_proof.py` | Post 80 |
+| `src/core/vacuum_selection.py`, `src/core/vacuum_geometric_proof.py` | Post 81 |
+| `src/core/aps_spin_structure.py`, `src/core/vacuum_geometric_proof.py` | Post 82 |
+| `embryology-manifold/` | Post 83 |
+| `src/core/yukawa_geometric_closure.py` | Post 84 |
+| `src/core/dual_sector_convergence.py` | Posts 85, 86 |
+| `src/core/unitary_closure.py` | Posts 87, 95, 96 |
+| `TABLE_OF_CONTENTS.md`, `FALLIBILITY.md` | Posts 88, 89 |
+| `co-emergence/` | Post 90 |
+| `HOW_TO_BREAK_THIS.md` | Post 91 |
+| `recycling/` | Post 92 |
+| `Unitary Pentad/` | Post 93 |
+| `src/core/bh_remnant.py`, `src/multiverse/fixed_point.py` | Post 94 |
+| All posts 00–95, `COMPLETION_REPORT.md` | Post 96 |
+
+---
+
+*Series concept and content strategy: ThomasCory Walker-Pearson.*
+*Draft writing and document engineering: GitHub Copilot (AI).*
+
+**96 posts. 96 pillars. 14,641 tests. The sky will decide the rest.**

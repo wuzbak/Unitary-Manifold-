@@ -135,7 +135,7 @@ to close a gap, but to confirm from a third angle what two proofs already say.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *APS derivation (Pillar 70-B): `src/core/aps_spin_structure.py` — 256 tests*
 *Topological derivation (Pillar 80): `src/core/aps_step3_topological.py`*

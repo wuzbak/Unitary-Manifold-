@@ -51,7 +51,7 @@ production. Dismissing it is foolish.
 ## The structural limitations that apply here
 
 **Problem 1: Scope.** A paper in Physical Review Letters is typically 4–6 pages.
-The Unitary Manifold spans 92 pillars covering cosmology, particle physics, atomic
+The Unitary Manifold spans 96 pillars covering cosmology, particle physics, atomic
 structure, cold fusion, medicine, justice, governance, neuroscience, ecology, climate,
 genetics, and materials science. No PRL paper covers 74 domains.
 
@@ -86,7 +86,7 @@ applications exist in a publication space that no single journal covers.
 
 The alternative was not to bypass rigor. It was to be rigorous in a different format.
 
-**14,183 automated tests.** Every claim in the framework has a corresponding test
+**14,641 automated tests.** Every claim in the framework has a corresponding test
 in the repository. A test failure is a refutation. The test suite is public, runnable,
 and reproducible. Anyone can clone the repository and verify every assertion in
 under 180 seconds. This is a form of rigor that peer review doesn't provide —
@@ -131,7 +131,7 @@ scope, at this stage.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Falsification guide: `HOW_TO_BREAK_THIS.md`*
 *Honest gaps: `FALLIBILITY.md`*

@@ -144,8 +144,8 @@ not claimed).
 
 The 74-pillar architecture was the original completed theory. Since the Topological
 Completeness Theorem closed the core at 74, the framework has been extended by 18
-additional pillars (Pillars 75, 80–92), bringing the current total to **92 pillars
-and 14,183 tests**. These extensions include:
+additional pillars (Pillars 75, 80–92), bringing the current total to **96 pillars
+and 14,641 tests**. These extensions include:
 
 - **Particle physics sector (Pillars 80–88):** Derivations of the CKM matrix, PMNS
   neutrino mixing matrix, Wolfenstein parameters (A = √(5/7), η̄ from R_b sin(72°)),
@@ -179,7 +179,7 @@ not confirm.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *SEPARATION.md: https://github.com/wuzbak/Unitary-Manifold-/blob/main/SEPARATION.md*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

@@ -141,7 +141,7 @@ over the coming decades, not by any claim the framework can make today.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Unitary Pentad governance: `Unitary Pentad/README.md`*
 *HILS framework: `co-emergence/FRAMEWORK.md`*

@@ -194,7 +194,7 @@ choose how much of the debt to repay now.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Recycling module: `recycling/` — 316 tests in `recycling/tests/test_recycling.py`*
 *PFAS guide: `recycling/FOREVER_CHEMICALS_PFAS.md`*

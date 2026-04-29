@@ -285,14 +285,14 @@ whether this universality is a deep geometric fact about the universe or a power
 but contingent property of a specific class of mathematical models.
 
 LiteBIRD's measurement of the birefringence angle β in 2032 will not resolve the
-question for all 92 pillars. But it will test the one prediction where the
+question for all 96 pillars. But it will test the one prediction where the
 framework is most explicit — the one place where the 5D geometry makes a
 measurement no other theory predicts. That result will tell us something important
 about all the others.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Dark matter geometry: `src/core/dark_matter_geometry.py` — Pillar 8*
 *Stellar astronomy: `src/astronomy/stellar.py`*

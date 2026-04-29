@@ -16,7 +16,7 @@ and the framework's primary falsification test occurs.
 Post 5 introduced the honesty principle: every open problem would be stated
 plainly. The series has spent 31 posts trying to live up to that.
 
-This final post is the accounting. Not a conclusion — the theory is not
+This post is the accounting. Not a conclusion — the theory is not
 concluded; it is open. But a complete map: everything the framework predicts,
 everything that would falsify it, every experiment watching for it.
 
@@ -252,9 +252,9 @@ established findings in their domain, the claim fails.**
 
 ---
 
-## What the 14,183 tests are for
+## What the 14,641 tests are for
 
-The automated test suite — 14,183 tests covering 92 pillars and the Unitary Pentad
+The automated test suite — 14,641 tests covering 96 pillars and the Unitary Pentad
 governance framework — is not evidence that the physics is correct. It is a
 structural guarantee: if any of the internal relationships the framework asserts
 were broken by a code change, a test would fail. The suite ensures that the theory
@@ -282,7 +282,7 @@ The claim rests on:
 - One coupling angle (β ≈ 0.35°)
 - One falsification date (2032)
 
-Everything else — the 92 pillars, the 14,183 tests, the domain applications from
+Everything else — the 96 pillars, the 14,641 tests, the domain applications from
 cold fusion to governance — is the work of tracing the implications of those five
 numbers through every corner of physics and human inquiry we could reach.
 
@@ -319,7 +319,7 @@ FALLIBILITY.md has the full honest accounting. The rest is waiting for the sky.
 
 ---
 
-*Full source code, derivations, and 14,183 automated tests:*
+*Full source code, derivations, and 14,641 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Completeness theorem: `src/core/completeness_theorem.py` — 170 tests*
 *Primary falsifier: birefringence β — LiteBIRD 2032*
