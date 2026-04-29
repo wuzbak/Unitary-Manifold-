@@ -1,11 +1,11 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.19 — CLOSED)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.20 — CLOSED)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.19
+> — Walker-Pearson, *The Unitary Manifold*, v9.20
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![13032 Tests: 13031 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-13031%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![74 Pillars — CLOSED](https://img.shields.io/badge/pillars-74%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
+[![13889 Tests: 13889 Pass / 1 Skip / 0 Fail](https://img.shields.io/badge/tests-13889%20passed%20%C2%B7%201%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![88 Modules — CLOSED](https://img.shields.io/badge/pillars-88%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
@@ -60,6 +60,7 @@
 >
 > | Document | Description |
 > |----------|-------------|
+> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.20 Completion Edition** — unsparing honest assessment of TOE status; 77 particle-physics pillars (82–84 new), open gaps, neutrino mass tension disclosure, path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
 > | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 74 pillars (individually listed), written by GitHub Copilot (AI), April 2026 |
 > | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.19: per-version technical audit, adversarial attacks, and honest gap assessment |
@@ -468,6 +469,33 @@ src/core/bmu_dark_photon.py       ← ⭐ Pillar 71: B_μ Dark Photon Fermion Co
 src/core/kk_backreaction.py       ← ⭐ Pillar 72: KK Tower Back-Reaction — radion-metric closed loop, FTUM self-consistency
 src/core/cmb_boltzmann_peaks.py   ← ⭐ Pillar 73: CMB Boltzmann Peak Structure — δ_KK~8×10⁻⁴ negligible
 src/core/completeness_theorem.py  ← ⭐ Pillar 74: k_CS=74 Topological Completeness Theorem — 7 conditions, repository closure
+src/core/aps_spin_structure.py    ← ⭐ Pillar 70-B: APS Spin Structure — full Dirac chain derivation (256 tests)
+src/core/vacuum_geometric_proof.py← ⭐ Pillar 80: APS Step 3 geometric proof — Z₂ parity → Dirichlet BCs → η̄=½ → n_w=5
+src/core/aps_analytic_proof.py    ← ⭐ Pillar 80-A: APS analytic proof chain
+src/core/aps_geometric_proof.py   ← ⭐ Pillar 80-B: APS geometric proof
+src/core/quark_yukawa_sector.py   ← ⭐ Pillar 81: Quark Yukawa — 6 quark mass ratios, Cabibbo angle order-of-magnitude
+src/core/ckm_matrix_full.py       ← ⭐ Pillar 82: Full 3×3 CKM Matrix — CP phase δ=2π/n_w=72° (new prediction)
+src/core/neutrino_pmns.py         ← ⭐ Pillar 83: PMNS Neutrino Mixing — θ₂₃ near-maximal; neutrino mass tension disclosed
+src/core/vacuum_selection.py      ← ⭐ Pillar 84: Vacuum Selection — 3 independent n_w=5 arguments
+src/core/yukawa_brane_integrals.py← ⭐ Pillar 75: Lepton mass hierarchy via RS bulk Yukawa
+src/core/adm_ricci_flow.py        ← ADM Ricci flow engine
+src/core/cc_suppression_mechanism.py ← Cosmological constant suppression
+src/core/cmb_boltzmann_full.py    ← Full CMB Boltzmann hierarchy
+src/core/fermion_mass_absolute.py ← Absolute fermion mass scale (open gap documented)
+src/core/neutrino_majorana_dirac.py ← Neutrino Majorana/Dirac question (open gap documented)
+src/core/uv_completion_constraints.py ← UV completion constraints from M-theory
+embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC theory — falsifiable predictions)
+    README.md                     ← overview: R_egg = n_w × R_KK / 2π = 59.7 μm
+    01_TVC_condensate.md          ← Topological Vacuum Condensation — the unknown process
+    02_zinc_spark.md              ← Zinc spark as B-field discharge; N_Zn = k_CS^n_w = 2.19×10⁹
+    03_phonon_exciton_bridge.md   ← KK ripple at 0.324 THz — protein hydration shell resonance
+    04_centrosome_antenna.md      ← Centriole 9-fold = n₁+n₂−3; B/C tubule 10 = 2×n_w
+    05_hox_genes.md               ← n_paralog_groups = 2×n_w = 10; n_clusters = 2^Δn = 4
+    06_flux_quantization.md       ← Information flux; 8-cell compaction; 14-day rule
+    07_critical_hydration.md      ← ε_r_critical = 1/c_s² = 9.51; w_critical = 0.363 g/g
+    08_braid_entropy.md           ← ΔS = n_w × ln(k_CS) = 21.47 nats; 2–3% metabolic excess
+    09_source_code_map.md         ← Complete braid-to-biology translation table
+    10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
 ### Complete Pillar Taxonomy (v9.18 — all 74 pillars + sub-pillars — CLOSED)
@@ -556,14 +584,36 @@ src/core/completeness_theorem.py  ← ⭐ Pillar 74: k_CS=74 Topological Complet
 | 72 | KK Tower Back-Reaction — radion-metric closed loop | `src/core/kk_backreaction.py` | 142 |
 | 73 | CMB Boltzmann Peak Structure — KK correction δ_KK~8×10⁻⁴ | `src/core/cmb_boltzmann_peaks.py` | 136 |
 | 74 | k_CS=74 Topological Completeness Theorem — 7 constraints; CLOSED | `src/core/completeness_theorem.py` | 170 |
+| 70-B | APS Spin Structure — full Dirac derivation chain | `src/core/aps_spin_structure.py` | 256 |
+| 75 | Lepton Mass Hierarchy — RS Yukawa bulk mass mechanism | `src/core/yukawa_brane_integrals.py` | ~80 |
+| 80 | APS Step 3 Topological Derivation — Pontryagin + CS₃ boundary | `src/core/vacuum_geometric_proof.py` | ~60 |
+| 80-A | APS Analytic Proof Chain | `src/core/aps_analytic_proof.py` | ~80 |
+| 80-B | APS Geometric Proof | `src/core/aps_geometric_proof.py` | ~55 |
+| 81 | Quark Yukawa Sector — 6 quark mass ratios from RS c_L bulk masses | `src/core/quark_yukawa_sector.py` | ~100 |
+| 82 | Full CKM Matrix — Wolfenstein + CP-violating phase δ=2π/n_w=72° | `src/core/ckm_matrix_full.py` | 40 |
+| 83 | PMNS Neutrino Mixing Matrix — θ₂₃ near-maximal prediction | `src/core/neutrino_pmns.py` | 44 |
+| 84 | Vacuum Selection — 3 independent arguments for n_w=5 | `src/core/vacuum_selection.py` | 39 |
+| — | ADM Ricci Flow | `src/core/adm_ricci_flow.py` | ~50 |
+| — | CC Suppression Mechanism | `src/core/cc_suppression_mechanism.py` | ~55 |
+| — | CMB Boltzmann Full | `src/core/cmb_boltzmann_full.py` | ~55 |
+| — | Fermion Mass Absolute Scale | `src/core/fermion_mass_absolute.py` | ~65 |
+| — | Neutrino Majorana/Dirac | `src/core/neutrino_majorana_dirac.py` | ~40 |
+| — | UV Completion Constraints | `src/core/uv_completion_constraints.py` | ~60 |
 
-**Grand total: 13031 passed · 1 skipped · 11 deselected · 0 failed** (13043 collected, tests/ + recycling/ + Unitary Pentad/)
+**Grand total (v9.20): 13,889 passed · 1 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
 
-> 🔒 **Repository CLOSED at 74 pillars — April 2026.**  
+> 🔒 **Repository CLOSED at 74 core pillars + 14 v9.20 particle-physics modules — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
 > The primary falsifier remains: **LiteBIRD (~2032) will measure β to ±0.01°**.  
 > If β ∉ {0.273°±0.01°, 0.331°±0.01°}, the braided-winding mechanism is falsified.  
 > See `src/core/completeness_theorem.py` and FALLIBILITY.md §XI.
+>
+> **Embryology Extension:** The `embryology-manifold/` directory documents how the same
+> three integers (n₁=5, n₂=7, k_CS=74) derive egg radius, zinc spark count, HOX gene
+> structure, germination threshold, and the 14-day rule. This is Topological Vacuum
+> Condensation (TVC) — a new biological mechanism proposed and documented in
+> [`embryology-manifold/README.md`](embryology-manifold/README.md). These are
+> falsifiable predictions, not confirmed biology.
 
 ## 4 · Quickstart
 
