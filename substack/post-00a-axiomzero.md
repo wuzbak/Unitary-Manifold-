@@ -12,6 +12,16 @@ This is that post.
 
 ---
 
+## A Note on Order of Operations
+
+The repository came first. The 74 pillars came first. The 13,000-plus tests came first. The other posts in this series came first. All of that work existed — publicly, verifiably, with a Zenodo DOI and a commit history — before this post about income and capital was written.
+
+The financial reality described below is an afterthought in the chronological sense: the work was done because it needed to be done, because the theory was real and deserved rigorous implementation, and because working honestly and in public is the right way to do science. The question of how Walker-Pearson earns from it is a physical reality — he needs to eat, the same as anyone — but it is a consequence of the work, not its cause.
+
+If you read this post and conclude that the framework was constructed to generate a business, the commit history will correct you. The science came first. The business structure was built afterward to protect what already existed and to let its author continue doing it.
+
+---
+
 ## Who We Are
 
 **ThomasCory Walker-Pearson** is the author, theorist, and scientific director of the Unitary Manifold framework. He is a private individual operating under a United States DBA (doing-business-as) trade name: **AxiomZero Technologies**, registered as of March 26, 2026.
