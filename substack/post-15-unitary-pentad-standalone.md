@@ -43,7 +43,7 @@ mechanism, the following remains unaffected:
 - The trust-field detection framework
 - The HIL (Human-in-the-Loop) population analysis
 - The deception detection threshold
-- All 1,234 automated tests in the `Unitary Pentad/` folder
+- All 1,266 automated tests in the `Unitary Pentad/` folder
 
 The Pentad's value as a governance architecture is independent of the physics. It is
 documented as such in `SEPARATION.md`. This post treats it purely as a governance
@@ -213,7 +213,7 @@ of the full five-body (5,7) braid are weakened but not eliminated in this config
 
 ## What the test suite confirms — and does not confirm
 
-The 1,234 automated tests in `Unitary Pentad/` verify:
+The 1,266 automated tests in `Unitary Pentad/` verify:
 
 - All mathematical properties of the five-body coupling matrix
 - The pentagonal stability bound (minimum eigenvalue ≥ c_s)
@@ -258,7 +258,7 @@ remarkable. But the framework works either way.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Unitary Pentad: https://github.com/wuzbak/Unitary-Manifold-/tree/main/Unitary%20Pentad*
 *SEPARATION.md: https://github.com/wuzbak/Unitary-Manifold-/blob/main/SEPARATION.md*

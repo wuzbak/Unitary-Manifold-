@@ -20,19 +20,19 @@
  13.  w_KK vs DESI DR2 (1σ)    −0.9299 (0.11σ)  −0.92±0.09      [PASS] ✓
 
 ── TEST SUITE ───────────────────────────────────────────────────
- tests/              11450 non-slow + 11 slow-deselected
+ tests/              12601 non-slow + 11 slow-deselected
  recycling/              316
  Unitary Pentad/       1266
  ─────────────────────────────────────────────────────────────
  Total run          13032 collected
- Passed             14109
+ Passed             14183
  Skipped                1  (test_arrow_of_time entropy guard)
  Failed                 0
  Slow-deselected       11  (test_richardson_multitime.py)
 
 ── VERDICT ──────────────────────────────────────────────────────
  [PASS] All 13 VERIFY.py checks pass
- [PASS] 14109/14109 executed tests pass
+ [PASS] 14183/14183 executed tests pass
  [PASS] 0 failures across 74 pillars + Pillar 70-B
 
 ================================================================

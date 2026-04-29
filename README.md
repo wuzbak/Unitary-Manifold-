@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.22
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![14109 Tests: 14109 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-14109%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![14183 Tests: 14183 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-14183%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![89 Pillars — CLOSED](https://img.shields.io/badge/pillars-89%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
@@ -299,7 +299,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 14,109 tests are passing in all three — but "passing" means
+> of content, and all 14,183 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -600,7 +600,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | — | Neutrino Majorana/Dirac | `src/core/neutrino_majorana_dirac.py` | ~40 |
 | — | UV Completion Constraints | `src/core/uv_completion_constraints.py` | ~60 |
 
-**Grand total (v9.22): 14,109 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
+**Grand total (v9.22): 14,183 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
 
 > 🔒 **Repository CLOSED at 89 pillars (74 core + Pillar 70-B + Pillars 75, 80–89) — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
@@ -623,7 +623,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 14,122 collected, 14,109 passed · 2 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 14,195 collected, 14,183 passed · 2 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
@@ -654,7 +654,7 @@ tests/test_vacuum_geometric_proof.py      59 passed  ← Pillar 89: pure algebra
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
 tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ ~12,533 passed, 2 skipped, 11 deselected ================================
+================================ ~12,601 passed, 2 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
@@ -663,7 +663,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ ~1,266 passed ================================
 
 # Grand total:
-================================ 14109 passed, 2 skipped, 11 deselected, 0 failed ================================
+================================ 14183 passed, 2 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -956,7 +956,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**14,109 tests: 14,109 passed, 2 skipped, 11 slow-deselected, 0 failures**).
+(**14,183 tests: 14,183 passed, 2 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -978,7 +978,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (14,122 collected: 14,109 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (14,195 collected: 14,183 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

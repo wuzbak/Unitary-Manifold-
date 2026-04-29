@@ -265,7 +265,7 @@ The physical test is LiteBIRD 2032. The structural tests are above.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Adversarial test guide: `HOW_TO_BREAK_THIS.md`*
 *Structural break handles: `claims/` directory*

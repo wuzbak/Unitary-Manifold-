@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-**14122 tests: 14109 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified 2026-04-28, Python 3.12, pytest
+**14195 tests: 14183 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified 2026-04-28, Python 3.12, pytest
 
-*(tests/ suite: 11461 collected, 11450 fast pass, 1 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1266)*
+*(tests/ suite: 12613 collected, 12601 fast pass, 1 skipped, 11 slow-deselected · recycling/: 316 · Unitary Pentad/: 1266)*
 
 ### The 1 skipped test
 
@@ -46,15 +46,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 11450 fast pass, 1 skipped, 11 deselected (slow)
+python -m pytest tests/ -v          # 12601 fast pass, 1 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 14109 pass
+python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 14183 pass
 ```
 
 Expected result (default):
 
 ```
-11450 passed, 1 skipped, 11 deselected in ~115s
+12601 passed, 1 skipped, 11 deselected in ~115s
 ```
 
 ---
@@ -178,7 +178,7 @@ Expected result (default):
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_precision_audit.py` | 49 | Arbitrary-precision arithmetic audit (mpmath 128/256-bit) |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total (tests/ suite)** | **11461** | **11450 fast passed · 1 skipped (arrow_of_time) · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **12613** | **12601 fast passed · 1 skipped (arrow_of_time) · 11 slow deselected · 0 failures** |
 
 ---
 

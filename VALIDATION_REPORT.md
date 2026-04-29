@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 89 pillars |
-| Test suite: 14,109 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/) |
+| Test suite: 14,183 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 14,109
+verdict. This one shows the working. The process of getting to a framework that passes 14,183
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -94,7 +94,7 @@ version by version.
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
 v9.22 that parameter had been derived, all three original open problems had been resolved, and the
-test suite had grown from a few hundred checks to 14,109. A theory that tightens as it is
+test suite had grown from a few hundred checks to 14,183. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -194,10 +194,10 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–74 + 70-B + 75, 80–89) | `pytest tests/ -q` | ~12,545 | ~12,533 | 2 | 11 | **0** |
+| Core physics (Pillars 1–74 + 70-B + 75, 80–89) | `pytest tests/ -q` | ~12,613 | ~12,601 | 2 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "Unitary Pentad/" -q` | ~1,266 | ~1,266 | 0 | 0 | **0** |
-| **Grand total** | | **~14,122** | **14,109** | **2** | **11** | **0** |
+| **Grand total** | | **~14,195** | **14,183** | **2** | **11** | **0** |
 
 The 145 test files in `tests/` cover all 89 pillars.
 
@@ -402,11 +402,11 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad, ~130 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 14109 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 14183 passed, 2 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q
-# Expected: 11450 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 12601 passed, 1 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
@@ -447,7 +447,7 @@ The live badge reflects the current status of the `main` branch:
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
 | [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
 | [`TEST/RESULTS.md`](TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
-| [`tests/`](tests/) | 126 pytest files; 11183 fast-passing + 11 slow-deselected + 1 skipped |
+| [`tests/`](tests/) | 145 pytest files; 12601 fast-passing + 11 slow-deselected + 2 skipped |
 | [`recycling/`](recycling/) | Pillar 16 φ-debt suite; 316 tests |
 | [`Unitary Pentad/`](Unitary%20Pentad/) | HILS governance suite; 18 modules, 1266 tests |
 

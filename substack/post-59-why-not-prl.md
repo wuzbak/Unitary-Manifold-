@@ -86,7 +86,7 @@ applications exist in a publication space that no single journal covers.
 
 The alternative was not to bypass rigor. It was to be rigorous in a different format.
 
-**14,109 automated tests.** Every claim in the framework has a corresponding test
+**14,183 automated tests.** Every claim in the framework has a corresponding test
 in the repository. A test failure is a refutation. The test suite is public, runnable,
 and reproducible. Anyone can clone the repository and verify every assertion in
 under 180 seconds. This is a form of rigor that peer review doesn't provide —
@@ -131,7 +131,7 @@ scope, at this stage.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Falsification guide: `HOW_TO_BREAK_THIS.md`*
 *Honest gaps: `FALLIBILITY.md`*
