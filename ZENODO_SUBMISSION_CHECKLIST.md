@@ -1,4 +1,4 @@
-# Zenodo & arXiv Submission Checklist — v9.16
+# Zenodo & arXiv Submission Checklist — v9.23
 
 > **Role split:** Copilot (me) has already updated all metadata files and staged everything.
 > The steps below are **yours** — things only a human with an account can do.
@@ -7,9 +7,9 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.19, 14183 tests, 92 pillars — CLOSED, expanded keywords
+- [x] `zenodo/.zenodo.json` — updated to v9.23, 14183 tests, 92 pillars — CLOSED, expanded keywords
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
-- [x] `arxiv/main.tex` — header updated to v9.13
+- [x] `arxiv/main.tex` — header updated to v9.13 (pending full arXiv revision)
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
 - [x] This checklist
 - [x] New pillars added: 56 (φ₀ self-consistency), 57 (CMB acoustic peak resolution), 45-D (LiteBIRD forecast), 51-B (Fermilab g-2 watch)

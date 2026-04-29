@@ -1,6 +1,6 @@
 # API Reference
 
-Complete public API documentation for all Python modules in the Unitary Manifold package. The 74 geometric pillars are organised by domain.
+Complete public API documentation for all Python modules in the Unitary Manifold package. The 92 pillars (74 core geometric + 18 extended) are organised by domain.
 
 ---
 

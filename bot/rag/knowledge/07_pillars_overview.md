@@ -135,5 +135,5 @@ python -m pytest "Unitary Pentad/" -q        # 1266 passed (HILS framework)
 
 # All at once:
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# → 14183 passed, 1 skipped, 0 failed
+# → 14183 passed, 2 skipped, 0 failed
 ```

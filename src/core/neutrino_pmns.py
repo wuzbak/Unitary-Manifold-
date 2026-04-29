@@ -684,7 +684,7 @@ def pmns_gap_report(n_w: int = N_W_CANONICAL) -> str:
 
     lines = [
         "=" * 72,
-        "PMNS MATRIX STATUS — Pillars 83 + 86 (Unitary Manifold v9.22)",
+        "PMNS MATRIX STATUS — Pillars 83 + 86 (Unitary Manifold v9.23)",
         "=" * 72,
         "",
         "GEOMETRIC PREDICTIONS vs PDG 2024 (normal ordering):",
@@ -702,7 +702,7 @@ def pmns_gap_report(n_w: int = N_W_CANONICAL) -> str:
         f"   ({geo['delta_cp']['sigma_tension']:.2f}σ)",
         f"     Status: {geo['delta_cp']['status']}",
         "",
-        "CLOSED GAPS (v9.22):",
+        "CLOSED GAPS (v9.23):",
         "  ✅ θ₁₂ CLOSED — 0.1 % from PDG 33.4°",
         "     (TBM + second-order Z_{n_w} correction: sin²θ₁₂ = (n_w−1)(4n_w+3)/(12n_w²))",
         "  ✅ θ₂₃ CONSISTENT — 1.4 % from PDG 49.1°",

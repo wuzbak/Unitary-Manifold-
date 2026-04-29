@@ -251,7 +251,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_lattice_dynamics.py          # Pillar 15-B: collective Gamow, phonon-radion bridge (98) — v9.16
 │   ├── test_lattice_boltzmann.py         # Pillar 15-C: KK-mediated radion COP pipeline (187) — v9.16
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 12613 collected — 12601 passed · 1 skipped · 11 slow-deselected · 0 failures
+│   # Total: 12613 collected — 12601 passed · 2 skipped · 11 slow-deselected · 0 failures
 │   # (Pillars 1–74 fully implemented + all sub-pillars)
 │
 ├── brain/

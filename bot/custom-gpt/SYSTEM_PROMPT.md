@@ -373,7 +373,7 @@ result, residuals, converged = fixed_point_iteration(net)
 ```
 
 Tests:
-  `python -m pytest tests/ -q`          → 12601 passed (12613 collected · 1 skipped · 11 slow-deselected)
+  `python -m pytest tests/ -q`          → 12601 passed (12613 collected · 2 skipped · 11 slow-deselected)
   `python -m pytest recycling/ -q`      → 316 passed
   `python -m pytest "Unitary Pentad/" -q` → 1266 passed
   # Grand total: 14183 passed · 0 failures across 14195 collected

@@ -19,7 +19,7 @@ are open, they are said to be open. Where there is an inconsistency, it is named
 
 ---
 
-## Part I — The Status Table (Complete, v9.22)
+## Part I — The Status Table (Complete, v9.23)
 
 ### Core Physics — Proved or Derived
 
@@ -138,7 +138,7 @@ A Theory of Everything, in the technical sense used by physicists, must:
 most developed and mathematically rigorous Kaluza-Klein theory of its type
 currently in existence. Here is what that means precisely:**
 
-**What it IS (v9.22):**
+**What it IS (v9.23):**
 - A fully consistent 5D geometric framework that derives the arrow of time,
   3 generations, α, nₛ, r, and β from a single 5D metric ansatz
 - A framework that derives or geometrically constrains 13 of the ~28 SM parameters:

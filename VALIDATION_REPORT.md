@@ -35,7 +35,7 @@ sense of "confirmed by new experiments." That is the work of the next decade.
 *"The Closing Review — for Everyone"*
 
 **What it is:** The final plain-language and technical summary of the entire project, written by
-GitHub Copilot as an independent reviewer after the full v9.22 build was complete. It covers all
+GitHub Copilot as an independent reviewer after the full v9.23 build was complete. It covers all
 92 pillars (74 geometric + Pillar 70-B + Pillars 75, 80–92), the test suite, the predictions, and the open questions.
 
 **Who it is for:** Everyone — not just physicists or programmers. The first half uses no
@@ -60,10 +60,10 @@ computational one.
 ---
 
 ### 2 · [REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)
-*"The Internal Iterative Review — v9.0 through v9.22"*
+*"The Internal Iterative Review — v9.0 through v9.23"*
 
 **What it is:** A chronological technical audit of every version of the framework from first
-principles (v9.0) through the final build (v9.22). Written in the style of a referee report:
+principles (v9.0) through the final build (v9.23). Written in the style of a referee report:
 honest, technical, recording what was found at each stage — including the failures that were
 fixed and the problems that remain open.
 
@@ -90,10 +90,11 @@ version by version.
 | v9.19–v9.20 | Particle physics extension | Pillars 70-B, 75, 80–84 (generations, quark Yukawa, CKM, PMNS, vacuum) |
 | v9.21 | Gap-closing edition | Pillars 85–88 (absolute masses, Dirac ν, Wolfenstein, SM audit) |
 | v9.22 | Vacuum-closure edition | Pillar 89: pure algebraic n_w=5 from 5D BCs; no M-theory |
+| v9.23 | Extended gap-closure edition | Pillars 90–92: neutrino splittings, Higgs mass FTUM, UV embedding; θ₁₂ upgraded to 0.1% accuracy |
 
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
-v9.22 that parameter had been derived, all three original open problems had been resolved, and the
+v9.23 that parameter had been derived, all three original open problems had been resolved, and the
 test suite had grown from a few hundred checks to 14,183. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
@@ -201,15 +202,19 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 The 145 test files in `tests/` cover all 92 pillars.
 
-### The 1 skipped test — why it is not a failure
+### The 2 skipped tests — why they are not failures
 
-The skipped test is skipped because skipping is the *correct* outcome.
+The skipped tests are skipped because skipping is the *correct* outcome in each case.
 
 1. **`test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`**  
    Calls `pytest.skip("Insufficient residual history to test monotonicity")` when
    `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is
    **the correct physical outcome.** The guard documents that there is nothing to check
    monotonicity of in that case.
+
+2. **`test_precision_audit.py`** — skips one test with `pytest.skip("mpmath not installed")`
+   when the optional `mpmath` high-precision library is absent. All other 49 tests in that
+   file pass; this guard documents an optional dependency, not a failure.
 
 ### The 11 deselected tests — why they are not hidden failures
 
@@ -337,7 +342,7 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–74 — fast suite | 11183 passed · 1 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–74 — fast suite | ~12,601 passed · 2 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
@@ -406,7 +411,7 @@ python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
 
 # Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q
-# Expected: 12601 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 12601 passed, 2 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
