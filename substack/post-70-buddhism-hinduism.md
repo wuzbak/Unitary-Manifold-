@@ -158,7 +158,7 @@ At that border, the geometry stops. It cannot go further, and it should not pret
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Coupled attractor (ΔI, phase-locking): `src/consciousness/coupled_attractor.py`*
 *Soul and Science: `SOUL_AND_SCIENCE.md`*

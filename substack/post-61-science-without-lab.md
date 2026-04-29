@@ -8,10 +8,10 @@ that science requires.*
 
 ---
 
-The repository has 14,109 automated tests that pass. Every time someone runs
+The repository has 14,183 automated tests that pass. Every time someone runs
 `python -m pytest tests/ recycling/ "Unitary Pentad/" -q`, they get back:
 
-    14109 passed, 2 skipped, 11 deselected, 0 failed
+    14183 passed, 2 skipped, 11 deselected, 0 failed
 
 What does this mean?
 
@@ -22,7 +22,7 @@ The second part is what it actually means. Both matter.
 
 ## What it doesn't mean
 
-Passing 14,109 tests does not mean the theory is correct.
+Passing 14,183 tests does not mean the theory is correct.
 
 The tests verify that the code faithfully implements the stated mathematics. When
 `tests/test_inflation.py` passes, it means that the Python function `spectral_index()`
@@ -38,8 +38,8 @@ A test suite is a specification verifier. It verifies that the code matches the 
 It says nothing about whether the spec matches nature.
 
 This distinction matters enormously, and we make it explicit every time we describe
-the test suite. "14,109 tests" is not shorthand for "14,109 pieces of evidence that
-the theory is right." It is shorthand for "14,109 verifications that the code
+the test suite. "14,183 tests" is not shorthand for "14,183 pieces of evidence that
+the theory is right." It is shorthand for "14,183 verifications that the code
 correctly implements what it claims to implement."
 
 ---
@@ -124,7 +124,7 @@ invite experimentalists to engage with the predictions and design tests.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Test suite: `python -m pytest tests/ recycling/ "Unitary Pentad/" -q`*
 *Honest gaps: `FALLIBILITY.md`*

@@ -2024,7 +2024,7 @@ class TestBraidHiggsMassSchemeComparison:
 # ============================================================================
 
 class TestHiggsMassFromFTUMCritical:
-    """Tests for ew.higgs_mass_from_ftum_critical() — Pillar 88."""
+    """Tests for ew.higgs_mass_from_ftum_critical() — Pillar 91."""
 
     def setup_method(self):
         self.res = ew.higgs_mass_from_ftum_critical()

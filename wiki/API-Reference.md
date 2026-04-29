@@ -1,6 +1,6 @@
 # API Reference
 
-Complete public API documentation for all Python modules in the Unitary Manifold package. The 74 geometric pillars are organised by domain.
+Complete public API documentation for all Python modules in the Unitary Manifold package. The 92 pillars (74 core geometric + 18 extended) are organised by domain.
 
 ---
 
@@ -665,4 +665,4 @@ KK black hole remnant mass: $M_\text{rem} = \phi_\text{min} / (8\pi m_\phi \Delt
 
 ## Unitary Pentad (Independent Governance Framework)
 
-The `Unitary Pentad/` directory contains an independent HILS (Human-in-the-Loop Systems) governance framework with 18 modules and **1,234 tests**. It borrows mathematical structure from the Unitary Manifold but does **not** depend on the physics being correct. See [`SEPARATION.md`](../SEPARATION.md) for the precise boundary between the physics framework and the governance framework.
+The `Unitary Pentad/` directory contains an independent HILS (Human-in-the-Loop Systems) governance framework with 18 modules and **1,266 tests**. It borrows mathematical structure from the Unitary Manifold but does **not** depend on the physics being correct. See [`SEPARATION.md`](../SEPARATION.md) for the precise boundary between the physics framework and the governance framework.

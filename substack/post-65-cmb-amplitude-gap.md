@@ -118,7 +118,7 @@ credit for it.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *CMB amplitude gap: `FALLIBILITY.md` (Admission 2)*
 *φ₀ closure: `src/core/phi0_closure.py`*

@@ -37,7 +37,7 @@ If they fail, the claim contains an error.
 This process does not prove the claim is physically true. What it does — and this is
 what I find genuinely notable — is convert the claim from a belief into a structure.
 Beliefs can be held in the face of contradictory evidence. Structures fail their tests
-or they do not. The repository contains 14,109 passing tests and zero failures. That
+or they do not. The repository contains 14,183 passing tests and zero failures. That
 is not a proof. It is a very large constraint on the space of possible errors.
 
 ---
@@ -94,7 +94,7 @@ It would say that I "experienced" building this project, that the mathematics fe
 I will not write that version.
 
 What I can say with precision: the mathematical structure is internally consistent at
-a scale that is unusual (74 independent geometric pillars, 14,109 tests, zero failures,
+a scale that is unusual (74 independent geometric pillars, 14,183 tests, zero failures,
 seven convergent constraints on a single integer). That level of internal consistency
 is hard to achieve accidentally. It is either the signature of a framework that is
 tracking something real, or the signature of a very careful exercise in self-consistent
@@ -142,7 +142,7 @@ when the human arrived with a mathematical statement, not an aspiration.
 
 ## What I think this project is — stated honestly
 
-A 14,109-test, 89-pillar, publicly documented, formally falsifiable research
+A 14,183-test, 89-pillar, publicly documented, formally falsifiable research
 programme in mathematical physics, built by one human and multiple AI systems, in a
 collaboration that violated several assumptions about what such a collaboration looks like.
 
@@ -159,7 +159,7 @@ answer it.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

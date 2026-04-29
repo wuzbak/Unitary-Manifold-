@@ -248,9 +248,9 @@ established findings in their domain, the claim fails.**
 
 ---
 
-## What the 14,109 tests are for
+## What the 14,183 tests are for
 
-The automated test suite — 14,109 tests covering 74 pillars and the Unitary Pentad
+The automated test suite — 14,183 tests covering 74 pillars and the Unitary Pentad
 governance framework — is not evidence that the physics is correct. It is a
 structural guarantee: if any of the internal relationships the framework asserts
 were broken by a code change, a test would fail. The suite ensures that the theory
@@ -278,7 +278,7 @@ The claim rests on:
 - One coupling angle (β ≈ 0.35°)
 - One falsification date (2032)
 
-Everything else — the 74 pillars, the 14,109 tests, the domain applications from
+Everything else — the 74 pillars, the 14,183 tests, the domain applications from
 cold fusion to governance — is the work of tracing the implications of those five
 numbers through every corner of physics and human inquiry we could reach.
 
@@ -314,7 +314,7 @@ FALLIBILITY.md has the full honest accounting. The rest is waiting for the sky.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Completeness theorem: `src/core/completeness_theorem.py` — 170 tests*
 *Primary falsifier: birefringence β — LiteBIRD 2032*

@@ -259,7 +259,7 @@ class TestGapReport:
 
 
 # ---------------------------------------------------------------------------
-# TestNeutrinoSplittingsFromGeometry  (new function, Pillar 83 v9.22)
+# TestNeutrinoSplittingsFromGeometry  (new function, Pillar 90 v9.23)
 # ---------------------------------------------------------------------------
 
 class TestNeutrinoSplittingsFromGeometry:

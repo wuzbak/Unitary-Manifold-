@@ -281,7 +281,7 @@ collaboration. That is the open invitation the framework extends.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Medicine: `src/medicine/` — 139 tests in `tests/test_medicine.py`*
 *Justice: `src/justice/` — 124 tests in `tests/test_justice.py`*

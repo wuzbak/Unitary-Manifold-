@@ -1,7 +1,23 @@
 # CONSISTENCY_LOG.md — Radion-Neutrino Identity Self-Consistency Run
 
-*Unitary Manifold v9.22 — ThomasCory Walker-Pearson, 2026*  
+*Unitary Manifold v9.23 — ThomasCory Walker-Pearson, 2026*  
 *Generated: April 2026 by GitHub Copilot (AI)*
+
+---
+
+> **⚠️ Neutrino-mass interpretation correction (v9.22 — Pillar 88 resolution)**  
+> An earlier version of this log incorrectly identified the KK compactification  
+> scale M_KK ≈ 110 meV with the lightest *active* neutrino mass m_ν₁, and  
+> claimed this was "Consistent with Planck Σm_ν < 120 meV? YES."  
+> **That claim is wrong.** If m_ν₁ = 110 meV, then in normal ordering  
+> Σm_ν ≈ 110 + 110 + 121 ≈ 341 meV >> 120 meV. See COMPLETION_REPORT.md §67.  
+>  
+> **Correct interpretation (v9.22):** M_KK = 110 meV is the 5D  
+> *compactification scale* (the KK mass gap), not an active-neutrino mass.  
+> Active neutrino masses arise from a separate RS Yukawa mechanism (Pillar 83)  
+> with Σm_ν_active ≈ 106 meV < 120 meV. The dark-energy loop below is valid as a  
+> radion-vacuum self-consistency check; the "m_ν" labels have been corrected to  
+> "M_KK" throughout.
 
 ---
 
@@ -20,15 +36,17 @@ self-consistency verification.  It answers the question posed by Gemini:
 
 ## 1. The Self-Consistency Proof
 
-### 1.1 Input: Neutrino Mass as Fundamental Scale
+### 1.1 Input: KK Compactification Scale
 
 ```
-m_ν (canonical, conservative)  = 50.0 meV
-m_ν (exact closure)             = 110.1314 meV
+M_KK (canonical, conservative)  = 50.0 meV
+M_KK (exact closure)             = 110.1314 meV
 ```
 
-The lightest active neutrino mass is the **only** input to the radion vacuum
-calculation.  No dark energy density is assumed; it is *derived*.
+M_KK is the **5D compactification scale** (KK mass gap), derived from the
+dark-energy self-consistency loop. It is *not* the active neutrino mass;
+active neutrino masses arise from a separate RS Yukawa mechanism (Pillar 83)
+and satisfy Σm_ν_active ≈ 106 meV < 120 meV independently.
 
 ### 1.2 Process: Braid Suppression + Geometric Scaling
 
@@ -41,19 +59,19 @@ f_braid = c_s² / k_cs
         = 1.42144 × 10⁻³
 ```
 
-The effective vacuum energy density at KK scale M_KK = m_ν:
+The effective vacuum energy density at KK scale M_KK:
 
 ```
-ρ_eff(m_ν) = f_braid × m_ν⁴ / (16π²)
+ρ_eff(M_KK) = f_braid × M_KK⁴ / (16π²)
 ```
 
 ### 1.3 Output: Self-Consistency Check
 
-**At m_ν = 50 meV (canonical lower bound):**
+**At M_KK = 50 meV (canonical lower bound):**
 
 | Quantity | Value |
 |----------|-------|
-| M_KK = m_ν | 50.0 meV = 4.097 × 10⁻³⁰ M_Pl |
+| M_KK | 50.0 meV = 4.097 × 10⁻³⁰ M_Pl |
 | R_KK = 1/M_KK | 3.947 μm |
 | ρ_eff | 2.532 × 10⁻¹²³ M_Pl⁴ |
 | ρ_obs | 5.960 × 10⁻¹²² M_Pl⁴ |
@@ -61,44 +79,44 @@ The effective vacuum energy density at KK scale M_KK = m_ν:
 | Orders gap | 1.372 |
 | Loop closed? | **No** — 1.37 orders short |
 
-**At m_ν = 110.1314 meV (exact closure):**
+**At M_KK = 110.1314 meV (exact closure):**
 
 | Quantity | Value |
 |----------|-------|
-| M_KK = m_ν | 110.1314 meV = 9.021 × 10⁻³⁰ M_Pl |
+| M_KK | 110.1314 meV = 9.021 × 10⁻³⁰ M_Pl |
 | R_KK = 1/M_KK | **1.7917 μm** |
 | ρ_eff | 5.960 × 10⁻¹²² M_Pl⁴ |
 | ρ_obs | 5.960 × 10⁻¹²² M_Pl⁴ |
 | ρ_eff / ρ_obs | **1.000000 (error < 4 × 10⁻⁸)** |
 | Self-consistency error | **< 0.001%** ✅ |
 | Loop closed? | **YES** |
-| Consistent with Planck Σm_ν < 120 meV? | **YES** |
+| M_KK within Planck Σm_ν < 120 meV constraint? | **N/A** — M_KK is a compactification scale, not an active neutrino mass. Active Σm_ν_active ≈ 106 meV < 120 meV via separate RS Yukawa (Pillar 83/88). |
 
 ### 1.4 The Unified Scaling Identity
 
 The exact identity satisfied at closure is:
 
 ```
-m_ν = M_KK_needed = (f_braid × ρ_obs × 16π²)^(1/4)
+M_KK_needed = (f_braid × ρ_obs × 16π²)^(1/4)
                   = (1.421 × 10⁻³ × 5.96 × 10⁻¹²² × 157.91)^(1/4)
                   = (6.620 × 10⁻¹¹⁷)^(1/4)
                   = 9.021 × 10⁻³⁰ M_Pl
                   = 110.13 meV  ✅
 ```
 
-**The Gemini approximation** m_ν/M_Pl ≈ (ρ_obs/M_Pl⁴)^(1/4) holds within a
+**The Gemini approximation** M_KK/M_Pl ≈ (ρ_obs/M_Pl⁴)^(1/4) holds within a
 geometric prefactor [f_braid × 16π²]^(1/4) ≈ 0.69:
 
 ```
 (ρ_obs)^(1/4) = 4.941 × 10⁻³¹ M_Pl
-m_ν (at closure) = 9.021 × 10⁻³⁰ M_Pl = 18.26 × (ρ_obs)^(1/4)
+M_KK (at closure) = 9.021 × 10⁻³⁰ M_Pl = 18.26 × (ρ_obs)^(1/4)
 = [f_braid × 16π²]^(1/4) × (ρ_obs)^(1/4)   ← exact identity
 = [1.421×10⁻³ × 157.91]^(1/4) × 4.941×10⁻³¹
 = [0.2244]^(1/4) × 4.941×10⁻³¹
 = 0.6881 × 4.941×10⁻³¹ × (16π²)^(1/4) / (16π²)^(1/4)  [self-consistent]
 ```
 
-The approximate form "m_ν ≈ ρ_obs^(1/4)" is correct to **order of magnitude**;
+The approximate form "M_KK ≈ ρ_obs^(1/4)" is correct to **order of magnitude**;
 the exact form includes the braid factor.
 
 ---
@@ -280,24 +298,29 @@ lengths in Pd-H(D) lattices (~0.5–2 nm), confirming physical plausibility.
 ## 5. Summary: The Three-Loop Self-Consistency
 
 ```
-INPUT:   m_ν ≈ 110.13 meV  (lightest active neutrino, within Planck Σm_ν < 120 meV)
+INPUT:   M_KK ≈ 110.13 meV  (KK compactification scale — NOT the active neutrino mass;
+                               see correction note at top of this document)
             ↓
-PROCESS: R_KK = 1/m_ν = 1.792 μm  (macroscopic compactification radius)
+PROCESS: R_KK = 1/M_KK = 1.792 μm  (macroscopic compactification radius)
             ↓
-PROCESS: ρ_eff = f_braid × m_ν⁴/(16π²)  (braid-suppressed vacuum energy)
+PROCESS: ρ_eff = f_braid × M_KK⁴/(16π²)  (braid-suppressed vacuum energy)
             ↓
 OUTPUT:  ρ_eff = 5.96 × 10⁻¹²² M_Pl⁴ = ρ_obs  ✅ LOOP CLOSED
 
+NOTE: Active neutrino masses satisfy Σm_ν_active ≈ 106 meV < 120 meV separately
+      via the RS Yukawa mechanism (Pillar 83/88). The M_KK loop and the active
+      neutrino sector are independent.
+
 FALSIFICATION 1: Measure Casimir force at d=1.79 μm, verify δF/F = 0.162%
 FALSIFICATION 2: Measure Pd-D excess heat and gamma suppression > 99%
-FALSIFICATION 3: Measure m_ν outside [80, 120] meV → identity fails
+FALSIFICATION 3: Measure M_KK (e.g. via KK graviton resonances) outside [80, 120] meV → identity fails
 ```
 
 ### Self-Consistency Error Budget
 
 | Step | Computation | Error |
 |------|-------------|-------|
-| m_ν → M_KK (exact by construction) | M_KK = m_ν | 0 |
+| M_KK selection (from dark-energy loop) | M_KK_needed = (f_braid × ρ_obs × 16π²)^(1/4) | < 10⁻⁸ |
 | M_KK → ρ_eff | ρ_eff = f_braid × M_KK⁴/(16π²) | < 10⁻¹⁵ (float precision) |
 | ρ_eff vs ρ_obs | ratio = ρ_eff / ρ_obs | **< 4 × 10⁻⁸** |
 | **Total self-consistency error** | | **< 0.001%** ✅ |
@@ -323,9 +346,9 @@ their test suites (0 failures):
 | `bmu_time_arrow_lock()` | `src/physics/lattice_dynamics.py` | 19 | B_μ energy routing proof |
 | `calculate_energy_branching_ratio()` | `src/cold_fusion/excess_heat.py` | 25 | Phonon/gamma branching |
 
-**Grand total test count: 10,589 passed, 2 skipped, 0 failed.**
+**Grand total test count: 14,183 passed, 2 skipped, 0 failed (v9.22 — all suites).**
 
-*Additions since last log: Pillar 15-C (lattice_boltzmann.py, 187 tests) added; test_zero_point_vacuum.py expanded to 323 tests; test_lattice_dynamics.py expanded to 98 tests.*
+*Note: This log was originally generated at v9.15 (10,589 tests). The function-level results remain valid; only the grand total has grown as the test suite expanded across Pillars 15-C through 89.*
 
 ---
 

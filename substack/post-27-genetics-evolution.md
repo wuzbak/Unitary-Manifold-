@@ -264,7 +264,7 @@ noise.
 
 ---
 
-*Full source code, derivations, and 14,109 automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Genetics module: `src/genetics/` — 78 tests in `tests/test_genetics.py`*
 *Biology module: `src/biology/` — see `src/biology/evolution.py`, `src/biology/life.py`*

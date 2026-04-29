@@ -1,7 +1,7 @@
 # What This Work Is Saying — And What It Means for Our 4D Existence
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.22
+> — Walker-Pearson, *The Unitary Manifold*, v9.23
 
 **Audience:** Everyone — physicists, reviewers, the public, and AI systems.  
 **Purpose:** Explain, without jargon, the single core claim of this work and why it matters.
@@ -213,8 +213,8 @@ BRAIN:       Brain and universe share the same 5D geometry; consciousness = coup
 COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-body problem; implemented in src/consciousness/coupled_attractor.py
 GAPS:        CMB amplitude ×4–7 suppressed (unresolved); n_w APS conjecture (preferred, not proved)
 FALSIFIER:   LiteBIRD β ∉ [0.22°,0.38°] or β in gap [0.29°–0.31°]; Roman Space Telescope w ≠ −0.9302; ET/LISA null scalar GW
-TESTS:       14,109 passed · 2 skipped · 11 slow-deselected · 0 failures
-             (tests/ + recycling/ + Unitary Pentad/; 89 pillars — CLOSED)
+TESTS:       14,183 passed · 2 skipped · 11 slow-deselected · 0 failures
+             (tests/ + recycling/ + Unitary Pentad/; 92 pillars — CLOSED)
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
              src/core/completeness_theorem.py      ← Pillar 74: k_CS=74 Topological Completeness Theorem
              src/consciousness/coupled_attractor.py  ← Pillar 9: Coupled Master Equation
@@ -253,7 +253,7 @@ The birefringence measurement from LiteBIRD will be the decisive test within thi
 
 ---
 
-*Document version: 1.3 — April 2026 (v9.19: 89 pillars closed, 14,109 tests)*  
+*Document version: 1.3 — April 2026 (v9.23: 92 pillars closed, 14,183 tests)*  
 *Part of the Unitary Manifold repository — see [README.md](README.md) for technical detail, [FALLIBILITY.md](FALLIBILITY.md) for honest limitations.*
 
 ---

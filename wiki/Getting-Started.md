@@ -34,7 +34,7 @@ No build step is required — the package is importable directly from the reposi
 ```bash
 # Fast suite — core physics (run first):
 python -m pytest tests/ -q
-# Expected: 11450 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 12601 passed, 2 skipped, 11 deselected, 0 failed
 
 # Recycling / φ-debt entropy suite (Pillar 16):
 python -m pytest recycling/ -q
@@ -46,7 +46,7 @@ python -m pytest "Unitary Pentad/" -q
 
 # Full repository (takes ~90 s):
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 14109 passed, 1 skipped, 11 deselected, 0 failed
+# Expected: 14183 passed, 2 skipped, 11 deselected, 0 failed
 
 # Slow tests (Richardson extrapolation, ~2 min):
 python -m pytest tests/ -m slow
@@ -210,7 +210,7 @@ print(f"r_braided = {r:.4f}  (BICEP/Keck < 0.036)")
 │   └── materials/                  ← Pillar 26
 ├── recycling/                      ← Pillar 16: φ-debt entropy accounting
 ├── Unitary Pentad/                 ← independent HILS governance framework
-├── tests/                          ← 126 test files, ~10 000 fast-passing tests
+├── tests/                          ← 145 test files, ~10 000 fast-passing tests
 ├── bot/                            ← AI assistant infrastructure (RAG, Copilot Extension)
 └── notebooks/                      ← Jupyter quickstart, boundary, multiverse demos
 ```
