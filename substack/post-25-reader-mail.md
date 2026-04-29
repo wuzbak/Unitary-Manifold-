@@ -37,9 +37,9 @@ is called `cold_fusion/` for historical reasons that seemed clear at the time.
 
 ---
 
-**Q: How many of the 74 pillars are you confident about?**
+**Q: How many of the 92 pillars are you confident about?**
 
-A: All 74 pass their automated tests. Confidence as a philosophical quantity is
+A: All 92 pass their automated tests. Confidence as a philosophical quantity is
 addressed in `FALLIBILITY.md`, which is 83 kilobytes long and begins with the
 sentence "This document is not a list of excuses."
 
@@ -47,9 +47,10 @@ sentence "This document is not a list of excuses."
 
 **Q: The CMB power spectrum is off by a factor of 4 to 7. Isn't that kind of bad?**
 
-A: Yes. This is Admission 2 in `FALLIBILITY.md`. It is real, it is unresolved,
-and it has been assigned to Pillars 57 and 63. We appreciate that you read the
-document. Most critics do not get this far before forming their opinion.
+A: Yes. This is Admission 2 in `FALLIBILITY.md`. It was real, and it has been
+resolved by Pillars 57 and 63 (radion amplification × E-H baryon loading closes
+the ×4–7 suppression). We appreciate that you read the document. Most critics
+do not get this far before forming their opinion.
 
 ---
 
@@ -58,8 +59,11 @@ document. Most critics do not get this far before forming their opinion.
 A: The winding number n_w = 5 is selected by the Planck CMB spectral index to
 within 0.33σ. The secondary braid resonance at n_w = 7 is required by the (5, 7)
 Chern-Simons gauge structure that produces k_CS = 5² + 7² = 74. Before you ask:
-yes, the theory closes at exactly 74 pillars, and yes, that is the same 74. The
-Completeness Theorem has seven independent proofs of this. We understand how it looks.
+yes, the core theory closes at exactly 74 pillars, and yes, that is the same 74. The
+Completeness Theorem has seven independent proofs of this. Since the original
+closure the framework has been extended to 92 pillars through particle physics
+derivations (CKM matrix, PMNS mixing, Wolfenstein parameters, neutrino splittings,
+Higgs mass estimate, UV embedding into SU(5)⊂E₈). We understand how it looks.
 
 ---
 
@@ -132,7 +136,7 @@ in 2032. We are fine.
 ---
 
 *Every answer above is technically accurate. The .gitignore authorship statement
-is real. The 14,183 tests are real. The CMB amplitude gap is real. The 0.33σ
+is real. The 14,183 tests are real. The CMB amplitude gap has been resolved (Pillars 57 and 63). The 0.33σ
 spectral index match is real. The 2032 falsification test is real.*
 
 *If you want to verify any of this: `python VERIFY.py`*

@@ -51,7 +51,7 @@ production. Dismissing it is foolish.
 ## The structural limitations that apply here
 
 **Problem 1: Scope.** A paper in Physical Review Letters is typically 4–6 pages.
-The Unitary Manifold spans 74 pillars covering cosmology, particle physics, atomic
+The Unitary Manifold spans 92 pillars covering cosmology, particle physics, atomic
 structure, cold fusion, medicine, justice, governance, neuroscience, ecology, climate,
 genetics, and materials science. No PRL paper covers 74 domains.
 

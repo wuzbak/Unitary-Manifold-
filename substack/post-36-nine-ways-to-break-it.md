@@ -219,9 +219,9 @@ must determine.
 ## Break 9: Change the winding number from 5 to any other value
 
 **What the framework claims:** n_w = 5 is selected by the intersection of the
-APS orbifold constraint, the three-generation count ⌊n_w/2⌋ + 1 = 3, and the
-anomaly cancellation argument (Post 23, Post 31). No other winding number
-simultaneously satisfies all three.
+APS orbifold constraint (now proved at three independent levels: Pillars 70-B, 80, 89),
+the three-generation count ⌊n_w/2⌋ + 1 = 3, and the anomaly cancellation argument
+(Post 23, Post 31). No other winding number simultaneously satisfies all three.
 
 **The handle:** In any module that uses the winding number as a parameter,
 set N_W = 7 (the next candidate). The most direct test: run

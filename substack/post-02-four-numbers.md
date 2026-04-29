@@ -165,7 +165,7 @@ Four numbers is not proof. It is a testable pattern. LiteBIRD will test it.
 
 ---
 
-*Full source code, derivations, and 12,700+ automated tests:*
+*Full source code, derivations, and 14,183 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

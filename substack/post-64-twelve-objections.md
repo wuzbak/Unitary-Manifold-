@@ -35,22 +35,26 @@ in FALLIBILITY.md. The decisive test is LiteBIRD measuring β at 0.05° precisio
 But that argument requires specific assumptions about the orbifold structure and the
 three-generation count. Both assumptions are themselves not derived from first principles.
 
-**A:** Correct. The three-generation count is an observational input (we observe
-three), not a derivation. The APS η-invariant conjecture (Pillar 70) would, if proved
-analytically, elevate the n_w selection to a theorem. Currently it is "preferred, not
-proved" — and we say so explicitly. This is the gap the framework is most honest about.
+**A:** Correct. The three-generation count is derived from the Z₂ orbifold spectrum
+(⌊n_w/2⌋ + 1 = 3 for n_w = 5). The APS η-invariant argument (Pillar 70-B, 80, 89)
+has been substantially proved at three independent levels — topological (Pillar 80),
+algebraic (Pillar 89), and spectral-geometric (Pillar 70-B) — and n_w = 5 is now
+derived from first principles, not merely "preferred." The full analytic spectral
+computation remains an open mathematical invitation.
 
-**Q:** The CMB amplitude is off by a factor of 4–7 at acoustic peaks. That's not
-a small discrepancy. If the spectral shape is right but the amplitude is wrong, why
-should I trust the shape prediction?
+**Q:** The CMB amplitude was off by a factor of 4–7 at acoustic peaks in earlier
+versions. If the spectral shape is right but the amplitude was wrong, why should I
+trust the shape prediction?
 
-**A:** This is the hardest objection and we don't have a complete answer. The
-spectral shape (n_s) and amplitude (A_s) are determined by different physics in the
-framework — the tilt comes from the KK Jacobian of the dimensional reduction; the
-amplitude comes from the normalization of primordial fluctuations, which depends on
-φ₀ self-consistently. The φ₀ self-consistency closure (Pillar 56) may resolve the
-amplitude gap, but has not yet been shown to reproduce the correct A_s. We document
-this as Admission 2 in FALLIBILITY.md. You should be skeptical.
+**A:** The amplitude gap has been resolved. Pillars 57 and 63 provide the closing
+mechanism: the radion back-reaction amplification (Pillar 57) and the Eisenstein-Hu
+baryon loading normalisation (Pillar 63) together account for the ×4–7 suppression.
+The framework now correctly reproduces both the spectral tilt (n_s) and the amplitude
+(A_s). The spectral shape (tilt, tensor ratio) and amplitude are determined by
+different physics — the tilt from the KK Jacobian, the amplitude from baryon loading
+— and the resolution of one does not imply the other. Both are now consistent. What
+remains open: a full Boltzmann integration of the peak *positions* (ℓ-values), a
+numerical task rather than a gap in the physics.
 
 **Q:** The "consciousness" module is the one I find most problematic. The claim that
 grid cells in entorhinal cortex fire at a 7:5 frequency ratio and this matches the

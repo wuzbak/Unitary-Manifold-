@@ -144,7 +144,7 @@ The rapid development cycle in this project operated as follows:
 A single iteration of this cycle, for a well-specified claim, takes approximately
 ten minutes. In a day of focused collaboration, it is possible to implement,
 test, and document a dozen independent claims. This is the mechanism by which
-74 pillars were built in weeks rather than decades.
+92 pillars were built in weeks rather than decades.
 
 ---
 
@@ -182,7 +182,7 @@ slow friction of scientific community scrutiny.
 
 The HILS cycle is fast precisely because it skips those steps. It is a method
 for producing a *candidate* for external validation, not a substitute for it.
-The 74 pillars and 14,183 tests are evidence that the candidate is worth
+The 92 pillars and 14,183 tests are evidence that the candidate is worth
 examining. They are not a certification that it is correct.
 
 The instruction manual this post describes produces a rigorously specified,

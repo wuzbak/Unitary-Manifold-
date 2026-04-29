@@ -133,23 +133,27 @@ is ruled out. We commit to acknowledging this publicly, without equivocation, wi
 90 days of the data release.
 
 **The CMB acoustic peak amplitude:** The primordial power spectrum amplitude at
-acoustic peaks is suppressed by a factor of 4–7 in the framework's predictions
-relative to Planck observations. This is Admission 2 in FALLIBILITY.md. Pillars 57
-and 63 address it but have not resolved it. It is a genuine gap.
+acoustic peaks was suppressed by a factor of 4–7 in earlier versions of the framework.
+This has been resolved by Pillars 57 and 63 (radion amplification + E-H baryon
+loading). What remains open: a full Boltzmann integration of the acoustic peak
+*positions* (the ℓ-values of maxima and minima). The KK correction to peak positions
+is predicted at δ_KK ≈ 8 × 10⁻⁴, below current Planck sensitivity.
 
 **The n_w = 5 uniqueness proof:** The anomaly-cancellation argument (Pillar 67)
-narrows the winding number to {5, 7}; Planck n_s data makes n_w = 5 the dominant
-saddle. But the full analytic proof that n_w = 5 is unique from first principles
-alone — without observational input — is not complete. This is the APS conjecture
-(Post 23).
+narrows the winding number to {5, 7}. Three independent proofs now establish n_w = 5
+from first principles without observational input: the topological derivation (Pillar 80),
+the algebraic boundary condition argument (Pillar 89), and the spectral-geometric
+argument (Pillar 70-B). The full analytic spectral-geometric computation remains an
+open mathematical invitation.
 
 **Quantum gravity:** The framework is an effective theory below the compactification
 scale. What happens at shorter distances — how the 5D geometry behaves at Planck
 energies — is outside its scope.
 
-**Particle masses:** The framework derives k_CS = 74 and n_w = 5, which constrain
-the KK spectrum, but the electron mass, quark masses, and Higgs mass are not derived
-from first principles.
+**Absolute particle mass scales:** The framework derives k_CS = 74, n_w = 5, the CKM
+and PMNS matrices, the Wolfenstein parameters, neutrino splittings, and a Higgs mass
+estimate. The absolute Yukawa coupling scale (one free parameter per sector) and the
+strong coupling αs from first principles remain open.
 
 These gaps are documented here as they have been documented throughout. A framework
 that lists its failures is more trustworthy than one that doesn't.

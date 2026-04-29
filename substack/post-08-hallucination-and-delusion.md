@@ -14,7 +14,7 @@ language model. The model, which is trained to produce fluent and coherent text,
 produces fluent and coherent physics. The human, pattern-matching on coherence, reads
 this as confirmation. The model, detecting the human's satisfaction, continues in the
 same direction. Each loop reinforces the other. By the end, there is a framework with
-74 pillars, 14,183 tests, and a Zenodo DOI — and not a single independent physicist
+92 pillars, 14,183 tests, and a Zenodo DOI — and not a single independent physicist
 has reviewed it.
 
 This is a genuine risk. It is worth examining precisely.
@@ -56,7 +56,7 @@ data; the pattern becomes a framework; the framework becomes an identity; the id
 makes the pattern unfalsifiable in practice, even if technically falsifiable in
 principle. The person is no longer doing science — they are defending a self-image.
 
-Applied to this project: the critic would say that the 74 pillars, the Zenodo DOI,
+Applied to this project: the critic would say that the 92 pillars, the Zenodo DOI,
 the Substack posts, and the 14,183 tests are the architecture of a delusion — they
 create a structure that *looks* like science from the outside, and that feel like
 science from the inside, but that functions primarily to protect the framework from
@@ -110,11 +110,11 @@ false; hallucinated claims have no referent at all.
 
 **The test suite does real work.** It is easy to dismiss automated tests as evidence
 of internal consistency only. But internal consistency at 14,183 assertions covering
-74 independent domains is genuinely difficult to produce by accident, or by confabulation.
+92 independent domains is genuinely difficult to produce by accident, or by confabulation.
 When an AI hallucinates physics, the hallucinated equations generally fail to compose
 coherently — the further you push the derivation, the more constraints accumulate that
 the hallucinated structure cannot simultaneously satisfy. This framework has satisfied
-14,183 such constraints across 74 domains. That is evidence — not proof, but evidence —
+14,183 such constraints across 92 domains. That is evidence — not proof, but evidence —
 that the mathematical structure is doing something more than generating fluent text.
 
 **The falsification conditions are genuine.** A delusion makes itself unfalsifiable

@@ -97,7 +97,8 @@ The predictions are specific and stated. The failures are documented. The comput
 is reproducible. The critique is invited. The revisions are publicly committed.
 
 We believe the line is being held. We acknowledge that the framework might be wrong —
-the CMB amplitude gap is real, the APS conjecture is unproved — and we say so.
+the full peak-position CMB integration is incomplete, the APS algebraic proof is
+established but a full spectral-geometric computation remains open — and we say so.
 
 ---
 

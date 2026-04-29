@@ -102,7 +102,7 @@ three minutes.
 
 The scope made it easy for critics to focus on weak spots (the domain extensions)
 and dismiss the strong spots (the core cosmological predictions). The framing challenge
-of communicating a 74-pillar framework without losing the three predictions that
+of communicating a 92-pillar framework (74 core + 18 particle physics extensions) without losing the three predictions that
 actually matter is unsolved.
 
 The human-AI collaboration produced documents faster than any single human could,

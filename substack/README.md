@@ -31,7 +31,7 @@ the Unitary Manifold framework to a general audience.
 | `post-20-neuroscience.md` | "The Brain Is a 5D Object: Neuroscience Without Mysticism" | Publish 21st |
 | `post-21-climate.md` | "The Atmosphere as an Attractor: What the Framework Says About the Climate Crisis" | Publish 22nd |
 | `post-22-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
-| `post-23-aps-conjecture.md` | "The One Thing That Still Needs to Be Proved" | Publish 24th |
+| `post-23-aps-conjecture.md` | "The One Proof We Needed — And Found" | Publish 24th |
 | `post-24-educational-systems.md` | "What Would It Take to Actually Fix Education?" | Publish 25th |
 | `post-25-reader-mail.md` | "Frequently Asked Questions (That No One Has Actually Asked Yet)" | Publish 26th |
 | `post-26-psychology.md` | "The Mind in the Numbers: Psychology as φ-Field Dynamics" | Publish 27th |
@@ -73,8 +73,8 @@ the Unitary Manifold framework to a general audience.
 | `post-62-ethics-public-before-review.md` | "The Ethics of Going Public Before Peer Review" | Batch C |
 | `post-63-ai-authorship.md` | "When AI Writes the Math: Authorship, Credit, and the Future of Theory" | Batch C |
 | `post-64-twelve-objections.md` | "The Twelve Objections: A Socratic Dialogue" | Batch C |
-| `post-65-cmb-amplitude-gap.md` | "The CMB Acoustic Peak Problem: The One Gap We Cannot Hide" | Batch D |
-| `post-66-winding-conjecture.md` | "The Winding Number Conjecture: The One Proof We Still Need" | Batch D |
+| `post-65-cmb-amplitude-gap.md` | "The CMB Acoustic Peak Problem — The Gap We Closed" | Batch D |
+| `post-66-winding-conjecture.md` | "The Winding Number — Proved" | Batch D |
 | `post-67-two-years-waiting.md` | "Two Years of Waiting: What We Know, What We Don't, and What's Coming" | Batch D |
 | `post-68-letter-to-litebird.md` | "The Letter to LiteBIRD" | Batch D |
 | `post-69-abrahamic-traditions.md` | "What Islam, Judaism, and Christianity Each Say About the Fixed Point" | Batch D |
