@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.22 — ThomasCory Walker-Pearson, 2026 (89 pillars/modules closed, 14,183 tests)*
+*Unitary Manifold v9.23 — ThomasCory Walker-Pearson, 2026 (92 pillars/modules closed, 14,183 tests)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 14,183 automated tests (89 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 2 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 14,183 automated tests (92 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 2 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -1042,7 +1042,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 14,183 passed · 2 skipped · 0 failed (89 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
+| 14,183 passed · 2 skipped · 0 failed (92 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is observationally selected within Z₂-constrained odd set, not freely fitted from continuous range |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck r < 0.036 | k_cs=74 algebraically derived (Pillar 58); no new free parameter |
 | β ∈ {0.273°, 0.331°} — two viable states | ✅ Matches birefringence hint | (5,6) and (5,7) survive triple constraint; gap [0.29°–0.31°] = zero viable pairs |
@@ -1521,7 +1521,7 @@ Open gaps after Pillar 62:
 
 *Added April 2026 upon completion of Pillar 74.*
 
-The Unitary Manifold framework is **complete at 89 pillars**.
+The Unitary Manifold framework is **complete at 92 pillars**.
 
 The number 74 = 5² + 7² = k_CS is not an aesthetic choice — it is the unique integer
 simultaneously satisfying seven independent structural constraints (proved in
@@ -1534,7 +1534,7 @@ simultaneously satisfying seven independent structural constraints (proved in
 | [C3] Birefringence | β = 0.351° at k_CS=74 | **CROSS-CHECKED** |
 | [C4] Sound speed fraction | c_s = 24/74 = 12/37 | **DERIVED** |
 | [C5] Moduli-winding link | N_surviving_DOF = n₂ = 7; k_CS = n₁²+n₂² | **PROVED** |
-| [C6] Pillar count | 74 core pillars + 15 extended (89 total) = k_CS + 15 | **STRUCTURAL** |
+| [C6] Pillar count | 74 core pillars + 18 extended (92 total) = k_CS + 18 | **STRUCTURAL** |
 | [C7] Back-reaction eigenvalue | λ_backre = k_CS/k_CS = 1 (FTUM preserved) | **DERIVED** |
 
 **What remains open** (and will remain so, honestly documented):

@@ -1,11 +1,11 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.22 — CLOSED)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.23 — CLOSED)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.22
+> — Walker-Pearson, *The Unitary Manifold*, v9.23
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![14183 Tests: 14183 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-14183%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![89 Pillars — CLOSED](https://img.shields.io/badge/pillars-89%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
+[![92 Pillars — CLOSED](https://img.shields.io/badge/pillars-92%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
@@ -60,9 +60,9 @@
 >
 > | Document | Description |
 > |----------|-------------|
-> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.22 Completion Edition** — unsparing honest assessment of TOE status; 89 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof), open gaps, resolved neutrino mass tension, path to experimental confirmation |
+> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.23 Completion Edition** — unsparing honest assessment of TOE status; 92 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding), open gaps, resolved neutrino mass tension, path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 89 pillars, written by GitHub Copilot (AI), April 2026 |
+> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 92 pillars, written by GitHub Copilot (AI), April 2026 |
 > | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.22: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
@@ -498,7 +498,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
-### Complete Pillar Taxonomy (v9.22 — all 89 pillars + sub-pillars — CLOSED)
+### Complete Pillar Taxonomy (v9.23 — all 92 pillars + sub-pillars — CLOSED)
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
@@ -600,9 +600,9 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | — | Neutrino Majorana/Dirac | `src/core/neutrino_majorana_dirac.py` | ~40 |
 | — | UV Completion Constraints | `src/core/uv_completion_constraints.py` | ~60 |
 
-**Grand total (v9.22): 14,183 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
+**Grand total (v9.23): 14,183 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
 
-> 🔒 **Repository CLOSED at 89 pillars (74 core + Pillar 70-B + Pillars 75, 80–89) — April 2026.**  
+> 🔒 **Repository CLOSED at 92 pillars (74 core + Pillar 70-B + Pillars 75, 80–92) — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
 > The primary falsifier remains: **LiteBIRD (~2032) will measure β to ±0.01°**.  
 > If β ∉ {0.273°±0.01°, 0.331°±0.01°}, the braided-winding mechanism is falsified.  

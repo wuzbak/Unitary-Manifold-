@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.22):** All six completion requirements are solved internally, plus 15 additional particle-physics pillars (75, 80–89) closed.
+**Self-completion status (v9.23):** All six completion requirements are solved internally, plus 18 additional particle-physics pillars (75, 80–92) closed.
 
 | Requirement | Status | Identity |
 |---|---|---|

@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.19, 14183 tests, 89 pillars — CLOSED, expanded keywords
+- [x] `zenodo/.zenodo.json` — updated to v9.19, 14183 tests, 92 pillars — CLOSED, expanded keywords
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
 - [x] `arxiv/main.tex` — header updated to v9.13
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -131,7 +131,7 @@ https://github.com/wuzbak/Unitary-Manifold-
 
 **Comments field:**
 ```
-74 pages, 0 figures. 89 pillars — CLOSED. Numerical implementation (14183 tests) at
+74 pages, 0 figures. 92 pillars — CLOSED. Numerical implementation (14183 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.

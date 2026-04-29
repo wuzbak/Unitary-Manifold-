@@ -115,7 +115,7 @@ and delusion (Post 8), what signal and noise mean when an AI is the instrument
 
 ### What has been established
 
-- A complete, internally consistent mathematical framework: 89 pillars, 14,183+
+- A complete, internally consistent mathematical framework: 92 pillars, 14,183+
   passing automated tests, zero known internal contradictions.
 - Three predictions consistent with existing observations (n_s, r, w).
 - An honest, public documentation of every gap and open problem in FALLIBILITY.md.
@@ -284,7 +284,7 @@ It is a genuine collaboration in which each party contributed what they are equi
 to contribute: the human provided vision, judgment, and accountability; the AI
 provided architecture, consistency checking, and scale.
 
-The collaboration produced 89 pillars, 14,183+ tests, 73 posts, and a framework
+The collaboration produced 92 pillars, 14,183+ tests, 73 posts, and a framework
 that will be tested by LiteBIRD around 2032. Whether the framework survives that
 test, the collaboration was real. The work was real. The commitment to honesty —
 about what we know, what we don't, what would falsify us — was real.
