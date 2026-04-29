@@ -471,6 +471,55 @@ class TestResonanceScan:
         pairs  = [(p.n1, p.n2) for p in result]
         assert (5, 7) in pairs
 
+    # --- Dual-sector uniqueness tests (mirrors VERIFY.py CHECK 6) ---
+
+    def test_56_pair_in_bicep_1sigma_scan(self):
+        """The (5,6) twin sector co-survives the tightest CMB filter.
+
+        VERIFY.py CHECK 6 asserts exactly 2 pairs pass both:
+          - r_eff < R_BICEP_KECK_95  (0.036)
+          - |ns − 0.9649| ≤ 1σ      (ns_sigma_max=1.0)
+
+        This test machine-verifies that (5,6) is one of those survivors,
+        documenting the dual-sector structure as an empirical prediction
+        rather than a free choice.  k_cs(5,6) = 5²+6² = 61.
+        """
+        result = resonance_scan(n_max=10, r_limit=R_BICEP_KECK_95, ns_sigma_max=1.0)
+        pairs = [(p.n1, p.n2) for p in result]
+        assert (5, 6) in pairs, (
+            f"(5,6) twin sector not found in BICEP+1σ scan. Survivors: {pairs}"
+        )
+
+    def test_bicep_1sigma_scan_yields_exactly_two_pairs(self):
+        """The BICEP/Keck + 1σ ns filter selects exactly 2 braid pairs.
+
+        Mirrors VERIFY.py CHECK 6 (c6 = n_survivors == 2).  The two
+        survivors are (5,6) and (5,7).  Any change that adds or removes a
+        pair from this set would alter the dual-sector prediction and must
+        be treated as a theory-level modification.
+        """
+        result = resonance_scan(n_max=10, r_limit=R_BICEP_KECK_95, ns_sigma_max=1.0)
+        pairs = [(p.n1, p.n2) for p in result]
+        assert len(result) == 2, (
+            f"Expected exactly 2 pairs to survive BICEP+1σ scan, got {len(result)}: {pairs}"
+        )
+
+    def test_removing_56_leaves_single_survivor(self):
+        """Without (5,6), only one pair survives — the twin is necessary.
+
+        Demonstrates that the dual-sector structure is not redundant: if the
+        (5,6) pair were absent, the resonance scan would yield a singleton,
+        and the count in VERIFY.py CHECK 6 would fail (n_survivors ≠ 2).
+        """
+        result = resonance_scan(n_max=10, r_limit=R_BICEP_KECK_95, ns_sigma_max=1.0)
+        without_56 = [(p.n1, p.n2) for p in result if (p.n1, p.n2) != (5, 6)]
+        assert len(without_56) == 1, (
+            f"After removing (5,6), expected 1 survivor, got {len(without_56)}: {without_56}"
+        )
+        assert without_56[0] == (5, 7), (
+            f"Sole survivor without (5,6) should be (5,7), got {without_56[0]}"
+        )
+
 
 # ===========================================================================
 # 7. TestBeatFrequencyPhysics
