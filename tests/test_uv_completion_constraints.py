@@ -460,8 +460,16 @@ class TestDeriveUVEmbedding:
     def test_step3_ftum_proved(self):
         assert "PROVED" in self.res["steps"]["step3_ftum_fixed_point"]
 
-    def test_step4_is_open(self):
-        assert "OPEN" in self.res["steps"]["step4_flux_matching"]
+    def test_step4_is_proved(self):
+        """Step 4 is now PROVED by the G₄-flux Bianchi identity."""
+        assert "PROVED" in self.res["steps"]["step4_flux_matching"]
+
+    def test_step4_not_open(self):
+        """Step 4 is no longer OPEN — Bianchi identity closes it."""
+        assert "OPEN" not in self.res["steps"]["step4_flux_matching"]
+
+    def test_all_steps_closed(self):
+        assert self.res.get("all_steps_closed") is True
 
     def test_overall_status_steps_1_3_closed(self):
         assert "1" in self.res["overall_status"] or "CLOSED" in self.res["overall_status"]
@@ -469,5 +477,7 @@ class TestDeriveUVEmbedding:
     def test_remaining_gap_nonempty(self):
         assert len(self.res["remaining_gap"]) > 20
 
-    def test_remaining_gap_mentions_flux(self):
-        assert "flux" in self.res["remaining_gap"].lower() or "G₄" in self.res["remaining_gap"]
+    def test_remaining_gap_mentions_open_questions(self):
+        """Remaining gap now lists holonomy/quark/SUSY open questions."""
+        gap = self.res["remaining_gap"].lower()
+        assert "holonomy" in gap or "quark" in gap or "susy" in gap
