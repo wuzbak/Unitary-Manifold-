@@ -299,6 +299,15 @@ under a signed SoW are governed by the version of this ToS in effect at the time
 
 ---
 
+## § 11 · Consolidated Legal Reference
+
+For a single plain-language document synthesizing all legal instruments — DPC v1.0,
+AGPL-3.0, Common Law Trademark, this Commercial ToS, and the DBA registration —
+including the open-core business model, the conflict-of-interest disclosure, and the
+no-contradiction statement, see [`LEGAL.md`](LEGAL.md).
+
+---
+
 *Document version: 1.0 — April 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*  

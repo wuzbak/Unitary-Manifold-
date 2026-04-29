@@ -172,7 +172,7 @@ The science does not serve the business. The business serves the science by keep
 *Full source code, derivations, and 13,000+ automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
-*Legal documents: `AXIOMZERO_DBA.md`, `LICENSE` (DPC v1.0), `LICENSE-AGPL` (AGPL-3.0)*
+*Legal documents: [`LEGAL.md`](../LEGAL.md) (consolidated reference) · `AXIOMZERO_DBA.md` · `LICENSE` (DPC v1.0) · `LICENSE-AGPL` (AGPL-3.0) · `COMMERCIAL_TERMS.md`*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
