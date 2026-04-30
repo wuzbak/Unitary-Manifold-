@@ -369,6 +369,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 4.0 — Engineering Edition | April 2026 | Book 5 added: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA), current systems failure analysis, ten immediate fixes, future architecture, six appendices including printable diagnostic card |
 | 5.0 — Version Omega | April 2026 | Book 6 added: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph; all themes, all domains, all implications, readable by anyone |
 | 6.0 — Education Edition | April 2026 | Books 7–10 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |
+| 7.0 — SynBio Edition | April 2026 | Pillar 25 extended with `src/genetics/synthetic_biology.py` (10 φ-functions, 63 new tests, 141 total in test_genetics.py); biosecurity HILS governance added to Unitary Pentad (`pentad_scenarios.py`); post-27.a (filed as post-97) added; total tests 15,100 |
 
 ---
 

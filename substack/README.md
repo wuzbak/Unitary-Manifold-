@@ -40,6 +40,7 @@ the Unitary Manifold framework to a general audience.
 | `post-25-reader-mail.md` | "Frequently Asked Questions (That No One Has Actually Asked Yet)" | Publish 26th |
 | `post-26-psychology.md` | "The Mind in the Numbers: Psychology as φ-Field Dynamics" | Publish 27th |
 | `post-27-genetics-evolution.md` | "Life's Code: Genetics and Evolution as φ-Field Selection Dynamics" | Publish 28th |
+| `post-97-synthetic-biology-attractor-engineering.md` | "Synthetic Biology Is Attractor Engineering" — **Post 27.a** (Pillar 25 Extension) | Publish after Post 27 |
 | `post-28-materials-science.md` | "Building With Geometry: Materials Science From the Fifth Dimension" | Publish 29th |
 | `post-29-astronomy-earth-life.md` | "Stars, Galaxies, and the Living Earth: The Framework's Cosmic and Planetary Domains" | Publish 30th |
 | `post-30-early-universe.md` | "From the First Microsecond: The Early Universe in the Unitary Manifold" | Publish 31st |
@@ -145,7 +146,7 @@ Each post draws directly from these repository documents:
 | `src/multiverse/fixed_point.py`, `src/consciousness/coupled_attractor.py` | Post 24 |
 | This repository (all of it — Q&A format) | Post 25 |
 | `src/psychology/` | Post 26 |
-| `src/genetics/` | Post 27 |
+| `src/genetics/`, `src/genetics/synthetic_biology.py` | Post 27 |
 | `src/materials/`, `src/physics/lattice_dynamics.py` | Post 28 |
 | `src/astronomy/`, `src/earth/`, `src/biology/`, `src/core/dark_matter_geometry.py` | Post 29 |
 | `src/core/photon_epoch.py`, `src/core/quark_gluon_epoch.py` | Post 30 |
@@ -236,6 +237,32 @@ Each post draws directly from these repository documents:
 | `post-39-universal-yukawa-test.md` | Post 39 | "One Coupling, Nine Masses: The Universal Yukawa Test" — Pillar 98 |
 | `epilog-pillar-97-98-testing.md` | **Epilog** | "How We Tested the Mass Gap Closure" — technical documentation of Pillars 97-98 |
 
+## Post 27.a: Synthetic Biology — Attractor Engineering (Pillar 25 Extension)
+
+| File | Type | Topic |
+|------|------|-------|
+| `post-97-synthetic-biology-attractor-engineering.md` | **Post 27.a** | "Synthetic Biology Is Attractor Engineering" — Pillar 25 Extension; response to Groff-Vindman (2026) |
+
+A direct extension of Post 27 (Genetics). Motivated by Dr. Cindy Groff-Vindman's question at the
+2026 Synthetic Biology Summit, this post applies the Unitary Manifold's φ/B_μ/FTUM language to
+synthetic biology: gene circuits as designed FTUM attractors, CRISPR as targeted B_μ perturbation,
+and AI-driven SynBio as gradient descent on the φ-potential landscape. Includes biosecurity
+governance via the Unitary Pentad's `biosecurity_dual_use_risk()` function.
+Pillar 25 Extension — 80+ new passing tests (141 total in `tests/test_genetics.py`).
+
+## Source Documents for Post 27.a
+
+| Document | Used in |
+|----------|---------|
+| `src/genetics/synthetic_biology.py` | Post 27.a |
+| `src/genetics/README.md` | Post 27.a |
+| `Unitary Pentad/pentad_scenarios.py` | Post 27.a |
+| `tests/test_genetics.py` (141 tests) | Post 27.a |
+| `src/genetics/` (Pillar 25) | Post 27.a |
+| `FALLIBILITY.md` (Tier 3 epistemic note) | Post 27.a |
+
+---
+
 ## Post 99: The Omega Synthesis (v9.27 — OMEGA EDITION)
 
 | File | Type | Topic |
@@ -269,7 +296,7 @@ Each post draws directly from these repository documents:
 *Series concept and content strategy: ThomasCory Walker-Pearson.*  
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**99 pillars. 15,072 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**99 pillars. 15,100 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
 
 ## Post Ω: The Omega Article (v9.27 — OMEGA EDITION)
 
@@ -330,4 +357,4 @@ See [BOOKS_README.md](BOOKS_README.md) for full details on each book and series.
 *Series concept and content strategy: ThomasCory Walker-Pearson.*
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**99 pillars. 15,072 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**99 pillars. 15,100 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
