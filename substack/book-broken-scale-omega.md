@@ -529,6 +529,162 @@ The record does not lie. The physics of the universe conserves information. The 
 
 ---
 
+## PART VIII — The Digital Court Record Revolution
+
+The transformation of court record access from paper files to online databases is one of the most consequential — and underappreciated — shifts in public accountability journalism of the last two decades.
+
+### The PACER Problem
+
+The Public Access to Court Electronic Records (PACER) system was launched in 1988 as the federal judiciary's answer to the demand for electronic access. By 2026 it has become both an indispensable tool and a structural barrier. The system charges $0.10 per page for downloading documents — a fee that generates more than $100 million per year for the federal courts while simultaneously pricing out many journalists, legal aid organizations, and ordinary citizens.
+
+> *"When accessing justice requires paying $0.10 per page for public records, the system has already decided who gets to participate."*
+
+The RECAP Project — launched by Princeton's Center for Information Technology Policy in 2009 — offers a partial remedy. RECAP is a browser extension that automatically uploads every document PACER users download to a public archive at CourtListener. As of 2026, CourtListener holds more than 200 million federal court documents freely searchable by anyone.
+
+**The coverage gap:** RECAP only captures documents that someone with the extension has already downloaded. Entire dockets — particularly in districts with low journalist presence — remain behind the paywall.
+
+### State-Level Patchwork
+
+State court record access is far more fragmented:
+
+- **Washington State**: Most civil and criminal records accessible via **Washington Courts** portal (courts.wa.gov), including Snoqualmie Valley cases, free of charge for case summaries
+- **California**: Superior court dockets vary county by county; Los Angeles has full online access, many rural counties do not
+- **Texas**: Online criminal records exist statewide but civil records are behind county-level portals with inconsistent fee structures
+- **Florida**: Remarkably transparent — Clerk of Court public records online, criminal dockets fully searchable, no per-page fees
+- **Mississippi, Alabama**: Significant gaps — limited online access, requiring in-person or mail requests even in 2026
+
+### CourtListener and the RECAP Archive
+
+The Free Law Project maintains CourtListener as a free, nonprofit alternative to PACER. Key features:
+- Full-text search across 200M+ documents
+- PACER fee tracker (monitors the judiciary's per-page revenue)
+- Alert system for new filings in any docket
+- Citation network graph linking related cases
+
+**For investigative journalists:** CourtListener's docket alert system is the equivalent of a free monitoring service across the entire federal judiciary. Any reporter covering a long-running case — bankruptcy, antitrust, civil rights — should have CourtListener alerts running.
+
+### The Transparency Gap That Remains
+
+Despite these advances, significant structural barriers remain:
+
+1. **Juvenile records**: Sealed by statute in virtually every state, often appropriately, but creating blind spots when juvenile adjudication becomes a predicate for later adult sentencing
+2. **Immigration courts**: Operated by the Department of Justice's Executive Office for Immigration Review, not the Article III federal courts — PACER does not apply; access is administratively restricted
+3. **Secret law**: FISA Court opinions, even when partially declassified, are heavily redacted; the legal reasoning the government uses to surveil Americans is largely invisible
+4. **State records gaps**: Civil commitment records, mental health adjudications, and expunged records remain inaccessible in most states by design — creating accountability gaps around repeat offenders who have prior sealed records
+
+The φ-entropy framework offers a precise way to characterize this: every sealed record is a local entropy pocket — a cluster of hidden information whose eventual disclosure is thermodynamically demanded but temporally uncertain. Investigative journalism is the mechanism by which those entropy pockets are opened.
+
+---
+
+## PART IX — Policing the Police: Consent Decrees and Their Outcomes
+
+The Department of Justice's authority to investigate police departments under 42 U.S.C. § 12601 — the "pattern or practice" statute — is one of the most powerful accountability tools in American law. Enacted as part of the Violent Crime Control and Law Enforcement Act of 1994, § 12601 allows the DOJ Civil Rights Division to sue local law enforcement agencies for systematic constitutional violations.
+
+### How Pattern-or-Practice Investigations Work
+
+A § 12601 investigation is triggered by a finding of reasonable cause to believe that a law enforcement agency engages in "a pattern or practice of conduct by law enforcement officers...that deprives persons of rights, privileges, or immunities secured or protected by the Constitution or laws of the United States."
+
+The typical sequence:
+1. DOJ Civil Rights Division conducts investigation (12–18 months)
+2. Findings letter issued to city and police department
+3. Negotiation of a consent decree — a binding court order specifying reform requirements
+4. Federal monitor appointed to oversee compliance
+5. Court retains jurisdiction until compliance certified
+
+### Major Cases and What the Data Shows
+
+**Baltimore (2017–present)**  
+The DOJ investigation following Freddie Gray's death in police custody found systematic unconstitutional stops, searches, and arrests; excessive use of force; and discriminatory enforcement targeting Black residents. The consent decree, signed in 2017, required body cameras, revised use-of-force policies, bias-free policing training, and a community oversight board. By 2024:
+- Use-of-force incidents declined approximately 27% from 2017 baseline
+- Consent decree compliance remained contested — the federal monitor found "significant gaps" in data collection
+- Violent crime rose significantly during the same period (a correlation NOT established as causal by the decree)
+
+**Minneapolis (2023–present)**  
+The killing of George Floyd and subsequent state attorney general investigation (which found systematic discrimination and unreasonable force) led Minnesota Attorney General Keith Ellison to file a civil rights lawsuit under state law. A consent decree was reached in 2023. Federal DOJ also opened a parallel § 12601 investigation. Early compliance data showed:
+- MPD budget restructured to expand alternative response units
+- Police staffing fell significantly as officers resigned or retired
+- Response times increased in some districts
+- Community oversight board operational but underfunded
+
+**Louisville (2023–present)**  
+The DOJ investigation following Breonna Taylor's death found Louisville Metro Police engaged in a pattern of unconstitutional searches, excessive force, First Amendment violations (retaliating against protesters), and racially discriminatory enforcement. Consent decree signed 2023. First monitoring report (2024): "the city and LMPD have taken meaningful initial steps but systemic change will require sustained commitment."
+
+**What Consent Decrees Can and Cannot Do**
+
+Decrees are effective at:
+- Requiring specific policy changes (use-of-force thresholds, de-escalation mandates)
+- Mandating data collection that was previously nonexistent
+- Creating external accountability through federal monitors
+- Providing community advocates with a legal lever against non-compliance
+
+Decrees are less effective at:
+- Changing culture within police departments (the "code of silence," informal norms)
+- Sustaining political commitment after initial urgency fades
+- Addressing structural causes of crime that policing cannot solve
+- Surviving changes in administration (the Trump DOJ ended several Obama-era consent decree negotiations)
+
+The φ-entropy reading: consent decrees are boundary conditions imposed on a system whose internal dynamics work against constraint. They reduce B_μ amplification temporarily but cannot alter the underlying coupling constants — departmental culture, union contracts, civil service protections — without deeper structural reform.
+
+---
+
+## PART X — AI, Algorithms, and the New Bias Frontier
+
+The introduction of predictive algorithms and artificial intelligence into policing has created a new class of accountability challenges. Unlike human discretion — which can at least be interrogated in testimony — algorithmic decisions are often proprietary, opaque, and presented to decision-makers with false precision.
+
+### Predictive Policing: PredPol / Geolitica and ShotSpotter
+
+**PredPol** (rebranded Geolitica before shutting down in 2023) used historical crime data to predict where crimes were likely to occur, directing patrol officers to those locations. The core problem: if police historically over-patrolled Black and Latino neighborhoods, those areas had more recorded incidents, which caused the algorithm to direct more policing there, which generated more incidents, which reinforced the algorithm's predictions.
+
+A 2021 research paper (Akpinar, De-Arteaga, Chouldechova) formalized this as a "feedback loop" problem — an entropy amplification mechanism in the precise Unitary Manifold sense: B_μ field density increases in already-dense regions because the measurement instrument is coupled to the system it is measuring.
+
+**ShotSpotter** (now SoundThinking) is a gunshot detection system that uses microphones placed in urban neighborhoods to automatically alert police when acoustic signatures consistent with gunfire are detected. By 2026 it operates in approximately 150 American cities. Problems documented:
+
+- A 2021 MacArthur Justice Center analysis of Chicago ShotSpotter data found that 89% of ShotSpotter alerts resulted in no gun, no shooting victim, and no evidence of a gun crime
+- The system generates a disproportionate number of false alerts in Black and Latino neighborhoods where the microphone density is highest
+- Officers dispatched on ShotSpotter alerts have been involved in incidents — including the killing of 13-year-old Adam Toledo in Chicago (2021) — that might not have occurred without the dispatch
+
+### COMPAS and the Recidivism Scoring Controversy
+
+**COMPAS** (Correctional Offender Management Profiling for Alternative Sanctions) is a risk assessment tool used in pretrial detention, sentencing, and parole decisions in at least half of American states. It generates a risk score — high, medium, or low — predicting likelihood of reoffending.
+
+ProPublica's landmark 2016 investigation "Machine Bias" (Angwin, Larson, Mattu, Kirchner) found:
+- Black defendants were nearly twice as likely as white defendants to be falsely flagged as high risk (future arrest when they did not reoffend)
+- White defendants were more likely to be falsely flagged as low risk (no future arrest when they did reoffend)
+- The algorithm's predictive accuracy overall was roughly equivalent to asking untrained volunteers
+
+Northpointe (COMPAS's developer, now Equivant) disputed the findings, arguing that the tool was calibrated to be equally accurate for Black and White defendants when measuring overall calibration — a statistical argument that illustrates a genuine impossibility: multiple definitions of "fairness" cannot simultaneously be satisfied when base rates differ between groups.
+
+This impossibility — the Chouldechova theorem — is not a bug to be fixed. It is a mathematical constraint. Any system that uses group membership (directly or as a proxy) will necessarily violate at least one of three reasonable fairness definitions when base rates differ between groups.
+
+### Facial Recognition in Policing
+
+Facial recognition technology is in active use by federal law enforcement (FBI, DHS, ICE) and numerous state and local agencies. Documented wrongful arrests attributable to facial recognition misidentification include:
+
+- **Robert Williams** (Detroit, 2020): Arrested for shoplifting based on facial recognition match, held 18 hours before being released; the match was wrong
+- **Michael Oliver** (Detroit, 2020): Wrongly identified by facial recognition
+- **Nijeer Parks** (New Jersey, 2019): Arrested and jailed 10 days based on a false match
+- **Porcha Woodruff** (Detroit, 2023): Eight months pregnant when arrested based on a false facial recognition match
+
+All six known documented wrongful arrests (as of 2026) from facial recognition involved Black individuals. This is consistent with the documented performance gap: most major facial recognition systems have significantly higher false positive rates for darker-skinned faces, particularly women (NIST FRVT benchmarks, 2019–2024).
+
+**The B_μ amplification principle** is directly applicable: when an automated system applies disparate error rates to protected groups, each erroneous output becomes a source of further enforcement action — an amplifying cascade that is structurally indistinguishable from intentional discriminatory policy in its statistical outcomes, even when individual officers believe they are acting on neutral automated evidence.
+
+### The Accountability Gap in Algorithmic Policing
+
+The core accountability problem: traditional oversight mechanisms — civilian review boards, public records requests, legislative hearings — were designed for human decision-making. They fail against algorithmic systems because:
+
+1. **Trade secret protection**: COMPAS and similar tools are proprietary. Courts have consistently refused to compel disclosure of source code, even to defendants whose liberty is at stake
+2. **Explainability failure**: Neither the defendant nor the judge typically has access to the features and weights driving an individual risk score
+3. **Feedback loop invisibility**: The mechanism by which a tool like PredPol generates its own confirming data is not visible in any individual case file
+
+The remedy requires structural reforms that current law does not mandate:
+- Algorithmic impact assessments before government procurement
+- Public disclosure of training data, feature lists, and validation studies
+- Independent auditing with access to proprietary code
+- Criminal defendants' due process right to contest the algorithmic basis of decisions affecting their liberty
+
+---
+
 ## THE OMEGA ADDITIONS — What Has Changed in Version 2.0
 
 This **Omega Edition** (v2.0, April 2026) marks the integration of this book into the
