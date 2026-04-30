@@ -6,27 +6,26 @@
 
 ---
 
-This folder contains the **Omega Edition (v3.0)** of three full-length books authored under the
-AxiomZero / Unitary Manifold framework. Each book is Substack-publication-ready Markdown,
-integrated with the framework's φ-entropy vocabulary, FTUM fixed-point analysis, and the
-falsifiable Kaluza-Klein predictions of the Unitary Manifold v9.27.
+This folder contains the **Omega Edition (v3.0)** of four full-length books authored under the
+AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
+that replaces the original single-post format of the oversized Book 4. Each book is
+Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
+FTUM fixed-point analysis, and the falsifiable Kaluza-Klein predictions of the Unitary
+Manifold v9.27.
 
-All three books were originally published at version 1.0 in the companion repository
+All four books were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
 expanded, and cross-referenced with the full physics framework.
 
 **v3.0 Expansion (April 2026):**
 - Books 1–3 substantially expanded with new investigative chapters
+- Book 4 split into a 6-part Substack series (original: 393KB — too large for a single post)
 - Posts 51, 52, 53, 54 cross-referenced to the books
 - All books updated to reference Pillar Ω (Universal Mechanics Engine, 15,072 tests)
 
-**Note:** The Axiom Journalism AI book series has been moved to a separate private repository
-(AxiomZero Technologies). A high-level description is available in
-[axiom-journalist-app.md](axiom-journalist-app.md).
-
 ---
 
-## The Three Books (v3.0 — Omega Expanded)
+## The Four Books (v3.0 — Omega Expanded)
 
 ### 1. [The Broken Scale — Omega Edition](book-broken-scale-omega.md)
 **Criminal Justice, Governance, and the Investigative Imperative**
@@ -110,11 +109,76 @@ regulatory comparison.
 
 ---
 
-### 4. [Axiom Journalist AI](axiom-journalist-app.md)
-**The AxiomZero Investigative Journalism Platform (Pre-Release)**
+### 4. [Axiom Journalism AI — Omega Edition](book-axiom-journalism-omega.md)
+**The AxiomZero Framework for Investigative Reporting in the Age of AI**
 
-Full source code maintained in a separate private repository (AxiomZero Technologies).
-See [axiom-journalist-app.md](axiom-journalist-app.md) for a high-level description.
+| Property | Value |
+|---|---|
+| Source | `wuzbak/Books / Journalism / AXIOM_JOURNALISM_AI.md` |
+| Size | ~393 KB (complete source archive — use the 6-part series for Substack publication) |
+| Substack publication | Use the 6-part series below — each part is 12-17 KB |
+| Framework connection | HILS (Human-in-the-Loop Systems), co-emergence framework, AI epistemics |
+| Companion posts | [post-53-education-implications.md](post-53-education-implications.md) · [post-54-ai-implications.md](post-54-ai-implications.md) |
+
+**Note:** At 393KB, this book is too large for a single Substack post. The complete source
+is preserved here for archival purposes. For publication, use the **6-Part Series** below.
+
+---
+
+## Book 4: The 6-Part Substack Series
+
+### Axiom Journalism AI — Part 1
+**[The AxiomZero Method: Why Investigative Journalism Needs a Framework](book-axiom-journalism-series-01-philosophy.md)**
+
+Philosophy, core principles, the 7 operational rules of the AXIOM framework, information
+conservation as the journalist's foundation, HILS applied to editorial judgment.
+
+---
+
+### Axiom Journalism AI — Part 2
+**[AXIOM: The Investigative AI That Researches So You Can Judge](book-axiom-journalism-series-02-system.md)**
+
+The 5-agent architecture (researcher, fact_checker, legal_auditor, editor, orchestrator),
+the investigation pipeline, the confidence scoring system, what an AXIOM brief looks like,
+why editorial judgment remains human.
+
+---
+
+### Axiom Journalism AI — Part 3
+**[The Document Hunters: FOIA, Public Records, and the Systematic Investigation](book-axiom-journalism-series-03-documents.md)**
+
+The investigation template system (15+ templates), the document source hierarchy (GovInfo,
+PACER, SEC EDGAR, OpenSanctions), the watchlist system, source trust scoring, the Diary
+APK integration, what a full investigation workflow looks like.
+
+---
+
+### Axiom Journalism AI — Part 4
+**[The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human](book-axiom-journalism-series-04-verification.md)**
+
+The three journalism failure modes from LLMs, why text detectors don't work, C2PA content
+provenance, metadata forensics, what to use LLMs for vs. never, the HILS verification
+protocol, the AxiomZero gate, why human judgment is structural not optional.
+
+---
+
+### Axiom Journalism AI — Part 5
+**[The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty](book-axiom-journalism-series-05-oracle.md)**
+
+What DelPHI Oracle is, the honest framing (structured uncertainty tool, not prediction),
+why divination and prediction markets share architecture, I Ching as structured forecasting,
+Manifold Markets integration, the Unitary Manifold connection (explicitly metaphorical),
+HILS in divination, who this is for.
+
+---
+
+### Axiom Journalism AI — Part 6
+**[The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis](book-axiom-journalism-series-06-omega.md)**
+
+Co-emergence applied to journalism, information conservation as the journalist's physics,
+the Omega Synthesis implications for information systems, AxiomZero as a HILS instance,
+what the Unitary Manifold predicts about hidden information systems, the future of AI and
+investigative journalism, the falsification condition.
 
 ---
 
@@ -123,6 +187,8 @@ See [axiom-journalist-app.md](axiom-journalist-app.md) for a high-level descript
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
+- Book 4: Use the 6-part series files. Each is 12-17 KB — appropriate for a single
+  Substack post. Publish as a 6-post series over 6 days or weekly.
 
 **For cross-referencing the numbered posts:**
 Each book is now cross-referenced from the relevant numbered Substack posts:
@@ -131,8 +197,8 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 |------|-----------------|
 | [post-51-justice-implications.md](post-51-justice-implications.md) | The Broken Scale (all 12 parts) |
 | [post-52-economics-implications.md](post-52-economics-implications.md) | Prediction Markets Reckoning + Climate Reckoning |
-| [post-53-education-implications.md](post-53-education-implications.md) | Education systems |
-| [post-54-ai-implications.md](post-54-ai-implications.md) | AI implications |
+| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) |
+| [post-54-ai-implications.md](post-54-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
 
 **For cross-referencing the physics:**
 - Justice framework: [post-51-justice-implications.md](post-51-justice-implications.md)
@@ -151,8 +217,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 |---|---|---|
 | 1.0 | April 2026 | Original publication in wuzbak/Books |
 | 2.0 — Omega | April 2026 | Integrated into Unitary Manifold v9.27; new chapters added to each book; Omega Edition headers; cross-references added |
-| 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
-| 3.1 | April 2026 | Axiom Journalism AI moved to separate private repository (wuzbak/Journalism-); replaced with single description file |
+| 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
 
 ---
 
