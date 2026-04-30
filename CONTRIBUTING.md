@@ -121,4 +121,48 @@ freedoms to use and build upon this work — they do not transfer ownership.
 
 ---
 
+## 6 · Developer Certificate of Origin (DCO)
+
+By submitting a pull request or patch to this repository, you certify the following
+**Developer Certificate of Origin** (version 1.1, https://developercertificate.org):
+
+> *"I hereby certify that:*
+> *(a) The contribution was created in whole or in part by me and I have the right to submit it
+> under the open source licenses indicated in the file; or*
+> *(b) The contribution is based upon previous work that, to the best of my knowledge, is covered
+> under an appropriate open source license and I have the right under that license to submit that
+> work with modifications, whether created in whole or in part by me, under the same open source
+> license (unless I am permitted to submit under a different license), as indicated in the file; or*
+> *(c) The contribution was provided directly to me by some other person who certified (a), (b) or
+> (c) and I have not modified it.*
+> *I understand and agree that this project and the contribution are public and that a record of the
+> contribution (including all personal information I submit with it, including my sign-off) is
+> maintained indefinitely and may be redistributed consistent with this project or the open source
+> license(s) involved."*
+
+**How to sign off:** Add a `Signed-off-by` line to every commit message:
+
+```
+git commit -s -m "Your commit message"
+# produces: Signed-off-by: Your Name <your@email.example>
+```
+
+Pull requests without a `Signed-off-by` trailer on every commit may be asked to
+rebase and add the sign-off before merging.
+
+### Additional grant to copyright holder
+
+By submitting a contribution, you additionally grant **ThomasCory Walker-Pearson**
+a perpetual, worldwide, royalty-free, non-exclusive licence to use, reproduce, modify,
+distribute, sub-license (including under commercial terms as described in
+[`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) § 4-A), and otherwise exploit your
+contribution, for the purpose of operating and commercialising the Unitary Manifold
+project in accordance with its open-core business model.
+
+This additional grant does **not** restrict your own rights in your contribution; you
+retain whatever rights you held before submitting.  The public's rights under DPC v1.0
+and AGPL-3.0 are never diminished by this grant.
+
+---
+
 *Questions? Open a GitHub Issue or Discussion.*
