@@ -5,7 +5,7 @@
 framework against the experiments and observations that will resolve them,
 ordered by tier and timeline. No new physics is introduced. This is the ledger:
 here is what the framework predicts, here is what would break it, here is when
-we will know. The series has now covered all 74 core pillars (92 total with particle physics extensions). What remains is to wait,
+we will know. The series has now covered all 74 core pillars (98 total with particle physics extensions through v9.26). What remains is to wait,
 watch, and update.*
 
 ---
@@ -254,7 +254,7 @@ established findings in their domain, the claim fails.**
 
 ## What the 14,641 tests are for
 
-The automated test suite — 14,641 tests covering 96 pillars and the Unitary Pentad
+The automated test suite — 14,855 tests covering 98 pillars and the Unitary Pentad
 governance framework — is not evidence that the physics is correct. It is a
 structural guarantee: if any of the internal relationships the framework asserts
 were broken by a code change, a test would fail. The suite ensures that the theory
@@ -282,7 +282,7 @@ The claim rests on:
 - One coupling angle (β ≈ 0.35°)
 - One falsification date (2032)
 
-Everything else — the 96 pillars, the 14,641 tests, the domain applications from
+Everything else — the 98 pillars, the 14,855 tests, the domain applications from
 cold fusion to governance — is the work of tracing the implications of those five
 numbers through every corner of physics and human inquiry we could reach.
 

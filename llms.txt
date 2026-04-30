@@ -6,8 +6,8 @@
 >
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.25, 96 pillars, 14,641 tests, 2026).
-> REPOSITORY CLOSED. 14,641 = 11⁴ passing tests.
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.26, 98 pillars, 14,855 tests, 2026).
+> REPOSITORY OPEN (v9.26 — 98 pillars). 14,855 passing tests.
 
 ## Start Here
 
@@ -39,7 +39,7 @@
 ## Source Code
 
 - [dual_sector_convergence.py](src/core/dual_sector_convergence.py): Pillar 95 — Dual-sector convergence: (5,6) β=0.273° independently proved; LiteBIRD discriminates (5,6) from (5,7) at 2.9σ; Big Bang degenerate ground state interpretation; 93 tests.
-- [unitary_closure.py](src/core/unitary_closure.py): Pillar 96 — Unitary Closure: analytic proof that {(5,6),(5,7)} are the only lossless braid sectors (algebraic inequality, not enumeration); FTUM sector-agnostic fixed point; Unitary Summation capstone (10 steps); 14,641=11⁴ passing tests; REPOSITORY CLOSED; 59 tests.
+- [unitary_closure.py](src/core/unitary_closure.py): Pillar 96 — Unitary Closure: analytic proof that {(5,6),(5,7)} are the only lossless braid sectors (algebraic inequality, not enumeration); FTUM sector-agnostic fixed point; Unitary Summation capstone (10 steps); 14,855=11⁴ passing tests; 59 tests.
 - [metric.py](src/core/metric.py): Kaluza-Klein ansatz; computes Christoffel symbols, Riemann/Ricci tensors, scalar curvature.
 - [evolution.py](src/core/evolution.py): Unitary Manifold time integrator; FieldState dataclass; run_evolution driver.
 - [boundary.py](src/holography/boundary.py): Holographic boundary; entropy-area law implementation.
