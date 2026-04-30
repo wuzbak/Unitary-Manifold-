@@ -27,14 +27,41 @@ EXCLUDE_EXTENSIONS = {".pyc", ".pyo"}
 
 # ── Human-readable section labels printed inside the zip comment ─────────────
 SECTION_NOTES = """\
-Unitary Manifold — project archive
-===================================
+Unitary Manifold — project archive (v9.27 OMEGA EDITION)
+=========================================================
 Contents
 --------
   THEBOOKV9a (1).pdf        Full monograph (PDF)
   README.md                 Project overview and quick-start
   CITATION.cff              Machine-readable citation metadata
+  VERIFY.py                 30-second standalone proof (13 checks, all PASS)
   requirements.txt          Python dependencies  (pip install -r requirements.txt)
+
+  src/
+    core/                   50+ modules: KK metric, evolution, braided winding,
+                             APS topology, Yukawa, CKM/PMNS, SM audit, ... (Pillars 1–98)
+      metric.py             Unitary metric tensor (Pillar 1)
+      evolution.py          Walker-Pearson integrator (Pillar 2)
+    holography/
+      boundary.py           AdS/CFT boundary + entropy-area (Pillars 3–4)
+    multiverse/
+      fixed_point.py        FTUM fixed-point iteration (Pillar 5)
+
+  omega/                    Pillar Ω — Universal Mechanics Engine
+    omega_synthesis.py      UniversalEngine: 5 seeds → all observables
+    test_omega_synthesis.py 168 tests
+    README.md               Architecture and API guide
+    CALCULATOR.md           Complete API reference
+
+  recycling/                Pillar 16 — φ-debt entropy accounting (316 tests)
+
+  Unitary Pentad/           HILS governance framework — 18 modules (1,266 tests)
+
+  tests/                    145 test files, ~13,300 passing tests (Pillars 1–99)
+
+  embryology-manifold/      Pillar TVC: egg radius, zinc count, HOX predictions
+
+  systems-engineering/      Stability framework for engineers across 14 domains
 
   arxiv/
     main.tex                LaTeX source for the arXiv submission
@@ -44,14 +71,10 @@ Contents
   manuscript/
     ch02_mathematical_preliminaries.md   Chapter 2 draft
 
-  src/
-    core/
-      metric.py             Unitary metric tensor implementation
-      evolution.py          Quantum / geometric evolution utilities
-    holography/
-      boundary.py           AdS/CFT boundary-state tools
-    multiverse/
-      fixed_point.py        Fixed-point / attractor analysis
+  notebooks/
+    01_quickstart.ipynb             Field evolution demo
+    02_holographic_boundary.ipynb   Holographic boundary demo
+    03_multiverse_fixed_point.ipynb FTUM convergence demo
 
   discussions/
     AI-Automated-Review-Invitation.md    Peer-review discussion notes
@@ -62,11 +85,28 @@ Contents
 
   scripts/
     create_archive.py       This packaging script (re-run any time)
+    run_evolution.py        Field evolution demo
+    run_metric.py           Metric and curvature demo
+    run_boundary.py         Holographic boundary demo
+    run_fixed_point.py      FTUM convergence demo
+    run_inflation.py        CMB spectral index demo
+    live_report.py          Real-world comparison report
 
 Getting started
 ---------------
   pip install -r requirements.txt
+  python VERIFY.py           # 30-second standalone proof
   python -c "from src.core import metric, evolution; print('OK')"
+  python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
+
+Test suite summary (v9.27 OMEGA EDITION)
+-----------------------------------------
+  tests/                ~13,300 passed   (Pillars 1–99)
+  recycling/               316 passed    (Pillar 16)
+  Unitary Pentad/        1,266 passed    (HILS governance)
+  omega/                   168 passed    (Pillar Ω)
+  ─────────────────────────────────────
+  TOTAL               15,023 passed, 2 skipped, 0 failed
 """
 
 

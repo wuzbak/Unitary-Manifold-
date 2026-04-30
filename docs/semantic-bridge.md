@@ -1,5 +1,8 @@
 # Semantic Bridge: Theory ↔ Implementation
 
+> **Version:** v9.27 OMEGA EDITION — 99 pillars, 15,023 passing tests  
+> **Scope of this document:** The five original core modules in `/src/core/`, `/src/holography/`, and `/src/multiverse/` that form the mathematical backbone (Pillars 1–5). The full 99-pillar framework is synthesized in [`omega/omega_synthesis.py`](../omega/omega_synthesis.py) (Pillar Ω). For the complete module index see [`README.md`](../README.md) and [`AGENTS.md`](../AGENTS.md).
+
 > This document sits **alongside** the source code without modifying it.
 > It maps every abstract claim in the Unitary-Manifold monograph to a
 > concrete function or module, and records the physics contract each
@@ -121,3 +124,32 @@ LOGIC          : Applies the operator U = I + H + T iteratively; residual
   still hold after your change.
 - **Reviewers** — use the `LOGIC` field as the acceptance test for any
   PR touching `/src`.
+
+---
+
+## 3. Extended Framework — Pillars 6–Ω
+
+This document covers Pillars 1–5 (the five original core modules). The framework has since expanded to **99 pillars**. Key addition points for contributors:
+
+| Pillar range | Location | Key contracts |
+|---|---|---|
+| 27–52 | `src/core/braided_winding.py` and siblings | braid geometry, (5,7) resonance, k_CS = 74 |
+| 56 | `src/core/phi0_closure.py` | φ₀ self-consistency: three candidates → single fixed point |
+| 67–70 | `src/core/anomaly_uniqueness.py`, `aps_eta_invariant.py` | n_w ∈ {5,7}; η̄(5)=½ invariant under three methods |
+| 75, 81–88 | `src/core/` Yukawa / SM modules | RS bulk masses; SM 28-parameter audit |
+| 89 | `src/core/vacuum_geometric_proof.py` | n_w=5 from 5D BCs alone — pure geometry |
+| 95–98 | `src/core/dual_sector_convergence.py`, `gw_yukawa_derivation.py`, `universal_yukawa.py` | Dual sectors (5,6)/(5,7); Ŷ₅=1; fermion mass closure |
+| Ω | `omega/omega_synthesis.py` | `UniversalEngine.compute_all()` — all 99 pillars in one call |
+
+For the full predicate map of all 99 pillars, query:
+```python
+from omega.omega_synthesis import UniversalEngine
+report = UniversalEngine().compute_all()
+print(report.summary())
+```
+
+---
+
+*Semantic Bridge — v9.27 OMEGA EDITION — April 2026*  
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Document engineering and synthesis: **GitHub Copilot** (AI).*

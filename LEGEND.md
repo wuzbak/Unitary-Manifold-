@@ -1,6 +1,6 @@
 # Legend & Navigator — The Unitary Manifold
 
-**Version 9.22 — CLOSED EDITION**  
+**Version 9.27 — OMEGA EDITION**  
 *Principal Architect: ThomasCory Walker-Pearson — Independent Researcher, Pacific Northwest, USA*
 
 > *"Collapse entropy early. Gate compute. Enforce structure. Reduce variance."*
@@ -48,11 +48,16 @@ This repository works the same way. The 5D geometry of the Unitary Manifold is t
 |---|---|---|
 | [`WHAT_THIS_MEANS.md`](./WHAT_THIS_MEANS.md) | **⭐ START HERE — The Big Picture** | Plain-language explanation of the core claim, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. For all audiences. |
 | [`README.md`](./README.md) | **Central Overview** | Full mathematical structure, field equations, quickstart code, and monograph chapter index. Start here for the technical picture. |
-| [`THEBOOKV9a (1).pdf`](./THEBOOKV9a%20(1).pdf) | **The Full Monograph** | 74 chapters, XXIII parts. Every proof, derivation, and philosophical argument. The complete work. |
+| [`THEBOOKV9a (1).pdf`](./THEBOOKV9a%20(1).pdf) | **The Full Monograph** | 74 chapters, XXIII parts. Every proof, derivation, and philosophical argument. The core text. |
 | [`/src/core/metric.py`](./src/core/metric.py) | **The Geometry Engine** | Builds the 5D Kaluza–Klein metric from three fields (g, B, φ). Computes all curvature tensors (Christoffel, Riemann, Ricci, scalar R). |
 | [`/src/core/evolution.py`](./src/core/evolution.py) | **The Field Propagator** | Advances all three fields forward in time using the Walker–Pearson equations. Includes diagnostics for constraint monitoring and information current. |
 | [`/src/holography/boundary.py`](./src/holography/boundary.py) | **The Holographic Screen** | Projects 5D bulk information onto a 4D boundary. Implements the entropy-area law S = A/4G (Pillar 3). |
 | [`/src/multiverse/fixed_point.py`](./src/multiverse/fixed_point.py) | **The Convergence Theorem** | Implements the operator U = I + H + T and iterates toward the fixed point Ψ* guaranteed by the Final Theorem (FTUM). |
+| [`/omega/`](./omega/) | **Pillar Ω — Universal Mechanics Engine** | Capstone calculator: 5 seed constants → all observables. `UniversalEngine.compute_all()` covers cosmology, particle physics, geometry, consciousness, HILS, and 8 falsifiable predictions. 168 tests. |
+| [`/recycling/`](./recycling/) | **Pillar 16 — φ-Debt Entropy Accounting** | Entropy accounting for material flows; φ-debt framework applied to recycling systems. 316 tests. |
+| [`/Unitary Pentad/`](./Unitary%20Pentad/) | **HILS Governance Framework** | Independent 18-module Human-in-the-Loop Systems governance framework. Borrows mathematical structure from the manifold but stands alone. 1,266 tests. |
+| [`/embryology-manifold/`](./embryology-manifold/) | **Pillar TVC — Embryology** | Falsifiable predictions from the compactification scale: R_egg ≈ 59.7 μm, N_Zn ≈ 2.19×10⁹, HOX groups = 10. |
+| [`/systems-engineering/`](./systems-engineering/) | **Engineering Applications** | Translates the geometric stability framework into actionable guidance for engineers, architects, and executives across 14 failure domains. |
 | [`/manuscript/`](./manuscript/) | **Mathematical Foundation** | Chapter 2: tensors, differential geometry, manifolds — the conceptual bedrock, written accessibly. |
 | [`/discussions/`](./discussions/) | **Open Review** | Invitation for AI systems, theorem provers, and researchers to verify and comment on the work. |
 | [`/arxiv/`](./arxiv/) | **Academic Submission** | LaTeX source and step-by-step guide for submitting to arXiv (primary: `gr-qc`). |
@@ -61,9 +66,11 @@ This repository works the same way. The 5D geometry of the Unitary Manifold is t
 
 ---
 
-## 3 · The Five Pillars
+## 3 · Foundational Pillars and the 99-Pillar Framework
 
-The monograph is organized around five foundational results, each building on the last.
+The monograph is organized around five original foundational results, each building on the last. As of v9.27 OMEGA EDITION, the framework has expanded to **99 pillars** (74 core + Pillar 70-B + Pillars 75, 80–99) with 15,023 passing tests. Pillar Ω (the `omega/` folder) serves as the Universal Mechanics Engine that synthesizes all 99 pillars into a single queryable calculator.
+
+### The Five Foundational Pillars
 
 | Pillar | Name | Plain-Language Meaning |
 |---|---|---|
