@@ -1,11 +1,12 @@
-# Why There Are 74 Pillars — And Not 75
+# Why There Are 98 Pillars — And Counting
 
 *Post 6 of the Unitary Manifold series.*
-*Claim: the Unitary Manifold framework extends the same five-dimensional geometric
-structure across 74 distinct domains. Whether those extensions are explanatory or
+*Updated v9.26 — GW Yukawa Edition (April 2026): 98 pillars, 14,855 tests.*  
+*Original claim: the Unitary Manifold framework extends the same five-dimensional geometric
+structure across distinct domains. Whether those extensions are explanatory or
 analogical varies by domain, and this distinction matters. This post explains the
-scope of the project and why the scope does not constitute "it explains everything,
-so it explains nothing."*
+scope of the project and why the count doesn't extend indefinitely — each new pillar
+must close a specific, named gap.*
 
 ---
 
@@ -20,9 +21,9 @@ like the classic pattern of a framework that claims to explain everything — an
 a theory explains everything, it effectively explains nothing, because it makes no
 predictions that could be falsified.
 
-This post addresses that objection directly by explaining what the 74 pillars
-actually are, what epistemic status each has, and why the count stops at 74 rather
-than extending indefinitely.
+This post addresses that objection directly by explaining what the 98 pillars
+actually are, what epistemic status each has, and why the count doesn't stop
+until a named, documented gap is closed.
 
 ---
 

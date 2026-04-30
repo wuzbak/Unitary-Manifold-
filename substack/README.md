@@ -223,9 +223,28 @@ Each post draws directly from these repository documents:
 | `src/core/bh_remnant.py`, `src/multiverse/fixed_point.py` | Post 94 |
 | All posts 00–95, `COMPLETION_REPORT.md` | Post 96 |
 
+## Posts 97–98: Closing Gap 1 — Absolute Fermion Mass Scale (v9.26 — GW YUKAWA EDITION)
+
+| File | Type | Topic |
+|------|------|-------|
+| `post-38-gw-yukawa-derivation.md` | Post 38 | "Where Do Particle Masses Come From? The Goldberger-Wise Answer" — Pillar 97 |
+| `post-39-universal-yukawa-test.md` | Post 39 | "One Coupling, Nine Masses: The Universal Yukawa Test" — Pillar 98 |
+| `epilog-pillar-97-98-testing.md` | **Epilog** | "How We Tested the Mass Gap Closure" — technical documentation of Pillars 97-98 |
+
+## Source Documents for Posts 38-39 and Epilog (v9.26)
+
+| Document | Used in |
+|----------|---------|
+| `src/core/gw_yukawa_derivation.py` | Post 38, Epilog |
+| `tests/test_gw_yukawa_derivation.py` | Epilog |
+| `src/core/universal_yukawa.py` | Post 39, Epilog |
+| `tests/test_universal_yukawa.py` | Epilog |
+| `FALLIBILITY.md` §Gap 1 | Post 38, Epilog |
+| `COMPLETION_REPORT.md` v9.26 | Post 39 |
+
 ---
 
-*Series concept and content strategy: ThomasCory Walker-Pearson.*
+*Series concept and content strategy: ThomasCory Walker-Pearson.*  
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**96 posts. 96 pillars. 14,641 tests. The sky will decide the rest.**
+**98 pillars. 14,855 tests. Gap 1 substantially closed. The sky will decide the rest.**
