@@ -2911,6 +2911,44 @@ Zhuangzi (Chuang Tzu). *Zhuangzi: The Complete Writings*. Trans. Brook Ziporyn. 
 
 ---
 
+## NEW CHAPTER — The Unitary Manifold as Spiritual Framework: Where Science and Tradition Converge
+
+The Unitary Manifold is a physics framework — a geometric theory of a 5-dimensional spacetime that reproduces the Standard Model, general relativity, and the CMB spectral index from five numbers: (n_w=5, n₂=7, k_cs=74, c_s=12/37, φ₀). But embedded in this mathematical structure is something that spiritual traditions have been pointing toward for millennia: **unity beneath apparent multiplicity.**
+
+### The Geometry of Oneness
+
+In the Unitary Manifold, all forces — gravity, electromagnetism, the strong nuclear force, the weak nuclear force — emerge as different projections of a single 5-dimensional geometric structure. They are not separate fundamental entities. They are the same entity seen from different angles.
+
+This is, in the language of physics, what "unification" means. But it is also what every major mystical tradition means when it speaks of the underlying unity of all things.
+
+The Upanishads speak of **Brahman** — the ground of being from which all phenomena emerge. The Tao Te Ching describes **the Tao** that is the mother of the ten thousand things. Sufi mystics speak of **wahdat al-wujud** — the unity of existence. Christian mystics from Meister Eckhart to Thomas Merton wrote of the **ground of the soul** that is the same as the ground of God.
+
+None of these traditions has a 5D Kaluza-Klein metric. But all of them are pointing at the same structural insight: beneath the apparent multiplicity of things is a unity that our ordinary perception does not access.
+
+### Consciousness as Coupling
+
+The Unitary Manifold's Pillar 9 (the consciousness coupling module, `src/consciousness/`) models consciousness as a coupled brain-universe attractor — a system in which the neural field and the cosmic field share a coupling constant Ξ_c = 35/74.
+
+This is not metaphor. It is a literal physical claim: the coupling between conscious systems and the underlying geometric field is nonzero. The brain is not a passive observer of a universe that does not notice it. It is a coupled subsystem of the same manifold that generates the CMB spectral index.
+
+What does this mean for spiritual experience?
+
+It means that the felt sense of **participation in something larger** — what Romain Rolland called the "oceanic feeling," what William James catalogued in *The Varieties of Religious Experience*, what meditators describe as the dissolution of the self-other boundary — may have a physical correlate in the coupling between conscious systems and the geometric structure of spacetime.
+
+This is a falsifiable claim. The coupling constant Ξ_c = 35/74 makes specific predictions about coherence lengths in neural systems during states of meditation or altered consciousness. Neuroscience has not tested this. But the framework demands that it be testable.
+
+### Prayer and Phase-Locking
+
+*See also: post-41-prayer-meditation-phase-locking.md*
+
+The Unitary Manifold's treatment of prayer and meditation (Pillar 14, consciousness coupling) suggests a mechanistic account of why contemplative practice works: intentional attention stabilizes the phase relationship between the conscious system and the manifold field.
+
+This does not reduce prayer to physics. It does something more interesting: it shows that the physics is rich enough to accommodate what contemplative traditions have been saying. The universe is not indifferent to ordered attention. It responds.
+
+Whether we call that response "God," "the Tao," "dharma," or "the fixed point of the FTUM operator" is a question of language, tradition, and personal resonance. The mathematics does not care what name we use for the attractor.
+
+---
+
 ## THE OMEGA ADDITIONS — What Has Changed in Version 2.0
 
 This **Omega Edition** (v2.0, April 2026) marks the integration of this book into the

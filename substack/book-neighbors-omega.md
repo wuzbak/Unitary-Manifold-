@@ -1789,6 +1789,50 @@ The choice is ours.
 
 ---
 
+## NEW CHAPTER — The Congressional UAP Hearings (2023–2026): What Has Changed
+
+The period from 2022 to 2026 has seen a remarkable shift in the institutional treatment of UAP (Unidentified Aerial Phenomena) — from fringe topic to matter of serious Congressional concern.
+
+### The Legislative History
+
+**July 2023 — House Oversight Subcommittee Hearing**
+
+Former intelligence officials David Grusch, David Fravor (retired Navy commander who observed the USS Nimitz "Tic Tac" UAP in 2004), and Ryan Graves (former Navy F/A-18 pilot) testified under oath before the House Oversight Subcommittee on National Security.
+
+Grusch's testimony was the most significant: he claimed under oath that the US government had recovered non-human craft and biological material, that a multi-decade program of "illegal" UAP retrieval and reverse engineering existed, and that he had been retaliated against for reporting this through official channels.
+
+The government's position: the Department of Defense stated it had found "no verifiable evidence of extraterrestrial material." But the institutional response — which would normally be dismissal and ridicule — was instead a serious counter-investigation and increased Congressional attention.
+
+**The UAP Disclosure Act (2023)**
+
+Senator Chuck Schumer and Senator Mike Rounds introduced the UAP Disclosure Act as an amendment to the 2024 NDAA. Modeled on the Kennedy Assassination Records Collection Act, it would have required mandatory declassification of UAP-related government records within 25 years, created a review board with subpoena power, and addressed the "eminent domain" question — asserting government ownership of any non-human craft in private possession.
+
+The Act was significantly weakened in conference committee, with the most aggressive declassification provisions stripped out. Critics argued the intelligence community lobbied against it.
+
+**2024–2026 Developments**
+
+- The All-domain Anomaly Resolution Office (AARO) released reports finding no confirmed extraterrestrial craft but documenting hundreds of unresolved UAP cases
+- Multiple former officials continued to make claims through protected whistleblower channels
+- The Senate Armed Services Committee requested an independent review of UAP programs
+- Bipartisan support for disclosure — including from skeptical members — increased as the institutional credibility of "this is just drones and weather balloons" explanations wore thin against video evidence
+
+### What the Manifold Framework Says About Neighbors
+
+The Unitary Manifold's treatment of UAP is distinct from both credulous belief and reflexive skepticism. The framework's specific claim is not that extraterrestrial intelligence exists — it is that if a civilization sufficiently advanced to navigate interstellar space exists, its technology would operate at or near the Planck scale, coupling directly to the 5D geometric structure.
+
+**The detection prediction:** A craft operating via 5D geometric manipulation would produce characteristic signatures:
+- Gravitational wave artifacts at the Kaluza-Klein frequency (M_KK ~ 110 meV equivalent)
+- Absence of conventional propulsion signatures (exhaust, ion trails, shock waves at transonic speeds)
+- Apparent violation of Newtonian mechanics at low energies due to coupling to the compact dimension
+
+The USS Nimitz observations — sudden acceleration, apparent instantaneous velocity change, no visible propulsion — are consistent with this signature in the sense that they are *inconsistent* with known conventional technology. Whether they are *evidence* of 5D geometric propulsion is a separate question requiring controlled measurement.
+
+**The epistemic position:** Extraordinary claims require extraordinary evidence. The testimony of military pilots observing anomalous phenomena is significant evidence that something anomalous occurred. It is not evidence sufficient to determine the mechanism. The Manifold framework demands: measure the gravitational wave signature, measure the electromagnetic coupling, test whether the observed kinematics are consistent with 5D momentum transfer.
+
+Until such measurements exist, intellectual honesty requires holding the question open — neither affirming nor dismissing — and continuing to collect data with appropriate instrumentation.
+
+---
+
 ## THE OMEGA ADDITIONS — What Has Changed in Version 2.0
 
 This **Omega Edition** (v2.0, April 2026) marks the integration of this book into the
