@@ -88,9 +88,45 @@ unzip unitary-manifold_*.zip
 ```
 unitary-manifold/
 ├── THEBOOKV9a (1).pdf              ← Full monograph (PDF)
-├── README.md                       ← Project overview
+├── README.md                       ← Project overview and quick-start (v9.27 OMEGA EDITION)
 ├── CITATION.cff                    ← Citation metadata
 ├── requirements.txt                ← Python dependencies
+├── VERIFY.py                       ← 30-second standalone proof (13 checks, all PASS)
+│
+├── src/
+│   ├── core/                       ← 50+ modules: KK metric, evolution, braided winding,
+│   │   │                              APS topology, Yukawa, CKM/PMNS, SM audit, …
+│   │   ├── metric.py               ← Unitary metric tensor (Pillar 1)
+│   │   ├── evolution.py            ← Walker-Pearson integrator (Pillar 2)
+│   │   └── [48 further modules]    ← Pillars 27–98
+│   ├── holography/
+│   │   └── boundary.py             ← AdS/CFT boundary + entropy-area (Pillar 3–4)
+│   └── multiverse/
+│       └── fixed_point.py          ← FTUM fixed-point iteration (Pillar 5)
+│
+├── omega/                          ← Pillar Ω — Universal Mechanics Engine
+│   ├── omega_synthesis.py          ← UniversalEngine: 5 seeds → all observables
+│   ├── test_omega_synthesis.py     ← 168 tests
+│   ├── README.md                   ← Architecture and API guide
+│   └── CALCULATOR.md               ← Complete API reference
+│
+├── recycling/                      ← Pillar 16 — φ-debt entropy accounting (316 tests)
+│
+├── Unitary Pentad/                 ← HILS governance framework — 18 modules (1,266 tests)
+│
+├── tests/                          ← 145 test files, ~13,300 passing tests (Pillars 1–99)
+│
+├── embryology-manifold/            ← Pillar TVC: egg radius, zinc count, HOX predictions
+│
+├── systems-engineering/            ← Stability framework for engineers across 14 domains
+│   ├── README.md
+│   ├── AUDIENCE_GUIDE.md
+│   ├── MANIFOLD_SYSTEM_STABILITY.md
+│   ├── CURRENT_SYSTEMS_FAILURE_ANALYSIS.md
+│   ├── FIRMWARE_FIXES.md
+│   ├── FUTURE_SOFTWARE_HARDWARE.md
+│   ├── UPGRADE_ROADMAP.md
+│   └── QUICK_REFERENCE.md
 │
 ├── arxiv/
 │   ├── main.tex                    ← LaTeX source
@@ -100,14 +136,10 @@ unitary-manifold/
 ├── manuscript/
 │   └── ch02_mathematical_preliminaries.md
 │
-├── src/
-│   ├── core/
-│   │   ├── metric.py               ← Unitary metric tensor
-│   │   └── evolution.py            ← Geometric / quantum evolution
-│   ├── holography/
-│   │   └── boundary.py             ← AdS/CFT boundary tools
-│   └── multiverse/
-│       └── fixed_point.py          ← Fixed-point / attractor analysis
+├── notebooks/
+│   ├── 01_quickstart.ipynb         ← Field evolution demo
+│   ├── 02_holographic_boundary.ipynb
+│   └── 03_multiverse_fixed_point.ipynb
 │
 ├── discussions/
 │   └── AI-Automated-Review-Invitation.md
@@ -117,7 +149,13 @@ unitary-manifold/
 │   └── SUBMISSION_GUIDE.md        ← Zenodo DOI deposit guide
 │
 └── scripts/
-    └── create_archive.py           ← Re-run to rebuild the archive
+    ├── create_archive.py           ← Re-run to rebuild this archive
+    ├── run_evolution.py            ← Field evolution demo
+    ├── run_metric.py               ← Metric and curvature demo
+    ├── run_boundary.py             ← Holographic boundary demo
+    ├── run_fixed_point.py          ← FTUM convergence demo
+    ├── run_inflation.py            ← CMB spectral index demo
+    └── live_report.py              ← Real-world comparison report
 ```
 
 ---

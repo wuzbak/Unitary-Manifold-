@@ -414,15 +414,24 @@ state divergence that scales with the total number of silent drops.
 1. **CMB power spectrum amplitude** is suppressed ×4–7 at acoustic peaks relative to
    observation.  This is an active open problem, not a resolved discrepancy.  See
    [`../FALLIBILITY.md`](../FALLIBILITY.md).
-2. **`φ₀` self-consistency** — the dilaton vacuum expectation value is not fully closed
-   analytically.  See [`../FALLIBILITY.md`](../FALLIBILITY.md).
+2. **`c_L` spectrum** — first-principles derivation of fermion bulk-mass parameters from
+   5D orbifold BCs is open; current values derived via bisection at Ŷ₅=1 (Pillar 98).
+3. **Full CKM CP phase** — δ = 72° geometric prediction at 1.35σ; analytic derivation
+   from 5D Yukawa BCs open.
 
 ### Code and Tests
 
-The full test suite:
+The full test suite (v9.27 OMEGA EDITION):
 ```bash
-python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 5124 passed, 1 skipped, 0 failed
+python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
+# Expected: 15,023 passed, 2 skipped, 0 failed
+```
+
+The Universal Mechanics Engine queries all 99 pillars at once:
+```python
+from omega.omega_synthesis import UniversalEngine
+report = UniversalEngine().compute_all()
+print(report.summary())   # cosmology, particle physics, HILS, 8 falsifiable predictions
 ```
 
 ALGEBRA_PROOF.py runs 206 formal algebraic checks including live codebase imports:
@@ -698,7 +707,7 @@ durable (see: TCP/IP, Ethernet, x86 ISA).
 
 ---
 
-*Part of the `systems-engineering/` folder.*  
+*Part of the `systems-engineering/` folder — v9.27 OMEGA EDITION (99 pillars, 15,023 tests).*  
 *See [`UPGRADE_ROADMAP.md`](./UPGRADE_ROADMAP.md) for the phased implementation plan at every scale.*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

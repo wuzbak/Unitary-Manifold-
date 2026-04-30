@@ -88,3 +88,17 @@ The function `extract_alpha_from_curvature(g, B, phi, dx, lam)` in `src/core/met
 4. Returning `alpha_geometric = mean(1/phi²)` — the KK-derived coupling.
 
 Verified by 11 unit tests in `tests/test_metric.py`.
+---
+
+## Repository Context
+
+This chapter is the foundational mathematical primer for the Unitary Manifold framework. As of **v9.27 OMEGA EDITION** the framework has expanded to **99 pillars** covering cosmology, particle physics, geometry, consciousness, governance, and the HILS co-emergence framework. The material in this chapter underpins Pillars 1–5 (the core KK geometry, field evolution, holography, and the FTUM fixed-point theorem).
+
+For the complete picture, see:
+- [`README.md`](../README.md) — full project overview
+- [`omega/README.md`](../omega/README.md) — Pillar Ω: all 99 pillars in a single calculator
+- [`AGENTS.md`](../AGENTS.md) — preferred ingest order for AI agents
+
+*Chapter 2 — v9.27 OMEGA EDITION — April 2026*  
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

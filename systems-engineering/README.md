@@ -96,18 +96,41 @@ maps to exactly one of these three violations.
 This folder is an engineering-facing projection of the core physics:
 
 - Mathematical foundations: [`../src/core/`](../src/core/) and [`../UNIFICATION_PROOF.md`](../UNIFICATION_PROOF.md)
+- Universal Mechanics Engine (all 99 pillars): [`../omega/`](../omega/) — `UniversalEngine.compute_all()` produces falsifiable predictions, particle physics, cosmology, and HILS status in one call
 - Biological analogue (brain as a Unitary Manifold system): [`../brain/`](../brain/)
-- Materials/recycling analogue: [`../recycling/`](../recycling/)
+- Materials/recycling analogue (Pillar 16): [`../recycling/`](../recycling/)
+- HILS governance (Unitary Pentad): [`../Unitary Pentad/`](../Unitary%20Pentad/)
 - Cosmological predictions and core claim: [`../WHAT_THIS_MEANS.md`](../WHAT_THIS_MEANS.md)
 
 The same field equations — `G_AB`, `B_μ`, `φ`, `Ψ*` — describe the early universe,
 the human cortex, a recycling system's entropy budget, and a 5G base station's handoff
 logic.  Scale changes.  Structure does not.
 
+### Key constants for engineers (from `omega/omega_synthesis.py`)
+
+| Constant | Value | Engineering meaning |
+|----------|-------|-------------------|
+| `k_cs = 74 = 5² + 7²` | Chern-Simons level | Minimum state-machine complexity for self-stabilisation |
+| `c_s = 12/37 ≈ 0.324` | Braided sound speed | Threshold below which the Pentad (trust system) decouples |
+| `(5, 7)` winding modes | Primary/secondary braid | Base timer and backoff timer pair; primary/secondary feedback frequency |
+| `φ_min > 0.15` | Dilaton floor | System health: keep all resources above 15% headroom |
+| `FTUM S* = A/(4G)` | Fixed point | Every stable system converges to a Bekenstein-Hawking-like bound |
+
+```python
+# Verify the engineering thresholds from first principles:
+from omega.omega_synthesis import UniversalEngine
+engine = UniversalEngine()
+cos = engine.cosmology()
+print(f"c_s = {float(cos.c_s):.4f}")   # 0.3243 — Pentad decoupling threshold
+h = engine.hils()
+print(f"Stability at n=1:  {h.stability_floor:.3f}")   # 0.370
+print(f"Stability at n=15: {engine.__class__(n_hil=15).hils().stability_floor:.3f}")  # 1.000
+```
+
 ---
 
 *Systems Engineering folder — updated April 2026 (v2: multi-audience bridge + upgrade roadmap).*  
-*Part of the Unitary Manifold repository (v9.19).*
+*Part of the Unitary Manifold repository (v9.27 — OMEGA EDITION, 99 pillars, 15,023 tests).*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Document engineering and synthesis: **GitHub Copilot** (AI).*
