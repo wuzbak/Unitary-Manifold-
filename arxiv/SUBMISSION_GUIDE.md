@@ -1,5 +1,5 @@
 # arXiv Submission Guide
-## The Unitary Manifold v9.0 — Step-by-Step Instructions
+## The Unitary Manifold v9.27 OMEGA EDITION — Step-by-Step Instructions
 
 ---
 

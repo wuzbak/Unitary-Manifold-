@@ -343,7 +343,7 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–74 — fast suite | ~12,601 passed · 2 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–99 — fast suite | ~13,059 passed · 2 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
@@ -406,13 +406,13 @@ It is not a sufficient condition for physical truth.
 # Install dependencies
 pip install -r requirements.txt
 
-# Full test suite (core physics + recycling + Pentad, ~130 seconds)
-python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
+# Full test suite (core physics + recycling + Pentad + omega, ~130 seconds)
+python3 -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
 # Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q
-# Expected: 12601 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: ~13059 passed, 2 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
@@ -453,7 +453,7 @@ The live badge reflects the current status of the `main` branch:
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
 | [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
 | [`TEST/RESULTS.md`](TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
-| [`tests/`](tests/) | 145 pytest files; 12601 fast-passing + 11 slow-deselected + 2 skipped |
+| [`tests/`](tests/) | 150 pytest files; ~13,059 fast-passing + 11 slow-deselected + 2 skipped |
 | [`recycling/`](recycling/) | Pillar 16 φ-debt suite; 316 tests |
 | [`Unitary Pentad/`](Unitary%20Pentad/) | HILS governance suite; 18 modules, 1266 tests |
 

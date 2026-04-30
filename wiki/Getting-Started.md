@@ -210,7 +210,7 @@ print(f"r_braided = {r:.4f}  (BICEP/Keck < 0.036)")
 │   └── materials/                  ← Pillar 26
 ├── recycling/                      ← Pillar 16: φ-debt entropy accounting
 ├── Unitary Pentad/                 ← independent HILS governance framework
-├── tests/                          ← 145 test files, ~10 000 fast-passing tests
+├── tests/                          ← 150 test files, ~13,059 fast-passing tests
 ├── bot/                            ← AI assistant infrastructure (RAG, Copilot Extension)
 └── notebooks/                      ← Jupyter quickstart, boundary, multiverse demos
 ```

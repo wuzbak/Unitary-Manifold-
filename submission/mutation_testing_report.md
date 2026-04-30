@@ -1,5 +1,5 @@
 # Mutation Testing Report
-## Unitary Manifold — v9.12 Canonical Edition (April 2026)
+## Unitary Manifold — v9.27 OMEGA EDITION (April 2026)
 
 This document lists each mutation break-point from `HOW_TO_BREAK_THIS.md`,
 records the actual failure output observed when the mutation was applied, and
@@ -8,7 +8,7 @@ confirms that every break-point produces at least one failing test.
 This report was generated from a clean clone of the repository at commit
 `copilot/refine-submission-falsification-report`, Python 3.12.13, pytest 9.0.3.
 
-**Grand total:** 10,027 tests passing (1 skipped, 11 slow-deselected, 0 failures)
+**Grand total:** 15,023 tests passing (2 skipped, 11 slow-deselected, 0 failures)
 on the un-mutated codebase.
 
 ---

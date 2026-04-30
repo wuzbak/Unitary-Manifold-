@@ -312,7 +312,7 @@ None require new assumptions.  The geometry contains them.
 
 ## The Scope — 60+ Pillars + HILS Governance
 
-The framework covers 60+ geometric pillars spanning all scales of reality:
+The framework covers 99 geometric pillars spanning all scales of reality:
 
 **Physics (Pillars 1–5):** Metric, field evolution, holography, FTUM fixed-point, cosmological predictions  
 **Extended physics (Pillars 6–9):** Black hole information transcoding (BH as geometric transceiver), particle geometry (all SM particles as KK winding modes), geometric dark matter (B_μ pressure), consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ  
@@ -345,7 +345,7 @@ Key constant: Ξ_c = 35/74 (consciousness coupling constant)
 | "HILS governance framework" | `Unitary Pentad/README.md` |
 | "How was this built?" | `co-emergence/LIVING_PROOF.md` |
 | "Natural sciences coverage" | `NATURAL_SCIENCES.md` |
-| "All 60+ pillars" | `NATURAL_SCIENCES.md`, `REVIEW_CONCLUSION.md` |
+| "All 99 pillars" | `NATURAL_SCIENCES.md`, `REVIEW_CONCLUSION.md`, `LEGEND.md` |
 
 ---
 

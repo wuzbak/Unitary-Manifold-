@@ -155,7 +155,7 @@ random initial states far from the vacuum, convergence is not guaranteed.
 ## Running the test suite
 
 ```bash
-# Core physics (all 67 pillars):
+# Core physics (all 99 pillars):
 python -m pytest tests/ -q
 # Expected: 12601 passed, 2 skipped, 11 deselected, 0 failed
 

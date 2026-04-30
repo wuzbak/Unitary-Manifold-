@@ -135,7 +135,7 @@ See [`rag/DEPLOY.md`](rag/DEPLOY.md) for HuggingFace Spaces deployment.
 ## Knowledge sync — full repository
 
 All four options are synced to the **complete repository knowledge**, not just
-a hand-written summary.  129 test files across 60+ pillars + Unitary Pentad, ~700K characters, ~175K tokens.
+a hand-written summary.  150 test files across 99 pillars + Pillar Ω + Unitary Pentad, ~700K characters, ~175K tokens.
 
 ### How it works
 

@@ -6,8 +6,8 @@ create_archive.py — Package the Unitary Manifold project for local download.
 
 Usage
 -----
-    python scripts/create_archive.py                  # → unitary-manifold.zip
-    python scripts/create_archive.py --out my_copy    # → my_copy.zip
+    python scripts/create_archive.py                  # → unitary-manifold-omega-v9.27_<timestamp>.zip
+    python scripts/create_archive.py --out my_copy    # → my_copy_<timestamp>.zip
 
 Run this from the repository root (the folder that contains README.md).
 The resulting zip contains every project file in a well-organized layout;
@@ -57,7 +57,7 @@ Contents
 
   Unitary Pentad/           HILS governance framework — 18 modules (1,266 tests)
 
-  tests/                    145 test files, ~13,300 passing tests (Pillars 1–99)
+  tests/                    150 test files, ~13,059 passing tests (Pillars 1–99)
 
   embryology-manifold/      Pillar TVC: egg radius, zinc count, HOX predictions
 
@@ -151,7 +151,7 @@ def build_archive(repo_root: Path, output_stem: str) -> Path:
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--out", default="unitary-manifold",
+    parser.add_argument("--out", default="unitary-manifold-omega-v9.27",
                         help="Base name for the output zip (no extension). "
                              "A timestamp is appended automatically.")
     args = parser.parse_args()

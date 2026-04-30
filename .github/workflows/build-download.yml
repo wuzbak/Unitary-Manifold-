@@ -1,7 +1,7 @@
 name: Build Download Archive
 
 # Run this workflow manually from the Actions tab — no tag or push required.
-# When complete, a "unitary-manifold-<date>.zip" artifact will appear under
+# When complete, a "unitary-manifold-omega-v9.27-<date>.zip" artifact will appear under
 # "Artifacts" in the workflow run summary.  Click it to download.
 
 on:
@@ -10,7 +10,7 @@ on:
       archive_name:
         description: 'Base name for the zip file (timestamp appended automatically)'
         required: false
-        default: 'unitary-manifold'
+        default: 'unitary-manifold-omega-v9.27'
 
 permissions:
   contents: read
