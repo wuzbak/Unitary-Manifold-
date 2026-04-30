@@ -91,11 +91,15 @@ version by version.
 | v9.21 | Gap-closing edition | Pillars 85–88 (absolute masses, Dirac ν, Wolfenstein, SM audit) |
 | v9.22 | Vacuum-closure edition | Pillar 89: pure algebraic n_w=5 from 5D BCs; no M-theory |
 | v9.23 | Extended gap-closure edition | Pillars 90–92: neutrino splittings, Higgs mass FTUM, UV embedding; θ₁₂ upgraded to 0.1% accuracy |
+| v9.24 | Dual-Sector edition | Pillar 95: (5,6) β=0.273° proved; LiteBIRD discriminates (5,6) vs (5,7) at 2.9σ |
+| v9.25 | Unitary Closure edition | Pillar 96: analytic {(5,6),(5,7)} uniqueness proof; 14,641 = 11⁴ total passed |
+| v9.26 | GW Yukawa edition | Pillars 97–98: Ŷ₅=1 from GW vacuum; m_e <0.5% PDG; 0 free fermion mass parameters |
+| v9.27 | **OMEGA EDITION** | Pillar Ω: `omega/omega_synthesis.py` — 5 seeds → all observables; **15,023 tests, REPOSITORY CLOSED** |
 
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
-v9.23 that parameter had been derived, all three original open problems had been resolved, and the
-test suite had grown from a few hundred checks to 14,183. A theory that tightens as it is
+v9.27 that parameter had been derived, all original open problems had been resolved, and the
+test suite had grown from a few hundred checks to 15,023. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---

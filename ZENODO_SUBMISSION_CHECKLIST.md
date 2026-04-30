@@ -9,7 +9,7 @@
 
 - [x] `zenodo/.zenodo.json` — updated to v9.27, 15,023 tests, 99 pillars — CLOSED, expanded keywords
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
-- [x] `arxiv/main.tex` — header updated to v9.13 (pending full arXiv revision)
+- [x] `arxiv/main.tex` — header updated to v9.27 OMEGA EDITION
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
 - [x] This checklist
 - [x] New pillars added: 56 (φ₀ self-consistency), 57 (CMB acoustic peak resolution), 45-D (LiteBIRD forecast), 51-B (Fermilab g-2 watch)

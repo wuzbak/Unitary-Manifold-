@@ -1088,7 +1088,7 @@ If you use this work, please cite it as:
 
 ```
 Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
-Emergent Irreversibility (v9.19). Zenodo.
+Emergent Irreversibility (v9.27 — OMEGA EDITION). Zenodo.
 https://doi.org/10.5281/zenodo.19584531
 ```
 

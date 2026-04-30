@@ -182,7 +182,7 @@ Expected result (default):
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_precision_audit.py` | 49 | Arbitrary-precision arithmetic audit (mpmath 128/256-bit) |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total (tests/ suite)** | **12613** | **12601 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **~13,073** | **~13,059 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
 
 ---
 

@@ -2,7 +2,7 @@
 
 > *"The atom is not a miniature solar system inserted into space. It is a
 > knot in the fabric of the fifth dimension."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.19
+> — Walker-Pearson, *The Unitary Manifold*, v9.27
 
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
