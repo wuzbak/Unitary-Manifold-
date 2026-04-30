@@ -984,6 +984,85 @@ Where it has fallen short, the evidence is available for those who wish to test 
 
 ---
 
+## NEW CHAPTER — The 2024 Election and the Mainstream of Prediction Markets
+
+The 2024 US presidential election was the first in which prediction markets played a significant, publicly visible role in shaping media coverage and public perception of the race.
+
+### Polymarket's Emergence into Public Consciousness
+
+Polymarket — a cryptocurrency-based prediction platform founded in 2020 and operating primarily for international users due to CFTC restrictions on US participants — held real-money contracts on the 2024 presidential race. By election day:
+
+- Total liquidity on the Biden/Harris vs. Trump contract exceeded $200 million
+- Polymarket showed Trump at approximately 65% odds on election eve
+- FiveThirtyEight-style aggregators showed Harris at roughly 50/50
+
+The divergence was significant. Post-election, Polymarket advocates argued this proved the superiority of prediction markets over polling-based models. Critics raised several counter-arguments:
+
+1. **The Alameda problem**: Blockchain analytics showed a single whale account (later identified as "Theo4") placed approximately $30 million in Trump contracts over the final weeks of the campaign, potentially moving the market. The epistemically correct interpretation is unclear: was this an informed trader with superior information, or an attempt to manipulate market odds for political effect?
+
+2. **Survivorship bias**: Prediction markets have had high-profile failures (Brexit, 2016 Trump victory) that are less celebrated than their successes. Any probabilistic system will have periods where it accurately predicted the outcome; the question is calibration over many elections.
+
+3. **The base rate problem**: With limited elections per year, no prediction market has enough data to demonstrate statistically robust calibration on rare, high-stakes events.
+
+### Kalshi's Legal Victory and the Regulatory Landscape
+
+**Kalshi** — a CFTC-regulated US prediction market platform — fought a multi-year legal battle for the right to offer election contracts. The CFTC had rejected Kalshi's application to list congressional election contracts on the grounds that election betting constituted gambling and raised public policy concerns.
+
+In September 2024, a federal district court ruled in Kalshi's favor, finding the CFTC had acted arbitrarily in rejecting the application. The CFTC chose not to appeal before the election. Kalshi launched US political event contracts, and real-money US participants could legally trade election contracts for the first time in modern American history.
+
+**The regulatory aftermath**: The CFTC's position on prediction markets remains unsettled. The Trump administration's CFTC is considered more favorable to prediction markets than its predecessor. As of 2026, Kalshi offers contracts on legislative outcomes, economic indicators, and political events.
+
+### What Prediction Markets Can and Cannot Tell Us
+
+Prediction markets aggregate information — including private information not accessible to public pollsters. This is their legitimate strength. But several structural limitations constrain their epistemic value:
+
+1. **Thin markets on important questions**: The liquidity needed for accurate price discovery exists on presidential elections. It is absent on most local races, ballot initiatives, and policy questions.
+
+2. **Manipulation vs. information**: It is structurally difficult to distinguish an informed trader from a manipulator. The "wisdom of crowds" depends on crowds with independent information; a few large traders with correlated positions — or shared political motivation — can bias prices.
+
+3. **Democratic legitimacy concerns**: If prediction market odds influence media coverage (e.g., "markets give Harris a 35% chance"), and media coverage influences voter behavior, and voter behavior determines election outcomes, then prediction markets become part of the causal chain they claim to be observing. This circularity is a genuine epistemological problem, not a technical complaint.
+
+The Unitary Manifold framework reads this as: prediction markets are information aggregators that work best when the observed system is weakly coupled to the observation instrument. When observation is strongly coupled to outcome — as in elections — the assumption of independent measurement breaks down.
+
+---
+
+## NEW CHAPTER — Governance by Algorithm: From Prediction to Policy
+
+The intellectual ambitions of the prediction market movement extend well beyond election forecasting. A subset of its advocates — particularly in the "effective governance" and "charter city" communities — propose using prediction markets to govern allocation of public resources.
+
+### Futarchy: The Theoretical Proposal
+
+**Futarchy** is a governance mechanism proposed by economist Robin Hanson in the early 2000s. The core idea: democratic elections decide *what we value* (constitutional goals); prediction markets decide *how to achieve those goals*.
+
+Under futarchy, a legislature would adopt a measurable welfare metric (e.g., GDP per capita, life expectancy). For any proposed policy, conditional prediction markets would be opened:
+- "If policy X is implemented, will welfare metric Y be higher in 10 years than the baseline?"
+- Whichever policy conditional market predicts a higher welfare metric is adopted
+
+Proponents argue this would eliminate political corruption, ideology-driven policy, and status quo bias. Critics raise:
+
+1. **Metric gaming**: Any welfare metric that becomes a governance target becomes subject to manipulation. Goodhart's Law applies with full force.
+2. **Distributional blindness**: Prediction markets optimize for the aggregate. A policy that increases mean GDP by 5% while concentrating gains in the top 1% would be adopted even if median welfare declines.
+3. **Long-horizon failure**: Markets cannot reliably price in risks and benefits 10-30 years out — the timeframes most relevant to infrastructure, climate, and institutional policy.
+4. **Participation gap**: Market participation systematically excludes those with less capital. A prediction market "democracy" is a plutocracy in formal dress.
+
+### Practical Deployments and Their Lessons
+
+**Iowa Electronic Markets**: The longest-running academic prediction market (University of Iowa, since 1988), limited to small stakes, has shown reasonable calibration on US presidential vote shares but significant errors on specific events.
+
+**DARPA's Policy Analysis Market (PAM)**: Proposed in 2003 to allow trading on geopolitical events including terrorist attacks. Cancelled within days of public disclosure after Congressional outrage. The episode illustrates: public legitimacy constraints limit what prediction markets can govern, regardless of their theoretical properties.
+
+**Corporate internal markets**: Several technology companies (Google, Microsoft, HP in research contexts) have used internal prediction markets for project forecasting. Results are mixed — accuracy is better than management estimates in some domains, worse in others where political considerations dominate.
+
+### The Democratic Accountability Gap
+
+The deepest problem with prediction market governance is not technical — it is normative. Democratic governance is not merely a mechanism for achieving optimal outcomes. It is a process through which communities deliberate, argue, compromise, and build collective identity. The legitimacy of democratic outcomes derives from the process, not just the result.
+
+Prediction markets, even when accurately forecasting outcomes, provide no mechanism for deliberation, no space for minority voices, no accountability to future generations who cannot participate in today's markets.
+
+The Unitary Manifold governance framework (Pillar 19) recognizes this: φ-stability in social systems requires not just optimal output but process legitimacy. A system that produces correct decisions through an illegitimate process generates the same social entropy as a corrupt democracy — just with better-dressed noise.
+
+---
+
 ## THE OMEGA ADDITIONS — What Has Changed in Version 2.0
 
 This **Omega Edition** (v2.0, April 2026) marks the integration of this book into the

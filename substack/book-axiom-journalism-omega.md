@@ -9276,6 +9276,71 @@ def _find_convergences(results):
 
 ---
 
+## NEW CHAPTER — Large Language Models and the Journalism Verification Crisis
+
+The arrival of capable large language models (LLMs) in 2022–2026 has restructured the information landscape in ways that amplify every challenge this book has addressed.
+
+### What LLMs Do to the Information Ecosystem
+
+LLMs can generate fluent, plausible-sounding text on any subject at negligible cost. This creates several distinct problems for journalism and information integrity:
+
+**1. The synthetic source problem**
+
+Misinformation campaigns previously required human writers to produce false content. LLMs eliminate this labor cost. A single operator with API access can generate thousands of fake news articles, false witness statements, fabricated statistics, or synthetic expert quotes per hour at costs measured in pennies.
+
+The counter-technology — LLM-generated text detectors — has proven unreliable. Most academic and commercial detectors produce false positive rates that make them unsuitable for high-stakes decisions. The epistemically honest position in 2026: there is no reliable automated way to determine whether a given piece of text was LLM-generated.
+
+**2. The hallucination liability problem**
+
+LLMs frequently generate false factual claims with high confidence — "hallucinations" in the AI research literature. For journalism, the hallucination problem manifests in at least three ways:
+
+- Reporters using LLMs as research assistants may receive fabricated citations, fake statistics, or incorrect summaries of documents that do not exist
+- AI-assisted writing tools deployed by newsrooms can introduce errors that are syntactically indistinguishable from carefully researched facts
+- News aggregators using LLMs to summarize articles may generate summaries that contradict the original source
+
+**3. The speed-accuracy tradeoff degradation**
+
+Competitive pressure has always pushed journalists toward speed over accuracy. LLMs exacerbate this by making it easier to produce plausible-sounding copy quickly. The marginal cost of verification — calling sources, examining primary documents, checking statistics — has not changed. The marginal cost of unverified publication has fallen to near zero.
+
+### What the Axiom Zero Framework Demands
+
+The AxiomZero journalism framework articulated in this book predates the LLM era but its principles apply directly:
+
+- **Document primacy**: No LLM output is a document. It is a prediction about what plausible text looks like. Primary source documents — court records, financial filings, recorded statements, video — are the only epistemically sound foundation for factual claims
+- **Source verification**: Named sources with verifiable identities and documented credentials remain the gold standard. LLM-generated "sources" and "experts" are not sources
+- **Chain of custody**: Every factual claim should have a traceable provenance — a document, a recording, a firsthand witness account. LLM-mediated information collapses provenance
+- **Transparency about tools**: Newsrooms should disclose when and how AI tools were used in reporting, at the level of specificity that allows readers to assess reliability
+
+### Human Judgment as the Non-Negotiable
+
+The most important insight from the LLM era for journalism is the one that is hardest to systematize: human editorial judgment cannot be delegated to a language model.
+
+LLMs optimize for plausibility — the next token that is most likely given the training data. Journalism at its best optimizes for truth — the account that most accurately reflects reality, even when that reality is implausible, counterintuitive, or politically inconvenient.
+
+These are not the same objective. They produce systematically different outputs precisely in the cases that matter most — stories where the truth contradicts official narratives, where documents say the opposite of what powerful institutions claim, where the evidence points toward an uncomfortable conclusion.
+
+The HILS (Human-in-the-Loop Systems) framework developed in the Unitary Manifold project is directly applicable: AI tools are force multipliers for research, transcription, and document analysis, but editorial judgment — what to publish, what sources to trust, what the documents actually mean — must remain with accountable human beings.
+
+### Practical Guidance for AI-Era Journalists
+
+**What to use LLMs for:**
+- Transcription of recorded interviews (with verification of key quotes against audio)
+- First-pass summarization of long documents (with mandatory verification against source)
+- Research scaffolding — generating questions to investigate, not answers to publish
+- Translation assistance (with human verification for nuance and accuracy)
+- Drafting routine structural text (correction boxes, standard disclosures) under human review
+
+**What never to use LLMs for:**
+- Generating factual claims about specific people, events, or statistics
+- Creating or paraphrasing quotes attributed to named individuals
+- Assessing the credibility or authenticity of sources or documents
+- Making editorial judgments about newsworthiness or public interest
+
+**The verification protocol for AI-assisted reporting:**
+Every claim that originated in or passed through an LLM output must be independently verified against a primary source before publication. "LLM told me" is not a citation. It is a research lead that requires verification.
+
+---
+
 ---
 
 ## THE OMEGA ADDITIONS — What Has Changed in Version 2.0
