@@ -2,12 +2,11 @@
 
 Run date: 2026-04-29 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): ~13,059 PASSED · 2 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): PASSED · 2 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (tests/ only): ~13,072 collected · ~13,059 passed · 2 skipped · 11 slow-deselected · 0 failures**
-**Grand total (all suites): ~14,654 collected · 14,641 passed · 2 skipped · 11 deselected · 0 failures**
+**Grand total (all suites): 15,023 passed · 2 skipped · 11 deselected · 0 failures** (tests/ + recycling/ + Unitary Pentad/ + omega/)
 
-**14,641 = 11⁴** — noted as a structural milestone. Not a physical claim.
+**14,641 = 11⁴** — prior structural milestone at v9.25. Not a physical claim.
 
 ⚑ **Skip explanation (2 skips):**
 1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`

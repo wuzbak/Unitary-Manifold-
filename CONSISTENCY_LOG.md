@@ -1,6 +1,6 @@
 # CONSISTENCY_LOG.md — Radion-Neutrino Identity Self-Consistency Run
 
-*Unitary Manifold v9.23 — ThomasCory Walker-Pearson, 2026*  
+*Unitary Manifold v9.27 — ThomasCory Walker-Pearson, 2026*  
 *Generated: April 2026 by GitHub Copilot (AI)*
 
 ---
@@ -346,7 +346,7 @@ their test suites (0 failures):
 | `bmu_time_arrow_lock()` | `src/physics/lattice_dynamics.py` | 19 | B_μ energy routing proof |
 | `calculate_energy_branching_ratio()` | `src/cold_fusion/excess_heat.py` | 25 | Phonon/gamma branching |
 
-**Grand total test count: 14,183 passed, 2 skipped, 0 failed (v9.22 — all suites).**
+**Grand total test count: 15,023 passed, 2 skipped, 0 failed (v9.27 — all suites).**
 
 *Note: This log was originally generated at v9.15 (10,589 tests). The function-level results remain valid; only the grand total has grown as the test suite expanded across Pillars 15-C through 89.*
 

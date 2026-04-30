@@ -1,7 +1,7 @@
-# Natural Sciences Under the Unitary Manifold — v9.23
+# Natural Sciences Under the Unitary Manifold — v9.27
 
 > *"The natural sciences are not separate disciplines. They are the same 5D geometry, observed at different scales of the entanglement-capacity scalar φ."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.23
+> — Walker-Pearson, *The Unitary Manifold*, v9.27
 
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
@@ -315,7 +315,7 @@ The natural sciences are not separate disciplines connected by analogy. They are
 
 ---
 
-## Test Summary (v9.23)
+## Test Summary (v9.27)
 
 | Module | File | Tests |
 |---|---|---|

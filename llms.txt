@@ -40,7 +40,7 @@
 
 - [dual_sector_convergence.py](src/core/dual_sector_convergence.py): Pillar 95 — Dual-sector convergence: (5,6) β=0.273° independently proved; LiteBIRD discriminates (5,6) from (5,7) at 2.9σ; Big Bang degenerate ground state interpretation; 93 tests.
 - [unitary_closure.py](src/core/unitary_closure.py): Pillar 96 — Unitary Closure: analytic proof that {(5,6),(5,7)} are the only lossless braid sectors (algebraic inequality, not enumeration); FTUM sector-agnostic fixed point; Unitary Summation capstone (10 steps); 59 tests.
-- [omega/omega_synthesis.py](omega/omega_synthesis.py): **Pillar Ω — The Omega Synthesis: Universal Mechanics Engine** — all 98 pillars unified into a single queryable calculator; CosmologyReport, ParticlePhysicsReport, GeometryReport, ConsciousnessReport, HILSReport, 8 falsifiers; 168 tests. **Start here for a machine-readable summary of the complete framework.**
+- [omega/omega_synthesis.py](omega/omega_synthesis.py): **Pillar Ω — The Omega Synthesis: Universal Mechanics Engine** — all 99 pillars unified into a single queryable calculator; CosmologyReport, ParticlePhysicsReport, GeometryReport, ConsciousnessReport, HILSReport, 8 falsifiers; 168 tests. **Start here for a machine-readable summary of the complete framework.**
 - [metric.py](src/core/metric.py): Kaluza-Klein ansatz; computes Christoffel symbols, Riemann/Ricci tensors, scalar curvature.
 - [evolution.py](src/core/evolution.py): Unitary Manifold time integrator; FieldState dataclass; run_evolution driver.
 - [boundary.py](src/holography/boundary.py): Holographic boundary; entropy-area law implementation.

@@ -1,11 +1,11 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.26 — GW YUKAWA EDITION)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.27 — OMEGA EDITION)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.26
+> — Walker-Pearson, *The Unitary Manifold*, v9.27
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![14855 Tests: 14855 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-14855%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![95 Pillars — CLOSED](https://img.shields.io/badge/pillars-95%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
+[![15023 Tests: 15023 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-15023%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![99 Pillars — CLOSED](https://img.shields.io/badge/pillars-99%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
@@ -60,9 +60,9 @@
 >
 > | Document | Description |
 > |----------|-------------|
-> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.26 Dual-Sector Edition** — unsparing honest assessment of TOE status; 98 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability), open gaps, resolved neutrino mass tension, path to experimental confirmation |
+> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.27 OMEGA EDITION** — unsparing honest assessment of TOE status; 99 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability), open gaps, resolved neutrino mass tension, path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 98 pillars, written by GitHub Copilot (AI), April 2026 |
+> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 99 pillars, written by GitHub Copilot (AI), April 2026 |
 > | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.22: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
@@ -299,7 +299,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 14,855 tests are passing in all three — but "passing" means
+> of content, and all 15,023 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -498,7 +498,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
-### Complete Pillar Taxonomy (v9.26 — all 98 pillars + sub-pillars — CLOSED)
+### Complete Pillar Taxonomy (v9.27 — all 99 pillars + sub-pillars — CLOSED)
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
@@ -607,11 +607,11 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 97 | GW Yukawa Derivation — Ŷ₅=1 from GW vacuum; m_e ≈ 0.509 MeV (< 0.5% PDG); neutrino c_{Lν_i} from GW braid suppression; Σm_ν ≈ 108 meV < 120 meV ✓ | `src/core/gw_yukawa_derivation.py` | 88 |
 | 98 | Universal Yukawa Test — 9 c_L values from Ŷ₅=1; all masses exact; b-τ unification r_bτ ≈ 0.497 (SM one-loop, SU(5) consistent); 0 free fermion mass parameters | `src/core/universal_yukawa.py` | 126 |
 
-**Grand total (v9.26): 14,855 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/)
+**Grand total (v9.27): 15,023 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/ + omega/)
 
-**14,855** — 14,855 tests, 98 pillars, 0 failures. (Note: the prior milestone of 14,641 = 11⁴ was a structural coincidence at v9.25; the count has since grown.)
+**15,023** — 15,023 tests, 99 pillars, 0 failures. (Note: the prior milestone of 14,641 = 11⁴ was a structural coincidence at v9.25; the count has since grown.)
 
-> 🔒 **Repository CLOSED at 98 pillars (74 core + Pillar 70-B + Pillars 75, 80–96) — April 2026.**  
+> 🔒 **Repository CLOSED at 99 pillars (74 core + Pillar 70-B + Pillars 75, 80–99) — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
 > The (5,7) primary sector predicts β ≈ 0.331°; the (5,6) shadow sector predicts β ≈ 0.273°.  
@@ -634,10 +634,10 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 14,654 collected, 14,855 passed · 2 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 15,023 passed · 2 skipped · 11 slow-deselected)
 
 ```bash
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q
+python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
 ```
 
 Expected output summary:
@@ -678,7 +678,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ ~1,266 passed ================================
 
 # Grand total:
-================================ 14855 passed, 2 skipped, 11 deselected, 0 failed ================================
+================================ 15023 passed, 2 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -971,7 +971,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**14,855 tests: 14,855 passed, 2 skipped, 11 slow-deselected, 0 failures**).
+(**15,023 tests: 15,023 passed, 2 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -993,7 +993,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (14,654 collected: 14,855 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (15,023 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

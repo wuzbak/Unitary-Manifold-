@@ -1,6 +1,6 @@
 # Unitary Manifold — 1-Page Submission Summary
 
-**Version:** 1.0 | **Date:** 2026-04-10 | `python validate.py` → all numbers below
+**Version:** 1.1 | **Date:** 2026-04-30 | `python validate.py` → all numbers below
 
 ---
 

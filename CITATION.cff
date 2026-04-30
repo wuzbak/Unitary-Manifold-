@@ -3,12 +3,12 @@ message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
 version: "1.0.0"
-date-released: "2026-04-28"
+date-released: "2026-04-30"
 doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v9.25, 96 pillars — UNITARY CLOSURE EDITION. 14,641 = 11⁴ tests. REPOSITORY CLOSED.)"
+    description: "Zenodo DOI for the Unitary Manifold (v9.27, 99 pillars — OMEGA EDITION. 15,023 passing tests.)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
@@ -28,6 +28,8 @@ keywords:
   - information geometry
   - holography
   - entropic cosmology
+  - omega synthesis
+  - universal mechanics engine
   - Walker-Pearson equations
 license: "AGPL-3.0-or-later"
 license-content: "other-open"

@@ -227,4 +227,4 @@ The convergence of all 7 constraints to the same integer is the capstone of the 
 - Planck Collaboration (2018). *Planck 2018 results. X. Constraints on inflation.* A&A 641, A10.
 - BICEP/Keck Collaboration (2021). *Improved Constraints on Primordial Gravitational Waves.* PRL 127, 151301.
 - Komatsu, E. et al. (2022). *New physics from the polarised light of the cosmic microwave background.* Nature Reviews Physics 4, 452–469.
-- Walker-Pearson, T. C. (2026). *The Unitary Manifold.* v9.23. [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf)
+- Walker-Pearson, T. C. (2026). *The Unitary Manifold.* v9.27. [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf)

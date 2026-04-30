@@ -1,14 +1,14 @@
 {
   "upload_type": "publication",
   "publication_type": "preprint",
-  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.23)",
+  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.27)",
   "creators": [
     {
       "name": "Walker-Pearson, ThomasCory",
       "affiliation": "Independent Researcher, Pacific Northwest, USA"
     }
   ],
-  "description": "We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The fifth dimension is compact, the cylinder condition is imposed, and the 5D metric is cast in the standard Kaluza-Klein block form with a vector field B_mu — the irreversibility 1-form — and a scalar phi — the entropic dilaton. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations we call the Walker-Pearson equations. We show that (i) the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate; (ii) information pressure provides a purely geometric alternative to a cosmological constant; (iii) entropic holography identifies boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture asserts that irreversible singularities are hidden behind holographic boundaries. Version 9.23 extends the framework to 92 pillars (CLOSED), including Pillar 67 (anomaly-cancellation n_w uniqueness), Pillar 70-B (APS spin structure, full derivation chain), Pillar 74 (k_CS=74 Topological Completeness Theorem), and a comprehensive suite of observational forecast modules. The k_CS=74 Completeness Theorem proves that seven independent structural constraints all uniquely select 74, making the closure self-referential and formally complete. Numerical implementation covering 14,183 passing tests (tests/ + recycling/ + Unitary Pentad/) is provided for independent verification. DOI: 10.5281/zenodo.19584531",
+  "description": "We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The fifth dimension is compact, the cylinder condition is imposed, and the 5D metric is cast in the standard Kaluza-Klein block form with a vector field B_mu — the irreversibility 1-form — and a scalar phi — the entropic dilaton. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations we call the Walker-Pearson equations. We show that (i) the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate; (ii) information pressure provides a purely geometric alternative to a cosmological constant; (iii) entropic holography identifies boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture asserts that irreversible singularities are hidden behind holographic boundaries. Version 9.27 (OMEGA EDITION) extends the framework to 99 pillars (CLOSED), including Pillar 67 (anomaly-cancellation n_w uniqueness), Pillar 70-B (APS spin structure, full derivation chain), Pillar 74 (k_CS=74 Topological Completeness Theorem), Pillars 97-98 (GW Yukawa derivation — Yukawa scale closed via GW vacuum), Pillar Ω (Universal Mechanics Engine — omega/omega_synthesis.py), and dual-sector birefringence predictions for (5,6)/(5,7) braid sectors. The k_CS=74 Completeness Theorem proves that seven independent structural constraints all uniquely select 74, making the closure self-referential and formally complete. Numerical implementation covering 15,023 passing tests (tests/ + recycling/ + Unitary Pentad/ + omega/) is provided for independent verification. DOI: 10.5281/zenodo.19584531",
   "access_right": "open",
   "license": "other-open",
   "keywords": [
@@ -56,6 +56,10 @@
     "Kaluza-Klein backreaction",
     "quark-gluon plasma",
     "CMB transfer function",
+    "omega synthesis",
+    "universal mechanics engine",
+    "Yukawa scale derivation",
+    "dual-sector birefringence",
     "photon epoch"
   ],
   "subjects": [
@@ -76,7 +80,7 @@
     }
   ],
   "language": "eng",
-  "notes": "This work is dedicated to the Defensive Public Commons. All ideas, methods, and scientific principles contained herein are freely available for public use without restriction. Version 9.23 — Academic Edition. 14183 automated tests pass (tests/ + recycling/ + Unitary Pentad/); full test suite available at https://github.com/wuzbak/Unitary-Manifold-",
+  "notes": "This work is dedicated to the Defensive Public Commons. All ideas, methods, and scientific principles contained herein are freely available for public use without restriction. Version 9.27 — OMEGA EDITION. 15,023 automated tests pass (tests/ + recycling/ + Unitary Pentad/ + omega/); full test suite available at https://github.com/wuzbak/Unitary-Manifold-",
   "related_identifiers": [
     {
       "identifier": "https://github.com/wuzbak/Unitary-Manifold-",
@@ -96,7 +100,7 @@
       "scheme": "doi"
     }
   ],
-  "version": "9.19",
+  "version": "9.27",
   "communities": [
     {
       "identifier": "zenodo"

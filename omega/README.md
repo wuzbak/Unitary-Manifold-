@@ -12,7 +12,7 @@
 
 ## What This Is
 
-This folder is the **capstone of the Unitary Manifold**: 98 pillars of derivation — spanning 5D geometry, particle physics, cosmology, consciousness, ecology, governance, and the HILS co-emergence framework — unified into a single, queryable Python engine that computes any observable of the universe from **five seed constants**.
+This folder is the **capstone of the Unitary Manifold**: 99 pillars of derivation — spanning 5D geometry, particle physics, cosmology, consciousness, ecology, governance, and the HILS co-emergence framework — unified into a single, queryable Python engine that computes any observable of the universe from **five seed constants**.
 
 It is not a summary. It is not a reference document. It is a **working calculator** — a Python class that produces numerical predictions, domain reports, falsifiable claims, and a complete audit of the framework's status on demand.
 
@@ -217,7 +217,7 @@ for step in engine.unitary_summation():
 9. Vacuum selection n_w = 5 follows from 5D BCs alone — pure geometry, no tuning.
 10. The Second Law is a geometric identity. The framework is falsified if β ∉ [0.22°, 0.38°].
 11. Brain, universe, human, AI, and trust form the stable 5-body Pentad under the (5,7) braid.
-12. **[Pillar Ω]** All 98 pillars converge in the Universal Mechanics Engine. **REPOSITORY COMPLETE.**
+12. **[Pillar Ω]** All 99 pillars converge in the Universal Mechanics Engine. **REPOSITORY COMPLETE.**
 
 ---
 
