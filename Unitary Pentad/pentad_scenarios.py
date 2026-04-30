@@ -952,3 +952,103 @@ def asymmetric_coupling_stress_test(
         ))
 
     return results
+
+
+# ===========================================================================
+# Biosecurity Dual-Use Risk — Synthetic Biology as HILS Governance Problem
+# ===========================================================================
+#
+# Context (Groff-Vindman 2026)
+# ----------------------------
+# The convergence of AI and synthetic biology compresses the design cycle
+# of engineered organisms.  Both beneficial (therapeutic, industrial) and
+# harmful (pathogen enhancement) attractors become navigable.  The Unitary
+# Pentad models this as a dual-use φ-field criticality: the HILS framework
+# is the governance analogue of the kill-switch containment layer in
+# src/genetics/synthetic_biology.py.
+#
+# UM mapping
+# ----------
+# phi_benefit_rate  : rate of beneficial φ-attractors found per DBTL cycle
+# phi_harm_rate     : rate of harmful φ-attractors found per same cycle
+# ai_acceleration   : AI multiplier on both rates (dual-use symmetry)
+# governance_phi    : HILS oversight strength ∈ [0,1]
+#   → governance_phi = 0 : no oversight, harm rate unmitigated
+#   → governance_phi = 1 : perfect HILS, harm rate zeroed
+#
+# The dual-use risk index R_du is the residual harm-to-benefit ratio after
+# governance is applied:
+#
+#   R_du = (phi_harm_rate × ai_acceleration × (1 − governance_phi))
+#          / (phi_benefit_rate × ai_acceleration + ε)
+#        = phi_harm_rate × (1 − governance_phi) / (phi_benefit_rate + ε)
+#
+# R_du < DUAL_USE_SAFE_THRESHOLD → HILS governance is sufficient.
+# R_du ≥ DUAL_USE_SAFE_THRESHOLD → governance gap detected; alert.
+
+import math as _math_bu  # local alias (pentad_scenarios.py already imports math as _math)
+
+DUAL_USE_SAFE_THRESHOLD: float = 0.1  # R_du < 0.1 → acceptable risk
+
+
+@dataclass
+class BiosecurityRisk:
+    """Result of a biosecurity dual-use risk assessment."""
+    dual_use_risk_index: float          # R_du — residual harm/benefit ratio
+    governance_gap: bool                # True if R_du ≥ DUAL_USE_SAFE_THRESHOLD
+    ai_acceleration: float             # AI speed-up applied equally to both rates
+    governance_phi: float              # HILS oversight strength used
+    effective_harm_rate: float         # phi_harm × ai_acc × (1 − gov_phi)
+    effective_benefit_rate: float      # phi_benefit × ai_acc
+
+
+def biosecurity_dual_use_risk(phi_benefit_rate: float,
+                               phi_harm_rate: float,
+                               ai_acceleration: float,
+                               governance_phi: float) -> BiosecurityRisk:
+    """Assess dual-use biosecurity risk of AI-accelerated synthetic biology.
+
+    Models the Groff-Vindman (2026) concern that AI × SynBio compresses both
+    beneficial and harmful design cycles symmetrically.  The Unitary Pentad's
+    HILS framework (governance_phi) is the countermeasure.
+
+    Parameters
+    ----------
+    phi_benefit_rate  : float — base beneficial-attractor discovery rate (must be ≥ 0)
+    phi_harm_rate     : float — base harmful-attractor discovery rate (must be ≥ 0)
+    ai_acceleration   : float — AI speed-up multiplier applied to both (must be ≥ 1)
+    governance_phi    : float — HILS governance effectiveness ∈ [0, 1]
+                                0 = no oversight, 1 = perfect containment
+
+    Returns
+    -------
+    BiosecurityRisk dataclass with:
+      dual_use_risk_index   — R_du (lower is safer; < 0.1 is acceptable)
+      governance_gap        — True if R_du ≥ DUAL_USE_SAFE_THRESHOLD
+      ai_acceleration       — as provided
+      governance_phi        — as provided
+      effective_harm_rate   — residual harm after oversight
+      effective_benefit_rate— benefit rate amplified by AI
+    """
+    _EPS = 1e-30
+    if phi_benefit_rate < 0.0:
+        raise ValueError(f"phi_benefit_rate must be ≥ 0, got {phi_benefit_rate!r}")
+    if phi_harm_rate < 0.0:
+        raise ValueError(f"phi_harm_rate must be ≥ 0, got {phi_harm_rate!r}")
+    if ai_acceleration < 1.0:
+        raise ValueError(f"ai_acceleration must be ≥ 1, got {ai_acceleration!r}")
+    if not (0.0 <= governance_phi <= 1.0):
+        raise ValueError(f"governance_phi must be in [0,1], got {governance_phi!r}")
+
+    eff_benefit = phi_benefit_rate * ai_acceleration
+    eff_harm    = phi_harm_rate * ai_acceleration * (1.0 - governance_phi)
+    r_du        = eff_harm / (eff_benefit + _EPS)
+
+    return BiosecurityRisk(
+        dual_use_risk_index=r_du,
+        governance_gap=(r_du >= DUAL_USE_SAFE_THRESHOLD),
+        ai_acceleration=ai_acceleration,
+        governance_phi=governance_phi,
+        effective_harm_rate=eff_harm,
+        effective_benefit_rate=eff_benefit,
+    )
