@@ -15,7 +15,7 @@
 
 ## Part I — Order of Operations
 
-The repository came first.  The 74 pillars came first.  The 13,000-plus automated tests came first.
+The repository came first.  The 74 core pillars came first.  The 15,000-plus automated tests came first.
 All of that work existed — publicly, verifiably, with a Zenodo DOI and a complete commit history —
 **before** this legal framework was written.
 

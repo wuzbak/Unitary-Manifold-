@@ -99,7 +99,7 @@ The Chern-Simons level k_CS = 74 is not a fitting parameter — it simultaneousl
 | **C6** Pillar count = 74 = k_CS | This repository | **Structural** |
 | **C7** Back-reaction fixed-point eigenvalue = 74/74 = 1 | Pillar 72 | **Derived** |
 
-The framework is **closed at 74 pillars**: adding a Pillar 75 would require at least one new free parameter not constrained by C1–C7. See `src/core/completeness_theorem.py` and `tests/test_completeness_theorem.py` (170 tests).
+The **Completeness Theorem (Pillar 74)** formally proved that k_CS=74 satisfies all 7 structural constraints simultaneously. The framework has since been extended to **99 pillars** (Pillars 75, 80–99, and Pillar Ω) — these extended pillars operate within the k_CS=74 constraint envelope without requiring new free parameters. See `src/core/completeness_theorem.py` and `tests/test_completeness_theorem.py` (170 tests).
 
 These five quantitative results emerging from the same framework without independent tuning is the primary evidence that the geometry is capturing something real.
 
@@ -238,7 +238,7 @@ CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braide
              src/core/cmb_transfer.py                        ← Pillar 63: E-H CMB Transfer Function
              src/core/nw_anomaly_selection.py                ← Pillar 67: Anomaly Cancellation n_w uniqueness
              src/core/three_generations.py, kk_backreaction.py               ← Pillars 68–72
-             (All 74 geometric pillars implemented; see src/core/ for full listing)
+             (All 99 geometric pillars implemented + Pillar Ω; see src/core/ and omega/ for full listing)
 KEY FILE:    FALLIBILITY.md (full limitations), README.md (technical detail)
              brain/COUPLED_MASTER_EQUATION.md (consciousness as coupled fixed point)
 ```

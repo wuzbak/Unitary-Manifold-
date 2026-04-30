@@ -13,7 +13,7 @@ cd Unitary-Manifold-
 pip install -r requirements.txt pytest
 python -m pytest tests/ recycling/ "Unitary Pentad/" -q
 # Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
-python -m pytest tests/ -q           # tests/ only: 12601 passed, 1 skipped, 11 deselected
+python -m pytest tests/ -q           # tests/ only: ~13059 passed, 2 skipped, 11 deselected
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 ```
 

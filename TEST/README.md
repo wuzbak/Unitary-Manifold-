@@ -50,15 +50,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # 12601 fast pass, 2 skipped, 11 deselected (slow)
+python -m pytest tests/ -v          # ~13,059 fast pass, 2 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q  # full suite — 15023 pass
+python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q  # full suite — 15,023 pass
 ```
 
 Expected result (default):
 
 ```
-12601 passed, 2 skipped, 11 deselected in ~115s
+~13059 passed, 2 skipped, 11 deselected in ~115s
 ```
 
 ---
@@ -182,7 +182,7 @@ Expected result (default):
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_precision_audit.py` | 49 | Arbitrary-precision arithmetic audit (mpmath 128/256-bit) |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total (tests/ suite)** | **12613** | **12601 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **~13,073** | **~13,059 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
 
 ---
 

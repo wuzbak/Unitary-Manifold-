@@ -303,7 +303,7 @@ The cold fusion mechanism described here relies on:
 | File | Description |
 |------|-------------|
 | [`src/core/cold_fusion.py`](../src/core/cold_fusion.py) | Full implementation: Gamow factors, tunneling, rate calculation, lattice helpers |
-| [`tests/test_cold_fusion.py`](../tests/test_cold_fusion.py) | 215 tests covering all functions and edge cases |
+| [`tests/test_cold_fusion.py`](../tests/test_cold_fusion.py) | 240 tests covering all functions and edge cases |
 
 ### Quick Start
 
@@ -337,7 +337,7 @@ Run the full test suite:
 
 ```bash
 python -m pytest tests/test_cold_fusion.py -v
-# Expected: 215 passed, 0 failed
+# Expected: 240 passed, 0 failed
 ```
 
 ---
@@ -349,6 +349,6 @@ python -m pytest tests/test_cold_fusion.py -v
 
 ---
 
-*Cold Fusion module — Pillar 15 of the Unitary Manifold (v9.19, 2026)*  
+*Cold Fusion module — Pillar 15 of the Unitary Manifold (v9.27 OMEGA EDITION, 2026)*  
 *Repository: https://github.com/wuzbak/Unitary-Manifold-*  
 *DOI: https://doi.org/10.5281/zenodo.19584531*

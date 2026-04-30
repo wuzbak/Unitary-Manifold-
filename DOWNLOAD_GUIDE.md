@@ -1,4 +1,4 @@
-# Downloading the Unitary Manifold Project
+# Downloading the Unitary Manifold Project (v9.27 — OMEGA EDITION)
 
 Three ways to get everything onto your PC, from easiest to most flexible.
 
@@ -18,8 +18,8 @@ branch — no account, no login, no extra steps required.  Just click (or
 ```bash
 # Download and extract in one go (Linux / macOS / WSL)
 curl -L https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip \
-     -o unitary-manifold.zip
-unzip unitary-manifold.zip
+     -o unitary-manifold-omega-v9.27.zip
+unzip unitary-manifold-omega-v9.27.zip
 ```
 
 ---
@@ -41,11 +41,11 @@ excludes cache files, making it ideal for archiving.
 1. Go to the **Actions** tab of this repository on GitHub.
 2. In the left-hand sidebar click **Build Download Archive**.
 3. Click **Run workflow** (top-right of the workflow list), leave the name as
-   `unitary-manifold`, then click the green **Run workflow** button.
+   `unitary-manifold-omega-v9.27`, then click the green **Run workflow** button.
 4. Wait ~30 seconds for the run to complete (green ✓).
 5. Open the completed run and scroll down to **Artifacts**.
-6. Click **unitary-manifold** to download the zip.
-7. Extract it — the top-level folder is `unitary-manifold/`.
+6. Click **unitary-manifold-omega-v9.27** to download the zip.
+7. Extract it — the top-level folder is `unitary-manifold-omega-v9.27/`.
 
 > **Tip:** The artifact is kept for **30 days**.  Re-run the workflow any time
 > to get a fresh copy with the latest changes.
@@ -61,24 +61,24 @@ Run this from inside the repository folder after cloning or extracting:
 git clone https://github.com/wuzbak/Unitary-Manifold-.git
 cd Unitary-Manifold-
 
-# Create the archive
+# Create the archive (default name includes "omega-v9.27")
 python scripts/create_archive.py
 
 # Optional: give the archive a custom base name
 python scripts/create_archive.py --out my_unitary_manifold_backup
 ```
 
-The script creates a `unitary-manifold_YYYYMMDD_HHMMSS.zip` file in the
+The script creates a `unitary-manifold-omega-v9.27_YYYYMMDD_HHMMSS.zip` file in the
 repository root.  Extract it anywhere you like.
 
 **Windows PowerShell:**
 ```powershell
-Expand-Archive unitary-manifold_*.zip -DestinationPath .
+Expand-Archive unitary-manifold-omega-v9.27_*.zip -DestinationPath .
 ```
 
 **macOS / Linux:**
 ```bash
-unzip unitary-manifold_*.zip
+unzip unitary-manifold-omega-v9.27_*.zip
 ```
 
 ---
@@ -86,7 +86,7 @@ unzip unitary-manifold_*.zip
 ## What's inside the archive
 
 ```
-unitary-manifold/
+unitary-manifold-omega-v9.27/
 ├── THEBOOKV9a (1).pdf              ← Full monograph (PDF)
 ├── README.md                       ← Project overview and quick-start (v9.27 OMEGA EDITION)
 ├── CITATION.cff                    ← Citation metadata
@@ -114,7 +114,7 @@ unitary-manifold/
 │
 ├── Unitary Pentad/                 ← HILS governance framework — 18 modules (1,266 tests)
 │
-├── tests/                          ← 145 test files, ~13,300 passing tests (Pillars 1–99)
+├── tests/                          ← 150 test files, ~13,059 passing tests (Pillars 1–99)
 │
 ├── embryology-manifold/            ← Pillar TVC: egg radius, zinc count, HOX predictions
 │

@@ -1,6 +1,6 @@
 # Mathematical Framework
 
-The Unitary Manifold rests on five foundational pillars plus an extended hierarchy of 87 derived pillars (92 total, now closed). This page documents the core mathematical structures shared across all pillars.
+The Unitary Manifold rests on five foundational pillars plus an extended hierarchy of 94 derived pillars (99 total, CLOSED at v9.27 OMEGA EDITION). This page documents the core mathematical structures shared across all pillars.
 
 ---
 
@@ -212,7 +212,7 @@ Seven independent constraint paths all converge to 74:
 | C3 — Birefringence $\beta = 0.3513°$ | minimiser at $k = 74$ |
 | C4 — Braided sound speed $c_s = 12/37$ | $k = 74$ |
 | C5 — Moduli-winding link | $k = 74$ |
-| C6 — Pillar count | 74 core pillars closed (k_CS = 74); 18 extended pillars (75, 70-B, 80–92) = 92 total |
+| C6 — Pillar count | 99 pillars CLOSED (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillar Ω capstone; k_CS = 74 satisfies all constraints) |
 | C7 — Back-reaction eigenvalue = 1 | $k = 74$ |
 
 The convergence of all 7 constraints to the same integer is the capstone of the Unitary Manifold. Implemented in `src/core/completeness_theorem.py` (170 tests).

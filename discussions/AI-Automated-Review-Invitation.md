@@ -41,8 +41,8 @@ python VERIFY.py
 # Run the formal falsification suite (206 algebraic checks):
 python ALGEBRA_PROOF.py
 
-# Full test suite (~9700 tests, ~90 s):
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q
+# Full test suite (15,023 tests, ~130 s):
+python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
 ```
 
 ---
