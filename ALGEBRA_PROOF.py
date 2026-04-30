@@ -1599,8 +1599,8 @@ _n2_20 = _sp20.Integer(7)
 _nw_20 = _sp20.Integer(5)
 
 # λ = √(m_d/m_s) — PDG values: m_d = 4.67 MeV, m_s = 93.4 MeV
-_md_20 = _sp20.Rational(467, 100)   # 4.67 MeV (×100 for SymPy integers)
-_ms_20 = _sp20.Rational(9340, 100)  # 93.4 MeV
+_md_20 = _sp20.Rational(467, 100)   # 4.67 MeV (467/100 avoids decimal in Rational constructor)
+_ms_20 = _sp20.Rational(9340, 100)  # 93.4 MeV (9340/100)
 _lambda_geo_sym = _sp20.sqrt(_md_20 / _ms_20)
 _lambda_geo_num = float(_lambda_geo_sym)
 check("Pillar 87: λ_geo = √(m_d/m_s) ≈ 0.2236 (symbolic)",
@@ -1682,13 +1682,18 @@ check("Pillar 88: sin²θ_W(M_GUT) = 3/8 exactly (SU(5) algebra)",
       _sin2_W_GUT_sym == _sp20.Rational(3, 8))
 print(f"  sin²θ_W(M_GUT) = {_sin2_W_GUT_sym} = {float(_sin2_W_GUT_sym):.6f}")
 
-# Verify SU(5) algebra: Tr_5(T_Y²) / Tr_5(T_3²) = 3/8
-# In the fundamental 5 of SU(5): hypercharges are (-1/3,-1/3,-1/3,1/2,1/2)
-_Y5 = [-1/3, -1/3, -1/3, 1/2, 1/2]
-_T3_sq = sum(y**2 for y in _Y5)          # Tr[Y²] in the 5
-_T_SU2_sq = 2 * (0.5**2)                 # Tr[T₃²] for SU(2) doublet = 1/2
-_sin2_W_derived = _T_SU2_sq / (2 * _T3_sq)  # SU(5) normalisation factor
-# Canonical formula: 3/8
+# Verify SU(5) algebra: at the GUT scale g_1 = g_2 = g_5 (unification).
+# The SM hypercharge coupling g_1 is embedded in SU(5) as g_1 = √(3/5) g_5
+# (canonical SU(5) normalisation of hypercharge Y = T_24 generator).
+# Then: sin²θ_W = g_1²/(g_1²+g_2²) = (3/5)g_5²/((3/5)g_5²+g_5²)
+#                                     = (3/5)/((3/5)+1) = (3/5)/(8/5) = 3/8
+_g5_sq = 1.0            # normalised to 1 at GUT
+_g1_sq = (3.0/5.0) * _g5_sq   # SU(5) hypercharge embedding factor
+_g2_sq = _g5_sq               # SU(2) coupling at GUT = g_5
+_sin2_W_derived = _g1_sq / (_g1_sq + _g2_sq)
+check("Pillar 88: SU(5) coupling unification → sin²θ_W(GUT) = g₁²/(g₁²+g₂²) = 3/8",
+      abs(_sin2_W_derived - 0.375) < 1e-12,
+      f"got {_sin2_W_derived:.8f}")
 _SIN2_W_GUT_NUM = 3.0 / 8.0
 check("Pillar 88: SU(5) hypercharge normalisation → sin²θ_W(GUT) = 3/8",
       abs(_SIN2_W_GUT_NUM - 0.375) < 1e-10,
@@ -2085,10 +2090,10 @@ try:
           n2_upper_bound_analytic() <= 7,
           f"got {n2_upper_bound_analytic()}")
     _ucr = unitary_closure_theorem()
+    # unitary_closure_theorem() returns a UnitaryClosureResult dataclass
     check("Pillar 96 (live): unitary_closure_theorem() proof_complete = True",
-          _ucr.proof_complete if hasattr(_ucr, "proof_complete")
-          else _ucr.get("proof_complete") is True,
-          f"got type={type(_ucr).__name__}")
+          hasattr(_ucr, "proof_complete") and _ucr.proof_complete is True,
+          f"got proof_complete={getattr(_ucr, 'proof_complete', 'MISSING')}")
     _fp_sa = sector_agnostic_fixed_point()
     check("Pillar 96 (live): sector-agnostic fixed point S* = A/(4G)",
           "A/(4G)" in str(_fp_sa) or _fp_sa.get("fixed_point_formula") is not None
@@ -2187,6 +2192,9 @@ section("§28  OMEGA SYNTHESIS (PILLAR Ω) — 5 SEEDS → ALL OBSERVABLES")
 
 import sys as _sys28
 import os as _os28
+# omega/ is a top-level package separate from src/core/ — it requires explicit
+# path injection because it is not installed as a package and lives outside
+# the src/ namespace used by all other UM modules.
 _omega_path = _os28.path.join(_os28.path.dirname(_os28.path.abspath(__file__)), "omega")
 if _omega_path not in _sys28.path:
     _sys28.path.insert(0, _omega_path)
