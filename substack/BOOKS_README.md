@@ -211,6 +211,41 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 
 ---
 
+---
+
+### 5. [The Engineer's Manifold — Omega Edition](book-systems-engineering-omega.md)
+**From Garage to Orbit: What Every Systems Engineer Gets Right, Gets Wrong, and Needs to Build Next**
+
+| Property | Value |
+|---|---|
+| Source | `systems-engineering/` folder (7 files); Unitary Manifold field equations |
+| Size | ~87 KB |
+| Version | 1.0 — Omega Edition — April 2026 |
+| Audience | All engineers: DIY makers → hobbyists → community college → undergraduates → working engineers → senior architects → NASA/defense/medical |
+| Framework connection | φ (capacity/headroom), B_μ (queue pressure), G_AB (topology), FTUM Ψ\* (fixed point), k_cs=74 (minimum complexity), ∇_μJ^μ=0 (no silent failures) |
+| Companion post | [post-16-domain-applications.md](post-16-domain-applications.md) · [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md) |
+
+A step-by-step understanding of what every engineered system gets right and wrong — from consumer gaming hardware to satellites and space technology — for engineers at every level. Part III diagnoses current systems (consumer electronics, embedded firmware, networking, robotics, space). Part V provides ten immediate fixes. Part VI covers next-generation architecture. Six appendices include a full glossary, key standards, data sources, further reading, an event timeline, and a printable quick-reference diagnostic card.
+
+**Book contents:**
+- Part I: The structure of every engineered system — the three failure modes and why they appear at every scale
+- Part II: The kitchen-table explanation — φ_min, B_div, Δφ, and your first bug explained
+- Part III: Current systems — consumer electronics, embedded firmware, networking, robotics, space systems: what each domain gets right and wrong
+- Part IV: The integration problems — where levels collide: garage→cloud, student→production, defense→COTS, medical device→hospital network
+- Part V: Fixes — ten immediate fixes ordered by impact/effort, applicable at any scale
+- Part VI: Future architecture — five design principles for building stability in from the start
+- Part VII: The organization is also a system — Conway's Law and the three organizational failure modes
+- Part VIII: The universal diagnostic protocol — seven steps applicable to any system
+- Part IX: The maker's path to professional practice — five thresholds from blinking LED to fleet management
+- Appendix A: Key terms glossary (22 terms)
+- Appendix B: Key standards and specifications (20 standards)
+- Appendix C: Data sources and referenced studies
+- Appendix D: Further reading (four levels: beginners/makers, student/mid-level, senior/architect, executive/board)
+- Appendix E: Timeline of key systems events
+- Appendix F: Quick-reference diagnostic card (printable)
+
+---
+
 ## Version History
 
 | Version | Date | Description |
@@ -218,6 +253,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 1.0 | April 2026 | Original publication in wuzbak/Books |
 | 2.0 — Omega | April 2026 | Integrated into Unitary Manifold v9.27; new chapters added to each book; Omega Edition headers; cross-references added |
 | 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
+| 4.0 — Engineering Edition | April 2026 | Book 5 added: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA), current systems failure analysis, ten immediate fixes, future architecture, six appendices including printable diagnostic card |
 
 ---
 

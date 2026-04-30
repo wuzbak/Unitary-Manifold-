@@ -130,6 +130,7 @@ Each post draws directly from these repository documents:
 | `src/justice/` | Post 16 |
 | `src/ecology/` | Post 16 |
 | `src/governance/` | Post 16 |
+| `systems-engineering/` (7 files); `book-systems-engineering-omega.md` | Post 16, Post 93 |
 | `src/cold_fusion/tunneling.py`, `src/physics/lattice_dynamics.py` | Post 17 |
 | `recycling/README.md`, `recycling/polymers.py`, `recycling/producer_responsibility.py` | Post 18 |
 | `src/core/roman_space_telescope.py` | Post 19 |
