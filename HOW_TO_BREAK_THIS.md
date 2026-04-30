@@ -176,7 +176,110 @@ python -m pytest tests/test_cold_fusion.py -v -k "enhancement or excess"
 
 ---
 
+## 10. Break Pillar 87: Wolfenstein CKM geometry
 
+**Handle:** In `src/core/wolfenstein_geometry.py`, replace `lambda_ckm = sqrt(m_d / m_s)` with `lambda_ckm = 0.22` (hard-coded, not geometry-derived).
+
+**Expected result:** `tests/test_wolfenstein_geometry.py` fails at `test_lambda_from_geometry` — proving the CKM parameter is derived from quark mass ratios, not tuned.
+
+**What this tests:** The claim that the Wolfenstein parameter λ = √(m_d/m_s) = 0.2236 (0.6% off PDG) follows from UM geometry, not fitting.
+
+```bash
+python -m pytest tests/test_wolfenstein_geometry.py -v -k "lambda or geometry"
+# → FAIL
+```
+
+---
+
+## 11. Break Pillar 88: SM free parameters (sin²θ_W from SU(5))
+
+**Handle:** In `src/core/sm_free_parameters.py`, replace `sin2_theta_w_gut = 3/8` with `sin2_theta_w_gut = 0.231` (experimental value at M_Z, bypassing the derivation).
+
+**Expected result:** `tests/test_sm_free_parameters.py` fails at `test_sin2_theta_w_gut_exact` — proving 3/8 is derived from SU(5) orbifold normalisation, not inserted.
+
+**What this tests:** The claim that sin²θ_W(M_GUT) = 3/8 exactly is a theorem of the orbifold boundary conditions.
+
+```bash
+python -m pytest tests/test_sm_free_parameters.py -v -k "gut or sin2"
+# → FAIL
+```
+
+---
+
+## 12. Break Pillar 89: Algebraic vacuum selection (n_w = 5)
+
+**Handle:** In `src/core/vacuum_geometric_proof.py`, bypass the APS η-invariant step and set `eta_bar = 0` (instead of deriving it from the Z₂ Dirichlet boundary condition).
+
+**Expected result:** `tests/test_vacuum_geometric_proof.py` fails at `test_aps_eta_selects_nw5` — proving n_w = 5 follows from the boundary condition, not from observational selection.
+
+**What this tests:** The claim that η̄ = ½ is forced by G_{μ5} Z₂-parity + Dirichlet BC, and that this uniquely selects n_w = 5 from pure geometry.
+
+```bash
+python -m pytest tests/test_vacuum_geometric_proof.py -v -k "aps or eta or nw5"
+# → FAIL
+```
+
+---
+
+## 13. Break Pillar 95: Dual-sector convergence (exactly two braid pairs survive)
+
+**Handle:** In `src/core/dual_sector_convergence.py`, widen the Planck nₛ window from 1σ to 3σ before the resonance scan.
+
+**Expected result:** Additional braid pairs beyond (5,6) and (5,7) will survive, breaking the uniqueness result. `tests/test_dual_sector_convergence.py` fails at `test_exactly_two_sectors_survive`.
+
+**What this tests:** The claim that the Planck + BICEP/Keck constraints jointly admit exactly two braid pairs.
+
+```bash
+python -m pytest tests/test_dual_sector_convergence.py -v -k "exactly_two or dual"
+# → FAIL (more than two pairs survive the widened window)
+```
+
+---
+
+## 14. Break Pillar 96: Unitary closure (algebraic sector proof)
+
+**Handle:** In `src/core/unitary_closure.py`, replace the analytic inequality proof with a numerical enumeration that only checks integer pairs up to n₂ = 5.
+
+**Expected result:** `tests/test_unitary_closure.py` fails at `test_algebraic_sector_proof` — the algebraic identity `c_s(5,n₂) < R_BICEP/r_bare → n₂ ≤ 7` is a theorem, not an enumeration.
+
+**What this tests:** The claim that exactly {(5,6),(5,7)} is proved by an algebraic inequality, not by finite search.
+
+```bash
+python -m pytest tests/test_unitary_closure.py -v -k "algebraic or closure"
+# → FAIL
+```
+
+---
+
+## 15. Break Pillar 97/98: GW Yukawa (Ŷ₅ = 1 from GW vacuum)
+
+**Handle:** In `src/core/gw_yukawa_derivation.py`, change the GW vacuum condition so that `Y_hat_5 = 0` (no Yukawa from GW) instead of deriving Ŷ₅ = 1.
+
+**Expected result:** `tests/test_gw_yukawa_derivation.py` fails at `test_gw_vacuum_yukawa_unity` — the absolute fermion mass scale is determined by the GW vacuum, not a free parameter.
+
+**What this tests:** The claim that Ŷ₅ = 1 follows from the gravitational wave vacuum condition, not fitting.
+
+```bash
+python -m pytest tests/test_gw_yukawa_derivation.py -v -k "unity or gw_vacuum"
+# → FAIL
+```
+
+---
+
+## 16. Break Pillar Ω: Universal Mechanics Engine
+
+**Handle:** In `omega/omega_synthesis.py`, delete the `UniversalEngine` class and replace `compute_all()` with a stub that returns an empty `OmegaReport`.
+
+**Expected result:** `omega/test_omega_synthesis.py` fails at `test_all_six_domains_populated` — all six observable domains (cosmology, particle_physics, geometry, consciousness, hils, falsifiers) must be non-empty.
+
+**What this tests:** The claim that 5 seed constants → all observables, without independent tuning per domain.
+
+```bash
+python -m pytest omega/test_omega_synthesis.py -v
+# → FAIL (168 tests)
+```
+
+---
 
 | Break point | Failing test file | Key test name |
 |-------------|-------------------|---------------|
@@ -192,6 +295,13 @@ python -m pytest tests/test_cold_fusion.py -v -k "enhancement or excess"
 | φ₀ closure fails (Pillar 56) | `tests/test_phi0_closure.py` | `test_closure_audit_all_consistent` |
 | Acoustic peak gap unclosed (Pillar 57) | `tests/test_cmb_peaks.py` | `test_suppression_audit_corrected_less_than_raw` |
 | LiteBIRD prediction gap wrong | `tests/test_litebird_forecast.py` | `test_forecast_scenarios_falsification` |
+| CKM λ not from geometry (Pillar 87) | `tests/test_wolfenstein_geometry.py` | `test_lambda_from_geometry` |
+| sin²θ_W not 3/8 at GUT (Pillar 88) | `tests/test_sm_free_parameters.py` | `test_sin2_theta_w_gut_exact` |
+| APS η̄ bypassed (Pillar 89) | `tests/test_vacuum_geometric_proof.py` | `test_aps_eta_selects_nw5` |
+| More than two sectors survive (Pillar 95) | `tests/test_dual_sector_convergence.py` | `test_exactly_two_sectors_survive` |
+| Sector proof not algebraic (Pillar 96) | `tests/test_unitary_closure.py` | `test_algebraic_sector_proof` |
+| Ŷ₅ ≠ 1 from GW vacuum (Pillar 97) | `tests/test_gw_yukawa_derivation.py` | `test_gw_vacuum_yukawa_unity` |
+| Omega engine stub (Pillar Ω) | `omega/test_omega_synthesis.py` | `test_all_six_domains_populated` |
 
 ---
 

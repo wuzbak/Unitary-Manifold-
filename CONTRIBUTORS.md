@@ -167,6 +167,6 @@ platform, or downstream redistribution.
 
 ---
 
-*This contributors file was last updated April 2026 (Q22 third Gemini interrogation round — closing verification; AxiomZero Technologies DBA added). Legal rights section authored by ThomasCory Walker-Pearson.*
+*This contributors file was last updated April 2026 (v9.27 OMEGA EDITION — 99 pillars + Pillar Ω, 15,023 tests; Pillars 75–99 and Ω added by GitHub Copilot; AxiomZero Technologies DBA active). Legal rights section authored by ThomasCory Walker-Pearson.*
 
 **DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)

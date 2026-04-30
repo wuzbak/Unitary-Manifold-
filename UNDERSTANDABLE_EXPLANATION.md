@@ -2,7 +2,7 @@
 ### A Coherent Framework for Time, Information, and Reality
 
 **ThomasCory Walker‑Pearson**  
-Version 9.3 (2026)
+Version 9.27 — OMEGA EDITION (2026)
 
 ---
 
@@ -161,7 +161,7 @@ The repository includes:
 - Boundary and holographic behavior
 - Fixed‑point dynamics that ensure consistency
 
-**1293 automated tests** verify:
+**15,023 automated tests** verify:
 - Mathematical consistency
 - Conservation laws
 - Correct limiting behavior
@@ -191,7 +191,9 @@ Instead, it makes a precise claim:
 
 **Known open issues include:**
 - The predicted cosmic microwave background has the correct *shape* but a lower *overall strength* than observed.
-- Two key parameters — the topological winding number **n_w = 5** and the Chern‑Simons level **k_CS = 74** — were chosen to match observations rather than derived from first principles. Deriving them directly from the geometry remains an open task.
+- The topological winding number **n_w = 5** is now derived algebraically from 5D boundary conditions via the APS η-invariant (Pillar 89) — no longer just observationally selected.
+- The Chern‑Simons level **k_CS = 74** is algebraically derived from the braid pair (5,7) via anomaly cancellation (Pillar 58) — not a fitted parameter.
+- Two braid sectors survive all constraints: **(5,6)** predicting β ≈ 0.273° and **(5,7)** predicting β ≈ 0.331°. LiteBIRD will select between them.
 
 ---
 
@@ -206,7 +208,7 @@ This framework would fail if:
 - Quantum‑gravitational effects appear that cannot be projected from the structure
 
 A near‑term test is clear.  
-The **LiteBIRD satellite** will measure cosmic birefringence with high precision. The framework predicts a rotation of **β = 0.3513°**. A confirmed absence of such rotation would rule out the core mechanism.
+The **LiteBIRD satellite** will measure cosmic birefringence with high precision. The framework predicts a rotation of **β ≈ 0.273° (sector (5,6)) or β ≈ 0.331° (sector (5,7))**; the two are separated by 0.058° = 2.9σ at LiteBIRD precision. A confirmed absence of any rotation (β = 0°), or a measurement outside [0.22°, 0.38°], would rule out the core mechanism. A measurement landing in the gap [0.29°–0.31°] would also falsify the dual-sector structure.
 
 Future gravitational‑wave observatories, including **LISA** and the **Einstein Telescope**, provide a second test.
 
@@ -296,6 +298,6 @@ This framework invites a similar view:
 
 *Part of the Unitary Manifold repository. For technical detail, see `README.md`. For limitations and open questions, see `FALLIBILITY.md`. For a deeper discussion of the core claim, see `WHAT_THIS_MEANS.md`.*
 
-*ThomasCory Walker‑Pearson · Version 9.3, 2026*
+*ThomasCory Walker‑Pearson · Version 9.27 — OMEGA EDITION, 2026*
 
 ---
