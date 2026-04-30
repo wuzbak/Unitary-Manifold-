@@ -13,7 +13,7 @@ These tests verify:
   5. The compute_all() OmegaReport is internally consistent
   6. Edge cases (zero trust, saturated HIL, falsifier conditions)
 
-Expected: 130 passed, 0 failed.
+Expected: 168 passed, 0 failed.
 
 Theory: ThomasCory Walker-Pearson
 Tests: GitHub Copilot (AI)

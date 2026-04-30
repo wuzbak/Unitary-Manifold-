@@ -107,7 +107,7 @@ XI_C: Fraction = Fraction(35, 74)
 _C_S_FLOAT: float = float(C_S)                        # 0.32432...
 _C_S_SQ: float = _C_S_FLOAT**2                        # ≈ 0.10519
 _XI_C_FLOAT: float = float(XI_C)                      # ≈ 0.47297
-_XI_HUMAN: Fraction = Fraction(35, 888)               # = 35/(N_W*K_CS+888-888) = 35/888
+_XI_HUMAN: Fraction = Fraction(35, 888)               # Ξ_human = 35/888 (consciousness_constant.py)
 _BETA_COUPLING_DEG: float = 0.3513                    # birefringence β in degrees (canonical)
 _BETA_COUPLING_RAD: float = math.radians(_BETA_COUPLING_DEG)
 
@@ -475,10 +475,10 @@ class OmegaReport:
     """Framework version string."""
 
     n_pillars: int
-    """Number of completed pillars (98 at v9.26)."""
+    """Number of completed pillars (99 at v9.27 — Pillar Ω closes the count)."""
 
     n_tests_passing: int
-    """Number of passing tests in the repository (14855 at v9.26)."""
+    """Number of passing tests in the repository (15,023 at v9.27)."""
 
     n_seed_constants: int = 5
     """Number of seed constants from which everything is derived."""
@@ -581,7 +581,7 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     DEFAULT_VERSION = "v9.27 OMEGA EDITION"
     DEFAULT_N_PILLARS = 99   # Pillar Ω closes the count
-    DEFAULT_N_TESTS = 14855  # v9.26 count; updated by new tests in this module
+    DEFAULT_N_TESTS = 15023  # v9.27 count including 168 omega tests
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)
@@ -696,8 +696,7 @@ class UniversalEngine:
 
     # Embryology predictions (embryology-manifold/)
     _R_KK: float = 12.0  # compactification radius in M_Pl⁻¹ units
-    _R_EGG_MICRON: float = N_W * _R_KK / (2.0 * math.pi) * 59.7 / (5.0 * 12.0 / (2.0 * math.pi))
-    # Direct formula: R_egg = 59.7 μm (from embryology-manifold)
+    # Direct formula from embryology-manifold/README.md
     _R_EGG_MICRON: float = 59.7
     _N_ZN: float = K_CS ** N_W           # 74^5 ≈ 2.19×10⁹
     _HOX_GROUPS: int = 2 * N_W           # 10
@@ -1008,10 +1007,10 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
 
     def unitary_summation(self) -> list[str]:
-        """Return the Unitary Summation — the 10-step logical closure of the framework.
+        """Return the Unitary Summation — the 12-step logical closure of the framework.
 
-        From Pillar 96 (``src/core/unitary_closure.py``), extended to
-        include the Omega Synthesis as step 10 and the HILS Pentad as step 11.
+        From Pillar 96 (``src/core/unitary_closure.py``), extended with
+        two new steps for the HILS Pentad (step 11) and the Omega Synthesis (step 12).
         """
         return [
             "1. The 5D Kaluza-Klein geometry on S¹/Z₂ admits braided winding modes (n₁,n₂).",
