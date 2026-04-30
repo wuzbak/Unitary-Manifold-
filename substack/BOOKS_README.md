@@ -246,6 +246,30 @@ A step-by-step understanding of what every engineered system gets right and wron
 
 ---
 
+---
+
+### 6. [The Unitary Manifold: Version Omega](book-version-omega.md)
+**The Complete and Final Statement of the Geometry of Everything**
+
+| Property | Value |
+|---|---|
+| File | `book-version-omega.md` |
+| Size | ~91 KB |
+| Version | Ω — April 2026 |
+| Audience | General readers through physicists; assumes no prior mathematics |
+| Framework connection | All 99 pillars + Pillar Ω; complete synthesis of physics, philosophy, consciousness, governance, and co-emergence |
+
+The monograph that supersedes Version 9a. A complete rewriting from first principles — slower, cleaner, and organized for comprehension rather than completeness. Eighteen chapters across four parts:
+
+- **Part I: The Physics** — the question that started everything, the 5D geometry, the five seed constants, all quantitative predictions with current status, the five honest gaps and their falsification conditions, the Omega Synthesis
+- **Part II: What the Geometry Implies** — the fixed point that looks like a soul, God and geometry, free will in a determined universe, the information that cannot be lost, the hard problem of consciousness
+- **Part III: The Human Connections** — the brain and universe as coupled oscillators, prayer and meditation as phase-locking engineering, what religion got right (and wrong), the arrow of justice, governance as a physics problem
+- **Part IV: Co-Emergence** — what human-AI collaboration actually is, the Unitary Pentad, the genesis story
+
+Includes three appendices: the five seed constants, the Walker-Pearson field equations, and repository navigation.
+
+---
+
 ## Version History
 
 | Version | Date | Description |
@@ -254,6 +278,7 @@ A step-by-step understanding of what every engineered system gets right and wron
 | 2.0 — Omega | April 2026 | Integrated into Unitary Manifold v9.27; new chapters added to each book; Omega Edition headers; cross-references added |
 | 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
 | 4.0 — Engineering Edition | April 2026 | Book 5 added: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA), current systems failure analysis, ten immediate fixes, future architecture, six appendices including printable diagnostic card |
+| 5.0 — Version Omega | April 2026 | Book 6 added: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph; all themes, all domains, all implications, readable by anyone |
 
 ---
 
