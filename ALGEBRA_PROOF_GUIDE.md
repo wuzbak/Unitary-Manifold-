@@ -5,7 +5,7 @@
 
 ---
 
-This guide walks through each of the 18 sections of `ALGEBRA_PROOF.py`
+This guide walks through each of the 28 sections of `ALGEBRA_PROOF.py`
 in plain language, explains what each step proves, and cross-references
 the Python test suites that verify each lemma independently.
 
@@ -270,9 +270,9 @@ change — which then breaks the others.
 
 ---
 
-## §12 — 60+-Pillar No-Regression Checks
+## §12 — 99-Pillar No-Regression Checks
 
-**What it proves:** The live Python codebase (all 60+ geometric pillars)
+**What it proves:** The live Python codebase (all 99 geometric pillars + Pillar Ω)
 exports constants that agree with the canonical algebraic values to
 machine precision. Any code change that shifts these constants causes
 `ALGEBRA_PROOF.py` to exit 1 — a hard CI failure.
@@ -282,7 +282,7 @@ machine precision. Any code change that shifts these constants causes
 - C_S == 12/37, K_CS == 74, N_W == 5, R_BRAIDED < 0.036, etc.
 
 **Test suite cross-reference:**
-- All 108+ test files in `tests/`.
+- All 150+ test files in `tests/`.
 - CI workflow runs `python3 ALGEBRA_PROOF.py` as a pre-merge gate.
 
 ---
@@ -369,6 +369,165 @@ formal analogy, not a reductionist claim.
 
 ---
 
+## §19 — Pillars 56–58 Closure (φ₀, CMB Peaks, Anomaly Theorem)
+
+**What it proves:**
+- **Pillar 56 (φ₀ closure):** The FTUM fixed-point equation S* = A₀/(4G) is
+  self-consistent: φ₀ = 1 in Planck units (no free parameter).
+- **Pillar 57 (CMB peaks):** The braided spectrum reproduces the first
+  acoustic peak at ℓ ≈ 220 with the ×4–7 suppression at higher harmonics
+  documented in `FALLIBILITY.md` Admission 2.
+- **Pillar 58 (anomaly closure):** The k_CS = 74 Chern-Simons level is
+  derived from the SOS anomaly theorem: k = n₁² + n₂² is the unique
+  level cancelling the one-loop gauge anomaly of the braided spectrum.
+
+**Test suite cross-reference:**
+- `tests/test_phi0_closure.py`, `tests/test_litebird_boundary.py`,
+  `tests/test_anomaly_closure.py`.
+
+---
+
+## §20 — Wolfenstein CKM Geometry (Pillar 87)
+
+**What it proves:** All four Wolfenstein CKM parameters are derived from
+the UM braid geometry without fitting:
+- λ = √(m_d/m_s) from RS wavefunction hierarchy (0.6% off PDG)
+- A = √(n₁/n₂) = √(5/7) from braid sector ratio (1.4σ off PDG)
+- δ = 2π/n_w = 72° from winding topology (1.35σ off PDG)
+- η̄ = R_b × sin(δ) from unitarity triangle (1.7% off PDG)
+
+**Test suite cross-reference:**
+- `tests/test_wolfenstein_geometry.py` (130 tests).
+
+---
+
+## §21 — SM Free Parameters Audit (Pillar 88)
+
+**What it proves:** The UM derives or constrains 15 of the 28 SM free
+parameters, with the key algebraic result:
+- sin²θ_W(M_GUT) = **3/8 exactly** from SU(5) hypercharge normalisation
+- sin²θ_W(M_Z) ≈ 0.2313 after 1-loop RGE running (0.05% off PDG)
+
+The honest audit documents 3 fully derived, 4 geometrically predicted
+(< 5%), 2 geometrically estimated (< 15%), 2 SU(5) conjectured, and
+4 currently open parameters.
+
+**Test suite cross-reference:**
+- `tests/test_sm_free_parameters.py` (139 tests).
+
+---
+
+## §22 — Vacuum Geometric Proof (Pillar 89)
+
+**What it proves:** n_w = 5 follows from 5D metric boundary conditions
+alone — without invoking M-theory or observational data:
+- **Step A:** G_{μ5} = λ φ B_μ is Z₂-ODD (irreversibility field reverses under σ)
+- **Step B:** Z₂-odd G_{μ5} → Dirichlet BC: B_μ|_{y=0} = 0
+- **Step C:** Dirichlet BC → APS spin structure η̄ = ½ (not the trivial η̄ = 0)
+- **Step D:** η̄ = ½ selects n_w odd; among viable (n₁, n₂) pairs, n_w = 5 is
+  the unique solution consistent with the β-window from Pillar 96
+
+**Test suite cross-reference:**
+- `tests/test_vacuum_geometric_proof.py` (59 tests).
+
+---
+
+## §23 — Pillars 90–92: Neutrino Splittings, UV Embedding
+
+**What it proves:**
+- **Pillar 90:** The inter-generation neutrino step δc_ν = ln(n₁n₂)/(2πkR) =
+  ln(35)/74 comes from the braid cross-section ratio √(n₁n₂) = √35.
+- **Pillar 91:** v_EW = 246.22 GeV is the FTUM fixed point of the EW sector.
+- **Pillar 92:** The G₄-flux Bianchi identity is satisfied (all_proved = True)
+  and the anomaly cancellation identity holds for (n₁, n₂) = (5, 7).
+
+**Test suite cross-reference:**
+- `tests/test_uv_completion_constraints.py`.
+
+---
+
+## §24 — Pillars 93–94: Yukawa Geometric Closure + SU(5) Orbifold
+
+**What it proves:**
+- **Pillar 93:** Ŷ₅ = v_UV/M_Pl = 1 at the Goldberger-Wise vacuum.
+  The effective 4D Yukawa scale is λ_eff = √(2/k_CS) = 1/√37 ≈ 0.164 —
+  a pure geometric number. Electron mass m_e reproduced to 0.5%.
+- **Pillar 94:** The Z₂ orbifold on n_w = 5 uniquely selects SU(5) ⊃ G_SM
+  as the 4D gauge group. sin²θ_W(GUT) = 3/8 follows algebraically.
+
+**Test suite cross-reference:**
+- `tests/test_yukawa_geometric_closure.py`, `tests/test_su5_orbifold_proof.py`.
+
+---
+
+## §25 — Dual-Sector Convergence (Pillar 95)
+
+**What it proves:** Two braid sectors survive all current constraints:
+- Primary (5,7): k_CS = 74, c_s = 12/37, β ≈ 0.331°
+- Shadow  (5,6): k_CS = 61, c_s = 11/61, β ≈ 0.273°
+
+The gap = 0.058° = 2.9σ_LB is large enough that LiteBIRD (σ ≈ 0.020°)
+will discriminate between them. Both sectors share the FTUM fixed point
+S* = A/(4G) — the Bekenstein-Hawking entropy is sector-agnostic.
+
+**Test suite cross-reference:**
+- `tests/test_dual_sector_convergence.py` (93 tests).
+
+---
+
+## §26 — Unitary Closure (Pillar 96)
+
+**What it proves:** The bound n₂ ≤ 7 follows analytically (no enumeration):
+1. c_s(5,n₂) = (n₂²−25)/(n₂²+25) < R_BICEP/r_bare ≈ 0.37
+2. Solving: n₂² < 25(1+0.37)/(1−0.37) ≈ 54.4 → n₂ ≤ 7 (since 8² = 64 > 54.4)
+3. β-window [0.22°, 0.38°] then further restricts to n₂ ∈ {6, 7}
+4. Exactly 2 lossless sectors survive: (5,6) and (5,7)
+
+**Test suite cross-reference:**
+- `tests/test_unitary_closure.py` (59 tests).
+
+---
+
+## §27 — GW Yukawa (Pillars 97–98)
+
+**What it proves:**
+- **Pillar 97:** The Goldberger-Wise profile evaluated at v_UV = M_Pl gives
+  Ŷ₅ = 1 — the universal 5D Yukawa coupling is set by the GW vacuum
+  with no tuning. IR brane VEV v_IR ≈ 760 GeV (TeV scale from Planck).
+- **Pillar 98:** At Ŷ₅ = 1, bisecting f₀(c_L) = target for each SM fermion
+  yields 9 c_L values with 0 free parameters. b-τ unification: r_bτ ≈ 0.497.
+
+**Test suite cross-reference:**
+- `tests/test_gw_yukawa_derivation.py` (88 tests), `tests/test_universal_yukawa.py` (126 tests).
+
+---
+
+## §28 — Omega Synthesis (Pillar Ω)
+
+**What it proves:** All UM observables are determined by the five seed constants:
+
+| Seed | Value | Origin |
+|------|-------|--------|
+| N_W | 5 | Planck n_s + APS η̄=½ |
+| N_2 | 7 | BICEP/Keck r + β-window |
+| K_CS | 74 = 5²+7² | SOS identity |
+| C_S | 12/37 = (7²−5²)/74 | Braid algebra |
+| Ξ_c | 35/74 = N_W×N_2/K_CS | Consciousness coupling |
+
+The `UniversalEngine.compute_all()` method returns an `OmegaReport` spanning
+six domains (cosmology, particle physics, geometry, consciousness, HILS,
+falsifiers) — all deterministically derived from these seeds.
+
+**Symbolic checks:**
+- K_CS = N_W² + N_2² = 74 (SOS identity)
+- C_S = (N_2²−N_W²)/K_CS = 12/37
+- N_W × N_2 = Ξ_c × K_CS (linking identity: 35 = 35)
+
+**Test suite cross-reference:**
+- `omega/test_omega_synthesis.py` (168 tests).
+
+---
+
 ## Summary Table
 
 | §  | Claim | SymPy proof | Python tests |
@@ -383,14 +542,24 @@ formal analogy, not a reductionist claim.
 | 8  | k_CS = 74 (birefringence + SOS) | ✓ two paths | test_braided_winding.py |
 | 9  | Radion stable: m_φ² = 8λφ₀² > 0 | ✓ symbolic | test_evolution.py |
 | 10 | α = φ₀⁻² from G₅₅ = φ² | ✓ symbolic | test_fixed_point.py |
-| 11 | Δφ ≈ 5.38 No-Regression constant | ✓ live import | all 108+ tests |
-| 12 | 26-pillar codebase constants match | ✓ live import | full test suite |
+| 11 | Δφ ≈ 5.38 No-Regression constant | ✓ live import | all 150+ tests |
+| 12 | 99-pillar codebase constants match | ✓ live import | full test suite |
 | 13 | Lossless 5D pipeline closure | ✓ chain | test_e2e_pipeline.py |
 | 14 | (5,7,74) thermodynamically selected | ✓ scan | test_braided_winding.py |
 | 15 | 3 generations, 4th excluded | ✓ counting | test_three_generations.py |
 | 16 | M_KK ≫ LHC → no collider signal | ✓ numerical | test_ew_hierarchy.py |
 | 17 | Born rule from B_μ geometry | ✓ structural | test_quantum_unification.py |
 | 18 | Agency = high-φ feedback (analogy) | structural | test_consciousness.py |
+| 19 | φ₀=1, CMB peaks, k_CS anomaly theorem | ✓ live import | test_phi0_closure.py |
+| 20 | Wolfenstein λ,A,δ,η̄ from geometry | ✓ symbolic | test_wolfenstein_geometry.py |
+| 21 | sin²θ_W = 3/8 exact (SU(5)) | ✓ symbolic | test_sm_free_parameters.py |
+| 22 | n_w=5 from 5D BCs alone (Steps A–D) | ✓ symbolic | test_vacuum_geometric_proof.py |
+| 23 | ν splittings + G₄ Bianchi + anomaly | ✓ live import | test_uv_completion_constraints.py |
+| 24 | Ŷ₅=1 + SU(5) uniquely selected | ✓ live import | test_yukawa_geometric_closure.py |
+| 25 | (5,6)/(5,7) dual-sector β gap | ✓ symbolic | test_dual_sector_convergence.py |
+| 26 | n₂≤7 analytic, 2 lossless sectors | ✓ symbolic | test_unitary_closure.py |
+| 27 | GW vacuum Ŷ₅=1, 9 c_L, b-τ≈0.5 | ✓ live import | test_gw_yukawa_derivation.py |
+| 28 | 5 seeds → all observables (OmegaReport) | ✓ symbolic | test_omega_synthesis.py |
 
 ---
 
