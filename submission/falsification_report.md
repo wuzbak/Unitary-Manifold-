@@ -1,7 +1,7 @@
 # Falsification Report — Unitary Manifold (FTUM)
 
-**Version:** 1.1  
-**Date:** 2026-04-10  
+**Version:** 1.2  
+**Date:** 2026-04-30  
 **Status:** Pre-submission honest assessment
 
 ---
@@ -356,11 +356,11 @@ correct scientific posture.
 
 ---
 
-## Current Status — v9.23 EXTENDED GAP-CLOSURE EDITION (April 2026)
+## Current Status — v9.27 OMEGA EDITION (April 2026)
 
 **Internal proofing: complete.**
 
-The framework has been extended across all 92 geometric pillars and verified in full. The test suite now stands at **14,183 passed assertions across all suites (tests/ + recycling/ + Unitary Pentad/), zero failures** — verified April 2026, Python 3.12, pytest 9.0.3. Every domain the framework claims to govern has been implemented, tested, and found internally consistent with every other domain.
+The framework has been extended across all 99 geometric pillars and verified in full. The test suite now stands at **15,023 passed assertions across all suites (tests/ + recycling/ + Unitary Pentad/ + omega/), zero failures** — verified April 2026, Python 3.12, pytest 9.0.3. Every domain the framework claims to govern has been implemented, tested, and found internally consistent with every other domain.
 
 Failure modes #3 and #4 from the original report have been closed:
 
