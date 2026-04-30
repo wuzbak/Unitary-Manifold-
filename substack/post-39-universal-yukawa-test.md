@@ -2,7 +2,7 @@
 
 *Post 39 of the Unitary Manifold series.*  
 *Pillar 98 — Universal Yukawa Test: c_L Spectrum at Ŷ₅=1 and b-τ Unification.*  
-*v9.26, April 2026.*
+*v9.27, April 2026.*
 
 ---
 
