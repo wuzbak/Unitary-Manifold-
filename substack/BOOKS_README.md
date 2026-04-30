@@ -2,26 +2,40 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.27 (public domain · always free)
-**Version:** 3.0 — Omega Edition Expanded — April 2026
+**Version:** 6.0 — Education Edition — April 2026
 
 ---
 
-This folder contains the **Omega Edition (v3.0)** of four full-length books authored under the
+This folder contains the **Omega Edition (v6.0)** of ten full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that replaces the original single-post format of the oversized Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
 FTUM fixed-point analysis, and the falsifiable Kaluza-Klein predictions of the Unitary
 Manifold v9.27.
 
-All four books were originally published at version 1.0 in the companion repository
+Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework.
+expanded, and cross-referenced with the full physics framework. Books 5–10 are original
+to this repository.
 
 **v3.0 Expansion (April 2026):**
 - Books 1–3 substantially expanded with new investigative chapters
 - Book 4 split into a 6-part Substack series (original: 393KB — too large for a single post)
 - Posts 51, 52, 53, 54 cross-referenced to the books
 - All books updated to reference Pillar Ω (Universal Mechanics Engine, 15,072 tests)
+
+**v4.0 — Engineering Edition (April 2026):**
+- Book 5: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA)
+- post-16 and post-93 cross-referenced to the engineering book
+
+**v5.0 — Version Omega (April 2026):**
+- Book 6: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the v9a monograph
+- The Canonical Book section added to substack/README.md
+
+**v6.0 — Education Edition (April 2026):**
+- Books 7–10: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through the research frontier)
+- Post 24 and Post 53 cross-referenced to the new education series
+- All books cross-reference the FTUM fixed-point model of learning
 
 ---
 
@@ -182,37 +196,6 @@ investigative journalism, the falsification condition.
 
 ---
 
-## How to Use These Books
-
-**For Substack publication:**
-- Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
-  The `---` section dividers map naturally to Substack's section break formatting.
-- Book 4: Use the 6-part series files. Each is 12-17 KB — appropriate for a single
-  Substack post. Publish as a 6-post series over 6 days or weekly.
-
-**For cross-referencing the numbered posts:**
-Each book is now cross-referenced from the relevant numbered Substack posts:
-
-| Post | Cross-references |
-|------|-----------------|
-| [post-51-justice-implications.md](post-51-justice-implications.md) | The Broken Scale (all 12 parts) |
-| [post-52-economics-implications.md](post-52-economics-implications.md) | Prediction Markets Reckoning + Climate Reckoning |
-| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) |
-| [post-54-ai-implications.md](post-54-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
-
-**For cross-referencing the physics:**
-- Justice framework: [post-51-justice-implications.md](post-51-justice-implications.md)
-- Economics framework: [post-52-economics-implications.md](post-52-economics-implications.md)
-- Education framework: [post-53-education-implications.md](post-53-education-implications.md)
-- AI implications: [post-54-ai-implications.md](post-54-ai-implications.md)
-- Governance: [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md)
-- Human-AI collaboration: [post-37-human-ai-collaboration.md](post-37-human-ai-collaboration.md)
-- Philosophy of science: [post-05-honest-gaps.md](post-05-honest-gaps.md)
-
----
-
----
-
 ### 5. [The Engineer's Manifold — Omega Edition](book-systems-engineering-omega.md)
 **From Garage to Orbit: What Every Systems Engineer Gets Right, Gets Wrong, and Needs to Build Next**
 
@@ -246,8 +229,6 @@ A step-by-step understanding of what every engineered system gets right and wron
 
 ---
 
----
-
 ### 6. [The Unitary Manifold: Version Omega](book-version-omega.md)
 **The Complete and Final Statement of the Geometry of Everything**
 
@@ -270,6 +251,114 @@ Includes three appendices: the five seed constants, the Walker-Pearson field equ
 
 ---
 
+## The Education Series (v6.0 — New in April 2026)
+
+### 7. [The Learning Crisis — Omega Edition](book-learning-crisis-omega.md)
+**What's Broken in Education, Why It's Broken, and What the Evidence Says to Do About It**
+
+| Property | Value |
+|---|---|
+| Size | ~117 KB |
+| Framework connection | Pillar 9 (consciousness), FTUM fixed-point convergence, φ-homeostasis |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+Evidence-grounded analysis covering PISA/NAEP data, the Science of Reading, cognitive science
+(spacing, retrieval practice, interleaving, the 2-sigma problem), structural failures (NCLB/ESSA
+assessment trap, funding inequality, the teacher pipeline), early childhood ROI (Perry Preschool,
+Abecedarian, Head Start), international comparisons (Finland, Singapore, Massachusetts), AI and
+technology in education, and an Omega chapter building the conceptual path from K-12 pattern
+recognition to Kaluza-Klein geometry.
+
+---
+
+### 8. [K-12 Curriculum Guide — Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)
+**PreKindergarten Through Grade 5: Foundations for a Lifetime of Learning**
+
+| Property | Value |
+|---|---|
+| Size | ~90 KB |
+| Grades | PreKindergarten through Grade 5 |
+| Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, NCAS, SHAPE America, CASEL |
+| Framework connection | FTUM convergence, φ-field iteration, executive function as attractor |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+Grade-by-grade curriculum (PreK–5) across all subject areas: Mathematics, ELA/Literacy, Science
+(NGSS-aligned), Social Studies (C3 Framework), Visual Arts, Music, Drama/Movement, PE/Health, and
+SEL. Includes developmental overviews, formative assessment guidance, intervention resources by
+subject, standards crosswalk, full bibliography, and further reading. Optional Framework Seeds
+connect each grade level to the Unitary Manifold mathematical structure.
+
+---
+
+### 9. [K-12 Curriculum Guide — Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)
+**Grades 6 Through 8: The Middle School Years**
+
+| Property | Value |
+|---|---|
+| Size | ~68 KB |
+| Grades | Grades 6 through 8 |
+| Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, NCAS, SHAPE America, CASEL |
+| Framework connection | FTUM convergence, disciplinary literacy as attractor identification, algebraic thinking |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+Complete middle school curriculum guide covering the concrete-to-abstract transition, disciplinary
+literacy, and adolescent brain development. Each of Grades 6, 7, and 8 receives a full chapter with
+Mathematics, ELA, Science (NGSS), Social Studies (C3), Arts, PE/Health, and SEL sections.
+Includes the Stanford History Education Group *Reading Like a Historian* framework, standards crosswalk,
+formative assessment guidance, intervention resources, and a full bibliography.
+
+---
+
+### 10. [K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)
+**Grades 9 Through 12, Higher Education, and the Research Frontier**
+
+| Property | Value |
+|---|---|
+| Size | ~56 KB |
+| Grades | Grades 9–12 + undergraduate, graduate, professional, and research levels |
+| Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, AP/IB, AAC&U High-Impact Practices |
+| Framework connection | FTUM convergence as the structure of expertise development; the full K-12 arc as fixed-point iteration toward the knowledge frontier |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+High school curriculum (Grades 9-12 with Framework Seeds at each grade level connecting to the
+Unitary Manifold), followed by the undergraduate years, graduate study, professional and vocational
+pathways, and the transition to independent scholarship and research. Covers the publication process,
+open science, and what the frontier of human knowledge actually looks like from the inside.
+The Framework Connection chapter explicitly maps the full K-12 arc as a fixed-point iteration
+toward the frontier of human knowledge.
+
+---
+
+## How to Use These Books
+
+**For Substack publication:**
+- Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
+  The `---` section dividers map naturally to Substack's section break formatting.
+- Book 4: Use the 6-part series files. Each is 12-17 KB — appropriate for a single
+  Substack post. Publish as a 6-post series over 6 days or weekly.
+
+**For cross-referencing the numbered posts:**
+Each book is now cross-referenced from the relevant numbered Substack posts:
+
+| Post | Cross-references |
+|------|-----------------|
+| [post-51-justice-implications.md](post-51-justice-implications.md) | The Broken Scale (all 12 parts) |
+| [post-52-economics-implications.md](post-52-economics-implications.md) | Prediction Markets Reckoning + Climate Reckoning |
+| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) + K-12 Curriculum Volumes 7–10 |
+| [post-54-ai-implications.md](post-54-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
+| [post-24-educational-systems.md](post-24-educational-systems.md) | The Learning Crisis (Book 7) + K-12 Curriculum Volumes 8–10 |
+
+**For cross-referencing the physics:**
+- Justice framework: [post-51-justice-implications.md](post-51-justice-implications.md)
+- Economics framework: [post-52-economics-implications.md](post-52-economics-implications.md)
+- Education framework: [post-53-education-implications.md](post-53-education-implications.md)
+- AI implications: [post-54-ai-implications.md](post-54-ai-implications.md)
+- Governance: [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md)
+- Human-AI collaboration: [post-37-human-ai-collaboration.md](post-37-human-ai-collaboration.md)
+- Philosophy of science: [post-05-honest-gaps.md](post-05-honest-gaps.md)
+
+---
+
 ## Version History
 
 | Version | Date | Description |
@@ -279,6 +368,7 @@ Includes three appendices: the five seed constants, the Walker-Pearson field equ
 | 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
 | 4.0 — Engineering Edition | April 2026 | Book 5 added: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA), current systems failure analysis, ten immediate fixes, future architecture, six appendices including printable diagnostic card |
 | 5.0 — Version Omega | April 2026 | Book 6 added: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph; all themes, all domains, all implications, readable by anyone |
+| 6.0 — Education Edition | April 2026 | Books 7–10 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |
 
 ---
 

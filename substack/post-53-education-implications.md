@@ -171,6 +171,42 @@ series share the same structural architecture. The AXIOM series is the applied c
 
 ---
 
+## Going Deeper: The K-12 Curriculum Series
+
+The fixed-point model of learning described in this post is implemented in full across a
+3-volume K-12 curriculum guide — grade-by-grade, subject-by-subject, with optional Framework
+Seeds connecting each developmental level to the Unitary Manifold's mathematical structure.
+
+**[K-12 Curriculum Guide — Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)**
+
+The foundational years: where the phonemic awareness that becomes reading fluency, the
+number sense that becomes algebraic thinking, and the executive function that makes all
+learning possible are either built or missed. Each grade includes a Framework Seed
+connecting the developmental content to the 5D geometry.
+
+**[K-12 Curriculum Guide — Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)**
+
+The middle school years — the most under-designed and most consequential bridge in K-12
+education. Disciplinary literacy, abstract reasoning, and the adolescent social brain.
+Framework Seeds connect ratio reasoning (Grade 6), DNA information conservation (Grade 7),
+and classical field theory (Grade 8) to the Unitary Manifold.
+
+**[K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)**
+
+High school through the research frontier. Framework Seeds connect algebra (Grade 9),
+atomic structure (Grade 10), classical physics (Grade 11), and calculus (Grade 12) directly
+to the Unitary Manifold's mathematical language. The "Beyond" chapter maps the full K-12
+arc as a fixed-point iteration toward the frontier of human knowledge — the most direct
+structural connection between this post's framework and a complete educational curriculum.
+
+**[The Learning Crisis — Omega Edition](book-learning-crisis-omega.md)**
+
+The full evidence base for why educational systems persistently underperform — PISA/NAEP,
+Science of Reading, cognitive science of spacing and retrieval, structural failures — with
+an Omega chapter building the path from K-12 pattern recognition to Kaluza-Klein geometry.
+
+---
+
 *Full source code, derivations, and 15,072 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point iteration: `src/multiverse/fixed_point.py`*
