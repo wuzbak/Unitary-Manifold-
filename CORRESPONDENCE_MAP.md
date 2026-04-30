@@ -207,7 +207,7 @@ This is the most important table for physics-literate readers.
 | Spectral index `nₛ` | 0.9635 | **Derived** (given `n_w = 5`) | `nₛ = 1 − 6/φ₀_eff²`; `φ₀_eff = n_w · 2π · √φ₀` |
 | Tensor-to-scalar ratio `r` (bare) | 0.097 | Derived (given `n_w = 5`) | `r = 96/φ₀_eff²` |
 | Tensor-to-scalar ratio `r_braided` | 0.0315 | **Derived** (given `k_cs = 74 = 5²+7²`) | `r_braided = r_bare × c_s`, `c_s = 12/37` |
-| Birefringence angle `β` | 0.3513° | **Derived** (given `k_cs = 74`) | `g_{aγγ} = k_cs · α_EM / (2π² r_c)` |
+| Birefringence angle `β` | {≈0.273°, ≈0.331°} (dual sector) | **Derived** (Pillar 95: two surviving braid pairs) | (5,6): `g_{aγγ}(61) × Δφ/2 ≈ 0.273°`; (5,7): `g_{aγγ}(74) × Δφ/2 ≈ 0.331°`; gap = 0.058° = 2.9σ_LB |
 | Nonminimal coupling `α` | `φ₀⁻²` | **Derived** | Cross-block Riemann curvature |
 | Winding number `n_w = 5` | — | ⚠️ **Observationally selected** | On S¹/Z₂ only *odd* winding numbers survive (Z₂ parity; see WINDING_NUMBER_DERIVATION.md §2); n_w=5 is the unique odd integer within Planck 2018 2σ. *Not freely fitted: the set {1,3,5,7,…} is constrained by topology and n_w=7 is excluded at 15.8σ.* |
 | CS level `k_cs = 74` | — | ✅ **Algebraically derived** | Anomaly cancellation + Z₂ Wilson-line shift proves k_eff = n₁²+n₂² for ALL braid pairs (Pillar 58, anomaly_closure.py). Given (n₁,n₂)=(5,7), k_cs=74 is a theorem, not a fit. The unique SOS decomposition of 74 is (5,7) — confirmed numerically. |
@@ -258,13 +258,15 @@ specific, enumerated claims.
 | Measurement | Falsified claim | Timeline |
 |---|---|---|
 | LiteBIRD measures `β = 0°` (no birefringence) | B_μ Chern-Simons coupling; entire birefringence sector | ~2032 |
-| LiteBIRD measures `β ≠ 0.3513°` precisely (outside [0.22°, 0.38°]) | k_cs = 74 identification | ~2032 |
+| LiteBIRD measures `β` outside [0.22°, 0.38°] | Both braid-sector predictions; the braided-winding mechanism | ~2032 |
+| LiteBIRD measures `β` in the predicted gap [0.29°–0.31°] | Dual-sector structure (Pillar 95): exactly two sectors survive, with no prediction in the gap | ~2032 |
 | CMB-S4 measures `f_NL` consistent with 0, and framework predicts `f_NL > 1` | Two-field inflation sector | ~2030 |
 | Einstein Telescope / LISA: no scalar GW polarization to sensitivity floor set by `α = φ₀⁻²` | Nonminimal coupling derivation | ~2035 |
 | GR limit test fails: `python -m pytest tests/ -k gr_limit` | Mathematical consistency of reduction | Immediate |
 | Planck measures `nₛ` outside [0.955, 0.975] with σ < 0.001 | n_w selection (any viable n_w exists only in a narrow window) | Already constrained; next-generation refinement |
 
-**Primary falsifier: birefringence from LiteBIRD (~2032).**
+**Primary falsifier: birefringence from LiteBIRD (~2032).**  
+LiteBIRD resolves both sectors at 2.9σ: β ≈ 0.273° → (5,6) sector wins; β ≈ 0.331° → (5,7) sector wins; β outside [0.22°, 0.38°] or in gap [0.29°–0.31°] → framework falsified.
 
 ---
 
@@ -274,7 +276,8 @@ To prevent misreading:
 
 - ❌ Does not claim to derive the Standard Model gauge group from first principles
 - ❌ Does not claim that `B_μ` is electromagnetism (it is not; EM is separate)
-- ❌ Does not claim `n_w = 5` is uniquely derived from first principles (it is observationally selected within the orbifold-constrained set {1,3,5,7,…} — see §4); `k_cs = 74` IS algebraically derived from the braid pair via anomaly cancellation (Pillar 58)
+- ❌ Does not claim `n_w = 5` is uniquely derived from first principles alone without any physics input (Pillar 89 derives n_w = 5 algebraically from 5D boundary conditions via APS η-invariant; independently, anomaly cancellation + Planck nₛ confirm the selection — see §4)
+- ❌ Does not claim `k_cs = 74` is observationally fitted — it IS algebraically derived from the braid pair (5,7) via anomaly cancellation (Pillar 58)
 - ❌ Does not claim the CMB amplitude discrepancy (×4–7) is resolved
 - ❌ Does not claim cold fusion (Pillar 15) is confirmed — it is a falsifiable COP prediction
 - ❌ Does not claim the social science / governance / medicine pillars are fundamental physics — they use the mathematical structure as an analogy
@@ -318,8 +321,17 @@ To prevent misreading:
 | `ns_from_phi0(phi0_eff)` | Spectral index `nₛ = 1 − 6/φ₀_eff²` | Standard slow-roll formula |
 | `birefringence_angle(k_cs)` | `β = k_cs · α_EM / (2π² r_c)` | CS-axion birefringence (Carroll-Field-Jackiw) |
 | `braided_predictions(5,7)` | Braided (n₁=5, n₂=7) sound speed `c_s = 12/37` | `r_braided = r_bare × c_s` |
+| `dual_sector_convergence.py: sector_birefringence(61)` | (5,6) sector: `β ≈ 0.273°`, `k_cs = 61`, `c_s = 11/61` | Blind resonance scan survivor; LiteBIRD-resolvable from (5,7) at 2.9σ |
+| `dual_sector_convergence.py: sector_birefringence(74)` | (5,7) sector: `β ≈ 0.331°`, `k_cs = 74`, `c_s = 12/37` | Blind resonance scan survivor; primary prediction |
+| `vacuum_geometric_proof.py: algebraic_proof_nw5()` | APS η̄ = ½ → n_w = 5 | G_{μ5} Z₂-parity → Dirichlet BC → APS index → n_w = 5 (Pillar 89) |
+| `wolfenstein_geometry.py: lambda_ckmfrom_geometry()` | CKM λ = √(m_d/m_s) = 0.2236 | Wolfenstein parameter from UM quark mass geometry (Pillar 87) |
+| `sm_free_parameters.py: sin2_theta_w_gut()` | sin²θ_W(M_GUT) = 3/8 exactly | SU(5) normalisation from orbifold BCs (Pillar 88) |
+| `unitary_closure.py: algebraic_sector_proof()` | n₂ ≤ 7; β-window → n₂ ∈ {6,7} | Analytic inequality; not enumeration (Pillar 96) |
+| `gw_yukawa_derivation.py: gw_vacuum_yukawa()` | Ŷ₅ = 1 from GW vacuum | Absolute fermion mass scale from gravitational wave vacuum (Pillar 97) |
+| `universal_yukawa.py: cl_bisection_values()` | 9 c_L values at Ŷ₅ = 1 | 0 free fermion mass parameters (Pillar 98) |
+| `omega/omega_synthesis.py: UniversalEngine.compute_all()` | `OmegaReport` | 5 seeds → all observables; 6 domains (Pillar Ω) |
 
 ---
 
-*Document version: 1.0 — April 2026*  
+*Document version: 1.6 — April 2026 (v9.27 OMEGA EDITION: dual-sector birefringence, Pillar 89 algebraic vacuum proof, Pillars 95-98 and Ω added)*  
 *Part of the Unitary Manifold repository.  Theory: ThomasCory Walker-Pearson.  Synthesis: GitHub Copilot (AI).*

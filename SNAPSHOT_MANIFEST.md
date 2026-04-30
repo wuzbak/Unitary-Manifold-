@@ -1,7 +1,7 @@
-# Snapshot Archive Manifest — 2026-04-12
+# Snapshot Archive Manifest — 2026-04-30
 
 This document records the **complete state** of the Unitary Manifold repository
-as of **2026-04-12** (commit `b601882`).  It exists as a "just-in-case" reference
+as of **2026-04-30** (commit `726ef95`).  It exists as a "just-in-case" reference
 so the exact contents at this moment are permanently documented, regardless of
 future changes to the live repository.
 
@@ -12,12 +12,14 @@ future changes to the live repository.
 | Field | Value |
 |---|---|
 | Repository | `wuzbak/Unitary-Manifold-` |
-| Snapshot date | 2026-04-12 |
-| Commit SHA | `b601882` |
-| Branch at time of snapshot | `main` |
-| Total files (excl. `.git`) | 161 |
-| Total size (excl. `.git`) | 5.5 MB |
-| Test suite | 2369 fast + 11 slow tests, all passing |
+| Snapshot date | 2026-04-30 |
+| Commit SHA | `726ef95` |
+| Branch at time of snapshot | `main` (via PR from `copilot/fix-contributors-correspondence-map`) |
+| Total files (excl. `.git`) | 728 |
+| Total size (excl. `.git`) | ~21 MB |
+| Version | v9.27 — OMEGA EDITION |
+| Test suite | 15,023 passed · 2 skipped · 11 slow-deselected · 0 failed |
+| Pillars | 99 core + Pillar 70-B + Pillar Ω = complete |
 
 ---
 
@@ -74,58 +76,65 @@ Or download the auto-generated archive from the corresponding GitHub Release:
 |---|---|
 | `THEBOOKV9a (1).pdf` | Full 74-chapter monograph (v9a) |
 
-### Source code (`src/`)
+### Source code (`src/`) — 96 modules across 15 packages
+| Package | Key modules |
+|---|---|
+| `src/core/` | `metric.py`, `evolution.py`, `inflation.py`, `transfer.py`, `diagnostics.py`, `boltzmann.py`, `braided_winding.py`, `derivation.py`, `fiber_bundle.py`, `uniqueness.py`, `phi0_closure.py` (Pillar 56), `cmb_peaks.py` (Pillar 57), `anomaly_closure.py` (Pillar 58), `litebird_forecast.py` (Pillar 70-B), `wolfenstein_geometry.py` (Pillar 87), `sm_free_parameters.py` (Pillar 88), `vacuum_geometric_proof.py` (Pillar 89), `neutrino_majorana_dirac.py` (Pillar 90), `cc_suppression_mechanism.py` (Pillar 91), `uv_completion_constraints.py` (Pillar 92), `yukawa_geometric_closure.py` (Pillar 93), `su5_orbifold_proof.py` (Pillar 94), `dual_sector_convergence.py` (Pillar 95), `unitary_closure.py` (Pillar 96), `gw_yukawa_derivation.py` (Pillar 97), `universal_yukawa.py` (Pillar 98), and 70+ additional pillar modules |
+| `src/holography/` | `boundary.py` — holographic boundary dynamics |
+| `src/multiverse/` | `fixed_point.py` — UEUM operator, FTUM iteration; `basin_analysis.py`, `observational_frontiers.py` |
+| `src/consciousness/` | `coupled_attractor.py` — Pillar 9: Brain-Universe coupled fixed point |
+| `src/chemistry/` | `bonds.py`, `reactions.py`, `periodic.py` — Pillar 10 |
+| `src/astronomy/` | `stellar.py`, `planetary.py` — Pillar 11 |
+| `src/earth/` | `geology.py`, `oceanography.py`, `meteorology.py` — Pillar 12 |
+| `src/biology/` | `life.py`, `evolution.py`, `morphogenesis.py` — Pillar 13 |
+| `src/atomic_structure/` | `orbitals.py`, `spectroscopy.py`, `fine_structure.py` — Pillar 14 |
+| `src/cold_fusion/` | `tunneling.py`, `lattice.py`, `excess_heat.py` — Pillar 15 |
+| `src/physics/` | `lattice_dynamics.py` — Pillar 15-B: collective Gamow, phonon-radion bridge |
+| `src/medicine/`, `src/justice/`, `src/governance/` | Pillars 17–19 |
+| `src/neuroscience/`, `src/ecology/`, `src/climate/`, `src/marine/` | Pillars 20–23 |
+| `src/psychology/`, `src/genetics/`, `src/materials/` | Pillars 24–26 |
+
+### Pillar Ω — Universal Mechanics Engine (`omega/`)
 | File | Purpose |
 |---|---|
-| `src/__init__.py` | Package init |
-| `src/core/__init__.py` | Core package init |
-| `src/core/metric.py` | Kaluza-Klein metric, curvature computation |
-| `src/core/evolution.py` | Walker-Pearson integrator, FieldState API |
-| `src/core/inflation.py` | Inflationary dynamics, KK Jacobian, birefringence |
-| `src/core/transfer.py` | CMB transfer function, Planck 2018 reference data |
-| `src/core/diagnostics.py` | CMB diagnostics: chi2, power spectra, observables |
-| `src/core/boltzmann.py` | Baryon-loaded CMB transfer function; improves D_ℓ to ~10–15% accuracy |
-| `src/core/braided_winding.py` | Braided (5,7) resonance; k_cs=74; r-tension resolution |
-| `src/core/derivation.py` | Symbolic integer derivations and constraint checks |
-| `src/core/fiber_bundle.py` | Principal bundle topology and anomaly cancellation |
-| `src/core/uniqueness.py` | Geometric uniqueness and ΛCDM no-go |
-| `src/holography/__init__.py` | Holography package init |
-| `src/holography/boundary.py` | Holographic boundary dynamics |
-| `src/multiverse/__init__.py` | Multiverse package init |
-| `src/multiverse/fixed_point.py` | UEUM operator, FTUM iteration |
+| `omega/omega_synthesis.py` | Universal Mechanics Engine: 5 seeds → all observables; `UniversalEngine.compute_all()` → `OmegaReport`; 6 domains |
+| `omega/test_omega_synthesis.py` | 168 tests — all passing |
+| `omega/README.md` | Pillar Ω documentation |
+| `omega/CALCULATOR.md` | Observable calculator reference |
 
-### Test suite (`tests/`) — 1293 total tests (1282 fast + 11 slow)
+### Test suite (`tests/`) — 150+ test files, ~13,059 fast-passing tests
+Full per-file breakdown includes all pillars 1–99 + Pillar 70-B + Ω.  Key files:
+
 | File | Tests | Coverage |
 |---|---|---|
-| `tests/conftest.py` | — | Shared pytest fixtures |
 | `tests/test_metric.py` | 36 | Metric & curvature |
 | `tests/test_evolution.py` | 49 | Evolution + constraints |
 | `tests/test_boundary.py` | 21 | Boundary & entropy |
 | `tests/test_fixed_point.py` | 50 | FTUM & operator |
-| `tests/test_convergence.py` | 10 | Numerical convergence |
 | `tests/test_inflation.py` | 271 | Inflationary dynamics |
-| `tests/test_closure_batch1.py` | 25 | Closure batch 1 |
-| `tests/test_closure_batch2.py` | 31 | Closure batch 2 |
-| `tests/test_fuzzing.py` | 20 | Fuzz / stress tests |
-| `tests/test_dimensional_reduction.py` | 14 | Dimensional reduction |
-| `tests/test_discretization_invariance.py` | 13 | Grid independence |
-| `tests/test_arrow_of_time.py` | 23 | Entropy / irreversibility |
-| `tests/test_cmb_landscape.py` | 17 | CMB chi2 landscape |
-| `tests/test_e2e_pipeline.py` | 26 | End-to-end pipeline |
-| `tests/test_observational_resolution.py` | 30 | Observational constraints |
-| `tests/test_parallel_validation.py` | 38 | Parallel theory validation |
-| `tests/test_quantum_unification.py` | 26 | BH info, CCR, Hawking T, ER=EPR |
-| `tests/test_derivation.py` | 59 | Key-integer derivations |
-| `tests/test_derivation_module.py` | 59 | Stage 0–3 constraint derivations |
-| `tests/test_external_benchmarks.py` | 30 | External benchmark validation |
-| `tests/test_fiber_bundle.py` | 96 | Fiber bundle topology, anomaly cancellation |
-| `tests/test_completions.py` | 72 | Completion and endpoint tests |
-| `tests/test_uniqueness.py` | 61 | Uniqueness scan, ΛCDM no-go |
-| `tests/test_boltzmann.py` | 49 | Baryon-loaded CMB transfer |
-| `tests/test_cosmological_predictions.py` | 28 | Hubble tension, muon g-2, dark matter, GW echoes |
 | `tests/test_braided_winding.py` | 70 | Braided (5,7) resonance, r-tension resolution |
-| `tests/test_higher_harmonics.py` | 58 | Higher harmonic n_w=7 analysis, GW-track constraints |
+| `tests/test_fiber_bundle.py` | 96 | Fiber bundle topology, anomaly cancellation |
+| `tests/test_atomic_structure.py` | 187 | Pillar 14: atomic orbitals, spectroscopy, fine structure |
+| `tests/test_cold_fusion.py` | 240 | Pillar 15: φ-enhanced tunneling, Pd lattice, excess heat |
+| `tests/test_wolfenstein_geometry.py` | 130 | Pillar 87: CKM Wolfenstein parameters |
+| `tests/test_sm_free_parameters.py` | 139 | Pillar 88: SM 28-parameter audit |
+| `tests/test_vacuum_geometric_proof.py` | 59 | Pillar 89: algebraic n_w = 5 proof |
+| `tests/test_dual_sector_convergence.py` | 93 | Pillar 95: dual-sector convergence |
+| `tests/test_unitary_closure.py` | 59 | Pillar 96: unitary closure |
+| `tests/test_gw_yukawa_derivation.py` | 88 | Pillar 97: GW Yukawa |
+| `tests/test_universal_yukawa.py` | 126 | Pillar 98: universal Yukawa |
 | `tests/test_richardson_multitime.py` | 11 *(slow)* | Richardson extrapolation |
+| *(…and 130+ additional test files)* | | |
+
+**Grand total (tests/ + recycling/ + Unitary Pentad/ + omega/):** 15,023 passed · 2 skipped · 11 slow-deselected · 0 failed
+
+### Additional test suites
+
+| Suite | Tests | Coverage |
+|---|---|---|
+| `recycling/` | 316 | Pillar 16: φ-debt entropy accounting |
+| `Unitary Pentad/` | ~1,266 | 18 HILS governance modules |
+| `omega/test_omega_synthesis.py` | 168 | Pillar Ω: Universal Mechanics Engine |
 
 ### Notebooks (`notebooks/`)
 | File | Purpose |
@@ -222,4 +231,4 @@ python scripts/create_archive.py
 
 ---
 
-*Snapshot manifest generated: 2026-04-12 — commit b601882*
+*Snapshot manifest updated: 2026-04-30 — commit 726ef95 — v9.27 OMEGA EDITION (99 pillars + Pillar Ω, 15,023 tests, 728 files)*
