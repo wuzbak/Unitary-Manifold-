@@ -1,4 +1,4 @@
-# Why There Are 98 Pillars — And Counting
+# Why There Are 99 Pillars + Pillar Ω — And What They Are
 
 *Post 6 of the Unitary Manifold series.*
 *Updated v9.27 — OMEGA EDITION (April 2026): 99 pillars + Pillar Ω, 15,023 tests.*  
@@ -21,7 +21,7 @@ like the classic pattern of a framework that claims to explain everything — an
 a theory explains everything, it effectively explains nothing, because it makes no
 predictions that could be falsified.
 
-This post addresses that objection directly by explaining what the 98 pillars
+This post addresses that objection directly by explaining what the 99 pillars + Pillar Ω
 actually are, what epistemic status each has, and why the count doesn't stop
 until a named, documented gap is closed.
 

@@ -144,7 +144,7 @@ The rapid development cycle in this project operated as follows:
 A single iteration of this cycle, for a well-specified claim, takes approximately
 ten minutes. In a day of focused collaboration, it is possible to implement,
 test, and document a dozen independent claims. This is the mechanism by which
-96 pillars were built in weeks rather than decades.
+99 pillars + Pillar Ω were built in weeks rather than decades.
 
 ---
 

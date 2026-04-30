@@ -14,7 +14,7 @@ better predictions with fewer assumptions.*
 
 The first fifteen posts in this series focused on the physics core: five dimensions,
 winding modes, birefringence, black holes, and the governance architecture inspired
-by it. Post 6 mentioned that the framework extends to 96 pillars across domains
+by it. Post 6 mentioned that the framework extends to 99 pillars + Pillar Ω across domains
 including medicine, justice, ecology, neuroscience, and governance.
 
 This post goes into four of those domains specifically: not to claim they are

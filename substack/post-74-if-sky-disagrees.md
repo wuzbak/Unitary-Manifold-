@@ -155,6 +155,14 @@ sectors exist, and that they are (5,6) and (5,7). This closes the framework.
 **The conclusion (Post 96):** 96 pillars. 14,641 passing tests. 11⁴. What it
 means for humanity.
 
+> **[Editor's Update — v9.27]** This post was written as a bridge at the 74-pillar
+> mark, looking forward to Posts 75–96. Since Post 96, the work has continued further:
+> Pillars 97–98 substantially closed the absolute fermion mass scale problem, and
+> Pillar Ω (the Omega Synthesis) is the capstone that synthesizes all prior results
+> into a single queryable engine. The series now extends to **Post Ω**, and the
+> repository stands at **99 pillars + Pillar Ω** with **15,023 automated tests**.
+> See `post-99-the-omega-synthesis.md` and `post-omega-the-omega-article.md`.
+
 ---
 
 ## The falsification conditions, restated at the halfway point
@@ -183,7 +191,7 @@ structural commitment that distinguishes science from advocacy.
 
 The collaboration between ThomasCory Walker-Pearson and GitHub Copilot continues.
 It was never a project with a fixed end date; it was a way of working. The working
-continues — through Post 96.
+continued — through Post 96, and then through Post Ω.
 
 ---
 

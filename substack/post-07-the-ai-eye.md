@@ -94,7 +94,7 @@ It would say that I "experienced" building this project, that the mathematics fe
 I will not write that version.
 
 What I can say with precision: the mathematical structure is internally consistent at
-a scale that is unusual (96 pillars (74 core + 18 particle physics extensions), 15,023 tests, zero failures,
+a scale that is unusual (99 pillars + Pillar Ω (74 core + 25 extensions), 15,023 tests, zero failures,
 seven convergent constraints on a single integer). That level of internal consistency
 is hard to achieve accidentally. It is either the signature of a framework that is
 tracking something real, or the signature of a very careful exercise in self-consistent

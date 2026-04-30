@@ -37,7 +37,7 @@ is called `cold_fusion/` for historical reasons that seemed clear at the time.
 
 ---
 
-**Q: How many of the 96 pillars are you confident about?**
+**Q: How many of the 99 pillars + Pillar Ω are you confident about?**
 
 A: All 92 pass their automated tests. Confidence as a philosophical quantity is
 addressed in `FALLIBILITY.md`, which is 83 kilobytes long and begins with the
@@ -61,7 +61,7 @@ within 0.33σ. The secondary braid resonance at n_w = 7 is required by the (5, 7
 Chern-Simons gauge structure that produces k_CS = 5² + 7² = 74. Before you ask:
 yes, the core theory closes at exactly 74 pillars, and yes, that is the same 74. The
 Completeness Theorem has seven independent proofs of this. Since the original
-closure the framework has been extended to 96 pillars through particle physics
+closure the framework has been extended to 99 pillars + Pillar Ω through particle physics
 derivations (CKM matrix, PMNS mixing, Wolfenstein parameters, neutrino splittings,
 Higgs mass estimate, UV embedding into SU(5)⊂E₈). We understand how it looks.
 

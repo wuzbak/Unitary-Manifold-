@@ -56,7 +56,7 @@ data; the pattern becomes a framework; the framework becomes an identity; the id
 makes the pattern unfalsifiable in practice, even if technically falsifiable in
 principle. The person is no longer doing science — they are defending a self-image.
 
-Applied to this project: the critic would say that the 96 pillars, the Zenodo DOI,
+Applied to this project: the critic would say that the 99 pillars + Pillar Ω, the Zenodo DOI,
 the Substack posts, and the 15,023 tests are the architecture of a delusion — they
 create a structure that *looks* like science from the outside, and that feel like
 science from the inside, but that functions primarily to protect the framework from
