@@ -2,26 +2,33 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.27 (public domain · always free)
-**Version:** 3.0 — Omega Edition Expanded — April 2026
+**Version:** 4.0 — Education Edition — April 2026
 
 ---
 
-This folder contains the **Omega Edition (v3.0)** of four full-length books authored under the
+This folder contains the **Omega Edition (v4.0)** of seven full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that replaces the original single-post format of the oversized Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
 FTUM fixed-point analysis, and the falsifiable Kaluza-Klein predictions of the Unitary
 Manifold v9.27.
 
-All four books were originally published at version 1.0 in the companion repository
+Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework.
+expanded, and cross-referenced with the full physics framework. Books 5–7 are original
+to this repository.
 
 **v3.0 Expansion (April 2026):**
 - Books 1–3 substantially expanded with new investigative chapters
 - Book 4 split into a 6-part Substack series (original: 393KB — too large for a single post)
 - Posts 51, 52, 53, 54 cross-referenced to the books
 - All books updated to reference Pillar Ω (Universal Mechanics Engine, 15,072 tests)
+
+**v4.0 Education Edition (April 2026):**
+- Book 5: *The Learning Crisis* — evidence-based analysis of what's broken in education and what works
+- Books 6–7: *K-12 Curriculum Guide* — complete 3-volume curriculum series (PreK-5, 6-8, 9-12+)
+- Post 24 and Post 53 cross-referenced to the new education series
+- All books cross-reference the FTUM fixed-point model of learning
 
 ---
 
@@ -182,7 +189,85 @@ investigative journalism, the falsification condition.
 
 ---
 
-## How to Use These Books
+## The Education Series (v4.0 — New in April 2026)
+
+### 5. [The Learning Crisis — Omega Edition](book-learning-crisis-omega.md)
+**What's Broken in Education, Why It's Broken, and What the Evidence Says to Do About It**
+
+| Property | Value |
+|---|---|
+| Size | ~117 KB |
+| Framework connection | Pillar 9 (consciousness), FTUM fixed-point convergence, φ-homeostasis |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+Evidence-grounded analysis covering PISA/NAEP data, the Science of Reading, cognitive science
+(spacing, retrieval practice, interleaving, the 2-sigma problem), structural failures (NCLB/ESSA
+assessment trap, funding inequality, the teacher pipeline), early childhood ROI (Perry Preschool,
+Abecedarian, Head Start), international comparisons (Finland, Singapore, Massachusetts), AI and
+technology in education, and an Omega chapter building the conceptual path from K-12 pattern
+recognition to Kaluza-Klein geometry.
+
+---
+
+### 6. [K-12 Curriculum Guide — Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)
+**PreKindergarten Through Grade 5: Foundations for a Lifetime of Learning**
+
+| Property | Value |
+|---|---|
+| Size | ~90 KB |
+| Grades | PreKindergarten through Grade 5 |
+| Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, NCAS, SHAPE America, CASEL |
+| Framework connection | FTUM convergence, φ-field iteration, executive function as attractor |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+Grade-by-grade curriculum (PreK–5) across all subject areas: Mathematics, ELA/Literacy, Science
+(NGSS-aligned), Social Studies (C3 Framework), Visual Arts, Music, Drama/Movement, PE/Health, and
+SEL. Includes developmental overviews, formative assessment guidance, intervention resources by
+subject, standards crosswalk, full bibliography, and further reading. Optional Framework Seeds
+connect each grade level to the Unitary Manifold mathematical structure.
+
+---
+
+### 7. [K-12 Curriculum Guide — Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)
+**Grades 6 Through 8: The Middle School Years**
+
+| Property | Value |
+|---|---|
+| Size | ~68 KB |
+| Grades | Grades 6 through 8 |
+| Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, NCAS, SHAPE America, CASEL |
+| Framework connection | FTUM convergence, disciplinary literacy as attractor identification, algebraic thinking |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+Complete middle school curriculum guide covering the concrete-to-abstract transition, disciplinary
+literacy, and adolescent brain development. Each of Grades 6, 7, and 8 receives a full chapter with
+Mathematics, ELA, Science (NGSS), Social Studies (C3), Arts, PE/Health, and SEL sections.
+Includes the Stanford History Education Group *Reading Like a Historian* framework, standards crosswalk,
+formative assessment guidance, intervention resources, and a full bibliography.
+
+---
+
+### 8. [K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)
+**Grades 9 Through 12, Higher Education, and the Research Frontier**
+
+| Property | Value |
+|---|---|
+| Size | ~56 KB |
+| Grades | Grades 9–12 + undergraduate, graduate, professional, and research levels |
+| Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, AP/IB, AAC&U High-Impact Practices |
+| Framework connection | FTUM convergence as the structure of expertise development; the full K-12 arc as fixed-point iteration toward the knowledge frontier |
+| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+
+High school curriculum (Grades 9-12 with Framework Seeds at each grade level connecting to the
+Unitary Manifold), followed by the undergraduate years, graduate study, professional and vocational
+pathways, and the transition to independent scholarship and research. Covers the publication process,
+open science, and what the frontier of human knowledge actually looks like from the inside.
+The Framework Connection chapter explicitly maps the full K-12 arc as a fixed-point iteration
+toward the frontier of human knowledge.
+
+---
+
+
 
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
@@ -197,8 +282,9 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 |------|-----------------|
 | [post-51-justice-implications.md](post-51-justice-implications.md) | The Broken Scale (all 12 parts) |
 | [post-52-economics-implications.md](post-52-economics-implications.md) | Prediction Markets Reckoning + Climate Reckoning |
-| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) |
+| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) + K-12 Curriculum Volumes 1–3 |
 | [post-54-ai-implications.md](post-54-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
+| [post-24-educational-systems.md](post-24-educational-systems.md) | The Learning Crisis + K-12 Curriculum Volumes 1–3 |
 
 **For cross-referencing the physics:**
 - Justice framework: [post-51-justice-implications.md](post-51-justice-implications.md)
@@ -218,6 +304,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 1.0 | April 2026 | Original publication in wuzbak/Books |
 | 2.0 — Omega | April 2026 | Integrated into Unitary Manifold v9.27; new chapters added to each book; Omega Edition headers; cross-references added |
 | 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
+| 4.0 — Education Edition | April 2026 | Books 5–8 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |
 
 ---
 

@@ -217,6 +217,40 @@ and the practice is a choice, not an inevitability — and choices can be change
 
 ---
 
+## Going Deeper: The K-12 Curriculum Series
+
+The analysis in this post — what the evidence says about how learning works and why
+educational systems fail to implement it — is extended into a complete, grade-by-grade
+curriculum series across three volumes:
+
+**[The Learning Crisis — Omega Edition](book-learning-crisis-omega.md)**
+
+The full evidence base: PISA/NAEP data, the Science of Reading, cognitive science
+(spacing, retrieval practice, interleaving, the 2-sigma problem), structural failures,
+early childhood ROI, international comparisons (Finland, Singapore, Massachusetts),
+AI and technology in education, and an Omega chapter connecting K-12 pattern recognition
+to Kaluza-Klein geometry.
+
+**[K-12 Curriculum Guide — Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)**
+
+Grade-by-grade curriculum for the foundational years — the reading skills, mathematical
+fluency, executive function, and growth mindset that determine what becomes possible in
+every subsequent year of education.
+
+**[K-12 Curriculum Guide — Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)**
+
+The middle school years: bridging concrete to abstract reasoning, disciplinary literacy
+(reading like a historian, writing like a scientist), and building the habits of inquiry
+that define educated adults.
+
+**[K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)**
+
+High school through the research frontier: the full academic sequence, advanced coursework,
+undergraduate and graduate education, professional pathways, and the transition to
+independent scholarship.
+
+---
+
 *For the framework-grounded treatment of learning as fixed-point iteration:*  
 *`src/multiverse/fixed_point.py`, `src/consciousness/coupled_attractor.py`*  
 *Full series: https://github.com/wuzbak/Unitary-Manifold-*  

@@ -301,6 +301,10 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 | `book-axiom-journalism-series-04-verification.md` | **Series 4/4** | The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human |
 | `book-axiom-journalism-series-05-oracle.md` | **Series 4/5** | The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty |
 | `book-axiom-journalism-series-06-omega.md` | **Series 4/6** | The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis |
+| `book-learning-crisis-omega.md` | **Book 5** | The Learning Crisis — What's Broken in Education and What the Evidence Says (~117 KB) |
+| `book-curriculum-vol1-preK-5.md` | **Book 6** | K-12 Curriculum Guide Vol. 1: PreK–5 — Foundations for a Lifetime of Learning (~90 KB) |
+| `book-curriculum-vol2-6-8.md` | **Book 7** | K-12 Curriculum Guide Vol. 2: Grades 6–8 — The Middle School Years (~68 KB) |
+| `book-curriculum-vol3-9-12-beyond.md` | **Book 8** | K-12 Curriculum Guide Vol. 3: Grades 9–12 and Beyond — High School to the Research Frontier (~56 KB) |
 
 **Cross-references to numbered posts:**
 
@@ -310,6 +314,7 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 | The Climate Reckoning + Prediction Markets | post-52-economics-implications.md |
 | Axiom Journalism Series (Parts 1, 3, 4) | post-53-education-implications.md |
 | Axiom Journalism Series (Parts 1, 2, 4, 6) | post-54-ai-implications.md |
+| The Learning Crisis + K-12 Curriculum Vols. 1–3 | post-24-educational-systems.md · post-53-education-implications.md |
 
 See [BOOKS_README.md](BOOKS_README.md) for full details on each book and series.
 
