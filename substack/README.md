@@ -264,7 +264,7 @@ Each post draws directly from these repository documents:
 *Series concept and content strategy: ThomasCory Walker-Pearson.*  
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**99 pillars. 15,023 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**99 pillars. 15,072 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
 
 ## Post Ω: The Omega Article (v9.27 — OMEGA EDITION)
 
@@ -285,7 +285,37 @@ Each post draws directly from these repository documents:
 
 ---
 
+## Books — Omega Edition Expanded (v3.0)
+
+Four full-length investigative books + a 6-part Substack series. All cross-referenced to the numbered posts above.
+
+| File | Type | Topic |
+|------|------|-------|
+| `book-broken-scale-omega.md` | **Book 1** | The Broken Scale — Criminal Justice, Governance, the Investigative Imperative (~138 KB, 12 parts) |
+| `book-climate-reckoning-omega.md` | **Book 2** | The Climate Reckoning — Fossil Fuel Accountability, Environmental Justice (~141 KB) |
+| `book-prediction-markets-omega.md` | **Book 3** | The Prediction Market Reckoning — Polymarket, Kalshi, Democratic Integrity (~162 KB) |
+| `book-axiom-journalism-omega.md` | **Book 4 Archive** | Axiom Journalism AI — Complete source archive (393 KB — use series below for Substack) |
+| `book-axiom-journalism-series-01-philosophy.md` | **Series 4/1** | The AxiomZero Method: Why Investigative Journalism Needs a Framework |
+| `book-axiom-journalism-series-02-system.md` | **Series 4/2** | AXIOM: The Investigative AI That Researches So You Can Judge |
+| `book-axiom-journalism-series-03-documents.md` | **Series 4/3** | The Document Hunters: FOIA, Public Records, and the Systematic Investigation |
+| `book-axiom-journalism-series-04-verification.md` | **Series 4/4** | The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human |
+| `book-axiom-journalism-series-05-oracle.md` | **Series 4/5** | The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty |
+| `book-axiom-journalism-series-06-omega.md` | **Series 4/6** | The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis |
+
+**Cross-references to numbered posts:**
+
+| Book | Cross-referenced in post |
+|------|--------------------------|
+| The Broken Scale | post-51-justice-implications.md |
+| The Climate Reckoning + Prediction Markets | post-52-economics-implications.md |
+| Axiom Journalism Series (Parts 1, 3, 4) | post-53-education-implications.md |
+| Axiom Journalism Series (Parts 1, 2, 4, 6) | post-54-ai-implications.md |
+
+See [BOOKS_README.md](BOOKS_README.md) for full details on each book and series.
+
+---
+
 *Series concept and content strategy: ThomasCory Walker-Pearson.*
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**99 pillars. 15,023 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**99 pillars. 15,072 tests. Pillar Ω synthesizes all. The sky will decide the rest.**

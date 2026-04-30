@@ -138,10 +138,44 @@ empirical testing. The framework proposes a vocabulary. The testing is still nee
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+## Going Deeper: The Axiom Journalism AI Series
+
+There is a specific domain where the fixed-point model of learning has direct
+operational implications: investigative journalism training. The AXIOM system —
+documented in full in the **Axiom Journalism AI** series — is itself a learning-by-doing
+system built on exactly the principles described in this post.
+
+The **[Axiom Journalism AI — 6-Part Series](book-axiom-journalism-series-01-philosophy.md)**
+covers how a structured learning framework applied to journalism produces measurably better
+investigators than ad hoc skill accumulation:
+
+- **[Part 1: The AxiomZero Method](book-axiom-journalism-series-01-philosophy.md)** —
+  the seven principles of the framework as a teaching architecture (Truth Above All,
+  Source Integrity, Entity Identification, Legal Consciousness, Crowd Intelligence,
+  Transparency of Method, Editorial Courage)
+
+- **[Part 3: The Document Hunters](book-axiom-journalism-series-03-documents.md)** —
+  the investigation template system as a structured approach to iterating toward the
+  fixed point of a story: each template is a pre-built approach trajectory toward a
+  specific investigative attractor (financial crime, corporate malfeasance, environmental
+  violation, civil rights, political corruption)
+
+- **[Part 4: The Hallucination Problem](book-axiom-journalism-series-04-verification.md)** —
+  the most direct application of the ΔI → 0 convergence principle to education: the
+  difference between an LLM that produces plausible-sounding text and a journalist who
+  has iterated toward the actual record is exactly the difference between memorization
+  (surface retrieval) and understanding (attractor convergence)
+
+The education framework in this post and the journalism training framework in the AXIOM
+series share the same structural architecture. The AXIOM series is the applied case.
+
+---
+
+*Full source code, derivations, and 15,072 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point iteration: `src/multiverse/fixed_point.py`*
 *Coupled attractor (Information Gap): `src/consciousness/coupled_attractor.py`*
+*Companion series: [Axiom Journalism AI — Part 1](book-axiom-journalism-series-01-philosophy.md)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

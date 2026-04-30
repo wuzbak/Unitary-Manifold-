@@ -133,10 +133,41 @@ The structure does not replace judgment.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+## Going Deeper: The Broken Scale
+
+The structural implications above are paired with a full investigative companion:
+**[The Broken Scale — Omega Edition](book-broken-scale-omega.md)** — the AxiomZero
+framework's complete guide to criminal justice accountability journalism.
+
+Where this post provides the theoretical framework (retribution as geometric
+impossibility; rehabilitation as trajectory change; victims and the encoding that cannot
+be undone), The Broken Scale provides the operational layer: how to investigate these
+failures using PACER, FOIA, consent decree records, and algorithmic bias audits.
+
+Key cross-references from The Broken Scale:
+- **Part VII: The Physics of Transparency** — information conservation applied to court
+  records and institutional cover-up (mirrors this post's encoding argument)
+- **Part VIII: The Digital Court Record Revolution** — how to find the documents that
+  prove what the justice system actually does vs. what it claims
+- **Part IX: Policing the Police** — consent decrees as the enforcement mechanism when
+  B_μ (bias noise) has been proven at the institutional level
+- **Part X: AI, Algorithms, and the New Bias Frontier** — COMPAS, PredPol, and facial
+  recognition as automated B_μ amplifiers
+- **Part XI: Whistleblower Protection** — when insiders encode the truth and the
+  institution attempts to prevent the encoding from surfacing
+- **Part XII: International Accountability Comparison** — how other justice systems
+  approach the same fixed-point problem with different institutional architectures
+
+The Broken Scale is publication-ready Markdown, available in full in this repository.
+It is the investigative journalist's companion to the structural framework in this post.
+
+---
+
+*Full source code, derivations, and 15,072 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Justice module: `src/justice/`*
 *Information conservation: `QUANTUM_THEOREMS.md` (Theorem XII)*
+*Companion book: [The Broken Scale — Omega Edition](book-broken-scale-omega.md)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
