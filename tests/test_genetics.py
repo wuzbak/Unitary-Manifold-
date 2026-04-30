@@ -3,7 +3,8 @@
 """
 tests/test_genetics.py
 =======================
-Unit tests for the src/genetics package — Pillar 25: Genetics & Genomics.
+Unit tests for the src/genetics package — Pillar 25: Genetics, Genomics &
+Synthetic Biology.
 """
 
 import sys
@@ -29,6 +30,13 @@ from src.genetics.expression import (
     gene_regulatory_phi, rna_stability_phi, splicing_phi_fidelity,
     protein_phi_interaction, expression_phi_noise, chromatin_phi_state,
     gene_phi_dosage,
+)
+from src.genetics.synthetic_biology import (
+    gene_circuit_phi_attractor, crispr_phi_edit_precision,
+    metabolic_pathway_phi_flux, ai_synbio_phi_convergence,
+    chassis_phi_minimality, biosafety_containment_phi,
+    dna_data_storage_phi_density, directed_evolution_phi_gradient,
+    synthetic_gene_circuit_noise, bioeconomy_phi_output,
 )
 
 
@@ -383,3 +391,296 @@ class TestGenePhiDosage:
 
     def test_diploid(self):
         assert gene_phi_dosage(2, 3.0) == pytest.approx(6.0)
+
+
+# ===========================================================================
+# synthetic_biology.py — Pillar 25 Extension: Synthetic Biology
+# ===========================================================================
+
+class TestGeneCircuitPhiAttractor:
+    def test_no_repressor(self):
+        # phi_repressor=0 → full activator output
+        v = gene_circuit_phi_attractor(2.0, 0.0)
+        assert v == pytest.approx(2.0)
+
+    def test_full_repression(self):
+        # Very high repressor relative to K → output → 0
+        v = gene_circuit_phi_attractor(1.0, 1e6, K=1.0)
+        assert v < 1e-5
+
+    def test_half_max(self):
+        # phi_repressor == K, n=1 → phi_ss = phi_activator / 2
+        v = gene_circuit_phi_attractor(4.0, 1.0, hill_n=1.0, K=1.0)
+        assert v == pytest.approx(2.0)
+
+    def test_hill_cooperativity_sharpens(self):
+        # Higher hill_n → stronger repression when repressor > K
+        # phi_repressor=2.0 > K=1.0:
+        #   n=1: 1/(1+2) = 0.333; n=4: 1/(1+16) = 0.059 → v2 < v1
+        v1 = gene_circuit_phi_attractor(1.0, 2.0, hill_n=1.0, K=1.0)
+        v2 = gene_circuit_phi_attractor(1.0, 2.0, hill_n=4.0, K=1.0)
+        assert v2 < v1
+
+    def test_raises_negative_activator(self):
+        with pytest.raises(ValueError):
+            gene_circuit_phi_attractor(-1.0, 0.5)
+
+    def test_raises_negative_repressor(self):
+        with pytest.raises(ValueError):
+            gene_circuit_phi_attractor(1.0, -0.5)
+
+    def test_raises_zero_K(self):
+        with pytest.raises(ValueError):
+            gene_circuit_phi_attractor(1.0, 0.5, K=0.0)
+
+    def test_raises_zero_hill(self):
+        with pytest.raises(ValueError):
+            gene_circuit_phi_attractor(1.0, 0.5, hill_n=0.0)
+
+
+class TestCrisprPhiEditPrecision:
+    def test_perfect_guide_no_off_target(self):
+        v = crispr_phi_edit_precision(1.0, 0.0)
+        assert v == pytest.approx(1.0)
+
+    def test_hdr_template_adds_phi(self):
+        v = crispr_phi_edit_precision(1.0, 0.0, repair_template_phi=0.5)
+        assert v == pytest.approx(1.5)
+
+    def test_off_target_reduces_edit(self):
+        v = crispr_phi_edit_precision(1.0, 0.2)
+        assert v == pytest.approx(0.8)
+
+    def test_full_off_target_with_template(self):
+        # guide=1.0, off-target=1.0, template=0.3 → 0 + 0.3 = 0.3
+        v = crispr_phi_edit_precision(1.0, 1.0, repair_template_phi=0.3)
+        assert v == pytest.approx(0.3)
+
+    def test_raises_guide_out_of_range(self):
+        with pytest.raises(ValueError):
+            crispr_phi_edit_precision(1.5, 0.0)
+
+    def test_raises_negative_off_target(self):
+        with pytest.raises(ValueError):
+            crispr_phi_edit_precision(0.9, -0.1)
+
+    def test_raises_negative_template(self):
+        with pytest.raises(ValueError):
+            crispr_phi_edit_precision(0.9, 0.1, repair_template_phi=-1.0)
+
+
+class TestMetabolicPathwayPhiFlux:
+    def test_single_enzyme_no_bottleneck(self):
+        v = metabolic_pathway_phi_flux(1, 2.0, 0.0)
+        assert v == pytest.approx(2.0)
+
+    def test_multiple_enzymes(self):
+        v = metabolic_pathway_phi_flux(5, 1.0, 0.0)
+        assert v == pytest.approx(5.0)
+
+    def test_bottleneck_reduces_flux(self):
+        v = metabolic_pathway_phi_flux(5, 1.0, 0.5)
+        assert v == pytest.approx(2.5)
+
+    def test_complete_bottleneck(self):
+        v = metabolic_pathway_phi_flux(5, 1.0, 1.0)
+        assert v == pytest.approx(0.0)
+
+    def test_raises_zero_enzymes(self):
+        with pytest.raises(ValueError):
+            metabolic_pathway_phi_flux(0, 1.0)
+
+    def test_raises_bad_bottleneck(self):
+        with pytest.raises(ValueError):
+            metabolic_pathway_phi_flux(3, 1.0, 1.5)
+
+
+class TestAiSynbioPhiConvergence:
+    def test_zero_cycles(self):
+        v = ai_synbio_phi_convergence(100.0, 0.1, 0)
+        assert v == pytest.approx(0.0)
+
+    def test_one_cycle(self):
+        v = ai_synbio_phi_convergence(100.0, 0.1, 1)
+        assert v == pytest.approx(10.0)
+
+    def test_saturates(self):
+        # Many cycles → approaches phi_design_space
+        v = ai_synbio_phi_convergence(100.0, 0.5, 100)
+        assert v == pytest.approx(100.0, rel=1e-5)
+
+    def test_monotone_increasing(self):
+        vals = [ai_synbio_phi_convergence(1.0, 0.3, n) for n in range(5)]
+        for i in range(len(vals) - 1):
+            assert vals[i] <= vals[i + 1]
+
+    def test_raises_zero_accuracy(self):
+        with pytest.raises(ValueError):
+            ai_synbio_phi_convergence(100.0, 0.0, 5)
+
+    def test_raises_negative_space(self):
+        with pytest.raises(ValueError):
+            ai_synbio_phi_convergence(-1.0, 0.1, 5)
+
+
+class TestChassisPhiMinimality:
+    def test_minimal_genome(self):
+        # n_essential == n_total → minimality = phi_per_gene × 1.0
+        v = chassis_phi_minimality(473, 473, phi_per_gene=1.0)
+        assert v == pytest.approx(1.0)
+
+    def test_bloated_genome(self):
+        v = chassis_phi_minimality(473, 4000, phi_per_gene=1.0)
+        assert v == pytest.approx(473 / 4000)
+
+    def test_phi_per_gene_scales(self):
+        v = chassis_phi_minimality(100, 200, phi_per_gene=2.0)
+        assert v == pytest.approx(1.0)  # 2.0 × 100/200 = 1.0
+
+    def test_raises_zero_essential(self):
+        with pytest.raises(ValueError):
+            chassis_phi_minimality(0, 100)
+
+    def test_raises_total_less_than_essential(self):
+        with pytest.raises(ValueError):
+            chassis_phi_minimality(100, 50)
+
+    def test_raises_zero_phi_per_gene(self):
+        with pytest.raises(ValueError):
+            chassis_phi_minimality(100, 200, phi_per_gene=0.0)
+
+
+class TestBiosafetyContainmentPhi:
+    def test_perfect_containment(self):
+        v = biosafety_containment_phi(1.0, 1.0, auxotrophy_layers=1)
+        assert v == pytest.approx(0.0)
+
+    def test_no_containment(self):
+        v = biosafety_containment_phi(0.5, 0.0, auxotrophy_layers=3)
+        assert v == pytest.approx(0.5)
+
+    def test_multiple_layers_compound(self):
+        # 2 layers of 50% containment → residual = 0.5 × 0.5^2 = 0.125
+        v = biosafety_containment_phi(0.5, 0.5, auxotrophy_layers=2)
+        assert v == pytest.approx(0.5 * 0.5 ** 2)
+
+    def test_monotone_decreasing_with_layers(self):
+        vs = [biosafety_containment_phi(1.0, 0.8, n) for n in range(1, 6)]
+        for i in range(len(vs) - 1):
+            assert vs[i] >= vs[i + 1]
+
+    def test_raises_negative_escape(self):
+        with pytest.raises(ValueError):
+            biosafety_containment_phi(-0.1, 0.9)
+
+    def test_raises_zero_layers(self):
+        with pytest.raises(ValueError):
+            biosafety_containment_phi(0.5, 0.9, auxotrophy_layers=0)
+
+
+class TestDnaDataStoragePhiDensity:
+    def test_no_overhead_perfect_fidelity(self):
+        v = dna_data_storage_phi_density(1000.0, 0.0, synthesis_fidelity=1.0)
+        assert v == pytest.approx(1000.0)
+
+    def test_overhead_reduces_density(self):
+        v = dna_data_storage_phi_density(1000.0, 1.0, synthesis_fidelity=1.0)
+        assert v == pytest.approx(500.0)
+
+    def test_fidelity_reduces_density(self):
+        v = dna_data_storage_phi_density(1000.0, 0.0, synthesis_fidelity=0.9)
+        assert v == pytest.approx(900.0)
+
+    def test_raises_zero_bits(self):
+        v = dna_data_storage_phi_density(0.0, 0.1)
+        assert v == pytest.approx(0.0)
+
+    def test_raises_negative_bits(self):
+        with pytest.raises(ValueError):
+            dna_data_storage_phi_density(-1.0, 0.1)
+
+    def test_raises_zero_fidelity(self):
+        with pytest.raises(ValueError):
+            dna_data_storage_phi_density(100.0, 0.0, synthesis_fidelity=0.0)
+
+
+class TestDirectedEvolutionPhiGradient:
+    def test_zero_rounds(self):
+        v = directed_evolution_phi_gradient(1.0, 1.0, 0)
+        assert v == pytest.approx(1.0)
+
+    def test_increases_with_rounds(self):
+        v = directed_evolution_phi_gradient(1.0, 1.0, 10)
+        assert v > 1.0
+
+    def test_selection_pressure_scales(self):
+        v1 = directed_evolution_phi_gradient(1.0, 1.0, 5)
+        v2 = directed_evolution_phi_gradient(1.0, 2.0, 5)
+        assert v2 > v1
+
+    def test_zero_initial_stays_zero(self):
+        v = directed_evolution_phi_gradient(0.0, 1.0, 10)
+        assert v == pytest.approx(0.0)
+
+    def test_raises_negative_selection(self):
+        with pytest.raises(ValueError):
+            directed_evolution_phi_gradient(1.0, -0.1, 5)
+
+    def test_raises_zero_mutation_rate(self):
+        with pytest.raises(ValueError):
+            directed_evolution_phi_gradient(1.0, 1.0, 5, mutation_rate=0.0)
+
+
+class TestSyntheticGeneCircuitNoise:
+    def test_zero_noise(self):
+        # B_intrinsic ≈ 0 → very high SNR
+        v = synthetic_gene_circuit_noise(10.0, 1e-30, n_redundant_copies=1)
+        assert v > 1e10
+
+    def test_redundancy_increases_snr(self):
+        v1 = synthetic_gene_circuit_noise(1.0, 0.5, n_redundant_copies=1)
+        v4 = synthetic_gene_circuit_noise(1.0, 0.5, n_redundant_copies=4)
+        assert v4 == pytest.approx(v1 * 2.0, rel=1e-6)  # sqrt(4)/sqrt(1) = 2
+
+    def test_raises_negative_signal(self):
+        with pytest.raises(ValueError):
+            synthetic_gene_circuit_noise(-1.0, 0.1)
+
+    def test_raises_zero_copies(self):
+        with pytest.raises(ValueError):
+            synthetic_gene_circuit_noise(1.0, 0.1, n_redundant_copies=0)
+
+    def test_raises_negative_noise(self):
+        with pytest.raises(ValueError):
+            synthetic_gene_circuit_noise(1.0, -0.1)
+
+
+class TestBioeconomyPhiOutput:
+    def test_unit_values(self):
+        v = bioeconomy_phi_output(1.0, 1.0, 1.0)
+        assert v == pytest.approx(1.0)
+
+    def test_scale_factor(self):
+        v = bioeconomy_phi_output(1.0, 1.0, 1.0, scale_factor=1000.0)
+        assert v == pytest.approx(1000.0)
+
+    def test_zero_yield(self):
+        v = bioeconomy_phi_output(10.0, 5.0, 0.0)
+        assert v == pytest.approx(0.0)
+
+    def test_try_product(self):
+        # titer=10, rate=2, yield=0.5, scale=1 → 10
+        v = bioeconomy_phi_output(10.0, 2.0, 0.5)
+        assert v == pytest.approx(10.0)
+
+    def test_raises_negative_titer(self):
+        with pytest.raises(ValueError):
+            bioeconomy_phi_output(-1.0, 1.0, 0.5)
+
+    def test_raises_yield_out_of_range(self):
+        with pytest.raises(ValueError):
+            bioeconomy_phi_output(1.0, 1.0, 1.5)
+
+    def test_raises_zero_scale(self):
+        with pytest.raises(ValueError):
+            bioeconomy_phi_output(1.0, 1.0, 0.5, scale_factor=0.0)

@@ -54,6 +54,9 @@ from pentad_scenarios import (
     total_trust_erasure,
     AsymmetricStressResult,
     asymmetric_coupling_stress_test,
+    DUAL_USE_SAFE_THRESHOLD,
+    BiosecurityRisk,
+    biosecurity_dual_use_risk,
 )
 from unitary_pentad import (
     PentadSystem,
@@ -811,3 +814,83 @@ class TestAsymmetricCouplingStressTest:
     def test_custom_n_points(self):
         r = asymmetric_coupling_stress_test(self.ps, weight_range=2.0, n_points=5)
         assert len(r) == 5
+
+
+# ===========================================================================
+# biosecurity_dual_use_risk — AI × SynBio HILS governance scenario
+# ===========================================================================
+
+class TestBiosecurityDualUseRisk:
+    def test_returns_biosecurity_risk(self):
+        r = biosecurity_dual_use_risk(1.0, 0.05, 1.0, 0.9)
+        assert isinstance(r, BiosecurityRisk)
+
+    def test_no_harm_rate(self):
+        r = biosecurity_dual_use_risk(1.0, 0.0, 2.0, 0.0)
+        assert r.dual_use_risk_index == pytest.approx(0.0, abs=1e-10)
+        assert r.governance_gap is False
+
+    def test_perfect_governance_zeroes_harm(self):
+        r = biosecurity_dual_use_risk(1.0, 100.0, 10.0, 1.0)
+        assert r.effective_harm_rate == pytest.approx(0.0, abs=1e-10)
+        assert r.dual_use_risk_index == pytest.approx(0.0, abs=1e-6)
+        assert r.governance_gap is False
+
+    def test_no_governance_full_harm(self):
+        r = biosecurity_dual_use_risk(1.0, 0.5, 1.0, 0.0)
+        assert r.effective_harm_rate == pytest.approx(0.5)
+        assert r.dual_use_risk_index == pytest.approx(0.5 / 1.0, rel=1e-6)
+
+    def test_governance_gap_detected(self):
+        # harm_rate=1.0, benefit=1.0, gov=0.0 → R_du = 1.0 > threshold
+        r = biosecurity_dual_use_risk(1.0, 1.0, 1.0, 0.0)
+        assert r.governance_gap is True
+
+    def test_governance_gap_closed_above_threshold(self):
+        # With high governance, risk falls below safe threshold
+        r = biosecurity_dual_use_risk(1.0, 0.05, 2.0, 0.95)
+        assert r.dual_use_risk_index < DUAL_USE_SAFE_THRESHOLD
+        assert r.governance_gap is False
+
+    def test_ai_accelerates_both(self):
+        r1 = biosecurity_dual_use_risk(1.0, 0.1, 1.0, 0.0)
+        r2 = biosecurity_dual_use_risk(1.0, 0.1, 5.0, 0.0)
+        # AI acceleration cancels in R_du = harm/benefit (both scaled equally)
+        assert r1.dual_use_risk_index == pytest.approx(
+            r2.dual_use_risk_index, rel=1e-6
+        )
+        # But absolute rates are amplified
+        assert r2.effective_benefit_rate == pytest.approx(5.0 * r1.effective_benefit_rate)
+
+    def test_dual_use_symmetry(self):
+        # Harm and benefit equally rated → R_du = 1 with zero governance
+        r = biosecurity_dual_use_risk(1.0, 1.0, 3.0, 0.0)
+        assert r.dual_use_risk_index == pytest.approx(1.0, rel=1e-6)
+
+    def test_safe_threshold_constant(self):
+        assert DUAL_USE_SAFE_THRESHOLD == pytest.approx(0.1)
+
+    def test_raises_negative_benefit(self):
+        with pytest.raises(ValueError):
+            biosecurity_dual_use_risk(-1.0, 0.1, 1.0, 0.5)
+
+    def test_raises_negative_harm(self):
+        with pytest.raises(ValueError):
+            biosecurity_dual_use_risk(1.0, -0.1, 1.0, 0.5)
+
+    def test_raises_acceleration_below_one(self):
+        with pytest.raises(ValueError):
+            biosecurity_dual_use_risk(1.0, 0.1, 0.5, 0.5)
+
+    def test_raises_governance_out_of_range(self):
+        with pytest.raises(ValueError):
+            biosecurity_dual_use_risk(1.0, 0.1, 1.0, 1.5)
+
+    def test_fields_present(self):
+        r = biosecurity_dual_use_risk(2.0, 0.3, 4.0, 0.8)
+        assert hasattr(r, 'dual_use_risk_index')
+        assert hasattr(r, 'governance_gap')
+        assert hasattr(r, 'ai_acceleration')
+        assert hasattr(r, 'governance_phi')
+        assert hasattr(r, 'effective_harm_rate')
+        assert hasattr(r, 'effective_benefit_rate')
