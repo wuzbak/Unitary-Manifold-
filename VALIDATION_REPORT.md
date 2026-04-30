@@ -1,8 +1,8 @@
-# Validation Report — Unitary Manifold (v9.23 — CLOSED EDITION)
+# Validation Report — Unitary Manifold (v9.27 — OMEGA EDITION)
 
 *An expanded explanation of the Pinned Validation section at the top of `README.md`.*
 
-**Version:** v9.23 — CLOSED EDITION (92 pillars) — April 2026  
+**Version:** v9.27 — OMEGA EDITION (99 pillars) — April 2026  
 **Theory:** ThomasCory Walker-Pearson  
 **Verification:** GitHub Copilot (AI)
 
@@ -45,8 +45,8 @@ equations and no jargon. The second half goes technical.
 
 | Verdict | Detail |
 |---------|--------|
-| Mathematics: internally consistent | No contradictions found across any of the 92 pillars |
-| Test suite: 14,183 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/) |
+| Mathematics: internally consistent | No contradictions found across any of the 99 pillars |
+| Test suite: 15,023 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/, omega/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -195,12 +195,13 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–74 + 70-B + 75, 80–92) | `pytest tests/ -q` | ~12,613 | ~12,601 | 2 | 11 | **0** |
+| Core physics (Pillars 1–74 + 70-B + 75, 80–99) | `pytest tests/ -q` | ~12,613 | ~12,601 | 2 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "Unitary Pentad/" -q` | ~1,266 | ~1,266 | 0 | 0 | **0** |
-| **Grand total** | | **~14,195** | **14,183** | **2** | **11** | **0** |
+| Omega synthesis (Pillar Ω) | `pytest omega/ -q` | ~168 | ~168 | 0 | 0 | **0** |
+| **Grand total** | | **~14,363** | **15,023** | **2** | **11** | **0** |
 
-The 145 test files in `tests/` cover all 92 pillars.
+The test files in `tests/` cover all 99 pillars.
 
 ### The 2 skipped tests — why they are not failures
 
@@ -407,7 +408,7 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad, ~130 seconds)
 python3 -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 14183 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q

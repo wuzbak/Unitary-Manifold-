@@ -24,16 +24,16 @@
  recycling/              316
  Unitary Pentad/       1266
  ─────────────────────────────────────────────────────────────
- Total collected    14195  (12613 + 316 + 1266)
- Passed             14183
+ Total collected    15191  (12613 + 316 + 1266 + omega/168)
+ Passed             15023
  Skipped                2  (entropy guard + arrow_of_time)
  Failed                 0
  Slow-deselected       11  (test_richardson_multitime.py)
 
 ── VERDICT ──────────────────────────────────────────────────────
  [PASS] All 13 VERIFY.py checks pass
- [PASS] 14183/14183 executed tests pass
- [PASS] 0 failures across 92 pillars (v9.23)
+ [PASS] 15023/15023 executed tests pass
+ [PASS] 0 failures across 99 pillars (v9.27)
 
 ================================================================
 Plots saved to results/

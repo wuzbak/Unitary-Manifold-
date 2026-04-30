@@ -172,7 +172,7 @@ Each post draws directly from these repository documents:
 *Series concept and content strategy: ThomasCory Walker-Pearson.*
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-## Posts 75–96: The Closing Arc (v9.25 — UNITARY CLOSURE EDITION)
+## Posts 75–96: The Closing Arc (v9.25 — OMEGA EDITION)
 
 | File | Post | Topic |
 |------|------|-------|
@@ -223,7 +223,7 @@ Each post draws directly from these repository documents:
 | `src/core/bh_remnant.py`, `src/multiverse/fixed_point.py` | Post 94 |
 | All posts 00–95, `COMPLETION_REPORT.md` | Post 96 |
 
-## Posts 97–98: Closing Gap 1 — Absolute Fermion Mass Scale (v9.27 — GW YUKAWA EDITION)
+## Posts 97–98: Closing Gap 1 — Absolute Fermion Mass Scale (v9.27 — OMEGA EDITION)
 
 | File | Type | Topic |
 |------|------|-------|

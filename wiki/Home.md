@@ -4,7 +4,7 @@
 
 Welcome to the **Unitary Manifold** project wiki. This wiki documents the theory, code, and usage of the Unitary Manifold (UM) framework — a five-dimensional gauge-geometric approach that geometrises thermodynamic irreversibility and information flow.
 
-**Current version:** 9.23 · **92 pillars closed** · **14,183 tests passing · 0 failures**
+**Current version:** 9.27 · **99 pillars closed** · **15,023 tests passing · 0 failures**
 
 ---
 
@@ -44,7 +44,7 @@ The braided (5, 7) winding resolution — using $k_\text{CS} = 74$ — simultane
 | [Mathematical Framework](Mathematical-Framework) | 5D metric ansatz, key fields, core equations, and braided winding |
 | [Field Equations](Field-Equations) | Walker–Pearson equations: derivation and structure |
 | [Numerical Methods](Numerical-Methods) | Discretisation pipeline, stability, and recommended settings |
-| [API Reference](API-Reference) | Public API for all Python source modules (92 pillars) |
+| [API Reference](API-Reference) | Public API for all Python source modules (99 pillars) |
 | [Monograph Structure](Monograph-Structure) | Chapter map of the full 74-chapter monograph |
 | [Contributing](Contributing) | How to contribute, review, and cite this work |
 

@@ -139,7 +139,7 @@ A Theory of Everything, in the technical sense used by physicists, must:
 most developed and mathematically rigorous Kaluza-Klein theory of its type
 currently in existence. Here is what that means precisely:**
 
-**What it IS (v9.26):**
+**What it IS (v9.27):**
 - A fully consistent 5D geometric framework that derives the arrow of time,
   3 generations, α, nₛ, r, and β from a single 5D metric ansatz
 - A framework that derives or geometrically constrains 15+ of the ~28 SM parameters:
@@ -151,7 +151,7 @@ currently in existence. Here is what that means precisely:**
   at SM one-loop level + neutrino c_{Lν_i} derived from GW braid suppression (Pillar 97)
 - A theory with sharp, near-term falsifiable predictions (LiteBIRD, CMB-S4, DUNE/Hyper-K)
 - A framework that demonstrates internal mathematical consistency across
-  98 computational pillars and 14,855 automated tests (0 failures)
+  99 computational pillars and 15,023 automated tests (0 failures)
 - The neutrino mass tension is now **fully resolved**: Σm_ν ≈ 108 meV < 120 meV (Pillars 88, 97)
 - Vacuum selection is now **purely algebraic**: G_{μ5} Z₂-parity → Dirichlet BC → APS η̄=½ → n_w=5 (Pillar 89, no M-theory, no observational input)
 
@@ -321,7 +321,7 @@ now **fully resolved**. Resolution A (Pillar 88):
 - Exactly two lossless sectors: {(5,6),(5,7)} — proved without enumeration ∎
 - FTUM sector-agnostic fixed point: S*(5,6) = S*(5,7) = A/(4G) — proved
 - Unitary Summation capstone: 10 closure steps assembling all pillars into a single statement
-- Repository milestone: 14,855 passing tests across 98 pillars (prior: 14,641 = 11⁴ was a structural coincidence at v9.25; the count has grown with Pillars 97-98)
+- Repository milestone: 15,023 passing tests across 99 pillars (prior: 14,641 = 11⁴ was a structural coincidence at v9.25; the count has grown with Pillars 97-99)
 - 59 tests, 0 failures
 
 ### Three existing pillars upgraded in v9.23:

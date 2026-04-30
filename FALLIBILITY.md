@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.25 — ThomasCory Walker-Pearson, 2026 (96 pillars/modules closed, 14,641 tests)*
+*Unitary Manifold v9.27 — ThomasCory Walker-Pearson, 2026 (99 pillars/modules closed, 15,023 tests)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 14,641 automated tests (96 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 2 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 15,023 automated tests (99 pillars/modules closed; collected across `tests/`, `recycling/`, and `Unitary Pentad/`; 2 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "14,641 passed · 2 skipped · 0 failed," this is a statement about
+When the README badge reads "15,023 passed · 2 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -1042,7 +1042,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 14,641 passed · 2 skipped · 0 failed (96 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
+| 15,023 passed · 2 skipped · 0 failed (99 pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is observationally selected within Z₂-constrained odd set, not freely fitted from continuous range |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck r < 0.036 | k_cs=74 algebraically derived (Pillar 58); no new free parameter |
 | β ∈ {0.273°, 0.331°} — two viable states | ✅ Matches birefringence hint | (5,6) and (5,7) survive triple constraint; gap [0.29°–0.31°] = zero viable pairs |
@@ -1485,7 +1485,7 @@ Open gaps after Pillar 62:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 14,641 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
+| 15,023 passed · 2 skipped · 0 failed | ✅ Confirmed | Internal consistency only |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
@@ -1525,7 +1525,7 @@ Open gaps after Pillar 62:
 
 *Added April 2026 upon completion of Pillar 74.*
 
-The Unitary Manifold framework is **substantially complete at 98 pillars**.
+The Unitary Manifold framework is **substantially complete at 99 pillars**.
 
 The number 74 = 5² + 7² = k_CS is not an aesthetic choice — it is the unique integer
 simultaneously satisfying seven independent structural constraints (proved in
