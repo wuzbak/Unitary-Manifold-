@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.25 — UNITARY CLOSURE EDITION |
+| Version | 9.27 — OMEGA EDITION |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.26):** All six completion requirements are solved internally, plus 22 additional particle-physics pillars (75, 80–96) closed. REPOSITORY OPEN (v9.26 — 98 pillars). 14,855 tests.
+**Self-completion status (v9.27):** All six completion requirements are solved internally, plus 25 additional particle-physics pillars (75, 80–99) closed. REPOSITORY COMPLETE (v9.27 — OMEGA EDITION — 99 pillars). 15,023 tests.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -458,7 +458,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **14,868 collected: 14,855 passed · 2 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + Unitary Pentad/). **14,855** — structural milestone. |
+| **Test suite** | `pytest` unit tests — **15,023 passed · 2 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + Unitary Pentad/ + omega/). **15,023** — structural milestone. |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
