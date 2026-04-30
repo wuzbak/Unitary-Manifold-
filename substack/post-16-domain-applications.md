@@ -281,7 +281,24 @@ collaboration. That is the open invitation the framework extends.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+---
+
+## Going Deeper: The Engineer's Manifold
+
+**[The Engineer's Manifold — Omega Edition](book-systems-engineering-omega.md)**
+*From Garage to Orbit: What Every Systems Engineer Gets Right, Gets Wrong, and Needs to Build Next*
+
+The same field equations that map to medicine, justice, ecology, and governance also map — precisely — to every engineered system from a $2 Arduino to a deep-space spacecraft. The Engineer's Manifold is the full book treatment:
+
+- **[Part III](book-systems-engineering-omega.md#part-iii-current-systems--what-we-get-right-and-wrong)** — Domain-by-domain failure analysis: consumer electronics and gaming (PlayStation 5, TCP buffer bloat), embedded firmware (FreeRTOS, DMA cache coherency), networking (BBR, QUIC, 5G handoff storms), robotics (Kalman filter, actuator saturation, 737 MAX MCAS), space systems (JPL fault protection, Voyager 1 clock sync, Starliner OFT-1 anomaly)
+- **[Part V](book-systems-engineering-omega.md#part-v-fixes--what-to-do-right-now)** — Ten immediate fixes applicable at any scale, from a hobbyist's ESP8266 to a NASA mission operations center
+- **[Appendix F](book-systems-engineering-omega.md#appendix-f--quick-reference-diagnostic-card)** — Printable three-number diagnostic card (φ_min, B_div, Δφ)
+
+*Full source: [book-systems-engineering-omega.md](book-systems-engineering-omega.md)*
+
+---
+
+*Full source code, derivations, and 15,072 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Medicine: `src/medicine/` — 139 tests in `tests/test_medicine.py`*
 *Justice: `src/justice/` — 124 tests in `tests/test_justice.py`*

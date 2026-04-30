@@ -3,6 +3,10 @@
 This directory contains ready-to-publish Substack post drafts for communicating
 the Unitary Manifold framework to a general audience.
 
+## The Canonical Book — Version Omega
+
+**[book-version-omega.md](book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
+
 ## Publishing Order
 
 | File | Post | Status |
@@ -130,6 +134,7 @@ Each post draws directly from these repository documents:
 | `src/justice/` | Post 16 |
 | `src/ecology/` | Post 16 |
 | `src/governance/` | Post 16 |
+| `systems-engineering/` (7 files); `book-systems-engineering-omega.md` | Post 16, Post 93 |
 | `src/cold_fusion/tunneling.py`, `src/physics/lattice_dynamics.py` | Post 17 |
 | `recycling/README.md`, `recycling/polymers.py`, `recycling/producer_responsibility.py` | Post 18 |
 | `src/core/roman_space_telescope.py` | Post 19 |
@@ -301,10 +306,12 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 | `book-axiom-journalism-series-04-verification.md` | **Series 4/4** | The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human |
 | `book-axiom-journalism-series-05-oracle.md` | **Series 4/5** | The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty |
 | `book-axiom-journalism-series-06-omega.md` | **Series 4/6** | The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis |
-| `book-learning-crisis-omega.md` | **Book 5** | The Learning Crisis — What's Broken in Education and What the Evidence Says (~117 KB) |
-| `book-curriculum-vol1-preK-5.md` | **Book 6** | K-12 Curriculum Guide Vol. 1: PreK–5 — Foundations for a Lifetime of Learning (~90 KB) |
-| `book-curriculum-vol2-6-8.md` | **Book 7** | K-12 Curriculum Guide Vol. 2: Grades 6–8 — The Middle School Years (~68 KB) |
-| `book-curriculum-vol3-9-12-beyond.md` | **Book 8** | K-12 Curriculum Guide Vol. 3: Grades 9–12 and Beyond — High School to the Research Frontier (~56 KB) |
+| `book-systems-engineering-omega.md` | **Book 5** | The Engineer's Manifold — From Garage to Orbit: Systems Engineering for All Levels (~87 KB) |
+| `book-version-omega.md` | **Book 6** | The Unitary Manifold: Version Omega — Complete 18-Chapter Rewrite of the v9a Monograph (~91 KB) |
+| `book-learning-crisis-omega.md` | **Book 7** | The Learning Crisis — What's Broken in Education and What the Evidence Says (~117 KB) |
+| `book-curriculum-vol1-preK-5.md` | **Book 8** | K-12 Curriculum Guide Vol. 1: PreK–5 — Foundations for a Lifetime of Learning (~90 KB) |
+| `book-curriculum-vol2-6-8.md` | **Book 9** | K-12 Curriculum Guide Vol. 2: Grades 6–8 — The Middle School Years (~68 KB) |
+| `book-curriculum-vol3-9-12-beyond.md` | **Book 10** | K-12 Curriculum Guide Vol. 3: Grades 9–12 and Beyond — High School to the Research Frontier (~56 KB) |
 
 **Cross-references to numbered posts:**
 
@@ -314,7 +321,7 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 | The Climate Reckoning + Prediction Markets | post-52-economics-implications.md |
 | Axiom Journalism Series (Parts 1, 3, 4) | post-53-education-implications.md |
 | Axiom Journalism Series (Parts 1, 2, 4, 6) | post-54-ai-implications.md |
-| The Learning Crisis + K-12 Curriculum Vols. 1–3 | post-24-educational-systems.md · post-53-education-implications.md |
+| The Learning Crisis + K-12 Curriculum Vols. 8–10 | post-24-educational-systems.md · post-53-education-implications.md |
 
 See [BOOKS_README.md](BOOKS_README.md) for full details on each book and series.
 

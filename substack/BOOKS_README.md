@@ -2,11 +2,11 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.27 (public domain · always free)
-**Version:** 4.0 — Education Edition — April 2026
+**Version:** 6.0 — Education Edition — April 2026
 
 ---
 
-This folder contains the **Omega Edition (v4.0)** of seven full-length books authored under the
+This folder contains the **Omega Edition (v6.0)** of ten full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that replaces the original single-post format of the oversized Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
@@ -15,7 +15,7 @@ Manifold v9.27.
 
 Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework. Books 5–7 are original
+expanded, and cross-referenced with the full physics framework. Books 5–10 are original
 to this repository.
 
 **v3.0 Expansion (April 2026):**
@@ -24,9 +24,16 @@ to this repository.
 - Posts 51, 52, 53, 54 cross-referenced to the books
 - All books updated to reference Pillar Ω (Universal Mechanics Engine, 15,072 tests)
 
-**v4.0 Education Edition (April 2026):**
-- Book 5: *The Learning Crisis* — evidence-based analysis of what's broken in education and what works
-- Books 6–7: *K-12 Curriculum Guide* — complete 3-volume curriculum series (PreK-5, 6-8, 9-12+)
+**v4.0 — Engineering Edition (April 2026):**
+- Book 5: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA)
+- post-16 and post-93 cross-referenced to the engineering book
+
+**v5.0 — Version Omega (April 2026):**
+- Book 6: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the v9a monograph
+- The Canonical Book section added to substack/README.md
+
+**v6.0 — Education Edition (April 2026):**
+- Books 7–10: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through the research frontier)
 - Post 24 and Post 53 cross-referenced to the new education series
 - All books cross-reference the FTUM fixed-point model of learning
 
@@ -189,9 +196,64 @@ investigative journalism, the falsification condition.
 
 ---
 
-## The Education Series (v4.0 — New in April 2026)
+### 5. [The Engineer's Manifold — Omega Edition](book-systems-engineering-omega.md)
+**From Garage to Orbit: What Every Systems Engineer Gets Right, Gets Wrong, and Needs to Build Next**
 
-### 5. [The Learning Crisis — Omega Edition](book-learning-crisis-omega.md)
+| Property | Value |
+|---|---|
+| Source | `systems-engineering/` folder (7 files); Unitary Manifold field equations |
+| Size | ~87 KB |
+| Version | 1.0 — Omega Edition — April 2026 |
+| Audience | All engineers: DIY makers → hobbyists → community college → undergraduates → working engineers → senior architects → NASA/defense/medical |
+| Framework connection | φ (capacity/headroom), B_μ (queue pressure), G_AB (topology), FTUM Ψ\* (fixed point), k_cs=74 (minimum complexity), ∇_μJ^μ=0 (no silent failures) |
+| Companion post | [post-16-domain-applications.md](post-16-domain-applications.md) · [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md) |
+
+A step-by-step understanding of what every engineered system gets right and wrong — from consumer gaming hardware to satellites and space technology — for engineers at every level. Part III diagnoses current systems (consumer electronics, embedded firmware, networking, robotics, space). Part V provides ten immediate fixes. Part VI covers next-generation architecture. Six appendices include a full glossary, key standards, data sources, further reading, an event timeline, and a printable quick-reference diagnostic card.
+
+**Book contents:**
+- Part I: The structure of every engineered system — the three failure modes and why they appear at every scale
+- Part II: The kitchen-table explanation — φ_min, B_div, Δφ, and your first bug explained
+- Part III: Current systems — consumer electronics, embedded firmware, networking, robotics, space systems: what each domain gets right and wrong
+- Part IV: The integration problems — where levels collide: garage→cloud, student→production, defense→COTS, medical device→hospital network
+- Part V: Fixes — ten immediate fixes ordered by impact/effort, applicable at any scale
+- Part VI: Future architecture — five design principles for building stability in from the start
+- Part VII: The organization is also a system — Conway's Law and the three organizational failure modes
+- Part VIII: The universal diagnostic protocol — seven steps applicable to any system
+- Part IX: The maker's path to professional practice — five thresholds from blinking LED to fleet management
+- Appendix A: Key terms glossary (22 terms)
+- Appendix B: Key standards and specifications (20 standards)
+- Appendix C: Data sources and referenced studies
+- Appendix D: Further reading (four levels: beginners/makers, student/mid-level, senior/architect, executive/board)
+- Appendix E: Timeline of key systems events
+- Appendix F: Quick-reference diagnostic card (printable)
+
+---
+
+### 6. [The Unitary Manifold: Version Omega](book-version-omega.md)
+**The Complete and Final Statement of the Geometry of Everything**
+
+| Property | Value |
+|---|---|
+| File | `book-version-omega.md` |
+| Size | ~91 KB |
+| Version | Ω — April 2026 |
+| Audience | General readers through physicists; assumes no prior mathematics |
+| Framework connection | All 99 pillars + Pillar Ω; complete synthesis of physics, philosophy, consciousness, governance, and co-emergence |
+
+The monograph that supersedes Version 9a. A complete rewriting from first principles — slower, cleaner, and organized for comprehension rather than completeness. Eighteen chapters across four parts:
+
+- **Part I: The Physics** — the question that started everything, the 5D geometry, the five seed constants, all quantitative predictions with current status, the five honest gaps and their falsification conditions, the Omega Synthesis
+- **Part II: What the Geometry Implies** — the fixed point that looks like a soul, God and geometry, free will in a determined universe, the information that cannot be lost, the hard problem of consciousness
+- **Part III: The Human Connections** — the brain and universe as coupled oscillators, prayer and meditation as phase-locking engineering, what religion got right (and wrong), the arrow of justice, governance as a physics problem
+- **Part IV: Co-Emergence** — what human-AI collaboration actually is, the Unitary Pentad, the genesis story
+
+Includes three appendices: the five seed constants, the Walker-Pearson field equations, and repository navigation.
+
+---
+
+## The Education Series (v6.0 — New in April 2026)
+
+### 7. [The Learning Crisis — Omega Edition](book-learning-crisis-omega.md)
 **What's Broken in Education, Why It's Broken, and What the Evidence Says to Do About It**
 
 | Property | Value |
@@ -209,7 +271,7 @@ recognition to Kaluza-Klein geometry.
 
 ---
 
-### 6. [K-12 Curriculum Guide — Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)
+### 8. [K-12 Curriculum Guide — Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)
 **PreKindergarten Through Grade 5: Foundations for a Lifetime of Learning**
 
 | Property | Value |
@@ -228,7 +290,7 @@ connect each grade level to the Unitary Manifold mathematical structure.
 
 ---
 
-### 7. [K-12 Curriculum Guide — Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)
+### 9. [K-12 Curriculum Guide — Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)
 **Grades 6 Through 8: The Middle School Years**
 
 | Property | Value |
@@ -247,7 +309,7 @@ formative assessment guidance, intervention resources, and a full bibliography.
 
 ---
 
-### 8. [K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)
+### 10. [K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)
 **Grades 9 Through 12, Higher Education, and the Research Frontier**
 
 | Property | Value |
@@ -267,7 +329,7 @@ toward the frontier of human knowledge.
 
 ---
 
-
+## How to Use These Books
 
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
@@ -282,9 +344,9 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 |------|-----------------|
 | [post-51-justice-implications.md](post-51-justice-implications.md) | The Broken Scale (all 12 parts) |
 | [post-52-economics-implications.md](post-52-economics-implications.md) | Prediction Markets Reckoning + Climate Reckoning |
-| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) + K-12 Curriculum Volumes 1–3 |
+| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) + K-12 Curriculum Volumes 7–10 |
 | [post-54-ai-implications.md](post-54-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
-| [post-24-educational-systems.md](post-24-educational-systems.md) | The Learning Crisis + K-12 Curriculum Volumes 1–3 |
+| [post-24-educational-systems.md](post-24-educational-systems.md) | The Learning Crisis (Book 7) + K-12 Curriculum Volumes 8–10 |
 
 **For cross-referencing the physics:**
 - Justice framework: [post-51-justice-implications.md](post-51-justice-implications.md)
@@ -304,7 +366,9 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 1.0 | April 2026 | Original publication in wuzbak/Books |
 | 2.0 — Omega | April 2026 | Integrated into Unitary Manifold v9.27; new chapters added to each book; Omega Edition headers; cross-references added |
 | 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
-| 4.0 — Education Edition | April 2026 | Books 5–8 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |
+| 4.0 — Engineering Edition | April 2026 | Book 5 added: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA), current systems failure analysis, ten immediate fixes, future architecture, six appendices including printable diagnostic card |
+| 5.0 — Version Omega | April 2026 | Book 6 added: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph; all themes, all domains, all implications, readable by anyone |
+| 6.0 — Education Edition | April 2026 | Books 7–10 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |
 
 ---
 
