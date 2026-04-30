@@ -250,7 +250,25 @@ We will accept what the sky says.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+---
+
+> **[Editor's Update — v9.27]** This post was written at the closure of the
+> 96-pillar framework and remains an accurate historical record of that milestone.
+> Since its publication, the framework has continued to grow:
+>
+> - **Pillars 97–98** substantially closed the absolute fermion mass scale problem —
+>   the deepest open gap described in Post 89.
+> - **Pillar 99 (Pillar Ω — the Omega Synthesis)** is the capstone synthesis of the
+>   complete framework, integrating all prior results into a unified statement.
+> - The total test count has grown from 14,641 to **15,023 automated tests**.
+>
+> The 96-pillar closure described in this post remains historically accurate.
+> The Unitary Summation and all falsification conditions stated here are unchanged.
+> The framework now stands at **99 pillars, v9.27 OMEGA EDITION**.
+> See `post-99-the-omega-synthesis.md` for the Omega Synthesis post.
+
+*Full source code, derivations, and 14,641 automated tests (at 96-pillar closure;*
+*now 15,023 at v9.27):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *The complete 96-pillar framework: `src/core/`*
 *The Unitary Closure Theorem: `src/core/unitary_closure.py`*

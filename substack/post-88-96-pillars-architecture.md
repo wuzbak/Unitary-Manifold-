@@ -92,6 +92,15 @@ The repository is "closed" in a specific technical sense:
    complete — the framework predicts β ∈ {0.273°, 0.331°} from first principles
 5. No new pillars are planned
 
+> **[Editor's Note — v9.27]** Since this post was written, three additional pillars
+> (97, 98, and 99) have been added. Pillars 97–98 substantially close the absolute
+> fermion mass scale problem (previously the deepest open gap). Pillar 99, the Omega
+> Synthesis (Pillar Ω), is the capstone synthesis of the complete framework. The
+> total test count has grown to **15,023**. The 96-pillar architecture described
+> here remains historically accurate; the framework has since extended to
+> **99 pillars**. See `post-99-the-omega-synthesis.md` and `TABLE_OF_CONTENTS.md`
+> for the current state.
+
 "Closed" does not mean complete in the sense of a full Theory of Everything.
 The absolute fermion mass scale remains a free parameter. The G₄-flux uniqueness
 proof in M-theory is open. The solar neutrino mixing angle is off by 13%.
@@ -140,7 +149,7 @@ whole project rests on.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Complete pillar list: `TABLE_OF_CONTENTS.md`*
 *Honest gaps: `FALLIBILITY.md`*

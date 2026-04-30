@@ -36,6 +36,12 @@ fixed point. It is the one remaining free parameter in the fermion sector.
 If λ_Y can be derived from the FTUM fixed point φ₀ via λ_Y = φ₀^{-2} × g_brane,
 the scale problem closes. This is a conjecture, not a proof.
 
+> **[Editor's Note — v9.27]** Pillars 97 and 98, added after this post was written,
+> substantially close the absolute fermion mass scale problem. The FTUM-fixed-point
+> derivation of λ_Y (the conjecture described above) is now implemented and tested.
+> The fermion mass scale is no longer the open gap it was at the time of writing.
+> See `FALLIBILITY.md` (current edition) for the updated accounting.
+
 ---
 
 ## Gap 2: The Solar Neutrino Mixing Angle
@@ -177,7 +183,7 @@ framework should be positioned to address.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Complete gap list: `FALLIBILITY.md`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
