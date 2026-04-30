@@ -264,9 +264,46 @@ noise.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+## Synthetic Biology: Deliberate Attractor Engineering (Pillar 25 Extension)
+
+Evolution discovers FTUM fixed points through a four-billion-year random walk.
+Synthetic biology *designs* them deliberately — in days to months instead of
+geological timescales.
+
+The genetics module has been extended with `src/genetics/synthetic_biology.py`,
+a Pillar 25 extension motivated by Dr. Cindy Groff-Vindman's question at the
+2026 Synthetic Biology Summit: *What does your framework say about the
+engineering of life?*
+
+The answer maps ten core SynBio operations onto the φ/B_μ/FTUM vocabulary:
+
+| SynBio operation | UM language |
+|---|---|
+| Gene circuit (toggle switch, oscillator) | Designed FTUM attractor |
+| CRISPR edit | Targeted B_μ perturbation that moves the φ fixed-point |
+| Metabolic pathway engineering | Rewired B_μ gauge network |
+| AI-driven design-build-test | Gradient descent on the φ-potential landscape |
+| Chassis minimality | Minimum-complexity φ-substrate (k_cs analogue) |
+| Biosafety kill-switch | FTUM attractor-stability radius (engineering analogue of vacuum stability) |
+| DNA data storage | Maximum-density φ-storage (2 bits/base pair) |
+| Directed evolution | Accelerated B_μ walk with selection — φ-landscape navigation at speed |
+| Synthetic circuit noise | φ-noise floor of the engineered attractor |
+| Bioeconomy output | φ-flux from optimised attractor steady states |
+
+The dual-use governance implications are handled by the Unitary Pentad's
+`biosecurity_dual_use_risk()` function in `pentad_scenarios.py`. The key
+finding: governance_phi = 1 (full HILS oversight) drives harm-to-benefit
+ratio → 0 regardless of AI acceleration — because AI multiplies both harm
+and benefit equally. The HILS layer is the only reliable brake.
+
+**See post 27.a:** [Synthetic Biology Is Attractor Engineering](post-97-synthetic-biology-attractor-engineering.md)
+
+---
+
+*Full source code, derivations, and 15,100 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
-*Genetics module: `src/genetics/` — 78 tests in `tests/test_genetics.py`*
+*Genetics module: `src/genetics/` — 141 tests in `tests/test_genetics.py`*
+*Synthetic biology extension: `src/genetics/synthetic_biology.py` (Pillar 25 Extension)*
 *Biology module: `src/biology/` — see `src/biology/evolution.py`, `src/biology/life.py`*
 *Ecology module: `src/ecology/` — 70 tests in `tests/test_ecology.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

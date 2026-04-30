@@ -1,4 +1,4 @@
-# Post 97: Synthetic Biology Is Attractor Engineering
+# Post 27.a: Synthetic Biology Is Attractor Engineering
 
 *ThomasCory Walker-Pearson | Unitary Manifold Series*
 
