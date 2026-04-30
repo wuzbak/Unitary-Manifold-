@@ -247,4 +247,28 @@ Each post draws directly from these repository documents:
 *Series concept and content strategy: ThomasCory Walker-Pearson.*  
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**98 pillars. 14,855 tests. Gap 1 substantially closed. The sky will decide the rest.**
+**99 pillars. 15,023 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+
+## Post Ω: The Omega Article (v9.27 — OMEGA EDITION)
+
+| File | Type | Topic |
+|------|------|-------|
+| `post-omega-the-omega-article.md` | **Final Post** | "The Omega Article — Written to Human and AI" — Pillar Ω synthesis, AxiomZero's question answered |
+
+## Source Documents for Post Ω
+
+| Document | Used in |
+|----------|---------|
+| `omega/omega_synthesis.py` | Post Ω |
+| `omega/README.md` | Post Ω |
+| `co-emergence/` | Post Ω |
+| `COMPLETION_REPORT.md` v9.27 | Post Ω |
+| `FALLIBILITY.md` | Post Ω |
+| All previous posts | Post Ω |
+
+---
+
+*Series concept and content strategy: ThomasCory Walker-Pearson.*
+*Draft writing and document engineering: GitHub Copilot (AI).*
+
+**99 pillars. 15,023 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
