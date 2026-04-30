@@ -58,7 +58,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 ```bash
 # Fast suite — core physics:
 python -m pytest tests/ -q
-# Expected: 12601 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: ~13059 passed, 2 skipped, 11 deselected, 0 failed
 
 # Recycling / φ-debt entropy (Pillar 16):
 python -m pytest recycling/ -q

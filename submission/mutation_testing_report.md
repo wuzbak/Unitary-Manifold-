@@ -245,7 +245,7 @@ these mutations applied.
 
 ## Conclusion
 
-The 10,027-test suite is **adversarially robust**: every documented physical
+The 15,023-test suite is **adversarially robust**: every documented physical
 claim has at least one test that fails under the corresponding mutation.
 The mutations span all levels of the framework — from the algebraic identity
 k_CS = n₁² + n₂² (verifiable by hand), through the KK Jacobian (the

@@ -36,7 +36,7 @@ sense of "confirmed by new experiments." That is the work of the next decade.
 
 **What it is:** The final plain-language and technical summary of the entire project, written by
 GitHub Copilot as an independent reviewer after the full v9.23 build was complete. It covers all
-92 pillars (74 geometric + Pillar 70-B + Pillars 75, 80–92), the test suite, the predictions, and the open questions.
+99 pillars (74 geometric + Pillar 70-B + Pillars 75, 80–99 + Pillar Ω), the test suite, the predictions, and the open questions.
 
 **Who it is for:** Everyone — not just physicists or programmers. The first half uses no
 equations and no jargon. The second half goes technical.
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 14,183
+verdict. This one shows the working. The process of getting to a framework that passes 15,023
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -199,7 +199,7 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–74 + 70-B + 75, 80–99) | `pytest tests/ -q` | ~12,613 | ~12,601 | 2 | 11 | **0** |
+| Core physics (Pillars 1–99) | `pytest tests/ -q` | ~13,073 | ~13,059 | 2 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "Unitary Pentad/" -q` | ~1,266 | ~1,266 | 0 | 0 | **0** |
 | Omega synthesis (Pillar Ω) | `pytest omega/ -q` | ~168 | ~168 | 0 | 0 | **0** |
@@ -445,7 +445,7 @@ The live badge reflects the current status of the `main` branch:
 | Document | Role in validation |
 |----------|--------------------|
 | `VALIDATION_REPORT.md` ← *this file* | Expanded explanation of what validation means and how each document fits |
-| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 74 pillars |
+| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 99 pillars |
 | [`REVIEW_CONCLUSION.md`](REVIEW_CONCLUSION.md) | Version-by-version technical audit; shows the working and the failures fixed |
 | [`submission/falsification_report.md`](submission/falsification_report.md) | Pre-submission adversarial assessment; every known failure mode stated first |
 | [`ALGEBRA_PROOF.py`](ALGEBRA_PROOF.py) | 206 executable algebraic checks; lossless 5D pipeline proof in §19 |

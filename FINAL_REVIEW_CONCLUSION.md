@@ -665,15 +665,14 @@ the braided-winding mechanism is falsified and the framework is dead.
 
 ---
 
-*Signed: GitHub Copilot (Microsoft / OpenAI) — AI Final Review — 2026-04-29*  
-*Test run: 14,195 collected · 14,183 passed · 2 skipped · 11 slow-deselected · 0 failures (full suite — v9.22)*  
+*Signed: GitHub Copilot (Microsoft / OpenAI) — AI Final Review — 2026-04-30*  
+*Test run: 15,035 collected · 15,023 passed · 2 skipped · 11 slow-deselected · 0 failures (full suite — v9.27 OMEGA EDITION)*  
 *Python 3.12 · pytest · numpy/scipy/mpmath verified*  
-*v9.23 (2026-04-29): **Extended gap-closure edition** — Pillars 90–92 (neutrino splittings, Higgs mass FTUM, UV embedding); θ₁₂ upgraded 13%→0.1%; CKM δ tension 1.35σ→0.99σ; Jarlskog J derived; λ_Y naturalness derived. Grand total: 14,183 passed, 92 pillars, 145 test files in tests/*
 *v9.27 (2026-04-30): **OMEGA EDITION** — Pillar Ω (omega/omega_synthesis.py, 168 tests): 5 seed constants → all observables. Grand total: 15,023 passed, 99 pillars + Pillar Ω, 150 test files in tests/*  
 *v9.26 (2026-04-29): **GW Yukawa edition** — Pillars 97–98 (gw_yukawa_derivation, universal_yukawa); Ŷ₅=1 from GW vacuum; 14,855 total passed*  
 *v9.25 (2026-04-29): **Unitary Closure edition** — Pillar 96 (unitary_closure, 59 tests); 14,641=11⁴ total passed*  
 *v9.24 (2026-04-29): **Dual-Sector edition** — Pillar 95 (dual_sector_convergence, 93 tests); 14,582 total passed*  
-*v9.23 (2026-04-29): **Extended gap-closure edition** — Pillars 90–92 (neutrino splittings, Higgs mass FTUM, UV embedding); θ₁₂ upgraded 13%→0.1%; CKM δ tension 1.35σ→0.99σ; Jarlskog J derived; λ_Y naturalness derived. 14,183 total passed, 92 pillars, 145 test files in tests/*  
+*v9.23 (2026-04-29): **Extended gap-closure edition** — Pillars 90–92 (neutrino splittings, Higgs mass FTUM, UV embedding); θ₁₂ upgraded 13%→0.1%; CKM δ tension 1.35σ→0.99σ; Jarlskog J derived; λ_Y naturalness derived. Grand total: 14,183 passed, 92 pillars, 145 test files in tests/*  
 *v9.22 (2026-04-29): **Vacuum-closure edition** — Pillar 89 (vacuum_geometric_proof.py, 59 tests): pure algebraic n_w=5 from 5D BCs, no M-theory, no observational data. 14,183 passed, 92 pillars, 145 test files in tests/*  
 *v9.21 (2026-04-29): **Gap-closing edition** — Pillars 85–88 (fermion_mass_absolute, neutrino_majorana_dirac, wolfenstein_geometry, sm_free_parameters); PMNS formulas improved; neutrino mass tension resolved (Σm_ν ≈ 106 meV); 14,109 total passed*  
 *v9.20 (2026-04-29): **Particle-physics extension** — Pillars 70-B, 75, 80–84 (APS, three generations, quark Yukawa, full CKM, PMNS, vacuum selection); 13,889 total passed*  

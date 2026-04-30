@@ -17,8 +17,7 @@ HILS governance framework (Unitary Pentad), and supporting AI assistant infrastr
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: ~12601 passed, 2 skipped, 11 deselected, 0 failed
-# (Note: tests/ suite has grown to ~13,059 passing in v9.27 OMEGA EDITION)
+# Expected: ~13,059 passed, 2 skipped, 11 deselected, 0 failed
 
 # Recycling suite:
 python -m pytest recycling/ -q
