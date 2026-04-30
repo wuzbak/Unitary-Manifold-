@@ -130,6 +130,58 @@ analytical tool when performing Commercial Services, subject to the following co
 
 ---
 
+## § 4-A · Commercial License Exception (Dual-License Tier)
+
+### 4-A.1 Purpose
+
+The AGPL-3.0 requires any party that deploys a modified version of the software
+as a network service to release their modified source code publicly.  For enterprises
+that need to build proprietary internal tools or SaaS products incorporating the Open
+Core without that source-disclosure obligation, AxiomZero offers a **Commercial License
+Exception** ("CLE") on negotiated terms.
+
+A CLE does NOT change the public's rights under DPC v1.0 or AGPL-3.0.  It is a
+separately granted permission — available from AxiomZero as the sole copyright holder —
+that releases a specific licensee from the AGPL-3.0 network-service source-disclosure
+requirement for that licensee's private modifications only.
+
+### 4-A.2 What a CLE grants
+
+A signed CLE agreement grants the Client:
+
+- The right to deploy modified versions of the AGPL-covered software as a private
+  network service or proprietary product **without** the AGPL source-disclosure obligation
+  for the Client's own modifications; and
+- A non-exclusive, non-transferable licence to use those modifications in perpetuity
+  within the Client's own organisation and products as specified in the CLE agreement.
+
+A CLE does **not** grant the Client:
+
+- Any right to sub-license the CLE to third parties;
+- Any patent or trade-secret right over the underlying Open Core;
+- Any right to restrict the public's use of the Open Core under DPC v1.0 or AGPL-3.0;
+- Ownership of the Open Core or any Proprietary Output not explicitly assigned in the SoW.
+
+### 4-A.3 CLE availability and pricing
+
+CLE agreements are available solely from ThomasCory Walker-Pearson / AxiomZero Technologies
+as the sole copyright holder of the AGPL-covered software.  Pricing and scope are negotiated
+on a per-engagement basis via a signed Statement of Work.  Interested parties should contact
+AxiomZero via GitHub Issues at https://github.com/wuzbak/Unitary-Manifold-/issues or the
+contact details in an applicable SoW.
+
+### 4-A.4 Domain-calibration services
+
+The Open Core provides the computational engine.  The operational value for enterprise
+deployments lies in **domain-specific calibration** — the process of tuning the framework's
+parameters (birefringence constant β, Sentinel capacity c_s, Trust Field φ₀, Pillar
+weighting across the 74 Pillars) for a client's specific organisational context.  This
+calibration work constitutes AxiomZero's primary commercial value-add and is explicitly a
+Commercial Service governed by § 5 and the applicable SoW, regardless of whether a CLE
+has been executed.
+
+---
+
 ## § 5 · Payment, Scope, and Statements of Work
 
 ### 5.1 Engagement commencement
@@ -302,13 +354,17 @@ under a signed SoW are governed by the version of this ToS in effect at the time
 ## § 11 · Consolidated Legal Reference
 
 For a single plain-language document synthesizing all legal instruments — DPC v1.0,
-AGPL-3.0, Common Law Trademark, this Commercial ToS, and the DBA registration —
-including the open-core business model, the conflict-of-interest disclosure, and the
-no-contradiction statement, see [`LEGAL.md`](LEGAL.md).
+AGPL-3.0, Common Law Trademark, this Commercial ToS (including the § 4-A Commercial
+License Exception tier), and the DBA registration — including the open-core business
+model, the conflict-of-interest disclosure, and the no-contradiction statement,
+see [`LEGAL.md`](LEGAL.md).
+
+For the distinctive mathematical fingerprints that identify this work even when
+variable names are changed, see [`FINGERPRINTS.md`](FINGERPRINTS.md).
 
 ---
 
-*Document version: 1.0 — April 2026*  
+*Document version: 1.1 — April 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*  
 

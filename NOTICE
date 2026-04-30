@@ -1,6 +1,7 @@
 NOTICE
 ======
-Project: The Unitary Manifold (v9.19)
+Project: The Unitary Manifold (v9.27 OMEGA EDITION — and all versions in the
+         repository's public commit history)
 Author:  ThomasCory Walker-Pearson  (GitHub: @wuzbak)
 Trading as: AxiomZero Technologies  (DBA, United States, est. March 26, 2026)
 Date:    2026
@@ -29,11 +30,12 @@ Layer 1 — THEORETICAL CONTENT (manuscripts, equations, datasets, PDF)
     Effect:  Irrevocable public domain dedication.  No patents.  No
              exclusive IP claims.  No paywalls.  No proprietary relicensing.
 
-Layer 2 — SOFTWARE IMPLEMENTATION (Python source code)
+Layer 2 — SOFTWARE IMPLEMENTATION (Python source code and all automation)
     License: GNU Affero General Public License v3.0 or later (AGPL-3.0+)
     File:    LICENSE-AGPL
     SPDX:    AGPL-3.0-or-later
-    Scope:   src/   scripts/   tests/   submission/
+    Scope:   src/   tests/   recycling/   scripts/   submission/
+             Unitary Pentad/   omega/   bot/   embryology-manifold/
     Effect:  Strong copyleft.  Any company or individual who distributes or
              deploys a modified version of this software — including as a
              network service — MUST release their modified source code under
@@ -60,7 +62,7 @@ ATTRIBUTION (REQUESTED, NOT REQUIRED)
 ────────────────────────────────────────────────────────────────────────────
 
     Walker-Pearson, T. (AxiomZero Technologies). (2026). The Unitary Manifold:
-    A 5D Gauge Geometry of Emergent Irreversibility (v9.19).
+    A 5D Gauge Geometry of Emergent Irreversibility (v9.27 OMEGA EDITION).
     https://github.com/wuzbak/Unitary-Manifold-
     DOI: https://doi.org/10.5281/zenodo.19584531
 

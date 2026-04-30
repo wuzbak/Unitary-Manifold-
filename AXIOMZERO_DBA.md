@@ -31,6 +31,16 @@ Unitary Manifold (v9.27 — OMEGA EDITION) framework.  Key activities include:
   and the Walker-Pearson field equations.
 - **Execution Authority** — Development of AI governance layers and information flow
   protocols, including the Unitary Pentad HILS framework.
+- **Domain Calibration** — This is the primary commercial value-add.  The Open Core
+  provides the engine; the operational value for enterprise clients lies in calibrating
+  the framework's parameters (birefringence constant β, Sentinel capacity c_s = 12/37,
+  Trust Field φ₀, and Pillar weighting across all 74 Pillars) to a client's specific
+  organisational, regulatory, or infrastructure context.  Calibration is not plug-and-play;
+  it requires expert knowledge of the framework's geometry and cannot be automated away.
+- **Commercial License Exceptions** — For enterprises that need to incorporate the Open
+  Core into proprietary systems without AGPL source-disclosure obligations, AxiomZero may
+  grant Commercial License Exceptions (CLEs) on negotiated terms.  See
+  [`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) § 4-A.
 
 ---
 
@@ -55,8 +65,10 @@ The following are produced under the AxiomZero Technologies trade name:
 |---------|----------|-------------|
 | Unitary Manifold (v9.27) | `src/`, `tests/`, `recycling/` | 5D Kaluza-Klein physics framework |
 | Unitary Pentad | `Unitary Pentad/` | 5-body HILS governance framework |
-| All 74 Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
+| Universal Mechanics Engine | `omega/` | Pillar Ω — 5-seed universal observable engine |
+| All 99 Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
 | Bot / AI assistant infrastructure | `bot/` | RAG, Copilot Extension, Custom GPT |
+| Embryology Manifold | `embryology-manifold/` | Geometric embryology derivations |
 
 ---
 
@@ -68,12 +80,13 @@ repository's open licenses:
 | License | Coverage | Commercial impact |
 |---------|----------|-------------------|
 | **Defensive Public Commons v1.0** (`LICENSE`) | Theory, manuscripts, equations, datasets | Content is irrevocably public domain; AxiomZero may not charge for access to the content itself |
-| **AGPL-3.0** (`LICENSE-AGPL`) | Software implementation (`src/`, `tests/`, etc.) | Open-source copyleft; any service deployment must publish modified source — AxiomZero complies |
+| **AGPL-3.0** (`LICENSE-AGPL`) | All software directories: `src/`, `tests/`, `recycling/`, `scripts/`, `submission/`, `Unitary Pentad/`, `omega/`, `bot/`, `embryology-manifold/` | Open-source copyleft; any service deployment must publish modified source — AxiomZero complies; CLE agreements available for enterprises requiring proprietary deployment (see `COMMERCIAL_TERMS.md` § 4-A) |
 
 AxiomZero Technologies **does not** charge for access to the content or code covered by
-these licenses.  Commercial revenue is generated from *services* (consulting, engineering,
-governance deployment) built around the open-source foundation — a standard open-source
-business model that is fully consistent with both licenses.
+these licenses.  Commercial revenue is generated from *services* (consulting, domain
+calibration, governance deployment, expert reports, and Commercial License Exceptions)
+built around the open-source foundation — a standard open-source business model that is
+fully consistent with both licenses.
 
 ---
 
@@ -90,15 +103,21 @@ explicit, that:
    to the intellectual content, equations, or methods herein.
 4. No person's right to use, study, reproduce, or build upon this work — as granted by
    DPC v1.0 and AGPL-3.0 — is diminished in any way by this notice.
+5. Commercial License Exceptions (CLEs) granted under `COMMERCIAL_TERMS.md` § 4-A release
+   a specific licensee from AGPL source-disclosure obligations for their own private
+   modifications only; they do not restrict the public's rights under DPC v1.0 or AGPL-3.0.
 
 ---
 
 ## 6 · Consolidated Legal Reference
 
 For a single plain-language document synthesizing all legal instruments
-(DPC v1.0, AGPL-3.0, Common Law Trademark, Commercial Terms), the open-core
-business model, the conflict-of-interest disclosure, and the no-contradiction
+(DPC v1.0, AGPL-3.0, Common Law Trademark, Commercial Terms including the CLE tier),
+the open-core business model, the conflict-of-interest disclosure, and the no-contradiction
 statement, see [`LEGAL.md`](LEGAL.md).
+
+For the distinctive mathematical fingerprints that identify this work, see
+[`FINGERPRINTS.md`](FINGERPRINTS.md).
 
 ---
 

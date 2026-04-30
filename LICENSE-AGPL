@@ -10,10 +10,15 @@ SCOPE — SOFTWARE ONLY
 
 This license applies exclusively to the SOFTWARE in this repository:
 
-    src/           Python implementation of the Walker-Pearson field equations
-    scripts/       Numerical experiment scripts
-    tests/         Automated test suite
-    submission/    Supplementary demo and analysis scripts
+    src/                Python implementation of the Walker-Pearson field equations
+    tests/              Automated test suite
+    recycling/          φ-debt entropy accounting (Pillar 16)
+    scripts/            Numerical experiment scripts
+    submission/         Supplementary demo and analysis scripts
+    Unitary Pentad/     HILS governance framework (5-node Pentad system)
+    omega/              Universal Mechanics Engine (Pillar Ω)
+    bot/                AI assistant infrastructure (RAG, Copilot Extension)
+    embryology-manifold/  Embryology geometric derivations
 
 The theoretical content (manuscripts, equations, datasets, PDF monograph)
 remains under the Defensive Public Commons License v1.0 (2026); see LICENSE.

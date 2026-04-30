@@ -3,9 +3,11 @@ Defensive Public Commons License v1.0 (2026)
 
 Author:       ThomasCory Walker-Pearson  (GitHub: @wuzbak)
 Trading as:   AxiomZero Technologies  (DBA registered March 26, 2026, United States)
-Work:         The Unitary Manifold (v9.19) — all source code, manuscripts, datasets,
-              notebooks, and derived materials in this repository, including the
+Work:         The Unitary Manifold (v9.27 OMEGA EDITION) — all source code, manuscripts,
+              datasets, notebooks, and derived materials in this repository, including the
               Unitary Pentad governance framework and all named sub-products.
+              This license covers all versions up to and including those present in the
+              repository's public commit history.
 
 ThomasCory Walker-Pearson, operating commercially as AxiomZero Technologies,
 is the sole human author and sole legal rights holder.  AI-generated
@@ -35,8 +37,15 @@ Every person is granted the perpetual, royalty-free, worldwide right to:
     restriction.
 
 No fee, royalty, subscription, or any other monetary charge may be imposed on
-any person for accessing, using, reproducing, or building upon this work or
-any application derived from it.
+any person for the act of accessing, downloading, reading, copying, or running
+this work itself — the theoretical content (equations, manuscripts, derivations,
+datasets, PDF monograph, and notebooks) covered by this license.
+
+This prohibition does not prevent AxiomZero Technologies or any third party
+from charging for independent services (consulting, engineering, education,
+governance deployment, authored expert reports, or other original work product)
+that are built around or make use of this work, provided that no such fee is a
+condition of accessing the work itself.
 
 ────────────────────────────────────────────────────────────────────────────
 ABSOLUTE PROHIBITION ON MONETARY ENTRAPMENT AND IP ENCLOSURE
@@ -66,6 +75,34 @@ These prohibitions are permanent, unconditional, and survive any purported
 relicensing by any downstream party.
 
 ────────────────────────────────────────────────────────────────────────────
+COPYRIGHT RETENTION FOR AGPL ENFORCEMENT
+────────────────────────────────────────────────────────────────────────────
+
+Notwithstanding the public-domain dedication above, copyright is expressly
+RETAINED by ThomasCory Walker-Pearson in the SOFTWARE IMPLEMENTATION of this
+work — specifically the contents of:
+
+    src/           Python implementation of the Walker-Pearson field equations
+    tests/         Automated test suites
+    recycling/     φ-debt entropy accounting (Pillar 16)
+    scripts/       Numerical experiment scripts
+    submission/    Supplementary demo and analysis scripts
+    Unitary Pentad/  HILS governance framework (5-node Pentad system)
+    omega/         Universal Mechanics Engine (Pillar Ω)
+    bot/           AI assistant infrastructure (RAG, Copilot Extension)
+    embryology-manifold/  Embryology geometric derivations
+
+This copyright retention exists SOLELY to enable enforcement of the GNU Affero
+General Public License v3.0 (see LICENSE-AGPL) as a legally binding copyleft
+obligation.  It does not restrict any person's right to use, modify, deploy,
+or build upon the software, provided the AGPL-3.0 terms are followed.
+
+The theoretical content covered by the public-domain dedication above — the
+Walker-Pearson field equations, FTUM framework, manuscripts, derivations,
+datasets, LaTeX sources, notebooks, and the PDF monograph — is not subject to
+this copyright retention and remains irrevocably in the public domain.
+
+────────────────────────────────────────────────────────────────────────────
 ATTRIBUTION (REQUESTED, NOT REQUIRED)
 ────────────────────────────────────────────────────────────────────────────
 
@@ -73,7 +110,7 @@ Attribution is warmly requested but is not a legal condition of use.
 Preferred citation:
 
   Walker-Pearson, T. (AxiomZero Technologies). (2026). The Unitary Manifold:
-  A 5D Gauge Geometry of Emergent Irreversibility (v9.19). Zenodo.
+  A 5D Gauge Geometry of Emergent Irreversibility (v9.27 OMEGA EDITION). Zenodo.
   https://doi.org/10.5281/zenodo.19584531
 
 ────────────────────────────────────────────────────────────────────────────
