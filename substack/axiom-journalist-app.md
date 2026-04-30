@@ -1,61 +1,97 @@
 # AXIOM Investigative Journalist AI
 
-*An AxiomZero Technologies product — full source code in a separate private repository.*
+*An AxiomZero Technologies product — pre-release, proprietary.*
 
 ---
 
-## What It Is
+## Overview
 
-**AXIOM** is an autonomous multi-agent investigative journalism platform built on the
-AxiomZero methodology: document-first, evidence-grounded, and HILS (Human-in-the-Loop)
-by design. It does the research so the journalist can do the judging.
+**AXIOM** is an AI-assisted investigative journalism platform designed to accelerate
+document-first, evidence-grounded reporting. Its core premise: the journalist's job is
+to judge. AXIOM's job is to do the legwork so that judgment is possible.
 
----
-
-## What It Does
-
-AXIOM ingests a lead, then autonomously:
-
-1. Maps all named entities (people, organizations, shell companies, agencies)
-2. Retrieves public records (FOIA responses, court filings, SEC disclosures, sanctions databases)
-3. Cross-references facts across sources and flags contradictions
-4. Scores every claim by confidence tier (Confirmed → Corroborated → Alleged → Unverified)
-5. Audits legal risks (libel, whistleblower implications, source protection)
-6. Produces a structured investigative brief — ready for human editorial review
-
-All output is reviewed by a human journalist before any publication. AXIOM is a research
-tool, not a publisher.
+The platform is built around a single principle — **the document is the primary reality
+of investigative journalism**. Human sources, expert testimony, and crowd signals are
+all useful. None of them supersede what the record actually says.
 
 ---
 
-## The DelPHI Oracle
+## What the Platform Does
 
-Companion system combining six divination traditions (tarot, runes, numerology, astrology,
-I Ching, and Unitary Manifold cosmology) with Manifold Markets crowd-probability data.
-Used as a **structured uncertainty tool** for lead ideation and scenario planning — outputs
-are explicitly labeled as probability-weighted distributions, not verified facts.
+AXIOM takes an investigative lead and works through a structured research process:
+
+**Entity mapping.** It identifies every named person, organization, government agency,
+and corporate structure relevant to the lead — and begins tracking their stated positions
+against the documentary record.
+
+**Public records retrieval.** It searches systematically across federal court filings,
+regulatory disclosures, FOIA databases, sanctions lists, corporate registries, and
+congressional records — the same sources an experienced investigative reporter would
+work through, applied consistently across every inquiry.
+
+**Cross-referencing and contradiction detection.** It compares claims across sources,
+flags contradictions, and identifies where the record diverges from what subjects have
+said publicly.
+
+**Confidence scoring.** Every factual claim in the output carries a confidence
+classification — Confirmed, Corroborated, Alleged, or Unverified — derived from the
+quality of the sources supporting it. A claim backed only by anonymous tips is labeled
+differently from a claim backed by a court filing.
+
+**Legal risk flagging.** The platform flags claims that carry libel risk or touch
+whistleblower protection law, and identifies where source protection considerations apply.
+
+**Structured investigative brief.** The output is a formatted report that shows what was
+found, what the sources are, what the confidence levels are, and what questions remain
+open. It is a starting point for a journalist, not a finished article.
+
+All AXIOM output is reviewed by a human journalist before any publication. The platform
+is a research instrument. Editorial judgment remains human.
 
 ---
 
-## Philosophy
+## The Investigative Methodology
 
-The AxiomZero method treats information the way a physicist treats a measurement: every claim
-has a confidence interval, every source has a tier classification, every conclusion requires
-evidence strong enough to survive challenge.
+The AxiomZero methodology is not new. It formalizes and systematizes practices that
+the best investigative journalists have always used:
 
-**The document is the primary reality of investigative journalism.**
+- Every claim is attached to a source. Every source has a tier classification.
+  Tier 1 (primary government documents, court records, regulatory filings) anchors
+  the investigation. Lower-tier sources generate leads, not conclusions.
 
-Human testimony, prediction market signals, and expert analysis are useful — but none
-supersede what the document actually says.
+- Investigations follow the evidence. If the evidence exonerates the subject, that
+  is the story. If it implicates them, that is the story. The methodology does not
+  begin with a desired outcome.
+
+- Every investigation brief accounts for what sources were consulted, what confidence
+  each claim was assigned, what contradictions were found, and what remains unanswered.
+  A reader should be able to replicate the research path.
+
+- Human judgment is structural, not optional. The platform enforces a gate: no output
+  is presented as ready to publish. It is presented as ready to review.
+
+---
+
+## What It Is Not
+
+AXIOM is not a content generator. It does not write articles. It does not produce
+publishable copy. It researches, organizes, and scores — and then a journalist decides
+what to do with what it found.
+
+It is not a fact-checker for existing articles. It is a research engine for investigations
+that have not yet been written.
+
+It does not replace source relationships, editorial judgment, legal review, or the
+reporter's instinct for what a story actually means.
 
 ---
 
 ## Status
 
-Full source code is maintained in a **separate private repository** (AxiomZero Technologies).
-This product is pre-release and not yet publicly available.
+AXIOM is a pre-release product under active development by AxiomZero Technologies.
+Full source code is maintained in a separate private repository.
 
 ---
 
-*Product concept and framework: **ThomasCory Walker-Pearson** / AxiomZero Technologies.*
-*Code architecture and system design: **GitHub Copilot** (AI).*
+*Product concept and investigative methodology: **ThomasCory Walker-Pearson** / AxiomZero Technologies.*
+*System design and implementation: **GitHub Copilot** (AI).*
