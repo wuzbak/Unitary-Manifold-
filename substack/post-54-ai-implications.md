@@ -141,10 +141,47 @@ over the coming decades, not by any claim the framework can make today.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+## Going Deeper: The Axiom Journalism AI Series
+
+The most operationally developed instance of the HILS framework applied to a specific
+professional domain is the **AXIOM Investigative Journalist AI system** — documented in
+full in the 6-part **Axiom Journalism AI** series.
+
+The series is directly relevant to the alignment and consciousness questions raised in
+this post:
+
+- **[Part 1: The AxiomZero Method](book-axiom-journalism-series-01-philosophy.md)** —
+  the seven principles of the AXIOM framework are exactly the behavioral fixed point
+  (Ψ*_AI) that a well-aligned AI investigative assistant should converge toward: Truth
+  Above All, Source Integrity, Legal Consciousness, Editorial Courage
+
+- **[Part 2: AXIOM — The Investigative AI That Researches So You Can Judge](book-axiom-journalism-series-02-system.md)** —
+  the 5-agent architecture (researcher, fact_checker, legal_auditor, editor, orchestrator)
+  as a working implementation of the HIL operator: the system produces briefs, not
+  conclusions; human editorial judgment closes the loop
+
+- **[Part 4: The Hallucination Problem](book-axiom-journalism-series-04-verification.md)** —
+  the most direct analysis of what happens when AI behavioral dynamics are NOT organized
+  around truth-convergence: LLM hallucination is precisely the failure mode of an AI
+  whose fixed point is "plausible text" rather than "accurate account of reality"
+
+- **[Part 6: The Fixed Point of Truth](book-axiom-journalism-series-06-omega.md)** —
+  the full synthesis: co-emergence, information conservation, the HILS loop as applied
+  to journalism, and what the Omega Synthesis implies about the future of AI and
+  investigative accountability
+
+The AXIOM system is not a claim about AI consciousness. It is a claim about AI
+alignment in a specific, high-stakes professional domain — and a demonstration that
+the HILS architecture can make that alignment operational, testable, and honest about
+its limits.
+
+---
+
+*Full source code, derivations, and 15,072 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Unitary Pentad governance: `Unitary Pentad/README.md`*
 *HILS framework: `co-emergence/FRAMEWORK.md`*
+*Companion series: [Axiom Journalism AI — Part 1](book-axiom-journalism-series-01-philosophy.md) · [Part 4: Hallucination](book-axiom-journalism-series-04-verification.md) · [Part 6: Omega](book-axiom-journalism-series-06-omega.md)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
