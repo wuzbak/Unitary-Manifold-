@@ -3,6 +3,10 @@
 This directory contains ready-to-publish Substack post drafts for communicating
 the Unitary Manifold framework to a general audience.
 
+## The Canonical Book — Version Omega
+
+**[book-version-omega.md](book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
+
 ## Publishing Order
 
 | File | Post | Status |
