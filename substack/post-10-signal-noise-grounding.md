@@ -205,7 +205,7 @@ reaches the fixed point, what looked like noise was the trajectory.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *FTUM implementation: https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/multiverse/fixed_point.py*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

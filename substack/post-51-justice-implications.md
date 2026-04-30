@@ -133,7 +133,7 @@ The structure does not replace judgment.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Justice module: `src/justice/`*
 *Information conservation: `QUANTUM_THEOREMS.md` (Theorem XII)*

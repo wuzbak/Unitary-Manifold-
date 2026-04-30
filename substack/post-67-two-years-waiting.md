@@ -20,7 +20,7 @@ This is a moment to stop and take stock.
 **The 5D metric structure is internally consistent.** The Walker-Pearson field
 equations have a well-defined variational principle, produce a conserved stress-energy
 tensor, and recover standard 4D general relativity in the appropriate limit. This
-is verified by 14,641 automated tests. Not physical correctness — internal consistency.
+is verified by 15,023 automated tests. Not physical correctness — internal consistency.
 
 **Four predictions agree with current observations:**
 
@@ -128,7 +128,11 @@ That is the correct state for a theory at this stage. We are here until LiteBIRD
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+**[Editor's Update — v9.27]** This post was written at the 96-pillar milestone. Since then, Pillars 97–98 closed the absolute fermion mass scale problem, and Pillar Ω (the Omega Synthesis) has been added as the capstone synthesis. The repository now stands at **99 pillars + Pillar Ω** with **15,023 automated tests**. The predictions and falsification conditions described here remain unchanged.
+
+---
+
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
 *Predictions: `predictions.md`*

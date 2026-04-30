@@ -106,7 +106,7 @@ to close at 74 because the internal structure of the theory — its constraint n
 its domain extensions, and its completeness requirements — exhausts naturally at that
 count. The framework has since been extended by 18 additional pillars (Pillars 75,
 80–92) covering particle physics, UV embedding, and further proofs, bringing the
-total to 96 pillars. These extensions are derived consequences of the original 74,
+total to 99 pillars + Pillar Ω. These extensions are derived consequences of the original 74,
 not new free parameters. The completeness theorem closes the core at 74; the
 extensions are theorems built on that core.
 
@@ -218,7 +218,7 @@ The theorem is verifiable, and the verification machinery is in the open reposit
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Completeness Theorem: `src/core/completeness_theorem.py` — 170 tests in `tests/test_completeness_theorem.py`*
 *Anomaly selection: `src/core/nw_anomaly_selection.py` — 156 tests*

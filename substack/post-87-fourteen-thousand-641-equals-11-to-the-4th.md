@@ -144,7 +144,11 @@ The test count is a record, not a claim.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+**[Editor's Update — v9.27]** This post documents the 14,641 = 11⁴ milestone at 96-pillar closure. Since then, the framework has grown to **99 pillars + Pillar Ω** with **15,023 automated tests**. The historical analysis of 14,641 = 11⁴ remains accurate as a milestone record. The current test count, 15,023, does not have a comparably elegant factorization — but 15,023 is prime, which the framework does not assign significance to.
+
+---
+
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 96: `src/core/unitary_closure.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

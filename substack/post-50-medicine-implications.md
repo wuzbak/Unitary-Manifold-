@@ -132,7 +132,7 @@ The framework has not yet engaged clinical data.
 This is Tier 2: the mathematical structure is the same, but the physiological
 interpretation is a speculation. The φ-homeostasis module in `src/medicine/` provides
 a structural implementation of these ideas; the implementation has been tested for
-internal consistency (14,641 tests), not for clinical validity.
+internal consistency (15,023 tests), not for clinical validity.
 
 A physician who adopts these ideas without clinical validation would be practicing
 outside the evidence base. That is not the recommendation. The recommendation is:
@@ -141,7 +141,7 @@ data, and the predictions are specific enough to be falsifiable.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Medicine module: `src/medicine/`*
 *Coupled attractor: `src/consciousness/coupled_attractor.py`*
