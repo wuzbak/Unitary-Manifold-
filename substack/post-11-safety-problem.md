@@ -323,7 +323,7 @@ detectable ones — and detectable failures can be addressed.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Unitary Pentad: https://github.com/wuzbak/Unitary-Manifold-/tree/main/Unitary%20Pentad*
 *IMPLICATIONS.md: https://github.com/wuzbak/Unitary-Manifold-/blob/main/Unitary%20Pentad/IMPLICATIONS.md*

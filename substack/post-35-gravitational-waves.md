@@ -228,7 +228,7 @@ including the ones the universe keeps beyond current reach.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *KK GW background (Pillar 69): `src/core/kk_gw_background.py`*
 *Inflation tensor spectrum: `src/core/inflation.py`*

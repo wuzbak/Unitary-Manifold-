@@ -125,7 +125,7 @@ That may be the most honest thing physics has ever said about death.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Information conservation: `QUANTUM_THEOREMS.md` (Theorem XII)*
 *Tests: `tests/test_quantum_unification.py::TestInformationConservation`*

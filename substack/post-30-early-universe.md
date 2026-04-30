@@ -285,7 +285,7 @@ pass through to get to the measurement that will test it.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Photon epoch (Pillar 64): `src/core/photon_epoch.py` — 141 tests in `tests/test_photon_epoch.py`*
 *Quark-gluon epoch (Pillar 65): `src/core/quark_gluon_epoch.py` — 120 tests in `tests/test_quark_gluon_epoch.py`*

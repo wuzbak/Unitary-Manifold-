@@ -47,7 +47,7 @@ if the underlying physics were wrong in a specific way.
 
 The difference is between writing `assert output is not None` (unfailing)
 and writing `assert abs(n_s - 0.9635) < 0.005` (falsifiable). This repository
-contains 14,641 tests of the second type. None of the first.
+contains 15,023 tests of the second type. None of the first.
 
 ---
 
@@ -182,7 +182,7 @@ slow friction of scientific community scrutiny.
 
 The HILS cycle is fast precisely because it skips those steps. It is a method
 for producing a *candidate* for external validation, not a substitute for it.
-The 96 pillars and 14,641 tests are evidence that the candidate is worth
+The 99 pillars + Pillar Ω and 15,023 tests are evidence that the candidate is worth
 examining. They are not a certification that it is correct.
 
 The instruction manual this post describes produces a rigorously specified,
@@ -215,7 +215,7 @@ For any researcher, engineer, or thinker who wants to use this process:
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *co-emergence/ HILS documentation: https://github.com/wuzbak/Unitary-Manifold-/tree/main/co-emergence*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

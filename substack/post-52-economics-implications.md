@@ -133,7 +133,7 @@ economics, political economy, and democratic deliberation — not for geometry.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Recycling module: `recycling/`*
 *φ-debt framework: `recycling/README.md`, `recycling/polymers.py`*

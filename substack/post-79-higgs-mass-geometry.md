@@ -133,7 +133,7 @@ the Higgs. This can be constrained by the HL-LHC's exotic Higgs decay measuremen
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 91: `src/core/` — Higgs mass geometric estimate*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

@@ -14,7 +14,7 @@ This is that post.
 
 ## A Note on Order of Operations
 
-The repository came first. The 96 pillars came first. The 14,641 tests came first. The other posts in this series came first. All of that work existed — publicly, verifiably, with a Zenodo DOI and a commit history — before this post about income and capital was written.
+The repository came first. The 96 pillars came first. The 15,023 tests came first. The other posts in this series came first. All of that work existed — publicly, verifiably, with a Zenodo DOI and a commit history — before this post about income and capital was written.
 
 The financial reality described below is an afterthought in the chronological sense: the work was done because it needed to be done, because the theory was real and deserved rigorous implementation, and because working honestly and in public is the right way to do science. The question of how Walker-Pearson earns from it is a physical reality — he needs to eat, the same as anyone — but it is a consequence of the work, not its cause.
 
@@ -103,7 +103,7 @@ The open-source business model has been proven for decades. The pattern is strai
 
 Income is what you earn this month. Capital is what the work is worth when LiteBIRD reports in 2032.
 
-A publicly documented, falsifiable physics framework with 14,641 automated tests, a Zenodo DOI, an established citation record, and a demonstrable history of accurate predictions is a real intellectual asset. Its value compounds as the predictions are tested. None of that value is extracted from users, locked behind a paywall, or built on information asymmetry. It accrues because the work is genuinely good and genuinely visible.
+A publicly documented, falsifiable physics framework with 15,023 automated tests, a Zenodo DOI, an established citation record, and a demonstrable history of accurate predictions is a real intellectual asset. Its value compounds as the predictions are tested. None of that value is extracted from users, locked behind a paywall, or built on information asymmetry. It accrues because the work is genuinely good and genuinely visible.
 
 Additional capital pathways that are consistent with the open licenses:
 
