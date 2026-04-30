@@ -1,6 +1,6 @@
 # Epilog: How We Tested the Mass Gap Closure
 
-*Epilog — Pillars 97-98 (v9.26, April 2026).*  
+*Epilog — Pillars 97-98 (v9.27, April 2026).*  
 *This epilog documents the computational and mathematical reasoning behind
 the Pillar 97-98 implementation for technical readers and collaborators.*
 
@@ -176,8 +176,8 @@ These are acknowledged in `tests/test_gw_yukawa_derivation.py` and
 | 98 | `tests/test_universal_yukawa.py` | 126 |
 | Total new (v9.26) | — | 214 |
 
-Grand total (v9.26): 14,855 passed · 2 skipped · 11 deselected · 0 failed  
-(tests/ + recycling/ + Unitary Pentad/)
+Grand total (v9.27): 15,023 passed · 2 skipped · 11 deselected · 0 failed  
+(tests/ + recycling/ + Unitary Pentad/ + omega/)
 
 ---
 

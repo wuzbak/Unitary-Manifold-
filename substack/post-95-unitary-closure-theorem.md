@@ -172,7 +172,7 @@ is over.
 
 ---
 
-*Full source code, derivations, and 14,641 automated tests:*
+*Full source code, derivations, and 15,023 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 96: `src/core/unitary_closure.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

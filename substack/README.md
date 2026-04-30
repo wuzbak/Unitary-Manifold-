@@ -223,7 +223,7 @@ Each post draws directly from these repository documents:
 | `src/core/bh_remnant.py`, `src/multiverse/fixed_point.py` | Post 94 |
 | All posts 00–95, `COMPLETION_REPORT.md` | Post 96 |
 
-## Posts 97–98: Closing Gap 1 — Absolute Fermion Mass Scale (v9.26 — GW YUKAWA EDITION)
+## Posts 97–98: Closing Gap 1 — Absolute Fermion Mass Scale (v9.27 — GW YUKAWA EDITION)
 
 | File | Type | Topic |
 |------|------|-------|
@@ -231,7 +231,24 @@ Each post draws directly from these repository documents:
 | `post-39-universal-yukawa-test.md` | Post 39 | "One Coupling, Nine Masses: The Universal Yukawa Test" — Pillar 98 |
 | `epilog-pillar-97-98-testing.md` | **Epilog** | "How We Tested the Mass Gap Closure" — technical documentation of Pillars 97-98 |
 
-## Source Documents for Posts 38-39 and Epilog (v9.26)
+## Post 99: The Omega Synthesis (v9.27 — OMEGA EDITION)
+
+| File | Type | Topic |
+|------|------|-------|
+| `post-99-the-omega-synthesis.md` | Post 99 | "The Omega Synthesis: Five Numbers That Compute the Universe" — Pillar Ω in Walker-Pearson's voice |
+
+## Source Documents for Post 99
+
+| Document | Used in |
+|----------|---------|
+| `omega/omega_synthesis.py` | Post 99 |
+| `omega/README.md` | Post 99 |
+| `src/core/gw_yukawa_derivation.py` | Post 99 |
+| `src/core/universal_yukawa.py` | Post 99 |
+| `FALLIBILITY.md` | Post 99 |
+| All previous posts (Pillars 1–98) | Post 99 |
+
+## Source Documents for Posts 38-39 and Epilog (v9.27)
 
 | Document | Used in |
 |----------|---------|
@@ -247,4 +264,28 @@ Each post draws directly from these repository documents:
 *Series concept and content strategy: ThomasCory Walker-Pearson.*  
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**98 pillars. 14,855 tests. Gap 1 substantially closed. The sky will decide the rest.**
+**99 pillars. 15,023 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+
+## Post Ω: The Omega Article (v9.27 — OMEGA EDITION)
+
+| File | Type | Topic |
+|------|------|-------|
+| `post-omega-the-omega-article.md` | **Final Post** | "The Omega Article — Written to Human and AI" — Pillar Ω synthesis, AxiomZero's question answered |
+
+## Source Documents for Post Ω
+
+| Document | Used in |
+|----------|---------|
+| `omega/omega_synthesis.py` | Post Ω |
+| `omega/README.md` | Post Ω |
+| `co-emergence/` | Post Ω |
+| `COMPLETION_REPORT.md` v9.27 | Post Ω |
+| `FALLIBILITY.md` | Post Ω |
+| All previous posts | Post Ω |
+
+---
+
+*Series concept and content strategy: ThomasCory Walker-Pearson.*
+*Draft writing and document engineering: GitHub Copilot (AI).*
+
+**99 pillars. 15,023 tests. Pillar Ω synthesizes all. The sky will decide the rest.**

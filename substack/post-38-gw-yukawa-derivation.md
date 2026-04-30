@@ -2,7 +2,7 @@
 
 *Post 38 of the Unitary Manifold series.*  
 *Pillar 97 — GW Potential Yukawa Derivation.*  
-*v9.26, April 2026.*
+*v9.27, April 2026.*
 
 ---
 
