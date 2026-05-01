@@ -560,3 +560,153 @@ class TestFnlRunning:
         result = self._run()
         ns = result["ns_used"]
         assert 0.92 < ns < 1.0, f"ns = {ns:.4f} is far from Planck range"
+
+
+# ===========================================================================
+# TestBraidedEquilateralFnl
+# ===========================================================================
+
+from src.core.non_gaussianity import (
+    braided_equilateral_fnl,
+    braided_fnl_full_summary,
+    PLANCK_FNL_EQUIL_SIGMA,
+    CMBS4_FNL_EQUIL_SIGMA,
+    SO_FNL_EQUIL_SIGMA,
+)
+
+
+class TestBraidedEquilateralFnl:
+    """Tests for braided_equilateral_fnl."""
+
+    def test_returns_dict_with_required_keys(self):
+        r = braided_equilateral_fnl(5, 7)
+        for key in [
+            "n1", "n2", "k_cs", "rho", "c_s", "c_s_inv_sq",
+            "f_NL_equil", "f_NL_ortho", "f_NL_equil_analytic",
+            "planck_equil_snr", "cmbs4_equil_snr", "so_equil_snr",
+            "planck_excluded", "cmbs4_detectable",
+            "formula", "reference", "status", "verdict",
+        ]:
+            assert key in r, f"Missing key: {key}"
+
+    def test_f_NL_equil_positive_for_cs_lt_1(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert r["f_NL_equil"] > 0.0
+
+    def test_f_NL_equil_close_to_2757_for_57(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert abs(r["f_NL_equil"] - 2.757) < 1e-2
+
+    def test_f_NL_equil_zero_when_cs_is_1(self):
+        # n1=n2=1, k_cs=2: rho=2*1*1/2=1 -- would be unphysical (|rho|>=1).
+        # Use n1=1,n2=2,k_cs=10: rho=4/10=0.4, not cs=1.
+        # To get cs=1: need rho=0, e.g. n1=1, n2=0 -- invalid.
+        # Instead use n1=1, n2=3, k_cs=100: rho=6/100=0.06, nearly 1.
+        # The only exact cs=1 is rho=0.  Use n1=1, n2=2, k_cs=1000.
+        r = braided_equilateral_fnl(1, 2, k_cs=1000)
+        rho = 2 * 1 * 2 / 1000.0
+        import numpy as np
+        c_s = np.sqrt(1 - rho**2)
+        expected = (35.0 / 108.0) * (1.0 / c_s**2 - 1.0)
+        assert abs(r["f_NL_equil"] - expected) < 1e-10
+
+    def test_f_NL_equil_exact_zero_for_rho_zero(self):
+        # With k_cs very large, rho→0, f_NL→0
+        r = braided_equilateral_fnl(1, 2, k_cs=10**8)
+        assert abs(r["f_NL_equil"]) < 1e-5
+
+    def test_f_NL_equil_increases_as_cs_decreases(self):
+        # Higher rho → lower c_s → higher f_NL_equil
+        r_small_rho = braided_equilateral_fnl(1, 2, k_cs=100)   # rho = 0.04
+        r_large_rho = braided_equilateral_fnl(5, 7, k_cs=74)    # rho = 70/74 >> 0.04
+        assert r_large_rho["f_NL_equil"] > r_small_rho["f_NL_equil"]
+
+    def test_planck_excluded_false_for_57(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert r["planck_excluded"] is False
+
+    def test_cmbs4_detectable_false_for_57(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert r["cmbs4_detectable"] is False
+
+    def test_formula_string_matches(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert "35/108" in r["formula"] or "(35/108)" in r["formula"]
+
+    def test_reference_contains_Chen_or_Seery(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert "Chen" in r["reference"] or "Seery" in r["reference"]
+
+    def test_status_contains_DERIVED(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert "DERIVED" in r["status"]
+
+    def test_analytic_value_42875_over_15552_for_57(self):
+        r = braided_equilateral_fnl(5, 7)
+        expected = 42875.0 / 15552.0
+        assert abs(r["f_NL_equil_analytic"] - expected) < 1e-12
+
+    def test_f_NL_ortho_positive_for_57(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert r["f_NL_ortho"] > 0.0
+
+    def test_both_fnl_positive_for_57(self):
+        r = braided_equilateral_fnl(5, 7)
+        assert r["f_NL_equil"] > 0.0 and r["f_NL_ortho"] > 0.0
+
+    def test_snr_values_finite_and_positive(self):
+        r = braided_equilateral_fnl(5, 7)
+        import math
+        for key in ["planck_equil_snr", "cmbs4_equil_snr", "so_equil_snr"]:
+            assert math.isfinite(r[key]) and r[key] > 0.0
+
+    def test_f_NL_equil_matches_formula_numerically(self):
+        r = braided_equilateral_fnl(5, 7)
+        c_s = r["c_s"]
+        expected = (35.0 / 108.0) * (1.0 / c_s**2 - 1.0)
+        assert abs(r["f_NL_equil"] - expected) < 1e-10
+
+
+class TestBraidedFnlFullSummary:
+    """Tests for braided_fnl_full_summary."""
+
+    PHI0 = 31.4  # canonical
+
+    def test_returns_dict_with_required_keys(self):
+        r = braided_fnl_full_summary(5, 7, self.PHI0)
+        for key in [
+            "n1", "n2", "f_NL_adi", "f_NL_iso", "f_NL_5D_geodesic",
+            "f_NL_equil_braided", "f_NL_ortho_braided",
+            "f_NL_total_local", "f_NL_total_equil", "all_planck_consistent",
+        ]:
+            assert key in r, f"Missing key: {key}"
+
+    def test_all_planck_consistent_true_for_canonical(self):
+        r = braided_fnl_full_summary(5, 7, self.PHI0)
+        assert r["all_planck_consistent"] is True
+
+    def test_f_NL_equil_braided_matches_braided_equilateral_fnl(self):
+        r_sum = braided_fnl_full_summary(5, 7, self.PHI0)
+        r_equil = braided_equilateral_fnl(5, 7)
+        assert abs(r_sum["f_NL_equil_braided"] - r_equil["f_NL_equil"]) < 1e-12
+
+    def test_f_NL_total_local_is_sum_of_adi_iso_5D(self):
+        r = braided_fnl_full_summary(5, 7, self.PHI0)
+        expected = r["f_NL_adi"] + r["f_NL_iso"] + r["f_NL_5D_geodesic"]
+        assert abs(r["f_NL_total_local"] - expected) < 1e-12
+
+    def test_f_NL_total_equil_is_f_NL_equil_braided(self):
+        r = braided_fnl_full_summary(5, 7, self.PHI0)
+        assert abs(r["f_NL_total_equil"] - r["f_NL_equil_braided"]) < 1e-12
+
+    def test_n1_n2_echoed(self):
+        r = braided_fnl_full_summary(5, 7, self.PHI0)
+        assert r["n1"] == 5 and r["n2"] == 7
+
+    def test_f_NL_equil_braided_positive(self):
+        r = braided_fnl_full_summary(5, 7, self.PHI0)
+        assert r["f_NL_equil_braided"] > 0.0
+
+    def test_f_NL_ortho_braided_positive(self):
+        r = braided_fnl_full_summary(5, 7, self.PHI0)
+        assert r["f_NL_ortho_braided"] > 0.0

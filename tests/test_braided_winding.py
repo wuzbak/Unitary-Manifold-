@@ -1022,3 +1022,150 @@ class TestProjectionDegeneracy:
         """Verify n_candidates = n_max×(n_max−1)/2 for a non-default n_max."""
         result = projection_degeneracy_fraction(n_max=10)
         assert result.n_candidates == 10 * 9 // 2  # 45
+
+
+# ===========================================================================
+# TestBraidedRDerivation — Pillar 97-B: full derivation chain
+# ===========================================================================
+
+from src.core.braided_winding import (
+    braided_kinetic_matrix,
+    cs_wzw_dispersion,
+    braided_power_spectra_derivation,
+    braided_r_full_derivation,
+)
+import numpy as np
+import math
+
+
+class TestBraidedRDerivation:
+    """Tests for the four new Pillar 97-B derivation functions."""
+
+    # --- braided_kinetic_matrix ---
+
+    def test_kinetic_matrix_shape(self):
+        r = braided_kinetic_matrix(5, 7)
+        assert r["matrix"].shape == (2, 2)
+
+    def test_kinetic_matrix_rho_for_57(self):
+        r = braided_kinetic_matrix(5, 7)
+        expected_rho = 2 * 5 * 7 / 74.0
+        assert abs(r["rho"] - expected_rho) < 1e-12
+
+    def test_kinetic_matrix_off_diagonal_equals_rho(self):
+        r = braided_kinetic_matrix(5, 7)
+        K = r["matrix"]
+        assert abs(K[0, 1] - r["rho"]) < 1e-12
+        assert abs(K[1, 0] - r["rho"]) < 1e-12
+
+    def test_kinetic_matrix_eigenvalues(self):
+        r = braided_kinetic_matrix(5, 7)
+        rho = r["rho"]
+        eigs = sorted(r["eigenvalues"])
+        expected = sorted([1.0 + rho, 1.0 - rho])
+        assert abs(eigs[0] - expected[0]) < 1e-12
+        assert abs(eigs[1] - expected[1]) < 1e-12
+
+    def test_kinetic_matrix_det_equals_1_minus_rho_sq(self):
+        r = braided_kinetic_matrix(5, 7)
+        assert abs(r["det"] - (1.0 - r["rho"]**2)) < 1e-12
+
+    def test_kinetic_matrix_sound_speed_sq(self):
+        r = braided_kinetic_matrix(5, 7)
+        assert abs(r["sound_speed_sq"] - (1.0 - r["rho"]**2)) < 1e-12
+
+    def test_kinetic_matrix_c_s_from_det(self):
+        r = braided_kinetic_matrix(5, 7)
+        assert abs(r["c_s"] - np.sqrt(r["det"])) < 1e-12
+
+    # --- cs_wzw_dispersion ---
+
+    def test_wzw_both_methods_agree(self):
+        r = cs_wzw_dispersion(5, 7)
+        assert r["agreement"] is True
+
+    def test_wzw_agreement_tolerance_1e12(self):
+        r = cs_wzw_dispersion(5, 7)
+        assert abs(r["c_s_from_rotation"] - r["c_s_from_algebra"]) < 1e-12
+
+    def test_wzw_rotation_angle_for_57(self):
+        r = cs_wzw_dispersion(5, 7)
+        rho = 2 * 5 * 7 / 74.0
+        expected_angle = np.arcsin(rho)
+        assert abs(r["wzw_rotation_angle_rad"] - expected_angle) < 1e-12
+
+    def test_wzw_c_s_approx_12_over_37_for_57(self):
+        r = cs_wzw_dispersion(5, 7)
+        expected = 12.0 / 37.0
+        assert abs(r["c_s_from_rotation"] - expected) < 1e-10
+
+    def test_wzw_derivation_chain_contains_WZW(self):
+        r = cs_wzw_dispersion(5, 7)
+        assert "WZW" in r["derivation_chain"]
+
+    def test_wzw_status_contains_DERIVED(self):
+        r = cs_wzw_dispersion(5, 7)
+        assert "DERIVED" in r["status"]
+
+    def test_wzw_mode_equation_prefactor_is_1_minus_rho_sq(self):
+        r = cs_wzw_dispersion(5, 7)
+        assert abs(r["mode_equation_prefactor"] - (1.0 - r["rho"]**2)) < 1e-12
+
+    # --- braided_power_spectra_derivation ---
+
+    def test_power_spectra_P_h_relative_is_one(self):
+        r = braided_power_spectra_derivation(0.097, 5, 7)
+        assert abs(r["P_h_relative"] - 1.0) < 1e-12
+
+    def test_power_spectra_P_h_unchanged_flag(self):
+        r = braided_power_spectra_derivation(0.097, 5, 7)
+        assert r["c_s_unchanged_P_h"] is True
+
+    def test_power_spectra_P_zeta_relative_is_1_over_cs(self):
+        r = braided_power_spectra_derivation(0.097, 5, 7)
+        c_s = r["c_s"]
+        assert abs(r["P_zeta_relative"] - 1.0 / c_s) < 1e-10
+
+    def test_power_spectra_r_braided_equals_r_bare_times_cs(self):
+        r = braided_power_spectra_derivation(0.097, 5, 7)
+        assert abs(r["r_braided"] - r["r_bare"] * r["c_s"]) < 1e-12
+
+    def test_power_spectra_enhancement_factor_greater_than_1(self):
+        r = braided_power_spectra_derivation(0.097, 5, 7)
+        # c_s < 1 → enhancement = 1/c_s > 1
+        assert r["enhancement_factor"] > 1.0
+
+    # --- braided_r_full_derivation ---
+
+    def test_full_derivation_overall_status_is_DERIVED(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        assert r["overall_status"] == "DERIVED"
+
+    def test_full_derivation_old_status_STRONGLY_MOTIVATED(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        assert r["old_status"] == "STRONGLY MOTIVATED"
+
+    def test_full_derivation_new_status_DERIVED(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        assert r["new_status"] == "DERIVED"
+
+    def test_full_derivation_r_braided_lt_r_bare(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        assert r["r_braided"] < r["r_bare"]
+
+    def test_full_derivation_r_braided_equals_r_bare_times_cs(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        assert abs(r["r_braided"] - r["r_bare"] * r["c_s"]) < 1e-12
+
+    def test_full_derivation_c_s_approx_12_over_37_for_57(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        assert abs(r["c_s"] - 12.0 / 37.0) < 1e-10
+
+    def test_full_derivation_step4_ratio_equals_cs(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        assert abs(r["step4_ratio"] - r["c_s"]) < 1e-10
+
+    def test_full_derivation_has_all_steps(self):
+        r = braided_r_full_derivation(5, 7, 1.0)
+        for key in ["step1_cs_mixing", "step2_sound_speed", "step3_power_spectra"]:
+            assert key in r

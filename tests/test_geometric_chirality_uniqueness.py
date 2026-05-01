@@ -451,3 +451,134 @@ class TestPillar70BCrossConsistency:
         selected = [n for n in [5, 7]
                     if geometric_chirality_uniqueness(n)["n_w_selected"]]
         assert selected == [5]
+
+
+# ===========================================================================
+# Pillar 70-C-bis: Z₂-parity of G_{μ5} forces chirality from metric geometry
+# ===========================================================================
+
+from src.core.geometric_chirality_uniqueness import (
+    bmu_z2_parity_forces_chirality,
+    metric_parity_chirality_audit,
+)
+
+
+class TestBmuZ2ParityChirality:
+    """Tests for bmu_z2_parity_forces_chirality and metric_parity_chirality_audit."""
+
+    # --- G_{μ5} Z₂-odd ---
+    def test_g_mu5_z2_parity_is_odd(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert r["G_mu5_z2_parity"] == "odd"
+
+    def test_g_mu5_z2_parity_is_odd_nw7(self):
+        r = bmu_z2_parity_forces_chirality(7)
+        assert r["G_mu5_z2_parity"] == "odd"
+
+    # --- A_5^eff Z₂-odd ---
+    def test_a5_eff_z2_parity_is_odd(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert r["A5_eff_z2_parity"] == "odd"
+
+    # --- T(n_w) values ---
+    def test_T5_equals_15(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert r["T_nw"] == 15
+
+    def test_T7_equals_28(self):
+        r = bmu_z2_parity_forces_chirality(7)
+        assert r["T_nw"] == 28
+
+    # --- T parity ---
+    def test_T5_parity_odd(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert r["T_nw_parity"] == "odd"
+
+    def test_T7_parity_even(self):
+        r = bmu_z2_parity_forces_chirality(7)
+        assert r["T_nw_parity"] == "even"
+
+    # --- Holonomy ---
+    def test_holonomy_nontrivial_for_nw5(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert r["holonomy_trivial"] is False
+
+    def test_holonomy_trivial_for_nw7(self):
+        r = bmu_z2_parity_forces_chirality(7)
+        assert r["holonomy_trivial"] is True
+
+    # --- η̄ forced ---
+    def test_eta_bar_forced_half_for_nw5(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert abs(r["eta_bar_forced"] - 0.5) < 1e-12
+
+    def test_eta_bar_forced_zero_for_nw7(self):
+        r = bmu_z2_parity_forces_chirality(7)
+        assert abs(r["eta_bar_forced"] - 0.0) < 1e-12
+
+    # --- Spin structure ---
+    def test_spin_structure_omega_minus_for_nw5(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert "Omega_minus" in r["spin_structure_from_metric"]
+
+    def test_spin_structure_not_omega_minus_for_nw7(self):
+        r = bmu_z2_parity_forces_chirality(7)
+        assert "Omega_minus" not in r["spin_structure_from_metric"]
+
+    # --- derivation_status ---
+    def test_derivation_status_contains_DERIVED(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert "DERIVED" in r["derivation_status"]
+
+    def test_derivation_status_no_SM_input(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert "no SM input" in r["derivation_status"]
+
+    # --- argument string ---
+    def test_argument_mentions_z2_or_parity(self):
+        r = bmu_z2_parity_forces_chirality(5)
+        assert "Z₂" in r["argument"] or "parity" in r["argument"]
+
+    # --- Uniqueness: n_w=5 is the only one forced left-handed ---
+    def test_nw5_unique_left_handed_in_candidates(self):
+        left_handed = [
+            nw for nw in [5, 7]
+            if "Omega_minus" in bmu_z2_parity_forces_chirality(nw)["spin_structure_from_metric"]
+        ]
+        assert left_handed == [5]
+
+    # --- metric_parity_chirality_audit ---
+    def test_audit_unique_left_handed(self):
+        audit = metric_parity_chirality_audit()
+        assert audit["unique_left_handed"] is True
+
+    def test_audit_selected_nw_is_5(self):
+        audit = metric_parity_chirality_audit()
+        assert audit["selected_n_w"] == 5
+
+    def test_audit_candidates_are_5_and_7(self):
+        audit = metric_parity_chirality_audit()
+        assert set(audit["candidates"]) == {5, 7}
+
+    def test_audit_compares_exactly_2_candidates(self):
+        audit = metric_parity_chirality_audit()
+        assert len(audit["candidates"]) == 2
+
+    def test_audit_nw5_eta_bar_half(self):
+        audit = metric_parity_chirality_audit()
+        assert abs(audit["n_w_5"]["eta_bar_forced"] - 0.5) < 1e-12
+
+    def test_audit_nw7_eta_bar_zero(self):
+        audit = metric_parity_chirality_audit()
+        assert abs(audit["n_w_7"]["eta_bar_forced"] - 0.0) < 1e-12
+
+    # --- pillar70c_summary contains step_d_metric_derivation ---
+    def test_pillar70c_summary_has_step_d_metric_derivation(self):
+        from src.core.geometric_chirality_uniqueness import pillar70c_summary
+        s = pillar70c_summary()
+        assert "step_d_metric_derivation" in s
+
+    def test_pillar70c_summary_step_d_status_mentions_metric(self):
+        from src.core.geometric_chirality_uniqueness import pillar70c_summary
+        s = pillar70c_summary()
+        assert "metric" in s["step_d_status"].lower() or "Z₂" in s["step_d_status"]

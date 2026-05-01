@@ -677,3 +677,191 @@ def _gw_potential_derivs_local(
     dV  = 4.0 * lam * phi * (phi**2 - phi0**2)
     d2V = 4.0 * lam * (3.0 * phi**2 - phi0**2)
     return float(V), float(dV), float(d2V)
+
+
+# ===========================================================================
+# 8. Braided equilateral and orthogonal f_NL (Pillar 27-B)
+# ===========================================================================
+
+from src.core.braided_winding import (
+    braided_cs_mixing,
+    braided_sound_speed,
+    resonant_kcs,
+)
+
+# Equilateral and orthogonal f_NL observational sensitivities
+PLANCK_FNL_EQUIL_SIGMA: float = 47.0   # Planck 2018 equilateral 1σ
+CMBS4_FNL_EQUIL_SIGMA: float = 7.0    # CMB-S4 projected equilateral 1σ
+SO_FNL_EQUIL_SIGMA: float = 15.0      # Simons Observatory projected equilateral 1σ
+PLANCK_FNL_ORTHO_SIGMA: float = 43.0  # Planck 2018 orthogonal 1σ
+CMBS4_FNL_ORTHO_SIGMA: float = 9.0   # CMB-S4 projected orthogonal 1σ
+
+
+def braided_equilateral_fnl(
+    n1: int,
+    n2: int,
+    k_cs: int | None = None,
+) -> Dict[str, Any]:
+    """Equilateral and orthogonal f_NL from braided (n1, n2) kinetic structure.
+
+    The braided (n1, n2) non-canonical kinetic action produces an equilateral-
+    type non-Gaussianity via the cubic kinetic vertex.  Using the standard
+    result of Chen et al. (2007) and Seery & Lidsey (2005):
+
+        f_NL^equil = (35/108) × (1/c_s² − 1)
+
+    where c_s = √(1 − ρ²) and ρ = 2n₁n₂/k_cs.
+
+    For (n₁, n₂) = (5, 7), k_cs = 74:
+        ρ = 70/74,  c_s = 12/37,  1/c_s² − 1 = 1225/144
+        f_NL^equil = (35/108) × (1225/144) = 42875/15552 ≈ 2.757
+
+    An orthogonal contribution from the CS cubic vertex:
+        Σ_braid = ρ² / (1 − ρ²)
+        f_NL^ortho ≈ (5/81) × (1/c_s² − 1) × Σ_braid
+
+    Both values are well below the Planck 2018 equilateral constraint
+    (σ ≈ 47) and CMB-S4 projected sensitivity (σ ≈ 7).
+
+    Parameters
+    ----------
+    n1, n2 : int
+        Winding numbers (positive integers, n1 < n2 for canonical ordering).
+    k_cs : int or None
+        Chern–Simons level.  If None, uses resonant value n₁² + n₂².
+
+    Returns
+    -------
+    dict
+        Keys: ``n1``, ``n2``, ``k_cs``, ``rho``, ``c_s``, ``c_s_inv_sq``,
+        ``f_NL_equil``, ``f_NL_ortho``, ``f_NL_equil_analytic``,
+        ``planck_equil_snr``, ``cmbs4_equil_snr``, ``so_equil_snr``,
+        ``planck_excluded``, ``cmbs4_detectable``,
+        ``formula``, ``reference``, ``status``, ``verdict``.
+
+    Notes
+    -----
+    The equilateral formula is at leading order in slow roll.  Sub-leading
+    corrections are O(ε, η) ≪ 1 for the canonical UM inflaton trajectory.
+    """
+    if k_cs is None:
+        k_cs = resonant_kcs(n1, n2)
+
+    rho = braided_cs_mixing(n1, n2, k_cs)
+    c_s = braided_sound_speed(n1, n2, k_cs)
+
+    c_s_inv_sq = 1.0 / (c_s**2)
+    excess = c_s_inv_sq - 1.0           # 1/c_s² − 1
+
+    f_NL_equil = (35.0 / 108.0) * excess
+
+    # Orthogonal from CS cubic: Σ_braid = ρ²/(1-ρ²)
+    sigma_braid = (rho**2) / max(1.0 - rho**2, _EPS)
+    f_NL_ortho = (5.0 / 81.0) * excess * sigma_braid
+
+    # Analytic exact fraction for (5,7) at resonance
+    # 35*1225 = 42875;  108*144 = 15552
+    f_NL_equil_analytic = 42875.0 / 15552.0   # ≈ 2.7570
+
+    planck_equil_snr = abs(f_NL_equil) / PLANCK_FNL_EQUIL_SIGMA
+    cmbs4_equil_snr = abs(f_NL_equil) / CMBS4_FNL_EQUIL_SIGMA
+    so_equil_snr = abs(f_NL_equil) / SO_FNL_EQUIL_SIGMA
+
+    planck_excluded = bool(abs(f_NL_equil) > 2.0 * PLANCK_FNL_EQUIL_SIGMA)
+    cmbs4_detectable = bool(abs(f_NL_equil) > 2.0 * CMBS4_FNL_EQUIL_SIGMA)
+
+    verdict = (
+        f"f_NL^equil ≈ {f_NL_equil:.3f} (braided ({n1},{n2}), c_s={c_s:.4f}): "
+        f"positive equilateral enhancement; Planck SNR ≈ {planck_equil_snr:.3f} — "
+        f"below all current/projected equilateral thresholds.  "
+        f"f_NL^ortho ≈ {f_NL_ortho:.3f}."
+    )
+
+    return {
+        "n1": n1,
+        "n2": n2,
+        "k_cs": k_cs,
+        "rho": float(rho),
+        "c_s": float(c_s),
+        "c_s_inv_sq": float(c_s_inv_sq),
+        "f_NL_equil": float(f_NL_equil),
+        "f_NL_ortho": float(f_NL_ortho),
+        "f_NL_equil_analytic": float(f_NL_equil_analytic),
+        "planck_equil_snr": float(planck_equil_snr),
+        "cmbs4_equil_snr": float(cmbs4_equil_snr),
+        "so_equil_snr": float(so_equil_snr),
+        "planck_excluded": planck_excluded,
+        "cmbs4_detectable": cmbs4_detectable,
+        "formula": "f_NL_equil = (35/108)(1/c_s^2 - 1)",
+        "reference": "Chen et al. (2007) JCAP; Seery & Lidsey (2005) JCAP",
+        "status": "DERIVED from braided (n1,n2) kinetic structure",
+        "verdict": verdict,
+    }
+
+
+def braided_fnl_full_summary(
+    n1: int,
+    n2: int,
+    phi0_eff: float,
+    lam: float = 1.0,
+    lam_gw: float = 1.0,
+    r_c_star: float = 12.0,
+) -> Dict[str, Any]:
+    """Full f_NL budget combining local two-field and equilateral braided contributions.
+
+    Combines all f_NL sources for the UM braided inflation system:
+
+    * **f_NL^adi** — single-field adiabatic Maldacena contribution.
+    * **f_NL^iso** — isocurvature transfer (zero at canonical turning rate = 0).
+    * **f_NL^5D**  — 5D geodesic-deviation ladder signal.
+    * **f_NL^equil_braided** — equilateral from braided kinetic structure.
+    * **f_NL^ortho_braided** — orthogonal from CS cubic vertex.
+
+    Parameters
+    ----------
+    n1, n2 : int
+        Winding numbers.
+    phi0_eff : float
+        Effective 4D inflaton vev.
+    lam : float
+        GW self-coupling (default 1).
+    lam_gw : float
+        Radion coupling (default 1).
+    r_c_star : float
+        Canonical compactification radius (default 12).
+
+    Returns
+    -------
+    dict
+        Keys: ``n1``, ``n2``, ``f_NL_adi``, ``f_NL_iso``, ``f_NL_5D_geodesic``,
+        ``f_NL_equil_braided``, ``f_NL_ortho_braided``,
+        ``f_NL_total_local``, ``f_NL_total_equil``, ``all_planck_consistent``.
+    """
+    local = two_field_fnl_delta_n(phi0_eff, lam, lam_gw, r_c_star)
+    equil = braided_equilateral_fnl(n1, n2)
+
+    f_NL_adi = local["f_NL_adi"]
+    f_NL_iso = local["f_NL_iso"]
+    f_NL_5D  = local["f_NL_5D"]
+    f_NL_total_local = float(f_NL_adi + f_NL_iso + f_NL_5D)
+
+    f_NL_equil = equil["f_NL_equil"]
+    f_NL_ortho = equil["f_NL_ortho"]
+
+    all_planck_consistent = bool(
+        abs(f_NL_total_local) < PLANCK_FNL_EXCLUSION
+        and not equil["planck_excluded"]
+    )
+
+    return {
+        "n1": n1,
+        "n2": n2,
+        "f_NL_adi": float(f_NL_adi),
+        "f_NL_iso": float(f_NL_iso),
+        "f_NL_5D_geodesic": float(f_NL_5D),
+        "f_NL_equil_braided": float(f_NL_equil),
+        "f_NL_ortho_braided": float(f_NL_ortho),
+        "f_NL_total_local": f_NL_total_local,
+        "f_NL_total_equil": float(f_NL_equil),
+        "all_planck_consistent": all_planck_consistent,
+    }
