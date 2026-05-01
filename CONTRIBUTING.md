@@ -11,7 +11,7 @@ verifications, extensions, and discussions — are welcome.
 git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 # Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
 python -m pytest tests/ -q           # tests/ only: ~13059 passed, 2 skipped, 11 deselected
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
@@ -118,6 +118,22 @@ governance framework) are original works of ThomasCory Walker-Pearson, produced 
 **AxiomZero Technologies** trade name (DBA commenced March 26, 2026, United States).  Copyright is
 retained by ThomasCory Walker-Pearson; the DPC v1.0 and AGPL-3.0 licenses grant you broad
 freedoms to use and build upon this work — they do not transfer ownership.
+
+### Authorship roles
+
+| Role | Person / Agent |
+|------|---------------|
+| Theory, framework, and scientific direction | **ThomasCory Walker-Pearson** |
+| Code architecture, test suites, document engineering, and synthesis | **GitHub Copilot (AI)** |
+
+AI-generated contributions (code, documentation, and test suites produced by GitHub Copilot)
+are acknowledged in every `.py` source file via the SPDX header
+`# Copyright (C) 2026  ThomasCory Walker-Pearson` and the two-line credit at the bottom
+of every substantive document.  **AI contributions do not constitute co-authorship under
+academic norms** — they are acknowledged in the same way that significant software tools
+and infrastructure contributions are acknowledged, not as an equal intellectual contribution
+to the scientific theory.  Pull requests that include AI-generated code or text should note
+this in the PR description; they will be attributed using the same two-line standard.
 
 ---
 

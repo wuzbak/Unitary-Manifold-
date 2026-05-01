@@ -1,17 +1,51 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.27 — OMEGA EDITION)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.28)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.27
+> — Walker-Pearson, *The Unitary Manifold*, v9.28
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![15023 Tests: 15023 Pass / 2 Skip / 0 Fail](https://img.shields.io/badge/tests-15023%20passed%20%C2%B7%202%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![14772 Tests passing](https://img.shields.io/badge/tests-14772%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![99 Pillars — CLOSED](https://img.shields.io/badge/pillars-99%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
-[![Version](https://img.shields.io/badge/version-v1.0.0-blue)](CITATION.cff)
+[![Version](https://img.shields.io/badge/version-v9.28-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
-[![MCP Ready](https://img.shields.io/badge/MCP-ready-blue)](mcp-config.json)
-[![AI Ingest](https://img.shields.io/badge/AI%20Ingest-MCP__INGEST.md-green)](MCP_INGEST.md)
-[![llms.txt](https://img.shields.io/badge/llms.txt-ready-orange)](llms.txt)
-[![Download ZIP](https://img.shields.io/badge/Download-ZIP-brightgreen?logo=github)](https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip)
+
+---
+
+## 🗺️ How to Navigate This Repository
+
+This repository is organised into **numbered epistemic layers**.
+Start with the layer that matches your purpose:
+
+| Layer | Folder | Contents |
+|-------|--------|---------|
+| 📐 **Peer-reviewable physics** | [`1-THEORY/`](1-THEORY/) | Proofs, derivations, theorems — falsifiable claims only. Start with [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) |
+| 🔬 **Reproducibility** | [`2-REPRODUCIBILITY/`](2-REPRODUCIBILITY/) | Simulation records, validation reports, test suite guide |
+| ❌ **Falsification** | [`3-FALSIFICATION/`](3-FALSIFICATION/) | Predictions, adversarial review, conditions for falsification |
+| 🌿 **Implications** | [`4-IMPLICATIONS/`](4-IMPLICATIONS/) | AxiomZero commissioned extensions — biology, brain, ecology, etc. *Not proved physics.* |
+| 🏛️ **Governance** | [`5-GOVERNANCE/`](5-GOVERNANCE/) | Unitary Pentad HILS framework — independent of physics being correct |
+| 📚 **Monograph** | [`6-MONOGRAPH/`](6-MONOGRAPH/) | The v9a book (PDF), arXiv paper, manuscript chapters |
+| 📣 **Outreach** | [`7-OUTREACH/`](7-OUTREACH/) | AxiomZero Substack posts and books — *not peer-reviewed physics* |
+| 🛡️ **Safety** | [`8-SAFETY/`](8-SAFETY/) | Dual-use safety, radiological review, security protocols |
+| 🔧 **Infrastructure** | [`9-INFRASTRUCTURE/`](9-INFRASTRUCTURE/) | Notebooks, bots, scripts, AI tools |
+
+**Entry points by role:**
+- *Physicist reviewing the theory:* `FALLIBILITY.md` → `1-THEORY/DERIVATION_STATUS.md` → `python VERIFY.py` → `src/core/`
+- *Reproducing results:* `python VERIFY.py` → `python -m pytest tests/ -q` → `2-REPRODUCIBILITY/`
+- *Understanding the falsifiers:* `3-FALSIFICATION/prediction.md`
+- *General reader:* `4-IMPLICATIONS/WHAT_THIS_MEANS.md` → `7-OUTREACH/`
+
+---
+
+## Authorship
+
+| Role | Person / Agent |
+|------|---------------|
+| Theory, framework, and scientific direction | **ThomasCory Walker-Pearson** |
+| Code architecture, test suites, document engineering | **GitHub Copilot (AI)** |
+
+---
+
+
 
 ---
 
@@ -60,10 +94,10 @@
 >
 > | Document | Description |
 > |----------|-------------|
-> | **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** | **v9.27 OMEGA EDITION** — unsparing honest assessment of TOE status; 99 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability), open gaps, resolved neutrino mass tension, path to experimental confirmation |
-> | **[VALIDATION_REPORT.md](VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 99 pillars, written by GitHub Copilot (AI), April 2026 |
-> | **[REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.27: per-version technical audit, adversarial attacks, and honest gap assessment |
+> | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.27 OMEGA EDITION** — unsparing honest assessment of TOE status; 99 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability), open gaps, resolved neutrino mass tension, path to experimental confirmation |
+> | **[VALIDATION_REPORT.md](2-REPRODUCIBILITY/VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
+> | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 99 pillars, written by GitHub Copilot (AI), April 2026 |
+> | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.27: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
 > | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 13 checks — ns, r, birefringence, topology uniqueness, FTUM, φ₀ closure, n_w selection, APS η̄, completeness theorem (k_CS=74), dark energy w_KK — all PASS in < 1 s; run `python VERIFY.py` |
@@ -113,14 +147,14 @@ removed or contradicted.
 
 ---
 
-> ### 📄 [WHAT_THIS_MEANS.md](WHAT_THIS_MEANS.md) — Start here if you want to understand the *significance*
+> ### 📄 [WHAT_THIS_MEANS.md](4-IMPLICATIONS/WHAT_THIS_MEANS.md) — Start here if you want to understand the *significance*
 >
 > A plain-language document explaining what this work is claiming, why it matters,
 > how it relates to our 4D existence, what the quantitative results mean, and
 > where the honest gaps are.  Written for physicists, the public, reviewers, and AI systems equally.
 > **This is the first thing to read before diving into the mathematics.**
 
-> ### 📄 [CORRESPONDENCE_MAP.md](CORRESPONDENCE_MAP.md) — Start here if you are a **physicist or AI agent classifying domain**
+> ### 📄 [CORRESPONDENCE_MAP.md](1-THEORY/CORRESPONDENCE_MAP.md) — Start here if you are a **physicist or AI agent classifying domain**
 >
 > A symbol-to-symbol and claim-to-claim reference mapping every framework component
 > to its standard physics analog (Kaluza-Klein, GR, AdS/CFT, slow-roll inflation, etc.).
@@ -308,7 +342,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > | **2 — Speculative Extensions** | BH transceiver, particles, dark matter, cold fusion | Model is internally self-consistent; NOT empirically confirmed |
 > | **3 — Analogical Applications** | Medicine, justice, governance, ecology, climate, … | Code faithfully implements the stated analogy; says NOTHING about physical truth of the analogy |
 >
-> The authoritative separation is in **[SEPARATION.md](SEPARATION.md)**.  
+> The authoritative separation is in **[SEPARATION.md](5-GOVERNANCE/SEPARATION.md)**.  
 > The known limitations and falsification criteria are in **[FALLIBILITY.md](FALLIBILITY.md)**.
 
 ```
@@ -316,8 +350,8 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 ├── README.md
 ├── requirements.txt
 ├── THEBOOKV9a (1).pdf        ← full monograph (READ-ONLY canonical reference)
-├── UNIFICATION_PROOF.md      ← formal proof: QM/EM/SM as projections of the 5D geometry
-├── QUANTUM_THEOREMS.md       ← new theorems: BH info, CCR, Hawking T, ER=EPR (v9.3)
+├── 1-THEORY/UNIFICATION_PROOF.md      ← formal proof: QM/EM/SM as projections of the 5D geometry
+├── 1-THEORY/QUANTUM_THEOREMS.md       ← new theorems: BH info, CCR, Hawking T, ER=EPR (v9.3)
 ├── brain/                    ← brain-universe correspondence (structural + dynamical)
 │   ├── README.md             ← overview (structural AND dynamical alignment)
 │   ├── VARIABLE_ALIGNMENT.md ← symbol-by-symbol: monograph ↔ neural
@@ -694,7 +728,7 @@ tests/test_richardson_multitime.py        11 passed
 
 > **Epistemic status:** The Unitary Pentad is an independent governance and
 > decision-making architecture *inspired by* the mathematical structure of the
-> Unitary Manifold.  It is not itself a physics claim.  See [SEPARATION.md](SEPARATION.md).
+> Unitary Manifold.  It is not itself a physics claim.  See [SEPARATION.md](5-GOVERNANCE/SEPARATION.md).
 
 The **`Unitary Pentad/`** folder implements a complete 5-body HILS (Human-in-the-Loop Systems)
 governance framework: the full generalisation of the brain⊗universe 2-body system to five

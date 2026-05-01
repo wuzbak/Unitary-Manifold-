@@ -79,6 +79,24 @@ Connections
 - k_cs:             n₁² + n₂² = 74
 - c_s:              (n₂−n₁)(n₁+n₂)/k_cs = 2×12/74 = 12/37
 
+Honest Status of Equation [4] — r_braided = r_bare × c_s
+----------------------------------------------------------
+Equation [4] is *motivated* by the kinetic-mixing structure of the braided
+Lagrangian: when two winding sectors couple through a CS term at level k_cs,
+the propagating adiabatic mode acquires a non-trivial sound speed c_s, and
+standard non-canonical inflation theory (Garriga & Mukhanov 1999, JHEP
+9910:006) gives r → r × c_s at leading order in slow roll.  The suppression
+factor c_s = 12/37 is algebraically derived from the braid pair (5,7) and the
+resonance identity k_cs = n₁² + n₂² — it is not a free assumption.
+
+A full field-theoretic derivation of the braided kinetic term starting from
+the 5D action S₅ — writing out the off-diagonal CS block, canonically
+normalising the mixed kinetic matrix, and tracking all slow-roll suppression
+factors — is outstanding work that would complete this argument.  The
+application of c_s to the tensor-to-scalar ratio follows standard inflationary
+physics practice; it is not specific to this framework.  See FALLIBILITY.md
+Admission 5 for the formal status record.
+
 Public API
 ----------
 resonant_kcs(n1, n2) -> int

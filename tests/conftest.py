@@ -4,8 +4,25 @@ tests/conftest.py
 Shared pytest fixtures for the Unitary Manifold test suite.
 """
 
+import os
+import sys
+
 import numpy as np
 import pytest
+
+# ---------------------------------------------------------------------------
+# Ensure moved top-level packages remain importable after the v9.28
+# repository reorganisation (realworld, brain, botanical, etc. now live under
+# 4-IMPLICATIONS/).  Insert the directory on sys.path only if it isn't there
+# already, so this is safe to run multiple times.
+# ---------------------------------------------------------------------------
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_IMPLICATIONS_DIR = os.path.join(_REPO_ROOT, "4-IMPLICATIONS")
+if _IMPLICATIONS_DIR not in sys.path:
+    sys.path.insert(0, _IMPLICATIONS_DIR)
+_SAFETY_DIR = os.path.join(_REPO_ROOT, "8-SAFETY")
+if _SAFETY_DIR not in sys.path:
+    sys.path.insert(0, _SAFETY_DIR)
 
 from src.core.evolution import FieldState
 from src.holography.boundary import BoundaryState
