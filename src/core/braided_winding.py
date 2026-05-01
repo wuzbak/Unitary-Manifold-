@@ -567,7 +567,7 @@ def braided_power_spectra_derivation(
 def braided_r_full_derivation(
     n1: int,
     n2: int,
-    phi0_bare: float,
+    phi0_bare: float = PHI0_BARE_FTUM,
     k_cs: int | None = None,
 ) -> dict:
     """Complete derivation chain for r_braided from the 5D CS action.
