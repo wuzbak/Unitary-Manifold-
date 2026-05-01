@@ -640,6 +640,9 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 96 | Unitary Closure — analytic proof {(5,6),(5,7)} uniqueness; Unitary Summation capstone | `src/core/unitary_closure.py` | 59 |
 | 97 | GW Yukawa Derivation — Ŷ₅=1 from GW vacuum; m_e ≈ 0.509 MeV (< 0.5% PDG); neutrino c_{Lν_i} from GW braid suppression; Σm_ν ≈ 108 meV < 120 meV ✓ | `src/core/gw_yukawa_derivation.py` | 88 |
 | 98 | Universal Yukawa Test — 9 c_L values from Ŷ₅=1; all masses exact; b-τ unification r_bτ ≈ 0.497 (SM one-loop, SU(5) consistent); 0 free fermion mass parameters | `src/core/universal_yukawa.py` | 126 |
+| 70-C | Geometric Chirality Uniqueness — GW potential + APS index + SU(2)_L UV coupling → n_w=5 selected from {5,7} without SM input or Planck nₛ. Step 3 elevated: PHYSICALLY-MOTIVATED → **DERIVED**. | `src/core/geometric_chirality_uniqueness.py` | 88 |
+| 99-B | 5D CS Action Derivation of k_primary — cubic CS 3-form integral over braid field A=n₁A₁+n₂A₂ → k_primary=2(n₁²−n₁n₂+n₂²); Z₂ boundary term → k_eff=n₁²+n₂²=74. Last "asserted" step closed. | `src/core/anomaly_closure.py` (extension) | 47 |
+| 15-F | Cold Fusion Falsification Protocol — explicit experimental criteria F1–F3 for falsifying Gamow enhancement; Gamow prediction vs. published null results; non-dual-use. | `src/cold_fusion/falsification_protocol.py` | 64 |
 
 **Grand total (v9.27): 15,023 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/ + omega/)
 

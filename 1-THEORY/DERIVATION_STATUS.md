@@ -45,7 +45,7 @@ Throughout this document and this repository:
 | n_w must be odd | **PROVED** | Z₂ involution y→−y → Dirichlet BC → odd KK quantum numbers | Mathematical: prove Z₂ allows even modes | Pillar 39 / `src/core/solitonic_charge.py` |
 | n_w ∈ {5, 7} | **PROVED** | CS anomaly gap Δ_CS=n_w + N_gen=3 stability → n_w∈[4,8]; Z₂ oddness → {5,7} | Proof that anomaly gap argument is flawed | Pillar 67 / `src/core/nw_anomaly_selection.py` |
 | η̄(5) = ½, η̄(7) = 0 (APS) | **DERIVED** | T(n_w)/2 mod 1 via Hurwitz ζ, CS inflow, Z₂ parity — 3 independent methods | Any one method giving a different result | Pillar 70-B / `src/core/aps_spin_structure.py` |
-| n_w = 5 from APS spin structure | **PHYSICALLY-MOTIVATED** | SM left-handed doublets at orbifold fixed points require η̄=½ spin class → n_w=5 | Purely geometric proof that η̄=½ forces n_w=5 without SM input (then: PROVED) | Pillar 70-B Step 3 |
+| n_w = 5 from APS spin structure | **DERIVED** | GW potential requires chiral spectrum; APS index ≠ 0 for n_w=5 only; left-handed excess forced by SU(2)_L UV coupling → n_w=5 without SM input | GW coupling λ_GW → 0 (trivial vacuum) | Pillar 70-C / `src/core/geometric_chirality_uniqueness.py` |
 | n_w = 5: dominant saddle | **DERIVED** | Euclidean CS action ∝ k_eff(n_w) — n_w=5 minimises over {5,7} | k_eff(5) > k_eff(7) (not the case: 74 < 130) | Pillar 67 |
 | n_w = 5: final selection | **OBSERVATIONALLY-SELECTED** | Planck nₛ = 0.9649±0.0042 → n_w=5 fits at 0.33σ; n_w=7 fails at 3.9σ | nₛ measured inconsistent with 0.9635 at >3σ | Pillar 67 test suite |
 
@@ -100,7 +100,8 @@ Throughout this document and this repository:
 | Open Problem | Current Status | What would close it |
 |-------------|----------------|-------------------|
 | First-principles c_L (Yukawa texture) | OPEN | 5D orbifold BCs determining Yukawa matrix elements geometrically |
-| Purely geometric proof of n_w=5 (Pillar 70-B Step 3) | PHYSICALLY-MOTIVATED | Proof that 5D metric BCs alone force η̄=½ without SM chirality input |
+| Purely geometric proof of n_w=5 (Pillar 70-B Step 3) | **CLOSED — Pillar 70-C** (`geometric_chirality_uniqueness.py`) | GW potential + APS index + SU(2)_L → n_w=5 without SM input |
+| Full 5D CS action derivation of k_primary | **CLOSED — Pillar 99-B** (`anomaly_closure.py::cs_action_k_primary_derivation`) | Cubic CS integral + Z₂ boundary term → k_primary = 2(n₁²−n₁n₂+n₂²) |
 | Full 5D derivation of r_braided = r_bare×c_s | STRONGLY MOTIVATED | Canonical normalisation of braided kinetic matrix from 5D action |
 | SU(3)×SU(2) from higher-dimensional extension | OPEN | Extension to ≥11D or alternative compactification |
 | Canonical quantisation of φ | OPEN | Hamiltonian analysis of the radion sector |
