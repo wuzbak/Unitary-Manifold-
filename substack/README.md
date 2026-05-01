@@ -7,6 +7,10 @@ the Unitary Manifold framework to a general audience.
 
 **[book-version-omega.md](book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
 
+## AxiomZero Books — Politics & Civic Life
+
+**[book-signal-and-noise.md](book-signal-and-noise.md)** — *The Signal and the Noise: Politics, Media, and the Battle for American Reality* — the full AxiomZero book on politics and media in America. What is working. What is broken. How they manipulate each other. A complete structural reform blueprint with appendices. For every American.
+
 ## Publishing Order
 
 | File | Post | Status |
