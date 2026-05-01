@@ -127,6 +127,6 @@ Full report: `python -m pytest omega/ -q` — 168 tests, 0 failures.
 
 ---
 
-*Quick Reference — v9.27 OMEGA EDITION — 99 pillars, 15,023 tests — April 2026*  
+*Quick Reference — v9.28 OMEGA EDITION — 99 pillars + sub-pillars, 14,972 tests — May 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*

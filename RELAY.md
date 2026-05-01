@@ -15,8 +15,8 @@ postulate.  The fifth dimension encodes irreversibility; its radion field φ pla
 the role of the CMB inflaton.  Key outputs are the scalar spectral index nₛ,
 tensor-to-scalar ratio r, and cosmic birefringence angle β — all derived
 from a single geometric compactification.  The full Python implementation
-lives at `https://github.com/wuzbak/Unitary-Manifold-`.  **15,023 tests pass**
-across 99 pillars + Pillar Ω (Universal Mechanics Engine). **REPOSITORY CLOSED.**
+lives at `https://github.com/wuzbak/Unitary-Manifold-`.  **14,972 tests pass**
+across 99 pillars + sub-pillars (Universal Mechanics Engine). **REPOSITORY CLOSED.**
 
 ---
 
@@ -89,10 +89,10 @@ Universal Mechanics Engine           Pillar Ω: 5 seeds → all observables
 
 ---
 
-## 5. Current state (v9.27 — OMEGA EDITION)
+## 5. Current state (v9.28 — Gap Closure)
 
-- **99 pillars CLOSED** (74 core + Pillar 70-B + Pillars 75, 80–99) + Pillar Ω capstone
-- **15,023 tests passing** (tests/ + recycling/ + Unitary Pentad/ + omega/), 0 failures
+- **99 pillars + sub-pillars CLOSED** (74 core + Pillar 70-B + Pillars 75, 80–99 + sub-pillars 70-C, 99-B, 15-F) + Pillar Ω capstone
+- **14,972 tests passing** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), 330 skipped, 0 failures
 - **FALLIBILITY.md** — all 6 original gaps addressed or formally open with disclosure
 - **LiteBIRD (~2032)** is the primary falsifier: β ∈ {0.273°, 0.331°} must be confirmed;
   β falling in [0.29°–0.31°] or outside [0.22°–0.38°] falsifies the framework

@@ -97,16 +97,16 @@ Getting started
   pip install -r requirements.txt
   python VERIFY.py           # 30-second standalone proof
   python -c "from src.core import metric, evolution; print('OK')"
-  python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
+  python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 
-Test suite summary (v9.27 OMEGA EDITION)
+Test suite summary (v9.28)
 -----------------------------------------
-  tests/                ~13,300 passed   (Pillars 1–99)
+  tests/               ~13,462 passed, 76 skipped   (Pillars 1–99 + sub-pillars)
   recycling/               316 passed    (Pillar 16)
-  Unitary Pentad/        1,266 passed    (HILS governance)
+  5-GOVERNANCE/Unitary Pentad/  1,026 passed, 254 skipped  (HILS governance)
   omega/                   168 passed    (Pillar Ω)
   ─────────────────────────────────────
-  TOTAL               15,023 passed, 2 skipped, 0 failed
+  TOTAL               14,972 passed, 330 skipped, 0 failed
 """
 
 

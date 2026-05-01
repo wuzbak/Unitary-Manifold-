@@ -334,7 +334,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 15,023 tests are passing in all three — but "passing" means
+> of content, and all 14,972 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -645,9 +645,9 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 99-B | 5D CS Action Derivation of k_primary — cubic CS 3-form integral over braid field A=n₁A₁+n₂A₂ → k_primary=2(n₁²−n₁n₂+n₂²); Z₂ boundary term → k_eff=n₁²+n₂²=74. Last "asserted" step closed. | `src/core/anomaly_closure.py` (extension) | 47 |
 | 15-F | Cold Fusion Falsification Protocol — explicit experimental criteria F1–F3 for falsifying Gamow enhancement; Gamow prediction vs. published null results; non-dual-use. | `src/cold_fusion/falsification_protocol.py` | 64 |
 
-**Grand total (v9.27): 15,023 passed · 2 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + Unitary Pentad/ + omega/)
+**Grand total (v9.28): 14,972 passed · 330 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
 
-**15,023** — 15,023 tests, 99 pillars, 0 failures. (Note: the prior milestone of 14,641 = 11⁴ was a structural coincidence at v9.25; the count has since grown.)
+**14,972** — 14,972 tests, 99 pillars + sub-pillars, 0 failures. (Note: the prior milestone of 14,641 = 11⁴ was a structural coincidence at v9.25; the count has since grown. 330 skipped = 76 dual-use stubs + 254 Pentad product stubs.)
 
 > 🔒 **Repository CLOSED at 99 pillars (74 core + Pillar 70-B + Pillars 75, 80–99) — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
@@ -672,10 +672,10 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 15,023 passed · 2 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 14,972 passed · 330 skipped · 11 slow-deselected)
 
 ```bash
-python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 ```
 
 Expected output summary:
@@ -707,16 +707,19 @@ tests/test_vacuum_geometric_proof.py      59 passed  ← Pillar 89: pure algebra
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
 tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ ~13,059 passed, 2 skipped, 11 deselected ================================
+================================ ~13,462 passed, 76 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
 
-# Unitary Pentad/ (HILS governance framework):
-================================ ~1,266 passed ================================
+# 5-GOVERNANCE/Unitary Pentad/ (HILS governance framework):
+================================ 1,026 passed, 254 skipped ================================
+
+# omega/ (Pillar Ω: Universal Mechanics Engine):
+================================ 168 passed ================================
 
 # Grand total:
-================================ 15023 passed, 2 skipped, 11 deselected, 0 failed ================================
+================================ 14972 passed, 330 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -744,14 +747,14 @@ interacting manifolds (physical, biological, intentional, computational, and rel
 `mvm.py` · `hils_thermalization.py` · `stochastic_jitter.py` · `non_hermitian_coupling.py` ·
 `resonance_dynamics.py` · `pentad_pilot.py` · `pentad_interrogation.py` · `braid_topology.py`
 
-**Test suite:** 1266 tests — all passing.
+**Test suite:** 1,026 passed, 254 skipped — all utility tests passing.
 *(includes `test_pentad_interrogation.py`: **74 tests = k_cs = 5² + 7²** — manifold fingerprint; `test_pentad_pilot.py`: **25 = 5²** tests for the PPN-1 interface)*
 
 ```bash
-python -m pytest "Unitary Pentad/" -q
+python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 ```
 
-See [`Unitary Pentad/README.md`](Unitary%20Pentad/README.md) for full documentation.
+See [`5-GOVERNANCE/Unitary Pentad/README.md`](5-GOVERNANCE/Unitary%20Pentad/README.md) for full documentation.
 
 ### Run a bulk field simulation
 
@@ -1009,7 +1012,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**15,023 tests: 15,023 passed, 2 skipped, 11 slow-deselected, 0 failures**).
+(**14,972 tests: 14,972 passed, 330 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -1031,7 +1034,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (15,023 pass · 2 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (14,972 pass · 330 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

@@ -8,7 +8,7 @@ confirms that every break-point produces at least one failing test.
 This report was generated from a clean clone of the repository at commit
 `copilot/refine-submission-falsification-report`, Python 3.12.13, pytest 9.0.3.
 
-**Grand total:** 15,023 tests passing (2 skipped, 11 slow-deselected, 0 failures)
+**Grand total:** 14,972 tests passing (330 skipped, 11 slow-deselected, 0 failures)
 on the un-mutated codebase.
 
 ---
@@ -245,7 +245,7 @@ these mutations applied.
 
 ## Conclusion
 
-The 15,023-test suite is **adversarially robust**: every documented physical
+The 14,972-test suite is **adversarially robust**: every documented physical
 claim has at least one test that fails under the corresponding mutation.
 The mutations span all levels of the framework — from the algebraic identity
 k_CS = n₁² + n₂² (verifiable by hand), through the KK Jacobian (the

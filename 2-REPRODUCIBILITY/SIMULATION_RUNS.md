@@ -190,12 +190,12 @@ The full automated test suite is in `tests/` and can be run with:
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 ```
 
-15,035 tests (~13,073 fast-selected + 11 slow-deselected + recycling/ 316 + Unitary Pentad/ ~1,266 + omega/ 168): 15,023 passed · 2 skipped · 0 failed.
+15,313 tests (~13,549 fast-selected + 11 slow-deselected + recycling/ 316 + 5-GOVERNANCE/Unitary Pentad/ ~1,280 + omega/ 168): 14,972 passed · 330 skipped · 0 failed.
 
-> **Skip:** `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` uses a `pytest.skip()` guard that fires on immediate convergence — correct behaviour, not a failure.
+> **Skipped:** 76 dual-use stubs (cold fusion / lattice dynamics) + 254 Pentad product deployment stubs. Both are intentional — see `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
 > **Slow:** 11 tests in `test_richardson_multitime.py` marked `@pytest.mark.slow`; run with `pytest tests/ -m slow`.
 
 | File | Tests | Topics |

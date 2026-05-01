@@ -206,7 +206,7 @@ physics theory being right.
 | `sentinel_load_balance.py` | Sentinel capacity; load redistribution |
 | `mvm.py` | Minimum Viable Manifold search |
 
-**Tests:** `python3 -m pytest "Unitary Pentad/" -q`  
+**Tests:** `python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q`  
 **What the tests prove:** The Pentad system's internal logic is correct.
 
 ---

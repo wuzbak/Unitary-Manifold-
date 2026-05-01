@@ -191,8 +191,8 @@ print(state.regime)   # "3:2_resonant" | "2:3_resonant" | "4:1_inversion"
 ## Running the Tests
 
 ```bash
-python -m pytest "Unitary Pentad/" -q
-# Expected: 1266 passed, 0 failed
+python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
+# Expected: 1026 passed, 254 skipped, 0 failed
 ```
 
 ## Key Design Principles

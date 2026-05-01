@@ -1,18 +1,16 @@
 # Full Test Results — Unitary Manifold
 
-Run date: 2026-04-29 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
+Run date: 2026-05-01 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
 
-**Fast suite (default `pytest tests/ -v`): PASSED · 2 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
+**Fast suite (default `pytest tests/ -v`): PASSED · 76 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (all suites): 15,023 passed · 2 skipped · 11 deselected · 0 failures** (tests/ + recycling/ + Unitary Pentad/ + omega/)
+**Grand total (all suites): 14,972 passed · 330 skipped · 11 deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
 
 **14,641 = 11⁴** — prior structural milestone at v9.25. Not a physical claim.
 
-⚑ **Skip explanation (2 skips):**
-1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`
-calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration`
-converges in fewer than 2 iterations. Immediate convergence is **correct behaviour** — the guard
-documents there is nothing to check monotonicity of. This is not a failure.
+⚑ **Skip explanation (330 skips):**
+- **76 dual-use stubs** (`test_lattice_dynamics.py` + `test_cold_fusion.py`): implementation functions raise `NotImplementedError` to prevent dual-use misuse. See `DUAL_USE_NOTICE.md`.
+- **254 Pentad product stubs** (`5-GOVERNANCE/Unitary Pentad/`): deployment functions reserved for AxiomZero product. See `PENTAD_PRODUCT_NOTICE.md`.
 
 **Deselected explanation:** 11 tests in `test_richardson_multitime.py` carry `@pytest.mark.slow`
 and are excluded by `addopts = -m "not slow"` in `pytest.ini`. Run with `pytest tests/ -m slow`.

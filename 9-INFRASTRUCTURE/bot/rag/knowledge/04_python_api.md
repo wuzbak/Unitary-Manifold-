@@ -1,7 +1,7 @@
 # Python API — Unitary Manifold
 
 The repository contains a Python implementation of the full theory. The
-test suite has ~13,059 passing tests and 0 failures (~13,073 total: ~13,059 fast passed · 2 skipped · 11 slow-deselected) in `tests/`; plus 316 in `recycling/`, 1266 in `Unitary Pentad/`, and 168 in `omega/` — **15,023 total passing, 0 failures**.
+test suite has ~13,462 passing tests (~13,549 total: ~13,462 fast passed · 76 skipped · 11 slow-deselected) in `tests/`; plus 316 in `recycling/`, 1,026 in `5-GOVERNANCE/Unitary Pentad/` (254 skipped), and 168 in `omega/` — **14,972 total passing, 0 failures**.
 
 ## Installation
 
@@ -157,19 +157,19 @@ random initial states far from the vacuum, convergence is not guaranteed.
 ```bash
 # Core physics (all 99 pillars):
 python -m pytest tests/ -q
-# Expected: ~13059 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: ~13462 passed, 76 skipped, 11 deselected, 0 failed
 
 # Recycling / Pillar 16:
 python -m pytest recycling/ -q
 # Expected: 316 passed, 0 failed
 
 # Unitary Pentad (HILS framework):
-python -m pytest "Unitary Pentad/" -q
-# Expected: 1266 passed, 0 failed
+python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
+# Expected: 1026 passed, 254 skipped, 0 failed
 
 # All suites together:
-python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
-# Expected: 15023 passed, 2 skipped, 0 failed
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+# Expected: 14972 passed, 330 skipped, 0 failed
 ```
 
 Key individual test modules:
