@@ -51,10 +51,10 @@ Full DBA commencement notice: [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md)
 
 ---
 
-## Part III — The Three Legal Instruments
+## Part III — The Four Legal Instruments
 
-This repository is governed by four legal instruments that work together.  Understanding
-all four is necessary to understand what anyone — including AxiomZero — can and cannot do
+This repository is governed by five legal instruments that work together.  Understanding
+all five is necessary to understand what anyone — including AxiomZero — can and cannot do
 with this work.
 
 ### Instrument 1: Defensive Public Commons License v1.0 — *the theory is free, forever*
@@ -137,9 +137,40 @@ a service you received; academic attribution.
 product names; implying endorsement or partnership; marketing competing services under
 these marks.
 
+### Instrument 4: Dual-Use Notice — *responsible open science*
+
+**File:** [`DUAL_USE_NOTICE.md`](DUAL_USE_NOTICE.md)  
+**Effective:** May 1, 2026  
+**Legal basis:** AGPL-3.0 § 7(b) — Additional Terms (preservation of notices)
+
+The Dual-Use Notice is an ethical declaration and copyright-holder notice that:
+
+1. **Declares Prohibited Applications** — weapons development, biological weapons
+   design, non-consensual surveillance, circumventing safety-critical HILS constraints,
+   and enclosure of the public-domain theory.
+
+2. **Documents withheld implementations** — `ignition_N()` and `lattice_coherence_gain()`
+   in `src/physics/lattice_dynamics.py` are held in the private AxiomZero repository.
+   Public stubs raise `NotImplementedError` with a reference to this notice.
+   Researchers may request access via a Supervised Research License (SRL).
+
+3. **Establishes a Good Faith Use Affirmation** — any organisation using the
+   nuclear-tunneling modules for energy applications must submit a free, one-time
+   affirmation via GitHub Issues.
+
+4. **Applies the `__provenance__` watermark** — every Python module in `src/`,
+   `Unitary Pentad/`, and `omega/` carries a `__provenance__` dict embedding the
+   author name, DBA, DOI, and the braid fingerprint `(5, 7, 74)`.  Removing these
+   dicts constitutes a violation of AGPL-3.0 § 7(b) (preservation of notices) and
+   is enforceable by the copyright holder.
+
+The Dual-Use Notice does **not** restrict the theory (DPC v1.0 is irrevocable) and
+does **not** create a license conflict with AGPL-3.0 — it is an Additional Term
+explicitly permitted by AGPL-3.0 § 7.
+
 ---
 
-## Part IV — What These Four Instruments Accomplish Together
+## Part IV — What These Five Instruments Accomplish Together
 
 | Goal | Mechanism |
 |------|-----------|
@@ -149,8 +180,10 @@ these marks.
 | No entity — including AxiomZero — can unilaterally close what has been opened | DPC v1.0 prohibitions + AGPL-3.0 copyleft acting in concert |
 | AxiomZero can earn from services without compromising openness | Commercial services layer over the open core (see Part V) |
 | AxiomZero can earn from enterprises needing private deployments | Commercial License Exceptions (see Part V-A) |
-| Derivative works can be identified even after variable renaming | Technical fingerprints documented in `FINGERPRINTS.md` |
+| Derivative works can be identified even after variable renaming | Technical fingerprints in `FINGERPRINTS.md` + `__provenance__` in every module |
 | Contributor IP is clearly allocated | DCO + additional grant in `CONTRIBUTING.md` |
+| Dangerous dual-use implementations are withheld from public access | Supervised Research License tier in `DUAL_USE_NOTICE.md` |
+| Energy-application users are publicly documented | Good Faith Use Affirmation (GitHub Issues) |
 
 This structure was chosen deliberately.  The goal: even if AxiomZero failed as a business
 tomorrow, the work would survive intact and available.

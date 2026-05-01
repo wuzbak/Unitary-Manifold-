@@ -80,7 +80,19 @@ Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
 GitHub Copilot (AI).
 """
+
+
 from __future__ import annotations
+
+__provenance__ = {
+    "author": "ThomasCory Walker-Pearson",
+    "dba": "AxiomZero Technologies",
+    "github": "@wuzbak",
+    "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531",
+    "license_software": "AGPL-3.0-or-later",
+    "license_theory": "Defensive Public Commons v1.0",
+    "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
+}
 
 import math
 
@@ -202,25 +214,17 @@ def ignition_N(
     ValueError
         If phi_local ≤ 0, eta ≤ 0, or G_threshold not in (0, 1).
     """
-    if phi_local <= 0.0:
-        raise ValueError(f"phi_local must be > 0, got {phi_local!r}")
-    if eta <= 0.0:
-        raise ValueError(f"eta must be > 0, got {eta!r}")
-    if not (0.0 < G_threshold < 1.0):
-        raise ValueError(f"G_threshold must be in (0, 1), got {G_threshold!r}")
-    if k_cs <= 0:
-        raise ValueError(f"k_cs must be > 0, got {k_cs!r}")
-
-    # Required effective φ for ignition
-    phi_eff_needed = 2.0 * math.pi * eta / (-math.log(G_threshold))
-
-    if phi_eff_needed <= phi_local:
-        # Already above threshold with a single pair
-        return 1.0
-
-    N_eff = n_w * c_s ** 2 / k_cs
-    N_ign = (phi_eff_needed / phi_local - 1.0) / N_eff
-    return max(1.0, float(N_ign))
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The implementation of the ignition-threshold inversion is held in the
+    # private AxiomZero repository.  See DUAL_USE_NOTICE.md for the full
+    # dual-use policy and the conditions under which the implementation may
+    # be licensed for legitimate energy-research applications.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "ignition_N() is held in the private AxiomZero repository under "
+        "dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -369,59 +373,18 @@ def lattice_coherence_gain(
     ValueError
         If N_coherence < 1, phi_local ≤ 0, or k_cs ≤ 0.
     """
-    if N_coherence < 1:
-        raise ValueError(f"N_coherence must be ≥ 1, got {N_coherence!r}")
-    if phi_local <= 0.0:
-        raise ValueError(f"phi_local must be > 0, got {phi_local!r}")
-    if k_cs <= 0:
-        raise ValueError(f"k_cs must be > 0, got {k_cs!r}")
-
-    N_eff = float(n_w) * c_s ** 2 / k_cs
-    f_kk = c_s ** 2 / k_cs   # braid suppression factor
-
-    # Effective collective screening field
-    phi_eff = phi_effective_collective(N_coherence, phi_local, n_w, k_cs, c_s)
-
-    # Gamow factors
-    exponent_single = -2.0 * math.pi * eta / phi_local
-    exponent_coll = -2.0 * math.pi * eta / phi_eff
-
-    # Clamp exponents to avoid underflow (minimum float ~ 1e-308)
-    G_single = math.exp(max(exponent_single, -700.0))
-    G_collective = math.exp(max(exponent_coll, -700.0))
-
-    # Gain ratio (avoid division by zero if G_single underflows to 0)
-    if G_single > 0.0:
-        gain = G_collective / G_single
-    else:
-        # Both very small; use exponent difference for the ratio
-        gain = math.exp(exponent_coll - exponent_single)
-
-    # Log10 of Gamow factors (handle underflow gracefully)
-    log10_G_single = exponent_single / math.log(10.0)
-    log10_G_coll = exponent_coll / math.log(10.0)
-    log10_gain_val = log10_G_coll - log10_G_single
-
-    # Ignition threshold
-    N_ign = ignition_N(phi_local, eta, G_threshold, n_w, k_cs, c_s)
-    is_ignited = G_collective > G_threshold
-
-    return {
-        "N_coherence": N_coherence,
-        "phi_local": phi_local,
-        "N_eff": N_eff,
-        "phi_effective": phi_eff,
-        "G_single": G_single,
-        "G_collective": G_collective,
-        "gain": gain,
-        "log10_gain": log10_gain_val,
-        "log10_G_single": log10_G_single,
-        "log10_G_coll": log10_G_coll,
-        "ignition_N": N_ign,
-        "is_ignited": is_ignited,
-        "f_kk": f_kk,
-        "optimal_loading": braid_resonance_loading(n_w, k_cs, c_s),
-    }
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The implementation of the collective Gamow factor and ignition-domain
+    # computation is held in the private AxiomZero repository.  See
+    # DUAL_USE_NOTICE.md for the full dual-use policy and the conditions
+    # under which the implementation may be licensed for legitimate
+    # energy-research applications.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "lattice_coherence_gain() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------

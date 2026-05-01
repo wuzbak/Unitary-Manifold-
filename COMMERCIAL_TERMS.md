@@ -182,6 +182,68 @@ has been executed.
 
 ---
 
+## § 4-B · Commercial Notification Requirement
+
+### 4-B.1 Purpose
+
+This section creates a **public paper trail** of commercial deployments of this
+software.  It does not create a payment obligation, require approval, or restrict
+any right granted by AGPL-3.0 or DPC v1.0.  It is an Additional Term under
+AGPL-3.0 § 7(b) (preservation of notices) and is therefore legally enforceable
+as a condition of the AGPL-3.0 licence.
+
+### 4-B.2 Who must notify
+
+Any **commercial entity** that meets both of the following criteria must submit a
+one-time Commercial Notification:
+
+1. **Revenue threshold:** The entity has annual revenue exceeding $100,000 USD, is
+   venture-capital or private-equity funded, or is a subsidiary or division of a
+   larger organisation that meets either criterion; **and**
+
+2. **Deployment:** The entity deploys any portion of the AGPL-covered software
+   (`src/`, `tests/`, `recycling/`, `Unitary Pentad/`, `omega/`, `bot/`, or any
+   derived work) as part of a revenue-generating product, service, or internal
+   workflow.
+
+Non-commercial use (academic research, personal projects, government agencies,
+non-profits) is exempt from this notification requirement.
+
+### 4-B.3 How to notify
+
+Open a GitHub Issue at https://github.com/wuzbak/Unitary-Manifold-/issues with:
+
+- **Subject:** `[Commercial Notification] <Organisation name>`
+- **Body:** A brief description of (a) the organisation, (b) which modules are
+  deployed, and (c) the nature of the product or service.  No confidential
+  information need be disclosed; a one-sentence summary suffices.
+
+The notification is **free**.  It does not trigger payment, require AxiomZero's
+approval, or limit any rights.
+
+### 4-B.4 Legal effect of non-notification
+
+Failure to submit a Commercial Notification when required constitutes a breach of
+the "Preservation of Notices" requirement under AGPL-3.0 § 7(b).  The copyright
+holder may:
+
+- Issue a written cure notice providing 30 days to submit the notification;
+- Terminate the AGPL-3.0 licence under § 8 if the breach is not cured; and
+- Cite the absence of notification as evidence of wilful infringement in any
+  subsequent legal or regulatory proceeding.
+
+A false notification (materially misrepresenting the nature of use) constitutes
+fraud and voids the notification's protective effect.
+
+### 4-B.5 Relationship to CLE
+
+A Commercial Notification is **not** a substitute for a Commercial License Exception
+(§ 4-A).  Entities that require CLE rights (private AGPL-source-disclosure waiver)
+must separately negotiate a CLE.  A CLE, once executed, satisfies the Commercial
+Notification requirement automatically.
+
+---
+
 ## § 5 · Payment, Scope, and Statements of Work
 
 ### 5.1 Engagement commencement

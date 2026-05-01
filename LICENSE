@@ -103,6 +103,28 @@ datasets, LaTeX sources, notebooks, and the PDF monograph — is not subject to
 this copyright retention and remains irrevocably in the public domain.
 
 ────────────────────────────────────────────────────────────────────────────
+HARMFUL APPLICATION NOTICE — SOFTWARE ONLY (AGPL copyright-retained scope)
+────────────────────────────────────────────────────────────────────────────
+
+The AGPL-3.0's notice-preservation requirement (§ 7(b)) means that any copy
+or derivative of the software directories listed above MUST retain this
+notice.
+
+Applications of this software to weapons development, biological weapons
+design, or surveillance systems without informed consent are incompatible
+with the HILS governance principles embedded in the Unitary Pentad framework
+and are declared harmful by the copyright holder.
+
+Any commercial entity (revenue > $100 000/year or VC-funded) that deploys
+this software in a revenue-generating product must submit a one-time
+Commercial Notification (free, no approval required) by opening a GitHub
+Issue — see COMMERCIAL_TERMS.md § 4-B.
+
+See DUAL_USE_NOTICE.md for the full dual-use policy, the list of Prohibited
+Applications, and the process for obtaining a Supervised Research License
+for withheld implementations.
+
+────────────────────────────────────────────────────────────────────────────
 ATTRIBUTION (REQUESTED, NOT REQUIRED)
 ────────────────────────────────────────────────────────────────────────────
 

@@ -109,6 +109,13 @@ class TestPhiEffectiveCollective:
 # ignition_N
 # ===========================================================================
 
+_DUAL_USE_SKIP = (
+    "Implementation held in private repository per "
+    "AxiomZero dual-use policy v1.0 — see DUAL_USE_NOTICE.md"
+)
+
+
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestIgnitionN:
     def test_returns_positive(self):
         N_ign = ignition_N(1.0)
@@ -218,6 +225,7 @@ class TestBraidResonanceLoading:
 # lattice_coherence_gain — main API
 # ===========================================================================
 
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestLatticeCoherenceGain:
     def test_returns_dict(self):
         result = lattice_coherence_gain(100, 1.5)

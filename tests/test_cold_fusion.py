@@ -60,6 +60,12 @@ from src.cold_fusion.excess_heat import (
     calculate_energy_branching_ratio,
 )
 
+# Shared skip reason for all dual-use stubs
+_DUAL_USE_SKIP = (
+    "Implementation held in private repository per "
+    "AxiomZero dual-use policy v1.0 — see DUAL_USE_NOTICE.md"
+)
+
 
 # ===========================================================================
 # tunneling.py — sommerfeld_parameter
@@ -436,6 +442,7 @@ class TestEnhancementRatio:
 # tunneling.py — minimum_phi_for_fusion
 # ===========================================================================
 
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestMinimumPhiForFusion:
     def test_returns_positive_float(self):
         phi_min = minimum_phi_for_fusion(1, 1, 0.001)
@@ -628,6 +635,7 @@ class TestCoherenceVolumeLattice:
 # lattice.py — sites_in_coherence_volume
 # ===========================================================================
 
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestSitesInCoherenceVolume:
     def test_positive(self):
         N = sites_in_coherence_volume(5.0, 1.0)
@@ -782,6 +790,7 @@ class TestBFieldAtSite:
 # lattice.py — loading_threshold_for_fusion
 # ===========================================================================
 
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestLoadingThresholdForFusion:
     def test_phi_one_returns_rho_ref(self):
         rho_min = loading_threshold_for_fusion(1.0)
@@ -855,6 +864,7 @@ class TestDDProtonBranchQValue:
 # excess_heat.py — fusion_rate_per_site
 # ===========================================================================
 
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestFusionRatePerSite:
     def test_returns_float(self):
         assert isinstance(fusion_rate_per_site(0.01, 0.001, 1.0), float)
@@ -881,6 +891,7 @@ class TestFusionRatePerSite:
 # excess_heat.py — excess_heat_power
 # ===========================================================================
 
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestExcessHeatPower:
     def test_basic(self):
         P = excess_heat_power(1e20, 1e-25, 5e-13)
@@ -1082,6 +1093,7 @@ class TestCumulativeHeat:
 # excess_heat.py — heat_to_electrical_efficiency
 # ===========================================================================
 
+@pytest.mark.skip(reason=_DUAL_USE_SKIP)
 class TestHeatToElectricalEfficiency:
     def test_cop_one_gives_zero(self):
         eff = heat_to_electrical_efficiency(1.0)

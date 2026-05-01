@@ -1,0 +1,40 @@
+# CODEOWNERS — AxiomZero Technologies / Unitary Manifold
+#
+# All pull requests require review and approval from @wuzbak (ThomasCory
+# Walker-Pearson / AxiomZero Technologies) before merging.
+#
+# Enable enforcement in GitHub Settings → Branches → Branch protection rules:
+#   • Require a pull request before merging
+#   • Require approvals: 1
+#   • Require review from Code Owners  ← this file
+#   • Require signed commits
+#   • Include administrators
+#
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# --- Default: every file requires @wuzbak approval ---
+*                                   @wuzbak
+
+# --- Core physics engine (explicit double-coverage) ---
+src/core/                           @wuzbak
+src/physics/                        @wuzbak
+src/cold_fusion/                    @wuzbak
+omega/                              @wuzbak
+
+# --- Governance and HILS ---
+Unitary Pentad/                     @wuzbak
+
+# --- Legal and identity files (never auto-merged) ---
+LICENSE                             @wuzbak
+LICENSE-AGPL                        @wuzbak
+LEGAL.md                            @wuzbak
+AXIOMZERO_DBA.md                    @wuzbak
+COMMERCIAL_TERMS.md                 @wuzbak
+DUAL_USE_NOTICE.md                  @wuzbak
+FINGERPRINTS.md                     @wuzbak
+CONTRIBUTING.md                     @wuzbak
+NOTICE                              @wuzbak
+CITATION.cff                        @wuzbak
+
+# --- CI and repository configuration ---
+.github/                            @wuzbak

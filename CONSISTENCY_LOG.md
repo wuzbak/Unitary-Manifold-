@@ -275,11 +275,29 @@ the ignition threshold.
 
 ### 4.3 Ignition Threshold
 
-```python
+> **⚠ Dual-Use Notice:** The `ignition_N()` function is withheld from the
+> public repository per AxiomZero dual-use policy v1.0.  See
+> [`DUAL_USE_NOTICE.md`](DUAL_USE_NOTICE.md).  The derivation and result
+> below are retained for scientific completeness under DPC v1.0 (theory
+> is public domain); the runnable implementation requires a Supervised
+> Research License.
+
+The theoretical result (previously verified in the private repository):
+
+```
+N_ign = (2π η / (−ln G_threshold × φ_local) − 1) / N_eff
+      = (2π × 1390 / (20 × ln 10 × 1.5) − 1) / 7.107×10⁻³
+      ≈ 17,653 deuterons in the coherence domain
+```
+
+<!-- ignition_N() is now a NotImplementedError stub in the public repo.
+     The runnable call below is preserved as a historical record of the
+     verified result; it will raise NotImplementedError if executed:
+
 from src.physics.lattice_dynamics import ignition_N
 N_ign = ignition_N(phi_local=1.5, eta=1/137/5.25e-6, G_threshold=1e-20)
 # N_ign ≈ 17,653 deuterons in the coherence domain
-```
+-->
 
 A coherence domain of ~17,600 deuterons corresponds to a physical volume of
 approximately (17,600 / n_D)^(1/3) where n_D is the deuterium number density in
@@ -341,7 +359,7 @@ their test suites (0 failures):
 | `radion_self_consistency_check()` | `src/core/zero_point_vacuum.py` | (existing) | ρ_eff/ρ_obs ratio |
 | `brane_tension_from_neutrino_mass()` | `src/core/zero_point_vacuum.py` | (existing) | Brane tension from m_ν |
 | `casimir_ripple_peak_deviation()` | `src/core/zero_point_vacuum.py` | (existing) | 0.162% Casimir ripple |
-| `lattice_coherence_gain()` | `src/physics/lattice_dynamics.py` | 29 | Collective Gamow factor |
+| `lattice_coherence_gain()` | `src/physics/lattice_dynamics.py` | 29 → **skipped** (stub; dual-use) | Collective Gamow factor — withheld per DUAL_USE_NOTICE.md |
 | `phonon_radion_bridge()` | `src/physics/lattice_dynamics.py` | 18 | Pd lattice radion pump |
 | `bmu_time_arrow_lock()` | `src/physics/lattice_dynamics.py` | 19 | B_μ energy routing proof |
 | `calculate_energy_branching_ratio()` | `src/cold_fusion/excess_heat.py` | 25 | Phonon/gamma branching |

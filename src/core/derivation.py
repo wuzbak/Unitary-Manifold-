@@ -104,7 +104,19 @@ derive_integers(phi0_bare, alpha_em, r_c, phi_min_phys, n_max, k_max,
     Stage 3: joint derivation and consistency check.  Returns DerivationResult.
 """
 
+
+
 from __future__ import annotations
+
+__provenance__ = {
+    "author": "ThomasCory Walker-Pearson",
+    "dba": "AxiomZero Technologies",
+    "github": "@wuzbak",
+    "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531",
+    "license_software": "AGPL-3.0-or-later",
+    "license_theory": "Defensive Public Commons v1.0",
+    "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
+}
 
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Tuple

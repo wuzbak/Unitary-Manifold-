@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """src/materials — Pillar 26: Materials Science."""
+
+__provenance__ = {
+    "author": "ThomasCory Walker-Pearson",
+    "dba": "AxiomZero Technologies",
+    "github": "@wuzbak",
+    "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531",
+    "license_software": "AGPL-3.0-or-later",
+    "license_theory": "Defensive Public Commons v1.0",
+    "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
+}
+
 from .condensed import (
     band_gap_phi, fermi_phi_level, phonon_phi_scattering,
     electron_phi_mobility, thermal_phi_conductivity, magnetic_phi_ordering,
