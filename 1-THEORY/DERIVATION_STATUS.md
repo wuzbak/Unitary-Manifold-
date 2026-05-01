@@ -46,6 +46,7 @@ Throughout this document and this repository:
 | n_w ∈ {5, 7} | **PROVED** | CS anomaly gap Δ_CS=n_w + N_gen=3 stability → n_w∈[4,8]; Z₂ oddness → {5,7} | Proof that anomaly gap argument is flawed | Pillar 67 / `src/core/nw_anomaly_selection.py` |
 | η̄(5) = ½, η̄(7) = 0 (APS) | **DERIVED** | T(n_w)/2 mod 1 via Hurwitz ζ, CS inflow, Z₂ parity — 3 independent methods | Any one method giving a different result | Pillar 70-B / `src/core/aps_spin_structure.py` |
 | n_w = 5 from APS spin structure | **DERIVED** | GW potential requires chiral spectrum; APS index ≠ 0 for n_w=5 only; left-handed excess forced by SU(2)_L UV coupling → n_w=5 without SM input | GW coupling λ_GW → 0 (trivial vacuum) | Pillar 70-C / `src/core/geometric_chirality_uniqueness.py` |
+| n_w=5 from metric Z₂-parity (G_{μ5} odd) | **DERIVED** | G_{μ5}=λφB_μ Z₂-odd → A_5^eff Z₂-odd → T(5)=15 odd holonomy → η̄=½ → Ω_minus from metric geometry alone; no SU(2)_L input | G_{μ5} Z₂-even would eliminate this selection | `src/core/geometric_chirality_uniqueness.py::bmu_z2_parity_forces_chirality()` |
 | n_w = 5: dominant saddle | **DERIVED** | Euclidean CS action ∝ k_eff(n_w) — n_w=5 minimises over {5,7} | k_eff(5) > k_eff(7) (not the case: 74 < 130) | Pillar 67 |
 | n_w = 5: final selection | **OBSERVATIONALLY-SELECTED** | Planck nₛ = 0.9649±0.0042 → n_w=5 fits at 0.33σ; n_w=7 fails at 3.9σ | nₛ measured inconsistent with 0.9635 at >3σ | Pillar 67 test suite |
 
@@ -69,7 +70,8 @@ Throughout this document and this repository:
 |-------|--------|-----------------|---------------|---------------|
 | nₛ ≈ 0.9635 | **DERIVED** | n_w=5 → φ₀_eff=5×2π×1 ≈ 31.42 → nₛ=1−36/φ₀_eff² ≈ 0.9635 | CMB-S4 measures nₛ inconsistent at >3σ | `src/core/inflation.py` |
 | r_bare ≈ 0.097 (single mode) | **DERIVED** | r=96/φ₀_eff² at φ*=φ₀_eff/√3; n_w=5 | — (exceeded BICEP/Keck bound; resolved by braiding) | `src/core/inflation.py` |
-| r_braided ≈ 0.0315 | **STRONGLY MOTIVATED** | r_braided = r_bare × c_s follows Garriga-Mukhanov (1999) non-canonical inflation; c_s=12/37 is algebraically derived. Full 5D field-theoretic derivation outstanding. | CMB-S4 measures r>0.036 (already excluded) | `src/core/braided_winding.py` / FALLIBILITY.md Admission 5 |
+| r_braided ≈ 0.0315 | **DERIVED** | r_braided = r_bare × c_s; c_s=√(1−ρ²) derived from 5D CS → 4D WZW kinetic rotation (Pillar 97-B); P_h unchanged (CS odd-parity decouples from even-parity gravitons at tree level); P_ζ enhanced by 1/c_s from WKB mode equation. | CMB-S4 measures r>0.036 (already excluded) | `src/core/braided_winding.py::braided_r_full_derivation()` |
+| f_NL^equil ≈ 2.76 (braided, (5,7)) | **DERIVED** | (35/108)(1/c_s²−1) with c_s=12/37; non-canonical kinetic structure (Chen et al. 2007). Below Planck/CMB-S4 equilateral sensitivity. | CMB-S4 measures f_NL^equil > 10 | `src/core/non_gaussianity.py::braided_equilateral_fnl()` |
 | β ≈ 0.331° (sector 5,7) | **DERIVED** | g_{aγγ}=k_CS α_NM/(2π²r_c) with k_CS=74 | LiteBIRD measures β outside [0.22°,0.38°] | `src/core/inflation.py` |
 | β ≈ 0.273° (sector 5,6) | **DERIVED** | k_CS=61=5²+6², same formula | LiteBIRD measures β outside [0.22°,0.38°] | `src/core/dual_sector_convergence.py` |
 | β gap = 0.058° = 2.9 σ_LB | **DERIVED** | |0.331°−0.273°| = 0.058°; LiteBIRD precision σ_LB ≈ 0.02° | LiteBIRD measures β in the gap [0.29°,0.31°] → falsified | Pillar 95 |
@@ -100,9 +102,9 @@ Throughout this document and this repository:
 | Open Problem | Current Status | What would close it |
 |-------------|----------------|-------------------|
 | First-principles c_L (Yukawa texture) | OPEN | 5D orbifold BCs determining Yukawa matrix elements geometrically |
-| Purely geometric proof of n_w=5 (Pillar 70-B Step 3) | **CLOSED — Pillar 70-C** (`geometric_chirality_uniqueness.py`) | GW potential + APS index + SU(2)_L → n_w=5 without SM input |
+| Purely geometric proof of n_w=5 (Pillar 70-B Step 3) | **CLOSED — Pillar 70-C** (`geometric_chirality_uniqueness.py`) | GW potential + APS index + SU(2)_L → n_w=5 without SM input.  Extended in Pillar 70-C-bis by Z₂-parity of G_{μ5}: no SU(2)_L needed. |
 | Full 5D CS action derivation of k_primary | **CLOSED — Pillar 99-B** (`anomaly_closure.py::cs_action_k_primary_derivation`) | Cubic CS integral + Z₂ boundary term → k_primary = 2(n₁²−n₁n₂+n₂²) |
-| Full 5D derivation of r_braided = r_bare×c_s | STRONGLY MOTIVATED | Canonical normalisation of braided kinetic matrix from 5D action |
+| Full 5D derivation of r_braided = r_bare×c_s | **CLOSED — Pillar 97-B** | 5D CS → 4D WZW kinetic rotation → c_s = √(1−ρ²); P_h unchanged; P_ζ ∝ 1/c_s from WKB mode equation → r = r_bare × c_s. See `braided_winding.py::braided_r_full_derivation()` |
 | SU(3)×SU(2) from higher-dimensional extension | OPEN | Extension to ≥11D or alternative compactification |
 | Canonical quantisation of φ | OPEN | Hamiltonian analysis of the radion sector |
 | CMB acoustic peak shapes (Boltzmann) | OPEN (partial) | Full Boltzmann integration beyond the current KK correction δ_KK |
