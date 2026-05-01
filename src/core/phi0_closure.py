@@ -37,8 +37,6 @@ deeper question — whether the FTUM ground state selects *exactly* n_w = 5
 rather than any other odd winding — is addressed in solitonic_charge.py.
 The present module takes n_w as given and closes the φ₀ loop.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

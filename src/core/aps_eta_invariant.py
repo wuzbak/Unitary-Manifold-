@@ -97,8 +97,6 @@ nw_selection_from_aps() → dict
 aps_uniqueness_audit() → dict
 aps_comparison_table() → list
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

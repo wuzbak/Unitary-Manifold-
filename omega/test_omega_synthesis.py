@@ -15,7 +15,6 @@ These tests verify:
 
 Expected: 168 passed, 0 failed.
 
-Theory: ThomasCory Walker-Pearson
 Tests: GitHub Copilot (AI)
 """
 

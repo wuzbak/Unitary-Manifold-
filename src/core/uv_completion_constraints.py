@@ -58,8 +58,6 @@ wilsonian_rg_flow_check(mu_UV, mu_IR, n_w, k_cs, c_s)
 uv_constraints_audit()
     Complete audit of all UV completion constraints.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

@@ -134,8 +134,6 @@ vacuum_geometric_proof_chain() → dict
 vacuum_geometric_proof_status() → dict
     Summary status of the algebraic proof (proved/open items).
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

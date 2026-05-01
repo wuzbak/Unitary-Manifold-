@@ -135,8 +135,6 @@ eta_invariant_schematic(n_w)
 first_principles_gap_report()
     Honest gap report: proved, narrowed, preferred, open, what-would-close.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

@@ -179,8 +179,6 @@ roman_falsification_conditions() → dict
 roman_summary() → dict
     Complete Pillar 66 audit.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

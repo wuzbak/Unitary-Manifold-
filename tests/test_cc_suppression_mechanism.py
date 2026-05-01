@@ -18,7 +18,6 @@ Covers:
   - full_cc_budget: all keys present, rho_net < rho_naive, ratio_to_obs
   - vacuum_stability_audit: mechanism list length, verdict, residual gaps
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

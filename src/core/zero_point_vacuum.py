@@ -176,9 +176,7 @@ braid_running_factor(mu_UV, mu_IR, k_cs, c_s)
     RG running factor (mu_IR/mu_UV)^γ for f_braid; γ fixed by dark-energy
     constraint.  Speculative: full QFT derivation is future work.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

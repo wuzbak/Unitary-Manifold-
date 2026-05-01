@@ -118,8 +118,6 @@ collapse_fidelity(probs_geometric, probs_born)
 measurement_summary(amplitudes, phi_mean, phi_spread)
     Full geometric collapse summary dict.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

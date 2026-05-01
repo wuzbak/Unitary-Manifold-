@@ -60,8 +60,6 @@ full_cc_budget(M_KK, n_w, k_cs, c_s, alpha_kk)
 vacuum_stability_audit()
     Structured summary of all CC mechanisms, their status, and residual gaps.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

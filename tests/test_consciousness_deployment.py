@@ -13,9 +13,6 @@ Covers:
  * Edge-case inputs (zero phi, identical manifolds, extreme coupling)
  * deploy_all() completeness and key names
  * Determinism / reproducibility
-
-~Theory, framework, and scientific direction: ThomasCory Walker-Pearson.~
-~Code architecture, test suites, document engineering: GitHub Copilot (AI).~
 """
 
 import math

@@ -130,8 +130,6 @@ canonical_vs_competitors(n_max) -> list[CompactificationEvent]
 symmetry_restored(T, n1, n2) -> bool
     Return True if T > T_comp (compact dimension is in the symmetric phase).
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -521,11 +519,3 @@ def _catalog_total_amplitude(n_max: int) -> float:
         for j in range(i + 1, n_max + 1):
             total += tunneling_amplitude(i, j)
     return total
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

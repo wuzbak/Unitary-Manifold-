@@ -20,7 +20,6 @@ Test suite for Pillar 62: Non-Abelian SU(3)_C Kaluza-Klein Reduction
   - nonabelian_kk_gap_report(): comprehensive accounting
   - nonabelian_kk_summary(): top-level dict
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

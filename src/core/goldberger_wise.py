@@ -65,8 +65,6 @@ gw_vacuum_energy_contribution(phi0, M_KK, lambda_gw) → float
 gw_brane_tension_balance(M_KK, lambda_gw) → dict
 gw_summary() → dict
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

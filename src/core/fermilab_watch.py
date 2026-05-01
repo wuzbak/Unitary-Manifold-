@@ -47,8 +47,6 @@ fermilab_watch_report() → dict
 new_physics_scale_from_anomaly(delta_a_mu, loop_factor) → float
 status_summary() → str
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

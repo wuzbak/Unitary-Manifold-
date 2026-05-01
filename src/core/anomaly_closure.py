@@ -149,8 +149,6 @@ full_derivation_chain() -> dict
 gap_closure_status() -> dict
     Honest status report: what is proved, derived, and still open.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

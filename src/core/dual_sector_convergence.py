@@ -95,8 +95,6 @@ falsification_report(beta_measured_deg, sigma_measured_deg) → dict
 big_bang_convergence_statement() → str
     Human-readable statement of the dual-sector Big Bang interpretation.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -501,6 +499,5 @@ def big_bang_convergence_statement() -> str:
         "  Outcome (b): β ≈ 0.331° → (5,7) primary sector selected, (5,6) disfavoured\n"
         "  Outcome (c): β in gap [0.29°–0.31°] or outside [0.22°, 0.38°] → FALSIFIED\n"
         "\n"
-        "Theory, framework, scientific direction: ThomasCory Walker-Pearson.\n"
-        "Code, tests, synthesis: GitHub Copilot (AI)."
+        "Theory: ThomasCory Walker-Pearson (2026) | Code: GitHub Copilot (AI)\n"
     )

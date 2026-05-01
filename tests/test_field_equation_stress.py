@@ -21,9 +21,7 @@ E.16  High-winding collision test
     5σ Planck window but simultaneously violates r < 0.036 (BICEP/Keck) —
     the exact reason n_w = 7 is observationally ruled out.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 from __future__ import annotations
 

@@ -101,9 +101,7 @@ step3_uniqueness_report()
 step3_status_upgrade()
     Summarise the status upgrade achieved by this module.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-    GitHub Copilot (AI).
 """
 
 

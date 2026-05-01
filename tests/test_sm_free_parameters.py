@@ -16,7 +16,6 @@ Coverage:
   - Physical consistency: all geometric predictions physically sensible
   - Falsifiability: predictions are specific and testable
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

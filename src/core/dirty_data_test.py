@@ -193,9 +193,7 @@ mp_over_me_gap_report()
 axiomzero_challenge_summary()
     Full summary dict of the AxiomZero Challenge status.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

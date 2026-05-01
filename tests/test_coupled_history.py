@@ -16,8 +16,6 @@ Bridge (src/core/coupled_history.py).
   - adr_vs_agency_scan: monotonicity of ADR vs Var_brain
   - Quantitative "Coupled History" assertion: high-agency brain causes faster collapse
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

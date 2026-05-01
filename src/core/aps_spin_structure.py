@@ -93,8 +93,6 @@ sm_chirality_requires_eta_half(n_w) → dict
 nw_uniqueness_full_aps(candidates, k_cs) → dict
 aps_full_derivation_chain() → dict
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

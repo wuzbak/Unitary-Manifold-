@@ -57,8 +57,6 @@ radion_amplified_spectrum(ells, n_winding, K_CS) → dict
 closure_summary() → dict
     Before/after comparison: raw deficit, corrected deficit, resolution flag.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

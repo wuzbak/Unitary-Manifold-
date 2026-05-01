@@ -116,8 +116,6 @@ ir_brane_vev_from_gw(k_ads, pi_kR) → float
 absolute_mass_closure_report() → dict
     Full Pillar 85 summary: GW bound, λ_Y determination, mass predictions.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

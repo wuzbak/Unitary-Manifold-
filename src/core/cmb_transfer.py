@@ -117,8 +117,6 @@ planck_reference_check_eh(ells_pred, Dl_pred)
     Compare predicted Dₗ to Planck 2018 reference table (borrowed from
     transfer.py) and return χ².
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

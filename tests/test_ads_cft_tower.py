@@ -2,8 +2,6 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """Tests for src/core/ads_cft_tower.py (Pillar 40).
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

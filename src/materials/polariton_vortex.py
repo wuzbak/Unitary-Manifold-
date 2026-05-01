@@ -55,8 +55,6 @@ See also:
   src/core/delay_field.py        — Pillar 41: braided sound speed derivation
   src/materials/froehlich_polaron.py — Pillar 46: phonon-polariton coupling α
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

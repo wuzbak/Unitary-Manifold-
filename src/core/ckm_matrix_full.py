@@ -114,9 +114,7 @@ cabibbo_unitarity_triangle(n_w)
 ckm_gap_report()
     Honest summary of what is derived vs fitted vs open.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-    GitHub Copilot (AI).
 """
 
 

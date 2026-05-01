@@ -19,8 +19,6 @@ Key results
 
 All quantities in natural (Planck) units.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

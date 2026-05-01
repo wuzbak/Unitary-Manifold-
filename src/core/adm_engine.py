@@ -117,8 +117,6 @@ constraint_residuals(state, dx)
     'gauss_law_cleaned_rms'.  The 'gauss_law_cleaned_rms' key reports
     the post-cleaning residual (target: < 1e-6).
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

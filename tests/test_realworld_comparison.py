@@ -11,8 +11,6 @@ so the suite passes in CI and offline environments without any network
 access.  The snapshot itself is committed to the repository, giving
 reproducible, documented test inputs.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

@@ -15,8 +15,6 @@ Covers:
   - aps_uniqueness_audit: proof steps, honest status labels
   - aps_comparison_table: list structure, n_w=5 and n_w=7 present
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 import sys

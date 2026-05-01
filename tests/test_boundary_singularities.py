@@ -34,9 +34,7 @@ These structural connections motivate the fast structural tests in Section 6
 below, which test the same *properties* (monotone error decrease, positive
 convergence order, over-diffusion flag) at tiny N so they run instantly.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 from __future__ import annotations

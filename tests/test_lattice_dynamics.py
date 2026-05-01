@@ -14,9 +14,7 @@ Covers all public API functions: phi_effective_collective, ignition_N,
 braid_resonance_loading, lattice_coherence_gain, phonon_radion_bridge,
 and bmu_time_arrow_lock.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 from __future__ import annotations
 

@@ -21,9 +21,7 @@ test_p_est_positive            → TestGroupIdentity: identity element existence
 test_p_est_near_second_order   → TestManifoldEmbedding: 2nd-order FG truncation
 test_over_diffusion_flagged    → TestBoundaryBranches: over-diffusion branch
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 from __future__ import annotations

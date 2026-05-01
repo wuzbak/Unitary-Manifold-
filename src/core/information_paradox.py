@@ -108,8 +108,6 @@ kk_information_channel(n1, n2)
 information_paradox_summary(M_initial, phi_min, m_phi, phi0)
     Full summary of the UM information paradox resolution.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -620,11 +618,3 @@ def information_paradox_summary(
         "kk_channel": kk_ch,
         "arrow_of_time": aot,
     }
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

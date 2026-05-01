@@ -102,8 +102,6 @@ cms_95gev_diphoton_alp_check(n_w, k_cs)
     Check whether any UM-geometric mass scale can reproduce the ~95 GeV
     diphoton excess observed by CMS (2.9σ) and ATLAS (1.7σ).
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

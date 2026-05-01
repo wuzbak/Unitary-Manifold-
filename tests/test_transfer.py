@@ -18,8 +18,6 @@ module.  Covers every public function:
     birefringence_transfer_function (T_ℓ mode-dependent suppression)
     propagate_primordial_amplitude  (T_ℓ inversion)
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

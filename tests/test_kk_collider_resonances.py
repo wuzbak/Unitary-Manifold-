@@ -7,8 +7,6 @@ resonance predictions (src/core/kk_collider_resonances.py).
 ~80 tests covering all public functions, constants, and the core prediction
 that the first KK excitation mass is of order 10¹⁷ GeV.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

@@ -72,8 +72,6 @@ full_branch_catalog(n_max) -> list[BranchRecord]
 LOSSLESS_N1, LOSSLESS_N2, LOSSLESS_KCS
     Module-level constants for the canonical (5, 7) branch.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

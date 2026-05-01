@@ -9,9 +9,7 @@ Closes falsification_report.md failure modes #4 and #6:
     #4: "No external analytic solution to check numerical trajectory."
     #6: "No operator-splitting analysis for H∘T∘I."
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 import math
 

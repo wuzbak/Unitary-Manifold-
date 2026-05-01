@@ -15,8 +15,6 @@ Physical claims under test
 
 Test count: exactly 59  (14,582 + 59 = 14,641 = 11⁴).
 
-*Theory: ThomasCory Walker-Pearson.*
-*Code and tests: GitHub Copilot (AI).*
 """
 from __future__ import annotations
 

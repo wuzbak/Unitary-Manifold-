@@ -23,8 +23,6 @@ Usage
     report = run_comparison()          # uses snapshot (offline-safe)
     report = run_comparison(live=True) # tries live APIs first
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

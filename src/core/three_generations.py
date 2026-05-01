@@ -139,8 +139,6 @@ n_gen_derivation_status(n_w)
     observational input (Planck nₛ); all other steps are pure mathematics
     (Atiyah-Singer index theory + CS stability gap).
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

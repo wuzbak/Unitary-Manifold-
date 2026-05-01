@@ -157,8 +157,6 @@ all_fermion_masses_from_universal_yukawa() → dict
 pillar98_summary() → dict
     Full Pillar 98 summary.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

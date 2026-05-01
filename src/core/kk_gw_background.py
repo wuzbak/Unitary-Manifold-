@@ -43,8 +43,6 @@ nanograv_kk_consistency(M_KK_GeV) → dict
 kk_gw_spectral_shape(f_hz, f_peak_hz) → float
 gw_background_summary() → dict
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

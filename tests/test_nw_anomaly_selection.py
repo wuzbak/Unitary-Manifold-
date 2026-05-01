@@ -18,8 +18,6 @@ Selection (src/core/nw_anomaly_selection.py).
   - First-principles gap report
   - Edge cases and value errors
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

@@ -6,7 +6,6 @@ tests/test_yukawa_geometric_closure.py
 Tests for Pillar 93 — Yukawa Geometric Closure
 (src/core/yukawa_geometric_closure.py).
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

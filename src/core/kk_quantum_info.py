@@ -129,8 +129,6 @@ kk_metric_von_neumann_entropy(g4) -> float
     Von Neumann entropy of the 4D metric g_μν treated as a density matrix:
     ρ_g = |g_μν| / Tr(|g_μν|).  Measures geometric "mixedness."
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -521,11 +519,3 @@ def _validate_pair(n1: int, n2: int) -> None:
         raise ValueError(f"n1={n1!r} must be a positive integer.")
     if n2 <= n1:
         raise ValueError(f"n2={n2!r} must be strictly greater than n1={n1!r}.")
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

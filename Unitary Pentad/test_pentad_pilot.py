@@ -20,8 +20,6 @@ Together: 5² + 7² = 74 = k_cs = SUM_OF_SQUARES_RESONANCE.
 The two new files bring the total test-file count to **74** — the same (5, 7)
 resonance that governs KK winding, birefringence, and the Pentad architecture.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 __provenance__ = {

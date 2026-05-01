@@ -22,7 +22,6 @@ Spectrum (src/core/matter_power_spectrum.py).
   - galaxy_clustering_bias (bias scaling)
   - lss_summary (keys, structure)
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

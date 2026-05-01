@@ -115,8 +115,6 @@ Public API
     closure_summary() -> dict
     repository_closure_statement() -> str
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -556,8 +554,6 @@ def repository_closure_statement() -> str:
         f"  Prediction: β = {BETA_DEGREES}°\n"
         "  Falsified if: β ∉ [0.22°, 0.38°] or β ∈ [0.29°, 0.31°]\n"
         "\n"
-        "Theory, framework, and scientific direction: ThomasCory Walker-Pearson.\n"
-        "Code architecture, test suites, document engineering, and synthesis: "
-        "GitHub Copilot (AI).\n"
+        "Theory: ThomasCory Walker-Pearson (2026)\n"
         "═══════════════════════════════════════════════════════════════\n"
     )

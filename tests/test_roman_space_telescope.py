@@ -22,8 +22,6 @@ Covers:
 - roman_falsification_conditions(): completeness, primay falsifier presence
 - roman_summary(): pillar=66, completeness, honest_gaps list
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

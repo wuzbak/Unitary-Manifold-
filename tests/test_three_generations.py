@@ -7,8 +7,6 @@ test_three_generations.py — Test suite for Pillar 42: Three-Generation Theorem
 ~90 tests covering all public functions, constants, edge cases, and the
 core theorem that n_w=5 yields exactly three stable KK generations.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

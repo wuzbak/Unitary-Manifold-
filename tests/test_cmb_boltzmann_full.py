@@ -18,7 +18,6 @@ Covers:
   - cmb_s4_forecast_residuals: structure, SNR, detectable list
   - full_boltzmann_audit: all components listed, key predictions finite
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

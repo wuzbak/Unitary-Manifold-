@@ -17,8 +17,6 @@ Covers:
 - qgp_alpha_s_running(): one-loop α_s at QGP temperatures
 - qgp_summary(): complete Pillar 65 audit
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

@@ -74,8 +74,6 @@ gear_ratios_check()                                         → GearRatiosResult
 braid_topology_report(phi_star_min, phi_star_max,
                       spread_pct, rel_tol)                  → BraidTopologyReport
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 Adversarial interrogation (second round, April 2026): Gemini (Google DeepMind).
 """
 

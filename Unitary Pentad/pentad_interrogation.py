@@ -55,8 +55,6 @@ pentad_com_sweep              — COM sweep over initial φ_trust.
 pentad_phase_alignment_check  — phase-offset check at the fixed point.
 pentad_ttc_intent_analysis    — TTC vs initial φ_human correlation.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 Adversarial interrogation (second round, April 2026): Gemini (Google DeepMind).
 """
 

@@ -9,8 +9,6 @@ Test suite for Pillar 53: 5D ADM Decomposition Engine
 ~90 tests covering all public functions, constants, edge cases, and the
 core claim that the Gauss-law residual is reduced from O(0.28) to < 1e-6.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

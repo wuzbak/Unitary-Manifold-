@@ -165,8 +165,6 @@ neutrino_splittings_from_gw(n_w, n1, n2, pi_kR, sum_mnu_planck_eV)
 gw_yukawa_derivation_report()
     Full Pillar 97 summary report.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

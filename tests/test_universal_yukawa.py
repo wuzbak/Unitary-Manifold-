@@ -6,7 +6,6 @@ tests/test_universal_yukawa.py
 Tests for Pillar 98 — Universal Yukawa Test: c_L Spectrum at Ŷ₅=1 and b-τ Unification.
 (src/core/universal_yukawa.py)
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

@@ -123,9 +123,7 @@ weak_lensing_power_spectrum(ell, chi_s, sigma_crit, A_s, n_s,
                              k_pivot, k_eq, k_KK, gamma_KK)
     Angular weak-lensing convergence power spectrum C_ℓ^κκ (Limber approx).
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

@@ -15,8 +15,6 @@ of the (5,7) Braid (src/core/anomaly_closure.py).
   - The gap closure status report
   - Constants and edge cases
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

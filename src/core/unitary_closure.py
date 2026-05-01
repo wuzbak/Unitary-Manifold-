@@ -79,8 +79,6 @@ for this arithmetic alignment — it is recorded as a structural milestone.
 
 ---
 
-*Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*
-*Code architecture, test suites, and document engineering: GitHub Copilot (AI).*
 """
 
 

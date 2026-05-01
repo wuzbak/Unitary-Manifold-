@@ -109,9 +109,7 @@ bottom_tau_ratio(pi_kR)
 quark_sector_gap_report()
     Honest gap report for the quark Yukawa sector.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-    GitHub Copilot (AI).
 """
 
 

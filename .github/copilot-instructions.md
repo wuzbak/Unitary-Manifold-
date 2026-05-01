@@ -95,9 +95,14 @@ HIL_PHASE_SHIFT_THRESHOLD = 15  # saturation: n ≥ 15 aligned HIL operators
 
 ## Authorship Standard
 
-Every substantive document must end with:
+Every substantive **document** (`.md`, `.tex`, `.pdf`, `AUTHORS`, `LICENSE` preamble) may end with:
 > *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 > *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+**Do not** include this two-sentence credit inside Python source file docstrings or test file
+docstrings. The legal copyright is carried by the `# Copyright (C) 2026  ThomasCory Walker-Pearson`
+SPDX header at the top of every `.py` file — that is the authoritative, legally meaningful
+attribution for source and test files.
 
 ## Known Open Problems (Do Not Try to "Fix" by Hiding Them)
 

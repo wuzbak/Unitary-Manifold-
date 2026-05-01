@@ -90,8 +90,6 @@ step3_status_report(phi0, k_cs)
 aps_step3_numerical_evidence()
     Summary of numerical evidence for the geometric proof of Step 3.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

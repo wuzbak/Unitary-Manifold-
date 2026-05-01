@@ -7,8 +7,6 @@ Collapse (src/core/geometric_collapse.py).
 ~80 tests covering all public functions, Born rule derivation, decoherence
 timescale, braided corrections, and measurement summary.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

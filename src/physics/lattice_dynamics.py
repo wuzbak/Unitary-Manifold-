@@ -76,9 +76,7 @@ ignition_N(phi_local, eta, G_threshold, n_w, k_cs, c_s)
 braid_resonance_loading(n_w, k_cs, c_s)
     Optimal D/Pd loading ratio for maximum (5,7) braid phonon resonance.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

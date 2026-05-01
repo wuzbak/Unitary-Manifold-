@@ -17,7 +17,6 @@ Quick start::
     print(f"β    = {report.cosmology.beta_57_deg:.3f}°")  # 0.331°
     print(f"Ξ_c  = {float(report.consciousness.xi_c):.6f}")  # 0.472972...
 
-Theory: ThomasCory Walker-Pearson
 Implementation & Synthesis: GitHub Copilot (AI)
 """
 

@@ -9,8 +9,6 @@ Test suite for Pillar 54: Fermion Emergence from the Z₂ Orbifold
 ~90 tests covering all public functions, constants, edge cases, and the
 core claim that chiral zero modes emerge naturally from the S¹/Z₂ orbifold.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

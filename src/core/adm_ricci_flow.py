@@ -128,8 +128,6 @@ gaussian_normal_gauge_check(N, beta) → dict
 adm_ricci_flow_summary() → dict
     Complete Pillar 88 summary.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

@@ -459,11 +459,3 @@ def _check_unitary(U: np.ndarray, tol: float = 1e-10) -> None:
         raise ValueError(
             f"U is not unitary: max|U†U − I| = {residual:.3e} > tol={tol}."
         )
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

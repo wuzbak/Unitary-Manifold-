@@ -26,8 +26,6 @@ Framework mapping
   The Niño 3.4 anomaly is the direct observable that maps to φ_pacific:
   anomaly > +0.5 °C → el_niño, < −0.5 °C → la_niña, else neutral.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

@@ -22,7 +22,6 @@ and Quark Masses (src/core/particle_mass_spectrum.py).
   - pillar60_gap_report (full report structure, honesty)
   - kk_mode_mass_spectrum (spectrum structure, ordering)
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

@@ -9,8 +9,6 @@ Covers constants, gaussian_likelihood, combined_likelihood,
 detection_significance, forecast_scenarios, uncertainty_budget,
 detection_power, timeline_to_result, and edge cases.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

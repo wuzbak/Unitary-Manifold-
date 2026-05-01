@@ -143,9 +143,7 @@ generation_mass_hierarchy_correct()
 pillar60_gap_report()
     Full honest assessment dict of what Pillar 60 achieves and what it lacks.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 
