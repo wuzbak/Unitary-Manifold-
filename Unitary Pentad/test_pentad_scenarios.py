@@ -37,6 +37,20 @@ import numpy as np
 import sys
 import os
 
+# ---------------------------------------------------------------------------
+# PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+# The HILS Pentad is a protected AxiomZero product currently in active
+# development.  The operational implementations tested here are held in a
+# private AxiomZero repository.  Test structure and assertions remain visible
+# as the public interface contract.  See PENTAD_PRODUCT_NOTICE.md.
+# ---------------------------------------------------------------------------
+_PENTAD_PRODUCT_SKIP = (
+    "Implementation held in private AxiomZero product repository — "
+    "the HILS Pentad is a protected product in active development.  "
+    "See PENTAD_PRODUCT_NOTICE.md."
+)
+pytestmark = pytest.mark.skip(reason=_PENTAD_PRODUCT_SKIP)
+
 _PENTAD_DIR = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(_PENTAD_DIR)
 if _ROOT not in sys.path:

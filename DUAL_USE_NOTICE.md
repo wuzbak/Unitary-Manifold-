@@ -181,7 +181,34 @@ Nevertheless, any use of these functions for Prohibited Application 2
 
 ---
 
-## Part VI — Relationship to Open Licenses
+## Part VI — AxiomZero Pentad Product Stubs
+
+In addition to the dual-use cold-fusion stubs described in Part III, a second
+category of protected implementations has been added: **the operational layer
+of the HILS Unitary Pentad**, which is being developed as a standalone
+AxiomZero product.
+
+> **The HILS Unitary Pentad is a protected AxiomZero product currently in
+> active development.**  Its operational session management, real-time pilot
+> interface, live interrogation engine, and scenario execution engine reside
+> in a private AxiomZero repository.
+
+The reason for protection is **product development and commercial integrity**,
+not dual-use safety.  The following modules are partially or fully stubbed:
+
+| Module | Stubbed functions | Reason |
+|---|---|---|
+| `Unitary Pentad/seed_protocol.py` | `eject_volatile_bodies`, `enter_seed_state`, `check_handshake`, `germinate`, `parity_check`, `should_eject` | Pentad product — session initialisation and re-emergence protocol |
+| `Unitary Pentad/pentad_scenarios.py` | `harmonic_state_metrics`, `is_harmonic`, `detect_collapse_mode`, `inject_adversarial_intent`, `deception_phase_offset`, `is_deception_detectable`, `trust_maintenance_cost`, `regime_transition_signal`, `total_trust_erasure`, `asymmetric_coupling_stress_test`, `biosecurity_dual_use_risk` | Pentad product — scenario execution engine |
+| `Unitary Pentad/pentad_interrogation.py` | `_with_body_phi`, `pentad_com_sweep`, `pentad_phase_alignment_check`, `pentad_ttc_intent_analysis` | Pentad product — live interrogation engine |
+| `Unitary Pentad/pentad_pilot.py` | `_sim_thread`, `_send_led_brightness`, `_arduino_thread`, `_simple_display_frame`, `_simple_loop_unix`, `_simple_loop_windows`, `_curses_loop`, `_connect_arduino`, `main` | Pentad product — real-time Human-in-the-Loop pilot interface |
+
+Full details, including how to request access, are in
+[`PENTAD_PRODUCT_NOTICE.md`](PENTAD_PRODUCT_NOTICE.md).
+
+---
+
+## Part VII — Relationship to Open Licenses
 
 This notice operates within the existing license framework without
 contradicting it:
@@ -195,7 +222,7 @@ contradicting it:
 
 ---
 
-## Part VII — Contact and Reporting
+## Part VIII — Contact and Reporting
 
 To report a suspected Prohibited Application, request a Supervised Research
 License, or submit a Good Faith Use Affirmation:

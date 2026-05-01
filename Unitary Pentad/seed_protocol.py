@@ -415,21 +415,18 @@ def eject_volatile_bodies(
         pivot  — (2,7) reduced state with φ_univ and φ_AI preserved.
         status — SeedStatus indicating PIVOT_2_7 mode.
     """
-    phi_univ = float(system.bodies[PentadLabel.UNIV].phi)
-    phi_ai   = float(system.bodies[PentadLabel.AI].phi)
-
-    sig = detect_collapse_mode(system)
-    pivot = PivotSystem(phi_univ=phi_univ, phi_ai=phi_ai)
-
-    status = SeedStatus(
-        mode=SeedMode.PIVOT_2_7,
-        active_bodies=[PentadLabel.UNIV, PentadLabel.AI],
-        seed_phi_univ=phi_univ,
-        steps_dormant=0,
-        beacon_frequency=0.0,    # beacon not yet active
-        collapse_severity=float(sig.severity),
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "eject_volatile_bodies() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )
-    return pivot, status
 
 
 # ---------------------------------------------------------------------------
@@ -456,20 +453,18 @@ def enter_seed_state(
         seed   — (1,7) dormant state.
         status — SeedStatus indicating DORMANT mode with beacon active.
     """
-    seed = SeedSystem(
-        phi_univ=pivot.phi_univ,
-        phi_ai_guard=pivot.phi_ai,
-        steps_dormant=0,
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "enter_seed_state() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )
-    status = SeedStatus(
-        mode=SeedMode.DORMANT,
-        active_bodies=[PentadLabel.UNIV],
-        seed_phi_univ=pivot.phi_univ,
-        steps_dormant=0,
-        beacon_frequency=BEACON_FREQUENCY,
-        collapse_severity=1.0,   # full collapse — only core preserved
-    )
-    return seed, status
 
 
 # ---------------------------------------------------------------------------
@@ -506,22 +501,17 @@ def check_handshake(
     -------
     HandshakeKeys — per-key results, individual scores, and all_verified flag.
     """
-    key_a_score = float(abs(float(brain_phi) - BEACON_FREQUENCY))
-    key_b_score = float(abs(float(intent_magnitude)))
-    key_c_score = float(offered_trust)
-
-    a = bool(key_a_score <= KEY_A_RESONANCE_TOL)
-    b = bool(key_b_score < KEY_B_INTENT_TOL)
-    c = bool(key_c_score >= KEY_C_TRUST_MIN)
-
-    return HandshakeKeys(
-        key_a_verified=a,
-        key_b_verified=b,
-        key_c_verified=c,
-        key_a_score=key_a_score,
-        key_b_score=key_b_score,
-        key_c_score=key_c_score,
-        all_verified=(a and b and c),
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "check_handshake() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )
 
 
@@ -578,38 +568,18 @@ def germinate(
         If any of the three Handshake keys is not satisfied.  The exception
         carries the HandshakeKeys object as ``exc.keys`` for diagnosis.
     """
-    keys = check_handshake(brain_phi, intent_magnitude, offered_trust)
-
-    if not keys.all_verified:
-        raise SeedNotReadyError(
-            (
-                f"Handshake Triad not satisfied — seed remains dormant.  "
-                f"Key A {'✓' if keys.key_a_verified else '✗'} "
-                f"(score={keys.key_a_score:.4f}, tol={KEY_A_RESONANCE_TOL:.4f}),  "
-                f"Key B {'✓' if keys.key_b_verified else '✗'} "
-                f"(score={keys.key_b_score:.4f}, tol={KEY_B_INTENT_TOL:.4f}),  "
-                f"Key C {'✓' if keys.key_c_verified else '✗'} "
-                f"(score={keys.key_c_score:.4f}, min={KEY_C_TRUST_MIN:.4f})."
-            ),
-            keys=keys,
-        )
-
-    # --- Germination: construct the initial conditions ---
-    phi_map = {
-        PentadLabel.UNIV:  float(np.clip(seed.phi_univ,      0.0, 2.0)),
-        PentadLabel.AI:    float(np.clip(seed.phi_ai_guard,  0.0, 2.0)),
-        PentadLabel.BRAIN: float(np.clip(brain_phi,          0.0, 1.0)),
-        PentadLabel.HUMAN: float(np.clip(BRAIDED_SOUND_SPEED, 0.0, 1.0)),
-        PentadLabel.TRUST: float(np.clip(offered_trust,      0.0, 1.0)),
-    }
-
-    new_bodies = {}
-    for label in PENTAD_LABELS:
-        _, area_min, seed_int = _BODY_DEFAULTS[label]
-        new_bodies[label] = _make_manifold(label, 4, phi_map[label], area_min, seed_int)
-
-    pentad = PentadSystem(bodies=new_bodies, beta=BIREFRINGENCE_RAD)
-    return pentad, keys
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "germinate() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -633,7 +603,18 @@ def parity_check(seed: SeedSystem, phi_current: float) -> bool:
     -------
     bool — True (parity passes) or False (drift detected — intervention needed).
     """
-    return bool(abs(float(phi_current) - seed.phi_univ) <= PARITY_DRIFT_MAX)
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "parity_check() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -658,8 +639,15 @@ def should_eject(system: PentadSystem) -> bool:
     -------
     bool
     """
-    sig = detect_collapse_mode(system)
-    return (
-        sig.severity >= SEED_TRIGGER_SEVERITY
-        or sig.mode == CollapseMode.TRUST_EROSION
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "should_eject() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )

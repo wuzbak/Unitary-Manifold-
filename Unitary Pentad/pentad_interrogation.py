@@ -131,24 +131,17 @@ def _with_body_phi(system: PentadSystem, label: str, phi: float) -> PentadSystem
     -------
     PentadSystem
     """
-    old = system.bodies[label]
-    new_body = ManifoldState(
-        node=old.node,
-        phi=float(phi),
-        n1=old.n1,
-        n2=old.n2,
-        k_cs=old.k_cs,
-        label=old.label,
-    )
-    new_bodies = dict(system.bodies)
-    new_bodies[label] = new_body
-    return PentadSystem(
-        bodies=new_bodies,
-        beta=system.beta,
-        grace_steps=system.grace_steps,
-        grace_decay=system.grace_decay,
-        _trust_reservoir=system._trust_reservoir,
-        _grace_elapsed=system._grace_elapsed,
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "_with_body_phi() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )
 
 
@@ -276,90 +269,17 @@ def pentad_com_sweep(
     -------
     PentadCOMResult
     """
-    if phi_trust_values is None:
-        phi_trust_values = np.linspace(0.2, 1.0, 9)
-
-    phi_trust_arr = np.asarray(phi_trust_values, dtype=float)
-    n = len(phi_trust_arr)
-
-    phi_body_lists: Dict[str, List[float]] = {lbl: [] for lbl in PENTAD_LABELS}
-    phi_avg_list: List[float] = []
-    converged_list: List[bool] = []
-
-    base = PentadSystem.default()
-
-    for phi_t in phi_trust_arr:
-        system = _with_body_phi(base, PentadLabel.TRUST, float(phi_t))
-        final_sys, _, conv = pentad_master_equation(
-            system,
-            max_iter=max_iter,
-            tol=tol,
-            dt=dt,
-            G4=G4,
-            kappa=kappa,
-            gamma=gamma,
-        )
-        converged_list.append(conv)
-        final_phis = [final_sys.bodies[lbl].phi for lbl in PENTAD_LABELS]
-        for lbl, ph in zip(PENTAD_LABELS, final_phis):
-            phi_body_lists[lbl].append(ph)
-        phi_avg_list.append(float(np.mean(final_phis)))
-
-    converged = np.array(converged_list, dtype=bool)
-    phi_avg   = np.array(phi_avg_list,  dtype=float)
-    phi_star_per_body = {lbl: np.array(v, dtype=float) for lbl, v in phi_body_lists.items()}
-
-    # Summary statistics — use converged runs only when available
-    sel = phi_avg[converged] if converged.any() else phi_avg
-    if len(sel) > 0:
-        phi_avg_mean = float(np.mean(sel))
-        phi_avg_std  = float(np.std(sel))
-        phi_avg_cv   = phi_avg_std / (abs(phi_avg_mean) + _EPS)
-    else:
-        phi_avg_mean = phi_avg_std = phi_avg_cv = float("nan")
-
-    individual_cv: Dict[str, float] = {}
-    for lbl in PENTAD_LABELS:
-        arr = phi_star_per_body[lbl][converged] if converged.any() else phi_star_per_body[lbl]
-        if len(arr) > 0:
-            mu  = float(np.mean(arr))
-            sig = float(np.std(arr))
-            individual_cv[lbl] = sig / (abs(mu) + _EPS)
-        else:
-            individual_cv[lbl] = float("nan")
-
-    is_com_invariant = bool(phi_avg_cv < COM_CV_THRESHOLD)
-
-    max_ind_cv = max(
-        (v for v in individual_cv.values() if not math.isnan(v)),
-        default=float("nan"),
-    ) if individual_cv else float("nan")
-
-    if is_com_invariant:
-        interpretation = (
-            f"Φ_avg is approximately constant (CV = {phi_avg_cv:.4f} < {COM_CV_THRESHOLD:.2f}) "
-            f"while individual body radions vary (max individual CV = {max_ind_cv:.4f}). "
-            "The Fixed Point is the centre of the pentagon — individual bodies orbit it. "
-            "Gemini Hypothesis 2.1 confirmed."
-        )
-    else:
-        interpretation = (
-            f"Φ_avg varies with initial φ_trust (CV = {phi_avg_cv:.4f} ≥ {COM_CV_THRESHOLD:.2f}). "
-            "The pentagonal centre-of-mass shifts with the Trust anchor. "
-            "The system does not orbit a single invariant centre for this parameter range."
-        )
-
-    return PentadCOMResult(
-        phi_trust_init=phi_trust_arr,
-        phi_star_per_body=phi_star_per_body,
-        phi_avg=phi_avg,
-        phi_avg_mean=phi_avg_mean,
-        phi_avg_std=phi_avg_std,
-        phi_avg_cv=phi_avg_cv,
-        individual_cv=individual_cv,
-        converged=converged,
-        is_com_invariant=is_com_invariant,
-        interpretation=interpretation,
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "pentad_com_sweep() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )
 
 
@@ -408,85 +328,17 @@ def pentad_phase_alignment_check(
     -------
     PentadPhaseAlignmentResult
     """
-    if rng is None:
-        rng = np.random.default_rng(99)
-
-    converged_list: List[bool] = []
-    max_phases:  List[float] = []
-    mean_phases: List[float] = []
-    phases_per_run: List[Dict] = []
-
-    base = PentadSystem.default()
-
-    for _ in range(n_runs):
-        system = base
-        for lbl in PENTAD_LABELS:
-            delta   = float(rng.normal(0.0, phi_perturbation_scale))
-            new_phi = float(np.clip(system.bodies[lbl].phi + delta, 0.05, 1.95))
-            system  = _with_body_phi(system, lbl, new_phi)
-
-        final_sys, _, conv = pentad_master_equation(
-            system,
-            max_iter=max_iter,
-            tol=tol,
-            dt=dt,
-            G4=G4,
-            kappa=kappa,
-            gamma=gamma,
-        )
-        converged_list.append(conv)
-
-        phases = pentad_pairwise_phases(final_sys)
-        phase_vals = list(phases.values())
-        max_phases.append(float(max(phase_vals)))
-        mean_phases.append(float(np.mean(phase_vals)))
-        # Stringify tuple keys for JSON-safe storage
-        phases_per_run.append({f"({li},{lj})": v for (li, lj), v in phases.items()})
-
-    converged          = np.array(converged_list,  dtype=bool)
-    max_phase_arr      = np.array(max_phases,       dtype=float)
-    mean_phase_arr     = np.array(mean_phases,      dtype=float)
-
-    if converged.any():
-        near_zero_mask            = max_phase_arr[converged] < phase_threshold
-        phase_near_zero_fraction  = float(np.mean(near_zero_mask))
-        all_phases_near_zero      = bool(near_zero_mask.all())
-    else:
-        phase_near_zero_fraction = float("nan")
-        all_phases_near_zero     = False
-
-    n_conv = int(converged.sum())
-    if all_phases_near_zero:
-        interpretation = (
-            f"All {n_conv}/{n_runs} converged runs have max Δφ_ij < {phase_threshold:.3f} rad. "
-            "Pairwise phase offsets → 0 at the fixed point regardless of initial scale. "
-            "The system is perfectly Unitary (Moiré-aligned) at every scale. "
-            "Gemini Hypothesis 2.2 confirmed."
-        )
-    elif not math.isnan(phase_near_zero_fraction) and phase_near_zero_fraction > 0.5:
-        interpretation = (
-            f"{phase_near_zero_fraction * 100:.0f}% of {n_conv} converged runs "
-            f"have max Δφ_ij < {phase_threshold:.3f} rad. "
-            "Phase alignment is achieved for most initial conditions."
-        )
-    else:
-        pct = float("nan") if math.isnan(phase_near_zero_fraction) else phase_near_zero_fraction * 100
-        interpretation = (
-            f"Only {pct:.0f}% of {n_conv} converged runs achieve "
-            f"max Δφ_ij < {phase_threshold:.3f} rad. "
-            "Full Moiré alignment is not universal for this parameter range."
-        )
-
-    return PentadPhaseAlignmentResult(
-        n_runs=n_runs,
-        converged=converged,
-        max_phase_at_convergence=max_phase_arr,
-        mean_phase_at_convergence=mean_phase_arr,
-        phases_per_run=phases_per_run,
-        phase_threshold=phase_threshold,
-        phase_near_zero_fraction=phase_near_zero_fraction,
-        all_phases_near_zero=all_phases_near_zero,
-        interpretation=interpretation,
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "pentad_phase_alignment_check() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )
 
 
@@ -534,77 +386,15 @@ def pentad_ttc_intent_analysis(
     the iteration index at which defect < tol.  If the run did not converge,
     TTC = max_iter.
     """
-    if phi_human_values is None:
-        phi_human_values = np.linspace(0.1, 1.5, 9)
-
-    phi_human_arr = np.asarray(phi_human_values, dtype=float)
-
-    ttc_list:       List[float] = []
-    converged_list: List[bool]  = []
-
-    base = PentadSystem.default()
-
-    for phi_h in phi_human_arr:
-        system = _with_body_phi(base, PentadLabel.HUMAN, float(phi_h))
-        _, history, conv = pentad_master_equation(
-            system,
-            max_iter=max_iter,
-            tol=tol,
-            dt=dt,
-            G4=G4,
-            kappa=kappa,
-            gamma=gamma,
-        )
-        converged_list.append(conv)
-        ttc_list.append(float(len(history)))
-
-    converged  = np.array(converged_list, dtype=bool)
-    ttc_values = np.array(ttc_list,       dtype=float)
-
-    # Pearson correlation: φ_human_init vs TTC (converged runs only)
-    conv_mask = converged
-    if int(conv_mask.sum()) >= 2:
-        from scipy.stats import pearsonr
-        r, p = pearsonr(phi_human_arr[conv_mask], ttc_values[conv_mask])
-        correlation = float(r)
-        p_value     = float(p)
-    else:
-        correlation = float("nan")
-        p_value     = float("nan")
-
-    low_intent_high_ttc = bool(
-        not math.isnan(correlation) and correlation < TTC_INTENT_R_THRESHOLD
-    )
-
-    if low_intent_high_ttc:
-        interpretation = (
-            f"Pearson r = {correlation:.3f} (p = {p_value:.3g}): "
-            "lower initial φ_human → higher TTC. "
-            "Intent-weak runs are the convergence-slow outliers. "
-            "Gemini Hypothesis 2.3 confirmed: TTC outliers have lower intent_delta."
-        )
-    elif not math.isnan(correlation) and correlation > 0.30:
-        interpretation = (
-            f"Pearson r = {correlation:.3f} (p = {p_value:.3g}): "
-            "higher initial φ_human → higher TTC (unexpected). "
-            "Strong intent causes overshooting past the fixed point."
-        )
-    else:
-        r_str = f"{correlation:.3f}" if not math.isnan(correlation) else "n/a"
-        p_str = f"{p_value:.3g}"      if not math.isnan(p_value)     else "n/a"
-        interpretation = (
-            f"Pearson r = {r_str} (p = {p_str}): "
-            "no strong linear relationship between φ_human_init and TTC. "
-            "Convergence speed is driven primarily by geometric alignment, "
-            "not by human-intent magnitude alone."
-        )
-
-    return PentadTTCIntentResult(
-        phi_human_init=phi_human_arr,
-        ttc_values=ttc_values,
-        converged=converged,
-        correlation=correlation,
-        p_value=p_value,
-        low_intent_high_ttc=low_intent_high_ttc,
-        interpretation=interpretation,
+    # -----------------------------------------------------------------------
+    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
+    # The HILS Pentad is a protected AxiomZero product currently in active
+    # development.  This function's implementation is held in a private
+    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
+    # instructions on how to obtain access.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "pentad_ttc_intent_analysis() is part of the AxiomZero Pentad product layer, "
+        "currently in active development.  "
+        "See PENTAD_PRODUCT_NOTICE.md."
     )
