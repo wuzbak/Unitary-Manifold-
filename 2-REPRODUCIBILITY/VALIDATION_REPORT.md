@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 99 pillars |
-| Test suite: 15,023 passed, 0 failures | Across all test files (tests/, recycling/, Unitary Pentad/, omega/) |
+| Test suite: 14,972 passed, 0 failures | Across all test files (tests/, recycling/, 5-GOVERNANCE/Unitary Pentad/, omega/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 15,023
+verdict. This one shows the working. The process of getting to a framework that passes 14,972
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -94,12 +94,13 @@ version by version.
 | v9.24 | Dual-Sector edition | Pillar 95: (5,6) β=0.273° proved; LiteBIRD discriminates (5,6) vs (5,7) at 2.9σ |
 | v9.25 | Unitary Closure edition | Pillar 96: analytic {(5,6),(5,7)} uniqueness proof; 14,641 = 11⁴ total passed |
 | v9.26 | GW Yukawa edition | Pillars 97–98: Ŷ₅=1 from GW vacuum; m_e <0.5% PDG; 0 free fermion mass parameters |
-| v9.27 | **OMEGA EDITION** | Pillar Ω: `omega/omega_synthesis.py` — 5 seeds → all observables; **15,023 tests, REPOSITORY CLOSED** |
+| v9.27 | **OMEGA EDITION** | Pillar Ω: `omega/omega_synthesis.py` — 5 seeds → all observables; 15,023 tests |
+| v9.28 | **Gap Closure** | Sub-pillars 70-C/99-B/15-F: n_w=5 derived; k_primary derived; cold fusion falsification; **14,972 tests, REPOSITORY CLOSED** |
 
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
-v9.27 that parameter had been derived, all original open problems had been resolved, and the
-test suite had grown from a few hundred checks to 15,023. A theory that tightens as it is
+v9.28 that parameter had been derived, all original open problems had been resolved, and the
+test suite had grown from a few hundred checks to 14,972. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -199,17 +200,17 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–99) | `pytest tests/ -q` | ~13,073 | ~13,059 | 2 | 11 | **0** |
+| Core physics (Pillars 1–99) | `pytest tests/ -q` | ~13,549 | ~13,462 | 76 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
-| HILS governance framework | `pytest "Unitary Pentad/" -q` | ~1,266 | ~1,266 | 0 | 0 | **0** |
+| HILS governance framework | `pytest "5-GOVERNANCE/Unitary Pentad/" -q` | ~1,280 | ~1,026 | 254 | 0 | **0** |
 | Omega synthesis (Pillar Ω) | `pytest omega/ -q` | ~168 | ~168 | 0 | 0 | **0** |
-| **Grand total** | | **~14,363** | **15,023** | **2** | **11** | **0** |
+| **Grand total** | | **~15,313** | **14,972** | **330** | **11** | **0** |
 
-The test files in `tests/` cover all 99 pillars.
+The test files in `tests/` cover all 99 pillars + sub-pillars.
 
-### The 2 skipped tests — why they are not failures
+### The 330 skipped tests — why they are not failures
 
-The skipped tests are skipped because skipping is the *correct* outcome in each case.
+76 tests use `@pytest.mark.skip` guards for dual-use functions (cold fusion / lattice dynamics). 254 tests guard Pentad product deployment functions reserved for AxiomZero. All skips are intentional — see `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
 
 1. **`test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing`**  
    Calls `pytest.skip("Insufficient residual history to test monotonicity")` when
@@ -347,11 +348,11 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–99 — fast suite | ~13,059 passed · 2 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–99 + sub-pillars — fast suite | ~13,462 passed · 76 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
-| `test-pentad` | `pytest "Unitary Pentad/" -v` | HILS governance framework, 18 modules | 1266 passed · 0 failed |
+| `test-pentad` | `pytest "5-GOVERNANCE/Unitary Pentad/" -v` | HILS governance framework, 18 modules | 1026 passed · 254 skipped · 0 failed |
 | `algebra-proof` | `python3 ALGEBRA_PROOF.py` | 206-check formal falsification proof (§1–§19) | exit code 0 |
 
 All 6 jobs must pass for the workflow badge to show green. A failure in any single job
@@ -411,12 +412,12 @@ It is not a sufficient condition for physical truth.
 pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad + omega, ~130 seconds)
-python3 -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
-# Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+# Expected: 14972 passed, 330 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q
-# Expected: ~13059 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: ~13462 passed, 76 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow

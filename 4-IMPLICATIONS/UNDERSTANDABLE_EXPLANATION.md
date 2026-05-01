@@ -161,7 +161,7 @@ The repository includes:
 - Boundary and holographic behavior
 - Fixed‑point dynamics that ensure consistency
 
-**15,023 automated tests** verify:
+**14,972 automated tests** verify:
 - Mathematical consistency
 - Conservation laws
 - Correct limiting behavior

@@ -44,8 +44,8 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 2. **Create a branch** for your change: `git checkout -b feature/my-improvement`
 3. **Run the test suite before making changes** to establish a baseline:
    ```bash
-   python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-   # Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
+   python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+   # Expected: 14972 passed, 330 skipped, 11 deselected, 0 failed
    ```
 4. **Make your changes** following the conventions below.
 5. **Run the test suite again** after your changes; 0 failures is a hard requirement.
@@ -58,25 +58,25 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 ```bash
 # Fast suite — core physics:
 python -m pytest tests/ -q
-# Expected: ~13059 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: ~13462 passed, 76 skipped, 11 deselected, 0 failed
 
 # Recycling / φ-debt entropy (Pillar 16):
 python -m pytest recycling/ -q
 # Expected: 316 passed, 0 failed
 
 # Unitary Pentad governance (18 modules):
-python -m pytest "Unitary Pentad/" -q
-# Expected: 1266 passed, 0 failed
+python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
+# Expected: 1026 passed, 254 skipped, 0 failed
 
-# Full repository (~90 s):
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
+# Full repository (~130 s):
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+# Expected: 14972 passed, 330 skipped, 11 deselected, 0 failed
 
 # Slow tests (Richardson extrapolation convergence):
 python -m pytest tests/ -m slow
 ```
 
-> **Skip note:** 2 tests use a conditional `pytest.skip()` guard for edge cases (immediate FTUM convergence). This is not a failure.
+> **Skip note:** 330 tests use conditional `pytest.skip()` guards — 76 dual-use stubs (cold fusion / lattice dynamics) and 254 Pentad product stubs. See `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
 > **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default. Run explicitly with `-m slow`.
 
 ---

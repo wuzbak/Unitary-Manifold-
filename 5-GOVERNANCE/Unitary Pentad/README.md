@@ -156,11 +156,11 @@ print(f"Trust at convergence: {history[-1]['trust']:.4f}")
 From the repository root:
 
 ```bash
-# Full Unitary Pentad suite (1266 tests):
-python -m pytest "Unitary Pentad/" -v
+# Full Unitary Pentad suite (1026 passed, 254 skipped):
+python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -v
 
 # Or run individual test files:
-python -m pytest "Unitary Pentad/test_unitary_pentad.py" -v
+python3 -m pytest "5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py" -v
 ```
 
 ---

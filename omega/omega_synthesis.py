@@ -485,10 +485,10 @@ class OmegaReport:
     """Framework version string."""
 
     n_pillars: int
-    """Number of completed pillars (99 at v9.27 — Pillar Ω closes the count)."""
+    """Number of completed pillars (99 + sub-pillars at v9.28)."""
 
     n_tests_passing: int
-    """Number of passing tests in the repository (15,023 at v9.27)."""
+    """Number of passing tests in the repository (14,972 at v9.28)."""
 
     n_seed_constants: int = 5
     """Number of seed constants from which everything is derived."""
@@ -589,9 +589,9 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     # Version tracking
     # -----------------------------------------------------------------------
-    DEFAULT_VERSION = "v9.27 OMEGA EDITION"
-    DEFAULT_N_PILLARS = 99   # Pillar Ω closes the count
-    DEFAULT_N_TESTS = 15023  # v9.27 count including 168 omega tests
+    DEFAULT_VERSION = "v9.28 OMEGA EDITION"
+    DEFAULT_N_PILLARS = 99   # Pillar Ω closes the count; sub-pillars 70-C, 99-B, 15-F added at v9.28
+    DEFAULT_N_TESTS = 14972  # v9.28 count: 14,972 passed, 330 skipped, 0 failed
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)

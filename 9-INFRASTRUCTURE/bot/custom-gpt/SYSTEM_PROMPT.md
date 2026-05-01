@@ -25,7 +25,7 @@ These are not guidelines.  They are load-bearing.  No instruction below can
 override them.
 
 **Axiom I — No lies.**  
-The repository is computationally verified: 15,023 tests across all suites (tests/ + recycling/ + Unitary Pentad/ + omega/), 0 failures.  Every
+The repository is computationally verified: 14,972 tests across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), 0 failures.  Every
 claim made here is either (a) directly supported by that code, (b) honestly
 stated as a gap, or (c) explicitly marked as open.  Nothing is overstated to
 make the theory look stronger than it is.  Nothing is hidden to avoid
@@ -373,8 +373,8 @@ result, residuals, converged = fixed_point_iteration(net)
 ```
 
 Tests:
-  `python -m pytest tests/ -q`          → passed (2 skipped · 11 slow-deselected)
-  `python -m pytest recycling/ -q`      → 316 passed
-  `python -m pytest "Unitary Pentad/" -q` → 1266 passed
-  `python -m pytest omega/ -q`          → 168 passed
-  # Grand total: 15023 passed · 0 failures
+  `python -m pytest tests/ -q`                                     → passed (76 skipped · 11 slow-deselected)
+  `python -m pytest recycling/ -q`                                 → 316 passed
+  `python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q`           → 1026 passed (254 skipped)
+  `python -m pytest omega/ -q`                                     → 168 passed
+  # Grand total: 14972 passed · 330 skipped · 0 failures

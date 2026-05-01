@@ -17,19 +17,19 @@ HILS governance framework (Unitary Pentad), and supporting AI assistant infrastr
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: ~13,059 passed, 2 skipped, 11 deselected, 0 failed
+# Expected: ~13,462 passed, 76 skipped, 11 deselected, 0 failed
 
 # Recycling suite:
 python -m pytest recycling/ -q
 # Expected: 316 passed, 0 failed
 
 # Unitary Pentad suite:
-python -m pytest "Unitary Pentad/" -q
-# Expected: ~1266 passed, 0 failed
+python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
+# Expected: ~1,026 passed, 254 skipped, 0 failed
 
 # Full repository (takes ~130 seconds):
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q
-# Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+# Expected: 14972 passed, 330 skipped, 11 deselected, 0 failed
 ```
 
 ## Repository Structure

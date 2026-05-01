@@ -277,7 +277,7 @@ python -m pytest omega/test_omega_synthesis.py -v
 python omega/omega_synthesis.py
 
 # Full repository test suite including Omega:
-python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 ```
 
 ---

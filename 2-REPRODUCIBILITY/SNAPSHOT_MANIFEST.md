@@ -17,9 +17,9 @@ future changes to the live repository.
 | Branch at time of snapshot | `main` (via PR from `copilot/fix-contributors-correspondence-map`) |
 | Total files (excl. `.git`) | 728 |
 | Total size (excl. `.git`) | ~21 MB |
-| Version | v9.27 — OMEGA EDITION |
-| Test suite | 15,023 passed · 2 skipped · 11 slow-deselected · 0 failed |
-| Pillars | 99 core + Pillar 70-B + Pillar Ω = complete |
+| Version | v9.28 — Gap Closure |
+| Test suite | 14,972 passed · 330 skipped · 11 slow-deselected · 0 failed |
+| Pillars | 99 core + sub-pillars 70-C/99-B/15-F + Pillar Ω = complete |
 
 ---
 
@@ -126,14 +126,14 @@ Full per-file breakdown includes all pillars 1–99 + Pillar 70-B + Ω.  Key fil
 | `tests/test_richardson_multitime.py` | 11 *(slow)* | Richardson extrapolation |
 | *(…and 130+ additional test files)* | | |
 
-**Grand total (tests/ + recycling/ + Unitary Pentad/ + omega/):** 15,023 passed · 2 skipped · 11 slow-deselected · 0 failed
+**Grand total (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/):** 14,972 passed · 330 skipped · 11 slow-deselected · 0 failed
 
 ### Additional test suites
 
 | Suite | Tests | Coverage |
 |---|---|---|
 | `recycling/` | 316 | Pillar 16: φ-debt entropy accounting |
-| `Unitary Pentad/` | ~1,266 | 18 HILS governance modules |
+| `5-GOVERNANCE/Unitary Pentad/` | ~1,026 passed, 254 skipped | 18 HILS governance modules |
 | `omega/test_omega_synthesis.py` | 168 | Pillar Ω: Universal Mechanics Engine |
 
 ### Notebooks (`notebooks/`)
@@ -231,4 +231,4 @@ python scripts/create_archive.py
 
 ---
 
-*Snapshot manifest updated: 2026-04-30 — commit 726ef95 — v9.27 OMEGA EDITION (99 pillars + Pillar Ω, 15,023 tests, 728 files)*
+*Snapshot manifest updated: 2026-05-01 — v9.28 (99 pillars + sub-pillars, 14,972 tests, 728+ files)*

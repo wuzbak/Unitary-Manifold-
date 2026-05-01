@@ -120,7 +120,13 @@ platform, or downstream redistribution.
 - Implemented Pillar 98 (`universal_yukawa.py`): 9 c_L values from bisection at Ŷ₅ = 1; b-τ r_bτ ≈ 0.497; 0 free fermion mass parameters; 126 tests
 
 ### Pillar Ω: Universal Mechanics Engine (v9.27 — OMEGA EDITION)
-- Implemented Pillar Ω (`omega/omega_synthesis.py`): Universal Mechanics Engine; 5 seeds → all observables; `UniversalEngine.compute_all()` → `OmegaReport`; 6 domains: cosmology, particle_physics, geometry, consciousness, hils, falsifiers; 168 tests; grand total 15,023 tests
+- Implemented Pillar Ω (`omega/omega_synthesis.py`): Universal Mechanics Engine; 5 seeds → all observables; `UniversalEngine.compute_all()` → `OmegaReport`; 6 domains: cosmology, particle_physics, geometry, consciousness, hils, falsifiers; 168 tests
+
+### Sub-pillars 70-C, 99-B, 15-F (v9.28 — Gap Closure)
+- Pillar 70-C (`geometric_chirality_uniqueness.py`): n_w=5 DERIVED from GW+APS+SU(2)_L geometry; 88 tests
+- Pillar 99-B (`anomaly_closure.py` extension): k_primary derived from cubic CS integral; 47 tests
+- Pillar 15-F (`cold_fusion/falsification_protocol.py`): experimental falsification criteria; 64 tests
+- Grand total v9.28: **14,972 passed, 330 skipped, 0 failed**
 
 ---
 
@@ -167,6 +173,6 @@ platform, or downstream redistribution.
 
 ---
 
-*This contributors file was last updated April 2026 (v9.27 OMEGA EDITION — 99 pillars + Pillar Ω, 15,023 tests; Pillars 75–99 and Ω added by GitHub Copilot; AxiomZero Technologies DBA active). Legal rights section authored by ThomasCory Walker-Pearson.*
+*This contributors file was last updated May 2026 (v9.28 — 99 pillars + sub-pillars 70-C/99-B/15-F, 14,972 tests; Pillars 75–99, Ω, and gap-closure sub-pillars added by GitHub Copilot; AxiomZero Technologies DBA active). Legal rights section authored by ThomasCory Walker-Pearson.*
 
 **DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)

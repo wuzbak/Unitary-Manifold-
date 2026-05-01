@@ -1,16 +1,16 @@
 # Test Suite — Unitary Manifold
 
-**15,023 tests: 15,023 passed · 2 skipped · 11 slow-deselected · 0 failures** — verified 2026-04-29, Python 3.12, pytest
+**14,972 tests: 14,972 passed · 330 skipped · 11 slow-deselected · 0 failures** — verified 2026-05-01, Python 3.12, pytest
 
 **14,641 = 11⁴** — prior structural milestone at v9.25: 11 M-theory dimensions to the power of 4 world dimensions.
 
-*(tests/ suite + recycling/: 316 + Unitary Pentad/: 1,266 + omega/: 168)*
+*(tests/ suite: 13,462 passed 76 skipped + recycling/: 316 + 5-GOVERNANCE/Unitary Pentad/: 1,026 passed 254 skipped + omega/: 168)*
 
-### The 2 skipped tests
+### The 330 skipped tests
 
-1. `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` produces fewer than 2 residuals. This fires when the operator converges in a single step — **correct and expected behaviour**, not an error.
+- **76 dual-use stubs** (38 in `test_lattice_dynamics.py` + 38 in `test_cold_fusion.py`): test classes guarded by `@pytest.mark.skip` because the corresponding implementation functions raise `NotImplementedError` to prevent dual-use misuse. See `DUAL_USE_NOTICE.md`.
 
-2. `test_precision_audit.py` — skips one test with `pytest.skip("mpmath not installed")` when the optional `mpmath` high-precision library is absent from the environment. All other 49 tests in the file pass; this guard documents an optional dependency.
+- **254 Pentad product stubs** (`5-GOVERNANCE/Unitary Pentad/`): scenario, interrogation, and pilot test classes guarded by `@pytest.mark.skip` because the corresponding deployment functions are reserved for the AxiomZero product. See `PENTAD_PRODUCT_NOTICE.md`.
 
 ### The 11 deselected tests
 
@@ -50,15 +50,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # ~13,059 fast pass, 2 skipped, 11 deselected (slow)
+python -m pytest tests/ -v          # ~13,462 fast pass, 76 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q  # full suite — 15,023 pass
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q  # full suite — 14,972 pass
 ```
 
 Expected result (default):
 
 ```
-~13059 passed, 2 skipped, 11 deselected in ~115s
+~13462 passed, 76 skipped, 11 deselected in ~115s
 ```
 
 ---
@@ -182,7 +182,7 @@ Expected result (default):
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_precision_audit.py` | 49 | Arbitrary-precision arithmetic audit (mpmath 128/256-bit) |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total (tests/ suite)** | **~13,073** | **~13,059 fast passed · 2 skipped · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **~13,549** | **~13,462 fast passed · 76 skipped · 11 slow deselected · 0 failures** |
 
 ---
 
