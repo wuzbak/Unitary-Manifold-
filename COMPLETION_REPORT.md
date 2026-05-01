@@ -27,7 +27,7 @@ are open, they are said to be open. Where there is an inconsistency, it is named
 |-------|--------|----------|
 | Arrow of time from geometry | ✅ **DERIVED** | B_μ field from 5D Einstein-Hilbert action; irreversibility a theorem, not a postulate |
 | Three fermion generations | ✅ **PROVED** | Z₂ orbifold → odd n_w; anomaly gap narrows {5,7}; N_gen=3 from KK stability |
-| Fine structure constant α = φ₀⁻² | ✅ **DERIVED** | From FTUM fixed point + KK cross-block Riemann curvature R^μ_{5ν5} |
+| Nonminimal KK coupling α_NM = φ₀⁻² | ✅ **DERIVED** | From FTUM fixed point + KK cross-block Riemann curvature R^μ_{5ν5} (note: α_NM ≠ α_em = 1/137) |
 | n_w ∈ {5, 7} (topological selection) | ✅ **PROVED** | Z₂ parity + CS anomaly gap + N_gen=3 requirement (Pillar 67) |
 | η̄(5) = ½, η̄(7) = 0 (APS) | ✅ **DERIVED** | Triangular parity T(n_w) mod 2 via 3 independent analytic methods (Pillar 70-B) |
 | APS Step 3 — topological derivation | ✅ **TOPOLOGICALLY DERIVED** | Pontryagin integral + CS₃ boundary term forces η̄ = T(n_w)/2 mod 1 (Pillar 80) |

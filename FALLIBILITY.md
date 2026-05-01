@@ -87,7 +87,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | Walker–Pearson equations | Field equations | Derived from 5D Einstein–Hilbert action under the metric ansatz | **Derived, given the ansatz** |
 | Fixed-point operator U | Convergence operator | Constructed from assumed I, H, T decomposition | **Derived, given U's definition** |
 | φ₀ (bare) | FTUM fixed-point radion vev | Output of `fixed_point_iteration`; converges to ≈1 in Planck units | **Derived, given U** |
-| α = φ₀⁻² | Nonminimal coupling | Derived via KK cross-block Riemann curvature R^μ\_{5ν5} | **Derived, given φ₀** |
+| α_NM = φ₀⁻² | Nonminimal KK curvature-scalar coupling (NOT α_em = 1/137) | Derived via KK cross-block Riemann curvature R^μ\_{5ν5} | **Derived, given φ₀** |
 | **n_w = 5** (winding number) | Topological multiplier in KK Jacobian J = n_w · 2π · √φ₀ | Z₂ orbifold → odd integers {1,3,5,7,…}; Pillar 67 narrows to {5,7}; Planck nₛ uniquely selects 5 (n_w=7 excluded at 3.9σ) | ⚠️ **Partially derived** — Z₂ + anomaly-gap narrows to {5,7}; final selection still requires Planck nₛ |
 | φ₀_eff = J · φ₀ | Effective 4D inflaton vev | Derived from n_w via `jacobian_5d_4d` | **Derived, given n_w** |
 | nₛ ≈ 0.9635 | Scalar spectral index | Output of `ns_from_phi0(phi0_eff)` | **Derived, given n_w** |
@@ -185,6 +185,30 @@ The residual gap: a field-theoretic proof that (5, 7) is the *only* stable minim
 braid pair remains open.  The current derivation establishes it as the minimum-action
 pair in the Euclidean path integral.
 
+> **k_CS = 74 Derivation Chain (Epistemic Box)**
+>
+> This box states precisely what is derived, what selects, and what confirms.
+>
+> 1. *Algebraically derived given (5,7):* `k_eff = n₁² + n₂²` is a mathematical
+>    identity, not a fit (Pillar 58).  For the minimum-step braid (5, 7):
+>    k_CS = 25 + 49 = 74.  **Zero free parameters at this step.**
+>
+> 2. *What selects (5,7)?* The topological argument (Pillar 67 + 70-B) narrows
+>    n_w to {5, 7}; the anomaly saddle selects n_w = 5 as the dominant path-integral
+>    minimum; the minimum-step braid then gives the partner n₂ = n_w + 2 = 7.
+>    This chain is substantially geometric (PHYSICALLY-MOTIVATED status) but
+>    still draws on the Planck nₛ observation for final uniqueness until Pillar
+>    70-B Step 3 is elevated to a fully geometric proof.
+>
+> 3. *What confirms:* The birefringence observation (Minami & Komatsu 2020,
+>    β ≈ 0.35°; Diego-Palazuelos et al. 2022) is the *observational confirmation*
+>    of k_CS = 74, not its source.  The integer 74 was algebraically derived
+>    from the braid pair before the birefringence data was inserted.  The
+>    birefringence selects which of the two viable sectors {(5,6), (5,7)} the
+>    universe is in — it does not freely tune k_CS.
+
+
+
 **Admission 3 — r = 0.097 (bare) was in tension with BICEP/Keck 2022 — resolved.**
 The code-verified tensor-to-scalar ratio at φ* = φ₀_eff/√3 with n_w = 5 is
 r = 96/φ₀_eff² = 96/987 ≈ 0.097.  BICEP/Keck 2022 constrains r < 0.036 at
@@ -212,6 +236,18 @@ collapse to a single fixed point under the c_s-corrected slow-roll formula
 nₛ = 1 − 36(1+c_s²)/φ₀²: the (1+c_s²) factors cancel exactly, giving
 φ₀_FTUM = φ₀_canonical_braided = φ₀_from_nₛ_braided to machine precision.
 Verified by `braided_closure_audit()` (170 tests, 0 failed).
+
+**Admission 5 — r_braided = r_bare × c_s: motivated, not yet fully derived.**
+The suppression of the tensor-to-scalar ratio by the braided sound speed,
+`r_braided = r_bare × c_s`, is physically motivated by the kinetic-mixing
+structure of the braided Lagrangian.  Applying the non-canonical inflation
+relation r → r × c_s at leading slow-roll order follows Garriga & Mukhanov
+(1999).  The factor c_s = 12/37 is algebraically derived; its application to
+the tensor-to-scalar ratio is a standard inflationary physics step that is not
+specific to this framework.  However, a full field-theoretic derivation
+starting from the 5D action and tracking the braided kinetic matrix through
+canonical normalisation remains outstanding.  This would constitute a complete
+proof; until then, the result is *strongly motivated* rather than *derived*.
 
 ### 3.3 What would change if Planck values were different?
 

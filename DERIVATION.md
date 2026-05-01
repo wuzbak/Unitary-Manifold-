@@ -97,12 +97,22 @@ After integrating `∫₀^{2πL₅} dy`, the cross-block contributes:
 with  α  =  (ℓ_Pl / L₅)²  =  1 / φ₀²
 ```
 
-This is the **geometric origin** of the non-minimal coupling α — it is not
+This is the **geometric origin** of the non-minimal coupling `α_NM` — it is not
 a free parameter; it is fixed by the stabilised radion vev φ₀.
 
 **Code:** `metric.extract_alpha_from_curvature(g, B, phi, dx, lam)`  
 computes `ℛ^μ_{5ν5}` numerically and returns `α_geometric = ⟨1/φ²⟩`.  
 **Tests:** 11 unit tests in `tests/test_metric.py`.
+
+> **Notation clarification (v9.28):** Throughout this repository, `α_NM = φ₀⁻²`
+> denotes the **nonminimal KK curvature-scalar coupling** that arises from the
+> cross-block Riemann sector `ℛ^μ_{5ν5}` after dimensional reduction.  This is
+> **not** the electromagnetic fine structure constant `α_em = 1/137.036`.  They
+> are physically distinct quantities occupying different rungs of the derivation
+> chain.  Wherever earlier versions of this document wrote `α = φ₀⁻²` without
+> qualification, the intended quantity was always `α_NM`.  The symbol `α_em`
+> appears exclusively in the Standard Model parameter matching context
+> (`sm_free_parameters.py`) and carries its conventional PDG value.
 
 ---
 

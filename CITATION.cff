@@ -13,6 +13,12 @@ authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
     affiliation: "AxiomZero Technologies (DBA) / Independent Researcher, Pacific Northwest, USA"
+notes: >
+  Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
+  Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
+  AI contributions are acknowledged here and in every source-file SPDX header and
+  arxiv author block, but do not constitute co-authorship under academic norms.
+  The legal copyright is retained solely by ThomasCory Walker-Pearson.
 abstract: >
   We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein
   framework in which thermodynamic irreversibility, information flow, and

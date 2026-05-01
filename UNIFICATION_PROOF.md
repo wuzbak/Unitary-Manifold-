@@ -245,9 +245,19 @@ The `□φ` Laplacian term *is* the quantum potential.
 
 ---
 
-## Part V — Electromagnetism as the Irreversibility Field
+## Part V — Electromagnetism Recovered from the Irreversibility Field
 
 ### V.1  The Gauge Symmetry of H_μν
+
+> **Recovery, not prediction.** The identification `λB_μ ≡ A_μ` is not a new
+> prediction — it is the standard Kaluza-Klein recovery of electromagnetism by
+> construction, following the original method of Kaluza (1921) and Klein (1926).
+> Every 5D KK theory recovers a U(1) gauge field in this way.  What is new here
+> is the physical interpretation of `B_μ` as an *irreversibility 1-form* and the
+> derivation of the compactification radius from the FTUM fixed point rather than
+> as a free parameter.  The recovered Maxwell field is therefore a *consequence*
+> of the entropic geometry, not an independent ingredient inserted to match
+> observation.
 
 The field strength (implemented in `src/core/metric.py: field_strength`):
 

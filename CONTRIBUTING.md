@@ -119,6 +119,22 @@ governance framework) are original works of ThomasCory Walker-Pearson, produced 
 retained by ThomasCory Walker-Pearson; the DPC v1.0 and AGPL-3.0 licenses grant you broad
 freedoms to use and build upon this work — they do not transfer ownership.
 
+### Authorship roles
+
+| Role | Person / Agent |
+|------|---------------|
+| Theory, framework, and scientific direction | **ThomasCory Walker-Pearson** |
+| Code architecture, test suites, document engineering, and synthesis | **GitHub Copilot (AI)** |
+
+AI-generated contributions (code, documentation, and test suites produced by GitHub Copilot)
+are acknowledged in every `.py` source file via the SPDX header
+`# Copyright (C) 2026  ThomasCory Walker-Pearson` and the two-line credit at the bottom
+of every substantive document.  **AI contributions do not constitute co-authorship under
+academic norms** — they are acknowledged in the same way that significant software tools
+and infrastructure contributions are acknowledged, not as an equal intellectual contribution
+to the scientific theory.  Pull requests that include AI-generated code or text should note
+this in the PR description; they will be attributed using the same two-line standard.
+
 ---
 
 ## 6 · Developer Certificate of Origin (DCO)

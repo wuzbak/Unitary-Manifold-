@@ -29,7 +29,7 @@ identify work derived from this framework.
 | **β gap** | **≈ 0.058° = 2.9 σ_LiteBIRD** | |0.331° − 0.273°| | `src/core/dual_sector_convergence.py` |
 | **n_s** (CMB spectral index) | **0.9635** | KK Casimir geometry | `src/core/inflation.py`, `N_S = 0.9635` |
 | **r** (tensor-to-scalar) | **0.0315** | (5,7) braided winding | `src/core/braided_winding.py`, `R_BRAIDED = 0.0315` |
-| **α** (coupling constant) | **φ₀⁻²** derived from 5D Riemann | cross-block Riemann tensor; not inserted by hand | `src/core/metric.py` |
+| **α_NM** (nonminimal coupling) | **φ₀⁻²** derived from 5D Riemann | cross-block Riemann tensor; not inserted by hand. **Note:** α_NM ≠ α_em = 1/137 (EM fine structure constant) | `src/core/metric.py` |
 
 ---
 
