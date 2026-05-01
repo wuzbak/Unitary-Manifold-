@@ -538,7 +538,9 @@ giving R_KK ≈ 1.792 μm.  All code in this repository uses the correct value.
   pumps the radion field at loaded D-sites via (5,7) braid commensurability.
 - Collective coherence (N ≈ 17,600 atoms at phi=1.5) drives the Gamow factor
   into the ignition regime — "room-temperature fusion as localised vacuum engineering."
-- Code: `src/physics/lattice_dynamics.py:phonon_radion_bridge()`, `lattice_coherence_gain()` — 98 tests
+- Code: `src/physics/lattice_dynamics.py:phonon_radion_bridge()` — tests active;
+  `lattice_coherence_gain()` and `ignition_N()` **withheld (stub) per
+  AxiomZero dual-use policy v1.0** — see [`DUAL_USE_NOTICE.md`](DUAL_USE_NOTICE.md).
 
 **Pillar C — B_μ Time-Arrow Lock (`bmu_time_arrow_lock`, `calculate_energy_branching_ratio`):**
 - The B_μ irreversibility field couples to the fusion exit channel with coupling
