@@ -89,8 +89,16 @@ repository** and are held in a private AxiomZero repository:
 
 | Function / module | Location (public stub) | Reason withheld |
 |---|---|---|
-| `ignition_N()` | `src/physics/lattice_dynamics.py` | Provides the minimum coherence-domain size for measurable D-D fusion ignition; potential misuse in non-peaceful fusion device design |
+| `ignition_N()` | `src/physics/lattice_dynamics.py` | Minimum coherence-domain size for measurable D-D fusion ignition; potential misuse in non-peaceful fusion device design |
 | `lattice_coherence_gain()` | `src/physics/lattice_dynamics.py` | Computes collective Gamow factor and ignition condition across a coherence domain; same concern |
+| `minimum_phi_for_fusion()` | `src/cold_fusion/tunneling.py` | Inverts the Gamow formula to give the minimum local field strength needed for a target tunneling probability — a direct device design parameter |
+| `sites_in_coherence_volume()` | `src/cold_fusion/lattice.py` | Converts coherence length to active-site count; key multiplier bridging per-site rate to total device power |
+| `loading_threshold_for_fusion()` | `src/cold_fusion/lattice.py` | Minimum D/Pd loading ratio for fusion onset — device engineering threshold |
+| `fusion_rate_per_site()` | `src/cold_fusion/excess_heat.py` | Absolute per-site fusion rate in Planck units; needed to calculate total device power |
+| `excess_heat_power()` | `src/cold_fusion/excess_heat.py` | Total excess heat power from N active sites — primary figure of merit for LENR device design |
+| `heat_to_electrical_efficiency()` | `src/cold_fusion/excess_heat.py` | Converts LENR excess heat to net electrical output; completes the engineering pipeline |
+| `cold_fusion_rate()` | `src/core/cold_fusion.py` | Absolute D-D fusion rate per cm³/s under 5D enhancement — volumetric device performance metric |
+| `run_cold_fusion()` | `src/core/cold_fusion.py` | One-call pipeline: input device parameters → absolute rates + enhancement; highest-level operational calculator |
 
 **What the public stubs preserve:**
 
@@ -99,15 +107,20 @@ repository** and are held in a private AxiomZero repository:
   rather than silently returning wrong results.
 - The theoretical derivation documented in the docstring and the module
   overview, so that the scientific content remains in the public domain (DPC v1.0).
-- All other functions in the module (`phi_effective_collective`,
-  `braid_resonance_loading`, `phonon_radion_bridge`, `bmu_time_arrow_lock`)
-  which do not directly compute ignition thresholds.
+- All other functions in the affected modules that do not directly compute
+  operational thresholds, absolute rates, or device-level power outputs.
+  Specifically kept public: `gamow_factor`, `phi_enhanced_gamow`,
+  `tunneling_probability`, `sommerfeld_parameter`, `coherence_length`,
+  `enhancement_ratio`, `cop`, `is_excess_heat`, `anomalous_heat_signature`,
+  `calculate_energy_branching_ratio`, `phonon_radion_bridge`,
+  `bmu_time_arrow_lock`, and all lattice geometry functions that do not
+  yield operational thresholds.
 
 **Licensing withheld implementations:**
 
-Researchers with a legitimate need for `ignition_N()` and
-`lattice_coherence_gain()` (e.g., academic cold-fusion experiments, energy
-policy analysis) may request access by:
+Researchers with a legitimate need for any withheld implementation
+(e.g., academic cold-fusion experiments, energy policy analysis) may
+request access by:
 
 1. Opening a GitHub Issue at https://github.com/wuzbak/Unitary-Manifold-/issues
    with the subject line `[Dual-Use License Request] <brief description>`.
@@ -132,6 +145,7 @@ Good Faith Use Affirmation:
 - `src/cold_fusion/tunneling.py`
 - `src/cold_fusion/lattice.py`
 - `src/cold_fusion/excess_heat.py`
+- `src/core/cold_fusion.py`
 
 **The affirmation is free and does not require approval.**  Submit by opening
 a GitHub Issue at https://github.com/wuzbak/Unitary-Manifold-/issues with:

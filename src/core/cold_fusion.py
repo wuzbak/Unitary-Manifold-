@@ -842,35 +842,16 @@ def cold_fusion_rate(
         raise ValueError(f"n_D_per_cc must be positive, got {n_D_per_cc}")
     if T_K <= 0.0:
         raise ValueError(f"T_K must be positive, got {T_K}")
-
-    E_G_eV = gamow_peak_energy(Z_DEUTERON, Z_DEUTERON, MU_DD_AMU, T_K)
-    kT_eV = K_B_EV_PER_K * T_K
-
-    G5 = gamow_5d(
-        Z_DEUTERON, Z_DEUTERON, E_G_eV, MU_DD_AMU,
-        phi_vacuum, phi_lattice, c_s, n_w,
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The absolute cold-fusion reaction rate per cm³/s is the core figure of
+    # merit for LENR device design.  Implementation withheld.
+    # See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "cold_fusion_rate() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
     )
-
-    # Gamow-peak width (FWHM of the integrand peak, in eV)
-    delta_E_eV = (4.0 / 3.0) * E_G_eV * np.sqrt(E_G_eV / (3.0 * kT_eV))
-
-    # Convert bare S₀ from keV·barn to eV·cm²  (no tunneling enhancement here;
-    # the S-factor encodes only the nuclear matrix element).
-    # 1 barn = 1e-24 cm²;  1 keV = 1000 eV
-    S0_eV_cm2 = S0_keV_barn * 1000.0 * 1.0e-24
-
-    # Boltzmann factor at Gamow peak
-    boltz = np.exp(-E_G_eV / kT_eV)
-
-    # velocity at Gamow peak (classical, non-relativistic)
-    m_D_kg = M_DEUTERON_MEV * 1.0e6 * 1.602176634e-19 / (2.998e8)**2
-    mu_kg = m_D_kg / 2.0
-    v_G_cm_s = np.sqrt(2.0 * E_G_eV * 1.602176634e-19 / mu_kg) * 100.0
-
-    # σ(E_G)·v  using S₀ and the 5D tunneling probability exp(-2G₅)
-    sigma_times_v = (S0_eV_cm2 / E_G_eV) * np.exp(-2.0 * G5) * v_G_cm_s
-    R = 0.5 * n_D_per_cc**2 * sigma_times_v * boltz * delta_E_eV / kT_eV
-    return R
 
 
 # ---------------------------------------------------------------------------
@@ -1000,54 +981,14 @@ def run_cold_fusion(config: ColdFusionConfig) -> ColdFusionResult:
     ColdFusionResult
         Complete results including rates, enhancement, and diagnostics.
     """
-    # Step 1: local φ enhancement
-    phi_lat = phi_lattice_enhancement(config.loading_ratio, config.n_e_pd)
-    phi_lat *= config.phi_vacuum  # scale to vacuum value
-
-    # Step 2: geometry
-    d_DD = lattice_dd_separation(config.loading_ratio)
-    delta_E_TF = thomas_fermi_screening_energy(config.n_e_pd, Z_eff=Z_DEUTERON)
-
-    # Step 3: Gamow factors
-    E_G_eV = gamow_peak_energy(Z_DEUTERON, Z_DEUTERON, MU_DD_AMU, config.T_K)
-    G4 = gamow_factor(Z_DEUTERON, Z_DEUTERON, E_G_eV, MU_DD_AMU)
-    f_kk = kk_radion_factor(config.phi_vacuum, phi_lat)
-    f_w = winding_compression_factor(config.c_s, config.n_w)
-    G5 = G4 * f_kk * f_w
-
-    # Step 4: rates
-    n_D = config.resolved_n_D()
-    # True 4D rate: no winding compression, no lattice phi enhancement
-    rate_4d = cold_fusion_rate(
-        n_D, config.T_K,
-        phi_vacuum=config.phi_vacuum, phi_lattice=config.phi_vacuum,
-        c_s=1.0, n_w=1.0, S0_keV_barn=config.S0_keV_barn,
-    )
-    rate_5d = cold_fusion_rate(
-        n_D, config.T_K,
-        phi_vacuum=config.phi_vacuum, phi_lattice=phi_lat,
-        c_s=config.c_s, n_w=config.n_w, S0_keV_barn=config.S0_keV_barn,
-    )
-    eta = rate_enhancement(G4, G5)
-
-    # log₁₀ with guard against exact zero
-    def _log10(x: float) -> float:
-        return np.log10(x) if x > 0.0 else -np.inf
-
-    return ColdFusionResult(
-        T_K=config.T_K,
-        loading_ratio=config.loading_ratio,
-        E_gamow_eV=E_G_eV,
-        G4=G4,
-        G5=G5,
-        phi_lattice=phi_lat,
-        f_kk=f_kk,
-        f_winding=f_w,
-        rate_4d=rate_4d,
-        rate_5d=rate_5d,
-        enhancement=eta,
-        log10_rate_4d=_log10(rate_4d),
-        log10_rate_5d=_log10(rate_5d),
-        d_DD_angstrom=d_DD,
-        delta_E_TF_eV=delta_E_TF,
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # run_cold_fusion() is a one-call pipeline that accepts device parameters
+    # and returns absolute fusion rates and enhancements.  It is the highest-
+    # level operational calculator in the cold-fusion modules and is withheld
+    # in its entirety.  See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "run_cold_fusion() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
     )

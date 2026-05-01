@@ -176,7 +176,15 @@ def fusion_rate_per_site(
         raise ValueError(f"v_rel must be > 0, got {v_rel!r}")
     if R_site <= 0.0:
         raise ValueError(f"R_site must be > 0, got {R_site!r}")
-    return float(tunneling_probability * v_rel / R_site)
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The per-site absolute fusion rate is the key factor in computing device
+    # power output.  Implementation withheld.  See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "fusion_rate_per_site() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -214,7 +222,16 @@ def excess_heat_power(
         raise ValueError(f"N_active_sites must be ≥ 0, got {N_active_sites!r}")
     if fusion_rate < 0.0:
         raise ValueError(f"fusion_rate must be ≥ 0, got {fusion_rate!r}")
-    return float(N_active_sites * fusion_rate * Q_value)
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The total excess heat power from N active sites is the primary figure
+    # of merit for LENR device design.  Implementation withheld.
+    # See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "excess_heat_power() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -468,7 +485,16 @@ def heat_to_electrical_efficiency(
         raise ValueError(f"cop_value must be ≥ 0, got {cop_value!r}")
     if not (0.0 < eta_thermal <= 1.0):
         raise ValueError(f"eta_thermal must be in (0, 1], got {eta_thermal!r}")
-    return float((cop_value - 1.0) * eta_thermal)
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # Converting LENR excess heat to net electrical power is the final step
+    # in engineering a device.  Implementation withheld.
+    # See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "heat_to_electrical_efficiency() is held in the private AxiomZero "
+        "repository under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------

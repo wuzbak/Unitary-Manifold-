@@ -559,6 +559,13 @@ def minimum_phi_for_fusion(
     """
     if T_min <= 0.0 or T_min >= 1.0:
         raise ValueError(f"T_min must be in (0, 1), got {T_min!r}")
-    eta = sommerfeld_parameter(Z1, Z2, v_rel, alpha_fs)
-    ln_T = np.log(T_min)
-    return float(-2.0 * np.pi * eta / ln_T)
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The inversion that gives the minimum field strength needed for target
+    # tunneling probability is an operational design parameter for LENR
+    # devices.  Implementation withheld.  See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "minimum_phi_for_fusion() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )

@@ -307,7 +307,16 @@ def sites_in_coherence_volume(
     V_coh = coherence_volume(xi)
     if a_lattice <= 0.0:
         raise ValueError(f"a_lattice must be > 0, got {a_lattice!r}")
-    return float(V_coh / a_lattice ** 3)
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The number of active sites in a coherence volume is the key multiplier
+    # that converts the per-site fusion rate to total device power output.
+    # Implementation withheld.  See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "sites_in_coherence_volume() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -505,7 +514,15 @@ def loading_threshold_for_fusion(
     """
     if phi_bulk <= 0.0:
         raise ValueError(f"phi_bulk must be > 0, got {phi_bulk!r}")
-    return float(_RHO_REF_DEFAULT / phi_bulk ** 2)
+    # -----------------------------------------------------------------------
+    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
+    # The minimum loading ratio for fusion-onset is a device design parameter.
+    # Implementation withheld.  See DUAL_USE_NOTICE.md.
+    # -----------------------------------------------------------------------
+    raise NotImplementedError(
+        "loading_threshold_for_fusion() is held in the private AxiomZero repository "
+        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    )
 
 
 # ---------------------------------------------------------------------------
