@@ -773,3 +773,97 @@ class TestIntentionalitySummary:
 
     def test_information_gap_non_negative(self):
         assert self.summary["information_gap"] >= 0.0
+
+
+# ===========================================================================
+# Falsifiability: grid_cell_falsification_test
+# ===========================================================================
+
+from src.consciousness.coupled_attractor import grid_cell_falsification_test
+
+
+class TestGridCellFalsificationTest:
+    """Tests for the one quantitatively falsifiable prediction of this module."""
+
+    def test_returns_dict(self):
+        r = grid_cell_falsification_test()
+        assert isinstance(r, dict)
+
+    def test_predicted_ratio_is_7_over_5(self):
+        r = grid_cell_falsification_test()
+        assert abs(r["predicted_ratio"] - 7.0 / 5.0) < 1e-10
+
+    def test_predicted_ratio_is_1_4(self):
+        r = grid_cell_falsification_test()
+        assert abs(r["predicted_ratio"] - 1.4) < 1e-10
+
+    def test_default_data_stensola(self):
+        r = grid_cell_falsification_test()
+        assert r["n_ratios"] == 5
+
+    def test_default_mean_near_1_4(self):
+        r = grid_cell_falsification_test()
+        assert abs(r["mean_observed"] - 1.4) < 0.05
+
+    def test_default_not_falsified(self):
+        r = grid_cell_falsification_test()
+        assert r["verdict"] == "NOT-FALSIFIED"
+
+    def test_z_score_near_zero_default(self):
+        r = grid_cell_falsification_test()
+        assert abs(r["z_score"]) < 2.0
+
+    def test_chi2_non_negative(self):
+        r = grid_cell_falsification_test()
+        assert r["chi2"] >= 0.0
+
+    def test_p_value_in_range(self):
+        r = grid_cell_falsification_test()
+        assert 0.0 <= r["p_value_approx"] <= 1.0
+
+    def test_custom_ratios_accepted(self):
+        r = grid_cell_falsification_test(observed_ratios=[1.4, 1.4, 1.4])
+        assert r["n_ratios"] == 3
+        assert abs(r["mean_observed"] - 1.4) < 1e-10
+
+    def test_falsified_when_far_from_prediction(self):
+        r = grid_cell_falsification_test(observed_ratios=[1.9, 2.0, 2.1, 2.0, 1.95],
+                                          tol_sigma=2.0)
+        assert r["verdict"] == "FALSIFIED"
+
+    def test_falsified_z_score_large(self):
+        r = grid_cell_falsification_test(observed_ratios=[1.9, 2.0, 2.1, 2.0, 1.95])
+        assert abs(r["z_score"]) > 2.0
+
+    def test_reference_mentions_stensola(self):
+        r = grid_cell_falsification_test()
+        assert "Stensola" in r["reference"]
+
+    def test_reference_mentions_barry(self):
+        r = grid_cell_falsification_test()
+        assert "Barry" in r["reference"]
+
+    def test_epistemic_note_present(self):
+        r = grid_cell_falsification_test()
+        assert len(r["epistemic_note"]) > 20
+
+    def test_epistemic_note_says_analogy(self):
+        r = grid_cell_falsification_test()
+        assert "analogy" in r["epistemic_note"] or "phenomenological" in r["epistemic_note"]
+
+    def test_tol_sigma_stored(self):
+        r = grid_cell_falsification_test(tol_sigma=3.0)
+        assert r["tol_sigma"] == 3.0
+
+    def test_std_non_negative(self):
+        r = grid_cell_falsification_test()
+        assert r["std_observed"] >= 0.0
+
+    def test_sem_non_negative(self):
+        r = grid_cell_falsification_test()
+        assert r["sem_observed"] >= 0.0
+
+    def test_observed_ratios_stored(self):
+        custom = [1.4, 1.41, 1.39]
+        r = grid_cell_falsification_test(observed_ratios=custom)
+        assert r["observed_ratios"] == custom

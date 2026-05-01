@@ -717,3 +717,142 @@ class TestGapClosureStatus:
 
     def test_overall_summary_mentions_still_open(self):
         assert "STILL OPEN" in self.status["overall_summary"]
+
+
+# ===========================================================================
+# Pillar 99-B: 5D CS action derivation of k_primary
+# ===========================================================================
+
+from src.core.anomaly_closure import (
+    cs_action_k_primary_derivation,
+    cs_action_derivation_verified,
+)
+
+
+class TestCsActionKPrimaryDerivation:
+    """Tests for cs_action_k_primary_derivation (Pillar 99-B)."""
+
+    def test_canonical_pair_derivation_verified(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert r["derivation_verified"] is True
+
+    def test_canonical_k_primary(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        # k_primary = 2*(n1^2 - n1*n2 + n2^2) = 2*(25-35+49) = 2*39 = 78
+        assert abs(r["k_primary_from_cubic"] - 78.0) < 1e-10
+
+    def test_canonical_k_eff_is_74(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert abs(r["k_eff_from_action"] - 74.0) < 1e-10
+
+    def test_canonical_k_eff_sos(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert abs(r["k_eff_sos"] - 74.0) < 1e-10
+
+    def test_canonical_delta_k_z2(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        # Δk_Z₂ = (7-5)^2 = 4
+        assert abs(r["delta_k_z2"] - 4.0) < 1e-10
+
+    def test_factoring_consistent_canonical(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert r["factoring_consistent"] is True
+
+    def test_cross_terms_zero(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert r["cubic_integral_cross"] == 0.0
+
+    def test_cubic_n1(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert abs(r["cubic_integral_n1_cubed"] - 125.0) < 1e-10
+
+    def test_cubic_n2(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert abs(r["cubic_integral_n2_cubed"] - 343.0) < 1e-10
+
+    def test_total_cubic(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert abs(r["total_cubic_integral"] - 468.0) < 1e-10
+
+    def test_status_says_derived(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert "DERIVED" in r["status"]
+
+    def test_status_mentions_cs_action(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert "CS action" in r["status"]
+
+    def test_step_by_step_present(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert len(r["step_by_step"]) > 50
+
+    def test_step_by_step_mentions_sophie_germain(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert "Sophie-Germain" in r["step_by_step"] or "factorisation" in r["step_by_step"]
+
+    def test_algebraic_form_matches_cubic(self):
+        r = cs_action_k_primary_derivation(5, 7)
+        assert abs(r["k_primary_algebraic"] - r["k_primary_from_cubic"]) < 1e-12
+
+    def test_various_pairs(self):
+        for n1, n2 in [(1, 3), (3, 5), (5, 7), (7, 9), (1, 7), (3, 11)]:
+            r = cs_action_k_primary_derivation(n1, n2)
+            assert r["derivation_verified"], f"Failed for ({n1},{n2})"
+
+    def test_k_primary_formula(self):
+        for n1, n2 in [(1, 3), (3, 5), (5, 7), (7, 9)]:
+            r = cs_action_k_primary_derivation(n1, n2)
+            expected_k_primary = 2.0 * (n1**3 + n2**3) / (n1 + n2)
+            assert abs(r["k_primary_from_cubic"] - expected_k_primary) < 1e-10
+
+    def test_k_eff_equals_n1sq_plus_n2sq(self):
+        for n1, n2 in [(1, 3), (3, 5), (5, 7), (7, 9), (1, 9)]:
+            r = cs_action_k_primary_derivation(n1, n2)
+            expected = n1**2 + n2**2
+            assert abs(r["k_eff_from_action"] - expected) < 1e-10
+
+    def test_delta_k_z2_formula(self):
+        for n1, n2 in [(5, 7), (3, 5), (1, 3)]:
+            r = cs_action_k_primary_derivation(n1, n2)
+            expected = float((n2 - n1) ** 2)
+            assert abs(r["delta_k_z2"] - expected) < 1e-10
+
+
+class TestCsActionDerivationVerified:
+    """Tests for cs_action_derivation_verified (batch verification)."""
+
+    def test_all_verified_default(self):
+        v = cs_action_derivation_verified()
+        assert v["all_verified"] is True
+
+    def test_no_failures_default(self):
+        v = cs_action_derivation_verified()
+        assert v["failures"] == []
+
+    def test_canonical_verified(self):
+        v = cs_action_derivation_verified()
+        assert v["canonical_verified"] is True
+
+    def test_canonical_k_eff_74(self):
+        v = cs_action_derivation_verified()
+        assert abs(v["canonical_k_eff"] - 74.0) < 1e-10
+
+    def test_canonical_k_primary_78(self):
+        v = cs_action_derivation_verified()
+        assert abs(v["canonical_k_primary"] - 78.0) < 1e-10
+
+    def test_n_pairs_positive(self):
+        v = cs_action_derivation_verified(max_n=10)
+        assert v["n_pairs"] > 0
+
+    def test_max_n_stored(self):
+        v = cs_action_derivation_verified(max_n=10)
+        assert v["max_n"] == 10
+
+    def test_summary_contains_all_pass(self):
+        v = cs_action_derivation_verified()
+        assert "ALL PASS" in v["summary"]
+
+    def test_larger_range_all_verified(self):
+        v = cs_action_derivation_verified(max_n=30)
+        assert v["all_verified"] is True
