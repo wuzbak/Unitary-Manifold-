@@ -90,7 +90,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest
       - name: Run pytest (Unitary Pentad/)
-        run: python -m pytest "Unitary Pentad/" -v
+        run: python -m pytest "5-GOVERNANCE/Unitary Pentad/" -v
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 6: ALGEBRA_PROOF.py — 114-check formal falsification proof

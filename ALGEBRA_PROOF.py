@@ -779,7 +779,7 @@ except Exception as e:
 
 # ---- Unitary Pentad (governance pillars) -----------------------------------
 try:
-    _sys.path.insert(0, _os.path.join(_repo, 'Unitary Pentad'))
+    _sys.path.insert(0, _os.path.join(_repo, '5-GOVERNANCE', 'Unitary Pentad'))
     from five_seven_architecture import K_CS_RESONANCE, JACOBI_SUM, BEAT_FREQUENCY
     check("Pentad (five_seven_architecture): K_CS_RESONANCE = 74",
           K_CS_RESONANCE == 74)
