@@ -541,8 +541,13 @@ def braided_power_spectra_derivation(
     if k_cs is None:
         k_cs = resonant_kcs(n1, n2)
     c_s = braided_sound_speed(n1, n2, k_cs)
+    if c_s <= 0.0:
+        raise ValueError(
+            f"Sound speed c_s={c_s:.4g} ≤ 0 is unphysical for "
+            f"(n1={n1}, n2={n2}, k_cs={k_cs}).  Check winding numbers and CS level."
+        )
     r_braided = float(r_bare * c_s)
-    enhancement = float(1.0 / c_s) if c_s > 0.0 else float("inf")
+    enhancement = float(1.0 / c_s)
     return {
         "r_bare": float(r_bare),
         "c_s": float(c_s),

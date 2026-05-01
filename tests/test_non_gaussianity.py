@@ -598,11 +598,8 @@ class TestBraidedEquilateralFnl:
         assert abs(r["f_NL_equil"] - 2.757) < 1e-2
 
     def test_f_NL_equil_zero_when_cs_is_1(self):
-        # n1=n2=1, k_cs=2: rho=2*1*1/2=1 -- would be unphysical (|rho|>=1).
-        # Use n1=1,n2=2,k_cs=10: rho=4/10=0.4, not cs=1.
-        # To get cs=1: need rho=0, e.g. n1=1, n2=0 -- invalid.
-        # Instead use n1=1, n2=3, k_cs=100: rho=6/100=0.06, nearly 1.
-        # The only exact cs=1 is rho=0.  Use n1=1, n2=2, k_cs=1000.
+        # Exact c_s=1 requires rho=0.  Use k_cs=1000 to get rho≈0.004 (nearly zero).
+        # The test checks formula consistency: f_NL = (35/108)(1/c_s^2-1).
         r = braided_equilateral_fnl(1, 2, k_cs=1000)
         rho = 2 * 1 * 2 / 1000.0
         import numpy as np
