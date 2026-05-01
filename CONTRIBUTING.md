@@ -11,7 +11,7 @@ verifications, extensions, and discussions — are welcome.
 git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
-python -m pytest tests/ recycling/ "Unitary Pentad/" -q
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 # Expected: 15023 passed, 2 skipped, 11 deselected, 0 failed
 python -m pytest tests/ -q           # tests/ only: ~13059 passed, 2 skipped, 11 deselected
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
