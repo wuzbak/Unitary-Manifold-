@@ -156,14 +156,14 @@ __provenance__ = {
     "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
 }
 
+import math
+import os
+import sys
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
-import math
 
 import numpy as np
 
-import sys
-import os
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(os.path.dirname(_HERE))
 if _ROOT not in sys.path:

@@ -139,14 +139,14 @@ ALPHA_EM: float = 1.0 / 137.036
 #: Braided sound speed c_s = 12/37 (in units of c; NOT the D-D relative velocity)
 C_S_CANONICAL: float = 12.0 / 37.0
 
-#: Canonical D-D relative thermal velocity at 300 K in units of c.
+#: Canonical D-D relative thermal velocity at 300 K in units of the speed of light c.
 #: This is the physically correct v_rel for cold fusion Gamow factor calculation.
 #: v_th = sqrt(2 k_B T / m_D) at T=300 K:
 #:   v_th ≈ 49.8 m/s per degree of freedom → v_rel/c ≈ 5.25e-6.
 #: Note: c_s = 12/37 ≈ 0.324 is the RADION sound speed (inflaton sector),
 #:   not the D-D thermal velocity; using c_s as v_rel_D would give a physically
 #:   incorrect (too small) Gamow enhancement.
-V_REL_DD_THERMAL: float = 5.25e-6  # units of c, 300 K D-D
+V_REL_DD_THERMAL: float = 5.25e-6  # units of speed of light c; D-D thermal velocity at 300 K
 
 #: Canonical φ_local at a loaded Pd-D lattice site (dimensionless UM units)
 PHI_LOCAL_CANONICAL: float = 2.0
