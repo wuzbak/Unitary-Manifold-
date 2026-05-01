@@ -14,8 +14,6 @@ Test suite for Pillar 45-B — Numerical Precision Audit
   - lossless_branch_set_stable: {(5,7)} is the minimum across all precision levels
   - full_precision_audit: integrated check passes
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

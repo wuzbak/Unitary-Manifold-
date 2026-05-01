@@ -120,8 +120,6 @@ optimize_imprint(target_signature, candidates) -> int
 imprint_stability(imprint, T, m_phi, phi_min, phi_star) -> dict
     Thermal stability assessment: T_H_max, stability fraction, stable flag.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -489,11 +487,3 @@ def _validate_pair(n1: int, n2: int) -> None:
         raise ValueError(f"n1={n1!r} must be a positive integer.")
     if n2 <= n1:
         raise ValueError(f"n2={n2!r} must be strictly greater than n1={n1!r}.")
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

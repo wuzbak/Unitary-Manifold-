@@ -28,8 +28,6 @@ Framework mapping
 * ``tipping_point_phi()`` proximity for permafrost / ice-sheet thresholds
 * ``equilibrium_temperature_shift()`` residual check
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

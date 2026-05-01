@@ -60,8 +60,6 @@ residual_suppression(n_max, R, L, ells) → dict
 amplitude_gap_audit() → dict
     Complete audit of the Aₛ gap: source, magnitude, required physics.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

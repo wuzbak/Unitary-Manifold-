@@ -9,8 +9,6 @@ Covers constants, discrepancy_dd, discrepancy_bmw, um_explanation_fraction,
 can_um_explain_anomaly, fermilab_watch_report, new_physics_scale_from_anomaly,
 status_summary, and edge cases.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

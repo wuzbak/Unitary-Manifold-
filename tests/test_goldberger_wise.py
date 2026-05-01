@@ -15,8 +15,6 @@ Covers:
   - gw_brane_tension_balance: dict keys, tuning residual, is_tuned
   - gw_summary: dict structure, correct types
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 import sys

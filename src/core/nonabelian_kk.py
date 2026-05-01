@@ -201,9 +201,7 @@ nonabelian_kk_gap_report()
 nonabelian_kk_summary()
     Full derivation summary dict.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

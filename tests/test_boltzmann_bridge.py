@@ -9,8 +9,6 @@ Tests the UMBoltzmannBridge interface layer. These tests run entirely without
 CAMB or CLASS installed — they verify the parameter formatting, primordial
 spectrum computation, and native fallback path.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 import importlib.util

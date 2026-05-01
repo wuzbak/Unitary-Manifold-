@@ -65,8 +65,6 @@ Public API
     peak_position_audit() -> dict
     cmb_boltzmann_summary() -> dict
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

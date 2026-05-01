@@ -14,8 +14,6 @@ Covers:
   - kk_gw_spectral_shape: peak ~1, positive, falls off, errors
   - gw_background_summary: dict structure, falsification conditions
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 import sys

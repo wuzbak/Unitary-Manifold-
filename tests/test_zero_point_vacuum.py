@@ -8,9 +8,7 @@ Pillar 49 — Test suite for src/core/zero_point_vacuum.py.
 Covers all public API functions with numerical precision checks, physical
 sanity checks, edge-case validation, and cross-consistency tests.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 from __future__ import annotations
 

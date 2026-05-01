@@ -13,9 +13,7 @@ supplied `phi_min_phys` (bypassing the internal resolver), the
 values, and the `boundary_counterterms` behaviour under non-trivial curved
 metrics.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 from __future__ import annotations

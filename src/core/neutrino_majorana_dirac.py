@@ -172,8 +172,6 @@ pmns_cp_phase_comparison(n_w, delta_cp_pdg_deg) → dict
 pillar86_summary() → dict
     Full Pillar 86 summary: CP phase correction + Majorana/Dirac analysis.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

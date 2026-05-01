@@ -17,7 +17,6 @@ Covers:
   - step3_status_report: uniqueness conclusion for canonical parameters
   - aps_step3_numerical_evidence: structure, key results, gap statement
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

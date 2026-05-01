@@ -112,8 +112,6 @@ branch_comparison()
 integer_topology_observables_table()
     Print-ready dict of all observables for the canonical (5,7) branch.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -659,11 +657,3 @@ def _validate_pair(n1: int, n2: int) -> None:
         raise ValueError(f"n1={n1!r} must be a positive integer.")
     if n2 <= n1:
         raise ValueError(f"n2={n2!r} must be strictly greater than n1={n1!r}.")
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

@@ -16,8 +16,6 @@ Test suite for Pillar 72: KK Tower Back-Reaction and Radion-Metric Closed Loop
   - Radion-metric resonance audit
   - Summary
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

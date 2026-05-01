@@ -115,8 +115,6 @@ kk_mass_spectrum(n_max, R) -> np.ndarray
 braid_effective_mass(n, n1, n2, R) -> float
     Effective mass of a braid-locked mode: m_braid = (n/R) × c_s.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -540,11 +538,3 @@ def _validate_pair(n1: int, n2: int) -> None:
         raise ValueError(f"n1={n1!r} must be a positive integer.")
     if n2 <= n1:
         raise ValueError(f"n2={n2!r} must be strictly greater than n1={n1!r}.")
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

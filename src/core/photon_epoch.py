@@ -130,8 +130,6 @@ kk_modified_hubble_rad_dominated(z, omega_r_h2, h, f_braid) → float
 photon_epoch_summary() → dict
     Complete audit of all photon-epoch quantities with KK-sector imprints.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

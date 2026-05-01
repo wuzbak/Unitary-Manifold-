@@ -31,8 +31,6 @@ Framework mapping
 * ``elsasser_number(B, rho, Omega, sigma)`` — geology.py
   Live B_nT from SWPC replaces the static IGRF value when available.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

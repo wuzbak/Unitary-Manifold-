@@ -16,8 +16,6 @@ Shape Gap) — src/core/cmb_boltzmann_peaks.py.
   - Peak position audit
   - Summary
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

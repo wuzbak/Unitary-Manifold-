@@ -54,8 +54,6 @@ lossless_branch_set_stable(dps_list) → dict
 full_precision_audit(dps_low, dps_high) → dict
     Run all four checks and return a summary report.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

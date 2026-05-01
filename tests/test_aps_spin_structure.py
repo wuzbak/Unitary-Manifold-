@@ -26,8 +26,6 @@ Covers:
   - nw_uniqueness_full_aps: selected_nw=5, keys, status
   - aps_full_derivation_chain: proof steps, status labels, advancement text
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 import cmath

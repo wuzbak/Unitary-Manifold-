@@ -154,8 +154,6 @@ orbifold_sector_table()
     Return a summary table of all orbifold sectors, their Z₂ parities,
     zero-mode counts, and SM identification.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

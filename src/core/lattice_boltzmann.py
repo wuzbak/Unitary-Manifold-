@@ -151,9 +151,7 @@ tau_breakeven_tau_bmu(tau_eff_min_fs, radion_coupling)
 braid_coupling_comparison(tau_Bmu)
     Side-by-side comparison: g_canon (n_w=5) vs. g_braid (n_w=12).
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

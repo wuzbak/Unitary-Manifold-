@@ -195,9 +195,7 @@ alpha_s_from_SU5(log_ratio) → dict
 pillar88_summary() → dict
     Complete Pillar 88 status.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-    GitHub Copilot (AI).
 """
 
 

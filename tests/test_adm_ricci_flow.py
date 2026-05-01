@@ -16,7 +16,6 @@ All tests verify:
   - Gaussian normal gauge check works correctly
   - The full summary runs without error
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

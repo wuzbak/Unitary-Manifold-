@@ -26,8 +26,6 @@ Framework mapping
   distribution inform the seismic-moment accumulation model.
 * ``rayleigh_number()`` for the Pacific NW mantle wedge.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

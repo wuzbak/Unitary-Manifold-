@@ -23,7 +23,6 @@ Test suite for Pillar 61: The AxiomZero Challenge — Internal Falsifier Suite
   - mp_over_me_gap_report: keys, discrepancy
   - axiomzero_challenge_summary: keys, dirty_data verdict
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

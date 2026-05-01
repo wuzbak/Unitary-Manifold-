@@ -12,8 +12,6 @@ Covers:
 - Edge cases (tolerance, max_iter, different n_winding values)
 - phi0_uncertainty_band symmetry and sensibility
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

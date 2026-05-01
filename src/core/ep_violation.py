@@ -118,8 +118,6 @@ eotvos_cylinder_condition(phi, phi0, alpha, delta_b_over_mu, r, lambda_phi)
 wep_constraint_on_radion_mass(alpha, delta_b_over_mu, r, eta_bound)
     Lower bound on the radion mass from WEP tests.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -592,11 +590,3 @@ def wep_constraint_on_radion_mass(
         return 0.0
     # ln(ratio) < 0, so m_min = -ln(ratio) / r > 0
     return -math.log(ratio) / r
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

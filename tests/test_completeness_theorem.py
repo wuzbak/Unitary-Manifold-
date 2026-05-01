@@ -22,8 +22,6 @@ Test suite for Pillar 74: The k_CS=74 Topological Completeness Theorem
   - Closure summary
   - Repository closure statement
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

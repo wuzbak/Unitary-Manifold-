@@ -47,8 +47,6 @@ uncertainty_budget() → dict
 detection_power(n_sigma_threshold) → dict
 timeline_to_result() → dict
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

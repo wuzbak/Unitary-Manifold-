@@ -128,9 +128,7 @@ vacuum_selection_summary(n_w_canonical)
 vacuum_selection_status()
     One-line status string for the APS Step 3 gap.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-    GitHub Copilot (AI).
 """
 
 

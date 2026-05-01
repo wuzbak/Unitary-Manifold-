@@ -79,8 +79,6 @@ layer_pair_resonance_check(n1, n2) -> dict
     Verify the SOS resonance identity and related consistency checks for
     an arbitrary (n₁, n₂) pair.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

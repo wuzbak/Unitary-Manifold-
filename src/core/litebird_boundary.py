@@ -103,8 +103,6 @@ fail_zone_report(beta_measured, sigma_measured) → dict
 litebird_scan(beta_values, sigma_measured) → list[dict]
     Scan over a range of β values and report pass/fail for each.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

@@ -11,8 +11,6 @@ Also resolves Gemini Issue 4 (Ricci-flow time vs coordinate time double-counting
 
 All physical quantities are in natural (Planck) units.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

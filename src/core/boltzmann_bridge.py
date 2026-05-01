@@ -67,8 +67,6 @@ Usage
 
 All physical quantities are in natural (Planck) units unless otherwise noted.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

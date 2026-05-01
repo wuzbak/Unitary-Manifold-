@@ -18,8 +18,6 @@ new tests to the suite — the same (5, 7) resonance that governs KK winding,
 birefringence, and the Pentad architecture.  The 74th test file itself carries
 the k_cs fingerprint.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 import sys

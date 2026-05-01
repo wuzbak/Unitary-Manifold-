@@ -7,8 +7,6 @@ charge quantization (src/core/solitonic_charge.py).
 ~105 tests covering all public functions, constants, edge cases, and
 cross-module physics consistency.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

@@ -8,8 +8,6 @@ documented in FALLIBILITY.md §4.1.
 
 Physical quantities are in natural (Planck) units throughout.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

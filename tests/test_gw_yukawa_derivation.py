@@ -6,7 +6,6 @@ tests/test_gw_yukawa_derivation.py
 Tests for Pillar 97 — GW Potential Yukawa Derivation and Neutrino c_{Lν_i}.
 (src/core/gw_yukawa_derivation.py)
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

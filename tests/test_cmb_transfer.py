@@ -14,8 +14,6 @@ Covers:
 - planck_reference_check_eh: χ² computation correctness
 - suppression_gap_audit: gap resolution, R_b, amplitude ratio
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

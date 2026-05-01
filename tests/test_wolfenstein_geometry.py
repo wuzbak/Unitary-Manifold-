@@ -18,7 +18,6 @@ Test coverage:
   - Honest status strings are present and non-empty
   - Error handling for invalid inputs
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

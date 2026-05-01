@@ -16,7 +16,6 @@ All tests verify:
   - The proof uses no M-theory and no observational data
   - Status report is consistent with open-problems/05-aps-proof docs
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

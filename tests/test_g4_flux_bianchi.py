@@ -9,8 +9,6 @@ Tests for the G₄-flux Bianchi identity proof in Pillar 92
 This closes Step 4 of the UV completion chain: explicit G₄-flux construction
 for the (5, 7) braid pair in M-theory on a G₂-holonomy 7-manifold X₇.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

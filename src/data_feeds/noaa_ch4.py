@@ -20,8 +20,6 @@ Framework mapping
 -----------------
 * ``methane_phi_forcing(ch4_ppb)`` — carbon_cycle.py
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

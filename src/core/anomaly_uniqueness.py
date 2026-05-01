@@ -144,8 +144,6 @@ uniqueness_summary()
     Return a comprehensive dict summarising all constraints and their unique
     intersection at k_CS = 74.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

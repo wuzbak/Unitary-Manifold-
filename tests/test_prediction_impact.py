@@ -10,8 +10,6 @@ Manifold Earth-system functions produces the expected prediction shifts
 relative to the pre-industrial reference baseline.  All tests use the
 pinned snapshot so no network access is required.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

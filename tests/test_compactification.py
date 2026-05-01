@@ -19,8 +19,6 @@ Physical claims under test
 9. symmetry_restored: correct phase boundary at T = T_comp.
 10. Input validation: ValueError for bad (n1, n2) pairs.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

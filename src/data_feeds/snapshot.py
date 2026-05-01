@@ -10,8 +10,6 @@ committed to the repository pre-seeded with April 2026 observed values.
 Adapters call ``load(key)`` on any network failure; a successful live fetch
 can be persisted back via ``save(key, data)``.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

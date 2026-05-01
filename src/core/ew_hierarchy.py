@@ -199,9 +199,7 @@ Pinčák R. et al. (2026) Gen. Rel. Grav. 58 — torsion_remnant.py (Pillar 48).
 ads_cft_tower.py (Pillar 40) — AdS₅/CFT₄ KK tower dictionary.
 three_generations.py (Pillar 42) — KK generation eigenvalue ratios.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

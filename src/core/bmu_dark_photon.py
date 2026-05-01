@@ -44,8 +44,6 @@ bmu_muon_g2_contribution(m_bmu_mev, epsilon) → float
 bmu_coupling_audit() → dict
 bmu_summary() → dict
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

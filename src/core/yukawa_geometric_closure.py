@@ -115,8 +115,6 @@ fermion_absolute_mass_closure()    → dict   full Pillar 93 closure report
 yukawa_closure_proof()             → dict   formal 3-step proof
 pi_kR_consistency_check()          → dict   verify πkR=k_CS/2 vs RS hierarchy
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

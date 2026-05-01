@@ -23,8 +23,6 @@ Physical claims under test
 10. kk_metric_von_neumann_entropy: correct for Minkowski metric; non-negative.
 11. Input validation: ValueError for bad shapes, zero phi, bad (n1,n2) pairs.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

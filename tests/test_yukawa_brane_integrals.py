@@ -18,7 +18,6 @@ Covers:
   - delta_c_needed_for_ratio: sign, magnitude, inverse consistency
   - pillar75_gap_report: structure, honest gaps, mechanism label
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

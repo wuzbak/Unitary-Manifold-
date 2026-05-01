@@ -22,8 +22,6 @@ Framework mapping
 * ``co2_forcing(delta_CO2_ppm)``       — meteorology.py
 * ``atmospheric_co2_phi(co2_ppm)``     — carbon_cycle.py
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

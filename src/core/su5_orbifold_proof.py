@@ -188,8 +188,6 @@ M_GUT_from_UM()                 → dict  M_GUT from UM geometry.
 su5_parameter_closure()         → dict  full Pillar 94 report.
 su5_proof_chain()               → dict  formal proof A→B→C→D→E.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

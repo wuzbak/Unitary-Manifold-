@@ -21,8 +21,6 @@ open_meteo      — Open-Meteo current surface temperature
 swpc_geomagnetic— NOAA SWPC solar-wind / geomagnetic indices
 noaa_enso       — NOAA CPC Niño 3.4 ENSO index
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 __provenance__ = {

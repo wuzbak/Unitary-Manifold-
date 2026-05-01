@@ -66,9 +66,7 @@ mesh_refinement_study(N_values, kappa, dt, coupling, n_steps) → dict
 scaling_report() → str
     Human-readable summary of the scaling analysis.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

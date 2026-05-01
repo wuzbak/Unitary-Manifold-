@@ -15,8 +15,6 @@ Covers:
   - bmu_coupling_audit: dict keys, mass_from_kk True, gap_status str
   - bmu_summary: dict structure, types
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 import sys

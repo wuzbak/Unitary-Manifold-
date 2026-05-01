@@ -10,8 +10,6 @@ Test suite for Pillar 55: Anomaly Cancellation Uniqueness Proof
 core claim that k_CS = 74 is the UNIQUE integer satisfying all four
 anomaly/resonance/birefringence/CMB constraints for the (5,7) braid.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

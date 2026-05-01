@@ -100,8 +100,6 @@ consciousness_measurement_link(brain_phi, universe_phi, phi_spread_bare,
                                 amplitudes, beta) → dict
     Single-shot summary of the consciousness–quantum measurement bridge.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

@@ -17,8 +17,6 @@ Test suite for Pillar 45-C — LiteBIRD Boundary Check
   - fail_zone_report: required keys, verdict strings, PASS/FAIL logic
   - litebird_scan: length, monotone behavior across window
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

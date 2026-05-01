@@ -127,8 +127,6 @@ qgp_alpha_s_running(T_MeV, alpha_s_mz, n_c) → float
 qgp_summary() → dict
     Complete Pillar 65 audit: radion sound speed, ATLAS anchor, honest gaps.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

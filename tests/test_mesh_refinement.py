@@ -8,9 +8,7 @@ Tests for Pillar 59 — Mesh-Refinement Study (src/core/mesh_refinement.py).
 Closes falsification_report.md failure mode #3:
     "No mesh-refinement study — N = 48 only."
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 import math
 

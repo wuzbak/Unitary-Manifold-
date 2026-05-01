@@ -145,9 +145,7 @@ wolfenstein_all_geometric() → dict
 pillar87_summary() → dict
     Complete Pillar 87 status.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-    GitHub Copilot (AI).
 """
 
 

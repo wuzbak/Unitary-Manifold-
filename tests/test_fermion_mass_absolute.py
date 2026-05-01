@@ -15,7 +15,6 @@ All tests verify:
   - Quark mass predictions reproduce all six masses
   - Closure report runs and contains all key results
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

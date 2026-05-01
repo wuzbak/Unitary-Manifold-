@@ -136,9 +136,7 @@ pmns_geometric_estimate(n_w)
 pmns_gap_report()
     Honest summary of PMNS status in the UM framework.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-    GitHub Copilot (AI).
 """
 
 

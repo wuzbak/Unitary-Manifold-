@@ -18,7 +18,6 @@ Covers:
   - wilsonian_rg_flow_check: RG-protected parameters
   - uv_constraints_audit: all constraints present, summary keys
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

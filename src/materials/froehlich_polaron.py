@@ -27,8 +27,6 @@ See also:
   src/core/ads_cft_tower.py                       — Pillar 40: KK spectral weights
   src/core/kk_imprint.py                          — Pillar 32: photonic read-out
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

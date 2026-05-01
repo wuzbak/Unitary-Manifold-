@@ -84,9 +84,7 @@ lie_trotter_error(kappa, dt, coupling, N) → dict
 joint_spectral_radius(kappa, dt, coupling, N, n_samples) → dict
     Estimate the joint spectral radius of T∘I over a grid of ICs.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 

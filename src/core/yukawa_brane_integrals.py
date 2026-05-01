@@ -87,8 +87,6 @@ geometric_baseline_ratios(n_w)
 pillar75_gap_report()
     Honest summary: what is derived, what requires further input.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

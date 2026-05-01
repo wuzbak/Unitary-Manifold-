@@ -90,8 +90,6 @@ fnl_running(k_pivots, phi0_eff, lam, lam_gw, r_c_star, pivot_k)
     Scale dependence of f_NL: df_NL/d ln k from the slow-roll running.
     Returns f_NL at each k_pivot and the tilt index n_f = d ln|f_NL|/d ln k.
 
-*Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*
-*Code architecture, test suites, and synthesis: GitHub Copilot (AI).*
 """
 
 

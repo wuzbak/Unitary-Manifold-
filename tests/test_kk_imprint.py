@@ -22,8 +22,6 @@ Physical claims under test
 7. Input validation: ValueError for bad phi, A_mu length, n1/n2, T<0, etc.
 8. Consistency with Pillar 30 (moduli_survival) and Pillar 31 (kk_quantum_info).
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

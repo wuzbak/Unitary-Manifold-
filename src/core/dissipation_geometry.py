@@ -126,8 +126,6 @@ second_law_check(sigma)
 geometric_entropy_from_state(phi, phi_star, S_boltzmann, V)
     Full geometric entropy including information-leakage correction.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -536,11 +534,3 @@ def geometric_entropy_from_state(
     D = information_leakage_fraction(phi, phi_star)
     fraction = max(0.0, 1.0 - D)
     return S_boltzmann * fraction
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).

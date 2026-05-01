@@ -50,9 +50,7 @@ bmu_time_arrow_lock(B_site, phi_site, Q_MeV, ...)
     into lattice phonons.  Returns quadratic branching fractions f_phonon
     and f_gamma, and the human-readable proof statement.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 __provenance__ = {

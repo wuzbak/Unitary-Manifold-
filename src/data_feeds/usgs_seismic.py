@@ -25,8 +25,6 @@ Framework mapping
   local thermal gradient and hence the Ra estimate for the surrounding plate.
 * ``phi_rock_regime()`` — magnitude maps to a local φ-stress regime.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code architecture: GitHub Copilot (AI).
 """
 
 

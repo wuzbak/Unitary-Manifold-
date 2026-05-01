@@ -21,8 +21,6 @@ Physical claims under test
 10. kk_mass_spectrum: sorted; zero for n=0; linear with n.
 11. braid_effective_mass: c_s suppression for locked modes; bare mass otherwise.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

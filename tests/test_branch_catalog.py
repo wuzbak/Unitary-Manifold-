@@ -36,8 +36,6 @@ TestCatalogSummary
 TestClassifyBranchEdgeCases
     ValueError on invalid inputs; commutative tests.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

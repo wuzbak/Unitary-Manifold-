@@ -90,8 +90,6 @@ attractor_topology_analysis   — bowl / valley / surface classifier
 ttc_phi_star_correlation      — TTC vs φ* correlation and hypothesis test
 fixed_point_jacobian_sweep    — Jacobian eigenvalue universality check
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

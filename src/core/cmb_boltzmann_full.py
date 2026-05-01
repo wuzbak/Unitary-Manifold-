@@ -66,8 +66,6 @@ peak_height_modification(n_peak, n_w, k_cs, c_s)
 full_boltzmann_audit()
     Summary of the Boltzmann implementation status and KK predictions.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

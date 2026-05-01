@@ -125,8 +125,6 @@ Information paradox (Pillar 36): src/core/information_paradox.py
 Observational frontiers (Pillar 38): src/multiverse/observational_frontiers.py
 FALLIBILITY.md §4.5 — G₂/torsion alternative documented there.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

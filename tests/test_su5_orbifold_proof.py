@@ -6,7 +6,6 @@ tests/test_su5_orbifold_proof.py
 Tests for Pillar 94 — SU(5) Orbifold Proof from n_w = 5.
 (src/core/su5_orbifold_proof.py)
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

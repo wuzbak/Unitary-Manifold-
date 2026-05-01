@@ -54,8 +54,6 @@ bmu_coupling_from_birefringence(beta_deg, k_cs, r_c) → float
 full_mu_g2_report() → dict
     Complete summary of all UM contributions to a_μ at canonical parameters.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

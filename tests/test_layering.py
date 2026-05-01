@@ -35,8 +35,6 @@ TestBranchLossiness
 TestLayerPairResonanceCheck
     All structural checks for the resonance identity.
 
-Theory and scientific direction: ThomasCory Walker-Pearson.
-Code and tests: GitHub Copilot (AI).
 """
 
 from __future__ import annotations

@@ -66,8 +66,6 @@ Public API
         [Issue 3 closure] Proves dS_total/dt ≥ dS_0/dt > 0 for the full KK
         tower.  Zero-mode truncation is a lower bound on true irreversibility.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 

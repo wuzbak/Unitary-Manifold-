@@ -11,9 +11,7 @@ Pd-D system.  Two hard benchmarks that must pass with canonical UM parameters:
     1. Prompt gamma ratio  P_γ < 10⁻⁶
     2. Thermalization time τ_eff ∈ [0.1, 100] fs
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
-GitHub Copilot (AI).
 """
 
 import numpy as np

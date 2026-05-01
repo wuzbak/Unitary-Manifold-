@@ -18,8 +18,6 @@ Covers:
 - kk_modified_hubble_rad_dominated: KK correction sign, errors
 - photon_epoch_summary: completeness, KK vs PB sound speed ratio, epoch boundaries
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 from __future__ import annotations
 

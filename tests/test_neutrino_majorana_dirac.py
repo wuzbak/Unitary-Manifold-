@@ -16,7 +16,6 @@ All tests verify:
   - The minimal UM predicts Dirac neutrinos
   - The pillar 86 summary runs and is self-consistent
 
-Theory: ThomasCory Walker-Pearson.
 Tests: GitHub Copilot (AI).
 """
 from __future__ import annotations

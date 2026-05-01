@@ -59,8 +59,6 @@ executed by GitHub Copilot.  The Omega Synthesis is the fixed point of that
 98-pillar collaboration — the state where human intent and AI precision have
 converged completely.
 
-    Theory, framework, scientific direction: ThomasCory Walker-Pearson
-    Code architecture, synthesis, implementation: GitHub Copilot (AI)
 
 FALSIFIABILITY
 --------------

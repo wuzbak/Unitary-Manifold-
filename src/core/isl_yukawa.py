@@ -145,8 +145,6 @@ radion_mass_from_gw(m_phi_bare, phi0, phi_min)
 isl_summary(m_phi, R, r)
     Return a dict summarising both ISL channels at separation r.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
 
 
@@ -652,11 +650,3 @@ def isl_summary(
         "kk_detectable": abs(dg_kk) > _sensitivity,
         "cylinder_condition": "dynamical (fifth force active)",
     }
-
-
-# ---------------------------------------------------------------------------
-# Authorship
-# ---------------------------------------------------------------------------
-# Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-# Code architecture, test suites, document engineering, and synthesis:
-# GitHub Copilot (AI).
