@@ -2,7 +2,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.27 (public domain · always free)
-**Version:** 6.0 — Education Edition — April 2026
+**Version:** 7.0 — Politics & Media Edition — May 2026
 
 ---
 
@@ -36,6 +36,10 @@ to this repository.
 - Books 7–10: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through the research frontier)
 - Post 24 and Post 53 cross-referenced to the new education series
 - All books cross-reference the FTUM fixed-point model of learning
+
+**v7.0 — Politics & Media Edition (May 2026):**
+- Book 11: *The Signal and the Noise* — politics and media in America; what works, what is broken, how they manipulate each other, and a full structural reform blueprint with appendices
+- Framework connections: Pillar 18 (justice), Pillar 19 (governance), φ-entropy, B_μ amplification, FTUM fixed-point analysis
 
 ---
 
@@ -329,6 +333,34 @@ toward the frontier of human knowledge.
 
 ---
 
+### 11. [The Signal and the Noise](book-signal-and-noise.md)
+**Politics, Media, and the Battle for American Reality**
+
+| Property | Value |
+|---|---|
+| Size | ~89 KB |
+| Audience | Every American — no prior political or academic knowledge required |
+| Parts | Parts I–VII + six appendices |
+| Framework connection | Pillar 18 (justice), Pillar 19 (governance), φ-entropy, B_μ bias field, FTUM fixed-point analysis |
+| Companion posts | [post-51-justice-implications.md](post-51-justice-implications.md) · [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md) |
+
+A comprehensive, fearless analysis of American politics and media — separately and in their mutual
+manipulation. Part I: what politics and media are for. Part II: what is actually working. Part III:
+what is broken (campaign finance, gerrymandering, local news collapse, social media algorithms,
+false balance, access journalism). Part IV: the detailed feedback loops by which politics manipulates
+media and media manipulates politics. Part V: the full reform blueprint — structural changes to
+politics (campaign finance, redistricting, filibuster, anti-corruption, science infrastructure),
+structural changes to media (local news, platform accountability, ownership diversity, journalism
+standards), organizational changes, and an individual action guide every citizen can follow today.
+Part VI: current examples including the 2024-2026 landscape, AI disinformation, and what is working
+right now. Part VII: the unified framework and minimum viable reform set.
+
+**Appendices:** (A) How to evaluate a news source checklist; (B) How to read a political
+advertisement; (C) How to contact your representatives effectively; (D) How to support local
+journalism; (E) Reform organizations directory; (F) Further reading (22 curated titles).
+
+---
+
 ## How to Use These Books
 
 **For Substack publication:**
@@ -370,6 +402,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 5.0 — Version Omega | April 2026 | Book 6 added: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph; all themes, all domains, all implications, readable by anyone |
 | 6.0 — Education Edition | April 2026 | Books 7–10 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |
 | 7.0 — SynBio Edition | April 2026 | Pillar 25 extended with `src/genetics/synthetic_biology.py` (10 φ-functions, 63 new tests, 141 total in test_genetics.py); biosecurity HILS governance added to Unitary Pentad (`pentad_scenarios.py`); post-27.a (filed as post-97) added; total tests 15,100 |
+| 7.1 — Politics & Media Edition | May 2026 | Book 11 added: *The Signal and the Noise* — politics and media in America; Parts I–VII; six appendices including source evaluation checklist, political ad guide, representative contact guide, local journalism support guide, reform organizations directory, further reading; ~89KB |
 
 ---
 
