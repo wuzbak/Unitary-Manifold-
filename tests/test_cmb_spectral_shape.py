@@ -158,7 +158,7 @@ class TestSpectralShapeResidual:
 
     def test_residual_grows_at_high_ell(self):
         """Shape residual grows toward higher ℓ (power law in ℓ²)."""
-        result = spectual_shape = spectral_shape_residual([200, 1000])
+        result = spectral_shape_residual([200, 1000])
         # At ℓ=1000 the Boltzmann term ~−2×8e-4×100 = −0.16 (large), while at
         # ℓ=200 it's ~−2×8e-4×4 = −0.0064. So |residual| at 1000 > at 200.
         abs_200 = abs(result["delta_Cl_over_Cl_total"][0])
