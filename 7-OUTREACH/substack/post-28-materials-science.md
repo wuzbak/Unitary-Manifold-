@@ -273,7 +273,7 @@ effects, but they are measurable in principle.
 
 ---
 
-*Full source code, derivations, and 15,100 automated tests:*
+*Full source code, derivations, and 15,096 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Materials module: `src/materials/` — 75 tests in `tests/test_materials.py`*
 *Lattice dynamics (Pillar 15-B): `src/physics/lattice_dynamics.py`*

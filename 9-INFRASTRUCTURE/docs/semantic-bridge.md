@@ -1,6 +1,6 @@
 # Semantic Bridge: Theory ↔ Implementation
 
-> **Version:** v9.28 — 99 pillars + sub-pillars, 14,972 passing tests  
+> **Version:** v9.28 — 99 pillars + sub-pillars, 15,096 passing tests  
 > **Scope of this document:** The five original core modules in `/src/core/`, `/src/holography/`, and `/src/multiverse/` that form the mathematical backbone (Pillars 1–5). The full 99-pillar framework is synthesized in [`omega/omega_synthesis.py`](../omega/omega_synthesis.py) (Pillar Ω). For the complete module index see [`README.md`](../README.md) and [`AGENTS.md`](../AGENTS.md).
 
 > This document sits **alongside** the source code without modifying it.

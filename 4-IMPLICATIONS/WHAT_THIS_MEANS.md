@@ -3,7 +3,7 @@
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.27
 
-> *"99 pillars + sub-pillars. 14,972 tests. Five seed constants. One universe."*  
+> *"99 pillars + sub-pillars. 15,096 tests. Five seed constants. One universe."*  
 > — v9.28 Gap Closure, May 2026
 
 **Audience:** Everyone — physicists, reviewers, the public, and AI systems.  
@@ -217,7 +217,7 @@ COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-
 GAPS:        CMB amplitude ×4–7 suppressed (unresolved); n_w APS conjecture (preferred, not proved)
 FALSIFIER:   LiteBIRD β ∉ [0.22°,0.38°] or β in gap [0.29°–0.31°]; β=0.273° selects (5,6) sector; β=0.331° selects (5,7) sector; gap=2.9σ_LB (Pillar 95); Roman Space Telescope w ≠ −0.9302; ET/LISA null scalar GW
 ANALYTIC:    Pillar 96 (Unitary Closure): exactly {(5,6),(5,7)} proved by algebraic inequality — not enumeration; FTUM S*=A/(4G) sector-agnostic; Unitary Summation in 10 steps
-TESTS:       14,972 passed · 330 skipped · 11 slow-deselected · 0 failures
+TESTS:       15,096 passed · 330 skipped · 11 slow-deselected · 0 failures
              (prior milestone: 14,641 = 11⁴ at v9.25; tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/; 99 pillars + sub-pillars — CLOSED. REPOSITORY COMPLETE.)
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
              src/core/completeness_theorem.py      ← Pillar 74: k_CS=74 Topological Completeness Theorem
@@ -257,7 +257,7 @@ The birefringence measurement from LiteBIRD will be the decisive test within thi
 
 ---
 
-*Document version: 1.6 — May 2026 (v9.28: 99 pillars + sub-pillars closed, 14,972 tests. REPOSITORY CLOSED.)*  
+*Document version: 1.6 — May 2026 (v9.28: 99 pillars + sub-pillars closed, 15,096 tests. REPOSITORY CLOSED.)*  
 *Part of the Unitary Manifold repository — see [README.md](README.md) for technical detail, [FALLIBILITY.md](FALLIBILITY.md) for honest limitations.*
 
 ---
