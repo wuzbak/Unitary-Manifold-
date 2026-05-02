@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (99 pillars/modules + sub-pillars closed, 15,296 tests passing)*
+*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (99 pillars/modules + sub-pillars closed, 15,362 tests passing)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 15,296 automated tests (99 pillars/modules + sub-pillars closed; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 15,362 automated tests (99 pillars/modules + sub-pillars closed; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "15,296 passed · 330 skipped · 0 failed," this is a statement about
+When the README badge reads "15,362 passed · 330 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -417,7 +417,38 @@ them systematically.
   and tolerance 10⁻⁶.  Convergence for all physically reasonable initial
   conditions has not been proven analytically.
 
-### 4.4 Interpretational risks
+### 4.4 Dark energy equation of state — current observational pressure
+
+The Unitary Manifold predicts w_KK = −1 + (2/3)c_s² ≈ −0.9302 from the braided
+sound speed c_s = 12/37.  As of the Omega Peer Review (2026-05-02), this prediction
+is in **~2.5–3.3σ tension with current Planck+BAO constraints**:
+
+- Planck 2018 + BAO: w = −1.03 ± 0.03 (68% CL, flat ΛCDM+w)
+- DES Year-3 + Planck + BAO + SNe Ia: w = −0.98 ± 0.04 (DES 2022)
+- DESI Year-1 BAO (2024): w₀ = −0.99 ± 0.05
+
+At σ(w) = 0.03 (Planck+BAO), the tension |w_predicted − w_observed| / σ = |−0.9302 − (−1.03)| / 0.03 = 0.0998 / 0.03 ≈ 3.3σ.
+At σ(w) = 0.04 (DES), the tension = 0.0998 / 0.04 ≈ 2.5σ.
+
+This is not a post-Roman-ST "awaiting test" situation — the existing data already
+exerts meaningful pressure.  The DESI 2024 two-parameter w₀w_a analysis (w₀ = −0.55
+± 0.39, w_a = −1.32 ± 1.1, combined with CMB+Pantheon+) is consistent with time-
+evolving dark energy at ~2.5σ, which is qualitatively compatible with w > −1 but
+does not specifically confirm w = −0.9302.
+
+**Epistemic status:** The w_DE prediction is now **CONSTRAINED** (not merely
+"awaiting test") — it sits within 3σ of the Planck+BAO central value, which means
+the prediction is not ruled out but is under observational pressure.  The Roman Space
+Telescope will deliver σ(w) ~ 0.01–0.02, providing a definitive test.
+
+**Why the formula may be incorrect:** The identification w_KK = −1 + (2/3)c_s²
+conflates the braided sound speed of the inflationary era with the present-day dark
+energy equation of state — two physically distinct quantities separated by ~60 e-folds
+of evolution.  No derivation showing this identification holds across the full
+cosmological history is provided in the current framework.  This is an open theoretical
+gap.
+
+### 4.5 Interpretational risks
 
 - The identification of φ with "entanglement capacity" is conjectural and is
   not derived from a quantum-information calculation.  It is a physical
@@ -428,7 +459,7 @@ them systematically.
   triangulations, causal set theory) achieve an emergent arrow of time without
   a compact extra dimension.
 
-### 4.5 Non-uniqueness of the information paradox resolution
+### 4.6 Non-uniqueness of the information paradox resolution
 
 The UM resolves the black hole information paradox via two mechanisms
 (Pillars 28 and 36):
@@ -1149,7 +1180,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 15,296 passed · 330 skipped · 0 failed (v9.29; 99 pillars + sub-pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
+| 15,362 passed · 330 skipped · 0 failed (v9.29; 99 pillars + sub-pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is observationally selected within Z₂-constrained odd set, not freely fitted from continuous range |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck r < 0.036 | k_cs=74 algebraically derived (Pillar 58); no new free parameter |
 | β ∈ {0.273°, 0.331°} — two viable states | ✅ Matches birefringence hint | (5,6) and (5,7) survive triple constraint; gap [0.29°–0.31°] = zero viable pairs |
@@ -1592,12 +1623,12 @@ Open gaps after Pillar 62:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 15,296 passed · 330 skipped · 0 failed (v9.29) | ✅ Confirmed | Internal consistency only |
+| 15,362 passed · 330 skipped · 0 failed (v9.29) | ✅ Confirmed | Internal consistency only |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
 | FTUM convergence | **100%** — φ\* = A₀/(4G); universal | **RESOLVED** (April 2026) |
-| w_KK ≈ −0.930 (dark energy EoS) | ✅ Consistent with DESI DR2 | c_s = 12/37 derived; w testable |
+| w_KK ≈ −0.930 (dark energy EoS) | ⚠️ **CONSTRAINED** — ~2.5–3.3σ tension with Planck+BAO now | c_s = 12/37 derived; Planck+BAO w = −1.03±0.03; Roman ST will deliver definitive test |
 | H₀ tension (73.5 vs 67.4 km/s/Mpc) | ⚠️ Quantified, not resolved | CC problem separates KK from Hubble scale |
 | Muon g−2 anomaly (Pillar 51; final result June 2025) | ⚠️ Open question — bridged | KK correction δa_μ^KK ~ 10⁻⁴¹ (30 orders below anomaly); ALP Barr–Zee upper bound derived |
 | Irreversibility from 5D | ✅ **Lower-bound proved** (April 2026) | `kk_tower_irreversibility_proof()`: every KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound. ADM formalism still absent. |
@@ -1682,7 +1713,7 @@ in May 2026.
 
 - **Prior milestone:** 15,048 = 99 × 152 (pillar-complete; φ × 9300 ≈ 15,047.72)
 - **v9.28 K_CS milestone:** 15,096 = 74 × 204 (K_CS-resonant; 48 targeted tests added via Pillars 78-B and 95-B)
-- **Current (v9.29):** **15,296** (200 additional tests from Pillars 70-D, 56-B, and peer-review action items; 15,296 ÷ 74 ≈ 206.7 — no longer K_CS-divisible)
+- **Current (v9.29):** **15,362** (additional tests from Pillars 70-D, 56-B, 97-C, 100, and peer-review action items; 15,362 ÷ 74 ≈ 207.6 — not K_CS-divisible)
 
 The 48 tests that reached the v9.28 milestone cover:
 1. **Pillar 78-B** (`cmb_spectral_shape.py`, 24 tests): CMB spectral shape residuals — Silk

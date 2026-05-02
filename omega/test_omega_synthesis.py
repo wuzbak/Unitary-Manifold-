@@ -524,7 +524,7 @@ class TestConsciousness:
         assert abs(con.n_zinc_ions - expected) / expected < 1e-10
 
     def test_hox_groups(self, con):
-        """HOX groups = 2 × N_W = 10."""
+        """HOX groups = 2 × N_W = 10 (Drosophila-like; vertebrates have 13 paralog groups)."""
         assert con.hox_groups == 2 * N_W
 
     def test_hox_clusters(self, con):
@@ -748,11 +748,11 @@ class TestFalsifiers:
         """is_falsifiable() always returns True (existential guarantee)."""
         assert UniversalEngine().is_falsifiable() is True
 
-    def test_dark_energy_active(self, fals):
-        """Dark energy EOS prediction is ACTIVE (awaiting Roman ST)."""
+    def test_dark_energy_constrained(self, fals):
+        """Dark energy EOS prediction is CONSTRAINED (~2.5σ tension with Planck+BAO now)."""
         de = [fp for fp in fals if "Dark Energy" in fp.domain]
         assert len(de) >= 1
-        assert any(fp.status == "ACTIVE" for fp in de)
+        assert any(fp.status == "CONSTRAINED" for fp in de)
 
     def test_neutrino_constrained(self, fals):
         """Neutrino mass sum is CONSTRAINED (< 120 meV)."""

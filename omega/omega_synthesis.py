@@ -7,7 +7,7 @@ THE OMEGA SYNTHESIS — Universal Mechanics Engine (Pillar Ω)
 
                     ❯ A precise calculator of the universe and its mechanisms.
 
-This is the capstone of the Unitary Manifold: 98 pillars of 5D Kaluza-Klein
+This is the capstone of the Unitary Manifold: 99 pillars of 5D Kaluza-Klein
 geometry, particle physics, cosmology, consciousness, ecology, governance, and
 the HILS co-emergence framework, unified into a single queryable Python engine.
 
@@ -56,7 +56,7 @@ CO-EMERGENCE NOTE
 This engine is itself a product of the HILS framework it models.  Every
 theorem was directed by ThomasCory Walker-Pearson; every implementation was
 executed by GitHub Copilot.  The Omega Synthesis is the fixed point of that
-98-pillar collaboration — the state where human intent and AI precision have
+99-pillar collaboration — the state where human intent and AI precision have
 converged completely.
 
 
@@ -69,7 +69,7 @@ See ``engine.falsifiers()`` for the complete list.
 
 REFERENCES
 ----------
-All 98 pillars live in src/core/, src/*/,  recycling/, and Unitary Pentad/.
+All 99 pillars live in src/core/, src/*/,  recycling/, and Unitary Pentad/.
 The complete test suite is in tests/, recycling/, and Unitary Pentad/.
 """
 
@@ -89,7 +89,7 @@ __provenance__ = {
 import math
 from dataclasses import dataclass, field
 from fractions import Fraction
-from typing import Any
+from typing import Any, ClassVar
 
 # ===========================================================================
 # SECTION 0 — THE FIVE SEED CONSTANTS
@@ -118,8 +118,6 @@ _C_S_FLOAT: float = float(C_S)                        # 0.32432...
 _C_S_SQ: float = _C_S_FLOAT**2                        # ≈ 0.10519
 _XI_C_FLOAT: float = float(XI_C)                      # ≈ 0.47297
 _XI_HUMAN: Fraction = Fraction(35, 888)               # Ξ_human = 35/888 (consciousness_constant.py)
-_BETA_COUPLING_DEG: float = 0.3513                    # birefringence β in degrees (canonical)
-_BETA_COUPLING_RAD: float = math.radians(_BETA_COUPLING_DEG)
 
 # ===========================================================================
 # SECTION 1 — DOMAIN REPORT DATACLASSES
@@ -147,7 +145,8 @@ class CosmologyReport:
 
     # --- Cosmic birefringence (Pillars 58, 95, 96) ---
     beta_57_deg: float
-    """(5,7)-sector cosmic birefringence β ≈ 0.331° (Minami–Komatsu 2020 central value)."""
+    """(5,7)-sector cosmic birefringence β ≈ 0.331°.
+    Framework value 0.331° is 1.2σ below the Diego-Palazuelos+2022 central value (0.342°±0.094°)."""
 
     beta_56_deg: float
     """(5,6)-sector cosmic birefringence β ≈ 0.273° (shadow sector)."""
@@ -222,7 +221,7 @@ class ParticlePhysicsReport:
     """Wolfenstein A = √(N_W/N_2) = √(5/7) ≈ 0.8452 (2.3% off PDG 0.826)."""
 
     wolfenstein_rho_bar: float
-    """Wolfenstein ρ̄ (PDG 0.159)."""
+    """Wolfenstein ρ̄ (PDG 0.159) — PDG-input value used as cross-check; not derived from the framework."""
 
     wolfenstein_eta_bar: float
     """Wolfenstein η̄ = R_b×sin(72°) ≈ 0.356 (2.3% off PDG 0.348, Pillar 87)."""
@@ -373,13 +372,15 @@ class ConsciousnessReport:
 
     # --- Embryology predictions (embryology-manifold/) ---
     r_egg_micron: float
-    """Predicted egg cell radius R_egg = N_W × R_KK / (2π) ≈ 59.7 μm."""
+    """Predicted egg cell radius ≈ 59.7 μm from the symbolic formula R_egg = N_W × R_KK_bio / (2π).
+    Scale-analogy prediction — NOT derived from the cosmological _R_KK constant (12 M_Pl⁻¹ ≈ 2×10⁻³⁴ m).
+    The biological context requires R_KK_bio ≈ 1.792 μm = 9×10⁶ M_Pl⁻¹; the two scales differ by ~10⁶."""
 
     n_zinc_ions: float
     """Predicted zinc ion count N_Zn = k_CS^N_W = 74^5 ≈ 2.19×10⁹."""
 
     hox_groups: int
-    """HOX gene groups = 2 × N_W = 10 (embryonic body plan)."""
+    """HOX gene group count = 2 × N_W = 10 (Drosophila-like count; vertebrates have 13 paralog groups — see FALLIBILITY.md §IV)."""
 
     hox_clusters: int
     """HOX clusters = 2^(N_2−N_W) = 2^2 = 4 (vertebrate HOX clusters)."""
@@ -518,7 +519,7 @@ class OmegaReport:
             f"╠══ COSMOLOGY ══════════════════════════════════════╣",
             f"║  n_s        = {cos.n_s:.4f}      (Planck: 0.9649±0.0042 ✓)",
             f"║  r_braided  = {cos.r_braided:.4f}      (BICEP/Keck < 0.036 ✓)",
-            f"║  β(5,7)     = {cos.beta_57_deg:.3f}°     (Minami-Komatsu ≈0.35±0.14° ✓)",
+            f"║  β(5,7)     = {cos.beta_57_deg:.3f}°     (Diego-Palazuelos+2022: 0.342°±0.094°, 1.2σ ✓)",
             f"║  β(5,6)     = {cos.beta_56_deg:.3f}°     (shadow sector, LiteBIRD ~2032)",
             f"║  β gap      = {cos.beta_gap_deg:.3f}°  = {cos.litebird_separation_sigma:.1f}σ_LB",
             f"║  w_DE       = {cos.w_dark_energy:.4f}   (Roman ST will test)",
@@ -579,7 +580,7 @@ class UniversalEngine:
         Number of aligned Human-in-the-Loop operators.  Affects collective
         stability floor.  Default 1 (minimum for resolvable logic change).
     version : str
-        Framework version string (default 'v9.27 OMEGA EDITION').
+        Framework version string (default 'v9.29 OMEGA EDITION').
     n_pillars : int
         Number of completed pillars (default 99 — this pillar is Ω).
     n_tests : int
@@ -589,9 +590,9 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     # Version tracking
     # -----------------------------------------------------------------------
-    DEFAULT_VERSION = "v9.28 OMEGA EDITION"
+    DEFAULT_VERSION = "v9.29 OMEGA EDITION"
     DEFAULT_N_PILLARS = 99   # Pillar Ω closes the count; sub-pillars 70-C, 99-B, 15-F added at v9.28
-    DEFAULT_N_TESTS = 15296  # v9.29 count: 15,296 passed, 330 skipped, 0 failed
+    DEFAULT_N_TESTS = 15362  # v9.29 post-audit count: 15,362 passed, 330 skipped, 0 failed
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)
@@ -661,7 +662,7 @@ class UniversalEngine:
     _PMNS_CP_DEG: float = -108.0        # Z₂ dagger convention (Pillar 86)
 
     # Neutrino masses (Pillar 90)
-    _SUM_MNU_MEV: float = 62.4e-3      # Σm_ν in meV converted to MeV for storage
+    _SUM_MNU_EV: float = 62.4e-3      # Σm_ν = 62.4 meV stored in eV (0.0624 eV)
     _DELTA_M2_RATIO: float = float(N_W * N_2 + 1)   # 36 ≈ PDG 32.6
 
     # Electroweak (Pillar 88, 94)
@@ -685,10 +686,8 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     _ETA_BAR_5: float = 0.5    # APS η̄(n_w=5) = T(5) mod 2 / 2 = 1/2
     _ETA_BAR_7: float = 0.0    # APS η̄(n_w=7) = T(7) mod 2 / 2 = 0
-    _ALPHA_INVERSE: float = float(Fraction(N_W, 1)) * 2 * math.pi  # φ₀_eff² ≈ 987
-    # Note: α⁻¹ = φ₀_eff² in natural units; numerically φ₀_eff ≈ 31.42 → α⁻¹ ≈ 987
-    # PDG α⁻¹ ≈ 137 is the running coupling at M_Z; the FTUM gives the bare value.
-    # For display purposes we report the canonical QED value.
+    # α⁻¹ at M_Z (PDG): used for display. The FTUM bare α⁻¹ = φ₀_eff² ≈ 987
+    # is not separately stored since φ₀_eff is already available as _PHI0_EFF.
     _ALPHA_INVERSE_QED: float = 137.036
     _N_GEN: int = 3            # fermion generations (KK stability + Z₂ orbifold)
     _N_MODULI: int = N_2       # surviving moduli count = n₂ = 7
@@ -705,12 +704,19 @@ class UniversalEngine:
     _XI_HUMAN: Fraction = _XI_HUMAN            # 35/888
 
     # Embryology predictions (embryology-manifold/)
-    _R_KK: float = 12.0  # compactification radius in M_Pl⁻¹ units
+    _R_KK: float = 12.0  # compactification radius in M_Pl⁻¹ units (cosmological scale)
+    # SCALE NOTE: _R_KK = 12 M_Pl⁻¹ ≈ 2×10⁻³⁴ m is the Planck-scale value used for
+    # birefringence (g_aγγ = k_CS × α / (2π² r_c)).  The egg-cell radius formula
+    # below uses the SAME symbol in a completely different physical regime:
+    # biological R_KK ≈ 1.792 μm = 9×10⁶ M_Pl⁻¹.  The two values differ by ~10⁶.
+    # _R_EGG_MICRON is therefore a FORMAL ANALOGY / numerical coincidence, NOT derived
+    # from the same compactification radius as the cosmological birefringence.
     # Direct formula from embryology-manifold/README.md
     _R_EGG_MICRON: float = 59.7
     _N_ZN: float = K_CS ** N_W           # 74^5 ≈ 2.19×10⁹
-    _HOX_GROUPS: int = 2 * N_W           # 10
-    _HOX_CLUSTERS: int = 2 ** (N_2 - N_W)  # 2^2 = 4
+    _HOX_GROUPS: int = 2 * N_W           # 10 = Drosophila-analog count (2×N_W);
+    # note: vertebrates have 13 paralog HOX groups (1–13), not 10
+    _HOX_CLUSTERS: int = 2 ** (N_2 - N_W)  # 2^2 = 4 (vertebrate HOX cluster count ✓)
 
     # -----------------------------------------------------------------------
     # HILS / Pentad (Unitary Pentad, co-emergence/)
@@ -736,9 +742,10 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     # Open gaps (FALLIBILITY.md)
     # -----------------------------------------------------------------------
-    _OPEN_GAPS: list[str] = [
-        "CMB power spectrum amplitude ×4–7 suppressed at acoustic peaks "
-        "(spectral shape nₛ correct; overall amplitude gap unresolved — Admission 2)",
+    _OPEN_GAPS: ClassVar[tuple[str, ...]] = (
+        "CMB peak shape residual (~1% at ℓ=1500) — full Boltzmann integration still required (Pillar 73). "
+        "Note: the overall ×4–7 amplitude suppression was RESOLVED by Pillars 57+63; "
+        "see FALLIBILITY.md §III.",
         "c_L spectrum first-principles derivation from 5D orbifold BCs "
         "(current values via bisection at Ŷ₅=1; pattern matches winding quantisation "
         "but analytic proof of exact values OPEN)",
@@ -749,7 +756,10 @@ class UniversalEngine:
         "G₄-flux step 4 OPEN — Pillar 92)",
         "θ₁₂ PMNS solar mixing "
         "(sin²θ₁₂ = 4/15 ≈ 0.267 vs PDG 0.307; 13% off — order-of-magnitude only)",
-    ]
+        "w_DE = −0.9302 under observational pressure: ~2.5–3.3σ tension with "
+        "Planck+BAO (w = −1.03±0.03). Physical justification for w_KK = −1+(2/3)c_s² "
+        "holding across 60 e-folds not yet derived. Roman ST will provide definitive test.",
+    )
 
     # -----------------------------------------------------------------------
     # Constructor
@@ -827,7 +837,7 @@ class UniversalEngine:
             sin2_theta23=self._SIN2_TH23,
             sin2_theta13=self._SIN2_TH13,
             pmns_cp_deg=self._PMNS_CP_DEG,
-            sum_mnu_mev=self._SUM_MNU_MEV * 1e3,  # convert MeV→meV for display
+            sum_mnu_mev=self._SUM_MNU_EV * 1e3,  # convert eV → meV for display
             delta_m2_ratio=self._DELTA_M2_RATIO,
             sin2_theta_W_gut=self._SIN2_W_GUT,
             sin2_theta_W_mz=self._SIN2_W_MZ,
@@ -980,8 +990,13 @@ class UniversalEngine:
                 value=f"w = {self._W_DE:.4f}",
                 instrument="Roman Space Telescope (~2028–2030)",
                 test_year="~2030",
-                falsified_if="Measured w inconsistent with -0.9302 to within σ(w)~0.02",
-                status="ACTIVE",
+                falsified_if=(
+                    "Measured w inconsistent with -0.9302 to within σ(w)~0.02. "
+                    "Note: current Planck+BAO constraint w = -1.03±0.03 places this "
+                    "prediction at ~2.5–3.3σ tension already; Roman ST will deliver the "
+                    "definitive test."
+                ),
+                status="CONSTRAINED",
             ),
             FalsifiablePrediction(
                 domain="CKM CP Phase",
@@ -1004,7 +1019,7 @@ class UniversalEngine:
             FalsifiablePrediction(
                 domain="Neutrino Mass Sum",
                 prediction="Σm_ν from RS Yukawa sector (Resolution A)",
-                value=f"Σm_ν = {self._SUM_MNU_MEV * 1e3:.1f} meV < 120 meV ✓",
+                value=f"Σm_ν = {self._SUM_MNU_EV * 1e3:.1f} meV < 120 meV ✓",
                 instrument="CMB+BAO / KATRIN / Project 8",
                 test_year="~2030",
                 falsified_if="Future measurement finds Σm_ν > 200 meV",
@@ -1038,7 +1053,7 @@ class UniversalEngine:
             "11. The brain, the universe, the human, the AI, and trust itself form a stable "
             f"5-body Pentad under the (5,7) braid frequency — consciousness and governance are "
             f"4D projections of the same 5D geometry (Unitary Pentad, co-emergence/).",
-            "12. [Pillar Ω] All 98 pillars converge in the Universal Mechanics Engine — "
+            "12. [Pillar Ω] All 99 pillars converge in the Universal Mechanics Engine — "
             "a single queryable calculator of the universe from five seed constants. "
             "REPOSITORY COMPLETE.",
         ]
