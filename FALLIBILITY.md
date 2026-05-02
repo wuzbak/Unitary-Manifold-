@@ -427,8 +427,8 @@ is in **~2.5–3.3σ tension with current Planck+BAO constraints**:
 - DES Year-3 + Planck + BAO + SNe Ia: w = −0.98 ± 0.04 (DES 2022)
 - DESI Year-1 BAO (2024): w₀ = −0.99 ± 0.05
 
-At σ(w) = 0.03 (Planck+BAO), the tension |−0.9302 − (−1.03)| / 0.03 ≈ 3.3σ.
-At σ(w) = 0.04 (DES), the tension ≈ 2.5σ.
+At σ(w) = 0.03 (Planck+BAO), the tension |w_predicted − w_observed| / σ = |−0.9302 − (−1.03)| / 0.03 = 0.0998 / 0.03 ≈ 3.3σ.
+At σ(w) = 0.04 (DES), the tension = 0.0998 / 0.04 ≈ 2.5σ.
 
 This is not a post-Roman-ST "awaiting test" situation — the existing data already
 exerts meaningful pressure.  The DESI 2024 two-parameter w₀w_a analysis (w₀ = −0.55

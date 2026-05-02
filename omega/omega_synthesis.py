@@ -145,7 +145,8 @@ class CosmologyReport:
 
     # --- Cosmic birefringence (Pillars 58, 95, 96) ---
     beta_57_deg: float
-    """(5,7)-sector cosmic birefringence β ≈ 0.331° (1.2σ below Diego-Palazuelos+2022: 0.342°±0.094°)."""
+    """(5,7)-sector cosmic birefringence β ≈ 0.331°.
+    Framework value 0.331° is 1.2σ below the Diego-Palazuelos+2022 central value (0.342°±0.094°)."""
 
     beta_56_deg: float
     """(5,6)-sector cosmic birefringence β ≈ 0.273° (shadow sector)."""
@@ -371,10 +372,9 @@ class ConsciousnessReport:
 
     # --- Embryology predictions (embryology-manifold/) ---
     r_egg_micron: float
-    """Predicted egg cell radius R_egg = N_W × R_KK / (2π) ≈ 59.7 μm.
-    Scale-analogy prediction — NOT derived from the same R_KK as cosmological
-    birefringence (cosmological R_KK = 12 M_Pl⁻¹ ≈ 2×10⁻³⁴ m vs biological
-    R_KK ≈ 1.792 μm = 9×10⁶ M_Pl⁻¹; the two scales differ by ~10⁶)."""
+    """Predicted egg cell radius ≈ 59.7 μm from the symbolic formula R_egg = N_W × R_KK_bio / (2π).
+    Scale-analogy prediction — NOT derived from the cosmological _R_KK constant (12 M_Pl⁻¹ ≈ 2×10⁻³⁴ m).
+    The biological context requires R_KK_bio ≈ 1.792 μm = 9×10⁶ M_Pl⁻¹; the two scales differ by ~10⁶."""
 
     n_zinc_ions: float
     """Predicted zinc ion count N_Zn = k_CS^N_W = 74^5 ≈ 2.19×10⁹."""
@@ -743,8 +743,9 @@ class UniversalEngine:
     # Open gaps (FALLIBILITY.md)
     # -----------------------------------------------------------------------
     _OPEN_GAPS: ClassVar[tuple[str, ...]] = (
-        "CMB amplitude ×4–7 suppression — RESOLVED (Pillars 57+63; see FALLIBILITY.md §III). "
-        "Shape residual at acoustic peaks still requires full Boltzmann integration (Pillar 73).",
+        "CMB peak shape residual (~1% at ℓ=1500) — full Boltzmann integration still required (Pillar 73). "
+        "Note: the overall ×4–7 amplitude suppression was RESOLVED by Pillars 57+63; "
+        "see FALLIBILITY.md §III.",
         "c_L spectrum first-principles derivation from 5D orbifold BCs "
         "(current values via bisection at Ŷ₅=1; pattern matches winding quantisation "
         "but analytic proof of exact values OPEN)",
