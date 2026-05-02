@@ -99,7 +99,11 @@ from typing import Any, ClassVar
 #: Primary winding number — selected by Planck CMB nₛ + APS η̄=½ (Pillars 70-B, 89)
 N_W: int = 5
 
-#: Braid partner winding number — selected by BICEP/Keck r<0.036 + β-window (Pillar 96)
+#: Braid partner winding number — OBSERVATIONALLY SELECTED (not derived from first principles).
+#: BICEP/Keck r<0.036 rules out n₂≥9; β-window [0.22°,0.38°] admits n₂∈{6,7}; n₂=6 is the
+#: shadow sector.  n₂=7 is the primary sector, selected by both constraints together (Pillar 96).
+#: See FALLIBILITY.md §IV and DERIVATION_STATUS.md for the distinction between derived and
+#: observationally-constrained seeds.
 N_2: int = 7
 
 #: Chern-Simons level — k_CS = N_W² + N_2² (algebraic identity, Pillar 74)
@@ -473,13 +477,17 @@ class FalsifiablePrediction:
     """'ACTIVE' / 'CONFIRMED' / 'CONSTRAINED' / 'FALSIFIED'."""
 
 
-@dataclass
+@dataclass(frozen=True)
 class OmegaReport:
     """The complete output of the Universal Mechanics Engine.
 
     Produced by ``UniversalEngine.compute_all()``.  Contains all domain
     reports, the complete falsifier list, the Unitary Summation, and a
     machine-readable record of the current state of the framework.
+
+    ``frozen=True`` is intentional: a report is a point-in-time snapshot —
+    it must not be mutated after construction.  All domain sub-reports are
+    also frozen.  Use ``to_dict()`` for JSON-serialisable output.
     """
 
     version: str
@@ -489,7 +497,7 @@ class OmegaReport:
     """Number of completed pillars (99 + sub-pillars at v9.28)."""
 
     n_tests_passing: int
-    """Number of passing tests in the repository (15,296 at v9.29)."""
+    """Number of passing tests in the repository (15,362 at v9.29 post-audit)."""
 
     n_seed_constants: int = 5
     """Number of seed constants from which everything is derived."""
@@ -501,9 +509,9 @@ class OmegaReport:
     consciousness: ConsciousnessReport = field(default=None)  # type: ignore[assignment]
     hils: HILSReport = field(default=None)                    # type: ignore[assignment]
 
-    falsifiers: list[FalsifiablePrediction] = field(default_factory=list)
-    unitary_summation: list[str] = field(default_factory=list)
-    open_gaps: list[str] = field(default_factory=list)
+    falsifiers: tuple[FalsifiablePrediction, ...] = field(default_factory=tuple)
+    unitary_summation: tuple[str, ...] = field(default_factory=tuple)
+    open_gaps: tuple[str, ...] = field(default_factory=tuple)
 
     def summary(self) -> str:
         """Return a compact human-readable summary of the engine state."""
@@ -522,7 +530,7 @@ class OmegaReport:
             f"║  β(5,7)     = {cos.beta_57_deg:.3f}°     (Diego-Palazuelos+2022: 0.342°±0.094°, 1.2σ ✓)",
             f"║  β(5,6)     = {cos.beta_56_deg:.3f}°     (shadow sector, LiteBIRD ~2032)",
             f"║  β gap      = {cos.beta_gap_deg:.3f}°  = {cos.litebird_separation_sigma:.1f}σ_LB",
-            f"║  w_DE       = {cos.w_dark_energy:.4f}   (Roman ST will test)",
+            f"║  w_DE       = {cos.w_dark_energy:.4f}   (~2.5–3.3σ tension Planck+BAO; Roman ST ~2030)",
             f"╠══ PARTICLE PHYSICS ════════════════════════════════╣",
             f"║  Ŷ₅         = {pp.y5_universal:.1f}        (universal 5D Yukawa from GW vac.)",
             f"║  sin²θ₂₃   = {pp.sin2_theta23:.3f}      (PDG 0.572, 1.4% off ✓)",
@@ -557,6 +565,33 @@ class OmegaReport:
             lines.append(f"║  • {gap}")
         lines.append(f"╚═══════════════════════════════════════════════════╝")
         return "\n".join(lines)
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return a JSON-serialisable dictionary of the full report.
+
+        All ``Fraction`` fields are converted to ``float``.  All ``tuple``
+        fields are converted to ``list`` for JSON compatibility.
+
+        Returns
+        -------
+        dict
+            Fully serialisable representation of the report.  Suitable for
+            ``json.dumps(report.to_dict())``.
+        """
+        import dataclasses
+
+        def _serialise(obj: Any) -> Any:
+            if isinstance(obj, Fraction):
+                return float(obj)
+            if isinstance(obj, dict):
+                return {k: _serialise(v) for k, v in obj.items()}
+            if isinstance(obj, (tuple, list)):
+                return [_serialise(v) for v in obj]
+            if dataclasses.is_dataclass(obj) and not isinstance(obj, type):
+                return {k: _serialise(v) for k, v in dataclasses.asdict(obj).items()}
+            return obj
+
+        return _serialise(dataclasses.asdict(self))
 
 
 # ===========================================================================
@@ -662,7 +697,9 @@ class UniversalEngine:
     _PMNS_CP_DEG: float = -108.0        # Z₂ dagger convention (Pillar 86)
 
     # Neutrino masses (Pillar 90)
-    _SUM_MNU_EV: float = 62.4e-3      # Σm_ν = 62.4 meV stored in eV (0.0624 eV)
+    _SUM_MNU_EV: float = 62.4e-3      # Σm_ν = 62.4 meV stored as eV (= 0.0624 eV).
+    # NOTE: The field ``sum_mnu_mev`` in ParticlePhysicsReport uses meV (milli-eV);
+    # the conversion _SUM_MNU_EV * 1e3 → 62.4 meV is applied at the call site (line ~840).
     _DELTA_M2_RATIO: float = float(N_W * N_2 + 1)   # 36 ≈ PDG 32.6
 
     # Electroweak (Pillar 88, 94)
@@ -1083,9 +1120,9 @@ class UniversalEngine:
             geometry=self.geometry(),
             consciousness=self.consciousness(),
             hils=self.hils(),
-            falsifiers=self.falsifiers(),
-            unitary_summation=self.unitary_summation(),
-            open_gaps=list(self._OPEN_GAPS),
+            falsifiers=tuple(self.falsifiers()),
+            unitary_summation=tuple(self.unitary_summation()),
+            open_gaps=tuple(self._OPEN_GAPS),
         )
 
     # -----------------------------------------------------------------------
