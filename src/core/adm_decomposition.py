@@ -607,3 +607,98 @@ def pillar_100_summary() -> dict:
         ],
         "provenance": __provenance__,
     }
+
+
+# ---------------------------------------------------------------------------
+# ADM time-parameterization gap: lapse-function bridge
+# ---------------------------------------------------------------------------
+
+def adm_time_lapse_bridge(
+    epsilon_sr: float = 6.08e-3,
+    phi0_eff: float | None = None,
+) -> dict:
+    """Quantify the ADM time-parameterization gap and its mitigation.
+
+    FALLIBILITY.md §III documents a real gap: ``evolution.py`` uses a
+    Ricci-flow-like deformation parameter τ as the evolution variable,
+    whereas coordinate time x⁰ in the 3+1 ADM decomposition is related
+    to τ by the lapse function N.
+
+    This function provides:
+
+    1. **Gaussian-normal gauge** (N = 1, β^i = 0) — the approximation
+       currently used by the UM.  In this gauge coordinate time x⁰ and
+       the flow parameter τ are *identical*.  The approximation is valid
+       when the lapse deviation |N−1| ≪ 1.
+
+    2. **Lapse deviation estimate** — from the Hamiltonian constraint.
+       In slow-roll inflation the dominant contribution to R_3 + K² − K^{ij}K_{ij}
+       is 16πG ρ_m = 3H² (de Sitter, M_Pl = 1).  For a non-unit lapse,
+       the kinematic shift is ΔK_{ij}/K_{ij} ~ (N−1).  The slow-roll
+       parameter ε = −Ḣ/H² gives |N−1| ~ ε at leading order.
+
+    3. **Quantified residual** — at the (5, 7) braid values:
+       ε ≈ 6.08×10⁻³, so |N−1| ~ 0.6 %.  The lapse is unity to 0.6 %
+       — the Gaussian-normal approximation introduces a < 1 % error in
+       the time parameterisation.
+
+    4. **Remaining gap** — the full dynamical lapse N(x, t) is determined
+       by the elliptic Hamiltonian constraint equation.  Solving this self-
+       consistently requires a 3+1 numerical code; it is not implemented in
+       evolution.py.  The qualitative arrow-of-time derivation (entropy
+       monotonicity from ρ_{KK} ≥ 0) is unaffected; only the quantitative
+       rate of entropy production carries an O(ε) error from the lapse
+       approximation.
+
+    Parameters
+    ----------
+    epsilon_sr : float
+        Slow-roll parameter ε = −Ḣ/H² (default 6.08×10⁻³ for n_w = 5).
+    phi0_eff : float or None
+        Effective radion VEV; if provided overrides epsilon_sr via
+        ε = 6/φ₀_eff².
+
+    Returns
+    -------
+    dict
+        Keys: ``epsilon_sr``, ``lapse_deviation_estimate``,
+        ``lapse_pct_error``, ``gaussian_normal_ok``,
+        ``gap_status``, ``gap_description``, ``mitigation``.
+    """
+    if phi0_eff is not None:
+        epsilon_sr = 6.0 / phi0_eff ** 2
+
+    # In de Sitter with slow-roll parameter ε, the fractional lapse deviation
+    # at leading order is |N−1| ~ ε (from the trace of the extrinsic curvature
+    # perturbation about the flat-slicing gauge).
+    lapse_dev = float(epsilon_sr)              # |N − 1| ~ ε
+    lapse_pct = float(100.0 * lapse_dev)
+    gaussian_normal_ok = bool(lapse_dev < 0.05)   # < 5 % threshold
+
+    return {
+        "epsilon_sr": float(epsilon_sr),
+        "lapse_deviation_estimate": lapse_dev,
+        "lapse_pct_error": lapse_pct,
+        "gaussian_normal_ok": gaussian_normal_ok,
+        "gap_status": "REAL GAP — PARTIALLY MITIGATED",
+        "gap_description": (
+            "evolution.py evolves along Ricci-flow-like parameter τ, not ADM "
+            "coordinate time x⁰.  Pillar 100 (adm_decomposition.py) establishes "
+            "the Gaussian-normal gauge N=1, β=0 as the working approximation. "
+            "The lapse deviation |N−1| ~ ε ≈ {:.2e} ({:.2f} %) is small in "
+            "slow roll but is not zero.  A self-consistent elliptic solve for N "
+            "is not implemented.".format(epsilon_sr, lapse_pct)
+        ),
+        "mitigation": (
+            "Pillar 41 (delay_field.py): correction factor Ω(φ) = 1/φ bridges "
+            "the flow parameter to the proper-time lapse at first order in ε. "
+            "The arrow-of-time QUALITATIVE result (entropy monotonicity from "
+            "ρ_{KK} ≥ 0) is unaffected.  The O(ε) ≈ 0.6 % lapse error affects "
+            "only the quantitative entropy production rate, not its sign."
+        ),
+        "remaining_open": (
+            "Full dynamical lapse N(x,t) from elliptic Hamiltonian constraint "
+            "requires a 3+1 numerical code (e.g., BSSN or Z4c formulation). "
+            "This is not implemented in the current UM code base."
+        ),
+    }
