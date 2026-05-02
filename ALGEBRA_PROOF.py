@@ -2238,8 +2238,8 @@ try:
 
     # Instantiate the engine and compute all observables
     _engine = UniversalEngine()
-    check("Pillar Ω (live): UniversalEngine.DEFAULT_N_PILLARS = 99",
-          _engine.DEFAULT_N_PILLARS == 99,
+    check("Pillar Ω (live): UniversalEngine.DEFAULT_N_PILLARS = 101",
+          _engine.DEFAULT_N_PILLARS == 101,
           f"got {_engine.DEFAULT_N_PILLARS}")
     _report = _engine.compute_all()
     check("Pillar Ω (live): compute_all() returns OmegaReport",
