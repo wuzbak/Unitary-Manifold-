@@ -19,7 +19,7 @@ corresponds directly to code in `src/core/`, `src/holography/`, `src/multiverse/
 | `QUANTUM_THEOREMS.md` | New theorems: BH information conservation, CCR, Hawking temperature, ER=EPR from 5D geometry. |
 | `WINDING_NUMBER_DERIVATION.md` | Why n_w = 5: the topological argument from Z₂ orbifold through APS η-invariant. |
 | `BRAID_TWIN_DUALITY.md` | **The (5,7)/(5,6) twin braid states** — why they are the only two viable pairs, how they relate as lossless ground state and lossy metastable twin, and what LiteBIRD will measure to discriminate them. |
-| `COMPLETION_REPORT.md` | The full 99-pillar claim record with status labels and test references. |
+| `COMPLETION_REPORT.md` | The full 101-pillar claim record with status labels and test references. |
 | `CONSTANTS_CONVERGENCE.md` | How all key constants (φ₀, c_s, k_CS, α_NM, n_w) converge to consistent values. |
 | `CORRESPONDENCE_MAP.md` | Precise mapping between 5D geometry and known physics (gravity, EM, SM). |
 | `FINGERPRINTS.md` | Unique numerical fingerprints of this framework — provenance and legal record. |
