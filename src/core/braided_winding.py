@@ -1326,7 +1326,7 @@ def r_one_loop_bound(
     loop_factor = 1.0 / (4.0 * np.pi) ** 2           # ≈ 6.333e-3
 
     # Leading-order correction to r_eff from kinetic-mixing loop
-    delta_loop = float(rho**2 * loop_factor)           # (ρ/(4π))²
+    delta_loop = float(rho**2 * loop_factor)           # ρ² / (4π)² = (ρ/(4π))²
     r_1loop    = float(r_braided * (1.0 + delta_loop))
     delta_r    = float(r_1loop - r_braided)
     delta_r_pct = float(100.0 * delta_loop)

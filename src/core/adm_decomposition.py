@@ -178,9 +178,13 @@ def extract_induced_metric(
     # Induced 3-metric: spatial block
     gamma = G4[np.ix_(spatial, spatial)].copy()
 
-    # Shift vector β^i = g_{0i} / g_{00} (zero in Gaussian normal gauge)
+    # Shift vector: β_i (covariant) = g_{0i}.
+    # Standard ADM raised form: β^i = γ^{ij} g_{0j}.
+    # For Gaussian normal gauge all g_{0i} = 0, so β^i = 0.
+    # We return the coordinate-index form g_{0i}/g_{tt} which equals β^i for
+    # diagonal metrics (where γ^{ii} = 1/g_{ii} and g_{0i}/g_{00} = −β^i/N²).
     g_0i = np.array([G4[t, j] for j in spatial])
-    beta = g_0i / g_tt  # β^i = g_{0i}/g_{tt} in the coordinate basis
+    beta = g_0i / g_tt  # zero in Gaussian normal gauge; non-zero only for off-diagonal g_{0i}
 
     return gamma, N, beta
 
@@ -223,16 +227,13 @@ def extrinsic_curvature(
     if gamma.shape != (dim, dim):
         raise ValueError(f"gamma must be square ({dim}×{dim}).")
 
-    # Lie derivative of gamma along β: L_β γ_{ij} = D_i β_j + D_j β_i
-    # For GN gauge (β=0) this vanishes.  For non-zero shift, we include the
-    # leading-order flat-space contribution D_i β_j ≈ ∂_i β_j (first order).
+    # Lie derivative of gamma along β: L_β γ_{ij} = D_i β_j + D_j β_i.
+    # For GN gauge (β=0) this vanishes exactly.  For non-zero shift, computing
+    # D_i β_j = ∂_i β_j + Γ terms requires spatial derivatives of β across a
+    # grid — which is not available here (single-point call).  We therefore
+    # set D_beta = 0 for any β; callers needing non-GN shift must supply a
+    # pre-computed gamma_dot that already incorporates the Lie-derivative term.
     D_beta = np.zeros((dim, dim))
-    beta_norm = float(np.linalg.norm(beta))
-    if beta_norm > 0.0:
-        # Symmetric part: (∂_i β_j + ∂_j β_i) / 2 — approximate ∂_i as β/dx
-        for i in range(dim):
-            for j in range(dim):
-                D_beta[i, j] = (beta[j] + beta[i]) / (2.0 * dx)
 
     K = (gamma_dot - D_beta - D_beta.T) / (2.0 * N)
     return K
@@ -352,13 +353,13 @@ def adm_vs_ricci_flow_comparison(
     """
     dim = gamma.shape[0]
 
-    # ADM: ∂_t γ_{ij} = −2N K_{ij} + Lie_β(γ)
+    # ADM: ∂_t γ_{ij} = −2N K_{ij} + L_β γ_{ij}
+    # L_β γ_{ij} = D_i β_j + D_j β_i requires spatial derivatives of β.
+    # Since this is a single-point function (no grid), we return L_β = 0.
+    # This is exact in GN gauge (β=0) and is labelled as an approximation
+    # for non-zero shift; the comparison result carries the 'conclusion' key
+    # that clearly documents this limitation.
     Lie_beta = np.zeros((dim, dim))
-    beta_norm = float(np.linalg.norm(beta))
-    if beta_norm > 0.0:
-        for i in range(dim):
-            for j in range(dim):
-                Lie_beta[i, j] = beta[j] + beta[i]
 
     gamma_dot_adm = -2.0 * N * K + Lie_beta
 

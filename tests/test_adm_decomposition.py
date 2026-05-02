@@ -95,9 +95,9 @@ class TestExtractInducedMetric:
         np.testing.assert_allclose(gamma, perturbed_4d[1:, 1:], atol=1e-12)
 
     def test_raises_for_non_lorentzian(self):
-        g_bad = np.eye(4)  # all positive (Riemannian, not Lorentzian)
+        non_lorentzian_metric = np.eye(4)  # all positive — Riemannian, not Lorentzian
         with pytest.raises(ValueError, match="g_\\{tt\\}"):
-            extract_induced_metric(g_bad)
+            extract_induced_metric(non_lorentzian_metric)
 
     def test_raises_for_wrong_dimension(self):
         g_5d = np.eye(5)
