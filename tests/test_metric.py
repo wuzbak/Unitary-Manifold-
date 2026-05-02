@@ -492,3 +492,53 @@ class TestDarkMatterGhostForce5D:
             f"Cross-block trace must correlate ≥ {_MIN_DM_CORRELATION} "
             f"with (∂φ/φ)²; got r = {corr:.4f}"
         )
+
+
+# ===========================================================================
+# TestZ2ParityClarification (Pillar A3 peer-review addition)
+# ===========================================================================
+
+from src.core.metric import z2_parity_clarification
+
+
+class TestZ2ParityClarification:
+    """Tests for z2_parity_clarification() — referee Z₂ parity resolution."""
+
+    def setup_method(self):
+        self.result = z2_parity_clarification()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_B_mu_is_z2_odd(self):
+        assert "Z₂-ODD" in self.result["B_mu_parity"]
+
+    def test_phi_is_z2_even(self):
+        assert "Z₂-EVEN" in self.result["phi_parity"]
+
+    def test_A_mu_is_distinct_from_B_mu(self):
+        """A_μ (photon) and B_μ are physically distinct."""
+        assert self.result["fields_are_distinct"] is True
+
+    def test_resolution_non_empty(self):
+        assert len(self.result["resolution"]) > 80
+
+    def test_status_resolved(self):
+        assert "RESOLVED" in self.result["status"]
+
+    def test_g_munu_is_z2_even(self):
+        assert "Z₂-EVEN" in self.result["g_munu_parity"]
+
+    def test_G_mu5_is_z2_odd(self):
+        assert "Z₂-ODD" in self.result["G_mu5_parity"]
+
+    def test_G_55_is_z2_even(self):
+        assert "Z₂-EVEN" in self.result["G_55_parity"]
+
+    def test_referee_question_present(self):
+        assert "zero mode" in self.result["referee_question"].lower()
+
+    def test_code_references_non_empty(self):
+        refs = self.result["code_references"]
+        assert len(refs) >= 3
+        assert any("metric.py" in r for r in refs)

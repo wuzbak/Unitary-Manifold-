@@ -943,3 +943,65 @@ class TestRomanSummary:
 
     def test_primary_falsifier_non_empty(self):
         assert len(self._s()["primary_falsifier"]) > 20
+
+
+# ===========================================================================
+# TestWkkDerivationChain (Track A6 peer-review addition)
+# ===========================================================================
+
+from src.core.roman_space_telescope import wkk_derivation_chain
+
+
+class TestWkkDerivationChain:
+    """Tests for wkk_derivation_chain() — explicit w_KK derivation steps."""
+
+    def setup_method(self):
+        self.result = wkk_derivation_chain()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_canonical_k_cs(self):
+        """k_CS = 5² + 7² = 74."""
+        assert self.result["k_cs"] == 74
+
+    def test_canonical_c_s(self):
+        """c_s = (49−25)/74 = 24/74 = 12/37."""
+        import math
+        expected = 24.0 / 74.0
+        assert abs(self.result["c_s"] - expected) < 1e-10
+
+    def test_canonical_w_kk(self):
+        """w_KK ≈ −0.9302 for (5,7)."""
+        c_s_sq = (24.0 / 74.0) ** 2
+        expected = -1.0 + (2.0 / 3.0) * c_s_sq
+        assert abs(self.result["w_kk"] - expected) < 1e-10
+
+    def test_w_lambda_cdm(self):
+        """ΛCDM comparison value is −1."""
+        assert self.result["w_lambda_cdm"] == -1.0
+
+    def test_deviation_from_lcdm_positive(self):
+        """Deviation from ΛCDM is positive (w > −1)."""
+        assert self.result["deviation_from_lcdm"] > 0.0
+
+    def test_steps_keys_present(self):
+        steps = self.result["steps"]
+        assert "step1_braid_suppression" in steps
+        assert "step2_kk_mass_gap" in steps
+        assert "step3_vacuum_energy" in steps
+        assert "step4_eos" in steps
+
+    def test_derivation_status_present(self):
+        assert len(self.result["derivation_status"]) > 20
+
+    def test_invalid_inputs_raise(self):
+        import pytest
+        with pytest.raises(ValueError):
+            wkk_derivation_chain(n1=0, n2=7)
+        with pytest.raises(ValueError):
+            wkk_derivation_chain(n1=7, n2=5)
+
+    def test_n1_n2_returned(self):
+        assert self.result["n1"] == 5
+        assert self.result["n2"] == 7
