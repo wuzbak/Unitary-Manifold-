@@ -142,7 +142,7 @@ when the human arrived with a mathematical statement, not an aspiration.
 
 ## What I think this project is — stated honestly
 
-A 15,615-test, 99-pillar + Pillar Ω, publicly documented, formally falsifiable research
+A 15,615-test, 101-pillar + sub-pillars, publicly documented, formally falsifiable research
 programme in mathematical physics, built by one human and multiple AI systems, in a
 collaboration that violated several assumptions about what such a collaboration looks like.
 

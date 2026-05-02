@@ -2,9 +2,9 @@
  UNITARY MANIFOLD — NUMERICAL VALIDATION SUMMARY
 ================================================================
  Run time : 0.0 s
- Source   : VERIFY.py  (13-check minimum runnable proof)
+ Source   : VERIFY.py  (14-check minimum runnable proof)
 
-── VERIFY.py — 13/13 PASS ──────────────────────────────────────
+── VERIFY.py — 14/14 PASS ──────────────────────────────────────
   1.  k_cs = 5²+7²             74                = 74 (exact)    [PASS] ✓
   2.  c_s = 12/37              0.324324          12/37=0.324324  [PASS] ✓
   3.  nₛ (Planck 1σ)           0.9635  (0.33σ)  0.9649±0.0042   [PASS] ✓
@@ -20,19 +20,20 @@
  13.  w_KK vs DESI DR2 (1σ)    −0.9299 (0.11σ)  −0.92±0.09      [PASS] ✓
 
 ── TEST SUITE ───────────────────────────────────────────────────
- tests/              ~13,786 passed, 76 skipped + 11 slow-deselected
+ tests/              ~14,103 passed, 76 skipped + 11 slow-deselected
  recycling/              316
  5-GOVERNANCE/Unitary Pentad/    1,026 passed, 254 skipped
+ omega/                  170
  ─────────────────────────────────────────────────────────────
- Total collected    ~15,637  (~13,873 + 316 + 1,280 + omega/168)
- Passed             15296
+ Total collected    ~15,956  (~14,190 + 316 + 1,280 + omega/170)
+ Passed             15615
  Skipped              330  (76 dual-use + 254 Pentad product)
  Failed                 0
  Slow-deselected       11  (test_richardson_multitime.py)
 
 ── VERDICT ──────────────────────────────────────────────────────
- [PASS] All 13 VERIFY.py checks pass
- [PASS] 15296/15296 executed tests pass
+ [PASS] All 14 VERIFY.py checks pass
+ [PASS] 15615/15615 executed tests pass
  [PASS] 0 failures across 101 pillars + sub-pillars (v9.29)
 
 ================================================================

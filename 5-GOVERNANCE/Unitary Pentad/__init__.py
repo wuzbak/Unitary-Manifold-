@@ -3,7 +3,7 @@
 """
 Unitary Pentad
 ==============
-The 5-body HILS Coupled Master Equation for the Unitary Manifold v9.11.
+The 5-body HILS Coupled Master Equation for the Unitary Manifold v9.29.
 
 ⚠ PROTECTED PRODUCT NOTICE
 The HILS Unitary Pentad is a protected AxiomZero Technologies product

@@ -3,8 +3,8 @@ UNITARY MANIFOLD — COMPLETE FORMAL ALGEBRAIC VERIFICATION + FALSIFICATION TEST
 ================================================================================
 Checks every algebraic identity in the Unitary Manifold framework using exact
 symbolic computation, then imports live from the codebase to enforce the
-canonical delta_phi ≈ 5.38 as a No-Regression constant across all 99 pillars
-+ Pillar Ω (v9.27 OMEGA EDITION).
+canonical delta_phi ≈ 5.38 as a No-Regression constant across all 101 pillars
++ sub-pillars (v9.29 OMEGA EDITION — Final).
 
 Running this script is not just checking math — it is a Falsification Test.
 If SymPy resolves all symbolic logic to True AND the live import checks pass,
@@ -2272,11 +2272,11 @@ n_fail  = len(all_failed)
 
 print(f"""
   ┌──────────────────────────────────────────────────────────────────┐
-  │  UNITARY MANIFOLD — ALGEBRA FALSIFICATION TEST  (v9.27 OMEGA)   │
+  │  UNITARY MANIFOLD — ALGEBRA FALSIFICATION TEST  (v9.29 FINAL)   │
   ├──────────────────────────────────────────────────────────────────┤
   │  §1-§10  Core symbolic algebra      ......  checked by SymPy    │
   │  §11     Canonical delta_phi        ......  FALSIFICATION TEST   │
-  │  §12     99-Pillar no-regression    ......  live codebase import │
+  │  §12     101-Pillar no-regression   ......  live codebase import │
   │  §13     Lossless 5D pipeline       ......  symbolic closure     │
   │  §14     Stability of constants     ......  Gap 4 CLOSED  ✓     │
   │  §15     Three-generation theorem   ......  Gap 1 CLOSED  ✓     │
@@ -2304,7 +2304,7 @@ if n_fail == 0:
   │  STATUS: ALL PASS — 5D PIPELINE IS LOSSLESS  ✓                  │
   │                                                                  │
   │  The canonical delta_phi = {DELTA_PHI_CANONICAL:.4f} holds across all      │
-  │  99 pillars + Pillar Ω.  c_s = 12/37 exactly.                   │
+  │  101 pillars + sub-pillars.  c_s = 12/37 exactly.               │
   │  Wolfenstein CKM, SM parameters, vacuum proof, dual sectors,     │
   │  GW Yukawa, and Omega synthesis all verified.                    │
   │  No falsification event detected.                                │

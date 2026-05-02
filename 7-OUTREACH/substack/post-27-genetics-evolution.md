@@ -300,9 +300,7 @@ and benefit equally. The HILS layer is the only reliable brake.
 
 ---
 
-*Full source code, derivations, and 15,296 automated tests:*
-*https://github.com/wuzbak/Unitary-Manifold-*
-*Genetics module: `src/genetics/` — 141 tests in `tests/test_genetics.py`*
+*Full source code, derivations, and 15,615 automated tests:*
 *Synthetic biology extension: `src/genetics/synthetic_biology.py` (Pillar 25 Extension)*
 *Biology module: `src/biology/` — see `src/biology/evolution.py`, `src/biology/life.py`*
 *Ecology module: `src/ecology/` — 70 tests in `tests/test_ecology.py`*

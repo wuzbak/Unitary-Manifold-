@@ -95,13 +95,12 @@ version by version.
 | v9.25 | Unitary Closure edition | Pillar 96: analytic {(5,6),(5,7)} uniqueness proof; 14,641 = 11⁴ total passed |
 | v9.26 | GW Yukawa edition | Pillars 97–98: Ŷ₅=1 from GW vacuum; m_e <0.5% PDG; 0 free fermion mass parameters |
 | v9.27 | **OMEGA EDITION** | Pillar Ω: `omega/omega_synthesis.py` — 5 seeds → all observables; 15,023 tests (historical) |
-| v9.29 | **101 PILLARS CLOSED** | Pillars 100 (ADM), 101 (KK Magic), n_w=5 PROVED, §XIV gaps closed; 15,615 tests |
-| v9.28 | **Gap Closure** | Sub-pillars 70-C/99-B/15-F: n_w=5 derived; k_primary derived; cold fusion falsification; **15,296 tests, REPOSITORY CLOSED** |
-| v9.29 | **Audit Complete** | Pillars 100/101 (ADM, KK Magic); §XIV gap-closures; WZW/one-loop; **15,615 tests** |
+| v9.28 | **Gap Closure** | Sub-pillars 70-C/99-B/15-F: n_w=5 derived; k_primary derived; cold fusion falsification; **15,296 tests, GAPS CLOSED** |
+| v9.29 | **101 PILLARS CLOSED** | Pillars 100 (ADM Foundation), 101 (KK Magic + Epistemics); §XIV gap-closures (su3=EXTERNAL, adm_lapse, sm_roadmap, cf_link); WZW/r_one_loop; comprehensive audit; **15,615 tests** |
 
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
-v9.28 that parameter had been derived, all original open problems had been resolved, and the
+v9.29 that parameter had been derived, all original open problems had been formally classified (open or externally resolved), and the
 test suite had grown from a few hundred checks to 15,615. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 

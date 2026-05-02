@@ -27,19 +27,20 @@ EXCLUDE_EXTENSIONS = {".pyc", ".pyo"}
 
 # ── Human-readable section labels printed inside the zip comment ─────────────
 SECTION_NOTES = """\
-Unitary Manifold — project archive (v9.27 OMEGA EDITION)
+Unitary Manifold — project archive (v9.29 OMEGA EDITION — Final)
 =========================================================
 Contents
 --------
   THEBOOKV9a (1).pdf        Full monograph (PDF)
   README.md                 Project overview and quick-start
   CITATION.cff              Machine-readable citation metadata
-  VERIFY.py                 30-second standalone proof (13 checks, all PASS)
+  VERIFY.py                 30-second standalone proof (14 checks, all PASS)
   requirements.txt          Python dependencies  (pip install -r requirements.txt)
 
   src/
-    core/                   50+ modules: KK metric, evolution, braided winding,
-                             APS topology, Yukawa, CKM/PMNS, SM audit, ... (Pillars 1–98)
+    core/                   60+ modules: KK metric, evolution, braided winding,
+                             APS topology, ADM Foundation, KK Magic/circuit complexity,
+                             Yukawa, CKM/PMNS, SM audit, ... (Pillars 1–101 + sub-pillars)
       metric.py             Unitary metric tensor (Pillar 1)
       evolution.py          Walker-Pearson integrator (Pillar 2)
     holography/
@@ -57,7 +58,7 @@ Contents
 
   Unitary Pentad/           HILS governance framework — 18 modules (1,266 tests)
 
-  tests/                    150 test files, ~13,059 passing tests (Pillars 1–99)
+  tests/                    150+ test files, ~14,103 passing tests (Pillars 1–101 + sub-pillars)
 
   embryology-manifold/      Pillar TVC: egg radius, zinc count, HOX predictions
 

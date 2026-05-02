@@ -71,9 +71,8 @@ The repository version history shows convergence toward the fixed point:
 | v9.25 | Pillar 96: Unitary Closure Theorem — analytic proof c_s(5,n₂)<r_bare for n₂≤7; 14,641=11⁴ | 14,641 tests · 96 pillars CLOSED |
 | v9.26 | Pillars 97-98: GW Yukawa vacuum (Ŷ₅=1 derived); 9 c_L values from bisection; b-τ r_bτ≈0.497 | 14,855 tests · 98 pillars |
 | v9.27 | Pillar Ω (99): Universal Mechanics Engine — all 98 pillars unified in single queryable Python engine | 15,023 tests · 99 pillars — OMEGA EDITION |
-| v9.29 | Pillars 100 (ADM Foundation), 101 (KK Magic), §XIV gap-closures, n_w=5 PROVED (Pillar 70-D), WZW validation, audit action items | 15,615 tests · 101 pillars + sub-pillars — FULLY CLOSED |
 | v9.28 | Sub-pillars 70-C, 99-B, 15-F: n_w=5 DERIVED geometrically; k_primary derived from CS integral; cold fusion falsification criteria | 15,296 tests · 99 pillars + sub-pillars — GAPS CLOSED |
-| v9.29 | Pillars 100 (ADM), 101 (KK Magic/Epistemics); §XIV gap-closures; WZW/one-loop/audit action items | 15,615 tests · 101 pillars + sub-pillars — CLOSED |
+| v9.29 | Pillars 100 (ADM Foundation), 101 (KK Magic + Epistemics), §XIV gap-closures, n_w=5 PROVED (Pillar 70-D), WZW validation, r_one_loop, comprehensive audit | **15,615 tests · 101 pillars + sub-pillars — FULLY CLOSED** |
 | Pentad v1 | `unitary_pentad.py`, `five_seven_architecture.py`, `pentad_scenarios.py` | HILS 5-body system seeded |
 | Pentad v2 | `collective_braid.py`, `seed_protocol.py`, `lesson_plan.py`, Trust Hysteresis | Stability floor + trust dynamics |
 | Pentad v3 | `consciousness_autopilot.py`, `consciousness_constant.py` (Ξ_c = 35/74) | Autopilot Sentinel + consciousness constant |
