@@ -5,9 +5,17 @@
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![15096 Tests passing](https://img.shields.io/badge/tests-15096%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![99 Pillars — CLOSED](https://img.shields.io/badge/pillars-99%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
+[![99 pillars | see FALLIBILITY.md](https://img.shields.io/badge/pillars-99%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v9.28-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
+
+> ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
+> SU(3)×SU(2) is not produced from 5D geometry.  Approximately 15/28 SM
+> parameters remain free or require conjecture.  n_w = 5 final uniqueness
+> retains one observationally-supported step that has not been closed as a
+> pure theorem.  See [`FALLIBILITY.md`](FALLIBILITY.md) and
+> [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) for the
+> precise epistemic record.
 
 ---
 
@@ -101,7 +109,7 @@ Start with the layer that matches your purpose:
 > | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.27: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
-> | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 13 checks — ns, r, birefringence, topology uniqueness, FTUM, φ₀ closure, n_w selection, APS η̄, completeness theorem (k_CS=74), dark energy w_KK — all PASS in < 1 s; run `python VERIFY.py` |
+> | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 14 checks — ns, r, birefringence [(5,7) primary sector], topology uniqueness, FTUM, φ₀ closure, n_w selection, APS η̄, completeness theorem (k_CS=74), dark energy w_KK, **φ₀ FTUM bridge (Pillar 56-B)** — all PASS in < 1 s; run `python VERIFY.py` |
 > | **[.github/workflows/tests.yml](.github/workflows/tests.yml)** | CI pipeline — 6 parallel jobs (fast, slow, claims, recycling, Pentad, algebra-proof); runs on every push and PR |
 
 ---
@@ -611,7 +619,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 64 | Photon Epoch Cosmology | `src/core/photon_epoch.py` | 141 |
 | 65 | Quark-Gluon Plasma Epoch (ATLAS Pb-Pb anchor) | `src/core/quark_gluon_epoch.py` | 94 |
 | 66 | Nancy Grace Roman Space Telescope Falsification | `src/core/roman_space_telescope.py` | 187 |
-| 67 | Anomaly-Cancellation n_w Uniqueness — Z₂+N_gen=3 → n_w=5 saddle | `src/core/nw_anomaly_selection.py` | 156 |
+| 67 | Anomaly-Cancellation n_w Uniqueness — Z₂+N_gen=3 → n_w=5 saddle. See [`1-THEORY/NW_UNIQUENESS_STATUS.md`](1-THEORY/NW_UNIQUENESS_STATUS.md) for the consolidated argument. | `src/core/nw_anomaly_selection.py` | 156 |
 | 68 | Goldberger-Wise Radion Stabilization — V_GW potential, m_φ~M_KK | `src/core/goldberger_wise.py` | 146 |
 | 69 | Stochastic GW Background from KK Compactification — LISA/NANOGrav | `src/core/kk_gw_background.py` | 140 |
 | 70 | APS η-Invariant n_w=5 Uniqueness — η̄(5)=½, η̄(7)=0 | `src/core/aps_eta_invariant.py` | 158 |

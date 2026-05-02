@@ -1,10 +1,13 @@
 # Mark Your Calendar: 2032
 
 *Post 3 of the Unitary Manifold series.*
-*Claim: the LiteBIRD satellite will measure cosmic birefringence to a precision that
-either confirms or rules out this framework. The predicted rotation angle is β ≈
-0.273° or β ≈ 0.331°. Any measurement outside [0.22°, 0.38°], or between 0.29° and
-0.31°, would falsify the framework outright.*
+
+> **Epistemic category:** P (Physics Core) — The LiteBIRD falsification test.  
+> **Physics accuracy:** Matches `3-FALSIFICATION/prediction.md`. See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md).  
+> **Primary claim:** Primary prediction β ≈ 0.331° [(5,7) canonical sector]; secondary β ≈ 0.273° [(5,6) sector].  
+> **Falsification:** Any β outside [0.22°, 0.38°] OR landing in the gap [0.29°–0.31°] falsifies the braided-winding mechanism.
+
+*Claim: the LiteBIRD satellite will measure cosmic birefringence to a precision that either confirms or rules out this framework. The **primary** predicted rotation angle is β ≈ 0.331° [(5,7) sector]; the secondary prediction is β ≈ 0.273° [(5,6) sector]. Any measurement outside [0.22°, 0.38°], or between 0.29° and 0.31° (the predicted gap), would falsify the framework outright.*
 
 ---
 

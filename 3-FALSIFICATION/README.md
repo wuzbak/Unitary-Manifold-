@@ -1,5 +1,12 @@
 # 3-FALSIFICATION — Adversarial and Observational Falsification
 
+> ⚠️ **AI peer review disclosure:** All internal reviews in this directory were
+> conducted by GitHub Copilot (AI). While thorough and identifying real weaknesses,
+> these do not constitute independent human expert review. The scientific community
+> does not yet regard AI-conducted peer review as equivalent to independent human
+> expert review. Human expert preprint review in mathematical physics, inflationary
+> cosmology, and KK phenomenology is recommended before journal submission.
+
 This folder contains the adversarial review, observational predictions,
 and formal conditions under which the Unitary Manifold framework would
 be falsified.

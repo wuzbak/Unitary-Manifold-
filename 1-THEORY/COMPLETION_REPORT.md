@@ -19,7 +19,7 @@ are open, they are said to be open. Where there is an inconsistency, it is named
 
 ---
 
-## Part I — The Status Table (Complete, v9.24)
+## Part I — The Status Table (Complete, v9.28)
 
 ### Core Physics — Proved or Derived
 
@@ -34,6 +34,7 @@ are open, they are said to be open. Where there is an inconsistency, it is named
 | Vacuum selection — n_w = 5 | ✅ **ALGEBRAICALLY PROVED** | Pure 5D BC argument (Pillar 89): G_{μ5} Z₂-parity → Dirichlet BC → APS η̄=½ → n_w=5; no M-theory, no observational data. Plus three independent arguments (Pillar 84). |
 | k_CS = 74 | ✅ **ALGEBRAICALLY DERIVED** | k_eff = n₁² + n₂² for braid (5,7): algebraic identity, no free parameter (Pillar 58) |
 | φ₀ self-consistency (closed) | ✅ **CLOSED** | c_s-corrected slow-roll: three candidate φ₀ values collapse to single fixed point (Pillar 56) |
+| φ₀_bare = 1 explicit bridge | ✅ **CLOSED** (Pillar 56-B) | FTUM S* → R_compact → φ₀_bare = 1 chain explicit: 4-step derivation in `src/core/phi0_ftum_bridge.py`; 49 tests |
 | nₛ ≈ 0.9635 | ✅ **DERIVED** | From n_w=5, FTUM φ₀, slow-roll formula; Planck 2018 < 1σ |
 | r_braided ≈ 0.0315 | ✅ **DERIVED** | Braided (5,7) state: r × c_s where c_s = 12/37; satisfies BICEP/Keck r < 0.036 |
 | β ≈ 0.331° cosmic birefringence | ✅ **DERIVED** | g_{aγγ} = k_CS α/(2π²r_c) with k_CS = 74 |

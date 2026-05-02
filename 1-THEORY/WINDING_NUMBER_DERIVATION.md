@@ -21,6 +21,11 @@ r_braided = r_bare × c_s               (tensor-to-scalar after braiding)
 β       = g_aγγ / (k_cs)              (Chern-Simons birefringence angle)
 ```
 
+The value φ₀_bare = 1 (Planck units) that enters this chain is derived explicitly
+in `src/core/phi0_ftum_bridge.py::ftum_to_phi0_derivation()` (Pillar 56-B):
+the FTUM fixed-point entropy S* → compact radius R → φ₀_bare = R/ℓ_Pl → φ₀_eff.
+See also `1-THEORY/DERIVATION_STATUS.md` Part VI.
+
 The value n_w = 5 was stated in early versions as "observationally motivated."
 The question is whether it can be derived — forced by internal consistency rather
 than chosen to match data.

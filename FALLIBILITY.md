@@ -249,6 +249,14 @@ nₛ = 1 − 36(1+c_s²)/φ₀²: the (1+c_s²) factors cancel exactly, giving
 φ₀_FTUM = φ₀_canonical_braided = φ₀_from_nₛ_braided to machine precision.
 Verified by `braided_closure_audit()` (170 tests, 0 failed).
 
+**Pillar 56-B addition (May 2026) — explicit FTUM → φ₀_bare = 1 bridge:** The
+identification S* → φ₀_bare = 1 (which underlies the entire nₛ/r/β chain) is
+now made explicit in `src/core/phi0_ftum_bridge.py::ftum_to_phi0_derivation()`.
+Steps 1–3 (FTUM S* → R_compact → φ₀_bare_raw) are derived; Step 4 (φ₀_bare = 1)
+is the Planck-unit normalization convention.  The four-step chain is self-consistent
+and verifiable; 49 tests pass in `tests/test_phi0_bridge.py`.  This closes the
+journal-review gap identified in the 2026-05-02 cross-disciplinary review §II item 4.
+
 **Admission 5 — r_braided = r_bare × c_s: NOW DERIVED (Pillar 97-B).**
 The suppression of the tensor-to-scalar ratio by the braided sound speed,
 `r_braided = r_bare × c_s`, is now **derived** from the 5D CS action via the
@@ -279,6 +287,50 @@ This loop caveat is sub-leading and does not alter the DERIVED status.
   exceeded** the BICEP/Keck 2022 95% CL bound r < 0.036.  This tension
   has been **resolved** by the braided (5,7) state: r_braided ≈ 0.0315,
   satisfying the bound with nₛ unchanged.  See `src/core/braided_winding.py`.
+
+---
+
+## III (additional). Open Gap: ADM Time Parameterization
+
+**Gemini Issue 4 note (from `evolution.py` docstring) — documented explicitly here.**
+
+The field evolution in `evolution.py` uses a **Ricci-flow-like parameter** as
+the evolution variable, not coordinate time x⁰ (the ADM time in a 3+1
+decomposition).  This is a known gap for the framework's central claim that the
+"arrow of time is geometric."
+
+**Current state:**
+
+1. *What is implemented:* `evolution.py` evolves the field state along a
+   Ricci-flow-like parameter τ that drives the metric toward the FTUM attractor.
+   The parameter τ is not identified with coordinate time x⁰.
+
+2. *Partial correction (Pillar 41, `src/core/delay_field.py`):* The delay field
+   module provides a correction factor Ω(φ) = 1/φ connecting the flow parameter
+   to the proper-time lapse.  This is a partial bridge, not a full ADM 3+1
+   decomposition.
+
+3. *What a full ADM 3+1 decomposition would require:*
+   - Write the 5D metric in 3+1+1 form: ds² = −N²dτ² + γ_{ij}(dx^i + N^i dτ)² + φ² dy²
+   - Derive the Hamiltonian and momentum constraints
+   - Establish that the flow parameter τ coincides with coordinate time x⁰ up to
+     a lapse function N that is determined dynamically (not fixed to 1)
+   - Verify that the constraint equations are preserved under evolution
+
+4. *Why the central thesis is not invalidated but is not complete:*
+   The identification of the 5D B_μ field with irreversibility is kinematic (it
+   follows from the antisymmetric structure of H_μν) and does not require a specific
+   time parameterization.  The ADM gap affects the *quantitative* rate of entropy
+   production (which depends on the lapse), not the *qualitative* directionality of
+   the arrow.  Pillar 41 provides a first-order correction factor Ω = 1/φ that
+   establishes the correct direction of the lapse correction.
+
+**Epistemic status:** This is a REAL GAP for the "arrow of time is geometric
+necessity" claim at the level of a rigorous field-equation proof.  The qualitative
+claim survives; the quantitative rate calculation requires the full ADM treatment.
+
+**See also:** `DERIVATION_STATUS.md` Part I (Full ADM 3+1 decomposition row) and
+`src/core/delay_field.py` (Pillar 41 partial correction).
 
 ---
 

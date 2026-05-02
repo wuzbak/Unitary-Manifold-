@@ -1,8 +1,13 @@
 # The Arrow of Time Is a Shadow
 
 *Post 1 of the Unitary Manifold series.*
-*Claim: the irreversibility of time is a geometric necessity, not a statistical
-accident. This claim would be falsified if LiteBIRD finds no cosmic birefringence.*
+
+> **Epistemic category:** P (Physics Core) — This post explains the core UM claim about time's arrow.  
+> **Physics accuracy:** Matches `DERIVATION_STATUS.md` Part I. See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md).  
+> **Primary claim:** The irreversibility of time is a geometric consequence of the 5D metric ansatz, given that ansatz.  
+> **Falsification:** LiteBIRD (β ≈ 0.331° primary prediction); any β outside [0.22°, 0.38°] falsifies the braided-winding mechanism.
+
+*Claim: the irreversibility of time is a geometric necessity — given the 5D Kaluza-Klein metric ansatz as postulated — not a statistical accident. This claim would be falsified if LiteBIRD finds no cosmic birefringence.*
 
 ---
 
