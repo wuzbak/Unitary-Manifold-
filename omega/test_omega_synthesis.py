@@ -31,6 +31,7 @@ __provenance__ = {
     "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
 }
 
+import dataclasses
 import math
 from fractions import Fraction
 
@@ -906,8 +907,6 @@ class TestOmegaReport:
 
     def test_report_is_frozen(self, report):
         """OmegaReport is frozen — fields cannot be reassigned after construction."""
-        import dataclasses
-        import pytest
         with pytest.raises((dataclasses.FrozenInstanceError, AttributeError)):
             report.version = "tampered"  # type: ignore[misc]
 

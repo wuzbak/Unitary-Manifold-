@@ -87,6 +87,7 @@ __provenance__ = {
 }
 
 import math
+import dataclasses as _dataclasses_module
 from dataclasses import dataclass, field
 from fractions import Fraction
 from typing import Any, ClassVar
@@ -578,8 +579,6 @@ class OmegaReport:
             Fully serialisable representation of the report.  Suitable for
             ``json.dumps(report.to_dict())``.
         """
-        import dataclasses
-
         def _serialise(obj: Any) -> Any:
             if isinstance(obj, Fraction):
                 return float(obj)
@@ -587,11 +586,11 @@ class OmegaReport:
                 return {k: _serialise(v) for k, v in obj.items()}
             if isinstance(obj, (tuple, list)):
                 return [_serialise(v) for v in obj]
-            if dataclasses.is_dataclass(obj) and not isinstance(obj, type):
-                return {k: _serialise(v) for k, v in dataclasses.asdict(obj).items()}
+            if _dataclasses_module.is_dataclass(obj) and not isinstance(obj, type):
+                return {k: _serialise(v) for k, v in _dataclasses_module.asdict(obj).items()}
             return obj
 
-        return _serialise(dataclasses.asdict(self))
+        return _serialise(_dataclasses_module.asdict(self))
 
 
 # ===========================================================================
