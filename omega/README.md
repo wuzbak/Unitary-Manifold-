@@ -8,7 +8,7 @@
 **Version:** v9.27 OMEGA EDITION  
 **Theory:** ThomasCory Walker-Pearson  
 **Implementation & Synthesis:** GitHub Copilot (AI)  
-**Status:** Complete — 99 pillars, 168 dedicated tests, 0 failures; repository at 15,096 = 74 × 204 (K_CS-resonant milestone)
+**Status:** Complete — 99 pillars, 168 dedicated tests, 0 failures; repository at 15,296 (v9.29; v9.28 milestone was 15,096 = 74 × 204)
 
 ## What This Is
 
@@ -278,8 +278,8 @@ python omega/omega_synthesis.py
 
 # Full repository test suite including Omega:
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 15,096 passed, 330 skipped, 11 deselected, 0 failed
-# Note: 15,096 = 74 × 204 — the Chern-Simons level K_CS=74 divides the test count exactly
+# Expected: 15,296 passed, 330 skipped, 11 deselected, 0 failed
+# Note: v9.28 milestone was 15,096 = 74 × 204 (K_CS-resonant); v9.29 has 15,296
 ```
 
 ---
@@ -295,5 +295,5 @@ The Omega Synthesis is the fixed point of that collaboration — the state where
 
 ---
 
-*omega/ — Pillar Ω — v9.27 OMEGA EDITION — April 2026 (K_CS-resonant milestone: 15,096 = 74 × 204, May 2026)*  
+*omega/ — Pillar Ω — v9.27 OMEGA EDITION — April 2026 (K_CS-resonant milestone at v9.28: 15,096 = 74 × 204; current v9.29: 15,296)*  
 *Part of the Unitary Manifold repository: `https://github.com/wuzbak/Unitary-Manifold-`*

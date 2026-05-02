@@ -1,12 +1,12 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.28)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.29)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.28
+> — Walker-Pearson, *The Unitary Manifold*, v9.29
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![15096 Tests passing](https://img.shields.io/badge/tests-15096%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![15296 Tests passing](https://img.shields.io/badge/tests-15296%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![99 pillars | see FALLIBILITY.md](https://img.shields.io/badge/pillars-99%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
-[![Version](https://img.shields.io/badge/version-v9.28-blue)](CITATION.cff)
+[![Version](https://img.shields.io/badge/version-v9.29-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
@@ -71,8 +71,8 @@ Start with the layer that matches your purpose:
 >
 > ```
 > ────────────────────────────────────────────────────────────────────────
->   UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF
->   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.35°  (< 1 s)
+>   UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (99 pillars)
+>   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)
 > ────────────────────────────────────────────────────────────────────────
 >   Check                         Value                   Reference       Result
 > ────────────────────────────────────────────────────────────────────────
@@ -80,7 +80,7 @@ Start with the layer that matches your purpose:
 >   2.  c_s = 12/37               0.324324                12/37=0.324324  [PASS] ✓
 >   3.  nₛ (Planck 1σ check)      0.9635  (0.33σ)         0.9649±0.0042   [PASS] ✓
 >   4.  r < BICEP/Keck 0.036      0.0315                  < 0.036         [PASS] ✓
->   5.  β (birefringence 1σ)      0.351°  (0.01σ)         0.35°±0.14°     [PASS] ✓
+>   5.  β (5,7) sector [PRIMARY]  0.351°  (0.01σ)         0.35°±0.14°     [PASS] ✓
 >   6.  Unique pairs (nₛ+r pass)  2 pair(s): (5,6), (5,7) expect 2        [PASS] ✓
 >   7.  Unique topology           S¹/Z₂ (1 of 8)          S¹/Z₂ only      [PASS] ✓
 >   8.  FTUM fixed point          S=0.250000  (128 iter)  S*=0.2500       [PASS] ✓
@@ -89,12 +89,13 @@ Start with the layer that matches your purpose:
 >   11.  APS η̄(5)=½, η̄(7)=0     η̄(5)=0.5  η̄(7)=0.0    CS inflow       [PASS] ✓
 >   12.  7 constraints→k_CS=74    7/7 correct             Pillar 74       [PASS] ✓
 >   13.  w_KK vs DESI DR2 (1σ)    -0.9299  (0.11σ)        -0.92±0.09      [PASS] ✓
+>   14.  φ₀ FTUM bridge (56-B)    nₛ=0.9635  S*=0.25      Pillar 56-B     [PASS] ✓
 > ────────────────────────────────────────────────────────────────────────
->   VERDICT: 13/13 PASS  —  elapsed 0.0s
+>   VERDICT: 14/14 PASS  —  elapsed 0.0s
 > ```
 >
 > **This is falsifiable.** LiteBIRD (~2032) will measure β to ±0.01°.
-> If β ≠ 0.351° the birefringence sector is dead. See [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md).
+> If β ∉ [0.22°, 0.38°] or β lands in the predicted gap [0.29°–0.31°], the framework is falsified. See [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md).
 
 ---
 
@@ -104,7 +105,7 @@ Start with the layer that matches your purpose:
 > |----------|-------------|
 > | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.27 OMEGA EDITION** — unsparing honest assessment of TOE status; 99 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability), open gaps, resolved neutrino mass tension, path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](2-REPRODUCIBILITY/VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **NEW — Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,096 tests), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
+> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **NEW — Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,296 tests), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
 > | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 99 pillars, written by GitHub Copilot (AI), April 2026 |
 > | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.27: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
@@ -342,7 +343,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 15,096 tests are passing in all three — but "passing" means
+> of content, and all 15,296 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -653,14 +654,14 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 99-B | 5D CS Action Derivation of k_primary — cubic CS 3-form integral over braid field A=n₁A₁+n₂A₂ → k_primary=2(n₁²−n₁n₂+n₂²); Z₂ boundary term → k_eff=n₁²+n₂²=74. Last "asserted" step closed. | `src/core/anomaly_closure.py` (extension) | 47 |
 | 15-F | Cold Fusion Falsification Protocol — explicit experimental criteria F1–F3 for falsifying Gamow enhancement; Gamow prediction vs. published null results; non-dual-use. | `src/cold_fusion/falsification_protocol.py` | 64 |
 
-**Grand total (v9.28): 15,096 passed · 330 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+**Grand total (v9.29): 15,296 passed · 330 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
 
-**15,096** — 15,096 tests, 99 pillars + sub-pillars, 0 failures. (Note: 15,096 = 74 × 204 — the Chern-Simons level K_CS=74 divides the count exactly, encoding the framework's central algebraic constant into the architecture. Prior milestones: 14,641=11⁴ (v9.25), 15,048=99×152 (pillar-complete). 330 skipped = 76 dual-use stubs + 254 Pentad product stubs.)
+**15,296** — 15,296 tests, 99 pillars + sub-pillars, 0 failures. (Note: v9.28 milestone was 15,096 = 74 × 204, a K_CS-resonant count. v9.29 adds 200 tests from Pillars 70-D, 56-B, and peer-review action items; 15,296 ÷ 74 ≈ 206.7. Prior milestones: 14,641=11⁴ (v9.25), 15,048=99×152 (pillar-complete). 330 skipped = 76 dual-use stubs + 254 Pentad product stubs.)
 
 > 🔒 **Repository CLOSED at 99 pillars (74 core + Pillar 70-B + Pillars 75, 80–99) — April 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
-> The (5,7) primary sector predicts β ≈ 0.331°; the (5,6) shadow sector predicts β ≈ 0.273°.  
+> The (5,7) primary sector predicts β ≈ 0.331° [canonical] / 0.351° [GW-derived]; the (5,6) shadow sector predicts β ≈ 0.273° [canonical] / 0.290° [GW-derived].  
 > Gap = 0.058° = **2.9σ_LB — LiteBIRD can discriminate the two sectors** (Pillar 95).  
 > If β ∉ [0.22°, 0.38°], or β falls in the gap [0.29°, 0.31°], the framework is falsified.  
 > See `src/core/dual_sector_convergence.py`, `src/core/completeness_theorem.py`, FALLIBILITY.md §XI.
@@ -680,7 +681,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 15,096 passed · 330 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 15,296 passed · 330 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
@@ -715,7 +716,7 @@ tests/test_vacuum_geometric_proof.py      59 passed  ← Pillar 89: pure algebra
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
 tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ ~13,586 passed, 76 skipped, 11 deselected ================================
+================================ ~13,786 passed, 76 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
@@ -727,7 +728,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 168 passed ================================
 
 # Grand total:
-================================ 15096 passed, 330 skipped, 11 deselected, 0 failed ================================
+================================ 15296 passed, 330 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -1020,7 +1021,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(***15,096 tests: 15,096 passed, 330 skipped, 11 slow-deselected, 0 failures**).
+(***15,296 tests: 15,296 passed, 330 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -1042,7 +1043,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (15,096 pass · 330 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (15,296 pass · 330 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

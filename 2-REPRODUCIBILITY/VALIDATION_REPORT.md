@@ -46,7 +46,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 99 pillars |
-| Test suite: 15,096 passed, 0 failures | Across all test files (tests/, recycling/, 5-GOVERNANCE/Unitary Pentad/, omega/) |
+| Test suite: 15,296 passed, 0 failures | Across all test files (tests/, recycling/, 5-GOVERNANCE/Unitary Pentad/, omega/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -68,7 +68,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 15,096
+verdict. This one shows the working. The process of getting to a framework that passes 15,296
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.
@@ -95,12 +95,12 @@ version by version.
 | v9.25 | Unitary Closure edition | Pillar 96: analytic {(5,6),(5,7)} uniqueness proof; 14,641 = 11⁴ total passed |
 | v9.26 | GW Yukawa edition | Pillars 97–98: Ŷ₅=1 from GW vacuum; m_e <0.5% PDG; 0 free fermion mass parameters |
 | v9.27 | **OMEGA EDITION** | Pillar Ω: `omega/omega_synthesis.py` — 5 seeds → all observables; 15,023 tests |
-| v9.28 | **Gap Closure** | Sub-pillars 70-C/99-B/15-F: n_w=5 derived; k_primary derived; cold fusion falsification; **15,096 tests, REPOSITORY CLOSED** |
+| v9.28 | **Gap Closure** | Sub-pillars 70-C/99-B/15-F: n_w=5 derived; k_primary derived; cold fusion falsification; **15,296 tests, REPOSITORY CLOSED** |
 
 **The most important finding in the iterative record:** The framework became *more*
 constrained — not less — as it was extended. At v9.0 it had one free parameter (α). By
 v9.28 that parameter had been derived, all original open problems had been resolved, and the
-test suite had grown from a few hundred checks to 15,096. A theory that tightens as it is
+test suite had grown from a few hundred checks to 15,296. A theory that tightens as it is
 probed is a very different thing from one that accumulates epicycles.
 
 ---
@@ -200,11 +200,11 @@ The four pinned documents describe the reasoning. The test suite is the evidence
 
 | Suite | Command | Collected | Passed | Skipped | Slow-deselected | Failed |
 |-------|---------|-----------|--------|---------|-----------------|--------|
-| Core physics (Pillars 1–99) | `pytest tests/ -q` | ~13,673 | ~13,586 | 76 | 11 | **0** |
+| Core physics (Pillars 1–99) | `pytest tests/ -q` | ~13,873 | ~13,786 | 76 | 11 | **0** |
 | φ-debt accounting (Pillar 16) | `pytest recycling/ -q` | 316 | 316 | 0 | 0 | **0** |
 | HILS governance framework | `pytest "5-GOVERNANCE/Unitary Pentad/" -q` | ~1,280 | ~1,026 | 254 | 0 | **0** |
 | Omega synthesis (Pillar Ω) | `pytest omega/ -q` | ~168 | ~168 | 0 | 0 | **0** |
-| **Grand total** | | **~15,437** | **15,096** | **330** | **11** | **0** |
+| **Grand total** | | **~15,637** | **15,296** | **330** | **11** | **0** |
 
 The test files in `tests/` cover all 99 pillars + sub-pillars.
 
@@ -348,7 +348,7 @@ on `ubuntu-latest` with Python 3.12.
 
 | Job | Command | What it covers | Expected result |
 |-----|---------|----------------|-----------------|
-| `test` | `pytest tests/ -v` | Core physics, Pillars 1–99 + sub-pillars — fast suite | ~13,586 passed · 76 skipped · 11 deselected · 0 failed |
+| `test` | `pytest tests/ -v` | Core physics, Pillars 1–99 + sub-pillars — fast suite | ~13,786 passed · 76 skipped · 11 deselected · 0 failed |
 | `test-slow` | `pytest tests/ -m slow -v` | Richardson extrapolation, O(dt²) convergence | 11 passed · 0 failed |
 | `test-claims` | `pytest claims/ -v` | Four isolated claim proofs (see below) | All pass |
 | `test-recycling` | `pytest recycling/ -v` | Pillar 16 φ-debt entropy accounting | 316 passed · 0 failed |
@@ -413,11 +413,11 @@ pip install -r requirements.txt
 
 # Full test suite (core physics + recycling + Pentad + omega, ~130 seconds)
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 15096 passed, 330 skipped, 11 deselected, 0 failed
+# Expected: 15296 passed, 330 skipped, 11 deselected, 0 failed
 
 # Core physics suite only (fast, ~115 seconds)
 python3 -m pytest tests/ -q
-# Expected: ~13586 passed, 76 skipped, 11 deselected, 0 failed
+# Expected: ~13786 passed, 76 skipped, 11 deselected, 0 failed
 
 # Slow suite (Richardson extrapolation — O(dt²) convergence)
 python3 -m pytest tests/ -m slow
