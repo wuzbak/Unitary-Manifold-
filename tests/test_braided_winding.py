@@ -1321,7 +1321,7 @@ class TestWZWNonperturbativeValidation:
 
     # ---- Step 2: mode-equation numerical validation ----
 
-    def test_mode_eq_rel_err_below_1e6(self):
+    def test_mode_eq_rel_err_below_1em6(self):
         """Numerical ODE solution agrees with analytic Hankel solution < 1e-6."""
         assert self.result["mode_eq_rel_err"] < 1e-6
 

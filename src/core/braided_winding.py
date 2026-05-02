@@ -1449,22 +1449,25 @@ def wzw_nonperturbative_validation(
 
     # ---- Step 2: Numerical Mukhanov-Sasaki integration -----------------------
     # Equation (η < 0): v'' + (c_s²k² − 2/η²) v = 0  with k = 1
-    # Exact solution: v(η) = (1/√(2c_s)) (1 + i/(c_s|η|)) exp(+i c_s|η|)
-    # (Note: η < 0, so |η| = −η and exp(+i c_s|η|) = exp(−i c_s η).)
+    # Exact solution: v(η) = (1/√(2c_s)) (1 + i/(c_s k|η|)) exp(+i φ)
+    # where φ = c_s k |η| = c_s k (−η) > 0  (since η < 0, |η| = −η).
+    # Equivalently: exp(+i φ) = exp(+i c_s k|η|) = exp(−i c_s k η).
     k_mode = 1.0
     cs = c_s_exact
     eta_i = -100.0 / k_mode   # deep sub-horizon: c_s k |η_i| = 100 >> 1
     eta_f = -0.01 / k_mode    # superhorizon: c_s k |η_f| = 0.01 c_s << 1
 
     # Bunch-Davies IC from exact solution at η = η_i
-    # v(η) = norm × exp(+i φ) × (1 + i/φ),  φ = c_s k |η| = c_s k (−η)
+    # v(η) = norm × exp(+i φ) × (1 + i/φ),
+    #   where φ = c_s k |η| = c_s k (−η)  [positive for η < 0]
     norm = 1.0 / np.sqrt(2.0 * cs * k_mode)
     phi_i = cs * k_mode * abs(eta_i)          # = c_s × 100 ≈ 32.4
     exp_i = np.exp(1j * phi_i)
     v_i_cplx = norm * exp_i * (1.0 + 1j / phi_i)
     vr_i, vi_i = float(v_i_cplx.real), float(v_i_cplx.imag)
 
-    # v'(η) = dv/dη.  With φ = −c_s k η: dφ/dη = −c_s k.
+    # v'(η) = dv/dη.
+    # φ = c_s k |η| = c_s k (−η), so dφ/dη = −c_s k.
     # dv/dφ = norm × [i exp(iφ)(1+i/φ) + exp(iφ)(−i/φ²)]
     #       = norm × exp(iφ) × [i + i²/φ − i/φ²]
     #       = norm × exp(iφ) × [i − 1/φ − i/φ²]
