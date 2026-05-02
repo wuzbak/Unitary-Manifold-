@@ -34,7 +34,7 @@ python ALGEBRA_PROOF.py
 | `SIMULATION_RUNS.md` | Record of all major simulation runs: parameters, hardware, output checksums |
 | `VALIDATION_REPORT.md` | External validation attempts and results |
 | `CONSISTENCY_LOG.md` | Cross-check log: every equation verified against at least two independent code paths |
-| `SNAPSHOT_MANIFEST.md` | File-by-file hash manifest for the v9.27 OMEGA EDITION snapshot |
+| `SNAPSHOT_MANIFEST.md` | File-by-file hash manifest for the v9.29 snapshot |
 
 The test suite itself lives at `tests/` (repo root) — it is not moved because
 pytest must discover it from the root directory.

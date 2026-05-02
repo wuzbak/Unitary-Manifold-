@@ -150,6 +150,6 @@ print(report.summary())
 
 ---
 
-*Semantic Bridge — v9.27 OMEGA EDITION — April 2026*  
+*Semantic Bridge — v9.29 — May 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*

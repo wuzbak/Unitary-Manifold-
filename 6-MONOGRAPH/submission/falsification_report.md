@@ -356,7 +356,7 @@ correct scientific posture.
 
 ---
 
-## Current Status — v9.27 OMEGA EDITION (April 2026)
+## Current Status — v9.29 (May 2026)
 
 **Internal proofing: complete.**
 

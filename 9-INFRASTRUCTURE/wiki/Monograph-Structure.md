@@ -204,4 +204,4 @@ Chapter 2 is also available as standalone Markdown in [`manuscript/ch02_mathemat
 
 ---
 
-*Monograph version: v9.27 OMEGA EDITION — ThomasCory Walker-Pearson (2026)*
+*Monograph version: v9.29 — ThomasCory Walker-Pearson (2026)*

@@ -139,7 +139,7 @@ the frame that generates it is recognized as incomplete.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Metric and KK reduction: `src/core/metric.py`*
 *Quantum theorems: `QUANTUM_THEOREMS.md` (Theorems I–III)*

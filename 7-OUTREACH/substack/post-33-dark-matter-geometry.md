@@ -254,7 +254,7 @@ a different direction — into the vacuum itself.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Dark matter geometry (Pillar 8): `src/core/dark_matter_geometry.py`*
 *B_μ field in the metric: `src/core/metric.py`*

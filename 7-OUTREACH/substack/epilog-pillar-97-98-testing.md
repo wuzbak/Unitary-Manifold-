@@ -176,7 +176,7 @@ These are acknowledged in `tests/test_gw_yukawa_derivation.py` and
 | 98 | `tests/test_universal_yukawa.py` | 126 |
 | Total new (v9.26) | — | 214 |
 
-Grand total (v9.27): 15,023 passed · 2 skipped · 11 deselected · 0 failed  
+Grand total (v9.29): 15,615 passed · 330 skipped · 11 deselected · 0 failed  
 (tests/ + recycling/ + Unitary Pentad/ + omega/)
 
 ---

@@ -716,7 +716,7 @@ The names change. The analysis does not. A NASA systems engineer and a 14-year-o
 - **The complete engineering application:** `systems-engineering/` folder — seven files covering the field-variable mapping, failure analysis, upgrade roadmap, firmware fixes, and future architecture.
 - **The mathematics:** `UNIFICATION_PROOF.md` and `src/core/` — the field equations and their derivations.
 - **The Universal Mechanics Engine:** `omega/omega_synthesis.py` — `UniversalEngine.compute_all()` produces all framework predictions in one call.
-- **15,072 automated tests:** Run with `python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q`
+- **15,615 automated tests:** Run with `python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q`
 - **Full repository:** https://github.com/wuzbak/Unitary-Manifold-
 - **Cite as:** Walker-Pearson, T. (2026). *The Unitary Manifold v9.27.* Zenodo. https://doi.org/10.5281/zenodo.19584531
 
@@ -744,7 +744,7 @@ The names change. The analysis does not. A NASA systems engineer and a 14-year-o
 | 2021 | Biden EO 14028 | SBOM mandated for federal software supply chain |
 | 2023 | FDA cybersecurity guidance | SBOM mandated for medical device premarket submission |
 | 2024 | EU Cyber Resilience Act | SBOM mandated for EU market products |
-| 2026 | Unitary Manifold v9.27 | 99 pillars, 15,072 tests; engineering framework synthesized |
+| 2026 | Unitary Manifold v9.27 | 101 pillars + sub-pillars, 15,615 tests; engineering framework synthesized |
 | ~2032 | LiteBIRD launch | Primary falsifier of the Unitary Manifold's birefringence prediction |
 
 ---

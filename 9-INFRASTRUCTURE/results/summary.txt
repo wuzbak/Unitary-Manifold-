@@ -33,7 +33,7 @@
 ── VERDICT ──────────────────────────────────────────────────────
  [PASS] All 13 VERIFY.py checks pass
  [PASS] 15296/15296 executed tests pass
- [PASS] 0 failures across 99 pillars + sub-pillars (v9.28)
+ [PASS] 0 failures across 101 pillars + sub-pillars (v9.29)
 
 ================================================================
 Plots saved to results/

@@ -2,7 +2,7 @@
 
 **Module:** `omega.omega_synthesis`  
 **Class:** `UniversalEngine`  
-**Version:** v9.27 OMEGA EDITION
+**Version:** v9.29
 
 ---
 
@@ -298,5 +298,5 @@ floor(n) = min(1.0, c_s + n × c_s / 7)
 
 ---
 
-*CALCULATOR.md — omega/ — v9.27 OMEGA EDITION — April 2026*  
+*CALCULATOR.md — omega/ — v9.29 — May 2026*  
 *Theory: ThomasCory Walker-Pearson · Implementation: GitHub Copilot (AI)*

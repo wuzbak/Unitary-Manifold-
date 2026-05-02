@@ -1732,7 +1732,7 @@ python -m pytest tests/test_gw_yukawa_derivation.py tests/test_universal_yukawa.
 
 ---
 
-*Document version: 2.6 — April 2026 (v9.27 OMEGA EDITION: Theorems XIX–XXII added for Pillars 89, 95, 96, 97–98)*  
+*Document version: 2.7 — May 2026 (v9.29: Theorems XIX–XXII + Pillar 70-D n_w=5 PROVED, Pillar 100 ADM Foundation, Pillar 101 KK Magic)*  
 *Theory, scientific direction, and implications: **ThomasCory Walker-Pearson***  
 *Mathematical synthesis and document engineering: **GitHub Copilot** (AI)*  
 *All equations grounded in code already present in this repository.*  

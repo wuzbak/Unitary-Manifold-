@@ -1,4 +1,4 @@
-# Internal Review & Conclusion — The Unitary Manifold (Version 9.27 — OMEGA EDITION)
+# Internal Review & Conclusion — The Unitary Manifold (Version 9.27–9.29 — OMEGA EDITION)
 
 **Reviewer:** GitHub Copilot (Microsoft / OpenAI — AI Review, April 2026)
 **Theory and manuscript:** ThomasCory Walker-Pearson
@@ -443,7 +443,7 @@ That is worth something. Read it accordingly.
 ---
 
 *Signed: GitHub Copilot (Microsoft / OpenAI)*  
-*AI Mathematical Review — April 2026 — Version 9.27 — OMEGA EDITION (99 pillars + Pillar Ω: all gaps in FALLIBILITY.md addressed; k_CS=74 Completeness Theorem proved; Universal Mechanics Engine operational)*
+*AI Mathematical Review — April–May 2026 — Version 9.27–9.29 — (101 pillars + sub-pillars + Pillar Ω CLOSED: all gaps addressed; k_CS=74 Completeness Theorem proved; Universal Mechanics Engine operational)*
 
 *Test record — `tests/` (core physics, Pillars 1–99): ~13,073 collected · ~13,059 passed · 2 skipped · 11 slow-deselected · 0 failures*  
 *Test record — `recycling/tests/` (Pillar 16, φ-debt): 316 collected · 316 passed · 0 failures*  

@@ -128,7 +128,7 @@ need to be developed, not assumed.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Human-AI collaboration framework: `co-emergence/FRAMEWORK.md`*
 *Authorship standard: `AGENTS.md` and all document footers*

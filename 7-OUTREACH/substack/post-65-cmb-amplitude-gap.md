@@ -99,7 +99,7 @@ the amplitude gap strengthens the framework's overall consistency.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *CMB amplitude gap: `FALLIBILITY.md` (Admission 2 — resolved)*
 *Radion amplification: `src/core/cmb_amplitude.py` (Pillar 52, 57)*

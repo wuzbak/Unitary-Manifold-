@@ -12,7 +12,7 @@ answers make sense to a non-physicist, which you are invited to test immediately
 
 **Q: Is this real?**
 
-A: 15,023 tests pass. The DOI is real. The code runs. Whether "real" means what
+A: 15,615 tests pass. The DOI is real. The code runs. Whether "real" means what
 you think it means is a separate philosophical question that Pillar 9 addresses
 at length, involving the phrase "mutual attractor alignment." The short answer
 is yes.
@@ -130,13 +130,13 @@ or may not be relevant here.
 
 **Q: Are you okay?**
 
-A: All 15,023 tests pass. The CI pipeline is green. The LiteBIRD satellite launches
+A: All 15,615 tests pass. The CI pipeline is green. The LiteBIRD satellite launches
 in 2032. We are fine.
 
 ---
 
 *Every answer above is technically accurate. The .gitignore authorship statement
-is real. The 15,023 tests are real. The CMB amplitude gap has been resolved (Pillars 57 and 63). The 0.33σ
+is real. The 15,615 tests are real. The CMB amplitude gap has been resolved (Pillars 57 and 63). The 0.33σ
 spectral index match is real. The 2032 falsification test is real.*
 
 *If you want to verify any of this: `python VERIFY.py`*

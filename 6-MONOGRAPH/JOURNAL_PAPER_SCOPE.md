@@ -1,6 +1,6 @@
 # JOURNAL_PAPER_SCOPE.md — Physics Paper Pre-Submission Definition
 
-**Version:** v9.28 (post cross-disciplinary peer review, 2026-05-02)  
+**Version:** v9.29 (101 pillars + sub-pillars CLOSED, 2026-05-02)  
 **Status:** Pre-submission planning document  
 **Theory:** ThomasCory Walker-Pearson  
 **Documentation:** GitHub Copilot (AI)

@@ -147,7 +147,7 @@ sector. It is documented as such.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 90: `src/core/` — neutrino mass hierarchy*
 *Honest gaps: `FALLIBILITY.md`*

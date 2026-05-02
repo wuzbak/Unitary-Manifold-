@@ -200,7 +200,7 @@ The 2032 LiteBIRD data will tell.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Braided winding implementation: `src/core/braided_winding.py` — 118 tests in `tests/test_braided_winding.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

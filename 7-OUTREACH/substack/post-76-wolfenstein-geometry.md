@@ -154,7 +154,7 @@ will determine.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 87: `src/core/wolfenstein_geometry.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

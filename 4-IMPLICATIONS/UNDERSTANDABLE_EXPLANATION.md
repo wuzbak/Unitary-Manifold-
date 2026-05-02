@@ -2,7 +2,7 @@
 ### A Coherent Framework for Time, Information, and Reality
 
 **ThomasCory Walker‑Pearson**  
-Version 9.27 — OMEGA EDITION (2026)
+Version 9.29 (2026)
 
 ---
 
@@ -298,6 +298,6 @@ This framework invites a similar view:
 
 *Part of the Unitary Manifold repository. For technical detail, see `README.md`. For limitations and open questions, see `FALLIBILITY.md`. For a deeper discussion of the core claim, see `WHAT_THIS_MEANS.md`.*
 
-*ThomasCory Walker‑Pearson · Version 9.27 — OMEGA EDITION, 2026*
+*ThomasCory Walker‑Pearson · Version 9.29, 2026*
 
 ---

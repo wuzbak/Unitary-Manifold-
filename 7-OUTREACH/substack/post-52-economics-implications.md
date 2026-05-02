@@ -164,7 +164,7 @@ Both books are publication-ready Markdown, available in full in this repository.
 
 ---
 
-*Full source code, derivations, and 15,072 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Recycling module: `recycling/`*
 *φ-debt framework: `recycling/README.md`, `recycling/polymers.py`*

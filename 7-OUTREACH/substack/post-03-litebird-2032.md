@@ -172,7 +172,7 @@ that did not survive contact with data.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 *LiteBIRD mission: arXiv:2202.02773*
