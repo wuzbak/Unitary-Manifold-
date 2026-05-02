@@ -26,6 +26,7 @@ from src.core.adm_decomposition import (
     hamiltonian_constraint,
     adm_vs_ricci_flow_comparison,
     arrow_of_time_adm_link,
+    adm_lapse_deviation,
     pillar_100_summary,
 )
 
@@ -359,3 +360,52 @@ class TestPillar100Summary:
 
     def test_description_mentions_ricci_flow(self):
         assert "Ricci" in self.result["description"]
+
+
+# ---------------------------------------------------------------------------
+# §XIV.3 — ADM lapse deviation (adm_lapse_deviation)
+# ---------------------------------------------------------------------------
+
+class TestADMLapseDeviation:
+    """Verify that the UM background lapse deviation from N=1 is < 1% (§XIV.3)."""
+
+    @pytest.fixture(autouse=True)
+    def result(self):
+        self.result = adm_lapse_deviation()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_required_keys(self):
+        required = {
+            "lapse_N", "delta_lapse", "deviation_fractional",
+            "deviation_percent", "ratio_sq", "below_threshold",
+            "verdict", "status", "derivation",
+        }
+        assert required.issubset(self.result.keys())
+
+    def test_lapse_close_to_one(self):
+        """N_phys must be within floating-point distance of 1.0."""
+        assert abs(self.result["lapse_N"] - 1.0) < 1e-50
+
+    def test_deviation_fractional_positive(self):
+        assert self.result["deviation_fractional"] > 0.0
+
+    def test_deviation_below_one_percent(self):
+        """Core §XIV.3 claim: deviation < 1%."""
+        assert self.result["deviation_percent"] < 1.0
+
+    def test_below_threshold_flag(self):
+        assert self.result["below_threshold"] is True
+
+    def test_status_quantified(self):
+        assert self.result["status"] == "QUANTIFIED"
+
+    def test_verdict_mentions_adm(self):
+        assert "ADM" in self.result["verdict"]
+
+    def test_custom_masses(self):
+        """Custom M_KK and M_Pl values should still return < 1% for UM scales."""
+        r = adm_lapse_deviation(M_KK_meV=200.0, M_Pl_meV=1.2209e31)
+        assert r["deviation_percent"] < 1.0
+        assert r["below_threshold"] is True
