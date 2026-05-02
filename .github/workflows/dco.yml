@@ -14,4 +14,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: DCO
-        uses: dcoapp/dco@v4
+        uses: dcoapp/dco@v3
