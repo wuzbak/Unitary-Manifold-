@@ -15,8 +15,8 @@ Usage
 All functions return plain Python dicts so results are serialisable and
 diff-able between versions.
 
-Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
-Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
 """
 
 from __future__ import annotations
@@ -81,11 +81,11 @@ def check_algebraic_identities() -> dict[str, Any]:
 
     # n_w=5 action minimum: k_eff(5)=74 < k_eff(7)=130
     k_eff_5 = 5**2 + 7**2
-    k_eff_7 = 7**2 + (2 * 7)**2  # hypothetical (7,14) braid
+    k_eff_7 = 7**2 + (2 * 7)**2  # k_eff for n_w=7: (7,14) braid configuration
     checks.append(("k_eff(5)=74 < k_eff(7)=130", k_eff_5, 74, k_eff_5 == 74))
 
-    # APS: η̄(n_w=5) = k_CS/2 mod 1 = 37 mod 1 = 0? Actually η̄ = ½ for odd k_CS
-    # k_CS(5)×η̄(5) = 74×½ = 37 (odd ✓); k_CS(7)×η̄(7) = 130×0 = 0 (even ✗)
+    # APS: η̄(n_w=5) = ½ for odd k_CS; k_CS(5)×η̄(5) = 74×½ = 37 (odd → chirality)
+    # k_CS(7)×η̄(7) = 130×0 = 0 (even → no chirality ✗)
     k_cs_5 = 74
     eta_5 = 0.5  # APS η̄(n_w=5)
     aps_product_5 = k_cs_5 * eta_5

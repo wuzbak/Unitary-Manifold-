@@ -221,13 +221,13 @@ Robin & Savage (arXiv:2604.26376).
 | Quantity | Value |
 |----------|-------|
 | Lapse N | 1.0 (assumed Gaussian normal gauge) |
-| Fractional deviation δN | 4.07 × 10⁻⁵⁹ |
+| Fractional deviation δN | 4.07 × 10⁻⁵⁹ (= 4.07 × 10⁻⁵⁷%) |
 | M_KK | 110.13 meV |
 | Status | **QUANTIFIED** |
 
 The lapse assumption N ≡ 1 introduces an error of 4.07 × 10⁻⁵⁷% — negligible at
 all current and foreseeable energy scales. The ADM formalism is a valid approximation
-to 1 part in 10⁶².
+to 1 part in ~2.5 × 10⁵⁸ (i.e., δN/N ≈ 4.07 × 10⁻⁵⁹ fractional).
 
 ### 5.5 FTUM / Banach Contraction (Pillar 5)
 
