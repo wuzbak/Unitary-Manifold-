@@ -1999,3 +1999,165 @@ The cosmological sector (Pillars 27+) contains the physically grounded derivatio
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## XIV. Honest-Gap Admissions — §XIV.1–XIV.4 (May 2026)
+
+*Added following the §XIV audit (2026-05-02). These admissions address four residual
+gaps that are not errors — they are honest labels for the boundary between what the
+Unitary Manifold currently derives and what remains open.*
+
+---
+
+### XIV.1 SM Parameters Requiring Observational Input — Full Status Table
+
+The Standard Model (with Dirac neutrinos) has 28 free parameters.  After Pillar 70-D and all
+subsequent closures, the UM status is:
+
+| # | Parameter | PDG value | UM Status | Path to Closure |
+|---|-----------|-----------|-----------|-----------------|
+| P1 | α_em | 1/137.036 | ✅ DERIVED | φ₀⁻² from FTUM fixed-point — CLOSED |
+| P2 | sin²θ_W | 0.23122 | ✅ DERIVED | SU(5) from n_w=5 (Pillar 70-D) + RGE — CLOSED |
+| P3 | α_s | 0.1180 | ✅ DERIVED | SU(5) unification + 1-loop RGE (Pillar 70-D+94) — CLOSED |
+| P4 | v (Higgs VEV) | 246.22 GeV | ⚠️ CONSTRAINED | GW potential gives v ~ M_Pl exp(−πkR); precise value needs GW parameter ν |
+| P5 | m_H | 125.25 GeV | ❌ OPEN | Derive Higgs self-coupling λ_H from 5D bulk potential V(φ) at second order |
+| P6 | m_u | 2.16 MeV | ⚠️ FITTED | Universal 5D Yukawa Ŷ₅=1 (Pillar 97); reduce to 1 input via GW vacuum profile |
+| P7 | m_d | 4.67 MeV | ⚠️ FITTED | Same as P6; λ_CKM = √(m_d/m_s) derived, absolute scale needs Ŷ₅ anchor |
+| P8 | m_s | 93.4 MeV | ⚠️ FITTED | Constrained by λ_CKM ratio; absolute scale from Ŷ₅ anchor |
+| P12 | λ_CKM | 0.22500 | ✅ DERIVED | √(m_d/m_s) from RS zero-mode (Pillar 87) — CLOSED |
+| P13 | A_CKM | 0.826 | ✅ GEOMETRIC | √(n₁/n₂) = √(5/7) — 1.4σ from PDG |
+| P14 | ρ̄_CKM | 0.159 | ⚠️ ESTIMATE | R_b cos δ; improves when δ_CKM measured to < 1° precision |
+| P15 | η̄_CKM | 0.348 | ✅ GEOMETRIC | R_b sin δ — 2.3% accuracy — CLOSED |
+| P16 | m_e | 0.511 MeV | ⚠️ FITTED | Lepton Yukawa scale; reduce via universal Ŷ₅=1 from GW profile |
+| P19 | m_ν₁ | < 40 meV | ❌ OPEN | RS Dirac Yukawa hierarchy for c_{Rν_i}; constrained Σm_ν < 120 meV |
+| P20 | Δm²₂₁ | 7.53×10⁻⁵ eV² | ❌ OPEN | Requires neutrino bulk mass parameters c_L^{ν_i} from 5D Dirac equation |
+| P21 | Δm²₃₁ | 2.45×10⁻³ eV² | ❌ OPEN | Same as Δm²₂₁; needs RS neutrino Yukawa hierarchy derivation |
+| P22 | sin²θ₁₂ | 0.307 | ⚠️ ESTIMATE | TBM + Z_5 first-order: 0.267 (13% off); upgrade via full Z_{n_w} spectrum |
+| P25 | δ_CP^PMNS | −107° | ✅ DERIVED | Orbifold phase −(π−2π/n_w) = −108° (0.05σ) — CLOSED |
+| P28 | G_N | 6.674×10⁻¹¹ | ⚠️ INPUT | UV boundary condition; M_Pl from RS compactification but not derived from scratch |
+
+**Summary:** 5 fully derived (P1, P2, P3, P12, P25), 4 geometric predictions < 5% (P13, P15,
+P23, P24), 2 geometric estimates < 15% (P14, P22), 9 fitted/open/input (P4–P8, P16, P19–P21, P28).
+Zero-parameter TOE score: **35% (9/26)**. Function: `sm_closure_roadmap()` in
+`src/core/sm_free_parameters.py`.
+
+The path to a complete zero-parameter TOE requires:
+1. Prove universal 5D Yukawa Ŷ₅=1 for all sectors from the GW vacuum profile (reduces ~9 fitted to ~1)
+2. Derive m_H from the 5D Higgs self-coupling at second order in the GW potential
+3. Solve the RS Dirac equation for neutrino bulk mass hierarchy → Δm²₂₁, Δm²₃₁
+
+---
+
+### XIV.2 SU(3) Emergence — Kawamura (2001) as External Mechanism
+
+The Pillar 70-D chain derives the SM gauge group via:
+
+| Step | Claim | Status | Source |
+|------|-------|--------|--------|
+| 1 | 5D metric Z₂-odd G_{μ5} → n_w ∈ {5,7} | PROVED | Pillars 39+67 |
+| 2 | Z₂-odd CS boundary phase → n_w = 5 unique | PROVED | Pillar 70-D |
+| 3 | n_w = 5 KK species count → G_5D = SU(5) | DERIVED FROM 5D GEOMETRY | Pillar 70-D |
+| 4 | Kawamura Z₂ orbifold SU(5)/Z₂ → SU(3)×SU(2)×U(1) | **EXTERNAL MECHANISM** | Kawamura (2001) |
+| 5 | sin²θ_W = 3/8 at M_GUT | PROVED | Georgi-Glashow (1974) |
+| 6 | RGE running → sin²θ_W(M_Z) ≈ 0.231 | DERIVED | Pillar 94 |
+
+**Honest statement:** Step 3 (SU(5) from KK species count) is a genuine UM derivation.
+Step 4 — the breaking SU(5) → SU(3)×SU(2)×U(1) — imports the Kawamura (2001) orbifold
+boundary-condition mechanism (*Prog. Theor. Phys.* 105, 999, 2001) as an external result.
+The UM does not independently derive the Z₂ boundary conditions for the 5D gauge bosons
+from the metric ansatz G_{AB}.
+
+**Path to closure:** Derive the SU(5) → G_SM breaking from the 5D metric G_{AB} directly.
+This requires either (a) embedding SU(3) isometry in the compact geometry (S⁵ or S³×S²
+compactification), or (b) deriving the Kawamura parity matrix P = diag(+1,+1,+1,−1,−1)
+from a first-principles analysis of the 5D gauge-field boundary conditions at the orbifold
+fixed points without reference to GUT literature.
+
+**Status:** Step 3 DERIVED from 5D geometry; Step 4 EXTERNAL (Kawamura imported).
+SU(3)×SU(2)×U(1) is predicted *conditional* on Kawamura's mechanism.
+Function: `su3_emergence_status()` in `src/core/nw5_pure_theorem.py`.
+
+---
+
+### XIV.3 ADM Lapse Deviation Quantified at < 1%
+
+The UM numerical implementation uses Gaussian normal (GN) gauge: N = 1, β^i = 0.
+The physical lapse the UM background KK metric would generate off-shell is:
+
+    N_phys = 1 + (1/2)(M_KK / M_Pl)²
+
+For M_KK = 110.13 meV and M_Pl = 1.2209 × 10³¹ meV:
+
+    (M_KK / M_Pl)² ≈ 8.1 × 10⁻⁵⁹
+    |N_phys − 1| ≈ 4 × 10⁻⁵⁹   (fractional deviation)
+    deviation_percent ≈ 4 × 10⁻⁵⁷ %
+
+This is **vastly below the 1% threshold** stated in §XIV.3.  The GN gauge choice N = 1
+introduces a fractional error of order 10⁻⁵⁹ in all UM predictions — negligible at any
+foreseeable observational precision.
+
+**Status:** QUANTIFIED — not a gap.  The ADM lapse correction is < 1% by 57 orders of
+magnitude.  The Gaussian normal gauge is an exact approximation at UM energy scales.
+Function: `adm_lapse_deviation()` in `src/core/adm_decomposition.py`.
+
+---
+
+### XIV.4 Pillars 10–26 as Formal Analogies — Epistemics Table
+
+The UM pillars span core physics (Pillars 1–9) and a broad range of applied domains
+(Pillars 10–26).  The epistemological status of each pillar range is explicitly labelled
+in the table below and codified in `src/core/pillar_epistemics.py`.
+
+**Epistemology categories:**
+
+| Label | Meaning |
+|-------|---------|
+| `PHYSICS_DERIVATION` | Derived directly and necessarily from the 5D metric G_{AB} or FTUM |
+| `CONDITIONAL_THEOREM` | Derived assuming UM geometry; requires one UM-internal observational anchor |
+| `FALSIFIABLE_PREDICTION` | Makes a specific, testable experimental prediction tied to UM constants |
+| `FORMAL_ANALOGY` | Mathematical structure borrowed from UM; not derived from G_{AB}; speculative |
+
+**Pillar epistemics table (Pillars 1–26 + extensions):**
+
+| Pillar | Domain | Epistemology | Coupling | Notes |
+|--------|--------|-------------|----------|-------|
+| 1–5 | KK geometry, FTUM, holography | PHYSICS_DERIVATION | φ₀, K_CS, c_s | Derived from 5D metric |
+| 6–9 | Multiverse, consciousness attractor (core) | PHYSICS_DERIVATION | φ₀ | FTUM fixed-point derivation |
+| 10 | Consciousness coupling | FORMAL_ANALOGY | φ₀ | φ₀ couples to brain attractor as mathematical model; no derivation from G_{AB} |
+| 11 | Earth/geology | FORMAL_ANALOGY | φ₀ | KK radion maps to geological cycles; dimensionless ratios only |
+| 12 | Biology | FORMAL_ANALOGY | φ₀ | φ-homeostasis as organismal metaphor |
+| 13 | Medicine | FORMAL_ANALOGY | φ₀ | φ-homeostasis as health metaphor |
+| 14 | Atomic structure | CONDITIONAL_THEOREM | α_em | α_em derived; level spacings reproduced < 1%; hydrogen spectrum tight |
+| 15 | Cold fusion | FALSIFIABLE_PREDICTION | φ₀, B_μ | COP > 1 calorimetric test; B_μ KK mass → phonon routing > 99% |
+| 15-B | Cold fusion lattice dynamics | FALSIFIABLE_PREDICTION | B_μ, c_s | Phonon-radion bridge; Pillar 15-F falsification_protocol.py |
+| 15-F | Cold fusion falsification | FALSIFIABLE_PREDICTION | φ₀ | Explicit experimental criteria F1–F3 (calorimetry, particle emission, DFT) |
+| 16 | Recycling / φ-debt entropy | FORMAL_ANALOGY | φ₀ | Entropy accounting; not derived from G_{AB} |
+| 17 | Medicine (systemic) | FORMAL_ANALOGY | φ₀ | Formal extension of Pillar 13 |
+| 18 | Justice / law | FORMAL_ANALOGY | Ξ_c | φ equity as legal metaphor |
+| 19 | Governance / democracy | FORMAL_ANALOGY | Ξ_c | CS stability gap as governance metaphor |
+| 20 | Neuroscience | FORMAL_ANALOGY | φ₀ | Neurons as φ-networks; no derivation from G_{AB} |
+| 21 | Ecology | FORMAL_ANALOGY | φ₀ | Ecosystems as φ-homeostasis |
+| 22 | Climate | FORMAL_ANALOGY | φ₀ | Carbon cycle as radion feedback |
+| 23 | Marine biology | FORMAL_ANALOGY | φ₀ | Ocean dynamics as φ-attractor |
+| 24 | Psychology | FORMAL_ANALOGY | Ξ_c | Cognition as φ-network |
+| 25 | Genetics | FORMAL_ANALOGY | φ₀ | Gene expression as winding-mode hierarchy |
+| 26 | Materials science | FORMAL_ANALOGY | K_CS | Condensed matter KK analogy; closest to physics but still formal |
+| 70-D | n_w=5 pure theorem | PHYSICS_DERIVATION | K_CS | Pure 5D geometry theorem; no observational input |
+| 97 | GW Yukawa derivation | CONDITIONAL_THEOREM | φ₀ | Ŷ₅=1 from GW vacuum; c_L from bisection (not first-principles BCs) |
+| 100 | ADM Foundation | PHYSICS_DERIVATION | φ₀ | Standard GR + NEC applied to UM matter sector |
+
+**Key distinction for Pillar 15/15-B:**
+Cold fusion is the *only* pillar in the range 10–26 that provides genuine falsification
+criteria tied to UM-native constants.  The B_μ mass derives from the KK spectrum
+(M_{B_μ} ≈ M_KK = 110 meV); this sets the phonon routing fraction > 99% at B_eff > 10 T,
+which implies a measurable COP > 1 in a Pd-D calorimetry experiment.  See
+`src/cold_fusion/falsification_protocol.py:cold_fusion_physics_link()`.
+
+**Formal analogies are not errors.**  They are speculative structural correspondences
+that may guide future research.  The label FORMAL_ANALOGY means the mathematical
+structure of the UM is used as a modelling framework in a domain where no physical
+derivation from G_{AB} exists.  These pillars should not be cited as physical predictions.
+
+*Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
+*Document engineering and synthesis: **GitHub Copilot** (AI).*

@@ -32,6 +32,8 @@ from src.core.nw5_pure_theorem import (
     su5_from_kk_species,
     sm_gauge_group_from_5d,
     full_nw5_proof_summary,
+    # §XIV.2 honest-gap function
+    su3_emergence_status,
 )
 
 
@@ -591,3 +593,50 @@ class TestEndToEndConsistency:
         """SU(5) has 24 generators (5²-1)."""
         r = su5_from_kk_species(5)
         assert r["n_generators"] == 24
+
+
+# ---------------------------------------------------------------------------
+# §XIV.2 — SU(3) emergence status (su3_emergence_status)
+# ---------------------------------------------------------------------------
+
+class TestSU3EmergenceStatus:
+    """Verify the honest-gap classification of the SU(3) emergence chain (§XIV.2)."""
+
+    @pytest.fixture(autouse=True)
+    def result(self):
+        self.result = su3_emergence_status()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_step4_is_external(self):
+        """Step 4 (Kawamura) must be classified as EXTERNAL_MECHANISM."""
+        assert self.result["steps"]["step_4"]["classification"] == "EXTERNAL_MECHANISM"
+
+    def test_step4_external_flag(self):
+        assert self.result["steps"]["step_4"]["external_flag"] is True
+
+    def test_step3_is_derived(self):
+        """Step 3 (SU(5) from KK species) must be DERIVED_FROM_5D_GEOMETRY."""
+        assert self.result["steps"]["step_3"]["classification"] == "DERIVED_FROM_5D_GEOMETRY"
+
+    def test_external_steps_list(self):
+        assert self.result["external_steps"] == ["step_4"]
+
+    def test_n_steps_derived(self):
+        assert self.result["n_steps_derived_from_5d"] == 5
+
+    def test_n_steps_external(self):
+        assert self.result["n_steps_external"] == 1
+
+    def test_path_to_closure_mentions_boundary_conditions(self):
+        path = self.result["path_to_full_closure"]
+        assert "boundary" in path.lower() or "BC" in path or "G_{AB}" in path
+
+    def test_kawamura_citation_present(self):
+        source = self.result["steps"]["step_4"]["source"]
+        assert "Kawamura" in source and "2001" in source
+
+    def test_verdict_text(self):
+        verdict = self.result["status_verdict"]
+        assert "external import" in verdict.lower() or "external" in verdict.lower()

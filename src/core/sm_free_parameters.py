@@ -730,6 +730,7 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "DERIVED",
             "pillar": "56+, FTUM fixed point φ₀⁻² = α_em",
             "derivation": "α = φ₀⁻² from FTUM fixed-point + KK cross-block Riemann R^μ_{5ν5}",
+            "path_to_closure": "CLOSED — derived from first principles.",
         },
         "P2": {
             "name": "sin²θ_W (Weinberg angle at M_Z)",
@@ -747,6 +748,7 @@ def sm_parameter_table() -> Dict[str, object]:
                 "1-loop RGE → sin²θ_W(M_Z) ≈ 0.231 (< 0.1% vs PDG 0.23122). "
                 "Status upgraded from CONJECTURE to DERIVED by Pillar 70-D."
             ),
+            "path_to_closure": "CLOSED — derived from 5D geometry (Pillar 70-D+94).",
         },
         "P3": {
             "name": "α_s (strong coupling at M_Z)",
@@ -761,6 +763,7 @@ def sm_parameter_table() -> Dict[str, object]:
                 "1-loop MSSM RGE: α_s(M_Z) ≈ 0.117 (< 1% vs PDG 0.1180). "
                 "Status upgraded from CONJECTURE to DERIVED by Pillar 70-D."
             ),
+            "path_to_closure": "CLOSED — SU(5) unification + RGE (Pillar 70-D+94).",
         },
         # ── Higgs sector ──────────────────────────────────────────────
         "P4": {
@@ -775,6 +778,11 @@ def sm_parameter_table() -> Dict[str, object]:
                 "For πkR = 37: v ≈ 1.22×10¹⁹ × exp(−37) GeV ≈ 1 TeV (order-of-magnitude). "
                 "Precise value requires the GW quadratic parameter ν."
             ),
+            "path_to_closure": (
+                "Derive the GW quadratic parameter ν from the 5D scalar potential "
+                "boundary conditions. Then v_EW = M_Pl exp(−πkR) is fully predicted. "
+                "Difficulty: MEDIUM."
+            ),
         },
         "P5": {
             "name": "m_H (Higgs boson mass)",
@@ -784,6 +792,11 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "OPEN",
             "pillar": "OPEN — requires Higgs self-coupling λ_H from 5D potential",
             "derivation": "m_H = √(2λ_H) v; λ_H not yet derived from UM geometry.",
+            "path_to_closure": (
+                "Derive the 5D Higgs self-coupling λ_H from the GW bulk potential V(φ) "
+                "at second order in the brane-localised scalar sector. "
+                "Then m_H = √(2λ_H) v is a prediction. Difficulty: LONG."
+            ),
         },
         # ── Quark Yukawa ──────────────────────────────────────────────
         "P6": {
@@ -793,6 +806,12 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "FITTED",
             "pillar": "81, 85 — RS c_L hierarchy; absolute scale fitted",
             "derivation": "m_u sets λ_Y^u; ratios m_c/m_u and m_t/m_u derived from c_L.",
+            "path_to_closure": (
+                "Prove universal 5D Yukawa Ŷ₅=1 for the up-quark sector from the GW "
+                "vacuum profile (Pillar 97). One overall Yukawa scale λ_Y anchors all "
+                "quark masses — reduces this to a single observational input shared "
+                "across the entire quark sector. Difficulty: NEAR."
+            ),
         },
         "P7": {
             "name": "m_d (down quark)",
@@ -801,6 +820,11 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "FITTED",
             "pillar": "81, 85 — RS c_L hierarchy; absolute scale fitted",
             "derivation": "m_d sets λ_Y^d; also enters Wolfenstein λ = √(m_d/m_s).",
+            "path_to_closure": (
+                "Same as P6: universal Ŷ₅=1 reduces down-quark absolute scale "
+                "to one shared input. λ_CKM = √(m_d/m_s) is already DERIVED. "
+                "Difficulty: NEAR."
+            ),
         },
         "P8": {
             "name": "m_s (strange quark)",
@@ -813,6 +837,11 @@ def sm_parameter_table() -> Dict[str, object]:
                 "m_s is constrained by the Wolfenstein λ = √(m_d/m_s) = 0.225 "
                 "(0.6 % accuracy); so the m_d/m_s RATIO is geometrically fixed."
             ),
+            "path_to_closure": (
+                "Ratio m_d/m_s is already geometrically fixed (λ_CKM). "
+                "Absolute scale from universal Ŷ₅=1 (same closure as P6/P7). "
+                "Difficulty: NEAR."
+            ),
         },
         "P9": {
             "name": "m_c (charm quark)",
@@ -821,6 +850,10 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "PREDICTED from ratio",
             "pillar": "81 — m_c/m_u from RS c_L hierarchy",
             "derivation": "m_c = m_u × exp((c_{Lu} − c_{Lc}) × πkR / 2) / ratio.",
+            "path_to_closure": (
+                "Ratio m_c/m_u is geometrically derived from c_L hierarchy. "
+                "Absolute scale from universal Ŷ₅=1 (same as P6). Difficulty: NEAR."
+            ),
         },
         "P10": {
             "name": "m_b (bottom quark)",
@@ -829,6 +862,10 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "PREDICTED from ratio",
             "pillar": "81 — m_b/m_d from RS c_L hierarchy",
             "derivation": "m_b = m_d × wavefunction ratio from c_{Lb} vs c_{Ld}.",
+            "path_to_closure": (
+                "Ratio m_b/m_d derived from c_L. Absolute scale from Ŷ₅=1. "
+                "Difficulty: NEAR."
+            ),
         },
         "P11": {
             "name": "m_t (top quark)",
@@ -837,6 +874,10 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "PREDICTED from ratio",
             "pillar": "81 — m_t/m_u from RS c_L hierarchy",
             "derivation": "m_t = m_u × exp((c_{Lu} − c_{Lt}) × πkR / 2) / ratio.",
+            "path_to_closure": (
+                "Ratio m_t/m_u derived from c_L (top near-UV limit). "
+                "Absolute scale from Ŷ₅=1. Difficulty: NEAR."
+            ),
         },
         "P12": {
             "name": "λ_CKM (Wolfenstein λ)",
@@ -850,6 +891,7 @@ def sm_parameter_table() -> Dict[str, object]:
                 "λ = sin θ_C = √(m_d/m_s) = √(4.67/93.4) = 0.2236. "
                 "PDG 0.2250 — 0.6 % accuracy."
             ),
+            "path_to_closure": "CLOSED — derived from RS wavefunction overlap (Pillar 87).",
         },
         "P13": {
             "name": "A_CKM (Wolfenstein A)",
@@ -862,6 +904,11 @@ def sm_parameter_table() -> Dict[str, object]:
                 "Cross-sector CKM amplitude between winding modes n₁=5 (up-type) "
                 "and n₂=7 (down-type): A = √(n_min/n_max) = √(5/7) = 0.8452. "
                 "PDG 0.826 ± 0.014 — tension 1.4σ. Within 2σ."
+            ),
+            "path_to_closure": (
+                "A = √(n₁/n₂) is already geometrically derived. "
+                "Improve precision of n₁/n₂ identification from first-principles "
+                "braid winding spectrum. Difficulty: MEDIUM."
             ),
         },
         "P14": {
@@ -877,6 +924,11 @@ def sm_parameter_table() -> Dict[str, object]:
                 "η̄ = R_b sin δ = 0.356 (PDG 0.348, 2.3 % off) is well-constrained. "
                 "ρ̄ will improve when experiments confirm δ_CKM → 72° or δ → 68.5°."
             ),
+            "path_to_closure": (
+                "ρ̄ = R_b cos(2π/n_w). Current 27% error traces to δ_CKM tension. "
+                "Improve via higher-order Z_{n_w} correction to the CP phase, or "
+                "await experimental precision on δ_CKM. Difficulty: MEDIUM."
+            ),
         },
         "P15": {
             "name": "η̄_CKM (Wolfenstein η̄)",
@@ -889,6 +941,7 @@ def sm_parameter_table() -> Dict[str, object]:
                 "η̄ = R_b sin δ = (|V_ub|/Aλ³) sin(2π/n_w) = 0.356. "
                 "PDG 0.348 — 2.3 % accuracy. ✓"
             ),
+            "path_to_closure": "CLOSED — geometrically predicted to 2.3% accuracy.",
         },
         # ── Charged leptons ───────────────────────────────────────────
         "P16": {
@@ -898,6 +951,11 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "FITTED",
             "pillar": "75, 85 — fixes λ_Y^e; mass ratios m_μ/m_e and m_τ/m_e derived",
             "derivation": "m_e is one input that fixes the charged-lepton Yukawa scale.",
+            "path_to_closure": (
+                "Prove universal 5D lepton Yukawa Ŷ₅=1 from the GW vacuum profile. "
+                "Then m_e emerges from the RS zero-mode overlap without a separate input. "
+                "Difficulty: NEAR (shared with quark sector via universal Ŷ₅=1)."
+            ),
         },
         "P17": {
             "name": "m_μ (muon mass)",
@@ -906,6 +964,10 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "PREDICTED from ratio",
             "pillar": "75, 85 — m_μ/m_e from RS c_L hierarchy",
             "derivation": "m_μ = m_e × f₀(c_{Lμ}) / f₀(c_{Le}); ratio 207× from c_L fit.",
+            "path_to_closure": (
+                "Ratio m_μ/m_e geometrically derived from c_L. "
+                "Absolute scale from universal Ŷ₅=1 (same as P16). Difficulty: NEAR."
+            ),
         },
         "P18": {
             "name": "m_τ (tau mass)",
@@ -914,6 +976,10 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "PREDICTED from ratio",
             "pillar": "75, 85 — m_τ/m_e from RS c_L hierarchy",
             "derivation": "m_τ = m_e × f₀(c_{Lτ}) / f₀(c_{Le}); ratio 3477× from c_L fit.",
+            "path_to_closure": (
+                "Ratio m_τ/m_e geometrically derived from c_L. "
+                "Absolute scale from universal Ŷ₅=1 (same as P16). Difficulty: NEAR."
+            ),
         },
         # ── Neutrino sector ───────────────────────────────────────────
         "P19": {
@@ -927,6 +993,11 @@ def sm_parameter_table() -> Dict[str, object]:
                 "For c_{Rν} ≈ 0.900 (doubly IR-localised): m_ν₁ ~ 10⁻⁸ eV ≪ M_KK. "
                 "Resolution A confirmed quantitatively (Pillar 88, neutrino_resolution_a())."
             ),
+            "path_to_closure": (
+                "Solve the RS 5D Dirac equation for the neutrino bulk mass parameters "
+                "c_{Rν_i} from the UM compactification geometry. The three c_{Rν} values "
+                "fix the absolute neutrino mass scale m_ν₁. Difficulty: LONG."
+            ),
         },
         "P20": {
             "name": "Δm²₂₁ (solar mass splitting)",
@@ -935,6 +1006,12 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "OPEN",
             "pillar": "83 — PDG input; requires RS neutrino Yukawa hierarchy",
             "derivation": "Δm²₂₁ requires the neutrino bulk mass parameters c_L^{ν_i}.",
+            "path_to_closure": (
+                "Derive the RS neutrino Yukawa hierarchy from the UM compactification: "
+                "solve the 5D Dirac equation for c_L^{ν_1}, c_L^{ν_2}, c_L^{ν_3} from "
+                "first-principles orbifold BCs. Then Δm²₂₁ = m_ν₂² − m_ν₁². "
+                "Difficulty: LONG."
+            ),
         },
         "P21": {
             "name": "Δm²₃₁ (atmospheric mass splitting)",
@@ -943,6 +1020,10 @@ def sm_parameter_table() -> Dict[str, object]:
             "status": "OPEN",
             "pillar": "83 — PDG input; requires RS neutrino Yukawa hierarchy",
             "derivation": "Δm²₃₁ requires the neutrino bulk mass parameters c_L^{ν_i}.",
+            "path_to_closure": (
+                "Same as Δm²₂₁: solve for c_L^{ν_3} from UM geometry, then "
+                "Δm²₃₁ = m_ν₃² − m_ν₁². Difficulty: LONG."
+            ),
         },
         "P22": {
             "name": "sin²θ₁₂ (PMNS solar angle)",
@@ -956,6 +1037,10 @@ def sm_parameter_table() -> Dict[str, object]:
                 "From democratic neutrino mass matrix (TBM limit = 1/3) "
                 "corrected at first order in 1/n_w by Z_{n_w} winding symmetry. "
                 "PDG 0.307 — 13 % off. (Improved from Pillar 83 formula: 46 % off.)"
+            ),
+            "path_to_closure": (
+                "Compute second-order Z_{n_w}² correction to TBM mixing matrix. "
+                "May reduce 13% error to < 5%. Difficulty: MEDIUM."
             ),
         },
         "P23": {
@@ -971,6 +1056,7 @@ def sm_parameter_table() -> Dict[str, object]:
                 "first-order Z_{n_w} winding corrections. "
                 "PDG 0.572 — 1.4 % off. ✓"
             ),
+            "path_to_closure": "CLOSED — geometrically predicted to 1.4% accuracy.",
         },
         "P24": {
             "name": "sin²θ₁₃ (PMNS reactor angle)",
@@ -985,6 +1071,7 @@ def sm_parameter_table() -> Dict[str, object]:
                 "second order O(1/n_w²) from the Z_{n_w} perturbation. "
                 "PDG 0.0222 — 9.9 % off. ✓ (Improved from Pillar 83: 91 % off.)"
             ),
+            "path_to_closure": "CLOSED — geometrically predicted to 9.9% accuracy.",
         },
         "P25": {
             "name": "δ_CP^PMNS (PMNS Dirac CP phase)",
@@ -998,6 +1085,7 @@ def sm_parameter_table() -> Dict[str, object]:
                 "U_L^e† × U_L^ν; the dagger flips the orbifold boundary-condition "
                 "phase → δ_CP^PMNS = −108°. PDG −107° ± 20°. Tension 0.05σ. ✓"
             ),
+            "path_to_closure": "CLOSED — derived from orbifold boundary phase (0.05σ).",
         },
         # ── Gravitational sector ──────────────────────────────────────
         "P28": {
@@ -1010,6 +1098,12 @@ def sm_parameter_table() -> Dict[str, object]:
                 "In the RS framework: M_Pl² = M_5³ π R_c. "
                 "G_N is not derived but is the UV boundary condition. "
                 "The UM uses M_Pl as the fundamental scale."
+            ),
+            "path_to_closure": (
+                "Derive M_Pl from the 5D bulk geometry M_5 and compactification radius R_c "
+                "without treating G_N as an input. This is the standard RS relation; "
+                "making it a true prediction requires first deriving M_5 from the UM "
+                "action without any dimensional input. Difficulty: LONG."
             ),
         },
     }
@@ -1040,6 +1134,67 @@ def um_open_parameters() -> Dict[str, object]:
     """Return only the parameters that remain OPEN in the UM framework."""
     table = sm_parameter_table()
     return {k: v for k, v in table.items() if "OPEN" in v["status"]}
+
+
+def sm_closure_roadmap() -> Dict[str, object]:
+    """Return the §XIV.1 closure roadmap for observation-dependent SM parameters.
+
+    Returns a structured dict listing every SM parameter that currently requires
+    observational input, with its status, path_to_closure, and difficulty tier.
+
+    Difficulty tiers:
+        NEAR   — closure within reach of the current UM framework (1–2 pillars)
+        MEDIUM — requires moderate new derivation work (2–5 pillars)
+        LONG   — requires a substantial new theoretical programme
+
+    Returns
+    -------
+    dict with keys:
+        total_obs_dependent : int
+        parameters          : list[dict]  — one dict per obs-dependent parameter
+        summary             : str
+    """
+    table = sm_parameter_table()
+    # Parameters that require observational input
+    obs_statuses = {"FITTED", "OPEN", "CONSTRAINED", "INPUT", "GEOMETRIC ESTIMATE"}
+    obs_params = []
+    for pid, info in table.items():
+        s = info["status"]
+        if any(tag in s for tag in obs_statuses):
+            ptc = info.get("path_to_closure", "Not yet documented.")
+            tier = "LONG"
+            if "NEAR" in ptc:
+                tier = "NEAR"
+            elif "MEDIUM" in ptc:
+                tier = "MEDIUM"
+            obs_params.append({
+                "id": pid,
+                "name": info["name"],
+                "pdg": info["pdg"],
+                "unit": info["unit"],
+                "status": s,
+                "path_to_closure": ptc,
+                "difficulty_tier": tier,
+            })
+    n = len(obs_params)
+    total = len(table)
+    n_closed = total - n
+    return {
+        "total_obs_dependent": n,
+        "total_parameters": total,
+        "parameters": obs_params,
+        "summary": (
+            f"{n_closed}/{total} SM parameters derived or geometrically predicted "
+            f"({n_closed/total*100:.0f}%). "
+            f"{n} parameters currently require observational input. "
+            "Zero-parameter TOE score: "
+            f"{n_closed/total*100:.0f}%. "
+            "Path to full closure: (1) universal Ŷ₅=1 for Yukawa scales [NEAR], "
+            "(2) 5D Higgs self-coupling for m_H [LONG], "
+            "(3) RS Dirac equation for ν mass splittings [LONG]."
+        ),
+        "section": "§XIV.1",
+    }
 
 
 # ---------------------------------------------------------------------------

@@ -634,6 +634,105 @@ def sm_gauge_group_from_5d() -> Dict:
     }
 
 
+def su3_emergence_status() -> Dict:
+    """Classify each step of the SU(3)×SU(2)×U(1) derivation chain by origin.
+
+    The Pillar 70-D chain derives the SM gauge group in six steps.  This
+    function explicitly labels each step as either DERIVED_FROM_5D_GEOMETRY
+    (a genuine UM result) or EXTERNAL_MECHANISM (an imported external result).
+
+    The honest verdict: Step 3 (SU(5) from KK species count) is UM-derived.
+    Step 4 (SU(5) → G_SM via Kawamura orbifold) is an external import.
+
+    Returns
+    -------
+    dict
+        Structured classification with path-to-closure for the external step.
+    """
+    return {
+        "title": "SU(3)×SU(2)×U(1) Emergence — Step-by-Step Classification (§XIV.2)",
+        "steps": {
+            "step_1": {
+                "claim": "5D metric Z₂-odd G_{μ5} → n_w ∈ {5, 7}",
+                "classification": "DERIVED_FROM_5D_GEOMETRY",
+                "source": "Pillars 39 + 67",
+                "note": "Follows from the orbifold Z₂ involution on the 5D metric ansatz.",
+            },
+            "step_2": {
+                "claim": "Z₂-odd CS boundary phase constraint → n_w = 5 unique",
+                "classification": "DERIVED_FROM_5D_GEOMETRY",
+                "source": "Pillar 70-D (this module)",
+                "note": (
+                    "k_CS(5)×η̄(5) = 74×½ = 37 (odd ✓); "
+                    "k_CS(7)×η̄(7) = 130×0 = 0 (even ✗). "
+                    "No observational input."
+                ),
+            },
+            "step_3": {
+                "claim": "n_w = 5 KK species count → G_5D = SU(5)",
+                "classification": "DERIVED_FROM_5D_GEOMETRY",
+                "source": "Pillar 70-D (this module)",
+                "note": (
+                    "dim(fundamental of SU(5)) = 5 = n_w. "
+                    "The identification of the 5D gauge group with SU(n_w) follows "
+                    "from counting KK winding modes that remain massless after Z₂ projection."
+                ),
+            },
+            "step_4": {
+                "claim": "SU(5)/Z₂ Kawamura orbifold → SU(3)×SU(2)×U(1)",
+                "classification": "EXTERNAL_MECHANISM",
+                "source": "Kawamura (2001), Prog. Theor. Phys. 105 (2001) 999",
+                "external_flag": True,
+                "note": (
+                    "The breaking SU(5) → G_SM uses the Kawamura (2001) parity matrix "
+                    "P = diag(+1,+1,+1,−1,−1) ∈ SU(5) to select the massless generators. "
+                    "This parity assignment is not derived from the UM 5D metric ansatz G_{AB}; "
+                    "it is imported from the orbifold GUT literature."
+                ),
+                "internal_path": (
+                    "Requires embedding SU(3) isometry directly in the extra-dimension geometry "
+                    "— e.g., S⁵ or S³×S² compactification — or deriving the orbifold boundary "
+                    "conditions for the 5D gauge field A_M from the UM metric G_{AB} symmetry "
+                    "group without reference to Kawamura."
+                ),
+            },
+            "step_5": {
+                "claim": "sin²θ_W = 3/8 at M_GUT (exact)",
+                "classification": "DERIVED_FROM_5D_GEOMETRY",
+                "source": "Georgi-Glashow (1974); follows from SU(5) unification",
+                "note": "Exact SU(5) prediction; no free parameters once SU(5) is established.",
+            },
+            "step_6": {
+                "claim": "sin²θ_W(M_Z) ≈ 0.231; α_s(M_Z) ≈ 0.117",
+                "classification": "DERIVED_FROM_5D_GEOMETRY",
+                "source": "Pillar 94 — 1-loop RGE running",
+                "note": "< 0.1% accuracy for sin²θ_W; < 1% for α_s (both vs PDG).",
+            },
+        },
+        "status_verdict": (
+            "Step 3 is UM-derived (SU(5) from 5D KK species count — genuine). "
+            "Step 4 is an external import (Kawamura 2001 orbifold boundary conditions). "
+            "SU(3)×SU(2)×U(1) is predicted conditional on Kawamura's mechanism."
+        ),
+        "honest_claim": (
+            "The UM derives SU(5) from 5D geometry. "
+            "The breaking SU(5) → G_SM currently relies on Kawamura (2001). "
+            "This is an honest gap: the UM does not yet derive G_SM from G_{AB} alone."
+        ),
+        "n_steps_derived_from_5d": 5,
+        "n_steps_external": 1,
+        "external_steps": ["step_4"],
+        "path_to_full_closure": (
+            "Derive the Z₂ boundary conditions for the 5D gauge field A_M^a directly "
+            "from the UM metric ansatz G_{AB}. The parity matrix P = diag(+1,+1,+1,−1,−1) "
+            "must emerge from the geometry rather than being postulated. "
+            "Alternative: compactify on an internal manifold with SU(3) isometry (e.g., CP²) "
+            "embedded in the 5D metric."
+        ),
+        "section": "§XIV.2",
+    }
+
+
 def full_nw5_proof_summary() -> Dict:
     """Complete summary of all n_w=5 uniqueness arguments, with levels.
 

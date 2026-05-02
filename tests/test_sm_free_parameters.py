@@ -49,6 +49,7 @@ from src.core.sm_free_parameters import (
     um_open_parameters,
     um_toe_score,
     pillar88_summary,
+    sm_closure_roadmap,
 )
 
 
@@ -739,3 +740,54 @@ class TestFalsifiablePredictions:
         assert new_err < old_err, (
             f"New θ₂₃ formula ({new_err:.1%}) not better than old ({old_err:.1%})"
         )
+
+
+# ---------------------------------------------------------------------------
+# §XIV.1 — SM Closure Roadmap (sm_closure_roadmap)
+# ---------------------------------------------------------------------------
+
+class TestSMClosureRoadmap:
+    """Verify the §XIV.1 SM closure roadmap function."""
+
+    @pytest.fixture(autouse=True)
+    def roadmap(self):
+        self.roadmap = sm_closure_roadmap()
+
+    def test_returns_dict(self):
+        assert isinstance(self.roadmap, dict)
+
+    def test_required_keys(self):
+        assert {"total_obs_dependent", "total_parameters", "parameters", "summary", "section"}.issubset(
+            self.roadmap.keys()
+        )
+
+    def test_section_label(self):
+        assert self.roadmap["section"] == "§XIV.1"
+
+    def test_obs_dependent_count_reasonable(self):
+        """Should be 10–15 parameters (honest acknowledgement of inputs needed)."""
+        n = self.roadmap["total_obs_dependent"]
+        assert 8 <= n <= 16, f"Expected 8–16 obs-dependent parameters, got {n}"
+
+    def test_all_entries_have_path_to_closure(self):
+        for entry in self.roadmap["parameters"]:
+            assert "path_to_closure" in entry and entry["path_to_closure"]
+
+    def test_at_least_one_near_tier(self):
+        """There must be at least one NEAR-term closure (Yukawa universality)."""
+        tiers = [e["difficulty_tier"] for e in self.roadmap["parameters"]]
+        assert "NEAR" in tiers
+
+    def test_table_has_all_required_fields(self):
+        required = {"id", "name", "status", "path_to_closure", "difficulty_tier"}
+        for entry in self.roadmap["parameters"]:
+            assert required.issubset(entry.keys()), f"Missing fields in {entry.get('id')}"
+
+    def test_sm_parameter_table_has_path_to_closure(self):
+        """Every entry in sm_parameter_table() must have a path_to_closure field."""
+        table = sm_parameter_table()
+        for pid, info in table.items():
+            assert "path_to_closure" in info, f"Missing path_to_closure in {pid}"
+
+    def test_summary_mentions_toe_score(self):
+        assert "TOE" in self.roadmap["summary"] or "%" in self.roadmap["summary"]
