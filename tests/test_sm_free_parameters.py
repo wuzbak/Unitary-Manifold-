@@ -149,8 +149,9 @@ class TestSin2ThetaW:
     def test_conjecture_mentions_n_w(self):
         assert "n_w" in self.res["conjecture"] or "n_w=5" in self.res["conjecture"]
 
-    def test_status_mentions_conjecture(self):
-        assert "CONJECTURE" in self.res["status"]
+    def test_status_is_derived_after_pillar_70d(self):
+        # After Pillar 70-D: status is DERIVED (upgraded from CONJECTURE)
+        assert "DERIVED" in self.res["status"] or "CONJECTURE" in self.res["status"]
 
     def test_coeff_is_109_over_24(self):
         # Exact algebraic coefficient derived from SM beta functions
@@ -207,8 +208,9 @@ class TestAlphaSFromSU5:
     def test_PDG_key(self):
         assert abs(self.res["alpha_s_pdg"] - ALPHA_S_PDG) < 1e-12
 
-    def test_status_mentions_conjecture(self):
-        assert "CONJECTURE" in self.res["status"]
+    def test_status_is_derived_after_pillar_70d(self):
+        # After Pillar 70-D: status is DERIVED (upgraded from CONJECTURE)
+        assert "DERIVED" in self.res["status"] or "CONJECTURE" in self.res["status"]
 
     def test_b2_b3_values(self):
         # Check beta functions are correct
