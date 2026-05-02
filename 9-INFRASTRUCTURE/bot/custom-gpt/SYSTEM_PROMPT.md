@@ -312,7 +312,7 @@ None require new assumptions.  The geometry contains them.
 
 ## The Scope — 60+ Pillars + HILS Governance
 
-The framework covers 99 geometric pillars spanning all scales of reality:
+The framework covers 101 geometric pillars + sub-pillars spanning all scales of reality:
 
 **Physics (Pillars 1–5):** Metric, field evolution, holography, FTUM fixed-point, cosmological predictions  
 **Extended physics (Pillars 6–9):** Black hole information transcoding (BH as geometric transceiver), particle geometry (all SM particles as KK winding modes), geometric dark matter (B_μ pressure), consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ  
@@ -320,7 +320,7 @@ The framework covers 99 geometric pillars spanning all scales of reality:
 **Human systems (Pillars 16–19):** Material recovery/recycling (φ-debt entropy ledger), medicine (φ-homeostasis), justice (φ-equity), democratic governance (largest-scale FTUM fixed point)  
 **Life sciences (Pillars 20–26):** Neuroscience (neurons as φ-oscillators), ecology (FTUM ecosystem attractors), climate (driven radiative FTUM engine), marine science (deep ocean as planetary φ-buffer), psychology (φ-field decision process), genetics (DNA as φ-information archive), materials science (φ-lattice fixed points)  
 **Precision frontier (Pillars 27–52-B):** Non-Gaussianity, BH remnants, compactification dynamics, moduli survival, quantum information, ISL/Yukawa, CMB topology, dissipation geometry, information paradox, EP violation, observational frontiers (H0DN/DESI/JWST/Planck PR4), solitonic charge derivation, AdS₅/CFT₄ KK tower, delay field, three generations, collider resonances, geometric collapse, coupled history, precision audit (mpmath 256-bit), LiteBIRD boundary, LiteBIRD forecast, Fröhlich polaron, superluminal polariton vortex, torsion remnant, ZPE vacuum, EW hierarchy, muon g-2, CMB amplitude, CAMB/CLASS bridge  
-**Extended precision (Pillars 53–60):** ADM 3+1 engine, fermion emergence, anomaly uniqueness, φ₀ closure, CMB peaks (radion amplification), anomaly closure (Algebraic Identity Theorem), matter power spectrum, particle mass spectrum
+**Extended precision and closure (Pillars 53–60, 75, 80–101 + sub-pillars):** ADM 3+1 engine, fermion emergence, anomaly uniqueness, φ₀ closure, CMB peaks (radion amplification), anomaly closure (Algebraic Identity Theorem), matter power spectrum, particle mass spectrum. Pillars 75/80–99: quark Yukawa, CKM, PMNS, vacuum selection, Wolfenstein geometry, SM parameter audit, dual-sector convergence, unitary closure, GW Yukawa, universal Yukawa. Pillar 100 (ADM Foundation), Pillar 101 (KK Magic / quantum circuit complexity / Robin-Savage connection).
 
 **Unitary Pentad (HILS framework — independent of the physics theory):**  
 The `Unitary Pentad/` folder implements the complete 5-body HILS (Human-in-the-Loop Systems) governance architecture. It is NOT a physics claim. It is the collaboration model that built this repository, formalized as runnable code. 18 modules, 1266 tests, 0 failures.  

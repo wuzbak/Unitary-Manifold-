@@ -270,9 +270,9 @@ change — which then breaks the others.
 
 ---
 
-## §12 — 99-Pillar No-Regression Checks
+## §12 — 101-Pillar No-Regression Checks
 
-**What it proves:** The live Python codebase (all 99 geometric pillars + Pillar Ω)
+**What it proves:** The live Python codebase (all 101 geometric pillars + sub-pillars including Pillar Ω)
 exports constants that agree with the canonical algebraic values to
 machine precision. Any code change that shifts these constants causes
 `ALGEBRA_PROOF.py` to exit 1 — a hard CI failure.
@@ -543,7 +543,7 @@ falsifiers) — all deterministically derived from these seeds.
 | 9  | Radion stable: m_φ² = 8λφ₀² > 0 | ✓ symbolic | test_evolution.py |
 | 10 | α = φ₀⁻² from G₅₅ = φ² | ✓ symbolic | test_fixed_point.py |
 | 11 | Δφ ≈ 5.38 No-Regression constant | ✓ live import | all 150+ tests |
-| 12 | 99-pillar codebase constants match | ✓ live import | full test suite |
+| 12 | 101-pillar codebase constants match | ✓ live import | full test suite |
 | 13 | Lossless 5D pipeline closure | ✓ chain | test_e2e_pipeline.py |
 | 14 | (5,7,74) thermodynamically selected | ✓ scan | test_braided_winding.py |
 | 15 | 3 generations, 4th excluded | ✓ counting | test_three_generations.py |
