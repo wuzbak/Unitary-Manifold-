@@ -1,4 +1,4 @@
-# Downloading the Unitary Manifold Project (v9.27 — OMEGA EDITION)
+# Downloading the Unitary Manifold Project (v9.29)
 
 Three ways to get everything onto your PC, from easiest to most flexible.
 
@@ -114,7 +114,7 @@ unitary-manifold-omega-v9.27/
 │
 ├── Unitary Pentad/                 ← HILS governance framework — 18 modules (1,266 tests)
 │
-├── tests/                          ← 150 test files, ~13,059 passing tests (Pillars 1–99)
+├── tests/                          ← 150+ test files, ~14,103 passing tests (Pillars 1–101)
 │
 ├── embryology-manifold/            ← Pillar TVC: egg radius, zinc count, HOX predictions
 │

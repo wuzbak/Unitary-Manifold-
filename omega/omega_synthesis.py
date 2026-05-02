@@ -7,7 +7,7 @@ THE OMEGA SYNTHESIS — Universal Mechanics Engine (Pillar Ω)
 
                     ❯ A precise calculator of the universe and its mechanisms.
 
-This is the capstone of the Unitary Manifold: 99 pillars of 5D Kaluza-Klein
+This is the capstone of the Unitary Manifold: 101 pillars of 5D Kaluza-Klein
 geometry, particle physics, cosmology, consciousness, ecology, governance, and
 the HILS co-emergence framework, unified into a single queryable Python engine.
 
@@ -69,7 +69,7 @@ See ``engine.falsifiers()`` for the complete list.
 
 REFERENCES
 ----------
-All 99 pillars live in src/core/, src/*/,  recycling/, and Unitary Pentad/.
+All 101 pillars live in src/core/, src/*/,  recycling/, and Unitary Pentad/.
 The complete test suite is in tests/, recycling/, and Unitary Pentad/.
 """
 
@@ -625,8 +625,8 @@ class UniversalEngine:
     # Version tracking
     # -----------------------------------------------------------------------
     DEFAULT_VERSION = "v9.29 OMEGA EDITION"
-    DEFAULT_N_PILLARS = 99   # Pillar Ω closes the count; sub-pillars 70-C, 99-B, 15-F added at v9.28
-    DEFAULT_N_TESTS = 15362  # v9.29 post-audit count: 15,362 passed, 330 skipped, 0 failed
+    DEFAULT_N_PILLARS = 101   # Pillars 100 (ADM) + 101 (KK Magic/Epistemics) added at v9.29
+    DEFAULT_N_TESTS = 15615  # v9.29 verified count: 15,615 passed, 330 skipped, 0 failed
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)
@@ -1089,7 +1089,7 @@ class UniversalEngine:
             "11. The brain, the universe, the human, the AI, and trust itself form a stable "
             f"5-body Pentad under the (5,7) braid frequency — consciousness and governance are "
             f"4D projections of the same 5D geometry (Unitary Pentad, co-emergence/).",
-            "12. [Pillar Ω] All 99 pillars converge in the Universal Mechanics Engine — "
+            "12. [Pillar Ω] All 101 pillars converge in the Universal Mechanics Engine — "
             "a single queryable calculator of the universe from five seed constants. "
             "REPOSITORY COMPLETE.",
         ]

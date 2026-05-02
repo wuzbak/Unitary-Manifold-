@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.28):** All six completion requirements are solved internally, plus 25 additional particle-physics pillars (75, 80–99) closed, plus sub-pillars 70-C, 99-B, 15-F closing the remaining epistemic gaps. REPOSITORY COMPLETE (v9.28 — 99 pillars + sub-pillars). 15,296 tests.
+**Self-completion status (v9.29):** All six completion requirements are solved internally, plus 27 additional particle-physics pillars (75, 80–99, 100–101) closed, plus sub-pillars 70-C/70-D, 99-B, 15-F, 97-B/C closing the remaining epistemic gaps. REPOSITORY COMPLETE (v9.29 — 101 pillars + sub-pillars). 15,615 tests.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -458,7 +458,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **15,296 passed · 330 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/). **15,296** — all 99 pillars + sub-pillars passing. |
+| **Test suite** | `pytest` unit tests — **15,615 passed · 330 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/). **15,615** — all 101 pillars + sub-pillars passing. |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

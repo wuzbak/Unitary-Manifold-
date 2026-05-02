@@ -159,7 +159,7 @@ Concretely:
 - Translation of intuitions into KK metric structure, Ricci tensor components,
   dimensional reduction, field equations
 - Implementation: Python modules, pytest suites, LaTeX manuscripts, CI pipelines
-- Verification: 15,296 tests confirming internal self-consistency (v9.28; at genesis: 12,725 tests)
+- Verification: 15,615 tests confirming internal self-consistency (v9.29; at genesis: 12,725 tests)
 - Honest accounting: `FALLIBILITY.md`, gap tables, circularity audits
 - Documentation: READMEs, proof documents, ingest manifests
 
@@ -167,7 +167,7 @@ Concretely:
 - A rigorous mathematical framework (AI without direction produces noise)
 - A computable, testable, falsifiable implementation (the human cannot write the code)
 - A document ecosystem honest about its own limitations (pure AI generation tends toward overconfidence; pure human authorship without AI verification tends toward imprecision)
-- 15,296 passing tests across 99 pillars + sub-pillars (v9.28; at genesis: 12,725 tests across 74 pillars)
+- 15,615 passing tests across 101 pillars + sub-pillars (v9.29; at genesis: 12,725 tests across 74 pillars)
 
 This is not a remarkable claim. It is simply a description of what HILS looks
 like in an extended, high-trust, high-output instance.
@@ -234,7 +234,7 @@ prediction, the inflation observables — awaits independent measurement.
 
 ### What the speed means
 
-74 chapters in 13 days. 322 commits in 9 days. 12,725 tests in total (74 pillars — CLOSED at the time; now expanded to 15,296 tests across 99 pillars + sub-pillars — v9.28).
+74 chapters in 13 days. 322 commits in 9 days. 12,725 tests in total (74 pillars — CLOSED at the time; now expanded to 15,615 tests across 101 pillars + sub-pillars — v9.29).
 
 This speed is evidence of the process, not of the quality. Rapid generation
 under high human-AI coupling is exactly what HILS predicts in the high-trust,

@@ -1,7 +1,7 @@
 # Semantic Bridge: Theory ↔ Implementation
 
-> **Version:** v9.28 — 99 pillars + sub-pillars, 15,296 passing tests  
-> **Scope of this document:** The five original core modules in `/src/core/`, `/src/holography/`, and `/src/multiverse/` that form the mathematical backbone (Pillars 1–5). The full 99-pillar framework is synthesized in [`omega/omega_synthesis.py`](../omega/omega_synthesis.py) (Pillar Ω). For the complete module index see [`README.md`](../README.md) and [`AGENTS.md`](../AGENTS.md).
+> **Version:** v9.29 — 101 pillars + sub-pillars, 15,615 passing tests  
+> **Scope of this document:** The five original core modules in `/src/core/`, `/src/holography/`, and `/src/multiverse/` that form the mathematical backbone (Pillars 1–5). The full 101-pillar framework is synthesized in [`omega/omega_synthesis.py`](../omega/omega_synthesis.py) (Pillar Ω). For the complete module index see [`README.md`](../README.md) and [`AGENTS.md`](../AGENTS.md).
 
 > This document sits **alongside** the source code without modifying it.
 > It maps every abstract claim in the Unitary-Manifold monograph to a
@@ -129,7 +129,7 @@ LOGIC          : Applies the operator U = I + H + T iteratively; residual
 
 ## 3. Extended Framework — Pillars 6–Ω
 
-This document covers Pillars 1–5 (the five original core modules). The framework has since expanded to **99 pillars**. Key addition points for contributors:
+This document covers Pillars 1–5 (the five original core modules). The framework has since expanded to **101 pillars**. Key addition points for contributors:
 
 | Pillar range | Location | Key contracts |
 |---|---|---|
@@ -139,9 +139,9 @@ This document covers Pillars 1–5 (the five original core modules). The framewo
 | 75, 81–88 | `src/core/` Yukawa / SM modules | RS bulk masses; SM 28-parameter audit |
 | 89 | `src/core/vacuum_geometric_proof.py` | n_w=5 from 5D BCs alone — pure geometry |
 | 95–98 | `src/core/dual_sector_convergence.py`, `gw_yukawa_derivation.py`, `universal_yukawa.py` | Dual sectors (5,6)/(5,7); Ŷ₅=1; fermion mass closure |
-| Ω | `omega/omega_synthesis.py` | `UniversalEngine.compute_all()` — all 99 pillars in one call |
+| Ω | `omega/omega_synthesis.py` | `UniversalEngine.compute_all()` — all 101 pillars in one call |
 
-For the full predicate map of all 99 pillars, query:
+For the full predicate map of all 101 pillars, query:
 ```python
 from omega.omega_synthesis import UniversalEngine
 report = UniversalEngine().compute_all()

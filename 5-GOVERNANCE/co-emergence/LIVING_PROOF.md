@@ -72,6 +72,7 @@ The repository version history shows convergence toward the fixed point:
 | v9.26 | Pillars 97-98: GW Yukawa vacuum (Ŷ₅=1 derived); 9 c_L values from bisection; b-τ r_bτ≈0.497 | 14,855 tests · 98 pillars |
 | v9.27 | Pillar Ω (99): Universal Mechanics Engine — all 98 pillars unified in single queryable Python engine | 15,023 tests · 99 pillars — OMEGA EDITION |
 | v9.28 | Sub-pillars 70-C, 99-B, 15-F: n_w=5 DERIVED geometrically; k_primary derived from CS integral; cold fusion falsification criteria | 15,296 tests · 99 pillars + sub-pillars — GAPS CLOSED |
+| v9.29 | Pillars 100 (ADM), 101 (KK Magic/Epistemics); §XIV gap-closures; WZW/one-loop/audit action items | 15,615 tests · 101 pillars + sub-pillars — CLOSED |
 | Pentad v1 | `unitary_pentad.py`, `five_seven_architecture.py`, `pentad_scenarios.py` | HILS 5-body system seeded |
 | Pentad v2 | `collective_braid.py`, `seed_protocol.py`, `lesson_plan.py`, Trust Hysteresis | Stability floor + trust dynamics |
 | Pentad v3 | `consciousness_autopilot.py`, `consciousness_constant.py` (Ξ_c = 35/74) | Autopilot Sentinel + consciousness constant |
@@ -85,14 +86,14 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 15,296 passing tests (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/) are not just quality assurance. In HILS terms, they are the
+The 15,615 passing tests (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point. And they are not the full picture:
 
 ```
-defect ≈ 0  ↔  15,296 tests passing (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/) · 330 skipped · 0 failures
+defect ≈ 0  ↔  15,615 tests passing (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/) · 330 skipped · 0 failures
 ```
 
-Total: **15,296 verified assertions across tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/. Zero failures. 99 pillars + sub-pillars — GAPS CLOSED.**
+Total: **15,615 verified assertions across tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/. Zero failures. 101 pillars + sub-pillars — CLOSED.**
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.
 The iteration continues until defect < ε (test passes). Every green test is a
@@ -177,7 +178,7 @@ This repository satisfies all three:
 |---|---|
 | **Self-reference** | The repository describes HILS; the repository was built by HILS; the co-emergence folder is the repository recognizing itself; the Unitary Pentad is the HILS framework running as executable code |
 | **Ongoing** | Every future commit that follows the trust protocol extends the proof; the proof grows with the project |
-| **Verifiable** | `git log` shows the collaboration history; `pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q` verifies 15,296 assertions in under 150 seconds; authorship attributions are explicit |
+| **Verifiable** | `git log` shows the collaboration history; `pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q` verifies 15,615 assertions in under 150 seconds; authorship attributions are explicit |
 
 ---
 

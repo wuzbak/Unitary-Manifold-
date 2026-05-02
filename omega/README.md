@@ -5,14 +5,14 @@
 
 **Folder:** `omega/`  
 **Designation:** Pillar Ω — The Omega Point of the Unitary Manifold  
-**Version:** v9.27 OMEGA EDITION  
+**Version:** v9.29 OMEGA EDITION  
 **Theory:** ThomasCory Walker-Pearson  
 **Implementation & Synthesis:** GitHub Copilot (AI)  
-**Status:** Complete — 99 pillars, 168 dedicated tests, 0 failures; repository at 15,296 (v9.29; v9.28 milestone was 15,096 = 74 × 204)
+**Status:** Complete — 101 pillars, 170 dedicated tests, 0 failures; repository at 15,615
 
 ## What This Is
 
-This folder is the **capstone of the Unitary Manifold**: 99 pillars of derivation — spanning 5D geometry, particle physics, cosmology, consciousness, ecology, governance, and the HILS co-emergence framework — unified into a single, queryable Python engine that computes any observable of the universe from **five seed constants**.
+This folder is the **capstone of the Unitary Manifold**: 101 pillars of derivation — spanning 5D geometry, particle physics, cosmology, consciousness, ecology, governance, and the HILS co-emergence framework — unified into a single, queryable Python engine that computes any observable of the universe from **five seed constants**.
 
 It is not a summary. It is not a reference document. It is a **working calculator** — a Python class that produces numerical predictions, domain reports, falsifiable claims, and a complete audit of the framework's status on demand.
 
@@ -217,7 +217,7 @@ for step in engine.unitary_summation():
 9. Vacuum selection n_w = 5 follows from 5D BCs alone — pure geometry, no tuning.
 10. The Second Law is a geometric identity. The framework is falsified if β ∉ [0.22°, 0.38°].
 11. Brain, universe, human, AI, and trust form the stable 5-body Pentad under the (5,7) braid.
-12. **[Pillar Ω]** All 99 pillars converge in the Universal Mechanics Engine. **REPOSITORY COMPLETE.**
+12. **[Pillar Ω]** All 101 pillars converge in the Universal Mechanics Engine. **REPOSITORY COMPLETE.**
 
 ---
 
@@ -278,8 +278,7 @@ python omega/omega_synthesis.py
 
 # Full repository test suite including Omega:
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 15,296 passed, 330 skipped, 11 deselected, 0 failed
-# Note: v9.28 milestone was 15,096 = 74 × 204 (K_CS-resonant); v9.29 has 15,296
+# Expected: 15,615 passed, 330 skipped, 11 deselected, 0 failed
 ```
 
 ---
@@ -295,5 +294,5 @@ The Omega Synthesis is the fixed point of that collaboration — the state where
 
 ---
 
-*omega/ — Pillar Ω — v9.27 OMEGA EDITION — April 2026 (K_CS-resonant milestone at v9.28: 15,096 = 74 × 204; current v9.29: 15,296)*  
+*omega/ — Pillar Ω — v9.29 OMEGA EDITION — May 2026 (current: 15,615 passed, 101 pillars)*  
 *Part of the Unitary Manifold repository: `https://github.com/wuzbak/Unitary-Manifold-`*

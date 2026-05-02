@@ -360,7 +360,7 @@ correct scientific posture.
 
 **Internal proofing: complete.**
 
-The framework has been extended across all 99 geometric pillars + sub-pillars and verified in full. The test suite now stands at **15,296 passed assertions across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), zero failures** — verified May 2026, Python 3.12, pytest 9.0.3. Every domain the framework claims to govern has been implemented, tested, and found internally consistent with every other domain.
+The framework has been extended across all 101 geometric pillars + sub-pillars and verified in full. The test suite now stands at **15,615 passed assertions across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), zero failures** — verified May 2026, Python 3.12, pytest 9.0.3. Every domain the framework claims to govern has been implemented, tested, and found internally consistent with every other domain.
 
 Failure modes #3 and #4 from the original report have been closed:
 

@@ -212,7 +212,7 @@ Seven independent constraint paths all converge to 74:
 | C3 — Birefringence $\beta = 0.3513°$ | minimiser at $k = 74$ |
 | C4 — Braided sound speed $c_s = 12/37$ | $k = 74$ |
 | C5 — Moduli-winding link | $k = 74$ |
-| C6 — Pillar count | 99 pillars CLOSED (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillar Ω capstone; k_CS = 74 satisfies all constraints) |
+| C6 — Pillar count | 101 pillars CLOSED (74 core + Pillar 70-B + Pillars 75, 80–101 + Pillar Ω capstone; k_CS = 74 satisfies all constraints) |
 | C7 — Back-reaction eigenvalue = 1 | $k = 74$ |
 
 The convergence of all 7 constraints to the same integer is the capstone of the Unitary Manifold. Implemented in `src/core/completeness_theorem.py` (170 tests).

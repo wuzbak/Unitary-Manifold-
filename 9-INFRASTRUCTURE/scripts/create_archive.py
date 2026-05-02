@@ -99,14 +99,14 @@ Getting started
   python -c "from src.core import metric, evolution; print('OK')"
   python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 
-Test suite summary (v9.28)
+Test suite summary (v9.29)
 -----------------------------------------
-  tests/               ~13,786 passed, 76 skipped   (Pillars 1–99 + sub-pillars)
+  tests/               ~14,103 passed, 76 skipped   (Pillars 1–101 + sub-pillars)
   recycling/               316 passed    (Pillar 16)
   5-GOVERNANCE/Unitary Pentad/  1,026 passed, 254 skipped  (HILS governance)
-  omega/                   168 passed    (Pillar Ω)
+  omega/                   170 passed    (Pillar Ω)
   ─────────────────────────────────────
-  TOTAL               15,296 passed, 330 skipped, 0 failed
+  TOTAL               15,615 passed, 330 skipped, 0 failed
 """
 
 
