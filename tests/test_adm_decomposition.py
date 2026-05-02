@@ -359,3 +359,96 @@ class TestPillar100Summary:
 
     def test_description_mentions_ricci_flow(self):
         assert "Ricci" in self.result["description"]
+
+
+# ---------------------------------------------------------------------------
+# ADM time-parameterization gap: lapse-function bridge
+# ---------------------------------------------------------------------------
+
+from src.core.adm_decomposition import adm_time_lapse_bridge
+
+
+class TestADMTimeLapseBridge:
+    """Tests for adm_time_lapse_bridge() — ADM gap quantification."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = adm_time_lapse_bridge()
+
+    # ---- return structure ----
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_has_epsilon_sr(self):
+        assert "epsilon_sr" in self.result
+
+    def test_has_lapse_deviation_estimate(self):
+        assert "lapse_deviation_estimate" in self.result
+
+    def test_has_lapse_pct_error(self):
+        assert "lapse_pct_error" in self.result
+
+    def test_has_gaussian_normal_ok(self):
+        assert "gaussian_normal_ok" in self.result
+
+    def test_has_gap_status(self):
+        assert "gap_status" in self.result
+
+    def test_has_gap_description(self):
+        assert "gap_description" in self.result
+
+    def test_has_mitigation(self):
+        assert "mitigation" in self.result
+
+    def test_has_remaining_open(self):
+        assert "remaining_open" in self.result
+
+    # ---- physical content ----
+
+    def test_default_epsilon_is_small(self):
+        assert self.result["epsilon_sr"] < 0.01
+
+    def test_lapse_deviation_equals_epsilon(self):
+        assert abs(self.result["lapse_deviation_estimate"] - self.result["epsilon_sr"]) < 1e-12
+
+    def test_lapse_pct_below_five_percent(self):
+        assert self.result["lapse_pct_error"] < 5.0
+
+    def test_gaussian_normal_ok_for_slow_roll(self):
+        assert self.result["gaussian_normal_ok"] is True
+
+    def test_gap_status_mentions_REAL_GAP(self):
+        assert "REAL GAP" in self.result["gap_status"]
+
+    def test_gap_status_mentions_PARTIALLY_MITIGATED(self):
+        assert "PARTIALLY MITIGATED" in self.result["gap_status"]
+
+    def test_gap_description_mentions_Ricci(self):
+        assert "Ricci" in self.result["gap_description"]
+
+    def test_gap_description_mentions_lapse(self):
+        assert "lapse" in self.result["gap_description"].lower()
+
+    def test_mitigation_mentions_pillar_41(self):
+        assert "41" in self.result["mitigation"]
+
+    def test_remaining_open_mentions_Hamiltonian(self):
+        assert "Hamiltonian" in self.result["remaining_open"]
+
+    # ---- phi0_eff override ----
+
+    def test_phi0_eff_overrides_epsilon(self):
+        phi0 = 31.416
+        expected_eps = 6.0 / phi0 ** 2
+        res = adm_time_lapse_bridge(phi0_eff=phi0)
+        assert abs(res["epsilon_sr"] - expected_eps) < 1e-12
+
+    def test_higher_epsilon_gives_larger_lapse_error(self):
+        res_high = adm_time_lapse_bridge(epsilon_sr=0.05)
+        res_low = adm_time_lapse_bridge(epsilon_sr=0.001)
+        assert res_high["lapse_deviation_estimate"] > res_low["lapse_deviation_estimate"]
+
+    def test_near_unity_epsilon_gaussian_not_ok(self):
+        res = adm_time_lapse_bridge(epsilon_sr=0.1)
+        assert res["gaussian_normal_ok"] is False
