@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (99 pillars/modules + sub-pillars closed, 15,362 tests passing)*
+*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (101 pillars/modules + sub-pillars closed, 15,545 tests passing)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 15,362 automated tests (99 pillars/modules + sub-pillars closed; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 15,545 automated tests (101 pillars/modules + sub-pillars closed; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -32,7 +32,10 @@ and quantum unification theorems (`test_quantum_unification.py`).
 Pillar 51 (`test_muon_g2.py`) covers the KK graviton and ALP Barr–Zee
 contributions to the muon anomalous magnetic moment.  Pillar 52
 (`test_cmb_amplitude.py`) covers the COBE normalization chain and the
-acoustic-peak suppression audit.
+acoustic-peak suppression audit.  Pillar 101 (`test_kk_magic.py`) covers
+quantum magic (non-stabilizerness) of the braided winding state and the
+T-gate circuit complexity of UM-modified nuclear S-factors, directly engaging
+with Robin & Savage (arXiv:2604.26376) on quantum complexity in nuclear physics.
 
 Internal verification does **not** constitute empirical confirmation of the
 framework as a description of nature.  Specifically:
@@ -45,7 +48,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "15,362 passed · 330 skipped · 0 failed," this is a statement about
+When the README badge reads "15,545 passed · 330 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
