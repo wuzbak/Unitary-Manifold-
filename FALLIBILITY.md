@@ -1674,13 +1674,11 @@ See `src/core/dual_sector_convergence.py` (Pillar 95) and `src/core/unitary_clos
 
 ---
 
-## XII. K_CS-Resonant Test Milestone (Historical Note, v9.28)
-
-*Milestone reached at v9.28 (15,096 = 74 × 204 passing tests).*
+## XII. K_CS-Resonant Test Milestone (v9.28 Historical Note)
 
 The v9.28 test count **15,096 = 74 × 204** coincided exactly with a multiple of the
-Chern-Simons level K_CS = 74 = 5² + 7².  That was a notable architectural coincidence
-noted in May 2026.
+Chern-Simons level K_CS = 74 = 5² + 7² — a notable architectural coincidence noted
+in May 2026.
 
 - **Prior milestone:** 15,048 = 99 × 152 (pillar-complete; φ × 9300 ≈ 15,047.72)
 - **v9.28 K_CS milestone:** 15,096 = 74 × 204 (K_CS-resonant; 48 targeted tests added via Pillars 78-B and 95-B)
