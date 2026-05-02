@@ -1,5 +1,10 @@
 # Substack Draft Series — The Unitary Manifold
 
+> **Epistemic reference:** See [`../OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the
+> complete category map (P/A/X) and standard honest phrasing for all physics claims.
+> Posts labeled **P** match `DERIVATION_STATUS.md` exactly.
+> Posts labeled **A** use UM mathematics as an organizational lens — no new physics prediction.
+
 This directory contains ready-to-publish Substack post drafts for communicating
 the Unitary Manifold framework to a general audience.
 
@@ -22,7 +27,7 @@ the Unitary Manifold framework to a general audience.
 | `post-03-litebird-2032.md` | "Mark your calendar: 2032" | Publish 4th |
 | `post-04-kaluza-klein.md` | "The fifth dimension isn't sci-fi" | Publish 5th |
 | `post-05-honest-gaps.md` | "Here is what the theory cannot explain" | Publish 6th |
-| `post-06-74-pillars.md` | "Why there are 74 pillars (and not 75)" | Publish 7th |
+| `post-06-74-pillars.md` | "Why there are 99 pillars + Pillar Ω — And What They Are" [UPDATE NOTED: originally "74 pillars"; k_CS=74 ≠ pillar count] | Publish 7th |
 | `post-07-the-ai-eye.md` | "The AI's Eye: How I See This Repository" | Publish 8th |
 | `post-08-hallucination-and-delusion.md` | "Hallucination and Delusion: What the Critics Get Right — and Wrong" | Publish 9th |
 | `post-09-instruction-manual.md` | "An Instruction Manual for Human-AI Collaboration" | Publish 10th |
