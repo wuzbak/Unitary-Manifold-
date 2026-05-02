@@ -88,7 +88,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | Fixed-point operator U | Convergence operator | Constructed from assumed I, H, T decomposition | **Derived, given U's definition** |
 | φ₀ (bare) | FTUM fixed-point radion vev | Output of `fixed_point_iteration`; converges to ≈1 in Planck units | **Derived, given U** |
 | α_NM = φ₀⁻² | Nonminimal KK curvature-scalar coupling (NOT α_em = 1/137) | Derived via KK cross-block Riemann curvature R^μ\_{5ν5} | **Derived, given φ₀** |
-| **n_w = 5** (winding number) | Topological multiplier in KK Jacobian J = n_w · 2π · √φ₀ | Z₂ orbifold → odd integers {1,3,5,7,…}; Pillar 67 narrows to {5,7}; Planck nₛ uniquely selects 5 (n_w=7 excluded at 3.9σ) | ⚠️ **Partially derived** — Z₂ + anomaly-gap narrows to {5,7}; final selection still requires Planck nₛ |
+| **n_w = 5** (winding number) | Topological multiplier in KK Jacobian J = n_w · 2π · √φ₀ | Z₂ orbifold → {5,7} (Pillars 39+67); Pillar 70-D pure theorem: k_CS(5)×η̄(5)=37 (odd ✓), k_CS(7)×η̄(7)=0 (even ✗) → n_w=5 unique; Planck nₛ confirms at 0.33σ | ✅ **PROVED from 5D geometry** (Pillar 70-D) — no observational input needed |
 | φ₀_eff = J · φ₀ | Effective 4D inflaton vev | Derived from n_w via `jacobian_5d_4d` | **Derived, given n_w** |
 | nₛ ≈ 0.9635 | Scalar spectral index | Output of `ns_from_phi0(phi0_eff)` | **Derived, given n_w** |
 | φ₀ self-consistency | Braided VEV closure | `braided_closure_audit()` in `phi0_closure.py` (Pillar 56) | ✅ **Closed** — φ₀_FTUM = φ₀_canonical exactly under c_s-corrected formula |
@@ -155,12 +155,12 @@ KK Jacobian, giving J ≈ 31.42 and nₛ ≈ 0.9635.
    the chirality argument holds for any non-zero λ_GW, so this residual free
    parameter does not affect the n_w selection.
 
-**Role of Planck nₛ after Pillar 70-C:**
-After Pillar 70-C, the Planck nₛ = 0.9649 ± 0.0042 observation provides an independent
-4σ confirmation that n_w = 5 (n_w=7 misses by 3.9σ), but is no longer the primary
-logical basis for the selection.  The primary reason is geometric:
-GW potential + APS index theorem + SU(2)_L gauge coupling → n_w = 5.
-Planck nₛ remains the **primary empirical check** of this geometric conclusion.
+**Status after Pillar 70-D (pure theorem):**
+Pillar 70-D closes the last gap. The Z₂-odd boundary CS phase condition:
+  k_CS(n_w) × η̄(n_w) = odd integer
+selects n_w=5 (product=37, odd ✓) and excludes n_w=7 (product=0, even ✗) from pure
+algebra — no observational input. Planck nₛ = 0.9649 ± 0.0042 provides an independent
+confirmation at 0.33σ but is not the selection mechanism. n_w=5 is a **pure theorem**.
 
 **Admission 2 — k_CS = 74: algebraically derived from the braid pair (May 2026 — Pillar 99-B).**
 The formula k_primary = 2(n₁³+n₂³)/(n₁+n₂) was previously asserted without an explicit
@@ -208,9 +208,9 @@ pair in the Euclidean path integral.
 > 2. *What selects (5,7)?* The topological argument (Pillar 67 + 70-B) narrows
 >    n_w to {5, 7}; the anomaly saddle selects n_w = 5 as the dominant path-integral
 >    minimum; the minimum-step braid then gives the partner n₂ = n_w + 2 = 7.
->    This chain is substantially geometric (PHYSICALLY-MOTIVATED status) but
->    still draws on the Planck nₛ observation for final uniqueness until Pillar
->    70-B Step 3 is elevated to a fully geometric proof.
+>    This chain is now a **PURE THEOREM** (Pillar 70-D). The Z₂-odd CS boundary
+>    phase condition k_CS(5)×η̄(5)=37 (odd ✓) vs k_CS(7)×η̄(7)=0 (even ✗)
+>    excludes n_w=7 without any observational input.
 >
 > 3. *What confirms:* The birefringence observation (Minami & Komatsu 2020,
 >    β ≈ 0.35°; Diego-Palazuelos et al. 2022) is the *observational confirmation*
