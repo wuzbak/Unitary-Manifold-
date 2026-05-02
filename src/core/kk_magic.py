@@ -296,9 +296,15 @@ def stabilizer_renyi_entropy_m2(state: np.ndarray) -> float:
     # Correct SRE-M₂ formula (Leone, Oliviero & Hamma 2022):
     #   M₂(ψ) = n − log₂( Σ_P ⟨P⟩⁴ )
     # where xi[k] = ⟨P⟩² so xi[k]² = ⟨P⟩⁴.
-    # Derivation: M_α = (1/(1-α)) log₂[ Σ_P (2^{-n} ⟨P⟩²)^α ] at α=2
-    #   → M₂ = −log₂[ Σ_P 2^{-2n} ⟨P⟩⁴ ] − n = −log₂(Σ⟨P⟩⁴) + 2n − n = n − log₂(Σ⟨P⟩⁴)
-    # Sanity check: for a stabilizer state Σ⟨P⟩⁴ = 2^n (exactly n Paulis with ⟨P⟩=1)
+    # Derivation — Leone et al. define a normalised characteristic function
+    #   χ_P = 2^{-n} ⟨P⟩²  and the SRE at order α as (1/(1-α)) log₂(Σ_P χ_P^α).
+    # At α=2:
+    #   M₂ = (1/(1-2)) log₂(Σ_P [2^{-n}⟨P⟩²]²)
+    #       = -log₂( 2^{-2n} Σ_P ⟨P⟩⁴ )
+    #       = -log₂(Σ_P ⟨P⟩⁴) + 2n
+    # The Leone convention subtracts n to make stabilizer states give M₂=0:
+    #   M₂ = (-log₂(Σ_P ⟨P⟩⁴) + 2n) - n = n - log₂(Σ_P ⟨P⟩⁴)
+    # Sanity: |00⟩ has 2^n=4 stabilisers with ⟨P⟩²=1, rest 0 → Σ⟨P⟩⁴=4=2^n
     #   → M₂ = n − log₂(2^n) = n − n = 0  ✓
     sum_xi_sq = float(np.sum(xi ** 2))          # = Σ_P ⟨P⟩⁴
     M2 = n - math.log2(max(sum_xi_sq, _EPS))

@@ -177,12 +177,11 @@ class TestCharacteristicFunction:
             assert np.all(xi >= 0.0)
 
     def test_stabilizer_state_sum(self):
-        # For any stabilizer state the sum Σ Ξ(P) = 2^n = 4
-        # because stabilizer states saturate the uncertainty principle
-        # (exactly n of the 16 squared expectations are 1; the rest 0)
+        # For any stabilizer state the sum Σ Ξ(P) = 2^n = 4 (n=2 qubits),
+        # because exactly 2^n of the 4^n Pauli operators have ⟨P⟩² = 1
+        # (the stabilizer group), and the rest have ⟨P⟩ = 0.
         xi = characteristic_function(STATE_00)
-        # The sum need not be 4 for all stabilizer states in the Pauli basis,
-        # but each entry should be 0 or 1
+        # Each entry should be 0 or 1
         assert np.all(np.abs(xi - np.round(xi)) < 1e-12)
 
     def test_real_valued(self):
@@ -356,7 +355,11 @@ class TestWignerNegativity:
         assert math.isfinite(neg)
 
     def test_larger_for_more_magic(self):
-        # (5,7) has more magic than (1,2); expect more negativity
+        # Wigner negativity ∝ √(p₁p₂) for this state family, which is maximised
+        # at equal weights (Bell state).  (5,7) with p₁=49/74 is closer to
+        # equal-weight than (1,2) with p₁=0.8, so Wigner neg is larger for (5,7).
+        # Note: this ordering is opposite to the M₂ ordering — Wigner negativity
+        # and SRE M₂ are independent magic measures that need not agree.
         neg_57 = wigner_negativity(STATE_BRAID_57)
         neg_12 = wigner_negativity(STATE_BRAID_12)
         assert neg_57 >= neg_12
@@ -399,6 +402,10 @@ class TestMana:
         assert abs(M - expected) < 1e-12
 
     def test_larger_for_more_magic(self):
+        # Mana ∝ log₂(Σ|W|) and scales with √(p₁p₂) similarly to Wigner negativity.
+        # (5,7) has more Mana than (1,2) because it is closer to equal weights.
+        # As with Wigner negativity, Mana ordering may differ from M₂ ordering —
+        # they are independent magic measures; both are valid, neither dominates.
         M_57 = mana(STATE_BRAID_57)
         M_12 = mana(STATE_BRAID_12)
         assert M_57 >= M_12
