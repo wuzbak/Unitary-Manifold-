@@ -1,10 +1,10 @@
 # Full Test Results — Unitary Manifold
 
-Run date: 2026-05-01 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
+Run date: 2026-05-02 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
 
 **Fast suite (default `pytest tests/ -v`): PASSED · 76 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (all suites): 15,296 passed · 330 skipped · 11 deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+**Grand total (all suites): 15,615 passed · 330 skipped · 11 deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
 
 **14,641 = 11⁴** — prior structural milestone at v9.25. Not a physical claim.
 

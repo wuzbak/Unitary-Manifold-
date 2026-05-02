@@ -61,7 +61,7 @@ with this work.
 
 **File:** [`LICENSE`](LICENSE)  
 **Covers:** The physics theory — Walker-Pearson field equations, 5D Kaluza-Klein geometry,
-all 99 pillars, derivations, manuscripts, datasets, LaTeX sources, notebooks,
+all 101 pillars, derivations, manuscripts, datasets, LaTeX sources, notebooks,
 and the full monograph PDF.
 
 The theory is **irrevocably** placed in the public domain.  "Irrevocably" is not a figure
@@ -292,7 +292,7 @@ The following statements are **permanent and unconditional**:
    "AxiomZero Technologies" and "AZ" monograms applies solely to trade-name and logo
    identifiers — not to the intellectual content, equations, or methods of the open core.
 
-5. **Science before commerce.** The Unitary Manifold framework and all 99 pillars
+5. **Science before commerce.** The Unitary Manifold framework and all 101 pillars
    were publicly established with full commit history and Zenodo DOI **before**
    any commercial structure was created.  This order is documented and irrevocable.
 

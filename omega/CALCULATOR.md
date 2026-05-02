@@ -27,9 +27,9 @@ engine = UniversalEngine(
 |-----------|------|---------|-------------|
 | `phi_trust` | float | 1.0 | Trust field φ_trust ∈ [0, 1]. Below c_s ≈ 0.324, the Pentad decouples. |
 | `n_hil` | int | 1 | Aligned Human-in-the-Loop operators. Stability saturates at n ≥ 15. |
-| `version` | str | 'v9.28 OMEGA EDITION' | Framework version string. |
-| `n_pillars` | int | 99 | Number of completed pillars (Pillar Ω = 99th; sub-pillars 70-C, 99-B, 15-F added v9.28). |
-| `n_tests` | int | 15296 | Passing test count reported in OmegaReport. |
+| `version` | str | 'v9.29 OMEGA EDITION' | Framework version string. |
+| `n_pillars` | int | 101 | Number of completed pillars (Pillars 100–101 added at v9.29). |
+| `n_tests` | int | 15615 | Passing test count reported in OmegaReport. |
 
 **Raises:** `ValueError` if `phi_trust ∉ [0, 1]` or `n_hil < 0`.
 
@@ -207,9 +207,9 @@ The master computation — all six domains in one call.
 ```python
 report = engine.compute_all()
 
-report.version              # str    'v9.28 OMEGA EDITION'
-report.n_pillars            # int    99
-report.n_tests_passing      # int    15296
+report.version              # str    'v9.29 OMEGA EDITION'
+report.n_pillars            # int    101
+report.n_tests_passing      # int    15615
 report.n_seed_constants     # int    5
 report.cosmology            # CosmologyReport
 report.particle_physics     # ParticlePhysicsReport

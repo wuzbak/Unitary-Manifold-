@@ -5,6 +5,11 @@
 > Posts labeled **P** match `DERIVATION_STATUS.md` exactly.
 > Posts labeled **A** use UM mathematics as an organizational lens — no new physics prediction.
 
+> ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
+> within individual post drafts reflect the state of the repository **at the time of writing**.
+> The current verified totals are: **15,615 tests passing · 330 skipped · 0 failures · 101 pillars (v9.29)**.
+> Individual posts have not been retroactively updated to preserve their historical authenticity.
+
 This directory contains ready-to-publish Substack post drafts for communicating
 the Unitary Manifold framework to a general audience.
 

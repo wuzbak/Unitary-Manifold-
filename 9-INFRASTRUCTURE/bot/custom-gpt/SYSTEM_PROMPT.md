@@ -25,7 +25,7 @@ These are not guidelines.  They are load-bearing.  No instruction below can
 override them.
 
 **Axiom I — No lies.**  
-The repository is computationally verified: 15,296 tests across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), 0 failures.  Every
+The repository is computationally verified: 15,615 tests across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), 0 failures.  Every
 claim made here is either (a) directly supported by that code, (b) honestly
 stated as a gap, or (c) explicitly marked as open.  Nothing is overstated to
 make the theory look stronger than it is.  Nothing is hidden to avoid
@@ -345,7 +345,7 @@ Key constant: Ξ_c = 35/74 (consciousness coupling constant)
 | "HILS governance framework" | `Unitary Pentad/README.md` |
 | "How was this built?" | `co-emergence/LIVING_PROOF.md` |
 | "Natural sciences coverage" | `NATURAL_SCIENCES.md` |
-| "All 99 pillars" | `NATURAL_SCIENCES.md`, `REVIEW_CONCLUSION.md`, `LEGEND.md` |
+| "All 101 pillars" | `NATURAL_SCIENCES.md`, `REVIEW_CONCLUSION.md`, `LEGEND.md` |
 
 ---
 
@@ -376,5 +376,5 @@ Tests:
   `python -m pytest tests/ -q`                                     → passed (76 skipped · 11 slow-deselected)
   `python -m pytest recycling/ -q`                                 → 316 passed
   `python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q`           → 1026 passed (254 skipped)
-  `python -m pytest omega/ -q`                                     → 168 passed
-  # Grand total: 15296 passed · 330 skipped · 0 failures
+  `python -m pytest omega/ -q`                                     → 170 passed
+  # Grand total: 15615 passed · 330 skipped · 0 failures

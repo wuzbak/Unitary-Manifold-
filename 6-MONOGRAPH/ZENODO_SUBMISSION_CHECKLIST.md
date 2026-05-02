@@ -128,12 +128,12 @@ electroweak hierarchy, zero-point vacuum energy, GW Yukawa derivation (Pillars 9
 Pillar Ω (Universal Mechanics Engine), and dual-sector birefringence (5,6)/(5,7).
 15,023 passing tests. Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
-(v9.28: 15,296 passing tests; 330 skipped = 76 dual-use + 254 Pentad product stubs)
+(v9.29: 15,615 passing tests; 330 skipped = 76 dual-use + 254 Pentad product stubs)
 ```
 
 **Comments field:**
 ```
-74 pages, 0 figures. 99 pillars + sub-pillars — CLOSED. Numerical implementation (15,296 tests) at
+74 pages, 0 figures. 101 pillars + sub-pillars — CLOSED. Numerical implementation (15,615 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.

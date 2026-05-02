@@ -424,7 +424,7 @@ state divergence that scales with the total number of silent drops.
 The full test suite (v9.28 OMEGA EDITION):
 ```bash
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 15,296 passed, 330 skipped, 0 failed
+# Expected: 15,615 passed, 330 skipped, 0 failed
 ```
 
 The Universal Mechanics Engine queries all 99 pillars at once:
@@ -707,7 +707,7 @@ durable (see: TCP/IP, Ethernet, x86 ISA).
 
 ---
 
-*Part of the `systems-engineering/` folder — v9.28 OMEGA EDITION (99 pillars + sub-pillars, 15,296 tests).*  
+*Part of the `systems-engineering/` folder — v9.29 (101 pillars + sub-pillars, 15,615 tests).*  
 *See [`UPGRADE_ROADMAP.md`](./UPGRADE_ROADMAP.md) for the phased implementation plan at every scale.*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

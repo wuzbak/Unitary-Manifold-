@@ -125,7 +125,7 @@ def run_verify() -> int:
     checks: list[bool] = []
 
     print(_SEP)
-    print("  UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (99 pillars)")
+    print("  UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (101 pillars)")
     print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)")
     print(_SEP)
     print(f"  {'Check':<28s}  {'Value':<22s}  {'Reference':<14s}  Result")

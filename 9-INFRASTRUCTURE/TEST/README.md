@@ -1,10 +1,10 @@
 # Test Suite — Unitary Manifold
 
-**15,296 tests: 15,296 passed · 330 skipped · 11 slow-deselected · 0 failures** — verified 2026-05-01, Python 3.12, pytest
+**15,615 tests: 15,615 passed · 330 skipped · 11 slow-deselected · 0 failures** — verified 2026-05-02, Python 3.12, pytest
 
 **14,641 = 11⁴** — prior structural milestone at v9.25: 11 M-theory dimensions to the power of 4 world dimensions.
 
-*(tests/ suite: 13,786 passed 76 skipped + recycling/: 316 + 5-GOVERNANCE/Unitary Pentad/: 1,026 passed 254 skipped + omega/: 168)*
+*(tests/ suite: 14,103 passed 76 skipped + recycling/: 316 + 5-GOVERNANCE/Unitary Pentad/: 1,026 passed 254 skipped + omega/: 170)*
 
 ### The 330 skipped tests
 
@@ -50,15 +50,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # ~13,786 fast pass, 76 skipped, 11 deselected (slow)
+python -m pytest tests/ -v          # ~14,103 fast pass, 76 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q  # full suite — 15,296 pass
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q  # full suite — 15,615 pass
 ```
 
 Expected result (default):
 
 ```
-~13786 passed, 76 skipped, 11 deselected in ~115s
+~14103 passed, 76 skipped, 11 deselected in ~115s
 ```
 
 ---
@@ -182,7 +182,7 @@ Expected result (default):
 | `tests/test_convergence.py` | 10 | Full-pipeline integration (bulk → boundary → multiverse), FTUM defect decrease |
 | `tests/test_precision_audit.py` | 49 | Arbitrary-precision arithmetic audit (mpmath 128/256-bit) |
 | `tests/test_richardson_multitime.py` | 11 🐌 | Second-order temporal convergence (Richardson extrapolation) — **slow, run with `pytest -m slow`** |
-| **Total (tests/ suite)** | **~13,873** | **~13,786 fast passed · 76 skipped · 11 slow deselected · 0 failures** |
+| **Total (tests/ suite)** | **~14,179** | **~14,103 fast passed · 76 skipped · 11 slow deselected · 0 failures** |
 
 ---
 

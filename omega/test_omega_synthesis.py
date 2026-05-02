@@ -864,8 +864,8 @@ class TestOmegaReport:
         assert "OMEGA" in report.version.upper()
 
     def test_report_n_pillars(self, report):
-        """Report records at least 99 pillars (Pillar Ω)."""
-        assert report.n_pillars >= 99
+        """Report records at least 101 pillars (Pillar Ω + Pillars 100–101)."""
+        assert report.n_pillars >= 101
 
     def test_report_n_seed_constants(self, report):
         """Report records exactly 5 seed constants."""
