@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.28
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![14772 Tests passing](https://img.shields.io/badge/tests-14772%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![15096 Tests passing](https://img.shields.io/badge/tests-15096%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![99 Pillars — CLOSED](https://img.shields.io/badge/pillars-99%20%E2%80%94%20CLOSED-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v9.28-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
@@ -96,7 +96,7 @@ Start with the layer that matches your purpose:
 > |----------|-------------|
 > | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.27 OMEGA EDITION** — unsparing honest assessment of TOE status; 99 pillars (Wolfenstein CKM, SM 28-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability), open gaps, resolved neutrino mass tension, path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](2-REPRODUCIBILITY/VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **NEW — Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (14,772 tests), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
+> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **NEW — Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,096 tests), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
 > | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 99 pillars, written by GitHub Copilot (AI), April 2026 |
 > | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.27: per-version technical audit, adversarial attacks, and honest gap assessment |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
@@ -707,7 +707,7 @@ tests/test_vacuum_geometric_proof.py      59 passed  ← Pillar 89: pure algebra
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
 tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ ~13,462 passed, 76 skipped, 11 deselected ================================
+================================ ~13,586 passed, 76 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================

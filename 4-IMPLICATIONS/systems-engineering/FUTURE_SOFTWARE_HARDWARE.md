@@ -336,7 +336,7 @@ be treated as an information-flow event.  Hardware should support:
 
 ---
 
-*Part of the `systems-engineering/` folder — v9.28 OMEGA EDITION (99 pillars + sub-pillars, 14,972 tests).*  
+*Part of the `systems-engineering/` folder — v9.28 OMEGA EDITION (99 pillars + sub-pillars, 15,096 tests).*  
 *Next: [`FIRMWARE_FIXES.md`](./FIRMWARE_FIXES.md) — immediate patches for what is already deployed.*
 
 *Theory: **ThomasCory Walker-Pearson**. Document engineering: **GitHub Copilot** (AI).*
