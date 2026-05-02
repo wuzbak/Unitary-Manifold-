@@ -24,7 +24,7 @@ What is verified
  2. Braiding kinematics    — c_s = 12/37 ≈ 0.3243 from the (5,7) braid
  3. CMB spectral index     — nₛ ≈ 0.9635 within Planck 2018 1σ (0.9649 ± 0.0042)
  4. Tensor ratio           — r ≈ 0.0315 below BICEP/Keck 95 % CL (< 0.036)
- 5. Birefringence angle    — β ≈ 0.331° [(5,7) canonical sector, PRIMARY PREDICTION]
+ 5. Birefringence angle    — β ≈ 0.351° [(5,7) GW-derived; canonical: 0.331°]
                              inside the Minami 1σ hint (0.35° ± 0.14°)
  6. Resonance uniqueness   — exactly 2 braid pairs survive all three constraints
  7. Topology uniqueness    — S¹/Z₂ is the unique compact topology passing all
@@ -126,7 +126,7 @@ def run_verify() -> int:
 
     print(_SEP)
     print("  UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (99 pillars)")
-    print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.331° [PRIMARY]  (< 1 s)")
+    print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)")
     print(_SEP)
     print(f"  {'Check':<28s}  {'Value':<22s}  {'Reference':<14s}  Result")
     print(_SEP)
@@ -169,10 +169,12 @@ def run_verify() -> int:
 
     # ------------------------------------------------------------------
     # CHECK 5 — Birefringence angle β within Minami+Komatsu 1σ hint
-    # PRIMARY PREDICTION: β ≈ 0.331° [(5,7) canonical sector]
-    # Secondary: β ≈ 0.273° [(5,6) sector]
+    # Computed here: β ≈ 0.351° [(5,7) via GW field_displacement_gw()]
+    # Canonical (direct CS formula, δφ = φ₀_eff): β ≈ 0.331°
+    # Both are within the Minami+Komatsu 1σ hint (0.35° ± 0.14°)
+    # Secondary: β ≈ 0.273° / 0.290° [(5,6) canonical / GW-derived]
     # ------------------------------------------------------------------
-    # Canonical parameters: flat S¹/Z₂, r_c = 12, phi_min_bare = 18
+    # GW-derived parameters: flat S¹/Z₂, r_c = 12, phi_min_bare = 18
     _alpha_em = 1.0 / 137.036
     _r_c = 12.0
     _phi_min_bare = 18.0
@@ -331,7 +333,7 @@ def run_verify() -> int:
         print("  All checks pass.  The (5,7) braid uniquely satisfies every")
         print("  Planck/BICEP/birefringence/DESI constraint from integer topology alone.")
         print("  k_CS=74 is confirmed by 7 independent conditions (Pillar 74).")
-        print("  Primary prediction: β ≈ 0.331° [(5,7) sector]; test: LiteBIRD ~2032.")
+        print("  Primary prediction: β ≈ 0.351° [GW-derived] / 0.331° [canonical] [(5,7) sector]; test: LiteBIRD ~2032.")
     else:
         failed = [i + 1 for i, c in enumerate(checks) if not c]
         print(f"  FAILED checks: {failed}")

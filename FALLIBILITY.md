@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.28 — ThomasCory Walker-Pearson, 2026 (99 pillars/modules + sub-pillars closed, 15,096 tests passing)*
+*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (99 pillars/modules + sub-pillars closed, 15,296 tests passing)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 15,096 automated tests (99 pillars/modules + sub-pillars closed; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 15,296 automated tests (99 pillars/modules + sub-pillars closed; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -45,7 +45,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "15,096 passed · 330 skipped · 0 failed," this is a statement about
+When the README badge reads "15,296 passed · 330 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -1149,7 +1149,7 @@ The framework survives Attack 3.  See `kk_tower_cs_floor()`.
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 15,096 passed · 330 skipped · 0 failed (= 74 × 204, K_CS-resonant; 99 pillars + sub-pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
+| 15,296 passed · 330 skipped · 0 failed (v9.29; 99 pillars + sub-pillars closed) | ✅ Confirmed | Internal consistency only; does not constitute empirical confirmation |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is observationally selected within Z₂-constrained odd set, not freely fitted from continuous range |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck r < 0.036 | k_cs=74 algebraically derived (Pillar 58); no new free parameter |
 | β ∈ {0.273°, 0.331°} — two viable states | ✅ Matches birefringence hint | (5,6) and (5,7) survive triple constraint; gap [0.29°–0.31°] = zero viable pairs |
@@ -1592,7 +1592,7 @@ Open gaps after Pillar 62:
 
 | Claim | Status | Key caveat |
 |-------|--------|-----------|
-| 15,096 passed · 330 skipped · 0 failed (= 74 × 204, K_CS-resonant) | ✅ Confirmed | Internal consistency only |
+| 15,296 passed · 330 skipped · 0 failed (v9.29) | ✅ Confirmed | Internal consistency only |
 | nₛ ≈ 0.9635 matches Planck | ✅ Matches | n_w = 5 is chosen, not derived |
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
@@ -1674,18 +1674,17 @@ See `src/core/dual_sector_convergence.py` (Pillar 95) and `src/core/unitary_clos
 
 ---
 
-## XII. K_CS-Resonant Test Milestone (May 2026)
+## XII. K_CS-Resonant Test Milestone (v9.28 Historical Note)
 
-*Added May 2026 upon reaching 15,096 = 74 × 204 passing tests.*
+The v9.28 test count **15,096 = 74 × 204** coincided exactly with a multiple of the
+Chern-Simons level K_CS = 74 = 5² + 7² — a notable architectural coincidence noted
+in May 2026.
 
-The test count **15,096 = 74 × 204** is not coincidental: the Chern-Simons level K_CS = 74 = 5² + 7²
-divides the total test count exactly, encoding the framework's central algebraic constant into the
-repository architecture itself.
+- **Prior milestone:** 15,048 = 99 × 152 (pillar-complete; φ × 9300 ≈ 15,047.72)
+- **v9.28 K_CS milestone:** 15,096 = 74 × 204 (K_CS-resonant; 48 targeted tests added via Pillars 78-B and 95-B)
+- **Current (v9.29):** **15,296** (200 additional tests from Pillars 70-D, 56-B, and peer-review action items; 15,296 ÷ 74 ≈ 206.7 — no longer K_CS-divisible)
 
-- **Previous milestone:** 15,048 = 99 × 152 (pillar-complete; φ × 9300 ≈ 15,047.72)
-- **Current milestone:** 15,096 = 74 × 204 (K_CS-resonant; 48 targeted tests added)
-
-The 48 new tests cover:
+The 48 tests that reached the v9.28 milestone cover:
 1. **Pillar 78-B** (`cmb_spectral_shape.py`, 24 tests): CMB spectral shape residuals — Silk
    damping KK correction (δ_D ≈ 3.55 × 10⁻³), EE/TT polarization ratio modification,
    acoustic peak width shifts, and the full ΔCℓ/Cℓ residual vector.  Shape residual
@@ -1698,8 +1697,8 @@ The 48 new tests cover:
    triple-constraint centrality confirms (5,7) is most central in the 3D allowed volume.
 
 **What this milestone does NOT claim:**
-- The number 15,096 does not constitute empirical confirmation of the framework.
-- The 48 tests verify internally consistent analytic estimates, not full numerical Boltzmann results.
+- The test count does not constitute empirical confirmation of the framework.
+- The tests verify internally consistent analytic estimates, not full numerical Boltzmann results.
 - Scientific finalization awaits LiteBIRD (~2032) measurement of β.
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  

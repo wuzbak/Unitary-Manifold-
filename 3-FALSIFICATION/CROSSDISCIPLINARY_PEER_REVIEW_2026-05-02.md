@@ -42,7 +42,7 @@ predictions — medicine, justice, consciousness, ecology, and governance.
 | Standard Model parameters | 9/28 SM parameters honestly acknowledged; mechanism present but incomplete |
 | Cold fusion (Pillar 15) | Appropriately scoped as falsifiable prediction; dual-use policy handled responsibly |
 | Phenomenological bridges (medicine, justice, consciousness, ecology, etc.) | Analogy models, not physics derivations; labeling is honest; domain-specific scientific validity is weak-to-absent |
-| Software / reproducibility | Exemplary for a speculative research project; 15,096 tests, 0 failures, full CI pipeline |
+| Software / reproducibility | Exemplary for a speculative research project; 15,296 tests, 0 failures, full CI pipeline |
 | Epistemics and scientific integrity | The self-auditing (FALLIBILITY.md, SEPARATION.md, DERIVATION_STATUS.md) is unusually honest and is a model for open speculative research |
 | Overall status as a "Theory of Everything" | Not yet; the framework's own honest accounting concurs — 9/28 SM parameters derived, SU(3)×SU(2) not produced in 5D |
 
@@ -488,7 +488,7 @@ respective domains** and should not be presented to domain specialists as predic
 This is **the strongest aspect of the repository** relative to typical speculative physics projects.
 
 **Test infrastructure:**
-- 15,096 automated tests across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and
+- 15,296 automated tests across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and
   `omega/`; 330 skipped (76 dual-use stubs + 254 Pentad product stubs); 11 deselected (slow);
   **0 failures**
 - Tests are highly granular — individual physical formulas, not only end-to-end pipelines
@@ -583,7 +583,7 @@ physics publications. Key examples:
 | β ≈ 0.331° primary prediction | Genuine, LiteBIRD-testable; no competitor from ΛCDM or Starobinsky |
 | Dual-use safety policy (cold fusion stubs) | Responsible and appropriately scoped |
 | Epistemic self-auditing (FALLIBILITY.md, SEPARATION.md) | Exemplary for speculative research |
-| Software quality and reproducibility | Excellent; CI/CD pipeline, 15,096 tests, VERIFY.py |
+| Software quality and reproducibility | Excellent; CI/CD pipeline, 15,296 tests, VERIFY.py |
 | Neutrino Dirac prediction from Z₂ orbifold parity | Testable at DUNE/Hyper-K |
 | PMNS CP phase δ_CP^PMNS = −108° | 0.05σ from PDG −107°; striking agreement |
 

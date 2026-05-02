@@ -34,7 +34,7 @@ No build step is required — the package is importable directly from the reposi
 ```bash
 # Fast suite — core physics (run first):
 python -m pytest tests/ -q
-# Expected: ~13586 passed, 76 skipped, 11 deselected, 0 failed
+# Expected: ~13786 passed, 76 skipped, 11 deselected, 0 failed
 
 # Recycling / φ-debt entropy suite (Pillar 16):
 python -m pytest recycling/ -q
@@ -46,7 +46,7 @@ python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (takes ~130 s):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 15096 passed, 330 skipped, 11 deselected, 0 failed
+# Expected: 15296 passed, 330 skipped, 11 deselected, 0 failed
 
 # Slow tests (Richardson extrapolation, ~2 min):
 python -m pytest tests/ -m slow
