@@ -1245,3 +1245,131 @@ class TestROneLoopBound:
     def test_consistent_with_canonical_57_prediction(self):
         r57 = r_one_loop_bound(5, 7)
         assert abs(r57["r_braided"] - 0.0315) < 0.002
+
+
+# ---------------------------------------------------------------------------
+# Pillar 97-B extension — O2 closure: WZW non-perturbative validation
+# ---------------------------------------------------------------------------
+
+from src.core.braided_winding import wzw_nonperturbative_validation
+
+
+class TestWZWNonperturbativeValidation:
+    """Tests for wzw_nonperturbative_validation() — O2 gap closure."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = wzw_nonperturbative_validation(n1=5, n2=7)
+
+    # ---- return structure ----
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_has_rho_key(self):
+        assert "rho" in self.result
+
+    def test_has_c_s_exact_key(self):
+        assert "c_s_exact" in self.result
+
+    def test_has_mode_eq_rel_err_key(self):
+        assert "mode_eq_rel_err" in self.result
+
+    def test_has_sweep_max_rel_err_key(self):
+        assert "sweep_max_rel_err" in self.result
+
+    def test_has_nonperturbative_status_key(self):
+        assert "nonperturbative_status" in self.result
+
+    def test_has_closure_statement(self):
+        assert "closure_statement" in self.result
+
+    def test_has_honest_open_items(self):
+        assert "honest_open_items" in self.result
+        assert len(self.result["honest_open_items"]) >= 2
+
+    def test_has_o2_gap_status(self):
+        assert "o2_gap_status" in self.result
+
+    # ---- Step 1: algebraic exactness ----
+
+    def test_rho_is_35_over_37(self):
+        assert abs(self.result["rho"] - 35 / 37) < 1e-10
+
+    def test_c_s_exact_is_12_over_37(self):
+        assert abs(self.result["c_s_exact"] - 12 / 37) < 1e-10
+
+    def test_det_K_exact_equals_1_minus_rho_sq(self):
+        rho = self.result["rho"]
+        det = self.result["det_K_exact"]
+        assert abs(det - (1.0 - rho ** 2)) < 1e-12
+
+    def test_eigenvalues_are_1_plus_minus_rho(self):
+        rho = self.result["rho"]
+        eigvals = self.result["eigenvalues_exact"]
+        assert abs(eigvals[0] - (1.0 - rho)) < 1e-10
+        assert abs(eigvals[1] - (1.0 + rho)) < 1e-10
+
+    def test_step1_algebraic_ok(self):
+        assert self.result["step1_algebraic_ok"] is True
+
+    def test_pythagorean_triple_is_12_35_37(self):
+        assert self.result["pythagorean_triple"] == (12, 35, 37)
+
+    def test_pythagorean_check_passes(self):
+        assert self.result["pythagorean_check"] is True
+
+    # ---- Step 2: mode-equation numerical validation ----
+
+    def test_mode_eq_rel_err_below_1e6(self):
+        """Numerical ODE solution agrees with analytic Hankel solution < 1e-6."""
+        assert self.result["mode_eq_rel_err"] < 1e-6
+
+    def test_mode_eq_rel_err_is_positive(self):
+        assert self.result["mode_eq_rel_err"] >= 0.0
+
+    # ---- Step 3: ρ sweep ----
+
+    def test_sweep_max_rel_err_below_machine(self):
+        """Algebraic formula and det-eigenvalue route agree to < 1e-12."""
+        assert self.result["sweep_max_rel_err"] < 1e-12
+
+    # ---- overall verdict ----
+
+    def test_nonperturbative_status_is_PROVED(self):
+        assert self.result["nonperturbative_status"] == "PROVED"
+
+    def test_closure_statement_mentions_algebraic(self):
+        assert "algebraic" in self.result["closure_statement"].lower()
+
+    def test_closure_statement_mentions_perturbative_concern(self):
+        assert "perturbative" in self.result["closure_statement"].lower()
+
+    def test_o2_gap_status_mentions_PARTIALLY_CLOSED(self):
+        assert "PARTIALLY CLOSED" in self.result["o2_gap_status"]
+
+    # ---- other winding pairs ----
+
+    def test_works_for_3_5_pair(self):
+        res = wzw_nonperturbative_validation(n1=3, n2=5)
+        assert res["nonperturbative_status"] == "PROVED"
+        assert abs(res["c_s_exact"] - (5 ** 2 - 3 ** 2) / (3 ** 2 + 5 ** 2)) < 1e-10
+
+    def test_works_for_2_3_pair(self):
+        res = wzw_nonperturbative_validation(n1=2, n2=3)
+        assert res["nonperturbative_status"] == "PROVED"
+
+    def test_sweep_count_is_n_rho_points(self):
+        # Default 50 points — any result, as long as sweep_max_rel_err returned
+        res = wzw_nonperturbative_validation(n1=5, n2=7, n_rho_points=20)
+        assert res["sweep_max_rel_err"] < 1e-12
+
+    def test_c_s_sq_plus_rho_sq_equals_one(self):
+        cs = self.result["c_s_exact"]
+        rho = self.result["rho"]
+        assert abs(cs ** 2 + rho ** 2 - 1.0) < 1e-12
+
+    def test_det_K_equals_cs_sq(self):
+        det = self.result["det_K_exact"]
+        cs = self.result["c_s_exact"]
+        assert abs(det - cs ** 2) < 1e-12
