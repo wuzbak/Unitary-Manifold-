@@ -290,8 +290,16 @@ def christoffel(g, dx):
         Gamma[n, sigma, mu, nu]
     """
     N, D, _ = g.shape
+    # Guard against near-singular metrics before inversion.
+    cond = np.linalg.cond(g)                    # (N,) condition numbers
+    bad = np.where(cond > 1e12)[0]
+    if bad.size > 0:
+        raise ValueError(
+            f"Near-singular metric: condition number {cond[bad[0]]:.3e} > 1e12 "
+            f"at grid point {bad[0]}. Check for degenerate or zero-component metrics."
+        )
     # Inverse metric
-    g_inv = np.linalg.inv(g)                    # (N, 4, 4)
+    g_inv = np.linalg.inv(g)                    # (N, D, D)
 
     # Partial derivatives ∂_ρ g_μν  — only x-component is non-trivial on 1-D grid
     # We store dg[n, rho, mu, nu]; rho=0 is x, others are zero for this reduction.

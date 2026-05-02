@@ -1,0 +1,17 @@
+name: DCO Check
+
+on:
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  dco:
+    name: Developer Certificate of Origin
+    runs-on: ubuntu-latest
+    steps:
+      - name: DCO
+        uses: dcoapp/dco@v4

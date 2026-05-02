@@ -1,0 +1,50 @@
+# Jekyll configuration for GitHub Pages
+# See https://jekyllrb.com/docs/configuration/
+
+title: "Unitary Manifold"
+description: >
+  A 5-dimensional Kaluza–Klein physics framework proposing that thermodynamic
+  irreversibility is a geometric consequence of a compact fifth dimension.
+  99 computational pillars, 15,000+ passing tests, and a falsifiable LiteBIRD
+  prediction (β ≈ 0.331°, 2032).
+
+# GitHub Pages source
+url: "https://wuzbak.github.io"
+baseurl: "/Unitary-Manifold-"
+
+# Author
+author:
+  name: "ThomasCory Walker-Pearson"
+  github: wuzbak
+
+# Exclude non-web content from Jekyll build to avoid processing errors
+exclude:
+  - "*.py"
+  - "*.tex"
+  - "*.bib"
+  - "*.ipynb"
+  - "requirements.txt"
+  - "pytest.ini"
+  - "setup.cfg"
+  - "setup.py"
+  - "pyproject.toml"
+  - "Makefile"
+  - ".github/"
+  - "tests/"
+  - "recycling/"
+  - "omega/"
+  - "src/"
+  - "bot/"
+  - "notebooks/"
+  - "vendor/"
+  - "node_modules/"
+  - "tmp/"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+kramdown:
+  input: GFM
+  hard_wrap: false

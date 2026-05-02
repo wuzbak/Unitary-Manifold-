@@ -542,3 +542,24 @@ class TestZ2ParityClarification:
         refs = self.result["code_references"]
         assert len(refs) >= 3
         assert any("metric.py" in r for r in refs)
+
+
+# ---------------------------------------------------------------------------
+# B1 audit fix: near-singular metric guard in christoffel()
+# ---------------------------------------------------------------------------
+
+class TestChristoffelNearSingular:
+    """Verify that christoffel() raises ValueError for near-singular metrics."""
+
+    def test_near_singular_metric_raises(self):
+        """A metric with a near-zero determinant (condition number > 1e12) must
+        raise ValueError rather than silently producing garbage Christoffel symbols."""
+        N, D = 8, 4
+        # Build a metric whose second row/column is a tiny multiple of the first.
+        g_base = np.diag([-1.0, 1.0, 1.0, 1.0])
+        g_singular = g_base.copy()
+        g_singular[1, :] = 1e-14 * g_base[0, :]
+        g_singular[:, 1] = 1e-14 * g_base[:, 0]
+        g = np.tile(g_singular, (N, 1, 1))
+        with pytest.raises(ValueError, match="Near-singular metric"):
+            christoffel(g, dx=0.1)

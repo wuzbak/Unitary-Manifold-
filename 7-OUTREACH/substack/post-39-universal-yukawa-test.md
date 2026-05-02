@@ -17,7 +17,9 @@ charged fermions? Or are there three independent sector Yukawas (one for leptons
 one for up quarks, one for down quarks), each separately normalised?
 
 That question is what Pillar 98 answers. And the answer is: **one coupling, nine
-masses, zero free parameters.**
+masses, no free parameters in the Yukawa sector** (the c_L bulk masses are determined
+by the observed fermion masses, not freely chosen; ~15 SM parameters outside this
+sector remain free).
 
 ---
 
