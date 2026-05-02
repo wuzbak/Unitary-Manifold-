@@ -31,6 +31,7 @@ __provenance__ = {
     "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
 }
 
+import dataclasses
 import math
 from fractions import Fraction
 
@@ -891,18 +892,31 @@ class TestOmegaReport:
         assert isinstance(report.hils, HILSReport)
 
     def test_report_falsifiers_list(self, report):
-        """OmegaReport.falsifiers is a non-empty list."""
-        assert isinstance(report.falsifiers, list)
+        """OmegaReport.falsifiers is a non-empty tuple (frozen report)."""
+        assert isinstance(report.falsifiers, tuple)
         assert len(report.falsifiers) > 0
 
     def test_report_open_gaps(self, report):
-        """OmegaReport.open_gaps is a non-empty list."""
-        assert isinstance(report.open_gaps, list)
+        """OmegaReport.open_gaps is a non-empty tuple (frozen report)."""
+        assert isinstance(report.open_gaps, tuple)
         assert len(report.open_gaps) > 0
 
     def test_report_unitary_summation(self, report):
         """OmegaReport.unitary_summation has 12 entries."""
         assert len(report.unitary_summation) == 12
+
+    def test_report_is_frozen(self, report):
+        """OmegaReport is frozen — fields cannot be reassigned after construction."""
+        with pytest.raises((dataclasses.FrozenInstanceError, AttributeError)):
+            report.version = "tampered"  # type: ignore[misc]
+
+    def test_report_to_dict_json_serialisable(self, report):
+        """to_dict() returns a JSON-serialisable dict (no Fraction objects)."""
+        import json
+        d = report.to_dict()
+        assert isinstance(d, dict)
+        # Must not raise — all Fraction fields converted to float
+        json.dumps(d)
 
     def test_report_summary_method(self, report):
         """summary() produces a multi-line string with key fields."""

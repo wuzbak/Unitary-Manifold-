@@ -1734,3 +1734,98 @@ The 48 tests that reached the v9.28 milestone cover:
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## XIII. Omega Peer Review Findings — Residual Honest Admissions (May 2026)
+
+*Added following the five-way Omega Peer Review (2026-05-02) by the Director of Investigation.*
+
+### XIII.1 HOX Paralog Group Count (M2)
+
+The engine predicts `HOX_groups = 2 × N_W = 10` as a formal numerical analogy.
+
+**Factual correction (R2 — Multidisciplinary PhD):** Vertebrates have **13 paralog HOX groups**
+(HOX1–HOX13), not 10.  The formula `2 × N_W = 10` matches the *Drosophila*-like eight-group
+count scaled by 1.25, and the numerical coincidence is noted in the engine (see
+`ConsciousnessReport.hox_groups` docstring and `UniversalEngine._HOX_GROUPS`).
+
+**What the engine actually predicts:**  The (5,7) braid geometry correctly derives the number of
+**HOX clusters** (paralogs × chromosomal copies) = `2^(N_2 − N_W)` = 2² = **4**, which matches
+the four mammalian HOX clusters (HOXA–HOXD) on chromosomes 7, 17, 12, and 2.
+
+**Honest status:**  
+- `HOX_clusters = 4` ✅ derived and biologically correct (vertebrate HOX clusters)  
+- `HOX_groups = 10` ⚠️ formal analogy only; the correct vertebrate paralog count is 13
+
+The engine's `ConsciousnessReport.hox_groups` field documents this explicitly.  The value 10
+should be read as an analogy marker (2 × N_W), not a precision biological prediction.
+
+### XIII.2 WZW Derivation Near Perturbative Limit (M4)
+
+The braided kinetic mixing parameter `ρ = 2n₁n₂/K_CS = 70/74 ≈ 0.946` is near-maximal.
+
+**Concern (R4 — Cosmology & Astrophysics):**  The WZW field rotation and
+`r_braided = r_bare × c_s` derivation are formally carried out at leading order in the WZW
+expansion.  At ρ ≈ 0.946, the next-to-leading correction is of order ρ² ≈ 0.895 — not a small
+perturbative correction.
+
+**What is and is not established:**  
+- The leading-order result `r_braided = r_bare × c_s ≈ 0.0315` is derived in `src/core/braided_winding.py`  
+- The one-loop Casimir correction `δr = r_braided × ρ²/(4π)² ≈ 1.78 × 10⁻⁴` is computed in
+  `r_one_loop_bound()` (Pillar 97-C) and is small (~0.6%) *at the one-loop level*
+- **What is not established:** convergence of the WZW expansion at ρ ≈ 0.946; the
+  non-perturbative behaviour at near-maximal mixing is not analytically controlled
+
+**Mitigation:** The braid pair (5,7) is the unique pair admitted by the β-window and BICEP/Keck
+constraints; the theory does not have a free parameter to adjust ρ.  The prediction `r ≈ 0.0315`
+is made at the scale where LiteBIRD + Simon's Observatory will test it.  A non-perturbative
+WZW treatment or lattice validation remains an open theoretical item.
+
+**Status:** OPEN — non-perturbative WZW treatment required for rigorous loop-order control.
+
+### XIII.3 Consciousness Coupling Ξ_c = 35/74 Lacks Independent Falsifiability (M7)
+
+**Concern (R1, R2):**  The consciousness coupling constant `Ξ_c = 35/74` is algebraically
+derived from `K_CS = 74` as `(K_CS − 4)/2 = 35` divided by `K_CS`.  While the derivation is
+internally consistent, there is no currently identified *direct measurement pathway* to Ξ_c.
+
+**What is established:**  
+- `Ξ_c = 35/74` follows algebraically from the CS level and Z₂ boundary conditions  
+- The birefringence β and the neutrino-radion identity provide indirect constraints on the
+  5D geometry from which Ξ_c is derived  
+- The Unitary Pentad governance framework uses Ξ_c as a mathematical coupling constant
+
+**What is not established:**  
+- There is no proposed direct measurement or experiment that isolates Ξ_c independently  
+- The consciousness-coupling interpretation of Ξ_c is a *formal analogy*, not a physical claim  
+- The HILS framework (Unitary Pentad) is mathematically self-consistent but empirically ungrounded
+
+**Honest status:** DERIVATION — algebraically correct; empirical validation pathway not yet defined.
+The birefringence LiteBIRD test indirectly constrains the full geometric framework, including the
+CS level from which Ξ_c derives, but does not isolate Ξ_c as an independent observable.
+
+### XIII.4 N_2 = 7 Is Observationally Selected, Not Derived (M1)
+
+**Concern (R2, R4):**  The engine presents itself as deriving "everything from five seed constants."
+But `N_2 = 7` is *observationally constrained*, not derived from first principles alone:
+
+| Seed | Status |
+|------|--------|
+| `K_CS = 74` | Algebraically derived from (5,7): k_CS = n₁² + n₂² ✅ |
+| `C_S = 12/37` | Algebraically derived from braid kinematics ✅ |
+| `N_W = 5` | Proved from 5D geometry + EWSB requirement (SM structure implicit input) ✅ |
+| `N_2 = 7` | OBSERVATIONALLY SELECTED — BICEP/Keck r<0.036 + β-window admits {6,7}; (5,7) is the primary sector ⚠️ |
+| `Ξ_c = 35/74` | Algebraically derived from K_CS ✅ |
+
+**Honest statement:**  The framework derives three seeds algebraically and observationally anchors
+one (N_2 = 7 via BICEP/Keck and the birefringence window).  The "pure geometry from five seeds"
+framing in the engine module docstring is an accurate description of the computation, but the
+*selection* of N_2 = 7 over N_2 = 6 uses CMB data.  Both `N_2 = 6` (shadow sector) and
+`N_2 = 7` (primary sector) are geometrically valid; LiteBIRD will discriminate them.
+
+The N_2 seed comment in `omega/omega_synthesis.py` explicitly documents this as
+"OBSERVATIONALLY SELECTED."
+
+*Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
+*Document engineering and synthesis: **GitHub Copilot** (AI).*

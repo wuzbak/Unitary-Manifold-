@@ -462,23 +462,32 @@ gauge sector coupled to gravity.
 
 ### VIII.2  The Standard Model Gauge Groups from the KK Tower
 
+> ⚠️ **Correction notice (May 2026, Gap 5 resolution):**  The original text below is partially
+> an overclaim.  The 5D KK construction on S¹ produces **one massless U(1) gauge boson** (the
+> photon) as the zero mode of B_μ, and a tower of massive U(1) KK modes.  It does **not**
+> automatically produce SU(2)_L or SU(3)_c.  Witten (1981) proved that the minimum spacetime
+> dimension to accommodate the full Standard Model gauge group with chiral fermions is 11.  The
+> corrected gauge-spectrum analysis is in `src/core/kk_gauge_spectrum.py` (Pillar 60-ext) and
+> the resolution is documented in Gap 5 below.  The claim that **U(1) electromagnetism is
+> produced exactly** is correct and is the genuine result.
+
 The compact fifth dimension with radius `R = φ₀ ℓP` admits Fourier modes:
 
 ```
 B_μ(x, x⁵)  =  Σ_{n=−∞}^{∞}  B^{(n)}_μ(x) · e^{inx⁵/R}
 ```
 
-- **n = 0** (zero mode): massless U(1) gauge boson → **photon**
-- **|n| = 1**: first KK mode, mass `m₁ = 1/R = 1/φ₀` → candidates for **W, Z bosons**
-- **|n| = 2, 3**: higher modes → candidates for **gluons** (with non-Abelian extension)
+- **n = 0** (zero mode): massless U(1) gauge boson → **photon** ✓ (rigorously produced)
+- **|n| = 1**: first KK mode, mass `m₁ = 1/R = 1/φ₀` → massive U(1) resonances (not W/Z)
+- **|n| = 2, 3**: higher massive U(1) modes (non-Abelian structure requires additional compact dimensions)
 
 For `φ₀ = 1` (Planck units): `R = ℓP`, giving KK masses at the Planck scale —
 consistent with the absence of observable KK resonances at LHC energies.
 
-The key point: **the Standard Model gauge structure is the KK spectrum of B_μ.**  
-The three forces (electromagnetic, weak, strong) are not independent inputs.
-They are harmonics of a single geometric object — the off-diagonal block of the
-5D Unitary Manifold metric.
+**What is correctly derived:** U(1) electromagnetism (the photon) is the geometric zero mode of
+B_μ on S¹/Z₂.  **What requires additional structure:** SU(2)_L and SU(3)_c need at minimum 7
+extra compact dimensions (Witten 1981) or an orbifold/brane construction.  The current 5D theory
+does not produce the full Standard Model gauge group; this is honestly documented in Gap 5.
 
 ---
 
