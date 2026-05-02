@@ -847,7 +847,7 @@ class TestEtaClassUniquenessArgument:
         """Condition excludes n_w = 7."""
         assert self.result["n_w_excluded"] == 7
 
-    def test_epistemic_status_is_physically_motivated(self):
+    def test_epistemic_status_is_proved_after_pillar_70d(self):
         """After Pillar 70-D: status is PROVED, no longer PHYSICALLY-MOTIVATED."""
         status = self.result["epistemic_status"]
         # The status has been upgraded from PHYSICALLY-MOTIVATED to PROVED
