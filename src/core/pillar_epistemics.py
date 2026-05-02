@@ -37,6 +37,7 @@ epistemics_summary() → dict
 
 from __future__ import annotations
 
+from collections import Counter
 from typing import Any, Dict, List
 
 __provenance__ = {
@@ -483,7 +484,6 @@ def epistemics_summary() -> Dict[str, Any]:
         section            : str
     """
     table = pillar_epistemics_table()
-    from collections import Counter
     counts = Counter(entry["epistemology"] for entry in table)
     pillar_lists: Dict[str, list] = {ep: [] for ep in VALID_EPISTEMOLOGIES}
     for entry in table:

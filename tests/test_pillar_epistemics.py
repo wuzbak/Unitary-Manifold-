@@ -21,6 +21,7 @@ from src.core.pillar_epistemics import (
     pillar_epistemics_table,
     epistemics_summary,
 )
+from src.cold_fusion.falsification_protocol import cold_fusion_physics_link
 
 
 # ---------------------------------------------------------------------------
@@ -185,7 +186,6 @@ class TestColdFusionPhysicsLink:
 
     @pytest.fixture(autouse=True)
     def link(self):
-        from src.cold_fusion.falsification_protocol import cold_fusion_physics_link
         self.link = cold_fusion_physics_link()
 
     def test_returns_dict(self):
