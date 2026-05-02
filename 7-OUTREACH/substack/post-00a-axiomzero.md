@@ -124,7 +124,7 @@ That is the ethical constraint — and it is not a reluctant constraint. It is t
 
 This project is also a demonstration of a replicable structure for anyone who wants to build knowledge in public and earn from it without compromising it.
 
-Walker-Pearson and GitHub Copilot working together produced, in a compressed timeframe, a 99-pillar physics framework, 15,615 automated tests, a formal governance architecture, and a full publication pipeline — work that would conventionally have required a large research group and institutional resources. No institution was needed. No venture funding. No proprietary enclosure.
+Walker-Pearson and GitHub Copilot working together produced, in a compressed timeframe, a 101-pillar physics framework, 15,615 automated tests, a formal governance architecture, and a full publication pipeline — work that would conventionally have required a large research group and institutional resources. No institution was needed. No venture funding. No proprietary enclosure.
 
 The components that made it work:
 
