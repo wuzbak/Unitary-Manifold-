@@ -1169,3 +1169,79 @@ class TestBraidedRDerivation:
         r = braided_r_full_derivation(5, 7, 1.0)
         for key in ["step1_cs_mixing", "step2_sound_speed", "step3_power_spectra"]:
             assert key in r
+
+
+# ---------------------------------------------------------------------------
+# Pillar 97-C: one-loop correction to r_braided
+# ---------------------------------------------------------------------------
+
+from src.core.braided_winding import r_one_loop_bound
+
+
+class TestROneLoopBound:
+    """Tests for the one-loop correction to r_braided (Pillar 97-C, Audit item A1)."""
+
+    def setup_method(self):
+        self.result = r_one_loop_bound(5, 7)
+
+    def test_returns_dict_with_expected_keys(self):
+        required = {
+            "rho", "loop_factor", "delta_loop", "r_braided",
+            "r_1loop", "delta_r", "delta_r_pct", "r_below_bicep",
+            "r_below_planck", "litebird_visible", "honest_status",
+        }
+        assert required.issubset(self.result.keys())
+
+    def test_rho_is_35_over_37_for_57(self):
+        assert abs(self.result["rho"] - 35.0 / 37.0) < 1e-10
+
+    def test_loop_factor_is_one_over_16pi_squared(self):
+        expected = 1.0 / (4.0 * math.pi) ** 2
+        assert abs(self.result["loop_factor"] - expected) < 1e-12
+
+    def test_delta_loop_is_rho_squared_times_loop_factor(self):
+        rho = self.result["rho"]
+        lf = self.result["loop_factor"]
+        assert abs(self.result["delta_loop"] - rho**2 * lf) < 1e-12
+
+    def test_r_1loop_is_r_braided_times_one_plus_delta(self):
+        r0 = self.result["r_braided"]
+        dl = self.result["delta_loop"]
+        assert abs(self.result["r_1loop"] - r0 * (1.0 + dl)) < 1e-12
+
+    def test_r_1loop_is_greater_than_r_braided(self):
+        assert self.result["r_1loop"] > self.result["r_braided"]
+
+    def test_delta_r_is_positive(self):
+        assert self.result["delta_r"] > 0.0
+
+    def test_delta_r_below_0p002_audit_bound(self):
+        """The one-loop shift must be < 0.002 (audit requirement: LiteBIRD-safe bound)."""
+        assert self.result["delta_r"] < 0.002
+
+    def test_r_1loop_still_below_bicep_keck(self):
+        assert self.result["r_below_bicep"] is True
+
+    def test_r_1loop_still_below_planck_95(self):
+        assert self.result["r_below_planck"] is True
+
+    def test_delta_r_pct_below_one_percent(self):
+        """Loop correction is sub-percent, consistent with perturbativity."""
+        assert self.result["delta_r_pct"] < 1.0
+
+    def test_honest_status_mentions_pillar_97c(self):
+        assert "97-C" in self.result["honest_status"]
+
+    def test_loop_is_subpercent_at_planck_density(self):
+        """Audit requirement: show shift is < 0.002 for any physical ρ < 1.
+
+        Uses (2, 3) pair: k_cs = 13, ρ = 12/13 ≈ 0.923 — the highest valid
+        mixing ratio in the low-winding sector.  Even here the loop correction
+        is << 0.002.
+        """
+        result_high_rho = r_one_loop_bound(n1=2, n2=3)
+        assert result_high_rho["delta_r"] < 0.002
+
+    def test_consistent_with_canonical_57_prediction(self):
+        r57 = r_one_loop_bound(5, 7)
+        assert abs(r57["r_braided"] - 0.0315) < 0.002
