@@ -140,7 +140,7 @@ A Theory of Everything, in the technical sense used by physicists, must:
 most developed and mathematically rigorous Kaluza-Klein theory of its type
 currently in existence. Here is what that means precisely:**
 
-**What it IS (v9.27):**
+**What it IS (v9.29):**
 - A fully consistent 5D geometric framework that derives the arrow of time,
   3 generations, α, nₛ, r, and β from a single 5D metric ansatz
 - A framework that derives or geometrically constrains 15+ of the ~28 SM parameters:
@@ -421,7 +421,7 @@ attitude this project has maintained throughout.
 
 ---
 
-## Summary Table (v9.27 final — OMEGA EDITION)
+## Summary Table (v9.29 final — 101 pillars CLOSED)
 
 | Category | Pillars | Tests (approx.) | Status |
 |----------|---------|-------|--------|

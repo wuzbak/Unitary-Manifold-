@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.27 — OMEGA EDITION |
+| Version | 9.29 — OMEGA EDITION |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |

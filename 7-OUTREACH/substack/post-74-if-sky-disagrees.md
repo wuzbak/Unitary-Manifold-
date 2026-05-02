@@ -160,7 +160,7 @@ means for humanity.
 > Pillars 97–98 substantially closed the absolute fermion mass scale problem, and
 > Pillar Ω (the Omega Synthesis) is the capstone that synthesizes all prior results
 > into a single queryable engine. The series now extends to **Post Ω**, and the
-> repository stands at **99 pillars + Pillar Ω** with **15,023 automated tests**.
+> repository stands at **99 pillars + Pillar Ω** with **15,615 automated tests**.
 > See `post-99-the-omega-synthesis.md` and `post-omega-the-omega-article.md`.
 
 ---
@@ -195,7 +195,7 @@ continued — through Post 96, and then through Post Ω.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
 *Predictions: `predictions.md`*

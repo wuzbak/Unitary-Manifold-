@@ -155,7 +155,7 @@ is genuine.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 70-B: `src/core/aps_spin_structure.py`*
 *Pillar 80: `src/core/` — topological vacuum selection*

@@ -260,15 +260,15 @@ We will accept what the sky says.
 >   the deepest open gap described in Post 89.
 > - **Pillar 99 (Pillar Ω — the Omega Synthesis)** is the capstone synthesis of the
 >   complete framework, integrating all prior results into a unified statement.
-> - The total test count has grown from 14,641 to **15,023 automated tests**.
+> - The total test count has grown from 14,641 to **15,615 automated tests**.
 >
 > The 96-pillar closure described in this post remains historically accurate.
 > The Unitary Summation and all falsification conditions stated here are unchanged.
-> The framework now stands at **99 pillars, v9.27 OMEGA EDITION**.
+> The framework now stands at **101 pillars + sub-pillars, v9.29**.
 > See `post-99-the-omega-synthesis.md` for the Omega Synthesis post.
 
 *Full source code, derivations, and 14,641 automated tests (at 96-pillar closure;*
-*now 15,023 at v9.27):*
+*now 15,615 at v9.29):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *The complete 96-pillar framework: `src/core/`*
 *The Unitary Closure Theorem: `src/core/unitary_closure.py`*

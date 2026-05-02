@@ -221,7 +221,7 @@ untested by astrophysical observation.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Quantum Theorems: https://github.com/wuzbak/Unitary-Manifold-/blob/main/QUANTUM_THEOREMS.md*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

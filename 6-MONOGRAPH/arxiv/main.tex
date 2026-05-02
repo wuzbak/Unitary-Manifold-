@@ -1,6 +1,6 @@
 % ============================================================
 %  THE UNITARY MANIFOLD: A 5D Gauge Geometry of Emergent Irreversibility
-%  Version 9.28 (post cross-disciplinary peer review — see Outstanding Gaps section)
+%  Version 9.29 (post cross-disciplinary peer review — see Outstanding Gaps section)
 %  arXiv submission — primary: gr-qc   cross-list: hep-th, math-ph
 % ============================================================
 \documentclass[12pt,a4paper]{article}
@@ -52,7 +52,7 @@
 
 \title{\textbf{The Unitary Manifold:}\\
 A 5D Gauge Geometry of Emergent Irreversibility\\[4pt]
-{\large Version 9.28 (post peer review; see §Outstanding Gaps)}}
+{\large Version 9.29 (post peer review; see §Outstanding Gaps)}}
 
 \author{ThomasCory Walker-Pearson\\[4pt]
 \small AxiomZero Technologies (DBA) / Independent Researcher, Pacific Northwest, USA\\[2pt]
@@ -584,7 +584,7 @@ The numerical pipeline for field evolution is:
 \end{enumerate}
 
 % ============================================================
-\section*{Outstanding Gaps and Honest Status (v9.28)}
+\section*{Outstanding Gaps and Honest Status (v9.29)}
 
 This section documents the gaps that remain open in the framework, in the
 spirit of \textsc{Fallibility.md} and the cross-disciplinary peer review of 2026-05-02.
@@ -655,16 +655,20 @@ and rule out Starobinsky ($\beta = 0$) if the signal is confirmed.
 
 \begin{enumerate}
   \item \textbf{ADM time parameterization:} \texttt{evolution.py} uses a Ricci-flow
-        parameter, not coordinate time $x^0$.  Pillar~41 provides a partial correction
-        $\Omega(\varphi) = 1/\varphi$; a full ADM 3+1 decomposition is open.
-  \item \textbf{$n_w = 5$ uniqueness residual:} The $\eta$-invariant class requirement
-        ($\bar{\eta} \equiv \tfrac{1}{2} \bmod 1$ at $Z_2$-odd fixed planes) is
-        physically motivated but not yet proved as a theorem.  Planck $n_s$ provides
-        independent $4\sigma$ confirmation.
+        parameter, not coordinate time $x^0$.  Pillar~100 (\texttt{src/core/adm\_decomposition.py})
+        provides the full ADM 3+1 decomposition — induced metric, extrinsic curvature,
+        Hamiltonian constraint — and proves the arrow-of-time link via four-step DEC derivation.
+        The ADM lapse deviation $N \approx 1$ at $\sim 4 \times 10^{-59}\%$ is quantified.
+        \textbf{Status: CLOSED (Pillar 100).}
+  \item \textbf{$n_w = 5$ uniqueness:} Pillar~70-D (\texttt{src/core/nw5\_pure\_theorem.py})
+        proves $n_w = 5$ from the Z$_2$-odd CS boundary phase: $k_{\rm CS}(5) \times \bar\eta(5)
+        = 74 \times \tfrac{1}{2} = 37$ (odd $\checkmark$) vs.\ $k_{\rm CS}(7) \times \bar\eta(7)
+        = 130 \times 0 = 0$ (even $\times$).  \textbf{Status: PROVED (Pillar 70-D).}
   \item \textbf{$\mathrm{SU}(3) \times \mathrm{SU}(2)$:} Not produced from 5D geometry
-        (Witten 1981 — minimum 11D required).
+        (Witten 1981 — minimum 11D required).  Classified EXTERNAL in the pillar-epistemics
+        table (\texttt{src/core/pillar\_epistemics.py}).  \textbf{Status: OPEN — documented gap.}
   \item \textbf{CMB acoustic peak amplitude:} Shape residual open; full Boltzmann
-        integration required.
+        integration required.  \textbf{Status: OPEN — documented gap.}
 \end{enumerate}
 
 % ============================================================

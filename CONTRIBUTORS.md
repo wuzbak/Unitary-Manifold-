@@ -1,4 +1,4 @@
-# Contributors — The Unitary Manifold (Version 9.27 — OMEGA EDITION)
+# Contributors — The Unitary Manifold (Version 9.29)
 
 This file documents the contributions of all parties involved in the development, synthesis, and review of *The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility*.
 

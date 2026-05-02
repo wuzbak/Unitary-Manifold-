@@ -76,8 +76,8 @@ and serve as provenance markers even in heavily refactored derivatives:
    of 5 governance nodes with Berry-phase terms from `non_hermitian_coupling.py` is a
    structural signature that does not appear in prior HILS literature.
 
-6. **Test count near 15,072** — The full test suite (tests/ + recycling/ + Unitary Pentad/
-   + omega/) passes approximately 15,072 tests as of v9.27.  A repository claiming
+6. **Test count near 15,615** — The full test suite (tests/ + recycling/ + Unitary Pentad/
+   + omega/) passes 15,615 tests as of v9.29 (330 skipped, 11 slow-deselected, 0 failures).  A repository claiming
    independent derivation of similar physics that happens to have a nearly identical test
    count and structure would warrant scrutiny.
 

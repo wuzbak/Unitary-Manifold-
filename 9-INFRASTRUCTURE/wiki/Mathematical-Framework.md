@@ -1,6 +1,6 @@
 # Mathematical Framework
 
-The Unitary Manifold rests on five foundational pillars plus an extended hierarchy of 94 derived pillars (99 total, CLOSED at v9.27 OMEGA EDITION). This page documents the core mathematical structures shared across all pillars.
+The Unitary Manifold rests on five foundational pillars plus an extended hierarchy of 96 derived pillars (101 total + sub-pillars, CLOSED at v9.29). This page documents the core mathematical structures shared across all pillars.
 
 ---
 
@@ -227,4 +227,4 @@ The convergence of all 7 constraints to the same integer is the capstone of the 
 - Planck Collaboration (2018). *Planck 2018 results. X. Constraints on inflation.* A&A 641, A10.
 - BICEP/Keck Collaboration (2021). *Improved Constraints on Primordial Gravitational Waves.* PRL 127, 151301.
 - Komatsu, E. et al. (2022). *New physics from the polarised light of the cosmic microwave background.* Nature Reviews Physics 4, 452–469.
-- Walker-Pearson, T. C. (2026). *The Unitary Manifold.* v9.27. [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf)
+- Walker-Pearson, T. C. (2026). *The Unitary Manifold.* v9.29. [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf)

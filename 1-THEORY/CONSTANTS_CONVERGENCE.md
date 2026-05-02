@@ -10,7 +10,7 @@
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a
 > geometric identity — written into the 5D Kaluza-Klein metric one dimension
 > above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.27, 2026
+> — Walker-Pearson, *The Unitary Manifold*, v9.29, 2026
 
 ---
 
@@ -300,7 +300,7 @@ complement rather than compete.
 
 **Unitary Manifold:**
 > Walker-Pearson, T. (2026). *The Unitary Manifold: A 5D Gauge Geometry of
-> Emergent Irreversibility* (v9.27). Zenodo.
+> Emergent Irreversibility* (v9.29). Zenodo.
 > DOI: [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)
 
 ---

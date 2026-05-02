@@ -1,7 +1,7 @@
 # What This Work Is Saying — And What It Means for Our 4D Existence
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.27
+> — Walker-Pearson, *The Unitary Manifold*, v9.29
 
 > *"101 pillars + sub-pillars. 15,615 tests. Five seed constants. One universe."*  
 > — v9.29, May 2026
@@ -99,7 +99,7 @@ The Chern-Simons level k_CS = 74 is not a fitting parameter — it simultaneousl
 | **C6** Pillar count = 74 = k_CS | This repository | **Structural** |
 | **C7** Back-reaction fixed-point eigenvalue = 74/74 = 1 | Pillar 72 | **Derived** |
 
-The **Completeness Theorem (Pillar 74)** formally proved that k_CS=74 satisfies all 7 structural constraints simultaneously. The framework has since been extended to **99 pillars** (Pillars 75, 80–99, and Pillar Ω) — these extended pillars operate within the k_CS=74 constraint envelope without requiring new free parameters. See `src/core/completeness_theorem.py` and `tests/test_completeness_theorem.py` (170 tests).
+The **Completeness Theorem (Pillar 74)** formally proved that k_CS=74 satisfies all 7 structural constraints simultaneously. The framework has since been extended to **101 pillars + sub-pillars** (Pillars 75, 80–101, Pillar 70-B, sub-pillars 70-D, 97-B/C, and Pillar Ω) — these extended pillars operate within the k_CS=74 constraint envelope without requiring new free parameters. See `src/core/completeness_theorem.py` and `tests/test_completeness_theorem.py` (170 tests).
 
 These five quantitative results emerging from the same framework without independent tuning is the primary evidence that the geometry is capturing something real.
 

@@ -94,7 +94,8 @@ version by version.
 | v9.24 | Dual-Sector edition | Pillar 95: (5,6) β=0.273° proved; LiteBIRD discriminates (5,6) vs (5,7) at 2.9σ |
 | v9.25 | Unitary Closure edition | Pillar 96: analytic {(5,6),(5,7)} uniqueness proof; 14,641 = 11⁴ total passed |
 | v9.26 | GW Yukawa edition | Pillars 97–98: Ŷ₅=1 from GW vacuum; m_e <0.5% PDG; 0 free fermion mass parameters |
-| v9.27 | **OMEGA EDITION** | Pillar Ω: `omega/omega_synthesis.py` — 5 seeds → all observables; 15,023 tests |
+| v9.27 | **OMEGA EDITION** | Pillar Ω: `omega/omega_synthesis.py` — 5 seeds → all observables; 15,023 tests (historical) |
+| v9.29 | **101 PILLARS CLOSED** | Pillars 100 (ADM), 101 (KK Magic), n_w=5 PROVED, §XIV gaps closed; 15,615 tests |
 | v9.28 | **Gap Closure** | Sub-pillars 70-C/99-B/15-F: n_w=5 derived; k_primary derived; cold fusion falsification; **15,296 tests, REPOSITORY CLOSED** |
 | v9.29 | **Audit Complete** | Pillars 100/101 (ADM, KK Magic); §XIV gap-closures; WZW/one-loop; **15,615 tests** |
 

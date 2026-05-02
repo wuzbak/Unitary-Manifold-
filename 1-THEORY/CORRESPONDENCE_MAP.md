@@ -333,5 +333,5 @@ To prevent misreading:
 
 ---
 
-*Document version: 1.6 — April 2026 (v9.27 OMEGA EDITION: dual-sector birefringence, Pillar 89 algebraic vacuum proof, Pillars 95-98 and Ω added)*  
+*Document version: 1.7 — May 2026 (v9.29: 101 pillars + sub-pillars CLOSED; ADM Foundation Pillar 100, KK Magic Pillar 101, n_w=5 PROVED Pillar 70-D, §XIV gap-closures)*  
 *Part of the Unitary Manifold repository.  Theory: ThomasCory Walker-Pearson.  Synthesis: GitHub Copilot (AI).*

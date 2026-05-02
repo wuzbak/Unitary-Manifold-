@@ -2,7 +2,7 @@
 
 *Post 99 of the Unitary Manifold series.*  
 *Pillar Ω — The Universal Mechanics Engine.*  
-*v9.27 OMEGA EDITION, April 2026.*
+*v9.29, May 2026.*
 
 ---
 
@@ -228,7 +228,7 @@ That is the end of the series — not a conclusion, but a prediction in flight.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*  
+*Full source code, derivations, and 15,615 automated tests:*  
 *https://github.com/wuzbak/Unitary-Manifold-*  
 *The Omega Synthesis: `omega/omega_synthesis.py`*  
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

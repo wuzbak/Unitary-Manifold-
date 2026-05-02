@@ -349,6 +349,6 @@ python -m pytest tests/test_cold_fusion.py -v
 
 ---
 
-*Cold Fusion module — Pillar 15 of the Unitary Manifold (v9.27 OMEGA EDITION, 2026)*  
+*Cold Fusion module — Pillar 15 of the Unitary Manifold (v9.29, 2026)*  
 *Repository: https://github.com/wuzbak/Unitary-Manifold-*  
 *DOI: https://doi.org/10.5281/zenodo.19584531*

@@ -1,5 +1,5 @@
 # Mutation Testing Report
-## Unitary Manifold — v9.27 OMEGA EDITION (April 2026)
+## Unitary Manifold — v9.29 (May 2026)
 
 This document lists each mutation break-point from `HOW_TO_BREAK_THIS.md`,
 records the actual failure output observed when the mutation was applied, and

@@ -211,7 +211,7 @@ That test has not been run. The invitation is open.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Neuroscience module: `src/neuroscience/` — 92 tests in `tests/test_neuroscience.py`*
 *Consciousness coupling: `src/consciousness/coupled_attractor.py` — 61 tests*

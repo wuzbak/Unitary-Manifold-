@@ -201,7 +201,7 @@ will speak.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Roman ST module: `src/core/roman_space_telescope.py` — 187 tests in `tests/test_roman_space_telescope.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

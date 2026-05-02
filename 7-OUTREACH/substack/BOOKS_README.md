@@ -22,7 +22,7 @@ to this repository.
 - Books 1–3 substantially expanded with new investigative chapters
 - Book 4 split into a 6-part Substack series (original: 393KB — too large for a single post)
 - Posts 51, 52, 53, 54 cross-referenced to the books
-- All books updated to reference Pillar Ω (Universal Mechanics Engine, 15,072 tests)
+- All books updated to reference Pillar Ω (Universal Mechanics Engine, 15,615 tests)
 
 **v4.0 — Engineering Edition (April 2026):**
 - Book 5: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA)
@@ -420,7 +420,7 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 |---|---|---|
 | 1.0 | April 2026 | Original publication in wuzbak/Books |
 | 2.0 — Omega | April 2026 | Integrated into Unitary Manifold v9.27; new chapters added to each book; Omega Edition headers; cross-references added |
-| 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,072 tests) integrated |
+| 3.0 — Omega Expanded | April 2026 | Books 1–3 substantially expanded (doubled in size); Book 4 split into 6-part Substack series; posts 51–54 cross-referenced to books; Pillar Ω (15,615 tests) integrated |
 | 4.0 — Engineering Edition | April 2026 | Book 5 added: *The Engineer's Manifold* — systems engineering for all levels (DIY → NASA), current systems failure analysis, ten immediate fixes, future architecture, six appendices including printable diagnostic card |
 | 5.0 — Version Omega | April 2026 | Book 6 added: *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph; all themes, all domains, all implications, readable by anyone |
 | 6.0 — Education Edition | April 2026 | Books 7–10 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |

@@ -310,7 +310,7 @@ Pillar 25 Extension — 80+ new passing tests (141 total in `tests/test_genetics
 *Series concept and content strategy: ThomasCory Walker-Pearson.*  
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**99 pillars. 15,296 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**101 pillars + sub-pillars. 15,615 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
 
 ## Post Ω: The Omega Article (v9.27 — OMEGA EDITION)
 
@@ -371,4 +371,4 @@ See [BOOKS_README.md](BOOKS_README.md) for full details on each book and series.
 *Series concept and content strategy: ThomasCory Walker-Pearson.*
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**99 pillars. 15,296 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**101 pillars + sub-pillars. 15,615 tests. Pillar Ω synthesizes all. The sky will decide the rest.**

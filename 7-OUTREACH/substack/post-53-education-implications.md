@@ -207,7 +207,7 @@ an Omega chapter building the path from K-12 pattern recognition to Kaluza-Klein
 
 ---
 
-*Full source code, derivations, and 15,072 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point iteration: `src/multiverse/fixed_point.py`*
 *Coupled attractor (Information Gap): `src/consciousness/coupled_attractor.py`*

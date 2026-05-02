@@ -1,4 +1,4 @@
-# Zenodo & arXiv Submission Checklist — v9.27
+# Zenodo & arXiv Submission Checklist — v9.29
 
 > **Role split:** Copilot (me) has already updated all metadata files and staged everything.
 > The steps below are **yours** — things only a human with an account can do.
@@ -7,9 +7,9 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.27, 15,023 tests, 99 pillars — CLOSED, expanded keywords (note: v9.28 adds sub-pillars 70-C, 99-B, 15-F)
+- [x] `zenodo/.zenodo.json` — updated to v9.29, 15,615 tests, 101 pillars + sub-pillars — CLOSED (Pillars 100/101 + §XIV gap-closures)
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
-- [x] `arxiv/main.tex` — header updated to v9.27 OMEGA EDITION
+- [x] `arxiv/main.tex` — header updated to v9.29, Outstanding Gaps section updated (ADM + n_w=5 now CLOSED)
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
 - [x] This checklist
 - [x] New pillars added: 56 (φ₀ self-consistency), 57 (CMB acoustic peak resolution), 45-D (LiteBIRD forecast), 51-B (Fermilab g-2 watch)
@@ -51,9 +51,9 @@ If filling manually, use these exact values:
 |-------|-------|
 | **Upload type** | Publication |
 | **Publication type** | Preprint |
-| **Title** | The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.27) |
+| **Title** | The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 9.29) |
 | **Authors** | Walker-Pearson, ThomasCory — Independent Researcher, Pacific Northwest, USA |
-| **Version** | 9.27 |
+| **Version** | 9.29 |
 | **License** | Other (Open) |
 | **Access** | Open Access |
 | **Keywords** | Kaluza-Klein theory, 5D gravity, irreversibility, information geometry, holography, Walker-Pearson equations, entropic cosmology, quantum gravity, cold fusion, neuroscience, ecology, climate science, psychology, genetics, materials science |
@@ -116,19 +116,19 @@ Law of Thermodynamics is a geometric identity rather than a statistical
 postulate; (ii) information pressure provides a geometric alternative to
 dark energy; (iii) entropic holography identifies boundary entropy with
 bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture holds.
-Version 9.27 (OMEGA EDITION) extends the framework to 99 geometric pillars (CLOSED — k_CS=74 Topological
+Version 9.29 extends the framework to 101 pillars + sub-pillars (CLOSED — k_CS=74 Topological
 Completeness Theorem proved), covering atomic structure, cold fusion, medicine, justice,
 governance, neuroscience, ecology, climate, marine biology, psychology, genetics, materials
 science, observational frontiers, solitonic charge, AdS/CFT KK tower, delay field,
 three generations, collider resonances, geometric collapse, coupled history,
-φ₀ self-consistency, CMB peak resolution, anomaly-cancellation n_w uniqueness,
+φ₀ self-consistency, CMB peak resolution, n_w=5 PROVED (Pillar 70-D — Z₂-odd CS boundary phase),
 APS spin structure, Goldberger-Wise stabilisation, KK gravitational-wave background,
 B_μ dark photon, KK backreaction, CMB transfer function, photon epoch, QGP radion,
 electroweak hierarchy, zero-point vacuum energy, GW Yukawa derivation (Pillars 97-98),
+ADM Foundation (Pillar 100), KK Magic/Quantum Circuit Complexity (Pillar 101),
 Pillar Ω (Universal Mechanics Engine), and dual-sector birefringence (5,6)/(5,7).
-15,023 passing tests. Numerical code for independent verification at
+15,615 passing tests (330 skipped = 76 dual-use + 254 Pentad product stubs). Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
-(v9.29: 15,615 passing tests; 330 skipped = 76 dual-use + 254 Pentad product stubs)
 ```
 
 **Comments field:**

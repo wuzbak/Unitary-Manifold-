@@ -898,7 +898,7 @@ The human held the meaning. The AI held the precision. The output required both.
 **What the AI provided:**
 - Translation of intuitions into KK metric structure, Ricci tensor components, dimensional reduction, field equations
 - Implementation: Python modules, pytest suites, LaTeX manuscripts, CI pipelines
-- Verification: 15,023 tests confirming internal self-consistency
+- Verification: 15,615 tests confirming internal self-consistency
 - Honest accounting: FALLIBILITY.md, gap tables, circularity audits
 - Documentation: READMEs, proof documents, ingest manifests
 
@@ -906,7 +906,7 @@ The human held the meaning. The AI held the precision. The output required both.
 - A rigorous mathematical framework (AI without direction produces noise; it generates plausible-sounding content that converges on nothing)
 - A computable, testable, falsifiable implementation (the human cannot write the code)
 - A document ecosystem honest about its own limitations (pure AI generation tends toward overconfidence; pure human authorship without AI verification tends toward imprecision)
-- 15,023 passing tests across 99 pillars
+- 15,615 passing tests across 99 pillars
 
 ---
 
@@ -1144,11 +1144,11 @@ Whether this recursion is deep (the same mathematics truly governs cosmological 
 
 ### The Self-Assessment
 
-What the 15,023 tests prove: the code correctly implements the stated mathematical framework. They do not prove that the framework correctly describes physical reality. FALLIBILITY.md is explicit about this. It has been explicit about it since the document was first written.
+What the 15,615 tests prove: the code correctly implements the stated mathematical framework. They do not prove that the framework correctly describes physical reality. FALLIBILITY.md is explicit about this. It has been explicit about it since the document was first written.
 
 What the math proves: the dimensional reduction, the Walker-Pearson field equations, and the fixed-point convergence are internally consistent derivations from the stated assumptions. Whether the assumptions are physically justified is not established by the internal consistency.
 
-What the speed reveals: 74 chapters in 13 days, 15,023 tests in total, is evidence of the process, not of the quality. Rapid generation under high human-AI coupling is what HILS predicts in the high-trust, high-resonance regime. It does not validate the physics.
+What the speed reveals: 74 chapters in 13 days, 15,615 tests in total, is evidence of the process, not of the quality. Rapid generation under high human-AI coupling is what HILS predicts in the high-trust, high-resonance regime. It does not validate the physics.
 
 Five things can be evaluated against the commit history, code, and documentation:
 
@@ -1162,7 +1162,7 @@ Five things can be evaluated against the commit history, code, and documentation
 
 # CONCLUSION: WHAT THE SKY WILL SAY
 
-The series is closed. 99 pillars. 15,023 tests. One engine that computes all of it.
+The series is closed. 101 pillars + sub-pillars. 15,615 tests. One engine that computes all of it.
 
 The work that remains is patience.
 
@@ -1267,12 +1267,12 @@ Running the code:
 ```bash
 pip install numpy scipy
 python -m pytest tests/ recycling/ "Unitary Pentad/" omega/ -q
-# Expected: 15,072 passed, 0 failed
+# Expected: 15,615 passed, 0 failed
 ```
 
 ---
 
-*99 pillars. 15,023 tests. Five seed constants. One universe.*
+*101 pillars + sub-pillars. 15,615 tests. Five seed constants. One universe.*
 
 *Version Ω — April 2026.*
 

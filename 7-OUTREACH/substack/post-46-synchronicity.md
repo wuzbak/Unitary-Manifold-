@@ -131,7 +131,7 @@ The geometry takes both seriously. It just measures them differently.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Information current: `QUANTUM_THEOREMS.md` (Theorem XII)*
 *Topological coupling: `src/core/braided_winding.py`*

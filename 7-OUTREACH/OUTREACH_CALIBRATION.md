@@ -1,6 +1,6 @@
 # OUTREACH_CALIBRATION.md — Physics-to-Outreach Epistemic Map
 
-**Version:** v9.28 (post cross-disciplinary peer review, 2026-05-02)  
+**Version:** v9.29 (101 pillars + sub-pillars CLOSED, 2026-05-02)  
 **Purpose:** Map every Substack post and book to its epistemic category, and provide
 the standard honest phrasing for nₛ, r, β, and SM parameter count.  
 **Theory:** ThomasCory Walker-Pearson  
@@ -54,7 +54,7 @@ the standard honest phrasing for nₛ, r, β, and SM parameter count.
 | post-03 | LiteBIRD 2032 | **P** | Check β = 0.331° is labeled as primary vs 0.273° secondary. |
 | post-04 | Kaluza-Klein | **P** | The "no extra assumptions" language about EM is correct for the photon zero mode. |
 | post-05 | Honest gaps | **P** | Verify still matches current FALLIBILITY.md (φ₀ bridge now closed in Pillar 56-B). |
-| post-06 | 99 pillars | **P** | Updated to 99 pillars. Note: k_CS = 74 ≠ pillar count. |
+| post-06 | 101 pillars + sub-pillars | **P** | Updated to 101 pillars + sub-pillars (v9.29). Note: k_CS = 74 ≠ pillar count. |
 | post-07 | Consciousness | **A** | UM mathematics as organizational lens; not a physics prediction. |
 | post-08 | Biology | **A** | Same. |
 | post-09 | Medicine | **A** | Same. |

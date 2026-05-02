@@ -1,4 +1,4 @@
-# The 99 Geometric Pillars + Pillar Ω — Complete Framework Overview (v9.27 OMEGA EDITION)
+# The 101 Pillars + sub-pillars + Pillar Ω — Complete Framework Overview (v9.29)
 
 The Unitary Manifold extends a single geometric claim — irreversibility as 5D geometry —
 across 99 domains of knowledge (74 core + Pillar 70-B + Pillars 75, 80–99) plus the

@@ -96,7 +96,7 @@ The repository is "closed" in a specific technical sense:
 > (97, 98, and 99) have been added. Pillars 97–98 substantially close the absolute
 > fermion mass scale problem (previously the deepest open gap). Pillar 99, the Omega
 > Synthesis (Pillar Ω), is the capstone synthesis of the complete framework. The
-> total test count has grown to **15,023**. The 96-pillar architecture described
+> total test count has grown to **15,615** (v9.29). The 96-pillar architecture described
 > here remains historically accurate; the framework has since extended to
 > **99 pillars**. See `post-99-the-omega-synthesis.md` and `TABLE_OF_CONTENTS.md`
 > for the current state.
@@ -149,7 +149,7 @@ whole project rests on.
 
 ---
 
-*Full source code, derivations, and 15,023 automated tests:*
+*Full source code, derivations, and 15,615 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Complete pillar list: `TABLE_OF_CONTENTS.md`*
 *Honest gaps: `FALLIBILITY.md`*
