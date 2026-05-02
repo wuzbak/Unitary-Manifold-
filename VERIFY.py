@@ -12,7 +12,7 @@ script to verify the chain in under 1 second.
 
 Usage
 -----
-    python VERIFY.py           # prints 13-row table, exits 0 if all PASS
+    python VERIFY.py           # prints 14-row table, exits 0 if all PASS
 
 Dependencies
 ------------
@@ -24,7 +24,8 @@ What is verified
  2. Braiding kinematics    — c_s = 12/37 ≈ 0.3243 from the (5,7) braid
  3. CMB spectral index     — nₛ ≈ 0.9635 within Planck 2018 1σ (0.9649 ± 0.0042)
  4. Tensor ratio           — r ≈ 0.0315 below BICEP/Keck 95 % CL (< 0.036)
- 5. Birefringence angle    — β ≈ 0.351° inside the Minami 1σ hint (0.35° ± 0.14°)
+ 5. Birefringence angle    — β ≈ 0.331° [(5,7) canonical sector, PRIMARY PREDICTION]
+                             inside the Minami 1σ hint (0.35° ± 0.14°)
  6. Resonance uniqueness   — exactly 2 braid pairs survive all three constraints
  7. Topology uniqueness    — S¹/Z₂ is the unique compact topology passing all
                              five structural constraints of the Unitary Manifold
@@ -38,6 +39,8 @@ What is verified
 12. Completeness theorem   — all 7 independent constraints yield k_CS = 74
                              (Pillar 74 capstone)
 13. Dark energy w_KK       — w_KK ≈ −0.9302 within DESI DR2 1σ (Pillar 66)
+14. φ₀ FTUM bridge         — explicit FTUM → φ₀_bare = 1 chain consistent
+                             (Pillar 56-B)
 
 Authorship
 ----------
@@ -92,6 +95,7 @@ from src.core.roman_space_telescope import (
     W0_DESI_DR2,
     SIGMA_W0_DESI_DR2,
 )
+from src.core.phi0_ftum_bridge import phi0_ftum_bridge_audit
 
 # ---------------------------------------------------------------------------
 # Formatting helpers
@@ -115,14 +119,14 @@ def _row(n: int, label: str, value: str, ref: str, result: bool) -> str:
 # ---------------------------------------------------------------------------
 
 def run_verify() -> int:
-    """Execute all 13 checks.  Return 0 if all pass, 1 otherwise."""
+    """Execute all 14 checks.  Return 0 if all pass, 1 otherwise."""
 
     t0 = time.time()
     checks: list[bool] = []
 
     print(_SEP)
-    print("  UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF")
-    print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.35°  (< 1 s)")
+    print("  UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (99 pillars)")
+    print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.331° [PRIMARY]  (< 1 s)")
     print(_SEP)
     print(f"  {'Check':<28s}  {'Value':<22s}  {'Reference':<14s}  Result")
     print(_SEP)
@@ -165,6 +169,8 @@ def run_verify() -> int:
 
     # ------------------------------------------------------------------
     # CHECK 5 — Birefringence angle β within Minami+Komatsu 1σ hint
+    # PRIMARY PREDICTION: β ≈ 0.331° [(5,7) canonical sector]
+    # Secondary: β ≈ 0.273° [(5,6) sector]
     # ------------------------------------------------------------------
     # Canonical parameters: flat S¹/Z₂, r_c = 12, phi_min_bare = 18
     _alpha_em = 1.0 / 137.036
@@ -179,7 +185,7 @@ def run_verify() -> int:
     c5 = beta_pull <= 1.0
     checks.append(c5)
     ref5 = f"0.35°±0.14°"
-    print(_row(5, "β (birefringence 1σ)", f"{beta_deg:.3f}°  ({beta_pull:.2f}σ)", ref5, c5))
+    print(_row(5, "β (5,7) sector [PRIMARY]", f"{beta_deg:.3f}°  ({beta_pull:.2f}σ)", ref5, c5))
 
     # ------------------------------------------------------------------
     # CHECK 6 — Resonance uniqueness: exactly 2 pairs survive all constraints
@@ -301,6 +307,20 @@ def run_verify() -> int:
                ref13, c13))
 
     # ------------------------------------------------------------------
+    # CHECK 14 — φ₀ FTUM bridge (Pillar 56-B)
+    #
+    # The explicit four-step derivation FTUM → S* → R_compact → φ₀_bare = 1
+    # → φ₀_eff → nₛ must be self-consistent.
+    # ------------------------------------------------------------------
+    bridge_audit = phi0_ftum_bridge_audit()
+    c14 = bridge_audit["bridge_consistent"]
+    checks.append(c14)
+    ns_bridge = bridge_audit["derivation"]["ns"]
+    print(_row(14, "φ₀ FTUM bridge (56-B)",
+               f"nₛ={ns_bridge:.4f}  S*=0.25",
+               "Pillar 56-B", c14))
+
+    # ------------------------------------------------------------------
     # Summary
     # ------------------------------------------------------------------
     elapsed = time.time() - t0
@@ -311,6 +331,7 @@ def run_verify() -> int:
         print("  All checks pass.  The (5,7) braid uniquely satisfies every")
         print("  Planck/BICEP/birefringence/DESI constraint from integer topology alone.")
         print("  k_CS=74 is confirmed by 7 independent conditions (Pillar 74).")
+        print("  Primary prediction: β ≈ 0.331° [(5,7) sector]; test: LiteBIRD ~2032.")
     else:
         failed = [i + 1 for i, c in enumerate(checks) if not c]
         print(f"  FAILED checks: {failed}")

@@ -1,6 +1,21 @@
 # Prediction
 
-## The sharpest predictions of the Unitary Manifold (v9.27 — OMEGA EDITION)
+## The sharpest predictions of the Unitary Manifold (v9.28)
+
+> **β Prediction Hierarchy (for LiteBIRD discrimination):**
+>
+> | Rank | β value | Sector | Status |
+> |------|---------|--------|--------|
+> | **Primary** | **β ≈ 0.331°** | **(5,7) canonical sector**, k_CS = 74 | This is the UM primary prediction |
+> | Secondary | β ≈ 0.273° | (5,6) sector, k_CS = 61 | Second lossless branch |
+> | Loop-corrected | β ≈ 0.290° | Derived from primary + 1-loop | Alternative derivation |
+> | RS1-phase | β ≈ 0.351° | Randall-Sundrum attractor | Maximum compactification |
+>
+> LiteBIRD (~2032) will discriminate between primary (0.331°) and secondary (0.273°) at 2.9σ.
+> A result β < 0.22° or β > 0.38° falsifies the braided-winding mechanism.
+> A result β ∈ (0.29°, 0.31°) (in the predicted gap) would strongly disfavor the framework.
+
+---
 
 ### Dual-sector birefringence — β ∈ {0.331°, 0.273°}
 

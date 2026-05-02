@@ -391,6 +391,29 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 
 ---
 
+## Book Category Summary (v9.28)
+
+| # | Title | Category | Relationship to UM Physics | Peer-reviewed? |
+|---|-------|----------|--------------------------|----------------|
+| 1 | The Broken Scale | **Governance** | Mathematical analogy (φ-equity) | No |
+| 2 | The Climate Reckoning | **Systems** | Mathematical analogy (φ-entropy) | No |
+| 3 | The Prediction Market Reckoning | **Systems** | Mathematical analogy | No |
+| 4 | Axiom Journalism AI | **Systems** | Social commentary | No |
+| 5 | The Engineer's Manifold | **Systems** | Independent application | No |
+| 6 | The Unitary Manifold: Version Omega | **Physics Core** | Directly explains physics | No (AI review only) |
+| 7 | The Learning Crisis | **Education** | Social commentary | No |
+| 8 | K-12 Curriculum Vol 1 | **Education** | Social commentary | No |
+| 9 | K-12 Curriculum Vol 2 | **Education** | Social commentary | No |
+| 10 | K-12 Curriculum Vol 3 | **Education** | Social commentary | No |
+| 11 | The Signal and the Noise | **Politics & Media** | Social commentary | No |
+
+**Books 5–11 are AxiomZero-commissioned works, not peer-reviewed physics.**
+Books 7–11 (education, engineering, politics, climate) apply the UM mathematical language
+as a lens; they are not physics predictions and should not be read as such.
+See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistemic map.
+
+---
+
 ## Version History
 
 | Version | Date | Description |

@@ -1,12 +1,12 @@
 # Why There Are 99 Pillars + Pillar Ω — And What They Are
 
 *Post 6 of the Unitary Manifold series.*
-*Updated v9.27 — OMEGA EDITION (April 2026): 99 pillars + Pillar Ω, 15,023 tests.*  
-*Original claim: the Unitary Manifold framework extends the same five-dimensional geometric
-structure across distinct domains. Whether those extensions are explanatory or
-analogical varies by domain, and this distinction matters. This post explains the
-scope of the project and why the count doesn't extend indefinitely — each new pillar
-must close a specific, named gap.*
+*Updated v9.28 (May 2026): 99 pillars + Pillar Ω, 15,096 tests.*
+*Note: The title of this post originally read "Why There Are 74 Pillars." It has been updated
+to reflect the expansion to 99 pillars. The number 74 in the physics refers to k_CS = 74 =
+5² + 7² (the Chern-Simons level, derived from the braided-winding integers), not the pillar
+count. The "74-pillar" programme that completed the original core theory is a distinct
+historical milestone — the framework now contains 99 pillars + Pillar Ω.*
 
 ---
 

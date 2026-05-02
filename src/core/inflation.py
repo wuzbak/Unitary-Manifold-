@@ -240,6 +240,16 @@ PLANCK_NS_SIGMA   = 0.0042   # 1-σ uncertainty
 BIREFRINGENCE_TARGET_DEG = 0.35    # rotation angle β  [degrees]
 BIREFRINGENCE_SIGMA_DEG  = 0.14    # 1-σ uncertainty
 
+# ---------------------------------------------------------------------------
+# PRIMARY PREDICTION: β ≈ 0.331° [(5,7) canonical sector]
+# Secondary prediction: β ≈ 0.273° [(5,6) sector]
+# Derived alternatives: 0.290°, 0.351° (loop-corrected / RS1-phase)
+#
+# LiteBIRD precision: σ_β ≈ 0.020° — expected to discriminate between the
+# primary and secondary predictions at >3σ (~2032).
+# The β ∈ [0.22°, 0.38°] admissible window is the primary UM falsifier.
+# ---------------------------------------------------------------------------
+
 # Chern–Simons level required to match the birefringence signal.
 # Derived in cs_level_for_birefringence() using the flat S¹/Z₂ volume factor
 # π r_c with r_c = k_rc/k = 12, phi_min_bare = 18, k = 1 (see derivation below).

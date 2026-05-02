@@ -126,6 +126,12 @@ A_MU_SM_DD_1E11: float = 116_591_810.0
 A_MU_SM_DD_UNC_1E11: float = 43.0
 
 #: SM lattice QCD (BMW+) prediction × 10¹¹
+# BMW Collaboration (Borsanyi et al. 2021, Nature 593:51-55).
+# The BMW lattice QCD result narrows the SM-to-experiment discrepancy.
+# As of 2026, consensus between data-driven and lattice QCD predictions
+# is still being established; the UM mechanism (KK graviton + ALP) is
+# present but may be redundant given the reduced SM tension.
+# See DERIVATION_STATUS.md "Muon g-2 anomaly" row for epistemic status.
 A_MU_SM_LATTICE_1E11: float = 116_591_954.0
 #: SM lattice QCD uncertainty × 10¹¹
 A_MU_SM_LATTICE_UNC_1E11: float = 55.0

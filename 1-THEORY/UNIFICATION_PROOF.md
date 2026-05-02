@@ -247,6 +247,26 @@ The `□φ` Laplacian term *is* the quantum potential.
 
 ## Part V — Electromagnetism Recovered from the Irreversibility Field
 
+> **Z₂ Parity Clarification (post-review note):**
+>
+> A referee noted: "If B_μ is Z₂-odd, it has no massless zero mode. The zero mode
+> of an electromagnetic field is Z₂-even, not Z₂-odd."
+>
+> This is resolved as follows: **B_μ and the photon are physically distinct fields.**
+>
+> - **B_μ is Z₂-odd** under y → −y (it is the irreversibility 1-form). Its zero mode
+>   vanishes at the orbifold fixed planes — this is intentional.
+> - **The photon A_μ = λφB_μ** is the zero mode of the Z₂-even combination obtained
+>   by the standard KK projection onto the fixed-plane boundary. The scalar φ is
+>   Z₂-even (φ² = G_{55}), so the product A_μ = λφB_μ carries a different Z₂
+>   representation from B_μ alone.
+> - The two fields are **physically distinct**: B_μ is the bulk irreversibility field;
+>   A_μ is the 4D electromagnetic field recovered at the boundary.
+>
+> See `src/core/metric.py::z2_parity_clarification()` for the complete parity table.
+> See `DERIVATION_STATUS.md` Part V "The B_μ Z₂ Parity Clarification" for the full
+> technical resolution.
+
 ### V.1  The Gauge Symmetry of H_μν
 
 > **Recovery, not prediction.** The identification `λB_μ ≡ A_μ` is not a new

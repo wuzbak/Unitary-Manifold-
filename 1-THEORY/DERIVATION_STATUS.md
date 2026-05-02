@@ -30,15 +30,18 @@ Throughout this document and this repository:
 | 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **POSTULATED** | Design choice — standard KK extended by orbifold | Any 4D observation requiring >5D spacetime | `src/core/metric.py` |
 | Walker-Pearson field equations from δS₅/δG_AB=0 | **DERIVED** | 5D Einstein-Hilbert variational principle | Equations not satisfied → framework inconsistent | `src/core/evolution.py` |
 | Arrow of time as geometric identity | **DERIVED** | B_μ field strength H_μν drives irreversibility; not postulated | Observation of macroscopic time-reversal | `src/core/evolution.py` |
-| φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED** | FTUM fixed-point iteration convergence | Non-convergence of FTUM | `src/multiverse/fixed_point.py` |
+| φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED** (Steps 1–3) + CONVENTION (Step 4) | FTUM S*=0.25 → R=√(S*G₅/π) → φ₀_bare=R/ℓ_Pl (Steps 1–3 derived); φ₀_bare=1 is the Planck-unit normalization convention (Step 4) | Non-convergence of FTUM | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
 | α_NM = φ₀⁻² (nonminimal coupling, NOT α_em) | **DERIVED** | KK cross-block Riemann R^μ_{5ν5} after dimensional reduction | α_NM outside 5D geometric range | `src/core/metric.py` |
 | Holographic entropy S = A/4G | **ASSUMED** | Standard AdS/CFT; not derived from UM geometry | Violation of holographic bound | `src/holography/boundary.py` |
 | FTUM fixed-point convergence | **DERIVED** | Banach fixed-point theorem applied to U = I+H+T | Non-convergence | `src/multiverse/fixed_point.py` |
 | φ₀ self-consistency (Pillar 56) | **CLOSED** | Three φ₀ candidates collapse to single value under c_s-corrected slow-roll | ≠ machine precision agreement | `src/core/phi0_closure.py` |
+| Full ADM 3+1 time decomposition | **OPEN** | `evolution.py` uses Ricci-flow parameter, not coordinate time x⁰; Pillar 41 provides partial correction Ω(φ)=1/φ. Full 3+1 decomposition not yet implemented. See FALLIBILITY.md §III. | — | Pillar 41 / `src/core/delay_field.py` (partial) |
 
 ---
 
 ## Part II — Topological Selection of n_w
+
+> **Canonical reference:** `1-THEORY/NW_UNIQUENESS_STATUS.md` — single authoritative summary of all five pillars, their contributions, and the residual gap.
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
@@ -48,6 +51,7 @@ Throughout this document and this repository:
 | n_w = 5 from APS spin structure | **DERIVED** | GW potential requires chiral spectrum; APS index ≠ 0 for n_w=5 only; left-handed excess forced by SU(2)_L UV coupling → n_w=5 without SM input | GW coupling λ_GW → 0 (trivial vacuum) | Pillar 70-C / `src/core/geometric_chirality_uniqueness.py` |
 | n_w=5 from metric Z₂-parity (G_{μ5} odd) | **DERIVED** | G_{μ5}=λφB_μ Z₂-odd → A_5^eff Z₂-odd → T(5)=15 odd holonomy → η̄=½ → Ω_minus from metric geometry alone; no SU(2)_L input | G_{μ5} Z₂-even would eliminate this selection | `src/core/geometric_chirality_uniqueness.py::bmu_z2_parity_forces_chirality()` |
 | n_w = 5: dominant saddle | **DERIVED** | Euclidean CS action ∝ k_eff(n_w) — n_w=5 minimises over {5,7} | k_eff(5) > k_eff(7) (not the case: 74 < 130) | Pillar 67 |
+| η-class uniqueness (Z₂-odd consistency) | **PHYSICALLY-MOTIVATED** | η̄(5)=½ satisfies Z₂-odd BC consistency; η̄(7)=0 violates it → n_w=7 excluded if condition holds | Formal proof that half-integer class is NOT required | `src/core/nw_anomaly_selection.py::eta_class_uniqueness_argument()` |
 | n_w = 5: final selection | **OBSERVATIONALLY-SELECTED** | Planck nₛ = 0.9649±0.0042 → n_w=5 fits at 0.33σ; n_w=7 fails at 3.9σ | nₛ measured inconsistent with 0.9635 at >3σ | Pillar 67 test suite |
 
 ---
@@ -87,6 +91,31 @@ Throughout this document and this repository:
 | Maxwell stress-energy tensor structure | **RECOVERED** | Follows from KK reduction of 5D Einstein-Hilbert; standard result | — | `src/core/evolution.py` |
 | SU(2) and SU(3) gauge groups | **NOT PRODUCED** | Witten (1981): minimum 11D needed for full SM with chirality. 5D UM does not produce SU(2)×SU(3). | — | `1-THEORY/UNIFICATION_PROOF.md` Part XII |
 
+### The B_μ Z₂ Parity Clarification
+
+> **Referee question:** "If B_μ is Z₂-odd, it has no massless zero mode. The zero mode of an electromagnetic field is Z₂-even, not Z₂-odd."
+
+This apparent contradiction is resolved as follows — B_μ and the photon are *physically distinct fields*:
+
+**(a) B_μ is Z₂-odd under y → −y.** Under the orbifold involution, the fifth component of a covariant vector transforms as B_5 → −B_5, so the off-diagonal block G_{μ5} = λφB_μ is Z₂-odd.
+
+**(b) B_μ's zero mode vanishes at the orbifold fixed planes (y = 0, πR).** This is *intentional*: B_μ is the irreversibility 1-form, not the photon. Its vanishing at the fixed planes corresponds to the CS topological flux passing through the bulk.
+
+**(c) The electromagnetic photon is the zero mode of the Z₂-even combination A_μ = λφB_μ projected onto the fixed-plane boundary.** The scalar φ is Z₂-even (φ² = G_{55} is invariant under y → −y). The product A_μ = λφB_μ is odd × even = odd globally, but the fixed-plane projection selects the 4D gauge field by standard KK reduction (Kaluza 1921, Klein 1926).
+
+**(d) These are physically distinct fields with distinct parity:**
+
+| Field | Z₂ parity | Zero mode | Physical role |
+|-------|-----------|-----------|--------------|
+| B_μ | ODD | None | Irreversibility 1-form |
+| φ | EVEN | Yes | KK radion / inflaton |
+| A_μ = λφB_μ | ODD | Boundary mode | 4D electromagnetic field |
+| g_μν | EVEN | Yes | 4D spacetime metric |
+| G_{μ5} | ODD | None | Off-diagonal KK block |
+| G_{55} = φ² | EVEN | Yes | 5D compact metric element |
+
+**Status: RESOLVED.** See `src/core/metric.py::z2_parity_clarification()` for the testable structured summary.
+
 ---
 
 ## Part VI — φ₀ Self-Consistency
@@ -94,6 +123,8 @@ Throughout this document and this repository:
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
 | Three φ₀ definitions agree | **CLOSED** | c_s-corrected slow-roll collapses all three to single value; (1+c_s²) factors cancel | Machine-precision disagreement between the three paths | Pillar 56 / `src/core/phi0_closure.py` |
+| FTUM → φ₀_bare = 1 (explicit bridge) | **DERIVED** (Steps 1–3) + CONVENTION (Step 4) | Step 1: S* = A/(4G₅) = 0.25 (Banach); Step 2: R = √(S*G₅/π); Step 3: φ₀_bare = R/ℓ_Pl; Step 4: φ₀_eff = n_w × 2π × φ₀_bare → nₛ ≈ 0.9635 | Chain gives nₛ outside Planck 1σ | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
+| w_KK = −1 + (2/3)c_s² ≈ −0.9302 | **DERIVED** (braid suppression + slow-roll radion EoS) | Step 1: ρ = 2n₁n₂/k_CS, c_s = (n₂²−n₁²)/k_CS; Step 2: M_KK from GW; Step 3: ρ_vac = M_KK⁴/16π²; Step 4: slow-roll EoS w = −1 + (2/3)c_s² | DESI / Roman measure w outside [−1.05, −0.85] | `src/core/roman_space_telescope.py::wkk_derivation_chain()` |
 
 ---
 
@@ -108,6 +139,8 @@ Throughout this document and this repository:
 | SU(3)×SU(2) from higher-dimensional extension | OPEN | Extension to ≥11D or alternative compactification |
 | Canonical quantisation of φ | OPEN | Hamiltonian analysis of the radion sector |
 | CMB acoustic peak shapes (Boltzmann) | OPEN (partial) | Full Boltzmann integration beyond the current KK correction δ_KK |
+| Full ADM 3+1 decomposition (time parameterization) | **OPEN** | Full ADM 3+1 decomposition of the 5D evolution equations; Pillar 41 provides partial correction factor Ω(φ) = 1/φ. See FALLIBILITY.md §III. |
+| η-invariant class uniqueness for n_w = 5 | **PHYSICALLY-MOTIVATED (not proved)** | Derive from 5D CS action that η̄ ≡ ½ mod 1 is required at Z₂-odd fixed planes. See `nw_anomaly_selection.py::eta_class_uniqueness_argument()` and `1-THEORY/NW_UNIQUENESS_STATUS.md`. |
 
 ---
 

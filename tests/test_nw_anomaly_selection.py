@@ -43,6 +43,7 @@ from src.core.nw_anomaly_selection import (
     action_minimum_over_candidates,
     anomaly_scan_odd_nw,
     cs_euclidean_action_ratio,
+    eta_class_uniqueness_argument,
     eta_invariant_schematic,
     first_principles_gap_report,
     k_eff_minimum_braid,
@@ -801,3 +802,58 @@ class TestPhysicsConsistency:
     def test_action_ratio_5_vs_7_lt_one(self):
         assert cs_euclidean_action_ratio(5, 7) < 1.0
         assert abs(cs_euclidean_action_ratio(5, 7) - 74.0 / 130.0) < 1e-12
+
+
+# ===========================================================================
+# TestEtaClassUniquenessArgument (Pillar 56-B / A2 peer-review addition)
+# ===========================================================================
+
+class TestEtaClassUniquenessArgument:
+    """Tests for eta_class_uniqueness_argument() — the η-invariant frontier step."""
+
+    def setup_method(self):
+        self.result = eta_class_uniqueness_argument()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_n_w_5_satisfies_condition(self):
+        """n_w = 5 satisfies η̄ = ½ mod 1."""
+        assert 5 in self.result["n_w_satisfies"]
+
+    def test_n_w_7_violates_condition(self):
+        """n_w = 7 violates η̄ = ½ mod 1 (η̄(7) = 0)."""
+        assert 7 in self.result["n_w_violates"]
+
+    def test_eta_bar_5_is_half(self):
+        """η̄(5) = 0.5."""
+        assert abs(self.result["eta_bar_5"] - 0.5) < 1e-9
+
+    def test_eta_bar_7_is_zero(self):
+        """η̄(7) = 0.0."""
+        assert abs(self.result["eta_bar_7"]) < 1e-9
+
+    def test_selects_n_w_5(self):
+        """Condition selects n_w = 5."""
+        assert self.result["selects_n_w_5"] is True
+        assert self.result["n_w_selected"] == 5
+
+    def test_excludes_n_w_7(self):
+        """Condition excludes n_w = 7."""
+        assert self.result["n_w_excluded"] == 7
+
+    def test_epistemic_status_is_physically_motivated(self):
+        """Honest label: PHYSICALLY-MOTIVATED (not proved)."""
+        assert "PHYSICALLY-MOTIVATED" in self.result["epistemic_status"]
+        assert "not proved" in self.result["epistemic_status"].lower()
+
+    def test_remaining_gap_non_empty(self):
+        """Remaining gap is documented."""
+        assert len(self.result["remaining_gap"]) > 50
+
+    def test_pillar_references_present(self):
+        """Pillar references for the argument are provided."""
+        refs = self.result["pillar_references"]
+        assert "Pillar_39" in refs
+        assert "Pillar_67" in refs
+        assert "Pillar_70-B" in refs

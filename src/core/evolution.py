@@ -22,7 +22,8 @@ to its background value φ₀, preventing both the collapse (φ → 0) and the
 run-away (φ → ∞) instabilities identified in the Gemini peer review.  The
 mass m_phi = 0 (default) recovers the original mass-less equation.
 
-**Time-synchronisation note (Gemini Issue 4)**
+**Time-synchronisation note (Gemini Issue 4 / ADM gap — documented in FALLIBILITY.md §III)**
+
 The evolution parameter *t* here acts as the flow parameter λ that drives
 the irreversibility (analogous to Ricci-flow time), not as the coordinate
 time x⁰ embedded inside the metric tensor.  A fully diffeomorphism-invariant
@@ -32,6 +33,13 @@ gauge choice and evolves all fields in the single remaining spatial direction.
 Consumers of this code should be aware that the "double-counting" of time
 described in the review is therefore present by construction: λ and x⁰ are
 related but not formally synchronised within the current framework.
+
+**Partial correction:** Pillar 41 (`src/core/delay_field.py`) provides a
+correction factor Ω(φ) = 1/φ connecting the flow parameter to the proper-time
+lapse in the non-relativistic limit.  This is a first-order correction, not a
+full ADM 3+1 decomposition.  The full ADM treatment remains an open gap for the
+"arrow of time is geometric" claim; see FALLIBILITY.md §III (ADM gap section)
+and DERIVATION_STATUS.md Part I for the precise epistemic status.
 
 **KK information-recovery note (Gemini Issue 2)**
 The simulation tracks only the zero-mode (4D) fields; higher Kaluza–Klein

@@ -1,10 +1,14 @@
 # Four Numbers That Keep Agreeing
 
 *Post 2 of the Unitary Manifold series.*
-*Claim: four independently measurable quantities are simultaneously predicted by a
-five-dimensional geometric framework with no freely adjusted parameters. This claim
-would be falsified if LiteBIRD finds birefringence inconsistent with β ∈ {≈0.273°,
-≈0.331°}, or if the Roman Space Telescope finds w inconsistent with ≈ −0.930.*
+
+> **Epistemic category:** P (Physics Core) — Explains the four core CMB + dark energy predictions.  
+> **Physics accuracy:** Matches `DERIVATION_STATUS.md`. See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md).  
+> **Primary claim:** nₛ ≈ 0.9635, r ≈ 0.0315, β ≈ 0.331° [(5,7) primary sector], w_KK ≈ −0.930 — all from integers (5,7).  
+> **SM parameters:** 9/28 SM parameters derived from geometry; ~15 remain free. The four numbers here have no free parameters.  
+> **Falsification:** LiteBIRD β outside [0.22°, 0.38°]; Roman Space Telescope w outside [−1.05, −0.85].
+
+*Claim: four independently measurable quantities are simultaneously predicted by a five-dimensional geometric framework with no freely adjusted parameters among nₛ, r, β, and w_KK. This claim would be falsified if LiteBIRD finds birefringence inconsistent with β ∈ {≈0.273°, ≈0.331°}, or if the Roman Space Telescope finds w inconsistent with ≈ −0.930.*
 
 ---
 

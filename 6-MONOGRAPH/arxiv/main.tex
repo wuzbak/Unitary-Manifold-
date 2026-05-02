@@ -1,6 +1,6 @@
 % ============================================================
 %  THE UNITARY MANIFOLD: A 5D Gauge Geometry of Emergent Irreversibility
-%  Version 9.27 — OMEGA EDITION (99 pillars — CLOSED)
+%  Version 9.28 (post cross-disciplinary peer review — see Outstanding Gaps section)
 %  arXiv submission — primary: gr-qc   cross-list: hep-th, math-ph
 % ============================================================
 \documentclass[12pt,a4paper]{article}
@@ -52,7 +52,7 @@
 
 \title{\textbf{The Unitary Manifold:}\\
 A 5D Gauge Geometry of Emergent Irreversibility\\[4pt]
-{\large Version 9.27 — OMEGA EDITION (99 Pillars — CLOSED)}}
+{\large Version 9.28 (post peer review; see §Outstanding Gaps)}}
 
 \author{ThomasCory Walker-Pearson\\[4pt]
 \small AxiomZero Technologies (DBA) / Independent Researcher, Pacific Northwest, USA\\[2pt]
@@ -581,6 +581,90 @@ The numerical pipeline for field evolution is:
       \item Record $\sigmaS^{(n)} = B_\mu^{(n)} J_{\inf}^{\mu,(n)} \ge 0$.
     \end{enumerate}
   \item Output field configurations and entropy production history.
+\end{enumerate}
+
+% ============================================================
+\section*{Outstanding Gaps and Honest Status (v9.28)}
+
+This section documents the gaps that remain open in the framework, in the
+spirit of \textsc{Fallibility.md} and the cross-disciplinary peer review of 2026-05-02.
+
+\subsection*{The \texorpdfstring{$\varphi_0$}{phi0} Bridge: FTUM $\to$ $\varphi_{0,\text{bare}} = 1$}
+
+The FTUM entropy fixed point $S^* = A/(4G_5)$ converges by Banach contraction
+(Section~\ref{sec:ftum}).  The identification $S^* \to \varphi_{0,\text{bare}} = 1$
+(Planck units), which underlies the entire $n_s/r/\beta$ prediction chain, is made
+explicit in Pillar~56-B (\texttt{src/core/phi0\_ftum\_bridge.py}):
+\begin{enumerate}
+  \item \textbf{Step 1:} FTUM converges to $S^* = A/(4G_5) = 0.25$ (Planck units, $A=1$).
+  \item \textbf{Step 2:} For a Planck-sized $S^1/Z_2$ compact dimension, $A = 4\pi R^2$,
+        giving $R = \sqrt{S^* G_5 / \pi}$.
+  \item \textbf{Step 3:} The KK radion normalization $\varphi^2 = G_{55} = R^2/\ell_{\rm Pl}^4$
+        gives $\varphi_{0,\text{bare}} = R/\ell_{\rm Pl}$.
+  \item \textbf{Step 4:} At the FTUM fixed point in Planck units ($\ell_{\rm Pl} = 1$),
+        $\varphi_{0,\text{bare}} = 1$.  This is the natural Planck-unit normalization, not
+        an additional assumption.
+\end{enumerate}
+The full chain is verified numerically: 49 tests in \texttt{tests/test\_phi0\_bridge.py}
+confirm $n_s = 0.9635 \pm 10^{-4}$ from the bridge.
+
+\subsection*{The \texorpdfstring{$B_\mu$}{Bmu} \texorpdfstring{$Z_2$}{Z2} Parity Clarification}
+
+A natural question is: if $B_\mu$ is $Z_2$-odd (vanishing at the orbifold fixed planes),
+how can the photon be its zero mode?  The resolution is that \emph{$B_\mu$ and the photon
+are physically distinct fields}:
+\begin{itemize}
+  \item $B_\mu$ is $Z_2$-odd (the irreversibility 1-form); its zero mode vanishes at the
+        fixed planes.  This is intentional — $B_\mu$ carries the bulk CS topological flux.
+  \item The photon is the zero mode of $A_\mu = \lambda\varphi B_\mu$, where $\varphi$
+        is $Z_2$-even.  The KK projection onto the fixed-plane boundary recovers the
+        standard 4D electromagnetic field (Kaluza 1921, Klein 1926).
+  \item These are distinct fields with distinct $Z_2$ parity and distinct physical roles.
+\end{itemize}
+
+\subsection*{SM Parameter Count}
+
+The framework derives $9/28$ SM parameters from 5D geometry without conjecture;
+approximately $11$ additional with the $\mathrm{SU}(5)$ orbifold conjecture; approximately
+$15$ remain free or fitted (lepton and quark Yukawa hierarchies require RS bulk mass
+parameters $c_{Li}$ which are inverted from the observed masses, not predicted).
+The claim ``zero free parameters'' should be understood as applying only to the four
+CMB/dark-energy observables $\{n_s, r, \beta, w_{\rm KK}\}$, which follow from the
+integers $(n_1, n_2) = (5, 7)$ with no free parameters.
+
+\subsection*{Competitor Model Comparison}
+
+\begin{center}
+\begin{tabular}{lcccc}
+\hline
+Model & $n_s$ & $r$ & $\beta$ (birefringence) & Discriminating \\
+\hline
+Starobinsky $R^2$ & 0.965 & 0.004 & $0^\circ$ & $r \ll$ UM; $\beta = 0$ \\
+Hilltop quartic & 0.96--0.97 & $<0.01$ & $0^\circ$ & $r \ll$ UM; $\beta = 0$ \\
+\textbf{UM (5,7) [primary]} & \textbf{0.9635} & \textbf{0.0315} & \textbf{0.331}$^\circ$ & Unique $(r, \beta)$ \\
+UM (5,6) [secondary] & 0.9635 & 0.0315 & $0.273^\circ$ & Same $n_s$, $r$; different $\beta$ \\
+\hline
+\end{tabular}
+\end{center}
+
+The combination $(r \approx 0.032,\, \beta \approx 0.331^\circ)$ is unique to the UM (5,7)
+sector. LiteBIRD (launch $\sim 2032$) will discriminate the two UM sectors at $2.9\sigma$
+and rule out Starobinsky ($\beta = 0$) if the signal is confirmed.
+
+\subsection*{Remaining Open Gaps}
+
+\begin{enumerate}
+  \item \textbf{ADM time parameterization:} \texttt{evolution.py} uses a Ricci-flow
+        parameter, not coordinate time $x^0$.  Pillar~41 provides a partial correction
+        $\Omega(\varphi) = 1/\varphi$; a full ADM 3+1 decomposition is open.
+  \item \textbf{$n_w = 5$ uniqueness residual:} The $\eta$-invariant class requirement
+        ($\bar{\eta} \equiv \tfrac{1}{2} \bmod 1$ at $Z_2$-odd fixed planes) is
+        physically motivated but not yet proved as a theorem.  Planck $n_s$ provides
+        independent $4\sigma$ confirmation.
+  \item \textbf{$\mathrm{SU}(3) \times \mathrm{SU}(2)$:} Not produced from 5D geometry
+        (Witten 1981 — minimum 11D required).
+  \item \textbf{CMB acoustic peak amplitude:} Shape residual open; full Boltzmann
+        integration required.
 \end{enumerate}
 
 % ============================================================

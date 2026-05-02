@@ -51,6 +51,22 @@ implications for engineering, education, economics, and politics.
 
 ---
 
+## Standard Phrasing
+
+When any post or book makes a physics claim, it should use the following standard
+phrasing (see [`OUTREACH_CALIBRATION.md`](OUTREACH_CALIBRATION.md) for the complete
+category map and reference):
+
+- **nₛ:** "The Unitary Manifold predicts nₛ ≈ 0.9635, within Planck 2018 1σ (0.9649 ± 0.0042)."
+- **r:** "r_braided ≈ 0.0315, below the BICEP/Keck 95% CL limit (< 0.036)."
+- **β:** "Primary prediction: β ≈ 0.331° [(5,7) canonical sector]; secondary: β ≈ 0.273° [(5,6) sector]. LiteBIRD (~2032) will discriminate at 2.9σ."
+- **SM parameters:** "9/28 SM parameters derived from geometry without conjecture; approximately 11 additional with the SU(5) orbifold conjecture; approximately 15 remain free or fitted."
+- **Theory scope:** "The Unitary Manifold is not a Theory of Everything. SU(3)×SU(2) is not produced from 5D geometry."
+
+Posts that make stronger claims than the above should be updated to match the technical documents.
+
+---
+
 ## Epistemic notice
 
 Posts and books in this directory:

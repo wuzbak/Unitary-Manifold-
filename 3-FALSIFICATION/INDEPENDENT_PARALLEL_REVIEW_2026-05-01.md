@@ -1,5 +1,12 @@
 # Independent Parallel Peer Review — Unitary Manifold v9.28
 
+> ⚠️ **AI peer review disclosure:** This review was conducted by GitHub Copilot (AI).
+> While thorough and identifying real weaknesses, it does not constitute independent human
+> expert review. The scientific community does not yet regard AI-conducted peer review as
+> equivalent to independent human expert review. Human expert preprint review in
+> mathematical physics, inflationary cosmology, and KK phenomenology is recommended
+> before journal submission.
+
 **Review type:** Multi-team parallel independent validation  
 **Date:** 2026-05-01  
 **Repository:** `wuzbak/Unitary-Manifold-` · v9.28  

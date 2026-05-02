@@ -851,6 +851,142 @@ def eta_invariant_schematic(n_w: int) -> Dict:
 
 
 # ---------------------------------------------------------------------------
+# η-invariant class uniqueness argument (Pillar 56-B / post-review addition)
+# ---------------------------------------------------------------------------
+
+def eta_class_uniqueness_argument() -> Dict:
+    """Formalize the η-invariant class requirement as the frontier uniqueness step.
+
+    This function makes explicit the strongest available first-principles argument
+    for excluding n_w = 7 without invoking Planck nₛ.  The argument is labeled
+    PHYSICALLY-MOTIVATED, not PROVED, because the derivation of which quantization
+    class is *required* by the bulk anomaly inflow has not yet been completed from
+    first principles.
+
+    The Argument
+    ------------
+    On the 5D orbifold S¹/Z₂ with winding charge n_w, the B_μ field is Z₂-odd
+    under y → −y (from the metric block G_{μ5} = λφB_μ, which changes sign).  The
+    boundary Dirac operator at the orbifold fixed planes y = 0 and y = πR must
+    be augmented with the Atiyah-Patodi-Singer (APS) boundary condition.
+
+    The APS index theorem on a manifold with boundary Σ = S¹/Z₂ gives:
+
+        Index(D̸₅) = ∫_M Â(M) ch(F) − ½ η̄(Σ)             [APS theorem]
+
+    where η̄(Σ) is the reduced η-invariant of the boundary Dirac operator.
+
+    **Bulk anomaly inflow requirement:**
+    For the 5D CS term at level k_CS to cancel the gauge anomaly at the orbifold
+    fixed planes, the boundary contribution to the anomaly must vanish mod 1:
+
+        Δ_boundary = η̄(n_w) mod 1                         [anomaly inflow condition]
+
+    For consistency with the Z₂-odd B_μ boundary condition, the bulk anomaly
+    inflow requires that the boundary η-invariant lie in the half-integer class:
+
+        η̄(n_w) ≡ ½ mod 1   [required for Z₂-odd gauge consistency]    (*)
+
+    **Verification:**
+        η̄(5) = T(5)/2 mod 1 = 15/2 mod 1 = 7.5 mod 1 = 0.5   ← satisfies (*)
+        η̄(7) = T(7)/2 mod 1 = 28/2 mod 1 = 14.0 mod 1 = 0.0  ← violates (*)
+
+    where T(n_w) = n_w(n_w+1)/2 is the triangular number (verified by three
+    independent methods in Pillar 70-B, `aps_spin_structure.py`).
+
+    **Conclusion:** If condition (*) holds, n_w = 7 is *excluded* (its η̄ = 0
+    violates the Z₂-odd gauge consistency requirement) and n_w = 5 is the unique
+    solution.
+
+    **Honest epistemic label:** PHYSICALLY-MOTIVATED.
+    The argument is physically well-motivated: it follows directly from the Z₂-odd
+    character of G_{μ5} (proved in Pillar 70-C-bis) and the APS theorem structure
+    (derived in Pillar 70-B).  The remaining gap is proving condition (*) rigorously
+    — specifically, deriving from the 5D CS action that the half-integer class (and
+    not the integer class η̄ = 0 mod 1) is required for Z₂-odd gauge consistency.
+
+    Returns
+    -------
+    dict with keys:
+
+    ``argument_name``    : str  — name of the uniqueness argument.
+    ``n_w_satisfies``    : list — n_w values satisfying the η̄ = ½ condition.
+    ``n_w_violates``     : list — n_w values violating the condition.
+    ``eta_bar_5``        : float — η̄(5) mod 1 = 0.5.
+    ``eta_bar_7``        : float — η̄(7) mod 1 = 0.0.
+    ``condition_stated`` : str  — the condition being checked.
+    ``n_w_selected``     : int  — n_w selected if condition holds (= 5).
+    ``n_w_excluded``     : int  — n_w excluded by condition (= 7).
+    ``epistemic_status`` : str  — "PHYSICALLY-MOTIVATED (not proved)".
+    ``remaining_gap``    : str  — what needs to be derived to close the gap.
+    ``pillar_references``: dict — pillars that contribute to this argument.
+    ``selects_n_w_5``    : bool — True if the condition selects n_w = 5.
+    """
+    candidates = [5, 7]
+
+    # Compute η̄(n_w) = T(n_w)/2 mod 1 for each candidate
+    # T(n_w) = n_w(n_w+1)/2 is the triangular number
+    def eta_bar(n_w: int) -> float:
+        T = n_w * (n_w + 1) // 2
+        raw = T / 2.0 % 1.0
+        # Round floating-point noise
+        if abs(raw) < 1e-10:
+            return 0.0
+        if abs(raw - 0.5) < 1e-10:
+            return 0.5
+        return raw
+
+    eta5 = eta_bar(5)
+    eta7 = eta_bar(7)
+
+    # Half-integer condition: η̄ = ½ mod 1
+    satisfies = [n_w for n_w in candidates if abs(eta_bar(n_w) - 0.5) < 1e-9]
+    violates = [n_w for n_w in candidates if abs(eta_bar(n_w) - 0.5) >= 1e-9]
+
+    n_w_selected = satisfies[0] if len(satisfies) == 1 else None
+    n_w_excluded = violates[0] if len(violates) == 1 else None
+    selects_5 = (n_w_selected == N_W_CANONICAL)
+
+    return {
+        "argument_name": "η-invariant class uniqueness (Z₂-odd gauge consistency)",
+        "n_w_satisfies": satisfies,
+        "n_w_violates": violates,
+        "eta_bar_5": eta5,
+        "eta_bar_7": eta7,
+        "condition_stated": (
+            "η̄(n_w) ≡ ½ mod 1  required for Z₂-odd B_μ gauge consistency at "
+            "S¹/Z₂ orbifold fixed planes (bulk anomaly inflow condition)"
+        ),
+        "n_w_selected": n_w_selected,
+        "n_w_excluded": n_w_excluded,
+        "epistemic_status": (
+            "PHYSICALLY-MOTIVATED (not proved). "
+            "η̄(5) = 0.5 ✓, η̄(7) = 0.0 ✗ — verified by Pillar 70-B "
+            "(three independent methods). The half-integer requirement is motivated "
+            "by the Z₂-odd character of G_{μ5} (Pillar 70-C-bis) and APS inflow "
+            "structure, but has not been formally derived from the 5D CS action."
+        ),
+        "remaining_gap": (
+            "Derive rigorously from the 5D Chern-Simons action at level k_CS, "
+            "under the Z₂-odd boundary condition on B_μ, that the boundary "
+            "η-invariant must satisfy η̄ ≡ ½ mod 1 (and not η̄ ≡ 0 mod 1). "
+            "Equivalently: show that the modular weight of the CS partition "
+            "function on S¹/Z₂ forces the half-integer η class."
+        ),
+        "selects_n_w_5": selects_5,
+        "pillar_references": {
+            "Pillar_39":     "Z₂ orbifold → n_w odd (solitonic_charge.py)",
+            "Pillar_67":     "N_gen=3 + Z₂ → n_w ∈ {5,7}; min-action → n_w=5 preferred",
+            "Pillar_70-B":   "η̄(5)=½, η̄(7)=0 derived by 3 methods (aps_spin_structure.py)",
+            "Pillar_70-C-bis": (
+                "G_{μ5} Z₂-odd → Dirichlet BC at fixed planes → holonomy → η̄=½ "
+                "required (geometric_chirality_uniqueness.py)"
+            ),
+        },
+    }
+
+
+# ---------------------------------------------------------------------------
 # Comprehensive gap report
 # ---------------------------------------------------------------------------
 

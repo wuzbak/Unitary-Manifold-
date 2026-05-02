@@ -1,5 +1,12 @@
 # Cross-Disciplinary Peer/Expert Review — *The Unitary Manifold* (v9.28)
 
+> ⚠️ **AI peer review disclosure:** This review was conducted by GitHub Copilot (AI).
+> While thorough and identifying real weaknesses, it does not constitute independent human
+> expert review. The scientific community does not yet regard AI-conducted peer review as
+> equivalent to independent human expert review. Human expert preprint review in
+> mathematical physics, inflationary cosmology, and KK phenomenology is recommended
+> before journal submission.
+
 **Repository:** `wuzbak/Unitary-Manifold-`  
 **Review date:** 2026-05-02  
 **Reviewer:** GitHub Copilot (AI) — acting as a simulated university multi-panel team  
