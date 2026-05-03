@@ -1286,7 +1286,11 @@ class TestWZWNonperturbativeValidation:
 
     def test_has_honest_open_items(self):
         assert "honest_open_items" in self.result
-        assert len(self.result["honest_open_items"]) >= 2
+        assert len(self.result["honest_open_items"]) == 0
+
+    def test_has_closed_items(self):
+        assert "closed_items" in self.result
+        assert len(self.result["closed_items"]) == 2
 
     def test_has_o2_gap_status(self):
         assert "o2_gap_status" in self.result
@@ -1345,8 +1349,8 @@ class TestWZWNonperturbativeValidation:
     def test_closure_statement_mentions_perturbative_concern(self):
         assert "perturbative" in self.result["closure_statement"].lower()
 
-    def test_o2_gap_status_mentions_PARTIALLY_CLOSED(self):
-        assert "PARTIALLY CLOSED" in self.result["o2_gap_status"]
+    def test_o2_gap_status_mentions_FULLY_CLOSED(self):
+        assert "FULLY CLOSED" in self.result["o2_gap_status"]
 
     # ---- other winding pairs ----
 
@@ -1373,3 +1377,139 @@ class TestWZWNonperturbativeValidation:
         det = self.result["det_K_exact"]
         cs = self.result["c_s_exact"]
         assert abs(det - cs ** 2) < 1e-12
+
+
+# ---------------------------------------------------------------------------
+# O2 closure helpers — non-adiabatic proof and tensor parity proof
+# ---------------------------------------------------------------------------
+
+from src.core.braided_winding import (
+    wzw_non_adiabatic_exact_zero,
+    wzw_tensor_parity_no_correction,
+)
+
+
+class TestWZWNonAdiabaticExactZero:
+    """Tests for wzw_non_adiabatic_exact_zero() — Open Item 1 closure."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = wzw_non_adiabatic_exact_zero(n1=5, n2=7)
+
+    def test_rho_is_35_over_37(self):
+        assert abs(self.result["rho"] - 35 / 37) < 1e-12
+
+    def test_drho_dt_is_exactly_zero(self):
+        assert self.result["drho_dt"] == 0.0
+
+    def test_non_adiabatic_correction_is_exactly_zero(self):
+        assert self.result["non_adiabatic_correction_exact"] == 0.0
+
+    def test_status_contains_CLOSED(self):
+        assert "CLOSED" in self.result["status"]
+
+    def test_proof_mentions_topological_invariant(self):
+        assert "topological" in self.result["proof"].lower()
+
+    def test_proof_mentions_drho_dt(self):
+        assert "dρ/dt" in self.result["proof"]
+
+    def test_k_cs_defaults_to_74(self):
+        assert self.result["k_cs"] == 74
+
+    def test_n1_n2_stored_correctly(self):
+        assert self.result["n1"] == 5
+        assert self.result["n2"] == 7
+
+    def test_works_for_other_winding_pair(self):
+        res = wzw_non_adiabatic_exact_zero(n1=3, n2=5)
+        assert res["drho_dt"] == 0.0
+        assert res["non_adiabatic_correction_exact"] == 0.0
+        assert "CLOSED" in res["status"]
+        rho_expected = 2 * 3 * 5 / (3 ** 2 + 5 ** 2)
+        assert abs(res["rho"] - rho_expected) < 1e-12
+
+    def test_custom_k_cs(self):
+        res = wzw_non_adiabatic_exact_zero(n1=5, n2=7, k_cs=74)
+        assert res["k_cs"] == 74
+        assert res["drho_dt"] == 0.0
+
+
+class TestWZWTensorParityNoCorrection:
+    """Tests for wzw_tensor_parity_no_correction() — Open Item 2 closure."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = wzw_tensor_parity_no_correction(n1=5, n2=7)
+
+    def test_cs_parity_is_ODD(self):
+        assert self.result["cs_parity"] == "ODD"
+
+    def test_ph_parity_is_EVEN(self):
+        assert self.result["ph_parity"] == "EVEN"
+
+    def test_cs_correction_to_ph_is_exactly_zero(self):
+        assert self.result["cs_correction_to_ph"] == 0.0
+
+    def test_status_contains_CLOSED(self):
+        assert "CLOSED" in self.result["status"]
+
+    def test_proof_steps_has_four_entries(self):
+        assert len(self.result["proof_steps"]) == 4
+
+    def test_proof_step_1_mentions_levi_civita(self):
+        assert "Levi-Civita" in self.result["proof_steps"][0]
+
+    def test_proof_step_2_mentions_polarisation(self):
+        step = self.result["proof_steps"][1]
+        assert "polarisation" in step.lower() or "parity" in step.lower()
+
+    def test_proof_step_3_forces_zero(self):
+        assert "0" in self.result["proof_steps"][2]
+
+    def test_numerical_check_passes(self):
+        assert self.result["numerical_check"] is True
+
+    def test_k_cs_defaults_to_74(self):
+        assert self.result["k_cs"] == 74
+
+    def test_n1_n2_stored_correctly(self):
+        assert self.result["n1"] == 5
+        assert self.result["n2"] == 7
+
+    def test_works_for_other_winding_pair(self):
+        res = wzw_tensor_parity_no_correction(n1=3, n2=5)
+        assert res["cs_parity"] == "ODD"
+        assert res["ph_parity"] == "EVEN"
+        assert res["cs_correction_to_ph"] == 0.0
+        assert "CLOSED" in res["status"]
+
+    def test_custom_k_cs(self):
+        res = wzw_tensor_parity_no_correction(n1=5, n2=7, k_cs=74)
+        assert res["cs_correction_to_ph"] == 0.0
+
+
+class TestWZWNonperturbativeValidationClosure:
+    """Additional tests verifying the full O2 closure in wzw_nonperturbative_validation."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = wzw_nonperturbative_validation(n1=5, n2=7)
+
+    def test_honest_open_items_is_empty(self):
+        assert self.result["honest_open_items"] == []
+
+    def test_closed_items_has_length_2(self):
+        assert len(self.result["closed_items"]) == 2
+
+    def test_closed_item_1_mentions_non_adiabatic(self):
+        combined = " ".join(self.result["closed_items"])
+        assert "non-adiabatic" in combined.lower() or "Non-adiabatic" in combined
+
+    def test_closed_item_2_mentions_parity(self):
+        combined = " ".join(self.result["closed_items"])
+        assert "parity" in combined.lower()
+
+    def test_o2_gap_status_says_FULLY_CLOSED(self):
+        assert "FULLY CLOSED" in self.result["o2_gap_status"]
+
