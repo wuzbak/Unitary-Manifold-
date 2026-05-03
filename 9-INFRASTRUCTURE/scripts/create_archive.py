@@ -58,7 +58,7 @@ Contents
 
   Unitary Pentad/           HILS governance framework — 18 modules (1,266 tests)
 
-  tests/                    150+ test files, ~14,103 passing tests (Pillars 1–101 + sub-pillars)
+  tests/                    150+ test files, ~15,926 passing tests (Pillars 1–132 + sub-pillars)
 
   embryology-manifold/      Pillar TVC: egg radius, zinc count, HOX predictions
 
@@ -102,12 +102,12 @@ Getting started
 
 Test suite summary (v9.29)
 -----------------------------------------
-  tests/               ~14,103 passed, 76 skipped   (Pillars 1–101 + sub-pillars)
+  tests/               ~15,926 passed, 76 skipped   (Pillars 1–132 + sub-pillars)
   recycling/               316 passed    (Pillar 16)
   5-GOVERNANCE/Unitary Pentad/  1,026 passed, 254 skipped  (HILS governance)
   omega/                   170 passed    (Pillar Ω)
   ─────────────────────────────────────
-  TOTAL               15,615 passed, 330 skipped, 0 failed
+  TOTAL               17,438 passed, 330 skipped, 0 failed
 """
 
 

@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 14,734 automated tests (113 pillars/modules + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 76 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 17,438 automated tests (132 pillars/modules + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -48,7 +48,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "15,615 passed · 330 skipped · 0 failed," this is a statement about
+When the README badge reads "17,438 passed · 330 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---

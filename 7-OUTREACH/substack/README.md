@@ -7,7 +7,7 @@
 
 > ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
 > within individual post drafts reflect the state of the repository **at the time of writing**.
-> The current verified totals are: **15,615 tests passing · 330 skipped · 0 failures · 101 pillars (v9.29)**.
+> The current verified totals are: **17,438 tests passing · 330 skipped · 0 failures · 132 pillars (v9.29+)**.
 > Individual posts have not been retroactively updated to preserve their historical authenticity.
 
 This directory contains ready-to-publish Substack post drafts for communicating
@@ -310,7 +310,7 @@ Pillar 25 Extension — 80+ new passing tests (141 total in `tests/test_genetics
 *Series concept and content strategy: ThomasCory Walker-Pearson.*  
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**101 pillars + sub-pillars. 15,615 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**132 pillars + sub-pillars. 17,438 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
 
 ## Post Ω: The Omega Article (v9.27 — OMEGA EDITION)
 
@@ -371,4 +371,4 @@ See [BOOKS_README.md](BOOKS_README.md) for full details on each book and series.
 *Series concept and content strategy: ThomasCory Walker-Pearson.*
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**101 pillars + sub-pillars. 15,615 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**132 pillars + sub-pillars. 17,438 tests. Pillar Ω synthesizes all. The sky will decide the rest.**

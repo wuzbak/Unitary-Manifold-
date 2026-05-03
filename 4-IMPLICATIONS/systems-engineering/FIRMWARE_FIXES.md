@@ -520,7 +520,7 @@ Before deploying any fix to production:
 
 ---
 
-*Part of the `systems-engineering/` folder — v9.29 (101 pillars + sub-pillars, 15,615 tests).*  
+*Part of the `systems-engineering/` folder — v9.29+ (132 pillars + sub-pillars, 17,438 tests).*  
 *See [`MANIFOLD_SYSTEM_STABILITY.md`](./MANIFOLD_SYSTEM_STABILITY.md) for the theoretical basis of each fix.*
 
 *Theory: **ThomasCory Walker-Pearson**. Document engineering: **GitHub Copilot** (AI).*

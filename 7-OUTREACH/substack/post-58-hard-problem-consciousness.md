@@ -127,7 +127,7 @@ diffusely formulated.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Coupled attractor (consciousness): `src/consciousness/coupled_attractor.py`*
 *Brain dynamics: `brain/COUPLED_MASTER_EQUATION.md`*

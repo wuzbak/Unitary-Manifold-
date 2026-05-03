@@ -148,7 +148,7 @@ The test count is a record, not a claim.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 96: `src/core/unitary_closure.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

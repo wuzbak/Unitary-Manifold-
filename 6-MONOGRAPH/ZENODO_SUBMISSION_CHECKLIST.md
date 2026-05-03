@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v9.29, 15,615 tests, 101 pillars + sub-pillars — CLOSED (Pillars 100/101 + §XIV gap-closures)
+- [x] `zenodo/.zenodo.json` — updated to v9.29+, 17,438 tests, 132 pillars + sub-pillars — CLOSED (Pillars 100/101 + §XIV gap-closures)
 - [x] `CITATION.cff` — updated to v1.0.0, date 2026-04-24
 - [x] `arxiv/main.tex` — header updated to v9.29, Outstanding Gaps section updated (ADM + n_w=5 now CLOSED)
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -116,7 +116,7 @@ Law of Thermodynamics is a geometric identity rather than a statistical
 postulate; (ii) information pressure provides a geometric alternative to
 dark energy; (iii) entropic holography identifies boundary entropy with
 bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture holds.
-Version 9.29 extends the framework to 101 pillars + sub-pillars (CLOSED — k_CS=74 Topological
+Version 9.29+ extends the framework to 132 pillars + sub-pillars (CLOSED — k_CS=74 Topological
 Completeness Theorem proved), covering atomic structure, cold fusion, medicine, justice,
 governance, neuroscience, ecology, climate, marine biology, psychology, genetics, materials
 science, observational frontiers, solitonic charge, AdS/CFT KK tower, delay field,
@@ -127,13 +127,13 @@ B_μ dark photon, KK backreaction, CMB transfer function, photon epoch, QGP radi
 electroweak hierarchy, zero-point vacuum energy, GW Yukawa derivation (Pillars 97-98),
 ADM Foundation (Pillar 100), KK Magic/Quantum Circuit Complexity (Pillar 101),
 Pillar Ω (Universal Mechanics Engine), and dual-sector birefringence (5,6)/(5,7).
-15,615 passing tests (330 skipped = 76 dual-use + 254 Pentad product stubs). Numerical code for independent verification at
+17,438 passing tests (330 skipped = 76 dual-use + 254 Pentad product stubs). Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
 ```
 
 **Comments field:**
 ```
-74 pages, 0 figures. 101 pillars + sub-pillars — CLOSED. Numerical implementation (15,615 tests) at
+74 pages, 0 figures. 132 pillars + sub-pillars — CLOSED. Numerical implementation (17,438 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.

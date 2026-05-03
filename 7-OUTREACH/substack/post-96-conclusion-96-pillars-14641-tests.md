@@ -268,7 +268,7 @@ We will accept what the sky says.
 > See `post-99-the-omega-synthesis.md` for the Omega Synthesis post.
 
 *Full source code, derivations, and 14,641 automated tests (at 96-pillar closure;*
-*now 15,615 at v9.29):*
+*now 17,438 at v9.29+):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *The complete 96-pillar framework: `src/core/`*
 *The Unitary Closure Theorem: `src/core/unitary_closure.py`*

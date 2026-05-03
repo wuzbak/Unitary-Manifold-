@@ -298,7 +298,7 @@ The same field equations that map to medicine, justice, ecology, and governance 
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Medicine: `src/medicine/` — 139 tests in `tests/test_medicine.py`*
 *Justice: `src/justice/` — 124 tests in `tests/test_justice.py`*

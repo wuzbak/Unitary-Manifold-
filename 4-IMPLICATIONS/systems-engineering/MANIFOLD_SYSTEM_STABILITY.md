@@ -220,7 +220,7 @@ one of them will not.
 
 ---
 
-*Part of the `systems-engineering/` folder — v9.29 (101 pillars + sub-pillars, 15,615 tests).*  
+*Part of the `systems-engineering/` folder — v9.29+ (132 pillars + sub-pillars, 17,438 tests).*  
 *See [`CURRENT_SYSTEMS_FAILURE_ANALYSIS.md`](./CURRENT_SYSTEMS_FAILURE_ANALYSIS.md) for domain-by-domain application.*
 
 *Theory: **ThomasCory Walker-Pearson**. Document engineering: **GitHub Copilot** (AI).*

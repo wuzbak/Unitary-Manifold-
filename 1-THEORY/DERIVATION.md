@@ -709,7 +709,7 @@ python -m pytest tests/test_anomaly_closure.py -v  # SOS theorem
 python -m pytest tests/test_solitonic_charge.py -v # winding number selection
 ```
 
-Or run the full suite (≈15,615 tests, ~130 s):
+Or run the full suite (≈17,438 tests, ~130 s):
 
 ```bash
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q

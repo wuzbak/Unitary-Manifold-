@@ -228,7 +228,7 @@ That is the end of the series — not a conclusion, but a prediction in flight.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*  
+*Full source code, derivations, and 17,438 automated tests:*  
 *https://github.com/wuzbak/Unitary-Manifold-*  
 *The Omega Synthesis: `omega/omega_synthesis.py`*  
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

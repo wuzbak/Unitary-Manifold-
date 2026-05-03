@@ -345,7 +345,7 @@ Key constant: Ξ_c = 35/74 (consciousness coupling constant)
 | "HILS governance framework" | `Unitary Pentad/README.md` |
 | "How was this built?" | `co-emergence/LIVING_PROOF.md` |
 | "Natural sciences coverage" | `NATURAL_SCIENCES.md` |
-| "All 101 pillars" | `NATURAL_SCIENCES.md`, `REVIEW_CONCLUSION.md`, `LEGEND.md` |
+| "All 132 pillars" | `NATURAL_SCIENCES.md`, `REVIEW_CONCLUSION.md`, `LEGEND.md` |
 
 ---
 
@@ -377,4 +377,4 @@ Tests:
   `python -m pytest recycling/ -q`                                 → 316 passed
   `python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q`           → 1026 passed (254 skipped)
   `python -m pytest omega/ -q`                                     → 170 passed
-  # Grand total: 15615 passed · 330 skipped · 0 failures
+  # Grand total: 17438 passed · 330 skipped · 0 failures

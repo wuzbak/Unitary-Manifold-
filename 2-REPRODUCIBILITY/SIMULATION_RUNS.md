@@ -193,7 +193,7 @@ pip install -r requirements.txt
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 ```
 
-15,956 tests (~14,179 fast-selected + 11 slow-deselected + recycling/ 316 + 5-GOVERNANCE/Unitary Pentad/ ~1,280 + omega/ 170): 15,615 passed · 330 skipped · 0 failed.
+17,768 tests (~16,002 fast-selected + 11 slow-deselected + recycling/ 316 + 5-GOVERNANCE/Unitary Pentad/ ~1,280 + omega/ 170): 17,438 passed · 330 skipped · 0 failed.
 
 > **Skipped:** 76 dual-use stubs (cold fusion / lattice dynamics) + 254 Pentad product deployment stubs. Both are intentional — see `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
 > **Slow:** 11 tests in `test_richardson_multitime.py` marked `@pytest.mark.slow`; run with `pytest tests/ -m slow`.

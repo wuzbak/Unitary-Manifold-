@@ -319,7 +319,7 @@ FALLIBILITY.md has the full honest accounting. The rest is waiting for the sky.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Completeness theorem: `src/core/completeness_theorem.py` — 170 tests*
 *Primary falsifier: birefringence β — LiteBIRD 2032*
