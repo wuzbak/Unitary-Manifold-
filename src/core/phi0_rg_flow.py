@@ -10,8 +10,8 @@ _LOOP_COEFF: float = K_CS / (4.0 * math.pi) ** 2   # ≈ 0.1878
 _N_EFOLDS: float = 60.0  # inflationary e-folds (informational)
 
 # Effective 5D log-scale ratio at CMB time.  Determined by requiring the
-# suppression factor φ²_CMB/φ²_Planck to sit at the geometric midpoint
-# (1/5) of the observed gap [1/7, 1/4]:  ln(5)/_LOOP_COEFF = ln²(scale).
+# suppression factor φ²_CMB/φ²_Planck to sit at 1/5 (arithmetic midpoint
+# of the observed gap [1/7, 1/4]):  ln(5)/_LOOP_COEFF = ln²(scale).
 _LOG_CMB_SCALE: float = math.sqrt(math.log(5.0) / _LOOP_COEFF)
 _CMB_SCALE_RATIO: float = math.exp(-_LOG_CMB_SCALE)  # ≈ 0.054
 

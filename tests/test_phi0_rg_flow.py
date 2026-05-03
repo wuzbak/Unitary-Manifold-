@@ -184,9 +184,11 @@ class TestCmbAmplitudeSuppression:
         assert cmb_amplitude_suppression_factor() >= 1.0 / 7.0
 
     def test_custom_phi0_scales_correctly(self):
+        # (phi_cmb/phi_planck)^2 is independent of phi0_planck because both
+        # numerator and denominator scale identically with phi0_planck.
         sup1 = cmb_amplitude_suppression_factor(1.0)
         sup2 = cmb_amplitude_suppression_factor(2.0)
-        assert abs(sup1 - sup2) < 1e-14  # ratio cancels in (phi_cmb/phi_pl)^2
+        assert abs(sup1 - sup2) < 1e-14
 
 
 class TestRgSummary:
