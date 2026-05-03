@@ -241,8 +241,8 @@ def rs_neutrino_mass_ratio(
     Returns
     -------
     dict
-        'm32_over_m21'    : float — m_ν₂/m_ν₁ = √(n₁n₂).
-        'm31_over_m11'    : float — m_ν₃/m_ν₁ = n₁n₂.
+        'm_nu2_over_m_nu1': float — m_ν₂/m_ν₁ = √(n₁n₂).
+        'm_nu3_over_m_nu1': float — m_ν₃/m_ν₁ = n₁n₂.
         'splitting_ratio_geo' : float — Δm²₃₁/Δm²₂₁ = n₁n₂+1.
         'splitting_ratio_pdg' : float — PDG ratio.
         'splitting_ratio_pct_err': float — accuracy.
@@ -343,7 +343,7 @@ def neutrino_mass_splittings_rs(
     ----------
     1. Braid geometry gives: m_ν₂/m_ν₁ = √(n₁n₂), m_ν₃/m_ν₁ = n₁n₂.
     2. From Δm²₂₁ (input): m_ν₁ = √(Δm²₂₁ / (n₁n₂ − 1)).
-    3. Geometric prediction: Δm²₃₁ = (n₁n₂² − 1) × m_ν₁² = (n₁n₂ + 1) × Δm²₂₁.
+    3. Geometric prediction: Δm²₃₁ = ((n₁n₂)² − 1) × m_ν₁² = (n₁n₂ + 1) × Δm²₂₁.
 
     Parameters
     ----------

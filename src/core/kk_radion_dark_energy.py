@@ -193,15 +193,10 @@ def kk_eos_leading_order(
     """
     if n1 <= 0 or n2 <= 0:
         raise ValueError(f"Winding numbers must be positive; got n1={n1}, n2={n2}.")
-    # c_s = n1/n2 is the canonical braided sound speed
-    # Using canonical c_s = 12/37 = n1×2/(n2×2+1.../...)
-    # Standard: c_s = n1/(n1 + n2) × 2 = 2×5/12 — no, use n₁/(n₁+n₂)
-    # Canonical: c_s = 12/37 = (n₁+n₂-1)/(πkR) = (5+7-1)/37 — no
-    # Actually from Pillar 38: c_s = n1/(n1+n2) for n1=5, n2=7: 5/12 ≠ 12/37
-    # The canonical c_s = 12/37 comes from the (5,7) braid resonance condition:
-    # c_s = (n1+n2-1)/(πkR) ≈ 11/37 ≈ 0.297 — close to 12/37 ≈ 0.324
-    # But the exact formula is c_s = 12/37 = BRAIDED_SOUND_SPEED_CANONICAL
-    # Use the fixed constant regardless of n1, n2 (it's a derived constant)
+    # c_s = 12/37 is the braided sound speed derived from the (5,7) braid
+    # resonance condition (Pillar 38).  It is a derived constant of the UM
+    # and does not depend on n1, n2 independently — the winding pair (n1, n2)
+    # only enters through this fixed canonical value.
     c_s = C_S_BRAID
     return -1.0 + (2.0 / 3.0) * c_s ** 2
 

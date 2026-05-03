@@ -170,7 +170,8 @@ class TestNeutrinoCParameters:
         assert result["f0_nu3"] > 0
 
     def test_f0_nu3_largest(self):
-        # More IR-localized = larger profile
+        # c_ν₁ > c_ν₂ > c_ν₃ → f₀ decreases with c, so f0(c_ν₃) > f0(c_ν₂) > f0(c_ν₁)
+        # ν₃ (smallest c among the three) has the largest zero-mode profile → heaviest mass
         result = neutrino_c_parameters()
         assert result["f0_nu3"] > result["f0_nu2"] > result["f0_nu1"]
 
