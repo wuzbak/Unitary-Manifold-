@@ -1,8 +1,8 @@
 # Books — Omega Edition Archive
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
-**Framework:** The Unitary Manifold v9.27 (public domain · always free)
-**Version:** 7.0 — Politics & Media Edition — May 2026
+**Framework:** The Unitary Manifold v9.29 (public domain · always free)
+**Version:** 8.0 — Critical Infrastructure Edition — May 2026
 
 ---
 
@@ -40,6 +40,11 @@ to this repository.
 **v7.0 — Politics & Media Edition (May 2026):**
 - Book 11: *The Signal and the Noise* — politics and media in America; what works, what is broken, how they manipulate each other, and a full structural reform blueprint with appendices
 - Framework connections: Pillar 18 (justice), Pillar 19 (governance), φ-entropy, B_μ amplification, FTUM fixed-point analysis
+
+**v8.0 — Critical Infrastructure Edition (May 2026):**
+- Book 12: *Cleared for Approach — But Not for Landing* — air traffic control: what works, what doesn't, and the full roadmap to fix it
+- Covers: radar systems, communications, navigation, weather, automation (STARS/ERAM/TBFM), the staffing crisis, major incidents (DCA 2025, EWR 2025, NOTAM 2023), international models (Nav Canada, NATS, SESAR), AI/automation future, remote towers, TBO, UAM/eVTOL, cybersecurity, full 25-year roadmap
+- Framework connections: φ-collapse (capacity), B_μ divergence (queue pressure), G_AB degradation (connectivity failures), FTUM fixed-point analysis of NAS stability
 
 ---
 
@@ -361,7 +366,36 @@ journalism; (E) Reform organizations directory; (F) Further reading (22 curated 
 
 ---
 
-## How to Use These Books
+### 12. [Cleared for Approach — But Not for Landing](book-air-traffic-control-omega.md)
+**Air Traffic Control: What Works, What Doesn't, and the Full Roadmap to Fix It**
+
+| Property | Value |
+|---|---|
+| Size | ~94 KB |
+| Audience | Anyone who flies, anyone who cares about public safety infrastructure |
+| Parts | Parts I–VII + three appendices + priority action list |
+| Framework connection | φ-collapse (controller/hardware/frequency capacity), B_μ divergence (delay cascades, deferred maintenance), G_AB degradation (single points of failure), FTUM fixed-point analysis of NAS stability |
+| Companion posts | [post-16-domain-applications.md](post-16-domain-applications.md) · [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md) |
+
+The definitive expert treatment of U.S. air traffic control — how it works, why it is failing, and exactly how to fix it. Written for the general reader but technically precise enough for aviation professionals.
+
+**Part I — How ATC Actually Works:** The hierarchy of control (towers, TRACONs, ARTCCs, Command Center); how radar works (PSR, SSR, ADS-B, multilateration, ASDE-X); how communication works (VHF voice, CPDLC, ACARS, HF, SATCOM, SWIM); navigation systems (ILS Cat I/II/III, VOR, GBAS, WAAS, RNP AR); weather systems (NEXRAD dual-pol, TDWR microburst alerts, LLWAS, the fatal data asymmetry between controllers and pilots).
+
+**Part II — The Crisis:** Hardware dying (GAO: 37% of 138 critical systems unsustainable; the IBM 9020 mainframe legacy; ARTS PDP-11 processors; the copper wire that took down Newark); software behind (ERAM troubled deployment, NextGen's $35 billion partial success, the NOTAM system failure that caused the first nationwide ground stop since 9/11); the controller shortage (3,900 CPCs below optimal; the mandatory retirement cliff; the academy bottleneck; the mandatory overtime → fatigue → attrition spiral); the incidents that made it real (DCA January 2025: 67 dead; EWR April 2025: 90 seconds of blind flight; NOTAM January 2023: 11,000 delays).
+
+**Part III — What Other Systems Got Right:** Nav Canada's non-profit user-fee model; NATS UK's partial privatization; EUROCONTROL/SESAR Free Route Airspace; the Aireon space-based ADS-B revolution (50 NM → 5 NM oceanic separation).
+
+**Part IV — Future Technology:** AI in ATC (NATS BlueBird, EUROCONTROL FLY AI, SESAR JARVIS, the explainability requirement); remote towers (proven in Sweden, killed by FAA regulatory framework at Leesburg); Trajectory-Based Operations; Urban Air Mobility (Joby, Archer, the FAA's first new aircraft category in 80 years); cybersecurity (ADS-B spoofing, GPS jamming over conflict zones, the LOT attack, the zero-trust imperative).
+
+**Part V — The Full Solution:** Immediate (0-2 years): emergency staffing, critical hardware, fiber replacement, NOTAM modernization, age-31 cap reform. Short-term (2-5 years): Common Automation Platform, remote tower certification, Data Comm completion, UAM framework, oceanic separation reduction. Medium-term (5-10 years): Trajectory-Based Operations, Free Route Airspace pilot, AI conflict prediction deployment, AAM integration, cybersecurity overhaul. Long-term (10-25 years): supervisory controller role, integrated ATM/UTM, quantum-secured communications, global data harmonization, funding model reform.
+
+**Part VI — Unitary Manifold Analysis:** The NAS's three simultaneous failure modes mapped precisely to φ-collapse, B_μ-divergence, and G_AB-degradation; the k_cs constraint applied to automation design; information conservation and the no-silent-failures principle.
+
+**Part VII — The Immediate Priority List:** Seven specific actions that must happen in the next 12 months, with clear accountability and no euphemism.
+
+**Appendices:** (A) Technical quick reference (radar, ADS-B, separation standards, navigation, automation systems); (B) Key organizations and programs; (C) Recommended primary-source reading.
+
+---
 
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
@@ -406,8 +440,9 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 9 | K-12 Curriculum Vol 2 | **Education** | Social commentary | No |
 | 10 | K-12 Curriculum Vol 3 | **Education** | Social commentary | No |
 | 11 | The Signal and the Noise | **Politics & Media** | Social commentary | No |
+| 12 | Cleared for Approach — But Not for Landing | **Critical Infrastructure** | Systems analysis (φ-collapse, B_μ divergence, FTUM) | No |
 
-**Books 5–11 are AxiomZero-commissioned works, not peer-reviewed physics.**
+**Books 5–12 are AxiomZero-commissioned works, not peer-reviewed physics.**
 Books 7–11 (education, engineering, politics, climate) apply the UM mathematical language
 as a lens; they are not physics predictions and should not be read as such.
 See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistemic map.
@@ -426,6 +461,7 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 | 6.0 — Education Edition | April 2026 | Books 7–10 added: *The Learning Crisis* + *K-12 Curriculum Guide* (3 volumes covering PreK through research frontier); post-24 and post-53 cross-referenced to education series |
 | 7.0 — SynBio Edition | April 2026 | Pillar 25 extended with `src/genetics/synthetic_biology.py` (10 φ-functions, 63 new tests, 141 total in test_genetics.py); biosecurity HILS governance added to Unitary Pentad (`pentad_scenarios.py`); post-27.a (filed as post-97) added; total tests 15,296 |
 | 7.1 — Politics & Media Edition | May 2026 | Book 11 added: *The Signal and the Noise* — politics and media in America; Parts I–VII; six appendices including source evaluation checklist, political ad guide, representative contact guide, local journalism support guide, reform organizations directory, further reading; ~89KB |
+| 8.0 — Critical Infrastructure Edition | May 2026 | Book 12 added: *Cleared for Approach — But Not for Landing* — complete expert treatment of U.S. air traffic control: hardware (radar, comms, nav, weather), software (STARS, ERAM, TBFM, NextGen), staffing crisis, major incidents (DCA 2025, EWR 2025, NOTAM 2023), international models (Nav Canada, NATS, EUROCONTROL/SESAR, Aireon), future technologies (AI, remote towers, TBO, AAM/eVTOL, cybersecurity, quantum), and a full 25-year implementation roadmap; ~94KB |
 
 ---
 
