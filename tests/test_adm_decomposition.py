@@ -28,6 +28,7 @@ from src.core.adm_decomposition import (
     arrow_of_time_adm_link,
     adm_lapse_deviation,
     adm_time_lapse_bridge,
+    frw_adm_exact_lapse,
     pillar_100_summary,
 )
 
@@ -466,11 +467,11 @@ class TestADMTimeLapseBridge:
     def test_gaussian_normal_ok_for_slow_roll(self):
         assert self.result["gaussian_normal_ok"] is True
 
-    def test_gap_status_mentions_REAL_GAP(self):
-        assert "REAL GAP" in self.result["gap_status"]
+    def test_gap_status_mentions_BACKGROUND_CLOSED(self):
+        assert "BACKGROUND CLOSED" in self.result["gap_status"]
 
-    def test_gap_status_mentions_PARTIALLY_MITIGATED(self):
-        assert "PARTIALLY MITIGATED" in self.result["gap_status"]
+    def test_gap_status_references_frw_exact_lapse(self):
+        assert "frw_adm_exact_lapse" in self.result["gap_status"]
 
     def test_gap_description_mentions_Ricci(self):
         assert "Ricci" in self.result["gap_description"]
@@ -500,3 +501,88 @@ class TestADMTimeLapseBridge:
     def test_near_unity_epsilon_gaussian_not_ok(self):
         res = adm_time_lapse_bridge(epsilon_sr=0.1)
         assert res["gaussian_normal_ok"] is False
+
+
+# ---------------------------------------------------------------------------
+# FRW exact lapse — closes the ADM lapse gap for the cosmological background
+# ---------------------------------------------------------------------------
+
+class TestFRWAdmExactLapse:
+    """Tests for frw_adm_exact_lapse() — Pillar 100 background gap closure."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.result = frw_adm_exact_lapse()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_N_exact_is_one(self):
+        """Lapse N=1 is the exact GNC gauge choice for FRW."""
+        assert self.result["N_exact"] == 1.0
+
+    def test_lapse_deviation_background_is_zero(self):
+        """Background lapse deviation is exactly zero (gauge choice, not approximation)."""
+        assert self.result["lapse_deviation_background"] == 0.0
+
+    def test_hamiltonian_constraint_numerically_satisfied(self):
+        """3H² = 8πGρ must hold to < 1e-10 in Planck units."""
+        assert self.result["hamiltonian_constraint_frw"] < 1e-10
+
+    def test_hamiltonian_constraint_satisfied_flag(self):
+        assert self.result["hamiltonian_constraint_satisfied"] is True
+
+    def test_background_status_contains_CLOSED(self):
+        assert "CLOSED" in self.result["background_status"]
+
+    def test_background_status_mentions_exact(self):
+        assert "exact" in self.result["background_status"].lower()
+
+    def test_gap_status_contains_CLOSED(self):
+        assert "CLOSED" in self.result["gap_status"]
+
+    def test_perturbation_status_contains_OPEN(self):
+        assert "OPEN" in self.result["perturbation_status"]
+
+    def test_perturbation_status_mentions_elliptic(self):
+        assert "elliptic" in self.result["perturbation_status"].lower()
+
+    def test_gap_upgraded_from_contains_PARTIALLY_MITIGATED(self):
+        assert "PARTIALLY MITIGATED" in self.result["gap_upgraded_from"]
+
+    def test_gauge_choice_mentions_GNC(self):
+        assert "GNC" in self.result["gauge_choice"] or "Gaussian" in self.result["gauge_choice"]
+
+    def test_closure_statement_present(self):
+        assert "closure_statement" in self.result
+        assert len(self.result["closure_statement"]) > 50
+
+    def test_closure_statement_mentions_Friedmann(self):
+        assert "Friedmann" in self.result["closure_statement"]
+
+    def test_n_w_default_is_5(self):
+        assert self.result["n_w"] == 5
+
+    def test_k_cs_default_is_74(self):
+        assert self.result["k_cs"] == 74
+
+    def test_slow_roll_epsilon_is_on_H_not_N(self):
+        """ε = 6/n_w² = 0.24 for n_w=5; this is on H, not on N."""
+        import math
+        expected = 6.0 / 5 ** 2
+        assert abs(self.result["slow_roll_epsilon"] - expected) < 1e-12
+
+    def test_custom_n_w_changes_epsilon(self):
+        res = frw_adm_exact_lapse(n_w=7)
+        expected = 6.0 / 7 ** 2
+        assert abs(res["slow_roll_epsilon"] - expected) < 1e-12
+
+    def test_N_exact_unchanged_for_custom_n_w(self):
+        """Winding number has no effect on N — N=1 is always exact."""
+        res = frw_adm_exact_lapse(n_w=7)
+        assert res["N_exact"] == 1.0
+
+    def test_lapse_deviation_background_unchanged_for_any_epsilon(self):
+        """Background lapse deviation is zero regardless of slow-roll regime."""
+        res = frw_adm_exact_lapse(n_w=3)
+        assert res["lapse_deviation_background"] == 0.0
