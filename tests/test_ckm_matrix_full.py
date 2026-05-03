@@ -31,11 +31,14 @@ from src.core.ckm_matrix_full import (
     ckm_gap_report,
     ckm_comparison_table,
     N_W_CANONICAL,
+    N1_CANONICAL,
+    N2_CANONICAL,
     W_LAMBDA_PDG,
     W_A_PDG,
     W_RHOBAR_PDG,
     W_ETABAR_PDG,
     DELTA_CP_GEOMETRIC_DEG,
+    DELTA_CP_SUBLEADING_DEG,
     DELTA_CP_PDG_DEG,
     J_PDG,
 )
@@ -59,29 +62,41 @@ class TestWolfensteinParams:
 
 
 class TestGeometricCpPhase:
-    def test_geometric_phase_n_w_5(self):
+    def test_geometric_phase_n_w_5_subleading_canonical(self):
+        # delta_cp_deg is now the sub-leading (canonical best) value ≈ 71.08°
         g = geometric_cp_phase(5)
-        expected_deg = 360.0 / 5
+        expected_deg = 2.0 * math.degrees(math.atan2(5, 7))
         assert abs(g["delta_cp_deg"] - expected_deg) < 1e-8
 
-    def test_geometric_phase_equals_2pi_over_nw(self):
+    def test_geometric_phase_delta_cp_rad_is_subleading(self):
+        # delta_cp_rad is now the sub-leading value (Pillar 133 canonical)
+        g = geometric_cp_phase(5)
+        expected = 2.0 * math.atan2(5, 7)
+        assert abs(g["delta_cp_rad"] - expected) < 1e-10
+
+    def test_leading_phase_stored_separately(self):
+        # Leading-order value still accessible via delta_lead_deg
         for n_w in [3, 5, 7, 9]:
             g = geometric_cp_phase(n_w)
-            expected = 2 * math.pi / n_w
-            assert abs(g["delta_cp_rad"] - expected) < 1e-10
+            expected_lead = math.degrees(2 * math.pi / n_w)
+            assert abs(g["delta_lead_deg"] - expected_lead) < 1e-8
 
-    def test_sigma_tension_within_2sigma(self):
+    def test_sigma_tension_within_1sigma(self):
         g = geometric_cp_phase(5)
-        # 72° vs 68.5°, σ ≈ 2.6° → tension ≈ 1.35σ ≤ 2σ
-        assert g["sigma_tension"] < 2.0
-        assert g["status"] == "CONSISTENT (≤2σ)"
+        # Sub-leading braid formula: 71.08° vs PDG 68.5° → 0.99σ < 1σ
+        assert g["sigma_tension"] < 1.0
+        assert "CONSISTENT" in g["status"]
 
     def test_sigma_tension_positive(self):
         g = geometric_cp_phase(5)
         assert g["sigma_tension"] >= 0.0
 
-    def test_canonical_geometric_phase(self):
+    def test_canonical_geometric_phase_leading(self):
         assert abs(DELTA_CP_GEOMETRIC_DEG - 72.0) < 1e-6
+
+    def test_sigma_tension_sub_better_than_lead(self):
+        g = geometric_cp_phase(5)
+        assert g["sigma_tension_sub"] < g["sigma_tension_lead"]
 
 
 class TestCkmMatrix:
