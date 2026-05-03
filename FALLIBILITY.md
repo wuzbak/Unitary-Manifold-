@@ -1631,7 +1631,7 @@ Open gaps after Pillar 62:
 | r_braided ≈ 0.0315 (braided (5,7), k_cs=74) | ✅ Satisfies BICEP/Keck | Braided (5,7) state resolves Q18 |
 | β ≈ 0.35° matches birefringence hint | ✅ Matches | k_CS = 74 is fitted |
 | FTUM convergence | **100%** — φ\* = A₀/(4G); universal | **RESOLVED** (April 2026) |
-| w_KK ≈ −0.930 (dark energy EoS) | ⚠️ **CONSTRAINED** — ~2.5–3.3σ tension with Planck+BAO now | c_s = 12/37 derived; Planck+BAO w = −1.03±0.03; Roman ST will deliver definitive test |
+| w_KK ≈ −0.930 (dark energy EoS) | ⚠️ **CONSTRAINED** — consistent with DESI DR2 (0.11σ ✅); 3.3σ tension with Planck+BAO | c_s = 12/37 derived; radion correction negligible (m_r >> H₀); Pillar 136: Roman ST falsifier; DESI DR2 w₀=−0.92±0.09 |
 | H₀ tension (73.5 vs 67.4 km/s/Mpc) | ⚠️ Quantified, not resolved | CC problem separates KK from Hubble scale |
 | Muon g−2 anomaly (Pillar 51; final result June 2025) | ⚠️ Open question — bridged | KK correction δa_μ^KK ~ 10⁻⁴¹ (30 orders below anomaly); ALP Barr–Zee upper bound derived |
 | Irreversibility from 5D | ✅ **Lower-bound proved** (April 2026) | `kk_tower_irreversibility_proof()`: every KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound. ADM formalism still absent. |
@@ -2024,31 +2024,31 @@ subsequent closures, the UM status is:
 | P2 | sin²θ_W | 0.23122 | ✅ DERIVED | SU(5) from n_w=5 (Pillar 70-D) + RGE — CLOSED |
 | P3 | α_s | 0.1180 | ✅ DERIVED | SU(5) unification + 1-loop RGE (Pillar 70-D+94) — CLOSED |
 | P4 | v (Higgs VEV) | 246.22 GeV | ⚠️ CONSTRAINED | GW potential gives v ~ M_Pl exp(−πkR); precise value needs GW parameter ν |
-| P5 | m_H | 125.25 GeV | ❌ OPEN | Derive Higgs self-coupling λ_H from 5D bulk potential V(φ) at second order |
+| P5 | m_H | 125.25 GeV | ✅ DERIVED | FTUM quartic λ_H=n_w²/(2k_CS) + 1-loop top RGE correction → 124–125 GeV (< 1% accuracy, Pillar 134) |
 | P6 | m_u | 2.16 MeV | ⚠️ FITTED | Universal 5D Yukawa Ŷ₅=1 (Pillar 97); reduce to 1 input via GW vacuum profile |
 | P7 | m_d | 4.67 MeV | ⚠️ FITTED | Same as P6; λ_CKM = √(m_d/m_s) derived, absolute scale needs Ŷ₅ anchor |
 | P8 | m_s | 93.4 MeV | ⚠️ FITTED | Constrained by λ_CKM ratio; absolute scale from Ŷ₅ anchor |
 | P12 | λ_CKM | 0.22500 | ✅ DERIVED | √(m_d/m_s) from RS zero-mode (Pillar 87) — CLOSED |
 | P13 | A_CKM | 0.826 | ✅ GEOMETRIC | √(n₁/n₂) = √(5/7) — 1.4σ from PDG |
-| P14 | ρ̄_CKM | 0.159 | ⚠️ ESTIMATE | R_b cos δ; improves when δ_CKM measured to < 1° precision |
+| P14 | ρ̄_CKM | 0.159 | ⚠️ CONSTRAINED | R_b cos δ; 24% off PDG — geometric limit: cos(71.08°) vs cos(68.5°); δ precision measurement needed |
 | P15 | η̄_CKM | 0.348 | ✅ GEOMETRIC | R_b sin δ — 2.3% accuracy — CLOSED |
 | P16 | m_e | 0.511 MeV | ⚠️ FITTED | Lepton Yukawa scale; reduce via universal Ŷ₅=1 from GW profile |
 | P19 | m_ν₁ | < 40 meV | ❌ OPEN | RS Dirac Yukawa hierarchy for c_{Rν_i}; constrained Σm_ν < 120 meV |
-| P20 | Δm²₂₁ | 7.53×10⁻⁵ eV² | ❌ OPEN | Requires neutrino bulk mass parameters c_L^{ν_i} from 5D Dirac equation |
-| P21 | Δm²₃₁ | 2.45×10⁻³ eV² | ❌ OPEN | Same as Δm²₂₁; needs RS neutrino Yukawa hierarchy derivation |
+| P20 | Δm²₂₁ | 7.53×10⁻⁵ eV² | ⚠️ CONSTRAINED | RS Dirac zero-mode: braid ratio m_ν₂/m_ν₁=√35; Δm²₃₁/Δm²₂₁=36 (10% off PDG 32.6, Pillar 135) |
+| P21 | Δm²₃₁ | 2.45×10⁻³ eV² | ⚠️ CONSTRAINED | RS Dirac: Δm²₃₁ = 36×Δm²₂₁ (10% accuracy); Σm_ν=62.5 meV < 120 meV ✓ (Pillar 135) |
 | P22 | sin²θ₁₂ | 0.307 | ⚠️ ESTIMATE | TBM + Z_5 first-order: 0.267 (13% off); upgrade via full Z_{n_w} spectrum |
 | P25 | δ_CP^PMNS | −107° | ✅ DERIVED | Orbifold phase −(π−2π/n_w) = −108° (0.05σ) — CLOSED |
 | P28 | G_N | 6.674×10⁻¹¹ | ⚠️ INPUT | UV boundary condition; M_Pl from RS compactification but not derived from scratch |
 
-**Summary:** 5 fully derived (P1, P2, P3, P12, P25), 4 geometric predictions < 5% (P13, P15,
-P23, P24), 2 geometric estimates < 15% (P14, P22), 9 fitted/open/input (P4–P8, P16, P19–P21, P28).
-Zero-parameter TOE score: **35% (9/26)**. Function: `sm_closure_roadmap()` in
+**Summary:** 6 fully derived (P1, P2, P3, P5, P12, P25), 4 geometric predictions < 5% (P13, P15,
+P23, P24), 4 geometric constrained estimates (P14, P20, P21, P22), 8 fitted/open/input (P4, P6–P8, P16, P19, P28).
+Zero-parameter TOE score: **38% (10/26)**. Function: `sm_closure_roadmap()` in
 `src/core/sm_free_parameters.py`.
 
 The path to a complete zero-parameter TOE requires:
-1. Prove universal 5D Yukawa Ŷ₅=1 for all sectors from the GW vacuum profile (reduces ~9 fitted to ~1)
-2. Derive m_H from the 5D Higgs self-coupling at second order in the GW potential
-3. Solve the RS Dirac equation for neutrino bulk mass hierarchy → Δm²₂₁, Δm²₃₁
+1. Prove universal 5D Yukawa Ŷ₅=1 for all sectors from the GW vacuum profile (reduces ~8 fitted to ~1)
+2. Improve Δm²₃₁/Δm²₂₁ ratio from 10% to < 5% accuracy via full RS Dirac Yukawa y_ν derivation
+3. Fix the absolute neutrino mass scale independently (c_R^{ν_i} from RS geometry)
 
 ---
 
