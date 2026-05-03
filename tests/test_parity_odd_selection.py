@@ -80,9 +80,12 @@ class TestZ2ParityEigenvalues:
         assert isinstance(result["physical_effect"], str)
         assert len(result["physical_effect"]) > 10
 
-    def test_physical_effect_mentions_odd(self):
+    def test_physical_effect_mentions_odd_l_modes(self):
         result = z2_parity_eigenvalues()
-        assert "odd" in result["physical_effect"].lower() or "phase" in result["physical_effect"].lower()
+        effect = result["physical_effect"].lower()
+        # The description must reference odd-ℓ modes AND the phase / holonomy mechanism
+        assert "odd" in effect
+        assert "phase" in effect or "holonomy" in effect
 
 
 # ---------------------------------------------------------------------------
