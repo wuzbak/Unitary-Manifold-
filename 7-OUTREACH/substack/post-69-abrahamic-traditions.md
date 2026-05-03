@@ -139,7 +139,7 @@ The Christian claim is more specific than what the geometry can support.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Soul and Science: `SOUL_AND_SCIENCE.md`*
 *Structural mapping: `BIG_QUESTIONS.md`*

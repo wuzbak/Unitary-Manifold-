@@ -136,7 +136,7 @@ is inferred from the pattern of masses it produces. The pattern fits.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 93: `src/core/yukawa_geometric_closure.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

@@ -45,7 +45,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 3. **Run the test suite before making changes** to establish a baseline:
    ```bash
    python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-   # Expected: 15615 passed, 330 skipped, 11 deselected, 0 failed
+   # Expected: 17438 passed, 330 skipped, 11 deselected, 0 failed
    ```
 4. **Make your changes** following the conventions below.
 5. **Run the test suite again** after your changes; 0 failures is a hard requirement.
@@ -58,7 +58,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 ```bash
 # Fast suite — core physics:
 python -m pytest tests/ -q
-# Expected: ~14103 passed, 76 skipped, 11 deselected, 0 failed
+# Expected: ~15926 passed, 76 skipped, 11 deselected, 0 failed
 
 # Recycling / φ-debt entropy (Pillar 16):
 python -m pytest recycling/ -q
@@ -70,7 +70,7 @@ python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (~130 s):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 15615 passed, 330 skipped, 11 deselected, 0 failed
+# Expected: 17438 passed, 330 skipped, 11 deselected, 0 failed
 
 # Slow tests (Richardson extrapolation convergence):
 python -m pytest tests/ -m slow

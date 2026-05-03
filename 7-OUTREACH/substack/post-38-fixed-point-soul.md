@@ -132,7 +132,7 @@ The derivation stops where the derivation stops.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point theorem: `src/multiverse/fixed_point.py`*
 *Information conservation: `QUANTUM_THEOREMS.md` (Theorem XII)*

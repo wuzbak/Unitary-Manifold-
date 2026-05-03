@@ -292,7 +292,7 @@ about all the others.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Dark matter geometry: `src/core/dark_matter_geometry.py` — Pillar 8*
 *Stellar astronomy: `src/astronomy/stellar.py`*

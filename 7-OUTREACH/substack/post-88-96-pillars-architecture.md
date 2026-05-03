@@ -149,7 +149,7 @@ whole project rests on.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Complete pillar list: `TABLE_OF_CONTENTS.md`*
 *Honest gaps: `FALLIBILITY.md`*

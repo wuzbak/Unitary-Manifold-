@@ -158,7 +158,7 @@ Whether that is comforting depends on what you were hoping for.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 5: `src/multiverse/fixed_point.py`*
 *Pillar 13: `src/core/bh_remnant.py`*

@@ -113,7 +113,7 @@ selection. This is the right question to ask, and we're glad you asked it last.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
 *Break handles: `HOW_TO_BREAK_THIS.md`*

@@ -333,5 +333,5 @@ To prevent misreading:
 
 ---
 
-*Document version: 1.7 — May 2026 (v9.29: 101 pillars + sub-pillars CLOSED; ADM Foundation Pillar 100, KK Magic Pillar 101, n_w=5 PROVED Pillar 70-D, §XIV gap-closures)*  
+*Document version: 1.8 — May 2026 (v9.29+: 132 pillars + sub-pillars CLOSED; Grand Synthesis Arc Pillars 102–132, gap closures, Final Decoupling Identity, master action S_UM)*  
 *Part of the Unitary Manifold repository.  Theory: ThomasCory Walker-Pearson.  Synthesis: GitHub Copilot (AI).*

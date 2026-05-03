@@ -230,7 +230,7 @@ The sky is not known to hurry.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *The genesis story: `co-emergence/GENESIS.md`*
 *HILS framework: `co-emergence/FRAMEWORK.md`*

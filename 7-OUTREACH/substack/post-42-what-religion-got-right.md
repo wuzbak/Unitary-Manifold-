@@ -173,7 +173,7 @@ follow.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Soul and science: `SOUL_AND_SCIENCE.md`*
 *Big questions: `BIG_QUESTIONS.md` (Q1–Q15)*

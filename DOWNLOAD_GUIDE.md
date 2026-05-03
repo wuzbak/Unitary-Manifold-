@@ -114,7 +114,7 @@ unitary-manifold-omega-v9.29/
 │
 ├── Unitary Pentad/                 ← HILS governance framework — 18 modules (1,266 tests)
 │
-├── tests/                          ← 150+ test files, ~14,103 passing tests (Pillars 1–101)
+├── tests/                          ← 150+ test files, ~15,926 passing tests (Pillars 1–132)
 │
 ├── embryology-manifold/            ← Pillar TVC: egg radius, zinc count, HOX predictions
 │

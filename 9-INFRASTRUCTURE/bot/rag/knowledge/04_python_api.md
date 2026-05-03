@@ -155,9 +155,9 @@ random initial states far from the vacuum, convergence is not guaranteed.
 ## Running the test suite
 
 ```bash
-# Core physics (all 101 pillars):
+# Core physics (all 132 pillars):
 python -m pytest tests/ -q
-# Expected: ~14103 passed, 76 skipped, 11 deselected, 0 failed
+# Expected: ~15926 passed, 76 skipped, 11 deselected, 0 failed
 
 # Recycling / Pillar 16:
 python -m pytest recycling/ -q
@@ -169,7 +169,7 @@ python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # All suites together:
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 15615 passed, 330 skipped, 0 failed
+# Expected: 17438 passed, 330 skipped, 0 failed
 ```
 
 Key individual test modules:

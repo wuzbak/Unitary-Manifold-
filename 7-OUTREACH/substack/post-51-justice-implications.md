@@ -163,7 +163,7 @@ It is the investigative journalist's companion to the structural framework in th
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Justice module: `src/justice/`*
 *Information conservation: `QUANTUM_THEOREMS.md` (Theorem XII)*

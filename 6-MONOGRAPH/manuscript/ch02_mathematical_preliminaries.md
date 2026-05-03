@@ -92,11 +92,11 @@ Verified by 11 unit tests in `tests/test_metric.py`.
 
 ## Repository Context
 
-This chapter is the foundational mathematical primer for the Unitary Manifold framework. As of **v9.29** the framework has expanded to **101 pillars** covering cosmology, particle physics, geometry, consciousness, governance, and the HILS co-emergence framework. The material in this chapter underpins Pillars 1–5 (the core KK geometry, field evolution, holography, and the FTUM fixed-point theorem).
+This chapter is the foundational mathematical primer for the Unitary Manifold framework. As of **v9.29** the framework has expanded to **132 pillars** covering cosmology, particle physics, geometry, consciousness, governance, and the HILS co-emergence framework. The material in this chapter underpins Pillars 1–5 (the core KK geometry, field evolution, holography, and the FTUM fixed-point theorem).
 
 For the complete picture, see:
 - [`README.md`](../README.md) — full project overview
-- [`omega/README.md`](../omega/README.md) — Pillar Ω: all 101 pillars in a single calculator
+- [`omega/README.md`](../omega/README.md) — Pillar Ω: all 132 pillars in a single calculator
 - [`AGENTS.md`](../AGENTS.md) — preferred ingest order for AI agents
 
 *Chapter 2 — v9.29 — May 2026*  

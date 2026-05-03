@@ -152,7 +152,7 @@ if it cannot tell you whether you should bother.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Coupled attractor: `src/consciousness/coupled_attractor.py`*
 *Grid cell ratio tests: `tests/test_coupled_attractor.py::test_resonance_ratio`*

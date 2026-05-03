@@ -1277,7 +1277,7 @@ The Unitary Manifold governance framework (Pillar 19) frames this as a φ-stabil
 
 This **Omega Edition** (v2.0, April 2026) marks the integration of this book into the
 **Unitary Manifold v9.29** — a complete 5-dimensional Kaluza-Klein
-framework now encompassing 101 pillars + sub-pillars, 15,615 passing tests, and the full range of
+framework now encompassing 132 pillars + sub-pillars, 17,438 passing tests, and the full range of
 falsifiable predictions from the birefringence angle β ∈ {≈0.273°, ≈0.331°} (to be
 tested by LiteBIRD, launch ~2032).
 

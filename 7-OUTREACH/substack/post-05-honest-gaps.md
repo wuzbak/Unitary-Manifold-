@@ -181,7 +181,7 @@ above are the current state of honest accounting.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *FALLIBILITY.md: https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

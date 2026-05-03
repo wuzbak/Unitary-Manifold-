@@ -132,7 +132,7 @@ That is the correct state for a theory at this stage. We are here until LiteBIRD
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
 *Predictions: `predictions.md`*

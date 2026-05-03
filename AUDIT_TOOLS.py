@@ -1,7 +1,7 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DPC-1.0
 """
-AUDIT_TOOLS.py — Unitary Manifold v9.29 Reproducible Audit Calculator
+AUDIT_TOOLS.py — Unitary Manifold v9.29+ (132 pillars) Reproducible Audit Calculator
 
 This module provides a self-contained, reproducible set of audit routines
 for the Unitary Manifold repository.  It was created as part of the
@@ -777,7 +777,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     print("=" * 72)
-    print("  UNITARY MANIFOLD — FINAL MANIFOLD AUDIT  (v9.29)")
+    print("  UNITARY MANIFOLD — FINAL MANIFOLD AUDIT  (v9.29+ — 132 pillars)")
     print("  AUDIT_TOOLS.py — Reproducible Audit Calculator")
     print("=" * 72)
     print()

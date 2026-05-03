@@ -73,7 +73,7 @@ Start with the layer that matches your purpose:
 >
 > ```
 > ────────────────────────────────────────────────────────────────────────
->   UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (101 pillars)
+>   UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (132 pillars)
 >   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)
 > ────────────────────────────────────────────────────────────────────────
 >   Check                         Value                   Reference       Result
@@ -105,11 +105,11 @@ Start with the layer that matches your purpose:
 >
 > | Document | Description |
 > |----------|-------------|
-> | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.29** — unsparing honest assessment of TOE status; 101 pillars (Wolfenstein CKM, SM 26-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability, ADM Foundation, KK Magic), open gaps, resolved neutrino mass tension, path to experimental confirmation |
+> | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.29+** — unsparing honest assessment of TOE status; 132 pillars (Wolfenstein CKM, SM 26-parameter audit, vacuum selection, pure algebraic vacuum proof, neutrino splittings, Higgs mass FTUM, UV embedding fully closed, Yukawa scale closed, MSSM RGE corrected, dual-sector β discriminability, ADM Foundation, KK Magic, Grand Synthesis Arc, uniqueness certificate, master action S_UM), open gaps (Λ_QCD ×10⁷), path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](2-REPRODUCIBILITY/VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **NEW — Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,615 tests), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
-> | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 101 pillars, written by GitHub Copilot (AI), May 2026 |
-> | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.27: per-version technical audit, adversarial attacks, and honest gap assessment |
+> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **NEW — Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,615 tests at v9.29; now 17,438), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
+> | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 132 pillars, written by GitHub Copilot (AI), May 2026 |
+> | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.29+: per-version technical audit, adversarial attacks, honest gap assessment, and Grand Expansion section covering Pillars 102–132 |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
 > | **[VERIFY.py](VERIFY.py)** | **Minimum Runnable Proof** (AI-friendly): 14 checks — ns, r, birefringence [(5,7) primary sector], topology uniqueness, FTUM, φ₀ closure, n_w selection, APS η̄, completeness theorem (k_CS=74), dark energy w_KK, **φ₀ FTUM bridge (Pillar 56-B)** — all PASS in < 1 s; run `python VERIFY.py` |
@@ -345,7 +345,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all 15,615 tests are passing in all three — but "passing" means
+> of content, and all 17,438 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -544,7 +544,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
-### Complete Pillar Taxonomy (v9.29 — all 101 pillars + sub-pillars — CLOSED)
+### Complete Pillar Taxonomy (v9.29+ — all 132 pillars + sub-pillars — CLOSED)
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
@@ -662,7 +662,32 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 100 | ADM Foundation — induced metric, extrinsic curvature, Hamiltonian constraint, ADM vs Ricci-flow proof, arrow-of-time link (4-step DEC derivation) | `src/core/adm_decomposition.py` | 51 |
 | 101 | KK Magic Power & Quantum Circuit Complexity — SRE M₂, Mana, T-gate lower bound, Robin-Savage nuclear bridge | `src/core/kk_magic.py` | 131 |
 | 101-B | Pillar Epistemics Table — classifies Pillars 1–26 by epistemic tier; SM closure roadmap; ADM lapse deviation | `src/core/pillar_epistemics.py` | 42 |
-| 128 | Planck-Scale Discrete Geometry — A_n=n×4π×k_cs×L_Pl²; γ_eff=k_cs/2π≈11.78; foam-to-smooth transition at √74×L_Pl | `src/core/planck_foam_geometry.py` | 55 |
+| 102 | R-Loop Closure — one-loop radiative stability of r_braided; KK graviton Feynman corrections | `src/core/r_loop_closure.py` | ~50 |
+| 103 | φ₀ RG Flow — RG running of φ₀ from Planck scale to CMB; stability under renormalisation | `src/core/phi0_rg_flow.py` | ~50 |
+| 104 | C_ℓ Geometric Spectrum — angular power spectrum C_ℓ from KK mode geometry | `src/core/cl_geometric_spectrum.py` | ~50 |
+| 105 | Baryogenesis — Sakharov conditions satisfied: CP violation from CS parity-odd; B violation from KK topological charge; departure from equilibrium from pre-BB phase | `src/core/baryogenesis.py` | ~50 |
+| 106 | Dark Matter KK Tower — dark matter as full KK mode tower; mass spectrum; relic density | `src/core/dark_matter_kk.py` | ~50 |
+| 107 | Proton Decay — lifetime from KK exchange suppression; Hyper-K testable prediction | `src/core/proton_decay.py` | ~50 |
+| 108 | Sub-mm Gravity — Yukawa-modified Newton's law at r ~ R_KK; torsion-balance prediction | `src/core/submm_gravity.py` | ~50 |
+| 109 | KK Stochastic GW Background — KK mode contribution to LISA/NANOGrav stochastic background | `src/core/kk_stochastic_gw.py` | ~50 |
+| 110 | Nonequilibrium Attractors — FTUM dynamics far from fixed point; basin structure | `src/core/nonequilibrium_attractors.py` | ~50 |
+| 111 | Pre-Big Bang Phase — 5D string frame pre-BB; bounce; initial conditions | `src/core/prebigbang.py` | ~50 |
+| 112 | Dimension Uniqueness — D=5 minimal dimension satisfying all UM structural constraints | `src/core/dimension_uniqueness.py` | ~50 |
+| 113 | M-Theory Embedding — HW boundary conditions; R₁₁=l_Pl; k_CS=74=2×37 (GS-West); E₈×E₈ uplift | `src/core/m_theory_embedding.py` | ~50 |
+| 114 | CMB Spatial Topology — S¹/Z₂ compact topology → low-ℓ CMB suppression; Planck anomaly consistent | `src/core/cmb_spatial_topology.py` | ~60 |
+| 115 | Twisted Torus CMB — twisted-torus topology variant; multipole predictions; comparative test | `src/core/twisted_torus_cmb.py` | ~60 |
+| 116 | Topological Hierarchy — tower of topological invariants: Z₂ parity, CS level, winding number | `src/core/topological_hierarchy.py` | ~66 |
+| 117 | Parity-Odd Selection — CS parity-odd structure forces handedness selection | `src/core/parity_odd_selection.py` | ~60 |
+| 118 | Anisotropic Birefringence — anisotropic cosmic birefringence prediction from CS; angular dependence | `src/core/anisotropic_birefringence.py` | ~60 |
+| 119 | TB/EB Cross-Correlation Kernels — non-zero TB and EB from CS parity violation; LiteBIRD/CMB-S4 target | `src/core/tb_eb_kernels.py` | ~60 |
+| 120 | Holonomy Orbifold — holonomy group of the S¹/Z₂ orbifold; monodromy structure | `src/core/holonomy_orbifold.py` | ~60 |
+| 121 | Topological Inflation — inflation from topological phase transition; CS instanton | `src/core/topological_inflation.py` | ~60 |
+| 122 | Trans-Planckian Ghost Suppression — UV ghost modes above M_Pl suppressed by KK geometry | `src/core/trans_planckian_ghost.py` | ~60 |
+| 123 | Manifold Curvature Fluctuations — curvature fluctuations of the compact S¹/Z₂; quantum corrections | `src/core/manifold_curvature_fluctuations.py` | ~60 |
+| 124 | Unified Metric Tensor — 5D metric at all scales; IR/UV interpolation | `src/core/unified_metric_tensor.py` | ~60 |
+| 125 | GW Birefringence — h_L ≠ h_R from k_cs=74; LISA/Einstein Telescope prediction; independent k_cs constraint | `src/core/gw_birefringence.py` | ~60 |
+| 126 | Λ Topological Defect — cosmological constant from E₂ topological twist; effective Λ_eff | `src/core/lambda_topological_defect.py` | ~60 |
+| 127 | Final Decoupling Identity — O∘T bijection: 5 UM parameters → topology → 10 CMB/GW observables; lossless chain | `src/core/final_decoupling_identity.py` | ~60 | Planck-Scale Discrete Geometry — A_n=n×4π×k_cs×L_Pl²; γ_eff=k_cs/2π≈11.78; foam-to-smooth transition at √74×L_Pl | `src/core/planck_foam_geometry.py` | 55 |
 | 129 | Emergent Spacetime from KK Entanglement — RT formula on KK sector; Fisher metric = g_μν; ER=EPR bridge; 1 ebit ↔ 4log(2)L_Pl² | `src/core/emergent_spacetime_entanglement.py` | 60 |
 | 130 | Geometric Born Rule & Observer Theory — S¹/Z₂ cos-mode orthonormality derives Born rule; 3 even modes = 3 SM families; measurement = holographic projection | `src/core/geometric_born_rule.py` | 65 |
 | 131 | The Uniqueness Theorem — Machine-readable certificate: D=5, n_w=5, k_cs=74, φ₀=π/4, R_kk=L_Pl; (5,7) unique viable braid pair; 0 free parameters | `src/core/universe_uniqueness_theorem.py` | 70 |
@@ -676,8 +701,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > **Pillars 128–132 (Grand Synthesis Arc):** Pillar 128 derives the Planck-scale area spectrum A_n=n×4π×74×L_Pl² from S¹/Z₂ BCs (no free parameters). Pillar 129 applies the Ryu-Takayanagi formula to the KK sector and identifies the 4D metric as the Fisher information metric of KK entanglement. Pillar 130 proves the Born rule from S¹/Z₂ orthonormality and identifies observers with the 3 stable cos-mode KK excitations (N_gen=3). Pillar 131 provides a machine-readable uniqueness certificate showing all 5 UM parameters are fixed with 0 free inputs. Pillar 132 is the Grand Synthesis: the master action S_UM = ∫d⁵x√g[R₅/16πG₅ + (k_cs/M_Pl³)CS₅(A) + L_matter] unifies all 132 pillars; δS_UM/δΓ=0 ↔ O∘T bijection (Pillar 127). Sole remaining open gap: Λ_QCD ×10⁷ (Pillar 62).
 > New falsifiers: **Planck-scale area spectrum** (γ_eff=k_cs/2π≈11.78, ×43 larger than LQG Immirzi parameter); **KK entanglement ebit-area quantization** (1 ebit ↔ 4log(2)L_Pl² area elements).
 
-> 🔒 **Repository CLOSED at 101 pillars (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101) — May 2026.**  
-> k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
+> 🔒 **Repository first CLOSED at 101 pillars** (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101; k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously). **Now extended to 132 pillars (Grand Synthesis Arc — May 2026).**  
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
 > The (5,7) primary sector predicts β ≈ 0.331° [canonical] / 0.351° [GW-derived]; the (5,6) shadow sector predicts β ≈ 0.273° [canonical] / 0.290° [GW-derived].  
 > Gap = 0.058° = **2.9σ_LB — LiteBIRD can discriminate the two sectors** (Pillar 95).  
@@ -699,7 +723,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 15,615 passed · 330 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 17,438 passed · 330 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
@@ -734,7 +758,7 @@ tests/test_vacuum_geometric_proof.py      59 passed  ← Pillar 89: pure algebra
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
 tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ ~14,103 passed, 76 skipped, 11 deselected ================================
+================================ ~15,926 passed, 76 skipped, 11 deselected ================================
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
@@ -746,7 +770,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 170 passed ================================
 
 # Grand total:
-================================ 15615 passed, 330 skipped, 11 deselected, 0 failed ================================
+================================ 17438 passed, 330 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -1039,7 +1063,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(***15,615 tests: 15,615 passed, 330 skipped, 11 slow-deselected, 0 failures**).
+(**17,438 tests: 17,438 passed, 330 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -1061,7 +1085,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (15,615 pass · 330 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (17,438 pass · 330 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 

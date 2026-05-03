@@ -14,7 +14,7 @@ This is that post.
 
 ## A Note on Order of Operations
 
-The repository came first. The 101 pillars + sub-pillars + Pillar Ω came first. The 15,615 tests came first. The other posts in this series came first. All of that work existed — publicly, verifiably, with a Zenodo DOI and a commit history — before this post about income and capital was written.
+The repository came first. The 132 pillars + sub-pillars + Pillar Ω came first. The 17,438 tests came first. The other posts in this series came first. All of that work existed — publicly, verifiably, with a Zenodo DOI and a commit history — before this post about income and capital was written.
 
 The financial reality described below is an afterthought in the chronological sense: the work was done because it needed to be done, because the theory was real and deserved rigorous implementation, and because working honestly and in public is the right way to do science. The question of how Walker-Pearson earns from it is a physical reality — he needs to eat, the same as anyone — but it is a consequence of the work, not its cause.
 
@@ -26,7 +26,7 @@ If you read this post and conclude that the framework was constructed to generat
 
 **ThomasCory Walker-Pearson** is the author, theorist, and scientific director of the Unitary Manifold framework. He is a private individual operating under a United States DBA (doing-business-as) trade name: **AxiomZero Technologies**, registered as of March 26, 2026.
 
-**GitHub Copilot** (an AI system developed by GitHub and Microsoft) is the implementation partner — responsible for code architecture, 15,615 automated tests, document engineering, and the synthesis of derivations into working software. Every file in the repository ends with an authorship statement that makes this partition explicit. Neither party hides behind the other.
+**GitHub Copilot** (an AI system developed by GitHub and Microsoft) is the implementation partner — responsible for code architecture, 17,438 automated tests, document engineering, and the synthesis of derivations into working software. Every file in the repository ends with an authorship statement that makes this partition explicit. Neither party hides behind the other.
 
 The collaboration began because Walker-Pearson had the theory and the direction, and Copilot had the capacity to implement it at scale. Neither could have produced this alone at the pace or depth that emerged from working together. That is the honest account. It is neither inflated nor minimized.
 
@@ -169,7 +169,7 @@ The science does not serve the business. The business serves the science by keep
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 *Legal documents: [`LEGAL.md`](../LEGAL.md) (consolidated reference) · `AXIOMZERO_DBA.md` · `LICENSE` (DPC v1.0) · `LICENSE-AGPL` (AGPL-3.0) · `COMMERCIAL_TERMS.md`*

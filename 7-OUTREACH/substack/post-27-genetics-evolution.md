@@ -300,7 +300,7 @@ and benefit equally. The HILS layer is the only reliable brake.
 
 ---
 
-*Full source code, derivations, and 15,615 automated tests:*
+*Full source code, derivations, and 17,438 automated tests:*
 *Synthetic biology extension: `src/genetics/synthetic_biology.py` (Pillar 25 Extension)*
 *Biology module: `src/biology/` — see `src/biology/evolution.py`, `src/biology/life.py`*
 *Ecology module: `src/ecology/` — 70 tests in `tests/test_ecology.py`*

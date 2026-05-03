@@ -626,7 +626,7 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     DEFAULT_VERSION = "v9.29 OMEGA EDITION"
     DEFAULT_N_PILLARS = 101   # Pillars 100 (ADM) + 101 (KK Magic/Epistemics) added at v9.29
-    DEFAULT_N_TESTS = 15615  # v9.29 verified count: 15,615 passed, 330 skipped, 0 failed
+    DEFAULT_N_TESTS = 17438  # v9.29+ verified count: 17,438 passed, 330 skipped, 0 failed
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)
