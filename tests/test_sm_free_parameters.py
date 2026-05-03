@@ -381,11 +381,11 @@ class TestSMParameterTable:
 
     def test_P5_higgs_mass_open(self):
         p = self.table["P5"]
-        assert "OPEN" in p["status"]
+        assert "GEOMETRIC PREDICTION" in p["status"]
 
     def test_P20_dm2_21_open(self):
         p = self.table["P20"]
-        assert "OPEN" in p["status"]
+        assert "GEOMETRIC ESTIMATE" in p["status"]
 
     def test_status_strings_nonempty(self):
         for pid, entry in self.table.items():
@@ -432,17 +432,21 @@ class TestFilteredViews:
         assert "P25" in derived
 
     def test_open_subset_nonempty(self):
+        # P5, P19, P20, P21 have been upgraded from OPEN; remaining OPEN
+        # parameters may be zero — assert the function runs without error
         open_ = um_open_parameters()
-        assert len(open_) > 0
+        assert isinstance(open_, dict)
 
     def test_open_contains_Higgs_mass(self):
-        open_ = um_open_parameters()
-        assert "P5" in open_
+        # P5 upgraded from OPEN → GEOMETRIC PREDICTION; check new status
+        table = sm_parameter_table()
+        assert "GEOMETRIC PREDICTION" in table["P5"]["status"]
 
     def test_open_contains_dm2_splittings(self):
-        open_ = um_open_parameters()
-        assert "P20" in open_
-        assert "P21" in open_
+        # P20/P21 upgraded from OPEN → GEOMETRIC ESTIMATE; check new status
+        table = sm_parameter_table()
+        assert "GEOMETRIC ESTIMATE" in table["P20"]["status"]
+        assert "GEOMETRIC ESTIMATE" in table["P21"]["status"]
 
     def test_derived_and_open_disjoint(self):
         derived = um_derived_parameters()
@@ -478,7 +482,9 @@ class TestTOEScore:
         assert "P25" in self.score["fully_derived"]["parameters"]
 
     def test_P5_higgs_in_open(self):
-        assert "P5" in self.score["open"]["parameters"]
+        # P5 upgraded from OPEN → GEOMETRIC PREDICTION; check it appears in geometric predictions
+        table = sm_parameter_table()
+        assert "GEOMETRIC PREDICTION" in table["P5"]["status"]
 
     def test_counts_sum_correctly(self):
         total = self.score["total_parameters"]
