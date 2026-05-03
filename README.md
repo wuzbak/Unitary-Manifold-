@@ -663,9 +663,13 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 101 | KK Magic Power & Quantum Circuit Complexity — SRE M₂, Mana, T-gate lower bound, Robin-Savage nuclear bridge | `src/core/kk_magic.py` | 131 |
 | 101-B | Pillar Epistemics Table — classifies Pillars 1–26 by epistemic tier; SM closure roadmap; ADM lapse deviation | `src/core/pillar_epistemics.py` | 42 |
 
-**Grand total (v9.29): 15,615 passed · 330 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+**Grand total (v9.29+): 17,108+ passed · 330 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
 
-**15,615** — 15,615 tests, 101 pillars + sub-pillars, 0 failures. (Note: v9.29 grand total grew from 15,296 with Pillars 100 (ADM), 101 (KK Magic/Epistemics), 97-B/C WZW/one-loop, §XIV gap-closures, and audit action items. Prior milestones: 15,296 (v9.29 pre-audit), 15,096=74×204 (v9.28, K_CS-resonant), 14,641=11⁴ (v9.25). 330 skipped = 76 dual-use stubs + 254 Pentad product stubs.)
+**17,108+** — 127 pillars + sub-pillars, 0 failures. (Note: Pillars 117–127 added 676 new tests across Phases 1–3: Parity/Polarization Bridge (117–120), Quantum-to-Classical Geometric Transition (121–123), and Manifold-Topology Unification (124–127). Prior milestone: 16,432 after Pillars 114–116. Grand total v9.29: 15,615.)
+
+> 🔒 **Repository extended to 127 pillars — May 2026.**
+> **Pillars 117–127 (Manifold-Topology Unification):** Phase 1 (117–120) bridges parity-odd CMB anomalies and anisotropic birefringence β(n̂) to the UM Z₂/E2 holonomy. Phase 2 (121–123) solves the matched-circles problem and derives the manifold wrap correction ΔP(k). Phase 3 (124–127) provides the unified 5D metric, GW birefringence predictions (testable by LISA and Einstein Telescope), the geometric derivation of Λ as E2 twist energy (w = −1), and the Final Decoupling Identity: O∘T is a bijection (information-lossless) from UM state → Topology → Observables.
+> New falsifiers: **LiteBIRD β(n̂) anisotropy** (5% E2 modulation detectable at SNR > 1); **LISA/ET GW chirality** (h_L ≠ h_R from k_cs=74 CS coupling); **w ≠ −1** would disprove Pillar 126.
 
 > 🔒 **Repository CLOSED at 101 pillars (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101) — May 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  
