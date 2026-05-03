@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (101 pillars/modules + sub-pillars closed, 15,615 tests passing)*
+*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (113 pillars/modules + sub-pillars closed, 14,734 tests passing in tests/)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 15,615 automated tests (101 pillars/modules + sub-pillars closed; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 14,734 automated tests (113 pillars/modules + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 76 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -2149,6 +2149,19 @@ in the table below and codified in `src/core/pillar_epistemics.py`.
 | 70-D | n_w=5 pure theorem | PHYSICS_DERIVATION | K_CS | Pure 5D geometry theorem; no observational input |
 | 97 | GW Yukawa derivation | CONDITIONAL_THEOREM | φ₀ | Ŷ₅=1 from GW vacuum; c_L from bisection (not first-principles BCs) |
 | 100 | ADM Foundation | PHYSICS_DERIVATION | φ₀ | Standard GR + NEC applied to UM matter sector |
+| 101 | KK Magic / Quantum Complexity | PHYSICS_DERIVATION | K_CS | SRE, Mana, T-gate bound, Robin-Savage nuclear bridge |
+| 102 | r loop closure | PHYSICS_DERIVATION | K_CS, n_w | One-loop radiative correction to r; r_corrected < 0.036 (BICEP/Keck) |
+| 103 | φ₀ RG flow / CMB amplitude | CONDITIONAL_THEOREM | φ₀, K_CS | Running φ₀ gives ×4–7 suppression at CMB scale; gap PARTIALLY_CLOSED |
+| 104 | C_L geometric spectrum | CONDITIONAL_THEOREM | φ₀ | CMB C_L from 5D geometry; acoustic peaks at ℓ=[220,540,800] |
+| 105 | Baryogenesis from B_μ | FALSIFIABLE_PREDICTION | K_CS, B_μ | η_B ≈ 3.5×10⁻¹⁰ (observed: 6×10⁻¹⁰); order-of-magnitude match |
+| 106 | Dark Matter KK Modes | FALSIFIABLE_PREDICTION | M_KK | KK graviton at 33.6 meV; hot-relic Ω h² ≪ 0.12; all harmonics viable |
+| 107 | Proton Decay Rate | FALSIFIABLE_PREDICTION | M_GUT, orbifold | τ_p ≈ 1.68×10³⁸ yr (Super-K bound: 1.6×10³⁴ yr); prediction viable |
+| 108 | Sub-mm Gravity | FALSIFIABLE_PREDICTION | M_KK | L_c ≈ 1.79 μm; next-gen gravity experiments target 2 μm |
+| 109 | LISA KK Stochastic GW | FALSIFIABLE_PREDICTION | M_KK | KK breathing mode at ~2.7×10¹³ Hz (UV, honest null for LISA) |
+| 110 | Non-Equilibrium Attractors | CONDITIONAL_THEOREM | φ₀, K_CS | Time-crystal period T≈18.6 Planck; attractor dimension 4; Lyapunov at φ₀=1 |
+| 111 | Pre-Big Bang Geometry | CONDITIONAL_THEOREM | K_CS, n_w | Braid locking T=0.471 Planck; pre-BB e-folds ≈11.8; lock condition: 5²+7²=74 |
+| 112 | Why 5D? — Dimension Uniqueness | PHYSICS_DERIVATION | n_w, holography | theorem_status="ARGUED": min dim for FTUM isolation + holography + observer = 5 |
+| 113 | M-Theory Embedding G₄ | FORMAL_ANALOGY | K_CS | embedding_status="PARTIAL"; N_flux=37; K_CS=2×N_flux conjectural (CONJECTURAL) |
 
 **Key distinction for Pillar 15/15-B:**
 Cold fusion is the *only* pillar in the range 10–26 that provides genuine falsification
