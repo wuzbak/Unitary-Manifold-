@@ -444,13 +444,15 @@ def kawamura_from_winding(n_w: int = N_W) -> Dict[str, object]:
             f"n_odd={n_odd} odd modes → SU({n_odd})"
         )
 
-    n7_even = math.ceil(7 / 2)
-    n7_odd = math.floor(7 / 2)
+    # Cross-check always uses the excluded candidate n_w=7; when n_w is already
+    # 7 the n_even/n_odd from above are reused, otherwise they are recomputed.
+    _n7e = n_even if n_w == 7 else math.ceil(7 / 2)   # 4
+    _n7o = n_odd  if n_w == 7 else math.floor(7 / 2)  # 3
     cross_check_n7 = {
         "n_w": 7,
-        "n_even": n7_even,
-        "n_odd": n7_odd,
-        "P_matrix": [+1] * n7_even + [-1] * n7_odd,
+        "n_even": _n7e,
+        "n_odd": _n7o,
+        "P_matrix": [+1] * _n7e + [-1] * _n7o,
         "breaking_pattern": "SU(7) → SU(4)×SU(3)×… (NOT the Standard Model)",
         "verdict": (
             "n_w=7 gives SU(4)×SU(3)×… which is not G_SM. "

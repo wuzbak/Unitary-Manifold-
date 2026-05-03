@@ -644,7 +644,7 @@ class TestSU3EmergenceStatus:
         assert "DERIVED_FROM_5D_GEOMETRY" in verdict or "derived" in verdict.lower()
 
     def test_step7_closure_summary(self):
-        """step_7 summarises that all steps are internal."""
+        """step_7 summarizes that all steps are internal."""
         s7 = self.result["steps"]["step_7"]
         assert s7["classification"] == "DERIVED_FROM_5D_GEOMETRY"
         assert "no external imports" in s7["note"].lower() or "no external" in s7["note"]
