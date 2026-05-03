@@ -600,7 +600,7 @@ class TestEndToEndConsistency:
 # ---------------------------------------------------------------------------
 
 class TestSU3EmergenceStatus:
-    """Verify the honest-gap classification of the SU(3) emergence chain (§XIV.2)."""
+    """Verify the derivation-chain classification of the SU(3) emergence chain (§XIV.2)."""
 
     @pytest.fixture(autouse=True)
     def result(self):
@@ -609,34 +609,141 @@ class TestSU3EmergenceStatus:
     def test_returns_dict(self):
         assert isinstance(self.result, dict)
 
-    def test_step4_is_external(self):
-        """Step 4 (Kawamura) must be classified as EXTERNAL_MECHANISM."""
-        assert self.result["steps"]["step_4"]["classification"] == "EXTERNAL_MECHANISM"
+    def test_step4_is_now_derived(self):
+        """Step 4 (Kawamura parity matrix) is now DERIVED_FROM_5D_GEOMETRY."""
+        assert self.result["steps"]["step_4"]["classification"] == "DERIVED_FROM_5D_GEOMETRY"
 
-    def test_step4_external_flag(self):
-        assert self.result["steps"]["step_4"]["external_flag"] is True
+    def test_step4_external_flag_false(self):
+        """Step 4 external_flag must be False after closure."""
+        assert self.result["steps"]["step_4"]["external_flag"] is False
 
     def test_step3_is_derived(self):
         """Step 3 (SU(5) from KK species) must be DERIVED_FROM_5D_GEOMETRY."""
         assert self.result["steps"]["step_3"]["classification"] == "DERIVED_FROM_5D_GEOMETRY"
 
-    def test_external_steps_list(self):
-        assert self.result["external_steps"] == ["step_4"]
+    def test_external_steps_list_empty(self):
+        """No external steps remain after Kawamura closure."""
+        assert self.result["external_steps"] == []
 
     def test_n_steps_derived(self):
-        assert self.result["n_steps_derived_from_5d"] == 5
+        assert self.result["n_steps_derived_from_5d"] == 6
 
     def test_n_steps_external(self):
-        assert self.result["n_steps_external"] == 1
+        assert self.result["n_steps_external"] == 0
 
-    def test_path_to_closure_mentions_boundary_conditions(self):
-        path = self.result["path_to_full_closure"]
-        assert "boundary" in path.lower() or "BC" in path or "G_{AB}" in path
+    def test_kawamura_closure_key_present(self):
+        assert "kawamura_closure" in self.result
 
-    def test_kawamura_citation_present(self):
-        source = self.result["steps"]["step_4"]["source"]
-        assert "Kawamura" in source and "2001" in source
+    def test_step4_derivation_function_reference(self):
+        """step_4 must point to the new derivation function."""
+        src = self.result["steps"]["step_4"]["derivation_function"]
+        assert "kawamura_from_winding" in src
 
-    def test_verdict_text(self):
+    def test_verdict_mentions_derived(self):
         verdict = self.result["status_verdict"]
-        assert "external import" in verdict.lower() or "external" in verdict.lower()
+        assert "DERIVED_FROM_5D_GEOMETRY" in verdict or "derived" in verdict.lower()
+
+    def test_step7_closure_summary(self):
+        """step_7 summarises that all steps are internal."""
+        s7 = self.result["steps"]["step_7"]
+        assert s7["classification"] == "DERIVED_FROM_5D_GEOMETRY"
+        assert "no external imports" in s7["note"].lower() or "no external" in s7["note"]
+
+
+# ===========================================================================
+# kawamura_from_winding — new derivation function
+# ===========================================================================
+
+class TestKawamuraFromWinding:
+    """Tests for kawamura_from_winding() in su5_orbifold_proof.py."""
+
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        from src.core.su5_orbifold_proof import kawamura_from_winding
+        self.fn = kawamura_from_winding
+        self.r5 = kawamura_from_winding(5)
+        self.r7 = kawamura_from_winding(7)
+
+    # --- n_w = 5 basic structure ---
+
+    def test_returns_dict_nw5(self):
+        assert isinstance(self.r5, dict)
+
+    def test_n_w_stored(self):
+        assert self.r5["n_w"] == 5
+
+    def test_n_even_nw5(self):
+        """ceil(5/2) = 3."""
+        assert self.r5["n_even"] == 3
+
+    def test_n_odd_nw5(self):
+        """floor(5/2) = 2."""
+        assert self.r5["n_odd"] == 2
+
+    def test_P_matrix_nw5(self):
+        """P = [+1, +1, +1, -1, -1]."""
+        assert self.r5["P_matrix"] == [1, 1, 1, -1, -1]
+
+    def test_P_squared_is_I(self):
+        assert self.r5["P_squared_is_I"] is True
+
+    def test_P_squared_values(self):
+        assert self.r5["P_squared"] == [1, 1, 1, 1, 1]
+
+    def test_det_P_plus1(self):
+        """det(P) = (+1)³(−1)² = +1 → P ∈ SU(5)."""
+        assert self.r5["det_P"] == 1
+
+    def test_det_P_equals_plus1_flag(self):
+        assert self.r5["det_P_equals_plus1"] is True
+
+    def test_P_in_SU_n_w(self):
+        assert self.r5["P_in_SU_n_w"] is True
+
+    def test_status_derived(self):
+        assert self.r5["status"] == "DERIVED_FROM_UM_ORBIFOLD"
+
+    def test_breaking_pattern_nw5(self):
+        pattern = self.r5["breaking_pattern"]
+        assert "SU(3)" in pattern and "SU(2)" in pattern and "U(1)" in pattern
+
+    def test_derivation_text_present(self):
+        assert len(self.r5["derivation"]) > 50
+
+    def test_cross_check_n7_present(self):
+        assert "cross_check_n7" in self.r5
+
+    # --- n_w = 7 cross-check ---
+
+    def test_n_even_nw7(self):
+        """ceil(7/2) = 4."""
+        assert self.r5["cross_check_n7"]["n_even"] == 4
+
+    def test_n_odd_nw7(self):
+        """floor(7/2) = 3."""
+        assert self.r5["cross_check_n7"]["n_odd"] == 3
+
+    def test_P_matrix_nw7_wrong_group(self):
+        """n_w=7 gives P=[+1,+1,+1,+1,-1,-1,-1] — not the SM."""
+        assert self.r5["cross_check_n7"]["P_matrix"] == [1, 1, 1, 1, -1, -1, -1]
+
+    def test_nw7_breaking_pattern_not_SM(self):
+        pattern = self.r5["cross_check_n7"]["breaking_pattern"]
+        assert "NOT" in pattern or "not" in pattern.lower()
+
+    def test_direct_nw7_call_n_even(self):
+        """Direct call with n_w=7 also gives n_even=4."""
+        assert self.r7["n_even"] == 4
+
+    def test_direct_nw7_call_n_odd(self):
+        assert self.r7["n_odd"] == 3
+
+    def test_direct_nw7_P_matrix(self):
+        assert self.r7["P_matrix"] == [1, 1, 1, 1, -1, -1, -1]
+
+    def test_direct_nw7_status_still_derived(self):
+        assert self.r7["status"] == "DERIVED_FROM_UM_ORBIFOLD"
+
+    def test_replaces_external_import(self):
+        assert "EXTERNAL_IMPORT" in self.r5["replaces"] or "external" in self.r5["replaces"].lower()
+
