@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (113 pillars/modules + sub-pillars closed, 14,734 tests passing in tests/)*
+*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (116 pillars/modules + sub-pillars closed, ~14,920 tests passing in tests/)*
 
 ---
 
@@ -2162,6 +2162,18 @@ in the table below and codified in `src/core/pillar_epistemics.py`.
 | 111 | Pre-Big Bang Geometry | CONDITIONAL_THEOREM | K_CS, n_w | Braid locking T=0.471 Planck; pre-BB e-folds ≈11.8; lock condition: 5²+7²=74 |
 | 112 | Why 5D? — Dimension Uniqueness | PHYSICS_DERIVATION | n_w, holography | theorem_status="ARGUED": min dim for FTUM isolation + holography + observer = 5 |
 | 113 | M-Theory Embedding G₄ | FORMAL_ANALOGY | K_CS | embedding_status="PARTIAL"; N_flux=37; K_CS=2×N_flux conjectural (CONJECTURAL) |
+| 114 | CMB Spatial Topology (E1/E2/E3) | CLASSIFICATION | None | E1 ruled out if L<χ_rec; E2/E3 viable (twisted-loop correlated views); UM agnostic |
+| 115 | Twisted Torus CMB Signatures | PREDICTIVE | L_torus/χ_rec | Low-ℓ power suppression; circle cross-correlations; quadrupole anisotropy for E2/E3 |
+| 116 | Topological Hierarchy Separation | PROVED (EFT) | None | Appelquist-Carazzone decoupling: m_KK/m_topo ≈ 10⁶¹; UM observables topology-independent |
+
+**Pillars 114–116 — CMB Spatial Topology (May 2026):**
+These three pillars address the APS/Planck CMB topology analysis (E1/E2/E3 flat
+Euclidean 3-spaces).  Pillar 114 classifies the topologies and formalises UM
+agnosticism.  Pillar 115 catalogues the twisted-loop CMB signatures of E2/E3.
+Pillar 116 proves via Appelquist-Carazzone EFT decoupling that the ~10⁶¹ scale
+separation between the compact S¹/Z₂ extra dimension and the large-scale spatial
+topology makes all UM CMB predictions (nₛ, r, β) exactly topology-independent.
+These are CLASSIFICATION / PROVED-EFT pillars with no new free parameters.
 
 **Key distinction for Pillar 15/15-B:**
 Cold fusion is the *only* pillar in the range 10–26 that provides genuine falsification
