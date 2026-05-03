@@ -44,7 +44,7 @@ Every factual claim is sourced. Every technical specification is verified agains
 
 **The stakes are real.** On January 29, 2025, 67 people died when a commercial jet and a military helicopter collided over the Potomac River at Reagan National Airport. On January 11, 2023, the FAA's NOTAM system failed so completely that the agency issued the first nationwide ground stop since September 11, 2001. On April 28, 2025, controllers at Philadelphia TRACON lost all radar contact and all radio contact with aircraft they were managing — for ninety seconds — because a copper wire burned through in an aging facility. United Airlines canceled thirty-five daily round trips and more than twenty controllers took trauma leave.
 
-These are not isolated incidents. They are the visible edge of a systemic failure that has been building for decades. This book names it, explains it completely, and offers a full solution.
+These are not isolated incidents. They are the visible edge of a systemic failure that has been building for decades. This book names it, explains it thoroughly, and offers a complete solution.
 
 ---
 
