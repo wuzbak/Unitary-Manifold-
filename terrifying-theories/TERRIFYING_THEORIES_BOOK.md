@@ -88,9 +88,6 @@ When you see ⚠️ in a physics section, it marks a claim that is contested or 
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
-# Terrifying Theories: Ten Existential Threats Through the Lens of the Unitary Manifold
-
-*A popular-science book by ThomasCory Walker-Pearson*
 
 ---
 
