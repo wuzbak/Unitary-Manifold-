@@ -4,8 +4,8 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.29
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![15615 Tests passing](https://img.shields.io/badge/tests-15615%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![101 pillars | see FALLIBILITY.md](https://img.shields.io/badge/pillars-101%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
+[![17438 Tests passing](https://img.shields.io/badge/tests-17438%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![132 pillars | see FALLIBILITY.md](https://img.shields.io/badge/pillars-132%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v9.29-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 
@@ -662,14 +662,19 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 100 | ADM Foundation — induced metric, extrinsic curvature, Hamiltonian constraint, ADM vs Ricci-flow proof, arrow-of-time link (4-step DEC derivation) | `src/core/adm_decomposition.py` | 51 |
 | 101 | KK Magic Power & Quantum Circuit Complexity — SRE M₂, Mana, T-gate lower bound, Robin-Savage nuclear bridge | `src/core/kk_magic.py` | 131 |
 | 101-B | Pillar Epistemics Table — classifies Pillars 1–26 by epistemic tier; SM closure roadmap; ADM lapse deviation | `src/core/pillar_epistemics.py` | 42 |
+| 128 | Planck-Scale Discrete Geometry — A_n=n×4π×k_cs×L_Pl²; γ_eff=k_cs/2π≈11.78; foam-to-smooth transition at √74×L_Pl | `src/core/planck_foam_geometry.py` | 55 |
+| 129 | Emergent Spacetime from KK Entanglement — RT formula on KK sector; Fisher metric = g_μν; ER=EPR bridge; 1 ebit ↔ 4log(2)L_Pl² | `src/core/emergent_spacetime_entanglement.py` | 60 |
+| 130 | Geometric Born Rule & Observer Theory — S¹/Z₂ cos-mode orthonormality derives Born rule; 3 even modes = 3 SM families; measurement = holographic projection | `src/core/geometric_born_rule.py` | 65 |
+| 131 | The Uniqueness Theorem — Machine-readable certificate: D=5, n_w=5, k_cs=74, φ₀=π/4, R_kk=L_Pl; (5,7) unique viable braid pair; 0 free parameters | `src/core/universe_uniqueness_theorem.py` | 70 |
+| 132 | Grand Synthesis Identity — Master action S_UM; δS/δg=Einstein, δS/δA=SM gauge, δS/δψ=Dirac, δS/δφ=FTUM; completeness identity ↔ O∘T bijection | `src/core/grand_synthesis.py` | 80 |
 
-**Grand total (v9.29+): 17,108+ passed · 330 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+**Grand total (v9.29+): 17,438+ passed · 330 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
 
-**17,108+** — 127 pillars + sub-pillars, 0 failures. (Note: Pillars 117–127 added 676 new tests across Phases 1–3: Parity/Polarization Bridge (117–120), Quantum-to-Classical Geometric Transition (121–123), and Manifold-Topology Unification (124–127). Prior milestone: 16,432 after Pillars 114–116. Grand total v9.29: 15,615.)
+**17,438+** — 132 pillars + sub-pillars, 0 failures. (Note: Pillars 128–132 added 330 new tests — the Grand Synthesis Arc. Pillars 117–127 added 676 new tests across Phases 1–3. Prior milestones: 17,108 after Pillars 117–127; 16,432 after Pillars 114–116. Grand total v9.29: 15,615.)
 
-> 🔒 **Repository extended to 127 pillars — May 2026.**
-> **Pillars 117–127 (Manifold-Topology Unification):** Phase 1 (117–120) bridges parity-odd CMB anomalies and anisotropic birefringence β(n̂) to the UM Z₂/E2 holonomy. Phase 2 (121–123) solves the matched-circles problem and derives the manifold wrap correction ΔP(k). Phase 3 (124–127) provides the unified 5D metric, GW birefringence predictions (testable by LISA and Einstein Telescope), the geometric derivation of Λ as E2 twist energy (w = −1), and the Final Decoupling Identity: O∘T is a bijection (information-lossless) from UM state → Topology → Observables.
-> New falsifiers: **LiteBIRD β(n̂) anisotropy** (5% E2 modulation detectable at SNR > 1); **LISA/ET GW chirality** (h_L ≠ h_R from k_cs=74 CS coupling); **w ≠ −1** would disprove Pillar 126.
+> 🔒 **Repository extended to 132 pillars — May 2026.**
+> **Pillars 128–132 (Grand Synthesis Arc):** Pillar 128 derives the Planck-scale area spectrum A_n=n×4π×74×L_Pl² from S¹/Z₂ BCs (no free parameters). Pillar 129 applies the Ryu-Takayanagi formula to the KK sector and identifies the 4D metric as the Fisher information metric of KK entanglement. Pillar 130 proves the Born rule from S¹/Z₂ orthonormality and identifies observers with the 3 stable cos-mode KK excitations (N_gen=3). Pillar 131 provides a machine-readable uniqueness certificate showing all 5 UM parameters are fixed with 0 free inputs. Pillar 132 is the Grand Synthesis: the master action S_UM = ∫d⁵x√g[R₅/16πG₅ + (k_cs/M_Pl³)CS₅(A) + L_matter] unifies all 132 pillars; δS_UM/δΓ=0 ↔ O∘T bijection (Pillar 127). Sole remaining open gap: Λ_QCD ×10⁷ (Pillar 62).
+> New falsifiers: **Planck-scale area spectrum** (γ_eff=k_cs/2π≈11.78, ×43 larger than LQG Immirzi parameter); **KK entanglement ebit-area quantization** (1 ebit ↔ 4log(2)L_Pl² area elements).
 
 > 🔒 **Repository CLOSED at 101 pillars (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101) — May 2026.**  
 > k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously.  

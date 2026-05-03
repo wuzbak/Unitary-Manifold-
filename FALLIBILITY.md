@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (127 pillars/modules + sub-pillars closed, ~17,100+ tests passing in tests/)*
+*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (132 pillars/modules + sub-pillars closed, ~17,438+ tests passing in tests/)*
 
 ---
 
@@ -2219,6 +2219,42 @@ direction and is falsified by any measurement of w ≠ −1 outside [−1.05, �
 Pillar 127 is the Final Decoupling Identity: the map O∘T (UM state → Topology →
 Observables) is proven to be a bijection — no information is lost in the chain from
 5 UM geometric degrees of freedom to 10 CMB/GW observables.
+
+**Pillars 128–132 — The Grand Synthesis Arc: Reality from All Angles (May 2026):**
+
+Pillar 128 (*Planck-Scale Discrete Geometry*): The S¹/Z₂ boundary conditions quantize
+the area spectrum as A_n = n×4π×k_cs×L_Pl².  The minimum area quantum is 4π×74 Planck
+units — distinguishable from vanilla LQG (γ≈0.274) by the factor k_cs/(2π)≈11.78.
+The foam-to-smooth transition occurs at ℓ_trans = √74 × L_Pl.  Status: PREDICTIVE.
+
+Pillar 129 (*Emergent Spacetime from KK Entanglement*): The Ryu-Takayanagi formula
+applied to the KK zero-mode sector gives S_ent = A_holo/(4G_N), with the holographic
+screen area = 4π L_Pl².  The 4D metric g_μν is identified as the Fisher information
+metric of the KK mode distribution (FORMAL_ANALOGY).  One ebit ↔ 4 log(2) L_Pl²
+area elements.  Status: CONDITIONAL_THEOREM (RT) + FORMAL_ANALOGY (Fisher metric).
+
+Pillar 130 (*Geometric Born Rule and Observer Theory*): An observer is a localised
+5D cosine-mode KK excitation on S¹/Z₂.  With n_w=5, the cos-mode parity (-1)^n
+selects exactly 3 stable even-parity modes (n=0,2,4) → 3 SM families.  The Born
+rule p_n = |c_n|² follows from the orthonormality of the cosine basis on [0,πR_kk].
+Measurement = projection onto the holographic zero mode; decoherence requires no
+separate postulate.  Status: CONDITIONAL_THEOREM.
+
+Pillar 131 (*The Uniqueness Theorem*): Synthesises all prior uniqueness arguments
+into a machine-readable certificate: D=5 (ARGUED, 3 independent constraints),
+n_w=5 (PROVED, Z₂-odd CS phase pure theorem), k_cs=74 (PROVED, algebraic identity),
+φ₀=π/4 (PROVED, orbifold BC), R_kk=L_Pl (CONDITIONAL_THEOREM, holographic entropy).
+Braid pair (5,7) is the unique viable Z₂-parity-odd minimum-step pair (ARGUED —
+β window boundary is empirical).  Total free parameters: 0.
+
+Pillar 132 (*The Grand Synthesis Identity*): The UM master action
+S_UM = ∫d⁵x√g [R₅/(16πG₅) + (k_cs/M_Pl³)×CS₅(A) + L_matter]
+is the capstone of all 132 pillars.  Varying with respect to each field recovers:
+5D Einstein equations (metric), SM gauge equations (gauge field), 4D Dirac equation
+(fermion), FTUM fixed-point φ₀=π/4 (dilaton).  The completeness identity proves
+δS_UM/δΓ=0 ↔ O∘T bijection (Pillar 127): physics = geometry.  The sole remaining
+open gap is Λ_QCD (×10⁷ discrepancy in KK running of α_s, Pillar 62).
+Status: PHYSICS_DERIVATION.  Total free parameters: 0.
 
 **Key distinction for Pillar 15/15-B:**
 Cold fusion is the *only* pillar in the range 10–26 that provides genuine falsification
