@@ -187,7 +187,7 @@ class TestE2E3ViableStatus:
         assert "180" in s["twist"]
 
     def test_e3_twist_90(self):
-        s = e3 = e2_e3_viable_status("E3")
+        s = e2_e3_viable_status("E3")
         assert "90" in s["twist"]
 
     def test_invalid_raises(self):

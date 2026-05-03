@@ -150,7 +150,7 @@ def e_topology_classes() -> dict:
     """
     return {
         "E1": {
-            "name": "3-Torus (half-turn space, untwisted)",
+            "name": "3-Torus (untwisted)",
             "twist_angle_deg": 0.0,
             "symmetry_group": "Z1",
             "observational_status": "RULED_OUT_IF_WITHIN_HORIZON",
