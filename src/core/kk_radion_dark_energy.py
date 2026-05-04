@@ -396,15 +396,16 @@ def pillar136_summary() -> Dict[str, object]:
 
     if desi_consistent:
         best_status = (
-            "⚠️ TENSION: 3.4σ with Planck+BAO (w=−1.03±0.03); "
+            "⚠️ OPEN — TENSION 3.4σ with Planck+BAO (w=−1.03±0.03, primary constraint); "
             "0.11σ with DESI DR2 (w=−0.92±0.09, wider errors); "
             "2.5σ with DES Y3+Planck+BAO. "
-            "Observational status is dataset-dependent."
+            "The Planck+BAO constraint is from the same data used to select n_w=5; "
+            "internal consistency requires acknowledging this as an OPEN tension."
         )
     elif planck_consistent:
-        best_status = "⚠️ CONSTRAINED — within 3σ of all datasets"
+        best_status = "⚠️ OPEN — within 3σ of all datasets but tension not resolved"
     else:
-        best_status = "⚠️ TENSION — outside 3σ of Planck+BAO"
+        best_status = "⚠️ OPEN — TENSION outside 3σ of Planck+BAO"
 
     return {
         "pillar": 136,

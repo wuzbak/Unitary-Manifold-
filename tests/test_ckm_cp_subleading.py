@@ -117,12 +117,12 @@ class TestCkmCpSubleading:
 
     def test_status_contains_consistent(self):
         result = ckm_cp_subleading()
-        assert "CONSISTENT" in result["status"] or "CLOSED" in result["status"]
+        assert "CONSISTENT" in result["status"] or "GEOMETRIC ESTIMATE" in result["status"]
 
     def test_status_contains_less_than_1sigma(self):
         result = ckm_cp_subleading()
-        # Must indicate < 1σ
-        assert "< 1" in result["status"] or "CLOSED" in result["status"]
+        # Must indicate < 1σ or GEOMETRIC ESTIMATE
+        assert "< 1" in result["status"] or "GEOMETRIC ESTIMATE" in result["status"]
 
     def test_best_prediction_equals_delta_sub(self):
         result = ckm_cp_subleading()
@@ -166,7 +166,7 @@ class TestCpClosureStatus:
 
     def test_toe_status_contains_closed(self):
         result = cp_closure_status()
-        assert "CLOSED" in result["toe_status"] or "< 1σ" in result["toe_status"]
+        assert "< 1σ" in result["toe_status"] or "GEOMETRIC ESTIMATE" in result["toe_status"]
 
     def test_pdg_value_correct(self):
         result = cp_closure_status()
@@ -300,7 +300,7 @@ class TestPillar133Summary:
 
     def test_toe_status_closed(self):
         result = pillar133_summary()
-        assert "CLOSED" in result["toe_status"]
+        assert "< 1σ" in result["toe_status"] or "GEOMETRIC ESTIMATE" in result["toe_status"]
 
     def test_formula_contains_arctan(self):
         result = pillar133_summary()
@@ -326,4 +326,4 @@ class TestPillar133Summary:
     def test_derivation_summary_is_string(self):
         result = pillar133_summary()
         assert isinstance(result["derivation_summary"], str)
-        assert "CLOSED" in result["derivation_summary"]
+        assert "GEOMETRIC ESTIMATE" in result["derivation_summary"]

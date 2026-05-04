@@ -195,10 +195,9 @@ class TestVaryWrtGaugeField:
         assert d["kk_decomposition"]["U1_hypercharge"]["mass"] == 0.0
 
     def test_derived_from_s_um(self):
-        # After adversarial review fix: only U(1)_Y is derived from KK zero mode.
-        # SU(2) and SU(3) are NOT derived from 5D KK reduction (Witten 1981).
+        # After Pillar 148: SU(2)_L and SU(3)_C are DERIVED via SU(5)/Z₂ Kawamura.
         gauge = vary_wrt_gauge_field()
-        assert gauge["derived_from_s_um"] == "U(1)_Y ONLY"
+        assert "DERIVED" in gauge["derived_from_s_um"] or "Pillar 148" in gauge["derived_from_s_um"]
 
     def test_has_variation(self):
         assert "variation" in vary_wrt_gauge_field()

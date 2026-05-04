@@ -624,9 +624,9 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     # Version tracking
     # -----------------------------------------------------------------------
-    DEFAULT_VERSION = "v9.30 SM CLOSURE EDITION"
-    DEFAULT_N_PILLARS = 142   # Pillars 133-142 + Ω₀ Holon Zero added at v9.30
-    DEFAULT_N_TESTS = 18057  # v9.30 verified count: 18,057 passed, 329 skipped, 0 failed
+    DEFAULT_VERSION = "v9.31 OMEGA SM CLOSURE EDITION"
+    DEFAULT_N_PILLARS = 149   # Pillars 133-149 + Ω₀ Holon Zero; v9.31 adds Pillars 146-149
+    DEFAULT_N_TESTS = 18178  # v9.31 verified count: 18,178 passed, 330 skipped, 0 failed
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)

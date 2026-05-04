@@ -369,13 +369,19 @@ def higgs_mass_closure(
     pct_err = abs(m_H_eff - HIGGS_MASS_PDG_GEV) / HIGGS_MASS_PDG_GEV * 100.0
 
     if pct_err < 2.0:
-        status = "✅ DERIVED — within 2 % of PDG"
+        status = (
+            "⚠️ CONSTRAINED (2 PDG inputs: v_PDG=246.22 GeV, m_t_PDG=172.76 GeV; "
+            "geometry provides tree quartic λ_H=n_w²/2k_CS; within 2 % of PDG)"
+        )
     elif pct_err < 5.0:
-        status = "✅ DERIVED — within 5 % of PDG"
+        status = (
+            "⚠️ CONSTRAINED (2 PDG inputs: v_PDG, m_t_PDG; "
+            "geometry provides tree quartic; within 5 % of PDG)"
+        )
     elif pct_err < 15.0:
-        status = "⚠️ CONSTRAINED — within 15 % of PDG"
+        status = "⚠️ CONSTRAINED — within 15 % of PDG (PDG inputs: v, m_t)"
     else:
-        status = f"⚠️ ESTIMATE — {pct_err:.1f} % accuracy"
+        status = f"⚠️ ESTIMATE — {pct_err:.1f} % accuracy (PDG inputs: v, m_t)"
 
     return {
         "n_w": n_w,
@@ -508,5 +514,6 @@ def pillar134_summary() -> Dict[str, object]:
         "interval_gev": (interval["m_H_min_gev"], interval["m_H_max_gev"]),
         "pdg_in_interval": interval["pdg_in_interval"],
         "key_formula": "m_H = v √(2λ_H^{eff}); λ_H^{eff} = n_w²/(2k_CS) − 6y_t⁴/(16π²)×log(M_KK/v)",
-        "zero_free_params": "n_w=5 (topology); k_CS=74 (topology); πkR=37 (Pillar 81); v from RS",
+        "pdg_inputs": "v_PDG=246.22 GeV (Higgs VEV) and m_t_PDG=172.76 GeV (top mass) — 2 PDG inputs used",
+        "geometric_predictions": "n_w=5 (topology); k_CS=74 (topology); πkR=37 (Pillar 81) — geometry provides tree quartic only",
     }
