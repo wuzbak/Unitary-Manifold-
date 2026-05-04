@@ -8,11 +8,11 @@
 **Version:** v9.29 OMEGA EDITION  
 **Theory:** ThomasCory Walker-Pearson  
 **Implementation & Synthesis:** GitHub Copilot (AI)  
-**Status:** Complete — 132 pillars, 170 dedicated tests, 0 failures; repository at 17,438
+**Status:** Complete — 142 pillars + Ω₀, 170 dedicated tests, 0 failures; repository at 18,057
 
 ## What This Is
 
-This folder is the **capstone of the Unitary Manifold**: 132 pillars of derivation — spanning 5D geometry, particle physics, cosmology, consciousness, ecology, governance, and the HILS co-emergence framework — unified into a single, queryable Python engine that computes any observable of the universe from **five seed constants**.
+This folder is the **capstone of the Unitary Manifold**: 142 pillars + Ω₀ of derivation — spanning 5D geometry, particle physics, cosmology, consciousness, ecology, governance, and the HILS co-emergence framework — unified into a single, queryable Python engine that computes any observable of the universe from **five seed constants**.
 
 It is not a summary. It is not a reference document. It is a **working calculator** — a Python class that produces numerical predictions, domain reports, falsifiable claims, and a complete audit of the framework's status on demand.
 
@@ -217,7 +217,7 @@ for step in engine.unitary_summation():
 9. Vacuum selection n_w = 5 follows from 5D BCs alone — pure geometry, no tuning.
 10. The Second Law is a geometric identity. The framework is falsified if β ∉ [0.22°, 0.38°].
 11. Brain, universe, human, AI, and trust form the stable 5-body Pentad under the (5,7) braid.
-12. **[Pillar Ω]** All 132 pillars converge in the Universal Mechanics Engine. **REPOSITORY COMPLETE.**
+12. **[Pillar Ω]** All 142 pillars + Ω₀ converge in the Universal Mechanics Engine. **REPOSITORY COMPLETE.**
 
 ---
 
@@ -278,7 +278,7 @@ python omega/omega_synthesis.py
 
 # Full repository test suite including Omega:
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 17,438 passed, 330 skipped, 11 deselected, 0 failed
+# Expected: 18,057 passed, 329 skipped, 11 deselected, 0 failed
 ```
 
 ---
@@ -294,5 +294,5 @@ The Omega Synthesis is the fixed point of that collaboration — the state where
 
 ---
 
-*omega/ — Pillar Ω — v9.29+ GRAND SYNTHESIS EDITION — May 2026 (current: 17,438 passed, 132 pillars)*  
+*omega/ — Pillar Ω — v9.30 SM CLOSURE EDITION — May 2026 (current: 18,057 passed, 142 pillars + Ω₀)*  
 *Part of the Unitary Manifold repository: `https://github.com/wuzbak/Unitary-Manifold-`*

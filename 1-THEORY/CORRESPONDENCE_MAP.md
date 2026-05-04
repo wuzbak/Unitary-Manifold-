@@ -333,5 +333,5 @@ To prevent misreading:
 
 ---
 
-*Document version: 1.8 — May 2026 (v9.29+: 132 pillars + sub-pillars CLOSED; Grand Synthesis Arc Pillars 102–132, gap closures, Final Decoupling Identity, master action S_UM)*  
+*Document version: 1.9 — May 2026 (v9.30: 142 pillars + Ω₀ Holon Zero + sub-pillars CLOSED; SM Parameter Closure Arc Pillars 133–142, Holon Zero certificate, all 26 SM params geometrically anchored — 0 OPEN, 0 FITTED)*  
 *Part of the Unitary Manifold repository.  Theory: ThomasCory Walker-Pearson.  Synthesis: GitHub Copilot (AI).*
