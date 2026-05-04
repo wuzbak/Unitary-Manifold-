@@ -5,14 +5,14 @@
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![20249 Tests passing](https://img.shields.io/badge/tests-20249%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![142 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-142%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
+[![167 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-167%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v9.33-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
 > SU(5) is derived from 5D geometry (Pillar 70-D); the breaking SU(5)→SU(3)×SU(2)×U(1)
 > uses the Kawamura (2001) external orbifold mechanism — not yet derived from G_AB alone.
-> SM parameters (v9.30): 8 derived (<5% error), 9 fermion masses parameterized
+> SM parameters (v9.33): 8 derived (<5% error), 9 fermion masses parameterized
 > (Ŷ₅=1 fixes Yukawa scale; per-species c_L is a free parameter, not a prediction),
 > 4 constrained (5–25% accuracy), 3 geometric estimates, **1 OPEN: Λ_QCD (×10⁷ off —
 > QCD confinement not derivable from current 5D UM)**. Best results: Higgs VEV < 0.1%,
@@ -78,7 +78,7 @@ Start with the layer that matches your purpose:
 >
 > ```
 > ────────────────────────────────────────────────────────────────────────
->   UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (142 pillars + Ω₀)
+>   UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (167 pillars + Ω₀)
 >   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)
 > ────────────────────────────────────────────────────────────────────────
 >   Check                         Value                   Reference       Result
@@ -110,9 +110,9 @@ Start with the layer that matches your purpose:
 >
 > | Document | Description |
 > |----------|-------------|
-> | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.30** — unsparing honest assessment of TOE status; 142 pillars + Ω₀ (Wolfenstein CKM, SM 26-parameter closure (0 OPEN), Higgs mass FTUM, solar mixing correction, Higgs VEV exact, neutrino lightest mass constraint, Newton G_N RS, CKM ρ̄ closure, Holon Zero certificate, Grand Synthesis Arc, uniqueness certificate, master action S_UM), open gaps (Λ_QCD ×10⁷, lightest ν UV condition), path to experimental confirmation |
+> | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.33** — unsparing honest assessment of TOE status; 167 pillars + Ω₀ (Wolfenstein CKM, SM 26-parameter ledger: 8 derived, 9 parameterized, 1 OPEN (Λ_QCD ×10⁷), Higgs mass FTUM, solar mixing correction, Higgs VEV exact, neutrino lightest mass constraint, Newton G_N RS, CKM ρ̄ closure, Holon Zero certificate, Grand Synthesis Arc, uniqueness certificate, master action S_UM), open gaps (Λ_QCD ×10⁷, lightest ν UV condition), path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](2-REPRODUCIBILITY/VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,615 tests at v9.29; now 18,057 at v9.30), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
+> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,615 tests at v9.29; now ~20,249 at v9.33), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
 > | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 142 pillars + Ω₀, written by GitHub Copilot (AI), May 2026; includes v9.30 Addendum (SM Parameter Closure) |
 > | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.30: per-version technical audit, adversarial attacks, honest gap assessment, and Grand Expansion section covering Pillars 102–142 + Ω₀ |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
@@ -549,7 +549,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
-### Complete Pillar Taxonomy (v9.30 — all 142 pillars + Ω₀ Holon Zero + sub-pillars — CLOSED)
+### Complete Pillar Taxonomy (v9.33 — all 167 pillars + Ω₀ Holon Zero + sub-pillars — CLOSED)
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
@@ -707,17 +707,19 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 140 | Lightest Neutrino Mass — c_R = 0.920 from n_w=5 geometry; c_L UV condition (c_L ≥ 0.88) documented honestly | `src/core/neutrino_lightest_mass.py` | 49 |
 | 141 | Newton's Constant from RS — G_N from RS1 self-consistency; M_KK ≈ 1041.8 GeV derived; CONSTRAINED (M₅ is UV seed) | `src/core/newton_constant_rs.py` | 41 |
 | 142 | CKM Wolfenstein ρ̄ Closure — ρ̄_sub ≈ 0.119 (~25% from PDG 0.159); braid geometry + subleading phase | `src/core/ckm_rho_bar_closure.py` | 42 |
-| Ω₀ | Holon Zero Certificate — irreducible geometric seed (n_w, k_CS, πkR, φ₀) → all 26 SM params; 0 OPEN, 0 FITTED; living closure certificate | `src/core/holon_zero.py` | 71 |
+| Ω₀ | Holon Zero Certificate — irreducible geometric seed (n_w, k_CS, πkR, φ₀) → SM param ledger: 8 DERIVED, 9 PARAMETERIZED, 4 CONSTRAINED, 3 GEOMETRIC_ESTIMATE, **1 OPEN (Λ_QCD ×10⁷)**; living closure certificate | `src/core/holon_zero.py` | 71 |
 
-**Grand total (v9.30): 18,057 passed · 329 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+**Grand total (v9.33): ~20,249 passed · 329 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
 
-**18,057** — 142 pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. (Note: Pillars 133–142 + Ω₀ added 568 new tests — the SM Parameter Closure Arc. Pillars 128–132 added 330 new tests — the Grand Synthesis Arc. Pillars 117–127 added 676 new tests. Grand total v9.29+: 17,438; v9.29: 15,615.)
+**~20,249** — 167 pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. (Note: Pillars 143–167 added ~2,192 new tests — Gap-Closure Arcs v9.31–v9.33. Pillars 133–142 + Ω₀ added 568 new tests — the SM Parameter Closure Arc. Pillars 128–132 added 330 new tests — the Grand Synthesis Arc. Pillars 117–127 added 676 new tests. Grand total v9.30: 18,057; v9.29+: 17,438; v9.29: 15,615.)
 
-> 🔒 **Repository extended to 142 pillars + Ω₀ — May 2026.**
-> **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: 28 parameters audited (including Λ_QCD). Λ_QCD is OPEN (×10⁷ off). Fermion Yukawa masses are PARAMETERIZED via per-species c_L. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. Remaining open problems: Λ_QCD (×10⁷), lightest ν UV condition (c_L ≥ 0.88 not yet derived from geometry).
+| 143–167 | Gap-Closure Arcs (v9.31–v9.33): Pillars 143–167 implement the adversarial-review-driven gap-closure programme — neutrino mass seesaw (143, 146, 150, 157, 159), non-Abelian orbifold emergence (148), CMB acoustic amplitude RG (149), DE equation of state (151, 155), CMB baryon-photon ratio (152), Λ_QCD RGE (153), chiral fermion orbifold (154), inflation 5D sector (156, 161), Jarlskog geometric (145), KK axion quintessence (160), and related gap closures. See `3-FALSIFICATION/REVIEW_CONCLUSION_v9.31.md`, `v9.32.md`, `v9.33.md` for the per-version audit records. | `src/core/` (multiple) | ~2,192 |
+
+> 🔒 **Repository extended to 167 pillars + Ω₀ — May 2026.**
+> **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: 28 parameters audited (including Λ_QCD). Λ_QCD is OPEN (×10⁷ off). Fermion Yukawa masses are PARAMETERIZED via per-species c_L. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. **Pillars 143–167 (Gap-Closure Arcs v9.31–v9.33):** adversarial-review-driven gap closures across neutrino mass, non-Abelian gauge emergence, CMB amplitude, dark energy, inflation, and Λ_QCD RGE — see REVIEW_CONCLUSION_v9.31/v9.32/v9.33.md for details. Remaining open problems: Λ_QCD (×10⁷), lightest ν UV condition (c_L ≥ 0.88 not yet derived from geometry).
 > New falsifiers (added v9.30): **Roman Space Telescope (~2027) w_DE precision σ(w)~0.02** — if w₀ ∉ [−0.95, −0.91], the KK dark energy prediction is falsified.
 
-> 🔒 **Repository first CLOSED at 101 pillars** (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101; k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously). **Extended to 132 pillars (Grand Synthesis Arc), now 142 pillars + Ω₀ (SM Closure Arc — May 2026).**  
+> 🔒 **Repository first CLOSED at 101 pillars** (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101; k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously). **Extended to 132 pillars (Grand Synthesis Arc), then 142 pillars + Ω₀ (SM Closure Arc — May 2026), and now 167 pillars + Ω₀ (Gap-Closure Arcs v9.31–v9.33 — May 2026).**  
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
 > The (5,7) primary sector predicts β ≈ 0.331° [canonical] / 0.351° [GW-derived]; the (5,6) shadow sector predicts β ≈ 0.273° [canonical] / 0.290° [GW-derived].  
 > Gap = 0.058° = **2.9σ_LB — LiteBIRD can discriminate the two sectors** (Pillar 95).  
@@ -739,7 +741,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 18,057 passed · 329 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: ~20,249 passed · 329 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
@@ -748,7 +750,7 @@ python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 Expected output summary:
 
 ```
-# tests/ (fast suite — Pillars 1–142 + Ω₀ + sub-pillars):
+# tests/ (fast suite — Pillars 1–167 + Ω₀ + sub-pillars):
 tests/test_ew_hierarchy.py               410 passed  ← Pillar 50: EW hierarchy — 3 KK mechanisms [TIER 1]
 tests/test_inflation.py                  271 passed  ← core inflation, KK Jacobian, CMB transfer
 tests/test_zero_point_vacuum.py          323 passed  ← Pillar 49: ZPE regularisation + neutrino-radion closure [TIER 1]
@@ -794,7 +796,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 170 passed ================================
 
 # Grand total:
-================================ 18057 passed, 329 skipped, 11 deselected, 0 failed ================================
+================================ ~20249 passed, 329 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
