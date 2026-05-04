@@ -182,13 +182,13 @@ class TestRgeAlphaSOneLoop:
         with pytest.raises(ValueError):
             rge_alpha_s_one_loop(0.1179, 91.19, -1.0, n_f=5)
 
-    def test_alpha_s_at_mz_from_gut_positive(self):
+    def test_alpha_s_upward_running_remains_positive(self):
         """Running UPWARD from M_Z to M_GUT should give positive α_s at M_GUT."""
         # Correct direction: run M_Z → M_GUT (upward, no Landau pole)
         alpha_s_gut = rge_alpha_s_one_loop(ALPHA_S_MZ_PDG, M_Z_GEV, M_GUT_GEV, n_f=5)
         assert alpha_s_gut > 0
 
-    def test_alpha_s_from_gut_in_reasonable_range(self):
+    def test_alpha_s_mz_to_gut_in_reasonable_range(self):
         """α_s at M_GUT from upward running should be in [0.01, 0.15]."""
         alpha_s_gut = rge_alpha_s_one_loop(ALPHA_S_MZ_PDG, M_Z_GEV, M_GUT_GEV, n_f=5)
         assert 0.01 < alpha_s_gut < 0.15

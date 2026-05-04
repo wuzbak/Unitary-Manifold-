@@ -122,7 +122,7 @@ N_S: float = 0.9635                    # CMB spectral index prediction
 R_BRAIDED: float = 0.0315             # Tensor-to-scalar ratio prediction
 BETA_DEG: float = 0.331               # Birefringence angle prediction (°)
 LAMBDA_QCD_PILLAR62_GEV: float = 1.0e7   # Old Pillar 62 (wrong starting point) — ×10⁷ gap
-LAMBDA_QCD_UM_GEV: float = 1.0e7         # Kept for backward compatibility
+LAMBDA_QCD_UM_GEV: float = LAMBDA_QCD_PILLAR62_GEV  # Backward-compat alias (deprecated)
 LAMBDA_QCD_OBS_GEV: float = 0.332        # Observed Λ_QCD ≈ 332 MeV (PDG, N_f=3)
 LAMBDA_QCD_GAP: float = LAMBDA_QCD_PILLAR62_GEV / LAMBDA_QCD_OBS_GEV  # ≈ 3×10⁷
 # Pillar 153: Λ_QCD is RESOLVED via GUT-scale RGE (n_w=5→SU(5)→α_GUT→α_s(M_Z)→Λ_QCD)

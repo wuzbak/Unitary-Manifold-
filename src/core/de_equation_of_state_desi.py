@@ -133,10 +133,12 @@ W_KK: float = -1.0 + (2.0 / 3.0) * C_S_BRAIDED ** 2
 DESI_DR2_W0: float = -0.838
 DESI_DR2_W0_SIGMA: float = 0.072
 
-#: DESI DR2 deviation from ΛCDM (w₀ = −1) in sigma
-#: The 3.9σ exclusion of ΛCDM comes from the joint (w₀, wₐ) fit
-#: with CMB + BAO + SNe, not just from w₀/σ(w₀).
-DESI_DR2_LCDM_TENSION_SIGMA: float = 3.9
+#: DESI DR2 deviation from ΛCDM (w₀ = −1) in sigma from the joint (w₀, wₐ) fit.
+#: NOTE: this 3.9σ value comes from combining DESI DR2 BAO + CMB + SNe with a
+#: CPL (w₀, wₐ) parametrization — it is NOT simply (w₀ − (−1)) / σ(w₀).
+#: The simple ratio (−0.838 − (−1)) / 0.072 ≈ 2.25σ understates the joint constraint.
+DESI_DR2_LCDM_TENSION_JOINT_SIGMA: float = 3.9
+DESI_DR2_LCDM_TENSION_SIGMA: float = DESI_DR2_LCDM_TENSION_JOINT_SIGMA  # backward-compat alias
 
 #: Planck 2018 + BAO w constraint (prior analysis used in Pillar 136)
 PLANCK_BAO_W: float = -1.03

@@ -164,11 +164,13 @@ PLANCK_SUM_MNU_EV: float = 0.12
 #: Conversion factor
 GEV_TO_EV: float = 1.0e9
 
-#: AdS curvature scale k [GeV] at UV brane (y=0)
-#: In the RS1 model, the UV brane (y=0) is at the AdS scale k ~ M_Pl.
-#: Fields on the UV brane see a mass scale of order k ~ M_Pl.
-#: (Note: the IR brane scale k_IR = k × e^{-πkR} ~ TeV is a different quantity.)
-K_ADS_GEV: float = M_PLANCK_GEV  # UV brane scale ≈ M_Pl
+#: UV brane mass scale k [GeV] at y=0 in the RS1 orbifold.
+#: In the RS1 model, fields localized on the UV brane (y=0) feel mass scales
+#: of order the 4D Planck mass M_Pl.  The warp factor e^{-ky} equals 1 at y=0,
+#: so there is no warping suppression at the UV brane.
+#: This is distinct from the IR brane scale k_IR = k × e^{-πkR} ~ TeV.
+K_UV_BRANE_GEV: float = M_PLANCK_GEV  # UV brane scale ≈ M_Pl
+K_ADS_GEV: float = K_UV_BRANE_GEV     # Backward-compat alias
 
 #: Nominal Yukawa coupling for seesaw estimate
 Y_DIRAC_DEFAULT: float = 1.0
