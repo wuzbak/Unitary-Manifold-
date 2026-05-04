@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.29 — ThomasCory Walker-Pearson, 2026 (132 pillars/modules + sub-pillars closed, ~17,438+ tests passing in tests/)*
+*Unitary Manifold v9.30 — ThomasCory Walker-Pearson, 2026 (142 pillars/modules + Ω₀ Holon Zero + sub-pillars closed, ~18,057+ tests passing)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 17,438 automated tests (132 pillars/modules + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 18,057 automated tests (142 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -48,7 +48,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "17,438 passed · 330 skipped · 0 failed," this is a statement about
+When the README badge reads "18,057 passed · 329 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -2249,7 +2249,7 @@ Braid pair (5,7) is the unique viable Z₂-parity-odd minimum-step pair (ARGUED 
 
 Pillar 132 (*The Grand Synthesis Identity*): The UM master action
 S_UM = ∫d⁵x√g [R₅/(16πG₅) + (k_cs/M_Pl³)×CS₅(A) + L_matter]
-is the capstone of all 132 pillars.  Varying with respect to each field recovers:
+is the capstone of all 132 pillars (now extended to 142 pillars + Ω₀ — v9.30).  Varying with respect to each field recovers:
 5D Einstein equations (metric), SM gauge equations (gauge field), 4D Dirac equation
 (fermion), FTUM fixed-point φ₀=π/4 (dilaton).  The completeness identity proves
 δS_UM/δΓ=0 ↔ O∘T bijection (Pillar 127): physics = geometry.  The sole remaining

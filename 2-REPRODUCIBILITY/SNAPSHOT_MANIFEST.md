@@ -18,8 +18,8 @@ future changes to the live repository.
 | Total files (excl. `.git`) | 728 |
 | Total size (excl. `.git`) | ~21 MB |
 | Version | v9.28 — Gap Closure |
-| Test suite | 17,438 passed · 330 skipped · 11 slow-deselected · 0 failed |
-| Pillars | 99 core + sub-pillars 70-C/99-B/15-F + Pillar Ω = complete |
+| Test suite | 18,057 passed · 329 skipped · 11 slow-deselected · 0 failed |
+| Pillars | 142 pillars + Ω₀ Holon Zero + sub-pillars = complete (v9.30) |
 
 ---
 
@@ -126,7 +126,7 @@ Full per-file breakdown includes all pillars 1–99 + Pillar 70-B + Ω.  Key fil
 | `tests/test_richardson_multitime.py` | 11 *(slow)* | Richardson extrapolation |
 | *(…and 130+ additional test files)* | | |
 
-**Grand total (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/):** 17,438 passed · 330 skipped · 11 slow-deselected · 0 failed
+**Grand total (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/):** 18,057 passed · 329 skipped · 11 slow-deselected · 0 failed
 
 ### Additional test suites
 
@@ -231,4 +231,4 @@ python scripts/create_archive.py
 
 ---
 
-*Snapshot manifest updated: 2026-05-01 — v9.29 (132 pillars + sub-pillars, 17,438 tests, 728+ files)*
+*Snapshot manifest updated: 2026-05-04 — v9.30 (142 pillars + Ω₀ Holon Zero + sub-pillars, 18,057 tests)*

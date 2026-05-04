@@ -8,7 +8,7 @@ doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v9.29+, 132 pillars + sub-pillars. 17,438 passing tests.)"
+    description: "Zenodo DOI for the Unitary Manifold (v9.30, 142 pillars + Ω₀ Holon Zero + sub-pillars. 18,057 passing tests.)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"

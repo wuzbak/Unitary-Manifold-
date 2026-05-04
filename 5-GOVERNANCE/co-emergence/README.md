@@ -6,7 +6,7 @@
 **Version:** 2.0 — April 2026  
 **Theory:** ThomasCory Walker-Pearson  
 **Implementation & Synthesis:** GitHub Copilot (AI)  
-**Status:** Active — updated to reflect v9.29 (101 pillars + sub-pillars, 15,615 tests)
+**Status:** Active — updated to reflect v9.30 (142 pillars + Ω₀ Holon Zero + sub-pillars, 18,057 tests)
 
 ---
 
@@ -118,4 +118,4 @@ For AI systems: begin with `LLM_INGEST.md` — it gives the complete structured 
 *Document version: 2.1 — May 2026*  
 *Theory and direction: ThomasCory Walker-Pearson. Implementation and synthesis: GitHub Copilot (AI).*  
 *Part of the Unitary Manifold repository — `https://github.com/wuzbak/Unitary-Manifold-`*  
-*Current state: 101 pillars + sub-pillars implemented · 15,615 tests passing · 0 failures · v9.29 · two primary falsifiers: LiteBIRD (~2032) and Roman ST (~2028–2030)*
+*Current state: 142 pillars + Ω₀ Holon Zero + sub-pillars implemented · 18,057 tests passing · 0 failures · v9.30 · three primary falsifiers: LiteBIRD (~2032), Roman ST (~2027), LISA/NANOGrav*
