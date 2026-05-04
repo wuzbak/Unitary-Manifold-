@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.30 — ThomasCory Walker-Pearson, 2026 (142 pillars/modules + Ω₀ Holon Zero + sub-pillars closed, ~18,057+ tests passing)*
+*Unitary Manifold v9.32 — ThomasCory Walker-Pearson, 2026 (161 pillars/modules + Ω₀ Holon Zero + sub-pillars closed, ~19,786+ tests passing)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 18,057 automated tests (142 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 19,786 automated tests (161 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -100,7 +100,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | **CS_LEVEL = 74** | Chern–Simons level for birefringence | k_eff = n₁²+n₂² algebraic theorem (Pillar 58); given braid pair (5,7), k_cs=74 follows with no additional free parameter | ✅ **Algebraically derived** (Pillar 58) — braid pair (5,7) traces back to n_w=5 + Z₂-step; residual dependence on Planck nₛ for the uniqueness of n_w |
 | β (canonical) ≈ 0.331° | Cosmic birefringence — (5,7) state | `birefringence_angle(74)` | **Derived, given k_CS = 74** |
 | β (alternate) ≈ 0.273° | Cosmic birefringence — (5,6) state | `birefringence_angle(61)` | **Derived, given k_CS = 61** — second viable triple-constraint state |
-| CMB amplitude A_s | Acoustic peak amplitude | Pillars 57+63: radion amplification × E-H baryon loading | ✅ **Amplitude gap closed** — ×4–7 suppression resolved |
+| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter) | ⚠️ **A_s normalization OPEN** — α not yet derivable from (n_w, k_CS, πkR). Acoustic peak amplitudes remain suppressed ×4.2–6.1 until α is fixed geometrically. RS correction (F_RS ≥ 1) enhances, not suppresses. |
 | CMB peak positions | Acoustic peak ℓ-values | Pillar 73: KK Boltzmann correction δ_KK ~ 8×10⁻⁴ | ⚠️ **Shape residual open** — requires full Boltzmann integration (standard CMB physics) |
 | Planck 2018 data | Validation | External | **Validation only — n_w is observationally selected (not freely fitted from a continuous range); k_CS is algebraically derived given (5,7)** |
 
@@ -436,21 +436,26 @@ is in **~2.5–3.3σ tension with current Planck+BAO constraints**:
 
 - Planck 2018 + BAO: w = −1.03 ± 0.03 (68% CL, flat ΛCDM+w)
 - DES Year-3 + Planck + BAO + SNe Ia: w = −0.98 ± 0.04 (DES 2022)
-- DESI Year-1 BAO (2024): w₀ = −0.99 ± 0.05
+- DESI DR2 BAO (2025): w₀ = −0.838 ± 0.10, wₐ = −0.62 ± 0.30 (CPL)
 
-At σ(w) = 0.03 (Planck+BAO), the tension |w_predicted − w_observed| / σ = |−0.9302 − (−1.03)| / 0.03 = 0.0998 / 0.03 ≈ 3.3σ.
-At σ(w) = 0.04 (DES), the tension = 0.0998 / 0.04 ≈ 2.5σ.
+At σ(w) = 0.03 (Planck+BAO), the tension |w_predicted − w_observed| / σ = |−0.9302 − (−1.03)| / 0.03 = 0.0998 / 0.03 ≈ 3.4σ.
 
-This is not a post-Roman-ST "awaiting test" situation — the existing data already
-exerts meaningful pressure.  The DESI 2024 two-parameter w₀w_a analysis (w₀ = −0.55
-± 0.39, w_a = −1.32 ± 1.1, combined with CMB+Pantheon+) is consistent with time-
-evolving dark energy at ~2.5σ, which is qualitatively compatible with w > −1 but
-does not specifically confirm w = −0.9302.
+**New (Pillar 160): wₐ tension.**  The UM predicts wₐ = 0 (frozen EW radion: m_r >> H₀).
+DESI DR2 CPL fit prefers wₐ = −0.62 ± 0.30.  Tension: 2.1σ.
 
-**Epistemic status:** The w_DE prediction is now **CONSTRAINED** (not merely
-"awaiting test") — it sits within 3σ of the Planck+BAO central value, which means
-the prediction is not ruled out but is under observational pressure.  The Roman Space
-Telescope will deliver σ(w) ~ 0.01–0.02, providing a definitive test.
+**Exhaustive search (Pillar 160):** No viable mechanism for wₐ ≠ 0 was found in the UM:
+- KK axion tower from EW sector: all modes m_n >> H₀ → all frozen → wₐ = 0.
+- DE-sector light radion: eliminated by Cassini PPN fifth-force constraint.
+- Multi-mode KK axion coherent sum: modes too heavy for coherent quintessence.
+
+**FORMAL DECLARATION (Pillar 160):** The dark energy equation of state (w₀, wₐ) is the
+UM's **secondary open falsification target** alongside CMB birefringence β.
+The Nancy Grace Roman Space Telescope (~2027, σ(w₀) ≈ 0.02, σ(wₐ) ≈ 0.10) will
+either confirm or falsify the UM DE predictions.
+
+**Epistemic status:** The w_DE prediction is **OPEN** — two active tensions remain:
+- w₀: 3.4σ from Planck+BAO (not ruled out, but under pressure)
+- wₐ: 2.1σ from DESI DR2 CPL; no viable UM mechanism for wₐ ≠ 0 found
 
 **Why the formula may be incorrect:** The identification w_KK = −1 + (2/3)c_s²
 conflates the braided sound speed of the inflationary era with the present-day dark
@@ -458,6 +463,8 @@ energy equation of state — two physically distinct quantities separated by ~60
 of evolution.  No derivation showing this identification holds across the full
 cosmological history is provided in the current framework.  This is an open theoretical
 gap.
+
+*Code: `src/core/kk_axion_quintessence.py` (Pillar 160), `tests/test_kk_axion_quintessence.py` (~70 tests).*
 
 ### 4.5 Interpretational risks
 
