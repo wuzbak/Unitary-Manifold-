@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.32 — ThomasCory Walker-Pearson, 2026 (161 pillars/modules + Ω₀ Holon Zero + sub-pillars closed, ~19,786+ tests passing)*
+*Unitary Manifold v9.33 — ThomasCory Walker-Pearson, 2026 (167 pillars/modules + Ω₀ Holon Zero + sub-pillars closed, ~20,249+ tests passing)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 19,786 automated tests (161 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 20,249 automated tests (167 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -100,7 +100,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | **CS_LEVEL = 74** | Chern–Simons level for birefringence | k_eff = n₁²+n₂² algebraic theorem (Pillar 58); given braid pair (5,7), k_cs=74 follows with no additional free parameter | ✅ **Algebraically derived** (Pillar 58) — braid pair (5,7) traces back to n_w=5 + Z₂-step; residual dependence on Planck nₛ for the uniqueness of n_w |
 | β (canonical) ≈ 0.331° | Cosmic birefringence — (5,7) state | `birefringence_angle(74)` | **Derived, given k_CS = 74** |
 | β (alternate) ≈ 0.273° | Cosmic birefringence — (5,6) state | `birefringence_angle(61)` | **Derived, given k_CS = 61** — second viable triple-constraint state |
-| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter) | ⚠️ **A_s normalization OPEN** — α not yet derivable from (n_w, k_CS, πkR). Acoustic peak amplitudes remain suppressed ×4.2–6.1 until α is fixed geometrically. RS correction (F_RS ≥ 1) enhances, not suppresses. |
+| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165: Casimir energy at GUT scale gives α_GW within factor ~5 of required → NATURALLY BOUNDED. | ⚠️ **A_s normalization NATURALLY BOUNDED** (Pillar 165) — α_GW naturally O(10⁻¹⁰) from Casimir energy; precise value is UV-brane initial condition. Acoustic peak amplitudes remain suppressed ×4.2–6.1 until α is fixed geometrically. |
 | CMB peak positions | Acoustic peak ℓ-values | Pillar 73: KK Boltzmann correction δ_KK ~ 8×10⁻⁴ | ⚠️ **Shape residual open** — requires full Boltzmann integration (standard CMB physics) |
 | Planck 2018 data | Validation | External | **Validation only — n_w is observationally selected (not freely fitted from a continuous range); k_CS is algebraically derived given (5,7)** |
 

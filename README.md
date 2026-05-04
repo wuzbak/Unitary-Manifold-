@@ -1,12 +1,12 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.30)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.33)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.30
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![18057 Tests passing](https://img.shields.io/badge/tests-18057%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![20249 Tests passing](https://img.shields.io/badge/tests-20249%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![142 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-142%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
-[![Version](https://img.shields.io/badge/version-v9.30-blue)](CITATION.cff)
+[![Version](https://img.shields.io/badge/version-v9.33-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
