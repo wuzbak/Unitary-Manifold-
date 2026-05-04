@@ -419,6 +419,14 @@ them systematically.
   for a specific choice of initial conditions, friction parameter γ = 5.0,
   and tolerance 10⁻⁶.  Convergence for all physically reasonable initial
   conditions has not been proven analytically.
+- The Banach contraction proof in  derives L < 1
+  under γ ≫ 1 and a specific network graph topology; it is not a generic
+  result for arbitrary γ or graph structure.  The "universal convergence"
+  demonstrated in  covers 192 sampled initial conditions,
+  not all possible initial conditions.  The FTUM operator U = I + H + T is
+  not demonstrated to be the exponential of a Hermitian operator; the
+  identification with the imaginary-time Schrödinger evolution e^{−Hτ/ℏ}
+  remains an analogy, not a theorem.
 
 ### 4.4 Dark energy equation of state — current observational pressure
 
@@ -910,9 +918,18 @@ give the correct absolute peak positions and heights from the UM framework.
 | Silk damping envelope | ✅ **Implemented** | `cmb_transfer.py` |
 | KK Boltzmann correction magnitude | ✅ **Quantified** | `cmb_boltzmann_peaks.py` δ_KK~8×10⁻⁴ |
 
-*Code reference:* `src/core/cmb_transfer.py` (Pillar 63, April 2026);
-`tests/test_cmb_transfer.py` (106 tests, 0 failed).  See also
-`cmb_amplitude.py` (Pillar 52) and `cmb_peaks.py` (Pillar 57).
+**Import caveat (Pillar 63):** The Eisenstein-Hu (1998) CDM transfer function
+with baryon loading is established standard cosmology published in 1998 — it
+has no derivation from the Unitary Manifold.  Applying it to improve the UM
+amplitude fit demonstrates consistency with standard CMB physics, but does
+NOT constitute a UM derivation of the CMB spectrum.  The correct description
+is: the UM provides the inflationary seed (n_s, r); post-recombination
+processing uses the established Boltzmann/transfer-function framework of
+standard cosmology.
+
+*Code reference:*  (Pillar 63, April 2026);
+ (106 tests, 0 failed).  See also
+ (Pillar 52) and  (Pillar 57).
 
 ---
 
@@ -1991,11 +2008,20 @@ derivations.  Specifically:
 or Pillar 83 (PMNS mixing).  The cosmological and particle physics pillars involve genuine
 derivations from the 5D action; the domain-extension pillars involve analogies.
 
-**Exception — Pillar 15-B (cold fusion / LENR):**  Pillar 15 is documented as a FALSIFIABLE
-prediction with explicit falsification criteria (`src/cold_fusion/falsification_protocol.py`).
-The claim is that φ-enhanced Gamow tunnelling *would* increase nuclear reaction rates if the
-UM geometry is correct.  This is a genuine falsifiable prediction, not merely an analogy, but
-it remains experimentally unverified.
+**Exception — Pillar 15-B (cold fusion / LENR) — ENGINEERING CONJECTURE:**
+Pillar 15 carries explicit falsification criteria (`src/cold_fusion/falsification_protocol.py`).
+The COP > 1 predictions are falsifiable engineering conjectures, NOT derivations from the
+current 5D UM mathematics.  Key unresolved gaps:
+
+  1. No field-theoretic vertex coupling the KK radion (m_φ ~ M_KK ~ 10¹⁸ GeV) to Pd
+     lattice phonon modes at 300 K has been computed.  The Compton wavelength of the
+     radion is ~10⁻³⁵ m; the lattice scale is ~10⁻¹⁰ m — a 10²⁵ scale mismatch.
+  2. Functions `lattice_coherence_gain()` and `ignition_N()` are stubs withheld per
+     `DUAL_USE_NOTICE.md`; the COP predictions cannot be independently verified.
+
+The claim that φ-enhanced Gamow tunnelling would increase nuclear reaction rates is
+physically motivated but NOT derivable from the current UM geometry.  It remains
+experimentally unverified and theoretically ungrounded at the vertex level.
 
 **Status:** DOCUMENTED — all Pillars 10–26 carry the label "FORMAL ANALOGY" in this record.
 The cosmological sector (Pillars 27+) contains the physically grounded derivations.

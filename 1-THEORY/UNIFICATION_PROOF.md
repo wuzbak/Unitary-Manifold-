@@ -526,9 +526,12 @@ does not produce the full Standard Model gauge group; this is honestly documente
              Yang-Mills equations
              (Standard Model forces)
                      │
-                     │ KK tower spectrum
+                     │ KK zero mode (S¹ compactification)
                      ▼
-          Photon + W/Z + Gluons
+          Photon — U(1) zero mode of B_μ
+          [W/Z and gluons require SU(2)×SU(3);
+           a 5D U(1) does NOT produce these —
+           see Gap 5 and Witten (1981)]
                      │
                      │ fixed-point theorem
                      ▼
@@ -555,7 +558,7 @@ does not produce the full Standard Model gauge group; this is honestly documente
 | `k_cs = 74` | Integer quantization of CS level | `test_e2e_pipeline.py` |
 | `S ≤ A/4G` (Bekenstein bound) | Heisenberg uncertainty `ΔEΔt ≥ ℏ/2` | `fixed_point.py: apply_holography` |
 | KK zero mode of `B_μ` | Photon | `metric.py: assemble_5d_metric` |
-| KK tower of `B_μ` | W, Z, gluons | `metric.py: assemble_5d_metric` |
+| KK zero mode of `B_μ` | Photon — U(1) zero mode (only; W/Z/gluons require SU(2)×SU(3) — not produced by 5D U(1), see Gap 5) | `metric.py: assemble_5d_metric` |
 
 ---
 
@@ -735,7 +738,7 @@ The five gaps identified in independent technical review and their current statu
 | Gap 2 | φ² = Born rule | Identification only | **STRUCTURALLY IMPROVED** — J^μ_inf = φ²u^μ satisfies all necessary conditions (conservation, positive definite density, correct continuity equation). The remaining gap is the measurement postulate shared by all interpretations of QM. |
 | Gap 3 | UEUM → Schrödinger equation | Reverse-engineered | **PARTIALLY RESOLVED** — The forward derivation path is: 5D action → canonical quantisation → path integral → stationary phase → non-relativistic limit → Schrödinger equation. The postulate is step 2 (canonical quantisation), not step 5. See `src/core/im_action.py:schrodinger_derivation_steps()`. |
 | Gap 4 | λBμ = Aμ is assumed | Undemonstrated assumption | **RESOLVED** — It is a theorem, not an assumption. The 5D geodesic equation decomposes EXACTLY (machine precision) as: acc_5D = acc_gravity + acc_Lorentz + acc_radion. The Lorentz force with A_μ = λBμ emerges from the cross-term −2Γ^μ_{ν5}u^ν u^5 without any additional input. See `src/core/kk_geodesic_reduction.py` and `tests/test_kk_geodesic_reduction.py`. |
-| Gap 5 | KK tower = Standard Model | Unsupported | **PARTIALLY RESOLVED** — U(1) electromagnetism IS produced by the 5D S¹ compactification (photon = zero mode of Bμ, rigorously). SU(2) and SU(3) are NOT produced by the current 5D theory. Witten (1981) proved a minimum of 11 dimensions is needed for the full SM with chiral fermions. The overclaim in Part VIII is corrected. See `src/core/kk_gauge_spectrum.py`. |
+| Gap 5 | KK tower = Standard Model | Unsupported | **RESOLVED (partial)** — U(1) electromagnetism IS produced by the 5D S¹ compactification (photon = zero mode of Bμ, rigorously). SU(2) and SU(3) are NOT produced by the current 5D theory — Witten (1981) proved ≥11 dimensions are needed for the full SM with chiral fermions. The §IX diagram and correspondence table have been corrected to state this explicitly. The UM produces U(1) only; G_SM requires additional compact structure. See `src/core/kk_gauge_spectrum.py`. |
 
 ### What the gap analysis confirms
 

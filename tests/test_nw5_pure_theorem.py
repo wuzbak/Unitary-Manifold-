@@ -489,7 +489,9 @@ class TestFullNw5ProofSummary:
         self.result = full_nw5_proof_summary()
 
     def test_status_fully_proved(self):
-        assert "FULLY PROVED" in self.result["status_after_pillar_70D"]
+        # Now correctly labelled as CONDITIONAL THEOREM (Axiom A required)
+        status = self.result["status_after_pillar_70D"]
+        assert "CONDITIONAL THEOREM" in status or "CONDITIONAL" in status
 
     def test_seven_levels(self):
         assert len(self.result["levels"]) == 7
@@ -520,8 +522,9 @@ class TestFullNw5ProofSummary:
         assert "EMPIRICAL" in self.result["levels"][7]["status"]
 
     def test_conclusion_no_observation_needed(self):
-        assert "no observational input" in self.result["conclusion"].lower() or \
-               "observation" in self.result["conclusion"].lower()
+        # Conclusion now correctly states the conditional nature and Planck nₛ role
+        conclusion = self.result["conclusion"].lower()
+        assert "conditional" in conclusion or "observation" in conclusion or "axiom" in conclusion
 
     def test_theorem_core_proved(self):
         assert self.result["theorem_core"]["status"] == "PROVED"

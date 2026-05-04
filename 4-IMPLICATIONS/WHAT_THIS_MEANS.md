@@ -66,11 +66,11 @@ A philosophical claim without numbers is philosophy, not physics. This framework
 
 ### 1. The CMB Spectral Index: nₛ ≈ 0.9635
 
-The cosmic microwave background — the oldest light in the universe — encodes the spectral tilt of primordial density fluctuations. Planck 2018 measures nₛ = 0.9649 ± 0.0042. The Unitary Manifold derives nₛ ≈ 0.9635 from first principles via the 5D→4D Kaluza-Klein Jacobian J = n_w · 2π · √φ₀ ≈ 31.42 ≈ 32. This is within Planck 1σ. No free parameters were adjusted to achieve this — it follows from the dimensional reduction.
+The cosmic microwave background — the oldest light in the universe — encodes the spectral tilt of primordial density fluctuations. Planck 2018 measures nₛ = 0.9649 ± 0.0042. The Unitary Manifold derives nₛ ≈ 0.9635 via the 5D→4D Kaluza-Klein Jacobian J = n_w · 2π · √φ₀ ≈ 31.42 ≈ 32. This is within Planck 1σ. Epistemically: n_w=5 is selected in part by consistency with Planck nₛ, so the derivation is a self-consistency check rather than a pure prediction from first principles. The chain is not circular — the Jacobian derivation is independent — but the n_w=5 selection uses Planck nₛ as one input.
 
 ### 2. Cosmic Birefringence: β = 0.3513°
 
-In 2020–2022, Minami & Komatsu and Diego-Palazuelos et al. reported a hint of a cosmic rotation of CMB polarisation by β ≈ 0.35° ± 0.14°. This anomaly — cosmic birefringence — has no explanation in standard ΛCDM. The Unitary Manifold predicts β = 0.3513° from the Chern-Simons level k_cs = 74 of the irreversibility field's topological coupling. The integer k = 74 uniquely minimises |β(k) − 0.35°| over all integers k ∈ [1, 100].
+In 2020–2022, Minami & Komatsu and Diego-Palazuelos et al. reported a hint of a cosmic rotation of CMB polarisation by β ≈ 0.35° ± 0.14°. This anomaly — cosmic birefringence — has no explanation in standard ΛCDM. The Unitary Manifold predicts β ∈ {≈0.273°, ≈0.331°} (canonical) / {≈0.290°, ≈0.351°} (derived) from the Chern-Simons level k_cs = 74 of the irreversibility field's topological coupling. The value β ≈ 0.3513° (GW-derived sector) lies within the Minami 1σ hint. Epistemically: k_CS=74 was initially identified by matching the birefringence observation and then derived algebraically as 5²+7²; the ahead-of-time testable predictions are the two canonical values {≈0.273°, ≈0.331°}, which LiteBIRD will test decisively.
 
 ### 3. The Nonminimal Coupling: α = φ₀⁻²
 

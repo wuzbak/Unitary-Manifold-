@@ -67,39 +67,39 @@ PARAM_UPDATES: dict[str, dict] = {
     },
     "P6": {
         "name": "m_u (up quark mass)",
-        "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L is per-species free parameter, Pillar 93/97)",
         "pillar": "93/97",
-        "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+        "accuracy_pct_or_note": "Yukawa scale fixed geometrically; individual c_L tuned per species",
     },
     "P7": {
         "name": "m_d (down quark mass)",
-        "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L is per-species free parameter, Pillar 93/97)",
         "pillar": "93/97",
-        "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+        "accuracy_pct_or_note": "Yukawa scale fixed geometrically; individual c_L tuned per species",
     },
     "P8": {
         "name": "m_s (strange quark mass)",
-        "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L is per-species free parameter, Pillar 93/97)",
         "pillar": "93/97",
-        "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+        "accuracy_pct_or_note": "Yukawa scale fixed geometrically; individual c_L tuned per species",
     },
     "P9": {
         "name": "m_c (charm quark mass)",
-        "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 97/98)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L is per-species free parameter, Pillar 97/98)",
         "pillar": "97/98",
-        "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+        "accuracy_pct_or_note": "Yukawa scale fixed geometrically; individual c_L tuned per species",
     },
     "P10": {
         "name": "m_b (bottom quark mass)",
-        "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 97/98)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L is per-species free parameter, Pillar 97/98)",
         "pillar": "97/98",
-        "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+        "accuracy_pct_or_note": "Yukawa scale fixed geometrically; individual c_L tuned per species",
     },
     "P11": {
         "name": "m_t (top quark mass)",
-        "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_R=0.920 from n_w=5; c_L per-species, Pillar 93/97)",
         "pillar": "93/97",
-        "accuracy_pct_or_note": "Yukawa scale fixed; c_R=0.920 from n_w=5",
+        "accuracy_pct_or_note": "c_R fixed by n_w=5 geometry; c_L per species is a free parameter",
     },
     "P12": {
         "name": "λ_CKM (Wolfenstein lambda / Cabibbo angle)",
@@ -127,21 +127,21 @@ PARAM_UPDATES: dict[str, dict] = {
     },
     "P16": {
         "name": "m_e (electron mass)",
-        "status": "GEOMETRIC PREDICTION (< 0.5%, Pillar 97)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L per-species, Pillar 97)",
         "pillar": 97,
-        "accuracy_pct_or_note": "< 0.5%",
+        "accuracy_pct_or_note": "< 0.5% accuracy; c_L is a free parameter chosen to match",
     },
     "P17": {
         "name": "m_μ (muon mass)",
-        "status": "GEOMETRIC PREDICTION (via Ŷ₅=1, Pillar 97/98)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L per-species, Pillar 97/98)",
         "pillar": "97/98",
-        "accuracy_pct_or_note": "from c_L hierarchy",
+        "accuracy_pct_or_note": "from c_L hierarchy; c_L is a free parameter per species",
     },
     "P18": {
         "name": "m_τ (tau mass)",
-        "status": "GEOMETRIC PREDICTION (via Ŷ₅=1, Pillar 97/98)",
+        "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L per-species, Pillar 97/98)",
         "pillar": "97/98",
-        "accuracy_pct_or_note": "from c_L hierarchy",
+        "accuracy_pct_or_note": "from c_L hierarchy; c_L is a free parameter per species",
     },
     "P19": {
         "name": "m_ν₁ (lightest neutrino mass)",
@@ -197,12 +197,29 @@ PARAM_UPDATES: dict[str, dict] = {
         "pillar": 141,
         "accuracy_pct_or_note": "M₅ is UV input; RS + πkR=37 self-consistent",
     },
+    "P_QCD": {
+        "name": "Λ_QCD (QCD confinement scale)",
+        "status": "OPEN (×10⁷ error; QCD confinement scale not derivable from current 5D UM geometry)",
+        "pillar": "—",
+        "accuracy_pct_or_note": "Framework predicts ~10¹² GeV vs observed ~0.2 GeV; 7 orders off",
+    },
 }
 
 
 def grand_sync_toe_score() -> dict:
-    """Tally the UM's coverage of the 26 SM parameters by status category."""
+    """Tally the UM's coverage of the SM parameters by status category.
+
+    Categories:
+      DERIVED           — < 5% error, no free bulk mass per species
+      PARAMETERIZED     — Yukawa scale geometrically fixed but c_L is a
+                          per-species free parameter (fitting, not prediction)
+      CONSTRAINED       — 5–25% accuracy, externally-anchored UV input
+      GEOMETRIC ESTIMATE — order-of-magnitude estimate
+      OPEN              — not derivable from current UM mathematics
+      FITTED            — (legacy; currently unused)
+    """
     derived = 0
+    parameterized = 0
     geometric_prediction = 0
     constrained = 0
     geometric_estimate = 0
@@ -211,7 +228,9 @@ def grand_sync_toe_score() -> dict:
 
     for info in PARAM_UPDATES.values():
         s = info["status"].upper()
-        if "DERIVED" in s:
+        if "PARAMETERIZED" in s:
+            parameterized += 1
+        elif "DERIVED" in s:
             derived += 1
         elif "GEOMETRIC PREDICTION" in s:
             geometric_prediction += 1
@@ -228,19 +247,20 @@ def grand_sync_toe_score() -> dict:
     geometrically_anchored = derived + geometric_prediction + geometric_estimate + constrained
     fraction = geometrically_anchored / total
 
-    if open_count == 0 and fitted == 0:
-        verdict = (
-            "ALL 26 SM parameters geometrically anchored. "
-            "Zero remain OPEN or FITTED. "
-            "Accuracy varies: some < 1%, some ~10–25%."
-        )
-    else:
-        verdict = (
-            f"{open_count} OPEN and {fitted} FITTED parameters remain."
-        )
+    verdict = (
+        f"{derived} parameters derived (<5% error, no per-species free params); "
+        f"{parameterized} parameterized (Ŷ₅=1 fixes Yukawa scale, c_L per species is free); "
+        f"{constrained} constrained (5–25% accuracy or UV input); "
+        f"{geometric_estimate} geometric estimates; "
+        f"{open_count} OPEN (not derivable from current UM). "
+        "Yukawa fermion masses use per-species bulk mass c_L — this is "
+        "parameterization, not geometric prediction. "
+        "Λ_QCD is 7 orders of magnitude off and remains OPEN."
+    )
 
     return {
         "derived_count": derived,
+        "parameterized_count": parameterized,
         "geometric_prediction_count": geometric_prediction,
         "constrained_count": constrained,
         "geometric_estimate_count": geometric_estimate,
@@ -258,11 +278,12 @@ def grand_sync_report() -> dict:
     summary = (
         f"Pillar 137 Grand Sync: {score['total']} SM parameters audited. "
         f"Derived={score['derived_count']}, "
+        f"Parameterized={score['parameterized_count']}, "
         f"Geometric Prediction={score['geometric_prediction_count']}, "
         f"Constrained={score['constrained_count']}, "
         f"Geometric Estimate={score['geometric_estimate_count']}. "
         f"Open={score['open_count']}, Fitted={score['fitted_count']}. "
-        f"Fraction anchored={score['fraction_geometrically_anchored']:.3f}. "
+        f"Fraction derived/constrained (excl. parameterized)={score['fraction_geometrically_anchored']:.3f}. "
         f"Verdict: {score['toe_verdict']}"
     )
     return {

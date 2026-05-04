@@ -12,11 +12,14 @@
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
 > SU(5) is derived from 5D geometry (Pillar 70-D); the breaking SU(5)→SU(3)×SU(2)×U(1)
 > uses the Kawamura (2001) external orbifold mechanism — not yet derived from G_AB alone.
-> All 26 SM parameters are now geometrically anchored (v9.30 — 0 OPEN, 0 FITTED); accuracy varies
-> from < 0.1% (Higgs VEV) to ~25% (CKM ρ̄). The lightest neutrino mass UV condition (c_L ≥ 0.88)
-> and Λ_QCD (×10⁷ off) remain as explicitly documented open problems.
-> n_w = 5 uniqueness is a **pure theorem** from 5D geometry (Pillar 70-D); Planck nₛ
-> provides an independent empirical confirmation at 0.33σ.
+> SM parameters (v9.30): 8 derived (<5% error), 9 fermion masses parameterized
+> (Ŷ₅=1 fixes Yukawa scale; per-species c_L is a free parameter, not a prediction),
+> 4 constrained (5–25% accuracy), 3 geometric estimates, **1 OPEN: Λ_QCD (×10⁷ off —
+> QCD confinement not derivable from current 5D UM)**. Best results: Higgs VEV < 0.1%,
+> CKM CP phase 0.99σ. See `FALLIBILITY.md` for the full honest ledger.
+> n_w = 5 uniqueness is a **conditional theorem** from 5D geometry (Pillar 70-D),
+> conditional on Axiom A (Z₂-odd CS boundary phase, asserted not derived);
+> Planck nₛ provides the observational discriminator between n_w=5 and n_w=7.
 > See [`FALLIBILITY.md`](FALLIBILITY.md) and
 > [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) for the
 > precise epistemic record.
@@ -353,7 +356,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > | Tier | Content | What tests prove |
 > |------|---------|-----------------|
 > | **1 — Physics Core** | KK geometry, CMB predictions, α derivation | Code is correct AND predictions match real observational data |
-> | **2 — Speculative Extensions** | BH transceiver, particles, dark matter, cold fusion | Model is internally self-consistent; NOT empirically confirmed |
+> | **2 — Speculative Extensions** | BH transceiver, particles, dark matter, cold fusion (**⚠️ ENGINEERING CONJECTURE** — COP predictions not derivable from current 5D UM; phonon-radion vertex at 10²⁵ scale mismatch unresolved; see `FALLIBILITY.md`) | Model is internally self-consistent; NOT empirically confirmed; cold fusion module has no field-theoretic vertex derivation |
 > | **3 — Analogical Applications** | Medicine, justice, governance, ecology, climate, … | Code faithfully implements the stated analogy; says NOTHING about physical truth of the analogy |
 >
 > The authoritative separation is in **[SEPARATION.md](5-GOVERNANCE/SEPARATION.md)**.  
@@ -698,7 +701,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 134 | Higgs Mass Closure — λ_H^tree = n_w²/(2k_CS) + one-loop top-Yukawa RGE; m_H ≈ 123.2 GeV (1.66% from PDG) | `src/core/higgs_mass_closure.py` | 55 |
 | 135 | Neutrino Mass Splittings — RS Dirac zero-mode framework; Δm²₃₁/Δm²₂₁ ≈ 36 (10.5% off PDG); Σm_ν < 120 meV verified | `src/core/neutrino_mass_splittings.py` | 57 |
 | 136 | KK Radion Dark Energy — corrected EoS w_KK ≈ −0.9302; consistent DESI DR2 (0.11σ); tension Planck+BAO (3.3σ); Roman ST falsifier | `src/core/kk_radion_dark_energy.py` | 46 |
-| 137 | SM Parameter Grand Synchronization — authoritative 26-param ledger: 8 DERIVED, 11 GEOMETRIC_PREDICTION, 4 CONSTRAINED, 3 GEOMETRIC_ESTIMATE, 0 OPEN, 0 FITTED | `src/core/sm_parameter_grand_sync.py` | 54 |
+| 137 | SM Parameter Grand Synchronization — authoritative ledger: 8 DERIVED, 9 PARAMETERIZED (c_L per species), 4 CONSTRAINED, 3 GEOMETRIC_ESTIMATE, **1 OPEN (Λ_QCD ×10⁷)** | `src/core/sm_parameter_grand_sync.py` | 54 |
 | 138 | Solar Mixing Angle Closure — sin²θ₁₂ = 1/3 − 1/(6n_w) + 1/(6k_CS) ≈ 0.3022 (1.55% from PDG) | `src/core/solar_mixing_closure.py` | 47 |
 | 139 | Higgs VEV Exact — v_pred ≈ 245.96 GeV (0.10% from PDG 246.22 GeV); tightest SM prediction in framework | `src/core/higgs_vev_exact.py` | 43 |
 | 140 | Lightest Neutrino Mass — c_R = 0.920 from n_w=5 geometry; c_L UV condition (c_L ≥ 0.88) documented honestly | `src/core/neutrino_lightest_mass.py` | 49 |
@@ -711,7 +714,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 **18,057** — 142 pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. (Note: Pillars 133–142 + Ω₀ added 568 new tests — the SM Parameter Closure Arc. Pillars 128–132 added 330 new tests — the Grand Synthesis Arc. Pillars 117–127 added 676 new tests. Grand total v9.29+: 17,438; v9.29: 15,615.)
 
 > 🔒 **Repository extended to 142 pillars + Ω₀ — May 2026.**
-> **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: all 26 parameters audited, 0 OPEN, 0 FITTED. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. Remaining open problems: Λ_QCD (×10⁷), lightest ν UV condition (c_L ≥ 0.88 not yet derived from geometry).
+> **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: 28 parameters audited (including Λ_QCD). Λ_QCD is OPEN (×10⁷ off). Fermion Yukawa masses are PARAMETERIZED via per-species c_L. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. Remaining open problems: Λ_QCD (×10⁷), lightest ν UV condition (c_L ≥ 0.88 not yet derived from geometry).
 > New falsifiers (added v9.30): **Roman Space Telescope (~2027) w_DE precision σ(w)~0.02** — if w₀ ∉ [−0.95, −0.91], the KK dark energy prediction is falsified.
 
 > 🔒 **Repository first CLOSED at 101 pillars** (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101; k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously). **Extended to 132 pillars (Grand Synthesis Arc), now 142 pillars + Ω₀ (SM Closure Arc — May 2026).**  
@@ -767,13 +770,13 @@ tests/test_ckm_cp_subleading.py           63 passed  ← Pillar 133: CKM CP subl
 tests/test_higgs_mass_closure.py          55 passed  ← Pillar 134: Higgs mass from FTUM quartic + RGE (1.66%) [TIER 1]
 tests/test_neutrino_mass_splittings.py    57 passed  ← Pillar 135: neutrino Δm² ratio from RS (10.5%) [TIER 1]
 tests/test_kk_radion_dark_energy.py       46 passed  ← Pillar 136: KK EoS w≈-0.930; DESI DR2 0.11σ [TIER 1]
-tests/test_sm_parameter_grand_sync.py     54 passed  ← Pillar 137: SM Grand Sync — 0 OPEN, 0 FITTED [TIER 1]
+tests/test_sm_parameter_grand_sync.py     54 passed  ← Pillar 137: SM Grand Sync — 1 OPEN (Λ_QCD), 9 PARAMETERIZED [TIER 1]
 tests/test_solar_mixing_closure.py        47 passed  ← Pillar 138: sin²θ₁₂ = 1/3-1/30+1/444 (1.55%) [TIER 1]
 tests/test_higgs_vev_exact.py             43 passed  ← Pillar 139: Higgs VEV 0.10% accuracy [TIER 1]
 tests/test_neutrino_lightest_mass.py      49 passed  ← Pillar 140: lightest ν, c_L UV condition documented [TIER 1]
 tests/test_newton_constant_rs.py          41 passed  ← Pillar 141: G_N from RS self-consistency [TIER 1]
 tests/test_ckm_rho_bar_closure.py         42 passed  ← Pillar 142: CKM ρ̄ closure (~25%) [TIER 1]
-tests/test_holon_zero.py                  71 passed  ← Ω₀: Holon Zero — all 26 params, 0 OPEN [TIER 1]
+tests/test_holon_zero.py                  71 passed  ← Ω₀: Holon Zero — geometric seed; Λ_QCD OPEN [TIER 1]
 tests/test_unitary_closure.py             59 passed  ← Pillar 96: Unitary Closure [TIER 1]
 tests/test_dual_sector_convergence.py     93 passed  ← Pillar 95: (5,6) β=0.273° proved [TIER 1]
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]

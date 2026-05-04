@@ -38,7 +38,8 @@ What is verified
                              derived from CS inflow (Pillar 70-B)
 12. Completeness theorem   — all 7 independent constraints yield k_CS = 74
                              (Pillar 74 capstone)
-13. Dark energy w_KK       — w_KK ≈ −0.9302 within DESI DR2 1σ (Pillar 66)
+13. Dark energy w_KK       — w_KK ≈ −0.9302: DESI DR2 0.1σ [PASS];
+                              Planck+BAO 3.2σ [TENSION]; DES Y3 1.2σ [see note]
 14. φ₀ FTUM bridge         — explicit FTUM → φ₀_bare = 1 chain consistent
                              (Pillar 56-B)
 
@@ -293,20 +294,48 @@ def run_verify() -> int:
                "Pillar 74", c12))
 
     # ------------------------------------------------------------------
-    # CHECK 13 — Dark energy EoS w_KK within DESI DR2 1σ (Pillar 66)
+    # CHECK 13 — Dark energy EoS w_KK: multi-dataset tension report
     #
     # The stabilised KK zero-mode predicts:
     #   w_KK = −1 + (2/3) c_s² ≈ −0.9302   [no free parameters]
-    # DESI DR2 (w₀CDM): w₀ = −0.92 ± 0.09  →  tension < 0.1σ
+    #
+    # CAVEAT: w_KK uses the inflationary-era braided sound speed c_s.
+    # The identification with the present-day dark energy EoS is an
+    # ansatz — no derivation spanning ~60 e-folds from inflation to
+    # today exists (see FALLIBILITY.md §4.4).
+    #
+    # Dataset tensions (all compared against w_KK ≈ −0.9302):
+    #   Planck 2018 + BAO:  w = −1.03 ± 0.03  →  3.2σ  [TENSION]
+    #   DES Y3 + Planck + BAO + SNe Ia:
+    #                       w = −0.98 ± 0.04  →  1.2σ  [MARGINAL]
+    #   DESI DR2 (w₀CDM):  w = −0.92 ± 0.09  →  0.11σ [PASS]
+    #
+    # Primary pass/fail uses the most recent published result (DESI DR2).
+    # Planck+BAO tension is the most constraining and is printed for
+    # full transparency.
     # ------------------------------------------------------------------
     w_kk = roman_um_dark_energy_eos(5, 7)
     desi_pull = abs(w_kk - W0_DESI_DR2) / SIGMA_W0_DESI_DR2
+    # Planck 2018 + BAO
+    W0_PLANCK_BAO = -1.03
+    SIGMA_PLANCK_BAO = 0.03
+    planck_pull = abs(w_kk - W0_PLANCK_BAO) / SIGMA_PLANCK_BAO
+    # DES Year-3 + Planck + BAO + SNe Ia
+    W0_DES_Y3 = -0.98
+    SIGMA_DES_Y3 = 0.04
+    des_pull = abs(w_kk - W0_DES_Y3) / SIGMA_DES_Y3
     c13 = desi_pull <= 1.0
     checks.append(c13)
-    ref13 = f"{W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}"
-    print(_row(13, "w_KK vs DESI DR2 (1σ)",
-               f"{w_kk:.4f}  ({desi_pull:.2f}σ)",
+    ref13 = f"DESI DR2 {W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}"
+    print(_row(13, "w_KK multi-dataset",
+               f"{w_kk:.4f} (DESI: {desi_pull:.2f}σ)",
                ref13, c13))
+    print(f"      ├─ Planck2018+BAO: w={W0_PLANCK_BAO}±{SIGMA_PLANCK_BAO}  "
+          f"→ {planck_pull:.1f}σ  [{'PASS' if planck_pull <= 1.0 else 'TENSION'}]")
+    print(f"      ├─ DES Y3+Pl+BAO:  w={W0_DES_Y3}±{SIGMA_DES_Y3}  "
+          f"→ {des_pull:.1f}σ  [{'PASS' if des_pull <= 1.0 else 'MARGINAL' if des_pull <= 2.0 else 'TENSION'}]")
+    print(f"      └─ DESI DR2:       w={W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}  "
+          f"→ {desi_pull:.2f}σ  [PASS — primary check]")
 
     # ------------------------------------------------------------------
     # CHECK 14 — φ₀ FTUM bridge (Pillar 56-B)
