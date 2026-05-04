@@ -22,7 +22,8 @@ the braided-winding mechanism.
 
 | File | Purpose |
 |------|---------|
-| **`INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md`** | **Independent adversarial review (May 2026) — 15 parallel investigation teams, full test-suite execution, hand-verified mathematics, competitor comparison, stress testing; explicit prove/disprove verdicts** |
+| **`ADVERSARIAL_PEER_REVIEW_2026-05-04.md`** | **Adversarial peer review (May 2026, v9.30) — external-referee posture (IAS/Cambridge/Caltech level); claim-by-claim breakdown; explicit severity ratings; full falsification register and path-to-publication requirements** |
+| **`INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md`** | Independent adversarial review (May 2026, v9.28) — 15 parallel investigation teams, full test-suite execution, hand-verified mathematics, competitor comparison, stress testing; explicit prove/disprove verdicts |
 | `prediction.md` | All current quantitative predictions with their falsification thresholds |
 | `AUTOMATED_PEER_REVIEW.md` | Automated adversarial review of each major claim |
 | `REVIEW_CONCLUSION.md` | First-pass review conclusions with issue tracking |
