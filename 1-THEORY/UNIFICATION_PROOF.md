@@ -6,7 +6,7 @@
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
 **Date:** April 2026  
-**Repository version:** v9.30 (142 pillars + Ω₀ Holon Zero + sub-pillars, 18,057 tests)  
+**Repository version:** v9.33 (167 pillars + Ω₀ Holon Zero + sub-pillars, ~20,249 tests)  
 **Status:** Formal derivation attempt — all steps grounded in equations already implemented in this repository.
 **See [Part XII](#part-xii--critical-review-where-identifications-replace-derivations) for known gaps where identifications are made rather than derivations completed.**
 
@@ -557,7 +557,6 @@ does not produce the full Standard Model gauge group; this is honestly documente
 | `Q_top ∈ ℤ` | Chern class / Dirac quantization | `fixed_point.py: Q_top` |
 | `k_cs = 74` | Integer quantization of CS level | `test_e2e_pipeline.py` |
 | `S ≤ A/4G` (Bekenstein bound) | Heisenberg uncertainty `ΔEΔt ≥ ℏ/2` | `fixed_point.py: apply_holography` |
-| KK zero mode of `B_μ` | Photon | `metric.py: assemble_5d_metric` |
 | KK zero mode of `B_μ` | Photon — U(1) zero mode (only; W/Z/gluons require SU(2)×SU(3) — not produced by 5D U(1), see Gap 5) | `metric.py: assemble_5d_metric` |
 
 ---

@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.30):** All six completion requirements are solved internally, plus 42 additional pillars (102–142 + Ω₀: Grand Expansion + Grand Synthesis Arc + SM Parameter Closure Arc) closed. REPOSITORY COMPLETE (v9.30 — 142 pillars + Ω₀ Holon Zero + sub-pillars). 18,057 tests. All 26 SM free parameters geometrically anchored — 0 OPEN, 0 FITTED.
+**Self-completion status (v9.33):** All six completion requirements are solved internally, plus 66 additional pillars (102–167 + Ω₀: Grand Expansion + Grand Synthesis Arc + SM Parameter Closure Arc + Gap Closure Arcs I–II) closed. REPOSITORY COMPLETE (v9.33 — 167 pillars + Ω₀ Holon Zero + sub-pillars). ~20,249 tests. SM 26-parameter ledger: **8 DERIVED** (<5% error), **9 PARAMETERIZED** (per-species c_L fitted), **4 CONSTRAINED** (5–25%), **3 GEOMETRIC_ESTIMATE**, **1 OPEN: Λ_QCD** (×10⁷ off — QCD confinement not derivable from current 5D UM).
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -458,7 +458,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **18,057 passed · 329 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/). **18,057** — all 142 pillars + Ω₀ + sub-pillars passing. |
+| **Test suite** | `pytest` unit tests — **~20,249 passed · 329 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/). **~20,249** — all 167 pillars + Ω₀ + sub-pillars passing. |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
