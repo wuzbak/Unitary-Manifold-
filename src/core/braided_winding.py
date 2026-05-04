@@ -211,6 +211,8 @@ PHI0_BARE_FTUM:  float = 1.0     # FTUM fixed-point bare vev
 # ---------------------------------------------------------------------------
 _ALPHA_EM_CANONICAL: float = 1.0 / 137.036
 _R_C_CANONICAL:      float = 12.0          # compactification radius [M_Pl⁻¹]
+# r_c = 12 M_Pl⁻¹ is chosen to reproduce k_CS ≈ 74 (reverse-engineered from
+# β_target = 0.35°).  It is not independently derived from the 5D geometry.
 _PHI_MIN_BARE:       float = 18.0          # GW bare minimum field value [M_Pl]
 
 # Correct canonical field displacement:

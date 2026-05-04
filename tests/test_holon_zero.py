@@ -126,11 +126,19 @@ def test_cert_p5_derived(cert):
 
 
 def test_cert_p6_geometric_prediction(cert):
-    assert "GEOMETRIC PREDICTION" in cert["P6"]["status"]
+    assert "PARAMETERIZED" in cert["P6"]["status"]
 
 
 def test_cert_p11_geometric_prediction(cert):
-    assert "GEOMETRIC PREDICTION" in cert["P11"]["status"]
+    assert "PARAMETERIZED" in cert["P11"]["status"]
+
+
+def test_cert_fermion_masses_all_parameterized(cert):
+    """P6-P11 (quarks) and P16-P18 (leptons) must all be PARAMETERIZED."""
+    for key in ("P6", "P7", "P8", "P9", "P10", "P11", "P16", "P17", "P18"):
+        assert "PARAMETERIZED" in cert[key]["status"], (
+            f"Expected PARAMETERIZED for {key}, got: {cert[key]['status']}"
+        )
 
 
 def test_cert_p12_derived(cert):
@@ -223,7 +231,18 @@ def test_theorem_has_n_geometric_prediction(theorem):
 
 
 def test_theorem_n_geometric_prediction_11(theorem):
-    assert theorem["n_geometric_prediction"] == 11
+    # After adversarial review fix: genuine geometric predictions are only P4 (Higgs VEV)
+    # and P22 (solar mixing). The 9 fermion masses are PARAMETERIZED, not predicted.
+    assert theorem["n_geometric_prediction"] == 2
+
+
+def test_theorem_has_n_parameterized(theorem):
+    assert "n_parameterized" in theorem
+
+
+def test_theorem_n_parameterized_9(theorem):
+    # P6-P11 (6 quarks) + P16-P18 (3 charged leptons) = 9 parameterized fermion masses
+    assert theorem["n_parameterized"] == 9
 
 
 def test_theorem_has_n_constrained(theorem):
@@ -291,6 +310,14 @@ def test_axioms_inputs_contains_nw(axioms):
 def test_axioms_inputs_contains_m_kk(axioms):
     combined = " ".join(axioms["inputs"]).lower()
     assert "m_kk" in combined or "mkk" in combined
+
+
+def test_axioms_has_hidden_free_parameters(axioms):
+    assert "hidden_free_parameters" in axioms
+
+
+def test_axioms_hidden_free_parameters_count_9(axioms):
+    assert axioms["hidden_free_parameters"]["count"] == 9
 
 
 # ---------------------------------------------------------------------------

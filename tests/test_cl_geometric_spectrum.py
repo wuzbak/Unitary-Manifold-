@@ -233,3 +233,51 @@ class TestSpectrumAmplitudeStatus:
 
     def test_prediction_non_empty(self):
         assert len(self.status["prediction"]) > 10
+
+
+# ---------------------------------------------------------------------------
+# cmb_peak_suppression_audit — OPEN gap quantification (FALLIBILITY.md §Adm. 2)
+# ---------------------------------------------------------------------------
+
+from src.core.cl_geometric_spectrum import cmb_peak_suppression_audit
+
+
+class TestCmbPeakSuppressionAudit:
+    """The UM Sachs-Wolfe spectrum is suppressed vs Planck 2018 at acoustic peaks."""
+
+    @pytest.fixture(autouse=True)
+    def _setup(self):
+        self.audit = cmb_peak_suppression_audit()
+
+    def test_is_dict(self):
+        assert isinstance(self.audit, dict)
+
+    def test_has_peaks(self):
+        assert "peaks" in self.audit
+
+    def test_peaks_has_three_entries(self):
+        assert len(self.audit["peaks"]) == 3
+
+    def test_peaks_at_correct_ells(self):
+        assert 220 in self.audit["peaks"]
+        assert 540 in self.audit["peaks"]
+        assert 800 in self.audit["peaks"]
+
+    def test_suppression_range_is_tuple(self):
+        s_range = self.audit["suppression_range"]
+        assert isinstance(s_range, tuple) and len(s_range) == 2
+
+    def test_suppression_min_above_1(self):
+        # UM is suppressed relative to Planck → suppression factor > 1
+        s_min, _ = self.audit["suppression_range"]
+        assert s_min > 1.0
+
+    def test_suppression_max_above_1(self):
+        _, s_max = self.audit["suppression_range"]
+        assert s_max > 1.0
+
+    def test_status_mentions_open(self):
+        assert "OPEN" in self.audit["status"]
+
+    def test_resolution_note_non_empty(self):
+        assert len(self.audit["resolution_note"]) > 10

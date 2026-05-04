@@ -284,3 +284,52 @@ def test_closure_status_honest_note_non_empty(status):
 def test_closure_status_closed_false(status):
     # Planck-violating → not fully closed
     assert status.get("closed") is False
+
+
+# ---------------------------------------------------------------------------
+# neutrino_mass_pillar135_140_consistency — cross-pillar inconsistency tracker
+# ---------------------------------------------------------------------------
+
+from src.core.neutrino_lightest_mass import neutrino_mass_pillar135_140_consistency
+
+
+@pytest.fixture(scope="module")
+def cross_check():
+    return neutrino_mass_pillar135_140_consistency()
+
+
+def test_cross_check_is_dict(cross_check):
+    assert isinstance(cross_check, dict)
+
+
+def test_cross_check_pillar135_mass_ev(cross_check):
+    # Pillar 135 implied m_ν₁ ≈ 1.49 meV
+    assert 1.0 < cross_check["m_nu1_pillar135_meV"] < 2.0
+
+
+def test_cross_check_pillar140_mass_ev(cross_check):
+    # Pillar 140 RS Dirac m_ν₁ ≈ 1.086 eV — close to documented value
+    assert 0.9 < cross_check["m_nu1_pillar140_ev"] < 1.3
+
+
+def test_cross_check_inconsistency_flag_true(cross_check):
+    # The two estimates differ by > 2 orders of magnitude
+    assert cross_check["inconsistency_flag"] is True
+
+
+def test_cross_check_log10_ratio_above_2(cross_check):
+    # At least 2 orders of magnitude difference
+    assert cross_check["log10_ratio"] > 2.0
+
+
+def test_cross_check_status_is_string(cross_check):
+    assert isinstance(cross_check["status"], str)
+
+
+def test_cross_check_status_mentions_open_inconsistency(cross_check):
+    assert "OPEN INCONSISTENCY" in cross_check["status"]
+
+
+def test_cross_check_has_pillar_notes(cross_check):
+    assert "pillar_135_note" in cross_check
+    assert "pillar_140_note" in cross_check

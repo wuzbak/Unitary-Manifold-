@@ -395,7 +395,12 @@ def pillar136_summary() -> Dict[str, object]:
     planck_consistent = tensions["planck_bao"]["consistent_3sigma"]
 
     if desi_consistent:
-        best_status = "✅ CONSISTENT with DESI DR2 (< 1σ) — ⚠️ tension with Planck+BAO"
+        best_status = (
+            "⚠️ TENSION: 3.4σ with Planck+BAO (w=−1.03±0.03); "
+            "0.11σ with DESI DR2 (w=−0.92±0.09, wider errors); "
+            "2.5σ with DES Y3+Planck+BAO. "
+            "Observational status is dataset-dependent."
+        )
     elif planck_consistent:
         best_status = "⚠️ CONSTRAINED — within 3σ of all datasets"
     else:
@@ -417,7 +422,7 @@ def pillar136_summary() -> Dict[str, object]:
         "desi_consistent_1sigma": desi_consistent,
         "planck_consistent_3sigma": planck_consistent,
         "status": best_status,
-        "toe_status": "⚠️ CONSTRAINED — consistent with DESI DR2 (0.11σ); tension with Planck+BAO (3.4σ)",
+        "toe_status": "⚠️ TENSION: 3.4σ with Planck+BAO; 0.11σ with DESI DR2 (wider errors); 2.5σ with DES Y3",
         "falsifier": (
             "Roman Space Telescope (launch ~2027, forecast σ(w) = 0.02): "
             f"if w₀_Roman falls outside [−0.95, −0.91], the leading-order "

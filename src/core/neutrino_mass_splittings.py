@@ -84,6 +84,16 @@ Honest Status
     absolute neutrino mass scale from the RS Yukawa (y_ν) and right-handed
     bulk masses c_R^{ν_i} — still OPEN.
 
+OPEN INCONSISTENCY with Pillar 140
+-----------------------------------
+The m_ν₁ implied by this ratio formula (≈ 1.49 meV from Δm²₂₁/34) is
+**3 orders of magnitude smaller** than the value predicted by Pillar 140's
+RS Dirac zero-mode formula (≈ 1.086 eV with c_L=0.776).  Both purportedly
+arise from the same RS Dirac framework, but they use different
+parameterizations and cannot be simultaneously correct.
+See `neutrino_mass_pillar135_140_consistency()` in neutrino_lightest_mass.py
+for the explicit comparison.  This is a documented OPEN structural problem.
+
 The improvement over the previous ❌ OPEN status: we now have a formal RS
 Dirac framework connecting the c_L^{ν_i} parameters to the braid geometry,
 and a parameter-free prediction of the splitting ratio (10% accuracy).

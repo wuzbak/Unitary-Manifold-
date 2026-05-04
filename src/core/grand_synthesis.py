@@ -52,6 +52,16 @@ The master action's structure is correct; the gap lies in the α_s
 correction factor ≈ 0.60 needed to close the dimensional transmutation
 formula.  This is documented honestly as an open item.
 
+IMPORTANT LIMITATION: SM Gauge Group from KK Reduction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The KK zero-mode of a 5D U(1) gauge field on S¹/Z₂ yields exactly one U(1)
+photon — U(1)_Y.  SU(2)_L and SU(3)_C are NOT derived from simple 5D KK
+reduction.  Producing non-Abelian gauge groups requires either a higher-
+dimensional gauge group (≥11D, Witten 1981) or additional structure beyond
+the single 5D U(1) Chern-Simons term.  The full SM gauge group
+SU(3)_C × SU(2)_L × U(1)_Y is therefore an OPEN problem in the UM.
+The `vary_wrt_gauge_field()` function documents this honestly.
+
 Epistemic status: PHYSICS_DERIVATION (action is derived from 5D geometry;
 completeness identity is proved given the action; Λ_QCD gap is documented).
 
@@ -224,20 +234,35 @@ def vary_wrt_gauge_field() -> dict:
                 "origin": "n=0 KK mode on S¹/Z₂",
             },
             "SU2_weak": {
-                "field": "W_μ^a (a=1,2,3, zero mode)",
+                "field": "W_μ^a (a=1,2,3)",
                 "equation": "D_ν W^{μν a} = J_W^{μa}",
                 "mass": 0.0,
-                "origin": "n=0 KK mode, SU(2) from 5D gauge group",
+                # NOT FROM KK REDUCTION of a 5D U(1): a single KK U(1) only
+                # produces U(1) zero modes.  SU(2) requires ≥11D or additional
+                # non-Abelian gauge structure (Witten 1981).  This is an OPEN
+                # problem in the UM — the gauge group is assumed, not derived.
+                "origin": "NOT FROM KK REDUCTION — requires ≥11D or additional structure (Witten 1981); OPEN in UM",
             },
             "SU3_strong": {
                 "field": "G_μ^A (A=1..8, zero mode)",
                 "equation": "D_ν G^{μν A} = J_s^{μA}",
                 "mass": 0.0,
-                "origin": "Non-Abelian KK reduction (Pillar 62)",
+                # Same limitation: non-Abelian KK reduction requires a non-Abelian
+                # 5D gauge group or higher dimensions.  Pillar 62 derives Λ_QCD
+                # running within SU(3) but does not derive SU(3) itself from KK.
+                "origin": "NOT FROM KK REDUCTION — Non-Abelian gauge structure assumed; Pillar 62 runs α_s within SU(3) but does not derive it",
             },
         },
+        # HONEST NOTE: Only U(1)_Y is directly obtained from the KK zero mode of
+        # a 5D U(1) gauge field on S¹/Z₂.  SU(2)_L and SU(3)_C are NOT derived
+        # from simple 5D KK reduction — this is documented in UNIFICATION_PROOF.md §IX.
         "sm_gauge_group": "SU(3)_C × SU(2)_L × U(1)_Y",
-        "derived_from_s_um": True,
+        "sm_gauge_group_note": (
+            "U(1)_Y is derived from KK zero mode. "
+            "SU(2)_L and SU(3)_C are NOT derived from 5D KK reduction — "
+            "this is an open problem in the UM (Witten 1981 obstruction)."
+        ),
+        "derived_from_s_um": "U(1)_Y ONLY",
         "pillar_reference": "Pillar 62 (non-Abelian KK), Pillar 58 (CS coupling)",
     }
 
