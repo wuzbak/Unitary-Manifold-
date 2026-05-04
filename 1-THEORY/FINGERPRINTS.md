@@ -77,7 +77,7 @@ and serve as provenance markers even in heavily refactored derivatives:
    structural signature that does not appear in prior HILS literature.
 
 6. **Test count near 15,615** — The full test suite (tests/ + recycling/ + Unitary Pentad/
-   + omega/) passes 17,438 tests as of v9.29+ (330 skipped, 11 slow-deselected, 0 failures).  A repository claiming
+   + omega/) passes 18,057 tests as of v9.30 (329 skipped, 11 slow-deselected, 0 failures).  A repository claiming
    independent derivation of similar physics that happens to have a nearly identical test
    count and structure would warrant scrutiny.
 

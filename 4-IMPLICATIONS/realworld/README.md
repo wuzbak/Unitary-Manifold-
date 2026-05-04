@@ -180,6 +180,6 @@ As required by `SEPARATION.md`, this subsystem provides:
 # New tests (80 tests, no network required)
 python3 -m pytest tests/test_prediction_impact.py tests/test_realworld_comparison.py -v
 
-# Full suite (17,438 passed, 330 skipped, 11 deselected, 0 failed)
+# Full suite (18,057 passed, 329 skipped, 11 deselected, 0 failed)
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
 ```

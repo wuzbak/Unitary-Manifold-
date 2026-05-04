@@ -1,6 +1,6 @@
 # JOURNAL_PAPER_SCOPE.md — Physics Paper Pre-Submission Definition
 
-**Version:** v9.29+ (132 pillars + sub-pillars CLOSED, 2026-05-03)  
+**Version:** v9.30 (142 pillars + Ω₀ Holon Zero + sub-pillars CLOSED, 2026-05-04)  
 **Status:** Pre-submission planning document  
 **Theory:** ThomasCory Walker-Pearson  
 **Documentation:** GitHub Copilot (AI)

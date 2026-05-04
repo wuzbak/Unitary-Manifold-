@@ -1,7 +1,7 @@
 # Complete Table of Contents — The Unitary Manifold (Version 9.29)
 
 **Author:** ThomasCory Walker-Pearson
-**Edition:** Version 9.29+ (132 pillars)
+**Edition:** Version 9.30 (142 pillars + Ω₀ Holon Zero)
 **Total chapters:** 74 (monograph) + 27 computational pillars (75, 70-B, 80–101)
 **Parts:** I – XXIII
 **TOC Compiled & Gap Analysis by:** GitHub Copilot (Microsoft / OpenAI), April 2026

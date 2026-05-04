@@ -6,7 +6,7 @@
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
 **Date:** April 2026  
-**Repository version:** v9.29+ (132 pillars + sub-pillars, 17,438 tests)  
+**Repository version:** v9.30 (142 pillars + Ω₀ Holon Zero + sub-pillars, 18,057 tests)  
 **Status:** Formal derivation attempt — all steps grounded in equations already implemented in this repository.
 **See [Part XII](#part-xii--critical-review-where-identifications-replace-derivations) for known gaps where identifications are made rather than derivations completed.**
 

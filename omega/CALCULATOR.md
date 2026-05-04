@@ -29,7 +29,7 @@ engine = UniversalEngine(
 | `n_hil` | int | 1 | Aligned Human-in-the-Loop operators. Stability saturates at n ≥ 15. |
 | `version` | str | 'v9.29 OMEGA EDITION' | Framework version string. |
 | `n_pillars` | int | 101 | Number of completed pillars (Pillars 100–101 added at v9.29). |
-| `n_tests` | int | 17438 | Passing test count reported in OmegaReport. |
+| `n_tests` | int | 18057 | Passing test count reported in OmegaReport. |
 
 **Raises:** `ValueError` if `phi_trust ∉ [0, 1]` or `n_hil < 0`.
 
@@ -209,7 +209,7 @@ report = engine.compute_all()
 
 report.version              # str    'v9.29 OMEGA EDITION'
 report.n_pillars            # int    101
-report.n_tests_passing      # int    17438
+report.n_tests_passing      # int    18057
 report.n_seed_constants     # int    5
 report.cosmology            # CosmologyReport
 report.particle_physics     # ParticlePhysicsReport
