@@ -52,6 +52,16 @@ The master action's structure is correct; the gap lies in the α_s
 correction factor ≈ 0.60 needed to close the dimensional transmutation
 formula.  This is documented honestly as an open item.
 
+IMPORTANT LIMITATION: SM Gauge Group from KK Reduction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The KK zero-mode of a 5D U(1) gauge field on S¹/Z₂ yields exactly one U(1)
+photon — U(1)_Y.  SU(2)_L and SU(3)_C are NOT derived from simple 5D KK
+reduction.  Producing non-Abelian gauge groups requires either a higher-
+dimensional gauge group (≥11D, Witten 1981) or additional structure beyond
+the single 5D U(1) Chern-Simons term.  The full SM gauge group
+SU(3)_C × SU(2)_L × U(1)_Y is therefore an OPEN problem in the UM.
+The `vary_wrt_gauge_field()` function documents this honestly.
+
 Epistemic status: PHYSICS_DERIVATION (action is derived from 5D geometry;
 completeness identity is proved given the action; Λ_QCD gap is documented).
 

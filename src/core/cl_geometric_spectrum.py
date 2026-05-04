@@ -99,9 +99,9 @@ def cmb_peak_suppression_audit() -> dict:
         # Here we compare using the dimensionless Dₗ (relative to A_s scale).
         dl_um_relative = (ell_peak * (ell_peak + 1.0) * cl_um / (2.0 * math.pi))
         # Planck Dₗ in the same A_s-normalised units: Planck value / (A_s × T_CMB²)
-        # T_CMB = 2.7255e6 μK in natural units
-        T_CMB_UK: float = 2.7255e6  # μK
-        dl_planck_rel = dl_planck_uk2 / (A_S * T_CMB_UK**2)
+        # CMB monopole temperature in μK
+        T_CMB_MICROKELVIN: float = 2.7255e6  # μK
+        dl_planck_rel = dl_planck_uk2 / (A_S * T_CMB_MICROKELVIN**2)
         suppression = dl_planck_rel / dl_um_relative if dl_um_relative > 0 else float("inf")
         suppression_factors.append(suppression)
         peaks[ell_peak] = {

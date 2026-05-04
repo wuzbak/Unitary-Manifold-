@@ -133,6 +133,14 @@ def test_cert_p11_geometric_prediction(cert):
     assert "PARAMETERIZED" in cert["P11"]["status"]
 
 
+def test_cert_fermion_masses_all_parameterized(cert):
+    """P6-P11 (quarks) and P16-P18 (leptons) must all be PARAMETERIZED."""
+    for key in ("P6", "P7", "P8", "P9", "P10", "P11", "P16", "P17", "P18"):
+        assert "PARAMETERIZED" in cert[key]["status"], (
+            f"Expected PARAMETERIZED for {key}, got: {cert[key]['status']}"
+        )
+
+
 def test_cert_p12_derived(cert):
     assert "DERIVED" in cert["P12"]["status"]
 

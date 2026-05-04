@@ -308,8 +308,8 @@ def test_cross_check_pillar135_mass_ev(cross_check):
 
 
 def test_cross_check_pillar140_mass_ev(cross_check):
-    # Pillar 140 RS Dirac m_ν₁ ≈ 1 eV
-    assert 0.5 < cross_check["m_nu1_pillar140_ev"] < 2.0
+    # Pillar 140 RS Dirac m_ν₁ ≈ 1.086 eV — close to documented value
+    assert 0.9 < cross_check["m_nu1_pillar140_ev"] < 1.3
 
 
 def test_cross_check_inconsistency_flag_true(cross_check):

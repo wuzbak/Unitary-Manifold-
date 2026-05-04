@@ -129,16 +129,22 @@ def higgs_vev_from_geometry(
     v_pred_gev = v_guess
     pct_error = abs(v_pred_gev - V_HIGGS_GEV) / V_HIGGS_GEV * 100.0
 
-    if converged:
-        status = f"GEOMETRIC PREDICTION (self-consistent, {pct_error:.2f}%, m_H PDG input)"
-    else:
+    if not converged or lambda_eff <= 0:
+        v_pred_gev = float("nan")
+        pct_error = float("nan")
         status = "CONSTRAINED (self-consistent iteration did not converge; result unreliable)"
+        lambda_eff_final = float("nan")
+        delta_lambda_final = 0.0
+    else:
+        status = f"GEOMETRIC PREDICTION (self-consistent, {pct_error:.2f}%, m_H PDG input)"
+        lambda_eff_final = lambda_eff
+        delta_lambda_final = delta_lambda
 
     return {
         "lambda_tree": lambda_tree,
         "M_KK_gev": m_kk_gev,
-        "delta_lambda": delta_lambda if lambda_eff > 0 else 0.0,
-        "lambda_eff": lambda_eff if lambda_eff > 0 else float("nan"),
+        "delta_lambda": delta_lambda_final,
+        "lambda_eff": lambda_eff_final,
         "v_pred_gev": v_pred_gev,
         "v_pdg_gev": V_HIGGS_GEV,
         "pct_error": pct_error,
