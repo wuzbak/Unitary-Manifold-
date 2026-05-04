@@ -130,7 +130,7 @@ This is either a remarkable unification or a remarkable coincidence. LiteBIRD an
 
 **Check:** Verify the dark matter relic density is subdominant: `from src.core.dark_matter_kk import dark_matter_kk_summary; print(dark_matter_kk_summary())`. Confirm Ω_KK h² ≈ 1.83 × 10⁻⁴ ≪ 0.12.
 
-**Break:** The CP-violation formula ε_CP = k_CS / (k_CS² + 4π²) derives from the Chern-Simons path integral. Show that this formula overcounts or undercounts the actual CP asymmetry generated in the EW plasma — i.e., find the correct finite-temperature correction to the CS effective action that changes ε_CP by a factor of 2 in the right direction. That would either close or deepen the factor-of-1.7 gap.
+**Break:** The CP-violation formula ε_CP = k_CS / (k_CS² + 4π²) derives from the Chern-Simons path integral. Show that this formula overcounts or undercounts the actual CP asymmetry generated in the EW plasma — i.e., find the correct finite-temperature correction to the CS effective action that changes ε_CP by a factor of 1.7 upward. That would close the gap; a correction in the opposite direction would deepen it.
 
 **Break:** The hot-relic formula for Ω_KK h² assumes the KK graviton decoupled from the SM plasma when g*_s ≈ 3.91 (today's value). If the KK mode decoupled during radiation domination at high temperature, use g*_s ≈ 106.75 at decoupling — this changes the relic density by a factor of (106.75/3.91) ≈ 27, which would make the lightest KK mode even more subdominant. Verify which value is physically correct for a mode with M_KK ≈ 34 meV.
 
