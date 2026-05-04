@@ -20,11 +20,20 @@ the braided-winding mechanism.
 
 ## Contents
 
+### Falsification documents (primary content)
+
+| File | Purpose |
+|------|---------|
+| **`FALSIFICATION_CONDITIONS.md`** | **Every explicit condition that falsifies the framework — numbered bright lines, kill thresholds, and what would survive as revision vs. outright falsification** |
+| **`FALSIFICATION_REGISTER.md`** | **Structured register of all 17 falsifiable predictions: predicted value, current status, decisive experiment, timeline, and kill condition for each** |
+| `prediction.md` | All current quantitative predictions with their falsification thresholds |
+
+### Peer reviews and adversarial analysis
+
 | File | Purpose |
 |------|---------|
 | **`ADVERSARIAL_PEER_REVIEW_2026-05-04.md`** | **Adversarial peer review (May 2026, v9.30) — external-referee posture (IAS/Cambridge/Caltech level); claim-by-claim breakdown; explicit severity ratings; full falsification register and path-to-publication requirements** |
 | **`INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md`** | Independent adversarial review (May 2026, v9.28) — 15 parallel investigation teams, full test-suite execution, hand-verified mathematics, competitor comparison, stress testing; explicit prove/disprove verdicts |
-| `prediction.md` | All current quantitative predictions with their falsification thresholds |
 | `AUTOMATED_PEER_REVIEW.md` | Automated adversarial review of each major claim |
 | `REVIEW_CONCLUSION.md` | First-pass review conclusions with issue tracking |
 | `FINAL_REVIEW_CONCLUSION.md` | Final consolidated review conclusion |
