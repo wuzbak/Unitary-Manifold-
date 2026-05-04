@@ -419,10 +419,10 @@ them systematically.
   for a specific choice of initial conditions, friction parameter γ = 5.0,
   and tolerance 10⁻⁶.  Convergence for all physically reasonable initial
   conditions has not been proven analytically.
-- The Banach contraction proof in  derives L < 1
+- The Banach contraction proof in `analytic_banach_proof()` derives L < 1
   under γ ≫ 1 and a specific network graph topology; it is not a generic
   result for arbitrary γ or graph structure.  The "universal convergence"
-  demonstrated in  covers 192 sampled initial conditions,
+  demonstrated in `basin_analysis.py` covers 192 sampled initial conditions,
   not all possible initial conditions.  The FTUM operator U = I + H + T is
   not demonstrated to be the exponential of a Hermitian operator; the
   identification with the imaginary-time Schrödinger evolution e^{−Hτ/ℏ}
@@ -927,9 +927,9 @@ is: the UM provides the inflationary seed (n_s, r); post-recombination
 processing uses the established Boltzmann/transfer-function framework of
 standard cosmology.
 
-*Code reference:*  (Pillar 63, April 2026);
- (106 tests, 0 failed).  See also
- (Pillar 52) and  (Pillar 57).
+*Code reference:* `src/core/cmb_transfer.py` (Pillar 63, April 2026);
+`tests/test_cmb_transfer.py` (106 tests, 0 failed).  See also
+`cmb_amplitude.py` (Pillar 52) and `cmb_peaks.py` (Pillar 57).
 
 ---
 

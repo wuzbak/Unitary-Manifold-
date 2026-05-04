@@ -115,6 +115,16 @@ def _row(n: int, label: str, value: str, ref: str, result: bool) -> str:
     return f"  {n}.  {label:<28s}  {value:<22s}  {ref:<14s}  [{_ok(result)}] {mark}"
 
 
+def _tension_label(pull: float) -> str:
+    """Return a human-readable tension label for a σ pull value."""
+    if pull <= 1.0:
+        return "PASS"
+    elif pull <= 2.0:
+        return "MARGINAL"
+    else:
+        return "TENSION"
+
+
 # ---------------------------------------------------------------------------
 # Main verification
 # ---------------------------------------------------------------------------
@@ -331,11 +341,11 @@ def run_verify() -> int:
                f"{w_kk:.4f} (DESI: {desi_pull:.2f}σ)",
                ref13, c13))
     print(f"      ├─ Planck2018+BAO: w={W0_PLANCK_BAO}±{SIGMA_PLANCK_BAO}  "
-          f"→ {planck_pull:.1f}σ  [{'PASS' if planck_pull <= 1.0 else 'TENSION'}]")
+          f"→ {planck_pull:.1f}σ  [{_tension_label(planck_pull)}]")
     print(f"      ├─ DES Y3+Pl+BAO:  w={W0_DES_Y3}±{SIGMA_DES_Y3}  "
-          f"→ {des_pull:.1f}σ  [{'PASS' if des_pull <= 1.0 else 'MARGINAL' if des_pull <= 2.0 else 'TENSION'}]")
+          f"→ {des_pull:.1f}σ  [{_tension_label(des_pull)}]")
     print(f"      └─ DESI DR2:       w={W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}  "
-          f"→ {desi_pull:.2f}σ  [PASS — primary check]")
+          f"→ {desi_pull:.2f}σ  [{_tension_label(desi_pull)} — primary check]")
 
     # ------------------------------------------------------------------
     # CHECK 14 — φ₀ FTUM bridge (Pillar 56-B)
