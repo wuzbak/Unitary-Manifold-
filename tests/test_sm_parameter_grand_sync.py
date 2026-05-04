@@ -176,8 +176,9 @@ def test_p16_status_parameterized():
     assert "PARAMETERIZED" in PARAM_UPDATES["P16"]["status"]
 
 
-def test_p19_status_constrained():
-    assert "CONSTRAINED" in PARAM_UPDATES["P19"]["status"]
+def test_p19_status_resolved():
+    # Pillar 150: UV-brane Majorana proof → RESOLVED via Type-I seesaw
+    assert "RESOLVED" in PARAM_UPDATES["P19"]["status"]
 
 
 def test_p20_status_constrained():
@@ -208,9 +209,9 @@ def test_score_has_open_count(score):
     assert "open_count" in score
 
 
-def test_score_open_count_one(score):
-    # Λ_QCD is OPEN (×10⁷ error; not derivable from current 5D UM)
-    assert score["open_count"] == 1
+def test_score_open_count_zero(score):
+    # Λ_QCD RESOLVED by Pillar 153 (GUT-scale RGE); P19 RESOLVED by Pillar 150
+    assert score["open_count"] == 0
 
 
 def test_score_has_fitted_count(score):
@@ -241,7 +242,8 @@ def test_score_geometric_prediction_count(score):
 
 
 def test_score_constrained_count(score):
-    assert score["constrained_count"] == 4
+    # P19 moved from CONSTRAINED to RESOLVED; now 3 CONSTRAINED params
+    assert score["constrained_count"] == 3
 
 
 def test_score_fraction_geometrically_anchored(score):
@@ -283,10 +285,11 @@ def test_score_parameterized_count(score):
     assert score["parameterized_count"] == 9
 
 
-def test_p_qcd_is_open(score):
-    assert "OPEN" in PARAM_UPDATES["P_QCD"]["status"]
+def test_p_qcd_is_resolved(score):
+    # Pillar 153: Λ_QCD RESOLVED via GUT-scale RGE
+    assert "RESOLVED" in PARAM_UPDATES["P_QCD"]["status"]
 
 
-def test_p_qcd_seven_orders_off():
-    status = PARAM_UPDATES["P_QCD"]["status"]
-    assert "10⁷" in status or "OPEN" in status
+def test_p_qcd_pillar_153():
+    pillar = PARAM_UPDATES["P_QCD"]["pillar"]
+    assert "153" in str(pillar)

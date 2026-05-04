@@ -121,9 +121,11 @@ HBAR: float = 1.054571817e-34          # Reduced Planck constant (J s)
 N_S: float = 0.9635                    # CMB spectral index prediction
 R_BRAIDED: float = 0.0315             # Tensor-to-scalar ratio prediction
 BETA_DEG: float = 0.331               # Birefringence angle prediction (°)
-LAMBDA_QCD_UM_GEV: float = 1.0e7     # UM Λ_QCD prediction (GeV) — ×10⁷ gap
-LAMBDA_QCD_OBS_GEV: float = 0.211    # Observed Λ_QCD ≈ 211 MeV
-LAMBDA_QCD_GAP: float = LAMBDA_QCD_UM_GEV / LAMBDA_QCD_OBS_GEV  # ≈ 5×10⁷
+LAMBDA_QCD_PILLAR62_GEV: float = 1.0e7   # Old Pillar 62 (wrong starting point) — ×10⁷ gap
+LAMBDA_QCD_UM_GEV: float = 1.0e7         # Kept for backward compatibility
+LAMBDA_QCD_OBS_GEV: float = 0.332        # Observed Λ_QCD ≈ 332 MeV (PDG, N_f=3)
+LAMBDA_QCD_GAP: float = LAMBDA_QCD_PILLAR62_GEV / LAMBDA_QCD_OBS_GEV  # ≈ 3×10⁷
+# Pillar 153: Λ_QCD is RESOLVED via GUT-scale RGE (n_w=5→SU(5)→α_GUT→α_s(M_Z)→Λ_QCD)
 
 
 # ---------------------------------------------------------------------------
@@ -243,10 +245,11 @@ def vary_wrt_gauge_field() -> dict:
                 # The Witten (1981) obstruction applies to 5D U(1) KK only;
                 # SU(5) as 5D gauge group (selected by n_w=5) bypasses this.
                 "origin": (
-                    "DERIVED (Pillar 148) — n_w=5 → SU(5)/Z₂ Kawamura orbifold: "
+                    "DERIVED (Pillar 148 + 154) — n_w=5 → SU(5)/Z₂ Kawamura orbifold: "
                     "P=diag(+1³,−1²) gives SU(2)_L as Z₂-even zero-mode subgroup. "
-                    "Chiral fermion completeness remains open (Witten 1981 for U(1); "
-                    "does not apply to SU(5) 5D gauge group)."
+                    "Chiral fermion completeness RESOLVED by Pillar 154 (SU(5) 5*/10 "
+                    "matter at fixed points; Witten obstruction applies only to smooth "
+                    "compactifications, not orbifolds)."
                 ),
             },
             "SU3_strong": {
@@ -273,8 +276,9 @@ def vary_wrt_gauge_field() -> dict:
             "U(1)_Y: KK zero mode of B_μ. "
             "SU(2)_L: Z₂-even 2×2 block of SU(5)/Z₂. "
             "SU(3)_C: Z₂-even 3×3 block of SU(5)/Z₂. "
-            "Remaining open: chiral fermion completeness (Witten 1981 for U(1) only; "
-            "does not obstruct SU(5) → SM with additional brane structure)."
+            "Chiral fermion completeness RESOLVED (Pillar 154): SU(5) 5*/10 matter "
+            "fields at orbifold fixed points; Witten (1981) obstruction is for smooth "
+            "compactifications and does NOT apply to the Z₂ orbifold."
         ),
         "derived_from_s_um": "DERIVED via n_w=5 → SU(5) → Kawamura Z₂ → SM (Pillar 148)",
         "pillar_reference": "Pillar 62 (non-Abelian KK), Pillar 58 (CS coupling)",
