@@ -443,7 +443,7 @@ def pillar160_summary() -> dict:
             "The KK axion tower from the EW RS sector cannot produce wₐ ≠ 0: "
             "all modes are frozen (m_n >> H₀). A DE-sector light scalar is "
             "eliminated by fifth-force constraints. The dark energy EoS (w₀, wₐ) "
-            "is OPEN and is the UM's secondary primary falsification target. "
+            "is OPEN and is the UM's secondary falsification target. "
             "The Roman Space Telescope (~2027) will provide the decisive test."
         ),
     }

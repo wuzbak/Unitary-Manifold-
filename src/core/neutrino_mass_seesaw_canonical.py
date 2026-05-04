@@ -332,7 +332,6 @@ def pillar159_summary() -> dict:
         "canonical_mechanism": "Type-I Seesaw (Branch B, Pillars 146/150)",
         "canonical_mass_mev": seesaw_result["m_nu_mev"],
         "planck_consistent": seesaw_result["planck_consistent"],
-        "cross_consistency": table["cross_consistent"],
         "cross_consistent": table["cross_consistent"],
         "seesaw_vs_braid_factor": table["seesaw_vs_braid_ratio_factor"],
         "open_issues": [

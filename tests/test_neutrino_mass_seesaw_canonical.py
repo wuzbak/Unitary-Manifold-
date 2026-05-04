@@ -58,7 +58,7 @@ def test_seesaw_default_planck_consistent(seesaw_default):
 def test_seesaw_default_mass_few_mev(seesaw_default):
     """Default seesaw mass should be in the few-meV range (< 50 meV)."""
     m_mev = seesaw_default["m_nu_mev"]
-    assert 0.001 < m_mev < 1.0, f"Expected \u03bcV-meV range, got {m_mev:.5f} meV"
+    assert 0.001 < m_mev < 1.0, f"Expected uV-meV range, got {m_mev:.5f} meV"
 
 
 def test_seesaw_formula(seesaw_default):
