@@ -85,7 +85,7 @@ class TestModuleConstants:
     def test_m_gut(self):
         assert M_GUT_GEV == pytest.approx(2.0e16, rel=1e-8)
 
-    def test_gut_above_gut(self):
+    def test_m_gut_greater_than_m_z(self):
         assert M_GUT_GEV > M_Z_GEV
 
 
