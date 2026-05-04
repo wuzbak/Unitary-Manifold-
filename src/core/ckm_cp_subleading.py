@@ -258,11 +258,16 @@ def ckm_cp_subleading(
     sigma_lead = abs(delta_lead_deg - DELTA_CP_PDG_DEG) / DELTA_CP_SIGMA_DEG
 
     if sigma_sub < 1.0:
-        status = "CONSISTENT (< 1σ) — CLOSED ✅"
+        status = (
+            "GEOMETRIC ESTIMATE (2·arctan(n₁/n₂), formula motivated by n₁≠n₂ "
+            "strand asymmetry; not yet proved from 5D action) — CONSISTENT < 1σ"
+        )
     elif sigma_sub < 2.0:
-        status = "CONSISTENT (≤ 2σ)"
+        status = (
+            "GEOMETRIC ESTIMATE (2·arctan(n₁/n₂), formula motivated) — CONSISTENT ≤ 2σ"
+        )
     else:
-        status = f"TENSION ({sigma_sub:.2f}σ)"
+        status = f"GEOMETRIC ESTIMATE (2·arctan(n₁/n₂)) — TENSION ({sigma_sub:.2f}σ)"
 
     return {
         "n1": n1,
@@ -318,7 +323,11 @@ def cp_closure_status(
     """
     sub = ckm_cp_subleading(n1, n2)
     is_closed = sub["sigma_tension_sub"] < 1.0
-    toe_status = "✅ CLOSED (< 1σ)" if is_closed else "⚠️ CONSISTENT (≤2σ)"
+    toe_status = (
+        "⚠️ GEOMETRIC ESTIMATE < 1σ (formula motivated, not proved from 5D action)"
+        if is_closed
+        else "⚠️ GEOMETRIC ESTIMATE ≤2σ"
+    )
 
     return {
         "n1": n1,
@@ -455,9 +464,10 @@ def pillar133_summary() -> Dict[str, object]:
         "leading_order_sigma": sub["sigma_tension_lead"],
         "derivation_summary": (
             "Braid opening angle θ_braid = arctan(5/7) ≈ 35.54°. "
-            "CKM = U†U picks up 2θ_braid. "
+            "CKM = U†U picks up 2θ_braid from n₁≠n₂ strand asymmetry. "
             f"δ_sub = 2×35.54° ≈ {sub['delta_sub_deg']:.2f}°. "
             f"PDG {DELTA_CP_PDG_DEG}° ± {DELTA_CP_SIGMA_DEG}° → "
-            f"{sub['sigma_tension_sub']:.2f}σ — CLOSED."
+            f"{sub['sigma_tension_sub']:.2f}σ — GEOMETRIC ESTIMATE (formula "
+            "motivated; not yet proved from 5D action)."
         ),
     }
