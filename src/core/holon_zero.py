@@ -93,39 +93,39 @@ def holon_zero_certificate() -> dict[str, dict]:
         },
         "P6": {
             "name": "m_u (up quark mass)",
-            "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 93/97)",
             "pillar_source": "93/97",
-            "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P7": {
             "name": "m_d (down quark mass)",
-            "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 93/97)",
             "pillar_source": "93/97",
-            "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P8": {
             "name": "m_s (strange quark mass)",
-            "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 93/97)",
             "pillar_source": "93/97",
-            "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P9": {
             "name": "m_c (charm quark mass)",
-            "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 97/98)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 97/98)",
             "pillar_source": "97/98",
-            "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P10": {
             "name": "m_b (bottom quark mass)",
-            "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 97/98)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 97/98)",
             "pillar_source": "97/98",
-            "accuracy_pct_or_note": "Yukawa scale fixed; c_L from spectrum",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P11": {
             "name": "m_t (top quark mass)",
-            "status": "GEOMETRIC PREDICTION (Ŷ₅=1, Pillar 93/97)",
+            "status": "PARAMETERIZED (c_R=0.920 from n_w=5 geometry; c_L fitted per-species to PDG, Pillar 93/97)",
             "pillar_source": "93/97",
-            "accuracy_pct_or_note": "c_R=0.920 from n_w=5",
+            "accuracy_pct_or_note": "c_R fixed by geometry; c_L is a free parameter fitted to PDG",
         },
         "P12": {
             "name": "λ_CKM (Wolfenstein lambda / Cabibbo angle)",
@@ -153,21 +153,21 @@ def holon_zero_certificate() -> dict[str, dict]:
         },
         "P16": {
             "name": "m_e (electron mass)",
-            "status": "GEOMETRIC PREDICTION (< 0.5%, Pillar 97)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 97)",
             "pillar_source": 97,
-            "accuracy_pct_or_note": "< 0.5%",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P17": {
             "name": "m_μ (muon mass)",
-            "status": "GEOMETRIC PREDICTION (via Ŷ₅=1, Pillar 97/98)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 97/98)",
             "pillar_source": "97/98",
-            "accuracy_pct_or_note": "from c_L hierarchy",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P18": {
             "name": "m_τ (tau mass)",
-            "status": "GEOMETRIC PREDICTION (via Ŷ₅=1, Pillar 97/98)",
+            "status": "PARAMETERIZED (Ŷ₅=1 fixes Yukawa scale; c_L fitted per-species to PDG, Pillar 97/98)",
             "pillar_source": "97/98",
-            "accuracy_pct_or_note": "from c_L hierarchy",
+            "accuracy_pct_or_note": "c_L is a free per-species parameter fitted to PDG mass",
         },
         "P19": {
             "name": "m_ν₁ (lightest neutrino mass)",
@@ -227,10 +227,31 @@ def holon_zero_certificate() -> dict[str, dict]:
 
 
 def toe_completeness_theorem() -> dict:
-    """Assert the ToE completeness theorem with honest counting."""
+    """Assert the ToE completeness theorem with honest counting.
+
+    Categories
+    ----------
+    DERIVED            : parameter derived from geometry with < 5% error
+    GEOMETRIC PREDICTION: parameter predicted from geometry with no per-species
+                         free parameter (genuine prediction)
+    PARAMETERIZED      : Yukawa scale is geometric (Ŷ₅=1), but per-species
+                         bulk-mass c_L is fitted to PDG — NOT a prediction
+    CONSTRAINED        : mechanism identified; one or more free parameters remain
+    GEOMETRIC ESTIMATE : order-of-magnitude geometric estimate (> 10% error)
+    OPEN               : no geometric explanation yet
+    FITTED             : pure fit, no geometric basis
+
+    Note on PARAMETERIZED vs GEOMETRIC PREDICTION
+    ----------------------------------------------
+    The 9 fermion masses (P6–P11, P16–P18) use one free RS bulk-mass
+    parameter c_L per species, chosen to match the observed mass.  This
+    is parameterization, not prediction.  The Yukawa *scale* (Ŷ₅=1) is
+    geometric, but the individual masses are not.
+    """
     cert = holon_zero_certificate()
     n_derived = 0
     n_geometric_prediction = 0
+    n_parameterized = 0
     n_constrained = 0
     n_geometric_estimate = 0
     n_open = 0
@@ -240,6 +261,8 @@ def toe_completeness_theorem() -> dict:
         s = info["status"].upper()
         if "DERIVED" in s:
             n_derived += 1
+        elif "PARAMETERIZED" in s:
+            n_parameterized += 1
         elif "GEOMETRIC PREDICTION" in s:
             n_geometric_prediction += 1
         elif "CONSTRAINED" in s:
@@ -254,6 +277,9 @@ def toe_completeness_theorem() -> dict:
     honest_caveat = (
         "Accuracy varies widely: "
         "α_em < 0.1%, v < 0.1%, sin²θ₁₂ 1.55%, ρ̄_CKM ~25%. "
+        "Nine fermion masses (P6–P11, P16–P18) are PARAMETERIZED: "
+        "Ŷ₅=1 fixes the Yukawa scale geometrically, but the individual "
+        "masses require one free per-species RS bulk-mass c_L fitted to PDG. "
         "The lightest neutrino mass (P19) has an open UV condition: "
         "c_L must be ≥ 0.88 to satisfy the Planck Σm_ν bound — "
         "this is the primary remaining open problem. "
@@ -265,10 +291,13 @@ def toe_completeness_theorem() -> dict:
     return {
         "theorem": (
             "UM geometrically anchors all 26 SM free parameters. "
-            "Zero remain OPEN or FITTED."
+            "Zero remain OPEN or FITTED. "
+            "Nine fermion masses are PARAMETERIZED (per-species c_L fitted); "
+            "they are not genuine geometric predictions."
         ),
         "n_derived": n_derived,
         "n_geometric_prediction": n_geometric_prediction,
+        "n_parameterized": n_parameterized,
         "n_constrained": n_constrained,
         "n_geometric_estimate": n_geometric_estimate,
         "n_open": n_open,
@@ -288,6 +317,7 @@ def holon_zero_summary() -> dict:
         "coverage": {
             "derived": thm["n_derived"],
             "geometric_prediction": thm["n_geometric_prediction"],
+            "parameterized": thm["n_parameterized"],
             "constrained": thm["n_constrained"],
             "geometric_estimate": thm["n_geometric_estimate"],
             "open": thm["n_open"],
@@ -320,6 +350,21 @@ def axiom_count() -> dict:
             "n_w is the only dimensionless topological integer; "
             "M_KK and M₅ carry the two independent energy scales."
         ),
+        "hidden_free_parameters": {
+            "count": 9,
+            "description": (
+                "The 6 quark masses (P6–P11) and 3 charged lepton masses (P16–P18) "
+                "each require one RS bulk-mass parameter c_L per fermion species. "
+                "These 9 c_L values are NOT predicted by the 3 genuine inputs — "
+                "they are fitted to match observed PDG masses. "
+                "The Yukawa scale is fixed by Ŷ₅=1 (geometric), but the mass "
+                "splittings within each sector require the per-species c_L."
+            ),
+            "parameters": [
+                "c_L(u)", "c_L(d)", "c_L(s)", "c_L(c)", "c_L(b)", "c_L(t)",
+                "c_L(e)", "c_L(μ)", "c_L(τ)",
+            ],
+        },
     }
 
 

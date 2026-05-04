@@ -14,6 +14,22 @@ the PDG central value of 68.5° ± 2.6°.
 This Pillar derives a more precise formula from the braid geometry of the
 (n₁, n₂) = (5, 7) vacuum braid pair.
 
+KNOWN GAP — Phase-Doubling Mechanism
+--------------------------------------
+The derivation below applies the phase 2θ_braid by invoking the bilinear
+Y·Y†.  However, the CKM matrix is V = U_L^u† × U_L^d, where U_L^u and
+U_L^d diagonalise the up-sector and down-sector mass matrices separately.
+The braid phase θ_braid is a property of the cross-sector Yukawa coupling.
+For this phase to survive in V rather than cancel in U_L^u† × U_L^d, a
+mechanism must exist that distinguishes the braid coupling in the up sector
+from that in the down sector.  This mechanism is NOT derived from the 5D
+action — it is assumed without justification.
+
+The result (δ_sub ≈ 71.08°, 0.99σ from PDG) is numerically compelling
+but logically incomplete.  The status should be read as
+"RETROFIT ESTIMATE — derivation step unjustified" rather than a genuine
+geometric prediction.
+
 Braid Geometry Derivation
 --------------------------
 In the RS/UM framework the physical vacuum is the braided state |Ψ_{(n₁,n₂)}⟩

@@ -230,7 +230,8 @@ class TestPillar136Summary:
     def test_toe_status_present(self):
         result = pillar136_summary()
         assert "toe_status" in result
-        assert "CONSTRAINED" in result["toe_status"] or "CONSISTENT" in result["toe_status"]
+        # After adversarial review fix: status leads with TENSION against Planck+BAO
+        assert "TENSION" in result["toe_status"] or "CONSTRAINED" in result["toe_status"]
 
     def test_falsifier_mentions_roman(self):
         result = pillar136_summary()

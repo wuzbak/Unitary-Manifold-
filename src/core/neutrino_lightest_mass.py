@@ -43,6 +43,7 @@ __all__ = [
     "rs_dirac_zero_mode_profile_local",
     "neutrino_lightest_mass_rs",
     "lightest_neutrino_closure_status",
+    "neutrino_mass_pillar135_140_consistency",
 ]
 
 _GEV_TO_EV: float = 1.0e9
@@ -51,13 +52,23 @@ _GEV_TO_EV: float = 1.0e9
 def c_right_neutrino_lightest(n_w: int = 5) -> float:
     """Return the RS bulk-mass parameter for the right-handed lightest neutrino.
 
-    Geometric derivation: c_R = (n_w + 2×n_w - 2) / (n_w²) normalises to
-    c_R = 23/25 = 0.920 for n_w = 5.
+    KNOWN GAP: a closed-form derivation of this value from the 5D geometry
+    is not available.  The value 23/25 = 0.920 is a hardcoded constant chosen
+    to be consistent with the observed neutrino sector — it is NOT computed
+    from n_w.
 
-    In practice this comes from the brane-localised condition that the
-    zero-mode overlaps reproduce the observed winding symmetry of n_w=5.
+    The docstring previously claimed the formula
+        c_R = (n_w + 2×n_w - 2) / n_w² = 23/25 for n_w = 5,
+    but this evaluates to (5 + 10 - 2)/25 = 13/25 ≠ 23/25 for any n_w.
+    The formula is incorrect.  The code returns 23/25 unconditionally and the
+    n_w argument is not used.
+
+    The value 0.920 is consistent with the c_R needed for the RS Dirac
+    zero-mode to reproduce the observed neutrino mass scale (with appropriate
+    c_L), and is motivated by the RS wavefunction hierarchy for n_w=5, but
+    a rigorous derivation from the 5D action is pending.
     """
-    return 23.0 / 25.0   # = 0.920, independent of n_w for the lightest mode
+    return 23.0 / 25.0   # = 0.920; hardcoded — closed-form derivation pending
 
 
 def rs_dirac_zero_mode_profile_local(c: float, pi_kr: float = 37.0) -> float:
@@ -165,4 +176,77 @@ def lightest_neutrino_closure_status() -> dict:
         "honest_note": r["honest_note"],
         "closed": False,
         "resolution_needed": "UV condition fixing c_L ≥ 0.88 from geometry",
+    }
+
+
+def neutrino_mass_pillar135_140_consistency() -> dict:
+    """Cross-consistency check between Pillar 135 and Pillar 140 m_ν₁ estimates.
+
+    OPEN INCONSISTENCY (documented)
+    --------------------------------
+    Pillar 135 infers m_ν₁ from the mass-ratio formula:
+        m_ν₁ = √(Δm²₂₁ / (n₁n₂ − 1)) ≈ 1.49 meV
+    This approach uses the PDG Δm²₂₁ as input and the braid ratio to set the
+    absolute mass scale, bypassing the RS Dirac Yukawa entirely.
+
+    Pillar 140 computes m_ν₁ directly from the RS Dirac zero-mode formula:
+        m_ν₁ = v × f₀(c_L=0.776) × f₀(c_R=0.920) ≈ 1.086 eV
+
+    These two estimates differ by ~3 orders of magnitude and both claim to
+    arise from the same RS Dirac framework.  This inconsistency is a genuine
+    structural problem: the two approaches use different parameterizations
+    and cannot be simultaneously correct.
+
+    Resolution path: a genuine zero-parameter derivation requires the RS
+    Yukawa coupling y_ν and the right-handed bulk masses c_R^{ν_i} to be
+    derived from geometry (not fitted), so that Pillar 140's RS Dirac formula
+    reproduces the Planck-consistent value from Pillar 135's ratio approach.
+
+    Returns
+    -------
+    dict
+        'm_nu1_pillar135_meV': float — Pillar 135 implied m_ν₁ [meV]
+        'm_nu1_pillar140_ev' : float — Pillar 140 RS Dirac m_ν₁ [eV]
+        'ratio'              : float — Pillar 140 / Pillar 135 ratio
+        'log10_ratio'        : float — log₁₀ of ratio
+        'inconsistency_flag' : bool  — True if ratio > 100 (> 2 orders of magnitude)
+        'status'             : str   — OPEN INCONSISTENCY label
+    """
+    # Pillar 135 implied m_ν₁: m_ν₁ = sqrt(Δm²₂₁ / (n₁n₂ − 1))
+    dm2_21_ev2 = 7.53e-5  # PDG solar splitting [eV²]
+    n1n2 = 5 * 7          # 35
+    m_nu1_135_ev = math.sqrt(dm2_21_ev2 / float(n1n2 - 1))  # ≈ 0.00149 eV
+
+    # Pillar 140 RS Dirac m_ν₁
+    r140 = neutrino_lightest_mass_rs()
+    m_nu1_140_ev = r140["m_nu1_ev"]  # ≈ 1.086 eV
+
+    ratio = m_nu1_140_ev / m_nu1_135_ev if m_nu1_135_ev > 0 else float("inf")
+    log10_ratio = math.log10(ratio) if ratio > 0 else float("inf")
+    inconsistent = ratio > 100.0
+
+    return {
+        "m_nu1_pillar135_meV": m_nu1_135_ev * 1e3,
+        "m_nu1_pillar135_ev": m_nu1_135_ev,
+        "m_nu1_pillar140_ev": m_nu1_140_ev,
+        "ratio_140_over_135": ratio,
+        "log10_ratio": log10_ratio,
+        "inconsistency_flag": inconsistent,
+        "status": (
+            "OPEN INCONSISTENCY: Pillar 135 (ratio method) gives m_ν₁ ≈ 1.49 meV; "
+            "Pillar 140 (RS Dirac zero-mode) gives m_ν₁ ≈ 1.086 eV. "
+            f"These differ by ~{ratio:.0f}× (~{log10_ratio:.1f} orders of magnitude). "
+            "Resolution requires deriving RS Yukawa y_ν and c_R^{{ν_i}} from geometry "
+            "so that both approaches agree."
+        ),
+        "pillar_135_note": (
+            "Pillar 135 infers m_ν₁ from the braid ratio formula using Δm²₂₁ as input. "
+            "It bypasses the RS Dirac Yukawa and cannot be reconciled with "
+            "Pillar 140's c_L=0.776 result without additional UV conditions."
+        ),
+        "pillar_140_note": (
+            "Pillar 140 uses the RS Dirac zero-mode formula with c_L=0.776 "
+            "(naive geometric estimate) and gives m_ν₁ ≈ 1 eV, violating the "
+            "Planck Σm_ν < 0.12 eV bound. c_L ≥ 0.88 is required."
+        ),
     }

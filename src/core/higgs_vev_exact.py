@@ -72,8 +72,25 @@ def higgs_vev_from_geometry(
     pi_kr: float = 37.0,
     m_h_gev: float = 125.25,
     y_t: float = 0.920,
+    max_iter: int = 50,
+    tol: float = 1e-6,
 ) -> dict:
-    """Derive the Higgs VEV from UM geometry.
+    """Derive the Higgs VEV from UM geometry via self-consistent iteration.
+
+    The RGE correction Δλ = -(6 y_t⁴)/(16π²) × log(M_KK/v) depends on v
+    itself.  A genuine self-consistent prediction requires iterating:
+
+        1. Start with v_guess from the tree-level quartic.
+        2. Compute Δλ(v_guess) using v_guess as the IR renormalization scale.
+        3. Update v_new = m_H / √(2 λ_eff(v_guess)).
+        4. Repeat until |v_new - v_guess| < tol × v_guess.
+
+    This eliminates the circularity of the previous implementation, which
+    used the PDG VEV as the IR scale in its own correction.
+
+    NOTE ON INPUTS: m_H is taken from PDG (or from Pillar 134 which itself
+    uses v_PDG and m_t_PDG).  The prediction of v therefore depends on m_H
+    as a PDG input, which limits the independence of the result.
 
     Parameters
     ----------
@@ -82,6 +99,8 @@ def higgs_vev_from_geometry(
     pi_kr  : πkR Randall-Sundrum parameter (default 37)
     m_h_gev: Higgs boson mass [GeV] (default PDG 125.25)
     y_t    : top Yukawa (geometric: c_R = 23/25 = 0.920)
+    max_iter: maximum self-consistency iterations (default 50)
+    tol    : fractional convergence tolerance (default 1e-6)
 
     Returns
     -------
@@ -89,21 +108,50 @@ def higgs_vev_from_geometry(
     """
     lambda_tree = n_w**2 / (2.0 * k_cs)        # 25/148
     m_kk_gev = _M_PL_GEV * math.exp(-pi_kr)
-    delta_lambda = higgs_vev_rge_correction(y_t, m_kk_gev, V_HIGGS_GEV)
-    lambda_eff = lambda_tree + delta_lambda
-    v_pred_gev = m_h_gev / math.sqrt(2.0 * lambda_eff)
+
+    # Self-consistent iteration: v_guess → λ_eff(v_guess) → v_new
+    # Seed with the tree-level VEV (no RGE correction yet)
+    v_guess = m_h_gev / math.sqrt(2.0 * lambda_tree)
+    converged = False
+    n_iter = 0
+    for n_iter in range(1, max_iter + 1):
+        delta_lambda = higgs_vev_rge_correction(y_t, m_kk_gev, v_guess)
+        lambda_eff = lambda_tree + delta_lambda
+        if lambda_eff <= 0:
+            break
+        v_new = m_h_gev / math.sqrt(2.0 * lambda_eff)
+        if abs(v_new - v_guess) < tol * v_guess:
+            v_guess = v_new
+            converged = True
+            break
+        v_guess = v_new
+
+    v_pred_gev = v_guess
     pct_error = abs(v_pred_gev - V_HIGGS_GEV) / V_HIGGS_GEV * 100.0
+
+    if converged:
+        status = f"GEOMETRIC PREDICTION (self-consistent, {pct_error:.2f}%, m_H PDG input)"
+    else:
+        status = "CONSTRAINED (self-consistent iteration did not converge; result unreliable)"
+
     return {
         "lambda_tree": lambda_tree,
         "M_KK_gev": m_kk_gev,
-        "delta_lambda": delta_lambda,
-        "lambda_eff": lambda_eff,
+        "delta_lambda": delta_lambda if lambda_eff > 0 else 0.0,
+        "lambda_eff": lambda_eff if lambda_eff > 0 else float("nan"),
         "v_pred_gev": v_pred_gev,
         "v_pdg_gev": V_HIGGS_GEV,
         "pct_error": pct_error,
-        "status": f"GEOMETRIC PREDICTION ({pct_error:.2f}%)",
+        "status": status,
         "y_t_used": y_t,
         "pi_kr": pi_kr,
+        "converged": converged,
+        "n_iterations": n_iter,
+        "honest_note": (
+            "v is derived self-consistently: the RGE correction log(M_KK/v) "
+            "is evaluated at the iterated v rather than the PDG value. "
+            "m_H = 125.25 GeV is a PDG input; the prediction is conditional on it."
+        ),
     }
 
 
@@ -113,16 +161,19 @@ def higgs_vev_closure_status() -> dict:
     return {
         "pillar": 139,
         "parameter": "v (Higgs VEV)",
-        "status": f"GEOMETRIC PREDICTION ({r['pct_error']:.2f}%)",
+        "status": r["status"],
         "predicted_gev": r["v_pred_gev"],
         "pdg_gev": V_HIGGS_GEV,
         "pct_error": r["pct_error"],
-        "formula": "v = m_H / sqrt(2 λ_eff),  λ_eff = 25/148 + Δλ_top",
+        "formula": "v = m_H / sqrt(2 λ_eff),  λ_eff = 25/148 + Δλ_top (self-consistent)",
         "inputs": [
             "n_w=5 (topology)",
             "k_CS=74 (braiding)",
             "πkR=37 (RS geometry)",
             "m_H=125.25 GeV (PDG, derived by Pillar 134)",
         ],
-        "closed": True,
+        "converged": r["converged"],
+        "n_iterations": r["n_iterations"],
+        "honest_note": r["honest_note"],
+        "closed": r["converged"],
     }
