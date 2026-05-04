@@ -141,32 +141,39 @@ def test_p5_status_derived():
     assert "DERIVED" in PARAM_UPDATES["P5"]["status"]
 
 
-def test_p6_status_geometric_prediction():
-    assert "GEOMETRIC PREDICTION" in PARAM_UPDATES["P6"]["status"]
+def test_p6_status_parameterized():
+    # Reclassified from GEOMETRIC PREDICTION: c_L per species is a free parameter, not a prediction
+    assert "PARAMETERIZED" in PARAM_UPDATES["P6"]["status"]
 
 
-def test_p7_status_geometric_prediction():
-    assert "GEOMETRIC PREDICTION" in PARAM_UPDATES["P7"]["status"]
+def test_p7_status_parameterized():
+    # Reclassified from GEOMETRIC PREDICTION: c_L per species is a free parameter, not a prediction
+    assert "PARAMETERIZED" in PARAM_UPDATES["P7"]["status"]
 
 
-def test_p8_status_geometric_prediction():
-    assert "GEOMETRIC PREDICTION" in PARAM_UPDATES["P8"]["status"]
+def test_p8_status_parameterized():
+    # Reclassified from GEOMETRIC PREDICTION: c_L per species is a free parameter, not a prediction
+    assert "PARAMETERIZED" in PARAM_UPDATES["P8"]["status"]
 
 
-def test_p9_status_geometric_prediction():
-    assert "GEOMETRIC PREDICTION" in PARAM_UPDATES["P9"]["status"]
+def test_p9_status_parameterized():
+    # Reclassified from GEOMETRIC PREDICTION: c_L per species is a free parameter, not a prediction
+    assert "PARAMETERIZED" in PARAM_UPDATES["P9"]["status"]
 
 
-def test_p10_status_geometric_prediction():
-    assert "GEOMETRIC PREDICTION" in PARAM_UPDATES["P10"]["status"]
+def test_p10_status_parameterized():
+    # Reclassified from GEOMETRIC PREDICTION: c_L per species is a free parameter, not a prediction
+    assert "PARAMETERIZED" in PARAM_UPDATES["P10"]["status"]
 
 
-def test_p11_status_geometric_prediction():
-    assert "GEOMETRIC PREDICTION" in PARAM_UPDATES["P11"]["status"]
+def test_p11_status_parameterized():
+    # Reclassified from GEOMETRIC PREDICTION: c_L per species is a free parameter, not a prediction
+    assert "PARAMETERIZED" in PARAM_UPDATES["P11"]["status"]
 
 
-def test_p16_status_geometric_prediction():
-    assert "GEOMETRIC PREDICTION" in PARAM_UPDATES["P16"]["status"]
+def test_p16_status_parameterized():
+    # Reclassified from GEOMETRIC PREDICTION: c_L per species is a free parameter, not a prediction
+    assert "PARAMETERIZED" in PARAM_UPDATES["P16"]["status"]
 
 
 def test_p19_status_constrained():
@@ -201,8 +208,9 @@ def test_score_has_open_count(score):
     assert "open_count" in score
 
 
-def test_score_open_count_zero(score):
-    assert score["open_count"] == 0
+def test_score_open_count_one(score):
+    # Λ_QCD is OPEN (×10⁷ error; not derivable from current 5D UM)
+    assert score["open_count"] == 1
 
 
 def test_score_has_fitted_count(score):
@@ -217,8 +225,9 @@ def test_score_has_total(score):
     assert "total" in score
 
 
-def test_score_total_is_26(score):
-    assert score["total"] == 26
+def test_score_total_is_27(score):
+    # 26 original SM params + Λ_QCD explicitly added as OPEN
+    assert score["total"] == 27
 
 
 def test_score_derived_count(score):
@@ -226,7 +235,9 @@ def test_score_derived_count(score):
 
 
 def test_score_geometric_prediction_count(score):
-    assert score["geometric_prediction_count"] == 11
+    # P6-P11, P16-P18 reclassified from GEOMETRIC PREDICTION to PARAMETERIZED
+    # Remaining GEOMETRIC PREDICTION: P4 (Higgs VEV), P22 (solar mixing)
+    assert score["geometric_prediction_count"] == 2
 
 
 def test_score_constrained_count(score):
@@ -234,11 +245,14 @@ def test_score_constrained_count(score):
 
 
 def test_score_fraction_geometrically_anchored(score):
-    assert abs(score["fraction_geometrically_anchored"] - 1.0) < 1e-10
+    # fraction = (derived+constrained+geo_estimate+geo_prediction)/total
+    # Excludes PARAMETERIZED and OPEN; should be well below 1.0 now
+    assert 0.0 < score["fraction_geometrically_anchored"] < 1.0
 
 
 def test_score_fraction_gt_07(score):
-    assert score["fraction_geometrically_anchored"] > 0.7
+    # PARAMETERIZED and OPEN categories reduce fraction; > 0.5 is still reasonable
+    assert score["fraction_geometrically_anchored"] > 0.5
 
 
 def test_score_has_toe_verdict(score):
@@ -258,3 +272,21 @@ def test_score_derived_plus_pred_plus_constrained_lt_total(score):
     sub_total = (score["derived_count"] + score["geometric_prediction_count"]
                  + score["constrained_count"])
     assert sub_total <= score["total"]
+
+
+def test_score_has_parameterized_count(score):
+    assert "parameterized_count" in score
+
+
+def test_score_parameterized_count(score):
+    # 9 fermion masses (6 quarks + 3 charged leptons) use per-species c_L
+    assert score["parameterized_count"] == 9
+
+
+def test_p_qcd_is_open(score):
+    assert "OPEN" in PARAM_UPDATES["P_QCD"]["status"]
+
+
+def test_p_qcd_seven_orders_off():
+    status = PARAM_UPDATES["P_QCD"]["status"]
+    assert "10⁷" in status or "OPEN" in status

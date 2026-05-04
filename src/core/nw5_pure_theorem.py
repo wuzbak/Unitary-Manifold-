@@ -3,7 +3,7 @@
 """
 src/core/nw5_pure_theorem.py
 ============================
-Pillar 70-D — The Pure n_w = 5 Uniqueness Theorem.
+Pillar 70-D — The Conditional n_w = 5 Uniqueness Theorem.
 
 WHAT THIS MODULE PROVES
 -----------------------
@@ -11,7 +11,7 @@ Every previous argument for n_w = 5 relied on either observational
 selection (Planck nₛ) or a PHYSICALLY-MOTIVATED step that had not been
 elevated to a formal theorem.  This module closes the last gap.
 
-THE THEOREM (no observational input)
+THE THEOREM (conditional on Axiom A; n_w=5 vs 7 confirmed by Planck nₛ)
 -------------------------------------
 **Theorem (n_w = 5 Uniqueness — Pure):**
 
@@ -79,7 +79,10 @@ The argument uses only:
     the selection is conditional on the ansatz, not on data).
   · The algebraic formulae for k_CS(n_w) and η̄(n_w) (both derived).
 
-This is a PURE THEOREM: no observational input.
+This is a CONDITIONAL THEOREM: the result is conditional on Axiom A
+(which is asserted but not derived from the 5D action). Additionally,
+n_w=5 vs n_w=7 is confirmed by Planck nₛ as the final discriminator.
+See FALLIBILITY.md for the full epistemic status.
 
 PROOF OF THE AXIOM (A)
 ----------------------
@@ -352,7 +355,12 @@ def z2_odd_phase_constraint(n_w: int) -> Dict:
 
 
 def nw5_pure_theorem() -> Dict:
-    """The pure n_w = 5 Uniqueness Theorem — no observational input.
+    """The conditional n_w = 5 Uniqueness Theorem (Axiom A required).
+
+    EPISTEMIC STATUS: Conditional on Axiom A (Z₂-odd CS boundary phase),
+    which is asserted but not derived from the 5D action. Furthermore,
+    n_w=5 vs n_w=7 is selected by Planck nₛ as a final discriminator.
+    The correct statement: given Axiom A, n_w=5 is uniquely selected.
 
     Applies the Z₂-odd boundary CS phase constraint (Axiom A) to each
     candidate in {5, 7} and returns the unique solution.
@@ -426,7 +434,7 @@ def nw5_pure_theorem() -> Dict:
         )
 
     return {
-        "theorem": "n_w = 5 Uniqueness — Pure Theorem (no observational input)",
+        "theorem": "n_w = 5 Uniqueness — Conditional Theorem (requires Axiom A; n_w=5 vs 7 confirmed by Planck nₛ)",
         "status": "PROVED" if (unique and n_w_proved == N_W_CANONICAL) else "FAILED",
         "hypotheses": {
             "H1": {"claim": "n_w ∈ {5, 7}", "status": "PROVED", "source": "Pillars 39 + 67"},
@@ -627,7 +635,7 @@ def sm_gauge_group_from_5d() -> Dict:
             "observational_independence": "Complete — no PDG input used",
         },
         "qed": (
-            "5D geometry + Z₂-odd G_{μ5} → n_w=5 (pure theorem) "
+            "5D geometry + Z₂-odd G_{μ5} + Axiom A → n_w=5 (conditional theorem) "
             "→ SU(5) (KK species count) → SU(3)×SU(2)×U(1) (Kawamura). "
             "Q.E.D."
         ),
@@ -748,7 +756,7 @@ def full_nw5_proof_summary() -> Dict:
 
     return {
         "title": "n_w = 5 Uniqueness — Complete Proof Hierarchy (Pillar 70-D)",
-        "status_after_pillar_70D": "FULLY PROVED (no observational input required)",
+        "status_after_pillar_70D": "CONDITIONAL THEOREM (Axiom A asserted; n_w=5 vs 7 confirmed by Planck nₛ)",
         "levels": {
             1: {
                 "status": "PROVED",
@@ -800,9 +808,10 @@ def full_nw5_proof_summary() -> Dict:
         },
         "theorem_core": theorem,
         "conclusion": (
-            "After Pillar 70-D, n_w = 5 is FULLY PROVED from 5D geometry alone. "
-            "All seven levels are closed. Planck nₛ provides independent empirical "
-            "confirmation at 0.33σ. No observational selection is needed for the "
-            "primary derivation."
+            "After Pillar 70-D, n_w = 5 is selected by the conditional theorem: "
+            "given Axiom A (Z₂-odd CS boundary phase, asserted not derived), "
+            "n_w=7 is algebraically excluded and n_w=5 is the unique solution. "
+            "Planck nₛ provides empirical confirmation (0.33σ) and is the "
+            "observational discriminator between n_w=5 and n_w=7."
         ),
     }

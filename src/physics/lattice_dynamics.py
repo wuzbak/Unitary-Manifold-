@@ -5,6 +5,27 @@ src/physics/lattice_dynamics.py
 ================================
 Pillar 15-B — Coherence-Volume Scaling and Collective Tunneling Gain.
 
+⚠️  ENGINEERING CONJECTURE — NOT DERIVABLE FROM CURRENT UM MATHEMATICS  ⚠️
+------------------------------------------------------------------------
+The predictions in this module (COP > 1, phonon-radion coupling, collective
+Gamow factor) are falsifiable engineering conjectures.  They are NOT derived
+from the current 5D Unitary Manifold geometry for the following reasons:
+
+  1. No field-theoretic vertex coupling the KK radion (spin-0, mass
+     m_φ ~ M_KK ~ 10¹⁸ GeV) to phonon modes in a Pd lattice at 300 K
+     has been computed.  The Compton wavelength of the radion is ~10⁻³⁵ m;
+     the lattice scale is ~10⁻¹⁰ m — a 10²⁵ scale mismatch with no
+     bridging derivation.
+  2. The phonon-radion bridge function relies on phenomenological
+     constants not fixed by the 5D action.
+  3. Functions lattice_coherence_gain() and ignition_N() are stubs
+     withheld per DUAL_USE_NOTICE.md; the COP predictions cannot be
+     independently verified from this code alone.
+
+These predictions are falsifiable by calorimetry experiment (excess heat
+at COP > 1.01 in Pd-D at x ≈ 0.875).  See DUAL_USE_NOTICE.md and
+FALLIBILITY.md §IV for the complete treatment and epistemic status.
+
 Overview
 --------
 A fundamental weakness of single-pair cold-fusion models is that they
