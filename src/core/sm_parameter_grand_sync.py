@@ -146,13 +146,14 @@ PARAM_UPDATES: dict[str, dict] = {
     "P19": {
         "name": "m_ν₁ (lightest neutrino mass)",
         "status": (
-            "CONSTRAINED (RS Dirac: c_R=0.920 from n_w=5; "
-            "c_L tuning needed for Planck)"
+            "CONSTRAINED (RS Dirac: c_R=23/25 THEOREM from Pillar 143 orbifold; "
+            "c_L needs tuning c_L≥0.88 for Planck; 730× gap with Pillar 135 "
+            "diagnosed by Pillar 144 RGE bridge)"
         ),
-        "pillar": 140,
+        "pillar": "140/143/144",
         "accuracy_pct_or_note": (
-            "c_R fixed; c_L=0.776 gives ~1 eV (violates Planck); "
-            "need c_L≥0.88"
+            "c_R DERIVED (orbifold fixed-point theorem); c_L=0.776 gives ~1 eV "
+            "(violates Planck); c_L^phys ≈ 0.961 required (topological form OPEN)"
         ),
     },
     "P20": {

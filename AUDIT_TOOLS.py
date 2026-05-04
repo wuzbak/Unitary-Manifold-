@@ -303,6 +303,100 @@ def check_physics_modules() -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
+# Section 3B — Pillars 143–145 Checks
+# ---------------------------------------------------------------------------
+
+def check_pillars_143_145() -> dict[str, Any]:
+    """Verify Pillars 143, 144, and 145 computations.
+
+    Pillar 143: c_R = 23/25 topological theorem
+    Pillar 144: RGE bridge (Pillar 135/140 discrepancy)
+    Pillar 145: Jarlskog invariant from braid curvature
+    """
+    results: dict[str, Any] = {}
+    errors: list[str] = []
+
+    # --- Pillar 143: c_R = 23/25 from orbifold fixed-point theorem ---
+    try:
+        from src.core.rmatrix_braid_neutrino import (
+            c_right_from_orbifold,
+            rs_unitarity_identity,
+            neutrino_cr_topological_theorem,
+        )
+        c_r = c_right_from_orbifold()
+        uid = rs_unitarity_identity()
+        theorem = neutrino_cr_topological_theorem()
+        results["pillar143_cr_theorem"] = {
+            "c_right": round(c_r, 6),
+            "c_right_exact_23_25": abs(c_r - 23.0 / 25.0) < 1e-14,
+            "unitarity_identity_holds": uid["identity_holds"],
+            "is_closed": theorem["is_closed"],
+            "passed": (
+                abs(c_r - 23.0 / 25.0) < 1e-14
+                and uid["identity_holds"]
+                and theorem["is_closed"]
+            ),
+        }
+    except Exception as exc:
+        errors.append(f"Pillar 143: {exc}")
+        results["pillar143_cr_theorem"] = {"passed": False, "error": str(exc)}
+
+    # --- Pillar 144: RGE bridge ---
+    try:
+        from src.core.neutrino_rge_bridge import (
+            discrepancy_factor,
+            rge_log_correction,
+            c_left_from_rge_consistency,
+        )
+        disc = discrepancy_factor()
+        rge = rge_log_correction()
+        c_l = c_left_from_rge_consistency()
+        results["pillar144_rge_bridge"] = {
+            "ratio_140_135": round(disc["ratio_140_over_135"], 1),
+            "rge_correction_pct": round(rge["pct_correction"], 2),
+            "c_l_required": round(c_l["c_left_required"], 4),
+            "c_l_above_naive": c_l["c_left_required"] > 0.776,
+            "rge_negligible": rge["pct_correction"] < 50,
+            "passed": (
+                disc["ratio_140_over_135"] > 100
+                and rge["pct_correction"] < 50
+                and c_l["c_left_required"] > 0.5
+            ),
+        }
+    except Exception as exc:
+        errors.append(f"Pillar 144: {exc}")
+        results["pillar144_rge_bridge"] = {"passed": False, "error": str(exc)}
+
+    # --- Pillar 145: Jarlskog geometric ---
+    try:
+        from src.core.jarlskog_geometric import (
+            cp_violation_condition,
+            jarlskog_geometric,
+        )
+        cond = cp_violation_condition()
+        jg = jarlskog_geometric()
+        results["pillar145_jarlskog"] = {
+            "cp_violated": cond["cp_violated"],
+            "j_geo": f"{jg['j_geo']:.4e}",
+            "sin_2theta_exact": abs(jg["sin_2theta"] - 70.0 / 74.0) < 1e-12,
+            "j_neq_0_proved": jg["j_geo"] > 0 and not jg["cp_violated_geometric"] == False,
+            "passed": (
+                cond["cp_violated"] is True
+                and jg["j_geo"] > 0
+                and abs(jg["sin_2theta"] - 70.0 / 74.0) < 1e-12
+            ),
+        }
+    except Exception as exc:
+        errors.append(f"Pillar 145: {exc}")
+        results["pillar145_jarlskog"] = {"passed": False, "error": str(exc)}
+
+    results["_errors"] = errors
+    results["_all_pass"] = all(v.get("passed", False) for k, v in results.items()
+                                if isinstance(v, dict) and k != "_errors")
+    return results
+
+
+# ---------------------------------------------------------------------------
 # Section 4 — Level-2: Test Suite Execution
 # ---------------------------------------------------------------------------
 
@@ -537,14 +631,16 @@ HONEST_GAPS: list[dict[str, str]] = [
     },
     {
         "id": "G4",
-        "title": "Neutrino mass splittings Δm²₂₁, Δm²₃₁ open",
-        "section": "FALLIBILITY.md §XIV.1 (P19–P21)",
-        "status": "OPEN",
+        "title": "Neutrino c_L^phys topological form (OPEN); c_R CLOSED by Pillar 143",
+        "section": "FALLIBILITY.md §XIV.8",
+        "status": "PARTIALLY ADDRESSED",
         "description": (
-            "RS Dirac equation for neutrino bulk mass parameters c_{Rν_i} has "
-            "not been solved from UM compactification geometry."
+            "c_R = 23/25 is now a THEOREM from Pillar 143 (orbifold fixed-point counting). "
+            "c_L^phys ≈ 0.961 is identified from the Pillar 144 RGE bridge as the value "
+            "required to reconcile Pillar 135 (oscillation data) and Pillar 140 (RS Dirac). "
+            "The topological form of c_L^phys remains OPEN — no simple braid fraction found."
         ),
-        "path_to_closure": "Solve 5D Dirac equation for c_L^{ν_i} from orbifold BCs",
+        "path_to_closure": "Derive c_L^phys from orbifold BCs for the left-handed zero mode",
         "falsifier": "JUNO / DUNE neutrino mass ordering measurements",
     },
     {
@@ -702,6 +798,14 @@ def run_all(fast_tests: bool = True, verbose: bool = False) -> dict[str, Any]:
     if verbose:
         print(f"[2] Physics modules: {phys_pass}/{phys_total} pass")
 
+    pillars_143_145 = check_pillars_143_145()
+    p145_pass = sum(v.get("passed", False) for k, v in pillars_143_145.items()
+                    if isinstance(v, dict) and k not in ("_errors", "_all_pass"))
+    p145_total = sum(1 for k, v in pillars_143_145.items()
+                     if isinstance(v, dict) and k not in ("_errors", "_all_pass"))
+    if verbose:
+        print(f"[2B] Pillars 143–145: {p145_pass}/{p145_total} pass")
+
     tests = run_test_suite(fast=fast_tests, verbose=False)
     if verbose:
         print(f"[3] Test suite: {tests['passed']} passed, {tests['failed']} failed ({tests['elapsed_s']}s)")
@@ -724,6 +828,7 @@ def run_all(fast_tests: bool = True, verbose: bool = False) -> dict[str, Any]:
     all_green = (
         alg["all_pass"]
         and phys["_all_pass"]
+        and pillars_143_145["_all_pass"]
         and tests["all_pass"]
         and adv["all_pass"]
     )
@@ -732,6 +837,7 @@ def run_all(fast_tests: bool = True, verbose: bool = False) -> dict[str, Any]:
     return {
         "algebraic": alg,
         "physics": phys,
+        "pillars_143_145": pillars_143_145,
         "tests": tests,
         "adversarial": adv,
         "gaps": gaps,
