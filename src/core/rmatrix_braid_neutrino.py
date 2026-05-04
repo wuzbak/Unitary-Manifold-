@@ -357,7 +357,7 @@ def su2k_rmatrix_eigenvalue(j: float, k: int) -> complex:
         R_j = exp(2πi × h_j).
     """
     h = su2k_topological_spin(j, k)
-    return cmath.exp(2j * math.pi * h)
+    return cmath.exp(2 * 1j * math.pi * h)
 
 
 def su2k_rmatrix_spectrum(
@@ -386,13 +386,13 @@ def su2k_rmatrix_spectrum(
         max_j = k / 2.0
 
     spectrum = []
-    j = 0.0
-    while j <= max_j + 1e-9:
-        h = su2k_topological_spin(j, k)
-        R = cmath.exp(2j * math.pi * h)
+    j_spin = 0.0
+    while j_spin <= max_j + 1e-9:
+        h = su2k_topological_spin(j_spin, k)
+        R = cmath.exp(2 * 1j * math.pi * h)   # exp(2πi·h_j); 1j is the imaginary unit
         spectrum.append(
             {
-                "j": j,
+                "j": j_spin,
                 "h_j": h,
                 "h_j_mod1": h % 1.0,
                 "R_j_phase_over_2pi": h % 1.0,
@@ -400,7 +400,7 @@ def su2k_rmatrix_spectrum(
                 "R_j_imag": R.imag,
             }
         )
-        j += 0.5
+        j_spin += 0.5
     return spectrum
 
 

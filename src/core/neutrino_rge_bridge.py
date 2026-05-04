@@ -257,7 +257,10 @@ def rge_log_correction(
     beta_total = beta_top + beta_gauge
 
     delta_ln_ynu = beta_total * log_ratio
-    mass_ratio = math.exp(-delta_ln_ynu)  # running DOWN: mass at m_Z vs M_KK
+    # Running DOWN from M_KK to m_Z: the mass decreases by the Yukawa running.
+    # delta_ln_ynu > 0 means the coupling grows going UP in energy → mass at m_Z
+    # is smaller than at M_KK by factor exp(-delta_ln_ynu).
+    mass_ratio = math.exp(-delta_ln_ynu)  # m_ν(m_Z) / m_ν(M_KK)
     pct_corr = abs(mass_ratio - 1.0) * 100.0
 
     if pct_corr < 10.0:
