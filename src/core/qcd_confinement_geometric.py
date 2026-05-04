@@ -57,7 +57,7 @@ K_CS: int = 74                     # Chern-Simons level  (= 5² + 7²)
 PI_K_R: float = 37.0              # RS1 hierarchy parameter πkR
 J_0_1: float = 2.405              # first zero of Bessel J₀
 M_PL_GEV: float = 1.22e19        # Planck mass in GeV
-M_KK_GEV: float = 1040.0         # KK scale from EW hierarchy (= k × exp(-πkR), GeV)
+M_KK_GEV: float = M_PL_GEV * math.exp(-PI_K_R)  # = k × exp(-πkR) ≈ 1041.5 GeV
 RHO_MESON_PDG_GEV: float = 0.775    # PDG ρ meson mass (GeV)
 LAMBDA_QCD_PDG_MEV: float = 332.0   # PDG Λ_QCD  MS-bar, 5 flavours (MeV)
 LAMBDA_QCD_PDG_GEV: float = 0.332   # in GeV
@@ -255,14 +255,14 @@ def ads_qcd_dilaton_check(pi_kr: float = PI_K_R) -> dict:
     Parameters
     ----------
     pi_kr:
-        Hierarchy parameter (kept for API uniformity; not used in this check).
+        Hierarchy parameter πkR; propagated to rho_meson_from_ads_qcd.
 
     Returns
     -------
     dict with 'f_pi_predicted_gev', 'f_pi_pdg_gev', 'ratio', 'consistency'.
     """
     n_c = 3
-    rho = rho_meson_from_ads_qcd()
+    rho = rho_meson_from_ads_qcd(pi_kr=pi_kr)
     m_rho = rho["m_rho_gev"]
     f_pi_sq_predicted = n_c * m_rho**2 / (4.0 * math.pi**2)
     f_pi_predicted = math.sqrt(f_pi_sq_predicted)

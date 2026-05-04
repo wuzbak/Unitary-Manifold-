@@ -49,9 +49,9 @@ class TestConstants:
         assert 1e18 < M_PL_GEV < 1e20
 
     def test_m_kk_gev_value(self):
-        # M_KK = M_Pl * exp(-pi_kr) should equal ~1040 GeV
+        # M_KK_GEV is computed as M_PL_GEV * exp(-PI_K_R)
         expected = M_PL_GEV * math.exp(-PI_K_R)
-        assert M_KK_GEV == pytest.approx(expected, rel=0.01)
+        assert M_KK_GEV == pytest.approx(expected, rel=1e-9)
 
     def test_rho_meson_pdg_value(self):
         assert RHO_MESON_PDG_GEV == pytest.approx(0.775, abs=0.001)
@@ -395,8 +395,13 @@ class TestAdsQCDDilatonCheck:
         assert len(result["consistency"]) > 5
 
     def test_custom_pi_kr_accepted(self):
-        result = ads_qcd_dilaton_check(pi_kr=40.0)
-        assert result["f_pi_predicted_gev"] > 0
+        result_default = ads_qcd_dilaton_check()
+        result_custom = ads_qcd_dilaton_check(pi_kr=40.0)
+        # Different pi_kr must yield a different f_pi (propagated through rho_meson_from_ads_qcd)
+        assert result_custom["f_pi_predicted_gev"] > 0
+        assert result_custom["f_pi_predicted_gev"] != pytest.approx(
+            result_default["f_pi_predicted_gev"], rel=0.001
+        )
 
 
 # ---------------------------------------------------------------------------
