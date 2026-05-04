@@ -63,7 +63,7 @@ def solar_mixing_angle_corrected(n_w: int = 5, k_cs: int = 74) -> dict:
         "nw_correction": nw_correction,
         "kcs_correction": kcs_correction,
         "derivation": (
-            f"sin²θ₁₂ = 1/3 - 1/(6×{n_w}) + 1/(6×{k_cs})"
+            f"sin2_th12 = 1/3 - 1/(6*{n_w}) + 1/(6*{k_cs})"
             f" = {tbm_term:.6f} {nw_correction:+.6f} {kcs_correction:+.6f}"
             f" = {sin2_th12:.6f}  (PDG {SIN2_TH12_PMNS}, error {pct_error:.3f}%)"
         ),
@@ -83,13 +83,13 @@ def solar_mixing_decomposition() -> dict:
         },
         "nw_correction": {
             "value": nw_corr,
-            "fraction": f"-1/(6×{N_W}) = -1/30",
+            "fraction": f"-1/(6*{N_W}) = -1/30",
             "basis": f"Winding correction from n_w={N_W} orbifold geometry",
         },
         "kcs_correction": {
             "value": kcs_corr,
-            "fraction": f"+1/(6×{K_CS}) = +1/444",
-            "basis": f"Chern-Simons correction from k_CS={K_CS} = 5²+7² braiding resonance",
+            "fraction": f"+1/(6*{K_CS}) = +1/444",
+            "basis": f"Chern-Simons correction from k_CS={K_CS} = 5^2+7^2 braiding resonance",
         },
         "total": tbm + nw_corr + kcs_corr,
         "pdg": SIN2_TH12_PMNS,
