@@ -9,15 +9,15 @@ and the associated metadata.
 
 | Item | Description |
 |------|-------------|
-| `THEBOOKV9a (1).pdf` | The complete v9a monograph (74 chapters, ~400 pages) — the primary reference |
-| `manuscript/` | Markdown chapter drafts (`ch02_mathematical_preliminaries.md`, etc.) |
-| `arxiv/` | arXiv submission LaTeX source (`main.tex`, `references.bib`) |
-| `MCP_INGEST.md` | Structured summary for AI/MCP ingestion — start here for programmatic access |
-| `LEGEND.md` | Glossary of all symbols and abbreviations |
-| `TABLE_OF_CONTENTS.md` | Full table of contents for the monograph |
-| `ZENODO_SUBMISSION_CHECKLIST.md` | Zenodo archival checklist and metadata |
-| `submission/` | Submission package files |
-| `zenodo/` | Zenodo-specific metadata and upload scripts |
+| [`THEBOOKV9a (1).pdf`](<THEBOOKV9a (1).pdf>) | The complete v9a monograph (74 chapters, ~400 pages) — the primary reference |
+| [`manuscript/`](manuscript/) | Markdown chapter drafts (`ch02_mathematical_preliminaries.md`, etc.) |
+| [`arxiv/`](arxiv/) | arXiv submission LaTeX source (`main.tex`, `references.bib`) |
+| [`MCP_INGEST.md`](MCP_INGEST.md) | Structured summary for AI/MCP ingestion — start here for programmatic access |
+| [`LEGEND.md`](LEGEND.md) | Glossary of all symbols and abbreviations |
+| [`TABLE_OF_CONTENTS.md`](TABLE_OF_CONTENTS.md) | Full table of contents for the monograph |
+| [`ZENODO_SUBMISSION_CHECKLIST.md`](ZENODO_SUBMISSION_CHECKLIST.md) | Zenodo archival checklist and metadata |
+| [`submission/`](submission/) | Submission package files |
+| [`zenodo/`](zenodo/) | Zenodo-specific metadata and upload scripts |
 
 ---
 
@@ -29,13 +29,13 @@ Emergent Irreversibility (v9.29). Zenodo.
 https://doi.org/10.5281/zenodo.19584531
 ```
 
-See also `CITATION.cff` at the repository root.
+See also [`CITATION.cff`](../CITATION.cff) at the repository root.
 
 ---
 
 ## The arXiv paper
 
-`arxiv/main.tex` is the complete, self-contained arXiv submission targeting
+[`arxiv/main.tex`](arxiv/main.tex) is the complete, self-contained arXiv submission targeting
 the following scope:
 
 **Title:** "Topological Selection of the Inflationary Winding Number and CMB

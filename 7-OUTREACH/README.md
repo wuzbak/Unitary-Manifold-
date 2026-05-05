@@ -76,8 +76,8 @@ Posts and books in this directory:
 - **Do not constitute evidence** for the physics claims in `1-THEORY/`
 - **Are valuable independently** as public science communication and personal essays
 
-For the falsifiable, testable physics claims, read `1-THEORY/DERIVATION_STATUS.md`.
-For the code, read `src/core/` and run `python VERIFY.py`.
+For the falsifiable, testable physics claims, read [`1-THEORY/DERIVATION_STATUS.md`](../1-THEORY/DERIVATION_STATUS.md).
+For the code, read [`src/core/`](../src/core/) and run `python VERIFY.py`.
 
 ---
 

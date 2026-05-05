@@ -13,25 +13,25 @@ corresponds directly to code in `src/core/`, `src/holography/`, `src/multiverse/
 
 | File | Purpose |
 |------|---------|
-| `DERIVATION_STATUS.md` | **Start here.** The authoritative epistemic table: what is proved, derived, identified, or open — for every major claim. |
-| `DERIVATION.md` | Step-by-step tensor calculus: 5D action → KK reduction → radion → slow-roll → braiding → birefringence. |
-| `UNIFICATION_PROOF.md` | Formal derivation: QM, EM, and the Standard Model as projections of the 5D geometry. |
-| `QUANTUM_THEOREMS.md` | New theorems: BH information conservation, CCR, Hawking temperature, ER=EPR from 5D geometry. |
-| `WINDING_NUMBER_DERIVATION.md` | Why n_w = 5: the topological argument from Z₂ orbifold through APS η-invariant. |
-| `BRAID_TWIN_DUALITY.md` | **The (5,7)/(5,6) twin braid states** — why they are the only two viable pairs, how they relate as lossless ground state and lossy metastable twin, and what LiteBIRD will measure to discriminate them. |
-| `COMPLETION_REPORT.md` | The full 101-pillar claim record with status labels and test references. |
-| `CONSTANTS_CONVERGENCE.md` | How all key constants (φ₀, c_s, k_CS, α_NM, n_w) converge to consistent values. |
-| `CORRESPONDENCE_MAP.md` | Precise mapping between 5D geometry and known physics (gravity, EM, SM). |
-| `FINGERPRINTS.md` | Unique numerical fingerprints of this framework — provenance and legal record. |
-| `ALGEBRA_PROOF_GUIDE.md` | Guide to running and reading `ALGEBRA_PROOF.py` (at repo root). |
-| `HOW_TO_BREAK_THIS.md` | Adversarial analysis: which assumptions, if wrong, falsify which claims. |
+| [`DERIVATION_STATUS.md`](DERIVATION_STATUS.md) | **Start here.** The authoritative epistemic table: what is proved, derived, identified, or open — for every major claim. |
+| [`DERIVATION.md`](DERIVATION.md) | Step-by-step tensor calculus: 5D action → KK reduction → radion → slow-roll → braiding → birefringence. |
+| [`UNIFICATION_PROOF.md`](UNIFICATION_PROOF.md) | Formal derivation: QM, EM, and the Standard Model as projections of the 5D geometry. |
+| [`QUANTUM_THEOREMS.md`](QUANTUM_THEOREMS.md) | New theorems: BH information conservation, CCR, Hawking temperature, ER=EPR from 5D geometry. |
+| [`WINDING_NUMBER_DERIVATION.md`](WINDING_NUMBER_DERIVATION.md) | Why n_w = 5: the topological argument from Z₂ orbifold through APS η-invariant. |
+| [`BRAID_TWIN_DUALITY.md`](BRAID_TWIN_DUALITY.md) | **The (5,7)/(5,6) twin braid states** — why they are the only two viable pairs, how they relate as lossless ground state and lossy metastable twin, and what LiteBIRD will measure to discriminate them. |
+| [`COMPLETION_REPORT.md`](COMPLETION_REPORT.md) | The full 101-pillar claim record with status labels and test references. |
+| [`CONSTANTS_CONVERGENCE.md`](CONSTANTS_CONVERGENCE.md) | How all key constants (φ₀, c_s, k_CS, α_NM, n_w) converge to consistent values. |
+| [`CORRESPONDENCE_MAP.md`](CORRESPONDENCE_MAP.md) | Precise mapping between 5D geometry and known physics (gravity, EM, SM). |
+| [`FINGERPRINTS.md`](FINGERPRINTS.md) | Unique numerical fingerprints of this framework — provenance and legal record. |
+| [`ALGEBRA_PROOF_GUIDE.md`](ALGEBRA_PROOF_GUIDE.md) | Guide to running and reading `ALGEBRA_PROOF.py` (at repo root). |
+| [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial analysis: which assumptions, if wrong, falsify which claims. |
 
 ---
 
 ## Epistemic Standards Applied Here
 
 Claims in this folder are labelled using the following status vocabulary,
-defined precisely in `DERIVATION_STATUS.md`:
+defined precisely in [`DERIVATION_STATUS.md`](DERIVATION_STATUS.md):
 
 | Status | Meaning |
 |--------|---------|

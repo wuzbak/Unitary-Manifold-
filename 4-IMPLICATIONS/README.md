@@ -33,18 +33,18 @@ even if the core Kaluza-Klein claim were falsified.
 
 | Subfolder / File | Domain | Status |
 |----------------|--------|--------|
-| `brain/` | Neuroscience / brain-universe coupling | AxiomZero commissioned — φ-analog, not proved physics |
-| `botanical/` | Plant science / φ-attractor biology | AxiomZero commissioned — speculative extension |
-| `embryology-manifold/` | Embryological development as 5D condensate | AxiomZero commissioned — exploratory |
-| `zero-point-energy/` | ZPE in the KK framework | AxiomZero commissioned — falsifiable claims pending |
-| `systems-engineering/` | Engineering systems as φ-attractors | AxiomZero commissioned — applied mathematics |
-| `realworld/` | Real-world comparison and prediction impact | AxiomZero commissioned — policy implications |
-| `discussions/` | Community discussions: Froehlich polaron, WSe2, AI review | Speculative bridges to current physics |
-| `NATURAL_SCIENCES.md` | Overview: natural science domain applications | AxiomZero commissioned |
-| `ATOMIC_STRUCTURE.md` | Atomic structure in the KK framework | Applied physics — partly testable |
-| `WHAT_THIS_MEANS.md` | Plain-language interpretation | Accessible overview |
-| `UNDERSTANDABLE_EXPLANATION.md` | Lay explanation | Accessible overview |
-| `SOUL_AND_SCIENCE.md` | Philosophical and spiritual implications | Personal essay by ThomasCory Walker-Pearson |
+| [`brain/`](brain/) | Neuroscience / brain-universe coupling | AxiomZero commissioned — φ-analog, not proved physics |
+| [`botanical/`](botanical/) | Plant science / φ-attractor biology | AxiomZero commissioned — speculative extension |
+| [`embryology-manifold/`](embryology-manifold/) | Embryological development as 5D condensate | AxiomZero commissioned — exploratory |
+| [`zero-point-energy/`](zero-point-energy/) | ZPE in the KK framework | AxiomZero commissioned — falsifiable claims pending |
+| [`systems-engineering/`](systems-engineering/) | Engineering systems as φ-attractors | AxiomZero commissioned — applied mathematics |
+| [`realworld/`](realworld/) | Real-world comparison and prediction impact | AxiomZero commissioned — policy implications |
+| [`discussions/`](discussions/) | Community discussions: Froehlich polaron, WSe2, AI review | Speculative bridges to current physics |
+| [`NATURAL_SCIENCES.md`](NATURAL_SCIENCES.md) | Overview: natural science domain applications | AxiomZero commissioned |
+| [`ATOMIC_STRUCTURE.md`](ATOMIC_STRUCTURE.md) | Atomic structure in the KK framework | Applied physics — partly testable |
+| [`WHAT_THIS_MEANS.md`](WHAT_THIS_MEANS.md) | Plain-language interpretation | Accessible overview |
+| [`UNDERSTANDABLE_EXPLANATION.md`](UNDERSTANDABLE_EXPLANATION.md) | Lay explanation | Accessible overview |
+| [`SOUL_AND_SCIENCE.md`](SOUL_AND_SCIENCE.md) | Philosophical and spiritual implications | Personal essay by ThomasCory Walker-Pearson |
 
 The Python modules for many of these domains live in `src/` subdirectories
 (`src/consciousness/`, `src/biology/`, `src/medicine/`, `src/ecology/`,
