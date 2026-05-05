@@ -15,6 +15,9 @@
 - [MCP Ingest Proof](MCP_INGEST.md): Complete low-token structured summary — optimised for AI ingestion.
 - [README](README.md): Project overview, equations, quickstart code examples.
 - [Citation](CITATION.cff): CFF metadata for academic citation.
+- [demo.ipynb](../demo.ipynb): **Interactive 30-second physics check** — CMB observables, 5D→4D projection, falsification verdict, and birefringence window. Run with `jupyter notebook demo.ipynb` or view at [nbviewer](https://nbviewer.org/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb).
+- [pyproject.toml](../pyproject.toml): **PEP 517/518 package manifest** — `pip install -e .` enables `from unitary_manifold.core import metric`.
+- [unitary_manifold/__init__.py](../unitary_manifold/__init__.py): Namespace shim mapping `unitary_manifold.*` imports to `src/`.
 
 ## Theory Documents
 

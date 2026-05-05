@@ -8,6 +8,8 @@
 [![167 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-167%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v9.33-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
+[![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://nbviewer.org/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
+[![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
 > SU(5) is derived from 5D geometry (Pillar 70-D); the breaking SU(5)→SU(3)×SU(2)×U(1)
@@ -23,6 +25,29 @@
 > See [`FALLIBILITY.md`](FALLIBILITY.md) and
 > [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) for the
 > precise epistemic record.
+
+---
+
+## ⚡ Quick Start
+
+```bash
+# Clone and install as a Python package
+git clone https://github.com/wuzbak/Unitary-Manifold-
+cd Unitary-Manifold-
+pip install -e .                        # installs the `unitary_manifold` namespace
+
+# Production-grade import (after install)
+python -c "from unitary_manifold.core import metric, evolution; print('OK')"
+
+# Interactive demo — CMB observables, 5D evolution, falsification check
+jupyter notebook demo.ipynb             # or open in VS Code / JupyterLab
+
+# Full test suite
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
+```
+
+The `demo.ipynb` at the repository root is the fastest way to see the framework in action —  
+no configuration required, results in under 30 seconds.
 
 ---
 

@@ -5,3 +5,9 @@ bot/context_snapshot.md
 # Python bytecode
 __pycache__/
 *.py[cod]
+
+# Python packaging build artifacts
+*.egg-info/
+dist/
+build/
+.eggs/
