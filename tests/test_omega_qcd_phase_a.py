@@ -815,13 +815,13 @@ class TestOmegaQcdPhaseAReport:
 
 class TestPhysicalCrossChecks:
     def test_alpha_gut_geometric_vs_mssm_fit(self):
-        """CS quantization gives 1/α_GUT within 2% of MSSM/KK GUT fit."""
+        """CS quantization gives 1/α_GUT within 5% of MSSM/KK GUT fit (1.5% actual)."""
         inv_geo = INV_ALPHA_GUT_GEOMETRIC    # 74/3 = 24.667
         inv_mssm = 1.0 / ALPHA_GUT_SU5_REFERENCE  # 24.3
         deviation_pct = abs(inv_geo - inv_mssm) / inv_mssm * 100.0
         assert deviation_pct < 5.0, (
             f"Geometric 1/α_GUT = {inv_geo:.3f} vs MSSM fit {inv_mssm:.3f}: "
-            f"{deviation_pct:.1f}% (should be < 5%)"
+            f"{deviation_pct:.1f}% (should be < 5%; actual is ~1.5%)"
         )
 
     def test_sm_only_running_gives_wrong_gut_coupling(self):

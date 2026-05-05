@@ -745,18 +745,18 @@ def lambda_qcd_from_alpha_s_mz(
     """Compute Λ_QCD^{N_f=3} from α_s(M_Z) via 1-loop threshold matching.
 
     Three-threshold matching: M_Z → m_b → m_c, with LO decoupling.
-        Λ_QCD(N_f) = μ × exp(2π / (b₃^SM(N_f) × α_s(μ)))  [wrong sign]
 
-    Correct 1-loop formula (MS-bar):
-        Λ_QCD(N_f) = μ × exp(π / (β₀(N_f) × α_s(μ)))
-    where β₀(N_f) = (11N_c - 2N_f)/3 and the MS-bar prefactor gives:
-        Λ = μ × exp(-1/(2 β̂₀ α_s(μ)))
-    with β̂₀ = β₀/(4π²) in the PDG convention.
+    The 1-loop MS-bar dimensional-transmutation formula is:
 
-    Using β₀ = (11N_c-2N_f)/3 and the 1-loop RGE, the formula is:
-        Λ_QCD = μ × exp(-2π / (β₀ × α_s(μ)))
+        Λ_QCD(N_f) = μ × exp(-2π / (β₀(N_f) × α_s(μ)))
 
-    For N_f=3: β₀ = 9, Λ ≈ m_c × exp(-2π/(9 × α_s(m_c))).
+    where β₀(N_f) = (11 N_c − 2 N_f)/3 is positive (QCD is asymptotically
+    free).  For N_f=3: β₀ = 9, evaluated at μ = m_c.
+
+    The downward running from M_Z to m_b (N_f=5) and m_b to m_c (N_f=4)
+    uses the standard Martin b-coefficient convention where the 1-loop
+    β-function for SU(3) satisfies d(1/α_s)/d(ln μ) = −b/(2π) > 0
+    (α_s decreases upward, increases downward — no Landau pole until Λ_QCD).
 
     Parameters
     ----------
