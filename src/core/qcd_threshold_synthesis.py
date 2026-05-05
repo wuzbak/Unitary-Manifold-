@@ -344,8 +344,9 @@ def kk_threshold_correction(
         Δα_s⁻¹ = +(b₀^{KK} / 2π) × Σ_{n=2}^{N_KK} ln(n)/n
 
     The 1/n weighting represents the decreasing coupling strength of the nth
-    KK mode (flat extra-dimension normalisation).  This is a positive
-    correction: it increases 1/α_s slightly, yielding α_s_eff < α_s_mkk.
+    KK mode (flat extra-dimension normalisation).  This positive correction to
+    1/α_s weakens the effective coupling (α_s_eff < α_s_mkk), because a
+    larger 1/α_s corresponds to a smaller α_s.
 
     With M_KK = M_Pl/R_c ≈ 2.03×10¹⁷ GeV and α_s_eff ≈ 0.022,
     dimensional transmutation gives Λ_QCD = M_KK × exp(−2π/(b₀α_s_eff))

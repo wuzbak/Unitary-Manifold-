@@ -23,11 +23,16 @@ cells.  The dilaton slope satisfies the worldsheet area condition:
 
     kappa = M_KK * sqrt(N_W / K_CS)
 
-Working from the RS1 formula (Pillar 162):
+because the worldsheet area integral over one winding cell contributes a factor
+N_W / K_CS to the energy density and kappa is the square root of the slope.
+In the soft-wall AdS/QCD model the rho meson (n=1 Regge mode) has mass
+m_rho = 2*kappa, so:
 
-    m_rho = M_KK / (pi*kR)^2,   pi*kR = K_CS / 2 = 37
+    m_rho = 2 * M_KK * sqrt(N_W / K_CS)
 
-the ratio is:
+The QCD confinement scale Lambda_QCD = m_rho / r_dil. Solving for r_dil and
+substituting the RS1 formula (Pillar 162): m_rho = M_KK / (pi*kR)^2
+with pi*kR = K_CS / 2 = 37 gives:
 
     r_dil = m_rho / Lambda_QCD = sqrt(K_CS / N_W)
 

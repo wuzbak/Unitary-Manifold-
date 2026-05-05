@@ -108,7 +108,10 @@ HONEST ACCOUNTING
 * 4-loop + threshold result (Pillar 153): gives Λ_QCD ≈ 332 MeV from this α_GUT.
 * Status: POSTULATED BY CS ANALOGY (Dirac-like quantization applied to the 5D
   gauge bundle by analogy — not derived from the 5D action integral
-  S = ∫d⁵x√-G·R); EMPIRICALLY VERIFIED (path B, KK-corrected RGE, < 2%).
+  S = ∫d⁵x√-G·R, and specifically not derived by integrating the 5D
+  Chern-Simons 3-form A∧dA+⅔A∧A∧A over the compact S¹/Z₂; that first-
+  principles derivation remains an open goal); EMPIRICALLY VERIFIED (path B,
+  KK-corrected RGE, < 2%).
 
 STATUS
 ------
