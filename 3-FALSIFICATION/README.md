@@ -26,6 +26,7 @@ the braided-winding mechanism.
 |------|---------|
 | [**FALSIFICATION_CONDITIONS.md**](FALSIFICATION_CONDITIONS.md) | **Every explicit condition that falsifies the framework — numbered bright lines, kill thresholds, and what would survive as revision vs. outright falsification** |
 | [**FALSIFICATION_REGISTER.md**](FALSIFICATION_REGISTER.md) | **Structured register of all 17 falsifiable predictions: predicted value, current status, decisive experiment, timeline, and kill condition for each** |
+| [**THEORY_LANDSCAPE.md**](THEORY_LANDSCAPE.md) | **Comparative context: UM vs E8, Wolfram Physics, and Geometric Unity — dimension efficiency, symmetry breaking, falsification timelines, and LiteBIRD sensor profile** |
 | [`prediction.md`](prediction.md) | All current quantitative predictions with their falsification thresholds |
 
 ### Peer reviews and adversarial analysis
