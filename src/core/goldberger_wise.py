@@ -3,7 +3,23 @@
 """
 src/core/goldberger_wise.py
 ============================
-Pillar 68 — Goldberger-Wise Radion Stabilization.
+Pillar 68 — Goldberger-Wise Radion Stabilization (RS1 Cross-Check).
+
+⚠️  ROLE IN THE UM (v9.36 clarification — peer-review response)
+----------------------------------------------------------------
+This module is an **optional RS1 cross-check**, NOT the primary radion
+stabilization mechanism.
+
+Primary stabilization is provided by the Braided VEV Closure in
+`phi0_closure.py` (Pillar 56), which fixes φ₀ = 1 Planck unit from the
+FTUM fixed-point iteration and the geometric sound speed c_s = 12/37 — with
+ZERO free parameters and no external scalar potential.
+
+This module cross-checks that the same φ₀ = 1 is a minimum of the
+Goldberger-Wise potential V_GW = λ_GW(φ²−φ₀²)², and confirms that the
+resulting radion mass m_φ ~ M_KK is heavy (no Brans-Dicke problem).  The
+GW coupling λ_GW ~ O(1) is treated as natural (no fine-tuning) but is NOT
+derived from the 5D action.
 
 Physical context
 ----------------
@@ -21,10 +37,9 @@ Key results in the UM:
   - R_KK from neutrino-mass closure (Pillar 56) is used as an independent
     check on the GW-stabilized radius.
 
-Gap closed: FALLIBILITY.md §IV.5 — "GW coupling scale λ_GW remains as an
-unresolved parameter". This module derives that natural λ_GW ~ 1 (Planck
-units) is fully consistent with the UM fixed-point structure, narrowing the
-parameter to an O(1) range even without analytic closure.
+Cross-check status (v9.36): FALLIBILITY.md §IV.5 updated — λ_GW remains an
+O(1) natural-units parameter not derived from the 5D action.  The primary
+stabilization (Pillar 56 braided closure) requires no GW scalar field.
 
 Algebra Proof Chain
 -------------------

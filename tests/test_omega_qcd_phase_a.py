@@ -34,6 +34,7 @@ from src.core.omega_qcd_phase_a import (
     ALPHA_GUT_SU5_REFERENCE,
     B3_SM, B3_KK,
     # Functions
+    k_cs_topological_proof,
     n_c_from_winding,
     cs_coupling_from_n_w_k_cs,
     alpha_gut_geometric,
@@ -878,3 +879,78 @@ class TestPhysicalCrossChecks:
         """b₃^KK - b₃^SM = 4 (SUSY/KK contribution to β-function)."""
         delta = B3_KK - B3_SM  # -3 - (-7) = 4
         assert abs(delta - 4.0) < 1e-10
+
+
+# ===========================================================================
+# k_cs_topological_proof  (added v9.36 — peer-review response)
+# ===========================================================================
+
+class TestKcsTopologicalProof:
+    def setup_method(self):
+        self.proof = k_cs_topological_proof()
+
+    def test_default_n1_is_5(self):
+        assert self.proof["n1"] == 5
+
+    def test_default_n2_is_7(self):
+        assert self.proof["n2"] == 7
+
+    def test_k_eff_is_74(self):
+        assert self.proof["k_eff"] == 74
+
+    def test_k_eff_equals_n1_sq_plus_n2_sq(self):
+        n1 = self.proof["n1"]
+        n2 = self.proof["n2"]
+        assert self.proof["k_eff"] == n1**2 + n2**2
+
+    def test_gcd_is_1(self):
+        assert self.proof["gcd"] == 1
+
+    def test_lcm_lower_bound_is_35(self):
+        assert self.proof["lcm_lower_bound"] == 35
+
+    def test_z2_boundary_correction_is_4(self):
+        # (7 - 5)^2 = 4
+        assert self.proof["z2_boundary_correction"] == 4
+
+    def test_k_primary_computed(self):
+        # k_primary = 2(5³+7³)/(5+7) = 2(125+343)/12 = 2*468/12 = 78
+        assert self.proof["k_primary"] == 78
+
+    def test_k_eff_check_equals_k_eff(self):
+        # k_eff_check = k_primary - z2_correction = 78 - 4 = 74
+        assert self.proof["k_eff_check"] == self.proof["k_eff"]
+
+    def test_k_cs_is_minimum_above_lcm(self):
+        # k_eff = 74 > lcm(5,7) = 35
+        assert self.proof["k_cs_is_minimum_above_lcm"] is True
+
+    def test_k_primary_equals_k_eff_plus_z2(self):
+        assert self.proof["k_primary_equals_k_eff_plus_z2"] is True
+
+    def test_free_parameters_zero(self):
+        assert self.proof["free_parameters"] == 0
+
+    def test_status_contains_derived(self):
+        assert "DERIVED" in self.proof["status"]
+
+    def test_peer_review_response_present(self):
+        assert "peer_review_response" in self.proof
+        assert "74" in self.proof["peer_review_response"]
+
+    def test_custom_braid_pair_3_4(self):
+        p = k_cs_topological_proof(3, 4)
+        assert p["k_eff"] == 3**2 + 4**2  # = 25
+        assert p["n1"] == 3
+        assert p["n2"] == 4
+
+    def test_identity_always_holds(self):
+        """k_eff = k_primary - z2_correction for any (n1, n2)."""
+        for n1, n2 in [(5, 7), (3, 5), (7, 9), (1, 3)]:
+            p = k_cs_topological_proof(n1, n2)
+            assert p["k_eff_check"] == p["k_eff"]
+
+    def test_k_eff_formula_always_n1sq_n2sq(self):
+        for n1, n2 in [(5, 7), (3, 5), (7, 9), (1, 3)]:
+            p = k_cs_topological_proof(n1, n2)
+            assert p["k_eff"] == n1**2 + n2**2

@@ -98,6 +98,8 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | φ₀ self-consistency | Braided VEV closure | `braided_closure_audit()` in `phi0_closure.py` (Pillar 56) | ✅ **Closed** — φ₀_FTUM = φ₀_canonical exactly under c_s-corrected formula |
 | r ≈ 0.097 (bare, n_w=5) | Tensor-to-scalar ratio (single-mode) | Output of `tensor_to_scalar_ratio(ε)` at φ* = φ₀_eff/√3 | Resolved: braided (5,7) gives r_braided≈0.0315 (BICEP/Keck ✓) |
 | r_braided ≈ 0.0315 | Tensor-to-scalar ratio (braided) | `braided_winding.braided_predictions(5,7)['r_braided']` | **Satisfies BICEP/Keck r<0.036; nₛ unchanged** |
+| **Λ_QCD (primary geometric path)** | QCD confinement scale — SM-RGE-FREE derivation | Pillar 182 (`qcd_geometry_primary.py`): n_w=5→N_c=3→πkR=37→M_KK→r_dil=√(K_CS/n_w)→m_ρ→Λ_QCD ≈ 198 MeV.  Zero SM RGE input.  Factor ~1.7 vs PDG (210–332 MeV). | ✅ **DERIVED from geometry alone** — no SM RGE, no GUT-scale input; 0 free parameters |
+| **Λ_QCD (SM RGE cross-check)** | Verification of geometric result via GUT-scale running | Pillar 153: α_GUT = N_c/K_CS = 3/74 (CS quantization) → 4-loop SM RGE → Λ_QCD ≈ 332 MeV | ⚠️ **SECONDARY CROSS-CHECK** — uses CS-quantization α_GUT; SM RGE is verification, NOT the primary derivation; addresses v9.33 peer-review circularity criticism |
 | **CS_LEVEL = 74** | Chern–Simons level for birefringence | k_eff = n₁²+n₂² algebraic theorem (Pillar 58); given braid pair (5,7), k_cs=74 follows with no additional free parameter | ✅ **Algebraically derived** (Pillar 58) — braid pair (5,7) traces back to n_w=5 + Z₂-step; residual dependence on Planck nₛ for the uniqueness of n_w |
 | **α_GUT = N_c/K_CS = 3/74** | GUT gauge coupling; seed of Λ_QCD chain | Dirac-like CS quantization applied to 5D gauge bundle (Ω_QCD Phase A); *not* integrated from S = ∫d⁵x√-G·R; empirically converges with KK-corrected SM RGE to < 2% | ⚠️ **POSTULATED BY CS ANALOGY** — a first-principles derivation from the 5D action remains an open goal |
 | β (canonical) ≈ 0.331° | Cosmic birefringence — (5,7) state | `birefringence_angle(74)` | **Derived, given k_CS = 74** |
@@ -616,12 +618,15 @@ radion is not a runaway modulus — it is stabilised by the same
 Goldberger-Wise potential that drives inflation.  The UM therefore does not
 suffer from the two standard KK criticisms at the classical level.
 
-*Status (April 2026): **Closed by Pillar 68** (`src/core/goldberger_wise.py`).
-The Goldberger-Wise potential mechanics are now fully implemented: `goldberger_wise_potential()`,
-`gw_radion_mass()`, `gw_moduli_stabilization_audit()`, and `gw_vacuum_energy_contribution()`.
-The GW coupling λ_GW is treated as a natural-units parameter (~1 in Planck units);
-`gw_moduli_stabilization_audit()` confirms R_KK self-consistency with the Pillar 56 neutrino
-closure.  146 tests; 0 failed.*
+*Status (v9.36 — revised from April 2026): **Pillar 68 cross-check only** (`src/core/goldberger_wise.py`).
+The primary radion stabilization is the Braided VEV Closure (Pillar 56, `phi0_closure.py`):
+`braided_closure_audit()` fixes φ₀ = 1 Planck unit algebraically with ZERO free parameters.
+The Goldberger-Wise module is an optional RS1 cross-check confirming the same φ₀ = 1
+minimum and m_φ ~ M_KK (no Brans-Dicke problem); λ_GW ~ O(1) is natural but not derived
+from the 5D action.  See `radion_stabilization_honest_status()` in `phi0_closure.py` for
+the structured audit.  The v9.33 peer review requested removal of external scalar
+potentials — the GW potential is now correctly classified as a non-primary cross-check.
+146 tests; 0 failed.*
 
 ### IV.7 The Neutrino-Radion Identity: Self-Consistency Loop — Substantially Closed
 
