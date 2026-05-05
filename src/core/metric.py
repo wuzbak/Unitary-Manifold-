@@ -525,7 +525,9 @@ def derive_nw_index_theorem(
         n_w     — constructed winding number (= 5 for standard inputs)
         details — construction trace with keys:
                   ``n_generations``, ``index_D5``, ``n_w_before_Z2``,
-                  ``z2_removes``, ``n_w``, ``is_derived``,
+                  ``z2_removes``, ``n_w``, ``is_derived`` (legacy bool, kept for
+                  API compatibility; the ``assumptions`` key carries the
+                  conditionality that ``is_derived`` alone cannot express),
                   ``assumptions``, ``construction_summary``
 
     Raises
@@ -557,23 +559,23 @@ def derive_nw_index_theorem(
         "n_w_before_Z2":     int(n_w_before),
         "z2_removes":        int(z2_removes),
         "n_w":               int(n_w),
-        "is_derived":        True,   # legacy key (kept for API compatibility); the 'assumptions' key makes the conditionality explicit
+        "is_derived":        True,   # legacy key; see 'assumptions' key for conditionality
         "assumptions": [
             "Index(D5) = n_generations [identification, not first-principles derivation]",
             "Orbifold doubling x2 [standard S1/Z2 rule; model-dependent]",
             f"Z2 removes exactly {z2_removes} mode(s) [free input parameter]",
         ],
         "construction_summary": (
-            "Index(D₅)={ng}  (3 SM generations, assumption i)"
-            "  →  n_w_raw = 2×{ng} = {nb}  (doubling, assumption ii)"
-            "  →  Z₂ removes {z2}  (assumption iii)"
+            "Index(D₅)={ng}  (3 SM generations, assumption i)\n"
+            "  →  n_w_raw = 2×{ng} = {nb}  (doubling, assumption ii)\n"
+            "  →  Z₂ removes {z2}  (assumption iii)\n"
             "  →  n_w = {nw}  (conditional on all three assumptions)"
         ).format(ng=n_generations, nb=n_w_before, z2=z2_removes, nw=n_w),
         # Legacy key retained for API compatibility
         "derivation_summary": (
-            "Index(D₅)={ng}  (3 SM generations)"
-            "  →  n_w_raw = 2×{ng} = {nb}"
-            "  →  Z₂ projection removes {z2}"
+            "Index(D₅)={ng}  (3 SM generations)\n"
+            "  →  n_w_raw = 2×{ng} = {nb}\n"
+            "  →  Z₂ projection removes {z2}\n"
             "  →  n_w = {nw}  (conditional on assumptions; see 'assumptions' key)"
         ).format(ng=n_generations, nb=n_w_before, z2=z2_removes, nw=n_w),
     }

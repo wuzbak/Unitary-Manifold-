@@ -482,6 +482,12 @@ def test_observable_consistency() -> None:
     This test is not asserting a proof; it is verifying that the framework
     remains consistent with the observational data it targets, and
     detecting regressions introduced by code changes.
+
+    Raises
+    ------
+    AssertionError
+        If ``run_verify()`` returns a non-zero exit code, indicating that
+        one or more observational consistency checks have failed.
     """
     import io
     # Capture and discard stdout so test output stays clean.
