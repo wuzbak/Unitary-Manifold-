@@ -8,7 +8,7 @@
 [![167 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-167%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
 [![Version](https://img.shields.io/badge/version-v9.33-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
-[![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://nbviewer.org/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
+[![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
