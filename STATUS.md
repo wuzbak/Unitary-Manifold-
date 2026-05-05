@@ -85,7 +85,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
-| v9.36 | Peer Review Response — Pillar 182 + K_CS proof + GW demotion + radion audit | 182 (Pillar 182 + k_cs_topological_proof + radion_stabilization_honest_status) | +90 | 2026-05-05 |
+| v9.36 | Peer Review Response — Pillar 182 + k_CS proof + GW demotion + radion audit | 182 (Pillar 182 + k_cs_topological_proof + radion_stabilization_honest_status) | +90 | 2026-05-05 |
 | v9.35 | Red-Team Audit Response + Formal Math Bridge | 168–181 (α_GUT constrained, RS₁ Laplacian, fermion PARAMETERIZED, symbolic metric) | +194 | 2026-05-05 |
 | v9.34 | Ω_QCD Phase B — QCD Confinement Final Closure | Ω_QCD-B (update to Pillar 162) | +80 | 2026-05-05 |
 | v9.33 | Gap Closure Arc II (Waves G–M) | 162–167 | +463 | 2026-05-04 |
