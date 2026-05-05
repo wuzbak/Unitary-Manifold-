@@ -757,3 +757,97 @@ class TestKawamuraFromWinding:
         r7 = self.fn(7)
         assert r5["in_SU_n_w"] is True
         assert r7["in_SU_n_w"] is False
+
+
+# ===========================================================================
+# Axiom A — derived from 5D CS action (Finding 4 — v9.37)
+# ===========================================================================
+
+class TestAxiomADerivedFromCSAction:
+    """Tests for axiom_a_derived_from_cs_action() — Finding 4 audit response."""
+
+    def setup_method(self):
+        from src.core.nw5_pure_theorem import axiom_a_derived_from_cs_action
+        self.result = axiom_a_derived_from_cs_action()
+
+    def test_status_is_derived(self):
+        assert self.result["status"] == "DERIVED"
+
+    def test_derivation_is_not_postulate(self):
+        assert self.result["derivation_is_postulate"] is False
+
+    def test_five_steps_present(self):
+        steps = self.result["steps"]
+        for key in ["step_1", "step_2", "step_3", "step_4", "step_5"]:
+            assert key in steps
+
+    def test_step2_status_proved(self):
+        assert "PROVED" in self.result["steps"]["step_2"]["status"]
+
+    def test_step3_status_derived(self):
+        assert "DERIVED" in self.result["steps"]["step_3"]["status"]
+
+    def test_step4_status_derived(self):
+        assert "DERIVED" in self.result["steps"]["step_4"]["status"]
+
+    def test_step5_status_algebraic(self):
+        assert "ALGEBRAIC" in self.result["steps"]["step_5"]["status"]
+
+    def test_conclusion_contains_derived(self):
+        assert "DERIVED" in self.result["conclusion"]
+
+    def test_conclusion_not_postulated(self):
+        assert "NOT postulated" in self.result["conclusion"] or \
+               "not postulated" in self.result["conclusion"].lower()
+
+    def test_verification_has_both_candidates(self):
+        v = self.result["verification"]
+        assert "n_w=5" in v
+        assert "n_w=7" in v
+
+    def test_nw5_satisfies_axiom_a(self):
+        v = self.result["verification"]["n_w=5"]
+        assert v["satisfies_axiom_a"] is True
+
+    def test_nw7_does_not_satisfy_axiom_a(self):
+        v = self.result["verification"]["n_w=7"]
+        assert v["satisfies_axiom_a"] is False
+
+    def test_nw5_product_is_37(self):
+        v = self.result["verification"]["n_w=5"]
+        assert v["k_cs_times_eta_bar"] == pytest.approx(37.0, abs=1e-9)
+
+    def test_nw5_product_is_odd(self):
+        v = self.result["verification"]["n_w=5"]
+        assert v["is_odd_integer"] is True
+
+    def test_nw7_product_is_zero(self):
+        v = self.result["verification"]["n_w=7"]
+        assert v["k_cs_times_eta_bar"] == pytest.approx(0.0, abs=1e-9)
+
+    def test_nw7_product_not_odd(self):
+        v = self.result["verification"]["n_w=7"]
+        assert v["is_odd_integer"] is False
+
+    def test_source_references_pillar_70d(self):
+        assert "70-D" in self.result["source"] or "70D" in self.result["source"]
+
+    def test_axiom_a_statement_present(self):
+        assert len(self.result["axiom_a_statement"]) > 20
+
+
+class TestFullSummaryAxiomAStatus:
+    """Test that full_nw5_proof_summary embeds the axiom_a_status dict."""
+
+    def test_axiom_a_status_present(self):
+        result = full_nw5_proof_summary()
+        assert "axiom_a_status" in result
+
+    def test_axiom_a_status_is_derived(self):
+        result = full_nw5_proof_summary()
+        assert result["axiom_a_status"]["status"] == "DERIVED"
+
+    def test_status_after_70d_mentions_derived(self):
+        result = full_nw5_proof_summary()
+        status = result["status_after_pillar_70D"]
+        assert "DERIVED" in status or "CONDITIONAL" in status

@@ -68,7 +68,11 @@ step_euler(state, dt)
 cfl_timestep(state, cfl)
     Estimate a CFL-stable timestep for the scalar diffusion term.
 
-run_evolution(state, dt, steps, callback)
+_check_cfl(state, dt, cfl)
+    Check whether dt satisfies the CFL stability condition.  Returns a
+    dict with keys ok, dt_given, dt_max, dx, ratio, message.
+
+run_evolution(state, dt, steps, callback, check_cfl)
     Iterate *steps* RK4 timesteps, collecting history.
 
 information_current(g, phi, dx)
@@ -353,10 +357,22 @@ def step(state: FieldState, dt: float) -> FieldState:
     result = _advance_fields(state, dg, dB, dphi, dt, t0 + dt)
     # Enforce metric volume conservation to separate physical irreversibility
     # from numerical dissipation (det-drift).
-    return FieldState(g=_project_metric_volume(result.g),
-                      B=result.B, phi=result.phi, t=result.t,
-                      dx=result.dx, lam=result.lam, alpha=result.alpha,
-                      phi0=result.phi0, m_phi=result.m_phi)
+    out = FieldState(g=_project_metric_volume(result.g),
+                     B=result.B, phi=result.phi, t=result.t,
+                     dx=result.dx, lam=result.lam, alpha=result.alpha,
+                     phi0=result.phi0, m_phi=result.m_phi)
+    # NaN/Inf guard: detect numerical blow-up caused by CFL violation or
+    # chaotic initial conditions, and raise immediately with a clear message.
+    if (not np.all(np.isfinite(out.phi)) or
+            not np.all(np.isfinite(out.B)) or
+            not np.all(np.isfinite(out.g))):
+        raise RuntimeError(
+            "CFL violation detected mid-integration: fields are NaN/Inf after "
+            f"RK4 step at t={t0:.6g} + dt={dt:.6g}.  "
+            f"CFL-stable dt_max = {0.4 * state.dx ** 2:.4g} for dx={state.dx:.4g}.  "
+            "Reduce dt or increase grid spacing dx."
+        )
+    return out
 
 
 def step_euler(state: FieldState, dt: float) -> FieldState:
@@ -403,6 +419,48 @@ def cfl_timestep(state: FieldState, cfl: float = 0.4) -> float:
     return float(cfl * state.dx**2)
 
 
+def _check_cfl(state: FieldState, dt: float, cfl: float = 0.4) -> dict:
+    """Check whether *dt* satisfies the CFL stability condition.
+
+    The scalar field diffusion term □φ requires
+        dt  ≤  cfl × dx²
+    for the explicit RK4 scheme to be numerically stable.
+
+    Parameters
+    ----------
+    state : FieldState
+    dt    : float — proposed timestep
+    cfl   : float — CFL safety factor (default 0.4)
+
+    Returns
+    -------
+    dict with keys:
+        ``ok``        : bool  — True iff dt ≤ dt_max
+        ``dt_given``  : float — the proposed timestep
+        ``dt_max``    : float — CFL-stable upper bound (cfl × dx²)
+        ``dx``        : float — grid spacing
+        ``ratio``     : float — dt / dt_max  (must be ≤ 1 for stability)
+        ``message``   : str   — human-readable status
+    """
+    dt_max = cfl_timestep(state, cfl)
+    ok = dt <= dt_max
+    ratio = dt / dt_max if dt_max > 0.0 else float("inf")
+    msg = (
+        f"CFL OK: dt={dt:.4g} ≤ dt_max={dt_max:.4g} (cfl×dx²={cfl}×{state.dx}²)"
+        if ok else
+        f"CFL VIOLATION: dt={dt:.4g} > dt_max={dt_max:.4g} (cfl×dx²={cfl}×{state.dx}²); "
+        f"ratio={ratio:.2f}.  Reduce dt or increase dx."
+    )
+    return {
+        "ok": ok,
+        "dt_given": float(dt),
+        "dt_max": dt_max,
+        "dx": state.dx,
+        "ratio": ratio,
+        "message": msg,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Evolution driver
 # ---------------------------------------------------------------------------
@@ -412,20 +470,35 @@ def run_evolution(
     dt: float,
     steps: int,
     callback: Optional[Callable[[FieldState, int], None]] = None,
+    check_cfl: bool = True,
 ) -> List[FieldState]:
     """Integrate the field equations for *steps* timesteps.
 
     Parameters
     ----------
-    state    : FieldState — initial conditions
-    dt       : float      — timestep
-    steps    : int        — number of steps
-    callback : optional callable(state, step_index) called after each step
+    state     : FieldState — initial conditions
+    dt        : float      — timestep
+    steps     : int        — number of steps
+    callback  : optional callable(state, step_index) called after each step
+    check_cfl : bool       — if True (default), raise ValueError before the
+                             first step when dt exceeds the CFL-stable limit
+                             cfl_timestep(state) = 0.4 × dx².  Set False
+                             to suppress the check (e.g. for benchmark tests).
 
     Returns
     -------
     history : list of FieldState  (length steps + 1, including initial state)
+
+    Raises
+    ------
+    ValueError
+        If check_cfl=True and dt > cfl_timestep(state).
     """
+    if check_cfl:
+        report = _check_cfl(state, dt)
+        if not report["ok"]:
+            raise ValueError(report["message"])
+
     history = [state]
     for i in range(steps):
         state = step(state, dt)
