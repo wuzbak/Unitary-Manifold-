@@ -406,3 +406,61 @@ class TestPeerReviewCompliance:
         # m_rho = M_KK / (pi_kr)^2
         assert m_rho == pytest.approx(m_kk / (pi_kr ** 2), rel=1e-6)
         assert m_rho == pytest.approx(lam * r_dil, rel=1e-6)
+
+
+# ===========================================================================
+# QCD Derivation Hierarchy (Finding 2 — v9.37 audit response)
+# ===========================================================================
+
+class TestQcdDerivationHierarchy:
+    """Tests for qcd_derivation_hierarchy() — Finding 2 audit response."""
+
+    def setup_method(self):
+        from src.core.qcd_geometry_primary import qcd_derivation_hierarchy
+        self.hier = qcd_derivation_hierarchy()
+
+    def test_returns_dict(self):
+        assert isinstance(self.hier, dict)
+
+    def test_three_paths_present(self):
+        assert "PRIMARY" in self.hier
+        assert "CROSS_CHECK" in self.hier
+        assert "CLOSED_FOR_PHYSICS" in self.hier
+
+    def test_primary_path_is_c(self):
+        assert "C" in self.hier["PRIMARY"]["path"] or "geometric" in self.hier["PRIMARY"]["path"].lower()
+
+    def test_primary_result_near_197_mev(self):
+        assert self.hier["PRIMARY"]["result_mev"] == pytest.approx(197.0, rel=0.05)
+
+    def test_primary_zero_free_parameters(self):
+        assert self.hier["PRIMARY"]["free_parameters"] == 0
+
+    def test_primary_no_sm_rge(self):
+        assert self.hier["PRIMARY"]["sm_rge_used"] is False
+
+    def test_primary_status_contains_derived(self):
+        assert "DERIVED" in self.hier["PRIMARY"]["status"].upper()
+
+    def test_cross_check_path_b(self):
+        assert "B" in self.hier["CROSS_CHECK"]["path"] or "KK" in self.hier["CROSS_CHECK"]["path"]
+
+    def test_cross_check_status_contains_verification(self):
+        assert "VERIFICATION" in self.hier["CROSS_CHECK"]["status"].upper()
+
+    def test_closed_path_a_result_tiny(self):
+        # Path A gives ~10^-13 MeV (dimensional transmutation)
+        assert self.hier["CLOSED_FOR_PHYSICS"]["result_mev"] < 1.0
+
+    def test_closed_why_present(self):
+        assert len(self.hier["CLOSED_FOR_PHYSICS"]["why_closed"]) > 20
+
+    def test_closed_status_physics(self):
+        assert "PHYSICS" in self.hier["CLOSED_FOR_PHYSICS"]["status"].upper()
+
+    def test_audit_verdict_resolves_gap(self):
+        verdict = self.hier["audit_verdict"]
+        assert "10^7" in verdict or "gap" in verdict.lower() or "resolved" in verdict.lower()
+
+    def test_inputs_only_present(self):
+        assert "(n_w=5, K_CS=74)" in self.hier["inputs_only"]

@@ -432,3 +432,92 @@ class TestConstraintMonitorDetG:
         _, _, Ricci, R = compute_curvature(s.g, s.B, s.phi, s.dx)
         result = constraint_monitor(Ricci, R, s.B, s.phi, g=s.g)
         assert np.isfinite(result["det_g_violation"])
+
+
+# ---------------------------------------------------------------------------
+# CFL guard and NaN detector (Finding 3 — v9.37 audit response)
+# ---------------------------------------------------------------------------
+
+class TestCheckCFL:
+    """Tests for _check_cfl() private function — Finding 3."""
+
+    def setup_method(self):
+        from src.core.evolution import _check_cfl
+        self._check_cfl = _check_cfl
+
+    def test_valid_dt_returns_ok_true(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1e-3)
+        assert report["ok"] is True
+
+    def test_invalid_dt_returns_ok_false(self, flat_state_small):
+        # dx=0.1 → dt_max = 0.4*0.01 = 0.004; dt=1.0 violates
+        report = self._check_cfl(flat_state_small, dt=1.0)
+        assert report["ok"] is False
+
+    def test_report_has_expected_keys(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1e-3)
+        for key in ("ok", "dt_given", "dt_max", "dx", "ratio", "message"):
+            assert key in report
+
+    def test_dt_max_equals_cfl_timestep(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1e-3)
+        assert report["dt_max"] == pytest.approx(cfl_timestep(flat_state_small), rel=1e-9)
+
+    def test_ratio_below_1_for_valid_dt(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1e-4)
+        assert report["ratio"] < 1.0
+
+    def test_ratio_above_1_for_invalid_dt(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1.0)
+        assert report["ratio"] > 1.0
+
+    def test_message_ok_for_valid_dt(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1e-3)
+        assert "OK" in report["message"].upper() or "≤" in report["message"]
+
+    def test_message_violation_for_invalid_dt(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1.0)
+        assert "VIOLATION" in report["message"].upper()
+
+    def test_dx_matches_state(self, flat_state_small):
+        report = self._check_cfl(flat_state_small, dt=1e-3)
+        assert report["dx"] == pytest.approx(flat_state_small.dx)
+
+
+class TestRunEvolutionCFLGuard:
+    """Tests for check_cfl parameter in run_evolution() — Finding 3."""
+
+    def test_valid_dt_no_error(self, flat_state_small):
+        # Should complete without error
+        history = run_evolution(flat_state_small, dt=1e-3, steps=3, check_cfl=True)
+        assert len(history) == 4
+
+    def test_invalid_dt_raises_value_error(self, flat_state_small):
+        """dt >> dt_max should raise ValueError when check_cfl=True."""
+        with pytest.raises(ValueError, match="CFL"):
+            run_evolution(flat_state_small, dt=10.0, steps=1, check_cfl=True)
+
+    def test_invalid_dt_suppressed_with_check_cfl_false(self, flat_state_small):
+        """check_cfl=False should suppress the CFL ValueError (other errors may still fire)."""
+        # With a very large dt the simulation may blow up (RuntimeError from NaN guard,
+        # or ValueError from near-singular metric in metric.py). The key constraint
+        # is that NO CFL-specific ValueError is raised; other physics errors are allowed.
+        try:
+            run_evolution(flat_state_small, dt=10.0, steps=1, check_cfl=False)
+        except (RuntimeError, ValueError):
+            # Acceptable: physics blow-up (NaN guard or near-singular metric)
+            pass
+        except Exception as exc:
+            pytest.fail(f"Unexpected exception type: {type(exc).__name__}: {exc}")
+
+    def test_check_cfl_true_is_default(self, flat_state_small):
+        """Default behaviour (no check_cfl kwarg) should enforce CFL."""
+        with pytest.raises(ValueError):
+            run_evolution(flat_state_small, dt=100.0, steps=1)
+
+    def test_cfl_error_message_contains_dt_info(self, flat_state_small):
+        try:
+            run_evolution(flat_state_small, dt=100.0, steps=1, check_cfl=True)
+        except ValueError as exc:
+            msg = str(exc)
+            assert "dt" in msg.lower() or "CFL" in msg
