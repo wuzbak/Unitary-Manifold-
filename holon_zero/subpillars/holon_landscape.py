@@ -291,7 +291,7 @@ def symmetry_breaking_comparison() -> list[SymmetryBreakingEntry]:
             parent_symmetry="O(14,14) on 14D bundle",
             target_symmetry="SU(3)_C × SU(2)_L × U(1)_Y (claimed)",
             mechanism=(
-                "14D observerse fiber bundle; Dirac-type operator on the bundle "
+                "14D observable fiber bundle; Dirac-type operator on the bundle "
                 "claimed to produce SM-like gauge sector.  Nguyen (2021) showed "
                 "the adjoint bundle construction is inconsistent — the claimed "
                 "connection between the 14D geometry and SM fermion representations "

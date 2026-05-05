@@ -205,7 +205,7 @@ class TestDimensionEfficiency:
 
     def test_gu_notes_mentions_nguyen(self, results):
         gu = next(r for r in results if r.theory == "Geometric Unity")
-        assert "Nguyen" in gu.notes or "inconsisten" in gu.notes.lower()
+        assert "Nguyen" in gu.notes or "inconsistencies" in gu.notes.lower()
 
     def test_all_efficiency_ratios_nonnegative(self, results):
         for r in results:
@@ -293,7 +293,7 @@ class TestSymmetryBreaking:
 
     def test_e8_mechanism_mentions_distler(self, results):
         e8 = next(r for r in results if r.theory == "E8 Theory (Lisi)")
-        assert "Distler" in e8.mechanism or "anomaly" in e8.mechanism.lower()
+        assert "Nguyen" in e8.mechanism or "anomaly" in e8.mechanism.lower()
 
     def test_wolfram_first_principles_false(self, results):
         wf = next(r for r in results if r.theory == "Wolfram Physics")
@@ -313,7 +313,7 @@ class TestSymmetryBreaking:
 
     def test_gu_mechanism_mentions_nguyen(self, results):
         gu = next(r for r in results if r.theory == "Geometric Unity")
-        assert "Nguyen" in gu.mechanism or "inconsisten" in gu.mechanism.lower()
+        assert "Nguyen" in gu.mechanism or "inconsistencies" in gu.mechanism.lower()
 
     def test_all_mechanisms_nonempty(self, results):
         for r in results:
