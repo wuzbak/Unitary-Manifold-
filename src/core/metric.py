@@ -75,24 +75,12 @@ import numpy as np
 def z2_parity_clarification() -> Dict[str, Any]:
     """Return a structured description of the Z₂ parity of each field component.
 
-    This function addresses a referee-raised issue (2026-05-02 cross-disciplinary
-    peer review, §IV): "If B_μ is Z₂-odd, it has no massless zero mode.  The
-    zero mode of an electromagnetic field is Z₂-even, not Z₂-odd."
+    Encodes the Z₂ parity assignments for B_μ, φ, g_μν, and the composite
+    electromagnetic field A_μ = λφB_μ in the S¹/Z₂ KK reduction.
 
-    The framework resolves this apparent contradiction as follows.  B_μ and the
-    electromagnetic photon are *physically distinct fields*:
-
-    (a) **B_μ is Z₂-odd under y → −y** (by tensor transformation).
-        Under the orbifold involution y → −y, the fifth component of a covariant
-        vector transforms as B_5 → −B_5.  The off-diagonal block of the 5D
-        KK metric G_{μ5} = λφB_μ therefore inherits Z₂-odd parity.
-
-    (b) **B_μ's zero mode vanishes at the orbifold fixed planes** (y = 0, πR).
-        This is *intentional*: B_μ is the irreversibility 1-form.  It sources the
-        arrow of time via H_μν = ∂_μB_ν − ∂_νB_μ.  Its zero mode vanishing at
-        the fixed planes corresponds to the boundary condition that the physical
-        irreversibility field carries net flux through the bulk (a topological
-        Chern-Simons source), not a boundary-localized photon.
+    For the full referee-response derivation explaining why B_μ (irreversibility
+    1-form, Z₂-odd, no zero mode) and A_μ (electromagnetic field, boundary mode)
+    are physically distinct, see ``1-THEORY/Z2_PARITY_NOTE.md``.
 
     (c) **The electromagnetic photon is the zero mode of the Z₂-even combination**.
         Following the KK reduction (Kaluza 1921, Klein 1926), the 4D gauge field
@@ -419,7 +407,7 @@ def compute_curvature(g, B, phi, dx, lam=1.0):
 # ---------------------------------------------------------------------------
 
 def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0):
-    """Derive the nonminimal coupling α from the 5D Riemann cross-block term.
+    """Evaluate the nonminimal coupling α from the 5D Riemann cross-block term.
 
     In the KK dimensional reduction of the 5D Einstein–Hilbert action
 
@@ -432,16 +420,15 @@ def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0):
 
         α ℓP² R H²
 
-    to the 4D effective action.  The coupling constant is determined entirely
-    by the KK geometry:
+    to the 4D effective action.
 
-        α  =  (ℓP / L₅)²  =  φ₀⁻²
-
-    because G₅₅ = φ² identifies the radion φ with L₅/ℓP in natural units
-    (ℓP = 1).  This closes the third completion requirement of the Unitary
-    Manifold: α is not a free parameter but is pinned by the same radion φ
-    whose stabilisation (Requirement 1) is already solved internally by the
-    field equation β□φ = ½φ^{-1/2}R + ¼φ^{-2}H².
+    Under the normalization G₅₅ = φ² with ℓP = 1, α evaluates to ⟨φ⁻²⟩.
+    This result is frame- and normalization-dependent: a complete action-level
+    reduction (including warp-factor Jacobians, Einstein-frame rescaling, and
+    boundary counter-terms) is required to establish the coupling canonically.
+    The expression α = (ℓP / L₅)² = φ₀⁻² follows from identifying the radion
+    φ with L₅/ℓP, which is the natural choice in the flat S¹ reduction used
+    here but may differ in the warped RS variant (see assemble_warped_5d_metric).
 
     Parameters
     ----------
@@ -454,8 +441,8 @@ def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0):
     Returns
     -------
     alpha_geometric : float
-        Spatially-averaged nonminimal coupling ⟨1/φ²⟩ derived from the KK
-        compactification identity  α = φ⁻²  (in Planck units ℓP = 1).
+        Spatially-averaged nonminimal coupling ⟨1/φ²⟩ evaluated from the KK
+        normalization identity  α = φ⁻²  (in Planck units ℓP = 1, flat S¹).
     cross_block_riem : ndarray, shape (N, 4, 4)
         Cross-block Riemann component R^μ_{5ν5} = Riem5[:, :4, 4, :4, 4].
         Encodes the curvature mixing between the 4D block and the compact
@@ -492,7 +479,7 @@ def derive_nw_index_theorem(
     n_generations: int = 3,
     z2_removes: int = 1,
 ) -> Tuple[int, Dict[str, Any]]:
-    """Derive the winding number n_w from the Atiyah–Singer index theorem.
+    """Construct n_w under two model-dependent assumptions from index-theorem input.
 
     In the 5D theory compactified on S¹/Z₂ the Dirac operator D₅ acting on
     bulk spinors has a topological index (Atiyah–Singer):
@@ -516,8 +503,16 @@ def derive_nw_index_theorem(
 
         n_w = n_w_before_projection − z2_removes = 6 − 1 = 5
 
-    This gives n_w = 5 from topology + chirality alone, with **zero
-    observational input** and **zero new free parameters**.
+    Assumptions (model-dependent; listed explicitly)
+    -------------------------------------------------
+    (i)  Index(D₅) equals the number of observed SM generations (n_generations).
+         This is an identification, not a derivation from first principles.
+    (ii) Orbifold doubling ×2: each topological winding insertion contributes
+         twice before Z₂ projection.  This is the standard orbifold rule for
+         S¹/Z₂ but is model-dependent for other compactifications.
+    (iii) Z₂ removes exactly one mode (z2_removes = 1).  The number of modes
+          removed depends on the specific boundary conditions imposed and is a
+          free input parameter here.
 
     Parameters
     ----------
@@ -527,11 +522,13 @@ def derive_nw_index_theorem(
     Returns
     -------
     (n_w, details) : (int, dict)
-        n_w     — derived winding number (= 5 for standard inputs)
-        details — derivation trace with keys:
+        n_w     — constructed winding number (= 5 for standard inputs)
+        details — construction trace with keys:
                   ``n_generations``, ``index_D5``, ``n_w_before_Z2``,
-                  ``z2_removes``, ``n_w``, ``is_derived``,
-                  ``derivation_summary``
+                  ``z2_removes``, ``n_w``, ``is_derived`` (legacy bool, kept for
+                  API compatibility; the ``assumptions`` key carries the
+                  conditionality that ``is_derived`` alone cannot express),
+                  ``assumptions``, ``construction_summary``
 
     Raises
     ------
@@ -562,13 +559,25 @@ def derive_nw_index_theorem(
         "n_w_before_Z2":     int(n_w_before),
         "z2_removes":        int(z2_removes),
         "n_w":               int(n_w),
-        "is_derived":        True,
+        "is_derived":        True,   # legacy key; see 'assumptions' key for conditionality
+        "assumptions": [
+            "Index(D5) = n_generations [identification, not first-principles derivation]",
+            "Orbifold doubling x2 [standard S1/Z2 rule; model-dependent]",
+            f"Z2 removes exactly {z2_removes} mode(s) [free input parameter]",
+        ],
+        "construction_summary": (
+            "Index(D₅)={ng}  (3 SM generations, assumption i)\n"
+            "  →  n_w_raw = 2×{ng} = {nb}  (doubling, assumption ii)\n"
+            "  →  Z₂ removes {z2}  (assumption iii)\n"
+            "  →  n_w = {nw}  (conditional on all three assumptions)"
+        ).format(ng=n_generations, nb=n_w_before, z2=z2_removes, nw=n_w),
+        # Legacy key retained for API compatibility
         "derivation_summary": (
-            f"Index(D₅)={n_generations}  (3 SM generations)"
-            f"  →  n_w_raw = 2×{n_generations} = {n_w_before}"
-            f"  →  Z₂ projection removes {z2_removes}"
-            f"  →  n_w = {n_w}  (structural, no observational input)"
-        ),
+            "Index(D₅)={ng}  (3 SM generations)\n"
+            "  →  n_w_raw = 2×{ng} = {nb}\n"
+            "  →  Z₂ projection removes {z2}\n"
+            "  →  n_w = {nw}  (conditional on assumptions; see 'assumptions' key)"
+        ).format(ng=n_generations, nb=n_w_before, z2=z2_removes, nw=n_w),
     }
     return int(n_w), details
 
@@ -607,10 +616,12 @@ def assemble_warped_5d_metric(
 
     implemented in ``src.core.inflation.goldberger_wise_radion_potential``.
 
-    **Compatibility with ALGEBRA_PROOF.py**: the existing symbolic checks in
-    §1 (G_55 = φ²) and §10 (α = φ⁻²) apply to the *flat S¹* reduction where
-    r_c ≡ φ.  This function is the *warped* variant that separates the two
-    degrees of freedom; it leaves every existing check intact.
+    **Flat-limit recovery**: in the limit r_c(x) → φ(x) (i.e., when the
+    compactification radius equals the entanglement scalar) this function
+    reduces exactly to :func:`assemble_5d_metric`, recovering G_55 = φ²
+    and the standard flat S¹ result for α = φ⁻².  The warped variant keeps
+    r_c and φ as independent degrees of freedom, which is the physically
+    motivated choice for RS radion stabilisation.
 
     Parameters
     ----------

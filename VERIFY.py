@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-VERIFY.py — Unitary Manifold: Minimum Runnable Proof
-=====================================================
+VERIFY.py — Unitary Manifold: Observable Consistency Demonstration
+==================================================================
 
-HOOK: A single 5D Kaluza-Klein integer pair (n₁, n₂) = (5, 7) predicts
-three independent CMB observables — nₛ ≈ 0.9635, r ≈ 0.0315, β ≈ 0.35° —
-all within current observational bounds, from topology alone. Run this
-script to verify the chain in under 1 second.
+HOOK: A single 5D Kaluza-Klein integer pair (n₁, n₂) = (5, 7) is
+consistent with three independent CMB observables — nₛ ≈ 0.9635,
+r ≈ 0.0315, β ≈ 0.35° — all within current observational bounds, from
+topology alone. Run this script to check the consistency chain in under 1 s.
 
 Usage
 -----
@@ -136,7 +136,7 @@ def run_verify() -> int:
     checks: list[bool] = []
 
     print(_SEP)
-    print("  UNITARY MANIFOLD — MINIMUM RUNNABLE PROOF (142 pillars + Ω₀)")
+    print("  UNITARY MANIFOLD — OBSERVABLE CONSISTENCY CHECKS (142 pillars + Ω₀)")
     print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)")
     print(_SEP)
     print(f"  {'Check':<28s}  {'Value':<22s}  {'Reference':<14s}  Result")
@@ -201,18 +201,23 @@ def run_verify() -> int:
     print(_row(5, "β (5,7) sector [PRIMARY]", f"{beta_deg:.3f}°  ({beta_pull:.2f}σ)", ref5, c5))
 
     # ------------------------------------------------------------------
-    # CHECK 6 — Resonance uniqueness: exactly 2 pairs survive all constraints
+    # CHECK 6 — Resonance selectivity: exactly 2 pairs survive all constraints
+    # (internal selectivity within an n_max=10 scan; not a uniqueness proof
+    #  in the mathematical sense — a larger scan or relaxed constraints may
+    #  admit additional pairs)
     # ------------------------------------------------------------------
     survivors = resonance_scan(n_max=10, r_limit=R_BICEP_KECK_95, ns_sigma_max=1.0)
     n_survivors = len(survivors)
     c6 = n_survivors == 2
     checks.append(c6)
     pair_str = ", ".join(f"({p.n1},{p.n2})" for p in survivors)
-    print(_row(6, "Unique pairs (nₛ+r pass)", f"{n_survivors} pair(s): {pair_str}",
+    print(_row(6, "Surviving pairs (nₛ+r)", f"{n_survivors} pair(s): {pair_str}",
                "expect 2", c6))
 
     # ------------------------------------------------------------------
-    # CHECK 7 — Topology uniqueness: S¹/Z₂ is the unique passing topology
+    # CHECK 7 — Topology selectivity: S¹/Z₂ is the unique passing topology
+    # (conditional on the five structural axioms of the Unitary Manifold;
+    #  not an unconditional mathematical proof of uniqueness)
     # ------------------------------------------------------------------
     scan_result = uniqueness_scan()
     n_passing = len(scan_result.passing_topologies)
@@ -220,7 +225,7 @@ def run_verify() -> int:
     unique_name = scan_result.unique_topology.name if scan_result.unique_topology else "?"
     c7 = n_passing == 1 and "S¹/Z₂" in unique_name
     checks.append(c7)
-    print(_row(7, "Unique topology", f"{unique_name} (1 of {n_total})",
+    print(_row(7, "Unique topology (5 axioms)", f"{unique_name} (1 of {n_total})",
                "S¹/Z₂ only", c7))
 
     # ------------------------------------------------------------------
@@ -228,6 +233,10 @@ def run_verify() -> int:
     #
     # The I-alone map  S ← S + κ(S* − S)Δt  is a Banach contraction on
     # the entropy interval; iterating it must converge to S* = A/(4G).
+    #
+    # NOTE: This demonstrates Banach fixed-point convergence (pure
+    # mathematics). It is a necessary structural consistency condition,
+    # not an independent physics result derived from observational data.
     # ------------------------------------------------------------------
     G4    = 1.0
     kappa = 0.25
@@ -245,7 +254,6 @@ def run_verify() -> int:
     checks.append(c8)
     print(_row(8, "FTUM fixed point", f"S={S_fp:.6f}  ({n_iter} iter)",
                f"S*={S_star:.4f}", c8))
-
     # ------------------------------------------------------------------
     # CHECK 9 — φ₀ self-consistency (Pillar 56)
     #
@@ -463,8 +471,24 @@ def run_verify() -> int:
 # pytest entry point — discovered automatically by `pytest VERIFY.py`
 # ---------------------------------------------------------------------------
 
-def test_all_checks_pass() -> None:
-    """Pytest-discoverable wrapper: assert run_verify() returns 0 (all PASS)."""
+def test_observable_consistency() -> None:
+    """Consistency and regression test for UM observable predictions.
+
+    Asserts that UM predictions for nₛ, r, β, w_KK, and derived constants
+    remain within current observational bounds AND that no framework drift
+    has broken any previously passing check.
+
+    Fails if any bound is violated — this is intended behavior.
+    This test is not asserting a proof; it is verifying that the framework
+    remains consistent with the observational data it targets, and
+    detecting regressions introduced by code changes.
+
+    Raises
+    ------
+    AssertionError
+        If ``run_verify()`` returns a non-zero exit code, indicating that
+        one or more observational consistency checks have failed.
+    """
     import io
     # Capture and discard stdout so test output stays clean.
     buf = io.StringIO()
