@@ -139,7 +139,7 @@ class TestSymbolicLineElement:
         ds2, syms = line_element_and_syms
         phi = syms["phi"]
         # ds² contains phi² (from the fifth-dimension term)
-        assert ds2.has(phi**2) or ds2.has(phi * phi)
+        assert ds2.has(phi**2)
 
     def test_contains_lam(self, line_element_and_syms):
         ds2, syms = line_element_and_syms
