@@ -31,10 +31,10 @@ python ALGEBRA_PROOF.py
 
 | File | Purpose |
 |------|---------|
-| `SIMULATION_RUNS.md` | Record of all major simulation runs: parameters, hardware, output checksums |
-| `VALIDATION_REPORT.md` | External validation attempts and results |
-| `CONSISTENCY_LOG.md` | Cross-check log: every equation verified against at least two independent code paths |
-| `SNAPSHOT_MANIFEST.md` | File-by-file hash manifest for the v9.29 snapshot |
+| [`SIMULATION_RUNS.md`](SIMULATION_RUNS.md) | Record of all major simulation runs: parameters, hardware, output checksums |
+| [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md) | External validation attempts and results |
+| [`CONSISTENCY_LOG.md`](CONSISTENCY_LOG.md) | Cross-check log: every equation verified against at least two independent code paths |
+| [`SNAPSHOT_MANIFEST.md`](SNAPSHOT_MANIFEST.md) | File-by-file hash manifest for the v9.29 snapshot |
 
 The test suite itself lives at `tests/` (repo root) — it is not moved because
 pytest must discover it from the root directory.
@@ -45,10 +45,10 @@ pytest must discover it from the root directory.
 
 | Directory | Tests | What it covers |
 |-----------|-------|----------------|
-| `tests/` | ~13,059 | Core physics: metric, evolution, holography, inflation, FTUM, SM parameters |
-| `recycling/` | 316 | Pillar 16: φ-debt entropy accounting |
-| `5-GOVERNANCE/Unitary Pentad/` | ~1,266 | HILS governance framework |
-| `omega/` | 168 | Pillar Ω: Universal Mechanics Engine |
+| [`tests/`](../tests/) | ~13,059 | Core physics: metric, evolution, holography, inflation, FTUM, SM parameters |
+| [`recycling/`](../recycling/) | 316 | Pillar 16: φ-debt entropy accounting |
+| [`5-GOVERNANCE/Unitary Pentad/`](../5-GOVERNANCE/Unitary%20Pentad/) | ~1,266 | HILS governance framework |
+| [`omega/`](../omega/) | 168 | Pillar Ω: Universal Mechanics Engine |
 
 ---
 

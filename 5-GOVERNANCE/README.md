@@ -2,7 +2,7 @@
 
 > This folder contains an **independent governance framework** that borrows
 > mathematical structure from the Unitary Manifold but does not depend on the
-> physics being correct.  See `SEPARATION.md` for the precise boundary.
+> physics being correct.  See [`SEPARATION.md`](SEPARATION.md) for the precise boundary.
 
 ---
 
@@ -27,9 +27,9 @@ whether the cosmological Unitary Manifold is empirically confirmed.
 
 | Item | Description |
 |------|-------------|
-| `SEPARATION.md` | Precise statement of the boundary between the physics theory and the governance framework |
-| `Unitary Pentad/` | The complete HILS governance Python package + test suite |
-| `co-emergence/` | Documentation of the human-AI co-emergence philosophy underlying the framework |
+| [`SEPARATION.md`](SEPARATION.md) | Precise statement of the boundary between the physics theory and the governance framework |
+| [`Unitary Pentad/`](<Unitary Pentad/>) | The complete HILS governance Python package + test suite |
+| [`co-emergence/`](co-emergence/) | Documentation of the human-AI co-emergence philosophy underlying the framework |
 
 ---
 
@@ -56,7 +56,7 @@ python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 # Expected: ~1,266 passed (330 skipped = dual-use/product stubs), 0 failed
 ```
 
-See `PENTAD_PRODUCT_NOTICE.md` (at repo root) for the stub policy.
+See [`PENTAD_PRODUCT_NOTICE.md`](../PENTAD_PRODUCT_NOTICE.md) (at repo root) for the stub policy.
 
 ---
 
