@@ -472,12 +472,16 @@ def run_verify() -> int:
 # ---------------------------------------------------------------------------
 
 def test_observable_consistency() -> None:
-    """Regression test: asserts that UM predictions for nₛ, r, β, w_KK, and
-    derived constants remain within current observational bounds.
+    """Consistency and regression test for UM observable predictions.
 
-    Fails if framework drift breaks any bound — this is intended behavior.
-    This test is not asserting a proof; it is detecting regressions in the
-    framework's consistency with the observational data it targets.
+    Asserts that UM predictions for nₛ, r, β, w_KK, and derived constants
+    remain within current observational bounds AND that no framework drift
+    has broken any previously passing check.
+
+    Fails if any bound is violated — this is intended behavior.
+    This test is not asserting a proof; it is verifying that the framework
+    remains consistent with the observational data it targets, and
+    detecting regressions introduced by code changes.
     """
     import io
     # Capture and discard stdout so test output stays clean.

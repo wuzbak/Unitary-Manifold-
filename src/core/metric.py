@@ -557,25 +557,25 @@ def derive_nw_index_theorem(
         "n_w_before_Z2":     int(n_w_before),
         "z2_removes":        int(z2_removes),
         "n_w":               int(n_w),
-        "is_derived":        True,   # retained for API compatibility
+        "is_derived":        True,   # legacy key (kept for API compatibility); the 'assumptions' key makes the conditionality explicit
         "assumptions": [
             "Index(D5) = n_generations [identification, not first-principles derivation]",
             "Orbifold doubling x2 [standard S1/Z2 rule; model-dependent]",
             f"Z2 removes exactly {z2_removes} mode(s) [free input parameter]",
         ],
         "construction_summary": (
-            f"Index(D₅)={n_generations}  (3 SM generations, assumption i)"
-            f"  →  n_w_raw = 2×{n_generations} = {n_w_before}  (doubling, assumption ii)"
-            f"  →  Z₂ removes {z2_removes}  (assumption iii)"
-            f"  →  n_w = {n_w}  (conditional on all three assumptions)"
-        ),
+            "Index(D₅)={ng}  (3 SM generations, assumption i)"
+            "  →  n_w_raw = 2×{ng} = {nb}  (doubling, assumption ii)"
+            "  →  Z₂ removes {z2}  (assumption iii)"
+            "  →  n_w = {nw}  (conditional on all three assumptions)"
+        ).format(ng=n_generations, nb=n_w_before, z2=z2_removes, nw=n_w),
         # Legacy key retained for API compatibility
         "derivation_summary": (
-            f"Index(D₅)={n_generations}  (3 SM generations)"
-            f"  →  n_w_raw = 2×{n_generations} = {n_w_before}"
-            f"  →  Z₂ projection removes {z2_removes}"
-            f"  →  n_w = {n_w}  (conditional on assumptions; see 'assumptions' key)"
-        ),
+            "Index(D₅)={ng}  (3 SM generations)"
+            "  →  n_w_raw = 2×{ng} = {nb}"
+            "  →  Z₂ projection removes {z2}"
+            "  →  n_w = {nw}  (conditional on assumptions; see 'assumptions' key)"
+        ).format(ng=n_generations, nb=n_w_before, z2=z2_removes, nw=n_w),
     }
     return int(n_w), details
 
