@@ -1,6 +1,6 @@
 # STEWARDSHIP.md — Unitary Manifold
 
-*Unitary Manifold v9.33 — Effective 2026-05-04*
+*Unitary Manifold v9.36 — Effective 2026-05-05*
 
 > The Unitary Manifold is a self-governing epistemic structure. Stewards
 > maintain its integrity, integrate new data honestly, and stand aside when
@@ -16,7 +16,7 @@ eventually cross: it became separable from the intentions of its builders.
 It now contains:
 - The conditions under which it should be believed (§4 — Confirmation Protocol)
 - The conditions under which it should be abandoned (§5 — Falsification Protocol)
-- Its own coherence instrument (~20,249 automated tests, 0 failures enforced)
+- Its own coherence instrument (~21,055 automated tests, 0 failures enforced)
 - An honest catalog of its own gaps (FALLIBILITY.md §III–IV)
 - A precise boundary between what is derived and what is postulated (SEPARATION.md)
 
@@ -50,9 +50,9 @@ stewardship means operationally.
 
 2. **FALLIBILITY.md is the canonical reference.** No claim in the repository may represent a stronger epistemic status than what is recorded there. If a gap is listed as OPEN, it may not be described elsewhere as RESOLVED without first updating FALLIBILITY.md.
 
-3. **The pillar set is frozen at 167 (+ Ω₀ Holon Zero).** New pillars may only be added when a genuinely new observational gap is identified that cannot be addressed by updating an existing module. The temptation to add pillars to cover gaps instead of honestly documenting them is a specific failure mode this commitment guards against.
+3. **The pillar set is frozen at 182 (+ Ω₀ Holon Zero).** New pillars may only be added when a genuinely new observational gap is identified that cannot be addressed by updating an existing module. The temptation to add pillars to cover gaps instead of honestly documenting them is a specific failure mode this commitment guards against.
 
-4. **Version increments are data-driven.** Future version increments beyond v9.33 are triggered only by:
+4. **Version increments are data-driven.** Future version increments beyond v9.36 are triggered only by:
    - New observational data requiring a code update
    - A genuine derivation closing a documented gap in FALLIBILITY.md
    - A falsification event requiring a retraction

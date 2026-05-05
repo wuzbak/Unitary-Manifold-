@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v9.33 — Effective 2026-05-04*  
-*Pillar set: CLOSED at 167 pillars (+ Ω₀ Holon Zero)*
+*Unitary Manifold v9.36 — Effective 2026-05-05*  
+*Pillar set: CLOSED at 182 pillars (+ Ω₀ Holon Zero)*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an
@@ -14,13 +14,12 @@
 
 | Category | Count | Status |
 |----------|-------|--------|
-| Core physics pillars | 167 | ✅ CLOSED |
+| Core physics pillars | 182 | ✅ CLOSED |
 | Special modules | Ω₀ Holon Zero, Pillar 70-B, 70-C, 70-D | ✅ CLOSED |
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Test suite at closure:** ~20,249 passed · 329 skipped · 11 deselected · 0 failed  
-**After Ω_QCD Phase B:** ~20,329+ passed · 0 failed
+**Test suite at closure:** ~21,055 passed · 329 skipped · 11 deselected · 0 failed
 
 ---
 
@@ -86,6 +85,8 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v9.36 | Peer Review Response — Pillar 182 + K_CS proof + GW demotion + radion audit | 182 (Pillar 182 + k_cs_topological_proof + radion_stabilization_honest_status) | +90 | 2026-05-05 |
+| v9.35 | Red-Team Audit Response + Formal Math Bridge | 168–181 (α_GUT constrained, RS₁ Laplacian, fermion PARAMETERIZED, symbolic metric) | +194 | 2026-05-05 |
 | v9.34 | Ω_QCD Phase B — QCD Confinement Final Closure | Ω_QCD-B (update to Pillar 162) | +80 | 2026-05-05 |
 | v9.33 | Gap Closure Arc II (Waves G–M) | 162–167 | +463 | 2026-05-04 |
 | v9.32 | Gap Closure Arc I (Waves A–F) | 155–161 | +619 | 2026-05-04 |
@@ -123,6 +124,8 @@ for the full tracking table.
 | 150–154 | Neutrino mass, DE state, baryon-photon ratio, Λ_QCD, chiral fermions | ✅ CLOSED |
 | 155–161 | DE wₐ, inflation A_s, neutrino Dirac branch, seesaw, axion quintessence | ✅ CLOSED |
 | 162–167 | QCD confinement, PMNS RGE, c_L theorem, Casimir naturalness, DE loop, MAS Wave Engine | ✅ CLOSED |
+| 168–181 | Red-team response: α_GUT honest status, RS₁ Laplacian spectrum, fermion PARAMETERIZED verdict, symbolic metric bridge | ✅ CLOSED |
+| 182 | SM-RGE-free Λ_QCD from (n_w, K_CS) primary; k_CS=74 topological proof; GW demotion; radion audit | ✅ CLOSED |
 
 ### Special Modules
 

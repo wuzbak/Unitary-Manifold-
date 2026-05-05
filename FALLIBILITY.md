@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v9.33 — ThomasCory Walker-Pearson, 2026 (167 pillars/modules + Ω₀ Holon Zero + sub-pillars closed, ~20,249+ tests passing)*
+*Unitary Manifold v9.36 — ThomasCory Walker-Pearson, 2026 (182 pillars/modules + Ω₀ Holon Zero + sub-pillars closed, ~21,055+ tests passing)*
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 20,249 automated tests (167 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 21,055 automated tests (182 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -48,7 +48,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "~20,249 passed · 329 skipped · 0 failed," this is a statement about
+When the README badge reads "~21,055 passed · 329 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
