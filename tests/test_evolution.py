@@ -501,14 +501,16 @@ class TestRunEvolutionCFLGuard:
         """check_cfl=False should suppress the CFL ValueError (other errors may still fire)."""
         # With a very large dt the simulation may blow up (RuntimeError from NaN guard,
         # or ValueError from near-singular metric in metric.py). The key constraint
-        # is that NO CFL-specific ValueError is raised; other physics errors are allowed.
+        # is that NO CFL-specific ValueError is raised when check_cfl=False.
         try:
             run_evolution(flat_state_small, dt=10.0, steps=1, check_cfl=False)
-        except (RuntimeError, ValueError):
-            # Acceptable: physics blow-up (NaN guard or near-singular metric)
-            pass
-        except Exception as exc:
-            pytest.fail(f"Unexpected exception type: {type(exc).__name__}: {exc}")
+        except ValueError as exc:
+            # Only fail if it's a CFL-specific error
+            if "CFL" in str(exc).upper():
+                pytest.fail(f"check_cfl=False should suppress CFL ValueError, got: {exc}")
+            # Other ValueError (e.g. near-singular metric) is acceptable
+        except RuntimeError:
+            pass  # NaN guard is allowed to fire; that is correct behaviour
 
     def test_check_cfl_true_is_default(self, flat_state_small):
         """Default behaviour (no check_cfl kwarg) should enforce CFL."""

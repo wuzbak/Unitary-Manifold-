@@ -428,7 +428,8 @@ class TestQcdDerivationHierarchy:
         assert "CLOSED_FOR_PHYSICS" in self.hier
 
     def test_primary_path_is_c(self):
-        assert "C" in self.hier["PRIMARY"]["path"] or "geometric" in self.hier["PRIMARY"]["path"].lower()
+        # The path field starts with "C — Geometric AdS/QCD ..."
+        assert self.hier["PRIMARY"]["path"].startswith("C —")
 
     def test_primary_result_near_197_mev(self):
         assert self.hier["PRIMARY"]["result_mev"] == pytest.approx(197.0, rel=0.05)

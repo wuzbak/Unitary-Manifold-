@@ -443,7 +443,7 @@ def qcd_derivation_hierarchy(n_w: int = N_W, k_cs: int = K_CS) -> dict:
         },
         "CROSS_CHECK": {
             "path": "B — KK threshold corrections (Pillar 114)",
-            "method": "N_KK = K_CS = 74 KK gluon modes shift α_s_eff at each threshold",
+            "method": f"N_KK = K_CS = {k_cs} KK gluon modes shift α_s_eff at each threshold",
             "result_range_mev": "200–400",
             "agreement_with_primary_pct": "~20%",
             "sm_rge_used": True,

@@ -405,11 +405,15 @@ def run_verify() -> int:
         from src.core.evolution import FieldState, run_evolution, cfl_timestep
         _s = FieldState.flat(N=16, dx=0.1, rng=np.random.default_rng(42))
         _dt_max = cfl_timestep(_s)
+        _cfl_raised = False
         try:
             run_evolution(_s, dt=_dt_max * 10.0, steps=1, check_cfl=True)
-            c_cfl = False  # should have raised
-        except ValueError:
-            c_cfl = True
+            # If we reach here, check_cfl did NOT raise — that is a bug
+            c_cfl = False
+        except ValueError as _cfl_exc:
+            # Confirm it's a CFL error by checking the message
+            _cfl_raised = "CFL" in str(_cfl_exc).upper() or "cfl" in str(_cfl_exc).lower()
+            c_cfl = _cfl_raised
         checks.append(c_cfl)
         print(_row(17, "CFL guard fires for large dt",
                    f"dt_max={_dt_max:.4g}",
