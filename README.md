@@ -14,11 +14,14 @@
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
 > SU(5) is derived from 5D geometry (Pillar 70-D); the breaking SU(5)→SU(3)×SU(2)×U(1)
 > uses the Kawamura (2001) external orbifold mechanism — not yet derived from G_AB alone.
-> SM parameters (v9.33): 8 derived (<5% error), 9 fermion masses parameterized
+> SM parameters (v9.35): 8 derived (<5% error), 9 fermion masses parameterized
 > (Ŷ₅=1 fixes Yukawa scale; per-species c_L is a free parameter, not a prediction),
-> 4 constrained (5–25% accuracy), 3 geometric estimates, **1 OPEN: Λ_QCD (×10⁷ off —
-> QCD confinement not derivable from current 5D UM)**. Best results: Higgs VEV < 0.1%,
-> CKM CP phase 0.99σ. See `FALLIBILITY.md` for the full honest ledger.
+> **α_GUT = 1/24.3 is CONSTRAINED** (SU(5) GUT input, not derived from 5D geometry alone —
+> α_CS(M_KK) = 2π/222 ≈ 0.0283 is geometric but differs from α_GUT by ~31%; see Pillar 173),
+> 3 constrained total (5–25% accuracy or UV-anchored input), 2 resolved (Λ_QCD + ν mass),
+> 3 geometric estimates, **0 OPEN** (Λ_QCD gap closed by Ω_QCD Phase A+B).
+> Best results: Higgs VEV < 0.1%, CKM CP phase 0.99σ.
+> See `FALLIBILITY.md` and `RED_TEAM_RESPONSE.md` for the full honest ledger.
 > n_w = 5 uniqueness is a **conditional theorem** from 5D geometry (Pillar 70-D),
 > conditional on Axiom A (Z₂-odd CS boundary phase, asserted not derived);
 > Planck nₛ provides the observational discriminator between n_w=5 and n_w=7.

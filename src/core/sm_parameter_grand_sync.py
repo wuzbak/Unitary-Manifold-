@@ -49,9 +49,9 @@ PARAM_UPDATES: dict[str, dict] = {
     },
     "P3": {
         "name": "α_s (strong coupling at M_Z)",
-        "status": "DERIVED (SU(5) unification, Pillar 70-D)",
-        "pillar": "70-D",
-        "accuracy_pct_or_note": "< 2%",
+        "status": "CONSTRAINED (α_GUT = 1/24.3 is SU(5) GUT input, not derived from 5D geometry; α_CS(M_KK) = 2π/222 ≈ 0.0283 is geometric but α_GUT ≈ 0.0412 differs by ~31%; see Pillar 173)",
+        "pillar": "70-D/173",
+        "accuracy_pct_or_note": "α_CS(M_KK) = 2π/222 derived; α_GUT requires SU(5) matching input; < 2% after RGE running",
     },
     "P4": {
         "name": "v (Higgs VEV)",
