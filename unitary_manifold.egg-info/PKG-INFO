@@ -1,3 +1,39 @@
+Metadata-Version: 2.4
+Name: unitary-manifold
+Version: 9.33.0
+Summary: 5D Kaluza-Klein physics framework: geometry of irreversibility, CMB predictions, and Standard Model derivation
+Author: ThomasCory Walker-Pearson
+License: AGPL-3.0-or-later
+Project-URL: Homepage, https://github.com/wuzbak/Unitary-Manifold-
+Project-URL: Repository, https://github.com/wuzbak/Unitary-Manifold-
+Project-URL: Bug Tracker, https://github.com/wuzbak/Unitary-Manifold-/issues
+Project-URL: DOI, https://doi.org/10.5281/zenodo.19584531
+Keywords: kaluza-klein,extra-dimensions,cmb,cosmology,theoretical-physics,irreversibility,holography
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: LICENSE-AGPL
+License-File: NOTICE
+Requires-Dist: numpy<3,>=1.24
+Requires-Dist: scipy<2,>=1.11
+Requires-Dist: mpmath<2,>=1.3
+Requires-Dist: sympy<2,>=1.12
+Provides-Extra: dev
+Requires-Dist: pytest<9.1,>=7.0; extra == "dev"
+Provides-Extra: notebooks
+Requires-Dist: matplotlib<4,>=3.7; extra == "notebooks"
+Requires-Dist: jupyter>=1.0; extra == "notebooks"
+Requires-Dist: ipykernel>=6.0; extra == "notebooks"
+Provides-Extra: all
+Requires-Dist: unitary-manifold[dev,notebooks]; extra == "all"
+Dynamic: license-file
+
 # The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.33)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  

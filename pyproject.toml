@@ -1,0 +1,80 @@
+# pyproject.toml — PEP 517/518 build configuration for the Unitary Manifold
+# Install (development): pip install -e .
+# Install (production):  pip install .
+# After installation:    from unitary_manifold.core import metric
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# ---------------------------------------------------------------------------
+# Project metadata
+# ---------------------------------------------------------------------------
+[project]
+name = "unitary-manifold"
+version = "9.33.0"
+description = "5D Kaluza-Klein physics framework: geometry of irreversibility, CMB predictions, and Standard Model derivation"
+readme = "README.md"
+license = { text = "AGPL-3.0-or-later" }
+authors = [
+    { name = "ThomasCory Walker-Pearson" },
+]
+keywords = [
+    "kaluza-klein", "extra-dimensions", "cmb", "cosmology",
+    "theoretical-physics", "irreversibility", "holography",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Physics",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.24,<3",
+    "scipy>=1.11,<2",
+    "mpmath>=1.3,<2",
+    "sympy>=1.12,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0,<9.1",
+]
+notebooks = [
+    "matplotlib>=3.7,<4",
+    "jupyter>=1.0",
+    "ipykernel>=6.0",
+]
+all = [
+    "unitary-manifold[dev,notebooks]",
+]
+
+[project.urls]
+Homepage = "https://github.com/wuzbak/Unitary-Manifold-"
+Repository = "https://github.com/wuzbak/Unitary-Manifold-"
+"Bug Tracker" = "https://github.com/wuzbak/Unitary-Manifold-/issues"
+DOI = "https://doi.org/10.5281/zenodo.19584531"
+
+# ---------------------------------------------------------------------------
+# Package discovery
+# The `unitary_manifold` top-level package is a thin namespace shim whose
+# __path__ is redirected to src/ by unitary_manifold/__init__.py, so that
+# `from unitary_manifold.core import metric` resolves to src/core/metric.py
+# without moving any source files.
+# ---------------------------------------------------------------------------
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["unitary_manifold*"]
+
+# ---------------------------------------------------------------------------
+# pytest configuration (consolidates pytest.ini)
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+markers = [
+    "slow: expensive numerical tests — deselected by default; run with -m slow",
+]
+addopts = "-m 'not slow'"
+python_files = ["test_*.py", "ALGEBRA_PROOF.py"]
