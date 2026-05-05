@@ -49,10 +49,7 @@ notebooks = [
     "ipykernel>=6.0",
 ]
 all = [
-    "pytest>=7.0,<9.1",
-    "matplotlib>=3.7,<4",
-    "jupyter>=1.0",
-    "ipykernel>=6.0",
+    "unitary-manifold[dev,notebooks]",
 ]
 
 [project.urls]
