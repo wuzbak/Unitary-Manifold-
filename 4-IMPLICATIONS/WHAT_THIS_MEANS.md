@@ -3,8 +3,8 @@
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.29
 
-> "167 pillars + Ω₀ Holon Zero. ~20,249 tests. Five seed constants. One universe."  
-> — v9.33, May 2026
+> "182 pillars + Ω₀ Holon Zero. ~21,055 tests. Five seed constants. One universe."  
+> — v9.36, May 2026
 
 **Audience:** Everyone — physicists, reviewers, the public, and AI systems.  
 **Purpose:** Explain, without jargon, the single core claim of this work and why it matters.
@@ -99,7 +99,7 @@ The Chern-Simons level k_CS = 74 is not a fitting parameter — it simultaneousl
 | **C6** Pillar count = 74 = k_CS | This repository | **Structural** |
 | **C7** Back-reaction fixed-point eigenvalue = 74/74 = 1 | Pillar 72 | **Derived** |
 
-The **Completeness Theorem (Pillar 74)** formally proved that k_CS=74 satisfies all 7 structural constraints simultaneously. The framework has since been extended to **167 pillars + Ω₀ Holon Zero + sub-pillars** (Pillars 75, 80–167, Pillar 70-B, sub-pillars 70-D, 97-B/C, and Pillar Ω) — these extended pillars operate within the k_CS=74 constraint envelope without requiring new free parameters. See `src/core/completeness_theorem.py` and `tests/test_completeness_theorem.py` (170 tests).
+The **Completeness Theorem (Pillar 74)** formally proved that k_CS=74 satisfies all 7 structural constraints simultaneously. The framework has since been extended to **182 pillars + Ω₀ Holon Zero + sub-pillars** (Pillars 75, 80–182, Pillar 70-B, sub-pillars 70-D, 97-B/C, and Pillar Ω) — these extended pillars operate within the k_CS=74 constraint envelope without requiring new free parameters. See `src/core/completeness_theorem.py` and `tests/test_completeness_theorem.py` (170 tests).
 
 These five quantitative results emerging from the same framework without independent tuning is the primary evidence that the geometry is capturing something real.
 
@@ -217,8 +217,8 @@ COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-
 GAPS:        CMB amplitude ×4–7 suppressed (unresolved); n_w APS conjecture (preferred, not proved)
 FALSIFIER:   LiteBIRD β ∉ [0.22°,0.38°] or β in gap [0.29°–0.31°]; β=0.273° selects (5,6) sector; β=0.331° selects (5,7) sector; gap=2.9σ_LB (Pillar 95); Roman Space Telescope w ≠ −0.9302; ET/LISA null scalar GW
 ANALYTIC:    Pillar 96 (Unitary Closure): exactly {(5,6),(5,7)} proved by algebraic inequality — not enumeration; FTUM S*=A/(4G) sector-agnostic; Unitary Summation in 10 steps
-TESTS:       ~20,249 passed · 329 skipped · 11 slow-deselected · 0 failures
-             (prior milestones: 18,057 (v9.30, 142 pillars), 15,615 (v9.29, 101 pillars), 15,296 (pre-audit), 14,641=11⁴ (v9.25); tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/; 167 pillars + Ω₀ + sub-pillars — CLOSED. REPOSITORY COMPLETE.)
+TESTS:       ~21,055 passed · 329 skipped · 11 slow-deselected · 0 failures
+             (prior milestones: 20,249 (v9.33, 167 pillars), 18,057 (v9.30, 142 pillars), 15,615 (v9.29, 101 pillars), 15,296 (pre-audit), 14,641=11⁴ (v9.25); tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/; 182 pillars + Ω₀ + sub-pillars — CLOSED. REPOSITORY COMPLETE.)
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
              src/core/completeness_theorem.py      ← Pillar 74: k_CS=74 Topological Completeness Theorem
              src/consciousness/coupled_attractor.py  ← Pillar 9: Coupled Master Equation
@@ -238,7 +238,7 @@ CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braide
              src/core/cmb_transfer.py                        ← Pillar 63: E-H CMB Transfer Function
              src/core/nw_anomaly_selection.py                ← Pillar 67: Anomaly Cancellation n_w uniqueness
              src/core/three_generations.py, kk_backreaction.py               ← Pillars 68–72
-             (All 167 geometric pillars implemented + Pillar Ω; see src/core/ and omega/ for full listing)
+             (All 182 geometric pillars implemented + Pillar Ω; see src/core/ and omega/ for full listing)
 KEY FILE:    FALLIBILITY.md (full limitations), README.md (technical detail)
              brain/COUPLED_MASTER_EQUATION.md (consciousness as coupled fixed point)
 ```
@@ -257,7 +257,7 @@ The birefringence measurement from LiteBIRD will be the decisive test within thi
 
 ---
 
-*Document version: 2.0 — May 2026 (v9.33: 167 pillars + Ω₀ Holon Zero + sub-pillars closed, ~20,249 tests. REPOSITORY CLOSED.)*  
+*Document version: 2.0 — May 2026 (v9.36: 182 pillars + Ω₀ Holon Zero + sub-pillars closed, ~21,055 tests. REPOSITORY CLOSED.)*  
 *Part of the Unitary Manifold repository — see [README.md](README.md) for technical detail, [FALLIBILITY.md](FALLIBILITY.md) for honest limitations.*
 
 ---

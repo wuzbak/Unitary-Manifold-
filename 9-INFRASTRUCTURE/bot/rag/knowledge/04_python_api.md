@@ -1,7 +1,7 @@
 # Python API — Unitary Manifold
 
 The repository contains a Python implementation of the full theory. The
-test suite has ~14,103 passing tests (~14,179 total: ~14,103 fast passed · 76 skipped · 11 slow-deselected) in `tests/`; plus 316 in `recycling/`, 1,026 in `5-GOVERNANCE/Unitary Pentad/` (254 skipped), and 170 in `omega/` — **15,615 total passing, 0 failures**.
+test suite has ~19,543 passing tests (~19,618 total: ~19,543 fast passed · 75 skipped · 11 slow-deselected) in `tests/`; plus 316 in `recycling/`, 1,026 in `5-GOVERNANCE/Unitary Pentad/` (254 skipped), and 170 in `omega/` — **21,055 total passing, 0 failures**.
 
 ## Installation
 

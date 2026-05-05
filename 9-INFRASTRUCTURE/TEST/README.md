@@ -1,10 +1,10 @@
 # Test Suite — Unitary Manifold
 
-**18,057 tests: 18,057 passed · 329 skipped · 11 slow-deselected · 0 failures** — verified 2026-05-04, Python 3.12, pytest
+**21,055 tests: 21,055 passed · 329 skipped · 11 slow-deselected · 0 failures** — verified 2026-05-05, Python 3.12, pytest
 
 **14,641 = 11⁴** — prior structural milestone at v9.25: 11 M-theory dimensions to the power of 4 world dimensions.
 
-*(tests/ suite: 14,103 passed 76 skipped + recycling/: 316 + 5-GOVERNANCE/Unitary Pentad/: 1,026 passed 254 skipped + omega/: 170)*
+*(tests/ suite: 19,543 passed 75 skipped + recycling/: 316 + 5-GOVERNANCE/Unitary Pentad/: 1,026 passed 254 skipped + omega/: 170)*
 
 ### The 330 skipped tests
 

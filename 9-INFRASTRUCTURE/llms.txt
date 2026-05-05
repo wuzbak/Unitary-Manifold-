@@ -6,8 +6,8 @@
 >
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.33, 167 pillars + sub-pillars, ~20,249 tests, 2026).
-> REPOSITORY COMPLETE (v9.33 — 167 pillars + sub-pillars). ~20,249 passing tests.
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.36, 182 pillars + sub-pillars, ~21,055 tests, 2026).
+> REPOSITORY COMPLETE (v9.36 — 182 pillars + sub-pillars). ~21,055 passing tests.
 
 ## Start Here
 
