@@ -69,6 +69,7 @@ internal consistency of the mathematics.
 | Walker–Pearson field equations as the correct dimensional reduction | `evolution.py`; `metric.py` | **Postulated** |
 | FTUM operator structure U = I + H + T | `fixed_point.py` | **Postulated** |
 | Holographic entropy–area relation S = A/4G at the boundary | `fixed_point.py` → `apply_irreversibility` | **Assumed (standard AdS/CFT)** |
+| **α_GUT = N_c/K_CS** (GUT gauge coupling = 3/74) | `omega_qcd_phase_a.py`; feeds Λ_QCD RGE chain | CS quantization condition by analogy to Dirac monopole quantization: K_CS × α_GUT = N_c.  Not derived from S = ∫d⁵x√-G·R. | **Postulated by CS analogy — not derived from 5D action** |
 
 The sentence that must be said plainly:
 > **If any of these assumptions are physically unjustified, the conclusions of
@@ -98,6 +99,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | r ≈ 0.097 (bare, n_w=5) | Tensor-to-scalar ratio (single-mode) | Output of `tensor_to_scalar_ratio(ε)` at φ* = φ₀_eff/√3 | Resolved: braided (5,7) gives r_braided≈0.0315 (BICEP/Keck ✓) |
 | r_braided ≈ 0.0315 | Tensor-to-scalar ratio (braided) | `braided_winding.braided_predictions(5,7)['r_braided']` | **Satisfies BICEP/Keck r<0.036; nₛ unchanged** |
 | **CS_LEVEL = 74** | Chern–Simons level for birefringence | k_eff = n₁²+n₂² algebraic theorem (Pillar 58); given braid pair (5,7), k_cs=74 follows with no additional free parameter | ✅ **Algebraically derived** (Pillar 58) — braid pair (5,7) traces back to n_w=5 + Z₂-step; residual dependence on Planck nₛ for the uniqueness of n_w |
+| **α_GUT = N_c/K_CS = 3/74** | GUT gauge coupling; seed of Λ_QCD chain | Dirac-like CS quantization applied to 5D gauge bundle (Ω_QCD Phase A); *not* integrated from S = ∫d⁵x√-G·R; empirically converges with KK-corrected SM RGE to < 2% | ⚠️ **POSTULATED BY CS ANALOGY** — a first-principles derivation from the 5D action remains an open goal |
 | β (canonical) ≈ 0.331° | Cosmic birefringence — (5,7) state | `birefringence_angle(74)` | **Derived, given k_CS = 74** |
 | β (alternate) ≈ 0.273° | Cosmic birefringence — (5,6) state | `birefringence_angle(61)` | **Derived, given k_CS = 61** — second viable triple-constraint state |
 | CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165: Casimir energy at GUT scale gives α_GW within factor ~5 of required → NATURALLY BOUNDED. | ⚠️ **A_s normalization NATURALLY BOUNDED** (Pillar 165) — α_GW naturally O(10⁻¹⁰) from Casimir energy; precise value is UV-brane initial condition. Acoustic peak amplitudes remain suppressed ×4.2–6.1 until α is fixed geometrically. |

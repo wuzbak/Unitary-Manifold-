@@ -106,12 +106,23 @@ HONEST ACCOUNTING
 * With KK-corrected β-function (b₃^{KK} = -3 above M_KK): α₃(M_GUT) ≈ 0.040–0.041,
   matching Path A.
 * 4-loop + threshold result (Pillar 153): gives Λ_QCD ≈ 332 MeV from this α_GUT.
-* Status: DERIVED (path A, no free parameters); VERIFIED (path B, KK-corrected).
+* Status: POSTULATED BY CS ANALOGY (Dirac-like quantization applied to the 5D
+  gauge bundle by analogy — not derived from the 5D action integral
+  S = ∫d⁵x√-G·R, and specifically not derived by integrating the 5D
+  Chern-Simons 3-form A∧dA+⅔A∧A∧A over the compact S¹/Z₂; that first-
+  principles derivation remains an open goal); EMPIRICALLY VERIFIED (path B,
+  KK-corrected RGE, < 2%).
 
 STATUS
 ------
-✅ DERIVED (Phase A, no free parameters from n_w and K_CS)
-✅ CONVERGED (path A ≈ path B at M_GUT to within 2-loop threshold accuracy)
+⚠️ POSTULATED BY CS ANALOGY — α_GUT = N_c/K_CS uses the Dirac quantization
+   analogy K_CS × α_GUT = N_c applied to the 5D non-Abelian gauge bundle.
+   This is an informed physical postulate, not a derivation from the 5D
+   Einstein–Hilbert action.  A derivation from first principles (integrating
+   the 5D Chern–Simons term over the compact S¹/Z₂) remains an open goal.
+✅ EMPIRICALLY CONVERGED — path A (geometric CS postulate) agrees with path B
+   (KK-corrected SM RGE from PDG α_s) to < 2% at M_GUT, providing a strong
+   empirical cross-check but not an independent derivation.
 
 Public API
 ----------

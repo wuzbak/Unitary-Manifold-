@@ -612,34 +612,148 @@ class TestSU3EmergenceStatus:
     def test_returns_dict(self):
         assert isinstance(self.result, dict)
 
-    def test_step4_is_external(self):
-        """Step 4 (Kawamura) must be classified as EXTERNAL_MECHANISM."""
-        assert self.result["steps"]["step_4"]["classification"] == "EXTERNAL_MECHANISM"
+    def test_step4_is_derived(self):
+        """Step 4 (Kawamura) is now DERIVED_FROM_5D_GEOMETRY via winding split."""
+        assert self.result["steps"]["step_4"]["classification"] == "DERIVED_FROM_5D_GEOMETRY"
 
-    def test_step4_external_flag(self):
-        assert self.result["steps"]["step_4"]["external_flag"] is True
+    def test_step4_external_flag_false(self):
+        assert self.result["steps"]["step_4"]["external_flag"] is False
 
     def test_step3_is_derived(self):
         """Step 3 (SU(5) from KK species) must be DERIVED_FROM_5D_GEOMETRY."""
         assert self.result["steps"]["step_3"]["classification"] == "DERIVED_FROM_5D_GEOMETRY"
 
-    def test_external_steps_list(self):
-        assert self.result["external_steps"] == ["step_4"]
+    def test_external_steps_empty(self):
+        assert self.result["external_steps"] == []
 
     def test_n_steps_derived(self):
-        assert self.result["n_steps_derived_from_5d"] == 5
+        assert self.result["n_steps_derived_from_5d"] == 7
 
-    def test_n_steps_external(self):
-        assert self.result["n_steps_external"] == 1
+    def test_n_steps_external_is_zero(self):
+        assert self.result["n_steps_external"] == 0
 
-    def test_path_to_closure_mentions_boundary_conditions(self):
+    def test_path_to_closure_mentions_closed(self):
         path = self.result["path_to_full_closure"]
-        assert "boundary" in path.lower() or "BC" in path or "G_{AB}" in path
+        assert "CLOSED" in path or "kawamura_from_winding" in path
 
-    def test_kawamura_citation_present(self):
-        source = self.result["steps"]["step_4"]["source"]
-        assert "Kawamura" in source and "2001" in source
+    def test_step4_derivation_function_referenced(self):
+        s4 = self.result["steps"]["step_4"]
+        assert "kawamura_from_winding" in s4["derivation_function"]
+
+    def test_step7_present(self):
+        assert "step_7" in self.result["steps"]
+
+    def test_all_steps_derived(self):
+        for key, step in self.result["steps"].items():
+            assert step["classification"] == "DERIVED_FROM_5D_GEOMETRY", \
+                f"{key} is still EXTERNAL_MECHANISM"
 
     def test_verdict_text(self):
         verdict = self.result["status_verdict"]
-        assert "external import" in verdict.lower() or "external" in verdict.lower()
+        assert "DERIVED_FROM_5D_GEOMETRY" in verdict or "derived" in verdict.lower()
+
+
+# ===========================================================================
+# kawamura_from_winding — derived from UM winding mode split
+# ===========================================================================
+
+class TestKawamuraFromWinding:
+    """Tests for kawamura_from_winding() in su5_orbifold_proof.py."""
+
+    def setup_method(self):
+        from src.core.su5_orbifold_proof import kawamura_from_winding
+        self.fn = kawamura_from_winding
+        self.result = kawamura_from_winding(5)
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_n_w_correct(self):
+        assert self.result["n_w"] == 5
+
+    def test_n_even_for_nw5(self):
+        assert self.result["n_even"] == 3   # ceil(5/2) = 3
+
+    def test_n_odd_for_nw5(self):
+        assert self.result["n_odd"] == 2    # floor(5/2) = 2
+
+    def test_p_matrix_length_nw5(self):
+        assert len(self.result["P_matrix"]) == 5
+
+    def test_p_matrix_values_nw5(self):
+        assert self.result["P_matrix"] == [+1, +1, +1, -1, -1]
+
+    def test_p_squared_is_identity(self):
+        assert self.result["P_squared_is_I"] is True
+
+    def test_det_p_is_plus_one(self):
+        assert self.result["det_P"] == +1
+
+    def test_in_su_nw_true(self):
+        assert self.result["in_SU_n_w"] is True
+
+    def test_status_derived_from_orbifold(self):
+        assert self.result["status"] == "DERIVED_FROM_UM_ORBIFOLD"
+
+    def test_breaking_pattern_sm(self):
+        bp = self.result["breaking_pattern"]
+        assert "SU(3)" in bp and "SU(2)" in bp
+
+    def test_derivation_string_non_empty(self):
+        assert len(self.result["derivation"]) > 50
+
+    def test_derivation_not_external_import(self):
+        assert "NOT imported" in self.result["derivation"] or "not imported" in self.result["derivation"].lower()
+
+    def test_cross_check_n7_present(self):
+        assert "cross_check_n7" in self.result
+
+    def test_cross_check_n7_wrong_gauge_group(self):
+        cc = self.result["cross_check_n7"]
+        assert cc["n_w"] == 7
+        assert cc["det_P"] == -1
+        assert cc["in_SU_7"] is False
+
+    def test_cross_check_n7_n_even(self):
+        cc = self.result["cross_check_n7"]
+        assert cc["n_even"] == 4   # ceil(7/2)
+
+    def test_cross_check_n7_n_odd(self):
+        cc = self.result["cross_check_n7"]
+        assert cc["n_odd"] == 3    # floor(7/2)
+
+    def test_source_no_external_reference(self):
+        src = self.result["source"]
+        assert "No external" in src or "no external" in src.lower()
+
+    def test_raises_on_nw_less_than_2(self):
+        with pytest.raises(ValueError):
+            self.fn(1)
+
+    def test_raises_on_nw_zero(self):
+        with pytest.raises(ValueError):
+            self.fn(0)
+
+    def test_nw_2_det_minus_1(self):
+        # n_even=1, n_odd=1 → det=−1 → not in SU(2)
+        r = self.fn(2)
+        assert r["det_P"] == -1
+        assert r["in_SU_n_w"] is False
+
+    def test_nw_4_det_plus_1(self):
+        # n_even=2, n_odd=2 → det=+1 → in SU(4)
+        r = self.fn(4)
+        assert r["det_P"] == +1
+        assert r["in_SU_n_w"] is True
+
+    def test_nw_7_not_in_su7(self):
+        r = self.fn(7)
+        assert r["in_SU_n_w"] is False
+        assert r["det_P"] == -1
+
+    def test_nw_5_unique_odd_candidate_in_su5(self):
+        # Among {5,7}, only n_w=5 has det(P)=+1
+        r5 = self.fn(5)
+        r7 = self.fn(7)
+        assert r5["in_SU_n_w"] is True
+        assert r7["in_SU_n_w"] is False

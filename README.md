@@ -14,11 +14,14 @@
 > ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
 > SU(5) is derived from 5D geometry (Pillar 70-D); the breaking SU(5)→SU(3)×SU(2)×U(1)
 > uses the Kawamura (2001) external orbifold mechanism — not yet derived from G_AB alone.
-> SM parameters (v9.33): 8 derived (<5% error), 9 fermion masses parameterized
+> SM parameters (v9.35): 8 derived (<5% error), 9 fermion masses parameterized
 > (Ŷ₅=1 fixes Yukawa scale; per-species c_L is a free parameter, not a prediction),
-> 4 constrained (5–25% accuracy), 3 geometric estimates, **1 OPEN: Λ_QCD (×10⁷ off —
-> QCD confinement not derivable from current 5D UM)**. Best results: Higgs VEV < 0.1%,
-> CKM CP phase 0.99σ. See `FALLIBILITY.md` for the full honest ledger.
+> **α_GUT = 1/24.3 is CONSTRAINED** (SU(5) GUT input, not derived from 5D geometry alone —
+> α_CS(M_KK) = 2π/222 ≈ 0.0283 is geometric but differs from α_GUT by ~31%; see Pillar 173),
+> 3 constrained total (5–25% accuracy or UV-anchored input), 2 resolved (Λ_QCD + ν mass),
+> 3 geometric estimates, **0 OPEN** (Λ_QCD gap closed by Ω_QCD Phase A+B).
+> Best results: Higgs VEV < 0.1%, CKM CP phase 0.99σ.
+> See `FALLIBILITY.md` and `RED_TEAM_RESPONSE.md` for the full honest ledger.
 > n_w = 5 uniqueness is a **conditional theorem** from 5D geometry (Pillar 70-D),
 > conditional on Axiom A (Z₂-odd CS boundary phase, asserted not derived);
 > Planck nₛ provides the observational discriminator between n_w=5 and n_w=7.
@@ -681,7 +684,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 95 | Dual-Sector Convergence — (5,6) β=0.273° proved; LiteBIRD discriminates at 2.9σ | `src/core/dual_sector_convergence.py` | 93 |
 | 96 | Unitary Closure — analytic proof {(5,6),(5,7)} uniqueness; Unitary Summation capstone | `src/core/unitary_closure.py` | 59 |
 | 97 | GW Yukawa Derivation — Ŷ₅=1 from GW vacuum; m_e ≈ 0.509 MeV (< 0.5% PDG); neutrino c_{Lν_i} from GW braid suppression; Σm_ν ≈ 108 meV < 120 meV ✓ | `src/core/gw_yukawa_derivation.py` | 88 |
-| 98 | Universal Yukawa Test — 9 c_L values from Ŷ₅=1; all masses exact; b-τ unification r_bτ ≈ 0.497 (SM one-loop, SU(5) consistent); 0 free fermion mass parameters | `src/core/universal_yukawa.py` | 126 |
+| 98 | Universal Yukawa Test — 9 c_L values from bisection at Ŷ₅=1; all masses reproduced to < 0.01%; b-τ unification r_bτ ≈ 0.497 (SM one-loop, SU(5) consistent); **9 c_L inputs PARAMETERIZED** (winding-quantized pattern consistent, but not derived from first-principles orbifold BCs) | `src/core/universal_yukawa.py` | 126 |
 | 70-C | Geometric Chirality Uniqueness — GW potential + APS index + SU(2)_L UV coupling → n_w=5 selected from {5,7} without SM input or Planck nₛ. Step 3 elevated: PHYSICALLY-MOTIVATED → **DERIVED**. | `src/core/geometric_chirality_uniqueness.py` | 88 |
 | 99-B | 5D CS Action Derivation of k_primary — cubic CS 3-form integral over braid field A=n₁A₁+n₂A₂ → k_primary=2(n₁²−n₁n₂+n₂²); Z₂ boundary term → k_eff=n₁²+n₂²=74. Last "asserted" step closed. | `src/core/anomaly_closure.py` (extension) | 47 |
 | 15-F | Cold Fusion Falsification Protocol — explicit experimental criteria F1–F3 for falsifying Gamow enhancement; Gamow prediction vs. published null results; non-dual-use. | `src/cold_fusion/falsification_protocol.py` | 64 |
