@@ -197,17 +197,19 @@ def evaluate_measurement(
         )
     elif sigma_deg > 0 and nearest_res < 3.0 * sigma_deg:
         verdict = "CONSISTENT"
+        nearest_val = BETA_CANONICAL_DEG if nearest == "canonical" else BETA_ALTERNATE_DEG
         message = (
             f"β = {beta_measured_deg:.4f}° ± {sigma_deg:.4f}° is consistent "
             f"with the {nearest} prediction "
-            f"({BETA_CANONICAL_DEG if nearest == 'canonical' else BETA_ALTERNATE_DEG:.3f}°) "
+            f"({nearest_val:.3f}°) "
             f"at {nearest_res / sigma_deg:.1f}σ."
         )
     elif sigma_deg == 0 and nearest_res < 0.05:
         verdict = "CONSISTENT"
+        nearest_val = BETA_CANONICAL_DEG if nearest == "canonical" else BETA_ALTERNATE_DEG
         message = (
             f"β = {beta_measured_deg:.4f}° is within 0.05° of the {nearest} "
-            f"prediction ({BETA_CANONICAL_DEG if nearest == 'canonical' else BETA_ALTERNATE_DEG:.3f}°)."
+            f"prediction ({nearest_val:.3f}°)."
         )
     else:
         verdict = "AMBIGUOUS"

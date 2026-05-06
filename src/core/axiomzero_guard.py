@@ -289,8 +289,9 @@ def _import_time_guard() -> None:
     """
     try:
         report = run_axiomzero_audit()
-    except Exception:  # pragma: no cover
-        # If the scan itself fails (e.g., permission error), do not block import.
+    except (OSError, IOError, UnicodeDecodeError):  # pragma: no cover
+        # If the scan itself fails (e.g., permission error, encoding issue),
+        # do not block import — log would be ideal but is unavailable at this level.
         return
 
     if report["status"] != "PASS":

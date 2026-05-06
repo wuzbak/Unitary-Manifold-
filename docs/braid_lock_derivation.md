@@ -193,7 +193,7 @@ sin²θ₁₃ = N_c / (n₁ + n₂)² = 3 / (5+7)² = 3/144 ≈ 0.02083
 
 #### 3.3.2 Connection to the Hopf Linking Number
 
-The total winding n₁ + n₂ = 12 = n₁ + n₂ equals:
+The total winding n₁ + n₂ = 12 relates to other topological invariants of the braid pair:
 
 ```
 n₁ + n₂ = 12     (total crossings in both braid sectors)
