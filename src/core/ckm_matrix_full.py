@@ -797,3 +797,80 @@ def ckm_comparison_table(n_w: int = N_W_CANONICAL) -> Dict[str, Dict[str, float]
             "ratio": g / p if p > 0 else float("inf"),
         }
     return result
+
+
+def jarlskog_gap_honest(n_w: int = N_W_CANONICAL) -> Dict[str, object]:
+    """Honest audit of the Jarlskog invariant gap.
+
+    The geometric CKM matrix (using δ_sub from the braid geometry) gives a
+    Jarlskog invariant J_geo that exceeds the PDG value by ~37%.  This gap
+    is documented here transparently.
+
+    Physical origin of the gap
+    ---------------------------
+    J = Im(V_us V_cb V_ub* V_cs*) depends on ALL CKM elements — not just δ.
+    The geometric matrix uses:
+      • CP phase δ = δ_sub = 2·arctan(5/7) ≈ 71.08° (0.99σ from PDG ✅)
+      • Mixing angles θ₁₂, θ₁₃, θ₂₃ from the RS c_L fits (FITTED parameters)
+
+    The J_geo / J_PDG ≈ 1.37 discrepancy reflects the residual mismatch in
+    the mixing angles, NOT in the CP phase.  Specifically:
+      • sin(θ₁₃) in the geometric matrix is somewhat larger than PDG
+      • The quark mass hierarchy suppression ~J_PDG / J_geo ≈ 1/1.37 comes
+        from the fitted Wolfenstein A and λ parameters
+
+    STATUS: OPEN — absolute J value requires precise quark c_L inputs
+    (PARAMETERIZED per Pillar 174/183).  The CP-violation ORIGIN (J≠0 from
+    asymmetric braid) is PROVED by Pillar 145.  The absolute value J_PDG
+    ≈ 3.08×10⁻⁵ requires the quark mass hierarchy, which is PARAMETERIZED.
+
+    Parameters
+    ----------
+    n_w : int
+        Winding number. Default: 5.
+
+    Returns
+    -------
+    dict
+        'J_pdg'         : float — PDG value (3.08e-5)
+        'J_geometric'   : float — from geometric CKM (using δ_sub)
+        'ratio'         : float — J_geometric / J_pdg
+        'ratio_pct'     : float — percent excess
+        'delta_deg_geo' : float — geometric CP phase used
+        'delta_deg_pdg' : float — PDG central value
+        'gap_origin'    : str   — physical explanation
+        'status'        : str   — OPEN / CLOSED
+        'admission'     : str   — plain-language honest statement
+    """
+    V_geo = ckm_geometric(n_w=n_w)
+    J_geo = jarlskog_invariant(V_geo)
+    ratio = J_geo / J_PDG if J_PDG > 0.0 else float("inf")
+    geo_phase = geometric_cp_phase(n_w)
+    delta_deg = geo_phase["delta_subleading_deg"]
+
+    return {
+        "J_pdg": J_PDG,
+        "J_geometric": J_geo,
+        "ratio": ratio,
+        "ratio_pct": (ratio - 1.0) * 100.0,
+        "delta_deg_geo": delta_deg,
+        "delta_deg_pdg": DELTA_CP_PDG_DEG,
+        "gap_origin": (
+            "J = Im(V_us V_cb V_ub* V_cs*) depends on ALL four CKM parameters "
+            "(θ₁₂, θ₁₃, θ₂₃, δ).  The geometric δ ≈ 71.08° is 0.99σ from PDG.  "
+            "The ~37% J excess comes from the mixing angles θ_ij, which are FITTED "
+            "via the RS c_L bulk mass parameters (Pillar 174: c_L continuous, "
+            "9 free parameters).  The quark mass hierarchy suppression "
+            "(J_PDG ≈ 3.08×10⁻⁵ vs J_geo ≈ 4.2×10⁻⁵) requires those fits."
+        ),
+        "status": "OPEN — J_geo ≠ J_PDG; mixing-angle inputs are PARAMETERIZED",
+        "admission": (
+            f"HONEST GAP (Admission 7): The geometric Jarlskog invariant "
+            f"J_geo ≈ {J_geo:.3e} exceeds the PDG value J_PDG ≈ {J_PDG:.2e} "
+            f"by {(ratio - 1.0)*100:.1f}%.  "
+            "The CP-violation ORIGIN is proved (Pillar 145: J≠0 from asymmetric braid).  "
+            "The absolute J value requires precise quark mixing-angle inputs "
+            "(PARAMETERIZED — Pillars 174, 183).  "
+            "This gap is not hidden."
+        ),
+    }
