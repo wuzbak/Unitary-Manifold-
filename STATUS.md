@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v9.36 — Effective 2026-05-05*  
-*Pillar set: CLOSED at 182 pillars (+ Ω₀ Holon Zero)*
+*Unitary Manifold v10.2 — Effective 2026-05-06*  
+*Pillar set: 199 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 197–199 = Caltech red-team response)*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an
@@ -174,6 +174,22 @@ The temptation to add pillars to *cover* gaps rather than *document* them is a
 specific failure mode that this condition guards against.
 
 ---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## v10.2 Additions — Caltech Red-Team Audit (May 2026)
+
+| Pillar | Module | Description | Status |
+|--------|--------|-------------|--------|
+| 197 | `src/core/sep_stress_energy_audit.py` | SEP at 10⁻¹⁵ + 5D vacuum stress-energy audit | ✅ CLOSED |
+| 198 | `src/core/bmu_ghost_stability.py` | B_μ ghost-free proof + Proca stability + 5D Lorentz | ✅ CLOSED |
+| 199 | `src/core/gw_polarization_constraints.py` | GW250114 scalar bounds + H₀/S₈ tension audit | ✅ CLOSED |
+
+Epistemic status: Each pillar is a DEFENSIVE MATHEMATICAL PROOF — it proves that
+specific attack vectors are closed, while honestly documenting residual open problems.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
