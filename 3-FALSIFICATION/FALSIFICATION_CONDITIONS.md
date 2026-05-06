@@ -319,3 +319,80 @@ but would not falsify it outright:
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## F11. SEP Violation — Scalar Fifth Force in Torsion-Balance Experiments (Caltech Audit v10.2)
+
+**Experiment:** MICROSCOPE-II or successor torsion-balance missions; sensitivity target |Δη| < 10⁻¹⁷.
+
+**UM prediction:** No SEP violation detectable by any current or planned experiment.
+The EW-sector radion Yukawa range λ_r ≈ 0.19 fm ensures exp(−r_test/λ_r) ≈ 0 at all
+test scales.
+
+**Falsification threshold:**
+
+> Any torsion-balance result showing |Δη| > 10⁻¹⁵ at 3σ, **combined with** a
+> theoretical demonstration that the signal cannot be explained by Standard Model
+> effects alone, would falsify the UM if attributed to a scalar with Compton
+> wavelength > 1 mm.
+
+This would require a scalar mass m_φ < 2×10⁻¹⁰ eV, which the UM does not predict.
+
+*Code:* `src/core/sep_stress_energy_audit.sep_ew_radion_verdict()` (Pillar 197).
+
+---
+
+## F12. GW Scalar Polarization in LISA / Einstein Telescope Band (Caltech Audit v10.2)
+
+**Experiment:** LISA (~2034, mHz band), Einstein Telescope (~2035, Hz–kHz band).
+
+**UM prediction:**
+- Scalar breathing mode (EW radion): f ~ 10²⁶ Hz — undetectable.
+- GW birefringence (Pillar 125): Δψ_GW from k_CS = 74, same CS coupling as β_CMB.
+- Primary LISA/ET signal: **circular polarization** of the stochastic GW background,
+  not a breathing mode.
+
+**Falsification threshold:**
+
+> LISA or ET detect a scalar breathing mode (equal power in all tensor/scalar
+> polarizations) at SNR > 5 from a compact binary, **and** the breathing mode
+> amplitude is inconsistent with the zero prediction of the UM.
+
+Note: A null result in breathing modes from ET/LISA is CONSISTENT with the UM.
+The GW falsifier is the **birefringence** Δψ_GW, not the breathing mode.
+
+*Code:* `src/core/gw_polarization_constraints.gw250114_polarization_constraint()` (Pillar 199);
+`src/core/gw_birefringence.einstein_telescope_forecast()` (Pillar 125).
+
+---
+
+## F13. Ghost Instability of B_μ via Direct Measurement (Caltech Audit v10.2)
+
+**Experiment:** No direct experiment can measure the B_μ kinetic sign; this is a
+theoretical falsifier.
+
+**UM prediction:** B_μ is ghost-free.  APS η̄(n_w=5) = ½ pins the kinetic sign.
+
+**Falsification threshold:**
+
+> A mathematical proof that η̄(n_w=5) ≠ ½ (i.e., a refutation of the APS
+> calculation in `src/core/aps_spin_structure.py`, Pillar 70-B), **or** a
+> demonstration that the φ² prefactor in the B_μ kinetic term can become
+> negative under physically reasonable field excursions.
+
+The first would require an error in the Hurwitz ζ-function calculation (Pillar 70).
+The second would require φ < 0, which the Goldberger-Wise / φ₀-closure mechanism
+(Pillars 56, 68) is designed to prevent.
+
+*Code:* `src/core/bmu_ghost_stability.bmu_ghost_stability_verdict()` (Pillar 198);
+`src/core/aps_spin_structure.py` (Pillar 70-B).
+
+---
+
+| F11 | SEP fifth force | |Δη| > 10⁻¹⁵ from torsion balance attributed to λ > 1 mm scalar | MICROSCOPE-II | TBD |
+| F12 | GW scalar breathing | ET/LISA breathing-mode SNR > 5, inconsistent with zero UM prediction | ET / LISA | ~2034 |
+| F13 | B_μ ghost (theory) | Proof that η̄(n_w=5) ≠ ½ or φ < 0 under physical conditions | Mathematics | — |
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
