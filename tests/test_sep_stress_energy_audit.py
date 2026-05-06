@@ -63,12 +63,12 @@ class TestSEPYukawaSuppression:
         delta_eta = sep_yukawa_suppression(M_KK_GEV, 6.371e6, ALPHA_RS1)
         assert delta_eta < MICROSCOPE_ETA_LIMIT
 
-    def test_zero_mass_returns_zero(self):
-        # m_r = 0 → lambda_r = inf (massless field has infinite range → no Yukawa suppression).
-        # The function returns inf (unbounded coupling) which is the physically correct limit.
+    def test_zero_mass_returns_inf(self):
+        # m_r = 0 → lambda_r = inf (massless field, infinite range, no Yukawa suppression).
+        # For m_r=0: lambda_r=inf, ratio=0, yukawa=1.0, prefactor = 2α²×(inf/r)×Ω_grav → inf.
+        # This is the physically correct limit: a massless scalar fully couples at all distances.
         delta_eta = sep_yukawa_suppression(0.0, 1.0, ALPHA_RS1)
-        # For m_r=0, lambda_r=inf, yukawa=exp(0)=1, prefactor~inf → result is inf (or 0 if guard)
-        assert delta_eta == 0.0 or math.isinf(delta_eta)
+        assert math.isinf(delta_eta)
 
 
 class TestSEPEWRadionVerdict:

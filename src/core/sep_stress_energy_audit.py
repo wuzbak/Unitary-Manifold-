@@ -213,12 +213,15 @@ def sep_yukawa_suppression(
     -------
     float
         |Δη| at the test scale (dimensionless). Returns 0.0 for extreme suppression.
+        For m_r_gev=0 (massless limit), lambda_r_m=inf and the function returns inf,
+        representing unbounded coupling at all scales — the physically correct limit.
     """
-    # Yukawa range in metres
+    # For m_r_gev > 0: Yukawa range λ_r = ℏc/m_r (metres).
+    # For m_r_gev = 0: massless field has infinite range; λ_r = inf.
+    # lambda_r_m is always either a positive finite number or math.inf — never 0.
     lambda_r_m = HBAR_C_GEV_M / m_r_gev if m_r_gev > 0 else math.inf
 
-    # lambda_r_m is either HBAR_C_GEV_M/m_r_gev (positive) or math.inf — never 0.
-    # Guard only for the r_test_m == 0 edge case (undefined at origin).
+    # Guard for r_test_m == 0 (field amplitude at the source is undefined).
     if r_test_m == 0:
         return 0.0
 

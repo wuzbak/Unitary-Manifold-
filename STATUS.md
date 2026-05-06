@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
 *Unitary Manifold v10.2 — Effective 2026-05-06*  
-*Pillar set: v10.2 — 199 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 197–199 Caltech red-team response)*
+*Pillar set: 199 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 197–199 = Caltech red-team response)*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an

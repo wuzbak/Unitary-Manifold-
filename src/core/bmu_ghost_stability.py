@@ -246,10 +246,12 @@ def aps_ghost_protection(n_w: int = N_W) -> dict:
         path_integral_phase = complex(1.0, 0.0)
         status = "VULNERABLE — trivial spin structure, kinetic sign ambiguous"
     else:
-        eta_bar = float("nan")
-        # Phase is undefined for n_w not in {5, 7}; use NaN components for consistency.
-        path_integral_phase = complex(float("nan"), float("nan"))
-        status = "UNDEFINED for n_w not in {5,7}"
+        # n_w not in {5, 7} is not supported by the UM braid geometry.
+        # Raise ValueError rather than propagating NaN through downstream math.
+        raise ValueError(
+            f"n_w={n_w} is not in the supported set {{5, 7}} for the UM braid geometry. "
+            "The APS η-invariant is only computed for the (5,7) braid pair."
+        )
 
     return {
         "pillar": 198,

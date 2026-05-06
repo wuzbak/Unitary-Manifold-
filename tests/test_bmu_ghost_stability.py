@@ -90,9 +90,9 @@ class TestAPSGhostProtection:
         assert ETA_BAR_NW5 == 0.5
         assert ETA_BAR_NW7 == 0.0
 
-    def test_unknown_nw_returns_undefined(self):
-        result = aps_ghost_protection(3)
-        assert "UNDEFINED" in result["ghost_protection_status"]
+    def test_unknown_nw_raises_value_error(self):
+        with pytest.raises(ValueError, match="not in the supported set"):
+            aps_ghost_protection(3)
 
 
 class TestProcaStabilityAudit:

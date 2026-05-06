@@ -298,11 +298,10 @@ def h0_tension_audit() -> dict:
         H₀ comparison table with honest tension assessment.
     """
     # UM modification from w_KK ≠ −1.
-    # The sound horizon shifts proportionally to |1 + w_KK|/2 × Ω_DE.
-    # Since W_KK = −0.930 < 0, abs(W_KK) = 0.930; the departure from −1 is
-    # abs(1.0 − abs(W_KK)) = |1 − 0.930| = 0.070.  This is always non-negative
-    # for any w_KK in (−1, 0), and for w_KK < −1 gives |1 − |w_KK||.
-    delta_h0_um = H0_LCDM_KM_S_MPC * abs(1.0 - abs(W_KK)) / 2.0 * OMEGA_DE
+    # The physically relevant quantity is the departure from w = −1: |1 + w_KK|.
+    # For W_KK = −0.930: |1 + (−0.930)| = |0.070| = 0.070.
+    # Using abs(1.0 + W_KK) is more transparent than the double-abs form.
+    delta_h0_um = H0_LCDM_KM_S_MPC * abs(1.0 + W_KK) / 2.0 * OMEGA_DE
     h0_um = H0_LCDM_KM_S_MPC + delta_h0_um
 
     # Tension calculations (in units of combined σ)
