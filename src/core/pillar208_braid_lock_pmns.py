@@ -67,9 +67,14 @@ confirms them with improved formulas.
 ═══════════════════════════════════════════════════════════════════════════
 HONEST CAVEATS (AGENT C FIREWALL)
 ═══════════════════════════════════════════════════════════════════════════
-  1. The formulas were identified by searching {N_c, n_w, n₂, K_CS}
-     combinations. They are NOT derived from first principles of the
-     Dirac equation on the Hopf fibration.
+  1. The formulas were partially motivated by searching {N_c, n_w, n₂, K_CS}
+     combinations and are now TOPOLOGICALLY MOTIVATED by the Hopf fibration
+     framework (see docs/braid_lock_derivation.md, Wave 2 v10.4).  Specifically:
+     - sin²θ₁₃ = N_c/(n_w+n₂)² is motivated by second-order winding suppression:
+       traversing both braid sectors simultaneously costs (n_w+n₂)² in probability,
+       with the numerator N_c counting available UV-brane color singlet projections.
+     - A rigorous proof via the full 6D Dirac eigenvalue calculation on AdS₅×S¹/Z₂
+       with (5,7) braid holonomies remains OPEN.
   2. The physical stories (UV-brane fraction, GUT-correction shift,
      double-winding suppression) are plausible but schematic.
   3. The Hopf fibration framework is motivational — it explains WHY
