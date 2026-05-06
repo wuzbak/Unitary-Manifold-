@@ -530,7 +530,14 @@ class TestPhysicalConsistency:
         assert abs(ALPHA_GUT_GEO - alpha_gut_su5) / alpha_gut_su5 < 0.02
 
     def test_landau_pole_documented(self):
-        """Direct M_GUT → M_Z downward run must raise — documenting the barrier."""
+        """Direct M_GUT → M_Z downward run must raise — documenting the barrier.
+
+        Note: 91.18 GeV appears here as the *domain boundary* for the Landau-pole
+        test, not as a computational anchor.  We are verifying that the 1-loop
+        perturbative path from M_GUT to any sub-M_KK scale is non-perturbative
+        (1/α → 0).  The 91.18 value is representative; any target below ~500 GeV
+        would trigger the same pole.
+        """
         with pytest.raises(RuntimeError, match="Landau pole"):
             _run_down(ALPHA_GUT_GEO, 2.0e16, 91.18, n_f=6)
 

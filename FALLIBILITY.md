@@ -2853,7 +2853,7 @@ audit — the most stringent internal falsification test to date.*
 
 ---
 
-### VII.1 — The Clarification of "1.5%"
+### VII.1 — Interpretation of the "1.5%" Agreement
 
 The Pillar 189-A upward-run result is often summarised as "1.5% agreement."
 Pillar 200 forensics establish that this figure refers to two **analytic
@@ -2956,6 +2956,9 @@ Based on the Pillar 200 forensics, the SM closure table entry for P3 (α_s) is
 | **v10.3** | **⚠️ CONSISTENCY CHECK** | **Pillar 200 AxiomZero forensics: forward chain gives 0.030, not 0.118; factor-~4 Warp-Anchor Gap documented** |
 
 The zero-parameter TOE score is updated from 38% (10/26) to **35% (9/26)**.
+This is an epistemological improvement, not a weakening: the score now reflects
+only quantities whose derivation is independent of experimental anchors, making
+the remaining 65% a sharper, more falsifiable target.
 
 This reclassification does not weaken the theory — it strengthens the
 repository's scientific credibility by accurately representing what the geometry
