@@ -250,9 +250,10 @@ class TestPhysicalConsistency:
 
     def test_aps_half_integer_for_nw5(self):
         # η̄ = ½ is half-integer → (2η̄) is odd integer
-        assert (2.0 * ETA_BAR_NW5) % 1 == 0
-        assert int(2.0 * ETA_BAR_NW5) % 2 == 1  # odd → non-trivial
+        two_eta = round(2.0 * ETA_BAR_NW5)
+        assert abs(2.0 * ETA_BAR_NW5 - two_eta) < 1e-10  # exact representation
+        assert two_eta % 2 == 1  # odd → non-trivial spin structure
 
     def test_aps_integer_for_nw7(self):
-        # η̄ = 0 is integer → trivial
-        assert ETA_BAR_NW7 % 1 == 0.0
+        # η̄ = 0 is integer → trivial spin structure
+        assert abs(ETA_BAR_NW7 % 1) < 1e-10

@@ -250,12 +250,11 @@ def gw250114_polarization_constraint() -> dict:
     log10_f = math.log10(f_breathing_hz)
     log10_ligo_high = math.log10(ligo_band_high_hz)
 
-    # UM scalar amplitude in LIGO band: 0 (mode is above band)
-    # Suppression by Yukawa-like factor (off-resonance)
-    log10_freq_ratio = log10_f - log10_ligo_high
-    um_scalar_amplitude_ratio = 0.0  # complete suppression above band
-
-    constraint_satisfied = um_scalar_amplitude_ratio < GW250114_SCALAR_TENSOR_RATIO_LIMIT
+    # UM scalar amplitude in LIGO band.
+    # The breathing mode frequency is 22 orders above the LIGO band; the amplitude
+    # in-band is exactly zero (the mode simply doesn't exist in this frequency range).
+    log10_freq_ratio = log10_f - log10_ligo_high  # orders of magnitude above LIGO
+    um_scalar_amplitude_in_ligo_band: float = 0.0
 
     return {
         "pillar": 199,
@@ -268,8 +267,8 @@ def gw250114_polarization_constraint() -> dict:
         "ligo_band_hz": (ligo_band_low_hz, ligo_band_high_hz),
         "breathing_in_ligo_band": f_in_ligo_band,
         "log10_orders_above_ligo": log10_freq_ratio,
-        "um_scalar_amplitude_ratio_in_ligo_band": um_scalar_amplitude_ratio,
-        "constraint_satisfied": constraint_satisfied,
+        "um_scalar_amplitude_ratio_in_ligo_band": um_scalar_amplitude_in_ligo_band,
+        "constraint_satisfied": um_scalar_amplitude_in_ligo_band < GW250114_SCALAR_TENSOR_RATIO_LIMIT,
         "margin_orders_of_magnitude": log10_freq_ratio,
         "verdict": (
             f"SAFE — UM scalar breathing mode at f ≈ 10^{log10_f:.1f} Hz is "
@@ -298,7 +297,11 @@ def h0_tension_audit() -> dict:
     dict
         H₀ comparison table with honest tension assessment.
     """
-    # UM modification from w_KK ≠ −1
+    # UM modification from w_KK ≠ −1.
+    # The sound horizon shifts proportionally to |1 + w_KK|/2 × Ω_DE.
+    # Since W_KK = −0.930 < 0, abs(W_KK) = 0.930; the departure from −1 is
+    # abs(1.0 − abs(W_KK)) = |1 − 0.930| = 0.070.  This is always non-negative
+    # for any w_KK in (−1, 0), and for w_KK < −1 gives |1 − |w_KK||.
     delta_h0_um = H0_LCDM_KM_S_MPC * abs(1.0 - abs(W_KK)) / 2.0 * OMEGA_DE
     h0_um = H0_LCDM_KM_S_MPC + delta_h0_um
 

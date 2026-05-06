@@ -247,7 +247,8 @@ def aps_ghost_protection(n_w: int = N_W) -> dict:
         status = "VULNERABLE — trivial spin structure, kinetic sign ambiguous"
     else:
         eta_bar = float("nan")
-        path_integral_phase = complex(0.0, 0.0)
+        # Phase is undefined for n_w not in {5, 7}; use NaN components for consistency.
+        path_integral_phase = complex(float("nan"), float("nan"))
         status = "UNDEFINED for n_w not in {5,7}"
 
     return {

@@ -207,9 +207,8 @@ class TestGWPolarizationVerdict:
         assert "LiteBIRD" in self.result["overall_verdict"] or "LiteBIRD" in self.result["professional_standing"]
 
     def test_professional_standing_honest(self):
-        standing = self.result["professional_standing"]
-        # Should not claim "solved" H₀ or S₈
-        assert "Coherent Provocation" in standing or "not better" in standing.lower()
+        standing = self.result["professional_standing"].lower()
+        assert "coherent provocation" in standing or "not better" in standing
 
 
 class TestGWPillar199Summary:

@@ -64,9 +64,10 @@ class TestSEPYukawaSuppression:
         assert delta_eta < MICROSCOPE_ETA_LIMIT
 
     def test_zero_mass_returns_zero(self):
-        # m_r = 0 → the function returns 0 (handled by the m_r==0 guard)
+        # m_r = 0 → lambda_r = inf (massless field has infinite range → no Yukawa suppression).
+        # The function returns inf (unbounded coupling) which is the physically correct limit.
         delta_eta = sep_yukawa_suppression(0.0, 1.0, ALPHA_RS1)
-        # For m_r=0, lambda_r=inf, ratio=0 → returns 0 (guard in function)
+        # For m_r=0, lambda_r=inf, yukawa=exp(0)=1, prefactor~inf → result is inf (or 0 if guard)
         assert delta_eta == 0.0 or math.isinf(delta_eta)
 
 

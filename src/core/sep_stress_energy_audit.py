@@ -217,7 +217,9 @@ def sep_yukawa_suppression(
     # Yukawa range in metres
     lambda_r_m = HBAR_C_GEV_M / m_r_gev if m_r_gev > 0 else math.inf
 
-    if lambda_r_m == 0 or r_test_m == 0:
+    # lambda_r_m is either HBAR_C_GEV_M/m_r_gev (positive) or math.inf — never 0.
+    # Guard only for the r_test_m == 0 edge case (undefined at origin).
+    if r_test_m == 0:
         return 0.0
 
     ratio = r_test_m / lambda_r_m
@@ -247,9 +249,12 @@ def sep_ew_radion_verdict() -> dict:
     # Nordtvedt parameter (massless limit upper bound)
     eta_nordtvedt_massless = sep_nordtvedt_bound(alpha)
 
-    # Suppression factor (Yukawa at Earth scale)
+    # Suppression factor (Yukawa at Earth scale).
+    # For EW radion, ratio ≈ 3.4e22 — larger than any representable float (~1.8e308),
+    # so we use math.inf as the practical upper guard and return -inf for the log.
+    _FLOAT_OVERFLOW_GUARD: float = 1e308  # slightly below sys.float_info.max ≈ 1.8e308
     ratio = R_EARTH_M / lambda_r_m
-    log10_suppression = -ratio / math.log(10) if ratio < 1e308 else -math.inf
+    log10_suppression = -ratio / math.log(10) if ratio < _FLOAT_OVERFLOW_GUARD else -math.inf
 
     return {
         "pillar": 197,
