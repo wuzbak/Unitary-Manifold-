@@ -246,3 +246,38 @@ class TestPillar136Summary:
     def test_desi_sigma_below_1(self):
         result = pillar136_summary()
         assert result["tensions"]["desi_dr2_sigma"] < 1.0
+
+
+class TestW0ExperimentalLandscape:
+    def setup_method(self):
+        from src.core.kk_radion_dark_energy import w0_experimental_landscape
+        self.r = w0_experimental_landscape()
+
+    def test_w_predicted_approximately(self):
+        assert -0.94 < self.r["w_predicted"] < -0.92
+
+    def test_datasets_present(self):
+        assert "datasets" in self.r
+        assert "planck_bao" in self.r["datasets"]
+        assert "desi_dr2" in self.r["datasets"]
+
+    def test_desi_sigma_under_1(self):
+        assert self.r["datasets"]["desi_dr2"]["sigma_tension"] < 1.0
+
+    def test_planck_sigma_above_2(self):
+        assert self.r["datasets"]["planck_bao"]["sigma_tension"] > 2.0
+
+    def test_um_position_desi_preferred(self):
+        assert self.r["um_position"] == "DESI-preferred"
+
+    def test_planck_desi_tension_positive(self):
+        assert self.r["planck_desi_tension"] > 0.5
+
+    def test_discriminant_status_mentions_discriminant(self):
+        assert "DISCRIMINANT" in self.r["discriminant_status"]
+
+    def test_roman_falsifier_present(self):
+        assert "Roman" in self.r["roman_falsifier"]
+
+    def test_experimental_context_present(self):
+        assert len(self.r["experimental_context"]) > 40

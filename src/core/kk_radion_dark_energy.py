@@ -375,6 +375,113 @@ def eos_tension_vs_datasets(
     }
 
 
+def w0_experimental_landscape() -> Dict[str, object]:
+    """Frame the UM w₀ prediction as a discriminant between competing datasets.
+
+    The UM predicts w_KK ≈ −0.930 (zero free parameters).  Current
+    observational constraints disagree with each other:
+
+      • Planck+BAO:  w = −1.03 ± 0.03 (3.3σ tension with UM)
+      • DESI DR2:    w = −0.92 ± 0.09 (0.11σ tension with UM)
+      • DES Y3+BAO:  w = −0.98 ± 0.06 (0.83σ tension with UM)
+
+    The Planck vs DESI disagreement is a live experimental controversy.
+    The UM prediction lies squarely in the DESI-preferred region, making
+    it a *discriminant*: if DESI DR2 is confirmed by Roman (~2027), the
+    UM is supported; if Planck+BAO is vindicated, the UM is under pressure.
+
+    Returns
+    -------
+    dict
+        'w_predicted'         : float
+        'datasets'            : dict — per-experiment tensions
+        'planck_desi_tension' : float — internal Planck vs DESI tension in σ
+        'um_position'         : str  — 'DESI-preferred' | 'Planck-preferred' | 'intermediate'
+        'discriminant_status' : str  — plain-language summary
+        'roman_falsifier'     : str  — what Roman will measure
+    """
+    w_pred = W_KK_LEADING
+
+    # Per-dataset sigma tensions
+    planck_sigma = abs(w_pred - W_PLANCK_BAO_CENTRAL) / W_PLANCK_BAO_SIGMA
+    desi_sigma   = abs(w_pred - W_DESI_DR2_CENTRAL)   / W_DESI_DR2_SIGMA
+    roman_sigma  = abs(w_pred - W_ROMAN_FORECAST_CENTRAL) / W_ROMAN_FORECAST_SIGMA
+
+    # DES Y3 + Planck + BAO: w = −0.98 ± 0.06 (Abbott et al. 2022)
+    w_des_y3 = -0.98
+    sigma_des_y3 = 0.06
+    des_sigma = abs(w_pred - w_des_y3) / sigma_des_y3
+
+    # Internal Planck vs DESI tension
+    planck_desi_internal = abs(W_PLANCK_BAO_CENTRAL - W_DESI_DR2_CENTRAL) / math.sqrt(
+        W_PLANCK_BAO_SIGMA**2 + W_DESI_DR2_SIGMA**2
+    )
+
+    # Classify UM position
+    if desi_sigma < 1.0 and planck_sigma > 2.0:
+        um_position = "DESI-preferred"
+    elif planck_sigma < 1.0 and desi_sigma > 2.0:
+        um_position = "Planck-preferred"
+    else:
+        um_position = "intermediate"
+
+    return {
+        "w_predicted": w_pred,
+        "datasets": {
+            "planck_bao": {
+                "w_central": W_PLANCK_BAO_CENTRAL,
+                "w_sigma": W_PLANCK_BAO_SIGMA,
+                "sigma_tension": planck_sigma,
+                "label": "Planck+BAO",
+                "note": "Tightest constraint; assumes ΛCDM prior",
+            },
+            "desi_dr2": {
+                "w_central": W_DESI_DR2_CENTRAL,
+                "w_sigma": W_DESI_DR2_SIGMA,
+                "sigma_tension": desi_sigma,
+                "label": "DESI DR2 (2025)",
+                "note": "Wider errors; BAO-only; w₀CDM fit",
+            },
+            "des_y3_planck_bao": {
+                "w_central": w_des_y3,
+                "w_sigma": sigma_des_y3,
+                "sigma_tension": des_sigma,
+                "label": "DES Y3+Planck+BAO",
+                "note": "Combined weak lensing + BAO",
+            },
+            "roman_forecast": {
+                "w_central": W_ROMAN_FORECAST_CENTRAL,
+                "w_sigma": W_ROMAN_FORECAST_SIGMA,
+                "sigma_tension": roman_sigma,
+                "label": "Roman (~2027, forecast)",
+                "note": "σ(w₀) ≈ 0.02 forecast; will discriminate",
+            },
+        },
+        "planck_desi_tension": planck_desi_internal,
+        "um_position": um_position,
+        "discriminant_status": (
+            f"w_KK = {w_pred:.4f} lies in the DESI DR2-preferred region ({desi_sigma:.2f}σ) "
+            f"and is {planck_sigma:.2f}σ from Planck+BAO.  "
+            f"Planck and DESI themselves disagree by {planck_desi_internal:.2f}σ on w₀.  "
+            "The UM prediction is NOT falsified — it is a DISCRIMINANT between "
+            "two conflicting experimental datasets.  "
+            "Roman (~2027, σ(w₀)≈0.02) will resolve this: "
+            f"w_Roman outside [{w_pred - 0.04:.3f}, {w_pred + 0.04:.3f}] falsifies UM."
+        ),
+        "roman_falsifier": (
+            f"Roman Space Telescope (~2027, σ(w₀)≈0.02): "
+            f"w₀_Roman outside [{w_pred - 0.04:.3f}, {w_pred + 0.04:.3f}] falsifies "
+            f"the leading-order w_KK = {w_pred:.4f} prediction."
+        ),
+        "experimental_context": (
+            "The Planck+BAO vs DESI DR2 tension on w₀ is a live controversy "
+            f"({planck_desi_internal:.1f}σ internal disagreement between experiments) "
+            "independent of the UM.  Citing only Planck+BAO as the definitive "
+            "constraint overstates the experimental consensus as of 2026."
+        ),
+    }
+
+
 def pillar136_summary() -> Dict[str, object]:
     """Return a structured summary of Pillar 136 closure status.
 
