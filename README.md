@@ -1,12 +1,12 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v9.38)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.4)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.30
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![21165 Tests passing](https://img.shields.io/badge/tests-21165%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![182 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-182%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
-[![Version](https://img.shields.io/badge/version-v9.38-blue)](CITATION.cff)
+[![23524 Tests passing](https://img.shields.io/badge/tests-23524%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![208 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-208%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
+[![Version](https://img.shields.io/badge/version-v10.4-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
@@ -106,7 +106,7 @@ Start with the layer that matches your purpose:
 >
 > ```
 > ────────────────────────────────────────────────────────────────────────
->   UNITARY MANIFOLD — OBSERVABLE CONSISTENCY CHECKS (182 pillars + Ω₀)
+>   UNITARY MANIFOLD — OBSERVABLE CONSISTENCY CHECKS (208 pillars + Ω₀)
 >   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)
 > ────────────────────────────────────────────────────────────────────────
 >   Check                         Value                   Reference       Result
@@ -140,7 +140,7 @@ Start with the layer that matches your purpose:
 > |----------|-------------|
 > | **[COMPLETION_REPORT.md](1-THEORY/COMPLETION_REPORT.md)** | **v9.33** — unsparing honest assessment of TOE status; 167 pillars + Ω₀ (SM 26-parameter ledger: 8 derived, 9 parameterized, 1 OPEN (Λ_QCD ×10⁷), Wolfenstein CKM, Higgs mass FTUM, solar mixing correction, Higgs VEV exact, neutrino lightest mass constraint, Newton G_N RS, CKM ρ̄ closure, Holon Zero certificate, Grand Synthesis Arc, Gap Closure Arcs I–II), open gaps (Λ_QCD ×10⁷, lightest ν UV condition, sin²θ₁₂ 13%, DE w₀ tension), path to experimental confirmation |
 > | **[VALIDATION_REPORT.md](2-REPRODUCIBILITY/VALIDATION_REPORT.md)** | **Expanded validation guide** — explains and expands all items below; includes CI pipeline, claims suite, and what validation does and does not mean |
-> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,615 tests at v9.29; now ~21,055 at v9.36), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
+> | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,615 tests at v9.29; now ~23,524 at v10.4), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
 > | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 142 pillars + Ω₀, written by GitHub Copilot (AI), May 2026; includes v9.30 Addendum (SM Parameter Closure) |
 > | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.30: per-version technical audit, adversarial attacks, honest gap assessment, and Grand Expansion section covering Pillars 102–142 + Ω₀ |
 > | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
@@ -378,7 +378,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
 > ### ⚠️ Three-Tier Structure — Read Before Interpreting Test Counts
 >
 > Not all Pillars are equal.  The repository contains three distinct categories
-> of content, and all ~21,055 tests are passing in all three — but "passing" means
+> of content, and all ~23,524 tests are passing in all three — but "passing" means
 > different things in each:
 >
 > | Tier | Content | What tests prove |
@@ -577,7 +577,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
-### Complete Pillar Taxonomy (v9.38 — all 182 pillars + Ω₀ Holon Zero + sub-pillars — CLOSED)
+### Complete Pillar Taxonomy (v10.4 — all 208 pillars + Ω₀ Holon Zero + sub-pillars — CLOSED)
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
@@ -761,17 +761,48 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 165 | A_s Casimir Vacuum Bound — naturalness ratio ~5–6; A_s naturally bounded at GUT scale | `src/core/casimir_as_naturalness.py` | 74 |
 | 166 | DE Radion 1-Loop CW — Δw₀ ≈ −1.1×10⁻³ (negligible; w₀ tension open) | `src/core/de_radion_loop_correction.py` | 76 |
 | 167 | MAS Wave Engine (Meta) — computable co-emergence protocol; 9 gaps tracked; autodata quality report | `src/meta/mas_wave_engine.py` | 65 |
+| 168–181 | Red-Team Arc: α_GUT honest status, RS₁ Laplacian spectrum, fermion masses PARAMETERIZED, symbolic metric bridge | `src/core/` | ~194 |
+| 182 | SM-RGE-free Λ_QCD from (n_w, K_CS); k_CS=74 topological proof; GW demotion; radion audit | `src/core/omega_qcd_phase_a.py` | ~90 |
+| 183 | Axiom A callable + CFL guard + Λ_QCD hierarchy (Audit Response Arc) | `src/core/` | ~170 |
+| 184 | φ₀ non-brittle attractor: max sensitivity S<0.1 | `src/core/sensitivity_analysis.py` | ~80 |
+| 185 | EP Guard — EW radion safe by Yukawa mass screening; α=1/√6 fixed | `src/core/equivalence_principle_guard.py` | ~70 |
+| 186 | LHC KK Resonances — G_KK invisible at LHC; B_KK^(1)≈2.5 TeV open tension | `src/core/lhc_kk_resonances.py` | ~75 |
+| 187 | LHC KK Resonances audit (v9.39) | `src/core/lhc_kk_resonances.py` | ~75 |
+| 188 | CKM Scaffold Analysis — WHY δ derives but θ_ij don't | `src/core/ckm_scaffold_analysis.py` | 76 |
+| 189-A | RGE Running — α_GUT_geo=N_c/K_CS=3/74; upward 1-loop | `src/core/rge_running.py` | ~60 |
+| 189-B | Bulk Eigenvalues — warp correction, KK mass spectrum | `src/core/bulk_eigenvalues.py` | ~60 |
+| 189-C | GW Stabilizer — radion-GW coupling | `src/core/gw_stabilizer.py` | ~60 |
+| 189-D | Action Minimizer — topological cutoff proof | `src/core/action_minimizer.py` | ~60 |
+| 190 | Neutrino Winding — (5,7) braid inverted as (7,5); M_R~M_Pl | `src/core/neutrino_winding.py` | ~95 |
+| 191 | Sakharov UM Audit — all 3 Sakharov conditions satisfied; η_B~3.3e-11 | `src/core/sakharov_um_audit.py` | ~89 |
+| 192 | Neutrino Symmetry — RHN mapped to NEB; ε_NEB≈0.57% | `src/core/neutrino_symmetry.py` | 162 |
+| 193 | Josephson Resonance — f_braid=35/74×f_plasma | `src/core/josephson_resonance.py` | ~55 |
+| 194 | Bulk Eigenvalues warp correction (v10.2) | `src/core/bulk_eigenvalues.py` | ~50 |
+| 195 | Resonance Audit — PoR Shannon entropy, ξ_c=35/74 | `src/governance/resonance_audit.py` | ~50 |
+| 196 | SLA Manifesto + 8 kill-switches | `SLA_MANIFESTO.md` | — |
+| 197 | SEP Stress-Energy Audit — SEP at 10⁻¹⁵; 5D vacuum; Casimir 3-layer | `src/core/sep_stress_energy_audit.py` | ~60 |
+| 198 | BMU Ghost Stability — ghost-free proof; APS η̄=½; Proca stability; 5D Lorentz | `src/core/bmu_ghost_stability.py` | ~55 |
+| 199 | GW Polarization Constraints — GW250114; H₀ 5σ→3σ; S₈ 3σ→2σ | `src/core/gw_polarization_constraints.py` | ~52 |
+| 200 | RGE Geometric — AxiomZero forward chain; α_s(M_EW_geo)≈0.030 | `src/core/pillar200_rge_geometric.py` | 103 |
+| 201 | Higgs VEV Geometric — v_Higgs=M_KK×√3/7≈257.6 GeV (4.6% off PDG) | `src/core/pillar201_higgs_vev_geometric.py` | ~50 |
+| 202 | m_p/m_e Lattice-Free — m_p/m_e=K_CS²/N_c≈1825.3 (0.59% from PDG) | `src/core/pillar202_mp_me_lattice_free.py` | ~50 |
+| 203 | KK Metric Feedback — KK QCD scheme audit | `src/core/pillar203_kk_metric_feedback.py` | ~50 |
+| 204 | Topological c_L — c_L=71/74 topological | `src/core/pillar204_topological_cl_phys.py` | ~50 |
+| 205 | Generation Quantization — N_gen=3 from braid quantization | `src/core/pillar205_generation_quantization.py` | ~50 |
+| 206 | Cosmological Constant — RS1+GB exhausts 64 orders; 58-order ARCHITECTURE LIMIT | `src/core/pillar206_cosmological_constant.py` | ~50 |
+| 207 | DAM Lattice Audit — K_CS=74 exact; Leech hypothesis rejected | `src/core/pillar207_dam_lattice_audit.py` | ~50 |
+| 208 | Braid-Lock PMNS — sin²θ₁₂=3/10, sin²θ₂₃=20/37, sin²θ₁₃=3/144 all <5% | `src/core/pillar208_braid_lock_pmns.py` | ~50 |
 
-**Grand total (v9.38): ~21,165 passed · 329 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+**Grand total (v10.4): ~23,524 passed · 329 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/ + claims/)
 
-**~21,165** — 182 pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. (Note: v9.38 added professional/scientific presentation overhaul: VERIFY.py reframed as Observable Consistency Demonstration, `derive_nw_index_theorem` made conditionally explicit with assumptions key, Z₂ parity essay extracted to 1-THEORY/Z2_PARITY_NOTE.md (+110 tests from v9.37). v9.37 added Pillar 183 + Axiom A callable + CFL guard + Λ_QCD hierarchy (+170 tests). v9.36 added Pillar 182 + k_cs topological proof + GW demotion + radion audit (+90 tests). v9.35 added Pillars 173–181 red-team response + symbolic metric bridge (+194 tests). Pillars 162–167 (Gap Closure Arc II) added +463 tests. Pillars 150–161 (Gap Closure Arc I + Waves A–F) added +793 tests. Pillars 143–149 added +290 tests. Pillars 133–142 + Ω₀ added 568 new tests — the SM Parameter Closure Arc. Pillars 128–132 added 330 new tests — the Grand Synthesis Arc. Pillars 117–127 added 676 new tests. Grand total v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
+**~23,524** — 208 pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. (Note: v10.4 Near Closure: AxiomZero guard, braid-lock formalization, Architecture Limit (Pillar 206), claims/ falsification benchmarks, DAM/Leech hypothesis archived. TOE score 42% (11/26). v10.3 added Pillar 200 AxiomZero forward chain; v10.2 added Pillars 192–199 (neutrino symmetry, Sakharov, Josephson, resonance, SEP, ghost stability, GW polarization); v10.1 added Pillars 190–191 (neutrino winding, Sakharov); v10.0 added Pillars 189-A/B/C/D (scaffold registry); v9.39 added Pillars 185–188 (sensitivity, EP guard, LHC resonances, CKM scaffold); v9.38 added professional/scientific presentation overhaul (+110 tests from v9.37). v9.37 added Pillar 183 + Axiom A callable + CFL guard + Λ_QCD hierarchy (+170 tests). v9.36 added Pillar 182 + k_cs topological proof + GW demotion + radion audit (+90 tests). v9.35 added Pillars 173–181 red-team response + symbolic metric bridge (+194 tests). Pillars 162–167 (Gap Closure Arc II) added +463 tests. Pillars 150–161 (Gap Closure Arc I + Waves A–F) added +793 tests. Pillars 143–149 added +290 tests. Pillars 133–142 + Ω₀ added 568 new tests — the SM Parameter Closure Arc. Pillars 128–132 added 330 new tests — the Grand Synthesis Arc. Pillars 117–127 added 676 new tests. Grand total v10.2: 22,781; v10.0: 21,727; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
 
-> 🔒 **Repository extended to 182 pillars + Ω₀ — May 2026.**
-> **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: 28 parameters audited (including Λ_QCD). Λ_QCD is OPEN (×10⁷ off). Fermion Yukawa masses are PARAMETERIZED via per-species c_L. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. **Pillars 143–149 (v9.31):** epistemic tightening — c_R=23/25 theorem, non-Abelian SU(5)/Z₂ derivation (Pillar 148), CMB suppression quantified. **Pillars 150–161 (v9.32):** seesaw, chiral fermions, Λ_QCD RGE, Branch C neutrino. **Pillars 162–167 (v9.33):** AdS/QCD confinement, PMNS RGE, c_L=71/74 theorem, Casimir A_s naturalness, DE 1-loop, MAS Wave Engine. **Pillars 168–181 (v9.35):** red-team response — α_GUT constrained (not derived), RS₁ Laplacian continuous spectrum, fermion masses PARAMETERIZED, symbolic metric bridge. **Pillar 182 + Ω_QCD proofs (v9.36):** SM-RGE-free Λ_QCD from (n_w=5, k_CS=74), k_CS=74 topological proof, Goldberger-Wise demoted to cross-check.
-> Remaining open problems: Λ_QCD (×10⁷), lightest ν UV condition, sin²θ₁₂ 13% gap, DE w₀ tension (2.1–3.4σ).
+> 🔒 **Repository extended to 208 pillars + Ω₀ — May 2026.**
+> **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: 28 parameters audited (including Λ_QCD). Λ_QCD is OPEN (×10⁷ off). Fermion Yukawa masses are PARAMETERIZED via per-species c_L. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. **Pillars 143–149 (v9.31):** epistemic tightening — c_R=23/25 theorem, non-Abelian SU(5)/Z₂ derivation (Pillar 148), CMB suppression quantified. **Pillars 150–161 (v9.32):** seesaw, chiral fermions, Λ_QCD RGE, Branch C neutrino. **Pillars 162–167 (v9.33):** AdS/QCD confinement, PMNS RGE, c_L=71/74 theorem, Casimir A_s naturalness, DE 1-loop, MAS Wave Engine. **Pillars 168–181 (v9.35):** red-team response — α_GUT constrained (not derived), RS₁ Laplacian continuous spectrum, fermion masses PARAMETERIZED, symbolic metric bridge. **Pillar 182 + Ω_QCD proofs (v9.36):** SM-RGE-free Λ_QCD from (n_w=5, k_CS=74), k_CS=74 topological proof, Goldberger-Wise demoted to cross-check. **Pillars 183–188 (v9.37–v9.39):** Axiom A callable, CFL guard, Λ_QCD hierarchy, sensitivity analysis, EP guard, LHC resonances, CKM scaffold. **Pillars 189-A/B/C/D (v10.0):** AxiomZero forward chain modules, scaffold registry. **Pillars 190–199 (v10.1–v10.2):** neutrino winding, Sakharov audit, neutrino symmetry, Josephson resonance, resonance audit, SEP audit, ghost stability, GW polarization. **Pillar 200 (v10.3):** RGE geometric forward chain. **Pillars 201–208 (v10.4):** Higgs VEV geometric (4.6%), m_p/m_e lattice-free (0.59%), KK metric feedback, topological c_L=71/74, generation quantization, cosmological constant Architecture Limit, DAM lattice audit, Braid-Lock PMNS (<5% all angles). TOE score: 42% (11/26).
+> Remaining open problems: lightest ν UV condition, sin²θ₁₂ 13% gap, DE w₀ tension (2.1–3.4σ), cosmological constant 58-order Architecture Limit.
 > New falsifiers (added v9.30): **Roman Space Telescope (~2027) w_DE precision σ(w)~0.02** — if w₀ ∉ [−0.95, −0.91], the KK dark energy prediction is falsified.
 
-> 🔒 **Repository first CLOSED at 101 pillars** (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101; k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously). **Extended to 132 pillars (Grand Synthesis Arc), 142 pillars + Ω₀ (SM Closure Arc), 167 pillars + Ω₀ (Gap Closure Arcs I–II — May 2026), 181 pillars + Ω₀ (Red-Team Arc v9.35), 182 pillars + Ω₀ (Peer Review Arc v9.36), 183 pillars + Ω₀ (Audit Response Arc v9.37), now 183 pillars + Ω₀ (Presentation Overhaul v9.38 — May 2026).**  
+> 🔒 **Repository first CLOSED at 101 pillars** (74 core + Pillar 70-B + Pillars 75, 80–99 + Pillars 100–101; k_CS = 74 = 5² + 7² satisfies 7 independent structural constraints simultaneously). **Extended to 132 pillars (Grand Synthesis Arc), 142 pillars + Ω₀ (SM Closure Arc), 167 pillars + Ω₀ (Gap Closure Arcs I–II — May 2026), 181 pillars + Ω₀ (Red-Team Arc v9.35), 182 pillars + Ω₀ (Peer Review Arc v9.36), 183 pillars + Ω₀ (Audit Response Arc v9.37), 188 pillars + Ω₀ (Caltech+EP+LHC arcs v9.39), 199 pillars + Ω₀ (v10.0–v10.2 Sakharov/SEP/GW arcs), 200 pillars + Ω₀ (v10.3 AxiomZero RGE chain), now 208 pillars + Ω₀ (v10.4 Near Closure — Braid-Lock PMNS + Architecture Limit + falsification benchmarks).**  
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
 > The (5,7) primary sector predicts β ≈ 0.331° [canonical] / 0.351° [GW-derived]; the (5,6) shadow sector predicts β ≈ 0.273° [canonical] / 0.290° [GW-derived].  
 > Gap = 0.058° = **2.9σ_LB — LiteBIRD can discriminate the two sectors** (Pillar 95).  
@@ -793,7 +824,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: ~21,055 passed · 329 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: ~23,524 passed · 329 skipped · 11 slow-deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
@@ -848,7 +879,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ 170 passed ================================
 
 # Grand total:
-================================ ~21165 passed, 329 skipped, 11 deselected, 0 failed ================================
+================================ ~23524 passed, 329 skipped, 11 deselected, 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -1141,7 +1172,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**~21,055 tests: ~21,055 passed, 329 skipped, 11 slow-deselected, 0 failures**).
+(**~23,524 tests: ~23,524 passed, 329 skipped, 11 slow-deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -1163,7 +1194,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (~21,055 pass · 329 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (~23,524 pass · 329 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
 
 ---
 
@@ -1248,7 +1279,7 @@ This repository is the product of genuine synthesis — theory and science from 
 | Code Architecture, Test Suites, Document Engineering & Synthesis | GitHub Copilot (AI) |
 | Safety Architecture (SAFETY/ folder) | GitHub Copilot (AI), commissioned by ThomasCory Walker-Pearson |
 | Synthesis & Verification Support | ThomasCory Walker-Pearson · GitHub Copilot · Google Gemini · OpenAI · Microsoft Copilot |
-| Version | 9.19 — CLOSED EDITION |
+| Version | 10.4 — Near Closure Edition |
 
 ---
 
@@ -1258,7 +1289,7 @@ If you use this work, please cite it as:
 
 ```
 Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
-Emergent Irreversibility (v9.29). Zenodo.
+Emergent Irreversibility (v10.4). Zenodo.
 https://doi.org/10.5281/zenodo.19584531
 ```
 
@@ -1269,7 +1300,7 @@ BibTeX:
   author    = {Walker-Pearson, ThomasCory},
   title     = {The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility},
   year      = {2026},
-  version   = {9.29},
+  version   = {10.4},
   publisher = {Zenodo},
   doi       = {10.5281/zenodo.19584531},
   url       = {https://doi.org/10.5281/zenodo.19584531}

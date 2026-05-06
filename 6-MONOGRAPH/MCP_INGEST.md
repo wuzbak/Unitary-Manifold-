@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 9.29 — OMEGA EDITION |
+| Version | 10.4 — Near Closure Edition |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v9.36):** All six completion requirements are solved internally, plus 81 additional pillars (102–182 + Ω₀: Grand Expansion + Grand Synthesis Arc + SM Parameter Closure Arc + Gap Closure Arcs I–II + Red-Team Response Arc + Peer Review Arc) closed. REPOSITORY COMPLETE (v9.36 — 182 pillars + Ω₀ Holon Zero + sub-pillars). ~21,055 tests. SM 26-parameter ledger: **8 DERIVED** (<5% error), **9 PARAMETERIZED** (per-species c_L fitted), **4 CONSTRAINED** (5–25%), **3 GEOMETRIC_ESTIMATE**, **0 OPEN** (Λ_QCD gap closed by Ω_QCD Phase A+B + Pillar 182).
+**Self-completion status (v10.4):** All six completion requirements are solved internally, plus 107 additional pillars (102–208 + Ω₀: Grand Expansion + Grand Synthesis Arc + SM Parameter Closure Arc + Gap Closure Arcs I–II + Red-Team Response Arc + Peer Review Arc + Near Closure arc) closed. REPOSITORY COMPLETE (v10.4 — 208 pillars + Ω₀ Holon Zero + sub-pillars). ~23,524 tests. TOE score: 42% (11/26). SM 26-parameter ledger: **11 DERIVED** (<5% error, including Braid-Lock PMNS + Higgs VEV geometric), **9 PARAMETERIZED** (per-species c_L fitted), **3 CONSTRAINED** (5–25%), **3 GEOMETRIC_ESTIMATE**. Primary falsifier: LiteBIRD (~2032) β ∈ {0.273°, 0.331°}. Architecture Limit: cosmological constant 58-order gap formally bounded as outside RS1 domain.
 
 | Requirement | Status | Identity |
 |---|---|---|

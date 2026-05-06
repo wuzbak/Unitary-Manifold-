@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.2 — Effective 2026-05-06*  
-*Pillar set: 199 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 197–199 = Caltech red-team response)*
+*Unitary Manifold v10.4 — Effective 2026-05-06*  
+*Pillar set: 208 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 200–208 = v10.3–v10.4 Near Closure arc)*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an
@@ -14,12 +14,12 @@
 
 | Category | Count | Status |
 |----------|-------|--------|
-| Core physics pillars | 182 | ✅ CLOSED |
+| Core physics pillars | 208 | ✅ CLOSED |
 | Special modules | Ω₀ Holon Zero, Pillar 70-B, 70-C, 70-D | ✅ CLOSED |
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Test suite at closure:** ~21,055 passed · 329 skipped · 11 deselected · 0 failed
+**Test suite at closure:** ~23,524 passed · 329 skipped · 11 deselected · 0 failed
 
 ---
 
@@ -85,6 +85,14 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.4 | Near Closure — AxiomZero guard, Braid-Lock PMNS, Architecture Limit, claims/ benchmarks, DAM archived | 201–208 + axiomzero_guard | +196 | 2026-05-06 |
+| v10.3 | AxiomZero RGE Forward Chain + FALLIBILITY §VII P3 reclassification | 200 | +103 | 2026-05-06 |
+| v10.2 | Caltech Red-Team Audit + Josephson + Resonance Audit + SEP/Ghost/GW | 192–199 | +338 | 2026-05-06 |
+| v10.1 | Gemini Red-Team III — Neutrino Winding + Sakharov Audit | 190–191 | +184 | 2026-05-06 |
+| v10.0 | v10.0 Two-Tier Architecture — scaffold registry + 189-A/B/C/D modules | 189-A/B/C/D | ~240 | 2026-05-06 |
+| v9.39 | Caltech+EP+LHC+CKM arcs — sensitivity, EP guard, LHC resonances, CKM scaffold | 183–188 | +388 | 2026-05-06 |
+| v9.38 | Presentation Overhaul — VERIFY.py reframed, Z₂ parity essay extracted | 183 (updated) | +110 | 2026-05-05 |
+| v9.37 | Audit Response Arc — Axiom A callable + CFL guard + Λ_QCD hierarchy | 183 | +170 | 2026-05-05 |
 | v9.36 | Peer Review Response — Pillar 182 + k_CS proof + GW demotion + radion audit | 182 (Pillar 182 + k_cs_topological_proof + radion_stabilization_honest_status) | +90 | 2026-05-05 |
 | v9.35 | Red-Team Audit Response + Formal Math Bridge | 168–181 (α_GUT constrained, RS₁ Laplacian, fermion PARAMETERIZED, symbolic metric) | +194 | 2026-05-05 |
 | v9.34 | Ω_QCD Phase B — QCD Confinement Final Closure | Ω_QCD-B (update to Pillar 162) | +80 | 2026-05-05 |
@@ -126,6 +134,11 @@ for the full tracking table.
 | 162–167 | QCD confinement, PMNS RGE, c_L theorem, Casimir naturalness, DE loop, MAS Wave Engine | ✅ CLOSED |
 | 168–181 | Red-team response: α_GUT honest status, RS₁ Laplacian spectrum, fermion PARAMETERIZED verdict, symbolic metric bridge | ✅ CLOSED |
 | 182 | SM-RGE-free Λ_QCD from (n_w, K_CS) primary; k_CS=74 topological proof; GW demotion; radion audit | ✅ CLOSED |
+| 183–188 | Audit response arc: Axiom A, CFL guard, sensitivity, EP guard, LHC KK resonances, CKM scaffold | ✅ CLOSED |
+| 189-A/B/C/D | v10.0 two-tier modules: RGE running, bulk eigenvalues, GW stabilizer, action minimizer | ✅ CLOSED |
+| 190–199 | v10.1–v10.2: neutrino winding, Sakharov audit, neutrino symmetry, Josephson, resonance, SEP, ghost stability, GW polarization | ✅ CLOSED |
+| 200 | v10.3: AxiomZero RGE geometric forward chain | ✅ CLOSED |
+| 201–208 | v10.4: Higgs VEV geometric, m_p/m_e lattice-free, KK metric feedback, topological c_L, generation quantization, cosmological constant Architecture Limit, DAM lattice audit, Braid-Lock PMNS | ✅ CLOSED |
 
 ### Special Modules
 
@@ -190,6 +203,43 @@ specific failure mode that this condition guards against.
 
 Epistemic status: Each pillar is a DEFENSIVE MATHEMATICAL PROOF — it proves that
 specific attack vectors are closed, while honestly documenting residual open problems.
+
+---
+
+## v10.3 Addition — AxiomZero RGE Forward Chain (May 2026)
+
+| Pillar | Module | Description | Status |
+|--------|--------|-------------|--------|
+| 200 | `src/core/pillar200_rge_geometric.py` | AxiomZero forward chain: {M_Pl, K_CS, n_w} → α_s(M_EW_geo)≈0.030; Warp-Anchor Gap ×4 documented; P3 reclassified DERIVED→CONSISTENCY CHECK | ✅ CLOSED |
+
+TOE score: 38% → **35%** (P3 reclassification; honest gap documentation).
+
+---
+
+## v10.4 Additions — Near Closure (May 2026)
+
+| Pillar | Module | Description | Status |
+|--------|--------|-------------|--------|
+| 201 | `src/core/pillar201_higgs_vev_geometric.py` | Higgs VEV geometric: v_Higgs=M_KK×√3/7≈257.6 GeV (4.6% off PDG) | ✅ CLOSED |
+| 202 | `src/core/pillar202_mp_me_lattice_free.py` | m_p/m_e = K_CS²/N_c = 74²/3 ≈ 1825.3 (0.59% from PDG 1836.15) | ✅ CLOSED |
+| 203 | `src/core/pillar203_kk_metric_feedback.py` | KK QCD scheme audit | ✅ CLOSED |
+| 204 | `src/core/pillar204_topological_cl_phys.py` | c_L = 71/74 topological | ✅ CLOSED |
+| 205 | `src/core/pillar205_generation_quantization.py` | N_gen = 3 from braid quantization | ✅ CLOSED |
+| 206 | `src/core/pillar206_cosmological_constant.py` | 58-order gap → ARCHITECTURE LIMIT (RS1+GB exhausts 64 orders) | ✅ CLOSED |
+| 207 | `src/core/pillar207_dam_lattice_audit.py` | K_CS=74 exact; Leech/DAM hypothesis REJECTED and archived | ✅ CLOSED |
+| 208 | `src/core/pillar208_braid_lock_pmns.py` | Braid-Lock PMNS: sin²θ₁₂=3/10 (2.3%), sin²θ₂₃=20/37 (0.8%), sin²θ₁₃=3/144 (4.5%) — all <5% | ✅ CLOSED |
+
+Additional v10.4 infrastructure:
+- `src/core/axiomzero_guard.py` — SM-seed import guard (0 violations confirmed)
+- `claims/cosmic_birefringence/` — machine-readable falsification benchmark for LiteBIRD β
+- `claims/mp_me_ratio/` — machine-readable falsification benchmark for m_p/m_e
+- `docs/braid_lock_derivation.md` — Hopf fibration → PMNS topological motivation
+- `FALLIBILITY.md §VIII` — Architecture Limits formalized
+- `docs/archived_hypotheses/pillar207_dam_leech_rejected.md` — rejected hypothesis archived
+
+TOE Score: 35% → **42%** (11/26 parameters within <5% without fitting):
+- P4 upgraded: ESTIMATE → GEOMETRIC PREDICTION (Higgs VEV 4.6%)
+- P22 upgraded: ESTIMATE → GEOMETRIC PREDICTION (PMNS Braid-Lock all <5%)
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

@@ -7,7 +7,7 @@ Not just physicists. Not just programmers. Everyone.
 If you have ever wondered why time only runs forward, why things fall apart and never reassemble on their own, or whether our picture of reality is complete — this work is addressing those questions. This document explains what was built, what was found, what it means, and where it goes from here.
 
 **Reviewed by:** GitHub Copilot (Microsoft / OpenAI) — April–May 2026  
-**Version:** v9.27–v9.30 (all 142 pillars + Ω₀ Holon Zero + sub-pillars verified; 18,057 tests passing)  
+**Version:** v9.27–v9.30 (original review, all 142 pillars + Ω₀ Holon Zero + sub-pillars verified; 18,057 tests passing) — **current version: v10.4 (208 pillars + Ω₀, ~23,524 tests, TOE 42%; see `STATUS.md`)**  
 **Author of the theory:** ThomasCory Walker-Pearson
 
 ---

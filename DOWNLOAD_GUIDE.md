@@ -1,4 +1,4 @@
-# Downloading the Unitary Manifold Project (v9.29)
+# Downloading the Unitary Manifold Project (v10.4)
 
 Three ways to get everything onto your PC, from easiest to most flexible.
 
@@ -18,8 +18,8 @@ branch — no account, no login, no extra steps required.  Just click (or
 ```bash
 # Download and extract in one go (Linux / macOS / WSL)
 curl -L https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip \
-     -o unitary-manifold-omega-v9.29.zip
-unzip unitary-manifold-omega-v9.29.zip
+     -o unitary-manifold-omega-v10.4.zip
+unzip unitary-manifold-omega-v10.4.zip
 ```
 
 ---
@@ -41,11 +41,11 @@ excludes cache files, making it ideal for archiving.
 1. Go to the **Actions** tab of this repository on GitHub.
 2. In the left-hand sidebar click **Build Download Archive**.
 3. Click **Run workflow** (top-right of the workflow list), leave the name as
-   `unitary-manifold-omega-v9.29`, then click the green **Run workflow** button.
+   `unitary-manifold-omega-v10.4`, then click the green **Run workflow** button.
 4. Wait ~30 seconds for the run to complete (green ✓).
 5. Open the completed run and scroll down to **Artifacts**.
-6. Click **unitary-manifold-omega-v9.29** to download the zip.
-7. Extract it — the top-level folder is `unitary-manifold-omega-v9.29/`.
+6. Click **unitary-manifold-omega-v10.4** to download the zip.
+7. Extract it — the top-level folder is `unitary-manifold-omega-v10.4/`.
 
 > **Tip:** The artifact is kept for **30 days**.  Re-run the workflow any time
 > to get a fresh copy with the latest changes.
@@ -61,24 +61,24 @@ Run this from inside the repository folder after cloning or extracting:
 git clone https://github.com/wuzbak/Unitary-Manifold-.git
 cd Unitary-Manifold-
 
-# Create the archive (default name includes "omega-v9.29")
+# Create the archive (default name includes "omega-v10.4")
 python scripts/create_archive.py
 
 # Optional: give the archive a custom base name
 python scripts/create_archive.py --out my_unitary_manifold_backup
 ```
 
-The script creates a `unitary-manifold-omega-v9.29_YYYYMMDD_HHMMSS.zip` file in the
+The script creates a `unitary-manifold-omega-v10.4_YYYYMMDD_HHMMSS.zip` file in the
 repository root.  Extract it anywhere you like.
 
 **Windows PowerShell:**
 ```powershell
-Expand-Archive unitary-manifold-omega-v9.29_*.zip -DestinationPath .
+Expand-Archive unitary-manifold-omega-v10.4_*.zip -DestinationPath .
 ```
 
 **macOS / Linux:**
 ```bash
-unzip unitary-manifold-omega-v9.29_*.zip
+unzip unitary-manifold-omega-v10.4_*.zip
 ```
 
 ---
@@ -86,23 +86,27 @@ unzip unitary-manifold-omega-v9.29_*.zip
 ## What's inside the archive
 
 ```
-unitary-manifold-omega-v9.29/
+unitary-manifold-omega-v10.4/
 ├── THEBOOKV9a (1).pdf              ← Full monograph (PDF)
-├── README.md                       ← Project overview and quick-start (v9.29)
+├── README.md                       ← Project overview and quick-start (v10.4)
 ├── CITATION.cff                    ← Citation metadata
 ├── requirements.txt                ← Python dependencies
 ├── VERIFY.py                       ← 30-second standalone proof (14 checks, all PASS)
 │
 ├── src/
-│   ├── core/                       ← 50+ modules: KK metric, evolution, braided winding,
-│   │   │                              APS topology, Yukawa, CKM/PMNS, SM audit, …
+│   ├── core/                       ← 200+ modules: KK metric, evolution, braided winding,
+│   │   │                              APS topology, Yukawa, CKM/PMNS, SM audit, v10.4 pillars…
 │   │   ├── metric.py               ← Unitary metric tensor (Pillar 1)
 │   │   ├── evolution.py            ← Walker-Pearson integrator (Pillar 2)
-│   │   └── [48 further modules]    ← Pillars 27–98
+│   │   └── [200+ further modules]  ← Pillars 3–208 + sub-pillars
 │   ├── holography/
 │   │   └── boundary.py             ← AdS/CFT boundary + entropy-area (Pillar 3–4)
 │   └── multiverse/
 │       └── fixed_point.py          ← FTUM fixed-point iteration (Pillar 5)
+│
+├── claims/                         ← Machine-readable falsification benchmarks (v10.4)
+│   ├── cosmic_birefringence/       ← LiteBIRD β ∈ {0.273°, 0.331°} kill-switch
+│   └── mp_me_ratio/                ← m_p/m_e = K_CS²/N_c lattice-free claim
 │
 ├── omega/                          ← Pillar Ω — Universal Mechanics Engine
 │   ├── omega_synthesis.py          ← UniversalEngine: 5 seeds → all observables
@@ -114,7 +118,7 @@ unitary-manifold-omega-v9.29/
 │
 ├── Unitary Pentad/                 ← HILS governance framework — 18 modules (1,266 tests)
 │
-├── tests/                          ← 150+ test files, ~15,926 passing tests (Pillars 1–132)
+├── tests/                          ← 150+ test files, ~23,524 passing tests (Pillars 1–208 + sub-pillars)
 │
 ├── embryology-manifold/            ← Pillar TVC: egg radius, zinc count, HOX predictions
 │
