@@ -73,6 +73,7 @@ __all__ = [
     "DEFECT_K", "DEFECT_FRACTION",
     "ALPHA_S_SHIFT_PCT",
     "WARP_ANCHOR_GAP_FACTOR",
+    "STATUS",
     # Functions
     "braid_theorem_verification",
     "leech_lattice_decomposition",
@@ -105,6 +106,10 @@ WARP_ANCHOR_GAP_FACTOR: float = 4.0  # α_s_pdg / α_s_forward ≈ 0.118/0.030
 
 # PDG α_s(M_Z) — comparison only
 _PDG_ALPHA_S: float = 0.1180
+
+#: Audit status — the DAM/Leech lattice hypothesis was formally rejected (v10.4).
+#: The rejected hypothesis is archived in docs/archived_hypotheses/pillar207_dam_leech_rejected.md.
+STATUS: str = "AUDIT_COMPLETE_HYPOTHESIS_REJECTED"
 
 
 def braid_theorem_verification(k_cs: int = K_CS, n_w: int = N_W) -> Dict[str, object]:

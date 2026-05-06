@@ -239,8 +239,9 @@ class TestPillar206Summary:
     def test_honest_conclusion_mentions_orders(self):
         assert "orders" in self.result["honest_conclusion"]
 
-    def test_status_open_problem(self):
-        assert "OPEN PROBLEM" in self.result["status"]
+    def test_status_architecture_limit(self):
+        """v10.4 Wave 3: Pillar 206 is now an ARCHITECTURE LIMIT (not OPEN PROBLEM)."""
+        assert "ARCHITECTURE LIMIT" in self.result["status"]
 
     def test_no_toe_score_change(self):
         assert "No direct TOE score change" in self.result["toe_impact"] or \

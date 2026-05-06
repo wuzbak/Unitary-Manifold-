@@ -60,7 +60,10 @@ CONCLUSION: The UM reduces the cosmological constant problem from 10^{122}
 (the naive field theory estimate) to ~10^{58} (by using the KK suppression
 M_KK^4 << M_Pl^4), but cannot solve the remaining 58 orders.
 
-STATUS: OPEN PROBLEM — 58-order gap remains after all geometric cancellations.
+STATUS: ARCHITECTURE LIMIT — 58-order gap remains after all geometric cancellations.
+The UM's RS1 + Gauss-Bonnet mechanism exhausts its predictive reach at the M_KK⁴
+scale.  The remaining 58-order gap is outside the domain of validity of the current
+5D geometric framework and cannot be resolved without physics beyond the RS1 ansatz.
 This is an honest frontier result, not a failure: reducing 122 orders to 58
 is a meaningful advance (64 orders from RS1 warp suppression).
 
@@ -86,6 +89,7 @@ __all__ = [
     "RHO_GB_OVER_MKK4",
     "LAMBDA_OBS_MPLAN4",
     "GAP_ORDERS_OF_MAGNITUDE",
+    "ARCHITECTURE_LIMIT",
     # Functions
     "rs1_tree_level_cancellation",
     "gauss_bonnet_vacuum_energy",
@@ -134,6 +138,13 @@ M_KK4_MPLAN4: float = math.exp(-4.0 * PI_KR)  # = exp(-148) ≈ 10^{-64}
 _log10_mkk4 = -4.0 * PI_KR * math.log10(math.e)  # ≈ -64
 _log10_lambda_obs = math.log10(LAMBDA_OBS_MPLAN4)  # ≈ -122
 GAP_ORDERS_OF_MAGNITUDE: float = _log10_mkk4 - _log10_lambda_obs  # ≈ 58
+
+#: Architecture Limit flag.
+#: True indicates that the UM's RS1 + Gauss-Bonnet mechanism has been fully
+#: applied and exhausts the predictive reach of the current 5D framework.
+#: The remaining 58-order gap cannot be closed without physics beyond RS1.
+#: See §VIII of FALLIBILITY.md for the formal "Architecture Limits" section.
+ARCHITECTURE_LIMIT: bool = True
 
 
 def rs1_tree_level_cancellation(k_cs: int = K_CS, n_w: int = N_W) -> Dict[str, object]:
@@ -385,7 +396,12 @@ def pillar206_summary() -> Dict[str, object]:
             "Λ_CC is not one of the 26 SM parameters.  No direct TOE score change.  "
             "The 58-order gap represents the irreducible unsolved frontier."
         ),
-        "status": "OPEN PROBLEM — 58-order gap after all UM geometric cancellations",
+        "architecture_limit": ARCHITECTURE_LIMIT,
+        "status": (
+            "ARCHITECTURE LIMIT — 58-order gap after all UM geometric cancellations.  "
+            "The RS1+Gauss-Bonnet mechanism is exhausted; the gap lies outside the "
+            "domain of validity of the 5D geometric framework (see FALLIBILITY.md §VIII)."
+        ),
         "falsification_note": (
             "If LiteBIRD (2032) observes β ≠ {≈0.273°, ≈0.331°}, the Λ_CC "
             "calculation is also invalidated (same geometric source K_CS=74)."
