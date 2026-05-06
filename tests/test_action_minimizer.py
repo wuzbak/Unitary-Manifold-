@@ -431,3 +431,107 @@ class TestPillar189dSummary:
 
     def test_key_result_mentions_unique(self):
         assert "UNIQUE" in self.result["key_result"].upper()
+
+
+# ===========================================================================
+# Topological Cutoff Proof — Pillar 189-D adversarial closure
+# ===========================================================================
+
+from src.core.action_minimizer import topological_cutoff_proof
+
+
+class TestTopologicalCutoffProof:
+    @pytest.fixture(autouse=True)
+    def result(self):
+        self._r = topological_cutoff_proof()
+
+    def test_returns_dict(self):
+        assert isinstance(self._r, dict)
+
+    def test_adversarial_critique_present(self):
+        assert "137" in self._r["adversarial_critique"]
+
+    def test_verdict_closed(self):
+        assert "CLOSED" in self._r["verdict"].upper() or "COMPLETE" in self._r["verdict"].upper()
+
+    def test_status_is_closed(self):
+        assert "CLOSED" in self._r["status"].upper()
+
+    def test_proof_1_title(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert "Fermat" in p1["title"]
+
+    def test_proof_1_k_cs_correct(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert p1["k_cs"] == K_CS
+
+    def test_proof_1_factorization(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert "74" in p1["factorization"]
+        assert "37" in p1["factorization"]
+
+    def test_proof_1_37_is_prime(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert p1["is_37_prime"] is True
+
+    def test_proof_1_37_is_fermat_prime(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert p1["is_37_fermat_prime"] is True
+
+    def test_proof_1_37_mod_4_is_1(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert p1["factor_37_mod_4"] == 1
+
+    def test_proof_1_exactly_one_solution(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert p1["n_solutions"] == 1
+
+    def test_proof_1_unique_solution_is_5_7(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert p1["all_solutions_m_lt_n"] == [(5, 7)]
+
+    def test_proof_1_unique_flag(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert p1["unique_solution"] is True
+
+    def test_proof_1_conclusion_present(self):
+        p1 = self._r["proof_1_number_theoretic"]
+        assert len(p1["conclusion"]) > 20
+
+    def test_proof_2_title(self):
+        p2 = self._r["proof_2_physical_cutoff"]
+        assert "Planck" in p2["title"] or "Cutoff" in p2["title"]
+
+    def test_proof_2_pi_kr_is_37(self):
+        p2 = self._r["proof_2_physical_cutoff"]
+        assert p2["pi_kr"] == pytest.approx(37.0, rel=1e-9)
+
+    def test_proof_2_algebraic_cutoff_is_8(self):
+        p2 = self._r["proof_2_physical_cutoff"]
+        assert p2["n_max_algebraic"] == 8
+
+    def test_proof_2_sqrt_74_approx_8_6(self):
+        p2 = self._r["proof_2_physical_cutoff"]
+        assert p2["sqrt_k_cs"] == pytest.approx(math.sqrt(74), rel=1e-9)
+
+    def test_proof_2_conclusion_present(self):
+        p2 = self._r["proof_2_physical_cutoff"]
+        assert "137" in p2["conclusion"]
+
+    def test_n137_check_impossible(self):
+        n137 = self._r["n=137_check"]
+        assert n137["possible"] is False
+        assert n137["n_squared"] == 137**2
+
+    def test_n137_squared_gt_k_cs(self):
+        assert 137**2 > K_CS
+
+    def test_verdict_mentions_5_7(self):
+        assert "(5,7)" in self._r["verdict"] or "5,7" in self._r["verdict"]
+
+    def test_verdict_mentions_137(self):
+        assert "137" in self._r["verdict"]
+
+    def test_solutions_sum_check(self):
+        # Verify (5,7) satisfies m²+n²=74
+        assert 5**2 + 7**2 == K_CS

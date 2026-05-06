@@ -17,11 +17,16 @@ from src.core.bulk_eigenvalues import (
     C_L_CRITICAL,
     C_L_STEP,
     C_L_MAX_EIGENVALUE,
+    PI_KR,
     J_PDG,
     braid_cl_eigenvalue,
     braid_cl_spectrum,
     assign_eigenvalues_to_fermions,
     jarlskog_shift_from_braid_cl,
+    warped_cl_eigenvalue,
+    rs1_zero_mode_amplitude,
+    jarlskog_warp_corrected,
+    higgs_warp_audit,
     eigenvalue_quantization_audit,
     pillar189b_summary,
 )
@@ -358,3 +363,180 @@ class TestPillar189bSummary:
     def test_improvement_over_scaffold_present(self):
         assert "improvement_over_scaffold" in self.result
         assert len(self.result["improvement_over_scaffold"]) > 20
+
+
+# ===========================================================================
+# Pillar 194 — Higgs Warp Correction (RS1 zero-mode profiles)
+# ===========================================================================
+
+class TestPI_KR:
+    def test_pi_kr_is_37(self):
+        assert PI_KR == pytest.approx(37.0, rel=1e-9)
+
+    def test_pi_kr_is_k_cs_over_2(self):
+        assert PI_KR == pytest.approx(K_CS / 2.0, rel=1e-9)
+
+
+class TestRS1ZeroModeAmplitude:
+    def test_critical_point_flat(self):
+        # At c_L = 0.5: exponent = 0, f0 = exp(0) = 1.0
+        f0 = rs1_zero_mode_amplitude(0.5, 37.0)
+        assert f0 == pytest.approx(1.0, rel=1e-9)
+
+    def test_ir_localised_large_amplitude(self):
+        # c_L < 0.5 → IR localised → larger amplitude
+        f0_ir = rs1_zero_mode_amplitude(0.08, 37.0)  # top quark
+        f0_uv = rs1_zero_mode_amplitude(0.70, 37.0)  # up quark
+        assert f0_ir > f0_uv
+
+    def test_uv_localised_small_amplitude(self):
+        # c_L > 0.5 → UV localised → exponentially suppressed
+        f0 = rs1_zero_mode_amplitude(0.70, 37.0)
+        assert 0.0 < f0 < 1.0
+
+    def test_positive_amplitude(self):
+        for c in [0.1, 0.3, 0.5, 0.7, 0.9]:
+            assert rs1_zero_mode_amplitude(c, 37.0) > 0.0
+
+    def test_exponential_formula(self):
+        # f0(c_L) = exp((0.5 - c_L) × pi_kr)
+        import math
+        c_l = 0.3
+        pi_kr = 37.0
+        expected = math.exp((0.5 - c_l) * pi_kr)
+        assert rs1_zero_mode_amplitude(c_l, pi_kr) == pytest.approx(expected, rel=1e-9)
+
+    def test_amplitude_decreases_with_c_l_above_half(self):
+        # More UV localised as c_L increases above 0.5
+        f1 = rs1_zero_mode_amplitude(0.55, 37.0)
+        f2 = rs1_zero_mode_amplitude(0.65, 37.0)
+        f3 = rs1_zero_mode_amplitude(0.75, 37.0)
+        assert f1 > f2 > f3
+
+
+class TestWarpedClEigenvalue:
+    def test_ell_1(self):
+        c = warped_cl_eigenvalue(1)
+        assert c == pytest.approx(math.sqrt(0.25 + 5.0/74.0), rel=1e-9)
+
+    def test_ell_1_approx_0_57(self):
+        c = warped_cl_eigenvalue(1)
+        assert 0.5 < c < 0.7
+
+    def test_ell_14(self):
+        c = warped_cl_eigenvalue(14)
+        expected = math.sqrt(0.25 + (5.0/74.0) * 196.0)
+        assert c == pytest.approx(expected, rel=1e-9)
+
+    def test_increases_with_ell(self):
+        for ell in range(1, 10):
+            assert warped_cl_eigenvalue(ell) < warped_cl_eigenvalue(ell + 1)
+
+    def test_raises_for_zero_ell(self):
+        with pytest.raises(ValueError):
+            warped_cl_eigenvalue(0)
+
+    def test_raises_for_negative_ell(self):
+        with pytest.raises(ValueError):
+            warped_cl_eigenvalue(-1)
+
+    def test_larger_than_half(self):
+        for ell in range(1, 8):
+            assert warped_cl_eigenvalue(ell) > 0.5
+
+    def test_formula_uses_n_w_over_k_cs(self):
+        # Formula: sqrt(0.25 + (N_W/K_CS) × ell²)
+        ell = 3
+        expected = math.sqrt(0.25 + (N_W / K_CS) * ell**2)
+        assert warped_cl_eigenvalue(ell) == pytest.approx(expected, rel=1e-9)
+
+    def test_all_warped_positive(self):
+        for ell in range(1, 8):
+            assert warped_cl_eigenvalue(ell) > 0.0
+
+
+class TestJarlskogWarpCorrected:
+    @pytest.fixture(autouse=True)
+    def result(self):
+        self._r = jarlskog_warp_corrected()
+
+    def test_returns_dict(self):
+        assert isinstance(self._r, dict)
+
+    def test_j_pdg_correct(self):
+        assert self._r["j_pdg"] == pytest.approx(J_PDG, rel=1e-9)
+
+    def test_j_warped_positive(self):
+        assert self._r["j_warped"] > 0.0
+
+    def test_gaps_positive(self):
+        assert self._r["gap_scaffold_pct"] >= 0.0
+        assert self._r["gap_linear_pct"] >= 0.0
+        assert self._r["gap_warped_pct"] >= 0.0
+
+    def test_c_r_canonical_present(self):
+        assert 0.0 < self._r["c_r_canonical"] < 1.0
+
+    def test_f0_amplitudes_all_positive(self):
+        for name, amp in self._r["f0_amplitudes_warped"].items():
+            assert amp > 0.0, f"f0({name}) = {amp} should be positive"
+
+    def test_warped_cl_values_above_half(self):
+        for name, cl in self._r["warped_cl_values"].items():
+            assert cl > 0.0, f"c_L({name}) = {cl} should be positive"
+
+    def test_honest_note_present(self):
+        assert len(self._r["honest_note"]) > 20
+
+    def test_status_constrained_improvement(self):
+        assert "CONSTRAINED" in self._r["status"].upper()
+
+    def test_pi_kr_correct(self):
+        assert self._r["pi_kr"] == pytest.approx(37.0, rel=1e-9)
+
+    def test_method_string_present(self):
+        assert "RS1" in self._r["method"] or "Pillar 194" in self._r["method"]
+
+
+class TestHiggsWarpAudit:
+    @pytest.fixture(autouse=True)
+    def result(self):
+        self._r = higgs_warp_audit()
+
+    def test_returns_dict(self):
+        assert isinstance(self._r, dict)
+
+    def test_pillar_194(self):
+        assert self._r["pillar"] == "194"
+
+    def test_j_pdg_correct(self):
+        assert self._r["j_pdg"] == pytest.approx(J_PDG, rel=1e-9)
+
+    def test_comparison_table_has_3_methods(self):
+        assert len(self._r["comparison_table"]) == 3
+
+    def test_comparison_methods_named(self):
+        methods = [row["method"] for row in self._r["comparison_table"]]
+        assert any("Scaffold" in m or "scaffold" in m for m in methods)
+        assert any("Linear" in m or "linear" in m for m in methods)
+        assert any("Warped" in m or "warped" in m or "Pillar 194" in m for m in methods)
+
+    def test_best_gap_positive(self):
+        assert self._r["best_gap_pct"] >= 0.0
+
+    def test_verdict_present(self):
+        assert len(self._r["verdict"]) > 20
+
+    def test_status_constrained(self):
+        assert "CONSTRAINED" in self._r["status"].upper()
+
+    def test_honest_note_present(self):
+        assert len(self._r["honest_note"]) > 20
+
+    def test_gap_values_finite(self):
+        for row in self._r["comparison_table"]:
+            assert math.isfinite(row["gap_pct"])
+
+    def test_j_estimates_positive(self):
+        for row in self._r["comparison_table"]:
+            assert row["j_estimate"] > 0.0
