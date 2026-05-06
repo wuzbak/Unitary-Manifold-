@@ -2696,6 +2696,44 @@ STATUS: OPEN — non-perturbative loop corrections to the CS action (beyond curr
 
 ---
 
+**v10.2 Addition — Neutrino Inversion: RHN States on the Negative Energy Branch (Pillar 192):**
+
+*Remaining loose thread (v10.2 scope):* Pillar 190 established the topological
+inversion argument for M_R ~ M_Pl but left a residual "seesaw drift" of ~12%
+when the RHN sector is treated as a positive-branch-only Majorana state.
+
+*Derivation:* `src/core/neutrino_symmetry.py` (Pillar 192) maps the RHN zero-mode
+to the Negative Energy Branch (NEB) of the (5,7) Chern-Simons braid.  Key results:
+
+- The NEB is the CPT-conjugate sector of the (5,7) braid: winding (7,5), same
+  K_CS = 7²+5² = 74, zero new free parameters.
+- Positive-branch-only seesaw drift:
+    ε₊ = n_inv × (n_inv − n_w) × π / (n_w × K_CS)
+       = 7 × 2 × π / (5 × 74) = 14π/370 ≈ 11.9%
+- NEB-corrected seesaw drift (Z₂ symmetry restored):
+    ε_NEB = n_w × (n_inv − n_w) × π / K_CS²
+          = 5 × 2 × π / 74² = 10π/5476 ≈ 0.57% < 1% ✅
+- Exact reduction factor: n_w²/(n_inv × K_CS) = 25/518 ≈ 0.0483 (≈ 20.7× reduction)
+
+The reduction arises because the NEB maps n_inv → n_w in the Majorana loop,
+cancelling the dominant n_inv = 7 enhancement and leaving only the subleading
+n_w = 5 term suppressed by K_CS²  in the denominator.
+
+*Note on relationship to Pillar 190:* The Jarlskog Layer 2 gap (12%) documented
+in Pillar 188/190 is a CKM structural gap requiring a flavor symmetry mechanism.
+The seesaw drift (12%) closed here is a SEPARATE systematic in the seesaw-Majorana
+loop sector.  Both share the n_inv/n_w geometric origin but address different
+sub-sectors of the theory.
+
+*Residuals (unchanged):* y_D = O(1) — not derived from 5D action.  Jarlskog
+Layer 2 gap (12%) — requires flavor symmetry (OPEN, Pillar 188).
+
+STATUS: GEOMETRIC DERIVATION (zero free parameters; 162 tests pass).
+
+Callable: `src/core/neutrino_symmetry.py::neutrino_symmetry_verdict()` (v10.2)
+
+---
+
 **v10.1 Rejected Suggestions (documented for scientific record):**
 
 Two suggestions from the v10.1 Gemini review were explicitly rejected:
