@@ -487,38 +487,23 @@ def rs1_zero_mode_amplitude(c_l: float, pi_kr: float = PI_KR) -> float:
     return math.exp(exponent)
 
 
-def warped_cl_eigenvalue(ell: int, pi_kr: float = PI_KR) -> float:
+def warped_cl_eigenvalue(ell: int) -> float:
     """Compute the WARPED (Higgs-corrected) c_L value for eigenvalue index ℓ.
 
     The linear approximation c_L(ℓ) = (n_w/K_CS) × ℓ ignores the RS1
-    warp factor.  The exact Dirac zero-mode condition is:
+    warp factor.  The exact Dirac zero-mode condition gives:
 
-        f₀(c_L(ℓ))  =  f₀(c_L_linear(ℓ)) × [1 + Δ_warp(ℓ)]
+        c_L_warped(ℓ)  =  √(1/4 + (n_w/K_CS) × ℓ²)
 
-    where the warp correction Δ_warp is obtained by solving the full RS1
-    zero-mode equation numerically.
-
-    For small ℓ (IR-localised fermions), the warp correction is:
-
-        c_L_warped(ℓ)  =  (1/2) × (1 − √(1 − 4×(n_w/K_CS)×ℓ²/πkR²))
-
-    This reduces to the linear approximation for ℓ² << πkR²/(4 × n_w/K_CS).
-    For n_w/K_CS = 5/74, πkR = 37:
-        ℓ² << 37² × 74/(4×5) = 10138 → ℓ << 100 (all physical ℓ ≤ 14 qualify)
-
-    For the physical range ℓ ≤ 14, the full warped expression gives:
-
-        c_L_warped = (1/2) + (1/2)√(1 + 4(n_w/K_CS)ℓ²) − (1/2)
-                   = (1/2) + √((1/4) + (n_w/K_CS)ℓ²) − (1/2)
-                   = √((1/4) + (n_w/K_CS)ℓ²)
-
-    This is the EXACT formula from the Dirac spectrum (same as the RS1
-    KK tower formula for the zero mode).
+    This is the EXACT formula from the RS1 Dirac spectrum zero-mode condition
+    (derived from the bulk mass term in the KK decomposition).  It reduces to
+    the linear approximation c_L ≈ (n_w/K_CS) × ℓ / 2 for ℓ² ≪ K_CS/(4 n_w),
+    i.e. ℓ ≪ √(K_CS/(4 n_w)) = √(74/20) ≈ 1.9 — so the warp correction
+    is significant for all physical eigenvalues ℓ ≥ 2.
 
     Parameters
     ----------
     ell : int  Eigenvalue index (positive integer).
-    pi_kr : float  RS1 warp exponent (default 37.0).
 
     Returns
     -------
@@ -569,7 +554,7 @@ def jarlskog_warp_corrected() -> Dict[str, object]:
     fermion_order = sorted(_MASSES_MEV.items(), key=lambda x: -x[1])
     warped_cl_map = {}
     for (name, _), ell in zip(fermion_order, ell_values):
-        warped_cl_map[name] = warped_cl_eigenvalue(ell, PI_KR_LOC)
+        warped_cl_map[name] = warped_cl_eigenvalue(ell)
 
     # RS1 zero-mode amplitudes (warped)
     f0_warped = {name: rs1_zero_mode_amplitude(cl, PI_KR_LOC)

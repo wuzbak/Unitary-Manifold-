@@ -444,14 +444,15 @@ class TestWarpedClEigenvalue:
         for ell in range(1, 8):
             assert warped_cl_eigenvalue(ell) > 0.5
 
-    def test_all_warped_above_linear(self):
-        # For ell >= 1, warped > linear (due to sqrt correction)
+    def test_formula_uses_n_w_over_k_cs(self):
+        # Formula: sqrt(0.25 + (N_W/K_CS) × ell²)
+        ell = 3
+        expected = math.sqrt(0.25 + (N_W / K_CS) * ell**2)
+        assert warped_cl_eigenvalue(ell) == pytest.approx(expected, rel=1e-9)
+
+    def test_all_warped_positive(self):
         for ell in range(1, 8):
-            c_linear = braid_cl_eigenvalue(ell)
-            c_warped = warped_cl_eigenvalue(ell)
-            # Warped uses exact RS1 formula; linear is approximation
-            # They should be close but not identical
-            assert c_warped > 0.0
+            assert warped_cl_eigenvalue(ell) > 0.0
 
 
 class TestJarlskogWarpCorrected:

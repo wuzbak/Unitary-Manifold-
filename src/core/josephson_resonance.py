@@ -210,12 +210,8 @@ BRAID_FREQ_RATIO: float = XI_C
 #: Geometric shift ratio: Δf/f = n_w / K_CS = 5/74
 GEO_SHIFT_RATIO: float = float(N_W) / float(K_CS)  # ≈ 0.06757
 
-#: Beat frequency ratio: f_beat/f_plasma = (79-35)/74 = 44/74 = 22/37
-BEAT_FREQ_RATIO: float = float(N_W * (N_INV + N_W)) / float(K_CS * N_W // N_W)
-# Computed correctly:
-BEAT_FREQ_RATIO = (float(N_W) / float(K_CS)) * (float(N_W + N_INV) / float(N_W))
-# = (5/74) × (12/5) = 12/74 — no, let me use the formula: 44/74
-BEAT_FREQ_RATIO = 44.0 / 74.0  # = 22/37 ≈ 0.5946
+#: Beat frequency ratio: f_beat/f_plasma = 44/74 = 22/37
+BEAT_FREQ_RATIO: float = 44.0 / 74.0  # = 22/37 ≈ 0.5946
 
 #: Canonical Josephson plasma frequency for a standard transmon [GHz]
 F_PLASMA_CANONICAL_GHZ: float = 5.0
