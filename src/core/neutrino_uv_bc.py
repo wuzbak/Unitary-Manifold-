@@ -56,11 +56,19 @@ The Type-I seesaw with M_R = M_Pl and y_D ∈ [y_D^min, y_D^max]:
 
     m_ν₁  =  y_D² × v² / M_R
 
-    m_ν₁^min  =  y_D^min² × v²/M_R  =  (25/74) × v²/M_R  ≈  1.68 meV
-    m_ν₁^max  =  y_D^max² × v²/M_R  =  (74/25) × v²/M_R  ≈  14.80 meV
+    m_ν₁(y_D=1)  =  (246 GeV)² / (1.22×10¹⁹ GeV) × 10⁹ eV/GeV ≈ 4.96 μeV
 
-This sealed window [1.68 meV, 14.80 meV] is the PREDICTION of the UV BC:
-any observation of m_ν₁ outside this range would falsify the UV BC.
+    m_ν₁^min  =  y_D^min² × m_ν₁(1)  =  (25/74) × 4.96 μeV  ≈  1.68 μeV
+    m_ν₁^max  =  y_D^max² × m_ν₁(1)  =  (74/25) × 4.96 μeV  ≈  14.67 μeV
+
+Note: the Planck-scale seesaw gives sub-μeV to ~15 μeV neutrino masses
+(not meV), safely below the Planck CMB bound Σm_ν < 120 meV ✅.
+The mass splittings are dominated by the atmospheric/solar oscillation
+terms (m_ν₂ ≈ 8.7 meV, m_ν₃ ≈ 50 meV from PDG splittings).
+
+This sealed window is the PREDICTION of the UV BC (expressed in meV as
+1.68×10⁻³ meV to 14.67×10⁻³ meV).  Any observation finding m_ν₁ outside
+this ratio band relative to the seesaw scale would falsify the UV BC.
 
 Step 4 — Inverted Hierarchy exclusion
 --------------------------------------
@@ -68,12 +76,12 @@ In the Inverted Hierarchy (IH), the heaviest eigenstate is m_ν₃ (lightest):
 m_ν₁ ≈ m_ν₂ ≈ 50 meV (quasi-degenerate), m_ν₃ ≈ 0.
 
 Requiring m_ν₁_IH ≈ 50 meV from the seesaw:
-    y_D²  =  m_ν₁_IH × M_R / v²  ≈  50e-3 eV × M_R / v²
-          ≈  (50/5) × (y_D^geo=1 baseline)  =  10
-    y_D  ≈  3.16
+    y_D²  =  m_ν₁_IH × M_R / v²
+    y_D   ≈  √(50e-3 eV × M_Pl_eV / v_eV²)
+          ≈  √(50e-3 × 1.22e28 / (246e9)²) ≈  100.4
 
-But y_D = 3.16 > y_D^max = 1.72 — this is OUTSIDE the UV BC geometric
-range.  Therefore IH is EXCLUDED by the UV boundary condition.
+But y_D = 100.4 >> y_D^max = 1.72 — this is FAR OUTSIDE the UV BC
+geometric range.  Therefore IH is EXCLUDED by the UV boundary condition.
 
 HONEST ACCOUNTING
 -----------------

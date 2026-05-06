@@ -233,8 +233,8 @@ class TestGeometricYDRange:
 class TestLightestNeutrinoMassSealed:
     def test_canonical_y_d_gives_5mev(self):
         r = lightest_neutrino_mass_sealed(1.0)
-        # m_ν₁ ≈ 4.96 meV (v²/M_R in meV)
-        assert r["m_nu1_mev"] == pytest.approx(4.96, abs=0.2)
+        # m_ν₁ ≈ 4.96 μeV = 4.96e-3 meV (Planck-scale seesaw: v²/M_Pl)
+        assert r["m_nu1_mev"] == pytest.approx(4.957e-3, rel=0.01)
 
     def test_canonical_planck_consistent(self):
         r = lightest_neutrino_mass_sealed(1.0)
@@ -288,15 +288,16 @@ class TestNeutrinoMassWindow:
         assert isinstance(self._r, dict)
 
     def test_m_nu1_min_approx_168_uev(self):
-        # min ≈ (25/74) × 4.96 meV ≈ 1.68 meV
-        assert self._r["m_nu1_min_mev"] == pytest.approx(1.675, abs=0.05)
+        # min ≈ (25/74) × 4.96 μeV ≈ 1.675 μeV, expressed as 1.675e-3 meV
+        assert self._r["m_nu1_min_mev"] == pytest.approx(1.675e-3, rel=0.02)
 
     def test_m_nu1_max_approx_1480_uev(self):
-        # max ≈ (74/25) × 4.96 meV ≈ 14.80 meV
-        assert self._r["m_nu1_max_mev"] == pytest.approx(14.78, abs=0.1)
+        # max ≈ (74/25) × 4.96 μeV ≈ 14.67 μeV, expressed as 14.67e-3 meV
+        assert self._r["m_nu1_max_mev"] == pytest.approx(14.67e-3, rel=0.02)
 
     def test_m_nu1_central_approx_5mev(self):
-        assert self._r["m_nu1_central_mev"] == pytest.approx(4.96, abs=0.2)
+        # central ≈ 4.96 μeV = 4.96e-3 meV
+        assert self._r["m_nu1_central_mev"] == pytest.approx(4.957e-3, rel=0.01)
 
     def test_min_less_than_central(self):
         assert self._r["m_nu1_min_ev"] < self._r["m_nu1_central_ev"]
@@ -406,8 +407,8 @@ class TestIHExclusionFromUVBC:
         assert self._r["ih_excluded"] is True
 
     def test_y_d_required_ih_approx_316(self):
-        # y_D_IH ≈ √(50e-3/4.96e-3) ≈ √10.08 ≈ 3.175
-        assert self._r["y_d_required_ih"] == pytest.approx(3.175, abs=0.05)
+        # y_D_IH = sqrt(50e-3 eV × M_Pl_eV / v_eV²) ≈ 100.4 (far outside UV BC)
+        assert self._r["y_d_required_ih"] == pytest.approx(100.4, abs=1.0)
 
     def test_y_d_max_uv_bc_matches_module_constant(self):
         assert self._r["y_d_max_uv_bc"] == pytest.approx(Y_D_MAX, rel=1e-6)
@@ -416,8 +417,8 @@ class TestIHExclusionFromUVBC:
         assert self._r["ih_excess_ratio"] > 1.0
 
     def test_ih_excess_ratio_approx_18(self):
-        # ≈ 3.175/1.72 ≈ 1.85
-        assert self._r["ih_excess_ratio"] == pytest.approx(1.85, abs=0.1)
+        # ≈ 100.4 / 1.721 ≈ 58.4 (IH requires y_D far outside UV BC range)
+        assert self._r["ih_excess_ratio"] == pytest.approx(58.4, abs=1.0)
 
     def test_proof_steps_list(self):
         assert isinstance(self._r["proof_steps"], list)
@@ -471,11 +472,11 @@ class TestMassOrderingSealed:
 
     def test_mass_window_min_mev(self):
         w = self._r["sealed_mass_window_mev"]
-        assert w["m_nu1_min_mev"] == pytest.approx(1.675, abs=0.05)
+        assert w["m_nu1_min_mev"] == pytest.approx(1.675e-3, rel=0.02)
 
     def test_mass_window_max_mev(self):
         w = self._r["sealed_mass_window_mev"]
-        assert w["m_nu1_max_mev"] == pytest.approx(14.78, abs=0.1)
+        assert w["m_nu1_max_mev"] == pytest.approx(14.67e-3, rel=0.02)
 
     def test_mass_ordering_verdict_text(self):
         assert "NORMAL HIERARCHY" in self._r["mass_ordering_verdict"]
@@ -546,10 +547,10 @@ class TestPillar193Summary:
         assert "Neutrino" in self._r["title"]
 
     def test_m_nu1_min_in_window(self):
-        assert self._r["key_results"]["m_nu1_min_mev"] == pytest.approx(1.675, abs=0.05)
+        assert self._r["key_results"]["m_nu1_min_mev"] == pytest.approx(1.675e-3, rel=0.02)
 
     def test_m_nu1_max_in_window(self):
-        assert self._r["key_results"]["m_nu1_max_mev"] == pytest.approx(14.78, abs=0.1)
+        assert self._r["key_results"]["m_nu1_max_mev"] == pytest.approx(14.67e-3, rel=0.02)
 
 
 # ===========================================================================
