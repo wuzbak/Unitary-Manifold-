@@ -6,8 +6,8 @@
 >
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v9.36, 182 pillars + sub-pillars, ~21,055 tests, 2026).
-> REPOSITORY COMPLETE (v9.36 — 182 pillars + sub-pillars). ~21,055 passing tests.
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (v10.4, 208 pillars + sub-pillars, ~23,524 tests, TOE 42%, 2026).
+> REPOSITORY COMPLETE (v10.4 — 208 pillars + sub-pillars). ~23,524 passing tests.
 
 ## Start Here
 
@@ -170,3 +170,5 @@
 - [claims/anomaly_inflow/](claims/anomaly_inflow/): Self-contained claim: anomaly inflow mechanism with verify.py and test_claim.py.
 - [claims/integer_derivation/](claims/integer_derivation/): Self-contained claim: integer-valued CS level derivation with verify.py and test_claim.py.
 - [claims/tensor_ratio_fix/](claims/tensor_ratio_fix/): Self-contained claim: tensor-to-scalar ratio correction with verify.py and test_claim.py.
+- [claims/cosmic_birefringence/](claims/cosmic_birefringence/): **Machine-readable falsification benchmark** — LiteBIRD β ∈ {0.273°, 0.331°} with kill-switch logic. Added v10.4.
+- [claims/mp_me_ratio/](claims/mp_me_ratio/): **Machine-readable falsification benchmark** — m_p/m_e = K_CS²/N_c = 74²/3 ≈ 1825.3 (0.59% from PDG). Added v10.4.
