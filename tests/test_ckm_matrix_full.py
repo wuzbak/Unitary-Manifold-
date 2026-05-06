@@ -255,3 +255,35 @@ class TestGapReport:
     def test_gap_report_contains_honest_gaps(self):
         report = ckm_gap_report()
         assert "REMAINING OPEN GAPS" in report or "OPEN" in report
+
+
+class TestJarlskogGapHonest:
+    def setup_method(self):
+        from src.core.ckm_matrix_full import jarlskog_gap_honest
+        self.r = jarlskog_gap_honest()
+
+    def test_j_pdg(self):
+        assert self.r["J_pdg"] == pytest.approx(3.08e-5, rel=1e-6)
+
+    def test_j_geometric_positive(self):
+        assert self.r["J_geometric"] > 0
+
+    def test_ratio_above_1(self):
+        # Geometric J exceeds PDG
+        assert self.r["ratio"] > 1.0
+
+    def test_ratio_below_2(self):
+        # Should be ~1.37, not wildly off
+        assert self.r["ratio"] < 2.0
+
+    def test_ratio_pct_positive(self):
+        assert self.r["ratio_pct"] > 0
+
+    def test_status_open(self):
+        assert "OPEN" in self.r["status"]
+
+    def test_admission_contains_honest_gap(self):
+        assert "HONEST GAP" in self.r["admission"] or "Admission" in self.r["admission"]
+
+    def test_gap_origin_mentions_mixing(self):
+        assert "mixing" in self.r["gap_origin"].lower() or "θ" in self.r["gap_origin"]
