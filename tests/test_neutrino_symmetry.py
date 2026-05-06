@@ -41,7 +41,7 @@ from src.core.neutrino_symmetry import (
     rhn_neb_state_mapping,
     seesaw_drift_neb_corrected,
     seesaw_drift_positive_branch,
-    # Private helpers (exposed for testing via leading underscore convention)
+    # Private helpers (imported directly for white-box testing)
     _neb_coupling_strength,
     _neb_mode_energy,
     _neb_symmetric_coupling,

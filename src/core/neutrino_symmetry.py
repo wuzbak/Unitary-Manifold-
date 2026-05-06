@@ -333,7 +333,7 @@ def rhn_neb_state_mapping(c_r: float = C_R_RHN) -> dict[str, Any]:
         "neb_drift_coefficient": eps_neb,
         "drift_reduction_factor_numeric": reduction_factor_numeric,
         "drift_reduction_factor_analytic": reduction_factor_analytic,
-        "drift_reduction_exact_expr": f"n_w²/(n_inv×K_CS) = {N_W**2}/({N_INV}×{K_CS}) = {N_W**2}/{N_INV*K_CS}",
+        "drift_reduction_factor_exact": f"n_w²/(n_inv×K_CS) = {N_W**2}/({N_INV}×{K_CS}) = {N_W**2}/{N_INV*K_CS}",
         "neb_suppression_interpretation": (
             f"The NEB maps n_inv={N_INV} → n_w={N_W} in the seesaw loop, "
             f"suppressing the drift by a factor {N_W**2}/{N_INV*K_CS} "
