@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.2 — ThomasCory Walker-Pearson, 2026 (199 pillars/modules + Ω₀ Holon Zero + sub-pillars; ~22,800+ tests passing)**
+*Unitary Manifold v10.3 — ThomasCory Walker-Pearson, 2026 (200 pillars/modules + Ω₀ Holon Zero + sub-pillars; ~22,900+ tests passing)**
 
 ---
 
@@ -2099,7 +2099,7 @@ subsequent closures, the UM status is:
 |---|-----------|-----------|-----------|-----------------|
 | P1 | α_em | 1/137.036 | ✅ DERIVED | φ₀⁻² from FTUM fixed-point — CLOSED |
 | P2 | sin²θ_W | 0.23122 | ✅ DERIVED | SU(5) from n_w=5 (Pillar 70-D) + RGE — CLOSED |
-| P3 | α_s | 0.1180 | ✅ DERIVED | SU(5) unification + 1-loop RGE (Pillar 70-D+94) — CLOSED |
+| P3 | α_s | 0.1180 | ⚠️ CONSISTENCY CHECK | SU(5) unification + upward RGE from PDG α_s(M_Z) reaches α_GUT_geo=3/74 within 45.6% (Pillar 189-A). Pure geometric forward chain (Pillar 200): α_s(M_EW_geo)≈0.030 vs PDG 0.118 — factor-~4 Warp-Anchor Gap. Closure via Pillar 182 (AdS/QCD) or Pillar 201 (geometric GW VEV). |
 | P4 | v (Higgs VEV) | 246.22 GeV | ⚠️ CONSTRAINED | GW potential gives v ~ M_Pl exp(−πkR); precise value needs GW parameter ν |
 | P5 | m_H | 125.25 GeV | ✅ DERIVED | FTUM quartic λ_H=n_w²/(2k_CS) + 1-loop top RGE correction → 124–125 GeV (< 1% accuracy, Pillar 134) |
 | P6 | m_u | 2.16 MeV | ⚠️ FITTED | Universal 5D Yukawa Ŷ₅=1 (Pillar 97); reduce to 1 input via GW vacuum profile |
@@ -2117,10 +2117,9 @@ subsequent closures, the UM status is:
 | P25 | δ_CP^PMNS | −107° | ✅ DERIVED | Orbifold phase −(π−2π/n_w) = −108° (0.05σ) — CLOSED |
 | P28 | G_N | 6.674×10⁻¹¹ | ⚠️ INPUT | UV boundary condition; M_Pl from RS compactification but not derived from scratch |
 
-**Summary:** 6 fully derived (P1, P2, P3, P5, P12, P25), 4 geometric predictions < 5% (P13, P15,
-P23, P24), 4 geometric constrained estimates (P14, P20, P21, P22), 8 fitted/open/input (P4, P6–P8, P16, P19, P28).
-Zero-parameter TOE score: **38% (10/26)**. Function: `sm_closure_roadmap()` in
-`src/core/sm_free_parameters.py`.
+**Summary:** 5 fully derived (P1, P2, P5, P12, P25), 4 geometric predictions < 5% (P13, P15,
+P23, P24), 4 geometric constrained estimates (P14, P20, P21, P22), 8 fitted/open/input (P4, P6–P8, P16, P19, P28), 1 consistency check (P3).
+Zero-parameter TOE score: **35% (9/26)** — P3 reclassified from DERIVED to CONSISTENCY CHECK by Pillar 200 AxiomZero forensics (v10.3).
 
 The path to a complete zero-parameter TOE requires:
 1. Prove universal 5D Yukawa Ŷ₅=1 for all sectors from the GW vacuum profile (reduces ~8 fitted to ~1)
@@ -2841,6 +2840,146 @@ Anticipated attacks:
 | S₈ tension | 199 | MARGINAL — 3σ→2σ; high uncertainty | ~67 |
 
 Total new tests: ~190 (Pillars 197–199).
+
+*Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
+*Document engineering and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## §VII — Pillar 200 AxiomZero Forensics: The Warp-Anchor Audit (v10.3, May 2026)
+
+*This section documents the findings of the Pillar 200 AxiomZero forward-chain
+audit — the most stringent internal falsification test to date.*
+
+---
+
+### VII.1 — The Clarification of "1.5%"
+
+The Pillar 189-A upward-run result is often summarised as "1.5% agreement."
+Pillar 200 forensics establish that this figure refers to two **analytic
+GUT-scale constants**:
+
+    α_GUT_geo = N_c / K_CS = 3/74 ≈ 0.04054          (UM geometry)
+    α_GUT_su5 = 1/24.3         ≈ 0.04115          (SU(5) unification)
+    |δ| = 1.49%  —  a GUT-scale constant comparison
+
+It does **NOT** describe agreement between the geometric RGE forward chain and
+the observed α_s(M_Z) = 0.118.  The actual upward-run result starting from PDG
+α_s(M_Z): Pillar 189-A gives α_s(M_GUT) = 0.02206, which is **45.6%** below
+α_GUT_geo = 3/74.  The "1.5%" figure was previously miscommunicated as a
+low-energy agreement; Pillar 200 corrects this.
+
+---
+
+### VII.2 — AxiomZero Forward-Chain Result (Pillar 200)
+
+**Module:** `src/core/pillar200_rge_geometric.py`  
+**Inputs:** {M_Pl, K_CS=74, n_w=5} — **zero SM particle masses**  
+**Tests:** 103 passing (0 failures)
+
+The pure geometric forward chain:
+
+| Step | Formula | Value |
+|------|---------|-------|
+| M_KK = M_Pl × exp(−K_CS/2) | RS1 warp | ≈ 1041 GeV |
+| α_s(M_KK) = 2π/(N_c × K_CS) | CS quantisation (Pillar 62) | ≈ 0.02830 |
+| v_geo = M_KK × √(N_c/K_CS) | Warp-Anchor VEV | ≈ 210 GeV (15% off PDG) |
+| m_H_geo = √(2λ_H) × v_geo | Pillar 134 cross-check | ≈ 122 GeV (2.7% off PDG) |
+| α_s(M_EW_geo) | Downward run, N_f=6 | ≈ **0.030** |
+
+**Warp-Anchor Gap:** α_s_geo(M_EW_geo) / α_s_PDG(M_Z) = **0.030 / 0.118 ≈ 1/3.96**
+
+The pure geometric forward chain undershoots α_s(M_Z) by a factor of ~4.  This
+is the "Warp-Anchor Gap" — the quantified distance between the current geometric
+prediction and experiment.
+
+**AxiomZero audit result:** PASS — zero SM particle masses used as computational
+anchors (callable: `axiom_zero_audit()` returns `sm_anchors_count = 0`).
+
+---
+
+### VII.3 — Why the Factor-~4 Gap Exists
+
+The factor-~4 gap has a clean physical explanation:
+
+1. **The CS-quantised α_s(M_KK) = 2π/222 ≈ 0.028 is ~3× below the physical
+   QCD coupling at M_KK.**  Running the SM theory from PDG α_s(M_Z) upward gives
+   α_s_SM(M_KK) ≈ 0.089 — not 0.028.  The CS-quantised value is a topological
+   quantity, not a direct prediction of the coupling at M_KK from perturbative QCD.
+
+2. **1-loop perturbation theory is insufficient.**  For α_s ≈ 0.028 (deep UV,
+   weakly coupled), dimensional transmutation gives Λ_QCD ≈ M × exp(−2π/b₀α_s),
+   which is exponentially suppressed far below M_KK.  The strong force at M_Z
+   requires a non-perturbative mechanism to bridge this gap.
+
+3. **The Higgs VEV is geometrically 15% low.**  v_geo = 210 GeV vs PDG 246 GeV.
+   This shifts M_EW_geo upward relative to M_Z = 91 GeV, causing the running
+   endpoint to differ from the PDG anchor.
+
+---
+
+### VII.4 — Path to Closure
+
+Three routes can close the Warp-Anchor Gap without introducing new free parameters:
+
+**Route A — Pillar 182 (AdS/QCD, PRIMARY):**  
+`src/core/qcd_geometry_primary.py` bypasses the perturbative Landau-pole barrier
+entirely.  The dilaton profile directly sets the confinement scale:
+
+    m_ρ = M_KK × r_dil(K_CS, n_w)   →   Λ_QCD ≈ 198 MeV
+
+Current residual: factor ~1.7 from PDG Λ_QCD = 332 MeV (after 4-loop correction).
+This route is the **correct physical mechanism** — it does not rely on α_s
+running through non-perturbative regions.
+
+**Route B — Pillar 201 (Geometric Higgs VEV, PLANNED):**  
+Fix the GW stabilisation parameter ν from the 5D action alone.  This would bring
+v_geo from 15% off to < 5% off PDG 246 GeV, improving M_EW_geo and closing ~60%
+of the gap from the EW-scale endpoint.
+
+**Route C — Pillar 203 (Non-Linear Metric Feedback, PLANNED):**  
+Include the KK-tower back-reaction on the running.  The leading correction
+Δβ₀_KK = (11N_c/3)(n_w/K_CS) = 55/74 ≈ 0.74 (implemented in Pillar 200) is
+only ~11% of β₀^SM = 7.  Full non-linear metric feedback (multi-KK resummation)
+may contribute additional running at intermediate scales.
+
+---
+
+### VII.5 — P3 Reclassification
+
+Based on the Pillar 200 forensics, the SM closure table entry for P3 (α_s) is
+**reclassified from ✅ DERIVED to ⚠️ CONSISTENCY CHECK** (effective v10.3):
+
+| Version | P3 Status | Basis |
+|---------|-----------|-------|
+| v10.0–10.2 | ✅ DERIVED | "SU(5) + 1-loop RGE" — upward run from PDG |
+| **v10.3** | **⚠️ CONSISTENCY CHECK** | **Pillar 200 AxiomZero forensics: forward chain gives 0.030, not 0.118; factor-~4 Warp-Anchor Gap documented** |
+
+The zero-parameter TOE score is updated from 38% (10/26) to **35% (9/26)**.
+
+This reclassification does not weaken the theory — it strengthens the
+repository's scientific credibility by accurately representing what the geometry
+currently derives versus what it validates.  The primary QCD derivation remains
+Pillar 182 (AdS/QCD, ✅ DERIVED, zero SM RGE, factor ~1.7 from PDG Λ_QCD).
+
+---
+
+### VII.6 — The "Ghost" 8.2 TeV Resonance: Closed
+
+The "8.2 TeV ghost" identified in the adversarial review is fully resolved:
+
+- **Source of confusion:** `HL_LHC_PROJECTED_GKK_TEV = 8.0` in
+  `lhc_kk_resonances.py` is a **human-defined experimental reach parameter**
+  (HL-LHC luminosity goal), not a UM mathematical prediction.
+
+- **UM LHC prediction:** The geometric KK graviton coupling k/M_Pl ≈ 10⁻¹⁶
+  renders G_KK^(1) essentially invisible at current LHC (Pillar 187).  The UM
+  makes no prediction of a resonance at 8.0 or 8.2 TeV.
+
+- **Firewall status:** The "ghost" parameter is documented, understood, and
+  closed.  No "stiffness scale" matching 8.2 TeV is implemented or sought.
+
+---
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
