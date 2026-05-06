@@ -193,7 +193,16 @@ _N_SAKHAROV: int = 3
 # ---------------------------------------------------------------------------
 
 def _cp_amplitude(k_cs: float = K_CS) -> float:
-    """CP violation amplitude from CS level: ε_CP = k_CS / (k_CS² + 4π²)."""
+    """CP violation amplitude from CS level: ε_CP = k_CS / (k_CS² + 4π²).
+
+    This is a Breit-Wigner-style amplitude that peaks at k_CS = 2π ≈ 6.28
+    and decreases for large k_CS.  For k_CS = 74 (the geometric value proved
+    from the 5D CS action), ε_CP ≈ 0.0132.  The large-k behaviour reflects
+    that the CS term becomes a total derivative at large k, suppressing the
+    physical CP-odd amplitude.  k_CS = 74 is not a free parameter — it is
+    fixed by the braid geometry — so the suppression is a geometric prediction,
+    not a tuning.
+    """
     return k_cs / (k_cs**2 + 4.0 * math.pi**2)
 
 
