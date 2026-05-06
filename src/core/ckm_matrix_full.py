@@ -846,7 +846,7 @@ def jarlskog_gap_honest(n_w: int = N_W_CANONICAL) -> Dict[str, object]:
     J_geo = jarlskog_invariant(V_geo)
     ratio = J_geo / J_PDG if J_PDG > 0.0 else float("inf")
     geo_phase = geometric_cp_phase(n_w)
-    delta_deg = geo_phase["delta_subleading_deg"]
+    delta_deg = geo_phase["delta_sub_deg"]
 
     return {
         "J_pdg": J_PDG,
