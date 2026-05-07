@@ -109,9 +109,9 @@ class TestF0:
         """f₀ decreases as c increases above 0.5."""
         cs = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
         vals = [f0(c) for c in cs]
-        for i in range(len(vals) - 1):
-            assert vals[i] >= vals[i + 1], (
-                f"f0({cs[i]})={vals[i]} not >= f0({cs[i+1]})={vals[i+1]}"
+        for (c_curr, c_next, val_curr, val_next) in zip(cs[:-1], cs[1:], vals[:-1], vals[1:]):
+            assert val_curr >= val_next, (
+                f"f0({c_curr})={val_curr} not >= f0({c_next})={val_next}"
             )
 
     def test_f0_at_09_formula(self):
@@ -465,15 +465,18 @@ class TestPillar213Summary:
                 assert m > 0.0
 
     def test_honest_gate_large_pct_errors(self):
-        """Winding-only c_L gives O(>5%) errors — honest gate."""
+        """Winding-only c_L gives O(>5%) errors for most sector/gen — honest gate."""
         r = pillar213_summary()
-        # At least one sector/generation should have pct_error > 5%
-        any_large = any(
-            r["mass_pct_errors"][sector][gen] > 5.0
+        large_error_count = sum(
+            1
             for sector in SECTORS
             for gen in (0, 1, 2)
+            if r["mass_pct_errors"][sector][gen] > 5.0
         )
-        assert any_large, "Expected large % errors from winding-only c_L"
+        # At least 50% of the 9 sector-gen combinations should have >5% error
+        assert large_error_count >= 5, (
+            f"Expected large % errors from winding-only c_L; only {large_error_count}/9 exceeded 5%"
+        )
 
     def test_honest_status_non_empty(self):
         r = pillar213_summary()

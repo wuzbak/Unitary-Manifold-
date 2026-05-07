@@ -163,7 +163,7 @@ def f0(c: float, pi_k_r: float = PI_KR) -> float:
     if c < 0:
         raise ValueError(f"c must be non-negative; got {c}")
 
-    x = 2.0 * c - 1.0  # > 0 for c > 0.5; = 0 for c = 0.5
+    x = 2.0 * c - 1.0  # > 0 for c > 0.5 (UV-localized); = 0 for c = 0.5 (flat); < 0 for c < 0.5 (IR-localized, non-physical)
     if abs(x) < 1e-12:
         # c = 1/2 limit: f0 = 1/sqrt(pi_k_r)
         return 1.0 / math.sqrt(pi_k_r)
@@ -202,9 +202,10 @@ def cl_leading(gen: int) -> float:
     if gen not in (0, 1, 2):
         raise ValueError(f"gen must be 0, 1, or 2; got {gen}")
     # Pillar 93 counts generation rank from 1 (electron=rank 1, muon=rank 2,
-    # tau=rank 3), so internally we use (gen+1):
-    #   c_L = 0.5 + (n_w − rank) / (2 n_w),  rank = gen + 1
-    return 0.5 + (N_W - (gen + 1)) / (2.0 * N_W)
+    # tau=rank 3), so internally we use rank = gen + 1:
+    #   c_L = 0.5 + (n_w − rank) / (2 n_w),  rank ∈ {1, 2, 3}
+    rank = gen + 1
+    return 0.5 + (N_W - rank) / (2.0 * N_W)
 
 
 def cs_phase_correction(gen: int, order: int = 1) -> float:
