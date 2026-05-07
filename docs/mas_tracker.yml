@@ -113,7 +113,7 @@ integration_checkpoint:
   cadence: "Post-W8 integration sync"
   completed: "2026-05-07"
   gate_result: "W8_DELIVERABLES_ATTACHED_AND_VALIDATED"
-  regression: "pending_update_after_w8_regression"
+  regression: "24953 passed, 329 skipped, 11 deselected, 0 failed"
 
 dbp_ladder:
   rung1:

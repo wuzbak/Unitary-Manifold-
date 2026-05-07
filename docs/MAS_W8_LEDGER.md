@@ -54,7 +54,7 @@ and synchronize tracker/roadmap/ledger policy text.
 - [x] All W8 artifacts attached to tracker and ledger
 - [x] Status-sync conflicts resolved (roadmap vs tracker)
 - [x] Promotion guard enforced: **blocked_without_hard_gate_evidence**
-- [ ] Full regression result insertion: **PENDING RUN**
+- [x] Full regression result insertion: **24953 passed, 329 skipped, 11 deselected, 0 failed**
 
 ---
 
@@ -67,4 +67,3 @@ and synchronize tracker/roadmap/ledger policy text.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
-
