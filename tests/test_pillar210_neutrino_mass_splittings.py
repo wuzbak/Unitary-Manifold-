@@ -5,7 +5,7 @@ tests/test_pillar210_neutrino_mass_splittings.py
 ================================================
 Test suite for Pillar 210 — Neutrino Mass Splittings from Braid Hierarchy.
 
-~55 tests covering:
+~89 tests covering:
   1. Module constants and internal helper
   2. neutrino_c_L_from_braid()
   3. neutrino_mass_hierarchy()

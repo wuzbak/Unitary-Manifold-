@@ -55,20 +55,22 @@ bisection: we set Σm_ν = 0.9 × 0.12 eV = 0.108 eV (90% of bound).
 
 Status: β_ν is CONSTRAINED, not purely derived from geometry.
 
-Step 4 — Three neutrino masses from RS zero-mode wavefunctions  (CONSTRAINED)
------------------------------------------------------------------------------
+Step 4 — Three neutrino masses from RS zero-mode coupling factors  (CONSTRAINED)
+---------------------------------------------------------------------------------
 The three c_L values are:
 
     c_Lν₀ = ½ + β_ν              (lightest, most UV-localised)
     c_Lν₁ = c_Lν₀ − δc_ν
     c_Lν₂ = c_Lν₀ − 2δc_ν       (heaviest, least UV-localised)
 
-Masses in eV (using RS zero-mode wavefunction f₀ at UV brane):
+Masses in eV:
 
     m_νᵢ [eV] = Ŷ₅ × v_ν [eV] × f₀(c_Lνᵢ) × f₀(0.5)
 
-Step 5 — Splitting ratio from braid geometry  (GEOMETRIC ESTIMATE)
-------------------------------------------------------------------
+where f₀(c) = √[(|1−2c|) / |1 − exp(−(1−2c)πkR)|]  (Pillar 97 convention).
+
+Step 4 continued — Splitting ratio from braid geometry  (GEOMETRIC ESTIMATE)
+-----------------------------------------------------------------------------
 Pillar 90 derives the pure-geometry splitting ratio:
 
     Δm²₃₁ / Δm²₂₁ = n₁n₂ + 1 = 35 + 1 = 36
