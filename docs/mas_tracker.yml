@@ -147,7 +147,7 @@ integration_checkpoint:
   cadence: "Post-W11 integration sync"
   completed: "2026-05-07"
   gate_result: "W9_W10_W11_DELIVERABLES_ATTACHED_AND_VALIDATED"
-  regression: "pending_final_regression"
+  regression: "24965 passed, 329 skipped, 11 deselected, 0 failed"
 
 dbp_ladder:
   rung1:
