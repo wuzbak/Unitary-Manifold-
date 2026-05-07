@@ -13,6 +13,42 @@ For each wave entry, include:
 
 ---
 
+## v10.7 (MAS execution framework rollout)
+
+### What changed
+- Added a concrete MAS operating runbook for closure work:
+  - `docs/v10.7_mas_execution_framework.md`
+  - `docs/MAS_WAVE0_LEDGER_TEMPLATE.md`
+  - `docs/mas_tracker.yml`
+- Established explicit ownership model, gate artifacts, hard promotion rules, and
+  wave-by-wave closure criteria for P3, P5, P6–P8, P14, P16, P19–P21, P26, P27.
+
+### What did not change
+- No parameter status changed.
+- No TOE score changed.
+- No open gap was relabeled as closed.
+
+### Why
+- Convert strategic closure intent into executable governance with strict honesty,
+  reproducibility, and anti-inflation controls before further status claims.
+
+### Epistemic label deltas
+- **None**.
+
+### TOE score delta
+- **No change**.
+
+### Falsification impact
+- No falsifier removed or weakened.
+- Falsifier accountability is explicitly embedded in Wave 0 artifacts.
+
+### Residual unknowns
+- Exact c_L derivation and anchor elimination remain open execution items.
+- P3 forward-chain closure remains pending.
+- P5 architecture-extension decision and closure route remain pending.
+
+---
+
 ## v10.6 (PR #340 + post-merge ledger sync)
 
 ### What changed
@@ -47,4 +83,3 @@ For each wave entry, include:
 - Exact c_L derivation from higher-order braid dynamics.
 - Quantitative neutrino splitting closure to <5%.
 - Higgs mass closure beyond RS1 architecture limit.
-
