@@ -21,6 +21,7 @@ from src.tend.flux_landscape import (
     discrete_vacua_count,
     evaluate_candidate,
     flux_count_consistency_check,
+    hard_gate_check,
     kill_switch_check,
     landscape_resolution_check,
     rung5_gate_evidence,
@@ -76,15 +77,25 @@ def test_axiomzero_seed_purity_gate():
 def test_kill_switch_and_status():
     ks = kill_switch_check()
     assert ks["all_pass"] is True
+    assert ks["gate_count"] == 4
     assert KILL_SWITCH_PASS is True
-    assert STATUS == "SCAFFOLD_IMPLEMENTED"
+    assert STATUS == "ARCHITECTURE_CERTIFIED"
     assert ARCHITECTURE_LIMIT is True
-    assert "ARCHITECTURE_LIMIT_SCAFFOLD" in EPISTEMIC_STATUS
+    assert "HARD_GATE_ARCHITECTURE_CERTIFICATION" in EPISTEMIC_STATUS
+
+
+def test_hard_gate_check_passes():
+    hard = hard_gate_check()
+    assert hard["all_required_checks_present"] is True
+    assert hard["architecture_limit"] is True
+    assert hard["hard_gate_pass"] is True
 
 
 def test_rung5_gate_evidence_shape():
     ev = rung5_gate_evidence()
     assert ev["kill_switch_pass"] is True
+    assert ev["hard_gate_pass"] is True
+    assert ev["gate_count"] == 4
     assert ev["architecture_limit"] is True
     assert ev["test_file"] == "tests/test_tend_flux_landscape.py"
 
@@ -112,4 +123,3 @@ def test_evaluate_candidate_pass_and_fail():
 
 def test_lambda_constant_positive():
     assert LAMBDA_OBS > 0.0
-

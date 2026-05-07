@@ -1,4 +1,4 @@
-version: "v10.8"
+version: "v10.9"
 date: "2026-05-07"
 updated: "2026-05-07"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
@@ -108,12 +108,46 @@ waves:
       - "docs/roadmap_6d_to_11d.md"
       - "docs/MAS_W3_LEDGER.md"
       - "docs/MAS_W6_LEDGER.md"
+  - id: "W9"
+    name: "Rung4_HardGate_Closure"
+    status: "COMPLETE"
+    owner: "Team C (Integrity + Integration)"
+    started: "2026-05-07"
+    completed: "2026-05-07"
+    ledger: "docs/MAS_W9_LEDGER.md"
+    artifacts:
+      - "src/nined/anomaly_cancellation_gs.py"
+      - "tests/test_nined_anomaly_cancellation_gs.py"
+      - "docs/MAS_W9_LEDGER.md"
+  - id: "W10"
+    name: "Rung5_HardGate_Architecture_Certification"
+    status: "COMPLETE"
+    owner: "Team C (Integrity + Integration)"
+    started: "2026-05-07"
+    completed: "2026-05-07"
+    ledger: "docs/MAS_W10_LEDGER.md"
+    artifacts:
+      - "src/tend/flux_landscape.py"
+      - "tests/test_tend_flux_landscape.py"
+      - "docs/MAS_W10_LEDGER.md"
+  - id: "W11"
+    name: "Rung6_11D_Kickoff_Boundary_Falsifier_Sync"
+    status: "COMPLETE"
+    owner: "Team C (Integrity + Integration)"
+    started: "2026-05-07"
+    completed: "2026-05-07"
+    ledger: "docs/MAS_W11_LEDGER.md"
+    artifacts:
+      - "src/eleventd/horava_witten_reduction.py"
+      - "tests/test_eleventd_horava_witten_reduction.py"
+      - "docs/MAS_W11_LEDGER.md"
+      - "docs/roadmap_6d_to_11d.md"
 
 integration_checkpoint:
-  cadence: "Post-W8 integration sync"
+  cadence: "Post-W11 integration sync"
   completed: "2026-05-07"
-  gate_result: "W8_DELIVERABLES_ATTACHED_AND_VALIDATED"
-  regression: "24953 passed, 329 skipped, 11 deselected, 0 failed"
+  gate_result: "W9_W10_W11_DELIVERABLES_ATTACHED_AND_VALIDATED"
+  regression: "pending_final_regression"
 
 dbp_ladder:
   rung1:
@@ -140,19 +174,34 @@ dbp_ladder:
   rung4:
     transition: "8D → 9D"
     anchor: "anomaly cancellation"
-    status: "KICKOFF_IMPLEMENTED"
+    status: "RUNG_SOLID"
     module: "src/nined/anomaly_cancellation_gs.py"
     test: "tests/test_nined_anomaly_cancellation_gs.py"
     kill_switch_pass: true
+    hard_gate_pass: true
+    gate_count: 4
     promotion_policy: "blocked_without_hard_gate_evidence"
   rung5:
     transition: "9D → 10D"
     anchor: "Lambda_CC"
-    status: "SCAFFOLD_IMPLEMENTED"
+    status: "ARCHITECTURE_CERTIFIED"
     module: "src/tend/flux_landscape.py"
     test: "tests/test_tend_flux_landscape.py"
     kill_switch_pass: true
+    hard_gate_pass: true
+    gate_count: 4
     architecture_limit: true
+    promotion_policy: "blocked_without_hard_gate_evidence"
+  rung6:
+    transition: "10D → 11D"
+    anchor: "M_theory_unification_bridge"
+    status: "KICKOFF_IMPLEMENTED"
+    module: "src/eleventd/horava_witten_reduction.py"
+    test: "tests/test_eleventd_horava_witten_reduction.py"
+    kill_switch_pass: true
+    gate_count: 4
+    boundary_assumptions_recorded: true
+    falsifier_criteria_recorded: true
     promotion_policy: "blocked_without_hard_gate_evidence"
 
 workstreams:
