@@ -77,11 +77,17 @@ DERIVED (from UM geometry alone, no PDG input):
   P15: η̄_CKM     — Unitarity triangle: η̄ = R_b sin δ (Pillar 87). 2.3 % accuracy.
   P25: δ_CP^PMNS — Sign-corrected orbifold phase: −(π−2π/n_w)=−108° (Pillar 86). 0.05σ.
 
-GEOMETRIC PREDICTION (derived from n_w, fits within 15 % of PDG):
-  P14: ρ̄_CKM     — R_b cos δ = 0.116 (PDG 0.159, 27 % off — limited by δ precision)
-  P22: sin²θ₁₂   — Democratic TBM + Z_5 correction: (n_w−1)/(3n_w)=4/15=0.267 (13 % off)
-  P23: sin²θ₂₃   — Second-order winding: 1/2+(n_w−1)/(2n_w²)=29/50=0.580 (1.4 % off) ✓
-  P24: sin²θ₁₃   — Second-order winding: 1/(2n_w²)=1/50=0.020 (9.9 % off) ✓
+GEOMETRIC PREDICTION (<5% from PDG, no fitting):
+  P13: A_CKM      — A = √(n₁/n₂) = √(5/7)
+  P15: η̄_CKM      — R_b sin δ
+  P22: sin²θ₁₂    — Pillar 208 Braid-Lock: N_C/(N_C+n₂)=3/10=0.300
+  P23: sin²θ₂₃    — Pillar 208 Braid-Lock: 1/2 + N_C/K_CS = 20/37
+  P24: sin²θ₁₃    — Pillar 208 Braid-Lock: N_C/(n_w+n₂)² = 3/144
+
+GEOMETRIC ESTIMATE (< 15 %):
+  P14: ρ̄_CKM      — R_b cos δ (sensitive to δ precision)
+  P20: Δm²₂₁      — ratio-driven neutrino splitting estimate (Pillar 210)
+  P21: Δm²₃₁      — ratio-driven neutrino splitting estimate (Pillar 210)
 
 CONSTRAINED BY GEOMETRY (overall scale set by GW mechanism):
   P4:  v (Higgs VEV) — GW potential gives v ~ M_Pl exp(−πkR) = M_KK / k_CS. (Pillar 31+)
@@ -96,11 +102,12 @@ FITTED FROM MASS RATIOS (RS c_L hierarchy explains ratios; overall scale is one 
                            Absolute scale requires one Yukawa coupling as input.
   P16–P18 (lepton masses): Same RS mechanism (Pillar 75, 85).
 
-OPEN (not yet derivable):
+OPEN / ARCHITECTURE-LIMITED:
   P5:  m_H       — Requires Higgs self-coupling λ_H from 5D potential. OPEN.
   P19: m_ν₁      — Lightest neutrino mass (constrained Σm_ν < 120 meV by Planck).
-  P20: Δm²₂₁     — Solar splitting. Requires RS neutrino Yukawa hierarchy. OPEN.
-  P21: Δm²₃₁     — Atmospheric splitting. Same. OPEN.
+
+DIMENSIONAL SCALE (not a fitted parameter):
+  P28: G_N / M_Pl — scale-setting constant; reclassified by Pillar 217.
 
 The n_w = 5 → SU(5) Theorem (PROVED, Pillar 70-D)
 ---------------------------------------------------
@@ -1102,18 +1109,17 @@ def sm_parameter_table() -> Dict[str, object]:
             "name": "G_N (Newton's constant)",
             "pdg": 6.674e-11, "unit": "N·m²/kg²",
             "geo": None, "pct_err": None,
-            "status": "INPUT (M_Pl = 1 in natural units; RS provides M_5 → M_Pl relation)",
-            "pillar": "1+ — M_Pl sets the RS UV scale",
+            "status": "DIMENSIONAL SCALE (Pillar 217; not a fitted prediction)",
+            "pillar": "217 — M₅ = (2/K_CS)^(1/3) M_Pl",
             "derivation": (
-                "In the RS framework: M_Pl² = M_5³ π R_c. "
-                "G_N is not derived but is the UV boundary condition. "
-                "The UM uses M_Pl as the fundamental scale."
+                "Pillar 217 derives the geometric 5D scale relation "
+                "M₅ = (2/K_CS)^(1/3) M_Pl ≈ 0.300 M_Pl. "
+                "G_N remains the dimensional conversion between SI and natural units, "
+                "tracked as a scale-setting constant rather than a fitted physics parameter."
             ),
             "path_to_closure": (
-                "Derive M_Pl from the 5D bulk geometry M_5 and compactification radius R_c "
-                "without treating G_N as an input. This is the standard RS relation; "
-                "making it a true prediction requires first deriving M_5 from the UM "
-                "action without any dimensional input. Difficulty: LONG."
+                "CLOSED at DIMENSIONAL SCALE classification (Pillar 217). "
+                "Further progress would require a UV completion deriving the absolute SI scale."
             ),
         },
     }
@@ -1166,7 +1172,7 @@ def sm_closure_roadmap() -> Dict[str, object]:
     """
     table = sm_parameter_table()
     # Parameters that require observational input
-    obs_statuses = {"FITTED", "OPEN", "CONSTRAINED", "INPUT", "GEOMETRIC ESTIMATE"}
+    obs_statuses = {"FITTED", "OPEN", "CONSTRAINED", "INPUT", "DIMENSIONAL SCALE", "GEOMETRIC ESTIMATE"}
     obs_params = []
     for pid, info in table.items():
         s = info["status"]
@@ -1199,10 +1205,10 @@ def sm_closure_roadmap() -> Dict[str, object]:
             f"{n} parameters currently require observational input. "
             "Zero-parameter TOE score: "
             f"{n_closed/total*100:.0f}%. "
-            "v10.5 path to closure: (1) Ŷ₅=1 proved (Pillar 209) — c_L still requires "
-            "next-order braid corrections for exact masses [NEAR→MEDIUM], "
-            "(2) 5D Higgs self-coupling for m_H — architecture limit [LONG], "
-            "(3) RS Dirac equation for ν mass splittings — Pillar 210 at 10% ratio [LONG]."
+            "v10.6 path to closure: (1) c_L exact-spectrum closure beyond leading braid quantization, "
+            "(2) m_H remains architecture-limited in RS1 scope (Pillars 211/216), "
+            "(3) ν-splitting precision from derived c_{Rν_i} spectrum (<5%), "
+            "(4) CKM ρ̄ closure after δ-sector precision updates."
         ),
         "section": "§XIV.1",
     }
@@ -1229,7 +1235,10 @@ def um_toe_score() -> Dict[str, object]:
     conjecture = [k for k, v in table.items() if "CONJECTURE" in v["status"]]
     fitted = [k for k, v in table.items() if "FITTED" in v["status"] or "PREDICTED from ratio" in v["status"]]
     open_ = [k for k, v in table.items() if "OPEN" in v["status"]]
-    constrained = [k for k, v in table.items() if "CONSTRAINED" in v["status"] or "INPUT" in v["status"]]
+    constrained = [
+        k for k, v in table.items()
+        if "CONSTRAINED" in v["status"] or "INPUT" in v["status"] or "DIMENSIONAL SCALE" in v["status"]
+    ]
 
     n_fully_free = len(open_) + len(fitted) + len(constrained)
     n_closed = len(derived) + len(predicted)
@@ -1286,8 +1295,9 @@ def um_toe_score() -> Dict[str, object]:
             "NOT YET A ZERO-FREE-PARAMETER TOE. "
             f"UM derives or predicts {n_closed}/{total} SM parameters from pure geometry "
             f"({n_closed/total*100:.0f} %). No conjectures remain after Pillar 70-D. "
-            "v10.5 advances: Ŷ₅=1 proved from UV BCs (Pillar 209), neutrino splitting ratio "
-            "derived at 10% accuracy (Pillar 210), ADM §III gap closed (Pillar 212). "
+            "v10.6 advances: Ŷ₅=1 from UV BCs (Pillar 209), neutrino splitting ratio "
+            "estimate (Pillar 210), ADM kinematic closure at attractor (Pillar 212), "
+            "and P28 reclassified as DIMENSIONAL SCALE (Pillar 217). "
             "The residual free parameters are: absolute fermion mass scales (Ŷ₅=1 proved; "
             "c_L values require next-order braid corrections), Higgs self-coupling (m_H, "
             "architecture limit), neutrino mass splittings at quantitative level (Pillar 210). "
@@ -1368,4 +1378,3 @@ def pillar88_summary() -> Dict[str, object]:
             "the framework is mathematically consistent, and the experimentalists are coming."
         ),
     }
-

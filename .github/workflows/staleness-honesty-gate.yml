@@ -1,0 +1,82 @@
+name: Staleness & Honesty Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+    branches: ["**"]
+
+jobs:
+  ledger-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Enforce canonical ledger sync for wave/pillar changes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.sha }}"
+          CHANGED="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | tr -d '\r')"
+
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          if echo "$CHANGED" | grep -Eq '^src/core/pillar[0-9A-Za-z_.-]*\.py$|^src/core/sm_free_parameters\.py$'; then
+            required=(
+              "STATUS.md"
+              "FALLIBILITY.md"
+              "README.md"
+              "1-THEORY/DERIVATION_STATUS.md"
+              "src/core/sm_free_parameters.py"
+              "docs/WAVE_CHANGELOG.md"
+            )
+
+            missing=0
+            for f in "${required[@]}"; do
+              if ! echo "$CHANGED" | grep -qx "$f"; then
+                echo "::error::Missing required ledger update: $f"
+                missing=1
+              fi
+            done
+
+            if [ "$missing" -ne 0 ]; then
+              echo "::error::Wave/pillar changes require canonical ledger + changelog synchronization."
+              exit 1
+            fi
+          fi
+
+      - name: Enforce honesty-gate checklist presence in PR body
+        shell: bash
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          body="${PR_BODY:-}"
+
+          required_phrases=(
+            "No score inflation"
+            "No hidden open problems"
+            "No unverifiable claims"
+            "TOE score delta"
+            "Residual unknowns"
+          )
+
+          missing=0
+          for phrase in "${required_phrases[@]}"; do
+            if ! printf '%s' "$body" | grep -Fq "$phrase"; then
+              echo "::error::PR body missing honesty-gate item: $phrase"
+              missing=1
+            fi
+          done
+
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+

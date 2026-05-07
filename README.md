@@ -1,33 +1,26 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.4)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.6)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.30
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![23524 Tests passing](https://img.shields.io/badge/tests-23524%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![208 pillars + Ω₀ | see FALLIBILITY.md](https://img.shields.io/badge/pillars-208%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20FALLIBILITY.md-gold)](FALLIBILITY.md)
-[![Version](https://img.shields.io/badge/version-v10.4-blue)](CITATION.cff)
+[![217 pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-217%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
+[![Version](https://img.shields.io/badge/version-v10.6-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status:** This framework is not yet a Theory of Everything.
-> SU(5) is derived from 5D geometry (Pillar 70-D); the breaking SU(5)→SU(3)×SU(2)×U(1)
-> uses the Kawamura (2001) external orbifold mechanism — not yet derived from G_AB alone.
-> SM parameters (v9.35): 8 derived (<5% error), 9 fermion masses parameterized
-> (Ŷ₅=1 fixes Yukawa scale; per-species c_L is a free parameter, not a prediction),
-> **α_GUT = 1/24.3 is CONSTRAINED** (SU(5) GUT input, not derived from 5D geometry alone —
-> α_CS(M_KK) = 2π/222 ≈ 0.0283 is geometric but differs from α_GUT by ~31%; see Pillar 173),
-> 3 constrained total (5–25% accuracy or UV-anchored input), 2 resolved (Λ_QCD + ν mass),
-> 3 geometric estimates, **0 OPEN** (Λ_QCD gap closed by Ω_QCD Phase A+B).
-> Best results: Higgs VEV < 0.1%, CKM CP phase 0.99σ.
-> See `FALLIBILITY.md` and `RED_TEAM_RESPONSE.md` for the full honest ledger.
-> n_w = 5 uniqueness is a **conditional theorem** from 5D geometry (Pillar 70-D),
-> conditional on Axiom A (Z₂-odd CS boundary phase, asserted not derived);
-> Planck nₛ provides the observational discriminator between n_w=5 and n_w=7.
-> See [`FALLIBILITY.md`](FALLIBILITY.md) and
-> [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) for the
-> precise epistemic record.
+> ⚠️ **Honest status (v10.6):** This framework is not yet a zero-free-parameter TOE.
+> TOE score is **42% (11/26)** under the earned-closure threshold.  
+> P5 (Higgs mass) is an **ARCHITECTURE LIMIT** in the current RS1 scope;  
+> P28 (Newton's constant) is tracked as **DIMENSIONAL SCALE** (not a fitted prediction).  
+> For canonical, up-to-date status use:
+> [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md),
+> [`src/core/sm_free_parameters.py`](src/core/sm_free_parameters.py),
+> [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md),
+> [`docs/v10.6_release_notes.md`](docs/v10.6_release_notes.md),
+> and [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md).
 
 ---
 
@@ -577,7 +570,10 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
 
-### Complete Pillar Taxonomy (v10.4 — all 208 pillars + Ω₀ Holon Zero + sub-pillars — CLOSED)
+### Complete Pillar Taxonomy (historical v10.4 snapshot)
+
+> This section is preserved as historical documentation.
+> For current pillar/status truth (v10.6, 217 pillars + Ω₀), use `STATUS.md`.
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
