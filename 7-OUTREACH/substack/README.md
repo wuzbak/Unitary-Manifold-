@@ -382,7 +382,7 @@ See [BOOKS_README.md](books/BOOKS_README.md) for full details on each book and s
 
 ---
 
-## Posts 122–128: The v10 Closure Wave (v10.0–v10.4, May 2026)
+## Posts 122–129: The v10 Closure Wave + Comic Break (v10.0–v10.4+, May 2026)
 
 The series was declared complete at Post 121. Then Pillars 185–208 happened.
 These posts cover the systematic stress-testing, honest accounting, and Standard
@@ -397,8 +397,9 @@ Model parameter closure that followed.
 | `post-126-axiomzero-forward-chain.md` | Post 126 | "The AxiomZero Forward Chain — Computing α_s From {M_Pl, K_CS, n_w} Only" — Pillar 200 |
 | `post-127-sm-parameters-final-accounting.md` | Post 127 | "Standard Model Parameters: The Final Accounting — Pillars 201–208, TOE Score 42%" |
 | `post-128-axiomzero-guard-integrity.md` | Post 128 | "The AxiomZero Guard — Zero Violations, Three Falsification Conditions, One Honest Architecture" |
+| `post-129-faq-round-2-omega-holon-edition.md` | Post 129 | "FAQ Round 2: Omega Holon Edition" — Satirical Q&A on naming, red-team culture, and creditorship back-and-forths |
 
-### Source Documents for Posts 122–128
+### Source Documents for Posts 122–129
 
 | Document | Used in |
 |----------|---------|
@@ -428,6 +429,7 @@ Model parameter closure that followed.
 | `claims/cosmic_birefringence/claim.py` | Post 128 |
 | `claims/mp_me_ratio/claim.py` | Post 128 |
 | `docs/v10.4_release_notes.md` | Post 128 |
+| `7-OUTREACH/substack/posts/post-025-reader-mail.md` | Post 129 |
 
 ---
 
