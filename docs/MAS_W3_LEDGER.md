@@ -45,8 +45,9 @@ This file executes Step 3 for v10.7 closure: start W3 for P3 forward-chain closu
 - [x] P3: **NO PROMOTION** — P3 remains **CONSISTENCY CHECK** for the direct AxiomZero chain
   - Direct chain: factor ~2.5 gap → ARCHITECTURE_LIMIT(10D) → requires CY₃ KK thresholds
   - SU(5) route: ~2% accuracy (Pillar 70-D) → meets gate via GUT-assumption route
-  - Canonical status update: "P3 is DERIVED via the SU(5) Pillar-70-D route; the
-    direct AxiomZero chain remains a CONSISTENCY CHECK pending 10D resolution."
+  - Canonical status policy: "MAS canonical status remains CONSISTENCY CHECK until
+    direct AxiomZero chain closure; SU(5) route is retained as auxiliary derived
+    evidence and does not trigger status promotion."
 - [x] Audit/Integrity: provenance ledger complete; no hidden anchors
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
