@@ -99,7 +99,7 @@ LAMBDA_H_PDG: float = M_HIGGS_PDG ** 2 / (2.0 * V_HIGGS_PDG ** 2)  # ≈ 0.1285
 M_PL_GEV: float = 1.2209e19
 
 #: Radion mass from Pillar 49 [GeV]   m_r ~ 110 meV = 1.10×10⁻¹⁰ GeV
-M_RADION_GEV: float = 110.0e-3 * 1.0e-9  # = 1.10×10⁻¹⁰ GeV
+M_RADION_GEV: float = 1.10e-10  # 110 meV × 10⁻⁹ GeV/eV × 10⁻³ eV/meV
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ROUTE 1: GAUGE-HIGGS UNIFICATION
