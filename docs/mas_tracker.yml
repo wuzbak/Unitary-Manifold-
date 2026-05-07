@@ -98,7 +98,7 @@ integration_checkpoint:
   cadence: "All waves complete"
   completed: "2026-05-07"
   gate_result: "ALL_DELIVERABLES_ATTACHED"
-  regression: "TBD (Wave 7 regression pending)"
+  regression: "24928 passed, 329 skipped, 0 failed"
 
 dbp_ladder:
   rung1:
