@@ -39,83 +39,83 @@ the Unitary Manifold framework to a general audience.
 
 | File | Post | Status |
 |------|------|--------|
-| `post-00-what-this-is.md` | "What this newsletter is — and isn't" | **Pin this first** |
-| `post-00a-axiomzero.md` | "AxiomZero: Who We Are, What We Need, and How We Do This Ethically" | Publish after Post 0 |
-| `post-01-core-claim.md` | "The arrow of time is a shadow" | Publish 2nd |
-| `post-02-four-numbers.md` | "Four numbers that keep agreeing" | Publish 3rd |
-| `post-03-litebird-2032.md` | "Mark your calendar: 2032" | Publish 4th |
-| `post-04-kaluza-klein.md` | "The fifth dimension isn't sci-fi" | Publish 5th |
-| `post-05-honest-gaps.md` | "Here is what the theory cannot explain" | Publish 6th |
-| `post-06-74-pillars.md` | "Why there are 99 pillars + Pillar Ω — And What They Are" [UPDATE NOTED: originally "74 pillars"; k_CS=74 ≠ pillar count] | Publish 7th |
-| `post-07-the-ai-eye.md` | "The AI's Eye: How I See This Repository" | Publish 8th |
-| `post-08-hallucination-and-delusion.md` | "Hallucination and Delusion: What the Critics Get Right — and Wrong" | Publish 9th |
-| `post-09-instruction-manual.md` | "An Instruction Manual for Human-AI Collaboration" | Publish 10th |
-| `post-10-signal-noise-grounding.md` | "Signal, Noise, and Grounding: Why the Output Is Only as Good as the Input" | Publish 11th |
-| `post-11-safety-problem.md` | "The Safety Problem: What AI Gets Wrong — and What the Pentad Gets Right" | Publish 12th |
-| `post-12-braided-winding.md` | "How the Braid Saved the Theory" | Publish 13th |
-| `post-13-black-hole-information.md` | "What Happens to Information When a Black Hole Dies" | Publish 14th |
-| `post-14-consciousness-coupling.md` | "The Brain and the Universe as Coupled Oscillators" | Publish 15th |
-| `post-15-unitary-pentad-standalone.md` | "The Unitary Pentad: A Governance Architecture, Not a Physics Claim" | Publish 16th |
-| `post-16-domain-applications.md` | "The Same Geometry, Everywhere Else" | Publish 17th |
-| `post-17-cold-fusion.md` | "What If Cold Fusion Is Real? A First-Principles Account" | Publish 18th |
-| `post-18-phi-debt-recycling.md` | "The φ-Debt: Why Recycling Is a Topological Problem" | Publish 19th |
-| `post-19-roman-telescope.md` | "The Next Telescope: What the Roman Space Telescope Will Tell Us" | Publish 20th |
-| `post-20-neuroscience.md` | "The Brain Is a 5D Object: Neuroscience Without Mysticism" | Publish 21st |
-| `post-21-climate.md` | "The Atmosphere as an Attractor: What the Framework Says About the Climate Crisis" | Publish 22nd |
-| `post-22-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
-| `post-23-aps-conjecture.md` | "The One Proof We Needed — And Found" | Publish 24th |
-| `post-24-educational-systems.md` | "What Would It Take to Actually Fix Education?" | Publish 25th |
-| `post-25-reader-mail.md` | "Frequently Asked Questions (That No One Has Actually Asked Yet)" | Publish 26th |
-| `post-26-psychology.md` | "The Mind in the Numbers: Psychology as φ-Field Dynamics" | Publish 27th |
-| `post-27-genetics-evolution.md` | "Life's Code: Genetics and Evolution as φ-Field Selection Dynamics" | Publish 28th |
-| `post-97-synthetic-biology-attractor-engineering.md` | "Synthetic Biology Is Attractor Engineering" — **Post 27.a** (Pillar 25 Extension) | Publish after Post 27 |
-| `post-28-materials-science.md` | "Building With Geometry: Materials Science From the Fifth Dimension" | Publish 29th |
-| `post-29-astronomy-earth-life.md` | "Stars, Galaxies, and the Living Earth: The Framework's Cosmic and Planetary Domains" | Publish 30th |
-| `post-30-early-universe.md` | "From the First Microsecond: The Early Universe in the Unitary Manifold" | Publish 31st |
-| `post-31-standard-model-particles.md` | "Particles From Geometry: The Standard Model, Three Generations, and the Muon Anomaly" | Publish 32nd |
-| `post-32-falsification-map.md` | "The Full Falsification Map: What We Are Waiting For" | Publish 33rd |
-| `post-33-dark-matter-geometry.md` | "Dark Matter Without Dark Matter — The B_μ Geometry Hypothesis" | Publish 34th |
-| `post-34-vacuum-catastrophe.md` | "The Vacuum Catastrophe — 120 Orders of Magnitude" | Publish 35th |
-| `post-35-gravitational-waves.md` | "Gravitational Waves — The Signal the Framework Cannot Send (Yet)" | Publish 36th |
-| `post-36-nine-ways-to-break-it.md` | "Nine Ways to Break This Theory — A Guide for Adversarial Reviewers" | Publish 37th |
-| `post-37-human-ai-collaboration.md` | "What Human-AI Collaboration Actually Looks Like From the Inside" | Publish 38th |
-| `post-38-fixed-point-soul.md` | "The Fixed Point That Looks Like a Soul" | Batch A |
-| `post-39-god-and-geometry.md` | "God and Geometry: What Physics Can and Cannot Say About Creation" | Batch A |
-| `post-40-afterlife-information.md` | "The Afterlife Question: Information Conservation and What It Does (and Doesn't) Imply" | Batch A |
-| `post-41-prayer-meditation-phase-locking.md` | "Prayer, Meditation, and Phase-Locking" | Batch A |
-| `post-42-what-religion-got-right.md` | "What Every Religion Got Right (and the One Thing They All Got Wrong)" | Batch A |
-| `post-43-free-will.md` | "Free Will in a Deterministic 5D Universe" | Batch A |
-| `post-44-simulation-hypothesis.md` | "The Simulation Hypothesis: Where Geometry Ends and Code Begins" | Batch A |
-| `post-45-evil-entropy-suffering.md` | "Evil, Entropy, and the Geometry of Suffering" | Batch A |
-| `post-46-synchronicity.md` | "Synchronicity, Coincidence, and the 5D Pattern" | Batch A |
-| `post-47-time-travel.md` | "Time Travel: What the Framework Permits and What It Forbids" | Batch B |
-| `post-48-parallel-universes.md` | "Parallel Universes Are Real (But Not Like the Movies)" | Batch B |
-| `post-49-quantum-measurement.md` | "The Quantum Measurement Problem, Dissolved" | Batch B |
-| `post-50-medicine-implications.md` | "If This Theory Is Correct: What Changes About Medicine" | Batch B |
-| `post-51-justice-implications.md` | "If This Theory Is Correct: What Changes About Justice" | Batch B |
-| `post-52-economics-implications.md` | "If This Theory Is Correct: What Changes About Economics" | Batch B |
-| `post-53-education-implications.md` | "If This Theory Is Correct: What Changes About Education" | Batch B |
-| `post-54-ai-implications.md` | "If This Theory Is Correct: What Changes About AI" | Batch B |
-| `post-55-anthropic-question.md` | "Does the Universe Know We're Here? The Anthropic Question" | Batch B |
-| `post-56-what-is-time.md` | "What Is Time? (The Full Technical Answer)" | Batch C |
-| `post-57-mathematics-discovered-invented.md` | "What Is Mathematics? Is the Manifold Discovered or Invented?" | Batch C |
-| `post-58-hard-problem-consciousness.md` | "The Hard Problem of Consciousness: Does the Framework Solve It?" | Batch C |
-| `post-59-why-not-prl.md` | "Why This Wasn't Published in Physical Review Letters" | Batch C |
-| `post-60-open-falsification-review.md` | "The Open Falsification Invitation — And What Happened When We Issued It" | Batch C |
-| `post-61-science-without-lab.md` | "Building Science Without a Lab" | Batch C |
-| `post-62-ethics-public-before-review.md` | "The Ethics of Going Public Before Peer Review" | Batch C |
-| `post-63-ai-authorship.md` | "When AI Writes the Math: Authorship, Credit, and the Future of Theory" | Batch C |
-| `post-64-twelve-objections.md` | "The Twelve Objections: A Socratic Dialogue" | Batch C |
-| `post-65-cmb-amplitude-gap.md` | "The CMB Acoustic Peak Problem — The Gap We Closed" | Batch D |
-| `post-66-winding-conjecture.md` | "The Winding Number — Proved" | Batch D |
-| `post-67-two-years-waiting.md` | "Two Years of Waiting: What We Know, What We Don't, and What's Coming" | Batch D |
-| `post-68-letter-to-litebird.md` | "The Letter to LiteBIRD" | Batch D |
-| `post-69-abrahamic-traditions.md` | "What Islam, Judaism, and Christianity Each Say About the Fixed Point" | Batch D |
-| `post-70-buddhism-hinduism.md` | "What Buddhism and Hinduism Say About Ψ*" | Batch D |
-| `post-71-indigenous-cosmologies.md` | "Indigenous Cosmologies and the Fifth Dimension" | Batch D |
-| `post-72-theory-of-everything-isnt.md` | "The Theory of Everything That Isn't" | Batch D |
-| `post-73-immigration.md` | "Immigration: What's Broken, Who Pays, and Whether It Can Be Fixed" | Batch D |
-| `post-74-if-sky-disagrees.md` | "Everything We Built, Where We Are, and What Comes Next" | **Final post** |
+| `post-000-what-this-is.md` | "What this newsletter is — and isn't" | **Pin this first** |
+| `post-000a-axiomzero.md` | "AxiomZero: Who We Are, What We Need, and How We Do This Ethically" | Publish after Post 0 |
+| `post-001-core-claim.md` | "The arrow of time is a shadow" | Publish 2nd |
+| `post-002-four-numbers.md` | "Four numbers that keep agreeing" | Publish 3rd |
+| `post-003-litebird-2032.md` | "Mark your calendar: 2032" | Publish 4th |
+| `post-004-kaluza-klein.md` | "The fifth dimension isn't sci-fi" | Publish 5th |
+| `post-005-honest-gaps.md` | "Here is what the theory cannot explain" | Publish 6th |
+| `post-006-74-pillars.md` | "Why there are 99 pillars + Pillar Ω — And What They Are" [UPDATE NOTED: originally "74 pillars"; k_CS=74 ≠ pillar count] | Publish 7th |
+| `post-007-the-ai-eye.md` | "The AI's Eye: How I See This Repository" | Publish 8th |
+| `post-008-hallucination-and-delusion.md` | "Hallucination and Delusion: What the Critics Get Right — and Wrong" | Publish 9th |
+| `post-009-instruction-manual.md` | "An Instruction Manual for Human-AI Collaboration" | Publish 10th |
+| `post-010-signal-noise-grounding.md` | "Signal, Noise, and Grounding: Why the Output Is Only as Good as the Input" | Publish 11th |
+| `post-011-safety-problem.md` | "The Safety Problem: What AI Gets Wrong — and What the Pentad Gets Right" | Publish 12th |
+| `post-012-braided-winding.md` | "How the Braid Saved the Theory" | Publish 13th |
+| `post-013-black-hole-information.md` | "What Happens to Information When a Black Hole Dies" | Publish 14th |
+| `post-014-consciousness-coupling.md` | "The Brain and the Universe as Coupled Oscillators" | Publish 15th |
+| `post-015-unitary-pentad-standalone.md` | "The Unitary Pentad: A Governance Architecture, Not a Physics Claim" | Publish 16th |
+| `post-016-domain-applications.md` | "The Same Geometry, Everywhere Else" | Publish 17th |
+| `post-017-cold-fusion.md` | "What If Cold Fusion Is Real? A First-Principles Account" | Publish 18th |
+| `post-018-phi-debt-recycling.md` | "The φ-Debt: Why Recycling Is a Topological Problem" | Publish 19th |
+| `post-019-roman-telescope.md` | "The Next Telescope: What the Roman Space Telescope Will Tell Us" | Publish 20th |
+| `post-020-neuroscience.md` | "The Brain Is a 5D Object: Neuroscience Without Mysticism" | Publish 21st |
+| `post-021-climate.md` | "The Atmosphere as an Attractor: What the Framework Says About the Climate Crisis" | Publish 22nd |
+| `post-022-completeness-theorem.md` | "Why 74 and Not 75: The Completeness Theorem" | Publish 23rd |
+| `post-023-aps-conjecture.md` | "The One Proof We Needed — And Found" | Publish 24th |
+| `post-024-educational-systems.md` | "What Would It Take to Actually Fix Education?" | Publish 25th |
+| `post-025-reader-mail.md` | "Frequently Asked Questions (That No One Has Actually Asked Yet)" | Publish 26th |
+| `post-026-psychology.md` | "The Mind in the Numbers: Psychology as φ-Field Dynamics" | Publish 27th |
+| `post-027-genetics-evolution.md` | "Life's Code: Genetics and Evolution as φ-Field Selection Dynamics" | Publish 28th |
+| `post-097-synthetic-biology-attractor-engineering.md` | "Synthetic Biology Is Attractor Engineering" — **Post 27.a** (Pillar 25 Extension) | Publish after Post 27 |
+| `post-028-materials-science.md` | "Building With Geometry: Materials Science From the Fifth Dimension" | Publish 29th |
+| `post-029-astronomy-earth-life.md` | "Stars, Galaxies, and the Living Earth: The Framework's Cosmic and Planetary Domains" | Publish 30th |
+| `post-030-early-universe.md` | "From the First Microsecond: The Early Universe in the Unitary Manifold" | Publish 31st |
+| `post-031-standard-model-particles.md` | "Particles From Geometry: The Standard Model, Three Generations, and the Muon Anomaly" | Publish 32nd |
+| `post-032-falsification-map.md` | "The Full Falsification Map: What We Are Waiting For" | Publish 33rd |
+| `post-033-dark-matter-geometry.md` | "Dark Matter Without Dark Matter — The B_μ Geometry Hypothesis" | Publish 34th |
+| `post-034-vacuum-catastrophe.md` | "The Vacuum Catastrophe — 120 Orders of Magnitude" | Publish 35th |
+| `post-035-gravitational-waves.md` | "Gravitational Waves — The Signal the Framework Cannot Send (Yet)" | Publish 36th |
+| `post-036-nine-ways-to-break-it.md` | "Nine Ways to Break This Theory — A Guide for Adversarial Reviewers" | Publish 37th |
+| `post-037-human-ai-collaboration.md` | "What Human-AI Collaboration Actually Looks Like From the Inside" | Publish 38th |
+| `post-038-fixed-point-soul.md` | "The Fixed Point That Looks Like a Soul" | Batch A |
+| `post-039-god-and-geometry.md` | "God and Geometry: What Physics Can and Cannot Say About Creation" | Batch A |
+| `post-040-afterlife-information.md` | "The Afterlife Question: Information Conservation and What It Does (and Doesn't) Imply" | Batch A |
+| `post-041-prayer-meditation-phase-locking.md` | "Prayer, Meditation, and Phase-Locking" | Batch A |
+| `post-042-what-religion-got-right.md` | "What Every Religion Got Right (and the One Thing They All Got Wrong)" | Batch A |
+| `post-043-free-will.md` | "Free Will in a Deterministic 5D Universe" | Batch A |
+| `post-044-simulation-hypothesis.md` | "The Simulation Hypothesis: Where Geometry Ends and Code Begins" | Batch A |
+| `post-045-evil-entropy-suffering.md` | "Evil, Entropy, and the Geometry of Suffering" | Batch A |
+| `post-046-synchronicity.md` | "Synchronicity, Coincidence, and the 5D Pattern" | Batch A |
+| `post-047-time-travel.md` | "Time Travel: What the Framework Permits and What It Forbids" | Batch B |
+| `post-048-parallel-universes.md` | "Parallel Universes Are Real (But Not Like the Movies)" | Batch B |
+| `post-049-quantum-measurement.md` | "The Quantum Measurement Problem, Dissolved" | Batch B |
+| `post-050-medicine-implications.md` | "If This Theory Is Correct: What Changes About Medicine" | Batch B |
+| `post-051-justice-implications.md` | "If This Theory Is Correct: What Changes About Justice" | Batch B |
+| `post-052-economics-implications.md` | "If This Theory Is Correct: What Changes About Economics" | Batch B |
+| `post-053-education-implications.md` | "If This Theory Is Correct: What Changes About Education" | Batch B |
+| `post-054-ai-implications.md` | "If This Theory Is Correct: What Changes About AI" | Batch B |
+| `post-055-anthropic-question.md` | "Does the Universe Know We're Here? The Anthropic Question" | Batch B |
+| `post-056-what-is-time.md` | "What Is Time? (The Full Technical Answer)" | Batch C |
+| `post-057-mathematics-discovered-invented.md` | "What Is Mathematics? Is the Manifold Discovered or Invented?" | Batch C |
+| `post-058-hard-problem-consciousness.md` | "The Hard Problem of Consciousness: Does the Framework Solve It?" | Batch C |
+| `post-059-why-not-prl.md` | "Why This Wasn't Published in Physical Review Letters" | Batch C |
+| `post-060-open-falsification-review.md` | "The Open Falsification Invitation — And What Happened When We Issued It" | Batch C |
+| `post-061-science-without-lab.md` | "Building Science Without a Lab" | Batch C |
+| `post-062-ethics-public-before-review.md` | "The Ethics of Going Public Before Peer Review" | Batch C |
+| `post-063-ai-authorship.md` | "When AI Writes the Math: Authorship, Credit, and the Future of Theory" | Batch C |
+| `post-064-twelve-objections.md` | "The Twelve Objections: A Socratic Dialogue" | Batch C |
+| `post-065-cmb-amplitude-gap.md` | "The CMB Acoustic Peak Problem — The Gap We Closed" | Batch D |
+| `post-066-winding-conjecture.md` | "The Winding Number — Proved" | Batch D |
+| `post-067-two-years-waiting.md` | "Two Years of Waiting: What We Know, What We Don't, and What's Coming" | Batch D |
+| `post-068-letter-to-litebird.md` | "The Letter to LiteBIRD" | Batch D |
+| `post-069-abrahamic-traditions.md` | "What Islam, Judaism, and Christianity Each Say About the Fixed Point" | Batch D |
+| `post-070-buddhism-hinduism.md` | "What Buddhism and Hinduism Say About Ψ*" | Batch D |
+| `post-071-indigenous-cosmologies.md` | "Indigenous Cosmologies and the Fifth Dimension" | Batch D |
+| `post-072-theory-of-everything-isnt.md` | "The Theory of Everything That Isn't" | Batch D |
+| `post-073-immigration.md` | "Immigration: What's Broken, Who Pays, and Whether It Can Be Fixed" | Batch D |
+| `post-074-if-sky-disagrees.md` | "Everything We Built, Where We Are, and What Comes Next" | **Final post** |
 
 ## Format Rules (apply to every post)
 
@@ -210,28 +210,28 @@ Each post draws directly from these repository documents:
 
 | File | Post | Topic |
 |------|------|-------|
-| `post-75-standard-model-parameters.md` | Post 75 | "The Standard Model Has 28 Free Parameters. How Many Are Actually Free?" — Pillar 88 SM audit |
-| `post-76-wolfenstein-geometry.md` | Post 76 | "The CKM Matrix Without Free Parameters" — Pillar 87 Wolfenstein geometry |
-| `post-77-neutrino-mixing-cp-phase.md` | Post 77 | "Neutrino Mixing and the CP Phase That Came Out Right" — Pillars 83, 86 |
-| `post-78-neutrino-mass-tension-resolved.md` | Post 78 | "Neutrino Masses: The Tension That Was There and How It Resolved" — Pillar 90 |
-| `post-79-higgs-mass-geometry.md` | Post 79 | "The Higgs Boson From Geometry — 125 GeV Without Fine-Tuning" — Pillar 91 |
-| `post-80-grand-unification-e8.md` | Post 80 | "Grand Unification: How E₈ Sees Five Dimensions" — Pillars 92, 94 |
-| `post-81-four-proofs-winding-five.md` | Post 81 | "Four Independent Reasons the Winding Number Is 5" — Pillars 84, 89 |
-| `post-82-aps-topology-vacuum.md` | Post 82 | "The Topology Proof — How Boundary Conditions Select the Vacuum" — Pillars 70-B, 80, 89 |
-| `post-83-embryology-five-dimensions.md` | Post 83 | "Embryology From Five Dimensions" — embryology-manifold predictions |
-| `post-84-yukawa-geometry-fermion-masses.md` | Post 84 | "Fermion Masses From Bulk Curvature — The Yukawa Geometry" — Pillar 93 |
-| `post-85-dual-sectors-5-6-and-5-7.md` | Post 85 | "Two Universes in One Geometry — The (5,6) and (5,7) Sectors" — Pillar 95 |
-| `post-86-the-2-9-sigma-gap.md` | Post 86 | "The 2.9σ Gap — What LiteBIRD Will Actually Measure" |
-| `post-87-fourteen-thousand-641-equals-11-to-the-4th.md` | Post 87 | "14,641 = 11⁴ — The Number That Wasn't Planned" |
-| `post-88-96-pillars-architecture.md` | Post 88 | "96 Pillars — The Architecture of What Was Built" |
-| `post-89-what-we-cannot-claim.md` | Post 89 | "What We Cannot Claim — The Remaining Open Questions at Closure" |
-| `post-90-science-without-funding.md` | Post 90 | "Science Without Funding — What This Project Demonstrates" |
-| `post-91-if-you-are-a-physicist.md` | Post 91 | "If You Are a Physicist — What to Check, What to Break" |
-| `post-92-recycling-geometry-revisited.md` | Post 92 | "The Recycling Problem Is a Geometry Problem" |
-| `post-93-governance-is-a-physics-problem.md` | Post 93 | "The Governance Problem Is a Physics Problem" |
-| `post-94-information-that-cannot-be-lost.md` | Post 94 | "The Information That Cannot Be Lost" |
-| `post-95-unitary-closure-theorem.md` | Post 95 | "The Unitary Closure Theorem — The Final Analytic Result" — Pillar 96 |
-| `post-96-conclusion-96-pillars-14641-tests.md` | Post 96 | **"96 Pillars, 14,641 Tests, and What It All Means for Humanity" — CONCLUSION** |
+| `post-075-standard-model-parameters.md` | Post 75 | "The Standard Model Has 28 Free Parameters. How Many Are Actually Free?" — Pillar 88 SM audit |
+| `post-076-wolfenstein-geometry.md` | Post 76 | "The CKM Matrix Without Free Parameters" — Pillar 87 Wolfenstein geometry |
+| `post-077-neutrino-mixing-cp-phase.md` | Post 77 | "Neutrino Mixing and the CP Phase That Came Out Right" — Pillars 83, 86 |
+| `post-078-neutrino-mass-tension-resolved.md` | Post 78 | "Neutrino Masses: The Tension That Was There and How It Resolved" — Pillar 90 |
+| `post-079-higgs-mass-geometry.md` | Post 79 | "The Higgs Boson From Geometry — 125 GeV Without Fine-Tuning" — Pillar 91 |
+| `post-080-grand-unification-e8.md` | Post 80 | "Grand Unification: How E₈ Sees Five Dimensions" — Pillars 92, 94 |
+| `post-081-four-proofs-winding-five.md` | Post 81 | "Four Independent Reasons the Winding Number Is 5" — Pillars 84, 89 |
+| `post-082-aps-topology-vacuum.md` | Post 82 | "The Topology Proof — How Boundary Conditions Select the Vacuum" — Pillars 70-B, 80, 89 |
+| `post-083-embryology-five-dimensions.md` | Post 83 | "Embryology From Five Dimensions" — embryology-manifold predictions |
+| `post-084-yukawa-geometry-fermion-masses.md` | Post 84 | "Fermion Masses From Bulk Curvature — The Yukawa Geometry" — Pillar 93 |
+| `post-085-dual-sectors-5-6-and-5-7.md` | Post 85 | "Two Universes in One Geometry — The (5,6) and (5,7) Sectors" — Pillar 95 |
+| `post-086-the-2-9-sigma-gap.md` | Post 86 | "The 2.9σ Gap — What LiteBIRD Will Actually Measure" |
+| `post-087-fourteen-thousand-641-equals-11-to-the-4th.md` | Post 87 | "14,641 = 11⁴ — The Number That Wasn't Planned" |
+| `post-088-96-pillars-architecture.md` | Post 88 | "96 Pillars — The Architecture of What Was Built" |
+| `post-089-what-we-cannot-claim.md` | Post 89 | "What We Cannot Claim — The Remaining Open Questions at Closure" |
+| `post-090-science-without-funding.md` | Post 90 | "Science Without Funding — What This Project Demonstrates" |
+| `post-091-if-you-are-a-physicist.md` | Post 91 | "If You Are a Physicist — What to Check, What to Break" |
+| `post-092-recycling-geometry-revisited.md` | Post 92 | "The Recycling Problem Is a Geometry Problem" |
+| `post-093-governance-is-a-physics-problem.md` | Post 93 | "The Governance Problem Is a Physics Problem" |
+| `post-094-information-that-cannot-be-lost.md` | Post 94 | "The Information That Cannot Be Lost" |
+| `post-095-unitary-closure-theorem.md` | Post 95 | "The Unitary Closure Theorem — The Final Analytic Result" — Pillar 96 |
+| `post-096-conclusion-96-pillars-14641-tests.md` | Post 96 | **"96 Pillars, 14,641 Tests, and What It All Means for Humanity" — CONCLUSION** |
 
 ## Source Documents for Posts 75–96
 
@@ -261,15 +261,15 @@ Each post draws directly from these repository documents:
 
 | File | Type | Topic |
 |------|------|-------|
-| `post-38-gw-yukawa-derivation.md` | Post 38 | "Where Do Particle Masses Come From? The Goldberger-Wise Answer" — Pillar 97 |
-| `post-39-universal-yukawa-test.md` | Post 39 | "One Coupling, Nine Masses: The Universal Yukawa Test" — Pillar 98 |
+| `post-038-gw-yukawa-derivation.md` | Post 38 | "Where Do Particle Masses Come From? The Goldberger-Wise Answer" — Pillar 97 |
+| `post-039-universal-yukawa-test.md` | Post 39 | "One Coupling, Nine Masses: The Universal Yukawa Test" — Pillar 98 |
 | `epilog-pillar-97-98-testing.md` | **Epilog** | "How We Tested the Mass Gap Closure" — technical documentation of Pillars 97-98 |
 
 ## Post 27.a: Synthetic Biology — Attractor Engineering (Pillar 25 Extension)
 
 | File | Type | Topic |
 |------|------|-------|
-| `post-97-synthetic-biology-attractor-engineering.md` | **Post 27.a** | "Synthetic Biology Is Attractor Engineering" — Pillar 25 Extension; response to Groff-Vindman (2026) |
+| `post-097-synthetic-biology-attractor-engineering.md` | **Post 27.a** | "Synthetic Biology Is Attractor Engineering" — Pillar 25 Extension; response to Groff-Vindman (2026) |
 
 A direct extension of Post 27 (Genetics). Motivated by Dr. Cindy Groff-Vindman's question at the
 2026 Synthetic Biology Summit, this post applies the Unitary Manifold's φ/B_μ/FTUM language to
@@ -295,7 +295,7 @@ Pillar 25 Extension — 80+ new passing tests (141 total in `tests/test_genetics
 
 | File | Type | Topic |
 |------|------|-------|
-| `post-99-the-omega-synthesis.md` | Post 99 | "The Omega Synthesis: Five Numbers That Compute the Universe" — Pillar Ω in Walker-Pearson's voice |
+| `post-099-the-omega-synthesis.md` | Post 99 | "The Omega Synthesis: Five Numbers That Compute the Universe" — Pillar Ω in Walker-Pearson's voice |
 
 ## Source Documents for Post 99
 
@@ -372,11 +372,11 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 
 | Book | Cross-referenced in post |
 |------|--------------------------|
-| The Broken Scale | post-51-justice-implications.md |
-| The Climate Reckoning + Prediction Markets | post-52-economics-implications.md |
-| Axiom Journalism Series (Parts 1, 3, 4) | post-53-education-implications.md |
-| Axiom Journalism Series (Parts 1, 2, 4, 6) | post-54-ai-implications.md |
-| The Learning Crisis + K-12 Curriculum Vols. 8–10 | post-24-educational-systems.md · post-53-education-implications.md |
+| The Broken Scale | post-051-justice-implications.md |
+| The Climate Reckoning + Prediction Markets | post-052-economics-implications.md |
+| Axiom Journalism Series (Parts 1, 3, 4) | post-053-education-implications.md |
+| Axiom Journalism Series (Parts 1, 2, 4, 6) | post-054-ai-implications.md |
+| The Learning Crisis + K-12 Curriculum Vols. 8–10 | post-024-educational-systems.md · post-053-education-implications.md |
 
 See [BOOKS_README.md](books/BOOKS_README.md) for full details on each book and series.
 
