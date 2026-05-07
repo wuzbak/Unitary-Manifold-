@@ -79,12 +79,26 @@ waves:
     started: "2026-05-07"
     completed: "2026-05-07"
     ledger: "docs/MAS_W6_LEDGER.md"
+  - id: "W7"
+    name: "Rung3_Yukawa_Rhobar_ReleaseSync"
+    status: "COMPLETE"
+    owner: "Team C (Integrity + Integration)"
+    started: "2026-05-07"
+    completed: "2026-05-07"
+    ledger: "docs/MAS_W7_LEDGER.md"
+    artifacts:
+      - "src/eightd/wilson_line_gauge.py"
+      - "tests/test_eightd_wilson_line_gauge.py"
+      - "src/sixd/yukawa_scale_6d.py"
+      - "tests/test_sixd_yukawa_scale_6d.py"
+      - "src/sevend/ckm_rhobar_7d_integration.py"
+      - "tests/test_ckm_rhobar_7d_integration.py"
 
 integration_checkpoint:
   cadence: "All waves complete"
   completed: "2026-05-07"
   gate_result: "ALL_DELIVERABLES_ATTACHED"
-  regression: "24795 passed, 0 failed"
+  regression: "TBD (Wave 7 regression pending)"
 
 dbp_ladder:
   rung1:
@@ -104,7 +118,10 @@ dbp_ladder:
   rung3:
     transition: "7D → 8D"
     anchor: "SU(3)×SU(2)×U(1) gauge group"
-    status: "PLANNED"
+    status: "RUNG_SOLID"
+    module: "src/eightd/wilson_line_gauge.py"
+    test: "tests/test_eightd_wilson_line_gauge.py"
+    kill_switch_pass: true
 
 workstreams:
   WS-A:
@@ -182,32 +199,34 @@ parameter_gates:
     ghu_killed: true
     artifact: "src/core/higgs_mass_extension_memo.py"
   P6:
-    current_status: "FITTED"
+    current_status: "CONSTRAINED"
     c_L_spectrum_derived: true
-    yukawa_scale_derived: false
-    max_residual_pct: "~53800%"
-    artifact: "src/core/fermion_cL_spectrum_6d_audit.py"
+    yukawa_scale_derived: true
+    yukawa_scale_gate: "top-Yukawa residual <= 50%"
+    artifact: "src/sixd/yukawa_scale_6d.py"
   P7:
-    current_status: "FITTED"
+    current_status: "CONSTRAINED"
     c_L_spectrum_derived: true
-    yukawa_scale_derived: false
-    artifact: "src/core/fermion_cL_spectrum_6d_audit.py"
+    yukawa_scale_derived: true
+    artifact: "src/sixd/yukawa_scale_6d.py"
   P8:
-    current_status: "FITTED"
+    current_status: "CONSTRAINED"
     c_L_spectrum_derived: true
-    yukawa_scale_derived: false
-    artifact: "src/core/fermion_cL_spectrum_6d_audit.py"
+    yukawa_scale_derived: true
+    artifact: "src/sixd/yukawa_scale_6d.py"
   P14:
     current_status: "CONSTRAINED"
     nlo_residual_pct: "~20%"
+    integrated_7d_delta_cp: true
+    residual_after_7d_pct: "~13%"
     nlo_corrections_applied: true
-    next_step: "7D discrete torsion delta_CP integration"
-    artifact: "src/core/ckm_rhobar_nlo_braid_correction.py"
+    next_step: "8D Wilson-line refinement and higher-order CKM closure"
+    artifact: "src/sevend/ckm_rhobar_7d_integration.py"
   P16:
-    current_status: "FITTED"
+    current_status: "CONSTRAINED"
     c_L_spectrum_derived: true
-    yukawa_scale_derived: false
-    artifact: "src/core/fermion_cL_spectrum_6d_audit.py"
+    yukawa_scale_derived: true
+    artifact: "src/sixd/yukawa_scale_6d.py"
   P19:
     current_status: "CONSTRAINED"
     c_R_nu_derived: true

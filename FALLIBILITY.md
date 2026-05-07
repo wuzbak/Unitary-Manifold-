@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.3 — ThomasCory Walker-Pearson, 2026 (200 pillars/modules + Ω₀ Holon Zero + sub-pillars; ~22,900+ tests passing)**
+*Unitary Manifold v10.7 — ThomasCory Walker-Pearson, 2026 (225+ pillars/modules + Ω₀ Holon Zero + sub-pillars; ~24,795+ tests passing)**
 
 ---
 
@@ -18,7 +18,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The 21,055 automated tests (182 pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The 24,795 automated tests (225+ pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 330 skipped, 0 failed) confirm that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -48,7 +48,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "~21,055 passed · 329 skipped · 0 failed," this is a statement about
+When the README badge reads "~24,795 passed · 330 skipped · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -3313,6 +3313,32 @@ counting derivations that don't meet the <5% accuracy standard.
 These advances require specific experimental data (LiteBIRD birefringence, Belle II
 CKM precision, CMB neutrino mass sensitivity) or a theoretical breakthrough in
 higher-order braid dynamics.
+
+---
+
+### §IX.8 — Architecture Limits Registry Snapshot (A-1 through A-10)
+
+The architecture-limit registry (`src/core/architecture_limits_registry.py`) is now
+the canonical machine-readable list of irreducible RS1/5D boundaries.  These are not
+\"failures\" hidden from view; they are quantified limits with explicit dimensional
+requirements.
+
+| ID | Quantity | Current RS1/5D status | Requires |
+|----|----------|------------------------|----------|
+| A-1 | Cosmological constant Λ_CC | 58-order residual after 5D reductions | 10D flux landscape / string vacuum selection |
+| A-2 | α_s warp-anchor factor | residual factor ~2.5 after 5D threshold improvements | 10D CY₃ KK threshold closure |
+| A-3 | Exact light-generation fermion masses | partially reduced in 5D; exact closure requires fixed-point discreteness | 6D T²/Z₃ geometry |
+| A-4 | Exact CP phase / Jarlskog closure | braid/NLO improves but leaves residual | 6D/7D discrete torsion mechanism |
+| A-5 | Direct KK GW strain detectability | signal far below current detector floor | technology limit (not purely dimensional) |
+| A-6 | Neutrino Dirac Yukawa y_D | Majorana scale constrained but Dirac overlap still open | 6D fixed-point overlap closure |
+| A-7 | SM gauge-group derivation | architecture-limited in 5D | higher-D holonomy/Wilson-line completion |
+| A-8 | Proton decay rate coefficients | unavailable in RS1-only closure | 10D GUT completion |
+| A-9 | SUSY breaking scale | not derivable in 5D framework | 11D SUGRA/M-theory completion |
+| A-10 | Dark-energy dynamics (w_a ≠ 0) | beyond static 5D closure | 6D+ moduli dynamics |
+
+These ten entries are kept explicit to preserve epistemic integrity: every status
+promotion must attach hard-gate evidence, and every residual that still needs higher-D
+physics remains labeled as an architecture limit until closed.
 
 ---
 

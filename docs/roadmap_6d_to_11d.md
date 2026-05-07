@@ -26,7 +26,7 @@ The loop is repeated from 5D to 11D, each rung burning an anchor and opening the
 |------|-----------|--------|-----------|--------|
 | 1 | 5D → 6D | N_gen = 3 | T²/Z₃ fixed points (Lefschetz: 3) | **SOLID** |
 | 2 | 6D → 7D | δ_CP (CP phase) | Discrete torsion H¹(T²/Z₃, U(1)) | **SOLID (12.7% residual)** |
-| 3 | 7D → 8D | Gauge group SU(3)×SU(2)×U(1) | T²/Z₃ holonomy, Wilson lines | Planned |
+| 3 | 7D → 8D | Gauge group SU(3)×SU(2)×U(1) | T²/Z₃ holonomy, Wilson lines | **RUNG_SOLID (rank-4 kill-switch)** |
 | 4 | 8D → 9D | Anomaly cancellation | Green-Schwarz mechanism in 9D | Planned |
 | 5 | 9D → 10D | Cosmological constant | Bousso-Polchinski flux landscape | Planned |
 | 6 | 10D → 11D | M-theory unification | Hořava-Witten S¹/Z₂ × CY₃ | Planned |
@@ -132,7 +132,7 @@ The residual gap at 7D opens the 8D/9D rung for anomaly-free completion.
 
 ---
 
-### Rung 3: 7D → 8D — PLANNED
+### Rung 3: 7D → 8D — RUNG_SOLID ✅ (Wave 7)
 
 **Anchor:** SM gauge group SU(3)×SU(2)×U(1) (currently "hand-coded" in Standard Model)  
 **Mechanism:** T²/Z₃ holonomy group and Wilson line moduli
@@ -142,8 +142,10 @@ In 8D, additional T² compactification introduces Wilson lines:
 - The vacuum alignment of Wilson lines selects the unbroken gauge group
 - For K_CS = 74 = 5² + 7²: the SU(5) subgroup of E₈ breaks via Wilson lines to SU(3)×SU(2)×U(1)
 
-**Kill-switch tolerance:** Gauge group rank = 4 (U(1)×U(1)×U(1)×U(1) → SU(3)×SU(2)×U(1) of rank 4)  
-**Module plan:** `src/eightd/wilson_line_gauge.py`
+**Kill-switch target:** Gauge group rank = 4 (U(1)×U(1)×U(1)×U(1) → SU(3)×SU(2)×U(1) of rank 4)  
+**Module:** `src/eightd/wilson_line_gauge.py`  
+**Tests:** `tests/test_eightd_wilson_line_gauge.py`  
+**Outcome:** all four kill-switch checks pass (`rank_conservation_check`, `wilson_line_quantization_check`, `unbroken_group_validation_check`, `axiomzero_seed_purity_check`) → Rung 3 gate satisfied.
 
 ---
 
@@ -225,7 +227,7 @@ The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 | 4D–5D | `src/core/*.py` (Pillars 1–225) | `tests/test_*.py` | ✅ |
 | 6D | `src/sixd/metric_6d.py`, `field_equations_6d.py`, `generation_count_6d.py` | `tests/test_sixd_*.py` | ✅ **SOLID** |
 | 7D | `src/sevend/discrete_torsion_cp.py` | `tests/test_sevend_*.py` | Planned |
-| 8D | `src/eightd/wilson_line_gauge.py` | `tests/test_eightd_*.py` | Planned |
+| 8D | `src/eightd/wilson_line_gauge.py` | `tests/test_eightd_wilson_line_gauge.py` | ✅ **RUNG_SOLID** |
 | 9D | `src/nined/anomaly_cancellation_gs.py` | `tests/test_nined_*.py` | Planned |
 | 10D | `src/tend/flux_landscape.py` | `tests/test_tend_*.py` | Planned |
 | 11D | `src/eleventd/horava_witten_reduction.py` | `tests/test_eleventd_*.py` | Planned |

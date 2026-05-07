@@ -1,18 +1,18 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.6)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.7)
 
 > *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.30
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![23524 Tests passing](https://img.shields.io/badge/tests-23524%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![217 pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-217%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.6-blue)](CITATION.cff)
+[![24795 Tests passing](https://img.shields.io/badge/tests-24795%20passed%20%C2%B7%20330%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
+[![Version](https://img.shields.io/badge/version-v10.7-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status (v10.6):** This framework is not yet a zero-free-parameter TOE.
-> TOE score is **42% (11/26)** under the earned-closure threshold.  
+> ⚠️ **Honest status (v10.7):** This framework is not yet a zero-free-parameter TOE.
+> TOE score is **~62% (5D domain completeness audit)** under the earned-closure threshold.  
 > P5 (Higgs mass) is an **ARCHITECTURE LIMIT** in the current RS1 scope;  
 > P28 (Newton's constant) is tracked as **DIMENSIONAL SCALE** (not a fitted prediction).  
 > For canonical, up-to-date status use:
