@@ -1,0 +1,125 @@
+version: "v10.7"
+date: "2026-05-07"
+purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
+
+non_negotiables:
+  - "AxiomZero clean derivation path"
+  - "Strict epistemic separation"
+  - "Honest status labels only"
+  - "No score inflation"
+
+waves:
+  - id: "W0"
+    name: "Setup/Audit"
+    status: "active"
+    gate_artifacts:
+      - "baseline_status_freeze"
+      - "acceptance_thresholds"
+      - "falsifier_map"
+      - "red_team_rubric"
+  - id: "W1"
+    name: "Foundations"
+    status: "planned"
+  - id: "W2"
+    name: "Flavor_CP"
+    status: "planned"
+  - id: "W3"
+    name: "Strong_Sector"
+    status: "planned"
+  - id: "W4"
+    name: "Open_Parameters"
+    status: "planned"
+  - id: "W5"
+    name: "Architecture_Extension"
+    status: "planned"
+  - id: "W6"
+    name: "Integration"
+    status: "planned"
+
+workstreams:
+  WS-A:
+    title: "Exact fermion mass closure"
+    scope: ["P6", "P7", "P8", "P16"]
+    objective: "Derive c_L spectrum and eliminate fitted absolute Yukawa anchors."
+    deliverables:
+      - "closed_form_cL_spectrum"
+      - "anchor_elimination_proof"
+      - "residual_table_lt5pct"
+  WS-B:
+    title: "Neutrino sector closure"
+    scope: ["P19", "P20", "P21"]
+    objective: "Derive c_{Rnu_i} and close neutrino observables to <5%."
+    deliverables:
+      - "cRnu_derivation_module"
+      - "uncertainty_budget"
+      - "promotion_rubric"
+  WS-C:
+    title: "CKM rhobar closure"
+    scope: ["P14"]
+    objective: "Derive delta_CKM correction and reduce residual below 5%."
+    deliverables:
+      - "delta_ckm_correction_artifact"
+      - "rhobar_sensitivity_pipeline"
+      - "lt5pct_gate_report"
+  WS-D:
+    title: "alpha_s forward-chain closure"
+    scope: ["P3"]
+    objective: "Remove Warp-Anchor factor gap with unified geometric forward chain."
+    deliverables:
+      - "single_source_forward_chain"
+      - "threshold_beta_provenance"
+      - "status_promotion_evidence"
+  WS-E:
+    title: "Open parameters hardening"
+    scope: ["P26", "P27"]
+    objective: "Define, derive if possible, otherwise certify architecture-bound status."
+    deliverables:
+      - "parameter_definitions"
+      - "derivation_attempt_log"
+      - "status_or_architecture_limit_certification"
+  WS-F:
+    title: "Higgs architecture extension"
+    scope: ["P5"]
+    objective: "Run controlled extension bake-off and select minimal viable path."
+    deliverables:
+      - "extension_design_memo"
+      - "go_no_go_theorems"
+      - "selected_extension_branch_plan"
+
+parameter_gates:
+  P3:
+    current_status: "CONSISTENCY CHECK"
+    closure_target: "<5% residual from reference"
+  P5:
+    current_status: "OPEN (ARCHITECTURE LIMIT)"
+    closure_target: "either derivation closure or formally certified architecture limit"
+  P6:
+    current_status: "FITTED"
+    closure_target: "absolute-scale derivation without anchor"
+  P7:
+    current_status: "FITTED"
+    closure_target: "absolute-scale derivation without anchor"
+  P8:
+    current_status: "FITTED"
+    closure_target: "absolute-scale derivation without anchor"
+  P14:
+    current_status: "CONSTRAINED"
+    closure_target: "<5% residual without fitted insertion"
+  P16:
+    current_status: "FITTED"
+    closure_target: "absolute-scale derivation without anchor"
+  P19:
+    current_status: "CONSTRAINED"
+    closure_target: "<5% closure with derived c_{Rnu_i}"
+  P20:
+    current_status: "GEOMETRIC ESTIMATE"
+    closure_target: "<5% closure with derived c_{Rnu_i}"
+  P21:
+    current_status: "GEOMETRIC ESTIMATE"
+    closure_target: "<5% closure with derived c_{Rnu_i}"
+  P26:
+    current_status: "OPEN / NOT IN TABLE"
+    closure_target: "definition + derivation or architecture-limit certification"
+  P27:
+    current_status: "OPEN / NOT IN TABLE"
+    closure_target: "definition + derivation or architecture-limit certification"
