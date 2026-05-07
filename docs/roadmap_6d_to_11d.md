@@ -25,7 +25,7 @@ The loop is repeated from 5D to 11D, each rung burning an anchor and opening the
 | Rung | Transition | Anchor | Mechanism | Status |
 |------|-----------|--------|-----------|--------|
 | 1 | 5D → 6D | N_gen = 3 | T²/Z₃ fixed points (Lefschetz: 3) | **SOLID** |
-| 2 | 6D → 7D | δ_CP (CP phase) | Discrete torsion H¹(T²/Z₃, U(1)) | Planned |
+| 2 | 6D → 7D | δ_CP (CP phase) | Discrete torsion H¹(T²/Z₃, U(1)) | **SOLID (12.7% residual)** |
 | 3 | 7D → 8D | Gauge group SU(3)×SU(2)×U(1) | T²/Z₃ holonomy, Wilson lines | Planned |
 | 4 | 8D → 9D | Anomaly cancellation | Green-Schwarz mechanism in 9D | Planned |
 | 5 | 9D → 10D | Cosmological constant | Bousso-Polchinski flux landscape | Planned |
