@@ -1,4 +1,4 @@
-version: "v10.7"
+version: "v10.8"
 date: "2026-05-07"
 updated: "2026-05-07"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
@@ -93,12 +93,27 @@ waves:
       - "tests/test_sixd_yukawa_scale_6d.py"
       - "src/sevend/ckm_rhobar_7d_integration.py"
       - "tests/test_ckm_rhobar_7d_integration.py"
+  - id: "W8"
+    name: "Rung4_Kickoff_Rung5_Scaffold_IntegrationSync"
+    status: "COMPLETE"
+    owner: "Team C (Integrity + Integration)"
+    started: "2026-05-07"
+    completed: "2026-05-07"
+    ledger: "docs/MAS_W8_LEDGER.md"
+    artifacts:
+      - "src/nined/anomaly_cancellation_gs.py"
+      - "tests/test_nined_anomaly_cancellation_gs.py"
+      - "src/tend/flux_landscape.py"
+      - "tests/test_tend_flux_landscape.py"
+      - "docs/roadmap_6d_to_11d.md"
+      - "docs/MAS_W3_LEDGER.md"
+      - "docs/MAS_W6_LEDGER.md"
 
 integration_checkpoint:
-  cadence: "All waves complete"
+  cadence: "Post-W8 integration sync"
   completed: "2026-05-07"
-  gate_result: "ALL_DELIVERABLES_ATTACHED"
-  regression: "24928 passed, 329 skipped, 0 failed"
+  gate_result: "W8_DELIVERABLES_ATTACHED_AND_VALIDATED"
+  regression: "pending_update_after_w8_regression"
 
 dbp_ladder:
   rung1:
@@ -122,6 +137,23 @@ dbp_ladder:
     module: "src/eightd/wilson_line_gauge.py"
     test: "tests/test_eightd_wilson_line_gauge.py"
     kill_switch_pass: true
+  rung4:
+    transition: "8D → 9D"
+    anchor: "anomaly cancellation"
+    status: "KICKOFF_IMPLEMENTED"
+    module: "src/nined/anomaly_cancellation_gs.py"
+    test: "tests/test_nined_anomaly_cancellation_gs.py"
+    kill_switch_pass: true
+    promotion_policy: "blocked_without_hard_gate_evidence"
+  rung5:
+    transition: "9D → 10D"
+    anchor: "Lambda_CC"
+    status: "SCAFFOLD_IMPLEMENTED"
+    module: "src/tend/flux_landscape.py"
+    test: "tests/test_tend_flux_landscape.py"
+    kill_switch_pass: true
+    architecture_limit: true
+    promotion_policy: "blocked_without_hard_gate_evidence"
 
 workstreams:
   WS-A:
@@ -191,6 +223,7 @@ parameter_gates:
     su5_route_gate: "MET via Pillar 70-D"
     direct_chain_gap_factor: "~2.5"
     direct_chain_status: "ARCHITECTURE_LIMIT(10D)"
+    canonical_policy: "MAS canonical status remains CONSISTENCY CHECK until direct AxiomZero chain closure; SU(5) route is recorded as auxiliary derived evidence only."
     artifact: "src/core/alpha_s_forward_chain_audit.py"
   P5:
     current_status: "OPEN (ARCHITECTURE LIMIT)"
@@ -221,6 +254,11 @@ parameter_gates:
     residual_after_7d_pct: "~13%"
     nlo_corrections_applied: true
     next_step: "8D Wilson-line refinement and higher-order CKM closure"
+    next_step_targeted: true
+    next_step_artifacts:
+      - "src/eightd/wilson_line_gauge.py"
+      - "src/sevend/ckm_rhobar_7d_integration.py"
+    promotion_policy: "blocked_without_hard_gate_evidence"
     artifact: "src/sevend/ckm_rhobar_7d_integration.py"
   P16:
     current_status: "CONSTRAINED"

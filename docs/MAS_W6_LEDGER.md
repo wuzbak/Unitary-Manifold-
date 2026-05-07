@@ -52,7 +52,7 @@ status sync constrained by hard-gate evidence.
 |------|-----------|-----------|---------------|---------|
 | 1    | 5D → 6D   | N_gen = 3 | ✅ SOLID       | 0% (exact) |
 | 2    | 6D → 7D   | δ_CP      | ✅ RUNG_SOLID  | 12.7% (< 40% tolerance) |
-| 3    | 7D → 8D   | SU(3)×SU(2)×U(1) | PLANNED | — |
+| 3    | 7D → 8D   | SU(3)×SU(2)×U(1) | ✅ RUNG_SOLID | Rank-4 kill-switch pass |
 
 ---
 
@@ -60,9 +60,10 @@ status sync constrained by hard-gate evidence.
 
 - [x] Ledgers W1–W5 synchronized with artifacts
 - [x] 7D Rung 2 implemented: `src/sevend/discrete_torsion_cp.py` — RUNG_SOLID (12.7%)
+- [x] 8D Rung 3 implemented: `src/eightd/wilson_line_gauge.py` — RUNG_SOLID (rank gate)
 - [x] 355 new tests added; 0 failures
 - [x] Full regression: 0 failures
-- [x] Residual unknowns: P3 warp-anchor gap, P5 θ_HR, P6–P8/P16 Yukawa scale, P14 7D integration
+- [x] Residual unknowns: P3 warp-anchor gap, P5 θ_HR, P14 higher-order CKM closure target
 
 ---
 
