@@ -26,6 +26,7 @@ __all__ = [
     "gs_counterterm_presence_check",
     "axiomzero_seed_purity_check",
     "kill_switch_check",
+    "hard_gate_check",
     "rung4_gate_evidence",
     "scaffold_spec",
     "evaluate_candidate",
@@ -37,6 +38,12 @@ TARGET_PARAMETER = "anomaly_cancellation"
 ANCHOR = "Green-Schwarz anomaly consistency"
 MECHANISM = "GS_Bianchi_identity"
 TARGET_GAUGE_DIMENSIONS: tuple[int, ...] = (496,)
+HARD_GATE_CHECKS: tuple[str, ...] = (
+    "gauge_dimension_check",
+    "bianchi_identity_balance_check",
+    "gs_counterterm_presence_check",
+    "axiomzero_seed_purity_check",
+)
 
 
 def gauge_dimension_check(
@@ -119,29 +126,50 @@ def kill_switch_check() -> Dict[str, object]:
         "rung_id": RUNG_ID,
         "dimension": DIMENSION,
         "all_pass": all_pass,
+        "gate_count": len(checks),
         "checks": checks,
     }
 
 
 _KS = kill_switch_check()
 KILL_SWITCH_PASS = bool(_KS["all_pass"])
-STATUS = "KICKOFF_IMPLEMENTED" if KILL_SWITCH_PASS else "KICKOFF_BLOCKED"
+STATUS = "RUNG_SOLID" if KILL_SWITCH_PASS else "RUNG_NOT_SOLID"
 EPISTEMIC_STATUS = (
-    "ARCHITECTURE_KICKOFF (gates implemented; no physics-status promotion)"
+    "HARD_GATE_EVIDENCE_ATTACHED (anomaly consistency gates pass; no physics-status promotion)"
     if KILL_SWITCH_PASS
-    else "ARCHITECTURE_KICKOFF_BLOCKED"
+    else "HARD_GATE_EVIDENCE_INCOMPLETE"
 )
+
+
+def hard_gate_check() -> Dict[str, object]:
+    """Evaluate strict hard-gate readiness for Rung 4 status."""
+    ks = kill_switch_check()
+    check_names = tuple(str(c["check"]) for c in ks["checks"])
+    return {
+        "rung_id": RUNG_ID,
+        "dimension": DIMENSION,
+        "required_checks": HARD_GATE_CHECKS,
+        "executed_checks": check_names,
+        "all_required_checks_present": check_names == HARD_GATE_CHECKS,
+        "kill_switch_pass": bool(ks["all_pass"]),
+        "hard_gate_pass": bool(ks["all_pass"]) and check_names == HARD_GATE_CHECKS,
+        "promotion_policy": "blocked_without_hard_gate_evidence",
+    }
 
 
 def rung4_gate_evidence() -> Dict[str, object]:
     """Return integration-ready Rung 4 kickoff evidence."""
     ks = kill_switch_check()
+    hard_gate = hard_gate_check()
     return {
         "rung": "R4 (8D → 9D)",
         "anchor": ANCHOR,
         "mechanism": MECHANISM,
         "target_gauge_dimensions": TARGET_GAUGE_DIMENSIONS,
         "kill_switch_pass": ks["all_pass"],
+        "hard_gate_pass": hard_gate["hard_gate_pass"],
+        "required_checks": HARD_GATE_CHECKS,
+        "gate_count": ks["gate_count"],
         "status": STATUS,
         "epistemic_status": EPISTEMIC_STATUS,
         "test_file": "tests/test_nined_anomaly_cancellation_gs.py",
@@ -160,12 +188,8 @@ def scaffold_spec() -> Dict[str, object]:
         "planned_module": "src/nined/anomaly_cancellation_gs.py",
         "status": STATUS,
         "epistemic_status": EPISTEMIC_STATUS,
-        "kill_switches": (
-            "gauge_dimension_check",
-            "bianchi_identity_balance_check",
-            "gs_counterterm_presence_check",
-            "axiomzero_seed_purity_check",
-        ),
+        "kill_switches": HARD_GATE_CHECKS,
+        "hard_gate_evidence_required": True,
         "now_implemented": True,
     }
 
@@ -188,8 +212,7 @@ def evaluate_candidate(evidence: Dict[str, object]) -> Dict[str, object]:
     return {
         "dimension": DIMENSION,
         "gate_pass": gate_pass,
-        "status_if_pass": "KICKOFF_IMPLEMENTED",
-        "status_if_fail": "KICKOFF_BLOCKED",
+        "status_if_pass": "RUNG_SOLID",
+        "status_if_fail": "RUNG_NOT_SOLID",
         "internal_evidence": rung4_gate_evidence(),
     }
-

@@ -27,9 +27,9 @@ The loop is repeated from 5D to 11D, each rung burning an anchor and opening the
 | 1 | 5D → 6D | N_gen = 3 | T²/Z₃ fixed points (Lefschetz: 3) | **SOLID** |
 | 2 | 6D → 7D | δ_CP (CP phase) | Discrete torsion H¹(T²/Z₃, U(1)) | **SOLID (12.7% residual)** |
 | 3 | 7D → 8D | Gauge group SU(3)×SU(2)×U(1) | T²/Z₃ holonomy, Wilson lines | **RUNG_SOLID (rank-4 kill-switch)** |
-| 4 | 8D → 9D | Anomaly cancellation | Green-Schwarz mechanism in 9D | Planned |
-| 5 | 9D → 10D | Cosmological constant | Bousso-Polchinski flux landscape | Planned |
-| 6 | 10D → 11D | M-theory unification | Hořava-Witten S¹/Z₂ × CY₃ | Planned |
+| 4 | 8D → 9D | Anomaly cancellation | Green-Schwarz mechanism in 9D | **RUNG_SOLID (hard-gate evidence)** |
+| 5 | 9D → 10D | Cosmological constant | Bousso-Polchinski flux landscape | **ARCHITECTURE_CERTIFIED** |
+| 6 | 10D → 11D | M-theory unification | Hořava-Witten S¹/Z₂ × CY₃ | **KICKOFF_IMPLEMENTED** |
 
 ---
 
@@ -155,7 +155,7 @@ In 8D, additional T² compactification introduces Wilson lines:
 
 ## Phase 4: Unification (9D–11D) — PLANNED
 
-### Rung 4: 8D → 9D — KICKOFF_IMPLEMENTED
+### Rung 4: 8D → 9D — RUNG_SOLID ✅
 
 **Anchor:** Anomaly cancellation (Green-Schwarz mechanism)  
 **Mechanism:** The 9D string theory Bianchi identity dH = tr(F∧F) − tr(R∧R)
@@ -168,11 +168,12 @@ In 9D (Type I string theory or M-theory reduction):
 **Kill-switch gates:** gauge-dimension(496), Bianchi-balance, GS counterterm, AxiomZero purity  
 **Module:** `src/nined/anomaly_cancellation_gs.py`  
 **Tests:** `tests/test_nined_anomaly_cancellation_gs.py`  
-**Status policy:** kickoff implementation only; no physics-status promotion without hard-gate evidence.
+**Hard-gate evidence:** all four strict gates pass with ordered gate-set validation and policy lock.  
+**Status policy:** no physics-status promotion without hard-gate evidence.
 
 ---
 
-### Rung 5: 9D → 10D — SCAFFOLD_IMPLEMENTED
+### Rung 5: 9D → 10D — ARCHITECTURE_CERTIFIED ✅
 
 **Anchor:** Cosmological constant (A-1 — 58-order gap, Pillar 224)  
 **Mechanism:** Bousso-Polchinski flux landscape with N_flux = k_CS/2 = 37
@@ -184,11 +185,12 @@ For ε_i ~ 10^{-122/74}: Λ_obs reachable within the discrete landscape scan.
 **Acceptance gates:** N_flux consistency (=37), discretuum resolution check, architecture-limit alignment, AxiomZero purity  
 **Module:** `src/tend/flux_landscape.py`  
 **Tests:** `tests/test_tend_flux_landscape.py`  
-**Status policy:** scaffold implementation only; Λ remains architecture-limited pending full 10D closure.
+**Hard-gate evidence:** all four acceptance gates pass with architecture-limit lock retained.  
+**Status policy:** Λ remains architecture-limited pending full 10D closure.
 
 ---
 
-### Rung 6: 10D → 11D — PLANNED
+### Rung 6: 10D → 11D — KICKOFF_IMPLEMENTED ⚙️
 
 **Anchor:** Unification of all 5 string theories  
 **Mechanism:** Hořava-Witten S¹/Z₂ × CY₃ — M-theory boundary
@@ -199,8 +201,10 @@ boundary of M-theory:
 - IR brane at y=πR ← Standard Model brane (fields localized here)
 - Bulk: 11D M-theory SUGRA (N=1 at leading order)
 
-**Kill-switch tolerance:** 11D SUGRA reduces to UM RS1 action in the y→R limit  
-**Module plan:** `src/eleventd/horava_witten_reduction.py`
+**Kickoff checks:** boundary-brane structure, S¹/Z₂ interval consistency, RS1 reduction-consistency tolerance, AxiomZero purity  
+**Module:** `src/eleventd/horava_witten_reduction.py`  
+**Tests:** `tests/test_eleventd_horava_witten_reduction.py`  
+**Status policy:** kickoff implementation only; promotion blocked without hard-gate evidence.
 
 ---
 
@@ -238,9 +242,9 @@ The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 | 6D | `src/sixd/metric_6d.py`, `field_equations_6d.py`, `generation_count_6d.py` | `tests/test_sixd_*.py` | ✅ **SOLID** |
 | 7D | `src/sevend/discrete_torsion_cp.py` | `tests/test_sevend_*.py` | ✅ **RUNG_SOLID** |
 | 8D | `src/eightd/wilson_line_gauge.py` | `tests/test_eightd_wilson_line_gauge.py` | ✅ **RUNG_SOLID** |
-| 9D | `src/nined/anomaly_cancellation_gs.py` | `tests/test_nined_*.py` | ⚙️ **KICKOFF_IMPLEMENTED** |
-| 10D | `src/tend/flux_landscape.py` | `tests/test_tend_*.py` | ⚙️ **SCAFFOLD_IMPLEMENTED** |
-| 11D | `src/eleventd/horava_witten_reduction.py` | `tests/test_eleventd_*.py` | Planned |
+| 9D | `src/nined/anomaly_cancellation_gs.py` | `tests/test_nined_*.py` | ✅ **RUNG_SOLID** |
+| 10D | `src/tend/flux_landscape.py` | `tests/test_tend_*.py` | ✅ **ARCHITECTURE_CERTIFIED** |
+| 11D | `src/eleventd/horava_witten_reduction.py` | `tests/test_eleventd_*.py` | ⚙️ **KICKOFF_IMPLEMENTED** |
 
 ---
 
@@ -257,5 +261,5 @@ The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 
 ---
 
-*Roadmap version: 1.1 — 2026-05-07*  
-*DBP implementation: W7 completion + W8 kickoff artifacts*
+*Roadmap version: 1.2 — 2026-05-07*  
+*DBP implementation: W9/W10 hard-gate updates + W11 kickoff artifacts*

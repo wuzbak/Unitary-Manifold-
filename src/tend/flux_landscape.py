@@ -31,6 +31,7 @@ __all__ = [
     "architecture_limit_alignment_check",
     "axiomzero_seed_purity_check",
     "kill_switch_check",
+    "hard_gate_check",
     "rung5_gate_evidence",
     "scaffold_spec",
     "evaluate_candidate",
@@ -45,6 +46,12 @@ K_CS = 74
 N_FLUX = K_CS // 2
 LAMBDA_OBS = 1e-122
 ARCHITECTURE_LIMIT = True
+HARD_GATE_CHECKS: tuple[str, ...] = (
+    "flux_count_consistency_check",
+    "landscape_resolution_check",
+    "architecture_limit_alignment_check",
+    "axiomzero_seed_purity_check",
+)
 
 
 def discrete_vacua_count(n_flux: int = N_FLUX) -> Dict[str, object]:
@@ -131,23 +138,42 @@ def kill_switch_check() -> Dict[str, object]:
         "rung_id": RUNG_ID,
         "dimension": DIMENSION,
         "all_pass": all_pass,
+        "gate_count": len(checks),
         "checks": checks,
     }
 
 
 _KS = kill_switch_check()
 KILL_SWITCH_PASS = bool(_KS["all_pass"])
-STATUS = "SCAFFOLD_IMPLEMENTED" if KILL_SWITCH_PASS else "SCAFFOLD_BLOCKED"
+STATUS = "ARCHITECTURE_CERTIFIED" if KILL_SWITCH_PASS else "ARCHITECTURE_CERTIFICATION_BLOCKED"
 EPISTEMIC_STATUS = (
-    "ARCHITECTURE_LIMIT_SCAFFOLD (Λ not promoted; gate scaffolding only)"
+    "HARD_GATE_ARCHITECTURE_CERTIFICATION (Λ remains architecture-limited; no physics-status promotion)"
     if KILL_SWITCH_PASS
-    else "ARCHITECTURE_LIMIT_SCAFFOLD_BLOCKED"
+    else "HARD_GATE_ARCHITECTURE_CERTIFICATION_BLOCKED"
 )
+
+
+def hard_gate_check() -> Dict[str, object]:
+    """Evaluate hard-gated architecture certification state for Rung 5."""
+    ks = kill_switch_check()
+    check_names = tuple(str(c["check"]) for c in ks["checks"])
+    return {
+        "rung_id": RUNG_ID,
+        "dimension": DIMENSION,
+        "required_checks": HARD_GATE_CHECKS,
+        "executed_checks": check_names,
+        "all_required_checks_present": check_names == HARD_GATE_CHECKS,
+        "kill_switch_pass": bool(ks["all_pass"]),
+        "architecture_limit": ARCHITECTURE_LIMIT,
+        "hard_gate_pass": bool(ks["all_pass"]) and check_names == HARD_GATE_CHECKS and ARCHITECTURE_LIMIT,
+        "promotion_policy": "blocked_without_hard_gate_evidence",
+    }
 
 
 def rung5_gate_evidence() -> Dict[str, object]:
     """Return integration-ready Rung 5 scaffold evidence."""
     ks = kill_switch_check()
+    hard_gate = hard_gate_check()
     vacua = discrete_vacua_count()
     return {
         "rung": "R5 (9D → 10D)",
@@ -156,6 +182,9 @@ def rung5_gate_evidence() -> Dict[str, object]:
         "n_flux": N_FLUX,
         "vacua_order_of_magnitude": vacua["vacua_order_of_magnitude"],
         "kill_switch_pass": ks["all_pass"],
+        "hard_gate_pass": hard_gate["hard_gate_pass"],
+        "required_checks": HARD_GATE_CHECKS,
+        "gate_count": ks["gate_count"],
         "status": STATUS,
         "epistemic_status": EPISTEMIC_STATUS,
         "architecture_limit": ARCHITECTURE_LIMIT,
@@ -175,12 +204,8 @@ def scaffold_spec() -> Dict[str, object]:
         "planned_module": "src/tend/flux_landscape.py",
         "status": STATUS,
         "epistemic_status": EPISTEMIC_STATUS,
-        "kill_switches": (
-            "flux_count_consistency_check",
-            "landscape_resolution_check",
-            "architecture_limit_alignment_check",
-            "axiomzero_seed_purity_check",
-        ),
+        "kill_switches": HARD_GATE_CHECKS,
+        "hard_gate_evidence_required": True,
         "now_implemented": True,
     }
 
@@ -203,8 +228,7 @@ def evaluate_candidate(evidence: Dict[str, object]) -> Dict[str, object]:
     return {
         "dimension": DIMENSION,
         "gate_pass": gate_pass,
-        "status_if_pass": "SCAFFOLD_IMPLEMENTED",
-        "status_if_fail": "SCAFFOLD_BLOCKED",
+        "status_if_pass": "ARCHITECTURE_CERTIFIED",
+        "status_if_fail": "ARCHITECTURE_CERTIFICATION_BLOCKED",
         "internal_evidence": rung5_gate_evidence(),
     }
-

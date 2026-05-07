@@ -18,6 +18,7 @@ from src.nined.anomaly_cancellation_gs import (
     evaluate_candidate,
     gauge_dimension_check,
     gs_counterterm_presence_check,
+    hard_gate_check,
     kill_switch_check,
     rung4_gate_evidence,
     scaffold_spec,
@@ -62,14 +63,24 @@ def test_axiomzero_seed_purity_gate():
 def test_kill_switch_and_status():
     ks = kill_switch_check()
     assert ks["all_pass"] is True
+    assert ks["gate_count"] == 4
     assert KILL_SWITCH_PASS is True
-    assert STATUS == "KICKOFF_IMPLEMENTED"
-    assert "ARCHITECTURE_KICKOFF" in EPISTEMIC_STATUS
+    assert STATUS == "RUNG_SOLID"
+    assert "HARD_GATE_EVIDENCE_ATTACHED" in EPISTEMIC_STATUS
+
+
+def test_hard_gate_check_passes():
+    hard = hard_gate_check()
+    assert hard["all_required_checks_present"] is True
+    assert hard["hard_gate_pass"] is True
+    assert hard["promotion_policy"] == "blocked_without_hard_gate_evidence"
 
 
 def test_rung4_gate_evidence_shape():
     ev = rung4_gate_evidence()
     assert ev["kill_switch_pass"] is True
+    assert ev["hard_gate_pass"] is True
+    assert ev["gate_count"] == 4
     assert ev["promotion_policy"] == "blocked_without_hard_gate_evidence"
     assert ev["test_file"] == "tests/test_nined_anomaly_cancellation_gs.py"
 
@@ -99,4 +110,3 @@ def test_target_dimensions_are_positive():
     assert all(d > 0 for d in TARGET_GAUGE_DIMENSIONS)
     with pytest.raises(AssertionError):
         assert 0 in TARGET_GAUGE_DIMENSIONS
-
