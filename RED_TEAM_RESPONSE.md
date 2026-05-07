@@ -163,7 +163,7 @@ quantitative predictions testable by known experiments in the next decade.
 **Audit tier:** Caltech-level structural / experimental (highest tier to date)  
 **Pillars added:** 197 (SEP Stress-Energy), 198 (B_μ Ghost Stability), 199 (GW250114 + H₀/S₈)  
 **Tests added:** ~190  
-**Full reference:** `3-FALSIFICATION/REVIEW_CONCLUSION_Caltech_v10.2.md`
+**Full reference:** `3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/REVIEW_CONCLUSION_Caltech_v10.2.md`
 
 ### Three Structural Attacks Answered
 

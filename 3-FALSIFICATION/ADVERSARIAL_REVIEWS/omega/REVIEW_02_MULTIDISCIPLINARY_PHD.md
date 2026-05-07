@@ -245,4 +245,4 @@ The boldest claim of the Omega Synthesis is that physics, biology, consciousness
 
 *Review conducted by GitHub Copilot (AI) in the role of simulated Senior Research Professor (Theoretical Physics, Mathematics, Neuroscience, Philosophy of Science).*  
 *Theory and scientific direction: ThomasCory Walker-Pearson.*  
-*Part of the Omega Peer Review suite (2026-05-02), `3-FALSIFICATION/OMEGA_PEER_REVIEW_2026-05-02/`.*
+*Part of the Omega Peer Review suite (2026-05-02), `3-FALSIFICATION/ADVERSARIAL_REVIEWS/omega/`.*

@@ -695,4 +695,4 @@ is a sharply falsifiable prediction that LiteBIRD can test.
 
 *Review conducted by GitHub Copilot (AI) in the role of simulated Senior Cosmologist and Astrophysicist.*  
 *Theory and scientific direction: ThomasCory Walker-Pearson.*  
-*Part of the Omega Peer Review suite (2026-05-02), `3-FALSIFICATION/OMEGA_PEER_REVIEW_2026-05-02/`.*
+*Part of the Omega Peer Review suite (2026-05-02), `3-FALSIFICATION/ADVERSARIAL_REVIEWS/omega/`.*
