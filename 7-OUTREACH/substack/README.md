@@ -7,19 +7,33 @@
 
 > ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
 > within individual post drafts reflect the state of the repository **at the time of writing**.
-> The current verified totals are: **17,438 tests passing · 330 skipped · 0 failures · 132 pillars (v9.29+)**.
+> The current verified totals are: **23,524 tests passing · 329 skipped · 0 failures · 208 pillars (v10.4)**.
 > Individual posts have not been retroactively updated to preserve their historical authenticity.
+
+## Directory Structure
+
+This directory is organized into two subdirectories:
+
+```
+substack/
+├── posts/      ← All post-*.md and epilog-*.md article drafts (Posts 00–128+)
+├── books/      ← All book-*.md full-length book drafts (11 books)
+└── README.md   ← This file
+```
+
+All post filenames in the tables below live inside `posts/`.
+All book filenames live inside `books/`.
 
 This directory contains ready-to-publish Substack post drafts for communicating
 the Unitary Manifold framework to a general audience.
 
 ## The Canonical Book — Version Omega
 
-**[book-version-omega.md](book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
+**[book-version-omega.md](books/book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
 
 ## AxiomZero Books — Politics & Civic Life
 
-**[book-signal-and-noise.md](book-signal-and-noise.md)** — *The Signal and the Noise: Politics, Media, and the Battle for American Reality* — the full AxiomZero book on politics and media in America. What is working. What is broken. How they manipulate each other. A complete structural reform blueprint with appendices. For every American.
+**[book-signal-and-noise.md](books/book-signal-and-noise.md)** — *The Signal and the Noise: Politics, Media, and the Battle for American Reality* — the full AxiomZero book on politics and media in America. What is working. What is broken. How they manipulate each other. A complete structural reform blueprint with appendices. For every American.
 
 ## Publishing Order
 
@@ -364,11 +378,60 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 | Axiom Journalism Series (Parts 1, 2, 4, 6) | post-54-ai-implications.md |
 | The Learning Crisis + K-12 Curriculum Vols. 8–10 | post-24-educational-systems.md · post-53-education-implications.md |
 
-See [BOOKS_README.md](BOOKS_README.md) for full details on each book and series.
+See [BOOKS_README.md](books/BOOKS_README.md) for full details on each book and series.
+
+---
+
+## Posts 122–128: The v10 Closure Wave (v10.0–v10.4, May 2026)
+
+The series was declared complete at Post 121. Then Pillars 185–208 happened.
+These posts cover the systematic stress-testing, honest accounting, and Standard
+Model parameter closure that followed.
+
+| File | Post | Topic |
+|------|------|-------|
+| `post-122-red-team-audit-pillars-185-188.md` | Post 122 | "The Red-Team Audit — Sensitivity, EP Guard, LHC Tensions, CKM Scaffold" — Pillars 185–188 |
+| `post-123-derivation-tier-v10-architecture.md` | Post 123 | "The Derivation Tier — What the Framework Actually Derives vs Scaffolds" — v10.0 two-tier architecture, Pillars 189-A/B/C/D |
+| `post-124-baryogenesis-and-neutrino-seesaw.md` | Post 124 | "Baryogenesis, Neutrino Masses, and the Seesaw — Three Sakharov Conditions From One Number" — Pillars 190–191 |
+| `post-125-stability-waves-v10-2.md` | Post 125 | "The Stability Waves — Ghost-Free Proof, Josephson Resonance, GW250114" — Pillars 192–199, SLA Manifesto |
+| `post-126-axiomzero-forward-chain.md` | Post 126 | "The AxiomZero Forward Chain — Computing α_s From {M_Pl, K_CS, n_w} Only" — Pillar 200 |
+| `post-127-sm-parameters-final-accounting.md` | Post 127 | "Standard Model Parameters: The Final Accounting — Pillars 201–208, TOE Score 42%" |
+| `post-128-axiomzero-guard-integrity.md` | Post 128 | "The AxiomZero Guard — Zero Violations, Three Falsification Conditions, One Honest Architecture" |
+
+### Source Documents for Posts 122–128
+
+| Document | Used in |
+|----------|---------|
+| `src/core/sensitivity_analysis.py` (Pillar 185) | Post 122 |
+| `src/core/equivalence_principle_guard.py` (Pillar 186) | Post 122 |
+| `src/core/lhc_kk_resonances.py` (Pillar 187) | Post 122 |
+| `src/core/ckm_scaffold_analysis.py` (Pillar 188) | Post 122 |
+| `src/core/scaffold_registry.py` | Post 123 |
+| `src/core/rge_running.py` (Pillar 189-A) | Post 123 |
+| `src/core/bulk_eigenvalues.py` (Pillar 189-B) | Post 123 |
+| `src/core/gw_stabilizer.py` (Pillar 189-C) | Post 123 |
+| `src/core/action_minimizer.py` (Pillar 189-D) | Post 123 |
+| `src/core/neutrino_winding.py` (Pillar 190) | Post 124 |
+| `src/core/sakharov_um_audit.py` (Pillar 191) | Post 124 |
+| `src/core/neutrino_symmetry.py` (Pillar 192) | Post 125 |
+| `src/core/josephson_resonance.py` (Pillar 195) | Post 125 |
+| `src/governance/resonance_audit.py` (Pillar 196) | Post 125 |
+| `src/core/sep_stress_energy_audit.py` (Pillar 197) | Post 125 |
+| `src/core/bmu_ghost_stability.py` (Pillar 198) | Post 125 |
+| `src/core/gw_polarization_constraints.py` (Pillar 199) | Post 125 |
+| `SLA_MANIFESTO.md` | Post 125 |
+| `src/core/pillar200_rge_geometric.py` (Pillar 200) | Post 126 |
+| `src/core/pillar201_higgs_vev_geometric.py` (Pillar 201) | Post 127 |
+| `src/core/pillar208_braid_lock_pmns.py` (Pillar 208) | Post 127 |
+| `FALLIBILITY.md` §VIII (ARCHITECTURE_LIMIT) | Post 127 |
+| `src/core/axiomzero_guard.py` | Post 128 |
+| `claims/cosmic_birefringence/claim.py` | Post 128 |
+| `claims/mp_me_ratio/claim.py` | Post 128 |
+| `docs/v10.4_release_notes.md` | Post 128 |
 
 ---
 
 *Series concept and content strategy: ThomasCory Walker-Pearson.*
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
-**132 pillars + sub-pillars. 17,438 tests. Pillar Ω synthesizes all. The sky will decide the rest.**
+**208 pillars. 23,524 tests. 0 failures. The sky will decide the rest.**
