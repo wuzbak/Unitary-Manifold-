@@ -105,6 +105,36 @@ implemented proactively in response.
 
 ---
 
+### Independent Parallel Peer Review — 2026-05-01 (v9.28)
+
+File: [`INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md`](INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)
+
+15 parallel investigation teams. Full test-suite execution, hand-verified
+mathematics, competitor model comparison, stress testing, and explicit
+prove/disprove verdicts on every major claim.
+
+---
+
+### Cross-Disciplinary Expert Review — 2026-05-02 (v9.28)
+
+File: [`CROSSDISCIPLINARY_PEER_REVIEW_2026-05-02.md`](CROSSDISCIPLINARY_PEER_REVIEW_2026-05-02.md)
+
+Multi-discipline adversarial review spanning physics, mathematics, and
+philosophy of science. Evaluates foundational assumptions, mathematical
+rigour, and inter-disciplinary coherence.
+
+---
+
+### Automated Peer Review
+
+File: [`AUTOMATED_PEER_REVIEW.md`](AUTOMATED_PEER_REVIEW.md)
+
+`parallel_validation` code review + CodeQL security scan output. Covers
+PR #189 (close three peer-review substantive issues). Automated adversarial
+review of each major claim flag raised during CI.
+
+---
+
 ## Repository Responses and Conclusions
 
 Location: [`RESPONSES/`](RESPONSES/)
@@ -116,7 +146,11 @@ Location: [`RESPONSES/`](RESPONSES/)
 
 | File | Version | Purpose |
 |------|---------|---------|
+| [`RESPONSES/REVIEW_CONCLUSION_v9.31.md`](RESPONSES/REVIEW_CONCLUSION_v9.31.md) | v9.31 | Adversarial review summary for v9.31 |
+| [`RESPONSES/REVIEW_CONCLUSION_v9.32.md`](RESPONSES/REVIEW_CONCLUSION_v9.32.md) | v9.32 | Adversarial review summary for v9.32 |
+| [`RESPONSES/REVIEW_CONCLUSION_v9.33.md`](RESPONSES/REVIEW_CONCLUSION_v9.33.md) | v9.33 | Gap Closure Arc II summary for v9.33 |
 | [`RESPONSES/REVIEW_CONCLUSION.md`](RESPONSES/REVIEW_CONCLUSION.md) | v9.27–v9.30 | First-pass formal review conclusions; issue tracking; initial honest accounting |
+| [`RESPONSES/SCAFFOLD_RESPONSE.md`](RESPONSES/SCAFFOLD_RESPONSE.md) | v9.39 | Repository response to the Red-Team Scaffold Critique (§III) |
 | [`RESPONSES/REVIEW_CONCLUSION_v10.1.md`](RESPONSES/REVIEW_CONCLUSION_v10.1.md) | v10.1 | Post-Gemini-RT-1 and RT-2 response; neutrino pillars; FALLIBILITY.md §V |
 | [`RESPONSES/REVIEW_CONCLUSION_Caltech_v10.2.md`](RESPONSES/REVIEW_CONCLUSION_Caltech_v10.2.md) | v10.2 | Caltech-level red-team audit response; SEP audit, ghost stability, GW250114 |
 | [`RESPONSES/FINAL_REVIEW_CONCLUSION.md`](RESPONSES/FINAL_REVIEW_CONCLUSION.md) | v9.27–v10.4 | Final consolidated review conclusion — written for everyone, not just physicists |

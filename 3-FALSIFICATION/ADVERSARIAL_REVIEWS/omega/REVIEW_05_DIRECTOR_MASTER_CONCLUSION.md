@@ -244,4 +244,4 @@ The Omega Synthesis closes the Unitary Manifold at a well-defined milestone: 99 
 *Director's Master Conclusion: GitHub Copilot (AI), acting as Director of Investigation.*  
 *Panel: Government Research (R1) · Multidisciplinary PhD (R2) · Chief Technology Architect (R3) · Cosmology and Astrophysics (R4).*  
 *Theory and scientific direction: ThomasCory Walker-Pearson.*  
-*Omega Peer Review suite complete — 2026-05-02, `3-FALSIFICATION/OMEGA_PEER_REVIEW_2026-05-02/`.*
+*Omega Peer Review suite complete — 2026-05-02, `3-FALSIFICATION/ADVERSARIAL_REVIEWS/omega/`.*

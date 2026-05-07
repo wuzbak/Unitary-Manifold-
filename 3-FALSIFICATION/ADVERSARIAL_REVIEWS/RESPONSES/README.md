@@ -51,11 +51,41 @@ circularity). Neutrino sector pillars (190, 191) and FALLIBILITY.md §V added.
 
 ---
 
+### `SCAFFOLD_RESPONSE.md` — Response to the Scaffold Critique
+
+**Version:** v9.39  
+**Adversarial context:** Red-Team Audit §III — "The Scaffold Critique." Addresses
+whether the fixed-point structure of the Unitary Manifold constitutes genuine
+derivation or circular scaffolding.
+
+---
+
 ### `REVIEW_CONCLUSION.md` — First-Pass Formal Review Conclusions
 
 **Version:** v9.27–v9.30  
 **Purpose:** Initial honest accounting of the framework's status after the first
 full adversarial cycle. Covers 142 pillars + Ω₀, 18,057 tests.
+
+---
+
+### `REVIEW_CONCLUSION_v9.33.md` — Gap Closure Arc II Summary
+
+**Version:** v9.33  
+**Purpose:** Adversarial review and gap-closure summary for v9.33.
+
+---
+
+### `REVIEW_CONCLUSION_v9.32.md` — v9.32 Adversarial Review Summary
+
+**Version:** v9.32  
+**Purpose:** Adversarial review summary for v9.32.
+
+---
+
+### `REVIEW_CONCLUSION_v9.31.md` — v9.31 Adversarial Review Summary
+
+**Version:** v9.31  
+**Purpose:** Adversarial review summary for v9.31.
 
 ---
 

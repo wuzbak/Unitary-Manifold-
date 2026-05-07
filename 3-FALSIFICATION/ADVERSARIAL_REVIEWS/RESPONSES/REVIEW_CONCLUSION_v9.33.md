@@ -101,7 +101,7 @@ Files updated:
 - `FALLIBILITY.md`: version v9.33, test count ~20,249, A_s entry → NATURALLY BOUNDED (Pillar 165)
 - `README.md`: badge → 20249 tests, version v9.33
 - `omega/omega_synthesis.py`: DEFAULT_VERSION → v9.33, N_PILLARS → 167, N_TESTS → 20,249
-- `3-FALSIFICATION/REVIEW_CONCLUSION_v9.33.md`: this document
+- `3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/REVIEW_CONCLUSION_v9.33.md`: this document
 
 ---
 
