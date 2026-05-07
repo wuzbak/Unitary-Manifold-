@@ -86,16 +86,16 @@ class TestConstants:
         assert abs(DELTA_CP_PMNS_GEO_DEG - expected) < 1e-10
 
     def test_sin2_TH12_geo(self):
-        # (n_w-1)/(3n_w) = 4/15
-        assert abs(SIN2_TH12_GEO - 4.0 / 15.0) < 1e-12
+        # Pillar 208 Braid-Lock: N_C/(N_C+n2) = 3/10
+        assert abs(SIN2_TH12_GEO - 3.0 / 10.0) < 1e-12
 
     def test_sin2_TH23_geo(self):
-        # 1/2 + 4/50 = 29/50
-        assert abs(SIN2_TH23_GEO - 29.0 / 50.0) < 1e-12
+        # Pillar 208 Braid-Lock: 1/2 + N_C/K_CS = 1/2 + 3/74
+        assert abs(SIN2_TH23_GEO - (0.5 + 3.0 / 74.0)) < 1e-12
 
     def test_sin2_TH13_geo(self):
-        # 1/(2×25) = 1/50
-        assert abs(SIN2_TH13_GEO - 1.0 / 50.0) < 1e-12
+        # Pillar 208 Braid-Lock: N_C/(n_w+n2)² = 3/144
+        assert abs(SIN2_TH13_GEO - 3.0 / 144.0) < 1e-12
 
     def test_SIN2_THETA_W_GUT(self):
         assert abs(SIN2_THETA_W_GUT - 3.0 / 8.0) < 1e-12
