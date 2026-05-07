@@ -77,7 +77,7 @@ DERIVED (from UM geometry alone, no PDG input):
   P15: η̄_CKM     — Unitarity triangle: η̄ = R_b sin δ (Pillar 87). 2.3 % accuracy.
   P25: δ_CP^PMNS — Sign-corrected orbifold phase: −(π−2π/n_w)=−108° (Pillar 86). 0.05σ.
 
-GEOMETRIC PREDICTION (< 5 % from PDG, no fitting):
+GEOMETRIC PREDICTION (<5% from PDG, no fitting):
   P13: A_CKM      — A = √(n₁/n₂) = √(5/7)
   P15: η̄_CKM      — R_b sin δ
   P22: sin²θ₁₂    — Pillar 208 Braid-Lock: N_C/(N_C+n₂)=3/10=0.300

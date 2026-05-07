@@ -10,7 +10,7 @@ Coverage:
   - All 28 SM parameters are present in the table
   - Derived parameters (α_em, λ_CKM, A_CKM, η̄_CKM, δ_CP^PMNS) match expected values
   - SU(5) conjecture (sin²θ_W, α_s) within sensible bounds
-  - PMNS mixing angle formulas (P22, P23, P24) match Pillar 208 braid-lock values
+  - PMNS mixing angle formulas (P22, P23, P24) match Pillar 208 Braid-Lock values
   - Neutrino Resolution A: self-consistency with Planck Σm_ν < 120 meV
   - TOE score: correct counts, honest assessment
   - Physical consistency: all geometric predictions physically sensible
