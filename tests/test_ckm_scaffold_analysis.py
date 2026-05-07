@@ -335,3 +335,170 @@ class TestPillar188Summary:
 
     def test_honest_conclusion_present(self):
         assert len(self.s["honest_conclusion"]) > 100
+
+
+# ---------------------------------------------------------------------------
+# Wave 4 tests — cs_cp_phase_correction and rhobar_self_consistent_geo
+# ---------------------------------------------------------------------------
+
+from src.core.ckm_scaffold_analysis import (
+    cs_cp_phase_correction,
+    rhobar_self_consistent_geo,
+)
+
+
+class TestCsPhaseCorrection:
+    """Tests for cs_cp_phase_correction() — Pillar 188 Wave 4."""
+
+    def setup_method(self):
+        self.r = cs_cp_phase_correction()
+
+    # --- required keys ---
+    def test_has_theta_wzw_deg(self):
+        assert "theta_wzw_deg" in self.r
+
+    def test_has_delta_geo_deg(self):
+        assert "delta_geo_deg" in self.r
+
+    def test_has_delta_corrected_deg(self):
+        assert "delta_corrected_deg" in self.r
+
+    def test_has_rhobar_corrected(self):
+        assert "rhobar_corrected" in self.r
+
+    def test_has_rhobar_pdg(self):
+        assert "rhobar_pdg" in self.r
+
+    def test_has_pct_err_corrected(self):
+        assert "pct_err_corrected" in self.r
+
+    def test_has_pct_err_original(self):
+        assert "pct_err_original" in self.r
+
+    def test_has_improvement(self):
+        assert "improvement" in self.r
+
+    def test_has_status(self):
+        assert "status" in self.r
+
+    # --- numerical accuracy ---
+    def test_theta_wzw_approx_71_08(self):
+        # arcsin(35/37) ≈ 71.08°
+        assert self.r["theta_wzw_deg"] == pytest.approx(71.08, abs=0.1)
+
+    def test_delta_geo_deg_is_72(self):
+        assert self.r["delta_geo_deg"] == pytest.approx(72.0, rel=1e-9)
+
+    def test_corrected_phase_equals_wzw(self):
+        assert self.r["delta_corrected_deg"] == pytest.approx(
+            self.r["theta_wzw_deg"], rel=1e-9
+        )
+
+    def test_rhobar_pdg_matches_constant(self):
+        assert self.r["rhobar_pdg"] == pytest.approx(0.159, rel=1e-6)
+
+    def test_rhobar_corrected_positive(self):
+        assert self.r["rhobar_corrected"] > 0.0
+
+    def test_pct_err_corrected_less_than_original(self):
+        # WZW correction should reduce (not worsen) the error
+        assert self.r["pct_err_corrected"] < self.r["pct_err_original"]
+
+    def test_improvement_is_true(self):
+        assert self.r["improvement"] is True
+
+    def test_status_says_geometric_estimate(self):
+        assert "GEOMETRIC ESTIMATE" in self.r["status"]
+
+    def test_status_is_string(self):
+        assert isinstance(self.r["status"], str)
+
+    def test_angles_in_valid_range(self):
+        # All angles should be between 0° and 360°
+        for key in ("theta_wzw_deg", "delta_geo_deg", "delta_corrected_deg"):
+            assert 0.0 < self.r[key] < 360.0
+
+    def test_pct_err_original_approx_27(self):
+        # Original error is ~27%; allow ±10 pp
+        assert 17.0 < self.r["pct_err_original"] < 37.0
+
+    def test_pct_err_corrected_below_30(self):
+        # Corrected should be better than original but still large
+        assert self.r["pct_err_corrected"] < 30.0
+
+
+class TestRhobarSelfConsistentGeo:
+    """Tests for rhobar_self_consistent_geo() — Pillar 188 Wave 4."""
+
+    def setup_method(self):
+        self.r = rhobar_self_consistent_geo()
+
+    # --- required keys ---
+    def test_has_rhobar_pure(self):
+        assert "rhobar_pure" in self.r
+
+    def test_has_etabar_pure(self):
+        assert "etabar_pure" in self.r
+
+    def test_has_rhobar_pdg(self):
+        assert "rhobar_pdg" in self.r
+
+    def test_has_etabar_pdg(self):
+        assert "etabar_pdg" in self.r
+
+    def test_has_pct_err_rho(self):
+        assert "pct_err_rho" in self.r
+
+    def test_has_pct_err_eta(self):
+        assert "pct_err_eta" in self.r
+
+    def test_has_j_geo(self):
+        assert "j_geo" in self.r
+
+    def test_has_status(self):
+        assert "status" in self.r
+
+    def test_has_r_b_geo(self):
+        assert "r_b_geo" in self.r
+
+    # --- numerical results ---
+    def test_rhobar_pure_positive(self):
+        assert self.r["rhobar_pure"] > 0.0
+
+    def test_etabar_pure_positive(self):
+        assert self.r["etabar_pure"] > 0.0
+
+    def test_etabar_within_5_pct_of_pdg(self):
+        # η̄ should still be good with pure-geo formula (~1.7% off)
+        assert self.r["pct_err_eta"] < 5.0
+
+    def test_rhobar_pdg_matches_constant(self):
+        assert self.r["rhobar_pdg"] == pytest.approx(0.159, rel=1e-6)
+
+    def test_etabar_pdg_matches_constant(self):
+        assert self.r["etabar_pdg"] == pytest.approx(0.348, rel=1e-6)
+
+    def test_delta_wzw_and_sub_agree(self):
+        # arcsin(35/37) ≈ 2·arctan(5/7) — should differ by < 0.05°
+        assert self.r["delta_agreement_deg"] < 0.05
+
+    def test_r_b_geo_computed_correctly(self):
+        # R_b = |V_ub_geo| / (A_geo × λ_geo³)
+        expected_r_b = self.r["v_ub_geo"] / (
+            self.r["a_geo"] * self.r["lambda_geo"] ** 3
+        )
+        assert self.r["r_b_geo"] == pytest.approx(expected_r_b, rel=1e-9)
+
+    def test_status_says_geometric_estimate(self):
+        status = self.r["status"]
+        assert "GEOMETRIC ESTIMATE" in status
+
+    def test_status_not_standalone_prediction(self):
+        # P14 must stay GEOMETRIC ESTIMATE — the status must say so explicitly
+        assert "GEOMETRIC ESTIMATE" in self.r["status"]
+
+    def test_j_geo_positive(self):
+        assert self.r["j_geo"] > 0.0
+
+    def test_k_cs_is_74(self):
+        assert self.r["k_cs"] == 74

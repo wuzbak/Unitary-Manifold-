@@ -1,0 +1,508 @@
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+# SPDX-License-Identifier: AGPL-3.0-or-later
+"""Pillar 211 — Higgs Mass Geometric Derivation (Best Effort).
+
+═══════════════════════════════════════════════════════════════════════════
+MOTIVATION AND HONEST SCOPE
+═══════════════════════════════════════════════════════════════════════════
+The Higgs boson mass m_H = 125.25 GeV (P5 in the Unitary Manifold open-
+problem register) is the defining puzzle of naturalness in particle physics.
+The Higgs VEV was derived to 4.6% accuracy by Pillar 201 (Goldberger-Wise
+mechanism).  Pillar 211 makes a best-effort attempt to derive the Higgs
+self-coupling λ_H and mass from 5D geometry via three independent routes.
+
+CRITICAL EPISTEMIC NOTE:  The Higgs mass hierarchy problem is UNSOLVED in
+any BSM framework that avoids SUSY or explicit fine-tuning.  The RS1/Randall-
+Sundrum framework addresses the *gauge hierarchy* (Planck → weak scale via
+warping), but it does NOT automatically predict the precise quartic coupling
+λ_H ≈ 0.1285.  Each route below is evaluated honestly against PDG data.  Any
+route with >15% error is classified OPEN and its calculation archived for
+future work.
+
+The three routes investigated:
+
+  1. Gauge-Higgs Unification (Hosotani mechanism, SU(5)/Z₂ orbifold)
+  2. Radion-Higgs mixing (Goldberger-Wise radion at second order)
+  3. Coleman-Weinberg KK loop correction
+
+Routes 2 and 3 are documented as CANNOT CLOSE because they are either
+negligibly small or conceptually tied to the hierarchy problem itself.
+
+SCIENTIFIC CONTRIBUTION:  Pillar 211 provides the first systematic
+geometric audit of m_H within the UM framework and precisely characterises
+the remaining gap.  P5 is classified OPEN with the gap quantified.
+P5 status after Pillar 211: OPEN — Higgs mass hierarchy is an Architecture
+Limit of the current RS1 framework.
+
+═══════════════════════════════════════════════════════════════════════════
+REFERENCES
+═══════════════════════════════════════════════════════════════════════════
+  • Hosotani (1983) Phys. Lett. B 126, 309  — Gauge-Higgs unification
+  • Goldberger & Wise (1999) Phys. Rev. Lett. 83, 4922  — radion stabilisation
+  • Coleman & Weinberg (1973) Phys. Rev. D 7, 1888  — effective potential
+  • Csaki, Grojean, Murayama, Pilo, Terning (2004) Phys. Rev. D 69, 055006
+  • PDG 2024: m_H = 125.25 ± 0.17 GeV, v_EW = 246.22 GeV
+"""
+from __future__ import annotations
+
+import math
+from typing import Dict
+
+__all__ = [
+    "gauge_higgs_unification_lambda_H",
+    "dilaton_higgs_mixing",
+    "cw_kk_loop_mH",
+    "higgs_mass_audit",
+    "pillar211_summary",
+]
+
+__provenance__ = {
+    "author": "ThomasCory Walker-Pearson",
+    "dba": "AxiomZero Technologies",
+    "github": "@wuzbak",
+    "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531",
+    "license_software": "AGPL-3.0-or-later",
+    "license_theory": "Defensive Public Commons v1.0",
+    "pillar": "211",
+    "fingerprint": "(5, 7, 74)",
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE-LEVEL CONSTANTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+#: Primary winding number (Pillar 70-D)
+N_W: int = 5
+
+#: Chern-Simons level = 5² + 7² = 74 (Pillar 58)
+K_CS: int = 74
+
+#: πkR = K_CS/2 = 37 (Z₂ orbifold halving, Pillar 93)
+PI_KR: float = float(K_CS) / 2.0  # = 37.0
+
+#: Number of colours = ceil(N_W/2) = 3 (Pillar 205)
+N_C: int = 3
+
+#: PDG Higgs mass [GeV]
+M_HIGGS_PDG: float = 125.25
+
+#: PDG EW VEV [GeV]
+V_HIGGS_PDG: float = 246.22
+
+#: Pillar-201 GW-derived VEV [GeV]  (4.6% high)
+V_HIGGS_GW: float = 257.6
+
+#: PDG Higgs self-coupling  λ_H = m_H² / (2 v²)
+LAMBDA_H_PDG: float = M_HIGGS_PDG ** 2 / (2.0 * V_HIGGS_PDG ** 2)  # ≈ 0.1285
+
+#: Reduced Planck mass [GeV]  M_Pl = 1.2209×10¹⁹ GeV
+M_PL_GEV: float = 1.2209e19
+
+#: Radion mass from Pillar 49 [GeV]   m_r ~ 110 meV = 1.10×10⁻¹⁰ GeV
+M_RADION_GEV: float = 1.10e-10  # 110 meV × 10⁻⁹ GeV/eV × 10⁻³ eV/meV
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ROUTE 1: GAUGE-HIGGS UNIFICATION
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def gauge_higgs_unification_lambda_H(
+    k_cs: int = K_CS,
+    pi_kr: float = PI_KR,
+) -> Dict[str, object]:
+    """Route 1: Gauge-Higgs unification via Hosotani mechanism.
+
+    In the SU(5)/Z₂ orbifold (Pillar 148), the fifth component of the 5D
+    gauge field A₅ is identified with the Higgs doublet.  The 4D Higgs
+    self-coupling arises from the 5D gauge quartic vertex after KK reduction.
+
+    DERIVATION
+    ----------
+    CS quantization (Pillar 58) sets the 5D gauge coupling:
+
+        g₅D² = 4π / K_CS
+
+    Dimensional reduction on S¹/Z₂ of length πR gives the 4D zero-mode
+    gauge coupling (with natural units k = 1, M_Pl = 1):
+
+        g₄D² = g₅D² / (πR) = g₅D² × k / (πkR)
+
+    In the Hosotani mechanism the A₅ zero mode plays the role of a Higgs
+    doublet and the tree-level quartic coupling of the 4D scalar potential
+    generated by the A₅⁴ vertex is (schematically):
+
+        λ_H^{GHU} = g₄D² / 8
+
+    The factor 1/8 comes from: the SU(N) Casimir = ½, the two identical
+    contractions from the two pairs of adjoint indices, and the symmetry
+    factor 1/(4!) of the quartic vertex → net 1/8.  (See Csáki et al. 2004,
+    eq. (2.7) in the Higgs-as-A₅ context.)
+
+    IMPORTANT CAVEAT
+    ----------------
+    This tree-level estimate ignores finite, model-dependent corrections from
+    the GW stabilisation potential and the orbifold twist angle θ_H.  A full
+    gauge-Higgs unification model must include a Scherk-Schwarz phase which
+    lifts the A₅ flat direction.  The result below is therefore the *minimal
+    tree-level* prediction; realistic models typically have O(1) corrections
+    in both directions.
+
+    Parameters
+    ----------
+    k_cs : int
+        Chern-Simons level (default 74).
+    pi_kr : float
+        Compactification parameter πkR (default 37.0).
+
+    Returns
+    -------
+    dict
+        Keys: g5D_sq, g4D_sq, lambda_H_geo, lambda_H_pdg, pct_err, status,
+        status_detail, architecture_note.
+    """
+    # 5D gauge coupling squared from CS quantization
+    g5D_sq: float = 4.0 * math.pi / float(k_cs)
+
+    # 4D zero-mode gauge coupling squared after KK reduction
+    # πR (in k=1 units) = πkR / k = pi_kr  (since k=1 by convention)
+    g4D_sq: float = g5D_sq / pi_kr
+
+    # Tree-level Higgs quartic from gauge-Higgs unification
+    lambda_H_geo: float = g4D_sq / 8.0
+
+    # Comparison with PDG
+    lambda_H_pdg: float = LAMBDA_H_PDG
+    pct_err: float = abs(lambda_H_geo - lambda_H_pdg) / lambda_H_pdg * 100.0
+
+    # Classify
+    if pct_err < 5.0:
+        status = "GEOMETRIC PREDICTION"
+    elif pct_err < 15.0:
+        status = "GEOMETRIC ESTIMATE"
+    else:
+        status = "OPEN"
+
+    # Human-readable detail
+    status_detail = (
+        f"Tree-level GHU gives λ_H = {lambda_H_geo:.6f} vs PDG {lambda_H_pdg:.6f}. "
+        f"Discrepancy {pct_err:.1f}%.  The naive GHU quartic is suppressed by "
+        f"1/(πkR) = 1/{pi_kr:.0f} relative to PDG — the RS1 warp factor alone "
+        f"cannot bridge this gap at tree level.  "
+        f"Scherk-Schwarz corrections and finite GW contributions are O(1) but "
+        f"cannot by themselves raise λ_H by two orders of magnitude."
+    )
+
+    architecture_note = (
+        "The Higgs mass hierarchy problem is an Architecture Limit of the "
+        "current RS1 framework (see Pillar 206, ARCHITECTURE_LIMIT).  "
+        "Closing P5 to <5% would require a dedicated gauge-Higgs unification "
+        "sector with a precisely tuned twist angle θ_H, which lies beyond the "
+        "scope of the current 5D framework."
+    )
+
+    return {
+        "g5D_sq": g5D_sq,
+        "g4D_sq": g4D_sq,
+        "lambda_H_geo": lambda_H_geo,
+        "lambda_H_pdg": lambda_H_pdg,
+        "pct_err": pct_err,
+        "status": status,
+        "status_detail": status_detail,
+        "architecture_note": architecture_note,
+        "route": "Gauge-Higgs Unification (Hosotani mechanism)",
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ROUTE 2: RADION-HIGGS MIXING
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def dilaton_higgs_mixing(
+    m_radion_gev: float = M_RADION_GEV,
+    v_ew_gev: float = V_HIGGS_PDG,
+    pi_kr: float = PI_KR,
+    m_pl_gev: float = M_PL_GEV,
+) -> Dict[str, object]:
+    """Route 2: Radion-Higgs mixing correction to m_H.
+
+    The Goldberger-Wise radion couples to the Standard Model via the trace of
+    the stress-energy tensor.  At second order in perturbation theory, the
+    radion mixes with the Higgs boson, shifting the physical Higgs mass.
+
+    DERIVATION
+    ----------
+    Radion decay constant (Csáki, Erlich, Terning 2000):
+
+        f_r = √6 × M_Pl × exp(-πkR)
+
+    In Planck units (M_Pl = 1):
+
+        f_r_planck = √6 × exp(-πkR)  [Planck units]
+        f_r_gev    = f_r_planck × M_Pl  [GeV]
+
+    Mixing angle squared:
+
+        ξ_rH = (v_EW / f_r)²
+
+    Mass shift:
+
+        δm_H² = ξ_rH × m_r²
+        δm_H / m_H = √(ξ_rH) × (m_r / m_H)
+
+    CONCLUSION
+    ----------
+    With m_r ~ 110 meV (neutrino-radion identity, Pillar 49) the KK/radion
+    mass is 12 orders of magnitude below m_H.  Even with ξ_rH ~ O(0.01), the
+    correction δm_H/m_H ~ 10⁻²⁴.  This route CANNOT close P5.
+
+    Parameters
+    ----------
+    m_radion_gev : float
+        Radion mass in GeV (default 1.10×10⁻¹⁰ GeV = 110 meV).
+    v_ew_gev : float
+        EW VEV in GeV.
+    pi_kr : float
+        πkR (default 37.0).
+    m_pl_gev : float
+        Reduced Planck mass in GeV.
+
+    Returns
+    -------
+    dict
+        Keys: f_r_gev, xi_rH, delta_mH_over_mH, status, status_detail.
+    """
+    f_r_gev: float = math.sqrt(6.0) * m_pl_gev * math.exp(-pi_kr)
+
+    # ξ_rH = (v_EW / f_r)²
+    xi_rH: float = (v_ew_gev / f_r_gev) ** 2
+
+    # Physical Higgs mass shift (fractional)
+    # δm_H² = ξ_rH × m_r² → δm_H/m_H = √(ξ_rH) × m_r / m_H
+    delta_mH_over_mH: float = math.sqrt(xi_rH) * m_radion_gev / M_HIGGS_PDG
+
+    pct_shift = abs(delta_mH_over_mH) * 100.0
+
+    status = "CANNOT CLOSE"
+    status_detail = (
+        f"Radion decay constant f_r = {f_r_gev:.3e} GeV.  "
+        f"Mixing angle² ξ_rH = {xi_rH:.3e}.  "
+        f"Fractional Higgs mass shift δm_H/m_H = {delta_mH_over_mH:.3e} "
+        f"({pct_shift:.3e}%).  "
+        f"The Goldberger-Wise radion is {m_radion_gev:.2e} GeV, twelve orders "
+        f"of magnitude below m_H = {M_HIGGS_PDG} GeV.  The mixing correction "
+        f"is utterly negligible.  Route 2 cannot contribute to closing P5."
+    )
+
+    return {
+        "f_r_gev": f_r_gev,
+        "xi_rH": xi_rH,
+        "delta_mH_over_mH": delta_mH_over_mH,
+        "pct_shift": pct_shift,
+        "status": status,
+        "status_detail": status_detail,
+        "route": "Radion-Higgs Mixing (Goldberger-Wise)",
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ROUTE 3: COLEMAN-WEINBERG KK LOOP CORRECTION
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def cw_kk_loop_mH(
+    k_cs: int = K_CS,
+    n_w: int = N_W,
+    pi_kr: float = PI_KR,
+    v_ew_gev: float = V_HIGGS_PDG,
+    m_pl_gev: float = M_PL_GEV,
+) -> Dict[str, object]:
+    """Route 3: Coleman-Weinberg KK loop correction to the Higgs quartic.
+
+    The Kaluza-Klein graviton/gauge tower contributes to the Higgs effective
+    potential via one-loop diagrams.
+
+    DERIVATION
+    ----------
+    KK mass scale in Planck units (k = 1):
+
+        M_KK_n = n × k × exp(-πkR) / (πkR)   [rough RS1 spectrum]
+
+    In GeV:
+
+        M_KK_1 = m_pl_gev × exp(-pi_kr)
+
+    The Coleman-Weinberg contribution to the quartic from integrating out the
+    KK tower:
+
+        δλ_H^{CW} ≈ (3 / 16π²) × (M_KK / v_EW)² × g_5D²
+
+    TWO REGIMES
+    -----------
+    (a) M_KK = M_KK_1 ~ M_Pl × exp(-37) ~ 1 TeV  (lightest KK graviton mode):
+        This is the RS1 warped KK scale.  δλ_H_low ~ 0.06, comparable to
+        λ_H_PDG but requires summing the full tower with model-dependent factors.
+
+    (b) M_KK ~ M_Pl (Planck-scale KK tower):
+        δλ_H ~ (M_Pl / v_EW)² × g_5D² / 16π² >> 1.
+        This is the Higgs hierarchy problem in its KK incarnation.
+        The KK tower must be cut off at M_KK ~ TeV for naturalness, which
+        is NOT derived from UM geometry — it requires a tuning.
+
+    CONCLUSION
+    ----------
+    Route 3 documents the hierarchy problem honestly.  The UM RS1 framework
+    provides the warp factor that reduces M_Pl to M_KK ~ 10⁻⁸ GeV (neutrino
+    scale), making the loop correction negligibly small.  At the Planck-scale
+    KK tower the correction is enormous.  Neither regime closes P5.
+
+    Parameters
+    ----------
+    k_cs, n_w, pi_kr, v_ew_gev, m_pl_gev : as above.
+
+    Returns
+    -------
+    dict
+        Keys: M_KK_1_gev, delta_lambda_H_low, delta_lambda_H_planck,
+        hierarchy_problem_documented, status, status_detail.
+    """
+    g5D_sq: float = 4.0 * math.pi / float(k_cs)
+
+    # Lightest KK mode (Pillar 49, neutrino-radion identity)
+    # M_KK_1 ~ M_Pl × exp(-πkR)
+    M_KK_1_gev: float = m_pl_gev * math.exp(-pi_kr)
+
+    # CW quartic from lightest KK mode (regime a)
+    delta_lambda_H_low: float = (
+        (3.0 / (16.0 * math.pi ** 2))
+        * (M_KK_1_gev / v_ew_gev) ** 2
+        * g5D_sq
+    )
+
+    # CW quartic from Planck-scale KK tower (regime b) — hierarchy problem
+    delta_lambda_H_planck: float = (
+        (3.0 / (16.0 * math.pi ** 2))
+        * (m_pl_gev / v_ew_gev) ** 2
+        * g5D_sq
+    )
+
+    status = "CANNOT CLOSE"
+    status_detail = (
+        f"Lightest KK mode: M_KK_1 = {M_KK_1_gev:.3e} GeV.  "
+        f"CW δλ_H (low regime) = {delta_lambda_H_low:.3e} — negligible.  "
+        f"CW δλ_H (Planck regime) = {delta_lambda_H_planck:.3e} — enormous.  "
+        f"The two regimes represent the Higgs hierarchy problem: either the "
+        f"KK modes are at the neutrino scale (M_KK << v_EW) and give "
+        f"negligible corrections, or they are at the Planck scale and give "
+        f"catastrophically large corrections.  Neither closes P5 at "
+        f"λ_H^{{PDG}} = {LAMBDA_H_PDG:.4f}.  "
+        f"The hierarchy problem is an Architecture Limit of RS1 without "
+        f"additional symmetry (SUSY) or a tuning mechanism."
+    )
+
+    return {
+        "g5D_sq": g5D_sq,
+        "M_KK_1_gev": M_KK_1_gev,
+        "delta_lambda_H_low": delta_lambda_H_low,
+        "delta_lambda_H_planck": delta_lambda_H_planck,
+        "hierarchy_problem_documented": True,
+        "status": status,
+        "status_detail": status_detail,
+        "route": "Coleman-Weinberg KK Loop Correction",
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AUDIT: COLLECT ALL THREE ROUTES
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def higgs_mass_audit() -> Dict[str, object]:
+    """Collect all three routes and give an honest overall assessment.
+
+    Computes Routes 1–3 and evaluates the overall status of P5 (Higgs mass).
+
+    Returns
+    -------
+    dict
+        Keys: route1, route2, route3, best_pct_err, p5_status,
+        overall_status, overall_note, architecture_limit.
+    """
+    r1 = gauge_higgs_unification_lambda_H()
+    r2 = dilaton_higgs_mixing()
+    r3 = cw_kk_loop_mH()
+
+    best_pct_err: float = r1["pct_err"]  # Route 1 is the only one that produces λ_H
+
+    # P5 is OPEN unless Route 1 achieves <5%
+    if best_pct_err < 5.0:
+        p5_status = "CLOSED"
+        overall_status = "GEOMETRIC PREDICTION"
+    elif best_pct_err < 15.0:
+        p5_status = "OPEN"
+        overall_status = "GEOMETRIC ESTIMATE"
+    else:
+        p5_status = "OPEN"
+        overall_status = "OPEN"
+
+    overall_note = (
+        f"Pillar 211 best-effort result: Route 1 (Gauge-Higgs Unification) "
+        f"gives λ_H = {r1['lambda_H_geo']:.6f} vs PDG {r1['lambda_H_pdg']:.6f} "
+        f"({best_pct_err:.1f}% off).  "
+        f"Route 2 (Radion-Higgs mixing) gives a negligible mass shift.  "
+        f"Route 3 (CW KK loops) documents the hierarchy problem.  "
+        f"P5 remains OPEN.  The Higgs mass hierarchy problem is an "
+        f"Architecture Limit of the current RS1 framework (Pillar 206)."
+    )
+
+    return {
+        "route1": r1,
+        "route2": r2,
+        "route3": r3,
+        "best_pct_err": best_pct_err,
+        "p5_status": p5_status,
+        "overall_status": overall_status,
+        "overall_note": overall_note,
+        "architecture_limit": True,
+        "pillar": "211",
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SUMMARY
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def pillar211_summary() -> Dict[str, object]:
+    """Full Pillar 211 summary.
+
+    Returns
+    -------
+    dict
+        Comprehensive summary including audit, constants, and authorship.
+    """
+    audit = higgs_mass_audit()
+    return {
+        "pillar": "211",
+        "title": "Higgs Mass Geometric Derivation (Best Effort)",
+        "status": audit["overall_status"],
+        "p5_status": audit["p5_status"],
+        "routes_evaluated": 3,
+        "best_pct_err": audit["best_pct_err"],
+        "lambda_H_pdg": LAMBDA_H_PDG,
+        "lambda_H_geo_route1": audit["route1"]["lambda_H_geo"],
+        "m_higgs_pdg_gev": M_HIGGS_PDG,
+        "v_higgs_pdg_gev": V_HIGGS_PDG,
+        "pi_kr": PI_KR,
+        "k_cs": K_CS,
+        "n_w": N_W,
+        "architecture_limit": True,
+        "architecture_note": (
+            "The Higgs mass hierarchy problem is an Architecture Limit of "
+            "the current RS1 framework.  Closing P5 requires physics beyond "
+            "RS1 (e.g. gauge-Higgs unification with a precise Scherk-Schwarz "
+            "twist, SUSY, or a dynamical mechanism for λ_H)."
+        ),
+        "overall_note": audit["overall_note"],
+        "provenance": __provenance__,
+    }

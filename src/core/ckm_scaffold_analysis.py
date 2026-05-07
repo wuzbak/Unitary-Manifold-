@@ -157,6 +157,9 @@ __all__ = [
     "j_with_consistent_geometry",
     "mixing_angle_topological_barrier",
     "sm_comparison",
+    # CP phase corrections (Wave 4)
+    "cs_cp_phase_correction",
+    "rhobar_self_consistent_geo",
     # Verdict
     "scaffold_verdict",
     "pillar188_summary",
@@ -653,6 +656,219 @@ def scaffold_verdict() -> Dict[str, object]:
             "The scaffold is a genuine discovery in the topological sector and "
             "an honest constrained parametrization in the metric sector.  "
             "Calling it 'just a spreadsheet' would equally condemn the Standard Model."
+        ),
+    }
+
+
+def cs_cp_phase_correction(
+    n_w: int = 5, n1: int = 5, n2: int = 7, k_cs: int = 74
+) -> Dict[str, object]:
+    """Compute the Chern-Simons phase correction to the CKM CP phase.
+
+    The CS action at level K_CS contributes a topological phase to the
+    winding holonomy.  The (5,7) braid creates a phase:
+
+        θ_WZW = arcsin(ρ) where ρ = 2n₁n₂/K_CS = 70/74 = 35/37
+
+    The WZW mixing angle: θ_WZW = arcsin(35/37) ≈ 71.08°
+
+    The topological CP phase correction from the CS sector:
+        Δδ_CP = θ_WZW - 2π/n_w = arcsin(35/37) - 72° ≈ -0.92°
+
+    The corrected CKM CP phase:
+        δ_CKM_corrected = 2π/n_w + Δδ_CP = arcsin(35/37) ≈ 71.08°
+
+    Recompute ρ̄ with corrected δ using geometric CKM parameters:
+        λ_CKM = sqrt(m_d/m_s) ≈ 0.2236  (DERIVED from quark masses)
+        A_CKM = sqrt(n1/n2) = sqrt(5/7)  (GEOMETRIC PREDICTION)
+        |V_ub| = sqrt(m_u/m_t) ≈ 3.538e-3 (RS wavefunction ratio, Pillar 87)
+
+    Compare to PDG ρ̄ = 0.159.
+
+    Parameters
+    ----------
+    n_w : int
+        Number of winding modes (default 5).
+    n1, n2 : int
+        Braid strand numbers (default 5, 7).
+    k_cs : int
+        Chern-Simons level (default 74).
+
+    Returns
+    -------
+    dict
+        'theta_wzw_deg'       — arcsin(35/37) in degrees
+        'delta_geo_deg'       — 2π/n_w × 180/π in degrees
+        'delta_corrected_deg' — corrected CP phase (= theta_wzw_deg)
+        'rhobar_corrected'    — corrected ρ̄
+        'rhobar_pdg'          — PDG 0.159
+        'pct_err_corrected'   — % error of corrected formula
+        'pct_err_original'    — % error of original formula (~27%)
+        'improvement'         — True if corrected is closer to PDG
+        'status'              — honest assessment
+    """
+    # WZW mixing angle from (n1, n2) braid and CS level
+    rho_param = 2 * n1 * n2 / k_cs          # = 70/74 = 35/37 ≈ 0.9459
+    theta_wzw_rad = math.asin(rho_param)
+    theta_wzw_deg = math.degrees(theta_wzw_rad)
+
+    # Original geometric CP phase
+    delta_geo_rad = 2.0 * math.pi / n_w
+    delta_geo_deg = math.degrees(delta_geo_rad)
+
+    # Corrected phase = WZW angle (the correction replaces the naive 2π/n_w)
+    delta_corrected_rad = theta_wzw_rad
+    delta_corrected_deg = theta_wzw_deg
+
+    # Geometric CKM parameters (Pillar 87/88 / Pillar 184)
+    m_d_MeV   = 4.67          # PDG current-quark mass (MeV)
+    m_s_MeV   = 93.4          # PDG current-quark mass (MeV)
+    m_u_MeV   = 2.16          # PDG current-quark mass (MeV)
+    m_t_MeV   = 172_760.0     # PDG top mass (MeV)
+
+    lambda_geo = math.sqrt(m_d_MeV / m_s_MeV)     # ≈ 0.2236
+    a_geo      = math.sqrt(n1 / n2)                # = sqrt(5/7) ≈ 0.8452
+    v_ub_geo   = math.sqrt(m_u_MeV / m_t_MeV)     # ≈ 3.538e-3
+
+    # Unitarity triangle radius R_b (pure geometry)
+    r_b_geo = v_ub_geo / (a_geo * lambda_geo ** 3)
+
+    # ρ̄ with corrected phase
+    rhobar_corrected = r_b_geo * math.cos(delta_corrected_rad)
+
+    # Original ρ̄ (geometric, leading-order — R_b × cos(2π/n_w))
+    rhobar_original = r_b_geo * math.cos(delta_geo_rad)
+
+    # PDG reference
+    rhobar_pdg = RHO_BAR_PDG  # 0.159
+
+    pct_err_corrected = abs(rhobar_corrected - rhobar_pdg) / rhobar_pdg * 100.0
+    pct_err_original  = abs(rhobar_original  - rhobar_pdg) / rhobar_pdg * 100.0
+
+    improvement = pct_err_corrected < pct_err_original
+
+    return {
+        "theta_wzw_deg":       theta_wzw_deg,
+        "delta_geo_deg":       delta_geo_deg,
+        "delta_corrected_deg": delta_corrected_deg,
+        "rhobar_corrected":    rhobar_corrected,
+        "rhobar_pdg":          rhobar_pdg,
+        "pct_err_corrected":   pct_err_corrected,
+        "pct_err_original":    pct_err_original,
+        "improvement":         improvement,
+        "status": (
+            f"GEOMETRIC ESTIMATE — CS/WZW correction reduces error from "
+            f"~{pct_err_original:.1f}% to ~{pct_err_corrected:.1f}% but ρ̄ "
+            f"remains outside 5%.  P14 status unchanged: "
+            f"GEOMETRIC ESTIMATE (not PREDICTION)."
+        ),
+    }
+
+
+def rhobar_self_consistent_geo(
+    n_w: int = 5, n1: int = 5, n2: int = 7
+) -> Dict[str, object]:
+    """Compute ρ̄ using a fully self-consistent pure-geometric formula.
+
+    Pillar 188 diagnosed a "Layer 1 inconsistency": the standard computation
+    mixes PDG |V_ub| with geometric δ, inflating the Jarlskog invariant J.
+
+    This function uses ALL quantities from pure geometry:
+        λ_CKM = sqrt(m_d/m_s)          [DERIVED — mass ratio, Pillar 87]
+        A_CKM = sqrt(n1/n2) = sqrt(5/7) [GEOMETRIC PREDICTION]
+        δ_CKM = arcsin(2n1n2/K_CS)     [TOPOLOGICAL — WZW/CS angle]
+        |V_ub_geo| = sqrt(m_u/m_t)     [RS wavefunction ratio, Pillar 87]
+
+    The WZW and sub-leading formulas agree:
+        δ_wzw = arcsin(2×5×7/74) = arcsin(35/37) ≈ 71.08°
+        δ_sub = 2·arctan(5/7)              ≈ 71.07°
+
+    Parameters
+    ----------
+    n_w : int
+        Winding number (default 5, unused directly but validates context).
+    n1, n2 : int
+        Braid strand numbers (default 5, 7).
+
+    Returns
+    -------
+    dict
+        Full self-consistent computation with honest status.
+    """
+    k_cs = N1 ** 2 + N2 ** 2           # = 25 + 49 = 74 (canonical K_CS)
+
+    # Quark masses (PDG, MeV) used as RS input — the formula is geometric
+    m_d_MeV = 4.67
+    m_s_MeV = 93.4
+    m_u_MeV = 2.16
+    m_t_MeV = 172_760.0
+
+    # Pure-geometric CKM parameters
+    lambda_geo = math.sqrt(m_d_MeV / m_s_MeV)     # ≈ 0.2236
+    a_geo      = math.sqrt(n1 / n2)                # = sqrt(5/7) ≈ 0.8452
+    v_ub_geo   = math.sqrt(m_u_MeV / m_t_MeV)     # ≈ 3.538e-3
+
+    # WZW / CS topological CP phase
+    rho_param       = 2 * n1 * n2 / k_cs           # = 70/74 = 35/37
+    delta_wzw_rad   = math.asin(rho_param)
+    delta_wzw_deg   = math.degrees(delta_wzw_rad)
+
+    # Sub-leading geometric phase (cross-check; should match δ_wzw closely)
+    delta_sub_rad   = 2.0 * math.atan2(n1, n2)
+    delta_sub_deg   = math.degrees(delta_sub_rad)
+
+    # Unitarity triangle side R_b (pure geometry)
+    r_b_geo = v_ub_geo / (a_geo * lambda_geo ** 3)
+
+    # Wolfenstein ρ̄ and η̄ (pure-geometric)
+    rhobar_pure = r_b_geo * math.cos(delta_wzw_rad)
+    etabar_pure = r_b_geo * math.sin(delta_wzw_rad)
+
+    # Jarlskog invariant (pure-geometric)
+    # J = λ⁴ A² ρ̄ η̄  (standard Wolfenstein relation)
+    j_geo = lambda_geo ** 4 * a_geo ** 2 * rhobar_pure * etabar_pure
+
+    # PDG references
+    rhobar_pdg = RHO_BAR_PDG   # 0.159
+    etabar_pdg = ETA_BAR_PDG   # 0.348
+
+    pct_err_rho = abs(rhobar_pure - rhobar_pdg) / rhobar_pdg * 100.0
+    pct_err_eta = abs(etabar_pure - etabar_pdg) / etabar_pdg * 100.0
+    pct_err_j   = abs(j_geo - J_PDG) / J_PDG * 100.0
+
+    return {
+        # Inputs
+        "n_w":             n_w,
+        "n1":              n1,
+        "n2":              n2,
+        "k_cs":            k_cs,
+        # Geometric parameters
+        "lambda_geo":      lambda_geo,
+        "a_geo":           a_geo,
+        "v_ub_geo":        v_ub_geo,
+        "r_b_geo":         r_b_geo,
+        # CP phase choices
+        "delta_wzw_deg":   delta_wzw_deg,
+        "delta_sub_deg":   delta_sub_deg,
+        "delta_agreement_deg": abs(delta_wzw_deg - delta_sub_deg),
+        # Wolfenstein outputs
+        "rhobar_pure":     rhobar_pure,
+        "etabar_pure":     etabar_pure,
+        "rhobar_pdg":      rhobar_pdg,
+        "etabar_pdg":      etabar_pdg,
+        "pct_err_rho":     pct_err_rho,
+        "pct_err_eta":     pct_err_eta,
+        # Jarlskog
+        "j_geo":           j_geo,
+        "j_pdg":           J_PDG,
+        "pct_err_j":       pct_err_j,
+        # Honest assessment
+        "status": (
+            f"GEOMETRIC ESTIMATE — ρ̄ is {pct_err_rho:.1f}% from PDG (>5.0% "
+            f"threshold for PREDICTION); η̄ is {pct_err_eta:.1f}% from PDG (good).  "
+            f"P14 remains GEOMETRIC ESTIMATE.  Self-consistent geometry closes the "
+            f"Layer 1 inconsistency but a structural Layer 2 gap persists until a "
+            f"discrete flavor symmetry fixes the metric sector."
         ),
     }
 
