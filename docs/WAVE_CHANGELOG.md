@@ -13,6 +13,47 @@ For each wave entry, include:
 
 ---
 
+## v10.7.2 (W1–W6 execution initialization)
+
+### What changed
+- Added Wave ledgers for execution steps 1–6:
+  - `docs/MAS_W1_LEDGER.md`
+  - `docs/MAS_W2_LEDGER.md`
+  - `docs/MAS_W3_LEDGER.md`
+  - `docs/MAS_W4_LEDGER.md`
+  - `docs/MAS_W5_LEDGER.md`
+  - `docs/MAS_W6_LEDGER.md`
+- Updated `docs/mas_tracker.yml` to:
+  - attach `ledger` links to W1–W6,
+  - move W3–W6 from `planned` to `active`,
+  - stamp W3–W6 `started: 2026-05-07`.
+
+### What did not change
+- No parameter status changed.
+- No TOE score changed.
+- No open gap was relabeled as closed.
+
+### Why
+- Execute the direct instruction to proceed with steps 1–6 while preserving hard-gate,
+  anti-inflation, and epistemic-separation constraints.
+
+### Epistemic label deltas
+- **None**.
+
+### TOE score delta
+- **No change**.
+
+### Falsification impact
+- No falsifier removed or weakened.
+- All wave ledgers keep explicit hard-gate and falsifier-preserving language.
+
+### Residual unknowns
+- P3 closure remains pending WS-D evidence.
+- P5 closure/architecture-limit decision remains pending WS-F evidence.
+- P6–P8/P16, P14, P19–P21, P26/P27 remain pending gate-complete artifacts.
+
+---
+
 ## v10.7.1 (W0 lock + W1/W2 launch)
 
 ### What changed
