@@ -1,11 +1,15 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v9.36 — Unambiguous Record**  
+**The Unitary Manifold v10.6 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
 > Nothing is hidden; nothing is overclaimed.  Where a gap exists, it is named.
+>  
+> **Live-ledger note (anti-staleness):** For the latest wave-level status, treat
+> `STATUS.md`, `FALLIBILITY.md`, and `src/core/sm_free_parameters.py` as canonical.
+> Historical sections in this document are preserved for audit traceability.
 
 ---
 
@@ -35,7 +39,7 @@ Throughout this document and this repository:
 | Holographic entropy S = A/4G | **ASSUMED** | Standard AdS/CFT; not derived from UM geometry | Violation of holographic bound | `src/holography/boundary.py` |
 | FTUM fixed-point convergence | **DERIVED** | Banach fixed-point theorem applied to U = I+H+T | Non-convergence | `src/multiverse/fixed_point.py` |
 | φ₀ self-consistency (Pillar 56) | **CLOSED** | Three φ₀ candidates collapse to single value under c_s-corrected slow-roll | ≠ machine precision agreement | `src/core/phi0_closure.py` |
-| Full ADM 3+1 time decomposition | **OPEN** | `evolution.py` uses Ricci-flow parameter, not coordinate time x⁰; Pillar 41 provides partial correction Ω(φ)=1/φ. Full 3+1 decomposition not yet implemented. See FALLIBILITY.md §III. | — | Pillar 41 / `src/core/delay_field.py` (partial) |
+| Full ADM 3+1 time decomposition | **PARTIALLY_CLOSED** | Pillar 212 closes the kinematic gap at the FTUM attractor (N(φ₀)=1, dt_coord=dt_Ricci=dt_ADM). Full off-attractor 5D ADM dynamics and quantization remain open. | — | Pillar 212 / `src/core/pillar212_adm_decomposition.py` |
 
 ---
 
@@ -139,7 +143,7 @@ This apparent contradiction is resolved as follows — B_μ and the photon are *
 | SU(3)×SU(2) from higher-dimensional extension | **CLOSED — Pillar 70-D** | Kawamura Z₂ mechanism derived from n_w=5 KK species count. See `src/core/nw5_pure_theorem.py::sm_gauge_group_from_5d()`. |
 | Canonical quantisation of φ | OPEN | Hamiltonian analysis of the radion sector |
 | CMB acoustic peak shapes (Boltzmann) | OPEN (partial) | Full Boltzmann integration beyond the current KK correction δ_KK |
-| Full ADM 3+1 decomposition (time parameterization) | **OPEN** | Full ADM 3+1 decomposition of the 5D evolution equations; Pillar 41 provides partial correction factor Ω(φ) = 1/φ. See FALLIBILITY.md §III. |
+| Full ADM 3+1 decomposition (time parameterization) | **PARTIALLY_CLOSED** | Kinematic closure at the FTUM attractor is proved by Pillar 212; full inhomogeneous 5D ADM dynamics/quantization remains OPEN. |
 | η-invariant class uniqueness for n_w = 5 | **CLOSED — Pillar 70-D** | Z₂-odd CS boundary phase condition: k_CS(n_w)×η̄(n_w) = odd integer. n_w=5: 74×½=37 (odd ✓). n_w=7: 130×0=0 (even ✗). Pure theorem. See `src/core/nw5_pure_theorem.py`. |
 
 ---

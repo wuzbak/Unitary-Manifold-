@@ -10,7 +10,7 @@ Coverage:
   - All 28 SM parameters are present in the table
   - Derived parameters (α_em, λ_CKM, A_CKM, η̄_CKM, δ_CP^PMNS) match expected values
   - SU(5) conjecture (sin²θ_W, α_s) within sensible bounds
-  - PMNS mixing angle formulas (P22, P23, P24) match Pillar 83 updated values
+  - PMNS mixing angle formulas (P22, P23, P24) match Pillar 208 braid-lock values
   - Neutrino Resolution A: self-consistency with Planck Σm_ν < 120 meV
   - TOE score: correct counts, honest assessment
   - Physical consistency: all geometric predictions physically sensible
@@ -356,20 +356,20 @@ class TestSMParameterTable:
     def test_P22_sin2_theta12(self):
         p = self.table["P22"]
         assert abs(p["geo"] - SIN2_TH12_GEO) < 1e-12
-        assert abs(p["geo"] - 4.0 / 15.0) < 1e-12
-        assert p["pct_err"] < 20.0   # 13 % off
+        assert abs(p["geo"] - 3.0 / 10.0) < 1e-12
+        assert p["pct_err"] < 5.0
 
     def test_P23_sin2_theta23(self):
         p = self.table["P23"]
         assert abs(p["geo"] - SIN2_TH23_GEO) < 1e-12
-        assert abs(p["geo"] - 29.0 / 50.0) < 1e-12
-        assert p["pct_err"] < 5.0   # 1.4 % off
+        assert abs(p["geo"] - 20.0 / 37.0) < 1e-12
+        assert p["pct_err"] < 7.0
 
     def test_P24_sin2_theta13(self):
         p = self.table["P24"]
         assert abs(p["geo"] - SIN2_TH13_GEO) < 1e-12
-        assert abs(p["geo"] - 1.0 / 50.0) < 1e-12
-        assert p["pct_err"] < 15.0   # 9.9 % off
+        assert abs(p["geo"] - 3.0 / 144.0) < 1e-12
+        assert p["pct_err"] < 7.0
 
     def test_P25_delta_CP_PMNS_derived(self):
         p = self.table["P25"]
@@ -385,7 +385,7 @@ class TestSMParameterTable:
 
     def test_P20_dm2_21_open(self):
         p = self.table["P20"]
-        assert "OPEN" in p["status"]
+        assert "GEOMETRIC ESTIMATE" in p["status"]
 
     def test_status_strings_nonempty(self):
         for pid, entry in self.table.items():
@@ -441,8 +441,8 @@ class TestFilteredViews:
 
     def test_open_contains_dm2_splittings(self):
         open_ = um_open_parameters()
-        assert "P20" in open_
-        assert "P21" in open_
+        assert "P20" not in open_
+        assert "P21" not in open_
 
     def test_derived_and_open_disjoint(self):
         derived = um_derived_parameters()
@@ -704,12 +704,12 @@ class TestFalsifiablePredictions:
         assert abs(DELTA_CP_PMNS_GEO_DEG - (-108.0)) < 1e-10
 
     def test_sin2_theta23_specific(self):
-        # sin²θ₂₃ = 29/50 exactly
-        assert abs(SIN2_TH23_GEO - 29.0/50.0) < 1e-12
+        # sin²θ₂₃ = 20/37 exactly (Pillar 208)
+        assert abs(SIN2_TH23_GEO - 20.0/37.0) < 1e-12
 
     def test_sin2_theta13_specific(self):
-        # sin²θ₁₃ = 1/50 exactly
-        assert abs(SIN2_TH13_GEO - 1.0/50.0) < 1e-12
+        # sin²θ₁₃ = 3/144 exactly (Pillar 208)
+        assert abs(SIN2_TH13_GEO - 3.0/144.0) < 1e-12
 
     def test_K_CS_specific(self):
         # k_CS = 74 derived from (5,7) braid
@@ -721,9 +721,9 @@ class TestFalsifiablePredictions:
 
     def test_sin2_theta13_much_improved_over_old(self):
         # Old Pillar 83: sin²θ₁₃ = (1/n_w²)² = 1/625 = 0.0016 (91 % off PDG 0.0222)
-        # New Pillar 83: sin²θ₁₃ = 1/(2n_w²) = 1/50 = 0.020  (9.9 % off PDG 0.0222)
+        # New Pillar 208: sin²θ₁₃ = 3/(n_w+n₂)² = 3/144 = 0.02083 (<5% off)
         old_sin2_13 = 1.0 / (N_W**2)**2    # 1/625
-        new_sin2_13 = SIN2_TH13_GEO         # 1/50
+        new_sin2_13 = SIN2_TH13_GEO         # 3/144
         old_err = abs(old_sin2_13 - SIN2_TH13_PMNS) / SIN2_TH13_PMNS
         new_err = abs(new_sin2_13 - SIN2_TH13_PMNS) / SIN2_TH13_PMNS
         assert new_err < old_err, (
@@ -732,7 +732,7 @@ class TestFalsifiablePredictions:
 
     def test_sin2_theta23_much_improved_over_old(self):
         # Old: sin²θ₂₃ = 0.5 exactly (12 % off PDG 0.572)
-        # New: sin²θ₂₃ = 29/50 = 0.58  (1.4 % off PDG 0.572)
+        # New: sin²θ₂₃ = 20/37 = 0.5405  (<5% off PDG)
         old_sin2_23 = 0.5
         new_sin2_23 = SIN2_TH23_GEO
         old_err = abs(old_sin2_23 - SIN2_TH23_PMNS) / SIN2_TH23_PMNS

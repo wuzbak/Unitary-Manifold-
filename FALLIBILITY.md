@@ -2101,7 +2101,7 @@ subsequent closures, the UM status is:
 | P2 | sin²θ_W | 0.23122 | ✅ DERIVED | SU(5) from n_w=5 (Pillar 70-D) + RGE — CLOSED |
 | P3 | α_s | 0.1180 | ⚠️ CONSISTENCY CHECK | SU(5) unification + upward RGE from PDG α_s(M_Z) reaches α_GUT_geo=3/74 within 45.6% (Pillar 189-A). Pure geometric forward chain (Pillar 200): α_s(M_EW_geo)≈0.030 vs PDG 0.118 — factor-~4 Warp-Anchor Gap. Closure via Pillar 182 (AdS/QCD) or Pillar 201 (geometric GW VEV). |
 | P4 | v (Higgs VEV) | 246.22 GeV | ✅ GEOMETRIC PREDICTION | **Pillar 201:** v_GW = M_KK × √(N_c)/n₂ = M_KK × √3/7 ≈ 257.6 GeV — 4.6% off PDG 246.22 GeV; AxiomZero compliant (no SM input). |
-| P5 | m_H | 125.25 GeV | ✅ DERIVED | FTUM quartic λ_H=n_w²/(2k_CS) + 1-loop top RGE correction → 124–125 GeV (< 1% accuracy, Pillar 134) |
+| P5 | m_H | 125.25 GeV | ⚠️ OPEN (ARCHITECTURE LIMIT) | Pillars 211 and 216 show RS1/GHU/CW routes do not close λ_H at the required level inside current architecture; retained as open with explicit architecture-limit label. |
 | P6 | m_u | 2.16 MeV | ⚠️ FITTED | Universal 5D Yukawa Ŷ₅=1 (Pillar 97); reduce to 1 input via GW vacuum profile |
 | P7 | m_d | 4.67 MeV | ⚠️ FITTED | Same as P6; λ_CKM = √(m_d/m_s) derived, absolute scale needs Ŷ₅ anchor |
 | P8 | m_s | 93.4 MeV | ⚠️ FITTED | Constrained by λ_CKM ratio; absolute scale from Ŷ₅ anchor |
@@ -2111,14 +2111,14 @@ subsequent closures, the UM status is:
 | P15 | η̄_CKM | 0.348 | ✅ GEOMETRIC | R_b sin δ — 2.3% accuracy — CLOSED |
 | P16 | m_e | 0.511 MeV | ⚠️ FITTED | Lepton Yukawa scale; reduce via universal Ŷ₅=1 from GW profile |
 | P19 | m_ν₁ | < 40 meV | ⚠️ CONSTRAINED | c_R = 23/25 THEOREM (Pillar 143 orbifold); c_L^phys ≈ 0.961 from RGE consistency (Pillar 144); Σm_ν < 120 meV ✓ |
-| P20 | Δm²₂₁ | 7.53×10⁻⁵ eV² | ⚠️ CONSTRAINED | RS Dirac zero-mode: braid ratio m_ν₂/m_ν₁=√35; Δm²₃₁/Δm²₂₁=36 (10% off PDG 32.6, Pillar 135) |
-| P21 | Δm²₃₁ | 2.45×10⁻³ eV² | ⚠️ CONSTRAINED | RS Dirac: Δm²₃₁ = 36×Δm²₂₁ (10% accuracy); Σm_ν=62.5 meV < 120 meV ✓ (Pillar 135) |
+| P20 | Δm²₂₁ | 7.53×10⁻⁵ eV² | ⚠️ GEOMETRIC ESTIMATE | Braid/RS hierarchy gives Δm²₃₁/Δm²₂₁≈36 (about 10% from PDG 32.6); estimate-level status retained pending <5% closure. |
+| P21 | Δm²₃₁ | 2.45×10⁻³ eV² | ⚠️ GEOMETRIC ESTIMATE | Same ratio-driven estimate as P20; quantitative closure requires derived c_{Rν_i} spectrum at <5% level. |
 | P22 | sin²θ₁₂ | 0.307 | ✅ GEOMETRIC PREDICTION | **Pillar 208 Braid-Lock:** sin²θ₁₂ = N_c/(N_c+n₂) = 3/10 = 0.300 — 2.3% off PDG. AxiomZero compliant. Formulas found by geometric search; rigorous Dirac-on-Hopf derivation pending. |
 | P25 | δ_CP^PMNS | −107° | ✅ DERIVED | Orbifold phase −(π−2π/n_w) = −108° (0.05σ) — CLOSED |
-| P28 | G_N | 6.674×10⁻¹¹ | ⚠️ INPUT | UV boundary condition; M_Pl from RS compactification but not derived from scratch |
+| P28 | G_N | 6.674×10⁻¹¹ | ⚠️ DIMENSIONAL SCALE | Pillar 217 derives M₅=(2/K_CS)^(1/3)M_Pl and reclassifies G_N from free input to dimensional scale-setting constant. |
 
-**Summary:** 5 fully derived (P1, P2, P5, P12, P25), 6 geometric predictions < 5% (P4, P13, P15, P22, P23, P24), 3 geometric constrained estimates (P14, P20, P21), 8 fitted/open/input (P6–P8, P16, P19, P28), 1 consistency check (P3).
-Zero-parameter TOE score: **42% (11/26)** — updated by Pillar 201 (P4: Higgs VEV geometric, v10.4) and Pillar 208 (P22: sin²θ₁₂ Braid-Lock, v10.4).
+**Summary (v10.6 sync):** P5 is OPEN (Architecture Limit), P20/P21 are GEOMETRIC ESTIMATE, and P28 is DIMENSIONAL SCALE.  
+Zero-parameter TOE score remains **42% (11/26)** — no score inflation.
 
 The path to a complete zero-parameter TOE requires:
 1. Prove universal 5D Yukawa Ŷ₅=1 for all sectors from the GW vacuum profile (reduces ~8 fitted to ~1)
