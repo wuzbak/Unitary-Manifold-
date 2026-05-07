@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.4 — Effective 2026-05-06*  
-*Pillar set: 208 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 200–208 = v10.3–v10.4 Near Closure arc)*
+*Unitary Manifold v10.6 — Effective 2026-05-07*  
+*Pillar set: 217 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 213–217 = v10.6 MAS Wave Plan)*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an
@@ -85,6 +85,8 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.6 | MAS Wave Plan — Braid c_L spectrum, RS neutrino spectrum, ρ̄ q-deform, Higgs CW limit, G_N derivation | 213–217 | +427 | 2026-05-07 |
+| v10.5 | First-Principles Advance — Universal Yukawa BC, neutrino splittings, Higgs mass audit, ADM decomposition | 209–212 | +353 | 2026-05-06 |
 | v10.4 | Near Closure — AxiomZero guard, Braid-Lock PMNS, Architecture Limit, claims/ benchmarks, DAM archived | 201–208 + axiomzero_guard | +196 | 2026-05-06 |
 | v10.3 | AxiomZero RGE Forward Chain + FALLIBILITY §VII P3 reclassification | 200 | +103 | 2026-05-06 |
 | v10.2 | Caltech Red-Team Audit + Josephson + Resonance Audit + SEP/Ghost/GW | 192–199 | +338 | 2026-05-06 |
@@ -139,6 +141,8 @@ for the full tracking table.
 | 190–199 | v10.1–v10.2: neutrino winding, Sakharov audit, neutrino symmetry, Josephson, resonance, SEP, ghost stability, GW polarization | ✅ CLOSED |
 | 200 | v10.3: AxiomZero RGE geometric forward chain | ✅ CLOSED |
 | 201–208 | v10.4: Higgs VEV geometric, m_p/m_e lattice-free, KK metric feedback, topological c_L, generation quantization, cosmological constant Architecture Limit, DAM lattice audit, Braid-Lock PMNS | ✅ CLOSED |
+| 209–212 | v10.5: Universal Yukawa BC (Ŷ₅=1 proved), neutrino mass splittings (10% ratio), Higgs mass audit (ARCHITECTURE LIMIT confirmed), ADM §III kinematic gap closed | ✅ CLOSED |
+| 213–217 | v10.6: Braid c_L spectrum (sub-leading CS corrections), RS Dirac neutrino spectrum (Σmν<120 meV from geometry), ρ̄ q-deformation (δ=68.52°≈PDG), Higgs CW Architecture Limit, G_N=DIMENSIONAL SCALE | ✅ CLOSED |
 
 ### Special Modules
 
