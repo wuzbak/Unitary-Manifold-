@@ -33,12 +33,13 @@ the braided-winding mechanism.
 
 | File | Purpose |
 |------|---------|
+| [**ADVERSARIAL_REVIEWS/**](ADVERSARIAL_REVIEWS/README.md) | **📁 Consolidated adversarial reviews folder — all adversarial/panel review rounds (Omega, IAS-posture, Stream B, Gemini RT-3) and repository responses/conclusions, clearly separated by type** |
 | [**ADVERSARIAL_PEER_REVIEW_2026-05-04.md**](ADVERSARIAL_PEER_REVIEW_2026-05-04.md) | **Adversarial peer review (May 2026, v9.30) — external-referee posture (IAS/Cambridge/Caltech level); claim-by-claim breakdown; explicit severity ratings; full falsification register and path-to-publication requirements** |
 | [**INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md**](INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md) | Independent adversarial review (May 2026, v9.28) — 15 parallel investigation teams, full test-suite execution, hand-verified mathematics, competitor comparison, stress testing; explicit prove/disprove verdicts |
 | [`AUTOMATED_PEER_REVIEW.md`](AUTOMATED_PEER_REVIEW.md) | Automated adversarial review of each major claim |
 | [`REVIEW_CONCLUSION.md`](REVIEW_CONCLUSION.md) | First-pass review conclusions with issue tracking |
 | [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Final consolidated review conclusion |
-| [`BIG_QUESTIONS.md`](BIG_QUESTIONS.md) | The ten most important open questions whose resolution would change the status of the theory |
+| [`BIG_QUESTIONS.md`](BIG_QUESTIONS.md) | The big questions the framework addresses — Q1–Q38 + adversarial round summary (v1.7, May 2026) |
 
 ---
 
@@ -68,6 +69,22 @@ The following results would falsify the framework:
 
 None of these would merely "revise" the framework — they would falsify its
 core inflation prediction.
+
+---
+
+## Adversarial Reviews Folder
+
+The [`ADVERSARIAL_REVIEWS/`](ADVERSARIAL_REVIEWS/README.md) subfolder
+consolidates all adversarial review rounds in one place, with a clear
+separation between:
+
+- **Adversarial / external reviews** — AI reviewers operating under instructions
+  to challenge or disprove the framework (Omega 5-panel, IAS-posture,
+  Stream B internal, Gemini Red Team 3).
+
+- **Repository responses and conclusions** — the repository's own understanding,
+  the formal scientific conclusion at each version milestone, and how each
+  challenge was resolved or absorbed. These live in `ADVERSARIAL_REVIEWS/RESPONSES/`.
 
 ---
 
