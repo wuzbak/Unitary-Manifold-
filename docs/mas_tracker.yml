@@ -12,6 +12,8 @@ waves:
   - id: "W0"
     name: "Setup/Audit"
     status: "active"
+    owner: "Team C (Integrity + Integration)"
+    ledger: "docs/MAS_W0_LEDGER.md"
     gate_artifacts:
       - "baseline_status_freeze"
       - "acceptance_thresholds"
@@ -19,27 +21,40 @@ waves:
       - "red_team_rubric"
   - id: "W1"
     name: "Foundations"
-    status: "planned"
+    status: "active"
+    owner: "Team A (Closure Math)"
+    started: "2026-05-07"
   - id: "W2"
     name: "Flavor_CP"
-    status: "planned"
+    status: "active"
+    owner: "Team A (Closure Math)"
+    started: "2026-05-07"
   - id: "W3"
     name: "Strong_Sector"
     status: "planned"
+    owner: "Team B (Foundations + Ladder)"
   - id: "W4"
     name: "Open_Parameters"
     status: "planned"
+    owner: "Team B (Foundations + Ladder)"
   - id: "W5"
     name: "Architecture_Extension"
     status: "planned"
+    owner: "Team B (Foundations + Ladder)"
   - id: "W6"
     name: "Integration"
     status: "planned"
+    owner: "Team C (Integrity + Integration)"
+
+integration_checkpoint:
+  cadence: "W1/W2 parallel with weekly integration checkpoint"
+  next_checkpoint: "2026-05-14"
 
 workstreams:
   WS-A:
     title: "Exact fermion mass closure"
     scope: ["P6", "P7", "P8", "P16"]
+    owner: "Team A"
     objective: "Derive c_L spectrum and eliminate fitted absolute Yukawa anchors."
     deliverables:
       - "closed_form_cL_spectrum"
@@ -48,6 +63,7 @@ workstreams:
   WS-B:
     title: "Neutrino sector closure"
     scope: ["P19", "P20", "P21"]
+    owner: "Team A"
     objective: "Derive c_{Rnu_i} and close neutrino observables to <5%."
     deliverables:
       - "cRnu_derivation_module"
@@ -56,6 +72,7 @@ workstreams:
   WS-C:
     title: "CKM rhobar closure"
     scope: ["P14"]
+    owner: "Team A"
     objective: "Derive delta_CKM correction and reduce residual below 5%."
     deliverables:
       - "delta_ckm_correction_artifact"
@@ -64,6 +81,7 @@ workstreams:
   WS-D:
     title: "alpha_s forward-chain closure"
     scope: ["P3"]
+    owner: "Team B"
     objective: "Remove Warp-Anchor factor gap with unified geometric forward chain."
     deliverables:
       - "single_source_forward_chain"
@@ -72,6 +90,7 @@ workstreams:
   WS-E:
     title: "Open parameters hardening"
     scope: ["P26", "P27"]
+    owner: "Team B"
     objective: "Define, derive if possible, otherwise certify architecture-bound status."
     deliverables:
       - "parameter_definitions"
@@ -80,11 +99,17 @@ workstreams:
   WS-F:
     title: "Higgs architecture extension"
     scope: ["P5"]
+    owner: "Team B"
     objective: "Run controlled extension bake-off and select minimal viable path."
     deliverables:
       - "extension_design_memo"
       - "go_no_go_theorems"
       - "selected_extension_branch_plan"
+
+governance:
+  director: "Human Director"
+  integrity_release_owner: "Team C"
+  status_promotion_policy: "blocked_without_hard_gate_evidence"
 
 parameter_gates:
   P3:
