@@ -56,7 +56,7 @@ class TestModuleConstants:
         assert M_TAU_MEV == pytest.approx(1776.86, rel=1e-4)
 
     def test_pdg_top_order_of_magnitude(self):
-        # top quark ~ 172 760 MeV
+        # top quark ~ 172_760 MeV
         assert 1.7e5 < M_T_MEV < 1.8e5
 
     def test_pdg_mass_hierarchy(self):
@@ -186,6 +186,10 @@ class TestYukawaUvBcProof:
     def test_argument3_all_in_physical_range(self):
         arg3 = self.result["argument_3_winding_consistency"]
         assert arg3["all_in_physical_range"] is True
+        # Also verify the actual values directly
+        for key in ["lepton_c_L_gen0", "lepton_c_L_gen1", "lepton_c_L_gen2"]:
+            c = arg3[key]
+            assert 0.5 < c < 1.5, f"{key}={c} not in (0.5, 1.5)"
 
     def test_argument3_c_L_values_in_range(self):
         arg3 = self.result["argument_3_winding_consistency"]

@@ -60,9 +60,9 @@ For n_w=5 and generation index gen=0,1,2 (first=lightest, third=heaviest):
 
     Leptons:       c_{Le}=0.9,  c_{Lμ}=0.8,  c_{Lτ}=0.7
     Down-quarks:   c_{Ld}=0.9,  c_{Ls}=0.8,  c_{Lb}=0.7
-    Up-quarks:     c_{Lu}=0.9,  c_{Lc}=0.8,  c_{Lt}=0.5  (top: IR-localised)
+    Up-quarks:     c_{Lu}=0.9,  c_{Lc}=0.8,  c_{Lt}=0.5  (top: IR-localized)
 
-The top quark is special: being the heaviest fermion, it must be IR-localised
+The top quark is special: being the heaviest fermion, it must be IR-localized
 (c_L → 0.5 limit), which is what gen=5 in the formula gives when extended to
 the IR fixed point.  These winding-quantized values are APPROXIMATE — they set
 the correct ORDER OF MAGNITUDE for each sector.  The exact values from Pillar
@@ -180,18 +180,23 @@ _PDG_MASSES_MEV: Dict[str, float] = {
     "top":      M_T_MEV,
 }
 
-# Winding-quantized c_L for each fermion (sector, generation index 0=lightest)
-# Generation index goes 0→lightest, 2→heaviest within each sector
+# Winding-quantized c_L for each fermion (sector, generation index 0-indexed SM gen)
+# SM generations use gen=1,2,3 (gen=0 gives the UV fixed point c_L=1.0).
+# c_{L,gen} = 0.5 + (n_w - gen) / (2 * n_w) for n_w=5:
+#   gen=1 → 0.9 (first SM generation, lightest in sector)
+#   gen=2 → 0.8 (second SM generation)
+#   gen=3 → 0.7 (third SM generation, heaviest in sector)
+# Top quark is IR-localized (c_L → 0.5 limit).
 _WINDING_CL: Dict[str, float] = {
-    "electron": 0.9,    # lepton gen 0
-    "muon":     0.8,    # lepton gen 1
-    "tau":      0.7,    # lepton gen 2
-    "up":       0.9,    # up-quark gen 0
-    "down":     0.9,    # down-quark gen 0
-    "strange":  0.8,    # down-quark gen 1
-    "charm":    0.8,    # up-quark gen 1
-    "bottom":   0.7,    # down-quark gen 2
-    "top":      0.5,    # up-quark gen 2, IR-localised
+    "electron": 0.9,    # lepton gen 1 (c = 0.5 + (5-1)/(2*5) = 0.9)
+    "muon":     0.8,    # lepton gen 2
+    "tau":      0.7,    # lepton gen 3
+    "up":       0.9,    # up-quark gen 1
+    "down":     0.9,    # down-quark gen 1
+    "strange":  0.8,    # down-quark gen 2
+    "charm":    0.8,    # up-quark gen 2
+    "bottom":   0.7,    # down-quark gen 3
+    "top":      0.5,    # up-quark gen 3 (IR-localized, IR fixed point)
 }
 
 
@@ -341,24 +346,27 @@ def c_L_from_winding_quantization(
 
         c_{L,gen} = ½ + (n_w − gen) / (2 n_w)
 
-    where gen=0 is the lightest fermion in the sector.
+    where gen=0 gives the UV fixed point c_L=1.0 (no SM fermion).  The three
+    SM generations use gen=1 (lightest), gen=2, gen=3 (heaviest), giving
+    c_L = 0.9, 0.8, 0.7 for n_w=5.  This function is general: ``generation``
+    is the index into the winding formula (0-based), so pass gen=1 for the
+    lightest SM fermion.
 
-    The top quark is special: it is IR-localised (c_L → 0.5) because it is
-    the heaviest up-type fermion.  For gen=2 in the up-quark sector, the
-    winding formula gives 0.7, but the physical value is 0.5 (IR fixed point).
-    This function implements the standard formula for all sectors; the top
-    special case is handled in ``fermion_mass_predictions``.
+    The top quark is special: it is IR-localized (c_L → 0.5) because it is
+    the heaviest up-type fermion.  Its special c_L=0.5 is assigned directly
+    in ``_WINDING_CL``; this function implements the standard formula.
 
     Parameters
     ----------
-    generation : int   Generation index (0 = lightest, 2 = heaviest).
+    generation : int   Generation index in [0, n_w).  gen=1,2,3 map to the
+                       three SM generations (lightest to heaviest).
     n_w        : int   Winding number.  Default: 5.
     sector     : str   One of "lepton", "up", "down".  Default: "lepton".
 
     Returns
     -------
     float
-        c_L value for that generation and sector.
+        c_L value: 0.5 + (n_w − generation) / (2 n_w).
 
     Raises
     ------
