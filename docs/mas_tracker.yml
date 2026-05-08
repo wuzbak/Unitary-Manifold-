@@ -832,3 +832,31 @@ v10_22_batch:
     after: 17.6
     before_pct: "63%"
     after_pct: "63%"
+
+v10_23_batch:
+  date: "2026-05-08"
+  version: "v10.23"
+  deliverables:
+    FIVE_TIER_EXECUTION_FRAMEWORK:
+      title: "Implemented five-tier execution framework (operating model, tier packages, evidence pipeline, throughput plan)"
+      artifact: "src/core/five_tier_execution_framework.py"
+      test: "tests/test_five_tier_execution_framework.py"
+      status: "DELIVERED"
+      governance:
+        mas_reopen_allowed: false
+        recycle_into_mas_allowed: false
+        promotion_policy: "hardgate_only"
+      tier_priority_order: ["Tier-1", "Tier-2", "Tier-3", "Tier-4", "Tier-5"]
+      parallel_execution_group: ["Tier-2", "Tier-3"]
+      evidence_pipeline:
+        canonical_status_ledger: "docs/mas_tracker.yml"
+        regression_required: true
+      throughput:
+        rule: "one_tier_package_per_pr_with_integration_after_every_2_to_3_tier_prs"
+        next_three_prs: ["PR-1", "PR-2", "PR-3"]
+      note: "Control-plane implementation only; no parameter status promotion or ToE score inflation claimed."
+  toe_score:
+    before: 17.6
+    after: 17.6
+    before_pct: "63%"
+    after_pct: "63%"
