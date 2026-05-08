@@ -87,8 +87,8 @@ class TestTargetsAndUplift:
     def test_uplift_bounds(self):
         uplift = projected_toe_uplift_bounds()
         assert uplift["tier_1_to_4_upper_bound"] == pytest.approx(3.4, abs=1e-9)
-        assert uplift["tier_5_assumed_uplift"] == pytest.approx(0.0, abs=1e-9)
-        assert uplift["all_tiers_upper_bound"] == pytest.approx(3.4, abs=1e-9)
+        assert uplift["tier_5_upper_bound"] == pytest.approx(0.0, abs=1e-9)
+        assert uplift["tier_1_to_5_upper_bound"] == pytest.approx(3.4, abs=1e-9)
 
 
 class TestProgrammeSummary:
@@ -117,4 +117,3 @@ class TestProgrammeSummary:
         assert s["mas_reopen_allowed"] is False
         assert s["unique_target_parameter_count"] == 12
         assert "hardgates" in s["note"].lower()
-

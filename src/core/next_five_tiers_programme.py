@@ -147,11 +147,15 @@ def projected_toe_uplift_bounds() -> Dict[str, float]:
         "Tier-4": 1.2,  # P7..P10: 0.5 -> 0.8 each
         "Tier-5": 0.0,  # mechanism deepening, no assumed status promotion
     }
-    total_upper_bound = sum(uplift_by_tier.values())
+    tier_1_to_4_upper_bound = sum(
+        uplift_by_tier[tier_id]
+        for tier_id in ("Tier-1", "Tier-2", "Tier-3", "Tier-4")
+    )
+    tier_1_to_5_upper_bound = tier_1_to_4_upper_bound + uplift_by_tier["Tier-5"]
     return {
-        "tier_1_to_4_upper_bound": round(total_upper_bound, 3),
-        "tier_5_assumed_uplift": uplift_by_tier["Tier-5"],
-        "all_tiers_upper_bound": round(total_upper_bound, 3),
+        "tier_1_to_4_upper_bound": round(tier_1_to_4_upper_bound, 3),
+        "tier_5_upper_bound": round(uplift_by_tier["Tier-5"], 3),
+        "tier_1_to_5_upper_bound": round(tier_1_to_5_upper_bound, 3),
     }
 
 
@@ -182,4 +186,3 @@ def programme_summary() -> Dict:
             "All tiers preserve MAS closure and require hardgates for any status promotion."
         ),
     }
-
