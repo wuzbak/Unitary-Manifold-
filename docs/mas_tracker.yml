@@ -1,4 +1,4 @@
-version: "v10.16"
+version: "v10.17"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -567,3 +567,68 @@ post_mas_tracks:
         status: "PASS_FREEZE"
         post_freeze_action: "frozen"
         recycle_into_mas: false
+
+v10_17_batch:
+  date: "2026-05-08"
+  version: "v10.17"
+  deliverables:
+    DS-1:
+      title: "README/STATUS/FALLIBILITY version sync"
+      status: "DELIVERED"
+      note: "Badges and version strings updated to v10.17."
+    P16_CERT:
+      title: "P16 OPEN -> GEOMETRIC_ESTIMATE_CERTIFIED"
+      parameter: "P16"
+      artifact: "src/sixd/solar_splitting_6dplus.py"
+      test: "tests/test_sixd_solar_splitting_6dplus.py"
+      status: "DELIVERED"
+      previous_status: "OPEN"
+      new_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      toe_delta: 0.3
+    P28_CERT:
+      title: "P28 OPEN -> ARCHITECTURE_LIMIT_CERTIFIED(10D)"
+      parameter: "P28"
+      artifact: "src/tend/cc_architecture_limit.py"
+      test: "tests/test_tend_cc_architecture_limit.py"
+      status: "DELIVERED"
+      previous_status: "OPEN"
+      new_status: "ARCHITECTURE_LIMIT_CERTIFIED(10D)"
+      toe_delta: 0.1
+    P12_UPGRADE:
+      title: "P12 CONSTRAINED -> GEOMETRIC_PREDICTION"
+      parameter: "P12"
+      artifact: "src/core/mp_me_geometric_prediction.py"
+      test: "tests/test_core_mp_me_geometric_prediction.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+    P4_UPGRADE:
+      title: "P4 CONSTRAINED -> GEOMETRIC_PREDICTION"
+      parameter: "P4"
+      artifact: "src/core/sin2_theta_w_geometric.py"
+      test: "tests/test_core_sin2_theta_w_geometric.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+    ALPHA_GUT_DERIVATION:
+      title: "alpha_GUT = N_c/K_CS — POSTULATED -> DERIVED FROM 5D CS ACTION"
+      artifact: "src/core/alpha_gut_cs_derivation.py"
+      test: "tests/test_core_alpha_gut_cs_derivation.py"
+      status: "DELIVERED"
+    DESI_MONITOR:
+      title: "DESI Year 3 monitoring harness"
+      artifact: "src/core/desi_year3_monitor.py"
+      test: "tests/test_core_desi_year3_monitor.py"
+      status: "DELIVERED"
+    BOT_RAG:
+      title: "bot/ RAG Q&A endpoint scaffold"
+      artifact: "bot/rag_index.py"
+      test: "tests/test_bot_rag_index.py"
+      status: "DELIVERED"
+  toe_score:
+    before: 14.2
+    after: 15.2
+    before_pct: "51%"
+    after_pct: "54%"
