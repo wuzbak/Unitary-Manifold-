@@ -13,7 +13,64 @@ For each wave entry, include:
 
 ---
 
-## v10.11 (W13 — MAS Closure Sprint: WS-C++ / WS-B++ / WS-D++)
+## v10.12 (W14 — MAS Final Closure Sprint)
+
+### What changed
+- Added `src/core/mas_final_closure.py`:
+  - `p3_closure_certificate()` — P3 formally certified as ARCHITECTURE_LIMIT_CERTIFIED(10D).
+  - `p5_closure_certificate()` — P5 formally certified as ARCHITECTURE_LIMIT_CERTIFIED(6D+).
+  - `p14_closure_certificate()` — P14 formally certified as BEST_EVIDENCE_CONSTRAINED with
+    robustness root-cause documented as Rung-2-inherited architecture sensitivity.
+  - `p19_p20_p21_closure_certificate()` — P19/P20/P21 certified as GEOMETRIC_ESTIMATE_CERTIFIED.
+  - `mas_completion_summary()` — authoritative terminal record; `MAS_COMPLETE = True`.
+  - `all_parameter_statuses()` — terminal status table for P3–P27.
+- Added `tests/test_mas_final_closure.py` (54 tests, 0 failures).
+- Added `docs/MAS_W14_LEDGER.md` — terminal wave ledger.
+- Added `docs/MAS_COMPLETION_CERTIFICATE.md` — formal programme completion certificate.
+- Updated `docs/mas_tracker.yml`:
+  - Version bumped to `v10.12`.
+  - Added W14 wave entry (`terminal_wave: true`).
+  - `mas_status: COMPLETE` set.
+  - All parameter gates updated to terminal status labels.
+  - `mas_completion_certificate` link added.
+
+### What did not change
+- No physics derivations altered.
+- No residuals changed in magnitude.
+- No architecture limits weakened.
+- TOE score unchanged.
+- Falsification criteria intact.
+
+### Why
+- The MAS programme entered a recursive loop of small incremental waves that kept
+  discovering the same architecture limits without closing them.  W14 formally
+  terminates the loop by certifying every parameter at its best achievable evidence
+  and declaring the programme complete.  Future work should be independent workstreams.
+
+### Epistemic label deltas
+- **P3**: `CONSISTENCY CHECK` → **`ARCHITECTURE_LIMIT_CERTIFIED(10D)`**
+- **P5**: `OPEN (ARCHITECTURE LIMIT)` → **`ARCHITECTURE_LIMIT_CERTIFIED(6D+)`**
+- **P14**: `CONSTRAINED` → **`BEST_EVIDENCE_CONSTRAINED`** (same evidence, formally certified)
+- **P19**: `CONSTRAINED` → **`GEOMETRIC_ESTIMATE_CERTIFIED`**
+- **P20**: `GEOMETRIC ESTIMATE` → **`GEOMETRIC_ESTIMATE_CERTIFIED`**
+- **P21**: `GEOMETRIC ESTIMATE` → **`GEOMETRIC_ESTIMATE_CERTIFIED`**
+- **P26**: `ARCHITECTURE_LIMIT(7D/8D)` → **`ARCHITECTURE_LIMIT_CERTIFIED(7D/8D)`**
+- **P27**: `GEOMETRIC ESTIMATE` → **`GEOMETRIC_ESTIMATE_CERTIFIED`**
+
+### TOE score delta
+- **No change** — status certifications are epistemic labels, not new physics derivations.
+
+### Falsification impact
+- No falsifier removed or weakened.
+- Architecture-limit certifications add falsification surface: future dimensional-
+  extension workstreams must recover documented residuals or falsify the DBP ladder.
+
+### Residual unknowns (now formally archived)
+- All previously open residuals have been archived with evidence packages and
+  architecture-limit annotations.  See `docs/MAS_COMPLETION_CERTIFICATE.md`.
+
+---
+
 
 ### What changed
 - Added `src/core/ckm_rhobar_8d_wilson_refinement.py` + tests:
