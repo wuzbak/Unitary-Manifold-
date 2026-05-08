@@ -807,3 +807,28 @@ v10_21_batch:
     after: 17.6
     before_pct: "61%"
     after_pct: "63%"
+
+v10_22_batch:
+  date: "2026-05-08"
+  version: "v10.22"
+  deliverables:
+    NEXT_FIVE_TIERS_PROGRAMME:
+      title: "Machine-readable next five independent tiers programme (post-v10.21)"
+      artifact: "src/core/next_five_tiers_programme.py"
+      test: "tests/test_next_five_tiers_programme.py"
+      status: "DELIVERED"
+      governance:
+        mas_reopen_allowed: false
+        anti_recycle_rule: "no_recycle_into_mas_waves"
+      tier_targets:
+        Tier-1: ["P3", "P5"]
+        Tier-2: ["P17", "P18"]
+        Tier-3: ["P19", "P20"]
+        Tier-4: ["P7", "P8", "P9", "P10"]
+        Tier-5: ["P27", "P28"]
+      note: "Planning scaffold only; no status promotion claimed without hardgate evidence."
+  toe_score:
+    before: 17.6
+    after: 17.6
+    before_pct: "63%"
+    after_pct: "63%"
