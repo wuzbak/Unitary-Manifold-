@@ -41,6 +41,7 @@ __all__ = [
     "DBP_LADDER_STATUS",
     "ROBUSTNESS_TRACK_STATUS",
     "EXTENSION_TRACK_STATUS",
+    "WS_EXECUTION_PROGRAMME_STATUS",
     "ARCHITECTURE_LIMITS",
     # Functions
     "get_parameter_status",
@@ -306,6 +307,32 @@ EXTENSION_TRACK_STATUS: Dict[str, Dict] = {
 }
 
 # ---------------------------------------------------------------------------
+# Independent WS-I..WS-IV execution programme status (post freeze)
+# ---------------------------------------------------------------------------
+WS_EXECUTION_PROGRAMME_STATUS: Dict[str, Dict] = {
+    "WS-II": {
+        "status": "PASS_FREEZE",
+        "post_freeze_action": "frozen",
+        "recycle_into_mas": False,
+    },
+    "WS-III": {
+        "status": "TARGETED_FOLLOW_UP_FREEZE",
+        "post_freeze_action": "open_targeted_workstream_ticket",
+        "recycle_into_mas": False,
+    },
+    "WS-I": {
+        "status": "TARGETED_FOLLOW_UP_FREEZE",
+        "post_freeze_action": "open_targeted_workstream_ticket",
+        "recycle_into_mas": False,
+    },
+    "WS-IV": {
+        "status": "TARGETED_FOLLOW_UP_FREEZE",
+        "post_freeze_action": "open_targeted_workstream_ticket",
+        "recycle_into_mas": False,
+    },
+}
+
+# ---------------------------------------------------------------------------
 # Architecture limits (frozen record)
 # ---------------------------------------------------------------------------
 ARCHITECTURE_LIMITS: Dict[str, Dict] = {
@@ -453,6 +480,14 @@ def scope_freeze_summary() -> Dict:
         "SOLID" in v["status"] or "CERTIFIED" in v["status"]
         for v in DBP_LADDER_STATUS.values()
     )
+    ws_programme_pass_count = sum(
+        1 for v in WS_EXECUTION_PROGRAMME_STATUS.values()
+        if v["status"] == "PASS_FREEZE"
+    )
+    ws_programme_targeted_count = sum(
+        1 for v in WS_EXECUTION_PROGRAMME_STATUS.values()
+        if v["status"] == "TARGETED_FOLLOW_UP_FREEZE"
+    )
 
     return {
         "scope_version": SCOPE_VERSION,
@@ -468,6 +503,12 @@ def scope_freeze_summary() -> Dict:
         "dbp_all_solid_or_certified": dbp_all_solid,
         "robustness_tracks_complete": robustness_complete,
         "extension_tracks_complete": extension_complete,
+        "ws_execution_programme_count": len(WS_EXECUTION_PROGRAMME_STATUS),
+        "ws_execution_pass_freeze_count": ws_programme_pass_count,
+        "ws_execution_targeted_follow_up_freeze_count": ws_programme_targeted_count,
+        "ws_execution_no_mas_recycle": all(
+            not v["recycle_into_mas"] for v in WS_EXECUTION_PROGRAMME_STATUS.values()
+        ),
         "architecture_limits_count": len(ARCHITECTURE_LIMITS),
         "scope_frozen": is_scope_frozen(),
         "primary_falsifier": (

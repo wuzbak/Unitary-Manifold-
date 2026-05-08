@@ -182,6 +182,23 @@ Scope is now frozen. MAS remains closed. No further waves required.**
 
 ---
 
+## WS-I..WS-IV execution programme (independent, not MAS)
+
+**Umbrella tracker artifact:** `docs/WS_I_IV_EXECUTION_PROGRAMME_ISSUE.md`  
+**Execution order:** WS-II → WS-III → WS-I → WS-IV  
+**Policy:** Binary freeze per stream (`PASS_FREEZE` or `TARGETED_FOLLOW_UP_FREEZE`), no recycle into MAS.
+
+| Workstream | Parameter(s) | Frozen outcome |
+|---|---|---|
+| WS-II | P14, P15 | `PASS_FREEZE` |
+| WS-III | P19, P20, P21 | `TARGETED_FOLLOW_UP_FREEZE` |
+| WS-I | P5 | `TARGETED_FOLLOW_UP_FREEZE` |
+| WS-IV | P3 | `TARGETED_FOLLOW_UP_FREEZE` |
+
+This execution programme is complete and remains outside MAS governance loops.
+
+---
+
 ## Hard Stop Rules (per post_mas_tracks governance)
 
 1. No extension track reopens MAS.

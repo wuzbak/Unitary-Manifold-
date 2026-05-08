@@ -7,6 +7,7 @@ import pytest
 
 from src.core.dimensional_extension_roadmap import (
     WORKSTREAM_CATALOGUE,
+    execution_freeze_status,
     get_workstream,
     list_workstreams,
     readiness_check,
@@ -239,3 +240,24 @@ class TestRoadmapSummary:
     def test_workstream_ids_sorted(self):
         s = roadmap_summary()
         assert s["workstream_ids"] == sorted(s["workstream_ids"])
+
+
+class TestExecutionFreezeStatus:
+    def test_returns_all_workstreams(self):
+        statuses = execution_freeze_status()
+        assert set(statuses.keys()) == {"WS-I", "WS-II", "WS-III", "WS-IV"}
+
+    def test_ws2_pass_freeze(self):
+        statuses = execution_freeze_status()
+        assert statuses["WS-II"]["status"] == "PASS_FREEZE"
+
+    def test_other_workstreams_targeted_follow_up(self):
+        statuses = execution_freeze_status()
+        for ws_id in ("WS-I", "WS-III", "WS-IV"):
+            assert statuses[ws_id]["status"] == "TARGETED_FOLLOW_UP_FREEZE"
+
+    def test_post_freeze_actions_valid(self):
+        statuses = execution_freeze_status()
+        valid = {"frozen", "open_targeted_workstream_ticket"}
+        for entry in statuses.values():
+            assert entry["post_freeze_action"] in valid

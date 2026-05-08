@@ -1,4 +1,4 @@
-version: "v10.14"
+version: "v10.15"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -459,7 +459,7 @@ post_mas_tracks:
       status: "OPTIONAL_NOT_ACTIVATED"
       activation_rule: "only_if_disputed_or_high_cost_symbolic_blocks"
 
-post_mas_extension_tracks:
+  post_mas_extension_tracks:
   scope: "independent_dimensional_extension_workstreams_not_MAS"
   date_initiated: "2026-05-08"
   anti_recycle_rule: "None of these tracks reopen MAS or create new MAS waves"
@@ -528,3 +528,42 @@ post_mas_extension_tracks:
       status: "DELIVERED"
       epistemic_outcome: "Terminal programme state captured; 4 post-MAS research paths encoded with prerequisites"
       note: "Scope is frozen. No further work required in this programme. Independent workstreams may proceed."
+  post_mas_workstream_execution_programme:
+    scope: "execute_ws_i_to_ws_iv_as_independent_programme_not_mas"
+    umbrella_tracker_artifact: "docs/WS_I_IV_EXECUTION_PROGRAMME_ISSUE.md"
+    date_executed: "2026-05-08"
+    execution_order: ["WS-II", "WS-III", "WS-I", "WS-IV"]
+    anti_recycle_rule: "no_recycle_into_mas_waves"
+    completion_gate:
+      required_streams: ["WS-I", "WS-II", "WS-III", "WS-IV"]
+      all_executed: true
+      final_action: "freeze_each_stream_keep_mas_closed"
+    streams:
+      WS-II:
+        parameter: "P14, P15"
+        artifact: "src/nined/cp_phase_9d_refinement.py"
+        test: "tests/test_nined_cp_phase_9d_refinement.py"
+        status: "PASS_FREEZE"
+        post_freeze_action: "frozen"
+        recycle_into_mas: false
+      WS-III:
+        parameter: "P19, P20, P21"
+        artifact: "src/sixd/neutrino_overlap_integrals_nlo.py"
+        test: "tests/test_sixd_neutrino_overlap_integrals_nlo.py"
+        status: "TARGETED_FOLLOW_UP_FREEZE"
+        post_freeze_action: "open_targeted_workstream_ticket"
+        recycle_into_mas: false
+      WS-I:
+        parameter: "P5"
+        artifact: "src/sixd/higgs_radion_mixing_6d.py"
+        test: "tests/test_sixd_higgs_radion_mixing_6d.py"
+        status: "TARGETED_FOLLOW_UP_FREEZE"
+        post_freeze_action: "open_targeted_workstream_ticket"
+        recycle_into_mas: false
+      WS-IV:
+        parameter: "P3"
+        artifact: "src/tend/cy3_kk_thresholds_alpha_s.py"
+        test: "tests/test_tend_cy3_kk_thresholds_alpha_s.py"
+        status: "TARGETED_FOLLOW_UP_FREEZE"
+        post_freeze_action: "open_targeted_workstream_ticket"
+        recycle_into_mas: false
