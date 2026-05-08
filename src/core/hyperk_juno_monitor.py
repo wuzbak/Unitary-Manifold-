@@ -309,7 +309,7 @@ def sensitivity_projection() -> Dict:
         ),
         "note_on_residual": (
             f"UM NLO is {abs(DM2_31_UM_NLO - DM2_31_PDG) / DM2_31_PDG * 100:.1f}% below PDG. "
-            "If sub-percent measurements confirm PDG value, UM NLO requires revisision. "
+            "If sub-percent measurements confirm PDG value, UM NLO requires revision. "
             "Full NLO calculation (beyond current estimate) may resolve the residual."
         ),
     }
