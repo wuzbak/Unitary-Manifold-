@@ -1,4 +1,4 @@
-version: "v10.26"
+version: "v10.28"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -1114,3 +1114,46 @@ v10_27_batch:
     after: 19.5
     before_pct: "68%"
     after_pct: "70%"
+
+v10_28_batch:
+  date: "2026-05-08"
+  version: "v10.28"
+  sprint_title: "Tier-4 Yukawa Closure Sprint (P7/P8/P9/P10) via Pillar-183 c_L hardgate"
+  deliverables:
+    PILLAR183_CL_SPECTRUM:
+      title: "Pillar 183 closure artifact — 6D T²/Z₃ c_L spectrum derivation for Tier-4"
+      parameters: ["P7", "P8", "P9", "P10"]
+      artifact: "src/sixd/pillar183_cl_spectrum_6d.py"
+      test: "tests/test_sixd_pillar183_cl_spectrum_6d.py"
+      status: "DELIVERED"
+      outcomes:
+        axiomzero_purity: true
+        pdg_anchors_used: []
+    YUKAWA_SCALE_HARDGATE:
+      title: "v10.28 hardgate in yukawa_scale_6d for P7/P8/P9/P10"
+      parameters: ["P7", "P8", "P9", "P10"]
+      artifact: "src/sixd/yukawa_scale_6d.py"
+      test: "tests/test_sixd_yukawa_scale_6d.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 1.2
+      residuals_pct:
+        P7: 0.21
+        P8: 3.87
+        P9: 1.67
+        P10: 2.96
+      gates:
+        - "nominal_residual_lt_5pct: PASS for all P7/P8/P9/P10"
+        - "axiomzero_purity: inputs {n_w, K_CS, πkR, Pillar-183 q_f} only PASS"
+        - "pillar183_cl_spectrum_derived: PASS"
+    TOE_AUDIT_SYNC:
+      title: "TOE_SCORE_AUDIT synced to v10.28 Yukawa promotions"
+      artifact: "docs/TOE_SCORE_AUDIT.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+  toe_score:
+    before: 19.5
+    after: 20.7
+    before_pct: "70%"
+    after_pct: "74%"

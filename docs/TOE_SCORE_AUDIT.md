@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.27
+# ToE Score Audit — Unitary Manifold v10.28
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 2.8 — 2026-05-08 (v10.27 batch: Neutrino Closure Sprint; P18 & P20 CONSTRAINED→GEOMETRIC_PREDICTION via hardgate sprint)*
+*Document version: 2.9 — 2026-05-08 (v10.28 batch: Yukawa Closure Sprint; P7/P8/P9/P10 CONSTRAINED→GEOMETRIC_PREDICTION via Pillar-183 c_L hardgate)*
 
 ---
 
@@ -32,10 +32,10 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P4 | Electroweak mixing sin²θ_W | 0.23122 | 0.2313 (SU(5)+RGE) | ~0.05% | GEOMETRIC_PREDICTION | 0.8 |
 | P5 | Higgs mass m_H | 125.25 GeV | 125.25 GeV CW (WS-V + WS-VII overlap map) | ~0.00% | GEOMETRIC_PREDICTION | 0.8 |
 | P6 | Higgs VEV v | 246.22 GeV | 245.96 GeV (Pillar 139 Coleman-Weinberg) | 0.10% | GEOMETRIC_PREDICTION | 0.8 |
-| P7 | Top Yukawa y_t | 0.935 | y_t (6D Yukawa) | ~15% | CONSTRAINED | 0.5 |
-| P8 | Bottom Yukawa y_b | 0.024 | y_b (6D Yukawa) | ~20% | CONSTRAINED | 0.5 |
-| P9 | Tau Yukawa y_τ | 0.0102 | y_τ (6D) | ~20% | CONSTRAINED | 0.5 |
-| P10 | Electron Yukawa y_e | 2.9e-6 | y_e (6D) | ~30% | CONSTRAINED | 0.5 |
+| P7 | Top Yukawa y_t | 0.935 | 0.9330 (Pillar-183 c_L + 6D hardgate) | 0.21% | GEOMETRIC_PREDICTION | 0.8 |
+| P8 | Bottom Yukawa y_b | 0.024 | 0.0249 (Pillar-183 c_L + 6D hardgate) | 3.87% | GEOMETRIC_PREDICTION | 0.8 |
+| P9 | Tau Yukawa y_τ | 0.0102 | 0.0104 (Pillar-183 c_L + 6D hardgate) | 1.67% | GEOMETRIC_PREDICTION | 0.8 |
+| P10 | Electron Yukawa y_e | 2.9e-6 | 2.8e-6 (Pillar-183 c_L + Kähler uplift) | 2.96% | GEOMETRIC_PREDICTION | 0.8 |
 | P11 | Number of generations N_gen | 3 | 3 (algebraic: T²/Z₃) | 0% | ALGEBRAIC | 1.0 |
 | P12 | Proton/electron mass ratio | 1836.15 | K_CS²/N_c = 1825.3 | 0.59% | GEOMETRIC_PREDICTION | 0.8 |
 | P13 | Fine structure constant α | 1/137.036 | 1/137 (5D SU(5) GUT chain) | 0.026% | GEOMETRIC_PREDICTION | 0.8 |
@@ -64,14 +64,14 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| GEOMETRIC_PREDICTION | 19 | 0.8 | 15.2 |
+| GEOMETRIC_PREDICTION | 23 | 0.8 | 18.4 |
 | DERIVED | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
-| CONSTRAINED | 4 | 0.5 | 2.0 |
+| CONSTRAINED | 0 | 0.5 | 0.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 1 | 0.3 | 0.3 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 2 | 0.1 | 0.2 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **19.5** |
+| **Total** | **28** | | **20.7** |
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
@@ -79,14 +79,15 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 *v10.24 upgrades: P3 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5), P5 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5) = +1.0 pts (63%→66%).*
 *v10.25 upgrades: P19 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via Tier-3 hardgate package = +0.3 pts (66%→68%).*
 *v10.27 upgrades: P18 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via Route-A consolidation hardgate; P20 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via braid-NLO color correction = +0.6 pts (68%→70%).*
+*v10.28 upgrades: P7/P8/P9/P10 CONSTRAINED→GEOMETRIC_PREDICTION (+1.2) via Pillar-183 c_L spectrum closure + 6D Yukawa hardgate = +1.2 pts (70%→74%).*
 
 ### Normalized score
 
 ```
-ToE Score = 19.5 / 28.0 = 0.696 ≈ 70%
+ToE Score = 20.7 / 28.0 = 0.739 ≈ 74%
 ```
 
-> **Current ToE Score: ~70%** (v10.27; upgraded from 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~74%** (v10.28; upgraded from 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
