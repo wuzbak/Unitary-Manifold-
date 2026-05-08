@@ -142,7 +142,8 @@ class TestAlphaSWithCY3:
 
     def test_cy3_alpha_s_in_reasonable_range(self):
         a_cy3 = alpha_s_with_cy3_thresholds()
-        # Lower bound reflects strengthened CY3+flux pathway in this track.
+        # Lower bound reflects strengthened CY3+flux pathway: without flux
+        # enhancement α_s stays below ~0.089, so 0.08 is a conservative floor.
         assert 0.08 < a_cy3 < 0.12
 
     def test_custom_b_kk(self):

@@ -130,7 +130,11 @@ def flux_lattice_enhancement(
     n_kk_modes: int = N_KK_MODES_EFF,
     enhancement: float = FLUX_LATTICE_ENHANCEMENT_WEIGHT,
 ) -> float:
-    """Dimensionless enhancement from coarse 10D flux-lattice multiplicity."""
+    """Dimensionless enhancement from coarse 10D flux-lattice multiplicity.
+
+    The log term is divided by 2 to average contributions from the two dominant
+    CY₃ modulus sectors (Kähler and complex structure) in this coarse estimate.
+    """
     if n_kk_modes <= 0:
         return 1.0
     return 1.0 + enhancement * math.log1p(n_kk_modes) / 2.0
