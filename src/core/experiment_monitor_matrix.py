@@ -88,7 +88,7 @@ def high_priority_action_queue() -> List[Dict]:
     try:
         litebird = litebird_prepublication_packet()
         policy_value = litebird.get("policy", litebird_policy)
-        if isinstance(policy_value, str) and policy_value:
+        if policy_value:
             litebird_policy = policy_value
     except Exception as exc:
         litebird_status = "READINESS_PACKET_ERROR"
@@ -104,6 +104,7 @@ def high_priority_action_queue() -> List[Dict]:
                 "Run PASS/TENSION/FALSIFIED routing and sync kk_de_wa_cpl.py, "
                 "OBSERVATION_TRACKER.md, and canonical falsifier feed."
             ),
+            "note": "",
         },
         {
             "id": "LITEBIRD_PRIMARY_FALSIFIER_READY",
@@ -121,6 +122,7 @@ def high_priority_action_queue() -> List[Dict]:
             "status": "ACTIVE_MONITORING",
             "deadline_policy": "update_on_release",
             "action": "Update monitor registry and canonical feed for n_s, r, and A_s state.",
+            "note": "",
         },
         {
             "id": "ACT_DR6_MONITOR_SYNC",
@@ -129,6 +131,7 @@ def high_priority_action_queue() -> List[Dict]:
             "status": "ACTIVE_MONITORING",
             "deadline_policy": "update_on_release",
             "action": "Re-evaluate n_s consistency status and sync tracker/falsifier feed.",
+            "note": "",
         },
         {
             "id": "SIMONS_OBSERVATORY_BETA_MONITOR",
@@ -137,11 +140,15 @@ def high_priority_action_queue() -> List[Dict]:
             "status": "ACTIVE_MONITORING",
             "deadline_policy": "update_on_release",
             "action": "Update birefringence pre-discrimination status and sync tracker/falsifier feed.",
+            "note": "",
         },
     ]
 
 
-def overdue_priority_actions(last_updated: Dict[str, str], today: str | None = None) -> List[Dict]:
+def overdue_priority_actions(
+    last_updated: Dict[str, str] | None = None,
+    today: str | None = None,
+) -> List[Dict]:
     """Return overdue actions from timestamp history.
 
     Parameters
@@ -151,11 +158,12 @@ def overdue_priority_actions(last_updated: Dict[str, str], today: str | None = N
     today : str | None
         Optional ISO date string (YYYY-MM-DD). If not provided, uses current UTC date.
     """
+    freshness_source = {} if last_updated is None else last_updated
     reference_day = date.today() if today is None else datetime.strptime(today, "%Y-%m-%d").date()
     overdue: List[Dict] = []
     for action in high_priority_action_queue():
         action_id = action["id"]
-        stamp = last_updated.get(action_id)
+        stamp = freshness_source.get(action_id)
         if not stamp:
             continue
         updated_day = datetime.strptime(stamp, "%Y-%m-%d").date()
@@ -172,9 +180,9 @@ def overdue_priority_actions(last_updated: Dict[str, str], today: str | None = N
     return overdue
 
 
-def uninitialized_priority_actions(last_updated: Dict[str, str]) -> List[str]:
+def uninitialized_priority_actions(last_updated: Dict[str, str] | None = None) -> List[str]:
     """Return action IDs that have no timestamp entry in `last_updated`."""
-    known_ids = set(last_updated.keys())
+    known_ids = set((last_updated or {}).keys())
     return [action["id"] for action in high_priority_action_queue() if action["id"] not in known_ids]
 
 
@@ -195,7 +203,7 @@ def machine_readable_monitor_bundle(
     today: str | None = None,
 ) -> Dict:
     """Machine-readable bundle for external audit/reporting."""
-    freshness_source = {} if last_updated is None else dict(last_updated)
+    freshness_source = {} if last_updated is None else last_updated
     return {
         "schema_version": "1.0",
         "generated_on": date.today().isoformat(),

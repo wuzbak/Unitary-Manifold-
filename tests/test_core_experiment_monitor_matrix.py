@@ -35,7 +35,7 @@ def test_high_priority_action_queue_structure():
     assert isinstance(queue, list)
     assert len(queue) == 5
     for row in queue:
-        for key in ("id", "priority", "trigger", "status", "deadline_policy", "action"):
+        for key in ("id", "priority", "trigger", "status", "deadline_policy", "action", "note"):
             assert key in row
 
 
