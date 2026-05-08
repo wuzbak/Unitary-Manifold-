@@ -268,7 +268,7 @@ def monitoring_report() -> Dict:
     verdict = falsification_verdict(DESI_DR2["wa_central"], DESI_DR2["wa_sigma"])
 
     return {
-        "version": "v10.17",
+        "version": "v10.18",
         "current_baseline": DESI_DR2,
         "um_prediction": UM_PREDICTION,
         "current_tension": dr2,

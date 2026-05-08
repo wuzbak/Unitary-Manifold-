@@ -12,9 +12,13 @@ from src.nined.cp_phase_9d_refinement import (
     DELTA_CP_PDG,
     GS_UNCERTAINTY_FRACTION,
     GS_FLUX_CONTRIBUTION,
+    ANCHOR_ALPHA_RANGE,
+    ANCHOR_GS_RANGE,
     KK_9D_SCALE_RATIO,
     RESIDUAL_7D_PCT,
     RHOBAR_GATE_THRESHOLD_PCT,
+    anchor_independence_scan,
+    cp_phase_anchor_robustness_report,
     cp_phase_9d_gate_check,
     cp_phase_9d_summary,
     delta_cp_9d_correction,
@@ -49,6 +53,12 @@ class TestConstants:
 
     def test_rhobar_gate_threshold(self):
         assert RHOBAR_GATE_THRESHOLD_PCT == pytest.approx(5.0, rel=1e-9)
+
+    def test_anchor_alpha_range(self):
+        assert ANCHOR_ALPHA_RANGE[0] < ALPHA_9D < ANCHOR_ALPHA_RANGE[1]
+
+    def test_anchor_gs_range(self):
+        assert ANCHOR_GS_RANGE[0] < GS_FLUX_CONTRIBUTION < ANCHOR_GS_RANGE[1]
 
     def test_7d_residual_consistent(self):
         # Check RESIDUAL_7D_PCT is consistent with DELTA_CP_7D and DELTA_CP_PDG
@@ -221,6 +231,47 @@ class TestCPPhase9DGateCheck:
         assert gate["delta_cp_pdg_rad"] == pytest.approx(DELTA_CP_PDG, rel=1e-9)
 
 
+class TestAnchorIndependenceScan:
+    def test_scan_returns_dict(self):
+        scan = anchor_independence_scan()
+        assert isinstance(scan, dict)
+
+    def test_scan_grid_size(self):
+        scan = anchor_independence_scan(points=5)
+        assert scan["grid_points"] == 25
+
+    def test_scan_residual_band_below_gate(self):
+        scan = anchor_independence_scan()
+        assert scan["residual_max_pct"] < RHOBAR_GATE_THRESHOLD_PCT
+
+    def test_scan_uncertainty_band_below_gate(self):
+        scan = anchor_independence_scan()
+        assert scan["uncertainty_max_pct"] < RHOBAR_GATE_THRESHOLD_PCT
+
+    def test_scan_all_points_pass(self):
+        scan = anchor_independence_scan()
+        assert scan["all_points_gate_pass"] is True
+
+    def test_scan_bad_points_raises(self):
+        with pytest.raises(ValueError):
+            anchor_independence_scan(points=1)
+
+
+class TestAnchorRobustnessReport:
+    def test_report_returns_dict(self):
+        report = cp_phase_anchor_robustness_report()
+        assert isinstance(report, dict)
+
+    def test_report_status_pass(self):
+        report = cp_phase_anchor_robustness_report()
+        assert "PASS" in report["status"]
+
+    def test_report_scan_present(self):
+        report = cp_phase_anchor_robustness_report()
+        assert "scan" in report
+        assert report["scan"]["all_points_gate_pass"] is True
+
+
 class TestCPPhase9DSummary:
     def test_returns_dict(self):
         s = cp_phase_9d_summary()
@@ -239,5 +290,5 @@ class TestCPPhase9DSummary:
         for key in ["alpha_9d", "kk_9d_scale_ratio", "gs_flux_contribution",
                     "gs_uncertainty_fraction",
                     "delta_cp_7d_rad", "delta_cp_9d_rad", "delta_cp_pdg_rad",
-                    "residual_7d_pct", "residual_9d_pct", "gate", "note"]:
+                    "residual_7d_pct", "residual_9d_pct", "gate", "anchor_robustness", "note"]:
             assert key in s

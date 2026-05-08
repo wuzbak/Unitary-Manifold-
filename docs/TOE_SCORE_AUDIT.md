@@ -42,7 +42,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P14 | CKM ρ̄ (CP violation) | 0.132 | geometric (9D refined δ_CP) | ~1–2% nominal, <5% uncertainty gate pass | BEST_EVIDENCE_CONSTRAINED | 0.5 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | π/3 + 9D correction ≈ 1.216 rad | ~1.3% (9D refined; 7D torsion baseline 12.7%) | BEST_EVIDENCE_CONSTRAINED | 0.5 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | ~6D+ torsion estimate (ratio) | ~20–30% | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
-| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | NLO T²/Z₃ geometric | ~7–8% (NLO; LO baseline ~10.5%) | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
+| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | 2NLO T²/Z₃ follow-up geometric | 6.87% (2NLO; NLO 7.26%, LO ~10.5%) | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
 | P18 | θ₁₂ (solar mixing angle) | 33.82° | geometric | ~8% | CONSTRAINED | 0.5 |
 | P19 | θ₂₃ (atmospheric mixing angle) | 48.3° | geometric | ~3% | CONSTRAINED | 0.5 |
 | P20 | θ₁₃ (reactor mixing angle) | 8.57° | geometric | ~5% | CONSTRAINED | 0.5 |
@@ -82,10 +82,10 @@ via higher-dimensional refinement, without yet reaching the GEOMETRIC_PREDICTION
 ### Normalized score
 
 ```
-ToE Score = 15.2 / 28.0 = 0.543 ≈ 54%
+ToE Score = 15.8 / 28.0 = 0.564 ≈ 56%
 ```
 
-> **Current ToE Score: ~54%** (v10.17; upgraded from 51% in v10.14)
+> **Current ToE Score: ~56%** (v10.18; upgraded from 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)

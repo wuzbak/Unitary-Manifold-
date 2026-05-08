@@ -307,7 +307,7 @@ def monitoring_report() -> Dict:
     r_verdict = falsification_verdict_r(R_UPPER_LIMIT, R_UPPER_LIMIT * 0.5)
 
     return {
-        "version": "v10.17",
+        "version": "v10.18",
         "current_baseline": PLANCK_BASELINE,
         "um_prediction": UM_PREDICTION,
         "current_ns_verdict": ns_verdict,
