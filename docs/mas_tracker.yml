@@ -1,4 +1,4 @@
-version: "v10.17"
+version: "v10.18"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -632,3 +632,84 @@ v10_17_batch:
     after: 15.2
     before_pct: "51%"
     after_pct: "54%"
+
+v10_18_batch:
+  date: "2026-05-08"
+  version: "v10.18"
+  deliverables:
+    P13_UPGRADE:
+      title: "P13 CONSTRAINED -> GEOMETRIC_PREDICTION (α, fine structure constant)"
+      parameter: "P13"
+      artifact: "src/core/alpha_em_geometric.py"
+      test: "tests/test_core_alpha_em_geometric.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+    P6_UPGRADE:
+      title: "P6 CONSTRAINED -> GEOMETRIC_PREDICTION (Higgs VEV v)"
+      parameter: "P6"
+      artifact: "src/core/higgs_vev_upgrade_p6.py"
+      test: "tests/test_core_higgs_vev_upgrade_p6.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+    P17_2NLO:
+      title: "P17 Δm²₃₁ 2NLO improvement (7.26% → 6.87%)"
+      parameter: "P17"
+      artifact: "src/sixd/neutrino_dm31_2nlo.py"
+      test: "tests/test_sixd_neutrino_dm31_2nlo.py"
+      status: "DELIVERED"
+      previous_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      new_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      toe_delta: 0.0
+      note: "Residual improved 7.26%→6.87%; status unchanged (>5% threshold)"
+    CMBS4_MONITOR:
+      title: "CMB-S4 n_s and r monitoring harness"
+      artifact: "src/core/cmbs4_monitor.py"
+      test: "tests/test_core_cmbs4_monitor.py"
+      status: "DELIVERED"
+    DUNE_MONITOR:
+      title: "DUNE delta_CP monitoring harness"
+      artifact: "src/core/dune_dcp_monitor.py"
+      test: "tests/test_core_dune_dcp_monitor.py"
+      status: "DELIVERED"
+    HYPERK_JUNO_MONITOR:
+      title: "Hyper-K/JUNO Delta_m2_31 monitoring harness"
+      artifact: "src/core/hyperk_juno_monitor.py"
+      test: "tests/test_core_hyperk_juno_monitor.py"
+      status: "DELIVERED"
+    WS_V:
+      title: "WS-V: 6D+ full geometry synthesis for P5 and P16"
+      artifact: "src/sixd/ws_v_6dplus_synthesis.py"
+      test: "tests/test_sixd_ws_v_6dplus_synthesis.py"
+      status: "DELIVERED"
+    WS_VI:
+      title: "WS-VI: 10D CY3 full moduli+flux synthesis for P3"
+      artifact: "src/tend/ws_vi_cy3_synthesis.py"
+      test: "tests/test_tend_ws_vi_cy3_synthesis.py"
+      status: "DELIVERED"
+    WS_VII:
+      title: "WS-VII: Yukawa hierarchy from 6D wavefunction overlaps"
+      artifact: "src/sixd/yukawa_hierarchy_6d.py"
+      test: "tests/test_sixd_yukawa_hierarchy_6d.py"
+      status: "DELIVERED"
+    PILLAR_102:
+      title: "Pillar 102: GW from brane dynamics"
+      artifact: "src/core/pillar102_brane_gw.py"
+      test: "tests/test_core_pillar102_brane_gw.py"
+      status: "DELIVERED"
+    BOT_RAG_EXPANSION:
+      title: "bot/rag_index.py knowledge base expanded (7 new KB entries)"
+      artifact: "bot/rag_index.py"
+      status: "DELIVERED"
+    ARXIV_GUIDE:
+      title: "arXiv submission readiness guide"
+      artifact: "docs/ARXIV_SUBMISSION_GUIDE.md"
+      status: "DELIVERED"
+  toe_score:
+    before: 15.2
+    after: 15.8
+    before_pct: "54%"
+    after_pct: "56%"

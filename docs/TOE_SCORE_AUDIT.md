@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.17
+# ToE Score Audit — Unitary Manifold v10.18
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 2.1 — 2026-05-08 (v10.17 batch: P4/P12 upgraded, P16 first certified, P28 formally certified)*
+*Document version: 2.2 — 2026-05-08 (v10.18 batch: P6/P13 upgraded to GEOMETRIC_PREDICTION)*
 
 ---
 
@@ -31,14 +31,14 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P3 | Strong coupling α_s(M_Z) | 0.1179 | 0.095 (10D CY₃+flux estimate) | ~19% | ARCHITECTURE_LIMIT_CERTIFIED(10D) | 0.1 |
 | P4 | Electroweak mixing sin²θ_W | 0.23122 | 0.2313 (SU(5)+RGE) | ~0.05% | GEOMETRIC_PREDICTION | 0.8 |
 | P5 | Higgs mass m_H | 125.25 GeV | 125 GeV (estimate) | ~0.2% | ARCHITECTURE_LIMIT_CERTIFIED(6D+) | 0.1 |
-| P6 | Higgs VEV v | 246.22 GeV | 246 GeV | 4.6% | CONSTRAINED | 0.5 |
+| P6 | Higgs VEV v | 246.22 GeV | 245.96 GeV (Pillar 139 Coleman-Weinberg) | 0.10% | GEOMETRIC_PREDICTION | 0.8 |
 | P7 | Top Yukawa y_t | 0.935 | y_t (6D Yukawa) | ~15% | CONSTRAINED | 0.5 |
 | P8 | Bottom Yukawa y_b | 0.024 | y_b (6D Yukawa) | ~20% | CONSTRAINED | 0.5 |
 | P9 | Tau Yukawa y_τ | 0.0102 | y_τ (6D) | ~20% | CONSTRAINED | 0.5 |
 | P10 | Electron Yukawa y_e | 2.9e-6 | y_e (6D) | ~30% | CONSTRAINED | 0.5 |
 | P11 | Number of generations N_gen | 3 | 3 (algebraic: T²/Z₃) | 0% | ALGEBRAIC | 1.0 |
 | P12 | Proton/electron mass ratio | 1836.15 | K_CS²/N_c = 1825.3 | 0.59% | GEOMETRIC_PREDICTION | 0.8 |
-| P13 | Fine structure constant α | 1/137.036 | 1/137 (geometric chain) | ~0.3% | CONSTRAINED | 0.5 |
+| P13 | Fine structure constant α | 1/137.036 | 1/137 (5D SU(5) GUT chain) | 0.026% | GEOMETRIC_PREDICTION | 0.8 |
 | P14 | CKM ρ̄ (CP violation) | 0.132 | geometric (9D refined δ_CP) | ~1–2% nominal, <5% uncertainty gate pass | BEST_EVIDENCE_CONSTRAINED | 0.5 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | π/3 + 9D correction ≈ 1.216 rad | ~1.3% (9D refined; 7D torsion baseline 12.7%) | BEST_EVIDENCE_CONSTRAINED | 0.5 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | ~6D+ torsion estimate (ratio) | ~20–30% | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
@@ -64,19 +64,20 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| GEOMETRIC_PREDICTION | 8 | 0.8 | 6.4 |
+| GEOMETRIC_PREDICTION | 10 | 0.8 | 8.0 |
 | DERIVED | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 2 | 0.5 | 1.0 |
-| CONSTRAINED | 10 | 0.5 | 5.0 |
+| CONSTRAINED | 8 | 0.5 | 4.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 2 | 0.3 | 0.6 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 4 | 0.1 | 0.4 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **15.2** |
+| **Total** | **28** | | **15.8** |
 
 *Note: BEST_EVIDENCE_CONSTRAINED (P14, P15) scores at 0.5 — same tier as CONSTRAINED,
 distinguishing parameters where best-available evidence achieves <5% uncertainty control
 via higher-dimensional refinement, without yet reaching the GEOMETRIC_PREDICTION threshold.*
 *v10.17 upgrades: P4 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P12 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P16 OPEN→GEOMETRIC_ESTIMATE_CERTIFIED (+0.3), P28 OPEN→ARCHITECTURE_LIMIT_CERTIFIED (+0.1) = +1.0 pts total.*
+*v10.18 upgrades: P6 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P13 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) = +0.6 pts total.*
 
 ### Normalized score
 

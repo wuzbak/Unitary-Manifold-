@@ -180,6 +180,95 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
         "sources": ["src/core/mp_me_geometric_prediction.py", "src/core/pillar202_mp_me_lattice_free.py"],
         "status": "GEOMETRIC_PREDICTION (upgraded v10.17)",
     },
+    "sin2_theta_w": {
+        "topic": "sin²θ_W electroweak mixing angle P4",
+        "answer": (
+            "P4 (sin²θ_W) is GEOMETRIC_PREDICTION (v10.17). "
+            "Derivation: K_CS=74 and n_w=5 select SU(5) via Kawamura Z₂ orbifold → "
+            "sin²θ_W(M_GUT) = 3/8 (exact Georgi-Glashow). 1-loop SM RGE (Georgi-Quinn-Weinberg) "
+            "from M_GUT=10^13 GeV to M_Z gives sin²θ_W(M_Z) ≈ 0.2313 (PDG: 0.23122, residual 0.05%). "
+            "See src/core/sin2_theta_w_geometric.py."
+        ),
+        "sources": ["src/core/sin2_theta_w_geometric.py", "src/core/sm_free_parameters.py"],
+        "status": "GEOMETRIC_PREDICTION (v10.17, 0.05% residual)",
+    },
+    "higgs_vev": {
+        "topic": "Higgs VEV v = 246 GeV P6",
+        "answer": (
+            "P6 (Higgs VEV v) is GEOMETRIC_PREDICTION (v10.18). "
+            "Derivation via Pillar 139 (higgs_vev_exact.py): quartic λ_H^tree = 25/148 (from n_w=5, k_CS=74), "
+            "KK threshold M_KK ≈ 1042 GeV, 1-loop top-Yukawa RGE correction gives λ_eff ≈ 0.130. "
+            "v_pred = m_H/sqrt(2λ_eff) ≈ 245.96 GeV (PDG: 246.22 GeV, residual ≈ 0.10%). "
+            "See src/core/higgs_vev_exact.py and higgs_vev_upgrade_p6.py."
+        ),
+        "sources": ["src/core/higgs_vev_exact.py", "src/core/higgs_vev_upgrade_p6.py"],
+        "status": "GEOMETRIC_PREDICTION (v10.18, 0.10% residual)",
+    },
+    "alpha_em": {
+        "topic": "Fine structure constant alpha α P13",
+        "answer": (
+            "P13 (fine structure constant α) is GEOMETRIC_PREDICTION (v10.18). "
+            "Derivation: α_GUT = N_C/K_CS = 3/74 is fully derived from the 5D SU(N_c) CS action "
+            "(src/core/alpha_gut_cs_derivation.py). 1-loop SU(5)→SM RGE running from M_GUT to M_Z "
+            "then to 0 (Pillar 94, sm_free_parameters.py) gives α_em(0) ≈ 1/137.0. "
+            "PDG: 1/137.036, residual ≈ 0.026%. "
+            "See src/core/alpha_em_geometric.py."
+        ),
+        "sources": ["src/core/alpha_em_geometric.py", "src/core/alpha_gut_cs_derivation.py"],
+        "status": "GEOMETRIC_PREDICTION (v10.18, 0.026% residual)",
+    },
+    "cmbs4": {
+        "topic": "CMB-S4 predictions falsification",
+        "answer": (
+            "CMB-S4 (~2030) will measure n_s and r with precision σ(n_s)≈0.002 and σ(r)≈0.001. "
+            "UM predictions: n_s = 0.9635 (Planck: 0.9649±0.0042, currently 0.33σ CONSISTENT), "
+            "r = 0.0315 (< BICEP/Keck upper limit of 0.036 CONSISTENT). "
+            "Falsification: n_s ∉ [0.955, 0.972] at σ<0.001, or r < 0.010 at >3σ. "
+            "See src/core/cmbs4_monitor.py."
+        ),
+        "sources": ["src/core/cmbs4_monitor.py", "docs/TOE_SCORE_AUDIT.md"],
+        "status": "PENDING — CMB-S4 launch ~2030",
+    },
+    "dune": {
+        "topic": "DUNE delta CP leptonic CP violation",
+        "answer": (
+            "DUNE (~2028-2032) will measure leptonic CP phase δ_CP with precision ~0.05 rad. "
+            "UM prediction (P15): δ_CP = π/3 + 9D correction ≈ 1.216 rad. "
+            "PDG: δ_CP = 1.20 ± 0.20 rad (currently 0.08σ CONSISTENT). "
+            "Falsification: δ_CP ∉ [0.85, 1.30] rad at < 3% uncertainty. "
+            "See src/core/dune_dcp_monitor.py."
+        ),
+        "sources": ["src/core/dune_dcp_monitor.py", "src/nined/cp_phase_9d_refinement.py"],
+        "status": "BEST_EVIDENCE_CONSTRAINED — DUNE first physics 2028",
+    },
+    "yukawa_hierarchy": {
+        "topic": "Yukawa hierarchy top bottom tau electron",
+        "answer": (
+            "P7-P10 (y_t, y_b, y_τ, y_e) are CONSTRAINED (all within 50% of PDG). "
+            "The 6D mechanism: fermion wavefunctions localized in the extra dimension with bulk mass c_L. "
+            "Overlap integral y ∝ f(c_L) where f decays exponentially with c_L. "
+            "With π kR = 37, Δc_L ≈ 0.17 between top and electron generates the full 10^5 hierarchy. "
+            "Current c_L parameters are CONSTRAINED (not yet derived from first principles). "
+            "Full derivation requires 6D wavefunction spectrum (WS-VII). "
+            "See src/sixd/yukawa_hierarchy_6d.py."
+        ),
+        "sources": ["src/sixd/yukawa_hierarchy_6d.py", "src/core/fermion_cL_spectrum_6d_audit.py"],
+        "status": "CONSTRAINED — WS-VII path to GEOMETRIC_PREDICTION",
+    },
+    "pillar102": {
+        "topic": "Pillar 102 gravitational waves brane dynamics",
+        "answer": (
+            "Pillar 102 (post-101 extension): GW signals from brane dynamics. "
+            "The UM predicts GW from: (1) brane-brane collisions at M_KK ≈ 1042 GeV "
+            "(f_peak ≈ 10^26 Hz — far above LISA/LIGO); (2) radion oscillations at m_r ≈ 70 GeV; "
+            "(3) stochastic KK graviton background Ω_GW ~ (M_KK/M_Pl)² × π_kR. "
+            "Detection requires future high-frequency GW detectors (>kHz). "
+            "ARCHITECTURE_LIMIT: brane GW signals are a genuine 6D+ prediction, not yet testable. "
+            "See src/core/pillar102_brane_gw.py."
+        ),
+        "sources": ["src/core/pillar102_brane_gw.py", "src/core/kk_gw_background.py"],
+        "status": "ARCHITECTURE_LIMIT — future high-frequency GW detectors needed",
+    },
 }
 
 
