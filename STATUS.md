@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.28 — Effective 2026-05-08*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.28 Tier-4/P17/P16 hardgate batch delivered with no MAS reopen).*
+*Unitary Manifold v10.30 — Effective 2026-05-08*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.30 maximum-effort sprint delivered: DESI Y3 integration, falsification hardening, GP stress test, doc truth sync).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:

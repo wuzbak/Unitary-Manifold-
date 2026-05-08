@@ -1221,3 +1221,128 @@ v10_29_batch:
     after: 21.2
     before_pct: "76%"
     after_pct: "76%"
+
+v10_30_batch:
+  date: "2026-05-08"
+  version: "v10.30"
+  sprint_title: "Maximum-Effort Rigor Sprint — DESI Y3 Integration, Falsification Hardening, GP Stress Test, Doc Truth Sync"
+  deliverables:
+    LANE_A_P16_SOLAR_CORRECTION:
+      title: "P16 solar splitting correction factor analysis — geometric bounds derived, honest gap documented"
+      artifact: "src/core/p16_solar_correction_analysis.py"
+      test: "tests/test_core_p16_solar_correction_analysis.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Honest analysis of f_c = (N_W+2)/(K_CS+52) = 7/126. Geometric bounds
+        [0.0237, 0.0946] confirmed. F_C_NEEDED = 0.0557 lies at 72% of window.
+        Gate 1 (0.20% residual) PASSES. Gate 3 ("+52" derivation) FAILS.
+        P16 stays CONSTRAINED. No score change.
+    LANE_B_DESI_Y3_JOINT_ROUTING:
+      title: "DESI Y3 joint w₀-wₐ chi²-based routing infrastructure"
+      artifact: "src/core/desi_y3_joint_routing.py"
+      test: "tests/test_core_desi_y3_joint_routing.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Full joint chi2 routing, 9 pre-built Y3 scenarios, 30-day protocol,
+        falsification forecast as function of sigma_wa. Extends
+        desi_year3_monitor.py with 2D joint test. Baseline: DESI DR2 TENSION 2.07sigma.
+        Y3 status: PENDING publication.
+    LANE_B_CMBS4_JOINT_FALSIFIER:
+      title: "CMB-S4 joint n_s-r falsifier with signal ellipse"
+      artifact: "src/core/cmbs4_ns_r_joint_falsifier.py"
+      test: "tests/test_core_cmbs4_ns_r_joint_falsifier.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Full joint routing in n_s-r plane. Three CMB-S4 projection scenarios.
+        UM signal ellipse parameterized. Falsification: r < 0.010 at 3sigma, or
+        n_s outside [0.955, 0.972] at sub-0.001 precision.
+    LANE_B_HYPERK_JUNO_READINESS:
+      title: "Hyper-K / JUNO Δm²₃₁ precision falsifier readiness"
+      artifact: "src/core/hyperk_juno_dm31_readiness.py"
+      test: "tests/test_core_hyperk_juno_dm31_readiness.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        P17 at 2.18% residual (GEOMETRIC_PREDICTION). At JUNO 0.5% precision:
+        tension = 4.36sigma → FALSIFIED if PDG central holds.
+        At Hyper-K 1% precision: tension = 2.18sigma → TENSION.
+        P17 status preserved; tension fully documented.
+    LANE_C_FULL_GP_STRESS_TEST:
+      title: "Full stress test of all 22 GEOMETRIC_PREDICTION parameters at ±10% input variation"
+      artifact: "src/core/full_gp_stress_test.py"
+      test: "tests/test_core_full_gp_stress_test.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        P3 (4.12%) and P10 (3.08%) are highest-risk under the linear sensitivity model.
+        All 22 GP parameters have documented worst-case residuals and margins.
+        No GP parameter is at immediate risk of status loss under standard ±10% variation.
+    LANE_C_LITEBIRD_GAP_HARDENING:
+      title: "LiteBIRD inter-sector gap (0.29°, 0.31°) hardened falsifier"
+      artifact: "src/core/litebird_gap_hardening.py"
+      test: "tests/test_core_litebird_gap_hardening.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        classify_beta() distinguishes 6 zones including the inter-sector gap.
+        edge_case_battery() validates all 13 boundary conditions.
+        Discrimination power: 2.9sigma separation between modes at LiteBIRD precision.
+        Critical note enforced: gap falsification is distinct from window falsification.
+    LANE_D_GATEKEEPER_SUMMARY_FIX:
+      title: "Fix GATEKEEPER_SUMMARY.md: GP count 19→22, CONSTRAINED 4→2, GEC 1→0"
+      artifact: "docs/GATEKEEPER_SUMMARY.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Part 2: "All 19 parameters" -> "All 22 parameters". Part 7 table updated
+        to match TOE_SCORE_AUDIT.md source of truth. Version bump to v10.30.
+        Added v10.30 verification commands for all new modules.
+    LANE_D_CLAIM_MASTER_BOARD_SYNC:
+      title: "Sync CLAIM_MASTER_BOARD.md version header and score annotation"
+      artifact: "docs/CLAIM_MASTER_BOARD.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: "v10.28 -> v10.30; score annotation now includes GP count and CONSTRAINED count."
+    LANE_D_TRUTH_LAYER_P16_SYNC:
+      title: "Update TRUTH_LAYER.md P16 entry with v10.30 gate analysis"
+      artifact: "docs/TRUTH_LAYER.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        P16 section now documents all 3 gates explicitly: Gate 1 PASS (0.20%),
+        Gate 2 fails under free f_c variation (honest), Gate 3 FAIL (+52 not derived).
+        Blocking dep updated to WS-III T^2/Z_3 moduli stabilization.
+    LANE_D_OBSERVATION_TRACKER_SYNC:
+      title: "Update OBSERVATION_TRACKER.md upcoming schedule with v10.30 routing commands"
+      artifact: "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        All upcoming observations now include explicit module+function routing commands.
+        JUNO and Hyper-K added as separate entries. CMB-S4 entry updated with joint
+        n_s-r falsifier reference. LiteBIRD entry updated with gap_hardening reference.
+    LANE_E_FRAMEWORK_VERSION_BUMP:
+      title: "Bump FRAMEWORK_VERSION to v10.30"
+      artifact: "src/core/five_tier_execution_framework.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    LANE_E_WAVE_CHANGELOG:
+      title: "Add v10.30 entry to docs/WAVE_CHANGELOG.md"
+      artifact: "docs/WAVE_CHANGELOG.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+  toe_score:
+    before: 21.2
+    after: 21.2
+    before_pct: "76%"
+    after_pct: "76%"
+    note: "No new promotions in v10.30. Score unchanged."
+  open_items:
+    - "P16 promotion still blocked: derive '+52' from WS-III T^2/Z_3 moduli stabilization"
+    - "DESI Y3 integration pending Y3 publication (30-day protocol ready in desi_y3_joint_routing.py)"
+    - "P17 will be tested at TENSION level by JUNO ~2027; full falsification possible with PDG central"
+    - "CMB-S4 joint n_s-r falsifier ready; measurement expected ~2030"
+    - "LiteBIRD gap falsifier hardened; inter-sector gap test formalized"
