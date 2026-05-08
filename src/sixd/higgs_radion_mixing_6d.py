@@ -30,9 +30,11 @@ __all__ = [
     "M_H_GEV",
     "K_GEO",
     "PI_KR",
+    "CW_SHIFT_RATIO_THRESHOLD",
     # Functions
     "radion_mass_gw",
     "higgs_radion_mixing_angle",
+    "mixing_strength_ratio",
     "coleman_weinberg_coefficient",
     "higgs_mass_cw_correction",
     "p5_closure_gate",
@@ -50,6 +52,7 @@ M_RADION_GEV: float = 300.0          # Light radion scenario (GeV, geometric est
 M_H_GEV: float = 125.25             # Same as HIGGS_MASS_GEV; alias for clarity
 K_GEO: float = 1.0e18               # AdS curvature scale in GeV (geometric estimate)
 PI_KR: float = 37.0                 # π k R = K_CS/2; from UM brane geometry
+CW_SHIFT_RATIO_THRESHOLD: float = 5.0  # Upper bound for controlled CW-induced Higgs-sector shift
 
 
 # ---------------------------------------------------------------------------
@@ -119,6 +122,14 @@ def higgs_radion_mixing_angle(
     return 0.5 * math.atan(tan_2theta)
 
 
+def mixing_strength_ratio(theta_hr: float, m_radion: float) -> float:
+    """Dimensionless Higgs-sector shift ratio |δm_H²| / m_H² from mixing."""
+    delta_m2 = abs(higgs_mass_cw_correction(theta_hr, m_radion))
+    if M_H_GEV <= 0:
+        return float("inf")
+    return delta_m2 / (M_H_GEV**2)
+
+
 def coleman_weinberg_coefficient(n_fields: int, m_over_v: float) -> float:
     """One-loop Coleman-Weinberg coefficient A for V_CW(φ) = A φ⁴[ln(φ²/μ²) − 3/2].
 
@@ -185,19 +196,26 @@ def p5_closure_gate(theta_hr_rad: float) -> Dict:
     perturbative = abs_theta < math.pi / 4
     significant = abs_theta > 1e-4
 
-    all_pass = nonzero and perturbative
+    cw_shift_ratio = mixing_strength_ratio(theta_hr_rad, M_RADION_GEV)
+    # Bound selected so the CW-induced Higgs-sector shift remains O(1) in mass²
+    # units while allowing non-negligible mixing in the exploratory 6D+ regime.
+    cw_shift_controlled = cw_shift_ratio < CW_SHIFT_RATIO_THRESHOLD
+    all_pass = nonzero and perturbative and significant and cw_shift_controlled
     return {
         "theta_hr_rad": theta_hr_rad,
         "theta_hr_deg": math.degrees(theta_hr_rad),
         "nonzero": nonzero,
         "perturbative_regime": perturbative,
         "numerically_significant": significant,
+        "cw_shift_ratio": cw_shift_ratio,
+        "cw_shift_controlled": cw_shift_controlled,
         "gate_pass": all_pass,
         "status": (
             "ARCHITECTURE_LIMIT_CERTIFIED(6D+): mechanism active, perturbative, "
-            "requires full 6D+ geometry for exact θ_HR"
+            "numerically significant, and CW shift controlled; requires full 6D+ "
+            "geometry for exact θ_HR"
             if all_pass
-            else "GATE_FAIL: mixing angle outside perturbative bounds"
+            else "GATE_FAIL: mixing pathway does not satisfy tightened control checks"
         ),
     }
 

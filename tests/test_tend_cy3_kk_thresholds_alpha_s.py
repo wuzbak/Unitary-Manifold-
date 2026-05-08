@@ -13,10 +13,12 @@ from src.tend.cy3_kk_thresholds_alpha_s import (
     H11_QUINTIC,
     H21_QUINTIC,
     N_KK_MODES_EFF,
+    FLUX_LATTICE_ENHANCEMENT_WEIGHT,
     M_KK_CY3_GEV,
     M_PLANCK_GEV,
     M_Z_GEV,
     cy3_beta_function_coefficient,
+    flux_lattice_enhancement,
     kk_threshold_correction,
     alpha_s_with_cy3_thresholds,
     warp_factor_residual_cy3,
@@ -44,6 +46,9 @@ class TestConstants:
 
     def test_n_kk_modes(self):
         assert N_KK_MODES_EFF == 37
+
+    def test_flux_lattice_enhancement_weight(self):
+        assert FLUX_LATTICE_ENHANCEMENT_WEIGHT == pytest.approx(0.15, rel=1e-9)
 
     def test_m_kk_above_mz(self):
         assert M_KK_CY3_GEV > M_Z_GEV * 1e10
@@ -118,6 +123,14 @@ class TestKKThresholdCorrection:
         assert math.log(M_KK_CY3_GEV / M_Z_GEV) > 0
 
 
+class TestFluxLatticeEnhancement:
+    def test_enhancement_above_unity(self):
+        assert flux_lattice_enhancement() > 1.0
+
+    def test_more_modes_more_enhancement(self):
+        assert flux_lattice_enhancement(100) > flux_lattice_enhancement(10)
+
+
 class TestAlphaSWithCY3:
     def test_cy3_alpha_s_above_direct_chain(self):
         a_cy3 = alpha_s_with_cy3_thresholds()
@@ -129,7 +142,9 @@ class TestAlphaSWithCY3:
 
     def test_cy3_alpha_s_in_reasonable_range(self):
         a_cy3 = alpha_s_with_cy3_thresholds()
-        assert 0.05 < a_cy3 < 0.12
+        # Lower bound reflects strengthened CY3+flux pathway: without flux
+        # enhancement α_s stays below ~0.089, so 0.08 is a conservative floor.
+        assert 0.08 < a_cy3 < 0.12
 
     def test_custom_b_kk(self):
         b = cy3_beta_function_coefficient(H11_QUINTIC, H21_QUINTIC)
@@ -193,6 +208,7 @@ class TestArchitectureGate:
     def test_residual_improved(self):
         g = cy3_architecture_gate()
         assert g["residual_pct_after"] < g["residual_pct_before"]
+        assert g["residual_pct_after"] < 25.0
 
     def test_gap_factor_decreased(self):
         g = cy3_architecture_gate()
@@ -209,6 +225,7 @@ class TestArchitectureGate:
             "alpha_s_cy3_corrected", "alpha_s_pdg",
             "gap_factor_5d_baseline", "gap_factor_cy3",
             "residual_pct_before", "residual_pct_after",
+            "delta_alpha_s_raw", "flux_lattice_enhancement_factor",
             "correction_positive", "gap_improved",
             "still_architecture_limited", "gate_pass", "status",
         ]:
@@ -228,6 +245,7 @@ class TestSummary:
         s = cy3_kk_thresholds_summary()
         for key in [
             "h11_quintic", "h21_quintic", "n_kk_modes_eff",
+            "flux_lattice_enhancement_factor",
             "m_kk_cy3_gev", "b_kk", "delta_alpha_s",
             "alpha_s_direct_chain", "alpha_s_cy3_corrected", "alpha_s_pdg",
             "gap_factor_5d", "gap_factor_cy3",

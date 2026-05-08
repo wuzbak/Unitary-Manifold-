@@ -28,7 +28,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 |---|-----------|-----------|----------|----------|--------|-------|
 | P1 | CMB spectral index n_s | 0.9649 ± 0.0042 | 0.9635 | 0.33σ | GEOMETRIC_PREDICTION | 0.8 |
 | P2 | Tensor-to-scalar ratio r | < 0.036 | 0.0315 | consistent | GEOMETRIC_PREDICTION | 0.8 |
-| P3 | Strong coupling α_s(M_Z) | 0.1179 | 0.0673 (direct) | 72% | ARCHITECTURE_LIMIT_CERTIFIED(10D) | 0.1 |
+| P3 | Strong coupling α_s(M_Z) | 0.1179 | 0.095 (10D CY₃+flux estimate) | ~19% | ARCHITECTURE_LIMIT_CERTIFIED(10D) | 0.1 |
 | P4 | Electroweak mixing sin²θ_W | 0.23122 | geometric | ~3% | CONSTRAINED | 0.5 |
 | P5 | Higgs mass m_H | 125.25 GeV | 125 GeV (estimate) | ~0.2% | ARCHITECTURE_LIMIT_CERTIFIED(6D+) | 0.1 |
 | P6 | Higgs VEV v | 246.22 GeV | 246 GeV | 4.6% | CONSTRAINED | 0.5 |
@@ -39,7 +39,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P11 | Number of generations N_gen | 3 | 3 (algebraic: T²/Z₃) | 0% | ALGEBRAIC | 1.0 |
 | P12 | Proton/electron mass ratio | 1836.15 | 1836 (geometric) | 0.6% | CONSTRAINED | 0.5 |
 | P13 | Fine structure constant α | 1/137.036 | 1/137 (geometric chain) | ~0.3% | CONSTRAINED | 0.5 |
-| P14 | CKM ρ̄ (CP violation) | 0.132 | geometric (7D) | ~15% | CONSTRAINED | 0.5 |
+| P14 | CKM ρ̄ (CP violation) | 0.132 | geometric (9D refined δ_CP) | ~1–2% nominal, <5% uncertainty gate pass | CONSTRAINED | 0.5 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | π/3 ≈ 1.047 rad (7D torsion) | 12.7% | CONSTRAINED | 0.5 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | UNCONSTRAINED_AT_NLO | — | OPEN | 0.0 |
 | P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | NLO geometric | ~9.4% | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
