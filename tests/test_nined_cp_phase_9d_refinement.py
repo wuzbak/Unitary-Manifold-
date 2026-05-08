@@ -144,7 +144,10 @@ class TestResidualPct9D:
                         kk_ratio=KK_9D_SCALE_RATIO * kk_scale,
                         gs_flux=GS_FLUX_CONTRIBUTION * gs_scale,
                     )
-                    assert resid < 3.0
+                    assert resid < 3.0, (
+                        "Residual exceeded 3% for scales "
+                        f"(alpha={alpha_scale}, kk={kk_scale}, gs={gs_scale})"
+                    )
 
 
 class TestRhobarRobustnessGate:

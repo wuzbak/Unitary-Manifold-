@@ -134,6 +134,7 @@ def flux_lattice_enhancement(
 
     The log term is divided by 2 to average contributions from the two dominant
     CY₃ modulus sectors (Kähler and complex structure) in this coarse estimate.
+    log1p(n_kk_modes) is used (instead of log) for numerical stability in small-mode limits.
     """
     if n_kk_modes <= 0:
         return 1.0
