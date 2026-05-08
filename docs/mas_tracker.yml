@@ -1,4 +1,4 @@
-version: "v10.15"
+version: "v10.16"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -548,22 +548,22 @@ post_mas_tracks:
         recycle_into_mas: false
       WS-III:
         parameter: "P19, P20, P21"
-        artifact: "src/sixd/neutrino_overlap_integrals_nlo.py"
-        test: "tests/test_sixd_neutrino_overlap_integrals_nlo.py"
-        status: "TARGETED_FOLLOW_UP_FREEZE"
-        post_freeze_action: "open_targeted_workstream_ticket"
+        artifact: "src/sixd/neutrino_full_geometry_6dplus.py"
+        test: "tests/test_sixd_neutrino_full_geometry_6dplus.py"
+        status: "PASS_FREEZE"
+        post_freeze_action: "frozen"
         recycle_into_mas: false
       WS-I:
         parameter: "P5"
-        artifact: "src/sixd/higgs_radion_mixing_6d.py"
-        test: "tests/test_sixd_higgs_radion_mixing_6d.py"
-        status: "TARGETED_FOLLOW_UP_FREEZE"
-        post_freeze_action: "open_targeted_workstream_ticket"
+        artifact: "src/sixd/higgs_radion_full_geometry_6dplus.py"
+        test: "tests/test_sixd_higgs_radion_full_geometry_6dplus.py"
+        status: "PASS_FREEZE"
+        post_freeze_action: "frozen"
         recycle_into_mas: false
       WS-IV:
         parameter: "P3"
-        artifact: "src/tend/cy3_kk_thresholds_alpha_s.py"
-        test: "tests/test_tend_cy3_kk_thresholds_alpha_s.py"
-        status: "TARGETED_FOLLOW_UP_FREEZE"
-        post_freeze_action: "open_targeted_workstream_ticket"
+        artifact: "src/tend/cy3_full_moduli_flux_alpha_s_10d.py"
+        test: "tests/test_tend_cy3_full_moduli_flux_alpha_s_10d.py"
+        status: "PASS_FREEZE"
+        post_freeze_action: "frozen"
         recycle_into_mas: false

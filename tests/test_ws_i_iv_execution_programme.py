@@ -50,7 +50,7 @@ def test_each_entry_has_required_keys():
 
 
 def test_statuses_binary_freeze_policy():
-    valid = {"PASS_FREEZE", "TARGETED_FOLLOW_UP_FREEZE"}
+    valid = {"PASS_FREEZE"}
     for entry in WS_EXECUTION_PROGRAMME.values():
         assert entry["status"] in valid
 
@@ -59,9 +59,9 @@ def test_ws2_is_pass_freeze():
     assert WS_EXECUTION_PROGRAMME["WS-II"]["status"] == "PASS_FREEZE"
 
 
-def test_other_workstreams_targeted_follow_up_freeze():
+def test_other_workstreams_pass_freeze():
     for ws_id in ("WS-I", "WS-III", "WS-IV"):
-        assert WS_EXECUTION_PROGRAMME[ws_id]["status"] == "TARGETED_FOLLOW_UP_FREEZE"
+        assert WS_EXECUTION_PROGRAMME[ws_id]["status"] == "PASS_FREEZE"
 
 
 def test_no_recycle_into_mas_for_any_workstream():
@@ -83,8 +83,8 @@ def test_unknown_workstream_raises():
 def test_summary_shape_and_counts():
     s = execution_programme_summary()
     assert s["workstream_count"] == 4
-    assert s["pass_freeze_count"] == 1
-    assert s["targeted_follow_up_freeze_count"] == 3
+    assert s["pass_freeze_count"] == 4
+    assert s["targeted_follow_up_freeze_count"] == 0
     assert s["mas_reopen_allowed"] is False
     assert s["recycle_into_mas_allowed"] is False
     assert s["all_records_no_mas_recycle"] is True
@@ -95,4 +95,3 @@ def test_summary_order_and_gate_command():
     assert s["execution_order"] == ["WS-II", "WS-III", "WS-I", "WS-IV"]
     assert "pytest tests/ recycling/" in FULL_REGRESSION_GATE_COMMAND
     assert "test_symbolic_metric.py" in FULL_REGRESSION_GATE_COMMAND
-

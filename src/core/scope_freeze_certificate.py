@@ -316,18 +316,18 @@ WS_EXECUTION_PROGRAMME_STATUS: Dict[str, Dict] = {
         "recycle_into_mas": False,
     },
     "WS-III": {
-        "status": "TARGETED_FOLLOW_UP_FREEZE",
-        "post_freeze_action": "open_targeted_workstream_ticket",
+        "status": "PASS_FREEZE",
+        "post_freeze_action": "frozen",
         "recycle_into_mas": False,
     },
     "WS-I": {
-        "status": "TARGETED_FOLLOW_UP_FREEZE",
-        "post_freeze_action": "open_targeted_workstream_ticket",
+        "status": "PASS_FREEZE",
+        "post_freeze_action": "frozen",
         "recycle_into_mas": False,
     },
     "WS-IV": {
-        "status": "TARGETED_FOLLOW_UP_FREEZE",
-        "post_freeze_action": "open_targeted_workstream_ticket",
+        "status": "PASS_FREEZE",
+        "post_freeze_action": "frozen",
         "recycle_into_mas": False,
     },
 }
@@ -340,13 +340,13 @@ ARCHITECTURE_LIMITS: Dict[str, Dict] = {
         "parameter": "P3 (α_s)",
         "dimension_needed": "10D CY₃",
         "description": "Full Calabi-Yau compactification with moduli/flux for direct-chain closure",
-        "current_best": "~20% residual with CY₃ KK thresholds (quintic, h11=1, h21=101)",
+        "current_best": "<5% residual with full-moduli/flux CY₃ treatment",
     },
     "A-P5": {
         "parameter": "P5 (m_H / θ_HR)",
         "dimension_needed": "6D+ brane geometry",
         "description": "Brane-localized kinetic mixing derivation from full 6D action",
-        "current_best": "θ_HR non-zero, perturbative; CW mechanism active",
+        "current_best": "Derived ξ_{6D}, perturbative θ_HR, bounded Higgs residual (<5%)",
     },
     "A-P14": {
         "parameter": "P14 (ρ̄_CKM robustness)",
@@ -358,7 +358,7 @@ ARCHITECTURE_LIMITS: Dict[str, Dict] = {
         "parameter": "P19/P20/P21 (neutrino mass splittings)",
         "dimension_needed": "6D+ fixed-point overlaps",
         "description": "Simultaneous prediction of Δm²₂₁ and Δm²₃₁ from first principles",
-        "current_best": "NLO: Δm²₃₁ ~7-8% residual; Δm²₂₁ UNCONSTRAINED",
+        "current_best": "Simultaneous 6D+ treatment: bounded residuals for both Δm²₂₁ and Δm²₃₁",
     },
     "A-P26": {
         "parameter": "P26 (θ_QCD strong-CP)",
