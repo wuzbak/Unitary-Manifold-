@@ -93,6 +93,18 @@ interface before writing code.
 
 ---
 
+## 3a · Editorial checklist for documentation PRs
+
+For pull requests that modify `.md` files, verify all items below before review:
+
+- [ ] **Right tier:** Content is in the correct epistemic layer (technical corpus vs outreach/general audience).
+- [ ] **Clinical tone in technical docs:** `README.md`, `1-THEORY/`, `2-REPRODUCIBILITY/`, and `3-FALSIFICATION/` use evidence-first wording and avoid rhetorical framing.
+- [ ] **Separation enforced:** Non-physics or phenomenological bridges are clearly labeled and separated (see `SEPARATION.md`).
+- [ ] **Limits and falsifiers present:** Major claims include status context and link to limitations/falsification (`FALLIBILITY.md`, `3-FALSIFICATION/`).
+- [ ] **Institutional path intact:** A reviewer can navigate `README.md` → `FALLIBILITY.md` → `1-THEORY/DERIVATION_STATUS.md` → `3-FALSIFICATION/` → reproducibility/tests without entering outreach material.
+
+---
+
 ## 4 · Reporting errors
 
 If you find a **physics error** (wrong sign, wrong index contraction, violated
