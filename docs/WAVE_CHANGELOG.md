@@ -13,6 +13,92 @@ For each wave entry, include:
 
 ---
 
+## v10.27 (Neutrino Closure Sprint + Tier-4 Purity Sprint + DESI Y3 Sync)
+
+### What changed
+- Added `src/core/neutrino_p20_braid_nlo.py` + `tests/test_core_neutrino_p20_braid_nlo.py`:
+  - P20 promoted `CONSTRAINED` → `GEOMETRIC_PREDICTION` (residual 0.28%).
+- Added `src/core/neutrino_p18_route_consolidation.py` + `tests/test_core_neutrino_p18_route_consolidation.py`:
+  - P18 promoted `CONSTRAINED` → `GEOMETRIC_PREDICTION` (Route A residual 1.55%).
+- Added `src/core/neutrino_closure_sprint.py` + `tests/test_core_neutrino_closure_sprint.py`:
+  - Sprint aggregator for P17/P18/P20 closure outcomes.
+- Added `src/core/yukawa_tier4_purity_sprint.py` + `tests/test_core_yukawa_tier4_purity_sprint.py`:
+  - Tier-4 purity framework delivered; promotion blocked pending Pillar 183 input closure.
+- Updated `3-FALSIFICATION/OBSERVATION_TRACKER.md`:
+  - G4 sin²θ₁₂ route consolidated and DESI Y3 priority sync recorded.
+
+### What did not change
+- MAS remained closed.
+- No MAS wave reopened.
+- P17 remained `CONSTRAINED` (documented improvement only; no status inflation).
+- Tier-4 Yukawa parameters were not promoted.
+
+### Why
+- Close actionable neutrino hard-gates while preserving anti-inflation governance.
+- Synchronize observational monitoring with closure outcomes and DESI Y3 priority handling.
+
+### Epistemic label deltas
+- **P18**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
+- **P20**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
+- **P17**: remains **`CONSTRAINED`** with documented 2NLO residual tracking.
+
+### TOE score delta
+- **+0.6 points** (18.9 → 19.5 / 28; 68% → 70%).
+
+### Falsification impact
+- No falsifier removed or weakened.
+- LiteBIRD birefringence primary falsifier remained unchanged.
+- DESI Y3 monitoring remained explicit and time-bound.
+
+### Residual unknowns
+- P17 residual remains above hard-gate threshold (6.87% at 2NLO).
+- Tier-4 Yukawa closure still depends on unresolved c_L spectrum inputs (Pillar 183 path).
+- DESI Y3 publication still requires immediate PASS/TENSION/FALSIFIED routing integration.
+
+---
+
+## v10.26 (Readiness and Monitoring Hardening)
+
+### What changed
+- Added `src/core/desi_year3_monitor.py` + `tests/test_core_desi_year3_monitor.py`:
+  - Explicit PASS/TENSION/FALSIFIED routing for DESI Year 3 integration.
+- Added `src/core/litebird_readiness_hardening.py` + `tests/test_core_litebird_readiness_hardening.py`:
+  - Publication checklist and immediate recording path for primary falsifier handling.
+- Added `src/core/yukawa_tier4_followup.py` + `tests/test_core_yukawa_tier4_followup.py`:
+  - Tier-4 purity-gate follow-up without status inflation.
+- Added `src/core/neutrino_precision_hardgate_cert.py` + `tests/test_core_neutrino_precision_hardgate_cert.py`:
+  - Machine-readable queue for remaining constrained neutrino parameters.
+- Added `src/core/pmns_solar_rge_correction.py` + `tests/test_pmns_solar_rge_correction.py`:
+  - PMNS solar-angle improvement path with no-overclaim gate.
+- Added `src/core/canonical_falsifier_evidence_feed.py` + `tests/test_core_canonical_falsifier_evidence_feed.py`.
+- Updated `3-FALSIFICATION/OBSERVATION_TRACKER.md` for tracker/falsifier feed sync.
+
+### What did not change
+- No parameter status was promoted in this batch.
+- MAS remained closed.
+- No TOE score change was claimed.
+
+### Why
+- Harden observation-response procedures before additional status claims.
+- Improve monitoring, traceability, and no-inflation guardrails for near-term experiments.
+
+### Epistemic label deltas
+- **None**.
+
+### TOE score delta
+- **No change** (18.9 → 18.9 / 28; 68% → 68%).
+
+### Falsification impact
+- No falsifier removed or weakened.
+- Primary and secondary falsifier workflows were made more explicit and operational.
+
+### Residual unknowns
+- DESI Y3 result remained pending integration.
+- P17/P18/P20 remained in constrained queue at this stage (before v10.27 promotions).
+- Tier-4 Yukawa closures remained blocked by upstream geometric input gaps.
+
+---
+
 ## v10.14 (Post-MAS Extension Tracks ET-1 through ET-6 + Scope Freeze)
 
 ### What changed
