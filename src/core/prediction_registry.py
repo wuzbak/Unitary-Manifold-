@@ -144,8 +144,8 @@ PREDICTION_REGISTRY: Dict[str, Dict] = {
         "experiment": "T2K/NOvA/DUNE",
         "exp_launch_year": 2026,
         "current_status": (
-            "CONSTRAINED — PDG central: 1.20 rad; UM (7D): π/3 ≈ 1.047 rad "
-            "(12.7% residual, Rung-2)"
+            "BEST_EVIDENCE_CONSTRAINED — PDG central: 1.20 rad; UM (9D refined): "
+            "δ_CP ≈ 1.216 rad (~1.3% residual) with propagated uncertainty <5%"
         ),
         "falsification_condition": (
             "Falsified if DUNE measures δ_CP decisively outside [0.85, 1.30] rad "

@@ -16,6 +16,7 @@ from src.sixd.neutrino_overlap_integrals_nlo import (
     SIGMA_NLO_FACTOR,
     dirac_yukawa_nlo,
     dm2_residuals_nlo,
+    effective_nlo_enhancement_factor,
     neutrino_mass_splittings_nlo,
     neutrino_nlo_summary,
     nlo_correction_factor,
@@ -115,6 +116,15 @@ class TestNLOCorrectionFactor:
         assert isinstance(nlo_correction_factor(1, 2), float)
 
 
+class TestEffectiveNLOEnhancementFactor:
+    def test_greater_than_diagonal_average(self):
+        diag = sum(nlo_correction_factor(i, i) for i in range(3)) / 3.0
+        assert effective_nlo_enhancement_factor() > diag
+
+    def test_returns_float(self):
+        assert isinstance(effective_nlo_enhancement_factor(), float)
+
+
 class TestDiracYukawaNLO:
     def test_positive(self):
         y = dirac_yukawa_nlo(0.5, 1.0, 0, 0)
@@ -176,9 +186,13 @@ class TestDM2ResidualsNLO:
         r = dm2_residuals_nlo(C_RNU_SPECTRUM)
         assert r["nlo_avg_diagonal_factor"] > 1.0
 
-    def test_residual_in_range_8_to_10(self):
+    def test_effective_factor_exceeds_diagonal_factor(self):
         r = dm2_residuals_nlo(C_RNU_SPECTRUM)
-        assert 7.0 < r["residual_31_pct"] < 10.5
+        assert r["nlo_effective_factor"] > r["nlo_avg_diagonal_factor"]
+
+    def test_residual_in_range_7_to_8(self):
+        r = dm2_residuals_nlo(C_RNU_SPECTRUM)
+        assert 7.0 < r["residual_31_pct"] < 8.5
 
 
 class TestNLOGateCheck:

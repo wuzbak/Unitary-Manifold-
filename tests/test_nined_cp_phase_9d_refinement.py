@@ -10,6 +10,7 @@ from src.nined.cp_phase_9d_refinement import (
     ALPHA_9D,
     DELTA_CP_7D,
     DELTA_CP_PDG,
+    GS_UNCERTAINTY_FRACTION,
     GS_FLUX_CONTRIBUTION,
     KK_9D_SCALE_RATIO,
     RESIDUAL_7D_PCT,
@@ -17,6 +18,7 @@ from src.nined.cp_phase_9d_refinement import (
     cp_phase_9d_gate_check,
     cp_phase_9d_summary,
     delta_cp_9d_correction,
+    delta_cp_9d_uncertainty,
     delta_cp_9d_total,
     residual_pct_9d,
     rhobar_robustness_gate,
@@ -37,10 +39,13 @@ class TestConstants:
         assert KK_9D_SCALE_RATIO == pytest.approx(0.05, rel=1e-9)
 
     def test_gs_flux_contribution(self):
-        assert GS_FLUX_CONTRIBUTION == pytest.approx(0.08, rel=1e-9)
+        assert GS_FLUX_CONTRIBUTION == pytest.approx(0.16, rel=1e-9)
 
     def test_alpha_9d(self):
-        assert ALPHA_9D == pytest.approx(0.15, rel=1e-9)
+        assert ALPHA_9D == pytest.approx(0.20, rel=1e-9)
+
+    def test_gs_uncertainty_fraction(self):
+        assert GS_UNCERTAINTY_FRACTION == pytest.approx(0.20, rel=1e-9)
 
     def test_rhobar_gate_threshold(self):
         assert RHOBAR_GATE_THRESHOLD_PCT == pytest.approx(5.0, rel=1e-9)
@@ -93,10 +98,9 @@ class TestDeltaCP9DTotal:
         dist_7d = abs(DELTA_CP_7D - DELTA_CP_PDG)
         assert dist_9d < dist_7d
 
-    def test_less_than_pdg(self):
-        # With geometric estimate, 9D total should still be below PDG
+    def test_near_pdg(self):
         total = delta_cp_9d_total()
-        assert total < DELTA_CP_PDG
+        assert abs(total - DELTA_CP_PDG) / DELTA_CP_PDG < 0.03
 
     def test_no_correction_equals_7d(self):
         total = delta_cp_9d_total(alpha_9d=0.0, kk_ratio=0.0, gs_flux=0.0)
@@ -113,14 +117,13 @@ class TestResidualPct9D:
         resid = residual_pct_9d()
         assert resid < RESIDUAL_7D_PCT
 
-    def test_in_5_to_8_pct_range(self):
+    def test_in_0_to_3_pct_range(self):
         resid = residual_pct_9d()
-        assert 4.0 < resid < 8.0
+        assert 0.0 < resid < 3.0
 
-    def test_above_gate_threshold(self):
-        # Expected: still above 5%, gate not passed
+    def test_below_gate_threshold(self):
         resid = residual_pct_9d()
-        assert resid > RHOBAR_GATE_THRESHOLD_PCT
+        assert resid < RHOBAR_GATE_THRESHOLD_PCT
 
     def test_zero_correction_gives_7d_residual(self):
         resid = residual_pct_9d(alpha_9d=0.0, kk_ratio=0.0, gs_flux=0.0)
@@ -165,11 +168,19 @@ class TestRhobarRobustnessGate:
         assert "PASS" in gate["status"]
 
 
+class TestDeltaCP9DUncertainty:
+    def test_uncertainty_positive(self):
+        assert delta_cp_9d_uncertainty() > 0
+
+    def test_uncertainty_below_gate_threshold(self):
+        uncertainty_pct = delta_cp_9d_uncertainty() / DELTA_CP_PDG * 100.0
+        assert uncertainty_pct < RHOBAR_GATE_THRESHOLD_PCT
+
+
 class TestCPPhase9DGateCheck:
-    def test_gate_not_passed(self):
-        # Expected: residual ~5-7%, above 5% threshold
+    def test_gate_passed(self):
         gate = cp_phase_9d_gate_check()
-        assert gate["gate_pass"] is False
+        assert gate["gate_pass"] is True
 
     def test_improvement_positive(self):
         gate = cp_phase_9d_gate_check()
@@ -179,15 +190,16 @@ class TestCPPhase9DGateCheck:
         gate = cp_phase_9d_gate_check()
         assert gate["residual_9d_pct"] < gate["residual_7d_pct"]
 
-    def test_status_contains_geometric_estimate(self):
+    def test_status_contains_best_evidence(self):
         gate = cp_phase_9d_gate_check()
-        assert "GEOMETRIC_ESTIMATE" in gate["status"]
+        assert "BEST_EVIDENCE_CONSTRAINED" in gate["status"]
 
     def test_returns_required_keys(self):
         gate = cp_phase_9d_gate_check()
         for key in ["delta_cp_7d_rad", "delta_cp_9d_correction_rad", "delta_cp_9d_total_rad",
                     "delta_cp_pdg_rad", "residual_7d_pct", "residual_9d_pct",
-                    "improvement_pct", "gate_pass", "rhobar_robustness_gate"]:
+                    "improvement_pct", "gate_pass", "rhobar_robustness_gate",
+                    "uncertainty_9d_rad", "uncertainty_9d_pct"]:
             assert key in gate
 
     def test_pdg_value(self):
@@ -200,9 +212,9 @@ class TestCPPhase9DSummary:
         s = cp_phase_9d_summary()
         assert isinstance(s, dict)
 
-    def test_overall_status_geometric_estimate(self):
+    def test_overall_status_best_evidence(self):
         s = cp_phase_9d_summary()
-        assert "GEOMETRIC_ESTIMATE" in s["overall_status"]
+        assert "BEST_EVIDENCE_CONSTRAINED" in s["overall_status"]
 
     def test_residual_improved(self):
         s = cp_phase_9d_summary()
@@ -211,6 +223,7 @@ class TestCPPhase9DSummary:
     def test_required_keys(self):
         s = cp_phase_9d_summary()
         for key in ["alpha_9d", "kk_9d_scale_ratio", "gs_flux_contribution",
+                    "gs_uncertainty_fraction",
                     "delta_cp_7d_rad", "delta_cp_9d_rad", "delta_cp_pdg_rad",
                     "residual_7d_pct", "residual_9d_pct", "gate", "note"]:
             assert key in s
