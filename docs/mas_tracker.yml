@@ -175,7 +175,7 @@ integration_checkpoint:
   cadence: "Post-W13 integration sync"
   completed: "2026-05-08"
   gate_result: "W13_MAS_CLOSURE_SPRINT_EVIDENCE_ATTACHED"
-  regression: "pending_final_full_regression"
+  regression: "25018 passed, 329 skipped, 11 deselected, 0 failed"
 
 dbp_ladder:
   rung1:
