@@ -193,7 +193,7 @@ integration_checkpoint:
   cadence: "Post-W14 MAS programme completion"
   completed: "2026-05-08"
   gate_result: "MAS_PROGRAMME_COMPLETE"
-  regression: "25018 passed, 329 skipped, 11 deselected, 0 failed"
+  regression: "25292 passed, 329 skipped, 11 deselected, 0 failed"
 
 post_mas_extension_checkpoint:
   date: "2026-05-08"

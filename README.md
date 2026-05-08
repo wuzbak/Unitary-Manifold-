@@ -1,27 +1,26 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.11)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.13)
 
 This repository contains the technical record, code, and falsification conditions for the Unitary Manifold framework.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![25018 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-25018%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![25292 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-25292%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.11-blue)](CITATION.cff)
+[![Version](https://img.shields.io/badge/version-v10.13-blue)](docs/mas_tracker.yml)
+[![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status (v10.11):** This framework is not yet a zero-free-parameter TOE.
-> TOE score is **~62% (5D domain completeness audit)** under the earned-closure threshold.  
-> P5 (Higgs mass) is an **ARCHITECTURE LIMIT** in the current RS1 scope;  
-> P28 (Newton's constant) is tracked as **DIMENSIONAL SCALE** (not a fitted prediction).  
-> For canonical, up-to-date status use:
-> [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md),
-> [`src/core/sm_free_parameters.py`](src/core/sm_free_parameters.py),
-> [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md),
-> [`docs/v10.6_release_notes.md`](docs/v10.6_release_notes.md),
-> and [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md).
+> ⚠️ **Honest status (v10.13):** MAS is complete and post-MAS tracks T1–T3 are PASS (T4 optional, not activated).
+> Latest full local regression on this branch: **25292 passed · 329 skipped · 11 deselected · 0 failed**.  
+> For canonical, up-to-date status and provenance use:
+> [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
+> [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md), and [`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md).
 
 ---
+
+> **Document freshness note:** Some lower sections intentionally preserve historical snapshots and legacy counts for audit traceability.
+> Canonical current version/status/test totals and provenance are maintained in `docs/mas_tracker.yml` and `9-INFRASTRUCTURE/provenance/README.md`.
 
 ## Institutional Reading Path (Primary)
 
@@ -85,13 +84,14 @@ Start with the layer that matches your purpose:
 | 📚 **Monograph** | [`6-MONOGRAPH/`](6-MONOGRAPH/) | The v9a book (PDF), arXiv paper, manuscript chapters |
 | 📣 **Outreach** | [`7-OUTREACH/`](7-OUTREACH/) | AxiomZero Substack posts and books — *not peer-reviewed physics* |
 | 🛡️ **Safety** | [`8-SAFETY/`](8-SAFETY/) | Dual-use safety, radiological review, security protocols |
-| 🔧 **Infrastructure** | [`9-INFRASTRUCTURE/`](9-INFRASTRUCTURE/) | Notebooks, bots, scripts, AI tools |
+| 🔧 **Infrastructure** | [`9-INFRASTRUCTURE/`](9-INFRASTRUCTURE/) | Notebooks, bots, scripts, AI tools, provenance inventory |
 
 **Entry points by role:**
 - *Physicist reviewing the theory:* `FALLIBILITY.md` → `1-THEORY/DERIVATION_STATUS.md` → `3-FALSIFICATION/` → `2-REPRODUCIBILITY/`
 - *Reproducing results:* `python VERIFY.py` → `python -m pytest tests/ -q` → `2-REPRODUCIBILITY/`
 - *Understanding the falsifiers:* `3-FALSIFICATION/prediction.md`
 - *General reader (optional):* `4-IMPLICATIONS/WHAT_THIS_MEANS.md` → `7-OUTREACH/`
+- *Build/audit/toolchain provenance:* `9-INFRASTRUCTURE/provenance/README.md`
 
 ---
 
@@ -600,7 +600,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 ### Complete Pillar Taxonomy (historical v10.4 snapshot)
 
 > This section is preserved as historical documentation.
-> For current pillar/status truth (v10.6, 217 pillars + Ω₀), use `STATUS.md`.
+> For canonical current pillar/status truth, use `docs/mas_tracker.yml` and `STATUS.md`.
 
 | # | Title | Module | Tests |
 |---|-------|--------|-------|
@@ -847,7 +847,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: ~23,524 passed · 329 skipped · 11 slow-deselected)
+### Run the test suite — 0 failures (full suite: 25292 passed · 329 skipped · 11 deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
@@ -1195,7 +1195,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**~23,524 tests: ~23,524 passed, 329 skipped, 11 slow-deselected, 0 failures**).
+(**25292 tests: 25292 passed, 329 skipped, 11 deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -1217,7 +1217,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (~23,524 pass · 329 skip · 11 slow-deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (25292 pass · 329 skip · 11 deselected) | Any non-zero GR-limit residual |
 
 ---
 

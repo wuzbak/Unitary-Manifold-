@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.7 — ThomasCory Walker-Pearson, 2026 (225+ pillars/modules + Ω₀ Holon Zero + sub-pillars; ~24,928+ tests passing)**
+*Unitary Manifold v10.13 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 25292 passed, 329 skipped, 11 deselected, 0 failed).*
 
 ---
 
@@ -16,9 +16,12 @@ Nothing here is defensive; all of it is honest.
 
 ---
 
+> **Historical note:** Some sections below retain prior-wave examples and labels for traceability.
+> Canonical current state is maintained in `docs/mas_tracker.yml`, `docs/WAVE_CHANGELOG.md`, and `9-INFRASTRUCTURE/provenance/README.md`.
+
 ## I. Scope of Verification
 
-The 24,928 automated tests (225+ pillars/modules + Ω₀ Holon Zero + sub-pillars; collected across `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, and `omega/`; 329 skipped, 11 deselected, 0 failed) confirm that the numerical implementations
+The latest verified branch regression (25292 passed, 329 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -48,7 +51,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "~24,928 passed · 329 skipped · 0 failed," this is a statement about
+When the README badge reads "25292 passed · 329 skipped · 11 deselected · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---

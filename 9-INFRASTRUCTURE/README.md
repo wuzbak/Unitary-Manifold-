@@ -12,6 +12,7 @@ documentation tools, and other support materials.
 | [`bot/`](bot/) | AI assistant infrastructure: RAG, Copilot Extension, Custom GPT, pages chatbot |
 | [`notebooks/`](notebooks/) | Jupyter notebooks: quickstart, holographic boundary, FTUM fixed point |
 | [`docs/`](docs/) | Semantic bridge documentation |
+| [`provenance/`](provenance/) | Canonical toolchain/language/suite/AI provenance and freshness policy |
 | [`cold-fusion/`](cold-fusion/) | Cold fusion public-facing documentation |
 | [`scripts/`](scripts/) | Maintenance scripts |
 | [`wiki/`](wiki/) | GitHub wiki source |

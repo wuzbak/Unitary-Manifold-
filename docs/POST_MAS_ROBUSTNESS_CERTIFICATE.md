@@ -6,6 +6,12 @@
 
 ---
 
+## Toolchain & AI provenance reference
+
+For the canonical inventory of languages/programs/suites/AI systems used for build and audit surfaces, see [`9-INFRASTRUCTURE/provenance/README.md`](../9-INFRASTRUCTURE/provenance/README.md).
+
+---
+
 ## Scope Lock (Anti-Loop Clause)
 
 - MAS remains closed and is not reopened.
