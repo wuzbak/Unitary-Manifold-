@@ -1206,7 +1206,7 @@ v10_29_batch:
         Updated: GEOMETRIC_PREDICTION 19→22, CONSTRAINED 4→2,
         GEOMETRIC_ESTIMATE_CERTIFIED 1→0; canonical total 21.2 preserved.
     STATUS_MD_UPDATE:
-      title: "Update STATUS.md latest regression count (26462→26423)"
+      title: "Update STATUS.md latest regression count (26462→26423, 329→330 skipped)"
       artifact: "STATUS.md"
       status: "DELIVERED"
       toe_delta: 0.0
