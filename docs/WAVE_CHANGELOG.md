@@ -24,7 +24,7 @@ For each wave entry, include:
   - `p19_p20_p21_closure_certificate()` — P19/P20/P21 certified as GEOMETRIC_ESTIMATE_CERTIFIED.
   - `mas_completion_summary()` — authoritative terminal record; `MAS_COMPLETE = True`.
   - `all_parameter_statuses()` — terminal status table for P3–P27.
-- Added `tests/test_mas_final_closure.py` (54 tests, 0 failures).
+- Added `tests/test_mas_final_closure.py` (47 tests, 0 failures).
 - Added `docs/MAS_W14_LEDGER.md` — terminal wave ledger.
 - Added `docs/MAS_COMPLETION_CERTIFICATE.md` — formal programme completion certificate.
 - Updated `docs/mas_tracker.yml`:

@@ -294,3 +294,28 @@ def test_summary_actionable_next_steps():
 def test_summary_date_closed():
     s = mas_completion_summary()
     assert s["date_closed"] == "2026-05-08"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Cross-consistency checks
+# ──────────────────────────────────────────────────────────────────────────────
+
+def test_all_statuses_consistent_with_individual_certificates():
+    statuses = all_parameter_statuses()
+    assert statuses["P3"] == p3_closure_certificate()["final_status"]
+    assert statuses["P5"] == p5_closure_certificate()["final_status"]
+    assert statuses["P14"] == p14_closure_certificate()["final_status"]
+    nu = p19_p20_p21_closure_certificate()
+    for p in ["P19", "P20", "P21"]:
+        assert statuses[p] == nu["final_status"][p]
+
+
+def test_module_level_constants_match_summary():
+    s = mas_completion_summary()
+    assert MAS_COMPLETE == s["mas_complete"]
+    assert P3_FINAL_STATUS == s["parameter_final_statuses"]["P3"]
+    assert P5_FINAL_STATUS == s["parameter_final_statuses"]["P5"]
+    assert P14_FINAL_STATUS == s["parameter_final_statuses"]["P14"]
+    assert P19_FINAL_STATUS == s["parameter_final_statuses"]["P19"]
+    assert P20_FINAL_STATUS == s["parameter_final_statuses"]["P20"]
+    assert P21_FINAL_STATUS == s["parameter_final_statuses"]["P21"]

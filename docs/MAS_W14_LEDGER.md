@@ -52,7 +52,7 @@ Wave verdict: **MAS_COMPLETE — all parameters formally certified at best achie
   - `p19_p20_p21_closure_certificate()` — geometric-estimate certified with Δm²31 limit documented
   - `mas_completion_summary()` — authoritative terminal record; `MAS_COMPLETE = True`
   - `all_parameter_statuses()` — complete terminal status table (P3–P27)
-- Added `tests/test_mas_final_closure.py` (54 tests, 0 failures).
+- Added `tests/test_mas_final_closure.py` (47 tests, 0 failures).
 - Added `docs/MAS_W14_LEDGER.md`.
 - Added `docs/MAS_COMPLETION_CERTIFICATE.md`.
 - Updated `docs/mas_tracker.yml`: version → v10.12, W14 added, `mas_status: COMPLETE`.
