@@ -52,6 +52,7 @@ __all__ = [
     # Functions
     "tension_from_measurement",
     "routing_decision",
+    "route_desi_y3",
     "update_with_new_data",
     "falsification_verdict",
     "monitoring_report",
@@ -185,6 +186,35 @@ def routing_decision(
         "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
         "action": action,
     }
+
+
+def route_desi_y3(wa: float, sigma: float) -> Dict[str, object]:
+    """Route DESI Year 3 using explicit PASS/TENSION/FALSIFIED policy.
+
+    Parameters
+    ----------
+    wa : float
+        DESI Year 3 wₐ central value.
+    sigma : float
+        DESI Year 3 wₐ uncertainty (1σ).
+    """
+    wa_tension_sigma = abs(wa - UM_PREDICTION["wa"]) / sigma if sigma > 0 else float("inf")
+    # Keep w0 routing anchored to current baseline unless explicit Y3 w0 is provided.
+    w0_tension_sigma = abs(UM_PREDICTION["w0"] - DESI_DR2["w0_central"]) / DESI_DR2["w0_sigma"]
+    route = routing_decision(
+        w0_tension_sigma=w0_tension_sigma,
+        wa_tension_sigma=wa_tension_sigma,
+        release_name="DESI Year 3",
+        year=2026,
+    )
+    route.update(
+        {
+            "wa_input": wa,
+            "sigma_input": sigma,
+            "wa_tension_sigma": wa_tension_sigma,
+        }
+    )
+    return route
 
 
 def update_with_new_data(
