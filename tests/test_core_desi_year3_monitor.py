@@ -11,6 +11,7 @@ from src.core.desi_year3_monitor import (
     MONITOR_INTEGRATION_TARGETS,
     UM_PREDICTION,
     routing_decision,
+    route_desi_y3,
     tension_from_measurement,
     update_with_new_data,
     falsification_verdict,
@@ -116,6 +117,21 @@ def test_update_has_explicit_routing():
 
 def test_routing_decision_falsified():
     route = routing_decision(1.0, 3.1, "DESI Year 3", 2026)
+    assert route["route"] == "FALSIFIED"
+
+
+def test_route_desi_y3_pass():
+    route = route_desi_y3(wa=-0.05, sigma=0.20)
+    assert route["route"] == "PASS"
+
+
+def test_route_desi_y3_tension():
+    route = route_desi_y3(wa=-0.25, sigma=0.20)
+    assert route["route"] == "TENSION"
+
+
+def test_route_desi_y3_falsified():
+    route = route_desi_y3(wa=-0.62, sigma=0.20)
     assert route["route"] == "FALSIFIED"
 
 

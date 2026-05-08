@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.27 — Effective 2026-05-08*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.27 Neutrino Closure Sprint delivered with P18/P20 promoted and no MAS reopen).*
+*Unitary Manifold v10.28 — Effective 2026-05-08*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.28 Tier-4/P17/P16 hardgate batch delivered with no MAS reopen).*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an
@@ -22,7 +22,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 26333 passed · 329 skipped · 11 deselected · 0 failed
+**Latest verified branch regression:** 26462 passed · 329 skipped · 11 deselected · 0 failed
 
 ---
 

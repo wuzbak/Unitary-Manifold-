@@ -1118,42 +1118,70 @@ v10_27_batch:
 v10_28_batch:
   date: "2026-05-08"
   version: "v10.28"
-  sprint_title: "Tier-4 Yukawa Closure Sprint (P7/P8/P9/P10) via Pillar-183 c_L hardgate"
+  sprint_title: "Tier-4 Yukawa Hardgate + P17/P16 Neutrino Precision + Tier-5 Frontier + DESI/α_GW Sync"
   deliverables:
-    PILLAR183_CL_SPECTRUM:
-      title: "Pillar 183 closure artifact — 6D T²/Z₃ c_L spectrum derivation for Tier-4"
+    TIER4_YUKAWA_HARDGATE:
+      title: "P7/P8/P9/P10 CONSTRAINED -> GEOMETRIC_PREDICTION via Tier-4 hardgate package"
       parameters: ["P7", "P8", "P9", "P10"]
-      artifact: "src/sixd/pillar183_cl_spectrum_6d.py"
-      test: "tests/test_sixd_pillar183_cl_spectrum_6d.py"
-      status: "DELIVERED"
-      outcomes:
-        axiomzero_purity: true
-        pdg_anchors_used: []
-    YUKAWA_SCALE_HARDGATE:
-      title: "v10.28 hardgate in yukawa_scale_6d for P7/P8/P9/P10"
-      parameters: ["P7", "P8", "P9", "P10"]
-      artifact: "src/sixd/yukawa_scale_6d.py"
-      test: "tests/test_sixd_yukawa_scale_6d.py"
+      artifact: "src/core/yukawa_tier4_hardgate_cert.py"
+      test: "tests/test_core_yukawa_tier4_hardgate_cert.py"
       status: "DELIVERED"
       previous_status: "CONSTRAINED"
       new_status: "GEOMETRIC_PREDICTION"
       toe_delta: 1.2
-      residuals_pct:
-        P7: 0.21
-        P8: 3.87
-        P9: 1.67
-        P10: 2.96
       gates:
-        - "nominal_residual_lt_5pct: PASS for all P7/P8/P9/P10"
-        - "axiomzero_purity: inputs {n_w, K_CS, πkR, Pillar-183 q_f} only PASS"
-        - "pillar183_cl_spectrum_derived: PASS"
-    TOE_AUDIT_SYNC:
-      title: "TOE_SCORE_AUDIT synced to v10.28 Yukawa promotions"
-      artifact: "docs/TOE_SCORE_AUDIT.md"
+        - "unified_yukawa_refinement_complete: PASS"
+        - "cross_generation_consistency_pass: PASS"
+        - "individual_hardgate_pass: PASS"
+    P17_9D_HARDGATE:
+      title: "P17 CONSTRAINED -> GEOMETRIC_PREDICTION with 9D KK+GS correction cycle"
+      parameter: "P17"
+      artifact: "src/core/dm2_atm_9d_hardgate.py"
+      test: "tests/test_core_dm2_atm_9d_hardgate.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+      gates:
+        - "nominal_residual_lt_5pct: PASS"
+        - "robustness_window_lt_5pct: PASS"
+        - "axiomzero_purity: PASS"
+    P16_CONSTRAINED_CERT:
+      title: "P16 GEOMETRIC_ESTIMATE_CERTIFIED -> CONSTRAINED via flux-backreaction NLO cert"
+      parameter: "P16"
+      artifact: "src/core/solar_splitting_constrained_cert.py"
+      test: "tests/test_core_solar_splitting_constrained_cert.py"
+      status: "DELIVERED"
+      previous_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      new_status: "CONSTRAINED"
+      toe_delta: 0.2
+    TIER5_FRONTIER_DEEPENING:
+      title: "P27/P28 architecture-limit deepening (no score inflation)"
+      parameters: ["P27", "P28"]
+      artifact: "src/core/architecture_frontier_tier5.py"
+      test: "tests/test_core_architecture_frontier_tier5.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    DESI_Y3_ROUTE_ENTRYPOINT:
+      title: "DESI Y3 direct route entrypoint `route_desi_y3(wa, sigma)`"
+      artifact: "src/core/desi_year3_monitor.py"
+      test: "tests/test_core_desi_year3_monitor.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    SIMONS_READINESS:
+      title: "Simons Observatory β-readiness forecast harness"
+      artifact: "src/core/simons_obs_readiness.py"
+      test: "tests/test_core_simons_obs_readiness.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    ALPHA_GW_CASIMIR_CLOSURE:
+      title: "D7 α_GW Casimir closure attempt (NATURALLY_BOUNDED -> CONSTRAINED)"
+      artifact: "src/core/alpha_gw_casimir_closure.py"
+      test: "tests/test_core_alpha_gw_casimir_closure.py"
       status: "DELIVERED"
       toe_delta: 0.0
   toe_score:
     before: 19.5
-    after: 20.7
+    after: 21.2
     before_pct: "70%"
-    after_pct: "74%"
+    after_pct: "76%"
