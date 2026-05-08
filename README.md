@@ -4,7 +4,7 @@
 > — Walker-Pearson, *The Unitary Manifold*, v9.30
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![24928 Tests passing](https://img.shields.io/badge/tests-24928%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![25018 Tests passing](https://img.shields.io/badge/tests-25018%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v10.7-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)

@@ -118,7 +118,7 @@ This document would be dishonest if it stopped at the successes.
 | **Gravitational wave sector** | The scalar breathing mode and frequency-dependent GW dispersion predictions await sensitivity from Einstein Telescope and LISA. Not falsified — not yet confirmed. GW coupling scale and stochastic KK GW background are addressed by Pillars 68–69. |
 | **r tension (Q18)** | **Resolved.** The braided (5,7) state with k_cs = 74 gives r_braided ≈ 0.0315, satisfying BICEP/Keck r < 0.036. nₛ is unchanged. See `src/core/braided_winding.py`. |
 
-See [`FALLIBILITY.md`](FALLIBILITY.md) for the complete treatment.
+See [`FALLIBILITY.md`](../FALLIBILITY.md) for the complete treatment.
 
 ---
 
@@ -258,7 +258,7 @@ The birefringence measurement from LiteBIRD will be the decisive test within thi
 ---
 
 *Document version: 2.0 — May 2026 (v9.36: 182 pillars + Ω₀ Holon Zero + sub-pillars closed, ~21,055 tests. REPOSITORY CLOSED.)*  
-*Part of the Unitary Manifold repository — see [README.md](README.md) for technical detail, [FALLIBILITY.md](FALLIBILITY.md) for honest limitations.*
+*Part of the Unitary Manifold repository — see [README.md](../README.md) for technical detail, [FALLIBILITY.md](../FALLIBILITY.md) for honest limitations.*
 
 ---
 
