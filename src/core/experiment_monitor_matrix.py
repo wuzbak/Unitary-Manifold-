@@ -20,6 +20,8 @@ from src.core.dune_dcp_monitor import monitoring_report as dune_monitoring_repor
 from src.core.hyperk_juno_monitor import monitoring_report as hyperk_juno_monitoring_report
 from src.core.litebird_readiness_hardening import litebird_prepublication_packet
 
+OVERDUE_THRESHOLD_DAYS: int = 30
+
 __all__ = [
     "collect_monitor_reports",
     "monitoring_status_table",
@@ -82,11 +84,15 @@ def high_priority_action_queue() -> List[Dict]:
     desi = desi_monitoring_report()
     litebird_policy = "same_day_recording_required"
     litebird_status = "READY_PACKET_AVAILABLE"
+    litebird_note = ""
     try:
         litebird = litebird_prepublication_packet()
-        litebird_policy = str(litebird.get("policy", litebird_policy))
-    except Exception:
+        policy_value = litebird.get("policy", litebird_policy)
+        if isinstance(policy_value, str) and policy_value:
+            litebird_policy = policy_value
+    except Exception as exc:
         litebird_status = "READINESS_PACKET_ERROR"
+        litebird_note = f"packet_generation_failed:{exc.__class__.__name__}"
     return [
         {
             "id": "DESI_Y3_30_DAY_ROUTING",
@@ -106,6 +112,7 @@ def high_priority_action_queue() -> List[Dict]:
             "status": litebird_status,
             "deadline_policy": litebird_policy,
             "action": "Execute falsification_check.py immediately and record same-day verdict.",
+            "note": litebird_note,
         },
         {
             "id": "CMBS4_MONITOR_SYNC",
@@ -153,7 +160,7 @@ def overdue_priority_actions(last_updated: Dict[str, str], today: str | None = N
             continue
         updated_day = datetime.strptime(stamp, "%Y-%m-%d").date()
         age_days = (reference_day - updated_day).days
-        if age_days > 30:
+        if age_days > OVERDUE_THRESHOLD_DAYS:
             overdue.append(
                 {
                     "id": action_id,
