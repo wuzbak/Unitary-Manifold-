@@ -13,6 +13,109 @@ For each wave entry, include:
 
 ---
 
+## v10.29 (Documentation Ledger Completion — v10.28 Changelog + Score Table + Framework Version)
+
+### What changed
+- Added missing v10.28 entry to `docs/WAVE_CHANGELOG.md` (was omitted from v10.28 PR).
+- Fixed stale category table in `docs/TOE_SCORE_AUDIT.md`:
+  - GEOMETRIC_PREDICTION count: 19 → 22 (reflects P7/P8/P9/P10 + P17 promotions from v10.28).
+  - CONSTRAINED count: 4 → 2 (reflects P7-P10/P17 promotions; P16 now the new addition).
+  - GEOMETRIC_ESTIMATE_CERTIFIED count: 1 → 0 (P16 upgraded to CONSTRAINED in v10.28).
+  - Added note clarifying canonical total (21.2) is carried by the version-delta ledger.
+- Updated `STATUS.md` latest regression count: 26462 → 26423 (current verified baseline).
+- Updated `src/core/five_tier_execution_framework.py`:
+  - `FRAMEWORK_VERSION`: `"v10.25"` → `"v10.28"`.
+  - `NEXT_THREE_PRS`: replaced completed tier programme with post-v10.28 open-item roadmap.
+- Added `v10_29_batch` entry to `docs/mas_tracker.yml`.
+
+### What did not change
+- No physics modules changed.
+- No parameter status changed.
+- No falsifiers removed or weakened.
+- ToE score unchanged at 21.2/28 (76%).
+
+### Why
+- Close the documentation ledger gap left when the v10.28 PR omitted the WAVE_CHANGELOG entry.
+- Correct stale numbers in the score category table to avoid misleading auditors.
+- Advance the framework version marker to match the delivered physics state.
+
+### Epistemic label deltas
+- None. This is a documentation-only sprint.
+
+### TOE score delta
+- **0 points** (21.2 / 28; 76% → 76%).
+
+### Falsification impact
+- No change.
+
+### Residual unknowns
+- P16 (Δm²₂₁ solar splitting): CONSTRAINED; GP requires Pillar 183 c_ν_base derivation from 6D T²/Z₃ moduli.
+- P26 (m_ν absolute scale): CONSTRAINED; PDG bound < 0.12 eV consistent but no specific prediction.
+- P27 (strong CP θ̄): ARCHITECTURE_LIMIT_CERTIFIED(7D/8D); quality gap 10² requires PQ mechanism in 7D/8D.
+- P28 (Λ): ARCHITECTURE_LIMIT_CERTIFIED(10D); 58-order gap requires full 10D moduli stabilization.
+- DESI Y3 publication still requires immediate PASS/TENSION/FALSIFIED routing on receipt.
+
+---
+
+## v10.28 (Tier-4 Yukawa Hardgate + P17/P16 Neutrino Precision + Tier-5 Frontier + DESI/α_GW Sync)
+
+### What changed
+- Added `src/core/yukawa_tier4_hardgate_cert.py` + `tests/test_core_yukawa_tier4_hardgate_cert.py`:
+  - P7/P8/P9/P10 promoted `CONSTRAINED` → `GEOMETRIC_PREDICTION` via Tier-4 hardgate NLO blend (residuals: P7 0.27%, P8 0.75%, P9 1.27%, P10 3.08%).
+- Added `src/core/dm2_atm_9d_hardgate.py` + `tests/test_core_dm2_atm_9d_hardgate.py`:
+  - P17 promoted `CONSTRAINED` → `GEOMETRIC_PREDICTION` (9D KK+GS hardgate corrected; residual 2.18%).
+- Added `src/core/solar_splitting_constrained_cert.py` + `tests/test_core_solar_splitting_constrained_cert.py`:
+  - P16 upgraded `GEOMETRIC_ESTIMATE_CERTIFIED` → `CONSTRAINED` via flux-backreaction NLO cert (corrected residual 0.20%).
+- Added `src/core/architecture_frontier_tier5.py` + `tests/test_core_architecture_frontier_tier5.py`:
+  - Tier-5 architecture-frontier deepening for P27/P28 (no score inflation; mechanism depth documented).
+- Added `src/core/desi_year3_monitor.py` + `tests/test_core_desi_year3_monitor.py`:
+  - DESI Y3 direct route entrypoint `route_desi_y3(wa, sigma)` for PASS/TENSION/FALSIFIED routing.
+- Added `src/core/simons_obs_readiness.py` + `tests/test_core_simons_obs_readiness.py`:
+  - Simons Observatory β-readiness forecast harness.
+- Added `src/core/alpha_gw_casimir_closure.py` + `tests/test_core_alpha_gw_casimir_closure.py`:
+  - D7 α_GW Casimir closure attempt; bounds α_GW to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰] interval (CONSTRAINED; UV-brane closure still pending).
+- Updated `docs/TOE_SCORE_AUDIT.md` to document v10.28 promotions and 76% score.
+- Updated `docs/mas_tracker.yml` with `v10_28_batch` entry.
+
+### What did not change
+- MAS remained closed.
+- No MAS wave reopened.
+- P16 remains CONSTRAINED (not GEOMETRIC_PREDICTION); Pillar 183 c_L derivation still required.
+- P26 (neutrino mass scale), P27 (strong CP), P28 (Λ) status unchanged.
+- LiteBIRD birefringence primary falsifier unchanged.
+
+### Why
+- Close actionable Tier-4 Yukawa and P17 neutrino hard-gates with full evidence packages.
+- Promote P16 to CONSTRAINED via flux-backreaction NLO cert (first sub-1% corrected residual).
+- Deepen architecture understanding for P27/P28 without score inflation.
+- Integrate DESI Y3 and Simons Observatory monitoring readiness.
+
+### Epistemic label deltas
+- **P7**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
+- **P8**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
+- **P9**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
+- **P10**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
+- **P17**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
+- **P16**: `GEOMETRIC_ESTIMATE_CERTIFIED` → **`CONSTRAINED`**.
+
+### TOE score delta
+- **+1.7 points** (19.5 → 21.2 / 28; 70% → 76%).
+
+### Falsification impact
+- No falsifier removed or weakened.
+- LiteBIRD birefringence primary falsifier remained unchanged.
+- DESI Y3 monitoring remained explicit and time-bound.
+
+### Residual unknowns
+- P16 corrected residual 0.20%; flux-backreaction factor not yet derived from 6D geometry (requires Pillar 183).
+- P26 (m_ν absolute scale): CONSTRAINED; PDG bound < 0.12 eV consistent but no specific prediction.
+- P27 (strong CP θ̄): ARCHITECTURE_LIMIT_CERTIFIED; quality gap 10² requires PQ mechanism in 7D/8D.
+- P28 (Λ): ARCHITECTURE_LIMIT_CERTIFIED; 58-order gap requires full 10D moduli stabilization.
+- DESI Y3 publication still requires PASS/TENSION/FALSIFIED routing on receipt.
+- α_GW UV-brane exact value still not first-principles derived.
+
+---
+
 ## v10.27 (Neutrino Closure Sprint + Tier-4 Purity Sprint + DESI Y3 Sync)
 
 ### What changed

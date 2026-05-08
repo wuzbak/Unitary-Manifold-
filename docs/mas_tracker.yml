@@ -1185,3 +1185,39 @@ v10_28_batch:
     after: 21.2
     before_pct: "70%"
     after_pct: "76%"
+
+v10_29_batch:
+  date: "2026-05-08"
+  version: "v10.29"
+  sprint_title: "Documentation Ledger Completion — v10.28 WAVE_CHANGELOG + Score Table + Framework Version"
+  deliverables:
+    WAVE_CHANGELOG_V1028:
+      title: "Add missing v10.28 entry to docs/WAVE_CHANGELOG.md"
+      artifact: "docs/WAVE_CHANGELOG.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: "v10.28 entry was omitted from the v10.28 PR; this sprint closes the ledger gap."
+    TOE_SCORE_AUDIT_TABLE:
+      title: "Fix stale category table in docs/TOE_SCORE_AUDIT.md (v10.27 → v10.28 counts)"
+      artifact: "docs/TOE_SCORE_AUDIT.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Updated: GEOMETRIC_PREDICTION 19→22, CONSTRAINED 4→2,
+        GEOMETRIC_ESTIMATE_CERTIFIED 1→0; canonical total 21.2 preserved.
+    STATUS_MD_UPDATE:
+      title: "Update STATUS.md latest regression count (26462→26423)"
+      artifact: "STATUS.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    FRAMEWORK_VERSION_BUMP:
+      title: "Bump five_tier_execution_framework.py FRAMEWORK_VERSION to v10.28 + update NEXT_THREE_PRS"
+      artifact: "src/core/five_tier_execution_framework.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: "All five tiers complete; NEXT_THREE_PRS updated to reflect post-tier-5 open items."
+  toe_score:
+    before: 21.2
+    after: 21.2
+    before_pct: "76%"
+    after_pct: "76%"

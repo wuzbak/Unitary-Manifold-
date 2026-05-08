@@ -27,7 +27,7 @@ from src.core.five_tier_execution_framework import (
 
 class TestFrameworkMetadata:
     def test_framework_version(self):
-        assert FRAMEWORK_VERSION == "v10.25"
+        assert FRAMEWORK_VERSION == "v10.28"
 
     def test_framework_date(self):
         assert FRAMEWORK_DATE == "2026-05-08"
@@ -133,16 +133,20 @@ class TestThroughputAndPRSequence:
 
     def test_next_three_prs_cover_tier1_to_tier3(self):
         prs = next_three_pr_sequence()
-        assert [p["pr_id"] for p in prs] == ["PR-1", "PR-2", "PR-3"]
-        assert [p["scope"] for p in prs] == ["Tier-2/Tier-3", "Tier-4", "Tier-5+Monitor"]
+        assert [p["pr_id"] for p in prs] == ["PR-COMPLETE", "PR-NEXT-1", "PR-NEXT-2"]
+        assert [p["scope"] for p in prs] == [
+            "All tiers completed in v10.28",
+            "Post-Tier-5 open items",
+            "Observation monitoring",
+        ]
 
     def test_pr1_scope_definition_has_required_deliverables(self):
         pr1 = next_three_pr_sequence()[0]
         deliverables = " ".join(pr1["deliverables"]).lower()
-        assert "neutrino" in pr1["title"].lower()
-        assert "hardgate certifier module" in deliverables
-        assert "robustness evidence" in deliverables
-        assert "axiomzero/purity evidence" in deliverables
+        assert "tier" in pr1["title"].lower()
+        assert "tier-1" in deliverables
+        assert "tier-4" in deliverables
+        assert "tier-5" in deliverables
 
     def test_next_three_pr_sequence_returns_copy(self):
         p1 = next_three_pr_sequence()
@@ -172,5 +176,5 @@ class TestFrameworkSummary:
         s = framework_summary()
         assert s["tier_count"] == 5
         assert s["tier_priority_order"] == TIER_PRIORITY_ORDER
-        assert s["next_three_pr_ids"] == ["PR-1", "PR-2", "PR-3"]
+        assert s["next_three_pr_ids"] == ["PR-COMPLETE", "PR-NEXT-1", "PR-NEXT-2"]
         assert s["no_overclaim_policy"] is True
