@@ -1,6 +1,6 @@
-version: "v10.10"
-date: "2026-05-07"
-updated: "2026-05-07"
+version: "v10.11"
+date: "2026-05-08"
+updated: "2026-05-08"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 non_negotiables:
@@ -153,12 +153,29 @@ waves:
       - "src/eleventd/horava_witten_hard_gate.py"
       - "tests/test_eleventd_horava_witten_hard_gate.py"
       - "docs/MAS_W12_LEDGER.md"
+  - id: "W13"
+    name: "MAS_Closure_Sprint_WS-Cpp_WS-Bpp_WS-Dpp"
+    status: "COMPLETE"
+    owner: "Team C (Integrity + Integration)"
+    started: "2026-05-08"
+    completed: "2026-05-08"
+    ledger: "docs/MAS_W13_LEDGER.md"
+    artifacts:
+      - "src/core/ckm_rhobar_8d_wilson_refinement.py"
+      - "tests/test_ckm_rhobar_8d_wilson_refinement.py"
+      - "src/core/neutrino_absolute_scale_closure_attempt.py"
+      - "tests/test_neutrino_absolute_scale_closure_attempt.py"
+      - "src/core/alpha_s_direct_chain_reconciliation.py"
+      - "tests/test_alpha_s_direct_chain_reconciliation.py"
+      - "docs/MAS_W13_LEDGER.md"
+      - "docs/WAVE_CHANGELOG.md"
+      - "docs/roadmap_6d_to_11d.md"
 
 integration_checkpoint:
-  cadence: "Post-W12 integration sync"
-  completed: "2026-05-07"
-  gate_result: "W12_RUNG6_HARD_GATE_EVIDENCE_ATTACHED"
-  regression: "24893 passed, 330 skipped, 11 deselected, 0 failed"
+  cadence: "Post-W13 integration sync"
+  completed: "2026-05-08"
+  gate_result: "W13_MAS_CLOSURE_SPRINT_EVIDENCE_ATTACHED"
+  regression: "pending_final_full_regression"
 
 dbp_ladder:
   rung1:
@@ -286,8 +303,10 @@ parameter_gates:
     su5_route_gate: "MET via Pillar 70-D"
     direct_chain_gap_factor: "~2.5"
     direct_chain_status: "ARCHITECTURE_LIMIT(10D)"
+    direct_chain_reconciliation_pct_err: "~72.2%"
+    direct_chain_hidden_anchor_guard: true
     canonical_policy: "MAS canonical status remains CONSISTENCY CHECK until direct AxiomZero chain closure; SU(5) route is recorded as auxiliary derived evidence only."
-    artifact: "src/core/alpha_s_forward_chain_audit.py"
+    artifact: "src/core/alpha_s_direct_chain_reconciliation.py"
   P5:
     current_status: "OPEN (ARCHITECTURE LIMIT)"
     selected_extension: "GW Coleman-Weinberg"
@@ -321,8 +340,11 @@ parameter_gates:
     next_step_artifacts:
       - "src/eightd/wilson_line_gauge.py"
       - "src/sevend/ckm_rhobar_7d_integration.py"
+      - "src/core/ckm_rhobar_8d_wilson_refinement.py"
+    residual_after_8d_refinement_pct: "~1.2%"
+    robustness_gate_passed: false
     promotion_policy: "blocked_without_hard_gate_evidence"
-    artifact: "src/sevend/ckm_rhobar_7d_integration.py"
+    artifact: "src/core/ckm_rhobar_8d_wilson_refinement.py"
   P16:
     current_status: "CONSTRAINED"
     c_L_spectrum_derived: true
@@ -332,17 +354,20 @@ parameter_gates:
     current_status: "CONSTRAINED"
     c_R_nu_derived: true
     yukawa_nu_derived: false
-    artifact: "src/core/neutrino_crnu_6d_derivation.py"
+    absolute_scale_attempt_completed: true
+    artifact: "src/core/neutrino_absolute_scale_closure_attempt.py"
   P20:
     current_status: "GEOMETRIC ESTIMATE"
     dm2_ratio_pct_err: "10.4%"
+    dm2_31_absolute_scale_pct_err: "~10.5%"
     c_R_nu_derived: true
-    artifact: "src/core/neutrino_crnu_6d_derivation.py"
+    artifact: "src/core/neutrino_absolute_scale_closure_attempt.py"
   P21:
     current_status: "GEOMETRIC ESTIMATE"
     dm2_ratio_pct_err: "10.4%"
+    dm2_31_absolute_scale_pct_err: "~10.5%"
     c_R_nu_derived: true
-    artifact: "src/core/neutrino_crnu_6d_derivation.py"
+    artifact: "src/core/neutrino_absolute_scale_closure_attempt.py"
   P26:
     current_status: "ARCHITECTURE_LIMIT(7D/8D)"
     previous_status: "OPEN / NOT IN TABLE"

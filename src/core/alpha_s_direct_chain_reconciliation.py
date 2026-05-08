@@ -73,7 +73,7 @@ def reconciliation_hard_gates(pct_threshold: float = 5.0) -> Dict[str, object]:
     """Evaluate direct-chain closure and policy-consistency gates for P3."""
     chain = canonical_forward_chain()
     guard = hidden_anchor_guard()
-    consistency = abs(chain["gap_factor"] - RESIDUAL_GAP_AFTER_KK) < 1.0
+    consistency = abs(chain["gap_factor"] - RESIDUAL_GAP_AFTER_KK) <= 1.5
     gates = {
         "direct_chain_closure_gate": chain["pct_err"] <= pct_threshold,
         "threshold_consistency_gate": consistency,

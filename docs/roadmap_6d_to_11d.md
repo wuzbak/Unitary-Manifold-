@@ -151,6 +151,12 @@ In 8D, additional T² compactification introduces Wilson lines:
 **Tests:** `tests/test_eightd_wilson_line_gauge.py`  
 **Outcome:** all four kill-switch checks pass (`rank_conservation_check`, `wilson_line_quantization_check`, `unbroken_group_validation_check`, `axiomzero_seed_purity_check`) → Rung 3 gate satisfied.
 
+**Wave 13 sync (status-preserving):**
+- Added `src/core/ckm_rhobar_8d_wilson_refinement.py` as an 8D-informed P14
+  closure attempt using Wilson-line-weighted phase blending.
+- Hard-gate matrix showed nominal residual improvement but robustness gate not yet
+  closed; P14 status remains `CONSTRAINED`.
+
 ---
 
 ## Phase 4: Unification (9D–11D) — PLANNED
@@ -263,5 +269,5 @@ The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 
 ---
 
-*Roadmap version: 1.3 — 2026-05-07*  
-*DBP implementation: W12 hard-gate updates — Rung 6 RUNG_SOLID*
+*Roadmap version: 1.4 — 2026-05-08*  
+*DBP implementation: W13 closure sprint sync + prior W12 hard-gate updates*
