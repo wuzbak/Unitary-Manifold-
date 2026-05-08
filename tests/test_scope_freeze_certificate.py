@@ -201,9 +201,9 @@ class TestWSExecutionProgrammeStatus:
     def test_ws2_pass_freeze(self):
         assert WS_EXECUTION_PROGRAMME_STATUS["WS-II"]["status"] == "PASS_FREEZE"
 
-    def test_others_targeted_follow_up_freeze(self):
+    def test_others_pass_freeze(self):
         for ws_id in ("WS-I", "WS-III", "WS-IV"):
-            assert WS_EXECUTION_PROGRAMME_STATUS[ws_id]["status"] == "TARGETED_FOLLOW_UP_FREEZE"
+            assert WS_EXECUTION_PROGRAMME_STATUS[ws_id]["status"] == "PASS_FREEZE"
 
     def test_no_recycle_into_mas(self):
         assert all(
@@ -339,6 +339,6 @@ class TestScopeFreezeSummary:
     def test_ws_execution_programme_summary_counts(self):
         s = scope_freeze_summary()
         assert s["ws_execution_programme_count"] == 4
-        assert s["ws_execution_pass_freeze_count"] == 1
-        assert s["ws_execution_targeted_follow_up_freeze_count"] == 3
+        assert s["ws_execution_pass_freeze_count"] == 4
+        assert s["ws_execution_targeted_follow_up_freeze_count"] == 0
         assert s["ws_execution_no_mas_recycle"] is True

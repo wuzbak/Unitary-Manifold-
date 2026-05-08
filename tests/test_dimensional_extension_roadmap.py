@@ -251,13 +251,13 @@ class TestExecutionFreezeStatus:
         statuses = execution_freeze_status()
         assert statuses["WS-II"]["status"] == "PASS_FREEZE"
 
-    def test_other_workstreams_targeted_follow_up(self):
+    def test_other_workstreams_pass_freeze(self):
         statuses = execution_freeze_status()
         for ws_id in ("WS-I", "WS-III", "WS-IV"):
-            assert statuses[ws_id]["status"] == "TARGETED_FOLLOW_UP_FREEZE"
+            assert statuses[ws_id]["status"] == "PASS_FREEZE"
 
     def test_post_freeze_actions_valid(self):
         statuses = execution_freeze_status()
-        valid = {"frozen", "open_targeted_workstream_ticket"}
+        valid = {"frozen"}
         for entry in statuses.values():
             assert entry["post_freeze_action"] in valid

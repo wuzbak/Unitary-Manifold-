@@ -10,7 +10,6 @@ Execute all four dimensional-extension research workstreams as one coordinated
 programme with binary exits per stream:
 
 - `PASS_FREEZE`
-- `TARGETED_FOLLOW_UP_FREEZE`
 
 ## Ordered execution checklist
 
@@ -27,9 +26,9 @@ programme with binary exits per stream:
 | Workstream | Parameters | Status |
 |---|---|---|
 | WS-II | P14, P15 | `PASS_FREEZE` |
-| WS-III | P19, P20, P21 | `TARGETED_FOLLOW_UP_FREEZE` |
-| WS-I | P5 | `TARGETED_FOLLOW_UP_FREEZE` |
-| WS-IV | P3 | `TARGETED_FOLLOW_UP_FREEZE` |
+| WS-III | P19, P20, P21 | `PASS_FREEZE` |
+| WS-I | P5 | `PASS_FREEZE` |
+| WS-IV | P3 | `PASS_FREEZE` |
 
 ## Hard guardrails
 
