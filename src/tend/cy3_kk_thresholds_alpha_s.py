@@ -29,7 +29,7 @@ __all__ = [
     "H11_QUINTIC",
     "H21_QUINTIC",
     "N_KK_MODES_EFF",
-    "FLUX_LATTICE_ENHANCEMENT",
+    "FLUX_LATTICE_ENHANCEMENT_WEIGHT",
     "M_KK_CY3_GEV",
     "M_PLANCK_GEV",
     "M_Z_GEV",
@@ -53,7 +53,7 @@ WARP_FACTOR_5D: float = 2.5             # Residual gap factor in 5D direct chain
 H11_QUINTIC: int = 1                    # h^{1,1} for quintic CY₃
 H21_QUINTIC: int = 101                  # h^{2,1} for quintic CY₃ (standard quintic)
 N_KK_MODES_EFF: int = 37               # Effective KK modes = K_CS/2 = PI_KR
-FLUX_LATTICE_ENHANCEMENT: float = 0.15  # Flux-lattice enhancement weight (10D estimate)
+FLUX_LATTICE_ENHANCEMENT_WEIGHT: float = 0.15  # Multiplicative weight on log lattice factor
 
 M_KK_CY3_GEV: float = 1e17             # CY₃ KK scale estimate in GeV
 M_PLANCK_GEV: float = 1.22e19          # Planck mass in GeV
@@ -126,7 +126,7 @@ def kk_threshold_correction(
 
 def flux_lattice_enhancement(
     n_kk_modes: int = N_KK_MODES_EFF,
-    enhancement: float = FLUX_LATTICE_ENHANCEMENT,
+    enhancement: float = FLUX_LATTICE_ENHANCEMENT_WEIGHT,
 ) -> float:
     """Dimensionless enhancement from coarse 10D flux-lattice multiplicity."""
     if n_kk_modes <= 0:

@@ -13,7 +13,7 @@ from src.tend.cy3_kk_thresholds_alpha_s import (
     H11_QUINTIC,
     H21_QUINTIC,
     N_KK_MODES_EFF,
-    FLUX_LATTICE_ENHANCEMENT,
+    FLUX_LATTICE_ENHANCEMENT_WEIGHT,
     M_KK_CY3_GEV,
     M_PLANCK_GEV,
     M_Z_GEV,
@@ -48,7 +48,7 @@ class TestConstants:
         assert N_KK_MODES_EFF == 37
 
     def test_flux_lattice_enhancement_weight(self):
-        assert FLUX_LATTICE_ENHANCEMENT == pytest.approx(0.15, rel=1e-9)
+        assert FLUX_LATTICE_ENHANCEMENT_WEIGHT == pytest.approx(0.15, rel=1e-9)
 
     def test_m_kk_above_mz(self):
         assert M_KK_CY3_GEV > M_Z_GEV * 1e10
@@ -142,6 +142,7 @@ class TestAlphaSWithCY3:
 
     def test_cy3_alpha_s_in_reasonable_range(self):
         a_cy3 = alpha_s_with_cy3_thresholds()
+        # Lower bound reflects strengthened CY3+flux pathway in this track.
         assert 0.08 < a_cy3 < 0.12
 
     def test_custom_b_kk(self):

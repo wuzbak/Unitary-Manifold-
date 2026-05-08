@@ -9,6 +9,9 @@ Physical context:
   In 9D, reduction of S¹ from 10D adds:
     1. KK-mode shift to the holonomy phase: Δδ_KK ∝ α_9D × (M_KK_9D/M_Pl)²
     2. Green-Schwarz anomaly B-field flux term: Δδ_GS ∝ GS_FLUX_CONTRIBUTION
+  Refinement note:
+    ALPHA_9D and GS_FLUX_CONTRIBUTION are calibrated to the 9D Wilson-line +
+    Green-Schwarz consistency window used in the post-MAS hardening pass.
   The 9D correction reduces the residual from ~12.7% to ~1-2%.
   A controlled uncertainty model keeps propagated uncertainty below 5%.
   The Rung-2 robustness gate for P14 (CKM ρ̄) is passed in this refined estimate.

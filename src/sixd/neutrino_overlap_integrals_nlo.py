@@ -155,6 +155,7 @@ def effective_nlo_enhancement_factor() -> float:
     """
     diag = [nlo_correction_factor(i, i) for i in range(3)]
     nlo_avg_diag = sum(diag) / len(diag)
+    # Exactly two compact directions contribute on T², giving the 2.0 multiplier.
     modular_resummation = 1.0 + 2.0 * SIGMA_NLO_FACTOR
     return nlo_avg_diag * modular_resummation
 

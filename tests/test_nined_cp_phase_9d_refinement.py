@@ -135,6 +135,17 @@ class TestResidualPct9D:
         assert resid > 0
         assert isinstance(resid, float)
 
+    def test_parameter_perturbation_stays_below_3pct(self):
+        for alpha_scale in (0.9, 1.0, 1.1):
+            for kk_scale in (0.9, 1.0, 1.1):
+                for gs_scale in (0.9, 1.0, 1.1):
+                    resid = residual_pct_9d(
+                        alpha_9d=ALPHA_9D * alpha_scale,
+                        kk_ratio=KK_9D_SCALE_RATIO * kk_scale,
+                        gs_flux=GS_FLUX_CONTRIBUTION * gs_scale,
+                    )
+                    assert resid < 3.0
+
 
 class TestRhobarRobustnessGate:
     def test_small_uncertainty_passes(self):
