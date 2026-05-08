@@ -1,18 +1,18 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.13)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.17)
 
 This repository contains the technical record, code, and falsification conditions for the Unitary Manifold framework.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![25292 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-25292%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![25328 passed · 330 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-25328%20passed%20%C2%B7%20330%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.13-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v10.17-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status (v10.13):** MAS is complete and post-MAS tracks T1–T3 are PASS (T4 optional, not activated).
-> Latest full local regression on this branch: **25292 passed · 329 skipped · 11 deselected · 0 failed**.  
+> ⚠️ **Honest status (v10.17):** MAS complete; WS-I..WS-IV all PASS_FREEZE. New: P16 GEOMETRIC_ESTIMATE_CERTIFIED, P12/P4 GEOMETRIC_PREDICTION, α_GUT first-principles derivation, DESI Year-3 harness, bot/ RAG scaffold.
+> Latest full local regression on this branch: **25328 passed · 330 skipped · 11 deselected · 0 failed**.  
 > For canonical, up-to-date status and provenance use:
 > [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
 > [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md), and [`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md).

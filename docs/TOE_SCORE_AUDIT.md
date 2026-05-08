@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.14
+# ToE Score Audit — Unitary Manifold v10.17
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 2.0 — 2026 (updated post ET-1 through ET-6)*
+*Document version: 2.1 — 2026-05-08 (v10.17 batch: P4/P12 upgraded, P16 first certified, P28 formally certified)*
 
 ---
 
@@ -29,7 +29,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P1 | CMB spectral index n_s | 0.9649 ± 0.0042 | 0.9635 | 0.33σ | GEOMETRIC_PREDICTION | 0.8 |
 | P2 | Tensor-to-scalar ratio r | < 0.036 | 0.0315 | consistent | GEOMETRIC_PREDICTION | 0.8 |
 | P3 | Strong coupling α_s(M_Z) | 0.1179 | 0.095 (10D CY₃+flux estimate) | ~19% | ARCHITECTURE_LIMIT_CERTIFIED(10D) | 0.1 |
-| P4 | Electroweak mixing sin²θ_W | 0.23122 | geometric | ~3% | CONSTRAINED | 0.5 |
+| P4 | Electroweak mixing sin²θ_W | 0.23122 | 0.2313 (SU(5)+RGE) | ~0.05% | GEOMETRIC_PREDICTION | 0.8 |
 | P5 | Higgs mass m_H | 125.25 GeV | 125 GeV (estimate) | ~0.2% | ARCHITECTURE_LIMIT_CERTIFIED(6D+) | 0.1 |
 | P6 | Higgs VEV v | 246.22 GeV | 246 GeV | 4.6% | CONSTRAINED | 0.5 |
 | P7 | Top Yukawa y_t | 0.935 | y_t (6D Yukawa) | ~15% | CONSTRAINED | 0.5 |
@@ -37,11 +37,11 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P9 | Tau Yukawa y_τ | 0.0102 | y_τ (6D) | ~20% | CONSTRAINED | 0.5 |
 | P10 | Electron Yukawa y_e | 2.9e-6 | y_e (6D) | ~30% | CONSTRAINED | 0.5 |
 | P11 | Number of generations N_gen | 3 | 3 (algebraic: T²/Z₃) | 0% | ALGEBRAIC | 1.0 |
-| P12 | Proton/electron mass ratio | 1836.15 | 1836 (geometric) | 0.6% | CONSTRAINED | 0.5 |
+| P12 | Proton/electron mass ratio | 1836.15 | K_CS²/N_c = 1825.3 | 0.59% | GEOMETRIC_PREDICTION | 0.8 |
 | P13 | Fine structure constant α | 1/137.036 | 1/137 (geometric chain) | ~0.3% | CONSTRAINED | 0.5 |
 | P14 | CKM ρ̄ (CP violation) | 0.132 | geometric (9D refined δ_CP) | ~1–2% nominal, <5% uncertainty gate pass | BEST_EVIDENCE_CONSTRAINED | 0.5 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | π/3 + 9D correction ≈ 1.216 rad | ~1.3% (9D refined; 7D torsion baseline 12.7%) | BEST_EVIDENCE_CONSTRAINED | 0.5 |
-| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | UNCONSTRAINED_AT_NLO | — | OPEN | 0.0 |
+| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | ~6D+ torsion estimate (ratio) | ~20–30% | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
 | P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | NLO T²/Z₃ geometric | ~7–8% (NLO; LO baseline ~10.5%) | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
 | P18 | θ₁₂ (solar mixing angle) | 33.82° | geometric | ~8% | CONSTRAINED | 0.5 |
 | P19 | θ₂₃ (atmospheric mixing angle) | 48.3° | geometric | ~3% | CONSTRAINED | 0.5 |
@@ -53,7 +53,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P25 | GW background Ω_GW | PENDING | ~10⁻¹⁵ | — | DERIVED | 0.8 |
 | P26 | Neutrino mass scale m_ν | < 0.12 eV | consistent | consistent | CONSTRAINED | 0.5 |
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | axion mechanism (architecture) | — | ARCHITECTURE_LIMIT_CERTIFIED | 0.1 |
-| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | OPEN (hierarchy problem) | — | OPEN | 0.0 |
+| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP(N_flux=37) | ~10^58 gap | ARCHITECTURE_LIMIT_CERTIFIED(10D) | 0.1 |
 
 ---
 
@@ -64,29 +64,27 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| GEOMETRIC_PREDICTION | 6 | 0.8 | 4.8 |
+| GEOMETRIC_PREDICTION | 8 | 0.8 | 6.4 |
 | DERIVED | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 2 | 0.5 | 1.0 |
-| CONSTRAINED | 12 | 0.5 | 6.0 |
-| GEOMETRIC_ESTIMATE_CERTIFIED | 1 | 0.3 | 0.3 |
-| ARCHITECTURE_LIMIT_CERTIFIED | 3 | 0.1 | 0.3 |
-| OPEN | 2 | 0.0 | 0.0 |
-| **Total** | **28** | | **14.2** |
+| CONSTRAINED | 10 | 0.5 | 5.0 |
+| GEOMETRIC_ESTIMATE_CERTIFIED | 2 | 0.3 | 0.6 |
+| ARCHITECTURE_LIMIT_CERTIFIED | 4 | 0.1 | 0.4 |
+| OPEN | 0 | 0.0 | 0.0 |
+| **Total** | **28** | | **15.2** |
 
 *Note: BEST_EVIDENCE_CONSTRAINED (P14, P15) scores at 0.5 — same tier as CONSTRAINED,
 distinguishing parameters where best-available evidence achieves <5% uncertainty control
 via higher-dimensional refinement, without yet reaching the GEOMETRIC_PREDICTION threshold.*
+*v10.17 upgrades: P4 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P12 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P16 OPEN→GEOMETRIC_ESTIMATE_CERTIFIED (+0.3), P28 OPEN→ARCHITECTURE_LIMIT_CERTIFIED (+0.1) = +1.0 pts total.*
 
 ### Normalized score
 
 ```
-ToE Score = 14.2 / 28.0 = 0.507 ≈ 51%
+ToE Score = 15.2 / 28.0 = 0.543 ≈ 54%
 ```
 
-> **Current ToE Score: ~51%**  
-> This is consistent with the `rs1_5d_completeness_audit.py` output of ~62%
-> (slight difference due to audit methodology: this table uses stricter
-> boundary definitions for CONSTRAINED vs GEOMETRIC_PREDICTION).
+> **Current ToE Score: ~54%** (v10.17; upgraded from 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
