@@ -713,3 +713,97 @@ v10_18_batch:
     after: 15.8
     before_pct: "54%"
     after_pct: "56%"
+
+v10_19_batch:
+  date: "2026-05-08"
+  version: "v10.19"
+  deliverables:
+    P14_HARDGATE_CERT:
+      title: "P14 BEST_EVIDENCE_CONSTRAINED -> GEOMETRIC_PREDICTION (CKM ρ̄)"
+      parameter: "P14"
+      artifact: "src/core/ckm_rhobar_hardgate_cert.py"
+      test: "tests/test_core_ckm_rhobar_hardgate_cert.py"
+      status: "DELIVERED"
+      previous_status: "BEST_EVIDENCE_CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+      gates: ["nominal_residual", "robustness_9d_window", "axiomzero_purity"]
+    P15_HARDGATE_CERT:
+      title: "P15 BEST_EVIDENCE_CONSTRAINED -> GEOMETRIC_PREDICTION (δ_CP)"
+      parameter: "P15"
+      artifact: "src/core/delta_cp_hardgate_cert.py"
+      test: "tests/test_core_delta_cp_hardgate_cert.py"
+      status: "DELIVERED"
+      previous_status: "BEST_EVIDENCE_CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+      gates: ["nominal_residual", "robustness_9d_window", "axiomzero_purity"]
+    P17_CONSTRAINED_CERT:
+      title: "P17 GEOMETRIC_ESTIMATE_CERTIFIED -> CONSTRAINED (Δm²₃₁)"
+      parameter: "P17"
+      artifact: "src/core/dm31_constrained_cert.py"
+      test: "tests/test_core_dm31_constrained_cert.py"
+      status: "DELIVERED"
+      previous_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      new_status: "CONSTRAINED"
+      toe_delta: 0.2
+      residual_2nlo_pct: 6.87
+  toe_score:
+    before: 15.8
+    after: 16.6
+    before_pct: "56%"
+    after_pct: "59%"
+
+v10_20_batch:
+  date: "2026-05-08"
+  version: "v10.20"
+  deliverables:
+    P5_WS_V_GEC:
+      title: "P5 ARCHITECTURE_LIMIT -> GEOMETRIC_ESTIMATE_CERTIFIED (Higgs pole mass; WS-V)"
+      parameter: "P5"
+      artifact: "src/sixd/higgs_mass_6d_cw.py"
+      test: "tests/test_sixd_higgs_mass_6d_cw.py"
+      status: "DELIVERED"
+      previous_status: "ARCHITECTURE_LIMIT_CERTIFIED"
+      new_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      toe_delta: 0.2
+      certifying_residual_pct: 14.15
+      note: "Tree-level (λ=n_w²/2K_CS) 14.15%<20%; CW-corrected 0.0001% once P8 GP"
+    P3_WS_VI_GEC:
+      title: "P3 ARCHITECTURE_LIMIT -> GEOMETRIC_ESTIMATE_CERTIFIED (α_s; WS-VI)"
+      parameter: "P3"
+      artifact: "src/core/alpha_s_geometric_estimate_cert.py"
+      test: "tests/test_core_alpha_s_geometric_estimate_cert.py"
+      status: "DELIVERED"
+      previous_status: "ARCHITECTURE_LIMIT_CERTIFIED"
+      new_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      toe_delta: 0.2
+      residual_10d_pct: 4.12
+  toe_score:
+    before: 16.6
+    after: 17.0
+    before_pct: "59%"
+    after_pct: "61%"
+
+v10_21_batch:
+  date: "2026-05-08"
+  version: "v10.21"
+  deliverables:
+    P21_P22_EW_HARDGATE:
+      title: "P21/P22 CONSTRAINED -> GEOMETRIC_PREDICTION (M_W/M_Z EW fit)"
+      parameters: ["P21", "P22"]
+      artifact: "src/core/ew_boson_hardgate_cert.py"
+      test: "tests/test_core_ew_boson_hardgate_cert.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.6
+      residual_W_pct: 0.49
+      residual_Z_pct: 0.055
+      gates: ["p21_M_W_nominal", "p22_M_Z_nominal", "robustness", "axiomzero_purity"]
+      inputs: ["P4 sin2_tw (GP)", "P13 alpha_0 (GP)", "P6 v_geo (GP)", "SM QED running"]
+  toe_score:
+    before: 17.0
+    after: 17.6
+    before_pct: "61%"
+    after_pct: "63%"
