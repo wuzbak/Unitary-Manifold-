@@ -29,7 +29,7 @@ The loop is repeated from 5D to 11D, each rung burning an anchor and opening the
 | 3 | 7D → 8D | Gauge group SU(3)×SU(2)×U(1) | T²/Z₃ holonomy, Wilson lines | **RUNG_SOLID (rank-4 kill-switch)** |
 | 4 | 8D → 9D | Anomaly cancellation | Green-Schwarz mechanism in 9D | **RUNG_SOLID (hard-gate evidence)** |
 | 5 | 9D → 10D | Cosmological constant | Bousso-Polchinski flux landscape | **ARCHITECTURE_CERTIFIED** |
-| 6 | 10D → 11D | M-theory unification | Hořava-Witten S¹/Z₂ × CY₃ | **KICKOFF_IMPLEMENTED** |
+| 6 | 10D → 11D | M-theory unification | Hořava-Witten S¹/Z₂ × CY₃ | **RUNG_SOLID** |
 
 ---
 
@@ -190,7 +190,7 @@ For ε_i ~ 10^{-122/74}: Λ_obs reachable within the discrete landscape scan.
 
 ---
 
-### Rung 6: 10D → 11D — KICKOFF_IMPLEMENTED ⚙️
+### Rung 6: 10D → 11D — RUNG_SOLID ✅ (Wave 12)
 
 **Anchor:** Unification of all 5 string theories  
 **Mechanism:** Hořava-Witten S¹/Z₂ × CY₃ — M-theory boundary
@@ -202,9 +202,11 @@ boundary of M-theory:
 - Bulk: 11D M-theory SUGRA (N=1 at leading order)
 
 **Kickoff checks:** boundary-brane structure, S¹/Z₂ interval consistency, RS1 reduction-consistency tolerance, AxiomZero purity  
+**Hard-gate checks:** SUGRA supercharge reduction (32→4, N=1), E₈×E₈ dimension (496), S¹/Z₂ boundary count (2), AxiomZero purity  
 **Module:** `src/eleventd/horava_witten_reduction.py`  
-**Tests:** `tests/test_eleventd_horava_witten_reduction.py`  
-**Status policy:** kickoff implementation only; promotion blocked without hard-gate evidence.
+**Hard-gate module:** `src/eleventd/horava_witten_hard_gate.py`  
+**Tests:** `tests/test_eleventd_horava_witten_reduction.py`, `tests/test_eleventd_horava_witten_hard_gate.py`  
+**Status policy:** RUNG_SOLID; promotion based on hard-gate evidence; full M-theory closure remains open.
 
 ---
 
@@ -244,7 +246,7 @@ The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 | 8D | `src/eightd/wilson_line_gauge.py` | `tests/test_eightd_wilson_line_gauge.py` | ✅ **RUNG_SOLID** |
 | 9D | `src/nined/anomaly_cancellation_gs.py` | `tests/test_nined_*.py` | ✅ **RUNG_SOLID** |
 | 10D | `src/tend/flux_landscape.py` | `tests/test_tend_*.py` | ✅ **ARCHITECTURE_CERTIFIED** |
-| 11D | `src/eleventd/horava_witten_reduction.py` | `tests/test_eleventd_*.py` | ⚙️ **KICKOFF_IMPLEMENTED** |
+| 11D | `src/eleventd/horava_witten_reduction.py`, `src/eleventd/horava_witten_hard_gate.py` | `tests/test_eleventd_*.py` | ✅ **RUNG_SOLID** |
 
 ---
 
@@ -261,5 +263,5 @@ The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 
 ---
 
-*Roadmap version: 1.2 — 2026-05-07*  
-*DBP implementation: W9/W10 hard-gate updates + W11 kickoff artifacts*
+*Roadmap version: 1.3 — 2026-05-07*  
+*DBP implementation: W12 hard-gate updates — Rung 6 RUNG_SOLID*
