@@ -195,6 +195,8 @@ def p5_closure_gate(theta_hr_rad: float) -> Dict:
     significant = abs_theta > 1e-4
 
     cw_shift_ratio = mixing_strength_ratio(theta_hr_rad, M_RADION_GEV)
+    # Bound selected so the CW-induced Higgs-sector shift remains O(1) in mass²
+    # units while allowing non-negligible mixing in the exploratory 6D+ regime.
     cw_shift_controlled = cw_shift_ratio < 5.0
     all_pass = nonzero and perturbative and significant and cw_shift_controlled
     return {

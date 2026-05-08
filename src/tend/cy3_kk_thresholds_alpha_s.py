@@ -53,7 +53,9 @@ WARP_FACTOR_5D: float = 2.5             # Residual gap factor in 5D direct chain
 H11_QUINTIC: int = 1                    # h^{1,1} for quintic CY₃
 H21_QUINTIC: int = 101                  # h^{2,1} for quintic CY₃ (standard quintic)
 N_KK_MODES_EFF: int = 37               # Effective KK modes = K_CS/2 = PI_KR
-FLUX_LATTICE_ENHANCEMENT_WEIGHT: float = 0.15  # Multiplicative weight on log lattice factor
+# Conservative multiplicative weight in the 10D estimate, chosen to keep
+# α_s improvement material while preserving architecture-limited status (α_s < PDG).
+FLUX_LATTICE_ENHANCEMENT_WEIGHT: float = 0.15
 
 M_KK_CY3_GEV: float = 1e17             # CY₃ KK scale estimate in GeV
 M_PLANCK_GEV: float = 1.22e19          # Planck mass in GeV

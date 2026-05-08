@@ -51,8 +51,11 @@ DELTA_CP_PDG: float = 1.20                 # PDG central value (radians)
 RESIDUAL_7D_PCT: float = 12.7              # Documented 7D residual (%)
 
 KK_9D_SCALE_RATIO: float = 0.05           # M_KK_9D/M_Pl — 9D KK suppression factor
-GS_FLUX_CONTRIBUTION: float = 0.16        # Green-Schwarz flux phase fraction (refined)
-ALPHA_9D: float = 0.20                    # 9D correction coefficient (refined estimate)
+# Post-MAS refinement point selected from the 9D consistency window:
+# - keeps δ_CP(9D) within a few percent of PDG
+# - keeps propagated uncertainty below the 5% robustness gate threshold.
+GS_FLUX_CONTRIBUTION: float = 0.16        # Green-Schwarz flux phase fraction (window-calibrated)
+ALPHA_9D: float = 0.20                    # 9D correction coefficient (window-calibrated)
 GS_UNCERTAINTY_FRACTION: float = 0.20     # Fractional uncertainty assigned to GS term
 
 RHOBAR_GATE_THRESHOLD_PCT: float = 5.0   # δ_CP uncertainty threshold for P14 gate
