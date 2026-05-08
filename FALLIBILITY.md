@@ -1,6 +1,22 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.27 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 26333 passed, 329 skipped, 11 deselected, 0 failed).*
+*Unitary Manifold v10.28 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 26472 passed, 329 skipped, 11 deselected, 0 failed).*
+
+---
+
+> **Dual-publication notice (v10.28+):** Every claim in this document is
+> simultaneously published in two layers:
+> - **Truth Layer** (`docs/TRUTH_LAYER.md`): full derivation context, all open
+>   tensions, complete falsification conditions — nothing minimized.
+> - **Gatekeeper Summary** (`docs/GATEKEEPER_SUMMARY.md`): concise
+>   PASS/TENSION/FALSIFIED verdicts for scientific referees.
+> - **Canonical label board** (`docs/CLAIM_MASTER_BOARD.md`): single-source
+>   registry of all claims with labels, falsifiers, and dependencies.
+> - **Label standard** (`docs/CLAIM_LABEL_STANDARD.md`): definition of all
+>   six epistemic labels used repo-wide.
+>
+> The difference between layers is framing depth, not substance. Facts are
+> identical in both layers.
 
 ---
 

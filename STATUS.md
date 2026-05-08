@@ -3,6 +3,13 @@
 *Unitary Manifold v10.28 — Effective 2026-05-08*  
 *Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.28 Tier-4/P17/P16 hardgate batch delivered with no MAS reopen).*
 
+> **Dual-publication system active (v10.28+):** All scientific claims are now
+> simultaneously available at two layers:
+> - `docs/CLAIM_MASTER_BOARD.md` — canonical single-source board (all P1–P28 + structural claims)
+> - `docs/TRUTH_LAYER.md` — full derivation context, all gaps, all falsifiers
+> - `docs/GATEKEEPER_SUMMARY.md` — concise PASS/TENSION/FALSIFIED for referees
+> - `docs/CLAIM_LABEL_STANDARD.md` — universal 6-label epistemic taxonomy
+
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an
 > existing module. This prevents pillar inflation — the gradual substitution of
