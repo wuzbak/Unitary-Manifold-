@@ -44,6 +44,14 @@ def collect_monitor_reports() -> Dict:
     }
 
 
+def _parse_iso_date(value: str) -> date | None:
+    """Parse ISO datetime/date string and return date, else None."""
+    try:
+        return datetime.fromisoformat(value).date()
+    except ValueError:
+        return None
+
+
 def monitoring_status_table() -> List[Dict]:
     """Return a compact status table across all monitor harnesses."""
     reports = collect_monitor_reports()
@@ -90,7 +98,7 @@ def high_priority_action_queue() -> List[Dict]:
         litebird_policy = litebird.get("policy", litebird_policy)
     except Exception as exc:
         litebird_status = "READINESS_PACKET_ERROR"
-        litebird_note = f"packet_generation_failed:{exc.__class__.__name__}"
+        litebird_note = f"packet_generation_failed:{exc.__class__.__name__}:{exc}"
     return [
         {
             "id": "DESI_Y3_30_DAY_ROUTING",
@@ -157,14 +165,24 @@ def overdue_priority_actions(
         Optional ISO date string (YYYY-MM-DD). If not provided, uses current UTC date.
     """
     freshness_source = {} if last_updated is None else last_updated
-    reference_day = date.today() if today is None else datetime.fromisoformat(today).date()
+    reference_day = date.today() if today is None else (_parse_iso_date(today) or date.today())
     overdue: List[Dict] = []
     for action in high_priority_action_queue():
         action_id = action["id"]
         stamp = freshness_source.get(action_id)
         if not stamp:
             continue
-        updated_day = datetime.fromisoformat(stamp).date()
+        updated_day = _parse_iso_date(stamp)
+        if updated_day is None:
+            overdue.append(
+                {
+                    "id": action_id,
+                    "age_days": None,
+                    "priority": action["priority"],
+                    "reason": "invalid_timestamp_format",
+                }
+            )
+            continue
         age_days = (reference_day - updated_day).days
         if age_days > OVERDUE_THRESHOLD_DAYS:
             overdue.append(

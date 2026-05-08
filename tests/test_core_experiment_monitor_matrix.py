@@ -58,6 +58,15 @@ def test_overdue_priority_actions_detects_stale_entries():
     assert "CMBS4_MONITOR_SYNC" not in stale_ids
 
 
+def test_overdue_priority_actions_flags_invalid_timestamps():
+    stale = overdue_priority_actions(
+        last_updated={"DESI_Y3_30_DAY_ROUTING": "not-a-date"},
+        today="2026-05-08",
+    )
+    reasons = {row["reason"] for row in stale}
+    assert "invalid_timestamp_format" in reasons
+
+
 def test_uninitialized_priority_actions_detects_missing_ids():
     missing = uninitialized_priority_actions(last_updated={"DESI_Y3_30_DAY_ROUTING": "2026-05-01"})
     assert "LITEBIRD_PRIMARY_FALSIFIER_READY" in missing
