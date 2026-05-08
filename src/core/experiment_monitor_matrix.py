@@ -87,9 +87,7 @@ def high_priority_action_queue() -> List[Dict]:
     litebird_note = ""
     try:
         litebird = litebird_prepublication_packet()
-        policy_value = litebird.get("policy", litebird_policy)
-        if policy_value:
-            litebird_policy = policy_value
+        litebird_policy = litebird.get("policy", litebird_policy)
     except Exception as exc:
         litebird_status = "READINESS_PACKET_ERROR"
         litebird_note = f"packet_generation_failed:{exc.__class__.__name__}"
@@ -159,14 +157,14 @@ def overdue_priority_actions(
         Optional ISO date string (YYYY-MM-DD). If not provided, uses current UTC date.
     """
     freshness_source = {} if last_updated is None else last_updated
-    reference_day = date.today() if today is None else datetime.strptime(today, "%Y-%m-%d").date()
+    reference_day = date.today() if today is None else datetime.fromisoformat(today).date()
     overdue: List[Dict] = []
     for action in high_priority_action_queue():
         action_id = action["id"]
         stamp = freshness_source.get(action_id)
         if not stamp:
             continue
-        updated_day = datetime.strptime(stamp, "%Y-%m-%d").date()
+        updated_day = datetime.fromisoformat(stamp).date()
         age_days = (reference_day - updated_day).days
         if age_days > OVERDUE_THRESHOLD_DAYS:
             overdue.append(
