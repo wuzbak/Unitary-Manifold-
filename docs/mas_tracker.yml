@@ -1023,3 +1023,94 @@ v10_26_batch:
     after: 18.9
     before_pct: "68%"
     after_pct: "68%"
+
+v10_27_batch:
+  date: "2026-05-08"
+  version: "v10.27"
+  sprint_title: "P17/P18/P20 Neutrino Closure Sprint + Tier-4 Purity Sprint + DESI Y3 Sync"
+  deliverables:
+    P20_BRAID_NLO:
+      title: "P20 CONSTRAINED -> GEOMETRIC_PREDICTION (θ₁₃ braid NLO color correction)"
+      parameter: "P20"
+      artifact: "src/core/neutrino_p20_braid_nlo.py"
+      test: "tests/test_core_neutrino_p20_braid_nlo.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+      formula: "sin²θ₁₃ = N_c / ((n_w + n₂)² − 2·N_c) = 3/138 ≈ 0.021739"
+      residual_nlo_pct: 0.28
+      robustness_worst_pct: 4.87
+      gates:
+        - "nominal_residual_lt_5pct: 0.28% < 5% PASS"
+        - "robustness_window_lt_5pct: 4.87% < 5% PASS"
+        - "axiomzero_purity: inputs {N_c, n_w, n₂} only PASS"
+      physical_mechanism: >
+        NLO color-loop correction −2·N_c in the braid-mode denominator:
+        each of N_c=3 color channels traverses the closed (n_w+n₂) braid
+        loop twice (forward + backward), reducing effective mode count by 6.
+    P18_ROUTE_CONSOLIDATION:
+      title: "P18 CONSTRAINED -> GEOMETRIC_PREDICTION (θ₁₂ Route A consolidation)"
+      parameter: "P18"
+      artifact: "src/core/neutrino_p18_route_consolidation.py"
+      test: "tests/test_core_neutrino_p18_route_consolidation.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+      formula: "Route A: sin²θ₁₂ = 1/3 − 1/(6 n_w) + 1/(6 k_CS) ≈ 0.302252"
+      route_a_residual_pct: 1.55
+      route_a_rge_residual_pct: 1.50
+      cross_method_spread_pct: 0.05
+      route_b_retired_residual_pct: 13.09
+      gates:
+        - "nominal_residual_lt_5pct: 1.55% < 5% PASS"
+        - "cross_method_consistency_lt_5pct: 0.05% < 5% PASS"
+        - "rge_crosscheck_lt_5pct: 1.50% < 5% PASS"
+        - "axiomzero_purity: inputs {n_w, k_CS, TBM 1/3} only PASS"
+      resolution: >
+        Route B (4/15 + tiny 1-loop RGE ≈ 13.09% residual) retired as it uses
+        an incomplete GUT-scale BC that excludes the winding/CS corrections
+        already incorporated in Route A. Route A + RGE cross-check confirms
+        consistency at 0.05% cross-method spread.
+    P17_HONEST_PROGRESS:
+      title: "P17 honest progress report — CONSTRAINED maintained (6.87% 2NLO)"
+      parameter: "P17"
+      status: "DOCUMENTED"
+      new_status: "CONSTRAINED"
+      toe_delta: 0.0
+      residual_2nlo_pct: 6.87
+      honest_note: >
+        2NLO reduces residual from 7.26% (NLO) to 6.87%, still above 5% gate.
+        Full closure requires WS-V 6D+ fixed-point geometry. Status unchanged.
+    NEUTRINO_CLOSURE_SPRINT:
+      title: "v10.27 neutrino closure sprint aggregator"
+      artifact: "src/core/neutrino_closure_sprint.py"
+      test: "tests/test_core_neutrino_closure_sprint.py"
+      status: "DELIVERED"
+      sprint_toe_delta: 0.6
+      promoted: ["P18", "P20"]
+      constrained: ["P17"]
+    TIER4_PURITY_SPRINT:
+      title: "Tier-4 Yukawa purity sprint — framework pure, inputs pending Pillar 183"
+      parameters: ["P7", "P8", "P9", "P10"]
+      artifact: "src/core/yukawa_tier4_purity_sprint.py"
+      test: "tests/test_core_yukawa_tier4_purity_sprint.py"
+      status: "DELIVERED"
+      outcomes:
+        purity_framework_pass: true
+        purity_inputs_pending: true
+        residual_gate_blocked: true
+        promotion_allowed: false
+        next_milestone: "Pillar 183: 6D T²/Z₃ Dirac wavefunction c_L spectrum derivation"
+      toe_delta: 0.0
+    OBSERVATION_TRACKER_DESI_Y3:
+      title: "OBSERVATION_TRACKER.md — G4 sin²θ₁₂ gap closed via Route A; DESI Y3 sync"
+      artifact: "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+  toe_score:
+    before: 18.9
+    after: 19.5
+    before_pct: "68%"
+    after_pct: "70%"

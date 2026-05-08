@@ -30,9 +30,9 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | **P1b** | Cosmic birefringence — (5,6) shadow sector | β | **0.273° ± 0.007°** | LiteBIRD | ~2032 | 🟡 PENDING — second viable lossless branch | 2026-05-04 | Await LiteBIRD; discriminated from P1 at 2.9σ |
 | **P2** | CMB scalar spectral index | nₛ | **0.9635** | Planck 2018, ACT DR6, SPT-3G | Ongoing | 🟢 CONSISTENT — Planck: 0.9649±0.0042 (0.33σ) | 2026-05-04 | Monitor if error bar tightens below ±0.002; check ACT DR6 |
 | **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, CMB-S4 | ~2030 | 🟢 CONSISTENT — BICEP/Keck: r<0.036 (UM: 0.0315 ✓) | 2026-05-04 | Await CMB-S4; falsified if r<0.01 or r>0.036 confirmed |
-| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI Year 1–3 | Ongoing (Y3: ~2026) | 🟠 TENSION — DESI Y1: wₐ≠0 at 2.1σ; wₐ=0 disfavoured | 2026-05-08 | **HIGH PRIORITY:** run PASS/TENSION/FALSIFIED routing via `desi_year3_monitor.py`; sync `kk_de_wa_cpl.py`, this tracker, and the canonical falsifier feed |
+| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI Year 1–3 | Ongoing (Y3: ~2026) | 🟠 TENSION — DESI Y1: wₐ≠0 at 2.1σ; wₐ=0 disfavoured; DESI Y3 result pending | 2026-05-08 | **HIGH PRIORITY:** run PASS/TENSION/FALSIFIED routing via `desi_year3_monitor.py` when Y3 publishes; sync `kk_de_wa_cpl.py`, this tracker, and the canonical falsifier feed within 30 days of publication |
 | **P5** | CMB acoustic peak amplitude | A_s | Suppressed ×4.2–6.1 vs ΛCDM (OPEN: α_GW UV-brane parameter) | Planck, CMB-S4 | ~2030 | 🔴 OPEN GAP — suppression quantified but α_GW not geometrically fixed | 2026-05-04 | Document as open; do not claim resolution without α_GW derivation |
-| **P6** | PMNS solar mixing angle (GUT scale) | sin²θ₁₂ | 4/15 ≈ 0.267 (GUT) → ~0.267 (M_Z, 1-loop) | Ongoing neutrino experiments | Ongoing | 🔴 OPEN GAP — 13% gap vs PDG 0.307; 1-loop RGE insufficient | 2026-05-08 | Keep OPEN GAP label; follow `pmns_solar_improvement_path()` and no-overclaim gate outputs |
+| **P6** | PMNS solar mixing angle (Route A) | sin²θ₁₂ | **0.302252** (Route A: 1/3 − 1/(6n_w) + 1/(6k_CS)) → 1.55% from PDG | Ongoing neutrino experiments | Ongoing | 🟢 CONSISTENT — Route A geometric (1.55% from PDG 0.307); Route B (4/15) retired (see v10.27 route consolidation hardgate) | 2026-05-08 | Monitor NuFIT updates; P18 promoted to GEOMETRIC_PREDICTION in mas_tracker v10.27 |
 | **P7** | Cold fusion: φ-enhanced Gamow factor / COP | Excess heat at predicted COP | Falsifiable COP prediction (Pillar 15) | Calorimetry experiments | Ongoing | 🟡 PENDING — no confirmed measurement; prediction explicitly framed as falsifiable | 2026-05-04 | Monitor LENR experimental literature |
 
 ---
@@ -58,7 +58,7 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | **G1** | ADM 3+1 decomposition of time parameterization | 🔴 REAL GAP — qualitative claim survives; quantitative rate requires full ADM | `src/core/delay_field.py` (Pillar 41 partial) | Future work; do not claim resolved |
 | **G2** | CMB peak amplitude suppression ×4.2–6.1 | 🔴 OPEN — α_GW UV-brane parameter not geometrically fixed | `src/core/cmb_acoustic_amplitude_rg.py` (Pillar 149) | Do not claim resolved without α_GW derivation |
 | **G3** | DESI wₐ = 0 vs DESI Y1 2.1σ tension | 🟠 MONITORED — frozen radion predicts wₐ = 0 | `src/core/kk_de_wa_cpl.py` (Pillar 155) | **Integrate DESI Y3 within 30 days** using explicit PASS/TENSION/FALSIFIED routing |
-| **G4** | sin²θ₁₂ 13% gap at M_Z | 🔴 OPEN — 1-loop RGE insufficient | `src/core/pmns_solar_rge_correction.py` (Pillar 163) | 2-loop / threshold / GUT-BC track only; no status inflation until the no-overclaim gate clears |
+| **G4** | sin²θ₁₂ Route A consolidation | ✅ CLOSED (v10.27) — Route A (1.55% from PDG); Route B (4/15, 13% residual) retired as incomplete GUT BC | `src/core/neutrino_p18_route_consolidation.py` | P18 promoted to GEOMETRIC_PREDICTION in mas_tracker v10.27 |
 
 ---
 

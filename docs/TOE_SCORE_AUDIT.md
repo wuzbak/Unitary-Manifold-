@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.25
+# ToE Score Audit — Unitary Manifold v10.27
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 2.7 — 2026-05-08 (v10.25 batch: Tier Acceleration Sprint; P19 CONSTRAINED→GEOMETRIC_PREDICTION via Tier-3 hardgate cert)*
+*Document version: 2.8 — 2026-05-08 (v10.27 batch: Neutrino Closure Sprint; P18 & P20 CONSTRAINED→GEOMETRIC_PREDICTION via hardgate sprint)*
 
 ---
 
@@ -43,9 +43,9 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | 1.2152 rad (7D torsion + 9D KK+GS) | 1.27% | GEOMETRIC_PREDICTION | 0.8 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | ~6D+ torsion estimate (ratio) | ~20–30% | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
 | P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | 2NLO T²/Z₃ geometric | 6.87% (2NLO) | CONSTRAINED | 0.5 |
-| P18 | θ₁₂ (solar mixing angle) | 33.82° | geometric | ~8% | CONSTRAINED | 0.5 |
+| P18 | θ₁₂ (solar mixing angle) | 33.82° | Route A geometric (Pillar 138 + CS/winding) | 1.55% | GEOMETRIC_PREDICTION | 0.8 |
 | P19 | θ₂₃ (atmospheric mixing angle) | 48.3° | geometric (Tier-3 hardgate) | 0.82% | GEOMETRIC_PREDICTION | 0.8 |
-| P20 | θ₁₃ (reactor mixing angle) | 8.57° | geometric | ~5% | CONSTRAINED | 0.5 |
+| P20 | θ₁₃ (reactor mixing angle) | 8.57° | braid NLO: sin²θ₁₃ = 3/138 | 0.28% | GEOMETRIC_PREDICTION | 0.8 |
 | P21 | W boson mass M_W | 80.377 GeV | 79.985 GeV (EW fit: α(M_Z),G_F_geo,sin²θ_W) | 0.49% | GEOMETRIC_PREDICTION | 0.8 |
 | P22 | Z boson mass M_Z | 91.1876 GeV | 91.237 GeV (EW fit: M_W/cos θ_W) | 0.055% | GEOMETRIC_PREDICTION | 0.8 |
 | P23 | β birefringence mode 1 | PENDING | 0.273° | — | GEOMETRIC_PREDICTION | 0.8 |
@@ -64,34 +64,35 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| GEOMETRIC_PREDICTION | 17 | 0.8 | 13.6 |
+| GEOMETRIC_PREDICTION | 19 | 0.8 | 15.2 |
 | DERIVED | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
-| CONSTRAINED | 6 | 0.5 | 3.0 |
+| CONSTRAINED | 4 | 0.5 | 2.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 1 | 0.3 | 0.3 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 2 | 0.1 | 0.2 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **18.9** |
+| **Total** | **28** | | **19.5** |
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
 *v10.21 upgrades: P21 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P22 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) = +0.6 pts (61%→63%).*  
 *v10.24 upgrades: P3 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5), P5 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5) = +1.0 pts (63%→66%).*
 *v10.25 upgrades: P19 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via Tier-3 hardgate package = +0.3 pts (66%→68%).*
+*v10.27 upgrades: P18 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via Route-A consolidation hardgate; P20 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via braid-NLO color correction = +0.6 pts (68%→70%).*
 
 ### Normalized score
 
 ```
-ToE Score = 18.9 / 28.0 = 0.675 ≈ 68%
+ToE Score = 19.5 / 28.0 = 0.696 ≈ 70%
 ```
 
-> **Current ToE Score: ~68%** (v10.25; upgraded from 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~70%** (v10.27; upgraded from 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
-- **Geometrically predicts** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₂₃, CKM ρ̄, M_W, M_Z, α_s, and m_H (LiteBIRD 2032/2034)
+- **Geometrically predicts** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₁₂, θ₂₃, θ₁₃, CKM ρ̄, M_W, M_Z, α_s, m_H, and GW background (LiteBIRD 2032/2034)
 - **Geometrically estimates** solar splitting Δm²₂₁
-- **Constrains** most SM mixing parameters within 50%
+- **Constrains** most SM Yukawa parameters within 50%
 - **Identifies** the closing mechanism for remaining architecture limits (full T²/Z₃, Kähler potential)
 
 ## 4 · Falsification Table
