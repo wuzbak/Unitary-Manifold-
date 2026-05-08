@@ -48,8 +48,10 @@ __all__ = [
     # Baseline data
     "DESI_DR2",
     "UM_PREDICTION",
+    "MONITOR_INTEGRATION_TARGETS",
     # Functions
     "tension_from_measurement",
+    "routing_decision",
     "update_with_new_data",
     "falsification_verdict",
     "monitoring_report",
@@ -72,6 +74,12 @@ DESI_DR2: Dict = {
     "datasets": "BAO + CMB + SNe Ia",
     "status": "CURRENT_BASELINE",
 }
+
+MONITOR_INTEGRATION_TARGETS: List[str] = [
+    "src/core/kk_de_wa_cpl.py",
+    "3-FALSIFICATION/OBSERVATION_TRACKER.md",
+    "src/core/canonical_falsifier_evidence_feed.py",
+]
 
 #: UM predictions for w₀ and wₐ
 UM_PREDICTION: Dict = {
@@ -140,6 +148,45 @@ def tension_from_measurement(
     }
 
 
+def routing_decision(
+    w0_tension_sigma: float,
+    wa_tension_sigma: float,
+    release_name: str,
+    year: int,
+) -> Dict[str, object]:
+    """Route a new dark-energy release into PASS/TENSION/FALSIFIED buckets."""
+    if wa_tension_sigma >= 3.0:
+        route = "FALSIFIED"
+        status = "❌ FALSIFIED"
+        action = (
+            "Update kk_de_wa_cpl.py, OBSERVATION_TRACKER.md, and the canonical "
+            "falsifier feed immediately; record the ≥3σ Year-3 exclusion."
+        )
+    elif wa_tension_sigma >= 1.0 or w0_tension_sigma >= 2.0:
+        route = "TENSION"
+        status = "🟠 TENSION"
+        action = (
+            "Record the release as monitored tension; keep the gap open and do "
+            "not claim any rescue without a new geometric sector."
+        )
+    else:
+        route = "PASS"
+        status = "🟢 PASS"
+        action = (
+            "Record the release as consistent in the tracker, sync the canonical "
+            "feed, and preserve wₐ = 0 as unfalsified."
+        )
+
+    return {
+        "route": route,
+        "status": status,
+        "release": release_name,
+        "year": year,
+        "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
+        "action": action,
+    }
+
+
 def update_with_new_data(
     release_name: str,
     year: int,
@@ -185,6 +232,12 @@ def update_with_new_data(
     wa_tension_dr2 = dr2_tension["tension_wa_sigma"]
     wa_tension_new = new_tension["tension_wa_sigma"]
     wa_improvement = wa_tension_dr2 - wa_tension_new
+    routing = routing_decision(
+        new_tension["tension_w0_sigma"],
+        new_tension["tension_wa_sigma"],
+        release_name,
+        year,
+    )
 
     return {
         "release": release_name,
@@ -199,6 +252,7 @@ def update_with_new_data(
         },
         "um_tension": new_tension,
         "baseline_tension": dr2_tension,
+        "routing": routing,
         "wa_tension_improvement_sigma": wa_improvement,
         "wording": (
             f"{release_name} ({year}): wₐ = {wa_central:.2f} ± {wa_sigma:.2f}. "
@@ -266,13 +320,20 @@ def monitoring_report() -> Dict:
         "DESI DR2",
     )
     verdict = falsification_verdict(DESI_DR2["wa_central"], DESI_DR2["wa_sigma"])
+    routing = routing_decision(
+        dr2["tension_w0_sigma"],
+        dr2["tension_wa_sigma"],
+        DESI_DR2["release"],
+        DESI_DR2["year"],
+    )
 
     return {
-        "version": "v10.18",
+        "version": "v10.26",
         "current_baseline": DESI_DR2,
         "um_prediction": UM_PREDICTION,
         "current_tension": dr2,
         "falsification_verdict": verdict,
+        "routing": routing,
         "next_milestone": {
             "release": "DESI Year 3",
             "expected_year": 2026,
@@ -311,4 +372,5 @@ def desi_year3_placeholder() -> Dict:
             "Update DESI_DR3 dict and call update_with_new_data() to refresh "
             "the tension analysis automatically."
         ),
+        "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
     }

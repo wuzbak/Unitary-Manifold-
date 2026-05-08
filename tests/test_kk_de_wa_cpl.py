@@ -392,3 +392,8 @@ class TestPillar155Summary:
 
     def test_pillar_references_nonempty(self):
         assert len(self.result["pillar_references"]) >= 4
+
+    def test_year3_integration_targets_present(self):
+        integration = self.result["desi_year3_integration"]
+        assert integration["route_buckets"] == ["PASS", "TENSION", "FALSIFIED"]
+        assert "OBSERVATION_TRACKER.md" in " ".join(integration["integration_targets"])

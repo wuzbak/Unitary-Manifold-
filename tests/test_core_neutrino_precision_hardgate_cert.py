@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from src.core.neutrino_precision_hardgate_cert import (
+    CONSTRAINED_PARAMETER_IDS,
     GP_THRESHOLD_PCT,
     P17_RESIDUAL_PCT,
     P18_RESIDUAL_ROUTE_A_PCT,
@@ -18,6 +19,7 @@ from src.core.neutrino_precision_hardgate_cert import (
     P19_STATUS,
     P20_STATUS,
     TOTAL_TOE_SCORE_DELTA,
+    constrained_followup_queue,
     tier23_hardgate_certificate,
     tier23_upgrade_summary,
 )
@@ -53,6 +55,10 @@ def test_status_outcomes():
     assert abs(TOTAL_TOE_SCORE_DELTA - 0.3) < 1e-10
 
 
+def test_constrained_parameter_ids():
+    assert CONSTRAINED_PARAMETER_IDS == ("P17", "P18", "P20")
+
+
 def test_certificate_structure():
     cert = tier23_hardgate_certificate()
     assert cert["package"]
@@ -72,3 +78,14 @@ def test_summary_promoted_list_and_delta():
     s = tier23_upgrade_summary()
     assert s["promoted_parameters"] == ["P19"]
     assert abs(s["total_toe_score_delta"] - 0.3) < 1e-10
+
+
+def test_followup_queue_tracks_remaining_constraints():
+    queue = constrained_followup_queue()
+    assert [item["parameter"] for item in queue] == ["P17", "P18", "P20"]
+    assert all(item["promotion_policy"] == "blocked_until_all_gates_pass" for item in queue)
+
+
+def test_summary_carries_followup_queue():
+    summary = tier23_upgrade_summary()
+    assert [item["parameter"] for item in summary["constrained_followup"]] == ["P17", "P18", "P20"]

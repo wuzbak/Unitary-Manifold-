@@ -30,9 +30,9 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | **P1b** | Cosmic birefringence — (5,6) shadow sector | β | **0.273° ± 0.007°** | LiteBIRD | ~2032 | 🟡 PENDING — second viable lossless branch | 2026-05-04 | Await LiteBIRD; discriminated from P1 at 2.9σ |
 | **P2** | CMB scalar spectral index | nₛ | **0.9635** | Planck 2018, ACT DR6, SPT-3G | Ongoing | 🟢 CONSISTENT — Planck: 0.9649±0.0042 (0.33σ) | 2026-05-04 | Monitor if error bar tightens below ±0.002; check ACT DR6 |
 | **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, CMB-S4 | ~2030 | 🟢 CONSISTENT — BICEP/Keck: r<0.036 (UM: 0.0315 ✓) | 2026-05-04 | Await CMB-S4; falsified if r<0.01 or r>0.036 confirmed |
-| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI Year 1–3 | Ongoing (Y3: ~2026) | 🟠 TENSION — DESI Y1: wₐ≠0 at 2.1σ; wₐ=0 disfavoured | 2026-05-04 | **HIGH PRIORITY:** Integrate DESI Y3 results within 30 days of publication |
+| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI Year 1–3 | Ongoing (Y3: ~2026) | 🟠 TENSION — DESI Y1: wₐ≠0 at 2.1σ; wₐ=0 disfavoured | 2026-05-08 | **HIGH PRIORITY:** run PASS/TENSION/FALSIFIED routing via `desi_year3_monitor.py`; sync `kk_de_wa_cpl.py`, this tracker, and the canonical falsifier feed |
 | **P5** | CMB acoustic peak amplitude | A_s | Suppressed ×4.2–6.1 vs ΛCDM (OPEN: α_GW UV-brane parameter) | Planck, CMB-S4 | ~2030 | 🔴 OPEN GAP — suppression quantified but α_GW not geometrically fixed | 2026-05-04 | Document as open; do not claim resolution without α_GW derivation |
-| **P6** | PMNS solar mixing angle (GUT scale) | sin²θ₁₂ | 4/15 ≈ 0.267 (GUT) → ~0.267 (M_Z, 1-loop) | Ongoing neutrino experiments | Ongoing | 🔴 OPEN GAP — 13% gap vs PDG 0.307; 1-loop RGE insufficient | 2026-05-04 | Document as open; 2-loop or threshold corrections required |
+| **P6** | PMNS solar mixing angle (GUT scale) | sin²θ₁₂ | 4/15 ≈ 0.267 (GUT) → ~0.267 (M_Z, 1-loop) | Ongoing neutrino experiments | Ongoing | 🔴 OPEN GAP — 13% gap vs PDG 0.307; 1-loop RGE insufficient | 2026-05-08 | Keep OPEN GAP label; follow `pmns_solar_improvement_path()` and no-overclaim gate outputs |
 | **P7** | Cold fusion: φ-enhanced Gamow factor / COP | Excess heat at predicted COP | Falsifiable COP prediction (Pillar 15) | Calorimetry experiments | Ongoing | 🟡 PENDING — no confirmed measurement; prediction explicitly framed as falsifiable | 2026-05-04 | Monitor LENR experimental literature |
 
 ---
@@ -57,8 +57,8 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 |---|-----|--------|--------|--------|
 | **G1** | ADM 3+1 decomposition of time parameterization | 🔴 REAL GAP — qualitative claim survives; quantitative rate requires full ADM | `src/core/delay_field.py` (Pillar 41 partial) | Future work; do not claim resolved |
 | **G2** | CMB peak amplitude suppression ×4.2–6.1 | 🔴 OPEN — α_GW UV-brane parameter not geometrically fixed | `src/core/cmb_acoustic_amplitude_rg.py` (Pillar 149) | Do not claim resolved without α_GW derivation |
-| **G3** | DESI wₐ = 0 vs DESI Y1 2.1σ tension | 🟠 MONITORED — frozen radion predicts wₐ = 0 | `src/core/kk_de_wa_cpl.py` (Pillar 155) | **Integrate DESI Y3 within 30 days** |
-| **G4** | sin²θ₁₂ 13% gap at M_Z | 🔴 OPEN — 1-loop RGE insufficient | `src/core/pmns_solar_rge_correction.py` (Pillar 163) | 2-loop or threshold corrections needed |
+| **G3** | DESI wₐ = 0 vs DESI Y1 2.1σ tension | 🟠 MONITORED — frozen radion predicts wₐ = 0 | `src/core/kk_de_wa_cpl.py` (Pillar 155) | **Integrate DESI Y3 within 30 days** using explicit PASS/TENSION/FALSIFIED routing |
+| **G4** | sin²θ₁₂ 13% gap at M_Z | 🔴 OPEN — 1-loop RGE insufficient | `src/core/pmns_solar_rge_correction.py` (Pillar 163) | 2-loop / threshold / GUT-BC track only; no status inflation until the no-overclaim gate clears |
 
 ---
 
@@ -84,7 +84,7 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | ~2027 | ACT DR6 (full) | nₛ | 0.9635 | ±0.003 or better | Monitor if error bar tightens; check 0.33σ status |
 | ~2028 | Simons Observatory | β, nₛ, r | β ∈ {0.273°, 0.331°} | σ_β ~ 0.05° | First sub-0.1° β measurement; may begin discrimination |
 | ~2030 | CMB-S4 | β, r, A_s | r < 0.036; β ∈ {0.273°, 0.331°} | σ_β ~ 0.01° | Near-definitive β test; could discriminate (5,6)/(5,7) sectors |
-| ~2032 | **LiteBIRD** | **β** | **β ∈ {0.273°, 0.331°} ± 0.007°** | **σ_β ~ 0.02°** | **PRIMARY EVENT — run falsification_check.py immediately upon publication** |
+| ~2032 | **LiteBIRD** | **β** | **β ∈ {0.273°, 0.331°} ± 0.007°** | **σ_β ~ 0.02°** | **PRIMARY EVENT — clear the strict checklist in `litebird_readiness_hardening.py`, then run `falsification_check.py` immediately** |
 | ~2032 | LiteBIRD | r | 0.0315 | σ_r ~ 0.001 | Secondary test; constrains braided sound speed |
 
 ---
@@ -93,7 +93,7 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 
 1. **When new data arrives:** Update the relevant row in "Observational Record" within 30 days.
 2. **When a gap closes:** Update the gap row and update FALLIBILITY.md simultaneously. Do not close a gap here without closing it in FALLIBILITY.md.
-3. **When LiteBIRD publishes:** Run `python src/core/falsification_check.py --beta VALUE --sigma UNCERTAINTY` and follow the output instructions. Update the P1/P1b rows and commit the result.
+3. **When LiteBIRD publishes:** clear the `litebird_readiness_hardening.py` checklist, run `python src/core/falsification_check.py --beta VALUE --sigma UNCERTAINTY`, and record the verdict in this tracker and the canonical falsifier feed in the same update.
 4. **Status codes:**
    - ✅ DERIVED / PROVED — mathematical theorem or algebraic identity
    - 🟢 CONSISTENT — observationally validated, not discriminating

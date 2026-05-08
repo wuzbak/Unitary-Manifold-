@@ -33,6 +33,8 @@ from src.core.pmns_solar_rge_correction import (
     rge_delta_sin2_theta12,
     seesaw_threshold_correction,
     sin2_theta12_at_mz,
+    pmns_solar_improvement_path,
+    pmns_solar_no_overclaim_gate,
     pmns_solar_rge_report,
     pillar163_summary,
 )
@@ -385,3 +387,15 @@ class TestPillar163Summary:
         # 1-loop RGE gives small but positive shift; still below PDG value
         assert self.summary["sin2_theta12_mz_predicted"] > SIN2_THETA12_GUT
         assert self.summary["sin2_theta12_mz_predicted"] < SIN2_THETA12_PDG
+
+
+class TestOpenGapFollowup:
+    def test_no_overclaim_gate_blocks_promotion(self):
+        gate = pmns_solar_no_overclaim_gate()
+        assert gate["promotion_allowed"] is False
+        assert gate["status"] == "OPEN_GAP"
+
+    def test_improvement_path_has_three_priorities(self):
+        path = pmns_solar_improvement_path()
+        assert len(path["priority_order"]) == 3
+        assert path["status"] == "OPEN_GAP_TRACK"
