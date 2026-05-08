@@ -13,6 +13,79 @@ For each wave entry, include:
 
 ---
 
+## v10.14 (Post-MAS Extension Tracks ET-1 through ET-6 + Scope Freeze)
+
+### What changed
+- Added `src/sixd/higgs_radion_mixing_6d.py` (ET-1):
+  - Goldberger-Wise CW mechanism for Higgs-radion mixing θ_HR.
+  - Gate: ARCHITECTURE_LIMIT_CERTIFIED(6D+) — mechanism active, perturbative, CW controlled.
+- Added `src/nined/cp_phase_9d_refinement.py` (ET-2):
+  - 9D KK holonomy + Green-Schwarz flux correction to δ_CP.
+  - Residual reduced from 12.7% (7D) to ~1-2%; propagated uncertainty <5% → gate pass.
+  - Gate: BEST_EVIDENCE_CONSTRAINED(9D).
+- Added `src/sixd/neutrino_overlap_integrals_nlo.py` (ET-3):
+  - NLO T²/Z₃ curvature and KK-mode corrections to Dirac Yukawa overlap integrals.
+  - Δm²₃₁ residual reduced from ~10.5% (LO) to ~7-8% (NLO).
+  - Gate: GEOMETRIC_ESTIMATE_CERTIFIED (NLO improved).
+- Added `src/tend/cy3_kk_thresholds_alpha_s.py` (ET-4):
+  - 10D CY₃ (quintic, h11=1, h21=101) KK threshold correction to α_s(M_Z).
+  - α_s residual reduced to ~20%; gap factor improved from 2.5× to ~1.2×.
+  - Gate: ARCHITECTURE_LIMIT_CERTIFIED(10D).
+- Added `src/core/prediction_registry.py` (ET-5):
+  - Machine-readable registry of all UM predictions with experimental status and falsification conditions.
+- Added `docs/TOE_SCORE_AUDIT.md` (ET-5):
+  - Formal ToE Score audit across all 28 SM parameters. Score ~51%.
+- Added `docs/LITEBIRD_FALSIFIER_BRIEF.md` (ET-5):
+  - Primary falsifier protocol for LiteBIRD β birefringence measurement.
+- Added `src/core/scope_freeze_certificate.py` (ET-6):
+  - Machine-readable terminal state record of the entire MAS + post-MAS programme.
+- Added `src/core/dimensional_extension_roadmap.py` (ET-6):
+  - Machine-readable roadmap for the 4 post-MAS dimensional-extension research workstreams.
+- Added `docs/POST_MAS_EXTENSION_LEDGER.md` (ET-6):
+  - Ledger for all 6 extension tracks.
+- Added tests for all new modules.
+- Updated `docs/mas_tracker.yml` to v10.14 with `post_mas_extension_tracks` section.
+- Updated `docs/MAS_COMPLETION_CERTIFICATE.md`: 4 next steps marked DELIVERED.
+
+### What did not change
+- MAS remained closed.
+- No MAS wave reopened.
+- Parameter terminal status labels unchanged except:
+  - P15 (δ_CP) note updated to reflect 9D refinement residual in TOE_SCORE_AUDIT.
+  - P17 (Δm²₃₁) note updated to reflect NLO residual.
+- No TOE score changes claimed at category level.
+- Primary falsifier (LiteBIRD β birefringence) unchanged.
+
+### Why
+- Deliver the 4 "Actionable Next Steps" from MAS_COMPLETION_CERTIFICATE as machine-verifiable artifacts.
+- Capture programme terminal state in a frozen, machine-readable certificate.
+- Provide a structured roadmap for future dimensional-extension research.
+
+### Epistemic label deltas
+- P5: No change to terminal label (ARCHITECTURE_LIMIT_CERTIFIED(6D+)).
+  ET-1 confirms mechanism active; exact θ_HR still requires 6D+ geometry.
+- P14/P15: No change to terminal labels. δ_CP 9D refinement noted; gate pass at 9D.
+- P19/P20/P21: No change to terminal labels. NLO improvement documented.
+- P3: No change to terminal label (ARCHITECTURE_LIMIT_CERTIFIED(10D)).
+
+### TOE score delta
+- **No change to category-level score (51%).**
+- P15 and P17 show improved residuals, documented as notes; category labels and scores unchanged.
+
+### Falsification impact
+- No falsifier removed or weakened.
+- LiteBIRD β birefringence primary falsifier remains unchanged and intact.
+- LISA Ω_GW and CMB-S4 r/n_s secondary falsifiers unchanged.
+
+### Residual unknowns
+- P5: Exact θ_HR still requires full 6D+ geometry.
+- P14: Rung-2 robustness limit (δ_CP uncertainty ~12.7% propagated) remains with 7D baseline.
+- P19–P21: Δm²₂₁ unconstrained at this order; 6D+ needed for simultaneous prediction.
+- P3: Full CY₃ closure requires complete 10D geometry including all moduli and fluxes.
+- T4 (Julia cross-check): OPTIONAL_NOT_ACTIVATED — no disputed blocks found.
+
+---
+
 ## v10.13 (Post-MAS Anti-Loop Track Execution)
 
 ### What changed

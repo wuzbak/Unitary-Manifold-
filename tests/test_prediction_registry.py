@@ -48,8 +48,8 @@ class TestConstants:
 
 
 class TestRegistry:
-    def test_registry_has_nine_entries(self):
-        assert len(PREDICTION_REGISTRY) == 9
+    def test_registry_has_seventeen_entries(self):
+        assert len(PREDICTION_REGISTRY) == 17
 
     def test_all_required_keys_present(self):
         required = {
@@ -97,6 +97,48 @@ class TestRegistry:
         p = PREDICTION_REGISTRY["GW_BACKGROUND"]
         assert "PENDING" in p["current_status"]
         assert p["exp_launch_year"] == 2035
+
+    def test_theta_13_values(self):
+        p = PREDICTION_REGISTRY["THETA_13"]
+        assert p["predicted_value"] == pytest.approx(8.57, abs=0.1)
+        assert p["units"] == "degrees"
+        assert p["epistemic_label"] == "CONSTRAINED"
+
+    def test_alpha_em_values(self):
+        p = PREDICTION_REGISTRY["ALPHA_EM"]
+        assert p["predicted_value"] == pytest.approx(1.0 / 137.036, rel=1e-4)
+        assert p["epistemic_label"] == "CONSTRAINED"
+
+    def test_sin2_theta_w_values(self):
+        p = PREDICTION_REGISTRY["SIN2_THETA_W"]
+        assert p["predicted_value"] == pytest.approx(0.23122, abs=0.001)
+        assert p["epistemic_label"] == "CONSTRAINED"
+
+    def test_w_mass_values(self):
+        p = PREDICTION_REGISTRY["W_MASS"]
+        assert p["predicted_value"] == pytest.approx(80.377, abs=0.5)
+        assert p["units"] == "GeV"
+
+    def test_z_mass_values(self):
+        p = PREDICTION_REGISTRY["Z_MASS"]
+        assert p["predicted_value"] == pytest.approx(91.188, abs=0.1)
+        assert p["units"] == "GeV"
+
+    def test_dm2_31_values(self):
+        p = PREDICTION_REGISTRY["DM2_31"]
+        assert p["predicted_value"] == pytest.approx(2.453e-3, rel=0.01)
+        assert "eV" in p["units"]
+
+    def test_theta_12_values(self):
+        p = PREDICTION_REGISTRY["THETA_12"]
+        assert p["predicted_value"] == pytest.approx(33.82, abs=0.5)
+        assert p["units"] == "degrees"
+
+    def test_theta_23_values(self):
+        p = PREDICTION_REGISTRY["THETA_23"]
+        assert p["predicted_value"] == pytest.approx(48.3, abs=0.5)
+        assert p["units"] == "degrees"
+
 
 
 class TestGetPrediction:
@@ -182,7 +224,7 @@ class TestFalsifiablePredictions:
 class TestRegistrySummary:
     def test_total_count(self):
         s = registry_summary()
-        assert s["total_predictions"] == 9
+        assert s["total_predictions"] == 17
 
     def test_has_geometric_prediction_label(self):
         s = registry_summary()
