@@ -1,4 +1,4 @@
-version: "v10.18"
+version: "v10.24"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -860,3 +860,35 @@ v10_23_batch:
     after: 17.6
     before_pct: "63%"
     after_pct: "63%"
+
+v10_24_batch:
+  date: "2026-05-08"
+  version: "v10.24"
+  deliverables:
+    P3_HARDGATE_CERT:
+      title: "P3 GEOMETRIC_ESTIMATE_CERTIFIED -> GEOMETRIC_PREDICTION (α_s(M_Z), Tier-1)"
+      parameter: "P3"
+      artifact: "src/core/alpha_s_hardgate_cert.py"
+      test: "tests/test_core_alpha_s_hardgate_cert.py"
+      status: "DELIVERED"
+      previous_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.5
+      residual_pct: 4.12
+      gates: ["nominal_residual", "robustness_kahler_window", "axiomzero_purity"]
+    P5_HARDGATE_CERT:
+      title: "P5 GEOMETRIC_ESTIMATE_CERTIFIED -> GEOMETRIC_PREDICTION (Higgs CW, Tier-1)"
+      parameter: "P5"
+      artifact: "src/sixd/higgs_mass_hardgate_cert.py"
+      test: "tests/test_sixd_higgs_mass_hardgate_cert.py"
+      status: "DELIVERED"
+      previous_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.5
+      residual_pct: 0.01
+      gates: ["nominal_residual", "robustness_overlap_window", "axiomzero_purity"]
+  toe_score:
+    before: 17.6
+    after: 18.6
+    before_pct: "63%"
+    after_pct: "66%"
