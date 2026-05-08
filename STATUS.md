@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.6 — Effective 2026-05-07*  
-*Pillar set: 217 pillars (+ Ω₀ Holon Zero + sub-pillars; Pillars 213–217 = v10.6 MAS Wave Plan)*
+*Unitary Manifold v10.13 — Effective 2026-05-08*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; post-MAS tracks active/completed per tracker).*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an
@@ -9,6 +9,9 @@
 > speculation for honest gap documentation.
 
 ---
+
+> **Historical note:** Historical sections below preserve earlier wave snapshots.
+> For canonical current state, use `docs/mas_tracker.yml`, `docs/WAVE_CHANGELOG.md`, and `9-INFRASTRUCTURE/provenance/README.md`.
 
 ## Pillar Set Status: CLOSED
 
@@ -19,7 +22,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Test suite at closure:** ~23,524 passed · 329 skipped · 11 deselected · 0 failed
+**Latest verified branch regression:** 25292 passed · 329 skipped · 11 deselected · 0 failed
 
 ---
 

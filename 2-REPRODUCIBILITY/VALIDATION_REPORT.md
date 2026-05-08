@@ -8,6 +8,16 @@
 
 ---
 
+## Historical document notice
+
+This file preserves earlier validation snapshots (v9.30 framing) for audit continuity.
+For canonical current version/status/test and toolchain provenance, use:
+- `docs/mas_tracker.yml`
+- `docs/WAVE_CHANGELOG.md`
+- [`9-INFRASTRUCTURE/provenance/README.md`](../9-INFRASTRUCTURE/provenance/README.md)
+
+---
+
 ## What "Validation" Means Here
 
 This document uses the word *validation* precisely. It does not mean "proven correct as a
