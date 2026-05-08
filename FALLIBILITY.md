@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.18 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 25982 passed, 329 skipped, 11 deselected, 0 failed).*
+*Unitary Manifold v10.27 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 26333 passed, 329 skipped, 11 deselected, 0 failed).*
 
 ---
 
@@ -21,7 +21,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (25982 passed, 329 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (26333 passed, 329 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -51,7 +51,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "25328 passed · 330 skipped · 11 deselected · 0 failed," this is a statement about
+When the README badge reads "26333 passed · 329 skipped · 11 deselected · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
