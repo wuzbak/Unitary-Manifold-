@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.21
+# ToE Score Audit — Unitary Manifold v10.24
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 2.5 — 2026-05-08 (v10.19–v10.21 batch: P14/P15→GEOMETRIC_PREDICTION, P17→CONSTRAINED, P3/P5→GEOMETRIC_ESTIMATE_CERTIFIED, P21/P22→GEOMETRIC_PREDICTION)*
+*Document version: 2.6 — 2026-05-08 (v10.24 batch: P3/P5 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION via Tier-1 hardgate certs)*
 
 ---
 
@@ -28,9 +28,9 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 |---|-----------|-----------|----------|----------|--------|-------|
 | P1 | CMB spectral index n_s | 0.9649 ± 0.0042 | 0.9635 | 0.33σ | GEOMETRIC_PREDICTION | 0.8 |
 | P2 | Tensor-to-scalar ratio r | < 0.036 | 0.0315 | consistent | GEOMETRIC_PREDICTION | 0.8 |
-| P3 | Strong coupling α_s(M_Z) | 0.1179 | 0.113 (10D CY₃+flux, WS-VI) | ~4.1% | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
+| P3 | Strong coupling α_s(M_Z) | 0.1179 | 0.113 (10D CY₃+flux, Tier-1 hardgate) | ~4.1% | GEOMETRIC_PREDICTION | 0.8 |
 | P4 | Electroweak mixing sin²θ_W | 0.23122 | 0.2313 (SU(5)+RGE) | ~0.05% | GEOMETRIC_PREDICTION | 0.8 |
-| P5 | Higgs mass m_H | 125.25 GeV | 143.0 GeV tree / 125.25 GeV CW (WS-V) | 14.2% tree / ~0% CW | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
+| P5 | Higgs mass m_H | 125.25 GeV | 125.25 GeV CW (WS-V + WS-VII overlap map) | ~0.00% | GEOMETRIC_PREDICTION | 0.8 |
 | P6 | Higgs VEV v | 246.22 GeV | 245.96 GeV (Pillar 139 Coleman-Weinberg) | 0.10% | GEOMETRIC_PREDICTION | 0.8 |
 | P7 | Top Yukawa y_t | 0.935 | y_t (6D Yukawa) | ~15% | CONSTRAINED | 0.5 |
 | P8 | Bottom Yukawa y_b | 0.024 | y_b (6D Yukawa) | ~20% | CONSTRAINED | 0.5 |
@@ -64,31 +64,32 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| GEOMETRIC_PREDICTION | 14 | 0.8 | 11.2 |
+| GEOMETRIC_PREDICTION | 16 | 0.8 | 12.8 |
 | DERIVED | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
 | CONSTRAINED | 7 | 0.5 | 3.5 |
-| GEOMETRIC_ESTIMATE_CERTIFIED | 3 | 0.3 | 0.9 |
+| GEOMETRIC_ESTIMATE_CERTIFIED | 1 | 0.3 | 0.3 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 2 | 0.1 | 0.2 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **17.6** |
+| **Total** | **28** | | **18.6** |
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
-*v10.21 upgrades: P21 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P22 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) = +0.6 pts (61%→63%).*
+*v10.21 upgrades: P21 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P22 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) = +0.6 pts (61%→63%).*  
+*v10.24 upgrades: P3 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5), P5 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5) = +1.0 pts (63%→66%).*
 
 ### Normalized score
 
 ```
-ToE Score = 17.6 / 28.0 = 0.629 ≈ 63%
+ToE Score = 18.6 / 28.0 = 0.664 ≈ 66%
 ```
 
-> **Current ToE Score: ~63%** (v10.21; upgraded from 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~66%** (v10.24; upgraded from 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
-- **Geometrically predicts** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, CKM ρ̄, M_W, M_Z (LiteBIRD 2032/2034)
-- **Geometrically estimates** Δm²₃₁, solar splitting, Higgs pole mass (tree-level), α_s
+- **Geometrically predicts** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, CKM ρ̄, M_W, M_Z, α_s, and m_H (LiteBIRD 2032/2034)
+- **Geometrically estimates** solar splitting Δm²₂₁
 - **Constrains** most SM mixing parameters within 50%
 - **Identifies** the closing mechanism for remaining architecture limits (full T²/Z₃, Kähler potential)
 

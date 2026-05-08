@@ -1,18 +1,18 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.18)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.24)
 
 This repository contains the technical record, code, and falsification conditions for the Unitary Manifold framework.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![25982 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-25982%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![26217 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-26217%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.18-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v10.24-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status (v10.18):** MAS complete; WS-I..WS-IV PASS_FREEZE retained. New: P6/P13 upgraded to GEOMETRIC_PREDICTION, P17 2NLO residual improved (7.26%→6.87%), CMB-S4/DUNE/Hyper-K/JUNO monitors delivered, bot/RAG expanded.
-> Latest full local regression on this branch: **25982 passed · 329 skipped · 11 deselected · 0 failed**.  
+> ⚠️ **Honest status (v10.24):** MAS complete; WS-I..WS-IV PASS_FREEZE retained. New: Tier-1 hardgate certifications delivered for P3/P5, both upgraded to GEOMETRIC_PREDICTION; ToE score now 18.6/28 (~66%).
+> Latest full local regression on this branch: **26217 passed · 329 skipped · 11 deselected · 0 failed**.  
 > For canonical, up-to-date status and provenance use:
 > [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
 > [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md), and [`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md).
