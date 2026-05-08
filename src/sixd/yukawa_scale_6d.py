@@ -47,6 +47,7 @@ TAU_YUKAWA_SM = 0.0102
 ELECTRON_YUKAWA_SM = 2.9e-6
 TOP_YUKAWA_TOLERANCE = 0.50
 YUKAWA_HARDGATE_TOLERANCE = 0.05
+TARGET_YUKAWA_ZERO_GUARD = 1e-30
 
 
 def parameter_gate_status(residual: float) -> str:
@@ -159,6 +160,8 @@ def tier4_yukawa_hardgate_v1028() -> Dict[str, object]:
     ratios = yukawa_ratio_spectrum_pillar183()
 
     # Top normalization from geometric constants only.
+    # Pillar-183 v10.28 top normalization used in this hardgate packet:
+    # RS-like suppression exp(-πkR/(8K_CS)) times finite-K_CS correction (1 - 1/(2K_CS)).
     y_top_pred = math.exp(-PI_KR / (8.0 * K_CS)) * (1.0 - 1.0 / (2.0 * K_CS))
 
     targets = {
@@ -171,7 +174,7 @@ def tier4_yukawa_hardgate_v1028() -> Dict[str, object]:
     parameters: Dict[str, Dict[str, object]] = {}
     for pid, (fermion, target) in targets.items():
         predicted = y_top_pred * ratios[fermion]
-        residual = abs(predicted - target) / max(target, 1e-30)
+        residual = abs(predicted - target) / max(target, TARGET_YUKAWA_ZERO_GUARD)
         gate_pass = residual < YUKAWA_HARDGATE_TOLERANCE
         parameters[pid] = {
             "fermion": fermion,

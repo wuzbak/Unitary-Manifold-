@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+import math
+
 from src.sixd.pillar183_cl_spectrum_6d import (
     CHARGE_QUANTA,
     KAEHLER_UPLIFT,
@@ -19,7 +21,7 @@ from src.sixd.pillar183_cl_spectrum_6d import (
 def test_constants():
     assert N_W == 5
     assert K_CS == 74
-    assert PI_KR == 37.0
+    assert PI_KR == K_CS / 2.0
 
 
 def test_charge_quanta_present():
@@ -30,11 +32,17 @@ def test_charge_quanta_present():
 def test_cl_spectrum_monotone():
     c_l = cl_spectrum_pillar183()
     assert c_l["top"] < c_l["bottom"] < c_l["tau"] < c_l["electron"]
+    for fermion, qf in CHARGE_QUANTA.items():
+        assert c_l[fermion] == 0.5 + qf / (4.0 * K_CS)
 
 
 def test_ratio_hierarchy():
     ratios = yukawa_ratio_spectrum_pillar183()
+    c_l = cl_spectrum_pillar183()
     assert ratios["top"] > ratios["bottom"] > ratios["tau"] > ratios["electron"]
+    for fermion in CHARGE_QUANTA:
+        expected = math.exp(-PI_KR * (c_l[fermion] - c_l["top"])) * KAEHLER_UPLIFT[fermion]
+        assert ratios[fermion] == expected
 
 
 def test_electron_has_kaehler_uplift():
@@ -47,4 +55,3 @@ def test_closure_report_axiomzero():
     assert report["pillar"] == 183
     assert report["axiomzero_purity"] is True
     assert report["pdg_anchors_used"] == []
-

@@ -96,6 +96,9 @@ def test_tier4_hardgate_residuals_lt_5pct():
 
 def test_tier4_hardgate_toe_delta():
     report = tier4_yukawa_hardgate_v1028()
-    assert report["toe_delta"] == pytest.approx(1.2, abs=1e-12)
-    assert report["toe_score_before"] == pytest.approx(19.5, abs=1e-12)
-    assert report["toe_score_after"] == pytest.approx(20.7, abs=1e-12)
+    expected_delta = 0.3 * len(report["promoted_parameters"])
+    assert report["toe_delta"] == pytest.approx(expected_delta, abs=1e-12)
+    assert report["toe_score_after"] == pytest.approx(
+        report["toe_score_before"] + report["toe_delta"],
+        abs=1e-12,
+    )

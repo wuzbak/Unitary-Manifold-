@@ -19,6 +19,7 @@ __all__ = [
 
 N_W: int = 5
 K_CS: int = 74
+# In this codebase πkR is fixed by the Randall-Sundrum relation πkR = K_CS/2.
 PI_KR: float = K_CS / 2.0
 
 # Integer sector quanta from the T²/Z₃ fixed-point + torsion branch map.
@@ -80,4 +81,3 @@ def pillar183_closure_report() -> Dict[str, object]:
         "axiomzero_purity": True,
         "pdg_anchors_used": [],
     }
-
