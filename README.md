@@ -1,17 +1,16 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.7)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.9)
 
-> *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity — written into the 5D Kaluza-Klein metric one dimension above where you live."*  
-> — Walker-Pearson, *The Unitary Manifold*, v9.30
+This repository contains the technical record, code, and falsification conditions for the Unitary Manifold framework.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![24928 Tests passing](https://img.shields.io/badge/tests-24928%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.7-blue)](CITATION.cff)
+[![Version](https://img.shields.io/badge/version-v10.9-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status (v10.7):** This framework is not yet a zero-free-parameter TOE.
+> ⚠️ **Honest status (v10.9):** This framework is not yet a zero-free-parameter TOE.
 > TOE score is **~62% (5D domain completeness audit)** under the earned-closure threshold.  
 > P5 (Higgs mass) is an **ARCHITECTURE LIMIT** in the current RS1 scope;  
 > P28 (Newton's constant) is tracked as **DIMENSIONAL SCALE** (not a fitted prediction).  
@@ -21,6 +20,30 @@
 > [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md),
 > [`docs/v10.6_release_notes.md`](docs/v10.6_release_notes.md),
 > and [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md).
+
+---
+
+## Institutional Reading Path (Primary)
+
+If you are evaluating this work for institutional, referee, or technical review, use this path first:
+
+1. [`FALLIBILITY.md`](FALLIBILITY.md) — known limits, unresolved gaps, and non-claims
+2. [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) — per-claim status ledger (derived/fitted/open/etc.)
+3. [`3-FALSIFICATION/`](3-FALSIFICATION/) — explicit failure conditions and adversarial review artifacts
+4. Reproducibility and tests:
+   - [`2-REPRODUCIBILITY/`](2-REPRODUCIBILITY/)
+   - `python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
+
+For claim taxonomy and boundary rules, use:
+- [`SEPARATION.md`](SEPARATION.md)
+- [`FALLIBILITY.md`](FALLIBILITY.md)
+
+---
+
+## Audience Split
+
+- **For institutional review (technical corpus):** `FALLIBILITY.md` → `1-THEORY/DERIVATION_STATUS.md` → `3-FALSIFICATION/` → `2-REPRODUCIBILITY/` + tests
+- **For general audience (optional, non-peer-reviewed):** `4-IMPLICATIONS/WHAT_THIS_MEANS.md` and [`7-OUTREACH/`](7-OUTREACH/)
 
 ---
 
@@ -65,10 +88,10 @@ Start with the layer that matches your purpose:
 | 🔧 **Infrastructure** | [`9-INFRASTRUCTURE/`](9-INFRASTRUCTURE/) | Notebooks, bots, scripts, AI tools |
 
 **Entry points by role:**
-- *Physicist reviewing the theory:* `FALLIBILITY.md` → `1-THEORY/DERIVATION_STATUS.md` → `python VERIFY.py` → `src/core/`
+- *Physicist reviewing the theory:* `FALLIBILITY.md` → `1-THEORY/DERIVATION_STATUS.md` → `3-FALSIFICATION/` → `2-REPRODUCIBILITY/`
 - *Reproducing results:* `python VERIFY.py` → `python -m pytest tests/ -q` → `2-REPRODUCIBILITY/`
 - *Understanding the falsifiers:* `3-FALSIFICATION/prediction.md`
-- *General reader:* `4-IMPLICATIONS/WHAT_THIS_MEANS.md` → `7-OUTREACH/`
+- *General reader (optional):* `4-IMPLICATIONS/WHAT_THIS_MEANS.md` → `7-OUTREACH/`
 
 ---
 
@@ -185,12 +208,10 @@ removed or contradicted.
 
 ---
 
-> ### 📄 [WHAT_THIS_MEANS.md](4-IMPLICATIONS/WHAT_THIS_MEANS.md) — Start here if you want to understand the *significance*
+> ### 📄 [FALLIBILITY.md](FALLIBILITY.md) — Start here for institutional review
 >
-> A plain-language document explaining what this work is claiming, why it matters,
-> how it relates to our 4D existence, what the quantitative results mean, and
-> where the honest gaps are.  Written for physicists, the public, reviewers, and AI systems equally.
-> **This is the first thing to read before diving into the mathematics.**
+> Canonical limits, unresolved gaps, and explicit scope boundaries.
+> Use this first to prevent over-claiming and to locate known failure modes.
 
 > ### 📄 [CORRESPONDENCE_MAP.md](1-THEORY/CORRESPONDENCE_MAP.md) — Start here if you are a **physicist or AI agent classifying domain**
 >
@@ -199,13 +220,19 @@ removed or contradicted.
 > Shows exactly what is derived vs fitted, recovery limits, deliberate departures,
 > and falsification conditions.  Addresses AI domain misclassification explicitly.
 
-> ### 📄 [co-emergence/GENESIS.md](co-emergence/GENESIS.md) — Start here if you want to understand *how this was made*
+> ### 📄 [DERIVATION_STATUS.md](1-THEORY/DERIVATION_STATUS.md) — Claim-by-claim status ledger
 >
-> An honest audit of the project's origin: how a single intuition on the evening of March 26, 2026
-> became a 74-chapter monograph in ~two weeks, and then became this repository.
-> Documents the human-AI process, its genuine limits, and the recursive structure —
-> a fixed-point theory produced by a fixed-point process.
-> **Critical self-assessment of the entire enterprise.**
+> Status tags for major claims (for example: DERIVED, OPEN, PARTIALLY_CLOSED, OBSERVATIONALLY-SELECTED),
+> with derivation chain and falsification columns.
+
+> ### 📄 [WHAT_THIS_MEANS.md](4-IMPLICATIONS/WHAT_THIS_MEANS.md) — General-audience context (optional)
+>
+> Plain-language context document. This file is not the institutional starting point;
+> technical review should begin with `FALLIBILITY.md` and `1-THEORY/DERIVATION_STATUS.md`.
+
+> ### 📄 [7-OUTREACH/](7-OUTREACH/) — Outreach and essays (optional, non-peer-reviewed)
+>
+> Public communication and personal essays. Not part of the peer-review technical corpus.
 
 ---
 

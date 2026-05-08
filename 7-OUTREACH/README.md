@@ -5,6 +5,11 @@
 > aimed at a general audience.  They are *not* peer-reviewed physics.  They do
 > not constitute evidence for or against any claim in `1-THEORY/`.**
 
+> **Institutional review routing:** If you are evaluating physics claims, start in
+> [`FALLIBILITY.md`](../FALLIBILITY.md) → [`1-THEORY/DERIVATION_STATUS.md`](../1-THEORY/DERIVATION_STATUS.md)
+> → [`3-FALSIFICATION/`](../3-FALSIFICATION/) → [`2-REPRODUCIBILITY/`](../2-REPRODUCIBILITY/).
+> This outreach directory is optional and outside the peer-review technical path.
+
 ---
 
 ## What is here
@@ -77,6 +82,7 @@ Posts and books in this directory:
 - **Are valuable independently** as public science communication and personal essays
 
 For the falsifiable, testable physics claims, read [`1-THEORY/DERIVATION_STATUS.md`](../1-THEORY/DERIVATION_STATUS.md).
+For institutional technical review flow, start at [`README.md`](../README.md#institutional-reading-path-primary).
 For the code, read [`src/core/`](../src/core/) and run `python VERIFY.py`.
 
 ---
