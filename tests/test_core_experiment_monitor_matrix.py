@@ -8,6 +8,7 @@ from src.core.experiment_monitor_matrix import (
     monitoring_status_table,
     high_priority_action_queue,
     overdue_priority_actions,
+    uninitialized_priority_actions,
     hard_gate_snapshot,
     machine_readable_monitor_bundle,
 )
@@ -57,6 +58,27 @@ def test_overdue_priority_actions_detects_stale_entries():
     assert "CMBS4_MONITOR_SYNC" not in stale_ids
 
 
+def test_uninitialized_priority_actions_detects_missing_ids():
+    missing = uninitialized_priority_actions(last_updated={"DESI_Y3_30_DAY_ROUTING": "2026-05-01"})
+    assert "LITEBIRD_PRIMARY_FALSIFIER_READY" in missing
+    assert "DESI_Y3_30_DAY_ROUTING" not in missing
+
+
+def test_high_priority_action_queue_handles_litebird_packet_failure(monkeypatch):
+    import src.core.experiment_monitor_matrix as matrix
+
+    def _boom():
+        raise RuntimeError("packet failure")
+
+    monkeypatch.setattr(matrix, "litebird_prepublication_packet", _boom)
+    row = next(
+        item for item in matrix.high_priority_action_queue()
+        if item["id"] == "LITEBIRD_PRIMARY_FALSIFIER_READY"
+    )
+    assert row["status"] == "READINESS_PACKET_ERROR"
+    assert row["deadline_policy"] == "same_day_recording_required"
+
+
 def test_hard_gate_snapshot_structure():
     snap = hard_gate_snapshot()
     for key in ("pass", "fail_count", "failures", "policy"):
@@ -75,7 +97,17 @@ def test_machine_readable_monitor_bundle_structure():
         "status_table",
         "high_priority_queue",
         "overdue_actions",
+        "uninitialized_actions",
         "hard_gate",
     ):
         assert key in bundle
     assert bundle["monitor_suite_version"] == "v10.18"
+
+
+def test_machine_readable_monitor_bundle_accepts_freshness_inputs():
+    bundle = machine_readable_monitor_bundle(
+        last_updated={"DESI_Y3_30_DAY_ROUTING": "2026-01-01"},
+        today="2026-05-08",
+    )
+    stale_ids = {row["id"] for row in bundle["overdue_actions"]}
+    assert "DESI_Y3_30_DAY_ROUTING" in stale_ids

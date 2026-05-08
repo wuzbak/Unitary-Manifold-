@@ -25,6 +25,7 @@ __all__ = [
     "monitoring_status_table",
     "high_priority_action_queue",
     "overdue_priority_actions",
+    "uninitialized_priority_actions",
     "hard_gate_snapshot",
     "machine_readable_monitor_bundle",
 ]
@@ -79,7 +80,13 @@ def monitoring_status_table() -> List[Dict]:
 def high_priority_action_queue() -> List[Dict]:
     """Return high-priority action queue for current monitoring operations."""
     desi = desi_monitoring_report()
-    litebird = litebird_prepublication_packet()
+    litebird_policy = "same_day_recording_required"
+    litebird_status = "READY_PACKET_AVAILABLE"
+    try:
+        litebird = litebird_prepublication_packet()
+        litebird_policy = str(litebird.get("policy", litebird_policy))
+    except Exception:
+        litebird_status = "READINESS_PACKET_ERROR"
     return [
         {
             "id": "DESI_Y3_30_DAY_ROUTING",
@@ -96,8 +103,8 @@ def high_priority_action_queue() -> List[Dict]:
             "id": "LITEBIRD_PRIMARY_FALSIFIER_READY",
             "priority": "CRITICAL",
             "trigger": "LiteBIRD β publication",
-            "status": "READY_PACKET_AVAILABLE",
-            "deadline_policy": litebird["policy"],
+            "status": litebird_status,
+            "deadline_policy": litebird_policy,
             "action": "Execute falsification_check.py immediately and record same-day verdict.",
         },
         {
@@ -128,7 +135,15 @@ def high_priority_action_queue() -> List[Dict]:
 
 
 def overdue_priority_actions(last_updated: Dict[str, str], today: str | None = None) -> List[Dict]:
-    """Return actions that are overdue based on a 30-day freshness window."""
+    """Return overdue actions from timestamp history.
+
+    Parameters
+    ----------
+    last_updated : dict[str, str]
+        Mapping from action IDs to last-update timestamps in ISO format (YYYY-MM-DD).
+    today : str | None
+        Optional ISO date string (YYYY-MM-DD). If not provided, uses current UTC date.
+    """
     reference_day = date.today() if today is None else datetime.strptime(today, "%Y-%m-%d").date()
     overdue: List[Dict] = []
     for action in high_priority_action_queue():
@@ -150,6 +165,12 @@ def overdue_priority_actions(last_updated: Dict[str, str], today: str | None = N
     return overdue
 
 
+def uninitialized_priority_actions(last_updated: Dict[str, str]) -> List[str]:
+    """Return action IDs that have no timestamp entry in `last_updated`."""
+    known_ids = set(last_updated.keys())
+    return [action["id"] for action in high_priority_action_queue() if action["id"] not in known_ids]
+
+
 def hard_gate_snapshot() -> Dict:
     """Binary pass/fail snapshot for governance routing."""
     table = monitoring_status_table()
@@ -162,8 +183,12 @@ def hard_gate_snapshot() -> Dict:
     }
 
 
-def machine_readable_monitor_bundle() -> Dict:
+def machine_readable_monitor_bundle(
+    last_updated: Dict[str, str] | None = None,
+    today: str | None = None,
+) -> Dict:
     """Machine-readable bundle for external audit/reporting."""
+    freshness_source = {} if last_updated is None else dict(last_updated)
     return {
         "schema_version": "1.0",
         "generated_on": date.today().isoformat(),
@@ -171,6 +196,7 @@ def machine_readable_monitor_bundle() -> Dict:
         "reports": collect_monitor_reports(),
         "status_table": monitoring_status_table(),
         "high_priority_queue": high_priority_action_queue(),
-        "overdue_actions": overdue_priority_actions(last_updated={}),
+        "overdue_actions": overdue_priority_actions(last_updated=freshness_source, today=today),
+        "uninitialized_actions": uninitialized_priority_actions(last_updated=freshness_source),
         "hard_gate": hard_gate_snapshot(),
     }
