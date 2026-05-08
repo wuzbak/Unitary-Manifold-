@@ -1,4 +1,4 @@
-version: "v10.25"
+version: "v10.26"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -974,4 +974,52 @@ v10_25_batch:
     before: 18.6
     after: 18.9
     before_pct: "66%"
+    after_pct: "68%"
+
+v10_26_batch:
+  date: "2026-05-08"
+  version: "v10.26"
+  deliverables:
+    DESI_Y3_ROUTING:
+      title: "DESI Year 3 monitor upgraded with explicit PASS/TENSION/FALSIFIED routing"
+      artifact: "src/core/desi_year3_monitor.py"
+      test: "tests/test_core_desi_year3_monitor.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    LITEBIRD_READINESS_HARDENING:
+      title: "Strict LiteBIRD publication checklist and immediate recording path"
+      artifact: "src/core/litebird_readiness_hardening.py"
+      test: "tests/test_core_litebird_readiness_hardening.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    TIER4_YUKAWA_FOLLOWUP:
+      title: "Tier-4 purity-gate follow-up without status inflation"
+      artifact: "src/core/yukawa_tier4_followup.py"
+      test: "tests/test_core_yukawa_tier4_followup.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    TIER23_CONSTRAINED_QUEUE:
+      title: "Remaining constrained neutrino queue for P17/P18/P20"
+      artifact: "src/core/neutrino_precision_hardgate_cert.py"
+      test: "tests/test_core_neutrino_precision_hardgate_cert.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    PMNS_OPEN_GAP_TRACK:
+      title: "PMNS solar-angle improvement path with no-overclaim gate"
+      artifact: "src/core/pmns_solar_rge_correction.py"
+      test: "tests/test_pmns_solar_rge_correction.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    TRACKER_SYNC:
+      title: "Observation tracker and canonical falsifier feed synced to priority queue"
+      artifacts:
+        - "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+        - "src/core/canonical_falsifier_evidence_feed.py"
+        - "tests/test_core_canonical_falsifier_evidence_feed.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+  toe_score:
+    before: 18.9
+    after: 18.9
+    before_pct: "68%"
     after_pct: "68%"

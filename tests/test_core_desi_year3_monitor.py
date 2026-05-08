@@ -8,7 +8,9 @@ import pytest
 
 from src.core.desi_year3_monitor import (
     DESI_DR2,
+    MONITOR_INTEGRATION_TARGETS,
     UM_PREDICTION,
+    routing_decision,
     tension_from_measurement,
     update_with_new_data,
     falsification_verdict,
@@ -106,6 +108,17 @@ def test_update_increased_wa_tension():
     assert result["um_tension"]["tension_wa_sigma"] > result["baseline_tension"]["tension_wa_sigma"]
 
 
+def test_update_has_explicit_routing():
+    result = update_with_new_data("DESI Year 3", 2026, -0.84, 0.07, -0.05, 0.20)
+    assert result["routing"]["route"] == "PASS"
+    assert "kk_de_wa_cpl.py" in " ".join(result["routing"]["integration_targets"])
+
+
+def test_routing_decision_falsified():
+    route = routing_decision(1.0, 3.1, "DESI Year 3", 2026)
+    assert route["route"] == "FALSIFIED"
+
+
 # falsification_verdict
 def test_falsification_verdict_consistent():
     """wₐ = 0 ± 0.5 should give CONSISTENT."""
@@ -142,7 +155,12 @@ def test_monitoring_report_returns_dict():
 
 def test_monitoring_report_version():
     report = monitoring_report()
-    assert report["version"] == "v10.18"
+    assert report["version"] == "v10.26"
+
+
+def test_monitoring_report_baseline_route_is_tension():
+    report = monitoring_report()
+    assert report["routing"]["route"] == "TENSION"
 
 
 def test_monitoring_report_next_milestone():
@@ -162,3 +180,8 @@ def test_desi_year3_placeholder_returns_dict():
 def test_desi_year3_placeholder_year():
     result = desi_year3_placeholder()
     assert result["year"] == 2026
+
+
+def test_desi_year3_placeholder_targets():
+    result = desi_year3_placeholder()
+    assert result["integration_targets"] == MONITOR_INTEGRATION_TARGETS

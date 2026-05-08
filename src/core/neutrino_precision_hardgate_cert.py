@@ -1,6 +1,6 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-"""Tier Acceleration Sprint (v10.25): Tier-2/Tier-3 neutrino hardgate package.
+"""Tier Acceleration Sprint (v10.26): Tier-2/Tier-3 neutrino hardgate package.
 
 Scope:
   - P17/P18 precision package
@@ -13,7 +13,7 @@ Policy:
 """
 from __future__ import annotations
 
-from typing import Dict
+from typing import Dict, List
 
 from src.core.pillar208_braid_lock_pmns import pmns_sin2_theta13, pmns_sin2_theta23
 from src.core.pmns_solar_rge_correction import pmns_solar_rge_report
@@ -36,7 +36,9 @@ __all__ = [
     "P19_STATUS",
     "P20_STATUS",
     "TOTAL_TOE_SCORE_DELTA",
+    "CONSTRAINED_PARAMETER_IDS",
     "tier23_hardgate_certificate",
+    "constrained_followup_queue",
     "tier23_upgrade_summary",
 ]
 
@@ -106,6 +108,16 @@ TOTAL_TOE_SCORE_DELTA: float = sum(
     if status == "GEOMETRIC_PREDICTION"
 )
 
+CONSTRAINED_PARAMETER_IDS = tuple(
+    pid
+    for pid, status in (
+        ("P17", P17_STATUS),
+        ("P18", P18_STATUS),
+        ("P20", P20_STATUS),
+    )
+    if status == "CONSTRAINED"
+)
+
 
 def tier23_hardgate_certificate() -> Dict:
     """Return full hardgate evidence package for P17–P20."""
@@ -162,6 +174,30 @@ def tier23_hardgate_certificate() -> Dict:
     }
 
 
+def constrained_followup_queue() -> List[Dict[str, object]]:
+    """Return the remaining constrained neutrino follow-up queue."""
+    cert = tier23_hardgate_certificate()["parameters"]
+    remediation = {
+        "P17": "tighten the 2NLO atmospheric splitting residual below 5%",
+        "P18": "close the route-A/route-B solar-angle spread below 5%",
+        "P20": "shrink the θ₁₃ robustness window below 5%",
+    }
+    queue = []
+    for pid in ("P17", "P18", "P20"):
+        gates = cert[pid]["gates"]
+        failing = [name for name, passed in gates.items() if not passed]
+        queue.append(
+            {
+                "parameter": pid,
+                "current_status": cert[pid]["new_status"],
+                "failing_gates": failing,
+                "remediation_target": remediation[pid],
+                "promotion_policy": "blocked_until_all_gates_pass",
+            }
+        )
+    return queue
+
+
 def tier23_upgrade_summary() -> Dict:
     """Return concise upgrade summary for tracker sync."""
     cert = tier23_hardgate_certificate()
@@ -173,6 +209,7 @@ def tier23_upgrade_summary() -> Dict:
             for pid in ("P17", "P18", "P19", "P20")
             if cert["parameters"][pid]["new_status"] == "GEOMETRIC_PREDICTION"
         ],
+        "constrained_followup": constrained_followup_queue(),
         "total_toe_score_delta": cert["total_toe_score_delta"],
         "tracker_note": (
             "Tier-2/3 hardgate executed with robustness windows; no promotion without full gate pass."

@@ -585,6 +585,16 @@ def pillar155_summary() -> Dict[str, object]:
         "wa_consistent_with_desi": tensions["tension_wa_desi"]["consistent"],
         "kk_multimode_wa_schematic": kk_wa["wa_kk_total_schematic"],
         "kk_correction_negligible": not kk_wa["sufficient_for_desi"],
+        "desi_year3_integration": {
+            "priority": "highest",
+            "route_buckets": ["PASS", "TENSION", "FALSIFIED"],
+            "integration_targets": [
+                "src/core/kk_de_wa_cpl.py",
+                "3-FALSIFICATION/OBSERVATION_TRACKER.md",
+                "src/core/canonical_falsifier_evidence_feed.py",
+            ],
+            "time_rule": "integrate_within_30_days_of_release",
+        },
         "mechanism": (
             "c_s = 12/37 → w₀ = w_KK = −0.9302. "
             "GW-stabilised radion at m_r = M_KK ≈ 1 TeV >> H₀ → frozen field → wₐ = 0. "

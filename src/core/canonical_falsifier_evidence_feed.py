@@ -11,6 +11,7 @@ from src.core.desi_year3_monitor import monitoring_report as desi_report
 from src.core.dune_dcp_monitor import monitoring_report as dune_report
 from src.core.hyperk_juno_monitor import monitoring_report as hyperk_juno_report
 from src.core.litebird_boundary import fail_zone_report
+from src.core.litebird_readiness_hardening import litebird_prepublication_packet
 
 __all__ = [
     "collect_canonical_evidence_feed",
@@ -21,11 +22,13 @@ __all__ = [
 
 def collect_canonical_evidence_feed() -> Dict:
     """Collect all critical experiment-facing falsifier reports."""
+    litebird = fail_zone_report(0.331)
+    litebird["readiness"] = litebird_prepublication_packet()
     return {
-        "version": "v10.25",
+        "version": "v10.26",
         "generated_on": date.today().isoformat(),
         "experiments": {
-            "litebird": fail_zone_report(0.331),
+            "litebird": litebird,
             "cmbs4": cmbs4_report(),
             "dune": dune_report(),
             "hyperk_juno": hyperk_juno_report(),
@@ -70,7 +73,7 @@ def falsifier_status_table() -> List[Dict]:
         },
         {
             "experiment": "DESI Year 3",
-            "status": feed["desi_year3"]["falsification_verdict"]["level"],
+            "status": feed["desi_year3"]["routing"]["route"],
             "next_milestone": feed["desi_year3"]["next_milestone"]["expected_year"],
             "primary_falsifier": False,
         },
@@ -80,7 +83,7 @@ def falsifier_status_table() -> List[Dict]:
 def falsifier_hard_gate() -> Dict:
     """Hard-gate snapshot over the canonical falsifier feed."""
     table = falsifier_status_table()
-    failing = [row for row in table if row["status"] in {"EXCLUDED", "TENSION"}]
+    failing = [row for row in table if row["status"] in {"EXCLUDED", "TENSION", "FALSIFIED"}]
     return {
         "pass": len(failing) == 0,
         "fail_count": len(failing),

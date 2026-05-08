@@ -251,3 +251,32 @@ def pillar163_summary() -> dict:
         "status": "PARTIALLY_CLOSED",
         "honest_note": "8%_gap_remains_after_RGE",
     }
+
+
+def pmns_solar_no_overclaim_gate() -> dict:
+    """Return the no-overclaim verdict for the remaining θ₁₂ gap."""
+    report = pmns_solar_rge_report()
+    residual_pct = abs(report["fractional_gap"]) * 100.0
+    return {
+        "promotion_allowed": residual_pct < 5.0,
+        "residual_pct": residual_pct,
+        "status": "OPEN_GAP" if residual_pct >= 5.0 else "READY_FOR_HARDGATE",
+        "policy": "do_not_promote_without_sub_5pct_gap_and_stability",
+    }
+
+
+def pmns_solar_improvement_path() -> dict:
+    """Return the prioritized improvement path for the open θ₁₂ gap."""
+    gate = pmns_solar_no_overclaim_gate()
+    report = pmns_solar_rge_report()
+    return {
+        "module": "src/core/pmns_solar_rge_correction.py",
+        "priority_order": [
+            "2-loop PMNS running",
+            "seesaw-threshold refinement",
+            "modified GUT boundary-condition audit",
+        ],
+        "current_gap_pct": abs(report["fractional_gap"]) * 100.0,
+        "no_overclaim_gate": gate,
+        "status": "OPEN_GAP_TRACK",
+    }
