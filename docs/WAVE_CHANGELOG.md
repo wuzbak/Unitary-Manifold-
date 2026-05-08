@@ -13,6 +13,52 @@ For each wave entry, include:
 
 ---
 
+## v10.13 (Post-MAS Anti-Loop Track Execution)
+
+### What changed
+- Added `src/core/formal_proof_hardening.py`:
+  - Lean4-style theorem artifact structure with machine-checkable verification.
+  - Explicit assumption ledger for theorem scope control.
+- Added `src/core/global_sensitivity_analysis.py`:
+  - Variance-based Saltelli/Sobol global sensitivity engine for core outputs.
+  - Ranked influence table + robustness verdict artifact.
+- Added `src/core/neural_symbolic_drift_check.py`:
+  - Reverse-mapped symbolic equations against executable NumPy/SciPy forms.
+  - Pass/fail reporting per equation family.
+- Added tests:
+  - `tests/test_formal_proof_hardening.py`
+  - `tests/test_global_sensitivity_analysis.py`
+  - `tests/test_neural_symbolic_drift_check.py`
+- Added `docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md`:
+  - hard stop rules, binary exit rules, anti-loop guardrails, completion gate.
+- Updated `docs/mas_tracker.yml`:
+  - version bumped to `v10.13`
+  - post-MAS track governance and artifact links recorded under `post_mas_tracks`.
+
+### What did not change
+- MAS remained closed.
+- No MAS wave reopened.
+- No parameter terminal status labels were changed.
+- No TOE score changes were claimed.
+
+### Why
+- Implement approved post-MAS execution without returning to recursive audit loops.
+- Enforce binary freeze/fail exits and independent targeted tickets for failures.
+
+### Epistemic label deltas
+- **None** for MAS parameter gates.
+- Added post-MAS operational labels only (`PASS`, `OPTIONAL_NOT_ACTIVATED`).
+
+### TOE score delta
+- **No change**.
+
+### Falsification impact
+- No falsifier removed or weakened.
+- Added explicit anti-loop governance without modifying physics falsification criteria.
+
+### Residual unknowns
+- Optional T4 Julia cross-check remains inactive unless dispute/high-cost blocks appear.
+
 ## v10.12 (W14 — MAS Final Closure Sprint)
 
 ### What changed

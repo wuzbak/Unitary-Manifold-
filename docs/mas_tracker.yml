@@ -1,8 +1,9 @@
-version: "v10.12"
+version: "v10.13"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
+post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 non_negotiables:
@@ -410,3 +411,43 @@ parameter_gates:
     pillar_reference: "Pillar 206"
     terminal_wave: "W14"
     artifact: "src/core/open_parameters_p26_p27_certification.py"
+
+post_mas_tracks:
+  phase_state:
+    mas_reopen_allowed: false
+    scope_rule: "post_mas_closure_tracks_only"
+    anti_loop_policy: "no_reaudit_everything"
+  guardrails:
+    max_execution_passes_per_track: 1
+    max_remediation_passes_per_track: 1
+    binary_exit_policy:
+      pass: "freeze"
+      fail: "open_targeted_workstream_ticket"
+    unresolved_label_policy:
+      - "architecture-limit"
+      - "assumption-bound"
+    recycle_into_mas_allowed: false
+  completion_gate:
+    required_tracks: ["T1", "T2", "T3"]
+    critical_open_failures_allowed: 0
+    terminal_action: "freeze_scope_keep_mas_closed"
+  tracks:
+    T1:
+      title: "Formal proof hardening"
+      status: "PASS"
+      artifact: "src/core/formal_proof_hardening.py"
+      test: "tests/test_formal_proof_hardening.py"
+    T2:
+      title: "Variance-based global sensitivity analysis"
+      status: "PASS"
+      artifact: "src/core/global_sensitivity_analysis.py"
+      test: "tests/test_global_sensitivity_analysis.py"
+    T3:
+      title: "Neural-symbolic drift check"
+      status: "PASS"
+      artifact: "src/core/neural_symbolic_drift_check.py"
+      test: "tests/test_neural_symbolic_drift_check.py"
+    T4:
+      title: "Julia structural simplification cross-check"
+      status: "OPTIONAL_NOT_ACTIVATED"
+      activation_rule: "only_if_disputed_or_high_cost_symbolic_blocks"
