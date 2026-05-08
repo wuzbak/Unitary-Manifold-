@@ -150,7 +150,8 @@ def effective_nlo_enhancement_factor() -> float:
     """Aggregate NLO enhancement factor for atmospheric splitting closure.
 
     Combines diagonal overlap enhancement with a modular-width resummation
-    contribution controlled by SIGMA_NLO_FACTOR.
+    contribution controlled by SIGMA_NLO_FACTOR. The factor 2.0 multiplies the
+    width correction to represent two independent compact directions on T².
     """
     diag = [nlo_correction_factor(i, i) for i in range(3)]
     nlo_avg_diag = sum(diag) / len(diag)

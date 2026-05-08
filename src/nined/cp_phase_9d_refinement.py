@@ -206,6 +206,9 @@ def cp_phase_9d_gate_check() -> Dict:
 
     uncertainty_rad = delta_cp_9d_uncertainty()
     rhobar_gate = rhobar_robustness_gate(uncertainty_rad)
+    # Two gates are intentionally enforced:
+    # 1) nominal residual closure (<5%),
+    # 2) propagated uncertainty closure (<5%) via rhobar_robustness_gate.
     gate_pass = resid_9d < RHOBAR_GATE_THRESHOLD_PCT and rhobar_gate["gate_pass"]
 
     return {

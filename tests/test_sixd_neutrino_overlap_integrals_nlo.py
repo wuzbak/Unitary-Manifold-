@@ -190,7 +190,7 @@ class TestDM2ResidualsNLO:
         r = dm2_residuals_nlo(C_RNU_SPECTRUM)
         assert r["nlo_effective_factor"] > r["nlo_avg_diagonal_factor"]
 
-    def test_residual_in_range_7_to_8(self):
+    def test_residual_in_range_7_to_8p5(self):
         r = dm2_residuals_nlo(C_RNU_SPECTRUM)
         assert 7.0 < r["residual_31_pct"] < 8.5
 
