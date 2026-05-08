@@ -215,7 +215,7 @@ def anchor_independence_scan(
     below the 5% gate threshold.
     """
     if points < 2:
-        raise ValueError(f"points must be >= 2, got {points}")
+        raise ValueError(f"points must be at least 2, got {points}")
 
     alpha_lo, alpha_hi = alpha_range
     gs_lo, gs_hi = gs_range
