@@ -1,16 +1,16 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.9)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.11)
 
 This repository contains the technical record, code, and falsification conditions for the Unitary Manifold framework.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![24928 Tests passing](https://img.shields.io/badge/tests-24928%20passed%20%C2%B7%20329%20skipped%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![25018 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-25018%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.9-blue)](CITATION.cff)
+[![Version](https://img.shields.io/badge/version-v10.11-blue)](CITATION.cff)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status (v10.9):** This framework is not yet a zero-free-parameter TOE.
+> ⚠️ **Honest status (v10.11):** This framework is not yet a zero-free-parameter TOE.
 > TOE score is **~62% (5D domain completeness audit)** under the earned-closure threshold.  
 > P5 (Higgs mass) is an **ARCHITECTURE LIMIT** in the current RS1 scope;  
 > P28 (Newton's constant) is tracked as **DIMENSIONAL SCALE** (not a fitted prediction).  

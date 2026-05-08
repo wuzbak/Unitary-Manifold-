@@ -13,6 +13,57 @@ For each wave entry, include:
 
 ---
 
+## v10.11 (W13 — MAS Closure Sprint: WS-C++ / WS-B++ / WS-D++)
+
+### What changed
+- Added `src/core/ckm_rhobar_8d_wilson_refinement.py` + tests:
+  - 8D Wilson-line refinement for CKM ρ̄ with hard gates:
+    `residual_gate`, `robustness_gate`, `axiomzero_purity_gate`
+  - Residual reached ~1.2% at nominal point, but robustness gate fails; no promotion.
+- Added `src/core/neutrino_absolute_scale_closure_attempt.py` + tests:
+  - Absolute-scale closure attempt for P19–P21 with calibrated Δm²21,
+    predicted Δm²31, Σmν bound check, and promotion rubric.
+  - Δm²31 residual remains ~10.5%; gate not met.
+- Added `src/core/alpha_s_direct_chain_reconciliation.py` + tests:
+  - Canonical direct-chain reconciliation for P3 with threshold accounting and
+    hidden-anchor guard policy checks.
+  - Direct-chain closure gate remains open (large residual), while guard/provenance checks pass.
+- Added `docs/MAS_W13_LEDGER.md`.
+- Updated `docs/mas_tracker.yml`:
+  - Version bumped to `v10.11`.
+  - Added W13 wave entry and synchronized P3/P14/P19–P21 evidence artifacts.
+- Updated `docs/roadmap_6d_to_11d.md` with Wave 13 synchronization note.
+
+### What did not change
+- No canonical parameter status promotion:
+  - P14 remains `CONSTRAINED`.
+  - P19 remains `CONSTRAINED`.
+  - P20/P21 remain `GEOMETRIC ESTIMATE`.
+  - P3 remains `CONSISTENCY CHECK`.
+- No TOE score change.
+- No open gap was relabeled as closed.
+
+### Why
+- Execute a large, integrated closure sprint while enforcing strict hard-gate
+  and anti-inflation policy: improve evidence quality, not narrative labels.
+
+### Epistemic label deltas
+- **None** (status-preserving evidence expansion only).
+
+### TOE score delta
+- **No change**.
+
+### Falsification impact
+- No falsifier removed or weakened.
+- Added gate-level transparency for residuals, robustness, and policy compliance.
+
+### Residual unknowns
+- P14 robustness gate still blocks promotion despite strong nominal residual.
+- P19–P21 closure still limited by Δm²31 residual.
+- P3 direct-chain α_s closure remains architecture-limited.
+
+---
+
 ## v10.10 (W12 — Rung 6 Hard-Gate Evidence → RUNG_SOLID)
 
 ### What changed
