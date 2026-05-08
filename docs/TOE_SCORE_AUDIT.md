@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.12
+# ToE Score Audit — Unitary Manifold v10.14
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 1.0 — 2026*
+*Document version: 2.0 — 2026 (updated post ET-1 through ET-6)*
 
 ---
 
@@ -39,10 +39,10 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P11 | Number of generations N_gen | 3 | 3 (algebraic: T²/Z₃) | 0% | ALGEBRAIC | 1.0 |
 | P12 | Proton/electron mass ratio | 1836.15 | 1836 (geometric) | 0.6% | CONSTRAINED | 0.5 |
 | P13 | Fine structure constant α | 1/137.036 | 1/137 (geometric chain) | ~0.3% | CONSTRAINED | 0.5 |
-| P14 | CKM ρ̄ (CP violation) | 0.132 | geometric (9D refined δ_CP) | ~1–2% nominal, <5% uncertainty gate pass | CONSTRAINED | 0.5 |
-| P15 | δ_CP (leptonic CP phase) | 1.20 rad | π/3 ≈ 1.047 rad (7D torsion) | 12.7% | CONSTRAINED | 0.5 |
+| P14 | CKM ρ̄ (CP violation) | 0.132 | geometric (9D refined δ_CP) | ~1–2% nominal, <5% uncertainty gate pass | BEST_EVIDENCE_CONSTRAINED | 0.5 |
+| P15 | δ_CP (leptonic CP phase) | 1.20 rad | π/3 + 9D correction ≈ 1.216 rad | ~1.3% (9D refined; 7D torsion baseline 12.7%) | BEST_EVIDENCE_CONSTRAINED | 0.5 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | UNCONSTRAINED_AT_NLO | — | OPEN | 0.0 |
-| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | NLO geometric | ~9.4% | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
+| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | NLO T²/Z₃ geometric | ~7–8% (NLO; LO baseline ~10.5%) | GEOMETRIC_ESTIMATE_CERTIFIED | 0.3 |
 | P18 | θ₁₂ (solar mixing angle) | 33.82° | geometric | ~8% | CONSTRAINED | 0.5 |
 | P19 | θ₂₃ (atmospheric mixing angle) | 48.3° | geometric | ~3% | CONSTRAINED | 0.5 |
 | P20 | θ₁₃ (reactor mixing angle) | 8.57° | geometric | ~5% | CONSTRAINED | 0.5 |
@@ -66,11 +66,16 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
 | GEOMETRIC_PREDICTION | 6 | 0.8 | 4.8 |
 | DERIVED | 1 | 0.8 | 0.8 |
-| CONSTRAINED | 14 | 0.5 | 7.0 |
+| BEST_EVIDENCE_CONSTRAINED | 2 | 0.5 | 1.0 |
+| CONSTRAINED | 12 | 0.5 | 6.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 1 | 0.3 | 0.3 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 3 | 0.1 | 0.3 |
 | OPEN | 2 | 0.0 | 0.0 |
 | **Total** | **28** | | **14.2** |
+
+*Note: BEST_EVIDENCE_CONSTRAINED (P14, P15) scores at 0.5 — same tier as CONSTRAINED,
+distinguishing parameters where best-available evidence achieves <5% uncertainty control
+via higher-dimensional refinement, without yet reaching the GEOMETRIC_PREDICTION threshold.*
 
 ### Normalized score
 
@@ -86,6 +91,7 @@ ToE Score = 14.2 / 28.0 = 0.507 ≈ 51%
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
 - **Geometrically predicts** n_s, r, and β birefringence (LiteBIRD 2032)
+- **Best-evidence constrains** δ_CP and CKM ρ̄ via 9D refinement (ET-2)
 - **Constrains** most SM masses and mixing parameters within 50%
 - **Identifies** the closing mechanism for the remaining architecture limits (6D+, 10D)
 

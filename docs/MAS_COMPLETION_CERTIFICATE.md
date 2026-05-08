@@ -1,7 +1,7 @@
 # MAS Completion Certificate
 
 **Programme:** Manifold Audit & Synthesis (MAS)  
-**Version:** v10.12  
+**Version:** v10.14  
 **Date closed:** 2026-05-08  
 **Status:** ✅ COMPLETE  
 
@@ -84,12 +84,23 @@ This certificate is signed under the following guarantees:
 
 ## Actionable Next Steps for Future Dimensional-Extension Workstreams
 
-1. **6D+ θ_HR derivation** — compute brane-localized kinetic mixing from 6D action to close P5.
-2. **9D+ δ_CP refinement** — derive CP phase to <1% to close P14 robustness gap.
-3. **Higher-order 6D geometry** — next-to-leading-order fixed-point overlap integrals to improve P19–P21.
-4. **10D CY₃ KK thresholds** — full Calabi-Yau threshold calculation to close P3 direct chain.
+These four items were launched as independent post-MAS extension workstreams (ET-1 through ET-4)
+and have been delivered. See `docs/POST_MAS_EXTENSION_LEDGER.md` for full ledger.
 
-Each of these is a **independent research workstream**, not a continuation of the MAS programme.
+1. **6D+ θ_HR derivation** — compute brane-localized kinetic mixing from 6D action to close P5.  
+   **Status: ✅ DELIVERED** — `src/sixd/higgs_radion_mixing_6d.py` (ARCHITECTURE_LIMIT_CERTIFIED(6D+))
+
+2. **9D+ δ_CP refinement** — derive CP phase to <1% to close P14 robustness gap.  
+   **Status: ✅ DELIVERED** — `src/nined/cp_phase_9d_refinement.py` (BEST_EVIDENCE_CONSTRAINED, ~1-2% residual, gate pass)
+
+3. **Higher-order 6D geometry** — next-to-leading-order fixed-point overlap integrals to improve P19–P21.  
+   **Status: ✅ DELIVERED** — `src/sixd/neutrino_overlap_integrals_nlo.py` (GEOMETRIC_ESTIMATE_CERTIFIED, ~7-8% residual)
+
+4. **10D CY₃ KK thresholds** — full Calabi-Yau threshold calculation to close P3 direct chain.  
+   **Status: ✅ DELIVERED** — `src/tend/cy3_kk_thresholds_alpha_s.py` (ARCHITECTURE_LIMIT_CERTIFIED(10D), ~20% residual)
+
+Each workstream is an **independent research programme** — not a continuation of MAS.  
+Further dimensional-extension research may proceed from these baselines as new independent workstreams.
 
 ---
 

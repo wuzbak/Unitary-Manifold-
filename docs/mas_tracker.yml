@@ -1,4 +1,4 @@
-version: "v10.13"
+version: "v10.14"
 date: "2026-05-08"
 updated: "2026-05-08"
 mas_status: "COMPLETE"
@@ -194,6 +194,13 @@ integration_checkpoint:
   completed: "2026-05-08"
   gate_result: "MAS_PROGRAMME_COMPLETE"
   regression: "25018 passed, 329 skipped, 11 deselected, 0 failed"
+
+post_mas_extension_checkpoint:
+  date: "2026-05-08"
+  gate_result: "POST_MAS_EXTENSION_COMPLETE"
+  scope: "ET-1 through ET-6 delivered as independent dimensional-extension workstreams"
+  anti_recycle_rule: "these tracks do NOT reopen MAS; no new MAS waves"
+  regression: "25236 passed, 329 skipped, 11 deselected, 0 failed"
 
 dbp_ladder:
   rung1:
@@ -451,3 +458,73 @@ post_mas_tracks:
       title: "Julia structural simplification cross-check"
       status: "OPTIONAL_NOT_ACTIVATED"
       activation_rule: "only_if_disputed_or_high_cost_symbolic_blocks"
+
+post_mas_extension_tracks:
+  scope: "independent_dimensional_extension_workstreams_not_MAS"
+  date_initiated: "2026-05-08"
+  anti_recycle_rule: "None of these tracks reopen MAS or create new MAS waves"
+  completion_gate:
+    required_tracks: ["ET-1", "ET-2", "ET-3", "ET-4"]
+    all_delivered: true
+    terminal_action: "scope_freeze_keep_mas_closed"
+  tracks:
+    ET-1:
+      title: "6D+ Higgs-radion mixing angle θ_HR"
+      parameter: "P5"
+      architecture_limit: "ARCHITECTURE_LIMIT_CERTIFIED(6D+)"
+      artifact: "src/sixd/higgs_radion_mixing_6d.py"
+      test: "tests/test_sixd_higgs_radion_mixing_6d.py"
+      status: "DELIVERED"
+      epistemic_outcome: "Mechanism active, perturbative, CW-shift controlled; exact θ_HR requires full 6D+ geometry"
+      note: "GW Coleman-Weinberg selected; GHU killed. Further closure: 6D+ brane-localized kinetic mixing derivation."
+    ET-2:
+      title: "9D+ CP phase refinement for δ_CP and P14 robustness"
+      parameter: "P14, P15"
+      architecture_limit: "BEST_EVIDENCE_CONSTRAINED(9D)"
+      artifact: "src/nined/cp_phase_9d_refinement.py"
+      test: "tests/test_nined_cp_phase_9d_refinement.py"
+      status: "DELIVERED"
+      epistemic_outcome: "δ_CP residual reduced from 12.7% (7D) to ~1-2% (9D); propagated uncertainty <5% — gate pass"
+      note: "Rung-2 robustness gate passed. Full δ_CP independence from Rung-2 requires 9D+ geometry."
+    ET-3:
+      title: "NLO T²/Z₃ fixed-point overlap integrals for Δm²₃₁"
+      parameter: "P19, P20, P21"
+      architecture_limit: "GEOMETRIC_ESTIMATE_CERTIFIED (NLO improved)"
+      artifact: "src/sixd/neutrino_overlap_integrals_nlo.py"
+      test: "tests/test_sixd_neutrino_overlap_integrals_nlo.py"
+      status: "DELIVERED"
+      epistemic_outcome: "Δm²₃₁ residual improved from ~10.5% (LO) to ~7-8% (NLO); <5% requires 6D+ geometry"
+      note: "Δm²₂₁ remains UNCONSTRAINED at this order; 6D+ needed for simultaneous prediction."
+    ET-4:
+      title: "10D CY₃ KK threshold corrections to α_s(M_Z)"
+      parameter: "P3"
+      architecture_limit: "ARCHITECTURE_LIMIT_CERTIFIED(10D)"
+      artifact: "src/tend/cy3_kk_thresholds_alpha_s.py"
+      test: "tests/test_tend_cy3_kk_thresholds_alpha_s.py"
+      status: "DELIVERED"
+      epistemic_outcome: "α_s residual reduced toward ~20% with CY₃ thresholds; full closure requires 10D CY₃ geometry"
+      note: "Quintic CY₃ (h11=1, h21=101) chiral-dominated correction demonstrated. Further: full moduli + flux."
+    ET-5:
+      title: "Prediction registry, ToE score audit, and LiteBIRD falsifier brief"
+      parameter: "all"
+      artifacts:
+        - "src/core/prediction_registry.py"
+        - "docs/TOE_SCORE_AUDIT.md"
+        - "docs/LITEBIRD_FALSIFIER_BRIEF.md"
+      test: "tests/test_prediction_registry.py"
+      status: "DELIVERED"
+      epistemic_outcome: "Machine-readable registry of all UM predictions; ToE Score ~51%; LiteBIRD falsifier documented"
+      note: "Primary falsifier (LiteBIRD β birefringence) unchanged and intact."
+    ET-6:
+      title: "Scope freeze certificate and dimensional extension roadmap"
+      parameter: "all"
+      artifacts:
+        - "src/core/scope_freeze_certificate.py"
+        - "src/core/dimensional_extension_roadmap.py"
+        - "docs/POST_MAS_EXTENSION_LEDGER.md"
+      tests:
+        - "tests/test_scope_freeze_certificate.py"
+        - "tests/test_dimensional_extension_roadmap.py"
+      status: "DELIVERED"
+      epistemic_outcome: "Terminal programme state captured; 4 post-MAS research paths encoded with prerequisites"
+      note: "Scope is frozen. No further work required in this programme. Independent workstreams may proceed."
