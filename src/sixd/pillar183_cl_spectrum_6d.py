@@ -1,5 +1,5 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """Pillar 183 — 6D T²/Z₃ c_L spectrum closure artifact for Tier-4 Yukawas."""
 from __future__ import annotations
 

@@ -12,6 +12,8 @@ from src.sixd.yukawa_scale_6d import (
     DEFAULT_G5,
     ELECTRON_YUKAWA_SM,
     TAU_YUKAWA_SM,
+    TOE_DELTA_PER_PROMOTION,
+    TOE_SCORE_BEFORE_V1028,
     TOP_YUKAWA_SM,
     TOP_YUKAWA_TOLERANCE,
     YUKAWA_HARDGATE_TOLERANCE,
@@ -96,8 +98,9 @@ def test_tier4_hardgate_residuals_lt_5pct():
 
 def test_tier4_hardgate_toe_delta():
     report = tier4_yukawa_hardgate_v1028()
-    expected_delta = 0.3 * len(report["promoted_parameters"])
+    expected_delta = TOE_DELTA_PER_PROMOTION * len(report["promoted_parameters"])
     assert report["toe_delta"] == pytest.approx(expected_delta, abs=1e-12)
+    assert report["toe_score_before"] == pytest.approx(TOE_SCORE_BEFORE_V1028, abs=1e-12)
     assert report["toe_score_after"] == pytest.approx(
         report["toe_score_before"] + report["toe_delta"],
         abs=1e-12,

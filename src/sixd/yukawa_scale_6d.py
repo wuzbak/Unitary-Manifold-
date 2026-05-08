@@ -23,6 +23,8 @@ __all__ = [
     "ELECTRON_YUKAWA_SM",
     "TOP_YUKAWA_TOLERANCE",
     "YUKAWA_HARDGATE_TOLERANCE",
+    "TOE_DELTA_PER_PROMOTION",
+    "TOE_SCORE_BEFORE_V1028",
     "parameter_gate_status",
     "zero_mode_profile_amplitude",
     "fixed_point_overlap",
@@ -47,7 +49,11 @@ TAU_YUKAWA_SM = 0.0102
 ELECTRON_YUKAWA_SM = 2.9e-6
 TOP_YUKAWA_TOLERANCE = 0.50
 YUKAWA_HARDGATE_TOLERANCE = 0.05
+# Numerical residual guard: far below the smallest target Yukawa (y_e≈2.9e-6),
+# so it is purely a division-by-zero safety floor, not a physics-scale input.
 TARGET_YUKAWA_ZERO_GUARD = 1e-30
+TOE_DELTA_PER_PROMOTION = 0.3
+TOE_SCORE_BEFORE_V1028 = 19.5
 
 
 def parameter_gate_status(residual: float) -> str:
@@ -184,7 +190,7 @@ def tier4_yukawa_hardgate_v1028() -> Dict[str, object]:
             "residual_pct": residual * 100.0,
             "nominal_residual_lt_5pct": gate_pass,
             "status": "GEOMETRIC_PREDICTION" if gate_pass else "CONSTRAINED",
-            "toe_delta": 0.3 if gate_pass else 0.0,
+            "toe_delta": TOE_DELTA_PER_PROMOTION if gate_pass else 0.0,
         }
 
     all_gates_pass = all(p["nominal_residual_lt_5pct"] for p in parameters.values())
@@ -209,7 +215,7 @@ def tier4_yukawa_hardgate_v1028() -> Dict[str, object]:
         "parameters": parameters,
         "promoted_parameters": [pid for pid, p in parameters.items() if p["status"] == "GEOMETRIC_PREDICTION"],
         "constrained_parameters": [pid for pid, p in parameters.items() if p["status"] != "GEOMETRIC_PREDICTION"],
-        "toe_score_before": 19.5,
-        "toe_score_after": 19.5 + total_toe_delta,
+        "toe_score_before": TOE_SCORE_BEFORE_V1028,
+        "toe_score_after": TOE_SCORE_BEFORE_V1028 + total_toe_delta,
         "toe_delta": total_toe_delta,
     }
