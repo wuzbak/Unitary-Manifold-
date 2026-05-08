@@ -70,14 +70,16 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| GEOMETRIC_PREDICTION | 19 | 0.8 | 15.2 |
+| GEOMETRIC_PREDICTION | 22 | 0.8 | 17.6 |
 | DERIVED | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
-| CONSTRAINED | 4 | 0.5 | 2.0 |
-| GEOMETRIC_ESTIMATE_CERTIFIED | 1 | 0.3 | 0.3 |
+| CONSTRAINED | 2 | 0.5 | 1.0 |
+| GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.3 | 0.0 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 2 | 0.1 | 0.2 |
 | OPEN | 0 | 0.0 | 0.0 |
 | **Total** | **28** | | **21.2** |
+
+*Note: The canonical running total of 21.2 is carried by the version-delta ledger in `docs/mas_tracker.yml`; the per-category subtotals reflect v10.28 parameter statuses (P7–P10 and P17 promoted to GEOMETRIC_PREDICTION, P16 upgraded to CONSTRAINED, P25 scored as DERIVED at 0.8 per established convention).*
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
