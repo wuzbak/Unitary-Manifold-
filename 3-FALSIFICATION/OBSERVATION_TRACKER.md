@@ -4,6 +4,21 @@
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
+> **Dual-publication system active (v10.28+):** This tracker is the
+> observation-by-observation routing layer. All claims are simultaneously
+> published at:
+> - `docs/TRUTH_LAYER.md` — full derivation context and gap accounting
+> - `docs/GATEKEEPER_SUMMARY.md` — concise PASS/TENSION/FALSIFIED verdicts
+> - `docs/CLAIM_MASTER_BOARD.md` — canonical single-source claim registry
+>
+> All four parallel lanes are active simultaneously:
+> - **Lane Obs:** Observational integration (DESI Y3, LiteBIRD, CMB-S4)
+> - **Lane Scaffold:** Blocked derivation dependency closure (Pillar 183, α_GW)
+> - **Lane Collider:** Neutrino / parameter precision (DUNE, Hyper-K, JUNO)
+> - **Lane Arch:** Architecture-limit honest documentation (Λ, strong CP)
+>
+> No lane is queued behind another. All run concurrently.
+
 ---
 
 ## Decision Tree (LiteBIRD / CMB-S4)
@@ -31,6 +46,24 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | **P2** | CMB scalar spectral index | nₛ | **0.9635** | Planck 2018, ACT DR6, SPT-3G | Ongoing | 🟢 CONSISTENT — Planck: 0.9649±0.0042 (0.33σ) | 2026-05-04 | Monitor if error bar tightens below ±0.002; check ACT DR6 |
 | **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, CMB-S4 | ~2030 | 🟢 CONSISTENT — BICEP/Keck: r<0.036 (UM: 0.0315 ✓) | 2026-05-04 | Await CMB-S4; falsified if r<0.01 or r>0.036 confirmed |
 | **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI Year 1–3 | Ongoing (Y3: ~2026) | 🟠 TENSION — DESI Y1: wₐ≠0 at 2.1σ; wₐ=0 disfavoured; DESI Y3 result pending | 2026-05-08 | **HIGH PRIORITY:** run explicit `route_desi_y3(wa, sigma)` PASS/TENSION/FALSIFIED routing via `desi_year3_monitor.py` when Y3 publishes; sync `kk_de_wa_cpl.py`, this tracker, and the canonical falsifier feed within 30 days of publication |
+
+> **DESI Y3 Routing Protocol (execute immediately on publication):**
+> ```python
+> # src/core/desi_year3_monitor.py — run with actual Y3 values
+> route_desi_y3(wa, sigma):
+>     if sigma >= 3.0 and abs(wa) > 0:
+>         verdict = "FALSIFIED — frozen radion mechanism excluded; wₐ≠0 confirmed"
+>         # Required action: mark P28/T1 FALSIFIED in CLAIM_MASTER_BOARD.md
+>         # Required action: open retraction issue; update WAVE_CHANGELOG.md
+>     elif sigma >= 2.5:
+>         verdict = "HIGH TENSION — imminent falsification risk; escalate monitoring"
+>     elif sigma < 2.1:
+>         verdict = "RESOLVED — tension reduced; frozen radion consistent"
+>     else:
+>         verdict = "TENSION MAINTAINED at {sigma}σ — monitor Y4"
+>     # Update: OBSERVATION_TRACKER.md, CLAIM_MASTER_BOARD.md, TRUTH_LAYER.md same day
+> ```
+> Full truth context: `docs/TRUTH_LAYER.md §3 T1`
 | **P5** | CMB acoustic peak amplitude | A_s | Suppressed ×4.2–6.1 vs ΛCDM (α_GW Casimir bound now narrowed to 4.2e-10–4.8e-10) | Planck, CMB-S4 | ~2030 | 🟠 OPEN BUT NARROWED — suppression band reduced; full geometric closure still pending | 2026-05-08 | Keep gap open; do not claim full resolution until α_GW is fully derived from UV-brane geometry |
 | **P6** | PMNS solar mixing angle (Route A) | sin²θ₁₂ | **0.302252** (Route A: 1/3 − 1/(6n_w) + 1/(6k_CS)) → 1.55% from PDG | Ongoing neutrino experiments | Ongoing | 🟢 CONSISTENT — Route A geometric (1.55% from PDG 0.307); Route B (4/15) retired (see v10.27 route consolidation hardgate) | 2026-05-08 | Monitor NuFIT updates; P18 promoted to GEOMETRIC_PREDICTION in mas_tracker v10.27 |
 | **P7** | Cold fusion: φ-enhanced Gamow factor / COP | Excess heat at predicted COP | Falsifiable COP prediction (Pillar 15) | Calorimetry experiments | Ongoing | 🟡 PENDING — no confirmed measurement; prediction explicitly framed as falsifiable | 2026-05-04 | Monitor LENR experimental literature |

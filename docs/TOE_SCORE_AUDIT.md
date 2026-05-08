@@ -3,6 +3,12 @@
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
 *Document version: 2.9 — 2026-05-08 (v10.28 batch: Tier-4 Yukawa hardgate, P17 9D hardgate, and P16 constrained-certification package)*
 
+> **Dual-publication system active (v10.28+):**
+> - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
+> - Concise PASS/TENSION/FALSIFIED for referees: `docs/GATEKEEPER_SUMMARY.md`
+> - Single-source claim board: `docs/CLAIM_MASTER_BOARD.md`
+> - Label taxonomy: `docs/CLAIM_LABEL_STANDARD.md`
+
 ---
 
 ## 1 · Scoring Methodology
