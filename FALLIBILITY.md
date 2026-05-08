@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.17 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 25328 passed, 330 skipped, 11 deselected, 0 failed).*
+*Unitary Manifold v10.18 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 25982 passed, 329 skipped, 11 deselected, 0 failed).*
 
 ---
 
@@ -21,7 +21,7 @@ Nothing here is defensive; all of it is honest.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (25328 passed, 330 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (25982 passed, 329 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution

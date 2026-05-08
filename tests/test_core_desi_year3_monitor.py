@@ -142,7 +142,7 @@ def test_monitoring_report_returns_dict():
 
 def test_monitoring_report_version():
     report = monitoring_report()
-    assert report["version"] == "v10.17"
+    assert report["version"] == "v10.18"
 
 
 def test_monitoring_report_next_milestone():

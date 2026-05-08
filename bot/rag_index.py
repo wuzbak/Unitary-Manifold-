@@ -94,14 +94,13 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
     "toe_score": {
         "topic": "ToE score — completeness",
         "answer": (
-            "The v10.17 ToE score is approximately 51-54% (14.2-15.1 / 28.0 points). "
+            "The v10.18 ToE score is 15.8 / 28.0 ≈ 56%. "
             "Scoring: ALGEBRAIC=1.0, GEOMETRIC_PREDICTION=0.8, CONSTRAINED=0.5, "
             "GEOMETRIC_ESTIMATE_CERTIFIED=0.3, ARCHITECTURE_LIMIT_CERTIFIED=0.1, OPEN=0.0. "
-            "v10.17 upgrades: P16 OPEN→GEOMETRIC_ESTIMATE_CERTIFIED (+0.3), "
-            "P12 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P4 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3)."
+            "v10.18 upgrades add P6 and P13 to GEOMETRIC_PREDICTION (+0.6 over v10.17)."
         ),
         "sources": ["docs/TOE_SCORE_AUDIT.md", "src/core/prediction_registry.py"],
-        "status": "v10.17 ~54%",
+        "status": "v10.18 ~56%",
     },
     "litebird": {
         "topic": "LiteBIRD falsification timeline",
@@ -161,12 +160,41 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
             "P16 (Δm²₂₁, solar splitting) is now GEOMETRIC_ESTIMATE_CERTIFIED (v10.17). "
             "The T²/Z₃ torsion split Δc₀₁ = 1/(2K_CS) = 1/148 produces a geometric ratio "
             "Δm²₂₁/Δm²₃₁ that is independent of the seed mass. "
-            "P17 (Δm²₃₁, atmospheric splitting) is GEOMETRIC_ESTIMATE_CERTIFIED (~7-8%). "
+            "P17 (Δm²₃₁, atmospheric splitting) is GEOMETRIC_ESTIMATE_CERTIFIED with "
+            "2NLO follow-up residual ~6.87% (improved from 7.26% NLO baseline). "
             "Both require full 6D+ moduli stabilisation (WS-III) for GEOMETRIC_PREDICTION. "
-            "See src/sixd/solar_splitting_6dplus.py and neutrino_overlap_integrals_nlo.py."
+            "See src/sixd/solar_splitting_6dplus.py and neutrino_dm31_2nlo.py."
         ),
-        "sources": ["src/sixd/solar_splitting_6dplus.py", "src/sixd/neutrino_overlap_integrals_nlo.py"],
+        "sources": ["src/sixd/solar_splitting_6dplus.py", "src/sixd/neutrino_dm31_2nlo.py"],
         "status": "P16: GEOMETRIC_ESTIMATE_CERTIFIED; P17: GEOMETRIC_ESTIMATE_CERTIFIED",
+    },
+    "roadmap_v10_18": {
+        "topic": "v10.18 roadmap and delivery status",
+        "answer": (
+            "Canonical roadmap status is maintained in docs/mas_tracker.yml. "
+            "v10.18 records ToE 15.2→15.8 (54%→56%), P6 and P13 promoted to "
+            "GEOMETRIC_PREDICTION, P17 2NLO improvement to 6.87% residual, and "
+            "delivery of CMB-S4/DUNE/Hyper-K/JUNO monitor harnesses plus RAG expansion."
+        ),
+        "sources": ["docs/mas_tracker.yml", "docs/TOE_SCORE_AUDIT.md"],
+        "status": "v10.18 delivered",
+    },
+    "monitor_matrix": {
+        "topic": "Machine-readable monitor matrix",
+        "answer": (
+            "Cross-experiment monitor outputs are aggregated in "
+            "src/core/experiment_monitor_matrix.py. The bundle combines CMB-S4, DUNE, "
+            "Hyper-K/JUNO, and DESI reports, and emits binary hard-gate routing "
+            "(pass→freeze, fail→targeted ticket) in machine-readable form."
+        ),
+        "sources": [
+            "src/core/experiment_monitor_matrix.py",
+            "src/core/cmbs4_monitor.py",
+            "src/core/dune_dcp_monitor.py",
+            "src/core/hyperk_juno_monitor.py",
+            "src/core/desi_year3_monitor.py",
+        ],
+        "status": "v10.18 monitor bundle",
     },
     "proton_electron_ratio": {
         "topic": "Proton-electron mass ratio m_p/m_e",

@@ -37,15 +37,15 @@ def test_dm2_31_pdg_sigma_frac():
 
 
 def test_dm2_31_um_nlo_value():
-    expected = 2.453e-3 * (1.0 - 0.075)
+    expected = 2.453e-3 * (1.0 - 0.0687)
     assert abs(DM2_31_UM_NLO - expected) < 1e-15
 
 
 def test_dm2_31_um_nlo_below_pdg():
-    """NLO value should be 7.5% below PDG."""
+    """Follow-up value should be 6.87% below PDG."""
     assert DM2_31_UM_NLO < DM2_31_PDG
     frac_diff = (DM2_31_PDG - DM2_31_UM_NLO) / DM2_31_PDG
-    assert abs(frac_diff - 0.075) < 1e-10
+    assert abs(frac_diff - 0.0687) < 1e-10
 
 
 def test_dm2_31_falsification_window():
@@ -193,7 +193,7 @@ def test_verdict_not_in_window_for_extreme():
 def test_verdict_pdg_central_high_tension():
     """PDG central vs UM NLO at PDG sigma → high tension (documented open problem)."""
     result = falsification_verdict(DM2_31_PDG, DM2_31_PDG_SIGMA_FRAC)
-    # 7.5% offset / 1.3% sigma ≈ 5.8σ → EXCLUDED
+    # 6.87% offset / 1.3% sigma ≈ 5.3σ → EXCLUDED
     assert result["tension_sigma"] > 3.0
     assert result["level"] == "EXCLUDED"
 
@@ -216,7 +216,7 @@ def test_monitoring_report_keys():
 
 def test_monitoring_report_version():
     report = monitoring_report()
-    assert report["version"] == "v10.17"
+    assert report["version"] == "v10.18"
 
 
 def test_monitoring_report_next_milestone():

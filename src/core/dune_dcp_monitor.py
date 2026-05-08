@@ -223,7 +223,7 @@ def monitoring_report() -> Dict:
     verdict = falsification_verdict(DCP_PDG, DCP_PDG_SIGMA)
 
     return {
-        "version": "v10.17",
+        "version": "v10.18",
         "current_baseline": PDG_BASELINE,
         "um_prediction": UM_PREDICTION,
         "current_verdict": verdict,

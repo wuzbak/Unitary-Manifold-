@@ -10,8 +10,8 @@ Hyper-Kamiokande and JUNO will measure the atmospheric mass-squared
 splitting Δm²₃₁ with ~0.5% precision (~2026–2030).
 
 UM prediction (Pillar 17):
-  Δm²₃₁ ≈ PDG × (1 − 0.075) ≈ 2.27 × 10⁻³ eV²
-  (NLO T²/Z₃ geometric estimate — GEOMETRIC_ESTIMATE_CERTIFIED, ~7.5% below PDG)
+  Δm²₃₁ ≈ PDG × (1 − 0.0687) ≈ 2.28 × 10⁻³ eV²
+  (2NLO T²/Z₃ follow-up estimate — GEOMETRIC_ESTIMATE_CERTIFIED, ~6.87% below PDG)
   PDG 2023: Δm²₃₁ = 2.453 × 10⁻³ eV²
 
 ═══════════════════════════════════════════════════════════════════════════
@@ -20,9 +20,9 @@ FALSIFICATION CONDITIONS
   • Δm²₃₁ ∉ [2.2, 2.7] × 10⁻³ eV² at σ < 1% → UM geometric estimate excluded
 
 CURRENT STATUS:
-  UM NLO value ≈ 2.27 × 10⁻³ eV² is ~7.5% below PDG centre.
+  UM follow-up value ≈ 2.28 × 10⁻³ eV² is ~6.87% below PDG centre.
   Within current ±1.3% PDG precision, this is a ~5.8σ discrepancy —
-  documented as GEOMETRIC_ESTIMATE_CERTIFIED pending NLO refinement.
+  documented as GEOMETRIC_ESTIMATE_CERTIFIED pending full 6D+ closure.
 
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -61,7 +61,7 @@ __all__ = [
 
 DM2_31_PDG: float = 2.453e-3           # eV², PDG 2023
 DM2_31_PDG_SIGMA_FRAC: float = 0.013   # ~1.3% (current precision)
-DM2_31_UM_NLO: float = 2.453e-3 * (1.0 - 0.075)   # NLO estimate, 7.5% below PDG
+DM2_31_UM_NLO: float = 2.453e-3 * (1.0 - 0.0687)   # 2NLO follow-up, 6.87% below PDG
 
 DM2_31_FALSIFICATION_WINDOW: tuple = (2.2e-3, 2.7e-3)  # eV²
 
@@ -93,19 +93,19 @@ NUFIT_BASELINE: Dict = {
 #: UM prediction for Δm²₃₁
 UM_PREDICTION: Dict = {
     "dm2_31_nlo": DM2_31_UM_NLO,
-    "residual_fraction": -0.075,
+    "residual_fraction": -0.0687,
     "mechanism": (
-        "Δm²₃₁ from NLO T²/Z₃ geometric calculation (Pillar 17); "
+        "Δm²₃₁ from 2NLO T²/Z₃ follow-up calculation (Pillar 17); "
         "LO contribution from 5D mass spectrum; "
-        "NLO correction −7.5% from radion-neutrino mixing"
+        "2NLO correction −6.87% from curvature+KK follow-up terms"
     ),
     "falsification": (
         "Δm²₃₁ ∉ [2.2, 2.7] × 10⁻³ eV² at σ < 1% → UM geometric estimate excluded"
     ),
     "current_residual_eV2": DM2_31_UM_NLO - DM2_31_PDG,
     "current_tension_sigma": abs(DM2_31_UM_NLO - DM2_31_PDG) / (DM2_31_PDG * DM2_31_PDG_SIGMA_FRAC),
-    "current_status": "GEOMETRIC_ESTIMATE_CERTIFIED (~7.5% below PDG, NLO refinement pending)",
-    "module": "src/ (Pillar 17 — neutrino_overlap_integrals_nlo.py)",
+    "current_status": "GEOMETRIC_ESTIMATE_CERTIFIED (~6.87% below PDG, 2NLO follow-up; full 6D+ pending)",
+    "module": "src/ (Pillar 17 — neutrino_dm31_2nlo.py)",
 }
 
 
@@ -165,7 +165,7 @@ def update_with_measurement(
         "overall_consistent": verdict["level"] == "CONSISTENT",
         "wording": (
             f"{experiment} ({year}): Δm²₃₁ = {dm2_31_obs:.4e} ± {dm2_31_sigma_frac*100:.1f}% eV². "
-            f"UM NLO: {DM2_31_UM_NLO:.4e} eV² — tension {t_um:.2f}σ "
+            f"UM follow-up: {DM2_31_UM_NLO:.4e} eV² — tension {t_um:.2f}σ "
             f"(baseline: {t_baseline:.2f}σ from NuFIT). "
             f"{'Tension reduced ✅' if t_um < t_baseline else 'Tension increased ⚠️'}."
         ),
@@ -173,7 +173,7 @@ def update_with_measurement(
 
 
 def falsification_verdict(dm2_31_obs: float, dm2_31_sigma_frac: float) -> Dict:
-    """Return falsification verdict for UM Δm²₃₁ NLO prediction.
+    """Return falsification verdict for UM Δm²₃₁ follow-up prediction.
 
     Parameters
     ----------
@@ -191,16 +191,16 @@ def falsification_verdict(dm2_31_obs: float, dm2_31_sigma_frac: float) -> Dict:
 
     if tension < 1.0:
         level = "CONSISTENT"
-        verdict = f"CONSISTENT — UM Δm²₃₁ (NLO) within 1σ ✅"
+        verdict = f"CONSISTENT — UM Δm²₃₁ (follow-up) within 1σ ✅"
     elif tension < 2.0:
         level = "CONSISTENT"
-        verdict = f"CONSISTENT — UM Δm²₃₁ (NLO) at {tension:.2f}σ ✅"
+        verdict = f"CONSISTENT — UM Δm²₃₁ (follow-up) at {tension:.2f}σ ✅"
     elif tension < 3.0:
         level = "MARGINAL"
-        verdict = f"MARGINAL — UM Δm²₃₁ (NLO) at {tension:.2f}σ ⚠️"
+        verdict = f"MARGINAL — UM Δm²₃₁ (follow-up) at {tension:.2f}σ ⚠️"
     else:
         level = "EXCLUDED"
-        verdict = f"EXCLUDED — UM Δm²₃₁ (NLO) at {tension:.2f}σ 🔴"
+        verdict = f"EXCLUDED — UM Δm²₃₁ (follow-up) at {tension:.2f}σ 🔴"
 
     # Override: outside falsification window at high precision
     if not in_window and dm2_31_sigma_frac < 0.01 and level not in ("EXCLUDED",):
@@ -239,12 +239,12 @@ def monitoring_report() -> Dict:
     verdict = falsification_verdict(DM2_31_PDG, DM2_31_PDG_SIGMA_FRAC)
 
     return {
-        "version": "v10.17",
+        "version": "v10.18",
         "current_baseline": NUFIT_BASELINE,
         "um_prediction": UM_PREDICTION,
         "current_verdict": verdict,
         "falsification_summary": (
-            f"UM Δm²₃₁ (NLO) = {DM2_31_UM_NLO:.4e} eV² vs PDG "
+            f"UM Δm²₃₁ (follow-up) = {DM2_31_UM_NLO:.4e} eV² vs PDG "
             f"{DM2_31_PDG:.4e} ± {DM2_31_PDG_SIGMA_FRAC*100:.1f}% eV² "
             f"({verdict['tension_sigma']:.2f}σ)"
         ),
@@ -255,7 +255,7 @@ def monitoring_report() -> Dict:
             "expected_sigma_frac": min(HYPERK_EXPECTED_SIGMA_FRAC, JUNO_EXPECTED_SIGMA_FRAC),
             "note": (
                 f"JUNO first data ~{JUNO_FIRST_DATA}, Hyper-K ~{HYPERK_FIRST_DATA}. "
-                f"Both expect σ(Δm²₃₁) ≈ 0.5%, providing a decisive test of UM NLO prediction."
+                f"Both expect σ(Δm²₃₁) ≈ 0.5%, providing a decisive test of the UM follow-up estimate."
             ),
         },
         "update_instructions": (
@@ -294,7 +294,7 @@ def sensitivity_projection() -> Dict:
             "margin_to_upper_window_edge_sigma": margin_hi,
             "note": (
                 f"If Δm²₃₁ stays at PDG {DM2_31_PDG:.3e} eV² with σ={sigma_frac*100:.1f}%, "
-                f"UM NLO tension = {t_if_pdg:.1f}σ."
+                f"UM follow-up tension = {t_if_pdg:.1f}σ."
             ),
         }
 
@@ -308,8 +308,8 @@ def sensitivity_projection() -> Dict:
             f"Δm²₃₁ ∉ [{lo:.2e}, {hi:.2e}] eV² at σ < 1% → UM geometric estimate excluded"
         ),
         "note_on_residual": (
-            f"UM NLO is {abs(DM2_31_UM_NLO - DM2_31_PDG) / DM2_31_PDG * 100:.1f}% below PDG. "
-            "If sub-percent measurements confirm PDG value, UM NLO requires revision. "
-            "Full NLO calculation (beyond current estimate) may resolve the residual."
+            f"UM follow-up is {abs(DM2_31_UM_NLO - DM2_31_PDG) / DM2_31_PDG * 100:.2f}% below PDG. "
+            "If sub-percent measurements confirm PDG value, the current estimate requires revision. "
+            "Full 6D+ fixed-point geometry is the documented closure path for the residual."
         ),
     }
