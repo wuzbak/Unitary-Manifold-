@@ -113,11 +113,13 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 
 | Date | Experiment | Observable | UM Prediction | σ Resolution | Action |
 |------|-----------|------------|---------------|--------------|--------|
-| ~2026 | DESI Year 3 | wₐ, w₀ | wₐ = 0 | Better than Y1 | Integrate within 30 days; potential falsifier if tension exceeds 3σ |
+| ~2026 | DESI Year 3 | wₐ, w₀ | wₐ = 0 | Better than Y1 | **Run `src/core/desi_y3_joint_routing.py::joint_routing_decision()` with Y3 values; v10.30 provides full joint χ² + 9 pre-built scenarios. 30-day deadline from publication.** |
+| ~2027 | JUNO | Δm²₃₁ | 2.400e-3 eV² (2.18% below PDG) | ~0.5% | Run `src/core/hyperk_juno_dm31_readiness.py::hyperk_juno_falsifier_routing()`. Tension = 2.18%/0.5% = 4.4σ → FALSIFIED if central value holds at PDG. |
 | ~2027 | ACT DR6 (full) | nₛ | 0.9635 | ±0.003 or better | Monitor if error bar tightens; check 0.33σ status |
+| ~2028 | Hyper-Kamiokande | Δm²₃₁ | 2.400e-3 eV² | ~1% | Tension = 2.18σ → TENSION (not FALSIFIED). Run `hyperk_juno_falsifier_routing()`. |
 | ~2028 | Simons Observatory | β, nₛ, r | β ∈ {0.273°, 0.331°} | σ_β ~ 0.05° | First sub-0.1° β measurement; may begin discrimination |
-| ~2030 | CMB-S4 | β, r, A_s | r < 0.036; β ∈ {0.273°, 0.331°} | σ_β ~ 0.01° | Near-definitive β test; could discriminate (5,6)/(5,7) sectors |
-| ~2032 | **LiteBIRD** | **β** | **β ∈ {0.273°, 0.331°} ± 0.007°** | **σ_β ~ 0.02°** | **PRIMARY EVENT — clear the strict checklist in `litebird_readiness_hardening.py`, then run `falsification_check.py` immediately** |
+| ~2030 | CMB-S4 | β, r, n_s | r = 0.0315; β ∈ {0.273°, 0.331°} | σ_r ~ 0.001, σ_ns ~ 0.002 | **Run `src/core/cmbs4_ns_r_joint_falsifier.py::joint_ns_r_verdict()`. FALSIFIED if r < 0.010 at 3σ or n_s ∉ [0.955, 0.972] at <0.001.** |
+| ~2032 | **LiteBIRD** | **β** | **β ∈ {0.273°, 0.331°} ± 0.007°** | **σ_β ~ 0.02°** | **PRIMARY EVENT — run `src/core/litebird_gap_hardening.py::classify_beta()` and `falsification_check.py` immediately. Check inter-sector gap (0.29°, 0.31°) as separate falsifier.** |
 | ~2032 | LiteBIRD | r | 0.0315 | σ_r ~ 0.001 | Secondary test; constrains braided sound speed |
 
 ---

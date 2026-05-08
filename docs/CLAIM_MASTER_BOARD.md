@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v10.28
+# Unitary Manifold v10.30
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-08*
+*Last updated: 2026-05-08 (v10.30)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -44,7 +44,9 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | axion mechanism (architecture) | — | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | θ̄ > 10⁻⁹ confirmed | Full PQ mechanism in 5D geometry | 2026-05-08 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — 58-order gap remains | ~10^58 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure | 2026-05-08 |
 
-**ToE Score v10.28: 21.2 / 28.0 = 76%**
+**ToE Score v10.30: 21.2 / 28.0 = 76%** (unchanged; no new promotions in v10.30)
+**GP count: 22 parameters** (see TOE_SCORE_AUDIT.md §3 for breakdown)
+**CONSTRAINED: 2** (P16, P26) | **ARCHITECTURE_LIMIT: 2** (P27, P28)
 
 ---
 

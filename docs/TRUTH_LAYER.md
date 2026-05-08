@@ -167,11 +167,17 @@ pair, and each has a residual uncertainty or documented gap:
 ### Parameters at CONSTRAINED
 
 **P16 — Δm²₂₁ = 7.53e-5 eV² (UM: flux-backreaction NLO, residual 0.20%)**
-- Truth: The 0.20% NLO residual is better than the CONSTRAINED threshold, but
-  the full derivation is blocked by Pillar 183 c_L spectrum closure. Until
-  that closes, this cannot be promoted to GEOMETRIC_PREDICTION.
-- Blocking dependency: Pillar 183 full c_L spectrum derivation
+- Truth: The 0.20% NLO residual passes the 5% GP gate (Gate 1 ✅). The correction
+  factor f_c = (N_W+2)/(K_CS+52) = 7/126 is phenomenologically accurate but its
+  denominator "+52" is not derived from first principles (Gate 3 ✗). v10.30 analysis
+  (`src/core/p16_solar_correction_analysis.py`) confirms f_c lies within the geometric
+  window [0.0237, 0.0946] at position 72% from lower bound. Gate 2 (±10% f_c
+  robustness) fails because f_c must be tightly pinned, not freely varied.
+- Blocking dependency: Full T²/Z₃ moduli stabilization (WS-III) to derive the
+  "+52" term in the denominator exactly from first principles.
+- Status: CONSTRAINED (unchanged in v10.30; no promotion without Gate 3)
 - Falsification: Δm²₂₁ outside 50% band at ≥3σ
+- Forward path: When WS-III closes "+52", all 3 gates pass immediately.
 
 **P26 — m_ν < 0.12 eV**
 - Truth: The framework is consistent with the Planck upper bound but does not

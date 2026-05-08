@@ -13,7 +13,89 @@ For each wave entry, include:
 
 ---
 
-## v10.29 (Documentation Ledger Completion — v10.28 Changelog + Score Table + Framework Version)
+## v10.30 (Maximum-Effort Rigor Sprint — DESI Y3 Integration, Falsification Hardening, GP Stress Test, Doc Truth Sync)
+
+### What changed
+
+**Lane A — Physics closure:**
+- `src/core/p16_solar_correction_analysis.py` (new): Full analysis of the P16 solar splitting
+  correction factor f_c. Derives geometric bounds [0.0237, 0.0946], confirms f_c = 7/126 is
+  within window, documents that the "+52" denominator is not derived (Gate 3 fails). P16 stays
+  CONSTRAINED. Tests: `tests/test_core_p16_solar_correction_analysis.py`.
+
+**Lane B — Observation integration:**
+- `src/core/desi_y3_joint_routing.py` (new): DESI Y3 joint w₀-wₐ chi²-based routing. Includes
+  9 pre-built scenarios, 30-day integration protocol, falsification forecast as function of σ_wₐ.
+  Extends `desi_year3_monitor.py` with 2D joint chi² test and downstream update targets.
+  Tests: `tests/test_core_desi_y3_joint_routing.py`.
+- `src/core/cmbs4_ns_r_joint_falsifier.py` (new): CMB-S4 joint n_s-r falsifier. Signal ellipse,
+  three projection scenarios, explicit falsification conditions. Tests: `tests/test_core_cmbs4_ns_r_joint_falsifier.py`.
+- `src/core/hyperk_juno_dm31_readiness.py` (new): Hyper-K/JUNO Δm²₃₁ precision routing for P17.
+  Precision milestone analysis from 5% → 0.1%. JUNO (0.5%) produces 4.36σ tension at PDG central.
+  Tests: `tests/test_core_hyperk_juno_dm31_readiness.py`.
+
+**Lane C — Robustness and falsification hardening:**
+- `src/core/full_gp_stress_test.py` (new): Stress tests all 22 GEOMETRIC_PREDICTION parameters
+  at ±10% geometric input variation. P3 (4.12%) and P10 (3.08%) identified as highest-margin-risk.
+  All documented with worst-case residuals. Tests: `tests/test_core_full_gp_stress_test.py`.
+- `src/core/litebird_gap_hardening.py` (new): Formal gap test (0.29°, 0.31°) for LiteBIRD.
+  classify_beta() with 6 zones; edge_case_battery() with 13 boundary conditions. Mode discrimination
+  power: 2.9σ at LiteBIRD precision. Tests: `tests/test_core_litebird_gap_hardening.py`.
+
+**Lane D — Documentation truth sync:**
+- `docs/GATEKEEPER_SUMMARY.md`: Part 2 "19 parameters" → "22 parameters" (correct count per
+  TOE_SCORE_AUDIT); Part 7 GEOMETRIC_PREDICTION 19→22 (score 15.2→17.6), CONSTRAINED 4→2
+  (score 2.0→1.0), GEC 1→0 (score 0.3→0.0); version bump to v10.30; added new module commands.
+- `docs/CLAIM_MASTER_BOARD.md`: Version header v10.28→v10.30; score annotation with explicit
+  GP count (22) and CONSTRAINED count (2).
+- `docs/TRUTH_LAYER.md`: P16 section updated with explicit gate analysis (Gate 1 PASS, Gate 2
+  fails under free f_c variation, Gate 3 FAIL; blocking dep identified as WS-III moduli).
+- `3-FALSIFICATION/OBSERVATION_TRACKER.md`: Upcoming schedule expanded with explicit routing
+  commands; JUNO and Hyper-K added as separate entries.
+
+**Lane E — Integration and governance:**
+- `docs/mas_tracker.yml`: `v10_30_batch` entry with all 12 deliverables.
+- `docs/WAVE_CHANGELOG.md`: This entry.
+- `src/core/five_tier_execution_framework.py`: `FRAMEWORK_VERSION` bumped to `"v10.30"`.
+
+### What did not change
+- No parameter status changed. P16 remains CONSTRAINED (not promoted).
+- No falsifiers removed or weakened.
+- ToE score unchanged at 21.2/28 (76%).
+- MAS remains closed. No items recycled into MAS.
+
+### Why
+- Deliver the complete DESI Y3 integration package before Y3 publishes.
+- Harden all falsification infrastructure to machine-checkable level.
+- Fix long-standing count error in GATEKEEPER_SUMMARY.md Part 2 and Part 7.
+- Provide a complete forward-path for P16 without overclaiming promotion.
+- Ensure no GP parameter status can be lost without explicit audit trail.
+
+### Epistemic label deltas
+- None. No parameters promoted or demoted.
+
+### TOE score delta
+- **0.0** (21.2/28 = 76% → 21.2/28 = 76%)
+
+### Falsification impact
+- NEW: `full_gp_stress_test.py` certifies all 22 GP parameters under ±10% input variation.
+- NEW: `litebird_gap_hardening.py` formalizes the inter-sector gap (0.29°, 0.31°) as a
+  hard falsifier distinct from the broad [0.22°, 0.38°] window.
+- NEW: `cmbs4_ns_r_joint_falsifier.py` formalizes the joint n_s-r falsification condition.
+- NEW: `desi_y3_joint_routing.py` upgrades DESI routing from 1D wₐ to full 2D joint chi².
+- NEW: `hyperk_juno_dm31_readiness.py` projects when P17 will face tension/falsification.
+- None of the above are weakenings; all are either same or stronger than prior versions.
+
+### Residual unknowns (open, never softened)
+1. **P16 promotion blocked**: "+52" in f_c denominator not derived from first principles (WS-III T²/Z₃ required).
+2. **DESI Y3 pending**: DESI Y3 has not published; T1 tension at 2.07σ (DESI DR2 baseline) remains OPEN.
+3. **P17 JUNO risk**: At JUNO 0.5% precision, if PDG central holds, UM tension will be 4.36σ → FALSIFIED.
+4. **CMB peak amplitude**: Suppressed ×4.2–6.1 at acoustic peaks (Admission 2 in FALLIBILITY.md; addressed by Pillars 57+63 but not closed).
+5. **CMB-S4 r-detection**: UM predicts r = 0.0315; if CMB-S4 confirms r < 0.010 at 3σ → FALSIFIED.
+
+---
+
+
 
 ### What changed
 - Added missing v10.28 entry to `docs/WAVE_CHANGELOG.md` (was omitted from v10.28 PR).
