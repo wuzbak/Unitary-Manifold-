@@ -3,6 +3,8 @@
 """Tests for src/core/yukawa_tier4_hardgate_cert.py."""
 from __future__ import annotations
 
+import math
+
 import pytest
 
 from src.core.yukawa_tier4_hardgate_cert import (
@@ -229,14 +231,14 @@ def test_nlo_residual_margin(idx: int):
 def test_nlo_residual_not_nan(idx: int):
     rows = tier4_nlo_yukawa_table()
     value = rows[idx]["residual_nlo_pct"]
-    assert value == value
+    assert not math.isnan(value)
 
 
 @pytest.mark.parametrize("idx", [0, 1, 2, 3])
 def test_baseline_not_nan(idx: int):
     rows = tier4_nlo_yukawa_table()
     value = rows[idx]["residual_baseline_pct"]
-    assert value == value
+    assert not math.isnan(value)
 
 
 @pytest.mark.parametrize("idx", [0, 1, 2, 3])
@@ -256,4 +258,3 @@ def test_certificate_policy_string(pid: str):
     cert = tier4_hardgate_certificate()
     assert "promote_only_if_all_three_tier4_gates_pass" == cert["promotion_policy"]
     assert cert["status_changes"][pid]["new"] == "GEOMETRIC_PREDICTION"
-

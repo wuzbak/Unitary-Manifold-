@@ -39,6 +39,7 @@ BRAID_NLO_SUPPRESSION_MAP: Dict[str, float] = {
     "tau": 1.0 / 31.0,
     "electron": 1.0 / 3700.0,
 }
+MIN_YUKAWA_DENOMINATOR: float = 1e-30
 
 
 def tier4_nlo_yukawa_table() -> List[Dict[str, float]]:
@@ -48,7 +49,7 @@ def tier4_nlo_yukawa_table() -> List[Dict[str, float]]:
         fermion = str(row["fermion"])
         y_pred_nlo = float(row["y_pred"]) * BRAID_NLO_SUPPRESSION_MAP[fermion]
         y_pdg = float(row["y_pdg"])
-        residual_nlo_pct = abs(y_pred_nlo - y_pdg) / max(y_pdg, 1e-30) * 100.0
+        residual_nlo_pct = abs(y_pred_nlo - y_pdg) / max(y_pdg, MIN_YUKAWA_DENOMINATOR) * 100.0
         rows.append(
             {
                 "fermion": fermion,
