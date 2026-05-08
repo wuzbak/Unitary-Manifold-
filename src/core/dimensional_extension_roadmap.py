@@ -37,6 +37,7 @@ __all__ = [
     "list_workstreams",
     "readiness_check",
     "roadmap_summary",
+    "execution_freeze_status",
 ]
 
 # ---------------------------------------------------------------------------
@@ -327,4 +328,32 @@ def roadmap_summary() -> Dict:
             "Completing WS-I through WS-IV would advance the architecture-limited "
             "parameters (P3, P5, P14/P15, P19–P21) toward GEOMETRIC_PREDICTION status."
         ),
+    }
+
+
+def execution_freeze_status() -> Dict[str, Dict[str, str]]:
+    """Return frozen WS-I..WS-IV execution outcomes from the 2026-05-08 run.
+
+    Returns
+    -------
+    dict[str, dict[str, str]]
+        Workstream execution status and post-freeze action.
+    """
+    return {
+        "WS-II": {
+            "status": "PASS_FREEZE",
+            "post_freeze_action": "frozen",
+        },
+        "WS-III": {
+            "status": "TARGETED_FOLLOW_UP_FREEZE",
+            "post_freeze_action": "open_targeted_workstream_ticket",
+        },
+        "WS-I": {
+            "status": "TARGETED_FOLLOW_UP_FREEZE",
+            "post_freeze_action": "open_targeted_workstream_ticket",
+        },
+        "WS-IV": {
+            "status": "TARGETED_FOLLOW_UP_FREEZE",
+            "post_freeze_action": "open_targeted_workstream_ticket",
+        },
     }

@@ -18,6 +18,7 @@ from src.core.scope_freeze_certificate import (
     TOE_SCORE,
     TOE_SCORE_MAX,
     TOE_SCORE_PCT,
+    WS_EXECUTION_PROGRAMME_STATUS,
     get_dbp_rung_status,
     get_parameter_status,
     is_scope_frozen,
@@ -191,6 +192,25 @@ class TestArchitectureLimits:
         assert "6D" in ARCHITECTURE_LIMITS["A-P19-P21"]["dimension_needed"]
 
 
+class TestWSExecutionProgrammeStatus:
+    def test_has_four_workstreams(self):
+        assert set(WS_EXECUTION_PROGRAMME_STATUS.keys()) == {
+            "WS-I", "WS-II", "WS-III", "WS-IV"
+        }
+
+    def test_ws2_pass_freeze(self):
+        assert WS_EXECUTION_PROGRAMME_STATUS["WS-II"]["status"] == "PASS_FREEZE"
+
+    def test_others_targeted_follow_up_freeze(self):
+        for ws_id in ("WS-I", "WS-III", "WS-IV"):
+            assert WS_EXECUTION_PROGRAMME_STATUS[ws_id]["status"] == "TARGETED_FOLLOW_UP_FREEZE"
+
+    def test_no_recycle_into_mas(self):
+        assert all(
+            not v["recycle_into_mas"] for v in WS_EXECUTION_PROGRAMME_STATUS.values()
+        )
+
+
 class TestGetParameterStatus:
     def test_returns_dict(self):
         result = get_parameter_status("P3")
@@ -315,3 +335,10 @@ class TestScopeFreezeSummary:
         s = scope_freeze_summary()
         assert "LiteBIRD" in s["primary_falsifier"]
         assert "0.273" in s["primary_falsifier"] or "birefringence" in s["primary_falsifier"].lower()
+
+    def test_ws_execution_programme_summary_counts(self):
+        s = scope_freeze_summary()
+        assert s["ws_execution_programme_count"] == 4
+        assert s["ws_execution_pass_freeze_count"] == 1
+        assert s["ws_execution_targeted_follow_up_freeze_count"] == 3
+        assert s["ws_execution_no_mas_recycle"] is True
