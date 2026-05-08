@@ -27,7 +27,7 @@ from src.core.five_tier_execution_framework import (
 
 class TestFrameworkMetadata:
     def test_framework_version(self):
-        assert FRAMEWORK_VERSION == "v10.23"
+        assert FRAMEWORK_VERSION == "v10.25"
 
     def test_framework_date(self):
         assert FRAMEWORK_DATE == "2026-05-08"
@@ -102,6 +102,7 @@ class TestEvidencePipeline:
         assert p["certifier_module_pattern"] == "src/core/*_hardgate_cert.py"
         assert p["test_pattern"] == "tests/test_core_*_hardgate_cert.py"
         assert p["canonical_status_ledger"] == "docs/mas_tracker.yml"
+        assert p["no_inflation_guard_module"] == "src/core/no_inflation_evidence_guard.py"
 
     def test_pipeline_requires_full_regression(self):
         p = evidence_pipeline_spec()
@@ -120,8 +121,9 @@ class TestThroughputAndPRSequence:
     def test_throughput_has_integration_rule(self):
         seq = throughput_sequence()
         integration = [x for x in seq if x["type"] == "integration_pr"]
-        assert len(integration) == 1
-        assert integration[0]["batch_rule"] == "integration_after_every_2_to_3_tier_prs"
+        assert len(integration) == 2
+        assert integration[0]["batch_rule"] == "integration_checkpoint_after_pr_1_and_pr_2"
+        assert integration[1]["batch_rule"] == "full_regression_and_tracker_sync_required"
 
     def test_throughput_sequence_returns_copy(self):
         s1 = throughput_sequence()
@@ -132,14 +134,14 @@ class TestThroughputAndPRSequence:
     def test_next_three_prs_cover_tier1_to_tier3(self):
         prs = next_three_pr_sequence()
         assert [p["pr_id"] for p in prs] == ["PR-1", "PR-2", "PR-3"]
-        assert [p["scope"] for p in prs] == ["Tier-1", "Tier-2", "Tier-3"]
+        assert [p["scope"] for p in prs] == ["Tier-2/Tier-3", "Tier-4", "Tier-5+Monitor"]
 
     def test_pr1_scope_definition_has_required_deliverables(self):
         pr1 = next_three_pr_sequence()[0]
         deliverables = " ".join(pr1["deliverables"]).lower()
-        assert "p3/p5" in pr1["title"].lower()
-        assert "nominal residual gate evidence" in deliverables
-        assert "robustness sweep evidence" in deliverables
+        assert "neutrino" in pr1["title"].lower()
+        assert "hardgate certifier module" in deliverables
+        assert "robustness evidence" in deliverables
         assert "axiomzero/purity evidence" in deliverables
 
     def test_next_three_pr_sequence_returns_copy(self):

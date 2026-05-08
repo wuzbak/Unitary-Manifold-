@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.24 — Effective 2026-05-08*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.24 Tier-1 hardgate batch delivered).*
+*Unitary Manifold v10.25 — Effective 2026-05-08*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.25 Tier Acceleration Sprint delivered with no MAS reopen).*
 
 > **The pillar set is frozen.** New pillars may only be added when a genuinely
 > new observational gap is identified that cannot be addressed by updating an

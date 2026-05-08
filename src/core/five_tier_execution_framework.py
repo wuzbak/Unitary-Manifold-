@@ -35,7 +35,7 @@ __all__ = [
     "framework_summary",
 ]
 
-FRAMEWORK_VERSION: str = "v10.23"
+FRAMEWORK_VERSION: str = "v10.25"
 FRAMEWORK_DATE: str = "2026-05-08"
 
 TIER_PRIORITY_ORDER: List[str] = [
@@ -135,77 +135,77 @@ EVIDENCE_PIPELINE: Dict[str, object] = {
     "regression_requirement": "reproducible_full_regression_pass_required_for_each_tier_merge",
     "regression_command": FULL_REGRESSION_GATE_COMMAND,
     "overclaim_guard": "no_status_or_badge_upgrade_without_gate_evidence",
+    "no_inflation_guard_module": "src/core/no_inflation_evidence_guard.py",
 }
 
 THROUGHPUT_PLAN: List[Dict[str, object]] = [
     {
         "step": 1,
         "type": "tier_pr",
-        "batch_rule": "one_tier_package_per_pr",
-        "targets": ["Tier-1"],
+        "batch_rule": "three_pr_burst",
+        "targets": ["Tier-2", "Tier-3"],
         "priority": "highest",
     },
     {
         "step": 2,
-        "type": "tier_pr_parallel",
-        "batch_rule": "one_tier_package_per_pr",
-        "targets": ["Tier-2", "Tier-3"],
+        "type": "tier_pr",
+        "batch_rule": "three_pr_burst",
+        "targets": ["Tier-4"],
         "priority": "high",
     },
     {
         "step": 3,
         "type": "integration_pr",
-        "batch_rule": "integration_after_every_2_to_3_tier_prs",
-        "targets": ["Tier-1", "Tier-2", "Tier-3"],
+        "batch_rule": "integration_checkpoint_after_pr_1_and_pr_2",
+        "targets": ["Tier-2", "Tier-3", "Tier-4"],
         "priority": "required",
     },
     {
         "step": 4,
         "type": "tier_pr",
-        "batch_rule": "one_tier_package_per_pr",
-        "targets": ["Tier-4"],
+        "batch_rule": "three_pr_burst",
+        "targets": ["Tier-5", "monitor_integration"],
         "priority": "medium",
     },
     {
         "step": 5,
-        "type": "tier_pr",
-        "batch_rule": "one_tier_package_per_pr",
-        "targets": ["Tier-5"],
-        "priority": "long_horizon",
+        "type": "integration_pr",
+        "batch_rule": "full_regression_and_tracker_sync_required",
+        "targets": ["Tier-2", "Tier-3", "Tier-4", "Tier-5", "monitor_integration"],
+        "priority": "required",
     },
 ]
 
 NEXT_THREE_PRS: List[Dict[str, object]] = [
     {
         "pr_id": "PR-1",
-        "scope": "Tier-1",
-        "title": "P3/P5 combined hardgate package",
+        "scope": "Tier-2/Tier-3",
+        "title": "Neutrino precision + mixing-angle hardgate package",
         "deliverables": [
-            "combined certifier module for P3+P5",
-            "nominal residual gate evidence",
-            "robustness sweep evidence",
+            "P17/P18/P19/P20 hardgate certifier module",
+            "nominal residual and robustness evidence",
             "axiomzero/purity evidence",
-            "status decision: promote only on full pass",
+            "status decisions gated by no-inflation guard",
         ],
     },
     {
         "pr_id": "PR-2",
-        "scope": "Tier-2",
-        "title": "P17/P18 neutrino precision hardgate",
+        "scope": "Tier-4",
+        "title": "Yukawa hierarchy coordinated refinement package",
         "deliverables": [
-            "precision residual evidence (<5%)",
-            "higher-order stability evidence",
-            "robustness gate evidence",
+            "cross-generation Yukawa residual compression evidence",
+            "cross-generation consistency gate evidence",
+            "promotion blocked unless purity gates pass",
         ],
     },
     {
         "pr_id": "PR-3",
-        "scope": "Tier-3",
-        "title": "P19/P20 mixing-angle closure hardgate",
+        "scope": "Tier-5+Monitor",
+        "title": "Architecture-limit reduction + canonical falsifier feed integration",
         "deliverables": [
-            "nominal hardgate evidence",
-            "uncertainty propagation evidence",
-            "purity check evidence",
+            "P27/P28 mechanism-depth package",
+            "canonical feed for LiteBIRD, CMB-S4, DUNE, Hyper-K/JUNO, DESI",
+            "tracker/test/doc sync and regression evidence",
         ],
     },
 ]
