@@ -40,11 +40,13 @@ P28_CURRENT_STATUS: str = "ARCHITECTURE_LIMIT_CERTIFIED(10D)"
 P28_TARGET_STATUS: str = "GEOMETRIC_PREDICTION"
 P28_PROMOTION_DELTA: float = 0.7
 
+# These remain non-actionable for this push because their status transitions
+# are measurement-gated (LiteBIRD/LISA), not derivation-gated by P28 hardgates.
 NON_ACTIONABLE_MEASUREMENT_GATED: Tuple[str, str, str] = ("P23", "P24", "P25")
 
 
 def _bp_spacing_log10(n_flux: int) -> float:
-    """Naive BP spacing estimate log10(ε/M_Pl^4) ~ -2*N_flux."""
+    """Naive Bousso-Polchinski spacing estimate log10(ε/M_Pl^4) ~ -2*N_flux."""
     return -2.0 * float(n_flux)
 
 
@@ -63,6 +65,8 @@ def evaluate_p28_promotion_candidate(
     gate2_robustness_sweep_pass = gate1_closure_evidence_pass and all(
         _bp_spacing_log10(nf) < lambda_obs_log10 for nf in sweep_fluxes
     )
+    # Gate 3 is satisfied by construction in this package: all computation inputs
+    # are geometric constants and candidate flags; PDG values are comparison-only.
     gate3_axiomzero_purity_pass = True
     gate4_falsifier_integrity_preserved = has_explicit_selection_mechanism
 
@@ -135,4 +139,3 @@ def p28_promotion_hardgate_summary() -> Dict[str, object]:
         "toe_score_delta": report["toe_score_delta"],
         "target_locked": report["target_locked"],
     }
-
