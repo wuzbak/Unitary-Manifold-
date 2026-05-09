@@ -42,7 +42,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P25 | GW background Ω_GW | PENDING (LISA ~2037) | **~10⁻¹⁵** | — | `DERIVED` | 🟡 PENDING | Ω_GW(f_LISA) < 10⁻¹⁷ or wrong spectrum | LISA measurement | 2026-05-08 |
 | P26 | Neutrino mass scale m_ν | < 0.12 eV (Planck) | consistent | consistent | `CONSTRAINED` | ✅ PASS (CONSTRAINED) | m_ν > 0.12 eV confirmed at ≥3σ | Full Dirac/Majorana branch closure | 2026-05-08 |
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | axion mechanism (architecture) | — | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | θ̄ > 10⁻⁹ confirmed | Full PQ mechanism in 5D geometry | 2026-05-08 |
-| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — precise 10^57.26 gap remains | 10^57.26 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure (N_flux ≥ 61 or alternative mechanism) | 2026-05-09 |
+| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — precise 10^57.26 gap remains | 10^57.26 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure (naive BP sufficiency requires N_flux ≥ 61; see `src/core/cc_gap_precision_audit.py`) | 2026-05-09 |
 
 **ToE Score v10.31: 21.2 / 28.0 = 76%** (unchanged; finish-line lock adds no new promotions)
 **GP count: 22 parameters** (see TOE_SCORE_AUDIT.md §3 for breakdown)

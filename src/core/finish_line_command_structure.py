@@ -153,6 +153,19 @@ def p16_finish_line_hardgate() -> Dict[str, object]:
     """Return the finish-line hardgate decision for Lane A / P16."""
     gates = promotion_gate_check()
     bounds = geometric_bounds_on_fc()
+    promotion_allowed = bool(gates["all_gates_pass"])
+    gate3_reason = gates["gates"].get(
+        "gate3_axiomzero_purity",
+        {},
+    ).get(
+        "reason",
+        "Promotion blocked until the documented blocking dependency closes.",
+    )
+    hardgate_reason = (
+        "All hardgates pass; promotion can proceed."
+        if promotion_allowed
+        else gate3_reason
+    )
     return {
         "lane": "Lane A",
         "parameter": "P16",
@@ -160,13 +173,10 @@ def p16_finish_line_hardgate() -> Dict[str, object]:
         "target_status": "GEOMETRIC_PREDICTION",
         "gates": deepcopy(gates["gates"]),
         "geometric_window_confirmed": bounds["f_c_in_window"],
-        "promotion_allowed": bool(gates["all_gates_pass"]),
-        "decision": "NO_PROMOTION",
+        "promotion_allowed": promotion_allowed,
+        "decision": "PROMOTE" if promotion_allowed else "NO_PROMOTION",
         "blocking_dependency": gates["blocking_dependency"],
-        "hardgate_reason": (
-            "Nominal residual and bounded-window checks are strong, but exact "
-            "WS-III derivation of '+52' is still missing. No promotion without Gate 3."
-        ),
+        "hardgate_reason": hardgate_reason,
     }
 
 
@@ -174,13 +184,14 @@ def p28_finish_line_architecture_review() -> Dict[str, object]:
     """Return the finish-line architecture review for Lane B / P28 + α_GW."""
     p28 = p28_promotion_evaluation()
     alpha_gw = alpha_gw_gap_closure_verdict()
+    promotion_allowed = bool(p28["can_promote"])
     return {
         "lane": "Lane B",
         "parameter": "P28",
         "current_status": p28["current_status"],
         "target_status": p28["target_status"],
-        "promotion_allowed": bool(p28["can_promote"]),
-        "decision": "NO_PROMOTION",
+        "promotion_allowed": promotion_allowed,
+        "decision": "PROMOTE" if promotion_allowed else "NO_PROMOTION",
         "p28_reason": p28["reason"],
         "what_would_enable": list(p28["what_would_enable"]),
         "alpha_gw_status": alpha_gw["status"],

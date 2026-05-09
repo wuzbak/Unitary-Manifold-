@@ -22,6 +22,8 @@ from src.core.litebird_gap_hardening import classify_beta
 __all__ = [
     "DEFAULT_OBSERVATION_BUNDLE",
     "normalize_observation_bundle",
+    "desi_route_label",
+    "normalize_litebird_result",
     "route_finish_line_observation_bundle",
     "build_tracker_update_payload",
     "build_wave_changelog_payload",
@@ -59,12 +61,34 @@ DEFAULT_OBSERVATION_BUNDLE: Dict[str, Dict[str, object]] = {
 def normalize_observation_bundle(
     bundle: Optional[Dict[str, Dict[str, object]]] = None,
 ) -> Dict[str, Dict[str, object]]:
-    """Return a default-backed observation bundle."""
+    """Return a default-backed observation bundle with field-level overrides."""
     normalized = deepcopy(DEFAULT_OBSERVATION_BUNDLE)
     if not bundle:
         return normalized
     for key, payload in bundle.items():
-        normalized[key] = deepcopy(payload)
+        if key not in normalized or not isinstance(normalized[key], dict):
+            normalized[key] = deepcopy(payload)
+        else:
+            normalized[key].update(deepcopy(payload))
+    return normalized
+
+
+def desi_route_label(result: Dict[str, object]) -> str:
+    """Return a normalized route label for either DESI result structure.
+
+    Live `route_desi_y3()` results expose `route`, while the aggregated
+    `full_dr2_gap_report()` summary exposes `current_status`.
+    """
+    route = result.get("route") or result.get("current_status")
+    if route is None:
+        raise ValueError("DESI result missing both 'route' and 'current_status'.")
+    return str(route)
+
+
+def normalize_litebird_result(result: Dict[str, object]) -> Dict[str, object]:
+    """Return a normalized LiteBIRD result with an explicit route label."""
+    normalized = deepcopy(result)
+    normalized["route"] = normalized["zone"]
     return normalized
 
 
@@ -73,11 +97,11 @@ def build_tracker_update_payload(results: Dict[str, Dict[str, object]]) -> Dict[
     return {
         "target_file": "3-FALSIFICATION/OBSERVATION_TRACKER.md",
         "summary_lines": [
-            f"DESI: {results['desi']['route'] if 'route' in results['desi'] else results['desi']['combined_routing']['route']}",
+            f"DESI: {desi_route_label(results['desi'])}",
             f"JUNO: {results['juno']['route']}",
             f"Hyper-K: {results['hyperk']['route']}",
             f"CMB-S4: {results['cmbs4']['route']}",
-            f"LiteBIRD: {results['litebird']['zone']}",
+            f"LiteBIRD: {results['litebird']['route']}",
         ],
         "required_same_day_sync": True,
         "action_items": [
@@ -90,11 +114,7 @@ def build_tracker_update_payload(results: Dict[str, Dict[str, object]]) -> Dict[
 
 def build_wave_changelog_payload(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
     """Build the auto-update payload for WAVE_CHANGELOG.md."""
-    desi_status = (
-        results["desi"]["current_status"]
-        if "current_status" in results["desi"]
-        else results["desi"]["route"]
-    )
+    desi_status = desi_route_label(results["desi"])
     return {
         "target_file": "docs/WAVE_CHANGELOG.md",
         "what_changed": [
@@ -122,13 +142,15 @@ def route_finish_line_observation_bundle(
     """Route the full finish-line observation bundle in one call."""
     normalized = normalize_observation_bundle(bundle)
 
-    if normalized["desi"].get("mode") == "published_dr2":
-        desi_result = full_dr2_gap_report()
-    else:
+    if "wa" in normalized["desi"] and "sigma" in normalized["desi"]:
         desi_result = route_desi_y3(
             wa=float(normalized["desi"]["wa"]),
             sigma=float(normalized["desi"]["sigma"]),
         )
+    elif normalized["desi"].get("mode") == "published_dr2":
+        desi_result = full_dr2_gap_report()
+    else:
+        raise ValueError("DESI bundle must provide either mode='published_dr2' or wa/sigma.")
 
     juno_result = hyperk_juno_falsifier_routing(
         dm2_31_obs=float(normalized["juno"]["dm2_31_obs"]),
@@ -150,10 +172,10 @@ def route_finish_line_observation_bundle(
         experiment=str(normalized["cmbs4"]["experiment"]),
         year=int(normalized["cmbs4"]["year"]),
     )
-    litebird_result = classify_beta(
+    litebird_result = normalize_litebird_result(classify_beta(
         beta_obs=float(normalized["litebird"]["beta_obs"]),
         sigma=float(normalized["litebird"]["sigma"]),
-    )
+    ))
 
     routed = {
         "desi": desi_result,

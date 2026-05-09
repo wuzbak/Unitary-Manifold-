@@ -13,6 +13,15 @@ from src.core.finish_line_observation_engine import (
 def test_normalize_observation_bundle_defaults_to_all_channels():
     bundle = normalize_observation_bundle()
     assert set(bundle) == {"desi", "juno", "hyperk", "cmbs4", "litebird"}
+    assert bundle["desi"]["mode"] == "published_dr2"
+    assert "dm2_31_obs" in bundle["juno"]
+    assert "sigma_pct" in bundle["juno"]
+    assert "dm2_31_obs" in bundle["hyperk"]
+    assert "sigma_pct" in bundle["hyperk"]
+    assert "ns_obs" in bundle["cmbs4"]
+    assert "r_obs" in bundle["cmbs4"]
+    assert "beta_obs" in bundle["litebird"]
+    assert "sigma" in bundle["litebird"]
 
 
 def test_route_finish_line_observation_bundle_returns_payloads():
@@ -50,3 +59,10 @@ def test_custom_bundle_can_route_falsification_paths():
     )
     assert result["results"]["desi"]["route"] == "FALSIFIED"
     assert result["results"]["litebird"]["zone"] == "GAP"
+
+
+def test_partial_bundle_keeps_default_channels():
+    result = route_finish_line_observation_bundle({"litebird": {"beta_obs": 0.331}})
+    assert result["results"]["juno"]["experiment"] == "JUNO"
+    assert result["results"]["hyperk"]["experiment"] == "Hyper-K"
+    assert result["results"]["cmbs4"]["experiment"] == "CMB-S4 forecast"

@@ -94,7 +94,7 @@ blocked by a documented dependency.
 
 | # | Parameter | PDG Value | UM Status | Residual | Blocking Dep |
 |---|-----------|-----------|-----------|----------|--------------|
-| P16 | Δm²₂₁ (solar ν) | 7.53e-5 eV² | flux-backreaction NLO | 0.20% | Exact WS-III derivation of the '+52' term |
+| P16 | Δm²₂₁ (solar ν) | 7.53e-5 eV² | flux-backreaction NLO | 0.20% | Exact WS-III derivation of the +52 term |
 | P26 | m_ν absolute scale | < 0.12 eV | consistent (bounded) | — | Dirac/Majorana branch closure |
 
 **Verdict:** ✅ PASS (CONSTRAINED) — consistent with data; promotion blocked by documented dependency.

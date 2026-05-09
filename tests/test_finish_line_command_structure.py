@@ -53,6 +53,8 @@ def test_unresolved_risk_ledger_not_empty():
     risks = finish_line_unresolved_risk_ledger()
     assert len(risks) >= 5
     assert any("P16" in entry["risk"] for entry in risks)
+    assert any("P28" in entry["risk"] for entry in risks)
+    assert any("α_GW" in entry["risk"] for entry in risks)
 
 
 def test_release_decision_go_when_prereqs_met():
