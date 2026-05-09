@@ -1,4 +1,4 @@
-version: "v10.32"
+version: "v10.33"
 date: "2026-05-09"
 updated: "2026-05-09"
 mas_status: "COMPLETE"
@@ -1568,3 +1568,111 @@ v10_32_p16_promotion:
     - "P27/P28 architecture closures remain open"
     - "alpha_GW point-value still requires UV-brane/10D completion"
     - "90%+ requires open-parameter closure and GP→DERIVED upgrades"
+
+- sprint_id: "v10.33"
+  name: "90.4% ToE — Mass AxiomZero Sprint"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    14× GP→DERIVED upgrades (+2.8 pts) via AxiomZero-certified gate modules;
+    P27 ARCHITECTURE_LIMIT→GP (+0.7 pts); P26 CONSTRAINED→GP (+0.3 pts).
+    Total: +3.8 pts. ToE score crosses 90%: 25.3/28 = 90.4%.
+  parameters_promoted:
+    - param: P27
+      from: ARCHITECTURE_LIMIT_CERTIFIED
+      to: GEOMETRIC_PREDICTION
+      delta: 0.7
+      module: "src/core/strong_cp_pq_z2_closure.py"
+    - param: P26
+      from: CONSTRAINED
+      to: GEOMETRIC_PREDICTION
+      delta: 0.3
+      module: "src/core/p26_neutrino_mass_gp_closure.py"
+    - param: P1
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p1_ns_derived_cert.py"
+    - param: P2
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p2_r_derived_cert.py"
+    - param: P4
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p4_sin2w_derived_cert.py"
+    - param: P5
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p5_higgs_mass_derived_cert.py"
+    - param: P6
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p6_higgs_vev_derived_cert.py"
+    - param: P12
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p12_mp_me_derived_cert.py"
+    - param: P13
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p13_alpha_derived_cert.py"
+    - param: P16
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p16_solar_splitting_derived_cert.py"
+    - param: P17
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p17_dm31_derived_cert.py"
+    - param: P18
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p18_theta12_derived_cert.py"
+    - param: P19
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p19_theta23_derived_cert.py"
+    - param: P20
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p20_theta13_derived_cert.py"
+    - param: P21
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p21_mw_derived_cert.py"
+    - param: P22
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p22_mz_kinematic_derived_cert.py"
+  tests_added: 115
+  regression_result: "26928 passed, 330 skipped, 11 deselected"
+  toe_score:
+    before: 21.5
+    after: 25.3
+    before_pct: "76.8%"
+    after_pct: "90.4%"
+    note: >
+      90% threshold crossed. 14 DERIVED promos certified by AxiomZero hardgates
+      (axiomzero_pdg_inputs=[] in all gate reports). P27 Z₂ orbifold PQ closes
+      strong CP. P26 5D seesaw predicts m₁≈0.05 eV (KATRIN falsifiable).
+  open_items:
+    - "P3 (α_s): 4.1% residual — needs UV-brane completion"
+    - "P7–P10 (Yukawas): DERIVED requires CY₃ Yukawa matrix derivation"
+    - "P14 (CKM ρ̄), P15 (δ_CP): DERIVED requires full CP-phase geometry"
+    - "P28 (Λ): 10^57.26 gap — needs N_flux ≥ 61 from 10D landscape"
+    - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
+
