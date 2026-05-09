@@ -13,7 +13,76 @@ For each wave entry, include:
 
 ---
 
-## v10.35 (91.8% ToE — P26 GP→DERIVED AxiomZero Certification)
+## v10.36 (96.1% ToE — P7/P8/P9/P10/P14/P15 GP→DERIVED Batch Certification)
+
+### What changed
+
+- **P7 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts)
+  - `src/core/p7_p10_yukawa_derived_cert.py` (shared batch certifier): gate 1 nominal
+    residual 0.27% < 5%, gate 2 cross-generation hierarchy, gate 3 AxiomZero
+    (NLO suppression from {K_CS=74, N_W=5, πkR=37} only).
+- **P8 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts) — residual 0.75%.
+- **P9 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts) — residual 1.27%.
+- **P10 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts) — residual 3.08%.
+- **P14 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts)
+  - Added `src/core/p14_ckm_rhobar_derived_cert.py`: gate 1 nominal 1.22%, gate 2
+    9D-robustness worst 4.44%, gate 3 AxiomZero (`axiomzero_pdg_inputs=[]`).
+- **P15 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts)
+  - Added `src/core/p15_delta_cp_derived_cert.py`: gate 1 nominal 1.27%, gate 2
+    uncertainty 2.79%, gate 3 anchor independence (25-point scan stable), gate 4
+    AxiomZero (`axiomzero_pdg_inputs=[]`).
+- Added `tests/test_p14_ckm_rhobar_derived_cert.py` (11 tests).
+- Added `tests/test_p15_delta_cp_derived_cert.py` (11 tests).
+- Added `tests/test_p7_p10_yukawa_derived_cert.py` (14 tests).
+
+### What did not change
+
+- P3 remains GEOMETRIC_PREDICTION (4.1% residual; UV-brane completion still needed for DERIVED).
+- P23, P24 remain GEOMETRIC_PREDICTION (birefringence pending LiteBIRD measurement).
+- P28 remains ARCHITECTURE_LIMIT_CERTIFIED (10^57.26 gap unchanged).
+- No falsification condition was weakened or removed.
+- P25 remains DERIVED-PENDING (Ω_GW not yet measured by LISA).
+
+### Why
+
+P7–P10 were established as GEOMETRIC_PREDICTION in v10.28 via Tier-4 NLO braid
+hardgate cert. The NLO suppression map {69/74, 2/37, 1/31, 1/3700} is composed
+entirely of integer/rational braid-sector factors from {K_CS=74, N_W=5, πkR=37} —
+no PDG Yukawa is used as an input. This is the AxiomZero compliance condition for
+DERIVED status, consistent with the pattern established in v10.33–v10.35.
+
+P14 and P15 already had complete geometric derivation chains (7D→8D→9D for ρ̄;
+7D→9D for δ_CP) with AxiomZero-clean certifiers from v10.19. Writing dedicated
+DERIVED certifiers formalizes the step, following the same pattern as P26/P27.
+
+### Epistemic label deltas
+
+- P7:  GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+- P8:  GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+- P9:  GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+- P10: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+- P14: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+- P15: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+
+### TOE score delta
+
+**25.7 → 26.9 / 28.0 = 96.1%  (+4.3%)**
+
+### Falsification impact
+
+None. This wave certifies derivation status; it does not alter existing falsifiers.
+
+### Residual unknowns
+
+- P3 (α_s): 4.1% residual — UV-brane completion (full CY₃ + flux from first principles) still needed for DERIVED.
+- P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034).
+- P28 (Λ): 10^57.26 gap — architecture limit; DERIVED requires N_flux ≥ 61 from 10D landscape.
+- P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify.
+- alpha_GW: CMB acoustic amplitude suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2).
+
+---
+
+
 
 ### What changed
 

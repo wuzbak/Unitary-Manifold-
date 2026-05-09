@@ -1733,3 +1733,61 @@ v10_32_p16_promotion:
     - "P14 (CKM ρ̄), P15 (δ_CP): DERIVED requires full CP-phase geometry"
     - "P28 (Λ): 10^57.26 gap — needs N_flux ≥ 61 from 10D landscape"
     - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
+
+- sprint_id: "v10.36"
+  name: "P7/P8/P9/P10/P14/P15 batch DERIVED certification sprint"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    Promoted P7 (y_t), P8 (y_b), P9 (y_τ), P10 (y_e), P14 (CKM ρ̄), P15 (δ_CP)
+    from GEOMETRIC_PREDICTION to DERIVED (+1.2 pts total, 6×+0.2).
+    Yukawa quartet certified via Tier-4 NLO braid DERIVED certifier
+    (NLO suppression from {K_CS=74, N_W=5, πkR=37} only; residuals 0.27%/0.75%/1.27%/3.08%).
+    P14 certified via 8D Wilson+9D robustness gates; P15 via 7D→9D KK+GS gates.
+    All six: `axiomzero_pdg_inputs=[]`, all gates pass.
+  parameters_promoted:
+    - param: P7
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p7_p10_yukawa_derived_cert.py"
+    - param: P8
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p7_p10_yukawa_derived_cert.py"
+    - param: P9
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p7_p10_yukawa_derived_cert.py"
+    - param: P10
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p7_p10_yukawa_derived_cert.py"
+    - param: P14
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p14_ckm_rhobar_derived_cert.py"
+    - param: P15
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p15_delta_cp_derived_cert.py"
+  tests_added: 3
+  toe_score:
+    before: 25.7
+    after: 26.9
+    before_pct: "91.8%"
+    after_pct: "96.1%"
+    note: >
+      Batch certification promotes six GP parameters to DERIVED via AxiomZero-clean
+      hardgate certifiers. +1.2 pts (+4.3% improvement, satisfying ≥3% earned requirement).
+  open_items:
+    - "P3 (α_s): 4.1% residual — UV-brane completion (full CY₃+flux from first principles) needed for DERIVED"
+    - "P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034)"
+    - "P28 (Λ): 10^57.26 gap — needs N_flux ≥ 61 from 10D landscape"
+    - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
+

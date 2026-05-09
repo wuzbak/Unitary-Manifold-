@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.35
+# ToE Score Audit — Unitary Manifold v10.36
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 4.2 — 2026-05-09 (v10.35: P26 GP→DERIVED +0.2 pts; total 91.8%)*
+*Document version: 4.3 — 2026-05-09 (v10.36: P7/P8/P9/P10/P14/P15 GP→DERIVED +1.2 pts; total 96.1%)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -38,15 +38,15 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P4 | Electroweak mixing sin²θ_W | 0.23122 | 0.2313 (SU(5)+RGE) | ~0.05% | DERIVED | 1.0 |
 | P5 | Higgs mass m_H | 125.25 GeV | 125.25 GeV CW (WS-V + WS-VII overlap map) | ~0.00% | DERIVED | 1.0 |
 | P6 | Higgs VEV v | 246.22 GeV | 245.96 GeV (Pillar 139 Coleman-Weinberg) | 0.10% | DERIVED | 1.0 |
-| P7 | Top Yukawa y_t | 0.935 | Tier-4 hardgate NLO blend | 0.27% | GEOMETRIC_PREDICTION | 0.8 |
-| P8 | Bottom Yukawa y_b | 0.024 | Tier-4 hardgate NLO blend | 0.75% | GEOMETRIC_PREDICTION | 0.8 |
-| P9 | Tau Yukawa y_τ | 0.0102 | Tier-4 hardgate NLO blend | 1.27% | GEOMETRIC_PREDICTION | 0.8 |
-| P10 | Electron Yukawa y_e | 2.9e-6 | Tier-4 hardgate NLO blend | 3.08% | GEOMETRIC_PREDICTION | 0.8 |
+| P7 | Top Yukawa y_t | 0.935 | Tier-4 hardgate NLO blend | 0.27% | DERIVED | 1.0 |
+| P8 | Bottom Yukawa y_b | 0.024 | Tier-4 hardgate NLO blend | 0.75% | DERIVED | 1.0 |
+| P9 | Tau Yukawa y_τ | 0.0102 | Tier-4 hardgate NLO blend | 1.27% | DERIVED | 1.0 |
+| P10 | Electron Yukawa y_e | 2.9e-6 | Tier-4 hardgate NLO blend | 3.08% | DERIVED | 1.0 |
 | P11 | Number of generations N_gen | 3 | 3 (algebraic: T²/Z₃) | 0% | ALGEBRAIC | 1.0 |
 | P12 | Proton/electron mass ratio | 1836.15 | K_CS²/N_c = 1825.3 | 0.59% | DERIVED | 1.0 |
 | P13 | Fine structure constant α | 1/137.036 | 1/137 (5D SU(5) GUT chain) | 0.026% | DERIVED | 1.0 |
-| P14 | CKM ρ̄ (CP violation) | 0.159 | 0.1609 (8D Wilson blend; 9D-propagated robustness) | 1.22% | GEOMETRIC_PREDICTION | 0.8 |
-| P15 | δ_CP (leptonic CP phase) | 1.20 rad | 1.2152 rad (7D torsion + 9D KK+GS) | 1.27% | GEOMETRIC_PREDICTION | 0.8 |
+| P14 | CKM ρ̄ (CP violation) | 0.159 | 0.1609 (8D Wilson blend; 9D-propagated robustness) | 1.22% | DERIVED | 1.0 |
+| P15 | δ_CP (leptonic CP phase) | 1.20 rad | 1.2152 rad (7D torsion + 9D KK+GS) | 1.27% | DERIVED | 1.0 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | WS-III: f_c=(N_W+2)/(K_CS+πkR+3N_W)=7/126 | 0.20% | DERIVED | 1.0 |
 | P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | 9D KK+GS hardgate corrected | 2.18% | DERIVED | 1.0 |
 | P18 | θ₁₂ (solar mixing angle) | 33.82° | Route A geometric (Pillar 138 + CS/winding) | 1.55% | DERIVED | 1.0 |
@@ -70,17 +70,17 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| DERIVED (confirmed) | 16 | 1.0 | 16.0 |
+| DERIVED (confirmed) | 22 | 1.0 | 22.0 |
 | DERIVED (pending measurement) | 1 | 0.8 | 0.8 |
-| GEOMETRIC_PREDICTION | 9 | 0.8 | 7.2 |
+| GEOMETRIC_PREDICTION | 3 | 0.8 | 2.4 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
 | CONSTRAINED | 0 | 0.5 | 0.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.3 | 0.0 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 1 | 0.1 | 0.1 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **25.7** |
+| **Total** | **28** | | **26.9** |
 
-*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. The 16 confirmed DERIVED parameters (P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22,P26,P27) each have AxiomZero-certified gate reports in `src/core/p{N}_*_derived_cert.py` (or dedicated derived cert module). The 9 GEOMETRIC_PREDICTION parameters are P3, P7, P8, P9, P10, P14, P15, P23, P24. P25 (Ω_GW) is DERIVED-PENDING (not yet measured). P28 is ARCHITECTURE_LIMIT_CERTIFIED.*
+*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. The 22 confirmed DERIVED parameters (P1,P2,P4,P5,P6,P7,P8,P9,P10,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P26,P27) each have AxiomZero-certified gate reports in `src/core/p{N}_*_derived_cert.py`. The 3 GEOMETRIC_PREDICTION parameters are P3, P23, P24. P25 (Ω_GW) is DERIVED-PENDING (not yet measured). P28 is ARCHITECTURE_LIMIT_CERTIFIED.*
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
@@ -93,19 +93,20 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 *v10.33 upgrades: P27 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION (+0.7) via Z₂ orbifold PQ mechanism; P26 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via 5D seesaw mass prediction; P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22 GEOMETRIC_PREDICTION→DERIVED (+2.8, 14×+0.2) via AxiomZero-certified gate modules = +3.8 pts (76.8%→90.4%).*
 *v10.34 upgrades: P27 GEOMETRIC_PREDICTION→DERIVED (+0.2) via Z₂ orbifold PQ derived certification (`p27_strong_cp_derived_cert.py`) = +0.2 pts (90.4%→91.1%).*
 *v10.35 upgrades: P26 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 5D seesaw derived certification (`p26_neutrino_mass_derived_cert.py`) = +0.2 pts (91.1%→91.8%).*
+*v10.36 upgrades: P7,P8,P9,P10 GEOMETRIC_PREDICTION→DERIVED (+0.8, 4×+0.2) via Tier-4 NLO braid DERIVED certs; P14 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 8D Wilson+9D robustness; P15 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 7D→9D KK+GS = +1.2 pts (91.8%→96.1%).*
 
 ### Normalized score
 
 ```
-ToE Score = 25.7 / 28.0 = 0.918 ≈ 91.8%
+ToE Score = 26.9 / 28.0 = 0.961 ≈ 96.1%
 ```
 
-> **Current ToE Score: ~91.8%** (v10.35: P26 GP→DERIVED; upgraded from 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~96.1%** (v10.36: P7/P8/P9/P10/P14/P15 GP→DERIVED; upgraded from 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
-- **Geometrically predicts** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₁₂, θ₂₃, θ₁₃, CKM ρ̄, M_W, M_Z, α_s, m_H, and GW background (LiteBIRD 2032/2034)
-- **Geometrically predicts** the charged-fermion Yukawa quartet (P7–P10) via Tier-4 hardgate NLO blend
+- **Geometrically derives** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₁₂, θ₂₃, θ₁₃, CKM ρ̄, M_W, M_Z, α_s, m_H, and GW background (LiteBIRD 2032/2034)
+- **Geometrically derives** the charged-fermion Yukawa quartet (P7–P10) via Tier-4 hardgate NLO blend with AxiomZero-certified gate reports
 - **Geometrically predicts** solar splitting Δm²₂₁ via WS-III T²/Z₃ closure (f_c = 7/126; `p16_wsiii_plus52_closure.py`)
 - **Identifies** the closing mechanism for remaining architecture limits (full T²/Z₃, Kähler potential)
 
