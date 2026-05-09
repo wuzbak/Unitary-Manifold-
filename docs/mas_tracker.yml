@@ -1,4 +1,4 @@
-version: "v10.35"
+version: "v10.38"
 date: "2026-05-09"
 updated: "2026-05-09"
 mas_status: "COMPLETE"
@@ -1816,4 +1816,43 @@ v10_32_p16_promotion:
   open_items:
     - "P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034)"
     - "P28 (Λ): 10^57.26 gap — needs N_flux ≥ 61 from 10D landscape"
+    - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
+
+- sprint_id: "v10.38"
+  name: "P28 hardgate promotion package sprint"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    Added a strict P28 promotion hardgate package with target lock (>=27.66/28),
+    explicit closure/robustness/purity/falsifier gates, and pass/fail governance:
+    promote only if all gates pass; otherwise certified non-promotion.
+    Current-state evaluation (N_flux=37, no explicit vacuum-selection mechanism)
+    fails closure gates, so no status change is applied.
+  deliverables:
+    - artifact: "src/core/p28_lambda_promotion_hardgate.py"
+      test: "tests/test_p28_lambda_promotion_hardgate.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    - artifact: "docs/TOE_SCORE_AUDIT.md"
+      status: "SYNCED"
+      toe_delta: 0.0
+    - artifact: "docs/WAVE_CHANGELOG.md"
+      status: "SYNCED"
+      toe_delta: 0.0
+    - artifact: "src/core/five_tier_execution_framework.py"
+      status: "SYNCED_TO_v10.38"
+      toe_delta: 0.0
+  parameters_promoted: []
+  toe_score:
+    before: 27.1
+    after: 27.1
+    before_pct: "96.8%"
+    after_pct: "96.8%"
+    note: >
+      Governance hardgate package delivered with no score inflation.
+      P28 remains ARCHITECTURE_LIMIT_CERTIFIED(10D) because all required
+      promotion gates are not yet satisfied in the current framework state.
+  open_items:
+    - "P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034)"
+    - "P28 (Λ): 10^57.26 gap — hardgate closure needs N_flux >= 61 and explicit vacuum-selection mechanism"
     - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"

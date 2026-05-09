@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.37
+# ToE Score Audit — Unitary Manifold v10.38
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 4.4 — 2026-05-09 (v10.37: P3 GP→DERIVED +0.2 pts; total 96.8%)*
+*Document version: 4.5 — 2026-05-09 (v10.38: P28 hardgate package delivered; all-gates rule enforced; no promotion; total remains 96.8%)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -95,6 +95,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 *v10.35 upgrades: P26 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 5D seesaw derived certification (`p26_neutrino_mass_derived_cert.py`) = +0.2 pts (91.1%→91.8%).*
 *v10.36 upgrades: P7,P8,P9,P10 GEOMETRIC_PREDICTION→DERIVED (+0.8, 4×+0.2) via Tier-4 NLO braid DERIVED certs; P14 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 8D Wilson+9D robustness; P15 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 7D→9D KK+GS = +1.2 pts (91.8%→96.1%).*
 *v10.37 upgrades: P3 GEOMETRIC_PREDICTION→DERIVED (+0.2) via full 10D CY₃ moduli+flux DERIVED certification (`p3_alpha_s_derived_cert.py`) = +0.2 pts (96.1%→96.8%).*
+*v10.38 governance: P28 promotion hardgate package (`p28_lambda_promotion_hardgate.py`) locks target ≥27.66/28 and enforces strict all-gates pass/fail; current N_flux=37 and missing explicit vacuum-selection mechanism fail closure gates, so P28 remains ARCHITECTURE_LIMIT_CERTIFIED with +0.0 pts (96.8% unchanged).*
 
 ### Normalized score
 
@@ -102,7 +103,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 ToE Score = 27.1 / 28.0 = 0.968 ≈ 96.8%
 ```
 
-> **Current ToE Score: ~96.8%** (v10.37: P3 GP→DERIVED; upgraded from 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~96.8%** (v10.38 hardgate governance package: P28 no-promotion by strict pass/fail; score unchanged from v10.37, which had P3 GP→DERIVED. Earlier: 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
