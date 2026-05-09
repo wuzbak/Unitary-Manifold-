@@ -263,6 +263,23 @@ Status key: ✅ Currently consistent · ⚠️ Tension / open · ❌ Falsified �
 
 ---
 
+## Part VII — Immediate Lab Condensed-Matter CP Test
+
+### P18 — (5,7) Braid Lab-Scale CP Asymmetry
+
+| Field | Value |
+|-------|-------|
+| **Prediction** | In topology-certified (5,7) condensed-matter realizations, a CP-odd asymmetry appears at CKM/Jarlskog order: \(A_{CP}^{lab}\sim \Pi_{topo}J_{geo}\), with \(J_{geo}\sim 3\times10^{-5}\) and \(0\le\Pi_{topo}\le1\). |
+| **Derivation** | Braid CP-origin theorem \(J\neq0 \iff n_1\neq n_2\) (Pillar 145) + CKM/Jarlskog-order magnitude from the geometric/Wolfenstein route + physical realization of (5,7) winding in condensed matter. |
+| **Current data** | No dedicated topology-certified \(10^{-5}\)-sensitivity table-top campaign reported in this repository yet. |
+| **Current status** | 🔬 Awaiting decisive laboratory implementation. |
+| **Decisive experiment** | Josephson/SQUID or topological-insulator platform with certified (5,7) winding, conjugate protocol pairs, and full systematics closure to \(\sigma_A\le10^{-5}\). |
+| **Kill condition** | Certified (5,7) platform reaches \(\sigma_A\le10^{-5}\), passes controls, and repeatedly finds \(A_{CP}^{lab}\) consistent with zero; or effect is topology-independent / fails conjugate sign behavior. |
+| **Notes** | This is intentionally parallel to LiteBIRD: do not wait for 2032 when a table-top falsifier is available now. |
+| **Code anchors** | `src/core/jarlskog_geometric.py`, `src/core/wolfenstein_geometry.py`, `src/core/ckm_matrix_full.py`, `src/core/josephson_resonance.py` |
+
+---
+
 ## Ledger Summary
 
 | # | Prediction | Status | Decisive test | Timeline |
@@ -284,11 +301,13 @@ Status key: ✅ Currently consistent · ⚠️ Tension / open · ❌ Falsified �
 | P15 | n_w ∈ {5,7} from Z₂+CS | ✅ Conditional theorem | Mathematics | — |
 | P16 | k_eff = n₁²+n₂² | ✅ Established | Mathematics | — |
 | P17 | FTUM fixed point | ✅ Analytic proof + 192/192 | Mathematics | — |
+| P18 | (5,7) lab CP asymmetry \(A_{CP}^{lab}\sim10^{-5}\) | 🔬 Awaiting lab campaign | Table-top JJ/TI experiments | Now |
 
 **Current verdict:**  
-No prediction has been falsified.  The primary active tests are LiteBIRD (P03,
-P08; ~2032) and CMB-S4 (P01, P02, P04; ~2030).  The neutrino mass prediction
-(P05) is the nearest-term decisive test with current experiments.
+No prediction has been falsified.  The primary active cosmology tests are
+LiteBIRD (P03, P08; ~2032) and CMB-S4 (P01, P02, P04; ~2030).  The neutrino
+mass prediction (P05) remains a near-term decisive test, and P18 adds a
+parallel immediate table-top falsifier pathway that can run now.
 
 ---
 
