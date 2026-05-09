@@ -193,67 +193,85 @@ pair, and each has a residual uncertainty or documented gap:
 - Closing mechanism: 5D PQ field or Z₂-odd scalar sector in future arc
 
 **P28 — Cosmological constant**
-- Truth: The 58-order gap is real. RS1+KK+GB closes 64 orders but the remaining
-  gap is not resolved. This is the most severe open problem in the framework.
-  The RS1+BP (N_flux=37) mechanism partially motivates the small value but does
-  not derive it.
+- Truth: **Agent Beta precision audit (2026-05-09)** — precise gap numbers computed:
+  - Λ_obs = 2.89×10⁻¹²² M_Pl⁴ → log₁₀(Λ_obs) = −121.54 (not −122)
+  - M_KK⁴/M_Pl⁴ = exp(−4πkR) = exp(−148) → log₁₀ = −64.28
+  - **Residual gap: 10^57.26** (code states 10^58; honest value is 10^57.26)
+  - RS1 Layer 1 closes 64.28 orders; the remaining gap is 57.26 orders
+  - BP landscape sufficiency (N_flux=37): naive spacing 10⁻⁷⁴ M_Pl⁴; Λ_obs = 10⁻¹²¹·⁵⁴ M_Pl⁴
+    → spacing is **10^47.5× LARGER than Λ_obs** — N_flux=37 is INSUFFICIENT for the BP argument
+    → Would need N_flux ≥ 61 to reach Λ_obs resolution; current shortfall = 24 flux units
+  - **Promotion to CONSTRAINED: NOT possible** — N_flux=37 BP landscape cannot reach Λ_obs precision;
+    first-principles closure requires full 10D supergravity with N_flux ≥ 61 or alternative mechanism
+  - Module: `src/core/cc_gap_precision_audit.py::p28_promotion_evaluation()`
 
 ---
 
 ## Section 3 — Open Tensions: Full Accounting
 
-### T1 — DESI wₐ Tension (2.1σ, OPEN_TENSION)
+### T1 — DESI wₐ Tension (HIGH_TENSION — DESI DR2 executed, 2026-05-09)
 
 **Framework prediction:** wₐ = 0 (frozen radion; dark energy is the RS1 radion
 in its ground state, which does not evolve)
 
-**DESI Year 1 result:** wₐ ≠ 0 at 2.1σ (arXiv:2404.03002)
+**DESI DR2 = Year 3 (published March 2025, arXiv:2503.14738) — ROUTING EXECUTED:**
+- BAO-only: w₀ = −0.838 ± 0.072, wₐ = −0.62 ± 0.30 → **2.07σ from UM wₐ=0 → TENSION**
+- Combined BAO+CMB+SNe: wₐ ≈ −0.55 ± 0.20 → **2.75σ from UM wₐ=0 → HIGH_TENSION**
+- Both cases below 3σ falsification threshold → **UM wₐ=0 NOT FALSIFIED**
 
 **Full truth:**
-- 2.1σ is not a falsification (threshold is 3σ)
-- If DESI Y3 confirms wₐ ≠ 0 at ≥3σ, this is a genuine falsification of the
-  frozen radion mechanism — not a "tension that can be accommodated"
-- The framework does not have a fallback for wₐ ≠ 0; if falsified, the dark
-  energy sector requires fundamental revision
-- DESI Y3 result expected ~2026
+- 2.07σ (BAO-only) and 2.75σ (combined) are not falsifications (threshold is 3σ)
+- DESI DR2 IS the Year 3 data — the "pending" Y3 milestone has been reached
+- The combined analysis approaches the threshold: if DESI DR3/Y5 confirms wₐ ≈ −0.62
+  with σ=0.18, tension reaches 3.44σ → FALSIFIED (DR3-S6 scenario)
+- If wₐ ≈ −0.55 with σ=0.18 (combined central value tightened): 3.06σ → FALSIFIED (DR3-S4)
+- The framework has NO fallback for wₐ ≠ 0; if falsified, the dark energy sector
+  requires fundamental revision — there is no geometric rescue mechanism on offer
+- Frozen-radion mechanism is under genuine existential pressure
 
-**Routing (to be executed within 30 days of Y3 publication):**
-```
-route_desi_y3(wa, sigma):
-    if sigma >= 3.0 and wa != 0:
-        verdict = "FALSIFIED — frozen radion mechanism excluded"
-    elif sigma >= 2.5:
-        verdict = "HIGH TENSION — imminent falsification risk"
-    elif sigma < 2.1:
-        verdict = "RESOLVED — tension reduced; frozen radion consistent"
-    else:
-        verdict = "TENSION MAINTAINED — monitor Y4"
-```
+**Routing executed (`src/core/desi_dr2_gap_report.py`):**
+- `execute_dr2_bao_routing()` → route='TENSION', wa_tension_sigma=2.07
+- `execute_dr2_combined_routing()` → route='TENSION', wa_tension_sigma=2.75
+- `scenario_table()` → 7 DR3/Y5 scenarios; 3 FALSIFIED, 2 TENSION, 2 PASS
+- `full_dr2_gap_report()` → current_status='HIGH_TENSION'
 
-**Action required:** Run `src/core/desi_year3_monitor.py` immediately on Y3
-publication. Update this document and OBSERVATION_TRACKER.md same day.
+**Action required:** Run `full_dr2_gap_report()` on DESI DR3/Y5 publication (~2027)
+within 30 days. Update this document and OBSERVATION_TRACKER.md same day.
+If route='FALSIFIED', update CLAIM_MASTER_BOARD.md and GATEKEEPER_SUMMARY.md immediately.
 
 ---
 
-### T2 — CMB Acoustic Peak Amplitude Suppression (OPEN, OPEN_TENSION)
+### T2 — CMB Acoustic Peak Amplitude Suppression (OPEN_NARROWED — Agent Alpha audit, 2026-05-09)
 
 **Framework situation:** The Casimir α_GW parameter is bounded to the interval
 [4.2×10⁻¹⁰, 4.8×10⁻¹⁰] by geometric arguments (Pillar 165 + v10.28 closure
 attempt). Within this interval, the acoustic peak amplitude is suppressed
 ×4.2–6.1 vs ΛCDM.
 
-**Full truth:**
-- The exact value of α_GW has NOT been derived from first principles
-- The Casimir interval narrows the range but does not fix the value
-- Peak suppression ×4.2–6.1 is real and documented — it is Admission 2 in
-  FALLIBILITY.md
-- This is not a minor technical issue; it is a factor-of-4 to factor-of-6
-  discrepancy with ΛCDM at observed acoustic peaks
-- Pillars 57 and 63 partially address this; full geometric closure is not achieved
-- Status: OPEN BUT NARROWED — do not claim resolved
+**Agent Alpha UV-brane derivation attempt (2026-05-09):**
+- RS1 Casimir estimate from 5D inputs: α_GW^geo = c_cas × exp(−4πkR)
+  = (K_CS × N_W / 24π²) × exp(−148) ≈ 1.562 × exp(−148) ≈ **4.33×10⁻⁶⁵**
+- This is **~55 orders of magnitude below** the phenomenological interval [4.2×10⁻¹⁰, 4.8×10⁻¹⁰]
+- CMB-S4 cannot distinguish individual values within the interval (all produce ×4.2–6.1 suppression)
+- **Missing ingredient (precise):** UV-brane localized kinetic term coefficient c_UV requires
+  10D string embedding or brane intersection calculation; not computable from 5D UM inputs alone
 
-**Action required:** No claim of resolution until α_GW is derived exactly from
-UV-brane geometry. Keep this open in all documents.
+**Full truth:**
+- The exact value of α_GW CANNOT be derived from 5D UM inputs — the Casimir
+  geometric estimate undershoots by 55 orders of magnitude
+- The Casimir interval [4.2e-10, 4.8e-10] is phenomenological, not geometric
+- Peak suppression ×4.2–6.1 is real and documented — it is Admission 2 in FALLIBILITY.md
+- Pillars 57, 63, 165 partially address this; full geometric closure is NOT achieved
+- CMB-S4 cannot provide additional constraint: all values within the interval
+  are observationally indistinguishable (entire band gives same order suppression)
+- Status: **OPEN_NARROWED** — do not claim resolved
+
+**Closing requirement:** Compute c_UV (UV-brane localized kinetic term normalization)
+from 10D string embedding (e.g., CY₃ orientifold with O-plane + D-brane intersection,
+or from the full 10D Type IIB supergravity action integrated over the compact space).
+
+**Action required:** No claim of resolution until c_UV is computed from first principles.
+Module: `src/core/alpha_gw_uv_brane_derivation.py::alpha_gw_gap_closure_verdict()`.
 
 ---
 

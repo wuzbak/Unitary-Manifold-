@@ -147,7 +147,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | **α_GUT = N_c/K_CS = 3/74** | GUT gauge coupling; seed of Λ_QCD chain | Dirac-like CS quantization applied to 5D gauge bundle (Ω_QCD Phase A); *not* integrated from S = ∫d⁵x√-G·R; empirically converges with KK-corrected SM RGE to < 2% | ⚠️ **POSTULATED BY CS ANALOGY** — a first-principles derivation from the 5D action remains an open goal |
 | β (canonical) ≈ 0.331° | Cosmic birefringence — (5,7) state | `birefringence_angle(74)` | **Derived, given k_CS = 74** |
 | β (alternate) ≈ 0.273° | Cosmic birefringence — (5,6) state | `birefringence_angle(61)` | **Derived, given k_CS = 61** — second viable triple-constraint state |
-| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165 + v10.28 Casimir closure attempt: α_GW interval narrowed to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰], reaching the factor-5 envelope but not a first-principles UV-brane closure. | ⚠️ **A_s normalization CONSTRAINED (still open for full closure)** — α_GW now bounded in a tighter Casimir interval; exact UV-brane value remains an open derivation task. Acoustic peak amplitudes remain incompletely resolved until α is fixed geometrically from first principles. |
+| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165 + v10.28 Casimir closure attempt: α_GW interval narrowed to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰]. **Agent Alpha UV-brane audit (2026-05-09):** RS1 Casimir estimate from 5D inputs = 1.562 × exp(−148) ≈ 4.33×10⁻⁶⁵ — 55 orders below the phenomenological interval. CMB-S4 cannot distinguish individual values within interval. Missing ingredient: UV-brane localized kinetic term c_UV from 10D string embedding. Module: `src/core/alpha_gw_uv_brane_derivation.py`. | ⚠️ **OPEN_NARROWED** — Casimir interval is phenomenological; 5D geometry undershoots interval by 55 orders; exact UV-brane value cannot be derived from 5D UM inputs alone. CMB-S4 non-discriminating within band. |
 | CMB peak positions | Acoustic peak ℓ-values | Pillar 73: KK Boltzmann correction δ_KK ~ 8×10⁻⁴ | ⚠️ **Shape residual open** — requires full Boltzmann integration (standard CMB physics) |
 | Planck 2018 data | Validation | External | **Validation only — n_w is observationally selected (not freely fitted from a continuous range); k_CS is algebraically derived given (5,7)** |
 
@@ -497,8 +497,13 @@ in `src/core/kk_radion_dark_energy.py` for the full machine-readable comparison.
 At σ(w) = 0.03 (Planck+BAO), the tension |w_predicted − w_observed| / σ = |−0.9302 − (−1.03)| / 0.03 ≈ 3.3σ.
 At σ(w) = 0.09 (DESI DR2), the tension |−0.9302 − (−0.92)| / 0.09 ≈ 0.11σ ✅.
 
-**New (Pillar 160): wₐ tension.**  The UM predicts wₐ = 0 (frozen EW radion: m_r >> H₀).
-DESI DR2 CPL fit prefers wₐ = −0.62 ± 0.30.  Tension: 2.1σ.
+**New (Pillar 160): wₐ tension — AGENT GAMMA ROUTING EXECUTED (2026-05-09).**  The UM predicts wₐ = 0 (frozen EW radion: m_r >> H₀).
+DESI DR2 (arXiv:2503.14738, March 2025) = Year 3 data:
+- BAO-only: wₐ = −0.62 ± 0.30 → **2.07σ tension** (TENSION, not FALSIFIED)
+- Combined BAO+CMB+SNe: wₐ ≈ −0.55 ± 0.20 → **2.75σ tension** (HIGH_TENSION, not FALSIFIED)
+- Module: `src/core/desi_dr2_gap_report.py::full_dr2_gap_report()`
+- Falsification threshold: wₐ ≠ 0 at ≥3σ. Current status: NOT reached.
+- Nearest falsification scenario: DESI DR3/Y5 with wₐ ≈ −0.62, σ=0.18 → 3.44σ FALSIFIED (DR3-S6).
 
 **Exhaustive search (Pillar 160):** No viable mechanism for wₐ ≠ 0 was found in the UM:
 - KK axion tower from EW sector: all modes m_n >> H₀ → all frozen → wₐ = 0.
@@ -512,7 +517,7 @@ either confirm or falsify the UM DE predictions.
 
 **Epistemic status:** The w_DE prediction is **OPEN** — two active tensions remain:
 - w₀: 3.3σ from Planck+BAO (under pressure); 0.11σ from DESI DR2 (consistent ✅)
-- wₐ: 2.1σ from DESI DR2 CPL; no viable UM mechanism for wₐ ≠ 0 found
+- wₐ: 2.07σ BAO-only / 2.75σ combined from DESI DR2 CPL; no viable UM mechanism for wₐ ≠ 0 found; NOT FALSIFIED but HIGH_TENSION
 
 **Why the formula may be incorrect:** The identification w_KK = −1 + (2/3)c_s²
 conflates the braided sound speed of the inflationary era with the present-day dark
@@ -3022,28 +3027,40 @@ resolution — it defines the theory's boundary with precision.
 **Gap:** ~58 orders of magnitude  
 **Flag:** `ARCHITECTURE_LIMIT = True` in `src/core/pillar206_cosmological_constant.py`
 
+**Agent Beta precision audit (2026-05-09) — `src/core/cc_gap_precision_audit.py`:**
+- Λ_obs = 2.89×10⁻¹²² M_Pl⁴ → log₁₀ = **−121.54** (not −122 as approximated)
+- M_KK⁴/M_Pl⁴ = exp(−4×37) = exp(−148) → log₁₀ = **−64.28**
+- **Precise residual gap: 10^57.26** (code says ~10^58; honest value is 10^57.26)
+- BP landscape (N_flux=37): naive vacuum spacing 10⁻⁷⁴ M_Pl⁴ >> Λ_obs = 10⁻¹²¹·⁵⁴ M_Pl⁴
+  → spacing is **10^47.5× larger than Λ_obs** — N_flux=37 is INSUFFICIENT for BP argument
+  → Would need N_flux ≥ 61 flux units; shortfall = 24 flux units
+- **Promotion to CONSTRAINED: NOT possible** — the current N_flux=37 BP landscape
+  cannot reach Λ_obs resolution from first principles
+
 **What the UM achieves:**  
 The RS1 warp factor suppresses the vacuum energy by ~64 orders relative to the naive
-field-theory estimate (10¹²² → 10⁵⁸). This is a genuine, non-trivial reduction.
+field-theory estimate (10¹²² → 10^57.26). This is a genuine, non-trivial reduction.
 The Gauss-Bonnet correction and KK Casimir tower are fully computed (Pillar 206) and
-do not bridge the remaining 58-order gap.
+do not bridge the remaining 10^57.26-order gap.
 
 **Why this is an Architecture Limit, not an open problem:**  
 The RS1 mechanism exhausts its reach at M_KK⁴ — the scale set by the warp factor
 exp(−πkR) = exp(−37). No further geometric suppression is available from the current
-5D ansatz. Resolving the remaining 58 orders requires:
+5D ansatz. Resolving the remaining 57 orders requires:
 1. A mechanism beyond RS1 (e.g., supersymmetric cancellation, relaxion, or a
    non-perturbative string vacuum selection principle), OR
 2. An extension of the UM to a higher-dimensional geometry where the vacuum energy
-   is set by a lower-dimensional topological sector.
+   is set by a lower-dimensional topological sector, OR
+3. A BP landscape with N_flux ≥ 61 (currently N_flux = 37 = K_CS/2; extending to
+   K_CS + 24 = 98 fluxes would require a different compactification).
 
 Neither is currently implemented in the UM. The gap is therefore **outside the domain
 of validity** of the Unitary Manifold framework.
 
 **Scientific context:**  
 No existing quantum gravity framework derives the cosmological constant from first
-principles. The UM's honest reduction from 122 to 58 orders is state-of-the-art.
-Claiming to resolve the remaining 58 orders would require physics that is currently
+principles. The UM's honest reduction from 122 to 57.3 orders is state-of-the-art.
+Claiming to resolve the remaining 57 orders would require physics that is currently
 absent from every known theoretical approach.
 
 **Falsification note:**  
