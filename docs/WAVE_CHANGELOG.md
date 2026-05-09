@@ -13,11 +13,43 @@ For each wave entry, include:
 
 ---
 
-## v10.31 (11D Continuation Sprint — UV Vacuum Gate, Bridge Burn, Branch Policy, ToE-90 Ledger)
+## v10.31 (Finish-Line Governance Lock + 11D Continuation Addendum)
 
 ### What changed
 
-**Lane A — UV vacuum-selection closure:**
+**Lane A — P16 closure command layer:**
+- Added `src/core/finish_line_command_structure.py` (new): machine-readable 5-lane command board with
+  fixed weekly Friday gate reviews and canonical board lock to `docs/mas_tracker.yml`.
+- Formalized the finish-line P16 review via `p16_finish_line_hardgate()`: P16 remains `CONSTRAINED`;
+  no promotion without exact WS-III derivation of the `+52` term. Tests:
+  `tests/test_finish_line_command_structure.py`.
+
+**Lane B — P28 / α_GW architecture frontier:**
+- Formalized the finish-line architecture review via `p28_finish_line_architecture_review()`.
+  Preserves no-overclaim policy: P28 stays `ARCHITECTURE_LIMIT_CERTIFIED`; α_GW stays `OPEN_NARROWED`.
+- Canonical wording updated to the precise P28 residual gap **10^57.26** and the honest BP sufficiency
+  criterion `N_flux >= 61`.
+
+**Lane C — Observation ingestion engine:**
+- Added `src/core/finish_line_observation_engine.py` (new): one-call routing over DESI / JUNO /
+  Hyper-K / CMB-S4 / LiteBIRD plus automatic payloads for
+  `3-FALSIFICATION/OBSERVATION_TRACKER.md` and `docs/WAVE_CHANGELOG.md`.
+- Tests: `tests/test_finish_line_observation_engine.py`.
+
+**Lane D — Release-quality robustness lock:**
+- The finish-line board now exposes the stress-test state and unresolved-risk ledger.
+- `finish_line_release_decision()` encodes a single GO / NO_GO release decision rule:
+  regression green + truth sync complete.
+
+**Lane E — Truth-sync docs and framework:**
+- Updated `src/core/five_tier_execution_framework.py`: `FRAMEWORK_VERSION` bumped to `"v10.31"`,
+  `FRAMEWORK_DATE` bumped to `"2026-05-09"`, and `NEXT_THREE_PRS` repointed to the
+  continuation-plus-finish-line queue.
+- Updated headers and state sync across: `STATUS.md`, `docs/TRUTH_LAYER.md`,
+  `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`,
+  `3-FALSIFICATION/OBSERVATION_TRACKER.md`, and `FALLIBILITY.md`.
+
+**Lane F — UV vacuum-selection closure:**
 - `src/eleventd/uv_vacuum_selection_gate.py` (new): canonical UV gate that unifies the
   Pillar 70-D pure theorem, Pillar 84 gravitino selection, G₄-flux candidate screening, and
   Rung-6 Hořava-Witten hard-gate evidence into one machine-readable verdict.
@@ -27,13 +59,13 @@ For each wave entry, include:
   `n_w = 5`; `n_w = 7` fails the APS/Dirac-shift compatibility check.
   Tests: `tests/test_eleventd_g4_flux_vacuum_link.py`.
 
-**Lane B — 11D→5D reduction contract:**
+**Lane G — 11D→5D reduction contract:**
 - `src/eleventd/uv_to_5d_boundary_map.py` (new): formal boundary-condition contract for the
   S¹/Z₂ + CY₃/G₂ UV picture. Reduces the upstream scaffold to the clean 5D runtime invariant set
   `{n_w=5, braid_pair=(5,7), k_CS=74, η̄=1/2, πkR=37}` and explicitly forbids downstream runtime
   dependence on raw 11D bookkeeping symbols. Tests: `tests/test_eleventd_uv_to_5d_boundary_map.py`.
 
-**Lane C — branch hardening and frontier accounting:**
+**Lane H — branch hardening and frontier accounting:**
 - `src/core/neutrino_orbifold_branch_policy.py` (new): separates the minimal-5D Dirac-leading
   branch from the UV-extended Majorana-seesaw branch and forbids implicit branch mixing in future
   P16/P17/P26 work. Tests: `tests/test_core_neutrino_orbifold_branch_policy.py`.
@@ -41,21 +73,20 @@ For each wave entry, include:
   90% gap (`+4.0`), shows open-parameter closure reaches only `23.2/28`, and makes explicit that
   the 11D ladder is necessary but not sufficient by itself. Tests: `tests/test_core_toe_90_pathway.py`.
 
-**Lane D — governance and tracker sync:**
-- `src/core/five_tier_execution_framework.py`: `FRAMEWORK_VERSION` bumped to `"v10.31"` and
-  `NEXT_THREE_PRS` repointed to the continuation sprint (vacuum gate, bridge burn, branch policy,
-  ToE frontier).
-- `docs/mas_tracker.yml`: adds `v10_31_batch` continuation entry.
-- `docs/GATEKEEPER_SUMMARY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/roadmap_6d_to_11d.md`:
-  version/status sync with explicit no-promotion language.
-
 ### What did not change
 - No P1–P28 parameter status changed.
+- P16 was **not** promoted.
+- P28 was **not** promoted.
 - No falsifier was removed or weakened.
 - ToE score unchanged at 21.2/28 (76%).
-- MAS remains closed; this is a continuation sprint, not a MAS reopen.
+- MAS remains closed.
 
 ### Why
+- Stand up the requested multi-agent / multi-lane finish-line operating model.
+- Lock a release-quality scientific state without inflating claims.
+- Convert current open-frontier work into a single auditable command structure with
+  explicit release governance.
+- Make observation routing same-day executable and documentation updates machine-preparable.
 - Fix the canonical UV seed in one place instead of keeping vacuum selection split across multiple proof fragments.
 - Burn the 11D bridge cleanly so downstream 5D calculations can keep `k_CS = 74` without raw UV clutter.
 - Clarify the neutrino branch policy before any future P26 or 0νββ status claims.
@@ -63,11 +94,14 @@ For each wave entry, include:
 
 ### Epistemic label deltas
 - None. This sprint adds mechanism/contract artifacts only.
-
 ### TOE score delta
 - **0.0** (21.2/28 = 76% → 21.2/28 = 76%)
 
 ### Falsification impact
+- Stronger operational posture only; no weakening:
+  - DESI DR2 / DR3 routing now fits into a single finish-line observation engine.
+  - JUNO / Hyper-K, CMB-S4, and LiteBIRD routes are now packaged into one command path.
+  - The release decision explicitly requires unresolved risks to remain visible.
 - Stronger structural falsifier for the UV vacuum seed: if the Rung-6 hard-gate, Z₂-odd CS phase,
   G₄-flux/APS match, or Euclidean saddle ordering fails, the `n_w = 5` canonical seed is invalidated.
 - Stronger branch-policy falsifier for P26-facing claims: future 0νββ / absolute-mass statements must
@@ -77,7 +111,11 @@ For each wave entry, include:
 1. **P16 promotion blocked**: `'+52'` in the solar correction denominator still requires WS-III T²/Z₃ closure.
 2. **P26 branch not closed from first principles**: minimal 5D and UV-extended neutrino branches are now explicit, but not yet uniquely selected.
 3. **P27/P28 remain architecture-limited**: strong CP and Λ still require deeper 5D/10D/11D closure.
-4. **90%+ remains a frontier target**: after closing P16/P26/P27/P28, at least 10 current `GEOMETRIC_PREDICTION` entries still need `DERIVED`-level upgrades.
+4. **P28 architecture limit persists**: naive BP sufficiency needs `N_flux >= 61`; current `N_flux = 37` is insufficient.
+5. **α_GW point value still open**: UV-brane localized kinetic term remains outside 5D closure.
+6. **DESI DR3 / Year 5 risk**: frozen-radion `w_a = 0` can still be falsified if current tension tightens.
+7. **JUNO risk to P17**: at 0.5% precision, the current central-value gap would move to falsification territory.
+8. **90%+ remains a frontier target**: after closing P16/P26/P27/P28, at least 10 current `GEOMETRIC_PREDICTION` entries still need `DERIVED`-level upgrades.
 
 ---
 

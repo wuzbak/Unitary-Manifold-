@@ -30,7 +30,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P13 | Fine structure constant α | 1/137.036 | **1/137** (5D SU(5) GUT chain) | 0.026% | `GEOMETRIC_PREDICTION` | ✅ PASS | α outside 0.1% band at ≥3σ | None | 2026-05-08 |
 | P14 | CKM ρ̄ (CP violation) | 0.159 | **0.1609** (8D Wilson blend; 9D robustness) | 1.22% | `GEOMETRIC_PREDICTION` | ✅ PASS | ρ̄ outside 5% band at ≥3σ | None | 2026-05-08 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | **1.2152 rad** (7D torsion + 9D KK+GS) | 1.27% | `GEOMETRIC_PREDICTION` | ✅ PASS | δ_CP ∉ [0.85, 1.30] rad at <3% (DUNE ~2030) | None | 2026-05-08 |
-| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | flux-backreaction NLO cert | 0.20% (NLO) | `CONSTRAINED` | ⚠️ PASS (CONSTRAINED) | Δm²₂₁ outside 50% band at ≥3σ | Pillar 183 c_L full spectrum | 2026-05-08 |
+| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | flux-backreaction NLO cert | 0.20% (NLO) | `CONSTRAINED` | ⚠️ PASS (CONSTRAINED) | Δm²₂₁ outside 50% band at ≥3σ | Exact WS-III derivation of the '+52' term | 2026-05-09 |
 | P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | **9D KK+GS hardgate corrected** | 2.18% | `GEOMETRIC_PREDICTION` | ✅ PASS | Δm²₃₁ ∉ [2.2, 2.7]×10⁻³ eV² at <1% (Hyper-K ~2028) | None | 2026-05-08 |
 | P18 | θ₁₂ (solar mixing) | 33.82° | **Route A geometric** (CS/winding) | 1.55% | `GEOMETRIC_PREDICTION` | ✅ PASS | sin²θ₁₂ outside 5% band at ≥3σ | None | 2026-05-08 |
 | P19 | θ₂₃ (atmospheric mixing) | 48.3° | geometric (Tier-3 hardgate) | 0.82% | `GEOMETRIC_PREDICTION` | ✅ PASS | sin²θ₂₃ outside 5% band at ≥3σ | None | 2026-05-08 |
@@ -42,9 +42,9 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P25 | GW background Ω_GW | PENDING (LISA ~2037) | **~10⁻¹⁵** | — | `DERIVED` | 🟡 PENDING | Ω_GW(f_LISA) < 10⁻¹⁷ or wrong spectrum | LISA measurement | 2026-05-08 |
 | P26 | Neutrino mass scale m_ν | < 0.12 eV (Planck) | consistent | consistent | `CONSTRAINED` | ✅ PASS (CONSTRAINED) | m_ν > 0.12 eV confirmed at ≥3σ | Full Dirac/Majorana branch closure | 2026-05-08 |
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | axion mechanism (architecture) | — | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | θ̄ > 10⁻⁹ confirmed | Full PQ mechanism in 5D geometry | 2026-05-08 |
-| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — 58-order gap remains | ~10^58 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure | 2026-05-08 |
+| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — precise 10^57.26 gap remains | 10^57.26 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure (naive BP sufficiency requires N_flux ≥ 61; see `src/core/cc_gap_precision_audit.py`) | 2026-05-09 |
 
-**ToE Score v10.31: 21.2 / 28.0 = 76%** (unchanged; no new promotions in v10.31)
+**ToE Score v10.31: 21.2 / 28.0 = 76%** (unchanged; finish-line lock adds no new promotions)
 **GP count: 22 parameters** (see TOE_SCORE_AUDIT.md §3 for breakdown)
 **CONSTRAINED: 2** (P16, P26) | **ARCHITECTURE_LIMIT: 2** (P27, P28)
 
@@ -74,8 +74,8 @@ only. They clarify mechanism and runtime policy but do not alter any P1–P28 la
 
 | # | Tension | Framework Prediction | Data | σ-Level | Routing | Blocking Experiment | Last Updated |
 |---|---------|---------------------|------|---------|---------|---------------------|--------------|
-| T1 | Dark energy wₐ | wₐ = 0 (frozen radion) | DESI Y1: wₐ ≠ 0 | 2.1σ | σ ≥ 3.0 → FALSIFIED; σ < 2.1 → RESOLVED | DESI Y3 (~2026) | 2026-05-08 |
-| T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Suppressed ×4.2–6.1 vs ΛCDM | Gap documented | Exact α_GW from UV-brane geometry still open | CMB-S4 (~2030) | 2026-05-08 |
+| T1 | Dark energy wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | σ ≥ 3.0 → FALSIFIED; σ < 2.0 → PASS | DESI DR3 / Y5 (~2027) | 2026-05-09 |
+| T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Suppressed ×4.2–6.1 vs ΛCDM | OPEN_NARROWED | Exact α_GW from UV-brane geometry still open | CMB-S4 (~2030) | 2026-05-09 |
 | T3 | ADM 3+1 time parameterization | Geometric delay field | Qualitative claim only | — | Quantitative rate requires full ADM 3+1 decomposition | Future theoretical work | 2026-05-08 |
 
 ---
@@ -85,9 +85,9 @@ only. They clarify mechanism and runtime policy but do not alter any P1–P28 la
 | # | Claim | What's Missing | Blocking Dep | Priority |
 |---|-------|----------------|--------------|----------|
 | SC1 | Sub-leading CS corrections to c_L spectrum | Pillar 183 full c_L derivation not yet complete | Pillar 183 purity inputs | HIGH |
-| SC2 | Exact UV-brane α_GW value for A_s closure | UV-brane geometry full derivation | Higher-dimensional geometry | MEDIUM |
+| SC2 | Exact UV-brane α_GW value for A_s closure | UV-brane geometry full derivation | 10D string / UV-brane completion | MEDIUM |
 | SC3 | Full PQ axion mechanism in 5D geometry | 5D Peccei-Quinn sector not derived | Future arc | LOW |
-| SC4 | Full 10D flux landscape for Λ | N_flux=37 partially motivated; not uniqueness proof | 10D landscape closure | LOW |
+| SC4 | Full 10D flux landscape for Λ | N_flux=37 insufficient; naive sufficiency needs N_flux ≥ 61 | 10D landscape closure | LOW |
 | SC5 | 90%+ ToE frontier | Open-parameter closure alone reaches 23.2/28; GP→DERIVED upgrades still needed | `src/core/toe_90_pathway.py` | MEDIUM |
 
 ---
@@ -101,7 +101,7 @@ higher-dimensional work.
 | # | Limit | Gap | Closing Mechanism | Status |
 |---|-------|-----|-------------------|--------|
 | A1 | Strong CP (θ̄ angle) | No 5D PQ mechanism yet | 5D PQ field or orbifold Z₂ odd scalar | ARCHITECTURE_LIMIT_CERTIFIED |
-| A2 | Cosmological constant | 58-order gap; RS1+KK+GB closes 64 orders | Full 10D landscape + flux quantization | ARCHITECTURE_LIMIT_CERTIFIED (10D) |
+| A2 | Cosmological constant | 10^57.26 residual gap; RS1 closes 64.28 orders | Full 10D landscape + flux quantization | ARCHITECTURE_LIMIT_CERTIFIED (10D) |
 | A3 | Higgs mass radiative stability | CW + WS-VII overlap; no complete naturalness proof | 6D+ fixed-point geometry | ARCHITECTURE_LIMIT_CERTIFIED |
 
 ---

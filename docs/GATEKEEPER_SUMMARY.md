@@ -94,7 +94,7 @@ blocked by a documented dependency.
 
 | # | Parameter | PDG Value | UM Status | Residual | Blocking Dep |
 |---|-----------|-----------|-----------|----------|--------------|
-| P16 | Δm²₂₁ (solar ν) | 7.53e-5 eV² | flux-backreaction NLO | 0.20% | Pillar 183 c_L full spectrum |
+| P16 | Δm²₂₁ (solar ν) | 7.53e-5 eV² | flux-backreaction NLO | 0.20% | Exact WS-III derivation of the +52 term |
 | P26 | m_ν absolute scale | < 0.12 eV | consistent (bounded) | — | Dirac/Majorana branch closure |
 
 **Verdict:** ✅ PASS (CONSTRAINED) — consistent with data; promotion blocked by documented dependency.
@@ -111,7 +111,7 @@ honestly.
 | # | Parameter | Gap | Closing Mechanism | Score |
 |---|-----------|-----|-------------------|-------|
 | P27 | QCD θ̄ (strong CP) | No 5D PQ mechanism | 5D PQ field or Z₂-odd scalar | 0.1 |
-| P28 | Cosmological constant | 58-order gap remains | Full 10D flux landscape | 0.1 |
+| P28 | Cosmological constant | precise 10^57.26 gap remains | Full 10D flux landscape | 0.1 |
 
 **Verdict:** ⚠️ OPEN (Architecture) — gaps are real, magnitudes are stated, closing mechanisms are identified.
 
@@ -123,13 +123,13 @@ honestly.
 
 | # | Tension | Prediction | Data | σ-Level | Escalation Condition |
 |---|---------|-----------|------|---------|---------------------|
-| T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI Y1: wₐ ≠ 0 | 2.1σ | ≥3σ → FALSIFIED |
-| T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | Gap open | Exact α_GW derivation pending |
+| T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | ≥3σ → FALSIFIED |
+| T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | OPEN_NARROWED | Exact α_GW derivation pending |
 
 **Verdict:** 🟠 TENSION — neither currently falsifies; both require active monitoring.
 
-**Action required for T1:** Integrate DESI Y3 within 30 days of publication
-using `src/core/desi_year3_monitor.py`. Update this document same day.
+**Action required for T1:** Re-run the routing on DESI DR3 / Year 5 within 30 days
+of publication using `src/core/desi_dr2_gap_report.py`. Update this document same day.
 
 **Full truth:** `docs/TRUTH_LAYER.md §3`
 

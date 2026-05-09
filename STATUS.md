@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.30 — Effective 2026-05-08*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.30 maximum-effort sprint delivered: DESI Y3 integration, falsification hardening, GP stress test, doc truth sync).*
+*Unitary Manifold v10.31 — Effective 2026-05-09*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.31 finish-line sprint delivered: 5-lane command structure, P16/P28 honest hardgate reviews, one-command observation routing, and release-governance lock).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,7 +29,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 26423 passed · 330 skipped · 11 deselected · 0 failed
+**Latest verified branch regression:** 26826 passed · 329 skipped · 11 deselected · 0 failed
 
 ---
 

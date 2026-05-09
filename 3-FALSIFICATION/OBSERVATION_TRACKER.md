@@ -11,11 +11,12 @@
 > - `docs/GATEKEEPER_SUMMARY.md` — concise PASS/TENSION/FALSIFIED verdicts
 > - `docs/CLAIM_MASTER_BOARD.md` — canonical single-source claim registry
 >
-> All four parallel lanes are active simultaneously:
-> - **Lane Obs:** Observational integration (DESI Y3, LiteBIRD, CMB-S4)
-> - **Lane Scaffold:** Blocked derivation dependency closure (Pillar 183, α_GW)
-> - **Lane Collider:** Neutrino / parameter precision (DUNE, Hyper-K, JUNO)
-> - **Lane Arch:** Architecture-limit honest documentation (Λ, strong CP)
+> All five finish-line lanes are active simultaneously:
+> - **Lane A:** P16 closure hardgate
+> - **Lane B:** P28 / α_GW architecture frontier
+> - **Lane C:** Observational integration (DESI DR2/DR3, CMB-S4, JUNO, Hyper-K, LiteBIRD)
+> - **Lane D:** Stress / robustness protection
+> - **Lane E:** Truth-sync docs and release governance
 >
 > No lane is queued behind another. All run concurrently.
 
@@ -45,7 +46,7 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | **P1b** | Cosmic birefringence — (5,6) shadow sector | β | **0.273° ± 0.007°** | LiteBIRD | ~2032 | 🟡 PENDING — second viable lossless branch | 2026-05-04 | Await LiteBIRD; discriminated from P1 at 2.9σ |
 | **P2** | CMB scalar spectral index | nₛ | **0.9635** | Planck 2018, ACT DR6, SPT-3G | Ongoing | 🟢 CONSISTENT — Planck: 0.9649±0.0042 (0.33σ) | 2026-05-04 | Monitor if error bar tightens below ±0.002; check ACT DR6 |
 | **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, CMB-S4 | ~2030 | 🟢 CONSISTENT — BICEP/Keck: r<0.036 (UM: 0.0315 ✓) | 2026-05-04 | Await CMB-S4; falsified if r<0.01 or r>0.036 confirmed |
-| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI Year 1–3 | Ongoing (Y3: ~2026) | 🟠 TENSION — DESI Y1: wₐ≠0 at 2.1σ; wₐ=0 disfavoured; DESI Y3 result pending | 2026-05-08 | **HIGH PRIORITY:** run explicit `route_desi_y3(wa, sigma)` PASS/TENSION/FALSIFIED routing via `desi_year3_monitor.py` when Y3 publishes; sync `kk_de_wa_cpl.py`, this tracker, and the canonical falsifier feed within 30 days of publication |
+| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI DR2 / DR3 | DR2 published; DR3 ~2027 | 🟠 HIGH_TENSION — DESI DR2 BAO-only: 2.07σ; combined: 2.75σ; UM not yet falsified | 2026-05-09 | **HIGH PRIORITY:** route DESI DR3 / Year 5 with `full_dr2_gap_report()` within 30 days of publication; sync `kk_de_wa_cpl.py`, this tracker, and the canonical falsifier feed same day |
 
 > **DESI Y3 Routing Protocol (execute immediately on publication):**
 > ```python

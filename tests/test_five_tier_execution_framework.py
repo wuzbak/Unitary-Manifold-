@@ -133,11 +133,11 @@ class TestThroughputAndPRSequence:
 
     def test_next_three_prs_cover_continuation_sprint(self):
         prs = next_three_pr_sequence()
-        assert [p["pr_id"] for p in prs] == ["PR-CONT-1", "PR-CONT-2", "PR-CONT-3"]
+        assert [p["pr_id"] for p in prs] == ["PR-CONT-1", "PR-NEXT-1", "PR-NEXT-2"]
         assert [p["scope"] for p in prs] == [
             "11D continuation — vacuum selection + bridge burn",
-            "Neutrino branch policy",
-            "ToE promotion frontier",
+            "Finish-line lane command structure",
+            "Hardgate, observation engine, and truth-sync",
         ]
 
     def test_pr1_scope_definition_has_required_deliverables(self):
@@ -176,5 +176,5 @@ class TestFrameworkSummary:
         s = framework_summary()
         assert s["tier_count"] == 5
         assert s["tier_priority_order"] == TIER_PRIORITY_ORDER
-        assert s["next_three_pr_ids"] == ["PR-CONT-1", "PR-CONT-2", "PR-CONT-3"]
+        assert s["next_three_pr_ids"] == ["PR-CONT-1", "PR-NEXT-1", "PR-NEXT-2"]
         assert s["no_overclaim_policy"] is True
