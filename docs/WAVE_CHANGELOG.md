@@ -13,6 +13,51 @@ For each wave entry, include:
 
 ---
 
+## v10.39 (96.8% ToE — closeout multi-agent push, tracker/README sync)
+
+### What changed
+
+- Synced top-level status surfaces to current state:
+  - `README.md` now reflects v10.39 status text and current regression totals.
+  - `docs/mas_tracker.yml` updated with a dedicated v10.39 closeout sprint ledger.
+  - `docs/TOE_SCORE_AUDIT.md` refreshed to v10.39 document version metadata.
+  - `src/core/five_tier_execution_framework.py` framework version metadata synced.
+
+### What did not change
+
+- No parameter status promotions were claimed or applied.
+- P23/P24 remain GEOMETRIC_PREDICTION (measurement-gated by LiteBIRD).
+- P28 remains ARCHITECTURE_LIMIT_CERTIFIED(10D) under hardgate governance.
+- No falsification condition was weakened or removed.
+
+### Why
+
+The objective for this wave is closeout execution alignment: keep the public
+entry point (README) and canonical ToE tracker/audit artifacts synchronized with
+the current 96.8% state while preserving strict no-inflation governance.
+
+### Epistemic label deltas
+
+- None.
+
+### TOE score delta
+
+**27.1 → 27.1 / 28.0 = 96.8%  (+0.0%)**
+
+### Falsification impact
+
+None.
+
+### Residual unknowns
+
+- P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034).
+- P28 (Λ): 10^57.26 gap — hardgate closure needs N_flux ≥ 61 and explicit
+  vacuum-selection mechanism from 10D landscape dynamics.
+- P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify.
+- alpha_GW: CMB acoustic amplitude suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2).
+
+---
+
 ## v10.38 (96.8% ToE — P28 hardgate promotion package, certified non-promotion)
 
 ### What changed

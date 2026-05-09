@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.38
+# ToE Score Audit — Unitary Manifold v10.39
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 4.5 — 2026-05-09 (v10.38: P28 hardgate package delivered; all-gates rule enforced; no promotion; total remains 96.8%)*
+*Document version: 4.6 — 2026-05-09 (v10.39: closeout/tracker sync wave; no status promotion; total remains 96.8%)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -103,7 +103,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 ToE Score = 27.1 / 28.0 = 0.968 ≈ 96.8%
 ```
 
-> **Current ToE Score: ~96.8%** (v10.38 hardgate governance package: P28 no-promotion by strict pass/fail; score unchanged from v10.37, which had P3 GP→DERIVED. Earlier: 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~96.8%** (v10.39 closeout/tracker sync keeps score unchanged; v10.38 hardgate governance package maintained P28 no-promotion by strict pass/fail. Earlier: 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
