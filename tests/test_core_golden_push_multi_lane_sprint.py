@@ -98,7 +98,8 @@ def test_lane_status_snapshot_reflects_locked_frontiers():
     assert snapshot["Lane A"]["promotion_allowed"] is True
     assert snapshot["Lane C"]["status"] == "ARCHITECTURE_LIMIT_CERTIFIED"
     assert snapshot["Lane C"]["promotion_allowed"] is False
-    assert snapshot["Lane D"]["status"] == "OPEN_NARROWED"
+    assert snapshot["Lane D"]["status"] == "CLOSED_WITH_10D_HARDGATE_BENCHMARK"
+    assert 4.2e-10 <= snapshot["Lane D"]["benchmark_prediction"] <= 4.8e-10
 
 
 def test_board_contains_success_condition():

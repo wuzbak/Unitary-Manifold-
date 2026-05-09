@@ -206,7 +206,7 @@ NEXT_THREE_PRS: List[Dict[str, object]] = [
         "deliverables": [
             "P16 remains blocked until exact '+52' WS-III derivation closes",
             "P28 promoted to GEOMETRIC_PREDICTION via 10D closure hardgate evidence",
-            "α_GW UV-brane point value remains OPEN_NARROWED pending UV completion",
+            "α_GW non-score lane closed via 10D hardgate benchmark while retaining the explicit 5D limitation note",
             "One-command DESI / JUNO / Hyper-K / CMB-S4 / LiteBIRD routing",
             "Automatic OBSERVATION_TRACKER.md and WAVE_CHANGELOG.md payload generation",
         ],

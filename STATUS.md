@@ -29,7 +29,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 26826 passed · 329 skipped · 11 deselected · 0 failed
+**Latest verified branch regression:** 27062 passed · 329 skipped · 11 deselected · 0 failed
 
 ---
 
@@ -86,7 +86,7 @@ for the full tracking table.
 |--------|-----------|---------------------|
 | `src/core/kk_de_wa_cpl.py` (Pillar 155) | wₐ = 0 vs DESI 2.1σ tension | DESI Year 3 (~2026) |
 | `src/core/inflation.py` | β ∈ {0.273°, 0.331°} primary prediction | LiteBIRD (~2032) |
-| `src/core/cmb_acoustic_amplitude_rg.py` (Pillar 149) | ×4.2–6.1 peak suppression; α_GW not fixed | CMB-S4 (~2030) |
+| `src/core/cmb_acoustic_amplitude_rg.py` (Pillar 149) | ×4.2–6.1 peak suppression; framework-level α_GW lane closed by 10D hardgate benchmark, with 5D-only derivation limitation retained | CMB-S4 (~2030) |
 | `src/core/pmns_solar_rge_correction.py` (Pillar 163) | sin²θ₁₂ 13% gap at M_Z | Future precision neutrino measurements |
 
 ---

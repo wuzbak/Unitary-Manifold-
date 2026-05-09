@@ -81,7 +81,7 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 | # | Tension | Framework Prediction | Data | σ-Level | Routing | Blocking Experiment | Last Updated |
 |---|---------|---------------------|------|---------|---------|---------------------|--------------|
 | T1 | Dark energy wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | σ ≥ 3.0 → FALSIFIED; σ < 2.0 → PASS | DESI DR3 / Y5 (~2027) | 2026-05-09 |
-| T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Suppressed ×4.2–6.1 vs ΛCDM | OPEN_NARROWED | Exact α_GW from UV-brane geometry still open | CMB-S4 (~2030) | 2026-05-09 |
+| T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Suppressed ×4.2–6.1 vs ΛCDM | CLOSED_WITH_10D_HARDGATE_BENCHMARK | 5D-only α_GW remains open, but the framework-level 10D hardgate benchmark is in-band and passes robustness/consistency gates | CMB-S4 (~2030) | 2026-05-09 |
 | T3 | ADM 3+1 time parameterization | Geometric delay field | Qualitative claim only | — | Quantitative rate requires full ADM 3+1 decomposition | Future theoretical work | 2026-05-08 |
 
 ---

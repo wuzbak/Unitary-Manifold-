@@ -125,9 +125,9 @@ honestly.
 | # | Tension | Prediction | Data | σ-Level | Escalation Condition |
 |---|---------|-----------|------|---------|---------------------|
 | T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | ≥3σ → FALSIFIED |
-| T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | OPEN_NARROWED | Exact α_GW derivation pending |
+| T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | CLOSED_WITH_10D_HARDGATE_BENCHMARK | 5D-only derivation remains open, but the 10D hardgate benchmark closes the framework lane |
 
-**Verdict:** 🟠 TENSION — neither currently falsifies; both require active monitoring.
+**Verdict:** 🟠 TENSION on T1 only; T2 is now closed at framework level by the v10.41 10D hardgate benchmark while retaining the explicit 5D limitation note.
 
 **Action required for T1:** Re-run the routing on DESI DR3 / Year 5 within 30 days
 of publication using `src/core/desi_dr2_gap_report.py`. Update this document same day.
