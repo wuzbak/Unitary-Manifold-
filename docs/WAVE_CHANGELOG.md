@@ -13,6 +13,52 @@ For each wave entry, include:
 
 ---
 
+## v10.34 (91.1% ToE — P27 GP→DERIVED AxiomZero Certification)
+
+### What changed
+
+- **P27 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts)
+  - Added `src/core/p27_strong_cp_derived_cert.py` with explicit hardgates:
+    1) Z₂ tree-level θ̄ = 0 identity, 2) closed-form θ̄ consistency, 3) θ̄ below nEDM bound,
+    4) AxiomZero no-PDG-seed-input gate (`axiomzero_pdg_inputs=[]`).
+  - Added `tests/test_p27_strong_cp_derived_cert.py` (all gates and summary coverage).
+- Fixed a **baseline regression blocker** in `tests/test_five_tier_execution_framework.py`
+  by syncing expected `FRAMEWORK_VERSION` to `v10.33`.
+
+### What did not change
+
+- P3, P7–P10, P14, P15, P23, P24, P26 remain GEOMETRIC_PREDICTION.
+- P28 remains ARCHITECTURE_LIMIT_CERTIFIED (10^57.26 gap unchanged).
+- No falsification condition was weakened or removed.
+
+### Why
+
+P27 already had a geometric closure path in v10.33, but lacked a dedicated DERIVED
+certifier module with explicit AxiomZero hardgates. This wave adds that certifier and
+only applies the score delta after gate-backed validation.
+
+### Epistemic label deltas
+
+- P27: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+
+### TOE score delta
+
+**25.3 → 25.5 / 28.0 = 91.1%**
+
+### Falsification impact
+
+None. This wave certifies derivation status; it does not alter the experimental bound
+or falsifier logic for strong CP.
+
+### Residual unknowns
+
+- P3 (α_s): 4.1% residual; needs UV-brane completion to close to DERIVED
+- P7–P10 (Yukawas): Tier-4 NLO blend; DERIVED requires full CY₃ Yukawa matrix derivation
+- P14 (CKM ρ̄), P15 (δ_CP): 9D propagation path; DERIVED requires CP-phase geometry completion
+- P28 (Λ): 10D landscape with N_flux ≥ 61 still needed; gap remains 10^57.26
+
+---
+
 ## v10.33 (90.4% ToE — Mass AxiomZero Sprint: 14× GP→DERIVED + P26/P27 Promotions)
 
 ### What changed
