@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v10.31
+# Unitary Manifold v10.32
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
@@ -30,7 +30,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P13 | Fine structure constant α | 1/137.036 | **1/137** (5D SU(5) GUT chain) | 0.026% | `GEOMETRIC_PREDICTION` | ✅ PASS | α outside 0.1% band at ≥3σ | None | 2026-05-08 |
 | P14 | CKM ρ̄ (CP violation) | 0.159 | **0.1609** (8D Wilson blend; 9D robustness) | 1.22% | `GEOMETRIC_PREDICTION` | ✅ PASS | ρ̄ outside 5% band at ≥3σ | None | 2026-05-08 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | **1.2152 rad** (7D torsion + 9D KK+GS) | 1.27% | `GEOMETRIC_PREDICTION` | ✅ PASS | δ_CP ∉ [0.85, 1.30] rad at <3% (DUNE ~2030) | None | 2026-05-08 |
-| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | flux-backreaction NLO cert | 0.20% (NLO) | `CONSTRAINED` | ⚠️ PASS (CONSTRAINED) | Δm²₂₁ outside 50% band at ≥3σ | Exact WS-III derivation of the '+52' term | 2026-05-09 |
+| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | **f_c=7/126 (WS-III T²/Z₃: +52=πkR+3N_W)** | 0.20% | `GEOMETRIC_PREDICTION` | ✅ PASS | Δm²₂₁ outside 5% band at ≥3σ | None (WS-III closed v10.32) | 2026-05-09 |
 | P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | **9D KK+GS hardgate corrected** | 2.18% | `GEOMETRIC_PREDICTION` | ✅ PASS | Δm²₃₁ ∉ [2.2, 2.7]×10⁻³ eV² at <1% (Hyper-K ~2028) | None | 2026-05-08 |
 | P18 | θ₁₂ (solar mixing) | 33.82° | **Route A geometric** (CS/winding) | 1.55% | `GEOMETRIC_PREDICTION` | ✅ PASS | sin²θ₁₂ outside 5% band at ≥3σ | None | 2026-05-08 |
 | P19 | θ₂₃ (atmospheric mixing) | 48.3° | geometric (Tier-3 hardgate) | 0.82% | `GEOMETRIC_PREDICTION` | ✅ PASS | sin²θ₂₃ outside 5% band at ≥3σ | None | 2026-05-08 |
@@ -44,12 +44,12 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | axion mechanism (architecture) | — | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | θ̄ > 10⁻⁹ confirmed | Full PQ mechanism in 5D geometry | 2026-05-08 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — precise 10^57.26 gap remains | 10^57.26 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure (naive BP sufficiency requires N_flux ≥ 61; see `src/core/cc_gap_precision_audit.py`) | 2026-05-09 |
 
-**ToE Score v10.31: 21.2 / 28.0 = 76%** (unchanged; finish-line lock adds no new promotions)
-**GP count: 22 parameters** (see TOE_SCORE_AUDIT.md §3 for breakdown)
-**CONSTRAINED: 2** (P16, P26) | **ARCHITECTURE_LIMIT: 2** (P27, P28)
+**ToE Score v10.32: 21.5 / 28.0 = 76.8%** (P16 promoted CONSTRAINED→GEOMETRIC_PREDICTION +0.3 pts)
+**GP count: 23 parameters** (see TOE_SCORE_AUDIT.md §3 for breakdown)
+**CONSTRAINED: 1** (P26) | **ARCHITECTURE_LIMIT: 2** (P27, P28)
 
-**v10.31 continuation note:** new UV vacuum-gate / bridge-burn / branch-policy artifacts are structural
-only. They clarify mechanism and runtime policy but do not alter any P1–P28 label.
+**v10.32 note:** P16 (Δm²₂₁) promoted via WS-III T²/Z₃ +52 closure: +52 = πkR + 3N_W = 37+15 = 52.
+All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 
 ---
 

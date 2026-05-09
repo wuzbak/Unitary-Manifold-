@@ -14,13 +14,13 @@ from src.core.toe_90_pathway import (
 
 
 def test_current_and_target_scores():
-    assert CURRENT_SCORE == 21.2
+    assert CURRENT_SCORE == 21.5
     assert TARGET_90_SCORE == 25.2
 
 
-def test_gap_to_90_is_four_points():
+def test_gap_to_90_is_three_point_seven_points():
     gap = score_gap_to_target()
-    assert abs(gap["required_delta"] - 4.0) < 1e-10
+    assert abs(gap["required_delta"] - 3.7) < 1e-10
 
 
 def test_open_parameter_closure_only_reaches_23_2():

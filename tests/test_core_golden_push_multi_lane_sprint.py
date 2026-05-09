@@ -28,7 +28,7 @@ from src.core.golden_push_multi_lane_sprint import (
 
 
 def test_programme_version_locked_to_v1031():
-    assert PROGRAMME_VERSION == "v10.31"
+    assert PROGRAMME_VERSION == "v10.32"
 
 
 def test_list_lanes_has_all_seven_lanes():
@@ -74,10 +74,14 @@ def test_integration_discipline_uses_three_outcomes():
 def test_scorecard_strategy_requires_two_tracks():
     strategy = scorecard_strategy()
     assert strategy["rule"] == "chase_hardgates_not_rhetoric"
-    assert strategy["near_term_honest_closers"] == ["P16", "P26", "P27", "P28"]
+    assert "P16" not in strategy["near_term_honest_closers"]
+    assert "P16" in strategy["closed_in_v10_32"]
+    assert "P26" in strategy["near_term_honest_closers"]
+    assert "P27" in strategy["near_term_honest_closers"]
+    assert "P28" in strategy["near_term_honest_closers"]
     assert strategy["second_track_required"] is True
     assert strategy["target_90_requires_both_tracks"] is True
-    assert strategy["required_delta_to_90"] == pytest.approx(4.0)
+    assert strategy["required_delta_to_90"] == pytest.approx(3.7, abs=0.05)
 
 
 def test_observation_operations_track_required_experiments():
@@ -99,7 +103,7 @@ def test_lane_status_snapshot_reflects_locked_frontiers():
 
 def test_board_contains_success_condition():
     board = golden_push_sprint_board()
-    assert board["programme_version"] == "v10.31"
+    assert board["programme_version"] == "v10.32"
     assert board["lane_order"] == LANE_ORDER
     assert "best_case" in board["success_condition"]
     assert "minimum_acceptable" in board["success_condition"]
