@@ -16,7 +16,6 @@ AxiomZero: inputs are ONLY {K_CS=74, N_c=3} — both are pure integer geometric 
 """
 from __future__ import annotations
 
-import math
 from typing import Dict
 
 from src.sixd.solar_splitting_6dplus import K_CS, N_W

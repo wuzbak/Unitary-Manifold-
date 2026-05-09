@@ -19,7 +19,6 @@ AxiomZero: inputs are ONLY {N_W=5, K_CS=74, πkR=37=K_CS/2} — all integer-valu
 """
 from __future__ import annotations
 
-import math
 from typing import Dict
 
 from src.sixd.solar_splitting_6dplus import K_CS, N_W, PI_KR, DM2_21_PDG, DM2_31_PDG
