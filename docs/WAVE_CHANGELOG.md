@@ -13,6 +13,67 @@ For each wave entry, include:
 
 ---
 
+## v10.42 (99.3% ToE — alpha_GW Pillar 52 + 10D bridge closure sync)
+
+### What changed
+
+- Added `src/core/alpha_gw_pillar52_10d_bridge.py`:
+  - formalizes the missing-link closure as a Pillar 52 COBE-normalized gravity anchor
+    plus the existing 10D UV completion bridge,
+  - reports canonical closed status only when the UV bridge is in-band, all gates pass,
+    robustness is retained, and the Pillar 52 anchor stays in the same gravity decade.
+- Added `tests/test_alpha_gw_pillar52_10d_bridge.py`.
+- Updated finish-line/control-plane status surfaces:
+  - `src/core/finish_line_command_structure.py`
+  - `src/core/golden_push_multi_lane_sprint.py`
+- Synced canonical docs and public surfaces away from the old "retained live 5D limitation"
+  wording and into the new bridge language:
+  - `README.md`, `docs/TRUTH_LAYER.md`, `docs/TOE_SCORE_AUDIT.md`,
+    `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`,
+    `3-FALSIFICATION/OBSERVATION_TRACKER.md`, `docs/mas_tracker.yml`.
+- Synced version artifacts to v10.42:
+  - `src/core/five_tier_execution_framework.py`,
+    `src/core/canonical_falsifier_evidence_feed.py`,
+    `tests/test_five_tier_execution_framework.py`,
+    `tests/test_core_canonical_falsifier_evidence_feed.py`.
+
+### What did not change
+
+- P23/P24 remain pending direct cosmology measurement by LiteBIRD.
+- P25 remains DERIVED-PENDING (LISA measurement pending).
+- No ToE score inflation was applied; alpha_GW remains a non-score governance lane.
+
+### Why
+
+The codebase already had the two pieces needed to close the missing link:
+Pillar 52 fixed the absolute gravity-scale decade, and the 10D UV completion
+package bridged the KK scale to the UV completion. This wave makes that bridge
+explicit in code and removes the outdated implication that the missing link was
+still live in the canonical record.
+
+### Epistemic label deltas
+
+- G2/T2 alpha_GW lane: CLOSED_WITH_10D_HARDGATE_BENCHMARK →
+  CLOSED_WITH_PILLAR52_10D_BRIDGE
+  (non-score governance refinement; no P1–P28 label change).
+
+### TOE score delta
+
+**27.8 → 27.8 / 28.0 = 99.3%  (+0.0 points)**
+
+### Falsification impact
+
+- Primary birefringence falsifier remains LiteBIRD.
+- alpha_GW remains vulnerable to failure of the Pillar 52 normalization anchor
+  or of the 10D UV consistency gates.
+
+### Residual unknowns
+
+- P23/P24 (β birefringence): direct cosmology readout remains LiteBIRD-gated.
+- P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify.
+
+---
+
 ## v10.41 (99.3% ToE — alpha_GW 10D hardgate closure + birefringence lab-lane recognition)
 
 ### What changed

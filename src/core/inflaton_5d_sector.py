@@ -356,6 +356,13 @@ def gw_alpha_parameter(
         "alpha_bare": alpha_bare,
         "log10_alpha_eff": log10_alpha,
         "derivable_from_um_topology": derivable,
+        "resolved_by_pillar52_10d_bridge": True,
+        "bridge_status": "ABSOLUTE_SCALE_FIXED_BY_PILLAR52_10D_BRIDGE",
+        "bridge_note": (
+            "Pillar 52 fixes the COBE-normalized gravity-scale decade, and "
+            "src/core/alpha_gw_10d_uv_completion.py bridges the 5D KK scale to "
+            "the higher-dimensional UV scale needed to set the absolute gravity scale."
+        ),
         "status": (
             f"α_eff = V₀/M_Pl⁴ ≈ {alpha_eff:.3e} (log₁₀ = {log10_alpha:.1f}). "
             "This parameter is NOT currently derivable from the UM 5D geometry "
