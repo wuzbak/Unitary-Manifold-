@@ -15,7 +15,8 @@ import math
 from typing import Dict, List, Tuple
 
 from src.core.cc_gap_precision_audit import p28_promotion_evaluation, verify_layer3_landscape_sufficiency
-from src.tend.cc_architecture_limit import LAMBDA_OBS_MPLANCK4, N_FLUX
+from src.core.p28_lambda_10d_closure import p28_10d_closure_report
+from src.tend.cc_architecture_limit import LAMBDA_OBS_MPLANCK4
 
 __all__ = [
     "CURRENT_TOE_SCORE",
@@ -112,14 +113,16 @@ def evaluate_p28_promotion_candidate(
 
 def p28_promotion_hardgate_report() -> Dict[str, object]:
     """Default P28 promotion report using current repository state."""
+    closure = p28_10d_closure_report()
     candidate = evaluate_p28_promotion_candidate(
-        n_flux=N_FLUX,
-        has_explicit_selection_mechanism=False,
+        n_flux=int(closure["effective_n_flux"]),
+        has_explicit_selection_mechanism=bool(closure["explicit_selection_pass"]),
     )
     historical = p28_promotion_evaluation()
     return {
         **candidate,
         "evidence_context": {
+            "closure_package": closure,
             "historical_can_promote": historical["can_promote"],
             "historical_reason": historical["reason"],
             "historical_enablement_path": historical["what_would_enable"],
