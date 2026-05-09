@@ -10,6 +10,7 @@ from src.core.cmbs4_monitor import monitoring_report as cmbs4_report
 from src.core.desi_year3_monitor import monitoring_report as desi_report
 from src.core.dune_dcp_monitor import monitoring_report as dune_report
 from src.core.hyperk_juno_monitor import monitoring_report as hyperk_juno_report
+from src.core.lab_litebird_substitute import lab_substitute_status_snapshot
 from src.core.litebird_boundary import fail_zone_report
 from src.core.litebird_readiness_hardening import litebird_prepublication_packet
 
@@ -25,10 +26,11 @@ def collect_canonical_evidence_feed() -> Dict:
     litebird = fail_zone_report(0.331)
     litebird["readiness"] = litebird_prepublication_packet()
     return {
-        "version": "v10.26",
+        "version": "v10.40",
         "generated_on": date.today().isoformat(),
         "experiments": {
             "litebird": litebird,
+            "lab_cp_5_7": lab_substitute_status_snapshot(),
             "cmbs4": cmbs4_report(),
             "dune": dune_report(),
             "hyperk_juno": hyperk_juno_report(),
@@ -48,6 +50,12 @@ def falsifier_status_table() -> List[Dict]:
             "experiment": "LiteBIRD",
             "status": litebird_status,
             "next_milestone": 2032,
+            "primary_falsifier": True,
+        },
+        {
+            "experiment": "Lab_CP_5_7",
+            "status": feed["lab_cp_5_7"]["status"],
+            "next_milestone": feed["lab_cp_5_7"]["next_milestone_year"],
             "primary_falsifier": True,
         },
         {

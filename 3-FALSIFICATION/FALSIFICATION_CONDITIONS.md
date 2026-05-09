@@ -423,5 +423,10 @@ This is an immediate falsifier lane and runs in parallel with LiteBIRD/CMB-S4.
 It does not replace cosmological tests; it removes the need to wait for 2032 to
 stress-test a core (5,7) geometric consequence.
 
+Machine-readable protocol and gate implementation:
+- `src/core/lab_litebird_substitute.py`
+- `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`
+- `tests/test_core_lab_litebird_substitute.py`
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

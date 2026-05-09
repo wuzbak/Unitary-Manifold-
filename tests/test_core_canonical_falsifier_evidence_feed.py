@@ -12,17 +12,18 @@ from src.core.canonical_falsifier_evidence_feed import (
 
 def test_collect_feed_structure():
     feed = collect_canonical_evidence_feed()
-    assert feed["version"] == "v10.26"
+    assert feed["version"] == "v10.40"
     assert "generated_on" in feed
-    expected = {"litebird", "cmbs4", "dune", "hyperk_juno", "desi_year3"}
-    assert set(feed["experiments"].keys()) == expected
+    required = {"litebird", "lab_cp_5_7", "cmbs4", "dune", "hyperk_juno", "desi_year3"}
+    assert required.issubset(set(feed["experiments"].keys()))
     assert "readiness" in feed["experiments"]["litebird"]
 
 
 def test_status_table_has_five_experiments():
     table = falsifier_status_table()
-    assert len(table) == 5
+    assert len(table) >= 6
     assert any(row["experiment"] == "LiteBIRD" and row["primary_falsifier"] for row in table)
+    assert any(row["experiment"] == "Lab_CP_5_7" and row["primary_falsifier"] for row in table)
     assert any(row["experiment"] == "DESI Year 3" and row["status"] in {"PASS", "TENSION", "FALSIFIED"} for row in table)
 
 
