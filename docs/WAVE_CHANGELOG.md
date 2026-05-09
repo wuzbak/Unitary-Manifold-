@@ -50,6 +50,8 @@ For each wave entry, include:
   `3-FALSIFICATION/OBSERVATION_TRACKER.md`, and `FALLIBILITY.md`.
 
 **Lane F — UV vacuum-selection closure:**
+The continuation addendum is layered after the finish-line lock, so its artifacts
+are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board.
 - `src/eleventd/uv_vacuum_selection_gate.py` (new): canonical UV gate that unifies the
   Pillar 70-D pure theorem, Pillar 84 gravitino selection, G₄-flux candidate screening, and
   Rung-6 Hořava-Witten hard-gate evidence into one machine-readable verdict.

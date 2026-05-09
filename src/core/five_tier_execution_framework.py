@@ -190,7 +190,7 @@ NEXT_THREE_PRS: List[Dict[str, object]] = [
         ],
     },
     {
-        "pr_id": "PR-NEXT-1",
+        "pr_id": "PR-CONT-2",
         "scope": "Finish-line lane command structure",
         "title": "Stand up the 5-lane finish-line command board",
         "deliverables": [
@@ -200,7 +200,7 @@ NEXT_THREE_PRS: List[Dict[str, object]] = [
         ],
     },
     {
-        "pr_id": "PR-NEXT-2",
+        "pr_id": "PR-CONT-3",
         "scope": "Hardgate, observation engine, and truth-sync",
         "title": "P16/P28 finish-line audit plus one-command observation routing",
         "deliverables": [

@@ -1350,7 +1350,7 @@ v10_30_batch:
 v10_31_batch:
   date: "2026-05-09"
   version: "v10.31"
-  sprint_title: "Finish-line five-lane command structure + P16/P28 honest hardgate lock + one-command observation engine"
+  sprint_title: "Finish-line 5-lane command structure + P16/P28 honest hardgate lock + one-command observation engine"
   deliverables:
     LANE_E_COMMAND_STRUCTURE:
       title: "Stand up the 5-lane finish-line command structure with one canonical board"
