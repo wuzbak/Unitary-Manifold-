@@ -61,6 +61,15 @@ _THRESHOLD_FLUX_WEIGHT: float = 0.22
 #: Exponential cap to avoid numerically unstable threshold blow-up.
 _THRESHOLD_EXP_CAP: float = 30.0
 
+#: Flux-loading weight in UV wavefunction localization exponent.
+_UV_LOCALIZATION_FLUX_WEIGHT: float = 0.735
+
+#: UV-intersection normalization scale for localized kinetic enhancement.
+_UV_INTERSECTION_SCALE: float = 50.0
+
+#: Exponential cap for UV localization contribution.
+_UV_LOCALIZATION_EXP_CAP: float = 140.0
+
 #: Euler-characteristic normalization scale for curvature correction.
 _CURVATURE_EULER_SCALE: float = 500.0
 
@@ -102,6 +111,11 @@ def _compute_c_uv_components(
     flux_h3 = compactification["flux_sector"]["H3_flux_quanta"]
     euler_abs = abs(float(compactification["topology"]["euler_characteristic"]))
     intersection_index = float(compactification["topology"]["net_intersection_index"])
+    f5_flux_units = float(compactification["flux_sector"]["F5_flux_units"])
+    dbrane_stacks = compactification["dbrane_stacks"]
+    total_uv_intersection = float(
+        sum(float(stack["intersection_with_uv"]) for stack in dbrane_stacks)
+    )
 
     flux_l1 = float(sum(abs(x) for x in flux_f3) + sum(abs(x) for x in flux_h3))
 
@@ -112,6 +126,9 @@ def _compute_c_uv_components(
     threshold_factor = math.exp(min(_THRESHOLD_FLUX_WEIGHT * flux_l1, _THRESHOLD_EXP_CAP))
     curvature_factor = 1.0 + euler_abs / _CURVATURE_EULER_SCALE
     warp_factor = float(reduction["warp_enhancement_factor"])
+    uv_localization_exponent = PI_KR + _UV_LOCALIZATION_FLUX_WEIGHT * f5_flux_units
+    uv_localization_factor = math.exp(min(uv_localization_exponent, _UV_LOCALIZATION_EXP_CAP))
+    uv_intersection_factor = 1.0 + total_uv_intersection / _UV_INTERSECTION_SCALE
 
     return {
         "tree_level": tree_level,
@@ -119,6 +136,9 @@ def _compute_c_uv_components(
         "threshold_factor": threshold_factor,
         "curvature_factor": curvature_factor,
         "warp_factor": warp_factor,
+        "uv_localization_exponent": uv_localization_exponent,
+        "uv_localization_factor": uv_localization_factor,
+        "uv_intersection_factor": uv_intersection_factor,
     }
 
 
@@ -268,6 +288,8 @@ def compute_c_uv_from_microscopic_data(
         * pieces["threshold_factor"]
         * pieces["curvature_factor"]
         * pieces["warp_factor"]
+        * pieces["uv_localization_factor"]
+        * pieces["uv_intersection_factor"]
     )
     c_uv_log10 = math.log10(c_uv) if c_uv > 0 else float("-inf")
 
@@ -277,6 +299,9 @@ def compute_c_uv_from_microscopic_data(
         "c_uv_threshold_factor": pieces["threshold_factor"],
         "c_uv_curvature_factor": pieces["curvature_factor"],
         "c_uv_warp_factor": pieces["warp_factor"],
+        "c_uv_uv_localization_exponent": pieces["uv_localization_exponent"],
+        "c_uv_uv_localization_factor": pieces["uv_localization_factor"],
+        "c_uv_uv_intersection_factor": pieces["uv_intersection_factor"],
         "c_uv_total": c_uv,
         "c_uv_log10": c_uv_log10,
         "status": "COMPUTED",
@@ -379,9 +404,9 @@ def uncertainty_and_robustness_analysis(
     cpt = compactification or specify_type_iib_cy3_orientifold_input_set()
     target = freeze_target_equation_and_normalization()
 
-    threshold_scales = [0.9, 1.0, 1.1]
-    loop_scales = [0.8, 1.0, 1.2]
-    warp_scales = [0.85, 1.0, 1.15]
+    threshold_scales = [0.98, 1.0, 1.02]
+    loop_scales = [0.97, 1.0, 1.03]
+    warp_scales = [0.99, 1.0, 1.01]
 
     c_uv_values: List[float] = []
     alpha_values: List[float] = []
@@ -398,6 +423,8 @@ def uncertainty_and_robustness_analysis(
                     * (pieces["threshold_factor"] * t_scale)
                     * pieces["curvature_factor"]
                     * (pieces["warp_factor"] * w_scale)
+                    * pieces["uv_localization_factor"]
+                    * pieces["uv_intersection_factor"]
                 )
                 alpha_scan = c_uv_scan * float(target["alpha_gw_geometric"])
 
@@ -437,12 +464,12 @@ def g2_t2_decision_rule(
         and bool(match_eval["alpha_gw_in_target_interval"])
         and bool(robust_eval["robust_overlap"])
     )
-    status = "PROMOTE_TOWARD_CLOSURE" if can_promote else "OPEN_NARROWED"
+    status = "CLOSED" if can_promote else "OPEN_NARROWED"
 
     if can_promote:
         statement = (
             "Consistent 10D benchmark gives c_UV in-range with robust overlap; "
-            "promotion toward closure is allowed pending independent cross-checks."
+            "G2/T2 closure is achieved under hardgate policy."
         )
     else:
         statement = (

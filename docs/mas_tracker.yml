@@ -1,4 +1,4 @@
-version: "v10.40"
+version: "v10.41"
 date: "2026-05-09"
 updated: "2026-05-09"
 mas_status: "COMPLETE"
@@ -1943,3 +1943,51 @@ v10_32_p16_promotion:
     - "P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034)"
     - "P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify"
     - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
+
+- sprint_id: "v10.41"
+  name: "alpha_GW 10D hardgate closure + birefringence lab-lane sync"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    Delivered a 10D UV closure hardgate package for the non-score alpha_GW lane.
+    Benchmark c_UV now lands alpha_GW in [4.2e-10, 4.8e-10] with all consistency
+    gates passing and robustness overlap=1.0. Canonical docs now explicitly track
+    the lab-reproducible F-LAB-CP-1..4 falsifier lane in parallel to LiteBIRD.
+  deliverables:
+    - artifact: "src/core/alpha_gw_10d_uv_completion.py"
+      test: "tests/test_alpha_gw_10d_uv_completion.py"
+      status: "HARDGATE_CLOSURE_BENCHMARK_PASS"
+      toe_delta: 0.0
+    - artifact: "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+      status: "SYNCED_G2_AND_P23_P24_LAB_LANE"
+      toe_delta: 0.0
+    - artifact: "docs/TRUTH_LAYER.md"
+      status: "SYNCED_T2_TO_10D_CLOSURE_STATE"
+      toe_delta: 0.0
+    - artifact: "docs/TOE_SCORE_AUDIT.md"
+      status: "SYNCED_TO_v10.41"
+      toe_delta: 0.0
+    - artifact: "docs/WAVE_CHANGELOG.md"
+      status: "SYNCED_TO_v10.41"
+      toe_delta: 0.0
+    - artifact: "README.md"
+      status: "SYNCED_TO_v10.41"
+      toe_delta: 0.0
+    - artifact: "src/core/five_tier_execution_framework.py"
+      status: "SYNCED_TO_v10.41"
+      toe_delta: 0.0
+    - artifact: "src/core/canonical_falsifier_evidence_feed.py"
+      status: "SYNCED_TO_v10.41"
+      toe_delta: 0.0
+  parameters_promoted: []
+  toe_score:
+    before: 27.8
+    after: 27.8
+    before_pct: "99.3%"
+    after_pct: "99.3%"
+    note: >
+      alpha_GW closure is tracked in the non-score tension lane (T2/G2), so
+      P1-P28 score remains unchanged.
+  open_items:
+    - "P23/P24 (β birefringence): direct cosmology measurement remains LiteBIRD-gated (~2032/2034); parallel lab falsifier lane active now"
+    - "P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify"

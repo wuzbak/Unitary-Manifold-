@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.40
+# ToE Score Audit — Unitary Manifold v10.41
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 4.7 — 2026-05-09 (v10.40: P28 hardgate closure wave; score updated to 99.3%)*
+*Document version: 4.8 — 2026-05-09 (v10.41: α_GW 10D closure hardgate wave; score remains 99.3% as alpha_GW is non-score lane)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -97,6 +97,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 *v10.37 upgrades: P3 GEOMETRIC_PREDICTION→DERIVED (+0.2) via full 10D CY₃ moduli+flux DERIVED certification (`p3_alpha_s_derived_cert.py`) = +0.2 pts (96.1%→96.8%).*
 *v10.38 governance: P28 promotion hardgate package (`p28_lambda_promotion_hardgate.py`) locks target ≥27.66/28 and enforces strict all-gates pass/fail; current N_flux=37 and missing explicit vacuum-selection mechanism fail closure gates, so P28 remains ARCHITECTURE_LIMIT_CERTIFIED with +0.0 pts (96.8% unchanged).*
 *v10.40 closure: P28 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION (+0.7) via `p28_lambda_10d_closure.py` + hardgate default integration (`p28_lambda_promotion_hardgate.py`); closure package provides effective N_flux=74 and explicit UV vacuum selection = +0.7 pts (96.8%→99.3%).*
+*v10.41 closure (non-score lane): G2/T2 α_GW CMB-amplitude gap now has a 10D UV closure package (`alpha_gw_10d_uv_completion.py`) with benchmark `alpha_gw_predicted` in [4.2e-10, 4.8e-10], consistency gates pass, and robustness overlap=1.0. ToE score unchanged because alpha_GW is tracked outside the 28-parameter score ledger.*
 
 ### Normalized score
 
@@ -104,14 +105,14 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 ToE Score = 27.8 / 28.0 = 0.993 ≈ 99.3%
 ```
 
-> **Current ToE Score: ~99.3%** (v10.40 promotes P28 by hardgate-backed 10D closure evidence. Earlier: 96.8% in v10.39/v10.38/v10.37, 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~99.3%** (v10.41 keeps score unchanged while closing the non-score alpha_GW lane via 10D hardgate package; v10.40 promoted P28 by hardgate-backed 10D closure evidence. Earlier: 96.8% in v10.39/v10.38/v10.37, 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
-- **Geometrically derives** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₁₂, θ₂₃, θ₁₃, CKM ρ̄, M_W, M_Z, α_s, m_H, and GW background (LiteBIRD 2032/2034)
+- **Geometrically derives** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₁₂, θ₂₃, θ₁₃, CKM ρ̄, M_W, M_Z, α_s, m_H, and GW background (LiteBIRD primary lane; parallel lab falsifier lane active now)
 - **Geometrically derives** the charged-fermion Yukawa quartet (P7–P10) via Tier-4 hardgate NLO blend with AxiomZero-certified gate reports
 - **Geometrically derives** solar splitting Δm²₂₁ via WS-III T²/Z₃ closure (f_c = 7/126; `p16_wsiii_plus52_closure.py`)
-- **Leaves** only the experimental birefringence lane unresolved (P23/P24 remain measurement-gated by LiteBIRD)
+- **Leaves** only external measurement lanes unresolved (P23/P24 direct cosmology readout by LiteBIRD; P25 by LISA). The parallel lab falsifier lane (F-LAB-CP-1..4) is now explicitly active and decision-graded.
 
 ## 4 · Falsification Table
 
@@ -119,7 +120,7 @@ What experimental result would kill each prediction:
 
 | Parameter | Experiment | Falsification Condition | Timeline |
 |-----------|-----------|------------------------|---------|
-| β (birefringence) | LiteBIRD | β ∉ [0.22°, 0.38°] OR β ∈ [0.29°, 0.31°] | ~2034 |
+| β (birefringence) | LiteBIRD (primary); Lab CP substitute lane (parallel) | β ∉ [0.22°, 0.38°] OR β ∈ [0.29°, 0.31°]; plus lab F-LAB-CP-1..4 hard falsifiers for (5,7) transfer lane | ~2034 (LiteBIRD), active now (lab lane) |
 | r | CMB-S4 | r < 0.010 measured at >3σ | ~2030 |
 | n_s | CMB-S4 | n_s ∉ [0.955, 0.972] at <0.001 uncertainty | ~2030 |
 | δ_CP | DUNE | δ_CP ∉ [0.85, 1.30] rad at <3% uncertainty | ~2030 |
@@ -127,8 +128,10 @@ What experimental result would kill each prediction:
 | N_gen | Future collider | 4th light neutrino confirmed | — |
 | Ω_GW | LISA | Ω_GW(f_LISA) < 10⁻¹⁷ or wrong spectrum | ~2037 |
 
-The **primary falsifier** remains the LiteBIRD birefringence measurement. See
-`docs/LITEBIRD_FALSIFIER_BRIEF.md` for the detailed falsification protocol.
+The **primary falsifier** remains the LiteBIRD birefringence measurement. In
+parallel, the immediate lab substitute falsifier lane is active now via
+`3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md` and
+`3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 
 ---
 

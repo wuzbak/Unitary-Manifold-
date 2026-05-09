@@ -1,18 +1,18 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.40)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.41)
 
 This repository contains the technical record, code, and falsification conditions for the Unitary Manifold framework.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![27048 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-27048%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.40-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v10.41-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
-> ⚠️ **Honest status (v10.40):** ToE is **27.8/28 (99.3%)** after P28 hardgate closure evidence passes (effective N_flux=74 and explicit UV vacuum selection). P23/P24 remain measurement-gated (LiteBIRD).
-> Latest full local regression on this branch: **27048 passed · 329 skipped · 11 deselected · 0 failed**.  
+> ⚠️ **Honest status (v10.41):** ToE is **27.8/28 (99.3%)** after P28 hardgate closure evidence passes (effective N_flux=74 and explicit UV vacuum selection). The non-score alpha_GW/CMB-amplitude lane now has a 10D hardgate closure package (`src/core/alpha_gw_10d_uv_completion.py`) with benchmark in-band α_GW and robust overlap. P23/P24 remain pending direct cosmology measurement (LiteBIRD primary), with explicit parallel lab falsifier conditions active now (F-LAB-CP-1..4 via `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`).
+> Latest full local regression on this branch: **27059 passed · 329 skipped · 11 deselected · 0 failed**.  
 > For canonical, up-to-date status and provenance use:
 > [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
 > [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md), and [`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md).
