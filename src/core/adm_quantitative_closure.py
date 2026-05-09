@@ -1,5 +1,5 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """ADM quantitative closure package for the delay-field time-parameterization gap.
 
 This module operationalizes a quantitative closure audit on top of Pillar 100 and

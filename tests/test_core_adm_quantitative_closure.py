@@ -1,5 +1,5 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Tests for src/core/adm_quantitative_closure.py."""
 
 from src.core.adm_quantitative_closure import (
