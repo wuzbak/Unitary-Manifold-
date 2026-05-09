@@ -89,8 +89,8 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | # | Gap | Status | Module | Action |
 |---|-----|--------|--------|--------|
 | **G1** | ADM 3+1 decomposition of time parameterization | 🔴 REAL GAP — qualitative claim survives; quantitative rate requires full ADM | `src/core/delay_field.py` (Pillar 41 partial) | Future work; do not claim resolved |
-| **G2** | CMB peak amplitude suppression ×4.2–6.1 | 🟠 OPEN BUT NARROWED — α_GW now bounded in a constrained Casimir interval; exact UV-brane value still not first-principles derived | `src/core/cmb_acoustic_amplitude_rg.py`, `src/core/alpha_gw_casimir_closure.py` | Keep open until exact α_GW closure; document narrowed envelope honestly |
-| **G3** | DESI wₐ = 0 vs DESI Y1 2.1σ tension | 🟠 MONITORED — frozen radion predicts wₐ = 0 | `src/core/kk_de_wa_cpl.py`, `src/core/desi_year3_monitor.py` (Pillar 155) | **Integrate DESI Y3 within 30 days** using explicit `route_desi_y3(wa, sigma)` PASS/TENSION/FALSIFIED routing |
+| **G2** | CMB peak amplitude suppression ×4.2–6.1 | 🟠 OPEN BUT NARROWED — α_GW bounded to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰] Casimir interval; RS1 UV-brane Casimir estimate is ~4.3×10⁻⁶⁵ (55 orders below interval); exact UV-brane value cannot be derived from 5D UM inputs alone — requires UV-brane localized kinetic term from 10D string embedding. CMB-S4 cannot distinguish individual values within the interval. Status: **OPEN_NARROWED** (Agent Alpha audit, 2026-05-09). | `src/core/cmb_acoustic_amplitude_rg.py`, `src/core/alpha_gw_casimir_closure.py`, `src/core/alpha_gw_uv_brane_derivation.py` | Keep open until UV-brane c_UV is computed from 10D string embedding. Missing ingredient: UV-brane localized kinetic term normalization from brane intersection or 10D supergravity calculation. |
+| **G3** | DESI wₐ = 0 vs DESI DR2 (Year 3) HIGH TENSION | 🟠 HIGH_TENSION — DESI DR2 (arXiv:2503.14738, March 2025) IS the 3-year data; BAO-only: 2.07σ; combined BAO+CMB+SNe: 2.75σ; frozen radion predicts wₐ = 0; neither case reaches 3σ falsification threshold; NOT FALSIFIED | `src/core/kk_de_wa_cpl.py`, `src/core/desi_year3_monitor.py`, `src/core/desi_dr2_gap_report.py` (Pillars 155, 160) | **ROUTING EXECUTED (Agent Gamma, 2026-05-09):** `full_dr2_gap_report()` run; BAO-only 2.07σ TENSION, combined 2.75σ HIGH_TENSION, both < 3σ. Await DESI DR3/Y5 (~2027): DR3-S6 scenario (wₐ ≈ −0.62, σ=0.18) → 3.44σ FALSIFIED. Run `full_dr2_gap_report()` on DR3 within 30 days. |
 | **G4** | sin²θ₁₂ Route A consolidation | ✅ CLOSED (v10.27) — Route A (1.55% from PDG); Route B (4/15, 13% residual) retired as incomplete GUT BC | `src/core/neutrino_p18_route_consolidation.py` | P18 promoted to GEOMETRIC_PREDICTION in mas_tracker v10.27 |
 
 ---
@@ -106,6 +106,8 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | 2022 | BICEP/Keck r < 0.036 | Tensor-to-scalar ratio constraint | CONSISTENT — r_braided = 0.0315 satisfies bound | arXiv:2203.16556 | Resolved Admission 3 in FALLIBILITY.md (Pillar 27) |
 | 2018 | Planck nₛ = 0.9649 ± 0.0042 | CMB spectral index | CONSISTENT — predicted 0.9635 is 0.33σ from central value | Planck 2018 X | Reference value in `inflation.py` |
 | 2024 | DESI Year 1 dark energy | wₐ ≠ 0 at 2.1σ | 🟠 TENSION — UM predicts wₐ = 0 (frozen radion) | arXiv:2404.03002 | Flagged as OPEN in Pillar 155/160; tracked as G3 above |
+| 2025 | DESI DR2 = Year 3 BAO-only (arXiv:2503.14738) | w₀ = −0.838 ± 0.072, wₐ = −0.62 ± 0.30 | 🟠 TENSION — BAO-only: 2.07σ on wₐ; below 3σ falsification threshold; UM wₐ=0 NOT FALSIFIED | DESI Collaboration (2025), arXiv:2503.14738 | `src/core/desi_dr2_gap_report.py::execute_dr2_bao_routing()` executed; route=TENSION; sync kk_de_wa_cpl.py and canonical falsifier feed |
+| 2025 | DESI DR2 = Year 3 BAO+CMB+SNe combined (arXiv:2503.14738) | wₐ ≈ −0.55 ± 0.20 (combined), significance up to 3-4σ vs ΛCDM | 🟠 HIGH_TENSION — combined analysis: 2.75σ from UM wₐ=0; still below 3σ UM-falsification threshold; NOT FALSIFIED | DESI Collaboration (2025), arXiv:2503.14738 | `src/core/desi_dr2_gap_report.py::execute_dr2_combined_routing()` executed; route=TENSION (2.75σ < 3σ). If DR3 confirms wₐ ≈ −0.62 with σ=0.18 → 3.44σ FALSIFIED. |
 
 ---
 
@@ -113,7 +115,7 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 
 | Date | Experiment | Observable | UM Prediction | σ Resolution | Action |
 |------|-----------|------------|---------------|--------------|--------|
-| ~2026 | DESI Year 3 | wₐ, w₀ | wₐ = 0 | Better than Y1 | **Run `src/core/desi_y3_joint_routing.py::joint_routing_decision()` with Y3 values; v10.30 provides full joint χ² + 9 pre-built scenarios. 30-day deadline from publication.** |
+| **2025 (published)** | **DESI DR2 = Year 3 (EXECUTED)** | wₐ, w₀ | wₐ = 0 | BAO-only: 2.07σ TENSION; combined: 2.75σ HIGH_TENSION; both < 3σ | **ROUTING EXECUTED 2026-05-09** — `src/core/desi_dr2_gap_report.py::full_dr2_gap_report()` run; verdict: NOT FALSIFIED. 7-scenario DR3/Y5 table built. Next: DESI DR3/Y5 (~2027) — if wₐ ≈ −0.62 with σ=0.18 → 3.44σ FALSIFIED. Run `full_dr2_gap_report()` on DR3 publication within 30 days. |
 | ~2027 | JUNO | Δm²₃₁ | 2.400e-3 eV² (2.18% below PDG) | ~0.5% | Run `src/core/hyperk_juno_dm31_readiness.py::hyperk_juno_falsifier_routing()`. Tension = 2.18%/0.5% = 4.4σ → FALSIFIED if central value holds at PDG. |
 | ~2027 | ACT DR6 (full) | nₛ | 0.9635 | ±0.003 or better | Monitor if error bar tightens; check 0.33σ status |
 | ~2028 | Hyper-Kamiokande | Δm²₃₁ | 2.400e-3 eV² | ~1% | Tension = 2.18σ → TENSION (not FALSIFIED). Run `hyperk_juno_falsifier_routing()`. |
