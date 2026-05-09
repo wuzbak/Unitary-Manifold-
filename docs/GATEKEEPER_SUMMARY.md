@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v10.30
+# Unitary Manifold v10.31
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,7 +8,7 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-*Last updated: 2026-05-08 (v10.30)*
+*Last updated: 2026-05-09 (v10.31)*
 
 ---
 
@@ -37,7 +37,7 @@ They are not empirical claims — they follow necessarily if the axioms hold.
 | N_gen = 3 (T²/Z₃ orbifold) | ✅ PASS (ALGEBRAIC) | `src/core/pillar205_generation_quantization.py` | 4th light neutrino at ≥5σ |
 | SM gauge group from n_w=5 | ✅ PASS (ALGEBRAIC) | `src/core/sm_gauge_emergence.py` | SM gauge group differs at ≥3σ |
 | k_CS = 74 (= 5² + 7²) | ✅ PASS (ALGEBRAIC) | `src/core/k_cs_topological_proof.py` | Algebraic identity disproved |
-| n_w = 5 uniqueness | ✅ PASS (DERIVED) | Pillars 39, 67, 70-B, 70-D | Z₂ uniqueness proof contains error |
+| n_w = 5 uniqueness | ✅ PASS (DERIVED) | Pillars 39, 67, 70-B, 70-D; `src/eleventd/uv_vacuum_selection_gate.py` | Z₂ uniqueness proof contains error |
 | Ghost-free B_μ stability | ✅ PASS (PROVED) | `src/core/bmu_ghost_stability.py` | Ghost pole found in scattering amplitude |
 | φ₀ self-consistency | ✅ PASS (DERIVED) | `src/core/phi0_closure.py` | Self-consistency condition violated |
 
@@ -172,7 +172,10 @@ immediately upon publication.
 | ARCHITECTURE_LIMIT_CERTIFIED | 2 | 0.2 |
 | **Total** | **28+** | **21.2 / 28.0 = 76%** |
 
-**Current ToE Score: 76% (v10.30, unchanged from v10.28)**
+**Current ToE Score: 76% (v10.31, unchanged from v10.30/v10.28)**
+
+**v10.31 note:** canonical UV vacuum-selection, G₄-link, bridge-burn, branch-policy, and ToE-frontier
+artifacts were added with **no parameter promotion** and **no falsifier weakening**.
 
 Interpretation for gatekeepers:
 - 76% means the 5D framework geometrically accounts for 76% of the SM

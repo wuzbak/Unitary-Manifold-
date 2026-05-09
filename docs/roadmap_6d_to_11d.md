@@ -241,6 +241,22 @@ boundary of M-theory:
 At 11D, the "source code" is a single geometric shape (the Hořava-Witten interval × CY₃).
 The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 
+### v10.31 continuation lock — fix the UV seed, then burn the bridge
+
+The continuation sprint adds three structural rules on top of the Rung-6 scaffold:
+
+1. **Canonical UV vacuum gate:** `src/eleventd/uv_vacuum_selection_gate.py`
+   fixes the winning seed to `n_w = 5`, rejects `n_w = 7`, and keeps the verdict
+   machine-checkable.
+2. **Direct G₄ selection link:** `src/eleventd/g4_flux_vacuum_link.py` upgrades the
+   flux proof into a candidate-elimination artifact instead of a free-floating support note.
+3. **Bridge burn:** `src/eleventd/uv_to_5d_boundary_map.py` reduces the accepted UV data to the
+   clean 5D invariant set `{n_w=5, braid_pair=(5,7), k_CS=74, η̄=1/2, πkR=37}` and forbids
+   downstream runtime dependence on raw 11D symbols.
+
+This changes **mechanism clarity**, not the P1–P28 score.  The 11D ladder is treated as the
+closure engine above the 5D EFT, not as permanent runtime clutter inside it.
+
 ---
 
 ## Dimensional Bootstrap in the Repository
@@ -271,5 +287,5 @@ The entire 4D Standard Model emerges as the "compiled output" of this geometry.
 
 ---
 
-*Roadmap version: 1.4 — 2026-05-08*  
-*DBP implementation: W13 closure sprint sync + prior W12 hard-gate updates*
+*Roadmap version: 1.5 — 2026-05-09*  
+*DBP implementation: W13 closure sprint sync + prior W12 hard-gate updates + v10.31 continuation lock*

@@ -35,8 +35,8 @@ __all__ = [
     "framework_summary",
 ]
 
-FRAMEWORK_VERSION: str = "v10.30"
-FRAMEWORK_DATE: str = "2026-05-08"
+FRAMEWORK_VERSION: str = "v10.31"
+FRAMEWORK_DATE: str = "2026-05-09"
 
 TIER_PRIORITY_ORDER: List[str] = [
     "Tier-1",
@@ -178,35 +178,33 @@ THROUGHPUT_PLAN: List[Dict[str, object]] = [
 
 NEXT_THREE_PRS: List[Dict[str, object]] = [
     {
-        "pr_id": "PR-COMPLETE",
-        "scope": "All tiers completed in v10.28",
-        "title": "All five tiers delivered — ToE score 21.2/28 (76%)",
+        "pr_id": "PR-CONT-1",
+        "scope": "11D continuation — vacuum selection + bridge burn",
+        "title": "Canonical UV vacuum gate and 11D→5D boundary reduction",
         "deliverables": [
-            "Tier-1 (P3/P5): GEOMETRIC_PREDICTION (v10.24)",
-            "Tier-2 (P17/P18): GEOMETRIC_PREDICTION (v10.27/v10.28)",
-            "Tier-3 (P19/P20): GEOMETRIC_PREDICTION (v10.25/v10.27)",
-            "Tier-4 (P7/P8/P9/P10): GEOMETRIC_PREDICTION (v10.28)",
-            "Tier-5 (P27/P28): architecture-limit mechanism deepened (v10.28)",
+            "Canonical UV vacuum-selection gate for n_w ∈ {5,7}",
+            "11D→5D boundary contract with reduced runtime invariant set",
+            "G4-flux ↔ vacuum-selection artifact with no score inflation",
         ],
     },
     {
-        "pr_id": "PR-NEXT-1",
-        "scope": "Post-Tier-5 open items",
-        "title": "P16 solar splitting → GEOMETRIC_PREDICTION via Pillar 183",
+        "pr_id": "PR-CONT-2",
+        "scope": "Neutrino branch policy",
+        "title": "Reconcile minimal-5D Dirac and UV-extended Majorana branches",
         "deliverables": [
-            "Pillar 183: 6D T²/Z₃ Dirac wavefunction c_L spectrum derivation",
-            "P16 promotion blocked until c_ν_base derived from geometry",
-            "Next physics milestone: derive flux-backreaction factor from T²/Z₃ moduli",
+            "Explicit branch criteria for minimal 5D and UV-extended neutrino sectors",
+            "No implicit branch mixing in P16/P17/P26 runtime logic",
+            "0νββ and absolute-mass branch blockers kept explicit",
         ],
     },
     {
-        "pr_id": "PR-NEXT-2",
-        "scope": "Observation monitoring",
-        "title": "DESI Year 3 integration + LiteBIRD readiness",
+        "pr_id": "PR-CONT-3",
+        "scope": "ToE promotion frontier",
+        "title": "Conservative 90% pathway ledger with 11D ladder blockers",
         "deliverables": [
-            "DESI Y3: run route_desi_y3(wa, sigma) on publication",
-            "Simons Observatory β-forecast: monitor as data arrives (~2028)",
-            "Tracker sync within 30 days of each publication",
+            "Current score freeze at 21.2/28 with no promotions",
+            "Open-parameter closure ladder (P16/P26/P27/P28)",
+            "Required GP→DERIVED upgrades quantified for 90%+",
         ],
     },
 ]

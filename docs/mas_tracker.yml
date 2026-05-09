@@ -1,6 +1,6 @@
-version: "v10.28"
-date: "2026-05-08"
-updated: "2026-05-08"
+version: "v10.31"
+date: "2026-05-09"
+updated: "2026-05-09"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -1346,3 +1346,82 @@ v10_30_batch:
     - "P17 will be tested at TENSION level by JUNO ~2027; full falsification possible with PDG central"
     - "CMB-S4 joint n_s-r falsifier ready; measurement expected ~2030"
     - "LiteBIRD gap falsifier hardened; inter-sector gap test formalized"
+
+v10_31_batch:
+  date: "2026-05-09"
+  version: "v10.31"
+  sprint_title: "11D Continuation Sprint — UV Vacuum Gate, Bridge Burn, Branch Policy, ToE-90 Ledger"
+  deliverables:
+    UV_VACUUM_SELECTION_GATE:
+      title: "Canonical UV vacuum-selection gate over n_w ∈ {5,7}"
+      artifact: "src/eleventd/uv_vacuum_selection_gate.py"
+      test: "tests/test_eleventd_uv_vacuum_selection_gate.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Consolidates the Pillar 70-D pure theorem, Pillar 84 Majorana gate,
+        G4 flux screening, and Rung-6 hard-gate evidence into one canonical
+        seed verdict. n_w=5 selected; n_w=7 excluded. No score change.
+    G4_FLUX_SELECTION_LINK:
+      title: "Direct G4 flux ↔ vacuum selection artifact"
+      artifact: "src/eleventd/g4_flux_vacuum_link.py"
+      test: "tests/test_eleventd_g4_flux_vacuum_link.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Promotes the existing tadpole/Bianchi proof into a candidate-elimination
+        gate. APS/Dirac-shift matching is satisfied only for the canonical sector.
+    UV_TO_5D_BRIDGE_BURN:
+      title: "11D→5D boundary reduction contract"
+      artifact: "src/eleventd/uv_to_5d_boundary_map.py"
+      test: "tests/test_eleventd_uv_to_5d_boundary_map.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Formal reduction to the invariant runtime set {n_w=5, braid_pair=(5,7),
+        k_CS=74, eta_bar=1/2, pi_kR=37}. Raw 11D scaffold variables forbidden
+        downstream at runtime.
+    NEUTRINO_BRANCH_POLICY:
+      title: "Explicit minimal-5D vs UV-extended neutrino branch policy"
+      artifact: "src/core/neutrino_orbifold_branch_policy.py"
+      test: "tests/test_core_neutrino_orbifold_branch_policy.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Branches are separated and explicit. No implicit mixing allowed in future
+        P16/P17/P26 claims. Minimal 5D runtime remains Dirac-leading by policy.
+    TOE_90_PATHWAY:
+      title: "Conservative ToE-90 frontier ledger"
+      artifact: "src/core/toe_90_pathway.py"
+      test: "tests/test_core_toe_90_pathway.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Honest score accounting: 90% requires +4.0 from the current 21.2/28.
+        Closing P16/P26/P27/P28 reaches only 23.2/28, so GP→DERIVED upgrades
+        are still required.
+    FRAMEWORK_VERSION_BUMP:
+      title: "Bump FRAMEWORK_VERSION to v10.31 and repoint NEXT_THREE_PRS"
+      artifact: "src/core/five_tier_execution_framework.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    CHANGELOG_AND_DOC_SYNC:
+      title: "Sync WAVE_CHANGELOG, Gatekeeper, Claim Board, and roadmap"
+      artifacts:
+        - "docs/WAVE_CHANGELOG.md"
+        - "docs/GATEKEEPER_SUMMARY.md"
+        - "docs/CLAIM_MASTER_BOARD.md"
+        - "docs/roadmap_6d_to_11d.md"
+      status: "DELIVERED"
+      toe_delta: 0.0
+  toe_score:
+    before: 21.2
+    after: 21.2
+    before_pct: "76%"
+    after_pct: "76%"
+    note: "No new promotions in v10.31. Score unchanged."
+  open_items:
+    - "P16 promotion still blocked: derive '+52' from WS-III T^2/Z_3 moduli stabilization"
+    - "P26 still needs first-principles branch closure; current policy only separates branches explicitly"
+    - "P27/P28 remain architecture-limited even after the 11D continuation sprint"
+    - "90%+ requires open-parameter closure plus GP→DERIVED upgrades"

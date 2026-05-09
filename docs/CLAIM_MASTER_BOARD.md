@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v10.30
+# Unitary Manifold v10.31
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-08 (v10.30)*
+*Last updated: 2026-05-09 (v10.31)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -44,9 +44,12 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | axion mechanism (architecture) | — | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | θ̄ > 10⁻⁹ confirmed | Full PQ mechanism in 5D geometry | 2026-05-08 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — 58-order gap remains | ~10^58 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure | 2026-05-08 |
 
-**ToE Score v10.30: 21.2 / 28.0 = 76%** (unchanged; no new promotions in v10.30)
+**ToE Score v10.31: 21.2 / 28.0 = 76%** (unchanged; no new promotions in v10.31)
 **GP count: 22 parameters** (see TOE_SCORE_AUDIT.md §3 for breakdown)
 **CONSTRAINED: 2** (P16, P26) | **ARCHITECTURE_LIMIT: 2** (P27, P28)
+
+**v10.31 continuation note:** new UV vacuum-gate / bridge-burn / branch-policy artifacts are structural
+only. They clarify mechanism and runtime policy but do not alter any P1–P28 label.
 
 ---
 
@@ -55,7 +58,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | # | Claim | Status | Label | Gatekeeper | Falsifier | Source |
 |---|-------|--------|-------|------------|-----------|--------|
 | S1 | k_CS = 74 = 5² + 7² (CS level) | ✅ PROVED | `DERIVED` | PASS | Algebraic: k_CS ≠ 74 would invalidate the topological proof | Pillars 58, 99-B, 207; `src/core/k_cs_topological_proof.py` |
-| S2 | n_w = 5 uniqueness (Z₂ orbifold) | ✅ PROVED | `DERIVED` | PASS | Z₂ mod uniqueness: only {5, 7} survive; Planck n_s selects 5 | Pillars 39, 67, 70-B, 70-D |
+| S2 | n_w = 5 uniqueness (Z₂ orbifold) | ✅ PROVED | `DERIVED` | PASS | Z₂ mod uniqueness: only {5, 7} survive; Planck n_s selects 5 | Pillars 39, 67, 70-B, 70-D; `src/eleventd/uv_vacuum_selection_gate.py` |
 | S3 | SU(3)×SU(2)×U(1) from n_w=5 geometry | ✅ PROVED | `DERIVED` | PASS | Gauge group differs from SM at ≥3σ | Pillar 148; `src/core/sm_gauge_emergence.py` |
 | S4 | N_gen = 3 from T²/Z₃ orbifold | ✅ DERIVED | `ALGEBRAIC` | PASS | 4th light neutrino at ≥5σ | Pillar 205; `src/core/pillar205_generation_quantization.py` |
 | S5 | Higgs VEV from CW geometry | ✅ DERIVED | `DERIVED` | PASS | v outside 5% band at ≥3σ | Pillar 201 (4.6%); Pillar 139 CW (0.10%) |
@@ -85,6 +88,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | SC2 | Exact UV-brane α_GW value for A_s closure | UV-brane geometry full derivation | Higher-dimensional geometry | MEDIUM |
 | SC3 | Full PQ axion mechanism in 5D geometry | 5D Peccei-Quinn sector not derived | Future arc | LOW |
 | SC4 | Full 10D flux landscape for Λ | N_flux=37 partially motivated; not uniqueness proof | 10D landscape closure | LOW |
+| SC5 | 90%+ ToE frontier | Open-parameter closure alone reaches 23.2/28; GP→DERIVED upgrades still needed | `src/core/toe_90_pathway.py` | MEDIUM |
 
 ---
 
