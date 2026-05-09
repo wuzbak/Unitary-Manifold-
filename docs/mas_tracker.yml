@@ -1,4 +1,4 @@
-version: "v10.34"
+version: "v10.35"
 date: "2026-05-09"
 updated: "2026-05-09"
 mas_status: "COMPLETE"
@@ -1698,6 +1698,35 @@ v10_32_p16_promotion:
     note: >
       P27 now has dedicated DERIVED gate evidence with `axiomzero_pdg_inputs=[]`
       and explicit closed-form θ̄ identity checks.
+  open_items:
+    - "P3 (α_s): 4.1% residual — needs UV-brane completion"
+    - "P7–P10 (Yukawas): DERIVED requires CY₃ Yukawa matrix derivation"
+    - "P14 (CKM ρ̄), P15 (δ_CP): DERIVED requires full CP-phase geometry"
+    - "P28 (Λ): 10^57.26 gap — needs N_flux ≥ 61 from 10D landscape"
+    - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
+
+- sprint_id: "v10.35"
+  name: "P26 DERIVED certification sprint"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    Added dedicated AxiomZero-derived certifier for P26 neutrino-mass closure.
+    P26 GEOMETRIC_PREDICTION→DERIVED (+0.2) after all gates pass.
+  parameters_promoted:
+    - param: P26
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p26_neutrino_mass_derived_cert.py"
+  tests_added: 1
+  toe_score:
+    before: 25.5
+    after: 25.7
+    before_pct: "91.1%"
+    after_pct: "91.8%"
+    note: >
+      P26 now has dedicated DERIVED gate evidence with `axiomzero_pdg_inputs=[]`
+      and explicit 5D seesaw numerical consistency checks.
   open_items:
     - "P3 (α_s): 4.1% residual — needs UV-brane completion"
     - "P7–P10 (Yukawas): DERIVED requires CY₃ Yukawa matrix derivation"
