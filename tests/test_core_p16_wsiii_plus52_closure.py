@@ -9,6 +9,7 @@ from src.core.p16_wsiii_plus52_closure import (
     derive_plus52_wsiii,
     p16_wsiii_closure_summary,
     p16_wsiii_gate_report,
+    scan_plus52_residual_neighborhood,
 )
 
 
@@ -39,6 +40,15 @@ def test_fc_report_fields():
     assert report["f_c_fraction_numerator"] == 7.0
     assert report["f_c_fraction_denominator"] == 126.0
     assert report["corrected_ratio"] > 0.0
+    assert report["ratio_residual_vs_pdg_pct"] < 5.0
+
+
+def test_neighborhood_scan_has_local_minimum_at_plus52():
+    scan = scan_plus52_residual_neighborhood(max_abs_shift=6)
+    assert scan["local_minimum_at_plus52"] is True
+    assert scan["best_shift"] == 0
+    assert scan["best_plus_term"] == 52
+    assert scan["margin_to_runner_up_pct"] > 0.0
 
 
 def test_gate_report_promotes_p16():
@@ -51,6 +61,8 @@ def test_gate_report_promotes_p16():
 def test_gate_report_all_individual_gates_true():
     gate = p16_wsiii_gate_report()
     assert all(gate["gates"].values())
+    assert gate["gates"]["gate1_nominal_residual_lt_5pct"] is True
+    assert gate["gates"]["gate2_local_uniqueness_of_plus52"] is True
 
 
 def test_summary_shape_and_values():

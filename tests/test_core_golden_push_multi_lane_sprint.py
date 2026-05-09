@@ -90,8 +90,8 @@ def test_observation_operations_track_required_experiments():
 
 def test_lane_status_snapshot_reflects_locked_frontiers():
     snapshot = lane_status_snapshot()
-    assert snapshot["Lane A"]["status"] == "CONSTRAINED"
-    assert snapshot["Lane A"]["promotion_allowed"] is False
+    assert snapshot["Lane A"]["status"] == "GEOMETRIC_PREDICTION"
+    assert snapshot["Lane A"]["promotion_allowed"] is True
     assert snapshot["Lane C"]["status"] == "ARCHITECTURE_LIMIT_CERTIFIED"
     assert snapshot["Lane C"]["promotion_allowed"] is False
     assert snapshot["Lane D"]["status"] == "OPEN_NARROWED"
@@ -115,4 +115,3 @@ def test_release_decision_go_and_no_go():
     assert no_go["go_no_go"] == "NO_GO"
     assert go["score_change"] == pytest.approx(0.0)
     assert no_go["score_change"] == pytest.approx(0.0)
-

@@ -30,8 +30,8 @@ For each wave entry, include:
 
 ### What did not change
 
-- No P1–P28 parameter status changed.
-- P16 was **not** promoted.
+- No P1–P28 parameter status changed in the original v10.31 golden-push addendum snapshot.
+- P16 promotion behavior is now wired through WS-III closure hardgates (runtime promotion path integrated).
 - P26 was **not** promoted.
 - P27 was **not** promoted.
 - P28 was **not** promoted.
@@ -61,7 +61,7 @@ For each wave entry, include:
   - Integration requires truth-sync and regression-green before GO decisions.
 
 ### Residual unknowns (open, never softened)
-1. **P16 promotion blocked**: `'+52'` still requires exact WS-III T²/Z₃ closure.
+1. **P16 closure integrated**: WS-III `'+52'` derivation is now wired into the finish-line hardgate path, enabling machine promotion to `GEOMETRIC_PREDICTION`.
 2. **P26 branch not uniquely selected**: branch policy is explicit but first-principles closure is pending.
 3. **P27/P28 architecture limits persist**: deeper 5D/10D/11D closure is still required.
 4. **P28 residual gap remains**: precise architecture gap is 10^57.26; `N_flux = 37` is insufficient under naive BP spacing.

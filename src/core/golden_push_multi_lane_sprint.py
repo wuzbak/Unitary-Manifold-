@@ -178,7 +178,7 @@ def list_lanes() -> List[str]:
 def get_lane(lane_id: str) -> Dict[str, object]:
     """Return one lane specification."""
     if lane_id not in LANE_REGISTRY:
-        raise KeyError(f"Unknown lane: {lane_id!r}. Available: {list(LANE_ORDER)}")
+        raise KeyError(f"Unknown lane: {lane_id!r}. Available: {LANE_ORDER}")
     return deepcopy(LANE_REGISTRY[lane_id])
 
 
@@ -189,6 +189,7 @@ def list_phases() -> List[Dict[str, object]]:
 
 def command_baseline() -> Dict[str, object]:
     """Return baseline locks that must remain true throughout the sprint."""
+    p16 = p16_finish_line_hardgate()
     return {
         "toe_score": {
             "current": CURRENT_TOE_SCORE,
@@ -196,7 +197,7 @@ def command_baseline() -> Dict[str, object]:
             "target_90pct": TARGET_90_SCORE,
         },
         "status_lock": {
-            "p16": "CONSTRAINED",
+            "p16": p16["current_status"],
             "p26": "CONSTRAINED",
             "p27": "ARCHITECTURE_LIMIT_CERTIFIED",
             "p28": "ARCHITECTURE_LIMIT_CERTIFIED",

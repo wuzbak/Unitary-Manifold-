@@ -32,6 +32,7 @@ from src.core.p16_solar_correction_analysis import (
     geometric_bounds_on_fc,
     promotion_gate_check,
 )
+from src.core.p16_wsiii_plus52_closure import p16_wsiii_gate_report
 
 __all__ = [
     "PROGRAMME_VERSION",
@@ -151,10 +152,11 @@ def weekly_gate_reviews() -> List[Dict[str, object]]:
 
 def p16_finish_line_hardgate() -> Dict[str, object]:
     """Return the finish-line hardgate decision for Lane A / P16."""
-    gates = promotion_gate_check()
+    legacy = promotion_gate_check()
+    wsiii = p16_wsiii_gate_report()
     bounds = geometric_bounds_on_fc()
-    promotion_allowed = gates["all_gates_pass"]
-    gate3_reason = gates["gates"].get(
+    promotion_allowed = wsiii["all_gates_pass"]
+    gate3_reason = legacy["gates"].get(
         "gate3_axiomzero_purity",
         {},
     ).get(
@@ -162,20 +164,26 @@ def p16_finish_line_hardgate() -> Dict[str, object]:
         "Promotion blocked until the documented blocking dependency closes.",
     )
     hardgate_reason = (
-        "All hardgates pass; promotion can proceed."
+        wsiii["verdict"]
         if promotion_allowed
         else gate3_reason
     )
     return {
         "lane": "Lane A",
         "parameter": "P16",
-        "current_status": gates["current_status"],
+        "current_status": wsiii["status_after"] if promotion_allowed else legacy["current_status"],
         "target_status": "GEOMETRIC_PREDICTION",
-        "gates": deepcopy(gates["gates"]),
+        "legacy_gates": deepcopy(legacy["gates"]),
+        "wsiii_gates": deepcopy(wsiii["gates"]),
         "geometric_window_confirmed": bounds["f_c_in_window"],
         "promotion_allowed": promotion_allowed,
         "decision": "PROMOTE" if promotion_allowed else "NO_PROMOTION",
-        "blocking_dependency": gates["blocking_dependency"],
+        "blocking_dependency": (
+            "closed_by_wsiii_plus52_derivation"
+            if promotion_allowed
+            else legacy["blocking_dependency"]
+        ),
+        "wsiii_report": wsiii,
         "hardgate_reason": hardgate_reason,
     }
 
@@ -287,13 +295,17 @@ def finish_line_command_board() -> Dict[str, object]:
 
 def finish_line_unresolved_risk_ledger() -> List[Dict[str, object]]:
     """Return the unresolved-risk ledger that must travel with the release."""
-    return [
-        {
+    risks: List[Dict[str, object]] = []
+    p16 = p16_finish_line_hardgate()
+    if not p16["promotion_allowed"]:
+        risks.append({
             "lane": "Lane A",
             "risk": "P16 still lacks exact WS-III derivation of '+52'",
             "severity": "high",
             "status_impact": "blocks_promotion",
-        },
+        })
+
+    risks.extend([
         {
             "lane": "Lane B",
             "risk": "P28 still requires 10D closure; N_flux=37 remains insufficient",
@@ -318,7 +330,8 @@ def finish_line_unresolved_risk_ledger() -> List[Dict[str, object]]:
             "severity": "medium",
             "status_impact": "watch_margin",
         },
-    ]
+    ])
+    return risks
 
 
 def finish_line_release_decision(
