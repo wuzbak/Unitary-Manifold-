@@ -42,7 +42,7 @@ Step 3 — Naive α_GW from UV-brane kinetic term + Casimir:
     [4.2×10⁻¹⁰, 4.8×10⁻¹⁰].
 
 Step 4 — Required UV-brane correction factor to reach the interval:
-    c_UV_required = (4.5×10⁻¹⁰) / α_GW^{geo} ≈ 1.04 × 10⁵⁵
+    c_UV_required = (4.5e-10) / alpha_gw_geo ≈ 1.04 × 10⁵⁵
 
     This is the coefficient of the UV-brane localized kinetic term that is NOT
     determinable from the 5D UM action alone.  It requires either:
@@ -53,7 +53,7 @@ Step 4 — Required UV-brane correction factor to reach the interval:
 Honest Verdict
 ---------------
     Status: OPEN_NARROWED
-    The 5D RS1 geometry places α_GW^{geo} ≈ 4.3×10⁻⁶⁵ — outside and far below
+    The 5D RS1 geometry places alpha_gw_geo ≈ 4.3×10⁻⁶⁵ — outside and far below
     the Casimir interval.  The interval itself is derived from CMB amplitude
     matching (phenomenological), not from first principles.  Full point-value
     closure of α_GW requires the UV-brane localized kinetic term coefficient

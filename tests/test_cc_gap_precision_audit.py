@@ -54,7 +54,7 @@ class TestVerifyLayer1Gap:
     def test_residual_closer_to_57_than_to_58(self):
         """Precise computation gives ~57.26, not 57.72 or 58."""
         r = verify_layer1_gap()["residual_log10"]
-        assert abs(r - 57.26) < 0.05, f"residual_log10={r} not near 57.26"
+        assert abs(r - 57.26) < 0.02, f"residual_log10={r} not near 57.26"
 
     def test_headline_claim_approximately_correct(self):
         """'10^58' claim is within 3 orders of the precise value."""

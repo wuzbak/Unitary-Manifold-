@@ -60,11 +60,11 @@ __all__ = [
 # DESI DR2 combined BAO + CMB + SNe constraints
 # ---------------------------------------------------------------------------
 
-#: Approximate BAO + CMB + SNe Ia (DESY5) combined constraints from DESI DR2.
+#: Approximate BAO + CMB + SNe Ia (DES-Y5/Pantheon+) combined constraints from DESI DR2.
 #: Source: arXiv:2503.14738, DESI Collaboration (2025), Table 2 / §5.
 #:
 #: Honesty note: the exact published numbers depend on the SNe dataset.
-#: With DESY5, the combined best-fit shifts wₐ toward −0.55 and tightens
+#: With DES-Y5, the combined best-fit shifts wₐ toward −0.55 and tightens
 #: σ_wₐ to ~0.20. The 3–4σ figure widely cited in press covers the
 #: *BAO + CMB + SNe* combination with multiple SNe datasets; our σ = 0.20
 #: is a conservative approximation from the published posterior.
@@ -72,7 +72,7 @@ DESI_DR2_COMBINED: Dict = {
     "release": "DESI DR2 — BAO + CMB + SNe combined",
     "year": 2025,
     "reference": "DESI DR2 (2503.14738), BAO+CMB+SNe Ia combined",
-    "datasets": "BAO + CMB + SNe (DESY5)",
+    "datasets": "BAO + CMB + SNe (DES-Y5/Pantheon+)",
     "w0_central": -0.90,
     "w0_sigma": 0.055,
     "wa_central": -0.55,

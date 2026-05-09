@@ -67,6 +67,11 @@ def test_bao_routing_route_is_tension():
     """BAO-only: 2.07σ < 3σ → TENSION, not FALSIFIED."""
     result = execute_dr2_bao_routing()
     assert result["route"] == "TENSION"
+    # Verify routing used the correct sigma (~2.07 = |−0.62| / 0.30)
+    expected_sigma = abs(-0.62) / 0.30
+    assert abs(result["wa_tension_sigma"] - expected_sigma) < 0.01, (
+        f"wa_tension_sigma={result['wa_tension_sigma']:.4f} should be ~{expected_sigma:.4f}"
+    )
 
 
 def test_bao_routing_wa_tension_sigma_above_2():
@@ -95,6 +100,11 @@ def test_combined_routing_route_is_tension():
     """Combined BAO+CMB+SNe: 2.75σ < 3σ → TENSION (not FALSIFIED)."""
     result = execute_dr2_combined_routing()
     assert result["route"] == "TENSION"
+    # Verify routing used correct sigma (~2.75 = |−0.55| / 0.20)
+    expected_sigma = abs(-0.55) / 0.20
+    assert abs(result["wa_tension_sigma"] - expected_sigma) < 0.01, (
+        f"wa_tension_sigma={result['wa_tension_sigma']:.4f} should be ~{expected_sigma:.4f}"
+    )
 
 
 def test_combined_routing_wa_tension_sigma_between_2_and_3():
