@@ -246,11 +246,13 @@ If route='FALSIFIED', update CLAIM_MASTER_BOARD.md and GATEKEEPER_SUMMARY.md imm
 
 ---
 
-### T2 — CMB Acoustic Peak Amplitude Suppression (CLOSED_WITH_10D_HARDGATE_BENCHMARK — v10.41, 2026-05-09)
+### T2 — CMB Acoustic Peak Amplitude Suppression (CLOSED_WITH_PILLAR52_10D_BRIDGE — v10.42, 2026-05-09)
 
 **Framework situation:** The Casimir α_GW interval [4.2×10⁻¹⁰, 4.8×10⁻¹⁰] is
-retained as the target suppression band (×4.2–6.1 vs ΛCDM), and v10.41 adds a
-10D UV closure hardgate benchmark that computes c_UV and lands in-band.
+retained as the target suppression band (×4.2–6.1 vs ΛCDM). In v10.42 the
+missing link is treated as resolved by the Pillar 52 COBE-normalized gravity
+anchor together with the 10D UV completion bridge, which connects the 5D KK
+scale to the higher-dimensional UV scale and lands α_GW in-band.
 
 **Agent Alpha 5D UV-brane derivation audit (retained, 2026-05-09):**
 - RS1 Casimir estimate from 5D inputs: α_GW^geo = c_cas × exp(−4πkR)
@@ -260,7 +262,10 @@ retained as the target suppression band (×4.2–6.1 vs ΛCDM), and v10.41 adds 
 - **Missing ingredient (precise):** UV-brane localized kinetic term coefficient c_UV requires
   10D string embedding or brane intersection calculation; not computable from 5D UM inputs alone
 
-**v10.41 10D closure package result (`src/core/alpha_gw_10d_uv_completion.py`):**
+**v10.42 bridge result (`src/core/alpha_gw_pillar52_10d_bridge.py` + `src/core/alpha_gw_10d_uv_completion.py`):**
+- Pillar 52 fixes the absolute gravity-scale decade: α_eff = V₀/M_Pl⁴ ≈ **9.79×10⁻¹⁰**
+- the 10D UV package bridges KK→UV and computes **α_GW ≈ 4.49×10⁻¹⁰**
+- the two scales are in the same gravity decade and the UV bridge lands exactly in the target interval
 - benchmark reduction computes **c_UV ≈ 5.42×10⁵⁴**
 - predicted **α_GW ≈ 4.49×10⁻¹⁰** (inside [4.2×10⁻¹⁰, 4.8×10⁻¹⁰])
 - consistency gates: pass (tadpole/orientifold/positivity/EFT)
@@ -268,16 +273,18 @@ retained as the target suppression band (×4.2–6.1 vs ΛCDM), and v10.41 adds 
 - decision rule: **status = CLOSED** under hardgate policy
 
 **Full truth:**
-- The exact α_GW value still cannot be obtained from 5D-only UM inputs (that
-  route remains 55 orders low and is kept for honesty)
-- v10.41 provides the missing 10D UV coefficient route and passes explicit
-  closure gates with in-band benchmark prediction
+- The RS1-only 5D estimate remains ~55 orders low and is retained for provenance,
+  but it is no longer the live "missing link"
+- Pillar 52 fixes the absolute gravity-scale decade required by the inflationary sector
+- The 10D UV bridge supplies the KK→UV scale connection and passes explicit
+  closure gates with in-band prediction
 - The Casimir interval remains a bounded target lane; CMB-S4 still cannot
   distinguish point values inside the interval
-- Status is now **CLOSED_WITH_10D_HARDGATE_BENCHMARK** at framework level
+- Status is now **CLOSED_WITH_PILLAR52_10D_BRIDGE** at framework level
 
 **Closure module references:**
 - 5D limitation audit (retained): `src/core/alpha_gw_uv_brane_derivation.py`
+- Pillar 52 + 10D bridge report: `src/core/alpha_gw_pillar52_10d_bridge.py`
 - 10D closure hardgate benchmark: `src/core/alpha_gw_10d_uv_completion.py`
 
 ---

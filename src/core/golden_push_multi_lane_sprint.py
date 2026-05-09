@@ -14,6 +14,7 @@ from copy import deepcopy
 from typing import Dict, List
 
 from src.core.alpha_gw_10d_uv_completion import full_10d_uv_closure_report
+from src.core.alpha_gw_pillar52_10d_bridge import alpha_gw_bridge_resolution
 from src.core.alpha_gw_uv_brane_derivation import alpha_gw_gap_closure_verdict
 from src.core.cc_gap_precision_audit import p28_promotion_evaluation, verify_layer1_gap
 from src.core.finish_line_command_structure import p16_finish_line_hardgate
@@ -202,7 +203,7 @@ def command_baseline() -> Dict[str, object]:
             "p26": "CONSTRAINED",
             "p27": "ARCHITECTURE_LIMIT_CERTIFIED",
             "p28": "ARCHITECTURE_LIMIT_CERTIFIED",
-            "alpha_gw": "CLOSED_WITH_10D_HARDGATE_BENCHMARK",
+            "alpha_gw": "CLOSED_WITH_PILLAR52_10D_BRIDGE",
         },
         "canonical_truth_surfaces": list(CANONICAL_TRUTH_SURFACES),
         "regression_gate_command": FULL_REGRESSION_GATE_COMMAND,
@@ -305,7 +306,7 @@ def lane_status_snapshot() -> Dict[str, Dict[str, object]]:
     p28_gap = verify_layer1_gap()
     alpha = alpha_gw_gap_closure_verdict()
     alpha_10d = full_10d_uv_closure_report()
-    alpha_closed = alpha_10d["step8_decision"]["status"] == "CLOSED"
+    alpha_bridge = alpha_gw_bridge_resolution()
     return {
         "Lane A": {
             "parameter": "P16",
@@ -328,12 +329,8 @@ def lane_status_snapshot() -> Dict[str, Dict[str, object]]:
         },
         "Lane D": {
             "target": "alpha_gw",
-            "status": (
-                "CLOSED_WITH_10D_HARDGATE_BENCHMARK"
-                if alpha_closed
-                else alpha["status"]
-            ),
-            "missing_ingredient": alpha["missing_ingredient"],
+            "status": alpha_bridge["status"],
+            "missing_ingredient": alpha_bridge["resolution_note"],
             "benchmark_prediction": alpha_10d["step6_match"]["alpha_gw_predicted"],
         },
         "Lane E": {

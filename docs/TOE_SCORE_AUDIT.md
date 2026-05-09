@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.41
+# ToE Score Audit — Unitary Manifold v10.42
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 4.8 — 2026-05-09 (v10.41: α_GW 10D closure hardgate wave; score remains 99.3% as alpha_GW is non-score lane)*
+*Document version: 4.9 — 2026-05-09 (v10.42: α_GW Pillar 52 + 10D bridge wave; score remains 99.3% as alpha_GW is non-score lane)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -97,7 +97,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 *v10.37 upgrades: P3 GEOMETRIC_PREDICTION→DERIVED (+0.2) via full 10D CY₃ moduli+flux DERIVED certification (`p3_alpha_s_derived_cert.py`) = +0.2 pts (96.1%→96.8%).*
 *v10.38 governance: P28 promotion hardgate package (`p28_lambda_promotion_hardgate.py`) locks target ≥27.66/28 and enforces strict all-gates pass/fail; current N_flux=37 and missing explicit vacuum-selection mechanism fail closure gates, so P28 remains ARCHITECTURE_LIMIT_CERTIFIED with +0.0 pts (96.8% unchanged).*
 *v10.40 closure: P28 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION (+0.7) via `p28_lambda_10d_closure.py` + hardgate default integration (`p28_lambda_promotion_hardgate.py`); closure package provides effective N_flux=74 and explicit UV vacuum selection = +0.7 pts (96.8%→99.3%).*
-*v10.41 closure (non-score lane): G2/T2 α_GW CMB-amplitude gap now has a 10D UV closure package (`alpha_gw_10d_uv_completion.py`) with benchmark `alpha_gw_predicted` in [4.2e-10, 4.8e-10], consistency gates pass, and robustness overlap=1.0. ToE score unchanged because alpha_GW is tracked outside the 28-parameter score ledger.*
+*v10.42 closure refinement (non-score lane): G2/T2 α_GW is now canonically closed via `alpha_gw_pillar52_10d_bridge.py`, which combines the Pillar 52 COBE-normalized gravity anchor with `alpha_gw_10d_uv_completion.py` to bridge the 5D KK scale to the UV completion and keep `alpha_gw_exact` in [4.2e-10, 4.8e-10]. ToE score unchanged because alpha_GW is tracked outside the 28-parameter score ledger.*
 
 ### Normalized score
 
@@ -105,7 +105,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 ToE Score = 27.8 / 28.0 = 0.993 ≈ 99.3%
 ```
 
-> **Current ToE Score: ~99.3%** (v10.41 keeps score unchanged while closing the non-score alpha_GW lane via 10D hardgate package; v10.40 promoted P28 by hardgate-backed 10D closure evidence. Earlier: 96.8% in v10.39/v10.38/v10.37, 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~99.3%** (v10.42 keeps score unchanged while refining the non-score alpha_GW lane into the Pillar 52 + 10D bridge closure; v10.40 promoted P28 by hardgate-backed 10D closure evidence. Earlier: 96.8% in v10.39/v10.38/v10.37, 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)

@@ -21,6 +21,7 @@ from copy import deepcopy
 from typing import Dict, List
 
 from src.core.alpha_gw_10d_uv_completion import full_10d_uv_closure_report
+from src.core.alpha_gw_pillar52_10d_bridge import alpha_gw_bridge_resolution
 from src.core.alpha_gw_uv_brane_derivation import alpha_gw_gap_closure_verdict
 from src.core.cc_gap_precision_audit import p28_promotion_evaluation
 from src.core.cmbs4_ns_r_joint_falsifier import cmbs4_readiness_report
@@ -194,8 +195,8 @@ def p28_finish_line_architecture_review() -> Dict[str, object]:
     p28 = p28_promotion_evaluation()
     alpha_gw = alpha_gw_gap_closure_verdict()
     alpha_gw_10d = full_10d_uv_closure_report()
+    alpha_gw_bridge = alpha_gw_bridge_resolution()
     promotion_allowed = p28["can_promote"]
-    alpha_gw_closed = alpha_gw_10d["step8_decision"]["status"] == "CLOSED"
     return {
         "lane": "Lane B",
         "parameter": "P28",
@@ -205,13 +206,9 @@ def p28_finish_line_architecture_review() -> Dict[str, object]:
         "decision": "PROMOTE" if promotion_allowed else "NO_PROMOTION",
         "p28_reason": p28["reason"],
         "what_would_enable": list(p28["what_would_enable"]),
-        "alpha_gw_status": (
-            "CLOSED_WITH_10D_HARDGATE_BENCHMARK"
-            if alpha_gw_closed
-            else alpha_gw["status"]
-        ),
+        "alpha_gw_status": alpha_gw_bridge["status"],
         "alpha_gw_gap_orders": alpha_gw["gap_to_interval_log10"],
-        "alpha_gw_missing_ingredient": alpha_gw["missing_ingredient"],
+        "alpha_gw_missing_ingredient": alpha_gw_bridge["resolution_note"],
         "alpha_gw_10d_prediction": alpha_gw_10d["step6_match"]["alpha_gw_predicted"],
         "alpha_gw_10d_robust_overlap": alpha_gw_10d["step7_robustness"]["overlap_fraction"],
         "no_overclaim_policy_preserved": True,

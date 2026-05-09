@@ -26,7 +26,7 @@ def collect_canonical_evidence_feed() -> Dict:
     litebird = fail_zone_report(0.331)
     litebird["readiness"] = litebird_prepublication_packet()
     return {
-        "version": "v10.41",
+        "version": "v10.42",
         "generated_on": date.today().isoformat(),
         "experiments": {
             "litebird": litebird,

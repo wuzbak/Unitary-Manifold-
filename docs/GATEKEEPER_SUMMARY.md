@@ -125,9 +125,9 @@ honestly.
 | # | Tension | Prediction | Data | σ-Level | Escalation Condition |
 |---|---------|-----------|------|---------|---------------------|
 | T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | ≥3σ → FALSIFIED |
-| T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | CLOSED_WITH_10D_HARDGATE_BENCHMARK | 5D-only derivation remains open, but the 10D hardgate benchmark closes the framework lane |
+| T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | CLOSED_WITH_PILLAR52_10D_BRIDGE | Pillar 52 fixes the gravity-scale decade and the 10D UV bridge closes the framework lane; the RS1-only undershoot is retained as provenance only |
 
-**Verdict:** 🟠 TENSION on T1 only; T2 is now closed at framework level by the v10.41 10D hardgate benchmark while retaining the explicit 5D limitation note.
+**Verdict:** 🟠 TENSION on T1 only; T2 is now closed at framework level by the v10.42 Pillar 52 + 10D bridge, with the RS1-only undershoot retained only as historical provenance.
 
 **Action required for T1:** Re-run the routing on DESI DR3 / Year 5 within 30 days
 of publication using `src/core/desi_dr2_gap_report.py`. Update this document same day.

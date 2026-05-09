@@ -42,7 +42,7 @@ def test_p28_finish_line_architecture_review_blocks_promotion():
     assert result["parameter"] == "P28"
     assert result["promotion_allowed"] is False
     assert result["decision"] == "NO_PROMOTION"
-    assert result["alpha_gw_status"] == "CLOSED_WITH_10D_HARDGATE_BENCHMARK"
+    assert result["alpha_gw_status"] == "CLOSED_WITH_PILLAR52_10D_BRIDGE"
     assert 4.2e-10 <= result["alpha_gw_10d_prediction"] <= 4.8e-10
     assert result["alpha_gw_10d_robust_overlap"] == 1.0
 
