@@ -1944,6 +1944,51 @@ v10_32_p16_promotion:
     - "P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify"
     - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
 
+- sprint_id: "v10.42"
+  name: "alpha_GW Pillar 52 + 10D bridge closure sync"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    Formalized the alpha_GW missing-link closure as an earned bridge: Pillar 52
+    fixes the absolute gravity-scale decade, while the existing 10D UV package
+    bridges the 5D KK scale to the UV completion and keeps alpha_GW in-band.
+    Canonical docs now retain the RS1-only undershoot as provenance rather than
+    as the live missing ingredient.
+  deliverables:
+    - artifact: "src/core/alpha_gw_pillar52_10d_bridge.py"
+      test: "tests/test_alpha_gw_pillar52_10d_bridge.py"
+      status: "CANONICAL_BRIDGE_CLOSURE_PASS"
+      toe_delta: 0.0
+    - artifact: "src/core/finish_line_command_structure.py"
+      test: "tests/test_finish_line_command_structure.py"
+      status: "SYNCED_TO_BRIDGE_STATUS"
+      toe_delta: 0.0
+    - artifact: "src/core/golden_push_multi_lane_sprint.py"
+      test: "tests/test_core_golden_push_multi_lane_sprint.py"
+      status: "SYNCED_TO_BRIDGE_STATUS"
+      toe_delta: 0.0
+    - artifact: "docs/TRUTH_LAYER.md"
+      status: "SYNCED_TO_v10.42"
+      toe_delta: 0.0
+    - artifact: "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+      status: "SYNCED_TO_v10.42"
+      toe_delta: 0.0
+    - artifact: "docs/TOE_SCORE_AUDIT.md"
+      status: "SYNCED_TO_v10.42"
+      toe_delta: 0.0
+  parameters_promoted: []
+  toe_score:
+    before: 27.8
+    after: 27.8
+    before_pct: "99.3%"
+    after_pct: "99.3%"
+    note: >
+      alpha_GW remains a non-score lane; this wave tightens the canonical closure
+      language without changing the 28-parameter ledger.
+  open_items:
+    - "P23/P24 (β birefringence): direct cosmology measurement remains LiteBIRD-gated (~2032/2034); parallel lab falsifier lane active now"
+    - "P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify"
+
 - sprint_id: "v10.41"
   name: "alpha_GW 10D hardgate closure + birefringence lab-lane sync"
   status: "COMPLETE"
