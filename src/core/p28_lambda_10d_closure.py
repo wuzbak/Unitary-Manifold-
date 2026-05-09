@@ -41,7 +41,7 @@ def effective_flux_sufficiency(
         raise ValueError(f"dual_flux_multiplicity must be positive, got {dual_flux_multiplicity}")
 
     effective_n_flux = base_n_flux * dual_flux_multiplicity
-    # Naive BP discretuum spacing scales as ε ~ 10^{-2 N_flux}; therefore
+    # Naive BP (Bousso-Polchinski) discretuum spacing scales as ε ~ 10^{-2 N_flux}; therefore
     # log10(ε / M_Pl^4) = -2 * N_flux.
     spacing_log10 = -2.0 * float(effective_n_flux)
     lambda_obs_log10 = math.log10(LAMBDA_OBS_MPLANCK4)

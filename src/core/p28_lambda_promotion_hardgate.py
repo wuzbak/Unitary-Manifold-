@@ -1,6 +1,6 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-"""P28 promotion hardgate package (v10.38).
+"""P28 promotion hardgate package (v10.40).
 
 Implements a strict pass/fail decision rule for promoting P28 from
 ARCHITECTURE_LIMIT_CERTIFIED(10D) to GEOMETRIC_PREDICTION.

@@ -26,9 +26,9 @@ def test_flux_sufficiency_reaches_threshold():
 
 
 def test_flux_sufficiency_input_validation():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="base_n_flux must be positive, got 0"):
         effective_flux_sufficiency(base_n_flux=0)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="dual_flux_multiplicity must be positive, got 0"):
         effective_flux_sufficiency(dual_flux_multiplicity=0)
 
 
@@ -49,4 +49,3 @@ def test_p28_10d_closure_report_is_promotion_ready():
     assert report["all_closure_gates_pass"] is True
     assert report["promotion_ready"] is True
     assert report["status"] == "P28_10D_CLOSURE_READY"
-
