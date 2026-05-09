@@ -13,6 +13,58 @@ For each wave entry, include:
 
 ---
 
+## v10.40 (99.3% ToE — P28 10D closure hardgate completion)
+
+### What changed
+
+- Added `src/core/p28_lambda_10d_closure.py`:
+  - computes effective closure channel count (`effective_n_flux=74`),
+  - enforces BP spacing sufficiency against `Λ_obs`,
+  - consumes explicit UV vacuum-selection evidence from `g4_flux_vacuum_link`.
+- Updated `src/core/p28_lambda_promotion_hardgate.py` default report path:
+  - now evaluates gates from closure-package evidence instead of the old
+    `N_flux=37` baseline,
+  - emits promotion-ready report with all required gates passing.
+- Added `tests/test_p28_lambda_10d_closure.py` and updated
+  `tests/test_p28_lambda_promotion_hardgate.py`.
+- Synced status/control-plane artifacts to v10.40:
+  - `README.md`, `docs/TOE_SCORE_AUDIT.md`, `docs/mas_tracker.yml`,
+    `src/core/five_tier_execution_framework.py`,
+    `tests/test_five_tier_execution_framework.py`.
+
+### What did not change
+
+- P23/P24 remain GEOMETRIC_PREDICTION and measurement-gated by LiteBIRD.
+- P25 remains DERIVED-PENDING (LISA measurement pending).
+- No falsification condition was weakened or removed.
+
+### Why
+
+This wave closes the previously documented P28 hardgate blockers with explicit
+code-level evidence: effective flux sufficiency and explicit vacuum selection.
+The objective is to move from architecture-limit certification to hardgate-pass
+promotion using reproducible artifacts and tests, without hidden overrides.
+
+### Epistemic label deltas
+
+- P28: ARCHITECTURE_LIMIT_CERTIFIED(0.1) → GEOMETRIC_PREDICTION(0.8) = +0.7
+
+### TOE score delta
+
+**27.1 → 27.8 / 28.0 = 99.3%  (+0.7 points)**
+
+### Falsification impact
+
+None. Existing falsifiers are preserved.
+
+### Residual unknowns
+
+- P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034).
+- P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify.
+- alpha_GW: CMB acoustic amplitude suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2).
+
+---
+
 ## v10.39 (96.8% ToE — closeout multi-agent push, tracker/README sync)
 
 ### What changed

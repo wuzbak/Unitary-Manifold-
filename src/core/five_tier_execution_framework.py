@@ -35,7 +35,7 @@ __all__ = [
     "framework_summary",
 ]
 
-FRAMEWORK_VERSION: str = "v10.39"
+FRAMEWORK_VERSION: str = "v10.40"
 FRAMEWORK_DATE: str = "2026-05-09"
 
 TIER_PRIORITY_ORDER: List[str] = [
@@ -205,7 +205,7 @@ NEXT_THREE_PRS: List[Dict[str, object]] = [
         "title": "P16/P28 finish-line audit plus one-command observation routing",
         "deliverables": [
             "P16 remains blocked until exact '+52' WS-III derivation closes",
-            "P28 remains ARCHITECTURE_LIMIT_CERTIFIED pending 10D closure",
+            "P28 promoted to GEOMETRIC_PREDICTION via 10D closure hardgate evidence",
             "α_GW UV-brane point value remains OPEN_NARROWED pending UV completion",
             "One-command DESI / JUNO / Hyper-K / CMB-S4 / LiteBIRD routing",
             "Automatic OBSERVATION_TRACKER.md and WAVE_CHANGELOG.md payload generation",

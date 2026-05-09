@@ -1,4 +1,4 @@
-version: "v10.39"
+version: "v10.40"
 date: "2026-05-09"
 updated: "2026-05-09"
 mas_status: "COMPLETE"
@@ -1894,4 +1894,52 @@ v10_32_p16_promotion:
   open_items:
     - "P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034)"
     - "P28 (Λ): 10^57.26 gap — hardgate closure needs N_flux >= 61 and explicit vacuum-selection mechanism"
+    - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
+
+- sprint_id: "v10.40"
+  name: "P28 10D closure hardgate completion"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    Delivered the 10D P28 closure package and routed default hardgate evaluation
+    through closure evidence. Effective closure channel count reaches N_flux=74
+    and explicit UV vacuum selection passes, so all required P28 hardgates pass.
+  deliverables:
+    - artifact: "src/core/p28_lambda_10d_closure.py"
+      test: "tests/test_p28_lambda_10d_closure.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+    - artifact: "src/core/p28_lambda_promotion_hardgate.py"
+      test: "tests/test_p28_lambda_promotion_hardgate.py"
+      status: "SYNCED_TO_CLOSURE_PACKAGE"
+      toe_delta: 0.7
+    - artifact: "README.md"
+      status: "SYNCED_TO_v10.40"
+      toe_delta: 0.0
+    - artifact: "docs/TOE_SCORE_AUDIT.md"
+      status: "SYNCED_TO_v10.40"
+      toe_delta: 0.0
+    - artifact: "docs/WAVE_CHANGELOG.md"
+      status: "SYNCED_TO_v10.40"
+      toe_delta: 0.0
+    - artifact: "src/core/five_tier_execution_framework.py"
+      status: "SYNCED_TO_v10.40"
+      toe_delta: 0.0
+  parameters_promoted:
+    - param: P28
+      from: ARCHITECTURE_LIMIT_CERTIFIED(10D)
+      to: GEOMETRIC_PREDICTION
+      delta: 0.7
+      module: "src/core/p28_lambda_promotion_hardgate.py"
+  toe_score:
+    before: 27.1
+    after: 27.8
+    before_pct: "96.8%"
+    after_pct: "99.3%"
+    note: >
+      P28 hardgate completion applied only after closure-package evidence passed:
+      effective flux sufficiency and explicit UV vacuum-selection mechanism.
+  open_items:
+    - "P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034)"
+    - "P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify"
     - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"

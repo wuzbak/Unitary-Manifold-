@@ -18,17 +18,17 @@ from src.core.p28_lambda_promotion_hardgate import (
 )
 
 
-def test_default_report_is_certified_non_promotion():
+def test_default_report_promotes_with_closure_package():
     report = p28_promotion_hardgate_report()
-    assert report["all_gates_pass"] is False
-    assert report["status_after"] == P28_CURRENT_STATUS
-    assert report["toe_score_delta"] == pytest.approx(0.0, abs=1e-12)
+    assert report["all_gates_pass"] is True
+    assert report["status_after"] == P28_TARGET_STATUS
+    assert report["toe_score_delta"] == pytest.approx(P28_PROMOTION_DELTA, abs=1e-12)
 
 
-def test_default_target_locked_but_not_met():
+def test_default_target_locked_and_met():
     report = p28_promotion_hardgate_report()
     assert report["target_locked"]["minimum_toe_score"] == pytest.approx(TARGET_TOE_SCORE_MIN, abs=1e-12)
-    assert report["target_locked"]["is_met"] is False
+    assert report["target_locked"]["is_met"] is True
 
 
 def test_default_axiomzero_inputs_empty():
@@ -39,6 +39,14 @@ def test_default_axiomzero_inputs_empty():
 def test_default_non_actionable_measurement_gated_list():
     report = p28_promotion_hardgate_report()
     assert tuple(report["non_actionable_measurement_gated"]) == NON_ACTIONABLE_MEASUREMENT_GATED
+
+
+def test_default_report_embeds_closure_package_evidence():
+    report = p28_promotion_hardgate_report()
+    closure = report["evidence_context"]["closure_package"]
+    assert closure["promotion_ready"] is True
+    assert closure["effective_n_flux"] >= 61
+    assert closure["explicit_selection_pass"] is True
 
 
 def test_candidate_can_promote_if_all_gates_pass():
@@ -80,4 +88,3 @@ def test_summary_matches_report():
     assert summary["status_after"] == report["status_after"]
     assert summary["toe_score_delta"] == report["toe_score_delta"]
     assert summary["all_gates_pass"] == report["all_gates_pass"]
-
