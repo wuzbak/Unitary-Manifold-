@@ -13,6 +13,58 @@ For each wave entry, include:
 
 ---
 
+## v10.38 (96.8% ToE — P28 hardgate promotion package, certified non-promotion)
+
+### What changed
+
+- Added `src/core/p28_lambda_promotion_hardgate.py`:
+  - locks the next-push target at **≥27.66/28** (+0.56 minimum),
+  - enforces strict gates for P28 promotion (closure evidence, robustness sweep,
+    AxiomZero purity, falsifier integrity),
+  - applies pass/fail rule: promote only if all gates pass, else certified
+    non-promotion with `toe_score_delta=0.0`.
+- Added `tests/test_p28_lambda_promotion_hardgate.py` (default non-promotion
+  path + guarded promotion candidate path coverage).
+- Synced framework metadata to `v10.38`.
+
+### What did not change
+
+- P28 was **not** promoted in current-state evaluation (`N_flux=37`,
+  no explicit vacuum-selection mechanism), so status remains
+  ARCHITECTURE_LIMIT_CERTIFIED(10D).
+- P23/P24 remain GEOMETRIC_PREDICTION (measurement-gated by LiteBIRD).
+- P25 remains DERIVED-PENDING (measurement-gated by LISA).
+- No falsification condition was weakened or removed.
+
+### Why
+
+The objective required an explicit all-gates governance package for P28 with
+no score inflation. This wave implements that policy in executable code and
+tests. Under present inputs, closure gates fail honestly, so the package emits
+a machine-verifiable non-promotion decision.
+
+### Epistemic label deltas
+
+- None (P28 remains ARCHITECTURE_LIMIT_CERTIFIED(10D)).
+
+### TOE score delta
+
+**27.1 → 27.1 / 28.0 = 96.8%  (+0.0%)**
+
+### Falsification impact
+
+None. This wave adds hardgate governance and preserves existing falsifiers.
+
+### Residual unknowns
+
+- P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034).
+- P28 (Λ): 10^57.26 gap — hardgate closure needs N_flux ≥ 61 and explicit
+  vacuum-selection mechanism from 10D landscape dynamics.
+- P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify.
+- alpha_GW: CMB acoustic amplitude suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2).
+
+---
+
 ## v10.37 (96.8% ToE — P3 GP→DERIVED Certification)
 
 ### What changed
