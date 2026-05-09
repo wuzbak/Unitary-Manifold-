@@ -42,6 +42,8 @@ Established by the AxiomZero axiom system and causal structure of the Unitary Ma
   
 *Reference: `src/core/evolution.py`, `src/multiverse/fixed_point.py`, `src/core/axiomzero_guard.py`*
 
+*Companion understanding scaffold: `1-THEORY/pillars/PILLAR_226_DIMENSIONAL_UNDERSTANDING_1D_TO_11D.md`*
+
 ---
 
 ## Completed: Phase 2 — Physical Bridge (4D–5D)
