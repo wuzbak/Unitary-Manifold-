@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v10.31
+# Unitary Manifold v10.32
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,7 +8,7 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-*Last updated: 2026-05-09 (v10.31)*
+*Last updated: 2026-05-09 (v10.32)*
 
 ---
 
@@ -69,6 +69,7 @@ as PENDING but are already classified GEOMETRIC_PREDICTION in the canonical regi
 | P13 | α (fine structure) | 1/137.036 | 1/137 | 0.026% | `src/core/alpha_gut_chain.py` |
 | P14 | CKM ρ̄ | 0.159 | 0.1609 | 1.22% | `src/core/ckm_rhobar_nlo_braid_correction.py` |
 | P15 | δ_CP | 1.20 rad | 1.2152 rad | 1.27% | `src/core/pmns_delta_cp_7d.py` |
+| P16 | Δm²₂₁ | 7.53e-5 eV² | f_c=7/126 (WS-III T²/Z₃) | 0.20% | `src/core/p16_wsiii_plus52_closure.py` |
 | P17 | Δm²₃₁ | 2.453e-3 eV² | 9D KK+GS | 2.18% | `src/core/neutrino_closure_sprint.py` |
 | P18 | θ₁₂ | 33.82° | Route A geo | 1.55% | `src/core/neutrino_p18_route_consolidation.py` |
 | P19 | θ₂₃ | 48.3° | Tier-3 gate | 0.82% | `src/core/pmns_theta23_geometric.py` |
@@ -76,8 +77,8 @@ as PENDING but are already classified GEOMETRIC_PREDICTION in the canonical regi
 | P21 | M_W | 80.377 GeV | 79.985 GeV | 0.49% | `src/core/ew_boson_mass_geometric.py` |
 | P22 | M_Z | 91.1876 GeV | 91.237 GeV | 0.055% | `src/core/ew_boson_mass_geometric.py` |
 
-**Verdict:** ✅ PASS — all 21 SM-sector geometric predictions consistent with current data
-(22 total including birefringence; P23/P24 measurement pending).
+**Verdict:** ✅ PASS — all 22 SM-sector geometric predictions consistent with current data
+(23 total including birefringence; P23/P24 measurement pending).
 
 **Gatekeeper note on P3 (α_s):** 4.1% residual is close to the 5% promotion threshold.
 The derivation is Tier-1 auditable but involves multi-step matching. Referees
@@ -94,10 +95,10 @@ blocked by a documented dependency.
 
 | # | Parameter | PDG Value | UM Status | Residual | Blocking Dep |
 |---|-----------|-----------|-----------|----------|--------------|
-| P16 | Δm²₂₁ (solar ν) | 7.53e-5 eV² | flux-backreaction NLO | 0.20% | Exact WS-III derivation of the '+52' term |
 | P26 | m_ν absolute scale | < 0.12 eV | consistent (bounded) | — | Dirac/Majorana branch closure |
 
-**Verdict:** ✅ PASS (CONSTRAINED) — consistent with data; promotion blocked by documented dependency.
+**Verdict:** ✅ PASS (CONSTRAINED) — consistent with data; promotion blocked by documented dependency.  
+**v10.32 note:** P16 (Δm²₂₁) was promoted from CONSTRAINED to GEOMETRIC_PREDICTION via WS-III T²/Z₃ closure.
 
 ---
 
@@ -165,24 +166,24 @@ immediately upon publication.
 | Category | Count | Score |
 |----------|-------|-------|
 | ALGEBRAIC / DERIVED | 2 | 1.8 |
-| GEOMETRIC_PREDICTION | 22 | 17.6 |
+| GEOMETRIC_PREDICTION | 23 | 18.4 |
 | DERIVED (GW, P25) | 1 | 0.8 |
-| CONSTRAINED | 2 | 1.0 |
+| CONSTRAINED | 1 | 0.5 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.0 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 2 | 0.2 |
-| **Total** | **28+** | **21.2 / 28.0 = 76%** |
+| **Total** | **28+** | **21.5 / 28.0 = 76.8%** |
 
-**Current ToE Score: 76% (v10.31, unchanged from v10.30/v10.28)**
+**Current ToE Score: 76.8% (v10.32: P16 WS-III closure; upgraded from 76% in v10.31/v10.30/v10.28)**
 
-**v10.31 note:** canonical UV vacuum-selection, G₄-link, bridge-burn, branch-policy, and ToE-frontier
-artifacts were added with **no parameter promotion** and **no falsifier weakening**.
+**v10.32 note:** P16 (Δm²₂₁) promoted CONSTRAINED→GEOMETRIC_PREDICTION via WS-III T²/Z₃ +52 derivation
+(+52 = πkR + 3·N_W = 37 + 15; all 3 hardgates pass; `src/core/p16_wsiii_plus52_closure.py`; +0.3 pts).
 
 Interpretation for gatekeepers:
-- 76% means the 5D framework geometrically accounts for 76% of the SM
+- 76.8% means the 5D framework geometrically accounts for 76.8% of the SM
   parameter landscape, measured by a scoring rubric that penalizes
   constrained estimates and architecture limits.
-- The remaining 24% consists of two architecture limits (P27, P28),
-  two constrained-but-blocked parameters (P16, P26), and no currently
+- The remaining 23.2% consists of two architecture limits (P27, P28),
+  one constrained-but-blocked parameter (P26), and no currently
   active GEOMETRIC_ESTIMATE_CERTIFIED parameters.
 - **This score is not a measure of physical correctness.** It measures
   the fraction of SM parameters for which a geometric derivation exists

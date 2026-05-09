@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.31
+# ToE Score Audit — Unitary Manifold v10.32
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 3.0 — 2026-05-09 (v10.31 finish-line sync: no score delta; release-governance lock only)*
+*Document version: 3.1 — 2026-05-09 (v10.32 P16 WS-III closure: CONSTRAINED→GEOMETRIC_PREDICTION, +0.3 pts)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -47,7 +47,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P13 | Fine structure constant α | 1/137.036 | 1/137 (5D SU(5) GUT chain) | 0.026% | GEOMETRIC_PREDICTION | 0.8 |
 | P14 | CKM ρ̄ (CP violation) | 0.159 | 0.1609 (8D Wilson blend; 9D-propagated robustness) | 1.22% | GEOMETRIC_PREDICTION | 0.8 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | 1.2152 rad (7D torsion + 9D KK+GS) | 1.27% | GEOMETRIC_PREDICTION | 0.8 |
-| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | flux-backreaction NLO cert | 0.20% | CONSTRAINED | 0.5 |
+| P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | WS-III: f_c=(N_W+2)/(K_CS+πkR+3N_W)=7/126 | 0.20% | GEOMETRIC_PREDICTION | 0.8 |
 | P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | 9D KK+GS hardgate corrected | 2.18% | GEOMETRIC_PREDICTION | 0.8 |
 | P18 | θ₁₂ (solar mixing angle) | 33.82° | Route A geometric (Pillar 138 + CS/winding) | 1.55% | GEOMETRIC_PREDICTION | 0.8 |
 | P19 | θ₂₃ (atmospheric mixing angle) | 48.3° | geometric (Tier-3 hardgate) | 0.82% | GEOMETRIC_PREDICTION | 0.8 |
@@ -70,16 +70,16 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| GEOMETRIC_PREDICTION | 22 | 0.8 | 17.6 |
+| GEOMETRIC_PREDICTION | 23 | 0.8 | 18.4 |
 | DERIVED | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
-| CONSTRAINED | 2 | 0.5 | 1.0 |
+| CONSTRAINED | 1 | 0.5 | 0.5 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.3 | 0.0 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 2 | 0.1 | 0.2 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **21.2** |
+| **Total** | **28** | | **21.5** |
 
-*Note: The canonical running total of 21.2 is carried by the version-delta ledger in `docs/mas_tracker.yml`; the per-category subtotals reflect the current v10.31 locked state (no score delta from v10.28/v10.30; finish-line governance sync only).*
+*Note: The canonical running total of 21.5 is carried by the version-delta ledger in `docs/mas_tracker.yml`; the per-category subtotals reflect the v10.32 state (P16 WS-III closure: CONSTRAINED→GEOMETRIC_PREDICTION +0.3 pts).*
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
@@ -87,21 +87,22 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 *v10.24 upgrades: P3 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5), P5 GEOMETRIC_ESTIMATE_CERTIFIED→GEOMETRIC_PREDICTION (+0.5) = +1.0 pts (63%→66%).*
 *v10.25 upgrades: P19 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via Tier-3 hardgate package = +0.3 pts (66%→68%).*
 *v10.27 upgrades: P18 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via Route-A consolidation hardgate; P20 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via braid-NLO color correction = +0.6 pts (68%→70%).*
-*v10.28 upgrades: P7/P8/P9/P10 CONSTRAINED→GEOMETRIC_PREDICTION (+1.2) via Tier-4 hardgate cert; P17 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via 9D KK+GS hardgate; P16 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +1.7 pts (70%→76%).*
+*v10.28 upgrades: P7/P8/P9/P10 CONSTRAINED→GEOMETRIC_PREDICTION (+1.2) via Tier-4 hardgate cert; P17 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via 9D KK+GS hardgate; P16 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +1.7 pts (70%→76%).*  
+*v10.32 upgrades: P16 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via WS-III T²/Z₃ +52 derivation (πkR + 3N_W = 37+15 = 52, all 3 gates pass; `src/core/p16_wsiii_plus52_closure.py`) = +0.3 pts (76%→76.8%).*
 
 ### Normalized score
 
 ```
-ToE Score = 21.2 / 28.0 = 0.757 ≈ 76%
+ToE Score = 21.5 / 28.0 = 0.768 ≈ 76.8%
 ```
 
-> **Current ToE Score: ~76%** (v10.31 locked state; unchanged from v10.28/v10.30, upgraded from 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~76.8%** (v10.32: P16 promoted; upgraded from 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
 - **Geometrically predicts** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₁₂, θ₂₃, θ₁₃, CKM ρ̄, M_W, M_Z, α_s, m_H, and GW background (LiteBIRD 2032/2034)
 - **Geometrically predicts** the charged-fermion Yukawa quartet (P7–P10) via Tier-4 hardgate NLO blend
-- **Constrained-certifies** solar splitting Δm²₂₁ with explicit flux-backreaction NLO budget
+- **Geometrically predicts** solar splitting Δm²₂₁ via WS-III T²/Z₃ closure (f_c = 7/126; `p16_wsiii_plus52_closure.py`)
 - **Identifies** the closing mechanism for remaining architecture limits (full T²/Z₃, Kähler potential)
 
 ## 4 · Falsification Table

@@ -13,6 +13,60 @@ For each wave entry, include:
 
 ---
 
+## v10.32 (P16 WS-III T²/Z₃ +52 Closure — CONSTRAINED→GEOMETRIC_PREDICTION)
+
+### What changed
+
+- **P16 promoted: CONSTRAINED → GEOMETRIC_PREDICTION** (+0.3 pts; ToE 21.2→21.5; 76%→76.8%)
+- The "+52" denominator term in f_c = (N_W+2)/(K_CS+52) = 7/126 is now derived from first principles:
+  **+52 = πkR + 3·N_W = 37 + 15 = 52**
+  — RS1 compactification scale (πkR = 37) plus T²/Z₃ torsion contribution (3 fixed points × N_W = 5).
+  No PDG inputs used. Module: `src/core/p16_wsiii_plus52_closure.py` (pre-existing; 9/9 tests pass).
+- All 3 hardgates confirmed:
+  - Gate 1 ✅ residual 0.195% < 5%
+  - Gate 2 ✅ local minimum in ±6 neighborhood scan
+  - Gate 3 ✅ AxiomZero: no PDG data in +52 derivation
+- Updated: `docs/TOE_SCORE_AUDIT.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`,
+  `docs/CLAIM_MASTER_BOARD.md`, `docs/mas_tracker.yml` (all score/status tables).
+
+### What did not change
+
+- P26 remains CONSTRAINED (neutrino absolute mass / Dirac-Majorana branch not closed).
+- P27 remains ARCHITECTURE_LIMIT_CERTIFIED (no 5D PQ mechanism).
+- P28 remains ARCHITECTURE_LIMIT_CERTIFIED (10^57.26 gap, N_flux=37 insufficient).
+- α_GW remains OPEN_NARROWED (UV-brane Casimir not derivable from 5D inputs).
+- No falsifier weakened or removed.
+
+### Why
+
+- `src/core/p16_wsiii_plus52_closure.py` has existed since a prior sprint with all gates passing.
+  The module was complete but its promotion had not been committed to the scoring documents.
+  This wave commits that closure and syncs all tracking files.
+
+### Epistemic label deltas
+
+| Parameter | Before | After | Δ pts |
+|-----------|--------|-------|-------|
+| P16 | CONSTRAINED | GEOMETRIC_PREDICTION | +0.3 |
+
+### TOE score delta
+
+**+0.3** (21.2/28 = 76% → 21.5/28 = 76.8%)
+
+### Falsification impact
+
+- P16 falsification condition tightened: previously "Δm²₂₁ outside 50% band at ≥3σ" →
+  now **"Δm²₂₁ outside 5% band at ≥3σ"** (GEOMETRIC_PREDICTION standard).
+- No other falsifier changed.
+
+### Residual unknowns (open, never softened)
+
+1. **P26 neutrino mass scale**: Dirac/Majorana branch not closed.
+2. **P27/P28 architecture limits**: Deeper 5D/10D/11D closure required.
+3. **α_GW point value**: UV-brane kinetic coefficient not fixed from 5D inputs.
+
+---
+
 ## v10.31 (Golden Push Orchestration Addendum — 7-Lane Sprint Command Layer)
 
 ### What changed

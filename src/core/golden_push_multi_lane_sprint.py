@@ -1,10 +1,10 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-"""Machine-readable golden-push orchestration for the post-v10.31 sprint.
+"""Machine-readable golden-push orchestration for the post-v10.32 sprint.
 
 This module operationalizes the requested "golden push" as a strict command
 layer over the current locked state:
-  - ToE score fixed at 21.2 / 28 unless hardgate evidence changes labels,
+  - ToE score fixed at 21.5 / 28 (v10.32: P16 promoted CONSTRAINED→GEOMETRIC_PREDICTION),
   - no softened falsifiers,
   - no promotion by rhetoric.
 """
@@ -45,10 +45,10 @@ __all__ = [
     "golden_push_release_decision",
 ]
 
-PROGRAMME_VERSION: str = "v10.31"
+PROGRAMME_VERSION: str = "v10.32"
 PROGRAMME_DATE: str = "2026-05-09"
 
-CURRENT_TOE_SCORE: float = 21.2
+CURRENT_TOE_SCORE: float = 21.5
 TOTAL_TOE_SCORE: float = 28.0
 TARGET_90_SCORE: float = 25.2
 
@@ -247,7 +247,8 @@ def scorecard_strategy() -> Dict[str, object]:
     toe90 = toe_90_pathway_verdict()
     return {
         "rule": "chase_hardgates_not_rhetoric",
-        "near_term_honest_closers": ["P16", "P26", "P27", "P28"],
+        "near_term_honest_closers": ["P26", "P27", "P28"],
+        "closed_in_v10_32": ["P16"],
         "second_track_required": True,
         "gp_to_derived_queue_required": True,
         "target_90_requires_both_tracks": True,

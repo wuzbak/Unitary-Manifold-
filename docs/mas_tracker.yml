@@ -1,4 +1,4 @@
-version: "v10.31"
+version: "v10.32"
 date: "2026-05-09"
 updated: "2026-05-09"
 mas_status: "COMPLETE"
@@ -372,10 +372,14 @@ parameter_gates:
     terminal_wave: "W14"
     artifact: "src/core/mas_final_closure.py"
   P16:
-    current_status: "CONSTRAINED"
-    c_L_spectrum_derived: true
-    yukawa_scale_derived: true
-    artifact: "src/sixd/yukawa_scale_6d.py"
+    current_status: "GEOMETRIC_PREDICTION"
+    previous_status: "CONSTRAINED"
+    promotion_wave: "v10.32"
+    plus52_derivation: "πkR + 3·N_W = 37 + 15 = 52 (WS-III T²/Z₃ torsion closure)"
+    residual_pct: "0.20"
+    all_gates_pass: true
+    artifact: "src/core/p16_wsiii_plus52_closure.py"
+    toe_score_delta: 0.3
   P19:
     current_status: "GEOMETRIC_ESTIMATE_CERTIFIED"
     previous_status: "CONSTRAINED"
@@ -1533,3 +1537,34 @@ v10_31_golden_push_addendum:
     - "P27/P28 architecture closures remain open"
     - "alpha_GW point-value closure still requires UV-brane/10D completion"
     - "90%+ still requires both open-parameter closure and GP→DERIVED upgrades"
+
+v10_32_p16_promotion:
+  date: "2026-05-09"
+  version: "v10.32"
+  description: "P16 WS-III T²/Z₃ +52 closure committed — CONSTRAINED→GEOMETRIC_PREDICTION"
+  deliverables:
+    P16_PROMOTION:
+      title: "P16 CONSTRAINED → GEOMETRIC_PREDICTION (WS-III T²/Z₃ +52 closure)"
+      parameter: "P16"
+      artifact: "src/core/p16_wsiii_plus52_closure.py"
+      test: "tests/test_core_p16_wsiii_plus52_closure.py"
+      status: "DELIVERED"
+      previous_status: "CONSTRAINED"
+      new_status: "GEOMETRIC_PREDICTION"
+      toe_delta: 0.3
+      derivation: "+52 = πkR + 3·N_W = 37 + 15 = 52 (no PDG input)"
+      gates:
+        gate1_residual_lt_5pct: true
+        gate2_local_minimum: true
+        gate3_axiomzero_pure: true
+  toe_score:
+    before: 21.2
+    after: 21.5
+    before_pct: "76%"
+    after_pct: "76.8%"
+    note: "P16 WS-III T²/Z₃ torsion derivation closes the +52 blocker. All 3 hardgates pass."
+  open_items:
+    - "P26 branch policy explicit but not uniquely closed from first principles"
+    - "P27/P28 architecture closures remain open"
+    - "alpha_GW point-value still requires UV-brane/10D completion"
+    - "90%+ requires open-parameter closure and GP→DERIVED upgrades"
