@@ -1791,3 +1791,29 @@ v10_32_p16_promotion:
     - "P28 (Λ): 10^57.26 gap — needs N_flux ≥ 61 from 10D landscape"
     - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"
 
+- sprint_id: "v10.37"
+  name: "P3 DERIVED certification sprint"
+  status: "COMPLETE"
+  completed: "2026-05-09"
+  summary: >
+    Added dedicated AxiomZero-derived certifier for P3 strong-coupling closure.
+    P3 GEOMETRIC_PREDICTION→DERIVED (+0.2) after nominal, robustness, and purity gates pass.
+  parameters_promoted:
+    - param: P3
+      from: GEOMETRIC_PREDICTION
+      to: DERIVED
+      delta: 0.2
+      module: "src/core/p3_alpha_s_derived_cert.py"
+  tests_added: 1
+  toe_score:
+    before: 26.9
+    after: 27.1
+    before_pct: "96.1%"
+    after_pct: "96.8%"
+    note: >
+      P3 now has dedicated DERIVED gate evidence with `axiomzero_pdg_inputs=[]`
+      and explicit 10D CY₃ moduli+flux hardgate closure checks.
+  open_items:
+    - "P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034)"
+    - "P28 (Λ): 10^57.26 gap — needs N_flux ≥ 61 from 10D landscape"
+    - "alpha_GW: CMB acoustic amplitude still suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2)"

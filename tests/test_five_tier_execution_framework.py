@@ -27,7 +27,7 @@ from src.core.five_tier_execution_framework import (
 
 class TestFrameworkMetadata:
     def test_framework_version(self):
-        assert FRAMEWORK_VERSION == "v10.36"
+        assert FRAMEWORK_VERSION == "v10.37"
 
     def test_framework_date(self):
         assert FRAMEWORK_DATE == "2026-05-09"

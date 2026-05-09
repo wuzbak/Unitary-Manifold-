@@ -13,6 +13,53 @@ For each wave entry, include:
 
 ---
 
+## v10.37 (96.8% ToE — P3 GP→DERIVED Certification)
+
+### What changed
+
+- **P3 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts)
+  - Added `src/core/p3_alpha_s_derived_cert.py`: gate 1 nominal residual 4.12%
+    < 5%, gate 2 Kähler-window robustness worst case < 5%, gate 3 AxiomZero
+    purity (`axiomzero_pdg_inputs=[]`).
+- Added `tests/test_p3_alpha_s_derived_cert.py` (10 tests).
+- Synced framework metadata to `v10.37`.
+
+### What did not change
+
+- P23 and P24 remain GEOMETRIC_PREDICTION (birefringence pending LiteBIRD measurement).
+- P28 remains ARCHITECTURE_LIMIT_CERTIFIED (10^57.26 gap unchanged).
+- No falsification condition was weakened or removed.
+- P25 remains DERIVED-PENDING (Ω_GW not yet measured by LISA).
+
+### Why
+
+Recent DERIVED-cert waves v10.34–v10.36 promoted parameters once they had a
+dedicated AxiomZero-clean certifier with explicit hard gates. P3 already had a
+full 10D CY₃+flux hardgate chain below 5% in `alpha_s_hardgate_cert.py`; this
+wave formalizes that chain in a dedicated DERIVED certifier and applies the
+score delta only after gate-backed validation.
+
+### Epistemic label deltas
+
+- P3: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+
+### TOE score delta
+
+**26.9 → 27.1 / 28.0 = 96.8%**
+
+### Falsification impact
+
+None. This wave certifies derivation status; it does not alter existing falsifiers.
+
+### Residual unknowns
+
+- P23/P24 (β birefringence): DERIVED requires LiteBIRD measurement (~2032/2034).
+- P28 (Λ): 10^57.26 gap — architecture limit; DERIVED requires N_flux ≥ 61 from 10D landscape.
+- P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify.
+- alpha_GW: CMB acoustic amplitude suppressed ×4.2–6.1 (FALLIBILITY.md Admission 2).
+
+---
+
 ## v10.36 (96.1% ToE — P7/P8/P9/P10/P14/P15 GP→DERIVED Batch Certification)
 
 ### What changed
