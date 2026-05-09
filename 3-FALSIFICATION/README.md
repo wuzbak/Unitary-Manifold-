@@ -26,6 +26,7 @@ the braided-winding mechanism.
 |------|---------|
 | [**FALSIFICATION_CONDITIONS.md**](FALSIFICATION_CONDITIONS.md) | **Every explicit condition that falsifies the framework — numbered bright lines, kill thresholds, and what would survive as revision vs. outright falsification** |
 | [**FALSIFICATION_REGISTER.md**](FALSIFICATION_REGISTER.md) | **Structured register of all 17 falsifiable predictions: predicted value, current status, decisive experiment, timeline, and kill condition for each** |
+| [**LAB_SCALE_CP_VIOLATION_FALSIFIER.md**](LAB_SCALE_CP_VIOLATION_FALSIFIER.md) | **Immediate table-top falsifier:** bright-line kill criteria for the (5,7) condensed-matter CP-asymmetry transfer hypothesis at the CKM/Jarlskog scale. |
 | [**THEORY_LANDSCAPE.md**](THEORY_LANDSCAPE.md) | **Comparative context: UM vs E8, Wolfram Physics, and Geometric Unity — dimension efficiency, symmetry breaking, falsification timelines, and LiteBIRD sensor profile** |
 | [`prediction.md`](prediction.md) | All current quantitative predictions with their falsification thresholds |
 

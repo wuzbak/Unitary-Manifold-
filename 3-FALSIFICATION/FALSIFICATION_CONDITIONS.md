@@ -393,6 +393,35 @@ The second would require φ < 0, which the Goldberger-Wise / φ₀-closure mecha
 | F11 | SEP fifth force | |Δη| > 10⁻¹⁵ from torsion balance attributed to λ > 1 mm scalar | MICROSCOPE-II | TBD |
 | F12 | GW scalar breathing | ET/LISA breathing-mode SNR > 5, inconsistent with zero UM prediction | ET / LISA | ~2034 |
 | F13 | B_μ ghost (theory) | Proof that η̄(n_w=5) ≠ ½ or φ < 0 under physical conditions | Mathematics | — |
+| F14 | Lab CP asymmetry in (5,7) condensed matter | Certified (5,7) platform reaches σ_A ≤ 10⁻⁵ with controls and still finds A_CP^lab consistent with zero; or signal is topology-independent / lacks conjugate sign inversion | Table-top JJ/SQUID or TI platforms | Now |
+
+---
+
+## F14. Immediate Table-Top CP Falsifier — (5,7) Condensed-Matter Realization
+
+**Experiment:** Topology-certified Josephson/SQUID arrays or topological-insulator
+architectures that physically implement (5,7) winding and measure conjugate
+protocol rates \(\Gamma_+\), \(\Gamma_-\).
+
+**Observable:**
+
+\[
+A_{CP}^{lab} = \frac{\Gamma_+ - \Gamma_-}{\Gamma_+ + \Gamma_-}
+\]
+
+with geometric target scale \(A_{CP}^{lab}\sim \Pi_{topo}J_{geo}\), where
+\(J_{geo}\sim 3\times10^{-5}\), \(0\le \Pi_{topo}\le1\).
+
+**Falsification threshold:**
+
+> A topology-certified (5,7) platform reaches \(\sigma_A \le 10^{-5}\), passes
+> sign-reversal and topology-swap controls, and repeatedly finds
+> \(A_{CP}^{lab}\) statistically consistent with zero (95% CL) — or finds an
+> asymmetry that is topology-independent and therefore non-geometric.
+
+This is an immediate falsifier lane and runs in parallel with LiteBIRD/CMB-S4.
+It does not replace cosmological tests; it removes the need to wait for 2032 to
+stress-test a core (5,7) geometric consequence.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
