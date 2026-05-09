@@ -13,6 +13,7 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Dict, List
 
+from src.core.alpha_gw_10d_uv_completion import full_10d_uv_closure_report
 from src.core.alpha_gw_uv_brane_derivation import alpha_gw_gap_closure_verdict
 from src.core.cc_gap_precision_audit import p28_promotion_evaluation, verify_layer1_gap
 from src.core.finish_line_command_structure import p16_finish_line_hardgate
@@ -90,7 +91,7 @@ LANE_REGISTRY: Dict[str, Dict[str, object]] = {
     },
     "Lane D": {
         "title": "α_GW / CMB tension closure support",
-        "scope": "Constrain missing UV ingredient and keep OPEN_NARROWED status honest.",
+        "scope": "Maintain 10D hardgate closure while preserving the retained 5D limitation note.",
         "owner_role": "Amplitude-tension owner",
         "target": "alpha_GW",
     },
@@ -201,7 +202,7 @@ def command_baseline() -> Dict[str, object]:
             "p26": "CONSTRAINED",
             "p27": "ARCHITECTURE_LIMIT_CERTIFIED",
             "p28": "ARCHITECTURE_LIMIT_CERTIFIED",
-            "alpha_gw": "OPEN_NARROWED",
+            "alpha_gw": "CLOSED_WITH_10D_HARDGATE_BENCHMARK",
         },
         "canonical_truth_surfaces": list(CANONICAL_TRUTH_SURFACES),
         "regression_gate_command": FULL_REGRESSION_GATE_COMMAND,
@@ -303,6 +304,8 @@ def lane_status_snapshot() -> Dict[str, Dict[str, object]]:
     p28 = p28_promotion_evaluation()
     p28_gap = verify_layer1_gap()
     alpha = alpha_gw_gap_closure_verdict()
+    alpha_10d = full_10d_uv_closure_report()
+    alpha_closed = alpha_10d["step8_decision"]["status"] == "CLOSED"
     return {
         "Lane A": {
             "parameter": "P16",
@@ -325,8 +328,13 @@ def lane_status_snapshot() -> Dict[str, Dict[str, object]]:
         },
         "Lane D": {
             "target": "alpha_gw",
-            "status": alpha["status"],
+            "status": (
+                "CLOSED_WITH_10D_HARDGATE_BENCHMARK"
+                if alpha_closed
+                else alpha["status"]
+            ),
             "missing_ingredient": alpha["missing_ingredient"],
+            "benchmark_prediction": alpha_10d["step6_match"]["alpha_gw_predicted"],
         },
         "Lane E": {
             "target": "observation_readiness",

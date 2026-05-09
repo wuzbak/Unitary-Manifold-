@@ -42,7 +42,9 @@ def test_p28_finish_line_architecture_review_blocks_promotion():
     assert result["parameter"] == "P28"
     assert result["promotion_allowed"] is False
     assert result["decision"] == "NO_PROMOTION"
-    assert result["alpha_gw_status"] == "OPEN_NARROWED"
+    assert result["alpha_gw_status"] == "CLOSED_WITH_10D_HARDGATE_BENCHMARK"
+    assert 4.2e-10 <= result["alpha_gw_10d_prediction"] <= 4.8e-10
+    assert result["alpha_gw_10d_robust_overlap"] == 1.0
 
 
 def test_finish_line_command_board_uses_v1031():
@@ -56,9 +58,8 @@ def test_unresolved_risk_ledger_not_empty():
     risks = finish_line_unresolved_risk_ledger()
     assert all("P16" not in entry["risk"] for entry in risks)
     assert any("P28" in entry["risk"] for entry in risks)
-    assert any("α_GW" in entry["risk"] for entry in risks)
     lane_counts = Counter(entry["lane"] for entry in risks)
-    assert lane_counts == {"Lane B": 2, "Lane C": 1, "Lane D": 1}
+    assert lane_counts == {"Lane B": 1, "Lane C": 1, "Lane D": 1}
 
 
 def test_release_decision_go_when_prereqs_met():
