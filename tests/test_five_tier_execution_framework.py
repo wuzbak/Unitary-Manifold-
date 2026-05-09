@@ -27,10 +27,10 @@ from src.core.five_tier_execution_framework import (
 
 class TestFrameworkMetadata:
     def test_framework_version(self):
-        assert FRAMEWORK_VERSION == "v10.30"
+        assert FRAMEWORK_VERSION == "v10.31"
 
     def test_framework_date(self):
-        assert FRAMEWORK_DATE == "2026-05-08"
+        assert FRAMEWORK_DATE == "2026-05-09"
 
     def test_tier_priority_order(self):
         assert TIER_PRIORITY_ORDER == ["Tier-1", "Tier-2", "Tier-3", "Tier-4", "Tier-5"]
@@ -136,8 +136,8 @@ class TestThroughputAndPRSequence:
         assert [p["pr_id"] for p in prs] == ["PR-COMPLETE", "PR-NEXT-1", "PR-NEXT-2"]
         assert [p["scope"] for p in prs] == [
             "All tiers completed in v10.28",
-            "Post-Tier-5 open items",
-            "Observation monitoring",
+            "Finish-line lane command structure",
+            "Hardgate, observation engine, and truth-sync",
         ]
 
     def test_pr1_scope_definition_has_required_deliverables(self):
