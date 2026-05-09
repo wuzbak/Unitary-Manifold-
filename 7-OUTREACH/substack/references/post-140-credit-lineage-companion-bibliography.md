@@ -23,81 +23,81 @@ Where possible, repository references are path-precise.
 
 ### 2.1 Identity, framing, and metadata
 
-1. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/README.md`  
-2. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/4-IMPLICATIONS/WHAT_THIS_MEANS.md`  
-3. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/6-MONOGRAPH/MCP_INGEST.md`  
-4. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/9-INFRASTRUCTURE/llms.txt`  
-5. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/9-INFRASTRUCTURE/schema.jsonld`  
-6. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/CITATION.cff`
+1. `README.md`  
+2. `4-IMPLICATIONS/WHAT_THIS_MEANS.md`  
+3. `6-MONOGRAPH/MCP_INGEST.md`  
+4. `9-INFRASTRUCTURE/llms.txt`  
+5. `9-INFRASTRUCTURE/schema.jsonld`  
+6. `CITATION.cff`
 
 ### 2.2 Epistemic status, scope, and limits
 
-7. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/FALLIBILITY.md`  
-8. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/SEPARATION.md`  
-9. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/DERIVATION_STATUS.md`  
-10. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`  
-11. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/3-FALSIFICATION/FALSIFICATION_REGISTER.md`  
-12. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/3-FALSIFICATION/OBSERVATION_TRACKER.md`
+7. `FALLIBILITY.md`  
+8. `SEPARATION.md`  
+9. `1-THEORY/DERIVATION_STATUS.md`  
+10. `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`  
+11. `3-FALSIFICATION/FALSIFICATION_REGISTER.md`  
+12. `3-FALSIFICATION/OBSERVATION_TRACKER.md`
 
 ### 2.3 Core theory text + implementation anchors
 
-13. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/UNIFICATION_PROOF.md`  
-14. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/QUANTUM_THEOREMS.md`  
-15. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/metric.py`  
-16. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/evolution.py`  
-17. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/holography/boundary.py`  
-18. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/multiverse/fixed_point.py`
+13. `1-THEORY/UNIFICATION_PROOF.md`  
+14. `1-THEORY/QUANTUM_THEOREMS.md`  
+15. `src/core/metric.py`  
+16. `src/core/evolution.py`  
+17. `src/holography/boundary.py`  
+18. `src/multiverse/fixed_point.py`
 
 ### 2.4 Additional high-frequency physics modules cited in outreach
 
-19. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/braided_winding.py`  
-20. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/anomaly_closure.py`  
-21. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/completeness_theorem.py`  
-22. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/nw_anomaly_selection.py`  
-23. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/kk_de_wa_cpl.py`  
-24. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/neutrino_majorana_dirac.py`  
-25. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/chiral_fermion_orbifold.py`  
-26. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/fermion_emergence.py`
+19. `src/core/braided_winding.py`  
+20. `src/core/anomaly_closure.py`  
+21. `src/core/completeness_theorem.py`  
+22. `src/core/nw_anomaly_selection.py`  
+23. `src/core/kk_de_wa_cpl.py`  
+24. `src/core/neutrino_majorana_dirac.py`  
+25. `src/core/chiral_fermion_orbifold.py`  
+26. `src/core/fermion_emergence.py`
 
 ### 2.5 Cross-domain modules (explicitly non-physics-promotion context)
 
-27. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/medicine/`  
-28. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/justice/`  
-29. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/governance/`  
-30. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/ecology/`  
-31. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/climate/`  
-32. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/marine/`  
-33. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/psychology/`  
-34. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/genetics/`  
-35. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/materials/`
+27. `src/medicine/`  
+28. `src/justice/`  
+29. `src/governance/`  
+30. `src/ecology/`  
+31. `src/climate/`  
+32. `src/marine/`  
+33. `src/psychology/`  
+34. `src/genetics/`  
+35. `src/materials/`
 
 ---
 
 ## 3) Repository-Context Dependence (Policy, Governance, Collaboration)
 
-36. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/5-GOVERNANCE/Unitary Pentad/README.md`  
-37. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/5-GOVERNANCE/Unitary Pentad/IMPLICATIONS.md`  
-38. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/co-emergence/FRAMEWORK.md`  
-39. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/AGENTS.md`  
-40. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/CONTRIBUTING.md`  
-41. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/OUTREACH_CALIBRATION.md`  
-42. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/substack/README.md`  
-43. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/substack/posts/post-063-ai-authorship.md`  
-44. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/substack/posts/post-120-ai-built-this-collaboration.md`  
-45. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/substack/posts/post-138-what-26000-tests-mean.md`
+36. `5-GOVERNANCE/Unitary Pentad/README.md`  
+37. `5-GOVERNANCE/Unitary Pentad/IMPLICATIONS.md`  
+38. `co-emergence/FRAMEWORK.md`  
+39. `AGENTS.md`  
+40. `CONTRIBUTING.md`  
+41. `7-OUTREACH/OUTREACH_CALIBRATION.md`  
+42. `7-OUTREACH/substack/README.md`  
+43. `7-OUTREACH/substack/posts/post-063-ai-authorship.md`  
+44. `7-OUTREACH/substack/posts/post-120-ai-built-this-collaboration.md`  
+45. `7-OUTREACH/substack/posts/post-138-what-26000-tests-mean.md`
 
 ---
 
 ## 4) Reproducibility and Execution-Lineage References
 
-46. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/conftest.py`  
-47. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_metric.py`  
-48. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_evolution.py`  
-49. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_boundary.py`  
-50. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_fixed_point.py`  
-51. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/five_tier_execution_framework.py`  
-52. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/docs/WAVE_CHANGELOG.md`  
-53. `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/docs/mas_tracker.yml`
+46. `tests/conftest.py`  
+47. `tests/test_metric.py`  
+48. `tests/test_evolution.py`  
+49. `tests/test_boundary.py`  
+50. `tests/test_fixed_point.py`  
+51. `src/core/five_tier_execution_framework.py`  
+52. `docs/WAVE_CHANGELOG.md`  
+53. `docs/mas_tracker.yml`
 
 ---
 
