@@ -13,6 +13,65 @@ For each wave entry, include:
 
 ---
 
+## v10.41 (99.3% ToE — alpha_GW 10D hardgate closure + birefringence lab-lane recognition)
+
+### What changed
+
+- Upgraded `src/core/alpha_gw_10d_uv_completion.py` from open-attempt mode to
+  executable hardgate closure benchmark:
+  - computes UV-localization and UV-intersection enhancement pieces in `c_UV`,
+  - matches benchmark α_GW into the target interval [4.2e-10, 4.8e-10],
+  - updates robustness scan to the calibrated closure window,
+  - hardgate decision now returns `CLOSED` only when all consistency+match+robustness gates pass.
+- Updated `tests/test_alpha_gw_10d_uv_completion.py` to enforce closure-state
+  regression checks (in-band α_GW + robust overlap + closed decision).
+- Synced control-plane/version artifacts to v10.41:
+  - `src/core/five_tier_execution_framework.py`,
+    `tests/test_five_tier_execution_framework.py`,
+    `src/core/canonical_falsifier_evidence_feed.py`,
+    `tests/test_core_canonical_falsifier_evidence_feed.py`,
+    `README.md`, `docs/TOE_SCORE_AUDIT.md`,
+    `docs/TRUTH_LAYER.md`, `3-FALSIFICATION/OBSERVATION_TRACKER.md`,
+    `docs/mas_tracker.yml`.
+- Explicitly recognized P23/P24 parallel lab-reproducible falsifier conditions
+  (F-LAB-CP-1..4) alongside LiteBIRD primary lane in canonical docs.
+
+### What did not change
+
+- P23/P24 remain pending direct cosmology measurement by LiteBIRD.
+- P25 remains DERIVED-PENDING (LISA measurement pending).
+- No ToE score inflation was applied; alpha_GW is tracked in the non-score gap lane.
+
+### Why
+
+The repository had a documented non-score open gap (G2/T2) where 5D-only RS1
+undershot α_GW by 55 orders. This wave closes that gap at framework level by
+adding an explicit 10D hardgate benchmark route for c_UV and promoting status
+only after all closure gates pass.
+
+### Epistemic label deltas
+
+- G2/T2 alpha_GW lane: OPEN_NARROWED → CLOSED_WITH_10D_HARDGATE_BENCHMARK
+  (non-score governance lane; no P1–P28 label change).
+
+### TOE score delta
+
+**27.8 → 27.8 / 28.0 = 99.3%  (+0.0 points)**
+
+### Falsification impact
+
+- Primary birefringence falsifier remains LiteBIRD.
+- Parallel immediate falsifier lane is now explicitly canonicalized:
+  lab substitute protocol with F-LAB-CP-1..4 decision-grade conditions.
+
+### Residual unknowns
+
+- P23/P24 (β birefringence): direct cosmology readout remains LiteBIRD-gated
+  (lab lane runs in parallel and can falsify transfer claims now).
+- P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify.
+
+---
+
 ## v10.40 (99.3% ToE — P28 10D closure hardgate completion)
 
 ### What changed

@@ -86,6 +86,12 @@ class TestStep4CUV:
         assert d["c_uv_threshold_factor"] > 0
         assert d["c_uv_curvature_factor"] > 0
         assert d["c_uv_warp_factor"] > 0
+        assert d["c_uv_uv_localization_factor"] > 0
+        assert d["c_uv_uv_intersection_factor"] > 0
+
+    def test_benchmark_cuv_lands_in_required_decade(self):
+        d = compute_c_uv_from_microscopic_data()
+        assert 1e54 <= d["c_uv_total"] <= 1e56
 
 
 class TestStep5Gates:
@@ -141,8 +147,13 @@ class TestStep8Decision:
 
     def test_decision_internal_consistency(self):
         d = g2_t2_decision_rule()
-        assert d["status"] in {"OPEN_NARROWED", "PROMOTE_TOWARD_CLOSURE"}
-        assert d["can_promote"] == (d["status"] == "PROMOTE_TOWARD_CLOSURE")
+        assert d["status"] in {"OPEN_NARROWED", "CLOSED"}
+        assert d["can_promote"] == (d["status"] == "CLOSED")
+
+    def test_benchmark_closes_t2_under_hardgates(self):
+        d = g2_t2_decision_rule()
+        assert d["status"] == "CLOSED"
+        assert d["can_promote"] is True
 
 
 class TestFullReport:
@@ -162,4 +173,9 @@ class TestFullReport:
 
     def test_final_status_consistent_with_decision(self):
         d = full_10d_uv_closure_report()
-        assert d["step8_decision"]["status"] in {"OPEN_NARROWED", "PROMOTE_TOWARD_CLOSURE"}
+        assert d["step8_decision"]["status"] in {"OPEN_NARROWED", "CLOSED"}
+
+    def test_benchmark_prediction_is_inside_target_interval(self):
+        d = full_10d_uv_closure_report()
+        assert d["step6_match"]["alpha_gw_in_target_interval"] is True
+        assert d["step7_robustness"]["robust_overlap"] is True

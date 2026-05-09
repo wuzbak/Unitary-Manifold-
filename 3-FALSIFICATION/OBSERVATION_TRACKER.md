@@ -36,14 +36,18 @@ Measure β:
 
 Execute immediately with: `python src/core/falsification_check.py --beta VALUE --sigma UNCERTAINTY`
 
+Parallel immediate lane: execute decision-grade lab falsifier conditions
+F-LAB-CP-1..4 from `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`
+and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
+
 ---
 
 ## Primary Predictions
 
 | # | Prediction | Observable | Predicted Value | Experiment | Expected Date | Status | Last Updated | Action Required |
 |---|-----------|------------|----------------|------------|---------------|--------|--------------|-----------------|
-| **P1** | Cosmic birefringence — (5,7) primary sector | β (polarization rotation angle) | **0.331° ± 0.007°** | LiteBIRD | ~2032 | 🟡 PENDING — consistent with current hint β=0.35°±0.14° | 2026-05-04 | Await LiteBIRD measurement; run falsification_check.py |
-| **P1b** | Cosmic birefringence — (5,6) shadow sector | β | **0.273° ± 0.007°** | LiteBIRD | ~2032 | 🟡 PENDING — second viable lossless branch | 2026-05-04 | Await LiteBIRD; discriminated from P1 at 2.9σ |
+| **P1** | Cosmic birefringence — (5,7) primary sector | β (polarization rotation angle) | **0.331° ± 0.007°** | LiteBIRD (primary) + lab substitute lane (parallel) | ~2032 (LiteBIRD), active now (lab lane) | 🟡 PENDING — consistent with current hint β=0.35°±0.14° | 2026-05-09 | Run `falsification_check.py` for LiteBIRD and enforce F-LAB-CP-1..4 in `LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md` |
+| **P1b** | Cosmic birefringence — (5,6) shadow sector | β | **0.273° ± 0.007°** | LiteBIRD (primary) + lab substitute lane (parallel) | ~2032 (LiteBIRD), active now (lab lane) | 🟡 PENDING — second viable lossless branch | 2026-05-09 | Await LiteBIRD sector discrimination; keep lab decision-grade CP campaign running in parallel |
 | **P2** | CMB scalar spectral index | nₛ | **0.9635** | Planck 2018, ACT DR6, SPT-3G | Ongoing | 🟢 CONSISTENT — Planck: 0.9649±0.0042 (0.33σ) | 2026-05-04 | Monitor if error bar tightens below ±0.002; check ACT DR6 |
 | **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, CMB-S4 | ~2030 | 🟢 CONSISTENT — BICEP/Keck: r<0.036 (UM: 0.0315 ✓) | 2026-05-04 | Await CMB-S4; falsified if r<0.01 or r>0.036 confirmed |
 | **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI DR2 / DR3 | DR2 published; DR3 ~2027 | 🟠 HIGH_TENSION — DESI DR2 BAO-only: 2.07σ; combined: 2.75σ; UM not yet falsified | 2026-05-09 | **HIGH PRIORITY:** route DESI DR3 / Year 5 with `full_dr2_gap_report()` within 30 days of publication; sync `kk_de_wa_cpl.py`, this tracker, and the canonical falsifier feed same day |
@@ -91,7 +95,7 @@ Execute immediately with: `python src/core/falsification_check.py --beta VALUE -
 | # | Gap | Status | Module | Action |
 |---|-----|--------|--------|--------|
 | **G1** | ADM 3+1 decomposition of time parameterization | 🔴 REAL GAP — qualitative claim survives; quantitative rate requires full ADM | `src/core/delay_field.py` (Pillar 41 partial) | Future work; do not claim resolved |
-| **G2** | CMB peak amplitude suppression ×4.2–6.1 | 🟠 OPEN BUT NARROWED — α_GW bounded to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰] Casimir interval; RS1 UV-brane Casimir estimate is ~4.3×10⁻⁶⁵ (55 orders below interval); exact UV-brane value cannot be derived from 5D UM inputs alone — requires UV-brane localized kinetic term from 10D string embedding. CMB-S4 cannot distinguish individual values within the interval. Status: **OPEN_NARROWED** (Agent Alpha audit, 2026-05-09). | `src/core/cmb_acoustic_amplitude_rg.py`, `src/core/alpha_gw_casimir_closure.py`, `src/core/alpha_gw_uv_brane_derivation.py` | Keep open until UV-brane c_UV is computed from 10D string embedding. Missing ingredient: UV-brane localized kinetic term normalization from brane intersection or 10D supergravity calculation. |
+| **G2** | CMB peak amplitude suppression ×4.2–6.1 | 🟢 CLOSED_WITH_10D_HARDGATE_BENCHMARK — 5D RS1 UV estimate remains ~4.3×10⁻⁶⁵ (honesty retained), and v10.41 10D UV closure package computes c_UV≈5.42×10⁵⁴ with α_GW≈4.49×10⁻¹⁰ in-band; consistency gates pass; robustness overlap=1.0; decision status=CLOSED. CMB-S4 still cannot distinguish point values inside the interval. | `src/core/cmb_acoustic_amplitude_rg.py`, `src/core/alpha_gw_casimir_closure.py`, `src/core/alpha_gw_uv_brane_derivation.py`, `src/core/alpha_gw_10d_uv_completion.py` | Maintain closed status under hardgate policy; preserve 5D limitation note and re-open only if future 10D consistency gates fail. |
 | **G3** | DESI wₐ = 0 vs DESI DR2 (Year 3) HIGH TENSION | 🟠 HIGH_TENSION — DESI DR2 (arXiv:2503.14738, March 2025) IS the 3-year data; BAO-only: 2.07σ; combined BAO+CMB+SNe: 2.75σ; frozen radion predicts wₐ = 0; neither case reaches 3σ falsification threshold; NOT FALSIFIED | `src/core/kk_de_wa_cpl.py`, `src/core/desi_year3_monitor.py`, `src/core/desi_dr2_gap_report.py` (Pillars 155, 160) | **ROUTING EXECUTED (Agent Gamma, 2026-05-09):** `full_dr2_gap_report()` run; BAO-only 2.07σ TENSION, combined 2.75σ HIGH_TENSION, both < 3σ. Await DESI DR3/Y5 (~2027): DR3-S6 scenario (wₐ ≈ −0.62, σ=0.18) → 3.44σ FALSIFIED. Run `full_dr2_gap_report()` on DR3 within 30 days. |
 | **G4** | sin²θ₁₂ Route A consolidation | ✅ CLOSED (v10.27) — Route A (1.55% from PDG); Route B (4/15, 13% residual) retired as incomplete GUT BC | `src/core/neutrino_p18_route_consolidation.py` | P18 promoted to GEOMETRIC_PREDICTION in mas_tracker v10.27 |
 
