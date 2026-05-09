@@ -201,22 +201,14 @@ NEXT_THREE_PRS: List[Dict[str, object]] = [
     },
     {
         "pr_id": "PR-NEXT-2",
-        "scope": "Hardgate and architecture frontier",
-        "title": "P16 and P28 finish-line audit with no-overclaim policy",
+        "scope": "Hardgate, observation engine, and truth-sync",
+        "title": "P16/P28 finish-line audit plus one-command observation routing",
         "deliverables": [
             "P16 remains blocked until exact '+52' WS-III derivation closes",
             "P28 remains ARCHITECTURE_LIMIT_CERTIFIED pending 10D closure",
             "α_GW UV-brane point value remains OPEN_NARROWED pending UV completion",
-        ],
-    },
-    {
-        "pr_id": "PR-NEXT-3",
-        "scope": "Observation engine and truth-sync",
-        "title": "One-command routing plus same-day tracker/changelog payloads",
-        "deliverables": [
-            "DESI / JUNO / Hyper-K / CMB-S4 / LiteBIRD routed from one observation bundle",
-            "Automatic OBSERVATION_TRACKER.md payload generation",
-            "Automatic WAVE_CHANGELOG.md payload generation",
+            "One-command DESI / JUNO / Hyper-K / CMB-S4 / LiteBIRD routing",
+            "Automatic OBSERVATION_TRACKER.md and WAVE_CHANGELOG.md payload generation",
         ],
     },
 ]
