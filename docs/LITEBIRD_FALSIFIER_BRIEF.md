@@ -89,5 +89,19 @@ predictions, enabling automated monitoring as experimental results become availa
 
 ---
 
+## 5 · Pre-2032 Lab Substitute Lane (Immediate)
+
+Parallel to LiteBIRD, the repository now carries an immediate table-top substitute
+lane (F14/P8) for certified (5,7) CP-asymmetry campaigns:
+
+- Protocol document: `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`
+- Decision logic: `src/core/lab_litebird_substitute.py`
+- Regression tests: `tests/test_core_lab_litebird_substitute.py`
+
+This lane does not replace LiteBIRD cosmology; it provides earlier falsification
+pressure with hard lab controls and explicit pass/fail gates.
+
+---
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
