@@ -1,8 +1,8 @@
 # Pillar 226 — Dimensional Understanding (1D → 11D): Scientific Scaffold for Future Proof Work
 
-**Type:** Understanding Pillar (proof scaffold, not score inflation)  
-**Scope:** Dimensional logic and compact derivation map from 1D through 11D  
-**Status policy:** Honest labels only (`DERIVED`, `CONSTRAINED`, `OPEN`)  
+**Type:** Understanding Pillar (proof scaffold, not score inflation)
+**Scope:** Dimensional logic and compact derivation map from 1D through 11D
+**Status policy:** Honest labels only (`DERIVED`, `CONSTRAINED`, `OPEN`)
 **Primary use:** Future closure work and calculation planning
 
 ---
@@ -203,5 +203,5 @@ This keeps the ladder scientific, honest, accurate, and coherent across teams.
 
 ---
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
