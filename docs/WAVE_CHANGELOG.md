@@ -97,9 +97,6 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - None. This sprint adds mechanism/contract artifacts only.
 
-### Epistemic label deltas
-- None. This sprint adds mechanism/contract artifacts only.
-
 ### TOE score delta
 - **0.0** (21.2/28 = 76% → 21.2/28 = 76%)
 
