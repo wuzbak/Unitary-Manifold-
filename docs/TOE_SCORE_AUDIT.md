@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.33
+# ToE Score Audit — Unitary Manifold v10.34
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 4.0 — 2026-05-09 (v10.33: 14× GP→DERIVED +2.8 pts; P26 CONSTRAINED→GP +0.3; P27 ALC→GP +0.7; total +3.8 pts; 90.4%)*
+*Document version: 4.1 — 2026-05-09 (v10.34: P27 GP→DERIVED +0.2 pts; total 91.1%)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -58,7 +58,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P24 | β birefringence mode 2 | PENDING | 0.331° | — | GEOMETRIC_PREDICTION | 0.8 |
 | P25 | GW background Ω_GW | PENDING | ~10⁻¹⁵ | — | DERIVED | 0.8 |
 | P26 | Neutrino mass scale m_ν | < 0.12 eV | m₁ ≈ 0.05 eV (5D orbifold seesaw) | consistent | GEOMETRIC_PREDICTION | 0.8 |
-| P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | Z₂ orbifold PQ: θ_eff ~ e^{-πkR}/N_W ≈ 10⁻¹⁷ | < 10⁻¹⁰ ✓ | GEOMETRIC_PREDICTION | 0.8 |
+| P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | Z₂ orbifold PQ: θ̄ = |sin(δ_CP)|·e^{-πkR}/N_W ≈ 10⁻¹⁷ | < 10⁻¹⁰ ✓ | DERIVED | 1.0 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP(N_flux=37) | ~10^57.26 gap | ARCHITECTURE_LIMIT_CERTIFIED(10D) | 0.1 |
 
 ---
@@ -70,17 +70,17 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| DERIVED (confirmed) | 14 | 1.0 | 14.0 |
+| DERIVED (confirmed) | 15 | 1.0 | 15.0 |
 | DERIVED (pending measurement) | 1 | 0.8 | 0.8 |
-| GEOMETRIC_PREDICTION | 11 | 0.8 | 8.8 |
+| GEOMETRIC_PREDICTION | 10 | 0.8 | 8.0 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
 | CONSTRAINED | 0 | 0.5 | 0.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.3 | 0.0 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 1 | 0.1 | 0.1 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **25.3** |
+| **Total** | **28** | | **25.5** |
 
-*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. The 14 confirmed DERIVED parameters (P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22) each have AxiomZero-certified gate reports in `src/core/p{N}_*_derived_cert.py`. The 11 GEOMETRIC_PREDICTION parameters are P3, P7, P8, P9, P10, P14, P15, P23, P24, P26, P27. P25 (Ω_GW) is DERIVED-PENDING (not yet measured). P28 is ARCHITECTURE_LIMIT_CERTIFIED.*
+*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. The 15 confirmed DERIVED parameters (P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22,P27) each have AxiomZero-certified gate reports in `src/core/p{N}_*_derived_cert.py` (or dedicated derived cert module for P27). The 10 GEOMETRIC_PREDICTION parameters are P3, P7, P8, P9, P10, P14, P15, P23, P24, P26. P25 (Ω_GW) is DERIVED-PENDING (not yet measured). P28 is ARCHITECTURE_LIMIT_CERTIFIED.*
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
@@ -91,14 +91,15 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 *v10.28 upgrades: P7/P8/P9/P10 CONSTRAINED→GEOMETRIC_PREDICTION (+1.2) via Tier-4 hardgate cert; P17 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via 9D KK+GS hardgate; P16 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +1.7 pts (70%→76%).*  
 *v10.32 upgrades: P16 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via WS-III T²/Z₃ +52 derivation = +0.3 pts (76%→76.8%).*
 *v10.33 upgrades: P27 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION (+0.7) via Z₂ orbifold PQ mechanism; P26 CONSTRAINED→GEOMETRIC_PREDICTION (+0.3) via 5D seesaw mass prediction; P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22 GEOMETRIC_PREDICTION→DERIVED (+2.8, 14×+0.2) via AxiomZero-certified gate modules = +3.8 pts (76.8%→90.4%).*
+*v10.34 upgrades: P27 GEOMETRIC_PREDICTION→DERIVED (+0.2) via Z₂ orbifold PQ derived certification (`p27_strong_cp_derived_cert.py`) = +0.2 pts (90.4%→91.1%).*
 
 ### Normalized score
 
 ```
-ToE Score = 25.3 / 28.0 = 0.904 ≈ 90.4%
+ToE Score = 25.5 / 28.0 = 0.911 ≈ 91.1%
 ```
 
-> **Current ToE Score: ~90.4%** (v10.33: 14× GP→DERIVED + P26/P27 promotions; upgraded from 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~91.1%** (v10.34: P27 GP→DERIVED; upgraded from 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
