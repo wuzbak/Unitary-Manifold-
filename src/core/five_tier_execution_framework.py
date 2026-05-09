@@ -178,19 +178,19 @@ THROUGHPUT_PLAN: List[Dict[str, object]] = [
 
 NEXT_THREE_PRS: List[Dict[str, object]] = [
     {
-        "pr_id": "PR-COMPLETE",
-        "scope": "All tiers completed in v10.28",
-        "title": "All five tiers delivered — ToE score 21.2/28 (76%)",
+        "pr_id": "PR-CONT-1",
+        "scope": "11D continuation — vacuum selection + bridge burn",
+        "title": "Canonical UV vacuum gate and 11D→5D boundary reduction",
         "deliverables": [
-            "Tier-1 (P3/P5): GEOMETRIC_PREDICTION (v10.24)",
-            "Tier-2 (P17/P18): GEOMETRIC_PREDICTION (v10.27/v10.28)",
-            "Tier-3 (P19/P20): GEOMETRIC_PREDICTION (v10.25/v10.27)",
-            "Tier-4 (P7/P8/P9/P10): GEOMETRIC_PREDICTION (v10.28)",
-            "Tier-5 (P27/P28): architecture-limit mechanism deepened (v10.28)",
+            "Canonical UV vacuum-selection gate for n_w ∈ {5,7}",
+            "11D→5D boundary contract with reduced runtime invariant set",
+            "G4-flux ↔ vacuum-selection artifact with no score inflation",
+            "Explicit neutrino branch criteria for minimal 5D and UV-extended sectors",
+            "Conservative ToE-90 frontier ledger with no promotion claim",
         ],
     },
     {
-        "pr_id": "PR-NEXT-1",
+        "pr_id": "PR-CONT-2",
         "scope": "Finish-line lane command structure",
         "title": "Stand up the 5-lane finish-line command board",
         "deliverables": [
@@ -200,7 +200,7 @@ NEXT_THREE_PRS: List[Dict[str, object]] = [
         ],
     },
     {
-        "pr_id": "PR-NEXT-2",
+        "pr_id": "PR-CONT-3",
         "scope": "Hardgate, observation engine, and truth-sync",
         "title": "P16/P28 finish-line audit plus one-command observation routing",
         "deliverables": [

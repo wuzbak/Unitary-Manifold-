@@ -153,7 +153,7 @@ def p16_finish_line_hardgate() -> Dict[str, object]:
     """Return the finish-line hardgate decision for Lane A / P16."""
     gates = promotion_gate_check()
     bounds = geometric_bounds_on_fc()
-    promotion_allowed = bool(gates["all_gates_pass"])
+    promotion_allowed = gates["all_gates_pass"]
     gate3_reason = gates["gates"].get(
         "gate3_axiomzero_purity",
         {},
@@ -184,7 +184,7 @@ def p28_finish_line_architecture_review() -> Dict[str, object]:
     """Return the finish-line architecture review for Lane B / P28 + α_GW."""
     p28 = p28_promotion_evaluation()
     alpha_gw = alpha_gw_gap_closure_verdict()
-    promotion_allowed = bool(p28["can_promote"])
+    promotion_allowed = p28["can_promote"]
     return {
         "lane": "Lane B",
         "parameter": "P28",
