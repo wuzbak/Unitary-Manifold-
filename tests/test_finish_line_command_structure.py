@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 from __future__ import annotations
 
+from collections import Counter
+
 from src.core.finish_line_command_structure import (
     CANONICAL_BOARD_ARTIFACT,
     FIVE_LANE_ORDER,
@@ -27,11 +29,12 @@ def test_weekly_gate_reviews_cover_all_lanes():
     assert all(entry["canonical_board"] == CANONICAL_BOARD_ARTIFACT for entry in reviews)
 
 
-def test_p16_finish_line_hardgate_blocks_promotion():
+def test_p16_finish_line_hardgate_promotes_after_wsiii_closure():
     result = p16_finish_line_hardgate()
     assert result["parameter"] == "P16"
-    assert result["promotion_allowed"] is False
-    assert result["decision"] == "NO_PROMOTION"
+    assert result["promotion_allowed"] is True
+    assert result["decision"] == "PROMOTE"
+    assert result["current_status"] == "GEOMETRIC_PREDICTION"
 
 
 def test_p28_finish_line_architecture_review_blocks_promotion():
@@ -51,10 +54,11 @@ def test_finish_line_command_board_uses_v1031():
 
 def test_unresolved_risk_ledger_not_empty():
     risks = finish_line_unresolved_risk_ledger()
-    assert len(risks) >= 5
-    assert any("P16" in entry["risk"] for entry in risks)
+    assert all("P16" not in entry["risk"] for entry in risks)
     assert any("P28" in entry["risk"] for entry in risks)
     assert any("α_GW" in entry["risk"] for entry in risks)
+    lane_counts = Counter(entry["lane"] for entry in risks)
+    assert lane_counts == {"Lane B": 2, "Lane C": 1, "Lane D": 1}
 
 
 def test_release_decision_go_when_prereqs_met():
