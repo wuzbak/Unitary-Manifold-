@@ -35,8 +35,8 @@ __all__ = [
     "framework_summary",
 ]
 
-FRAMEWORK_VERSION: str = "v10.30"
-FRAMEWORK_DATE: str = "2026-05-08"
+FRAMEWORK_VERSION: str = "v10.31"
+FRAMEWORK_DATE: str = "2026-05-09"
 
 TIER_PRIORITY_ORDER: List[str] = [
     "Tier-1",
@@ -191,22 +191,32 @@ NEXT_THREE_PRS: List[Dict[str, object]] = [
     },
     {
         "pr_id": "PR-NEXT-1",
-        "scope": "Post-Tier-5 open items",
-        "title": "P16 solar splitting → GEOMETRIC_PREDICTION via Pillar 183",
+        "scope": "Finish-line lane command structure",
+        "title": "Stand up the 5-lane finish-line command board",
         "deliverables": [
-            "Pillar 183: 6D T²/Z₃ Dirac wavefunction c_L spectrum derivation",
-            "P16 promotion blocked until c_ν_base derived from geometry",
-            "Next physics milestone: derive flux-backreaction factor from T²/Z₃ moduli",
+            "Canonical board in docs/mas_tracker.yml",
+            "Fixed weekly gate reviews for Lanes A-E",
+            "Release-governance go/no-go rule with no score inflation",
         ],
     },
     {
         "pr_id": "PR-NEXT-2",
-        "scope": "Observation monitoring",
-        "title": "DESI Year 3 integration + LiteBIRD readiness",
+        "scope": "Hardgate and architecture frontier",
+        "title": "P16 and P28 finish-line audit with no-overclaim policy",
         "deliverables": [
-            "DESI Y3: run route_desi_y3(wa, sigma) on publication",
-            "Simons Observatory β-forecast: monitor as data arrives (~2028)",
-            "Tracker sync within 30 days of each publication",
+            "P16 remains blocked until exact '+52' WS-III derivation closes",
+            "P28 remains ARCHITECTURE_LIMIT_CERTIFIED pending 10D closure",
+            "α_GW UV-brane point value remains OPEN_NARROWED pending UV completion",
+        ],
+    },
+    {
+        "pr_id": "PR-NEXT-3",
+        "scope": "Observation engine and truth-sync",
+        "title": "One-command routing plus same-day tracker/changelog payloads",
+        "deliverables": [
+            "DESI / JUNO / Hyper-K / CMB-S4 / LiteBIRD routed from one observation bundle",
+            "Automatic OBSERVATION_TRACKER.md payload generation",
+            "Automatic WAVE_CHANGELOG.md payload generation",
         ],
     },
 ]

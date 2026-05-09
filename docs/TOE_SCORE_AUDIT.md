@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.28
+# ToE Score Audit — Unitary Manifold v10.31
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 2.9 — 2026-05-08 (v10.28 batch: Tier-4 Yukawa hardgate, P17 9D hardgate, and P16 constrained-certification package)*
+*Document version: 3.0 — 2026-05-09 (v10.31 finish-line sync: no score delta; release-governance lock only)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -79,7 +79,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | OPEN | 0 | 0.0 | 0.0 |
 | **Total** | **28** | | **21.2** |
 
-*Note: The canonical running total of 21.2 is carried by the version-delta ledger in `docs/mas_tracker.yml`; the per-category subtotals reflect v10.28 parameter statuses (P7–P10 and P17 promoted to GEOMETRIC_PREDICTION, P16 upgraded to CONSTRAINED, P25 scored as DERIVED at 0.8 per established convention).*
+*Note: The canonical running total of 21.2 is carried by the version-delta ledger in `docs/mas_tracker.yml`; the per-category subtotals reflect the current v10.31 locked state (no score delta from v10.28/v10.30; finish-line governance sync only).*
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
@@ -95,7 +95,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 ToE Score = 21.2 / 28.0 = 0.757 ≈ 76%
 ```
 
-> **Current ToE Score: ~76%** (v10.28; upgraded from 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: ~76%** (v10.31 locked state; unchanged from v10.28/v10.30, upgraded from 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)

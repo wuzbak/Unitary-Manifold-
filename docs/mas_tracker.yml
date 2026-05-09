@@ -1346,3 +1346,79 @@ v10_30_batch:
     - "P17 will be tested at TENSION level by JUNO ~2027; full falsification possible with PDG central"
     - "CMB-S4 joint n_s-r falsifier ready; measurement expected ~2030"
     - "LiteBIRD gap falsifier hardened; inter-sector gap test formalized"
+
+v10_31_batch:
+  date: "2026-05-09"
+  version: "v10.31"
+  sprint_title: "Finish-line five-lane command structure + P16/P28 honest hardgate lock + one-command observation engine"
+  deliverables:
+    LANE_E_COMMAND_STRUCTURE:
+      title: "Stand up the 5-lane finish-line command structure with one canonical board"
+      artifact: "src/core/finish_line_command_structure.py"
+      test: "tests/test_finish_line_command_structure.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Lane A=P16 closure, Lane B=P28/α_GW architecture frontier, Lane C=observation routing,
+        Lane D=stress/robustness, Lane E=truth-sync docs and release governance.
+        Weekly Friday hardgate reviews fixed; canonical board remains docs/mas_tracker.yml.
+    LANE_A_P16_HARDGATE_LOCK:
+      title: "P16 finish-line hardgate review — promotion denied without exact '+52' derivation"
+      artifact: "src/core/finish_line_command_structure.py::p16_finish_line_hardgate"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Gate package stays honest: P16 remains CONSTRAINED. Nominal evidence is strong,
+        but no GEOMETRIC_PREDICTION promotion is allowed until WS-III derives the '+52'
+        denominator term from first principles.
+    LANE_B_P28_ARCHITECTURE_LOCK:
+      title: "P28 / α_GW architecture-frontier audit — no-overclaim decision"
+      artifact: "src/core/finish_line_command_structure.py::p28_finish_line_architecture_review"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        P28 remains ARCHITECTURE_LIMIT_CERTIFIED. Precision audit confirms the residual
+        gap is 10^57.26; N_flux=37 is insufficient by the naive BP spacing criterion.
+        α_GW remains OPEN_NARROWED pending UV-brane / 10D completion.
+    LANE_C_OBSERVATION_ENGINE:
+      title: "One-command observation routing + automatic tracker/changelog payload generation"
+      artifact: "src/core/finish_line_observation_engine.py"
+      test: "tests/test_finish_line_observation_engine.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Routes DESI, JUNO, Hyper-K, CMB-S4, and LiteBIRD from one observation bundle.
+        Emits machine-readable payloads for OBSERVATION_TRACKER.md and WAVE_CHANGELOG.md.
+    LANE_D_RELEASE_LOCK:
+      title: "Finish-line release-quality state lock"
+      artifact: "src/core/finish_line_command_structure.py::finish_line_release_decision"
+      status: "DELIVERED"
+      toe_delta: 0.0
+      note: >
+        Release may go forward only when regression is green and truth-sync is complete.
+        No score inflation and no silent status change are permitted.
+    LANE_E_DOC_TRUTH_SYNC:
+      title: "Sync release ledgers and truth surfaces to v10.31 finish-line state"
+      artifacts:
+        - "docs/WAVE_CHANGELOG.md"
+        - "STATUS.md"
+        - "docs/CLAIM_MASTER_BOARD.md"
+        - "docs/GATEKEEPER_SUMMARY.md"
+        - "docs/TRUTH_LAYER.md"
+        - "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+        - "FALLIBILITY.md"
+        - "src/core/five_tier_execution_framework.py"
+      status: "DELIVERED"
+      toe_delta: 0.0
+  toe_score:
+    before: 21.2
+    after: 21.2
+    before_pct: "76%"
+    after_pct: "76%"
+    note: "Finish-line governance lock only. No new promotions."
+  open_items:
+    - "P16 remains blocked until WS-III derives the exact '+52' term from T^2/Z_3 moduli stabilization"
+    - "P28 remains architecture-limited; naive BP sufficiency requires N_flux >= 61"
+    - "α_GW point-value closure still requires UV-brane / 10D completion"
+    - "DESI DR3 / Year 5 can still falsify frozen-radion w_a = 0"
+    - "JUNO can still falsify P17 if the PDG central value holds at 0.5% precision"

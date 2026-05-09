@@ -13,6 +13,76 @@ For each wave entry, include:
 
 ---
 
+## v10.31 (Finish-Line Governance Lock — 5-Lane Command Structure, Honest Hardgate Freeze, One-Command Observation Routing)
+
+### What changed
+
+**Lane A — P16 closure command layer:**
+- Added `src/core/finish_line_command_structure.py` (new): machine-readable 5-lane command board with
+  fixed weekly Friday gate reviews and canonical board lock to `docs/mas_tracker.yml`.
+- Formalized the finish-line P16 review via `p16_finish_line_hardgate()`: P16 remains `CONSTRAINED`;
+  no promotion without exact WS-III derivation of the `+52` term. Tests:
+  `tests/test_finish_line_command_structure.py`.
+
+**Lane B — P28 / α_GW architecture frontier:**
+- Formalized the finish-line architecture review via `p28_finish_line_architecture_review()`.
+  Preserves no-overclaim policy: P28 stays `ARCHITECTURE_LIMIT_CERTIFIED`; α_GW stays `OPEN_NARROWED`.
+- Canonical wording updated to the precise P28 residual gap **10^57.26** and the honest BP sufficiency
+  criterion `N_flux >= 61`.
+
+**Lane C — Observation ingestion engine:**
+- Added `src/core/finish_line_observation_engine.py` (new): one-call routing over DESI / JUNO /
+  Hyper-K / CMB-S4 / LiteBIRD plus automatic payloads for
+  `3-FALSIFICATION/OBSERVATION_TRACKER.md` and `docs/WAVE_CHANGELOG.md`.
+- Tests: `tests/test_finish_line_observation_engine.py`.
+
+**Lane D — Release-quality robustness lock:**
+- The finish-line board now exposes the stress-test state and unresolved-risk ledger.
+- `finish_line_release_decision()` encodes a single GO / NO_GO release decision rule:
+  regression green + truth sync complete.
+
+**Lane E — Truth-sync docs and framework:**
+- Updated `src/core/five_tier_execution_framework.py`: `FRAMEWORK_VERSION` bumped to `"v10.31"`,
+  `FRAMEWORK_DATE` bumped to `"2026-05-09"`, and `NEXT_THREE_PRS` replaced by the finish-line queue.
+- Updated headers and state sync across: `STATUS.md`, `docs/TRUTH_LAYER.md`,
+  `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`,
+  `3-FALSIFICATION/OBSERVATION_TRACKER.md`, and `FALLIBILITY.md`.
+
+### What did not change
+- No parameter status changed.
+- P16 was **not** promoted.
+- P28 was **not** promoted.
+- No falsifier was removed or weakened.
+- ToE score remained unchanged.
+
+### Why
+- Stand up the requested multi-agent / multi-lane finish-line operating model.
+- Lock a release-quality scientific state without inflating claims.
+- Convert current open-frontier work into a single auditable command structure with
+  explicit release governance.
+- Make observation routing same-day executable and documentation updates machine-preparable.
+
+### Epistemic label deltas
+- None. No parameters promoted or demoted.
+
+### TOE score delta
+- **0.0** (21.2/28 = 76% → 21.2/28 = 76%)
+
+### Falsification impact
+- Stronger operational posture only; no weakening:
+  - DESI DR2 / DR3 routing now fits into a single finish-line observation engine.
+  - JUNO / Hyper-K, CMB-S4, and LiteBIRD routes are now packaged into one command path.
+  - The release decision explicitly requires unresolved risks to remain visible.
+
+### Residual unknowns (open, never softened)
+1. **P16 promotion blocked**: exact derivation of the `+52` term still requires WS-III `T²/Z₃` moduli stabilization.
+2. **P28 architecture limit persists**: naive BP sufficiency needs `N_flux >= 61`; current `N_flux = 37` is insufficient.
+3. **α_GW point value still open**: UV-brane localized kinetic term remains outside 5D closure.
+4. **DESI DR3 / Year 5 risk**: frozen-radion `w_a = 0` can still be falsified if current tension tightens.
+5. **JUNO risk to P17**: at 0.5% precision, the current central-value gap would move to falsification territory.
+
+---
+
 ## v10.30 (Maximum-Effort Rigor Sprint — DESI Y3 Integration, Falsification Hardening, GP Stress Test, Doc Truth Sync)
 
 ### What changed
