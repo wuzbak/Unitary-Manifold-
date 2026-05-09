@@ -14,7 +14,7 @@ from src.core.lab_litebird_substitute import (
 )
 
 
-def _base_input(**kwargs) -> LabCPCampaignInput:
+def _create_lab_campaign_input_with_defaults(**kwargs) -> LabCPCampaignInput:
     data = dict(
         a_cp_lab=0.0,
         sigma_a=SIGMA_TARGET,
@@ -32,56 +32,58 @@ def _base_input(**kwargs) -> LabCPCampaignInput:
 
 def test_negative_sigma_raises():
     with pytest.raises(ValueError, match="sigma_a must be positive"):
-        evaluate_lab_cp_campaign(_base_input(sigma_a=-1e-5))
+        evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(sigma_a=-1e-5))
 
 
 def test_not_topology_certified_is_inconclusive():
-    out = evaluate_lab_cp_campaign(_base_input(topology_certified=False))
+    out = evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(topology_certified=False))
     assert out["verdict"] == "INCONCLUSIVE"
     assert out["decision_grade"] is False
 
 
 def test_not_decision_grade_sensitivity_is_inconclusive():
-    out = evaluate_lab_cp_campaign(_base_input(sigma_a=2e-5))
+    out = evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(sigma_a=2e-5))
     assert out["verdict"] == "INCONCLUSIVE"
     assert out["decision_grade"] is False
 
 
 def test_f_lab_cp_1_triggers_falsified():
-    out = evaluate_lab_cp_campaign(_base_input(a_cp_lab=0.0, sigma_a=1e-5))
+    out = evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(a_cp_lab=0.0, sigma_a=1e-5))
     assert out["verdict"] == "FALSIFIED"
     assert "F-LAB-CP-1" in out["triggered_conditions"]
 
 
 def test_f_lab_cp_2_triggers_falsified():
-    out = evaluate_lab_cp_campaign(_base_input(topology_independent_asymmetry=True))
+    out = evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(topology_independent_asymmetry=True))
     assert out["verdict"] == "FALSIFIED"
     assert "F-LAB-CP-2" in out["triggered_conditions"]
 
 
 def test_f_lab_cp_3_triggers_falsified():
     out = evaluate_lab_cp_campaign(
-        _base_input(sign_reversal_inverts_cp_odd=False, cp_even_baseline_stable=True)
+        _create_lab_campaign_input_with_defaults(
+            sign_reversal_inverts_cp_odd=False, cp_even_baseline_stable=True
+        )
     )
     assert out["verdict"] == "FALSIFIED"
     assert "F-LAB-CP-3" in out["triggered_conditions"]
 
 
 def test_f_lab_cp_4_triggers_falsified():
-    out = evaluate_lab_cp_campaign(_base_input(signal_explained_by_systematics=True))
+    out = evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(signal_explained_by_systematics=True))
     assert out["verdict"] == "FALSIFIED"
     assert "F-LAB-CP-4" in out["triggered_conditions"]
 
 
 def test_supported_when_nonzero_and_controls_pass():
-    out = evaluate_lab_cp_campaign(_base_input(a_cp_lab=4.0e-5, sigma_a=1.0e-5))
+    out = evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(a_cp_lab=4.0e-5, sigma_a=1.0e-5))
     assert out["verdict"] == "SUPPORTED"
     assert out["decision_grade"] is True
     assert out["falsified"] is False
 
 
 def test_inconclusive_when_decision_grade_but_weak_signal():
-    out = evaluate_lab_cp_campaign(_base_input(a_cp_lab=2.0e-5, sigma_a=1.0e-5))
+    out = evaluate_lab_cp_campaign(_create_lab_campaign_input_with_defaults(a_cp_lab=2.0e-5, sigma_a=1.0e-5))
     assert out["verdict"] == "INCONCLUSIVE"
     assert out["decision_grade"] is True
 
@@ -89,8 +91,13 @@ def test_inconclusive_when_decision_grade_but_weak_signal():
 def test_protocol_checklist_has_required_items():
     checklist = lab_protocol_checklist()
     assert len(checklist) >= 7
+    assert any("topology certification" in item.lower() for item in checklist)
+    assert any("conjugate protocols" in item.lower() for item in checklist)
     assert any("sigma_a" in item for item in checklist)
-    assert any("Topology-swap" in item for item in checklist)
+    assert any("topology-swap" in item.lower() for item in checklist)
+    assert any("sign-reversal" in item.lower() for item in checklist)
+    assert any("systematics decomposition" in item.lower() for item in checklist)
+    assert any("independent replications" in item.lower() for item in checklist)
 
 
 def test_status_snapshot_shape():
@@ -99,4 +106,3 @@ def test_status_snapshot_shape():
     assert snap["status"] == "PENDING_CAMPAIGN"
     assert snap["sigma_target"] == SIGMA_TARGET
     assert isinstance(snap["checklist"], list)
-

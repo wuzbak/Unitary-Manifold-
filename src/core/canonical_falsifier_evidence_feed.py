@@ -30,7 +30,7 @@ def collect_canonical_evidence_feed() -> Dict:
         "generated_on": date.today().isoformat(),
         "experiments": {
             "litebird": litebird,
-            "lab_cp_57": lab_substitute_status_snapshot(),
+            "lab_cp_5_7": lab_substitute_status_snapshot(),
             "cmbs4": cmbs4_report(),
             "dune": dune_report(),
             "hyperk_juno": hyperk_juno_report(),
@@ -53,9 +53,9 @@ def falsifier_status_table() -> List[Dict]:
             "primary_falsifier": True,
         },
         {
-            "experiment": "Lab CP (5,7)",
-            "status": feed["lab_cp_57"]["status"],
-            "next_milestone": feed["lab_cp_57"]["next_milestone_year"],
+            "experiment": "Lab_CP_5_7",
+            "status": feed["lab_cp_5_7"]["status"],
+            "next_milestone": feed["lab_cp_5_7"]["next_milestone_year"],
             "primary_falsifier": True,
         },
         {

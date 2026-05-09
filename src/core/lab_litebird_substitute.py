@@ -9,7 +9,6 @@ in parallel with cosmological timelines.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, List
 
 __all__ = [
     "SIGMA_TARGET",
@@ -40,7 +39,7 @@ class LabCPCampaignInput:
     signal_explained_by_systematics: bool
 
 
-def evaluate_lab_cp_campaign(inputs: LabCPCampaignInput) -> Dict[str, object]:
+def evaluate_lab_cp_campaign(inputs: LabCPCampaignInput) -> dict[str, object]:
     """Apply bright-line F-LAB-CP-1..4 logic to a campaign.
 
     Returns a dict with verdict in {"FALSIFIED", "SUPPORTED", "INCONCLUSIVE"}.
@@ -52,7 +51,7 @@ def evaluate_lab_cp_campaign(inputs: LabCPCampaignInput) -> Dict[str, object]:
         return {
             "verdict": "INCONCLUSIVE",
             "falsified": False,
-            "reason": "Topology is not independently certified as stable (5,7).",
+            "reason": "Topology has not been independently certified as stable (5,7).",
             "triggered_conditions": [],
             "decision_grade": False,
         }
@@ -69,12 +68,12 @@ def evaluate_lab_cp_campaign(inputs: LabCPCampaignInput) -> Dict[str, object]:
             "decision_grade": False,
         }
 
-    zero_consistent_95cl = abs(inputs.a_cp_lab) <= _ZERO_CONSISTENT_SIGMA_95CL * inputs.sigma_a
+    zero_consistent_at_95_cl = abs(inputs.a_cp_lab) <= _ZERO_CONSISTENT_SIGMA_95CL * inputs.sigma_a
     has_replication = inputs.independent_replications >= 2
 
-    triggered: List[str] = []
+    triggered: list[str] = []
     if (
-        zero_consistent_95cl
+        zero_consistent_at_95_cl
         and has_replication
         and inputs.systematics_controls_passed
     ):
@@ -121,7 +120,7 @@ def evaluate_lab_cp_campaign(inputs: LabCPCampaignInput) -> Dict[str, object]:
     }
 
 
-def lab_protocol_checklist() -> List[str]:
+def lab_protocol_checklist() -> list[str]:
     """Return the required checklist for reproducible decision-grade reporting."""
     return [
         "Independent (5,7) topology certification report attached",
@@ -134,7 +133,7 @@ def lab_protocol_checklist() -> List[str]:
     ]
 
 
-def lab_substitute_status_snapshot() -> Dict[str, object]:
+def lab_substitute_status_snapshot() -> dict[str, object]:
     """Return current status for canonical evidence feeds and governance trackers."""
     return {
         "lane_id": "F14/P8",
@@ -145,8 +144,8 @@ def lab_substitute_status_snapshot() -> Dict[str, object]:
         "next_milestone_year": 2026,
         "decision_rule": (
             "FALSIFIED iff topology_certified and sigma_a<=1e-5 and "
-            "zero-consistent-at-95CL with replication and controls, or F2/F3/F4 triggered"
+            "zero-consistent-at-95CL with replication and controls, "
+            "or F-LAB-CP-2/F-LAB-CP-3/F-LAB-CP-4 triggered"
         ),
         "checklist": lab_protocol_checklist(),
     }
-
