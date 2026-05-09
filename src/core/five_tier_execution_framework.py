@@ -35,7 +35,7 @@ __all__ = [
     "framework_summary",
 ]
 
-FRAMEWORK_VERSION: str = "v10.32"
+FRAMEWORK_VERSION: str = "v10.33"
 FRAMEWORK_DATE: str = "2026-05-09"
 
 TIER_PRIORITY_ORDER: List[str] = [
