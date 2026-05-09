@@ -25,6 +25,8 @@ from src.core.alpha_s_hardgate_cert import (
     P3_RESIDUAL_PCT,
     P3_ROBUSTNESS_WORST_PCT,
 )
+from src.core.alpha_s_geometric_estimate_cert import H11, H21, K_CS, N_FLUX
+from src.sixd.solar_splitting_6dplus import N_W
 from src.tend.cy3_full_moduli_flux_alpha_s_10d import (
     ALPHA_S_BASE_5D,
     complex_structure_sector_shift,
@@ -59,10 +61,10 @@ GATE_AXIOMZERO_PASS: bool = bool(_GP_ALL_GATES_PASS)
 ALL_GATES_PASS: bool = GATE_NOMINAL_PASS and GATE_ROBUSTNESS_PASS and GATE_AXIOMZERO_PASS
 
 _AXIOMZERO_INPUTS = [
-    "K_CS=74 (Chern-Simons level = 5²+7²)",
-    "N_W=5 (winding number)",
-    "h^{1,1}=1, h^{2,1}=101 (quintic CY₃ topology)",
-    "N_flux=37 (=K_CS/2)",
+    f"K_CS={K_CS} (Chern-Simons level = 5²+7²)",
+    f"N_W={N_W} (winding number)",
+    f"h^{{1,1}}={H11}, h^{{2,1}}={H21} (quintic CY₃ topology)",
+    f"N_flux={N_FLUX} (=K_CS/2)",
 ]
 
 

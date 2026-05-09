@@ -13,6 +13,8 @@ from src.core.p3_alpha_s_derived_cert import (
     p3_derived_summary,
 )
 
+EXPECTED_P3_RESIDUAL_ROUNDED = 4.12
+
 
 def test_alpha_s_pred_near_pdg():
     assert abs(P3_PRED - P3_PDG) / P3_PDG < 0.05
@@ -56,3 +58,9 @@ def test_summary_p3():
 
 def test_residual_value():
     assert P3_RESIDUAL < 5.0
+
+
+def test_residual_matches_prediction_formula():
+    expected = abs(P3_PRED - P3_PDG) / P3_PDG * 100.0
+    assert abs(P3_RESIDUAL - expected) < 1e-12
+    assert abs(P3_RESIDUAL - EXPECTED_P3_RESIDUAL_ROUNDED) < 0.01

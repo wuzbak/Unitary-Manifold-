@@ -80,7 +80,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | OPEN | 0 | 0.0 | 0.0 |
 | **Total** | **28** | | **27.1** |
 
-*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. The 23 confirmed DERIVED parameters (P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P26,P27) each have AxiomZero-certified gate reports in `src/core/p{N}_*_derived_cert.py`. The 2 GEOMETRIC_PREDICTION parameters are P23 and P24. P25 (Ω_GW) is DERIVED-PENDING (not yet measured). P28 is ARCHITECTURE_LIMIT_CERTIFIED.*
+*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. There are now 23 confirmed DERIVED parameters, each backed by an AxiomZero-certified gate report in `src/core/*_derived_cert.py`; the canonical per-parameter list lives in the tracker and table above. The 2 GEOMETRIC_PREDICTION parameters are P23 and P24. P25 (Ω_GW) is DERIVED-PENDING (not yet measured). P28 is ARCHITECTURE_LIMIT_CERTIFIED.*
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
