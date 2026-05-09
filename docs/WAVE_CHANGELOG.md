@@ -13,6 +13,49 @@ For each wave entry, include:
 
 ---
 
+## v10.35 (91.8% ToE — P26 GP→DERIVED AxiomZero Certification)
+
+### What changed
+
+- **P26 promoted: GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts)
+  - Added `src/core/p26_neutrino_mass_derived_cert.py` with explicit hardgates:
+    1) numerical consistency with 5D seesaw chain, 2) bound compatibility, 3) AxiomZero no-PDG-seed-input gate (`axiomzero_pdg_inputs=[]`).
+  - Added `tests/test_p26_neutrino_mass_derived_cert.py` (gate/report/summary coverage).
+
+### What did not change
+
+- P3, P7–P10, P14, P15, P23, P24 remain GEOMETRIC_PREDICTION.
+- P28 remains ARCHITECTURE_LIMIT_CERTIFIED (10^57.26 gap unchanged).
+- No falsification condition was weakened or removed.
+
+### Why
+
+P26 already had a geometric closure path in v10.33, but lacked a dedicated DERIVED
+certifier module with explicit AxiomZero hardgates. This wave adds that certifier and
+applies the score delta only after gate-backed validation.
+
+### Epistemic label deltas
+
+- P26: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
+
+### TOE score delta
+
+**25.5 → 25.7 / 28.0 = 91.8%**
+
+### Falsification impact
+
+None. This wave certifies derivation status; it does not alter the existing
+neutrino-mass falsifier lane.
+
+### Residual unknowns
+
+- P3 (α_s): 4.1% residual; needs UV-brane completion to close to DERIVED
+- P7–P10 (Yukawas): Tier-4 NLO blend; DERIVED requires full CY₃ Yukawa matrix derivation
+- P14 (CKM ρ̄), P15 (δ_CP): 9D propagation path; DERIVED requires CP-phase geometry completion
+- P28 (Λ): 10D landscape with N_flux ≥ 61 still needed; gap remains 10^57.26
+
+---
+
 ## v10.34 (91.1% ToE — P27 GP→DERIVED AxiomZero Certification)
 
 ### What changed
