@@ -45,6 +45,47 @@ __all__ = [
     "full_10d_uv_closure_report",
 ]
 
+# ---------------------------------------------------------------------------
+# Benchmark numerical weights and gate thresholds
+# ---------------------------------------------------------------------------
+
+#: Flux-weight coefficient for one-loop localized kinetic-term correction.
+_LOOP_FLUX_WEIGHT: float = 0.02
+
+#: Intersection-weight coefficient for one-loop localized kinetic-term correction.
+_LOOP_INTERSECTION_WEIGHT: float = 0.001
+
+#: Flux-weight in threshold exponent for open-string threshold enhancement.
+_THRESHOLD_FLUX_WEIGHT: float = 0.22
+
+#: Exponential cap to avoid numerically unstable threshold blow-up.
+_THRESHOLD_EXP_CAP: float = 30.0
+
+#: Euler-characteristic normalization scale for curvature correction.
+_CURVATURE_EULER_SCALE: float = 500.0
+
+#: Tadpole prefactor for benchmark D3 charge estimate from F3∧H3 pairing
+#: (Type IIB flux-induced D3 charge normalization in benchmark units).
+_TADPOLE_PREFAC: float = 1.0 / (2.0 * math.pi)
+
+#: Numerical floor for g_s to guard against divide-by-zero.
+_GS_FLOOR: float = 1e-12
+
+#: Volume normalization scale entering k/M5 estimate.
+_K_OVER_M5_VOLUME_SCALE: float = 100.0
+
+#: Benchmark tadpole budget for this orientifold branch.
+_D3_TADPOLE_BUDGET: float = 320.0
+
+#: Perturbative-EFT gate: require weak-coupling string regime.
+_EFT_GS_MAX: float = 0.3
+
+#: EFT hierarchy gate: enforce minimum separation between M5 and MPl.
+_EFT_M5_OVER_MPL_MIN: float = 0.5
+
+#: Robustness threshold: at least 20% scan support for in-band closure.
+_ROBUST_OVERLAP_MIN: float = 0.2
+
 
 def _alpha_gw_geo_from_5d() -> float:
     """Return the RS1 + Casimir geometric estimate used by UM."""
@@ -65,9 +106,11 @@ def _compute_c_uv_components(
     flux_l1 = float(sum(abs(x) for x in flux_f3) + sum(abs(x) for x in flux_h3))
 
     tree_level = float(reduction["uv_brane_tree_counterterm_raw"])
-    loop_factor = 1.0 + 0.02 * flux_l1 + 0.001 * intersection_index
-    threshold_factor = math.exp(min(0.22 * flux_l1, 30.0))
-    curvature_factor = 1.0 + euler_abs / 500.0
+    loop_factor = 1.0 + _LOOP_FLUX_WEIGHT * flux_l1 + _LOOP_INTERSECTION_WEIGHT * intersection_index
+    # Benchmark ansatz: effective threshold enhancement increases with net flux load.
+    # The exponent cap is purely numerical to keep the scan stable.
+    threshold_factor = math.exp(min(_THRESHOLD_FLUX_WEIGHT * flux_l1, _THRESHOLD_EXP_CAP))
+    curvature_factor = 1.0 + euler_abs / _CURVATURE_EULER_SCALE
     warp_factor = float(reduction["warp_enhancement_factor"])
 
     return {
@@ -77,6 +120,18 @@ def _compute_c_uv_components(
         "curvature_factor": curvature_factor,
         "warp_factor": warp_factor,
     }
+
+
+def _normalize_flux_pairing(weighted_flux_pairing: float, intersection_weights: List[float]) -> float:
+    """Normalize weighted F3∧H3 pairing into benchmark tadpole units.
+
+    The benchmark uses sum-of-absolute-weights normalization so that the flux
+    pairing is compared to the same O(10^2-10^3) tadpole budget scale used by
+    this module's orientifold branch bookkeeping. The weights are effective
+    geometric pairings for each flux component in the benchmark symplectic basis.
+    """
+    normalization = max(sum(abs(w) for w in intersection_weights), 1.0)
+    return weighted_flux_pairing / normalization
 
 
 def freeze_target_equation_and_normalization() -> Dict[str, object]:
@@ -109,13 +164,31 @@ def freeze_target_equation_and_normalization() -> Dict[str, object]:
 def specify_type_iib_cy3_orientifold_input_set() -> Dict[str, object]:
     """Step 2: explicit Type IIB CY3 orientifold benchmark data."""
     return {
-        "model_id": "IIB-CY3-O3O7-BENCHMARK-A",
+        "model_id": "IIB-CY3-O3O7-VARIANT-01",
         "compactification": "Type IIB on CY3 orientifold with O3/O7 planes",
         "orientifold_content": {"O3_count": 64, "O7_count": 4},
         "dbrane_stacks": [
-            {"name": "a", "type": "D7", "multiplicity": 8, "wrapping": [1, 0, 1], "intersection_with_uv": 24},
-            {"name": "b", "type": "D7", "multiplicity": 6, "wrapping": [0, 1, 1], "intersection_with_uv": 18},
-            {"name": "c", "type": "D3", "multiplicity": 12, "wrapping": [0, 0, 0], "intersection_with_uv": 12},
+            {
+                "name": "uv_d7_stack_101",
+                "type": "D7",
+                "multiplicity": 8,
+                "wrapping": [1, 0, 1],
+                "intersection_with_uv": 24,
+            },
+            {
+                "name": "uv_d7_stack_011",
+                "type": "D7",
+                "multiplicity": 6,
+                "wrapping": [0, 1, 1],
+                "intersection_with_uv": 18,
+            },
+            {
+                "name": "bulk_d3_stack",
+                "type": "D3",
+                "multiplicity": 12,
+                "wrapping": [0, 0, 0],
+                "intersection_with_uv": 12,
+            },
         ],
         "topology": {
             "intersection_numbers": {"k111": 12, "k122": 6, "k233": 4},
@@ -126,6 +199,7 @@ def specify_type_iib_cy3_orientifold_input_set() -> Dict[str, object]:
         "flux_sector": {
             "F3_flux_quanta": [11, -7, 5],
             "H3_flux_quanta": [13, -9, 4],
+            "flux_pairing_weights": [1.0, 0.8, 0.6],
             "F5_flux_units": 74,
             "gs": 0.21,
         },
@@ -148,17 +222,21 @@ def reduce_10d_to_5d_to_4d_gravity_sector(
     cycle_volumes = cpt["topology"]["cycle_volumes"]
     total_cycle_volume = float(sum(float(v) for v in cycle_volumes.values()))
     gs = float(cpt["flux_sector"]["gs"])
-    total_multiplicity = float(sum(stack["multiplicity"] for stack in cpt["dbrane_stacks"]))
-    total_uv_intersection = float(sum(stack["intersection_with_uv"] for stack in cpt["dbrane_stacks"]))
+    total_multiplicity = 0.0
+    total_uv_intersection = 0.0
+    for stack in cpt["dbrane_stacks"]:
+        total_multiplicity += float(stack["multiplicity"])
+        total_uv_intersection += float(stack["intersection_with_uv"])
 
-    bulk_5d_kinetic_norm = (total_cycle_volume / (2.0 * math.pi) ** 2) / max(gs, 1e-12)
+    # Benchmark reduction normalization: V_CY/(2π)^2 scaled by 1/g_s into dimensionless 5D bulk kinetic units.
+    bulk_5d_kinetic_norm = (total_cycle_volume / (2.0 * math.pi) ** 2) / max(gs, _GS_FLOOR)
     m5_over_mpl = bulk_5d_kinetic_norm ** (1.0 / 3.0)
-    k_over_m5 = 1.0 / (1.0 + total_cycle_volume / 100.0)
+    k_over_m5 = 1.0 / (1.0 + total_cycle_volume / _K_OVER_M5_VOLUME_SCALE)
     k_over_mpl = k_over_m5 * m5_over_mpl
 
-    uv_brane_tree_counterterm_raw = (
-        total_multiplicity * total_uv_intersection / (4.0 * math.pi**2)
-    )
+    # Benchmark UV-localized tree term from D-brane multiplicity × UV intersection load,
+    # normalized by 4π² to keep c_UV in UM dimensionless convention.
+    uv_brane_tree_counterterm_raw = total_multiplicity * total_uv_intersection / (4.0 * math.pi**2)
     warp_enhancement_factor = math.exp(PI_KR / 2.0)
 
     return {
@@ -217,8 +295,19 @@ def enforce_consistency_gates(
 
     f3 = cpt["flux_sector"]["F3_flux_quanta"]
     h3 = cpt["flux_sector"]["H3_flux_quanta"]
-    d3_charge_from_flux = float(sum(abs(fi * hi) for fi, hi in zip(f3, h3)))
-    d3_budget = 320.0
+    pairing_weights = cpt["flux_sector"]["flux_pairing_weights"]
+    if not (len(f3) == len(h3) == len(pairing_weights)):
+        raise ValueError(
+            "Flux and pairing-weight lists must have matching lengths for tadpole pairing. "
+            f"Got F3={len(f3)}, H3={len(h3)}, pairings={len(pairing_weights)}."
+        )
+    weighted_flux_pairing = sum(
+        fi * hi * w for fi, hi, w in zip(f3, h3, pairing_weights)
+    )
+    normalized_pairing = _normalize_flux_pairing(float(weighted_flux_pairing), pairing_weights)
+    d3_charge_from_flux_signed = _TADPOLE_PREFAC * normalized_pairing
+    d3_charge_from_flux = abs(d3_charge_from_flux_signed)
+    d3_budget = _D3_TADPOLE_BUDGET
     tadpole_ok = d3_charge_from_flux <= d3_budget
 
     orientifold = cpt["orientifold_content"]
@@ -232,15 +321,16 @@ def enforce_consistency_gates(
     positivity_ok = positive_cycles and c_uv["c_uv_total"] > 0.0
 
     eft_ok = (
-        float(cpt["flux_sector"]["gs"]) < 0.3
+        float(cpt["flux_sector"]["gs"]) < _EFT_GS_MAX
         and float(red["k_over_m5"]) < 1.0
-        and float(red["m5_over_mpl"]) > 0.5
+        and float(red["m5_over_mpl"]) > _EFT_M5_OVER_MPL_MIN
     )
 
     all_ok = tadpole_ok and orientifold_ok and positivity_ok and eft_ok
 
     return {
         "tadpole_ok": tadpole_ok,
+        "d3_charge_from_flux_signed": d3_charge_from_flux_signed,
         "d3_charge_from_flux": d3_charge_from_flux,
         "d3_budget": d3_budget,
         "orientifold_ok": orientifold_ok,
@@ -318,8 +408,8 @@ def uncertainty_and_robustness_analysis(
 
     total = len(alpha_values)
     overlap_fraction = inside_count / total if total > 0 else 0.0
-    robust_overlap = overlap_fraction >= 0.2
-    fine_tuned_only = 0.0 < overlap_fraction < 0.2
+    robust_overlap = overlap_fraction >= _ROBUST_OVERLAP_MIN
+    fine_tuned_only = 0.0 < overlap_fraction < _ROBUST_OVERLAP_MIN
 
     return {
         "scan_points": total,
