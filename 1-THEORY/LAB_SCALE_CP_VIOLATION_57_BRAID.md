@@ -3,7 +3,7 @@
 ## Executive statement
 
 If Theorem XXIX fixes the geometric CP scale at the CKM order,
-\(J_{\mathrm{geo}}\sim 3.3\times 10^{-5}\), then waiting for LiteBIRD is not the
+\(J_{\mathrm{geo}}\sim 3\times 10^{-5}\), then waiting for LiteBIRD is not the
 only route to falsification pressure.
 
 Any condensed-matter platform that **physically realizes the same (5,7) winding

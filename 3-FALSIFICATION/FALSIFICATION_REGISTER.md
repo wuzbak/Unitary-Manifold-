@@ -270,7 +270,7 @@ Status key: ✅ Currently consistent · ⚠️ Tension / open · ❌ Falsified �
 | Field | Value |
 |-------|-------|
 | **Prediction** | In topology-certified (5,7) condensed-matter realizations, a CP-odd asymmetry appears at CKM/Jarlskog order: \(A_{CP}^{lab}\sim \Pi_{topo}J_{geo}\), with \(J_{geo}\sim 3\times10^{-5}\) and \(0\le\Pi_{topo}\le1\). |
-| **Derivation** | Braid CP-origin theorem \(J\neq0 \iff n_1\neq n_2\) (Pillar 145) + CKM-scale Jarlskog order from geometric/Wolfenstein closure + (5,7) condensed-matter winding realization. |
+| **Derivation** | Braid CP-origin theorem \(J\neq0 \iff n_1\neq n_2\) (Pillar 145) + CKM-scale Jarlskog order from the geometric/Wolfenstein route (see `src/core/wolfenstein_geometry.py`, `src/core/ckm_matrix_full.py`, and `src/core/jarlskog_geometric.py`) + (5,7) condensed-matter winding realization. |
 | **Current data** | No dedicated topology-certified \(10^{-5}\)-sensitivity table-top campaign reported in this repository yet. |
 | **Current status** | 🔬 Awaiting decisive laboratory implementation. |
 | **Decisive experiment** | Josephson/SQUID or topological-insulator platform with certified (5,7) winding, conjugate protocol pairs, and full systematics closure to \(\sigma_A\le10^{-5}\). |
