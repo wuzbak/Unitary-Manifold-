@@ -477,7 +477,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 11 | The Signal and the Noise | **Politics & Media** | Social commentary | No |
 | 12 | Cleared for Approach — But Not for Landing | **Critical Infrastructure** | Systems analysis (φ-collapse, B_μ divergence, FTUM) | No |
 | 13 | The Theory of Everything and Everyone | **Repository Orientation** | Framework map with explicit epistemic boundaries | No |
-| 14 | Taurid Density Window (2030s) | **Risk & Preparedness** | Falsifier-aware risk analysis; not a deterministic impact claim | No |
+| 14 | Taurid Density Window (2030s) | **Critical Infrastructure** | Falsifier-aware risk analysis; not a deterministic impact claim | No |
 
 **Books 5–13 are AxiomZero-commissioned works, not peer-reviewed physics.**
 Books 7–11 (education, engineering, politics, climate) apply the UM mathematical language
