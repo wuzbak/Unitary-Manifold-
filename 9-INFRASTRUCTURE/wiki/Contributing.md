@@ -44,7 +44,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 2. **Create a branch** for your change: `git checkout -b feature/my-improvement`
 3. **Run the test suite before making changes** to establish a baseline:
    ```bash
-   python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+   python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
    # Expected: 18057 passed, 329 skipped, 11 deselected, 0 failed
    ```
 4. **Make your changes** following the conventions below.
@@ -69,7 +69,7 @@ python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 # Expected: 1026 passed, 254 skipped, 0 failed
 
 # Full repository (~130 s):
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 # Expected: 18057 passed, 329 skipped, 11 deselected, 0 failed
 
 # Slow tests (Richardson extrapolation convergence):

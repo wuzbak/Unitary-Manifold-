@@ -872,7 +872,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 207 | DAM Lattice Audit — K_CS=74 exact; Leech hypothesis rejected | `src/core/pillar207_dam_lattice_audit.py` | ~50 |
 | 208 | Braid-Lock PMNS — sin²θ₁₂=3/10, sin²θ₂₃=20/37, sin²θ₁₃=3/144 all <5% | `src/core/pillar208_braid_lock_pmns.py` | ~50 |
 
-**Grand total (v10.4): ~23,524 passed · 329 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/ + claims/)
+**Grand total (v10.4): ~23,524 passed · 329 skipped · 11 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + claims/)
 
 **~23,524** — 208 pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. (Note: v10.4 Near Closure: AxiomZero guard, braid-lock formalization, Architecture Limit (Pillar 206), claims/ falsification benchmarks, DAM/Leech hypothesis archived. TOE score 42% (11/26). v10.3 added Pillar 200 AxiomZero forward chain; v10.2 added Pillars 192–199 (neutrino symmetry, Sakharov, Josephson, resonance, SEP, ghost stability, GW polarization); v10.1 added Pillars 190–191 (neutrino winding, Sakharov); v10.0 added Pillars 189-A/B/C/D (scaffold registry); v9.39 added Pillars 185–188 (sensitivity, EP guard, LHC resonances, CKM scaffold); v9.38 added professional/scientific presentation overhaul (+110 tests from v9.37). v9.37 added Pillar 183 + Axiom A callable + CFL guard + Λ_QCD hierarchy (+170 tests). v9.36 added Pillar 182 + k_cs topological proof + GW demotion + radion audit (+90 tests). v9.35 added Pillars 173–181 red-team response + symbolic metric bridge (+194 tests). Pillars 162–167 (Gap Closure Arc II) added +463 tests. Pillars 150–161 (Gap Closure Arc I + Waves A–F) added +793 tests. Pillars 143–149 added +290 tests. Pillars 133–142 + Ω₀ added 568 new tests — the SM Parameter Closure Arc. Pillars 128–132 added 330 new tests — the Grand Synthesis Arc. Pillars 117–127 added 676 new tests. Grand total v10.2: 22,781; v10.0: 21,727; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
 
@@ -906,7 +906,7 @@ pip install -r requirements.txt
 ### Run the test suite — 0 failures (full suite: 25292 passed · 329 skipped · 11 deselected)
 
 ```bash
-python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 ```
 
 Expected output summary:
@@ -954,7 +954,7 @@ tests/test_richardson_multitime.py        11 passed
 # 5-GOVERNANCE/Unitary Pentad/ (HILS governance framework):
 ================================ 1,026 passed, 254 skipped ================================
 
-# omega/ (Pillar Ω: Universal Mechanics Engine):
+# 5-GOVERNANCE/Unitary Pentad/omega/ (Pillar Ω: Universal Mechanics Engine):
 ================================ 170 passed ================================
 
 # Grand total:

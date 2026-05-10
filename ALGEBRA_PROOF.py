@@ -2192,10 +2192,13 @@ section("§28  OMEGA SYNTHESIS (PILLAR Ω) — 5 SEEDS → ALL OBSERVABLES")
 
 import sys as _sys28
 import os as _os28
-# omega/ is a top-level package separate from src/core/ — it requires explicit
-# path injection because it is not installed as a package and lives outside
-# the src/ namespace used by all other UM modules.
-_omega_path = _os28.path.join(_os28.path.dirname(_os28.path.abspath(__file__)), "omega")
+# omega/ now lives inside 5-GOVERNANCE/Unitary Pentad/, so point imports there.
+_omega_path = _os28.path.join(
+    _os28.path.dirname(_os28.path.abspath(__file__)),
+    "5-GOVERNANCE",
+    "Unitary Pentad",
+    "omega",
+)
 if _omega_path not in _sys28.path:
     _sys28.path.insert(0, _omega_path)
 
@@ -2335,4 +2338,3 @@ def test_algebra_proof_all_pass():
         f"ALGEBRA_PROOF.py: {len(failing)} check(s) failed:\n"
         + "\n".join(f"  {f[1]}: {f[2]}" for f in failing)
     )
-

@@ -17,6 +17,9 @@ import pytest
 # already, so this is safe to run multiple times.
 # ---------------------------------------------------------------------------
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_PENTAD_DIR = os.path.join(_REPO_ROOT, "5-GOVERNANCE", "Unitary Pentad")
+if _PENTAD_DIR not in sys.path:
+    sys.path.insert(0, _PENTAD_DIR)
 _IMPLICATIONS_DIR = os.path.join(_REPO_ROOT, "4-IMPLICATIONS")
 if _IMPLICATIONS_DIR not in sys.path:
     sys.path.insert(0, _IMPLICATIONS_DIR)

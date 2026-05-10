@@ -3,8 +3,8 @@
 """
 holon-zero — Documentation folder for the Holon Zero Ground State Engine.
 
-The Python-importable package lives at holon_zero/ (underscore).
-This folder (holon-zero/ with hyphen) contains human-readable documentation:
+The Python-importable package lives at 5-GOVERNANCE/Unitary Pentad/holon_zero/ (underscore).
+This folder (5-GOVERNANCE/Unitary Pentad/holon-zero/ with hyphen) contains human-readable documentation:
   README.md     — architecture, quick start, holarchy table
   EMERGENCE.md  — the philosophical synthesis
   holon_zero_engine.py   — source copy (for readability)
@@ -19,4 +19,3 @@ To use the engine::
 Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
 """
-

@@ -408,7 +408,7 @@ def run_test_suite(fast: bool = True, verbose: bool = False) -> dict[str, Any]:
     ----------
     fast : bool
         If True, run only tests/ (core suite, ~14 k tests).
-        If False, run all suites including recycling/, Pentad, omega/.
+        If False, run all suites including recycling/ and the full Pentad tree.
     verbose : bool
         If True, pass -v to pytest.
     """
@@ -416,7 +416,7 @@ def run_test_suite(fast: bool = True, verbose: bool = False) -> dict[str, Any]:
 
     suites = ["tests/"]
     if not fast:
-        suites += ["recycling/", "5-GOVERNANCE/Unitary Pentad/", "omega/"]
+        suites += ["recycling/", "5-GOVERNANCE/Unitary Pentad/"]
 
     cmd = ["python3", "-m", "pytest"] + suites + ["--tb=no", "-q"]
     if verbose:

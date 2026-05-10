@@ -204,7 +204,7 @@ one-time Commercial Notification:
    larger organisation that meets either criterion; **and**
 
 2. **Deployment:** The entity deploys any portion of the AGPL-covered software
-   (`src/`, `tests/`, `recycling/`, `Unitary Pentad/`, `omega/`, `bot/`, or any
+   (`src/`, `tests/`, `recycling/`, `5-GOVERNANCE/Unitary Pentad/`, `5-GOVERNANCE/Unitary Pentad/omega/`, `5-GOVERNANCE/Unitary Pentad/holon_zero/`, `bot/`, or any
    derived work) as part of a revenue-generating product, service, or internal
    workflow.
 

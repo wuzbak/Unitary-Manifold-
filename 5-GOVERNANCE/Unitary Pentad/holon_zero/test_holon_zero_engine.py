@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-holon-zero/test_holon_zero_engine.py
+5-GOVERNANCE/Unitary Pentad/holon_zero/test_holon_zero_engine.py
 =====================================
 Comprehensive test suite for the Holon Zero Ground State Engine.
 

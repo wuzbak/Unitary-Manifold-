@@ -48,15 +48,18 @@ Contents
     multiverse/
       fixed_point.py        FTUM fixed-point iteration (Pillar 5)
 
-  omega/                    Pillar Ω — Universal Mechanics Engine
-    omega_synthesis.py      UniversalEngine: 5 seeds → all observables
-    test_omega_synthesis.py 168 tests
-    README.md               Architecture and API guide
-    CALCULATOR.md           Complete API reference
-
   recycling/                Pillar 16 — φ-debt entropy accounting (316 tests)
 
-  Unitary Pentad/           HILS governance framework — 18 modules (1,266 tests)
+  5-GOVERNANCE/Unitary Pentad/
+    omega/                  Pillar Ω — Universal Mechanics Engine
+      omega_synthesis.py    UniversalEngine: 5 seeds → all observables
+      test_omega_synthesis.py 168 tests
+      README.md             Architecture and API guide
+      CALCULATOR.md         Complete API reference
+    holon_zero/             Ω₀ Holon Zero Python package
+    holon-zero/             Ω₀ Holon Zero documentation mirror
+    UOS/                    Unitary Operating System modules
+                            HILS governance framework — 18 modules plus nested packages
 
   tests/                    150+ test files, ~15,926 passing tests (Pillars 1–132 + sub-pillars)
 
@@ -98,14 +101,13 @@ Getting started
   pip install -r requirements.txt
   python VERIFY.py           # 30-second standalone proof
   python -c "from src.core import metric, evolution; print('OK')"
-  python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+  python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 
 Test suite summary (v9.29)
 -----------------------------------------
   tests/               ~15,926 passed, 76 skipped   (Pillars 1–132 + sub-pillars)
   recycling/               316 passed    (Pillar 16)
-  5-GOVERNANCE/Unitary Pentad/  1,026 passed, 254 skipped  (HILS governance)
-  omega/                   170 passed    (Pillar Ω)
+  5-GOVERNANCE/Unitary Pentad/  1,026+ passed, 254 skipped  (HILS governance + nested Omega/Holon)
   ─────────────────────────────────────
   TOTAL               18,057 passed, 329 skipped, 0 failed
 """

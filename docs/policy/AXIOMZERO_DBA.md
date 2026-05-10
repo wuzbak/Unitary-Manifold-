@@ -66,8 +66,8 @@ The following are produced under the AxiomZero Technologies trade name:
 | Product | Location | Description |
 |---------|----------|-------------|
 | Unitary Manifold (v9.27) | `src/`, `tests/`, `recycling/` | 5D Kaluza-Klein physics framework |
-| Unitary Pentad | `Unitary Pentad/` | 5-body HILS governance framework |
-| Universal Mechanics Engine | `omega/` | Pillar Ω — 5-seed universal observable engine |
+| Unitary Pentad | `5-GOVERNANCE/Unitary Pentad/` | 5-body HILS governance framework |
+| Universal Mechanics Engine | `5-GOVERNANCE/Unitary Pentad/omega/` | Pillar Ω — 5-seed universal observable engine |
 | All 99 Pillars | `src/*/` | Physics, governance, ecology, and analogical modules |
 | Bot / AI assistant infrastructure | `bot/` | RAG, Copilot Extension, Custom GPT |
 | Embryology Manifold | `embryology-manifold/` | Geometric embryology derivations |
@@ -82,7 +82,7 @@ repository's open licenses:
 | License | Coverage | Commercial impact |
 |---------|----------|-------------------|
 | **Defensive Public Commons v1.0** (`LICENSE`) | Theory, manuscripts, equations, datasets | Content is irrevocably public domain; AxiomZero may not charge for access to the content itself |
-| **AGPL-3.0** (`LICENSE-AGPL`) | All software directories: `src/`, `tests/`, `recycling/`, `scripts/`, `submission/`, `Unitary Pentad/`, `omega/`, `bot/`, `embryology-manifold/` | Open-source copyleft; any service deployment must publish modified source — AxiomZero complies; CLE agreements available for enterprises requiring proprietary deployment (see `COMMERCIAL_TERMS.md` § 4-A) |
+| **AGPL-3.0** (`LICENSE-AGPL`) | All software directories: `src/`, `tests/`, `recycling/`, `scripts/`, `submission/`, `5-GOVERNANCE/Unitary Pentad/`, `5-GOVERNANCE/Unitary Pentad/omega/`, `5-GOVERNANCE/Unitary Pentad/holon_zero/`, `bot/`, `embryology-manifold/` | Open-source copyleft; any service deployment must publish modified source — AxiomZero complies; CLE agreements available for enterprises requiring proprietary deployment (see `COMMERCIAL_TERMS.md` § 4-A) |
 
 AxiomZero Technologies **does not** charge for access to the content or code covered by
 these licenses.  Commercial revenue is generated from *services* (consulting, domain

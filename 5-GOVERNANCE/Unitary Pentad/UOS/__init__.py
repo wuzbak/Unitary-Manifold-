@@ -26,12 +26,12 @@ The UOS is aware of and builds upon work across the active development branches:
   The GeodesicScheduler uses fiber bundle sector labels to assign process
   groups to distinct manifold sectors, preventing sector-crossing overhead.
 
-* **Holon Zero** (``holon_zero/holon_zero_engine.py``) —
+* **Holon Zero** (``5-GOVERNANCE/Unitary Pentad/holon_zero/holon_zero_engine.py``) —
   The UOS idle/sleep state maps to Holon Zero: the ground state before any
   process is scheduled.  When the scheduler is empty, the manifold relaxes
   to φ = φ₀ (the HolonZero fixed point).
 
-* **Omega Synthesis** (``omega/omega_synthesis.py``) —
+* **Omega Synthesis** (``5-GOVERNANCE/Unitary Pentad/omega/omega_synthesis.py``) —
   The UOSHypervisor exposes a ``system_report()`` method that calls into
   OmegaSynthesis to produce a full cross-domain health summary, bridging
   OS metrics with cosmological, biological, and governance indicators.

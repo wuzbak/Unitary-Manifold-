@@ -141,7 +141,7 @@ utility functions (`_clamp`, `_bar`, `PilotState`, `inject_trust`,
 The full suite command remains:
 
 ```bash
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 ```
 
 The total passing count will decrease by approximately the number of
