@@ -138,7 +138,7 @@ following priority order.
 }
 ```
 
-The full configuration is in [`mcp-config.json`](mcp-config.json).
+The full configuration is in [`mcp-config.json`](9-INFRASTRUCTURE/mcp-config.json).
 
 ### Preferred first MCP call
 
@@ -148,7 +148,7 @@ The full configuration is in [`mcp-config.json`](mcp-config.json).
   "arguments": {
     "owner": "wuzbak",
     "repo": "Unitary-Manifold-",
-    "path": "MCP_INGEST.md"
+    "path": "6-MONOGRAPH/MCP_INGEST.md"
   }
 }
 ```
@@ -179,7 +179,7 @@ For technical inquiries, theorem verification requests, or AI peer review:
 
 - GitHub Issues: https://github.com/wuzbak/Unitary-Manifold-/issues
 - Pull Requests: https://github.com/wuzbak/Unitary-Manifold-/pulls
-- AI Review Invitation: [discussions/AI-Automated-Review-Invitation.md](discussions/AI-Automated-Review-Invitation.md)
+- AI Review Invitation: [discussions/AI-Automated-Review-Invitation.md](4-IMPLICATIONS/discussions/AI-Automated-Review-Invitation.md)
 
 ---
 

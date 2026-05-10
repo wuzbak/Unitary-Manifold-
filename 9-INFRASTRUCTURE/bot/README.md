@@ -154,7 +154,7 @@ Whenever the repository content changes, regenerate the snapshot:
 python bot/scripts/build_context.py
 ```
 
-This reads every document in [AGENTS.md](../AGENTS.md) ingest order
+This reads every document in [AGENTS.md](../../AGENTS.md) ingest order
 (Tier 1 → 4) and writes `bot/context_snapshot.md`.  The file is gitignored
 (generated, not hand-edited).  Re-upload it to your Custom GPT / Claude
 Project after any significant theory update.
@@ -190,6 +190,6 @@ manually to Custom GPT / Claude Project if you want full 74-chapter coverage.
 ## Repository links
 
 - Main repo: <https://github.com/wuzbak/Unitary-Manifold->
-- Theory overview: [`MCP_INGEST.md`](../MCP_INGEST.md)
-- Plain-language summary: [`WHAT_THIS_MEANS.md`](../WHAT_THIS_MEANS.md)
+- Theory overview: [`MCP_INGEST.md`](../../6-MONOGRAPH/MCP_INGEST.md)
+- Plain-language summary: [`WHAT_THIS_MEANS.md`](../../4-IMPLICATIONS/WHAT_THIS_MEANS.md)
 

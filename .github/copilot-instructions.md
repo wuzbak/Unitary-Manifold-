@@ -48,7 +48,7 @@ recycling/          ← Pillar 16: φ-debt entropy accounting
 Unitary Pentad/     ← Independent HILS governance framework (18 modules)
 tests/              ← 150+ test files, ~14,103 fast-passing tests (Pillars 1–101 + Pillar 70-B, all sub-pillars)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
-co-emergence/       ← HILS framework documentation
+5-GOVERNANCE/co-emergence/ ← HILS framework documentation
 ```
 
 ## Coding Conventions
@@ -118,6 +118,6 @@ Any β outside the admissible window [0.22°, 0.38°], or landing in the predict
 ## AI Ethics Note
 
 This repository was built by a human-AI collaboration under the HILS (Human-in-the-Loop Systems)
-framework documented in `co-emergence/`. The AI (Copilot) was responsible for code architecture,
+framework documented in `5-GOVERNANCE/co-emergence/`. The AI (Copilot) was responsible for code architecture,
 test suites, and document synthesis; the human (ThomasCory Walker-Pearson) was responsible for
 scientific direction, theory, and judgment. This role partition is documented in every file.

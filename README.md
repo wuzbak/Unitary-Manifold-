@@ -993,7 +993,7 @@ interacting manifolds (physical, biological, intentional, computational, and rel
 python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 ```
 
-See [`5-GOVERNANCE/Unitary Pentad/README.md`](5-GOVERNANCE/Unitary%20Pentad/README.md) for full documentation.
+See [`5-GOVERNANCE/Unitary Pentad/README.md`](5-GOVERNANCE/Unitary Pentad/README.md) for full documentation.
 
 ### Run a bulk field simulation
 

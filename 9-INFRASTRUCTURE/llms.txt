@@ -11,164 +11,164 @@
 
 ## Start Here
 
-- [What This Means](WHAT_THIS_MEANS.md): **Core claim in plain language** — what this work is saying, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. Start here.
-- [MCP Ingest Proof](MCP_INGEST.md): Complete low-token structured summary — optimised for AI ingestion.
-- [README](README.md): Project overview, equations, quickstart code examples.
-- [Citation](CITATION.cff): CFF metadata for academic citation.
+- [What This Means](../4-IMPLICATIONS/WHAT_THIS_MEANS.md): **Core claim in plain language** — what this work is saying, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. Start here.
+- [MCP Ingest Proof](../6-MONOGRAPH/MCP_INGEST.md): Complete low-token structured summary — optimised for AI ingestion.
+- [README](../README.md): Project overview, equations, quickstart code examples.
+- [Citation](../CITATION.cff): CFF metadata for academic citation.
 - [demo.ipynb](../demo.ipynb): **Interactive 30-second physics check** — CMB observables, 5D→4D projection, falsification verdict, and birefringence window. Run with `jupyter notebook demo.ipynb` or view at [nbviewer](https://nbviewer.org/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb).
 - [pyproject.toml](../pyproject.toml): **PEP 517/518 package manifest** — `pip install -e .` enables `from unitary_manifold.core import metric`.
 - [unitary_manifold/__init__.py](../unitary_manifold/__init__.py): Namespace shim mapping `unitary_manifold.*` imports to `src/`.
 
 ## Theory Documents
 
-- [CORRESPONDENCE_MAP.md](CORRESPONDENCE_MAP.md): **Symbol-to-symbol reference** — maps every framework component to its standard physics analog, shows what is derived vs fitted, GR recovery limit, falsifiers, and why AI systems misclassify this repo. Read this if you are a physics-literate reader or AI agent classifying domain.
-- [UNIFICATION_PROOF.md](UNIFICATION_PROOF.md): Formal proof that quantum mechanics, electromagnetism, and the Standard Model are exact projections of the 5D Unitary Manifold geometry.
-- [QUANTUM_THEOREMS.md](QUANTUM_THEOREMS.md): Four new theorems derived from the same geometry: BH information preservation, canonical commutation relation, Hawking temperature, ER=EPR (v9.3).
-- [ch02_mathematical_preliminaries.md](manuscript/ch02_mathematical_preliminaries.md): Mathematical foundations chapter.
-- [main.tex](arxiv/main.tex): Full LaTeX source for arXiv submission.
-- [references.bib](arxiv/references.bib): Bibliography.
+- [CORRESPONDENCE_MAP.md](../1-THEORY/CORRESPONDENCE_MAP.md): **Symbol-to-symbol reference** — maps every framework component to its standard physics analog, shows what is derived vs fitted, GR recovery limit, falsifiers, and why AI systems misclassify this repo. Read this if you are a physics-literate reader or AI agent classifying domain.
+- [UNIFICATION_PROOF.md](../1-THEORY/UNIFICATION_PROOF.md): Formal proof that quantum mechanics, electromagnetism, and the Standard Model are exact projections of the 5D Unitary Manifold geometry.
+- [QUANTUM_THEOREMS.md](../1-THEORY/QUANTUM_THEOREMS.md): Four new theorems derived from the same geometry: BH information preservation, canonical commutation relation, Hawking temperature, ER=EPR (v9.3).
+- [ch02_mathematical_preliminaries.md](../6-MONOGRAPH/manuscript/ch02_mathematical_preliminaries.md): Mathematical foundations chapter.
+- [main.tex](../6-MONOGRAPH/arxiv/main.tex): Full LaTeX source for arXiv submission.
+- [references.bib](../6-MONOGRAPH/arxiv/references.bib): Bibliography.
 
 ## Metadata
 
-- [.zenodo.json](zenodo/.zenodo.json): Zenodo deposit metadata (keywords, subjects, license).
+- [.zenodo.json](../6-MONOGRAPH/zenodo/.zenodo.json): Zenodo deposit metadata (keywords, subjects, license).
 - [mcp-config.json](mcp-config.json): MCP server configuration for agent access via GitHub MCP + Bright Data.
 
 ## Policies & Discovery
 
-- [AGENTS.md](AGENTS.md): AI agent access policies, permitted actions, preferred ingest order, MCP connection guide.
+- [AGENTS.md](../AGENTS.md): AI agent access policies, permitted actions, preferred ingest order, MCP connection guide.
 - [schema.jsonld](schema.jsonld): JSON-LD ScholarlyArticle structured data for knowledge graph embedding.
-- [.github/topics.yml](.github/topics.yml): GitHub repository topic tags.
+- [.github/topics.yml](../.github/topics.yml): GitHub repository topic tags.
 
 ## Source Code
 
-- [dual_sector_convergence.py](src/core/dual_sector_convergence.py): Pillar 95 — Dual-sector convergence: (5,6) β=0.273° independently proved; LiteBIRD discriminates (5,6) from (5,7) at 2.9σ; Big Bang degenerate ground state interpretation; 93 tests.
-- [unitary_closure.py](src/core/unitary_closure.py): Pillar 96 — Unitary Closure: analytic proof that {(5,6),(5,7)} are the only lossless braid sectors (algebraic inequality, not enumeration); FTUM sector-agnostic fixed point; Unitary Summation capstone (10 steps); 59 tests.
-- [omega/omega_synthesis.py](omega/omega_synthesis.py): **Pillar Ω — The Omega Synthesis: Universal Mechanics Engine** — all 101 pillars unified into a single queryable calculator; CosmologyReport, ParticlePhysicsReport, GeometryReport, ConsciousnessReport, HILSReport, 8 falsifiers; 170 tests. **Start here for a machine-readable summary of the complete framework.**
-- [metric.py](src/core/metric.py): Kaluza-Klein ansatz; computes Christoffel symbols, Riemann/Ricci tensors, scalar curvature.
-- [evolution.py](src/core/evolution.py): Unitary Manifold time integrator; FieldState dataclass; run_evolution driver.
-- [boundary.py](src/holography/boundary.py): Holographic boundary; entropy-area law implementation.
-- [fixed_point.py](src/multiverse/fixed_point.py): Multiverse network; FTUM fixed-point iteration; operator U = I+H+T.
-- [boltzmann.py](src/core/boltzmann.py): Boltzmann entropy, H-theorem, and irreversibility module.
-- [derivation.py](src/core/derivation.py): Step-by-step symbolic derivations of key field equations.
-- [diagnostics.py](src/core/diagnostics.py): CMB diagnostic APIs: compute_cmb_spectra, extract_observables, chi2 landscape, numerical error estimates.
-- [fiber_bundle.py](src/core/fiber_bundle.py): Fiber-bundle geometry; connection and curvature forms.
-- [inflation.py](src/core/inflation.py): Inflationary slow-roll dynamics; spectral index and tensor ratio.
-- [transfer.py](src/core/transfer.py): CMB transfer functions; Planck 2018 reference spectra.
-- [uniqueness.py](src/core/uniqueness.py): Uniqueness theorems for the Walker-Pearson field equations.
+- [dual_sector_convergence.py](../src/core/dual_sector_convergence.py): Pillar 95 — Dual-sector convergence: (5,6) β=0.273° independently proved; LiteBIRD discriminates (5,6) from (5,7) at 2.9σ; Big Bang degenerate ground state interpretation; 93 tests.
+- [unitary_closure.py](../src/core/unitary_closure.py): Pillar 96 — Unitary Closure: analytic proof that {(5,6),(5,7)} are the only lossless braid sectors (algebraic inequality, not enumeration); FTUM sector-agnostic fixed point; Unitary Summation capstone (10 steps); 59 tests.
+- [omega/omega_synthesis.py](../omega/omega_synthesis.py): **Pillar Ω — The Omega Synthesis: Universal Mechanics Engine** — all 101 pillars unified into a single queryable calculator; CosmologyReport, ParticlePhysicsReport, GeometryReport, ConsciousnessReport, HILSReport, 8 falsifiers; 170 tests. **Start here for a machine-readable summary of the complete framework.**
+- [metric.py](../src/core/metric.py): Kaluza-Klein ansatz; computes Christoffel symbols, Riemann/Ricci tensors, scalar curvature.
+- [evolution.py](../src/core/evolution.py): Unitary Manifold time integrator; FieldState dataclass; run_evolution driver.
+- [boundary.py](../src/holography/boundary.py): Holographic boundary; entropy-area law implementation.
+- [fixed_point.py](../src/multiverse/fixed_point.py): Multiverse network; FTUM fixed-point iteration; operator U = I+H+T.
+- [boltzmann.py](../src/core/boltzmann.py): Boltzmann entropy, H-theorem, and irreversibility module.
+- [derivation.py](../src/core/derivation.py): Step-by-step symbolic derivations of key field equations.
+- [diagnostics.py](../src/core/diagnostics.py): CMB diagnostic APIs: compute_cmb_spectra, extract_observables, chi2 landscape, numerical error estimates.
+- [fiber_bundle.py](../src/core/fiber_bundle.py): Fiber-bundle geometry; connection and curvature forms.
+- [inflation.py](../src/core/inflation.py): Inflationary slow-roll dynamics; spectral index and tensor ratio.
+- [transfer.py](../src/core/transfer.py): CMB transfer functions; Planck 2018 reference spectra.
+- [uniqueness.py](../src/core/uniqueness.py): Uniqueness theorems for the Walker-Pearson field equations.
 
 ## Natural Sciences (v9.11 — Pillars 10–26)
 
-- [NATURAL_SCIENCES.md](NATURAL_SCIENCES.md): Grand unified document — all natural sciences as projections of the 5D geometry.
-- [bonds.py](src/chemistry/bonds.py): Pillar 10 — φ-minimum bond model; bond energies; shell capacity from KK winding.
-- [reactions.py](src/chemistry/reactions.py): Pillar 10 — B_μ-driven Arrhenius kinetics; reaction flux; field-strength activation barrier.
-- [periodic.py](src/chemistry/periodic.py): Pillar 10 — KK winding-number periodic table; 2n² shell capacity.
-- [stellar.py](src/astronomy/stellar.py): Pillar 11 — Stars as FTUM fixed points; Jeans mass; stellar lifecycle; Chandrasekhar limit.
-- [planetary.py](src/astronomy/planetary.py): Pillar 11 — Planetary orbits; Titus-Bode from winding geometry; Hill sphere.
-- [geology.py](src/earth/geology.py): Pillar 12 — Plate tectonics; mantle B_μ convection; geomagnetic FTUM dynamo.
-- [oceanography.py](src/earth/oceanography.py): Pillar 12 — Thermohaline circulation; wave dispersion; ENSO as attractor switching.
-- [meteorology.py](src/earth/meteorology.py): Pillar 12 — Atmospheric cells; Lorenz attractor; CO₂ climate forcing.
-- [life.py](src/biology/life.py): Pillar 13 — Life as negentropy FTUM attractors; metabolism; information current.
-- [evolution.py](src/biology/evolution.py): Pillar 13 — Evolution as gradient ascent on FTUM fitness landscape; genetic drift.
-- [morphogenesis.py](src/biology/morphogenesis.py): Pillar 13 — Turing patterns as φ symmetry breaking; morphogen gradients; segment counts.
-- [orbitals.py](src/atomic_structure/orbitals.py): Pillar 14 — Atomic orbitals as KK winding modes; hydrogen energy levels; Rydberg from geometry.
-- [spectroscopy.py](src/atomic_structure/spectroscopy.py): Pillar 14 — Lyman/Balmer series; Einstein A coefficient; Zeeman and Stark shifts.
-- [fine_structure.py](src/atomic_structure/fine_structure.py): Pillar 14 — Dirac energy; Lamb shift; hyperfine; Landé g-factor; KK spin connection.
-- [tunneling.py](src/cold_fusion/tunneling.py): Pillar 15 — Gamow factor; φ-enhanced tunneling probability; coherence length; barrier suppression.
-- [lattice.py](src/cold_fusion/lattice.py): Pillar 15 — Pd FCC geometry; deuterium loading; coherence volume; φ at lattice site.
-- [excess_heat.py](src/cold_fusion/excess_heat.py): Pillar 15 — Q-values; COP; excess heat power; anomalous heat significance σ.
-- [diagnosis.py](src/medicine/diagnosis.py): Pillar 17 — Biomarker SNR, symptom clustering, differential φ diagnosis.
-- [treatment.py](src/medicine/treatment.py): Pillar 17 — Drug-receptor φ binding, pharmacokinetics, dosage optimisation.
-- [systemic.py](src/medicine/systemic.py): Pillar 17 — Organ φ coupling, immune cascade, systemic homeostasis.
-- [courts.py](src/justice/courts.py): Pillar 18 — Evidence φ, verdict threshold, appeals dynamics.
-- [sentencing.py](src/justice/sentencing.py): Pillar 18 — Proportionality φ, recidivism, rehabilitation.
-- [reform.py](src/justice/reform.py): Pillar 18 — Systemic bias correction, φ-equity convergence.
-- [democracy.py](src/governance/democracy.py): Pillar 19 — Voting φ, representation, legitimacy.
-- [social_contract.py](src/governance/social_contract.py): Pillar 19 — Consent φ, rights, obligation balance.
-- [stability.py](src/governance/stability.py): Pillar 19 — Institutional resilience, corruption noise, φ fixed-points.
-- [neurons.py](src/neuroscience/neurons.py): Pillar 20 — Action potential, Hodgkin-Huxley, axon velocity, synaptic weight.
-- [synaptic.py](src/neuroscience/synaptic.py): Pillar 20 — NT decay, LTP/LTD, dopamine/serotonin modulation, GABA inhibition.
-- [cognition.py](src/neuroscience/cognition.py): Pillar 20 — Working memory, attention, consolidation, IIT-Φ integration.
-- [ecosystems.py](src/ecology/ecosystems.py): Pillar 21 — Carrying capacity, ecosystem entropy, trophic flow.
-- [biodiversity.py](src/ecology/biodiversity.py): Pillar 21 — Shannon diversity, extinction risk, keystone effects.
-- [food_web.py](src/ecology/food_web.py): Pillar 21 — Predator-prey, cascade, biomass pyramid, decomposer flux.
-- [atmosphere.py](src/climate/atmosphere.py): Pillar 22 — Greenhouse forcing, radiative balance, albedo, ozone.
-- [carbon_cycle.py](src/climate/carbon_cycle.py): Pillar 22 — Ocean uptake, terrestrial sequestration, CH₄, permafrost release.
-- [feedback.py](src/climate/feedback.py): Pillar 22 — ECS, ice-albedo, water vapour, tipping points.
-- [deep_ocean.py](src/marine/deep_ocean.py): Pillar 23 — Hydrothermal vents, bioluminescence, abyssal zones.
-- [marine_life.py](src/marine/marine_life.py): Pillar 23 — Coral bleaching, phytoplankton, whale song, kelp forests.
-- [ocean_dynamics.py](src/marine/ocean_dynamics.py): Pillar 23 — Thermohaline, upwelling, ocean acidification, El Niño.
-- [cognition.py](src/psychology/cognition.py): Pillar 24 — Cognitive load, memory trace, creativity, metacognition.
-- [behavior.py](src/psychology/behavior.py): Pillar 24 — Motivation, RPE, habits, altruism, conformity.
-- [social_psychology.py](src/psychology/social_psychology.py): Pillar 24 — Group cohesion, social influence, leadership, cooperation.
-- [genomics.py](src/genetics/genomics.py): Pillar 25 — Mutation rate, genetic diversity, epigenetics, transposons.
-- [evolution.py](src/genetics/evolution.py): Pillar 25 — Natural selection, genetic drift, fitness, speciation, bottleneck.
-- [expression.py](src/genetics/expression.py): Pillar 25 — Transcription, translation, folding, splicing, chromatin state.
-- [condensed.py](src/materials/condensed.py): Pillar 26 — Band gap, phonon scattering, magnetism, crystal defects, phase transitions.
-- [semiconductors.py](src/materials/semiconductors.py): Pillar 26 — Carrier density, p-n junction, solar cell efficiency, quantum dots.
-- [metamaterials.py](src/materials/metamaterials.py): Pillar 26 — Negative index, plasmonic resonance, photonic bandgap, cloaking.
+- [NATURAL_SCIENCES.md](../4-IMPLICATIONS/NATURAL_SCIENCES.md): Grand unified document — all natural sciences as projections of the 5D geometry.
+- [bonds.py](../src/chemistry/bonds.py): Pillar 10 — φ-minimum bond model; bond energies; shell capacity from KK winding.
+- [reactions.py](../src/chemistry/reactions.py): Pillar 10 — B_μ-driven Arrhenius kinetics; reaction flux; field-strength activation barrier.
+- [periodic.py](../src/chemistry/periodic.py): Pillar 10 — KK winding-number periodic table; 2n² shell capacity.
+- [stellar.py](../src/astronomy/stellar.py): Pillar 11 — Stars as FTUM fixed points; Jeans mass; stellar lifecycle; Chandrasekhar limit.
+- [planetary.py](../src/astronomy/planetary.py): Pillar 11 — Planetary orbits; Titus-Bode from winding geometry; Hill sphere.
+- [geology.py](../src/earth/geology.py): Pillar 12 — Plate tectonics; mantle B_μ convection; geomagnetic FTUM dynamo.
+- [oceanography.py](../src/earth/oceanography.py): Pillar 12 — Thermohaline circulation; wave dispersion; ENSO as attractor switching.
+- [meteorology.py](../src/earth/meteorology.py): Pillar 12 — Atmospheric cells; Lorenz attractor; CO₂ climate forcing.
+- [life.py](../src/biology/life.py): Pillar 13 — Life as negentropy FTUM attractors; metabolism; information current.
+- [evolution.py](../src/biology/evolution.py): Pillar 13 — Evolution as gradient ascent on FTUM fitness landscape; genetic drift.
+- [morphogenesis.py](../src/biology/morphogenesis.py): Pillar 13 — Turing patterns as φ symmetry breaking; morphogen gradients; segment counts.
+- [orbitals.py](../src/atomic_structure/orbitals.py): Pillar 14 — Atomic orbitals as KK winding modes; hydrogen energy levels; Rydberg from geometry.
+- [spectroscopy.py](../src/atomic_structure/spectroscopy.py): Pillar 14 — Lyman/Balmer series; Einstein A coefficient; Zeeman and Stark shifts.
+- [fine_structure.py](../src/atomic_structure/fine_structure.py): Pillar 14 — Dirac energy; Lamb shift; hyperfine; Landé g-factor; KK spin connection.
+- [tunneling.py](../src/cold_fusion/tunneling.py): Pillar 15 — Gamow factor; φ-enhanced tunneling probability; coherence length; barrier suppression.
+- [lattice.py](../src/cold_fusion/lattice.py): Pillar 15 — Pd FCC geometry; deuterium loading; coherence volume; φ at lattice site.
+- [excess_heat.py](../src/cold_fusion/excess_heat.py): Pillar 15 — Q-values; COP; excess heat power; anomalous heat significance σ.
+- [diagnosis.py](../src/medicine/diagnosis.py): Pillar 17 — Biomarker SNR, symptom clustering, differential φ diagnosis.
+- [treatment.py](../src/medicine/treatment.py): Pillar 17 — Drug-receptor φ binding, pharmacokinetics, dosage optimisation.
+- [systemic.py](../src/medicine/systemic.py): Pillar 17 — Organ φ coupling, immune cascade, systemic homeostasis.
+- [courts.py](../src/justice/courts.py): Pillar 18 — Evidence φ, verdict threshold, appeals dynamics.
+- [sentencing.py](../src/justice/sentencing.py): Pillar 18 — Proportionality φ, recidivism, rehabilitation.
+- [reform.py](../src/justice/reform.py): Pillar 18 — Systemic bias correction, φ-equity convergence.
+- [democracy.py](../src/governance/democracy.py): Pillar 19 — Voting φ, representation, legitimacy.
+- [social_contract.py](../src/governance/social_contract.py): Pillar 19 — Consent φ, rights, obligation balance.
+- [stability.py](../src/governance/stability.py): Pillar 19 — Institutional resilience, corruption noise, φ fixed-points.
+- [neurons.py](../src/neuroscience/neurons.py): Pillar 20 — Action potential, Hodgkin-Huxley, axon velocity, synaptic weight.
+- [synaptic.py](../src/neuroscience/synaptic.py): Pillar 20 — NT decay, LTP/LTD, dopamine/serotonin modulation, GABA inhibition.
+- [cognition.py](../src/neuroscience/cognition.py): Pillar 20 — Working memory, attention, consolidation, IIT-Φ integration.
+- [ecosystems.py](../src/ecology/ecosystems.py): Pillar 21 — Carrying capacity, ecosystem entropy, trophic flow.
+- [biodiversity.py](../src/ecology/biodiversity.py): Pillar 21 — Shannon diversity, extinction risk, keystone effects.
+- [food_web.py](../src/ecology/food_web.py): Pillar 21 — Predator-prey, cascade, biomass pyramid, decomposer flux.
+- [atmosphere.py](../src/climate/atmosphere.py): Pillar 22 — Greenhouse forcing, radiative balance, albedo, ozone.
+- [carbon_cycle.py](../src/climate/carbon_cycle.py): Pillar 22 — Ocean uptake, terrestrial sequestration, CH₄, permafrost release.
+- [feedback.py](../src/climate/feedback.py): Pillar 22 — ECS, ice-albedo, water vapour, tipping points.
+- [deep_ocean.py](../src/marine/deep_ocean.py): Pillar 23 — Hydrothermal vents, bioluminescence, abyssal zones.
+- [marine_life.py](../src/marine/marine_life.py): Pillar 23 — Coral bleaching, phytoplankton, whale song, kelp forests.
+- [ocean_dynamics.py](../src/marine/ocean_dynamics.py): Pillar 23 — Thermohaline, upwelling, ocean acidification, El Niño.
+- [cognition.py](../src/psychology/cognition.py): Pillar 24 — Cognitive load, memory trace, creativity, metacognition.
+- [behavior.py](../src/psychology/behavior.py): Pillar 24 — Motivation, RPE, habits, altruism, conformity.
+- [social_psychology.py](../src/psychology/social_psychology.py): Pillar 24 — Group cohesion, social influence, leadership, cooperation.
+- [genomics.py](../src/genetics/genomics.py): Pillar 25 — Mutation rate, genetic diversity, epigenetics, transposons.
+- [evolution.py](../src/genetics/evolution.py): Pillar 25 — Natural selection, genetic drift, fitness, speciation, bottleneck.
+- [expression.py](../src/genetics/expression.py): Pillar 25 — Transcription, translation, folding, splicing, chromatin state.
+- [condensed.py](../src/materials/condensed.py): Pillar 26 — Band gap, phonon scattering, magnetism, crystal defects, phase transitions.
+- [semiconductors.py](../src/materials/semiconductors.py): Pillar 26 — Carrier density, p-n junction, solar cell efficiency, quantum dots.
+- [metamaterials.py](../src/materials/metamaterials.py): Pillar 26 — Negative index, plasmonic resonance, photonic bandgap, cloaking.
 
 ## Pillar 45 — Coupled History, Precision Audit, LiteBIRD Boundary (v9.13)
 
-- [coupled_history.py](src/core/coupled_history.py): Pillar 45 — Consciousness–Quantum Measurement Bridge. Links `geometric_collapse.py` to `coupled_attractor.py`. Proves that a high-agency brain (large φ-variance, 5:7 resonance) always accelerates local decoherence via the Agency-Decoherence Ratio ADR = τ_dec_bare / τ_dec_coupled ≥ 1.
-- [precision_audit.py](src/core/precision_audit.py): Pillar 45-B — Numerical Precision Audit. Verifies that the S_E minimum at (5,7) and LOSS_COEFFICIENT=10 are stable at 128-bit and 256-bit arithmetic (mpmath). The (5,7) minimum does not disappear at higher precision.
-- [litebird_boundary.py](src/core/litebird_boundary.py): Pillar 45-C — LiteBIRD Boundary Check. Generates the 4×4 covariance matrix for β ∈ {0.273°, 0.290°, 0.331°, 0.351°} and defines the exact "Fail Zone": β < 0.22° or β > 0.38° (outside window), or β ∈ (0.29°, 0.31°) (forbidden gap). If LiteBIRD measures 0.34° or 0.36°, the theory survives; the gap [0.29°–0.31°] is the true Yes/No discriminator.
-- [tests/test_coupled_history.py](tests/test_coupled_history.py): ~90 tests for the Consciousness–Quantum Measurement Bridge — v9.13.
-- [tests/test_precision_audit.py](tests/test_precision_audit.py): ~60 tests verifying 128-bit and 256-bit stability of the S_E minimum and LOSS_COEFFICIENT — v9.13.
-- [tests/test_litebird_boundary.py](tests/test_litebird_boundary.py): ~80 tests for LiteBIRD pass/fail logic, covariance matrix, and exact Fail Zone — v9.13.
+- [coupled_history.py](../src/core/coupled_history.py): Pillar 45 — Consciousness–Quantum Measurement Bridge. Links `geometric_collapse.py` to `coupled_attractor.py`. Proves that a high-agency brain (large φ-variance, 5:7 resonance) always accelerates local decoherence via the Agency-Decoherence Ratio ADR = τ_dec_bare / τ_dec_coupled ≥ 1.
+- [precision_audit.py](../src/core/precision_audit.py): Pillar 45-B — Numerical Precision Audit. Verifies that the S_E minimum at (5,7) and LOSS_COEFFICIENT=10 are stable at 128-bit and 256-bit arithmetic (mpmath). The (5,7) minimum does not disappear at higher precision.
+- [litebird_boundary.py](../src/core/litebird_boundary.py): Pillar 45-C — LiteBIRD Boundary Check. Generates the 4×4 covariance matrix for β ∈ {0.273°, 0.290°, 0.331°, 0.351°} and defines the exact "Fail Zone": β < 0.22° or β > 0.38° (outside window), or β ∈ (0.29°, 0.31°) (forbidden gap). If LiteBIRD measures 0.34° or 0.36°, the theory survives; the gap [0.29°–0.31°] is the true Yes/No discriminator.
+- [tests/test_coupled_history.py](../tests/test_coupled_history.py): ~90 tests for the Consciousness–Quantum Measurement Bridge — v9.13.
+- [tests/test_precision_audit.py](../tests/test_precision_audit.py): ~60 tests verifying 128-bit and 256-bit stability of the S_E minimum and LOSS_COEFFICIENT — v9.13.
+- [tests/test_litebird_boundary.py](../tests/test_litebird_boundary.py): ~80 tests for LiteBIRD pass/fail logic, covariance matrix, and exact Fail Zone — v9.13.
 
 ## Tests
 
-- [tests/conftest.py](tests/conftest.py): Shared pytest fixtures (FieldState, BoundaryState, networks).
-- [tests/test_metric.py](tests/test_metric.py): KK metric, Christoffel symbols, field strength, curvature, dark matter ghost force.
-- [tests/test_evolution.py](tests/test_evolution.py): Unitary Manifold integrator, information current, constraints.
-- [tests/test_boundary.py](tests/test_boundary.py): Entropy-area law, boundary evolution, conservation.
-- [tests/test_fixed_point.py](tests/test_fixed_point.py): FTUM operators I/H/T, fixed-point iteration.
-- [tests/test_quantum_unification.py](tests/test_quantum_unification.py): BH information conservation, CCR, Hawking temperature, ER=EPR.
-- [tests/test_arrow_of_time.py](tests/test_arrow_of_time.py): Thermodynamic arrow of time, entropy production, defect history.
-- [tests/test_boltzmann.py](tests/test_boltzmann.py): Boltzmann H-theorem and entropy monotonicity.
-- [tests/test_closure_batch1.py](tests/test_closure_batch1.py): Closure and self-consistency batch 1.
-- [tests/test_closure_batch2.py](tests/test_closure_batch2.py): Closure and self-consistency batch 2.
-- [tests/test_cmb_landscape.py](tests/test_cmb_landscape.py): Chi2 landscape over CMB parameter space.
-- [tests/test_completions.py](tests/test_completions.py): Completion and endpoint tests.
-- [tests/test_convergence.py](tests/test_convergence.py): Numerical convergence and stability tests.
-- [tests/test_cosmological_predictions.py](tests/test_cosmological_predictions.py): Quantitative cosmological predictions vs observations.
-- [tests/test_derivation.py](tests/test_derivation.py): Step-by-step equation derivations (59 tests).
-- [tests/test_derivation_module.py](tests/test_derivation_module.py): Derivation module unit tests.
-- [tests/test_dimensional_reduction.py](tests/test_dimensional_reduction.py): 5D → 4D dimensional reduction.
-- [tests/test_discretization_invariance.py](tests/test_discretization_invariance.py): Grid-independence and discretization invariance.
-- [tests/test_e2e_pipeline.py](tests/test_e2e_pipeline.py): End-to-end pipeline; uniqueness of CS level (k=74).
-- [tests/test_external_benchmarks.py](tests/test_external_benchmarks.py): Comparison against external / published benchmarks.
-- [tests/test_fiber_bundle.py](tests/test_fiber_bundle.py): Fiber bundle geometry, connection, curvature (96 tests).
-- [tests/test_fuzzing.py](tests/test_fuzzing.py): Property-based fuzzing and stress tests.
-- [tests/test_inflation.py](tests/test_inflation.py): Inflationary slow-roll, non-minimal ξ, Starobinsky large-ξ limit.
-- [tests/test_observational_resolution.py](tests/test_observational_resolution.py): Observational resolution and detection thresholds.
-- [tests/test_parallel_validation.py](tests/test_parallel_validation.py): Parallel independent validation of five theory claims (38 tests).
-- [tests/test_richardson_multitime.py](tests/test_richardson_multitime.py): Richardson extrapolation and multi-timescale convergence (slow).
-- [tests/test_uniqueness.py](tests/test_uniqueness.py): Uniqueness theorem verification.
-- [tests/test_chemistry.py](tests/test_chemistry.py): Chemistry as 5D geometry — bonds, kinetics, periodic table (102 tests) — v9.7.
-- [tests/test_stellar.py](tests/test_stellar.py): Astronomy as FTUM fixed points — stars, planets (91 tests) — v9.7.
-- [tests/test_geology.py](tests/test_geology.py): Geology — mantle convection, geomagnetic dynamo (59 tests) — v9.7.
-- [tests/test_oceanography.py](tests/test_oceanography.py): Oceanography — thermohaline, waves, ENSO (46 tests) — v9.7.
-- [tests/test_meteorology.py](tests/test_meteorology.py): Meteorology — atmospheric cells, Lorenz, climate (45 tests) — v9.7.
-- [tests/test_biology.py](tests/test_biology.py): Biology — negentropy attractors, evolution, Turing (111 tests) — v9.7.
-- [tests/test_atomic_structure.py](tests/test_atomic_structure.py): Atomic structure as KK winding modes — orbitals, spectroscopy, fine structure (187 tests) — v9.8.
-- [tests/test_cold_fusion.py](tests/test_cold_fusion.py): Cold fusion as φ-enhanced tunneling — Gamow, lattice, excess heat (215 tests) — v9.9.
-- [tests/test_medicine.py](tests/test_medicine.py): Medicine as φ homeostasis — diagnosis, treatment, systemic (139 tests) — v9.10.
-- [tests/test_justice.py](tests/test_justice.py): Justice as φ equity — courts, sentencing, reform (124 tests) — v9.10.
-- [tests/test_governance.py](tests/test_governance.py): Governance as φ stability — democracy, contract, resilience (115 tests) — v9.10.
-- [tests/test_neuroscience.py](tests/test_neuroscience.py): Neuroscience as φ neural networks — neurons, synaptic, cognition (92 tests) — v9.11.
-- [tests/test_ecology.py](tests/test_ecology.py): Ecology as φ ecosystems — ecosystems, biodiversity, food web (70 tests) — v9.11.
-- [tests/test_climate.py](tests/test_climate.py): Climate science as φ radiative engine — atmosphere, carbon cycle, feedback (66 tests) — v9.11.
-- [tests/test_marine.py](tests/test_marine.py): Marine biology & deep ocean — deep ocean, marine life, dynamics (72 tests) — v9.11.
-- [tests/test_psychology.py](tests/test_psychology.py): Psychology as φ behaviour — cognition, behavior, social (82 tests) — v9.11.
-- [tests/test_genetics.py](tests/test_genetics.py): Genetics as φ information archive — genomics, evolution, expression (78 tests) — v9.11.
-- [tests/test_materials.py](tests/test_materials.py): Materials science as φ lattice — condensed, semiconductors, metamaterials (75 tests) — v9.11.
+- [tests/conftest.py](../tests/conftest.py): Shared pytest fixtures (FieldState, BoundaryState, networks).
+- [tests/test_metric.py](../tests/test_metric.py): KK metric, Christoffel symbols, field strength, curvature, dark matter ghost force.
+- [tests/test_evolution.py](../tests/test_evolution.py): Unitary Manifold integrator, information current, constraints.
+- [tests/test_boundary.py](../tests/test_boundary.py): Entropy-area law, boundary evolution, conservation.
+- [tests/test_fixed_point.py](../tests/test_fixed_point.py): FTUM operators I/H/T, fixed-point iteration.
+- [tests/test_quantum_unification.py](../tests/test_quantum_unification.py): BH information conservation, CCR, Hawking temperature, ER=EPR.
+- [tests/test_arrow_of_time.py](../tests/test_arrow_of_time.py): Thermodynamic arrow of time, entropy production, defect history.
+- [tests/test_boltzmann.py](../tests/test_boltzmann.py): Boltzmann H-theorem and entropy monotonicity.
+- [tests/test_closure_batch1.py](../tests/test_closure_batch1.py): Closure and self-consistency batch 1.
+- [tests/test_closure_batch2.py](../tests/test_closure_batch2.py): Closure and self-consistency batch 2.
+- [tests/test_cmb_landscape.py](../tests/test_cmb_landscape.py): Chi2 landscape over CMB parameter space.
+- [tests/test_completions.py](../tests/test_completions.py): Completion and endpoint tests.
+- [tests/test_convergence.py](../tests/test_convergence.py): Numerical convergence and stability tests.
+- [tests/test_cosmological_predictions.py](../tests/test_cosmological_predictions.py): Quantitative cosmological predictions vs observations.
+- [tests/test_derivation.py](../tests/test_derivation.py): Step-by-step equation derivations (59 tests).
+- [tests/test_derivation_module.py](../tests/test_derivation_module.py): Derivation module unit tests.
+- [tests/test_dimensional_reduction.py](../tests/test_dimensional_reduction.py): 5D → 4D dimensional reduction.
+- [tests/test_discretization_invariance.py](../tests/test_discretization_invariance.py): Grid-independence and discretization invariance.
+- [tests/test_e2e_pipeline.py](../tests/test_e2e_pipeline.py): End-to-end pipeline; uniqueness of CS level (k=74).
+- [tests/test_external_benchmarks.py](../tests/test_external_benchmarks.py): Comparison against external / published benchmarks.
+- [tests/test_fiber_bundle.py](../tests/test_fiber_bundle.py): Fiber bundle geometry, connection, curvature (96 tests).
+- [tests/test_fuzzing.py](../tests/test_fuzzing.py): Property-based fuzzing and stress tests.
+- [tests/test_inflation.py](../tests/test_inflation.py): Inflationary slow-roll, non-minimal ξ, Starobinsky large-ξ limit.
+- [tests/test_observational_resolution.py](../tests/test_observational_resolution.py): Observational resolution and detection thresholds.
+- [tests/test_parallel_validation.py](../tests/test_parallel_validation.py): Parallel independent validation of five theory claims (38 tests).
+- [tests/test_richardson_multitime.py](../tests/test_richardson_multitime.py): Richardson extrapolation and multi-timescale convergence (slow).
+- [tests/test_uniqueness.py](../tests/test_uniqueness.py): Uniqueness theorem verification.
+- [tests/test_chemistry.py](../tests/test_chemistry.py): Chemistry as 5D geometry — bonds, kinetics, periodic table (102 tests) — v9.7.
+- [tests/test_stellar.py](../tests/test_stellar.py): Astronomy as FTUM fixed points — stars, planets (91 tests) — v9.7.
+- [tests/test_geology.py](../tests/test_geology.py): Geology — mantle convection, geomagnetic dynamo (59 tests) — v9.7.
+- [tests/test_oceanography.py](../tests/test_oceanography.py): Oceanography — thermohaline, waves, ENSO (46 tests) — v9.7.
+- [tests/test_meteorology.py](../tests/test_meteorology.py): Meteorology — atmospheric cells, Lorenz, climate (45 tests) — v9.7.
+- [tests/test_biology.py](../tests/test_biology.py): Biology — negentropy attractors, evolution, Turing (111 tests) — v9.7.
+- [tests/test_atomic_structure.py](../tests/test_atomic_structure.py): Atomic structure as KK winding modes — orbitals, spectroscopy, fine structure (187 tests) — v9.8.
+- [tests/test_cold_fusion.py](../tests/test_cold_fusion.py): Cold fusion as φ-enhanced tunneling — Gamow, lattice, excess heat (215 tests) — v9.9.
+- [tests/test_medicine.py](../tests/test_medicine.py): Medicine as φ homeostasis — diagnosis, treatment, systemic (139 tests) — v9.10.
+- [tests/test_justice.py](../tests/test_justice.py): Justice as φ equity — courts, sentencing, reform (124 tests) — v9.10.
+- [tests/test_governance.py](../tests/test_governance.py): Governance as φ stability — democracy, contract, resilience (115 tests) — v9.10.
+- [tests/test_neuroscience.py](../tests/test_neuroscience.py): Neuroscience as φ neural networks — neurons, synaptic, cognition (92 tests) — v9.11.
+- [tests/test_ecology.py](../tests/test_ecology.py): Ecology as φ ecosystems — ecosystems, biodiversity, food web (70 tests) — v9.11.
+- [tests/test_climate.py](../tests/test_climate.py): Climate science as φ radiative engine — atmosphere, carbon cycle, feedback (66 tests) — v9.11.
+- [tests/test_marine.py](../tests/test_marine.py): Marine biology & deep ocean — deep ocean, marine life, dynamics (72 tests) — v9.11.
+- [tests/test_psychology.py](../tests/test_psychology.py): Psychology as φ behaviour — cognition, behavior, social (82 tests) — v9.11.
+- [tests/test_genetics.py](../tests/test_genetics.py): Genetics as φ information archive — genomics, evolution, expression (78 tests) — v9.11.
+- [tests/test_materials.py](../tests/test_materials.py): Materials science as φ lattice — condensed, semiconductors, metamaterials (75 tests) — v9.11.
 
 ## Claims (Independent Verification)
 
-- [claims/amplitude_normalization/](claims/amplitude_normalization/): Self-contained claim: amplitude normalisation fix with verify.py and test_claim.py.
-- [claims/anomaly_inflow/](claims/anomaly_inflow/): Self-contained claim: anomaly inflow mechanism with verify.py and test_claim.py.
-- [claims/integer_derivation/](claims/integer_derivation/): Self-contained claim: integer-valued CS level derivation with verify.py and test_claim.py.
-- [claims/tensor_ratio_fix/](claims/tensor_ratio_fix/): Self-contained claim: tensor-to-scalar ratio correction with verify.py and test_claim.py.
-- [claims/cosmic_birefringence/](claims/cosmic_birefringence/): **Machine-readable falsification benchmark** — LiteBIRD β ∈ {0.273°, 0.331°} with kill-switch logic. Added v10.4.
-- [claims/mp_me_ratio/](claims/mp_me_ratio/): **Machine-readable falsification benchmark** — m_p/m_e = K_CS²/N_c = 74²/3 ≈ 1825.3 (0.59% from PDG). Added v10.4.
+- [claims/amplitude_normalization/](../claims/amplitude_normalization/): Self-contained claim: amplitude normalisation fix with verify.py and test_claim.py.
+- [claims/anomaly_inflow/](../claims/anomaly_inflow/): Self-contained claim: anomaly inflow mechanism with verify.py and test_claim.py.
+- [claims/integer_derivation/](../claims/integer_derivation/): Self-contained claim: integer-valued CS level derivation with verify.py and test_claim.py.
+- [claims/tensor_ratio_fix/](../claims/tensor_ratio_fix/): Self-contained claim: tensor-to-scalar ratio correction with verify.py and test_claim.py.
+- [claims/cosmic_birefringence/](../claims/cosmic_birefringence/): **Machine-readable falsification benchmark** — LiteBIRD β ∈ {0.273°, 0.331°} with kill-switch logic. Added v10.4.
+- [claims/mp_me_ratio/](../claims/mp_me_ratio/): **Machine-readable falsification benchmark** — m_p/m_e = K_CS²/N_c = 74²/3 ≈ 1825.3 (0.59% from PDG). Added v10.4.
