@@ -45,4 +45,4 @@ def test_report_prediction_is_close_to_observed():
     report = p28_first_principles_report()
     ratio = report["comparison_only"]["pred_to_obs_ratio"]
     assert 0.5 <= ratio <= 2.0
-    assert report["comparison_only"]["abs_log10_residual"] < 0.31  # within ~factor 2
+    assert report["comparison_only"]["abs_log10_residual"] < 0.31  # within factor ~2.04
