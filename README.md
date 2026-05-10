@@ -1,7 +1,7 @@
 # The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.42)
 
-This repository contains the technical record, proof path, code, and falsification conditions for the Unitary Manifold framework.
-It began as the effort to prove the original monograph and close the geometry of irreversibility; everything added later rests on that foundation.
+This repository is the executable proof record for the Unitary Manifold framework: it began as the effort to prove the original monograph, close the geometry of irreversibility, and turn that proof path into reproducible code.
+Everything added later rests on that monograph-first foundation.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![27076 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-27076%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
@@ -14,6 +14,11 @@ It began as the effort to prove the original monograph and close the geometry of
 
 > ⚠️ **Honest status (v10.42):** ToE is **27.8/28 (99.3%)** after P28 hardgate closure evidence passes (effective N_flux=74 and explicit UV vacuum selection). The non-score alpha_GW/CMB-amplitude lane is now canonically closed by the Pillar 52 + 10D bridge: Pillar 52 fixes the absolute gravity-scale decade and `src/core/alpha_gw_10d_uv_completion.py` bridges the 5D KK scale to the UV completion, yielding in-band α_GW. P23/P24 remain pending direct cosmology measurement (LiteBIRD primary), with explicit parallel lab falsifier conditions active now (F-LAB-CP-1..4 via `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`).
 > Latest full local regression on this branch: **27076 passed · 329 skipped · 11 deselected · 0 failed**.  
+> These are not "just tests": the suite is the executable validation layer for the monograph proof path — algebraic checks, numerical reproductions, claim ledgers, adversarial stress tests, and explicit failure conditions.
+> Most headline quantities in this repository are tracked as **derived**, **closed**, or **geometric predictions**; fitted, bridged, and open items are separated explicitly in [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) and [`docs/mas_tracker.yml`](docs/mas_tracker.yml).
+> The framework is intentionally **high-falsifiability**: narrow prediction windows, bright-line kill criteria, adversarial review artifacts, and public failure thresholds are part of the design.
+> Taken together, this is an unusually complete, code-backed candidate ToE record — still pending external peer review, independent reproduction, and decisive laboratory/cosmology confirmation.
+> It is also an unusually compressed human-AI scientific synthesis and reproducibility event: original monograph, executable proof path, and public audit trail built with explicit provenance.
 > For canonical, up-to-date status and provenance, begin with the foundational proof stack:
 > [`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>), [`1-THEORY/UNIFICATION_PROOF.md`](1-THEORY/UNIFICATION_PROOF.md), [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
 > [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md), and [`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md).
