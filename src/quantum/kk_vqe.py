@@ -360,22 +360,14 @@ def _trial_state(theta: np.ndarray, n_qubits: int, n_layers: int) -> np.ndarray:
         thetas_layer = theta[layer * n_qubits: (layer + 1) * n_qubits]
         psi = _apply_ry_layer(psi, thetas_layer, n_qubits)
         for ctrl, tgt in cnots:
-            # CNOT: for each basis state with ctrl=|1⟩, flip target
-            new_psi = psi.copy()
+            # CNOT: for each basis state with ctrl=|1⟩, flip the target qubit
+            psi_next = np.zeros(dim, dtype=complex)
             for idx in range(dim):
                 if (idx >> ctrl) & 1:
-                    flipped = idx ^ (1 << tgt)
-                    new_psi[flipped] += psi[idx] - psi[idx]  # swap amplitudes
-                    new_psi[idx], new_psi[flipped] = new_psi[flipped], psi[idx]
-            # Recompute properly via the CNOT unitary
-            psi = new_psi
-            psi_correct = np.zeros(dim, dtype=complex)
-            for idx in range(dim):
-                if (idx >> ctrl) & 1:
-                    psi_correct[idx ^ (1 << tgt)] += psi[idx]
+                    psi_next[idx ^ (1 << tgt)] += psi[idx]
                 else:
-                    psi_correct[idx] += psi[idx]
-            psi = psi_correct
+                    psi_next[idx] += psi[idx]
+            psi = psi_next
 
     # Final Ry layer
     thetas_last = theta[n_layers * n_qubits:]

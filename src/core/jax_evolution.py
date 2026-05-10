@@ -249,7 +249,7 @@ def _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi):
     # ∂_t B_μ = ∂_ν (λ² H^νμ)
     H_up = jnp.einsum('nai,nbj,nij->nab', g_inv, g_inv, H)    # (N, 4, 4)
     # Divergence: ∂_x of the leading column of H_up — np.gradient compatible
-    dB = _grad_np_compat(lam ** 2 * H_up[:, :, :], dx)[:, 0, :]  # (N, 4)
+    dB = _grad_np_compat(lam ** 2 * H_up, dx)[:, 0, :]  # (N, 4)
 
     # ∂_t φ = □φ + α R φ + S[H] − m²_φ (φ − φ₀)
     dphi = (_jax_laplacian(phi, dx)
@@ -325,9 +325,9 @@ def jax_step(state: JaxFieldState, dt: float) -> JaxFieldState:
     g_np   = np.asarray(g_new)
     B_np   = np.asarray(B_new)
     phi_np = np.asarray(phi_new)
-    if (not np.all(np.isfinite(phi_np)) or
+    if (not np.all(np.isfinite(g_np)) or
             not np.all(np.isfinite(B_np)) or
-            not np.all(np.isfinite(g_np))):
+            not np.all(np.isfinite(phi_np))):
         raise RuntimeError(
             "CFL violation detected mid-integration: fields are NaN/Inf after "
             f"JAX RK4 step at t={t0:.6g} + dt={dt:.6g}.  "

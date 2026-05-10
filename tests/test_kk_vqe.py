@@ -254,9 +254,14 @@ class TestVQEExcitedStates:
     def test_excited_energies_above_ground(self):
         result = vqe_kk(n_qubits=self.N_QUBITS, n_layers=self.N_LAYERS,
                         n_excited=2, seed=0)
+        # Excited energies should exceed the ground energy (approximately).
+        # A tolerance of 0.5 Planck-units² is used here: the orthogonality penalty
+        # in constrained VQE can allow a slight numerical over-shoot below E_0 before
+        # the optimiser converges.  The physically important constraint is that
+        # exact_energies[k] >= exact_energies[0], which is enforced by numpy.linalg.eigh.
+        ORTHOGONAL_VQE_SLACK = 0.5   # Planck-units² slack for constrained excited-state VQE
         for E_ex in result.excited_energies:
-            # Excited energies should be >= ground energy (approximately)
-            assert E_ex >= result.ground_energy - 0.5  # generous tolerance
+            assert E_ex >= result.ground_energy - ORTHOGONAL_VQE_SLACK
 
     def test_excited_states_normalised(self):
         result = vqe_kk(n_qubits=self.N_QUBITS, n_layers=self.N_LAYERS,

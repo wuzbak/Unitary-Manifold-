@@ -265,9 +265,14 @@ def _jax_christoffel_impl(g, dx, D):
     # Use np.gradient-compatible differences to match metric.christoffel exactly.
     dg_x = _grad_np_compat(g, dx)                    # (N, D, D): dg_x[n,mu,nu] = ∂_x g_{mu,nu}
 
-    # Build full dg[n, rho, mu, nu] = ∂_{x^rho} g_{mu,nu}; only rho=0 is nonzero
+    # Build full dg[n, rho, mu, nu] = ∂_{x^rho} g_{mu,nu}; only rho=0 is nonzero.
+    # Construct directly via concatenation (avoids allocating a full zeros array
+    # and then overwriting one slice via .at[].set()).
     N = g.shape[0]
-    dg = jnp.zeros((N, D, D, D)).at[:, 0, :, :].set(dg_x)
+    dg = jnp.concatenate(
+        [dg_x[:, None, :, :], jnp.zeros((N, D - 1, D, D))],
+        axis=1,
+    )
 
     # Christoffel bracket: C[n, mu, nu, rho] = ∂_mu g_{nu,rho} + ∂_nu g_{mu,rho} − ∂_rho g_{mu,nu}
     # dg[n, rho, mu, nu] stores ∂_{rho} g_{mu,nu}  (axes: n, derivative-dir, 1st-idx, 2nd-idx)
