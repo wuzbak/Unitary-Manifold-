@@ -190,7 +190,7 @@ def test_grad_spectral_index_planck_value():
 
 def test_numerical_agreement_passes():
     result = numerical_agreement_check(N=16, steps=2, dt=0.001)
-    assert result["passed"] is True or result["passed"] == True
+    assert result["passed"]
 
 
 def test_numerical_agreement_keys():

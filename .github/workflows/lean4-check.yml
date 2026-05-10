@@ -13,6 +13,8 @@ jobs:
   lean4-build:
     name: Lake build (Lean 4 + Mathlib)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: lean4

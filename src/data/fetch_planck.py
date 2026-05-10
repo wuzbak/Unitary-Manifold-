@@ -10,7 +10,7 @@ import os
 import numpy as np
 from pathlib import Path
 
-LAMBDA_BASE = "https://lambda.gsfc.nasa.gov/data/suborbital/ACT/ACT_dr6/"
+LAMBDA_BASE = "https://pla.esac.esa.int/pla/"  # ESA Planck Legacy Archive
 OUTPUT_DIR = Path("data/planck_2018")
 
 # Planck 2018 best-fit values (hard-coded as fallback when network unavailable)

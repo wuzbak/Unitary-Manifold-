@@ -7,6 +7,8 @@ on:
 jobs:
   ipfs-pin:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Install IPFS CLI
