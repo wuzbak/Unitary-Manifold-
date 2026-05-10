@@ -35,6 +35,8 @@ __all__ = [
     "DocumentChunk",
     "answer_question",
     "build_default_index",
+    "build_intent_index",
+    "retrieve_intent",
 ]
 
 # ---------------------------------------------------------------------------
@@ -388,6 +390,69 @@ class RAGIndex:
 
         return cls(chunks=chunks, knowledge_base=KNOWLEDGE_BASE)
 
+    @classmethod
+    def build_intent_index(
+        cls,
+        repo_root: Optional[Path] = None,
+        max_chunk_chars: int = 1500,
+    ) -> "RAGIndex":
+        """Build an index weighted toward session-intent memory sources.
+
+        Includes HILS_SESSION_CURRENT.md and HILS_SESSION_LOG.md in addition
+        to the standard document set, giving priority to the session-history
+        files for intent-continuity queries.
+
+        Parameters
+        ----------
+        repo_root : Path, optional
+            Root of the repository.  Defaults to two levels up from this file.
+        max_chunk_chars : int
+            Maximum characters per chunk.
+
+        Returns
+        -------
+        RAGIndex with intent-weighted chunks.
+        """
+        if repo_root is None:
+            repo_root = Path(__file__).parent.parent
+
+        chunks: List[DocumentChunk] = []
+
+        # Intent-memory sources (indexed first so they rank higher on ties)
+        intent_sources = [
+            ("HILS_SESSION_CURRENT.md", "Session Current State (identity/intent/open-loops)"),
+            ("HILS_SESSION_LOG.md", "Session History Log (append-only intent trail)"),
+            ("5-GOVERNANCE/co-emergence/LLM_INGEST.md", "HILS Co-emergence Framework"),
+            ("5-GOVERNANCE/co-emergence/INTENT_LAYER.md", "HILS Intent Layer"),
+            ("5-GOVERNANCE/co-emergence/TRUST_PROTOCOL.md", "HILS Trust Protocol"),
+        ]
+
+        # Standard physics/governance sources
+        standard_sources = [
+            ("README.md", "README"),
+            ("FALLIBILITY.md", "Fallibility / Limitations"),
+            ("STATUS.md", "Pillar Status Registry"),
+            ("SEPARATION.md", "Epistemic Separation Boundary"),
+            ("docs/TOE_SCORE_AUDIT.md", "ToE Score Audit"),
+            ("docs/WAVE_CHANGELOG.md", "Wave Changelog"),
+            ("docs/LITEBIRD_FALSIFIER_BRIEF.md", "LiteBIRD Falsifier Brief"),
+            ("1-THEORY/UNIFICATION_PROOF.md", "Unification Proof"),
+            ("6-MONOGRAPH/MCP_INGEST.md", "MCP Ingest (full repo summary)"),
+        ]
+
+        for rel_path, title in intent_sources + standard_sources:
+            full_path = repo_root / rel_path
+            if full_path.exists():
+                try:
+                    text = full_path.read_text(encoding="utf-8", errors="replace")
+                    for i in range(0, len(text), max_chunk_chars):
+                        chunk_text = text[i: i + max_chunk_chars]
+                        chunks.append(DocumentChunk(rel_path, title, chunk_text))
+                except OSError:
+                    pass
+
+        return cls(chunks=chunks, knowledge_base=KNOWLEDGE_BASE)
+
     def search(self, query: str, top_k: int = 5) -> List[Tuple[float, DocumentChunk]]:
         """Search for the most relevant chunks.
 
@@ -497,3 +562,79 @@ def build_default_index() -> RAGIndex:
     RAGIndex
     """
     return RAGIndex.build()
+
+
+def build_intent_index() -> RAGIndex:
+    """Build a session-intent-weighted RAG index from the repository root.
+
+    Includes HILS_SESSION_CURRENT.md and HILS_SESSION_LOG.md so that intent
+    queries receive session-history-aware answers.
+
+    Returns
+    -------
+    RAGIndex
+    """
+    return RAGIndex.build_intent_index()
+
+
+def retrieve_intent(
+    index: RAGIndex,
+    mode: str = "latest_intent",
+) -> Dict:
+    """Deterministic intent retrieval from the session-memory sources.
+
+    Parameters
+    ----------
+    index : RAGIndex
+        An intent-weighted index (from build_intent_index()).
+    mode : str
+        One of:
+        - "latest_intent"   — Current strategic intent and open loops.
+        - "long_arc_intent" — Persistent goals spanning multiple sessions.
+        - "unresolved_intent" — Open loops not yet resolved.
+
+    Returns
+    -------
+    dict with 'mode', 'answer', 'sources'.
+    """
+    _QUERIES: Dict[str, str] = {
+        "latest_intent": (
+            "current strategic intent active wave open loops next session"
+        ),
+        "long_arc_intent": (
+            "persistent long term goal derivation track physics wave plan"
+        ),
+        "unresolved_intent": (
+            "open loops unresolved pending trigger conditions next entry"
+        ),
+    }
+
+    if mode not in _QUERIES:
+        return {
+            "mode": mode,
+            "answer": f"Unknown mode '{mode}'. Choose from: {list(_QUERIES)}.",
+            "sources": [],
+        }
+
+    query = _QUERIES[mode]
+    results = index.search(query, top_k=5)
+    relevant = [(s, c) for s, c in results if s > 0.05]
+
+    if not relevant:
+        return {
+            "mode": mode,
+            "answer": "No intent data found. Ensure HILS_SESSION_CURRENT.md and HILS_SESSION_LOG.md are indexed.",
+            "sources": [],
+        }
+
+    answer_parts = []
+    sources = []
+    for score, chunk in relevant:
+        answer_parts.append(chunk.text[:400])
+        sources.append({"source": chunk.source, "title": chunk.title, "score": round(score, 3)})
+
+    return {
+        "mode": mode,
+        "answer": "\n\n---\n\n".join(answer_parts),
+        "sources": sources,
+    }
