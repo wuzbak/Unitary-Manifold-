@@ -29,6 +29,10 @@ def test_canonical_bridge_resolution_closes_missing_link():
     resolution = alpha_gw_bridge_resolution()
     assert resolution["status"] == "CLOSED_WITH_PILLAR52_10D_BRIDGE"
     assert resolution["missing_link_resolved"] is True
+    assert resolution["five_d_operator_status"] == (
+        "OPERATOR_RECLASSIFICATION_NEEDED_BUT_NOT_CLOSED_IN_5D"
+    )
+    assert resolution["five_d_best_candidate_lane"] == "induced_gravity_uv_localized"
     assert resolution["historical_rs1_audit_retained"] is True
     assert resolution["historical_rs1_gap_orders_of_magnitude"] > 50.0
     low, high = resolution["alpha_gw_target_interval"]

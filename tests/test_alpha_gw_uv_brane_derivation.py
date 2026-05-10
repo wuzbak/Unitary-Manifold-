@@ -76,6 +76,17 @@ class TestRS1UVBraneAttempt:
         assert isinstance(result["missing_ingredient"], str)
         assert len(result["missing_ingredient"]) > 0
 
+    def test_operator_audit_present(self, result):
+        assert result["five_d_operator_audit"]["status"] == (
+            "OPERATOR_RECLASSIFICATION_NEEDED_BUT_NOT_CLOSED_IN_5D"
+        )
+
+    def test_transfer_law_bottleneck_mentions_normalization(self, result):
+        assert "normalization" in result["transfer_law_bottleneck"].lower()
+
+    def test_best_candidate_lane_is_induced_gravity(self, result):
+        assert result["best_candidate_lane"] == "induced_gravity_uv_localized"
+
     def test_missing_ingredient_mentions_uv_brane(self, result):
         # Must reference the UV-brane physics needed
         text = result["missing_ingredient"].lower()
@@ -246,6 +257,17 @@ class TestGapClosureVerdict:
         # Must reference the UV completion requirement
         text = result["missing_ingredient"].lower()
         assert "10d" in text or "string" in text or "brane" in text
+
+    def test_verdict_reports_operator_audit_status(self, result):
+        assert result["five_d_operator_status"] == (
+            "OPERATOR_RECLASSIFICATION_NEEDED_BUT_NOT_CLOSED_IN_5D"
+        )
+
+    def test_present_transfer_law_marked_non_surviving(self, result):
+        assert result["present_transfer_law_survives"] is False
+
+    def test_verdict_best_candidate_lane(self, result):
+        assert result["best_candidate_lane"] == "induced_gravity_uv_localized"
 
     def test_derivation_status_incomplete(self, result):
         assert result["derivation_status"] == "INCOMPLETE"
