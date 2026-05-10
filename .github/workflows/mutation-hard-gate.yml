@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: read
     env:
+      # Initial hard gate floor for focused inflation invariants; can be raised as tests strengthen.
       MUTATION_KILL_RATE_MIN: "0.60"
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +24,14 @@ jobs:
         run: pip install -r requirements.txt mutmut
 
       - name: Run mutation testing (focused invariant suite)
-        run: mutmut run --max-children 2
+        run: |
+          MAX_CHILDREN="$(python3 - <<'PY'
+          import os
+          print(os.cpu_count() or 1)
+          PY
+          )"
+          echo "Running mutmut with --max-children=${MAX_CHILDREN}"
+          mutmut run --max-children "${MAX_CHILDREN}"
 
       - name: Export mutation CI/CD stats
         run: mutmut export-cicd-stats
@@ -32,6 +40,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
+          import os
           from pathlib import Path
 
           stats_path = Path("mutants/mutmut-cicd-stats.json")
@@ -58,7 +67,7 @@ jobs:
               f"no_tests={no_tests}, skipped={skipped}, kill_rate={kill_rate:.3f}"
           )
 
-          minimum = float("0.60")
+          minimum = float(os.environ.get("MUTATION_KILL_RATE_MIN", "0.60"))
           if kill_rate < minimum:
               raise SystemExit(
                   f"Mutation kill-rate gate failed: {kill_rate:.3f} < {minimum:.2f}"

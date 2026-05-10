@@ -57,14 +57,23 @@ jobs:
 
           results = {}
           failures = []
+          zero_reference_epsilon = 1e-30
           for key, item in checks.items():
               repo_value = float(item["repo_value"])
               ref_value = float(item["reference_value"])
-              rel_error = abs(repo_value - ref_value) / abs(ref_value)
+              abs_error = abs(repo_value - ref_value)
+              # CODATA constants here are expected non-zero, but guard tiny-denominator edge cases.
+              if abs(ref_value) <= zero_reference_epsilon:
+                  # Relative error is undefined for zero reference values:
+                  # treat any non-zero absolute deviation as an automatic failure.
+                  rel_error = 0.0 if abs_error == 0.0 else float("inf")
+              else:
+                  rel_error = abs_error / abs(ref_value)
               passed = rel_error <= float(item["rel_tolerance"])
               results[key] = {
                   "repo_value": repo_value,
                   "reference_value": ref_value,
+                  "absolute_error": abs_error,
                   "relative_error": rel_error,
                   "relative_tolerance": float(item["rel_tolerance"]),
                   "source": item["source"],
@@ -98,12 +107,12 @@ jobs:
               "provenance": provenance,
           }
 
+          artifact_json = json.dumps(artifact, indent=2, sort_keys=True) + "\n"
           Path("artifacts/external-constants-crosscheck.json").write_text(
-              json.dumps(artifact, indent=2, sort_keys=True) + "\n",
+              artifact_json,
               encoding="utf-8",
           )
-
-          print(json.dumps(artifact, indent=2, sort_keys=True))
+          print(artifact_json)
 
           if failures:
               raise SystemExit("Cross-check failed:\n" + "\n".join(failures))
