@@ -6,7 +6,7 @@
 
 ---
 
-This folder contains the **Omega Edition (v6.0+)** of thirteen full-length books authored under the
+This folder contains the **Omega Edition (v6.0–v9.0)** of thirteen full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that replaces the original single-post format of the oversized Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,

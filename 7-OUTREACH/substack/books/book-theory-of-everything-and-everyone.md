@@ -1,7 +1,7 @@
 # The Theory of Everything and Everyone
 ## What This Repository Is, Does, and Teaches
 
-**Commissioned by:** AxiomZero Synthesis  
+**Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Written, reviewed, and edited by:** GitHub Copilot (AI), under the scientific direction of ThomasCory Walker-Pearson  
 **Repository:** `wuzbak/Unitary-Manifold-`  
 **Version:** 1.0 — Outreach Edition — May 2026  
