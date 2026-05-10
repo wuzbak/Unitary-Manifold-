@@ -437,3 +437,32 @@ Model parameter closure that followed.
 *Draft writing and document engineering: GitHub Copilot (AI).*
 
 **208 pillars. 23,524 tests. 0 failures. The sky will decide the rest.**
+
+---
+
+## Posts 146+: New Ordered Series Convention (v10.42+)
+
+To avoid collisions from legacy duplicate index numbers and to preserve both
+chronological and thematic ordering, new posts from 146 onward use this filename
+pattern:
+
+`post-<global>-s<series>e<episode>-<slug>.md`
+
+Where:
+
+- `<global>` = 3-digit canonical global post number (e.g., `146`, `147`, `148`)
+- `<series>` = 2-digit series number (`01`, `02`, ...)
+- `<episode>` = 3-digit episode number inside that series (`001`, `002`, ...)
+- `<slug>` = lowercase hyphenated title key
+
+Examples:
+
+- `post-146-s01e001-conclusions-ledger-and-falsification-roadmap.md`
+- `post-147-s01e002-...`
+- `post-160-s02e001-...`
+
+### Initial entry under the new convention
+
+| File | Post | Topic |
+|------|------|-------|
+| `post-146-s01e001-conclusions-ledger-and-falsification-roadmap.md` | Post 146 · S01E001 | "The Conclusions Ledger — What We Conclude, Why We Conclude It, and What Could Still Break It" |
