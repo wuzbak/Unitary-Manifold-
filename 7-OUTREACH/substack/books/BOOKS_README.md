@@ -417,6 +417,21 @@ A public-facing orientation volume for the full repository: what is core physics
 
 ---
 
+### 14. [Taurid Density Window (2030s)](book-taurid-density-risk-2030s.md)
+**A Serious, Falsifiable Risk Brief for Global Systems, Washington State, and Southern California**
+
+| Property | Value |
+|---|---|
+| Size | ~13 KB |
+| Audience | General readers, emergency planners, policy teams, and risk analysts |
+| Parts | Global consequences + WA and Southern California regional sections + operational triggers |
+| Framework connection | Falsifier-first discipline, uncertainty accounting, consequence planning under low-probability/high-consequence conditions |
+| Companion references | `3-FALSIFICATION/` · `tests/test_falsification_calendar.py` · `tests/test_prediction_registry.py` |
+
+A practical deep-dive on Taurid-density risk framing for the 2030s: what is known, what is unknown, how to separate plausible enhancement windows from deterministic claims, and what preparedness should look like at global and regional scales.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -462,6 +477,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 11 | The Signal and the Noise | **Politics & Media** | Social commentary | No |
 | 12 | Cleared for Approach — But Not for Landing | **Critical Infrastructure** | Systems analysis (φ-collapse, B_μ divergence, FTUM) | No |
 | 13 | The Theory of Everything and Everyone | **Repository Orientation** | Framework map with explicit epistemic boundaries | No |
+| 14 | Taurid Density Window (2030s) | **Risk & Preparedness** | Falsifier-aware risk analysis; not a deterministic impact claim | No |
 
 **Books 5–13 are AxiomZero-commissioned works, not peer-reviewed physics.**
 Books 7–11 (education, engineering, politics, climate) apply the UM mathematical language
@@ -484,6 +500,7 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 | 7.1 — Politics & Media Edition | May 2026 | Book 11 added: *The Signal and the Noise* — politics and media in America; Parts I–VII; six appendices including source evaluation checklist, political ad guide, representative contact guide, local journalism support guide, reform organizations directory, further reading; ~89KB |
 | 8.0 — Critical Infrastructure Edition | May 2026 | Book 12 added: *Cleared for Approach — But Not for Landing* — complete expert treatment of U.S. air traffic control: hardware (radar, comms, nav, weather), software (STARS, ERAM, TBFM, NextGen), staffing crisis, major incidents (DCA 2025, EWR 2025, NOTAM 2023), international models (Nav Canada, NATS, EUROCONTROL/SESAR, Aireon), future technologies (AI, remote towers, TBO, AAM/eVTOL, cybersecurity, quantum), and a full 25-year implementation roadmap; ~94KB |
 | 9.0 — Repository Orientation Edition | May 2026 | Book 13 added: *The Theory of Everything and Everyone* — a meticulous public-facing synthesis of what this repository is, does, and teaches; includes claim-boundary discipline, falsifier-first reading path, explicit role partition (human direction / AI implementation), and honest status framing |
+| 10.0 — Taurid Risk Brief Edition | May 2026 | Book 14 added: *Taurid Density Window (2030s)* — global consequence analysis, WA and Southern California regional focus, decision triggers, preparedness guidance, and prediction-window test-run appendix |
 
 ---
 
