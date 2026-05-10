@@ -3378,5 +3378,75 @@ physics remains labeled as an architecture limit until closed.
 
 ---
 
+## §X — Verification Infrastructure (v10.43 expansion)
+
+This section documents the formal-proof, high-precision, and symbolic-verification
+infrastructure added in v10.43.  These tools expand the verification surface without
+changing any physics claims.
+
+### §X.1 — Formal Proof Layer (Lean4)
+
+`lean4/UnitaryManifold/Basic.lean` contains Lean 4 theorems that formally verify:
+- The spectral index bound: n_s ∈ (0.955, 0.972) derivable from φ₀ ≥ 1.
+- The radion φ₀ self-consistency: all three φ₀ definitions agree at machine precision.
+- The (5,7) braid SE minimality: S_E(5,7) < S_E(n₁,n₂) for all (n₁,n₂) with
+  n₁² + n₂² ≤ 200 and (n₁,n₂) ≠ (5,7).
+
+`src/core/formal_proof_hardening.py` bridges these theorems into the Python regression
+pipeline.  The theorems are **structurally verified** by the bridge; full Lean4
+compilation requires the Lean4 toolchain (not installed in CI).
+
+**Admission:** Lean4 structural verification is not equivalent to a complete
+machine-checked proof.  The Python bridge confirms that the theorem export
+artifact has the correct schema and that claimed constants are consistent —
+it does not re-execute the Lean4 type-checker.
+
+### §X.2 — 512-bit Precision Certificate
+
+`src/core/precision_audit.py` runs the SE-minimum search at four precision levels:
+
+| Lane | DPS | Bit-equivalent | (5,7) minimum | Drift vs 256-bit |
+|------|-----|----------------|--------------|-----------------|
+| 64-bit | 16 | ~64 | ✅ | — |
+| 128-bit | 35 | ~128 | ✅ | 0.000e+00 |
+| 256-bit (hardgate) | 80 | ~256 | ✅ | 0.000e+00 |
+| 512-bit (ultra) | 155 | ~512 | ✅ | **0.000e+00** |
+
+The (5,7) global SE minimum is numerically stable from 64-bit through 512-bit.
+No qualitative change in minima or lossless classification across any precision level.
+
+**Admission:** The 512-bit lane uses mpmath arbitrary-precision arithmetic.
+This confirms absence of rounding artifacts in double precision, but the
+underlying SE functional is an analytic expression — the stability result
+is expected and does not provide an independent physical test.
+
+### §X.3 — Symbolic Bounds Checker (Z3 SMT)
+
+`src/core/z3_pentad_checker.py` uses the Z3 SMT solver to verify that the
+five core UM constants (N_W=5, K_CS=74, C_S=24/74, n_s=0.9635, r=0.0315)
+are mutually consistent and bounded within their physical admissible windows.
+
+**Admission:** Z3 checks algebraic consistency of the stated values, not
+their derivation from first principles.
+
+### §X.4 — JAX Gradient Engine
+
+`src/core/jax_backend.py` provides `grad_spectral_index()` via JAX automatic
+differentiation when JAX is installed.  In pure-NumPy environments it falls back
+to a finite-difference approximation.  This enables gradient-based sensitivity
+analysis of n_s with respect to φ₀ without manual chain-rule derivations.
+
+### §X.5 — KK-VQE Quantum Circuit
+
+`src/core/kk_vqe.py` encodes the (5,7) braid Hamiltonian as a 2-qubit VQE ansatz.
+The module provides the ground-state energy envelope for KK mode excitations and
+is designed to interface with Qiskit or PennyLane.  In the absence of a quantum
+backend, it runs classically via matrix diagonalization.
+
+**Admission:** The KK-VQE result is a classical simulation of a quantum ansatz.
+It does not provide a quantum speedup nor access to a real QPU in current CI.
+
+---
+
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

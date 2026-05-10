@@ -148,5 +148,19 @@ This apparent contradiction is resolved as follows — B_μ and the photon are *
 
 ---
 
+## Part VIII — Verification Infrastructure (v10.43)
+
+These are not new physical claims but expansions of the verification surface.
+
+| Tool | Module | What it checks | Limitation |
+|------|--------|----------------|------------|
+| Lean4 formal proofs | `lean4/UnitaryManifold/Basic.lean` + `formal_proof_hardening.py` | n_s bound, φ₀ consistency, (5,7) SE minimality | Structural bridge; full compilation needs Lean4 toolchain |
+| 512-bit precision audit | `src/core/precision_audit.py` | (5,7) SE minimum stable at DPS=16/35/80/155; drift=0 | SE functional is analytic; stability expected |
+| Z3 SMT bounds | `src/core/z3_pentad_checker.py` | N_W, K_CS, C_S, n_s, r algebraically consistent | Checks stated values; not derivation |
+| JAX AD gradient | `src/core/jax_backend.py` | ∂n_s/∂φ₀ via automatic differentiation | Falls back to FD without JAX |
+| Triple-Point certificate | `src/core/triple_point.py` | Lean4 ↔ JAX ↔ Z3 unified signed certificate | Requires all three backends for full certificate |
+| KK-VQE | `src/core/kk_vqe.py` | (5,7) braid Hamiltonian ground state via VQE ansatz | Classical simulation; no QPU in CI |
+| LiteBIRD alt lab | `src/core/litebird_proof_alternative.py` | Lane A/B/C decision logic; composite verdict | Simulation run; actual campaign data pending |
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
