@@ -54,6 +54,15 @@ from src.core.precision_audit import (
     se_minimum_at_57_mpmath,
 )
 
+# ---------------------------------------------------------------------------
+# Precision error tolerance constants
+# These are the expected maximum absolute errors for S_E identity checks
+# at each precision level. The 512-bit value reflects a strict bound:
+# at dps=155 the identity error should be < 10^{-140} (within mpmath precision).
+# ---------------------------------------------------------------------------
+_IDENTITY_TOL_512BIT: float = 1e-140  # absolute error bound at 512-bit (dps=155)
+_DRIFT_TOL_256_VS_512: float = 1e-70  # max |S_E_512 - S_E_256| expected
+
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -392,7 +401,7 @@ class TestSeIdentity57At512Bit:
 
     def test_absolute_error_tiny_at_512bit(self):
         r = se_identity_57(dps=DPS_512BIT)
-        assert r["absolute_error"] < 1e-140  # well within 512-bit tolerance
+        assert r["absolute_error"] < _IDENTITY_TOL_512BIT
 
     def test_se_57_close_to_reference_at_512bit(self):
         r = se_identity_57(dps=DPS_512BIT)
@@ -473,7 +482,7 @@ class TestPrecisionStability256Vs512:
 
     def test_max_drift_tiny(self):
         r = self._run()
-        assert r["max_drift"] < 1e-70  # should be essentially machine zero
+        assert r["max_drift"] < _DRIFT_TOL_256_VS_512
 
     def test_verdict_mentions_stable(self):
         r = self._run()
@@ -561,8 +570,8 @@ class TestFourLanePrecisionCertificate:
         r = self._run()
         errors = [l["identity_absolute_error"] for l in r["lanes"]]
         # Higher precision lanes should have smaller errors
-        assert errors[2] <= errors[1] or errors[2] < 1e-70  # 256-bit tighter than 128-bit
-        assert errors[3] <= errors[2] or errors[3] < 1e-140  # 512-bit tighter than 256-bit
+        assert errors[2] <= errors[1] or errors[2] < _IDENTITY_TOL_512BIT  # 256-bit tighter than 128-bit
+        assert errors[3] <= errors[2] or errors[3] < _IDENTITY_TOL_512BIT  # 512-bit tighter than 256-bit
 
     def test_certificate_summary_is_string(self):
         r = self._run()

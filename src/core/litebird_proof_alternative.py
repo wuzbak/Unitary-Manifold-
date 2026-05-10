@@ -171,7 +171,13 @@ PHI_ROT_PREDICTED: float = PHI_ROT_PRIMARY
 
 #: The forbidden gap is BETWEEN the two sector predictions
 _PHI_GAP_CENTRE: float = (PHI_ROT_PRIMARY + PHI_ROT_SHADOW) / 2.0
-_GAP_HALF_WIDTH_DEG: float = min(0.2, abs(PHI_ROT_PRIMARY - PHI_ROT_SHADOW) * 0.2)
+#: Half-width of the inter-sector gap; capped at 0.2 deg or 20% of sector separation
+_GAP_MAX_HALF_WIDTH_DEG: float = 0.2   # absolute cap (degrees)
+_GAP_SECTOR_FRACTION: float = 0.20    # 20% of sector-to-sector distance
+_GAP_HALF_WIDTH_DEG: float = min(
+    _GAP_MAX_HALF_WIDTH_DEG,
+    abs(PHI_ROT_PRIMARY - PHI_ROT_SHADOW) * _GAP_SECTOR_FRACTION,
+)
 PHI_ROT_GAP_LOWER: float = _PHI_GAP_CENTRE - _GAP_HALF_WIDTH_DEG
 PHI_ROT_GAP_UPPER: float = _PHI_GAP_CENTRE + _GAP_HALF_WIDTH_DEG
 
@@ -187,7 +193,9 @@ LANE_B_TOE_CONTRIBUTION: float = 0.3
 # Lane C -- B-mode polarisation analogue (cryogenic testbeds)
 # ---------------------------------------------------------------------------
 
-#: Scale factor from cosmological to lab frequency (GHz ratio)
+#: Scale factor placeholder (cosmological / lab frequency ratio).
+#: Not used in the current β_lab calculation; retained for documentation.
+#: Future campaigns that apply a frequency-ratio rescaling should use this.
 _ALPHA_SCALE: float = 1.0e-9  # cosmological / lab frequency ratio
 
 #: Predicted effective lab B-mode rotation (degrees)

@@ -7,7 +7,7 @@ Full test suite for src/core/litebird_proof_alternative.py (Pillar 45-E).
 
 Covers every constant, every function, every decision branch, all three
 proof-alternative lanes (A/B/C), composite aggregation, evidence-strength
-scoring, uncertainty budgets, and the status snapshot.  ~130 tests.
+scoring, uncertainty budgets, and the status snapshot.  ~112 tests.
 
 """
 from __future__ import annotations

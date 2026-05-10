@@ -122,10 +122,12 @@ N_MAX_DEFAULT: int = 20
 LOSSY_SUPPRESSION_THRESHOLD: float = 1e-4
 
 # Decimal places for each named precision level
-# 64-bit float:  ~15.95 decimal digits  → dps = 16
-# 128-bit:       ~33.97 decimal digits  → dps = 35
-# 256-bit:       ~77.06 decimal digits  → dps = 80   (mandatory hardgate)
-# 512-bit:       ~154.13 decimal digits → dps = 155  (ultra-certification lane)
+# Rounding policy: each dps is ceil(bits × log10(2)), ensuring we always
+# have *at least* the stated number of significant decimal digits.
+#   64-bit float:  52-bit mantissa → ~15.95 dec digits  → dps = 16
+#   128-bit:       112-bit mantissa → ~33.97 dec digits  → dps = 35
+#   256-bit:       236-bit mantissa → ~77.06 dec digits  → dps = 80  (hardgate)
+#   512-bit:       492-bit mantissa → ~154.13 dec digits → dps = 155 (ultra lane)
 DPS_64BIT: int = 16    # 64-bit float equivalent
 DPS_128BIT: int = 35   # 128-bit equivalent
 DPS_256BIT: int = 80   # 256-bit equivalent — mandatory production hardgate
