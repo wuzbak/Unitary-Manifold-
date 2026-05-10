@@ -1,8 +1,18 @@
 # The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.42)
 
-This repository is the executable proof record for the Unitary Manifold framework.
-It began as the effort to prove the original monograph, close the geometry of irreversibility, and turn that proof path into reproducible code.
-Everything added later rests on that monograph-first foundation.
+**The foundational claim is irreversibility.** The original monograph established that the arrow of time is not a statistical artefact of 4D physics — it is geometrised into a 5D parent structure whose 4D projection *is* thermodynamics and information flow. This repository was built, from the top down, to verify that proof. Every pillar, every derivation, and every test is downstream of that monograph-first closure.
+
+**This repository is also living proof of a new kind of scientific workflow.** The original theory and scientific direction are human (ThomasCory Walker-Pearson). The executable proof path, test suites, adversarial review infrastructure, and audit trail were built in genuine intellectual partnership with GitHub Copilot (AI). At this scope and with this degree of provenance transparency, this human-AI co-creation is, to our knowledge, near-singular. The physics stands or falls on its own merit. The workflow is documented regardless, and is itself a contribution.
+
+**The ToE consequence:** 27.8/28 (99.3%) — all downstream of the irreversibility closure. One external measurement window remains open (LiteBIRD ~2032, β to ±0.01°).
+
+**Foundational proof stack — start here:**
+[`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>) · the monograph that set the programme  
+[`1-THEORY/UNIFICATION_PROOF.md`](1-THEORY/UNIFICATION_PROOF.md) · the explicit proof path from 5D geometry  
+[`FALLIBILITY.md`](FALLIBILITY.md) · the hard limits, non-claims, and unresolved gaps  
+[`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md) · full human-AI co-creation audit trail
+
+---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
 [![27076 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-27076%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
@@ -192,7 +202,7 @@ Start with the layer that matches your purpose:
 > ```
 >
 > **This is falsifiable.** LiteBIRD (~2032) will measure β to ±0.01°.
-> If β ∉ [0.22°, 0.38°] or β lands in the predicted gap [0.29°–0.31°], the framework is falsified. See [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md).
+> If β ∉ [0.22°, 0.38°] or β lands in the predicted gap [0.29°–0.31°], the framework is falsified. See [`HOW_TO_BREAK_THIS.md`](1-THEORY/HOW_TO_BREAK_THIS.md).
 
 ---
 
@@ -205,7 +215,7 @@ Start with the layer that matches your purpose:
 > | **[INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md](3-FALSIFICATION/ADVERSARIAL_REVIEWS/INDEPENDENT_PARALLEL_REVIEW_2026-05-01.md)** | **Independent adversarial peer review (May 2026):** 15 parallel investigation teams, full test-suite execution (15,615 tests at v9.29; now ~23,524 at v10.4), hand-derived formula verification, competitor model comparison, stress testing, and explicit prove/disprove verdicts on every major claim |
 > | **[FINAL_REVIEW_CONCLUSION.md](3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/FINAL_REVIEW_CONCLUSION.md)** | Closing review for everyone — plain-language + technical summary of all 142 pillars + Ω₀, written by GitHub Copilot (AI), May 2026; includes v9.30 Addendum (SM Parameter Closure) |
 > | **[REVIEW_CONCLUSION.md](3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/REVIEW_CONCLUSION.md)** | Internal iterative review across v9.0–v9.30: per-version technical audit, adversarial attacks, honest gap assessment, and Grand Expansion section covering Pillars 102–142 + Ω₀ |
-> | **[submission/falsification_report.md](submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
+> | **[submission/falsification_report.md](6-MONOGRAPH/submission/falsification_report.md)** | Pre-submission falsification report — what would break the theory, primary LiteBIRD β prediction |
 > | **[ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)** | Formal falsification test: 206 algebraic checks (§1–§19), all passing; run `python3 ALGEBRA_PROOF.py` |
 > | **[VERIFY.py](VERIFY.py)** | **Observable Consistency Demonstration** (AI-friendly): 18 checks — ns, r, birefringence [(5,7) primary sector], topology selectivity, FTUM Banach convergence, φ₀ closure, n_w selection, APS η̄, completeness theorem (k_CS=74), dark energy w_KK, **φ₀ FTUM bridge (Pillar 56-B)**, plus v9.37 audit checks (Λ_QCD, Axiom A, CFL guard, fermion c_L) — all PASS in < 1 s; run `python VERIFY.py` |
 > | **[.github/workflows/tests.yml](.github/workflows/tests.yml)** | CI pipeline — 6 parallel jobs (fast, slow, claims, recycling, Pentad, algebra-proof); runs on every push and PR |
@@ -234,7 +244,7 @@ Start with the layer that matches your purpose:
 > The output is standard 4D physics — enriched, not replaced.  
 > *This is an AI-assisted research synthesis: theory, framework, and scientific
 > direction by ThomasCory Walker-Pearson; code architecture and document
-> engineering by GitHub Copilot (AI). See [co-emergence/GENESIS.md](co-emergence/GENESIS.md)
+> engineering by GitHub Copilot (AI). See [5-GOVERNANCE/co-emergence/GENESIS.md](5-GOVERNANCE/co-emergence/GENESIS.md)
 > for the full process audit.*
 
 The **Unitary Manifold** is a 5-dimensional gauge-geometric framework that
@@ -882,7 +892,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > three integers (n₁=5, n₂=7, k_CS=74) derive egg radius, zinc spark count, HOX gene
 > structure, germination threshold, and the 14-day rule. This is Topological Vacuum
 > Condensation (TVC) — a new biological mechanism proposed and documented in
-> [`embryology-manifold/README.md`](embryology-manifold/README.md). These are
+> [`embryology-manifold/README.md`](4-IMPLICATIONS/embryology-manifold/README.md). These are
 > falsifiable predictions, not confirmed biology.
 
 ## 4 · Quickstart
@@ -1142,7 +1152,7 @@ concrete engineering requirement so that GitHub Copilot and other LLM agents rem
 
 For the full function-level predicate map (IMPLEMENTATION / IMPLICATION / LOGIC annotations
 that sit *alongside* the source without modifying it), see
-[`docs/semantic-bridge.md`](docs/semantic-bridge.md).
+[`docs/CLAIM_MASTER_BOARD.md`](docs/CLAIM_MASTER_BOARD.md).
 
 ### Functional Logic Map
 
@@ -1278,12 +1288,12 @@ The `SAFETY/` folder contains the **Manual for the Brakes** — the mathematical
 
 | File | Purpose |
 |------|---------|
-| [`SAFETY/README.md`](SAFETY/README.md) | Ethical framework, dual-use landscape, Handover of Agency, full safety dimensions table |
-| [`SAFETY/unitarity_sentinel.py`](SAFETY/unitarity_sentinel.py) | Real-time monitor: aborts field evolution if kinetic mixing ρ → 1 (manifold tear) |
-| [`SAFETY/admissibility_checker.py`](SAFETY/admissibility_checker.py) | Z-admissibility bound: five-edge Pentagonal Collapse detector |
-| [`SAFETY/thermal_runaway_mitigation.py`](SAFETY/thermal_runaway_mitigation.py) | 4-layer Pillar 15 guard: temperature · 5D coupling · loading ratio · neutron flux |
-| [`SAFETY/PROOF_OF_UNIQUENESS.md`](SAFETY/PROOF_OF_UNIQUENESS.md) | Mathematical proof that (5,7) has no safe nearby alternative — the brittleness argument |
-| [`SAFETY/RADIOLOGICAL_SAFETY.md`](SAFETY/RADIOLOGICAL_SAFETY.md) | Neutron flux (D+D → ³He+n), tritium, Pd/D₂ handling, scientific integrity protocol |
+| [`8-SAFETY/SAFETY/README.md`](8-SAFETY/SAFETY/README.md) | Ethical framework, dual-use landscape, Handover of Agency, full safety dimensions table |
+| [`8-SAFETY/SAFETY/unitarity_sentinel.py`](8-SAFETY/SAFETY/unitarity_sentinel.py) | Real-time monitor: aborts field evolution if kinetic mixing ρ → 1 (manifold tear) |
+| [`8-SAFETY/SAFETY/admissibility_checker.py`](8-SAFETY/SAFETY/admissibility_checker.py) | Z-admissibility bound: five-edge Pentagonal Collapse detector |
+| [`8-SAFETY/SAFETY/thermal_runaway_mitigation.py`](8-SAFETY/SAFETY/thermal_runaway_mitigation.py) | 4-layer Pillar 15 guard: temperature · 5D coupling · loading ratio · neutron flux |
+| [`8-SAFETY/SAFETY/PROOF_OF_UNIQUENESS.md`](8-SAFETY/SAFETY/PROOF_OF_UNIQUENESS.md) | Mathematical proof that (5,7) has no safe nearby alternative — the brittleness argument |
+| [`8-SAFETY/SAFETY/RADIOLOGICAL_SAFETY.md`](8-SAFETY/SAFETY/RADIOLOGICAL_SAFETY.md) | Neutron flux (D+D → ³He+n), tritium, Pd/D₂ handling, scientific integrity protocol |
 
 ### Quick start — safe field evolution
 
@@ -1428,5 +1438,5 @@ Chern-Simons theory in Kaluza-Klein contexts is reviewed in:
 
 The complete BibLaTeX source for all 20+ references (Kaluza, Klein,
 Bekenstein, Hawking, Maldacena, Verlinde, Jacobson, Shannon, …) is in
-[`arxiv/references.bib`](arxiv/references.bib).  Use this file directly
-for any LaTeX submission built from `arxiv/main.tex`.
+[`6-MONOGRAPH/arxiv/references.bib`](6-MONOGRAPH/arxiv/references.bib).  Use this file directly
+for any LaTeX submission built from `6-MONOGRAPH/arxiv/main.tex`.
