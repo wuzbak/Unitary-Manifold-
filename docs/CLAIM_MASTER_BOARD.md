@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v10.32
+# Unitary Manifold v10.42
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-09 (v10.31)*
+*Last updated: 2026-05-10 (v10.42)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -40,14 +40,14 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P23 | β birefringence mode 1 | PENDING (LiteBIRD ~2032) | **0.331° ± 0.007°** | — | `FALSIFIED_IF` | 🟡 PENDING | β ∉ [0.22°, 0.38°] OR β ∈ (0.29°, 0.31°) at ≥3σ | LiteBIRD measurement | 2026-05-08 |
 | P24 | β birefringence mode 2 | PENDING (LiteBIRD ~2032) | **0.273° ± 0.007°** | — | `FALSIFIED_IF` | 🟡 PENDING | same as P23 | LiteBIRD measurement | 2026-05-08 |
 | P25 | GW background Ω_GW | PENDING (LISA ~2037) | **~10⁻¹⁵** | — | `DERIVED` | 🟡 PENDING | Ω_GW(f_LISA) < 10⁻¹⁷ or wrong spectrum | LISA measurement | 2026-05-08 |
-| P26 | Neutrino mass scale m_ν | < 0.12 eV (Planck) | **m₁ ≈ 0.05 eV** (5D seesaw, Z₂-sym.) | consistent | `GEOMETRIC_PREDICTION` | ✅ PASS | m_ν > 0.12 eV confirmed at ≥3σ (KATRIN/Planck) | None | 2026-05-09 |
-| P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | **Z₂ orbifold PQ: θ_eff ~ e^{-πkR}/N_W ≈ 10⁻¹⁷** | < 10⁻¹⁰ ✓ | `GEOMETRIC_PREDICTION` | ✅ PASS | θ̄ > 10⁻⁹ confirmed | None | 2026-05-09 |
-| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+BP (N_flux=37) — precise 10^57.26 gap remains | 10^57.26 gap | `ARCHITECTURE_LIMIT_CERTIFIED` | ⚠️ OPEN (architecture) | Full 10D landscape argument closed | 10D flux landscape closure (naive BP sufficiency requires N_flux ≥ 61; see `src/core/cc_gap_precision_audit.py`) | 2026-05-09 |
+| P26 | Neutrino mass scale m_ν | < 0.12 eV (Planck) | **m₁ ≈ 0.05 eV** (5D seesaw, Z₂-sym.) | consistent | `DERIVED` | ✅ PASS | m_ν > 0.12 eV confirmed at ≥3σ (KATRIN/Planck) | None | 2026-05-09 |
+| P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | **Z₂ orbifold PQ: θ_eff ~ e^{-πkR}/N_W ≈ 10⁻¹⁷** | < 10⁻¹⁰ ✓ | `DERIVED` | ✅ PASS | θ̄ > 10⁻⁹ confirmed | None | 2026-05-09 |
+| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+10D closure package (effective N_flux=74, explicit UV vacuum selection) | closure verified (gates passed) | `GEOMETRIC_PREDICTION` | ✅ PASS | Full 10D landscape argument fails consistency gates | None | 2026-05-10 |
 
-**ToE Score v10.33: 25.3 / 28.0 = 90.4%** (v10.33: P27 +0.7, P26 +0.3, 14× GP→DERIVED +2.8; total +3.8 pts)
-**DERIVED: 15 parameters** (P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22 + P25)
-**GEOMETRIC_PREDICTION: 11 parameters** (P3,P7,P8,P9,P10,P14,P15,P23,P24,P26,P27)
-**ARCHITECTURE_LIMIT: 1** (P28) | **ALGEBRAIC: 1** (P11)
+**ToE Score v10.42: 27.8 / 28.0 = 99.3%**  
+**ALGEBRAIC: 1** (P11) | **DERIVED (confirmed): 23** (P1–P22, P26, P27) | **DERIVED-PENDING: 1** (P25) | **GEOMETRIC_PREDICTION: 3** (P23, P24, P28)
+
+**v10.42 (2026-05-10) audit sync:** P26 confirmed DERIVED (v10.35 cert: `p26_neutrino_mass_derived_cert.py`), P27 confirmed DERIVED (v10.34 cert: `p27_strong_cp_derived_cert.py`), P28 confirmed GEOMETRIC_PREDICTION (v10.40 10D closure: `p28_lambda_10d_closure.py`). ToE score row updated from stale v10.33 value (25.3/28) to current v10.42 value (27.8/28).
 
 **v10.33 note:** 14 GP→DERIVED upgrades (+2.8 pts); P26 CONSTRAINED→GP (+0.3 pts);
 P27 ARCHITECTURE_LIMIT→GP (+0.7 pts). AxiomZero purity certified for all 14 DERIVED promos.
