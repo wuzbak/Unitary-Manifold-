@@ -97,8 +97,8 @@ class TestVQEGroundState:
     def test_exact_energy_positive(self):
         assert self.result["E_exact"] > 0
 
-    def test_sigma_opt_positive(self):
-        assert self.result["sigma_opt"] > 0
+    def test_ansatz_param_positive(self):
+        assert self.result["ansatz_param"] > 0
 
     def test_n_w_echoed(self):
         assert self.result["n_w"] == KK_N_W

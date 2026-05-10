@@ -187,7 +187,7 @@ def vqe_ground_state(
       E_variational  : float — variational upper bound on m²_0.
       E_exact        : float — exact ground-state energy (exact diag.).
       gap_pct        : float — 100 × |E_var − E_exact| / |E_exact|.
-      sigma_opt      : float — optimised Gaussian width.
+      ansatz_param   : float — optimised sin-exponent n for ψ(z)=sin^n(z).
       status         : "PASS" if gap_pct < VQE_CONVERGENCE_TOL*100 else "FAIL".
       n_w, k_cs      : passed-through parameters.
     """
@@ -217,7 +217,7 @@ def vqe_ground_state(
         options={"xatol": 1e-9},
     )
     E_var = float(result.fun)
-    sigma_opt = float(np.exp(result.x))  # n_exp (re-used field name for API compat)
+    ansatz_param = float(np.exp(result.x))  # optimised sin-exponent n
 
     # Exact reference value
     E_exact = float(kk_spectrum(N_modes=1, N_grid=N_grid, n_w=n_w, k_cs=k_cs)[0])
@@ -228,7 +228,7 @@ def vqe_ground_state(
         "E_variational": E_var,
         "E_exact": E_exact,
         "gap_pct": gap_pct,
-        "sigma_opt": sigma_opt,
+        "ansatz_param": ansatz_param,
         "status": "PASS" if gap_pct < VQE_CONVERGENCE_TOL * 100.0 else "FAIL",
         "n_w": n_w,
         "k_cs": k_cs,

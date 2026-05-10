@@ -56,24 +56,20 @@ def _grad_1d(f: jnp.ndarray, dx: float) -> jnp.ndarray:
 def field_strength_jax(B: jnp.ndarray, dx: float) -> jnp.ndarray:
     """H_μν = ∂_μ B_ν − ∂_ν B_μ,  shape (N, 4, 4).
 
+    Uses ``jax.vmap`` over columns to avoid Python-level loops inside the
+    JIT region, enabling full XLA fusion.
+
     Parameters
     ----------
     B  : jnp.ndarray, shape (N, 4)
     dx : float, grid spacing
     """
-    N, D = B.shape
+    # Compute all column gradients at once: dB[x, nu] = ∂_x B[x, nu]
+    # jnp.gradient with axis=0 handles all columns simultaneously
+    dB = jnp.gradient(B, dx, axis=0)   # (N, 4)  — XLA-native, fully JIT-able
 
-    def _col_grad(nu):
-        return _grad_1d(B[:, nu], dx)
-
-    grads = jnp.stack([_col_grad(nu) for nu in range(D)], axis=1)  # (N, D)
-
-    def _row(mu):
-        def _entry(nu):
-            return grads[:, nu] - grads[:, mu]
-        return jnp.stack([_entry(nu) for nu in range(D)], axis=1)
-
-    H = jnp.stack([_row(mu) for mu in range(D)], axis=1)  # (N, D, D)
+    # H[x, mu, nu] = dB[x, nu] - dB[x, mu]  (antisymmetric outer difference)
+    H = dB[:, jnp.newaxis, :] - dB[:, :, jnp.newaxis]   # (N, 4, 4) broadcast
     return H
 
 
