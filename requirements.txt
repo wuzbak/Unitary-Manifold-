@@ -8,3 +8,13 @@ jax[cpu]>=0.10.0,<0.11
 z3-solver>=4.12.0
 wandb>=0.18.0
 dvc>=3.0.0
+
+# Security: minimum patched versions for transitive dependencies
+# These are not used directly but must be >= the patched version to
+# avoid known CVEs in fresh installs.
+cryptography>=46.0.5          # CVE: subgroup attack, NULL deref, Bleichenbacher
+pyasn1>=0.6.3                 # CVE: DoS via unbounded recursion
+pyOpenSSL>=26.0.0             # CVE: DTLS cookie callback buffer overflow
+setuptools>=78.1.1            # CVE: path traversal + command injection
+urllib3>=2.6.3                # CVE: decompression bomb bypass (3 CVEs)
+wheel>=0.46.2                 # CVE: path traversal file permission modification
