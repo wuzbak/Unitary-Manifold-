@@ -87,6 +87,8 @@ from __future__ import annotations
 import math
 from typing import Dict
 
+from src.core.alpha_gw_5d_operator_audit import alpha_gw_5d_operator_assessment
+
 __all__ = [
     # Constants
     "PI_KR",
@@ -185,6 +187,7 @@ def rs1_uv_brane_alpha_gw_attempt() -> Dict[str, object]:
     alpha_gw_geo = _ALPHA_GW_GEO
     gap_orders = math.log10(_ALPHA_GW_MID) - math.log10(alpha_gw_geo)
     c_uv_required = _ALPHA_GW_MID / alpha_gw_geo
+    operator_audit = alpha_gw_5d_operator_assessment()
 
     return {
         "pi_kr": PI_KR,
@@ -201,6 +204,9 @@ def rs1_uv_brane_alpha_gw_attempt() -> Dict[str, object]:
         "gap_orders_of_magnitude": gap_orders,
         "c_uv_required": c_uv_required,
         "derivation_status": "INCOMPLETE",
+        "five_d_operator_audit": operator_audit,
+        "transfer_law_bottleneck": operator_audit["transfer_audit"]["bottleneck_statement"],
+        "best_candidate_lane": operator_audit["best_candidate_lane"],
         "derivation_note": (
             f"RS1 geometry gives α_GW^{{geo}} ≈ {alpha_gw_geo:.3e}, "
             f"which is {gap_orders:.1f} orders of magnitude below the "
@@ -357,6 +363,7 @@ def alpha_gw_gap_closure_verdict() -> Dict[str, object]:
     """
     rs1 = rs1_uv_brane_alpha_gw_attempt()
     cmbs4 = cmbs4_alpha_gw_observability()
+    operator_audit = rs1["five_d_operator_audit"]
 
     return {
         "status": "OPEN_NARROWED",
@@ -370,6 +377,10 @@ def alpha_gw_gap_closure_verdict() -> Dict[str, object]:
             "string embedding or brane intersection calculation; not computable "
             "from 5D UM inputs alone."
         ),
+        "five_d_operator_status": operator_audit["status"],
+        "present_transfer_law_survives": operator_audit["present_transfer_law_survives"],
+        "best_candidate_lane": operator_audit["best_candidate_lane"],
+        "five_d_operator_conclusion": operator_audit["conclusion"],
         "cmbs4_distinguishable": cmbs4["individual_values_distinguishable"],
         "cmbs4_can_pin_alpha_gw": cmbs4["cmbs4_can_pin_alpha_gw_to_point"],
         "string_uv_completion_required": True,
@@ -380,7 +391,8 @@ def alpha_gw_gap_closure_verdict() -> Dict[str, object]:
             f"the Casimir interval [{ALPHA_GW_LOWER:.1e}, {ALPHA_GW_UPPER:.1e}]. "
             "The interval is established from CMB amplitude matching "
             "(phenomenological), not from first principles.  "
-            "A point-value derivation requires c_UV from 10D string embedding.  "
+            f"{operator_audit['transfer_audit']['bottleneck_statement']}  "
+            "A point-value derivation still requires c_UV from 10D string embedding.  "
             "Status: OPEN_NARROWED (G2 remains open in OBSERVATION_TRACKER and "
             "T2 remains open in TRUTH_LAYER.md)."
         ),

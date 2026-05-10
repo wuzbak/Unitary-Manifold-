@@ -106,6 +106,8 @@ def alpha_gw_bridge_resolution() -> Dict[str, object]:
             else "OPEN_NARROWED"
         ),
         "missing_link_resolved": resolved,
+        "five_d_operator_status": rs1["five_d_operator_audit"]["status"],
+        "five_d_best_candidate_lane": rs1["best_candidate_lane"],
         "pillar52_anchor": pillar52,
         "uv_bridge": uv_bridge,
         "historical_rs1_only_alpha_gw": rs1["alpha_gw_geometric"],
