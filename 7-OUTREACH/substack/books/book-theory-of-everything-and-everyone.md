@@ -80,7 +80,7 @@ That distinction is a strength, not a weakness.
 
 This repository is executable. It is not just prose.
 
-Core modules in `src/` implement metric structure, evolution, fixed-point dynamics, topology, and related components. Capstone engines such as **Omega** and **Holon Zero** provide high-level synthesis interfaces over the framework.
+Core modules in `src/` implement metric structure, evolution, fixed-point dynamics, topology, and related components. The three master systems — **Omega**, **Holon Zero**, and **AxiomZero** — provide high-level synthesis and integrity interfaces over the framework.
 
 ### 2.2 It tests
 
@@ -155,13 +155,14 @@ Read conservatively, this offers a useful governance grammar for advanced AI-ass
 - trust must be measurable in behavior, not declared in branding
 - unresolved questions must stay visible
 
-### 3.4 Omega and Holon Zero teach two complementary lenses
+### 3.4 Omega, Holon Zero, and AxiomZero teach three complementary lenses
 
 - **Omega** asks: what can be calculated from the framework as implemented?
 - **Holon Zero** asks: why this structure, why these constants, why observers capable of reflection?
+- **AxiomZero** asks: are forbidden measured Standard Model seeds absent from the derivation path, and can that zero-parameter status be continuously audited?
 
-One lens is computational synthesis; the other is reflective closure.
-Together they make the project legible both technically and philosophically.
+One lens is computational synthesis, one is reflective closure, and one is derivation-integrity enforcement.
+Together they make the project legible technically, philosophically, and epistemically.
 
 ### 3.5 The project models “honest scale”
 
@@ -185,7 +186,7 @@ If you are new, this order gives the highest signal first:
 4. `README.md` (navigation + current canonical framing)
 5. `5-GOVERNANCE/co-emergence/GENESIS.md` (process audit)
 6. `5-GOVERNANCE/Unitary Pentad/README.md` (independent governance framework)
-7. `omega/README.md` and `holon-zero/README.md` (synthesis lenses)
+7. `omega/README.md`, `holon-zero/README.md`, and `src/core/axiomzero_guard.py` (the three master lenses: synthesis, closure, and seed-integrity guard)
 8. `7-OUTREACH/` books and posts (public translation layer)
 
 This order minimizes over-claiming and maximizes context.
