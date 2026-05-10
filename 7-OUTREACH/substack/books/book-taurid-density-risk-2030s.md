@@ -43,7 +43,7 @@ This is the **Younger Dryas Impact Hypothesis** (YDIH). A fragmenting comet is t
 
 **Epistemic note:** As of 2025, the YDIH remains contested in mainstream academia — no confirmed crater, some replication inconsistencies, alternative explanations for some proxies. However, the evidence base has strengthened materially through 2024–2025 with marine sediment and shocked quartz findings. The document treats it as *well-evidenced but not settled*, and uses it where the argument does not depend on it being definitively proven.
 
-**Timing note:** This event is near the transition into the Holocene period associated with expanding evidence of settled complexity. Göbekli Tepe's construction begins ~11,600 BP, near the end of the Younger Dryas. Pre-Holocene social trajectories remain only partially resolved.
+**Timing note:** This event is near the transition into the Holocene period, where archaeology shows denser evidence of settled communities, site occupation, and monumental construction. Göbekli Tepe's construction begins ~11,600 BP, near the end of the Younger Dryas. Pre-Holocene social trajectories remain only partially resolved.
 
 ### I.B — The Sea Level Problem: The Most Underweighted Factor
 
@@ -109,7 +109,7 @@ The standard explanation ("Sea Peoples") is inadequate — it names the symptom,
 
 ### II.D — The Pattern
 
-Historical collapses often cluster around periods of strong environmental and geopolitical stress. A useful model is **catastrophic bifurcation of brittle, tightly coupled systems** under external perturbation. This is a systems hypothesis, not a proof of one universal mechanism.
+Historical collapses often cluster around periods of strong environmental and geopolitical stress. A useful model is **abrupt state change in brittle, tightly coupled systems** (sometimes called catastrophic bifurcation) under external perturbation. This is a systems hypothesis, not a proof of one universal mechanism.
 
 ---
 
@@ -123,9 +123,9 @@ Göbekli Tepe (southeastern Turkey, ~9600–8000 BCE) is a major challenge for o
 - Predating agriculture by at least 1,000 years in the standard chronology
 - Preceded by a minimum of ~2,000 years of construction activity at the site
 
-The burial is a key anomaly. Deliberate infill indicates sustained organization. The leading interpretation is ritual closure; alternative interpretations exist but are less constrained by current evidence.
+The burial is a key anomaly. Deliberate infill indicates sustained organization. The leading interpretation is ritual closure; alternative interpretations exist but are currently less well-supported by direct evidence.
 
-More critically: Göbekli Tepe shows that the standard sequence (agriculture → surplus → cities → monumental construction) is **wrong**. Monumental construction preceded agriculture. The driving force of early civilization was not economic surplus but something else — possibly social and religious organization that then enabled agricultural intensification.
+More cautiously: Göbekli Tepe suggests that a simple linear sequence (agriculture → surplus → cities → monumental construction) is incomplete. Monumental construction appears very early, and social or ritual organization may have played a larger enabling role than older models assumed.
 
 This inverts the causal arrow, and it suggests that prior cycles of collapse could have left exactly this kind of evidence: a sophisticated culture that **lost agriculture during collapse**, retained organizational capacity, and rebuilt.
 
@@ -175,7 +175,7 @@ The standard objection to prior civilizational cycles is absence of physical evi
 3. The **geological processes** that would destroy evidence (glaciation, sea level change, sedimentation) are exactly what occurred
 4. We have **positive evidence** of anomalous sophistication at the edge of the detection window: Göbekli Tepe, anatomically modern humans with apparently modern cognition doing apparently nothing for ~288,000 years
 
-What the data does **not** support: any single mechanism for early sophistication. This remains open. A cautious conclusion is that the 12,000-year narrative is likely incomplete due to preservation and sampling limits, rather than definitive evidence of true civilizational origin.
+What the data does **not** support: any single mechanism for early sophistication. This remains open. A cautious conclusion is that the 12,000-year narrative is likely incomplete due to preservation and sampling limits, and does not by itself prove where civilization truly began.
 
 ---
 
@@ -335,7 +335,7 @@ What **cannot** be predicted: the specific trigger for any given collapse cycle.
 
 ### VII.B — A Systems Interpretation
 
-From a systems-risk viewpoint, independently evolving stressors can align and amplify downstream consequences. This framing is useful for planning because it focuses on exposure, vulnerability, and resilience rather than single-cause narratives.
+From a systems-risk viewpoint, independently evolving stressors can align and amplify downstream consequences. In plain terms: moderate stresses that are manageable alone can become severe when they arrive together. This framing is useful for planning because it focuses on exposure, vulnerability, and resilience rather than single-cause narratives.
 
 Some proposed long-period couplings (for example Hallstatt-scale links to planetary dynamics) remain debated. They should be tracked as hypotheses, not treated as settled drivers.
 
