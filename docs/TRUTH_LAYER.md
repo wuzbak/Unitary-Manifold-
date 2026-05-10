@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v10.31
+# Unitary Manifold v10.42
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
@@ -8,7 +8,7 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-05-09*
+*Last updated: 2026-05-10*
 
 ---
 
@@ -431,7 +431,7 @@ A complete ToE would additionally:
 - Provide a 5D PQ mechanism for strong CP
 - Achieve full ADM 3+1 quantization
 
-Current ToE score: **90.4%** (25.3/28.0, v10.33) — see `docs/TOE_SCORE_AUDIT.md`.
+Current ToE score: **99.3%** (27.8/28.0, v10.42) — see `docs/TOE_SCORE_AUDIT.md`.
 
 ---
 
