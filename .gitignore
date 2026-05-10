@@ -12,3 +12,18 @@ dist/
 build/
 .eggs/
 wandb/
+
+# DVC data outputs (tracked by DVC, not git)
+data/*.npz
+data/*.json
+data/*.csv
+data/**/*.npz
+
+# Lean 4 build artefacts
+lean4/.lake/
+
+# JupyterBook build
+docs/_build/
+
+# W&B offline runs (re-generated each run)
+wandb/offline-run-*/

@@ -195,9 +195,15 @@ def vqe_ground_state(
     dz = z[1] - z[0]
     z0 = np.pi / 2.0
 
-    def rayleigh_quotient(log_sigma: float) -> float:
-        sigma = np.exp(log_sigma)
-        psi = np.exp(-0.5 * ((z - z0) / sigma) ** 2)
+    def rayleigh_quotient(log_n: float) -> float:
+        """Trial wave-function: ψ(z; n) = sin^n(z), n ≥ 1.
+
+        sin^n(z) satisfies Dirichlet BCs exactly (ψ=0 at z=0,π for all n≥1)
+        and is centred at π/2 symmetrically.  The variational parameter n
+        controls the width (n=1 → broadest; large n → delta at π/2).
+        """
+        n_exp = np.exp(log_n)
+        psi = np.sin(z) ** n_exp
         norm = np.sqrt(np.dot(psi, psi) * dz)
         if norm < 1e-30:
             return 1e30
@@ -206,12 +212,12 @@ def vqe_ground_state(
 
     result = minimize_scalar(
         rayleigh_quotient,
-        bounds=(-4.0, 3.0),
+        bounds=(-1.0, 5.0),
         method="bounded",
         options={"xatol": 1e-9},
     )
     E_var = float(result.fun)
-    sigma_opt = float(np.exp(result.x))
+    sigma_opt = float(np.exp(result.x))  # n_exp (re-used field name for API compat)
 
     # Exact reference value
     E_exact = float(kk_spectrum(N_modes=1, N_grid=N_grid, n_w=n_w, k_cs=k_cs)[0])
