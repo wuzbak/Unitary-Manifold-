@@ -16,9 +16,9 @@
 | Build + test execution | Python + pytest + GitHub Actions |
 | Internal audit artifacts | Test suites, `ALGEBRA_PROOF.py`, tracker/changelog ledgers |
 | Agent deployment support | Copilot Extension, RAG bot, Pages chatbot, Custom GPT/Claude setup docs |
+| Multi-model assistant support (documented) | OpenAI/Claude/Gemini/Microsoft support paths in bot + repository docs |
 
 ## Provenance interpretation rule
 
 - Presence of an integration path in repo documentation means the path is supported.
 - Only executable workflow/config artifacts in this repository count as confirmed active usage.
-

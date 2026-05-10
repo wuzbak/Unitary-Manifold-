@@ -210,7 +210,7 @@ Interpretation for gatekeepers:
 ## Part 8 — Verification Instructions
 
 ```bash
-# Full test suite (≥27076 must pass, 0 failures)
+# Full test suite (28560 passed baseline, 0 failures)
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q \
   --ignore=tests/test_symbolic_metric.py \
   --ignore=tests/test_formal_proof_hardening.py \

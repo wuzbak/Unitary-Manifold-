@@ -18,7 +18,10 @@ This folder is the canonical source for what programs, suites, languages, and AI
 
 - Latest full local regression on this branch:
   - `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
-  - `26333 passed, 329 skipped, 11 deselected, 0 failed`
+  - `28560 passed, 329 skipped, 11 deselected, 0 failed`
+
+- Current dependency stack used in validation lanes:
+  - `numpy`, `scipy`, `pytest`, `sympy`, `jax[cpu]`, `jaxlib`, `z3-solver`, `wandb`, `dvc`
 
 ## Evidence roots
 

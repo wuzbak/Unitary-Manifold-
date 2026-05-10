@@ -458,7 +458,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **~21,055 passed · 329 skipped · 11 slow-deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). **~21,055** — all 182 pillars + Ω₀ + sub-pillars passing. |
+| **Test suite** | `pytest` unit tests — **28,560 passed · 329 skipped · 11 deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

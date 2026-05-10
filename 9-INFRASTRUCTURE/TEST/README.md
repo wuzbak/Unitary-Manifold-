@@ -1,10 +1,10 @@
 # Test Suite — Unitary Manifold
 
-**21,055 tests: 21,055 passed · 329 skipped · 11 slow-deselected · 0 failures** — verified 2026-05-05, Python 3.12, pytest
+**28,560 tests: 28,560 passed · 329 skipped · 11 deselected · 0 failures** — verified 2026-05-10, Python 3.12, pytest
 
 **14,641 = 11⁴** — prior structural milestone at v9.25: 11 M-theory dimensions to the power of 4 world dimensions.
 
-*(tests/ suite: 19,543 passed 75 skipped + recycling/: 316 + 5-GOVERNANCE/Unitary Pentad/: 1,026 passed 254 skipped + omega/: 170)*
+*(tests/ suite: 26,757 passed 75 skipped + recycling/: 316 + 5-GOVERNANCE/Unitary Pentad/: 1,487 passed 254 skipped)*
 
 ### The 330 skipped tests
 
@@ -50,15 +50,15 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 
 ```bash
 pip install numpy scipy pytest
-python -m pytest tests/ -v          # ~15,926 fast pass, 76 skipped, 11 deselected (slow)
+python -m pytest tests/ -v          # ~26,757 fast pass, 75 skipped, 11 deselected (slow)
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q  # full suite — 15,615 pass
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q  # full suite — 28,560 pass
 ```
 
 Expected result (default):
 
 ```
-~15926 passed, 76 skipped, 11 deselected in ~130s
+~26757 passed, 75 skipped, 11 deselected (time varies by environment)
 ```
 
 ---

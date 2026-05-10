@@ -21,7 +21,15 @@
 | Test execution | `pytest` | `.github/workflows/tests.yml`, `tests/` |
 | Python dependency/env | `pip` | `.github/workflows/tests.yml`, `requirements.txt` |
 | Core numerical stack | `numpy`, `scipy` | `requirements.txt`, imports in `src/` |
+| Optional high-compute lanes | `jax[cpu]`, `jaxlib` | `requirements.txt`, `tests/test_jax_backend.py` |
+| Constraint/prover lanes | `z3-solver` | `requirements.txt`, `tests/test_z3_pentad_checker.py` |
+| Experiment tracking lane | `wandb` | `requirements.txt`, `tests/test_wandb_logger.py` |
+| Data pipeline lane | `dvc` | `requirements.txt` |
 | Symbolic/formal checks | `sympy` | `.github/workflows/tests.yml` (`algebra-proof`), `requirements.txt` |
+| Formal theorem lane | Lean 4 (`elan`/`lake`) | `.github/workflows/lean4-check.yml`, `lean4/` |
+| Mutation hard gate | `mutmut` | `.github/workflows/mutation-hard-gate.yml` |
+| Documentation build lane | `jupyter-book`, Jekyll/Pages actions | `.github/workflows/jupyterbook.yml`, `.github/workflows/pages.yml` |
+| Release/archive lanes | `softprops/action-gh-release`, `tar`, IPFS (`kubo`) | `.github/workflows/release.yml`, `.github/workflows/build-download.yml`, `.github/workflows/ipfs-publish.yml` |
 | CI/CD orchestration | GitHub Actions | `.github/workflows/*.yml` |
 | Algebraic falsification harness | `ALGEBRA_PROOF.py` | `ALGEBRA_PROOF.py`, `.github/workflows/tests.yml` |
 
@@ -48,4 +56,3 @@
 - Current MAS/post-MAS tracker: `docs/mas_tracker.yml`
 - Current wave-level changelog: `docs/WAVE_CHANGELOG.md`
 - Canonical limitations/falsification framing: `FALLIBILITY.md`
-
