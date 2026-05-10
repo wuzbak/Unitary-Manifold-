@@ -127,7 +127,7 @@ The burial is a key anomaly. Deliberate infill indicates sustained organization.
 
 More cautiously: Göbekli Tepe suggests that a simple linear sequence (agriculture → surplus → cities → monumental construction) is incomplete. Monumental construction appears very early, and social or ritual organization may have played a larger enabling role than older models assumed.
 
-This inverts the causal arrow, and it suggests that prior cycles of collapse could have left exactly this kind of evidence: a sophisticated culture that **lost agriculture during collapse**, retained organizational capacity, and rebuilt.
+This inverts the causal arrow. One interpretation is that similar patterns might emerge if prior disruptions involved loss of agricultural systems while retaining some organizational capacity.
 
 ---
 
@@ -173,7 +173,7 @@ The standard objection to prior civilizational cycles is absence of physical evi
 1. The **preservation probability** of pre-12,000 BP surface-level civilization is near zero
 2. The **most probable locations** for those civilizations (coastal lowlands) are now underwater
 3. The **geological processes** that would destroy evidence (glaciation, sea level change, sedimentation) are exactly what occurred
-4. We have **positive evidence** of anomalous sophistication at the edge of the detection window: Göbekli Tepe, anatomically modern humans with apparently modern cognition doing apparently nothing for ~288,000 years
+4. We have **positive evidence** of early sophistication at the edge of the detection window (for example Göbekli Tepe), while the deeper record for anatomically modern humans remains sparse and likely affected by preservation bias
 
 What the data does **not** support: any single mechanism for early sophistication. This remains open. A cautious conclusion is that the 12,000-year narrative is likely incomplete due to preservation and sampling limits, and does not by itself prove where civilization truly began.
 
@@ -352,7 +352,7 @@ Future stress events — natural, anthropogenic, or compound — will test wheth
 What is genuinely different today is capacity:
 
 1. **Identify** the forcing mechanisms mathematically
-2. **Predict** the convergence windows quantitatively
+2. **Model** potential convergence windows with quantified uncertainty bounds
 3. **Actually do something** about at least some of them: planetary defense, distributed infrastructure, knowledge preservation, off-planet redundancy
 
 Any specific horizon estimate is highly uncertain and model-dependent. The practical implication is to start no-regret resilience work now rather than rely on precise timing claims.
