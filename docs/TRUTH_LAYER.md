@@ -431,7 +431,7 @@ A complete ToE would additionally:
 - Provide a 5D PQ mechanism for strong CP
 - Achieve full ADM 3+1 quantization
 
-Current ToE score: **90.4%** (25.3/28.0, v10.33) — see `docs/TOE_SCORE_AUDIT.md`.
+Current ToE score: **99.3%** (27.8/28.0, v10.42) — see `docs/TOE_SCORE_AUDIT.md`.
 
 ---
 

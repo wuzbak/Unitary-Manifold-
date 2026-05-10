@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v10.33
+# Unitary Manifold v10.42
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,7 +8,11 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-*Last updated: 2026-05-09 (v10.33)*
+> **Score-sync note (v10.42):** Parts 1–6 retain historical gatekeeper framing from
+> earlier waves, while canonical current score accounting and lane labels are synced
+> in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
+
+*Last updated: 2026-05-10 (v10.42 score sync)*
 
 ---
 
@@ -166,15 +170,15 @@ immediately upon publication.
 | Category | Count | Score |
 |----------|-------|-------|
 | ALGEBRAIC (P11) | 1 | 1.0 |
-| DERIVED confirmed (P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22) | 14 | 14.0 |
-| DERIVED pending measurement (P25 Ω_GW) | 1 | 0.8 |
-| GEOMETRIC_PREDICTION (P3,P7,P8,P9,P10,P14,P15,P23,P24,P26,P27) | 11 | 8.8 |
+| DERIVED confirmed (P1–P22 except P11, plus P26, P27) | 23 | 23.0 |
+| DERIVED measurement-gated (P23, P24, P25) | 3 | 3.0 |
+| GEOMETRIC_PREDICTION (P28) | 1 | 0.8 |
 | CONSTRAINED | 0 | 0.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.0 |
-| ARCHITECTURE_LIMIT_CERTIFIED (P28) | 1 | 0.1 |
-| **Total** | **28** | **25.3 / 28.0 = 90.4%** |
+| ARCHITECTURE_LIMIT_CERTIFIED | 0 | 0.0 |
+| **Total** | **28** | **27.8 / 28.0 = 99.3%** |
 
-**Current ToE Score: 90.4% (v10.33: 14× GP→DERIVED + P26/P27 promotions; +3.8 pts from v10.32)**
+**Current ToE Score: 99.3% (v10.42; score lane unchanged since v10.40, with v10.41–v10.42 as non-score alpha_GW closure sync waves).**
 
 **v10.33 note:** 14 GEOMETRIC_PREDICTION parameters promoted to DERIVED (+2.8 pts) via AxiomZero-certified
 hardgate modules (all have `axiomzero_pdg_inputs = []`). P27 (strong CP) promoted ARCHITECTURE_LIMIT→GP
@@ -185,11 +189,11 @@ mass prediction m₁ ≈ 0.050 eV (+0.3 pts). Total delta +3.8 pts.
 (+52 = πkR + 3·N_W = 37 + 15; all 3 hardgates pass; `src/core/p16_wsiii_plus52_closure.py`; +0.3 pts).
 
 Interpretation for gatekeepers:
-- 90.4% means the 5D framework geometrically accounts for 90.4% of the SM
+- 99.3% means the 5D framework geometrically accounts for 99.3% of the SM
   parameter landscape, measured by a scoring rubric that penalizes
   constrained estimates and architecture limits.
-- The remaining 9.6% consists of one architecture limit (P28 cosmological constant),
-  and parameters whose derivation chain requires additional work (P3, P7–P10, P14, P15).
+- The remaining 0.7% is the single score-lane parameter still at
+  GEOMETRIC_PREDICTION (P28 cosmological constant).
 - **This score is not a measure of physical correctness.** It measures
   the fraction of SM parameters for which a geometric derivation exists
   within the stated residual thresholds.
