@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-omega/test_omega_synthesis.py
+5-GOVERNANCE/Unitary Pentad/omega/test_omega_synthesis.py
 ==============================
 Comprehensive test suite for the Omega Synthesis — Universal Mechanics Engine.
 

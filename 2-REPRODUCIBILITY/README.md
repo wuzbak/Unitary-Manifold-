@@ -12,7 +12,7 @@ verify the numerical results of the Unitary Manifold framework.
 pip install -r requirements.txt pytest
 
 # Full test suite (~2 min):
-python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 # Expected: 15,615 passed, 330 skipped, 11 deselected, 0 failed
 
 # Single-module fast check:
@@ -48,7 +48,7 @@ pytest must discover it from the root directory.
 | [`tests/`](../tests/) | ~13,059 | Core physics: metric, evolution, holography, inflation, FTUM, SM parameters |
 | [`recycling/`](../recycling/) | 316 | Pillar 16: φ-debt entropy accounting |
 | [`5-GOVERNANCE/Unitary Pentad/`](../5-GOVERNANCE/Unitary%20Pentad/) | ~1,266 | HILS governance framework |
-| [`omega/`](../omega/) | 168 | Pillar Ω: Universal Mechanics Engine |
+| [`5-GOVERNANCE/Unitary Pentad/omega/`](../5-GOVERNANCE/Unitary%20Pentad/omega/) | 168 | Pillar Ω: Universal Mechanics Engine |
 
 ---
 

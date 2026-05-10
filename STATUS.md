@@ -158,7 +158,7 @@ for the full tracking table.
 
 | Module | Pillar | Status |
 |--------|--------|--------|
-| Ω₀ Holon Zero (`holon_zero/`) | Ω₀ | ✅ CLOSED |
+| Ω₀ Holon Zero (`5-GOVERNANCE/Unitary Pentad/holon_zero/`) | Ω₀ | ✅ CLOSED |
 | APS spin structure | Pillar 70-B | ✅ CLOSED |
 | Geometric chirality uniqueness | Pillar 70-C | ✅ CLOSED |
 | Z₂-odd CS boundary condition | Pillar 70-D | ✅ CLOSED |
@@ -250,7 +250,7 @@ specific failure mode that this condition guards against.
 ### Regression gate (v10.5)
 
 ```
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 Expected: ≥ 27 968 passed, 329 skipped, 11 deselected, 0 failed
 ```
 

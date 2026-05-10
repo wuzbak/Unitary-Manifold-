@@ -66,8 +66,8 @@ DOI = "https://doi.org/10.5281/zenodo.19584531"
 # without moving any source files.
 # ---------------------------------------------------------------------------
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["unitary_manifold*"]
+where = [".", "5-GOVERNANCE/Unitary Pentad"]
+include = ["unitary_manifold*", "omega*", "holon_zero*", "UOS*"]
 
 # ---------------------------------------------------------------------------
 # pytest configuration (consolidates pytest.ini)

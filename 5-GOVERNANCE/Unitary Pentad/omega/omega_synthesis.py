@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-omega/omega_synthesis.py
+5-GOVERNANCE/Unitary Pentad/omega/omega_synthesis.py
 ========================
 THE OMEGA SYNTHESIS — Universal Mechanics Engine (Pillar Ω)
 

@@ -28,7 +28,7 @@ python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 # Expected: ~1,026 passed, 254 skipped, 0 failed
 
 # Full repository (takes ~130 seconds):
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 # Expected: 15615 passed, 330 skipped, 11 deselected, 0 failed
 ```
 
@@ -45,7 +45,7 @@ src/earth/ src/biology/ src/medicine/ src/justice/ src/governance/ (Pillars 12�
 src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26, 46–47)
 recycling/          ← Pillar 16: φ-debt entropy accounting
-Unitary Pentad/     ← Independent HILS governance framework (18 modules)
+5-GOVERNANCE/Unitary Pentad/ ← Independent HILS governance framework (includes omega/, holon_zero/, holon-zero/, UOS/)
 tests/              ← 150+ test files, ~14,103 fast-passing tests (Pillars 1–101 + Pillar 70-B, all sub-pillars)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 5-GOVERNANCE/co-emergence/ ← HILS framework documentation
