@@ -418,7 +418,7 @@ A public-facing orientation volume for the full repository: what is core physics
 ---
 
 ### 14. [Taurid Density Window (2030s)](book-taurid-density-risk-2030s.md)
-**A Serious, Falsifiable Risk Brief for Global Systems, Washington State, and Southern California**
+**An Evidence-First Risk and Preparedness Brief for Global Systems, Washington State, and Southern California**
 
 | Property | Value |
 |---|---|
