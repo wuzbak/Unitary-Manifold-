@@ -6,6 +6,7 @@ from __future__ import annotations
 import math
 from typing import Dict
 
+from src.core.p28_lambda_first_principles import p28_first_principles_report
 from src.eleventd.g4_flux_vacuum_link import g4_flux_selection_summary
 from src.tend.cc_architecture_limit import LAMBDA_OBS_MPLANCK4, N_FLUX
 
@@ -23,10 +24,17 @@ DUAL_FLUX_MULTIPLICITY: int = 2
 REQUIRED_N_FLUX_MIN: int = 61
 
 
-def _all_closure_gates_satisfied(flux: Dict[str, object], selection: Dict[str, object]) -> bool:
+def _all_closure_gates_satisfied(
+    flux: Dict[str, object],
+    selection: Dict[str, object],
+    first_principles: Dict[str, object],
+) -> bool:
     """Return True only when flux sufficiency and explicit selection gates all pass."""
     return bool(
-        flux["meets_bp_threshold"] and flux["spacing_below_lambda_obs"] and selection["explicit_selection_pass"]
+        flux["meets_bp_threshold"]
+        and flux["spacing_below_lambda_obs"]
+        and selection["explicit_selection_pass"]
+        and first_principles["derivation_pass"]
     )
 
 
@@ -85,7 +93,8 @@ def p28_10d_closure_report() -> Dict[str, object]:
     """Return consolidated 10D closure evidence for P28 promotion gates."""
     flux = effective_flux_sufficiency()
     selection = explicit_vacuum_selection()
-    closure_pass = _all_closure_gates_satisfied(flux, selection)
+    first_principles = p28_first_principles_report()
+    closure_pass = _all_closure_gates_satisfied(flux, selection, first_principles)
     return {
         "parameter": "P28",
         "closure_dimension": "10D",
@@ -97,6 +106,11 @@ def p28_10d_closure_report() -> Dict[str, object]:
         "spacing_below_lambda_obs": flux["spacing_below_lambda_obs"],
         "explicit_selection_pass": selection["explicit_selection_pass"],
         "selection_winner_n_w": selection["selection_summary"].get("unique_flux_selected_n_w"),
+        "first_principles_derivation_pass": first_principles["derivation_pass"],
+        "first_principles_lambda_pred_mplanck4": first_principles["components"]["lambda_pred_mplanck4"],
+        "first_principles_lambda_pred_log10": first_principles["components"]["lambda_pred_log10"],
+        "first_principles_topological_partition": first_principles["components"]["topological_partition"],
+        "first_principles_status": first_principles["status"],
         "all_closure_gates_pass": closure_pass,
         "promotion_ready": closure_pass,
         "status": "P28_10D_CLOSURE_READY" if closure_pass else "P28_10D_CLOSURE_BLOCKED",
