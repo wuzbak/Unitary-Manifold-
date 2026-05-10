@@ -1,0 +1,84 @@
+name: Mutation Hard Gate
+
+on:
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  mutation-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      # Initial hard gate floor for focused inflation invariants; can be raised as tests strengthen.
+      MUTATION_KILL_RATE_MIN: "0.60"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt mutmut
+
+      - name: Run mutation testing (focused invariant suite)
+        run: |
+          MAX_CHILDREN="$(python3 - <<'PY'
+          import os
+          print(os.cpu_count() or 1)
+          PY
+          )"
+          echo "Running mutmut with --max-children=${MAX_CHILDREN}"
+          mutmut run --max-children "${MAX_CHILDREN}"
+
+      - name: Export mutation CI/CD stats
+        run: mutmut export-cicd-stats
+
+      - name: Enforce mutation kill-rate threshold
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          stats_path = Path("mutants/mutmut-cicd-stats.json")
+          if not stats_path.exists():
+              raise SystemExit("mutmut stats artifact missing: mutants/mutmut-cicd-stats.json")
+
+          stats = json.loads(stats_path.read_text(encoding="utf-8"))
+          killed = int(stats.get("killed", 0))
+          survived = int(stats.get("survived", 0))
+          suspicious = int(stats.get("suspicious", 0))
+          timeout = int(stats.get("timeout", 0))
+          no_tests = int(stats.get("no_tests", 0))
+          skipped = int(stats.get("skipped", 0))
+          caught_by_type_check = int(stats.get("caught_by_type_check", 0))
+
+          checked = killed + survived + suspicious + timeout
+          effective_killed = killed + caught_by_type_check
+          kill_rate = (effective_killed / checked) if checked else 0.0
+
+          print(
+              f"Mutation summary: checked={checked}, "
+              f"killed={killed}, caught_by_type_check={caught_by_type_check}, "
+              f"survived={survived}, suspicious={suspicious}, timeout={timeout}, "
+              f"no_tests={no_tests}, skipped={skipped}, kill_rate={kill_rate:.3f}"
+          )
+
+          minimum = float(os.environ.get("MUTATION_KILL_RATE_MIN", "0.60"))
+          if kill_rate < minimum:
+              raise SystemExit(
+                  f"Mutation kill-rate gate failed: {kill_rate:.3f} < {minimum:.2f}"
+              )
+          PY
+
+      - name: Upload mutation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-hard-gate-artifacts
+          path: |
+            mutants/mutmut-cicd-stats.json
+            mutants/mutmut-stats.json
+          if-no-files-found: error
