@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """src/core/jax_backend.py
 ===========================

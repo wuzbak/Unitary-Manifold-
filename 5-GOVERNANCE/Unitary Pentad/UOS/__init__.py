@@ -75,16 +75,6 @@ Public top-level imports
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
 """
 
-__provenance__ = {
-    "author": "ThomasCory Walker-Pearson",
-    "dba": "AxiomZero Technologies",
-    "github": "@wuzbak",
-    "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531",
-    "license_software": "AGPL-3.0-or-later",
-    "license_theory": "Defensive Public Commons v1.0",
-    "fingerprint": "(5, 7, 74)",
-}
-
 from UOS.hypervisor import UOSHypervisor
 from UOS.scheduler import GeodesicScheduler, ProcessGeodesic
 from UOS.memory import UnitaryMemory
