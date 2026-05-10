@@ -46,3 +46,18 @@ def test_report_prediction_is_close_to_observed():
     ratio = report["comparison_only"]["pred_to_obs_ratio"]
     assert 0.5 <= ratio <= 2.0
     assert report["comparison_only"]["abs_log10_residual"] < 0.31  # within factor ~2.04
+
+
+def test_report_blocks_if_uv_gates_fail(monkeypatch):
+    blocked_components = p28_first_principles_components()
+    blocked_components["c_uv_consistency_gate_pass"] = False
+    blocked_components["c_uv_decision_closed"] = False
+
+    monkeypatch.setattr(
+        "src.core.p28_lambda_first_principles.p28_first_principles_components",
+        lambda: blocked_components,
+    )
+
+    report = p28_first_principles_report()
+    assert report["derivation_pass"] is False
+    assert report["status"] == "P28_FIRST_PRINCIPLES_BLOCKED"
