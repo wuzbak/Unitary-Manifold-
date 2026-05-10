@@ -15,7 +15,7 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![27076 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-27076%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![28560 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-28560%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v10.42-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
@@ -24,7 +24,7 @@
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
 > ⚠️ **Honest status (v10.42):** ToE is **27.8/28 (99.3%)** after P28 hardgate closure evidence passes (effective N_flux=74 and explicit UV vacuum selection). The non-score alpha_GW/CMB-amplitude lane is now canonically closed by the Pillar 52 + 10D bridge: Pillar 52 fixes the absolute gravity-scale decade and `src/core/alpha_gw_10d_uv_completion.py` bridges the 5D KK scale to the UV completion, yielding in-band α_GW. P23/P24 remain pending direct cosmology measurement (LiteBIRD primary), with explicit parallel lab falsifier conditions active now (F-LAB-CP-1..4 via `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`).
-> Latest full local regression on this branch: **27076 passed · 329 skipped · 11 deselected · 0 failed**.  
+> Latest full local regression on this branch: **28560 passed · 329 skipped · 11 deselected · 0 failed**.  
 > The test suite is not just a validation count; it is the executable validation layer for the monograph proof path — algebraic checks, numerical reproductions, claim ledgers, adversarial stress tests, and explicit failure conditions.
 > Most headline quantities in this repository are tracked as **derived**, **closed**, or **geometric predictions**; fitted, bridged, and open items are separated explicitly in [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) and [`docs/mas_tracker.yml`](docs/mas_tracker.yml).
 > The framework is intentionally **high-falsifiability**: narrow prediction windows, bright-line kill criteria, adversarial review artifacts, and public failure thresholds are part of the design.
@@ -903,7 +903,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 25292 passed · 329 skipped · 11 deselected)
+### Run the test suite — 0 failures (full suite: 28560 passed · 329 skipped · 11 deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
@@ -1251,7 +1251,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**25292 tests: 25292 passed, 329 skipped, 11 deselected, 0 failures**).
+(**28560 tests: 28560 passed, 329 skipped, 11 deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -1273,7 +1273,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (25292 pass · 329 skip · 11 deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (28560 pass · 329 skip · 11 deselected) | Any non-zero GR-limit residual |
 
 ---
 

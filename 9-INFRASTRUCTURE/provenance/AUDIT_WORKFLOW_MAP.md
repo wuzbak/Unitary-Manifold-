@@ -2,7 +2,7 @@
 
 ## CI workflow map (GitHub Actions)
 
-Source: `.github/workflows/tests.yml`
+Primary source: `.github/workflows/tests.yml`
 
 | Job | Purpose | Command |
 |---|---|---|
@@ -17,10 +17,21 @@ Source: `.github/workflows/tests.yml`
 
 - Full branch regression command used in this repository context:
   - `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
+  - Latest local result: `28560 passed, 329 skipped, 11 deselected, 0 failed`
+
+## Additional active workflow gates
+
+| Workflow file | Purpose |
+|---|---|
+| `.github/workflows/lean4-check.yml` | Lean 4 formal proof build/check lane |
+| `.github/workflows/mutation-hard-gate.yml` | Mutation testing hard gate (`mutmut`) |
+| `.github/workflows/staleness-honesty-gate.yml` | Documentation staleness + honesty checks |
+| `.github/workflows/external-constants-crosscheck.yml` | Constants cross-check lane |
+| `.github/workflows/pages.yml` / `jupyterbook.yml` | Pages and JupyterBook publishing |
+| `.github/workflows/release.yml` / `build-download.yml` / `ipfs-publish.yml` / `dco.yml` | Release, archive, IPFS publish, and DCO verification |
 
 ## Validation intent boundaries
 
 - Test/CI PASS indicates implementation and internal consistency checks passed.
 - It does not by itself claim external empirical confirmation.
 - Falsification conditions remain governed by the dedicated falsifier documents and observational windows.
-
