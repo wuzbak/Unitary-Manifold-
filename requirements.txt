@@ -4,3 +4,7 @@ pytest>=7.0,<9.1
 mpmath>=1.3,<2
 matplotlib>=3.7,<4
 sympy>=1.12,<2
+jax[cpu]>=0.4.0
+z3-solver>=4.12.0
+wandb>=0.18.0
+dvc>=3.0.0

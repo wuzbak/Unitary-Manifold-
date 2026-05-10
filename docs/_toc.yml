@@ -1,0 +1,20 @@
+format: jb-book
+root: index
+parts:
+  - caption: "Theory"
+    chapters:
+      - file: theory/derivation
+      - file: theory/inflation
+      - file: theory/birefringence
+  - caption: "Computational"
+    chapters:
+      - file: computational/jax_backend
+      - file: computational/kk_vqe
+      - file: computational/z3_checker
+  - caption: "Falsification"
+    chapters:
+      - file: falsification/planck_comparison
+      - file: falsification/litebird_forecast
+  - caption: "Governance"
+    chapters:
+      - file: governance/unitary_pentad

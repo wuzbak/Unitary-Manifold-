@@ -1,0 +1,47 @@
+name: Lean 4 Formal Proofs
+
+on:
+  push:
+    paths:
+      - 'lean4/**'
+      - '.github/workflows/lean4-check.yml'
+  pull_request:
+    paths:
+      - 'lean4/**'
+
+jobs:
+  lean4-build:
+    name: Lake build (Lean 4 + Mathlib)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lean4
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache .lake
+        uses: actions/cache@v4
+        with:
+          path: |
+            lean4/.lake/packages
+            ~/.elan
+          key: lean4-${{ hashFiles('lean4/lean-toolchain', 'lean4/lakefile.lean') }}
+          restore-keys: lean4-
+
+      - name: Lake update
+        run: lake update
+
+      - name: Download Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Lake build
+        run: lake build
+
+      - name: Verify NumericalChecks compile
+        run: lake build UnitaryManifold.NumericalChecks

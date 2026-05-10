@@ -1,0 +1,28 @@
+name: IPFS Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  ipfs-pin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install IPFS CLI
+        run: |
+          wget -q https://dist.ipfs.tech/kubo/v0.27.0/kubo_v0.27.0_linux-amd64.tar.gz
+          tar -xzf kubo_v0.27.0_linux-amd64.tar.gz
+          sudo mv kubo/ipfs /usr/local/bin/ipfs
+          ipfs init --profile=badgerds
+      - name: Add repository to IPFS
+        run: |
+          CID=$(ipfs add -rQ --cid-version=1 .)
+          echo "IPFS CID: $CID"
+          echo "Gateway URL: https://ipfs.io/ipfs/$CID"
+          echo "$CID" > IPFS_CID.txt
+      - name: Upload CID artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipfs-cid
+          path: IPFS_CID.txt
