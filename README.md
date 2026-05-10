@@ -1,6 +1,7 @@
 # The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.42)
 
-This repository is the executable proof record for the Unitary Manifold framework: it began as the effort to prove the original monograph, close the geometry of irreversibility, and turn that proof path into reproducible code.
+This repository is the executable proof record for the Unitary Manifold framework.
+It began as the effort to prove the original monograph, close the geometry of irreversibility, and turn that proof path into reproducible code.
 Everything added later rests on that monograph-first foundation.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
