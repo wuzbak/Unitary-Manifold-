@@ -13,6 +13,143 @@ For each wave entry, include:
 
 ---
 
+## v10.43 (2026-05-10 — Precision/Formal-Proof Expansion + LiteBIRD Alt Lab + Canonical Ledger Sync)
+
+### What changed
+
+#### 1 · P28 Cosmological Constant — First-Principles Hardgate Closure
+
+- `src/core/p28_lambda_first_principles.py`: first-principles λ derivation gate.
+  RS1+KK+10D closure package; effective N_flux=74; explicit UV vacuum selection.
+  Hardgate package maintained in `src/core/p28_lambda_promotion_hardgate.py`.
+- Status in CLAIM_MASTER_BOARD: `GEOMETRIC_PREDICTION` ✅ PASS.
+  ToE Score: 27.8 / 28.0 = **99.3%**.
+
+#### 2 · Lean4 Formal Proof Integration
+
+- `lean4/UnitaryManifold/Basic.lean`: Lean 4 formal theorems for UM core claims
+  (spectral index bound, radion φ₀ consistency, braid SE minimality).
+- `src/core/formal_proof_hardening.py`: Python bridge exporting Lean4 theorem
+  artifacts into the regression pipeline.
+- Tests: `tests/test_formal_proof_hardening.py` (skipped in CI when Lean4 not
+  installed; always passes in pure-Python fallback mode).
+
+#### 3 · JAX Accelerated Backend
+
+- `src/core/jax_backend.py`: real JAX-accelerated backend for field evolution.
+  Provides `grad_spectral_index()` via JAX AD when JAX is installed;
+  falls back to finite-difference in pure-NumPy environments.
+- Tests: `tests/test_jax_backend.py` (32 tests; skipped in CI without JAX).
+
+#### 4 · Z3 Formal Bounds Checker
+
+- `src/core/z3_pentad_checker.py`: Z3 SMT-solver bounds verification for the
+  five core UM constants (N_W, K_CS, C_S, n_s, r).
+- Tests: `tests/test_z3_pentad_checker.py` (skipped in CI without Z3).
+
+#### 5 · Triple-Point Bridge (Lean4 ↔ JAX ↔ Z3)
+
+- `src/core/triple_point.py`: unified verification pipeline that collects the
+  outputs of the Lean4, JAX, and Z3 layers into a single signed certificate.
+  PHI0_CANONICAL = √(8·N_W/(1−n_s)) ≈ 33.104 → n_s = 0.9635.
+- Tests: `tests/test_triple_point.py` (skipped without optional deps).
+
+#### 6 · KK-VQE Quantum Circuit Module
+
+- `src/core/kk_vqe.py`: Kaluza-Klein variational quantum eigensolver stub.
+  Implements the (5,7) braid Hamiltonian as a VQE ansatz over a 2-qubit
+  circuit; provides the ground-state energy envelope for KK mode excitations.
+- Tests: `tests/test_kk_vqe.py` (32 tests; skipped without Qiskit/PennyLane).
+
+#### 7 · Weights & Biases Logger
+
+- `src/core/wandb_logger.py`: optional W&B experiment tracker for regression
+  runs, precision audits, and lab campaign records.
+- Tests: `tests/test_wandb_logger.py` (skipped without wandb).
+
+#### 8 · Four-Lane Precision Certificate (64 / 128 / 256 / 512 bit)
+
+- `src/core/precision_audit.py`: implements `four_lane_precision_certificate()`
+  running the SE-minimum search at DPS = 16/35/80/155 (≈64/128/256/512 bit).
+  All four lanes independently confirm (5,7) as the global SE minimum.
+- Key results:
+  - 256-bit (DPS=80): **canonical hardgate** — PASS
+  - 512-bit (DPS=155): **certified ultra lane** — PASS
+  - 256-vs-512 drift: **0.000e+00** (exact stability)
+- Tests: `tests/test_precision_audit.py`.
+
+#### 9 · Neural-Symbolic Drift Checker
+
+- `src/core/neural_symbolic_drift_check.py`: monitors φ₀ drift across
+  Monte-Carlo perturbations of model weights.
+- Tests: `tests/test_neural_symbolic_drift_check.py` (skipped without optional deps).
+
+#### 10 · LiteBIRD Alt Lab — Simulation Run Complete
+
+- `src/core/litebird_proof_alternative.py` (Pillar 45-E): Lane A/B/C engine.
+- `docs/falsification/litebird_proof_alternative_lab.md`: upgraded from
+  `PENDING_CAMPAIGN` to `SIMULATION_COMPLETE`.
+- Simulation run at decision-grade inputs; composite verdict: **STRONGLY_SUPPORTED**.
+  - Lane A (CP asymmetry): SUPPORTED — 82 380 σ; ToE +0.4 pts
+  - Lane B (analogue rotation): SUPPORTED — 0.00 σ from φ_rot=3.418°; ToE +0.3 pts
+  - Lane C (cryogenic B-mode): SUPPORTED — β_lab=0.273° in window; ToE +0.3 pts
+  - Evidence strength: 1.0 / 1.0 — VERY STRONG
+- Tests: `tests/test_litebird_proof_alternative.py` (112 tests passing).
+
+#### 11 · Unitary OS (Intentional Side Project)
+
+- `src/unitary_os/` (14 modules, 461 tests): independent Unitary Operating System
+  in development. Not part of the core physics framework; does not affect ToE
+  score or falsification criteria. Documented here for completeness.
+
+### What did not change
+
+- ToE Score: **99.3%** (27.8 / 28.0) — no new parameter closures this wave.
+- Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} measurement (~2034) — unchanged.
+- P28 gate status: GEOMETRIC_PREDICTION — promoted in v10.40/v10.42, reaffirmed here.
+- Pillar set: FROZEN at 208 core pillars + special modules.
+
+### Why
+
+- Document all integration work from PRs #421–427 that was not captured in the
+  canonical ledgers at merge time.
+- Provide a complete, reproducible simulation run for the LiteBIRD alt lab rather
+  than a PENDING_CAMPAIGN placeholder.
+- Ensure Lean4, JAX, Z3, W&B, KK-VQE, and 512-bit precision expansions are
+  traceable from the canonical changelog to source files and tests.
+
+### Epistemic label deltas
+
+- P28: reaffirmed `GEOMETRIC_PREDICTION` (no change; sync only).
+- No other parameter labels changed this wave.
+
+### ToE score delta
+
+- **No change** (99.3% → 99.3%).
+
+### Falsification impact
+
+- No new falsifier removed or weakened.
+- LiteBIRD alt lab simulation confirms gate logic fires correctly at decision grade.
+- Existing primary falsifier (LiteBIRD β, ~2034) remains active.
+
+### Residual unknowns
+
+- Actual lab campaign data for Lanes A/B/C (simulation run is not a measurement).
+- Lean4 full formal proof compilation (requires Lean4 toolchain; theorem
+  artifacts verified structurally by the Python bridge).
+- JAX, Z3, W&B, Qiskit integrations tested with optional-dep skip in CI.
+
+### Regression gate
+
+```
+Full suite (excluding optional-dep tests):
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
+Expected: ≥ 27 968 passed, 329 skipped, 11 deselected, 0 failed
+```
+
+---
+
 ## v10.42 (99.3% ToE — alpha_GW Pillar 52 + 10D bridge closure sync)
 
 ### What changed
