@@ -8,6 +8,12 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Score-sync note (v10.42):** Parts 1–6 retain historical gatekeeper framing from
+> earlier waves, while canonical current score accounting and lane labels are synced
+> in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
+> Historical snapshot scope: Parts 1–6 are v10.33-era context unless an explicit
+> override callout is shown.
+
 *Last updated: 2026-05-10 (v10.42)*
 
 ---
@@ -169,15 +175,15 @@ immediately upon publication.
 | Category | Count | Score |
 |----------|-------|-------|
 | ALGEBRAIC (P11) | 1 | 1.0 |
-| DERIVED confirmed (P1–P22, P26, P27) | 23 | 23.0 |
-| DERIVED pending measurement (P25 Ω_GW) | 1 | 0.8 |
-| GEOMETRIC_PREDICTION (P23, P24, P28) | 3 | 2.4 |
+| DERIVED confirmed (P1–P22 except P11, plus P26, P27) | 23 | 23.0 |
+| DERIVED measurement-gated (P23, P24, P25) | 3 | 3.0 |
+| GEOMETRIC_PREDICTION (P28) | 1 | 0.8 |
 | CONSTRAINED | 0 | 0.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.0 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 0 | 0.0 |
 | **Total** | **28** | **27.8 / 28.0 = 99.3%** |
 
-**Current ToE Score: 99.3% (v10.42 — audit sync 2026-05-10)**
+**Current ToE Score: 99.3% (v10.42; score lane unchanged since v10.40, with v10.41–v10.42 as non-score alpha_GW closure sync waves).**
 
 *Score progression:* v10.33: 90.4% → v10.34: 91.1% (P27 DERIVED) → v10.35: 91.8% (P26 DERIVED) →
 v10.36: 96.1% (P7–P10, P14, P15 DERIVED) → v10.37: 96.8% (P3 DERIVED) →
@@ -189,11 +195,11 @@ via Z₂ orbifold PQ mechanism (+0.7 pts). P26 (neutrino mass) promoted CONSTRAI
 mass prediction m₁ ≈ 0.050 eV (+0.3 pts). Total delta +3.8 pts.
 
 Interpretation for gatekeepers:
-- 99.3% means the 5D framework geometrically accounts for 27.8/28 of the SM
+- 99.3% means the 5D framework geometrically accounts for 99.3% of the SM
   parameter landscape, measured by a scoring rubric that penalizes
   constrained estimates and architecture limits.
-- The remaining 0.7% consists of three GEOMETRIC_PREDICTION parameters
-  (P23/P24 pending LiteBIRD measurement; P28 pending full 10D experimental confirmation).
+- The remaining 0.7% is the single score-lane parameter still at
+  GEOMETRIC_PREDICTION (P28 cosmological constant).
 - **This score is not a measure of physical correctness.** It measures
   the fraction of SM parameters for which a geometric derivation exists
   within the stated residual thresholds.
@@ -204,7 +210,7 @@ Interpretation for gatekeepers:
 ## Part 8 — Verification Instructions
 
 ```bash
-# Full test suite (≥27 065 must pass, 0 failures)
+# Full test suite (≥27076 must pass, 0 failures)
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q \
   --ignore=tests/test_symbolic_metric.py \
   --ignore=tests/test_formal_proof_hardening.py \

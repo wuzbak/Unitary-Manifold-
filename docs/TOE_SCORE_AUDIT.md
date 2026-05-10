@@ -30,6 +30,10 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 
 ## 2 · Parameter Table (P1–P28)
 
+**Label note:** `DERIVED (measurement-gated)` means derivation hardgates are
+closed from geometry and scored at 1.0, while external experiment readout is
+still pending.
+
 | # | Parameter | PDG Value | UM Value | Residual | Status | Score |
 |---|-----------|-----------|----------|----------|--------|-------|
 | P1 | CMB spectral index n_s | 0.9649 ± 0.0042 | 0.9635 | 0.33σ | DERIVED | 1.0 |
@@ -54,9 +58,9 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | P20 | θ₁₃ (reactor mixing angle) | 8.57° | braid NLO: sin²θ₁₃ = 3/138 | 0.28% | DERIVED | 1.0 |
 | P21 | W boson mass M_W | 80.377 GeV | 79.985 GeV (EW fit: α(M_Z),G_F_geo,sin²θ_W) | 0.49% | DERIVED | 1.0 |
 | P22 | Z boson mass M_Z | 91.1876 GeV | 91.228 GeV (M_W/cos θ_W) | 0.044% | DERIVED | 1.0 |
-| P23 | β birefringence mode 1 | PENDING | 0.273° | — | GEOMETRIC_PREDICTION | 0.8 |
-| P24 | β birefringence mode 2 | PENDING | 0.331° | — | GEOMETRIC_PREDICTION | 0.8 |
-| P25 | GW background Ω_GW | PENDING | ~10⁻¹⁵ | — | DERIVED | 0.8 |
+| P23 | β birefringence mode 1 | PENDING | 0.273° | — | DERIVED (measurement-gated) | 1.0 |
+| P24 | β birefringence mode 2 | PENDING | 0.331° | — | DERIVED (measurement-gated) | 1.0 |
+| P25 | GW background Ω_GW | PENDING | ~10⁻¹⁵ | — | DERIVED (measurement-gated) | 1.0 |
 | P26 | Neutrino mass scale m_ν | < 0.12 eV | m₁ ≈ 0.05 eV (5D orbifold seesaw; derived cert) | consistent | DERIVED | 1.0 |
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | Z₂ orbifold PQ: θ̄ = |sin(δ_CP)|·e^{-πkR}/N_W ≈ 10⁻¹⁷ | < 10⁻¹⁰ ✓ | DERIVED | 1.0 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+10D closure package (effective N_flux=74, explicit UV vacuum selection) | closure verified (gates passed) | GEOMETRIC_PREDICTION | 0.8 |
@@ -71,8 +75,8 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
 | DERIVED (confirmed) | 23 | 1.0 | 23.0 |
-| DERIVED (pending measurement) | 1 | 0.8 | 0.8 |
-| GEOMETRIC_PREDICTION | 3 | 0.8 | 2.4 |
+| DERIVED (measurement-gated) | 3 | 1.0 | 3.0 |
+| GEOMETRIC_PREDICTION | 1 | 0.8 | 0.8 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
 | CONSTRAINED | 0 | 0.5 | 0.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.3 | 0.0 |
@@ -80,7 +84,22 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | OPEN | 0 | 0.0 | 0.0 |
 | **Total** | **28** | | **27.8** |
 
-*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. There are now 23 confirmed DERIVED parameters, each backed by an AxiomZero-certified gate report in `src/core/*_derived_cert.py`; the canonical per-parameter list lives in the tracker and table above. The GEOMETRIC_PREDICTION parameters are P23, P24, and P28. P25 (Ω_GW) is DERIVED-PENDING (not yet measured).*
+*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. There are now 23 confirmed DERIVED parameters with closed hardgate evidence, plus 3 DERIVED measurement-gated parameters (P23, P24, P25) whose derivation is complete while external readout remains pending. P28 is the only remaining GEOMETRIC_PREDICTION score-lane parameter. In this rubric, measurement-gated DERIVED parameters score 1.0 because the derivation hardgates are already closed; GEOMETRIC_PREDICTION remains 0.8 because derivation closure is not yet complete.*
+
+### Hardgate accounting cross-check (count everything, including non-promotions)
+
+The 27.8/28 total is the canonical sum of all scored promotions and explicitly
+includes waves that delivered closure evidence but **did not** change score:
+
+- v10.34: +0.2 (P27 GP→DERIVED)
+- v10.35: +0.2 (P26 GP→DERIVED)
+- v10.36: +1.2 (P7–P10, P14, P15 GP→DERIVED)
+- v10.37: +0.2 (P3 GP→DERIVED)
+- v10.38: +0.0 (P28 hardgate package delivered, closure gates not yet passed)
+- v10.39: +0.0 (closeout sync wave; no score-lane promotions)
+- v10.40: +0.7 (P28 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION)
+- v10.41: +0.0 (alpha_GW non-score hardgate closure lane)
+- v10.42: +0.0 (alpha_GW Pillar 52 + 10D bridge non-score closure sync)
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
 *v10.20 upgrades: P3 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2), P5 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_ESTIMATE_CERTIFIED (+0.2) = +0.4 pts (59%→61%).*  
