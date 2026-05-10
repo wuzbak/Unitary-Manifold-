@@ -1,0 +1,117 @@
+name: External Constants Cross-Check
+
+on:
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  codata-crosscheck:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Cross-check repository constants vs SciPy CODATA bundle
+        run: |
+          mkdir -p artifacts
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          import scipy
+          from scipy.constants import physical_constants
+
+          from claims.mp_me_ratio.claim import MP_ME_PDG
+          from src.core.isl_yukawa import L_PLANCK_SI, M_PLANCK_SI
+
+          checks = {
+              "proton_electron_mass_ratio": {
+                  "repo_value": MP_ME_PDG,
+                  "reference_value": physical_constants["proton-electron mass ratio"][0],
+                  "rel_tolerance": 1.0e-7,
+                  "source": "SciPy physical_constants (CODATA bundle)",
+              },
+              "planck_length_m": {
+                  "repo_value": L_PLANCK_SI,
+                  "reference_value": physical_constants["Planck length"][0],
+                  "rel_tolerance": 1.0e-6,
+                  "source": "SciPy physical_constants (CODATA bundle)",
+              },
+              "planck_mass_kg": {
+                  "repo_value": M_PLANCK_SI,
+                  "reference_value": physical_constants["Planck mass"][0],
+                  "rel_tolerance": 1.0e-6,
+                  "source": "SciPy physical_constants (CODATA bundle)",
+              },
+          }
+
+          results = {}
+          failures = []
+          for key, item in checks.items():
+              repo_value = float(item["repo_value"])
+              ref_value = float(item["reference_value"])
+              rel_error = abs(repo_value - ref_value) / abs(ref_value)
+              passed = rel_error <= float(item["rel_tolerance"])
+              results[key] = {
+                  "repo_value": repo_value,
+                  "reference_value": ref_value,
+                  "relative_error": rel_error,
+                  "relative_tolerance": float(item["rel_tolerance"]),
+                  "source": item["source"],
+                  "passed": passed,
+              }
+              if not passed:
+                  failures.append(
+                      f"{key}: rel_error={rel_error:.3e} > tolerance={item['rel_tolerance']:.1e}"
+                  )
+
+          provenance_files = [
+              Path("claims/mp_me_ratio/claim.py"),
+              Path("src/core/isl_yukawa.py"),
+              Path("requirements.txt"),
+          ]
+          provenance = {}
+          for file_path in provenance_files:
+              data = file_path.read_bytes()
+              provenance[str(file_path)] = {
+                  "sha256": hashlib.sha256(data).hexdigest(),
+              }
+
+          artifact = {
+              "status": "PASS" if not failures else "FAIL",
+              "reference_bundle": {
+                  "library": "scipy",
+                  "version": scipy.__version__,
+                  "dataset": "physical_constants (CODATA bundle shipped with SciPy)",
+              },
+              "results": results,
+              "provenance": provenance,
+          }
+
+          Path("artifacts/external-constants-crosscheck.json").write_text(
+              json.dumps(artifact, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+
+          print(json.dumps(artifact, indent=2, sort_keys=True))
+
+          if failures:
+              raise SystemExit("Cross-check failed:\n" + "\n".join(failures))
+          PY
+
+      - name: Upload cross-check artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-constants-crosscheck
+          path: artifacts/external-constants-crosscheck.json
+          if-no-files-found: error
