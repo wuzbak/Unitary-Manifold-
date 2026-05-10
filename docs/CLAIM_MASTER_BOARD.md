@@ -3,7 +3,7 @@
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-10 (v10.42 score sync)*
+*Last updated: 2026-05-10 (v10.42)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.

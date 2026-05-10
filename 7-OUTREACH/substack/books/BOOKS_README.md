@@ -2,11 +2,11 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** 8.0 — Critical Infrastructure Edition — May 2026
+**Version:** 9.0 — Repository Orientation Edition — May 2026
 
 ---
 
-This folder contains the **Omega Edition (v6.0)** of ten full-length books authored under the
+This folder contains the **Omega Edition (v6.0–v9.0)** of thirteen full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that replaces the original single-post format of the oversized Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
@@ -45,6 +45,11 @@ to this repository.
 - Book 12: *Cleared for Approach — But Not for Landing* — air traffic control: what works, what doesn't, and the full roadmap to fix it
 - Covers: radar systems, communications, navigation, weather, automation (STARS/ERAM/TBFM), the staffing crisis, major incidents (DCA 2025, EWR 2025, NOTAM 2023), international models (Nav Canada, NATS, SESAR), AI/automation future, remote towers, TBO, UAM/eVTOL, cybersecurity, full 25-year roadmap
 - Framework connections: φ-collapse (capacity), B_μ divergence (queue pressure), G_AB degradation (connectivity failures), FTUM fixed-point analysis of NAS stability
+
+**v9.0 — Repository Orientation Edition (May 2026):**
+- Book 13: *The Theory of Everything and Everyone* — what this repository is, does, and teaches
+- Focus: epistemic boundaries, falsifiability, honest limitations, co-emergence roles, and responsible reading order
+- Framework connections: `FALLIBILITY.md`, `SEPARATION.md`, `5-GOVERNANCE/co-emergence/`, `5-GOVERNANCE/Unitary Pentad/`, `omega/`, `holon-zero/`
 
 ---
 
@@ -397,6 +402,21 @@ The definitive expert treatment of U.S. air traffic control — how it works, wh
 
 ---
 
+### 13. [The Theory of Everything and Everyone](book-theory-of-everything-and-everyone.md)
+**What This Repository Is, Does, and Teaches**
+
+| Property | Value |
+|---|---|
+| Size | ~14 KB |
+| Audience | General readers, skeptical reviewers, collaborators, and AI systems |
+| Parts | Five parts + orientation guide + plain conclusions |
+| Framework connection | Claim hygiene (`DERIVED/FITTED/OPEN`), epistemic boundary (`SEPARATION.md`), honest limits (`FALLIBILITY.md`), co-emergence role partition, Pentad/omega/holon synthesis context |
+| Companion references | `README.md` · `FALLIBILITY.md` · `1-THEORY/DERIVATION_STATUS.md` · `3-FALSIFICATION/` · `5-GOVERNANCE/co-emergence/GENESIS.md` |
+
+A public-facing orientation volume for the full repository: what is core physics, what is framework application, what the tests show (and do not show), where the main falsifiers live, and how to read the project without over-claiming. Written to be meticulous, direct, and useful to both supporters and skeptics.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -441,8 +461,9 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 10 | K-12 Curriculum Vol 3 | **Education** | Social commentary | No |
 | 11 | The Signal and the Noise | **Politics & Media** | Social commentary | No |
 | 12 | Cleared for Approach — But Not for Landing | **Critical Infrastructure** | Systems analysis (φ-collapse, B_μ divergence, FTUM) | No |
+| 13 | The Theory of Everything and Everyone | **Repository Orientation** | Framework map with explicit epistemic boundaries | No |
 
-**Books 5–12 are AxiomZero-commissioned works, not peer-reviewed physics.**
+**Books 5–13 are AxiomZero-commissioned works, not peer-reviewed physics.**
 Books 7–11 (education, engineering, politics, climate) apply the UM mathematical language
 as a lens; they are not physics predictions and should not be read as such.
 See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistemic map.
@@ -462,6 +483,7 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 | 7.0 — SynBio Edition | April 2026 | Pillar 25 extended with `src/genetics/synthetic_biology.py` (10 φ-functions, 63 new tests, 141 total in test_genetics.py); biosecurity HILS governance added to Unitary Pentad (`pentad_scenarios.py`); post-27.a (filed as post-97) added; total tests 15,296 |
 | 7.1 — Politics & Media Edition | May 2026 | Book 11 added: *The Signal and the Noise* — politics and media in America; Parts I–VII; six appendices including source evaluation checklist, political ad guide, representative contact guide, local journalism support guide, reform organizations directory, further reading; ~89KB |
 | 8.0 — Critical Infrastructure Edition | May 2026 | Book 12 added: *Cleared for Approach — But Not for Landing* — complete expert treatment of U.S. air traffic control: hardware (radar, comms, nav, weather), software (STARS, ERAM, TBFM, NextGen), staffing crisis, major incidents (DCA 2025, EWR 2025, NOTAM 2023), international models (Nav Canada, NATS, EUROCONTROL/SESAR, Aireon), future technologies (AI, remote towers, TBO, AAM/eVTOL, cybersecurity, quantum), and a full 25-year implementation roadmap; ~94KB |
+| 9.0 — Repository Orientation Edition | May 2026 | Book 13 added: *The Theory of Everything and Everyone* — a meticulous public-facing synthesis of what this repository is, does, and teaches; includes claim-boundary discipline, falsifier-first reading path, explicit role partition (human direction / AI implementation), and honest status framing |
 
 ---
 
