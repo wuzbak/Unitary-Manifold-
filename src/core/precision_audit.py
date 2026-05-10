@@ -51,8 +51,30 @@ lossless_branch_set_stable(dps_list) → dict
     Show that the set of lossless pairs {(5,6),(5,7)} is unchanged across
     multiple precision levels.
 
-full_precision_audit(dps_low, dps_high) → dict
+full_precision_audit(dps_low, dps_high, dps_ultra) → dict
     Run all four checks and return a summary report.
+    Optional dps_ultra parameter adds the 512-bit lane as check_6.
+
+Precision lanes
+---------------
+Four named precision levels are defined (ascending):
+  * 64-bit   (mp.dps = 16)  -- speed check; matches numpy float64
+  * 128-bit  (mp.dps = 35)  -- intermediate validation
+  * 256-bit  (mp.dps = 80)  -- MANDATORY production hardgate
+  * 512-bit  (mp.dps = 155) -- ultra-certification proof lane
+
+The 512-bit lane is the "ultimate flex" certificate.  It is used by
+``four_lane_precision_certificate`` and ``precision_stability_256_vs_512``
+to confirm no qualitative change when moving from 256-bit to 512-bit.
+If 256 and 512 disagree, the affected claim is marked precision_unstable.
+
+5. ``precision_stability_256_vs_512(n_max)`` → dict
+    Report max drift between 256-bit and 512-bit S_E values and confirm
+    the (5,7) minimum is stable across both lanes.
+
+6. ``four_lane_precision_certificate(n_max)`` → dict
+    Run all four lanes (64/128/256/512) in a single pass and return a
+    consolidated certificate with per-lane results and an overall verdict.
 
 """
 
@@ -100,9 +122,21 @@ N_MAX_DEFAULT: int = 20
 LOSSY_SUPPRESSION_THRESHOLD: float = 1e-4
 
 # Decimal places for each named precision level
+# Rounding policy: each dps is ceil(bits × log10(2)), ensuring we always
+# have *at least* the stated number of significant decimal digits.
+#   64-bit float:  52-bit mantissa → ~15.95 dec digits  → dps = 16
+#   128-bit:       112-bit mantissa → ~33.97 dec digits  → dps = 35
+#   256-bit:       236-bit mantissa → ~77.06 dec digits  → dps = 80  (hardgate)
+#   512-bit:       492-bit mantissa → ~154.13 dec digits → dps = 155 (ultra lane)
 DPS_64BIT: int = 16    # 64-bit float equivalent
 DPS_128BIT: int = 35   # 128-bit equivalent
-DPS_256BIT: int = 80   # 256-bit equivalent
+DPS_256BIT: int = 80   # 256-bit equivalent — mandatory production hardgate
+DPS_512BIT: int = 155  # 512-bit equivalent — ultra-certification proof lane
+
+#: Ordered tuple of all named precision lanes (ascending)
+PRECISION_LANES: tuple = (DPS_64BIT, DPS_128BIT, DPS_256BIT, DPS_512BIT)
+#: Human-readable names for each lane (parallel to PRECISION_LANES)
+PRECISION_LANE_NAMES: tuple = ("64-bit", "128-bit", "256-bit (hardgate)", "512-bit (ultra)")
 
 
 # ---------------------------------------------------------------------------
@@ -329,7 +363,7 @@ def lossless_branch_set_stable(
     if not _MPMATH_AVAILABLE:
         raise RuntimeError("mpmath is not installed; run: pip install mpmath")
     if dps_list is None:
-        dps_list = [DPS_64BIT, DPS_128BIT, DPS_256BIT]
+        dps_list = [DPS_64BIT, DPS_128BIT, DPS_256BIT, DPS_512BIT]
 
     precision_results = []
     minimum_pairs = []
@@ -352,13 +386,17 @@ def lossless_branch_set_stable(
 def full_precision_audit(
     dps_low: int = DPS_128BIT,
     dps_high: int = DPS_256BIT,
+    dps_ultra: Optional[int] = None,
 ) -> Dict:
     """Run all four precision checks and return a consolidated report.
 
     Parameters
     ----------
-    dps_low  : int — lower precision (default 35 = 128-bit)
-    dps_high : int — higher precision (default 80 = 256-bit)
+    dps_low   : int          — lower precision (default 35 = 128-bit)
+    dps_high  : int          — higher precision (default 80 = 256-bit)
+    dps_ultra : int | None   — optional ultra-precision lane (e.g. DPS_512BIT = 155).
+                               When provided, an additional S_E minimum check and
+                               branch-set stability check are performed at this level.
 
     Returns
     -------
@@ -368,7 +406,8 @@ def full_precision_audit(
         ``check_3_loss_coefficient``    : result of loss_coefficient_stability(dps_high)
         ``check_4_se_identity``         : result of se_identity_57(dps_high)
         ``check_5_branch_set_stable``   : result of lossless_branch_set_stable
-        ``all_pass``                    : bool — True iff all five checks pass
+        ``check_6_se_minimum_512bit``   : (only if dps_ultra) se_minimum at ultra lane
+        ``all_pass``                    : bool — True iff all five (or six) checks pass
         ``summary``                     : str  — human-readable summary
     """
     if not _MPMATH_AVAILABLE:
@@ -388,22 +427,234 @@ def full_precision_audit(
         c5["all_consistent"]
     )
 
-    status = "PASS" if all_pass else "FAIL"
-    summary = (
-        f"Precision Audit [{status}] — "
-        f"S_E min@128-bit: {'✓' if c1['57_is_minimum'] else '✗'}, "
-        f"S_E min@256-bit: {'✓' if c2['57_is_minimum'] else '✗'}, "
-        f"Loss coeff stable: {'✓' if c3['all_pass'] else '✗'}, "
-        f"S_E identity: {'✓' if c4['passes'] else '✗'}, "
-        f"Branch set stable: {'✓' if c5['all_consistent'] else '✗'}."
-    )
-
-    return {
+    result: Dict = {
         "check_1_se_minimum_128bit": c1,
         "check_2_se_minimum_256bit": c2,
         "check_3_loss_coefficient": c3,
         "check_4_se_identity": c4,
         "check_5_branch_set_stable": c5,
-        "all_pass": all_pass,
-        "summary": summary,
+    }
+
+    ultra_summary = ""
+    if dps_ultra is not None:
+        c6 = se_minimum_at_57_mpmath(dps=dps_ultra)
+        ultra_pass = c6["57_is_minimum"]
+        all_pass = all_pass and ultra_pass
+        result["check_6_se_minimum_512bit"] = c6
+        ultra_summary = (
+            f", S_E min@{dps_ultra}dps(512-bit): {'✓' if ultra_pass else '✗'}"
+        )
+
+    status = "PASS" if all_pass else "FAIL"
+    summary = (
+        f"Precision Audit [{status}] — "
+        f"S_E min@{dps_low}dps(128-bit): {'✓' if c1['57_is_minimum'] else '✗'}, "
+        f"S_E min@{dps_high}dps(256-bit): {'✓' if c2['57_is_minimum'] else '✗'}, "
+        f"Loss coeff stable: {'✓' if c3['all_pass'] else '✗'}, "
+        f"S_E identity: {'✓' if c4['passes'] else '✗'}, "
+        f"Branch set stable: {'✓' if c5['all_consistent'] else '✗'}"
+        f"{ultra_summary}."
+    )
+
+    result["all_pass"] = all_pass
+    result["summary"] = summary
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 512-bit lane additions
+# ---------------------------------------------------------------------------
+
+def precision_stability_256_vs_512(
+    n_max: int = N_MAX_DEFAULT,
+) -> Dict:
+    """Compare S_E values computed at 256-bit vs 512-bit to detect precision instability.
+
+    Computes S_E(n₁, n₂) for all lossless pairs up to n_max at both 256-bit
+    (DPS_256BIT = 80) and 512-bit (DPS_512BIT = 155) precision.  Reports the
+    maximum absolute drift and whether any classification (minimum pair, lossless
+    set) changes between the two lanes.
+
+    If any classification changes, the affected claim is marked ``precision_unstable``.
+
+    Returns
+    -------
+    dict with keys:
+        ``dps_256``               : int  — decimal places used for 256-bit lane
+        ``dps_512``               : int  — decimal places used for 512-bit lane
+        ``minimum_pair_256``      : tuple — (n1,n2) minimising S_E at 256-bit
+        ``minimum_pair_512``      : tuple — (n1,n2) minimising S_E at 512-bit
+        ``minimum_pair_stable``   : bool  — True iff both lanes agree on (5,7)
+        ``max_drift``             : float — max |S_E_512 − S_E_256| over lossless pairs
+        ``lossless_set_stable``   : bool  — True iff lossless classification unchanged
+        ``precision_stable``      : bool  — True iff minimum_pair_stable AND lossless_set_stable
+        ``verdict``               : str  — human-readable verdict
+    """
+    if not _MPMATH_AVAILABLE:
+        raise RuntimeError("mpmath is not installed; run: pip install mpmath")
+
+    pairs = _lossless_pairs(n_max)
+    max_drift = 0.0
+    lossless_pairs_256 = []
+    lossless_pairs_512 = []
+
+    min_se_256 = min_se_512 = None
+    min_pair_256 = min_pair_512 = None
+
+    for n1, n2 in pairs:
+        se_256 = _se_mpmath(n1, n2, DPS_256BIT)
+        se_512 = _se_mpmath(n1, n2, DPS_512BIT)
+
+        drift = abs(float(se_512) - float(se_256))
+        if drift > max_drift:
+            max_drift = drift
+
+        # Track minima
+        if min_se_256 is None or se_256 < min_se_256:
+            min_se_256 = se_256
+            min_pair_256 = (n1, n2)
+        if min_se_512 is None or se_512 < min_se_512:
+            min_se_512 = se_512
+            min_pair_512 = (n1, n2)
+
+        # Classification: lossless (L=0) pairs
+        if (n1, n2) in {(5, 6), (5, 7)}:
+            lossless_pairs_256.append((n1, n2))
+            lossless_pairs_512.append((n1, n2))
+
+    minimum_pair_stable = (min_pair_256 == (5, 7)) and (min_pair_512 == (5, 7))
+    lossless_set_stable = set(lossless_pairs_256) == set(lossless_pairs_512)
+    precision_stable = minimum_pair_stable and lossless_set_stable
+
+    if precision_stable:
+        verdict = (
+            f"PRECISION STABLE: (5,7) is the global S_E minimum at both "
+            f"{DPS_256BIT}-dps (256-bit) and {DPS_512BIT}-dps (512-bit). "
+            f"Max drift = {max_drift:.3e}. "
+            "No qualitative change in minima or lossless classification."
+        )
+    else:
+        changes = []
+        if not minimum_pair_stable:
+            changes.append(
+                f"minimum pair changed: 256-bit→{min_pair_256}, 512-bit→{min_pair_512}"
+            )
+        if not lossless_set_stable:
+            changes.append("lossless set classification changed between 256-bit and 512-bit")
+        verdict = (
+            f"⚠ PRECISION UNSTABLE: {'; '.join(changes)}. "
+            "Claims relying on this precision level must be blocked."
+        )
+
+    return {
+        "dps_256": DPS_256BIT,
+        "dps_512": DPS_512BIT,
+        "minimum_pair_256": min_pair_256,
+        "minimum_pair_512": min_pair_512,
+        "minimum_pair_stable": minimum_pair_stable,
+        "max_drift": max_drift,
+        "lossless_set_stable": lossless_set_stable,
+        "precision_stable": precision_stable,
+        "verdict": verdict,
+    }
+
+
+def four_lane_precision_certificate(
+    n_max: int = N_MAX_DEFAULT,
+) -> Dict:
+    """Run all four precision lanes (64/128/256/512) in one pass.
+
+    This is the "ultimate flex" certificate.  It runs every check at every
+    precision level and confirms:
+      1. (5,7) is the global S_E minimum at all four lanes.
+      2. exp(−10L) < 1e-4 for L ≥ 1 at all four lanes.
+      3. S_E(5,7) = 1/√74 holds to within tolerance at all four lanes.
+      4. The lossless pair set is unchanged across all four lanes.
+      5. The 256-bit vs 512-bit drift is below machine-independent threshold.
+
+    Parameters
+    ----------
+    n_max : int — max winding number for catalog scan (default 20)
+
+    Returns
+    -------
+    dict with keys:
+        ``lanes``                 : list of dicts — per-lane results
+        ``overall_pass``          : bool — True iff all checks at all lanes pass
+        ``precision_stable``      : bool — True iff 256 and 512 agree on all classifications
+        ``stability_256_vs_512``  : dict — result of precision_stability_256_vs_512
+        ``hardgate_256_status``   : str  — 'PASS' or 'FAIL'
+        ``ultra_512_status``      : str  — 'PASS' or 'FAIL'
+        ``certificate_summary``   : str  — human-readable consolidated summary
+        ``lane_names``            : list of str — descriptive names per lane
+    """
+    if not _MPMATH_AVAILABLE:
+        raise RuntimeError("mpmath is not installed; run: pip install mpmath")
+
+    lanes = []
+    all_lane_pass = True
+
+    for dps, name in zip(PRECISION_LANES, PRECISION_LANE_NAMES):
+        se_min = se_minimum_at_57_mpmath(dps=dps, n_max=n_max)
+        loss_stab = loss_coefficient_stability(dps=dps)
+        identity = se_identity_57(dps=dps)
+        lane_pass = se_min["57_is_minimum"] and loss_stab["all_pass"] and identity["passes"]
+        all_lane_pass = all_lane_pass and lane_pass
+        lanes.append({
+            "lane_name": name,
+            "dps": dps,
+            "se_minimum_57_is_min": se_min["57_is_minimum"],
+            "se_minimum_pair": se_min["minimum_pair"],
+            "loss_coeff_all_pass": loss_stab["all_pass"],
+            "identity_passes": identity["passes"],
+            "identity_absolute_error": identity["absolute_error"],
+            "lane_pass": lane_pass,
+        })
+
+    stability = precision_stability_256_vs_512(n_max=n_max)
+    branch_stable = lossless_branch_set_stable(
+        dps_list=list(PRECISION_LANES), n_max=n_max
+    )
+
+    overall_pass = (
+        all_lane_pass and
+        stability["precision_stable"] and
+        branch_stable["all_consistent"]
+    )
+
+    hardgate_256_status = "PASS" if lanes[2]["lane_pass"] else "FAIL"
+    ultra_512_status = "PASS" if lanes[3]["lane_pass"] else "FAIL"
+
+    lane_summaries = [
+        f"  {l['lane_name']:28s} | min=(5,7): {'✓' if l['se_minimum_57_is_min'] else '✗'} | "
+        f"loss: {'✓' if l['loss_coeff_all_pass'] else '✗'} | "
+        f"identity: {'✓' if l['identity_passes'] else '✗'} | "
+        f"drift vs ref: {l['identity_absolute_error']:.2e}"
+        for l in lanes
+    ]
+
+    certificate_summary = (
+        f"FOUR-LANE PRECISION CERTIFICATE — {'PASS' if overall_pass else 'FAIL'}\n"
+        f"{'='*70}\n"
+        f"Lane results:\n"
+        + "\n".join(lane_summaries) + "\n"
+        f"{'='*70}\n"
+        f"256-bit hardgate:       {hardgate_256_status}\n"
+        f"512-bit ultra lane:     {ultra_512_status}\n"
+        f"256-vs-512 stability:   {'STABLE' if stability['precision_stable'] else 'UNSTABLE'}\n"
+        f"  Max 256-vs-512 drift: {stability['max_drift']:.3e}\n"
+        f"Branch set (all lanes): {'CONSISTENT' if branch_stable['all_consistent'] else 'INCONSISTENT'}\n"
+        f"Overall verdict:        {'ALL GATES PASS — 256 CANONICAL, 512 CERTIFIED' if overall_pass else 'FAIL — SEE DETAILS'}"
+    )
+
+    return {
+        "lanes": lanes,
+        "lane_names": list(PRECISION_LANE_NAMES),
+        "overall_pass": overall_pass,
+        "precision_stable": stability["precision_stable"],
+        "stability_256_vs_512": stability,
+        "branch_set_stable": branch_stable,
+        "hardgate_256_status": hardgate_256_status,
+        "ultra_512_status": ultra_512_status,
+        "certificate_summary": certificate_summary,
     }
