@@ -1,9 +1,10 @@
 # The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.42)
 
-This repository contains the technical record, code, and falsification conditions for the Unitary Manifold framework.
+This repository contains the technical record, proof path, code, and falsification conditions for the Unitary Manifold framework.
+It began as the effort to prove the original monograph and close the geometry of irreversibility; everything added later rests on that foundation.
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![27065 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-27065%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![27076 passed · 329 skipped · 11 deselected · 0 failed](https://img.shields.io/badge/tests-27076%20passed%20%C2%B7%20329%20skipped%20%C2%B7%2011%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v10.42-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
@@ -12,15 +13,25 @@ This repository contains the technical record, code, and falsification condition
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 
 > ⚠️ **Honest status (v10.42):** ToE is **27.8/28 (99.3%)** after P28 hardgate closure evidence passes (effective N_flux=74 and explicit UV vacuum selection). The non-score alpha_GW/CMB-amplitude lane is now canonically closed by the Pillar 52 + 10D bridge: Pillar 52 fixes the absolute gravity-scale decade and `src/core/alpha_gw_10d_uv_completion.py` bridges the 5D KK scale to the UV completion, yielding in-band α_GW. P23/P24 remain pending direct cosmology measurement (LiteBIRD primary), with explicit parallel lab falsifier conditions active now (F-LAB-CP-1..4 via `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`).
-> Latest full local regression on this branch: **27065 passed · 329 skipped · 11 deselected · 0 failed**.  
-> For canonical, up-to-date status and provenance, begin with the foundational proof:
-> [`1-THEORY/UNIFICATION_PROOF.md`](1-THEORY/UNIFICATION_PROOF.md), [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
+> Latest full local regression on this branch: **27076 passed · 329 skipped · 11 deselected · 0 failed**.  
+> For canonical, up-to-date status and provenance, begin with the foundational proof stack:
+> [`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>), [`1-THEORY/UNIFICATION_PROOF.md`](1-THEORY/UNIFICATION_PROOF.md), [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
 > [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md), and [`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md).
 
 ---
 
 > **Document freshness note:** Some lower sections intentionally preserve historical snapshots and legacy counts for audit traceability.
 > Canonical current version/status/test totals and provenance are maintained in `docs/mas_tracker.yml` and `9-INFRASTRUCTURE/provenance/README.md`.
+
+## Foundation First
+
+This repository's critical foundation is the original irreversibility programme:
+
+1. [`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>) — the original monograph that set the programme everything else was built to prove
+2. [`1-THEORY/UNIFICATION_PROOF.md`](1-THEORY/UNIFICATION_PROOF.md) — the explicit proof path from the 5D geometry to the larger framework
+3. [`FALLIBILITY.md`](FALLIBILITY.md) — the hard boundaries, non-claims, and unresolved gaps
+
+The later expansion layers (`4-IMPLICATIONS/`, `5-GOVERNANCE/`, `7-OUTREACH/`, and subsequent pillar packages) are downstream of that closure work; they are not the starting point for evaluating the foundation.
 
 ## Institutional Reading Path (Primary)
 
