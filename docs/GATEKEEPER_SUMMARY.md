@@ -11,6 +11,8 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > **Score-sync note (v10.42):** Parts 1–6 retain historical gatekeeper framing from
 > earlier waves, while canonical current score accounting and lane labels are synced
 > in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
+> Historical snapshot scope: Parts 1–6 are v10.33-era context unless an explicit
+> override callout is shown.
 
 *Last updated: 2026-05-10 (v10.42 score sync)*
 
@@ -106,7 +108,12 @@ blocked by a documented dependency.
 
 ---
 
-## Part 4 — Architecture Limits (OPEN — acknowledged gaps)
+## Part 4 — Architecture Limits (historical v10.33 snapshot)
+
+> **Canonical v10.42 override:** P27 is now DERIVED and P28 is now
+> GEOMETRIC_PREDICTION in the score ledger. This section is retained as
+> historical gatekeeper context; use Part 7 and `docs/TOE_SCORE_AUDIT.md`
+> for current scoring state.
 
 These are genuine open problems. They are not failures of the 5D framework —
 they are the known boundaries of a 5D theory, with the closing mechanism
@@ -115,8 +122,8 @@ honestly.
 
 | # | Parameter | Gap | Closing Mechanism | Score |
 |---|-----------|-----|-------------------|-------|
-| P27 | QCD θ̄ (strong CP) | No 5D PQ mechanism | 5D PQ field or Z₂-odd scalar | 0.1 |
-| P28 | Cosmological constant | precise 10^57.26 gap remains | Full 10D flux landscape | 0.1 |
+| P27 | QCD θ̄ (strong CP) | *(historical v10.33 value)* No 5D PQ mechanism | 5D PQ field or Z₂-odd scalar | 0.1 *(historical)* |
+| P28 | Cosmological constant | *(historical v10.33 value)* precise 10^57.26 gap remains | Full 10D flux landscape | 0.1 *(historical)* |
 
 **Verdict:** ⚠️ OPEN (Architecture) — gaps are real, magnitudes are stated, closing mechanisms are identified.
 
@@ -204,7 +211,7 @@ Interpretation for gatekeepers:
 ## Part 8 — Verification Instructions
 
 ```bash
-# Full test suite (≥26928 must pass, 0 failures)
+# Full test suite (≥27308 must pass, 0 failures)
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q \
   --ignore=tests/test_symbolic_metric.py \
   --ignore=tests/test_formal_proof_hardening.py \

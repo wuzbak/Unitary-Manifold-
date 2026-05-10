@@ -30,6 +30,10 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 
 ## 2 · Parameter Table (P1–P28)
 
+**Label note:** `DERIVED (measurement-gated)` means derivation hardgates are
+closed from geometry and scored at 1.0, while external experiment readout is
+still pending.
+
 | # | Parameter | PDG Value | UM Value | Residual | Status | Score |
 |---|-----------|-----------|----------|----------|--------|-------|
 | P1 | CMB spectral index n_s | 0.9649 ± 0.0042 | 0.9635 | 0.33σ | DERIVED | 1.0 |
@@ -80,7 +84,7 @@ Each SM parameter is evaluated against the UM prediction and assigned a score:
 | OPEN | 0 | 0.0 | 0.0 |
 | **Total** | **28** | | **27.8** |
 
-*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. There are now 23 confirmed DERIVED parameters with closed hardgate evidence, plus 3 DERIVED measurement-gated parameters (P23, P24, P25) whose derivation is complete while external readout remains pending. P28 is the only remaining GEOMETRIC_PREDICTION score-lane parameter.*
+*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. There are now 23 confirmed DERIVED parameters with closed hardgate evidence, plus 3 DERIVED measurement-gated parameters (P23, P24, P25) whose derivation is complete while external readout remains pending. P28 is the only remaining GEOMETRIC_PREDICTION score-lane parameter. In this rubric, measurement-gated DERIVED parameters score 1.0 because the derivation hardgates are already closed; GEOMETRIC_PREDICTION remains 0.8 because derivation closure is not yet complete.*
 
 ### Hardgate accounting cross-check (count everything, including non-promotions)
 
