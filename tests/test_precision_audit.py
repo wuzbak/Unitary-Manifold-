@@ -6,13 +6,15 @@ tests/test_precision_audit.py
 Test suite for Pillar 45-B — Numerical Precision Audit
 (src/core/precision_audit.py).
 
-~60 tests verifying:
-  - Constants
-  - se_minimum_at_57_mpmath: (5,7) is the minimum at 64, 128, and 256-bit precision
-  - loss_coefficient_stability: exp(-10×L) < 1e-4 for L ≥ 1 at high precision
-  - se_identity_57: S_E(5,7) = 1/√74 holds to many significant figures
+~100 tests verifying:
+  - Constants (including DPS_512BIT and PRECISION_LANES)
+  - se_minimum_at_57_mpmath: (5,7) is the minimum at 64, 128, 256, and 512-bit precision
+  - loss_coefficient_stability: exp(-10×L) < 1e-4 for L ≥ 1 at all precision levels
+  - se_identity_57: S_E(5,7) = 1/√74 holds at all precision levels
   - lossless_branch_set_stable: {(5,7)} is the minimum across all precision levels
-  - full_precision_audit: integrated check passes
+  - full_precision_audit: integrated check passes, optional 512-bit lane
+  - precision_stability_256_vs_512: drift between 256-bit and 512-bit lanes
+  - four_lane_precision_certificate: consolidated 64/128/256/512 certificate
 
 """
 from __future__ import annotations
@@ -32,6 +34,7 @@ mpmath = pytest.importorskip("mpmath", reason="mpmath not installed")
 from src.core.precision_audit import (
     DPS_128BIT,
     DPS_256BIT,
+    DPS_512BIT,
     DPS_64BIT,
     K_CS_CANONICAL,
     LOSS_COEFFICIENT,
@@ -39,10 +42,14 @@ from src.core.precision_audit import (
     N1_CANONICAL,
     N2_CANONICAL,
     N_MAX_DEFAULT,
+    PRECISION_LANE_NAMES,
+    PRECISION_LANES,
     SE_57_FLOAT,
+    four_lane_precision_certificate,
     full_precision_audit,
     lossless_branch_set_stable,
     loss_coefficient_stability,
+    precision_stability_256_vs_512,
     se_identity_57,
     se_minimum_at_57_mpmath,
 )
@@ -77,8 +84,22 @@ class TestConstants:
     def test_dps_256bit(self):
         assert DPS_256BIT >= 70  # at least 70 decimal places
 
+    def test_dps_512bit(self):
+        assert DPS_512BIT >= 150  # at least 150 decimal places
+
     def test_dps_hierarchy(self):
-        assert DPS_64BIT < DPS_128BIT < DPS_256BIT
+        assert DPS_64BIT < DPS_128BIT < DPS_256BIT < DPS_512BIT
+
+    def test_precision_lanes_tuple(self):
+        assert PRECISION_LANES == (DPS_64BIT, DPS_128BIT, DPS_256BIT, DPS_512BIT)
+
+    def test_precision_lane_names_length(self):
+        assert len(PRECISION_LANE_NAMES) == len(PRECISION_LANES)
+
+    def test_precision_lane_names_content(self):
+        names_joined = " ".join(PRECISION_LANE_NAMES)
+        assert "256" in names_joined
+        assert "512" in names_joined
 
 
 # ---------------------------------------------------------------------------
@@ -299,3 +320,272 @@ class TestFullPrecisionAudit:
     def test_check_5_branch_stable(self):
         r = full_precision_audit(dps_low=DPS_128BIT, dps_high=DPS_256BIT)
         assert r["check_5_branch_set_stable"]["all_consistent"] is True
+
+    def test_with_512bit_ultra_lane_all_pass(self):
+        r = full_precision_audit(dps_low=DPS_128BIT, dps_high=DPS_256BIT, dps_ultra=DPS_512BIT)
+        assert r["all_pass"] is True
+
+    def test_with_512bit_ultra_lane_has_check6(self):
+        r = full_precision_audit(dps_low=DPS_128BIT, dps_high=DPS_256BIT, dps_ultra=DPS_512BIT)
+        assert "check_6_se_minimum_512bit" in r
+
+    def test_with_512bit_ultra_lane_check6_passes(self):
+        r = full_precision_audit(dps_low=DPS_128BIT, dps_high=DPS_256BIT, dps_ultra=DPS_512BIT)
+        assert r["check_6_se_minimum_512bit"]["57_is_minimum"] is True
+
+    def test_without_ultra_lane_no_check6(self):
+        r = full_precision_audit(dps_low=DPS_128BIT, dps_high=DPS_256BIT)
+        assert "check_6_se_minimum_512bit" not in r
+
+
+# ---------------------------------------------------------------------------
+# 512-bit lane: se_minimum_at_57_mpmath at 512-bit
+# ---------------------------------------------------------------------------
+
+class TestSeMinimumAt512Bit:
+    def test_57_is_minimum_at_512bit(self):
+        r = se_minimum_at_57_mpmath(dps=DPS_512BIT)
+        assert r["57_is_minimum"] is True
+
+    def test_minimum_pair_is_5_7_at_512bit(self):
+        r = se_minimum_at_57_mpmath(dps=DPS_512BIT)
+        assert r["minimum_pair"] == (5, 7)
+
+    def test_se_57_close_to_reference_at_512bit(self):
+        r = se_minimum_at_57_mpmath(dps=DPS_512BIT)
+        assert r["se_57"] == pytest.approx(SE_57_FLOAT, rel=1e-12)
+
+    def test_max_error_tiny_at_512bit(self):
+        r = se_minimum_at_57_mpmath(dps=DPS_512BIT)
+        assert r["max_error_vs_64bit"] < 1e-12
+
+
+# ---------------------------------------------------------------------------
+# 512-bit lane: loss_coefficient_stability at 512-bit
+# ---------------------------------------------------------------------------
+
+class TestLossCoefficientStability512Bit:
+    def test_all_pass_at_512bit(self):
+        r = loss_coefficient_stability(dps=DPS_512BIT)
+        assert r["all_pass"] is True
+
+    def test_L1_amplitude_below_threshold_at_512bit(self):
+        r = loss_coefficient_stability(dps=DPS_512BIT, L_values=[1.0])
+        assert r["results"][0]["amplitude_mpmath"] < LOSSY_SUPPRESSION_THRESHOLD
+
+    def test_mpmath_matches_64bit_at_512bit(self):
+        r = loss_coefficient_stability(dps=DPS_512BIT, L_values=[1.0, 2.0])
+        for entry in r["results"]:
+            assert entry["amplitude_mpmath"] == pytest.approx(
+                entry["amplitude_64bit"], rel=1e-12
+            )
+
+
+# ---------------------------------------------------------------------------
+# 512-bit lane: se_identity_57 at 512-bit
+# ---------------------------------------------------------------------------
+
+class TestSeIdentity57At512Bit:
+    def test_passes_at_512bit(self):
+        r = se_identity_57(dps=DPS_512BIT)
+        assert r["passes"] is True
+
+    def test_absolute_error_tiny_at_512bit(self):
+        r = se_identity_57(dps=DPS_512BIT)
+        assert r["absolute_error"] < 1e-140  # well within 512-bit tolerance
+
+    def test_se_57_close_to_reference_at_512bit(self):
+        r = se_identity_57(dps=DPS_512BIT)
+        assert r["se_57_mpmath"] == pytest.approx(SE_57_FLOAT, rel=1e-13)
+
+
+# ---------------------------------------------------------------------------
+# lossless_branch_set_stable (all four lanes)
+# ---------------------------------------------------------------------------
+
+class TestLosslessBranchSetStableAllLanes:
+    def test_all_consistent_four_lanes(self):
+        r = lossless_branch_set_stable(
+            dps_list=[DPS_64BIT, DPS_128BIT, DPS_256BIT, DPS_512BIT]
+        )
+        assert r["all_consistent"] is True
+
+    def test_all_minimum_pairs_are_57_four_lanes(self):
+        r = lossless_branch_set_stable(
+            dps_list=[DPS_64BIT, DPS_128BIT, DPS_256BIT, DPS_512BIT]
+        )
+        for pair in r["minimum_pairs"]:
+            assert pair == (5, 7)
+
+    def test_default_dps_list_includes_512bit(self):
+        r = lossless_branch_set_stable()
+        assert DPS_512BIT in r["dps_list"]
+
+    def test_default_dps_list_length_is_four(self):
+        r = lossless_branch_set_stable()
+        assert len(r["dps_list"]) == 4
+
+
+# ---------------------------------------------------------------------------
+# precision_stability_256_vs_512
+# ---------------------------------------------------------------------------
+
+class TestPrecisionStability256Vs512:
+    def _run(self, n_max=15):
+        return precision_stability_256_vs_512(n_max=n_max)
+
+    def test_returns_dict(self):
+        assert isinstance(self._run(), dict)
+
+    def test_required_keys(self):
+        r = self._run()
+        for k in [
+            "dps_256", "dps_512", "minimum_pair_256", "minimum_pair_512",
+            "minimum_pair_stable", "max_drift", "lossless_set_stable",
+            "precision_stable", "verdict",
+        ]:
+            assert k in r
+
+    def test_dps_values_correct(self):
+        r = self._run()
+        assert r["dps_256"] == DPS_256BIT
+        assert r["dps_512"] == DPS_512BIT
+
+    def test_minimum_pair_stable_true(self):
+        r = self._run()
+        assert r["minimum_pair_stable"] is True
+
+    def test_lossless_set_stable_true(self):
+        r = self._run()
+        assert r["lossless_set_stable"] is True
+
+    def test_precision_stable_true(self):
+        r = self._run()
+        assert r["precision_stable"] is True
+
+    def test_minimum_pair_256_is_5_7(self):
+        r = self._run()
+        assert r["minimum_pair_256"] == (5, 7)
+
+    def test_minimum_pair_512_is_5_7(self):
+        r = self._run()
+        assert r["minimum_pair_512"] == (5, 7)
+
+    def test_max_drift_tiny(self):
+        r = self._run()
+        assert r["max_drift"] < 1e-70  # should be essentially machine zero
+
+    def test_verdict_mentions_stable(self):
+        r = self._run()
+        assert "STABLE" in r["verdict"].upper()
+
+    def test_verdict_is_string(self):
+        r = self._run()
+        assert isinstance(r["verdict"], str)
+        assert len(r["verdict"]) > 20
+
+
+# ---------------------------------------------------------------------------
+# four_lane_precision_certificate
+# ---------------------------------------------------------------------------
+
+class TestFourLanePrecisionCertificate:
+    def _run(self, n_max=15):
+        return four_lane_precision_certificate(n_max=n_max)
+
+    def test_returns_dict(self):
+        assert isinstance(self._run(), dict)
+
+    def test_required_keys(self):
+        r = self._run()
+        for k in [
+            "lanes", "lane_names", "overall_pass", "precision_stable",
+            "stability_256_vs_512", "branch_set_stable",
+            "hardgate_256_status", "ultra_512_status", "certificate_summary",
+        ]:
+            assert k in r
+
+    def test_four_lanes_present(self):
+        r = self._run()
+        assert len(r["lanes"]) == 4
+
+    def test_all_lanes_have_required_keys(self):
+        r = self._run()
+        for lane in r["lanes"]:
+            for k in [
+                "lane_name", "dps", "se_minimum_57_is_min", "se_minimum_pair",
+                "loss_coeff_all_pass", "identity_passes", "identity_absolute_error",
+                "lane_pass",
+            ]:
+                assert k in lane, f"Key {k!r} missing from lane {lane.get('lane_name')}"
+
+    def test_overall_pass_true(self):
+        r = self._run()
+        assert r["overall_pass"] is True
+
+    def test_precision_stable_true(self):
+        r = self._run()
+        assert r["precision_stable"] is True
+
+    def test_hardgate_256_pass(self):
+        r = self._run()
+        assert r["hardgate_256_status"] == "PASS"
+
+    def test_ultra_512_pass(self):
+        r = self._run()
+        assert r["ultra_512_status"] == "PASS"
+
+    def test_all_individual_lanes_pass(self):
+        r = self._run()
+        for lane in r["lanes"]:
+            assert lane["lane_pass"] is True, (
+                f"Lane {lane['lane_name']} failed"
+            )
+
+    def test_all_lanes_57_is_minimum(self):
+        r = self._run()
+        for lane in r["lanes"]:
+            assert lane["se_minimum_57_is_min"] is True
+
+    def test_all_lanes_loss_coeff_pass(self):
+        r = self._run()
+        for lane in r["lanes"]:
+            assert lane["loss_coeff_all_pass"] is True
+
+    def test_all_lanes_identity_passes(self):
+        r = self._run()
+        for lane in r["lanes"]:
+            assert lane["identity_passes"] is True
+
+    def test_identity_error_decreases_with_precision(self):
+        r = self._run()
+        errors = [l["identity_absolute_error"] for l in r["lanes"]]
+        # Higher precision lanes should have smaller errors
+        assert errors[2] <= errors[1] or errors[2] < 1e-70  # 256-bit tighter than 128-bit
+        assert errors[3] <= errors[2] or errors[3] < 1e-140  # 512-bit tighter than 256-bit
+
+    def test_certificate_summary_is_string(self):
+        r = self._run()
+        assert isinstance(r["certificate_summary"], str)
+        assert len(r["certificate_summary"]) > 50
+
+    def test_certificate_summary_contains_pass_verdict(self):
+        r = self._run()
+        assert "PASS" in r["certificate_summary"]
+
+    def test_certificate_summary_mentions_256_and_512(self):
+        r = self._run()
+        summary = r["certificate_summary"]
+        assert "256" in summary
+        assert "512" in summary
+
+    def test_lane_names_count(self):
+        r = self._run()
+        assert len(r["lane_names"]) == 4
+
+    def test_stability_256_vs_512_embedded(self):
+        r = self._run()
+        stab = r["stability_256_vs_512"]
+        assert stab["precision_stable"] is True
+        assert stab["minimum_pair_512"] == (5, 7)
+
