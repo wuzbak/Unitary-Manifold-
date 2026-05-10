@@ -1,0 +1,6 @@
+[core]
+    autostage = true
+[remote "nasa-lambda"]
+    url = s3://unitary-manifold-data/nasa-lambda
+[remote "cern-opendata"]
+    url = s3://unitary-manifold-data/cern-opendata

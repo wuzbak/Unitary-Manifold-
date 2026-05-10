@@ -1,0 +1,33 @@
+# Unitary Manifold — JupyterBook configuration
+title: "The Unitary Manifold"
+author: "ThomasCory Walker-Pearson"
+logo: ""
+copyright: "2026"
+
+execute:
+  execute_notebooks: "off"
+
+html:
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: true
+  home_page_in_navbar: false
+
+repository:
+  url: "https://github.com/wuzbak/Unitary-Manifold-"
+  branch: "main"
+
+launch_buttons:
+  notebook_interface: "jupyterlab"
+  colab_url: "https://colab.research.google.com"
+
+parse:
+  myst_enable_extensions:
+    - dollarmath
+    - colon_fence
+    - deflist
+
+sphinx:
+  extra_extensions:
+    - sphinx.ext.autodoc
+    - sphinx.ext.mathjax

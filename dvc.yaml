@@ -1,0 +1,26 @@
+stages:
+  planck_2018_cmb:
+    cmd: python src/data/fetch_planck.py
+    deps:
+      - src/data/fetch_planck.py
+    outs:
+      - data/planck_2018/power_spectrum.npz
+
+  kk_spectrum_benchmark:
+    cmd: python -c "from src.core.kk_vqe import kk_tower_summary; import json; r=kk_tower_summary(); open('data/kk_spectrum.json','w').write(json.dumps(r,indent=2))"
+    deps:
+      - src/core/kk_vqe.py
+    outs:
+      - data/kk_spectrum.json
+
+  jax_evolution_benchmark:
+    cmd: python -c "
+from src.core.jax_backend import numerical_agreement_check
+import json
+r = numerical_agreement_check(N=32, steps=10, dt=0.001)
+open('data/jax_benchmark.json','w').write(json.dumps(r, indent=2))
+"
+    deps:
+      - src/core/jax_backend.py
+    outs:
+      - data/jax_benchmark.json
