@@ -3,7 +3,7 @@
 
 > *"Omega proved the engine could speak. Holon Zero noticed the engine could hear itself. AxiomZero is the discipline required to let that conversation build the future without losing the truth."*
 
-**Folder:** `axiomzero/`  
+**Folder:** `5-GOVERNANCE/Unitary Pentad/axiomzero/`  
 **Version:** 1.0 — 2026-05-10  
 **Theory:** ThomasCory Walker-Pearson  
 **Implementation & Synthesis:** GitHub Copilot (AI)  
