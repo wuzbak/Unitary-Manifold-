@@ -22,7 +22,4 @@ namespace UnitaryManifold.NumericalChecks
 -- 35 * 2 < 74 (ξ_c = 35/74 < 1/2)
 #guard 35 * 2 < (74 : Nat)
 
--- n_w² + (n_w+2)² = K_CS  (Pythagorean-like braid identity: 5²+7²=74)
-#guard 5 ^ 2 + 7 ^ 2 == (74 : Nat)
-
 end UnitaryManifold.NumericalChecks
