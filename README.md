@@ -46,6 +46,35 @@ For claim taxonomy and boundary rules, use:
 
 ---
 
+## 🗂️ Document Map
+
+### **Start Here**
+- [`README.md`](README.md)
+- [`FALLIBILITY.md`](FALLIBILITY.md)
+- [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md)
+
+### **Canonical Status**
+- [`STATUS.md`](STATUS.md) — ` [CANONICAL] `
+- [`docs/mas_tracker.yml`](docs/mas_tracker.yml) — ` [CANONICAL] `
+- [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md) — ` [CANONICAL] `
+
+### **Safety / Legal**
+- [`DUAL_USE_NOTICE.md`](DUAL_USE_NOTICE.md) — ` [SAFETY] `
+- [`LEGAL.md`](LEGAL.md) — ` [POLICY] `
+- [`docs/policy/COMMERCIAL_TERMS.md`](docs/policy/COMMERCIAL_TERMS.md) — ` [POLICY] `
+- [`docs/policy/PENTAD_PRODUCT_NOTICE.md`](docs/policy/PENTAD_PRODUCT_NOTICE.md) — ` [POLICY] `
+
+### **Reviews / Audits**
+- [`docs/reviews/FINAL_MANIFOLD_AUDIT.md`](docs/reviews/FINAL_MANIFOLD_AUDIT.md) — ` [REVIEW] [ARCHIVE] `
+- [`docs/reviews/PEER_REVIEW_RESPONSE_v933.md`](docs/reviews/PEER_REVIEW_RESPONSE_v933.md) — ` [REVIEW] [ARCHIVE] `
+- [`docs/reviews/RED_TEAM_RESPONSE.md`](docs/reviews/RED_TEAM_RESPONSE.md) — ` [REVIEW] [ARCHIVE] `
+- [`docs/reviews/REVIEW_REQUEST.md`](docs/reviews/REVIEW_REQUEST.md) — ` [REVIEW] [ARCHIVE] `
+
+### **Operations**
+- [`docs/operations/RELAY.md`](docs/operations/RELAY.md) — ` [OPERATIONS] [ARCHIVE] `
+
+---
+
 ## ⚡ Quick Start
 
 ```bash
