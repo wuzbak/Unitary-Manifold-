@@ -46,6 +46,10 @@ def test_p28_10d_closure_report_is_promotion_ready():
     assert report["parameter"] == "P28"
     assert report["closure_dimension"] == "10D"
     assert report["effective_n_flux"] >= REQUIRED_N_FLUX_MIN
+    assert report["first_principles_derivation_pass"] is True
+    assert report["first_principles_lambda_pred_mplanck4"] > 0.0
+    assert report["first_principles_topological_partition"] == 518
+    assert report["first_principles_status"] == "P28_FIRST_PRINCIPLES_DERIVED"
     assert report["all_closure_gates_pass"] is True
     assert report["promotion_ready"] is True
     assert report["status"] == "P28_10D_CLOSURE_READY"
