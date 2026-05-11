@@ -25,7 +25,6 @@ from src.core.pillar221_sound_energy import (
     cavitation_mechanical_index,
     ultrasound_safety_window,
     sound_energy_use_cases,
-    sound_energy_use_matrix,
     pillar221_summary,
 )
 
@@ -125,11 +124,8 @@ class TestSummaryAndUses:
         assert isinstance(cases, list)
         assert len(cases) >= 3
 
-    def test_alias_matches_use_cases(self):
-        assert sound_energy_use_matrix() == sound_energy_use_cases()
-
     def test_use_matrix_has_domains(self):
-        domains = {d["domain"] for d in sound_energy_use_matrix()}
+        domains = {d["domain"] for d in sound_energy_use_cases()}
         assert {"medical_imaging", "energy_harvesting", "materials_and_nanocontrol"} <= domains
 
     def test_summary_shape(self):

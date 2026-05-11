@@ -253,11 +253,6 @@ def sound_energy_use_cases() -> list[dict]:
     ]
 
 
-def sound_energy_use_matrix() -> list[dict]:
-    """Backward-compatible alias for sound_energy_use_cases()."""
-    return sound_energy_use_cases()
-
-
 def pillar221_summary() -> dict:
     """Summary of key quantitative results for Pillar 221."""
     speech = acoustic_intensity_from_spl(60.0)
