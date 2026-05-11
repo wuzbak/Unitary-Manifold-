@@ -260,8 +260,15 @@ class TestWarpAnchorTopologicalView:
 
     def test_conclusion_not_claiming_closure(self, warp):
         """Must not claim this closes any physics gap."""
-        assert "no physical mechanism" in warp["conclusion"].lower() \
-            or "exploratory" in warp["conclusion"].lower()
+        conclusion_lower = warp["conclusion"].lower()
+        not_claiming_closure = (
+            "no physical mechanism" in conclusion_lower
+            or "exploratory" in conclusion_lower
+        )
+        assert not_claiming_closure, (
+            "Warp-Anchor topological view conclusion must state it is exploratory "
+            "and makes no physical closure claim."
+        )
 
     def test_gap_factor_consistent_with_alpha_s(self, warp):
         """Gap = PDG_alpha_s(MZ) / geometric_alpha_s(MZ) ≈ 3.84."""
@@ -391,7 +398,7 @@ class TestPillar207Report:
         assert "holograph" in rep["path_forward"].lower()
 
     def test_version(self, rep):
-        assert rep["version"] == "v1.0"
+        assert rep["version"] == "v1.1"
 
     def test_architecture_limit_audit_confirms_no_closure(self, rep):
         audit = rep["architecture_limit_audit"]

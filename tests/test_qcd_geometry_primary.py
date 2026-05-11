@@ -553,9 +553,9 @@ class TestMSbarCentralValue:
         assert report["residual_vs_msbar_pct"] < 15.0
 
     def test_pillar182_report_version_updated(self):
-        """Version should reflect the braid-correction update."""
+        """Version should reflect the GW correction update."""
         report = pillar182_report()
-        assert report["version"] == "v9.38"
+        assert report["version"] == "v9.39"
 
 
 # ===========================================================================
@@ -653,7 +653,7 @@ class TestLambdaQCDBraidCorrected:
 
     def test_pillar182_report_version_v938(self):
         rep = pillar182_report()
-        assert rep["version"] == "v9.38"
+        assert rep["version"] == "v9.39"
 
     def test_pillar182_report_braid_correction_path_present(self):
         rep = pillar182_report()

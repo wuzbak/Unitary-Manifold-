@@ -75,7 +75,7 @@ Three complementary routes to close the factor-~4 gap:
      chain M_KK → m_top(Pillar 97) → M_Z for an apples-to-apples comparison.
      The Warp-Anchor Gap at M_Z is factor 3.84 — NOT absorbed; just measured
      at the same scale as PDG.  The m_top threshold is from Pillar 97's
-     geometric Yukawa (reproduces PDG m_top to < 0.01%), not a tuning knob.
+     geometric Yukawa (Pillar 97 gives 172.69 GeV; rounded to 173.0 GeV (0.18% off)), not a tuning knob.
 
   C. KK-tower back-reaction (this module):
      Above M_KK the KK gluons contribute Δβ₀_KK = (11 N_c/3)×(n_w/K_CS)
@@ -148,8 +148,9 @@ _PDG_M_TOP: float = 172.69           # for residual display
 _PDG_M_Z: float = 91.1876            # for residual display
 
 # Top quark QCD decoupling threshold — derived from the Pillar 97 geometric
-# Yukawa (reproduces PDG m_top = 172.69 GeV to < 0.01%).  Used in the extended
-# α_s chain as a QCD threshold, NOT as a free SM parameter.
+# Yukawa.  The Pillar 97 result is 172.69 GeV (PDG); this module uses the
+# rounded value 173.0 GeV (0.18% off from PDG 172.69 GeV) as a QCD threshold.
+# Used as a QCD flavour threshold, NOT as a free SM parameter.
 _PILLAR97_M_TOP_GEV: float = 173.0
 
 
@@ -430,7 +431,7 @@ def alpha_s_to_mz_p201(
     gap is NOT closed — it is measured more honestly.  The m_top threshold is
     an algebraic necessity of 1-loop QCD running (active flavour counting), not
     a tuning knob.  m_top comes from Pillar 97's geometric Yukawa derivation
-    (reproduces PDG m_top = 172.69 GeV to < 0.01%).
+    (Pillar 97 geometric Yukawa gives 172.69 GeV; this module uses 173.0 GeV (0.18% off)).
 
     Closing the factor-3.84 gap requires non-perturbative physics; the 1-loop
     QCD path (Pillar 200) has an intrinsic Landau-pole barrier from M_GUT, and
@@ -454,7 +455,7 @@ def alpha_s_to_mz_p201(
     AxiomZero compliance
     --------------------
     - α_s(M_KK) = 2π/(N_c × K_CS) — derived from {n_w, K_CS} via Pillar 62
-    - m_top from Pillar 97 geometric Yukawa (reproduces PDG m_top to < 0.01%)
+    - m_top from Pillar 97 geometric Yukawa (Pillar 97 gives 172.69 GeV; rounded to 173.0 GeV (0.18% off))
     - M_Z used only as the PDG comparison scale — NOT a derivation anchor
 
     Parameters
@@ -516,7 +517,7 @@ def alpha_s_to_mz_p201(
             "alpha_s_mkk_formula": "2π/(N_c × K_CS) = 2π/222",
         },
         "m_top_gev": m_top_gev,
-        "m_top_source": "Pillar 97 geometric Yukawa — reproduces PDG m_top to < 0.01%",
+        "m_top_source": "Pillar 97 geometric Yukawa — Pillar 97 gives 172.69 GeV; rounded to 173.0 GeV (0.18% off)",
         "m_ew_p201_gev": m_ew_p201,
         "m_ew_p201_formula": "M_KK × √(N_c)/n₂  [GW braid, Pillar 201]",
         "m_z_comparison_gev": m_z,
