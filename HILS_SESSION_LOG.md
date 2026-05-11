@@ -71,3 +71,49 @@
 - <conditions that should open the next session>
 
 -->
+
+<!--
+SESSION: 2026-05-11T14:41:40Z (v10.51 — 4-Gap Closure Sprint, resumed after sandbox reset)
+
+HUMAN INTENT:
+  "We stopped. Ensure no work was lost and continue working."
+  (Prior: "I sign off on waves A, A2, B, & C. And let's work on closing those 4 gaps.")
+
+DECISIONS MADE:
+1. Previous sandbox was reset; prior session's git push had failed with 403.
+   All 4 modules were reimplemented from scratch using refined physics (verified in prior session).
+
+2. Implemented 4 new Pillar modules to close v10.50 residual gaps:
+   - Pillar 102: src/core/wdw_multifield.py — 2D multi-field WDW + lapse saddle-point
+   - Pillar 103: src/core/cmb_polarisation.py — E/B polarisation hierarchy + reionisation bump
+   - Pillar 104: src/core/ckm_pmns_orbifold.py — CKM/PMNS from orbifold overlap integrals
+   - Pillar 105: src/core/alpha_gut_threshold_complete.py — α_GUT Casimir correction
+
+3. Key physics (carried from prior session memory):
+   - α_GUT = N_C/K_CS × γ_SU5 = (3/74) × 1.014 = 0.04111 vs PDG 0.04115 → 0.107% (CLOSED)
+   - RGE crosscheck M_GUT→M_KK hits Landau pole (expected; documented, not primary path)
+   - CKM=I at leading order (rank-1 Yukawa); Wolfenstein λ_W≈0.029 vs PDG 0.227 — honest gap
+   - PMNS large mixing requires see-saw or near-degenerate c_ν
+
+4. 133 new tests (32+28+38+35), all passing.
+5. docs/WAVE_CHANGELOG.md v10.51 entry added.
+6. HILS_SESSION_CURRENT.md updated for v10.51.
+
+OPEN LOOPS RESOLVED:
+  - Waves A, A2, B, C: signed off by ThomasCory Walker-Pearson.
+  - α_GUT threshold: CLOSED (0.107%).
+  - Multi-field WDW: SUBSTANTIALLY_CLOSED.
+  - CMB E/B polarisation: SUBSTANTIALLY_CLOSED.
+
+REMAINING OPEN GAPS (honest):
+  - CKM: λ_W off by ×8 (UM c-values from birefringence, not fermion masses).
+  - PMNS: large mixing requires see-saw or near-degenerate c_ν.
+  - WDW: full 5D non-minisuperspace programme still open.
+  - CMB: sub-percent accuracy requires CAMB/CLASS-level Boltzmann solver.
+
+NEXT TRIGGERS:
+  - CKM resolution: requires either (a) fermion-mass-fitted c-values or (b) see-saw neutrino sector.
+  - LiteBIRD launch ~2032: update litebird_proof_alternative_lab.md §10.
+  - DESI Year 3 results: update desi_year3_monitor.py.
+-->
+

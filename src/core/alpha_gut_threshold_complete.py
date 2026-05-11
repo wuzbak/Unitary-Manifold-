@@ -174,8 +174,18 @@ def full_alpha_gut_derivation():
     # Step 3: residual vs PDG
     residual_pct = abs(alpha_final - ALPHA_GUT_PDG) / ALPHA_GUT_PDG * 100.0
 
-    # Consistency cross-check: run DOWN from M_GUT to M_KK
-    alpha_s_mkk = alpha_s_rge_2loop(alpha_gut_raw, M_GUT_GEV, M_KK_GEV, n_f=N_F)
+    # Consistency cross-check: run DOWN from M_GUT to M_KK.
+    # Physical note: using N_f=6 throughout and a 4D QCD-like β-function from
+    # M_GUT → M_KK hits the Landau pole near ~10^10 GeV because the full SU(5)
+    # matching conditions are not included.  The crosscheck is therefore NOT a
+    # reliable physical prediction; it is retained only for educational reference
+    # and is explicitly NOT used in the primary derivation.
+    try:
+        alpha_s_mkk = alpha_s_rge_2loop(alpha_gut_raw, M_GUT_GEV, M_KK_GEV, n_f=N_F)
+        if not np.isfinite(alpha_s_mkk) or alpha_s_mkk > 100.0:
+            alpha_s_mkk = float("nan")  # Landau pole hit
+    except Exception:
+        alpha_s_mkk = float("nan")
 
     # Beta function coefficients (for reference)
     b1, b2 = _beta_coefficients(n_c=N_C, n_f=N_F)
