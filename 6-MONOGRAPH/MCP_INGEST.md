@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 10.51 — 4-Gap Closure + CKM λ_W + ADM entropy rate wave |
+| Version | 10.52 — CKM/PMNS closure extension + EW precision cluster + ledger sync |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Canonical status (v10.51):** Pillar set is closed under canonical governance, with active monitoring modules for incoming data releases. ToE score is **27.8/28.0 (99.3%)** per `docs/TOE_SCORE_AUDIT.md`. Primary falsifier remains LiteBIRD birefringence with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Canonical status (v10.52):** Pillar set is closed under canonical governance, with active monitoring modules for incoming data releases. ToE score remains **27.8/28.0 (99.3%)** on the legacy denominator per `docs/TOE_SCORE_AUDIT.md`, while P29–P33 EW precision extension rows are now tracked in `docs/CLAIM_MASTER_BOARD.md`. Primary falsifier remains LiteBIRD birefringence with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|

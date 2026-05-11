@@ -5,6 +5,43 @@
 
 ---
 
+## Entry 0002 — 2026-05-11T18:41:18Z | v10.52 CKM/PMNS + EW precision + ledger sync
+
+### Identity
+- Agent: GitHub Copilot (AI)
+- Human: ThomasCory Walker-Pearson
+- Session trigger: Implement the 3-track v10.52 plan.
+
+### Strategic intent this session
+- Extend CKM/PMNS closure from overlap-only reporting to integrated executable routes.
+- Add EW precision observables (S, T, U, Γ_Z, Γ_W, ρ) as a derived extension cluster.
+- Sync canonical ledgers and session artifacts to current wave state.
+
+### Decisions made
+1. Added `src/core/ckm_nlo_g5_expansion.py` for non-universal g5 ε-expansion CKM mixing.
+2. Added `src/core/pmns_seesaw_5d.py` for RS Weinberg/radion-induced see-saw bridge.
+3. Updated `src/core/ckm_pmns_orbifold.py` to integrate NLO CKM, CKM CP geometry, and PMNS see-saw route.
+4. Added `src/core/ew_precision_oblique.py` and matching tests for P29–P33 extension rows.
+5. Synced canonical docs/ledgers to v10.52 and updated session current-state artifact.
+
+### Open loops resolved
+- CKM/PMNS overlap-only reporting limitation was reduced by adding explicit NLO and see-saw executable lanes.
+
+### Open loops carried forward
+- Full global 3-generation mass+mixing fit with full threshold/RGE dressing.
+- Higher-loop/full matching EW precision route beyond first-mode KK approximation.
+- LiteBIRD and DESI observation routing triggers remain active.
+
+### Regression gate at session close
+- Full suite: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
+- Baseline in this session before edits: 29 400 passed, 329 skipped, 11 deselected, 0 failed.
+
+### Next-entry trigger conditions
+- Any P29–P33 promotion/demotion from incoming precision EW data.
+- Any CKM/PMNS route promotion requiring global-fit hardgate.
+
+---
+
 ## Entry 0001 — 2026-05-10T22:49:29Z | Wave A1 + A2 bootstrap
 
 ### Identity
@@ -116,4 +153,3 @@ NEXT TRIGGERS:
   - LiteBIRD launch ~2032: update litebird_proof_alternative_lab.md §10.
   - DESI Year 3 results: update desi_year3_monitor.py.
 -->
-

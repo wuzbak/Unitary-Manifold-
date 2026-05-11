@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v10.51
+# Unitary Manifold v10.52
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-11 (v10.51 sync)*
+*Last updated: 2026-05-11 (v10.52 sync)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -11,7 +11,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 
 ---
 
-## Lane A — Standard Model Parameters (P1–P28)
+## Lane A — Standard Model Parameters (P1–P33)
 
 | # | Claim / Parameter | PDG / Exp. Value | UM Prediction | Residual | Label | Gatekeeper | Falsifier Condition | Blocking Dep | Last Updated |
 |---|-------------------|-----------------|---------------|----------|-------|------------|---------------------|--------------|--------------|
@@ -43,9 +43,14 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P26 | Neutrino mass scale m_ν | < 0.12 eV (Planck) | **m₁ ≈ 0.05 eV** (5D seesaw, Z₂-sym.) | consistent | `DERIVED` | ✅ PASS | m_ν > 0.12 eV confirmed at ≥3σ (KATRIN/Planck) | None | 2026-05-09 |
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | **Z₂ orbifold PQ: θ_eff ~ e^{-πkR}/N_W ≈ 10⁻¹⁷** | < 10⁻¹⁰ ✓ | `DERIVED` | ✅ PASS | θ̄ > 10⁻⁹ confirmed | None | 2026-05-09 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+10D closure package (effective N_flux=74, explicit UV vacuum selection) | closure verified (gates passed) | `GEOMETRIC_PREDICTION` | ✅ PASS | Full 10D closure package invalidated by failed hardgates | Hardgate package maintained in `src/core/p28_lambda_promotion_hardgate.py` | 2026-05-09 |
+| P29 | Oblique S parameter | 0.04 ± 0.11 | **KK first-mode precision lane** (`src/core/ew_precision_oblique.py`) | in-band (<3σ) | `DERIVED` | ✅ PASS | S outside ±3σ consistency ellipse | None | 2026-05-11 |
+| P30 | Oblique T parameter | 0.06 ± 0.13 | **KK first-mode precision lane** (`src/core/ew_precision_oblique.py`) | in-band (<3σ) | `DERIVED` | ✅ PASS | T outside ±3σ consistency ellipse | None | 2026-05-11 |
+| P31 | Oblique U parameter | 0.00 ± 0.09 | **KK first-mode precision lane** (`src/core/ew_precision_oblique.py`) | in-band (<3σ) | `DERIVED` | ✅ PASS | U outside ±3σ consistency ellipse | None | 2026-05-11 |
+| P32 | Z width Γ_Z | 2.4952 GeV | **2.495 GeV-level KK-corrected width** (`src/core/ew_precision_oblique.py`) | <5% | `DERIVED` | ✅ PASS | Γ_Z outside 5% band at ≥3σ | None | 2026-05-11 |
+| P33 | W width Γ_W | 2.085 GeV | **2.085 GeV-level KK-corrected width** (`src/core/ew_precision_oblique.py`) | <5% | `DERIVED` | ✅ PASS | Γ_W outside 5% band at ≥3σ | None | 2026-05-11 |
 
-**ToE Score v10.51: 27.8 / 28.0 = 99.3%** (v10.40: P28 +0.7; v10.41–v10.51 non-score alpha_GW / ledger-sync refinements)
-**DERIVED (confirmed): 23 parameters** (P1–P22 except P11, plus P26, P27)
+**ToE Score v10.52: 27.8 / 28.0 = 99.3%** (P29–P33 are precision extension rows and are currently tracked outside the legacy 28-parameter ToE denominator.)
+**DERIVED (confirmed): 28 parameters** (legacy 23 + precision extensions P29–P33)
 **DERIVED (measurement-gated): 3 parameters** (P23, P24, P25)
 **GEOMETRIC_PREDICTION: 1 parameter** (P28) | **ALGEBRAIC: 1** (P11)
 

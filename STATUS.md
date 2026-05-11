@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.51 — Effective 2026-05-11*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.51 wave includes multi-field WDW, CMB polarisation hierarchy, CKM/PMNS orbifold lane, α_GUT threshold closure, CKM λ_W constrained closure, ADM entropy-rate closure, and follow-on execution modules).*
+*Unitary Manifold v10.52 — Effective 2026-05-11*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.52 wave includes CKM/PMNS NLO+see-saw closure lane, EW precision oblique/width cluster, and canonical ledger coherence sync).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,7 +29,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 29 393 passed · 329 skipped · 11 deselected · 0 failed
+**Latest verified branch regression:** 29 400 passed · 329 skipped · 11 deselected · 0 failed
 
 ---
 
@@ -95,6 +95,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.52 | CKM/PMNS NLO+see-saw closure + EW precision (S,T,U,Γ_Z,Γ_W) + canonical ledger sync | 104 extension, EW precision extension, docs/session sync | +new targeted suites | 2026-05-11 |
 | v10.51 | 4-Gap closure sprint + CKM λ_W + ADM entropy rate + execution follow-ons | 102–109, 106–107 sprint artifacts | +new targeted suites | 2026-05-11 |
 | v10.44 | Local radion quantization + numerical LOS Boltzmann + PMNS/LISA routing + canonical ledger consistency | infrastructure / monitoring / closure support | +new targeted suites | 2026-05-11 |
 | v10.6 | MAS Wave Plan — Braid c_L spectrum, RS neutrino spectrum, ρ̄ q-deform, Higgs CW limit, G_N derivation | 213–217 | +427 | 2026-05-07 |

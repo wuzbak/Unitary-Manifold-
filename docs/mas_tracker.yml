@@ -1,4 +1,4 @@
-version: "v10.51"
+version: "v10.52"
 date: "2026-05-11"
 updated: "2026-05-11"
 mas_status: "COMPLETE"
@@ -7,17 +7,21 @@ post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 public_surface_sync_checkpoint:
-  version: "v10.51"
-  regression: "29 393 passed, 329 skipped, 11 deselected, 0 failed"
+  version: "v10.52"
+  regression: "29 400 passed, 329 skipped, 11 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:
-    status: "ARCHITECTURE_LIMIT_CERTIFIED"
-    scope: "leading-order diagonal-g5 RS orbifold overlap lane"
-    note: "Cross-check surfaces for CKM λ and PMNS θ12 remain external to the overlap-only module."
+    status: "SUBSTANTIALLY_CLOSED"
+    scope: "leading overlap + NLO g5 CKM + geometric CKM CP + RS see-saw PMNS lane"
+    note: "Overlap-only audit is retained, but closure now includes explicit NLO and see-saw routes."
+  ew_precision_oblique:
+    status: "DERIVED_CLUSTER"
+    scope: "S/T/U oblique parameters, Γ_Z, Γ_W, rho parameter and Z-pole consistency"
+    note: "First-mode KK precision lane with O(v^2/M_KK^2) residual budgeting."
   finish_line_observation_engine:
     status: "CANONICAL_DOC_PACKET_ENABLED"
     target_surfaces:

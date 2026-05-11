@@ -18,6 +18,8 @@ from src.core.ckm_pmns_orbifold import (
     neutrino_c_spectrum,
     pmns_from_orbifold,
     ckm_wolfenstein_estimate,
+    ckm_nlo_mixing,
+    ckm_cp_phase_geometric,
     pmns_angle_estimate,
     ckm_pmns_orbifold_architecture_certificate,
     ckm_pmns_orbifold_report,
@@ -247,7 +249,7 @@ def test_report_keys():
 
 def test_report_epistemic_labels():
     report = ckm_pmns_orbifold_report()
-    assert "ARCHITECTURE_LIMIT_CERTIFIED" in report["epistemic_label"]
+    assert "SUBSTANTIALLY_CLOSED" in report["epistemic_label"]
 
 
 def test_report_ckm_values():
@@ -263,7 +265,7 @@ def test_report_residual_unknowns_nonempty():
 
 def test_architecture_certificate_status():
     certificate = ckm_pmns_orbifold_architecture_certificate()
-    assert certificate["status"] == "ARCHITECTURE_LIMIT_CERTIFIED"
+    assert certificate["status"] == "SUBSTANTIALLY_CLOSED"
 
 
 def test_architecture_certificate_has_cross_checks():
@@ -278,3 +280,36 @@ def test_architecture_certificate_ckm_overlap_is_worse_than_mass_ratio_route():
         certificate["ckm_overlap_residual_pct"]
         > certificate["cross_checks"]["ckm_mass_ratio_route"]["residual_pct"]
     )
+
+
+def test_ckm_nlo_mixing_returns_expected_keys():
+    result = ckm_nlo_mixing()
+    for key in ("V_ckm_nlo", "theta_12_deg", "theta_13_deg", "theta_23_deg", "epsilon_up", "epsilon_down"):
+        assert key in result
+
+
+def test_ckm_nlo_mixing_angles_are_physical():
+    result = ckm_nlo_mixing()
+    assert 0.0 <= result["theta_12_deg"] <= 90.0
+    assert 0.0 <= result["theta_13_deg"] <= 90.0
+    assert 0.0 <= result["theta_23_deg"] <= 90.0
+
+
+def test_ckm_nlo_hierarchy_diagnostics_positive():
+    result = ckm_nlo_mixing()
+    hierarchy = result["wolfenstein_hierarchy"]
+    assert hierarchy["s12"] > 0.0
+    assert hierarchy["s23"] > 0.0
+    assert hierarchy["s13"] >= 0.0
+
+
+def test_ckm_cp_phase_geometric_returns_expected_values():
+    result = ckm_cp_phase_geometric()
+    assert 0.0 < result["delta_ckm_deg"] < 180.0
+    assert result["residual_abs_deg"] >= 0.0
+    assert len(result["generation_phases_rad"]) == 3
+
+
+def test_ckm_cp_phase_invalid_nw_raises():
+    with pytest.raises(ValueError):
+        ckm_cp_phase_geometric(n_w=0)

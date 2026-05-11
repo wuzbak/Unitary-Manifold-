@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.51 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 29 393 passed, 329 skipped, 11 deselected, 0 failed).*
+*Unitary Manifold v10.52 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 29 400 passed, 329 skipped, 11 deselected, 0 failed).*
 
 ---
 
@@ -42,7 +42,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (29 393 passed, 329 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (29 400 passed, 329 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -72,7 +72,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "29 393 passed · 329 skipped · 11 deselected · 0 failed," this is a statement about
+When the README badge reads "29 400 passed · 329 skipped · 11 deselected · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 ---
@@ -3489,4 +3489,3 @@ It does not provide a quantum speedup nor access to a real QPU in current CI.
 | [`1-THEORY/NW_UNIQUENESS_STATUS.md`](1-THEORY/NW_UNIQUENESS_STATUS.md) | n_w uniqueness argument summary | Canonical reference for §II Admission 1 and §IV.3 (phenomenological fragility). |
 | [`2-REPRODUCIBILITY/VALIDATION_REPORT.md`](2-REPRODUCIBILITY/VALIDATION_REPORT.md) | What the test suite validates and what it does not | Scope context for the "15k+ passed" numbers in §I. Distinguishes internal consistency from empirical confirmation. |
 | [`docs/LITEBIRD_FALSIFIER_BRIEF.md`](docs/LITEBIRD_FALSIFIER_BRIEF.md) | LiteBIRD discriminating-prediction summary | Details the primary falsification test: β ∈ {0.273°, 0.331°} with gap [0.29°–0.31°]. |
-
