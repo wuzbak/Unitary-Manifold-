@@ -2,11 +2,11 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** 11.0 — Integrity & Co-Emergence Edition — May 2026
+**Version:** 12.0 — Deployment & Operations Edition — May 2026
 
 ---
 
-This folder contains the **Omega Edition (v6.0–v11.0)** of sixteen full-length books authored under the
+This folder contains the **Omega Edition (v6.0–v12.0)** of seventeen full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that serves as the publication split for Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
@@ -15,7 +15,7 @@ Manifold v9.27.
 
 Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework. Books 5–16 are original
+expanded, and cross-referenced with the full physics framework. Books 5–17 are original
 to this repository.
 
 **v3.0 Expansion (April 2026):**
@@ -59,6 +59,10 @@ to this repository.
 - Book 15: *The Falsification Decade* — how to read, test, and pressure the framework before the primary sky instruments report
 - Book 16: *The Honest Machine* — human-AI co-emergence, scientific judgment, and governance-first research practice
 - Focus: public epistemics, claim-boundary discipline, and responsible collaboration under AI acceleration
+
+**v12.0 — Deployment & Operations Edition (May 2026):**
+- Book 17: *The Pentad Deployment Guide* — what the Unitary Pentad is, how to set it up, how to operate it, and where it can integrate
+- Focus: setup discipline, operator guidance, integration strategy, and immediate deployment criteria
 
 ---
 
@@ -470,6 +474,21 @@ A falsification-first public volume on how to read the repository without hype: 
 | Companion references | `5-GOVERNANCE/co-emergence/GENESIS.md` · `5-GOVERNANCE/co-emergence/FRAMEWORK.md` · `SEPARATION.md` · `post-151-s01e004-the-honest-machine.md` |
 
 A public-facing co-emergence book on what human-led, AI-accelerated research looks like when judgment, responsibility, and governance remain explicit. It focuses on role partition, anti-overclaim discipline, failure modes of AI-assisted science, and why honesty in this context is a systems property rather than a tone.
+
+---
+
+### 17. [The Pentad Deployment Guide](book-pentad-deployment-guide.md)
+**What It Is, How to Set It Up, How to Operate It, and Where It Fits**
+
+| Property | Value |
+|---|---|
+| Size | ~15 KB |
+| Audience | Operators, integrators, governance teams, educators, and deployment-minded readers |
+| Parts | Three parts + deployment conclusion |
+| Framework connection | `5-GOVERNANCE/Unitary Pentad/README.md`, `DIY_PROTOTYPE_GUIDE.md`, `IMPLICATIONS.md`, `STABILITY_ANALYSIS.md`, `UOS/`, `omega/`, `holon_zero/` |
+| Companion references | `5-GOVERNANCE/Unitary Pentad/pentad_pilot.py` · `5-GOVERNANCE/Unitary Pentad/DIY_PROTOTYPE_GUIDE.md` · `5-GOVERNANCE/Unitary Pentad/unitary_pentad.py` |
+
+A deployment-facing outreach volume for the Unitary Pentad: what the system is, what it is not, how to start with the software pilot, how to operate it safely, where it fits operationally, and what the tradeoffs are when integrating it into real workflows.
 
 ---
 
