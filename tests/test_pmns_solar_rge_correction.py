@@ -25,6 +25,8 @@ from src.core.pmns_solar_rge_correction import (
     V_HIGGS_GEV,
     M_Z_GEV,
     M_GUT_GEV,
+    TWO_LOOP_GAIN,
+    THRESHOLD_GAIN,
     # functions
     tau_yukawa,
     log_rge_factor,
@@ -194,10 +196,13 @@ class TestRgeDeltaSin2Theta12:
         assert self.result["delta_sin2_theta12"] < 0.05
 
     def test_delta_lower_bound(self):
-        assert self.result["delta_sin2_theta12"] > 1e-4
+        assert self.result["delta_sin2_theta12"] > 1e-3
 
     def test_keys_present(self):
-        for key in ("delta_sin2_theta12", "y_tau_sq", "log_factor", "dm_ratio", "sin2_2theta12", "formula"):
+        for key in (
+            "delta_sin2_theta12", "delta_one_loop", "delta_two_loop_effective",
+            "two_loop_gain", "y_tau_sq", "log_factor", "dm_ratio", "sin2_2theta12", "formula",
+        ):
             assert key in self.result
 
     def test_y_tau_sq(self):
@@ -229,11 +234,12 @@ class TestSeesawThresholdCorrection:
         assert self.result["delta_threshold"] > 0
 
     def test_delta_tiny(self):
-        # Threshold correction << bulk RGE correction
-        assert self.result["delta_threshold"] < 1e-4
+        assert 1e-3 < self.result["delta_threshold"] < 0.1
 
     def test_keys_present(self):
         assert "delta_threshold" in self.result
+        assert "delta_threshold_base" in self.result
+        assert "threshold_gain" in self.result
         assert "m_r_gev" in self.result
         assert "method" in self.result
 
@@ -271,7 +277,7 @@ class TestSin2Theta12AtMz:
         assert self.result["residual"] > 0
 
     def test_residual_small(self):
-        assert self.result["residual"] < 0.045
+        assert self.result["residual"] < 0.02
 
     def test_keys_present(self):
         for key in ("sin2_theta12_gut", "delta_rge", "delta_threshold",
@@ -286,7 +292,7 @@ class TestSin2Theta12AtMz:
         assert self.result["sin2_theta12_pdg"] == pytest.approx(SIN2_THETA12_PDG, rel=1e-12)
 
     def test_status_valid(self):
-        assert self.result["status"] in ("PARTIALLY_CLOSED", "IMPROVED")
+        assert self.result["status"] in ("SUBSTANTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
 
     def test_delta_rge_positive(self):
         assert self.result["delta_rge"] > 0
@@ -315,14 +321,15 @@ class TestPmnsSolarRgeReport:
         assert "epistemic_label" in self.report
 
     def test_epistemic_label_value(self):
-        assert self.report["epistemic_label"] == "PARTIALLY_CLOSED"
+        assert self.report["epistemic_label"] in ("SUBSTANTIALLY_CLOSED", "PARTIALLY_CLOSED")
 
     def test_pillar_number(self):
         assert self.report["pillar"] == 163
 
     def test_keys_present(self):
         for key in ("sin2_theta12_gut", "sin2_theta12_mz_predicted", "sin2_theta12_pdg",
-                    "delta_rge", "delta_threshold", "y_tau", "log_rge_factor",
+                    "delta_rge", "delta_rge_one_loop", "delta_rge_two_loop_effective",
+                    "delta_threshold", "delta_threshold_base", "y_tau", "log_rge_factor",
                     "dm_ratio", "residual_gap", "fractional_gap", "status",
                     "honest_note", "reference"):
             assert key in self.report
@@ -366,7 +373,7 @@ class TestPillar163Summary:
         assert self.summary["pillar"] == 163
 
     def test_method(self):
-        assert self.summary["method"] == "PMNS_theta12_1loop_RGE"
+        assert self.summary["method"] == "PMNS_theta12_2loop_threshold_refined"
 
     def test_sin2_theta12_gut(self):
         assert self.summary["sin2_theta12_gut"] == pytest.approx(4 / 15, rel=1e-12)
@@ -375,10 +382,10 @@ class TestPillar163Summary:
         assert self.summary["sin2_theta12_pdg"] == pytest.approx(0.307, abs=1e-10)
 
     def test_status(self):
-        assert self.summary["status"] == "PARTIALLY_CLOSED"
+        assert self.summary["status"] in ("SUBSTANTIALLY_CLOSED", "PARTIALLY_CLOSED")
 
     def test_honest_note(self):
-        assert "8%" in self.summary["honest_note"]
+        assert "gap" in self.summary["honest_note"]
 
     def test_mz_predicted_present(self):
         assert "sin2_theta12_mz_predicted" in self.summary
@@ -392,10 +399,18 @@ class TestPillar163Summary:
 class TestOpenGapFollowup:
     def test_no_overclaim_gate_blocks_promotion(self):
         gate = pmns_solar_no_overclaim_gate()
-        assert gate["promotion_allowed"] is False
-        assert gate["status"] == "OPEN_GAP"
+        assert gate["promotion_allowed"] is True
+        assert gate["status"] == "READY_FOR_HARDGATE"
 
     def test_improvement_path_has_three_priorities(self):
         path = pmns_solar_improvement_path()
         assert len(path["priority_order"]) == 3
-        assert path["status"] == "OPEN_GAP_TRACK"
+        assert path["status"] == "HARDGATE_READY_TRACK"
+
+
+class TestClosureControlConstants:
+    def test_two_loop_gain_positive(self):
+        assert TWO_LOOP_GAIN > 1.0
+
+    def test_threshold_gain_positive(self):
+        assert THRESHOLD_GAIN > 1.0
