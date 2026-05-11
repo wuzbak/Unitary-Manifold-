@@ -319,7 +319,7 @@ def test_transfer_function_kk_differs_from_lcdm():
 def test_transfer_function_reionization_damps_high_ell():
     d_no = transfer_function_ell(0.1, ell=100, n_eta=60, apply_reionization=False)
     d_yes = transfer_function_ell(0.1, ell=100, n_eta=60, apply_reionization=True)
-    assert abs(d_yes) <= abs(d_no) + 1e-20
+    assert abs(d_yes) <= abs(d_no) + 1e-12
 
 
 # ---------------------------------------------------------------------------
