@@ -415,10 +415,10 @@ class TestOpenGapFollowup:
 
 
 class TestClosureControlConstants:
-    def test_two_loop_gain_positive(self):
+    def test_two_loop_gain_baseline_is_one(self):
         assert TWO_LOOP_GAIN == pytest.approx(1.0)
 
-    def test_threshold_gain_positive(self):
+    def test_threshold_gain_baseline_is_one(self):
         assert THRESHOLD_GAIN == pytest.approx(1.0)
 
     def test_effective_gains_above_baseline(self):

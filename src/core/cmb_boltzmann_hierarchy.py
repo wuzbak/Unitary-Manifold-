@@ -129,6 +129,7 @@ A_REC: float = 1.0 / (1.0 + Z_REC)
 ETA_REC_MPCinv: float = 280.0       # conformal time at recombination [Mpc]
 ETA_0_MPCinv: float = 14_000.0      # conformal time today [Mpc]
 TAU_REIO: float = 0.054             # optical depth to reionization (Planck 2018)
+TAU_REIO_ERR: float = 0.007         # Planck 2018 1σ uncertainty
 ELL_REIO_TRANSITION: float = 12.0   # smooth transition scale for reionization damping
 
 # Thomson scattering
@@ -256,7 +257,7 @@ def reionization_transfer_damping(
         raise ValueError(
             f"ell_transition must be finite and > 0, got {ell_transition!r}"
         )
-    transition = 1.0 - math.exp(-((ell / max(ell_transition, 1e-12)) ** 2))
+    transition = 1.0 - math.exp(-((ell / ell_transition) ** 2))
     return float(math.exp(-tau_reio * transition))
 
 
@@ -781,6 +782,7 @@ def boltzmann_hierarchy_report() -> Dict[str, object]:
         "c_s_photon": C_S_PHOTON,
         "c_s_braid_um": C_S_BRAID,
         "tau_reio": TAU_REIO,
+        "tau_reio_err": TAU_REIO_ERR,
         "reionization_transfer_damping_ell2": reionization_transfer_damping(2.0),
         "reionization_transfer_damping_ell100": reionization_transfer_damping(100.0),
         "reionization_damping_ratio_ell100_to_ell2": (

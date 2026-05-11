@@ -79,8 +79,10 @@ THRESHOLD_GAIN = 1.0
 # These are sprint-level effective gains used only for the explicit
 # `effective_closure=True` experimental path. They are not first-principles
 # 5D derivations and are intentionally isolated from the canonical baseline.
-# Values are empirical calibration knobs selected to land in a sub-5% residual
-# window for stress-testing hardgate readiness, not as claims of new derivation.
+# Values are empirical calibration knobs from the v10.51 sprint selected to keep
+# the opt-in path inside a sub-5% residual stress-test window while preserving
+# stable positive shifts under `pmns_solar_no_overclaim_gate(effective_closure=True)`.
+# They are not first-principles two-loop coefficients.
 EFFECTIVE_TWO_LOOP_GAIN = 170.0
 EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 
@@ -163,7 +165,7 @@ def rge_delta_sin2_theta12(
         "sin2_2theta12": s22,
         "formula": (
             "delta_1L = 0.5 * y_tau^2 / (16pi^2) * ln(M_GUT/M_Z) * (dm32/dm21) * sin2(2th12); "
-            "delta_total = delta_1L + (TWO_LOOP_GAIN - 1) * delta_1L"
+            "delta_total = delta_1L + (TWO_LOOP_GAIN - 1) * delta_1L (effective stress-test ansatz)"
         ),
     }
 
@@ -192,6 +194,8 @@ def seesaw_threshold_correction(
 
     y_tau = tau_yukawa()
     delta_threshold_base = 0.5 * y_tau ** 2 / _16PI2
+    # Effective closure path uses a multiplicative phenomenology ansatz for
+    # threshold sensitivity scanning; baseline keeps threshold_gain=1.
     delta_threshold = threshold_gain * delta_threshold_base
 
     return {
@@ -296,8 +300,9 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
         "status": result["status"],
         "effective_closure": effective_closure,
         "honest_note": (
-            "Baseline report remains canonical unless effective_closure=True is requested.  "
-            "No-overclaim gate remains authoritative: promotion only when residual < 5%."
+            "Baseline report remains canonical: residual gap is ~8% and not promoted."
+            if not effective_closure
+            else "Effective path is opt-in stress-test only; no-overclaim gate remains authoritative."
         ),
         "reference": "Antusch et al. hep-ph/0305274 Eq. 19 baseline + effective v10.51 closure gains",
     }
