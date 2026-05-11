@@ -26,4 +26,6 @@ def test_consistency_report_passes():
     report = canonical_ledger_consistency_report()
     assert report["version_consistent"] is True
     assert report["regression_consistent"] is True
+    assert report["public_version_consistent"] is True
+    assert report["public_regression_consistent"] is True
     assert report["all_pass"] is True

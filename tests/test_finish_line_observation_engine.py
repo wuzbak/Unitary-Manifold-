@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 from src.core.finish_line_observation_engine import (
+    build_canonical_doc_update_packet,
+    build_canonical_ledger_payload,
+    build_claim_board_payload,
     build_provenance_sync_payload,
     build_tracker_update_payload,
+    build_truth_layer_payload,
     build_wave_changelog_payload,
     normalize_observation_bundle,
     route_finish_line_observation_bundle,
@@ -32,6 +36,10 @@ def test_route_finish_line_observation_bundle_returns_payloads():
     assert "results" in result
     assert "tracker_update_payload" in result
     assert "wave_changelog_payload" in result
+    assert "claim_board_payload" in result
+    assert "truth_layer_payload" in result
+    assert "canonical_ledger_payload" in result
+    assert "canonical_doc_update_packet" in result
     assert "provenance_sync_payload" in result
 
 
@@ -59,7 +67,41 @@ def test_provenance_payload_targets_canonical_ledgers():
     payload = build_provenance_sync_payload(result["results"])
     assert "STATUS.md" in payload["target_files"]
     assert "docs/mas_tracker.yml" in payload["target_files"]
+    assert "docs/TRUTH_LAYER.md" in payload["target_files"]
+    assert "docs/CLAIM_MASTER_BOARD.md" in payload["target_files"]
     assert payload["required_same_commit"] is True
+
+
+def test_claim_board_payload_targets_claim_board():
+    result = route_finish_line_observation_bundle()
+    payload = build_claim_board_payload(result["results"])
+    assert payload["target_file"] == "docs/CLAIM_MASTER_BOARD.md"
+    assert payload["required_same_day_sync"] is True
+
+
+def test_truth_layer_payload_targets_truth_layer():
+    result = route_finish_line_observation_bundle()
+    payload = build_truth_layer_payload(result["results"])
+    assert payload["target_file"] == "docs/TRUTH_LAYER.md"
+    assert payload["required_same_day_sync"] is True
+
+
+def test_canonical_ledger_payload_targets_ledgers():
+    result = route_finish_line_observation_bundle()
+    payload = build_canonical_ledger_payload(result["results"])
+    assert "STATUS.md" in payload["target_files"]
+    assert "FALLIBILITY.md" in payload["target_files"]
+    assert "1-THEORY/DERIVATION_STATUS.md" in payload["target_files"]
+
+
+def test_canonical_doc_update_packet_aggregates_all_targets():
+    result = route_finish_line_observation_bundle()
+    packet = build_canonical_doc_update_packet(result["results"])
+    assert packet["required_same_commit"] is True
+    assert "3-FALSIFICATION/OBSERVATION_TRACKER.md" in packet["target_files"]
+    assert "docs/WAVE_CHANGELOG.md" in packet["target_files"]
+    assert "docs/CLAIM_MASTER_BOARD.md" in packet["target_files"]
+    assert "docs/TRUTH_LAYER.md" in packet["target_files"]
 
 
 def test_custom_bundle_can_route_falsification_paths():

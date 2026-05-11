@@ -254,8 +254,8 @@ specific failure mode that this condition guards against.
 - `src/core/phi_radion_quantization.py`: local canonical quantization of radion fluctuations around the FTUM attractor, with JAX normalization and 256/512-bit audits.
 - `src/core/adm_quantitative_closure.py`: extended with off-attractor Ricci/ADM mismatch scans and radion local-quantization evidence.
 - `src/core/cmb_boltzmann_full.py`: extended with numerical line-of-sight integration, JAX transfer cross-check, and precision peak audit.
-- `src/core/finish_line_observation_engine.py`: extended with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit provenance sync payloads.
-- `src/core/canonical_ledger_consistency.py`: machine-readable consistency check for `STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `docs/WAVE_CHANGELOG.md`, and `docs/mas_tracker.yml`.
+- `src/core/finish_line_observation_engine.py`: extended with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit payloads for `3-FALSIFICATION/OBSERVATION_TRACKER.md`, `docs/WAVE_CHANGELOG.md`, `docs/TRUTH_LAYER.md`, `docs/CLAIM_MASTER_BOARD.md`, and the canonical ledgers.
+- `src/core/canonical_ledger_consistency.py`: machine-readable consistency check for the public README plus `STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `docs/WAVE_CHANGELOG.md`, and `docs/mas_tracker.yml`.
 
 ### Regression gate (v10.5)
 
