@@ -2,6 +2,7 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
 import pytest
+import math
 
 from src.core.ew_precision_oblique import (
     compute_oblique_parameters,
@@ -20,9 +21,9 @@ def test_oblique_parameters_keys():
 
 def test_oblique_parameters_are_finite():
     result = compute_oblique_parameters()
-    assert result["S_pred"] == result["S_pred"]
-    assert result["T_pred"] == result["T_pred"]
-    assert result["U_pred"] == result["U_pred"]
+    assert math.isfinite(result["S_pred"])
+    assert math.isfinite(result["T_pred"])
+    assert math.isfinite(result["U_pred"])
 
 
 def test_oblique_invalid_inputs_raise():
@@ -54,6 +55,6 @@ def test_ew_precision_report_structure():
 
 def test_ew_precision_report_in_band_flags():
     report = ew_precision_report()
-    assert report["in_band"]["S"] is True
-    assert report["in_band"]["T"] is True
-    assert report["in_band"]["U"] is True
+    assert report["in_band"]["S"]
+    assert report["in_band"]["T"]
+    assert report["in_band"]["U"]

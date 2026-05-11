@@ -249,7 +249,7 @@ def test_report_keys():
 
 def test_report_epistemic_labels():
     report = ckm_pmns_orbifold_report()
-    assert "SUBSTANTIALLY_CLOSED" in report["epistemic_label"]
+    assert report["epistemic_label"].startswith("SUBSTANTIALLY_CLOSED")
 
 
 def test_report_ckm_values():
@@ -286,6 +286,10 @@ def test_ckm_nlo_mixing_returns_expected_keys():
     result = ckm_nlo_mixing()
     for key in ("V_ckm_nlo", "theta_12_deg", "theta_13_deg", "theta_23_deg", "epsilon_up", "epsilon_down"):
         assert key in result
+    assert result["epsilon_up"].shape == (3, 3)
+    assert result["epsilon_down"].shape == (3, 3)
+    ident = result["V_ckm_nlo"].conj().T @ result["V_ckm_nlo"]
+    assert np.allclose(ident, np.eye(3), atol=1e-8)
 
 
 def test_ckm_nlo_mixing_angles_are_physical():

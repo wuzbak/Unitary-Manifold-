@@ -23,7 +23,15 @@ def test_radion_induced_majorana_scale_invalid_inputs_raise():
 
 def test_pmns_from_rs_weinberg_seesaw_keys():
     result = pmns_from_rs_weinberg_seesaw()
-    for key in ("theta_12_deg", "theta_13_deg", "theta_23_deg", "m_r_eff_gev", "in_band_theta12"):
+    for key in (
+        "theta_12_deg",
+        "theta_13_deg",
+        "theta_23_deg",
+        "m_r_eff_gev",
+        "in_band_theta_12",
+        "in_band_theta_13",
+        "in_band_theta_23",
+    ):
         assert key in result
 
 

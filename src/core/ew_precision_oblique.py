@@ -14,7 +14,11 @@ K_CS = 74
 N_W = 5
 PI_KR = 37.0
 V_EW_GEV = 246.22
-M_KK_GEV = PI_KR * 1_000.0
+GEV_PER_TEV = 1_000.0
+M_KK_GEV = PI_KR * GEV_PER_TEV
+S_PREFAC = 4.0  # first-mode KK normalization for dΠ3Y/dq2 in this reduced lane
+T_PREFAC = 2.0  # first-mode KK normalization for custodial-breaking Π11-Π33 piece
+U_PREFAC = 1.2  # first-mode KK normalization for derivative-difference piece
 
 S_EXP = 0.04
 S_SIGMA = 0.11
@@ -47,9 +51,11 @@ def _eps(v_ew_gev: float = V_EW_GEV, m_kk_gev: float = M_KK_GEV) -> float:
 def compute_oblique_parameters(v_ew_gev: float = V_EW_GEV, m_kk_gev: float = M_KK_GEV) -> Dict[str, float]:
     """Return KK-suppressed S, T, U in the first-mode approximation."""
     eps = _eps(v_ew_gev=v_ew_gev, m_kk_gev=m_kk_gev)
-    s = float(4.0 * np.pi * eps * (1.0 + 2.0 / K_CS))
-    t = float(2.0 * np.pi * eps * (1.0 + 1.0 / N_W))
-    u = float(1.2 * np.pi * eps)
+    # O(v^2/M_KK^2) lane with first-mode KK prefactors and minimal geometric
+    # enhancement terms from K_CS and n_w sector structure.
+    s = float(S_PREFAC * np.pi * eps * (1.0 + 2.0 / K_CS))
+    t = float(T_PREFAC * np.pi * eps * (1.0 + 1.0 / N_W))
+    u = float(U_PREFAC * np.pi * eps)
     return {
         "S_pred": s,
         "T_pred": t,

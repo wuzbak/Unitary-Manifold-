@@ -44,7 +44,8 @@ def default_epsilon_matrices(
     if lambda_target <= 0.0 or lambda_target >= 1.0:
         raise ValueError("lambda_target must satisfy 0 < lambda_target < 1.")
 
-    # Small asymmetry from the LH profile spacing; keeps up/down sectors distinct.
+    # Small asymmetry from left-handed (LH) profile spacing; this keeps up/down ε textures
+    # non-degenerate while staying perturbative (clipped to a conservative 2–20%).
     profile_asym = float(np.clip(np.mean(np.abs(np.diff(c_l_arr))), 0.02, 0.2))
     lam = lambda_target
     lam2 = lam * lam

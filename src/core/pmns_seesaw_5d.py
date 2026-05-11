@@ -26,6 +26,8 @@ __all__ = [
     "pmns_from_rs_weinberg_seesaw",
 ]
 
+PROFILE_RENORM_COEFF = 0.15  # leading KK-profile renormalization factor in the UV Weinberg lane
+
 
 def radion_induced_majorana_scale(
     m_r0_gev: float = M_R0_GEV,
@@ -42,7 +44,7 @@ def radion_induced_majorana_scale(
         raise ValueError("pi_kr must be positive.")
 
     uv_factor = float(np.exp(-1.0 / pi_kr))
-    profile_factor = float(1.0 + 0.15 * np.mean(c_l_arr - 0.5))
+    profile_factor = float(1.0 + PROFILE_RENORM_COEFF * np.mean(c_l_arr - 0.5))
     return float(m_r0_gev * uv_factor * profile_factor)
 
 
@@ -59,9 +61,9 @@ def pmns_from_rs_weinberg_seesaw(
         **base,
         "m_r_eff_gev": m_r_eff,
         "p18_reference_theta12_deg": 33.82,
-        "in_band_theta12": abs(base["theta_12_deg"] - PDG_PMNS_THETA12) < 20.0,
-        "in_band_theta13": abs(base["theta_13_deg"] - PDG_PMNS_THETA13) < 15.0,
-        "in_band_theta23": abs(base["theta_23_deg"] - PDG_PMNS_THETA23) < 20.0,
+        "in_band_theta_12": abs(base["theta_12_deg"] - PDG_PMNS_THETA12) < 20.0,
+        "in_band_theta_13": abs(base["theta_13_deg"] - PDG_PMNS_THETA13) < 15.0,
+        "in_band_theta_23": abs(base["theta_23_deg"] - PDG_PMNS_THETA23) < 20.0,
         "status_note_5d": (
             "RS UV-brane Weinberg operator + radion-induced Majorana scale generates "
             "large-angle PMNS structure in the 5D see-saw lane."

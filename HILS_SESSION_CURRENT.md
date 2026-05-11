@@ -53,7 +53,7 @@
 | EW precision extension | `src/core/ew_precision_oblique.py` | Higher-loop/full matching still open | DERIVED_CLUSTER |
 | α_GUT threshold | `src/core/alpha_gut_threshold_complete.py` | EW unification threshold | **CLOSED (0.107%)** |
 
-New targeted suites added and synchronized. Full regression baseline in this session: 29 400 passed, 329 skipped, 11 deselected, 0 failed.
+New targeted suites added and synchronized. Full regression baseline in this session: 29 425 passed, 329 skipped, 11 deselected, 0 failed.
 
 ---
 

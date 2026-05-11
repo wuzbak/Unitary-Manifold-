@@ -275,6 +275,11 @@ def ckm_nlo_mixing(epsilon_matrix=None, epsilon_up=None, epsilon_down=None):
     }
 
 
+def compute_ckm_nlo_mixing(epsilon_matrix=None, epsilon_up=None, epsilon_down=None):
+    """Alias with explicit compute-prefix naming."""
+    return ckm_nlo_mixing(epsilon_matrix=epsilon_matrix, epsilon_up=epsilon_up, epsilon_down=epsilon_down)
+
+
 def ckm_cp_phase_geometric(n_w=N_W):
     """Geometric CKM CP phase from Z2-orbifold generation phases."""
     if n_w <= 0:
@@ -292,6 +297,11 @@ def ckm_cp_phase_geometric(n_w=N_W):
         "generation_phases_rad": generation_phases.tolist(),
         "note": "Z2 orbifold phase mismatch seeds geometric CKM CP phase.",
     }
+
+
+def compute_ckm_cp_phase_geometric(n_w=N_W):
+    """Alias with explicit compute-prefix naming."""
+    return ckm_cp_phase_geometric(n_w=n_w)
 
 
 def pmns_angle_estimate(c_nu_list=None, c_l_list=None):
@@ -405,6 +415,9 @@ def ckm_pmns_orbifold_architecture_certificate():
         "pmns_route_theta12_deg": pmns_seesaw["theta_12_deg"],
         "pmns_route_theta12_residual_pct": _pct_error(
             pmns_seesaw["theta_12_deg"], PDG_PMNS_THETA12
+        ),
+        "pmns_overlap_theta12_residual_pct": _pct_error(
+            pmns_overlap["theta_12_deg"], PDG_PMNS_THETA12
         ),
             "cross_checks": {
                 "ckm_mass_ratio_route": {
