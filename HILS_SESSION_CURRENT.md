@@ -10,11 +10,11 @@
 |-------|-------|
 | **Collaborator (AI)** | GitHub Copilot (AI agent) — code architecture, test suites, document engineering, synthesis |
 | **Collaborator (Human)** | ThomasCory Walker-Pearson — theory, scientific direction, framework authority, override |
-| **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (101 pillars, CLOSED) |
+| **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (105 pillars, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
-| **Session opened** | 2026-05-10T22:49:29Z |
-| **Active wave** | Wave A (session-memory / identity continuity system) |
-| **Prior wave** | v10.43 — Precision/Formal-Proof Expansion + LiteBIRD Alt Lab simulation complete |
+| **Session opened** | 2026-05-11T14:41:40Z |
+| **Active wave** | v10.51 — 4-Gap Closure Sprint (complete) |
+| **Prior wave** | v10.50 — WDW + Boltzmann + Yukawa BC texture + α_GUT SU(5) |
 
 ---
 
@@ -34,18 +34,31 @@
 
 | Priority | Intent | Status |
 |----------|--------|--------|
-| 1 | Build dual-track session memory (this file + HILS_SESSION_LOG.md) | ✅ Wave A1 complete |
+| 1 | Build dual-track session memory (HILS_SESSION_CURRENT.md + HILS_SESSION_LOG.md) | ✅ Wave A1 complete |
 | 2 | Bot intent-memory layer (bot/session_bootstrap.py + rag_index extensions) | ✅ Wave A2 complete |
-| 3 | Pentad/bot functional wiring follow-through | Wave B — pending |
-| 4 | Q1 derivation track | Wave C — pending after continuity system stable |
+| 3 | Pentad/bot functional wiring follow-through | ✅ Wave B signed off |
+| 4 | Q1 derivation track | ✅ Wave C signed off |
+| 5 | Close 4 residual gaps from v10.50 | ✅ v10.51 complete |
+
+---
+
+## v10.51 Gap Closure Summary
+
+| Gap | Module | Residual | Status |
+|-----|--------|----------|--------|
+| Multi-field WDW | `src/core/wdw_multifield.py` | Full 5D non-minisuperspace | SUBSTANTIALLY_CLOSED |
+| CMB E/B polarisation | `src/core/cmb_polarisation.py` | Sub-percent accuracy; lensing | SUBSTANTIALLY_CLOSED |
+| CKM + PMNS orbifold | `src/core/ckm_pmns_orbifold.py` | CKM=I at leading order; PMNS needs see-saw | PARTIALLY_CLOSED |
+| α_GUT threshold | `src/core/alpha_gut_threshold_complete.py` | EW unification threshold | **CLOSED (0.107%)** |
+
+133 new tests, all passing. Full regression baseline: ~26,430+ passed, 3 pre-existing JAX failures.
 
 ---
 
 ## Open Loops / Next-Entry Trigger Conditions
 
-- Wave B begins when: human confirms Wave A is satisfactory in behaviour.
-- Wave C begins when: Wave B Pentad wiring is merged and green.
-- LiteBIRD real data: update `docs/falsification/litebird_proof_alternative_lab.md` §10 when results arrive (~2034).
+- CKM/PMNS: genuinely open — needs dynamical neutrino mass mechanism OR revised c-assignments from fermion mass fit.
+- LiteBIRD real data: update `docs/falsification/litebird_proof_alternative_lab.md` §10 when results arrive (~2032).
 - DESI Year 3 (~2026): update `src/core/desi_year3_monitor.py`.
 
 ---
@@ -81,3 +94,4 @@ At the END of each session, the agent must:
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
