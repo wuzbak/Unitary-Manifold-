@@ -7,7 +7,7 @@
 
 > ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
 > within individual post drafts reflect the state of the repository **at the time of writing**.
-> The current verified totals are: **23,524 tests passing · 329 skipped · 0 failures · 208 pillars (v10.4)**.
+> The current verified totals are: **28,560 tests passing · 329 skipped · 11 deselected · 0 failures · 208 pillars (v10.44)**.
 > Individual posts have not been retroactively updated to preserve their historical authenticity.
 
 ## Directory Structure
@@ -16,8 +16,8 @@ This directory is organized into two subdirectories:
 
 ```
 substack/
-├── posts/      ← All post-*.md and epilog-*.md article drafts (Posts 00–128+)
-├── books/      ← All book-*.md full-length book drafts (11 books)
+├── posts/      ← All post-*.md and epilog-*.md article drafts (Posts 00–151+)
+├── books/      ← All book-*.md full-length book drafts (16 books)
 └── README.md   ← This file
 ```
 
@@ -345,9 +345,9 @@ Pillar 25 Extension — 80+ new passing tests (141 total in `tests/test_genetics
 
 ---
 
-## Books — Omega Edition Expanded (v3.0)
+## Books — Omega Edition Expanded (v11.0)
 
-Four full-length investigative books + a 6-part Substack series. All cross-referenced to the numbered posts above.
+Sixteen full-length books + a 6-part Substack series. All cross-referenced to the numbered posts above.
 
 | File | Type | Topic |
 |------|------|-------|
@@ -367,6 +367,12 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 | `book-curriculum-vol1-preK-5.md` | **Book 8** | K-12 Curriculum Guide Vol. 1: PreK–5 — Foundations for a Lifetime of Learning (~90 KB) |
 | `book-curriculum-vol2-6-8.md` | **Book 9** | K-12 Curriculum Guide Vol. 2: Grades 6–8 — The Middle School Years (~68 KB) |
 | `book-curriculum-vol3-9-12-beyond.md` | **Book 10** | K-12 Curriculum Guide Vol. 3: Grades 9–12 and Beyond — High School to the Research Frontier (~56 KB) |
+| `book-signal-and-noise.md` | **Book 11** | The Signal and the Noise — Politics, Media, and the Battle for American Reality (~89 KB) |
+| `book-air-traffic-control-omega.md` | **Book 12** | Cleared for Approach — But Not for Landing — Air Traffic Control deep-dive and reform roadmap (~94 KB) |
+| `book-theory-of-everything-and-everyone.md` | **Book 13** | The Theory of Everything and Everyone — repository orientation and claim-boundary guide (~14 KB) |
+| `book-taurid-density-risk-2030s.md` | **Book 14** | Taurid Density Window (2030s) — evidence-first risk and preparedness brief (~13 KB) |
+| `book-falsification-decade.md` | **Book 15** | The Falsification Decade — how to read, test, and pressure the framework before the sky decides (~12 KB) |
+| `book-honest-machine.md` | **Book 16** | The Honest Machine — human-AI co-emergence, judgment, and governance-first research (~13 KB) |
 
 **Cross-references to numbered posts:**
 
@@ -458,11 +464,18 @@ Where:
 Examples:
 
 - `post-146-s01e001-conclusions-ledger-and-falsification-roadmap.md`
-- `post-147-s01e002-...`
+- `post-149-s01e002-the-falsification-decade-begins.md`
 - `post-160-s02e001-...`
 
-### Initial entry under the new convention
+### Current entries under the new convention
+
+Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 onward resume the explicit `SxxExxx` filename pattern.
 
 | File | Post | Topic |
 |------|------|-------|
 | `post-146-s01e001-conclusions-ledger-and-falsification-roadmap.md` | Post 146 · S01E001 | "The Conclusions Ledger — What We Conclude, Why We Conclude It, and What Could Still Break It" |
+| `post-147-pillar206-cosmological-constant.md` | Post 147 | "64 Orders Down, 58 to Go: What the Unitary Manifold Actually Does to the Cosmological Constant" |
+| `post-148-pillar207-dam-lattice-audit.md` | Post 148 | "The Leech Lattice Audit: Why K_CS = 74 Is Not a Dressed Constant" |
+| `post-149-s01e002-the-falsification-decade-begins.md` | Post 149 · S01E002 | "The Falsification Decade Begins" |
+| `post-150-s01e003-before-litebird-the-lab-lane.md` | Post 150 · S01E003 | "Before LiteBIRD: The Lab Lane That Can Hurt Us Now" |
+| `post-151-s01e004-the-honest-machine.md` | Post 151 · S01E004 | "The Honest Machine" |
