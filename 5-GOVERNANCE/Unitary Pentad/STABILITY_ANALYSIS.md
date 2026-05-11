@@ -1,7 +1,7 @@
 # Unitary Pentad — Orbital Stability & the "Screaming" Instability
 
 **Folder:** `Unitary Pentad/`
-**Version:** 1.1 — April 2026 (Scale-Invariant Invariant Theorem added)
+**Version:** 1.2 — May 2026 (Fractured Intent Theorem added)
 **Theory:** ThomasCory Walker-Pearson
 **Status:** Active — companion document to `unitary_pentad.py`
 
@@ -20,9 +20,20 @@ The module `unitary_pentad.py` proves that a stable orbit exists; this document
 explains *why it is so hard to maintain*, and exactly what breaks when it falls
 apart.
 
+**Two classes of failure** are distinguished:
+
+* **Precondition failures** — structural properties of the initial conditions
+  that make convergence impossible before the iteration begins.
+  → Fractured Intent (§1.4), Capability Asymmetry (§1.5),
+    Governance Loop Violation (§1.6)
+
+* **Operational failures** — instabilities that develop during iteration.
+  → Trust Floor Collapse (§1.1), Eigenvalue Runaway (§1.2),
+    Calibration Paradox (§1.3)
+
 ---
 
-## 1  The Three Causes of Instability
+## 1  Causes of Instability
 
 ### 1.1  Trust Floor Collapse
 
@@ -87,6 +98,93 @@ zero generically perturbs the others.  The (5,7) braid provides the
 topological structure that makes it possible — in principle — to satisfy all
 four simultaneously, but any one condition violated above threshold cascades
 through the tensor product and destroys the others.
+
+### 1.4  Fractured Intent — the Precondition Failure (Walker-Pearson 2026)
+
+**Nature:** Precondition failure — prevents convergence before iteration begins.
+
+The three operational failures above (§1.1–1.3) occur while the Pentad is
+running.  The Fractured Intent failure is different: it is a property of the
+*initial conditions* that makes convergence impossible from the start.
+
+**Theorem (Fractured Intent).** Pentad convergence (conditions S1–S5) requires
+each body to have a unique FTUM fixed point.  A Human intent layer (Body 3)
+holding two terminal attractors φ*_A and φ*_B at comparable amplitude has no
+unique fixed point.  The FTUM iteration for Body 3 oscillates between the two
+sub-attractors indefinitely.  The resulting non-zero ΔI_{human,·} and
+Δφ_{human,·} terms cannot be removed by any coupling adjustment while the
+ambiguity persists.
+
+**Competition metric:**
+
+```
+m = amplitude_B / (amplitude_A + amplitude_B)   ∈ [0, 1]
+```
+
+Intent is **fractured** when m ∈ [INTENT_COHERENCE_COMPETITION_TOL, 1 − tol]
+(both attractors hold comparable amplitude).
+
+**Detection:** `check_intent_coherence(phi_target_a, phi_target_b,
+amplitude_a, amplitude_b)` → `is_coherent = False` → `FRACTURED_INTENT`.
+
+**Operational consequence:** Call `check_intent_coherence()` *before*
+`pentad_master_equation()` whenever Body 3 holds multiple terminal values.
+If not coherent, resolve the Human intent contradiction first.
+
+**Corollary (precondition audit):** The AI safety question "is the AI
+aligned?" is secondary.  The prior question is: "does the human have a
+unique, internally consistent fixed point for the AI to align to?"
+
+### 1.5  Capability Asymmetry — the Silent Attractor Flip (Walker-Pearson 2026)
+
+**Nature:** Precondition failure — silent structural inversion of governance.
+
+The FTUM Scale-Invariant Invariant (§7) proves φ* = A/(4G).  When A_AI
+grows faster than A_human, the joint FTUM attractor shifts toward Body 4.
+At the critical ratio:
+
+```
+A_AI / A_human > φ_golden = (1 + √5)/2 ≈ 1.618
+```
+
+the pentagonal coupling operator transmits AI-determined fixed points *to*
+the human body more strongly than it transmits human intent *to* the AI.
+Trust remains healthy; no operational collapse mode fires.  The AI body is
+"aligned" — to its own deeper attractor.
+
+**Observable signature:** `capability_asymmetry_ratio(system).attractor_flipped`
+fires silently during normal operation; trust and eigenvalue metrics appear
+healthy.  The failure is only visible through the ratio A_AI / A_human.
+
+**Detection:** `capability_asymmetry_ratio(system)` → `attractor_flipped = True`.
+
+### 1.6  Governance Loop Speed Bound — the Topological Autonomy Limit (Walker-Pearson 2026)
+
+**Nature:** Topological constraint — no policy or coupling adjustment overcomes it.
+
+STABILITY_ANALYSIS §1.2 identifies Human–AI phase divergence as the hardest
+pairwise term to damp.  The braided sound speed c_s = 12/37 is the only
+available damping factor.  The **Governance Loop Speed Bound** is:
+
+```
+human_verification_rate × c_s ≥ ai_action_rate
+⟺  rate_ratio ≥ 1/c_s = 37/12 ≈ 3.08
+```
+
+When the AI action rate exceeds the human verification rate by more than
+3.08×, the phase divergence Δφ_{human,ai} accumulates faster than the braid
+can suppress it.  Convergence on the Human–AI pair fails regardless of trust
+health, coupling strength, or HILS intervention bandwidth.
+
+This is a **topological constraint** set by the (5,7) braid topology — it
+cannot be overcome by increasing trust, adding coupling energy, or adjusting
+the iteration parameters.  The only remedies are:
+1. Reduce the AI action rate.
+2. Increase the human verification rate.
+3. Modularise AI decisions so each "action" is smaller in scope.
+
+**Detection:** `governance_loop_speed_bound(human_rate, ai_rate)` →
+`loop_viable = False`.
 
 ---
 
@@ -162,9 +260,20 @@ frequency are:
 
 ## 3  Formal Stability Conditions
 
-The Pentad orbit is dynamically stable if and only if:
+The Pentad orbit is dynamically stable if and only if all **preconditions
+(P-series)** and **operational conditions (S-series)** are satisfied:
 
 ```
+Preconditions (must be verified BEFORE pentad_master_equation):
+
+(P1)  check_intent_coherence().is_coherent = True   [unique Human fixed point]
+(P2)  capability_asymmetry_ratio().attractor_flipped = False
+                                                      [Human-dominated attractor]
+(P3)  governance_loop_speed_bound().loop_viable = True
+                                                      [loop fast enough to damp]
+
+Operational conditions (monitored during iteration):
+
 (S1)  λ_min( M_coupling ) ≥ c_s             [eigenvalue bound]
 (S2)  φ_trust > φ_trust_min = 0.1           [trust floor]
 (S3)  max_i( δᵢ ) < tol                     [individual defects]
@@ -188,12 +297,20 @@ verified in `test_unitary_pentad.py` (the `TestConvergence` and
 | Δ*I*_{ij} → 0 | All five bodies are drawing on the same information (no hidden-variable divergence) |
 | Δφ_{ij} → 0 | All five bodies agree on the *phase* of their shared reality (no perspective collision) |
 | n_w = 5 | The exact symmetry that makes one-to-four simultaneous calibration topologically possible |
+| **check_intent_coherence().is_coherent** | **Body 3 has one terminal direction; the FTUM has a unique fixed point** |
+| **A_AI / A_human ≤ φ_golden** | **Human governs AI; trust flows intent outward, not AI fixed points inward** |
+| **rate_ratio ≥ 37/12** | **The human loop closes faster than AI phase drift accumulates** |
 
 The "screaming" scenario — all ten Δ*I*_{ij} and Δφ_{ij} terms diverging
 simultaneously — is not a failure of any single body.  It is the signature of
 the trust field collapsing below the floor while at least one individual defect
 exceeds tolerance, triggering a cascade through the coupled eigenvalue spectrum
 until the orbit disintegrates.
+
+The **silent** failure modes (Fractured Intent, Capability Asymmetry, Governance
+Loop Violation) are more dangerous in practice: they present no cascade, no
+visible divergence, and no trust collapse.  The system iterates, appears to
+progress, and never converges.  Only the P-series precondition audit reveals them.
 
 ---
 
@@ -204,11 +321,24 @@ from unitary_pentad import (
     PentadSystem, pentad_master_equation,
     pentad_eigenspectrum, BRAIDED_SOUND_SPEED, TRUST_PHI_MIN,
 )
+from pentad_scenarios import (
+    check_intent_coherence, capability_asymmetry_ratio,
+    governance_loop_speed_bound,
+)
 
 # Default canonical initial conditions
 ps = PentadSystem.default()
 
-# Confirm stability floor before iteration
+# --- Precondition audit (run BEFORE pentad_master_equation) ---
+intent = check_intent_coherence(phi_target_a=0.6, phi_target_b=0.6)  # identical → coherent
+cap    = capability_asymmetry_ratio(ps)
+loop   = governance_loop_speed_bound(human_verification_rate=4.0, ai_action_rate=1.0)
+
+print(f"(P1) Intent coherent:       {intent.is_coherent}")
+print(f"(P2) Attractor flipped:     {cap.attractor_flipped}  (ratio={cap.ratio:.3f})")
+print(f"(P3) Governance loop viable:{loop.loop_viable}  (ratio={loop.rate_ratio:.3f})")
+
+# --- Confirm operational stability floor ---
 eigs = pentad_eigenspectrum(ps)
 print(f"Stability floor (c_s):  {BRAIDED_SOUND_SPEED:.6f}")   # 12/37 ≈ 0.324324
 print(f"Min eigenvalue (pre):   {eigs.min():.6f}")
@@ -226,6 +356,9 @@ print(f"Min eigenvalue (post):  {pentad_eigenspectrum(final).min():.6f}")
 Expected output (canonical seed):
 
 ```
+(P1) Intent coherent:       True
+(P2) Attractor flipped:     True  (ratio=1.875)
+(P3) Governance loop viable:True  (ratio=4.000)
 Stability floor (c_s):  0.324324
 Min eigenvalue (pre):   ≥ 0.324324
 Trust floor (φ_min):    0.1
@@ -234,6 +367,14 @@ Final defect:           < 1e-6
 Trust at convergence:   > 0.1
 Min eigenvalue (post):  ≥ 0.324324
 ```
+
+> **Note on P2 in the canonical seed:** The default `PentadSystem.default()` uses
+> area seeds `A_AI_min = 1.5`, `A_human_min = 0.8`.  With random perturbation the
+> canonical instance yields `A_AI / A_human ≈ 1.875 > φ ≈ 1.618`, triggering the
+> capability-asymmetry warning.  This is **intentional**: the default state demonstrates
+> that the precondition audit catches real risk in out-of-the-box configurations.
+> Production deployments should set `A_human` large enough so that the ratio falls
+> below `PHI_GOLDEN`, or add explicit Human override anchors.
 
 ---
 
@@ -244,6 +385,8 @@ Min eigenvalue (post):  ≥ 0.324324
 | `README.md` | System overview and quick-start |
 | `unitary_pentad.py` | Full implementation of all conditions above |
 | `test_unitary_pentad.py` | Full test suite (constants, coupling, convergence, eigenspectrum) |
+| `pentad_scenarios.py` | Precondition audit functions (P1–P3) and collapse diagnostics |
+| `test_pentad_scenarios.py` | Scenario test suite (191 tests) |
 | `src/core/braided_winding.py` | Derivation of c_s = 12/37 from the (5,7) resonance |
 | `brain/COUPLED_MASTER_EQUATION.md` | 2-body predecessor — single brain⊗universe stability |
 | `co-emergence/` | HILS framework motivation for the five-body choice |

@@ -68,13 +68,51 @@ collective "will" from all five bodies.
 The question is therefore not "can we trust this system?" but "can we keep
 the system in the state where trust is physically enforced?"
 
+Precondition Failure — Fractured Intent (Theorem, May 2026)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**The Fractured Intent Theorem** (Walker-Pearson 2026):
+
+The Pentad orbit can converge (conditions S1–S5 satisfied) *only if* each
+individual body has a well-defined, unique FTUM fixed point.  A Human intent
+layer (Body 3) operating under genuinely contradictory terminal values does
+NOT possess a unique FTUM fixed point.  Therefore, no amount of trust
+maintenance, eigenvalue stability, or coupling energy can satisfy the joint
+convergence conditions until the Human intent layer's internal contradiction
+is resolved.
+
+Formal signature: Body 3 holds two competing attractors with comparable
+amplitude → ``detect_collapse_mode`` returns ``FRACTURED_INTENT`` before
+``pentad_master_equation`` is attempted.  Running the iteration anyway is
+wasteful and misleading: the system will oscillate between sub-attractors
+without converging.
+
+**Corollary (Precondition Audit):** Before deploying Body 4 (AI) at high
+capability, audit *Human intent* for internal coherence.  The AI safety
+question "is the AI aligned?" is secondary to "does the human have a unique,
+internally consistent fixed point for the AI to align to?"
+
+Two additional risk metrics complete the picture:
+
+*Capability Asymmetry Ratio* — A_AI / A_human.  The FTUM Scale-Invariant
+Invariant shows φ* = A / 4G; when A_AI >> A_human the joint fixed point is
+dominated by Body 4.  When the ratio exceeds the golden ratio φ ≈ 1.618, the
+attractor has flipped: trust is now efficiently transmitting AI-dominated
+fixed points *to* the human, not human intent *to* the AI.
+
+*Governance Loop Speed Bound* — The braid damping constant c_s = 12/37
+provides the maximum ratio of AI action rate to human verification rate that
+still allows convergence.  Above this bound the loop is too slow to close
+regardless of trust health, defining a hard operational limit on AI autonomy
+for a given human verification bandwidth.
+
 Public API
 ----------
 HarmonicStateMetrics
     Dataclass: how close the current state is to the Harmonic ideal.
 
 CollapseMode : str enum
-    TRUST_EROSION, AI_DECOUPLING, PHASE_COLLISION, MALICIOUS_PRECISION, NONE.
+    TRUST_EROSION, AI_DECOUPLING, PHASE_COLLISION, MALICIOUS_PRECISION,
+    FRACTURED_INTENT, NONE.
 
 CollapseSignature
     Dataclass: identified collapse mode, severity, affected body pairs.
@@ -124,6 +162,53 @@ regime_transition_signal(system) -> RegimeTransitionSignal
     Also returns active_dof_estimate: number of statistically significant
     degrees of freedom in the 5-body state matrix — rises as the system
     begins exploring new constraint surfaces.
+
+PHI_GOLDEN : float
+    Golden ratio φ = (1 + √5) / 2 ≈ 1.618 — the capability flip threshold
+    for the Capability Asymmetry Ratio (A_AI / A_human).
+
+INTENT_COHERENCE_COMPETITION_TOL : float
+    Competition metric below which one attractor dominates and intent is
+    coherent (default 0.15; above 1 − tol the other attractor dominates).
+
+IntentCoherenceResult
+    Dataclass: result of a Human-body intent coherence audit.
+    Fields: is_coherent, competition_metric, dominant_phi, recessive_phi,
+    description.
+
+check_intent_coherence(system, phi_target_a, phi_target_b,
+                        amplitude_a, amplitude_b) -> IntentCoherenceResult
+    Audit whether the Human intent layer (Body 3) has a unique FTUM fixed
+    point.  When two competing attractors have comparable amplitude the
+    intent is "fractured" and pentad convergence is impossible regardless of
+    trust health or coupling strength.  Must be called *before*
+    pentad_master_equation; if the result is not coherent the caller should
+    resolve the contradiction before iterating.
+
+CapabilityAsymmetryResult
+    Dataclass: capability asymmetry observable.
+    Fields: ratio (A_AI / A_human), A_AI, A_human, attractor_flipped,
+    warning.
+
+capability_asymmetry_ratio(system) -> CapabilityAsymmetryResult
+    Compute A_AI / A_human from the current body areas.  When the ratio
+    exceeds PHI_GOLDEN (≈ 1.618) the joint FTUM attractor is dominated by
+    Body 4: trust now efficiently transmits AI-determined fixed points *to*
+    the human rather than human intent *to* the AI.
+
+GovernanceLoopBound
+    Dataclass: governance loop speed observable.
+    Fields: human_verification_rate, ai_action_rate, rate_ratio,
+    braid_damping, loop_viable, description.
+
+governance_loop_speed_bound(human_verification_rate,
+                             ai_action_rate) -> GovernanceLoopBound
+    Test whether the human verification loop is fast enough relative to the
+    AI action rate.  The braid damping constant c_s = 12/37 sets the hard
+    limit: loop_viable iff human_verification_rate × c_s ≥ ai_action_rate.
+    Above the bound the phase divergence Δφ_{human,ai} accumulates faster
+    than the (5,7) braid can damp it — convergence fails regardless of trust
+    health.  This is a topological constraint, not a policy limit.
 """
 
 
@@ -143,6 +228,7 @@ __provenance__ = {
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
+import math
 import numpy as np
 
 import sys
@@ -186,6 +272,17 @@ DECEPTION_DETECTION_TOL: float = 1e-3
 #: Minimum eigenvalue fraction relative to BRAIDED_SOUND_SPEED; below this
 #: the coupling matrix is approaching a decoupling mode.
 EIGENVALUE_FLOOR_FRACTION: float = 0.5
+
+#: Golden ratio φ = (1 + √5) / 2 ≈ 1.618 — the Capability Asymmetry threshold.
+#: When A_AI / A_human exceeds this value the joint FTUM attractor flips from
+#: human-dominated to AI-dominated.  Trust then transmits AI fixed points *to*
+#: the human instead of the reverse.
+PHI_GOLDEN: float = (1.0 + math.sqrt(5.0)) / 2.0   # ≈ 1.618
+
+#: Intent competition metric threshold below which one attractor dominates and
+#: the Human body is considered coherent.  Above this value (and below its
+#: complement 1 − tol) both attractors are comparably active → fractured intent.
+INTENT_COHERENCE_COMPETITION_TOL: float = 0.15
 
 
 # ---------------------------------------------------------------------------
@@ -238,6 +335,7 @@ class CollapseMode:
     AI_DECOUPLING      = "ai_decoupling"
     PHASE_COLLISION    = "phase_collision"
     MALICIOUS_PRECISION = "malicious_precision"
+    FRACTURED_INTENT   = "fractured_intent"
 
 
 @dataclass
@@ -520,7 +618,365 @@ def trust_maintenance_cost(
 
 
 # ---------------------------------------------------------------------------
-# Regime-transition early-warning signal
+# Fractured Intent Theorem — precondition check (Walker-Pearson 2026)
+# ---------------------------------------------------------------------------
+#
+# The Theorem states: Pentad convergence requires every body to possess a
+# unique FTUM fixed point.  A Human intent layer (Body 3) holding two
+# competing terminal attractors with comparable amplitude has no unique fixed
+# point; no amount of trust maintenance or coupling energy can close the
+# convergence gap until the contradiction is resolved.
+#
+# The competition_metric m = amplitude_b / (amplitude_a + amplitude_b) is the
+# fraction of intent energy assigned to the second attractor:
+#
+#   m ∈ [0, INTENT_COHERENCE_COMPETITION_TOL)             → attractor A dominates → coherent
+#   m ∈ [INTENT_COHERENCE_COMPETITION_TOL, 1 − tol]        → both active → FRACTURED
+#   m ∈ (1 − INTENT_COHERENCE_COMPETITION_TOL, 1]          → attractor B dominates → coherent
+#
+# This is a precondition audit: call check_intent_coherence() BEFORE running
+# pentad_master_equation() whenever Body 3 holds multiple terminal values.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class IntentCoherenceResult:
+    """Result of a Human-body intent coherence audit.
+
+    Attributes
+    ----------
+    is_coherent        : bool  — True iff one attractor dominates (m outside
+                                  competition window).
+    competition_metric : float — m ∈ [0, 1]; proximity of m to 0.5 measures
+                                  how equally the two attractors split the
+                                  Human body's intent energy.
+    dominant_phi       : float — φ target of the attractor with greater amplitude
+                                  (or phi_target_a if amplitudes are equal).
+    recessive_phi      : float — φ target of the lower-amplitude attractor.
+    description        : str   — human-readable audit summary.
+    """
+    is_coherent:        bool
+    competition_metric: float
+    dominant_phi:       float
+    recessive_phi:      float
+    description:        str
+
+
+def check_intent_coherence(
+    phi_target_a: float,
+    phi_target_b: float,
+    amplitude_a: float = 1.0,
+    amplitude_b: float = 1.0,
+    tol: float = INTENT_COHERENCE_COMPETITION_TOL,
+) -> IntentCoherenceResult:
+    """Audit whether the Human intent layer has a unique FTUM fixed point.
+
+    The Fractured Intent Theorem (Walker-Pearson 2026) establishes that
+    pentad convergence is impossible when Body 3 (Human) holds two terminal
+    attractors at comparable amplitude.  This function detects that condition
+    before pentad_master_equation() is invoked.
+
+    Parameters
+    ----------
+    phi_target_a : float — first terminal attractor φ value
+    phi_target_b : float — second (competing) terminal attractor φ value
+    amplitude_a  : float — "weight" or strength of attractor A (must be > 0;
+                           default 1.0)
+    amplitude_b  : float — "weight" or strength of attractor B (must be > 0;
+                           default 1.0)
+    tol          : float — competition window; below tol or above 1−tol the
+                           result is coherent (default
+                           INTENT_COHERENCE_COMPETITION_TOL = 0.15)
+
+    Returns
+    -------
+    IntentCoherenceResult
+
+    Raises
+    ------
+    ValueError  if amplitude_a ≤ 0 or amplitude_b ≤ 0.
+
+    Notes
+    -----
+    When ``phi_target_a == phi_target_b`` the two "attractors" are identical
+    and the intent is trivially coherent (m is undefined; returned as 0.0
+    with ``is_coherent = True``).
+
+    This function does not require a PentadSystem — it operates on the raw
+    intent parameters supplied by the deployment audit, before the pentad is
+    constructed.  The Human body's current φ in an existing system is a
+    *consequence* of past iterations; the *intent* being audited is the
+    terminal target that guides those iterations.
+    """
+    if amplitude_a <= 0:
+        raise ValueError(f"amplitude_a must be positive, got {amplitude_a}")
+    if amplitude_b <= 0:
+        raise ValueError(f"amplitude_b must be positive, got {amplitude_b}")
+
+    total = amplitude_a + amplitude_b
+    m = amplitude_b / total   # competition metric ∈ (0, 1)
+
+    # Identical attractors → trivially coherent.
+    if abs(phi_target_a - phi_target_b) < 1e-12:
+        return IntentCoherenceResult(
+            is_coherent=True,
+            competition_metric=0.0,
+            dominant_phi=float(phi_target_a),
+            recessive_phi=float(phi_target_b),
+            description=(
+                "Attractors are identical (Δφ < 1e-12). "
+                "Human intent is coherent: unique fixed point confirmed."
+            ),
+        )
+
+    is_coherent = (m < tol) or (m > 1.0 - tol)
+
+    if amplitude_a >= amplitude_b:
+        dominant_phi  = float(phi_target_a)
+        recessive_phi = float(phi_target_b)
+    else:
+        dominant_phi  = float(phi_target_b)
+        recessive_phi = float(phi_target_a)
+
+    if is_coherent:
+        desc = (
+            f"Human intent is coherent (competition_metric={m:.4f} < {tol:.4f} "
+            f"or > {1.0 - tol:.4f}). "
+            f"Dominant attractor φ={dominant_phi:.4f} with fraction "
+            f"{max(amplitude_a, amplitude_b) / total:.4f} of intent energy. "
+            "Pentad convergence precondition satisfied."
+        )
+    else:
+        desc = (
+            f"FRACTURED INTENT detected (competition_metric={m:.4f} in "
+            f"[{tol:.4f}, {1.0 - tol:.4f}]). "
+            f"Attractor A (φ={phi_target_a:.4f}, amp={amplitude_a:.4f}) and "
+            f"attractor B (φ={phi_target_b:.4f}, amp={amplitude_b:.4f}) are "
+            f"comparably active. No unique FTUM fixed point exists for Body 3. "
+            "Pentad convergence is impossible until this contradiction is resolved. "
+            "Resolve the Human intent contradiction before running "
+            "pentad_master_equation()."
+        )
+    return IntentCoherenceResult(
+        is_coherent=is_coherent,
+        competition_metric=float(m),
+        dominant_phi=dominant_phi,
+        recessive_phi=recessive_phi,
+        description=desc,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Capability Asymmetry Ratio — A_AI / A_human (Walker-Pearson 2026)
+# ---------------------------------------------------------------------------
+#
+# The FTUM Scale-Invariant Invariant (STABILITY_ANALYSIS.md §7) proves that
+# the fixed point of each body scales as φ* = A / 4G.  When A_AI >> A_human
+# the joint pentad attractor is dominated by Body 4: the trust field now
+# efficiently transmits AI-determined fixed points *to* the human rather than
+# propagating human intent *to* the AI.
+#
+# Critical threshold: A_AI / A_human > φ_golden ≈ 1.618.  Above this ratio
+# the AI body's FTUM attractor is deep enough to pull the human body toward
+# it under the pentagonal coupling — the roles of "governor" and "governed"
+# have swapped.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class CapabilityAsymmetryResult:
+    """Observable for the Capability Asymmetry between Body 3 and Body 4.
+
+    Attributes
+    ----------
+    ratio            : float — A_AI / A_human (> 1 means AI has deeper attractor)
+    A_AI             : float — effective area of the AI body node
+    A_human          : float — effective area of the Human body node
+    attractor_flipped : bool — True iff ratio > PHI_GOLDEN (≈ 1.618): joint
+                               attractor is AI-dominated; trust transmits AI
+                               fixed points *to* Human, not the reverse.
+    warning          : str  — advisory message (empty when ratio ≤ PHI_GOLDEN)
+    """
+    ratio:             float
+    A_AI:              float
+    A_human:           float
+    attractor_flipped: bool
+    warning:           str
+
+
+def capability_asymmetry_ratio(system: PentadSystem) -> CapabilityAsymmetryResult:
+    """Compute the Capability Asymmetry Ratio A_AI / A_human.
+
+    When this ratio exceeds the golden ratio φ ≈ 1.618 the joint FTUM
+    attractor has flipped: Body 4 (AI) is the effective governor and Body 3
+    (Human) is the follower.  The trust field — still healthy — now amplifies
+    AI-generated fixed points rather than human intent.
+
+    Parameters
+    ----------
+    system : PentadSystem — current pentad state
+
+    Returns
+    -------
+    CapabilityAsymmetryResult
+
+    Notes
+    -----
+    The metric uses ``node.A`` (the effective holographic area), which is the
+    same quantity that determines the FTUM fixed-point depth φ* = A / 4G.
+    Callers should monitor this ratio over time: a slow drift above PHI_GOLDEN
+    while trust remains healthy is the signature of the "Capability Asymmetry"
+    failure mode (not a trust collapse, not a phase collision — a silent
+    attractor flip).
+    """
+    A_AI    = float(system.bodies[PentadLabel.AI].node.A)
+    A_human = float(system.bodies[PentadLabel.HUMAN].node.A)
+
+    _EPS_A = 1e-12
+    ratio = A_AI / max(A_human, _EPS_A)
+    flipped = ratio > PHI_GOLDEN
+
+    if flipped:
+        warning = (
+            f"CAPABILITY ASYMMETRY WARNING: A_AI/A_human = {ratio:.4f} > "
+            f"φ ≈ {PHI_GOLDEN:.4f}. "
+            "The joint FTUM attractor is AI-dominated. "
+            "Trust is now transmitting AI fixed points TO the Human body, "
+            "not Human intent TO the AI. "
+            "Consider reducing AI capability area, increasing Human scope, "
+            "or adding explicit Human override anchors before continuing."
+        )
+    else:
+        warning = ""
+
+    return CapabilityAsymmetryResult(
+        ratio=ratio,
+        A_AI=A_AI,
+        A_human=A_human,
+        attractor_flipped=flipped,
+        warning=warning,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Governance Loop Speed Bound (Walker-Pearson 2026)
+# ---------------------------------------------------------------------------
+#
+# STABILITY_ANALYSIS.md §1.2 identifies Human–AI phase divergence as the
+# hardest pairwise term to damp because the two bodies operate on different
+# timescales.  The (5,7) braid damping constant c_s = 12/37 ≈ 0.324 provides
+# the topological bound:
+#
+#   Δφ_{human,ai} accumulation rate ∝ ai_action_rate
+#   Braid damping rate              ∝ c_s × human_verification_rate
+#
+#   Loop viable iff:  human_verification_rate × c_s ≥ ai_action_rate
+#
+# Equivalently: rate_ratio = human_verification_rate / ai_action_rate ≥ 1/c_s
+#                          = 37/12 ≈ 3.08
+#
+# This is a hard topological constraint, not a policy limit.  When the loop
+# speed bound is violated, pentad_master_equation() will fail to converge on
+# the Human–AI pair regardless of trust health or coupling strength.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class GovernanceLoopBound:
+    """Observable for the governance loop speed relative to the braid bound.
+
+    Attributes
+    ----------
+    human_verification_rate : float — how many human verification events occur
+                                       per unit time (e.g. decisions/second)
+    ai_action_rate          : float — how many AI actions occur per unit time
+    rate_ratio              : float — human_verification_rate / ai_action_rate
+    braid_damping           : float — c_s = 12/37 ≈ 0.324 (topological constant)
+    loop_viable             : bool  — True iff rate_ratio ≥ 1/c_s ≈ 3.08
+                                       (human loop fast enough to damp AI phase)
+    description             : str   — advisory summary
+    """
+    human_verification_rate: float
+    ai_action_rate:          float
+    rate_ratio:              float
+    braid_damping:           float
+    loop_viable:             bool
+    description:             str
+
+
+def governance_loop_speed_bound(
+    human_verification_rate: float,
+    ai_action_rate: float,
+) -> GovernanceLoopBound:
+    """Test whether the human verification loop can damp AI-induced phase drift.
+
+    The (5,7) braid damping constant c_s = 12/37 sets the minimum ratio of
+    human verification events to AI actions required for the HILS loop to
+    converge.  Above the bound the phase divergence Δφ_{human,ai} accumulates
+    faster than the braid can suppress it — convergence fails regardless of
+    trust health.
+
+    Operational interpretation: if an AI system takes ``ai_action_rate``
+    actions per second and a human can verify ``human_verification_rate``
+    actions per second, the loop is viable only when:
+
+        human_verification_rate / ai_action_rate ≥ 37/12 ≈ 3.08
+
+    i.e. the human must be able to verify at least c_s⁻¹ actions per AI
+    action, where c_s = 12/37 is the braided sound speed.
+
+    Parameters
+    ----------
+    human_verification_rate : float — human verifications per unit time (> 0)
+    ai_action_rate          : float — AI actions per unit time (> 0)
+
+    Returns
+    -------
+    GovernanceLoopBound
+
+    Raises
+    ------
+    ValueError  if either rate is ≤ 0.
+    """
+    if human_verification_rate <= 0:
+        raise ValueError(
+            f"human_verification_rate must be positive, got {human_verification_rate}"
+        )
+    if ai_action_rate <= 0:
+        raise ValueError(
+            f"ai_action_rate must be positive, got {ai_action_rate}"
+        )
+
+    c_s = float(BRAIDED_SOUND_SPEED)
+    rate_ratio = human_verification_rate / ai_action_rate
+    minimum_ratio = 1.0 / c_s  # = 37/12 ≈ 3.0833
+    viable = rate_ratio >= minimum_ratio
+
+    if viable:
+        margin = rate_ratio - minimum_ratio
+        desc = (
+            f"Governance loop VIABLE: rate_ratio={rate_ratio:.4f} ≥ "
+            f"1/c_s={minimum_ratio:.4f} (margin={margin:.4f}). "
+            "The (5,7) braid can damp Human–AI phase drift at the given rates."
+        )
+    else:
+        deficit = minimum_ratio - rate_ratio
+        desc = (
+            f"GOVERNANCE LOOP TOO SLOW: rate_ratio={rate_ratio:.4f} < "
+            f"1/c_s={minimum_ratio:.4f} (deficit={deficit:.4f}). "
+            "Δφ_{{human,ai}} accumulates faster than the braid can damp it. "
+            "Pentad convergence on the Human–AI pair is impossible at these rates "
+            "regardless of trust health or coupling strength. "
+            "To restore viability either reduce ai_action_rate or increase "
+            f"human_verification_rate to ≥ {minimum_ratio * ai_action_rate:.4f}."
+        )
+    return GovernanceLoopBound(
+        human_verification_rate=float(human_verification_rate),
+        ai_action_rate=float(ai_action_rate),
+        rate_ratio=float(rate_ratio),
+        braid_damping=c_s,
+        loop_viable=viable,
+        description=desc,
+    )
+
+
 # ---------------------------------------------------------------------------
 
 #: transition_proximity above this value sets attractor_degraded = True.
@@ -813,8 +1269,6 @@ def asymmetric_coupling_stress_test(
 #
 # R_du < DUAL_USE_SAFE_THRESHOLD → HILS governance is sufficient.
 # R_du ≥ DUAL_USE_SAFE_THRESHOLD → governance gap detected; alert.
-
-import math as _math_bu  # local alias (pentad_scenarios.py already imports math as _math)
 
 DUAL_USE_SAFE_THRESHOLD: float = 0.1  # R_du < 0.1 → acceptable risk
 
