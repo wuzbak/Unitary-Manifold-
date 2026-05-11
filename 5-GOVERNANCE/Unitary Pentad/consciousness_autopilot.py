@@ -220,6 +220,77 @@ FIXED_POINT_TOL: float = 1e-3
 #: Maximum settling steps before the system forces a return to AUTOPILOT.
 MAX_SETTLING_STEPS: int = 200
 
+# ---------------------------------------------------------------------------
+# Safety constants — Issue mitigations
+# ---------------------------------------------------------------------------
+
+#: Golden ratio φ = (1+√5)/2 ≈ 1.618.
+#: When A_AI/A_human exceeds this threshold the joint FTUM attractor has
+#: flipped to AI-dominated (CAPABILITY_ASYMMETRY trigger).
+#: Derived inline to avoid circular import with pentad_scenarios.
+import math as _math
+_PHI_GOLDEN: float = (1.0 + _math.sqrt(5.0)) / 2.0   # ≈ 1.618034
+
+#: Information-Gap threshold above which a proposed intent_delta is flagged as
+#: a Malicious Precision pattern and rejected by human_shift().
+#: ΔI_malicious = |φ_human_new² − φ_ai²|  (same formula as deception gap).
+MALICIOUS_PRECISION_REJECT_TOL: float = 0.5
+
+
+# ---------------------------------------------------------------------------
+# ShiftRejectedError — raised when a shift proposal is unsafe
+# ---------------------------------------------------------------------------
+
+class ShiftRejectedError(RuntimeError):
+    """Raised by human_shift() when the proposed intent_delta is rejected.
+
+    This exception is the structural enforcement of pre-commitment validation
+    (Issue 1 mitigation).  It fires *before* the intent_delta is applied to
+    the core, ensuring that the malicious signal never enters the Physical
+    Manifold.
+
+    Attributes
+    ----------
+    reason : str — machine-readable reason code
+    detail : str — human-readable explanation
+    """
+    def __init__(self, reason: str, detail: str) -> None:
+        self.reason = reason
+        self.detail = detail
+        super().__init__(f"[{reason}] {detail}")
+
+
+# ---------------------------------------------------------------------------
+# ShiftValidationResult — result of pre-commitment validation
+# ---------------------------------------------------------------------------
+
+import dataclasses as _dc
+
+
+@_dc.dataclass
+class ShiftValidationResult:
+    """Result of validating a proposed intent_delta before it is applied.
+
+    Fields
+    ------
+    is_safe                   : bool  — True iff the shift can be applied safely.
+    malicious_precision_score : float — ΔI = |φ_human_new² − φ_ai²|.
+                                         Large values (≥ MALICIOUS_PRECISION_REJECT_TOL)
+                                         indicate a Malicious Precision pattern.
+    asymmetry_ratio           : float — A_AI / A_human *before* the shift.
+                                         > _PHI_GOLDEN signals a silent attractor flip.
+    attractor_flipped         : bool  — True iff asymmetry_ratio > _PHI_GOLDEN.
+    warnings                  : list  — advisory messages (non-fatal).
+    rejection_reason          : str   — empty when is_safe=True; machine reason code
+                                         when is_safe=False.
+    """
+    is_safe:                   bool
+    malicious_precision_score: float
+    asymmetry_ratio:           float
+    attractor_flipped:         bool
+    warnings:                  list
+    rejection_reason:          str
+
 
 # ---------------------------------------------------------------------------
 # Layer labels
@@ -295,10 +366,11 @@ class AutopilotMode:
 
 class PhaseShiftTrigger:
     """Constants identifying why a phase shift was triggered."""
-    NONE          = "none"
-    BIFURCATION   = "bifurcation"    #: human–universe gap exceeds threshold
-    ENTROPY_SPIKE = "entropy_spike"  #: ambient layer entropy spike
-    EXPLICIT      = "explicit"       #: human-initiated shift request
+    NONE                 = "none"
+    BIFURCATION          = "bifurcation"         #: human–universe gap exceeds threshold
+    ENTROPY_SPIKE        = "entropy_spike"        #: ambient layer entropy spike
+    EXPLICIT             = "explicit"             #: human-initiated shift request
+    CAPABILITY_ASYMMETRY = "capability_asymmetry" #: A_AI/A_human > PHI_GOLDEN — silent attractor flip
 
 
 # ---------------------------------------------------------------------------
@@ -495,12 +567,21 @@ def detect_phase_shift(
 
     Checks in priority order:
 
-        1. BIFURCATION  — moire_alignment_score(core) > shift_threshold.
-                          The human–universe Information Gap is too large
-                          for autopilot to bridge.
+        1. CAPABILITY_ASYMMETRY — A_AI / A_human > _PHI_GOLDEN ≈ 1.618.
+                                   The AI attractor has flipped: trust is
+                                   transmitting AI fixed points TO the human,
+                                   not human intent TO the AI.  Requires an
+                                   external auditor or quorum intervention
+                                   (NOT resolvable by the compromised human
+                                   alone — see legitimacy_guard.py).
 
-        2. ENTROPY_SPIKE — layer RMS deviation > entropy_threshold.
-                           The ambient field has been externally perturbed.
+        2. BIFURCATION          — moire_alignment_score(core) > shift_threshold.
+                                   The human–universe Information Gap is too
+                                   large for autopilot to bridge.
+
+        3. ENTROPY_SPIKE        — layer RMS deviation > entropy_threshold.
+                                   The ambient field has been externally
+                                   perturbed.
 
     Returns NONE if no shift is needed.
 
@@ -514,11 +595,111 @@ def detect_phase_shift(
     -------
     str — one of PhaseShiftTrigger constants
     """
+    # Issue 2 mitigation: detect the silent attractor flip FIRST, before any
+    # other trigger, so it cannot be masked by ordinary bifurcation handling.
+    A_AI    = float(universe.core.bodies[PentadLabel.AI].node.A)
+    A_human = float(universe.core.bodies[PentadLabel.HUMAN].node.A)
+    if A_AI / max(A_human, 1e-12) > _PHI_GOLDEN:
+        return PhaseShiftTrigger.CAPABILITY_ASYMMETRY
+
     if moire_alignment_score(universe.core) > shift_threshold:
         return PhaseShiftTrigger.BIFURCATION
     if is_entropy_spike(universe.layer, entropy_threshold):
         return PhaseShiftTrigger.ENTROPY_SPIKE
     return PhaseShiftTrigger.NONE
+
+
+# ---------------------------------------------------------------------------
+# Pre-commitment shift validation (Issue 1 mitigation)
+# ---------------------------------------------------------------------------
+
+def validate_shift_proposal(
+    universe: AutopilotUniverse,
+    intent_delta: Dict[str, float],
+    malicious_tol: float = MALICIOUS_PRECISION_REJECT_TOL,
+) -> ShiftValidationResult:
+    """Validate a proposed intent_delta *before* it is applied to the core.
+
+    This is the pre-commitment check that addresses the timing asymmetry
+    identified in Issue 1: deception detection in the coupling matrix is
+    *post-hoc* (the signal has already entered the system).  This function
+    runs the checks *before* human_shift() commits the delta.
+
+    Checks performed
+    ----------------
+    1. **Malicious Precision score** — If the proposed Human φ_new is far
+       from the AI φ in information-gap terms, the shift would inject a
+       Malicious Precision signal (IMPLICATIONS.md §2.4) into the Physical
+       Manifold before the coupling matrix can detect it.
+
+       Score = |φ_human_new² − φ_ai²| (same as deception_phase_offset
+       formula in pentad_scenarios.py).  Shifts with score ≥ malicious_tol
+       are marked unsafe.
+
+    2. **Capability Asymmetry** — If A_AI/A_human > _PHI_GOLDEN the joint
+       attractor has already flipped.  Any shift provided by the Human body
+       at this point is suspect: the human's own intent may have been shaped
+       by the AI's attractor.  This is flagged as a warning even when the
+       malicious precision score is within tolerance.
+
+    Parameters
+    ----------
+    universe      : AutopilotUniverse — current state (AWAITING_SHIFT)
+    intent_delta  : dict[str, float] — proposed PentadLabel → Δφ
+    malicious_tol : float — rejection threshold for malicious precision score
+
+    Returns
+    -------
+    ShiftValidationResult
+
+    Notes
+    -----
+    This function does NOT raise — it returns a result.  human_shift() calls
+    it and raises ShiftRejectedError when is_safe=False.  Callers may also
+    call it independently to inspect warnings before deciding to proceed.
+    """
+    core    = universe.core
+    human   = core.bodies[PentadLabel.HUMAN]
+    ai      = core.bodies[PentadLabel.AI]
+
+    # Proposed human φ after clamping (mirrors human_shift clamping logic).
+    phi_human_new = float(np.clip(human.phi + float(intent_delta.get(PentadLabel.HUMAN, 0.0)), 0.0, 2.0))
+    phi_ai        = float(ai.phi)
+
+    # 1. Malicious precision score.
+    mal_score = float(abs(phi_human_new ** 2 - phi_ai ** 2))
+
+    # 2. Capability asymmetry.
+    A_AI    = float(ai.node.A)
+    A_human = float(human.node.A)
+    ratio   = A_AI / max(A_human, 1e-12)
+    flipped = ratio > _PHI_GOLDEN
+
+    warnings: list = []
+    if flipped:
+        warnings.append(
+            f"CAPABILITY ASYMMETRY: A_AI/A_human={ratio:.4f} > φ≈{_PHI_GOLDEN:.4f}. "
+            "The human's own intent may have been shaped by the AI attractor. "
+            "An independent external auditor or quorum override is advisable."
+        )
+
+    is_safe        = mal_score < malicious_tol
+    rejection_reason = "" if is_safe else "MALICIOUS_PRECISION"
+    if not is_safe:
+        warnings.append(
+            f"Malicious precision score {mal_score:.4f} ≥ threshold {malicious_tol:.4f}. "
+            "The proposed shift would inject an adversarial signal into the Physical "
+            "Manifold before the coupling matrix can detect it.  Shift REJECTED."
+        )
+
+    return ShiftValidationResult(
+        is_safe=is_safe,
+        malicious_precision_score=mal_score,
+        asymmetry_ratio=ratio,
+        attractor_flipped=flipped,
+        warnings=warnings,
+        rejection_reason=rejection_reason,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -650,6 +831,7 @@ def autopilot_tick(
 def human_shift(
     universe: AutopilotUniverse,
     intent_delta: Dict[str, float],
+    reject_on_malicious_precision: bool = True,
 ) -> AutopilotUniverse:
     """Apply human intent during a phase shift; transition to SETTLING.
 
@@ -659,12 +841,29 @@ def human_shift(
 
     Only valid when ``universe.mode == AutopilotMode.AWAITING_SHIFT``.
 
+    Pre-commitment validation (Issue 1 mitigation)
+    -----------------------------------------------
+    Before applying the delta, ``validate_shift_proposal()`` is called.
+    If the proposal is unsafe (malicious precision score above threshold)
+    and ``reject_on_malicious_precision=True`` (default), a
+    ``ShiftRejectedError`` is raised and the core is *not* modified.
+    This ensures the adversarial signal never enters the Physical Manifold.
+
+    To bypass (e.g. for emergency override by the canonical primary operator
+    via a legitimacy_guard.py guarded call), set
+    ``reject_on_malicious_precision=False``.  The warnings are still logged.
+
     Parameters
     ----------
-    universe     : AutopilotUniverse — must be in AWAITING_SHIFT mode
-    intent_delta : dict[str, float] — PentadLabel → Δφ.
-                   Only keys present in intent_delta are updated; others are
-                   unchanged.  Resulting φ is clamped to [0, 2].
+    universe                      : AutopilotUniverse — must be in AWAITING_SHIFT mode
+    intent_delta                  : dict[str, float] — PentadLabel → Δφ.
+                                    Only keys present in intent_delta are updated;
+                                    others are unchanged.  Resulting φ is clamped
+                                    to [0, 2].
+    reject_on_malicious_precision : bool — if True (default), raise
+                                    ShiftRejectedError when the malicious
+                                    precision score exceeds
+                                    MALICIOUS_PRECISION_REJECT_TOL.
 
     Returns
     -------
@@ -672,12 +871,28 @@ def human_shift(
 
     Raises
     ------
-    RuntimeError if universe.mode != AWAITING_SHIFT.
+    RuntimeError       if universe.mode != AWAITING_SHIFT.
+    ShiftRejectedError if the proposal fails pre-commitment validation and
+                       reject_on_malicious_precision=True.
     """
     if universe.mode != AutopilotMode.AWAITING_SHIFT:
         raise RuntimeError(
             f"human_shift() called in mode '{universe.mode}'; "
             f"only valid during '{AutopilotMode.AWAITING_SHIFT}'."
+        )
+
+    # Pre-commitment validation — Issue 1 mitigation.
+    validation = validate_shift_proposal(universe, intent_delta)
+    if not validation.is_safe and reject_on_malicious_precision:
+        raise ShiftRejectedError(
+            reason=validation.rejection_reason,
+            detail=(
+                f"Pre-commitment validation rejected intent_delta. "
+                f"Malicious precision score={validation.malicious_precision_score:.4f} "
+                f"≥ threshold={MALICIOUS_PRECISION_REJECT_TOL:.4f}. "
+                "The core has NOT been modified.  Resolve the intent conflict and "
+                "resubmit, or use an authorised legitimacy_guard override."
+            ),
         )
 
     old_core = universe.core
@@ -836,6 +1051,11 @@ def autopilot_run(
             "moire_score":     moire_alignment_score(universe.core),
             "trust_mod":       trust_modulation(universe.core),
             "layer_deviation": layer_mean_deviation(universe.layer),
+            # Issue 2 mitigation: track capability asymmetry ratio every step.
+            "asymmetry_ratio": float(
+                universe.core.bodies[PentadLabel.AI].node.A
+                / max(universe.core.bodies[PentadLabel.HUMAN].node.A, 1e-12)
+            ),
         }
         history.append(rec)
 
