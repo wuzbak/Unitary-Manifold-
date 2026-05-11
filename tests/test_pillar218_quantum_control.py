@@ -89,8 +89,8 @@ class TestDecoherence:
         r2 = decoherence_rate_from_kk(300.0, 1e-32)
         assert r2["gamma_bare_hz"] > r1["gamma_bare_hz"]
 
-    def test_larger_R_smaller_suppression(self):
-        # Larger R → smaller m_KK → less suppression
+    def test_larger_R_weaker_suppression(self):
+        # Larger R → smaller m_KK → suppression_factor closer to 1 (less suppressed)
         r1 = decoherence_rate_from_kk(300.0, 1e-10)
         r2 = decoherence_rate_from_kk(300.0, 1e-32)
         assert r1["suppression_factor"] >= r2["suppression_factor"]
