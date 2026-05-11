@@ -40,6 +40,7 @@ from src.core.pmns_solar_rge_correction import (
     pmns_solar_improvement_path,
     pmns_solar_no_overclaim_gate,
     pmns_solar_effective_closure_report,
+    pmns_solar_closure_delta_report,
     pmns_solar_rge_report,
     pillar163_summary,
 )
@@ -429,3 +430,22 @@ class TestEffectiveClosureOptIn:
         assert rep["effective_closure"] is True
         assert rep["residual_pct"] < 5.0
         assert rep["epistemic_label"] == "SUBSTANTIALLY_CLOSED"
+
+
+class TestInputValidationAndDeltaReport:
+    def test_negative_two_loop_gain_raises(self):
+        with pytest.raises(ValueError):
+            rge_delta_sin2_theta12(two_loop_gain=-0.1)
+
+    def test_unphysical_sin2_input_raises(self):
+        with pytest.raises(ValueError):
+            rge_delta_sin2_theta12(sin2_theta12_gut=1.1)
+
+    def test_negative_threshold_gain_raises(self):
+        with pytest.raises(ValueError):
+            seesaw_threshold_correction(threshold_gain=-1.0)
+
+    def test_closure_delta_report_improves_residual(self):
+        delta = pmns_solar_closure_delta_report()
+        assert delta["delta"]["residual_pct_reduction"] > 0.0
+        assert delta["delta"]["sin2_theta12_mz_shift"] > 0.0

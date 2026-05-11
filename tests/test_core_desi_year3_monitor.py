@@ -160,8 +160,55 @@ def test_strict_release_ingest_ready_packet():
     }
     packet = strict_release_ingest(payload)
     assert packet["pipeline"] == "DESI_Y3_STRICT_INGEST"
+    assert packet["normalization"] == "alias-aware"
     assert packet["ready_for_release_day"] is True
     assert packet["route"] in ("PASS", "TENSION", "FALSIFIED")
+
+
+def test_validate_release_payload_accepts_aliases():
+    payload = {
+        "release": "DESI Year 3",
+        "year": 2026,
+        "w0": -0.84,
+        "w0_err": 0.06,
+        "wa": -0.40,
+        "wa_err": 0.20,
+        "citation": "DESI Collaboration (2026)",
+        "data": "BAO + CMB + SNe Ia",
+    }
+    validated = validate_release_payload(payload)
+    assert validated["release_name"] == "DESI Year 3"
+    assert validated["w0_sigma"] == pytest.approx(0.06)
+
+
+def test_validate_release_payload_nonfinite_raises():
+    payload = {
+        "release_name": "DESI Year 3",
+        "year": 2026,
+        "w0_central": -0.84,
+        "w0_sigma": float("inf"),
+        "wa_central": -0.40,
+        "wa_sigma": 0.20,
+        "reference": "DESI Collaboration (2026)",
+        "datasets": "BAO + CMB + SNe Ia",
+    }
+    with pytest.raises(ValueError):
+        validate_release_payload(payload)
+
+
+def test_validate_release_payload_bounds_raises():
+    payload = {
+        "release_name": "DESI Year 3",
+        "year": 2026,
+        "w0_central": -0.84,
+        "w0_sigma": 0.06,
+        "wa_central": 8.0,
+        "wa_sigma": 0.20,
+        "reference": "DESI Collaboration (2026)",
+        "datasets": "BAO + CMB + SNe Ia",
+    }
+    with pytest.raises(ValueError):
+        validate_release_payload(payload)
 
 
 def test_routing_decision_falsified():

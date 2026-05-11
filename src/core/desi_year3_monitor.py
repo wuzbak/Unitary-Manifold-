@@ -95,6 +95,15 @@ REQUIRED_RELEASE_FIELDS: List[str] = [
     "reference",
     "datasets",
 ]
+_PAYLOAD_ALIASES = {
+    "release": "release_name",
+    "w0": "w0_central",
+    "w0_err": "w0_sigma",
+    "wa": "wa_central",
+    "wa_err": "wa_sigma",
+    "citation": "reference",
+    "data": "datasets",
+}
 
 #: UM predictions for w₀ and wₐ
 UM_PREDICTION: Dict = {
@@ -312,25 +321,49 @@ def update_with_new_data(
 
 def validate_release_payload(payload: Dict) -> Dict:
     """Validate and normalise a strict DESI-style release payload."""
-    missing = [key for key in REQUIRED_RELEASE_FIELDS if key not in payload]
+    normalized_payload = dict(payload)
+    for alias, canonical in _PAYLOAD_ALIASES.items():
+        if canonical not in normalized_payload and alias in normalized_payload:
+            normalized_payload[canonical] = normalized_payload[alias]
+
+    missing = [key for key in REQUIRED_RELEASE_FIELDS if key not in normalized_payload]
     if missing:
         raise ValueError(f"Missing required fields: {', '.join(missing)}")
 
-    release_name = str(payload["release_name"]).strip()
-    reference = str(payload["reference"]).strip()
-    datasets = str(payload["datasets"]).strip()
-    year = int(payload["year"])
-    w0_central = float(payload["w0_central"])
-    w0_sigma = float(payload["w0_sigma"])
-    wa_central = float(payload["wa_central"])
-    wa_sigma = float(payload["wa_sigma"])
+    release_name = str(normalized_payload["release_name"]).strip()
+    reference = str(normalized_payload["reference"]).strip()
+    datasets = str(normalized_payload["datasets"]).strip()
+    year = int(normalized_payload["year"])
+    w0_central = float(normalized_payload["w0_central"])
+    w0_sigma = float(normalized_payload["w0_sigma"])
+    wa_central = float(normalized_payload["wa_central"])
+    wa_sigma = float(normalized_payload["wa_sigma"])
 
     if year < int(DESI_DR2["year"]):
         raise ValueError(f"year must be >= {DESI_DR2['year']} for this monitoring pipeline.")
+    if year > 2100:
+        raise ValueError("year must be <= 2100 for this monitoring pipeline.")
     if not release_name:
         raise ValueError("release_name must be non-empty.")
     if w0_sigma <= 0 or wa_sigma <= 0:
         raise ValueError("w0_sigma and wa_sigma must be strictly positive.")
+    numeric_fields = {
+        "w0_central": w0_central,
+        "w0_sigma": w0_sigma,
+        "wa_central": wa_central,
+        "wa_sigma": wa_sigma,
+    }
+    for name, value in numeric_fields.items():
+        if not math.isfinite(value):
+            raise ValueError(f"{name} must be finite, got {value!r}")
+    if not (-3.0 <= w0_central <= 1.0):
+        raise ValueError("w0_central outside physics-safe ingest bounds [-3, 1].")
+    if not (-5.0 <= wa_central <= 5.0):
+        raise ValueError("wa_central outside physics-safe ingest bounds [-5, 5].")
+    if not (0.0 < w0_sigma <= 2.0):
+        raise ValueError("w0_sigma outside physics-safe ingest bounds (0, 2].")
+    if not (0.0 < wa_sigma <= 2.0):
+        raise ValueError("wa_sigma outside physics-safe ingest bounds (0, 2].")
     if not reference:
         raise ValueError("reference must be non-empty.")
     if not datasets:
@@ -365,6 +398,7 @@ def strict_release_ingest(payload: Dict) -> Dict:
     return {
         "pipeline": "DESI_Y3_STRICT_INGEST",
         "validated_payload": valid,
+        "normalization": "alias-aware",
         "analysis": analysis,
         "route": analysis["routing"]["route"],
         "integration_targets": list(MONITOR_INTEGRATION_TARGETS),

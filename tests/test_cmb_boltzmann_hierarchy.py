@@ -161,6 +161,16 @@ def test_reionization_damping_negative_ell_raises():
         reionization_transfer_damping(-1.0)
 
 
+def test_reionization_damping_negative_tau_raises():
+    with pytest.raises(ValueError):
+        reionization_transfer_damping(100.0, tau_reio=-0.01)
+
+
+def test_reionization_damping_nonpositive_transition_raises():
+    with pytest.raises(ValueError):
+        reionization_transfer_damping(100.0, ell_transition=0.0)
+
+
 # ---------------------------------------------------------------------------
 # Tight-coupling oscillator
 # ---------------------------------------------------------------------------
@@ -439,3 +449,9 @@ def test_boltzmann_hierarchy_reionization_closed_item_present():
 def test_boltzmann_hierarchy_tau_reio_reasonable():
     result = boltzmann_hierarchy_report()
     assert result["tau_reio"] == pytest.approx(TAU_REIO, rel=1e-12)
+
+
+def test_boltzmann_hierarchy_reionization_ratio_reasonable():
+    result = boltzmann_hierarchy_report()
+    ratio = result["reionization_damping_ratio_ell100_to_ell2"]
+    assert 0.0 < ratio < 1.0

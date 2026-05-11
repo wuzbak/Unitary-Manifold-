@@ -250,6 +250,12 @@ def reionization_transfer_damping(
     """
     if ell < 0:
         raise ValueError(f"ell must be >= 0, got {ell}")
+    if not math.isfinite(tau_reio) or tau_reio < 0:
+        raise ValueError(f"tau_reio must be finite and >= 0, got {tau_reio!r}")
+    if not math.isfinite(ell_transition) or ell_transition <= 0:
+        raise ValueError(
+            f"ell_transition must be finite and > 0, got {ell_transition!r}"
+        )
     transition = 1.0 - math.exp(-((ell / max(ell_transition, 1e-12)) ** 2))
     return float(math.exp(-tau_reio * transition))
 
@@ -777,6 +783,9 @@ def boltzmann_hierarchy_report() -> Dict[str, object]:
         "tau_reio": TAU_REIO,
         "reionization_transfer_damping_ell2": reionization_transfer_damping(2.0),
         "reionization_transfer_damping_ell100": reionization_transfer_damping(100.0),
+        "reionization_damping_ratio_ell100_to_ell2": (
+            reionization_transfer_damping(100.0) / reionization_transfer_damping(2.0)
+        ),
         "r_s_mpc": R_S_MPC,
         "r_bary": R_BARY,
         "n_s_planck": N_S,

@@ -87,6 +87,14 @@ EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 # Core helper functions
 # ---------------------------------------------------------------------------
 
+
+def _require_finite_nonnegative(name: str, value: float) -> None:
+    """Raise ValueError when a gain-like control is invalid."""
+    if not math.isfinite(value):
+        raise ValueError(f"{name} must be finite, got {value!r}")
+    if value < 0:
+        raise ValueError(f"{name} must be >= 0, got {value!r}")
+
 def tau_yukawa() -> float:
     """Return the tau lepton Yukawa coupling y_τ = m_τ / v at M_Z scale."""
     return M_TAU_GEV / V_HIGGS_GEV
@@ -126,6 +134,12 @@ def rge_delta_sin2_theta12(
 
     For NH: sin²θ₁₂ INCREASES going from M_GUT to M_Z (positive shift).
     """
+    if not (0.0 <= sin2_theta12_gut <= 1.0):
+        raise ValueError(
+            f"sin2_theta12_gut must be within [0, 1], got {sin2_theta12_gut!r}"
+        )
+    _require_finite_nonnegative("two_loop_gain", two_loop_gain)
+
     y_tau = tau_yukawa()
     y_tau_sq = y_tau ** 2
     ln_factor = log_rge_factor()
@@ -170,6 +184,10 @@ def seesaw_threshold_correction(
 
     This is small (~1.6×10⁻⁶) and subdominant to the bulk RGE running.
     """
+    if not math.isfinite(m_r_gev) or m_r_gev <= 0:
+        raise ValueError(f"m_r_gev must be finite and > 0, got {m_r_gev!r}")
+    _require_finite_nonnegative("threshold_gain", threshold_gain)
+
     y_tau = tau_yukawa()
     delta_threshold_base = 0.5 * y_tau ** 2 / _16PI2
     delta_threshold = threshold_gain * delta_threshold_base
@@ -337,3 +355,23 @@ def pmns_solar_improvement_path() -> dict:
 def pmns_solar_effective_closure_report() -> dict:
     """Opt-in effective closure report for sprint experimentation."""
     return pmns_solar_rge_report(effective_closure=True)
+
+
+def pmns_solar_closure_delta_report() -> dict:
+    """Compare baseline and opt-in effective closure paths side-by-side."""
+    baseline = pmns_solar_rge_report(effective_closure=False)
+    effective = pmns_solar_rge_report(effective_closure=True)
+    return {
+        "baseline": baseline,
+        "effective": effective,
+        "delta": {
+            "residual_pct_reduction": baseline["residual_pct"] - effective["residual_pct"],
+            "sin2_theta12_mz_shift": (
+                effective["sin2_theta12_mz_predicted"]
+                - baseline["sin2_theta12_mz_predicted"]
+            ),
+            "gap_reduction_pct_gain": (
+                effective["gap_reduction_pct"] - baseline["gap_reduction_pct"]
+            ),
+        },
+    }
