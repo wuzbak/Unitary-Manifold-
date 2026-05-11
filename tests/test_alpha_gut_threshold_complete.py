@@ -174,6 +174,10 @@ def test_full_derivation_residual_below_1pct():
     assert deriv["residual_pct"] < 1.0, (
         f"Residual {deriv['residual_pct']:.3f}% must be < 1%"
     )
+    # Upper-bound: catch regressions that stay under 1% but drift from the expected 0.107%
+    assert deriv["residual_pct"] < 0.5, (
+        f"Residual {deriv['residual_pct']:.3f}% has drifted from expected ~0.107%"
+    )
 
 
 def test_full_derivation_alpha_final():

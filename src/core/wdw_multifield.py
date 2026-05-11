@@ -65,7 +65,12 @@ def build_2d_wdw_hamiltonian(n_a=20, n_phi=20):
             # Potential term: +2a⁴ V_eff
             H[i, i] += 2.0 * a ** 4 * _v_eff(a, phi)
 
-    # Symmetrize for self-adjointness under DeWitt inner product
+    # Symmetrize to enforce standard matrix symmetry (H → (H+H^T)/2).
+    # Note: the DeWitt inner product in the continuum includes a measure √|det G|
+    # where G is the supermetric; on the discrete grid we approximate self-adjointness
+    # by explicit symmetrization.  This is an approximation adequate for the coarse
+    # eigenspectrum; full self-adjointness under the weighted inner product requires
+    # inclusion of the supermetric Jacobian in the finite-difference stencil.
     H = (H + H.T) / 2.0
     return H
 

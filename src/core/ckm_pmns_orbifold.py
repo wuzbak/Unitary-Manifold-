@@ -226,7 +226,8 @@ def ckm_wolfenstein_estimate(c_L_list=None):
         "theta_23_deg": th23,
         "pdg_lambda": PDG_WOLFENSTEIN_LAMBDA,
         "note": (
-            f"λ_W = eps[0]/eps[1] = {lam:.4f} vs PDG sin(13.1°) ≈ 0.2270. "
+            f"λ_W = eps[0]/eps[1] = {lam:.4f} vs PDG Wolfenstein λ = {PDG_WOLFENSTEIN_LAMBDA:.5f} "
+            f"(= sin(13.1°) ≈ 0.22650). "
             "Gap factor ~8× requires next-order c_L non-universality (open gap)."
         ),
     }

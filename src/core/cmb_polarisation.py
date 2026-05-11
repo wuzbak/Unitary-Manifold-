@@ -110,7 +110,18 @@ def solve_polarisation_hierarchy(k_mpc=0.05, eta_max=800.0):
 def _cl_tt_raw(ell_arr):
     """Raw TT power spectrum (with KK modification)."""
     k_ell = ell_arr / ETA_0
-    # Avoid log(0) for ell=0
+    # Guard: k_ell ≤ 0 corresponds to ell ≤ 0, which is unphysical for CMB multipoles.
+    # Valid CMB multipoles satisfy ell ≥ 2.  If invalid values appear, fall back to K_PIVOT
+    # to prevent log(0), but also emit a warning so callers can diagnose the issue.
+    invalid = k_ell <= 0
+    if np.any(invalid):
+        import warnings
+        warnings.warn(
+            f"ell_arr contains {np.sum(invalid)} non-positive value(s); "
+            "CMB multipoles require ell ≥ 2.  Replacing invalid k_ell with K_PIVOT.",
+            UserWarning,
+            stacklevel=2,
+        )
     k_safe = np.where(k_ell > 0, k_ell, K_PIVOT)
     tilt = (k_safe / K_PIVOT) ** (N_S - 1.0)
     kk_mod = 1.0 + DELTA_KK_REF * (ell_arr / ELL_REF) ** 2
