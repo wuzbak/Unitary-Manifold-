@@ -22,11 +22,13 @@ from src.core.pillar200_rge_geometric import (
     M_KK_GEV, ALPHA_GUT_GEO, LAMBDA_H_GEO,
     ALPHA_S_MKK_GEO, V_GEO_GEV, M_HIGGS_GEO_GEV,
     N_F_IN_FORWARD_RUN,
+    _PILLAR97_M_TOP_GEV,
     # functions
     geometric_basis,
     warp_anchor_ew_scale,
     kk_beta_correction,
     alpha_s_forward_chain,
+    alpha_s_to_mz_p201,
     axiom_zero_audit,
     gut_consistency_kk_corrected,
     pillar200_summary,
@@ -552,3 +554,159 @@ class TestPhysicalConsistency:
         assert inv_alpha < 0, (
             "Expected Landau pole even with KK correction for GUT→M_Z direct run"
         )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# EXTENDED CHAIN: M_KK → M_Z VIA PILLAR 201 VEV (alpha_s_to_mz_p201)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestAlphaSToMZP201:
+    """Tests for the extended apples-to-apples forward chain to M_Z."""
+
+    @pytest.fixture
+    def ext(self):
+        return alpha_s_to_mz_p201()
+
+    # ── AxiomZero compliance ─────────────────────────────────────────────────
+
+    def test_axiom_zero_compliant(self, ext):
+        assert ext["axiom_zero_compliant"] is True
+
+    def test_no_sm_anchors(self, ext):
+        assert ext["sm_anchors_used"] == []
+
+    # ── Pillar 97 top threshold ──────────────────────────────────────────────
+
+    def test_pillar97_m_top_constant_value(self):
+        """_PILLAR97_M_TOP_GEV must be in the expected physical range."""
+        assert 170 < _PILLAR97_M_TOP_GEV < 176
+
+    def test_m_top_source_label_present(self, ext):
+        assert "Pillar 97" in ext["m_top_source"]
+
+    def test_m_top_gev_default_is_pillar97(self, ext):
+        assert abs(ext["m_top_gev"] - _PILLAR97_M_TOP_GEV) < 1e-9
+
+    def test_m_top_less_than_mkk(self, ext):
+        assert ext["m_top_gev"] < ext["derived_starting_values"]["M_KK_GeV"]
+
+    def test_m_top_greater_than_mz(self, ext):
+        assert ext["m_top_gev"] > ext["m_z_comparison_gev"]
+
+    # ── Running segment structure ────────────────────────────────────────────
+
+    def test_segment_1_n_f_is_6(self, ext):
+        assert ext["segments"]["segment_1_nf6"]["n_f"] == 6
+
+    def test_segment_2_n_f_is_5(self, ext):
+        assert ext["segments"]["segment_2_nf5"]["n_f"] == 5
+
+    def test_segment_1_from_mkk_to_mtop(self, ext):
+        seg = ext["segments"]["segment_1_nf6"]
+        assert abs(seg["from_GeV"] - M_KK_GEV) < 1e-6
+        assert abs(seg["to_GeV"] - _PILLAR97_M_TOP_GEV) < 1e-9
+
+    def test_segment_2_from_mtop_to_mz(self, ext):
+        seg = ext["segments"]["segment_2_nf5"]
+        assert abs(seg["from_GeV"] - _PILLAR97_M_TOP_GEV) < 1e-9
+        assert abs(seg["to_GeV"] - 91.1876) < 1e-4
+
+    # ── Coupling ordering: α_s increases as scale decreases ─────────────────
+
+    def test_alpha_s_increases_each_step(self, ext):
+        """Asymptotic freedom: coupling grows at lower scales."""
+        alpha_mkk = ext["derived_starting_values"]["alpha_s_mkk"]
+        alpha_mew = ext["waypoints"]["alpha_s_at_mew_p201"]
+        alpha_mtop = ext["alpha_s_at_mtop"]
+        alpha_mz = ext["alpha_s_at_mz"]
+        assert alpha_mkk < alpha_mew < alpha_mtop < alpha_mz
+
+    def test_alpha_s_at_mz_larger_than_at_mkk(self, ext):
+        assert ext["alpha_s_at_mz"] > ALPHA_S_MKK_GEO
+
+    def test_alpha_s_at_mz_positive(self, ext):
+        assert ext["alpha_s_at_mz"] > 0
+
+    def test_alpha_s_at_mz_less_than_pdg(self, ext):
+        """Geometric chain still undershoots PDG — gap is documented."""
+        assert ext["alpha_s_at_mz"] < ext["pdg_alpha_s_mz"]
+
+    # ── Warp-Anchor Gap at M_Z ───────────────────────────────────────────────
+
+    def test_warp_anchor_gap_at_mz_gt_1(self, ext):
+        """Geometric chain undershoots PDG: gap factor > 1."""
+        assert ext["warp_anchor_gap_at_mz"] > 1.0
+
+    def test_warp_anchor_gap_at_mz_in_physical_range(self, ext):
+        """Gap should be roughly 3.5–4.2 for the geometric chain."""
+        assert 3.0 < ext["warp_anchor_gap_at_mz"] < 5.0
+
+    def test_gap_at_mz_smaller_than_mixed_scale_gap(self, ext):
+        """Apples-to-apples gap at M_Z is slightly smaller than the unfair
+        mixed-scale comparison (PDG at M_Z vs geometric at M_EW_geo≈210 GeV)."""
+        gap_mz = ext["warp_anchor_gap_at_mz"]
+        gap_p200 = ext["comparison_with_p200_standalone"][
+            "pillar_200_gap_at_mew_p200_mixed_scale"
+        ]
+        assert gap_mz < gap_p200
+
+    def test_gap_consistent_with_forward_chain(self, ext):
+        """α_s(M_Z) from the extended chain must reproduce from running
+        the two segments manually."""
+        alpha_mkk = ALPHA_S_MKK_GEO
+        m_top = _PILLAR97_M_TOP_GEV
+        # Segment 1: M_KK → m_top, N_f=6
+        alpha_mtop_check = _run_down(alpha_mkk, M_KK_GEV, m_top, n_f=6)
+        # Segment 2: m_top → M_Z, N_f=5
+        alpha_mz_check = _run_down(alpha_mtop_check, m_top, 91.1876, n_f=5)
+        assert abs(ext["alpha_s_at_mz"] - alpha_mz_check) < 1e-10
+
+    # ── Pillar 201 VEV waypoint ──────────────────────────────────────────────
+
+    def test_mew_p201_above_m_top(self, ext):
+        """Pillar 201 VEV must be above m_top so it lies in the N_f=6 segment."""
+        assert ext["m_ew_p201_gev"] > ext["m_top_gev"]
+
+    def test_mew_p201_above_mz(self, ext):
+        assert ext["m_ew_p201_gev"] > ext["m_z_comparison_gev"]
+
+    def test_waypoint_alpha_s_between_mkk_and_mtop_values(self, ext):
+        """α_s at the Pillar 201 waypoint is between α_s(M_KK) and α_s(m_top)."""
+        assert (
+            ALPHA_S_MKK_GEO
+            < ext["waypoints"]["alpha_s_at_mew_p201"]
+            < ext["alpha_s_at_mtop"]
+        )
+
+    def test_pillar_201_formula_mentioned(self, ext):
+        assert "GW braid" in ext["m_ew_p201_formula"]
+
+    # ── M_Z role label ───────────────────────────────────────────────────────
+
+    def test_mz_role_not_derivation_anchor(self, ext):
+        assert "NOT" in ext["m_z_role"]
+
+    # ── Error conditions ─────────────────────────────────────────────────────
+
+    def test_raises_if_mtop_above_mkk(self):
+        with pytest.raises(ValueError, match="m_top"):
+            alpha_s_to_mz_p201(m_kk_gev=100.0, m_top_gev=200.0)
+
+    def test_raises_if_mz_above_mtop(self):
+        with pytest.raises(ValueError, match="M_Z"):
+            alpha_s_to_mz_p201(m_top_gev=50.0)
+
+    # ── Summary integration ──────────────────────────────────────────────────
+
+    def test_summary_includes_extended_chain(self):
+        s = pillar200_summary()
+        assert "extended_chain_to_mz" in s
+
+    def test_summary_key_results_has_mz_gap(self):
+        s = pillar200_summary()
+        assert "warp_anchor_gap_at_mz" in s["key_results"]
+        assert "geometric_alpha_s_at_mz" in s["key_results"]
+
+    def test_summary_version_updated(self):
+        s = pillar200_summary()
+        assert s["version"] == "v10.4"

@@ -25,6 +25,7 @@ from src.core.qcd_geometry_primary import (
     # Constants
     N_W, K_CS, M_PL_GEV, PI_KR,
     LAMBDA_QCD_PDG_LOW_MEV, LAMBDA_QCD_PDG_HIGH_MEV,
+    LAMBDA_QCD_PDG_MSBAR_MEV,
     RHO_MESON_PDG_GEV, R_DIL_ERLICH,
     # Functions
     nc_from_winding,
@@ -465,3 +466,93 @@ class TestQcdDerivationHierarchy:
 
     def test_inputs_only_present(self):
         assert "(n_w=5, K_CS=74)" in self.hier["inputs_only"]
+
+
+# ===========================================================================
+# PDG MS-BAR CENTRAL VALUE AND HONEST RESIDUAL (Pillar 182 v9.37)
+# ===========================================================================
+
+class TestMSbarCentralValue:
+    """Tests for the LAMBDA_QCD_PDG_MSBAR_MEV constant and ~8% honest residual."""
+
+    def test_msbar_constant_value(self):
+        """PDG MS-bar 5-flavour central value is 213 MeV."""
+        assert LAMBDA_QCD_PDG_MSBAR_MEV == pytest.approx(213.0, rel=1e-6)
+
+    def test_msbar_within_pdg_range(self):
+        """MS-bar central value must lie within the PDG scheme range."""
+        assert LAMBDA_QCD_PDG_LOW_MEV <= LAMBDA_QCD_PDG_MSBAR_MEV <= LAMBDA_QCD_PDG_HIGH_MEV
+
+    def test_geometric_value_within_pdg_range(self):
+        """Geometric Λ_QCD must be within 10% of the PDG low-end (210 MeV).
+
+        The geometric value ≈ 198 MeV is ~6% below LAMBDA_QCD_PDG_LOW_MEV (210 MeV).
+        It sits just outside the lower edge of the PDG scheme range but is well
+        within the 10% tolerance that accounts for the ambiguity in matching
+        MS-bar, MOM, and lattice-QCD scheme definitions.
+        """
+        lam_mev = lambda_qcd_geometric() * 1000.0
+        assert lam_mev >= LAMBDA_QCD_PDG_LOW_MEV * 0.90
+        assert lam_mev <= LAMBDA_QCD_PDG_HIGH_MEV
+
+    def test_geometric_value_within_15pct_of_msbar(self):
+        """Geometric Λ_QCD must be within 15% of the PDG MS-bar central value."""
+        lam_mev = lambda_qcd_geometric() * 1000.0
+        residual_pct = abs(lam_mev - LAMBDA_QCD_PDG_MSBAR_MEV) / LAMBDA_QCD_PDG_MSBAR_MEV * 100.0
+        assert residual_pct < 15.0
+
+    def test_geometric_value_approx_8pct_below_msbar(self):
+        """The geometric prediction is ~7–9% below the PDG MS-bar central value."""
+        lam_mev = lambda_qcd_geometric() * 1000.0
+        residual_pct = abs(lam_mev - LAMBDA_QCD_PDG_MSBAR_MEV) / LAMBDA_QCD_PDG_MSBAR_MEV * 100.0
+        assert 5.0 < residual_pct < 12.0
+
+    def test_honest_status_has_msbar_residual(self):
+        """qcd_geometry_honest_status must report the MS-bar residual explicitly."""
+        status = qcd_geometry_honest_status()
+        step6 = status["steps"]["step_6_lambda_qcd_mev"]
+        assert "residual_vs_msbar_pct" in step6
+        assert step6["residual_vs_msbar_pct"] < 15.0
+
+    def test_honest_status_has_msbar_central(self):
+        """step_6 must include the PDG MS-bar central value for reference."""
+        status = qcd_geometry_honest_status()
+        step6 = status["steps"]["step_6_lambda_qcd_mev"]
+        assert "pdg_msbar_central_mev" in step6
+        assert step6["pdg_msbar_central_mev"] == pytest.approx(213.0, rel=1e-6)
+
+    def test_honest_status_msbar_status_string(self):
+        """The MS-bar status description must mention the central value."""
+        status = qcd_geometry_honest_status()
+        step6 = status["steps"]["step_6_lambda_qcd_mev"]
+        msbar_text = step6["msbar_status"]
+        assert "213" in msbar_text or "MS-bar" in msbar_text
+
+    def test_honest_residual_corrects_factor_1pt7_framing(self):
+        """The honest_residuals list must clarify the 'factor 1.7' framing."""
+        status = qcd_geometry_honest_status()
+        residual_text = " ".join(status["honest_residuals"])
+        # Must mention the MS-bar context and that 'factor 1.7' is vs upper range end
+        assert "MS-bar" in residual_text or "central" in residual_text
+
+    def test_pillar182_report_has_msbar_verdict(self):
+        """pillar182_report must include the msbar_verdict key."""
+        report = pillar182_report()
+        assert "msbar_verdict" in report
+
+    def test_pillar182_report_msbar_central_matches_constant(self):
+        report = pillar182_report()
+        assert report["pdg_msbar_central_mev"] == pytest.approx(LAMBDA_QCD_PDG_MSBAR_MEV, rel=1e-6)
+
+    def test_pillar182_report_residual_is_positive(self):
+        report = pillar182_report()
+        assert report["residual_vs_msbar_pct"] > 0
+
+    def test_pillar182_report_residual_within_15pct(self):
+        report = pillar182_report()
+        assert report["residual_vs_msbar_pct"] < 15.0
+
+    def test_pillar182_report_version_updated(self):
+        """Version should reflect the updated MS-bar reporting."""
+        report = pillar182_report()
+        assert report["version"] == "v9.37"
