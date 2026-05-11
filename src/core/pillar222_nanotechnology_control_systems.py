@@ -148,7 +148,7 @@ def pid_nano_positioning(
     prev_error = setpoint_nm
     abs_errors = []
     max_x = x
-    settling_time_ms: float | None = None
+    settling_time_ms_result: float | None = None
     settle_tol = max(0.1, 0.01 * max(setpoint_nm, 1.0))
     settle_window = max(20, int(0.02 * steps))
 
@@ -164,10 +164,10 @@ def pid_nano_positioning(
         max_x = max(max_x, x)
         abs_errors.append(abs(error))
 
-        if i >= settle_window and settling_time_ms is None:
+        if i >= settle_window and settling_time_ms_result is None:
             tail = abs_errors[i - settle_window:i]
             if tail and max(tail) <= settle_tol:
-                settling_time_ms = i * dt_ms
+                settling_time_ms_result = i * dt_ms
 
     final_error = setpoint_nm - x
     rmse = math.sqrt(sum(e * e for e in abs_errors) / len(abs_errors))
@@ -178,7 +178,7 @@ def pid_nano_positioning(
         "final_error_nm": final_error,
         "rmse_nm": rmse,
         "overshoot_nm": overshoot,
-        "settling_time_ms": settling_time_ms,
+        "settling_time_ms": settling_time_ms_result,
     }
 
 

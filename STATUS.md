@@ -243,7 +243,7 @@ specific failure mode that this condition guards against.
 
 ### Applied Research Tracks (Pillars 218–223)
 
-Six adjacent applied research pillars — not hardgate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
+Six adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
 
 | Pillar | Module | Description | Tests | Status |
 |--------|--------|-------------|-------|--------|
