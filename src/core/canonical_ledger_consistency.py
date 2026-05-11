@@ -19,7 +19,9 @@ LEDGER_PATHS = {
 }
 
 VERSION_RE = re.compile(r"v\d+\.\d+")
-REGRESSION_RE = re.compile(r"(\d+(?:\s\d{3})*) passed\s*[·,]\s*(\d+) skipped\s*[·,]\s*(\d+) deselected", re.IGNORECASE)
+# Canonical ledgers currently render large counts with space-separated thousands
+# (e.g. "28 560 passed"), so the regex accepts that exact house style.
+REGRESSION_RE = re.compile(r"(\d+(?:\s+\d{3})*) passed\s*[·,]\s*(\d+) skipped\s*[·,]\s*(\d+) deselected", re.IGNORECASE)
 
 __all__ = [
     "LEDGER_PATHS",

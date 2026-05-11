@@ -25,6 +25,10 @@ from src.core.prediction_registry import PREDICTION_REGISTRY
 # Route-A geometric boundary condition and its 1-loop RGE cross-check.
 SIN2_THETA12_PREDICTED: float = ROUTE_A_RGE_VALUE
 
+
+def _calculate_tension(predicted: float, observed: float, sigma: float) -> float:
+    return abs(predicted - observed) / sigma if sigma > 0 else float("inf")
+
 __all__ = [
     "DEFAULT_OBSERVATION_BUNDLE",
     "normalize_observation_bundle",
@@ -121,7 +125,7 @@ def route_pmns_theta12(
 ) -> Dict[str, object]:
     """Route θ12 observations against the canonical consolidated P18 value."""
     predicted = SIN2_THETA12_PREDICTED
-    tension = abs(predicted - sin2_theta12_obs) / sigma if sigma > 0 else float("inf")
+    tension = _calculate_tension(predicted, sin2_theta12_obs, sigma)
     if tension < 2.0:
         route = "CONSISTENT"
         action = "No canonical status change; keep monitoring solar-angle precision."
@@ -153,7 +157,7 @@ def route_lisa_omega_gw(
     """Route Ω_GW observations using the prediction registry target and falsifier."""
     predicted = float(PREDICTION_REGISTRY["GW_BACKGROUND"]["predicted_value"])
     threshold = 1.0e-17
-    tension = abs(predicted - omega_gw_obs) / sigma if sigma > 0 else float("inf")
+    tension = _calculate_tension(predicted, omega_gw_obs, sigma)
     if omega_gw_obs < threshold and (threshold - omega_gw_obs) / sigma > 3.0:
         route = "FALSIFIED"
         action = "Record same-day LISA falsifier result and update canonical GW tracker."

@@ -306,9 +306,13 @@ def line_of_sight_source(
     c_s: float = C_S,
     apply_kk: bool = True,
 ) -> float:
-    """Return a simplified recombination source for numerical LOS integration."""
+    """Return a simplified recombination source for numerical LOS integration.
+
+    `tau` is a normalized conformal-time coordinate in [0, 1], where 1 is the
+    late-time observer surface and recombination is centered near tau≈0.82.
+    """
     if not (0.0 <= tau <= 1.0):
-        raise ValueError(f"tau must be in [0, 1], got {tau}")
+        raise ValueError(f"normalized conformal time tau must be in [0, 1], got {tau}")
     r_s = kk_sound_horizon(n_w, k_cs, c_s)
     x = k * r_s
     t_lcdm = math.cos(x) * math.exp(-(x / 20.0) ** 2) if x < 100 else 0.0
@@ -363,13 +367,30 @@ def numerical_cl_spectrum_kk(
     ells = list(ell_range)
     cl_lcdm: List[float] = []
     cl_kk: List[float] = []
+
+    def _transfer_grid(ell: int, apply_kk: bool) -> np.ndarray:
+        return np.array(
+            [
+                numerical_transfer_function_kk(
+                    float(k),
+                    ell,
+                    apply_kk=apply_kk,
+                    n_w=n_w,
+                    k_cs=k_cs,
+                    c_s=c_s,
+                )
+                for k in k_grid
+            ],
+            dtype=float,
+        )
+
     for ell in ells:
         if ell < 2:
             cl_lcdm.append(0.0)
             cl_kk.append(0.0)
             continue
-        delta_lcdm = np.array([numerical_transfer_function_kk(float(k), ell, apply_kk=False, n_w=n_w, k_cs=k_cs, c_s=c_s) for k in k_grid])
-        delta_kk = np.array([numerical_transfer_function_kk(float(k), ell, apply_kk=True, n_w=n_w, k_cs=k_cs, c_s=c_s) for k in k_grid])
+        delta_lcdm = _transfer_grid(ell, apply_kk=False)
+        delta_kk = _transfer_grid(ell, apply_kk=True)
         primordial = A_s * (k_grid / K_STAR_MPC) ** (n_s - 1.0)
         prefactor = 2.0 / math.pi
         cl_lcdm.append(float(prefactor * np.trapezoid(primordial * delta_lcdm ** 2 / k_grid, k_grid)))

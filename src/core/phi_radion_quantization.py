@@ -43,10 +43,11 @@ except Exception:  # pragma: no cover - environment dependent
 
 N_W: int = 5
 K_CS: int = 74
-PI_KR: float = K_CS / 2.0
+PI_K_R_PRODUCT: float = K_CS / 2.0
+PI_KR: float = PI_K_R_PRODUCT  # backward-compatible alias
 PHI0_FTUM: float = 1.0
 EFFECTIVE_MASS: float = 1.0
-OMEGA_RADION: float = math.sqrt(K_CS) / (2.0 * PI_KR)  # = 1/sqrt(74)
+OMEGA_RADION: float = math.sqrt(K_CS) / (2.0 * PI_K_R_PRODUCT)  # = 1/sqrt(74)
 ZERO_POINT_ENERGY: float = 0.5 * OMEGA_RADION
 DEFAULT_GRID_SPAN: float = 12.0 / math.sqrt(OMEGA_RADION)
 DEFAULT_GRID_SIZE: int = 4097
@@ -54,6 +55,7 @@ DEFAULT_GRID_SIZE: int = 4097
 __all__ = [
     "N_W",
     "K_CS",
+    "PI_K_R_PRODUCT",
     "PI_KR",
     "PHI0_FTUM",
     "EFFECTIVE_MASS",
