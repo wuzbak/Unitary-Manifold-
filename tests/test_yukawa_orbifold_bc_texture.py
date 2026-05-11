@@ -375,6 +375,8 @@ def test_full_fermion_texture_all_hierarchies_correct():
 def test_full_fermion_texture_c_L_spectrum():
     result = full_fermion_texture()
     assert len(result["c_L_spectrum"]) == N_W + 1
+    expected = c_L_spectrum()
+    assert result["c_L_spectrum"] == expected
 
 
 def test_full_fermion_texture_c_R_spectrum():

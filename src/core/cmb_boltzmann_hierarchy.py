@@ -109,9 +109,10 @@ N_W: int = 5
 K_CS: int = 74
 C_S_BRAID: float = 12.0 / 37.0     # braided sound speed ≈ 0.3243
 
-# Planck 2018 primordial power spectrum
-N_S: float = 0.9649                  # spectral index
-A_S: float = 2.101e-9                # scalar amplitude
+# Planck 2018 primordial power spectrum (OBSERVED VALUES — NOT the UM prediction)
+# UM prediction: N_S_UM = 0.9635; Planck 2018 measurement: 0.9649 ± 0.0042
+N_S: float = 0.9649                  # Planck 2018 observed spectral index (used for C_ℓ normalisation)
+A_S: float = 2.101e-9                # Planck 2018 scalar amplitude
 K_PIVOT: float = 0.05               # pivot scale [Mpc⁻¹]
 
 # ΛCDM cosmological parameters (Planck 2018)

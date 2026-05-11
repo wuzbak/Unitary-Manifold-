@@ -94,10 +94,10 @@ Actually the mapping from lepton generations to n:
     n=4: c_L = 0.6  (further down-type)
     n=5: c_L = 0.5  (democratic)
 
-So the 3-generation lepton LH texture from geometry:
-    e: c_L = 0.8 (n=2)
-    μ: c_L from ratio (Pillar 75) ~ 0.646  [between n=4 and n=5]
-    τ: c_L from ratio (Pillar 75) ~ 0.557  [between n=4 and n=5]
+So the 3-generation lepton LH texture from geometry (corrected):
+    τ: n_L=4 → c_L=0.60  (most IR-localised LH, largest overlap → heaviest)
+    μ: n_L=3 → c_L=0.70
+    e: n_L=2 → c_L=0.80  (most UV-localised LH, smallest overlap → lightest)
 
 Quarks (LH UV-localized; RH varies by generation):
 The up-type quarks and down-type quarks share LH doublets (SU(2)_L structure),
@@ -374,13 +374,12 @@ def lepton_texture(n_w: int = N_W) -> Dict[str, Dict[str, object]]:
     -------
     dict  Per-lepton orbifold-derived c values and masses.
     """
-    # LH orbifold indices for 3 generations: e(n=2), μ(n=4), τ(n=3)
-    # Heaviest generation maps to smallest c_L (most IR-localized)
-    # Mass ordering: f₀(c) DECREASES as c increases above ½ (more UV-localised = lighter).
+    # LH orbifold indices for 3 generations.
+    # f₀(c) DECREASES as c increases above ½ (more UV-localised = lighter).
     # So smallest c_L → largest f₀^L → heaviest lepton:
-    #   τ (heaviest): n_L=4 → c_L=0.60  (least UV)
+    #   τ (heaviest): n_L=4 → c_L=0.60  (least UV-localised)
     #   μ (middle):   n_L=3 → c_L=0.70
-    #   e (lightest): n_L=2 → c_L=0.80  (most UV)
+    #   e (lightest): n_L=2 → c_L=0.80  (most UV-localised)
     lep_config = {
         "electron": {"n_L": 2, "n_R": 0, "pdg_MeV": M_ELECTRON_PDG},
         "muon":     {"n_L": 3, "n_R": 0, "pdg_MeV": M_MUON_PDG},
