@@ -2,20 +2,20 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** 9.0 — Repository Orientation Edition — May 2026
+**Version:** 11.0 — Integrity & Co-Emergence Edition — May 2026
 
 ---
 
-This folder contains the **Omega Edition (v6.0–v9.0)** of thirteen full-length books authored under the
+This folder contains the **Omega Edition (v6.0–v11.0)** of sixteen full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
-that replaces the original single-post format of the oversized Book 4. Each book is
+that serves as the publication split for Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
 FTUM fixed-point analysis, and the falsifiable Kaluza-Klein predictions of the Unitary
 Manifold v9.27.
 
 Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework. Books 5–10 are original
+expanded, and cross-referenced with the full physics framework. Books 5–16 are original
 to this repository.
 
 **v3.0 Expansion (April 2026):**
@@ -50,6 +50,15 @@ to this repository.
 - Book 13: *The Theory of Everything and Everyone* — what this repository is, does, and teaches
 - Focus: epistemic boundaries, falsifiability, honest limitations, co-emergence roles, and responsible reading order
 - Framework connections: `FALLIBILITY.md`, `SEPARATION.md`, `5-GOVERNANCE/co-emergence/`, `5-GOVERNANCE/Unitary Pentad/`, `omega/`, `holon-zero/`
+
+**v10.0 — Taurid Risk Brief Edition (May 2026):**
+- Book 14: *Taurid Density Window (2030s)* — evidence-first hazard framing, uncertainty accounting, and preparedness triggers
+- Focus: consequence planning without deterministic overclaiming
+
+**v11.0 — Integrity & Co-Emergence Edition (May 2026):**
+- Book 15: *The Falsification Decade* — how to read, test, and pressure the framework before the primary sky instruments report
+- Book 16: *The Honest Machine* — human-AI co-emergence, scientific judgment, and governance-first research practice
+- Focus: public epistemics, claim-boundary discipline, and responsible collaboration under AI acceleration
 
 ---
 
@@ -434,6 +443,36 @@ A practical deep-dive on Taurid-density risk framing for the 2030s: what is know
 
 ---
 
+### 15. [The Falsification Decade](book-falsification-decade.md)
+**How to Read, Test, and Break the Unitary Manifold Before the Sky Decides**
+
+| Property | Value |
+|---|---|
+| Size | ~12 KB |
+| Audience | General readers, skeptical scientists, reviewers, and instrument-minded collaborators |
+| Parts | Eight parts + practical reading path |
+| Framework connection | `FALLIBILITY.md`, `SEPARATION.md`, `3-FALSIFICATION/`, AxiomZero-style purity culture, architecture-limit honesty |
+| Companion references | `FALLIBILITY.md` · `SEPARATION.md` · `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md` · `post-146-s01e001-conclusions-ledger-and-falsification-roadmap.md` |
+
+A falsification-first public volume on how to read the repository without hype: what counts as a real external test, how to distinguish physics claims from bridges and applications, why architecture limits matter, and why the next decade should be governed by pressure from sky, lab, and audit rather than by rhetoric.
+
+---
+
+### 16. [The Honest Machine](book-honest-machine.md)
+**Human-AI Co-Emergence, Scientific Judgment, and the Future of Responsible Research**
+
+| Property | Value |
+|---|---|
+| Size | ~13 KB |
+| Audience | General readers, AI researchers, science-of-science readers, and collaborators |
+| Parts | Eight parts + code-of-conduct section |
+| Framework connection | `5-GOVERNANCE/co-emergence/`, explicit role partition, claim-boundary governance, failure-mode discipline |
+| Companion references | `5-GOVERNANCE/co-emergence/GENESIS.md` · `5-GOVERNANCE/co-emergence/FRAMEWORK.md` · `SEPARATION.md` · `post-151-s01e004-the-honest-machine.md` |
+
+A public-facing co-emergence book on what human-led, AI-accelerated research looks like when judgment, responsibility, and governance remain explicit. It focuses on role partition, anti-overclaim discipline, failure modes of AI-assisted science, and why honesty in this context is a systems property rather than a tone.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -450,6 +489,8 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) + K-12 Curriculum Volumes 7–10 |
 | [post-54-ai-implications.md](post-54-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
 | [post-24-educational-systems.md](post-24-educational-systems.md) | The Learning Crisis (Book 7) + K-12 Curriculum Volumes 8–10 |
+| [post-149-s01e002-the-falsification-decade-begins.md](post-149-s01e002-the-falsification-decade-begins.md) | The Falsification Decade (Book 15) |
+| [post-151-s01e004-the-honest-machine.md](post-151-s01e004-the-honest-machine.md) | The Honest Machine (Book 16) |
 
 **For cross-referencing the physics:**
 - Justice framework: [post-51-justice-implications.md](post-51-justice-implications.md)
@@ -459,6 +500,8 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 - Governance: [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md)
 - Human-AI collaboration: [post-37-human-ai-collaboration.md](post-37-human-ai-collaboration.md)
 - Philosophy of science: [post-05-honest-gaps.md](post-05-honest-gaps.md)
+- Falsification culture: [post-149-s01e002-the-falsification-decade-begins.md](post-149-s01e002-the-falsification-decade-begins.md)
+- Co-emergence / AI governance: [post-151-s01e004-the-honest-machine.md](post-151-s01e004-the-honest-machine.md)
 
 ---
 
@@ -480,9 +523,12 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 12 | Cleared for Approach — But Not for Landing | **Critical Infrastructure** | Systems analysis (φ-collapse, B_μ divergence, FTUM) | No |
 | 13 | The Theory of Everything and Everyone | **Repository Orientation** | Framework map with explicit epistemic boundaries | No |
 | 14 | Taurid Density Window (2030s) | **Critical Infrastructure** | Falsifier-aware risk analysis; not a deterministic impact claim | No |
+| 15 | The Falsification Decade | **Scientific Method / Audit** | Falsification-first framework reading; not a new derivation claim | No |
+| 16 | The Honest Machine | **Co-Emergence / AI Governance** | Human-AI research governance and role-partition analysis | No |
 
-**Books 5–13 are AxiomZero-commissioned works, not peer-reviewed physics.**
-Books 7–11 (education, engineering, politics, climate) apply the UM mathematical language
+**Books 5–16 are AxiomZero-commissioned works, not peer-reviewed physics.**
+Books 7–16 (education, engineering, politics, climate, orientation, falsification, and co-emergence)
+apply the UM mathematical language
 as a lens; they are not physics predictions and should not be read as such.
 See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistemic map.
 
@@ -503,6 +549,7 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 | 8.0 — Critical Infrastructure Edition | May 2026 | Book 12 added: *Cleared for Approach — But Not for Landing* — complete expert treatment of U.S. air traffic control: hardware (radar, comms, nav, weather), software (STARS, ERAM, TBFM, NextGen), staffing crisis, major incidents (DCA 2025, EWR 2025, NOTAM 2023), international models (Nav Canada, NATS, EUROCONTROL/SESAR, Aireon), future technologies (AI, remote towers, TBO, AAM/eVTOL, cybersecurity, quantum), and a full 25-year implementation roadmap; ~94KB |
 | 9.0 — Repository Orientation Edition | May 2026 | Book 13 added: *The Theory of Everything and Everyone* — a meticulous public-facing synthesis of what this repository is, does, and teaches; includes claim-boundary discipline, falsifier-first reading path, explicit role partition (human direction / AI implementation), and honest status framing |
 | 10.0 — Taurid Risk Brief Edition | May 2026 | Book 14 added: *Taurid Density Window (2030s)* — global consequence analysis, WA and Southern California regional focus, decision triggers, preparedness guidance, and prediction-window test-run appendix |
+| 11.0 — Integrity & Co-Emergence Edition | May 2026 | Books 15–16 added: *The Falsification Decade* — falsification-first public audit and reading path for the next instrument cycle; *The Honest Machine* — a governance-forward account of human-AI co-emergent research, role partition, and responsible scientific collaboration |
 
 ---
 

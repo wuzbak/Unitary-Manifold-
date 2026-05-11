@@ -14,7 +14,7 @@
 
 ## What is here
 
-The `substack/` subfolder contains over 100 posts and 11 books, organised as:
+The `substack/` subfolder contains more than 150 posts and 16 books, organised as:
 
 ### Physics explainers (posts 01–38)
 Accessible explanations of the core theory — the four numbers, the braided
@@ -35,7 +35,7 @@ grand unification, embryology, synthetic biology, governance, and the Omega
 Synthesis.  These bridge the core theory and the AxiomZero commissioned
 extensions in `4-IMPLICATIONS/`.
 
-### AxiomZero Books (11 books)
+### AxiomZero Books (16 books)
 
 | # | Title | Domain |
 |---|-------|--------|
@@ -50,9 +50,15 @@ extensions in `4-IMPLICATIONS/`.
 | 9 | Applied Geometry Vol 2 (Grades 6–8) | Education |
 | 10 | Applied Geometry Vol 3 (Grades 9–12+) | Education |
 | 11 | The Signal and the Noise | Politics & Media |
+| 12 | Cleared for Approach — But Not for Landing | Critical infrastructure |
+| 13 | The Theory of Everything and Everyone | Repository orientation |
+| 14 | Taurid Density Window (2030s) | Risk / preparedness |
+| 15 | The Falsification Decade | Scientific method / audit |
+| 16 | The Honest Machine | Human-AI co-emergence |
 
-Books 5–11 are AxiomZero-commissioned works synthesising the theory's
-implications for engineering, education, economics, and politics.
+Books 5–16 are AxiomZero-commissioned works synthesising the theory's
+implications for engineering, education, economics, politics, public epistemics,
+scientific falsification, and human-AI governance.
 
 ---
 
