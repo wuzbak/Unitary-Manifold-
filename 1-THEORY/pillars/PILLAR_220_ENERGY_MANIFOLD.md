@@ -134,12 +134,12 @@ are the primary levers.
 **Renewable fraction 2023:** ~15.4 % (including hydro).  
 **Fossil fuel fraction:** ~81 %.
 
-At KK world level (n = 4), the efficiency ceiling is ≈ 29.1 %.  The global
+At KK world level (n = 4), the efficiency ceiling is ε(4) = PHI0^5 ≈ 22.1 %.  The global
 system is currently operating well below even this low ceiling, reflecting
 enormous structural waste in fossil-fuel combustion chains.
 
 ```
-φ-debt (global, 2026) ≈ 620 × 1.015³ × (1 - 0.291) ≈ 446 EJ/year
+φ-debt (global, 2026) ≈ 620 × 1.015³ × (1 - 0.221) ≈ 500 EJ/year
 CO₂ emissions ≈ 37 Gt/year (IEA 2023 estimate)
 ```
 

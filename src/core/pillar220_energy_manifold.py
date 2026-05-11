@@ -166,11 +166,10 @@ def household_phi_efficiency(
 
 
 def kk_efficiency_scaling(scale_level: int) -> dict[str, Any]:
-    """KK tower efficiency model.
+    """KK tower efficiency model: ε(n) = PHI0^(n+1).
 
-    At scale level n, the efficiency ceiling is PHI0^(1 + 1/n) for n ≥ 1,
-    and PHI0 at level 0 (individual household).  The exponent reflects the
-    additional coordination overhead that appears in a KK tower.
+    Each scale level multiplies the efficiency ceiling by PHI0, reflecting
+    the additional coordination overhead of larger systems.
 
     Parameters
     ----------
@@ -181,7 +180,7 @@ def kk_efficiency_scaling(scale_level: int) -> dict[str, Any]:
     -------
     dict with keys:
         scale_name          str
-        efficiency_ceiling  float   — value in (0, 1]
+        efficiency_ceiling  float   — ε(n) = PHI0^(n+1), value in (0, 1]
         phi_debt_fraction   float   — 1 - efficiency_ceiling
     """
     if scale_level not in SCALE_NAMES:
