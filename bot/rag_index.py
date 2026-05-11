@@ -28,7 +28,9 @@ import os
 import re
 import math
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple
+
+from bot.session_bootstrap import current_intent_snapshot
 
 __all__ = [
     "RAGIndex",
@@ -38,6 +40,28 @@ __all__ = [
     "build_intent_index",
     "retrieve_intent",
 ]
+
+_TOKEN_ALIASES = {
+    "β": "birefringence",
+    "beta": "birefringence",
+    "cmb": "cmb",
+    "gut": "alpha_gut",
+    "toe": "toe_score",
+    "theory": "toe_score",
+    "intent": "intent",
+    "wave": "wave",
+    "session": "intent",
+    "radion": "radion",
+}
+
+# Intent/session sources should outrank generic documentation on tie-like matches
+# because they represent the freshest operator-visible state.
+HILS_SESSION_WEIGHT = 1.35
+CO_EMERGENCE_WEIGHT = 1.20
+DOCS_WEIGHT = 1.10
+TITLE_BONUS_WEIGHT = 0.25
+PHRASE_MATCH_BONUS = 0.15
+KB_PHRASE_MATCH_BONUS = 0.20
 
 # ---------------------------------------------------------------------------
 # Structured knowledge base — key facts hard-coded for reliability
@@ -96,13 +120,13 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
     "toe_score": {
         "topic": "ToE score — completeness",
         "answer": (
-            "The v10.18 ToE score is 15.8 / 28.0 ≈ 56%. "
-            "Scoring: ALGEBRAIC=1.0, GEOMETRIC_PREDICTION=0.8, CONSTRAINED=0.5, "
-            "GEOMETRIC_ESTIMATE_CERTIFIED=0.3, ARCHITECTURE_LIMIT_CERTIFIED=0.1, OPEN=0.0. "
-            "v10.18 upgrades add P6 and P13 to GEOMETRIC_PREDICTION (+0.6 over v10.17)."
+            "The canonical ToE / closure percentage is no longer maintained as a fixed "
+            "hard-coded number inside the bot. Consult docs/mas_tracker.yml, STATUS.md, "
+            "and docs/WAVE_CHANGELOG.md for the live % and the current wave-specific "
+            "epistemic promotions."
         ),
-        "sources": ["docs/TOE_SCORE_AUDIT.md", "src/core/prediction_registry.py"],
-        "status": "v10.18 ~56%",
+        "sources": ["docs/mas_tracker.yml", "STATUS.md", "docs/WAVE_CHANGELOG.md"],
+        "status": "CANONICAL_LEDGER_TRACKED",
     },
     "litebird": {
         "topic": "LiteBIRD falsification timeline",
@@ -145,16 +169,15 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
         "topic": "GUT coupling α_GUT = N_c/K_CS derivation",
         "answer": (
             "α_GUT = N_c/K_CS = 3/74 ≈ 0.0405 was previously 'POSTULATED BY CS ANALOGY'. "
-            "v10.17 delivers the first-principles derivation from the 5D SU(N_c) CS action: "
+            "The current closure path derives it from the 5D SU(N_c) CS action: "
             "(1) 5D Dirac condition → g₄² = 2π/K_CS; "
             "(2) KK dimensional reduction; "
             "(3) SU(N_c) trace normalisation → K_CS × α_GUT = N_c. "
-            "Status upgraded to DERIVED FROM 5D SU(N_c) CS ACTION. "
-            "Residual caveat: 10D completion for full GUT field identification. "
-            "See src/core/alpha_gut_cs_derivation.py."
+            "Residual caveat: higher-dimensional completion for full GUT field identification. "
+            "See the current α_GUT closure modules and WAVE_CHANGELOG ledger for the latest status."
         ),
-        "sources": ["src/core/alpha_gut_cs_derivation.py", "FALLIBILITY.md §III.3.1"],
-        "status": "DERIVED FROM 5D SU(N_c) CS ACTION",
+        "sources": ["src/core/alpha_gut_cs_derivation.py", "src/core/alpha_gut_su5_complete.py", "FALLIBILITY.md §III.3.1"],
+        "status": "DERIVED / CONSTRAINED CLOSURE PATH",
     },
     "neutrino_masses": {
         "topic": "Neutrino mass splittings",
@@ -302,24 +325,101 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
 }
 
 
+def _normalize_token(token: str) -> str:
+    token = token.strip().lower()
+    return _TOKEN_ALIASES.get(token, token)
+
+
+def _tokenize(text: str) -> Set[str]:
+    return {
+        _normalize_token(token)
+        for token in re.findall(r"\w+", text.lower())
+        if token.strip()
+    }
+
+
+def _safe_read_text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+
+
+def _extract_latest_wave(repo_root: Path) -> Optional[str]:
+    changelog = _safe_read_text(repo_root / "docs/WAVE_CHANGELOG.md")
+    match = re.search(r"^##\s+(v[0-9.]+)\b", changelog, re.MULTILINE)
+    return match.group(1) if match else None
+
+
+def _extract_status_header(repo_root: Path) -> Optional[str]:
+    status = _safe_read_text(repo_root / "STATUS.md")
+    match = re.search(r"\*Unitary Manifold ([^*]+)\*", status)
+    return match.group(1).strip() if match else None
+
+
+def _extract_latest_regression(repo_root: Path) -> Optional[str]:
+    status = _safe_read_text(repo_root / "STATUS.md")
+    match = re.search(r"Latest verified branch regression:\s*([^\n]+)", status)
+    return match.group(1).strip() if match else None
+
+
+def build_runtime_knowledge_base(repo_root: Optional[Path] = None) -> Dict[str, Dict]:
+    """Merge static facts with lightweight runtime facts from canonical ledgers."""
+    if repo_root is None:
+        repo_root = Path(__file__).parent.parent
+
+    kb = dict(KNOWLEDGE_BASE)
+    latest_wave = _extract_latest_wave(repo_root)
+    status_header = _extract_status_header(repo_root)
+    latest_regression = _extract_latest_regression(repo_root)
+
+    if latest_wave or status_header:
+        answer_parts = []
+        if latest_wave:
+            answer_parts.append(f"Latest wave entry in docs/WAVE_CHANGELOG.md: {latest_wave}.")
+        if status_header:
+            answer_parts.append(f"STATUS.md header: {status_header}.")
+        kb["repo_state"] = {
+            "topic": "Current repository wave and status snapshot",
+            "answer": " ".join(answer_parts),
+            "sources": ["docs/WAVE_CHANGELOG.md", "STATUS.md"],
+            "status": latest_wave or status_header or "AVAILABLE",
+        }
+
+    if latest_regression:
+        kb["latest_regression"] = {
+            "topic": "Latest verified branch regression",
+            "answer": f"The canonical STATUS.md ledger reports: {latest_regression}.",
+            "sources": ["STATUS.md"],
+            "status": "REGRESSION_BASELINE",
+        }
+
+    return kb
+
+
 class DocumentChunk:
     """A searchable chunk of text from the repository."""
 
-    __slots__ = ("source", "title", "text", "tokens")
+    __slots__ = ("source", "title", "text", "text_lower", "tokens", "title_tokens")
 
     def __init__(self, source: str, title: str, text: str) -> None:
         self.source = source
         self.title = title
         self.text = text
-        # Simple tokenisation for keyword search
-        self.tokens = set(re.findall(r"\w+", text.lower()))
+        self.text_lower = text.lower()
+        self.tokens = _tokenize(" ".join((source, title, text)))
+        self.title_tokens = _tokenize(title)
 
-    def score(self, query_tokens: set) -> float:
+    def score(self, query_tokens: set, query_text: str = "") -> float:
         """TF-IDF-like score: fraction of query tokens present in chunk."""
         if not query_tokens:
             return 0.0
         matches = query_tokens & self.tokens
-        return len(matches) / len(query_tokens)
+        title_matches = query_tokens & self.title_tokens
+        base = len(matches) / len(query_tokens)
+        title_bonus = TITLE_BONUS_WEIGHT * len(title_matches) / len(query_tokens)
+        phrase_bonus = PHRASE_MATCH_BONUS if query_text and query_text in self.text_lower else 0.0
+        return min(1.0, base + title_bonus + phrase_bonus)
 
 
 class RAGIndex:
@@ -339,7 +439,7 @@ class RAGIndex:
         knowledge_base: Optional[Dict] = None,
     ) -> None:
         self.chunks: List[DocumentChunk] = chunks or []
-        self.knowledge_base: Dict = knowledge_base or KNOWLEDGE_BASE
+        self.knowledge_base: Dict = knowledge_base or build_runtime_knowledge_base()
 
     @classmethod
     def build(
@@ -388,7 +488,7 @@ class RAGIndex:
                 except OSError:
                     pass
 
-        return cls(chunks=chunks, knowledge_base=KNOWLEDGE_BASE)
+        return cls(chunks=chunks, knowledge_base=build_runtime_knowledge_base(repo_root))
 
     @classmethod
     def build_intent_index(
@@ -451,7 +551,7 @@ class RAGIndex:
                 except OSError:
                     pass
 
-        return cls(chunks=chunks, knowledge_base=KNOWLEDGE_BASE)
+        return cls(chunks=chunks, knowledge_base=build_runtime_knowledge_base(repo_root))
 
     def search(self, query: str, top_k: int = 5) -> List[Tuple[float, DocumentChunk]]:
         """Search for the most relevant chunks.
@@ -465,8 +565,12 @@ class RAGIndex:
         -------
         list of (score, DocumentChunk) sorted by descending score.
         """
-        query_tokens = set(re.findall(r"\w+", query.lower()))
-        scored = [(chunk.score(query_tokens), chunk) for chunk in self.chunks]
+        query_tokens = _tokenize(query)
+        query_text = query.lower().strip()
+        scored = [
+            (min(1.0, chunk.score(query_tokens, query_text) * _source_weight(chunk.source)), chunk)
+            for chunk in self.chunks
+        ]
         scored.sort(key=lambda x: x[0], reverse=True)
         return scored[:top_k]
 
@@ -475,12 +579,23 @@ class RAGIndex:
 
         Returns the best matching KB entry, or None.
         """
-        query_tokens = set(re.findall(r"\w+", query.lower()))
+        query_tokens = _tokenize(query)
+        query_text = query.lower().strip()
         best_score = 0.0
         best_entry = None
         for key, entry in self.knowledge_base.items():
-            topic_tokens = set(re.findall(r"\w+", (entry.get("topic", "") + " " + key).lower()))
+            combined = " ".join(
+                [
+                    key,
+                    entry.get("topic", ""),
+                    entry.get("answer", ""),
+                    " ".join(entry.get("sources", [])),
+                ]
+            )
+            topic_tokens = _tokenize(combined)
             score = len(query_tokens & topic_tokens) / max(len(query_tokens), 1)
+            if query_text and query_text in combined.lower():
+                score = min(1.0, score + KB_PHRASE_MATCH_BONUS)
             if score > best_score:
                 best_score = score
                 best_entry = entry
@@ -551,6 +666,7 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
         "answer": answer,
         "source_type": "document_retrieval",
         "context_chunks": context_chunks,
+        "sources": [chunk["source"] for chunk in context_chunks],
     }
 
 
@@ -616,6 +732,39 @@ def retrieve_intent(
             "sources": [],
         }
 
+    snapshot = current_intent_snapshot()
+    if mode == "latest_intent":
+        intents = snapshot.get("strategic_intent", [])
+        lines = [f"Active wave: {snapshot.get('active_wave', 'UNKNOWN')}"]
+        if intents:
+            lines.append("Current strategic intent:")
+            lines.extend(f"- {item['intent']} ({item['status']})" for item in intents)
+        if snapshot.get("unresolved_loops"):
+            lines.append("Unresolved loops:")
+            lines.extend(f"- {loop}" for loop in snapshot["unresolved_loops"])
+        return {
+            "mode": mode,
+            "answer": "\n".join(lines),
+            "sources": [{"source": source, "title": "session snapshot", "score": 1.0} for source in snapshot["sources"]],
+        }
+
+    if mode == "unresolved_intent":
+        unresolved = snapshot.get("unresolved_loops", [])
+        triggers = snapshot.get("next_triggers", [])
+        if unresolved or triggers:
+            lines = []
+            if unresolved:
+                lines.append("Unresolved loops:")
+                lines.extend(f"- {loop}" for loop in unresolved)
+            if triggers:
+                lines.append("Next triggers:")
+                lines.extend(f"- {trigger}" for trigger in triggers)
+            return {
+                "mode": mode,
+                "answer": "\n".join(lines),
+                "sources": [{"source": source, "title": "session snapshot", "score": 1.0} for source in snapshot["sources"]],
+            }
+
     query = _QUERIES[mode]
     results = index.search(query, top_k=5)
     relevant = [(s, c) for s, c in results if s > 0.05]
@@ -638,3 +787,14 @@ def retrieve_intent(
         "answer": "\n\n---\n\n".join(answer_parts),
         "sources": sources,
     }
+
+
+def _source_weight(source: str) -> float:
+    lower = source.lower()
+    if lower.startswith("hils_session_"):
+        return HILS_SESSION_WEIGHT
+    if lower.startswith("5-governance/co-emergence/"):
+        return CO_EMERGENCE_WEIGHT
+    if lower.startswith("docs/"):
+        return DOCS_WEIGHT
+    return 1.0
