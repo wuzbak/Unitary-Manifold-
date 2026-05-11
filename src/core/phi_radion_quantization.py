@@ -208,17 +208,17 @@ def mpmath_ground_state_audit(
         mp_center = mpmath.mpf(center)
         pref = (mp_omega / mpmath.pi) ** mpmath.mpf("0.25")
 
-        def psi_sq(phi: "mpmath.mpf") -> "mpmath.mpf":
+        def ground_state_density(phi: "mpmath.mpf") -> "mpmath.mpf":
             xi = mpmath.sqrt(mp_omega) * (phi - mp_center)
             psi = pref * mpmath.exp(-xi ** 2 / 2)
             return psi ** 2
 
-        normalization = mpmath.quad(psi_sq, [-mpmath.inf, mpmath.inf])
+        normalization = mpmath.quad(ground_state_density, [-mpmath.inf, mpmath.inf])
 
-        def centered_second(phi: "mpmath.mpf") -> "mpmath.mpf":
-            return (phi - mp_center) ** 2 * psi_sq(phi)
+        def variance_integrand(phi: "mpmath.mpf") -> "mpmath.mpf":
+            return (phi - mp_center) ** 2 * ground_state_density(phi)
 
-        variance = mpmath.quad(centered_second, [-mpmath.inf, mpmath.inf])
+        variance = mpmath.quad(variance_integrand, [-mpmath.inf, mpmath.inf])
         expected_variance = mpmath.mpf("0.5") / mp_omega
 
         norm_err = abs(normalization - 1)

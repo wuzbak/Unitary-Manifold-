@@ -21,6 +21,10 @@ from src.core.litebird_gap_hardening import classify_beta
 from src.core.neutrino_p18_route_consolidation import ROUTE_A_RGE_VALUE
 from src.core.prediction_registry import PREDICTION_REGISTRY
 
+# Canonical consolidated P18 prediction for sin²θ12 after applying the
+# Route-A geometric boundary condition and its 1-loop RGE cross-check.
+SIN2_THETA12_PREDICTED: float = ROUTE_A_RGE_VALUE
+
 __all__ = [
     "DEFAULT_OBSERVATION_BUNDLE",
     "normalize_observation_bundle",
@@ -116,7 +120,7 @@ def route_pmns_theta12(
     year: int = 2026,
 ) -> Dict[str, object]:
     """Route θ12 observations against the canonical consolidated P18 value."""
-    predicted = ROUTE_A_RGE_VALUE
+    predicted = SIN2_THETA12_PREDICTED
     tension = abs(predicted - sin2_theta12_obs) / sigma if sigma > 0 else float("inf")
     if tension < 2.0:
         route = "CONSISTENT"

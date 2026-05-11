@@ -19,7 +19,7 @@ LEDGER_PATHS = {
 }
 
 VERSION_RE = re.compile(r"v\d+\.\d+")
-REGRESSION_RE = re.compile(r"(\d[\d ]*) passed\s*[·,]\s*(\d+) skipped\s*[·,]\s*(\d+) deselected", re.IGNORECASE)
+REGRESSION_RE = re.compile(r"(\d+(?:\s\d{3})*) passed\s*[·,]\s*(\d+) skipped\s*[·,]\s*(\d+) deselected", re.IGNORECASE)
 
 __all__ = [
     "LEDGER_PATHS",
