@@ -236,12 +236,24 @@ class MASWaveEngine:
         )
 
     def compute_framework_score(self) -> FrameworkScore:
+        status_counts = {
+            status: sum(g.epistemic_status == status for g in self.gaps)
+            for status in VALID_STATUSES
+        }
         counts = {
-            "CONSTRAINED": sum(g.epistemic_status == "CONSTRAINED" for g in self.gaps),
-            "CONDITIONAL_THEOREM": sum(g.epistemic_status == "CONDITIONAL_THEOREM" for g in self.gaps),
-            "PARTIALLY_CLOSED": sum(g.epistemic_status == "PARTIALLY_CLOSED" for g in self.gaps),
-            "NATURALLY_BOUNDED": sum(g.epistemic_status == "NATURALLY_BOUNDED" for g in self.gaps),
-            "OPEN": sum(g.epistemic_status in ("OPEN", "HONEST_OPEN_PROBLEM") for g in self.gaps),
+            "CONSTRAINED": (
+                status_counts["CONSTRAINED"]
+                + status_counts["BEST_EVIDENCE_CONSTRAINED"]
+                + status_counts["GEOMETRIC_PREDICTION"]
+            ),
+            "CONDITIONAL_THEOREM": status_counts["CONDITIONAL_THEOREM"],
+            "PARTIALLY_CLOSED": (
+                status_counts["PARTIALLY_CLOSED"]
+                + status_counts["SUBSTANTIALLY_CLOSED"]
+                + status_counts["ARCHITECTURE_LIMIT_CERTIFIED"]
+            ),
+            "NATURALLY_BOUNDED": status_counts["NATURALLY_BOUNDED"],
+            "OPEN": status_counts["OPEN"] + status_counts["HONEST_OPEN_PROBLEM"],
             "FITTED": 0,
             "PARAMETERIZED": 0,
         }

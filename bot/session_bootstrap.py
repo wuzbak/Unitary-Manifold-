@@ -446,6 +446,8 @@ def _dedupe_preserve_order(items) -> List[str]:
 
 def _insert_entry_before_marker(existing_text: str, entry: str, marker: str) -> str:
     """Insert a formatted entry immediately before the canonical marker comment."""
+    if marker not in existing_text:
+        return existing_text.rstrip() + "\n\n---\n\n" + entry
     prefix, suffix = existing_text.split(marker, 1)
     prefix = prefix.rstrip()
     joiner = "\n\n---\n\n" if prefix else ""
