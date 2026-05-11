@@ -480,3 +480,7 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-149-s01e002-the-falsification-decade-begins.md` | Post 149 · S01E002 | "The Falsification Decade Begins" |
 | `post-150-s01e003-before-litebird-the-lab-lane.md` | Post 150 · S01E003 | "Before LiteBIRD: The Lab Lane That Can Hurt Us Now" |
 | `post-151-s01e004-the-honest-machine.md` | Post 151 · S01E004 | "The Honest Machine" |
+| `post-152-s01e005-pillar218-quantum-control.md` | Post 152 · S01E005 | "Quantum Control Without Hype: What Pillar 218 Actually Adds" |
+| `post-153-s01e006-pillar219-interstellar-travel.md` | Post 153 · S01E006 | "Interstellar Travel and the Honesty Test: What Pillar 219 Says Clearly" |
+| `post-154-s01e007-pillar220-energy-manifold.md` | Post 154 · S01E007 | "Energy as φ-Debt: How Pillar 220 Reframes the Transition Problem" |
+| `post-155-s01e008-pillar226-dimensional-understanding.md` | Post 155 · S01E008 | "The Dimensional Ladder (1D → 11D): Why Pillar 226 Is a Scaffold, Not Score Inflation" |
