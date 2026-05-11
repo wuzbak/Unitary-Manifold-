@@ -13,8 +13,9 @@ Interstellar travel is the most energetically and technically demanding challeng
 ever contemplated by physics.  The nearest star system, Alpha Centauri at 4.37 ly,
 is 276,000 times farther from Earth than the Sun.  Sending a crewed spacecraft
 there at a generous 10 % of the speed of light — already far beyond any existing
-propulsion — would require roughly **37 times Earth's annual energy budget** for
-every 1,000 tonnes of spacecraft.  At the only speed currently achievable by
+propulsion — would require roughly **75 % of Earth's annual energy budget** for
+every 1,000 tonnes of spacecraft (and many times more for a fully fuelled mission
+including deceleration).  At the only speed currently achievable by
 rockets (~0.01 % c), the trip would take four million years.
 
 This pillar provides honest quantitative bounds, surveys propulsion options by
@@ -134,8 +135,8 @@ $$
 For a bubble of radius $R = 100$ m at $v = c$:
 
 $$
-|E_{\text{warp}}| \approx \frac{(3\times10^8)^4}{6.67\times10^{-11}} \times 10^4 \times 3\times10^8
-\approx 3.6\times10^{49}\ \text{J} \approx 2\times10^{19}\ M_\odot
+|E_{\text{warp}}| \approx \frac{(3\times10^8)^4}{6.67\times10^{-11}} \times (100)^2 \times 3\times10^8
+\approx 3.6\times10^{56}\ \text{J} \approx 2\times10^{9}\ M_\odot
 $$
 
 Modern refinements (White 2011; Lentz 2021) using thick-walled bubbles reduce this

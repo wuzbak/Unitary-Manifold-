@@ -209,6 +209,9 @@ def radiation_dose_interstellar(v_fraction_c: float) -> dict:
     LETHAL_THRESHOLD = 1000.0    # chronic lethal threshold [mSv/yr]
 
     gamma = 1.0 / math.sqrt(max(1.0 - v_fraction_c ** 2, 1e-30))
+    # The max() guard is retained for numerical safety near the boundary;
+    # the validator above blocks v≥1 but floating-point subtraction can
+    # underflow to zero for inputs very close to 1.
     # Conservative: dose ~ baseline × γ²  (flux blue-shift + energy increase)
     dose = BASELINE_MSV_YR * gamma ** 2
 

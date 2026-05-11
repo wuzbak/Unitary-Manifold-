@@ -108,9 +108,9 @@ class TestKineticEnergy:
         assert result["KE_megatons_tnt"] > 0
 
     def test_world_energy_ratio_large_ship(self):
-        # 1e6 kg at 0.1c ≈ 75% of annual world energy — a large fraction
+        # 1e6 kg at 0.1c ≈ 75 % of annual world energy
         result = kinetic_energy_fraction_c(1e6, 0.1)
-        assert result["KE_annual_world_energy_ratio"] > 0.5
+        assert 0.5 < result["KE_annual_world_energy_ratio"] < 2.0
 
     def test_notes_is_string(self):
         result = kinetic_energy_fraction_c(1e3, 0.2)
