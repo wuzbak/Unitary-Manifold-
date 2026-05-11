@@ -55,7 +55,7 @@ to this repository.
 
 ## The Four Books (v3.0 — Omega Expanded)
 
-### 1. [The Broken Scale — Omega Edition](book-broken-scale-omega.md)
+### 1. [The Broken Scale — Omega Edition](book-broken-scale.md)
 **Criminal Justice, Governance, and the Investigative Imperative**
 
 | Property | Value |
@@ -82,7 +82,7 @@ international accountability comparison.
 
 ---
 
-### 2. [The Climate Reckoning — Omega Edition](book-climate-reckoning-omega.md)
+### 2. [The Climate Reckoning — Omega Edition](book-climate-reckoning.md)
 **Fossil Fuel Accountability, Environmental Justice, and the Fight for a Livable World**
 
 | Property | Value |
@@ -110,7 +110,7 @@ Loss and Damage Fund — now expanded with the full carbon market accountability
 
 ---
 
-### 3. [The Prediction Market Reckoning — Omega Edition](book-prediction-markets-omega.md)
+### 3. [The Prediction Market Reckoning — Omega Edition](book-prediction-markets.md)
 **Polymarket, Kalshi, and the Fight for Democratic Integrity**
 
 | Property | Value |
@@ -137,7 +137,7 @@ regulatory comparison.
 
 ---
 
-### 4. [Axiom Journalism AI — Omega Edition](book-axiom-journalism-omega.md)
+### 4. Axiom Journalism AI — Omega Edition *(external import series)*
 **The AxiomZero Framework for Investigative Reporting in the Age of AI**
 
 | Property | Value |
@@ -150,13 +150,15 @@ regulatory comparison.
 
 **Note:** At 393KB, this book is too large for a single Substack post. The complete source
 is preserved here for archival purposes. For publication, use the **6-Part Series** below.
+This series was produced externally and imported into outreach workflow; this section is the
+canonical in-repo reference index so context and publication order are preserved.
 
 ---
 
 ## Book 4: The 6-Part Substack Series
 
 ### Axiom Journalism AI — Part 1
-**[The AxiomZero Method: Why Investigative Journalism Needs a Framework](book-axiom-journalism-series-01-philosophy.md)**
+**[The AxiomZero Method: Why Investigative Journalism Needs a Framework](#book-4-the-6-part-substack-series)**
 
 Philosophy, core principles, the 7 operational rules of the AXIOM framework, information
 conservation as the journalist's foundation, HILS applied to editorial judgment.
@@ -164,7 +166,7 @@ conservation as the journalist's foundation, HILS applied to editorial judgment.
 ---
 
 ### Axiom Journalism AI — Part 2
-**[AXIOM: The Investigative AI That Researches So You Can Judge](book-axiom-journalism-series-02-system.md)**
+**[AXIOM: The Investigative AI That Researches So You Can Judge](#book-4-the-6-part-substack-series)**
 
 The 5-agent architecture (researcher, fact_checker, legal_auditor, editor, orchestrator),
 the investigation pipeline, the confidence scoring system, what an AXIOM brief looks like,
@@ -173,7 +175,7 @@ why editorial judgment remains human.
 ---
 
 ### Axiom Journalism AI — Part 3
-**[The Document Hunters: FOIA, Public Records, and the Systematic Investigation](book-axiom-journalism-series-03-documents.md)**
+**[The Document Hunters: FOIA, Public Records, and the Systematic Investigation](#book-4-the-6-part-substack-series)**
 
 The investigation template system (15+ templates), the document source hierarchy (GovInfo,
 PACER, SEC EDGAR, OpenSanctions), the watchlist system, source trust scoring, the Diary
@@ -182,7 +184,7 @@ APK integration, what a full investigation workflow looks like.
 ---
 
 ### Axiom Journalism AI — Part 4
-**[The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human](book-axiom-journalism-series-04-verification.md)**
+**[The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human](#book-4-the-6-part-substack-series)**
 
 The three journalism failure modes from LLMs, why text detectors don't work, C2PA content
 provenance, metadata forensics, what to use LLMs for vs. never, the HILS verification
@@ -191,7 +193,7 @@ protocol, the AxiomZero gate, why human judgment is structural not optional.
 ---
 
 ### Axiom Journalism AI — Part 5
-**[The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty](book-axiom-journalism-series-05-oracle.md)**
+**[The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty](#book-4-the-6-part-substack-series)**
 
 What DelPHI Oracle is, the honest framing (structured uncertainty tool, not prediction),
 why divination and prediction markets share architecture, I Ching as structured forecasting,
@@ -201,7 +203,7 @@ HILS in divination, who this is for.
 ---
 
 ### Axiom Journalism AI — Part 6
-**[The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis](book-axiom-journalism-series-06-omega.md)**
+**[The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis](#book-4-the-6-part-substack-series)**
 
 Co-emergence applied to journalism, information conservation as the journalist's physics,
 the Omega Synthesis implications for information systems, AxiomZero as a HILS instance,

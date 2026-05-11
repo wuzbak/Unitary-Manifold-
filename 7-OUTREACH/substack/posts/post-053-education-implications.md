@@ -145,22 +145,22 @@ operational implications: investigative journalism training. The AXIOM system �
 documented in full in the **Axiom Journalism AI** series — is itself a learning-by-doing
 system built on exactly the principles described in this post.
 
-The **[Axiom Journalism AI — 6-Part Series](book-axiom-journalism-series-01-philosophy.md)**
+The **[Axiom Journalism AI — 6-Part Series](../books/BOOKS_README.md#book-4-the-6-part-substack-series)**
 covers how a structured learning framework applied to journalism produces measurably better
 investigators than ad hoc skill accumulation:
 
-- **[Part 1: The AxiomZero Method](book-axiom-journalism-series-01-philosophy.md)** —
+- **[Part 1: The AxiomZero Method](../books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
   the seven principles of the framework as a teaching architecture (Truth Above All,
   Source Integrity, Entity Identification, Legal Consciousness, Crowd Intelligence,
   Transparency of Method, Editorial Courage)
 
-- **[Part 3: The Document Hunters](book-axiom-journalism-series-03-documents.md)** —
+- **[Part 3: The Document Hunters](../books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
   the investigation template system as a structured approach to iterating toward the
   fixed point of a story: each template is a pre-built approach trajectory toward a
   specific investigative attractor (financial crime, corporate malfeasance, environmental
   violation, civil rights, political corruption)
 
-- **[Part 4: The Hallucination Problem](book-axiom-journalism-series-04-verification.md)** —
+- **[Part 4: The Hallucination Problem](../books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
   the most direct application of the ΔI → 0 convergence principle to education: the
   difference between an LLM that produces plausible-sounding text and a journalist who
   has iterated toward the actual record is exactly the difference between memorization
@@ -211,7 +211,7 @@ an Omega chapter building the path from K-12 pattern recognition to Kaluza-Klein
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point iteration: `src/multiverse/fixed_point.py`*
 *Coupled attractor (Information Gap): `src/consciousness/coupled_attractor.py`*
-*Companion series: [Axiom Journalism AI — Part 1](book-axiom-journalism-series-01-philosophy.md)*
+*Companion series: [Axiom Journalism AI — index + 6-part structure](../books/BOOKS_README.md#book-4-the-6-part-substack-series)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

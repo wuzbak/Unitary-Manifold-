@@ -351,16 +351,16 @@ Four full-length investigative books + a 6-part Substack series. All cross-refer
 
 | File | Type | Topic |
 |------|------|-------|
-| `book-broken-scale-omega.md` | **Book 1** | The Broken Scale — Criminal Justice, Governance, the Investigative Imperative (~138 KB, 12 parts) |
-| `book-climate-reckoning-omega.md` | **Book 2** | The Climate Reckoning — Fossil Fuel Accountability, Environmental Justice (~141 KB) |
-| `book-prediction-markets-omega.md` | **Book 3** | The Prediction Market Reckoning — Polymarket, Kalshi, Democratic Integrity (~162 KB) |
-| `book-axiom-journalism-omega.md` | **Book 4 Archive** | Axiom Journalism AI — Complete source archive (393 KB — use series below for Substack) |
-| `book-axiom-journalism-series-01-philosophy.md` | **Series 4/1** | The AxiomZero Method: Why Investigative Journalism Needs a Framework |
-| `book-axiom-journalism-series-02-system.md` | **Series 4/2** | AXIOM: The Investigative AI That Researches So You Can Judge |
-| `book-axiom-journalism-series-03-documents.md` | **Series 4/3** | The Document Hunters: FOIA, Public Records, and the Systematic Investigation |
-| `book-axiom-journalism-series-04-verification.md` | **Series 4/4** | The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human |
-| `book-axiom-journalism-series-05-oracle.md` | **Series 4/5** | The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty |
-| `book-axiom-journalism-series-06-omega.md` | **Series 4/6** | The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis |
+| `book-broken-scale.md` | **Book 1** | The Broken Scale — Criminal Justice, Governance, the Investigative Imperative (~138 KB, 12 parts) |
+| `book-climate-reckoning.md` | **Book 2** | The Climate Reckoning — Fossil Fuel Accountability, Environmental Justice (~141 KB) |
+| `book-prediction-markets.md` | **Book 3** | The Prediction Market Reckoning — Polymarket, Kalshi, Democratic Integrity (~162 KB) |
+| `External import (index only)` | **Book 4 Archive** | Axiom Journalism AI — Complete source archive + 6-part publication split. Canonical in-repo index: `books/BOOKS_README.md#book-4-the-6-part-substack-series` |
+| `External import — Part 1` | **Series 4/1** | The AxiomZero Method: Why Investigative Journalism Needs a Framework |
+| `External import — Part 2` | **Series 4/2** | AXIOM: The Investigative AI That Researches So You Can Judge |
+| `External import — Part 3` | **Series 4/3** | The Document Hunters: FOIA, Public Records, and the Systematic Investigation |
+| `External import — Part 4` | **Series 4/4** | The Hallucination Problem: LLMs, Verification, and the Non-Negotiable Human |
+| `External import — Part 5` | **Series 4/5** | The DelPHI Oracle: Probability, Pattern, and Structured Uncertainty |
+| `External import — Part 6` | **Series 4/6** | The Fixed Point of Truth: Axiom Journalism and the Omega Synthesis |
 | `book-systems-engineering-omega.md` | **Book 5** | The Engineer's Manifold — From Garage to Orbit: Systems Engineering for All Levels (~87 KB) |
 | `book-version-omega.md` | **Book 6** | The Unitary Manifold: Version Omega — Complete 18-Chapter Rewrite of the v9a Monograph (~91 KB) |
 | `book-learning-crisis-omega.md` | **Book 7** | The Learning Crisis — What's Broken in Education and What the Evidence Says (~117 KB) |
