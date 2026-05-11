@@ -65,15 +65,17 @@ PATH TO CLOSURE
 Three complementary routes to close the factor-~4 gap:
 
   A. Pillar 182 (AdS/QCD, qcd_geometry_primary.py) — Non-perturbative:
-     The dilaton profile directly fixes Λ_QCD ≈ 198 MeV WITHOUT running
-     α_s from M_GUT.  This bypasses the Landau-pole problem in 1-loop
-     downward running.  Current residual: ~1.7× from PDG Λ_QCD.
+     Step 4-A: Λ_QCD ≈ 198 MeV (−7.2% from PDG MS-bar 213 MeV).
+     Step 4-B: Λ_QCD ≈ 215 MeV (+0.9%) via braid geometric-mean r_dil.
+     This bypasses the Landau-pole problem in 1-loop downward running.
 
-  B. Pillar 201 (planned) — Geometric Higgs VEV from 5D action:
-     v_geo = M_KK × √(N_c/K_CS) is 15% below PDG 246 GeV.  A precise
-     GW-stabilisation derivation (fixing the GW parameter ν from the 5D
-     action alone) would set M_EW_geo accurately, improving the running
-     endpoint and closing ~60% of the Warp-Anchor Gap.
+  B. Pillar 201 (IMPLEMENTED v10.4) — Geometric Higgs VEV from GW braid:
+     v_gw = M_KK × sqrt(N_c) / n₂ = 257.6 GeV (4.6% from PDG 246.2 GeV).
+     `alpha_s_to_mz_p201()` uses this as a waypoint and runs the full
+     chain M_KK → m_top(Pillar 97) → M_Z for an apples-to-apples comparison.
+     The Warp-Anchor Gap at M_Z is factor 3.84 — NOT absorbed; just measured
+     at the same scale as PDG.  The m_top threshold is from Pillar 97's
+     geometric Yukawa (reproduces PDG m_top to < 0.01%), not a tuning knob.
 
   C. KK-tower back-reaction (this module):
      Above M_KK the KK gluons contribute Δβ₀_KK = (11 N_c/3)×(n_w/K_CS)
@@ -416,6 +418,25 @@ def alpha_s_to_mz_p201(
     This function extends the Pillar 200 forward chain beyond M_EW_geo all the
     way to M_Z = 91.18 GeV, enabling an apples-to-apples comparison with the
     PDG value α_s(M_Z) = 0.1179.
+
+    ─────────────────────────────────────────────────────────────────────────
+    WHY THIS DOES NOT "ABSORB" THE FACTOR-4 GAP
+    ─────────────────────────────────────────────────────────────────────────
+    The Pillar 200 standalone chain compared α_s at M_EW_geo ≈ 210 GeV against
+    the PDG value at M_Z = 91 GeV — two different energy scales.  That is an
+    unfair comparison that EXAGGERATES the gap (factor 3.96 vs 3.84).
+
+    This function fixes the comparison scale to M_Z, giving factor 3.84.  The
+    gap is NOT closed — it is measured more honestly.  The m_top threshold is
+    an algebraic necessity of 1-loop QCD running (active flavour counting), not
+    a tuning knob.  m_top comes from Pillar 97's geometric Yukawa derivation
+    (reproduces PDG m_top = 172.69 GeV to < 0.01%).
+
+    Closing the factor-3.84 gap requires non-perturbative physics; the 1-loop
+    QCD path (Pillar 200) has an intrinsic Landau-pole barrier from M_GUT, and
+    the resolution is the AdS/QCD dilaton path of Pillar 182 (Step 4-B reaches
+    Λ_QCD within 0.9% of PDG MS-bar with zero free parameters).
+    ─────────────────────────────────────────────────────────────────────────
 
     The Pillar 200 standalone chain stops at M_EW_geo ≈ 210 GeV (warp-anchor)
     and compares to PDG α_s(M_Z) at a different energy scale — an unfair test.
