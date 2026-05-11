@@ -9,7 +9,7 @@ import numpy as np
 
 from src.core.cmb_boltzmann_hierarchy import (
     N_W, K_CS, C_S_BRAID, N_S, A_S, R_BARY, C_S_PHOTON,
-    R_S_MPC, DELTA_KK_REF, ELL_REF, K_SILK_MPCinv, TAU_REIO,
+    R_S_MPC, DELTA_KK_REF, ELL_REF, K_SILK_MPCinv, TAU_REIO, TAU_REIO_ERR,
     ETA_REC_MPCinv, ETA_0_MPCinv, D_A_MPC,
     kk_correction,
     silk_damping_factor,
@@ -159,6 +159,16 @@ def test_reionization_damping_monotone_nonincreasing():
 def test_reionization_damping_negative_ell_raises():
     with pytest.raises(ValueError):
         reionization_transfer_damping(-1.0)
+
+
+def test_reionization_damping_negative_tau_raises():
+    with pytest.raises(ValueError):
+        reionization_transfer_damping(100.0, tau_reio=-0.01)
+
+
+def test_reionization_damping_nonpositive_transition_raises():
+    with pytest.raises(ValueError):
+        reionization_transfer_damping(100.0, ell_transition=0.0)
 
 
 # ---------------------------------------------------------------------------
@@ -439,3 +449,10 @@ def test_boltzmann_hierarchy_reionization_closed_item_present():
 def test_boltzmann_hierarchy_tau_reio_reasonable():
     result = boltzmann_hierarchy_report()
     assert result["tau_reio"] == pytest.approx(TAU_REIO, rel=1e-12)
+    assert result["tau_reio_err"] == pytest.approx(TAU_REIO_ERR, rel=1e-12)
+
+
+def test_boltzmann_hierarchy_reionization_ratio_reasonable():
+    result = boltzmann_hierarchy_report()
+    ratio = result["reionization_damping_ratio_ell100_to_ell2"]
+    assert 0.0 < ratio < 1.0

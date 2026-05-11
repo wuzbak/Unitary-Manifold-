@@ -79,6 +79,15 @@ THRESHOLD_GAIN = 1.0
 # These are sprint-level effective gains used only for the explicit
 # `effective_closure=True` experimental path. They are not first-principles
 # 5D derivations and are intentionally isolated from the canonical baseline.
+# Values are empirical calibration knobs from the v10.51 sprint selected to keep
+# the opt-in path inside a sub-5% residual stress-test window while preserving
+# stable positive shifts under `pmns_solar_no_overclaim_gate(effective_closure=True)`.
+# Empirical basis: scan over multiplicative gains and retain settings that
+# produce sub-5% residual without sign flips in Δ_RGE and δ_threshold.
+# Validation footprint: baseline and effective paths are regression-checked in
+# tests (e.g. `test_effective_report_promotes_gap_below_5pct`) for the default
+# `sin2_theta12_gut=4/15` use-case. Values are sensitivity knobs, not derived
+# two-loop coefficients with physical uncertainty bars.
 EFFECTIVE_TWO_LOOP_GAIN = 170.0
 EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 
@@ -86,6 +95,14 @@ EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 # ---------------------------------------------------------------------------
 # Core helper functions
 # ---------------------------------------------------------------------------
+
+
+def _require_finite_nonnegative(name: str, value: float) -> None:
+    """Raise ValueError when a gain-like control is invalid."""
+    if not math.isfinite(value):
+        raise ValueError(f"{name} must be finite, got {value!r}")
+    if value < 0:
+        raise ValueError(f"{name} must be >= 0, got {value!r}")
 
 def tau_yukawa() -> float:
     """Return the tau lepton Yukawa coupling y_τ = m_τ / v at M_Z scale."""
@@ -126,6 +143,12 @@ def rge_delta_sin2_theta12(
 
     For NH: sin²θ₁₂ INCREASES going from M_GUT to M_Z (positive shift).
     """
+    if not (0.0 <= sin2_theta12_gut <= 1.0):
+        raise ValueError(
+            f"sin2_theta12_gut must be within [0, 1], got {sin2_theta12_gut!r}"
+        )
+    _require_finite_nonnegative("two_loop_gain", two_loop_gain)
+
     y_tau = tau_yukawa()
     y_tau_sq = y_tau ** 2
     ln_factor = log_rge_factor()
@@ -147,7 +170,7 @@ def rge_delta_sin2_theta12(
         "sin2_2theta12": s22,
         "formula": (
             "delta_1L = 0.5 * y_tau^2 / (16pi^2) * ln(M_GUT/M_Z) * (dm32/dm21) * sin2(2th12); "
-            "delta_total = delta_1L + (TWO_LOOP_GAIN - 1) * delta_1L"
+            "delta_total = delta_1L + (TWO_LOOP_GAIN - 1) * delta_1L (effective stress-test ansatz)"
         ),
     }
 
@@ -170,8 +193,14 @@ def seesaw_threshold_correction(
 
     This is small (~1.6×10⁻⁶) and subdominant to the bulk RGE running.
     """
+    if not math.isfinite(m_r_gev) or m_r_gev <= 0:
+        raise ValueError(f"m_r_gev must be finite and > 0, got {m_r_gev!r}")
+    _require_finite_nonnegative("threshold_gain", threshold_gain)
+
     y_tau = tau_yukawa()
     delta_threshold_base = 0.5 * y_tau ** 2 / _16PI2
+    # Effective closure path uses a multiplicative phenomenology ansatz for
+    # threshold sensitivity scanning; baseline keeps threshold_gain=1.
     delta_threshold = threshold_gain * delta_threshold_base
 
     return {
@@ -250,6 +279,11 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
 
     residual_pct = abs(result["fractional_gap"]) * 100.0
     epistemic_label = "SUBSTANTIALLY_CLOSED" if residual_pct < 5.0 else "PARTIALLY_CLOSED"
+    honest_note = (
+        "Baseline report remains canonical: residual gap is ~8% and not promoted."
+        if not effective_closure
+        else "Effective path is opt-in stress-test only; no-overclaim gate remains authoritative."
+    )
 
     return {
         "pillar": 163,
@@ -275,10 +309,7 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
         "residual_pct": residual_pct,
         "status": result["status"],
         "effective_closure": effective_closure,
-        "honest_note": (
-            "Baseline report remains canonical unless effective_closure=True is requested.  "
-            "No-overclaim gate remains authoritative: promotion only when residual < 5%."
-        ),
+        "honest_note": honest_note,
         "reference": "Antusch et al. hep-ph/0305274 Eq. 19 baseline + effective v10.51 closure gains",
     }
 
@@ -337,3 +368,23 @@ def pmns_solar_improvement_path() -> dict:
 def pmns_solar_effective_closure_report() -> dict:
     """Opt-in effective closure report for sprint experimentation."""
     return pmns_solar_rge_report(effective_closure=True)
+
+
+def pmns_solar_closure_delta_report() -> dict:
+    """Compare baseline and opt-in effective closure paths side-by-side."""
+    baseline = pmns_solar_rge_report(effective_closure=False)
+    effective = pmns_solar_rge_report(effective_closure=True)
+    return {
+        "baseline": baseline,
+        "effective": effective,
+        "delta": {
+            "residual_pct_reduction": baseline["residual_pct"] - effective["residual_pct"],
+            "sin2_theta12_mz_shift": (
+                effective["sin2_theta12_mz_predicted"]
+                - baseline["sin2_theta12_mz_predicted"]
+            ),
+            "gap_reduction_pct_gain": (
+                effective["gap_reduction_pct"] - baseline["gap_reduction_pct"]
+            ),
+        },
+    }
