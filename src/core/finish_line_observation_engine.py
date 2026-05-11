@@ -27,7 +27,9 @@ SIN2_THETA12_PREDICTED: float = ROUTE_A_RGE_VALUE
 
 
 def _calculate_tension(predicted: float, observed: float, sigma: float) -> float:
-    return abs(predicted - observed) / sigma if sigma > 0 else float("inf")
+    if sigma <= 0:
+        raise ValueError(f"sigma must be positive, got {sigma}")
+    return abs(predicted - observed) / sigma
 
 __all__ = [
     "DEFAULT_OBSERVATION_BUNDLE",

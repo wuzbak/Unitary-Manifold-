@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Machine-readable consistency checks across the canonical status ledgers."""
+"""Machine-readable consistency checks across the canonical status ledgers.
+
+The regression-count parser is intentionally tolerant of the formatting currently
+used in the canonical ledgers: space-separated thousands ("28 560"), comma-
+separated thousands ("28,560"), or plain digit strings ("28560").
+"""
 
 from __future__ import annotations
 
@@ -19,9 +24,9 @@ LEDGER_PATHS = {
 }
 
 VERSION_RE = re.compile(r"v\d+\.\d+")
-# Canonical ledgers currently render large counts with space-separated thousands
-# (e.g. "28 560 passed"), so the regex accepts that exact house style.
-REGRESSION_RE = re.compile(r"(\d+(?:\s+\d{3})*) passed\s*[·,]\s*(\d+) skipped\s*[·,]\s*(\d+) deselected", re.IGNORECASE)
+# Canonical ledgers currently render large counts with space-separated thousands,
+# but we also tolerate comma-separated and plain digit formatting for robustness.
+REGRESSION_RE = re.compile(r"(\d+(?:[,\s]+\d{3})*) passed\s*[·,]\s*(\d+) skipped\s*[·,]\s*(\d+) deselected", re.IGNORECASE)
 
 __all__ = [
     "LEDGER_PATHS",
@@ -44,7 +49,7 @@ def _extract_regression(text: str) -> Dict[str, int] | None:
     if not match:
         return None
     return {
-        "passed": int(match.group(1).replace(" ", "")),
+        "passed": int(match.group(1).replace(" ", "").replace(",", "")),
         "skipped": int(match.group(2)),
         "deselected": int(match.group(3)),
     }

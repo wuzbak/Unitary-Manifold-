@@ -208,7 +208,7 @@ def mpmath_ground_state_audit(
     with mpmath.workdps(dps):
         mp_omega = mpmath.mpf(omega)
         mp_center = mpmath.mpf(center)
-        pref = (mp_omega / mpmath.pi) ** mpmath.mpf("0.25")
+        pref = (mpmath.mpf(EFFECTIVE_MASS) * mp_omega / mpmath.pi) ** mpmath.mpf("0.25")
 
         def ground_state_density(phi: "mpmath.mpf") -> "mpmath.mpf":
             xi = mpmath.sqrt(mp_omega) * (phi - mp_center)

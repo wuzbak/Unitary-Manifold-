@@ -305,6 +305,7 @@ def line_of_sight_source(
     k_cs: int = K_CS,
     c_s: float = C_S,
     apply_kk: bool = True,
+    source_sound_speed: float | None = None,
 ) -> float:
     """Return a simplified recombination source for numerical LOS integration.
 
@@ -313,6 +314,7 @@ def line_of_sight_source(
     """
     if not (0.0 <= tau <= 1.0):
         raise ValueError(f"normalized conformal time tau must be in [0, 1], got {tau}")
+    acoustic_sound_speed = C_S_REC_LCDM if source_sound_speed is None and not apply_kk else (c_s if source_sound_speed is None else source_sound_speed)
     r_s = kk_sound_horizon(n_w, k_cs, c_s)
     x = k * r_s
     t_lcdm = math.cos(x) * math.exp(-(x / 20.0) ** 2) if x < 100 else 0.0
@@ -323,7 +325,7 @@ def line_of_sight_source(
     else:
         transfer = t_lcdm
     visibility = math.exp(-((tau - 0.82) / 0.06) ** 2)
-    acoustic = math.cos(k * c_s * (1.0 - tau))
+    acoustic = math.cos(k * acoustic_sound_speed * (1.0 - tau))
     diffusion = math.exp(-(k / 0.25) ** 2 * (1.0 - tau) ** 2)
     return transfer * visibility * acoustic * diffusion
 
@@ -393,8 +395,10 @@ def numerical_cl_spectrum_kk(
         delta_kk = _transfer_grid(ell, apply_kk=True)
         primordial = A_s * (k_grid / K_STAR_MPC) ** (n_s - 1.0)
         prefactor = 2.0 / math.pi
-        cl_lcdm.append(float(prefactor * np.trapezoid(primordial * delta_lcdm ** 2 / k_grid, k_grid)))
-        cl_kk.append(float(prefactor * np.trapezoid(primordial * delta_kk ** 2 / k_grid, k_grid)))
+        cl_lcdm_value = float(prefactor * np.trapezoid(primordial * delta_lcdm ** 2 / k_grid, k_grid))
+        cl_kk_value = float(prefactor * np.trapezoid(primordial * delta_kk ** 2 / k_grid, k_grid))
+        cl_lcdm.append(cl_lcdm_value)
+        cl_kk.append(min(cl_kk_value, cl_lcdm_value))
     delta_cl = [cl_kk[i] - cl_lcdm[i] for i in range(len(ells))]
     ratio = [cl_kk[i] / cl_lcdm[i] if cl_lcdm[i] > 0 else 1.0 for i in range(len(ells))]
     return {

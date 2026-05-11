@@ -214,11 +214,14 @@ class TestNumericalLineOfSight:
         assert numerical_transfer_function_kk(0.0, 0) == 1.0
 
     def test_numerical_cl_spectrum_structure(self):
+        # Use a smaller k-grid than production for speed; this is sufficient to
+        # validate structure and suppression behavior in unit tests.
         result = numerical_cl_spectrum_kk(range(2, 10, 2), n_k=48)
         for key in ("ell", "Cl_lcdm", "Cl_kk", "delta_Cl", "ratio_kk_to_lcdm"):
             assert key in result
 
     def test_numerical_cl_suppression(self):
+        # Keep n_k modest in tests to limit runtime while still sampling the LOS integral.
         result = numerical_cl_spectrum_kk(range(2, 10, 2), n_k=48)
         for ratio in result["ratio_kk_to_lcdm"]:
             assert ratio <= 1.0 + 1e-9
