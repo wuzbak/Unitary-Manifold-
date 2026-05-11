@@ -236,10 +236,10 @@ class MASWaveEngine:
         )
 
     def compute_framework_score(self) -> FrameworkScore:
-        status_counts = {
-            status: sum(g.epistemic_status == status for g in self.gaps)
-            for status in VALID_STATUSES
-        }
+        status_counts = {status: 0 for status in VALID_STATUSES}
+        for gap in self.gaps:
+            if gap.epistemic_status in status_counts:
+                status_counts[gap.epistemic_status] += 1
         counts = {
             "CONSTRAINED": (
                 status_counts["CONSTRAINED"]

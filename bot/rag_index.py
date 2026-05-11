@@ -325,14 +325,14 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
 }
 
 
-def _normalise_token(token: str) -> str:
+def _normalize_token(token: str) -> str:
     token = token.strip().lower()
     return _TOKEN_ALIASES.get(token, token)
 
 
 def _tokenize(text: str) -> Set[str]:
     return {
-        _normalise_token(token)
+        _normalize_token(token)
         for token in re.findall(r"\w+", text.lower())
         if token.strip()
     }
@@ -400,12 +400,13 @@ def build_runtime_knowledge_base(repo_root: Optional[Path] = None) -> Dict[str, 
 class DocumentChunk:
     """A searchable chunk of text from the repository."""
 
-    __slots__ = ("source", "title", "text", "tokens", "title_tokens")
+    __slots__ = ("source", "title", "text", "text_lower", "tokens", "title_tokens")
 
     def __init__(self, source: str, title: str, text: str) -> None:
         self.source = source
         self.title = title
         self.text = text
+        self.text_lower = text.lower()
         self.tokens = _tokenize(" ".join((source, title, text)))
         self.title_tokens = _tokenize(title)
 
@@ -417,7 +418,7 @@ class DocumentChunk:
         title_matches = query_tokens & self.title_tokens
         base = len(matches) / len(query_tokens)
         title_bonus = TITLE_BONUS_WEIGHT * len(title_matches) / len(query_tokens)
-        phrase_bonus = PHRASE_MATCH_BONUS if query_text and query_text in self.text.lower() else 0.0
+        phrase_bonus = PHRASE_MATCH_BONUS if query_text and query_text in self.text_lower else 0.0
         return min(1.0, base + title_bonus + phrase_bonus)
 
 
