@@ -82,7 +82,11 @@ THRESHOLD_GAIN = 1.0
 # Values are empirical calibration knobs from the v10.51 sprint selected to keep
 # the opt-in path inside a sub-5% residual stress-test window while preserving
 # stable positive shifts under `pmns_solar_no_overclaim_gate(effective_closure=True)`.
-# They are not first-principles two-loop coefficients.
+# Empirical basis: scan over multiplicative gains and retain settings that
+# produce sub-5% residual without sign flips in Δ_RGE and δ_threshold.
+# Validated usage range: this module's canonical defaults and the effective
+# `sin2_theta12_gut=4/15` path exercised in tests; values are not uncertainty-
+# quantified physical coefficients and should be treated as sensitivity knobs.
 EFFECTIVE_TWO_LOOP_GAIN = 170.0
 EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 
