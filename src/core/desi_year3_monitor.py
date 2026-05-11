@@ -324,8 +324,8 @@ def validate_release_payload(payload: Dict) -> Dict:
     wa_central = float(payload["wa_central"])
     wa_sigma = float(payload["wa_sigma"])
 
-    if year < 2025:
-        raise ValueError("year must be >= 2025 for this monitoring pipeline.")
+    if year < int(DESI_DR2["year"]):
+        raise ValueError(f"year must be >= {DESI_DR2['year']} for this monitoring pipeline.")
     if not release_name:
         raise ValueError("release_name must be non-empty.")
     if w0_sigma <= 0 or wa_sigma <= 0:

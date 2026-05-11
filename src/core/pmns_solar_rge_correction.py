@@ -144,7 +144,7 @@ def rge_delta_sin2_theta12(
         "sin2_2theta12": s22,
         "formula": (
             "delta_1L = 0.5 * y_tau^2 / (16pi^2) * ln(M_GUT/M_Z) * (dm32/dm21) * sin2(2th12); "
-            "delta_total = TWO_LOOP_GAIN * delta_1L"
+            "delta_total = delta_1L + (TWO_LOOP_GAIN - 1) * delta_1L"
         ),
     }
 
