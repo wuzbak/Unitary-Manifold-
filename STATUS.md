@@ -239,6 +239,7 @@ specific failure mode that this condition guards against.
 | Location | Description | Status |
 |----------|-------------|--------|
 | `src/unitary_os/` (14 modules) | Unitary OS — independent operating system in development (461 tests) | 🔵 IN DEVELOPMENT |
+| `src/quantum/` (Fermi–Hubbard lane) | Adjacent quantum-simulation research track (Hamiltonian, JW/BK mappings, execution, benchmarks) | 🔵 IN DEVELOPMENT (non-hardgate) |
 
 ### Key numerical results (v10.5)
 

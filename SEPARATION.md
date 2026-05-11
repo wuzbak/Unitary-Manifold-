@@ -81,6 +81,17 @@ not derivation.
 
 **Classification:** Phenomenological Bridge — mathematical framework application.
 
+### 2.4 Adjacent Fermi–Hubbard Quantum Simulation (`src/quantum/`)
+
+**What it is:** A dedicated quantum-simulation engineering and benchmarking lane
+for Fermi–Hubbard model research (Hamiltonian construction, JW/BK mappings,
+trotterized execution, and benchmark parity interfaces).
+
+**What it is NOT:** A Category-1 derivation from the 5D UM action.  It is a
+connected-but-separate computational research stream and is explicitly non-hardgate.
+
+**Classification:** Phenomenological/engineering adjacent research.
+
 ### 2.3 The Unitary Pentad (`5-GOVERNANCE/Unitary Pentad/`)
 
 **What it is:** An independent governance framework (HILS — Human-in-the-Loop
