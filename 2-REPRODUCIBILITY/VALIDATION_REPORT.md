@@ -37,6 +37,13 @@ The distinction matters. The framework has been validated in senses 1 and 2 thor
 and in sense 3 to the degree that current data allows. It has not been validated in the
 sense of "confirmed by new experiments." That is the work of the next decade.
 
+> **See also:**
+> - [`1-THEORY/DERIVATION_STATUS.md`](../1-THEORY/DERIVATION_STATUS.md) — epistemic
+>   ledger recording the status (POSTULATED / DERIVED (conditional) / DERIVED (structural) /
+>   PROVED / CLOSED) of every major claim, with a Foundational Dependency Graph.
+> - [`FALLIBILITY.md`](../FALLIBILITY.md) — failure modes with severity tiers
+>   (EXISTENTIAL / STRUCTURAL / NUMERICAL / INTERPRETIVE) and explicit falsification conditions.
+
 ---
 
 ## The Four Pinned Validation Documents
