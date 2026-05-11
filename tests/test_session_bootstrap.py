@@ -212,6 +212,22 @@ class TestAppendSessionEntry:
         finally:
             tmp.unlink()
 
+    def test_append_creates_parent_directory(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log_path = Path(tmpdir) / "nested" / "log.md"
+            append_session_entry(
+                wave="Wave Nested",
+                session_trigger="mkdir behavior",
+                intents=[],
+                decisions=[],
+                loops_resolved=[],
+                loops_forward=[],
+                regression_result="ok",
+                next_triggers=[],
+                log_doc=log_path,
+            )
+            assert log_path.exists()
+
 
 # ---------------------------------------------------------------------------
 # current_intent_snapshot

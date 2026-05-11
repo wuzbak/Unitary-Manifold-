@@ -61,6 +61,7 @@ CO_EMERGENCE_WEIGHT = 1.20
 DOCS_WEIGHT = 1.10
 TITLE_BONUS_WEIGHT = 0.25
 PHRASE_MATCH_BONUS = 0.15
+KB_PHRASE_MATCH_BONUS = 0.20
 
 # ---------------------------------------------------------------------------
 # Structured knowledge base — key facts hard-coded for reliability
@@ -593,7 +594,7 @@ class RAGIndex:
             topic_tokens = _tokenize(combined)
             score = len(query_tokens & topic_tokens) / max(len(query_tokens), 1)
             if query_text and query_text in combined.lower():
-                score = min(1.0, score + 0.2)
+                score = min(1.0, score + KB_PHRASE_MATCH_BONUS)
             if score > best_score:
                 best_score = score
                 best_entry = entry

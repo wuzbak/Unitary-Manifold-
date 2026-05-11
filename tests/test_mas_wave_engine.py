@@ -232,6 +232,17 @@ def test_autodata_coverage_score_range():
     r = e.autodata_quality_report()
     assert 0 <= r.coverage_score <= 1.0
 
+def test_autodata_coverage_matches_framework_score_formula():
+    e = MASWaveEngine()
+    score = e.compute_framework_score()
+    report = e.autodata_quality_report()
+    expected = min(
+        1.0,
+        (score.n_derived + score.n_constrained + score.n_conditional_theorem)
+        / max(score.total_pillars, 1),
+    )
+    assert report.coverage_score == pytest.approx(expected)
+
 def test_autodata_depth_score_range():
     e = MASWaveEngine()
     r = e.autodata_quality_report()
