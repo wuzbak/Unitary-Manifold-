@@ -145,7 +145,6 @@ def _balanced_core() -> PentadSystem:
     threshold.  Used for tests that need to isolate BIFURCATION/ENTROPY/NONE
     triggers without the CAPABILITY_ASYMMETRY check firing.
     """
-    import math as _m
     ps = PentadSystem.default()
     new_bodies = dict(ps.bodies)
     ai_old   = ps.bodies[PentadLabel.AI]
