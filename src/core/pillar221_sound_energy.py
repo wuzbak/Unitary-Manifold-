@@ -45,6 +45,7 @@ __all__ = [
     "ultrasound_attenuation",
     "cavitation_mechanical_index",
     "ultrasound_safety_window",
+    "sound_energy_use_cases",
     "sound_energy_use_matrix",
     "pillar221_summary",
 ]
@@ -219,7 +220,7 @@ def ultrasound_safety_window(
     }
 
 
-def sound_energy_use_matrix() -> list[dict]:
+def sound_energy_use_cases() -> list[dict]:
     """Return rigor-focused mapping of major sound-energy applications."""
     return [
         {
@@ -251,6 +252,11 @@ def sound_energy_use_matrix() -> list[dict]:
             "key_limit": "precision degrades with turbulence and heterogeneity",
         },
     ]
+
+
+def sound_energy_use_matrix() -> list[dict]:
+    """Backward-compatible alias for sound_energy_use_cases()."""
+    return sound_energy_use_cases()
 
 
 def pillar221_summary() -> dict:
