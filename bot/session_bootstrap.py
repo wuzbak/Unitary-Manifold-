@@ -229,10 +229,7 @@ def append_session_entry(
         # Insert before the closing template comment
         marker = "<!-- Add new entries above this line"
         if marker in existing_text:
-            prefix, suffix = existing_text.split(marker, 1)
-            prefix = prefix.rstrip()
-            joiner = "\n\n---\n\n" if prefix else ""
-            new_text = f"{prefix}{joiner}{entry}\n\n{marker}{suffix}"
+            new_text = _insert_entry_before_marker(existing_text, entry, marker)
         else:
             new_text = existing_text.rstrip() + "\n\n---\n\n" + entry
         path.write_text(new_text, encoding="utf-8")
@@ -445,3 +442,11 @@ def _dedupe_preserve_order(items) -> List[str]:
         seen.add(text)
         result.append(text)
     return result
+
+
+def _insert_entry_before_marker(existing_text: str, entry: str, marker: str) -> str:
+    """Insert a formatted entry immediately before the canonical marker comment."""
+    prefix, suffix = existing_text.split(marker, 1)
+    prefix = prefix.rstrip()
+    joiner = "\n\n---\n\n" if prefix else ""
+    return f"{prefix}{joiner}{entry}\n\n{marker}{suffix}"

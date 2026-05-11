@@ -101,7 +101,7 @@ class AutodataReport:
 class MASWaveEngine:
     """The computable co-emergence protocol."""
 
-    VERSION = "v10.50 Full Off-Attractor WDW + Boltzmann Hierarchy + Yukawa Orbifold BC Texture + α_GUT SU(5) Completion"
+    VERSION = "v10.50"
     N_PILLARS = 208
     N_TESTS_APPROX = 29076
 

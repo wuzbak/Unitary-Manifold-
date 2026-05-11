@@ -54,6 +54,12 @@ _TOKEN_ALIASES = {
     "radion": "radion",
 }
 
+# Intent/session sources should outrank generic documentation on tie-like matches
+# because they represent the freshest operator-visible state.
+HILS_SESSION_WEIGHT = 1.35
+CO_EMERGENCE_WEIGHT = 1.20
+DOCS_WEIGHT = 1.10
+
 # ---------------------------------------------------------------------------
 # Structured knowledge base — key facts hard-coded for reliability
 # ---------------------------------------------------------------------------
@@ -782,9 +788,9 @@ def retrieve_intent(
 def _source_weight(source: str) -> float:
     lower = source.lower()
     if lower.startswith("hils_session_"):
-        return 1.35
+        return HILS_SESSION_WEIGHT
     if lower.startswith("5-governance/co-emergence/"):
-        return 1.2
+        return CO_EMERGENCE_WEIGHT
     if lower.startswith("docs/"):
-        return 1.1
+        return DOCS_WEIGHT
     return 1.0
