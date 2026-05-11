@@ -76,6 +76,9 @@ TWO_LOOP_GAIN = 1.0
 THRESHOLD_GAIN = 1.0
 
 # Optional effective closure controls (opt-in only)
+# These are sprint-level effective gains used only for the explicit
+# `effective_closure=True` experimental path. They are not first-principles
+# 5D derivations and are intentionally isolated from the canonical baseline.
 EFFECTIVE_TWO_LOOP_GAIN = 170.0
 EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 

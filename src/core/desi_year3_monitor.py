@@ -261,6 +261,7 @@ def update_with_new_data(
     -------
     dict with full comparison vs DESI DR2 baseline and UM prediction.
     """
+    # Keep direct-call safety even though strict_release_ingest() also validates.
     if w0_sigma <= 0 or wa_sigma <= 0:
         raise ValueError("w0_sigma and wa_sigma must be strictly positive for strict ingest.")
 
