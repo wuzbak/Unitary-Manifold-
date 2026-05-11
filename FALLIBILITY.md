@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.42 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 28 560 passed, 329 skipped, 11 deselected, 0 failed).*
+*Unitary Manifold v10.44 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 28 560 passed, 329 skipped, 11 deselected, 0 failed).*
 
 ---
 
@@ -3378,10 +3378,10 @@ physics remains labeled as an architecture limit until closed.
 
 ---
 
-## §X — Verification Infrastructure (v10.43 expansion)
+## §X — Verification Infrastructure (v10.44 expansion)
 
-This section documents the formal-proof, high-precision, and symbolic-verification
-infrastructure added in v10.43.  These tools expand the verification surface without
+This section documents the formal-proof, high-precision, symbolic-verification,
+and local-quantization infrastructure added through v10.44.  These tools expand the verification surface without
 changing any physics claims.
 
 ### §X.1 — Formal Proof Layer (Lean4)

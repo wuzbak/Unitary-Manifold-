@@ -20,12 +20,15 @@ from src.core.pillar212_adm_decomposition import (
     momentum_constraint,
     ricci_to_adm_time_coincidence,
 )
+from src.core.phi_radion_quantization import canonical_quantization_report
 
 __all__ = [
     "DEFAULT_PHI_GRID",
     "lapse_scaling_invariance",
     "adm_constraint_audit",
     "adm_falsifier_interface",
+    "off_attractor_time_mismatch_scan",
+    "radion_quantization_closure",
     "adm_quantitative_closure_report",
 ]
 
@@ -93,18 +96,49 @@ def adm_falsifier_interface(phi_0: float = 1.0, sigma_dt_threshold: float = 1e-9
     }
 
 
+def off_attractor_time_mismatch_scan(
+    phi_values: Iterable[float] = DEFAULT_PHI_GRID,
+    sigma_dt_threshold: float = 1e-9,
+) -> Dict[str, object]:
+    """Scan Ricci/ADM mismatch away from the attractor."""
+    phis = [float(v) for v in phi_values]
+    scans = [
+        adm_falsifier_interface(phi_0=phi, sigma_dt_threshold=sigma_dt_threshold)
+        for phi in phis
+    ]
+    non_attractor = [item for item in scans if abs(item["phi_0"] - 1.0) > 1e-12]
+    return {
+        "phi_values": phis,
+        "routes": [item["route"] for item in scans],
+        "dt_mismatch_values": [item["dt_mismatch"] for item in scans],
+        "attractor_route": next(item["route"] for item in scans if abs(item["phi_0"] - 1.0) < 1e-12),
+        "non_attractor_routes": [item["route"] for item in non_attractor],
+        "non_attractor_detected": any(item["route"] != "PASS" for item in non_attractor),
+        "scan": scans,
+    }
+
+
+def radion_quantization_closure() -> Dict[str, object]:
+    """Return the local canonical quantization evidence bundle."""
+    return canonical_quantization_report()
+
+
 def adm_quantitative_closure_report() -> Dict[str, object]:
     """Consolidated closure report for the ADM quantitative gap."""
     inv = lapse_scaling_invariance()
     constraints = adm_constraint_audit()
     consistency = adm_consistency_check(n_samples=25)
     falsifier_attractor = adm_falsifier_interface(phi_0=1.0)
+    off_attractor = off_attractor_time_mismatch_scan()
+    radion_quantization = radion_quantization_closure()
 
     all_pass = (
         inv["all_pass"]
         and constraints["all_pass"]
         and consistency["all_passed"]
         and falsifier_attractor["route"] == "PASS"
+        and off_attractor["non_attractor_detected"]
+        and radion_quantization["status"] == "LOCAL_CANONICAL_CLOSURE"
     )
 
     return {
@@ -115,9 +149,11 @@ def adm_quantitative_closure_report() -> Dict[str, object]:
         "constraint_audit": constraints,
         "consistency_check": consistency,
         "falsifier_interface_attractor": falsifier_attractor,
+        "off_attractor_time_scan": off_attractor,
+        "radion_local_quantization": radion_quantization,
         "status": "CLOSED_QUANTITATIVE" if all_pass else "OPEN",
         "all_gates_pass": all_pass,
         "residual_open_item": (
-            "Full canonical quantization (Wheeler-DeWitt/operator ordering) remains out of scope."
+            "Full 5D Wheeler-DeWitt constraint algebra, operator ordering, and non-local mode coupling remain open."
         ),
     }

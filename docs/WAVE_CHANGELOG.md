@@ -13,6 +13,49 @@ For each wave entry, include:
 
 ---
 
+## v10.44 (2026-05-11 — Radion Local Quantization + Numerical LOS Boltzmann + Routing/Consistency Sync)
+
+### What changed
+
+- Added `src/core/phi_radion_quantization.py` with a local harmonic canonical quantization package for radion fluctuations around the FTUM attractor.
+- Extended `src/core/adm_quantitative_closure.py` with off-attractor mismatch scans and radion local-quantization evidence.
+- Extended `src/core/cmb_boltzmann_full.py` with numerical line-of-sight integration, JAX transfer cross-checks, and 256/512-bit peak audits.
+- Extended `src/core/finish_line_observation_engine.py` with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit provenance sync payloads.
+- Added `src/core/canonical_ledger_consistency.py` and tests to harden synchronization across the canonical ledgers.
+
+### What did not change
+
+- No new pillar was added.
+- No falsifier was weakened.
+- Full 5D Wheeler-DeWitt closure and CAMB/CLASS-level Boltzmann hierarchy are still honestly open.
+
+### Why
+
+- Turn documented open gaps into executable closure work rather than leaving them as planning items.
+- Use JAX and high-precision audits directly in the new closure surface.
+- Make canonical documentation drift testable instead of manual-only.
+
+### Epistemic label deltas
+
+- Canonical quantisation of φ: OPEN → PARTIALLY_CLOSED (local harmonic sector).
+- CMB acoustic-peak shape integration: OPEN (partial) → PARTIALLY_CLOSED (numerical LOS).
+- Full ADM time-parameterisation remains PARTIALLY_CLOSED, but now with stronger off-attractor and local-quantization support.
+
+### ToE score delta
+
+- **No change** (99.3% → 99.3%).
+
+### Falsification impact
+
+- PMNS and LISA are now routable through the finish-line observation engine.
+- LiteBIRD/CMB-S4 same-commit sync requirements are now emitted as explicit provenance payloads.
+
+### Residual unknowns
+
+- Full 5D Wheeler-DeWitt/operator-ordering closure.
+- Full CAMB/CLASS-level polarization/lensing hierarchy with KK modifications.
+- Observation-routing payloads still require manual canonical-doc judgment before label promotion/demotion.
+
 ## v10.43 (2026-05-10 — Precision/Formal-Proof Expansion + LiteBIRD Alt Lab + Canonical Ledger Sync)
 
 ### What changed

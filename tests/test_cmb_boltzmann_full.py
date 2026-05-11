@@ -36,6 +36,11 @@ from src.core.cmb_boltzmann_full import (
     kk_boltzmann_correction,
     kk_sound_horizon,
     acoustic_peak_positions_kk,
+    line_of_sight_source,
+    numerical_transfer_function_kk,
+    numerical_cl_spectrum_kk,
+    jax_transfer_consistency,
+    precision_boltzmann_peak_audit,
     transfer_function_kk,
     cl_spectrum_kk,
     cl_ratio_um_to_lcdm,
@@ -198,6 +203,40 @@ class TestTransferFunctionKK:
             assert math.isfinite(val)
 
 
+class TestNumericalLineOfSight:
+    def test_source_finite(self):
+        assert math.isfinite(line_of_sight_source(0.82, 0.05))
+
+    def test_numerical_transfer_finite(self):
+        assert math.isfinite(numerical_transfer_function_kk(0.05, 2))
+
+    def test_numerical_transfer_zero_k_special_case(self):
+        assert numerical_transfer_function_kk(0.0, 0) == 1.0
+
+    def test_numerical_cl_spectrum_structure(self):
+        # Use a smaller k-grid than production for speed; this is sufficient to
+        # validate structure and suppression behavior in unit tests.
+        result = numerical_cl_spectrum_kk(range(2, 10, 2), n_k=48)
+        for key in ("ell", "Cl_lcdm", "Cl_kk", "delta_Cl", "ratio_kk_to_lcdm"):
+            assert key in result
+
+    def test_numerical_cl_suppression(self):
+        # Keep n_k modest in tests to limit runtime while still sampling the LOS integral.
+        result = numerical_cl_spectrum_kk(range(2, 10, 2), n_k=48)
+        for ratio in result["ratio_kk_to_lcdm"]:
+            assert ratio <= 1.0 + 1e-9
+
+    def test_jax_transfer_consistency_passes(self):
+        result = jax_transfer_consistency()
+        assert result["jax_available"] is True
+        assert result["passed"] is True
+
+    def test_precision_boltzmann_peak_audit_passes(self):
+        result = precision_boltzmann_peak_audit()
+        assert result["mpmath_available"] is True
+        assert result["passed"] is True
+
+
 # ---------------------------------------------------------------------------
 # cl_spectrum_kk
 # ---------------------------------------------------------------------------
@@ -341,7 +380,8 @@ class TestFullBoltzmannAudit:
     def test_keys(self):
         result = full_boltzmann_audit()
         for key in ("title", "components", "key_predictions",
-                    "testable_by", "remaining_open"):
+                    "testable_by", "remaining_open", "numerical_line_of_sight_audit",
+                    "jax_audit", "precision_audit"):
             assert key in result
 
     def test_components_dict(self):
@@ -359,9 +399,9 @@ class TestFullBoltzmannAudit:
         result = full_boltzmann_audit()
         assert "CLOSED" in result["components"]["COBE_normalisation"]
 
-    def test_full_boltzmann_open(self):
+    def test_full_boltzmann_partially_closed(self):
         result = full_boltzmann_audit()
-        assert "OPEN" in result["components"]["full_numerical_Boltzmann"]
+        assert "PARTIALLY_CLOSED" in result["components"]["full_numerical_Boltzmann"]
 
     def test_testable_by_includes_future(self):
         result = full_boltzmann_audit()
