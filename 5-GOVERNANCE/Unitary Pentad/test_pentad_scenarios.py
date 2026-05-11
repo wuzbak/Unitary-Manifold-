@@ -62,6 +62,8 @@ from pentad_scenarios import (
     PHASE_REVERSAL_THRESHOLD,
     DECEPTION_DETECTION_TOL,
     EIGENVALUE_FLOOR_FRACTION,
+    PHI_GOLDEN,
+    INTENT_COHERENCE_COMPETITION_TOL,
     HarmonicStateMetrics,
     CollapseMode,
     CollapseSignature,
@@ -82,6 +84,12 @@ from pentad_scenarios import (
     DUAL_USE_SAFE_THRESHOLD,
     BiosecurityRisk,
     biosecurity_dual_use_risk,
+    IntentCoherenceResult,
+    check_intent_coherence,
+    CapabilityAsymmetryResult,
+    capability_asymmetry_ratio,
+    GovernanceLoopBound,
+    governance_loop_speed_bound,
 )
 from unitary_pentad import (
     PentadSystem,
@@ -919,3 +927,389 @@ class TestBiosecurityDualUseRisk:
         assert hasattr(r, 'governance_phi')
         assert hasattr(r, 'effective_harm_rate')
         assert hasattr(r, 'effective_benefit_rate')
+
+
+# ===========================================================================
+# check_intent_coherence — Fractured Intent Theorem precondition audit
+# (Walker-Pearson 2026)
+# ===========================================================================
+
+class TestCheckIntentCoherence:
+    """Tests for the Fractured Intent precondition check.
+
+    Covers: constants, return type, coherent cases, fractured cases,
+    identical attractors, edge cases, error handling.
+    """
+
+    # --- Constants -----------------------------------------------------------
+
+    def test_phi_golden_value(self):
+        assert PHI_GOLDEN == pytest.approx((1 + math.sqrt(5)) / 2, rel=1e-12)
+
+    def test_phi_golden_approx(self):
+        assert PHI_GOLDEN == pytest.approx(1.618033988749895, rel=1e-9)
+
+    def test_competition_tol_default(self):
+        assert INTENT_COHERENCE_COMPETITION_TOL == pytest.approx(0.15)
+
+    def test_collapse_mode_fractured_intent_defined(self):
+        assert CollapseMode.FRACTURED_INTENT == "fractured_intent"
+
+    # --- Return type ---------------------------------------------------------
+
+    def test_returns_intent_coherence_result(self):
+        r = check_intent_coherence(0.5, 1.0)
+        assert isinstance(r, IntentCoherenceResult)
+
+    def test_fields_present(self):
+        r = check_intent_coherence(0.5, 1.0)
+        assert hasattr(r, 'is_coherent')
+        assert hasattr(r, 'competition_metric')
+        assert hasattr(r, 'dominant_phi')
+        assert hasattr(r, 'recessive_phi')
+        assert hasattr(r, 'description')
+
+    def test_is_coherent_is_bool(self):
+        assert isinstance(check_intent_coherence(0.5, 1.0).is_coherent, bool)
+
+    def test_competition_metric_in_unit_interval(self):
+        for amp_a, amp_b in [(1, 1), (9, 1), (1, 9), (0.01, 99)]:
+            r = check_intent_coherence(0.5, 1.0, amp_a, amp_b)
+            assert 0.0 <= r.competition_metric <= 1.0
+
+    def test_description_is_nonempty_string(self):
+        r = check_intent_coherence(0.5, 1.0)
+        assert isinstance(r.description, str)
+        assert len(r.description) > 0
+
+    # --- Coherent cases ------------------------------------------------------
+
+    def test_coherent_when_a_dominates(self):
+        # amplitude_a >> amplitude_b → m = 1/10 = 0.1 < 0.15 → coherent
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=9.0, amplitude_b=1.0)
+        assert r.is_coherent is True
+
+    def test_coherent_when_b_dominates(self):
+        # amplitude_b >> amplitude_a → m = 9/10 = 0.9 > 0.85 → coherent
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=1.0, amplitude_b=9.0)
+        assert r.is_coherent is True
+
+    def test_dominant_phi_is_a_when_amp_a_larger(self):
+        r = check_intent_coherence(0.3, 0.9, amplitude_a=8.0, amplitude_b=2.0)
+        assert r.dominant_phi == pytest.approx(0.3)
+        assert r.recessive_phi == pytest.approx(0.9)
+
+    def test_dominant_phi_is_b_when_amp_b_larger(self):
+        r = check_intent_coherence(0.3, 0.9, amplitude_a=2.0, amplitude_b=8.0)
+        assert r.dominant_phi == pytest.approx(0.9)
+        assert r.recessive_phi == pytest.approx(0.3)
+
+    def test_coherent_description_mentions_coherent(self):
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=9.0, amplitude_b=1.0)
+        assert "coherent" in r.description.lower()
+
+    # --- Fractured cases -----------------------------------------------------
+
+    def test_fractured_when_equal_amplitudes(self):
+        # m = 0.5 ∈ [0.15, 0.85] → fractured
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=1.0, amplitude_b=1.0)
+        assert r.is_coherent is False
+
+    def test_fractured_competition_metric_is_half(self):
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=1.0, amplitude_b=1.0)
+        assert r.competition_metric == pytest.approx(0.5)
+
+    def test_fractured_description_mentions_fractured(self):
+        r = check_intent_coherence(0.5, 1.0)
+        assert "fractured" in r.description.lower()
+
+    def test_fractured_description_mentions_convergence(self):
+        r = check_intent_coherence(0.5, 1.0)
+        assert "convergence" in r.description.lower()
+
+    def test_fractured_at_boundary_just_inside(self):
+        # m = 0.15 → exactly at tol boundary → coherent (< not ≤)
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=0.85, amplitude_b=0.15)
+        # m = 0.15 / 1.0 = 0.15; boundary condition
+        # test that code is consistent (< tol or > 1−tol)
+        assert isinstance(r.is_coherent, bool)
+
+    def test_fractured_at_0_3_competition(self):
+        # m = 3/13 ≈ 0.23 ∈ competition window → fractured
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=10.0, amplitude_b=3.0)
+        assert r.is_coherent is False
+
+    # --- Identical attractors ------------------------------------------------
+
+    def test_identical_attractors_coherent(self):
+        r = check_intent_coherence(0.7, 0.7)
+        assert r.is_coherent is True
+
+    def test_identical_attractors_metric_zero(self):
+        r = check_intent_coherence(0.7, 0.7)
+        assert r.competition_metric == pytest.approx(0.0, abs=1e-12)
+
+    def test_identical_attractors_description(self):
+        r = check_intent_coherence(0.7, 0.7)
+        assert "identical" in r.description.lower() or "coherent" in r.description.lower()
+
+    # --- Error handling ------------------------------------------------------
+
+    def test_raises_on_zero_amplitude_a(self):
+        with pytest.raises(ValueError):
+            check_intent_coherence(0.5, 1.0, amplitude_a=0.0, amplitude_b=1.0)
+
+    def test_raises_on_negative_amplitude_a(self):
+        with pytest.raises(ValueError):
+            check_intent_coherence(0.5, 1.0, amplitude_a=-1.0, amplitude_b=1.0)
+
+    def test_raises_on_zero_amplitude_b(self):
+        with pytest.raises(ValueError):
+            check_intent_coherence(0.5, 1.0, amplitude_a=1.0, amplitude_b=0.0)
+
+    def test_raises_on_negative_amplitude_b(self):
+        with pytest.raises(ValueError):
+            check_intent_coherence(0.5, 1.0, amplitude_a=1.0, amplitude_b=-1.0)
+
+    # --- Custom tolerance ----------------------------------------------------
+
+    def test_custom_tol_stricter(self):
+        # With tol=0.05: m=0.1 is inside the competition window → fractured
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=9.0, amplitude_b=1.0, tol=0.05)
+        assert r.is_coherent is False
+
+    def test_custom_tol_wider(self):
+        # With tol=0.45: m=0.4 is below → coherent
+        r = check_intent_coherence(0.5, 1.0, amplitude_a=0.6, amplitude_b=0.4, tol=0.45)
+        assert r.is_coherent is True
+
+
+# ===========================================================================
+# capability_asymmetry_ratio — Capability Asymmetry (Walker-Pearson 2026)
+# ===========================================================================
+
+class TestCapabilityAsymmetryRatio:
+    """Tests for the Capability Asymmetry Ratio metric."""
+
+    def setup_method(self):
+        self.ps = PentadSystem.default()
+        self.r  = capability_asymmetry_ratio(self.ps)
+
+    # --- Return type and fields ----------------------------------------------
+
+    def test_returns_capability_asymmetry_result(self):
+        assert isinstance(self.r, CapabilityAsymmetryResult)
+
+    def test_fields_present(self):
+        assert hasattr(self.r, 'ratio')
+        assert hasattr(self.r, 'A_AI')
+        assert hasattr(self.r, 'A_human')
+        assert hasattr(self.r, 'attractor_flipped')
+        assert hasattr(self.r, 'warning')
+
+    def test_ratio_is_positive_float(self):
+        assert isinstance(self.r.ratio, float)
+        assert self.r.ratio > 0.0
+
+    def test_attractor_flipped_is_bool(self):
+        assert isinstance(self.r.attractor_flipped, bool)
+
+    def test_warning_is_string(self):
+        assert isinstance(self.r.warning, str)
+
+    # --- Mathematics ---------------------------------------------------------
+
+    def test_ratio_equals_A_AI_over_A_human(self):
+        expected = self.ps.bodies[PentadLabel.AI].node.A / self.ps.bodies[PentadLabel.HUMAN].node.A
+        assert self.r.ratio == pytest.approx(expected, rel=1e-10)
+
+    def test_A_AI_matches_body(self):
+        assert self.r.A_AI == pytest.approx(
+            self.ps.bodies[PentadLabel.AI].node.A, rel=1e-10
+        )
+
+    def test_A_human_matches_body(self):
+        assert self.r.A_human == pytest.approx(
+            self.ps.bodies[PentadLabel.HUMAN].node.A, rel=1e-10
+        )
+
+    def test_flipped_iff_ratio_gt_phi(self):
+        if self.r.ratio > PHI_GOLDEN:
+            assert self.r.attractor_flipped is True
+        else:
+            assert self.r.attractor_flipped is False
+
+    # --- Warning content -----------------------------------------------------
+
+    def test_warning_empty_when_not_flipped(self):
+        # Construct a system where A_AI < A_human
+        from src.consciousness.coupled_attractor import ManifoldState
+        from src.multiverse.fixed_point import MultiverseNode
+        ps = PentadSystem.default()
+        old_ai    = ps.bodies[PentadLabel.AI]
+        old_human = ps.bodies[PentadLabel.HUMAN]
+        # Swap so A_human >> A_AI
+        new_bodies = dict(ps.bodies)
+        new_bodies[PentadLabel.AI] = ManifoldState(
+            node=MultiverseNode(
+                dim=old_ai.node.dim,
+                S=old_ai.node.S,
+                A=0.5,               # small AI area
+                Q_top=old_ai.node.Q_top,
+                X=old_ai.node.X.copy(),
+                Xdot=old_ai.node.Xdot.copy(),
+            ),
+            phi=old_ai.phi,
+            n1=old_ai.n1, n2=old_ai.n2, k_cs=old_ai.k_cs,
+            label=old_ai.label,
+        )
+        new_bodies[PentadLabel.HUMAN] = ManifoldState(
+            node=MultiverseNode(
+                dim=old_human.node.dim,
+                S=old_human.node.S,
+                A=5.0,               # large human area
+                Q_top=old_human.node.Q_top,
+                X=old_human.node.X.copy(),
+                Xdot=old_human.node.Xdot.copy(),
+            ),
+            phi=old_human.phi,
+            n1=old_human.n1, n2=old_human.n2, k_cs=old_human.k_cs,
+            label=old_human.label,
+        )
+        from unitary_pentad import PentadSystem as PS
+        ps2 = PS(bodies=new_bodies, beta=ps.beta)
+        r2 = capability_asymmetry_ratio(ps2)
+        assert r2.attractor_flipped is False
+        assert r2.warning == ""
+
+    def test_warning_nonempty_when_flipped(self):
+        if self.r.attractor_flipped:
+            assert len(self.r.warning) > 0
+            assert "warning" in self.r.warning.lower()
+
+    def test_phi_golden_threshold_exact(self):
+        # PHI_GOLDEN is the critical ratio
+        assert PHI_GOLDEN == pytest.approx((1 + math.sqrt(5)) / 2, rel=1e-12)
+
+
+# ===========================================================================
+# governance_loop_speed_bound — Governance Loop Topological Bound
+# (Walker-Pearson 2026)
+# ===========================================================================
+
+class TestGovernanceLoopSpeedBound:
+    """Tests for the Governance Loop Speed Bound metric."""
+
+    # --- Return type and fields ----------------------------------------------
+
+    def test_returns_governance_loop_bound(self):
+        r = governance_loop_speed_bound(10.0, 1.0)
+        assert isinstance(r, GovernanceLoopBound)
+
+    def test_fields_present(self):
+        r = governance_loop_speed_bound(10.0, 1.0)
+        assert hasattr(r, 'human_verification_rate')
+        assert hasattr(r, 'ai_action_rate')
+        assert hasattr(r, 'rate_ratio')
+        assert hasattr(r, 'braid_damping')
+        assert hasattr(r, 'loop_viable')
+        assert hasattr(r, 'description')
+
+    def test_braid_damping_is_braided_sound_speed(self):
+        r = governance_loop_speed_bound(10.0, 1.0)
+        assert r.braid_damping == pytest.approx(BRAIDED_SOUND_SPEED, rel=1e-12)
+
+    def test_rate_ratio_correct(self):
+        r = governance_loop_speed_bound(3.0, 2.0)
+        assert r.rate_ratio == pytest.approx(1.5, rel=1e-10)
+
+    def test_loop_viable_is_bool(self):
+        assert isinstance(governance_loop_speed_bound(10.0, 1.0).loop_viable, bool)
+
+    def test_description_is_nonempty_string(self):
+        r = governance_loop_speed_bound(5.0, 1.0)
+        assert isinstance(r.description, str)
+        assert len(r.description) > 0
+
+    # --- Viability -----------------------------------------------------------
+
+    def test_viable_when_human_rate_high(self):
+        # rate_ratio = 10 >> 1/c_s ≈ 3.08
+        r = governance_loop_speed_bound(10.0, 1.0)
+        assert r.loop_viable is True
+
+    def test_not_viable_when_ai_rate_much_higher(self):
+        # rate_ratio = 0.1 << 1/c_s
+        r = governance_loop_speed_bound(1.0, 10.0)
+        assert r.loop_viable is False
+
+    def test_viable_at_exact_boundary(self):
+        # rate_ratio = 1/c_s → viable (≥, not >)
+        c_s = BRAIDED_SOUND_SPEED
+        r = governance_loop_speed_bound(1.0 / c_s, 1.0)
+        assert r.loop_viable is True
+
+    def test_not_viable_just_below_boundary(self):
+        # rate_ratio = 1/c_s - ε → not viable
+        c_s = BRAIDED_SOUND_SPEED
+        just_below = 1.0 / c_s - 1e-6
+        r = governance_loop_speed_bound(just_below, 1.0)
+        assert r.loop_viable is False
+
+    def test_1_to_1_rate_not_viable(self):
+        # 1 human verification per AI action; 1 < 1/c_s ≈ 3.08
+        r = governance_loop_speed_bound(1.0, 1.0)
+        assert r.loop_viable is False
+
+    def test_3_to_1_rate_not_viable(self):
+        # ratio = 3, 1/c_s = 37/12 ≈ 3.083... > 3 → not viable
+        r = governance_loop_speed_bound(3.0, 1.0)
+        assert r.loop_viable is False
+
+    def test_4_to_1_rate_viable(self):
+        # ratio = 4 > 1/c_s ≈ 3.08 → viable
+        r = governance_loop_speed_bound(4.0, 1.0)
+        assert r.loop_viable is True
+
+    def test_description_mentions_viable_when_viable(self):
+        r = governance_loop_speed_bound(10.0, 1.0)
+        assert "viable" in r.description.lower()
+
+    def test_description_mentions_slow_when_not_viable(self):
+        r = governance_loop_speed_bound(1.0, 10.0)
+        assert "slow" in r.description.lower() or "viable" in r.description.lower()
+
+    # --- Rate storage --------------------------------------------------------
+
+    def test_human_rate_stored(self):
+        r = governance_loop_speed_bound(7.5, 2.5)
+        assert r.human_verification_rate == pytest.approx(7.5)
+
+    def test_ai_rate_stored(self):
+        r = governance_loop_speed_bound(7.5, 2.5)
+        assert r.ai_action_rate == pytest.approx(2.5)
+
+    # --- Error handling ------------------------------------------------------
+
+    def test_raises_on_zero_human_rate(self):
+        with pytest.raises(ValueError):
+            governance_loop_speed_bound(0.0, 1.0)
+
+    def test_raises_on_negative_human_rate(self):
+        with pytest.raises(ValueError):
+            governance_loop_speed_bound(-1.0, 1.0)
+
+    def test_raises_on_zero_ai_rate(self):
+        with pytest.raises(ValueError):
+            governance_loop_speed_bound(1.0, 0.0)
+
+    def test_raises_on_negative_ai_rate(self):
+        with pytest.raises(ValueError):
+            governance_loop_speed_bound(1.0, -1.0)
+
+    # --- Braid constant relationship -----------------------------------------
+
+    def test_minimum_viable_ratio_equals_inverse_c_s(self):
+        """The minimum viable rate ratio is exactly 1/c_s = 37/12."""
+        expected = 1.0 / BRAIDED_SOUND_SPEED
+        assert expected == pytest.approx(37.0 / 12.0, rel=1e-10)

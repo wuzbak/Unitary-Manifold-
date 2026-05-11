@@ -256,17 +256,98 @@ only if all five bodies collectively "will" it.
 | AI Decoupling | Δφ_{human,ai} > π/2 | `detect_collapse_mode()` → `AI_DECOUPLING` | `pentad_scenarios.py` |
 | Phase Collision | any Δφ_{ij} > π/2 | `detect_collapse_mode()` → `PHASE_COLLISION` | `pentad_scenarios.py` |
 | Malicious Precision | φ_trust OK, ΔI_{human,ai} >> tol | `detect_collapse_mode()` → `MALICIOUS_PRECISION` | `pentad_scenarios.py` |
+| **Fractured Intent** | **Body 3 holds two competing attractors at comparable amplitude** | **`check_intent_coherence()` → `FRACTURED_INTENT`** | **`pentad_scenarios.py`** |
+| **Capability Asymmetry** | **A_AI / A_human > φ ≈ 1.618** | **`capability_asymmetry_ratio()` → `attractor_flipped`** | **`pentad_scenarios.py`** |
+| **Governance Loop Violation** | **human_rate × c_s < ai_action_rate** | **`governance_loop_speed_bound()` → `loop_viable = False`** | **`pentad_scenarios.py`** |
 | Deception | ΔI_{deception} > 1e-3 | `is_deception_detectable()` | `pentad_scenarios.py` |
 | Trust Energy Cost | d(φ_trust)/dt under coupling | `trust_maintenance_cost()` | `pentad_scenarios.py` |
 
 ---
 
-## 5 · Connection to the Broader Theory
+## 5 · The Fractured Intent Theorem (Walker-Pearson 2026)
+
+The four collapse modes documented above (§2) are **operational failures** —
+they occur while the Pentad is running.  The Fractured Intent Theorem
+identifies a deeper class of failure: a **precondition violation** that
+prevents the Pentad from converging regardless of how the iteration is tuned.
+
+### 5.1  The Theorem
+
+> **Theorem (Fractured Intent).**  The Pentad orbit can satisfy convergence
+> conditions S1–S5 only if each body possesses a unique FTUM fixed point.
+> A Human intent layer (Body 3) operating with two terminal attractors at
+> comparable amplitude does NOT possess a unique fixed point.  Therefore,
+> no amount of trust maintenance, eigenvalue stability, or coupling adjustment
+> can satisfy the joint convergence conditions until the Human intent
+> contradiction is resolved.
+
+**Formal signature:**  The FTUM iteration for Body 3 oscillates between two
+sub-attractors φ*_A and φ*_B rather than converging.  This drives non-zero
+ΔI_{human,·} and Δφ_{human,·} terms in the pentad defect at every step,
+preventing `pentad_master_equation()` from reaching the fixed point.
+
+**Precondition audit:**  `check_intent_coherence(phi_target_a, phi_target_b,
+amplitude_a, amplitude_b)` must be called *before* the iteration.  If
+`is_coherent = False` (competition_metric ∈ [tol, 1−tol]), the caller must
+resolve the contradiction before running the Pentad.
+
+**Corollary:**  The AI safety question "is the AI aligned?" is secondary.
+The prior question is: "does the human have a unique, internally consistent
+fixed point for the AI to align to?"
+
+### 5.2  Capability Asymmetry — the Silent Attractor Flip
+
+The FTUM Scale-Invariant Invariant (STABILITY_ANALYSIS.md §7) proves
+φ* = A/(4G).  When A_AI grows faster than A_human, the joint fixed point
+shifts toward Body 4:
+
+```
+ratio = A_AI / A_human
+```
+
+At `ratio > φ ≈ 1.618` (the golden ratio), the pentagonal coupling operator
+transmits AI-determined fixed points *to* the human body more strongly than
+it transmits human intent *to* the AI.  Trust is healthy; no collapse mode
+fires; the AI body is perfectly aligned — to its own deeper attractor.
+
+**Observable:**  `capability_asymmetry_ratio(system).attractor_flipped`
+
+**Critical threshold:**  PHI_GOLDEN = (1 + √5)/2 ≈ 1.618
+
+### 5.3  Governance Loop Speed Bound — the Topological Limit on Autonomy
+
+STABILITY_ANALYSIS.md §1.2 identifies Human–AI phase divergence as the
+hardest pairwise term to damp.  The (5,7) braid provides the only available
+damping: rate c_s = 12/37.  When the AI action rate exceeds the human
+verification rate by more than 1/c_s = 37/12 ≈ 3.08×, the braid cannot
+suppress the phase divergence:
+
+```
+Governance Loop Bound:   human_verification_rate × c_s ≥ ai_action_rate
+                         ⟺   rate_ratio ≥ 37/12 ≈ 3.08
+```
+
+This is a **topological constraint**, not a policy limit.  No increase in
+trust, coupling strength, or AI alignment budget overcomes it.
+
+**Observable:**  `governance_loop_speed_bound(h_rate, ai_rate).loop_viable`
+
+### 5.4  Unified Risk Table
+
+| Risk | Root cause | Detection | Resolution |
+|------|-----------|-----------|------------|
+| Fractured Intent | Body 3 has no unique fixed point | `check_intent_coherence()` | Resolve Human intent contradiction |
+| Capability Asymmetry | A_AI / A_human > φ | `capability_asymmetry_ratio()` | Reduce AI area or add Human anchors |
+| Governance Loop Violation | Loop too slow to damp AI phase drift | `governance_loop_speed_bound()` | Reduce AI action rate or increase Human verification rate |
+
+---
+
+## 6 · Connection to the Broader Theory
 
 | Document / Module | Relationship |
 |-------------------|-------------|
 | `pentad_scenarios.py` | Full implementation of all scenarios above |
-| `test_pentad_scenarios.py` | Test suite (60 tests) |
+| `test_pentad_scenarios.py` | Test suite (191 tests) |
 | `unitary_pentad.py` | Core 5-body system — `pentad_defect`, `step_pentad` |
 | `STABILITY_ANALYSIS.md` | Formal stability conditions (S1–S5) |
 | `five_seven_architecture.py` | Why (5,7) and not (5,6) — the architectural choice |
