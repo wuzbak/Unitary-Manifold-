@@ -105,6 +105,12 @@ _PAYLOAD_ALIASES = {
     "data": "datasets",
 }
 
+
+def _validate_positive_sigmas(w0_sigma: float, wa_sigma: float) -> None:
+    """Shared strict-ingest sigma positivity guard."""
+    if w0_sigma <= 0 or wa_sigma <= 0:
+        raise ValueError("w0_sigma and wa_sigma must be strictly positive.")
+
 #: UM predictions for w₀ and wₐ
 UM_PREDICTION: Dict = {
     "w0": -1.0 + (2.0 / 3.0) * (12.0 / 37.0) ** 2,  # = W_KK ≈ −0.9302
@@ -271,8 +277,7 @@ def update_with_new_data(
     dict with full comparison vs DESI DR2 baseline and UM prediction.
     """
     # Keep direct-call safety even though strict_release_ingest() also validates.
-    if w0_sigma <= 0 or wa_sigma <= 0:
-        raise ValueError("w0_sigma and wa_sigma must be strictly positive for strict ingest.")
+    _validate_positive_sigmas(w0_sigma, wa_sigma)
 
     new_tension = tension_from_measurement(
         w0_central, w0_sigma, wa_central, wa_sigma, release_name
@@ -345,8 +350,7 @@ def validate_release_payload(payload: Dict) -> Dict:
         raise ValueError("year must be <= 2100 for this monitoring pipeline.")
     if not release_name:
         raise ValueError("release_name must be non-empty.")
-    if w0_sigma <= 0 or wa_sigma <= 0:
-        raise ValueError("w0_sigma and wa_sigma must be strictly positive.")
+    _validate_positive_sigmas(w0_sigma, wa_sigma)
     numeric_fields = {
         "w0_central": w0_central,
         "w0_sigma": w0_sigma,

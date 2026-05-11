@@ -391,7 +391,7 @@ class TestPillar163Summary:
     def test_honest_note(self):
         note = self.summary["honest_note"]
         assert "gap" in note
-        assert ("above_5pct" in note) or ("sub_5pct" in note)
+        assert "above_5pct" in note
 
     def test_mz_predicted_present(self):
         assert "sin2_theta12_mz_predicted" in self.summary
