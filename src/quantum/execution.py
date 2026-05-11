@@ -22,6 +22,11 @@ from .fermi_hubbard import FermiHubbardHamiltonian
 from .fermion_mapping import MappingName, fermion_terms_to_qubit_terms, pauli_terms_to_matrix
 from .observables import ObservableSnapshot, snapshot_observables
 
+MOCK_QUEUE_BASE_SEC = 0.25
+MOCK_QUEUE_PER_MODE_SEC = 0.01
+MOCK_COMPILE_BASE_SEC = 0.15
+MOCK_COMPILE_PER_SITE_SEC = 0.02
+
 
 @dataclass(frozen=True)
 class ExecutionConfig:
@@ -64,8 +69,8 @@ class MockHardwareAdapter:
     """Deterministic hardware-adapter placeholder for queued execution metadata."""
 
     def submit(self, manifest: RunManifest) -> dict[str, float | int | str | bool]:
-        queue_seconds = 0.25 + 0.01 * manifest.n_modes
-        compile_seconds = 0.15 + 0.02 * manifest.n_sites
+        queue_seconds = MOCK_QUEUE_BASE_SEC + MOCK_QUEUE_PER_MODE_SEC * manifest.n_modes
+        compile_seconds = MOCK_COMPILE_BASE_SEC + MOCK_COMPILE_PER_SITE_SEC * manifest.n_sites
         return {
             "hardware_emulated": True,
             "queue_seconds": round(queue_seconds, 4),

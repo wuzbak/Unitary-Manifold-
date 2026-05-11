@@ -16,6 +16,7 @@ import numpy as np
 from .fermi_hubbard import FermionTerm
 
 MappingName = Literal["jw", "bk"]
+BK_EXACT_MODE_LIMIT = 6
 
 
 PAULI_MATS: dict[str, np.ndarray] = {
@@ -174,7 +175,11 @@ def matrix_to_pauli_terms(matrix: np.ndarray, n_qubits: int, tol: float = 1e-10)
     return simplify_pauli_sum(terms, tol=tol)
 
 
-def fermion_term_to_bk(term: FermionTerm, n_modes: int, max_exact_modes: int = 6) -> list[PauliTerm]:
+def fermion_term_to_bk(
+    term: FermionTerm,
+    n_modes: int,
+    max_exact_modes: int = BK_EXACT_MODE_LIMIT,
+) -> list[PauliTerm]:
     if n_modes > max_exact_modes:
         raise ValueError(
             f"BK exact mapping currently supports n_modes <= {max_exact_modes}; "

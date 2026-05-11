@@ -69,6 +69,7 @@ def snapshot_observables(
         spin[i] = n_up - n_dn
         doublon[i] = n_d
 
+    # Antiferromagnetic order parameter: <Σ_i (-1)^i S^z_i> / N
     staggered = float(np.mean(((-1) ** np.arange(model.n_sites)) * spin))
     return ObservableSnapshot(
         charge_density=charge,

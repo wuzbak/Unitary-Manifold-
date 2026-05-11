@@ -15,6 +15,8 @@ import numpy as np
 from .execution import ExecutionConfig, ExecutionResult, run_time_evolution
 from .fermi_hubbard import FermiHubbardHamiltonian
 
+LOG_EPSILON = 1e-15
+
 
 @dataclass(frozen=True)
 class TDVPReference:
@@ -110,7 +112,7 @@ def build_scaling_curve(
         )
 
     x = np.log(np.array([p.n_sites for p in points], dtype=float))
-    y = np.log(np.array([p.wall_clock_seconds for p in points], dtype=float) + 1e-15)
+    y = np.log(np.array([p.wall_clock_seconds for p in points], dtype=float) + LOG_EPSILON)
     slope = float(np.polyfit(x, y, 1)[0]) if len(points) >= 2 else 0.0
 
     return ScalingCurve(points=points, loglog_slope=slope)
