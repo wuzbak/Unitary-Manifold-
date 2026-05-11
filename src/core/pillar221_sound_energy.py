@@ -46,7 +46,6 @@ __all__ = [
     "cavitation_mechanical_index",
     "ultrasound_safety_window",
     "sound_energy_use_cases",
-    "sound_energy_use_matrix",
     "pillar221_summary",
 ]
 
