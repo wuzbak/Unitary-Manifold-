@@ -22,6 +22,7 @@ from .fermi_hubbard import FermiHubbardHamiltonian
 from .fermion_mapping import MappingName, fermion_terms_to_qubit_terms, pauli_terms_to_matrix
 from .observables import ObservableSnapshot, snapshot_observables
 
+# Placeholder coefficients for deterministic mock-hardware timing emulation.
 MOCK_QUEUE_BASE_SEC = 0.25
 MOCK_QUEUE_PER_MODE_SEC = 0.01
 MOCK_COMPILE_BASE_SEC = 0.15

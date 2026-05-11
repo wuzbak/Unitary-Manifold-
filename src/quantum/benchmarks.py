@@ -15,6 +15,7 @@ import numpy as np
 from .execution import ExecutionConfig, ExecutionResult, run_time_evolution
 from .fermi_hubbard import FermiHubbardHamiltonian
 
+# Numerical guard to avoid log(0) when very small wall-clock values are observed.
 LOG_EPSILON = 1e-15
 
 

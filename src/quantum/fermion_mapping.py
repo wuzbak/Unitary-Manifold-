@@ -16,6 +16,7 @@ import numpy as np
 from .fermi_hubbard import FermionTerm
 
 MappingName = Literal["jw", "bk"]
+# Exact BK decomposition scales exponentially; keep parity-verification lane bounded.
 BK_EXACT_MODE_LIMIT = 6
 
 
