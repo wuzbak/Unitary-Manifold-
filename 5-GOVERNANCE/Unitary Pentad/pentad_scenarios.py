@@ -1270,8 +1270,6 @@ def asymmetric_coupling_stress_test(
 # R_du < DUAL_USE_SAFE_THRESHOLD → HILS governance is sufficient.
 # R_du ≥ DUAL_USE_SAFE_THRESHOLD → governance gap detected; alert.
 
-import math as _math_bu  # legacy alias; math is now imported at module top
-
 DUAL_USE_SAFE_THRESHOLD: float = 0.1  # R_du < 0.1 → acceptable risk
 
 

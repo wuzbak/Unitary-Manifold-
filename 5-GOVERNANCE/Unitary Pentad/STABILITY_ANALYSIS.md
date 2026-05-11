@@ -357,7 +357,7 @@ Expected output (canonical seed):
 
 ```
 (P1) Intent coherent:       True
-(P2) Attractor flipped:     True  (ratio=1.875)   ← default canonical warning; adjust A_AI/A_human
+(P2) Attractor flipped:     True  (ratio=1.875)
 (P3) Governance loop viable:True  (ratio=4.000)
 Stability floor (c_s):  0.324324
 Min eigenvalue (pre):   ≥ 0.324324
@@ -367,6 +367,14 @@ Final defect:           < 1e-6
 Trust at convergence:   > 0.1
 Min eigenvalue (post):  ≥ 0.324324
 ```
+
+> **Note on P2 in the canonical seed:** The default `PentadSystem.default()` uses
+> area seeds `A_AI_min = 1.5`, `A_human_min = 0.8`.  With random perturbation the
+> canonical instance yields `A_AI / A_human ≈ 1.875 > φ ≈ 1.618`, triggering the
+> capability-asymmetry warning.  This is **intentional**: the default state demonstrates
+> that the precondition audit catches real risk in out-of-the-box configurations.
+> Production deployments should set `A_human` large enough so that the ratio falls
+> below `PHI_GOLDEN`, or add explicit Human override anchors.
 
 ---
 

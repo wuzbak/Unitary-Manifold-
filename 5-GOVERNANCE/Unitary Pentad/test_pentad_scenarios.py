@@ -1028,11 +1028,12 @@ class TestCheckIntentCoherence:
         assert "convergence" in r.description.lower()
 
     def test_fractured_at_boundary_just_inside(self):
-        # m = 0.15 → exactly at tol boundary → coherent (< not ≤)
+        # m = amplitude_b / (amplitude_a + amplitude_b) = 0.15 / 1.0 = 0.15
+        # Coherence condition: m < tol (strict <), so m == tol is NOT coherent.
         r = check_intent_coherence(0.5, 1.0, amplitude_a=0.85, amplitude_b=0.15)
-        # m = 0.15 / 1.0 = 0.15; boundary condition
-        # test that code is consistent (< tol or > 1−tol)
-        assert isinstance(r.is_coherent, bool)
+        # m = 0.15 / (0.85 + 0.15) = 0.15; not strictly < 0.15 → fractured
+        assert r.is_coherent is False
+        assert r.competition_metric == pytest.approx(0.15, rel=1e-10)
 
     def test_fractured_at_0_3_competition(self):
         # m = 3/13 ≈ 0.23 ∈ competition window → fractured
