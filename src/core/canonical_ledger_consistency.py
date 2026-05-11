@@ -16,6 +16,7 @@ from typing import Dict
 ROOT = Path(__file__).resolve().parents[2]
 
 LEDGER_PATHS = {
+    "readme": ROOT / "README.md",
     "status": ROOT / "STATUS.md",
     "fallibility": ROOT / "FALLIBILITY.md",
     "derivation_status": ROOT / "1-THEORY" / "DERIVATION_STATUS.md",
@@ -80,12 +81,41 @@ def canonical_ledger_consistency_report() -> Dict[str, object]:
     status_regression = snapshot["status"]["regression"]
     fallibility_regression = snapshot["fallibility"]["regression"]
     regression_consistent = status_regression == fallibility_regression and status_regression is not None
+    public_versions = {
+        name: snapshot[name]["version"]
+        for name in (
+            "readme",
+            "status",
+            "fallibility",
+            "derivation_status",
+            "wave_changelog",
+            "mas_tracker",
+        )
+    }
+    public_version_consistent = len(set(public_versions.values())) == 1
+    public_regression_views = {
+        name: snapshot[name]["regression"]
+        for name in ("readme", "status", "fallibility")
+    }
+    public_regression_consistent = (
+        public_regression_views["readme"] == public_regression_views["status"] == public_regression_views["fallibility"]
+        and public_regression_views["status"] is not None
+    )
 
     return {
         "snapshot": snapshot,
         "core_versions": core_versions,
+        "public_versions": public_versions,
         "version_consistent": version_consistent,
         "regression_consistent": regression_consistent,
+        "public_version_consistent": public_version_consistent,
+        "public_regression_views": public_regression_views,
+        "public_regression_consistent": public_regression_consistent,
         "status_fallibility_regression": status_regression,
-        "all_pass": version_consistent and regression_consistent,
+        "all_pass": (
+            version_consistent
+            and regression_consistent
+            and public_version_consistent
+            and public_regression_consistent
+        ),
     }

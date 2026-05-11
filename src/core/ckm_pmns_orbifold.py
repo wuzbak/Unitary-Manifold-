@@ -11,6 +11,9 @@ PMNS large mixing requires see-saw; UV-localized neutrinos give PMNS ≈ I at le
 
 import numpy as np
 
+from src.core.neutrino_p18_route_consolidation import p18_hardgate_certificate
+from src.core.wolfenstein_geometry import wolfenstein_lambda_geometric
+
 # ---------- repository constants ----------
 N_W = 5
 K_CS = 74
@@ -32,6 +35,13 @@ PDG_PMNS_THETA12 = 33.44
 PDG_PMNS_THETA13 = 8.57
 PDG_PMNS_THETA23 = 42.1
 PDG_WOLFENSTEIN_LAMBDA = 0.22650   # sin(θ_12^CKM)
+
+
+def _pct_error(value, reference):
+    """Return the percent error relative to the comparison reference."""
+    if reference == 0:
+        raise ValueError("reference must be non-zero")
+    return abs(value - reference) / abs(reference) * 100.0
 
 
 def rs_wavefunction_ir(c, pi_kr=37.0):
@@ -273,10 +283,11 @@ def pmns_angle_estimate(c_nu_list=None, c_l_list=None):
 
 def ckm_pmns_orbifold_report():
     """Return a status report for Pillar 104."""
+    certificate = ckm_pmns_orbifold_architecture_certificate()
     ckm_w = ckm_wolfenstein_estimate()
     pmns_d = pmns_from_orbifold()
     return {
-        "status": "OPEN",
+        "status": certificate["status"],
         "module": "ckm_pmns_orbifold",
         "pillar": 104,
         "ckm_theta12_deg": ckm_w["theta_12_deg"],
@@ -285,14 +296,72 @@ def ckm_pmns_orbifold_report():
         "ckm_pdg_lambda": PDG_WOLFENSTEIN_LAMBDA,
         "pmns_theta12_deg": pmns_d["theta_12_deg"],
         "pmns_pdg_theta12_deg": PDG_PMNS_THETA12,
+        "architecture_limit_scope": certificate["scope"],
+        "ckm_overlap_residual_pct": certificate["ckm_overlap_residual_pct"],
+        "pmns_overlap_theta12_residual_pct": certificate["pmns_overlap_theta12_residual_pct"],
+        "cross_checks": certificate["cross_checks"],
         "residual_unknowns": [
             "CKM off-diagonal mixing requires next-order g5 non-universality.",
-            "Wolfenstein λ_W ~ 0.029 vs PDG 0.227 — gap factor ~8×.",
-            "PMNS large mixing requires see-saw mechanism.",
-            "Neutrino mass hierarchy not predicted at leading order.",
+            (
+                f"Wolfenstein λ_W from leading-order overlaps remains {certificate['ckm_gap_factor_vs_pdg']:.2f}× "
+                "below PDG; the mass-ratio route is the usable CKM λ closure surface."
+            ),
+            "PMNS large mixing requires see-saw / braid-lock closure beyond the diagonal-g5 overlap lane.",
+            "Neutrino mass hierarchy and full CKM phase are not predicted by this leading-order module.",
         ],
         "epistemic_label": (
-            "OPEN — leading-order RS orbifold gives CKM=I and PMNS=I; "
-            "mixing requires sub-leading corrections and see-saw"
+            "ARCHITECTURE_LIMIT_CERTIFIED — this module is the leading-order diagonal-g5 orbifold-overlap lane only; "
+            "it honestly certifies where CKM/PMNS closure requires higher-order or alternate geometric routes."
+        ),
+    }
+
+
+def ckm_pmns_orbifold_architecture_certificate():
+    """Certify the best honest status of the leading-order orbifold overlap lane."""
+    ckm_overlap = ckm_wolfenstein_estimate()
+    ckm_mass_ratio = wolfenstein_lambda_geometric()
+    pmns_overlap = pmns_from_orbifold()
+    p18_certificate = p18_hardgate_certificate()
+
+    pmns_route_a_sin2 = float(p18_certificate["report"]["route_a_rge_crosscheck"]["mz_value"])
+    pmns_route_a_theta12_deg = float(np.degrees(np.arcsin(np.sqrt(pmns_route_a_sin2))))
+
+    return {
+        "status": "ARCHITECTURE_LIMIT_CERTIFIED",
+        "scope": "leading-order diagonal-g5 RS orbifold overlap lane",
+        "ckm_overlap_lambda": ckm_overlap["lambda_wolfenstein"],
+        "ckm_overlap_theta12_deg": ckm_overlap["theta_12_deg"],
+        "ckm_overlap_residual_pct": _pct_error(
+            ckm_overlap["lambda_wolfenstein"], PDG_WOLFENSTEIN_LAMBDA
+        ),
+        "ckm_gap_factor_vs_pdg": (
+            PDG_WOLFENSTEIN_LAMBDA / ckm_overlap["lambda_wolfenstein"]
+            if ckm_overlap["lambda_wolfenstein"] > 0.0 else float("inf")
+        ),
+        "pmns_overlap_theta12_deg": pmns_overlap["theta_12_deg"],
+        "pmns_overlap_theta12_residual_pct": _pct_error(
+            pmns_overlap["theta_12_deg"], PDG_PMNS_THETA12
+        ),
+            "cross_checks": {
+                "ckm_mass_ratio_route": {
+                    "lambda_geo": ckm_mass_ratio["lambda_geo"],
+                    "residual_pct": ckm_mass_ratio["discrepancy_percent"],
+                    "status": "usable canonical CKM λ route outside the overlap-only lane",
+                },
+            "pmns_route_a_rge": {
+                "sin2_theta12": pmns_route_a_sin2,
+                "theta12_deg": pmns_route_a_theta12_deg,
+                "residual_pct": p18_certificate["new_residual_pct"],
+                "status": p18_certificate["new_status"],
+            },
+        },
+        "closing_mechanisms": [
+            "CKM: off-diagonal g5 non-universality / higher-order overlap structure",
+            "PMNS: see-saw or braid-lock route rather than diagonal-g5 overlaps alone",
+        ],
+        "verdict": (
+            "The leading-order orbifold-overlap lane is not the canonical closure route for CKM/PMNS. "
+            "It is retained as an honest architecture-limit certificate showing exactly where the "
+            "diagonal-g5 approximation fails and which higher-order routes currently carry the closure."
         ),
     }

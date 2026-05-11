@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v10.42
+# Unitary Manifold v10.51
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-10 (v10.42)*
+*Last updated: 2026-05-11 (v10.51 sync)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -44,7 +44,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | **Z₂ orbifold PQ: θ_eff ~ e^{-πkR}/N_W ≈ 10⁻¹⁷** | < 10⁻¹⁰ ✓ | `DERIVED` | ✅ PASS | θ̄ > 10⁻⁹ confirmed | None | 2026-05-09 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+10D closure package (effective N_flux=74, explicit UV vacuum selection) | closure verified (gates passed) | `GEOMETRIC_PREDICTION` | ✅ PASS | Full 10D closure package invalidated by failed hardgates | Hardgate package maintained in `src/core/p28_lambda_promotion_hardgate.py` | 2026-05-09 |
 
-**ToE Score v10.42: 27.8 / 28.0 = 99.3%** (v10.40: P28 +0.7; v10.41–v10.42 non-score alpha_GW closure refinements)
+**ToE Score v10.51: 27.8 / 28.0 = 99.3%** (v10.40: P28 +0.7; v10.41–v10.51 non-score alpha_GW / ledger-sync refinements)
 **DERIVED (confirmed): 23 parameters** (P1–P22 except P11, plus P26, P27)
 **DERIVED (measurement-gated): 3 parameters** (P23, P24, P25)
 **GEOMETRIC_PREDICTION: 1 parameter** (P28) | **ALGEBRAIC: 1** (P11)

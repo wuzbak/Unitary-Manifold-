@@ -78,6 +78,15 @@ None. Existing falsifiers unchanged. β ∈ {0.273°, 0.331°} remains the prima
 - **PMNS**: Large mixing requires see-saw or near-degenerate c_ν — genuine open gap.
 - **α_GUT**: Electroweak unification threshold (SU(2)×U(1) running not included); MSSM vs SM distinction at GUT scale; the 2-loop RGE crosscheck hits a Landau pole when run without proper SU(5) threshold matching (documented and expected).
 
+### Same-day execution follow-on (2026-05-11)
+
+- README public-surface version/regression badges were synced to the canonical v10.51 / 29 393-pass state.
+- `src/core/canonical_ledger_consistency.py` now checks that the README is aligned with the canonical ledgers instead of validating only the internal docs.
+- `src/core/ckm_pmns_orbifold.py` was tightened from a generic OPEN report to an **ARCHITECTURE_LIMIT_CERTIFIED** audit of the leading-order diagonal-`g5` overlap lane, with explicit cross-check references to the stronger CKM λ and P18 θ₁₂ routes already used elsewhere in the repository.
+- `src/core/finish_line_observation_engine.py` now emits same-commit payloads not only for the tracker/changelog pair but also for `docs/TRUTH_LAYER.md`, `docs/CLAIM_MASTER_BOARD.md`, and the canonical ledger set (`STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `docs/mas_tracker.yml`).
+
+**ToE score delta:** none — this follow-on is an honesty/synchronization hardening pass, not a promotion wave.
+
 ---
 
 ## v10.50 (2026-05-11 — Full Off-Attractor WDW + Boltzmann Hierarchy + Yukawa Orbifold BC Texture + α_GUT SU(5) Completion)

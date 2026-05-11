@@ -19,6 +19,7 @@ from src.core.ckm_pmns_orbifold import (
     pmns_from_orbifold,
     ckm_wolfenstein_estimate,
     pmns_angle_estimate,
+    ckm_pmns_orbifold_architecture_certificate,
     ckm_pmns_orbifold_report,
     C_L_QUARKS, C_R_UP, C_R_DOWN, C_L_LEPTONS,
 )
@@ -246,7 +247,7 @@ def test_report_keys():
 
 def test_report_epistemic_labels():
     report = ckm_pmns_orbifold_report()
-    assert "OPEN" in report["epistemic_label"]
+    assert "ARCHITECTURE_LIMIT_CERTIFIED" in report["epistemic_label"]
 
 
 def test_report_ckm_values():
@@ -258,3 +259,22 @@ def test_report_ckm_values():
 def test_report_residual_unknowns_nonempty():
     report = ckm_pmns_orbifold_report()
     assert len(report["residual_unknowns"]) > 0
+
+
+def test_architecture_certificate_status():
+    certificate = ckm_pmns_orbifold_architecture_certificate()
+    assert certificate["status"] == "ARCHITECTURE_LIMIT_CERTIFIED"
+
+
+def test_architecture_certificate_has_cross_checks():
+    certificate = ckm_pmns_orbifold_architecture_certificate()
+    assert "ckm_mass_ratio_route" in certificate["cross_checks"]
+    assert "pmns_route_a_rge" in certificate["cross_checks"]
+
+
+def test_architecture_certificate_ckm_overlap_is_worse_than_mass_ratio_route():
+    certificate = ckm_pmns_orbifold_architecture_certificate()
+    assert (
+        certificate["ckm_overlap_residual_pct"]
+        > certificate["cross_checks"]["ckm_mass_ratio_route"]["residual_pct"]
+    )

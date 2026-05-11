@@ -39,6 +39,10 @@ __all__ = [
     "route_pmns_theta12",
     "route_lisa_omega_gw",
     "route_finish_line_observation_bundle",
+    "build_claim_board_payload",
+    "build_truth_layer_payload",
+    "build_canonical_ledger_payload",
+    "build_canonical_doc_update_packet",
     "build_tracker_update_payload",
     "build_wave_changelog_payload",
     "build_provenance_sync_payload",
@@ -234,6 +238,61 @@ def build_wave_changelog_payload(results: Dict[str, Dict[str, object]]) -> Dict[
     }
 
 
+def build_claim_board_payload(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
+    """Build the required claim-board sync payload."""
+    return {
+        "target_file": "docs/CLAIM_MASTER_BOARD.md",
+        "required_same_day_sync": True,
+        "claim_rows": [
+            f"T1 / DESI wₐ route → {desi_route_label(results['desi'])}",
+            f"P18 / PMNS θ12 route → {results['pmns']['route']}",
+            f"P25 / Ω_GW route → {results['lisa']['route']}",
+            f"P23/P24 / LiteBIRD β route → {results['litebird']['route']}",
+        ],
+        "label_change_policy": "manual_review_required_before_claim_board_edit",
+    }
+
+
+def build_truth_layer_payload(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
+    """Build the required truth-layer sync payload."""
+    return {
+        "target_file": "docs/TRUTH_LAYER.md",
+        "required_same_day_sync": True,
+        "tension_updates": [
+            f"DESI route: {desi_route_label(results['desi'])}",
+            f"PMNS θ12 route: {results['pmns']['route']}",
+            f"LISA Ω_GW route: {results['lisa']['route']}",
+            f"LiteBIRD route: {results['litebird']['route']}",
+        ],
+        "falsifier_actions": [
+            results["pmns"]["action"],
+            results["lisa"]["action"],
+            results["cmbs4"]["action"],
+        ],
+    }
+
+
+def build_canonical_ledger_payload(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
+    """Build the canonical-ledger sync payload for same-commit updates."""
+    return {
+        "target_files": [
+            "STATUS.md",
+            "FALLIBILITY.md",
+            "1-THEORY/DERIVATION_STATUS.md",
+            "docs/mas_tracker.yml",
+        ],
+        "required_same_commit": True,
+        "status_lines": [
+            f"DESI={desi_route_label(results['desi'])}",
+            f"CMB-S4={results['cmbs4']['route']}",
+            f"LiteBIRD={results['litebird']['route']}",
+            f"PMNS={results['pmns']['route']}",
+            f"LISA={results['lisa']['route']}",
+        ],
+        "manual_label_review_required": True,
+    }
+
+
 def build_provenance_sync_payload(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
     """Build the required same-commit canonical-doc sync targets."""
     return {
@@ -243,6 +302,8 @@ def build_provenance_sync_payload(results: Dict[str, Dict[str, object]]) -> Dict
             "1-THEORY/DERIVATION_STATUS.md",
             "docs/mas_tracker.yml",
             "docs/WAVE_CHANGELOG.md",
+            "docs/TRUTH_LAYER.md",
+            "docs/CLAIM_MASTER_BOARD.md",
         ],
         "required_same_commit": True,
         "summary": [
@@ -252,6 +313,34 @@ def build_provenance_sync_payload(results: Dict[str, Dict[str, object]]) -> Dict
             f"PMNS={results['pmns']['route']}",
             f"LISA={results['lisa']['route']}",
         ],
+    }
+
+
+def build_canonical_doc_update_packet(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
+    """Build the end-to-end same-commit doc update packet."""
+    tracker_payload = build_tracker_update_payload(results)
+    wave_payload = build_wave_changelog_payload(results)
+    claim_payload = build_claim_board_payload(results)
+    truth_payload = build_truth_layer_payload(results)
+    ledger_payload = build_canonical_ledger_payload(results)
+    provenance_payload = build_provenance_sync_payload(results)
+    target_files = (
+        [tracker_payload["target_file"], wave_payload["target_file"],
+         claim_payload["target_file"], truth_payload["target_file"]]
+        + ledger_payload["target_files"]
+    )
+    deduped_target_files = list(dict.fromkeys(target_files))
+    return {
+        "required_same_commit": True,
+        "target_files": deduped_target_files,
+        "payloads": {
+            "tracker": tracker_payload,
+            "wave_changelog": wave_payload,
+            "claim_board": claim_payload,
+            "truth_layer": truth_payload,
+            "canonical_ledgers": ledger_payload,
+            "provenance": provenance_payload,
+        },
     }
 
 
@@ -323,5 +412,9 @@ def route_finish_line_observation_bundle(
         "results": routed,
         "tracker_update_payload": build_tracker_update_payload(routed),
         "wave_changelog_payload": build_wave_changelog_payload(routed),
+        "claim_board_payload": build_claim_board_payload(routed),
+        "truth_layer_payload": build_truth_layer_payload(routed),
+        "canonical_ledger_payload": build_canonical_ledger_payload(routed),
         "provenance_sync_payload": build_provenance_sync_payload(routed),
+        "canonical_doc_update_packet": build_canonical_doc_update_packet(routed),
     }
