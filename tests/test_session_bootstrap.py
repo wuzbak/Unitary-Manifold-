@@ -288,22 +288,18 @@ class TestCurrentIntentSnapshot:
 ### Next-entry trigger conditions
 - Trigger one
 """
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as current_f:
-            current_f.write(current_text)
-            current_tmp = Path(current_f.name)
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as log_f:
-            log_f.write(log_text)
-            log_tmp = Path(log_f.name)
-        try:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            current_tmp = tmp_path / "current.md"
+            log_tmp = tmp_path / "log.md"
+            current_tmp.write_text(current_text, encoding="utf-8")
+            log_tmp.write_text(log_text, encoding="utf-8")
             snapshot = current_intent_snapshot(current_doc=current_tmp, log_doc=log_tmp)
             assert "Loop A" not in snapshot["unresolved_loops"]
             assert "Loop B" in snapshot["unresolved_loops"]
             assert "Loop C" in snapshot["unresolved_loops"]
             assert "Decision one" in snapshot["recent_decisions"]
             assert "Trigger one" in snapshot["next_triggers"]
-        finally:
-            current_tmp.unlink()
-            log_tmp.unlink()
 
 
 # ---------------------------------------------------------------------------

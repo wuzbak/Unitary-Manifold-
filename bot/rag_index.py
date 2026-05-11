@@ -28,7 +28,7 @@ import os
 import re
 import math
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 from bot.session_bootstrap import current_intent_snapshot
 
@@ -59,6 +59,8 @@ _TOKEN_ALIASES = {
 HILS_SESSION_WEIGHT = 1.35
 CO_EMERGENCE_WEIGHT = 1.20
 DOCS_WEIGHT = 1.10
+TITLE_BONUS_WEIGHT = 0.25
+PHRASE_MATCH_BONUS = 0.15
 
 # ---------------------------------------------------------------------------
 # Structured knowledge base — key facts hard-coded for reliability
@@ -327,7 +329,7 @@ def _normalise_token(token: str) -> str:
     return _TOKEN_ALIASES.get(token, token)
 
 
-def _tokenize(text: str) -> set[str]:
+def _tokenize(text: str) -> Set[str]:
     return {
         _normalise_token(token)
         for token in re.findall(r"\w+", text.lower())
@@ -413,8 +415,8 @@ class DocumentChunk:
         matches = query_tokens & self.tokens
         title_matches = query_tokens & self.title_tokens
         base = len(matches) / len(query_tokens)
-        title_bonus = 0.25 * len(title_matches) / len(query_tokens)
-        phrase_bonus = 0.15 if query_text and query_text in self.text.lower() else 0.0
+        title_bonus = TITLE_BONUS_WEIGHT * len(title_matches) / len(query_tokens)
+        phrase_bonus = PHRASE_MATCH_BONUS if query_text and query_text in self.text.lower() else 0.0
         return min(1.0, base + title_bonus + phrase_bonus)
 
 
