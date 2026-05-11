@@ -1,6 +1,6 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v10.42 — Unambiguous Record**  
+**The Unitary Manifold v10.44 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
@@ -141,9 +141,9 @@ This apparent contradiction is resolved as follows — B_μ and the photon are *
 | Full 5D CS action derivation of k_primary | **CLOSED — Pillar 99-B** (`anomaly_closure.py::cs_action_k_primary_derivation`) | Cubic CS integral + Z₂ boundary term → k_primary = 2(n₁²−n₁n₂+n₂²) |
 | Full 5D derivation of r_braided = r_bare×c_s | **CLOSED — Pillar 97-B** | 5D CS → 4D WZW kinetic rotation → c_s = √(1−ρ²); P_h unchanged; P_ζ ∝ 1/c_s from WKB mode equation → r = r_bare × c_s. See `braided_winding.py::braided_r_full_derivation()` |
 | SU(3)×SU(2) from higher-dimensional extension | **CLOSED — Pillar 70-D** | Kawamura Z₂ mechanism derived from n_w=5 KK species count. See `src/core/nw5_pure_theorem.py::sm_gauge_group_from_5d()`. |
-| Canonical quantisation of φ | OPEN | Hamiltonian analysis of the radion sector |
-| CMB acoustic peak shapes (Boltzmann) | OPEN (partial) | Full Boltzmann integration beyond the current KK correction δ_KK |
-| Full ADM 3+1 decomposition (time parameterization) | **PARTIALLY_CLOSED** | Kinematic closure at the FTUM attractor is proved by Pillar 212; full inhomogeneous 5D ADM dynamics/quantization remains OPEN. |
+| Canonical quantisation of φ | **PARTIALLY_CLOSED (local harmonic sector)** | `phi_radion_quantization.py` closes the local harmonic radion sector around φ₀=1 with JAX and 256/512-bit audits; full WDW/operator-ordering programme remains open. |
+| CMB acoustic peak shapes (Boltzmann) | **PARTIALLY_CLOSED (numerical LOS)** | `cmb_boltzmann_full.py` now includes a numerical line-of-sight integration layer; full CAMB/CLASS-level hierarchy remains open. |
+| Full ADM 3+1 decomposition (time parameterization) | **PARTIALLY_CLOSED** | Pillar 212 closes the attractor kinematics; `adm_quantitative_closure.py` now adds off-attractor mismatch scans and radion local-quantization evidence, while full inhomogeneous 5D ADM dynamics/quantization remains OPEN. |
 | η-invariant class uniqueness for n_w = 5 | **CLOSED — Pillar 70-D** | Z₂-odd CS boundary phase condition: k_CS(n_w)×η̄(n_w) = odd integer. n_w=5: 74×½=37 (odd ✓). n_w=7: 130×0=0 (even ✗). Pure theorem. See `src/core/nw5_pure_theorem.py`. |
 
 ---
@@ -154,6 +154,7 @@ These are not new physical claims but expansions of the verification surface.
 
 | Tool | Module | What it checks | Limitation |
 |------|--------|----------------|------------|
+| Local radion quantization | `src/core/phi_radion_quantization.py` | Harmonic-sector φ quantization, JAX normalization, 256/512-bit moments | Full WDW/Dirac programme still open |
 | Lean4 formal proofs | `lean4/UnitaryManifold/Basic.lean` + `formal_proof_hardening.py` | n_s bound, φ₀ consistency, (5,7) SE minimality | Structural bridge; full compilation needs Lean4 toolchain |
 | 512-bit precision audit | `src/core/precision_audit.py` | (5,7) SE minimum stable at DPS=16/35/80/155; drift=0 | SE functional is analytic; stability expected |
 | Z3 SMT bounds | `src/core/z3_pentad_checker.py` | N_W, K_CS, C_S, n_s, r algebraically consistent | Checks stated values; not derivation |
@@ -161,6 +162,7 @@ These are not new physical claims but expansions of the verification surface.
 | Triple-Point certificate | `src/core/triple_point.py` | Lean4 ↔ JAX ↔ Z3 unified signed certificate | Requires all three backends for full certificate |
 | KK-VQE | `src/core/kk_vqe.py` | (5,7) braid Hamiltonian ground state via VQE ansatz | Classical simulation; no QPU in CI |
 | LiteBIRD alt lab | `src/core/litebird_proof_alternative.py` | Lane A/B/C decision logic; composite verdict | Simulation run; actual campaign data pending |
+| Canonical ledger consistency | `src/core/canonical_ledger_consistency.py` | Version/regression sync across canonical ledgers | Sync checker only; does not decide labels |
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

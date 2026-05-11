@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.42 — Effective 2026-05-10*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.42 audit: all canonical docs updated, P26/P27/P28 labels corrected in CLAIM_MASTER_BOARD.md, comprehensive state report created at AUDIT_v10_42_2026-05-10.md).*
+*Unitary Manifold v10.44 — Effective 2026-05-11*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (MAS complete; WS-I..WS-IV PASS_FREEZE retained; v10.44 audit: local radion quantization added, numerical LOS Boltzmann audit added, finish-line observation routing extended to PMNS/LISA, canonical-ledger consistency checker added).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -95,6 +95,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.44 | Local radion quantization + numerical LOS Boltzmann + PMNS/LISA routing + canonical ledger consistency | infrastructure / monitoring / closure support | +new targeted suites | 2026-05-11 |
 | v10.6 | MAS Wave Plan — Braid c_L spectrum, RS neutrino spectrum, ρ̄ q-deform, Higgs CW limit, G_N derivation | 213–217 | +427 | 2026-05-07 |
 | v10.5 | First-Principles Advance — Universal Yukawa BC, neutrino splittings, Higgs mass audit, ADM decomposition | 209–212 | +353 | 2026-05-06 |
 | v10.4 | Near Closure — AxiomZero guard, Braid-Lock PMNS, Architecture Limit, claims/ benchmarks, DAM archived | 201–208 + axiomzero_guard | +196 | 2026-05-06 |
@@ -246,6 +247,14 @@ specific failure mode that this condition guards against.
 | 512-bit precision drift | **0.000e+00** | (5,7) stable at DPS=155 |
 | LiteBIRD alt composite | **STRONGLY_SUPPORTED** | Simulation at prediction values |
 | LiteBIRD alt evidence | 1.0/1.0 — VERY STRONG | All 3 lanes decision-grade |
+
+### v10.44 implementation note (2026-05-11)
+
+- `src/core/phi_radion_quantization.py`: local canonical quantization of radion fluctuations around the FTUM attractor, with JAX normalization and 256/512-bit audits.
+- `src/core/adm_quantitative_closure.py`: extended with off-attractor Ricci/ADM mismatch scans and radion local-quantization evidence.
+- `src/core/cmb_boltzmann_full.py`: extended with numerical line-of-sight integration, JAX transfer cross-check, and precision peak audit.
+- `src/core/finish_line_observation_engine.py`: extended with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit provenance sync payloads.
+- `src/core/canonical_ledger_consistency.py`: machine-readable consistency check for `STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `docs/WAVE_CHANGELOG.md`, and `docs/mas_tracker.yml`.
 
 ### Regression gate (v10.5)
 

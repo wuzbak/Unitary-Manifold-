@@ -18,15 +18,20 @@ from src.core.desi_dr2_gap_report import full_dr2_gap_report
 from src.core.desi_year3_monitor import route_desi_y3
 from src.core.hyperk_juno_dm31_readiness import hyperk_juno_falsifier_routing
 from src.core.litebird_gap_hardening import classify_beta
+from src.core.neutrino_p18_route_consolidation import ROUTE_A_RGE_VALUE
+from src.core.prediction_registry import PREDICTION_REGISTRY
 
 __all__ = [
     "DEFAULT_OBSERVATION_BUNDLE",
     "normalize_observation_bundle",
     "desi_route_label",
     "normalize_litebird_result",
+    "route_pmns_theta12",
+    "route_lisa_omega_gw",
     "route_finish_line_observation_bundle",
     "build_tracker_update_payload",
     "build_wave_changelog_payload",
+    "build_provenance_sync_payload",
 ]
 
 DEFAULT_OBSERVATION_BUNDLE: Dict[str, Dict[str, object]] = {
@@ -54,6 +59,18 @@ DEFAULT_OBSERVATION_BUNDLE: Dict[str, Dict[str, object]] = {
     "litebird": {
         "beta_obs": 0.331,
         "sigma": 0.02,
+    },
+    "pmns": {
+        "sin2_theta12_obs": 0.307,
+        "sigma": 0.013,
+        "experiment": "NuFIT/PDG",
+        "year": 2026,
+    },
+    "lisa": {
+        "omega_gw_obs": 1.0e-15,
+        "sigma": 2.0e-16,
+        "experiment": "LISA forecast",
+        "year": 2035,
     },
 }
 
@@ -92,6 +109,70 @@ def normalize_litebird_result(result: Dict[str, object]) -> Dict[str, object]:
     return normalized
 
 
+def route_pmns_theta12(
+    sin2_theta12_obs: float,
+    sigma: float,
+    experiment: str = "NuFIT/PDG",
+    year: int = 2026,
+) -> Dict[str, object]:
+    """Route θ12 observations against the canonical consolidated P18 value."""
+    predicted = ROUTE_A_RGE_VALUE
+    tension = abs(predicted - sin2_theta12_obs) / sigma if sigma > 0 else float("inf")
+    if tension < 2.0:
+        route = "CONSISTENT"
+        action = "No canonical status change; keep monitoring solar-angle precision."
+    elif tension < 3.0:
+        route = "TENSION"
+        action = "Update PMNS tracking surfaces and retain honest residual note."
+    else:
+        route = "FALSIFIED"
+        action = "Escalate PMNS route discrepancy into FALLIBILITY/TRUTH_LAYER/tracker sync."
+    return {
+        "parameter": "sin²θ12",
+        "predicted": predicted,
+        "observed": sin2_theta12_obs,
+        "sigma": sigma,
+        "tension_sigma": tension,
+        "experiment": experiment,
+        "year": year,
+        "route": route,
+        "action": action,
+    }
+
+
+def route_lisa_omega_gw(
+    omega_gw_obs: float,
+    sigma: float,
+    experiment: str = "LISA forecast",
+    year: int = 2035,
+) -> Dict[str, object]:
+    """Route Ω_GW observations using the prediction registry target and falsifier."""
+    predicted = float(PREDICTION_REGISTRY["GW_BACKGROUND"]["predicted_value"])
+    threshold = 1.0e-17
+    tension = abs(predicted - omega_gw_obs) / sigma if sigma > 0 else float("inf")
+    if omega_gw_obs < threshold and (threshold - omega_gw_obs) / sigma > 3.0:
+        route = "FALSIFIED"
+        action = "Record same-day LISA falsifier result and update canonical GW tracker."
+    elif tension < 3.0:
+        route = "CONSISTENT"
+        action = "Keep Ω_GW in active monitoring with no label change."
+    else:
+        route = "TENSION"
+        action = "Update GW monitoring surfaces and retain LISA pending/ tension note."
+    return {
+        "parameter": "Ω_GW",
+        "predicted": predicted,
+        "observed": omega_gw_obs,
+        "sigma": sigma,
+        "tension_sigma": tension,
+        "threshold": threshold,
+        "experiment": experiment,
+        "year": year,
+        "route": route,
+        "action": action,
+    }
+
+
 def build_tracker_update_payload(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
     """Build the auto-update payload for OBSERVATION_TRACKER.md."""
     return {
@@ -102,12 +183,16 @@ def build_tracker_update_payload(results: Dict[str, Dict[str, object]]) -> Dict[
             f"Hyper-K: {results['hyperk']['route']}",
             f"CMB-S4: {results['cmbs4']['route']}",
             f"LiteBIRD: {results['litebird']['route']}",
+            f"PMNS θ12: {results['pmns']['route']}",
+            f"LISA Ω_GW: {results['lisa']['route']}",
         ],
         "required_same_day_sync": True,
         "action_items": [
             results["juno"]["action"],
             results["hyperk"]["action"],
             results["cmbs4"]["action"],
+            results["pmns"]["action"],
+            results["lisa"]["action"],
         ],
     }
 
@@ -123,6 +208,8 @@ def build_wave_changelog_payload(results: Dict[str, Dict[str, object]]) -> Dict[
             f"Hyper-K routed as {results['hyperk']['route']}.",
             f"CMB-S4 routed as {results['cmbs4']['route']}.",
             f"LiteBIRD zone classified as {results['litebird']['zone']}.",
+            f"PMNS θ12 routed as {results['pmns']['route']}.",
+            f"LISA Ω_GW routed as {results['lisa']['route']}.",
         ],
         "what_did_not_change": [
             "No parameter label changed automatically.",
@@ -132,6 +219,28 @@ def build_wave_changelog_payload(results: Dict[str, Dict[str, object]]) -> Dict[
         "residual_unknowns": [
             "P16 hardgate still depends on exact WS-III closure.",
             "P28 remains architecture-limited pending 10D closure.",
+            "Automatic routing does not replace manual canonical-doc judgment.",
+        ],
+    }
+
+
+def build_provenance_sync_payload(results: Dict[str, Dict[str, object]]) -> Dict[str, object]:
+    """Build the required same-commit canonical-doc sync targets."""
+    return {
+        "target_files": [
+            "STATUS.md",
+            "FALLIBILITY.md",
+            "1-THEORY/DERIVATION_STATUS.md",
+            "docs/mas_tracker.yml",
+            "docs/WAVE_CHANGELOG.md",
+        ],
+        "required_same_commit": True,
+        "summary": [
+            f"DESI={desi_route_label(results['desi'])}",
+            f"CMB-S4={results['cmbs4']['route']}",
+            f"LiteBIRD={results['litebird']['route']}",
+            f"PMNS={results['pmns']['route']}",
+            f"LISA={results['lisa']['route']}",
         ],
     }
 
@@ -176,6 +285,18 @@ def route_finish_line_observation_bundle(
         beta_obs=float(normalized["litebird"]["beta_obs"]),
         sigma=float(normalized["litebird"]["sigma"]),
     ))
+    pmns_result = route_pmns_theta12(
+        sin2_theta12_obs=float(normalized["pmns"]["sin2_theta12_obs"]),
+        sigma=float(normalized["pmns"]["sigma"]),
+        experiment=str(normalized["pmns"]["experiment"]),
+        year=int(normalized["pmns"]["year"]),
+    )
+    lisa_result = route_lisa_omega_gw(
+        omega_gw_obs=float(normalized["lisa"]["omega_gw_obs"]),
+        sigma=float(normalized["lisa"]["sigma"]),
+        experiment=str(normalized["lisa"]["experiment"]),
+        year=int(normalized["lisa"]["year"]),
+    )
 
     routed = {
         "desi": desi_result,
@@ -183,6 +304,8 @@ def route_finish_line_observation_bundle(
         "hyperk": hyperk_result,
         "cmbs4": cmbs4_result,
         "litebird": litebird_result,
+        "pmns": pmns_result,
+        "lisa": lisa_result,
     }
 
     return {
@@ -190,4 +313,5 @@ def route_finish_line_observation_bundle(
         "results": routed,
         "tracker_update_payload": build_tracker_update_payload(routed),
         "wave_changelog_payload": build_wave_changelog_payload(routed),
+        "provenance_sync_payload": build_provenance_sync_payload(routed),
     }
