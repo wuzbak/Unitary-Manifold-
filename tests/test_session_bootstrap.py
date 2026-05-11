@@ -11,6 +11,7 @@ import pytest
 from bot.session_bootstrap import (
     load_boot_block,
     summarise_intent_history,
+    current_intent_snapshot,
     append_session_entry,
     CURRENT_DOC,
     LOG_DOC,
@@ -120,7 +121,10 @@ class TestSummariseIntentHistory:
             assert "wave" in entry
             assert "intents" in entry
             assert "decisions" in entry
+            assert "resolved_loops" in entry
             assert "open_loops" in entry
+            assert "next_triggers" in entry
+            assert "session_trigger" in entry
 
     def test_empty_when_file_missing(self):
         result = summarise_intent_history(log_doc=Path("/nonexistent/log.md"))
@@ -207,6 +211,99 @@ class TestAppendSessionEntry:
             assert "Keep history" in raw_after
         finally:
             tmp.unlink()
+
+
+# ---------------------------------------------------------------------------
+# current_intent_snapshot
+# ---------------------------------------------------------------------------
+
+class TestCurrentIntentSnapshot:
+    def test_returns_expected_top_level_keys(self):
+        snapshot = current_intent_snapshot()
+        assert "active_wave" in snapshot
+        assert "strategic_intent" in snapshot
+        assert "unresolved_loops" in snapshot
+        assert "recent_decisions" in snapshot
+        assert "next_triggers" in snapshot
+        assert "sources" in snapshot
+
+    def test_uses_defaults_when_files_missing(self):
+        snapshot = current_intent_snapshot(
+            current_doc=Path("/nonexistent/current.md"),
+            log_doc=Path("/nonexistent/log.md"),
+        )
+        assert snapshot["active_wave"] == "UNKNOWN"
+        assert snapshot["recent_history_count"] == 0
+        assert snapshot["unresolved_loops"] == []
+
+    def test_resolved_loops_removed_from_unresolved(self):
+        current_text = """\
+# HILS Session — Current State
+
+## Boot Block — Identity & Role Map
+
+| Field | Value |
+|-------|-------|
+| **Active wave** | Wave Test |
+| **Session opened** | 2026-01-01T00:00:00Z |
+
+## Non-Negotiables (read before every action)
+
+1. Keep tests green
+
+## Current Strategic Intent
+
+| Priority | Intent | Status |
+|----------|--------|--------|
+| 1 | Close loop A | active |
+
+## Open Loops / Next-Entry Trigger Conditions
+
+- Loop A
+- Loop B
+"""
+        log_text = """\
+# HILS Session Log
+
+## Entry 0001 — 2026-01-02T00:00:00Z | Wave Test
+
+### Identity
+- Session trigger: unit test
+
+### Strategic intent this session
+- Resolve Loop A
+
+### Decisions made
+1. Decision one
+
+### Open loops resolved
+- Loop A
+
+### Open loops carried forward
+- Loop C
+
+### Regression gate at session close
+- Result: green
+
+### Next-entry trigger conditions
+- Trigger one
+"""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as current_f:
+            current_f.write(current_text)
+            current_tmp = Path(current_f.name)
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as log_f:
+            log_f.write(log_text)
+            log_tmp = Path(log_f.name)
+        try:
+            snapshot = current_intent_snapshot(current_doc=current_tmp, log_doc=log_tmp)
+            assert "Loop A" not in snapshot["unresolved_loops"]
+            assert "Loop B" in snapshot["unresolved_loops"]
+            assert "Loop C" in snapshot["unresolved_loops"]
+            assert "Decision one" in snapshot["recent_decisions"]
+            assert "Trigger one" in snapshot["next_triggers"]
+        finally:
+            current_tmp.unlink()
+            log_tmp.unlink()
 
 
 # ---------------------------------------------------------------------------

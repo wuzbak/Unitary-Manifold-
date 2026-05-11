@@ -12,6 +12,9 @@ from bot.rag_index import (
     RAGIndex,
     answer_question,
     build_default_index,
+    build_runtime_knowledge_base,
+    retrieve_intent,
+    build_intent_index,
 )
 
 
@@ -48,7 +51,13 @@ def test_knowledge_base_toe_score():
 def test_knowledge_base_alpha_gut():
     assert "alpha_gut" in KNOWLEDGE_BASE
     entry = KNOWLEDGE_BASE["alpha_gut"]
-    assert "DERIVED" in entry["answer"]
+    assert "5D SU" in entry["answer"] or "current closure path" in entry["answer"]
+
+
+def test_runtime_knowledge_base_has_repo_state():
+    kb = build_runtime_knowledge_base(Path(__file__).parent.parent)
+    assert "repo_state" in kb
+    assert "sources" in kb["repo_state"]
 
 
 # ---------------------------------------------------------------------------
@@ -86,6 +95,13 @@ def test_document_chunk_score_partial():
     assert 0.0 < score < 1.0
 
 
+def test_document_chunk_title_bonus_improves_score():
+    chunk = DocumentChunk("test.md", "LiteBIRD monitor", "prediction window and launch notes")
+    with_title = chunk.score({"litebird"})
+    without_match = chunk.score({"desi"})
+    assert with_title > without_match
+
+
 # ---------------------------------------------------------------------------
 # RAGIndex
 # ---------------------------------------------------------------------------
@@ -107,7 +123,14 @@ def test_rag_index_kb_lookup_alpha_gut():
     idx = RAGIndex()
     result = idx.lookup_kb("GUT coupling alpha_gut derivation")
     assert result is not None
-    assert "DERIVED" in result["answer"]
+    assert "5D" in result["answer"] or "current closure path" in result["answer"]
+
+
+def test_rag_index_kb_lookup_repo_state():
+    idx = RAGIndex()
+    result = idx.lookup_kb("current repository wave status")
+    assert result is not None
+    assert any(src in result["sources"] for src in ["docs/WAVE_CHANGELOG.md", "STATUS.md"])
 
 
 def test_rag_index_kb_lookup_no_match():
@@ -135,6 +158,14 @@ def test_rag_index_search_with_chunks():
     assert results[0][0] > results[1][0]
 
 
+def test_rag_index_search_alias_beta_hits_birefringence():
+    chunks = [DocumentChunk("a.md", "A", "birefringence litebird prediction window")]
+    idx = RAGIndex(chunks=chunks)
+    results = idx.search("beta litebird", top_k=1)
+    assert results[0][1].source == "a.md"
+    assert results[0][0] > 0.0
+
+
 def test_rag_index_build_from_repo():
     """Build from the actual repo — should succeed without errors."""
     repo_root = Path(__file__).parent.parent
@@ -159,6 +190,13 @@ def test_answer_question_source_type():
     idx = RAGIndex()
     result = answer_question(idx, "birefringence litebird prediction")
     assert result["source_type"] in ("knowledge_base", "document_retrieval", "no_result")
+
+
+def test_answer_question_repo_state():
+    idx = RAGIndex()
+    result = answer_question(idx, "What is the current repository wave?")
+    assert "answer" in result
+    assert result["source_type"] == "knowledge_base"
 
 
 def test_answer_question_no_result_graceful():
@@ -214,3 +252,17 @@ def test_build_default_index_returns_rag_index():
     idx = build_default_index()
     assert isinstance(idx, RAGIndex)
     assert len(idx.knowledge_base) > 0
+
+
+def test_build_intent_index_returns_rag_index():
+    idx = build_intent_index()
+    assert isinstance(idx, RAGIndex)
+    assert len(idx.chunks) > 0
+
+
+def test_retrieve_intent_latest_uses_snapshot_sources():
+    idx = build_intent_index()
+    result = retrieve_intent(idx, mode="latest_intent")
+    assert result["mode"] == "latest_intent"
+    assert result["sources"]
+    assert all("score" in src for src in result["sources"])

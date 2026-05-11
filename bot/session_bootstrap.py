@@ -31,6 +31,7 @@ from typing import Dict, List, Optional
 __all__ = [
     "load_boot_block",
     "summarise_intent_history",
+    "current_intent_snapshot",
     "append_session_entry",
     "CURRENT_DOC",
     "LOG_DOC",
@@ -96,8 +97,63 @@ def summarise_intent_history(
     raw = path.read_text(encoding="utf-8", errors="replace")
     entries = _parse_log_entries(raw)
     # Most recent first
-    entries.sort(key=lambda e: e.get("timestamp", ""), reverse=True)
+    entries.sort(key=lambda e: _parse_timestamp(e.get("timestamp", "")), reverse=True)
     return entries[:max_entries]
+
+
+def current_intent_snapshot(
+    current_doc: Optional[Path] = None,
+    log_doc: Optional[Path] = None,
+    max_history: int = 3,
+) -> Dict:
+    """Return a deterministic summary of current intent plus recent history.
+
+    Combines the canonical current-session boot block with the most recent
+    session-log entries, then computes a de-duplicated unresolved-loop view:
+    current open loops plus carried-forward loops, minus recently resolved loops.
+    """
+    boot = load_boot_block(current_doc=current_doc)
+    history = summarise_intent_history(log_doc=log_doc, max_entries=max_history)
+
+    resolved_recent = _dedupe_preserve_order(
+        loop
+        for entry in history
+        for loop in entry.get("resolved_loops", [])
+    )
+    carried_recent = _dedupe_preserve_order(
+        loop
+        for entry in history
+        for loop in entry.get("open_loops", [])
+    )
+    trigger_recent = _dedupe_preserve_order(
+        trigger
+        for entry in history
+        for trigger in entry.get("next_triggers", [])
+    )
+    decision_recent = _dedupe_preserve_order(
+        decision
+        for entry in history
+        for decision in entry.get("decisions", [])
+    )
+
+    unresolved = [
+        loop for loop in _dedupe_preserve_order(
+            list(boot.get("open_loops", [])) + carried_recent
+        )
+        if loop not in resolved_recent
+    ]
+
+    return {
+        "active_wave": boot.get("active_wave", "UNKNOWN"),
+        "strategic_intent": boot.get("strategic_intent", []),
+        "open_loops": boot.get("open_loops", []),
+        "unresolved_loops": unresolved,
+        "resolved_recently": resolved_recent,
+        "recent_decisions": decision_recent,
+        "next_triggers": trigger_recent,
+        "recent_history_count": len(history),
+        "sources": [boot.get("source", str(current_doc or CURRENT_DOC)), str(log_doc or LOG_DOC)],
+    }
 
 
 def append_session_entry(
@@ -144,6 +200,7 @@ def append_session_entry(
     """
     path = log_doc or LOG_DOC
     ts = timestamp or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    path.parent.mkdir(parents=True, exist_ok=True)
 
     # Determine next entry number
     entry_number = 1
@@ -172,7 +229,10 @@ def append_session_entry(
         # Insert before the closing template comment
         marker = "<!-- Add new entries above this line"
         if marker in existing_text:
-            new_text = existing_text.replace(marker, entry + "\n---\n\n" + marker)
+            prefix, suffix = existing_text.split(marker, 1)
+            prefix = prefix.rstrip()
+            joiner = "\n\n---\n\n" if prefix else ""
+            new_text = f"{prefix}{joiner}{entry}\n\n{marker}{suffix}"
         else:
             new_text = existing_text.rstrip() + "\n\n---\n\n" + entry
         path.write_text(new_text, encoding="utf-8")
@@ -289,16 +349,22 @@ def _parse_log_entries(raw: str) -> List[Dict]:
         wave = m.group(3).strip()
         intents = re.findall(r"^-\s+(.+)$", _get_subsection(block, "Strategic intent"), re.MULTILINE)
         decisions = re.findall(r"^\d+\.\s+(.+)$", _get_subsection(block, "Decisions made"), re.MULTILINE)
+        resolved = re.findall(r"^-\s+(.+)$", _get_subsection(block, "Open loops resolved"), re.MULTILINE)
         loops_fwd = re.findall(r"^-\s+(.+)$", _get_subsection(block, "Open loops carried forward"), re.MULTILINE)
+        triggers = re.findall(r"^-\s+(.+)$", _get_subsection(block, "Next-entry trigger conditions"), re.MULTILINE)
         reg = _get_subsection(block, "Regression gate").strip()
+        trigger_lines = re.findall(r"^-\s+Session trigger:\s*(.+)$", _get_subsection(block, "Identity"), re.MULTILINE)
         results.append({
             "entry_number": entry_num,
             "timestamp": ts,
             "wave": wave,
             "intents": [i.strip() for i in intents],
             "decisions": [d.strip() for d in decisions],
+            "resolved_loops": [l.strip() for l in resolved],
             "open_loops": [l.strip() for l in loops_fwd],
+            "next_triggers": [t.strip() for t in triggers],
             "regression_result": reg,
+            "session_trigger": trigger_lines[0].strip() if trigger_lines else "",
         })
     return results
 
@@ -357,3 +423,25 @@ def _format_entry(
 ### Next-entry trigger conditions
 {trigger_lines}
 """
+
+
+def _parse_timestamp(raw: str) -> datetime:
+    """Parse an ISO timestamp; invalid values sort to the epoch."""
+    try:
+        normalised = raw.replace("Z", "+00:00")
+        return datetime.fromisoformat(normalised)
+    except ValueError:
+        return datetime.fromtimestamp(0, tz=timezone.utc)
+
+
+def _dedupe_preserve_order(items) -> List[str]:
+    """Return non-empty strings in original order without duplicates."""
+    seen = set()
+    result: List[str] = []
+    for item in items:
+        text = str(item).strip()
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        result.append(text)
+    return result

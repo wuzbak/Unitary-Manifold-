@@ -5,7 +5,7 @@
 import pytest
 from src.meta.mas_wave_engine import (
     MASWaveEngine, PillarSpec, GapItem, WaveValidationResult,
-    FrameworkScore, AutodataReport, VALID_STATUSES
+    FrameworkScore, AutodataReport, VALID_STATUSES, OPEN_TRACKING_STATUSES
 )
 
 
@@ -23,11 +23,11 @@ def test_instantiate():
     e = MASWaveEngine()
     assert e is not None
 
-def test_version_contains_v9():
-    assert 'v9' in MASWaveEngine.VERSION
+def test_version_contains_v10():
+    assert 'v10' in MASWaveEngine.VERSION
 
 def test_n_pillars():
-    assert MASWaveEngine.N_PILLARS == 167
+    assert MASWaveEngine.N_PILLARS == 208
 
 def test_known_gaps_nonempty():
     assert len(MASWaveEngine.KNOWN_GAPS) > 5
@@ -52,7 +52,7 @@ def test_audit_open_gaps_returns_list():
 def test_audit_open_gaps_all_open_or_partially():
     e = MASWaveEngine()
     for g in e.audit_open_gaps():
-        assert g.epistemic_status in ('OPEN', 'PARTIALLY_CLOSED')
+        assert g.epistemic_status in OPEN_TRACKING_STATUSES
 
 def test_audit_open_gaps_nonempty():
     e = MASWaveEngine()
@@ -72,55 +72,55 @@ def test_audit_all_gaps_gte_open():
 def test_audit_all_gaps_contains_birefringence():
     e = MASWaveEngine()
     ids = [g.gap_id for g in e.audit_all_gaps()]
-    assert 'birefringence' in ids
+    assert 'litebird_birefringence' in ids
 
 
 # --- get_gap_by_id ---
 
 def test_get_gap_by_id_found():
     e = MASWaveEngine()
-    g = e.get_gap_by_id('birefringence')
+    g = e.get_gap_by_id('litebird_birefringence')
     assert g is not None
-    assert g.gap_id == 'birefringence'
+    assert g.gap_id == 'litebird_birefringence'
 
 def test_get_gap_by_id_not_found():
     e = MASWaveEngine()
     assert e.get_gap_by_id('nonexistent') is None
 
-def test_get_gap_by_id_w0():
+def test_get_gap_by_id_wa():
     e = MASWaveEngine()
-    g = e.get_gap_by_id('w0_tension')
+    g = e.get_gap_by_id('desi_wa_tension')
     assert g is not None
-    assert g.epistemic_status == 'PARTIALLY_CLOSED'
+    assert g.epistemic_status == 'HONEST_OPEN_PROBLEM'
 
-def test_get_gap_by_id_lambda_qcd():
+def test_get_gap_by_id_pmns_theta12():
     e = MASWaveEngine()
-    g = e.get_gap_by_id('lambda_qcd')
+    g = e.get_gap_by_id('pmns_theta12_rge')
     assert g.severity == 'minor'
 
 
 # --- generate_pillar_spec ---
 
-def test_generate_pillar_spec_lambda_qcd():
+def test_generate_pillar_spec_cmb_peak_suppression():
     e = MASWaveEngine()
-    spec = e.generate_pillar_spec('lambda_qcd')
+    spec = e.generate_pillar_spec('cmb_peak_suppression')
     assert isinstance(spec, PillarSpec)
     assert spec.pillar_number > 0
     assert spec.min_tests >= 40
 
-def test_generate_pillar_spec_w0_tension():
+def test_generate_pillar_spec_wa_tension():
     e = MASWaveEngine()
-    spec = e.generate_pillar_spec('w0_tension')
-    assert spec.epistemic_target == 'PARTIALLY_CLOSED'
+    spec = e.generate_pillar_spec('desi_wa_tension')
+    assert spec.epistemic_target == 'HONEST_OPEN_PROBLEM'
 
-def test_generate_pillar_spec_A_s():
+def test_generate_pillar_spec_birefringence():
     e = MASWaveEngine()
-    spec = e.generate_pillar_spec('A_s_normalization')
-    assert spec.epistemic_target == 'NATURALLY_BOUNDED'
+    spec = e.generate_pillar_spec('litebird_birefringence')
+    assert spec.epistemic_target == 'OPEN'
 
 def test_generate_pillar_spec_generic_fallback():
     e = MASWaveEngine()
-    spec = e.generate_pillar_spec('g4_flux_embedding')
+    spec = e.generate_pillar_spec('wdw_full_minisuperspace')
     assert isinstance(spec, PillarSpec)
     assert spec.pillar_number > 0
 
@@ -131,12 +131,12 @@ def test_generate_pillar_spec_invalid():
 
 def test_generate_pillar_spec_inputs_nonempty():
     e = MASWaveEngine()
-    spec = e.generate_pillar_spec('lambda_qcd')
+    spec = e.generate_pillar_spec('cmb_peak_suppression')
     assert len(spec.inputs) > 0
 
 def test_generate_pillar_spec_outputs_nonempty():
     e = MASWaveEngine()
-    spec = e.generate_pillar_spec('w0_tension')
+    spec = e.generate_pillar_spec('desi_wa_tension')
     assert len(spec.expected_outputs) > 0
 
 
@@ -255,7 +255,7 @@ def test_autodata_overall_quality_positive():
 def test_autodata_n_pillars():
     e = MASWaveEngine()
     r = e.autodata_quality_report()
-    assert r.n_pillars == 167
+    assert r.n_pillars == 208
 
 def test_autodata_version_matches():
     e = MASWaveEngine()
@@ -290,6 +290,10 @@ def test_wave_protocol_has_open_gaps():
     e = MASWaveEngine()
     assert 'open_gaps' in e.wave_protocol_summary()
 
+def test_wave_protocol_has_severity_summary():
+    e = MASWaveEngine()
+    assert 'severity_summary' in e.wave_protocol_summary()
+
 def test_wave_protocol_epistemic_label_meta_closed():
     e = MASWaveEngine()
     assert e.wave_protocol_summary()['epistemic_label'] == 'META-CLOSED'
@@ -316,7 +320,25 @@ def test_pillar167_summary_epistemic_label():
 
 def test_pillar167_summary_n_pillars():
     e = MASWaveEngine()
-    assert e.pillar167_summary()['n_pillars'] == 167
+    assert e.pillar167_summary()['n_pillars'] == MASWaveEngine.N_PILLARS
+
+
+# --- gap_severity_summary / current_status_snapshot ---
+
+def test_gap_severity_summary_returns_dict():
+    e = MASWaveEngine()
+    summary = e.gap_severity_summary()
+    assert isinstance(summary, dict)
+    assert summary["critical"] >= 1
+
+
+def test_current_status_snapshot_fields():
+    e = MASWaveEngine()
+    snapshot = e.current_status_snapshot()
+    assert snapshot["n_pillars"] == MASWaveEngine.N_PILLARS
+    assert snapshot["n_tests_expected"] == MASWaveEngine.N_TESTS_APPROX
+    assert "critical_gaps" in snapshot
+    assert "monitoring_targets" in snapshot
 
 
 # --- Dataclass creation ---
