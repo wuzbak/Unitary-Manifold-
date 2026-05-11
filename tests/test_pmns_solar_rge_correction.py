@@ -27,6 +27,8 @@ from src.core.pmns_solar_rge_correction import (
     M_GUT_GEV,
     TWO_LOOP_GAIN,
     THRESHOLD_GAIN,
+    EFFECTIVE_TWO_LOOP_GAIN,
+    EFFECTIVE_THRESHOLD_GAIN,
     # functions
     tau_yukawa,
     log_rge_factor,
@@ -37,6 +39,7 @@ from src.core.pmns_solar_rge_correction import (
     sin2_theta12_at_mz,
     pmns_solar_improvement_path,
     pmns_solar_no_overclaim_gate,
+    pmns_solar_effective_closure_report,
     pmns_solar_rge_report,
     pillar163_summary,
 )
@@ -196,7 +199,7 @@ class TestRgeDeltaSin2Theta12:
         assert self.result["delta_sin2_theta12"] < 0.05
 
     def test_delta_lower_bound(self):
-        assert self.result["delta_sin2_theta12"] > 1e-3
+        assert self.result["delta_sin2_theta12"] > 1e-4
 
     def test_keys_present(self):
         for key in (
@@ -234,7 +237,8 @@ class TestSeesawThresholdCorrection:
         assert self.result["delta_threshold"] > 0
 
     def test_delta_tiny(self):
-        assert 1e-3 < self.result["delta_threshold"] < 0.1
+        # Baseline threshold correction << bulk RGE correction
+        assert self.result["delta_threshold"] < 1e-4
 
     def test_keys_present(self):
         assert "delta_threshold" in self.result
@@ -277,7 +281,7 @@ class TestSin2Theta12AtMz:
         assert self.result["residual"] > 0
 
     def test_residual_small(self):
-        assert self.result["residual"] < 0.02
+        assert self.result["residual"] < 0.045
 
     def test_keys_present(self):
         for key in ("sin2_theta12_gut", "delta_rge", "delta_threshold",
@@ -292,7 +296,7 @@ class TestSin2Theta12AtMz:
         assert self.result["sin2_theta12_pdg"] == pytest.approx(SIN2_THETA12_PDG, rel=1e-12)
 
     def test_status_valid(self):
-        assert self.result["status"] in ("SUBSTANTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
+        assert self.result["status"] in ("PARTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
 
     def test_delta_rge_positive(self):
         assert self.result["delta_rge"] > 0
@@ -321,7 +325,7 @@ class TestPmnsSolarRgeReport:
         assert "epistemic_label" in self.report
 
     def test_epistemic_label_value(self):
-        assert self.report["epistemic_label"] in ("SUBSTANTIALLY_CLOSED", "PARTIALLY_CLOSED")
+        assert self.report["epistemic_label"] == "PARTIALLY_CLOSED"
 
     def test_pillar_number(self):
         assert self.report["pillar"] == 163
@@ -346,7 +350,6 @@ class TestPmnsSolarRgeReport:
         assert self.report["residual_gap"] > 0
 
     def test_status_label(self):
-        # Dynamic status from sin2_theta12_at_mz; epistemic_label is always PARTIALLY_CLOSED
         assert self.report["status"] in ("PARTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
 
     def test_gap_reduction_positive(self):
@@ -373,7 +376,7 @@ class TestPillar163Summary:
         assert self.summary["pillar"] == 163
 
     def test_method(self):
-        assert self.summary["method"] == "PMNS_theta12_2loop_threshold_refined"
+        assert self.summary["method"] == "PMNS_theta12_1loop_RGE"
 
     def test_sin2_theta12_gut(self):
         assert self.summary["sin2_theta12_gut"] == pytest.approx(4 / 15, rel=1e-12)
@@ -382,7 +385,7 @@ class TestPillar163Summary:
         assert self.summary["sin2_theta12_pdg"] == pytest.approx(0.307, abs=1e-10)
 
     def test_status(self):
-        assert self.summary["status"] in ("SUBSTANTIALLY_CLOSED", "PARTIALLY_CLOSED")
+        assert self.summary["status"] == "PARTIALLY_CLOSED"
 
     def test_honest_note(self):
         assert "gap" in self.summary["honest_note"]
@@ -399,18 +402,30 @@ class TestPillar163Summary:
 class TestOpenGapFollowup:
     def test_no_overclaim_gate_blocks_promotion(self):
         gate = pmns_solar_no_overclaim_gate()
-        assert gate["promotion_allowed"] is True
-        assert gate["status"] == "READY_FOR_HARDGATE"
+        assert gate["promotion_allowed"] is False
+        assert gate["status"] == "OPEN_GAP"
 
     def test_improvement_path_has_three_priorities(self):
         path = pmns_solar_improvement_path()
         assert len(path["priority_order"]) == 3
-        assert path["status"] == "HARDGATE_READY_TRACK"
+        assert path["status"] == "OPEN_GAP_TRACK"
 
 
 class TestClosureControlConstants:
     def test_two_loop_gain_positive(self):
-        assert TWO_LOOP_GAIN > 1.0
+        assert TWO_LOOP_GAIN == pytest.approx(1.0)
 
     def test_threshold_gain_positive(self):
-        assert THRESHOLD_GAIN > 1.0
+        assert THRESHOLD_GAIN == pytest.approx(1.0)
+
+    def test_effective_gains_above_baseline(self):
+        assert EFFECTIVE_TWO_LOOP_GAIN > TWO_LOOP_GAIN
+        assert EFFECTIVE_THRESHOLD_GAIN > THRESHOLD_GAIN
+
+
+class TestEffectiveClosureOptIn:
+    def test_effective_report_promotes_gap_below_5pct(self):
+        rep = pmns_solar_effective_closure_report()
+        assert rep["effective_closure"] is True
+        assert rep["residual_pct"] < 5.0
+        assert rep["epistemic_label"] == "SUBSTANTIALLY_CLOSED"

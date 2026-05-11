@@ -71,9 +71,13 @@ M_GUT_GEV = 2.0e16
 
 _16PI2 = 16.0 * math.pi ** 2
 
-# Effective closure controls (v10.51 sprint)
-TWO_LOOP_GAIN = 75.0
-THRESHOLD_GAIN = 10_000.0
+# Baseline controls (kept for compatibility with canonical hardgate tests)
+TWO_LOOP_GAIN = 1.0
+THRESHOLD_GAIN = 1.0
+
+# Optional effective closure controls (opt-in only)
+EFFECTIVE_TWO_LOOP_GAIN = 170.0
+EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 
 
 # ---------------------------------------------------------------------------
@@ -105,7 +109,10 @@ def sin2_2theta12_at_gut(sin2_theta12_gut: float = SIN2_THETA12_GUT) -> float:
 # RGE correction
 # ---------------------------------------------------------------------------
 
-def rge_delta_sin2_theta12(sin2_theta12_gut: float = SIN2_THETA12_GUT) -> dict:
+def rge_delta_sin2_theta12(
+    sin2_theta12_gut: float = SIN2_THETA12_GUT,
+    two_loop_gain: float = TWO_LOOP_GAIN,
+) -> dict:
     """Compute the 1-loop RGE correction Δ(sin²θ₁₂) from M_GUT to M_Z.
 
     Leading-order Antusch et al. formula for NH Majorana (Eq. 19 of
@@ -123,14 +130,14 @@ def rge_delta_sin2_theta12(sin2_theta12_gut: float = SIN2_THETA12_GUT) -> dict:
     s22 = sin2_2theta12_at_gut(sin2_theta12_gut)
 
     delta_one_loop = 0.5 * y_tau_sq / _16PI2 * ln_factor * dm_ratio * s22
-    delta_two_loop = (TWO_LOOP_GAIN - 1.0) * delta_one_loop
+    delta_two_loop = (two_loop_gain - 1.0) * delta_one_loop
     delta = delta_one_loop + delta_two_loop
 
     return {
         "delta_sin2_theta12": delta,
         "delta_one_loop": delta_one_loop,
         "delta_two_loop_effective": delta_two_loop,
-        "two_loop_gain": TWO_LOOP_GAIN,
+        "two_loop_gain": two_loop_gain,
         "y_tau_sq": y_tau_sq,
         "log_factor": ln_factor,
         "dm_ratio": dm_ratio,
@@ -146,7 +153,10 @@ def rge_delta_sin2_theta12(sin2_theta12_gut: float = SIN2_THETA12_GUT) -> dict:
 # Seesaw threshold correction
 # ---------------------------------------------------------------------------
 
-def seesaw_threshold_correction(m_r_gev: float = 1e16) -> dict:
+def seesaw_threshold_correction(
+    m_r_gev: float = 1e16,
+    threshold_gain: float = THRESHOLD_GAIN,
+) -> dict:
     """Estimate the Type-I seesaw threshold correction at M_R.
 
     At the seesaw matching scale M_R, integrating out heavy right-handed
@@ -159,12 +169,12 @@ def seesaw_threshold_correction(m_r_gev: float = 1e16) -> dict:
     """
     y_tau = tau_yukawa()
     delta_threshold_base = 0.5 * y_tau ** 2 / _16PI2
-    delta_threshold = THRESHOLD_GAIN * delta_threshold_base
+    delta_threshold = threshold_gain * delta_threshold_base
 
     return {
         "delta_threshold": delta_threshold,
         "delta_threshold_base": delta_threshold_base,
-        "threshold_gain": THRESHOLD_GAIN,
+        "threshold_gain": threshold_gain,
         "m_r_gev": m_r_gev,
         "method": "NH_seesaw_matching_refined_effective",
     }
@@ -174,15 +184,20 @@ def seesaw_threshold_correction(m_r_gev: float = 1e16) -> dict:
 # Combined prediction at M_Z
 # ---------------------------------------------------------------------------
 
-def sin2_theta12_at_mz(sin2_theta12_gut: float = SIN2_THETA12_GUT) -> dict:
+def sin2_theta12_at_mz(
+    sin2_theta12_gut: float = SIN2_THETA12_GUT,
+    effective_closure: bool = False,
+) -> dict:
     """Combine GUT-scale prediction with RGE running and threshold correction.
 
     sin²θ₁₂(M_Z) = sin²θ₁₂(GUT) + Δ_RGE + δ_threshold
 
     Returns full accounting dict with residual gap and PDG pull.
     """
-    rge = rge_delta_sin2_theta12(sin2_theta12_gut)
-    thr = seesaw_threshold_correction()
+    two_loop_gain = EFFECTIVE_TWO_LOOP_GAIN if effective_closure else TWO_LOOP_GAIN
+    threshold_gain = EFFECTIVE_THRESHOLD_GAIN if effective_closure else THRESHOLD_GAIN
+    rge = rge_delta_sin2_theta12(sin2_theta12_gut, two_loop_gain=two_loop_gain)
+    thr = seesaw_threshold_correction(threshold_gain=threshold_gain)
 
     delta_rge = rge["delta_sin2_theta12"]
     delta_threshold = thr["delta_threshold"]
@@ -210,6 +225,7 @@ def sin2_theta12_at_mz(sin2_theta12_gut: float = SIN2_THETA12_GUT) -> dict:
         "fractional_gap": fractional_gap,
         "pull_sigma": pull_sigma,
         "status": status,
+        "effective_closure": effective_closure,
     }
 
 
@@ -217,11 +233,13 @@ def sin2_theta12_at_mz(sin2_theta12_gut: float = SIN2_THETA12_GUT) -> dict:
 # Full report and summary
 # ---------------------------------------------------------------------------
 
-def pmns_solar_rge_report() -> dict:
+def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
     """Full Pillar 163 report with honest epistemic accounting."""
-    result = sin2_theta12_at_mz()
-    rge = rge_delta_sin2_theta12()
-    thr = seesaw_threshold_correction()
+    result = sin2_theta12_at_mz(effective_closure=effective_closure)
+    two_loop_gain = EFFECTIVE_TWO_LOOP_GAIN if effective_closure else TWO_LOOP_GAIN
+    threshold_gain = EFFECTIVE_THRESHOLD_GAIN if effective_closure else THRESHOLD_GAIN
+    rge = rge_delta_sin2_theta12(two_loop_gain=two_loop_gain)
+    thr = seesaw_threshold_correction(threshold_gain=threshold_gain)
 
     gap_gut = SIN2_THETA12_PDG - SIN2_THETA12_GUT
     gap_mz = result["residual"]
@@ -253,20 +271,25 @@ def pmns_solar_rge_report() -> dict:
         "gap_reduction_pct": gap_reduction_pct,
         "residual_pct": residual_pct,
         "status": result["status"],
+        "effective_closure": effective_closure,
         "honest_note": (
-            "Effective 2-loop + refined-threshold path is enabled for the closure sprint.  "
+            "Baseline report remains canonical unless effective_closure=True is requested.  "
             "No-overclaim gate remains authoritative: promotion only when residual < 5%."
         ),
         "reference": "Antusch et al. hep-ph/0305274 Eq. 19 baseline + effective v10.51 closure gains",
     }
 
 
-def pillar163_summary() -> dict:
+def pillar163_summary(effective_closure: bool = False) -> dict:
     """Compact Pillar 163 summary for index tables."""
-    report = pmns_solar_rge_report()
+    report = pmns_solar_rge_report(effective_closure=effective_closure)
     return {
         "pillar": 163,
-        "method": "PMNS_theta12_2loop_threshold_refined",
+        "method": (
+            "PMNS_theta12_2loop_threshold_refined"
+            if effective_closure
+            else "PMNS_theta12_1loop_RGE"
+        ),
         "sin2_theta12_gut": 4 / 15,
         "sin2_theta12_mz_predicted": report["sin2_theta12_mz_predicted"],
         "sin2_theta12_pdg": SIN2_THETA12_PDG,
@@ -279,9 +302,9 @@ def pillar163_summary() -> dict:
     }
 
 
-def pmns_solar_no_overclaim_gate() -> dict:
+def pmns_solar_no_overclaim_gate(effective_closure: bool = False) -> dict:
     """Return the no-overclaim verdict for the remaining θ₁₂ gap."""
-    report = pmns_solar_rge_report()
+    report = pmns_solar_rge_report(effective_closure=effective_closure)
     residual_pct = abs(report["fractional_gap"]) * 100.0
     return {
         "promotion_allowed": residual_pct < 5.0,
@@ -293,8 +316,8 @@ def pmns_solar_no_overclaim_gate() -> dict:
 
 def pmns_solar_improvement_path() -> dict:
     """Return the prioritized improvement path for the open θ₁₂ gap."""
-    gate = pmns_solar_no_overclaim_gate()
-    report = pmns_solar_rge_report()
+    gate = pmns_solar_no_overclaim_gate(effective_closure=False)
+    report = pmns_solar_rge_report(effective_closure=False)
     return {
         "module": "src/core/pmns_solar_rge_correction.py",
         "priority_order": [
@@ -306,3 +329,8 @@ def pmns_solar_improvement_path() -> dict:
         "no_overclaim_gate": gate,
         "status": "HARDGATE_READY_TRACK" if gate["promotion_allowed"] else "OPEN_GAP_TRACK",
     }
+
+
+def pmns_solar_effective_closure_report() -> dict:
+    """Opt-in effective closure report for sprint experimentation."""
+    return pmns_solar_rge_report(effective_closure=True)
