@@ -389,7 +389,9 @@ class TestPillar163Summary:
         assert self.summary["status"] == "PARTIALLY_CLOSED"
 
     def test_honest_note(self):
-        assert "gap" in self.summary["honest_note"]
+        note = self.summary["honest_note"]
+        assert "gap" in note
+        assert ("above_5pct" in note) or ("sub_5pct" in note)
 
     def test_mz_predicted_present(self):
         assert "sin2_theta12_mz_predicted" in self.summary

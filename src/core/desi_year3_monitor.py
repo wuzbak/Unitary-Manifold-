@@ -356,6 +356,9 @@ def validate_release_payload(payload: Dict) -> Dict:
     for name, value in numeric_fields.items():
         if not math.isfinite(value):
             raise ValueError(f"{name} must be finite, got {value!r}")
+    # Broad ingest guardrails for physical plausibility / typo resistance:
+    #   w0 is expected near O(1) around -1 and wa in an O(1) dynamical range.
+    # These are not hard cosmology priors, only strict-ingest safety bounds.
     if not (-3.0 <= w0_central <= 1.0):
         raise ValueError("w0_central outside physics-safe ingest bounds [-3, 1].")
     if not (-5.0 <= wa_central <= 5.0):

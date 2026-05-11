@@ -79,6 +79,8 @@ THRESHOLD_GAIN = 1.0
 # These are sprint-level effective gains used only for the explicit
 # `effective_closure=True` experimental path. They are not first-principles
 # 5D derivations and are intentionally isolated from the canonical baseline.
+# Values are empirical calibration knobs selected to land in a sub-5% residual
+# window for stress-testing hardgate readiness, not as claims of new derivation.
 EFFECTIVE_TWO_LOOP_GAIN = 170.0
 EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 
