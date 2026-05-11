@@ -28,7 +28,12 @@ immediately ask:
 3. **What observations would falsify it outright?**
 
 It is written in the same clinical tone expected of a refereed submission.
-Nothing here is defensive; all of it is honest.
+
+> **Navigation:** The companion epistemic ledger is
+> [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md), which
+> records the status (POSTULATED / DERIVED / PROVED / CLOSED) of each individual
+> claim and includes a Foundational Dependency Graph.  The cross-reference index
+> at the end of this document lists all related files.
 
 ---
 
@@ -79,12 +84,16 @@ The entire predictive chain hangs on a small set of assumptions that are
 unjustified, the conclusions of the framework do not follow, regardless of the
 internal consistency of the mathematics.
 
+> **See also:** [`1-THEORY/DERIVATION_STATUS.md — Foundational Dependency Graph`](1-THEORY/DERIVATION_STATUS.md#foundational-dependency-graph)
+> for the complete mapping from each postulate to the pillars that depend on it.
+> The table below lists the assumptions; the Dependency Graph shows what breaks.
+
 ---
 
-### === ΛQCD STATUS BOX === (v9.37 — Audit Response to "10^7 gap" concern)
+### === ΛQCD STATUS BOX === (v9.37 — Three-path derivation hierarchy)
 
-A reviewer noted that Path A (perturbative 1-loop running from α_s(M_KK)) gives
-Λ_QCD ~ 10⁻¹³ MeV — apparently "10^7 off."  This is **correct physics**, not a failure.
+Three distinct paths lead to Λ_QCD within the UM; they give different results
+because they operate at different scales and use different physical inputs.
 
 | Path | Method | Result | Status |
 |------|--------|--------|--------|
@@ -92,10 +101,10 @@ A reviewer noted that Path A (perturbative 1-loop running from α_s(M_KK)) gives
 | **CROSS-CHECK (Path B)** | KK threshold corrections (Pillar 114) | 200–400 MeV | ✅ VERIFICATION — agrees within ~20% |
 | **CLOSED-FOR-PHYSICS (Path A)** | Perturbative 1-loop from α_s(M_KK) ≈ 0.028 | ~ 10⁻¹³ MeV | ✅ CORRECT PHYSICS — dimensional transmutation is exponentially suppressed for UV-weak α_s |
 
-**Why Path A is closed**: Dimensional transmutation gives Λ_QCD = M × exp(−2π/b₀α_s).
-For α_s(M_KK) ≈ 0.028 (deep perturbative), this gives Λ_QCD ≪ M_KK.  This is the
-well-known reason perturbative QCD cannot compute the confinement scale.  The UM
-uses the NON-PERTURBATIVE AdS/QCD path (C) as primary — which is correct.
+**Why Path A gives a suppressed result**: Dimensional transmutation gives Λ_QCD = M × exp(−2π/b₀α_s).
+For α_s(M_KK) ≈ 0.028 (deep perturbative), this gives Λ_QCD ≪ M_KK — the
+expected behaviour of perturbative running at a UV-weak coupling.
+The UM uses the non-perturbative AdS/QCD path (C) as primary.
 
 The callable function `qcd_derivation_hierarchy()` in `qcd_geometry_primary.py` returns
 the full ordered hierarchy with audit verdict.  ~10 tests in `tests/test_qcd_geometry_primary.py`.
@@ -113,9 +122,8 @@ the full ordered hierarchy with audit verdict.  ~10 tests in `tests/test_qcd_geo
 | Holographic entropy–area relation S = A/4G at the boundary | `fixed_point.py` → `apply_irreversibility` | **Assumed (standard AdS/CFT)** |
 | **α_GUT = N_c/K_CS** (GUT gauge coupling = 3/74) | `omega_qcd_phase_a.py`; feeds Λ_QCD RGE chain | SU(N_c) 5D CS Dirac quantization condition: K_CS × g₄² × C(fund)/(2π) = N_c → α = N_c/K_CS (Step 1). SU(5) Casimir correction reduces residual to < 0.5% (Step 3). Pillar 173 discrepancy resolved: U(1) vs SU(N_c) normalization ratio = N_c²/(2π) (Step 2). Full derivation in `src/core/alpha_gut_su5_complete.py`. | ✅ **CONSTRAINED FROM 5D SU(N_c) CS ACTION** (1.7% residual to SU(5) GUT; < 0.5% with Casimir correction) |
 
-The sentence that must be said plainly:
-> **If any of these assumptions are physically unjustified, the conclusions of
-> the framework — including nₛ, r, β, and α — do not follow.**
+If any of these assumptions are physically unjustified, the conclusions of
+the framework — including nₛ, r, β, and α — do not follow.
 
 ---
 
@@ -123,6 +131,11 @@ The sentence that must be said plainly:
 
 This section answers the question that most speculative theories quietly
 avoid: *which outputs are genuinely derived, and which are fitted to observations?*
+
+> **See also:** [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md)
+> for the full epistemic ledger using the DERIVED (conditional) / DERIVED (structural)
+> qualifier convention.  [`docs/CLAIM_MASTER_BOARD.md`](docs/CLAIM_MASTER_BOARD.md)
+> is the single-source claim registry.
 
 ### 3.1 Derivation chain
 
@@ -390,7 +403,19 @@ These are not implementation bugs.  They are **conceptual uncertainties
 intrinsic to the framework**, documented here so that future work can address
 them systematically.
 
-### 4.1 Numerical sensitivity
+Each subsection is tagged with a **severity tier** using the following scale:
+
+| Tier | Definition |
+|------|-----------|
+| **EXISTENTIAL** | If this failure mode is realised, the framework is void. No reformulation saves it. |
+| **STRUCTURAL** | The mathematical content must be rebuilt or substantially revised. Core predictions change. |
+| **NUMERICAL** | Discretization, convergence, or truncation artefacts. Does not affect the analytical framework. |
+| **INTERPRETIVE** | The physical story changes but all equations remain intact. Predictions are unaffected. |
+
+> **See also:** [`1-THEORY/DERIVATION_STATUS.md — Foundational Dependency Graph`](1-THEORY/DERIVATION_STATUS.md#foundational-dependency-graph)
+> for the mapping from postulates to which pillars collapse.
+
+### 4.1 Numerical sensitivity  *(Tier: NUMERICAL)*
 
 - **Grid resolution and stability.** The semi-implicit field updater in
   `evolution.py` requires dt ≤ 0.001 for lattice sizes N ≤ 24 with dx = 0.1
@@ -435,7 +460,7 @@ them systematically.
   discrepancy vanishes; `gemini_issue4_correction(phi, t_ricci)` computes the
   correction factor at arbitrary φ.  A full ADM treatment is still outstanding.
 
-### 4.2 Model non-uniqueness
+### 4.2 Model non-uniqueness  *(Tier: STRUCTURAL)*
 
 - Alternative 5D extensions can produce emergent irreversibility without the
   specific Walker–Pearson structure.  The framework does not demonstrate that
@@ -450,7 +475,7 @@ them systematically.
   winding number.  The existence of multiple parameter combinations that all
   fit the same data undermines the "uniqueness" of any single choice.
 
-### 4.3 Phenomenological fragility
+### 4.3 Phenomenological fragility  *(Tier: STRUCTURAL)*
 
 - The nₛ prediction depends sensitively on φ₀_eff through the slow-roll
   formula nₛ = 1 − 6/φ₀_eff².  A 5% change in φ₀_eff shifts nₛ by
@@ -475,7 +500,7 @@ them systematically.
   identification with the imaginary-time Schrödinger evolution e^{−Hτ/ℏ}
   remains an analogy, not a theorem.
 
-### 4.4 Dark energy equation of state — current observational pressure
+### 4.4 Dark energy equation of state — current observational pressure  *(Tier: STRUCTURAL)*
 
 The Unitary Manifold predicts w_KK = −1 + (2/3)c_s² ≈ −0.9302 from the braided
 sound speed c_s = 12/37.  As of May 2026 (v9.39 update), the experimental
@@ -490,9 +515,13 @@ a discriminant, not a simple failure:
 ~1.2σ — a live experimental controversy independent of the UM.  The UM prediction
 w_KK ≈ −0.930 lies squarely in the DESI-preferred region.
 
-The w₀ tension should be read as follows: **not "the UM fails", but "the UM
-discriminates between Planck and DESI"**.  See `w0_experimental_landscape()`
-in `src/core/kk_radion_dark_energy.py` for the full machine-readable comparison.
+The w₀ tension differs significantly between datasets.  At σ(w) = 0.03 (Planck+BAO)
+the UM prediction is 3.3σ from the central value; at σ(w) = 0.09 (DESI DR2)
+it is 0.11σ from the central value.  The two datasets are themselves in ~1.2σ
+tension with each other, independent of the UM.  The UM prediction w_KK ≈ −0.930
+lies in the DESI-preferred region and in tension with Planck+BAO.  See
+`w0_experimental_landscape()` in `src/core/kk_radion_dark_energy.py` for the
+full machine-readable comparison.
 
 At σ(w) = 0.03 (Planck+BAO), the tension |w_predicted − w_observed| / σ = |−0.9302 − (−1.03)| / 0.03 ≈ 3.3σ.
 At σ(w) = 0.09 (DESI DR2), the tension |−0.9302 − (−0.92)| / 0.09 ≈ 0.11σ ✅.
@@ -528,7 +557,7 @@ gap.
 
 *Code: `src/core/kk_axion_quintessence.py` (Pillar 160), `src/core/kk_radion_dark_energy.py::w0_experimental_landscape()` (v9.39), `tests/test_kk_axion_quintessence.py` (~70 tests).*
 
-### 4.5 Interpretational risks
+### 4.5 Interpretational risks  *(Tier: INTERPRETIVE)*
 
 - The identification of φ with "entanglement capacity" is conjectural and is
   not derived from a quantum-information calculation.  It is a physical
@@ -539,7 +568,7 @@ gap.
   triangulations, causal set theory) achieve an emergent arrow of time without
   a compact extra dimension.
 
-### 4.6 Non-uniqueness of the information paradox resolution
+### 4.6 Non-uniqueness of the information paradox resolution  *(Tier: STRUCTURAL)*
 
 The UM resolves the black hole information paradox via two mechanisms
 (Pillars 28 and 36):
@@ -591,7 +620,7 @@ geometric mechanism:
 *Reference:* Pinčák R. et al. (2026), https://doi.org/10.1007/s10714-026-03528-z.
 *Code:* `src/core/torsion_remnant.py` (Pillar 48), `tests/test_torsion_remnant.py`.
 
-### IV.6 The Cylinder Condition and Moduli Stabilization
+### IV.6 The Cylinder Condition and Moduli Stabilization  *(Tier: STRUCTURAL)*
 
 A standard criticism of Kaluza-Klein theories is that the "cylinder condition"
 (∂_y fields = 0 — no variation along the 5th dimension for low-energy modes)
@@ -686,7 +715,7 @@ the structured audit.  The v9.33 peer review requested removal of external scala
 potentials — the GW potential is now correctly classified as a non-primary cross-check.
 146 tests; 0 failed.*
 
-### IV.7 The Neutrino-Radion Identity: Self-Consistency Loop — Substantially Closed
+### IV.7 The Neutrino-Radion Identity: Self-Consistency Loop — Substantially Closed  *(Tier: STRUCTURAL)*
 
 *Status: **Substantially closed** (April 2026) — exact loop closure at m_ν ≈ 110.1 meV
 (within the Planck 2018 upper bound Σm_ν < 120 meV).  Verified by three independent
@@ -784,7 +813,7 @@ shifts from "Why is M_KK ≈ 110 meV?" to "Why is the lightest neutrino mass ≈
 Total: 323 tests in `tests/test_zero_point_vacuum.py` (0 failed).
 See also: `CONSISTENCY_LOG.md` for the full self-consistency run.
 
-### IV.8 Pillar 15-C: Unitary Collision Integral — Honest Accounting
+### IV.8 Pillar 15-C: Unitary Collision Integral — Honest Accounting  *(Tier: NUMERICAL / INTERPRETIVE)*
 
 *Status: **Theoretical predictions confirmed internally; two open questions
 remain before these results can be claimed as verified physics.***
@@ -911,7 +940,7 @@ prediction.
 
 ---
 
-### IV.9 CMB Acoustic Peak Suppression — Amplitude Gap Closed; Shape Residual Addressed
+### IV.9 CMB Acoustic Peak Suppression — Amplitude Gap Closed; Shape Residual Addressed  *(Tier: NUMERICAL)*
 
 *Status: **Amplitude gap closed by Pillar 57 (radion amplification) and Pillar 63
 (E-H baryon-loaded source).  Spectral shape gap — peak positions offset by ~35% from
@@ -1005,7 +1034,7 @@ standard cosmology.
 
 ---
 
-### IV.10 φ₀ Self-Consistency (VEV Closure) — Analytic Loop Closed via Braided Spectral Index
+### IV.10 φ₀ Self-Consistency (VEV Closure) — Analytic Loop Closed via Braided Spectral Index  *(Tier: STRUCTURAL — now CLOSED)*
 
 *Status: **Closed analytically.**  The three candidate φ₀ values (canonical,
 from-nₛ, FTUM) collapse to a single fixed point under the c_s-corrected
@@ -1369,18 +1398,13 @@ SM remainder, and ≈ 30 orders below the data-driven discrepancy
 
 ### 7.3 Honest Assessment
 
-**The Unitary Manifold with r_c = 12 M_Pl⁻¹ CANNOT explain the muon g−2
+**The Unitary Manifold with r_c = 12 M_Pl⁻¹ cannot explain the muon g−2
 anomaly through the KK graviton tower.**  The KK mass is at the Planck scale,
-and the suppression (m_μ/M_KK)² ~ 10⁻³⁸ completely extinguishes any loop
-contribution.  This is not a failure unique to the UM — ANY extra-dimensional
-model with the compact radius at the Planck scale is decoupled from TeV-scale
-physics by the same hierarchy.
-
-This honest result is not the same as falsification.  The UM uses r_c = 12 in
-Planck units to correctly reproduce the CMB spectral index and birefringence
-angle.  It was never designed as a large-extra-dimension model.  The muon g−2
-anomaly, if confirmed, requires new physics at or near the TeV scale — a
-different energy regime from the Planck-scale extra dimension of the UM.
+and the suppression (m_μ/M_KK)² ~ 10⁻³⁸ makes any loop contribution negligible.
+Any extra-dimensional model with a compact radius at the Planck scale faces the
+same hierarchy.  The UM was constructed to reproduce CMB observables, not to
+address TeV-scale physics.  The muon g−2 anomaly, if confirmed, requires new
+physics near the TeV scale — a different regime from the UM's compact dimension.
 
 ### 7.4 What the UM Could Say About Muon g−2
 
@@ -3450,3 +3474,19 @@ It does not provide a quantum speedup nor access to a real QPU in current CI.
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## Cross-Reference Index
+
+| Document | Purpose | Relationship to this file |
+|----------|---------|---------------------------|
+| [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) | Epistemic ledger: status of every major claim | Complementary. This file describes *what breaks*; DERIVATION_STATUS.md records *what is known and how*. The Foundational Dependency Graph in DERIVATION_STATUS.md maps each postulate to severity of impact. |
+| [`docs/CLAIM_MASTER_BOARD.md`](docs/CLAIM_MASTER_BOARD.md) | Single-source registry of all claims | Canonical structured claim ledger. Use this for cross-referencing labels and status. |
+| [`docs/GATEKEEPER_SUMMARY.md`](docs/GATEKEEPER_SUMMARY.md) | PASS / TENSION / FALSIFIED verdicts for referees | Executive summary; ideal first read for a reviewer on a time budget. |
+| [`docs/TRUTH_LAYER.md`](docs/TRUTH_LAYER.md) | Full derivation context with all open tensions | Extended version of this file's §III Circularity Audit. |
+| [`docs/CLAIM_LABEL_STANDARD.md`](docs/CLAIM_LABEL_STANDARD.md) | Definitions of DERIVED, PROVED, ASSUMED, etc. | Normative standard for the severity tier and status labels used throughout. |
+| [`1-THEORY/NW_UNIQUENESS_STATUS.md`](1-THEORY/NW_UNIQUENESS_STATUS.md) | n_w uniqueness argument summary | Canonical reference for §II Admission 1 and §IV.3 (phenomenological fragility). |
+| [`2-REPRODUCIBILITY/VALIDATION_REPORT.md`](2-REPRODUCIBILITY/VALIDATION_REPORT.md) | What the test suite validates and what it does not | Scope context for the "15k+ passed" numbers in §I. Distinguishes internal consistency from empirical confirmation. |
+| [`docs/LITEBIRD_FALSIFIER_BRIEF.md`](docs/LITEBIRD_FALSIFIER_BRIEF.md) | LiteBIRD discriminating-prediction summary | Details the primary falsification test: β ∈ {0.273°, 0.331°} with gap [0.29°–0.31°]. |
+

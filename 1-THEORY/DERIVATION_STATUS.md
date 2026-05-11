@@ -27,17 +27,63 @@ Throughout this document and this repository:
 
 ---
 
+## Derivation qualifier convention (v10.44+)
+
+The Status column in every table below uses two sub-types of **DERIVED** that
+a referee should distinguish:
+
+| Label | Meaning | Example |
+|-------|---------|---------|
+| **DERIVED (conditional)** | Follows rigorously from the stated premises *given the metric ansatz and postulated operator structure*. Correct within the framework; not a unique consequence of 5D geometry in general. If any foundational postulate changes, this result may not survive. | nₛ ≈ 0.9635 depends on φ₀_eff from FTUM and n_w=5. |
+| **DERIVED (structural)** | Follows from a mathematical identity or topological theorem that holds for *any* 5D orbifold with the stated symmetries, independent of the specific UM ansatz. Survives a wide range of ansatz modifications. | k_eff = n₁² + n₂² is an algebraic identity over any braid pair. |
+
+Entries marked **DERIVED** without a qualifier are conditional derivations unless
+explicitly noted otherwise.  **PROVED** entries are mathematical theorems.
+**CLOSED** entries were previously open gaps that are now fully resolved.
+
+---
+
+## Foundational Dependency Graph
+
+This table answers the question a referee will ask first: *"If postulate X is
+wrong, what breaks?"*  Each row is a minimal axiom; the right column lists the
+first-order consequences that would require reformulation if the axiom failed.
+
+| Postulate | Where stated | If this axiom fails … |
+|-----------|-------------|----------------------|
+| **P1.** Smooth 5D KK manifold with compact S¹/Z₂ extra dimension | `src/core/metric.py` | *Existential*: all KK reductions (n_w, k_CS, c_s, nₛ, r, β) collapse. The entire predictive chain is void. |
+| **P2.** Specific block-diagonal metric: G₅₅ = φ², off-diagonal = λφB_μ | `src/core/metric.py` | *Structural*: Walker-Pearson field equations change. α_NM = φ₀⁻² may not hold. β and r formulas require re-derivation. Parts I, IV, V affected. |
+| **P3.** Identification of the fifth dimension with physical irreversibility | `src/core/evolution.py` (implementation); `1-THEORY/UNIFICATION_PROOF.md` (theory) | *Interpretive*: the "arrow of time as geometric identity" claim (Part I) loses its physical motivation. The math is unchanged; the physical story is not. |
+| **P4.** Identification of φ with entanglement capacity | `src/core/evolution.py` (implementation); `README.md` (framing) | *Interpretive*: the consciousness-coupling analogy and Parts of §IV.7 lose motivation. Core CMB predictions (nₛ, r, β) are unaffected. |
+| **P5.** FTUM operator structure U = I + H + T | `src/multiverse/fixed_point.py` | *Structural*: φ₀ = 1 Planck unit is no longer guaranteed. The FTUM → nₛ chain (Pillar 56-B) breaks. All CMB predictions that depend on φ₀ are affected. |
+| **P6.** Holographic entropy–area relation S = A/4G at the boundary | `src/holography/boundary.py` | *Structural*: FTUM contraction dS/dt = κ(A/4G − S) loses its grounding. Irreversibility proof in §IV.1 weakens to a lower-bound statement only. |
+| **P7.** Z₂ involution y → −y (orbifold symmetry) | `src/core/solitonic_charge.py` | *Structural*: n_w restriction to odd integers fails (Part II). Braid pair (5,7) is no longer the unique minimum-step solution. Parts II, III, IV require reformulation. |
+| **P8.** Minimum-step braid: n₂ = n_w + 2 | `src/core/braided_winding.py` | *Conditional*: k_CS = 74 holds only for (5,7). A different partner winding shifts k_CS, β, and r_braided. Part III predictions change. |
+
+> **How to read this table:**  "Existential" means the entire framework is void.
+> "Structural" means the *mathematical content* must be rebuilt.  "Conditional"
+> means one or more specific predictions change but the architecture survives.
+> "Interpretive" means the physical story changes but all equations are intact.
+>
+> **Cross-references:**  For the severity classification of each consequence, see
+> `FALLIBILITY.md` §IV.  For the canonical claim-status registry, see
+> [`docs/CLAIM_MASTER_BOARD.md`](../docs/CLAIM_MASTER_BOARD.md).  For the
+> PASS/TENSION/FALSIFIED executive verdicts, see
+> [`docs/GATEKEEPER_SUMMARY.md`](../docs/GATEKEEPER_SUMMARY.md).
+
+---
+
 ## Part I — Core Geometry
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **POSTULATED** | Design choice — standard KK extended by orbifold | Any 4D observation requiring >5D spacetime | `src/core/metric.py` |
-| Walker-Pearson field equations from δS₅/δG_AB=0 | **DERIVED** | 5D Einstein-Hilbert variational principle | Equations not satisfied → framework inconsistent | `src/core/evolution.py` |
-| Arrow of time as geometric identity | **DERIVED** | B_μ field strength H_μν drives irreversibility; not postulated | Observation of macroscopic time-reversal | `src/core/evolution.py` |
-| φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED** (Steps 1–3) + CONVENTION (Step 4) | FTUM S*=0.25 → R=√(S*G₅/π) → φ₀_bare=R/ℓ_Pl (Steps 1–3 derived); φ₀_bare=1 is the Planck-unit normalization convention (Step 4) | Non-convergence of FTUM | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
-| α_NM = φ₀⁻² (nonminimal coupling, NOT α_em) | **DERIVED** | KK cross-block Riemann R^μ_{5ν5} after dimensional reduction | α_NM outside 5D geometric range | `src/core/metric.py` |
-| Holographic entropy S = A/4G | **ASSUMED** | Standard AdS/CFT; not derived from UM geometry | Violation of holographic bound | `src/holography/boundary.py` |
-| FTUM fixed-point convergence | **DERIVED** | Banach fixed-point theorem applied to U = I+H+T | Non-convergence | `src/multiverse/fixed_point.py` |
+| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **POSTULATED** (P1+P2) | Design choice — standard KK extended by orbifold | Any 4D observation requiring >5D spacetime | `src/core/metric.py` |
+| Walker-Pearson field equations from δS₅/δG_AB=0 | **DERIVED (conditional)** | 5D Einstein-Hilbert variational principle, given P1+P2 | Equations not satisfied → framework inconsistent | `src/core/evolution.py` |
+| Arrow of time as geometric identity | **DERIVED (conditional)** | B_μ field strength H_μν drives irreversibility; not postulated; depends on P3 interpretation | Observation of macroscopic time-reversal | `src/core/evolution.py` |
+| φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED (conditional)** (Steps 1–3) + CONVENTION (Step 4) | FTUM S*=0.25 → R=√(S*G₅/π) → φ₀_bare=R/ℓ_Pl (Steps 1–3 derived given P5); φ₀_bare=1 is the Planck-unit normalization convention (Step 4) | Non-convergence of FTUM | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
+| α_NM = φ₀⁻² (nonminimal coupling, NOT α_em) | **DERIVED (conditional)** | KK cross-block Riemann R^μ_{5ν5} after dimensional reduction; depends on P2 | α_NM outside 5D geometric range | `src/core/metric.py` |
+| Holographic entropy S = A/4G | **ASSUMED** (P6) | Standard AdS/CFT; not derived from UM geometry | Violation of holographic bound | `src/holography/boundary.py` |
+| FTUM fixed-point convergence | **DERIVED (conditional)** | Banach fixed-point theorem applied to U = I+H+T, given P5 | Non-convergence | `src/multiverse/fixed_point.py` |
 | φ₀ self-consistency (Pillar 56) | **CLOSED** | Three φ₀ candidates collapse to single value under c_s-corrected slow-roll | ≠ machine precision agreement | `src/core/phi0_closure.py` |
 | Full ADM 3+1 time decomposition | **PARTIALLY_CLOSED** | Pillar 212 closes the kinematic gap at the FTUM attractor (N(φ₀)=1, dt_coord=dt_Ricci=dt_ADM). Full off-attractor 5D ADM dynamics and quantization remain open. | — | Pillar 212 / `src/core/pillar212_adm_decomposition.py` |
 
@@ -49,12 +95,12 @@ Throughout this document and this repository:
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| n_w must be odd | **PROVED** | Z₂ involution y→−y → Dirichlet BC → odd KK quantum numbers | Mathematical: prove Z₂ allows even modes | Pillar 39 / `src/core/solitonic_charge.py` |
-| n_w ∈ {5, 7} | **PROVED** | CS anomaly gap Δ_CS=n_w + N_gen=3 stability → n_w∈[4,8]; Z₂ oddness → {5,7} | Proof that anomaly gap argument is flawed | Pillar 67 / `src/core/nw_anomaly_selection.py` |
-| η̄(5) = ½, η̄(7) = 0 (APS) | **DERIVED** | T(n_w)/2 mod 1 via Hurwitz ζ, CS inflow, Z₂ parity — 3 independent methods | Any one method giving a different result | Pillar 70-B / `src/core/aps_spin_structure.py` |
-| n_w = 5 from APS spin structure | **DERIVED** | GW potential requires chiral spectrum; APS index ≠ 0 for n_w=5 only; left-handed excess forced by SU(2)_L UV coupling → n_w=5 without SM input | GW coupling λ_GW → 0 (trivial vacuum) | Pillar 70-C / `src/core/geometric_chirality_uniqueness.py` |
-| n_w=5 from metric Z₂-parity (G_{μ5} odd) | **DERIVED** | G_{μ5}=λφB_μ Z₂-odd → A_5^eff Z₂-odd → T(5)=15 odd holonomy → η̄=½ → Ω_minus from metric geometry alone; no SU(2)_L input | G_{μ5} Z₂-even would eliminate this selection | `src/core/geometric_chirality_uniqueness.py::bmu_z2_parity_forces_chirality()` |
-| n_w = 5: dominant saddle | **DERIVED** | Euclidean CS action ∝ k_eff(n_w) — n_w=5 minimises over {5,7} | k_eff(5) > k_eff(7) (not the case: 74 < 130) | Pillar 67 |
+| n_w must be odd | **PROVED (structural)** | Z₂ involution y→−y → Dirichlet BC → odd KK quantum numbers | Mathematical: prove Z₂ allows even modes | Pillar 39 / `src/core/solitonic_charge.py` |
+| n_w ∈ {5, 7} | **PROVED (structural)** | CS anomaly gap Δ_CS=n_w + N_gen=3 stability → n_w∈[4,8]; Z₂ oddness → {5,7} | Proof that anomaly gap argument is flawed | Pillar 67 / `src/core/nw_anomaly_selection.py` |
+| η̄(5) = ½, η̄(7) = 0 (APS) | **DERIVED (structural)** | T(n_w)/2 mod 1 via Hurwitz ζ, CS inflow, Z₂ parity — 3 independent methods | Any one method giving a different result | Pillar 70-B / `src/core/aps_spin_structure.py` |
+| n_w = 5 from APS spin structure | **DERIVED (structural)** | GW potential requires chiral spectrum; APS index ≠ 0 for n_w=5 only; left-handed excess forced by SU(2)_L UV coupling → n_w=5 without SM input | GW coupling λ_GW → 0 (trivial vacuum) | Pillar 70-C / `src/core/geometric_chirality_uniqueness.py` |
+| n_w=5 from metric Z₂-parity (G_{μ5} odd) | **DERIVED (structural)** | G_{μ5}=λφB_μ Z₂-odd → A_5^eff Z₂-odd → T(5)=15 odd holonomy → η̄=½ → Ω_minus from metric geometry alone; no SU(2)_L input | G_{μ5} Z₂-even would eliminate this selection | `src/core/geometric_chirality_uniqueness.py::bmu_z2_parity_forces_chirality()` |
+| n_w = 5: dominant saddle | **DERIVED (conditional)** | Euclidean CS action ∝ k_eff(n_w) — n_w=5 minimises over {5,7}; depends on minimum-step braid assumption P8 | k_eff(5) > k_eff(7) (not the case: 74 < 130) | Pillar 67 |
 | η-class uniqueness (Z₂-odd consistency) | **PHYSICALLY-MOTIVATED** | η̄(5)=½ satisfies Z₂-odd BC consistency; η̄(7)=0 violates it → n_w=7 excluded if condition holds | Formal proof that half-integer class is NOT required | `src/core/nw_anomaly_selection.py::eta_class_uniqueness_argument()` |
 | n_w = 5: final selection | **OBSERVATIONALLY-SELECTED** | Planck nₛ = 0.9649±0.0042 → n_w=5 fits at 0.33σ; n_w=7 fails at 3.9σ | nₛ measured inconsistent with 0.9635 at >3σ | Pillar 67 test suite |
 
@@ -64,10 +110,10 @@ Throughout this document and this repository:
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| k_eff = n₁² + n₂² (algebraic identity) | **PROVED** | k_primary = 2(n₁²−n₁n₂+n₂²); Δk_Z₂ = (n₂−n₁)²; k_eff = k_primary − Δk_Z₂ = n₁²+n₂² (QED) | Mathematical: show identity fails | Pillar 58 / `src/core/anomaly_closure.py` |
-| k_CS = 74 given braid (5,7) | **ALGEBRAICALLY DERIVED** | k_CS = 5²+7² = 74; follows with zero free parameters once (5,7) is fixed | (5,7) not the correct pair | Pillar 58 |
-| c_s = 12/37 (braided sound speed) | **ALGEBRAICALLY DERIVED** | c_s = (n₂−n₁)(n₁+n₂)/k_CS = 2×12/74 = 12/37 | Algebraic error in derivation | `src/core/braided_winding.py` |
-| (5,7) as minimum-step braid | **DERIVED** | n_w=5 → n₁=5; minimum-step → n₂=n₁+2=7; Euclidean action minimised | Field-theoretic proof that a different pair is the stable minimum | Pillar 67 |
+| k_eff = n₁² + n₂² (algebraic identity) | **PROVED (structural)** | k_primary = 2(n₁²−n₁n₂+n₂²); Δk_Z₂ = (n₂−n₁)²; k_eff = k_primary − Δk_Z₂ = n₁²+n₂² (QED) | Mathematical: show identity fails | Pillar 58 / `src/core/anomaly_closure.py` |
+| k_CS = 74 given braid (5,7) | **DERIVED (conditional)** | k_CS = 5²+7² = 74; follows with zero free parameters once (5,7) is fixed; depends on P7+P8 | (5,7) not the correct pair | Pillar 58 |
+| c_s = 12/37 (braided sound speed) | **DERIVED (conditional)** | c_s = (n₂−n₁)(n₁+n₂)/k_CS = 2×12/74 = 12/37; depends on P7+P8 | Algebraic error in derivation | `src/core/braided_winding.py` |
+| (5,7) as minimum-step braid | **DERIVED (conditional)** | n_w=5 → n₁=5; minimum-step → n₂=n₁+2=7; Euclidean action minimised; depends on P8 | Field-theoretic proof that a different pair is the stable minimum | Pillar 67 |
 | k_CS was derived before birefringence data | **HISTORICAL FACT** | Algebraic identity k_eff=n₁²+n₂² established independently; birefringence data *confirms* not *sources* k_CS=74 | — | Version history in repository |
 
 ---
@@ -76,13 +122,13 @@ Throughout this document and this repository:
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| nₛ ≈ 0.9635 | **DERIVED** | n_w=5 → φ₀_eff=5×2π×1 ≈ 31.42 → nₛ=1−36/φ₀_eff² ≈ 0.9635 | CMB-S4 measures nₛ inconsistent at >3σ | `src/core/inflation.py` |
-| r_bare ≈ 0.097 (single mode) | **DERIVED** | r=96/φ₀_eff² at φ*=φ₀_eff/√3; n_w=5 | — (exceeded BICEP/Keck bound; resolved by braiding) | `src/core/inflation.py` |
-| r_braided ≈ 0.0315 | **DERIVED** | r_braided = r_bare × c_s; c_s=√(1−ρ²) derived from 5D CS → 4D WZW kinetic rotation (Pillar 97-B); P_h unchanged (CS odd-parity decouples from even-parity gravitons at tree level); P_ζ enhanced by 1/c_s from WKB mode equation. | CMB-S4 measures r>0.036 (already excluded) | `src/core/braided_winding.py::braided_r_full_derivation()` |
-| f_NL^equil ≈ 2.76 (braided, (5,7)) | **DERIVED** | (35/108)(1/c_s²−1) with c_s=12/37; non-canonical kinetic structure (Chen et al. 2007). Below Planck/CMB-S4 equilateral sensitivity. | CMB-S4 measures f_NL^equil > 10 | `src/core/non_gaussianity.py::braided_equilateral_fnl()` |
-| β ≈ 0.331° (sector 5,7) | **DERIVED** | g_{aγγ}=k_CS α_NM/(2π²r_c) with k_CS=74 | LiteBIRD measures β outside [0.22°,0.38°] | `src/core/inflation.py` |
-| β ≈ 0.273° (sector 5,6) | **DERIVED** | k_CS=61=5²+6², same formula | LiteBIRD measures β outside [0.22°,0.38°] | `src/core/dual_sector_convergence.py` |
-| β gap = 0.058° = 2.9 σ_LB | **DERIVED** | |0.331°−0.273°| = 0.058°; LiteBIRD precision σ_LB ≈ 0.02° | LiteBIRD measures β in the gap [0.29°,0.31°] → falsified | Pillar 95 |
+| nₛ ≈ 0.9635 | **DERIVED (conditional)** | n_w=5 → φ₀_eff=5×2π×1 ≈ 31.42 → nₛ=1−36/φ₀_eff² ≈ 0.9635; depends on P1,P2,P5 | CMB-S4 measures nₛ inconsistent at >3σ | `src/core/inflation.py` |
+| r_bare ≈ 0.097 (single mode) | **DERIVED (conditional)** | r=96/φ₀_eff² at φ*=φ₀_eff/√3; n_w=5; depends on P1,P2 | — (exceeded BICEP/Keck bound; resolved by braiding) | `src/core/inflation.py` |
+| r_braided ≈ 0.0315 | **DERIVED (conditional)** | r_braided = r_bare × c_s; c_s=√(1−ρ²) derived from 5D CS → 4D WZW kinetic rotation (Pillar 97-B); P_h unchanged (CS odd-parity decouples from even-parity gravitons at tree level); P_ζ enhanced by 1/c_s from WKB mode equation; depends on P1–P2, P7–P8 | CMB-S4 measures r>0.036 (already excluded) | `src/core/braided_winding.py::braided_r_full_derivation()` |
+| f_NL^equil ≈ 2.76 (braided, (5,7)) | **DERIVED (conditional)** | (35/108)(1/c_s²−1) with c_s=12/37; non-canonical kinetic structure (Chen et al. 2007); depends on P7–P8. Below Planck/CMB-S4 equilateral sensitivity. | CMB-S4 measures f_NL^equil > 10 | `src/core/non_gaussianity.py::braided_equilateral_fnl()` |
+| β ≈ 0.331° (sector 5,7) | **DERIVED (conditional)** | g_{aγγ}=k_CS α_NM/(2π²r_c) with k_CS=74; depends on P2,P7,P8 | LiteBIRD measures β outside [0.22°,0.38°] | `src/core/inflation.py` |
+| β ≈ 0.273° (sector 5,6) | **DERIVED (conditional)** | k_CS=61=5²+6², same formula | LiteBIRD measures β outside [0.22°,0.38°] | `src/core/dual_sector_convergence.py` |
+| β gap = 0.058° = 2.9 σ_LB | **DERIVED (structural)** | |0.331°−0.273°| = 0.058°; LiteBIRD precision σ_LB ≈ 0.02°; algebraically fixed once k_CS values are set | LiteBIRD measures β in the gap [0.29°,0.31°] → falsified | Pillar 95 |
 
 ---
 
@@ -90,10 +136,10 @@ Throughout this document and this repository:
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| U(1) gauge symmetry from B_μ | **DERIVED** | H_μν = ∂_μB_ν−∂_νB_μ invariant under B_μ→B_μ+∂_μΛ; standard KK | — |  `src/core/metric.py` |
+| U(1) gauge symmetry from B_μ | **DERIVED (conditional)** | H_μν = ∂_μB_ν−∂_νB_μ invariant under B_μ→B_μ+∂_μΛ; standard KK; depends on P2 | — |  `src/core/metric.py` |
 | λB_μ ≡ A_μ identification | **RECOVERED** (not predicted) | Standard KK construction: photon = zero mode of 5th-dim gauge field. Kaluza (1921), Klein (1926). UM's new content: physical interpretation of B_μ as irreversibility 1-form and derivation of R from FTUM. | — | `1-THEORY/UNIFICATION_PROOF.md` Part V |
 | Maxwell stress-energy tensor structure | **RECOVERED** | Follows from KK reduction of 5D Einstein-Hilbert; standard result | — | `src/core/evolution.py` |
-| SU(2) and SU(3) gauge groups | **DERIVED — Pillar 70-D + 94** | n_w=5 proved from Z₂-odd CS boundary phase (Pillar 70-D): k_CS(5)×η̄(5)=37 (odd ✓), k_CS(7)×η̄(7)=0 (even ✗). n_w=5 KK species → G_5D=SU(5) (dim fundamental = 5). Kawamura Z₂ orbifold → SU(3)×SU(2)×U(1). No observational input. Note: full SM chirality from 5D requires Z₂ orbifold mechanism (Kawamura 2001); this is geometrically derived, not merely asserted. | LiteBIRD β ∉ [0.22°,0.38°] would falsify the braid structure | `src/core/nw5_pure_theorem.py`, `src/core/su5_orbifold_proof.py` |
+| SU(2) and SU(3) gauge groups | **DERIVED (conditional) — Pillar 70-D + 94** | n_w=5 proved from Z₂-odd CS boundary phase (Pillar 70-D): k_CS(5)×η̄(5)=37 (odd ✓), k_CS(7)×η̄(7)=0 (even ✗). n_w=5 KK species → G_5D=SU(5) (dim fundamental = 5). Kawamura Z₂ orbifold → SU(3)×SU(2)×U(1). No observational input. Note: full SM chirality from 5D requires Z₂ orbifold mechanism (Kawamura 2001); this is geometrically derived, not merely asserted. Depends on P1,P2,P7. | LiteBIRD β ∉ [0.22°,0.38°] would falsify the braid structure | `src/core/nw5_pure_theorem.py`, `src/core/su5_orbifold_proof.py` |
 
 ### The B_μ Z₂ Parity Clarification
 
@@ -180,3 +226,18 @@ These are not new physical claims but expansions of the verification surface.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## Cross-Reference Index
+
+| Document | Purpose | Relationship to this file |
+|----------|---------|---------------------------|
+| [`FALLIBILITY.md`](../FALLIBILITY.md) | Failure modes, severity tiers, falsification conditions | Complementary: this file lists epistemic status; FALLIBILITY.md lists what breaks it and how badly |
+| [`docs/CLAIM_MASTER_BOARD.md`](../docs/CLAIM_MASTER_BOARD.md) | Single-source registry of all claims with labels and falsifiers | Canonical ledger; this file is the human-readable narrative companion |
+| [`docs/GATEKEEPER_SUMMARY.md`](../docs/GATEKEEPER_SUMMARY.md) | Concise PASS/TENSION/FALSIFIED referee verdicts | Executive summary of this file's conclusions |
+| [`docs/TRUTH_LAYER.md`](../docs/TRUTH_LAYER.md) | Full derivation context with all open tensions | Extended version of the Derivation chain column |
+| [`docs/CLAIM_LABEL_STANDARD.md`](../docs/CLAIM_LABEL_STANDARD.md) | Definition of all six epistemic labels | Normative standard for the Status column |
+| [`1-THEORY/NW_UNIQUENESS_STATUS.md`](NW_UNIQUENESS_STATUS.md) | Authoritative summary of n_w uniqueness arguments | Canonical reference for Part II of this file |
+| [`2-REPRODUCIBILITY/VALIDATION_REPORT.md`](../2-REPRODUCIBILITY/VALIDATION_REPORT.md) | What "validation" means; test-suite scope | Scope context for the Code column entries |
+
