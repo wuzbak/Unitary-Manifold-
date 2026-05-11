@@ -17,7 +17,7 @@ This directory is organized into two subdirectories:
 ```
 substack/
 ├── posts/      ← All post-*.md and epilog-*.md article drafts (Posts 00–151+)
-├── books/      ← All book-*.md full-length book drafts (16 books)
+├── books/      ← All book-*.md full-length book drafts (17 books)
 └── README.md   ← This file
 ```
 
@@ -373,6 +373,7 @@ Sixteen full-length books + a 6-part Substack series. All cross-referenced to th
 | `book-taurid-density-risk-2030s.md` | **Book 14** | Taurid Density Window (2030s) — evidence-first risk and preparedness brief (~13 KB) |
 | `book-falsification-decade.md` | **Book 15** | The Falsification Decade — how to read, test, and pressure the framework before the sky decides (~12 KB) |
 | `book-honest-machine.md` | **Book 16** | The Honest Machine — human-AI co-emergence, judgment, and governance-first research (~13 KB) |
+| `book-pentad-deployment-guide.md` | **Book 17** | The Pentad Deployment Guide — setup, operations, integrations, and deployment criteria for the Unitary Pentad (~15 KB) |
 
 **Cross-references to numbered posts:**
 
