@@ -1,6 +1,6 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v10.51 — Unambiguous Record**  
+**The Unitary Manifold v10.52 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
@@ -240,4 +240,3 @@ These are not new physical claims but expansions of the verification surface.
 | [`docs/CLAIM_LABEL_STANDARD.md`](../docs/CLAIM_LABEL_STANDARD.md) | Definition of all six epistemic labels | Normative standard for the Status column |
 | [`1-THEORY/NW_UNIQUENESS_STATUS.md`](NW_UNIQUENESS_STATUS.md) | Authoritative summary of n_w uniqueness arguments | Canonical reference for Part II of this file |
 | [`2-REPRODUCIBILITY/VALIDATION_REPORT.md`](../2-REPRODUCIBILITY/VALIDATION_REPORT.md) | What "validation" means; test-suite scope | Scope context for the Code column entries |
-

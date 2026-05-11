@@ -13,6 +13,54 @@ For each wave entry, include:
 
 ---
 
+## v10.52 (2026-05-11 — CKM/PMNS closure extension + EW precision cluster + ledger hygiene)
+
+### What changed
+
+1. **`src/core/ckm_nlo_g5_expansion.py`** — NLO CKM lane with non-universal 5D Yukawa texture
+   `g5_ij = δ_ij + ε_ij`; CKM mixing at O(ε) with λ/λ²/λ³ hierarchy diagnostics.
+2. **`src/core/pmns_seesaw_5d.py`** — RS UV-brane Weinberg + radion-induced Majorana scale bridge
+   feeding the geometric see-saw PMNS lane.
+3. **`src/core/ckm_pmns_orbifold.py`** — integrated closure packet now includes:
+   leading overlap audit + NLO CKM mixing + geometric CKM CP phase + RS see-saw PMNS route.
+4. **`src/core/ew_precision_oblique.py`** — EW precision extension cluster:
+   oblique S/T/U, Z-pole observables, Γ_Z, Γ_W, and ρ-parameter with KK-suppressed corrections.
+5. **Canonical docs/ledgers synced to v10.52** — `README.md`, `STATUS.md`, `FALLIBILITY.md`,
+   `docs/CLAIM_MASTER_BOARD.md`, `docs/mas_tracker.yml`, `1-THEORY/DERIVATION_STATUS.md`,
+   `HILS_SESSION_CURRENT.md`, `HILS_SESSION_LOG.md`.
+
+### What did not change
+
+- No existing falsifier condition was weakened.
+- LiteBIRD β windows and gap-falsifier remain unchanged.
+- Legacy ToE denominator (28) unchanged; P29–P33 are tracked as extension rows.
+
+### Why
+
+- Move CKM/PMNS from overlap-only architecture-limit reporting toward executable closure routes.
+- Add LEP-grade EW precision observables that external referees expect.
+- Keep canonical ledgers synchronized with module reality.
+
+### Epistemic label deltas
+
+- CKM/PMNS orbifold lane: ARCHITECTURE_LIMIT_CERTIFIED → **SUBSTANTIALLY_CLOSED** (integrated lane).
+- Added EW precision extension rows P29–P33 as **DERIVED** extension cluster entries.
+
+### ToE score delta
+
+- **No change** on legacy denominator (27.8 / 28.0 = 99.3%).
+
+### Falsification impact
+
+- None; existing primary falsifiers unchanged.
+
+### Residual unknowns
+
+- Full global 3-generation mass+mixing fit with full threshold/RGE dressing remains open.
+- EW precision lane currently first-mode KK approximation; higher-loop/full matching remains future work.
+
+---
+
 ## v10.51 (2026-05-11 — 4-Gap Closure Sprint: Multi-field WDW, CMB Polarisation, CKM/PMNS Orbifold, α_GUT Threshold)
 
 ### What changed

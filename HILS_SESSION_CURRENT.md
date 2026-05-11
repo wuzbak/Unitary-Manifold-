@@ -10,11 +10,11 @@
 |-------|-------|
 | **Collaborator (AI)** | GitHub Copilot (AI agent) — code architecture, test suites, document engineering, synthesis |
 | **Collaborator (Human)** | ThomasCory Walker-Pearson — theory, scientific direction, framework authority, override |
-| **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (105 pillars, CLOSED) |
+| **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 pillars, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
-| **Session opened** | 2026-05-11T14:41:40Z |
-| **Active wave** | v10.51 — 4-Gap Closure Sprint (complete) |
-| **Prior wave** | v10.50 — WDW + Boltzmann + Yukawa BC texture + α_GUT SU(5) |
+| **Session opened** | 2026-05-11T18:41:18Z |
+| **Active wave** | v10.52 — CKM/PMNS closure extension + EW precision + ledger sync |
+| **Prior wave** | v10.51 — 4-Gap Closure Sprint |
 
 ---
 
@@ -39,19 +39,21 @@
 | 3 | Pentad/bot functional wiring follow-through | ✅ Wave B signed off |
 | 4 | Q1 derivation track | ✅ Wave C signed off |
 | 5 | Close 4 residual gaps from v10.50 | ✅ v10.51 complete |
+| 6 | CKM/PMNS closure extension + EW precision extension cluster + canonical ledger sync | ✅ v10.52 complete |
 
 ---
 
-## v10.51 Gap Closure Summary
+## v10.52 Closure Summary
 
 | Gap | Module | Residual | Status |
 |-----|--------|----------|--------|
 | Multi-field WDW | `src/core/wdw_multifield.py` | Full 5D non-minisuperspace | SUBSTANTIALLY_CLOSED |
 | CMB E/B polarisation | `src/core/cmb_polarisation.py` | Sub-percent accuracy; lensing | SUBSTANTIALLY_CLOSED |
-| CKM + PMNS orbifold | `src/core/ckm_pmns_orbifold.py` | CKM=I at leading order; PMNS needs see-saw | PARTIALLY_CLOSED |
+| CKM + PMNS orbifold | `src/core/ckm_pmns_orbifold.py` + `src/core/ckm_nlo_g5_expansion.py` + `src/core/pmns_seesaw_5d.py` | Full global fit and threshold dressing still open | SUBSTANTIALLY_CLOSED |
+| EW precision extension | `src/core/ew_precision_oblique.py` | Higher-loop/full matching still open | DERIVED_CLUSTER |
 | α_GUT threshold | `src/core/alpha_gut_threshold_complete.py` | EW unification threshold | **CLOSED (0.107%)** |
 
-133 new tests, all passing. Full regression baseline: ~26,430+ passed, 3 pre-existing JAX failures.
+New targeted suites added and synchronized. Full regression baseline in this session: 29 425 passed, 329 skipped, 11 deselected, 0 failed.
 
 ---
 
@@ -94,4 +96,3 @@ At the END of each session, the agent must:
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
-
