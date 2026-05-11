@@ -128,6 +128,8 @@ Z_REC: float = 1089.8               # redshift of recombination
 A_REC: float = 1.0 / (1.0 + Z_REC)
 ETA_REC_MPCinv: float = 280.0       # conformal time at recombination [Mpc]
 ETA_0_MPCinv: float = 14_000.0      # conformal time today [Mpc]
+TAU_REIO: float = 0.054             # optical depth to reionization (Planck 2018)
+ELL_REIO_TRANSITION: float = 12.0   # smooth transition scale for reionization damping
 
 # Thomson scattering
 SIGMA_T_MPC2: float = 1.704e-40     # Thomson cross-section in Mpc² (from PDG)
@@ -154,9 +156,11 @@ __all__ = [
     # Constants
     "N_W", "K_CS", "C_S_BRAID", "N_S", "A_S", "K_PIVOT",
     "R_BARY", "C_S_PHOTON", "R_S_MPC", "DELTA_KK_REF", "ELL_REF",
+    "TAU_REIO", "ELL_REIO_TRANSITION",
     # Corrections
     "kk_correction",
     "silk_damping_factor",
+    "reionization_transfer_damping",
     # Tight-coupling oscillator
     "tight_coupling_oscillator",
     "tight_coupling_source",
@@ -231,6 +235,23 @@ def silk_damping_factor(
         return 1.0
     x = (k / k_silk) ** 2
     return float(math.exp(-x))
+
+
+def reionization_transfer_damping(
+    ell: float,
+    tau_reio: float = TAU_REIO,
+    ell_transition: float = ELL_REIO_TRANSITION,
+) -> float:
+    """Multiplicative damping for transfer amplitudes from late-time reionization.
+
+    Uses a smooth interpolation:
+        high-ℓ  : Δ_ℓ → exp(−τ_reio) Δ_ℓ
+        low-ℓ   : no suppression
+    """
+    if ell < 0:
+        raise ValueError(f"ell must be >= 0, got {ell}")
+    transition = 1.0 - math.exp(-((ell / max(ell_transition, 1e-12)) ** 2))
+    return float(math.exp(-tau_reio * transition))
 
 
 # ---------------------------------------------------------------------------
@@ -549,6 +570,8 @@ def transfer_function_ell(
     eta_0: float = ETA_0_MPCinv,
     apply_kk: bool = True,
     apply_silk: bool = True,
+    apply_reionization: bool = True,
+    tau_reio: float = TAU_REIO,
 ) -> float:
     """CMB transfer function Δ_ℓ(k) via line-of-sight integration.
 
@@ -580,7 +603,10 @@ def transfer_function_ell(
     x_arr = k * (eta_0 - eta_arr)
     kernels = spherical_jn(ell, x_arr)
     integrand = sources * kernels
-    return float(np.trapezoid(integrand, eta_arr))
+    delta_ell = float(np.trapezoid(integrand, eta_arr))
+    if apply_reionization:
+        delta_ell *= reionization_transfer_damping(float(ell), tau_reio=tau_reio)
+    return delta_ell
 
 
 # ---------------------------------------------------------------------------
@@ -597,6 +623,8 @@ def cl_kk_full(
     k_max: float = 0.5,
     apply_kk: bool = True,
     apply_silk: bool = True,
+    apply_reionization: bool = True,
+    tau_reio: float = TAU_REIO,
 ) -> Dict[str, List[float]]:
     """Compute C_ℓ using the full LOS transfer function.
 
@@ -628,8 +656,32 @@ def cl_kk_full(
             cl_kk_vals.append(0.0)
             cl_lcdm_vals.append(0.0)
             continue
-        delta_kk = np.array([transfer_function_ell(float(k), ell, apply_kk=apply_kk, apply_silk=apply_silk) for k in k_grid])
-        delta_lcdm = np.array([transfer_function_ell(float(k), ell, apply_kk=False, apply_silk=apply_silk) for k in k_grid])
+        delta_kk = np.array(
+            [
+                transfer_function_ell(
+                    float(k),
+                    ell,
+                    apply_kk=apply_kk,
+                    apply_silk=apply_silk,
+                    apply_reionization=apply_reionization,
+                    tau_reio=tau_reio,
+                )
+                for k in k_grid
+            ]
+        )
+        delta_lcdm = np.array(
+            [
+                transfer_function_ell(
+                    float(k),
+                    ell,
+                    apply_kk=False,
+                    apply_silk=apply_silk,
+                    apply_reionization=apply_reionization,
+                    tau_reio=tau_reio,
+                )
+                for k in k_grid
+            ]
+        )
         prefactor = 2.0 / math.pi
         cl_kk_val = float(prefactor * np.trapezoid(primordial * delta_kk ** 2 * k_grid, k_grid))
         cl_lcdm_val = float(prefactor * np.trapezoid(primordial * delta_lcdm ** 2 * k_grid, k_grid))
@@ -648,6 +700,8 @@ def cl_kk_full(
         "ratio_kk_to_lcdm": ratio,
         "apply_kk": apply_kk,
         "apply_silk": apply_silk,
+        "apply_reionization": apply_reionization,
+        "tau_reio": tau_reio,
     }
 
 
@@ -720,6 +774,9 @@ def boltzmann_hierarchy_report() -> Dict[str, object]:
         "transfer_function_lcdm_at_k01_ell100": tf_lcdm,
         "c_s_photon": C_S_PHOTON,
         "c_s_braid_um": C_S_BRAID,
+        "tau_reio": TAU_REIO,
+        "reionization_transfer_damping_ell2": reionization_transfer_damping(2.0),
+        "reionization_transfer_damping_ell100": reionization_transfer_damping(100.0),
         "r_s_mpc": R_S_MPC,
         "r_bary": R_BARY,
         "n_s_planck": N_S,
@@ -732,11 +789,11 @@ def boltzmann_hierarchy_report() -> Dict[str, object]:
             "LOS transfer function Δ_ℓ(k) via numerical integration",
             "C_ℓ power spectrum with KK modifications",
             "C_ℓ^{KK}/C_ℓ^{ΛCDM} ratio spectrum",
+            "Reionization transfer damping with τ_reio support",
         ],
         "open_items": [
             "Full polarisation Boltzmann hierarchy (E/B modes, Θ_P)",
             "Non-linear structure formation and lensing",
             "Sub-percent iterative accuracy (requires CAMB/CLASS infrastructure)",
-            "Reionisation bump (τ_reio treatment)",
         ],
     }

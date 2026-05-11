@@ -9,11 +9,14 @@ import pytest
 from src.core.desi_year3_monitor import (
     DESI_DR2,
     MONITOR_INTEGRATION_TARGETS,
+    REQUIRED_RELEASE_FIELDS,
     UM_PREDICTION,
     routing_decision,
     route_desi_y3,
     tension_from_measurement,
     update_with_new_data,
+    validate_release_payload,
+    strict_release_ingest,
     falsification_verdict,
     monitoring_report,
     desi_year3_placeholder,
@@ -64,7 +67,7 @@ def test_tension_from_measurement_self_consistent():
 
 
 def test_tension_from_measurement_zero_sigma_raises():
-    """Zero sigma should give inf tension."""
+    """Legacy loose helper keeps inf behavior for zero sigma."""
     result = tension_from_measurement(-1.0, 0.0, -0.5, 0.0)
     assert result["tension_w0_sigma"] == float("inf")
     assert result["tension_wa_sigma"] == float("inf")
@@ -109,10 +112,56 @@ def test_update_increased_wa_tension():
     assert result["um_tension"]["tension_wa_sigma"] > result["baseline_tension"]["tension_wa_sigma"]
 
 
+def test_update_with_new_data_zero_sigma_raises():
+    with pytest.raises(ValueError):
+        update_with_new_data("DESI Year 3", 2026, -0.84, 0.0, -0.4, 0.2)
+
+
 def test_update_has_explicit_routing():
     result = update_with_new_data("DESI Year 3", 2026, -0.84, 0.07, -0.05, 0.20)
     assert result["routing"]["route"] == "PASS"
     assert "kk_de_wa_cpl.py" in " ".join(result["routing"]["integration_targets"])
+
+
+def test_validate_release_payload_ok():
+    payload = {
+        "release_name": "DESI Year 3",
+        "year": 2026,
+        "w0_central": -0.84,
+        "w0_sigma": 0.06,
+        "wa_central": -0.40,
+        "wa_sigma": 0.20,
+        "reference": "DESI Collaboration (2026)",
+        "datasets": "BAO + CMB + SNe Ia",
+    }
+    validated = validate_release_payload(payload)
+    assert validated["release_name"] == "DESI Year 3"
+
+
+def test_validate_release_payload_missing_field_raises():
+    payload = {
+        "release_name": "DESI Year 3",
+        "year": 2026,
+    }
+    with pytest.raises(ValueError):
+        validate_release_payload(payload)
+
+
+def test_strict_release_ingest_ready_packet():
+    payload = {
+        "release_name": "DESI Year 3",
+        "year": 2026,
+        "w0_central": -0.84,
+        "w0_sigma": 0.06,
+        "wa_central": -0.40,
+        "wa_sigma": 0.20,
+        "reference": "DESI Collaboration (2026)",
+        "datasets": "BAO + CMB + SNe Ia",
+    }
+    packet = strict_release_ingest(payload)
+    assert packet["pipeline"] == "DESI_Y3_STRICT_INGEST"
+    assert packet["ready_for_release_day"] is True
+    assert packet["route"] in ("PASS", "TENSION", "FALSIFIED")
 
 
 def test_routing_decision_falsified():
@@ -190,7 +239,7 @@ def test_desi_year3_placeholder_returns_dict():
     result = desi_year3_placeholder()
     assert isinstance(result, dict)
     assert result["release"] == "DESI Year 3"
-    assert result["status"] == "PENDING — results not yet published"
+    assert result["status"] == "READY_FOR_STRICT_INGEST"
 
 
 def test_desi_year3_placeholder_year():
@@ -201,3 +250,8 @@ def test_desi_year3_placeholder_year():
 def test_desi_year3_placeholder_targets():
     result = desi_year3_placeholder()
     assert result["integration_targets"] == MONITOR_INTEGRATION_TARGETS
+
+
+def test_desi_year3_placeholder_required_fields():
+    result = desi_year3_placeholder()
+    assert result["required_fields"] == REQUIRED_RELEASE_FIELDS

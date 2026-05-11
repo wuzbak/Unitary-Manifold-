@@ -49,11 +49,14 @@ __all__ = [
     "DESI_DR2",
     "UM_PREDICTION",
     "MONITOR_INTEGRATION_TARGETS",
+    "REQUIRED_RELEASE_FIELDS",
     # Functions
     "tension_from_measurement",
     "routing_decision",
     "route_desi_y3",
     "update_with_new_data",
+    "validate_release_payload",
+    "strict_release_ingest",
     "falsification_verdict",
     "monitoring_report",
     "desi_year3_placeholder",
@@ -80,6 +83,17 @@ MONITOR_INTEGRATION_TARGETS: List[str] = [
     "src/core/kk_de_wa_cpl.py",
     "3-FALSIFICATION/OBSERVATION_TRACKER.md",
     "src/core/canonical_falsifier_evidence_feed.py",
+]
+
+REQUIRED_RELEASE_FIELDS: List[str] = [
+    "release_name",
+    "year",
+    "w0_central",
+    "w0_sigma",
+    "wa_central",
+    "wa_sigma",
+    "reference",
+    "datasets",
 ]
 
 #: UM predictions for w₀ and wₐ
@@ -247,6 +261,10 @@ def update_with_new_data(
     -------
     dict with full comparison vs DESI DR2 baseline and UM prediction.
     """
+    # Keep direct-call safety even though strict_release_ingest() also validates.
+    if w0_sigma <= 0 or wa_sigma <= 0:
+        raise ValueError("w0_sigma and wa_sigma must be strictly positive for strict ingest.")
+
     new_tension = tension_from_measurement(
         w0_central, w0_sigma, wa_central, wa_sigma, release_name
     )
@@ -289,6 +307,68 @@ def update_with_new_data(
             f"UM tension: {wa_tension_new:.1f}σ (vs {wa_tension_dr2:.1f}σ at DESI DR2). "
             f"{'Tension reduced ✅' if wa_improvement > 0 else 'Tension increased ⚠️'}."
         ),
+    }
+
+
+def validate_release_payload(payload: Dict) -> Dict:
+    """Validate and normalise a strict DESI-style release payload."""
+    missing = [key for key in REQUIRED_RELEASE_FIELDS if key not in payload]
+    if missing:
+        raise ValueError(f"Missing required fields: {', '.join(missing)}")
+
+    release_name = str(payload["release_name"]).strip()
+    reference = str(payload["reference"]).strip()
+    datasets = str(payload["datasets"]).strip()
+    year = int(payload["year"])
+    w0_central = float(payload["w0_central"])
+    w0_sigma = float(payload["w0_sigma"])
+    wa_central = float(payload["wa_central"])
+    wa_sigma = float(payload["wa_sigma"])
+
+    if year < int(DESI_DR2["year"]):
+        raise ValueError(f"year must be >= {DESI_DR2['year']} for this monitoring pipeline.")
+    if not release_name:
+        raise ValueError("release_name must be non-empty.")
+    if w0_sigma <= 0 or wa_sigma <= 0:
+        raise ValueError("w0_sigma and wa_sigma must be strictly positive.")
+    if not reference:
+        raise ValueError("reference must be non-empty.")
+    if not datasets:
+        raise ValueError("datasets must be non-empty.")
+
+    return {
+        "release_name": release_name,
+        "year": year,
+        "w0_central": w0_central,
+        "w0_sigma": w0_sigma,
+        "wa_central": wa_central,
+        "wa_sigma": wa_sigma,
+        "reference": reference,
+        "datasets": datasets,
+    }
+
+
+def strict_release_ingest(payload: Dict) -> Dict:
+    """Strict release-ingest entrypoint for DESI Year-3 readiness."""
+    valid = validate_release_payload(payload)
+    analysis = update_with_new_data(
+        release_name=valid["release_name"],
+        year=valid["year"],
+        w0_central=valid["w0_central"],
+        w0_sigma=valid["w0_sigma"],
+        wa_central=valid["wa_central"],
+        wa_sigma=valid["wa_sigma"],
+        reference=valid["reference"],
+        datasets=valid["datasets"],
+    )
+
+    return {
+        "pipeline": "DESI_Y3_STRICT_INGEST",
+        "validated_payload": valid,
+        "analysis": analysis,
+        "route": analysis["routing"]["route"],
+        "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
+        "ready_for_release_day": True,
     }
 
 
@@ -375,8 +455,8 @@ def monitoring_report() -> Dict:
             ),
         },
         "update_instructions": (
-            "When DESI Year 3 results are available, call:\n"
-            "  update_with_new_data('DESI Year 3', 2026, w0_obs, w0_err, wa_obs, wa_err, ref, datasets)"
+            "When DESI Year 3 results are available, call strict_release_ingest(payload) "
+            "with required fields from REQUIRED_RELEASE_FIELDS."
         ),
     }
 
@@ -391,7 +471,18 @@ def desi_year3_placeholder() -> Dict:
     return {
         "release": "DESI Year 3",
         "year": 2026,
-        "status": "PENDING — results not yet published",
+        "status": "READY_FOR_STRICT_INGEST",
+        "required_fields": list(REQUIRED_RELEASE_FIELDS),
+        "example_payload": {
+            "release_name": "DESI Year 3",
+            "year": 2026,
+            "w0_central": -0.84,
+            "w0_sigma": 0.06,
+            "wa_central": -0.40,
+            "wa_sigma": 0.20,
+            "reference": "DESI Collaboration (2026), preprint",
+            "datasets": "BAO Year 3 + CMB + SNe Ia",
+        },
         "expected_datasets": "BAO Year 3 + CMB (ACT DR6 / Planck PR4) + DESY5 SNe",
         "expected_improvement": "~2× improvement in wₐ precision (σ_wₐ ≈ 0.15–0.20)",
         "um_falsification_threshold": (
@@ -399,8 +490,8 @@ def desi_year3_placeholder() -> Dict:
             "requires new geometric sector (quintessence or bulk field)."
         ),
         "action_on_release": (
-            "Update DESI_DR3 dict and call update_with_new_data() to refresh "
-            "the tension analysis automatically."
+            "Validate payload with validate_release_payload() and ingest via "
+            "strict_release_ingest() to route and publish integration targets."
         ),
         "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
     }

@@ -9,10 +9,11 @@ import numpy as np
 
 from src.core.cmb_boltzmann_hierarchy import (
     N_W, K_CS, C_S_BRAID, N_S, A_S, R_BARY, C_S_PHOTON,
-    R_S_MPC, DELTA_KK_REF, ELL_REF, K_SILK_MPCinv,
+    R_S_MPC, DELTA_KK_REF, ELL_REF, K_SILK_MPCinv, TAU_REIO,
     ETA_REC_MPCinv, ETA_0_MPCinv, D_A_MPC,
     kk_correction,
     silk_damping_factor,
+    reionization_transfer_damping,
     tight_coupling_oscillator,
     tight_coupling_source,
     boltzmann_rhs,
@@ -135,6 +136,29 @@ def test_silk_always_positive():
         assert silk_damping_factor(k) > 0.0
     # At very large k, exp underflows to exactly 0 — still non-negative
     assert silk_damping_factor(10.0) >= 0.0
+
+
+# ---------------------------------------------------------------------------
+# Reionization damping
+# ---------------------------------------------------------------------------
+
+def test_reionization_damping_ell0_is_one():
+    assert reionization_transfer_damping(0.0) == pytest.approx(1.0, rel=1e-12)
+
+
+def test_reionization_damping_high_ell_less_than_one():
+    damp = reionization_transfer_damping(100.0)
+    assert 0.0 < damp < 1.0
+
+
+def test_reionization_damping_monotone_nonincreasing():
+    vals = [reionization_transfer_damping(float(ell)) for ell in (2, 20, 100)]
+    assert vals[0] >= vals[1] >= vals[2]
+
+
+def test_reionization_damping_negative_ell_raises():
+    with pytest.raises(ValueError):
+        reionization_transfer_damping(-1.0)
 
 
 # ---------------------------------------------------------------------------
@@ -292,6 +316,12 @@ def test_transfer_function_kk_differs_from_lcdm():
     assert math.isfinite(d_kk) and math.isfinite(d_lcdm)
 
 
+def test_transfer_function_reionization_damps_high_ell():
+    d_no = transfer_function_ell(0.1, ell=100, n_eta=60, apply_reionization=False)
+    d_yes = transfer_function_ell(0.1, ell=100, n_eta=60, apply_reionization=True)
+    assert abs(d_yes) <= abs(d_no) + 1e-12
+
+
 # ---------------------------------------------------------------------------
 # C_ell power spectrum
 # ---------------------------------------------------------------------------
@@ -357,7 +387,7 @@ def test_boltzmann_hierarchy_report_returns_dict():
     assert isinstance(result, dict)
     for key in ("status", "n_moments_photon", "kk_correction_at_ell100",
                 "silk_damping_at_k_silk", "first_acoustic_peak_ell",
-                "closed_items", "open_items"):
+                "closed_items", "open_items", "tau_reio"):
         assert key in result
 
 
@@ -399,3 +429,13 @@ def test_boltzmann_hierarchy_open_items_honest():
     """Must acknowledge remaining open items."""
     result = boltzmann_hierarchy_report()
     assert len(result["open_items"]) >= 1
+
+
+def test_boltzmann_hierarchy_reionization_closed_item_present():
+    result = boltzmann_hierarchy_report()
+    assert any("Reionization" in item for item in result["closed_items"])
+
+
+def test_boltzmann_hierarchy_tau_reio_reasonable():
+    result = boltzmann_hierarchy_report()
+    assert result["tau_reio"] == pytest.approx(TAU_REIO, rel=1e-12)

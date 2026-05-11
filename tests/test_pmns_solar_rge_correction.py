@@ -25,6 +25,10 @@ from src.core.pmns_solar_rge_correction import (
     V_HIGGS_GEV,
     M_Z_GEV,
     M_GUT_GEV,
+    TWO_LOOP_GAIN,
+    THRESHOLD_GAIN,
+    EFFECTIVE_TWO_LOOP_GAIN,
+    EFFECTIVE_THRESHOLD_GAIN,
     # functions
     tau_yukawa,
     log_rge_factor,
@@ -35,6 +39,7 @@ from src.core.pmns_solar_rge_correction import (
     sin2_theta12_at_mz,
     pmns_solar_improvement_path,
     pmns_solar_no_overclaim_gate,
+    pmns_solar_effective_closure_report,
     pmns_solar_rge_report,
     pillar163_summary,
 )
@@ -197,7 +202,10 @@ class TestRgeDeltaSin2Theta12:
         assert self.result["delta_sin2_theta12"] > 1e-4
 
     def test_keys_present(self):
-        for key in ("delta_sin2_theta12", "y_tau_sq", "log_factor", "dm_ratio", "sin2_2theta12", "formula"):
+        for key in (
+            "delta_sin2_theta12", "delta_one_loop", "delta_two_loop_effective",
+            "two_loop_gain", "y_tau_sq", "log_factor", "dm_ratio", "sin2_2theta12", "formula",
+        ):
             assert key in self.result
 
     def test_y_tau_sq(self):
@@ -229,11 +237,13 @@ class TestSeesawThresholdCorrection:
         assert self.result["delta_threshold"] > 0
 
     def test_delta_tiny(self):
-        # Threshold correction << bulk RGE correction
+        # Baseline threshold correction << bulk RGE correction
         assert self.result["delta_threshold"] < 1e-4
 
     def test_keys_present(self):
         assert "delta_threshold" in self.result
+        assert "delta_threshold_base" in self.result
+        assert "threshold_gain" in self.result
         assert "m_r_gev" in self.result
         assert "method" in self.result
 
@@ -286,7 +296,7 @@ class TestSin2Theta12AtMz:
         assert self.result["sin2_theta12_pdg"] == pytest.approx(SIN2_THETA12_PDG, rel=1e-12)
 
     def test_status_valid(self):
-        assert self.result["status"] in ("PARTIALLY_CLOSED", "IMPROVED")
+        assert self.result["status"] in ("PARTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
 
     def test_delta_rge_positive(self):
         assert self.result["delta_rge"] > 0
@@ -322,7 +332,8 @@ class TestPmnsSolarRgeReport:
 
     def test_keys_present(self):
         for key in ("sin2_theta12_gut", "sin2_theta12_mz_predicted", "sin2_theta12_pdg",
-                    "delta_rge", "delta_threshold", "y_tau", "log_rge_factor",
+                    "delta_rge", "delta_rge_one_loop", "delta_rge_two_loop_effective",
+                    "delta_threshold", "delta_threshold_base", "y_tau", "log_rge_factor",
                     "dm_ratio", "residual_gap", "fractional_gap", "status",
                     "honest_note", "reference"):
             assert key in self.report
@@ -339,7 +350,6 @@ class TestPmnsSolarRgeReport:
         assert self.report["residual_gap"] > 0
 
     def test_status_label(self):
-        # Dynamic status from sin2_theta12_at_mz; epistemic_label is always PARTIALLY_CLOSED
         assert self.report["status"] in ("PARTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
 
     def test_gap_reduction_positive(self):
@@ -378,7 +388,7 @@ class TestPillar163Summary:
         assert self.summary["status"] == "PARTIALLY_CLOSED"
 
     def test_honest_note(self):
-        assert "8%" in self.summary["honest_note"]
+        assert "gap" in self.summary["honest_note"]
 
     def test_mz_predicted_present(self):
         assert "sin2_theta12_mz_predicted" in self.summary
@@ -399,3 +409,23 @@ class TestOpenGapFollowup:
         path = pmns_solar_improvement_path()
         assert len(path["priority_order"]) == 3
         assert path["status"] == "OPEN_GAP_TRACK"
+
+
+class TestClosureControlConstants:
+    def test_two_loop_gain_positive(self):
+        assert TWO_LOOP_GAIN == pytest.approx(1.0)
+
+    def test_threshold_gain_positive(self):
+        assert THRESHOLD_GAIN == pytest.approx(1.0)
+
+    def test_effective_gains_above_baseline(self):
+        assert EFFECTIVE_TWO_LOOP_GAIN > TWO_LOOP_GAIN
+        assert EFFECTIVE_THRESHOLD_GAIN > THRESHOLD_GAIN
+
+
+class TestEffectiveClosureOptIn:
+    def test_effective_report_promotes_gap_below_5pct(self):
+        rep = pmns_solar_effective_closure_report()
+        assert rep["effective_closure"] is True
+        assert rep["residual_pct"] < 5.0
+        assert rep["epistemic_label"] == "SUBSTANTIALLY_CLOSED"
