@@ -84,9 +84,10 @@ THRESHOLD_GAIN = 1.0
 # stable positive shifts under `pmns_solar_no_overclaim_gate(effective_closure=True)`.
 # Empirical basis: scan over multiplicative gains and retain settings that
 # produce sub-5% residual without sign flips in Δ_RGE and δ_threshold.
-# Validated usage range: this module's canonical defaults and the effective
-# `sin2_theta12_gut=4/15` path exercised in tests; values are not uncertainty-
-# quantified physical coefficients and should be treated as sensitivity knobs.
+# Validation footprint: baseline and effective paths are regression-checked in
+# tests (e.g. `test_effective_report_promotes_gap_below_5pct`) for the default
+# `sin2_theta12_gut=4/15` use-case. Values are sensitivity knobs, not derived
+# two-loop coefficients with physical uncertainty bars.
 EFFECTIVE_TWO_LOOP_GAIN = 170.0
 EFFECTIVE_THRESHOLD_GAIN = 35_000.0
 
@@ -278,6 +279,11 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
 
     residual_pct = abs(result["fractional_gap"]) * 100.0
     epistemic_label = "SUBSTANTIALLY_CLOSED" if residual_pct < 5.0 else "PARTIALLY_CLOSED"
+    honest_note = (
+        "Baseline report remains canonical: residual gap is ~8% and not promoted."
+        if not effective_closure
+        else "Effective path is opt-in stress-test only; no-overclaim gate remains authoritative."
+    )
 
     return {
         "pillar": 163,
@@ -303,11 +309,7 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
         "residual_pct": residual_pct,
         "status": result["status"],
         "effective_closure": effective_closure,
-        "honest_note": (
-            "Baseline report remains canonical: residual gap is ~8% and not promoted."
-            if not effective_closure
-            else "Effective path is opt-in stress-test only; no-overclaim gate remains authoritative."
-        ),
+        "honest_note": honest_note,
         "reference": "Antusch et al. hep-ph/0305274 Eq. 19 baseline + effective v10.51 closure gains",
     }
 

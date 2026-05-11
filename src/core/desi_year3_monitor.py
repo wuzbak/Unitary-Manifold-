@@ -362,7 +362,8 @@ def validate_release_payload(payload: Dict) -> Dict:
             raise ValueError(f"{name} must be finite, got {value!r}")
     # Broad ingest guardrails for physical plausibility / typo resistance:
     #   w0 is expected near O(1) around -1 and wa in an O(1) dynamical range,
-    #   so we keep a conservative superset envelope for CPL-like posteriors.
+    #   so we keep a conservative superset envelope for CPL-like posteriors
+    #   used in DESI/Planck-style dark-energy fits.
     # These are not hard cosmology priors, only strict-ingest safety bounds.
     if not (-3.0 <= w0_central <= 1.0):
         raise ValueError("w0_central outside physics-safe ingest bounds [-3, 1].")

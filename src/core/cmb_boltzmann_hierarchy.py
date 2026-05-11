@@ -128,8 +128,8 @@ Z_REC: float = 1089.8               # redshift of recombination
 A_REC: float = 1.0 / (1.0 + Z_REC)
 ETA_REC_MPCinv: float = 280.0       # conformal time at recombination [Mpc]
 ETA_0_MPCinv: float = 14_000.0      # conformal time today [Mpc]
-TAU_REIO: float = 0.054             # optical depth to reionization (Planck 2018)
-TAU_REIO_ERR: float = 0.007         # Planck 2018 1σ uncertainty
+TAU_REIO: float = 0.054             # Planck 2018 VI final cosmological parameters (tau)
+TAU_REIO_ERR: float = 0.007         # Planck 2018 VI 1σ uncertainty
 ELL_REIO_TRANSITION: float = 12.0   # smooth transition scale for reionization damping
 
 # Thomson scattering
