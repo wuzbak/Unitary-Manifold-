@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 10.4 — Near Closure Edition |
+| Version | 10.51 — 4-Gap Closure + CKM λ_W + ADM entropy rate wave |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Self-completion status (v10.4):** All six completion requirements are solved internally, plus 107 additional pillars (102–208 + Ω₀: Grand Expansion + Grand Synthesis Arc + SM Parameter Closure Arc + Gap Closure Arcs I–II + Red-Team Response Arc + Peer Review Arc + Near Closure arc) closed. REPOSITORY COMPLETE (v10.4 — 208 pillars + Ω₀ Holon Zero + sub-pillars). ~23,524 tests. TOE score: 42% (11/26). SM 26-parameter ledger: **11 DERIVED** (<5% error, including Braid-Lock PMNS + Higgs VEV geometric), **9 PARAMETERIZED** (per-species c_L fitted), **3 CONSTRAINED** (5–25%), **3 GEOMETRIC_ESTIMATE**. Primary falsifier: LiteBIRD (~2032) β ∈ {0.273°, 0.331°}. Architecture Limit: cosmological constant 58-order gap formally bounded as outside RS1 domain.
+**Canonical status (v10.51):** Pillar set is closed under canonical governance, with active monitoring modules for incoming data releases. ToE score is **27.8/28.0 (99.3%)** per `docs/TOE_SCORE_AUDIT.md`. Primary falsifier remains LiteBIRD birefringence with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -82,7 +82,15 @@ such that `UΨ* = Ψ*`.
 
 ---
 
-## 3 · File Map (all tracked files)
+## 3 · File Map (canonical entry points)
+
+> Canonical first reads for agents:
+> - `6-MONOGRAPH/MCP_INGEST.md` (this file)
+> - `4-IMPLICATIONS/WHAT_THIS_MEANS.md`
+> - `9-INFRASTRUCTURE/llms.txt`
+> - `docs/CLAIM_MASTER_BOARD.md`
+> - `docs/TRUTH_LAYER.md`
+> - `docs/GATEKEEPER_SUMMARY.md`
 
 ```
 /

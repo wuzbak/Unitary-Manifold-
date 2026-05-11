@@ -17,6 +17,7 @@ from src.core.desi_year3_monitor import (
     update_with_new_data,
     validate_release_payload,
     strict_release_ingest,
+    desi_year3_mock_drill,
     falsification_verdict,
     monitoring_report,
     desi_year3_placeholder,
@@ -302,3 +303,26 @@ def test_desi_year3_placeholder_targets():
 def test_desi_year3_placeholder_required_fields():
     result = desi_year3_placeholder()
     assert result["required_fields"] == REQUIRED_RELEASE_FIELDS
+
+
+def test_mock_drill_returns_dict():
+    drill = desi_year3_mock_drill()
+    assert isinstance(drill, dict)
+    assert drill["pipeline"] == "DESI_Y3_MOCK_DRILL"
+
+
+def test_mock_drill_covers_all_routes():
+    drill = desi_year3_mock_drill()
+    assert drill["all_routes_covered"] is True
+    assert drill["route_counts"]["PASS"] > 0
+    assert drill["route_counts"]["TENSION"] > 0
+    assert drill["route_counts"]["FALSIFIED"] > 0
+
+
+def test_mock_drill_scenarios_have_required_fields():
+    drill = desi_year3_mock_drill()
+    assert drill["total_scenarios"] == len(drill["scenarios"])
+    for row in drill["scenarios"]:
+        for key in ("scenario", "wa_central", "wa_sigma", "route", "wa_tension_sigma"):
+            assert key in row
+        assert row["wa_tension_sigma"] >= 0.0

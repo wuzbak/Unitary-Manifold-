@@ -57,6 +57,7 @@ __all__ = [
     "update_with_new_data",
     "validate_release_payload",
     "strict_release_ingest",
+    "desi_year3_mock_drill",
     "falsification_verdict",
     "monitoring_report",
     "desi_year3_placeholder",
@@ -412,6 +413,54 @@ def strict_release_ingest(payload: Dict) -> Dict:
         "route": analysis["routing"]["route"],
         "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
         "ready_for_release_day": True,
+    }
+
+
+def desi_year3_mock_drill() -> Dict[str, object]:
+    """Run a release-day mock drill matrix across PASS/TENSION/FALSIFIED lanes."""
+    scenarios = [
+        {"name": "pass_centered", "wa_central": -0.05, "wa_sigma": 0.20},
+        {"name": "pass_broad_sigma", "wa_central": -0.15, "wa_sigma": 0.40},
+        {"name": "tension_2sigma", "wa_central": -0.30, "wa_sigma": 0.15},
+        {"name": "tension_2p5sigma", "wa_central": -0.50, "wa_sigma": 0.20},
+        {"name": "falsified_3sigma", "wa_central": -0.60, "wa_sigma": 0.20},
+        {"name": "falsified_4sigma", "wa_central": -0.80, "wa_sigma": 0.20},
+    ]
+    packet_rows = []
+    route_counts = {"PASS": 0, "TENSION": 0, "FALSIFIED": 0}
+
+    for i, s in enumerate(scenarios):
+        payload = {
+            "release_name": f"DESI Year 3 Mock {i + 1}",
+            "year": 2026,
+            "w0_central": -0.84,
+            "w0_sigma": 0.06,
+            "wa_central": s["wa_central"],
+            "wa_sigma": s["wa_sigma"],
+            "reference": "DESI mock-drill synthetic payload",
+            "datasets": "BAO + CMB + SNe Ia (synthetic)",
+        }
+        packet = strict_release_ingest(payload)
+        route = str(packet["route"])
+        route_counts[route] += 1
+        packet_rows.append(
+            {
+                "scenario": s["name"],
+                "wa_central": s["wa_central"],
+                "wa_sigma": s["wa_sigma"],
+                "route": route,
+                "wa_tension_sigma": packet["analysis"]["um_tension"]["tension_wa_sigma"],
+            }
+        )
+
+    return {
+        "pipeline": "DESI_Y3_MOCK_DRILL",
+        "total_scenarios": len(scenarios),
+        "route_counts": route_counts,
+        "all_routes_covered": all(route_counts[r] > 0 for r in ("PASS", "TENSION", "FALSIFIED")),
+        "scenarios": packet_rows,
+        "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
+        "status": "READY_FOR_RELEASE_DAY_DRILL_COMPLETE",
     }
 
 

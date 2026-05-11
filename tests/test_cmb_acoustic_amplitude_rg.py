@@ -33,9 +33,12 @@ from src.core.cmb_acoustic_amplitude_rg import (
     UM_SUPPRESSION_PEAK1,
     UM_SUPPRESSION_PEAK2,
     UM_SUPPRESSION_PEAK3,
+    KK_LOOP_BETA,
+    KK_LOOP_MAX_BOOST,
     planck_cl_template,
     um_transfer_function_correction,
     um_cl_at_peak,
+    kk_loop_acoustic_boost,
     acoustic_peak_amplitude_ratio,
     cmb_amplitude_closure_status,
     pillar149_summary,
@@ -84,6 +87,10 @@ class TestConstants:
         assert UM_SUPPRESSION_PEAK1 > 3.0
         assert UM_SUPPRESSION_PEAK2 > 3.0
         assert UM_SUPPRESSION_PEAK3 > 3.0
+
+    def test_kk_loop_constants(self):
+        assert KK_LOOP_BETA > 0.0
+        assert KK_LOOP_MAX_BOOST > 1.0
 
 
 # ---------------------------------------------------------------------------
@@ -165,6 +172,25 @@ class TestUmTransferFunctionCorrection:
         assert pct < 1.0
 
 
+class TestKkLoopAcousticBoost:
+    def test_boost_above_one(self):
+        assert kk_loop_acoustic_boost(220) > 1.0
+
+    def test_boost_monotonic_in_ell(self):
+        assert kk_loop_acoustic_boost(820) >= kk_loop_acoustic_boost(220)
+
+    def test_boost_capped(self):
+        assert kk_loop_acoustic_boost(8000) <= KK_LOOP_MAX_BOOST + 1e-12
+
+    def test_invalid_inputs_raise(self):
+        with pytest.raises(ValueError):
+            kk_loop_acoustic_boost(0)
+        with pytest.raises(ValueError):
+            kk_loop_acoustic_boost(220, beta=0.0)
+        with pytest.raises(ValueError):
+            kk_loop_acoustic_boost(220, max_boost=1.0)
+
+
 # ---------------------------------------------------------------------------
 # um_cl_at_peak
 # ---------------------------------------------------------------------------
@@ -224,6 +250,9 @@ class TestAcousticPeakAmplitudeRatio:
             assert "suppression_factor" in p
             assert "cl_um_predicted_uk2" in p
             assert "ratio_um_to_lcdm" in p
+            assert "kk_loop_boost" in p
+            assert "suppression_factor_nlo" in p
+            assert "ratio_um_to_lcdm_nlo" in p
 
     def test_tilt_ratio_close_to_1(self, ratio_result):
         for p in ratio_result["peaks"]:
@@ -248,6 +277,15 @@ class TestAcousticPeakAmplitudeRatio:
     def test_suppression_summary_mentions_fallibility(self, ratio_result):
         assert "FALLIBILITY" in ratio_result["suppression_summary"]
 
+    def test_nlo_lane_reduces_suppression(self, ratio_result):
+        for p in ratio_result["peaks"]:
+            assert p["suppression_factor_nlo"] < p["suppression_factor"]
+            assert p["ratio_um_to_lcdm_nlo"] > p["ratio_um_to_lcdm"]
+
+    def test_nlo_lane_summary_present(self, ratio_result):
+        assert "nlo_lane_summary" in ratio_result
+        assert "NLO" in ratio_result["nlo_lane_summary"]
+
     def test_peak_ells_match_acoustic_peaks(self, ratio_result):
         ells = [p["ell"] for p in ratio_result["peaks"]]
         assert list(ells) == list(ACOUSTIC_PEAK_ELLS)
@@ -269,7 +307,7 @@ class TestCmbAmplitudeClosureStatus:
         assert isinstance(closure["status"], str)
 
     def test_status_mentions_open(self, closure):
-        assert "OPEN" in closure["status"]
+        assert "PARTIALLY_CLOSED_TENSION" in closure["status"]
 
     def test_suppression_values_stored(self, closure):
         assert abs(closure["suppression_peak1"] - UM_SUPPRESSION_PEAK1) < 1e-8
@@ -280,6 +318,13 @@ class TestCmbAmplitudeClosureStatus:
         lo, hi = closure["suppression_range"]
         assert lo < hi
         assert lo > 3.0
+
+    def test_suppression_nlo_range_reduced(self, closure):
+        lo_nlo, hi_nlo = closure["suppression_nlo_range"]
+        lo_raw, hi_raw = closure["suppression_range"]
+        assert lo_nlo < lo_raw
+        assert hi_nlo < hi_raw
+        assert lo_nlo > 1.5
 
     def test_tilt_correction_negligible(self, closure):
         assert closure["tilt_correction_negligible"] is True
@@ -310,8 +355,8 @@ class TestPillar149Summary:
     def test_pillar_is_149(self, p149):
         assert p149["pillar"] == 149
 
-    def test_status_open(self, p149):
-        assert "OPEN" in p149["status"]
+    def test_status_partially_closed_tension(self, p149):
+        assert "PARTIALLY_CLOSED_TENSION" in p149["status"]
 
     def test_n_s_um_correct(self, p149):
         assert abs(p149["n_s_um"] - N_S_UM) < 1e-6

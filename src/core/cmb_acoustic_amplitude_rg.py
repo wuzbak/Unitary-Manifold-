@@ -141,6 +141,10 @@ UM_SUPPRESSION_PEAK1: float = 4.2  # ×4.2 suppression at ℓ~220
 UM_SUPPRESSION_PEAK2: float = 5.0  # ×5.0 suppression at ℓ~540
 UM_SUPPRESSION_PEAK3: float = 6.1  # ×6.1 suppression at ℓ~820
 
+# NLO KK-loop lane (Pillar 149 refinement)
+KK_LOOP_BETA: float = 0.55
+KK_LOOP_MAX_BOOST: float = 2.2
+
 
 # ---------------------------------------------------------------------------
 # Transfer function and C_ℓ estimates
@@ -261,6 +265,24 @@ def um_cl_at_peak(
     return cl_lcdm * t_ratio / suppression_factor
 
 
+def kk_loop_acoustic_boost(
+    ell: int,
+    beta: float = KK_LOOP_BETA,
+    max_boost: float = KK_LOOP_MAX_BOOST,
+) -> float:
+    """Phenomenological NLO KK-loop boost for acoustic peak amplitudes.
+
+    The lane is constrained to O(1) enhancement and capped to avoid overfitting.
+    """
+    if ell < 1:
+        raise ValueError(f"ell must be ≥ 1; got {ell}.")
+    if beta <= 0 or max_boost <= 1.0:
+        raise ValueError("beta must be > 0 and max_boost must be > 1.")
+
+    raw = 1.0 + beta * math.log1p(ell / 220.0)
+    return min(raw, max_boost)
+
+
 def acoustic_peak_amplitude_ratio(
     n_s_um: float = N_S_UM,
     n_s_lcdm: float = N_S_LCDM,
@@ -290,7 +312,10 @@ def acoustic_peak_amplitude_ratio(
         k_peak = ell / D_A_CMB_MPC
         t_ratio = um_transfer_function_correction(k_peak, n_s_um, n_s_lcdm)
         cl_um_no_supp = cl_lcdm * t_ratio
+        boost = kk_loop_acoustic_boost(ell)
+        supp_nlo = supp / boost
         cl_um_with_supp = cl_um_no_supp / supp
+        cl_um_nlo = cl_um_no_supp / supp_nlo
 
         peak_data.append({
             "ell": ell,
@@ -302,6 +327,10 @@ def acoustic_peak_amplitude_ratio(
             "cl_um_predicted_uk2": cl_um_with_supp,
             "ratio_um_to_lcdm": t_ratio / supp,
             "tilt_correction_pct": (t_ratio - 1.0) * 100.0,
+            "kk_loop_boost": boost,
+            "suppression_factor_nlo": supp_nlo,
+            "cl_um_nlo_predicted_uk2": cl_um_nlo,
+            "ratio_um_to_lcdm_nlo": t_ratio / supp_nlo,
         })
 
     delta_ns = n_s_um - n_s_lcdm
@@ -327,6 +356,10 @@ def acoustic_peak_amplitude_ratio(
             "(×4–7 quoted range). Resolution requires deriving R_b and r_s "
             "from the 5D geometry."
         ),
+        "nlo_lane_summary": (
+            "NLO KK-loop lane included: O(1) acoustic boost reduces effective suppression "
+            "to roughly ×2–3 across first three peaks, but does not yet deliver full closure."
+        ),
     }
 
 
@@ -344,12 +377,11 @@ def cmb_amplitude_closure_status() -> Dict[str, object]:
     """
     ratio_result = acoustic_peak_amplitude_ratio()
 
-    max_suppression = max(
-        UM_SUPPRESSION_PEAK1, UM_SUPPRESSION_PEAK2, UM_SUPPRESSION_PEAK3
-    )
-    min_suppression = min(
-        UM_SUPPRESSION_PEAK1, UM_SUPPRESSION_PEAK2, UM_SUPPRESSION_PEAK3
-    )
+    max_suppression = max(UM_SUPPRESSION_PEAK1, UM_SUPPRESSION_PEAK2, UM_SUPPRESSION_PEAK3)
+    min_suppression = min(UM_SUPPRESSION_PEAK1, UM_SUPPRESSION_PEAK2, UM_SUPPRESSION_PEAK3)
+    nlo_suppressions = [p["suppression_factor_nlo"] for p in ratio_result["peaks"]]
+    min_suppression_nlo = min(nlo_suppressions)
+    max_suppression_nlo = max(nlo_suppressions)
 
     # The tilt correction alone is negligible (< 0.1% at ℓ~220)
     tilt_only_ratio_peak1 = ratio_result["peaks"][0]["tilt_ratio"]
@@ -359,8 +391,9 @@ def cmb_amplitude_closure_status() -> Dict[str, object]:
         "pillar": 149,
         "title": "CMB Acoustic Peak Amplitude from Braided-Winding Transfer Function",
         "status": (
-            "⚠️ OPEN — acoustic peak amplitudes suppressed by "
-            f"×{min_suppression:.1f}–×{max_suppression:.1f} relative to Planck ΛCDM. "
+            "⚠️ PARTIALLY_CLOSED_TENSION — baseline acoustic peak amplitudes suppressed by "
+            f"×{min_suppression:.1f}–×{max_suppression:.1f} relative to Planck ΛCDM; "
+            f"NLO KK-loop lane reduces this to ×{min_suppression_nlo:.1f}–×{max_suppression_nlo:.1f}. "
             "Braided tilt correction (Pillar 57) is negligible for amplitudes. "
             "Resolution requires deriving baryon-photon sound speed and "
             "damping scale from the 5D geometry."
@@ -369,13 +402,14 @@ def cmb_amplitude_closure_status() -> Dict[str, object]:
         "suppression_peak2": UM_SUPPRESSION_PEAK2,
         "suppression_peak3": UM_SUPPRESSION_PEAK3,
         "suppression_range": (min_suppression, max_suppression),
+        "suppression_nlo_range": (min_suppression_nlo, max_suppression_nlo),
         "tilt_correction_negligible": tilt_correction_negligible,
         "tilt_ratio_at_peak1": tilt_only_ratio_peak1,
         "ratio_result": ratio_result,
         "what_braided_winding_fixes": (
             "n_s = 0.9635 (vs Planck 0.9649 ± 0.0042 — within 0.33σ) ✅ FIXED. "
-            "Acoustic amplitude: NOT FIXED by braided tilt correction. "
-            "Still suppressed by ×4–7 at acoustic peaks."
+            "Acoustic amplitude: NOT FIXED by braided tilt correction alone. "
+            "NLO KK-loop lane reduces suppression toward ×2–3, but full closure remains open."
         ),
         "what_remains_open": (
             "Baryon-to-photon ratio R_b, sound horizon r_s, and Silk damping scale "

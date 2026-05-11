@@ -5,83 +5,54 @@
 
 ---
 
-## 1 · Current Submission Readiness (v10.18)
+## 1 · Current Submission Readiness (v10.51)
 
 | Item | Status |
 |------|--------|
-| Theory manuscript | `arxiv/main.tex` exists |
-| Abstract | Needs v10.18 ToE score update |
-| References | `arxiv/references.bib` |
-| ToE score | 15.8/28 = 56% (v10.18) |
-| Primary falsifier | LiteBIRD birefringence β ∈ {0.273°, 0.331°} |
-| Test suite | 25,500+ tests passing |
+| Theory manuscript | `6-MONOGRAPH/arxiv/main.tex` updated through v10.51 |
+| References | `6-MONOGRAPH/arxiv/references.bib` updated through v10.51 |
+| ToE score | **27.8/28.0 = 99.3%** (canonical: `docs/TOE_SCORE_AUDIT.md`) |
+| Primary falsifier | LiteBIRD birefringence β ∈ {0.273°, 0.331°}; falsified in gap [0.29°, 0.31°] or outside [0.22°, 0.38°] |
+| Canonical claim layer | `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md` |
+| Regression gate | `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q` |
 
 ## 2 · Pre-Submission Checklist
 
-### 2.1 Manuscript Updates Required
-- [ ] Update abstract to reflect v10.18 ToE score (56%)
-- [ ] Add v10.18 upgrades: P13 (α), P6 (Higgs VEV) → GEOMETRIC_PREDICTION
-- [ ] Add Sections on WS-V, WS-VI, WS-VII roadmap
-- [ ] Update Table 1 (parameter table) with v10.18 values
-- [ ] Add subsection on CMB-S4, DUNE, Hyper-K falsification timeline
-- [ ] Verify all cross-references to source modules are current
+### 2.1 Manuscript Sync
+- [ ] Ensure manuscript title page and abstract match v10.51 claim state
+- [ ] Ensure ToE score statements use 27.8/28.0 (99.3%) and cite `docs/TOE_SCORE_AUDIT.md`
+- [ ] Ensure P1–P28 labels match `docs/CLAIM_MASTER_BOARD.md`
+- [ ] Ensure active tensions/falsifiers match `FALLIBILITY.md` and `3-FALSIFICATION/OBSERVATION_TRACKER.md`
+- [ ] Ensure all module references point to current file paths in `src/core/`
 
-### 2.2 FALLIBILITY.md Review
-- [ ] Confirm all open problems are documented
-- [ ] Confirm P17 (Δm²₃₁) honest 2NLO residual is stated
-- [ ] Add DESI wₐ tension as HONEST_OPEN_PROBLEM
+### 2.2 Falsification Integrity
+- [ ] Keep LiteBIRD falsifier wording exact (no weakened bounds)
+- [ ] Keep DESI wₐ lane honest (TENSION/FALSIFIED routing policy)
+- [ ] Keep epistemic boundary aligned with `SEPARATION.md`
 
-### 2.3 arXiv Metadata
-- Primary category: `hep-th` (High Energy Physics — Theory)
-- Cross-list: `gr-qc`, `astro-ph.CO`
-- Title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-- Version: v10.18
+### 2.3 Metadata & Packaging
+- [ ] Confirm category routing (`hep-th`, cross-lists as appropriate)
+- [ ] Confirm release version/tag and DOI metadata (`CITATION.cff`, `9-INFRASTRUCTURE/schema.jsonld`)
+- [ ] Confirm no stale v10.18/v10.4 score language remains
 
-### 2.4 Figure Checklist
-- [ ] Figure 1: 5D metric ansatz and KK tower
-- [ ] Figure 2: CMB birefringence prediction with LiteBIRD sensitivity overlay
-- [ ] Figure 3: ToE score summary bar chart (56% filled)
-- [ ] Figure 4: Falsification timeline (DUNE 2028, Hyper-K/JUNO 2027, CMB-S4 2030, LiteBIRD 2032)
+## 3 · Submission Strategy
 
-## 3 · Recommended Submission Strategy
+### Option A — Single canonical submission (recommended)
+- Submit one v10.51 manuscript with full canonical truth-sync
+- Anchor all claim statuses to claim board + truth layer + gatekeeper summary
+- Keep active tensions explicit rather than deferred
 
-### Option A: Two-paper strategy (recommended)
-1. **Paper 1** (near-term): Core 5D geometry + algebraic/GEOMETRIC_PREDICTION parameters only  
-   - P1, P2 (CMB), P4 (sin²θ_W), P6 (Higgs VEV), P11 (N_gen), P12 (m_p/m_e), P13 (α), P23/P24 (birefringence)
-   - ToE subset score: 8 × 0.8 + 1 × 1.0 = 7.4/9 = 82%
-   - Clean falsifier: LiteBIRD β measurement (~2034)
+### Option B — Split delivery
+- Technical derivation paper first, governance/operations companion second
+- Use same canonical falsifier/score language in both
 
-2. **Paper 2** (6-12 months later): Full SM parameter coverage, CONSTRAINED and above
-   - All 28 parameters, WS-V through WS-VII roadmap
-   - Full 56% ToE score
+## 4 · Final Gate Before Upload
 
-### Option B: Single comprehensive paper
-- Submit `arxiv/main.tex` as-is with v10.18 updates
-- Risk: reviewers may focus on CONSTRAINED parameters (15-30% residuals)
-- Mitigation: FALLIBILITY.md makes all limitations explicit
-
-## 4 · Zenodo Release
-
-When submitting to arXiv, also release on Zenodo:
-1. Tag the GitHub repository: `git tag v10.18`
-2. Create Zenodo release linked to GitHub
-3. Update `CITATION.cff` with new DOI
-4. Update `9-INFRASTRUCTURE/schema.jsonld` with new version
-
-Preferred citation format (after release):
-```
-Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
-Emergent Irreversibility (v10.18). Zenodo.
-https://doi.org/10.5281/zenodo.19584531
-```
-
-## 5 · Community Engagement Prior to Submission
-
-- [ ] Post to `discussions/AI-Automated-Review-Invitation.md` with call for pre-review
-- [ ] Share with CMB community (birefringence prediction — most immediate falsifier)
-- [ ] Share with neutrino community (δ_CP, Δm²₃₁ predictions)
-- [ ] Share with LiteBIRD collaboration contact
+1. Run full regression.
+2. Confirm docs truth-sync (ToE score, labels, falsifiers, tensions).
+3. Confirm no stale historical score snapshots are presented as current.
+4. Freeze submission artifacts and publish.
 
 ---
 
-*Document version: 1.0 — 2026-05-08 (v10.18)*
+*Document version: 2.0 — 2026-05-11 (v10.51 sync)*
