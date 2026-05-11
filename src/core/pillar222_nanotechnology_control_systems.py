@@ -141,8 +141,8 @@ def pid_nano_positioning(
     if steps < 1:
         raise ValueError("steps must be >= 1.")
 
-    dt = dt_ms * 1e-3
-    tau = tau_ms * 1e-3
+    dt = dt_ms
+    tau = tau_ms
     x = 0.0
     integral = 0.0
     prev_error = setpoint_nm
