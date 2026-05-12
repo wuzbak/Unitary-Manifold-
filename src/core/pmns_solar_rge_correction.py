@@ -111,7 +111,7 @@ def _require_finite_nonnegative(name: str, value: float) -> None:
 
 
 def _require_residual_pct(name: str, value: float) -> None:
-    """Raise ValueError if a residual percentage is outside 0 <= value < 100."""
+    """Raise ValueError if a residual percentage is outside [0, 100)."""
     if not math.isfinite(value):
         raise ValueError(f"{name} must be finite, got {value!r}")
     if not (0.0 <= value < 100.0):
@@ -545,9 +545,18 @@ def pmns_solar_closure_realism_audit(
         ),
         "honest_note": (
             f"Baseline 1-loop path remains canonical. Reaching sub-{target_residual_pct:g}% "
-            "residual from this module alone requires a two-loop enhancement far "
-            "above the perturbative loop-counting ceiling and/or a threshold term "
-            "that ceases to be subdominant to the one-loop RGE shift."
+            "residual from this module alone "
+            + (
+                "requires a two-loop enhancement far above the perturbative loop-counting ceiling "
+                if two_loop_verdict != "PERTURBATIVE"
+                else "stays within the perturbative loop-counting ceiling "
+            )
+            + "and "
+            + (
+                "a threshold term that ceases to be subdominant to the one-loop RGE shift."
+                if threshold_verdict != "SUBDOMINANT"
+                else "a threshold term that remains subdominant to the one-loop RGE shift."
+            )
         ),
         "reference": (
             "Antusch et al. hep-ph/0305274 baseline 1-loop structure; loop-counting "

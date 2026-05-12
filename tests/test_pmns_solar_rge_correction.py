@@ -525,6 +525,11 @@ class TestRequiredClosureGains:
         boosted = pmns_solar_required_two_loop_gain(threshold_gain=10.0)
         assert boosted["required_two_loop_gain"] < baseline["required_two_loop_gain"]
 
+    def test_custom_two_loop_gain_lowers_required_threshold_gain(self):
+        baseline = pmns_solar_required_threshold_gain()
+        boosted = pmns_solar_required_threshold_gain(two_loop_gain=10.0)
+        assert boosted["required_threshold_gain"] < baseline["required_threshold_gain"]
+
 
 class TestClosureRealismAudit:
     def test_audit_exposes_nonperturbative_requirement(self):
