@@ -434,6 +434,8 @@ def pmns_solar_required_two_loop_gain(
     required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
     required_rge_shift = required_total_shift - threshold["delta_threshold"]
     delta_one_loop = baseline_rge["delta_one_loop"]
+    if delta_one_loop == 0.0:
+        raise ZeroDivisionError("delta_one_loop is zero; cannot infer required two-loop gain")
     # A negative required shift means the canonical baseline already meets the
     # target residual, so no additional two-loop enhancement is physically needed.
     required_gain = max(0.0, required_rge_shift / delta_one_loop)
@@ -475,6 +477,8 @@ def pmns_solar_required_threshold_gain(
     required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
     required_threshold_shift = required_total_shift - rge["delta_sin2_theta12"]
     delta_threshold_base = threshold_base["delta_threshold_base"]
+    if delta_threshold_base == 0.0:
+        raise ZeroDivisionError("delta_threshold_base is zero; cannot infer required threshold gain")
     # A negative required shift means the canonical baseline already meets the
     # target residual, so no extra threshold boost is physically needed.
     required_gain = max(0.0, required_threshold_shift / delta_threshold_base)
