@@ -36,7 +36,7 @@ __all__ = [
 DEFAULT_PHI_GRID: List[float] = [0.25, 0.5, 1.0, 2.0, 4.0]
 ATTRACTOR_PHI: float = 1.0
 ATTRACTOR_PHI_TOLERANCE: float = 1e-12
-MIN_DT_MISMATCH_FOR_RATIO: float = 1e-15
+ATTRACTOR_MISMATCH_ZERO_THRESHOLD: float = 1e-15
 
 
 def _is_attractor_phi(phi_value: float) -> bool:
@@ -153,7 +153,7 @@ def off_attractor_severity_profile(
     # worst/off-attractor ratio is mathematically unbounded, so we return inf.
     ratio = (
         float("inf")
-        if abs(attractor["dt_mismatch"]) < MIN_DT_MISMATCH_FOR_RATIO
+        if abs(attractor["dt_mismatch"]) < ATTRACTOR_MISMATCH_ZERO_THRESHOLD
         else worst["dt_mismatch"] / attractor["dt_mismatch"]
     )
     return {

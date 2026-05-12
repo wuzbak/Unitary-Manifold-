@@ -394,6 +394,8 @@ def subleading_cs_corrected_cl_window(cs_order: int = 1) -> dict:
     """
     if cs_order <= 0:
         raise ValueError("cs_order must be a positive integer.")
+    if N2 <= N1:
+        raise ValueError("Sub-leading CS split assumes N2 > N1 for Δn = N2 - N1.")
 
     base_boundary = BRAID_RESONANCE_WINDOW
     # Sub-leading CS correction ansatz: Δc_L ~ Δn / k_CS², with Δn = (N2 - N1).
