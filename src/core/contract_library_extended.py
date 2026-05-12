@@ -153,7 +153,7 @@ def extended_theorem_set() -> List[TheoremArtifact]:  # noqa: PLR0914
     # T6 ----------------------------------------------------------------
     t6 = TheoremArtifact(
         theorem_id="T6-SLOW-ROLL-ETA",
-        statement="eta = 2*N_w/phi0^2 = epsilon/2 (second slow-roll parameter; eta=epsilon for phi^2 potential)",
+        statement="eta = 2*N_w/phi0^2 = epsilon (second slow-roll parameter; eta=epsilon for phi^2 potential)",
         lhs=2 * n_w / phi0**2,
         rhs=2 * n_w / phi0**2,
         assumptions=["A1", "A2"],

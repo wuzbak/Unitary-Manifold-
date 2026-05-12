@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Tests for src/core/contract_library_extended.py — ~80 pytest tests."""
+"""Tests for src/core/contract_library_extended.py — 71 pytest tests."""
 
 from __future__ import annotations
 
