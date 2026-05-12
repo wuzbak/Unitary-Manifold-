@@ -312,16 +312,17 @@ This is not a CISO-only problem. CRQC risk has characteristics that place it fir
 
 With a $5 million annual investment budget, the Pillar 234 model projects the following migration trajectory for a baseline Fortune-500 enterprise starting at 37.3% readiness [CALCULATED]:
 
-| Year | Calendar Year | Readiness Index | Cumulative Budget |
+| Model Year | Calendar Year | Readiness Index | Cumulative Budget Spent (prior years) |
 |---|---|---|---|
-| 0 (start) | 2026 | 37.3% | — |
-| 1 | 2026 | 36.9% | $0 |
-| 5 | 2030 | 58.2% | $20M |
-| 10 | 2035 | 68.5% | $45M |
+| 1 (pre-investment) | 2026 | 36.9% | $0 — CBOM inventory underway |
+| 5 | 2030 | 58.2% | $20M (years 1–4 × $5M/yr) |
+| 10 | 2035 | 68.5% | $45M (years 1–9 × $5M/yr) |
+
+*Note: The model counts Year 1 as the start of 2026 before the annual budget cycle is deployed; cumulative spend is measured at the beginning of each year.*
 
 Three observations from this table:
 
-**1. Year 1 readiness actually decreases slightly.** This is the "inventory effect" — when you run a proper CBOM discovery sprint, you find more legacy cryptography than you knew existed. Readiness goes down before it goes up. This is expected and healthy. It means your measurement is improving, not that your security is deteriorating.
+**1. Year 1 readiness (36.9%) is slightly below the 37.3% baseline.** This is the "inventory effect" — when you run a proper CBOM discovery sprint, you find more legacy cryptography than you knew existed. Readiness goes down before it goes up. This is expected and healthy. It means your measurement is improving, not that your security is deteriorating.
 
 **2. The PHI₀ ceiling is real.** Even with $45M over ten years, the model does not reach full migration. The asymptotic ceiling of 73.9% reflects persistent irreducible legacy: vendor-controlled surfaces that require bilateral action, long-lifecycle hardware, and external PKI dependencies. Plan for this ceiling explicitly. A 75% readiness target is achievable and should be the 10-year goal. "100% quantum-safe" is probably not achievable in the same window.
 
