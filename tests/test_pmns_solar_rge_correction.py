@@ -505,15 +505,23 @@ class TestRequiredClosureGains:
             pmns_solar_required_two_loop_gain(target_residual_pct=100.0)
         with pytest.raises(ValueError):
             pmns_solar_required_two_loop_gain(target_residual_pct=150.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_threshold_gain(target_residual_pct=100.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_threshold_gain(target_residual_pct=150.0)
 
     def test_negative_target_residual_pct_raises(self):
         with pytest.raises(ValueError):
             pmns_solar_required_two_loop_gain(target_residual_pct=-1.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_threshold_gain(target_residual_pct=-1.0)
 
     def test_nonfinite_target_residual_pct_raises(self):
         for value in (float("inf"), float("nan")):
             with pytest.raises(ValueError):
                 pmns_solar_required_two_loop_gain(target_residual_pct=value)
+            with pytest.raises(ValueError):
+                pmns_solar_required_threshold_gain(target_residual_pct=value)
 
     def test_relaxed_target_can_be_already_satisfied(self):
         result = pmns_solar_required_two_loop_gain(target_residual_pct=20.0)
