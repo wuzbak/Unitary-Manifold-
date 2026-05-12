@@ -3,7 +3,7 @@
 """
 tests/test_pipeline_adapter.py
 ==============================
-Pytest test suite for src/core/pipeline_adapter.py (~60 tests).
+Pytest test suite for src/core/pipeline_adapter.py (73 tests).
 
 Covers:
   - Return types and dataclass field presence

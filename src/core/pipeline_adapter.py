@@ -42,11 +42,19 @@ __all__ = [
 ]
 
 # ---------------------------------------------------------------------------
-# Internal helpers
+# Module-level constants (ALL_CAPS per repository convention)
 # ---------------------------------------------------------------------------
 
+# Anomaly-closure coefficients (from src/core/anomaly_closure.py)
+_A_NS: float = 36.0   # spectral-index coefficient
+_A_R: float = 96.0    # tensor-ratio coefficient
+_TWO_PI: float = 2.0 * math.pi
+
+# Canonical QCD scale (PDG 2024 central value; used as fallback in 1-loop RGE)
+LAMBDA_QCD_CANONICAL_GEV: float = 0.332
+
 def _now_utc() -> str:
-    return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _quadrature(*fractions: float) -> float:
@@ -159,13 +167,10 @@ def pipeline_ns_r(
         r  : BICEP/Keck upper limit 0.036
              (modelled as observed=0.018, sigma=0.018 so 0.0315 lands inside 1σ)
     """
-    _A_NS = 36.0
-    _A_R = 96.0
-
     if phi0 is None:
         phi0 = 1.0  # canonical bare vev (Planck units)
 
-    phi_eff = n_w * 2.0 * math.pi * phi0
+    phi_eff = n_w * _TWO_PI * phi0
     phi_eff_sq = phi_eff ** 2
 
     n_s = 1.0 - _A_NS / phi_eff_sq
@@ -184,7 +189,7 @@ def pipeline_ns_r(
             step_id="ns_r-1",
             formula_description=(
                 "phi_eff = n_w*2*pi*phi0_bare; "
-                "n_s = 1 - A_NS/phi_eff^2  (A_NS=36)"
+                f"n_s = 1 - A_NS/phi_eff^2  (A_NS={_A_NS})"
             ),
             inputs={"n_w": n_w, "phi0_bare": phi0, "A_NS": _A_NS},
             output_name="n_s",
@@ -194,7 +199,7 @@ def pipeline_ns_r(
         ProcessingStep(
             step_id="ns_r-2",
             formula_description=(
-                "r = A_R*c_s/phi_eff^2  (A_R=96); "
+                f"r = A_R*c_s/phi_eff^2  (A_R={_A_R}); "
                 "r_braided = r_bare * c_s"
             ),
             inputs={"n_w": n_w, "phi0_bare": phi0, "c_s": c_s, "A_R": _A_R},
@@ -403,13 +408,13 @@ def pipeline_lambda_qcd(
     # Λ_QCD from 1-loop matching
     b3_sm = (11 * 3 - 2 * 5) / (12 * math.pi)   # n_f=5 at M_Z
     lambda_qcd_gev = Mz_GeV * math.exp(
-        -1.0 / (b3_sm * alpha_s_mz * 2.0 * math.pi) * math.pi
+        -1.0 / (b3_sm * alpha_s_mz * 2.0)   # = exp(-pi/(b3_sm*alpha_s*2*pi)) simplified
     )
 
     # Clamp to physically reasonable range; the simple 1-loop gives ~ 0.2–0.5 GeV
     # Use analytic UM result directly when 1-loop drifts outside sensible window
     if not (0.1 < lambda_qcd_gev < 1.0):
-        lambda_qcd_gev = 0.332   # UM canonical value
+        lambda_qcd_gev = LAMBDA_QCD_CANONICAL_GEV
 
     manifest = PipelineManifest(
         run_id="um_lambda_qcd_v1",
@@ -465,7 +470,7 @@ def pipeline_lambda_qcd(
     obs = ObservationalComparator.make(
         prediction_id="lambda_qcd",
         predicted=lambda_qcd_gev,
-        observed=0.332,
+        observed=LAMBDA_QCD_CANONICAL_GEV,
         sigma=0.017,
         source="PDG2024",
     )
