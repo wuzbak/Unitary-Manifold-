@@ -111,7 +111,7 @@ def _require_finite_nonnegative(name: str, value: float) -> None:
 
 
 def _require_residual_pct(name: str, value: float) -> None:
-    """Raise ValueError if a residual percentage is outside [0, 100)."""
+    """Raise ValueError if a residual percentage is outside 0 <= value < 100."""
     if not math.isfinite(value):
         raise ValueError(f"{name} must be finite, got {value!r}")
     if not (0.0 <= value < 100.0):

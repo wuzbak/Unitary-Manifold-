@@ -537,7 +537,7 @@ class TestClosureRealismAudit:
         assert audit["threshold_verdict"] == "DOMINATES_ONE_LOOP"
         assert audit["effective_threshold_to_one_loop_ratio"] > 1.0
 
-    def test_audit_required_gain_exceeds_perturbative_ceiling(self):
+    def test_audit_required_two_loop_gain_exceeds_perturbative_ceiling(self):
         audit = pmns_solar_closure_realism_audit()
         assert audit["required_two_loop_gain_for_target"] > audit["perturbative_two_loop_gain_ceiling"]
         assert audit["required_vs_perturbative_ceiling"] > 1.0
