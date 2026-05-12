@@ -1,7 +1,7 @@
 # Twelve Cancer Bottlenecks — Calculated, Not Estimated
 
 *Post 158 of the Unitary Manifold series.*  
-*Series S01, Episode E010.*  
+*Series S01, Episode E011.*  
 *Epistemic category: **A/P** — adjacent applied research mapping with explicit status labels. All numbers in this article are computed from established biology and — where the framework is genuinely relevant — the Unitary Manifold's four geometric constants. No estimates. Source: `src/core/pillar228_cancer_bottleneck_calculator.py`, 199 tests passing.*  
 *May 2026.*
 

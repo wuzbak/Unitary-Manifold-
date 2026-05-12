@@ -485,4 +485,5 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-154-s01e007-pillar220-energy-manifold.md` | Post 154 · S01E007 | "Energy as φ-Debt: How Pillar 220 Reframes the Transition Problem" |
 | `post-155-s01e008-pillar226-dimensional-understanding.md` | Post 155 · S01E008 | "The Dimensional Ladder (1D → 11D): Why Pillar 226 Is a Scaffold, Not Score Inflation" |
 | `post-156-s01e009-twelve-quantum-bottlenecks-um-answers.md` | Post 156 · S01E009 | "Twelve Quantum Computing Bottlenecks — Calculated, Not Estimated" |
-| `post-158-s01e010-twelve-cancer-bottlenecks-calculated.md` | Post 158 · S01E010 | "Twelve Cancer Bottlenecks — Calculated, Not Estimated" |
+| `post-157-s01e010-pillar227-ai-robotics-bottlenecks-2026.md` | Post 157 · S01E010 | "From Demo Culture to Deployment Math: Pillar 227 on AI + Robotics Bottlenecks (2026)" |
+| `post-158-s01e011-twelve-cancer-bottlenecks-calculated.md` | Post 158 · S01E011 | "Twelve Cancer Bottlenecks — Calculated, Not Estimated" |
