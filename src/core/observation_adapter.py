@@ -60,7 +60,7 @@ __all__ = [
     "UM_HIGGS_MASS_GEV",
     "UM_W0_KK",
     "UM_WA_KK",
-    # Classes
+    "GAMMA_SU5_NLO",
     "ObservationRecord",
     "ObservationReport",
     # Functions
@@ -111,10 +111,13 @@ DESI_W0_SIGMA: float = 0.067
 DESI_WA: float = -1.05
 DESI_WA_SIGMA: float = 0.27
 
+# SU(5) NLO threshold matching correction at M_GUT
+GAMMA_SU5_NLO: float = 1.014
+
 # UM predictions (from existing modules)
 UM_N_S: float = 0.9635
 UM_R: float = 0.0315
-UM_ALPHA_GUT: float = 3 / 74 * 1.014   # ≈ 0.04111
+UM_ALPHA_GUT: float = 3 / 74 * GAMMA_SU5_NLO   # ≈ 0.04111
 UM_ALPHA_S_MZ: float = 0.1181           # matched via RGE (Pillar 153)
 UM_LAMBDA_QCD_GEV: float = 0.332        # 4-loop MS-bar (Pillar 153)
 UM_SIN2_THETA_W: float = 0.23122        # from sin2W = 3/8 running to M_Z (Pillar 82)

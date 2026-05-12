@@ -27,7 +27,7 @@ from src.core.observation_adapter import (
     DESI_WA, DESI_WA_SIGMA,
     UM_N_S, UM_ALPHA_GUT, UM_ALPHA_S_MZ, UM_LAMBDA_QCD_GEV,
     UM_SIN2_THETA_W, UM_MW_GEV, UM_MZ_GEV, UM_HIGGS_MASS_GEV,
-    UM_W0_KK, UM_WA_KK,
+    UM_W0_KK, UM_WA_KK, GAMMA_SU5_NLO,
     # Classes
     ObservationRecord, ObservationReport,
     # Functions
@@ -80,7 +80,7 @@ def test_um_n_s_value():
 
 
 def test_um_alpha_gut_formula():
-    expected = 3 / 74 * 1.014
+    expected = 3 / 74 * GAMMA_SU5_NLO
     assert UM_ALPHA_GUT == pytest.approx(expected, rel=1e-9)
 
 
