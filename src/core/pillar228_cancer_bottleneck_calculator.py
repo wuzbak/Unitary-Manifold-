@@ -57,7 +57,6 @@ References (abbreviated; see article post-158 for full citations):
 from __future__ import annotations
 
 import math
-from typing import List
 
 __provenance__ = {
     "pillar": 228,
