@@ -216,8 +216,8 @@ COUPLING:    β = 0.3513° (birefringence angle) = coupling constant of the two-
 GAPS:        CMB amplitude ×4–7 suppressed (unresolved); n_w APS conjecture (preferred, not proved)
 FALSIFIER:   LiteBIRD β ∉ [0.22°,0.38°] or β in gap [0.29°–0.31°]; β=0.273° selects (5,6) sector; β=0.331° selects (5,7) sector; gap=2.9σ_LB (Pillar 95); Roman Space Telescope w ≠ −0.9302; ET/LISA null scalar GW
 ANALYTIC:    Pillar 96 (Unitary Closure): exactly {(5,6),(5,7)} proved by algebraic inequality — not enumeration; FTUM S*=A/(4G) sector-agnostic; Unitary Summation in 10 steps
-TESTS:       28,560 passed · 329 skipped · 11 deselected · 0 failures
-             (prior milestones: 20,249 (v9.33, 167 pillars), 18,057 (v9.30, 142 pillars), 15,615 (v9.29, 101 pillars), 15,296 (pre-audit), 14,641=11⁴ (v9.25); tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/; 182 pillars + Ω₀ + sub-pillars — CLOSED. REPOSITORY COMPLETE.)
+TESTS:       29 425 passed · 329 skipped · 11 deselected · 0 failures
+             (prior milestones: 28,560 (v10.4), 20,249 (v9.33, 167 pillars), 18,057 (v9.30, 142 pillars), 15,615 (v9.29, 101 pillars), 15,296 (pre-audit), 14,641=11⁴ (v9.25); tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/; 208 core pillars + 24+ adjacent tracks + Ω₀ — REPOSITORY COMPLETE.)
 CODE:        src/core/inflation.py, metric.py, evolution.py, transfer.py, braided_winding.py
              src/core/completeness_theorem.py      ← Pillar 74: k_CS=74 Topological Completeness Theorem
              src/consciousness/coupled_attractor.py  ← Pillar 9: Coupled Master Equation

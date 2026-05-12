@@ -903,7 +903,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 29 393 passed · 329 skipped · 11 deselected)
+### Run the test suite — 0 failures (full suite: 29 425 passed · 329 skipped · 11 deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
@@ -946,19 +946,18 @@ tests/test_dual_sector_convergence.py     93 passed  ← Pillar 95: (5,6) β=0.2
 tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness Theorem [TIER 1]
 tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
-================================ ~19,543 passed, 75 skipped, 11 deselected ================================
+# NOTE: per-file counts above are a v10.4-era snapshot for illustration.
+# The tests/ suite now contains 200+ test files covering Pillars 1–232 + adjacent tracks.
+# Current tests/ sub-suite total: see STATUS.md.
 
 # recycling/ (Pillar 16: φ-debt accounting):
 ================================ 316 passed ================================
 
 # 5-GOVERNANCE/Unitary Pentad/ (HILS governance framework):
-================================ 1,026 passed, 254 skipped ================================
+================================ ~1,487 passed, 254 skipped ================================
 
-# 5-GOVERNANCE/Unitary Pentad/omega/ (Pillar Ω: Universal Mechanics Engine):
-================================ 170 passed ================================
-
-# Grand total:
-================================ ~23524 passed, 329 skipped, 11 deselected, 0 failed ================================
+# Grand total (v10.52, 2026-05-12):
+================================ 29 425 passed · 329 skipped · 11 deselected · 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.

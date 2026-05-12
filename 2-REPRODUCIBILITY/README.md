@@ -13,7 +13,7 @@ pip install -r requirements.txt pytest
 
 # Full test suite (~2 min):
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 15,615 passed, 330 skipped, 11 deselected, 0 failed
+# Expected: 29 425 passed · 329 skipped · 11 deselected · 0 failed
 
 # Single-module fast check:
 python -m pytest tests/test_metric.py tests/test_evolution.py -v
@@ -45,9 +45,9 @@ pytest must discover it from the root directory.
 
 | Directory | Tests | What it covers |
 |-----------|-------|----------------|
-| [`tests/`](../tests/) | ~13,059 | Core physics: metric, evolution, holography, inflation, FTUM, SM parameters |
+| [`tests/`](../tests/) | ≥ 27,600 | Core physics (Pillars 1–232 + Ω₀ + adjacent tracks), integrations (JAX, Lean4, Z3, XDiag), SM parameters |
 | [`recycling/`](../recycling/) | 316 | Pillar 16: φ-debt entropy accounting |
-| [`5-GOVERNANCE/Unitary Pentad/`](../5-GOVERNANCE/Unitary%20Pentad/) | ~1,266 | HILS governance framework |
+| [`5-GOVERNANCE/Unitary Pentad/`](../5-GOVERNANCE/Unitary%20Pentad/) | ~1,487+ | HILS governance framework |
 | [`5-GOVERNANCE/Unitary Pentad/omega/`](../5-GOVERNANCE/Unitary%20Pentad/omega/) | 168 | Pillar Ω: Universal Mechanics Engine |
 
 ---

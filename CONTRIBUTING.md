@@ -12,12 +12,12 @@ git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: ~21055 passed, 329 skipped, 11 deselected, 0 failed
-python -m pytest tests/ -q           # tests/ only: ~19543 passed, 75 skipped, 11 deselected
+# Expected: 29 425 passed · 329 skipped · 11 deselected · 0 failed
+python -m pytest tests/ -q           # tests/ only — see STATUS.md for current sub-suite total
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 ```
 
-The test suite covers:
+The test suite covers (representative selection — see `STATUS.md` for complete per-pillar breakdown):
 
 | Module | Tests |
 |--------|-------|
@@ -27,29 +27,12 @@ The test suite covers:
 | `src/multiverse/fixed_point.py` | FTUM convergence, second law, holographic bound (35 tests) |
 | `src/core/inflation.py` / `transfer.py` | CMB power spectrum, birefringence, triple constraint (271 tests) |
 | `src/core/fiber_bundle.py` | Principal bundle topology, characteristic classes, anomaly cancellation (96 tests) |
-| `tests/test_completions.py` | Completion and endpoint tests (72 tests) |
-| `src/core/uniqueness.py` | Uniqueness theorems, ΛCDM no-go comparison (61 tests) |
-| `src/core/derivation.py` (module) | Stage 0–3 symbolic constraint derivation (59 tests) |
-| `src/core/boltzmann.py` | Baryon-loaded CMB transfer, Boltzmann H-theorem, entropy monotonicity (49 tests) |
-| `src/core/diagnostics.py` | CMB diagnostics, chi2, observables, convergence (30 tests) |
-| `tests/test_cosmological_predictions.py` | Hubble tension, muon g-2, dark matter curves, GW echoes (28 tests) |
-| Convergence | O(dx²) gradient, Laplacian, Christoffel (10 tests) |
-| Closure batch 1 | α dual-path, nₛ KK=Casimir, β coupling, holographic emergence (25 tests) |
-| Closure batch 2 | Numerical robustness, cross-module consistency (31 tests) |
-| Fuzzing | Edge cases, random inputs, adversarial numerics (20 tests) |
-| Dimensional reduction | KK reduction identities (14 tests) |
-| Discretization invariance | Grid-independence checks (13 tests) |
-| Arrow of time | Entropy growth, deficit, path independence, rates (23 tests) |
-| CMB landscape | χ² landscape, TB/EB cross-checks (17 tests) |
-| End-to-end pipeline | Chain closure, CS level uniqueness, α loop (26 tests) |
-| Observational resolution | nₛ/β/χ² tolerances, LiteBIRD bounds (30 tests) |
-| Parallel validation | 5 independent theory claims, dual-branch, transfer physics (38 tests) |
-| Quantum unification | BH info conservation, CCR, Hawking temperature, ER=EPR (26 tests) |
+| Adjacent pillars 209–232 | Universal Yukawa BC, ADM decomposition, RS neutrino spectrum, quantum/cancer/AI bottleneck calculators, interstellar travel, energy manifold, nanotechnology, medical imaging (1,700+ tests across 24 adjacent-track modules) |
+| Integrations | JAX-accelerated evolution, Lean4 formal proof bridge, Z3 SMT bounds, XDiag compatibility bridge (optional-dep guarded) |
 | Richardson (slow) | Second-order convergence rate in time step (11 tests) |
-| Derivation integers | Key-integer derivations: k_cs=74, n_w=5/7, k_rc=12, φ_min=18 — geometry-forced (59 tests) |
-| **Total (current)** | **Grand total: 15956 collected · 15615 passed · 330 skipped · 11 slow-deselected · 0 failed** (see README.md for full per-file breakdown) |
+| **Total (current)** | **Grand total: 29 425 passed · 329 skipped · 11 deselected · 0 failed** (see `STATUS.md` and `README.md` for full per-file breakdown) |
 
-> **Skip note:** 330 tests use conditional `pytest.skip()` guards — 76 dual-use stubs (cold fusion / lattice dynamics) and 254 Pentad product stubs. See `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
+> **Skip note:** 329 tests use conditional `pytest.skip()` guards — 75 dual-use stubs (cold fusion / lattice dynamics) and 254 Pentad product stubs. See `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
 > **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default via `pytest.ini`. Run with `pytest tests/ -m slow`.
 
 ---
@@ -86,10 +69,17 @@ interface before writing code.
 
 ## 3 · Code style
 
-- Python 3.12, numpy-idiomatic
+- Python 3.12+, numpy-idiomatic
 - Type hints on all public functions
 - Docstrings follow NumPy docstring convention (`Parameters / Returns` sections)
-- No new dependencies beyond `numpy` and `scipy` without discussion
+- **Core modules** (`src/core/`, `src/holography/`, `src/multiverse/`): NumPy + SciPy only
+- **Optional integrations** (guarded by try/except or `pytest.importorskip`):
+  - JAX — GPU/TPU-accelerated field evolution and automatic differentiation
+  - Lean4 — formal theorem proofs (bridge via `src/core/formal_proof_hardening.py`)
+  - Z3 — SMT-based bounds verification (`src/core/z3_pentad_checker.py`)
+  - XDiag — quantum many-body simulation compatibility bridge (`src/quantum/xdiag_bridge/`)
+  - W&B — experiment tracking (`src/core/wandb_logger.py`, optional in CI)
+- New core dependencies must be discussed in an Issue before addition
 
 ---
 

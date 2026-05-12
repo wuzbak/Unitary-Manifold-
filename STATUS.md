@@ -242,9 +242,9 @@ specific failure mode that this condition guards against.
 | `src/quantum/` (Fermi–Hubbard lane) | Adjacent quantum-simulation research track (Hamiltonian, JW/BK mappings, execution, benchmarks) | 🔵 IN DEVELOPMENT (non-hardgate) |
 | `src/quantum/xdiag_bridge/` | XDiag↔UM adjacent integration lane: schema contract, UM→XDiag export, XDiag→UM ingest, parity/accuracy gates, deterministic routing | 🔵 IN DEVELOPMENT (non-hardgate; steward approval required before any formal pillar numbering) |
 
-### Applied Research Tracks (Pillars 218–223, 227)
+### Applied Research Tracks (Pillars 218–232)
 
-Seven adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
+Twelve adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
 
 | Pillar | Module | Description | Tests | Status |
 |--------|--------|-------------|-------|--------|
@@ -254,7 +254,12 @@ Seven adjacent applied research pillars — not hard-gate physics claims, but ho
 | 221 | `src/core/pillar221_sound_energy.py` | Sound and Sound Energy: SPL/intensity/force models, harvesting estimates, ultrasound attenuation + MI safety windows | 23 | 🔵 ADJACENT TRACK |
 | 222 | `src/core/pillar222_nanotechnology_control_systems.py` | Nanotechnology and Control Systems: diffusion transport, release kinetics, PID nanoscale positioning, readiness scoring | 22 | 🔵 ADJACENT TRACK |
 | 223 | `src/core/pillar223_medical_imaging_diagnosis.py` | Medical Imaging and Health Diagnosis: ultrasound resolution, CT risk, Bayesian diagnostics, multimodal fusion, triage and cross-pillar alignment | 22 | 🔵 ADJACENT TRACK |
+| 224 | `src/core/pillar224_quantum_bottleneck_calculator.py` | Quantum Computing Bottleneck Calculator: 12 readiness bottlenecks scored deterministically; timeline uncertainty routing; cross-pillar alignment with Pillar 218 | 112 | 🔵 ADJACENT TRACK |
 | 227 | `src/core/pillar227_ai_robotics_bottleneck_engine.py` | AI & Robotics 2026 bottleneck engine: 3 strategic hurdles + 12 bottlenecks scored deterministically; readiness index + Monte Carlo uncertainty routing | 25 | 🔵 ADJACENT TRACK |
+| 228 | `src/core/pillar228_cancer_bottleneck_calculator.py` | Cancer Bottleneck Calculator: research-to-cure pipeline analysis; treatment access scoring; φ-pathway entropy bottleneck identification | 199 | 🔵 ADJACENT TRACK |
+| 229 | `src/core/pillar229_ai_robotics_solutions_engine.py` | AI & Robotics Solutions Engine: strategic solution pathways for bottlenecks identified in Pillar 227; Monte Carlo feasibility scoring | 129 | 🔵 ADJACENT TRACK |
+| 230 | `src/core/pillar230_cancer_solutions_engine.py` | Cancer Solutions Engine: targeted solution paths for bottlenecks identified in Pillar 228; clinical translation readiness scoring | 158 | 🔵 ADJACENT TRACK |
+| 232 | `src/core/pillar232_universal_cancer_control_framework.py` | Universal Cancer Control Framework: integrated cross-pillar synthesis (Pillars 228–230) with policy-level routing, resource allocation scoring, and LiteBIRD-era timeline anchoring | 34 | 🔵 ADJACENT TRACK |
 
 ### Key numerical results (v10.5)
 
@@ -272,13 +277,13 @@ Seven adjacent applied research pillars — not hard-gate physics claims, but ho
 - `src/core/adm_quantitative_closure.py`: extended with off-attractor Ricci/ADM mismatch scans and radion local-quantization evidence.
 - `src/core/cmb_boltzmann_full.py`: extended with numerical line-of-sight integration, JAX transfer cross-check, and precision peak audit.
 - `src/core/finish_line_observation_engine.py`: extended with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit payloads for `3-FALSIFICATION/OBSERVATION_TRACKER.md`, `docs/WAVE_CHANGELOG.md`, `docs/TRUTH_LAYER.md`, `docs/CLAIM_MASTER_BOARD.md`, and the canonical ledgers.
-- `src/core/canonical_ledger_consistency.py`: machine-readable consistency check for the public README plus `STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `docs/WAVE_CHANGELOG.md`, and `docs/mas_tracker.yml`.
+- `src/core/canonical_ledger_consistency.py`: machine-readable consistency check — now covers core ledgers (README, STATUS, FALLIBILITY, DERIVATION_STATUS, WAVE_CHANGELOG, mas_tracker) **plus** onboarding docs (CONTRIBUTING, 2-REPRODUCIBILITY/README, 9-INFRA/TEST/README, copilot-instructions, wiki×2, MCP_INGEST, WHAT_THIS_MEANS).
 
-### Regression gate (v10.5)
+### Regression gate (v10.52)
 
 ```
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-Expected: ≥ 27 968 passed, 329 skipped, 11 deselected, 0 failed
+Expected: 29 425 passed · 329 skipped · 11 deselected · 0 failed
 ```
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

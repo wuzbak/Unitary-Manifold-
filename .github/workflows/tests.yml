@@ -108,3 +108,21 @@ jobs:
         run: pip install -r requirements.txt pytest sympy
       - name: Run ALGEBRA_PROOF.py (114 formal checks)
         run: python3 ALGEBRA_PROOF.py
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 7: Canonical ledger + onboarding docs consistency gate
+  # Ensures no doc drifts away from the canonical test count in STATUS.md.
+  # ──────────────────────────────────────────────────────────────────────────
+  ledger-consistency:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install numpy scipy pytest
+      - name: Run canonical ledger + onboarding consistency checks
+        run: python -m pytest tests/test_canonical_ledger_consistency.py -v
