@@ -58,8 +58,8 @@ __all__ = [
     "UM_MW_GEV",
     "UM_MZ_GEV",
     "UM_HIGGS_MASS_GEV",
-    "UM_W0_KK",
-    "UM_WA_KK",
+    "UM_W0",
+    "UM_WA",
     "GAMMA_SU5_NLO",
     "ObservationRecord",
     "ObservationReport",
@@ -124,8 +124,8 @@ UM_SIN2_THETA_W: float = 0.23122        # from sin2W = 3/8 running to M_Z (Pilla
 UM_MW_GEV: float = 80.369               # from Pillar 108 EW sector
 UM_MZ_GEV: float = 91.188               # from Pillar 108 EW sector
 UM_HIGGS_MASS_GEV: float = 125.0        # Pillar 211 Architecture Limit — consistent
-UM_W0_KK: float = -1.0                  # w_0 from KK radion dark energy (cosmological constant limit)
-UM_WA_KK: float = 0.0                   # w_a = 0 (constant dark energy in 5D limit)
+UM_W0: float = -1.0                  # w_0 from KK radion dark energy (cosmological constant limit)
+UM_WA: float = 0.0                   # w_a = 0 (constant dark energy in 5D limit)
 
 # ---------------------------------------------------------------------------
 # Dataclasses
@@ -350,7 +350,7 @@ def record_higgs_mass() -> ObservationRecord:
 def record_w0_dark_energy() -> ObservationRecord:
     """Dark energy equation-of-state w_0.
 
-    UM_W0_KK = -1.0 vs DESI W0 = -0.727 ± 0.067 → pull ≈ -4.07σ → TENSION/FAIL.
+    UM_W0 = -1.0 vs DESI W0 = -0.727 ± 0.067 → pull ≈ -4.07σ → TENSION/FAIL.
     Documented honestly as OPEN epistemic status: the 5D radion in the
     cosmological-constant limit predicts w_0 = -1; DESI DR1 sees w_0 ≠ -1
     at ~4σ.  This is a genuine open tension, not a confirmed prediction.
@@ -359,7 +359,7 @@ def record_w0_dark_energy() -> ObservationRecord:
         prediction_id="W0_DE",
         description="Dark energy equation-of-state w_0",
         formula="w_0 = -1 from KK radion in cosmological constant limit (5D)",
-        um_prediction=UM_W0_KK,
+        um_prediction=UM_W0,
         observed_value=DESI_W0,
         observed_sigma=DESI_W0_SIGMA,
         observed_source="DESI DR1 2024",
@@ -374,13 +374,13 @@ def record_w0_dark_energy() -> ObservationRecord:
 def record_wa_dark_energy() -> ObservationRecord:
     """Dark energy equation-of-state slope w_a (DESI tension).
 
-    UM_WA_KK = 0.0 vs DESI WA = -1.05 ± 0.27 → pull ≈ +3.9σ → TENSION.
+    UM_WA = 0.0 vs DESI WA = -1.05 ± 0.27 → pull ≈ +3.9σ → TENSION.
     """
     return ObservationRecord.make(
         prediction_id="WA_DE",
         description="Dark energy equation-of-state slope w_a",
         formula="w_a = 0 from KK radion in cosmological constant limit (5D)",
-        um_prediction=UM_WA_KK,
+        um_prediction=UM_WA,
         observed_value=DESI_WA,
         observed_sigma=DESI_WA_SIGMA,
         observed_source="DESI DR1 2024",

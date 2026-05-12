@@ -27,7 +27,7 @@ from src.core.observation_adapter import (
     DESI_WA, DESI_WA_SIGMA,
     UM_N_S, UM_ALPHA_GUT, UM_ALPHA_S_MZ, UM_LAMBDA_QCD_GEV,
     UM_SIN2_THETA_W, UM_MW_GEV, UM_MZ_GEV, UM_HIGGS_MASS_GEV,
-    UM_W0_KK, UM_WA_KK, GAMMA_SU5_NLO,
+    UM_W0, UM_WA, GAMMA_SU5_NLO,
     # Classes
     ObservationRecord, ObservationReport,
     # Functions
@@ -89,11 +89,11 @@ def test_desi_w0_negative():
 
 
 def test_um_w0_kk_is_minus_one():
-    assert UM_W0_KK == pytest.approx(-1.0)
+    assert UM_W0 == pytest.approx(-1.0)
 
 
 def test_um_wa_kk_is_zero():
-    assert UM_WA_KK == pytest.approx(0.0)
+    assert UM_WA == pytest.approx(0.0)
 
 
 # ---------------------------------------------------------------------------

@@ -408,7 +408,7 @@ def pipeline_lambda_qcd(
     # Λ_QCD from 1-loop matching
     b3_sm = (11 * 3 - 2 * 5) / (12 * math.pi)   # n_f=5 at M_Z
     lambda_qcd_gev = Mz_GeV * math.exp(
-        -1.0 / (b3_sm * alpha_s_mz * 2.0)   # = exp(-pi/(b3_sm*alpha_s*2*pi)) simplified
+        -1.0 / (b3_sm * alpha_s_mz * 2.0)   # exponent = -1/(2 b_3 alpha_s); full expression is M_Z * exp(this)
     )
 
     # Clamp to physically reasonable range; the simple 1-loop gives ~ 0.2–0.5 GeV
