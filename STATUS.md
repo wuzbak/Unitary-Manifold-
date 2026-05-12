@@ -240,6 +240,7 @@ specific failure mode that this condition guards against.
 |----------|-------------|--------|
 | `src/unitary_os/` (14 modules) | Unitary OS — independent operating system in development (461 tests) | 🔵 IN DEVELOPMENT |
 | `src/quantum/` (Fermi–Hubbard lane) | Adjacent quantum-simulation research track (Hamiltonian, JW/BK mappings, execution, benchmarks) | 🔵 IN DEVELOPMENT (non-hardgate) |
+| `src/quantum/xdiag_bridge/` | XDiag↔UM adjacent integration lane: schema contract, UM→XDiag export, XDiag→UM ingest, parity/accuracy gates, deterministic routing | 🔵 IN DEVELOPMENT (non-hardgate; steward approval required before any formal pillar numbering) |
 
 ### Applied Research Tracks (Pillars 218–223, 227)
 

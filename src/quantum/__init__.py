@@ -14,6 +14,9 @@ kk_vqe
 fermi_hubbard
     Adjacent-track Fermi–Hubbard model and mappings (JW/BK), execution,
     observables, and benchmark utilities.
+xdiag_bridge
+    Adjacent UM↔XDiag compatibility bridge for schema contracts, bidirectional
+    artifact conversion, parity gates, and deterministic routing.
 """
 from .kk_vqe import (
     kk_hamiltonian,
@@ -48,6 +51,31 @@ from .benchmarks import (
     run_observable_benchmark,
     tdvp_parity_report,
 )
+from .xdiag_bridge import (
+    XDIAG_UM_SCHEMA_VERSION,
+    CouplingSpec,
+    EvolutionSpec,
+    LatticeSpec,
+    ObservableSpec,
+    ParityDelta,
+    ParityReport,
+    ParityTolerance,
+    ProvenanceSpec,
+    RoutingDecision,
+    RoutingThresholds,
+    SectorSpec,
+    XDiagBridgeArtifact,
+    XDiagBridgeSpec,
+    XDiagExportPayload,
+    assert_parity,
+    build_xdiag_bridge_spec,
+    choose_route,
+    export_um_to_xdiag,
+    ingest_xdiag_to_um_artifact,
+    parity_report,
+    save_bridge_artifact,
+    spec_from_dict,
+)
 
 __all__ = [
     "kk_hamiltonian",
@@ -73,4 +101,27 @@ __all__ = [
     "build_scaling_curve",
     "run_observable_benchmark",
     "tdvp_parity_report",
+    "XDIAG_UM_SCHEMA_VERSION",
+    "LatticeSpec",
+    "CouplingSpec",
+    "SectorSpec",
+    "ObservableSpec",
+    "EvolutionSpec",
+    "ProvenanceSpec",
+    "XDiagBridgeSpec",
+    "build_xdiag_bridge_spec",
+    "spec_from_dict",
+    "XDiagExportPayload",
+    "XDiagBridgeArtifact",
+    "export_um_to_xdiag",
+    "ingest_xdiag_to_um_artifact",
+    "save_bridge_artifact",
+    "ParityTolerance",
+    "ParityDelta",
+    "ParityReport",
+    "parity_report",
+    "assert_parity",
+    "RoutingThresholds",
+    "RoutingDecision",
+    "choose_route",
 ]

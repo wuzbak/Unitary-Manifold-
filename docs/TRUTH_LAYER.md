@@ -26,6 +26,18 @@ The gatekeeper layer (`GATEKEEPER_SUMMARY.md`) provides condensed verdicts
 for referees and journals. The difference between that document and this one
 is framing depth, not substance. The facts are identical.
 
+### 0.1 Adjacent engineering lane: UM↔XDiag bridge (non-score, non-hardgate)
+
+The repository now includes an adjacent integration lane at
+`src/quantum/xdiag_bridge/` to connect Unitary Manifold quantum tooling with
+XDiag workflows for reproducibility and parity auditing.
+
+- Scope: schema contract, deterministic run IDs, UM→XDiag export, XDiag→UM
+  ingest, parity fail-fast checks, and deterministic routing.
+- Epistemic status: engineering scaffold (`SCAFFOLD`), not a physics-claim lane.
+- Score policy: this lane does not alter ToE scoring or claim promotions.
+- Governance: formal pillar numbering for this lane requires steward approval.
+
 ---
 
 ## Section 1 — Foundation: What Is Actually Proved vs. Assumed
