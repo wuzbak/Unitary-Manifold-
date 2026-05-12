@@ -853,7 +853,7 @@ def threshold_safety_margin() -> dict:
         "relative_margin_x": rel_margin,
         "hardware_relaxation_factor": hardware_relax,
         "supply_chain_note": (
-            "A 19.1x higher error threshold means hardware does not need "
+            "A 19.1× higher error threshold means hardware does not need "
             "to meet the same precision spec as current surface-code devices. "
             "Broader supplier base becomes viable; niobium-purity requirements "
             "and refrigerator specs can be relaxed proportionally."

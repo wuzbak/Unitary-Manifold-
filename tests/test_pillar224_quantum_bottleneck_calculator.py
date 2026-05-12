@@ -53,7 +53,8 @@ class TestConstants:
         assert N_W == 5
 
     def test_kcs_sum_of_squares(self):
-        assert K_CS == 5**2 + 7**2 == 74
+        assert K_CS == 74
+        assert K_CS == 5**2 + 7**2
 
     def test_cs_exact(self):
         assert abs(C_S - 12 / 37) < 1e-15
@@ -566,8 +567,7 @@ class TestBottleneck11PQC:
 
     def test_braiding_fraction_irrational(self):
         """35/74 is already in lowest terms (gcd=1), confirming non-Abelian regime."""
-        import math as m
-        assert m.gcd(35, 74) == 1
+        assert math.gcd(35, 74) == 1
 
     def test_gaussian_decomp_consistency(self):
         r = kcs_gaussian_integer_decomposition()
