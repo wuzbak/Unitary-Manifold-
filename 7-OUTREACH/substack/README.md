@@ -487,3 +487,6 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-156-s01e009-twelve-quantum-bottlenecks-um-answers.md` | Post 156 · S01E009 | "Twelve Quantum Computing Bottlenecks — Calculated, Not Estimated" |
 | `post-157-s01e010-pillar227-ai-robotics-bottlenecks-2026.md` | Post 157 · S01E010 | "From Demo Culture to Deployment Math: Pillar 227 on AI + Robotics Bottlenecks (2026)" |
 | `post-158-s01e011-twelve-cancer-bottlenecks-calculated.md` | Post 158 · S01E011 | "Twelve Cancer Bottlenecks — Calculated, Not Estimated" |
+| `post-159-s01e012-pillar229-ai-robotics-solutions.md` | Post 159 · S01E012 | "From Bottlenecks to Build Plans: Pillar 229 AI + Robotics Solutions" |
+| `post-160-s01e013-pillar230-cancer-solutions.md` | Post 160 · S01E013 | "Cancer Bottlenecks, Calculated and Solved: Pillar 230" |
+| `post-161-s01e014-pillar232-universal-cancer-control-framework.md` | Post 161 · S01E014 | "One Cure Is Unlikely. A Universal Method Is Plausible: Pillar 232" |
