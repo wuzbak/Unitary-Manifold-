@@ -29,6 +29,16 @@ from src.core.prediction_registry import PREDICTION_REGISTRY
 # Canonical consolidated P18 prediction for sin²θ12 after applying the
 # Route-A geometric boundary condition and its 1-loop RGE cross-check.
 SIN2_THETA12_PREDICTED: float = ROUTE_A_RGE_VALUE
+DEFAULT_DESI_MOCK_PAYLOAD: Dict[str, object] = {
+    "release_name": "DESI Year 3 Mock Packet",
+    "year": 2026,
+    "w0_central": -0.84,
+    "w0_sigma": 0.06,
+    "wa_central": -0.40,
+    "wa_sigma": 0.20,
+    "reference": "DESI synthetic packet",
+    "datasets": "BAO + CMB + SNe Ia (synthetic)",
+}
 
 
 def _calculate_tension(predicted: float, observed: float, sigma: float) -> float:
@@ -434,20 +444,11 @@ def five_job_execution_packet(
 ) -> Dict[str, object]:
     """Run and aggregate the five active closure jobs in one integration packet."""
     if desi_payload is None:
-        desi_payload = {
-            "release_name": "DESI Year 3 Mock Packet",
-            "year": 2026,
-            "w0_central": -0.84,
-            "w0_sigma": 0.06,
-            "wa_central": -0.40,
-            "wa_sigma": 0.20,
-            "reference": "DESI synthetic packet",
-            "datasets": "BAO + CMB + SNe Ia (synthetic)",
-        }
+        desi_payload = deepcopy(DEFAULT_DESI_MOCK_PAYLOAD)
 
     job1 = subleading_cs_corrected_cl_window()
     job2 = adm_quantitative_closure_report()
-    job3_desi = release_day_decision_packet(dict(desi_payload))
+    job3_desi = release_day_decision_packet(desi_payload)
     job3_litebird = litebird_release_day_packet(beta_obs=litebird_beta, sigma=litebird_sigma)
     job4 = uv_factor_for_target_alpha(target_alpha_gw=target_alpha_gw)
 

@@ -286,6 +286,8 @@ def uv_factor_for_target_alpha(
     if target_alpha_gw <= 0:
         raise ValueError("target_alpha_gw must be positive.")
     baseline = casimir_alpha_gw_from_geometry(k_cs=k_cs, n_w=n_w, pi_kr=pi_kr)
+    if "alpha_gw_casimir" not in baseline:
+        raise ValueError("Baseline result missing required key 'alpha_gw_casimir'.")
     alpha_base = float(baseline["alpha_gw_casimir"])
     if alpha_base <= 0:
         raise ValueError("Baseline geometric alpha_gw_casimir must be positive.")

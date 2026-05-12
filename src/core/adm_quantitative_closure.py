@@ -34,6 +34,13 @@ __all__ = [
 ]
 
 DEFAULT_PHI_GRID: List[float] = [0.25, 0.5, 1.0, 2.0, 4.0]
+ATTRACTOR_PHI: float = 1.0
+ATTRACTOR_PHI_TOLERANCE: float = 1e-12
+MIN_DT_MISMATCH_FOR_RATIO: float = 1e-15
+
+
+def _is_attractor_phi(phi_value: float) -> bool:
+    return abs(phi_value - ATTRACTOR_PHI) < ATTRACTOR_PHI_TOLERANCE
 
 
 def lapse_scaling_invariance(phi_values: Iterable[float] = DEFAULT_PHI_GRID) -> Dict[str, object]:
@@ -107,12 +114,17 @@ def off_attractor_time_mismatch_scan(
         adm_falsifier_interface(phi_0=phi, sigma_dt_threshold=sigma_dt_threshold)
         for phi in phis
     ]
-    non_attractor = [item for item in scans if abs(item["phi_0"] - 1.0) > 1e-12]
+    attractor_rows = [item for item in scans if _is_attractor_phi(item["phi_0"])]
+    if not attractor_rows:
+        raise ValueError(
+            f"off_attractor_time_mismatch_scan requires phi={ATTRACTOR_PHI} in the scan grid."
+        )
+    non_attractor = [item for item in scans if not _is_attractor_phi(item["phi_0"])]
     return {
         "phi_values": phis,
         "routes": [item["route"] for item in scans],
         "dt_mismatch_values": [item["dt_mismatch"] for item in scans],
-        "attractor_route": next(item["route"] for item in scans if abs(item["phi_0"] - 1.0) < 1e-12),
+        "attractor_route": attractor_rows[0]["route"],
         "non_attractor_routes": [item["route"] for item in non_attractor],
         "non_attractor_detected": any(item["route"] != "PASS" for item in non_attractor),
         "scan": scans,
@@ -126,11 +138,24 @@ def off_attractor_severity_profile(
     """Summarize off-attractor mismatch severity for closure-grade reporting."""
     scan = off_attractor_time_mismatch_scan(phi_values=phi_values, sigma_dt_threshold=sigma_dt_threshold)
     rows = list(scan["scan"])
-    attractor = next(item for item in rows if abs(item["phi_0"] - 1.0) < 1e-12)
+    attractor_candidates = [item for item in rows if _is_attractor_phi(item["phi_0"])]
+    if not attractor_candidates:
+        raise ValueError(
+            f"off_attractor_severity_profile requires phi={ATTRACTOR_PHI} in the scan grid."
+        )
+    attractor = attractor_candidates[0]
     worst = max(rows, key=lambda item: item["dt_mismatch"])
-    non_attractor_rows = [item for item in rows if abs(item["phi_0"] - 1.0) > 1e-12]
-    min_non_attractor = min(non_attractor_rows, key=lambda item: item["dt_mismatch"]) if non_attractor_rows else attractor
-    ratio = float("inf") if attractor["dt_mismatch"] == 0.0 else worst["dt_mismatch"] / attractor["dt_mismatch"]
+    non_attractor_rows = [item for item in rows if not _is_attractor_phi(item["phi_0"])]
+    if not non_attractor_rows:
+        raise ValueError("off_attractor_severity_profile requires at least one non-attractor phi value.")
+    min_non_attractor = min(non_attractor_rows, key=lambda item: item["dt_mismatch"])
+    # If attractor mismatch is numerically exact (or effectively exact), the
+    # worst/off-attractor ratio is mathematically unbounded, so we return inf.
+    ratio = (
+        float("inf")
+        if abs(attractor["dt_mismatch"]) < MIN_DT_MISMATCH_FOR_RATIO
+        else worst["dt_mismatch"] / attractor["dt_mismatch"]
+    )
     return {
         "sigma_dt_threshold": sigma_dt_threshold,
         "attractor_phi": attractor["phi_0"],

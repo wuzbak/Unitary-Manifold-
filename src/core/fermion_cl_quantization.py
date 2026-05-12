@@ -396,6 +396,9 @@ def subleading_cs_corrected_cl_window(cs_order: int = 1) -> dict:
         raise ValueError("cs_order must be a positive integer.")
 
     base_boundary = BRAID_RESONANCE_WINDOW
+    # Sub-leading CS correction ansatz: Δc_L ~ Δn / k_CS², with Δn = (N2 - N1).
+    # The winding split (N2−N1) controls the first non-degenerate braid offset,
+    # while k_CS² suppresses the term at higher topological level.
     correction = cs_order * (N2 - N1) / float(K_CS ** 2)
     corrected_boundary = min(C_L_CRITICAL, base_boundary + correction)
 
