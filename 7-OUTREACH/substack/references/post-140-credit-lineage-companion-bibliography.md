@@ -2,13 +2,13 @@
 
 *Companion to:* `7-OUTREACH/substack/posts/post-140-the-credit-lineage-ledger.md`  
 *Purpose:* standalone, expanded citation appendix for provenance, influence mapping, and auditability.  
-*v10.31, May 2026.*
+*v10.52, May 2026.*
 
 ---
 
 ## 1) How to Read This Companion
 
-This bibliography separates references into four relationship types:
+This bibliography separates references into five relationship types:
 
 - **Direct source dependence**: used directly for claims made in the post.
 - **Repository-context dependence**: files that establish project policy, framing, or accountability.
@@ -77,7 +77,7 @@ Where possible, repository references are path-precise.
 
 36. `5-GOVERNANCE/Unitary Pentad/README.md`  
 37. `5-GOVERNANCE/Unitary Pentad/IMPLICATIONS.md`  
-38. `co-emergence/FRAMEWORK.md`  
+38. `5-GOVERNANCE/co-emergence/FRAMEWORK.md`  
 39. `AGENTS.md`  
 40. `CONTRIBUTING.md`  
 41. `7-OUTREACH/OUTREACH_CALIBRATION.md`  
@@ -88,60 +88,75 @@ Where possible, repository references are path-precise.
 
 ---
 
-## 4) Reproducibility and Execution-Lineage References
+## 4) AI Systems, Languages, Toolchain, and Integration Provenance
 
-46. `tests/conftest.py`  
-47. `tests/test_metric.py`  
-48. `tests/test_evolution.py`  
-49. `tests/test_boundary.py`  
-50. `tests/test_fixed_point.py`  
-51. `src/core/five_tier_execution_framework.py`  
-52. `docs/WAVE_CHANGELOG.md`  
-53. `docs/mas_tracker.yml`
-
----
-
-## 5) Foundational Scientific Lineage (External)
-
-### 5.1 Geometry, relativity, and extra-dimension foundations
-
-54. Einstein, A. (1915). *Die Feldgleichungen der Gravitation.* Sitzungsberichte der Königlich Preußischen Akademie der Wissenschaften.  
-55. Kaluza, T. (1921). *Zum Unitätsproblem der Physik.* Sitzungsberichte der Preussischen Akademie der Wissenschaften.  
-56. Klein, O. (1926). *Quantentheorie und fünfdimensionale Relativitätstheorie.* Zeitschrift für Physik.
-
-### 5.2 Quantum and gauge-theory foundations
-
-57. Dirac, P. A. M. (1928). *The Quantum Theory of the Electron.* Proceedings of the Royal Society A.  
-58. Feynman, R. P. (1948). *Space-Time Approach to Non-Relativistic Quantum Mechanics.* Reviews of Modern Physics.  
-59. Yang, C. N., & Mills, R. L. (1954). *Conservation of Isotopic Spin and Isotopic Gauge Invariance.* Physical Review.  
-60. Glashow, S. L. (1961). *Partial-symmetries of weak interactions.* Nuclear Physics.  
-61. Weinberg, S. (1967). *A Model of Leptons.* Physical Review Letters.  
-62. Salam, A. (1968). *Weak and Electromagnetic Interactions* (Nobel Symposium contribution).
-
-### 5.3 Extra-dimensional phenomenology context
-
-63. Randall, L., & Sundrum, R. (1999). *A Large Mass Hierarchy from a Small Extra Dimension.* Physical Review Letters, 83, 3370–3373.  
-64. Randall, L., & Sundrum, R. (1999). *An Alternative to Compactification.* Physical Review Letters, 83, 4690–4693.
+46. `9-INFRASTRUCTURE/provenance/README.md`  
+47. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`  
+48. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`  
+49. `9-INFRASTRUCTURE/provenance/AUDIT_WORKFLOW_MAP.md`  
+50. `9-INFRASTRUCTURE/bot/README.md`  
+51. `9-INFRASTRUCTURE/mcp-config.json`  
+52. `9-INFRASTRUCTURE/bot/custom-gpt/SETUP_GUIDE.md`  
+53. `9-INFRASTRUCTURE/bot/copilot-extension/DEPLOY.md`  
+54. `9-INFRASTRUCTURE/bot/pages-chatbot/README.md`  
+55. `9-INFRASTRUCTURE/bot/rag/DEPLOY.md`
 
 ---
 
-## 6) Observational and Falsification Context (External)
+## 5) Reproducibility and Execution-Lineage References
 
-65. Planck Collaboration (2018). Cosmological parameter-release papers (A&A Planck 2018 results series).  
-66. BICEP/Keck Collaboration (latest combined constraints on tensor-to-scalar ratio r).  
-67. DESI Collaboration (Year 1 and successor cosmological analyses relevant to w₀/wₐ tension routing).  
-68. LiteBIRD mission and science requirement documents (birefringence falsifier context).
-
----
-
-## 7) Infrastructure and Archival Context (External)
-
-69. Zenodo archive entry for the Unitary Manifold repository: https://doi.org/10.5281/zenodo.19584531  
-70. GitHub repository record: https://github.com/wuzbak/Unitary-Manifold-
+56. `tests/conftest.py`  
+57. `tests/test_metric.py`  
+58. `tests/test_evolution.py`  
+59. `tests/test_boundary.py`  
+60. `tests/test_fixed_point.py`  
+61. `src/core/five_tier_execution_framework.py`  
+62. `docs/WAVE_CHANGELOG.md`  
+63. `docs/mas_tracker.yml`
 
 ---
 
-## 8) Integrity Notes for This Bibliography
+## 6) Foundational Scientific Lineage (External)
+
+### 6.1 Geometry, relativity, and extra-dimension foundations
+
+64. Einstein, A. (1915). *Die Feldgleichungen der Gravitation.* Sitzungsberichte der Königlich Preußischen Akademie der Wissenschaften.  
+65. Kaluza, T. (1921). *Zum Unitätsproblem der Physik.* Sitzungsberichte der Preussischen Akademie der Wissenschaften.  
+66. Klein, O. (1926). *Quantentheorie und fünfdimensionale Relativitätstheorie.* Zeitschrift für Physik.
+
+### 6.2 Quantum and gauge-theory foundations
+
+67. Dirac, P. A. M. (1928). *The Quantum Theory of the Electron.* Proceedings of the Royal Society A.  
+68. Feynman, R. P. (1948). *Space-Time Approach to Non-Relativistic Quantum Mechanics.* Reviews of Modern Physics.  
+69. Yang, C. N., & Mills, R. L. (1954). *Conservation of Isotopic Spin and Isotopic Gauge Invariance.* Physical Review.  
+70. Glashow, S. L. (1961). *Partial-symmetries of weak interactions.* Nuclear Physics.  
+71. Weinberg, S. (1967). *A Model of Leptons.* Physical Review Letters.  
+72. Salam, A. (1968). *Weak and Electromagnetic Interactions* (Nobel Symposium contribution).
+
+### 6.3 Extra-dimensional phenomenology context
+
+73. Randall, L., & Sundrum, R. (1999). *A Large Mass Hierarchy from a Small Extra Dimension.* Physical Review Letters, 83, 3370–3373.  
+74. Randall, L., & Sundrum, R. (1999). *An Alternative to Compactification.* Physical Review Letters, 83, 4690–4693.
+
+---
+
+## 7) Observational and Falsification Context (External)
+
+75. Planck Collaboration (2018). Cosmological parameter-release papers (A&A Planck 2018 results series).  
+76. BICEP/Keck Collaboration (latest combined constraints on tensor-to-scalar ratio r).  
+77. DESI Collaboration (Year 1 and successor cosmological analyses relevant to w₀/wₐ tension routing).  
+78. LiteBIRD mission and science requirement documents (birefringence falsifier context).
+
+---
+
+## 8) Infrastructure and Archival Context (External)
+
+79. Zenodo archive entry for the Unitary Manifold repository: https://doi.org/10.5281/zenodo.19584531  
+80. GitHub repository record: https://github.com/wuzbak/Unitary-Manifold-
+
+---
+
+## 9) Integrity Notes for This Bibliography
 
 - This bibliography is intentionally redundant with the in-post appendix for auditability.
 - It separates direct repository dependence from broad scientific lineage to avoid overstating novelty.
