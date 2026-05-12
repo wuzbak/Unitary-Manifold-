@@ -20,6 +20,7 @@ from src.core.fermion_cl_quantization import (
     top_yukawa_cl_constraint,
     electron_hierarchy_cl_constraint,
     braid_resonance_cl_window,
+    subleading_cs_corrected_cl_window,
     cl_constraints_from_braid,
     fermion_mass_parameterization_audit,
     pillar183_summary,
@@ -214,6 +215,24 @@ class TestBraidResonanceWindow:
         assert "CONSTRAINED" in result["derivation_status"].upper()
 
 
+class TestSubleadingCSCorrectedWindow:
+    def test_default_order_returns_positive_shift(self):
+        result = subleading_cs_corrected_cl_window()
+        assert result["subleading_cs_shift"] > 0.0
+
+    def test_corrected_boundary_not_below_baseline(self):
+        result = subleading_cs_corrected_cl_window()
+        assert result["corrected_boundary"] >= result["baseline_boundary"]
+
+    def test_corrected_boundary_capped_by_critical(self):
+        result = subleading_cs_corrected_cl_window(cs_order=10_000)
+        assert result["corrected_boundary"] <= C_L_CRITICAL
+
+    def test_invalid_order_raises(self):
+        with pytest.raises(ValueError):
+            subleading_cs_corrected_cl_window(cs_order=0)
+
+
 # ===========================================================================
 # cl_constraints_from_braid
 # ===========================================================================
@@ -243,6 +262,10 @@ class TestCLConstraintsFromBraid:
         result = cl_constraints_from_braid()
         assert "honest_summary" in result
         assert len(result["honest_summary"]) > 10
+
+    def test_subleading_window_present(self):
+        result = cl_constraints_from_braid()
+        assert "subleading_cs_window" in result
 
 
 # ===========================================================================

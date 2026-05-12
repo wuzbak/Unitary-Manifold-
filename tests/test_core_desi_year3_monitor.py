@@ -18,6 +18,7 @@ from src.core.desi_year3_monitor import (
     validate_release_payload,
     strict_release_ingest,
     desi_year3_mock_drill,
+    release_day_decision_packet,
     falsification_verdict,
     monitoring_report,
     desi_year3_placeholder,
@@ -326,3 +327,21 @@ def test_mock_drill_scenarios_have_required_fields():
         for key in ("scenario", "wa_central", "wa_sigma", "route", "wa_tension_sigma"):
             assert key in row
         assert row["wa_tension_sigma"] >= 0.0
+
+
+def test_release_day_decision_packet_ready():
+    payload = {
+        "release_name": "DESI Year 3",
+        "year": 2026,
+        "w0_central": -0.84,
+        "w0_sigma": 0.06,
+        "wa_central": -0.40,
+        "wa_sigma": 0.20,
+        "reference": "DESI Collaboration (2026)",
+        "datasets": "BAO + CMB + SNe Ia",
+    }
+    packet = release_day_decision_packet(payload)
+    assert packet["pipeline"] == "DESI_Y3_RELEASE_DAY_DECISION_PACKET"
+    assert packet["ready_for_publication"] is True
+    assert packet["required_same_day_sync"] is True
+    assert packet["severity"] in ("LOW", "ELEVATED", "CRITICAL")

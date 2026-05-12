@@ -10,6 +10,7 @@ from src.core.finish_line_observation_engine import (
     build_tracker_update_payload,
     build_truth_layer_payload,
     build_wave_changelog_payload,
+    five_job_execution_packet,
     normalize_observation_bundle,
     route_finish_line_observation_bundle,
 )
@@ -122,3 +123,14 @@ def test_partial_bundle_keeps_default_channels():
     assert result["results"]["cmbs4"]["experiment"] == "CMB-S4 forecast"
     assert result["results"]["pmns"]["experiment"] == "NuFIT/PDG"
     assert result["results"]["lisa"]["experiment"] == "LISA forecast"
+
+
+def test_five_job_execution_packet_shape():
+    packet = five_job_execution_packet()
+    assert packet["pipeline"] == "FIVE_JOB_EXECUTION_PACKET"
+    assert packet["all_jobs_completed"] is True
+    assert "job1_sc1_subleading_cs_cl" in packet["jobs"]
+    assert "job2_t3_adm_quantitative" in packet["jobs"]
+    assert "job3_desi_release_day" in packet["jobs"]
+    assert "job3_litebird_release_day" in packet["jobs"]
+    assert "job4_sc2_uv_factor_solver" in packet["jobs"]

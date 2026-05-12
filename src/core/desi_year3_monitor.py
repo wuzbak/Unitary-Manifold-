@@ -58,6 +58,7 @@ __all__ = [
     "validate_release_payload",
     "strict_release_ingest",
     "desi_year3_mock_drill",
+    "release_day_decision_packet",
     "falsification_verdict",
     "monitoring_report",
     "desi_year3_placeholder",
@@ -461,6 +462,31 @@ def desi_year3_mock_drill() -> Dict[str, object]:
         "scenarios": packet_rows,
         "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
         "status": "READY_FOR_RELEASE_DAY_DRILL_COMPLETE",
+    }
+
+
+def release_day_decision_packet(payload: Dict) -> Dict[str, object]:
+    """Build a strict, publish-ready decision packet for a real DESI release day."""
+    ingest = strict_release_ingest(payload)
+    analysis = ingest["analysis"]
+    route = str(ingest["route"])
+    route_to_severity = {
+        "PASS": "LOW",
+        "TENSION": "ELEVATED",
+        "FALSIFIED": "CRITICAL",
+    }
+    return {
+        "pipeline": "DESI_Y3_RELEASE_DAY_DECISION_PACKET",
+        "release": analysis["release"],
+        "year": analysis["year"],
+        "route": route,
+        "severity": route_to_severity[route],
+        "wa_tension_sigma": analysis["um_tension"]["tension_wa_sigma"],
+        "w0_tension_sigma": analysis["um_tension"]["tension_w0_sigma"],
+        "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
+        "required_same_day_sync": True,
+        "ready_for_publication": True,
+        "analysis": analysis,
     }
 
 
