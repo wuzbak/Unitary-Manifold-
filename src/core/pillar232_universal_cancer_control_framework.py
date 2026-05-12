@@ -17,6 +17,7 @@ from __future__ import annotations
 
 from decimal import Decimal, getcontext
 import math
+import statistics
 from typing import Any, Mapping
 
 try:
@@ -24,7 +25,7 @@ try:
     import jax.numpy as jnp
     jax_config.update("jax_enable_x64", True)
     JAX_AVAILABLE = True
-except Exception:  # pragma: no cover - optional dependency
+except (ImportError, ModuleNotFoundError):  # pragma: no cover - optional dependency
     jnp = None  # type: ignore[assignment]
     JAX_AVAILABLE = False
 
@@ -200,7 +201,7 @@ def universal_prediction_engine(
         probs.append(r["control_probability"])
 
     mean_control = sum(probs) / len(probs)
-    median_control = sorted(probs)[len(probs) // 2]
+    median_control = float(statistics.median(probs))
     return {
         "n_cancer_types": len(per_type),
         "per_type": per_type,
@@ -240,13 +241,17 @@ def multi_agent_cancer_workforce_plan(
     cancer_profiles: Mapping[str, Mapping[str, float]],
 ) -> dict[str, Any]:
     """Generate a multi-agent research workforce plan with coherence scoring."""
+    if not cancer_profiles:
+        raise ValueError("cancer_profiles must be non-empty.")
     directions = cancer_type_solution_directions(cancer_profiles)
     axis_counts: dict[str, int] = {}
     for d in directions:
         axis = d["missing_key_axis"]
         axis_counts[axis] = axis_counts.get(axis, 0) + 1
+    if not axis_counts:
+        raise ValueError("No direction axes available for workforce planning.")
 
-    lead_axis = max(axis_counts, key=axis_counts.get)
+    lead_axis = max(axis_counts, key=lambda k: axis_counts[k])
     coherence = axis_counts[lead_axis] / max(1, len(directions))
     coherence = _clamp01(0.5 * coherence + 0.5 * PHI0)
 

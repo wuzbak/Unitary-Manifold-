@@ -188,6 +188,10 @@ class TestUniversalPredictionEngine:
         r = universal_prediction_engine(_demo_profiles(), precision_bits=256, use_jax=False)
         assert 0.0 <= r["portfolio_mean_control_probability"] <= 1.0
 
+    def test_median_in_unit_interval(self):
+        r = universal_prediction_engine(_demo_profiles(), precision_bits=256, use_jax=False)
+        assert 0.0 <= r["portfolio_median_control_probability"] <= 1.0
+
 
 class TestMissingKeyDirection:
     def test_missing_key_axis(self):
@@ -214,6 +218,10 @@ class TestCancerTypeSolutionDirections:
 
 
 class TestMultiAgentWorkforcePlan:
+    def test_empty_raises(self):
+        with pytest.raises(ValueError):
+            multi_agent_cancer_workforce_plan({})
+
     def test_returns_required_keys(self):
         r = multi_agent_cancer_workforce_plan(_demo_profiles())
         for key in [
