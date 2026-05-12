@@ -504,6 +504,25 @@ class TestRequiredClosureGains:
         with pytest.raises(ValueError):
             pmns_solar_required_two_loop_gain(target_residual_pct=100.0)
 
+    def test_negative_target_residual_pct_raises(self):
+        with pytest.raises(ValueError):
+            pmns_solar_required_two_loop_gain(target_residual_pct=-1.0)
+
+    def test_nonfinite_target_residual_pct_raises(self):
+        for value in (float("inf"), float("nan")):
+            with pytest.raises(ValueError):
+                pmns_solar_required_two_loop_gain(target_residual_pct=value)
+
+    def test_relaxed_target_can_be_already_satisfied(self):
+        result = pmns_solar_required_two_loop_gain(target_residual_pct=20.0)
+        assert result["already_satisfied"] is True
+        assert result["required_two_loop_gain"] <= 1.0
+
+    def test_custom_threshold_gain_lowers_required_two_loop_gain(self):
+        baseline = pmns_solar_required_two_loop_gain()
+        boosted = pmns_solar_required_two_loop_gain(threshold_gain=10.0)
+        assert boosted["required_two_loop_gain"] < baseline["required_two_loop_gain"]
+
 
 class TestClosureRealismAudit:
     def test_audit_exposes_nonperturbative_requirement(self):
