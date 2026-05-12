@@ -229,7 +229,7 @@ class CryptoTransitionScenario:
     (e.g. TLS 1.2 + TLS 1.3 + TLS 1.3+ML-KEM = 3)."""
 
     assumed_crqc_threat_year: int
-    """Year the organisation uses internally for CRQC threat planning.
+    """Year the organization uses internally for CRQC threat planning.
     If this is later than ``quantum_threat_year``, complacency is active."""
 
     pqc_skilled_engineers: int
@@ -419,7 +419,7 @@ def supply_chain_cascade_score(scenario: CryptoTransitionScenario) -> float:
 def hybrid_protocol_complexity_score(scenario: CryptoTransitionScenario) -> float:
     """Dual-stack overhead: running hybrid classical+PQC TLS/SSH/VPN concurrently.
 
-    During migration organisations must maintain multiple protocol versions
+    During migration organizations must maintain multiple protocol versions
     simultaneously (e.g. TLS 1.2, TLS 1.3, TLS 1.3+ML-KEM).  Each additional
     version adds operational complexity, certificate management burden, and
     potential downgrade-attack surface.
@@ -471,9 +471,9 @@ def iot_constraint_score(scenario: CryptoTransitionScenario) -> float:
 
 
 def migration_complacency_score(scenario: CryptoTransitionScenario) -> float:
-    """Timeline complacency: the organisation's planning horizon lags the real threat.
+    """Timeline complacency: the organization's planning horizon lags the real threat.
 
-    If ``assumed_crqc_threat_year > quantum_threat_year`` the organisation will
+    If ``assumed_crqc_threat_year > quantum_threat_year`` the organization will
     under-resource migration.  The gap is normalised by
     ``_MAX_COMPLACENCY_GAP_YEARS`` (10 years) so that a 10-year overestimate
     scores 1.0.
@@ -596,7 +596,7 @@ def governance_blindspot_score(scenario: CryptoTransitionScenario) -> float:
 def algorithm_permanence_risk_score(scenario: CryptoTransitionScenario) -> float:
     """Algorithm permanence myth: belief that today's NIST PQC selections are final.
 
-    NIST itself expects continued cryptanalysis; organisations that infrequently
+    NIST itself expects continued cryptanalysis; organizations that infrequently
     review their PQC algorithm selections risk being caught by future breaks.
     The score rises with review cadence, saturating at
     ``_MAX_REVIEW_CADENCE_YEARS`` (10 years).
@@ -753,14 +753,14 @@ def migration_readiness_report(
 def baseline_enterprise_scenario() -> CryptoTransitionScenario:
     """Return a representative 2026 Fortune-500 enterprise PQC migration scenario.
 
-    The organisation modelled is a large financial-services or healthcare
+    The organization modelled is a large financial-services or healthcare
     conglomerate with mixed-age infrastructure spanning on-premise data centres,
     public cloud, IoT sensors, and a diverse vendor ecosystem.
 
     Key assumptions and their sources
     ----------------------------------
     * ``quantum_threat_year=2030`` — pessimistic CRQC estimate per McKinsey
-      (2022) and NIST IR 8547 (2023); organisations should plan for this window.
+      (2022) and NIST IR 8547 (2023); organizations should plan for this window.
     * ``secret_longevity_years=15`` — typical retention for financial and
       health records under HIPAA / SEC regulations.
     * ``data_sensitivity_level=0.7`` — a mix of personal financial data,
