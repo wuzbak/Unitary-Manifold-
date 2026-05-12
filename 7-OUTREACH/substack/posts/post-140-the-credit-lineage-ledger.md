@@ -2,7 +2,7 @@
 
 *Post 140 of the Unitary Manifold series.*  
 *Epistemic category: **A** — provenance, credit, and accountability; no new physics claim.*  
-*v10.31, May 2026.*
+*v10.52, May 2026.*
 
 ---
 
@@ -84,7 +84,21 @@ The claim is not "tests prove truth." The claim is narrower and stronger: tests 
 
 ---
 
-## 6) Institutional and Infrastructure Lineage
+## 6) AI Systems, Toolchain, and Integration Lineage
+
+The collaboration and reproducibility stack now spans more than a single model surface.
+
+- human-led theory stewardship with AI-assisted engineering and documentation,
+- documented multi-agent operations via MCP-connected systems and role-boundary files,
+- multi-model support paths (OpenAI/Claude/Gemini/Microsoft) with explicit "confirmed vs available" scope rules,
+- mixed-language implementation and delivery stack (Python, JavaScript/Node, YAML, LaTeX/BibTeX, JSON/JSON-LD/CFF),
+- integration surfaces for Copilot Extension, RAG assistant flows, Custom GPT/Claude setup, and MCP server configuration.
+
+Credit has to track this full operational lineage, not just the final prose output.
+
+---
+
+## 7) Institutional and Infrastructure Lineage
 
 This project also depends on institutions and platforms:
 
@@ -96,7 +110,7 @@ Without those institutions, there is no meaningful falsification pathway.
 
 ---
 
-## 7) Why This Matters
+## 8) Why This Matters
 
 If the framework succeeds on future tests, credit should be distributed honestly.
 If it fails on future tests, accountability should be distributed honestly.
@@ -163,51 +177,64 @@ That is why this post includes an in-post appendix and a standalone companion bi
 
 36. `5-GOVERNANCE/Unitary Pentad/README.md`  
 37. `5-GOVERNANCE/Unitary Pentad/IMPLICATIONS.md`  
-38. `co-emergence/FRAMEWORK.md`  
+38. `5-GOVERNANCE/co-emergence/FRAMEWORK.md`  
 39. `AGENTS.md`  
 40. `CONTRIBUTING.md`
 
-### G. Testing and Reproducibility Anchors
+### G. AI Systems, Toolchain, and Integration Provenance
 
-41. `tests/conftest.py`  
-42. `tests/test_metric.py`  
-43. `tests/test_evolution.py`  
-44. `tests/test_boundary.py`  
-45. `tests/test_fixed_point.py`  
-46. `src/core/five_tier_execution_framework.py` (regression gate command and operating model)  
-47. `docs/WAVE_CHANGELOG.md`  
-48. `docs/mas_tracker.yml`
+41. `9-INFRASTRUCTURE/provenance/README.md`  
+42. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`  
+43. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`  
+44. `9-INFRASTRUCTURE/provenance/AUDIT_WORKFLOW_MAP.md`  
+45. `9-INFRASTRUCTURE/bot/README.md`  
+46. `9-INFRASTRUCTURE/mcp-config.json`  
+47. `9-INFRASTRUCTURE/bot/custom-gpt/SETUP_GUIDE.md`  
+48. `9-INFRASTRUCTURE/bot/copilot-extension/DEPLOY.md`  
+49. `9-INFRASTRUCTURE/bot/pages-chatbot/README.md`  
+50. `9-INFRASTRUCTURE/bot/rag/DEPLOY.md`
 
-### H. Outreach Calibration and Authorship-Standard Sources
+### H. Testing and Reproducibility Anchors
 
-49. `7-OUTREACH/OUTREACH_CALIBRATION.md`  
-50. `7-OUTREACH/substack/README.md`  
-51. `7-OUTREACH/substack/posts/post-063-ai-authorship.md`  
-52. `7-OUTREACH/substack/posts/post-120-ai-built-this-collaboration.md`  
-53. `7-OUTREACH/substack/posts/post-138-what-26000-tests-mean.md`
+51. `tests/conftest.py`  
+52. `tests/test_metric.py`  
+53. `tests/test_evolution.py`  
+54. `tests/test_boundary.py`  
+55. `tests/test_fixed_point.py`  
+56. `src/core/five_tier_execution_framework.py` (regression gate command and operating model)  
+57. `docs/WAVE_CHANGELOG.md`  
+58. `docs/mas_tracker.yml`
 
-### I. Primary External Scientific Context (Foundational)
+### I. Outreach Calibration and Authorship-Standard Sources
 
-54. Kaluza, T. (1921). *Zum Unitätsproblem der Physik.*  
-55. Klein, O. (1926). *Quantentheorie und fünfdimensionale Relativitätstheorie.*  
-56. Einstein, A. (1915). *Die Feldgleichungen der Gravitation.*  
-57. Dirac, P.A.M. (1928). *The Quantum Theory of the Electron.*  
-58. Feynman, R.P. (1948). *Space-Time Approach to Non-Relativistic Quantum Mechanics.*  
-59. Yang, C.N. & Mills, R.L. (1954). *Conservation of Isotopic Spin and Isotopic Gauge Invariance.*  
-60. Weinberg, S. (1967); Salam, A. (1968); Glashow, S. (1961) electroweak unification papers.  
-61. Randall, L. & Sundrum, R. (1999). *Large Mass Hierarchy from a Small Extra Dimension.*
+59. `7-OUTREACH/OUTREACH_CALIBRATION.md`  
+60. `7-OUTREACH/substack/README.md`  
+61. `7-OUTREACH/substack/posts/post-063-ai-authorship.md`  
+62. `7-OUTREACH/substack/posts/post-120-ai-built-this-collaboration.md`  
+63. `7-OUTREACH/substack/posts/post-138-what-26000-tests-mean.md`
 
-### J. Primary External Cosmology / Data Context
+### J. Primary External Scientific Context (Foundational)
 
-62. Planck Collaboration (2018 cosmological parameters release).  
-63. BICEP/Keck Collaboration (latest r upper-bound analyses used in repository framing).  
-64. DESI Collaboration (Year 1 and follow-on dark-energy analyses for tension routing context).  
-65. LiteBIRD mission references (primary future birefringence falsifier context).
+64. Kaluza, T. (1921). *Zum Unitätsproblem der Physik.*  
+65. Klein, O. (1926). *Quantentheorie und fünfdimensionale Relativitätstheorie.*  
+66. Einstein, A. (1915). *Die Feldgleichungen der Gravitation.*  
+67. Dirac, P.A.M. (1928). *The Quantum Theory of the Electron.*  
+68. Feynman, R.P. (1948). *Space-Time Approach to Non-Relativistic Quantum Mechanics.*  
+69. Yang, C.N. & Mills, R.L. (1954). *Conservation of Isotopic Spin and Isotopic Gauge Invariance.*  
+70. Weinberg, S. (1967); Salam, A. (1968); Glashow, S. (1961) electroweak unification papers.  
+71. Randall, L. & Sundrum, R. (1999). *Large Mass Hierarchy from a Small Extra Dimension.*
 
-### K. External Infrastructure / Process Context
+### K. Primary External Cosmology / Data Context
 
-66. Zenodo record for this repository: https://doi.org/10.5281/zenodo.19584531  
-67. GitHub repository record: https://github.com/wuzbak/Unitary-Manifold-
+72. Planck Collaboration (2018 cosmological parameters release).  
+73. BICEP/Keck Collaboration (latest r upper-bound analyses used in repository framing).  
+74. DESI Collaboration (Year 1 and follow-on dark-energy analyses for tension routing context).  
+75. LiteBIRD mission references (primary future birefringence falsifier context).
+
+### L. External Infrastructure / Process Context
+
+76. Zenodo record for this repository: https://doi.org/10.5281/zenodo.19584531  
+77. GitHub repository record: https://github.com/wuzbak/Unitary-Manifold-
 
 ---
 
