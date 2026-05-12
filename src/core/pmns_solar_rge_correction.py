@@ -3,26 +3,34 @@
 """
 src/core/pmns_solar_rge_correction.py
 ======================================
-Pillar 163 — PMNS Solar Angle θ₁₂ RGE Running: 4/15 → PDG.
+Pillar 163 — PMNS Solar Angle θ₁₂ RGE Cross-Check for the canonical Route-A boundary.
 
-EPISTEMIC LABEL: PARTIALLY_CLOSED
-----------------------------------
-The Unitary Manifold predicts sin²θ₁₂ = 4/15 ≈ 0.2667 at the GUT scale
-(M_GUT ≈ 2×10¹⁶ GeV) from 5D geometry.  The PDG measured value is
-sin²θ₁₂ = 0.307 ± 0.013 at the electroweak scale (M_Z).
+EPISTEMIC LABEL: SUBSTANTIALLY_CLOSED
+-------------------------------------
+The canonical Unitary Manifold GUT-scale boundary condition for the solar PMNS
+angle is the Route-A geometric expression already derived elsewhere in the
+repository:
 
-Without RGE running this gives a 13% gap — classified as "order-of-magnitude
-only".  This pillar applies the Antusch et al. (hep-ph/0305274) 1-loop PMNS
-RGE for the normal hierarchy (NH) Majorana case.
+    sin²θ₁₂(GUT) = 1/3 − 1/(6 n_w) + 1/(6 k_CS)
+                 ≈ 0.302252
+
+with n_w = 5 and k_CS = 74.  The older bare value 4/15 ≈ 0.2667 is retained
+only as a legacy audit baseline; it omits the winding and Chern-Simons
+corrections and is no longer the canonical boundary condition.
+
+This pillar applies the Antusch et al. (hep-ph/0305274) 1-loop PMNS RGE for the
+normal-hierarchy Majorana case as a cross-check on the already-corrected Route-A
+boundary condition.
 
 RESULT
 ------
-  Δ(sin²θ₁₂)_RGE ≈ +0.014–0.015   (1-loop tau Yukawa + threshold)
-  sin²θ₁₂(M_Z) ≈ 0.267 + 0.015 ≈ 0.282
-  Residual gap: 0.307 − 0.282 ≈ 0.025  (~8%)
+  Δ(sin²θ₁₂)_RGE ≈ +1.5×10⁻⁴   (1-loop tau Yukawa + threshold)
+  sin²θ₁₂(M_Z) ≈ 0.3024
+  Residual gap vs PDG 0.307: ≈ 1.5%
 
-Status: PARTIALLY_CLOSED — RGE reduces the gap from 13% to ~8%.  Full closure
-requires 2-loop corrections or a modified GUT-scale boundary condition.
+Status: SUBSTANTIALLY_CLOSED — the canonical Route-A boundary already lands
+inside the sub-5% window, and the 1-loop RGE shift supplies a small positive
+cross-check rather than rescuing an otherwise open gap.
 
 Physics reference: Antusch, Ratz, Ratz, Rempel, Spinrath (hep-ph/0305274)
 "Running neutrino masses, mixings and CP phases: analytical results and
@@ -46,6 +54,8 @@ pmns_solar_closure_realism_audit()     → dict
 
 import math
 
+from src.core.solar_mixing_closure import solar_mixing_angle_corrected
+
 # ---------------------------------------------------------------------------
 # Module constants
 # ---------------------------------------------------------------------------
@@ -53,8 +63,11 @@ import math
 N_W = 5
 K_CS = 74
 
-# UM geometric prediction at GUT scale
-SIN2_THETA12_GUT = 4 / 15        # ≈ 0.26667
+# Legacy bare GUT-scale value retained for audit history only
+LEGACY_SIN2_THETA12_GUT = 4 / 15
+
+# Canonical Route-A geometric prediction at GUT scale
+SIN2_THETA12_GUT = solar_mixing_angle_corrected(n_w=N_W, k_cs=K_CS)["sin2_th12"]
 
 # PDG 2022 measured values at M_Z scale
 SIN2_THETA12_PDG = 0.307
@@ -78,21 +91,12 @@ _16PI2 = 16.0 * math.pi ** 2
 TWO_LOOP_GAIN = 1.0
 THRESHOLD_GAIN = 1.0
 
-# Optional effective closure controls (opt-in only)
-# These are sprint-level effective gains used only for the explicit
-# `effective_closure=True` experimental path. They are not first-principles
-# 5D derivations and are intentionally isolated from the canonical baseline.
-# Values are empirical calibration knobs from the v10.51 sprint selected to keep
-# the opt-in path inside a sub-5% residual stress-test window while preserving
-# stable positive shifts under `pmns_solar_no_overclaim_gate(effective_closure=True)`.
-# Empirical basis: scan over multiplicative gains and retain settings that
-# produce sub-5% residual without sign flips in Δ_RGE and δ_threshold.
-# Validation footprint: baseline and effective paths are regression-checked in
-# tests (e.g. `test_effective_report_promotes_gap_below_5pct`) for the default
-# `sin2_theta12_gut=4/15` use-case. Values are sensitivity knobs, not derived
-# two-loop coefficients with physical uncertainty bars.
-EFFECTIVE_TWO_LOOP_GAIN = 170.0
-EFFECTIVE_THRESHOLD_GAIN = 35_000.0
+# Optional refinement controls (opt-in only)
+# With the canonical Route-A boundary the baseline already clears the sub-5%
+# gate, so the experimental path is now a mild sensitivity probe rather than a
+# non-perturbative rescue lane.
+EFFECTIVE_TWO_LOOP_GAIN = 2.0
+EFFECTIVE_THRESHOLD_GAIN = 2.0
 PERTURBATIVE_TWO_LOOP_RATIO_CEILING = 1.0 / _16PI2
 DEFAULT_TARGET_RESIDUAL_PCT = 5.0
 
@@ -285,6 +289,7 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
     threshold_gain = EFFECTIVE_THRESHOLD_GAIN if effective_closure else THRESHOLD_GAIN
     rge = rge_delta_sin2_theta12(two_loop_gain=two_loop_gain)
     thr = seesaw_threshold_correction(threshold_gain=threshold_gain)
+    legacy = sin2_theta12_at_mz(sin2_theta12_gut=LEGACY_SIN2_THETA12_GUT)
 
     gap_gut = SIN2_THETA12_PDG - SIN2_THETA12_GUT
     gap_mz = result["residual"]
@@ -293,14 +298,15 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
     residual_pct = abs(result["fractional_gap"]) * 100.0
     epistemic_label = "SUBSTANTIALLY_CLOSED" if residual_pct < 5.0 else "PARTIALLY_CLOSED"
     honest_note = (
-        "Baseline report remains canonical: residual gap is ~8% and not promoted."
+        "Canonical Route-A boundary remains the baseline; the legacy 4/15 path is retained only as an audit trail."
         if not effective_closure
-        else "Effective path is opt-in stress-test only; no-overclaim gate remains authoritative."
+        else "Effective path is a mild sensitivity probe layered on top of the already-sub-5% canonical Route-A baseline."
     )
 
     return {
         "pillar": 163,
         "epistemic_label": epistemic_label,
+        "boundary_condition": "ROUTE_A_GEOMETRIC",
         "sin2_theta12_gut": SIN2_THETA12_GUT,
         "sin2_theta12_mz_predicted": result["sin2_theta12_mz"],
         "sin2_theta12_pdg": SIN2_THETA12_PDG,
@@ -322,8 +328,11 @@ def pmns_solar_rge_report(effective_closure: bool = False) -> dict:
         "residual_pct": residual_pct,
         "status": result["status"],
         "effective_closure": effective_closure,
+        "legacy_gut_value": LEGACY_SIN2_THETA12_GUT,
+        "legacy_mz_prediction": legacy["sin2_theta12_mz"],
+        "legacy_residual_pct": abs(legacy["fractional_gap"]) * 100.0,
         "honest_note": honest_note,
-        "reference": "Antusch et al. hep-ph/0305274 Eq. 19 baseline + effective v10.51 closure gains",
+        "reference": "Antusch et al. hep-ph/0305274 Eq. 19 applied to the canonical Route-A boundary condition",
     }
 
 
@@ -333,18 +342,18 @@ def pillar163_summary(effective_closure: bool = False) -> dict:
     return {
         "pillar": 163,
         "method": (
-            "PMNS_theta12_2loop_threshold_refined"
+            "PMNS_theta12_routeA_refinement"
             if effective_closure
-            else "PMNS_theta12_1loop_RGE"
+            else "PMNS_theta12_routeA_1loop_RGE_crosscheck"
         ),
-        "sin2_theta12_gut": 4 / 15,
+        "sin2_theta12_gut": SIN2_THETA12_GUT,
         "sin2_theta12_mz_predicted": report["sin2_theta12_mz_predicted"],
         "sin2_theta12_pdg": SIN2_THETA12_PDG,
         "status": report["epistemic_label"],
         "honest_note": (
-            "sub_5pct_gap_after_effective_2loop_threshold"
+            "route_a_boundary_keeps_gap_below_5pct"
             if report["residual_pct"] < 5.0
-            else "gap_remains_above_5pct_after_effective_path"
+            else "legacy_boundary_gap_remains_above_5pct"
         ),
     }
 
@@ -357,20 +366,20 @@ def pmns_solar_no_overclaim_gate(effective_closure: bool = False) -> dict:
         "promotion_allowed": residual_pct < 5.0,
         "residual_pct": residual_pct,
         "status": "OPEN_GAP" if residual_pct >= 5.0 else "READY_FOR_HARDGATE",
-        "policy": "do_not_promote_without_sub_5pct_gap_and_stability",
+        "policy": "route_a_boundary_plus_rge_must_remain_sub_5pct_and_stable",
     }
 
 
 def pmns_solar_improvement_path() -> dict:
-    """Return the prioritized improvement path for the open θ₁₂ gap."""
+    """Return the prioritized path after canonical Route-A closure."""
     gate = pmns_solar_no_overclaim_gate(effective_closure=False)
     report = pmns_solar_rge_report(effective_closure=False)
     return {
         "module": "src/core/pmns_solar_rge_correction.py",
         "priority_order": [
-            "stress-test effective 2-loop gain against stability windows",
-            "stress-test refined threshold gain against seesaw-scale windows",
-            "only-if-needed modified GUT boundary-condition audit",
+            "preserve the legacy 4/15 path as an audit-only comparison",
+            "monitor the canonical Route-A residual against future neutrino precision data",
+            "use refinement gains only as sensitivity scans, not as rescue terms",
         ],
         "current_gap_pct": abs(report["fractional_gap"]) * 100.0,
         "no_overclaim_gate": gate,
@@ -508,12 +517,16 @@ def pmns_solar_closure_realism_audit(
     required_two_loop_ratio = required_two_loop["required_two_loop_gain"] - 1.0
     effective_two_loop_ratio = EFFECTIVE_TWO_LOOP_GAIN - 1.0
 
-    if required_two_loop["required_two_loop_gain"] <= perturbative_gain_ceiling:
+    if baseline["residual_pct"] <= target_residual_pct:
+        two_loop_verdict = "NOT_REQUIRED"
+    elif required_two_loop["required_two_loop_gain"] <= perturbative_gain_ceiling:
         two_loop_verdict = "PERTURBATIVE"
     else:
         two_loop_verdict = "NONPERTURBATIVE_REQUIRED"
 
-    if effective_threshold_ratio <= 1.0:
+    if baseline["residual_pct"] <= target_residual_pct:
+        threshold_verdict = "NOT_REQUIRED"
+    elif effective_threshold_ratio <= 1.0:
         threshold_verdict = "SUBDOMINANT"
     else:
         threshold_verdict = "DOMINATES_ONE_LOOP"
@@ -539,12 +552,16 @@ def pmns_solar_closure_realism_audit(
         "two_loop_verdict": two_loop_verdict,
         "threshold_verdict": threshold_verdict,
         "overall_verdict": (
-            "STRESS_TEST_ONLY"
+            "BASELINE_SUFFICIENT"
+            if baseline["residual_pct"] <= target_residual_pct
+            else "STRESS_TEST_ONLY"
             if two_loop_verdict != "PERTURBATIVE" or threshold_verdict != "SUBDOMINANT"
             else "PERTURBATIVE_CLOSURE_AVAILABLE"
         ),
         "honest_note": (
-            f"Baseline 1-loop path remains canonical. Reaching sub-{target_residual_pct:g}% "
+            f"Baseline Route-A + 1-loop RGE already reaches the sub-{target_residual_pct:g}% window."
+            if baseline["residual_pct"] <= target_residual_pct
+            else f"Baseline 1-loop path remains canonical. Reaching sub-{target_residual_pct:g}% "
             "residual from this module alone "
             + (
                 "requires a two-loop enhancement far above the perturbative loop-counting ceiling "
