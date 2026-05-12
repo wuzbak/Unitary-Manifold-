@@ -434,7 +434,7 @@ def pmns_solar_required_two_loop_gain(
     required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
     required_rge_shift = required_total_shift - threshold["delta_threshold"]
     delta_one_loop = baseline_rge["delta_one_loop"]
-    required_gain = required_rge_shift / delta_one_loop
+    required_gain = max(0.0, required_rge_shift / delta_one_loop)
     required_two_loop_effective = (required_gain - 1.0) * delta_one_loop
 
     return {
@@ -473,7 +473,7 @@ def pmns_solar_required_threshold_gain(
     required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
     required_threshold_shift = required_total_shift - rge["delta_sin2_theta12"]
     delta_threshold_base = threshold_base["delta_threshold_base"]
-    required_gain = required_threshold_shift / delta_threshold_base
+    required_gain = max(0.0, required_threshold_shift / delta_threshold_base)
 
     return {
         "target_residual_pct": target_residual_pct,
@@ -559,7 +559,7 @@ def pmns_solar_closure_realism_audit(
             else "PERTURBATIVE_CLOSURE_AVAILABLE"
         ),
         "honest_note": (
-            f"Baseline Route-A + 1-loop RGE already reaches the sub-{target_residual_pct:g}% window."
+            f"Canonical baseline Route-A + 1-loop RGE already reaches the sub-{target_residual_pct:g}% window."
             if baseline["residual_pct"] <= target_residual_pct
             else f"Baseline 1-loop path remains canonical. Reaching sub-{target_residual_pct:g}% "
             "residual from this module alone "
