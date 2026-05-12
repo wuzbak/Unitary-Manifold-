@@ -1,2 +1,3 @@
 import UnitaryManifold.Basic
 import UnitaryManifold.NumericalChecks
+import UnitaryManifold.Extended
