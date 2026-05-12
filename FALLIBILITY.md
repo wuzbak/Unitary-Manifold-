@@ -75,6 +75,11 @@ framework as a description of nature.  Specifically:
 When the README badge reads "29 425 passed · 329 skipped · 11 deselected · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
+The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an
+engineering integration track for reproducibility and cross-engine parity
+audits. Success in this lane validates tooling compatibility only; it does not
+by itself upgrade any physics claim label or ToE score component.
+
 ---
 
 ## II. Axiomatic Dependence

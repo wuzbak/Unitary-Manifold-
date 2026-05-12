@@ -170,6 +170,17 @@ immediately upon publication.
 
 ---
 
+## Part 6B — Adjacent Quantum Integration Lane (NON-HARDGATE)
+
+| Lane | Scope | Verdict | Artifact | Gate |
+|------|-------|---------|----------|------|
+| XQ1 (UM↔XDiag bridge) | Versioned schema contract, deterministic run IDs, UM→XDiag export, XDiag→UM ingest, parity fail-fast checks, deterministic routing | 🔵 IN DEVELOPMENT | `src/quantum/xdiag_bridge/`, `tests/test_xdiag_bridge.py` | Steward approval required before any formal pillar numbering |
+
+**Gatekeeper interpretation:** XQ1 is an engineering interoperability lane and
+does not modify ToE scoring, falsifier maps, or physics-label promotions by itself.
+
+---
+
 ## Part 7 — ToE Score Summary
 
 | Category | Count | Score |
