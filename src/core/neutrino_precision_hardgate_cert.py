@@ -184,6 +184,8 @@ def constrained_followup_queue() -> List[Dict[str, object]]:
     }
     queue = []
     for pid in ("P17", "P18", "P20"):
+        if cert[pid]["new_status"] != "CONSTRAINED":
+            continue
         gates = cert[pid]["gates"]
         failing = [name for name, passed in gates.items() if not passed]
         queue.append(
