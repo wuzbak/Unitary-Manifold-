@@ -241,15 +241,18 @@ specific failure mode that this condition guards against.
 | `src/unitary_os/` (14 modules) | Unitary OS — independent operating system in development (461 tests) | 🔵 IN DEVELOPMENT |
 | `src/quantum/` (Fermi–Hubbard lane) | Adjacent quantum-simulation research track (Hamiltonian, JW/BK mappings, execution, benchmarks) | 🔵 IN DEVELOPMENT (non-hardgate) |
 
-### Applied Research Tracks (Pillars 218–220)
+### Applied Research Tracks (Pillars 218–223)
 
-Three adjacent applied research pillars — not hardgate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
+Six adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
 
 | Pillar | Module | Description | Tests | Status |
 |--------|--------|-------------|-------|--------|
 | 218 | `src/core/pillar218_quantum_control.py` | Quantum Computing & Control Systems: (5,7) braid structure → topological error correction; KK holonomy gate fidelity; φ₀ error threshold | 80 | 🔵 ADJACENT TRACK |
 | 219 | `src/core/pillar219_interstellar_travel.py` | Interstellar Travel: honest energy/time/radiation analysis; propulsion comparison; Alcubierre exotic-energy estimate; KK warp-geometry bound | 83 | 🔵 ADJACENT TRACK |
 | 220 | `src/core/pillar220_energy_manifold.py` | Manifold Applied to Energy: φ-debt entropy accounting from household → civilization; KK tower efficiency scaling; 2050 pathway feasibility | 82 | 🔵 ADJACENT TRACK |
+| 221 | `src/core/pillar221_sound_energy.py` | Sound and Sound Energy: SPL/intensity/force models, harvesting estimates, ultrasound attenuation + MI safety windows | 23 | 🔵 ADJACENT TRACK |
+| 222 | `src/core/pillar222_nanotechnology_control_systems.py` | Nanotechnology and Control Systems: diffusion transport, release kinetics, PID nanoscale positioning, readiness scoring | 22 | 🔵 ADJACENT TRACK |
+| 223 | `src/core/pillar223_medical_imaging_diagnosis.py` | Medical Imaging and Health Diagnosis: ultrasound resolution, CT risk, Bayesian diagnostics, multimodal fusion, triage and cross-pillar alignment | 22 | 🔵 ADJACENT TRACK |
 
 ### Key numerical results (v10.5)
 
