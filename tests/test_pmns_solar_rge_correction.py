@@ -503,6 +503,8 @@ class TestRequiredClosureGains:
     def test_invalid_target_residual_pct_raises(self):
         with pytest.raises(ValueError):
             pmns_solar_required_two_loop_gain(target_residual_pct=100.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_two_loop_gain(target_residual_pct=150.0)
 
     def test_negative_target_residual_pct_raises(self):
         with pytest.raises(ValueError):

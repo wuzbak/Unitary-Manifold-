@@ -544,10 +544,10 @@ def pmns_solar_closure_realism_audit(
             else "PERTURBATIVE_CLOSURE_AVAILABLE"
         ),
         "honest_note": (
-            "Baseline 1-loop path remains canonical. Reaching sub-5% residual from "
-            "this module alone requires a two-loop enhancement far above the "
-            "perturbative loop-counting ceiling and/or a threshold term that ceases "
-            "to be subdominant to the one-loop RGE shift."
+            f"Baseline 1-loop path remains canonical. Reaching sub-{target_residual_pct:g}% "
+            "residual from this module alone requires a two-loop enhancement far "
+            "above the perturbative loop-counting ceiling and/or a threshold term "
+            "that ceases to be subdominant to the one-loop RGE shift."
         ),
         "reference": (
             "Antusch et al. hep-ph/0305274 baseline 1-loop structure; loop-counting "
