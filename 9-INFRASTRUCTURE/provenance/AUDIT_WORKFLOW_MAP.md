@@ -12,12 +12,13 @@ Primary source: `.github/workflows/tests.yml`
 | `test-recycling` | Pillar 16 recycling suite | `python -m pytest recycling/ -v` |
 | `test-pentad` | Unitary Pentad governance suite | `python -m pytest "5-GOVERNANCE/Unitary Pentad/" -v` |
 | `algebra-proof` | Formal algebraic check suite | `python3 ALGEBRA_PROOF.py` |
+| `ledger-consistency` | Canonical ledger + onboarding doc consistency | `python -m pytest tests/test_canonical_ledger_consistency.py -v` |
 
 ## Local regression path used for branch validation
 
 - Full branch regression command used in this repository context:
   - `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
-  - Latest local result: `28560 passed, 329 skipped, 11 deselected, 0 failed`
+  - Latest local result: `31008 passed, 393 skipped, 12 deselected, 0 failed`
 
 ## Additional active workflow gates
 
