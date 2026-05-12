@@ -815,21 +815,26 @@ def full_solution_plan(
     trajectory = migration_trajectory(scenario, annual_budget_usd=total_budget_usd / 5.0, years=5)
 
     # CBOM plan: derive system counts from scenario where available.
-    total_sys = getattr(scenario, "total_it_systems", 500)
+    # The scenario field is `total_systems`; fall back to 500 if absent.
+    total_sys = getattr(scenario, "total_systems", 500)
     tier1 = max(1, int(total_sys * 0.10))
     tier2 = max(1, int(total_sys * 0.30))
     cbom = enterprise_cbom_plan(total_sys, tier1, tier2)
 
-    # Bandwidth overhead: assume 10 Gbps and 5 000 TLS conn/s as defaults.
-    bw_gbps = getattr(scenario, "network_bandwidth_gbps", 10.0)
+    # Bandwidth overhead: use scenario bandwidth fields; fall back to conservative
+    # defaults (10 Gbps, 5 000 TLS connections/s) when not present.
+    bw_gbps = getattr(scenario, "network_bandwidth_available_gbps", 10.0)
     conns = getattr(scenario, "tls_connections_per_second", 5_000.0)
     bw_overhead = hybrid_kem_bandwidth_overhead(
         bandwidth_gbps=max(0.001, bw_gbps),
         connections_per_second=max(0.0, conns),
     )
 
-    # IoT feasibility: representative constrained device (Cortex-M4 class).
-    iot = iot_pqc_feasibility(memory_kb=8.0, power_mw=15.0, mcu_freq_mhz=64.0)
+    # IoT feasibility: use scenario IoT parameters where available; default to
+    # a Cortex-M4 class device (8 KB RAM, 15 mW, 64 MHz) otherwise.
+    iot_mem = getattr(scenario, "iot_available_memory_kb", 8.0)
+    iot_pwr = getattr(scenario, "iot_power_budget_mw", 15.0)
+    iot = iot_pqc_feasibility(memory_kb=iot_mem, power_mw=iot_pwr, mcu_freq_mhz=64.0)
 
     return {
         "hndl_risk_band": hndl_band,
