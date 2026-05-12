@@ -34,7 +34,7 @@ No build step is required — the package is importable directly from the reposi
 ```bash
 # Fast suite — core physics (run first):
 python -m pytest tests/ -q
-# Expected: ~15926 passed, 76 skipped, 11 deselected, 0 failed
+# Expected: see STATUS.md for current tests/-only sub-suite total (≥ 27,000 passed)
 
 # Recycling / φ-debt entropy suite (Pillar 16):
 python -m pytest recycling/ -q
@@ -42,11 +42,11 @@ python -m pytest recycling/ -q
 
 # Unitary Pentad governance suite:
 python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 1026 passed, 254 skipped, 0 failed
+# Expected: ~1,487 passed, 254 skipped, 0 failed
 
 # Full repository (takes ~130 s):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 18057 passed, 329 skipped, 11 deselected, 0 failed
+# Expected: 29 425 passed · 329 skipped · 11 deselected · 0 failed
 
 # Slow tests (Richardson extrapolation, ~2 min):
 python -m pytest tests/ -m slow
@@ -178,7 +178,7 @@ print(f"r_braided = {r:.4f}  (BICEP/Keck < 0.036)")
 │   ├── main.tex
 │   └── references.bib
 ├── src/
-│   ├── core/                       ← Pillars 1–5 (field theory) + 27–74
+│   ├── core/                       ← Pillars 1–232 + adjacent tracks (field theory, SM params, inflation, etc.)
 │   │   ├── metric.py               ← KK ansatz, curvature tensors
 │   │   ├── evolution.py            ← Walker–Pearson field evolution
 │   │   ├── inflation.py            ← CMB power spectrum, ns, r
@@ -186,11 +186,25 @@ print(f"r_braided = {r:.4f}  (BICEP/Keck < 0.036)")
 │   │   ├── transfer.py             ← Matter power spectrum
 │   │   ├── cmb_transfer.py         ← E-H 1998 CMB transfer function (Pillar 63)
 │   │   ├── completeness_theorem.py ← k_CS=74 uniqueness (Pillar 74)
-│   │   └── ... (70+ additional modules)
+│   │   └── ... (200+ additional modules)
 │   ├── holography/
 │   │   └── boundary.py             ← entropy-area, boundary dynamics
 │   ├── multiverse/
 │   │   └── fixed_point.py          ← UEUM, operator U, FTUM iteration
+│   ├── quantum/                    ← Quantum simulation layer
+│   │   ├── kk_vqe.py               ← KK VQE eigensolver
+│   │   ├── fermi_hubbard.py        ← Adjacent Fermi–Hubbard Hamiltonian + JW/BK mapping
+│   │   ├── execution.py            ← Mock hardware adapter + run manifests
+│   │   ├── benchmarks.py           ← TDVP parity, scaling curves
+│   │   └── xdiag_bridge/           ← XDiag↔UM compatibility bridge (schema, parity, routing)
+│   ├── sixd/                       ← 6D field equations, generation count, Higgs mass
+│   ├── sevend/                     ← 7D CKM ρ̄ integration, discrete torsion CP
+│   ├── eightd/                     ← 8D Wilson-line gauge
+│   ├── nined/                      ← 9D anomaly cancellation, CP phase refinement
+│   ├── tend/                       ← 10D flux landscape, CY₃ moduli, α_s
+│   ├── eleventd/                   ← 11D Hořava-Witten reduction, UV vacuum selection
+│   ├── meta/                       ← MAS wave engine
+│   ├── data/                       ← Planck data fetcher
 │   ├── consciousness/              ← Pillar 9: coupled brain-universe attractor
 │   ├── chemistry/                  ← Pillar 10: bonds, reactions, periodic table
 │   ├── astronomy/                  ← Pillar 11: stellar, planetary
@@ -210,7 +224,7 @@ print(f"r_braided = {r:.4f}  (BICEP/Keck < 0.036)")
 │   └── materials/                  ← Pillar 26
 ├── recycling/                      ← Pillar 16: φ-debt entropy accounting
 ├── Unitary Pentad/                 ← independent HILS governance framework
-├── tests/                          ← 150 test files, ~13,059 fast-passing tests
+├── tests/                          ← 200+ test files, 29 425 passing tests
 ├── bot/                            ← AI assistant infrastructure (RAG, Copilot Extension)
 └── notebooks/                      ← Jupyter quickstart, boundary, multiverse demos
 ```

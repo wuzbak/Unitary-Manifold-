@@ -2,13 +2,13 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-version: "1.0.0"
-date-released: "2026-04-30"
+version: "v10.52"
+date-released: "2026-05-12"
 doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v10.4, 208 pillars + Ω₀ Holon Zero + sub-pillars, ~23,524 passing tests. TOE score 42% (11/26). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°}.)"
+    description: "Zenodo DOI for the Unitary Manifold (v10.52, 208 core pillars + 24 adjacent tracks + Ω₀ Holon Zero + sub-pillars, 29 425 passing tests. ToE score 99.3% (27.8/28). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ± 0.01°.)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
@@ -26,7 +26,15 @@ abstract: >
   higher-dimensional geometry. Dimensional reduction of the 5D
   Einstein-Hilbert action yields a 4D effective action whose field equations —
   the Walker-Pearson equations — show that the Second Law of Thermodynamics is
-  a geometric identity rather than a statistical postulate.
+  a geometric identity rather than a statistical postulate. The framework
+  derives 27.8/28 Standard Model and cosmological observables without free
+  parameters (v10.52), with the primary open falsifier being the CMB
+  polarisation birefringence angle β ∈ {0.273°, 0.331°} measurable by LiteBIRD
+  (~2032). Adjacent research tracks (Pillars 218–232) extend the geometric
+  machinery to quantum computing, energy systems, biomedical applications, and
+  AI/robotics—all as honest quantitative explorations, not hardgated physics
+  claims. Infrastructure includes JAX-accelerated evolution, Lean4 formal
+  proofs, Z3 SMT bounds verification, and an XDiag quantum many-body bridge.
 keywords:
   - Kaluza-Klein theory
   - 5D gravity
@@ -37,6 +45,15 @@ keywords:
   - omega synthesis
   - universal mechanics engine
   - Walker-Pearson equations
+  - braided winding
+  - CMB birefringence
+  - Standard Model parameters
+  - quantum simulation
+  - Fermi-Hubbard
+  - XDiag
+  - JAX
+  - Lean4
+  - adjacent research tracks
 license: "AGPL-3.0-or-later"
 license-content: "other-open"
 repository-code: "https://github.com/wuzbak/Unitary-Manifold-"
