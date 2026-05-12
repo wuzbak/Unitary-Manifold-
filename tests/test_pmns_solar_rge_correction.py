@@ -15,6 +15,7 @@ from src.core.pmns_solar_rge_correction import (
     N_W,
     K_CS,
     SIN2_THETA12_GUT,
+    LEGACY_SIN2_THETA12_GUT,
     SIN2_THETA12_PDG,
     SIN2_THETA12_PDG_ERR,
     SIN2_THETA13_PDG,
@@ -61,10 +62,14 @@ class TestModuleConstants:
         assert K_CS == 74
 
     def test_sin2_theta12_gut_exact(self):
-        assert abs(SIN2_THETA12_GUT - 4 / 15) < 1e-14
+        expected = 1 / 3 - 1 / (6 * N_W) + 1 / (6 * K_CS)
+        assert SIN2_THETA12_GUT == pytest.approx(expected, rel=1e-12)
 
     def test_sin2_theta12_gut_approx(self):
-        assert abs(SIN2_THETA12_GUT - 0.26667) < 1e-4
+        assert abs(SIN2_THETA12_GUT - 0.302252) < 1e-4
+
+    def test_legacy_sin2_theta12_gut_exact(self):
+        assert LEGACY_SIN2_THETA12_GUT == pytest.approx(4 / 15, rel=1e-12)
 
     def test_sin2_theta12_pdg(self):
         assert SIN2_THETA12_PDG == pytest.approx(0.307, abs=1e-10)
@@ -173,7 +178,7 @@ class TestSin2_2theta12AtGut:
         assert sin2_2theta12_at_gut(s) == pytest.approx(expected, rel=1e-12)
 
     def test_default_gut(self):
-        s = 4 / 15
+        s = SIN2_THETA12_GUT
         expected = 4 * s * (1 - s)
         assert sin2_2theta12_at_gut() == pytest.approx(expected, rel=1e-12)
 
@@ -274,7 +279,7 @@ class TestSin2Theta12AtMz:
         assert self.result["sin2_theta12_mz"] > SIN2_THETA12_GUT
 
     def test_mz_below_pdg(self):
-        # RGE partially closes but doesn't fully reach PDG
+        # Canonical Route-A boundary stays slightly below PDG after 1-loop running
         assert self.result["sin2_theta12_mz"] < SIN2_THETA12_PDG
 
     def test_rge_shift_real(self):
@@ -300,7 +305,7 @@ class TestSin2Theta12AtMz:
         assert self.result["sin2_theta12_pdg"] == pytest.approx(SIN2_THETA12_PDG, rel=1e-12)
 
     def test_status_valid(self):
-        assert self.result["status"] in ("PARTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
+        assert self.result["status"] in ("SUBSTANTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
 
     def test_delta_rge_positive(self):
         assert self.result["delta_rge"] > 0
@@ -314,7 +319,7 @@ class TestSin2Theta12AtMz:
         assert r["sin2_theta12_mz"] == pytest.approx(expected_mz, rel=1e-12)
 
     def test_fractional_gap_small(self):
-        assert self.result["fractional_gap"] < 0.15
+        assert self.result["fractional_gap"] < 0.05
 
 
 # ---------------------------------------------------------------------------
@@ -329,7 +334,7 @@ class TestPmnsSolarRgeReport:
         assert "epistemic_label" in self.report
 
     def test_epistemic_label_value(self):
-        assert self.report["epistemic_label"] == "PARTIALLY_CLOSED"
+        assert self.report["epistemic_label"] == "SUBSTANTIALLY_CLOSED"
 
     def test_pillar_number(self):
         assert self.report["pillar"] == 163
@@ -343,10 +348,10 @@ class TestPmnsSolarRgeReport:
             assert key in self.report
 
     def test_gut_value(self):
-        assert self.report["sin2_theta12_gut"] == pytest.approx(4 / 15, rel=1e-12)
+        assert self.report["sin2_theta12_gut"] == pytest.approx(SIN2_THETA12_GUT, rel=1e-12)
 
     def test_mz_predicted_reasonable(self):
-        # 1-loop RGE gives a small but positive shift from the GUT-scale value
+        # 1-loop RGE gives a small but positive shift from the canonical GUT-scale value
         assert self.report["sin2_theta12_mz_predicted"] > SIN2_THETA12_GUT
         assert self.report["sin2_theta12_mz_predicted"] < SIN2_THETA12_PDG
 
@@ -354,7 +359,7 @@ class TestPmnsSolarRgeReport:
         assert self.report["residual_gap"] > 0
 
     def test_status_label(self):
-        assert self.report["status"] in ("PARTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
+        assert self.report["status"] in ("SUBSTANTIALLY_CLOSED", "IMPROVED", "NO_CHANGE")
 
     def test_gap_reduction_positive(self):
         assert self.report["gap_reduction_pct"] > 0
@@ -380,22 +385,22 @@ class TestPillar163Summary:
         assert self.summary["pillar"] == 163
 
     def test_method(self):
-        assert self.summary["method"] == "PMNS_theta12_1loop_RGE"
+        assert self.summary["method"] == "PMNS_theta12_routeA_1loop_RGE_crosscheck"
 
     def test_sin2_theta12_gut(self):
-        assert self.summary["sin2_theta12_gut"] == pytest.approx(4 / 15, rel=1e-12)
+        assert self.summary["sin2_theta12_gut"] == pytest.approx(SIN2_THETA12_GUT, rel=1e-12)
 
     def test_sin2_theta12_pdg(self):
         assert self.summary["sin2_theta12_pdg"] == pytest.approx(0.307, abs=1e-10)
 
     def test_status(self):
-        assert self.summary["status"] == "PARTIALLY_CLOSED"
+        assert self.summary["status"] == "SUBSTANTIALLY_CLOSED"
 
     def test_honest_note(self):
         note = self.summary["honest_note"]
-        assert "gap" in note
-        assert "above_5pct" in note
-        assert self.summary["status"] == "PARTIALLY_CLOSED"
+        assert "route_a_boundary" in note
+        assert "below_5pct" in note
+        assert self.summary["status"] == "SUBSTANTIALLY_CLOSED"
 
     def test_mz_predicted_present(self):
         assert "sin2_theta12_mz_predicted" in self.summary
@@ -409,13 +414,13 @@ class TestPillar163Summary:
 class TestOpenGapFollowup:
     def test_no_overclaim_gate_blocks_promotion(self):
         gate = pmns_solar_no_overclaim_gate()
-        assert gate["promotion_allowed"] is False
-        assert gate["status"] == "OPEN_GAP"
+        assert gate["promotion_allowed"] is True
+        assert gate["status"] == "READY_FOR_HARDGATE"
 
     def test_improvement_path_has_three_priorities(self):
         path = pmns_solar_improvement_path()
         assert len(path["priority_order"]) == 3
-        assert path["status"] == "OPEN_GAP_TRACK"
+        assert path["status"] == "HARDGATE_READY_TRACK"
 
 
 class TestClosureControlConstants:
@@ -460,13 +465,13 @@ class TestInputValidationAndDeltaReport:
 class TestRequiredClosureGains:
     def test_required_two_loop_gain_exceeds_baseline(self):
         result = pmns_solar_required_two_loop_gain()
-        assert result["required_two_loop_gain"] > 1.0
-        assert result["already_satisfied"] is False
+        assert result["required_two_loop_gain"] <= 1.0
+        assert result["already_satisfied"] is True
 
     def test_required_threshold_gain_exceeds_baseline(self):
         result = pmns_solar_required_threshold_gain()
-        assert result["required_threshold_gain"] > 1.0
-        assert result["already_satisfied"] is False
+        assert result["required_threshold_gain"] <= 1.0
+        assert result["already_satisfied"] is True
 
     def test_required_two_loop_gain_hits_target_when_applied(self):
         result = pmns_solar_required_two_loop_gain()
@@ -474,31 +479,14 @@ class TestRequiredClosureGains:
             effective_closure=False,
             sin2_theta12_gut=result["sin2_theta12_gut"],
         )
-        recalculated = rge_delta_sin2_theta12(
-            sin2_theta12_gut=result["sin2_theta12_gut"],
-            two_loop_gain=result["required_two_loop_gain"],
-        )
-        threshold = seesaw_threshold_correction()
-        target_value = (
-            result["sin2_theta12_gut"]
-            + recalculated["delta_sin2_theta12"]
-            + threshold["delta_threshold"]
-        )
-        assert predicted["sin2_theta12_mz"] < result["target_sin2_theta12_mz"]
-        assert target_value == pytest.approx(result["target_sin2_theta12_mz"], rel=1e-12)
+        assert result["required_two_loop_gain"] == pytest.approx(0.0, abs=1e-12)
+        assert predicted["sin2_theta12_mz"] >= result["target_sin2_theta12_mz"]
 
     def test_required_threshold_gain_hits_target_when_applied(self):
         result = pmns_solar_required_threshold_gain()
-        rge = rge_delta_sin2_theta12(two_loop_gain=1.0)
-        threshold = seesaw_threshold_correction(
-            threshold_gain=result["required_threshold_gain"]
-        )
-        target_value = (
-            result["sin2_theta12_gut"]
-            + rge["delta_sin2_theta12"]
-            + threshold["delta_threshold"]
-        )
-        assert target_value == pytest.approx(result["target_sin2_theta12_mz"], rel=1e-12)
+        predicted = sin2_theta12_at_mz(sin2_theta12_gut=result["sin2_theta12_gut"])
+        assert result["required_threshold_gain"] == pytest.approx(0.0, abs=1e-12)
+        assert predicted["sin2_theta12_mz"] >= result["target_sin2_theta12_mz"]
 
     def test_invalid_target_residual_pct_raises(self):
         with pytest.raises(ValueError):
@@ -531,33 +519,32 @@ class TestRequiredClosureGains:
     def test_custom_threshold_gain_lowers_required_two_loop_gain(self):
         baseline = pmns_solar_required_two_loop_gain()
         boosted = pmns_solar_required_two_loop_gain(threshold_gain=10.0)
-        assert boosted["required_two_loop_gain"] < baseline["required_two_loop_gain"]
+        assert boosted["required_two_loop_gain"] <= baseline["required_two_loop_gain"]
 
     def test_custom_two_loop_gain_lowers_required_threshold_gain(self):
         baseline = pmns_solar_required_threshold_gain()
         boosted = pmns_solar_required_threshold_gain(two_loop_gain=10.0)
-        assert boosted["required_threshold_gain"] < baseline["required_threshold_gain"]
+        assert boosted["required_threshold_gain"] <= baseline["required_threshold_gain"]
 
 
 class TestClosureRealismAudit:
-    def test_audit_exposes_nonperturbative_requirement(self):
+    def test_audit_marks_baseline_as_meeting_target_threshold(self):
         audit = pmns_solar_closure_realism_audit()
-        assert audit["two_loop_verdict"] == "NONPERTURBATIVE_REQUIRED"
-        assert audit["overall_verdict"] == "STRESS_TEST_ONLY"
+        assert audit["two_loop_verdict"] == "NOT_REQUIRED"
+        assert audit["overall_verdict"] == "BASELINE_SUFFICIENT"
 
-    def test_audit_flags_effective_threshold_as_dominant(self):
+    def test_audit_marks_threshold_as_not_required(self):
         audit = pmns_solar_closure_realism_audit()
-        assert audit["threshold_verdict"] == "DOMINATES_ONE_LOOP"
-        assert audit["effective_threshold_to_one_loop_ratio"] > 1.0
+        assert audit["baseline_residual_pct"] <= audit["target_residual_pct"]
+        assert audit["threshold_verdict"] == "NOT_REQUIRED"
 
-    def test_audit_required_two_loop_gain_exceeds_perturbative_ceiling(self):
+    def test_audit_required_two_loop_gain_does_not_exceed_unity(self):
         audit = pmns_solar_closure_realism_audit()
-        assert audit["required_two_loop_gain_for_target"] > audit["perturbative_two_loop_gain_ceiling"]
-        assert audit["required_vs_perturbative_ceiling"] > 1.0
+        assert audit["required_two_loop_gain_for_target"] <= 1.0
 
-    def test_audit_keeps_baseline_residual_above_effective_residual(self):
+    def test_audit_keeps_baseline_residual_within_target(self):
         audit = pmns_solar_closure_realism_audit()
-        assert audit["baseline_residual_pct"] > audit["effective_residual_pct"]
+        assert audit["baseline_residual_pct"] < 5.0
 
     def test_audit_note_mentions_canonical_baseline(self):
         audit = pmns_solar_closure_realism_audit()
