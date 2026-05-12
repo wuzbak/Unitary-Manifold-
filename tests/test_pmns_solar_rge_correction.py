@@ -528,13 +528,14 @@ class TestRequiredClosureGains:
 
 
 class TestClosureRealismAudit:
-    def test_audit_marks_baseline_as_sufficient(self):
+    def test_audit_marks_baseline_as_meeting_target_threshold(self):
         audit = pmns_solar_closure_realism_audit()
         assert audit["two_loop_verdict"] == "NOT_REQUIRED"
         assert audit["overall_verdict"] == "BASELINE_SUFFICIENT"
 
     def test_audit_marks_threshold_as_not_required(self):
         audit = pmns_solar_closure_realism_audit()
+        assert audit["baseline_residual_pct"] <= audit["target_residual_pct"]
         assert audit["threshold_verdict"] == "NOT_REQUIRED"
 
     def test_audit_required_two_loop_gain_does_not_exceed_unity(self):

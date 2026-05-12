@@ -93,10 +93,10 @@ THRESHOLD_GAIN = 1.0
 
 # Optional refinement controls (opt-in only)
 # With the canonical Route-A boundary the baseline already clears the sub-5%
-# gate, so the experimental path is now a mild sensitivity probe rather than a
-# non-perturbative rescue lane.
-EFFECTIVE_TWO_LOOP_GAIN = 2.0
-EFFECTIVE_THRESHOLD_GAIN = 2.0
+# gate, so the experimental path is now just a small sensitivity probe rather
+# than a non-perturbative rescue lane.
+EFFECTIVE_TWO_LOOP_GAIN = 1.1
+EFFECTIVE_THRESHOLD_GAIN = 1.1
 PERTURBATIVE_TWO_LOOP_RATIO_CEILING = 1.0 / _16PI2
 DEFAULT_TARGET_RESIDUAL_PCT = 5.0
 
@@ -434,6 +434,8 @@ def pmns_solar_required_two_loop_gain(
     required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
     required_rge_shift = required_total_shift - threshold["delta_threshold"]
     delta_one_loop = baseline_rge["delta_one_loop"]
+    # A negative required shift means the canonical baseline already meets the
+    # target residual, so no additional two-loop enhancement is physically needed.
     required_gain = max(0.0, required_rge_shift / delta_one_loop)
     required_two_loop_effective = (required_gain - 1.0) * delta_one_loop
 
@@ -473,6 +475,8 @@ def pmns_solar_required_threshold_gain(
     required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
     required_threshold_shift = required_total_shift - rge["delta_sin2_theta12"]
     delta_threshold_base = threshold_base["delta_threshold_base"]
+    # A negative required shift means the canonical baseline already meets the
+    # target residual, so no extra threshold boost is physically needed.
     required_gain = max(0.0, required_threshold_shift / delta_threshold_base)
 
     return {
