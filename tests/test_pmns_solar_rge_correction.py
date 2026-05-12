@@ -41,6 +41,9 @@ from src.core.pmns_solar_rge_correction import (
     pmns_solar_no_overclaim_gate,
     pmns_solar_effective_closure_report,
     pmns_solar_closure_delta_report,
+    pmns_solar_required_two_loop_gain,
+    pmns_solar_required_threshold_gain,
+    pmns_solar_closure_realism_audit,
     pmns_solar_rge_report,
     pillar163_summary,
 )
@@ -452,3 +455,110 @@ class TestInputValidationAndDeltaReport:
         delta = pmns_solar_closure_delta_report()
         assert delta["delta"]["residual_pct_reduction"] > 0.0
         assert delta["delta"]["sin2_theta12_mz_shift"] > 0.0
+
+
+class TestRequiredClosureGains:
+    def test_required_two_loop_gain_exceeds_baseline(self):
+        result = pmns_solar_required_two_loop_gain()
+        assert result["required_two_loop_gain"] > 1.0
+        assert result["already_satisfied"] is False
+
+    def test_required_threshold_gain_exceeds_baseline(self):
+        result = pmns_solar_required_threshold_gain()
+        assert result["required_threshold_gain"] > 1.0
+        assert result["already_satisfied"] is False
+
+    def test_required_two_loop_gain_hits_target_when_applied(self):
+        result = pmns_solar_required_two_loop_gain()
+        predicted = sin2_theta12_at_mz(
+            effective_closure=False,
+            sin2_theta12_gut=result["sin2_theta12_gut"],
+        )
+        recalculated = rge_delta_sin2_theta12(
+            sin2_theta12_gut=result["sin2_theta12_gut"],
+            two_loop_gain=result["required_two_loop_gain"],
+        )
+        threshold = seesaw_threshold_correction()
+        target_value = (
+            result["sin2_theta12_gut"]
+            + recalculated["delta_sin2_theta12"]
+            + threshold["delta_threshold"]
+        )
+        assert predicted["sin2_theta12_mz"] < result["target_sin2_theta12_mz"]
+        assert target_value == pytest.approx(result["target_sin2_theta12_mz"], rel=1e-12)
+
+    def test_required_threshold_gain_hits_target_when_applied(self):
+        result = pmns_solar_required_threshold_gain()
+        rge = rge_delta_sin2_theta12(two_loop_gain=1.0)
+        threshold = seesaw_threshold_correction(
+            threshold_gain=result["required_threshold_gain"]
+        )
+        target_value = (
+            result["sin2_theta12_gut"]
+            + rge["delta_sin2_theta12"]
+            + threshold["delta_threshold"]
+        )
+        assert target_value == pytest.approx(result["target_sin2_theta12_mz"], rel=1e-12)
+
+    def test_invalid_target_residual_pct_raises(self):
+        with pytest.raises(ValueError):
+            pmns_solar_required_two_loop_gain(target_residual_pct=100.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_two_loop_gain(target_residual_pct=150.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_threshold_gain(target_residual_pct=100.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_threshold_gain(target_residual_pct=150.0)
+
+    def test_negative_target_residual_pct_raises(self):
+        with pytest.raises(ValueError):
+            pmns_solar_required_two_loop_gain(target_residual_pct=-1.0)
+        with pytest.raises(ValueError):
+            pmns_solar_required_threshold_gain(target_residual_pct=-1.0)
+
+    def test_nonfinite_target_residual_pct_raises(self):
+        for value in (float("inf"), float("nan")):
+            with pytest.raises(ValueError):
+                pmns_solar_required_two_loop_gain(target_residual_pct=value)
+            with pytest.raises(ValueError):
+                pmns_solar_required_threshold_gain(target_residual_pct=value)
+
+    def test_relaxed_target_can_be_already_satisfied(self):
+        result = pmns_solar_required_two_loop_gain(target_residual_pct=20.0)
+        assert result["already_satisfied"] is True
+        assert result["required_two_loop_gain"] <= 1.0
+
+    def test_custom_threshold_gain_lowers_required_two_loop_gain(self):
+        baseline = pmns_solar_required_two_loop_gain()
+        boosted = pmns_solar_required_two_loop_gain(threshold_gain=10.0)
+        assert boosted["required_two_loop_gain"] < baseline["required_two_loop_gain"]
+
+    def test_custom_two_loop_gain_lowers_required_threshold_gain(self):
+        baseline = pmns_solar_required_threshold_gain()
+        boosted = pmns_solar_required_threshold_gain(two_loop_gain=10.0)
+        assert boosted["required_threshold_gain"] < baseline["required_threshold_gain"]
+
+
+class TestClosureRealismAudit:
+    def test_audit_exposes_nonperturbative_requirement(self):
+        audit = pmns_solar_closure_realism_audit()
+        assert audit["two_loop_verdict"] == "NONPERTURBATIVE_REQUIRED"
+        assert audit["overall_verdict"] == "STRESS_TEST_ONLY"
+
+    def test_audit_flags_effective_threshold_as_dominant(self):
+        audit = pmns_solar_closure_realism_audit()
+        assert audit["threshold_verdict"] == "DOMINATES_ONE_LOOP"
+        assert audit["effective_threshold_to_one_loop_ratio"] > 1.0
+
+    def test_audit_required_two_loop_gain_exceeds_perturbative_ceiling(self):
+        audit = pmns_solar_closure_realism_audit()
+        assert audit["required_two_loop_gain_for_target"] > audit["perturbative_two_loop_gain_ceiling"]
+        assert audit["required_vs_perturbative_ceiling"] > 1.0
+
+    def test_audit_keeps_baseline_residual_above_effective_residual(self):
+        audit = pmns_solar_closure_realism_audit()
+        assert audit["baseline_residual_pct"] > audit["effective_residual_pct"]
+
+    def test_audit_note_mentions_canonical_baseline(self):
+        audit = pmns_solar_closure_realism_audit()
+        assert "canonical" in audit["honest_note"].lower()

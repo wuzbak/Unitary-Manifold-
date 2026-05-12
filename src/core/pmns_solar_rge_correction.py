@@ -39,6 +39,9 @@ seesaw_threshold_correction(m_r_gev)   → dict
 sin2_theta12_at_mz(sin2_theta12_gut)   → dict
 pmns_solar_rge_report()                → dict
 pillar163_summary()                    → dict
+pmns_solar_required_two_loop_gain()    → dict
+pmns_solar_required_threshold_gain()   → dict
+pmns_solar_closure_realism_audit()     → dict
 """
 
 import math
@@ -90,6 +93,8 @@ THRESHOLD_GAIN = 1.0
 # two-loop coefficients with physical uncertainty bars.
 EFFECTIVE_TWO_LOOP_GAIN = 170.0
 EFFECTIVE_THRESHOLD_GAIN = 35_000.0
+PERTURBATIVE_TWO_LOOP_RATIO_CEILING = 1.0 / _16PI2
+DEFAULT_TARGET_RESIDUAL_PCT = 5.0
 
 
 # ---------------------------------------------------------------------------
@@ -103,6 +108,14 @@ def _require_finite_nonnegative(name: str, value: float) -> None:
         raise ValueError(f"{name} must be finite, got {value!r}")
     if value < 0:
         raise ValueError(f"{name} must be >= 0, got {value!r}")
+
+
+def _require_residual_pct(name: str, value: float) -> None:
+    """Raise ValueError if a residual percentage is outside [0, 100)."""
+    if not math.isfinite(value):
+        raise ValueError(f"{name} must be finite, got {value!r}")
+    if not (0.0 <= value < 100.0):
+        raise ValueError(f"{name} must be within [0, 100), got {value!r}")
 
 def tau_yukawa() -> float:
     """Return the tau lepton Yukawa coupling y_τ = m_τ / v at M_Z scale."""
@@ -387,4 +400,167 @@ def pmns_solar_closure_delta_report() -> dict:
                 effective["gap_reduction_pct"] - baseline["gap_reduction_pct"]
             ),
         },
+    }
+
+
+def pmns_solar_required_two_loop_gain(
+    target_residual_pct: float = DEFAULT_TARGET_RESIDUAL_PCT,
+    threshold_gain: float = THRESHOLD_GAIN,
+    sin2_theta12_gut: float = SIN2_THETA12_GUT,
+) -> dict:
+    """Return the minimum total two-loop gain needed to reach a target residual."""
+    _require_residual_pct("target_residual_pct", target_residual_pct)
+    _require_finite_nonnegative("threshold_gain", threshold_gain)
+    if not (0.0 <= sin2_theta12_gut <= 1.0):
+        raise ValueError(
+            f"sin2_theta12_gut must be within [0, 1], got {sin2_theta12_gut!r}"
+        )
+
+    baseline_rge = rge_delta_sin2_theta12(
+        sin2_theta12_gut=sin2_theta12_gut,
+        two_loop_gain=1.0,
+    )
+    threshold = seesaw_threshold_correction(threshold_gain=threshold_gain)
+    target_sin2_theta12_mz = SIN2_THETA12_PDG * (1.0 - target_residual_pct / 100.0)
+    required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
+    required_rge_shift = required_total_shift - threshold["delta_threshold"]
+    delta_one_loop = baseline_rge["delta_one_loop"]
+    required_gain = required_rge_shift / delta_one_loop
+    required_two_loop_effective = (required_gain - 1.0) * delta_one_loop
+
+    return {
+        "target_residual_pct": target_residual_pct,
+        "target_sin2_theta12_mz": target_sin2_theta12_mz,
+        "sin2_theta12_gut": sin2_theta12_gut,
+        "delta_one_loop": delta_one_loop,
+        "delta_threshold": threshold["delta_threshold"],
+        "required_total_shift": required_total_shift,
+        "required_rge_shift": required_rge_shift,
+        "required_two_loop_gain": required_gain,
+        "required_two_loop_effective": required_two_loop_effective,
+        "already_satisfied": required_gain <= 1.0,
+    }
+
+
+def pmns_solar_required_threshold_gain(
+    target_residual_pct: float = DEFAULT_TARGET_RESIDUAL_PCT,
+    two_loop_gain: float = TWO_LOOP_GAIN,
+    sin2_theta12_gut: float = SIN2_THETA12_GUT,
+) -> dict:
+    """Return the minimum threshold gain needed to reach a target residual."""
+    _require_residual_pct("target_residual_pct", target_residual_pct)
+    _require_finite_nonnegative("two_loop_gain", two_loop_gain)
+    if not (0.0 <= sin2_theta12_gut <= 1.0):
+        raise ValueError(
+            f"sin2_theta12_gut must be within [0, 1], got {sin2_theta12_gut!r}"
+        )
+
+    rge = rge_delta_sin2_theta12(
+        sin2_theta12_gut=sin2_theta12_gut,
+        two_loop_gain=two_loop_gain,
+    )
+    threshold_base = seesaw_threshold_correction(threshold_gain=1.0)
+    target_sin2_theta12_mz = SIN2_THETA12_PDG * (1.0 - target_residual_pct / 100.0)
+    required_total_shift = target_sin2_theta12_mz - sin2_theta12_gut
+    required_threshold_shift = required_total_shift - rge["delta_sin2_theta12"]
+    delta_threshold_base = threshold_base["delta_threshold_base"]
+    required_gain = required_threshold_shift / delta_threshold_base
+
+    return {
+        "target_residual_pct": target_residual_pct,
+        "target_sin2_theta12_mz": target_sin2_theta12_mz,
+        "sin2_theta12_gut": sin2_theta12_gut,
+        "delta_rge": rge["delta_sin2_theta12"],
+        "delta_threshold_base": delta_threshold_base,
+        "required_total_shift": required_total_shift,
+        "required_threshold_shift": required_threshold_shift,
+        "required_threshold_gain": required_gain,
+        "already_satisfied": required_gain <= 1.0,
+    }
+
+
+def pmns_solar_closure_realism_audit(
+    target_residual_pct: float = DEFAULT_TARGET_RESIDUAL_PCT,
+) -> dict:
+    """Audit whether sub-5% closure is reachable within perturbative/stress-test bounds."""
+    _require_residual_pct("target_residual_pct", target_residual_pct)
+
+    baseline = pmns_solar_rge_report(effective_closure=False)
+    effective = pmns_solar_rge_report(effective_closure=True)
+    required_two_loop = pmns_solar_required_two_loop_gain(
+        target_residual_pct=target_residual_pct,
+        threshold_gain=1.0,
+    )
+    required_threshold = pmns_solar_required_threshold_gain(
+        target_residual_pct=target_residual_pct,
+        two_loop_gain=1.0,
+    )
+
+    perturbative_gain_ceiling = 1.0 + PERTURBATIVE_TWO_LOOP_RATIO_CEILING
+    baseline_threshold = seesaw_threshold_correction(threshold_gain=1.0)
+    effective_threshold = seesaw_threshold_correction(
+        threshold_gain=EFFECTIVE_THRESHOLD_GAIN
+    )
+    delta_one_loop = baseline["delta_rge_one_loop"]
+    baseline_threshold_ratio = baseline_threshold["delta_threshold"] / delta_one_loop
+    effective_threshold_ratio = effective_threshold["delta_threshold"] / delta_one_loop
+
+    required_two_loop_ratio = required_two_loop["required_two_loop_gain"] - 1.0
+    effective_two_loop_ratio = EFFECTIVE_TWO_LOOP_GAIN - 1.0
+
+    if required_two_loop["required_two_loop_gain"] <= perturbative_gain_ceiling:
+        two_loop_verdict = "PERTURBATIVE"
+    else:
+        two_loop_verdict = "NONPERTURBATIVE_REQUIRED"
+
+    if effective_threshold_ratio <= 1.0:
+        threshold_verdict = "SUBDOMINANT"
+    else:
+        threshold_verdict = "DOMINATES_ONE_LOOP"
+
+    return {
+        "target_residual_pct": target_residual_pct,
+        "baseline_residual_pct": baseline["residual_pct"],
+        "effective_residual_pct": effective["residual_pct"],
+        "required_two_loop_gain_for_target": required_two_loop["required_two_loop_gain"],
+        "required_threshold_gain_for_target": required_threshold["required_threshold_gain"],
+        "perturbative_two_loop_ratio_ceiling": PERTURBATIVE_TWO_LOOP_RATIO_CEILING,
+        "perturbative_two_loop_gain_ceiling": perturbative_gain_ceiling,
+        "required_two_loop_ratio": required_two_loop_ratio,
+        "effective_two_loop_ratio": effective_two_loop_ratio,
+        "required_vs_perturbative_ceiling": (
+            required_two_loop_ratio / PERTURBATIVE_TWO_LOOP_RATIO_CEILING
+        ),
+        "effective_vs_perturbative_ceiling": (
+            effective_two_loop_ratio / PERTURBATIVE_TWO_LOOP_RATIO_CEILING
+        ),
+        "baseline_threshold_to_one_loop_ratio": baseline_threshold_ratio,
+        "effective_threshold_to_one_loop_ratio": effective_threshold_ratio,
+        "two_loop_verdict": two_loop_verdict,
+        "threshold_verdict": threshold_verdict,
+        "overall_verdict": (
+            "STRESS_TEST_ONLY"
+            if two_loop_verdict != "PERTURBATIVE" or threshold_verdict != "SUBDOMINANT"
+            else "PERTURBATIVE_CLOSURE_AVAILABLE"
+        ),
+        "honest_note": (
+            f"Baseline 1-loop path remains canonical. Reaching sub-{target_residual_pct:g}% "
+            "residual from this module alone "
+            + (
+                "requires a two-loop enhancement far above the perturbative loop-counting ceiling "
+                if two_loop_verdict != "PERTURBATIVE"
+                else "stays within the perturbative loop-counting ceiling "
+            )
+            + "and "
+            + (
+                "a threshold term that ceases to be subdominant to the one-loop RGE shift."
+                if threshold_verdict != "SUBDOMINANT"
+                else "a threshold term that remains subdominant to the one-loop RGE shift."
+            )
+        ),
+        "reference": (
+            "Antusch et al. hep-ph/0305274 baseline 1-loop structure; loop-counting "
+            "audit uses 1/(16π²) suppression for the relative size of a perturbative "
+            "two-loop correction."
+        ),
     }
