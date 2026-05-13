@@ -13,17 +13,32 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Dict, Optional
 
+from src.core.adm_quantitative_closure import adm_quantitative_closure_report
+from src.core.alpha_gw_uv_brane_derivation import uv_factor_for_target_alpha
 from src.core.cmbs4_ns_r_joint_falsifier import joint_ns_r_verdict
 from src.core.desi_dr2_gap_report import full_dr2_gap_report
 from src.core.desi_year3_monitor import route_desi_y3
+from src.core.desi_year3_monitor import release_day_decision_packet
+from src.core.fermion_cl_quantization import subleading_cs_corrected_cl_window
 from src.core.hyperk_juno_dm31_readiness import hyperk_juno_falsifier_routing
 from src.core.litebird_gap_hardening import classify_beta
+from src.core.litebird_gap_hardening import litebird_release_day_packet
 from src.core.neutrino_p18_route_consolidation import ROUTE_A_RGE_VALUE
 from src.core.prediction_registry import PREDICTION_REGISTRY
 
 # Canonical consolidated P18 prediction for sin²θ12 after applying the
 # Route-A geometric boundary condition and its 1-loop RGE cross-check.
 SIN2_THETA12_PREDICTED: float = ROUTE_A_RGE_VALUE
+DEFAULT_DESI_MOCK_PAYLOAD: Dict[str, object] = {
+    "release_name": "DESI Year 3 Mock Packet",
+    "year": 2026,
+    "w0_central": -0.84,
+    "w0_sigma": 0.06,
+    "wa_central": -0.40,
+    "wa_sigma": 0.20,
+    "reference": "DESI synthetic packet",
+    "datasets": "BAO + CMB + SNe Ia (synthetic)",
+}
 
 
 def _calculate_tension(predicted: float, observed: float, sigma: float) -> float:
@@ -46,6 +61,7 @@ __all__ = [
     "build_tracker_update_payload",
     "build_wave_changelog_payload",
     "build_provenance_sync_payload",
+    "five_job_execution_packet",
 ]
 
 DEFAULT_OBSERVATION_BUNDLE: Dict[str, Dict[str, object]] = {
@@ -417,4 +433,33 @@ def route_finish_line_observation_bundle(
         "canonical_ledger_payload": build_canonical_ledger_payload(routed),
         "provenance_sync_payload": build_provenance_sync_payload(routed),
         "canonical_doc_update_packet": build_canonical_doc_update_packet(routed),
+    }
+
+
+def five_job_execution_packet(
+    desi_payload: Optional[Dict[str, object]] = None,
+    litebird_beta: float = 0.331,
+    litebird_sigma: float = 0.02,
+    target_alpha_gw: float = 4.5e-10,
+) -> Dict[str, object]:
+    """Run and aggregate the five active closure jobs in one integration packet."""
+    if desi_payload is None:
+        desi_payload = deepcopy(DEFAULT_DESI_MOCK_PAYLOAD)
+
+    job1 = subleading_cs_corrected_cl_window()
+    job2 = adm_quantitative_closure_report()
+    job3_desi = release_day_decision_packet(desi_payload)
+    job3_litebird = litebird_release_day_packet(beta_obs=litebird_beta, sigma=litebird_sigma)
+    job4 = uv_factor_for_target_alpha(target_alpha_gw=target_alpha_gw)
+
+    return {
+        "pipeline": "FIVE_JOB_EXECUTION_PACKET",
+        "jobs": {
+            "job1_sc1_subleading_cs_cl": job1,
+            "job2_t3_adm_quantitative": job2,
+            "job3_desi_release_day": job3_desi,
+            "job3_litebird_release_day": job3_litebird,
+            "job4_sc2_uv_factor_solver": job4,
+        },
+        "all_jobs_completed": True,
     }

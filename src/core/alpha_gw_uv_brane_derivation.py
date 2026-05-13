@@ -99,6 +99,7 @@ __all__ = [
     # Functions
     "rs1_uv_brane_alpha_gw_attempt",
     "casimir_alpha_gw_from_geometry",
+    "uv_factor_for_target_alpha",
     "cmbs4_alpha_gw_observability",
     "alpha_gw_gap_closure_verdict",
 ]
@@ -272,6 +273,31 @@ def casimir_alpha_gw_from_geometry(
             "INSIDE_INTERVAL" if inside
             else f"OUTSIDE_INTERVAL — {gap_log10:.1f} orders below midpoint"
         ),
+    }
+
+
+def uv_factor_for_target_alpha(
+    target_alpha_gw: float,
+    k_cs: int = K_CS,
+    n_w: int = N_W,
+    pi_kr: float = PI_KR,
+) -> Dict[str, object]:
+    """Solve the UV-localized correction factor needed to hit a target α_GW."""
+    if target_alpha_gw <= 0:
+        raise ValueError("target_alpha_gw must be positive.")
+    baseline = casimir_alpha_gw_from_geometry(k_cs=k_cs, n_w=n_w, pi_kr=pi_kr)
+    if "alpha_gw_casimir" not in baseline:
+        raise ValueError("Baseline result missing required key 'alpha_gw_casimir'.")
+    alpha_base = float(baseline["alpha_gw_casimir"])
+    if alpha_base <= 0:
+        raise ValueError("Baseline geometric alpha_gw_casimir must be positive.")
+    c_uv_required = target_alpha_gw / alpha_base
+    return {
+        "target_alpha_gw": target_alpha_gw,
+        "baseline_alpha_gw": alpha_base,
+        "c_uv_required": c_uv_required,
+        "predicted_alpha_with_c_uv": alpha_base * c_uv_required,
+        "status": "UV_FACTOR_SOLVED",
     }
 
 

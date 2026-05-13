@@ -54,6 +54,7 @@ __all__ = [
     "gap_test",
     "inter_sector_discrimination",
     "edge_case_battery",
+    "litebird_release_day_packet",
     "litebird_gap_hardening_report",
 ]
 
@@ -287,6 +288,28 @@ def edge_case_battery() -> List[Dict[str, object]]:
         result["case_label"] = label
         results.append(result)
     return results
+
+
+def litebird_release_day_packet(beta_obs: float, sigma: float) -> Dict[str, object]:
+    """Build a release-day packet from LiteBIRD β measurement inputs."""
+    classification = classify_beta(beta_obs=beta_obs, sigma=sigma)
+    gap = gap_test(beta_obs=beta_obs, sigma=sigma)
+    boundary = fail_zone_report(beta_measured=beta_obs, sigma_measured=sigma)
+    return {
+        "pipeline": "LITEBIRD_RELEASE_DAY_DECISION_PACKET",
+        "beta_obs": beta_obs,
+        "sigma": sigma,
+        "zone": classification["zone"],
+        "route": classification["zone"],
+        "falsified": classification["falsified"],
+        "supported_mode": classification["supported_mode"],
+        "gap_falsification_active": gap["gap_falsification_active"],
+        "boundary_assessment": boundary,
+        "required_same_day_sync": True,
+        "ready_for_publication": True,
+        "classification": classification,
+        "gap_test": gap,
+    }
 
 
 def litebird_gap_hardening_report() -> Dict[str, object]:

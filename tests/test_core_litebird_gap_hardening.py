@@ -16,6 +16,7 @@ from src.core.litebird_gap_hardening import (
     edge_case_battery,
     gap_test,
     inter_sector_discrimination,
+    litebird_release_day_packet,
     litebird_gap_hardening_report,
 )
 
@@ -177,3 +178,16 @@ class TestHardeningReport:
         report = litebird_gap_hardening_report()
         assert "gap" in report["critical_note"].lower()
         assert "0.30" in report["critical_note"]
+
+
+class TestReleaseDayPacket:
+    def test_packet_ready(self):
+        packet = litebird_release_day_packet(beta_obs=BETA_MODE_1, sigma=LITEBIRD_SIGMA)
+        assert packet["pipeline"] == "LITEBIRD_RELEASE_DAY_DECISION_PACKET"
+        assert packet["ready_for_publication"] is True
+        assert packet["required_same_day_sync"] is True
+
+    def test_packet_gap_case_falsified(self):
+        packet = litebird_release_day_packet(beta_obs=0.300, sigma=0.003)
+        assert packet["route"] == "GAP"
+        assert packet["falsified"] is True

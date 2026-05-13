@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """Tests for src/core/adm_quantitative_closure.py."""
 
+import pytest
+
 from src.core.adm_quantitative_closure import (
     DEFAULT_PHI_GRID,
     adm_constraint_audit,
@@ -9,6 +11,7 @@ from src.core.adm_quantitative_closure import (
     adm_quantitative_closure_report,
     lapse_scaling_invariance,
     off_attractor_time_mismatch_scan,
+    off_attractor_severity_profile,
     radion_quantization_closure,
 )
 
@@ -55,6 +58,7 @@ def test_quantitative_report_contains_sections():
     assert "consistency_check" in report
     assert "falsifier_interface_attractor" in report
     assert "off_attractor_time_scan" in report
+    assert "off_attractor_severity_profile" in report
     assert "radion_local_quantization" in report
 
 
@@ -62,6 +66,23 @@ def test_off_attractor_scan_detects_nontrivial_mismatch():
     report = off_attractor_time_mismatch_scan()
     assert report["attractor_route"] == "PASS"
     assert report["non_attractor_detected"] is True
+
+
+def test_off_attractor_severity_profile_properties():
+    profile = off_attractor_severity_profile()
+    assert profile["attractor_phi"] == 1.0
+    assert profile["attractor_is_minimum"] is True
+    assert profile["all_off_attractor_nonpass"] is True
+
+
+def test_off_attractor_severity_profile_requires_attractor_point():
+    with pytest.raises(ValueError):
+        off_attractor_severity_profile(phi_values=[0.25, 0.5, 2.0, 4.0])
+
+
+def test_off_attractor_severity_profile_requires_non_attractor_point():
+    with pytest.raises(ValueError):
+        off_attractor_severity_profile(phi_values=[1.0])
 
 
 def test_radion_quantization_closure_is_local_closure():

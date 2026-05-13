@@ -28,11 +28,19 @@ __all__ = [
     "adm_constraint_audit",
     "adm_falsifier_interface",
     "off_attractor_time_mismatch_scan",
+    "off_attractor_severity_profile",
     "radion_quantization_closure",
     "adm_quantitative_closure_report",
 ]
 
 DEFAULT_PHI_GRID: List[float] = [0.25, 0.5, 1.0, 2.0, 4.0]
+ATTRACTOR_PHI: float = 1.0
+ATTRACTOR_PHI_TOLERANCE: float = 1e-12
+ATTRACTOR_MISMATCH_ZERO_THRESHOLD: float = 1e-15
+
+
+def _is_attractor_phi(phi_value: float) -> bool:
+    return abs(phi_value - ATTRACTOR_PHI) < ATTRACTOR_PHI_TOLERANCE
 
 
 def lapse_scaling_invariance(phi_values: Iterable[float] = DEFAULT_PHI_GRID) -> Dict[str, object]:
@@ -106,15 +114,59 @@ def off_attractor_time_mismatch_scan(
         adm_falsifier_interface(phi_0=phi, sigma_dt_threshold=sigma_dt_threshold)
         for phi in phis
     ]
-    non_attractor = [item for item in scans if abs(item["phi_0"] - 1.0) > 1e-12]
+    attractor_rows = [item for item in scans if _is_attractor_phi(item["phi_0"])]
+    if not attractor_rows:
+        raise ValueError(
+            f"off_attractor_time_mismatch_scan requires phi={ATTRACTOR_PHI} in the scan grid."
+        )
+    non_attractor = [item for item in scans if not _is_attractor_phi(item["phi_0"])]
     return {
         "phi_values": phis,
         "routes": [item["route"] for item in scans],
         "dt_mismatch_values": [item["dt_mismatch"] for item in scans],
-        "attractor_route": next(item["route"] for item in scans if abs(item["phi_0"] - 1.0) < 1e-12),
+        "attractor_route": attractor_rows[0]["route"],
         "non_attractor_routes": [item["route"] for item in non_attractor],
         "non_attractor_detected": any(item["route"] != "PASS" for item in non_attractor),
         "scan": scans,
+    }
+
+
+def off_attractor_severity_profile(
+    phi_values: Iterable[float] = DEFAULT_PHI_GRID,
+    sigma_dt_threshold: float = 1e-9,
+) -> Dict[str, object]:
+    """Summarize off-attractor mismatch severity for closure-grade reporting."""
+    scan = off_attractor_time_mismatch_scan(phi_values=phi_values, sigma_dt_threshold=sigma_dt_threshold)
+    rows = list(scan["scan"])
+    attractor_candidates = [item for item in rows if _is_attractor_phi(item["phi_0"])]
+    if not attractor_candidates:
+        raise ValueError(
+            f"off_attractor_severity_profile requires phi={ATTRACTOR_PHI} in the scan grid."
+        )
+    attractor = attractor_candidates[0]
+    worst = max(rows, key=lambda item: item["dt_mismatch"])
+    non_attractor_rows = [item for item in rows if not _is_attractor_phi(item["phi_0"])]
+    if not non_attractor_rows:
+        raise ValueError("off_attractor_severity_profile requires at least one non-attractor phi value.")
+    min_non_attractor = min(non_attractor_rows, key=lambda item: item["dt_mismatch"])
+    # If attractor mismatch is numerically exact (or effectively exact), the
+    # worst/off-attractor ratio is mathematically unbounded, so we return inf.
+    ratio = (
+        float("inf")
+        if abs(attractor["dt_mismatch"]) < ATTRACTOR_MISMATCH_ZERO_THRESHOLD
+        else worst["dt_mismatch"] / attractor["dt_mismatch"]
+    )
+    return {
+        "sigma_dt_threshold": sigma_dt_threshold,
+        "attractor_phi": attractor["phi_0"],
+        "attractor_dt_mismatch": attractor["dt_mismatch"],
+        "worst_phi": worst["phi_0"],
+        "worst_dt_mismatch": worst["dt_mismatch"],
+        "min_non_attractor_phi": min_non_attractor["phi_0"],
+        "min_non_attractor_dt_mismatch": min_non_attractor["dt_mismatch"],
+        "worst_to_attractor_ratio": ratio,
+        "attractor_is_minimum": attractor["dt_mismatch"] <= min_non_attractor["dt_mismatch"],
+        "all_off_attractor_nonpass": all(item["route"] != "PASS" for item in non_attractor_rows),
     }
 
 
@@ -130,6 +182,7 @@ def adm_quantitative_closure_report() -> Dict[str, object]:
     consistency = adm_consistency_check(n_samples=25)
     falsifier_attractor = adm_falsifier_interface(phi_0=1.0)
     off_attractor = off_attractor_time_mismatch_scan()
+    severity = off_attractor_severity_profile()
     radion_quantization = radion_quantization_closure()
 
     all_pass = (
@@ -138,6 +191,8 @@ def adm_quantitative_closure_report() -> Dict[str, object]:
         and consistency["all_passed"]
         and falsifier_attractor["route"] == "PASS"
         and off_attractor["non_attractor_detected"]
+        and severity["attractor_is_minimum"]
+        and severity["all_off_attractor_nonpass"]
         and radion_quantization["status"] == "LOCAL_CANONICAL_CLOSURE"
     )
 
@@ -150,6 +205,7 @@ def adm_quantitative_closure_report() -> Dict[str, object]:
         "consistency_check": consistency,
         "falsifier_interface_attractor": falsifier_attractor,
         "off_attractor_time_scan": off_attractor,
+        "off_attractor_severity_profile": severity,
         "radion_local_quantization": radion_quantization,
         "status": "CLOSED_QUANTITATIVE" if all_pass else "OPEN",
         "all_gates_pass": all_pass,

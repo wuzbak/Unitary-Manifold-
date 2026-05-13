@@ -102,6 +102,7 @@ __all__ = [
     "top_yukawa_cl_constraint",
     "electron_hierarchy_cl_constraint",
     "braid_resonance_cl_window",
+    "subleading_cs_corrected_cl_window",
     "cl_constraints_from_braid",
     # Audit function
     "fermion_mass_parameterization_audit",
@@ -374,6 +375,50 @@ def braid_resonance_cl_window() -> dict:
     }
 
 
+def subleading_cs_corrected_cl_window(cs_order: int = 1) -> dict:
+    """Return a deterministic sub-leading CS-corrected c_L transition window.
+
+    This is an execution-oriented refinement for the SC1 scaffold lane:
+    it introduces a tiny topology-controlled shift in the braid transition
+    boundary while preserving the same epistemic status (constrained, not
+    quantized).
+
+    Parameters
+    ----------
+    cs_order : int
+        Positive integer order of the sub-leading correction term.
+
+    Returns
+    -------
+    dict with baseline and corrected transition boundaries.
+    """
+    if cs_order <= 0:
+        raise ValueError("cs_order must be a positive integer.")
+    if N2 <= N1:
+        raise ValueError("Sub-leading CS split assumes N2 > N1 for Δn = N2 - N1.")
+
+    base_boundary = BRAID_RESONANCE_WINDOW
+    # Sub-leading CS correction ansatz: Δc_L ~ Δn / k_CS², with Δn = (N2 - N1).
+    # The winding split (N2−N1) controls the first non-degenerate braid offset,
+    # while k_CS² suppresses the term at higher topological level.
+    correction = cs_order * (N2 - N1) / float(K_CS ** 2)
+    corrected_boundary = min(C_L_CRITICAL, base_boundary + correction)
+
+    return {
+        "cs_order": int(cs_order),
+        "baseline_boundary": base_boundary,
+        "subleading_cs_shift": correction,
+        "corrected_boundary": corrected_boundary,
+        "deep_ir_range": (0.0, corrected_boundary),
+        "transition_range": (corrected_boundary, C_L_CRITICAL),
+        "uv_range": (C_L_CRITICAL, 1.0),
+        "status": (
+            "PARAMETERIZED-CONSTRAINED — sub-leading CS correction sharpens the "
+            "transition boundary but does not quantize individual c_L values."
+        ),
+    }
+
+
 # ---------------------------------------------------------------------------
 # Composite constraint report
 # ---------------------------------------------------------------------------
@@ -388,6 +433,7 @@ def cl_constraints_from_braid() -> dict:
     top_constraint = top_yukawa_cl_constraint()
     electron_constraint = electron_hierarchy_cl_constraint()
     window = braid_resonance_cl_window()
+    subleading_window = subleading_cs_corrected_cl_window()
 
     derived_constraints = [
         "Top quark: c_L < 1/2 (IR-localised) — DERIVED from λ_t ≈ 1 + c_R=0.920",
@@ -414,6 +460,7 @@ def cl_constraints_from_braid() -> dict:
         "top_constraint": top_constraint,
         "electron_constraint": electron_constraint,
         "braid_window": window,
+        "subleading_cs_window": subleading_window,
         "overall_status": "PARAMETERIZED-CONSTRAINED",
         "honest_summary": (
             "The UM braid geometry (n₁=5, n₂=7, K_CS=74) provides 4 geometric "

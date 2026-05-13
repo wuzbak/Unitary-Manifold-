@@ -21,6 +21,7 @@ from src.core.alpha_gw_uv_brane_derivation import (
     ALPHA_GW_UPPER,
     rs1_uv_brane_alpha_gw_attempt,
     casimir_alpha_gw_from_geometry,
+    uv_factor_for_target_alpha,
     cmbs4_alpha_gw_observability,
     alpha_gw_gap_closure_verdict,
 )
@@ -224,6 +225,19 @@ class TestCMBS4Observability:
     def test_reason_not_empty(self, result):
         assert "reason" in result
         assert len(result["reason"]) > 0
+
+
+class TestUVFactorSolver:
+    def test_solver_hits_target(self):
+        target = 4.5e-10
+        solved = uv_factor_for_target_alpha(target)
+        assert solved["status"] == "UV_FACTOR_SOLVED"
+        assert solved["predicted_alpha_with_c_uv"] == pytest.approx(target, rel=1e-12)
+        assert solved["c_uv_required"] > 1e50
+
+    def test_solver_rejects_nonpositive_target(self):
+        with pytest.raises(ValueError):
+            uv_factor_for_target_alpha(0.0)
 
 
 # ---------------------------------------------------------------------------
