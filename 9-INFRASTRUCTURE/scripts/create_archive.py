@@ -21,7 +21,18 @@ from datetime import datetime
 from pathlib import Path
 
 # ── Files / directories to exclude ──────────────────────────────────────────
-EXCLUDE_DIRS = {".git", "__pycache__", ".github", "node_modules", ".mypy_cache"}
+EXCLUDE_DIRS = {
+    ".git",
+    "__pycache__",
+    "node_modules",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "venv",
+    "wandb",
+}
 EXCLUDE_FILES = {".DS_Store", "Thumbs.db"}
 EXCLUDE_EXTENSIONS = {".pyc", ".pyo"}
 
