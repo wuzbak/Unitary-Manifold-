@@ -96,7 +96,7 @@ class TestConstraintEliminationPerCandidate:
 
     def test_reason_present_for_nw2(self):
         row = [r for r in enumerate_nw_candidates() if r["n_w"] == 2][0]
-        assert any("Z2" in reason or "Z2" in reason for reason in row["elimination_reasons"])
+        assert any("Z2" in reason for reason in row["elimination_reasons"])
 
     def test_reason_present_for_nw9(self):
         row = [r for r in enumerate_nw_candidates() if r["n_w"] == 9][0]
