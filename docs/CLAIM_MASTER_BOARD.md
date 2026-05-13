@@ -95,8 +95,8 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 
 | # | Claim | What's Missing | Blocking Dep | Priority |
 |---|-------|----------------|--------------|----------|
-| SC1 | Sub-leading CS corrections to c_L spectrum | Pillar 183 full c_L derivation not yet complete | Pillar 183 purity inputs | HIGH |
-| SC2 | Exact UV-brane α_GW value for A_s closure | UV-brane geometry full derivation | 10D string / UV-brane completion | MEDIUM |
+| SC1 | Sub-leading CS corrections to c_L spectrum | **CLOSED** — deterministic leading + O(1/K_CS) + O(1/K_CS²) expansion implemented | `src/core/pillar183_cl_spectrum_subleading.py` | **DONE** |
+| SC2 | RS1 UV-brane + KK α_GW lane for A_s closure | Gap reduced: α_GW is reconstructed in-band and A_s residual is now explicit; exact closure remains transfer-normalization sensitive | UV geometry + N_flux refinement (10D flux/intersection data) | MEDIUM |
 | SC3 | Full PQ axion mechanism in 5D geometry | 5D Peccei-Quinn sector not derived | Future arc | LOW |
 | SC4 | Full 10D flux landscape for Λ | N_flux=37 insufficient; naive sufficiency needs N_flux ≥ 61 | 10D landscape closure | LOW |
 | SC5 | 99% ToE frontier | **CLOSED v10.40** — 27.8/28 = 99.3% achieved after P28 hardgate-backed 10D closure evidence | `src/core/p28_lambda_promotion_hardgate.py`, `src/core/p28_lambda_10d_closure.py` | **DONE** |
