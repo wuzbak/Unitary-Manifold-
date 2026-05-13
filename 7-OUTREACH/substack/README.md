@@ -490,3 +490,5 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-159-s01e012-pillar229-ai-robotics-solutions.md` | Post 159 · S01E012 | "From Bottlenecks to Build Plans: Pillar 229 AI + Robotics Solutions" |
 | `post-160-s01e013-pillar230-cancer-solutions.md` | Post 160 · S01E013 | "Cancer Bottlenecks, Calculated and Solved: Pillar 230" |
 | `post-161-s01e014-pillar232-universal-cancer-control-framework.md` | Post 161 · S01E014 | "One Cure Is Unlikely. A Universal Method Is Plausible: Pillar 232" |
+| `post-162-s01e015-quantum-safe-crypto-transition.md` | Post 162 · S01E015 | "From Vulnerability to Viability: Quantum-Safe Migration as an Engineering Transition" |
+| `post-163-s01e016-pillar235-solar-physics-open-questions.md` | Post 163 · S01E016 | "The Sun's 12 Biggest Open Questions: A Rigorous, Falsifiable Pillar 235" |
