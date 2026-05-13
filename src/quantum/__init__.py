@@ -17,7 +17,31 @@ fermi_hubbard
 xdiag_bridge
     Adjacent UM↔XDiag compatibility bridge for schema contracts, bidirectional
     artifact conversion, parity gates, and deterministic routing.
+fh_solver
+    Adjacent-track exact diagonalization (ED) solver for the 1D Fermi–Hubbard
+    model with sector decomposition and Bethe Ansatz validation.
+um_kk_fh_bridge
+    Formal adjacent-track bridge mapping UM KK braid constants (5, 7, 74) to
+    Fermi–Hubbard parameters; confirms the Mott insulating phase at U/t ≈ 78.
 """
+from .fh_solver import (
+    FHSectorResult,
+    FHEdResult,
+    solve_sector,
+    exact_diagonalize,
+    BETHE_ANSATZ_2SITE,
+    validate_bethe_ansatz,
+    um_kk_natural_parameters,
+)
+from .um_kk_fh_bridge import (
+    KKFHBridgeResult,
+    kk_to_fh_parameters,
+    run_kk_fh_bridge,
+    mott_insulator_verdict,
+    BRIDGE_STATUS,
+    KK_U_OVER_T,
+    KK_PHASE,
+)
 from .kk_vqe import (
     kk_hamiltonian,
     ansatz_circuit,
@@ -82,6 +106,20 @@ __all__ = [
     "ansatz_circuit",
     "vqe_kk",
     "VQEResult",
+    "FHSectorResult",
+    "FHEdResult",
+    "solve_sector",
+    "exact_diagonalize",
+    "BETHE_ANSATZ_2SITE",
+    "validate_bethe_ansatz",
+    "um_kk_natural_parameters",
+    "KKFHBridgeResult",
+    "kk_to_fh_parameters",
+    "run_kk_fh_bridge",
+    "mott_insulator_verdict",
+    "BRIDGE_STATUS",
+    "KK_U_OVER_T",
+    "KK_PHASE",
     "FermionTerm",
     "FermiHubbardHamiltonian",
     "build_fermi_hubbard_1d",

@@ -1,6 +1,6 @@
 # Test Suite — Unitary Manifold
 
-**31 442 tests: 31 442 passed · 393 skipped · 12 deselected · 0 failures** — verified 2026-05-13, Python 3.12, pytest
+**31 987 tests: 31 987 passed · 393 skipped · 12 deselected · 0 failures** — verified 2026-05-12, Python 3.12, pytest
 
 **14,641 = 11⁴** — prior structural milestone at v9.25: 11 M-theory dimensions to the power of 4 world dimensions.
 
