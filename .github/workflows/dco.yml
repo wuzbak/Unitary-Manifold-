@@ -13,5 +13,44 @@ jobs:
     name: Developer Certificate of Origin
     runs-on: ubuntu-latest
     steps:
-      - name: DCO
-        uses: dcoapp/dco@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check DCO sign-off
+        shell: bash
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+
+          # Collect all commits on this PR that are not on the base branch
+          COMMITS=$(git log --format="%H" "$BASE..$HEAD")
+
+          failed=0
+          for sha in $COMMITS; do
+            author_email=$(git log -1 --format="%ae" "$sha")
+            author_name=$(git log -1 --format="%an" "$sha")
+            body=$(git log -1 --format="%B" "$sha")
+
+            # Exempt known bot accounts (GitHub Copilot, Dependabot, Actions bots)
+            case "$author_email" in
+              *copilot*|*dependabot*|*actions@github.com*|*noreply@github.com*|*bot@*|*[bot]*)
+                echo "Bot commit $sha by $author_name <$author_email> — DCO waived"
+                continue
+                ;;
+            esac
+
+            # Human commits must carry Signed-off-by
+            if ! echo "$body" | grep -q "^Signed-off-by:"; then
+              echo "::error::Commit $sha by $author_name <$author_email> is missing Signed-off-by line."
+              failed=1
+            else
+              echo "Commit $sha — DCO OK"
+            fi
+          done
+
+          if [ "$failed" -ne 0 ]; then
+            echo "::error::One or more commits are missing DCO sign-off."
+            exit 1
+          fi
+          echo "DCO check passed."

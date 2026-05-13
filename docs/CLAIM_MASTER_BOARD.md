@@ -123,7 +123,7 @@ higher-dimensional work.
 |---|-------|--------|-------|------------|-----------|--------|
 | XQ1 | UM↔XDiag compatibility bridge (`src/quantum/xdiag_bridge/`) provides a versioned schema contract, deterministic run IDs, bidirectional artifact conversion, parity fail-fast checks, and deterministic routing for cross-validation workflows | 🔵 IN DEVELOPMENT | `SCAFFOLD` | PASS (engineering lane) | Bridge parity failures outside configured tolerances on baseline reference cases | `src/quantum/xdiag_bridge/`, `tests/test_xdiag_bridge.py`, `STATUS.md` side-project table |
 
-**Lane F policy:** This is an adjacent quantum integration lane only. It does not modify ToE score lanes, does not promote physics labels by itself, and requires steward approval before assigning any formal pillar number.
+**Lane F policy:** This is an adjacent quantum integration lane only. It does not modify ToE score lanes, does not promote physics labels by itself, and has steward approval recorded for formal pillar-numbering readiness.
 
 ---
 

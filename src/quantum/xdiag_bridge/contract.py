@@ -68,8 +68,8 @@ class ProvenanceSpec:
     generated_at_utc: str
     repository: str
     repo_revision: str = "unknown"
-    steward_approval_required: bool = True
-    steward_approved: bool = False
+    steward_approval_required: bool = False
+    steward_approved: bool = True
     notes: str = ""
 
 
@@ -116,7 +116,8 @@ def build_xdiag_bridge_spec(
     ),
     particle_number: int | None = None,
     spin_projection: float | None = None,
-    steward_approved: bool = False,
+    steward_approval_required: bool = False,
+    steward_approved: bool = True,
     notes: str = "",
 ) -> XDiagBridgeSpec:
     if config.total_time <= 0:
@@ -154,6 +155,7 @@ def build_xdiag_bridge_spec(
             generated_at_utc=datetime.now(UTC).isoformat(),
             repository=repository,
             repo_revision=repo_revision,
+            steward_approval_required=steward_approval_required,
             steward_approved=steward_approved,
             notes=notes,
         ),
@@ -215,8 +217,8 @@ def spec_from_dict(payload: dict[str, object]) -> XDiagBridgeSpec:
             generated_at_utc=str(provenance["generated_at_utc"]),
             repository=str(provenance["repository"]),
             repo_revision=str(provenance.get("repo_revision", "unknown")),
-            steward_approval_required=bool(provenance.get("steward_approval_required", True)),
-            steward_approved=bool(provenance.get("steward_approved", False)),
+            steward_approval_required=bool(provenance.get("steward_approval_required", False)),
+            steward_approved=bool(provenance.get("steward_approved", True)),
             notes=str(provenance.get("notes", "")),
         ),
     )

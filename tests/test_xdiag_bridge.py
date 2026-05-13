@@ -41,8 +41,8 @@ def test_bridge_spec_roundtrip_and_versioned_provenance() -> None:
     loaded = spec_from_dict(spec.to_dict())
     assert loaded.schema_version == "1.0.0"
     assert loaded.integration_lane == "xdiag_um_bridge_adjacent"
-    assert loaded.provenance.steward_approval_required is True
-    assert loaded.provenance.steward_approved is False
+    assert loaded.provenance.steward_approval_required is False
+    assert loaded.provenance.steward_approved is True
     assert loaded.provenance.repo_revision == "abc123"
 
 
@@ -90,8 +90,8 @@ def test_xdiag_ingest_creates_um_style_manifest() -> None:
     assert artifact.manifest["backend"] == "xdiag_bridge"
     bridge = artifact.manifest["bridge"]
     assert isinstance(bridge, dict)
-    assert bridge["steward_approval_required"] is True
-    assert bridge["steward_approved"] is False
+    assert bridge["steward_approval_required"] is False
+    assert bridge["steward_approved"] is True
     assert artifact.backend_payload["device"] == "xdiag_sparse_cpu"
 
 

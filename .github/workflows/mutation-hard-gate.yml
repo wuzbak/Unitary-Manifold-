@@ -20,7 +20,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt mutmut
+        run: pip install -r requirements.txt "mutmut<3"
 
       - name: Run mutation testing (focused inflation invariants)
         run: |

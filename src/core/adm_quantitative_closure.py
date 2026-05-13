@@ -11,6 +11,7 @@ Pillar 212 by combining:
 """
 from __future__ import annotations
 
+import math
 from typing import Dict, Iterable, List
 
 from src.core.pillar212_adm_decomposition import (
@@ -21,6 +22,7 @@ from src.core.pillar212_adm_decomposition import (
     ricci_to_adm_time_coincidence,
 )
 from src.core.phi_radion_quantization import canonical_quantization_report
+from src.core.wdw_multifield import lapse_saddle_point
 
 __all__ = [
     "DEFAULT_PHI_GRID",
@@ -29,6 +31,7 @@ __all__ = [
     "adm_falsifier_interface",
     "off_attractor_time_mismatch_scan",
     "off_attractor_severity_profile",
+    "minisuperspace_lapse_path_diagnostics",
     "radion_quantization_closure",
     "adm_quantitative_closure_report",
 ]
@@ -175,6 +178,48 @@ def radion_quantization_closure() -> Dict[str, object]:
     return canonical_quantization_report()
 
 
+def minisuperspace_lapse_path_diagnostics(
+    phi_values: Iterable[float] = DEFAULT_PHI_GRID,
+    t_total: float = 1.0,
+) -> Dict[str, object]:
+    """Evaluate a coarse lapse-path diagnostic over minisuperspace scan points.
+
+    This is a numerical diagnostic layer, not a claim of full Dirac/WDW closure.
+    """
+    phis = [float(v) for v in phi_values]
+    rows: List[Dict[str, float]] = []
+    for phi in phis:
+        a_val = max(phi, 1e-12)
+        # Positive effective potential proxy for coarse saddle diagnostics.
+        v_eff_proxy = 0.5 * (phi + 1.0 / a_val)
+        saddle = lapse_saddle_point(a_val=a_val, v_eff=v_eff_proxy, t_total=t_total)
+        rows.append(
+            {
+                "phi": phi,
+                "a_val": a_val,
+                "v_eff_proxy": float(v_eff_proxy),
+                "N_saddle": float(saddle["N_saddle"]),
+                "action": float(saddle["action"]),
+                "amplitude": float(saddle["amplitude"]),
+            }
+        )
+
+    amplitudes = [item["amplitude"] for item in rows]
+    positive_lapse_path = all(item["N_saddle"] > 0.0 for item in rows)
+    bounded_amplitude = all(0.0 <= amp <= 1.0 for amp in amplitudes)
+    finite_action = all(math.isfinite(item["action"]) for item in rows)
+    return {
+        "phi_values": phis,
+        "rows": rows,
+        "positive_lapse_path": positive_lapse_path,
+        "bounded_amplitude": bounded_amplitude,
+        "finite_action": finite_action,
+        "amplitude_span": [min(amplitudes), max(amplitudes)] if amplitudes else [0.0, 0.0],
+        "all_pass": positive_lapse_path and bounded_amplitude and finite_action,
+        "status": "DIAGNOSTIC_PASS" if (positive_lapse_path and bounded_amplitude and finite_action) else "DIAGNOSTIC_FAIL",
+    }
+
+
 def adm_quantitative_closure_report() -> Dict[str, object]:
     """Consolidated closure report for the ADM quantitative gap."""
     inv = lapse_scaling_invariance()
@@ -184,6 +229,7 @@ def adm_quantitative_closure_report() -> Dict[str, object]:
     off_attractor = off_attractor_time_mismatch_scan()
     severity = off_attractor_severity_profile()
     radion_quantization = radion_quantization_closure()
+    lapse_path = minisuperspace_lapse_path_diagnostics()
 
     all_pass = (
         inv["all_pass"]
@@ -193,6 +239,7 @@ def adm_quantitative_closure_report() -> Dict[str, object]:
         and off_attractor["non_attractor_detected"]
         and severity["attractor_is_minimum"]
         and severity["all_off_attractor_nonpass"]
+        and lapse_path["all_pass"]
         and radion_quantization["status"] == "LOCAL_CANONICAL_CLOSURE"
     )
 
@@ -206,6 +253,7 @@ def adm_quantitative_closure_report() -> Dict[str, object]:
         "falsifier_interface_attractor": falsifier_attractor,
         "off_attractor_time_scan": off_attractor,
         "off_attractor_severity_profile": severity,
+        "minisuperspace_lapse_path": lapse_path,
         "radion_local_quantization": radion_quantization,
         "status": "CLOSED_QUANTITATIVE" if all_pass else "OPEN",
         "all_gates_pass": all_pass,

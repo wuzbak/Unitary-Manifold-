@@ -54,6 +54,11 @@ class TestFieldStateFlat:
         np.testing.assert_array_equal(s1.phi, s2.phi)
         np.testing.assert_array_equal(s1.B, s2.B)
 
+    def test_kk_backreaction_defaults_disabled(self):
+        s = FieldState.flat(N=16, dx=0.1)
+        assert s.n_kk_modes == 0
+        assert s.kk_backreaction_coupling == 0.0
+
 
 # ---------------------------------------------------------------------------
 # step
@@ -276,6 +281,30 @@ class TestEvolutionPhysics:
             assert np.all(np.isfinite(dets))
             assert np.all(np.abs(dets) > 1e-10), \
                 f"Metric became degenerate: min |det| = {np.min(np.abs(dets)):.2e}"
+
+    def test_kk_backreaction_changes_phi_when_enabled(self):
+        rng = np.random.default_rng(17)
+        s_disabled = FieldState.flat(
+            N=16, dx=0.1, rng=rng, n_kk_modes=0, kk_backreaction_coupling=0.0
+        )
+        s_enabled = FieldState(
+            g=s_disabled.g.copy(),
+            B=s_disabled.B.copy(),
+            phi=s_disabled.phi.copy(),
+            t=s_disabled.t,
+            dx=s_disabled.dx,
+            lam=s_disabled.lam,
+            alpha=s_disabled.alpha,
+            phi0=s_disabled.phi0,
+            m_phi=s_disabled.m_phi,
+            n_kk_modes=5,
+            kk_backreaction_coupling=0.1,
+        )
+
+        out_disabled = step(s_disabled, 1e-3)
+        out_enabled = step(s_enabled, 1e-3)
+        diff = np.max(np.abs(out_enabled.phi - out_disabled.phi))
+        assert diff > 0.0
 
 
 # ---------------------------------------------------------------------------

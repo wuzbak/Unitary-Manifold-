@@ -70,7 +70,7 @@ jobs:
 
           missing=0
           for phrase in "${required_phrases[@]}"; do
-            if ! printf '%s' "$body" | grep -Fq "$phrase"; then
+            if ! printf '%s' "$body" | grep -Fiq "$phrase"; then
               echo "::error::PR body missing honesty-gate item: $phrase"
               missing=1
             fi

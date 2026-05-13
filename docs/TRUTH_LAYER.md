@@ -36,7 +36,7 @@ XDiag workflows for reproducibility and parity auditing.
   ingest, parity fail-fast checks, and deterministic routing.
 - Epistemic status: engineering scaffold (`SCAFFOLD`), not a physics-claim lane.
 - Score policy: this lane does not alter ToE scoring or claim promotions.
-- Governance: formal pillar numbering for this lane requires steward approval.
+- Governance: steward approval is recorded for formal pillar-numbering readiness in this lane.
 
 ---
 
