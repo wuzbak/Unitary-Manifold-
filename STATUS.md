@@ -247,9 +247,9 @@ specific failure mode that this condition guards against.
 | `src/quantum/` (Fermi–Hubbard lane) | Adjacent quantum-simulation research track (Hamiltonian, JW/BK mappings, execution, benchmarks) | 🔵 IN DEVELOPMENT (non-hardgate) |
 | `src/quantum/xdiag_bridge/` | XDiag↔UM adjacent integration lane: schema contract, UM→XDiag export, XDiag→UM ingest, parity/accuracy gates, deterministic routing | 🔵 IN DEVELOPMENT (non-hardgate; steward approval granted for formal pillar-numbering readiness) |
 
-### Applied Research Tracks (Pillars 218–232)
+### Applied Research Tracks (Pillars 218–235)
 
-Twelve adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
+Adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
 
 | Pillar | Module | Description | Tests | Status |
 |--------|--------|-------------|-------|--------|
@@ -265,6 +265,7 @@ Twelve adjacent applied research pillars — not hard-gate physics claims, but h
 | 229 | `src/core/pillar229_ai_robotics_solutions_engine.py` | AI & Robotics Solutions Engine: strategic solution pathways for bottlenecks identified in Pillar 227; Monte Carlo feasibility scoring | 129 | 🔵 ADJACENT TRACK |
 | 230 | `src/core/pillar230_cancer_solutions_engine.py` | Cancer Solutions Engine: targeted solution paths for bottlenecks identified in Pillar 228; clinical translation readiness scoring | 158 | 🔵 ADJACENT TRACK |
 | 232 | `src/core/pillar232_universal_cancer_control_framework.py` | Universal Cancer Control Framework: integrated cross-pillar synthesis (Pillars 228–230) with policy-level routing, resource allocation scoring, and LiteBIRD-era timeline anchoring | 34 | 🔵 ADJACENT TRACK |
+| 235 | `src/core/pillar235_solar_physics_open_questions_engine.py` | Solar Physics Open Questions Engine: deterministic diagnostics, uncertainty simulations, and falsification lanes for 12 major unsolved solar-physics questions | 18 | 🔵 ADJACENT TRACK |
 
 ### Key numerical results (v10.5)
 

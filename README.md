@@ -947,7 +947,7 @@ tests/test_completeness_theorem.py       170 passed  ← Pillar 74: Completeness
 tests/test_arrow_of_time.py               22 passed,  2 skipped ⚑
 tests/test_richardson_multitime.py        11 passed
 # NOTE: per-file counts above are a v10.4-era snapshot for illustration.
-# The tests/ suite now contains 200+ test files covering Pillars 1–232 + adjacent tracks.
+# The tests/ suite now contains 200+ test files covering Pillars 1–235 + adjacent tracks.
 # Current tests/ sub-suite total: see STATUS.md.
 
 # recycling/ (Pillar 16: φ-debt accounting):
