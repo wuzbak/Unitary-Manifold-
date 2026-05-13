@@ -27,6 +27,9 @@ from src.core.pillar235_solar_physics_open_questions_engine import (
 
 def test_provenance_pillar_number():
     assert __provenance__["pillar"] == 235
+    assert __provenance__["title"] == "Solar Physics Open Questions Engine"
+    assert "ADJACENT RESEARCH TRACK" in __provenance__["status"]
+    assert __provenance__["license_software"] == "AGPL-3.0-or-later"
 
 
 def test_framework_constants():

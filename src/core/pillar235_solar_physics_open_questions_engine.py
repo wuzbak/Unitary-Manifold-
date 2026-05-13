@@ -57,6 +57,7 @@ PHI0: float = 0.7390851332151607
 
 SOLAR_CONSTANT_W_M2: float = 1361.0
 STEFAN_BOLTZMANN: float = 5.670374419e-8
+EPSILON_MINIMUM: float = 1e-12
 
 
 @dataclass(frozen=True)
@@ -266,7 +267,9 @@ def _core_rotation(obs: SolarObservables) -> dict[str, Any]:
 
 
 def _metallicity(obs: SolarObservables) -> dict[str, Any]:
-    frac_gap = abs(obs.surface_metallicity_z - obs.helioseismic_metallicity_z) / max(obs.helioseismic_metallicity_z, 1e-12)
+    frac_gap = abs(obs.surface_metallicity_z - obs.helioseismic_metallicity_z) / max(
+        obs.helioseismic_metallicity_z, EPSILON_MINIMUM
+    )
     diffusion_correction = _clamp01(1.0 - frac_gap)
     return {
         "question": "Solar abundance (metallicity) problem",
@@ -475,7 +478,7 @@ def monte_carlo_question_stability(
         values: dict[str, float] = {}
         for k in fields:
             v = float(getattr(base, k))
-            sigma = max(abs(v) * relative_sigma, 1e-12)
+            sigma = max(abs(v) * relative_sigma, EPSILON_MINIMUM)
             sampled = float(rng.normal(v, sigma))
             if k in {"alfven_damping_fraction", "reconnection_rate", "core_rotation_uniformity"}:
                 sampled = _clamp01(sampled)
