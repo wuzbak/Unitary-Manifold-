@@ -6,6 +6,7 @@ create_archive.py — Package the Unitary Manifold project for local download.
 
 Usage
 -----
+Run from repository root:
     python 9-INFRASTRUCTURE/scripts/create_archive.py                  # → unitary-manifold-omega-v10.52_<timestamp>.zip
     python 9-INFRASTRUCTURE/scripts/create_archive.py --out my_copy    # → my_copy_<timestamp>.zip
 
@@ -21,6 +22,7 @@ from datetime import datetime
 from pathlib import Path
 
 # ── Files / directories to exclude ──────────────────────────────────────────
+# Keep `.github` in full-download archives for reproducibility of CI/workflows.
 EXCLUDE_DIRS = {
     ".git",
     "__pycache__",
@@ -31,96 +33,36 @@ EXCLUDE_DIRS = {
     ".tox",
     ".venv",
     "venv",
-    "wandb",
+    "wandb",  # W&B local run cache; integration module is in src/core/wandb_logger.py
 }
 EXCLUDE_FILES = {".DS_Store", "Thumbs.db"}
 EXCLUDE_EXTENSIONS = {".pyc", ".pyo"}
 
-# ── Human-readable section labels printed inside the zip comment ─────────────
+# ── Human-readable notes printed in the zip comment ──────────────────────────
 SECTION_NOTES = """\
-Unitary Manifold — project archive (v9.29 OMEGA EDITION — Final)
-=========================================================
-Contents
---------
-  THEBOOKV9a (1).pdf        Full monograph (PDF)
-  README.md                 Project overview and quick-start
-  CITATION.cff              Machine-readable citation metadata
-  VERIFY.py                 30-second standalone proof (14 checks, all PASS)
-  requirements.txt          Python dependencies  (pip install -r requirements.txt)
+Unitary Manifold — full repository archive
+==========================================
+This zip contains all tracked source files and workflows at packaging time
+(excluding .git history, local caches, and build artifacts).
 
-  src/
-    core/                   60+ modules: KK metric, evolution, braided winding,
-                             APS topology, ADM Foundation, KK Magic/circuit complexity,
-                             Yukawa, CKM/PMNS, SM audit, ... (Pillars 1–101 + sub-pillars)
-      metric.py             Unitary metric tensor (Pillar 1)
-      evolution.py          Walker-Pearson integrator (Pillar 2)
-    holography/
-      boundary.py           AdS/CFT boundary + entropy-area (Pillars 3–4)
-    multiverse/
-      fixed_point.py        FTUM fixed-point iteration (Pillar 5)
+Included highlights:
+  README.md                      Project overview and current quick start
+  STATUS.md                      Canonical status ledger
+  CITATION.cff                   Citation metadata
+  src/                           Core and adjacent-track implementation modules
+  tests/                         Primary validation suite
+  recycling/                     Pillar 16 entropy accounting suite
+  5-GOVERNANCE/Unitary Pentad/   Independent HILS governance framework
+  9-INFRASTRUCTURE/              Provenance and infrastructure metadata
+  .github/workflows/             CI and release automation definitions
 
-  recycling/                Pillar 16 — φ-debt entropy accounting (316 tests)
-
-  5-GOVERNANCE/Unitary Pentad/
-    omega/                  Pillar Ω — Universal Mechanics Engine
-      omega_synthesis.py    UniversalEngine: 5 seeds → all observables
-      test_omega_synthesis.py 168 tests
-      README.md             Architecture and API guide
-      CALCULATOR.md         Complete API reference
-    holon_zero/             Ω₀ Holon Zero Python package
-    holon-zero/             Ω₀ Holon Zero documentation mirror
-    UOS/                    Unitary Operating System modules
-                            HILS governance framework — 18 modules plus nested packages
-
-  tests/                    150+ test files, ~15,926 passing tests (Pillars 1–132 + sub-pillars)
-
-  embryology-manifold/      Pillar TVC: egg radius, zinc count, HOX predictions
-
-  systems-engineering/      Stability framework for engineers across 14 domains
-
-  arxiv/
-    main.tex                LaTeX source for the arXiv submission
-    references.bib          BibTeX reference list
-    SUBMISSION_GUIDE.md     Step-by-step arXiv upload guide
-
-  manuscript/
-    ch02_mathematical_preliminaries.md   Chapter 2 draft
-
-  notebooks/
-    01_quickstart.ipynb             Field evolution demo
-    02_holographic_boundary.ipynb   Holographic boundary demo
-    03_multiverse_fixed_point.ipynb FTUM convergence demo
-
-  discussions/
-    AI-Automated-Review-Invitation.md    Peer-review discussion notes
-
-  zenodo/
-    .zenodo.json            Zenodo metadata
-    SUBMISSION_GUIDE.md     Step-by-step Zenodo deposit guide
-
-  scripts/
-    create_archive.py       This packaging script (re-run any time)
-    run_evolution.py        Field evolution demo
-    run_metric.py           Metric and curvature demo
-    run_boundary.py         Holographic boundary demo
-    run_fixed_point.py      FTUM convergence demo
-    run_inflation.py        CMB spectral index demo
-    live_report.py          Real-world comparison report
-
-Getting started
----------------
+Quick start:
   pip install -r requirements.txt
-  python VERIFY.py           # 30-second standalone proof
-  python -c "from src.core import metric, evolution; print('OK')"
   python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 
-Test suite summary (v9.29)
------------------------------------------
-  tests/               ~15,926 passed, 76 skipped   (Pillars 1–132 + sub-pillars)
-  recycling/               316 passed    (Pillar 16)
-  5-GOVERNANCE/Unitary Pentad/  1,026+ passed, 254 skipped  (HILS governance + nested Omega/Holon)
-  ─────────────────────────────────────
-  TOTAL               18,057 passed, 329 skipped, 0 failed
+Validation expectation:
+  Suite should complete with 0 failed tests.
+  For canonical latest pass/skip totals, see STATUS.md in this archive.
 """
 
 
@@ -170,9 +112,16 @@ def main():
                              "A timestamp is appended automatically.")
     args = parser.parse_args()
 
-    # Locate repo root from .../9-INFRASTRUCTURE/scripts/create_archive.py
+    # Locate repo root: this script is at <repo_root>/9-INFRASTRUCTURE/scripts/create_archive.py
     script_dir = Path(__file__).resolve().parent
     repo_root = script_dir.parent.parent
+    required_markers = ("README.md", "CITATION.cff")
+    missing_markers = [name for name in required_markers if not (repo_root / name).exists()]
+    if missing_markers:
+        raise FileNotFoundError(
+            "Could not resolve repository root from script location. "
+            f"Missing marker files at {repo_root}: {', '.join(missing_markers)}"
+        )
 
     print(f"Packaging: {repo_root}")
     archive = build_archive(repo_root, args.out)

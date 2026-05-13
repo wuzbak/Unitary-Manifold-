@@ -88,14 +88,14 @@ unzip unitary-manifold-omega-v10.52_*.zip
 ```
 unitary-manifold-omega-v10.52/
 ├── THEBOOKV9a (1).pdf              ← Full monograph (PDF)
-├── README.md                       ← Project overview and quick-start (v10.4)
+├── README.md                       ← Project overview and quick-start (v10.52)
 ├── CITATION.cff                    ← Citation metadata
 ├── requirements.txt                ← Python dependencies
 ├── VERIFY.py                       ← 30-second standalone proof (14 checks, all PASS)
 │
 ├── src/
 │   ├── core/                       ← 200+ modules: KK metric, evolution, braided winding,
-│   │   │                              APS topology, Yukawa, CKM/PMNS, SM audit, v10.4 pillars…
+│   │   │                              APS topology, Yukawa, CKM/PMNS, SM audit, v10.52 pillars…
 │   │   ├── metric.py               ← Unitary metric tensor (Pillar 1)
 │   │   ├── evolution.py            ← Walker-Pearson integrator (Pillar 2)
 │   │   └── [200+ further modules]  ← Pillars 3–208 + sub-pillars
@@ -104,7 +104,7 @@ unitary-manifold-omega-v10.52/
 │   └── multiverse/
 │       └── fixed_point.py          ← FTUM fixed-point iteration (Pillar 5)
 │
-├── claims/                         ← Machine-readable falsification benchmarks (v10.4)
+├── claims/                         ← Machine-readable falsification benchmarks (v10.52)
 │   ├── cosmic_birefringence/       ← LiteBIRD β ∈ {0.273°, 0.331°} kill-switch
 │   └── mp_me_ratio/                ← m_p/m_e = K_CS²/N_c lattice-free claim
 │
