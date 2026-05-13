@@ -154,7 +154,7 @@ Full per-file breakdown includes all pillars 1–99 + Pillar 70-B + Ω.  Key fil
 ### Scripts (`scripts/`)
 | File | Purpose |
 |---|---|
-| `scripts/create_archive.py` | Packages the project as a local .zip |
+| `9-INFRASTRUCTURE/scripts/create_archive.py` | Packages the project as a local .zip |
 | `scripts/run_boundary.py` | Boundary dynamics runner |
 | `scripts/run_evolution.py` | Evolution runner |
 | `scripts/run_fixed_point.py` | Fixed-point runner |
@@ -225,8 +225,8 @@ the release — all without any local tooling required.
 Alternatively, a local archive can be created at any time:
 
 ```bash
-python scripts/create_archive.py
-# → unitary-manifold_<timestamp>.zip  (full project, ~5.5 MB)
+python 9-INFRASTRUCTURE/scripts/create_archive.py
+# → unitary-manifold-omega-v10.52_<timestamp>.zip  (full project)
 ```
 
 ---
