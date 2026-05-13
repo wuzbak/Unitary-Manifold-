@@ -88,6 +88,11 @@ for the full tracking table.
 | `src/core/inflation.py` | β ∈ {0.273°, 0.331°} primary prediction | LiteBIRD (~2032) |
 | `src/core/cmb_acoustic_amplitude_rg.py` (Pillar 149) | ×4.2–6.1 peak suppression; framework-level α_GW lane closed by 10D hardgate benchmark, with 5D-only derivation limitation retained | CMB-S4 (~2030) |
 | `src/core/pmns_solar_rge_correction.py` (Pillar 163) | Route-A + 1-loop RGE cross-check keeps sin²θ₁₂ within ~1.5% of PDG; legacy 4/15 path retained only as audit | Future precision neutrino measurements |
+| `src/core/pillar_nw_uniqueness_hardening.py` | n_w∈{1..10} simultaneous-constraint elimination with χ² residual preference tracking (5 over 7) | Future first-principles uniqueness hardening |
+| `src/core/pillar_cmb_peak_hardening.py` | Named residual `CMB_PEAK_RESIDUAL_FACTOR` + analytic/numeric suppression and ±10% sensitivity | CMB-S4 (~2030) |
+| `src/core/pillar_phi0_cross_check.py` | Independent holographic-boundary φ₀ route; agreement tracked by `PHI0_CROSS_CHECK_RELATIVE_ERROR` (<1%) | Ongoing cross-derivation verification |
+| `src/core/pillar_desi_tension_monitor.py` | Joint DESI tension tracker for exact KK prediction (w₀=-1, wₐ=0) with WARNING/CRITICAL routing | DESI Year 3/4 updates |
+| `src/core/pillar_kcs_robustness.py` | K near 74 braid-pair enumeration and β(K_CS±1) sensitivity guard | LiteBIRD / birefringence updates |
 
 ---
 

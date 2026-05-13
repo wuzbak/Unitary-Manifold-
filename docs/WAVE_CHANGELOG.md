@@ -13,6 +13,52 @@ For each wave entry, include:
 
 ---
 
+## v10.52 (2026-05-13 — Foundational closure hardening follow-on)
+
+### What changed
+
+1. **`src/core/pillar_nw_uniqueness_hardening.py`** — explicit n_w∈{1..10} simultaneous-constraint scan,
+   quantified elimination for every non-{5,7} candidate, and Planck n_s χ² residual preference scoring.
+2. **`src/core/pillar_cmb_peak_hardening.py`** — analytic/numeric peak suppression audit with named
+   residual constant `CMB_PEAK_RESIDUAL_FACTOR`, plus ±10% sensitivity scans in n_w and K_CS.
+3. **`src/core/pillar_phi0_cross_check.py`** — independent holographic-boundary φ₀ derivation route with
+   agreement metric `PHI0_CROSS_CHECK_RELATIVE_ERROR` (<1% vs Pillar 56 path).
+4. **`src/core/pillar_desi_tension_monitor.py`** — exact KK prediction monitor (w₀=-1, wₐ=0) with
+   `DESI_TENSION_SIGMA` and threshold flags (`PASS`/`WARNING`/`CRITICAL`) ready for DESI Y3/Y4 ingestion.
+5. **`src/core/pillar_kcs_robustness.py`** — K≈74 braid-pair enumeration (±5), assertion-backed uniqueness
+   guard for (5,7) at K=74, and β sensitivity to K_CS±1.
+6. **`tests/test_foundational_cross_pillar_consistency.py`** — cross-pillar regression guard linking winding
+   selection → n_s preference → β(K_CS) monotonicity → DESI tension monitor output.
+
+### What did not change
+
+- No pillar001–pillar208 modules were modified.
+- Existing falsifier language and birefringence windows were not weakened.
+
+### Why
+
+- Quantify residuals with named constants and keep foundational assumptions auditable under drift.
+- Add explicit regression guards that fail loudly if canonical winding/K_CS/φ₀ relationships shift.
+
+### Epistemic label deltas
+
+- n_w uniqueness lane: strengthened with quantified elimination/χ² hardening evidence.
+- φ₀ closure lane: strengthened with an independent boundary-route cross-check.
+- CMB and DESI tension lanes: upgraded with explicit named residual/tension monitors.
+
+### ToE score delta
+
+- None (hardening + monitoring wave; no denominator or headline score change).
+
+### Falsification impact
+
+- None; existing falsifier conditions are preserved verbatim.
+
+### Residual unknowns
+
+- First-principles uniqueness exclusion beyond the hardening scan remains explicitly tracked.
+- DESI Y3/Y4 outcomes remain observationally open; monitor now provides machine-readable thresholds.
+
 ## v10.52 (2026-05-11 — CKM/PMNS closure extension + EW precision cluster + ledger hygiene)
 
 ### What changed

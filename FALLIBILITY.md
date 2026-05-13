@@ -165,7 +165,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | **α_GUT = N_c/K_CS = 3/74** | GUT gauge coupling; seed of Λ_QCD chain | Dirac-like CS quantization applied to 5D gauge bundle (Ω_QCD Phase A); SU(N_c) Dirac condition: K_CS × g₄² × C(fund)/(2π) = N_c → α = N_c/K_CS. Full SU(5) embedding in `src/core/alpha_gut_su5_complete.py` resolves Pillar 173 discrepancy and reduces residual to < 0.5% with Casimir correction. | ✅ **CONSTRAINED FROM 5D SU(N_c) CS ACTION** (1.7% residual; < 0.5% after SU(5) correction) |
 | β (canonical) ≈ 0.331° | Cosmic birefringence — (5,7) state | `birefringence_angle(74)` | **Derived, given k_CS = 74** |
 | β (alternate) ≈ 0.273° | Cosmic birefringence — (5,6) state | `birefringence_angle(61)` | **Derived, given k_CS = 61** — second viable triple-constraint state |
-| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165 + v10.28 Casimir closure attempt narrowed α_GW to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰]. **Agent Alpha 5D UV-brane audit (retained, 2026-05-09):** RS1 Casimir estimate from 5D inputs = 1.562 × exp(−148) ≈ 4.33×10⁻⁶⁵ — 55 orders below the phenomenological interval. **v10.41 hardgate closure benchmark:** `src/core/alpha_gw_10d_uv_completion.py` computes c_UV ≈ 5.42×10⁵⁴ and α_GW ≈ 4.49×10⁻¹⁰, with consistency gates passing and robustness overlap = 1.0. CMB-S4 still cannot distinguish individual values within interval. | ✅ **CLOSED_WITH_10D_HARDGATE_BENCHMARK** — the framework-level gap is closed by an explicit 10D benchmark route, while the 5D-only derivation remains honestly open and retained as the limitation note. |
+| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165 + v10.28 Casimir closure attempt narrowed α_GW to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰]. **Agent Alpha 5D UV-brane audit (retained, 2026-05-09):** RS1 Casimir estimate from 5D inputs = 1.562 × exp(−148) ≈ 4.33×10⁻⁶⁵ — 55 orders below the phenomenological interval. **v10.41 hardgate closure benchmark:** `src/core/alpha_gw_10d_uv_completion.py` computes c_UV ≈ 5.42×10⁵⁴ and α_GW ≈ 4.49×10⁻¹⁰, with consistency gates passing and robustness overlap = 1.0. CMB-S4 still cannot distinguish individual values within interval. **Foundational hardening addendum:** `src/core/pillar_cmb_peak_hardening.py` now reports a named residual `CMB_PEAK_RESIDUAL_FACTOR` after the Pillar 57+63 combined gain model and ±10% sensitivity scan. | ✅ **CLOSED_WITH_10D_HARDGATE_BENCHMARK** — framework-level closure is retained; the hardening layer now quantifies the remaining peak-amplitude residual explicitly via `CMB_PEAK_RESIDUAL_FACTOR`. |
 | CMB peak positions | Acoustic peak ℓ-values | Pillar 73: KK Boltzmann correction δ_KK ~ 8×10⁻⁴ | ⚠️ **Shape residual open** — requires full Boltzmann integration (standard CMB physics) |
 | Planck 2018 data | Validation | External | **Validation only — n_w is observationally selected (not freely fitted from a continuous range); k_CS is algebraically derived given (5,7)** |
 
@@ -229,6 +229,14 @@ Pillar 70-D closes the last gap. The Z₂-odd boundary CS phase condition:
 selects n_w=5 (product=37, odd ✓) and excludes n_w=7 (product=0, even ✗) from pure
 algebra — no observational input. Planck nₛ = 0.9649 ± 0.0042 provides an independent
 confirmation at 0.33σ but is not the selection mechanism. n_w=5 is a **pure theorem**.
+
+**Foundational hardening addendum (v10.52 follow-on):**
+`src/core/pillar_nw_uniqueness_hardening.py` performs an explicit n_w ∈ {1..10}
+simultaneous-constraint audit and quantified elimination table, with χ²/residual
+scoring for every candidate.  The hard constraints reproduce survivors {5,7}, and
+Planck residual scoring prefers n_w=5 over n_w=7 with a positive χ² gap.  The
+hardening report retains an explicit first-principles blocker string instead of
+silently relabeling the residual argument.
 
 **Admission 2 — k_CS = 74: algebraically derived from the braid pair (May 2026 — Pillar 99-B).**
 The formula k_primary = 2(n₁³+n₂³)/(n₁+n₂) was previously asserted without an explicit

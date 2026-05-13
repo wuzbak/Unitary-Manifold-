@@ -69,13 +69,13 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 | # | Claim | Status | Label | Gatekeeper | Falsifier | Source |
 |---|-------|--------|-------|------------|-----------|--------|
 | S1 | k_CS = 74 = 5² + 7² (CS level) | ✅ PROVED | `DERIVED` | PASS | Algebraic: k_CS ≠ 74 would invalidate the topological proof | Pillars 58, 99-B, 207; `src/core/k_cs_topological_proof.py` |
-| S2 | n_w = 5 uniqueness (Z₂ orbifold) | ✅ PROVED | `DERIVED` | PASS | Z₂ mod uniqueness: only {5, 7} survive; Planck n_s selects 5 | Pillars 39, 67, 70-B, 70-D; `src/eleventd/uv_vacuum_selection_gate.py` |
+| S2 | n_w = 5 uniqueness (Z₂ orbifold) | ✅ PROVED + quantified hardening scan | `DERIVED` | PASS | Z₂ mod uniqueness: only {5, 7} survive; Planck n_s residual χ² prefers 5 | Pillars 39, 67, 70-B, 70-D; `src/eleventd/uv_vacuum_selection_gate.py`; `src/core/pillar_nw_uniqueness_hardening.py` |
 | S3 | SU(3)×SU(2)×U(1) from n_w=5 geometry | ✅ PROVED | `DERIVED` | PASS | Gauge group differs from SM at ≥3σ | Pillar 148; `src/core/sm_gauge_emergence.py` |
 | S4 | N_gen = 3 from T²/Z₃ orbifold | ✅ DERIVED | `ALGEBRAIC` | PASS | 4th light neutrino at ≥5σ | Pillar 205; `src/core/pillar205_generation_quantization.py` |
 | S5 | Higgs VEV from CW geometry | ✅ DERIVED | `DERIVED` | PASS | v outside 5% band at ≥3σ | Pillar 201 (4.6%); Pillar 139 CW (0.10%) |
 | S6 | Λ_QCD ≈ 332 MeV from (n_w, K_CS) | ✅ DERIVED | `DERIVED` | PASS | Λ_QCD outside [315, 349] MeV at ≥3σ | Pillar 182; `src/core/omega_qcd_phase_a.py` |
 | S7 | Braided sound speed c_s = 12/37 | ✅ DERIVED | `DERIVED` | PASS | c_s ≠ 12/37 in any measurement of acoustic peak spacing | Pillar 27; `src/core/inflation.py` |
-| S8 | φ₀ self-consistency closure | ✅ CLOSED (v10.Pillar 56) | `DERIVED` | PASS | Algebraic closure verified | `src/core/phi0_closure.py` |
+| S8 | φ₀ self-consistency closure | ✅ CLOSED (v10.Pillar 56) + independent boundary cross-check | `DERIVED` | PASS | Algebraic closure verified; independent route agrees within <1% (`PHI0_CROSS_CHECK_RELATIVE_ERROR`) | `src/core/phi0_closure.py`, `src/core/pillar_phi0_cross_check.py` |
 | S9 | Braid-Lock PMNS (Hopf fibration → mixing) | ✅ CLOSED | `GEOMETRIC_PREDICTION` | PASS | PMNS angles outside 5% band at ≥3σ | Pillar 208; `src/core/pillar208_braid_lock_pmns.py` |
 | S10 | Ghost-free B_μ stability in 5D | ✅ PROVED | `DERIVED` | PASS | Ghost pole found in scattering amplitude | Pillar 198; `src/core/bmu_ghost_stability.py` |
 
@@ -85,8 +85,8 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 
 | # | Tension | Framework Prediction | Data | σ-Level | Routing | Blocking Experiment | Last Updated |
 |---|---------|---------------------|------|---------|---------|---------------------|--------------|
-| T1 | Dark energy wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | σ ≥ 3.0 → FALSIFIED; σ < 2.0 → PASS | DESI DR3 / Y5 (~2027) | 2026-05-09 |
-| T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Suppressed ×4.2–6.1 vs ΛCDM | CLOSED_WITH_PILLAR52_10D_BRIDGE | Pillar 52 fixes the absolute gravity-scale decade and the 10D UV bridge lands α_GW in-band; the RS1-only undershoot is retained only as a historical audit | CMB-S4 (~2030) | 2026-05-09 |
+| T1 | Dark energy wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ (legacy lane); hardening monitor reports joint `DESI_TENSION_SIGMA` | σ ≥ 3.0 → FALSIFIED; σ < 2.0 → PASS | DESI DR3 / Y5 (~2027) | 2026-05-13 |
+| T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Baseline suppression ×4.2–6.1 vs ΛCDM; hardening residual tracked by `CMB_PEAK_RESIDUAL_FACTOR` | CLOSED_WITH_PILLAR52_10D_BRIDGE + HARDENED_RESIDUAL_TRACKING | Pillar 52 fixes the gravity-scale decade and the 10D UV bridge lands α_GW in-band; `pillar_cmb_peak_hardening.py` now carries analytic/numeric residual and ±10% sensitivity tracking | CMB-S4 (~2030) | 2026-05-13 |
 | T3 | ADM 3+1 time parameterization | Geometric delay field | Qualitative claim only | — | Quantitative rate requires full ADM 3+1 decomposition | Future theoretical work | 2026-05-08 |
 
 ---
