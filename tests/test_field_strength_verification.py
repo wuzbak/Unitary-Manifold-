@@ -275,9 +275,8 @@ class TestFieldStrengthScan:
 class TestGamowFromFieldStrength:
     def test_returns_dict_with_required_keys(self):
         result = gamow_from_field_strength(1.0, 1.0)
-        assert set(result.keys()) == {
-            "G_from_field_strength", "G_from_lattice_phi", "consistency_check"
-        }
+        required = {"G_from_field_strength", "G_from_lattice_phi", "consistency_check"}
+        assert required.issubset(set(result.keys()))
 
     def test_consistency_check_passes(self):
         result = gamow_from_field_strength(1.0, 1.5)

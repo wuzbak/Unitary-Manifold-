@@ -227,11 +227,18 @@ def _kk_backreaction_source(
     phi: np.ndarray,
     n_kk_modes: int,
     kk_backreaction_coupling: float,
-    R_KK: float,
+    phi0: float,
 ) -> np.ndarray:
     """Return an optional KK-tower backreaction source term for ∂_t φ.
 
     The source is disabled when ``n_kk_modes <= 0`` or ``kk_backreaction_coupling <= 0``.
+
+    Parameters
+    ----------
+    phi                   : ndarray  Current radion field.
+    n_kk_modes            : int      Number of KK modes to include in tower sum.
+    kk_backreaction_coupling : float  Coupling strength α_KK (dimensionless).
+    phi0                  : float    Background radion vev (= R_KK in Planck units).
     """
     if n_kk_modes <= 0 or kk_backreaction_coupling <= 0.0:
         return np.zeros_like(phi)
@@ -240,7 +247,8 @@ def _kk_backreaction_source(
     T_KK = kk_tower_stress_energy(
         phi=phi_background,
         n_modes=n_kk_modes,
-        R_KK=max(float(R_KK), _NUMERICAL_EPSILON),
+        # In the UM, R_KK = φ₀ (Planck units); the radion vev sets the KK radius.
+        R_KK=max(float(phi0), _NUMERICAL_EPSILON),
     )
     source_scalar = kk_backreaction_coupling * T_KK["T_55"] / phi_background
     return np.full_like(phi, source_scalar)
@@ -291,7 +299,7 @@ def _compute_rhs(state: FieldState) -> tuple:
         phi=phi,
         n_kk_modes=n_kk_modes,
         kk_backreaction_coupling=kk_backreaction_coupling,
-        R_KK=phi0,
+        phi0=phi0,  # R_KK = φ₀ in UM Planck-unit convention
     )
 
     return dg, dB, dphi
