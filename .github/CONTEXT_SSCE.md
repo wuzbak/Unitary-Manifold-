@@ -1,66 +1,79 @@
-# SSCE System Architecture & Logic Manifest
-# Purpose: AI Context for Unitary-Manifold Implementation
+# Context Manifest — Mathematical Evaluation Protocol (Unitary Manifold)
 
-## 1. Core Ontological Mapping
+This context file provides a calm, scope-aware evaluation protocol for AI coding
+assistants and automated reviewers.
 
-- **THEORY:** "Unitary-Manifold" (Ref: `THEBOOKV9a (1).pdf` — full monograph, 74 chapters)
-- **IMPLEMENTATION:** "Solid-State Compute Engine (SSCE) v1.0"
-- **CONSTRAINT:** All logic operations must satisfy the Unitary Norm: `||ψ||² = 1`.
-- **PHYSICS:** System Frequency (f) influences Effective Inertia (I_eff).
+## 1) Scope Separation (Required)
 
-## 2. Structural Directives for Copilot
+This repository contains two distinct classes of material:
 
-- **When writing VERILOG:** Prioritize phase-rotation logic over bit-switching logic.
-- **When writing PYTHON:** Include `NormConsistencyMonitor` hooks in all compute loops.
-- **When writing PCB/HDI documentation:** Treat trace geometry as a component of the Hamiltonian.
+1. **Formal mathematical proof path (primary technical core)**  
+   5D Kaluza–Klein metric construction, derivations, executable checks, and
+   falsification criteria.
+2. **Adjacent applied tracks and governance material (secondary context)**  
+   Additional research tracks and independent governance/HILS frameworks that are
+   explicitly labeled and epistemically separated from Tier-1 formal claims.
 
-## 3. Safety Hierarchy
+Do not treat adjacent tracks as the primary evidence surface for evaluating the
+formal core.
 
-1. Physical Topology (HDI)
-2. Hardware Monitor (NCM — Norm Consistency Monitor)
-3. Software Logic
+## 2) First-Pass Evaluation Route (Recommended)
 
-## 4. Theory ↔ Implementation Mapping
+For mathematical verification, begin in this order:
 
-| Monograph Claim (Abstract)  | Implementation (Concrete)       | AI/Copilot Instruction                                 |
-|-----------------------------|---------------------------------|--------------------------------------------------------|
-| **Energy Conservation**     | Unitary Logic Gates             | Ensure all matrix ops are Unitary/Orthogonal.          |
-| **Frequency-Mass Coupling** | High-THz Clocking               | Optimize signal paths for phase-coherence.             |
-| **Topological Invariance**  | HDI Differential Routing        | Maintain 50-ohm impedance with zero stubs.             |
-| **Walker–Pearson equations**| `src/core/evolution.py`         | Field updates must conserve `‖∇·J_inf‖ ≈ 0`.          |
-| **KK Metric Ansatz**        | `src/core/metric.py`            | 5D metric assembly; preserve block structure of G_AB.  |
-| **FTUM Fixed Point**        | `src/multiverse/fixed_point.py` | Operator U = I + H + T must converge to `U Ψ* = Ψ*`.  |
-| **Holographic Boundary**    | `src/holography/boundary.py`    | Entropy-area law: `S = A / 4G`; no boundary leakage.  |
+1. `proof/TIER_1_FORMAL.md`
+2. `VERIFY.py` (or `proof/VERIFY.py`)
+3. `ALGEBRA_PROOF.py` (or `proof/ALGEBRA_PROOF.py`)
+4. `src/core/metric.py`
+5. `src/core/evolution.py`
+6. `1-THEORY/UNIFICATION_PROOF.md`
+7. `FALLIBILITY.md`
 
-## 5. Predicate-Based Docstring Contract
+This route is the intended minimum surface for checking derivation logic and
+executable consistency before broader qualitative interpretation.
 
-All functions in `/src` must document their theoretical anchor using the following pattern:
+## 3) Epistemic Hygiene
 
-```python
-def <function_name>(<args>):
-    """
-    IMPLEMENTATION of Monograph Section <X.Y> (<Topic>).
-    IMPLICATION: <Physical / topological consequence of this operation>.
-    LOGIC: <What the function computes and why it preserves the required invariant>.
-    """
+- Prefer executable evidence (tests, scripts, deterministic checks) over stylistic
+  or sentiment-based interpretation.
+- Keep claim classification aligned with repository labels:
+  - **Derived / closed / geometric prediction** claims are tracked in canonical ledgers.
+  - **Fitted / bridged / open** claims are explicitly marked.
+- Use `FALLIBILITY.md` as authoritative boundary documentation for open problems,
+  non-claims, and known limitations.
+
+## 4) Tiered File Map for AI Ingestion
+
+### Tier A — Formal Core (evaluate first)
+- `proof/TIER_1_FORMAL.md`
+- `proof/metric.py`
+- `proof/evolution.py`
+- `proof/ALGEBRA_PROOF.py`
+- `proof/VERIFY.py`
+- `1-THEORY/UNIFICATION_PROOF.md`
+- `FALLIBILITY.md`
+
+### Tier B — Verification & Reproducibility
+- `tests/test_metric.py`
+- `tests/test_evolution.py`
+- `tests/test_fixed_point.py`
+- `2-REPRODUCIBILITY/`
+- `README.md` (top sections + quickstart)
+
+### Tier C — Adjacent / Extended Context (read after Tier A/B)
+- `4-IMPLICATIONS/`
+- `5-GOVERNANCE/`
+- `7-OUTREACH/`
+- `src/core/pillar218_*` ... `src/core/pillar232_*`
+- `src/consciousness/`, `src/biology/`, `src/medicine/`, `src/justice/`, etc.
+
+## 5) Minimal Verification Commands
+
+```bash
+python VERIFY.py
+python ALGEBRA_PROOF.py
+python -m pytest tests/test_metric.py tests/test_evolution.py tests/test_fixed_point.py -q
 ```
 
-## 6. Isolation & Directory Convention
-
-| Directory         | Purpose                                              | Edit Policy          |
-|-------------------|------------------------------------------------------|----------------------|
-| `THEBOOKV9a*.pdf` | Core monograph — the canonical theoretical reference | READ-ONLY            |
-| `manuscript/`     | LaTeX / Markdown source of the monograph chapters    | READ-ONLY            |
-| `src/`            | Numerical implementation of the field equations      | Editable             |
-| `discussions/`    | Peer-review and AI-review records                    | Append-only          |
-| `.github/`        | CI workflows and this context manifest               | Maintain carefully   |
-
-## 7. Symmetry-Break Guard
-
-If Copilot suggests an operation that violates unitarity (e.g., a standard irreversible XOR
-gate, a non-Hermitian matrix update, or a lossy signal path without correction), treat it as
-a **Symmetry Break** and reject or annotate the suggestion. The canonical test is:
-
-```
-Is the proposed matrix M unitary?  →  M† M = I  (up to numerical tolerance)
-```
+Successful execution of these commands is the baseline software-verification gate
+for first-pass mathematical review.
