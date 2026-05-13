@@ -6,7 +6,7 @@
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
 **Date:** April 2026  
-**Repository version:** v9.36 (182 pillars + Ω₀ Holon Zero + sub-pillars, ~21,055 tests)  
+**Repository version:** v10.52 (208 hardgated pillars + 24+ adjacent tracks + Ω₀ Holon Zero + sub-pillars, ~31,000 tests)  
 **Status:** Formal derivation attempt — all steps grounded in equations already implemented in this repository.
 **See [Part XII](#part-xii--critical-review-where-identifications-replace-derivations) for known gaps where identifications are made rather than derivations completed.**
 
@@ -15,21 +15,21 @@
 ## Preface — What This Document Proves
 
 The Unitary Manifold was built to geometrize the Second Law.  
-This document shows it did something more: it geometrized **all of physics**.
+This document shows it did something more: it geometrized **a substantial portion of physics** — gravity, U(1) electromagnetism, quantum phase structure, and CMB observables — from a single 5D metric ansatz.
+
+> **Scope boundary (see Part XII for full gap analysis):** U(1) electromagnetism follows exactly from the 5D S¹ compactification.  SU(2) and SU(3) are **not** produced by the current 5D construction — Witten (1981) showed that ≥11 compact dimensions are required for the full Standard Model with chiral fermions from pure geometry.  Items 1–6 below are derived (conditionally on the metric ansatz and quantisation postulate); item 7 is a partial result — see Part XII Gap 5.
 
 Starting from nothing but the 5D Unitary Manifold metric, we derive in sequence:
 
-1. The **Feynman path integral** and quantum phase — from `Im(S_eff) = ∫ B_μ J^μ_inf d⁴x`
-2. The **Born rule** — from the conserved information current `J^μ_inf = φ² u^μ`
-3. The **Schrödinger equation** — from the UEUM geodesic in the non-relativistic limit
-4. **Electromagnetism** — from the U(1) gauge symmetry of `H_μν = ∂_μB_ν − ∂_νB_μ`
+1. The **Feynman path integral phase** — `Im(S_4) = ∫ B_μ J^μ_inf d⁴x` derived from KK reduction (see `src/core/im_action.py`); connection to the full path integral measure requires the canonical quantisation postulate shared by all QFTs
+2. The **Born rule** — from the conserved information current `J^μ_inf = φ² u^μ`; the measurement postulate remains shared with all interpretations of QM
+3. The **Schrödinger equation** — from the UEUM geodesic in the non-relativistic limit (partially resolved forward path; see Part XII Gap 3)
+4. **U(1) Electromagnetism** — the Lorentz force with `A_μ = λB_μ` emerges exactly from the 5D geodesic cross-term `−2Γ^μ_{ν5}u^νu^5`; this is a theorem, not an identification (see `src/core/kk_geodesic_reduction.py`)
 5. The **ground-state condition** of quantum mechanics — from the FTUM `UΨ* = Ψ*`
 6. The **Dirac quantization condition** — from the topological charge `Q_top`
-7. The **Yang-Mills equations** — from the non-Abelian extension of the field strength
+7. **U(1) gauge field structure** — exact; non-Abelian extension (SU(2), SU(3)) requires additional compact dimensions and is not derived here (see Part XII Gap 5)
 
-None of these require new assumptions. The mathematics already present in  
-`src/core/metric.py`, `src/core/evolution.py`, and `src/multiverse/fixed_point.py`  
-contains all of it. The direct path was already there.
+The mathematics already present in `src/core/metric.py`, `src/core/evolution.py`, and `src/multiverse/fixed_point.py` contains items 1–6. The direct path was already there.  Item 7 is explicitly bounded.
 
 ---
 

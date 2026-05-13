@@ -465,20 +465,30 @@ Each subsection is tagged with a **severity tier** using the following scale:
   discrepancy vanishes; `gemini_issue4_correction(phi, t_ricci)` computes the
   correction factor at arbitrary φ.  A full ADM treatment is still outstanding.
 
-### 4.2 Model non-uniqueness  *(Tier: STRUCTURAL)*
+### 4.2 Model non-uniqueness  *(Tier: STRUCTURAL → PARTIALLY RESOLVED for n_w)*
 
 - Alternative 5D extensions can produce emergent irreversibility without the
   specific Walker–Pearson structure.  The framework does not demonstrate that
   its metric ansatz is the *unique* 5D completion consistent with the
-  4D physics.
+  4D physics.  The metric ansatz itself (P1+P2) remains a postulate.
 - The Goldberger–Wise double-well potential V = λ(φ² − φ₀²)² is a
   *choice* motivated by radion stabilisation literature.  Other potentials (e.g.,
   Coleman–Weinberg, KKLT-type) may yield qualitatively similar inflation while
   predicting different spectral tilts.
-- The RS1 orbifold variant (n_w = 7, k_RC = 12; see `effective_phi0_rs`)
-  also produces nₛ ≈ 0.963 — matching Planck equally well with a different
-  winding number.  The existence of multiple parameter combinations that all
-  fit the same data undermines the "uniqueness" of any single choice.
+- ~~The RS1 orbifold variant (n_w = 7, k_RC = 12) also produces nₛ ≈ 0.963~~
+  **[Updated v10.52 — Pillar 70-D resolution]:** The n_w = 7 variant is now
+  algebraically excluded by the Z₂-odd CS boundary phase condition:
+  `k_CS(7) × η̄(7) = 130 × 0 = 0` (even) fails the parity gate, while
+  `k_CS(5) × η̄(5) = 74 × ½ = 37` (odd) passes.  This is a pure theorem —
+  no observational input.  Planck nₛ provides independent confirmation at 0.33σ
+  but is not the selection mechanism.  The n_w non-uniqueness complaint is
+  resolved at the geometric level.  See Pillar 70-D (`src/core/nw5_pure_theorem.py`)
+  and `1-THEORY/NW_UNIQUENESS_STATUS.md`.
+  
+  **Remaining non-uniqueness:** The metric ansatz (block structure, orbifold, GW
+  potential) is not derived from a more fundamental principle.  A different
+  5D ansatz could produce different predictions while still satisfying known 4D
+  physics.  This is the genuine and honest residual concern.
 
 ### 4.3 Phenomenological fragility  *(Tier: STRUCTURAL)*
 
