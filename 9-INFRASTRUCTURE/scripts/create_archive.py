@@ -6,8 +6,8 @@ create_archive.py — Package the Unitary Manifold project for local download.
 
 Usage
 -----
-    python scripts/create_archive.py                  # → unitary-manifold-omega-v9.27_<timestamp>.zip
-    python scripts/create_archive.py --out my_copy    # → my_copy_<timestamp>.zip
+    python 9-INFRASTRUCTURE/scripts/create_archive.py                  # → unitary-manifold-omega-v10.52_<timestamp>.zip
+    python 9-INFRASTRUCTURE/scripts/create_archive.py --out my_copy    # → my_copy_<timestamp>.zip
 
 Run this from the repository root (the folder that contains README.md).
 The resulting zip contains every project file in a well-organized layout;
@@ -154,14 +154,14 @@ def build_archive(repo_root: Path, output_stem: str) -> Path:
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--out", default="unitary-manifold-omega-v9.27",
+    parser.add_argument("--out", default="unitary-manifold-omega-v10.52",
                         help="Base name for the output zip (no extension). "
                              "A timestamp is appended automatically.")
     args = parser.parse_args()
 
-    # Locate repo root: the directory that contains this script's parent
+    # Locate repo root from .../9-INFRASTRUCTURE/scripts/create_archive.py
     script_dir = Path(__file__).resolve().parent
-    repo_root = script_dir.parent
+    repo_root = script_dir.parent.parent
 
     print(f"Packaging: {repo_root}")
     archive = build_archive(repo_root, args.out)

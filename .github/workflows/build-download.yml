@@ -1,7 +1,7 @@
 name: Build Download Archive
 
 # Run this workflow manually from the Actions tab — no tag or push required.
-# When complete, a "unitary-manifold-omega-v10.4-<date>.zip" artifact will appear under
+# When complete, a "unitary-manifold-omega-v10.52-<date>.zip" artifact will appear under
 # "Artifacts" in the workflow run summary.  Click it to download.
 
 on:
@@ -10,7 +10,7 @@ on:
       archive_name:
         description: 'Base name for the zip file (timestamp appended automatically)'
         required: false
-        default: 'unitary-manifold-omega-v10.4'
+        default: 'unitary-manifold-omega-v10.52'
 
 permissions:
   contents: read
@@ -30,7 +30,7 @@ jobs:
       # ── 2. Build the archive with the included Python script ─────────────
       - name: Build archive
         run: |
-          python scripts/create_archive.py --out "${{ github.event.inputs.archive_name }}"
+          python 9-INFRASTRUCTURE/scripts/create_archive.py --out "${{ github.event.inputs.archive_name }}"
           # Capture the generated filename so the upload step can find it
           ARCHIVE=$(ls ${{ github.event.inputs.archive_name }}_*.zip | head -1)
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
