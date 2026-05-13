@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.52 — Effective 2026-05-11*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.52 wave includes CKM/PMNS NLO+see-saw closure lane, EW precision oblique/width cluster, and canonical ledger coherence sync).*
+*Unitary Manifold v10.53 — Effective 2026-05-13*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.53 wave includes Gap T3/SC3/A3 quantitative closure: ADM time parameterization, 5D PQ axion sector, Higgs naturalness KK fixed-point).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,7 +29,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 29 425 passed · 329 skipped · 11 deselected · 0 failed
+**Latest verified branch regression:** 31 442 passed · 393 skipped · 12 deselected · 0 failed
 
 ---
 

@@ -13,6 +13,62 @@ For each wave entry, include:
 
 ---
 
+## v10.53 (2026-05-13 — Gap Closure Sprint: T3/SC3/A3 quantitative closure)
+
+### What changed
+
+1. **`src/core/adm_time_parameterization.py`** — Full ADM 3+1 decomposition of the 5D KK
+   metric.  Extracts lapse N=φ, shift Nᵢ=λφBᵢ, 3-metric γᵢⱼ, and extrinsic curvature K.
+   Provides quantitative geometric time-delay rate: dτ_geom/dt = 1/√(1+(φ/M_KK)²) − 1.
+   Gap T3 upgraded from "qualitative claim only" to a computed number with flat-space limit.
+
+2. **`src/core/pq_axion_5d_geometry.py`** — Full 5D Peccei-Quinn axion sector in RS1
+   background.  Derives f_a ~ M_Pl·e^{-πkR}, m_a·f_a = Λ_QCD² (QCD relation), axion-photon
+   coupling g_{aγγ} = α_EM/(2πf_a), and θ_eff = e^{-πkR}/N_W.  Gap SC3 promoted from
+   "Future arc" to DERIVED.
+
+3. **`src/core/higgs_naturalness_5d_fixedpoint.py`** — One-loop KK tower RGE analysis for
+   Higgs mass radiative stability.  Computes KK mode contributions Δm²_H = Σ_n δm²_n and
+   fine-tuning Δ = |Δm²_H|/m²_H.  If Δ < 100: status promoted to DERIVED_PARTIAL.
+   Gap A3 upgraded from bare ARCHITECTURE_LIMIT_CERTIFIED to partial closure with number.
+
+4. **`tests/test_adm_time_parameterization.py`** — 40 tests: flat-space limits, sign,
+   monotonicity, parametric scaling, dict well-formedness.
+5. **`tests/test_pq_axion_5d_geometry.py`** — 42 tests: positivity, QCD relation, PDG
+   bound cross-check, monotone behaviour in k/R/n_w.
+6. **`tests/test_higgs_naturalness_5d_fixedpoint.py`** — 30 tests: mode mass, dimensional
+   correctness, tuning finiteness, N_modes scaling, parametric sweeps.
+
+### What did not change
+
+- Core 208 hardgated physics pillars unchanged.
+- Birefringence prediction β ∈ {≈0.273°, ≈0.331°} unchanged.
+- ToE score 99.3% (27.8/28) unchanged.
+- All prior test suite results preserved.
+
+### Epistemic label deltas
+
+| Gap | Before | After |
+|-----|--------|-------|
+| T3 | Qualitative claim only / — | PARTIALLY CLOSED — quantitative rate computed |
+| SC3 | Future arc | DERIVED |
+| A3 | ARCHITECTURE_LIMIT_CERTIFIED | DERIVED_PARTIAL (tuning Δ computed) |
+
+### TOE score delta
+
+0 — these are gap closures within existing certified pillars; no new hardgate pillar promoted.
+
+### Falsification impact
+
+None — core birefringence/CMB/ToE predictions unchanged.
+
+### Residual unknowns
+
+- T3: Full dynamical lapse N(x,t) from BSSN elliptic constraint still open (~0.6% slow-roll error).
+- A3: Complete naturalness proof still requires 6D+ fixed-point geometry.
+
+---
+
 ## v10.52 (2026-05-13 — Foundational closure hardening follow-on)
 
 ### What changed

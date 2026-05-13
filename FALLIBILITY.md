@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v10.52 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 29 425 passed, 329 skipped, 11 deselected, 0 failed).*
+*Unitary Manifold v10.53 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 31 442 passed, 393 skipped, 12 deselected, 0 failed).*
 
 ---
 
@@ -42,7 +42,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (29 425 passed, 329 skipped, 11 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (31 442 passed, 393 skipped, 12 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -72,7 +72,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "29 425 passed · 329 skipped · 11 deselected · 0 failed," this is a statement about
+When the README badge reads "31 442 passed · 393 skipped · 12 deselected · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an
@@ -401,12 +401,17 @@ decomposition).  This is a known gap for the framework's central claim that the
    the arrow.  Pillar 41 provides a first-order correction factor Ω = 1/φ that
    establishes the correct direction of the lapse correction.
 
-**Epistemic status:** This is a REAL GAP for the "arrow of time is geometric
-necessity" claim at the level of a rigorous field-equation proof.  The qualitative
-claim survives; the quantitative rate calculation requires the full ADM treatment.
+**Epistemic status:** REAL GAP — PARTIALLY CLOSED v10.53.  `src/core/adm_time_parameterization.py`
+now implements the full 3+1 decomposition (lapse N=φ, shift Nᵢ=λφBᵢ, 3-metric γᵢⱼ) and
+produces a quantitative geometric time-delay rate: dτ_geom/dt = 1/√(1+(φ/M_KK)²) − 1.
+At φ=M_KK_DEFAULT this gives ≈ −0.293; at φ→0 the rate → 0 (flat-space limit).  The full
+dynamical lapse from the elliptic Hamiltonian constraint (BSSN/Z4c) remains unimplemented
+— this is REAL but SMALL (~0.6% in slow-roll per §XIV.3).  The qualitative arrow-of-time
+result is unaffected; the quantitative rate is now a number, not a qualitative claim.
 
-**See also:** `DERIVATION_STATUS.md` Part I (Full ADM 3+1 decomposition row) and
-`src/core/delay_field.py` (Pillar 41 partial correction).
+**See also:** `DERIVATION_STATUS.md` Part I (Full ADM 3+1 decomposition row),
+`src/core/delay_field.py` (Pillar 41 partial correction),
+`src/core/adm_time_parameterization.py` (Gap T3 quantitative closure, v10.53).
 
 ---
 

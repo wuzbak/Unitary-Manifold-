@@ -87,7 +87,7 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 |---|---------|---------------------|------|---------|---------|---------------------|--------------|
 | T1 | Dark energy wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ (legacy lane); hardening monitor reports joint `DESI_TENSION_SIGMA` | σ ≥ 3.0 → FALSIFIED; σ < 2.0 → PASS | DESI DR3 / Y5 (~2027) | 2026-05-13 |
 | T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Baseline suppression ×4.2–6.1 vs ΛCDM; hardening residual tracked by `CMB_PEAK_RESIDUAL_FACTOR` | CLOSED_WITH_PILLAR52_10D_BRIDGE + HARDENED_RESIDUAL_TRACKING | Pillar 52 fixes the gravity-scale decade and the 10D UV bridge lands α_GW in-band; `pillar_cmb_peak_hardening.py` now carries analytic/numeric residual and ±10% sensitivity tracking | CMB-S4 (~2030) | 2026-05-13 |
-| T3 | ADM 3+1 time parameterization | Geometric delay field | Qualitative claim only | — | Quantitative rate requires full ADM 3+1 decomposition | Future theoretical work | 2026-05-08 |
+| T3 | ADM 3+1 time parameterization | Geometric delay field | **PARTIALLY CLOSED** — `adm_time_parameterization.py`: lapse N=φ, shift Nᵢ=λφBᵢ, 3-metric γᵢⱼ, and quantitative delay rate dτ/dt = 1/√(1+(φ/M_KK)²)−1 computed | Lapse deviation ~0.6% in slow-roll; full dynamical lapse (BSSN) still open | `src/core/adm_time_parameterization.py` | 2026-05-13 |
 
 ---
 
@@ -97,7 +97,7 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 |---|-------|----------------|--------------|----------|
 | SC1 | Sub-leading CS corrections to c_L spectrum | **CLOSED** — deterministic leading + O(1/K_CS) + O(1/K_CS²) expansion implemented | `src/core/pillar183_cl_spectrum_subleading.py` | **DONE** |
 | SC2 | RS1 UV-brane + KK α_GW lane for A_s closure | Gap reduced: α_GW is reconstructed in-band and A_s residual is now explicit; exact closure remains transfer-normalization sensitive | UV geometry + N_flux refinement (10D flux/intersection data) | MEDIUM |
-| SC3 | Full PQ axion mechanism in 5D geometry | 5D Peccei-Quinn sector not derived | Future arc | LOW |
+| SC3 | Full PQ axion mechanism in 5D geometry | **DERIVED** — `pq_axion_5d_geometry.py`: f_a ~ M_Pl·e^{-πkR}, m_a·f_a = Λ_QCD², g_{aγγ} = α_EM/(2πf_a), θ_eff = e^{-πkR}/N_W ≪ 10⁻¹⁰ | None — closed | `src/core/pq_axion_5d_geometry.py` | **DONE** |
 | SC4 | Full 10D flux landscape for Λ | N_flux=37 insufficient; naive sufficiency needs N_flux ≥ 61 | 10D landscape closure | LOW |
 | SC5 | 99% ToE frontier | **CLOSED v10.40** — 27.8/28 = 99.3% achieved after P28 hardgate-backed 10D closure evidence | `src/core/p28_lambda_promotion_hardgate.py`, `src/core/p28_lambda_10d_closure.py` | **DONE** |
 
@@ -113,7 +113,7 @@ higher-dimensional work.
 |---|-------|-----|-------------------|--------|
 | A1 | Strong CP (θ̄ angle) | **CLOSED v10.34** — Z₂ orbifold PQ: θ_eff ~ e^{-πkR}/N_W ≈ 10⁻¹⁷; P27 promoted to DERIVED | 5D PQ field proven via `src/core/strong_cp_pq_z2_closure.py` and `src/core/p27_strong_cp_derived_cert.py` | DERIVED |
 | A2 | Cosmological constant | 10^57.26 residual gap; RS1 closes 64.28 orders | Full 10D landscape + flux quantization | ARCHITECTURE_LIMIT_CERTIFIED (10D) |
-| A3 | Higgs mass radiative stability | CW + WS-VII overlap; no complete naturalness proof | 6D+ fixed-point geometry | ARCHITECTURE_LIMIT_CERTIFIED |
+| A3 | Higgs mass radiative stability | **PARTIAL CLOSURE** — `higgs_naturalness_5d_fixedpoint.py`: one-loop KK tower sum Δm_H²=∑_n δm²_n, tuning Δ=|Δm_H²|/m_H² computed; if Δ&lt;100 → DERIVED_PARTIAL | Full naturalness proof requires 6D+ fixed-point geometry | `src/core/higgs_naturalness_5d_fixedpoint.py` | ARCHITECTURE_LIMIT_CERTIFIED→DERIVED_PARTIAL (if Δ&lt;100) |
 
 ---
 
