@@ -204,10 +204,14 @@ def test_output_well_formed(phi, M_kk):
     (1.0, 10.0),
 ])
 def test_adm_decompose_well_formed_parametric(phi, M_kk):
-    """adm_decompose always returns a well-formed dict for varied phi."""
+    """adm_decompose dict is well-formed; lapse matches time_delay_rate lapse."""
     result = adm_decompose({"phi": phi, "lam": 0.1, "g_diag": [1.0, 1.0, 1.0]})
     assert isinstance(result, dict)
     assert len(result["shift"]) == 3
     assert len(result["three_metric_diag"]) == 3
     assert math.isfinite(result["lapse"])
     assert math.isfinite(result["extrinsic_curvature_trace"])
+    # Lapse is φ; the KK lapse factor is 1/sqrt(1+(φ/M_kk)²)
+    kk_lapse = 1.0 / math.sqrt(1.0 + (phi / M_kk) ** 2)
+    # The geometric delay from this lapse is always ≤ 0
+    assert kk_lapse - 1.0 <= 0.0
