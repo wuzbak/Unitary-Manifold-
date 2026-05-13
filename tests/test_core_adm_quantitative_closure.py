@@ -10,6 +10,7 @@ from src.core.adm_quantitative_closure import (
     adm_falsifier_interface,
     adm_quantitative_closure_report,
     lapse_scaling_invariance,
+    minisuperspace_lapse_path_diagnostics,
     off_attractor_time_mismatch_scan,
     off_attractor_severity_profile,
     radion_quantization_closure,
@@ -59,6 +60,7 @@ def test_quantitative_report_contains_sections():
     assert "falsifier_interface_attractor" in report
     assert "off_attractor_time_scan" in report
     assert "off_attractor_severity_profile" in report
+    assert "minisuperspace_lapse_path" in report
     assert "radion_local_quantization" in report
 
 
@@ -88,3 +90,10 @@ def test_off_attractor_severity_profile_requires_non_attractor_point():
 def test_radion_quantization_closure_is_local_closure():
     report = radion_quantization_closure()
     assert report["status"] == "LOCAL_CANONICAL_CLOSURE"
+
+
+def test_minisuperspace_lapse_path_diagnostics_pass():
+    report = minisuperspace_lapse_path_diagnostics()
+    assert report["all_pass"] is True
+    assert report["status"] == "DIAGNOSTIC_PASS"
+    assert len(report["rows"]) == len(report["phi_values"])

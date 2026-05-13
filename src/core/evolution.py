@@ -110,6 +110,7 @@ from typing import Callable, List, Optional
 
 import numpy as np
 
+from .kk_backreaction import kk_tower_stress_energy
 from .metric import compute_curvature, field_strength
 
 
@@ -121,6 +122,8 @@ _LAM_DEFAULT = 1.0
 _ALPHA_DEFAULT = 0.1   # nonminimal coupling  α R φ
 _PHI0_DEFAULT = 1.0    # background radion value for stabilization potential
 _M_PHI_DEFAULT = 0.0   # dilaton mass; 0 = unstabilised (backward-compatible)
+_N_KK_MODES_DEFAULT = 0
+_KK_BACKREACTION_COUPLING_DEFAULT = 0.0
 _NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators / norms
 
 
@@ -141,12 +144,16 @@ class FieldState:
     alpha: float = _ALPHA_DEFAULT
     phi0: float = _PHI0_DEFAULT   # background radion value φ₀ for V(φ) potential
     m_phi: float = _M_PHI_DEFAULT # dilaton mass m_φ; 0 disables stabilization
+    n_kk_modes: int = _N_KK_MODES_DEFAULT
+    kk_backreaction_coupling: float = _KK_BACKREACTION_COUPLING_DEFAULT
 
     # ------------------------------------------------------------------
     @classmethod
     def flat(cls, N: int = 64, dx: float = 0.1,
              lam: float = _LAM_DEFAULT, alpha: float = _ALPHA_DEFAULT,
              phi0: float = _PHI0_DEFAULT, m_phi: float = _M_PHI_DEFAULT,
+             n_kk_modes: int = _N_KK_MODES_DEFAULT,
+             kk_backreaction_coupling: float = _KK_BACKREACTION_COUPLING_DEFAULT,
              rng: Optional[np.random.Generator] = None) -> "FieldState":
         """Flat Minkowski background g = diag(-1,1,1,1) with small noise.
 
@@ -174,7 +181,9 @@ class FieldState:
         phi = 1.0 + 1e-4 * rng.standard_normal(N)
 
         return cls(g=g, B=B, phi=phi, t=0.0, dx=dx, lam=lam, alpha=alpha,
-                   phi0=phi0, m_phi=m_phi)
+                   phi0=phi0, m_phi=m_phi,
+                   n_kk_modes=n_kk_modes,
+                   kk_backreaction_coupling=kk_backreaction_coupling)
 
 
 # ---------------------------------------------------------------------------
@@ -214,6 +223,29 @@ def _source_scalar(H):
     return 0.5 * np.einsum('nij,nij->n', H, H)
 
 
+def _kk_backreaction_source(
+    phi: np.ndarray,
+    n_kk_modes: int,
+    kk_backreaction_coupling: float,
+    R_KK: float,
+) -> np.ndarray:
+    """Return an optional KK-tower backreaction source term for ∂_t φ.
+
+    The source is disabled when ``n_kk_modes <= 0`` or ``kk_backreaction_coupling <= 0``.
+    """
+    if n_kk_modes <= 0 or kk_backreaction_coupling <= 0.0:
+        return np.zeros_like(phi)
+
+    phi_background = float(max(np.mean(np.abs(phi)), _NUMERICAL_EPSILON))
+    T_KK = kk_tower_stress_energy(
+        phi=phi_background,
+        n_modes=n_kk_modes,
+        R_KK=max(float(R_KK), _NUMERICAL_EPSILON),
+    )
+    source_scalar = kk_backreaction_coupling * T_KK["T_55"] / phi_background
+    return np.full_like(phi, source_scalar)
+
+
 # ---------------------------------------------------------------------------
 # Field equation right-hand sides
 # ---------------------------------------------------------------------------
@@ -230,6 +262,8 @@ def _compute_rhs(state: FieldState) -> tuple:
     g, B, phi = state.g, state.B, state.phi
     dx, lam, alpha = state.dx, state.lam, state.alpha
     phi0, m_phi = state.phi0, state.m_phi
+    n_kk_modes = state.n_kk_modes
+    kk_backreaction_coupling = state.kk_backreaction_coupling
 
     _, _, Ricci, R = compute_curvature(g, B, phi, dx, lam)
     H = field_strength(B, dx)
@@ -253,6 +287,12 @@ def _compute_rhs(state: FieldState) -> tuple:
     # term vanishes and the original mass-less equation is recovered.
     dphi = (_laplacian(phi, dx) + alpha * R * phi + _source_scalar(H)
             - m_phi**2 * (phi - phi0))
+    dphi += _kk_backreaction_source(
+        phi=phi,
+        n_kk_modes=n_kk_modes,
+        kk_backreaction_coupling=kk_backreaction_coupling,
+        R_KK=phi0,
+    )
 
     return dg, dB, dphi
 
@@ -271,7 +311,9 @@ def _advance_fields(state: FieldState,
                       phi=state.phi + dt * dphi,
                       t=t_new,
                       dx=state.dx, lam=state.lam, alpha=state.alpha,
-                      phi0=state.phi0, m_phi=state.m_phi)
+                      phi0=state.phi0, m_phi=state.m_phi,
+                      n_kk_modes=state.n_kk_modes,
+                      kk_backreaction_coupling=state.kk_backreaction_coupling)
 
 
 # ---------------------------------------------------------------------------
@@ -360,7 +402,9 @@ def step(state: FieldState, dt: float) -> FieldState:
     out = FieldState(g=_project_metric_volume(result.g),
                      B=result.B, phi=result.phi, t=result.t,
                      dx=result.dx, lam=result.lam, alpha=result.alpha,
-                     phi0=result.phi0, m_phi=result.m_phi)
+                     phi0=result.phi0, m_phi=result.m_phi,
+                     n_kk_modes=result.n_kk_modes,
+                     kk_backreaction_coupling=result.kk_backreaction_coupling)
     # NaN/Inf guard: detect numerical blow-up caused by CFL violation or
     # chaotic initial conditions, and raise immediately with a clear message.
     if (not np.all(np.isfinite(out.phi)) or
@@ -397,7 +441,9 @@ def step_euler(state: FieldState, dt: float) -> FieldState:
     return FieldState(g=_project_metric_volume(result.g),
                       B=result.B, phi=result.phi, t=result.t,
                       dx=result.dx, lam=result.lam, alpha=result.alpha,
-                      phi0=result.phi0, m_phi=result.m_phi)
+                      phi0=result.phi0, m_phi=result.m_phi,
+                      n_kk_modes=result.n_kk_modes,
+                      kk_backreaction_coupling=result.kk_backreaction_coupling)
 
 
 def cfl_timestep(state: FieldState, cfl: float = 0.4) -> float:

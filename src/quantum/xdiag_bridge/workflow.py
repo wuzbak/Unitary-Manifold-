@@ -56,7 +56,8 @@ def export_um_to_xdiag(
     config: ExecutionConfig,
     repository: str,
     repo_revision: str = "unknown",
-    steward_approved: bool = False,
+    steward_approval_required: bool = False,
+    steward_approved: bool = True,
     notes: str = "",
 ) -> XDiagExportPayload:
     spec = build_xdiag_bridge_spec(
@@ -64,6 +65,7 @@ def export_um_to_xdiag(
         config=config,
         repository=repository,
         repo_revision=repo_revision,
+        steward_approval_required=steward_approval_required,
         steward_approved=steward_approved,
         notes=notes,
     )
