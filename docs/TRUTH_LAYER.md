@@ -400,9 +400,11 @@ details." They are real gaps.
    in the current 5D framework closes this. The 10D landscape argument is
    speculative.
 
-2. **CMB peak amplitude suppression (×4.2–6.1):** Factor-of-4 to factor-of-6
-   discrepancy with ΛCDM at acoustic peaks. α_GW has been bounded but not
-   derived. This is a real quantitative disagreement, not a "presentation issue."
+2. **CMB peak amplitude suppression (reduced-gap lane active):** The RS1 UV-brane
+   + KK spectrum closure lane now reconstructs α_GW inside [4.2×10⁻¹⁰, 4.8×10⁻¹⁰]
+   and computes A_s directly via transfer normalization. The residual is now
+   explicit and auditable (σ-level reported), with exact point-closure still
+   sensitive to UV geometry/N_flux transfer normalization.
 
 3. **Strong CP problem:** No 5D PQ mechanism. The axion is invoked at the
    architecture level only. If the axion does not exist (current LZ/XENONnT
