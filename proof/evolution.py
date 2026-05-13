@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-src/core/evolution.py
+proof/evolution.py
 =====================
 Walker–Pearson field evolution for the Unitary Manifold.
 

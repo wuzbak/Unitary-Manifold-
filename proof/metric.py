@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-src/core/metric.py
+proof/metric.py
 ==================
 Kaluza–Klein metric ansatz and curvature computation for the Unitary Manifold.
 
