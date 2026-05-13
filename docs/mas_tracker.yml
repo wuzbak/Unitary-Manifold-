@@ -1,4 +1,4 @@
-version: "v10.53"
+version: "v10.54"
 date: "2026-05-13"
 updated: "2026-05-13"
 mas_status: "COMPLETE"
@@ -7,8 +7,8 @@ post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 public_surface_sync_checkpoint:
-  version: "v10.53"
-  regression: "31 442 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v10.54"
+  regression: "31 987 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true

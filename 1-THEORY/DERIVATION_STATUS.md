@@ -1,6 +1,6 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v10.53 — Unambiguous Record**  
+**The Unitary Manifold v10.54 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.

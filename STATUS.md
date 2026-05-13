@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.53 — Effective 2026-05-13*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.53 wave includes Gap T3/SC3/A3 quantitative closure: ADM time parameterization, 5D PQ axion sector, Higgs naturalness KK fixed-point).*
+*Unitary Manifold v10.54 — Effective 2026-05-13*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.54 wave: quantum side-project closure sprint — FH exact diagonalization, UM-KK Mott bridge, XDiag bridge; 545 new tests).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,7 +29,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 31 442 passed · 393 skipped · 12 deselected · 0 failed
+**Latest verified branch regression:** 31 987 passed · 393 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -100,6 +100,8 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.54 | Quantum side-project closure: FH exact diag + UM-KK Mott bridge + XDiag parity — 545 new tests | quantum/ adjacent track | +545 | 2026-05-13 |
+| v10.53 | Gap Closure Sprint: ADM time parameterization (T3), 5D PQ axion (SC3), Higgs naturalness KK (A3) | adm_time_parameterization, pq_axion_5d_geometry, higgs_naturalness_5d_fixedpoint | +112 | 2026-05-13 |
 | v10.52 | CKM/PMNS NLO+see-saw closure + EW precision (S,T,U,Γ_Z,Γ_W) + canonical ledger sync | 104 extension, EW precision extension, docs/session sync | +new targeted suites | 2026-05-11 |
 | v10.51 | 4-Gap closure sprint + CKM λ_W + ADM entropy rate + execution follow-ons | 102–109, 106–107 sprint artifacts | +new targeted suites | 2026-05-11 |
 | v10.44 | Local radion quantization + numerical LOS Boltzmann + PMNS/LISA routing + canonical ledger consistency | infrastructure / monitoring / closure support | +new targeted suites | 2026-05-11 |
