@@ -82,8 +82,9 @@ def adm_decompose(metric_params: dict) -> dict:
     # 3-metric: spatial diagonal components (passed in directly)
     three_metric_diag = g_diag
 
-    # Extrinsic curvature trace (background approximation):
+    # Extrinsic curvature trace (background approximation in slow-roll):
     # K ≈ (1/2N) ∂ₜ(tr γ) ≈ −φ M_KK_DEFAULT
+    # Slow-roll: γ̇ ≈ −2 M_KK φ γ; with N=φ this gives K ≈ −φ M_KK.
     # This captures the leading KK breathing-mode contribution to foliation.
     extrinsic_curvature_trace = -phi * M_KK_DEFAULT
 

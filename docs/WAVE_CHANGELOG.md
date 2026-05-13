@@ -69,7 +69,7 @@ None — core birefringence/CMB/ToE predictions unchanged.
 
 ---
 
-
+## v10.52 (2026-05-13 — Foundational closure hardening follow-on)
 
 ### What changed
 

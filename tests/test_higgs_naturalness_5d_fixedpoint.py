@@ -119,7 +119,7 @@ def test_more_modes_larger_sum() -> None:
     assert large["delta_mH2_GeV2"] > small["delta_mH2_GeV2"]
 
 
-def test_larger_k_smaller_MKK() -> None:
+def test_larger_k_smaller_m_kk() -> None:
     R = R_CANONICAL
     res_small_k = kk_higgs_naturalness(k=0.05, R=R)
     res_large_k = kk_higgs_naturalness(k=0.15, R=R)

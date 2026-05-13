@@ -215,3 +215,5 @@ def test_adm_decompose_well_formed_parametric(phi, M_kk):
     kk_lapse = 1.0 / math.sqrt(1.0 + (phi / M_kk) ** 2)
     # The geometric delay from this lapse is always ≤ 0
     assert kk_lapse - 1.0 <= 0.0
+    # The ADM lapse (= φ) relates to the KK lapse: lapse ∈ (0, 1] for φ ∈ (0,∞)
+    assert result["lapse"] == pytest.approx(phi, rel=1e-12)
