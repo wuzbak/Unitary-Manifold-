@@ -36,7 +36,7 @@ __all__ = ["kk_mode_mass", "kk_higgs_naturalness", "kk_loop_sum_converges"]
 
 M_H_GEV: float = 125.25
 M_PL_GEV: float = 2.435e18
-M_KK_DEFAULT_GEV: float = 1e3
+M_KK_DEFAULT_GEV: float = 1e3  # exported reference scale; used by callers as default M_KK
 G_TOP: float = 1.0
 N_C: int = 3
 LOOP_FACTOR: float = 1.0 / (16.0 * math.pi ** 2)

@@ -34,6 +34,9 @@ _EXPECTED_KEYS = frozenset(
 
 _VALID_STATUSES = {"DERIVED_PARTIAL", "ARCHITECTURE_LIMIT_CERTIFIED"}
 
+# Canonical RS1 radius: k*R = 14.16/π so that exp(-π k R) ≈ TeV/M_Pl at k=0.1
+R_CANONICAL: float = 14.16 / math.pi / 0.1
+
 
 # ---------------------------------------------------------------------------
 # kk_mode_mass tests
@@ -64,22 +67,22 @@ def test_kk_mode_mass_warp_correction_applied() -> None:
 # ---------------------------------------------------------------------------
 
 def test_naturalness_dict_has_all_keys() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL)
     assert _EXPECTED_KEYS.issubset(result.keys())
 
 
 def test_delta_mH2_positive() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL)
     assert result["delta_mH2_GeV2"] > 0
 
 
 def test_m_H2_correct() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL)
     assert result["m_H2_GeV2"] == pytest.approx(M_H_GEV ** 2, rel=1e-10)
 
 
 def test_tuning_is_nonnegative() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL)
     assert result["tuning_Delta"] >= 0.0
 
 
@@ -90,41 +93,41 @@ def test_tuning_present_in_result() -> None:
 
 def test_mode_contributions_list_length() -> None:
     N = 7
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1, N_modes=N)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL, N_modes=N)
     assert len(result["mode_contributions"]) == N
 
 
 def test_mode_contributions_all_positive() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1, N_modes=10)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL, N_modes=10)
     assert all(c > 0 for c in result["mode_contributions"])
 
 
 def test_convergence_ratio_finite() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL)
     assert math.isfinite(result["convergence_ratio"])
 
 
 def test_status_valid_string() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL)
     assert result["status"] in _VALID_STATUSES
 
 
 def test_more_modes_larger_sum() -> None:
-    R = 14.16 / math.pi / 0.1
+    R = R_CANONICAL
     small = kk_higgs_naturalness(k=0.1, R=R, N_modes=5)
     large = kk_higgs_naturalness(k=0.1, R=R, N_modes=20)
     assert large["delta_mH2_GeV2"] > small["delta_mH2_GeV2"]
 
 
 def test_larger_k_smaller_MKK() -> None:
-    R = 14.16 / math.pi / 0.1
+    R = R_CANONICAL
     res_small_k = kk_higgs_naturalness(k=0.05, R=R)
     res_large_k = kk_higgs_naturalness(k=0.15, R=R)
     assert res_large_k["M_KK_GeV"] < res_small_k["M_KK_GeV"]
 
 
 def test_naturalness_partial_closure_is_bool() -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL)
     assert isinstance(result["naturalness_partial_closure"], bool)
 
 
@@ -133,11 +136,11 @@ def test_naturalness_partial_closure_is_bool() -> None:
 # ---------------------------------------------------------------------------
 
 def test_kk_loop_converges_returns_bool() -> None:
-    assert isinstance(kk_loop_sum_converges(k=0.1, R=14.16 / math.pi / 0.1), bool)
+    assert isinstance(kk_loop_sum_converges(k=0.1, R=R_CANONICAL), bool)
 
 
 def test_kk_loop_converges_standard_params() -> None:
-    assert kk_loop_sum_converges(k=0.1, R=14.16 / math.pi / 0.1) is True
+    assert kk_loop_sum_converges(k=0.1, R=R_CANONICAL) is True
 
 
 # ---------------------------------------------------------------------------
@@ -148,7 +151,7 @@ def test_kk_loop_converges_standard_params() -> None:
     "k,R",
     [
         (0.05, 40.0),
-        (0.10, 14.16 / math.pi / 0.1),
+        (0.10, R_CANONICAL),
         (0.12, 25.0),
         (0.08, 35.0),
         (0.15, 20.0),
@@ -165,7 +168,7 @@ def test_tuning_delta_finite_positive(k: float, R: float) -> None:
     "k,R",
     [
         (0.05, 40.0),
-        (0.10, 14.16 / math.pi / 0.1),
+        (0.10, R_CANONICAL),
         (0.12, 25.0),
     ],
 )
@@ -177,5 +180,5 @@ def test_mkk_positive_and_finite(k: float, R: float) -> None:
 
 @pytest.mark.parametrize("N_modes", [5, 10, 15, 20])
 def test_mode_contributions_length_parametric(N_modes: int) -> None:
-    result = kk_higgs_naturalness(k=0.1, R=14.16 / math.pi / 0.1, N_modes=N_modes)
+    result = kk_higgs_naturalness(k=0.1, R=R_CANONICAL, N_modes=N_modes)
     assert len(result["mode_contributions"]) == N_modes
