@@ -57,9 +57,9 @@ def test_ground_state_expectation_is_centered():
 
 
 def test_jax_ground_state_normalization_passes():
+    pytest.importorskip("jax")
     result = jax_ground_state_normalization()
-    if not result["jax_available"]:
-        pytest.skip("JAX not installed in this environment")
+    assert result["jax_available"] is True
     assert result["passed"] is True
 
 
@@ -70,9 +70,9 @@ def test_mpmath_256bit_audit_passes():
 
 
 def test_canonical_quantization_report_closed():
+    pytest.importorskip("jax")
     report = canonical_quantization_report()
     assert report["status"] == "LOCAL_CANONICAL_CLOSURE"
-    if not report["jax_ground_state"]["jax_available"]:
-        pytest.skip("JAX not installed in this environment")
+    assert report["jax_ground_state"]["jax_available"] is True
     assert report["jax_ground_state"]["passed"] is True
     assert report["precision_256bit"]["passed"] is True
