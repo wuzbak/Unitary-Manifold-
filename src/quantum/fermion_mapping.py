@@ -164,7 +164,8 @@ def bk_basis_permutations(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
     """Return occupancy↔BK basis permutation indices.
 
     This is the stable public wrapper around the internal permutation builder,
-    used by solver layers that need explicit basis reconciliation.
+    intended for solver layers that perform sector decomposition and therefore
+    need explicit occupancy↔BK basis reconciliation.
 
     Parameters
     ----------
