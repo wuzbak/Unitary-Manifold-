@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import math
-
 import pytest
 
 from src.core.phi_radion_quantization import (

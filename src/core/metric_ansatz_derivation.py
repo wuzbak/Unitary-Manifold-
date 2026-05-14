@@ -21,7 +21,7 @@ Under these constraints, the lowest-order local block form is uniquely fixed to
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict
 
 import numpy as np
 
