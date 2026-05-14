@@ -186,3 +186,43 @@ def baseline_planetary_risk_scenario() -> PlanetaryRiskScenario:
         cross_border_operability_fraction=0.53,
         data_fusion_coverage_fraction=0.59,
     )
+
+
+def pillar241_planetary_warning_report(
+    n_trials: int = 200,
+    seed: int = 241,
+) -> dict[str, Any]:
+    """Integrated report for Pillar 241."""
+    scenario = baseline_planetary_risk_scenario()
+    return {
+        "pillar": 241,
+        "status": __provenance__["status"],
+        "hazard_order": HAZARD_ORDER,
+        "baseline_report": warning_grid_report(scenario),
+        "stability_simulation": monte_carlo_global_risk(scenario, n_trials=n_trials, seed=seed),
+        "falsification_condition": (
+            "FALSIFIED as an adjacent decision engine if global-risk-pulse predictions "
+            "are systematically anti-correlated with observed compound-hazard outcomes "
+            "under independent validation datasets."
+        ),
+    }
+
+
+__all__ = [
+    "N_W",
+    "K_CS",
+    "C_S",
+    "PHI0",
+    "HAZARD_ORDER",
+    "PlanetaryRiskScenario",
+    "__provenance__",
+    "hazard_risk_scores",
+    "warning_latency_gap",
+    "response_latency_gap",
+    "global_risk_pulse",
+    "coordinated_response_priority_queue",
+    "warning_grid_report",
+    "monte_carlo_global_risk",
+    "baseline_planetary_risk_scenario",
+    "pillar241_planetary_warning_report",
+]

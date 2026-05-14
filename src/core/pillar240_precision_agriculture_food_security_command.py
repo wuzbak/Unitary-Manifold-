@@ -222,3 +222,43 @@ def baseline_food_scenario() -> FoodScenario:
         strategic_food_days=40,
         target_strategic_food_days=90,
     )
+
+
+def pillar240_food_security_report(
+    budget_usd: float = 5_000_000_000.0,
+    n_trials: int = 200,
+    seed: int = 240,
+) -> dict[str, Any]:
+    """Integrated report for Pillar 240."""
+    scenario = baseline_food_scenario()
+    return {
+        "pillar": 240,
+        "status": __provenance__["status"],
+        "bottleneck_order": BOTTLENECK_ORDER,
+        "baseline_report": food_security_report(scenario),
+        "intervention_ranking": intervention_priority(scenario, budget_usd=budget_usd),
+        "stability_simulation": monte_carlo_food_security(scenario, n_trials=n_trials, seed=seed),
+        "falsification_condition": (
+            "FALSIFIED as an adjacent decision engine if food-security probability "
+            "predictions are systematically anti-correlated with observed food-system "
+            "outcomes under independent validation datasets."
+        ),
+    }
+
+
+__all__ = [
+    "N_W",
+    "K_CS",
+    "C_S",
+    "PHI0",
+    "BOTTLENECK_ORDER",
+    "FoodScenario",
+    "__provenance__",
+    "bottleneck_scores",
+    "food_security_probability_surface",
+    "food_security_report",
+    "intervention_priority",
+    "monte_carlo_food_security",
+    "baseline_food_scenario",
+    "pillar240_food_security_report",
+]

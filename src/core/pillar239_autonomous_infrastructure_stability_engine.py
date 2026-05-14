@@ -214,3 +214,43 @@ def baseline_autonomy_scenario() -> AutonomyScenario:
         required_trained_operators=220_000,
         public_acceptance_fraction=0.48,
     )
+
+
+def pillar239_autonomy_stability_report(
+    budget_usd: float = 8_000_000_000.0,
+    n_trials: int = 200,
+    seed: int = 239,
+) -> dict[str, Any]:
+    """Integrated report for Pillar 239."""
+    scenario = baseline_autonomy_scenario()
+    return {
+        "pillar": 239,
+        "status": __provenance__["status"],
+        "bottleneck_order": BOTTLENECK_ORDER,
+        "baseline_report": autonomy_readiness_report(scenario),
+        "intervention_ranking": intervention_rank(scenario, budget_usd=budget_usd),
+        "stability_simulation": monte_carlo_envelope(scenario, n_trials=n_trials, seed=seed),
+        "falsification_condition": (
+            "FALSIFIED as an adjacent decision engine if safe-automation-envelope "
+            "predictions are systematically anti-correlated with observed deployment "
+            "stability metrics under independent validation datasets."
+        ),
+    }
+
+
+__all__ = [
+    "N_W",
+    "K_CS",
+    "C_S",
+    "PHI0",
+    "BOTTLENECK_ORDER",
+    "AutonomyScenario",
+    "__provenance__",
+    "bottleneck_scores",
+    "safe_automation_envelope_index",
+    "autonomy_readiness_report",
+    "intervention_rank",
+    "monte_carlo_envelope",
+    "baseline_autonomy_scenario",
+    "pillar239_autonomy_stability_report",
+]
