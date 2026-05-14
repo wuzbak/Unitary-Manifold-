@@ -44,8 +44,10 @@ NS_UM: float = 0.9635
 R_UM_BRAIDED: float = 0.0315
 BETA_UM_PRIMARY_DEG: float = 0.331
 BETA_UM_SHADOW_DEG: float = 0.273
-W0_UM: float = -0.9302
-WA_UM: float = 0.0
+P236_W0_UM: float = -0.9302
+P236_WA_UM: float = 0.0
+
+_PROB_FLOOR: float = 1e-12  # avoids log2(0) in entropy calculation
 
 
 @dataclass(frozen=True)
@@ -171,16 +173,16 @@ def default_predictions() -> dict[str, float]:
         "r": R_UM_BRAIDED,
         "beta_primary": BETA_UM_PRIMARY_DEG,
         "beta_shadow": BETA_UM_SHADOW_DEG,
-        "w0": W0_UM,
-        "wa": WA_UM,
+        "w0": P236_W0_UM,
+        "wa": P236_WA_UM,
     }
 
 
 def _validate_constraint(c: ExternalConstraint) -> None:
     if c.sigma is not None and c.sigma <= 0:
         raise ValueError(f"sigma must be > 0 for {c.observable}")
-    if c.upper_bound is not None and c.upper_bound <= 0:
-        raise ValueError(f"upper_bound must be > 0 for {c.observable}")
+    if c.upper_bound is not None and c.upper_bound < 0:
+        raise ValueError(f"upper_bound must be >= 0 for {c.observable}")
 
 
 def evaluate_against_constraint(predicted: float, constraint: ExternalConstraint) -> dict[str, Any]:
@@ -326,7 +328,7 @@ def ledger_summary(rows: list[dict[str, Any]] | None = None) -> dict[str, Any]:
         verdict = str(row["check"]["verdict"])
         counts[verdict] = counts.get(verdict, 0) + 1
 
-    severity_rank = {"CONSISTENT": 0, "INFORMATIONAL": 0, "TENSION": 1, "HIGH_TENSION": 2, "FALSIFIED": 3}
+    severity_rank = {"INFORMATIONAL": -1, "CONSISTENT": 0, "TENSION": 1, "HIGH_TENSION": 2, "FALSIFIED": 3}
     max_row = max(ledger_rows, key=lambda x: severity_rank.get(str(x["check"]["verdict"]), 0))
 
     return {
@@ -357,9 +359,10 @@ def monte_carlo_critique_stability(
     base_predictions = default_predictions()
     base_constraints = default_external_constraints()
 
-    keys = ["n_s", "beta", "w0", "wa"]
+    keys = ["n_s", "r", "beta", "w0", "wa"]
     verdict_counts: dict[str, dict[str, int]] = {
         "P2": {},
+        "P3": {},
         "P1-primary": {},
         "P1-shadow": {},
         "P4-w0": {},
@@ -397,7 +400,7 @@ def monte_carlo_critique_stability(
             continue
         dominant_verdict, dominant_count = max(vdict.items(), key=lambda kv: kv[1])
         probs = np.array([count / samples for count in vdict.values()])
-        entropy = float(-np.sum(probs * np.log2(np.maximum(probs, 1e-12))))
+        entropy = float(-np.sum(probs * np.log2(np.maximum(probs, _PROB_FLOOR))))
         stability[cid] = {
             "dominant_verdict": dominant_verdict,
             "dominant_fraction": dominant_count / samples,
@@ -442,8 +445,8 @@ __all__ = [
     "R_UM_BRAIDED",
     "BETA_UM_PRIMARY_DEG",
     "BETA_UM_SHADOW_DEG",
-    "W0_UM",
-    "WA_UM",
+    "P236_W0_UM",
+    "P236_WA_UM",
     "ExternalConstraint",
     "__provenance__",
     "source_quality_ladder",

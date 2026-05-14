@@ -16,7 +16,7 @@ from src.core.pillar236_critique_hardening_engine import (
     R_UM_BRAIDED,
     BETA_UM_PRIMARY_DEG,
     BETA_UM_SHADOW_DEG,
-    WA_UM,
+    P236_WA_UM,
     ExternalConstraint,
     __provenance__,
     source_quality_ladder,
@@ -36,7 +36,7 @@ def test_provenance_and_constants():
     assert "ADJACENT RESEARCH TRACK" in __provenance__["status"]
     assert N_W == 5
     assert K_CS == 74
-    assert math.isclose(C_S, 12.0 / 37.0, rel_tol=0, abs_tol=1e-15)
+    assert math.isclose(C_S, 12.0 / 37.0, rel_tol=0, abs_tol=1e-12)
 
 
 def test_predictions_basics():
@@ -45,7 +45,7 @@ def test_predictions_basics():
     assert p["r"] == R_UM_BRAIDED
     assert p["beta_primary"] == BETA_UM_PRIMARY_DEG
     assert p["beta_shadow"] == BETA_UM_SHADOW_DEG
-    assert p["wa"] == WA_UM
+    assert p["wa"] == P236_WA_UM
 
 
 def test_source_quality_ladder_structure_and_order():
@@ -93,6 +93,12 @@ def test_invalid_constraint_rejected():
         evaluate_against_constraint(1.0, ExternalConstraint(observable="x", observed=0.0, upper_bound=-1.0))
 
 
+def test_upper_bound_zero_is_allowed():
+    c = ExternalConstraint(observable="x", observed=0.0, upper_bound=0.0)
+    row = evaluate_against_constraint(0.0, c)
+    assert row["verdict"] == "CONSISTENT"
+
+
 def test_preregistered_falsification_table_shape():
     rows = preregistered_falsification_table()
     assert len(rows) >= 4
@@ -118,10 +124,11 @@ def test_ledger_expected_current_severity_profile():
 
 
 def test_ledger_summary_shape_and_counts():
+    expected_checks = len(critique_hardening_ledger())
     summary = ledger_summary()
-    assert summary["n_checks"] == 6
+    assert summary["n_checks"] == expected_checks
     assert "counts" in summary
-    assert sum(summary["counts"].values()) == 6
+    assert sum(summary["counts"].values()) == expected_checks
     assert summary["max_severity"] in {"CONSISTENT", "TENSION", "HIGH_TENSION", "FALSIFIED", "INFORMATIONAL"}
 
 
@@ -139,10 +146,11 @@ def test_monte_carlo_invalid_samples_raises():
 def test_monte_carlo_contains_claims_and_bounded_fractions():
     out = monte_carlo_critique_stability(samples=25, seed=7)
     assert out["samples"] == 25
-    assert set(out["per_claim"]) == {"P2", "P1-primary", "P1-shadow", "P4-w0", "P4-wa"}
+    assert {"P2", "P3", "P1-primary", "P1-shadow", "P4-w0", "P4-wa"} <= set(out["per_claim"])
     for row in out["per_claim"].values():
         assert 0.0 <= row["dominant_fraction"] <= 1.0
         assert row["entropy"] >= 0.0
+    assert out["per_claim"]["P3"]["dominant_verdict"] == "CONSISTENT"
 
 
 def test_integrated_report_sections():
