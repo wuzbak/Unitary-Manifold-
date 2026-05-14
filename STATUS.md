@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.55 — Effective 2026-05-14*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.55 wave: adjacent quantum lane engineering-complete sprint — multi-dim FH lattice, geometry-aware routing, curved-space FH scaffolding, XDiag production parity; 186 new tests).*
+*Unitary Manifold v10.56 — Effective 2026-05-14*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.56 wave: five-pillar adjacent applied resilience sprint — Pillars 237–241: CROS, GDFRF, AISE, PAFS, PEWCRG; 156 new tests; theory docs + Substack posts 165–169).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,7 +29,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 32 173 passed · 393 skipped · 12 deselected · 0 failed
+**Latest verified branch regression:** 32 329 passed · 393 skipped · 12 deselected · 0 failed
 
 ---
 

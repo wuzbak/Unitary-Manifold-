@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.55)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v10.56)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -21,9 +21,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml)
-[![32173 passed · 393 skipped · 12 deselected · 0 failed](https://img.shields.io/badge/tests-32173%20passed%20%C2%B7%20393%20skipped%20%C2%B7%2012%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![32329 passed · 393 skipped · 12 deselected · 0 failed](https://img.shields.io/badge/tests-32329%20passed%20%C2%B7%20393%20skipped%20%C2%B7%2012%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![225+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-225%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v10.55-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v10.56-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -55,7 +55,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > ⚠️ **Honest status (v10.52):** ToE remains **27.8/28 (99.3%)** on the legacy denominator, with CKM/PMNS closure lane strengthened via NLO g5 + RS see-saw and a new EW precision extension cluster (S,T,U,Γ_Z,Γ_W) tracked in `docs/CLAIM_MASTER_BOARD.md`.
-> Latest verified branch regression on this branch: **32 173 passed · 393 skipped · 12 deselected · 0 failed**.  
+> Latest verified branch regression on this branch: **32 329 passed · 393 skipped · 12 deselected · 0 failed**.  
 > The test suite is not just a validation count; it is the executable validation layer for the monograph proof path — algebraic checks, numerical reproductions, claim ledgers, adversarial stress tests, and explicit failure conditions.
 > Most headline quantities in this repository are tracked as **derived**, **closed**, or **geometric predictions**; fitted, bridged, and open items are separated explicitly in [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) and [`docs/mas_tracker.yml`](docs/mas_tracker.yml).
 > The framework is intentionally **high-falsifiability**: narrow prediction windows, bright-line kill criteria, adversarial review artifacts, and public failure thresholds are part of the design.
