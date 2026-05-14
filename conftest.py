@@ -44,6 +44,7 @@ def pytest_collection_finish(session: pytest.Session) -> None:
     violations = set()
     audited_fixture_keys = set()
     module_scoped_count = 0
+    session_scoped_count = 0
 
     for item in pentad_items:
         fixture_info = getattr(item, "_fixtureinfo", None)
@@ -65,6 +66,7 @@ def pytest_collection_finish(session: pytest.Session) -> None:
                 if scope == "module":
                     module_scoped_count += 1
                 if scope == "session":
+                    session_scoped_count += 1
                     violations.add(f"{fixture_name} ({fixture_def.baseid})")
 
     if violations:
@@ -78,5 +80,5 @@ def pytest_collection_finish(session: pytest.Session) -> None:
     tr = session.config.pluginmanager.get_plugin("terminalreporter")
     if tr is not None:
         tr.write_line(
-            f"Pentad fixture-scope audit: PASS (module-scoped fixtures: {module_scoped_count}, session-scoped fixtures: 0)"
+            f"Pentad fixture-scope audit: PASS (module-scoped fixtures: {module_scoped_count}, session-scoped fixtures: {session_scoped_count})"
         )
