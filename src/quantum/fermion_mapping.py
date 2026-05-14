@@ -160,6 +160,30 @@ def _perm_occ_to_bk(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
     return p, q
 
 
+def bk_basis_permutations(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
+    """Return occupancy↔BK basis permutation indices.
+
+    This is the stable public wrapper around the internal permutation builder,
+    intended for solver layers that perform sector decomposition and therefore
+    need explicit occupancy↔BK basis reconciliation.
+    Here, occupancy basis means computational/Fock ordering by occupation bits,
+    while BK basis means Bravyi–Kitaev transformed computational ordering.
+
+    Parameters
+    ----------
+    n_modes:
+        Number of fermionic modes / qubits in the mapped system.
+
+    Returns
+    -------
+    (occ_to_bk, bk_to_occ):
+        - occ_to_bk[i_occ] = i_bk
+        - bk_to_occ[i_bk] = i_occ
+    """
+    occ_to_bk, bk_to_occ = _perm_occ_to_bk(n_modes)
+    return occ_to_bk, bk_to_occ
+
+
 def matrix_to_pauli_terms(matrix: np.ndarray, n_qubits: int, tol: float = 1e-10) -> list[PauliTerm]:
     terms: list[PauliTerm] = []
     dim = 2**n_qubits
