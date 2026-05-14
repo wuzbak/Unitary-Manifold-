@@ -29,6 +29,8 @@ the braided-winding mechanism.
 | [**LAB_SCALE_CP_VIOLATION_FALSIFIER.md**](LAB_SCALE_CP_VIOLATION_FALSIFIER.md) | **Immediate table-top falsifier:** bright-line kill criteria for the (5,7) condensed-matter CP-asymmetry transfer hypothesis at the CKM/Jarlskog scale. |
 | [**THEORY_LANDSCAPE.md**](THEORY_LANDSCAPE.md) | **Comparative context: UM vs E8, Wolfram Physics, and Geometric Unity — dimension efficiency, symmetry breaking, falsification timelines, and LiteBIRD sensor profile** |
 | [`prediction.md`](prediction.md) | All current quantitative predictions with their falsification thresholds |
+| [`EXTERNAL_VALIDATION_LEDGER.md`](EXTERNAL_VALIDATION_LEDGER.md) | Machine-readable/human-readable bridge ledger for external observational constraints and live consistency verdicts (Pillar 236). |
+| [`CRITIQUE_HARDENING_PROTOCOL.md`](CRITIQUE_HARDENING_PROTOCOL.md) | Source-quality ladder, preregistered falsification routing, and Monte Carlo hardening protocol (Pillar 236). |
 
 ### Peer reviews and adversarial analysis
 
