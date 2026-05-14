@@ -126,7 +126,7 @@ def test_parity_gate_pass_and_fail_fast() -> None:
         tolerance=tol,
     )
 
-    with pytest.raises(ValueError, match="Parity gate failed"):
+    with pytest.raises(ValueError, match="parity gate failed"):
         assert_parity(
             um_metrics={"ground_energy": -1.0, "first_gap": 0.2, "staggered_magnetization": 0.3},
             xdiag_metrics={"ground_energy": -0.9, "first_gap": 0.2, "staggered_magnetization": 0.3},

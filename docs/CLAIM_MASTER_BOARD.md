@@ -121,9 +121,18 @@ higher-dimensional work.
 
 | # | Claim | Status | Label | Gatekeeper | Falsifier | Source |
 |---|-------|--------|-------|------------|-----------|--------|
-| XQ1 | UM↔XDiag compatibility bridge (`src/quantum/xdiag_bridge/`) provides a versioned schema contract, deterministic run IDs, bidirectional artifact conversion, parity fail-fast checks, and deterministic routing for cross-validation workflows | 🔵 IN DEVELOPMENT | `SCAFFOLD` | PASS (engineering lane) | Bridge parity failures outside configured tolerances on baseline reference cases | `src/quantum/xdiag_bridge/`, `tests/test_xdiag_bridge.py`, `STATUS.md` side-project table |
+| XQ1 | UM↔XDiag compatibility bridge (`src/quantum/xdiag_bridge/`) provides a versioned schema contract, schema version guard (`assert_schema_version`), deterministic run IDs, bidirectional artifact conversion, extended parity gate (required: ground_energy/first_gap/staggered_magnetization; optional: charge_gap/spin_gap/double_occupancy), `production_health_check()` known-answer self-test, and deterministic routing | ✅ ENGINEERING_COMPLETE | `SCAFFOLD_PRODUCTION` | PASS (engineering lane; health check passes) | Bridge parity failures outside configured tolerances on baseline reference cases | `src/quantum/xdiag_bridge/`, `tests/test_xdiag_bridge.py`, `tests/test_xdiag_bridge_production.py` |
+| XQ2 | Multi-dimensional FH lattice (`src/quantum/fh_lattice.py`): 1D chain, 2D square, 3D cubic, KK-natural (5,7) braid ring geometries with duck-typed `FermiHubbardLattice` interface compatible with `fh_solver.exact_diagonalize` | ✅ ENGINEERING_COMPLETE | `SCAFFOLD` | PASS (engineering lane) | Lattice term-count inconsistencies, geometry-adjacency invariant violations | `src/quantum/fh_lattice.py`, `tests/test_fh_lattice.py` |
+| XQ3 | Geometry-aware routing (`src/quantum/fh_lattice_routing.py`): three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse) with per-geometry memory budgets, preflight checks, scaling estimates | ✅ ENGINEERING_COMPLETE | `SCAFFOLD` | PASS (engineering lane) | Routing decisions inconsistent with configured thresholds | `src/quantum/fh_lattice_routing.py`, `tests/test_fh_lattice_routing.py` |
+| XQ4 | Curved-space FH scaffolding (`src/quantum/fh_curved.py`): radion-modulated hopping t_{ij}=t₀·exp[−λ\|φᵢ−φⱼ\|], KK-natural coupling λ=c_s/n_w, `CurvedFermiHubbardLattice`, separation guard, flat-limit recovery | ✅ ENGINEERING_COMPLETE | `SCAFFOLD` | PASS (engineering lane; separation_guard enforced) | Flat-limit divergence from uniform-radion model, radion coupling constant drift | `src/quantum/fh_curved.py`, `tests/test_fh_curved.py` |
 
-**Lane F policy:** This is an adjacent quantum integration lane only. It does not modify ToE score lanes, does not promote physics labels by itself, and has steward approval recorded for formal pillar-numbering readiness.
+**Lane F policy:** This is an adjacent quantum integration lane only. It does not modify ToE score lanes, does not promote physics labels by itself, and has steward approval recorded for formal pillar-numbering readiness.  All Lane F modules carry explicit separation guards (`separation_guard()`, `ADJACENCY_TRACK_LABEL`, `CURVED_TRACK_LABEL`) and are tested at 0 failures.
+
+**v10.55 engineering-complete summary:**
+- XDiag bridge (XQ1): production parity gate, schema version guard, health check — `tests/test_xdiag_bridge_production.py` (55 tests)
+- FH lattice geometry (XQ2): 1D/2D/3D/braid_kk — `tests/test_fh_lattice.py` (72 tests)
+- Geometry routing (XQ3): memory budgets, preflight checks — `tests/test_fh_lattice_routing.py` (59 tests)
+- Curved-space FH (XQ4): radion-coupled hopping, separation guard — `tests/test_fh_curved.py` (68 tests)
 
 ---
 

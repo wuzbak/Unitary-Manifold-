@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.54 — Effective 2026-05-13*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.54 wave: quantum side-project closure sprint — FH exact diagonalization, UM-KK Mott bridge, XDiag bridge; 545 new tests).*
+*Unitary Manifold v10.55 — Effective 2026-05-14*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.55 wave: adjacent quantum lane engineering-complete sprint — multi-dim FH lattice, geometry-aware routing, curved-space FH scaffolding, XDiag production parity; 186 new tests).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,7 +29,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 31 987 passed · 393 skipped · 12 deselected · 0 failed
+**Latest verified branch regression:** 32 173 passed · 393 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -100,6 +100,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.55 | Adjacent quantum lane: multi-dim FH lattice (1D/2D/3D/braid_kk), geometry-aware routing, curved-space FH scaffolding, XDiag production parity (schema guard, extended metrics, health check) — 186 new tests | quantum/ adjacent track (non-hardgate) | +186 | 2026-05-14 |
 | v10.54 | Quantum side-project closure: FH exact diag + UM-KK Mott bridge + XDiag parity — 545 new tests | quantum/ adjacent track | +545 | 2026-05-13 |
 | v10.53 | Gap Closure Sprint: ADM time parameterization (T3), 5D PQ axion (SC3), Higgs naturalness KK (A3) | adm_time_parameterization, pq_axion_5d_geometry, higgs_naturalness_5d_fixedpoint | +112 | 2026-05-13 |
 | v10.52 | CKM/PMNS NLO+see-saw closure + EW precision (S,T,U,Γ_Z,Γ_W) + canonical ledger sync | 104 extension, EW precision extension, docs/session sync | +new targeted suites | 2026-05-11 |
@@ -247,7 +248,10 @@ specific failure mode that this condition guards against.
 |----------|-------------|--------|
 | `src/unitary_os/` (14 modules) | Unitary OS — independent operating system in development (461 tests) | 🔵 IN DEVELOPMENT |
 | `src/quantum/` (Fermi–Hubbard lane) | Adjacent quantum-simulation research track (Hamiltonian, JW/BK mappings, execution, benchmarks) | 🔵 IN DEVELOPMENT (non-hardgate) |
-| `src/quantum/xdiag_bridge/` | XDiag↔UM adjacent integration lane: schema contract, UM→XDiag export, XDiag→UM ingest, parity/accuracy gates, deterministic routing | 🔵 IN DEVELOPMENT (non-hardgate; steward approval granted for formal pillar-numbering readiness) |
+| `src/quantum/xdiag_bridge/` | XDiag↔UM adjacent integration lane: schema contract (schema version guard, `assert_schema_version`), UM→XDiag export, XDiag→UM ingest, extended parity gate (required: ground_energy/first_gap/staggered_magnetization; optional: charge_gap/spin_gap/double_occupancy), production health check, deterministic routing | 🔵 ENGINEERING_COMPLETE (non-hardgate; steward approval granted) |
+| `src/quantum/fh_lattice.py` | Geometry-aware multi-dimensional FH lattice: 1D chain, 2D square, 3D cubic, KK-natural (5,7) braid ring — LatticeGeometry, FermiHubbardLattice, factory functions, memory estimation | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
+| `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
+| `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
 ### Applied Research Tracks (Pillars 218–235)
 

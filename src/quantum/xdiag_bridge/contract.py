@@ -23,6 +23,49 @@ from src.quantum.fermi_hubbard import FermiHubbardHamiltonian
 XDIAG_UM_SCHEMA_VERSION = "1.0.0"
 
 
+# ---------------------------------------------------------------------------
+# Schema version guard
+# ---------------------------------------------------------------------------
+
+
+def assert_schema_version(payload: dict[str, object], strict: bool = True) -> None:
+    """Assert that a payload's schema_version matches XDIAG_UM_SCHEMA_VERSION.
+
+    Parameters
+    ----------
+    payload:
+        Dict that should contain a ``"schema_version"`` key.
+    strict:
+        If True (default), raise ValueError on any mismatch.
+        If False, raise only on incompatible major version changes.
+
+    Raises
+    ------
+    ValueError
+        When the schema version does not match (or is incompatible).
+    KeyError
+        When ``"schema_version"`` is absent from the payload.
+    """
+    found = str(payload["schema_version"])
+    if strict:
+        if found != XDIAG_UM_SCHEMA_VERSION:
+            raise ValueError(
+                f"XDiag bridge schema version mismatch: "
+                f"expected {XDIAG_UM_SCHEMA_VERSION!r}, got {found!r}. "
+                "Re-export the UM model with the current bridge version."
+            )
+        return
+    # Non-strict: only reject incompatible major version
+    expected_major = XDIAG_UM_SCHEMA_VERSION.split(".")[0]
+    found_major = found.split(".")[0]
+    if found_major != expected_major:
+        raise ValueError(
+            f"XDiag bridge major schema version mismatch: "
+            f"expected major={expected_major}, got major={found_major} "
+            f"(full found version: {found!r})."
+        )
+
+
 @dataclass(frozen=True)
 class LatticeSpec:
     n_sites: int
