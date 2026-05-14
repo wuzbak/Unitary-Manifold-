@@ -163,6 +163,11 @@ def _perm_occ_to_bk(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
 def bk_basis_permutations(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
     """Return occupancy↔BK basis permutation indices.
 
+    Parameters
+    ----------
+    n_modes:
+        Number of fermionic modes / qubits in the mapped system.
+
     Returns
     -------
     (occ_to_bk, bk_to_occ):
