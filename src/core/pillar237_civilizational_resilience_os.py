@@ -283,3 +283,46 @@ def baseline_resilience_scenario() -> ResilienceScenario:
         fiscal_reserve_months=3.0,
         target_fiscal_reserve_months=9.0,
     )
+
+
+def pillar237_civilizational_resilience_report(
+    budget_usd: float = 12_000_000_000.0,
+    n_trials: int = 200,
+    seed: int = 237,
+) -> dict[str, Any]:
+    """Integrated report for Pillar 237."""
+    scenario = baseline_resilience_scenario()
+    return {
+        "pillar": 237,
+        "status": __provenance__["status"],
+        "strategic_hurdles": STRATEGIC_HURDLES,
+        "bottleneck_order": BOTTLENECK_ORDER,
+        "baseline_report": resilience_report(scenario),
+        "intervention_ranking": rank_interventions_by_roi(scenario, budget_usd=budget_usd),
+        "stability_simulation": monte_carlo_resilience(scenario, n_trials=n_trials, seed=seed),
+        "falsification_condition": (
+            "FALSIFIED as an adjacent decision engine if intervention rankings and "
+            "reported bottleneck reductions are systematically anti-correlated with "
+            "observed continuity outcomes under independent validation datasets."
+        ),
+    }
+
+
+__all__ = [
+    "N_W",
+    "K_CS",
+    "C_S",
+    "PHI0",
+    "STRATEGIC_HURDLES",
+    "BOTTLENECK_ORDER",
+    "ResilienceScenario",
+    "__provenance__",
+    "strategic_hurdle_scores",
+    "bottleneck_scores",
+    "resilience_readiness_index",
+    "resilience_report",
+    "rank_interventions_by_roi",
+    "monte_carlo_resilience",
+    "baseline_resilience_scenario",
+    "pillar237_civilizational_resilience_report",
+]

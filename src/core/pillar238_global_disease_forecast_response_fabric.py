@@ -232,3 +232,42 @@ def baseline_disease_scenario() -> DiseaseScenario:
         target_sequenced_cases_fraction=0.25,
         vulnerable_population_coverage_fraction=0.57,
     )
+
+
+def pillar238_global_disease_forecast_report(
+    n_trials: int = 200,
+    seed: int = 238,
+) -> dict[str, Any]:
+    """Integrated report for Pillar 238."""
+    scenario = baseline_disease_scenario()
+    return {
+        "pillar": 238,
+        "status": __provenance__["status"],
+        "bottleneck_order": BOTTLENECK_ORDER,
+        "baseline_report": response_report(scenario),
+        "stability_simulation": monte_carlo_feasibility(scenario, n_trials=n_trials, seed=seed),
+        "falsification_condition": (
+            "FALSIFIED as an adjacent response-routing engine if predicted "
+            "containment-feasibility directionality is repeatedly contradicted by "
+            "out-of-sample outbreak outcomes under comparable intervention profiles."
+        ),
+    }
+
+
+__all__ = [
+    "N_W",
+    "K_CS",
+    "C_S",
+    "PHI0",
+    "BOTTLENECK_ORDER",
+    "DiseaseScenario",
+    "__provenance__",
+    "effective_reproduction_number",
+    "outbreak_risk_probability",
+    "bottleneck_scores",
+    "containment_feasibility_index",
+    "response_report",
+    "monte_carlo_feasibility",
+    "baseline_disease_scenario",
+    "pillar238_global_disease_forecast_report",
+]
