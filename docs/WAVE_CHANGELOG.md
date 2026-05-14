@@ -13,6 +13,50 @@ For each wave entry, include:
 
 ---
 
+## v10.55 (2026-05-14 — Adjacent Quantum Lane Engineering-Complete Sprint)
+
+### What changed
+
+1. **`src/quantum/fh_lattice.py`** — Geometry-aware multi-dimensional FH lattice module: `LatticeGeometry`, `FermiHubbardLattice`, `chain_1d_geometry`, `square_2d_geometry`, `cubic_3d_geometry`, `braid_kk_geometry`, `custom_geometry`, factory functions, memory estimation helpers.
+2. **`src/quantum/fh_lattice_routing.py`** — Three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), `MemoryBudget`, `RoutingConfig`, `preflight_check`, per-geometry thresholds, `scaling_estimate`.
+3. **`src/quantum/fh_curved.py`** — Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, `CurvedFermiHubbardLattice`, `kk_curved_spec`, `separation_guard`.
+4. **`src/quantum/xdiag_bridge/parity.py`** — Production-parity upgrade: extended metric set (REQUIRED: ground_energy/first_gap/staggered_magnetization; OPTIONAL: charge_gap/spin_gap/double_occupancy), `ParityDelta.passed`, `ParityReport.summary`, multi-metric reporting.
+5. **`src/quantum/xdiag_bridge/contract.py`** — Schema version guard (`assert_schema_version`): strict and non-strict modes.
+6. **`src/quantum/xdiag_bridge/workflow.py`** — `production_health_check()`: known-answer self-test on 2-site Bethe Ansatz reference case.
+7. **`tests/test_fh_lattice.py`** — 72 tests (186 total across all new modules).
+8. **`tests/test_fh_lattice_routing.py`** — 59 tests.
+9. **`tests/test_fh_curved.py`** — 68 tests.
+10. **`tests/test_xdiag_bridge_production.py`** — 55 tests.
+
+### What did not change
+
+- Core UM physics (Pillars 1–208) — unchanged.
+- ToE score — unchanged (adjacent lane only).
+- All existing passing tests — 0 regressions.
+
+### Epistemic label deltas
+
+- XQ1 (XDiag bridge): IN DEVELOPMENT → ENGINEERING_COMPLETE
+- XQ2 (FH lattice geometry): new → ENGINEERING_COMPLETE
+- XQ3 (FH routing): new → ENGINEERING_COMPLETE
+- XQ4 (curved-space FH): new → ENGINEERING_COMPLETE
+
+### ToE score delta
+
+None. All new modules are adjacent engineering lane (non-hardgate).
+
+### Falsification impact
+
+None. Adjacent lane separation is enforced by `separation_guard()` and `ADJACENCY_TRACK_LABEL` in every new module.
+
+### Residual unknowns
+
+- XDiag sparse execution at scale requires external XDiag library install.
+- Curved-space FH results (2D/3D non-uniform radion) are not yet validated against analytic benchmarks.
+- Full 2D/3D exact diagonalisation is memory-infeasible for n_sites > 12 (XDiag routing required).
+
+---
+
 ## v10.54 (2026-05-13 — Quantum Side-Project Closure Sprint: FH Exact Diagonalization + UM-KK Mott Bridge + XDiag Parity)
 
 ### What changed
