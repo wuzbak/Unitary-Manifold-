@@ -153,7 +153,9 @@ def test_bridge_status_exact_string() -> None:
 
 
 def test_kk_u_over_t_within_1pct_of_78_17() -> None:
-    assert KK_U_OVER_T == pytest.approx(78.17, rel=0.01)
+    # 74²/70 = 5476/70 ≈ 78.23; this test uses the exact formula as the
+    # source of truth to avoid decimal drift.
+    assert KK_U_OVER_T == pytest.approx(74 ** 2 / 70, rel=1e-10)
 
 
 def test_kk_u_over_t_exact_formula() -> None:
@@ -182,8 +184,9 @@ def test_kk_to_fh_parameters_returns_dict() -> None:
 
 
 def test_kk_to_fh_parameters_u_over_t_within_1pct() -> None:
+    # Exact formula: 74²/70 = 5476/70 ≈ 78.23; test against the formula, not a rounded literal.
     p = kk_to_fh_parameters()
-    assert p["U_over_t"] == pytest.approx(78.17, rel=0.01)
+    assert p["U_over_t"] == pytest.approx(74 ** 2 / 70, rel=1e-10)
 
 
 def test_kk_to_fh_parameters_t_default_1() -> None:

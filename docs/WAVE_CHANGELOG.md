@@ -26,7 +26,7 @@ For each wave entry, include:
 
 2. **`src/quantum/um_kk_fh_bridge.py`** — Formal UM↔Fermi–Hubbard bridge.  Derives the
    KK-natural Hubbard parameters from canonical constants (n_w=5, n_2=7, K_CS=74):
-   ρ = 2n₁n₂/K_CS = 70/74,  U/t = K_CS²/(2n₁n₂) = 74²/70 ≈ 78.17.  Confirms that the UM
+   ρ = 2n₁n₂/K_CS = 70/74,  U/t = K_CS²/(2n₁n₂) = 74²/70 = 5476/70 ≈ 78.23.  Confirms that the UM
    KK braid structure maps to a **strongly Mott insulating** 1D Hubbard model (U/t >> 10).
    Charge gap > 0 confirmed by ED.  Status: `ADJACENT_TRACK_MOTT_INSULATOR_CONFIRMED`.
 
