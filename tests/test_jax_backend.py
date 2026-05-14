@@ -8,8 +8,9 @@ Tests for both JAX-accelerated backends:
   - src/core/jax_evolution.py (RK4 evolution)
 """
 import numpy as np
-import jax.numpy as jnp
 import pytest
+jax = pytest.importorskip("jax")
+jnp = jax.numpy
 
 from src.core.jax_backend import (
     JAX_VERSION,

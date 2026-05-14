@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest
+        run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (fast suite — tests/)
         run: python -m pytest tests/ -v
 
@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest
+        run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (slow suite — tests/ -m slow)
         run: python -m pytest tests/ -m slow -v
 
@@ -54,7 +54,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest
+        run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (claims/)
         run: python -m pytest claims/ -v
 
@@ -71,7 +71,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest
+        run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (recycling/)
         run: python -m pytest recycling/ -v
 
@@ -88,7 +88,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest
+        run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (Unitary Pentad/)
         run: python -m pytest "5-GOVERNANCE/Unitary Pentad/" -v
 
@@ -105,7 +105,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest sympy
+        run: pip install -r requirements.txt pytest pytest-xdist sympy
       - name: Run ALGEBRA_PROOF.py (114 formal checks)
         run: python3 ALGEBRA_PROOF.py
 
@@ -123,6 +123,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install numpy scipy pytest
+        run: pip install numpy scipy pytest pytest-xdist
       - name: Run canonical ledger + onboarding consistency checks
         run: python -m pytest tests/test_canonical_ledger_consistency.py -v

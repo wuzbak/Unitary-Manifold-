@@ -227,6 +227,7 @@ class TestNumericalLineOfSight:
             assert ratio <= 1.0 + 1e-9
 
     def test_jax_transfer_consistency_passes(self):
+        pytest.importorskip("jax")
         result = jax_transfer_consistency()
         assert result["jax_available"] is True
         assert result["passed"] is True

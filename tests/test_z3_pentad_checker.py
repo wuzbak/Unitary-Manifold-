@@ -5,7 +5,7 @@
 Tests for src/core/z3_pentad_checker.py — Z3 SMT formal verification.
 """
 import pytest
-import z3
+z3 = pytest.importorskip("z3")
 
 from src.core.z3_pentad_checker import (
     check_trust_stability,

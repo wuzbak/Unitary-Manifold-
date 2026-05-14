@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import math
+import pytest
 
 from src.core.phi_radion_quantization import (
     K_CS,
@@ -55,6 +56,7 @@ def test_ground_state_expectation_is_centered():
 
 
 def test_jax_ground_state_normalization_passes():
+    pytest.importorskip("jax")
     result = jax_ground_state_normalization()
     assert result["jax_available"] is True
     assert result["passed"] is True
@@ -67,6 +69,7 @@ def test_mpmath_256bit_audit_passes():
 
 
 def test_canonical_quantization_report_closed():
+    pytest.importorskip("jax")
     report = canonical_quantization_report()
     assert report["status"] == "LOCAL_CANONICAL_CLOSURE"
     assert report["jax_ground_state"]["passed"] is True

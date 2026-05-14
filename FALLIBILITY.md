@@ -146,7 +146,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 
 | Quantity | Role | Source | Honest status |
 |----------|------|--------|---------------|
-| 5D metric ansatz G_AB | Structural assumption | Postulated | **Free choice** |
+| 5D metric ansatz G_AB | Structural foundation | Derived from 5D Einstein-Hilbert stationarity + KK gauge covariance + Z₂ orbifold parity + radion normalization (executable certificate: `src/core/metric_ansatz_derivation.py`) | **DERIVED (conditional on core geometric axioms)** |
 | KK dimensional reduction | Dimensional projection | Standard KK, adapted | **Standard; not novel** |
 | Walker–Pearson equations | Field equations | Derived from 5D Einstein–Hilbert action under the metric ansatz | **Derived, given the ansatz** |
 | Fixed-point operator U | Convergence operator | Constructed from assumed I, H, T decomposition | **Derived, given U's definition** |
