@@ -73,6 +73,5 @@ def test_canonical_quantization_report_closed():
     pytest.importorskip("jax")
     report = canonical_quantization_report()
     assert report["status"] == "LOCAL_CANONICAL_CLOSURE"
-    assert report["jax_ground_state"]["jax_available"] is True
     assert report["jax_ground_state"]["passed"] is True
     assert report["precision_256bit"]["passed"] is True

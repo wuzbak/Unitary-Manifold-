@@ -44,7 +44,8 @@ def pytest_collection_finish(session: pytest.Session) -> None:
     module_scoped_count = 0
 
     for item in pentad_items:
-        fixture_map = getattr(getattr(item, "_fixtureinfo", None), "name2fixturedefs", {}) or {}
+        fixture_info = getattr(item, "_fixtureinfo", None)
+        fixture_map = getattr(fixture_info, "name2fixturedefs", {}) if fixture_info else {}
         for fixture_name, fixture_defs in fixture_map.items():
             for fixture_def in fixture_defs:
                 if not _fixture_defined_in_pentad(fixture_def):

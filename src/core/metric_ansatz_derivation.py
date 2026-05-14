@@ -76,7 +76,7 @@ def derive_metric_ansatz_from_deeper_principle(lam: float = 1.0) -> Dict[str, ob
             "5D Einstein-Hilbert stationarity",
             "4D Lorentz recovery in the zero-field limit",
             "KK U(1) gauge covariance",
-            "Z2 orbifold parity consistency",
+            "Z₂ orbifold parity consistency",
             "radion normalization G55 = phi^2",
         ],
         "coefficients": coeffs,
