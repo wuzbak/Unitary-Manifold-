@@ -41,7 +41,7 @@ def pytest_collection_finish(session: pytest.Session) -> None:
     if not pentad_items:
         return
 
-    violations = set()
+    session_scoped_violations = set()
     audited_fixture_keys = set()
     module_scoped_count = 0
     session_scoped_count = 0
@@ -67,17 +67,15 @@ def pytest_collection_finish(session: pytest.Session) -> None:
                     module_scoped_count += 1
                 if scope == "session":
                     session_scoped_count += 1
-                    violations.add(f"{fixture_name} ({fixture_def.baseid})")
+                    session_scoped_violations.add(f"{fixture_name} ({fixture_def.baseid})")
 
-    if violations:
+    if session_scoped_violations:
         msg = (
             "Unitary Pentad fixture-scope audit failed for xdist readiness: "
             "session-scoped Pentad fixtures are blocked to keep the suite safe for future full '-n auto' execution. "
-            f"Found: {', '.join(sorted(violations))}"
+            f"Found: {', '.join(sorted(session_scoped_violations))}"
         )
         raise pytest.UsageError(msg)
-
-    assert session_scoped_count == 0, "Pentad fixture-scope invariant violated: session-scoped fixtures counted despite pass"
 
     tr = session.config.pluginmanager.get_plugin("terminalreporter")
     if tr is not None:
