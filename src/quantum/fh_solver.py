@@ -105,7 +105,8 @@ def _build_full_hamiltonian(
         model.fermionic_terms(), model.n_modes, mapping=mapping  # type: ignore[arg-type]
     )
     h_complex = pauli_terms_to_matrix(qubit_terms, n_qubits=model.n_modes)
-    # Sector slicing below is defined in occupancy basis. JW uses occupancy
+    # Sector decomposition performed later in this solver assumes occupancy basis.
+    # JW uses occupancy
     # ordering directly, while BK terms are generated in BK basis; remap BK
     # back to occupancy basis here for consistent sector decomposition.
     if mapping == "bk":

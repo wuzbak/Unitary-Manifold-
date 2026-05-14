@@ -163,6 +163,9 @@ def _perm_occ_to_bk(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
 def bk_basis_permutations(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
     """Return occupancy↔BK basis permutation indices.
 
+    This is the stable public wrapper around the internal permutation builder,
+    used by solver layers that need explicit basis reconciliation.
+
     Parameters
     ----------
     n_modes:
