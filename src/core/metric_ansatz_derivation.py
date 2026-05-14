@@ -60,6 +60,16 @@ def derive_metric_ansatz_from_deeper_principle(lam: float = 1.0) -> Dict[str, ob
     ----------
     lam : float
         KK U(1) gauge coupling constant λ in the off-diagonal block G_{μ5}=λφB_μ.
+
+    Returns
+    -------
+    Dict[str, object]
+        Dictionary with keys:
+        - ``principles``: list of governing deeper principles
+        - ``coefficients``: :class:`MetricAnsatzCoefficients`
+        - ``derived_form``: symbolic block-form strings
+        - ``consistency_checks``: per-constraint boolean checks
+        - ``all_checks_pass``: aggregate boolean closure flag
     """
     coeffs = MetricAnsatzCoefficients(
         g_munu_prefactor=1.0,

@@ -71,8 +71,8 @@ def pytest_collection_finish(session: pytest.Session) -> None:
 
     if violations:
         msg = (
-            "Unitary Pentad fixture-scope audit failed for xdist full-parallel readiness: "
-            "session-scoped Pentad fixtures are not allowed before enabling full '-n auto' execution for that suite. "
+            "Unitary Pentad fixture-scope audit failed for xdist readiness: "
+            "session-scoped Pentad fixtures are blocked to keep the suite safe for future full '-n auto' execution. "
             f"Found: {', '.join(sorted(violations))}"
         )
         raise pytest.UsageError(msg)
