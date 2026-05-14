@@ -32,7 +32,11 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from .fermi_hubbard import FermiHubbardHamiltonian, build_fermi_hubbard_1d
-from .fermion_mapping import fermion_terms_to_qubit_terms, pauli_terms_to_matrix
+from .fermion_mapping import (
+    bk_basis_permutations,
+    fermion_terms_to_qubit_terms,
+    pauli_terms_to_matrix,
+)
 
 # ---------------------------------------------------------------------------
 # Bethe Ansatz reference data  (2-site, half-filling, 1 up + 1 down)
@@ -101,6 +105,12 @@ def _build_full_hamiltonian(
         model.fermionic_terms(), model.n_modes, mapping=mapping  # type: ignore[arg-type]
     )
     h_complex = pauli_terms_to_matrix(qubit_terms, n_qubits=model.n_modes)
+    # Sector slicing below is defined in occupation basis. JW uses occupation
+    # ordering directly, while BK terms are generated in BK basis; remap BK
+    # back to occupation basis here for consistent sector decomposition.
+    if mapping == "bk":
+        _, bk_to_occ = bk_basis_permutations(model.n_modes)
+        h_complex = h_complex[np.ix_(bk_to_occ, bk_to_occ)]
     return h_complex.real  # FH Hamiltonian is always real-symmetric
 
 

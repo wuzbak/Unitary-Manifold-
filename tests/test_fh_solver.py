@@ -127,6 +127,16 @@ def test_exact_diagonalize_3site() -> None:
     assert r.n_sites == 3
 
 
+def test_exact_diagonalize_jw_bk_parity_2site_u4() -> None:
+    """JW and BK mappings must yield identical sector-resolved ED physics."""
+    model = build_fermi_hubbard_1d(2, 1.0, 4.0)
+    r_jw = exact_diagonalize(model, mapping="jw")
+    r_bk = exact_diagonalize(model, mapping="bk")
+    assert r_bk.ground_energy == pytest.approx(r_jw.ground_energy, abs=1e-10)
+    assert r_bk.charge_gap == pytest.approx(r_jw.charge_gap, abs=1e-10)
+    assert r_bk.spectral_gap == pytest.approx(r_jw.spectral_gap, abs=1e-10)
+
+
 # ---------------------------------------------------------------------------
 # BETHE_ANSATZ_2SITE dict
 # ---------------------------------------------------------------------------
