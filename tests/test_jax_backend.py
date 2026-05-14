@@ -10,7 +10,7 @@ Tests for both JAX-accelerated backends:
 import numpy as np
 import pytest
 jax = pytest.importorskip("jax")
-jnp = pytest.importorskip("jax.numpy")
+jnp = jax.numpy
 
 from src.core.jax_backend import (
     JAX_VERSION,

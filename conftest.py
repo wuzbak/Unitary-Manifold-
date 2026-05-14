@@ -30,6 +30,8 @@ def _fixture_defined_in_pentad(fixture_def: Any) -> bool:
 def pytest_collection_finish(session: pytest.Session) -> None:
     """Audit fixture scopes for Pentad xdist readiness.
 
+    Runs once after collection is complete and before test execution starts.
+
     Policy:
     - Pentad-local session-scoped fixtures are blocked because they can hide
       unintended shared mutable state when moving to full ``-n auto`` runs.

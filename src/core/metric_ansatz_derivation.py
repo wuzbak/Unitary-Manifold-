@@ -55,6 +55,11 @@ def derive_metric_ansatz_from_deeper_principle(lam: float = 1.0) -> Dict[str, ob
         g_munu_prefactor = 1
     - Radion metric normalization:
         g55_prefactor = 1
+
+    Parameters
+    ----------
+    lam : float
+        KK U(1) gauge coupling constant λ in the off-diagonal block G_{μ5}=λφB_μ.
     """
     coeffs = MetricAnsatzCoefficients(
         g_munu_prefactor=1.0,
@@ -90,8 +95,22 @@ def derive_metric_ansatz_from_deeper_principle(lam: float = 1.0) -> Dict[str, ob
     }
 
 
-def assemble_derived_5d_metric(g, B, phi, lam: float = 1.0):
-    """Assemble the 5D metric using only derived coefficients."""
+def assemble_derived_5d_metric(
+    g: np.ndarray, B: np.ndarray, phi: np.ndarray, lam: float = 1.0
+) -> np.ndarray:
+    """Assemble the 5D metric using only derived coefficients.
+
+    Parameters
+    ----------
+    g : np.ndarray
+        4D metric block, shape (N, 4, 4).
+    B : np.ndarray
+        Gauge field, shape (N, 4).
+    phi : np.ndarray
+        Radion/scalar field, shape (N,).
+    lam : float
+        KK U(1) gauge coupling constant λ.
+    """
     derivation = derive_metric_ansatz_from_deeper_principle(lam=lam)
     coeffs: MetricAnsatzCoefficients = derivation["coefficients"]
 
