@@ -166,6 +166,8 @@ def bk_basis_permutations(n_modes: int) -> tuple[np.ndarray, np.ndarray]:
     This is the stable public wrapper around the internal permutation builder,
     intended for solver layers that perform sector decomposition and therefore
     need explicit occupancy↔BK basis reconciliation.
+    Here, occupancy basis means computational/Fock ordering by occupation bits,
+    while BK basis means Bravyi–Kitaev transformed computational ordering.
 
     Parameters
     ----------

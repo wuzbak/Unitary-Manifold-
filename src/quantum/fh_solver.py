@@ -110,8 +110,8 @@ def _build_full_hamiltonian(
     # basis; remap BK back to occupancy basis here for consistent sector
     # decomposition.
     if mapping == "bk":
-        occ_index_to_bk_index, _ = bk_basis_permutations(model.n_modes)
-        h_complex = h_complex[np.ix_(occ_index_to_bk_index, occ_index_to_bk_index)]
+        occ_to_bk, _ = bk_basis_permutations(model.n_modes)
+        h_complex = h_complex[np.ix_(occ_to_bk, occ_to_bk)]
     return h_complex.real  # FH Hamiltonian is always real-symmetric
 
 
