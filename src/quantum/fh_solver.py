@@ -22,7 +22,7 @@ which is exact for any n_sites (memory bounded by 2^(2·n_sites)).
 UM-KK natural regime
 --------------------
 ρ = 2·n₁·n₂ / K_CS = 2·5·7 / 74 = 70/74.
-U/t = K_CS² / (2·n₁·n₂) = 74² / 70 ≈ 78.17.
+U/t = K_CS² / (2·n₁·n₂) = 74² / 70 = 5476/70 ≈ 78.23 (exact: 78.2285…).
 This places the KK-mapped system deep in the Mott insulating phase.
 """
 from __future__ import annotations
@@ -398,7 +398,7 @@ def um_kk_natural_parameters() -> dict:
     The (5, 7, 74) braid structure of the Unitary Manifold induces:
 
         ρ = 2·n₁·n₂ / K_CS = 2·5·7 / 74 = 70/74
-        U/t = K_CS² / (2·n₁·n₂) = 74² / 70 ≈ 78.17
+        U/t = K_CS² / (2·n₁·n₂) = 74² / 70 = 5476/70 ≈ 78.23 (exact: 78.2285…)
 
     This places the UM system deep in the Mott insulating phase (U/t ≫ 1).
     This is an ADJACENT TRACK connection, not a hardgate physics claim.
@@ -408,7 +408,7 @@ def um_kk_natural_parameters() -> dict:
     dict with keys: t, U, U_over_t, rho, K_CS, n1, n2, phase, notes.
     """
     rho = (2 * _N1 * _N2) / _K_CS  # 70/74
-    U_over_t = (_K_CS ** 2) / (2 * _N1 * _N2)  # 74²/70 ≈ 78.17
+    U_over_t = (_K_CS ** 2) / (2 * _N1 * _N2)  # 74²/70 = 5476/70 ≈ 78.23
     return {
         "t": 1.0,
         "U": U_over_t,  # normalised so that t = 1

@@ -443,7 +443,7 @@ def test_kk_params_returns_dict() -> None:
 
 def test_kk_params_u_over_t_within_1pct() -> None:
     params = um_kk_natural_parameters()
-    assert params["U_over_t"] == pytest.approx(78.17, rel=0.01)
+    assert params["U_over_t"] == pytest.approx(74 ** 2 / 70, rel=1e-10)
 
 
 def test_kk_params_n1_n2_kcs() -> None:
@@ -516,3 +516,64 @@ def test_staggered_magnetization_sign_consistent() -> None:
     r = exact_diagonalize(model)
     assert math.isfinite(r.staggered_magnetization)
     assert -1.0 <= r.staggered_magnetization <= 1.0
+
+
+# ---------------------------------------------------------------------------
+# Section G — Stronger BK parity regression (multiple U values, 2- and 3-site)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("u_over_t", [0, 2, 4, 8, 16])
+def test_jw_bk_parity_2site_multiple_u(u_over_t: float) -> None:
+    """JW and BK must agree on ground energy for 2-site models across the BA table."""
+    model = build_fermi_hubbard_1d(2, 1.0, float(u_over_t))
+    r_jw = exact_diagonalize(model, mapping="jw")
+    r_bk = exact_diagonalize(model, mapping="bk")
+    assert r_bk.ground_energy == pytest.approx(r_jw.ground_energy, abs=1e-10), (
+        f"JW/BK ground energy mismatch at U/t={u_over_t}: "
+        f"JW={r_jw.ground_energy}, BK={r_bk.ground_energy}"
+    )
+    assert r_bk.charge_gap == pytest.approx(r_jw.charge_gap, abs=1e-10), (
+        f"JW/BK charge gap mismatch at U/t={u_over_t}"
+    )
+    assert r_bk.spectral_gap == pytest.approx(r_jw.spectral_gap, abs=1e-10), (
+        f"JW/BK spectral gap mismatch at U/t={u_over_t}"
+    )
+
+
+@pytest.mark.parametrize("u_over_t", [0, 4, 8])
+def test_jw_bk_parity_3site_multiple_u(u_over_t: float) -> None:
+    """JW and BK must agree for 3-site models (n_modes=6, within BK exact limit).
+
+    This is the critical regression that would have caught the original
+    BK sector-index bug (where BK returned E₀=0 instead of the correct energy).
+    """
+    model = build_fermi_hubbard_1d(3, 1.0, float(u_over_t))
+    r_jw = exact_diagonalize(model, mapping="jw")
+    r_bk = exact_diagonalize(model, mapping="bk")
+    assert r_bk.ground_energy == pytest.approx(r_jw.ground_energy, abs=1e-9), (
+        f"3-site JW/BK ground energy mismatch at U/t={u_over_t}: "
+        f"JW={r_jw.ground_energy:.8f}, BK={r_bk.ground_energy:.8f}"
+    )
+    assert r_bk.charge_gap == pytest.approx(r_jw.charge_gap, abs=1e-9), (
+        f"3-site JW/BK charge gap mismatch at U/t={u_over_t}"
+    )
+
+
+def test_jw_bk_parity_staggered_magnetization_2site() -> None:
+    """BK and JW must agree on staggered magnetization for 2-site U=4 model."""
+    model = build_fermi_hubbard_1d(2, 1.0, 4.0)
+    r_jw = exact_diagonalize(model, mapping="jw")
+    r_bk = exact_diagonalize(model, mapping="bk")
+    assert r_bk.staggered_magnetization == pytest.approx(
+        r_jw.staggered_magnetization, abs=1e-10
+    )
+
+
+def test_jw_bk_parity_spin_gap_2site_u8() -> None:
+    """BK and JW must agree on spin gap for 2-site U=8 model."""
+    model = build_fermi_hubbard_1d(2, 1.0, 8.0)
+    r_jw = exact_diagonalize(model, mapping="jw")
+    r_bk = exact_diagonalize(model, mapping="bk")
+    if r_jw.spin_gap >= 0.0 and r_bk.spin_gap >= 0.0:
+        assert r_bk.spin_gap == pytest.approx(r_jw.spin_gap, abs=1e-10)
