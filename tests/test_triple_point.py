@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import pytest
 import numpy as np
-pytest.importorskip("jax")
-pytest.importorskip("z3")
+jax = pytest.importorskip("jax")
+z3 = pytest.importorskip("z3")
 from src.core.triple_point import (
     lean_certificate,
     jax_evaluate,

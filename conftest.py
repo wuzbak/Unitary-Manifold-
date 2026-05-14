@@ -77,6 +77,8 @@ def pytest_collection_finish(session: pytest.Session) -> None:
         )
         raise pytest.UsageError(msg)
 
+    assert session_scoped_count == 0, "Pentad fixture-scope invariant violated: session-scoped fixtures counted despite pass"
+
     tr = session.config.pluginmanager.get_plugin("terminalreporter")
     if tr is not None:
         tr.write_line(
