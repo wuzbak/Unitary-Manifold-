@@ -7,7 +7,7 @@ All tests run in offline mode (no WANDB_API_KEY required).
 """
 import os
 import pytest
-import wandb
+wandb = pytest.importorskip("wandb")
 
 from src.core.wandb_logger import (
     init_run,

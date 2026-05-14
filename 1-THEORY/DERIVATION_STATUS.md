@@ -52,7 +52,7 @@ first-order consequences that would require reformulation if the axiom failed.
 | Postulate | Where stated | If this axiom fails … |
 |-----------|-------------|----------------------|
 | **P1.** Smooth 5D KK manifold with compact S¹/Z₂ extra dimension | `src/core/metric.py` | *Existential*: all KK reductions (n_w, k_CS, c_s, nₛ, r, β) collapse. The entire predictive chain is void. |
-| **P2.** Specific block-diagonal metric: G₅₅ = φ², off-diagonal = λφB_μ | `src/core/metric.py` | *Structural*: Walker-Pearson field equations change. α_NM = φ₀⁻² may not hold. β and r formulas require re-derivation. Parts I, IV, V affected. |
+| **P2.** 5D KK metric block form constrained by Einstein-Hilbert stationarity + KK gauge covariance + Z₂ parity + radion normalization | `src/core/metric.py`, `src/core/metric_ansatz_derivation.py` | *Structural*: if these constraints fail, Walker-Pearson field equations change. α_NM = φ₀⁻² may not hold. β and r formulas require re-derivation. Parts I, IV, V affected. |
 | **P3.** Identification of the fifth dimension with physical irreversibility | `src/core/evolution.py` (implementation); `1-THEORY/UNIFICATION_PROOF.md` (theory) | *Interpretive*: the "arrow of time as geometric identity" claim (Part I) loses its physical motivation. The math is unchanged; the physical story is not. |
 | **P4.** Identification of φ with entanglement capacity | `src/core/evolution.py` (implementation); `README.md` (framing) | *Interpretive*: the consciousness-coupling analogy and Parts of §IV.7 lose motivation. Core CMB predictions (nₛ, r, β) are unaffected. |
 | **P5.** FTUM operator structure U = I + H + T | `src/multiverse/fixed_point.py` | *Structural*: φ₀ = 1 Planck unit is no longer guaranteed. The FTUM → nₛ chain (Pillar 56-B) breaks. All CMB predictions that depend on φ₀ are affected. |
@@ -77,7 +77,7 @@ first-order consequences that would require reformulation if the axiom failed.
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **POSTULATED** (P1+P2) | Design choice — standard KK extended by orbifold | Any 4D observation requiring >5D spacetime | `src/core/metric.py` |
+| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **DERIVED (conditional)** | Einstein-Hilbert stationarity + KK gauge covariance + Z₂ orbifold parity + radion normalization fix the lowest-order local block form; executable certificate in `metric_ansatz_derivation.py` | Any 4D observation requiring >5D spacetime | `src/core/metric.py`, `src/core/metric_ansatz_derivation.py` |
 | Walker-Pearson field equations from δS₅/δG_AB=0 | **DERIVED (conditional)** | 5D Einstein-Hilbert variational principle, given P1+P2 | Equations not satisfied → framework inconsistent | `src/core/evolution.py` |
 | Arrow of time as geometric identity | **DERIVED (conditional)** | B_μ field strength H_μν drives irreversibility; not postulated; depends on P3 interpretation | Observation of macroscopic time-reversal | `src/core/evolution.py` |
 | φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED (conditional)** (Steps 1–3) + CONVENTION (Step 4) | FTUM S*=0.25 → R=√(S*G₅/π) → φ₀_bare=R/ℓ_Pl (Steps 1–3 derived given P5); φ₀_bare=1 is the Planck-unit normalization convention (Step 4) | Non-convergence of FTUM | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
