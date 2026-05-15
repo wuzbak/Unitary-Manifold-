@@ -23,12 +23,12 @@ from typing import Any
 
 try:
     import mpmath
-except Exception:  # pragma: no cover - optional dependency
+except ImportError:  # pragma: no cover - optional dependency
     mpmath = None
 
 try:
     import sympy
-except Exception:  # pragma: no cover - optional dependency
+except ImportError:  # pragma: no cover - optional dependency
     sympy = None
 
 N_W: int = 5
