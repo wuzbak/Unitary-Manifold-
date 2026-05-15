@@ -5,16 +5,17 @@
 
 ---
 
-## 1 · Current Submission Readiness (v10.51)
+## 1 · Current Submission Readiness (v10.58)
 
 | Item | Status |
 |------|--------|
-| Theory manuscript | `6-MONOGRAPH/arxiv/main.tex` updated through v10.51 |
-| References | `6-MONOGRAPH/arxiv/references.bib` updated through v10.51 |
+| Theory manuscript | `6-MONOGRAPH/arxiv/main.tex` updated through v10.58 |
+| References | `6-MONOGRAPH/arxiv/references.bib` current through v10.58 |
 | ToE score | **27.8/28.0 = 99.3%** (canonical: `docs/TOE_SCORE_AUDIT.md`) |
 | Primary falsifier | LiteBIRD birefringence β ∈ {0.273°, 0.331°}; falsified in gap [0.29°, 0.31°] or outside [0.22°, 0.38°] |
 | Canonical claim layer | `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md` |
 | Regression gate | `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q` |
+| Submission verdict | **READY** — see `docs/ARXIV_SUBMISSION_STATUS.md` |
 
 ## 2 · Pre-Submission Checklist
 
@@ -55,4 +56,4 @@
 
 ---
 
-*Document version: 2.0 — 2026-05-11 (v10.51 sync)*
+*Document version: 3.0 — 2026-05-15 (v10.58 sync; READY verdict issued)*
