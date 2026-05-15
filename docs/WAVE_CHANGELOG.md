@@ -564,8 +564,8 @@ None. Existing falsifiers unchanged. β ∈ {0.273°, 0.331°} remains the prima
   (spectral index bound, radion φ₀ consistency, braid SE minimality).
 - `src/core/formal_proof_hardening.py`: Python bridge exporting Lean4 theorem
   artifacts into the regression pipeline.
-- Tests: `tests/test_formal_proof_hardening.py` (skipped in CI when Lean4 not
-  installed; always passes in pure-Python fallback mode).
+- Tests: `tests/test_formal_proof_hardening.py` (pure-Python verification suite
+  independent of Lean4 runtime availability).
 
 #### 3 · JAX Accelerated Backend
 
