@@ -492,3 +492,12 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-161-s01e014-pillar232-universal-cancer-control-framework.md` | Post 161 · S01E014 | "One Cure Is Unlikely. A Universal Method Is Plausible: Pillar 232" |
 | `post-162-s01e015-quantum-safe-crypto-transition.md` | Post 162 · S01E015 | "From Vulnerability to Viability: Quantum-Safe Migration as an Engineering Transition" |
 | `post-163-s01e016-pillar235-solar-physics-open-questions.md` | Post 163 · S01E016 | "The Sun's 12 Biggest Open Questions: A Rigorous, Falsifiable Pillar 235" |
+| `post-164-s01e017-pillar236-critique-hardening-ledger.md` | Post 164 · S01E017 | "Pillar 236: Critique-Hardening Ledger" |
+| `post-165-s01e018-pillar237-civilizational-resilience-os.md` | Post 165 · S01E018 | "Pillar 237: Civilizational Resilience OS" |
+| `post-166-s01e019-pillar238-global-disease-forecast-response-fabric.md` | Post 166 · S01E019 | "Pillar 238: Global Disease Forecast & Response Fabric" |
+| `post-167-s01e020-pillar239-autonomous-infrastructure-stability-engine.md` | Post 167 · S01E020 | "Pillar 239: Autonomous Infrastructure Stability Engine" |
+| `post-168-s01e021-pillar240-precision-agriculture-food-security-command.md` | Post 168 · S01E021 | "Pillar 240: Precision Agriculture & Food Security Command" |
+| `post-169-s01e022-pillar241-planetary-early-warning-response-grid.md` | Post 169 · S01E022 | "Pillar 241: Planetary Early-Warning & Response Grid" |
+| `post-170-s01e023-pillar242-planetary-coherence-cascade-resilience-engine.md` | Post 170 · S01E023 | "Pillar 242: Planetary Coherence Cascade Resilience Engine" |
+| `post-171-s01e024-pillar243-unified-scientific-interoperability-validation-fabric.md` | Post 171 · S01E024 | "Pillar 243: Interoperability Without Pretending Everything Is the Same" |
+| `post-172-s01e025-pillar243-usivf-live-validation-run.md` | Post 172 · S01E025 | "We Ran the Numbers: A Live Validation Report Using Pillar 243 (USIVF)" |

@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
 *Unitary Manifold v10.58 — Effective 2026-05-15*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.58 wave: USIVF sprint — Pillar 243 Unified Scientific Interoperability & Validation Fabric; 52 new tests; theory doc + calculator docs; Substack post 171).*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.58 wave: USIVF sprint — Pillar 243; 52 new tests; Substack post 171). Live validation run committed — see `docs/PILLAR243_VALIDATION_RUN.md` and Substack post 172.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
