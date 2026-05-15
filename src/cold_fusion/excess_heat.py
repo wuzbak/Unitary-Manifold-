@@ -658,3 +658,158 @@ def calculate_energy_branching_ratio(
         "suppression_pct": suppression_pct,
         "is_safe": gamma_fraction < 0.01,
     }
+
+
+def fusion_rate_from_tunneling(
+    tunneling_probability: float,
+    v_rel: float,
+    R_site: float,
+) -> float:
+    """CONJECTURAL (Pillar 15): map microscopic tunneling to per-site event rate.
+
+    Computes the transparent bridge relation
+
+        R_site_event = T * v_rel / R_site
+
+    where T is the already-computed tunneling probability from the microscopic
+    model in ``src.cold_fusion.tunneling``. This utility is intended to chain
+    with ``excess_heat_power_from_rate`` and ``micro_to_macro_pipeline``.
+
+    Returns
+    -------
+    float
+        Per-site fusion event rate.
+    """
+    if tunneling_probability < 0.0 or tunneling_probability > 1.0:
+        raise ValueError(
+            f"tunneling_probability must be in [0, 1], got {tunneling_probability!r}"
+        )
+    if v_rel <= 0.0:
+        raise ValueError(f"v_rel must be > 0, got {v_rel!r}")
+    if R_site <= 0.0:
+        raise ValueError(f"R_site must be > 0, got {R_site!r}")
+    return float(tunneling_probability * v_rel / R_site)
+
+
+def excess_heat_power_from_rate(
+    N_active_sites: float,
+    fusion_rate: float,
+    Q_value: float,
+) -> float:
+    """CONJECTURAL (Pillar 15): map per-site rate to macroscopic thermal power.
+
+    Uses the bridge relation
+
+        P_excess = N_active_sites * fusion_rate * Q_value
+    """
+    if N_active_sites < 0.0:
+        raise ValueError(f"N_active_sites must be >= 0, got {N_active_sites!r}")
+    if fusion_rate < 0.0:
+        raise ValueError(f"fusion_rate must be >= 0, got {fusion_rate!r}")
+    if Q_value < 0.0:
+        raise ValueError(f"Q_value must be >= 0, got {Q_value!r}")
+    return float(N_active_sites * fusion_rate * Q_value)
+
+
+def micro_to_macro_pipeline(
+    Z1: float,
+    Z2: float,
+    v_rel: float,
+    phi_local: float,
+    R_site: float,
+    N_active_sites: float,
+    Q_value: float | None = None,
+    alpha_fs: float = 1.0 / 137.0,
+) -> dict:
+    """CONJECTURAL (Pillar 15): fully functional micro→macro bridge.
+
+    This pipeline explicitly links microscopic tunneling to macroscopic heat via:
+    (1) tunneling probability, (2) per-site event rate, (3) total excess power.
+
+    All quantities are reported as transparent diagnostics and the function
+    remains non-device-specific (no hidden calibration or private parameters).
+    """
+    if Q_value is None:
+        Q_value = dd_fusion_q_value()
+
+    # local import avoids widening module dependency surface
+    from src.cold_fusion.tunneling import tunneling_probability
+
+    t_prob = tunneling_probability(
+        Z1=Z1,
+        Z2=Z2,
+        v_rel=v_rel,
+        phi_local=phi_local,
+        alpha_fs=alpha_fs,
+    )
+    r_site = fusion_rate_from_tunneling(
+        tunneling_probability=t_prob,
+        v_rel=v_rel,
+        R_site=R_site,
+    )
+    p_uncorrected = excess_heat_power_from_rate(
+        N_active_sites=N_active_sites,
+        fusion_rate=r_site,
+        Q_value=Q_value,
+    )
+
+    # conservative coherence overlay: only enhances active-site count above threshold
+    phi_threshold = 0.5
+    if phi_local > phi_threshold:
+        effective_sites = float(
+            phi_coherent_enhancement(
+                N_sites=N_active_sites,
+                phi_local=phi_local,
+                phi_threshold=phi_threshold,
+            )
+        )
+    else:
+        effective_sites = float(N_active_sites)
+
+    p_corrected = excess_heat_power_from_rate(
+        N_active_sites=effective_sites,
+        fusion_rate=r_site,
+        Q_value=Q_value,
+    )
+
+    return {
+        "epistemic_status": "CONJECTURAL (Pillar 15): micro→macro bridge is active model work, not hardgate closure.",
+        "tunneling_probability": float(t_prob),
+        "fusion_rate_per_site": float(r_site),
+        "excess_power_uncorrected": float(p_uncorrected),
+        "effective_N_sites": float(effective_sites),
+        "excess_power_corrected": float(p_corrected),
+        "is_coherent": bool(phi_local > phi_threshold),
+        "phi_threshold": float(phi_threshold),
+        "phi_local": float(phi_local),
+        "Q_value": float(Q_value),
+    }
+
+
+def normalize_excess_power(
+    excess_power: float,
+    baseline_input_power: float = 1.0,
+) -> dict:
+    """CONJECTURAL helper: normalize excess output into COP-like diagnostics.
+
+    ``sigma_significance`` here is a heuristic ranking proxy (not a formal
+    statistical significance from measured variance).
+    """
+    if baseline_input_power <= 0.0:
+        raise ValueError(
+            f"baseline_input_power must be > 0, got {baseline_input_power!r}"
+        )
+    p_out = baseline_input_power + excess_power
+    cop_val = float(p_out / baseline_input_power)
+    ratio = float(excess_power / baseline_input_power)
+
+    # sigma proxy for quick comparisons; caller can replace with measured variance
+    # Heuristic scale-only proxy for ranking signal strength between runs.
+    sigma = float(abs(excess_power) / np.sqrt(baseline_input_power + _NUMERICAL_EPSILON))
+
+    return {
+        "cop": cop_val,
+        "is_excess": bool(excess_power > 0.0),
+        "excess_ratio": ratio,
+        "sigma_significance": sigma,
+    }

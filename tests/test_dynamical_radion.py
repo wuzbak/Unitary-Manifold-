@@ -435,6 +435,7 @@ class TestFtumRadionStabilityScan:
             "n_iter", "phi_star", "r_c_star", "beta_at_fp", "fp_is_safe",
             "step_is_safe", "dt_rc_used", "jacobian_eig",
             "saturation_ok", "phi_star_target", "r_c_star_target",
+            "audit_log", "n_guardrail_events", "guardrails_active", "bounds_applied",
         ]:
             assert key in result, f"Missing key: {key}"
 
@@ -595,3 +596,31 @@ class TestFtumRadionStabilityScan:
             phi_star_target=12.0, max_iter=1000, tol=1e-8,
         )
         assert not result["saturation_ok"]
+
+    def test_audit_log_enabled_by_default(self):
+        result = self._run()
+        assert result["guardrails_active"] is True
+        assert isinstance(result["audit_log"], list)
+        assert isinstance(result["bounds_applied"], dict)
+        assert {"phi_min", "phi_max", "r_c_min"} <= set(result["bounds_applied"])
+
+    def test_audit_log_disabled(self):
+        result = self._run(enable_audit_log=False)
+        assert result["guardrails_active"] is False
+        assert result["audit_log"] == []
+        assert result["n_guardrail_events"] == 0
+
+    def test_unsafe_step_is_logged(self):
+        result = self._run(dt_rc=0.05)
+        assert not result["step_is_safe"]
+        assert any(e["type"] == "step_size_unsafe" for e in result["audit_log"])
+
+    def test_phi_bound_enforced_and_logged(self):
+        result = self._run(phi_star_target=20.0, phi_max_allowed=10.0)
+        assert max(result["phi_history"]) <= 10.0 + 1e-12
+        assert any("phi_upper_bound_violated" == e["type"] for e in result["audit_log"])
+
+    def test_rc_bound_enforced_and_logged(self):
+        result = self._run(r_c_init=0.5, r_c_min_allowed=1.0)
+        assert min(result["r_c_history"][1:]) >= 1.0 - 1e-12
+        assert any("r_c_lower_bound_violated" == e["type"] for e in result["audit_log"])

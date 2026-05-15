@@ -48,7 +48,9 @@ from src.cold_fusion.excess_heat import (
     dd_fusion_q_value,
     dd_proton_branch_q_value,
     fusion_rate_per_site,
+    fusion_rate_from_tunneling,
     excess_heat_power,
+    excess_heat_power_from_rate,
     cop,
     is_excess_heat,
     phi_coherent_enhancement,
@@ -58,6 +60,8 @@ from src.cold_fusion.excess_heat import (
     heat_to_electrical_efficiency,
     anomalous_heat_signature,
     calculate_energy_branching_ratio,
+    micro_to_macro_pipeline,
+    normalize_excess_power,
 )
 
 # Shared skip reason for all dual-use stubs
@@ -1302,3 +1306,99 @@ class TestCalculateEnergyBranchingRatio:
         result = calculate_energy_branching_ratio(10.0, 15.0)
         assert result["is_safe"] is True
         assert result["suppression_pct"] > 99.0
+
+
+class TestFusionRateFromTunnelingBridge:
+    def test_formula_matches_bridge_relation(self):
+        r = fusion_rate_from_tunneling(0.2, v_rel=0.01, R_site=2.0)
+        # rate = T * v_rel / R_site = 0.2 * 0.01 / 2 = 0.001
+        assert r == pytest.approx(0.001, rel=1e-12)
+
+    def test_zero_probability_gives_zero_rate(self):
+        assert fusion_rate_from_tunneling(0.0, v_rel=0.01, R_site=2.0) == 0.0
+
+    def test_invalid_probability_raises(self):
+        with pytest.raises(ValueError):
+            fusion_rate_from_tunneling(1.1, v_rel=0.01, R_site=2.0)
+
+    def test_invalid_velocity_raises(self):
+        with pytest.raises(ValueError):
+            fusion_rate_from_tunneling(0.1, v_rel=0.0, R_site=2.0)
+
+    def test_invalid_site_scale_raises(self):
+        with pytest.raises(ValueError):
+            fusion_rate_from_tunneling(0.1, v_rel=0.01, R_site=0.0)
+
+
+class TestExcessHeatPowerFromRateBridge:
+    def test_formula_matches_bridge_relation(self):
+        p = excess_heat_power_from_rate(100.0, fusion_rate=0.5, Q_value=2.0)
+        # P = N * rate * Q = 100 * 0.5 * 2 = 100
+        assert p == pytest.approx(100.0, rel=1e-12)
+
+    def test_zero_sites_gives_zero_power(self):
+        assert excess_heat_power_from_rate(0.0, fusion_rate=1.0, Q_value=1.0) == 0.0
+
+    def test_zero_rate_gives_zero_power(self):
+        assert excess_heat_power_from_rate(100.0, fusion_rate=0.0, Q_value=1.0) == 0.0
+
+    def test_invalid_sites_raises(self):
+        with pytest.raises(ValueError):
+            excess_heat_power_from_rate(-1.0, fusion_rate=1.0, Q_value=1.0)
+
+    def test_invalid_rate_raises(self):
+        with pytest.raises(ValueError):
+            excess_heat_power_from_rate(1.0, fusion_rate=-1.0, Q_value=1.0)
+
+
+class TestMicroToMacroPipelineBridge:
+    def test_returns_expected_keys(self):
+        out = micro_to_macro_pipeline(1, 1, 0.001, 2.0, 2.0, 1e20)
+        for key in (
+            "epistemic_status",
+            "tunneling_probability",
+            "fusion_rate_per_site",
+            "excess_power_uncorrected",
+            "effective_N_sites",
+            "excess_power_corrected",
+            "is_coherent",
+            "phi_threshold",
+            "phi_local",
+            "Q_value",
+        ):
+            assert key in out
+
+    def test_status_is_explicitly_conjectural(self):
+        out = micro_to_macro_pipeline(1, 1, 0.001, 2.0, 2.0, 1e20)
+        assert "CONJECTURAL" in out["epistemic_status"]
+
+    def test_pipeline_matches_manual_composition(self):
+        t = tunneling_probability(1, 1, 0.001, 1.0)
+        r = fusion_rate_from_tunneling(t, v_rel=0.001, R_site=2.0)
+        p = excess_heat_power_from_rate(1e20, r, dd_fusion_q_value())
+        out = micro_to_macro_pipeline(1, 1, 0.001, 1.0, 2.0, 1e20)
+        assert out["tunneling_probability"] == pytest.approx(t, rel=1e-12)
+        assert out["fusion_rate_per_site"] == pytest.approx(r, rel=1e-12)
+        assert out["excess_power_uncorrected"] == pytest.approx(p, rel=1e-12)
+
+    def test_pipeline_uses_q_value_override(self):
+        out1 = micro_to_macro_pipeline(1, 1, 0.001, 1.0, 2.0, 1e20, Q_value=dd_fusion_q_value())
+        out2 = micro_to_macro_pipeline(1, 1, 0.001, 1.0, 2.0, 1e20, Q_value=dd_proton_branch_q_value())
+        assert out2["excess_power_uncorrected"] > out1["excess_power_uncorrected"]
+
+
+class TestNormalizeExcessPowerBridge:
+    def test_cop_and_ratio_formulas(self):
+        out = normalize_excess_power(50.0, baseline_input_power=100.0)
+        assert out["cop"] == pytest.approx(1.5, rel=1e-12)
+        assert out["excess_ratio"] == pytest.approx(0.5, rel=1e-12)
+
+    def test_positive_excess_flag(self):
+        assert normalize_excess_power(1.0, 100.0)["is_excess"] is True
+
+    def test_zero_excess_flag(self):
+        assert normalize_excess_power(0.0, 100.0)["is_excess"] is False
+
+    def test_invalid_baseline_raises(self):
+        with pytest.raises(ValueError):
+            normalize_excess_power(1.0, baseline_input_power=0.0)

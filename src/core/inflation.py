@@ -2814,6 +2814,10 @@ def ftum_radion_stability_scan(
     phi_min_bare: float = 18.0,
     beta_safe_lo: float = 0.22,
     beta_safe_hi: float = 0.38,
+    enable_audit_log: bool = True,
+    phi_min_allowed: float | None = None,
+    phi_max_allowed: float | None = None,
+    r_c_min_allowed: float | None = None,
 ) -> dict:
     """Jointly iterate FTUM (φ) and Goldberger–Wise gradient descent (r_c) to
     the coupled (φ*, r_c*) fixed point.
@@ -2903,6 +2907,7 @@ def ftum_radion_stability_scan(
         raise ValueError(f"safety_factor={safety_factor!r} must be in (0, 1).")
 
     _EPS = 1e-30
+    audit_log: list[dict] = []
 
     # Auto-compute safe dt_rc from the maximum φ the system will visit
     phi_max   = max(abs(phi0_init), abs(phi_star_target)) * 1.01
@@ -2913,6 +2918,15 @@ def ftum_radion_stability_scan(
         dt_rc_used = float(dt_rc)
 
     step_is_safe = bool(dt_rc_used <= dt_rc_safe / safety_factor)
+    if enable_audit_log and not step_is_safe:
+        audit_log.append(
+            {
+                "iteration": 0,
+                "type": "step_size_unsafe",
+                "dt_rc_used": float(dt_rc_used),
+                "dt_rc_bound": float(dt_rc_safe / safety_factor),
+            }
+        )
 
     # Initialise
     phi = float(phi0_init)
@@ -2925,22 +2939,118 @@ def ftum_radion_stability_scan(
     converged = False
     n_iter    = 0
 
+    # Conservative numeric safety guard to prevent floating-point overflow in
+    # intentionally unstable sweeps; purely computational, not a physics bound.
+    hard_limit = 1e12
+
     for n in range(max_iter):
         phi_prev = phi
         r_c_prev = r_c
 
-        # φ update: exponential decay toward FTUM attractor
-        phi = phi_prev + kappa_phi * (phi_star_target - phi_prev)
+        # φ update: same FTUM contraction update, with explicit next-state variable
+        phi_next = phi_prev + kappa_phi * (phi_star_target - phi_prev)
 
-        # r_c update: gradient descent on V(φ, r_c) + optional Hubble friction
+        # r_c update: same gradient-flow update, with explicit next-state variable
         grad_rc  = 2.0 * lam_gw * phi_prev**2 * (r_c_prev - r_c_star_target)
         fric_rc  = hubble_fric * (r_c_prev - r_c_star_target) / (phi_prev**2 + _EPS)
-        r_c = r_c_prev - dt_rc_used * grad_rc - fric_rc
+        r_c_next = r_c_prev - dt_rc_used * grad_rc - fric_rc
+
+        # Optional explicit numerical guardrails with audit trail.
+        phi = float(phi_next)
+        r_c = float(r_c_next)
+        if phi_min_allowed is not None and phi < phi_min_allowed:
+            if enable_audit_log:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "phi_lower_bound_violated",
+                        "value": float(phi),
+                        "bound": float(phi_min_allowed),
+                    }
+                )
+            phi = float(phi_min_allowed)
+        if phi_max_allowed is not None and phi > phi_max_allowed:
+            if enable_audit_log:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "phi_upper_bound_violated",
+                        "value": float(phi),
+                        "bound": float(phi_max_allowed),
+                    }
+                )
+            phi = float(phi_max_allowed)
+        if r_c_min_allowed is not None and r_c < r_c_min_allowed:
+            if enable_audit_log:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "r_c_lower_bound_violated",
+                        "value": float(r_c),
+                        "bound": float(r_c_min_allowed),
+                    }
+                )
+            r_c = float(r_c_min_allowed)
+
+        if enable_audit_log:
+            step_phi = abs(phi - phi_prev)
+            step_rc = abs(r_c - r_c_prev)
+            if max(step_phi, step_rc) > 1.0:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "large_step_magnitude",
+                        "step_phi": float(step_phi),
+                        "step_rc": float(step_rc),
+                    }
+                )
+            if abs(grad_rc) > 1e3:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "gradient_explosion",
+                        "grad_rc": float(grad_rc),
+                    }
+                )
+            if abs(phi) > hard_limit:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "phi_hard_limit_clipped",
+                        "value": float(phi),
+                        "bound": hard_limit,
+                    }
+                )
+                phi = float(np.clip(phi, -hard_limit, hard_limit))
+            if abs(r_c) > hard_limit:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "r_c_hard_limit_clipped",
+                        "value": float(r_c),
+                        "bound": hard_limit,
+                    }
+                )
+                r_c = float(np.clip(r_c, -hard_limit, hard_limit))
+            if not np.isfinite(phi) or not np.isfinite(r_c):
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "nonfinite_state",
+                    }
+                )
+                phi = float(phi_prev)
+                r_c = float(r_c_prev)
+                phi_history.append(phi)
+                r_c_history.append(r_c)
+                residuals.append(float("inf"))
+                n_iter += 1
+                break
 
         phi_history.append(phi)
         r_c_history.append(r_c)
 
-        res = float(np.sqrt((phi - phi_prev)**2 + (r_c - r_c_prev)**2))
+        res = float(np.hypot(phi - phi_prev, r_c - r_c_prev))
         residuals.append(res)
         n_iter += 1
 
@@ -2984,4 +3094,12 @@ def ftum_radion_stability_scan(
         "saturation_ok":   saturation_ok,
         "phi_star_target": float(phi_star_target),
         "r_c_star_target": float(r_c_star_target),
+        "audit_log":       audit_log if enable_audit_log else [],
+        "n_guardrail_events": int(len(audit_log) if enable_audit_log else 0),
+        "guardrails_active": bool(enable_audit_log),
+        "bounds_applied": {
+            "phi_min": None if phi_min_allowed is None else float(phi_min_allowed),
+            "phi_max": None if phi_max_allowed is None else float(phi_max_allowed),
+            "r_c_min": None if r_c_min_allowed is None else float(r_c_min_allowed),
+        },
     }
