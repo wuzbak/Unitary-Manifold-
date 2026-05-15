@@ -14,6 +14,26 @@
 
 ## What is here
 
+### visualizations/ — Visual Gallery (new)
+
+The [`visualizations/`](visualizations/README.md) subfolder contains **18 original charts
+and diagrams** generated directly from the canonical repository data:
+
+- CMB nₛ–r plane vs Planck 2018 & BICEP/Keck
+- Birefringence falsification window (primary falsifier)
+- All 28 SM parameter residuals dashboard (ToE 28.0/28 = 100%)
+- 5D metric decomposition, (5,7) braid topology, dimensional roadmap
+- Test suite growth, ToE score timeline, MAS wave progress
+- Quantum lane architecture, FTUM convergence, falsification calendar
+- Human-AI co-creation workflow, Unitary Pentad governance
+
+All figures are also copied to `9-INFRASTRUCTURE/results/` (the existing PNG home).  
+Regenerate with: `python3 9-INFRASTRUCTURE/scripts/gen_visualizations.py`
+
+---
+
+### substack/ — AxiomZero Posts & Books
+
 The `substack/` subfolder contains more than 150 posts and 16 books, organised as:
 
 ### Physics explainers (posts 01–38)
