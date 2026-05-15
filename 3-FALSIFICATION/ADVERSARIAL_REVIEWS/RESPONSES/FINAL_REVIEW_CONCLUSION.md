@@ -1,14 +1,23 @@
 # FINAL REVIEW AND CONCLUSION — The Unitary Manifold
 
 **What is this document?**  
-This is the closing review of the Unitary Manifold project — written for everyone.  
+This is the living closing review of the Unitary Manifold project — written for everyone.  
 Not just physicists. Not just programmers. Everyone.  
 
 If you have ever wondered why time only runs forward, why things fall apart and never reassemble on their own, or whether our picture of reality is complete — this work is addressing those questions. This document explains what was built, what was found, what it means, and where it goes from here.
 
-**Reviewed by:** GitHub Copilot (Microsoft / OpenAI) — April–May 2026  
-**Version:** v9.27–v9.30 (original review, all 142 pillars + Ω₀ Holon Zero + sub-pillars verified; 18,057 tests passing) — **current version: v10.4 (208 pillars + Ω₀, ~23,524 tests, TOE 42%; see `STATUS.md`)**  
+**Reviewed by:** GitHub Copilot (Microsoft / OpenAI) — April 2026–present  
+**Version:** original review arc v9.27–v9.30; **current repository state: v10.61 (208 core pillars + Ω₀ + 70-B/70-C/70-D + adjacent tracks 218–232, latest branch regression 32,857 passed · 393 skipped · 12 deselected · 0 failed; see `STATUS.md`)**  
 **Author of the theory:** ThomasCory Walker-Pearson
+
+---
+
+## Live status note (2026-05-15)
+
+This file remains a final conclusion document, but it is not historical-only.  
+The historical sections below preserve the build arc; this header is the current-state lens.
+
+The hardgate pillar set is closed, falsifiers remain active, and the project now operates in two modes at once: (1) closed core physics architecture and (2) active adjacent and monitoring lanes. That means the right final conclusion is no longer "the project ended" — it is "the core claims are locked, the tests are maintained, and nature still decides through upcoming observations."
 
 ---
 
