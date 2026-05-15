@@ -26,6 +26,8 @@ import re
 from pathlib import Path
 from typing import Dict, List
 
+from src.core.closure_hardgate_registry import load_hardgate_registry
+
 ROOT = Path(__file__).resolve().parents[2]
 
 LEDGER_PATHS = {
@@ -50,6 +52,14 @@ ONBOARDING_PATHS: Dict[str, Path] = {
     "what_this_means": ROOT / "4-IMPLICATIONS" / "WHAT_THIS_MEANS.md",
 }
 
+STATUS_TOKEN_PATHS: Dict[str, Path] = {
+    "fallibility": ROOT / "FALLIBILITY.md",
+    "derivation_status": ROOT / "1-THEORY" / "DERIVATION_STATUS.md",
+    "truth_layer": ROOT / "docs" / "TRUTH_LAYER.md",
+}
+
+HARDGATE_REGISTRY_PATH: Path = ROOT / "docs" / "closure_hardgates.json"
+
 VERSION_RE = re.compile(r"v\d+\.\d+")
 # Canonical ledgers currently render large counts with space-separated thousands,
 # but we also tolerate comma-separated and plain digit formatting for robustness.
@@ -61,6 +71,8 @@ __all__ = [
     "canonical_ledger_snapshot",
     "canonical_ledger_consistency_report",
     "onboarding_docs_consistency_report",
+    "canonical_status_token_report",
+    "closure_gate_label_discipline_report",
 ]
 
 
@@ -210,4 +222,64 @@ def onboarding_docs_consistency_report() -> Dict[str, object]:
         "results": results,
         "drifted_docs": drifted,
         "all_pass": len(drifted) == 0,
+    }
+
+
+def canonical_status_token_report() -> Dict[str, object]:
+    """Ensure ADM/KK canonical status tokens are synchronized across core ledgers."""
+    registry = load_hardgate_registry()
+    token_values: Dict[str, str] = registry["canonical_status_tokens"].copy()
+
+    per_doc: Dict[str, Dict[str, bool]] = {}
+    missing: Dict[str, List[str]] = {}
+    for doc_key, path in STATUS_TOKEN_PATHS.items():
+        text = _read(path)
+        token_hits = {
+            token_key: (token_value in text)
+            for token_key, token_value in token_values.items()
+        }
+        per_doc[doc_key] = token_hits
+        missing_tokens = [k for k, hit in token_hits.items() if not hit]
+        if missing_tokens:
+            missing[doc_key] = missing_tokens
+
+    return {
+        "registry_path": str(HARDGATE_REGISTRY_PATH),
+        "tokens": token_values,
+        "per_doc": per_doc,
+        "missing": missing,
+        "all_pass": len(missing) == 0,
+    }
+
+
+def closure_gate_label_discipline_report() -> Dict[str, object]:
+    """Block premature FULLY_CLOSED labels when a hardgate is not complete."""
+    registry = load_hardgate_registry()
+    violations: List[Dict[str, str]] = []
+
+    for gate in registry.get("gates", []):
+        status = str(gate.get("status", ""))
+        if status in {"COMPLETE", "CLOSED"}:
+            continue
+
+        forbidden_labels = list(gate.get("forbid_if_incomplete", []))
+        watch_paths = [ROOT / p for p in gate.get("watch_paths", [])]
+
+        for path in watch_paths:
+            text = _read(path)
+            for label in forbidden_labels:
+                if label in text:
+                    violations.append(
+                        {
+                            "gate": str(gate.get("key", "")),
+                            "path": str(path),
+                            "forbidden_label": label,
+                        }
+                    )
+
+    return {
+        "registry_path": str(HARDGATE_REGISTRY_PATH),
+        "violation_count": len(violations),
+        "violations": violations,
+        "all_pass": len(violations) == 0,
     }
