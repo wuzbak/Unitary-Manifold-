@@ -5,6 +5,11 @@ src/core/sm_free_parameters.py
 ================================
 Pillar 88 — The 28 SM Free Parameters: Complete UM Audit.
 
+Adjacent-track registry note (v10.57): Pillar 242 (PCCRE) added as adjacent
+track; Pillar 238 renamed to Health Systems Surge Readiness Calculator;
+Pillar 241 hazard key "pandemic" → "health_system_surge". These changes are
+non-hardgate and do not affect the 28 SM parameter status table below.
+
 Scope
 -----
 The Standard Model (with massive Dirac neutrinos) has 28 independent free

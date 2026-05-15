@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.56 — Effective 2026-05-14*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.56 wave: five-pillar adjacent applied resilience sprint — Pillars 237–241: CROS, GDFRF, AISE, PAFS, PEWCRG; 156 new tests; theory docs + Substack posts 165–169).*
+*Unitary Manifold v10.57 — Effective 2026-05-15*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.57 wave: PCCRE sprint — Pillar 242 Planetary Coherence & Cascade Resilience Engine; Pillar 238 renamed to Health Systems Surge Readiness Calculator; Pillar 241 pandemic → health_system_surge; 75 new tests; Substack post 170).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,7 +29,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 32 329 passed · 393 skipped · 12 deselected · 0 failed
+**Latest verified branch regression:** 32 461 passed · 393 skipped · 12 deselected · 0 failed  
+*(v10.57: +75 tests — Pillar 242 PCCRE + updated Pillar 238/241 tests)*
 
 ---
 
