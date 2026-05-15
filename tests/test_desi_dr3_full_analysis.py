@@ -166,10 +166,11 @@ class TestBulkQuintessenceConstraints:
         assert result["wa_target"] == pytest.approx(DESI_DR2["wa_central"])
 
     def test_compatibility_not_current_action(self):
-        """Compatibility must indicate new sector is required."""
+        """Compatibility must indicate the current 5D action is insufficient."""
         result = bulk_quintessence_constraints()
-        assert "INCOMPATIBLE" in result["compatibility"] or "OUTSIDE" in result["compatibility"] \
-               or "NEW" in result["compatibility"].upper() or "REQUIRED" in result["resolution_required"].upper()
+        assert result.get("compatibility") == "INCOMPATIBLE_WITH_CURRENT_5D_ACTION"
+        # resolution_required must mention a new sector
+        assert "sector" in result["resolution_required"].lower() or "field" in result["resolution_required"].lower()
 
     def test_small_sigma_gives_small_wa(self):
         """A small field displacement should give a small |predicted wₐ|."""

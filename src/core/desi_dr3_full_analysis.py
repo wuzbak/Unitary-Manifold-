@@ -155,10 +155,13 @@ def kk_tower_wa_exact(
         mass_ratio = m_n / h0_gev  # ≈ n × (1e3 × 8.53e-17) / 1.33e-42
         # = n × 8.53e-14 / 1.33e-42 = n × 6.4e28
 
-        # Quantum displacement from inflation: Δφ_n/M_Pl ~ (H₀/m_n)^(3/2)
-        # (super-horizon freezing of mode with m_n >> H_inf gives zero displacement;
-        # we use the conservative thermal estimate)
-        # For m_n >> H₀: field is frozen with displacement ~ H₀^2/m_n^2
+        # Quantum displacement from inflation: for m_n >> H₀ the field is
+        # frozen at its minimum. The residual displacement from quantum
+        # zero-point fluctuations scales as Δφ_n/M_Pl ~ (H₀/m_n)².
+        # This follows from the frozen-field approximation: the field's
+        # kinetic energy is at most ~(H₀/m_n)² × V, giving
+        # (Δφ/M_Pl)² ~ (H₀/m_n)² × (H₀/m_n)² = (H₀/m_n)⁴ in natural units,
+        # but we conservatively bound Δφ_n/M_Pl ~ (H₀/m_n)² directly.
         delta_phi_over_mpl = _H0_OVER_MPL**2 / (mass_ratio**2) if mass_ratio > 0 else 0.0
 
         # 1 + w_n ~ (m_n/H₀)² × (Δφ_n/M_Pl)²
@@ -258,8 +261,8 @@ def bulk_quintessence_constraints(
     omega_m = 0.315                        # Planck 2018 best fit
     wa_tracker_prediction = -3.0 * (1.0 + w0_obs) * (1.0 - omega_m)
 
-    # Required 1+w₀ from CPL: if wₐ = −0.62 and w₀ = −0.838
-    # 1 + w_avg ~ (1 + w₀) + wₐ/2  (averaged over 0 < a < 1)
+    # Time-averaged (1+w) over 0 < a < 1 for CPL: ⟨1+w⟩ ≈ (1+w₀) + wₐ/2
+    # This follows from ∫₀¹ [w₀ + wₐ(1-a)] da = w₀ + wₐ/2.
     one_plus_w_avg = (1.0 + w0_obs) + wa_target / 2.0  # 0.162 + (-0.31) = -0.148
 
     # Required field velocity: φ̇²/2 = (1+w)V

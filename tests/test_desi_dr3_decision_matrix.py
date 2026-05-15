@@ -92,10 +92,9 @@ class TestModificationRoadmapIfFalsified:
         assert len(result["pillars_to_open"]) >= 1
 
     def test_pillar_155_in_roadmap(self):
-        """Pillar 155 must appear in the modification roadmap."""
+        """Pillar 155 must appear in pillars_to_open under its expected key."""
         result = modification_roadmap_if_falsified()
-        keys_str = str(result)
-        assert "155" in keys_str or "kk_de_wa_cpl" in keys_str
+        assert "Pillar_155_kk_de_wa_cpl" in result["pillars_to_open"]
 
     def test_observational_constraints_present(self):
         """existing_observational_constraints_on_new_bulk_fields must be present."""
