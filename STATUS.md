@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.59 — Effective 2026-05-15*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.59 wave: P28 DERIVED cert — ToE 28.0/28 = 100%; 36 new tests). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v10.60 — Effective 2026-05-15*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.60 wave: Pillar 244 adjacent 10D branch completion handoff — branch finished, full-closure handoff isolated, 24 new tests). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -101,6 +101,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.60 | Adjacent 10D branch completion lane: deterministic branch-finish audit across R5 flux landscape, alpha_GW UV closure, P28 first-principles λ chain, P28 10D closure, and UV vacuum-seed handoff; explicit separation from later 11D / full-closure work | `pillar244_tend_branch_completion_engine.py` | +24 | 2026-05-15 |
 | v10.59 | P28 DERIVED cert: cosmological constant derived from RS1+KK+10D geometry (zero free parameters; log₁₀ residual < 0.31); ToE 27.8→28.0/28 = 100% | `p28_lambda_derived_cert.py` | +36 | 2026-05-15 |
 | v10.58 | Adjacent interoperability lane: USIVF (ET-inspired workflow manifests, symbolic consistency contracts, cosmology pipeline compatibility, math verification, governance+assistant traceability) — 52 new tests | pillar243/ adjacent track (non-hardgate) | +52 | 2026-05-15 |
 | v10.55 | Adjacent quantum lane: multi-dim FH lattice (1D/2D/3D/braid_kk), geometry-aware routing, curved-space FH scaffolding, XDiag production parity (schema guard, extended metrics, health check) — 186 new tests | quantum/ adjacent track (non-hardgate) | +186 | 2026-05-14 |
@@ -256,7 +257,7 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Applied Research Tracks (Pillars 218–243)
+### Applied Research Tracks (Pillars 218–244)
 
 Adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
 
@@ -285,6 +286,7 @@ Adjacent applied research pillars — not hard-gate physics claims, but honest q
 | 241 | `src/core/pillar241_planetary_early_warning_response_grid.py` | Planetary Early Warning & Coordinated Response Grid: compound-risk warning and response prioritization; deterministic hazard scoring across climate, infrastructure, health-system, and ecological sectors | 34 | 🔵 ADJACENT TRACK |
 | 242 | `src/core/pillar242_planetary_coherence_cascade_resilience_engine.py` | Planetary Coherence & Cascade Resilience Engine (PCCRE): co-emergent synthesis of Pillars 237–241 + OMEGA; Unified Planetary Readiness Index, Cascade Coupling Matrix (C_S=12/37 derived), Compound Cascade Failure Probability | 75 | 🔵 ADJACENT TRACK |
 | 243 | `src/core/pillar243_unified_scientific_interoperability_validation_fabric.py` | Unified Scientific Interoperability & Validation Fabric (USIVF): deterministic five-lane interoperability scoring (numerical workflow, symbolic consistency, cosmology contracts, math verification, governance+assistant traceability) with reproducible manifests and explicit separation guard | 52 | 🔵 ADJACENT TRACK |
+| 244 | `src/core/pillar244_tend_branch_completion_engine.py` | 10D Branch Completion & Closure Handoff Engine: deterministic five-lane finish audit for the existing 10D branch (R5 flux landscape, alpha_GW UV closure, P28 λ first-principles chain, P28 10D closure, UV vacuum-seed handoff) with explicit separation from later 11D / terminal full-closure work | 24 | 🔵 ADJACENT TRACK |
 
 ### Key numerical results (v10.5)
 
