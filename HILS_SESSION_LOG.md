@@ -239,7 +239,7 @@ NEXT TRIGGERS:
 - Targeted suite: `python3 -m pytest tests/test_core_lab_litebird_substitute.py tests/test_core_canonical_falsifier_evidence_feed.py tests/test_core_experiment_monitor_matrix.py -q --tb=no`
 - Result: **32 passed, 0 failed**
 - Full suite: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`
-- Result: **32,470 passed, 404 skipped, 12 deselected, 0 failed** in this sandbox
+- Result: **32 470 passed, 404 skipped, 12 deselected, 0 failed** in this sandbox
 - Note: canonical branch ledger remains **32 857 passed · 393 skipped · 12 deselected · 0 failed**; the delta here is from unavailable optional dependencies in the sandbox environment.
 
 ### Next-entry trigger conditions
