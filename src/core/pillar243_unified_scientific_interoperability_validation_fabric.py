@@ -178,7 +178,8 @@ def mathematical_backend_verification(
     if mpmath is not None:
         with mpmath.workdps(dps):
             phi_mp = mpmath.mpf(phi0)
-            residual_mp = abs(mpmath.cos(phi_mp) - phi_mp)
+            residual_signed_mp = mpmath.cos(phi_mp) - phi_mp
+            residual_mp = abs(residual_signed_mp)
             tolerance_mp = mpmath.mpf(10) ** (-12)
             residual = float(residual_mp)
             tolerance = float(tolerance_mp)

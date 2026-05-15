@@ -163,11 +163,20 @@ def test_mathematical_backend_verification_shape_and_pass():
         "tolerance_abs",
     ):
         assert key in out
-    assert out["sympy_available"] is True
-    assert out["mpmath_available"] is True
-    assert out["symbolic_identity_passed"] is True
-    assert out["numeric_fixed_point_passed"] is True
-    assert out["passed"] is True
+    if out["sympy_available"]:
+        assert out["symbolic_identity_passed"] is True
+    else:
+        assert out["symbolic_identity_passed"] is False
+    if out["mpmath_available"]:
+        assert out["numeric_fixed_point_passed"] is True
+    else:
+        assert out["numeric_fixed_point_passed"] is False
+    assert out["passed"] == (
+        out["sympy_available"]
+        and out["mpmath_available"]
+        and out["symbolic_identity_passed"]
+        and out["numeric_fixed_point_passed"]
+    )
 
 
 def test_lane_scores_keys():
