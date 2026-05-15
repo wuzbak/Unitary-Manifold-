@@ -42,7 +42,7 @@ class TestAnomalyInflowIdentityRegression:
         assert abs(beta_deg - BETA_TARGET) <= BETA_1SIGMA
 
 
-class TestAnomalyInflowFalsificationExternalDiscrimination:
+class TestAnomalyInflowFalsification:
     """Falsification/discrimination tests."""
 
     def test_falsification_k1_does_not_match_signal(self):
@@ -64,6 +64,7 @@ class TestAnomalyInflowOracleAndPerturbation:
     """Independent oracles and parameter perturbation sweeps."""
 
     def test_oracle_beta_bilinear_symmetry(self):
+        # β ∝ g * Δφ, so doubling g and halving Δφ preserves β.
         beta_1 = birefringence_angle(0.002, 5.0)
         beta_2 = birefringence_angle(0.004, 2.5)
         assert beta_1 == pytest.approx(beta_2, rel=1e-12)

@@ -601,6 +601,8 @@ class TestFtumRadionStabilityScan:
         result = self._run()
         assert result["guardrails_active"] is True
         assert isinstance(result["audit_log"], list)
+        assert isinstance(result["bounds_applied"], dict)
+        assert {"phi_min", "phi_max", "r_c_min"} <= set(result["bounds_applied"])
 
     def test_audit_log_disabled(self):
         result = self._run(enable_audit_log=False)
@@ -620,5 +622,5 @@ class TestFtumRadionStabilityScan:
 
     def test_rc_bound_enforced_and_logged(self):
         result = self._run(r_c_init=0.5, r_c_min_allowed=1.0)
-        assert min(result["r_c_history"]) >= 1.0 - 1e-12
+        assert min(result["r_c_history"][1:]) >= 1.0 - 1e-12
         assert any("r_c_lower_bound_violated" == e["type"] for e in result["audit_log"])

@@ -672,7 +672,13 @@ def fusion_rate_from_tunneling(
         R_site_event = T * v_rel / R_site
 
     where T is the already-computed tunneling probability from the microscopic
-    model in ``src.cold_fusion.tunneling``.
+    model in ``src.cold_fusion.tunneling``. This utility is intended to chain
+    with ``excess_heat_power_from_rate`` and ``micro_to_macro_pipeline``.
+
+    Returns
+    -------
+    float
+        Per-site fusion event rate.
     """
     if tunneling_probability < 0.0 or tunneling_probability > 1.0:
         raise ValueError(
@@ -697,11 +703,11 @@ def excess_heat_power_from_rate(
         P_excess = N_active_sites * fusion_rate * Q_value
     """
     if N_active_sites < 0.0:
-        raise ValueError(f"N_active_sites must be ≥ 0, got {N_active_sites!r}")
+        raise ValueError(f"N_active_sites must be >= 0, got {N_active_sites!r}")
     if fusion_rate < 0.0:
-        raise ValueError(f"fusion_rate must be ≥ 0, got {fusion_rate!r}")
+        raise ValueError(f"fusion_rate must be >= 0, got {fusion_rate!r}")
     if Q_value < 0.0:
-        raise ValueError(f"Q_value must be ≥ 0, got {Q_value!r}")
+        raise ValueError(f"Q_value must be >= 0, got {Q_value!r}")
     return float(N_active_sites * fusion_rate * Q_value)
 
 
@@ -784,7 +790,11 @@ def normalize_excess_power(
     excess_power: float,
     baseline_input_power: float = 1.0,
 ) -> dict:
-    """CONJECTURAL helper: normalize excess output into COP-like diagnostics."""
+    """CONJECTURAL helper: normalize excess output into COP-like diagnostics.
+
+    ``sigma_significance`` here is a heuristic ranking proxy (not a formal
+    statistical significance from measured variance).
+    """
     if baseline_input_power <= 0.0:
         raise ValueError(
             f"baseline_input_power must be > 0, got {baseline_input_power!r}"
@@ -794,6 +804,7 @@ def normalize_excess_power(
     ratio = float(excess_power / baseline_input_power)
 
     # sigma proxy for quick comparisons; caller can replace with measured variance
+    # Heuristic scale-only proxy for ranking signal strength between runs.
     sigma = float(abs(excess_power) / np.sqrt(baseline_input_power + _NUMERICAL_EPSILON))
 
     return {

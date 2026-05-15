@@ -1311,6 +1311,7 @@ class TestCalculateEnergyBranchingRatio:
 class TestFusionRateFromTunnelingBridge:
     def test_formula_matches_bridge_relation(self):
         r = fusion_rate_from_tunneling(0.2, v_rel=0.01, R_site=2.0)
+        # rate = T * v_rel / R_site = 0.2 * 0.01 / 2 = 0.001
         assert r == pytest.approx(0.001, rel=1e-12)
 
     def test_zero_probability_gives_zero_rate(self):
@@ -1332,6 +1333,7 @@ class TestFusionRateFromTunnelingBridge:
 class TestExcessHeatPowerFromRateBridge:
     def test_formula_matches_bridge_relation(self):
         p = excess_heat_power_from_rate(100.0, fusion_rate=0.5, Q_value=2.0)
+        # P = N * rate * Q = 100 * 0.5 * 2 = 100
         assert p == pytest.approx(100.0, rel=1e-12)
 
     def test_zero_sites_gives_zero_power(self):

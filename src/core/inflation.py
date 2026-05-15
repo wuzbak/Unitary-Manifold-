@@ -2939,14 +2939,18 @@ def ftum_radion_stability_scan(
     converged = False
     n_iter    = 0
 
+    # Conservative numeric safety guard to prevent floating-point overflow in
+    # intentionally unstable sweeps; purely computational, not a physics bound.
+    hard_limit = 1e12
+
     for n in range(max_iter):
         phi_prev = phi
         r_c_prev = r_c
 
-        # φ update: explicit dynamical step toward FTUM attractor
+        # φ update: same FTUM contraction update, with explicit next-state variable
         phi_next = phi_prev + kappa_phi * (phi_star_target - phi_prev)
 
-        # r_c update: explicit gradient-flow dynamical step + optional Hubble friction
+        # r_c update: same gradient-flow update, with explicit next-state variable
         grad_rc  = 2.0 * lam_gw * phi_prev**2 * (r_c_prev - r_c_star_target)
         fric_rc  = hubble_fric * (r_c_prev - r_c_star_target) / (phi_prev**2 + _EPS)
         r_c_next = r_c_prev - dt_rc_used * grad_rc - fric_rc
@@ -3008,11 +3012,45 @@ def ftum_radion_stability_scan(
                         "grad_rc": float(grad_rc),
                     }
                 )
+            if abs(phi) > hard_limit:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "phi_hard_limit_clipped",
+                        "value": float(phi),
+                        "bound": hard_limit,
+                    }
+                )
+                phi = float(np.clip(phi, -hard_limit, hard_limit))
+            if abs(r_c) > hard_limit:
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "r_c_hard_limit_clipped",
+                        "value": float(r_c),
+                        "bound": hard_limit,
+                    }
+                )
+                r_c = float(np.clip(r_c, -hard_limit, hard_limit))
+            if not np.isfinite(phi) or not np.isfinite(r_c):
+                audit_log.append(
+                    {
+                        "iteration": n + 1,
+                        "type": "nonfinite_state",
+                    }
+                )
+                phi = float(phi_prev)
+                r_c = float(r_c_prev)
+                phi_history.append(phi)
+                r_c_history.append(r_c)
+                residuals.append(float("inf"))
+                n_iter += 1
+                break
 
         phi_history.append(phi)
         r_c_history.append(r_c)
 
-        res = float(np.sqrt((phi - phi_prev)**2 + (r_c - r_c_prev)**2))
+        res = float(np.hypot(phi - phi_prev, r_c - r_c_prev))
         residuals.append(res)
         n_iter += 1
 
