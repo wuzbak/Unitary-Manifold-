@@ -26,7 +26,7 @@ meta-validation lens. The run covers:
 | Metric | Value |
 |--------|-------|
 | Overall Interoperability Confidence Index | **0.852** |
-| Overall Status | **USIVF\_ROBUST** |
+| Overall Status | `USIVF_ROBUST` |
 | Failed lanes | *none* |
 | Contract penalty | 0.000 |
 | Deterministic run ID | `usivf-243-f72b1eed31bbaaab` |
@@ -50,7 +50,7 @@ meta-validation lens. The run covers:
 | P50 (median) | 0.8519 |
 | P90 (optimistic tail) | 0.8632 |
 
-The P10–P90 spread (0.7920 → 0.8632) remains solidly above the USIVF\_PARTIAL
+The P10–P90 spread (0.7920 → 0.8632) remains solidly above the `USIVF_PARTIAL`
 threshold (0.67), confirming **robustness across the full stochastic envelope**.
 
 ### 1.4 Seed constants used by the engine
@@ -145,7 +145,7 @@ any interoperability result to a hardgate physics claim.
 > and tolerance gates.*
 
 **Current verdict: NOT falsified.** All 5 lanes pass; Monte Carlo P10 remains
-above the USIVF\_PARTIAL threshold.
+above the `USIVF_PARTIAL` threshold.
 
 ---
 
@@ -158,7 +158,7 @@ above the USIVF\_PARTIAL threshold.
 | `mpmath` environment skip | ⚠️ ENV | Install `mpmath` in CI runner if 256-bit precision audits are needed |
 | `sympy` collection error (5 files) | ⚠️ ENV | Install `sympy` in CI runner for symbolic-metric and parity suites |
 | Overall USIVF confidence index | ✅ 0.852 | Robust — no lane below threshold |
-| Monte Carlo P10 | ✅ 0.792 | Above USIVF\_PARTIAL boundary (0.67) |
+| Monte Carlo P10 | ✅ 0.792 | Above `USIVF_PARTIAL` boundary (0.67) |
 
 ---
 
