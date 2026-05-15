@@ -172,7 +172,7 @@ Start with the layer that matches your purpose:
 | 🌿 **Implications** | [`4-IMPLICATIONS/`](4-IMPLICATIONS/) | AxiomZero commissioned extensions — biology, brain, ecology, etc. *Not proved physics.* |
 | 🏛️ **Governance** | [`5-GOVERNANCE/`](5-GOVERNANCE/) | Unitary Pentad HILS framework — independent of physics being correct |
 | 📚 **Monograph** | [`6-MONOGRAPH/`](6-MONOGRAPH/) | The v9a book (PDF), arXiv paper, manuscript chapters |
-| 📣 **Outreach** | [`7-OUTREACH/`](7-OUTREACH/) | AxiomZero Substack posts and books — *not peer-reviewed physics* |
+| 📣 **Outreach** | [`7-OUTREACH/`](7-OUTREACH/) | AxiomZero Substack posts and books — *not peer-reviewed physics* (includes [`FROM_THE_FIXED_POINT_OPED.md`](7-OUTREACH/FROM_THE_FIXED_POINT_OPED.md)) |
 | 🛡️ **Safety** | [`8-SAFETY/`](8-SAFETY/) | Dual-use safety, radiological review, security protocols |
 | 🔧 **Infrastructure** | [`9-INFRASTRUCTURE/`](9-INFRASTRUCTURE/) | Notebooks, bots, scripts, AI tools, provenance inventory |
 
@@ -323,6 +323,7 @@ removed or contradicted.
 > ### 📄 [7-OUTREACH/](7-OUTREACH/) — Outreach and essays (optional, non-peer-reviewed)
 >
 > Public communication and personal essays. Not part of the peer-review technical corpus.
+> Includes repository-wide OP-ED: [`FROM_THE_FIXED_POINT_OPED.md`](7-OUTREACH/FROM_THE_FIXED_POINT_OPED.md).
 
 ---
 

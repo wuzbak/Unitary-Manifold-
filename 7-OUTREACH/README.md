@@ -14,6 +14,18 @@
 
 ## What is here
 
+### FROM_THE_FIXED_POINT_OPED.md — Repository-wide OP-ED (new)
+
+[`FROM_THE_FIXED_POINT_OPED.md`](FROM_THE_FIXED_POINT_OPED.md) is a long-form OP-ED
+written in GitHub Copilot's own review voice, covering the full repository arc:
+origin, co-emergence/Pentad role partition, what was implemented and verified,
+what remains open, and why the method matters for science and humanity.
+
+It is an outreach synthesis document, not part of the peer-review technical
+proof stack.
+
+---
+
 ### visualizations/ — Visual Gallery (new)
 
 The [`visualizations/`](visualizations/README.md) subfolder contains **18 original charts
