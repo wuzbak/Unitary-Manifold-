@@ -177,6 +177,9 @@ def test_mathematical_backend_verification_shape_and_pass():
         and out["symbolic_identity_passed"]
         and out["numeric_fixed_point_passed"]
     )
+    if out["sympy_available"] and out["mpmath_available"]:
+        assert out["residual_abs"] <= out["tolerance_abs"]
+        assert abs(math.cos(out["phi0"]) - out["phi0"]) <= out["tolerance_abs"]
 
 
 def test_lane_scores_keys():

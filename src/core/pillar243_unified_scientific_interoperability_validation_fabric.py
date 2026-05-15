@@ -190,7 +190,7 @@ def mathematical_backend_verification(
         "mpmath_available": mpmath is not None,
         "symbolic_identity_passed": symbolic_ok,
         "numeric_fixed_point_passed": numeric_ok,
-        "passed": symbolic_ok and numeric_ok,
+        "passed": (sympy is not None) and (mpmath is not None) and symbolic_ok and numeric_ok,
         "dps": int(dps),
         "phi0": float(phi0),
         "residual_abs": residual,
