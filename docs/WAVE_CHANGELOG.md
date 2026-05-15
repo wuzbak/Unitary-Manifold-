@@ -13,6 +13,75 @@ For each wave entry, include:
 
 ---
 
+## v10.61 (2026-05-15 — Pillar 245: 11D / Terminal Full-Closure Engine)
+
+### What changed
+
+1. **`src/core/pillar245_eleventd_full_closure.py`** — NEW adjacent-track module. Pillar 245 executes the full-closure handoff declared by Pillar 244: consolidates all five Hořava-Witten / 11D artefacts (Rung-6 kickoff scaffold, hard-gate evidence, G₄-flux vacuum link, canonical UV vacuum selection gate, and 11D→5D bridge-burn certificate) into a single deterministic terminal-closure certificate. All five lanes pass; the runtime seed {n_w=5, k_cs=74, braid_pair=(5,7), η̄=0.5, πkR=37.0} is locked; status = `ELEVENTD_FULL_CLOSURE_CERTIFIED`. Non-hardgate, no ToE score delta.
+2. **`tests/test_pillar245_eleventd_full_closure.py`** — 76 tests covering constants, track labels, lane structure, separation guard, terminal runtime seed, all five lane evidence blocks, closure summary, terminal closure certificate, and full integrated report.
+3. **`docs/WAVE_CHANGELOG.md`** — this entry (plus backfill of the missing v10.60 entry).
+4. **`STATUS.md`** — v10.61 bump, regression count updated.
+5. **`docs/mas_tracker.yml`** — version and regression count updated.
+6. **`README.md`** — version badge and regression count updated.
+7. **`FALLIBILITY.md`** — version bump.
+8. **`1-THEORY/DERIVATION_STATUS.md`** — version bump.
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No existing hardgate module edited — only new modules added.
+- All existing tests continue to pass.
+- No falsifier map changes.
+- ToE score remains 28.0/28 (100%).
+
+### Why
+
+Pillar 244 (v10.60) certified the 10D branch as internally finished and exposed an explicit handoff contract to the 11D / terminal full-closure programme. Pillar 245 executes that handoff: it calls the five existing `src/eleventd/` modules, verifies all pass, and emits a machine-readable terminal-closure certificate. The bridge-burn confirms the 11D scaffolding is retired and the 5D runtime is permanently anchored at n_w = 5. No new physics claims are introduced.
+
+### Epistemic label deltas
+
+- None. All lanes are ADJACENT TRACK NON-HARDGATE.
+
+### TOE score delta
+
+- **0.0 pts** — 28.0/28.0 (100%). No change.
+
+### Falsification impact
+
+- None. The terminal-closure certificate is FALSIFIED only if a future geometric derivation contradicts the locked runtime seed {n_w=5, k_cs=74, braid_pair=(5,7)}.
+
+### Residual unknowns
+
+- None introduced. Pre-existing open items (DESI tension, LiteBIRD birefringence window) unchanged.
+
+---
+
+## v10.60 (2026-05-15 — Pillar 244: 10D Branch Completion & Closure Handoff Engine)
+
+### What changed
+
+1. **`src/core/pillar244_tend_branch_completion_engine.py`** — NEW adjacent-track module. Consolidates the five 10D branch lanes (Rung-5 flux landscape, alpha_GW UV closure, P28 first-principles, P28 10D closure, UV vacuum seed handoff) into one deterministic completion report. All five lanes pass; status = `TEN_D_BRANCH_COMPLETE_READY_FOR_FULL_CLOSURE_HANDOFF`. Exposes an explicit `full_closure_handoff()` contract pointing to the 11D continuation programme. Non-hardgate, no ToE score delta.
+2. **`tests/test_pillar244_tend_branch_completion_engine.py`** — 24 tests covering provenance, seed constants, track labels, lane structure, separation guard, all five lane evidence blocks, completion summary, full closure handoff, and integrated report.
+3. **`STATUS.md`** — v10.60 bump.
+4. **`docs/mas_tracker.yml`** — v10.60, adjacent_track_checkpoint updated.
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No existing hardgate module edited.
+- All existing tests continue to pass.
+- ToE score remains 28.0/28 (100%).
+
+### Epistemic label deltas
+
+- None.
+
+### TOE score delta
+
+- **0.0 pts**.
+
+---
+
 ## v10.59 (2026-05-15 — P28 DERIVED cert: Cosmological Constant 100%)
 
 ### What changed
