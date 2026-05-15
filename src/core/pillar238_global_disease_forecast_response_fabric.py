@@ -1,6 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 238 — Global Disease Forecast & Response Fabric (adjacent track)."""
+"""
+Pillar 238 — Global Health Systems Surge Readiness & Response Calculator.
+
+Adjacent applied research track (non-hardgate): deterministic calculator
+for public-health-system capacity gaps, transmission-rate estimation, and
+coordinated response-adequacy routing.  All inputs are infrastructure and
+logistics metrics; no claim of clinical advice or operational deployment.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -10,7 +17,7 @@ from typing import Any
 
 __provenance__ = {
     "pillar": 238,
-    "title": "Global Disease Forecast & Response Fabric",
+    "title": "Global Health Systems Surge Readiness & Response Calculator",
     "author": "ThomasCory Walker-Pearson",
     "dba": "AxiomZero Technologies",
     "github": "@wuzbak",
@@ -18,7 +25,7 @@ __provenance__ = {
     "license_software": "AGPL-3.0-or-later",
     "license_theory": "Defensive Public Commons v1.0",
     "fingerprint": "(5, 7, 74)",
-    "status": "ADJACENT RESEARCH TRACK — deterministic outbreak readiness routing",
+    "status": "ADJACENT RESEARCH TRACK — deterministic health-system surge readiness routing",
 }
 
 N_W: int = 5
@@ -43,7 +50,7 @@ BOTTLENECK_ORDER: tuple[str, ...] = (
 
 
 @dataclass(frozen=True)
-class DiseaseScenario:
+class HealthSystemScenario:
     base_reproduction_number: float
     contact_reduction_fraction: float
     immunity_fraction: float
@@ -96,7 +103,7 @@ def _ratio_excess(actual: float, target: float) -> float:
     return _clamp01(actual / target - 1.0)
 
 
-def effective_reproduction_number(s: DiseaseScenario) -> float:
+def effective_reproduction_number(s: HealthSystemScenario) -> float:
     if s.base_reproduction_number <= 0:
         raise ValueError("base_reproduction_number must be > 0")
     for name, val in (
@@ -108,13 +115,13 @@ def effective_reproduction_number(s: DiseaseScenario) -> float:
     return s.base_reproduction_number * (1.0 - s.contact_reduction_fraction) * (1.0 - s.immunity_fraction)
 
 
-def outbreak_risk_probability(s: DiseaseScenario) -> float:
+def surge_risk_probability(s: HealthSystemScenario) -> float:
     rt = effective_reproduction_number(s)
     sigmoid = 1.0 / (1.0 + math.exp(-4.0 * (rt - 1.0)))
     return _clamp01(sigmoid)
 
 
-def bottleneck_scores(s: DiseaseScenario) -> dict[str, float]:
+def bottleneck_scores(s: HealthSystemScenario) -> dict[str, float]:
     for name, val in (
         ("vaccine_coverage_fraction", s.vaccine_coverage_fraction),
         ("logistics_fill_rate", s.logistics_fill_rate),
@@ -143,18 +150,18 @@ def bottleneck_scores(s: DiseaseScenario) -> dict[str, float]:
     }
 
 
-def containment_feasibility_index(s: DiseaseScenario) -> float:
-    risk = outbreak_risk_probability(s)
+def response_adequacy_index(s: HealthSystemScenario) -> float:
+    risk = surge_risk_probability(s)
     gaps = bottleneck_scores(s)
     system_penalty = sum(gaps.values()) / len(gaps)
     return _clamp01(1.0 - 0.55 * risk - 0.45 * system_penalty)
 
 
-def response_report(s: DiseaseScenario) -> dict[str, Any]:
+def response_report(s: HealthSystemScenario) -> dict[str, Any]:
     rt = effective_reproduction_number(s)
-    risk = outbreak_risk_probability(s)
+    risk = surge_risk_probability(s)
     gaps = bottleneck_scores(s)
-    feasible = containment_feasibility_index(s)
+    feasible = response_adequacy_index(s)
     top = sorted(gaps.items(), key=lambda kv: kv[1], reverse=True)[:5]
     return {
         "R_effective": rt,
@@ -162,17 +169,17 @@ def response_report(s: DiseaseScenario) -> dict[str, Any]:
         "containment_feasibility_index": feasible,
         "top_bottlenecks": [{"name": n, "gap": g} for n, g in top],
         "all_bottlenecks": gaps,
-        "status": "CALCULATED outbreak-response route map",
+        "status": "CALCULATED health-system surge response-adequacy route map",
     }
 
 
-def monte_carlo_feasibility(s: DiseaseScenario, n_trials: int = 200, seed: int = 238) -> dict[str, float]:
+def monte_carlo_response_adequacy(s: HealthSystemScenario, n_trials: int = 200, seed: int = 238) -> dict[str, float]:
     if n_trials < 1:
         raise ValueError("n_trials must be >= 1")
     rng = random.Random(seed)
     vals: list[float] = []
     for _ in range(n_trials):
-        p = DiseaseScenario(
+        p = HealthSystemScenario(
             base_reproduction_number=max(0.1, s.base_reproduction_number * (1 + rng.uniform(-0.08, 0.08))),
             contact_reduction_fraction=_clamp01(s.contact_reduction_fraction + rng.uniform(-0.05, 0.05)),
             immunity_fraction=_clamp01(s.immunity_fraction + rng.uniform(-0.05, 0.05)),
@@ -196,7 +203,7 @@ def monte_carlo_feasibility(s: DiseaseScenario, n_trials: int = 200, seed: int =
             target_sequenced_cases_fraction=s.target_sequenced_cases_fraction,
             vulnerable_population_coverage_fraction=_clamp01(s.vulnerable_population_coverage_fraction + rng.uniform(-0.05, 0.05)),
         )
-        vals.append(containment_feasibility_index(p))
+        vals.append(response_adequacy_index(p))
 
     vals.sort()
     return {
@@ -207,8 +214,8 @@ def monte_carlo_feasibility(s: DiseaseScenario, n_trials: int = 200, seed: int =
     }
 
 
-def baseline_disease_scenario() -> DiseaseScenario:
-    return DiseaseScenario(
+def baseline_health_scenario() -> HealthSystemScenario:
+    return HealthSystemScenario(
         base_reproduction_number=2.1,
         contact_reduction_fraction=0.28,
         immunity_fraction=0.42,
@@ -234,22 +241,22 @@ def baseline_disease_scenario() -> DiseaseScenario:
     )
 
 
-def pillar238_global_disease_forecast_report(
+def pillar238_health_surge_readiness_report(
     n_trials: int = 200,
     seed: int = 238,
 ) -> dict[str, Any]:
     """Integrated report for Pillar 238."""
-    scenario = baseline_disease_scenario()
+    scenario = baseline_health_scenario()
     return {
         "pillar": 238,
         "status": __provenance__["status"],
         "bottleneck_order": BOTTLENECK_ORDER,
         "baseline_report": response_report(scenario),
-        "stability_simulation": monte_carlo_feasibility(scenario, n_trials=n_trials, seed=seed),
+        "stability_simulation": monte_carlo_response_adequacy(scenario, n_trials=n_trials, seed=seed),
         "falsification_condition": (
             "FALSIFIED as an adjacent response-routing engine if predicted "
-            "containment-feasibility directionality is repeatedly contradicted by "
-            "out-of-sample outbreak outcomes under comparable intervention profiles."
+            "response-adequacy directionality is repeatedly contradicted by "
+            "out-of-sample surge outcomes under comparable intervention profiles."
         ),
     }
 
@@ -260,14 +267,14 @@ __all__ = [
     "C_S",
     "PHI0",
     "BOTTLENECK_ORDER",
-    "DiseaseScenario",
+    "HealthSystemScenario",
     "__provenance__",
     "effective_reproduction_number",
-    "outbreak_risk_probability",
+    "surge_risk_probability",
     "bottleneck_scores",
-    "containment_feasibility_index",
+    "response_adequacy_index",
     "response_report",
-    "monte_carlo_feasibility",
-    "baseline_disease_scenario",
-    "pillar238_global_disease_forecast_report",
+    "monte_carlo_response_adequacy",
+    "baseline_health_scenario",
+    "pillar238_health_surge_readiness_report",
 ]

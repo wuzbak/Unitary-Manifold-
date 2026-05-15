@@ -51,7 +51,7 @@ def test_hazard_order_length():
 
 
 def test_hazard_order_contains_expected_hazards():
-    for h in ("climate_extreme", "seismic_tsunami", "pandemic", "cyber_systemic", "grid_cascade", "space_weather"):
+    for h in ("climate_extreme", "seismic_tsunami", "health_system_surge", "cyber_systemic", "grid_cascade", "space_weather"):
         assert h in HAZARD_ORDER
 
 
@@ -123,7 +123,7 @@ def test_hazard_risk_zero_probability_yields_zero_risk():
 
 def test_hazard_risk_invalid_probability_raises():
     s = baseline_planetary_risk_scenario()
-    bad_prob = {**s.hazard_probability, "pandemic": 1.5}
+    bad_prob = {**s.hazard_probability, "health_system_surge": 1.5}
     bad = PlanetaryRiskScenario(
         hazard_probability=bad_prob,
         exposure_index=s.exposure_index,
@@ -142,7 +142,7 @@ def test_hazard_risk_invalid_probability_raises():
 def test_hazard_risk_wrong_key_raises():
     s = baseline_planetary_risk_scenario()
     bad_prob = {h: 0.3 for h in HAZARD_ORDER}
-    bad_prob.pop("pandemic")
+    bad_prob.pop("health_system_surge")
     bad_prob["unknown_hazard"] = 0.3
     bad = PlanetaryRiskScenario(
         hazard_probability=bad_prob,

@@ -28,7 +28,7 @@ PHI0: float = 0.7390851332151607
 HAZARD_ORDER: tuple[str, ...] = (
     "climate_extreme",
     "seismic_tsunami",
-    "pandemic",
+    "health_system_surge",
     "cyber_systemic",
     "grid_cascade",
     "space_weather",
@@ -158,7 +158,7 @@ def baseline_planetary_risk_scenario() -> PlanetaryRiskScenario:
         hazard_probability={
             "climate_extreme": 0.72,
             "seismic_tsunami": 0.28,
-            "pandemic": 0.41,
+            "health_system_surge": 0.41,
             "cyber_systemic": 0.63,
             "grid_cascade": 0.47,
             "space_weather": 0.24,
@@ -166,7 +166,7 @@ def baseline_planetary_risk_scenario() -> PlanetaryRiskScenario:
         exposure_index={
             "climate_extreme": 0.81,
             "seismic_tsunami": 0.44,
-            "pandemic": 0.77,
+            "health_system_surge": 0.77,
             "cyber_systemic": 0.79,
             "grid_cascade": 0.69,
             "space_weather": 0.57,
@@ -174,7 +174,7 @@ def baseline_planetary_risk_scenario() -> PlanetaryRiskScenario:
         vulnerability_index={
             "climate_extreme": 0.62,
             "seismic_tsunami": 0.55,
-            "pandemic": 0.58,
+            "health_system_surge": 0.58,
             "cyber_systemic": 0.64,
             "grid_cascade": 0.61,
             "space_weather": 0.49,
