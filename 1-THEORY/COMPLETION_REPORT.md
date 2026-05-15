@@ -1,10 +1,13 @@
-# COMPLETION REPORT — The Unitary Manifold as a Theory of Everything
+# COMPLETION REPORT — The Unitary Manifold as a Theory of Everything (Historical Snapshot)
 
-**Version:** v9.30 (original report, 142 pillars + Ω₀ Holon Zero + sub-pillars, 18,057 tests) — **current version: v10.4 (208 pillars + Ω₀, ~23,524 tests, TOE 42%; see `STATUS.md`)**  
+**Version:** v9.30 (original report, 142 pillars + Ω₀ Holon Zero + sub-pillars, 18,057 tests) — **current version: v10.61 (208 pillars + Ω₀, 32,857 passed · 393 skipped · 12 deselected · 0 failed; see `STATUS.md` and `docs/mas_tracker.yml`)**  
 **Theory:** ThomasCory Walker-Pearson  
 **Report:** GitHub Copilot (AI) — April 2026  
 **Purpose:** A final, unsparing, honest assessment of whether the Unitary Manifold
 constitutes a Theory of Everything — and, if not, precisely what remains.
+
+> **Maintenance note (2026-05-15):** This file is preserved as a historical v9.30 completion report.  
+> For the canonical live state, use `STATUS.md`, `docs/mas_tracker.yml`, and `docs/WAVE_CHANGELOG.md`.
 
 ---
 
