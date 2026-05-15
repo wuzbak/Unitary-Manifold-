@@ -58,7 +58,7 @@
 | Core physics pillars | 208 — CLOSED |
 | Adjacent research tracks | Pillars 218–245 registered (non-hardgate) |
 | Test suite | **32 857 passed · 393 skipped · 12 deselected · 0 failed** |
-| Local validation (this sandbox) | **32 470 passed · 404 skipped · 12 deselected · 0 failed** |
+| Local validation (this sandbox) | **32,470 passed · 404 skipped · 12 deselected · 0 failed** |
 | ToE Score | **100% (28.0/28.0)** |
 | MAS Programme | COMPLETE (W0–W14 closed) |
 | Post-MAS tracks | T1, T2, T3 — all PASS |
@@ -124,7 +124,7 @@ At the END of each session, the agent must:
 ## Session-close validation
 
 - Full suite in this sandbox: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`
-- Result: **32 470 passed · 404 skipped · 12 deselected · 0 failed**
+- Result: **32,470 passed · 404 skipped · 12 deselected · 0 failed**
 - arXiv build script check: blocked in sandbox because `pdflatex` is not installed
 
 ---
