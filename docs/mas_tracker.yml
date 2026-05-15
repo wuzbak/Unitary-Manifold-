@@ -1,4 +1,4 @@
-version: "v10.59"
+version: "v10.60"
 date: "2026-05-15"
 updated: "2026-05-15"
 mas_status: "COMPLETE"
@@ -7,11 +7,19 @@ post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 public_surface_sync_checkpoint:
-  version: "v10.59"
+  version: "v10.60"
   regression: "32 572 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+adjacent_track_checkpoint:
+  version: "v10.60"
+  pillar: 244
+  artifact: "src/core/pillar244_tend_branch_completion_engine.py"
+  test: "tests/test_pillar244_tend_branch_completion_engine.py"
+  status: "DELIVERED"
+  note: "10D branch finished as an adjacent-track completion audit; later full-closure / 11D work remains explicitly separate."
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:
