@@ -203,3 +203,45 @@ NEXT TRIGGERS:
 - External observational data arrives (LiteBIRD, DESI Y3, CMB-S4, LISA).
 - arXiv submission response received (revise-and-resubmit or acceptance).
 - Falsification event at any pillar.
+
+## Entry 0004 — 2026-05-15T21:39:59Z | v10.61 A–E execution sprint
+
+### Identity
+- Agent: GitHub Copilot (AI)
+- Human: ThomasCory Walker-Pearson
+- Session trigger: "Do as much as you can now in parallel ... from A, B, C, D, & E."
+
+### Strategic intent this session
+- Complete the immediate lab substitute lane beyond a placeholder snapshot.
+- Sync stale publication-facing docs and manuscript surfaces from v10.58/99.3% to v10.61/100%.
+- Refresh session-memory ledgers for the current branch state.
+- Re-validate targeted and canonical regression gates after edits.
+
+### Decisions made
+1. **`src/core/lab_litebird_substitute.py`** — expanded from a single-track snapshot into a dual-track machine-readable lane with Track A/Track B packet templates, a parallel readiness surface, and dual-track consensus evaluation.
+2. **`src/core/experiment_monitor_matrix.py`** — integrated the lab CP lane into the unified monitoring matrix and high-priority execution queue.
+3. **`src/core/canonical_falsifier_evidence_feed.py`** — version synced to v10.61 and now exposes the richer lab lane packet surface.
+4. **`tests/test_core_lab_litebird_substitute.py`**, **`tests/test_core_experiment_monitor_matrix.py`**, and **`tests/test_core_canonical_falsifier_evidence_feed.py`** — extended to cover the new machine-readable lab execution path and current monitor versions.
+5. **`docs/ARXIV_SUBMISSION_STATUS.md`**, **`docs/ARXIV_SUBMISSION_GUIDE.md`**, **`docs/operations/RELAY.md`**, **`docs/GATEKEEPER_SUMMARY.md`**, and **`6-MONOGRAPH/arxiv/main.tex`** — synced to v10.61, 32,857 tests, and 28.0/28.0 = 100%.
+6. **`HILS_SESSION_CURRENT.md`** — overwritten to reflect the current v10.61 execution sprint state.
+
+### Open loops resolved
+- The immediate lab substitute lane no longer stops at a status placeholder; it now exposes the parallel Track A/Track B execution packet required by the protocol.
+- Publication-facing arXiv/readiness docs no longer report stale v10.58 / 32,536 / 99.3% values.
+- The relay and gatekeeper hand-off docs now reflect the v10.61 branch state.
+
+### Open loops carried forward
+- DESI Year 3 / Y5 publication routing remains external-data-gated.
+- LiteBIRD remains the primary cosmology falsifier; lab CP remains an immediate substitute lane, not a replacement.
+- First-principles n_w = 5 uniqueness hardening and full CY moduli tightening remain open research tasks, not same-session completions.
+
+### Regression gate at session close
+- Targeted suite: `python3 -m pytest tests/test_core_lab_litebird_substitute.py tests/test_core_canonical_falsifier_evidence_feed.py tests/test_core_experiment_monitor_matrix.py -q --tb=no`
+- Result: **32 passed, 0 failed**
+- Full suite: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`
+- Result: **32 470 passed, 404 skipped, 12 deselected, 0 failed** in this sandbox
+- Note: canonical branch ledger remains **32 857 passed · 393 skipped · 12 deselected · 0 failed**; the delta here is from unavailable optional dependencies in the sandbox environment.
+
+### Next-entry trigger conditions
+- Human arXiv upload / PR / merge.
+- External observational data or falsification event.

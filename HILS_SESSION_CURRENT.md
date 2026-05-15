@@ -12,9 +12,9 @@
 | **Collaborator (Human)** | ThomasCory Walker-Pearson — theory, scientific direction, framework authority, override |
 | **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 pillars, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
-| **Session opened** | 2026-05-15T16:36:46Z |
-| **Active wave** | v10.58 — Full & Final Push (doc sync, adjacent track registry, arXiv prep, scope freeze) |
-| **Prior wave** | v10.58 — USIVF Sprint (Pillar 243) |
+| **Session opened** | 2026-05-15T21:39:59Z |
+| **Active wave** | v10.61 — Full A–E execution sprint (lab lane completion, publication sync, session ledgers) |
+| **Prior wave** | v10.61 — Pillar 245 terminal full-closure engine |
 
 ---
 
@@ -30,7 +30,7 @@
 
 ---
 
-## Current Strategic Intent — FINAL PUSH COMPLETE
+## Current Strategic Intent — ACTIVE EXECUTION
 
 | Priority | Intent | Status |
 |----------|--------|--------|
@@ -44,45 +44,49 @@
 | 8 | Adjacent quantum lane engineering-complete (FH lattice, XDiag bridge) | ✅ v10.55 complete |
 | 9 | Five-pillar adjacent sprint (Pillars 233–241 cluster) | ✅ v10.56–v10.57 complete |
 | 10 | USIVF interoperability fabric (Pillar 243) | ✅ v10.58 complete |
-| 11 | **Full & Final Push: doc sync, registry, arXiv, scope freeze** | ✅ **THIS SESSION — DONE** |
+| 11 | P28 DERIVED promotion to 100% ToE | ✅ v10.59 complete |
+| 12 | 10D branch completion + 11D terminal closure handoff | ✅ v10.60–v10.61 complete |
+| 13 | **A–E execution sprint: lab lane completion + publication/session sync** | 🔄 **IN PROGRESS** |
 
 ---
 
-## v10.58 Final State Summary
+## v10.61 Current State Summary
 
 | Item | Value |
 |------|-------|
-| Version | v10.58 |
+| Version | v10.61 |
 | Core physics pillars | 208 — CLOSED |
-| Adjacent research tracks | Pillars 218–243 registered (non-hardgate) |
-| Test suite | **32 536 passed · 393 skipped · 12 deselected · 0 failed** |
-| ToE Score | **99.3% (27.8/28.0)** — FINAL |
+| Adjacent research tracks | Pillars 218–245 registered (non-hardgate) |
+| Test suite | **32 857 passed · 393 skipped · 12 deselected · 0 failed** |
+| Local validation (this sandbox) | **32 470 passed · 404 skipped · 12 deselected · 0 failed** |
+| ToE Score | **100% (28.0/28.0)** |
 | MAS Programme | COMPLETE (W0–W14 closed) |
 | Post-MAS tracks | T1, T2, T3 — all PASS |
 | Extension tracks | ET-1 through ET-6 — all DELIVERED |
 | DBP Ladder | All 6 rungs SOLID/CERTIFIED |
 | Canonical ledger | all_pass: True (version + regression consistent across all docs) |
 | arXiv submission | READY (see `docs/ARXIV_SUBMISSION_STATUS.md`) |
-| Unitary OS | ARCHIVED — directory removed; sunset recorded in STATUS.md |
+| Lab substitute lane | Dual-track packet surface ready (Track A JJ/SQUID, Track B TI winding) |
 
 ---
 
-## Scope Freeze — PERMANENT STOP CONDITIONS
+## Current Execution Boundary
 
-The following are **permanently out of scope** until external data arrives:
+The following remain out of core-physics scope until external data arrives:
 
 - ❌ No new physics pillars (set frozen at 208 + special modules)
 - ❌ No new MAS waves
-- ❌ No new extension tracks or workstreams
+- ❌ No score inflation via adjacent tracks
 - ⏳ P23/P24 birefringence — awaiting LiteBIRD (~2032)
 - ⏳ P25 Ω_GW — awaiting LISA (~2037)
 - ⏳ DESI Year 3 dark energy — awaiting (~2026/2027)
 - ⏳ CMB-S4 acoustic peaks — awaiting (~2030)
 
-**Future valid entries:**
-1. New observational data requiring a module update
-2. A falsification event
-3. arXiv acceptance/rejection response
+**Valid current execution surfaces:**
+1. Publication/manuscript sync
+2. Monitoring readiness and lab substitute execution packets
+3. New observational data requiring a module update
+4. A falsification event
 
 ---
 
@@ -103,6 +107,7 @@ The following are **permanently out of scope** until external data arrives:
 | MCP ingest | `6-MONOGRAPH/MCP_INGEST.md` |
 | Falsification | `docs/LITEBIRD_FALSIFIER_BRIEF.md` |
 | arXiv status | `docs/ARXIV_SUBMISSION_STATUS.md` |
+| Lab substitute lane | `src/core/lab_litebird_substitute.py` |
 
 ---
 
@@ -113,6 +118,14 @@ At the END of each session, the agent must:
 1. **Overwrite this file** with updated current state (active wave, open loops, latest intent).
 2. **Append** a new entry to `HILS_SESSION_LOG.md` with: timestamp, decisions made, open loops resolved, next triggers.
 3. Run the full regression gate and record pass count here.
+
+---
+
+## Session-close validation
+
+- Full suite in this sandbox: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`
+- Result: **32 470 passed · 404 skipped · 12 deselected · 0 failed**
+- arXiv build script check: blocked in sandbox because `pdflatex` is not installed
 
 ---
 

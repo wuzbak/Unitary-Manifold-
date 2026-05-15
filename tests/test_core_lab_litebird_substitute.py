@@ -6,9 +6,13 @@ from __future__ import annotations
 import pytest
 
 from src.core.lab_litebird_substitute import (
+    LAB_TRACKS,
     SIGMA_TARGET,
     LabCPCampaignInput,
+    dual_track_campaign_readiness,
+    evaluate_dual_track_campaign,
     evaluate_lab_cp_campaign,
+    lab_track_packet_template,
     lab_protocol_checklist,
     lab_substitute_status_snapshot,
 )
@@ -100,9 +104,69 @@ def test_protocol_checklist_has_required_items():
     assert any("independent replications" in item.lower() for item in checklist)
 
 
+def test_track_packet_template_shape():
+    packet = lab_track_packet_template("A")
+    assert packet["track_id"] == "A"
+    assert packet["platform"] == LAB_TRACKS["A"]["platform"]
+    assert packet["decision_grade_sigma_target"] == SIGMA_TARGET
+    assert "required_packet_fields" in packet
+    assert "required_checklist" in packet
+
+
+def test_track_packet_template_rejects_unknown_track():
+    with pytest.raises(ValueError, match="Unknown track_id"):
+        lab_track_packet_template("C")
+
+
+def test_dual_track_campaign_readiness_has_both_tracks():
+    report = dual_track_campaign_readiness()
+    assert report["execution_mode"] == "PARALLEL_DUAL_TRACK"
+    assert [track["track_id"] for track in report["tracks"]] == ["A", "B"]
+    assert "consensus_rule" in report
+
+
+def test_dual_track_campaign_supported_when_both_tracks_support():
+    campaign = {
+        "A": _create_lab_campaign_input_with_defaults(a_cp_lab=4.0e-5, sigma_a=1.0e-5),
+        "B": _create_lab_campaign_input_with_defaults(a_cp_lab=5.0e-5, sigma_a=1.0e-5),
+    }
+    out = evaluate_dual_track_campaign(campaign)
+    assert out["verdict"] == "SUPPORTED"
+    assert out["falsified_tracks"] == []
+    assert out["supported_tracks"] == ["A", "B"]
+
+
+def test_dual_track_campaign_falsified_when_any_track_falsifies():
+    campaign = {
+        "A": _create_lab_campaign_input_with_defaults(a_cp_lab=0.0, sigma_a=1.0e-5),
+        "B": _create_lab_campaign_input_with_defaults(a_cp_lab=5.0e-5, sigma_a=1.0e-5),
+    }
+    out = evaluate_dual_track_campaign(campaign)
+    assert out["verdict"] == "FALSIFIED"
+    assert out["falsified_tracks"] == ["A"]
+    assert "F-LAB-CP-1" in out["triggered_conditions"]
+
+
+def test_dual_track_campaign_inconclusive_when_tracks_mixed():
+    campaign = {
+        "A": _create_lab_campaign_input_with_defaults(a_cp_lab=5.0e-5, sigma_a=1.0e-5),
+        "B": _create_lab_campaign_input_with_defaults(a_cp_lab=2.0e-5, sigma_a=1.0e-5),
+    }
+    out = evaluate_dual_track_campaign(campaign)
+    assert out["verdict"] == "INCONCLUSIVE"
+    assert out["supported_tracks"] == ["A"]
+
+
+def test_dual_track_campaign_requires_exact_track_set():
+    with pytest.raises(ValueError, match="campaigns must provide exactly tracks"):
+        evaluate_dual_track_campaign({"A": _create_lab_campaign_input_with_defaults()})
+
+
 def test_status_snapshot_shape():
     snap = lab_substitute_status_snapshot()
     assert snap["lane_id"] == "F14/P8"
     assert snap["status"] == "PENDING_CAMPAIGN"
     assert snap["sigma_target"] == SIGMA_TARGET
+    assert snap["execution_mode"] == "PARALLEL_DUAL_TRACK"
+    assert [track["track_id"] for track in snap["tracks"]] == ["A", "B"]
     assert isinstance(snap["checklist"], list)

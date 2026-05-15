@@ -16,15 +16,15 @@ from src.core.experiment_monitor_matrix import (
 
 def test_collect_monitor_reports_structure():
     reports = collect_monitor_reports()
-    for key in ("version", "cmbs4", "dune", "hyperk_juno", "desi_year3"):
+    for key in ("version", "cmbs4", "dune", "hyperk_juno", "desi_year3", "lab_cp_5_7"):
         assert key in reports
-    assert reports["version"] == "v10.18"
+    assert reports["version"] == "v10.61"
 
 
 def test_monitoring_status_table_structure():
     table = monitoring_status_table()
     assert isinstance(table, list)
-    assert len(table) == 5
+    assert len(table) == 6
     for row in table:
         for key in ("experiment", "status", "next_milestone"):
             assert key in row
@@ -33,7 +33,7 @@ def test_monitoring_status_table_structure():
 def test_high_priority_action_queue_structure():
     queue = high_priority_action_queue()
     assert isinstance(queue, list)
-    assert len(queue) == 5
+    assert len(queue) == 6
     for row in queue:
         for key in ("id", "priority", "trigger", "status", "deadline_policy", "action", "note"):
             assert key in row
@@ -41,6 +41,7 @@ def test_high_priority_action_queue_structure():
 
 def test_high_priority_action_queue_contains_desi_and_litebird():
     ids = {row["id"] for row in high_priority_action_queue()}
+    assert "LAB_CP_DUAL_TRACK_CAMPAIGN" in ids
     assert "DESI_Y3_30_DAY_ROUTING" in ids
     assert "LITEBIRD_PRIMARY_FALSIFIER_READY" in ids
 
@@ -110,7 +111,7 @@ def test_machine_readable_monitor_bundle_structure():
         "hard_gate",
     ):
         assert key in bundle
-    assert bundle["monitor_suite_version"] == "v10.18"
+    assert bundle["monitor_suite_version"] == "v10.61"
 
 
 def test_machine_readable_monitor_bundle_accepts_freshness_inputs():

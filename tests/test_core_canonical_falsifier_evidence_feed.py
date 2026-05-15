@@ -12,11 +12,12 @@ from src.core.canonical_falsifier_evidence_feed import (
 
 def test_collect_feed_structure():
     feed = collect_canonical_evidence_feed()
-    assert feed["version"] == "v10.42"
+    assert feed["version"] == "v10.61"
     assert "generated_on" in feed
     required = {"litebird", "lab_cp_5_7", "cmbs4", "dune", "hyperk_juno", "desi_year3"}
     assert required.issubset(set(feed["experiments"].keys()))
     assert "readiness" in feed["experiments"]["litebird"]
+    assert [track["track_id"] for track in feed["experiments"]["lab_cp_5_7"]["tracks"]] == ["A", "B"]
 
 
 def test_status_table_has_five_experiments():

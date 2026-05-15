@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v10.52
+# Unitary Manifold v10.61
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,13 +8,13 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Score-sync note (v10.52):** Parts 1–6 retain historical gatekeeper framing from
+> **Score-sync note (v10.61):** Parts 1–6 retain historical gatekeeper framing from
 > earlier waves, while canonical current score accounting and lane labels are synced
 > in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
-> Historical snapshot scope: Parts 1–6 are pre-v10.52 context unless an explicit
+> Historical snapshot scope: Parts 1–6 are pre-v10.61 context unless an explicit
 > override callout is shown.
 
-*Last updated: 2026-05-11 (v10.52)*
+*Last updated: 2026-05-15 (v10.61)*
 
 ---
 
@@ -206,11 +206,10 @@ via Z₂ orbifold PQ mechanism (+0.7 pts). P26 (neutrino mass) promoted CONSTRAI
 mass prediction m₁ ≈ 0.050 eV (+0.3 pts). Total delta +3.8 pts.
 
 Interpretation for gatekeepers:
-- 99.3% means the 5D framework geometrically accounts for 99.3% of the SM
-  parameter landscape, measured by a scoring rubric that penalizes
-  constrained estimates and architecture limits.
-- The remaining 0.7% is the single score-lane parameter still at
-  GEOMETRIC_PREDICTION (P28 cosmological constant).
+- 100% means all 28 score-lane parameters now carry DERIVED or ALGEBRAIC
+  status under the repository scoring rubric.
+- The final 0.7% gap was closed when P28 (cosmological constant) was promoted
+  from GEOMETRIC_PREDICTION to DERIVED in v10.59.
 - **This score is not a measure of physical correctness.** It measures
   the fraction of SM parameters for which a geometric derivation exists
   within the stated residual thresholds.
@@ -221,7 +220,7 @@ Interpretation for gatekeepers:
 ## Part 8 — Verification Instructions
 
 ```bash
-# Full test suite (28560 passed baseline, 0 failures)
+# Full test suite (32,857 passed baseline, 0 failures)
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q \
   --ignore=tests/test_symbolic_metric.py \
   --ignore=tests/test_formal_proof_hardening.py \

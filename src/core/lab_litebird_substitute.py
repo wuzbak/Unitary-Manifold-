@@ -13,7 +13,11 @@ from dataclasses import dataclass
 __all__ = [
     "SIGMA_TARGET",
     "TOPOLOGY_TARGET",
+    "LAB_TRACKS",
     "LabCPCampaignInput",
+    "lab_track_packet_template",
+    "dual_track_campaign_readiness",
+    "evaluate_dual_track_campaign",
     "evaluate_lab_cp_campaign",
     "lab_protocol_checklist",
     "lab_substitute_status_snapshot",
@@ -22,6 +26,29 @@ __all__ = [
 SIGMA_TARGET: float = 1.0e-5
 TOPOLOGY_TARGET: str = "(5,7)"
 _ZERO_CONSISTENT_SIGMA_95CL: float = 1.96
+_ESTIMATOR: str = "A_CP^lab = (Γ+ - Γ-) / (Γ+ + Γ-)"
+LAB_TRACKS: dict[str, dict[str, str]] = {
+    "A": {
+        "track_name": "Track A",
+        "platform": "JJ/SQUID arrays",
+        "device_class": "josephson_junction_or_squid",
+    },
+    "B": {
+        "track_name": "Track B",
+        "platform": "topological-insulator winding devices",
+        "device_class": "topological_insulator_winding_device",
+    },
+}
+_REQUIRED_PACKET_FIELDS: tuple[str, ...] = (
+    "topology_evidence",
+    "blinded_analysis_protocol",
+    "uncertainty_budget",
+    "raw_a_cp_lab",
+    "corrected_a_cp_lab",
+    "topology_swap_controls",
+    "sign_reversal_controls",
+    "replication_status",
+)
 
 
 @dataclass(frozen=True)
@@ -37,6 +64,25 @@ class LabCPCampaignInput:
     sign_reversal_inverts_cp_odd: bool
     cp_even_baseline_stable: bool
     signal_explained_by_systematics: bool
+
+
+def lab_track_packet_template(track_id: str) -> dict[str, object]:
+    """Return the machine-readable packet template for one parallel lab track."""
+    if track_id not in LAB_TRACKS:
+        raise ValueError(f"Unknown track_id {track_id!r}; expected one of {sorted(LAB_TRACKS)}")
+    track = LAB_TRACKS[track_id]
+    return {
+        "track_id": track_id,
+        "track_name": track["track_name"],
+        "platform": track["platform"],
+        "device_class": track["device_class"],
+        "topology_target": TOPOLOGY_TARGET,
+        "estimator": _ESTIMATOR,
+        "decision_grade_sigma_target": SIGMA_TARGET,
+        "required_packet_fields": list(_REQUIRED_PACKET_FIELDS),
+        "required_checklist": lab_protocol_checklist(),
+        "status": "READY_FOR_DATA_COLLECTION",
+    }
 
 
 def evaluate_lab_cp_campaign(inputs: LabCPCampaignInput) -> dict[str, object]:
@@ -120,6 +166,73 @@ def evaluate_lab_cp_campaign(inputs: LabCPCampaignInput) -> dict[str, object]:
     }
 
 
+def dual_track_campaign_readiness() -> dict[str, object]:
+    """Return the canonical dual-track execution packet for the immediate lab lane."""
+    return {
+        "lane_id": "F14/P8",
+        "execution_mode": "PARALLEL_DUAL_TRACK",
+        "topology_target": TOPOLOGY_TARGET,
+        "estimator": _ESTIMATOR,
+        "decision_grade_sigma_target": SIGMA_TARGET,
+        "consensus_rule": (
+            "FALSIFIED if any track falsifies; SUPPORTED only if both decision-grade "
+            "tracks support transfer; otherwise INCONCLUSIVE."
+        ),
+        "tracks": [lab_track_packet_template("A"), lab_track_packet_template("B")],
+    }
+
+
+def evaluate_dual_track_campaign(
+    campaigns: dict[str, LabCPCampaignInput],
+) -> dict[str, object]:
+    """Evaluate the required parallel Track-A/Track-B lab campaign together."""
+    expected_tracks = set(LAB_TRACKS)
+    provided_tracks = set(campaigns)
+    if provided_tracks != expected_tracks:
+        raise ValueError(
+            f"campaigns must provide exactly tracks {sorted(expected_tracks)}, got {sorted(provided_tracks)}"
+        )
+
+    per_track = {
+        track_id: evaluate_lab_cp_campaign(campaigns[track_id])
+        for track_id in sorted(expected_tracks)
+    }
+    falsified_tracks = [
+        track_id for track_id, report in per_track.items() if report["verdict"] == "FALSIFIED"
+    ]
+    supported_tracks = [
+        track_id for track_id, report in per_track.items() if report["verdict"] == "SUPPORTED"
+    ]
+    decision_grade_tracks = [
+        track_id for track_id, report in per_track.items() if report["decision_grade"]
+    ]
+    triggered_conditions = sorted(
+        {
+            condition
+            for report in per_track.values()
+            for condition in report["triggered_conditions"]
+        }
+    )
+
+    if falsified_tracks:
+        verdict = "FALSIFIED"
+    elif len(supported_tracks) == len(expected_tracks):
+        verdict = "SUPPORTED"
+    else:
+        verdict = "INCONCLUSIVE"
+
+    return {
+        "lane_id": "F14/P8",
+        "verdict": verdict,
+        "per_track": per_track,
+        "falsified_tracks": falsified_tracks,
+        "supported_tracks": supported_tracks,
+        "decision_grade_tracks": decision_grade_tracks,
+        "triggered_conditions": triggered_conditions,
+        "consensus_rule": dual_track_campaign_readiness()["consensus_rule"],
+    }
+
+
 def lab_protocol_checklist() -> list[str]:
     """Return the required checklist for reproducible decision-grade reporting."""
     return [
@@ -139,6 +252,7 @@ def lab_substitute_status_snapshot() -> dict[str, object]:
         "lane_id": "F14/P8",
         "name": "Immediate Table-Top CP Falsifier",
         "topology_target": TOPOLOGY_TARGET,
+        "execution_mode": "PARALLEL_DUAL_TRACK",
         "sigma_target": SIGMA_TARGET,
         "status": "PENDING_CAMPAIGN",
         "next_milestone_year": 2026,
@@ -148,4 +262,6 @@ def lab_substitute_status_snapshot() -> dict[str, object]:
             "or F-LAB-CP-2/F-LAB-CP-3/F-LAB-CP-4 triggered"
         ),
         "checklist": lab_protocol_checklist(),
+        "tracks": dual_track_campaign_readiness()["tracks"],
+        "consensus_rule": dual_track_campaign_readiness()["consensus_rule"],
     }
