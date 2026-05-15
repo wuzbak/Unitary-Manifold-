@@ -236,10 +236,12 @@ NEXT TRIGGERS:
 - First-principles n_w = 5 uniqueness hardening and full CY moduli tightening remain open research tasks, not same-session completions.
 
 ### Regression gate at session close
-- Pending targeted regression for lab/publication surfaces.
-- Pending canonical full regression after edits.
+- Targeted suite: `python3 -m pytest tests/test_core_lab_litebird_substitute.py tests/test_core_canonical_falsifier_evidence_feed.py tests/test_core_experiment_monitor_matrix.py -q --tb=no`
+- Result: **32 passed, 0 failed**
+- Full suite: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`
+- Result: **32 470 passed, 404 skipped, 12 deselected, 0 failed** in this sandbox
+- Note: canonical branch ledger remains **32 857 passed · 393 skipped · 12 deselected · 0 failed**; the delta here is from unavailable optional dependencies in the sandbox environment.
 
 ### Next-entry trigger conditions
-- Completion of the post-edit full regression gate.
 - Human arXiv upload / PR / merge.
 - External observational data or falsification event.
