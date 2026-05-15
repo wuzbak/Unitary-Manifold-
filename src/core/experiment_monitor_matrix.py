@@ -18,6 +18,8 @@ from src.core.cmbs4_monitor import monitoring_report as cmbs4_monitoring_report
 from src.core.desi_year3_monitor import monitoring_report as desi_monitoring_report
 from src.core.dune_dcp_monitor import monitoring_report as dune_monitoring_report
 from src.core.hyperk_juno_monitor import monitoring_report as hyperk_juno_monitoring_report
+from src.core.lab_litebird_substitute import dual_track_campaign_readiness
+from src.core.lab_litebird_substitute import lab_substitute_status_snapshot
 from src.core.litebird_readiness_hardening import litebird_prepublication_packet
 
 OVERDUE_THRESHOLD_DAYS: int = 30
@@ -36,11 +38,12 @@ __all__ = [
 def collect_monitor_reports() -> Dict:
     """Collect all monitor reports in one dictionary."""
     return {
-        "version": "v10.18",
+        "version": "v10.61",
         "cmbs4": cmbs4_monitoring_report(),
         "dune": dune_monitoring_report(),
         "hyperk_juno": hyperk_juno_monitoring_report(),
         "desi_year3": desi_monitoring_report(),
+        "lab_cp_5_7": lab_substitute_status_snapshot(),
     }
 
 
@@ -75,6 +78,11 @@ def monitoring_status_table() -> List[Dict]:
             ),
         },
         {
+            "experiment": "Lab_CP_5_7",
+            "status": reports["lab_cp_5_7"]["status"],
+            "next_milestone": reports["lab_cp_5_7"]["next_milestone_year"],
+        },
+        {
             "experiment": "DESI Year 3",
             "status": reports["desi_year3"]["falsification_verdict"]["level"],
             "next_milestone": reports["desi_year3"]["next_milestone"]["expected_year"],
@@ -90,6 +98,7 @@ def monitoring_status_table() -> List[Dict]:
 def high_priority_action_queue() -> List[Dict]:
     """Return high-priority action queue for current monitoring operations."""
     desi = desi_monitoring_report()
+    lab_cp = dual_track_campaign_readiness()
     litebird_policy = "same_day_recording_required"
     litebird_status = "READY_PACKET_AVAILABLE"
     litebird_note = ""
@@ -100,6 +109,18 @@ def high_priority_action_queue() -> List[Dict]:
         litebird_status = "READINESS_PACKET_ERROR"
         litebird_note = f"packet_generation_failed:{exc.__class__.__name__}:{exc}"
     return [
+        {
+            "id": "LAB_CP_DUAL_TRACK_CAMPAIGN",
+            "priority": "CRITICAL",
+            "trigger": "Immediate pre-LiteBIRD laboratory campaign",
+            "status": "READY_FOR_DATA_COLLECTION",
+            "deadline_policy": "start_now_and_record_per_campaign_packet",
+            "action": (
+                "Run Track A (JJ/SQUID) and Track B (topological-insulator winding) "
+                "in parallel and publish the machine-readable packet fields for both tracks."
+            ),
+            "note": lab_cp["consensus_rule"],
+        },
         {
             "id": "DESI_Y3_30_DAY_ROUTING",
             "priority": "CRITICAL",
@@ -223,7 +244,7 @@ def machine_readable_monitor_bundle(
     return {
         "schema_version": "1.0",
         "generated_on": date.today().isoformat(),
-        "monitor_suite_version": "v10.18",
+        "monitor_suite_version": "v10.61",
         "reports": collect_monitor_reports(),
         "status_table": monitoring_status_table(),
         "high_priority_queue": high_priority_action_queue(),

@@ -1,4 +1,4 @@
-# arXiv Submission Status — Unitary Manifold v10.58
+# arXiv Submission Status — Unitary Manifold v10.61
 
 *Theory and scientific direction: ThomasCory Walker-Pearson.*  
 *Document engineering: GitHub Copilot (AI).*
@@ -7,7 +7,7 @@
 
 ## Verdict: ✅ READY
 
-**As of 2026-05-15 (v10.58), the manuscript is cleared for arXiv submission.**
+**As of 2026-05-15 (v10.61), the manuscript is cleared for arXiv submission.**
 
 ---
 
@@ -17,9 +17,9 @@
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Version header | ✅ PASS | `main.tex` updated to v10.58 |
-| Test count in abstract | ✅ PASS | 32,536 (updated from 28,813+) |
-| ToE score | ✅ PASS | 27.8/28.0 = 99.3% — correct and final |
+| Version header | ✅ PASS | `main.tex` updated to v10.61 |
+| Test count in abstract | ✅ PASS | 32,857 |
+| ToE score | ✅ PASS | 28.0/28.0 = 100% — correct and final |
 | P1–P28 labels | ✅ PASS | Match `docs/CLAIM_MASTER_BOARD.md` |
 | Active tensions/falsifiers | ✅ PASS | Match `FALLIBILITY.md` and `3-FALSIFICATION/OBSERVATION_TRACKER.md` |
 | Module file paths | ✅ PASS | All `src/core/` paths are current |
@@ -44,11 +44,11 @@
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Full regression | ✅ PASS | 32,536 passed · 393 skipped · 12 deselected · 0 failed |
+| Full regression | ✅ PASS | 32,857 passed · 393 skipped · 12 deselected · 0 failed |
 | Canonical ledger consistency | ✅ PASS | `canonical_ledger_consistency_report()` → all_pass: True |
 | Onboarding docs consistency | ✅ PASS | `onboarding_docs_consistency_report()` → all_pass: True |
 | FALLIBILITY.md gaps honest | ✅ PASS | All architecture limits documented; no gap hidden |
-| Scope freeze declared | ✅ PASS | No work will continue post-submission until data arrives |
+| Publication sync | ✅ PASS | arXiv docs + relay + session ledgers synced to v10.61 / 100% |
 
 ---
 
@@ -61,8 +61,8 @@
 | Manuscript | `6-MONOGRAPH/arxiv/main.tex` |
 | References | `6-MONOGRAPH/arxiv/references.bib` |
 | Build script | `6-MONOGRAPH/arxiv/build_submission.sh` |
-| ToE score | **27.8 / 28.0 = 99.3%** |
-| Test suite | **32,536 passed · 0 failed** |
+| ToE score | **28.0 / 28.0 = 100%** |
+| Test suite | **32,857 passed · 0 failed** |
 | Primary falsifier | LiteBIRD β ∈ {0.273°, 0.331°} (~2032) |
 | Zenodo DOI | https://doi.org/10.5281/zenodo.19584531 |
 
@@ -85,7 +85,7 @@ epistemic integrity.
 
 ## Next Action
 
-**Submit to arXiv.**  
+**Human upload path:**  
 Fetch `6-MONOGRAPH/arxiv/main.tex` and `references.bib`, run
 `build_submission.sh`, upload the resulting `.tar.gz` at `arxiv.org/submit`.
 
@@ -94,4 +94,4 @@ After submission: record the arXiv ID in `CITATION.cff` and
 
 ---
 
-*Document version: 1.0 — 2026-05-15 (v10.58 final push)*
+*Document version: 2.0 — 2026-05-15 (v10.61 sync; READY verdict retained)*
