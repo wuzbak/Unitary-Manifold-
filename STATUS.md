@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.57 — Effective 2026-05-15*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.57 wave: PCCRE sprint — Pillar 242 Planetary Coherence & Cascade Resilience Engine; Pillar 238 renamed to Health Systems Surge Readiness Calculator; Pillar 241 pandemic → health_system_surge; 75 new tests; Substack post 170).*
+*Unitary Manifold v10.58 — Effective 2026-05-15*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.58 wave: USIVF sprint — Pillar 243 Unified Scientific Interoperability & Validation Fabric; 52 new tests; theory doc + calculator docs; Substack post 171).*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,8 +29,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 32 461 passed · 393 skipped · 12 deselected · 0 failed  
-*(v10.57: +75 tests — Pillar 242 PCCRE + updated Pillar 238/241 tests)*
+**Latest verified branch regression:** 32 536 passed · 393 skipped · 12 deselected · 0 failed  
+*(v10.58: +52 tests — Pillar 243 USIVF)*
 
 ---
 
@@ -101,6 +101,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.58 | Adjacent interoperability lane: USIVF (ET-inspired workflow manifests, symbolic consistency contracts, cosmology pipeline compatibility, math verification, governance+assistant traceability) — 52 new tests | pillar243/ adjacent track (non-hardgate) | +52 | 2026-05-15 |
 | v10.55 | Adjacent quantum lane: multi-dim FH lattice (1D/2D/3D/braid_kk), geometry-aware routing, curved-space FH scaffolding, XDiag production parity (schema guard, extended metrics, health check) — 186 new tests | quantum/ adjacent track (non-hardgate) | +186 | 2026-05-14 |
 | v10.54 | Quantum side-project closure: FH exact diag + UM-KK Mott bridge + XDiag parity — 545 new tests | quantum/ adjacent track | +545 | 2026-05-13 |
 | v10.53 | Gap Closure Sprint: ADM time parameterization (T3), 5D PQ axion (SC3), Higgs naturalness KK (A3) | adm_time_parameterization, pq_axion_5d_geometry, higgs_naturalness_5d_fixedpoint | +112 | 2026-05-13 |
@@ -254,7 +255,7 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Applied Research Tracks (Pillars 218–235)
+### Applied Research Tracks (Pillars 218–243)
 
 Adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
 
@@ -273,6 +274,7 @@ Adjacent applied research pillars — not hard-gate physics claims, but honest q
 | 230 | `src/core/pillar230_cancer_solutions_engine.py` | Cancer Solutions Engine: targeted solution paths for bottlenecks identified in Pillar 228; clinical translation readiness scoring | 158 | 🔵 ADJACENT TRACK |
 | 232 | `src/core/pillar232_universal_cancer_control_framework.py` | Universal Cancer Control Framework: integrated cross-pillar synthesis (Pillars 228–230) with policy-level routing, resource allocation scoring, and LiteBIRD-era timeline anchoring | 34 | 🔵 ADJACENT TRACK |
 | 235 | `src/core/pillar235_solar_physics_open_questions_engine.py` | Solar Physics Open Questions Engine: deterministic diagnostics, uncertainty simulations, and falsification lanes for 12 major unsolved solar-physics questions | 18 | 🔵 ADJACENT TRACK |
+| 243 | `src/core/pillar243_unified_scientific_interoperability_validation_fabric.py` | Unified Scientific Interoperability & Validation Fabric (USIVF): deterministic five-lane interoperability scoring (numerical workflow, symbolic consistency, cosmology contracts, math verification, governance+assistant traceability) with reproducible manifests and explicit separation guard | 52 | 🔵 ADJACENT TRACK |
 
 ### Key numerical results (v10.5)
 
