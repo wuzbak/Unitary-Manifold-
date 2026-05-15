@@ -23,6 +23,21 @@ from src.core.pillar244_tend_branch_completion_engine import (
     ten_d_branch_lane_reports,
 )
 
+EXPECTED_REPORT_KEYS = (
+    "pillar",
+    "title",
+    "status",
+    "adjacency_track_label",
+    "ten_d_branch_track",
+    "adjacent_toe_score_delta",
+    "separation_guard",
+    "lane_reports",
+    "completion_summary",
+    "p28_hardgate_context",
+    "full_closure_handoff",
+    "falsification_condition",
+)
+
 
 def test_provenance_header():
     assert __provenance__["pillar"] == 244
@@ -151,20 +166,7 @@ def test_full_closure_handoff_message():
 
 def test_full_report_shape():
     report = pillar244_tend_branch_completion_report()
-    for key in (
-        "pillar",
-        "title",
-        "status",
-        "adjacency_track_label",
-        "ten_d_branch_track",
-        "adjacent_toe_score_delta",
-        "separation_guard",
-        "lane_reports",
-        "completion_summary",
-        "p28_hardgate_context",
-        "full_closure_handoff",
-        "falsification_condition",
-    ):
+    for key in EXPECTED_REPORT_KEYS:
         assert key in report
 
 

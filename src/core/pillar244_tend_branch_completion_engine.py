@@ -185,6 +185,16 @@ def full_closure_handoff() -> dict[str, Any]:
     """Return the explicit next-phase handoff after 10D branch completion."""
     summary = ten_d_branch_completion_summary()
     ready = bool(summary["branch_complete"])
+    message = (
+        "The 10D branch is internally finished. Remaining work belongs to the "
+        "later full-closure / 11D continuation package, not to unfinished 10D "
+        "mechanism wiring."
+    )
+    if not ready:
+        message = (
+            "Do not advance to the later full-closure package until the five 10D "
+            "branch lanes all pass."
+        )
     return {
         "ready_for_next_phase": ready,
         "blocked_by_10d_branch": not ready,
@@ -198,15 +208,7 @@ def full_closure_handoff() -> dict[str, Any]:
             "Keep P28 hardgate result separate from adjacent-lane bookkeeping.",
             "Treat 11D work as the next closure-depth layer, not as a re-opened 10D branch.",
         ],
-        "message": (
-            "The 10D branch is internally finished. Remaining work belongs to the "
-            "later full-closure / 11D continuation package, not to unfinished 10D "
-            "mechanism wiring."
-            if ready
-            else
-            "Do not advance to the later full-closure package until the five 10D "
-            "branch lanes all pass."
-        ),
+        "message": message,
     }
 
 
