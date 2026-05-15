@@ -1471,6 +1471,8 @@ The muon g−2 anomaly is logged here as a **genuine open question** for the UM,
 not as a prediction or a falsification.  Addressing it requires extending the UM
 fermion sector beyond the current bosonic KK reduction.
 
+**Canonical status token:** `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN`
+
 
 
 ---
@@ -3364,6 +3366,11 @@ isotropic case but the full inhomogeneous 5D ADM system is not solved.
 
 **§III status update:** "Kinematic gap: CLOSED (Pillar 212). Dynamical ADM
 quantization: OPEN (future work)."
+
+**Canonical status tokens (single-source sync with `1-THEORY/DERIVATION_STATUS.md` and `docs/TRUTH_LAYER.md`):**
+- `ADM_STATUS_CANONICAL: KINEMATIC_CLOSED_DYNAMICAL_OPEN`
+- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN`
+- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: HARDGATE_TRACK_OPEN`
 
 ---
 

@@ -81,21 +81,20 @@ Connections
 
 Honest Status of Equation [4] — r_braided = r_bare × c_s
 ----------------------------------------------------------
-Equation [4] is *motivated* by the kinetic-mixing structure of the braided
-Lagrangian: when two winding sectors couple through a CS term at level k_cs,
-the propagating adiabatic mode acquires a non-trivial sound speed c_s, and
-standard non-canonical inflation theory (Garriga & Mukhanov 1999, JHEP
-9910:006) gives r → r × c_s at leading order in slow roll.  The suppression
-factor c_s = 12/37 is algebraically derived from the braid pair (5,7) and the
-resonance identity k_cs = n₁² + n₂² — it is not a free assumption.
+Equation [4] is derived from the braided kinetic-mixing structure:
+the 5D CS/WZW reduction yields K=[[1,ρ],[ρ,1]], so c_s=√(det K)=√(1−ρ²)
+exactly (no series truncation in ρ).  For (5,7), c_s=12/37 follows from
+ρ=35/37 and the exact Pythagorean identity 12²+35²=37².
 
-A full field-theoretic derivation of the braided kinetic term starting from
-the 5D action S₅ — writing out the off-diagonal CS block, canonically
-normalising the mixed kinetic matrix, and tracking all slow-roll suppression
-factors — is outstanding work that would complete this argument.  The
-application of c_s to the tensor-to-scalar ratio follows standard inflationary
-physics practice; it is not specific to this framework.  See FALLIBILITY.md
-Admission 5 for the formal status record.
+This module now includes non-perturbative referee hardening:
+`wzw_nonperturbative_validation()` validates algebraic exactness, exact
+Mukhanov-Sasaki mode-equation agreement, and a broad ρ-sweep envelope.
+
+Remaining honest open items are explicit and bounded:
+- full two-field non-adiabatic corrections beyond the adiabatic reduction;
+- tensor non-perturbative corrections beyond the current tree/one-loop lanes.
+
+These boundaries are tracked as hardgate items rather than hidden gaps.
 
 Public API
 ----------

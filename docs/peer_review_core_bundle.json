@@ -1,0 +1,34 @@
+{
+  "bundle_name": "um-core-peer-review-bundle",
+  "updated": "2026-05-15",
+  "scope": "core-only",
+  "purpose": "Independent replication package separated from outreach and adjacent tracks.",
+  "tracks_excluded": [
+    "7-OUTREACH",
+    "adjacent non-hardgate engineering lanes"
+  ],
+  "core_documents": [
+    "proof/TIER_1_FORMAL.md",
+    "FALLIBILITY.md",
+    "1-THEORY/DERIVATION_STATUS.md",
+    "docs/TRUTH_LAYER.md",
+    "docs/CLAIM_MASTER_BOARD.md"
+  ],
+  "core_code": [
+    "src/core/metric.py",
+    "src/core/evolution.py",
+    "src/core/adm_engine.py",
+    "src/core/adm_quantitative_closure.py",
+    "src/core/chiral_fermion_orbifold.py",
+    "src/core/su5_orbifold_proof.py",
+    "src/core/braided_winding.py"
+  ],
+  "repro_commands": [
+    "python3 proof/VERIFY.py",
+    "python3 proof/ALGEBRA_PROOF.py",
+    "python3 -m pytest tests/ recycling/ \"5-GOVERNANCE/Unitary Pentad/\" -q --tb=no"
+  ],
+  "primary_falsifier": "LiteBIRD birefringence window and forbidden gap",
+  "falsifier_doc": "docs/LITEBIRD_FALSIFIER_BRIEF.md",
+  "hardgate_registry": "docs/closure_hardgates.json"
+}

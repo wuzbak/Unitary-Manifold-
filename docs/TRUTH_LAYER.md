@@ -319,14 +319,20 @@ scale to the higher-dimensional UV scale and lands α_GW in-band.
 
 ---
 
-### T3 — ADM Time Parameterization (GAP)
+### T3 — ADM Time Parameterization (KINEMATIC_CLOSED_DYNAMICAL_OPEN)
 
 **Framework claim:** The delay field (Pillar 41) provides a qualitative
 geometric description of time parameterization in 3+1 decomposition.
 
-**Full truth:** The quantitative rate requires a complete ADM 3+1 decomposition
-of the 5D metric. This has not been done. Pillar 41 is a partial implementation.
-The qualitative claim survives; the quantitative claim does not.
+**Full truth:** The attractor kinematics are closed (Pillar 212 establishes
+dt_coord = dt_Ricci = dt_ADM at φ=1). The full dynamical inhomogeneous 5D ADM
+closure and non-minisuperspace quantization remain open hardgate work.
+The qualitative claim survives; full dynamical closure remains pending.
+
+**Canonical status tokens (single-source sync with `FALLIBILITY.md` and `1-THEORY/DERIVATION_STATUS.md`):**
+- `ADM_STATUS_CANONICAL: KINEMATIC_CLOSED_DYNAMICAL_OPEN`
+- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN`
+- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: HARDGATE_TRACK_OPEN`
 
 ---
 
@@ -437,10 +443,16 @@ details." They are real gaps.
    explained geometrically — the hierarchy is reproduced by the matching
    procedure, not derived from topology.
 
-6. **ADM time quantization:** The 3+1 decomposition of the 5D delay field
-   has not been carried to the quantitative level.
+6. **ADM time quantization:** Kinematic attractor closure is complete, but full
+   inhomogeneous dynamical ADM quantization remains open.
 
-7. **Pillar 183 c_L spectrum closure:** Sub-leading CS corrections to the c_L spectrum.
+7. **KK reduction completeness boundary:** Bosonic KK reduction is substantially
+   closed across current lanes, while full fermion-sector closure remains open.
+
+8. **Orbifold-equivalence closure:** SU(5)→SM reduction is operationally derived,
+   but referee-grade internal-equivalence hardgate closure remains open.
+
+9. **Pillar 183 c_L spectrum closure:** Sub-leading CS corrections to the c_L spectrum.
    P16 promotion was achieved via the WS-III T²/Z₃ torsion derivation of +52 (v10.32);
    full c_L spectrum closure from first principles remains open for fermion mass hierarchy.
 

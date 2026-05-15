@@ -7,7 +7,9 @@ from src.core.canonical_ledger_consistency import (
     LEDGER_PATHS,
     ONBOARDING_PATHS,
     canonical_ledger_consistency_report,
+    canonical_status_token_report,
     canonical_ledger_snapshot,
+    closure_gate_label_discipline_report,
     onboarding_docs_consistency_report,
 )
 
@@ -73,4 +75,20 @@ class TestOnboardingDocsConsistency:
         report = onboarding_docs_consistency_report()
         assert report["all_pass"] is True, (
             f"Onboarding consistency check failed. Drifted docs: {report['drifted_docs']}"
+        )
+
+
+class TestCanonicalStatusTokenSync:
+    def test_canonical_status_tokens_exist_in_all_ledgers(self):
+        report = canonical_status_token_report()
+        assert report["all_pass"] is True, (
+            f"Missing canonical status tokens: {report['missing']}"
+        )
+
+
+class TestClosureGateLabelDiscipline:
+    def test_no_premature_fully_closed_labels(self):
+        report = closure_gate_label_discipline_report()
+        assert report["all_pass"] is True, (
+            f"Forbidden FULLY_CLOSED labels detected: {report['violations']}"
         )

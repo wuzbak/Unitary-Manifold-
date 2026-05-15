@@ -1,0 +1,106 @@
+{
+  "version": "v10.59",
+  "updated": "2026-05-15",
+  "canonical_status_tokens": {
+    "adm": "ADM_STATUS_CANONICAL: KINEMATIC_CLOSED_DYNAMICAL_OPEN",
+    "kk": "KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN",
+    "orbifold": "ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: HARDGATE_TRACK_OPEN"
+  },
+  "gates": [
+    {
+      "key": "ADM_FULL_DYNAMICAL_5D",
+      "status": "HARDGATE_TRACK_OPEN",
+      "required_artifacts": [
+        "src/core/adm_engine.py",
+        "src/core/adm_quantitative_closure.py",
+        "src/core/pillar212_adm_decomposition.py"
+      ],
+      "required_tests": [
+        "tests/test_adm_engine.py",
+        "tests/test_core_adm_quantitative_closure.py",
+        "tests/test_pillar212_adm_decomposition.py"
+      ],
+      "falsifier": "Constraint propagation failure under inhomogeneous 5D scans.",
+      "promotion_rule": "Promote only when inhomogeneous 5D ADM evolution and constraint propagation are numerically verified and reproducible.",
+      "workstream": "A",
+      "forbid_if_incomplete": [
+        "ADM_STATUS_CANONICAL: FULLY_CLOSED"
+      ],
+      "watch_paths": [
+        "FALLIBILITY.md",
+        "1-THEORY/DERIVATION_STATUS.md",
+        "docs/TRUTH_LAYER.md"
+      ]
+    },
+    {
+      "key": "KK_FERMION_REDUCTION_5D",
+      "status": "HARDGATE_TRACK_OPEN",
+      "required_artifacts": [
+        "src/core/chiral_fermion_orbifold.py",
+        "src/core/fermion_emergence.py",
+        "src/core/fermion_cl_quantization.py"
+      ],
+      "required_tests": [
+        "tests/test_chiral_fermion_orbifold.py",
+        "tests/test_fermion_emergence.py",
+        "tests/test_fermion_cl_quantization.py"
+      ],
+      "falsifier": "Fermion-sector KK reduction fails chirality/zero-mode consistency checks.",
+      "promotion_rule": "Promote only when fermion-sector KK reduction is fully closed without external hand-imposed couplings.",
+      "workstream": "B",
+      "forbid_if_incomplete": [
+        "KK_REDUCTION_STATUS_CANONICAL: FULLY_CLOSED"
+      ],
+      "watch_paths": [
+        "FALLIBILITY.md",
+        "1-THEORY/DERIVATION_STATUS.md",
+        "docs/TRUTH_LAYER.md"
+      ]
+    },
+    {
+      "key": "ORBIFOLD_EQUIVALENCE_5D",
+      "status": "HARDGATE_TRACK_OPEN",
+      "required_artifacts": [
+        "src/core/su5_orbifold_proof.py",
+        "src/core/nw5_pure_theorem.py"
+      ],
+      "required_tests": [
+        "tests/test_su5_orbifold_proof.py",
+        "tests/test_nw5_pure_theorem.py"
+      ],
+      "falsifier": "Internal UM orbifold route fails equivalence with Kawamura projection spectrum.",
+      "promotion_rule": "Promote only when internal-geometry orbifold equivalence is proven and independently reproduced.",
+      "workstream": "B",
+      "forbid_if_incomplete": [
+        "ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: FULLY_CLOSED"
+      ],
+      "watch_paths": [
+        "FALLIBILITY.md",
+        "1-THEORY/DERIVATION_STATUS.md",
+        "docs/TRUTH_LAYER.md"
+      ]
+    },
+    {
+      "key": "BRAIDED_NONPERT_REFEREE_DOSSIER",
+      "status": "HARDGATE_TRACK_OPEN",
+      "required_artifacts": [
+        "src/core/braided_winding.py",
+        "docs/peer_review_core_bundle.json"
+      ],
+      "required_tests": [
+        "tests/test_braided_winding.py"
+      ],
+      "falsifier": "non-adiabatic/tensor corrections invalidate c_s non-perturbative envelope assumptions.",
+      "promotion_rule": "Promote only when validity envelope and non-adiabatic boundaries are fully audited for referee replication.",
+      "workstream": "B",
+      "forbid_if_incomplete": [
+        "BRAIDED_STATUS_CANONICAL: FULLY_CLOSED"
+      ],
+      "watch_paths": [
+        "FALLIBILITY.md",
+        "1-THEORY/DERIVATION_STATUS.md",
+        "docs/TRUTH_LAYER.md"
+      ]
+    }
+  ]
+}
