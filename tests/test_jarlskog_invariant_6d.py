@@ -46,7 +46,7 @@ class TestJarlskogInvariantGeometric:
         result = jarlskog_invariant_geometric()
         assert result["J_geo"] > 0
 
-    def test_j_geo_order_of_magnitude_within_2_decades_of_3e5(self):
+    def test_j_geo_order_of_magnitude_within_2_decades_of_3e_minus5(self):
         result = jarlskog_invariant_geometric()
         j = result["J_geo"]
         log_diff = abs(math.log10(j) - math.log10(3e-5))
