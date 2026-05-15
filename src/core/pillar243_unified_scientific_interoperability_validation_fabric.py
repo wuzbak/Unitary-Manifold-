@@ -38,6 +38,7 @@ C_S: float = 12.0 / 37.0
 XI_C: float = 35.0 / 74.0
 PHI0: float = 0.7390851332151607
 HOLON_THEORETICAL_CONFIDENCE: float = 1.0
+MATH_BACKEND_TOLERANCE_EXPONENT: int = -12
 
 ADJACENCY_TRACK_LABEL: str = "ADJACENT_TRACK_NON_HARDGATE"
 USIVF_TRACK_LABEL: str = "USIVF_INTEROPERABILITY_TRACK"
@@ -180,7 +181,7 @@ def mathematical_backend_verification(
             phi_mp = mpmath.mpf(phi0)
             residual_signed_mp = mpmath.cos(phi_mp) - phi_mp
             residual_mp = abs(residual_signed_mp)
-            tolerance_mp = mpmath.mpf(10) ** (-12)
+            tolerance_mp = mpmath.mpf(10) ** MATH_BACKEND_TOLERANCE_EXPONENT
             residual = float(residual_mp)
             tolerance = float(tolerance_mp)
             numeric_ok = bool(residual_mp <= tolerance_mp)
@@ -414,6 +415,7 @@ __all__ = [
     "XI_C",
     "PHI0",
     "HOLON_THEORETICAL_CONFIDENCE",
+    "MATH_BACKEND_TOLERANCE_EXPONENT",
     "ADJACENCY_TRACK_LABEL",
     "USIVF_TRACK_LABEL",
     "LANE_ORDER",
