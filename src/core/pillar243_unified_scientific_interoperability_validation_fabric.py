@@ -21,6 +21,16 @@ import hashlib
 import random
 from typing import Any
 
+try:
+    import mpmath
+except ImportError:  # pragma: no cover - optional dependency
+    mpmath = None
+
+try:
+    import sympy
+except ImportError:  # pragma: no cover - optional dependency
+    sympy = None
+
 N_W: int = 5
 N_2: int = 7
 K_CS: int = 74
@@ -28,6 +38,7 @@ C_S: float = 12.0 / 37.0
 XI_C: float = 35.0 / 74.0
 PHI0: float = 0.7390851332151607
 HOLON_THEORETICAL_CONFIDENCE: float = 1.0
+MATH_BACKEND_TOLERANCE_EXPONENT: int = -12
 
 ADJACENCY_TRACK_LABEL: str = "ADJACENT_TRACK_NON_HARDGATE"
 USIVF_TRACK_LABEL: str = "USIVF_INTEROPERABILITY_TRACK"
@@ -144,6 +155,48 @@ def mathematical_verification_score(s: InteroperabilityScenario) -> float:
 
 def governance_assistant_traceability_score(s: InteroperabilityScenario) -> float:
     return _clamp01(0.5 * (s.governance_traceability_rate + s.assistant_auditability_rate))
+
+
+def mathematical_backend_verification(
+    dps: int = 50,
+    phi0: float = PHI0,
+) -> dict[str, Any]:
+    """Deterministic symbolic+numeric verification lane helper.
+
+    Returns a compact contract record that uses:
+    - sympy for symbolic identity validation
+    - mpmath for high-precision fixed-point residual evaluation
+    """
+    symbolic_ok = False
+    if sympy is not None:
+        x, y = sympy.symbols("x y", real=True)
+        identity = (x + y) ** 2 - (x**2 + 2 * x * y + y**2)
+        symbolic_ok = bool(sympy.simplify(identity) == 0)
+
+    numeric_ok = False
+    residual = float("nan")
+    tolerance = float("nan")
+    if mpmath is not None:
+        with mpmath.workdps(dps):
+            phi_mp = mpmath.mpf(phi0)
+            residual_signed_mp = mpmath.cos(phi_mp) - phi_mp
+            residual_mp = abs(residual_signed_mp)
+            tolerance_mp = mpmath.mpf(10) ** MATH_BACKEND_TOLERANCE_EXPONENT
+            residual = float(residual_mp)
+            tolerance = float(tolerance_mp)
+            numeric_ok = bool(residual_mp <= tolerance_mp)
+
+    return {
+        "sympy_available": sympy is not None,
+        "mpmath_available": mpmath is not None,
+        "symbolic_identity_passed": symbolic_ok,
+        "numeric_fixed_point_passed": numeric_ok,
+        "passed": (sympy is not None) and (mpmath is not None) and symbolic_ok and numeric_ok,
+        "dps": int(dps),
+        "phi0": float(phi0),
+        "residual_abs": residual,
+        "tolerance_abs": tolerance,
+    }
 
 
 def lane_scores(s: InteroperabilityScenario) -> dict[str, float]:
@@ -318,6 +371,7 @@ def usivf_full_report(
         "overall_status": interoperability_status(index),
         "workflow_manifest": workflow_manifest(s, seed=seed),
         "monte_carlo": monte_carlo_interoperability(s, n_trials=n_trials, seed=seed),
+        "mathematical_backend_verification": mathematical_backend_verification(),
         "separation_guard": separation_guard(),
         "falsification_condition": (
             "FALSIFIED as an adjacent interoperability engine if reproducible "
@@ -361,6 +415,7 @@ __all__ = [
     "XI_C",
     "PHI0",
     "HOLON_THEORETICAL_CONFIDENCE",
+    "MATH_BACKEND_TOLERANCE_EXPONENT",
     "ADJACENCY_TRACK_LABEL",
     "USIVF_TRACK_LABEL",
     "LANE_ORDER",
@@ -373,6 +428,7 @@ __all__ = [
     "symbolic_algebra_consistency_score",
     "cosmology_pipeline_compatibility_score",
     "mathematical_verification_score",
+    "mathematical_backend_verification",
     "governance_assistant_traceability_score",
     "lane_scores",
     "deterministic_run_id",

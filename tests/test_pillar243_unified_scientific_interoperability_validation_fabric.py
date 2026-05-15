@@ -28,6 +28,7 @@ from src.core.pillar243_unified_scientific_interoperability_validation_fabric im
     symbolic_algebra_consistency_score,
     cosmology_pipeline_compatibility_score,
     mathematical_verification_score,
+    mathematical_backend_verification,
     governance_assistant_traceability_score,
     lane_scores,
     deterministic_run_id,
@@ -146,6 +147,39 @@ def test_lane_scoring_functions_unit_interval():
     )
     for v in vals:
         assert 0.0 <= v <= 1.0
+
+
+def test_mathematical_backend_verification_shape_and_pass():
+    out = mathematical_backend_verification(dps=50)
+    for key in (
+        "sympy_available",
+        "mpmath_available",
+        "symbolic_identity_passed",
+        "numeric_fixed_point_passed",
+        "passed",
+        "dps",
+        "phi0",
+        "residual_abs",
+        "tolerance_abs",
+    ):
+        assert key in out
+    if out["sympy_available"]:
+        assert out["symbolic_identity_passed"] is True
+    else:
+        assert out["symbolic_identity_passed"] is False
+    if out["mpmath_available"]:
+        assert out["numeric_fixed_point_passed"] is True
+    else:
+        assert out["numeric_fixed_point_passed"] is False
+    assert out["passed"] == (
+        out["sympy_available"]
+        and out["mpmath_available"]
+        and out["symbolic_identity_passed"]
+        and out["numeric_fixed_point_passed"]
+    )
+    if out["sympy_available"] and out["mpmath_available"]:
+        assert out["residual_abs"] <= out["tolerance_abs"]
+        assert abs(math.cos(out["phi0"]) - out["phi0"]) <= out["tolerance_abs"]
 
 
 def test_lane_scores_keys():
@@ -308,6 +342,7 @@ def test_full_report_keys():
         "overall_status",
         "workflow_manifest",
         "monte_carlo",
+        "mathematical_backend_verification",
         "separation_guard",
         "falsification_condition",
     ):
