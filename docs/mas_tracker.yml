@@ -8,7 +8,7 @@ purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 public_surface_sync_checkpoint:
   version: "v10.57"
-  regression: "32 404 passed, 393 skipped, 12 deselected, 0 failed"
+  regression: "32 461 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
