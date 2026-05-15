@@ -38,6 +38,24 @@ XDiag workflows for reproducibility and parity auditing.
 - Score policy: this lane does not alter ToE scoring or claim promotions.
 - Governance: steward approval is recorded for formal pillar-numbering readiness in this lane.
 
+### 0.2 Adjacent interoperability lane: Pillar 243 USIVF (non-score, non-hardgate)
+
+The repository now includes a dedicated adjacent interoperability lane at
+`src/core/pillar243_unified_scientific_interoperability_validation_fabric.py`
+to combine transferable validation patterns from major scientific ecosystems
+without conflating their scope.
+
+- Scope: deterministic five-lane interoperability contracts spanning numerical
+  workflow discipline (ET-inspired), symbolic consistency (xAct/FeynCalc/Cadabra-inspired),
+  cosmology pipeline compatibility (CAMB/CLASS/CosmoMC/PyTransport-inspired),
+  broad math verification culture (SageMath-style), and governance/assistant
+  traceability.
+- Epistemic status: adjacent engineering scaffold/production lane only
+  (`ADJACENT_TRACK_NON_HARDGATE`), not a hardgate physics-claim lane.
+- Score policy: this lane does not alter ToE scoring or claim promotions.
+- Guardrail: `separation_guard()` explicitly forbids physics-claim promotion and
+  ToE score deltas from USIVF results.
+
 ---
 
 ## Section 1 — Foundation: What Is Actually Proved vs. Assumed
