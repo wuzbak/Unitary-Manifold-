@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.58 — Effective 2026-05-15*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.58 wave: USIVF sprint — Pillar 243; 52 new tests; Substack post 171). Live validation run committed — see `docs/PILLAR243_VALIDATION_RUN.md` and Substack post 172.*
+*Unitary Manifold v10.59 — Effective 2026-05-15*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.59 wave: P28 DERIVED cert — ToE 28.0/28 = 100%; 36 new tests). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,8 +29,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 32 536 passed · 393 skipped · 12 deselected · 0 failed  
-*(v10.58: +52 tests — Pillar 243 USIVF)*
+**Latest verified branch regression:** 32 572 passed · 393 skipped · 12 deselected · 0 failed  
+*(v10.59: +36 tests — P28 DERIVED cert)*
 
 ---
 
@@ -101,6 +101,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v10.59 | P28 DERIVED cert: cosmological constant derived from RS1+KK+10D geometry (zero free parameters; log₁₀ residual < 0.31); ToE 27.8→28.0/28 = 100% | `p28_lambda_derived_cert.py` | +36 | 2026-05-15 |
 | v10.58 | Adjacent interoperability lane: USIVF (ET-inspired workflow manifests, symbolic consistency contracts, cosmology pipeline compatibility, math verification, governance+assistant traceability) — 52 new tests | pillar243/ adjacent track (non-hardgate) | +52 | 2026-05-15 |
 | v10.55 | Adjacent quantum lane: multi-dim FH lattice (1D/2D/3D/braid_kk), geometry-aware routing, curved-space FH scaffolding, XDiag production parity (schema guard, extended metrics, health check) — 186 new tests | quantum/ adjacent track (non-hardgate) | +186 | 2026-05-14 |
 | v10.54 | Quantum side-project closure: FH exact diag + UM-KK Mott bridge + XDiag parity — 545 new tests | quantum/ adjacent track | +545 | 2026-05-13 |

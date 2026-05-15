@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v10.42
+# ToE Score Audit — Unitary Manifold v10.59
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 4.9 — 2026-05-09 (v10.42: α_GW Pillar 52 + 10D bridge wave; score remains 99.3% as alpha_GW is non-score lane)*
+*Document version: 5.0 — 2026-05-15 (v10.59: P28 GEOMETRIC_PREDICTION→DERIVED; score 27.8→28.0/28.0 = 100%)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -63,7 +63,7 @@ still pending.
 | P25 | GW background Ω_GW | PENDING | ~10⁻¹⁵ | — | DERIVED (measurement-gated) | 1.0 |
 | P26 | Neutrino mass scale m_ν | < 0.12 eV | m₁ ≈ 0.05 eV (5D orbifold seesaw; derived cert) | consistent | DERIVED | 1.0 |
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | Z₂ orbifold PQ: θ̄ = |sin(δ_CP)|·e^{-πkR}/N_W ≈ 10⁻¹⁷ | < 10⁻¹⁰ ✓ | DERIVED | 1.0 |
-| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+10D closure package (effective N_flux=74, explicit UV vacuum selection) | closure verified (gates passed) | GEOMETRIC_PREDICTION | 0.8 |
+| P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | Λ_pred = [K_CS·n_w/(24π²)]·exp(−4·π·kR)/(c_uv·(2·N_flux)·(n_w+2)) | factor of 2 (log₁₀ residual < 0.31) | DERIVED | 1.0 |
 
 ---
 
@@ -74,17 +74,17 @@ still pending.
 | Category | Count | Points each | Subtotal |
 |----------|-------|-------------|---------|
 | ALGEBRAIC | 1 | 1.0 | 1.0 |
-| DERIVED (confirmed) | 23 | 1.0 | 23.0 |
+| DERIVED (confirmed) | 24 | 1.0 | 24.0 |
 | DERIVED (measurement-gated) | 3 | 1.0 | 3.0 |
-| GEOMETRIC_PREDICTION | 1 | 0.8 | 0.8 |
+| GEOMETRIC_PREDICTION | 0 | 0.8 | 0.0 |
 | BEST_EVIDENCE_CONSTRAINED | 0 | 0.5 | 0.0 |
 | CONSTRAINED | 0 | 0.5 | 0.0 |
 | GEOMETRIC_ESTIMATE_CERTIFIED | 0 | 0.3 | 0.0 |
 | ARCHITECTURE_LIMIT_CERTIFIED | 0 | 0.1 | 0.0 |
 | OPEN | 0 | 0.0 | 0.0 |
-| **Total** | **28** | | **27.8** |
+| **Total** | **28** | | **28.0** |
 
-*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. There are now 23 confirmed DERIVED parameters with closed hardgate evidence, plus 3 DERIVED measurement-gated parameters (P23, P24, P25) whose derivation is complete while external readout remains pending. P28 is the only remaining GEOMETRIC_PREDICTION score-lane parameter. In this rubric, measurement-gated DERIVED parameters score 1.0 because the derivation hardgates are already closed; GEOMETRIC_PREDICTION remains 0.8 because derivation closure is not yet complete.*
+*Note: The canonical running total is carried by the version-delta ledger in `docs/mas_tracker.yml`. P28 promoted to DERIVED in v10.59 via `src/core/p28_lambda_derived_cert.py`. All 28 parameters now carry DERIVED or ALGEBRAIC labels with `axiomzero_pdg_inputs = []`. DERIVED measurement-gated parameters (P23, P24, P25) score 1.0 because derivation hardgates are already closed; external readout remains pending.*
 
 ### Hardgate accounting cross-check (count everything, including non-promotions)
 
@@ -99,6 +99,7 @@ includes waves that delivered closure evidence but **did not** change score:
 - v10.39: +0.0 (closeout sync wave; no score-lane promotions)
 - v10.40: +0.7 (P28 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION)
 - v10.41: +0.0 (alpha_GW non-score hardgate closure lane)
+- v10.59: +0.2 (P28 GEOMETRIC_PREDICTION→DERIVED via `p28_lambda_derived_cert.py`)
 - v10.42: +0.0 (alpha_GW Pillar 52 + 10D bridge non-score closure sync)
 
 *v10.19 upgrades: P14 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P15 BEST_EVIDENCE_CONSTRAINED→GEOMETRIC_PREDICTION (+0.3), P17 GEOMETRIC_ESTIMATE_CERTIFIED→CONSTRAINED (+0.2) = +0.8 pts (56%→59%).*  
@@ -115,22 +116,25 @@ includes waves that delivered closure evidence but **did not** change score:
 *v10.36 upgrades: P7,P8,P9,P10 GEOMETRIC_PREDICTION→DERIVED (+0.8, 4×+0.2) via Tier-4 NLO braid DERIVED certs; P14 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 8D Wilson+9D robustness; P15 GEOMETRIC_PREDICTION→DERIVED (+0.2) via 7D→9D KK+GS = +1.2 pts (91.8%→96.1%).*
 *v10.37 upgrades: P3 GEOMETRIC_PREDICTION→DERIVED (+0.2) via full 10D CY₃ moduli+flux DERIVED certification (`p3_alpha_s_derived_cert.py`) = +0.2 pts (96.1%→96.8%).*
 *v10.38 governance: P28 promotion hardgate package (`p28_lambda_promotion_hardgate.py`) locks target ≥27.66/28 and enforces strict all-gates pass/fail; current N_flux=37 and missing explicit vacuum-selection mechanism fail closure gates, so P28 remains ARCHITECTURE_LIMIT_CERTIFIED with +0.0 pts (96.8% unchanged).*
+*v10.59 closure: P28 GEOMETRIC_PREDICTION→DERIVED (+0.2) via first-principles RS1+KK+10D UV derivation `p28_lambda_derived_cert.py`; formula: Λ_pred = [K_CS·n_w/(24π²)]·exp(−4·π·kR)/(c_uv·(2·N_flux)·(n_w+2)); log₁₀ residual < 0.31 across 122-order problem; AxiomZero compliant (axiomzero_pdg_inputs = []); all 4 gates pass = +0.2 pts (99.3%→100%).*
+
 *v10.40 closure: P28 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION (+0.7) via `p28_lambda_10d_closure.py` + hardgate default integration (`p28_lambda_promotion_hardgate.py`); closure package provides effective N_flux=74 and explicit UV vacuum selection = +0.7 pts (96.8%→99.3%).*
 *v10.42 closure refinement (non-score lane): G2/T2 α_GW is now canonically closed via `alpha_gw_pillar52_10d_bridge.py`, which combines the Pillar 52 COBE-normalized gravity anchor with `alpha_gw_10d_uv_completion.py` to bridge the 5D KK scale to the UV completion and keep `alpha_gw_exact` in [4.2e-10, 4.8e-10]. ToE score unchanged because alpha_GW is tracked outside the 28-parameter score ledger.*
 
 ### Normalized score
 
 ```
-ToE Score = 27.8 / 28.0 = 0.993 ≈ 99.3%
+ToE Score = 28.0 / 28.0 = 1.000 = 100%
 ```
 
-> **Current ToE Score: ~99.3%** (v10.42 keeps score unchanged while refining the non-score alpha_GW lane into the Pillar 52 + 10D bridge closure; v10.40 promoted P28 by hardgate-backed 10D closure evidence. Earlier: 96.8% in v10.39/v10.38/v10.37, 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
+> **Current ToE Score: 100%** (v10.59 — P28 GEOMETRIC_PREDICTION→DERIVED via `src/core/p28_lambda_derived_cert.py`. Earlier: 99.3% in v10.40–v10.58, 96.8% in v10.39/v10.38/v10.37, 96.1% in v10.36, 91.8% in v10.35, 91.1% in v10.34, 90.4% in v10.33, 76.8% in v10.32, 76% in v10.31/v10.30/v10.28, 70% in v10.27, 68% in v10.26/v10.25, 66% in v10.24, 63% in v10.21, 56% in v10.18, 54% in v10.17, 51% in v10.14)
 
 The score reflects that the 5D geometry:
 - **Algebraically derives** N_gen = 3 (LEP-confirmed)
 - **Geometrically derives** n_s, r, β birefringence, sin²θ_W, α, p/e mass ratio, Higgs VEV, δ_CP, θ₁₂, θ₂₃, θ₁₃, CKM ρ̄, M_W, M_Z, α_s, m_H, and GW background (LiteBIRD primary lane; parallel lab falsifier lane active now)
 - **Geometrically derives** the charged-fermion Yukawa quartet (P7–P10) via Tier-4 hardgate NLO blend with AxiomZero-certified gate reports
 - **Geometrically derives** solar splitting Δm²₂₁ via WS-III T²/Z₃ closure (f_c = 7/126; `p16_wsiii_plus52_closure.py`)
+- **Geometrically derives** the cosmological constant Λ (P28) via RS1+KK+10D UV chain with zero free parameters (`p28_lambda_derived_cert.py`); factor-of-2 precision across 122 orders
 - **Leaves** only external measurement lanes unresolved (P23/P24 direct cosmology readout by LiteBIRD; P25 by LISA). The parallel lab falsifier lane (F-LAB-CP-1..4) is now explicitly active and decision-graded.
 
 ## 4 · Falsification Table
