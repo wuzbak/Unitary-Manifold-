@@ -12,9 +12,9 @@
 | **Collaborator (Human)** | ThomasCory Walker-Pearson — theory, scientific direction, framework authority, override |
 | **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 pillars, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
-| **Session opened** | 2026-05-11T18:41:18Z |
-| **Active wave** | v10.52 — CKM/PMNS closure extension + EW precision + ledger sync |
-| **Prior wave** | v10.51 — 4-Gap Closure Sprint |
+| **Session opened** | 2026-05-15T16:36:46Z |
+| **Active wave** | v10.58 — Full & Final Push (doc sync, adjacent track registry, arXiv prep, scope freeze) |
+| **Prior wave** | v10.58 — USIVF Sprint (Pillar 243) |
 
 ---
 
@@ -30,7 +30,7 @@
 
 ---
 
-## Current Strategic Intent
+## Current Strategic Intent — FINAL PUSH COMPLETE
 
 | Priority | Intent | Status |
 |----------|--------|--------|
@@ -40,28 +40,49 @@
 | 4 | Q1 derivation track | ✅ Wave C signed off |
 | 5 | Close 4 residual gaps from v10.50 | ✅ v10.51 complete |
 | 6 | CKM/PMNS closure extension + EW precision extension cluster + canonical ledger sync | ✅ v10.52 complete |
+| 7 | Gap closure sprint (ADM, PQ axion, Higgs naturalness) + quantum closure | ✅ v10.53–v10.54 complete |
+| 8 | Adjacent quantum lane engineering-complete (FH lattice, XDiag bridge) | ✅ v10.55 complete |
+| 9 | Five-pillar adjacent sprint (Pillars 233–241 cluster) | ✅ v10.56–v10.57 complete |
+| 10 | USIVF interoperability fabric (Pillar 243) | ✅ v10.58 complete |
+| 11 | **Full & Final Push: doc sync, registry, arXiv, scope freeze** | ✅ **THIS SESSION — DONE** |
 
 ---
 
-## v10.52 Closure Summary
+## v10.58 Final State Summary
 
-| Gap | Module | Residual | Status |
-|-----|--------|----------|--------|
-| Multi-field WDW | `src/core/wdw_multifield.py` | Full 5D non-minisuperspace | SUBSTANTIALLY_CLOSED |
-| CMB E/B polarisation | `src/core/cmb_polarisation.py` | Sub-percent accuracy; lensing | SUBSTANTIALLY_CLOSED |
-| CKM + PMNS orbifold | `src/core/ckm_pmns_orbifold.py` + `src/core/ckm_nlo_g5_expansion.py` + `src/core/pmns_seesaw_5d.py` | Full global fit and threshold dressing still open | SUBSTANTIALLY_CLOSED |
-| EW precision extension | `src/core/ew_precision_oblique.py` | Higher-loop/full matching still open | DERIVED_CLUSTER |
-| α_GUT threshold | `src/core/alpha_gut_threshold_complete.py` | EW unification threshold | **CLOSED (0.107%)** |
-
-New targeted suites added and synchronized. Full regression baseline in this session: 29 425 passed, 329 skipped, 11 deselected, 0 failed.
+| Item | Value |
+|------|-------|
+| Version | v10.58 |
+| Core physics pillars | 208 — CLOSED |
+| Adjacent research tracks | Pillars 218–243 registered (non-hardgate) |
+| Test suite | **32 536 passed · 393 skipped · 12 deselected · 0 failed** |
+| ToE Score | **99.3% (27.8/28.0)** — FINAL |
+| MAS Programme | COMPLETE (W0–W14 closed) |
+| Post-MAS tracks | T1, T2, T3 — all PASS |
+| Extension tracks | ET-1 through ET-6 — all DELIVERED |
+| DBP Ladder | All 6 rungs SOLID/CERTIFIED |
+| Canonical ledger | all_pass: True (version + regression consistent across all docs) |
+| arXiv submission | READY (see `docs/ARXIV_SUBMISSION_STATUS.md`) |
+| Unitary OS | ARCHIVED — directory removed; sunset recorded in STATUS.md |
 
 ---
 
-## Open Loops / Next-Entry Trigger Conditions
+## Scope Freeze — PERMANENT STOP CONDITIONS
 
-- CKM/PMNS: genuinely open — needs dynamical neutrino mass mechanism OR revised c-assignments from fermion mass fit.
-- LiteBIRD real data: update `docs/falsification/litebird_proof_alternative_lab.md` §10 when results arrive (~2032).
-- DESI Year 3 (~2026): update `src/core/desi_year3_monitor.py`.
+The following are **permanently out of scope** until external data arrives:
+
+- ❌ No new physics pillars (set frozen at 208 + special modules)
+- ❌ No new MAS waves
+- ❌ No new extension tracks or workstreams
+- ⏳ P23/P24 birefringence — awaiting LiteBIRD (~2032)
+- ⏳ P25 Ω_GW — awaiting LISA (~2037)
+- ⏳ DESI Year 3 dark energy — awaiting (~2026/2027)
+- ⏳ CMB-S4 acoustic peaks — awaiting (~2030)
+
+**Future valid entries:**
+1. New observational data requiring a module update
+2. A falsification event
+3. arXiv acceptance/rejection response
 
 ---
 
@@ -81,6 +102,7 @@ New targeted suites added and synchronized. Full regression baseline in this ses
 | HILS framework | `5-GOVERNANCE/co-emergence/LLM_INGEST.md` |
 | MCP ingest | `6-MONOGRAPH/MCP_INGEST.md` |
 | Falsification | `docs/LITEBIRD_FALSIFIER_BRIEF.md` |
+| arXiv status | `docs/ARXIV_SUBMISSION_STATUS.md` |
 
 ---
 
