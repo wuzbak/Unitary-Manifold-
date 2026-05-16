@@ -259,7 +259,7 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Applied Research Tracks (Pillars 218–244)
+### Applied Research Tracks (Pillars 218–254)
 
 Adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
 
@@ -289,6 +289,7 @@ Adjacent applied research pillars — not hard-gate physics claims, but honest q
 | 242 | `src/core/pillar242_planetary_coherence_cascade_resilience_engine.py` | Planetary Coherence & Cascade Resilience Engine (PCCRE): co-emergent synthesis of Pillars 237–241 + OMEGA; Unified Planetary Readiness Index, Cascade Coupling Matrix (C_S=12/37 derived), Compound Cascade Failure Probability | 75 | 🔵 ADJACENT TRACK |
 | 243 | `src/core/pillar243_unified_scientific_interoperability_validation_fabric.py` | Unified Scientific Interoperability & Validation Fabric (USIVF): deterministic five-lane interoperability scoring (numerical workflow, symbolic consistency, cosmology contracts, math verification, governance+assistant traceability) with reproducible manifests and explicit separation guard | 52 | 🔵 ADJACENT TRACK |
 | 244 | `src/core/pillar244_tend_branch_completion_engine.py` | 10D Branch Completion & Closure Handoff Engine: deterministic five-lane finish audit for the existing 10D branch (R5 flux landscape, alpha_GW UV closure, P28 λ first-principles chain, P28 10D closure, UV vacuum-seed handoff) with explicit separation from later 11D / terminal full-closure work | 24 | 🔵 ADJACENT TRACK |
+| 254 | `src/core/pillar254_monograph_irreversibility_validation_certification_engine.py` | Monograph Irreversibility Validation & Certification Engine: deterministic five-lane proof-machine for monograph artifact integrity, irreversibility theorem encoding, 64/128/256/512 precision gates, formal theorem consistency, and executable runtime diagnostics; emits CERTIFIED or REJECTED with explicit reasons | 14 | 🔵 ADJACENT TRACK |
 
 ### Key numerical results (v10.5)
 
