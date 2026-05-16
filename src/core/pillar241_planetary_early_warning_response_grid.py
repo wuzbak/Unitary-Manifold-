@@ -1,6 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 241 — Planetary Early Warning & Coordinated Response Grid."""
+"""Pillar 241 — Planetary Early Warning & Coordinated Response Grid.
+
+Adjacent research track (non-hardgate): compound-risk warning and response prioritization.
+Applies Unitary Manifold (5,7)-braid geometry as a coordination framework for
+planetary early warning, cascading-risk detection, and response grid orchestration.
+Physical claims are speculative extrapolations; not a 5D-derived hardgate prediction.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

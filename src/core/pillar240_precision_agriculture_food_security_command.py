@@ -1,6 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 240 — Precision Agriculture & Food Security Command Layer."""
+"""Pillar 240 — Precision Agriculture & Food Security Command Layer.
+
+Adjacent research track (non-hardgate): food-system resilience and allocation engine.
+Applies Unitary Manifold (5,7)-braid geometry as a coordination framework for
+precision agriculture scheduling, yield modelling, and food-security allocation.
+Physical claims are speculative extrapolations; not a 5D-derived hardgate prediction.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

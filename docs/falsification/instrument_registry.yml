@@ -1,0 +1,210 @@
+# instrument_registry.yml — Machine-Readable Instrument Binding Registry
+# Unitary Manifold v10.62
+# Purpose: Every named prediction is bound to a decisive instrument with explicit pass/fail semantics.
+# Ingest: src/core/instrument_registry.py
+# Last updated: 2026-05-15
+
+version: "v10.62"
+date: "2026-05-15"
+policy: |
+  Each entry binds one prediction ID to one or more decisive instruments.
+  Status must be one of: PENDING | CONSISTENT | HIGH_TENSION | FALSIFIED.
+  Pass/fail conditions are strict: no softening of kill conditions is permitted.
+  On any new observational result: update status within 30 days.
+
+predictions:
+
+  - id: "P1"
+    description: "CMB scalar spectral index n_s"
+    predicted_value: 0.9635
+    predicted_units: "dimensionless"
+    instruments:
+      - name: "Planck 2018"
+        measured_value: 0.9649
+        measured_uncertainty: 0.0042
+        status: CONSISTENT
+        sigma_tension: 0.33
+      - name: "ACT DR6"
+        measured_value: null
+        measured_uncertainty: null
+        status: PENDING
+      - name: "CMB-S4"
+        measured_value: null
+        measured_uncertainty: null
+        expected_date: "~2030"
+        precision_sigma: 0.002
+        status: PENDING
+    pass_condition: "n_s ∈ [0.9555, 0.9715] at measured precision"
+    fail_condition: "n_s ∉ [0.955, 0.972] at <0.001 precision confirmed at ≥3σ"
+    current_status: CONSISTENT
+    last_updated: "2026-05-09"
+
+  - id: "P2"
+    description: "Tensor-to-scalar ratio r (braided winding)"
+    predicted_value: 0.0315
+    predicted_units: "dimensionless"
+    instruments:
+      - name: "BICEP/Keck"
+        measured_value: null
+        upper_limit: 0.036
+        confidence_level: "95%"
+        status: CONSISTENT
+      - name: "CMB-S4"
+        measured_value: null
+        measured_uncertainty: null
+        expected_date: "~2030"
+        precision_sigma: 0.003
+        status: PENDING
+      - name: "LiteBIRD"
+        measured_value: null
+        expected_date: "~2032"
+        status: PENDING
+    pass_condition: "r < 0.036 (current); r consistent with 0.0315 ± 0.003 (CMB-S4 era)"
+    fail_condition: "r < 0.010 confirmed at >3σ (CMB-S4) OR r > 0.036 confirmed at 95% CL"
+    current_status: CONSISTENT
+    last_updated: "2026-05-09"
+
+  - id: "P3"
+    description: "Cosmic birefringence β — (5,7) primary sector"
+    predicted_value: 0.331
+    predicted_units: "degrees"
+    predicted_uncertainty: 0.007
+    instruments:
+      - name: "LiteBIRD"
+        measured_value: null
+        measured_uncertainty: null
+        expected_date: "~2032"
+        precision_sigma: 0.02
+        status: PENDING
+      - name: "Minami-Komatsu-2020 hint"
+        measured_value: 0.35
+        measured_uncertainty: 0.14
+        status: CONSISTENT
+        sigma_tension: 0.14
+      - name: "Lab-substitute lane (JJ/SQUID, TI winding)"
+        measured_value: null
+        expected_date: "NOW — active campaign"
+        status: PENDING
+        note: "Decision-grade A_CP ≤ 10^-5; see LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md"
+    pass_condition: "β ∈ [0.22°, 0.38°] AND β ∉ (0.29°, 0.31°) at ≥3σ"
+    fail_condition: "β ∉ [0.22°, 0.38°] OR β ∈ (0.29°, 0.31°) at ≥3σ — braided-winding mechanism FALSIFIED"
+    current_status: PENDING
+    last_updated: "2026-05-09"
+
+  - id: "P3b"
+    description: "Cosmic birefringence β — (5,6) shadow sector"
+    predicted_value: 0.273
+    predicted_units: "degrees"
+    predicted_uncertainty: 0.007
+    instruments:
+      - name: "LiteBIRD"
+        measured_value: null
+        expected_date: "~2032"
+        precision_sigma: 0.02
+        status: PENDING
+    pass_condition: "β ≈ 0.273° ± 0.02° at ≥3σ (LiteBIRD sector discrimination)"
+    fail_condition: "same as P3 — β ∉ [0.22°, 0.38°] OR β ∈ (0.29°, 0.31°) at ≥3σ"
+    current_status: PENDING
+    last_updated: "2026-05-09"
+
+  - id: "P4"
+    description: "Dark energy equation of state wₐ (frozen radion: wₐ = 0)"
+    predicted_value: 0.0
+    predicted_units: "dimensionless (CPL wₐ)"
+    instruments:
+      - name: "DESI DR2"
+        measured_value: null
+        note: "BAO-only: 2.07σ tension; combined: 2.75σ tension"
+        status: HIGH_TENSION
+        sigma_tension: 2.75
+      - name: "DESI DR3"
+        measured_value: null
+        expected_date: "~2027"
+        status: PENDING
+    pass_condition: "wₐ consistent with 0 at <2σ (DESI DR3 or later)"
+    fail_condition: "wₐ ≠ 0 confirmed at ≥3σ — frozen radion mechanism FALSIFIED"
+    current_status: HIGH_TENSION
+    last_updated: "2026-05-11"
+    routing_protocol: "src/core/desi_year3_monitor.py — execute within 30 days of DESI DR3 publication"
+
+  - id: "P5"
+    description: "CMB acoustic peak amplitude A_s"
+    predicted_value: "4.2e-10 to 4.8e-10 (Casimir α_GW target band)"
+    instruments:
+      - name: "Planck 2018"
+        note: "RS1-only undershoot ×4.2–6.1 vs ΛCDM; resolved by Pillar 52 + 10D bridge"
+        status: CONSISTENT
+      - name: "CMB-S4"
+        expected_date: "~2030"
+        status: PENDING
+    pass_condition: "α_GW ≈ 4.49e-10 (Pillar 52 + 10D bridge closure) validated by CMB-S4"
+    fail_condition: "10D consistency gates fail OR Pillar 52 normalization anchor invalidated"
+    current_status: CONSISTENT
+    last_updated: "2026-05-09"
+
+  - id: "P15"
+    description: "δ_CP leptonic CP phase (7D torsion + 9D KK+GS)"
+    predicted_value: 1.2152
+    predicted_units: "radians"
+    instruments:
+      - name: "DUNE"
+        expected_date: "~2030"
+        precision: "<3%"
+        status: PENDING
+    pass_condition: "δ_CP ∈ [0.85, 1.30] rad at <3% (DUNE era)"
+    fail_condition: "δ_CP ∉ [0.85, 1.30] rad at <3% confirmed at ≥3σ"
+    current_status: CONSISTENT
+    last_updated: "2026-05-09"
+
+  - id: "P17"
+    description: "Atmospheric neutrino mass splitting Δm²₃₁"
+    predicted_value: 2.453e-3
+    predicted_units: "eV²"
+    instruments:
+      - name: "Hyper-Kamiokande"
+        expected_date: "~2028"
+        status: PENDING
+    pass_condition: "Δm²₃₁ ∈ [2.2, 2.7]×10⁻³ eV² at <1%"
+    fail_condition: "Δm²₃₁ ∉ [2.2, 2.7]×10⁻³ eV² at <1% confirmed at ≥3σ"
+    current_status: CONSISTENT
+    last_updated: "2026-05-09"
+
+  - id: "P25"
+    description: "Gravitational wave background Ω_GW"
+    predicted_value: 1.0e-15
+    predicted_units: "dimensionless (at LISA band)"
+    instruments:
+      - name: "LISA"
+        expected_date: "~2037"
+        status: PENDING
+    pass_condition: "Ω_GW(f_LISA) ≈ 10⁻¹⁵ with correct spectral slope"
+    fail_condition: "Ω_GW(f_LISA) < 10⁻¹⁷ or wrong spectrum confirmed at ≥3σ"
+    current_status: PENDING
+    last_updated: "2026-05-08"
+
+  - id: "LAB-CP"
+    description: "Lab-scale CP asymmetry in certified (5,7) condensed matter"
+    predicted_value: 1.0e-5
+    predicted_units: "A_CP = (Γ+ - Γ-)/(Γ+ + Γ-)"
+    instruments:
+      - name: "JJ/SQUID arrays"
+        expected_date: "NOW — active campaign"
+        status: PENDING
+      - name: "Topological-insulator winding devices"
+        expected_date: "NOW — active campaign"
+        status: PENDING
+    pass_condition: "A_CP ≈ 10⁻⁵ at decision-grade σ_A ≤ 10⁻⁵"
+    fail_condition: "F-LAB-CP-1..4 all null at decision-grade controls"
+    current_status: PENDING
+    last_updated: "2026-05-09"
+    note: "Execute LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md immediately"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Governance
+# ──────────────────────────────────────────────────────────────────────────────
+
+governance:
+  update_obligation: "Within 30 days of any new observational result affecting a listed prediction"
+  escalation: "If status changes to HIGH_TENSION or FALSIFIED, update CLAIM_MASTER_BOARD.md and WAVE_CHANGELOG.md same day"
+  machine_ingest: "src/core/instrument_registry.py"
+  human_review: "Steward (ThomasCory Walker-Pearson) must approve any FALSIFIED verdict before retraction"

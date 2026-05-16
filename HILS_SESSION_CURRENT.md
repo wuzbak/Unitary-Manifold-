@@ -70,6 +70,23 @@
 
 ---
 
+## Six Operational Lanes — Active Monitoring (v10.62)
+
+All six lanes run concurrently.  No lane queues behind another.
+
+| Lane | Name | Key Artifact | Status |
+|------|------|-------------|--------|
+| L1 | **Measurement confrontation** | `docs/falsification/instrument_registry.yml`, `src/core/instrument_registry.py` | ✅ Active — P4 HIGH_TENSION (DESI), P3/P3b PENDING (LiteBIRD), lab lane running |
+| L2 | **Closure quality** | `docs/closure_quality_gate.yml`, `src/core/closure_quality_gate.py` | ✅ Active — 24 promotions logged, all gatekeepered PASS, artifact presence verified |
+| L3 | **Auditability** | `9-INFRASTRUCTURE/provenance/claim_queryability_index.yml` | ✅ Active — all claims ≥3 ledger surfaces; 3 machine-readable surfaces active |
+| L4 | **Separation integrity** | `src/core/separation_integrity_checker.py` | ✅ Active — adjacent track labels enforced; Pentad boundary enforced |
+| L5 | **Safety** | `8-SAFETY/SAFETY_LOCKSTEP_AUDIT.md` | ✅ Active — 8 high-risk areas locked; admitted gaps documented |
+| L6 | **HILS governance** | `5-GOVERNANCE/PENTAD_LANE_AUDIT.md` | ✅ Active — Pentad labeled independent governance; 5 mislabeling controls active |
+
+Lane test suite: `pytest tests/test_instrument_registry.py tests/test_closure_quality_gate.py tests/test_auditability_index.py tests/test_separation_integrity.py tests/test_safety_lockstep.py tests/test_pentad_governance_boundary.py -q`
+
+---
+
 ## Current Execution Boundary
 
 The following remain out of core-physics scope until external data arrives:
