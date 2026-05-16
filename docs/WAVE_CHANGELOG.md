@@ -13,6 +13,46 @@ For each wave entry, include:
 
 ---
 
+## v11.0 (2026-05-16 — Comprehensive Audit & Canonical Freshness Synchronization)
+
+### What changed
+
+1. **Canonical public ledgers synchronized:** `README.md`, `STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/mas_tracker.yml` updated to unified v11.0 surface and current branch regression totals.
+2. **Wave ledger promoted:** `docs/WAVE_CHANGELOG.md` updated with this v11.0 release entry.
+3. **Packaging metadata synchronized:** `pyproject.toml` and `unitary_manifold/__init__.py` promoted from `9.33.0` to `11.0.0`.
+4. **Citation metadata synchronized:** `CITATION.cff` promoted to v11.0 with refreshed release date and branch-state summary.
+5. **Archive operations defaults synchronized:** `.github/workflows/build-download.yml`, `9-INFRASTRUCTURE/scripts/create_archive.py`, and `DOWNLOAD_GUIDE.md` default archive labels promoted from v10.52 to v11.0.
+6. **Copilot repository instruction surface synchronized:** `.github/copilot-instructions.md` updated to v11.0 and current baseline totals.
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No adjacent-track algorithm or equation logic modified.
+- No falsifier windows changed.
+- No ToE denominator or score changed.
+
+### Why
+
+A repository-wide audit found mixed-version stale surfaces across canonical ledgers, package metadata, citation metadata, and archive distribution defaults. v11.0 is the explicit promotion release that resolves those inconsistencies and restores a single coherent external state.
+
+### Epistemic label deltas
+
+- None.
+
+### TOE score delta
+
+- **0.0 pts** — remains 28.0/28.0 (100%).
+
+### Falsification impact
+
+- None. Existing falsification conditions and thresholds are unchanged.
+
+### Residual unknowns
+
+- Pre-existing open monitoring items remain unchanged (DESI tension monitoring, LiteBIRD birefringence window, CMB-S4 amplitude residual tracking).
+
+---
+
 ## v10.61 (2026-05-15 — Pillar 245: 11D / Terminal Full-Closure Engine)
 
 ### What changed

@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import os as _os
 
-__version__ = "9.33.0"
+__version__ = "11.0.0"
 __author__ = "ThomasCory Walker-Pearson"
 __license__ = "AGPL-3.0-or-later"
 

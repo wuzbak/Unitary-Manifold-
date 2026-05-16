@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v10.61 — Effective 2026-05-15*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v10.61 wave: Pillar 245 adjacent 11D terminal full-closure engine — 5 lanes certified, runtime seed locked, bridge burned, 76 new tests). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.0 — Effective 2026-05-16*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.0 wave: Comprehensive Audit & Canonical Freshness Synchronization — canonical ledgers, package metadata, citation metadata, and archive defaults synchronized to current branch state). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -29,8 +29,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 32 857 passed · 393 skipped · 12 deselected · 0 failed  
-*(v10.61: +76 tests — Pillar 245 11D terminal full-closure engine)*
+**Latest verified branch regression:** 32 993 passed · 393 skipped · 12 deselected · 0 failed  
+*(v11.0: audit-focused promotion release — no core-physics logic changes)*
 
 ---
 
@@ -101,6 +101,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v11.0 | Comprehensive Audit & Canonical Freshness Synchronization: canonical ledgers and public metadata promoted from mixed v10.52–v10.62 state to unified v11.0 with refreshed branch regression totals and operational archive defaults | canonical surfaces + packaging/citation/archive metadata sync | +0 | 2026-05-16 |
 | v10.61 | Adjacent 11D terminal full-closure engine: 5 lanes certified (HW kickoff, HW hard-gate, G₄-flux vacuum link, UV vacuum selection, bridge-burn to 5D), runtime seed locked at {n_w=5, k_cs=74, braid=(5,7)} | `pillar245_eleventd_full_closure.py` | +76 | 2026-05-15 |
 | v10.60 | Adjacent 10D branch completion lane: deterministic branch-finish audit across R5 flux landscape, alpha_GW UV closure, P28 first-principles λ chain, P28 10D closure, and UV vacuum-seed handoff; explicit separation from later 11D / full-closure work | `pillar244_tend_branch_completion_engine.py` | +24 | 2026-05-15 |
 | v10.59 | P28 DERIVED cert: cosmological constant derived from RS1+KK+10D geometry (zero free parameters; log₁₀ residual < 0.31); ToE 27.8→28.0/28 = 100% | `p28_lambda_derived_cert.py` | +36 | 2026-05-15 |
@@ -307,11 +308,11 @@ Adjacent applied research pillars — not hard-gate physics claims, but honest q
 - `src/core/finish_line_observation_engine.py`: extended with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit payloads for `3-FALSIFICATION/OBSERVATION_TRACKER.md`, `docs/WAVE_CHANGELOG.md`, `docs/TRUTH_LAYER.md`, `docs/CLAIM_MASTER_BOARD.md`, and the canonical ledgers.
 - `src/core/canonical_ledger_consistency.py`: machine-readable consistency check — now covers core ledgers (README, STATUS, FALLIBILITY, DERIVATION_STATUS, WAVE_CHANGELOG, mas_tracker) **plus** onboarding docs (CONTRIBUTING, 2-REPRODUCIBILITY/README, 9-INFRA/TEST/README, copilot-instructions, wiki×2, MCP_INGEST, WHAT_THIS_MEANS).
 
-### Regression gate (v10.52)
+### Regression gate (v11.0)
 
 ```
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-Expected: 29 425 passed · 329 skipped · 11 deselected · 0 failed
+Expected: 32 993 passed · 393 skipped · 12 deselected · 0 failed
 ```
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 # ---------------------------------------------------------------------------
 [project]
 name = "unitary-manifold"
-version = "9.33.0"
+version = "11.0.0"
 description = "5D Kaluza-Klein physics framework: geometry of irreversibility, CMB predictions, and Standard Model derivation"
 readme = "README.md"
 license = { text = "AGPL-3.0-or-later" }

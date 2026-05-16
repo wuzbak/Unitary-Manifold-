@@ -5,7 +5,7 @@ on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework — **v10.52** — with:
+A 5-dimensional Kaluza-Klein physics framework — **v11.0** — with:
 - **208 core physics pillars** (hardgate, formally closed)
 - **24+ adjacent research tracks** (Pillars 218–232: applied domains, non-hardgate)
 - **Ω₀ Holon Zero** + sub-pillars (Pillar 70-B, 70-C, 70-D)
@@ -34,7 +34,7 @@ python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (takes ~130 seconds):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 32 857 passed · 393 skipped · 12 deselected · 0 failed
+# Expected: 32 993 passed · 393 skipped · 12 deselected · 0 failed
 ```
 
 ## Repository Structure
@@ -62,7 +62,7 @@ src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 5-GOVERNANCE/Unitary Pentad/ ← Independent HILS governance framework
-tests/              ← 200+ test files, 29 425 passing tests (all pillars, adjacent tracks, integrations)
+tests/              ← 200+ test files, 30k+ passing tests (all pillars, adjacent tracks, integrations)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 5-GOVERNANCE/co-emergence/ ← HILS framework documentation
 ```
@@ -96,7 +96,7 @@ BRAIDED_SOUND_SPEED = 12/37 # c_s; from (5,7) braid resonance
 N_S = 0.9635                # CMB spectral index (Planck: 0.9649 ± 0.0042 ✅)
 R_BRAIDED = 0.0315          # tensor-to-scalar ratio (BICEP/Keck < 0.036 ✅)
 # Birefringence: β ∈ {≈0.273°, ≈0.331°} canonical / {≈0.290°, ≈0.351°} derived
-# ToE score: 99.3% (27.8/28) — 1 external measurement window open (LiteBIRD ~2032)
+# ToE score: 100% (28.0/28) — 1 external measurement window open (LiteBIRD ~2032)
 
 # Unitary Pentad
 XI_C = 35/74                # Ξ_c consciousness coupling constant

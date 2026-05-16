@@ -13,7 +13,7 @@
 | **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 pillars, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
 | **Session opened** | 2026-05-15T21:39:59Z |
-| **Active wave** | v10.61 — Full A–E execution sprint (lab lane completion, publication sync, session ledgers) |
+| **Active wave** | v11.0 — Comprehensive Audit & Canonical Freshness Synchronization |
 | **Prior wave** | v10.61 — Pillar 245 terminal full-closure engine |
 
 ---
@@ -50,15 +50,15 @@
 
 ---
 
-## v10.61 Current State Summary
+## v11.0 Current State Summary
 
 | Item | Value |
 |------|-------|
-| Version | v10.61 |
+| Version | v11.0 |
 | Core physics pillars | 208 — CLOSED |
 | Adjacent research tracks | Pillars 218–245 registered (non-hardgate) |
-| Test suite | **32 857 passed · 393 skipped · 12 deselected · 0 failed** |
-| Local validation (this sandbox) | **32 470 passed · 404 skipped · 12 deselected · 0 failed** |
+| Test suite | **32 993 passed · 393 skipped · 12 deselected · 0 failed** |
+| Local validation (this sandbox) | **32 993 passed · 393 skipped · 12 deselected · 0 failed** |
 | ToE Score | **100% (28.0/28.0)** |
 | MAS Programme | COMPLETE (W0–W14 closed) |
 | Post-MAS tracks | T1, T2, T3 — all PASS |
@@ -70,7 +70,7 @@
 
 ---
 
-## Six Operational Lanes — Active Monitoring (v10.62)
+## Six Operational Lanes — Active Monitoring (v11.0)
 
 All six lanes run concurrently.  No lane queues behind another.
 
@@ -141,7 +141,7 @@ At the END of each session, the agent must:
 ## Session-close validation
 
 - Full suite in this sandbox: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`
-- Result: **32 470 passed · 404 skipped · 12 deselected · 0 failed**
+- Result: **32 993 passed · 393 skipped · 12 deselected · 0 failed**
 - arXiv build script check: blocked in sandbox because `pdflatex` is not installed
 
 ---

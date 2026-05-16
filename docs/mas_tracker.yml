@@ -1,20 +1,20 @@
-version: "v10.61"
-date: "2026-05-15"
-updated: "2026-05-15"
+version: "v11.0"
+date: "2026-05-16"
+updated: "2026-05-16"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 public_surface_sync_checkpoint:
-  version: "v10.61"
-  regression: "32 857 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.0"
+  regression: "32 993 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v10.61"
+  version: "v11.0"
   pillar: 245
   artifact: "src/core/pillar245_eleventd_full_closure.py"
   test: "tests/test_pillar245_eleventd_full_closure.py"

@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v10.59
+# Unitary Manifold v11.0
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-15 (v10.59 — P28 DERIVED cert; ToE 28.0/28 = 100%)*
+*Last updated: 2026-05-16 (v11.0 — canonical ledger freshness sync; ToE 28.0/28 = 100%)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -49,7 +49,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P32 | Z width Γ_Z | 2.4952 GeV | **2.495 GeV-level KK-corrected width** (`src/core/ew_precision_oblique.py`) | <5% | `DERIVED` | ✅ PASS | Γ_Z outside 5% band at ≥3σ | None | 2026-05-11 |
 | P33 | W width Γ_W | 2.085 GeV | **2.085 GeV-level KK-corrected width** (`src/core/ew_precision_oblique.py`) | <5% | `DERIVED` | ✅ PASS | Γ_W outside 5% band at ≥3σ | None | 2026-05-11 |
 
-**ToE Score v10.59: 28.0 / 28.0 = 100%** (P28 promoted GEOMETRIC_PREDICTION → DERIVED; all 28 parameters now fully derived from geometry with zero free parameters.)
+**ToE Score v11.0: 28.0 / 28.0 = 100%** (P28 promoted GEOMETRIC_PREDICTION → DERIVED; all 28 parameters now fully derived from geometry with zero free parameters.)
 **DERIVED (confirmed): 28 parameters** (P1–P22 legacy + P26, P27, P28 + P29–P33 precision extensions tracked outside the 28-parameter ToE denominator)
 **DERIVED (measurement-gated): 3 parameters** (P23, P24, P25)
 **GEOMETRIC_PREDICTION: 0 parameters** | **ALGEBRAIC: 1** (P11)
