@@ -284,6 +284,19 @@ PHI_GOLDEN: float = (1.0 + math.sqrt(5.0)) / 2.0   # ≈ 1.618
 #: complement 1 − tol) both attractors are comparably active → fractured intent.
 INTENT_COHERENCE_COMPETITION_TOL: float = 0.15
 
+#: log10 scale saturation for population impact term.
+#: 6.0 corresponds to ~10^6 directly impacted entities.
+POPULATION_SATURATION_LOG_SCALE: float = 6.0
+
+#: Composite-risk term weights.
+HARM_WEIGHT: float = 0.55
+IRREVERSIBILITY_WEIGHT: float = 0.30
+POPULATION_WEIGHT: float = 0.15
+
+#: Composite-risk thresholds for review-lane routing.
+CRITICAL_CONSEQUENCE_THRESHOLD: float = 0.70
+SENSITIVE_CONSEQUENCE_THRESHOLD: float = 0.40
+
 
 # ---------------------------------------------------------------------------
 # HarmonicStateMetrics
@@ -1358,18 +1371,24 @@ def simulate_high_stakes_consequence(
     r = max(0.0, min(1.0, float(reversibility_score)))
     p = max(0, int(population_impact))
 
-    pop_factor = min(1.0, math.log10(p + 1) / 6.0)  # saturates near million-scale
+    pop_factor = min(
+        1.0, math.log10(p + 1) / POPULATION_SATURATION_LOG_SCALE
+    )  # saturates near million-scale
     irreversibility = 1.0 - r
-    composite = 0.55 * h + 0.30 * irreversibility + 0.15 * pop_factor
+    composite = (
+        HARM_WEIGHT * h
+        + IRREVERSIBILITY_WEIGHT * irreversibility
+        + POPULATION_WEIGHT * pop_factor
+    )
 
-    if composite >= 0.70:
+    if composite >= CRITICAL_CONSEQUENCE_THRESHOLD:
         criticality = "critical"
         lane = "L3_CRITICAL_REVIEW"
         rationale = (
             "High composite risk from harm potential, irreversibility, or scale; "
             "requires critical review with strict procedural controls."
         )
-    elif composite >= 0.40:
+    elif composite >= SENSITIVE_CONSEQUENCE_THRESHOLD:
         criticality = "sensitive"
         lane = "L2_SENSITIVE_REVIEW"
         rationale = (

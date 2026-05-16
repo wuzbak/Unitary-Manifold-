@@ -120,7 +120,7 @@ __provenance__ = {
 }
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 import sys
 import os
@@ -158,6 +158,13 @@ CANONICAL_PRIMARY_OPERATOR_ID: str = "axiomzero:thomascory-walker-pearson:wuzbak
 CANONICAL_PRIMARY_DISPLAY: str = (
     "ThomasCory Walker-Pearson / AxiomZero Technologies (@wuzbak / Cory Pearson)"
 )
+
+#: Learning-review trigger: when rejections exceed 35% of audited decisions,
+#: recommend tighter quorum for sensitive/critical lanes.
+HIGH_REJECTION_RATE_THRESHOLD: float = 0.35
+
+#: Minimum challenge prompts required for owner break-glass recovery.
+OWNER_RECOVERY_MIN_QUESTIONS: int = 5
 
 
 # ---------------------------------------------------------------------------
@@ -306,6 +313,15 @@ class LearningReviewSummary:
     recommended_quorum_by_criticality: Dict[str, int]
 
 
+@dataclass
+class OwnerRecoveryAttempt:
+    """Auditable result of an owner break-glass recovery attempt."""
+    operator_id: str
+    challenge_question_count: int
+    granted: bool
+    reason: str
+
+
 # ---------------------------------------------------------------------------
 # LegitimacyError — raised by guarded_human_shift on auth failure
 # ---------------------------------------------------------------------------
@@ -366,6 +382,7 @@ class LegitimacyGuard:
         }
         self._decision_audit_log: List[DecisionAuditRecord] = []
         self._appeals: List[AppealRecord] = []
+        self._owner_recovery_attempts: List[OwnerRecoveryAttempt] = []
 
         # Pre-register the canonical primary operator — by design, immutable.
         self._register_primary()
@@ -745,7 +762,7 @@ class LegitimacyGuard:
         appeals_open = sum(1 for a in self._appeals if a.status == "open")
         appeals_resolved = sum(1 for a in self._appeals if a.status == "resolved")
         recommendations = dict(self._criticality_quorum)
-        if total > 0 and (rejected / total) > 0.35:
+        if total > 0 and (rejected / total) > HIGH_REJECTION_RATE_THRESHOLD:
             recommendations[DecisionCriticality.SENSITIVE] = max(
                 recommendations[DecisionCriticality.SENSITIVE], 2
             )
@@ -761,6 +778,56 @@ class LegitimacyGuard:
             appeals_resolved=appeals_resolved,
             recommended_quorum_by_criticality=recommendations,
         )
+
+    def owner_break_glass_recovery(
+        self,
+        operator_id: str,
+        challenge_responses: Dict[str, str],
+        verifier: Optional[Callable[[Dict[str, str]], bool]] = None,
+    ) -> OwnerRecoveryAttempt:
+        """Auditable owner-only recovery path (not a hidden backdoor)."""
+        question_count = len(challenge_responses or {})
+        if operator_id != CANONICAL_PRIMARY_OPERATOR_ID:
+            out = OwnerRecoveryAttempt(
+                operator_id=operator_id,
+                challenge_question_count=question_count,
+                granted=False,
+                reason="OWNER_ONLY_RECOVERY_PATH",
+            )
+            self._owner_recovery_attempts.append(out)
+            return out
+        if question_count < OWNER_RECOVERY_MIN_QUESTIONS:
+            out = OwnerRecoveryAttempt(
+                operator_id=operator_id,
+                challenge_question_count=question_count,
+                granted=False,
+                reason="INSUFFICIENT_CHALLENGE_QUESTIONS",
+            )
+            self._owner_recovery_attempts.append(out)
+            return out
+        if verifier is None:
+            out = OwnerRecoveryAttempt(
+                operator_id=operator_id,
+                challenge_question_count=question_count,
+                granted=False,
+                reason="VERIFIER_REQUIRED",
+            )
+            self._owner_recovery_attempts.append(out)
+            return out
+
+        granted = bool(verifier(challenge_responses))
+        out = OwnerRecoveryAttempt(
+            operator_id=operator_id,
+            challenge_question_count=question_count,
+            granted=granted,
+            reason="RECOVERY_GRANTED" if granted else "RECOVERY_DENIED",
+        )
+        self._owner_recovery_attempts.append(out)
+        return out
+
+    def list_owner_recovery_attempts(self) -> List[OwnerRecoveryAttempt]:
+        """Return a copy of owner recovery attempts for audit."""
+        return list(self._owner_recovery_attempts)
 
     # ------------------------------------------------------------------
     # Public: authorization check

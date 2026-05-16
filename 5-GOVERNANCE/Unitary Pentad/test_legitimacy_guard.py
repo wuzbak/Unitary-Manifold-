@@ -69,6 +69,8 @@ from legitimacy_guard import (
     DecisionAuditRecord,
     AppealRecord,
     LearningReviewSummary,
+    OwnerRecoveryAttempt,
+    OWNER_RECOVERY_MIN_QUESTIONS,
     LegitimacyError,
     LegitimacyGuard,
     guarded_human_shift,
@@ -540,9 +542,11 @@ class TestProceduralPluralAuditableAuthority:
 
     def test_bias_flags_or_missing_dissent_blocks_authorization(self):
         g = LegitimacyGuard()
+        g.set_criticality_quorum(critical=2)
+        g.register_operator(OperatorToken("op:eth2", "Ethics 2", role="ethics"))
         u = _awaiting_universe()
         out = g.authorize_decision(
-            [CANONICAL_PRIMARY_OPERATOR_ID],
+            [CANONICAL_PRIMARY_OPERATOR_ID, "op:eth2"],
             u,
             {},
             decision_id="d-004",
@@ -673,3 +677,48 @@ class TestJudgmentSupportAndConsequenceTools:
         assert isinstance(res, HighStakesConsequenceResult)
         assert res.criticality == "critical"
         assert res.recommended_review_lane == "L3_CRITICAL_REVIEW"
+
+
+class TestOwnerBreakGlassRecovery:
+    def test_non_owner_recovery_denied(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id="op:not-owner",
+            challenge_responses={f"q{i}": "a" for i in range(1, 6)},
+            verifier=lambda _: True,
+        )
+        assert isinstance(out, OwnerRecoveryAttempt)
+        assert out.granted is False
+        assert out.reason == "OWNER_ONLY_RECOVERY_PATH"
+
+    def test_owner_recovery_requires_five_questions(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={"q1": "a1", "q2": "a2"},
+            verifier=lambda _: True,
+        )
+        assert out.granted is False
+        assert out.reason == "INSUFFICIENT_CHALLENGE_QUESTIONS"
+        assert out.challenge_question_count < OWNER_RECOVERY_MIN_QUESTIONS
+
+    def test_owner_recovery_requires_verifier(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={f"q{i}": f"a{i}" for i in range(1, 6)},
+            verifier=None,
+        )
+        assert out.granted is False
+        assert out.reason == "VERIFIER_REQUIRED"
+
+    def test_owner_recovery_grants_when_verifier_passes(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={f"q{i}": f"a{i}" for i in range(1, 6)},
+            verifier=lambda answers: len(answers) >= OWNER_RECOVERY_MIN_QUESTIONS,
+        )
+        assert out.granted is True
+        assert out.reason == "RECOVERY_GRANTED"
+        assert len(g.list_owner_recovery_attempts()) >= 1

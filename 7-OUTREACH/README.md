@@ -56,6 +56,7 @@ not merely declared:
 - Scope-lock escalation instead of silent scope expansion
 - Appeal/recourse pathways
 - Full decision audit logging with periodic learning reviews
+- Owner-only break-glass recovery with explicit challenge verification and audit trail (no hidden backdoors)
 
 This update keeps the same ethical invariant (human intent-control is final),
 while improving reliability under ambiguity, overload, and bias pressure.

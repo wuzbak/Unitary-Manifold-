@@ -199,6 +199,9 @@ For sensitive/critical lanes:
 4. Auto-escalate when requested scope exceeds approved scope.
 5. Allow emergency override only with forced **post-action review**.
 6. Record every attempt in an auditable log and support structured appeals.
+7. Provide an owner-only **break-glass recovery lane** with explicit challenge
+   verification (minimum 5 prompts) and full audit trail — this is a
+   transparent safety mechanism, not a hidden backdoor.
 
 This preserves the non-negotiable intent-control rule while reducing bias and
 overload risk in final-authority decisions.
