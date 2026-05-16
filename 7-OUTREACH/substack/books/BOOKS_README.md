@@ -2,11 +2,11 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** 12.0 — Deployment & Operations Edition — May 2026
+**Version:** 13.0 — Justice Systems Deep-Dive Edition — May 2026
 
 ---
 
-This folder contains the **Omega Edition (v6.0–v12.0)** of seventeen full-length books authored under the
+This folder contains the **Omega Edition (v6.0–v13.0)** of eighteen full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that serves as the publication split for Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
@@ -15,7 +15,7 @@ Manifold v9.27.
 
 Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework. Books 5–17 are original
+expanded, and cross-referenced with the full physics framework. Books 5–18 are original
 to this repository.
 
 **v3.0 Expansion (April 2026):**
@@ -63,6 +63,10 @@ to this repository.
 **v12.0 — Deployment & Operations Edition (May 2026):**
 - Book 17: *The Pentad Deployment Guide* — what the Unitary Pentad is, how to set it up, how to operate it, and where it can integrate
 - Focus: setup discipline, operator guidance, integration strategy, and immediate deployment criteria
+
+**v13.0 — Justice Systems Deep-Dive Edition (May 2026):**
+- Book 18: *The Iron Cage* — America's prison and detention machine: hard data, constitutional boundaries, oversight failure points, and an actionable rebuild blueprint
+- Focus: immediate fixes (0–24 months) plus structural redesign (2–10 years)
 
 ---
 
@@ -492,6 +496,21 @@ A deployment-facing outreach volume for the Unitary Pentad: what the system is, 
 
 ---
 
+### 18. [The Iron Cage](book-iron-cage.md)
+**America's Prison and Detention Machine — What It Is, Why It Fails, and How to Rebuild It**
+
+| Property | Value |
+|---|---|
+| Size | ~26 KB |
+| Audience | General readers, legal advocates, policymakers, journalists, governance teams, and reform operators |
+| Parts | Fifteen parts + implementation annex |
+| Framework connection | Pillar 18 (justice), Pillar 19 (governance), φ-capacity collapse under detention overload, accountability as system stability |
+| Companion post | [post-177-s02e003-americas-prison-and-detention-machine.md](../posts/post-177-s02e003-americas-prison-and-detention-machine.md) |
+
+A full-spectrum analysis of U.S. prisons and detention systems grounded in public-record data and constitutional case law. Covers pretrial detention, cash bail, solitary confinement harms, PREA oversight limits, racial disparities, mental-health criminalization, prison labor, immigration detention, and fiscal incentive failures—then lays out immediate (0–24 month) and structural (2–10 year) implementation blueprints.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -544,9 +563,11 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 14 | Taurid Density Window (2030s) | **Critical Infrastructure** | Falsifier-aware risk analysis; not a deterministic impact claim | No |
 | 15 | The Falsification Decade | **Scientific Method / Audit** | Falsification-first framework reading; not a new derivation claim | No |
 | 16 | The Honest Machine | **Co-Emergence / AI Governance** | Human-AI research governance and role-partition analysis | No |
+| 17 | The Pentad Deployment Guide | **Governance Operations** | Operational deployment guidance for the independent Pentad framework | No |
+| 18 | The Iron Cage | **Justice / Governance** | Data-driven prison and detention systems audit with implementation blueprint | No |
 
-**Books 5–16 are AxiomZero-commissioned works, not peer-reviewed physics.**
-Books 7–16 (education, engineering, politics, climate, orientation, falsification, and co-emergence)
+**Books 5–18 are AxiomZero-commissioned works, not peer-reviewed physics.**
+Books 7–18 (education, engineering, politics, climate, orientation, falsification, co-emergence, deployment operations, and justice systems)
 apply the UM mathematical language
 as a lens; they are not physics predictions and should not be read as such.
 See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistemic map.
@@ -569,6 +590,8 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 | 9.0 — Repository Orientation Edition | May 2026 | Book 13 added: *The Theory of Everything and Everyone* — a meticulous public-facing synthesis of what this repository is, does, and teaches; includes claim-boundary discipline, falsifier-first reading path, explicit role partition (human direction / AI implementation), and honest status framing |
 | 10.0 — Taurid Risk Brief Edition | May 2026 | Book 14 added: *Taurid Density Window (2030s)* — global consequence analysis, WA and Southern California regional focus, decision triggers, preparedness guidance, and prediction-window test-run appendix |
 | 11.0 — Integrity & Co-Emergence Edition | May 2026 | Books 15–16 added: *The Falsification Decade* — falsification-first public audit and reading path for the next instrument cycle; *The Honest Machine* — a governance-forward account of human-AI co-emergent research, role partition, and responsible scientific collaboration |
+| 12.0 — Deployment & Operations Edition | May 2026 | Book 17 added: *The Pentad Deployment Guide* — deployment-facing handbook for setup, operation, safety discipline, and integration strategy for the independent Unitary Pentad framework |
+| 13.0 — Justice Systems Deep-Dive Edition | May 2026 | Book 18 added: *The Iron Cage* — data-driven analysis of U.S. prisons and detention systems with constitutional case framing, oversight failure mapping, and immediate + structural reform blueprint |
 
 ---
 
