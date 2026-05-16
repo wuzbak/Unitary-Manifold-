@@ -622,7 +622,10 @@ class LegitimacyGuard:
             DecisionCriticality.SENSITIVE,
             DecisionCriticality.CRITICAL,
         )
-        unique_roles = {t.role for t in active_tokens if t.role}
+        unique_roles = {
+            t.role for t in active_tokens
+            if t.role and t.role.strip().lower() != "unspecified"
+        }
         role_diversity_satisfied = (len(unique_roles) >= 2) if role_diversity_required else True
 
         unresolved_bias = list(bias_flags)
@@ -815,7 +818,17 @@ class LegitimacyGuard:
             self._owner_recovery_attempts.append(out)
             return out
 
-        granted = bool(verifier(challenge_responses))
+        try:
+            granted = bool(verifier(challenge_responses))
+        except Exception:
+            out = OwnerRecoveryAttempt(
+                operator_id=operator_id,
+                challenge_question_count=question_count,
+                granted=False,
+                reason="VERIFIER_EXCEPTION",
+            )
+            self._owner_recovery_attempts.append(out)
+            return out
         out = OwnerRecoveryAttempt(
             operator_id=operator_id,
             challenge_question_count=question_count,

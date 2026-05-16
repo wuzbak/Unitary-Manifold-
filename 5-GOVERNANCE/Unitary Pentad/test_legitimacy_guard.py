@@ -544,9 +544,10 @@ class TestProceduralPluralAuditableAuthority:
         g = LegitimacyGuard()
         g.set_criticality_quorum(critical=2)
         g.register_operator(OperatorToken("op:eth2", "Ethics 2", role="ethics"))
+        g.register_operator(OperatorToken("op:sci2", "Science 2", role="science"))
         u = _awaiting_universe()
         out = g.authorize_decision(
-            [CANONICAL_PRIMARY_OPERATOR_ID, "op:eth2"],
+            [CANONICAL_PRIMARY_OPERATOR_ID, "op:eth2", "op:sci2"],
             u,
             {},
             decision_id="d-004",
@@ -722,3 +723,16 @@ class TestOwnerBreakGlassRecovery:
         assert out.granted is True
         assert out.reason == "RECOVERY_GRANTED"
         assert len(g.list_owner_recovery_attempts()) >= 1
+
+    def test_owner_recovery_handles_verifier_exception(self):
+        g = LegitimacyGuard()
+        def _boom(_answers):
+            raise RuntimeError("boom")
+
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={f"q{i}": f"a{i}" for i in range(1, 6)},
+            verifier=_boom,
+        )
+        assert out.granted is False
+        assert out.reason == "VERIFIER_EXCEPTION"

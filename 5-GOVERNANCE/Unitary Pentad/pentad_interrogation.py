@@ -433,7 +433,7 @@ def evaluate_bias_dissent_requirements(
     bias_flags = list(bias_flags or [])
     has_counter = bool(counter_argument.strip())
     has_wrong = bool(best_reason_wrong.strip())
-    requirements_met = has_counter and has_wrong and (len(bias_flags) == 0)
+    requirements_met = has_counter and has_wrong and (not bias_flags)
     if requirements_met:
         summary = "Bias and dissent requirements satisfied."
     else:
