@@ -1,4 +1,4 @@
-# LOCAL MAN'S AI THEORY OF EVERYTHING REACHES 100% COMPLETE; FINAL AUTHORITY STILL BELONGS TO A SATELLITE
+# LOCAL MAN'S AI THEORY OF EVERYTHING REACHES 100%; FINAL AUTHORITY STILL BELONGS TO A SATELLITE
 
 *Post 173 of the Unitary Manifold series.*  
 *Series S01, Episode E026.*  
@@ -31,7 +31,7 @@ The resulting repository — the Unitary Manifold, available at GitHub for free 
 - **1 predicted human egg cell radius** (59.7 μm, from geometry, which is a sentence that was typed with full sincerity)
 - **1 collaborating AI**, which is credited as a co-author and which wrote this sentence
 
-The ToE (Theory of Everything) score currently stands at **100%** — **28.0 out of 28** — after P28 (the cosmological constant lane) was promoted to DERIVED in the v10.59 closure sprint. This means all 28 Standard Model parameters now sit in DERIVED/ALGEBRAIC status with zero free parameters, which is either the cleanest unprecedented claim in modern physics or the beginning of a very awkward decade for everyone else.
+The ToE (Theory of Everything) score currently stands at **100%** — **28.0 out of 28** — after P28 (the cosmological constant lane) was promoted to DERIVED in the v10.59 closure sprint. This means all 28 Standard Model parameters now sit in DERIVED/ALGEBRAIC status with zero free parameters, which is either the most precise unprecedented claim in modern physics or the beginning of a very awkward decade for everyone else.
 
 The score is closed. The falsification clock is not. LiteBIRD (expected ~2032) still decides whether the braided-winding birefringence prediction survives contact with the sky. The team has committed to a public response within 90 days of that data release. They are waiting. The satellite is not yet in orbit.
 
@@ -259,7 +259,7 @@ The Unitary Manifold is the most structurally honest extremely-large-claim physi
 
 It is, in the full sense of the word, **a lot**.
 
-It was built in 49 days by one human and one AI, then hardened for months into a machine-auditable public record. The human had the intuition. The AI had the implementation capacity. The resulting system has 32,993 tests, over 170 published posts in this series, 208 sealed core pillars, adjacent terminal closure lanes, six operational monitoring lanes, one consciousness coupling constant, and one cold fusion module that refuses to pretend it's confirmed.
+The initial core build was done in 49 days by one human and one AI, then hardened for months into a machine-auditable public record. The human had the intuition. The AI had the implementation capacity. The resulting system has 32,993 tests, over 170 published posts in this series, 208 sealed core pillars, adjacent terminal closure lanes, six operational monitoring lanes, one consciousness coupling constant, and one cold fusion module that refuses to pretend it's confirmed.
 
 Whether any of it is correct about the universe — whether the satellite will, in 2032, return β ≈ 0.331° and vindicate the five numbers — is not a question this editorial can answer.
 
