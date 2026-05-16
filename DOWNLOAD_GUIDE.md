@@ -1,4 +1,4 @@
-# Downloading the Unitary Manifold Project (v10.52)
+# Downloading the Unitary Manifold Project (v11.0)
 
 Three ways to get everything onto your PC, from easiest to most flexible.
 
@@ -18,8 +18,8 @@ branch — no account, no login, no extra steps required.  Just click (or
 ```bash
 # Download and extract in one go (Linux / macOS / WSL)
 curl -L https://github.com/wuzbak/Unitary-Manifold-/archive/refs/heads/main.zip \
-     -o unitary-manifold-omega-v10.52.zip
-unzip unitary-manifold-omega-v10.52.zip
+     -o unitary-manifold-omega-v11.0.zip
+unzip unitary-manifold-omega-v11.0.zip
 ```
 
 ---
@@ -41,11 +41,11 @@ excludes cache files, making it ideal for archiving.
 1. Go to the **Actions** tab of this repository on GitHub.
 2. In the left-hand sidebar click **Build Download Archive**.
 3. Click **Run workflow** (top-right of the workflow list), leave the name as
-   `unitary-manifold-omega-v10.52`, then click the green **Run workflow** button.
+   `unitary-manifold-omega-v11.0`, then click the green **Run workflow** button.
 4. Wait ~30 seconds for the run to complete (green ✓).
 5. Open the completed run and scroll down to **Artifacts**.
-6. Click **unitary-manifold-omega-v10.52** to download the zip.
-7. Extract it — the top-level folder is `unitary-manifold-omega-v10.52/`.
+6. Click **unitary-manifold-omega-v11.0** to download the zip.
+7. Extract it — the top-level folder is `unitary-manifold-omega-v11.0/`.
 
 > **Tip:** The artifact is kept for **30 days**.  Re-run the workflow any time
 > to get a fresh copy with the latest changes.
@@ -61,24 +61,24 @@ Run this from inside the repository folder after cloning or extracting:
 git clone https://github.com/wuzbak/Unitary-Manifold-.git
 cd Unitary-Manifold-
 
-# Create the archive (default name includes "omega-v10.52")
+# Create the archive (default name includes "omega-v11.0")
 python 9-INFRASTRUCTURE/scripts/create_archive.py
 
 # Optional: give the archive a custom base name
 python 9-INFRASTRUCTURE/scripts/create_archive.py --out my_unitary_manifold_backup
 ```
 
-The script creates a `unitary-manifold-omega-v10.52_YYYYMMDD_HHMMSS.zip` file in the
+The script creates a `unitary-manifold-omega-v11.0_YYYYMMDD_HHMMSS.zip` file in the
 repository root.  Extract it anywhere you like.
 
 **Windows PowerShell:**
 ```powershell
-Expand-Archive unitary-manifold-omega-v10.52_*.zip -DestinationPath .
+Expand-Archive unitary-manifold-omega-v11.0_*.zip -DestinationPath .
 ```
 
 **macOS / Linux:**
 ```bash
-unzip unitary-manifold-omega-v10.52_*.zip
+unzip unitary-manifold-omega-v11.0_*.zip
 ```
 
 ---
@@ -86,16 +86,16 @@ unzip unitary-manifold-omega-v10.52_*.zip
 ## What's inside the archive
 
 ```
-unitary-manifold-omega-v10.52/
+unitary-manifold-omega-v11.0/
 ├── THEBOOKV9a (1).pdf              ← Full monograph (PDF)
-├── README.md                       ← Project overview and quick-start (v10.52)
+├── README.md                       ← Project overview and quick-start (v11.0)
 ├── CITATION.cff                    ← Citation metadata
 ├── requirements.txt                ← Python dependencies
 ├── VERIFY.py                       ← 30-second standalone proof (14 checks, all PASS)
 │
 ├── src/
 │   ├── core/                       ← 200+ modules: KK metric, evolution, braided winding,
-│   │   │                              APS topology, Yukawa, CKM/PMNS, SM audit, v10.52 pillars…
+│   │   │                              APS topology, Yukawa, CKM/PMNS, SM audit, v11.0 pillars…
 │   │   ├── metric.py               ← Unitary metric tensor (Pillar 1)
 │   │   ├── evolution.py            ← Walker-Pearson integrator (Pillar 2)
 │   │   └── [200+ further modules]  ← Pillars 3–208 + sub-pillars
@@ -104,7 +104,7 @@ unitary-manifold-omega-v10.52/
 │   └── multiverse/
 │       └── fixed_point.py          ← FTUM fixed-point iteration (Pillar 5)
 │
-├── claims/                         ← Machine-readable falsification benchmarks (v10.52)
+├── claims/                         ← Machine-readable falsification benchmarks (v11.0)
 │   ├── cosmic_birefringence/       ← LiteBIRD β ∈ {0.273°, 0.331°} kill-switch
 │   └── mp_me_ratio/                ← m_p/m_e = K_CS²/N_c lattice-free claim
 │
