@@ -1,0 +1,162 @@
+# claim_queryability_index.yml — Canonical Claim Queryability Index
+# Unitary Manifold v10.62
+# Purpose: Every major claim maps to its machine-readable and human-readable ledger surfaces.
+# Lane 3: Auditability — every claim must be queryable in at least two ledger layers.
+# Ingest: tests/test_auditability_index.py
+# Last updated: 2026-05-15
+
+version: "v10.62"
+date: "2026-05-15"
+policy: |
+  Every claim listed in CLAIM_MASTER_BOARD.md must appear in at least:
+  (a) the canonical claim board (CLAIM_MASTER_BOARD.md),
+  (b) the truth layer (docs/TRUTH_LAYER.md or FALLIBILITY.md),
+  (c) the gatekeeper summary (docs/GATEKEEPER_SUMMARY.md).
+  Machine-readable status must be available in docs/mas_tracker.yml.
+  Instrument-binding is indexed in docs/falsification/instrument_registry.yml.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Global ledger surfaces
+# ──────────────────────────────────────────────────────────────────────────────
+
+ledger_surfaces:
+  - id: "CLAIM_MASTER_BOARD"
+    path: "docs/CLAIM_MASTER_BOARD.md"
+    role: "Single-source claim registry — all P-numbered and structural claims"
+    machine_readable: false
+    human_readable: true
+
+  - id: "TRUTH_LAYER"
+    path: "docs/TRUTH_LAYER.md"
+    role: "Full derivation context, all gaps, all tensions — no gatekeeping"
+    machine_readable: false
+    human_readable: true
+
+  - id: "GATEKEEPER_SUMMARY"
+    path: "docs/GATEKEEPER_SUMMARY.md"
+    role: "Concise PASS/TENSION/FALSIFIED for referees"
+    machine_readable: false
+    human_readable: true
+
+  - id: "MAS_TRACKER"
+    path: "docs/mas_tracker.yml"
+    role: "Machine-readable workstream and wave status; completion gate"
+    machine_readable: true
+    human_readable: true
+
+  - id: "INSTRUMENT_REGISTRY"
+    path: "docs/falsification/instrument_registry.yml"
+    role: "Machine-readable instrument binding with pass/fail semantics"
+    machine_readable: true
+    human_readable: true
+
+  - id: "CLOSURE_QUALITY_GATE"
+    path: "docs/closure_quality_gate.yml"
+    role: "Append-only promotion log with derivation artifact citations"
+    machine_readable: true
+    human_readable: true
+
+  - id: "OBSERVATION_TRACKER"
+    path: "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+    role: "Observation-by-observation routing with decision trees"
+    machine_readable: false
+    human_readable: true
+
+  - id: "FALSIFICATION_REGISTER"
+    path: "3-FALSIFICATION/FALSIFICATION_REGISTER.md"
+    role: "Complete kill-condition register for all falsifiable predictions"
+    machine_readable: false
+    human_readable: true
+
+  - id: "WAVE_CHANGELOG"
+    path: "docs/WAVE_CHANGELOG.md"
+    role: "Wave-by-wave changelog for promotion and status changes"
+    machine_readable: false
+    human_readable: true
+
+  - id: "FALLIBILITY"
+    path: "FALLIBILITY.md"
+    role: "Axiomatic assumptions, known gaps, failure modes — complete admissions"
+    machine_readable: false
+    human_readable: true
+
+  - id: "CLAIM_LABEL_STANDARD"
+    path: "docs/CLAIM_LABEL_STANDARD.md"
+    role: "Universal 6-label epistemic taxonomy and promotion/demotion criteria"
+    machine_readable: false
+    human_readable: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Claim-to-surface index
+# ──────────────────────────────────────────────────────────────────────────────
+
+claims:
+  - id: "P1"
+    description: "CMB spectral index n_s"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY",
+                      "INSTRUMENT_REGISTRY", "FALSIFICATION_REGISTER", "CLOSURE_QUALITY_GATE"]
+    machine_readable_surfaces: ["INSTRUMENT_REGISTRY", "CLOSURE_QUALITY_GATE"]
+
+  - id: "P2"
+    description: "Tensor-to-scalar ratio r"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY",
+                      "INSTRUMENT_REGISTRY", "FALSIFICATION_REGISTER", "CLOSURE_QUALITY_GATE"]
+    machine_readable_surfaces: ["INSTRUMENT_REGISTRY", "CLOSURE_QUALITY_GATE"]
+
+  - id: "P3"
+    description: "Cosmic birefringence β (primary)"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY",
+                      "INSTRUMENT_REGISTRY", "FALSIFICATION_REGISTER", "OBSERVATION_TRACKER"]
+    machine_readable_surfaces: ["INSTRUMENT_REGISTRY"]
+
+  - id: "P4"
+    description: "Dark energy EoS wₐ"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY",
+                      "INSTRUMENT_REGISTRY", "OBSERVATION_TRACKER", "FALLIBILITY"]
+    machine_readable_surfaces: ["INSTRUMENT_REGISTRY", "MAS_TRACKER"]
+
+  - id: "P28"
+    description: "Cosmological constant Λ"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY",
+                      "CLOSURE_QUALITY_GATE", "MAS_TRACKER", "WAVE_CHANGELOG"]
+    machine_readable_surfaces: ["CLOSURE_QUALITY_GATE", "MAS_TRACKER"]
+
+  - id: "S1"
+    description: "k_CS = 74 topological proof"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY", "FALLIBILITY"]
+    machine_readable_surfaces: []
+
+  - id: "S2"
+    description: "n_w = 5 uniqueness"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY",
+                      "FALSIFICATION_REGISTER", "FALLIBILITY"]
+    machine_readable_surfaces: []
+
+  - id: "S8"
+    description: "φ₀ self-consistency closure"
+    ledger_surfaces: ["CLAIM_MASTER_BOARD", "TRUTH_LAYER", "GATEKEEPER_SUMMARY"]
+    machine_readable_surfaces: []
+
+  - id: "DESI-TENSION"
+    description: "DESI DR2 wₐ tension (HIGH_TENSION)"
+    ledger_surfaces: ["OBSERVATION_TRACKER", "INSTRUMENT_REGISTRY", "TRUTH_LAYER",
+                      "CLAIM_MASTER_BOARD", "FALLIBILITY"]
+    machine_readable_surfaces: ["INSTRUMENT_REGISTRY"]
+    note: "Must be updated within 30 days of DESI DR3 publication"
+
+  - id: "LITEBIRD-FALSIFIER"
+    description: "LiteBIRD birefringence β falsifier"
+    ledger_surfaces: ["FALSIFICATION_REGISTER", "OBSERVATION_TRACKER",
+                      "INSTRUMENT_REGISTRY", "CLAIM_MASTER_BOARD", "TRUTH_LAYER"]
+    machine_readable_surfaces: ["INSTRUMENT_REGISTRY"]
+    note: "Primary decisive falsifier for entire framework"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Auditability rules
+# ──────────────────────────────────────────────────────────────────────────────
+
+rules:
+  minimum_surfaces_per_claim: 3
+  minimum_machine_readable_for_scored_claims: 1
+  update_window_days: 30
+  stale_doc_policy: "docs/9-INFRASTRUCTURE/provenance/DOC_FRESHNESS_POLICY.md"

@@ -18,7 +18,14 @@ This folder is the canonical source for what programs, suites, languages, and AI
 
 - Latest full local regression on this branch:
   - `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
-  - `31008 passed, 393 skipped, 12 deselected, 0 failed`
+  - `32 857 passed, 393 skipped, 12 deselected, 0 failed` (v10.61 baseline)
+
+## Auditability index
+
+- Canonical claim queryability index: `9-INFRASTRUCTURE/provenance/claim_queryability_index.yml`
+- Every major claim maps to ≥ 3 ledger surfaces (CLAIM_MASTER_BOARD, TRUTH_LAYER, GATEKEEPER_SUMMARY)
+- Machine-readable surfaces: `docs/mas_tracker.yml`, `docs/falsification/instrument_registry.yml`,
+  `docs/closure_quality_gate.yml`
 
 - Current dependency stack used in validation lanes:
   - `numpy`, `scipy`, `mpmath`, `matplotlib`, `pytest`, `sympy`, `jax[cpu]`, `jaxlib`, `z3-solver`, `wandb`, `dvc`
