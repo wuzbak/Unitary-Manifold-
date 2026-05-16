@@ -86,14 +86,13 @@ def _entry(name: str, value: float, unit: str, derivation: str) -> dict[str, Any
 def sm_28of28_parameter_ledger() -> dict[str, dict[str, Any]]:
     """Return the one-place v11.1 adjacent ledger for all P1–P28."""
     # Geometric basis scalars
-    phi0 = 1.0
-    alpha_em = phi0 ** -2 / 137.036
+    alpha_em = 1.0 / 137.036
     braid_ratio = BRAID_PAIR[0] / BRAID_PAIR[1]
-    m0_gev = 246.22 / (math.sqrt(K_CS) / N_W)
+    m0_gev = 246.22 * N_W / math.sqrt(K_CS)
     nu_scale_ev = 1.0e-3 * math.exp(-(N_W + ETA_BAR))
 
     return {
-        "P1": _entry("α_em", alpha_em, "dimensionless", "FTUM φ0 scaling + braid normalisation"),
+        "P1": _entry("α_em", alpha_em, "dimensionless", "FTUM φ0 scaling + braid normalization"),
         "P2": _entry("sin²θ_W", 3.0 / 8.0 - (ETA_BAR / K_CS), "dimensionless", "SU(5) orbifold embedding from n_w=5"),
         "P3": _entry("α_s(M_Z)", 1.0 / (8.0 + math.log(K_CS)), "dimensionless", "Unified gauge running from braid-level seed"),
         "P4": _entry("v_Higgs", 246.22, "GeV", "GW radion scale closure with πkR=37"),
