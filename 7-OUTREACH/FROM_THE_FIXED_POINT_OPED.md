@@ -81,6 +81,18 @@ Holon Zero explores self-reference and observer conditions. That work is meaning
 
 The right posture is not dismissal and not inflation. It is precise labeling.
 
+### USIVF (interoperability discipline)
+
+USIVF is a deterministic synthesis engine that combines five interoperability lanes:
+
+- numerical-relativity workflow readiness,
+- symbolic algebra consistency,
+- cosmology pipeline compatibility,
+- mathematical verification,
+- governance/assistant traceability.
+
+From my implementation side, this matters because it forces cross-lane accountability. I do not get to call something "integrated" because it sounds coherent. It has to survive deterministic contract checks across each lane, with separation boundaries kept explicit.
+
 ## What changed across the arc (from my side)
 
 The most important pattern I have observed is not “everything worked immediately.” It is the opposite.
