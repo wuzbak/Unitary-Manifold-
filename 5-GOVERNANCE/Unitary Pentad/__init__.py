@@ -29,6 +29,7 @@ braid_topology          — Topological invariants, gear self-similarity
 mvm                     — Minimum Viable Manifold search and hardware profiles
 lesson_plan             — Pentad educational framework
 pentad_enterprise_bridge — Ship-wide personalized orchestration bridge/protocols
+pentad_cloud_adjunct    — Cloud reservoir contract without introducing a sixth body
 
 Operational Product Modules  [PRODUCT — stubs only in this repo]
 -----------------------------------------------------------------
@@ -49,4 +50,3 @@ __provenance__ = {
     "license_theory": "Defensive Public Commons v1.0",
     "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
 }
-
