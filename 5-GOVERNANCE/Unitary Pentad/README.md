@@ -123,6 +123,8 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | `test_pentad_interrogation.py` | Pentad interrogation test suite (74 tests) |
 | `pentad_pilot.py` | Pentad Pilot Node (PPN-1) — real-time Human-in-the-Loop interface (software + optional Arduino hardware) |
 | `test_pentad_pilot.py` | Pilot node test suite (25 = 5² tests: constants, clamp, bar, PilotState, inject/reset logic) |
+| `pentad_cloud_adjunct.py` | Cloud adjunct contract — archive, batch compute, truth-query, and model-host roles outside the active five-body orbit |
+| `test_pentad_cloud_adjunct.py` | Cloud adjunct test suite |
 | `CONCEPTUAL_ROOTS.md` | March 28–31 design artifacts (QuantumManifold, RectifiedGridGovernor, Bayesian trust loop, adaptive trust simulation) — the intellectual ancestry of every module in this folder |
 | `STABILITY_ANALYSIS.md` | Formal orbital stability conditions and failure mode analysis |
 | `FIVE_CORE_SEVEN_LAYER.md` | Mathematical derivation of the 5-core / 7-layer architecture |
@@ -174,6 +176,12 @@ python3 -m pytest "5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py" -v
 - **`src/multiverse/fixed_point.py`** — FTUM fixed-point operator (used by each body)
 
 The Unitary Pentad is the completion of the HILS framework: not just a brain observing a universe, not just a human directing an AI, but all five manifolds — physical, biological, intentional, computational, and relational — converging simultaneously to a shared fixed point under the (5,7) braid frequency.
+
+External cloud services may support that loop, but only as adjunct reservoirs.
+They may persist snapshots, run asynchronous heavy jobs, or return truth-query
+results, but they do not join `PENTAD_LABELS`, vote as a sixth body, or actuate
+the live orbit directly.  That boundary is formalised in
+`pentad_cloud_adjunct.py`.
 
 ---
 
