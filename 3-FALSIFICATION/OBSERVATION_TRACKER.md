@@ -20,6 +20,12 @@
 >
 > No lane is queued behind another. All run concurrently.
 
+> **Lane C orchestration adjacent-track spec (Pillar 247):**
+> `3-FALSIFICATION/PILLAR247_UNIFIED_OBSERVATION_INGEST_AND_VERDICT_ROUTING_ENGINE.md`
+> defines the deterministic multi-observatory ingest + verdict router (DESI,
+> ACT/SPT/CMB-S4, JUNO/Hyper-K, LiteBIRD, and lab substitutes) with explicit
+> separation guard (`🔵 ADJACENT TRACK`, non-hardgate).
+
 ---
 
 ## Decision Tree (LiteBIRD / CMB-S4)
