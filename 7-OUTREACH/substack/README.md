@@ -505,3 +505,6 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-174-s01e027-series-wrap-up-conclusion.md` | Post 174 · S01E027 | "The End of the Series — What We Built, What We Proved, and What We're Waiting For" |
 | `post-175-s02e001-v11-v11-1-where-we-are-and-what-comes-next.md` | Post 175 · S02E001 | "v11 to v11.1: Where We Are, What We’re Doing, and Why the Next Series Starts Now" |
 | `post-176-s02e002-pillar249-consciousness-state-cartography.md` | Post 176 · S02E002 | "Pillar 249: Consciousness, Sleep, Anesthesia, Coma, and the Edge of Death — A Cartography Instead of a Myth" |
+| `post-177-s02e003-pillar250-quantum-materials-hardware-inverse-design.md` | Post 177 · S02E003 | "Pillar 250: From Constants to Fabrication — Quantum Materials & Hardware Inverse Design" |
+| `post-178-s02e004-pillar251-translational-oncology-adaptive-routing-trial-engine.md` | Post 178 · S02E004 | "Pillar 251: Oncology as an Operating System — Routing, Sequencing, Trials, Access, Uncertainty" |
+| `post-179-s02e005-pillar252-planetary-digital-twin-synthesis-engine.md` | Post 179 · S02E005 | "Pillar 252: From Static Scores to Time — The Planetary Digital Twin" |
