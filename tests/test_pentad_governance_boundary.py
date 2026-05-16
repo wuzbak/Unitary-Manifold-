@@ -88,7 +88,7 @@ class TestPentadReadmeDeclaration:
         )
 
 
-class TestPentadFilesNoPHysicsClaimForPentad:
+class TestPentadFilesNoPhysicsClaimForPentad:
     """No Pentad .py file may assert DERIVED/PROVED for Pentad constructs."""
 
     def test_pentad_python_files_no_physics_claims(self):
