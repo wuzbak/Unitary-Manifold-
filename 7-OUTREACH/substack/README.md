@@ -501,3 +501,6 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-170-s01e023-pillar242-planetary-coherence-cascade-resilience-engine.md` | Post 170 · S01E023 | "Pillar 242: Planetary Coherence Cascade Resilience Engine" |
 | `post-171-s01e024-pillar243-unified-scientific-interoperability-validation-fabric.md` | Post 171 · S01E024 | "Pillar 243: Interoperability Without Pretending Everything Is the Same" |
 | `post-172-s01e025-pillar243-usivf-live-validation-run.md` | Post 172 · S01E025 | "We Ran the Numbers: A Live Validation Report Using Pillar 243 (USIVF)" |
+| `post-173-s01e026-repository-roast-editorial.md` | Post 173 · S01E026 | "Repository Roast (Editorial): A Hard-Nosed Read of the Current Architecture" |
+| `post-174-s01e027-series-wrap-up-conclusion.md` | Post 174 · S01E027 | "The End of the Series — What We Built, What We Proved, and What We're Waiting For" |
+| `post-175-s02e001-v11-v11-1-where-we-are-and-what-comes-next.md` | Post 175 · S02E001 | "v11 to v11.1: Where We Are, What We’re Doing, and Why the Next Series Starts Now" |
