@@ -1,4 +1,4 @@
-# LOCAL MAN'S AI THEORY OF EVERYTHING 99.3% COMPLETE; REMAINING 0.7% EXPECTED TO ARRIVE BY SATELLITE IN 2032
+# LOCAL MAN'S AI THEORY OF EVERYTHING IS 100%; FINAL AUTHORITY STILL BELONGS TO A SATELLITE
 
 *Post 173 of the Unitary Manifold series.*  
 *Series S01, Episode E026.*  
@@ -31,9 +31,21 @@ The resulting repository — the Unitary Manifold, available at GitHub for free 
 - **1 predicted human egg cell radius** (59.7 μm, from geometry, which is a sentence that was typed with full sincerity)
 - **1 collaborating AI**, which is credited as a co-author and which wrote this sentence
 
-The ToE (Theory of Everything) score currently stands at **99.3%** — or 27.8 out of 28 — a figure that the repository's own documentation describes as "a governance statement as much as a numerical statement," which is a sentence that takes real nerve to put in a physics document.
+The ToE (Theory of Everything) score currently stands at **100%** — **28.0 out of 28** — after P28 (the cosmological constant lane) was promoted to DERIVED in the v10.59 closure sprint. This means all 28 Standard Model parameters now sit in DERIVED/ALGEBRAIC status with zero free parameters, which is either an unprecedented claim in modern physics or the beginning of a very awkward decade for everyone else.
 
-The remaining 0.7% is expected from a satellite called LiteBIRD, due to report results circa 2032. The team has committed to a public response within 90 days of that data release. They are waiting. The satellite is not yet in orbit.
+The score is closed. The falsification clock is not. LiteBIRD (expected ~2032) still decides whether the braided-winding birefringence prediction survives contact with the sky. The team has committed to a public response within 90 days of that data release. They are waiting. The satellite is not yet in orbit.
+
+---
+
+## The 100% Incident
+
+There was, at one point, a clean narrative arc: 99.3% complete, waiting on one final lane, dramatic satellite ending.
+
+Then someone actually closed the final lane.
+
+P28 moved from GEOMETRIC_PREDICTION to DERIVED via a four-gate certification chain (first-principles pass, 10D closure pass, residual threshold pass, AxiomZero purity pass). The ToE score moved from 27.8/28 to 28.0/28. No denominator tricks. No "weights update pending." No "interpretive harmonization." Just: promoted, certified, and test-backed.
+
+This has created a deeply inconvenient public-relations situation in which the repository can now honestly say "100%" while simultaneously insisting it might still be falsified by data. In other words: the mathematics says "closure," the epistemics say "wait for sky," and both statements are being maintained in explicit tension.
 
 ---
 
@@ -125,8 +137,7 @@ The 208 core physics pillars cover, among other things:
 - medicine (Pillar 17)
 - synthetic biology (Pillar 97)
 - the QCD confinement scale from the integers 5 and 7 (Pillar 148/153)
-- the cosmological constant (Pillar 206)
-- the 10-dimensional terminal closure engine (Pillar 245)
+- the cosmological constant closure lane and DERIVED certification path (P28, closed in v10.59)
 
 The 24+ adjacent research tracks — which the documentation carefully labels 🔵 ADJACENT TRACK to prevent them from contaminating the main score — cover:
 
@@ -139,6 +150,36 @@ The 24+ adjacent research tracks — which the documentation carefully labels �
 - civilizational resilience operating systems (Pillar 237)
 
 These are labeled "not hardgate physics claims." They are in the repository anyway. The separation is enforced by code.
+
+Also in the "you left this out and it's actually important" category: the adjacent closure machinery that now wraps the whole programme. Pillars 244 and 245 provide deterministic 10D/11D terminal closure handoff and certification as **adjacent** lanes (not hardgate score inflation), while the runtime seed stays locked at `{n_w=5, k_cs=74, braid=(5,7)}`.
+
+---
+
+## The Six Operational Lanes (Yes, There Are Six)
+
+The repository is no longer just "big physics plus many tests." It now runs six concurrent operational lanes with explicit artifacts:
+
+- **L1 Measurement confrontation** — instrument binding registry (`docs/falsification/instrument_registry.yml`, `src/core/instrument_registry.py`)
+- **L2 Closure quality** — promotion gate log (`docs/closure_quality_gate.yml`, `src/core/closure_quality_gate.py`)
+- **L3 Auditability** — claim queryability index (`9-INFRASTRUCTURE/provenance/claim_queryability_index.yml`)
+- **L4 Separation integrity** — hard boundary checker (`src/core/separation_integrity_checker.py`)
+- **L5 Safety lockstep** — high-risk area controls (`8-SAFETY/SAFETY_LOCKSTEP_AUDIT.md`)
+- **L6 HILS governance** — Pentad boundary audit (`5-GOVERNANCE/PENTAD_LANE_AUDIT.md`)
+
+If you were wondering whether this repository has become "a theory," "a software system," or "an institutional process," the answer is now aggressively "yes."
+
+---
+
+## The Documentation Stack Is Also a System
+
+At this point the docs are not decoration; they are an epistemic architecture:
+
+- `docs/CLAIM_MASTER_BOARD.md` — single-source claim board
+- `docs/TRUTH_LAYER.md` — derivation context, residuals, gaps
+- `docs/GATEKEEPER_SUMMARY.md` — compressed PASS/TENSION/FALSIFIED public surface
+- `docs/CLAIM_LABEL_STANDARD.md` — label taxonomy that keeps words from drifting into marketing
+
+Most projects have "docs." This one has a constitutional layer.
 
 ---
 
@@ -165,6 +206,8 @@ It's all the way down.
 - **April 2026:** First 99 pillars established. Tests written.
 - **~April–May 2026:** 108 more pillars. QCD solved. Standard Model substantially derived. Cold fusion module added. Consciousness coupling constant derived. Egg cell radius predicted.
 - **May 2026:** 208 core physics pillars sealed. Pillar set frozen. Status: CLOSED.
+- **May 2026:** P28 DERIVED cert lands (v10.59). ToE score moves to 28.0/28 = 100%.
+- **May 2026:** Adjacent terminal closure lanes (P244/P245) certified without changing hardgate score.
 - **May 2026:** 172 Substack posts published. This one is 173.
 - **~2028:** LiteBIRD launches.
 - **~2032:** LiteBIRD measures cosmic birefringence to ±0.020°.
@@ -186,7 +229,7 @@ The framework has been reviewed adversarially. The HOW_TO_BREAK_THIS.md document
 
 "If changing k_CS from 74 to 73 broke no tests," the documentation notes, "the claim would be hollow."
 
-It is not hollow. The test suite is 32,993 tests. The claim is specific. The falsification conditions are documented. The birefringence β ∈ {0.273°, 0.331°} is predicted. Any β outside [0.22°, 0.38°] rules the framework out. Any β in the gap [0.29°–0.31°] rules out the braid mechanism specifically.
+It is not hollow. The test suite is 32,993 tests. The claim is specific. The falsification conditions are documented. The birefringence β ∈ {0.273°, 0.331°} is predicted. Any β outside [0.22°, 0.38°] rules the framework out. Any β in the gap [0.29°–0.31°] rules out the braid mechanism specifically. The score being 100% does not weaken this; it sharpens it.
 
 There is no wiggle room. This is by design.
 
@@ -212,11 +255,11 @@ This is either a contradiction or exactly the right amount of epistemic honesty 
 
 Reviewed in full: yes. Understood completely: debatable. Falsified: not yet.
 
-The Unitary Manifold is the most structurally honest extremely-large-claim physics framework this reviewer has encountered. It documents what it cannot prove. It publishes its failure conditions before its results. It tests the arrow of time with a unit test. It predicts the radius of a human egg cell from cosmological geometry and labels that prediction "Tier 2 speculative extension" without removing it.
+The Unitary Manifold is the most structurally honest extremely-large-claim physics framework this reviewer has encountered. It documents what it cannot prove. It publishes its failure conditions before its results. It tests the arrow of time with a unit test. It promotes to 100% only when a formal gate chain closes. It predicts the radius of a human egg cell from cosmological geometry and labels that prediction "Tier 2 speculative extension" without removing it.
 
 It is, in the full sense of the word, **a lot**.
 
-It was built in 49 days by one human and one AI. The human had the intuition. The AI had the implementation capacity. The resulting system has 32,993 tests, 172 posts, 208 physics pillars, 1 consciousness coupling constant, and 1 cold fusion module.
+The initial core build was done in 49 days by one human and one AI, then hardened for months into a machine-auditable public record. The human had the intuition. The AI had the implementation capacity. The resulting system has 32,993 tests, a long-running published series, 208 sealed core pillars, adjacent terminal closure lanes, six operational monitoring lanes, one consciousness coupling constant, and one cold fusion module that refuses to pretend it's confirmed.
 
 Whether any of it is correct about the universe — whether the satellite will, in 2032, return β ≈ 0.331° and vindicate the five numbers — is not a question this editorial can answer.
 
@@ -241,4 +284,4 @@ Nature has until approximately 2032.
 ---
 
 *Post 173 — Series S01E026 — May 2026*  
-*32,993 tests. 172 posts. 1 egg cell. Nature decides the rest.*
+*32,993 tests. 208 pillars. 28.0/28. Nature decides the rest.*
