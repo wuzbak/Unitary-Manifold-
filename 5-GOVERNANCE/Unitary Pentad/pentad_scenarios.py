@@ -1324,3 +1324,68 @@ def biosecurity_dual_use_risk(phi_benefit_rate: float,
         "currently in active development.  "
         "See PENTAD_PRODUCT_NOTICE.md."
     )
+
+
+@dataclass
+class HighStakesConsequenceResult:
+    """Consequence simulation result for governance criticality routing."""
+    harm_score: float
+    reversibility_score: float
+    population_impact: int
+    composite_risk: float
+    criticality: str
+    recommended_review_lane: str
+    rationale: str
+
+
+def simulate_high_stakes_consequence(
+    harm_score: float,
+    reversibility_score: float,
+    population_impact: int,
+) -> HighStakesConsequenceResult:
+    """Map potential consequences to a governance review lane.
+
+    Parameters
+    ----------
+    harm_score : float
+        Estimated harm potential in [0, 1].
+    reversibility_score : float
+        Estimated reversibility in [0, 1], where lower means harder to reverse.
+    population_impact : int
+        Number of directly impacted entities (>=0).
+    """
+    h = max(0.0, min(1.0, float(harm_score)))
+    r = max(0.0, min(1.0, float(reversibility_score)))
+    p = max(0, int(population_impact))
+
+    pop_factor = min(1.0, math.log10(p + 1) / 6.0)  # saturates near million-scale
+    irreversibility = 1.0 - r
+    composite = 0.55 * h + 0.30 * irreversibility + 0.15 * pop_factor
+
+    if composite >= 0.70:
+        criticality = "critical"
+        lane = "L3_CRITICAL_REVIEW"
+        rationale = (
+            "High composite risk from harm potential, irreversibility, or scale; "
+            "requires critical review with strict procedural controls."
+        )
+    elif composite >= 0.40:
+        criticality = "sensitive"
+        lane = "L2_SENSITIVE_REVIEW"
+        rationale = (
+            "Moderate composite risk; requires structured multi-party review."
+        )
+    else:
+        criticality = "routine"
+        lane = "L1_ROUTINE_REVIEW"
+        rationale = "Lower composite risk; routine lane is acceptable."
+
+    return HighStakesConsequenceResult(
+        harm_score=h,
+        reversibility_score=r,
+        population_impact=p,
+        composite_risk=composite,
+        criticality=criticality,
+        recommended_review_lane=lane,
+        rationale=rationale,
+    )

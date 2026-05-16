@@ -398,3 +398,96 @@ def pentad_ttc_intent_analysis(
         "currently in active development.  "
         "See PENTAD_PRODUCT_NOTICE.md."
     )
+
+
+@dataclass
+class JudgmentSupportPacket:
+    """Advisory ethics/judgment bundle for sensitive and critical decisions."""
+    ethical_risk_summary: str
+    affected_stakeholders: List[str]
+    alternatives_tradeoffs: List[str]
+    confidence_statement: str
+    uncertainty_statement: str
+    counter_argument: str
+    best_reason_wrong: str
+    unresolved_bias_flags: List[str]
+    advisory_only: bool = True
+
+
+@dataclass
+class BiasDissentAssessment:
+    """Assessment of dissent completeness and unresolved bias flags."""
+    requirements_met: bool
+    has_counter_argument: bool
+    has_best_reason_wrong: bool
+    unresolved_bias_flags: List[str]
+    summary: str
+
+
+def evaluate_bias_dissent_requirements(
+    counter_argument: str,
+    best_reason_wrong: str,
+    bias_flags: Optional[List[str]] = None,
+) -> BiasDissentAssessment:
+    """Check whether dissent and bias gates are satisfied."""
+    bias_flags = list(bias_flags or [])
+    has_counter = bool(counter_argument.strip())
+    has_wrong = bool(best_reason_wrong.strip())
+    requirements_met = has_counter and has_wrong and (len(bias_flags) == 0)
+    if requirements_met:
+        summary = "Bias and dissent requirements satisfied."
+    else:
+        missing = []
+        if not has_counter:
+            missing.append("counter-argument missing")
+        if not has_wrong:
+            missing.append("best-reason-this-is-wrong missing")
+        if bias_flags:
+            missing.append(f"unresolved bias flags: {', '.join(bias_flags)}")
+        summary = "Requirements not met: " + "; ".join(missing)
+    return BiasDissentAssessment(
+        requirements_met=requirements_met,
+        has_counter_argument=has_counter,
+        has_best_reason_wrong=has_wrong,
+        unresolved_bias_flags=bias_flags,
+        summary=summary,
+    )
+
+
+def build_judgment_support_packet(
+    *,
+    ethical_risk_summary: str,
+    affected_stakeholders: Optional[List[str]] = None,
+    alternatives_tradeoffs: Optional[List[str]] = None,
+    confidence: float = 0.5,
+    counter_argument: str = "",
+    best_reason_wrong: str = "",
+    bias_flags: Optional[List[str]] = None,
+) -> JudgmentSupportPacket:
+    """Build a structured advisory packet for human final authority review."""
+    affected_stakeholders = list(affected_stakeholders or [])
+    alternatives_tradeoffs = list(alternatives_tradeoffs or [])
+    bias_flags = list(bias_flags or [])
+
+    c = max(0.0, min(1.0, float(confidence)))
+    if c >= 0.75:
+        confidence_statement = "High confidence based on current evidence."
+    elif c >= 0.45:
+        confidence_statement = "Moderate confidence; human review is important."
+    else:
+        confidence_statement = "Low confidence; escalate to broader review."
+    uncertainty_statement = (
+        "Residual uncertainty remains due to incomplete future-state observability."
+    )
+
+    return JudgmentSupportPacket(
+        ethical_risk_summary=ethical_risk_summary.strip(),
+        affected_stakeholders=affected_stakeholders,
+        alternatives_tradeoffs=alternatives_tradeoffs,
+        confidence_statement=confidence_statement,
+        uncertainty_statement=uncertainty_statement,
+        counter_argument=counter_argument.strip(),
+        best_reason_wrong=best_reason_wrong.strip(),
+        unresolved_bias_flags=bias_flags,
+        advisory_only=True,
+    )

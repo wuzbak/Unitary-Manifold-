@@ -44,6 +44,24 @@ Regenerate with: `python3 9-INFRASTRUCTURE/scripts/gen_visualizations.py`
 
 ---
 
+### Governance Update — Procedural / Plural / Auditable Human Authority (new)
+
+Recent HILS governance hardening in `5-GOVERNANCE/Unitary Pentad/` formalizes
+the outreach claim that “human final authority” must be operationally robust,
+not merely declared:
+
+- Decision criticality lanes (routine/sensitive/critical)
+- Structured quorum + role diversity for higher-stakes decisions
+- Bias/dissent gating before authorization
+- Scope-lock escalation instead of silent scope expansion
+- Appeal/recourse pathways
+- Full decision audit logging with periodic learning reviews
+
+This update keeps the same ethical invariant (human intent-control is final),
+while improving reliability under ambiguity, overload, and bias pressure.
+
+---
+
 ### substack/ — AxiomZero Posts & Books
 
 The `substack/` subfolder contains more than 150 posts and 16 books, organised as:
