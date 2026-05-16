@@ -155,7 +155,9 @@ def annual_cost_per_user_usd(s: AIComputeScenario) -> float:
 
 def operational_emissions_mtco2e(s: AIComputeScenario) -> float:
     effective_intensity = s.grid_carbon_intensity_kg_per_kwh * (1.0 - s.renewable_matched_fraction)
-    return effective_ai_energy_twh(s) * effective_intensity
+    energy_kwh = effective_ai_energy_twh(s) * 1_000_000_000.0
+    emissions_kg = energy_kwh * effective_intensity
+    return emissions_kg / 1_000_000_000.0
 
 
 def total_emissions_mtco2e(s: AIComputeScenario) -> float:
@@ -163,7 +165,9 @@ def total_emissions_mtco2e(s: AIComputeScenario) -> float:
 
 
 def water_withdrawal_billion_liters(s: AIComputeScenario) -> float:
-    return effective_ai_energy_twh(s) * s.water_liters_per_kwh
+    energy_kwh = effective_ai_energy_twh(s) * 1_000_000_000.0
+    liters = energy_kwh * s.water_liters_per_kwh
+    return liters / 1_000_000_000.0
 
 
 def burden_gap_scores(s: AIComputeScenario) -> dict[str, float]:
