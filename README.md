@@ -938,7 +938,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 29 425 passed · 329 skipped · 11 deselected)
+### Run the test suite — 0 failures (full suite: 32 993 passed · 393 skipped · 12 deselected)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
@@ -991,8 +991,8 @@ tests/test_richardson_multitime.py        11 passed
 # 5-GOVERNANCE/Unitary Pentad/ (HILS governance framework):
 ================================ ~1,487 passed, 254 skipped ================================
 
-# Grand total (v10.52, 2026-05-12):
-================================ 29 425 passed · 329 skipped · 11 deselected · 0 failed ================================
+# Grand total (v11.0, 2026-05-16):
+================================ 32 993 passed · 393 skipped · 12 deselected · 0 failed ================================
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.
@@ -1000,7 +1000,7 @@ tests/test_richardson_multitime.py        11 passed
 > ⚑ **The 1 skip is not a failure.**
 > `test_arrow_of_time.py::TestEntropyProductionRate::test_defect_history_mostly_decreasing` calls `pytest.skip("Insufficient residual history to test monotonicity")` when `fixed_point_iteration` converges in fewer than 2 iterations. Immediate convergence is the *correct* physical outcome; the guard documents that there is nothing to check monotonicity of in that case.
 >
-> **The 11 deselected tests** are in `test_richardson_multitime.py`, marked `@pytest.mark.slow`, and excluded from the default run by `addopts = -m "not slow"` in `pytest.ini`. They verify O(dt²) temporal convergence via Richardson extrapolation. Run with `pytest tests/ -m slow`.
+> **The 12 deselected tests** are in `test_richardson_multitime.py`, marked `@pytest.mark.slow`, and excluded from the default run by `addopts = -m "not slow"` in `pytest.ini`. They verify O(dt²) temporal convergence via Richardson extrapolation. Run with `pytest tests/ -m slow`.
 
 ---
 
@@ -1285,7 +1285,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**29 393 tests: 29 393 passed, 329 skipped, 11 deselected, 0 failures**).
+(**32 993 tests: 32 993 passed, 393 skipped, 12 deselected, 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
@@ -1307,7 +1307,7 @@ residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
 | F-2 | GW dispersion | Multi-band GW | $\|\Delta v/c\| < 10^{-16}$ |
 | F-3 | CMB non-Gaussianity | Simons Obs / CMB-S4 | $\sigma(f_{\rm NL}) < 1$ with $f_{\rm NL}^{WP} > 1$ |
 | F-4 | Holographic entropy saturation | BH thermodynamics | Persistent $S \ll A/4G$ |
-| F-5 | GR limit (internal) | `pytest` (28560 pass · 329 skip · 11 deselected) | Any non-zero GR-limit residual |
+| F-5 | GR limit (internal) | `pytest` (32993 pass · 393 skip · 12 deselected) | Any non-zero GR-limit residual |
 
 ---
 
