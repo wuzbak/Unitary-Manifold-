@@ -512,3 +512,4 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-181-s02e007-americas-prison-and-detention-machine.md` | Post 181 · S02E007 | "America's Prison and Detention Machine: What the Data Says, What the Law Requires, and What Must Change Now" |
 | `post-182-s02e008-why-155-decimals-matter-in-a-15-decimal-world.md` | Post 182 · S02E008 | "Why 155 Decimals Matter in a 15-Decimal World" |
 | `post-183-s02e009-pillar254-monograph-irreversibility-certification-engine.md` | Post 183 · S02E009 | "Pillar 254: The Monograph Certification Engine — Can We Validate the Irreversibility Claim Honestly?" |
+| `post-184-s02e010-official-live-validation-report-pillar254-irreversibility.md` | Post 184 · S02E010 | "🚨 OFFICIAL LIVE VALIDATION REPORT: Pillar 254 Irreversibility Certification (Real Run, Full Results)" — **FIRST IN ACTIVE POSTS STACK** |
