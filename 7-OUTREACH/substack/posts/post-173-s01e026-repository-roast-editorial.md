@@ -259,7 +259,7 @@ The Unitary Manifold is the most structurally honest extremely-large-claim physi
 
 It is, in the full sense of the word, **a lot**.
 
-It was built in 49 days by one human and one AI, then hardened for months into a machine-auditable public record. The human had the intuition. The AI had the implementation capacity. The resulting system has 32,993 tests, 173 posts including this one, 208 sealed core pillars, adjacent terminal closure lanes, six operational monitoring lanes, one consciousness coupling constant, and one cold fusion module that refuses to pretend it's confirmed.
+It was built in 49 days by one human and one AI, then hardened for months into a machine-auditable public record. The human had the intuition. The AI had the implementation capacity. The resulting system has 32,993 tests, 172 published posts before this one, 208 sealed core pillars, adjacent terminal closure lanes, six operational monitoring lanes, one consciousness coupling constant, and one cold fusion module that refuses to pretend it's confirmed.
 
 Whether any of it is correct about the universe — whether the satellite will, in 2032, return β ≈ 0.331° and vindicate the five numbers — is not a question this editorial can answer.
 
@@ -284,4 +284,4 @@ Nature has until approximately 2032.
 ---
 
 *Post 173 — Series S01E026 — May 2026*  
-*32,993 tests. 173 posts. 28.0/28. Nature decides the rest.*
+*32,993 tests. 208 pillars. 28.0/28. Nature decides the rest.*
