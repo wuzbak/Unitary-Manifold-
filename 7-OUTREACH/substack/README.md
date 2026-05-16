@@ -510,3 +510,4 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-179-s02e005-pillar252-planetary-digital-twin-synthesis-engine.md` | Post 179 · S02E005 | "Pillar 252: From Static Scores to Time — The Planetary Digital Twin" |
 | `post-180-s02e006-pillar253-ai-compute-sustainability-access-engine.md` | Post 180 · S02E006 | "Pillar 253: AI Compute, Cost, and Climate — The Access-Sustainability Equation" |
 | `post-181-s02e007-americas-prison-and-detention-machine.md` | Post 181 · S02E007 | "America's Prison and Detention Machine: What the Data Says, What the Law Requires, and What Must Change Now" |
+| `post-182-s02e008-why-155-decimals-matter-in-a-15-decimal-world.md` | Post 182 · S02E008 | "Why 155 Decimals Matter in a 15-Decimal World" |
