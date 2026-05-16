@@ -505,7 +505,7 @@ A deployment-facing outreach volume for the Unitary Pentad: what the system is, 
 | Audience | General readers, legal advocates, policymakers, journalists, governance teams, and reform operators |
 | Parts | Fifteen parts + implementation annex |
 | Framework connection | Pillar 18 (justice), Pillar 19 (governance), φ-capacity collapse under detention overload, accountability as system stability |
-| Companion post | [post-177-s02e003-americas-prison-and-detention-machine.md](../posts/post-177-s02e003-americas-prison-and-detention-machine.md) |
+| Companion post | [post-181-s02e007-americas-prison-and-detention-machine.md](../posts/post-181-s02e007-americas-prison-and-detention-machine.md) |
 
 A full-spectrum analysis of U.S. prisons and detention systems grounded in public-record data and constitutional case law. Covers pretrial detention, cash bail, solitary confinement harms, PREA oversight limits, racial disparities, mental-health criminalization, prison labor, immigration detention, and fiscal incentive failures—then lays out immediate (0–24 month) and structural (2–10 year) implementation blueprints.
 

@@ -1,7 +1,7 @@
 # America's Prison and Detention Machine: What the Data Says, What the Law Requires, and What Must Change Now
 
-*Post 177 of the Unitary Manifold series.*  
-*Series S02, Episode E003.*  
+*Post 181 of the Unitary Manifold series.*  
+*Series S02, Episode E007.*  
 *Epistemic category: **A/P** — applied systems/governance analysis grounded in public-record data and legal doctrine.*  
 *May 2026.*
 
