@@ -508,3 +508,4 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-177-s02e003-pillar250-quantum-materials-hardware-inverse-design.md` | Post 177 · S02E003 | "Pillar 250: From Constants to Fabrication — Quantum Materials & Hardware Inverse Design" |
 | `post-178-s02e004-pillar251-translational-oncology-adaptive-routing-trial-engine.md` | Post 178 · S02E004 | "Pillar 251: Oncology as an Operating System — Routing, Sequencing, Trials, Access, Uncertainty" |
 | `post-179-s02e005-pillar252-planetary-digital-twin-synthesis-engine.md` | Post 179 · S02E005 | "Pillar 252: From Static Scores to Time — The Planetary Digital Twin" |
+| `post-180-s02e006-pillar253-ai-compute-sustainability-access-engine.md` | Post 180 · S02E006 | "Pillar 253: AI Compute, Cost, and Climate — The Access-Sustainability Equation" |
