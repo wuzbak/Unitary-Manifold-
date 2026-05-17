@@ -12,6 +12,8 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 
 ---
 
+> **Operational hardening note:** Truth-sync now includes executable residual and proof-closure artifacts: `as_transfer_normalization_audit.py`, `adm_bssn_closure.py`, `higgs_naturalness_extended.py`, `flux_landscape_extended_scan.py`, `proof_closure_formal_cert.py`, and `proof_close_certification_report.py` (adjacent-track, non-score lane).
+
 ## Section 0 — What This Document Is
 
 The Unitary Manifold makes strong claims about nature. Those claims deserve

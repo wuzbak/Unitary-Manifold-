@@ -9,8 +9,6 @@ machine-readable verdict logic at each chain step.
 """
 from __future__ import annotations
 
-from typing import Dict
-
 from src.core.alpha_gw_pillar52_10d_bridge import alpha_gw_bridge_resolution
 
 __all__ = [
@@ -29,6 +27,7 @@ ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 M_KK_WARP_RELATIVE_UNCERTAINTY: float = 0.08
 SC2_PASS_THRESHOLD: float = 0.10
 SC2_TENSION_THRESHOLD: float = 0.20
+MIN_INTERVAL_WIDTH: float = 1e-30
 
 
 def classify_sc2_step(metric: float, pass_threshold: float, tension_threshold: float) -> str:
@@ -40,7 +39,7 @@ def classify_sc2_step(metric: float, pass_threshold: float, tension_threshold: f
     return "FALSIFIED"
 
 
-def as_transfer_chain_audit() -> Dict[str, object]:
+def as_transfer_chain_audit() -> dict[str, object]:
     """Return deterministic step-by-step SC2 audit packet.
 
     Steps:
@@ -64,7 +63,8 @@ def as_transfer_chain_audit() -> Dict[str, object]:
         step2_metric = 0.0
     else:
         # Distance from nearest allowed bound, normalized by interval width.
-        interval = max(alpha_high - alpha_low, 1e-30)
+        # Denominator guard for degenerate intervals in defensive edge cases.
+        interval = max(alpha_high - alpha_low, MIN_INTERVAL_WIDTH)
         nearest = min(abs(alpha_exact - alpha_low), abs(alpha_exact - alpha_high))
         step2_metric = nearest / interval
     step2_verdict = classify_sc2_step(

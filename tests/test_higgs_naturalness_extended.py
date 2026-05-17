@@ -20,7 +20,11 @@ def test_two_loop_qcd_factor_gt_one():
 def test_higgs_naturalness_point_shape():
     row = higgs_naturalness_point(0.10)
     assert row["verdict"] in {"PASS", "TENSION", "FALSIFIED"}
-    assert row["status"] in {"DERIVED_PARTIAL", "ARCHITECTURE_LIMIT_CERTIFIED"}
+    assert row["status"] in {
+        "DERIVED_PARTIAL",
+        "ARCHITECTURE_LIMIT_TENSION",
+        "ARCHITECTURE_LIMIT_FAILED",
+    }
     assert row["M_KK_GeV"] > 0.0
 
 

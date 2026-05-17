@@ -29,6 +29,8 @@
 
 ---
 
+> **Operational hardening note:** Same-day decision routing is now backed by executable adjacent-track packs (`desi_dr3_publication_day_runbook.py`, `litebird_synthetic_rehearsal.py`, `lab_cp_execution_report.py`) and final sprint aggregation (`proof_close_certification_report.py`) for deterministic verdict handoff.
+
 ## Decision Tree (LiteBIRD / CMB-S4)
 
 ```

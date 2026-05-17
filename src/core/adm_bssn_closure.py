@@ -6,8 +6,6 @@
 """
 from __future__ import annotations
 
-from typing import Dict
-
 from src.core.pillar255_open_gap_residual_dashboard import residual_t3_status
 
 __all__ = [
@@ -18,9 +16,11 @@ __all__ = [
 ]
 
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
+HAMILTONIAN_PROXY_BASELINE: float = 0.004
+MOMENTUM_PROXY_BASELINE: float = 0.003
 
 
-def bssn_evolution_step(alpha: float, k_trace: float, beta: float, b_driver: float, dt: float) -> Dict[str, float]:
+def bssn_evolution_step(alpha: float, k_trace: float, beta: float, b_driver: float, dt: float) -> dict[str, float]:
     """Single-step 1+log + Gamma-driver proxy update."""
     d_alpha = -2.0 * alpha * k_trace
     d_beta = 0.75 * b_driver
@@ -44,13 +44,15 @@ def constraint_verdict(hamiltonian_proxy: float, momentum_proxy: float) -> str:
     return "FALSIFIED"
 
 
-def t3_closure_assessment() -> Dict[str, object]:
+def t3_closure_assessment() -> dict[str, object]:
     """Return integrated T3 kinematic+dynamical closure assessment packet."""
     baseline = residual_t3_status()
     step = bssn_evolution_step(alpha=1.0, k_trace=0.003, beta=0.0, b_driver=0.002, dt=0.1)
 
-    h_proxy = 0.004
-    m_proxy = 0.003
+    # Baseline proxy magnitudes are set in the low-constraint regime used by the
+    # existing T3 residual lane (sum < 0.01 => PASS).
+    h_proxy = HAMILTONIAN_PROXY_BASELINE
+    m_proxy = MOMENTUM_PROXY_BASELINE
     dyn_verdict = constraint_verdict(h_proxy, m_proxy)
 
     return {

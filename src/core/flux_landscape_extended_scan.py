@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 import math
-from typing import Dict, List
 
 __all__ = [
     "ADJACENCY_TRACK_LABEL",
@@ -44,9 +43,9 @@ def classify_sc4_point(n_flux: int, residual_abs_log10: float) -> str:
     return "FALSIFIED"
 
 
-def scan_flux_landscape(values: List[int] | tuple[int, ...] = N_FLUX_SCAN_VALUES) -> List[Dict[str, object]]:
+def scan_flux_landscape(values: list[int] | tuple[int, ...] = N_FLUX_SCAN_VALUES) -> list[dict[str, object]]:
     """Return scan rows for candidate N_flux values."""
-    rows: List[Dict[str, object]] = []
+    rows: list[dict[str, object]] = []
     for n_flux in values:
         residual = residual_log10_ratio(n_flux)
         verdict = classify_sc4_point(n_flux=n_flux, residual_abs_log10=abs(residual))
@@ -61,7 +60,7 @@ def scan_flux_landscape(values: List[int] | tuple[int, ...] = N_FLUX_SCAN_VALUES
     return rows
 
 
-def sc4_closure_summary() -> Dict[str, object]:
+def sc4_closure_summary() -> dict[str, object]:
     """Return SC4 closure packet with explicit blocker/owner/stop-condition."""
     rows = scan_flux_landscape()
     pass_rows = [r for r in rows if r["verdict"] == "PASS"]

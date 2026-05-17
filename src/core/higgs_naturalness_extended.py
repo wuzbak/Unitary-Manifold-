@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 import math
-from typing import Dict, List
 
 from src.core.higgs_naturalness_5d_fixedpoint import M_PL_GEV, kk_higgs_naturalness
 
@@ -37,7 +36,15 @@ def _verdict_from_delta(delta_total: float) -> str:
     return "FALSIFIED"
 
 
-def higgs_naturalness_point(k: float, n_modes: int = 10) -> Dict[str, object]:
+def _status_from_verdict(verdict: str) -> str:
+    if verdict == "PASS":
+        return "DERIVED_PARTIAL"
+    if verdict == "TENSION":
+        return "ARCHITECTURE_LIMIT_TENSION"
+    return "ARCHITECTURE_LIMIT_FAILED"
+
+
+def higgs_naturalness_point(k: float, n_modes: int = 10) -> dict[str, object]:
     """Evaluate one k-point in the extended A3 naturalness lane."""
     r = 37.0 / math.pi / k
     base = kk_higgs_naturalness(k=k, R=r, N_modes=n_modes)
@@ -45,7 +52,7 @@ def higgs_naturalness_point(k: float, n_modes: int = 10) -> Dict[str, object]:
 
     delta_total = float(base["tuning_Delta"]) * factor
     m_kk = float(base["M_KK_GeV"])
-    kk_tower_acts_as_uv_cutoff = (m_kk / M_PL_GEV) < 1e-12
+    is_uv_cutoff = (m_kk / M_PL_GEV) < 1e-12
     verdict = _verdict_from_delta(delta_total)
 
     return {
@@ -56,18 +63,18 @@ def higgs_naturalness_point(k: float, n_modes: int = 10) -> Dict[str, object]:
         "two_loop_factor": factor,
         "delta_total": delta_total,
         "M_KK_GeV": m_kk,
-        "kk_tower_acts_as_uv_cutoff": kk_tower_acts_as_uv_cutoff,
+        "kk_tower_acts_as_uv_cutoff": is_uv_cutoff,
         "verdict": verdict,
-        "status": "DERIVED_PARTIAL" if verdict == "PASS" else "ARCHITECTURE_LIMIT_CERTIFIED",
+        "status": _status_from_verdict(verdict),
     }
 
 
-def higgs_naturalness_sweep() -> List[Dict[str, object]]:
+def higgs_naturalness_sweep() -> list[dict[str, object]]:
     """Evaluate the canonical k sweep for the A3 lane."""
     return [higgs_naturalness_point(k=k) for k in K_SWEEP]
 
 
-def higgs_naturalness_extended_report() -> Dict[str, object]:
+def higgs_naturalness_extended_report() -> dict[str, object]:
     """Return integrated A3 extension report."""
     rows = higgs_naturalness_sweep()
     canonical = higgs_naturalness_point(k=0.10)
