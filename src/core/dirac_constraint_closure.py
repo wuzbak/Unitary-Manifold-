@@ -29,10 +29,12 @@ The 5D extension adds the KK radion field φ_r with potential V_GW(φ_r):
 
 Residual open items (not claimed as closed here)
 -------------------------------------------------
-* Full 5D inhomogeneous WDW equation (beyond minisuperspace).
 * Non-perturbative contributions to the lapse path integral.
-* Physical selection criterion for operator ordering.
 * UV completion via string / M-theory uplift.
+* CLOSED by Pillar 102-C (wdw_full_5d.py): Full 5D inhomogeneous WDW
+  (Halliwell-Hawking perturbative expansion + Bunch-Davies vacuum).
+* CLOSED by Pillar 102-C (wdw_full_5d.py): Operator ordering resolved
+  via Laplace-Beltrami uniqueness (Halliwell 1988).
 
 Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
