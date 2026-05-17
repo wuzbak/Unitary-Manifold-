@@ -41,6 +41,11 @@ It then moves into:
 - **optimized guild design**
 - a full **amaranth guild deep dive**
 
+Like the rest of `4-IMPLICATIONS/`, this is an **AxiomZero commissioned applied guide**. It is a
+practical regional synthesis informed by the botanical materials in this folder and written for
+real cultivation use. It is **not** a new hardgate physics claim; it is a practical food-system
+application built alongside the broader Unitary Manifold botanical framework.
+
 ---
 
 ## Regional Reality Check — What Wins in Duvall
@@ -953,3 +958,8 @@ If the future becomes hotter, poorer, and less predictable, the best PNW food sy
 - native species for regional intelligence and ecological fit
 
 That is the real aim of this guide: not just harvest, but durability.
+
+---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
