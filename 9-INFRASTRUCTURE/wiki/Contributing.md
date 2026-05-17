@@ -45,7 +45,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 3. **Run the test suite before making changes** to establish a baseline:
    ```bash
    python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-   # Expected: 32 993 passed · 393 skipped · 12 deselected · 0 failed
+   # Expected: 33 241 passed · 405 skipped · 12 deselected · 0 failed
    ```
 4. **Make your changes** following the conventions below.
 5. **Run the test suite again** after your changes; 0 failures is a hard requirement.
