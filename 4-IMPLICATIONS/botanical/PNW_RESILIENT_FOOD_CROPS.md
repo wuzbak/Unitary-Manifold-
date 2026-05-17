@@ -15,7 +15,7 @@ This document is a practical regional synthesis for the **Duvall / Snoqualmie Va
 
 - **wet winters**
 - **dry summers**
-- **moderate winter lows** (commonly treated as **USDA zone 8b**, meaning **average annual extreme minimum temperatures** around **15-20°F / -9.4 to -6.7°C**, with colder pockets)
+- **moderate winter lows** (commonly treated as **USDA zone 8b**, defined by **average annual extreme minimum temperatures of 15-20°F / -9.4 to -6.7°C**, with colder pockets)
 - **heavy or mixed soils** with periodic drainage issues
 - increasing risk from **summer drought, heat spikes, smoke, and erratic spring weather**
 
@@ -572,7 +572,7 @@ Use:
 
 ## 4 · Mycorrhizae, Rotation, and Exceptions
 
-[SOIL_AND_EARTH.md](SOIL_AND_EARTH.md) notes that most food crops benefit strongly from mycorrhizal networks, with important exceptions including **brassicas and the chenopod / amaranth family group**. This matters because:
+[SOIL_AND_EARTH.md](SOIL_AND_EARTH.md) notes that most food crops benefit strongly from mycorrhizal networks, with important exceptions including **brassicas and the chenopod / amaranth family group**. In practical terms, that means these crops do not lean on fungal symbiosis the way many berries, shrubs, and trees do; they respond more directly to drainage, temperature, aeration, and nutrient balance. This matters because:
 
 - hazelnut, berries, many natives, and tree/shrub guilds benefit from fungal-friendly soil
 - perennial brassicas need less emphasis on mycorrhizal inoculation and more on drainage, disease control, and fertility balance
@@ -812,7 +812,7 @@ Amaranth likes fertility, but not sloppy excess.
 3. avoid huge nitrogen dumps late
 4. keep soil warm with mulch applied after it has already heated
 
-**Important nuance:** because amaranth is not the kind of crop that depends strongly on the fungal logic used by many woody perennials, the amaranth guild should emphasize:
+**Important nuance:** as noted earlier in the mycorrhizae section, amaranth belongs to a crop group that does not depend strongly on fungal symbiosis the way many woody perennials do, so the amaranth guild should emphasize:
 
 - warmth
 - aeration
