@@ -95,7 +95,7 @@ internal consistency of the mathematics.
 
 ---
 
-### === ΛQCD STATUS BOX === (v9.37 — Three-path derivation hierarchy)
+### ΛQCD STATUS BOX (v11.0 sync; see `STATUS.md` §Recent Gap Closure: QCD Confinement)
 
 Three distinct paths lead to Λ_QCD within the UM; they give different results
 because they operate at different scales and use different physical inputs.

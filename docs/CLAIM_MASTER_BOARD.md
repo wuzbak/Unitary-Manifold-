@@ -54,6 +54,8 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 **DERIVED (measurement-gated): 3 parameters** (P23, P24, P25)
 **GEOMETRIC_PREDICTION: 0 parameters** | **ALGEBRAIC: 1** (P11)
 
+**Birefringence mode-mapping note:** P23/P24 in this board map to the same two β branches tracked in `3-FALSIFICATION/OBSERVATION_TRACKER.md` as P1/P1b ((5,7) primary and (5,6) shadow); labels differ, predicted values and falsifier windows are identical.
+
 **v10.59 note:** P28 GEOMETRIC_PREDICTION→DERIVED (+0.2 pts) via first-principles RS1+KK+10D UV derivation with zero free parameters (`p28_lambda_derived_cert.py`). Λ_pred = [K_CS·n_w/(24π²)]·exp(−4·π·kR)/(c_uv·(2·N_flux)·(n_w+2)); factor-of-2 accuracy across 122 orders; all 4 gates pass (AxiomZero confirmed). ToE score: 27.8 → 28.0/28.0 = 100%.
 
 **v10.33 note:** 14 GP→DERIVED upgrades (+2.8 pts); P26 CONSTRAINED→GP (+0.3 pts);
