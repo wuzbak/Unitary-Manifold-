@@ -15,7 +15,7 @@ This document is a practical regional synthesis for the **Duvall / Snoqualmie Va
 
 - **wet winters**
 - **dry summers**
-- **moderate winter lows** (commonly treated as **USDA zone 8b**, with colder pockets)
+- **moderate winter lows** (commonly treated as **USDA zone 8b**, meaning average annual minimums around **15-20°F / -9.4 to -6.7°C**, with colder pockets)
 - **heavy or mixed soils** with periodic drainage issues
 - increasing risk from **summer drought, heat spikes, smoke, and erratic spring weather**
 
@@ -626,7 +626,7 @@ No resilient system is pest-free. The real goal is **pressure reduction without 
 - fungal leaf spots and mildews
 - root and crown rots from drainage failure
 
-## 2 · The First Defence Is Structure
+## 2 · The First Defense Is Structure
 
 Borrowing the logic of [GROWING_GUIDE.md](GROWING_GUIDE.md), pest management begins with:
 
