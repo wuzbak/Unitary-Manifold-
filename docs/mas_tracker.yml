@@ -1,25 +1,25 @@
-version: "v11.0"
-date: "2026-05-16"
-updated: "2026-05-16"
+version: "v11.1"
+date: "2026-05-17"
+updated: "2026-05-17"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
 
 public_surface_sync_checkpoint:
-  version: "v11.0"
-  regression: "32 993 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.1"
+  regression: "33 241 passed, 405 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.0"
-  pillar: 245
-  artifact: "src/core/pillar245_eleventd_full_closure.py"
-  test: "tests/test_pillar245_eleventd_full_closure.py"
+  version: "v11.1"
+  pillar: 255
+  artifact: "src/core/pillar255_open_gap_residual_dashboard.py"
+  test: "tests/test_pillar255_open_gap_residual_dashboard.py"
   status: "DELIVERED"
-  note: "11D terminal full-closure engine; 5 lanes certified, runtime seed locked, bridge burned. Predecessor: Pillar 244 (10D branch completion handoff)."
+  note: "v11.1 sprint: 8 new adjacent-track modules — DESI DR3 publication-day runbook, LiteBIRD synthetic rehearsal, Lab CP execution report, residual dashboard (SC2/SC4/A3/T3/G3/JUNO), SC2 A_s transfer-normalization audit, SC4 flux-landscape extended scan, A3 Higgs naturalness multi-loop, T3 ADM BSSN closure. 458 new tests. 0 new hardgate claims."
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:

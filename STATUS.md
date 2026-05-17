@@ -29,8 +29,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 32 993 passed · 393 skipped · 12 deselected · 0 failed  
-*(v11.0: audit-focused promotion release — no core-physics logic changes)*
+**Latest verified branch regression:** 33 241 passed · 405 skipped · 12 deselected · 0 failed  
+*(v11.1: Observational Readiness & Residual Hardening Sprint — 8 new adjacent-track modules, 458 tests)*
 
 ---
 
@@ -101,6 +101,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v11.1 | Observational Readiness & Residual Hardening Sprint: DESI DR3 publication-day runbook, LiteBIRD synthetic rehearsal engine (500-run suite, gap power ≈1.0), Lab CP execution report, Pillar 255 residual dashboard (SC2/SC4/A3/T3/G3/JUNO), SC2 A_s transfer-normalization audit (chain_is_closed=True), SC4 flux-landscape extended scan (N_flux 37→1000), A3 Higgs naturalness multi-loop + KK tower decoupling cert, T3 ADM BSSN dynamical closure layer | 8 adjacent-track modules (non-hardgate) | +458 | 2026-05-17 |
 | v11.0 | Comprehensive Audit & Canonical Freshness Synchronization: canonical ledgers and public metadata promoted from mixed v10.52–v10.62 state to unified v11.0 with refreshed branch regression totals and operational archive defaults | canonical surfaces + packaging/citation/archive metadata sync | +0 | 2026-05-16 |
 | v10.61 | Adjacent 11D terminal full-closure engine: 5 lanes certified (HW kickoff, HW hard-gate, G₄-flux vacuum link, UV vacuum selection, bridge-burn to 5D), runtime seed locked at {n_w=5, k_cs=74, braid=(5,7)} | `pillar245_eleventd_full_closure.py` | +76 | 2026-05-15 |
 | v10.60 | Adjacent 10D branch completion lane: deterministic branch-finish audit across R5 flux landscape, alpha_GW UV closure, P28 first-principles λ chain, P28 10D closure, and UV vacuum-seed handoff; explicit separation from later 11D / full-closure work | `pillar244_tend_branch_completion_engine.py` | +24 | 2026-05-15 |

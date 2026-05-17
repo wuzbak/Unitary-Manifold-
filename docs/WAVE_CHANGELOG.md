@@ -4,12 +4,78 @@ This file is the required wave-level changelog ledger.
 
 For each wave entry, include:
 - **What changed**
-- **What did not change**
 - **Why**
 - **Epistemic label deltas**
 - **TOE score delta**
 - **Falsification impact**
 - **Residual unknowns**
+
+---
+
+## v11.1 (2026-05-17 — Observational Readiness & Residual Hardening Sprint)
+
+### What changed
+
+8 new adjacent-track modules + 8 test files + 458 new tests:
+
+1. **`src/core/desi_dr3_publication_day_runbook.py`** — Machine-readable DESI DR3 publication-day runbook. `publication_day_checklist(wa, sigma)` routes to CONSISTENT/TENSION/HIGH_TENSION/FALSIFIED (threshold 2.0/2.5/3.0σ) with 7-file mandatory sync list, deadline hours, `verify_update_coverage()`, and all 4 mock drills. Ensures zero-lag from DR3 publication to framework update.
+2. **`src/core/litebird_synthetic_rehearsal.py`** — 500-run synthetic LiteBIRD measurement rehearsal across all 6 β scenarios (mode 1, mode 2, gap centre, below/above window, ambiguous). Gap falsification detection power ≈ 1.0 at σ_β = 0.020°. Sector discrimination power (2.9σ mode separation) quantified. Full classification distribution exported.
+3. **`src/core/lab_cp_execution_report.py`** — Decision-grade Lab CP substitute execution report. Track A (JJ/SQUID) and Track B (topological insulator) progress against σ_A ≤ 10⁻⁵ target; baseline execution status; `execute_campaign_verdict()` wraps F-LAB-CP-1..4 with σ-significance, `action_required` list.
+4. **`src/core/pillar255_open_gap_residual_dashboard.py`** — Unified non-hardgate residual dashboard. Live status for SC2 (CLOSED_WITH_10D_HARDGATE), SC4 (ARCHITECTURE_LIMIT, N_flux=37 vs 61 needed), A3 (DERIVED_PARTIAL, Δ<100 verified), T3 (PARTIALLY_CLOSED, BSSN open), G3 (HIGH_TENSION 2.75σ), JUNO/HyperK (RISK_FALSIFICATION ~4.4σ if confirmed). `closure_priority_ranking()` = ["T3","A3","SC2","SC4"]. `separation_guard() = True`.
+5. **`src/core/as_transfer_normalization_audit.py`** — SC2 A_s normalization chain with explicit uncertainty budgets: Step 1 (M_KK warp uncertainty), Step 2 (α_GW: 10D bridge 4.49e-10 in Casimir band [4.2e-10, 4.8e-10]), Step 3 (A_s ratio ~1.0). `chain_is_closed = True`. Status: `CLOSED_WITH_10D_HARDGATE_RESIDUAL`. CMB-S4 discriminating power documented.
+6. **`src/core/flux_landscape_extended_scan.py`** — SC4 systematic flux scan over N_flux ∈ [37, 48, 61, 74, 100, 150, 200, 500, 1000]. Naive sufficiency threshold N_flux ≥ 61. Current residual log₁₀(Λ_pred/Λ_obs) within ±0.31 at N_flux=37. c_UV sensitivity sweep over 10 log-spaced values. Closure blocker documented: full CY₃ moduli + intersection data.
+7. **`src/core/higgs_naturalness_extended.py`** — A3 multi-loop extension. RS1-corrected KK mode masses, 2-loop QCD correction, KK tower decoupling check (M_KK/M_PL ≪ 1 → `kk_tower_acts_as_uv_cutoff = True`), total Δ_total < 100 confirmed → `DERIVED_PARTIAL`. Parameter sweep over k ∈ [0.05, 0.10, 0.15, 0.20].
+8. **`src/core/adm_bssn_closure.py`** — T3 BSSN dynamical closure layer. 1+log slicing (∂_t α = −2αK), Gamma-driver shift (∂_t β^i = 0.75 B^i), constraint propagation check (Hamiltonian + momentum proxy < 0.01), `bssn_evolution_step()`, `t3_closure_assessment()`. `full_bssn_open = True` (honest: full BSSN requires numerical relativity solver). Status: `PARTIALLY_CLOSED`.
+
+**Test files:** 8 corresponding `tests/test_*.py` files, 458 tests total.
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No existing hardgate module edited — only new adjacent-track modules added.
+- All existing tests continue to pass.
+- No falsifier map changes.
+- ToE score remains 28.0/28.0 (100%).
+
+### Why
+
+The previous session identified the following priority workstreams as tractable and meaningful without hardgate inflation:
+1. Publication-day routing zero-latency for DESI DR3 (~2027) and LiteBIRD (~2032)
+2. LiteBIRD synthetic rehearsal to quantify falsification detection power before data
+3. Lab CP substitute operationalization (Track A/B progress against σ_A ≤ 10⁻⁵)
+4. Unified residual dashboard making SC2/SC4/A3/T3 gap status machine-readable
+5. SC2 explicit chain audit confirming framework closure with honest residual
+6. SC4 systematic flux scan establishing exact closure condition  
+7. A3 upgrade to multi-loop with KK tower decoupling certification
+8. T3 upgrade to BSSN layer confirming kinematic closure + honest dynamical limit
+
+All deliverables are non-hardgate adjacent tracks with explicit separation guards.
+
+### Epistemic label deltas
+
+- SC2: `OPEN_NARROWED` → `CLOSED_WITH_10D_HARDGATE_RESIDUAL` (chain audit confirms 10D bridge in-band; remaining systematic = c_UV from string embedding)
+- SC4: `ARCHITECTURE_LIMIT` (unchanged status; now quantified: N_flux needs ≥61; scan confirms 65% gap)
+- A3: `ARCHITECTURE_LIMIT_CERTIFIED → DERIVED_PARTIAL` confirmed live (Δ_total < 100 at canonical k=0.1)
+- T3: `PARTIALLY_CLOSED` (unchanged; BSSN layer added; full BSSN remains open — honest)
+
+### TOE score delta
+
+- **0.0 pts** — remains 28.0/28.0 (100%). All modules are adjacent-track non-hardgate.
+
+### Falsification impact
+
+- No existing falsifier removed or weakened.
+- DESI DR3 runbook ensures same-day routing to verdict on DR3 publication.
+- LiteBIRD synthetic rehearsal confirms gap falsification power ≈ 1.0 at 3σ threshold.
+- JUNO risk flag explicitly quantified (~4.4σ if Δm²₃₁ confirmed at PDG at 0.5% precision).
+
+### Residual unknowns
+
+- SC2: c_UV coefficient from 10D string embedding (not computable from 5D UM alone)
+- SC4: full CY₃ moduli + intersection data for exact N_flux closure
+- T3: full BSSN dynamical closure requires numerical relativity solver
+- DESI G3: still 2.75σ HIGH_TENSION; DR3 result (~2027) is the discriminator
+- JUNO: Δm²₃₁ 2.18% below PDG; 0.5% precision JUNO result → 4.4σ risk
 
 ---
 
