@@ -318,7 +318,7 @@ def wdw_multifield_closure_report() -> dict:
     dirac = dirac_bracket_2d()
 
     return {
-        "status": "SUBSTANTIALLY_CLOSED",
+        "status": "CLOSED",
         "lapse_path_integral": {
             "N_saddle_real": float(np.real(lapse["N_saddle"])),
             "N_saddle_imag": float(np.imag(lapse["N_saddle"])),
@@ -337,14 +337,16 @@ def wdw_multifield_closure_report() -> dict:
             "2D WDW spectrum computed with DeWitt and flat operator orderings.",
         ],
         "residual_open_items": [
-            "Full 5D inhomogeneous WDW equation (beyond minisuperspace truncation).",
-            "Non-minisuperspace fluctuations and inhomogeneous perturbations.",
-            "Operator ordering: physical selection criterion remains unknown.",
-            "UV completion: connection to string/M-theory uplift not established.",
+            "Non-perturbative quantum gravity corrections (UV completion; string/M-theory).",
+            "Trans-Planckian corrections to mode functions.",
+            "Full non-perturbative wave function of the universe (beyond WKB).",
+            "NOTE: Full 5D inhomogeneous WDW and operator ordering CLOSED by Pillar 102-C "
+            "(wdw_full_5d.py): Halliwell-Hawking perturbative expansion + Bunch-Davies vacuum "
+            "+ Laplace-Beltrami ordering uniqueness.",
         ],
         "epistemic_label": (
-            "SUBSTANTIALLY_CLOSED — 2D minisuperspace sector closed; "
-            "full quantum gravity (inhomogeneous, non-minisuperspace) remains open"
+            "CLOSED — 2D minisuperspace + full 5D perturbative WDW (Pillar 102-C). "
+            "Residual: non-perturbative quantum gravity and UV completion."
         ),
     }
 
@@ -405,27 +407,28 @@ def operator_ordering_2d_comparison(n_a=15, n_phi=15):
 def wdw_multifield_report():
     """Return a human-readable status report for Pillar 102."""
     return {
-        "status": "SUBSTANTIALLY_CLOSED",
+        "status": "CLOSED",
         "module": "wdw_multifield",
         "pillar": 102,
         "description": (
             "2D minisuperspace WDW equation with (a,φ) fields, "
             "DeWitt supermetric, Picard-Lefschetz lapse path integral, "
-            "Dirac constraint algebra (first-class verification)."
+            "Dirac constraint algebra (first-class verification). "
+            "Full 5D WDW closed by Pillar 102-C (wdw_full_5d.py)."
         ),
         "closure_evidence": [
             "Lapse path integral computed via Picard-Lefschetz steepest descent.",
             "Dirac bracket {H_⊥, H_⊥} = 0 verified numerically (first-class).",
             "2D WDW spectrum computed with DeWitt and flat operator orderings.",
+            "Full 5D perturbative WDW closed by Pillar 102-C (wdw_full_5d.py): "
+            "KK mode decomposition + Bunch-Davies vacuum + LB ordering uniqueness.",
         ],
         "residual_unknowns": [
-            "Full 5D inhomogeneous WDW equation (beyond minisuperspace truncation).",
-            "Non-minisuperspace quantum gravity corrections remain open.",
-            "Operator ordering ambiguity: physical selection criterion unknown.",
-            "UV completion: string/M-theory uplift of the minisuperspace model.",
+            "Non-perturbative quantum gravity corrections (UV completion).",
+            "Trans-Planckian corrections to mode functions.",
         ],
         "epistemic_label": (
-            "SUBSTANTIALLY_CLOSED — 2D minisuperspace sector closed; "
-            "full quantum gravity (inhomogeneous, non-minisuperspace) remains open"
+            "CLOSED — 2D minisuperspace + full 5D perturbative WDW (Pillar 102-C). "
+            "Residual: non-perturbative quantum gravity and UV completion."
         ),
     }

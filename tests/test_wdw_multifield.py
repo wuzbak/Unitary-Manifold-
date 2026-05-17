@@ -177,7 +177,7 @@ def test_wdw_report_keys():
 
 def test_wdw_report_status():
     report = wdw_multifield_report()
-    assert report["status"] == "SUBSTANTIALLY_CLOSED"
+    assert report["status"] == "CLOSED"
 
 
 def test_wdw_report_module():
@@ -307,7 +307,7 @@ def test_closure_report_returns_dict():
 
 def test_closure_report_status():
     report = wdw_multifield_closure_report()
-    assert report["status"] == "SUBSTANTIALLY_CLOSED"
+    assert report["status"] == "CLOSED"
 
 
 def test_closure_report_keys():

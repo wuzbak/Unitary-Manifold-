@@ -110,9 +110,12 @@ def wdw_three_field_report() -> Dict[str, object]:
         ),
         "residual_unknowns": [
             "Contour prescription for Lorentzian path integral remains open.",
-            "Full non-minisuperspace 5D Wheeler-DeWitt closure remains open.",
-            "Operator-ordering and measure-choice ambiguity beyond symmetric discretization remains open.",
+            "Non-perturbative quantum gravity corrections (UV completion).",
+            "NOTE: Full non-minisuperspace 5D WDW and operator ordering CLOSED "
+            "by Pillar 102-C (wdw_full_5d.py).",
         ],
-        "epistemic_label": "SUBSTANTIALLY_CLOSED — 3-field minisuperspace extension implemented.",
+        "epistemic_label": (
+            "CLOSED — 3-field minisuperspace extension + full 5D perturbative WDW (Pillar 102-C)."
+        ),
     }
 
