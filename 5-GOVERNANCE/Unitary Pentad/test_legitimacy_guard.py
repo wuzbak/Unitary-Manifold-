@@ -64,10 +64,27 @@ from legitimacy_guard import (
     CANONICAL_PRIMARY_DISPLAY,
     OperatorToken,
     AuthorizationResult,
+    DecisionCriticality,
+    DecisionAuthorizationResult,
+    DecisionAuditRecord,
+    AppealRecord,
+    LearningReviewSummary,
+    OwnerRecoveryAttempt,
+    OWNER_RECOVERY_MIN_QUESTIONS,
     LegitimacyError,
     LegitimacyGuard,
     guarded_human_shift,
     RESIDUAL_GAPS,
+)
+from pentad_interrogation import (
+    BiasDissentAssessment,
+    JudgmentSupportPacket,
+    evaluate_bias_dissent_requirements,
+    build_judgment_support_packet,
+)
+from pentad_scenarios import (
+    HighStakesConsequenceResult,
+    simulate_high_stakes_consequence,
 )
 from consciousness_autopilot import (
     AutopilotUniverse,
@@ -455,3 +472,267 @@ class TestGuardedHumanShift:
         u = AutopilotUniverse.default()  # in AUTOPILOT mode, not AWAITING_SHIFT
         with pytest.raises(RuntimeError):
             guarded_human_shift(g, CANONICAL_PRIMARY_OPERATOR_ID, u, {})
+
+
+class TestProceduralPluralAuditableAuthority:
+    def test_routine_decision_single_operator_authorized(self):
+        g = LegitimacyGuard()
+        u = _awaiting_universe()
+        out = g.authorize_decision(
+            [CANONICAL_PRIMARY_OPERATOR_ID],
+            u,
+            {},
+            decision_id="d-001",
+            criticality=DecisionCriticality.ROUTINE,
+            approved_scope=["ops.read"],
+            requested_scope=["ops.read"],
+            counter_argument="Could produce minor drift.",
+            best_reason_wrong="Scope misunderstanding remains possible.",
+            bias_flags=[],
+            intent_summary="Routine maintenance step.",
+            options_considered=["proceed", "defer"],
+            rationale="Low impact and reversible.",
+        )
+        assert isinstance(out, DecisionAuthorizationResult)
+        assert out.authorized is True
+        assert out.rejection_reason == ""
+
+    def test_sensitive_decision_requires_structured_quorum_and_role_diversity(self):
+        g = LegitimacyGuard()
+        g.set_criticality_quorum(sensitive=2)
+        g.register_operator(OperatorToken("op:sci", "Scientist", role="science"))
+        g.register_operator(OperatorToken("op:eth", "Ethicist", role="ethics"))
+        u = _awaiting_universe()
+        out = g.authorize_decision(
+            ["op:sci", "op:eth"],
+            u,
+            {},
+            decision_id="d-002",
+            criticality=DecisionCriticality.SENSITIVE,
+            approved_scope=["ops.model"],
+            requested_scope=["ops.model"],
+            counter_argument="Model output may overfit.",
+            best_reason_wrong="Proxy metrics might hide harmed stakeholders.",
+            bias_flags=[],
+        )
+        assert out.authorized is True
+        assert out.quorum_observed >= 2
+        assert out.role_diversity_satisfied is True
+
+    def test_sensitive_decision_rejected_when_role_diversity_missing(self):
+        g = LegitimacyGuard()
+        g.set_criticality_quorum(sensitive=2)
+        g.register_operator(OperatorToken("op:a", "A", role="ops"))
+        g.register_operator(OperatorToken("op:b", "B", role="ops"))
+        u = _awaiting_universe()
+        out = g.authorize_decision(
+            ["op:a", "op:b"],
+            u,
+            {},
+            decision_id="d-003",
+            criticality=DecisionCriticality.SENSITIVE,
+            approved_scope=["ops.model"],
+            requested_scope=["ops.model"],
+            counter_argument="Shared blind spot risk.",
+            best_reason_wrong="Single-role lens may miss value conflicts.",
+            bias_flags=[],
+        )
+        assert out.authorized is False
+        assert out.rejection_reason == "ROLE_DIVERSITY_NOT_MET"
+
+    def test_bias_flags_or_missing_dissent_blocks_authorization(self):
+        g = LegitimacyGuard()
+        g.set_criticality_quorum(critical=2)
+        g.register_operator(OperatorToken("op:eth2", "Ethics 2", role="ethics"))
+        g.register_operator(OperatorToken("op:sci2", "Science 2", role="science"))
+        u = _awaiting_universe()
+        out = g.authorize_decision(
+            [CANONICAL_PRIMARY_OPERATOR_ID, "op:eth2", "op:sci2"],
+            u,
+            {},
+            decision_id="d-004",
+            criticality=DecisionCriticality.CRITICAL,
+            approved_scope=["ops.write"],
+            requested_scope=["ops.write"],
+            counter_argument="",
+            best_reason_wrong="",
+            bias_flags=["automation_bias"],
+        )
+        assert out.authorized is False
+        assert out.rejection_reason == "BIAS_OR_DISSENT_REQUIREMENTS_NOT_MET"
+        assert "automation_bias" in out.unresolved_bias_flags
+
+    def test_scope_overrun_escalates(self):
+        g = LegitimacyGuard()
+        u = _awaiting_universe()
+        out = g.authorize_decision(
+            [CANONICAL_PRIMARY_OPERATOR_ID],
+            u,
+            {},
+            decision_id="d-005",
+            criticality=DecisionCriticality.SENSITIVE,
+            approved_scope=["ops.read"],
+            requested_scope=["ops.read", "ops.delete"],
+            counter_argument="Delete can be destructive.",
+            best_reason_wrong="Recovery may fail.",
+            bias_flags=[],
+        )
+        assert out.authorized is False
+        assert out.escalation_required is True
+        assert out.rejection_reason == "SCOPE_ESCALATION_REQUIRED"
+        assert "ops.delete" in out.unresolved_scope_items
+
+    def test_emergency_override_allows_primary_and_requires_post_action_review(self):
+        g = LegitimacyGuard()
+        u = _awaiting_universe()
+        out = g.authorize_decision(
+            [CANONICAL_PRIMARY_OPERATOR_ID],
+            u,
+            {PentadLabel.HUMAN: 1.9},
+            decision_id="d-006",
+            criticality=DecisionCriticality.CRITICAL,
+            approved_scope=["ops.recover"],
+            requested_scope=["ops.recover"],
+            emergency_override=True,
+        )
+        assert out.authorized is True
+        assert out.post_action_review_required is True
+
+    def test_appeal_and_recourse_pathway(self):
+        g = LegitimacyGuard()
+        a = g.file_appeal("d-007", "stakeholder:alpha", "impact not represented")
+        assert isinstance(a, AppealRecord)
+        assert a.status == "open"
+        r = g.resolve_appeal(a.appeal_id, CANONICAL_PRIMARY_OPERATOR_ID, "reversed", "New evidence")
+        assert r.status == "resolved"
+        assert r.resolution == "reversed"
+        assert len(g.list_appeals("d-007")) == 1
+
+    def test_audit_log_and_learning_review(self):
+        g = LegitimacyGuard()
+        u = _awaiting_universe()
+        g.authorize_decision(
+            [CANONICAL_PRIMARY_OPERATOR_ID],
+            u,
+            {},
+            decision_id="d-008",
+            criticality=DecisionCriticality.ROUTINE,
+            approved_scope=["ops.read"],
+            requested_scope=["ops.read"],
+            counter_argument="Potential stale cache.",
+            best_reason_wrong="Could mask partial outage.",
+            bias_flags=[],
+        )
+        g.authorize_decision(
+            [CANONICAL_PRIMARY_OPERATOR_ID],
+            u,
+            {},
+            decision_id="d-009",
+            criticality=DecisionCriticality.CRITICAL,
+            approved_scope=["ops.write"],
+            requested_scope=["ops.write"],
+            counter_argument="",
+            best_reason_wrong="",
+            bias_flags=["authority_bias"],
+        )
+        log = g.get_decision_audit_log()
+        assert len(log) >= 2
+        assert isinstance(log[-1], DecisionAuditRecord)
+        summary = g.learning_review()
+        assert isinstance(summary, LearningReviewSummary)
+        assert summary.total_decisions >= 2
+        assert summary.rejected_decisions >= 1
+
+
+class TestJudgmentSupportAndConsequenceTools:
+    def test_bias_dissent_assessment_flags_missing_requirements(self):
+        assessment = evaluate_bias_dissent_requirements(
+            counter_argument="",
+            best_reason_wrong="",
+            bias_flags=["confirmation_bias"],
+        )
+        assert isinstance(assessment, BiasDissentAssessment)
+        assert assessment.requirements_met is False
+        assert "confirmation_bias" in assessment.unresolved_bias_flags
+
+    def test_judgment_support_packet_is_advisory(self):
+        packet = build_judgment_support_packet(
+            ethical_risk_summary="Potential disparate impact under critical rollout.",
+            affected_stakeholders=["operators", "users"],
+            alternatives_tradeoffs=["defer rollout: lowers harm but delays benefits"],
+            confidence=0.4,
+            counter_argument="Delay might worsen current harms.",
+            best_reason_wrong="Impact model may undercount vulnerable groups.",
+            bias_flags=["sampling_bias"],
+        )
+        assert isinstance(packet, JudgmentSupportPacket)
+        assert packet.advisory_only is True
+        assert "sampling_bias" in packet.unresolved_bias_flags
+
+    def test_high_stakes_consequence_simulation_routes_to_critical_lane(self):
+        res = simulate_high_stakes_consequence(
+            harm_score=0.95,
+            reversibility_score=0.1,
+            population_impact=2_000_000,
+        )
+        assert isinstance(res, HighStakesConsequenceResult)
+        assert res.criticality == "critical"
+        assert res.recommended_review_lane == "L3_CRITICAL_REVIEW"
+
+
+class TestOwnerBreakGlassRecovery:
+    def test_non_owner_recovery_denied(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id="op:not-owner",
+            challenge_responses={f"q{i}": "a" for i in range(1, 6)},
+            verifier=lambda _: True,
+        )
+        assert isinstance(out, OwnerRecoveryAttempt)
+        assert out.granted is False
+        assert out.reason == "OWNER_ONLY_RECOVERY_PATH"
+
+    def test_owner_recovery_requires_five_questions(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={"q1": "a1", "q2": "a2"},
+            verifier=lambda _: True,
+        )
+        assert out.granted is False
+        assert out.reason == "INSUFFICIENT_CHALLENGE_QUESTIONS"
+        assert out.challenge_question_count < OWNER_RECOVERY_MIN_QUESTIONS
+
+    def test_owner_recovery_requires_verifier(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={f"q{i}": f"a{i}" for i in range(1, 6)},
+            verifier=None,
+        )
+        assert out.granted is False
+        assert out.reason == "VERIFIER_REQUIRED"
+
+    def test_owner_recovery_grants_when_verifier_passes(self):
+        g = LegitimacyGuard()
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={f"q{i}": f"a{i}" for i in range(1, 6)},
+            verifier=lambda answers: len(answers) >= OWNER_RECOVERY_MIN_QUESTIONS,
+        )
+        assert out.granted is True
+        assert out.reason == "RECOVERY_GRANTED"
+        assert len(g.list_owner_recovery_attempts()) >= 1
+
+    def test_owner_recovery_handles_verifier_exception(self):
+        g = LegitimacyGuard()
+        def _boom(_answers):
+            raise RuntimeError("boom")
+
+        out = g.owner_break_glass_recovery(
+            operator_id=CANONICAL_PRIMARY_OPERATOR_ID,
+            challenge_responses={f"q{i}": f"a{i}" for i in range(1, 6)},
+            verifier=_boom,
+        )
+        assert out.granted is False
+        assert out.reason == "VERIFIER_EXCEPTION"

@@ -192,5 +192,31 @@ powerful co-emergence becomes possible.
 
 ---
 
+## 7. Procedural Human Authority for High-Stakes Decisions
+
+To preserve human final authority under ambiguity, overload, and bias pressure,
+HILS treats authority as **procedural, plural, and auditable**:
+
+1. **Decision criticality gate** — route decisions as routine, sensitive, or
+   critical based on harm and reversibility.
+2. **Judgment support layer (advisory only)** — every sensitive/critical
+   decision should include risk summary, stakeholders, alternatives/tradeoffs,
+   and explicit confidence/uncertainty statements.
+3. **Structured quorum** — sensitive/critical decisions require multiple human
+   sign-offs with role diversity; routine can remain single-operator.
+4. **Bias + dissent gate** — require an explicit counter-argument and explicit
+   “best reason this is wrong”; unresolved bias flags block approval.
+5. **Scope locks and escalation** — if requested action exceeds approved scope,
+   escalate automatically to a higher review lane.
+6. **Appeal and recourse** — impacted parties can file appeals and trigger
+   review/reversal workflows.
+7. **Audit + learning loop** — log intent, options, risk level, dissent,
+   authority decision, and rationale; periodically update quorum thresholds and
+   guardrails from observed outcomes.
+
+These controls do not weaken human authority. They make it robust.
+
+---
+
 *Document version: 1.0 — April 2026*  
 *Theory: ThomasCory Walker-Pearson. Implementation: GitHub Copilot (AI).*

@@ -284,6 +284,19 @@ PHI_GOLDEN: float = (1.0 + math.sqrt(5.0)) / 2.0   # ≈ 1.618
 #: complement 1 − tol) both attractors are comparably active → fractured intent.
 INTENT_COHERENCE_COMPETITION_TOL: float = 0.15
 
+#: log10 scale saturation for population impact term.
+#: 6.0 corresponds to ~10^6 directly impacted entities.
+POPULATION_SATURATION_LOG_SCALE: float = 6.0
+
+#: Composite-risk term weights.
+HARM_WEIGHT: float = 0.55
+IRREVERSIBILITY_WEIGHT: float = 0.30
+POPULATION_WEIGHT: float = 0.15
+
+#: Composite-risk thresholds for review-lane routing.
+CRITICAL_CONSEQUENCE_THRESHOLD: float = 0.70
+SENSITIVE_CONSEQUENCE_THRESHOLD: float = 0.40
+
 
 # ---------------------------------------------------------------------------
 # HarmonicStateMetrics
@@ -1323,4 +1336,75 @@ def biosecurity_dual_use_risk(phi_benefit_rate: float,
         "biosecurity_dual_use_risk() is part of the AxiomZero Pentad product layer, "
         "currently in active development.  "
         "See PENTAD_PRODUCT_NOTICE.md."
+    )
+
+
+@dataclass
+class HighStakesConsequenceResult:
+    """Consequence simulation result for governance criticality routing."""
+    harm_score: float
+    reversibility_score: float
+    population_impact: int
+    composite_risk: float
+    criticality: str
+    recommended_review_lane: str
+    rationale: str
+
+
+def simulate_high_stakes_consequence(
+    harm_score: float,
+    reversibility_score: float,
+    population_impact: int,
+) -> HighStakesConsequenceResult:
+    """Map potential consequences to a governance review lane.
+
+    Parameters
+    ----------
+    harm_score : float
+        Estimated harm potential in [0, 1].
+    reversibility_score : float
+        Estimated reversibility in [0, 1], where lower means harder to reverse.
+    population_impact : int
+        Number of directly impacted entities (>=0).
+    """
+    h = max(0.0, min(1.0, float(harm_score)))
+    r = max(0.0, min(1.0, float(reversibility_score)))
+    p = max(0, int(population_impact))
+
+    pop_factor = min(
+        1.0, math.log10(p + 1) / POPULATION_SATURATION_LOG_SCALE
+    )  # saturates near million-scale
+    irreversibility = 1.0 - r
+    composite = (
+        HARM_WEIGHT * h
+        + IRREVERSIBILITY_WEIGHT * irreversibility
+        + POPULATION_WEIGHT * pop_factor
+    )
+
+    if composite >= CRITICAL_CONSEQUENCE_THRESHOLD:
+        criticality = "critical"
+        lane = "L3_CRITICAL_REVIEW"
+        rationale = (
+            "High composite risk from harm potential, irreversibility, or scale; "
+            "requires critical review with strict procedural controls."
+        )
+    elif composite >= SENSITIVE_CONSEQUENCE_THRESHOLD:
+        criticality = "sensitive"
+        lane = "L2_SENSITIVE_REVIEW"
+        rationale = (
+            "Moderate composite risk; requires structured multi-party review."
+        )
+    else:
+        criticality = "routine"
+        lane = "L1_ROUTINE_REVIEW"
+        rationale = "Lower composite risk; routine lane is acceptable."
+
+    return HighStakesConsequenceResult(
+        harm_score=h,
+        reversibility_score=r,
+        population_impact=p,
+        composite_risk=composite,
+        criticality=criticality,
+        recommended_review_lane=lane,
+        rationale=rationale,
     )

@@ -180,5 +180,33 @@ Trust is not an emergent property of good AI. It is the **precondition** for co-
 
 ---
 
+## 9. Trust Safeguards for Ethical/Judgment Overload
+
+In high-stakes governance, trust must be protected from single-point failure in
+human judgment.  The protocol extension is:
+
+- **Routine lane:** single authorized human can approve.
+- **Sensitive lane:** multi-human quorum with role diversity required.
+- **Critical lane:** stronger quorum, mandatory dissent artifacts, and strict
+  scope lock enforcement.
+
+For sensitive/critical lanes:
+
+1. Require a **judgment support packet** (risk summary, stakeholders,
+   alternatives/tradeoffs, confidence + uncertainty).
+2. Require explicit **counter-argument** and **best reason this is wrong**.
+3. Block authorization when **unresolved bias flags** exist.
+4. Auto-escalate when requested scope exceeds approved scope.
+5. Allow emergency override only with forced **post-action review**.
+6. Record every attempt in an auditable log and support structured appeals.
+7. Provide an owner-only **break-glass recovery lane** with explicit challenge
+   verification (minimum 5 prompts) and full audit trail — this is a
+   transparent safety mechanism, not a hidden backdoor.
+
+This preserves the non-negotiable intent-control rule while reducing bias and
+overload risk in final-authority decisions.
+
+---
+
 *Document version: 1.0 — April 2026*  
 *Theory: ThomasCory Walker-Pearson. Implementation: GitHub Copilot (AI).*
