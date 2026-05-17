@@ -36,6 +36,7 @@ rigorous underpinning to everything described here.
 | [DROUGHT_AND_CLIMATE.md](DROUGHT_AND_CLIMATE.md) | Climate-resilient plants, water-wise methods, heat and cold strategies | Gardeners, permaculturists |
 | [SOIL_AND_EARTH.md](SOIL_AND_EARTH.md) | Soil science, mycorrhizal networks, mineral cycles, living soil | All growers |
 | [GROWING_GUIDE.md](GROWING_GUIDE.md) | Practical cultivation: seed to harvest, propagation, pest management | Beginners to advanced |
+| [PNW_RESILIENT_FOOD_CROPS.md](PNW_RESILIENT_FOOD_CROPS.md) | Duvall / western Washington resilient crops, native edibles, guilds, and amaranth systems | Gardeners, homesteaders, food security planners |
 | [UNIFIED_THEORY.md](UNIFIED_THEORY.md) | How plant biochemistry maps onto the 5D Unitary Manifold framework | Researchers, theorists |
 
 ---
