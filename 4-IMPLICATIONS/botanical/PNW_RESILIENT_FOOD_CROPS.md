@@ -15,7 +15,7 @@ This document is a practical regional synthesis for the **Duvall / Snoqualmie Va
 
 - **wet winters**
 - **dry summers**
-- **moderate winter lows** (commonly treated as **USDA zone 8b**, meaning average annual minimums around **15-20°F / -9.4 to -6.7°C**, with colder pockets)
+- **moderate winter lows** (commonly treated as **USDA zone 8b**, meaning **average annual extreme minimum temperatures** around **15-20°F / -9.4 to -6.7°C**, with colder pockets)
 - **heavy or mixed soils** with periodic drainage issues
 - increasing risk from **summer drought, heat spikes, smoke, and erratic spring weather**
 
@@ -119,7 +119,7 @@ These are the crops I would use to build the permanent skeleton of a PNW surviva
 
 - **Why it belongs:** One of the best long-term PNW staple crops for calories, fats, protein, and storage.
 - **Ideal conditions:** Full sun to light shade; pH 6.0-7.5; well-drained loam or clay loam with organic matter; moderate summer water during establishment; zone 5-8.
-- **Guide:** Plant at least two compatible pollination partners unless using proven self-fertile selections. Space generously for airflow. Mulch heavily, keep grass away from the root zone, and water deeply through the first 2-3 summers. For western Washington, prioritize **eastern filbert blight-resistant cultivars** such as *Jefferson*, *Yamhill*, *Dorris*, *Wepster*, and compatible resistant pollinizers.
+- **Guide:** Plant at least two compatible pollination partners unless using proven self-fertile selections. Space generously for airflow. Mulch heavily, keep grass away from the root zone, and water deeply through the first 2-3 summers. For western Washington, prioritize **eastern filbert blight-resistant cultivars** such as *Jefferson*, *Yamhill*, *Dorris*, *Wepster*, and compatible resistant pollen-producing cultivars.
 - **Longevity / yield:** 30+ years; stable annual nut production once mature.
 - **Pests / diseases:** Eastern filbert blight is the major disease pressure; use resistant cultivars and prune for airflow. Squirrels and jays will compete hard for the crop.
 - **Best guild partners:** Currants, gooseberries, clover, comfrey, chives, yarrow, daffodils on margins for vole discouragement.
@@ -572,7 +572,7 @@ Use:
 
 ## 4 · Mycorrhizae, Rotation, and Exceptions
 
-[SOIL_AND_EARTH.md](SOIL_AND_EARTH.md) notes that most food crops benefit strongly from mycorrhizal networks, with important exceptions including **brassicas and chenopods**. This matters because:
+[SOIL_AND_EARTH.md](SOIL_AND_EARTH.md) notes that most food crops benefit strongly from mycorrhizal networks, with important exceptions including **brassicas and the chenopod / amaranth family group**. This matters because:
 
 - hazelnut, berries, many natives, and tree/shrub guilds benefit from fungal-friendly soil
 - perennial brassicas need less emphasis on mycorrhizal inoculation and more on drainage, disease control, and fertility balance
