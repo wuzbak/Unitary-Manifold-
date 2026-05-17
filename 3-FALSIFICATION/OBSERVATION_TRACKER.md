@@ -1,6 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
+*Last updated: 2026-05-16 (v11.0 canonical sync).*  
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
@@ -75,6 +76,17 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 >     # Update: OBSERVATION_TRACKER.md, CLAIM_MASTER_BOARD.md, TRUTH_LAYER.md same day
 > ```
 > Full truth context: `docs/TRUTH_LAYER.md §3 T1`
+
+> **DESI escalation matrix (v11.0 canonical):**
+>
+> | Condition | Verdict | Required same-day updates |
+> |---|---|---|
+> | σ ≥ 3.0 with wₐ ≠ 0 | **FALSIFIED** | `docs/CLAIM_MASTER_BOARD.md` (T1), `docs/TRUTH_LAYER.md` §3, `docs/GATEKEEPER_SUMMARY.md`, `docs/WAVE_CHANGELOG.md` |
+> | 2.5 ≤ σ < 3.0 | **HIGH_TENSION** | Keep T1 as HIGH_TENSION and maintain 30-day ingest cycle |
+> | 2.1 ≤ σ < 2.5 | **TENSION** | Keep T1 as TENSION and monitor DR3/Year-5 |
+> | σ < 2.1 | **RESOLVED** | Downgrade T1 tension flags and record closure in changelog |
+>
+> Canonical source row for T1 status: `docs/CLAIM_MASTER_BOARD.md` (Lane C).
 | **P5** | CMB acoustic peak amplitude | A_s | Suppressed ×4.2–6.1 vs ΛCDM (α_GW Casimir target band 4.2e-10–4.8e-10; Pillar 52 fixes the gravity-scale decade and the 10D bridge gives α_GW≈4.49e-10) | Planck, CMB-S4 | ~2030 | 🟢 CLOSED_WITH_PILLAR52_10D_BRIDGE — framework closure achieved; the RS1-only undershoot is retained as provenance, while the live missing link is resolved by the Pillar 52 + 10D bridge | 2026-05-09 | Maintain closed status under hardgate policy; re-open only if future 10D consistency gates fail or the Pillar 52 normalization anchor is invalidated |
 | **P6** | PMNS solar mixing angle (Route A + RS see-saw cross-route) | sin²θ₁₂ | **0.302252** Route A baseline + RS see-saw cross-route packet (`src/core/pmns_seesaw_5d.py`) | Ongoing neutrino experiments | Ongoing | 🟢 CONSISTENT — Route A remains canonical (1.55% from PDG 0.307); v10.52 adds RS see-saw cross-route closure surface in CKM/PMNS lane | 2026-05-11 | Monitor NuFIT updates; keep Route A canonical and use see-saw lane as executable cross-check |
 | **P7** | Cold fusion: φ-enhanced Gamow factor / COP | Excess heat at predicted COP | Falsifiable COP prediction (Pillar 15) | Calorimetry experiments | Ongoing | 🟡 PENDING — no confirmed measurement; prediction explicitly framed as falsifiable | 2026-05-04 | Monitor LENR experimental literature |
