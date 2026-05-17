@@ -131,6 +131,14 @@ PHI0 = 1.0            # FTUM radion VEV (Planck units)
 C_S_BRAID = 12.0 / 37.0  # braided sound speed
 PI_KR = 37.0          # π k R at attractor
 
+# KK vacuum energy: threshold below which δΛ is considered Planck-suppressed
+# (i.e., absorbed by the FTUM radion VEV without fine-tuning concern)
+_PLANCK_SUPPRESSION_THRESHOLD = 1.0e4
+
+# Boltzmann factor: exp(x) underflows to 0 in IEEE 754 double precision
+# for x ≲ −745. We use −700 as a safe conservative underflow threshold.
+_EXP_UNDERFLOW_THRESHOLD = -700.0
+
 # Odd KK levels admitted by Z₂ orbifold (Pillar 39)
 _ODD_KK_LEVELS = (1, 3, 5, 7, 9)
 
@@ -271,9 +279,14 @@ def mode_wdw_residual_check(
         is_satisfied: bool — True when max_residual < 0.01 (1%)
     """
     omega2 = kk_mode_dispersion(k, n_kk, a, phi, phi0)
-    omega = math.sqrt(max(omega2, 1e-30))
+    if omega2 <= 0:
+        raise ValueError(
+            f"Non-positive dispersion ω²={omega2:.3e} for (k={k}, n_kk={n_kk}, "
+            f"a={a}, phi={phi}).  Mode WDW residual check requires ω > 0."
+        )
+    omega = math.sqrt(omega2)
     # Correct RMS of BD Gaussian: σ_rms = 1 / sqrt(2ω)
-    sigma_rms = 1.0 / math.sqrt(2.0 * omega) if omega > 0 else 1.0
+    sigma_rms = 1.0 / math.sqrt(2.0 * omega)
     q_max = q_half_range * sigma_rms
     q_arr = np.linspace(-q_max, q_max, n_pts)
     dq = q_arr[1] - q_arr[0]
@@ -364,7 +377,7 @@ def kk_vacuum_energy_zeta_reg(
         "raw_sum": float(raw_sum),
         "subtracted_sum": float(kk_sum),
         "kk_effective_lambda": float(delta_lambda),
-        "is_planck_suppressed": bool(abs(delta_lambda) < 1e3),
+        "is_planck_suppressed": bool(abs(delta_lambda) < _PLANCK_SUPPRESSION_THRESHOLD),
         "note": (
             "KK zero-point energy is a Planck-scale correction. "
             "In the UM, the FTUM fixed point absorbs this via the radion VEV."
@@ -415,7 +428,7 @@ def kk_correction_to_spectrum(
         m_n = n * phi0
         # Boltzmann suppression from Bogoliubov coefficient
         exponent = -2.0 * math.pi * m_n / max(H_dS, 1e-30)
-        if exponent < -700:
+        if exponent < _EXP_UNDERFLOW_THRESHOLD:
             continue  # underflow → 0
         boltzmann = math.exp(exponent)
         # Leading order: (m_n/k)² × |β_n|²

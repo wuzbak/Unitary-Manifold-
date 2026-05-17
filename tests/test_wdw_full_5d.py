@@ -17,6 +17,7 @@ from src.core.wdw_full_5d import (
     C_S_BRAID,
     PI_KR,
     _ODD_KK_LEVELS,
+    _EXP_UNDERFLOW_THRESHOLD,
     kk_mode_dispersion,
     bunch_davies_wavefunction,
     bunch_davies_variance,
@@ -30,6 +31,10 @@ from src.core.wdw_full_5d import (
     factorization_consistency_check,
     wdw_full_5d_closure_report,
 )
+
+# KK correction must be negligible relative to this threshold for UM parameters
+# (m_n ≥ 1 ≫ H_dS ≈ 10⁻⁵ → exp(−2π m_n/H_dS) → 0 to many hundreds of decimal places)
+_KK_CORRECTION_NEGLIGIBLE_THRESHOLD = 1e-100
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -236,7 +241,7 @@ def test_kk_correction_nonnegative():
 def test_kk_correction_exponentially_small_for_um_params():
     # For UM: m_1 = 1, H_dS ~ 1e-5 → exp(-2π/1e-5) ~ 0
     delta = kk_correction_to_spectrum(k=0.05, H_dS=1e-5)
-    assert delta < 1e-100  # utterly negligible
+    assert delta < _KK_CORRECTION_NEGLIGIBLE_THRESHOLD
 
 
 def test_kk_correction_increases_with_H():
