@@ -15,6 +15,52 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.2 (2026-05-18 — Canonical Freshness & Residual Hardening Sprint)
+
+### What changed
+
+1. **Canonical truth-surface synchronization:** `STATUS.md`, `FALLIBILITY.md`, `docs/mas_tracker.yml`, `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md`, and `3-FALSIFICATION/OBSERVATION_TRACKER.md` were resynchronized to the 2026-05-18 branch state.
+2. **Regression baseline propagated:** the currently verified branch regression snapshot was refreshed to **33,089 passed · 405 skipped · 12 deselected · 0 failed** across the canonical freshness surfaces that present live totals.
+3. **Residual-priority framing made explicit in current truth surfaces:** the active non-hardgate residual execution order is now stated consistently as **T3 → A3 → SC2 → SC4**, matching `src/core/pillar255_open_gap_residual_dashboard.py`.
+4. **Repository-state carry-forward recorded:** the changelog now explicitly carries forward that the latest tracked adjacent lane remains **Pillar 258** in the live `STATUS.md` / `docs/mas_tracker.yml` state, without promoting any new hardgate pillar.
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No new hardgate claim introduced.
+- No claim label changed.
+- No falsifier threshold or forbidden-gap condition weakened.
+- No MAS reopening.
+
+### Why
+
+The repository shakedown/reassembly lane explicitly flagged documentary drift
+between canonical truth surfaces and the live branch state. This sprint applies
+the minimum corrective action: synchronize the canonical ledgers, preserve the
+frozen hardgate boundary, and state the current residual-hardening order without
+inflating claims or creating new pillars.
+
+### Epistemic label deltas
+
+- None.
+
+### TOE score delta
+
+- **0.0 pts** — remains 28.0/28.0 (100%).
+
+### Falsification impact
+
+- None. LiteBIRD windows, DESI thresholds, and all existing same-day routing rules are unchanged.
+
+### Residual unknowns
+
+- **T3:** full BSSN dynamical closure still requires a numerical-relativity-grade solver.
+- **A3:** full Higgs naturalness proof still exceeds the current 5D closure package.
+- **SC2:** exact `c_UV` point-value provenance remains a 10D embedding problem.
+- **SC4:** exact closure still requires full CY₃ moduli + intersection data.
+
+---
+
 ## v11.1 (2026-05-18 — Pillar 257 Repository Shakedown & Reassembly Adjacent Lane)
 
 ### What changed
