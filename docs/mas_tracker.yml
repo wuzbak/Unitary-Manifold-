@@ -26,14 +26,14 @@ public_surface_sync_checkpoint:
 
 adjacent_track_checkpoint:
   version: "v11.1"
-  pillar: 255
-  artifact: "src/core/pillar255_open_gap_residual_dashboard.py"
-  test: "tests/test_pillar255_open_gap_residual_dashboard.py"
+  pillar: 258
+  artifact: "src/core/pillar258_trusted_open_resource_registry.py"
+  test: "tests/test_pillar258_trusted_open_resource_registry.py"
   status: "DELIVERED"
-  note: "v11.1 sprint: 8 new adjacent-track modules — DESI DR3 publication-day runbook, LiteBIRD synthetic rehearsal, Lab CP execution report, residual dashboard (SC2/SC4/A3/T3/G3/JUNO), SC2 A_s transfer-normalization audit, SC4 flux-landscape extended scan, A3 Higgs naturalness multi-loop, T3 ADM BSSN closure. 458 new tests. 0 new hardgate claims."
+  note: "v11.1 follow-on adjacent lane: trusted open-resource registry (100 curated free/authoritative sources) with deterministic topic routing and AI prompt scaffolding; integrated into Pentad gateway and repository bot without changing hardgate claims."
 
 official_pillar_tracking_checkpoint:
-  latest_officially_tracked_pillar: 256
+  latest_officially_tracked_pillar: 258
   canonical_status_ledger: "STATUS.md"
   synced_recent_pillars:
     - 245
@@ -47,8 +47,9 @@ official_pillar_tracking_checkpoint:
     - 254
     - 255
     - 256
-  sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
-  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 256, while preserving the frozen hardgate / adjacent-track separation."
+    - 258
+  sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, 247, or 257."
+  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 258, while preserving the frozen hardgate / adjacent-track separation."
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:
