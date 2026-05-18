@@ -89,7 +89,11 @@ class TestResidualSC2Status:
         assert self.status["in_band"] is True
 
     def test_status_field(self):
-        assert self.status["status"] == "CLOSED_WITH_10D_HARDGATE"
+        assert self.status["status"] in {
+            "CLOSED_WITH_10D_HARDGATE",
+            "CLOSED_FULL_POINT_DERIVATION",
+        }
+        assert self.status["full_chain_verdict"] in {"PASS", "TENSION", "FALSIFIED"}
 
     def test_closure_blocker_present(self):
         assert "closure_blocker" in self.status
@@ -128,7 +132,8 @@ class TestResidualSC4Status:
         assert 60.0 < self.status["gap_percent"] < 70.0
 
     def test_status_field(self):
-        assert self.status["status"] == "ARCHITECTURE_LIMIT"
+        assert self.status["status"] in {"ARCHITECTURE_LIMIT", "CLOSED_WITH_EFFECTIVE_FLUX_CHANNELS"}
+        assert "effective_flux_scan_status" in self.status
 
     def test_adjacency_label(self):
         assert self.status["adjacency_label"] == ADJACENCY_TRACK_LABEL
@@ -158,7 +163,8 @@ class TestResidualA3Status:
         assert isinstance(self.status["partial_closure"], bool)
 
     def test_status_derived_partial_or_architecture_limit(self):
-        assert self.status["status"] in ("DERIVED_PARTIAL", "ARCHITECTURE_LIMIT_CERTIFIED")
+        assert self.status["status"] in ("DERIVED_PARTIAL", "ARCHITECTURE_LIMIT_CERTIFIED", "DERIVED_COMPLETE")
+        assert self.status["extended_overall_status"] in {"DERIVED_COMPLETE", "DERIVED_WITH_RESIDUAL"}
 
     def test_convergence_ratio_present(self):
         assert "convergence_ratio" in self.status

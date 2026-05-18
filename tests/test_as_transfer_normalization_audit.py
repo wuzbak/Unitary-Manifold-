@@ -38,6 +38,8 @@ def test_as_transfer_chain_audit_packet_shape():
     assert "step1_mkk_transfer_uncertainty" in report
     assert "step2_alpha_gw_bridge" in report
     assert "step3_as_consistency" in report
+    assert "step4_cuv_point_consistency" in report
+    assert "step5_robustness_overlap" in report
 
 
 def test_sc2_chain_verdict_is_explicit_three_state():
@@ -48,3 +50,8 @@ def test_sc2_chain_verdict_is_explicit_three_state():
 def test_sc2_chain_closed_on_pass():
     report = as_transfer_chain_audit()
     assert report["chain_is_closed"] == (report["chain_verdict"] == "PASS")
+
+
+def test_sc2_status_field():
+    report = as_transfer_chain_audit()
+    assert report["status"] in {"CLOSED_FULL_POINT_DERIVATION", "OPEN_RESIDUAL"}
