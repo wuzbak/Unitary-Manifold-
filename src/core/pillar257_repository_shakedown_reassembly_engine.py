@@ -20,6 +20,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+import re
 from typing import Any
 
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
@@ -157,11 +158,13 @@ def canonical_surface_sync_check() -> dict[str, Any]:
     surfaces_present = [rel for rel in _CANONICAL_SURFACES if (_ROOT / rel).exists()]
     missing_surfaces = [rel for rel in _CANONICAL_SURFACES if not (_ROOT / rel).exists()]
 
+    version_11_1 = re.compile(r"\bv11\.1\b")
+    version_11_0_or_11_1 = re.compile(r"\bv11\.(0|1)\b")
     tags = {
-        "status_has_v11_1": "v11.1" in status_text,
-        "fallibility_has_v11_1": "v11.1" in fallibility_text,
-        "claim_board_has_v11_0_or_v11_1": ("v11.0" in claim_board_text) or ("v11.1" in claim_board_text),
-        "truth_layer_has_v11_0_or_v11_1": ("v11.0" in truth_layer_text) or ("v11.1" in truth_layer_text),
+        "status_has_v11_1": bool(version_11_1.search(status_text)),
+        "fallibility_has_v11_1": bool(version_11_1.search(fallibility_text)),
+        "claim_board_has_v11_0_or_v11_1": bool(version_11_0_or_11_1.search(claim_board_text)),
+        "truth_layer_has_v11_0_or_v11_1": bool(version_11_0_or_11_1.search(truth_layer_text)),
     }
 
     return {
@@ -178,11 +181,13 @@ def drift_detection_check() -> dict[str, Any]:
     mas_text = _read_text(_ROOT / "docs/mas_tracker.yml")
     fals_reg_text = _read_text(_ROOT / "3-FALSIFICATION/FALSIFICATION_REGISTER.md")
 
+    mas_text_lower = mas_text.lower()
+    fals_reg_text_lower = fals_reg_text.lower()
     mas_mixed_era = (
-        "historical_snapshot_notice" in mas_text and "mixed-era" in mas_text.lower()
+        "historical_snapshot_notice" in mas_text_lower and "mixed-era" in mas_text_lower
     )
     fals_register_historical = (
-        "Historical snapshot notice" in fals_reg_text and "non-canonical" in fals_reg_text
+        "historical snapshot notice" in fals_reg_text_lower and "non-canonical" in fals_reg_text_lower
     )
 
     drift_items: list[str] = []
@@ -333,4 +338,3 @@ def pillar257_repository_shakedown_report() -> dict[str, Any]:
             "Pillar 257 is an adjacent-track shakedown and does not modify hardgate claims or ToE score."
         ),
     }
-

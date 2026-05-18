@@ -104,7 +104,8 @@ def test_baseline_snapshot_matches_known_counts():
     row = baseline_regression_snapshot()
     assert row["command"] == BASELINE_REGRESSION_COMMAND
     assert row["counts"] == BASELINE_REGRESSION_COUNTS
-    assert row["runtime_seconds"] == pytest.approx(BASELINE_REGRESSION_RUNTIME_SECONDS)
+    assert row["runtime_seconds"] == BASELINE_REGRESSION_RUNTIME_SECONDS
+    assert row["runtime_seconds"] > 0.0
     assert row["status"] == "PASS"
 
 
@@ -168,4 +169,3 @@ def test_integrated_report_status_is_honest():
     assert report["overall_status"] == "PASS_WITH_DOCUMENTATION_TENSIONS"
     assert report["hard_fails"] == []
     assert len(report["transparency_findings"]) >= 1
-
