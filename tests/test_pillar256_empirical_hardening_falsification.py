@@ -17,6 +17,8 @@ from src.core.pillar256_empirical_hardening_falsification import (
     PLANCK_R_UPPER_95CL,
     PROTON_RADIUS_CREMA_FM,
     PROTON_RADIUS_LEGACY_FM,
+    CKM_CP_TENSION_THRESHOLD_DEG,
+    DESI_WA_TENSION_THRESHOLD_SIGMA,
     R_FALSIFICATION_HALF_WIDTH,
     R_FALSIFICATION_WINDOW,
     R_PREDICTION,
@@ -55,7 +57,6 @@ def test_tensor_to_scalar_prediction_is_fixed_and_falsifiable():
     assert row["observable"] == "r"
     assert row["predicted_r"] == pytest.approx(R_PREDICTION)
     assert 0.02 < row["predicted_r"] < PLANCK_R_UPPER_95CL
-    assert row["predicted_r"] < PLANCK_R_UPPER_95CL
     assert row["currently_allowed"] is True
     assert row["headroom_to_upper_bound"] > 0.0
     assert row["headroom_to_upper_bound"] < 0.01
@@ -97,14 +98,14 @@ def test_black_box_falsification_threshold_links_required_file():
 def test_ckm_cp_honesty_check_records_nontrivial_residual():
     row = ckm_cp_phase_honesty_check()
     assert row["observable"] == "delta_cp_ckm"
-    assert row["abs_residual_deg"] > 5.0
+    assert row["abs_residual_deg"] > CKM_CP_TENSION_THRESHOLD_DEG
     assert row["verdict"] == "TENSION_REQUIRES_GEOMETRIC_REFINEMENT"
 
 
 def test_desi_wa_honesty_check_records_nontrivial_tension():
     row = desi_wa_honesty_check()
     assert row["observable"] == "w_a"
-    assert row["sigma_distance"] > 2.0
+    assert row["sigma_distance"] > DESI_WA_TENSION_THRESHOLD_SIGMA
     assert row["verdict"] == "TENSION_REQUIRES_NEW_SECTOR"
 
 

@@ -72,6 +72,10 @@ PROTON_RADIUS_CREMA_SIGMA_FM: float = 0.00039
 # Reference: https://physics.nist.gov/cgi-bin/cuu/Value?rp
 PROTON_RADIUS_LEGACY_FM: float = 0.88
 
+MIN_DENOMINATOR_GUARD: float = 1e-30
+CKM_CP_TENSION_THRESHOLD_DEG: float = 5.0
+DESI_WA_TENSION_THRESHOLD_SIGMA: float = 2.0
+
 
 __all__ = [
     "ADJACENCY_TRACK_LABEL",
@@ -90,6 +94,9 @@ __all__ = [
     "PROTON_RADIUS_CREMA_SIGMA_FM",
     "PROTON_RADIUS_LEGACY_FM",
     "R_FALSIFICATION_HALF_WIDTH",
+    "MIN_DENOMINATOR_GUARD",
+    "CKM_CP_TENSION_THRESHOLD_DEG",
+    "DESI_WA_TENSION_THRESHOLD_SIGMA",
     "derive_muon_g2_from_5d_constraint",
     "tensor_to_scalar_prediction_test",
     "vacuum_catastrophe_resolution_test",
@@ -192,8 +199,10 @@ def ckm_cp_phase_honesty_check() -> dict[str, Any]:
     delta_geo_deg = math.degrees(DELTA_CP_GEO_RAD)
     delta_pdg_deg = math.degrees(DELTA_CP_PDG_RAD)
     residual_deg = abs(delta_geo_deg - delta_pdg_deg)
-    residual_fraction = abs(DELTA_CP_GEO_RAD - DELTA_CP_PDG_RAD) / max(abs(DELTA_CP_PDG_RAD), 1e-30)
-    has_tension = residual_deg > 5.0
+    residual_fraction = abs(DELTA_CP_GEO_RAD - DELTA_CP_PDG_RAD) / max(
+        abs(DELTA_CP_PDG_RAD), MIN_DENOMINATOR_GUARD
+    )
+    has_tension = residual_deg > CKM_CP_TENSION_THRESHOLD_DEG
     return {
         "observable": "delta_cp_ckm",
         "delta_cp_geo_rad": DELTA_CP_GEO_RAD,
@@ -210,7 +219,7 @@ def desi_wa_honesty_check() -> dict[str, Any]:
     """Record explicit DESI w_a tension for the current UM w_a = 0 prediction."""
     wa_pred = float(um_cpl_wa())
     sigma_distance = abs(wa_pred - DESI_DR2_WA) / DESI_DR2_WA_SIGMA
-    has_tension = sigma_distance > 2.0
+    has_tension = sigma_distance > DESI_WA_TENSION_THRESHOLD_SIGMA
     return {
         "observable": "w_a",
         "wa_predicted": wa_pred,
