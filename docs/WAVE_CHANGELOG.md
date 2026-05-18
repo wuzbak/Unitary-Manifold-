@@ -22,9 +22,10 @@ For each wave entry, include:
 1. **`src/core/pillar259_autonomous_github_community_steward.py`** — NEW adjacent-track module for immediate-use autonomous GitHub stewardship lanes:
    - strict operation allowlist (`detect_orphaned_dependencies`, `triage_stale_issues`, `scan_security_vulnerabilities`, `recommend_contributor_onboarding`, `generate_community_health_report`),
    - immutable operation schemas (`SecurityFinding`, `CommunityGoodDeed`, `OperationReport`),
+   - Pentad-governed autonomy control plane (`PentadGovernanceDecision`, `pentad_stability_floor`, `pentad_axiom_entropy_loads`, `full_autonomous_pentad_governance_control`) with Ξ_c/sentinel-capacity/HIL-threshold alignment,
    - deterministic SHA256 operation-report integrity hashing and verification,
    - explicit safety-boundary enforcement and non-hardgate separation guard.
-2. **`tests/test_pillar259_autonomous_github_community_steward.py`** — NEW test suite covering constants, safety boundaries, immutable schemas, operation APIs, deterministic hashing, and integrity verification.
+2. **`tests/test_pillar259_autonomous_github_community_steward.py`** — NEW test suite covering constants, Pentad-governance control decisions, safety boundaries, immutable schemas, operation APIs, deterministic hashing, and integrity verification.
 3. **`1-THEORY/pillars/PILLAR_259_AUTONOMOUS_GITHUB_COMMUNITY_STEWARD.md`** — formal adjacent-track note documenting scope, rejection behavior, and explicit non-hardgate boundary.
 4. **Canonical tracking sync for new adjacent lane:**
    - `STATUS.md` adjacent track table now includes Pillar 259,

@@ -30,7 +30,7 @@ adjacent_track_checkpoint:
   artifact: "src/core/pillar259_autonomous_github_community_steward.py"
   test: "tests/test_pillar259_autonomous_github_community_steward.py"
   status: "DELIVERED"
-  note: "Immediate adjacent governance/security lane added for autonomous community stewardship and transparent vulnerability triage: deterministic operation schemas, strict operation allowlist, and integrity-hashed reports for human-reviewed action routing without changing hardgate claims."
+  note: "Immediate adjacent governance/security lane added for autonomous community stewardship and transparent vulnerability triage, now with full Pentad-governed control routing (Ξ_c/sentinel-capacity/HIL phase-shift alignment): deterministic operation schemas, strict operation allowlist, and integrity-hashed reports for human-reviewed action routing without changing hardgate claims."
 
 official_pillar_tracking_checkpoint:
   latest_officially_tracked_pillar: 259

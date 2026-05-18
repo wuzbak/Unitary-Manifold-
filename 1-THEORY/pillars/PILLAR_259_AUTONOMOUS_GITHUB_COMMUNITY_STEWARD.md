@@ -8,14 +8,17 @@
 
 Pillar 259 provides an immediate-use, deterministic operations layer for
 repository stewardship: dependency-risk scanning, stale-issue triage,
-vulnerability reporting, onboarding recommendation routing, and immutable
-integrity-hashed operation reports.
+vulnerability reporting, onboarding recommendation routing, immutable
+integrity-hashed operation reports, and **full autonomous Pentad-governed
+control routing** for allowed operations.
 
 ## 2) Why this adjacent pillar exists
 
 The repository already has deep theory/test closure and adjacent-track
 integrity lanes. This pillar adds practical autonomous service capacity for
-community benefit and security hygiene while preserving strict human oversight.
+community benefit and security hygiene while preserving strict human oversight,
+and aligns autonomous execution to Pentad core governance constants
+(`Ξ_c=35/74`, `SENTINEL_CAPACITY=12/37`, `HIL_PHASE_SHIFT_THRESHOLD=15`).
 
 ## 3) Deterministic lanes
 
@@ -27,12 +30,16 @@ community benefit and security hygiene while preserving strict human oversight.
 6. `recommend_contributor_onboarding()`  
 7. `create_operation_report()`  
 8. `verify_operation_report_integrity()`  
-9. `summarize_operations()`
+9. `summarize_operations()`  
+10. `pentad_stability_floor()`  
+11. `pentad_axiom_entropy_loads()`  
+12. `full_autonomous_pentad_governance_control()`
 
 ## 4) Integrity policy
 
 - Explicit allowlisted operations only.
 - Immutable operation records (`SecurityFinding`, `CommunityGoodDeed`, `OperationReport`).
+- Pentad governance decision schema (`PentadGovernanceDecision`) controls autonomy level.
 - Deterministic SHA256 integrity hash on operation payloads.
 - Separation guard is explicit (`NON_HARDGATE_ADJACENT`).
 - No hardgate-claim or ToE score modifications.
@@ -56,4 +63,3 @@ physics-claim promotion lane and does not reclassify any claim in
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
-

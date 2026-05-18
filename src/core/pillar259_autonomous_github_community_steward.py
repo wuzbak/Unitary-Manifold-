@@ -20,7 +20,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 import hashlib
 import json
@@ -36,6 +35,10 @@ __all__ = [
     "OPERATION_TIMEOUT_SECONDS",
     "SECURITY_REPORT_RETENTION_DAYS",
     "GOOD_DEEDS_QUOTA_PER_RUN",
+    "XI_C",
+    "SENTINEL_CAPACITY",
+    "HIL_PHASE_SHIFT_THRESHOLD",
+    "PENTAD_AXIOM_LABELS",
     "ALLOWED_OPERATIONS",
     "SEVERITY_CRITICAL",
     "SEVERITY_HIGH",
@@ -45,8 +48,12 @@ __all__ = [
     "SecurityFinding",
     "CommunityGoodDeed",
     "OperationReport",
+    "PentadGovernanceDecision",
     "separation_guard",
     "enforce_security_boundary",
+    "pentad_stability_floor",
+    "pentad_axiom_entropy_loads",
+    "full_autonomous_pentad_governance_control",
     "detect_orphaned_dependencies",
     "triage_stale_issues",
     "scan_security_vulnerabilities",
@@ -75,6 +82,18 @@ MAX_CONCURRENT_OPERATIONS: int = 3
 OPERATION_TIMEOUT_SECONDS: int = 300
 SECURITY_REPORT_RETENTION_DAYS: int = 90
 GOOD_DEEDS_QUOTA_PER_RUN: int = 10
+
+# Pentad-governance alignment constants
+XI_C: float = 35.0 / 74.0
+SENTINEL_CAPACITY: float = 12.0 / 37.0
+HIL_PHASE_SHIFT_THRESHOLD: int = 15
+PENTAD_AXIOM_LABELS: tuple[str, ...] = (
+    "no_lies",
+    "no_harm",
+    "no_coercion",
+    "transparency",
+    "sovereignty",
+)
 
 # Allowed operations (whitelist)
 ALLOWED_OPERATIONS: frozenset[str] = frozenset({
@@ -171,6 +190,20 @@ class OperationReport:
             raise ValueError(f"Invalid status: {self.status}")
 
 
+@dataclass(frozen=True)
+class PentadGovernanceDecision:
+    """Deterministic autonomous-governance decision under Pentad control."""
+
+    hil_operator_count: int
+    phase_shift_reached: bool
+    stability_floor: float
+    requested_operations: tuple[str, ...]
+    allowed_operations: tuple[str, ...]
+    blocked_operations: tuple[str, ...]
+    governance_status: str
+    autonomy_level: str
+
+
 # ============================================================================
 # Boundary & safety enforcement
 # ============================================================================
@@ -196,6 +229,91 @@ def enforce_security_boundary() -> dict[str, bool]:
         "whitelist_enforced": True,
         "immutable_report_schema": True,
         "non_hardgate": separation_guard(),
+        "pentad_governance_enabled": True,
+    }
+
+
+def pentad_stability_floor(hil_operator_count: int) -> float:
+    """Return normalized Pentad stability floor from HIL operator count."""
+    if hil_operator_count < 0:
+        raise ValueError("hil_operator_count must be >= 0")
+    return min(1.0, hil_operator_count / float(HIL_PHASE_SHIFT_THRESHOLD))
+
+
+def pentad_axiom_entropy_loads(
+    *,
+    security_findings_count: int = 0,
+    stale_issue_count: int = 0,
+) -> dict[str, float]:
+    """Project deterministic entropy loads onto the five Pentad governance axioms."""
+    if security_findings_count < 0 or stale_issue_count < 0:
+        raise ValueError("security_findings_count and stale_issue_count must be >= 0")
+
+    security_pressure = min(1.0, security_findings_count / 100.0)
+    staleness_pressure = min(1.0, stale_issue_count / 200.0)
+    trust_pressure = min(1.0, (security_pressure + staleness_pressure) / 2.0)
+
+    return {
+        "no_lies": SENTINEL_CAPACITY * security_pressure,
+        "no_harm": SENTINEL_CAPACITY * trust_pressure,
+        "no_coercion": SENTINEL_CAPACITY * staleness_pressure,
+        "transparency": SENTINEL_CAPACITY * max(security_pressure, staleness_pressure),
+        "sovereignty": SENTINEL_CAPACITY * trust_pressure,
+    }
+
+
+def full_autonomous_pentad_governance_control(
+    *,
+    hil_operator_count: int,
+    requested_operations: list[str],
+    security_findings_count: int = 0,
+    stale_issue_count: int = 0,
+) -> dict[str, Any]:
+    """Compute full immediate-execution autonomous control decision under Pentad governance."""
+    stability_floor = pentad_stability_floor(hil_operator_count)
+    phase_shift_reached = hil_operator_count >= HIL_PHASE_SHIFT_THRESHOLD
+
+    requested = tuple(dict.fromkeys(requested_operations))
+    invalid = tuple(op for op in requested if op not in ALLOWED_OPERATIONS)
+    valid = [op for op in requested if op in ALLOWED_OPERATIONS]
+
+    max_actions = GOOD_DEEDS_QUOTA_PER_RUN if phase_shift_reached else 2
+    allowed = tuple(valid[:max_actions])
+
+    blocked_budget = tuple(valid[max_actions:])
+    blocked = invalid + blocked_budget
+
+    axiom_loads = pentad_axiom_entropy_loads(
+        security_findings_count=security_findings_count,
+        stale_issue_count=stale_issue_count,
+    )
+    overloaded_axioms = tuple(
+        k for k, v in axiom_loads.items() if v > SENTINEL_CAPACITY + 1e-12
+    )
+
+    decision = PentadGovernanceDecision(
+        hil_operator_count=hil_operator_count,
+        phase_shift_reached=phase_shift_reached,
+        stability_floor=stability_floor,
+        requested_operations=requested,
+        allowed_operations=allowed,
+        blocked_operations=blocked,
+        governance_status="PENTAD_GOVERNED_EXECUTION" if not overloaded_axioms else "PENTAD_SAFETY_HOLD",
+        autonomy_level="FULL_AUTONOMY" if phase_shift_reached else "LIMITED_AUTONOMY",
+    )
+
+    return {
+        "adjacency_label": ADJACENCY_TRACK_LABEL,
+        "pillar": PILLAR_NUMBER,
+        "xi_c": XI_C,
+        "sentinel_capacity": SENTINEL_CAPACITY,
+        "hil_phase_shift_threshold": HIL_PHASE_SHIFT_THRESHOLD,
+        "axiom_loads": axiom_loads,
+        "overloaded_axioms": overloaded_axioms,
+        "decision": decision,
+        "non_hardgate_statement": (
+            "Pentad governance control is an adjacent operational lane and does not modify hardgate physics claims."
+        ),
     }
 
 
@@ -231,7 +349,6 @@ def detect_orphaned_dependencies(
             "findings_count": int,
         }
     """
-    from datetime import datetime
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     operation_id = f"OP-ORPHANED-{timestamp}"
 
@@ -278,7 +395,6 @@ def triage_stale_issues(
             "status": str,
         }
     """
-    from datetime import datetime
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     operation_id = f"OP-TRIAGE-{timestamp}"
 
@@ -331,7 +447,6 @@ def scan_security_vulnerabilities(
             "scan_timestamp_utc": str,
         }
     """
-    from datetime import datetime
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     operation_id = f"OP-SECURITY-{timestamp}"
 
@@ -377,7 +492,6 @@ def generate_community_health_report(
             "health_score": float,
         }
     """
-    from datetime import datetime
     timestamp = datetime.now(timezone.utc).isoformat()
     report_id = f"HEALTH-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
 
@@ -425,7 +539,6 @@ def recommend_contributor_onboarding(
             "mentorship_gaps": list[str],
         }
     """
-    from datetime import datetime
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     operation_id = f"OP-ONBOARD-{timestamp}"
 

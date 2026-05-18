@@ -18,6 +18,10 @@ from src.core.pillar259_autonomous_github_community_steward import (
     OPERATION_TIMEOUT_SECONDS,
     SECURITY_REPORT_RETENTION_DAYS,
     GOOD_DEEDS_QUOTA_PER_RUN,
+    XI_C,
+    SENTINEL_CAPACITY,
+    HIL_PHASE_SHIFT_THRESHOLD,
+    PENTAD_AXIOM_LABELS,
     ALLOWED_OPERATIONS,
     SEVERITY_CRITICAL,
     SEVERITY_HIGH,
@@ -27,8 +31,12 @@ from src.core.pillar259_autonomous_github_community_steward import (
     SecurityFinding,
     CommunityGoodDeed,
     OperationReport,
+    PentadGovernanceDecision,
     separation_guard,
     enforce_security_boundary,
+    pentad_stability_floor,
+    pentad_axiom_entropy_loads,
+    full_autonomous_pentad_governance_control,
     detect_orphaned_dependencies,
     triage_stale_issues,
     scan_security_vulnerabilities,
@@ -65,6 +73,18 @@ class TestConstants:
         assert OPERATION_TIMEOUT_SECONDS == 300
         assert SECURITY_REPORT_RETENTION_DAYS == 90
         assert GOOD_DEEDS_QUOTA_PER_RUN == 10
+
+    def test_pentad_alignment_constants(self):
+        assert XI_C == pytest.approx(35.0 / 74.0)
+        assert SENTINEL_CAPACITY == pytest.approx(12.0 / 37.0)
+        assert HIL_PHASE_SHIFT_THRESHOLD == 15
+        assert PENTAD_AXIOM_LABELS == (
+            "no_lies",
+            "no_harm",
+            "no_coercion",
+            "transparency",
+            "sovereignty",
+        )
 
     def test_allowed_operations_immutable(self):
         assert isinstance(ALLOWED_OPERATIONS, frozenset)
@@ -103,6 +123,68 @@ def test_enforce_security_boundary_all_checks():
     assert result["timeout_enforced"] is True
     assert result["whitelist_enforced"] is True
     assert result["immutable_report_schema"] is True
+    assert result["pentad_governance_enabled"] is True
+
+
+def test_pentad_stability_floor_bounds():
+    assert pentad_stability_floor(0) == pytest.approx(0.0)
+    assert pentad_stability_floor(HIL_PHASE_SHIFT_THRESHOLD) == pytest.approx(1.0)
+    assert pentad_stability_floor(HIL_PHASE_SHIFT_THRESHOLD + 10) == pytest.approx(1.0)
+
+
+def test_pentad_stability_floor_negative_raises():
+    with pytest.raises(ValueError):
+        pentad_stability_floor(-1)
+
+
+def test_pentad_axiom_entropy_loads_shape_and_bounds():
+    loads = pentad_axiom_entropy_loads(security_findings_count=20, stale_issue_count=40)
+    assert set(loads.keys()) == set(PENTAD_AXIOM_LABELS)
+    for value in loads.values():
+        assert 0.0 <= value <= SENTINEL_CAPACITY
+
+
+def test_full_autonomous_pentad_governance_control_limited_autonomy():
+    report = full_autonomous_pentad_governance_control(
+        hil_operator_count=3,
+        requested_operations=[
+            "scan_security_vulnerabilities",
+            "triage_stale_issues",
+            "detect_orphaned_dependencies",
+        ],
+        security_findings_count=2,
+        stale_issue_count=5,
+    )
+    decision = report["decision"]
+    assert isinstance(decision, PentadGovernanceDecision)
+    assert decision.autonomy_level == "LIMITED_AUTONOMY"
+    assert decision.phase_shift_reached is False
+    assert len(decision.allowed_operations) == 2
+    assert decision.governance_status == "PENTAD_GOVERNED_EXECUTION"
+
+
+def test_full_autonomous_pentad_governance_control_full_autonomy():
+    report = full_autonomous_pentad_governance_control(
+        hil_operator_count=HIL_PHASE_SHIFT_THRESHOLD,
+        requested_operations=list(ALLOWED_OPERATIONS),
+        security_findings_count=0,
+        stale_issue_count=0,
+    )
+    decision = report["decision"]
+    assert decision.autonomy_level == "FULL_AUTONOMY"
+    assert decision.phase_shift_reached is True
+    assert set(decision.allowed_operations) == set(ALLOWED_OPERATIONS)
+    assert decision.blocked_operations == ()
+
+
+def test_full_autonomous_pentad_governance_control_invalid_ops_blocked():
+    report = full_autonomous_pentad_governance_control(
+        hil_operator_count=HIL_PHASE_SHIFT_THRESHOLD,
+        requested_operations=["scan_security_vulnerabilities", "invalid_operation"],
+    )
+    decision = report["decision"]
+    assert "scan_security_vulnerabilities" in decision.allowed_operations
+    assert "invalid_operation" in decision.blocked_operations
 
 
 # ===========================================================================
