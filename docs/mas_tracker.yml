@@ -1,6 +1,6 @@
 version: "v11.1"
 date: "2026-05-17"
-updated: "2026-05-17"
+updated: "2026-05-18"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -20,6 +20,24 @@ adjacent_track_checkpoint:
   test: "tests/test_pillar255_open_gap_residual_dashboard.py"
   status: "DELIVERED"
   note: "v11.1 sprint: 8 new adjacent-track modules — DESI DR3 publication-day runbook, LiteBIRD synthetic rehearsal, Lab CP execution report, residual dashboard (SC2/SC4/A3/T3/G3/JUNO), SC2 A_s transfer-normalization audit, SC4 flux-landscape extended scan, A3 Higgs naturalness multi-loop, T3 ADM BSSN closure. 458 new tests. 0 new hardgate claims."
+
+official_pillar_tracking_checkpoint:
+  latest_officially_tracked_pillar: 256
+  canonical_status_ledger: "STATUS.md"
+  synced_recent_pillars:
+    - 245
+    - 246
+    - 248
+    - 249
+    - 250
+    - 251
+    - 252
+    - 253
+    - 254
+    - 255
+    - 256
+  sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
+  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 256, while preserving the frozen hardgate / adjacent-track separation."
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:
