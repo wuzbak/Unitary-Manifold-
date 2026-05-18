@@ -11,6 +11,8 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 
 ---
 
+> **Operational hardening note:** Deterministic residual verdict routing and proof-closure certificates are now executable via `src/core/as_transfer_normalization_audit.py`, `src/core/adm_bssn_closure.py`, `src/core/higgs_naturalness_extended.py`, `src/core/flux_landscape_extended_scan.py`, and `src/core/proof_closure_formal_cert.py` (adjacent-track; claim labels unchanged).
+
 ## Lane A — Standard Model Parameters (P1–P33)
 
 | # | Claim / Parameter | PDG / Exp. Value | UM Prediction | Residual | Label | Gatekeeper | Falsifier Condition | Blocking Dep | Last Updated |

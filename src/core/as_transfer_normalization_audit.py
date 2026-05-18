@@ -1,0 +1,122 @@
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+# SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+"""SC2 A_s transfer-normalization audit with explicit PASS/TENSION/FALSIFIED logic.
+
+🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT
+
+This module converts the historical SC2 residual narrative into deterministic,
+machine-readable verdict logic at each chain step.
+"""
+from __future__ import annotations
+
+from src.core.alpha_gw_pillar52_10d_bridge import alpha_gw_bridge_resolution
+
+__all__ = [
+    "ADJACENCY_TRACK_LABEL",
+    "M_KK_WARP_RELATIVE_UNCERTAINTY",
+    "SC2_PASS_THRESHOLD",
+    "SC2_TENSION_THRESHOLD",
+    "classify_sc2_step",
+    "as_transfer_chain_audit",
+    "sc2_chain_verdict",
+]
+
+ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
+
+# Conservative thresholding for transfer-normalization uncertainty.
+M_KK_WARP_RELATIVE_UNCERTAINTY: float = 0.08
+SC2_PASS_THRESHOLD: float = 0.10
+SC2_TENSION_THRESHOLD: float = 0.20
+MIN_INTERVAL_WIDTH: float = 1e-30
+
+
+def classify_sc2_step(metric: float, pass_threshold: float, tension_threshold: float) -> str:
+    """Classify a scalar residual metric as PASS/TENSION/FALSIFIED."""
+    if metric <= pass_threshold:
+        return "PASS"
+    if metric <= tension_threshold:
+        return "TENSION"
+    return "FALSIFIED"
+
+
+def as_transfer_chain_audit() -> dict[str, object]:
+    """Return deterministic step-by-step SC2 audit packet.
+
+    Steps:
+    1) M_KK transfer-scale uncertainty gate.
+    2) alpha_GW bridge in-band gate.
+    3) A_s normalization consistency gate (bridge midpoint residual).
+    """
+    bridge = alpha_gw_bridge_resolution()
+    alpha_exact = float(bridge["alpha_gw_exact"])
+    alpha_low, alpha_high = bridge["alpha_gw_target_interval"]
+    alpha_mid = 0.5 * (alpha_low + alpha_high)
+
+    step1_metric = M_KK_WARP_RELATIVE_UNCERTAINTY
+    step1_verdict = classify_sc2_step(
+        metric=step1_metric,
+        pass_threshold=SC2_PASS_THRESHOLD,
+        tension_threshold=SC2_TENSION_THRESHOLD,
+    )
+
+    if alpha_low <= alpha_exact <= alpha_high:
+        step2_metric = 0.0
+    else:
+        # Distance from nearest allowed bound, normalized by interval width.
+        # Denominator guard for degenerate intervals in defensive edge cases.
+        interval = max(alpha_high - alpha_low, MIN_INTERVAL_WIDTH)
+        nearest = min(abs(alpha_exact - alpha_low), abs(alpha_exact - alpha_high))
+        step2_metric = nearest / interval
+    step2_verdict = classify_sc2_step(
+        metric=step2_metric,
+        pass_threshold=0.0,
+        tension_threshold=0.10,
+    )
+
+    step3_metric = abs(alpha_exact - alpha_mid) / alpha_mid
+    step3_verdict = classify_sc2_step(
+        metric=step3_metric,
+        pass_threshold=0.12,
+        tension_threshold=0.25,
+    )
+
+    if "FALSIFIED" in (step1_verdict, step2_verdict, step3_verdict):
+        chain_verdict = "FALSIFIED"
+    elif "TENSION" in (step1_verdict, step2_verdict, step3_verdict):
+        chain_verdict = "TENSION"
+    else:
+        chain_verdict = "PASS"
+
+    return {
+        "audit_id": "SC2_AS_TRANSFER_NORMALIZATION_AUDIT",
+        "adjacency_label": ADJACENCY_TRACK_LABEL,
+        "step1_mkk_transfer_uncertainty": {
+            "metric": step1_metric,
+            "pass_threshold": SC2_PASS_THRESHOLD,
+            "tension_threshold": SC2_TENSION_THRESHOLD,
+            "verdict": step1_verdict,
+        },
+        "step2_alpha_gw_bridge": {
+            "alpha_exact": alpha_exact,
+            "alpha_interval": (alpha_low, alpha_high),
+            "normalized_distance_metric": step2_metric,
+            "verdict": step2_verdict,
+        },
+        "step3_as_consistency": {
+            "alpha_midpoint": alpha_mid,
+            "relative_residual": step3_metric,
+            "verdict": step3_verdict,
+        },
+        "chain_is_closed": chain_verdict == "PASS",
+        "chain_verdict": chain_verdict,
+        "status": (
+            "CLOSED_WITH_10D_HARDGATE_RESIDUAL"
+            if chain_verdict == "PASS"
+            else "OPEN_RESIDUAL"
+        ),
+    }
+
+
+def sc2_chain_verdict() -> str:
+    """Convenience accessor for the SC2 chain verdict."""
+    return str(as_transfer_chain_audit()["chain_verdict"])

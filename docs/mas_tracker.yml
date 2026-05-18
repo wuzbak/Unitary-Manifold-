@@ -2072,3 +2072,5 @@ v10_32_p16_promotion:
   open_items:
     - "P23/P24 (β birefringence): direct cosmology measurement remains LiteBIRD-gated (~2032/2034); parallel lab falsifier lane active now"
     - "P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify"
+
+# Operational addendum: proof-close sprint artifacts are implemented as adjacent-track executable modules (SC2/SC4/A3/T3 routing + proof-close certification).

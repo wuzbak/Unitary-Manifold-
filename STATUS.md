@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.0 — Effective 2026-05-16*  
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.0 wave: Comprehensive Audit & Canonical Freshness Synchronization — canonical ledgers, package metadata, citation metadata, and archive defaults synchronized to current branch state). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.1 — Effective 2026-05-17*  
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.1 wave: Observational Readiness & Residual Hardening Sprint — residual routing packs, proof-closure artifacts, and canonical freshness synchronization). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -17,6 +17,8 @@
 
 ---
 
+> **Operational hardening note:** Residual closure routing is now explicit and machine-readable via `src/core/as_transfer_normalization_audit.py`, `src/core/adm_bssn_closure.py`, `src/core/higgs_naturalness_extended.py`, `src/core/flux_landscape_extended_scan.py`, `src/core/proof_closure_formal_cert.py`, and `src/core/proof_close_certification_report.py` (adjacent-track only; no hardgate inflation).
+
 > **Historical note:** Historical sections below preserve earlier wave snapshots.
 > For canonical current state, use `docs/mas_tracker.yml`, `docs/WAVE_CHANGELOG.md`, and `9-INFRASTRUCTURE/provenance/README.md`.
 
@@ -29,7 +31,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 33 241 passed · 405 skipped · 12 deselected · 0 failed  
+**Latest verified branch regression:** 33,473 passed · 393 skipped · 12 deselected · 0 failed  
 *(v11.1: Observational Readiness & Residual Hardening Sprint — 8 new adjacent-track modules, 458 tests)*
 
 ---

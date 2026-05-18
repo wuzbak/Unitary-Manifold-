@@ -12,6 +12,9 @@ For each wave entry, include:
 
 ---
 
+
+**Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
+
 ## v11.1 (2026-05-17 — Observational Readiness & Residual Hardening Sprint)
 
 ### What changed

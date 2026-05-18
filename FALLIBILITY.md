@@ -1,8 +1,10 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.0 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 32 993 passed, 393 skipped, 12 deselected, 0 failed).*
+*Unitary Manifold v11.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 33,473 passed · 393 skipped · 12 deselected · 0 failed).*
 
 ---
+
+> **Operational hardening note:** Residual gates SC2/SC4/A3/T3 now expose explicit PASS/TENSION/FALSIFIED routing in executable adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`) and are aggregated by `proof_close_certification_report.py`.
 
 > **Dual-publication notice (v10.28+):** Every claim in this document is
 > simultaneously published in two layers:
@@ -95,7 +97,7 @@ internal consistency of the mathematics.
 
 ---
 
-### ΛQCD STATUS BOX (v11.0 sync; see `STATUS.md` §Recent Gap Closure: QCD Confinement)
+### ΛQCD STATUS BOX (v11.1 sync; see `STATUS.md` §Recent Gap Closure: QCD Confinement)
 
 Three distinct paths lead to Λ_QCD within the UM; they give different results
 because they operate at different scales and use different physical inputs.
