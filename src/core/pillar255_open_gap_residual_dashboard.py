@@ -21,7 +21,10 @@ from __future__ import annotations
 
 import math
 
+from src.core.as_transfer_normalization_audit import as_transfer_chain_audit
+from src.core.flux_landscape_extended_scan import sc4_closure_summary
 from src.core.higgs_naturalness_5d_fixedpoint import kk_higgs_naturalness
+from src.core.higgs_naturalness_extended import higgs_naturalness_extended_report
 
 __all__ = [
     "ADJACENCY_TRACK_LABEL",
@@ -125,6 +128,8 @@ def residual_sc2_status() -> dict[str, object]:
     """
     alpha_lo, alpha_hi = _SC2_ALPHA_GW_INTERVAL
     in_band = alpha_lo <= _SC2_10D_BRIDGE_VALUE <= alpha_hi
+    audit = as_transfer_chain_audit()
+    fully_closed = audit["chain_verdict"] == "PASS"
 
     return {
         "residual_id": "SC2",
@@ -137,8 +142,10 @@ def residual_sc2_status() -> dict[str, object]:
         "value_10d_bridge": _SC2_10D_BRIDGE_VALUE,
         "in_band": in_band,
         "closure_blocker": _SC2_CLOSURE_BLOCKER,
-        "status": "CLOSED_WITH_10D_HARDGATE",
-        "framework_level_status": "CLOSED_WITH_10D_HARDGATE",
+        "status": "CLOSED_FULL_POINT_DERIVATION" if fully_closed else "CLOSED_WITH_10D_HARDGATE",
+        "framework_level_status": "CLOSED_FULL_POINT_DERIVATION" if fully_closed else "CLOSED_WITH_10D_HARDGATE",
+        "full_chain_verdict": audit["chain_verdict"],
+        "full_chain_closed": fully_closed,
         "residual_tracked": True,
         "note": (
             "10D bridge gives 4.49e-10 (in-band with Planck A_s).  "
@@ -155,6 +162,8 @@ def residual_sc4_status() -> dict[str, object]:
     """
     gap_fraction = _SC4_GAP_FRACTION
     gap_percent = gap_fraction * 100.0
+    summary = sc4_closure_summary()
+    closed = summary["global_verdict"] == "PASS"
 
     return {
         "residual_id": "SC4",
@@ -164,7 +173,10 @@ def residual_sc4_status() -> dict[str, object]:
         "n_flux_required": _SC4_N_FLUX_REQUIRED,
         "gap_fraction": gap_fraction,
         "gap_percent": gap_percent,
-        "status": "ARCHITECTURE_LIMIT",
+        "status": "CLOSED_WITH_EFFECTIVE_FLUX_CHANNELS" if closed else "ARCHITECTURE_LIMIT",
+        "effective_flux_scan_status": summary["status"],
+        "first_pass_n_flux": summary["first_pass_n_flux"],
+        "first_pass_effective_n_flux": summary["first_pass_effective_n_flux"],
         "architecture_limit_type": "10D_EFT_SYSTEMATIC",
         "closure_path": "Extend to full 10D CY₃ flux compactification with ≥61 wrappings.",
         "note": (
@@ -194,6 +206,7 @@ def residual_a3_status(
         KK modes included in loop sum.
     """
     result = kk_higgs_naturalness(k=k, R=R, N_modes=N_modes)
+    extended = higgs_naturalness_extended_report()
     delta = result["tuning_Delta"]
     partial_closure = result["naturalness_partial_closure"]
     status = result["status"]
@@ -209,7 +222,8 @@ def residual_a3_status(
         "tuning_Delta": delta,
         "naturalness_threshold": 100.0,
         "partial_closure": partial_closure,
-        "status": status,
+        "status": "DERIVED_COMPLETE" if extended["overall_status"] == "DERIVED_COMPLETE" else status,
+        "extended_overall_status": extended["overall_status"],
         "convergence_ratio": result["convergence_ratio"],
         "note": (
             f"Δ = {delta:.3g}; {'partial closure achieved' if partial_closure else 'architecture limit — Δ ≥ 100'}. "
