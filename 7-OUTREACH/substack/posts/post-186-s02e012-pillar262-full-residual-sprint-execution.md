@@ -2,7 +2,7 @@
 
 *Post 186 of the Unitary Manifold series.*  
 *Series S02, Episode E012.*  
-*Epistemic category: **A/P** — adjacent closure-execution and falsification-governance architecture (non-hardgate).*  
+*Epistemic category: **A/P (Adjacent/Physics-linked non-hardgate outreach framing; see `7-OUTREACH/OUTREACH_CALIBRATION.md`)** — adjacent closure-execution and falsification-governance architecture.*  
 *May 2026.*
 
 ---
