@@ -514,3 +514,4 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-183-s02e009-pillar254-monograph-irreversibility-certification-engine.md` | Post 183 · S02E009 | "Pillar 254: The Monograph Certification Engine — Can We Validate the Irreversibility Claim Honestly?" |
 | `post-184-s02e010-official-live-validation-report-pillar254-irreversibility.md` | Post 184 · S02E010 | "🚨 OFFICIAL LIVE VALIDATION REPORT: Pillar 254 Irreversibility Certification (Real Run, Full Results)" — **FIRST IN ACTIVE POSTS STACK** |
 | `post-185-s02e011-pillar256-empirical-hardening-falsification.md` | Post 185 · S02E011 | "Pillar 256: Empirical Hardening & Falsification — The Discipline of Saying “No” Before the Data Arrives" |
+| `post-186-s02e012-pillar262-full-residual-sprint-execution.md` | Post 186 · S02E012 | "Pillar 262: The Last Adjacent Pillar — Full Residual Sprint Execution" |
