@@ -59,15 +59,15 @@ from consciousness_autopilot import AutopilotUniverse, AutopilotMode
 # ANSI color constants
 # ---------------------------------------------------------------------------
 
-RST: str  = "\033[0m"
+RST: str = "\033[0m"
 BOLD: str = "\033[1m"
-DIM: str  = "\033[2m"
-RED: str  = "\033[31m"
-GRN: str  = "\033[32m"
-YLW: str  = "\033[33m"
-CYN: str  = "\033[36m"
-WHT: str  = "\033[37m"
-MAG: str  = "\033[35m"
+DIM: str = "\033[2m"
+RED: str = "\033[31m"
+GRN: str = "\033[32m"
+YLW: str = "\033[33m"
+CYN: str = "\033[36m"
+WHT: str = "\033[37m"
+MAG: str = "\033[35m"
 
 _WIDTH: int = 68  # console line width
 
