@@ -46,7 +46,8 @@ FERMILAB_A_MU_SIGMA_1E11: float = 22.0
 # Reference: https://www.aanda.org/articles/aa/abs/2020/09/aa33910-18/aa33910-18.html
 PLANCK_R_UPPER_95CL: float = 0.032
 # Reference: https://www.isas.jaxa.jp/en/missions/spacecraft/future/litebird.html
-R_PREDICTION: float = float(braided_ns_r(N_W, 7).r_eff)
+N_W_RESONANT_PARTNER: int = 7
+R_PREDICTION: float = float(braided_ns_r(N_W, N_W_RESONANT_PARTNER).r_eff)
 R_FALSIFICATION_HALF_WIDTH: float = 0.003
 R_FALSIFICATION_WINDOW: tuple[float, float] = (
     max(0.0, R_PREDICTION - R_FALSIFICATION_HALF_WIDTH),
@@ -72,7 +73,7 @@ PROTON_RADIUS_CREMA_SIGMA_FM: float = 0.00039
 # Reference: https://physics.nist.gov/cgi-bin/cuu/Value?rp
 PROTON_RADIUS_LEGACY_FM: float = 0.88
 
-MIN_DENOMINATOR_GUARD: float = 1e-30
+EPSILON_DENOMINATOR_GUARD: float = 1e-30
 CKM_CP_TENSION_THRESHOLD_DEG: float = 5.0
 DESI_WA_TENSION_THRESHOLD_SIGMA: float = 2.0
 
@@ -85,6 +86,7 @@ __all__ = [
     "FERMILAB_A_MU_EXP_1E11",
     "FERMILAB_A_MU_SIGMA_1E11",
     "PLANCK_R_UPPER_95CL",
+    "N_W_RESONANT_PARTNER",
     "R_PREDICTION",
     "R_FALSIFICATION_WINDOW",
     "RHO_CRIT_MEV4",
@@ -94,7 +96,7 @@ __all__ = [
     "PROTON_RADIUS_CREMA_SIGMA_FM",
     "PROTON_RADIUS_LEGACY_FM",
     "R_FALSIFICATION_HALF_WIDTH",
-    "MIN_DENOMINATOR_GUARD",
+    "EPSILON_DENOMINATOR_GUARD",
     "CKM_CP_TENSION_THRESHOLD_DEG",
     "DESI_WA_TENSION_THRESHOLD_SIGMA",
     "derive_muon_g2_from_5d_constraint",
@@ -200,7 +202,7 @@ def ckm_cp_phase_honesty_check() -> dict[str, Any]:
     delta_pdg_deg = math.degrees(DELTA_CP_PDG_RAD)
     residual_deg = abs(delta_geo_deg - delta_pdg_deg)
     residual_fraction = abs(DELTA_CP_GEO_RAD - DELTA_CP_PDG_RAD) / max(
-        abs(DELTA_CP_PDG_RAD), MIN_DENOMINATOR_GUARD
+        abs(DELTA_CP_PDG_RAD), EPSILON_DENOMINATOR_GUARD
     )
     has_tension = residual_deg > CKM_CP_TENSION_THRESHOLD_DEG
     return {

@@ -32,6 +32,9 @@ from src.core.pillar256_empirical_hardening_falsification import (
     pillar256_empirical_hardening_report,
 )
 
+R_PREDICTION_SANITY_LOWER_BOUND = 0.02
+MAX_EXPECTED_HEADROOM = 0.01
+
 
 def test_constants_and_adjacency_label():
     assert ADJACENCY_TRACK_LABEL == "NON_HARDGATE_ADJACENT"
@@ -56,10 +59,10 @@ def test_tensor_to_scalar_prediction_is_fixed_and_falsifiable():
 
     assert row["observable"] == "r"
     assert row["predicted_r"] == pytest.approx(R_PREDICTION)
-    assert 0.02 < row["predicted_r"] < PLANCK_R_UPPER_95CL
+    assert R_PREDICTION_SANITY_LOWER_BOUND < row["predicted_r"] < PLANCK_R_UPPER_95CL
     assert row["currently_allowed"] is True
     assert row["headroom_to_upper_bound"] > 0.0
-    assert row["headroom_to_upper_bound"] < 0.01
+    assert row["headroom_to_upper_bound"] < MAX_EXPECTED_HEADROOM
     assert hi - lo == pytest.approx(2.0 * R_FALSIFICATION_HALF_WIDTH, rel=1e-12)
     assert lo <= row["predicted_r"] <= hi
     assert row["falsification_window"]["min"] == pytest.approx(lo)
