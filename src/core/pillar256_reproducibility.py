@@ -12,10 +12,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from src.core.pillar256_empirical_hardening_falsification import (
-    pillar256_empirical_hardening_report,
-)
-
 ROOT = Path(__file__).resolve().parents[2]
 THRESHOLD_METADATA_PATH = ROOT / "docs" / "falsification" / "pillar256_thresholds.yml"
 THRESHOLD_GOVERNANCE_PATH = (
@@ -54,7 +50,7 @@ __all__ = [
 
 def _load_yaml(path: Path) -> dict[str, Any]:
     try:
-        import yaml  # type: ignore
+        import yaml  # type: ignore[import]
     except ImportError as exc:  # pragma: no cover
         raise ImportError("PyYAML required: pip install pyyaml") from exc
     loaded = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -146,11 +142,26 @@ def validate_threshold_metadata_integrity(
 
 
 def _distance_to_interval(value: float, low: float, high: float) -> float:
+    """Return shortest absolute distance to a closed interval boundary.
+
+    For values inside [low, high], this returns margin-to-nearest-boundary.
+    For values outside, it returns absolute distance to the nearest boundary.
+    Examples: value=0.08 in [0.079, 0.093] -> 0.001; value=0.075 in [0.079, 0.093] -> 0.004.
+    """
     if value < low:
-        return value - low
+        return low - value
     if value > high:
-        return high - value
+        return value - high
     return min(value - low, high - value)
+
+
+def _extract_distance_metric(payload: dict[str, Any]) -> float | None:
+    for key, value in payload.items():
+        if key.startswith("distance_to_"):
+            if value is None:
+                return None
+            return float(value)
+    return None
 
 
 def _evaluate_fst1(gate: dict[str, Any], obs: dict[str, Any]) -> dict[str, Any]:
@@ -304,6 +315,10 @@ def create_execution_snapshot(
     *,
     timestamp: datetime | None = None,
 ) -> dict[str, Any]:
+    from src.core.pillar256_empirical_hardening_falsification import (
+        pillar256_empirical_hardening_report,
+    )
+
     ts = timestamp or _utc_now()
     ts_z = _to_utc_z(ts)
     metadata = load_threshold_metadata()
@@ -404,7 +419,11 @@ def write_snapshot_bundle(
     *,
     snapshot_dir: Path = DEFAULT_SNAPSHOT_DIR,
 ) -> dict[str, Path]:
-    bundle_dir = snapshot_dir / str(snapshot["snapshot_id"])
+    snapshot_id = snapshot.get("snapshot_id")
+    if not snapshot_id or not isinstance(snapshot_id, str):
+        raise ValueError("snapshot must contain a non-empty string field 'snapshot_id'")
+
+    bundle_dir = snapshot_dir / snapshot_id
     bundle_dir.mkdir(parents=True, exist_ok=True)
 
     snapshot_path = bundle_dir / "snapshot.json"
@@ -434,14 +453,7 @@ def append_run_history(
             gid: payload.get("status") for gid, payload in gate_evals.items()
         },
         "gate_distance": {
-            gid: next(
-                (
-                    value
-                    for key, value in payload.items()
-                    if key.startswith("distance_to_")
-                ),
-                None,
-            )
+            gid: _extract_distance_metric(payload)
             for gid, payload in gate_evals.items()
         },
     }

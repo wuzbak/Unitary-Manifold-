@@ -40,7 +40,19 @@ def _print_gate_statuses(snapshot: dict) -> None:
 
 
 def cmd_snapshot(args: argparse.Namespace) -> int:
-    observations = _load_json(Path(args.observations_json)) if args.observations_json else {}
+    if args.observations_json:
+        try:
+            observations = _load_json(Path(args.observations_json))
+        except FileNotFoundError as exc:
+            raise SystemExit(
+                f"Observations file not found for Pillar 256 snapshot: {exc}"
+            ) from exc
+        except json.JSONDecodeError as exc:
+            raise SystemExit(
+                f"Invalid JSON in observations file for Pillar 256 snapshot: {exc}"
+            ) from exc
+    else:
+        observations = {}
     key = os.environ.get(args.signing_key_env) if args.signing_key_env else None
 
     snapshot = create_execution_snapshot(observations=observations)
@@ -86,12 +98,12 @@ def cmd_compare(args: argparse.Namespace) -> int:
 
     changed = 0
     for key in sorted(set(left_verdict) | set(right_verdict)):
-        lv = left_verdict.get(key)
-        rv = right_verdict.get(key)
-        marker = "CHANGED" if lv != rv else "stable"
-        if lv != rv:
+        left_value = left_verdict.get(key)
+        right_value = right_verdict.get(key)
+        marker = "CHANGED" if left_value != right_value else "stable"
+        if left_value != right_value:
             changed += 1
-        print(f"  - {key}: {lv} -> {rv} [{marker}]")
+        print(f"  - {key}: {left_value} -> {right_value} [{marker}]")
 
     left_gates = left.get("falsification_gate_evaluations", {})
     right_gates = right.get("falsification_gate_evaluations", {})

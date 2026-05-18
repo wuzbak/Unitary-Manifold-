@@ -63,8 +63,8 @@ def test_signed_manifest_roundtrip_hmac():
     )
     manifest = create_signed_run_manifest(snapshot, signing_key="unit-test-secret")
 
-    bad = verify_signed_run_manifest(snapshot, manifest)
-    assert bad["valid"] is False
+    verification_without_key = verify_signed_run_manifest(snapshot, manifest)
+    assert verification_without_key["valid"] is False
 
     good = verify_signed_run_manifest(snapshot, manifest, signing_key="unit-test-secret")
     assert good["valid"] is True
