@@ -1,0 +1,39 @@
+# pillar256_threshold_governance.yml — Versioned governance notes for Pillar 256 thresholds
+# Last updated: 2026-05-18
+
+registry_file: "docs/falsification/pillar256_thresholds.yml"
+governance_version: "1.0.0"
+
+policy: |
+  Any threshold revision requires:
+  1) explicit external-consensus citation(s),
+  2) a new semantic version in pillar256_thresholds.yml,
+  3) an append-only entry in this file,
+  4) same-commit update of CRITICAL_FAILURE.md when narrative wording changes.
+
+versions:
+  - registry_version: "1.0.0"
+    effective_date: "2026-05-18"
+    change_type: "INITIAL_BASELINE"
+    summary: "Initial CI-ingestable codification of FST-1..FST-3 thresholds."
+    revised_ranges: []
+    external_consensus_refs:
+      - "https://opendata.cern.ch"
+      - "https://cms-results.web.cern.ch/cms-results/public-results/publications/SMP/"
+      - "https://www.awa.tohoku.ac.jp/kamlandzen/"
+      - "https://legend-exp.org"
+    steward_signoff: "ThomasCory Walker-Pearson"
+
+revision_template:
+  registry_version: "<x.y.z>"
+  effective_date: "YYYY-MM-DD"
+  change_type: "RANGE_REVISION | CLARIFICATION | SOURCE_UPDATE"
+  summary: "What changed and why"
+  revised_ranges:
+    - gate_id: "FST-?"
+      field: "threshold field path"
+      old_value: "..."
+      new_value: "..."
+  external_consensus_refs:
+    - "primary external reference URL"
+  steward_signoff: "ThomasCory Walker-Pearson"

@@ -48,3 +48,17 @@ If any constant is changed without source update, this file must be updated in t
 - uncertainty and units,
 - primary URL source,
 - rationale for replacement.
+
+## Reproducibility hardening additions (v1)
+
+- Signed run manifests are now emitted per execution snapshot via:
+  - `src/core/pillar256_reproducibility.py`
+  - `9-INFRASTRUCTURE/scripts/pillar256_replay.py snapshot`
+  - `2-REPRODUCIBILITY/pillar256/snapshots/<snapshot_id>/{snapshot.json,manifest.json}`
+- Machine-readable CI threshold registry:
+  - `docs/falsification/pillar256_thresholds.yml`
+- Versioned threshold-governance ledger for consensus-driven revisions:
+  - `docs/falsification/pillar256_threshold_governance.yml`
+- Long-horizon gate trend panels:
+  - `2-REPRODUCIBILITY/pillar256/trend_panels.json`
+  - sourced from `2-REPRODUCIBILITY/pillar256/run_history.jsonl`

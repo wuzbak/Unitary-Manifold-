@@ -1,0 +1,104 @@
+{
+  "created_at_utc": "2026-05-18T04:04:49Z",
+  "falsification_gate_evaluations": {
+    "FST-1": {
+      "distance_to_forbidden_window_eV": null,
+      "reason": "Missing mass/mixing observation.",
+      "status": "PENDING_EXTERNAL_DATA",
+      "triggered": false
+    },
+    "FST-2": {
+      "distance_to_allowed_interval": null,
+      "reason": "Missing alpha_s(1 TeV) observation.",
+      "status": "PENDING_EXTERNAL_DATA",
+      "triggered": false
+    },
+    "FST-3": {
+      "distance_to_hard_fail_interval_meV": null,
+      "reason": "Missing m_bb observation.",
+      "status": "PENDING_EXTERNAL_DATA",
+      "triggered": false
+    }
+  },
+  "observations": {},
+  "pillar256_report": {
+    "adjacency_label": "NON_HARDGATE_ADJACENT",
+    "hardening_verdict": {
+      "anti_curve_fit_guard_passed": true,
+      "lepton_constraint_refinement_required": true,
+      "r_prediction_committed": true,
+      "vacuum_hierarchy_resolved": true
+    },
+    "pillar": 256,
+    "provenance": {
+      "author": "ThomasCory Walker-Pearson",
+      "fingerprint": "(5, 7, 74)",
+      "github": "@wuzbak",
+      "license_software": "AGPL-3.0-or-later",
+      "license_theory": "Defensive Public Commons v1.0",
+      "pillar": 256,
+      "status": "ADJACENT TRACK \u2014 empirical hardening and falsification harness",
+      "title": "Empirical Hardening & Falsification",
+      "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531"
+    },
+    "stress_tests": {
+      "black_box_falsification": {
+        "count_expected": 3,
+        "critical_failure_file": "9-INFRASTRUCTURE/CRITICAL_FAILURE.md",
+        "policy": "Theory is rejected if any forbidden signal is confirmed at threshold."
+      },
+      "muon_g2": {
+        "delta_1e11": -349282.08252704144,
+        "derived_1e11": 116242776.91747296,
+        "experimental_1e11": 116592059.0,
+        "experimental_sigma_1e11": 22.0,
+        "explanation": "5\u03c3+ tension is explicitly recorded; no smoothing/tuning is applied.",
+        "observable": "a_mu",
+        "sigma_distance": 15876.458296683702,
+        "verdict": "REFINE_LEPTON_CONSTRAINT_REQUIRED"
+      },
+      "proton_radius": {
+        "closer_to_crema_than_legacy": true,
+        "crema_target_fm": 0.84087,
+        "delta_from_crema_fm": 0.0003656410898608131,
+        "derivation_basis": "derived solely from N_W and proton Compton scale",
+        "derived_radius_fm": 0.8412356410898608,
+        "distance_to_legacy_fm": 0.038764358910139185,
+        "legacy_radius_fm": 0.88,
+        "no_data_tuning": true,
+        "observable": "proton_charge_radius",
+        "sigma_from_crema": 0.937541256053367
+      },
+      "tensor_to_scalar": {
+        "current_upper_bound_95cl": 0.032,
+        "currently_allowed": true,
+        "falsification_window": {
+          "max": 0.0015,
+          "min": 0.0005
+        },
+        "falsified_if_litebird_reports_zero": true,
+        "falsified_if_outside_window": true,
+        "observable": "r",
+        "predicted_r": 0.001
+      },
+      "vacuum_catastrophe": {
+        "hierarchy_orders_resolved": 122.89952984012015,
+        "observable": "Lambda",
+        "omega_abs_error": 0.0006312008210741515,
+        "omega_lambda_derived": 0.6856312008210742,
+        "omega_lambda_target": 0.685,
+        "passes_120_order_requirement": true,
+        "rho_abs_error_mev4": 0.017078241532683336,
+        "rho_lambda_derived_mev4": 28.001178241532674,
+        "rho_lambda_observed_mev4": 27.98409999999999
+      }
+    }
+  },
+  "python_version": "3.12.3",
+  "snapshot_id": "pillar256-20260518T040449Z",
+  "threshold_registry": {
+    "effective_date": "2026-05-18",
+    "file": "docs/falsification/pillar256_thresholds.yml",
+    "version": "1.0.0"
+  }
+}
