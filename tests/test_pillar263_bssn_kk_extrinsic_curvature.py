@@ -60,7 +60,7 @@ class TestModuleConstants:
 # kk_extrinsic_curvature_trace
 # ---------------------------------------------------------------------------
 
-class TestKKExtinsicCurvatureTrace:
+class TestKKExtrinsicCurvatureTrace:
     def test_pure_hubble_term_zero_nw(self):
         """With n_w=0 the KK correction vanishes; K = φ̇/φ."""
         phi, phi_dot = 2.0, 1.0
