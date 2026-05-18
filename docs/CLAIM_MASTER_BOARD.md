@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.2
+# Unitary Manifold v11.3
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-18 (v11.2 — canonical freshness & residual hardening sync; ToE 28.0/28 = 100%)*
+*Last updated: 2026-05-18 (v11.3 — ordered residual sprint execution sync; ToE 28.0/28 = 100%)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -13,7 +13,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 
 > **Operational hardening note:** Deterministic residual verdict routing and proof-closure certificates are now executable via `src/core/as_transfer_normalization_audit.py`, `src/core/adm_bssn_closure.py`, `src/core/higgs_naturalness_extended.py`, `src/core/flux_landscape_extended_scan.py`, and `src/core/proof_closure_formal_cert.py` (adjacent-track; claim labels unchanged).
 
-> **v11.2 freshness note:** Canonical truth surfaces are synchronized to the 2026-05-18 branch state. Residual hardening priority remains `T3 → A3 → SC2 → SC4` via `src/core/pillar255_open_gap_residual_dashboard.py`; no claim labels or falsifier windows are changed in this sync.
+> **v11.3 freshness note:** Canonical truth surfaces are synchronized to the 2026-05-18 branch state. Ordered residual sprint execution now adds `pillar259_residual_geometry_operator.py`, `pillar260_falsifier_decision_algebra.py`, `pillar261_foundational_boundary_hardening.py`, and `pillar262_full_residual_sprint_execution.py` as adjacent-track hardening artifacts; no claim labels or falsifier windows are changed in this sync.
 
 ## Lane A — Standard Model Parameters (P1–P33)
 
