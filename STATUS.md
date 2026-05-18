@@ -303,9 +303,10 @@ Adjacent research pillars — not hard-gate physics claims, but honest quantitat
 | 254 | `src/core/pillar254_monograph_irreversibility_validation_certification_engine.py` | Monograph Irreversibility Validation & Certification Engine: deterministic five-lane proof-machine for monograph artifact integrity, irreversibility theorem encoding, 64/128/256/512 precision gates, formal theorem consistency, and executable runtime diagnostics; emits CERTIFIED or REJECTED with explicit reasons | 14 | 🔵 ADJACENT TRACK |
 | 255 | `src/core/pillar255_open_gap_residual_dashboard.py` | Open-Gap Residual Dashboard: unified machine-readable monitor for SC2 / SC4 / A3 / T3 residuals plus G3 and JUNO/HyperK external-watch lanes; explicit non-hardgate observational dashboard | 80 | 🔵 ADJACENT TRACK |
 | 256 | `src/core/pillar256_empirical_hardening_falsification.py` | Empirical Hardening & Falsification: adjacent empirical stress-test harness covering muon g−2 tension logging, fixed tensor-to-scalar falsification window, vacuum-energy hierarchy closure, proton-radius anti-curve-fit guard, and explicit black-box no-go thresholds | 7 | 🔵 ADJACENT TRACK |
+| 257 | `src/core/pillar257_repository_shakedown_reassembly_engine.py` | Repository Shakedown & Reassembly Engine: deterministic full-repository decomposition, theorem-kernel integrity checks, canonical-surface synchronization audit, documentary drift detection, falsifier-rigidity verification, and reconciliation matrix/reporting | 16 | 🔵 ADJACENT TRACK |
 | 258 | `src/core/pillar258_trusted_open_resource_registry.py` | Trusted Open Resource Registry: deterministic 100-source free-trusted research registry across academic, data, government, library, open-source, bioscience, and legal/fact-check lanes, with topic-aware source routing and AI prompt scaffolding for repository and Pentad workflows | 8 | 🔵 ADJACENT TRACK |
 
-Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, 247, or 257.
+Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
 
 ### Key numerical results (v10.5)
 

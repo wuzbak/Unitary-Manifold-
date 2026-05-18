@@ -47,8 +47,9 @@ official_pillar_tracking_checkpoint:
     - 254
     - 255
     - 256
+    - 257
     - 258
-  sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, 247, or 257."
+  sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
   note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 258, while preserving the frozen hardgate / adjacent-track separation."
 
 follow_on_execution_modules:
