@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-05-16 (v11.0 canonical sync).*  
+*Last updated: 2026-05-18 (v11.2 canonical freshness & residual hardening sync).*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
@@ -30,6 +30,8 @@
 ---
 
 > **Operational hardening note:** Same-day decision routing is now backed by executable adjacent-track packs (`desi_dr3_publication_day_runbook.py`, `litebird_synthetic_rehearsal.py`, `lab_cp_execution_report.py`) and final sprint aggregation (`proof_close_certification_report.py`) for deterministic verdict handoff.
+
+> **v11.2 freshness note:** Canonical observation-routing surfaces are synchronized to the 2026-05-18 branch state. Residual execution priority remains `T3 → A3 → SC2 → SC4`; all observational falsifier windows and same-day routing rules are unchanged.
 
 ## Decision Tree (LiteBIRD / CMB-S4)
 
@@ -79,7 +81,7 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 > ```
 > Full truth context: `docs/TRUTH_LAYER.md §3 T1`
 
-> **DESI escalation matrix (v11.0 canonical):**
+> **DESI escalation matrix (v11.2 canonical):**
 >
 > | Condition | Verdict | Required same-day updates |
 > |---|---|---|

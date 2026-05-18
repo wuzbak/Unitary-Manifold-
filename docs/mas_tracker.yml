@@ -1,5 +1,5 @@
-version: "v11.1"
-date: "2026-05-17"
+version: "v11.2"
+date: "2026-05-18"
 updated: "2026-05-18"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
@@ -18,19 +18,19 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.1"
-  regression: "33 492 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.2"
+  regression: "33 089 passed, 405 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.1"
+  version: "v11.2"
   pillar: 258
   artifact: "src/core/pillar258_trusted_open_resource_registry.py"
   test: "tests/test_pillar258_trusted_open_resource_registry.py"
   status: "DELIVERED"
-  note: "v11.1 follow-on adjacent lane: trusted open-resource registry (100 curated free/authoritative sources) with deterministic topic routing and AI prompt scaffolding; integrated into Pentad gateway and repository bot without changing hardgate claims."
+  note: "v11.1 follow-on adjacent lane carried forward into the v11.2 canonical freshness surface: trusted open-resource registry (100 curated free/authoritative sources) with deterministic topic routing and AI prompt scaffolding; integrated into Pentad gateway and repository bot without changing hardgate claims."
 
 official_pillar_tracking_checkpoint:
   latest_officially_tracked_pillar: 258
