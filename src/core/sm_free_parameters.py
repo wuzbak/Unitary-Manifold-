@@ -5,10 +5,12 @@ src/core/sm_free_parameters.py
 ================================
 Pillar 88 — The 28 SM Free Parameters: Complete UM Audit.
 
-Adjacent-track registry note (v10.57): Pillar 242 (PCCRE) added as adjacent
-track; Pillar 238 renamed to Health Systems Surge Readiness Calculator;
-Pillar 241 hazard key "pandemic" → "health_system_surge". These changes are
-non-hardgate and do not affect the 28 SM parameter status table below.
+Adjacent-track registry note (v11.3): Pillar 259 added as an immediate-use
+autonomous GitHub community/security stewardship lane with Pentad-governed
+control routing (`pillar259_autonomous_github_community_steward.py`),
+while prior adjacent updates (Pillar 242 PCCRE addition, Pillar 238 rename, and
+Pillar 241 hazard-key update) remain non-hardgate and do not affect the
+28 SM parameter status table below.
 
 Scope
 -----
