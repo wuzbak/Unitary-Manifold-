@@ -327,8 +327,8 @@ class AdjunctOrchestrator:
         """Synchronise the Pentad TRUST body's φ from the FiveCoresSystem."""
         from unitary_pentad import PentadLabel
         trust_body = self._pentad.bodies[PentadLabel.TRUST]
-        # ManifoldState is a regular (non-frozen) dataclass — phi is mutable.
-        trust_body.phi = float(self._system._phi_trust)
+        # ManifoldState is a regular (non-frozen) dataclass, so phi is mutable.
+        trust_body.phi = float(self._system.phi_trust)
 
     # ------------------------------------------------------------------
     # Public API
@@ -503,7 +503,7 @@ class AdjunctOrchestrator:
         return {
             "total": len(self._tasks),
             "by_status": by_status,
-            "trust_level": float(self._system._phi_trust),
+            "trust_level": float(self._system.phi_trust),
         }
 
     def flush_completed(self) -> list[AdjunctTask]:
