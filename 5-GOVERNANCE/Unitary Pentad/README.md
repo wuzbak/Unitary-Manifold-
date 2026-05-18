@@ -125,6 +125,8 @@ At the Pentad fixed point all four conditions must hold simultaneously:
 | `test_pentad_pilot.py` | Pilot node test suite (25 = 5² tests: constants, clamp, bar, PilotState, inject/reset logic) |
 | `pentad_cloud_adjunct.py` | Cloud adjunct contract — archive, batch compute, truth-query, and model-host roles outside the active five-body orbit |
 | `test_pentad_cloud_adjunct.py` | Cloud adjunct test suite |
+| `pentad_research_resource_gateway.py` | Governance-side gateway to Pillar 258 trusted open-resource registry for topic routing and prompt scaffolding |
+| `test_pentad_research_resource_gateway.py` | Trusted-resource gateway test suite |
 | `CONCEPTUAL_ROOTS.md` | March 28–31 design artifacts (QuantumManifold, RectifiedGridGovernor, Bayesian trust loop, adaptive trust simulation) — the intellectual ancestry of every module in this folder |
 | `STABILITY_ANALYSIS.md` | Formal orbital stability conditions and failure mode analysis |
 | `FIVE_CORE_SEVEN_LAYER.md` | Mathematical derivation of the 5-core / 7-layer architecture |

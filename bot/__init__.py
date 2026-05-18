@@ -33,6 +33,11 @@ from bot.session_bootstrap import (
     summarise_intent_history,
     append_session_entry,
 )
+from bot.research_resources import (
+    bot_resource_search,
+    bot_research_prompt,
+    bot_resource_digest,
+)
 
 __all__ = [
     # RAG
@@ -45,4 +50,8 @@ __all__ = [
     "load_boot_block",
     "summarise_intent_history",
     "append_session_entry",
+    # Research resources (Pillar 258)
+    "bot_resource_search",
+    "bot_research_prompt",
+    "bot_resource_digest",
 ]

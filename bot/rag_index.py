@@ -52,6 +52,12 @@ _TOKEN_ALIASES = {
     "wave": "wave",
     "session": "intent",
     "radion": "radion",
+    "dataset": "trusted_open_resources",
+    "datasets": "trusted_open_resources",
+    "resources": "trusted_open_resources",
+    "pubmed": "trusted_open_resources",
+    "openalex": "trusted_open_resources",
+    "kaggle": "trusted_open_resources",
 }
 
 # Intent/session sources should outrank generic documentation on tie-like matches
@@ -321,6 +327,23 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
         ),
         "sources": ["src/core/pillar102_brane_gw.py", "src/core/kk_gw_background.py"],
         "status": "ARCHITECTURE_LIMIT — future high-frequency GW detectors needed",
+    },
+    "trusted_open_resources": {
+        "topic": "Trusted open research resources (Pillar 258)",
+        "answer": (
+            "Pillar 258 adds a deterministic registry of 100 trusted, free online "
+            "research resources grouped across seven categories: academic literature, "
+            "open data/statistics, government/public agency portals, digital libraries, "
+            "open-source technology repositories, life-science registries, and "
+            "fact-checking/legal archives. The registry includes topic-aware source "
+            "suggestion and AI prompt-building helpers for repository research workflows."
+        ),
+        "sources": [
+            "src/core/pillar258_trusted_open_resource_registry.py",
+            "5-GOVERNANCE/Unitary Pentad/pentad_research_resource_gateway.py",
+            "bot/research_resources.py",
+        ],
+        "status": "ADJACENT TRACK (non-hardgate)",
     },
 }
 

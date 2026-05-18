@@ -54,6 +54,13 @@ def test_knowledge_base_alpha_gut():
     assert "5D SU" in entry["answer"] or "current closure path" in entry["answer"]
 
 
+def test_knowledge_base_trusted_open_resources():
+    assert "trusted_open_resources" in KNOWLEDGE_BASE
+    entry = KNOWLEDGE_BASE["trusted_open_resources"]
+    assert "Pillar 258" in entry["topic"] or "Pillar 258" in entry["answer"]
+    assert "100 trusted, free online research resources" in entry["answer"]
+
+
 def test_runtime_knowledge_base_has_repo_state():
     kb = build_runtime_knowledge_base(Path(__file__).parent.parent)
     assert "repo_state" in kb
@@ -231,6 +238,13 @@ def test_answer_question_alpha_gut():
     result = answer_question(idx, "How is alpha_gut derived?")
     assert "answer" in result
     assert "DERIVED" in result["answer"] or "CS" in result["answer"]
+
+
+def test_answer_question_trusted_resources():
+    idx = RAGIndex()
+    result = answer_question(idx, "trusted datasets and pubmed resources")
+    assert result["source_type"] == "knowledge_base"
+    assert "100 trusted, free online research resources" in result["answer"]
 
 
 def test_answer_question_with_doc_chunks():
