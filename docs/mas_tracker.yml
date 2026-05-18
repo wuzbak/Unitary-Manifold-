@@ -5,10 +5,21 @@ mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
 purpose: "Machine-readable MAS tracker for closure workstreams and wave gates."
+canonical_truth_surfaces:
+  - "STATUS.md"
+  - "docs/CLAIM_MASTER_BOARD.md"
+  - "3-FALSIFICATION/OBSERVATION_TRACKER.md"
+  - "docs/TRUTH_LAYER.md"
+  - "docs/GATEKEEPER_SUMMARY.md"
+historical_snapshot_notice: "Mixed-era historical records are retained below for provenance; canonical live status is defined by the truth surfaces listed above."
+historical_snapshot_sections:
+  - "parameter_gates"
+  - "post_mas_tracks"
+  - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
   version: "v11.1"
-  regression: "33 241 passed, 405 skipped, 12 deselected, 0 failed"
+  regression: "33 492 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true

@@ -10,6 +10,7 @@ from src.core.canonical_ledger_consistency import (
     canonical_status_token_report,
     canonical_ledger_snapshot,
     closure_gate_label_discipline_report,
+    historical_snapshot_disclaimer_report,
     onboarding_docs_consistency_report,
 )
 
@@ -91,4 +92,13 @@ class TestClosureGateLabelDiscipline:
         report = closure_gate_label_discipline_report()
         assert report["all_pass"] is True, (
             f"Forbidden FULLY_CLOSED labels detected: {report['violations']}"
+        )
+
+
+class TestHistoricalSnapshotDisclaimers:
+    def test_archived_ledgers_are_explicitly_marked_non_canonical(self):
+        report = historical_snapshot_disclaimer_report()
+        assert report["all_pass"] is True, (
+            "Historical ledger disclaimer markers missing: "
+            f"{report['missing']}"
         )

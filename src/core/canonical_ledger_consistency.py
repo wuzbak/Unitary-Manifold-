@@ -60,6 +60,30 @@ STATUS_TOKEN_PATHS: Dict[str, Path] = {
 
 HARDGATE_REGISTRY_PATH: Path = ROOT / "docs" / "closure_hardgates.json"
 
+HISTORICAL_SNAPSHOT_PATHS: Dict[str, Path] = {
+    "falsification_register": ROOT / "3-FALSIFICATION" / "FALSIFICATION_REGISTER.md",
+    "mas_completion_certificate": ROOT / "docs" / "MAS_COMPLETION_CERTIFICATE.md",
+    "mas_tracker": ROOT / "docs" / "mas_tracker.yml",
+}
+
+HISTORICAL_SNAPSHOT_MARKERS: Dict[str, List[str]] = {
+    "falsification_register": [
+        "Historical snapshot notice (non-canonical)",
+        "OBSERVATION_TRACKER.md",
+        "docs/CLAIM_MASTER_BOARD.md",
+    ],
+    "mas_completion_certificate": [
+        "Historical snapshot notice (non-canonical status surface)",
+        "archival completion artifact",
+        "docs/CLAIM_MASTER_BOARD.md",
+    ],
+    "mas_tracker": [
+        "historical_snapshot_notice",
+        "Mixed-era historical records",
+        "canonical_truth_surfaces",
+    ],
+}
+
 VERSION_RE = re.compile(r"v\d+\.\d+")
 # Canonical ledgers currently render large counts with space-separated thousands,
 # but we also tolerate comma-separated and plain digit formatting for robustness.
@@ -73,6 +97,7 @@ __all__ = [
     "onboarding_docs_consistency_report",
     "canonical_status_token_report",
     "closure_gate_label_discipline_report",
+    "historical_snapshot_disclaimer_report",
 ]
 
 
@@ -282,4 +307,29 @@ def closure_gate_label_discipline_report() -> Dict[str, object]:
         "violation_count": len(violations),
         "violations": violations,
         "all_pass": len(violations) == 0,
+    }
+
+
+def historical_snapshot_disclaimer_report() -> Dict[str, object]:
+    """Ensure archived ledgers are explicitly marked as historical/non-canonical."""
+    missing: Dict[str, List[str]] = {}
+    details: Dict[str, Dict[str, object]] = {}
+
+    for key, path in HISTORICAL_SNAPSHOT_PATHS.items():
+        text = _read(path)
+        required_markers = HISTORICAL_SNAPSHOT_MARKERS[key]
+        missing_markers = [m for m in required_markers if m not in text]
+        details[key] = {
+            "path": str(path),
+            "required_markers": required_markers,
+            "missing_markers": missing_markers,
+        }
+        if missing_markers:
+            missing[key] = missing_markers
+
+    return {
+        "paths": {k: str(v) for k, v in HISTORICAL_SNAPSHOT_PATHS.items()},
+        "details": details,
+        "missing": missing,
+        "all_pass": len(missing) == 0,
     }
