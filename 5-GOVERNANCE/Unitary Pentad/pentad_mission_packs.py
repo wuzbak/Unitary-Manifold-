@@ -676,11 +676,7 @@ class MissionRunner:
         if custom_jobs is not None:
             self._jobs: List = custom_jobs
         else:
-            # Call with include_cloud kwarg only for packs that accept it
-            try:
-                self._jobs = builder()  # type: ignore[call-arg]
-            except TypeError:
-                self._jobs = builder()
+            self._jobs = builder()
 
         # Adjunct orchestrator (optional)
         self._orchestrator = None

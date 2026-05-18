@@ -29,6 +29,18 @@ from five_cores.five_cores_system import FiveCoresSystem
 
 
 # ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+
+def _cloud_eligible(job) -> bool:  # noqa: ANN001
+    """Return cloud_adjunct_eligible for either AgentJob or plain dict."""
+    if isinstance(job, dict):
+        return job.get("cloud_adjunct_eligible", False)
+    return getattr(job, "cloud_adjunct_eligible", False)
+
+
+# ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
 
@@ -211,8 +223,7 @@ class TestResearchJobs:
     def test_no_cloud_when_disabled(self) -> None:
         jobs = research_jobs(include_cloud=False)
         for job in jobs:
-            eligible = getattr(job, "cloud_adjunct_eligible", job.get("cloud_adjunct_eligible", False) if isinstance(job, dict) else False)
-            assert eligible is False
+            assert _cloud_eligible(job) is False
 
 
 class TestTriageJobs:
@@ -230,8 +241,7 @@ class TestPlanningJobs:
     def test_no_cloud_when_disabled(self) -> None:
         jobs = planning_jobs(include_cloud=False)
         for job in jobs:
-            eligible = getattr(job, "cloud_adjunct_eligible", job.get("cloud_adjunct_eligible", False) if isinstance(job, dict) else False)
-            assert eligible is False
+            assert _cloud_eligible(job) is False
 
 
 class TestMonitoringJobs:
@@ -249,8 +259,7 @@ class TestInterrogationJobs:
     def test_no_cloud_when_disabled(self) -> None:
         jobs = interrogation_jobs(include_cloud=False)
         for job in jobs:
-            eligible = getattr(job, "cloud_adjunct_eligible", job.get("cloud_adjunct_eligible", False) if isinstance(job, dict) else False)
-            assert eligible is False
+            assert _cloud_eligible(job) is False
 
 
 # ---------------------------------------------------------------------------
