@@ -5,6 +5,8 @@
 ---
 
 > **Operational hardening note:** Residual gates SC2/SC4/A3/T3 now expose explicit PASS/TENSION/FALSIFIED routing in executable adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`) and are aggregated by `proof_close_certification_report.py`.
+>
+> **Adjacent autonomy note (Pillar 259):** `src/core/pillar259_autonomous_github_community_steward.py` adds deterministic repository/community stewardship and security-report orchestration with strict allowlisted operations and explicit human-review boundaries; this is a non-hardgate governance/operations layer only.
 
 > **Dual-publication notice (v10.28+):** Every claim in this document is
 > simultaneously published in two layers:

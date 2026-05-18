@@ -10,6 +10,8 @@
 >  
 > **Live-ledger note (anti-staleness):** For the latest wave-level status, treat
 > `STATUS.md`, `FALLIBILITY.md`, and `src/core/sm_free_parameters.py` as canonical.
+> Adjacent operational/governance additions (e.g., Pillar 259 autonomous community/security stewardship)
+> are explicitly non-hardgate and do not change claim statuses in this ledger.
 > Historical sections in this document are preserved for audit traceability.
 
 ---

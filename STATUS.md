@@ -262,7 +262,7 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Adjacent Research Tracks (Pillars 218–258)
+### Adjacent Research Tracks (Pillars 218–259)
 
 Adjacent research pillars — not hard-gate physics claims, but honest quantitative explorations, closure-support lanes, and domain/application syntheses that extend the Unitary Manifold without changing the frozen core pillar set. Each ships a source module and full test suite.
 
@@ -305,6 +305,7 @@ Adjacent research pillars — not hard-gate physics claims, but honest quantitat
 | 256 | `src/core/pillar256_empirical_hardening_falsification.py` | Empirical Hardening & Falsification: adjacent empirical stress-test harness covering muon g−2 tension logging, fixed tensor-to-scalar falsification window, vacuum-energy hierarchy closure, proton-radius anti-curve-fit guard, and explicit black-box no-go thresholds | 7 | 🔵 ADJACENT TRACK |
 | 257 | `src/core/pillar257_repository_shakedown_reassembly_engine.py` | Repository Shakedown & Reassembly Engine: deterministic full-repository decomposition, theorem-kernel integrity checks, canonical-surface synchronization audit, documentary drift detection, falsifier-rigidity verification, and reconciliation matrix/reporting | 16 | 🔵 ADJACENT TRACK |
 | 258 | `src/core/pillar258_trusted_open_resource_registry.py` | Trusted Open Resource Registry: deterministic 100-source free-trusted research registry across academic, data, government, library, open-source, bioscience, and legal/fact-check lanes, with topic-aware source routing and AI prompt scaffolding for repository and Pentad workflows | 8 | 🔵 ADJACENT TRACK |
+| 259 | `src/core/pillar259_autonomous_github_community_steward.py` | Autonomous GitHub Community Steward & Security Operations: deterministic adjacent-track governance/security orchestration surface for dependency-risk screening, stale-issue triage, vulnerability reporting, contributor onboarding recommendations, and hash-verified operation reports with explicit safety boundaries | 42 | 🔵 ADJACENT TRACK |
 
 Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
 
