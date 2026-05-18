@@ -336,7 +336,7 @@ def test_report_closure_note_mentions_6D_gap():
     """Every closure note must honestly mention the 6D open gap."""
     for mkk in [_MKK_500, _MKK_1TEV, _MKK_5TEV]:
         r = higgs_naturalness_two_loop_report(mkk)
-        assert "6D" in r["closure_note"] or "6d" in r["closure_note"].lower()
+        assert "6d" in r["closure_note"].lower()
 
 
 def test_report_brane_counterterm_negative():
