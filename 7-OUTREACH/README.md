@@ -44,6 +44,21 @@ Regenerate with: `python3 9-INFRASTRUCTURE/scripts/gen_visualizations.py`
 
 ---
 
+### self-run-reports/ — Formal Self-Run Findings Reports (new)
+
+The [`self-run-reports/`](self-run-reports/README.md) subfolder stores adjacent-lane,
+machine-auditable internal findings reports generated from repository-wide
+hardening and reconciliation passes.
+
+Current report:
+
+- `FINDINGS_REPORT_2026-05-18_SRR-20260518-072524Z-P257-R1.md`
+
+This lane is explicitly non-hardgate and does not alter ToE score or claim
+labels by itself.
+
+---
+
 ### Governance Update — Procedural / Plural / Auditable Human Authority (new)
 
 Recent HILS governance hardening in `5-GOVERNANCE/Unitary Pentad/` formalizes

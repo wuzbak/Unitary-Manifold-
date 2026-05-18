@@ -15,6 +15,60 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.1 (2026-05-18 — Pillar 257 Repository Shakedown & Reassembly Adjacent Lane)
+
+### What changed
+
+1. **`src/core/pillar257_repository_shakedown_reassembly_engine.py`** — NEW adjacent-track module. Adds a deterministic repository-wide shakedown/reassembly integrity engine with:
+   - decomposition inventory across core/theory/falsification/outreach/tests,
+   - theorem-kernel integrity checks over Tier-1 proof entry points,
+   - canonical truth-surface synchronization checks,
+   - explicit documentary drift detection (mixed-era/historical surface flags),
+   - falsifier-rigidity enforcement checks (LiteBIRD window + forbidden gap),
+   - baseline full-regression snapshot integration,
+   - reconciliation matrix + integrated machine-readable report.
+2. **`tests/test_pillar257_repository_shakedown_reassembly_engine.py`** — 16 tests covering constants, guardrails, check-lane structure, deterministic outputs, and integrated report behavior.
+3. **`1-THEORY/pillars/PILLAR_257_REPOSITORY_SHAKEDOWN_REASSEMBLY_ENGINE.md`** — formal pillar note and explicit non-hardgate boundary.
+4. **New outreach report lane:** `7-OUTREACH/self-run-reports/` with:
+   - `README.md`
+   - `FINDINGS_REPORT_2026-05-18_SRR-20260518-072524Z-P257-R1.md` (dated + unique identifier, full findings disclosure)
+5. **Tracking synchronization updates:**
+   - `STATUS.md` adjacent-track table now includes Pillar 257
+   - `docs/mas_tracker.yml` latest tracked pillar updated to 257
+   - `7-OUTREACH/README.md` now documents the self-run report lane
+   - this `docs/WAVE_CHANGELOG.md` entry
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No hardgate claims, labels, or falsifier thresholds weakened.
+- No ToE score lane modifications.
+
+### Why
+
+User-directed requirement: create a separate adjacent pillar that performs a
+full shakedown/reassembly analysis without destabilizing existing hardgate
+surfaces, and publish a formal findings report with date + unique identifier.
+
+### Epistemic label deltas
+
+- None (adjacent-track integrity/hardening only).
+
+### TOE score delta
+
+- **0.0 pts** — unchanged.
+
+### Falsification impact
+
+- None. Existing windows and forbidden-gap conditions are preserved.
+
+### Residual unknowns
+
+- Documentary drift remains explicitly flagged where historical/non-canonical
+  surfaces coexist with canonical truth surfaces.
+
+---
+
 ## v11.1 (2026-05-17 — Observational Readiness & Residual Hardening Sprint)
 
 ### What changed
