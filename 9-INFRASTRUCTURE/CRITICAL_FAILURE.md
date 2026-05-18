@@ -9,7 +9,7 @@ If any one of these is confirmed at threshold, the corresponding sector is consi
 
 - **Forbidden signal:** A confirmed sterile neutrino mass eigenstate in the window **0.5–5.0 eV** with active-sterile mixing **sin²(2θ) > 0.02**.
 - **Why this is a hard failure:** The current lepton-sector closure does not allow an eV sterile branch in this coupling range.
-- **Measurement channel:** CERN Open Data neutrino archives (NOMAD channel) and cross-checkes with modern sterile-neutrino searches.
+- **Measurement channel:** CERN Open Data neutrino archives (NOMAD channel) and cross-checks with modern sterile-neutrino searches.
 - **Data anchors:**
   - https://opendata.cern.ch
   - https://opendata.cern.ch/search?experiment=NOMAD
