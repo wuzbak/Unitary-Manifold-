@@ -262,9 +262,9 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Applied Research Tracks (Pillars 218–254)
+### Adjacent Research Tracks (Pillars 218–256)
 
-Adjacent applied research pillars — not hard-gate physics claims, but honest quantitative explorations that connect the Unitary Manifold geometry to real-world domains. Each ships a source module, full test suite, and a detailed markdown document.
+Adjacent research pillars — not hard-gate physics claims, but honest quantitative explorations, closure-support lanes, and domain/application syntheses that extend the Unitary Manifold without changing the frozen core pillar set. Each ships a source module and full test suite.
 
 | Pillar | Module | Description | Tests | Status |
 |--------|--------|-------------|-------|--------|
@@ -292,7 +292,19 @@ Adjacent applied research pillars — not hard-gate physics claims, but honest q
 | 242 | `src/core/pillar242_planetary_coherence_cascade_resilience_engine.py` | Planetary Coherence & Cascade Resilience Engine (PCCRE): co-emergent synthesis of Pillars 237–241 + OMEGA; Unified Planetary Readiness Index, Cascade Coupling Matrix (C_S=12/37 derived), Compound Cascade Failure Probability | 75 | 🔵 ADJACENT TRACK |
 | 243 | `src/core/pillar243_unified_scientific_interoperability_validation_fabric.py` | Unified Scientific Interoperability & Validation Fabric (USIVF): deterministic five-lane interoperability scoring (numerical workflow, symbolic consistency, cosmology contracts, math verification, governance+assistant traceability) with reproducible manifests and explicit separation guard | 52 | 🔵 ADJACENT TRACK |
 | 244 | `src/core/pillar244_tend_branch_completion_engine.py` | 10D Branch Completion & Closure Handoff Engine: deterministic five-lane finish audit for the existing 10D branch (R5 flux landscape, alpha_GW UV closure, P28 λ first-principles chain, P28 10D closure, UV vacuum-seed handoff) with explicit separation from later 11D / terminal full-closure work | 24 | 🔵 ADJACENT TRACK |
+| 245 | `src/core/pillar245_eleventd_full_closure.py` | 11D / Terminal Full-Closure Engine: deterministic five-lane handoff audit over the Hořava-Witten / 11D artefacts (kickoff scaffold, hard-gate evidence, G₄-flux vacuum link, UV vacuum selection, 11D→5D bridge-burn) with locked runtime seed and explicit non-hardgate boundary | 76 | 🔵 ADJACENT TRACK |
+| 246 | `src/core/pillar246_sm_28of28_geometric_closure_track.py` | SM 28/28 Pure-Geometry Closure Track: centralized adjacent-track ledger for all P1–P28 Standard Model parameters, with full 28/28 geometric closure summary and explicit separation from hardgate promotion | 11 | 🔵 ADJACENT TRACK |
+| 248 | `src/core/pillar248_translational_oncology_synthesis_command_layer.py` | Translational Oncology Synthesis Command Layer: non-clinical research-planning surface that synthesizes existing oncology adjacent tracks into one command layer for prioritization, scenario analysis, and intervention routing | 27 | 🔵 ADJACENT TRACK |
+| 249 | `src/core/pillar249_consciousness_state_cartography_engine.py` | Consciousness State Cartography Engine: adjacent-track consciousness-state mapping and comparative routing layer with explicit non-clinical / non-metaphysical boundaries | 27 | 🔵 ADJACENT TRACK |
+| 250 | `src/core/pillar250_quantum_materials_hardware_inverse_design_engine.py` | Quantum-Materials Hardware Inverse-Design Engine: adjacent engineering-planning lane for geometry-informed quantum-materials and hardware inverse design | 20 | 🔵 ADJACENT TRACK |
+| 251 | `src/core/pillar251_translational_oncology_adaptive_routing_trial_engine.py` | Translational Oncology Adaptive Routing & Trial Engine: non-clinical operating-system extension for adaptive study routing, prioritization, and translational trial planning | 19 | 🔵 ADJACENT TRACK |
+| 252 | `src/core/pillar252_planetary_digital_twin_synthesis_engine.py` | Planetary Digital-Twin Synthesis Engine: scenario-synthesis layer for multi-sector planetary digital-twin analysis with explicit non-hardgate, non-predictive boundary | 22 | 🔵 ADJACENT TRACK |
+| 253 | `src/core/pillar253_ai_compute_sustainability_access_engine.py` | AI Compute Sustainability & Access Engine: adjacent policy-planning calculator for AI/cloud energy burden, affordability, and access routing | 15 | 🔵 ADJACENT TRACK |
 | 254 | `src/core/pillar254_monograph_irreversibility_validation_certification_engine.py` | Monograph Irreversibility Validation & Certification Engine: deterministic five-lane proof-machine for monograph artifact integrity, irreversibility theorem encoding, 64/128/256/512 precision gates, formal theorem consistency, and executable runtime diagnostics; emits CERTIFIED or REJECTED with explicit reasons | 14 | 🔵 ADJACENT TRACK |
+| 255 | `src/core/pillar255_open_gap_residual_dashboard.py` | Open-Gap Residual Dashboard: unified machine-readable monitor for SC2 / SC4 / A3 / T3 residuals plus G3 and JUNO/HyperK external-watch lanes; explicit non-hardgate observational dashboard | 80 | 🔵 ADJACENT TRACK |
+| 256 | `src/core/pillar256_empirical_hardening_falsification.py` | Empirical Hardening & Falsification: adjacent empirical stress-test harness covering muon g−2 tension logging, fixed tensor-to-scalar falsification window, vacuum-energy hierarchy closure, proton-radius anti-curve-fit guard, and explicit black-box no-go thresholds | 7 | 🔵 ADJACENT TRACK |
+
+Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
 
 ### Key numerical results (v10.5)
 
