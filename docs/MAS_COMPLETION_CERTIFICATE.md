@@ -1,7 +1,20 @@
 # MAS Completion Certificate
 
+> **Historical snapshot notice (non-canonical status surface):**
+> This certificate records the MAS closeout state at the time of closure.
+> For current canonical claim/status routing, use:
+> - `docs/CLAIM_MASTER_BOARD.md`
+> - `STATUS.md`
+> - `docs/WAVE_CHANGELOG.md`
+> - `docs/mas_tracker.yml`
+>
+> If status labels here differ from the canonical ledgers above, treat this file as
+> an archival completion artifact, not the live truth surface.
+
+---
+
 **Programme:** Manifold Audit & Synthesis (MAS)  
-**Version:** v10.14  
+**Version (snapshot origin):** v10.14  
 **Date closed:** 2026-05-08  
 **Status:** ✅ COMPLETE  
 

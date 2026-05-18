@@ -1,7 +1,20 @@
 # Falsification Register — Unitary Manifold
 
-*Unitary Manifold v9.33 — ThomasCory Walker-Pearson, 2026*  
-*Last updated: 2026-05-04*
+*Historical snapshot origin: Unitary Manifold v9.33 — ThomasCory Walker-Pearson, 2026*  
+*Snapshot date: 2026-05-04 · Canonical falsifier surfaces synced in v11.1*
+
+---
+
+> **Historical snapshot notice (non-canonical):**
+> This file is retained for audit provenance only.
+> Use the following canonical active surfaces for current verdict routing:
+> - `3-FALSIFICATION/OBSERVATION_TRACKER.md`
+> - `docs/CLAIM_MASTER_BOARD.md`
+> - `docs/GATEKEEPER_SUMMARY.md`
+> - `docs/TRUTH_LAYER.md`
+>
+> If a value here conflicts with the files above, treat this document as historical
+> and follow the canonical surfaces.
 
 ---
 
