@@ -78,10 +78,18 @@ def test_canonical_surface_sync_shape():
 def test_canonical_surface_sync_version_tags_present():
     row = canonical_surface_sync_check()
     tags = row["version_tags"]
-    assert tags["status_has_v11_1"] is True
-    assert tags["fallibility_has_v11_1"] is True
-    assert tags["claim_board_has_v11_0_or_v11_1"] is True
-    assert tags["truth_layer_has_v11_0_or_v11_1"] is True
+    assert tags["status_has_v11_1"] or tags.get("status_has_v11_2") or tags.get("status_has_v11_3")
+    assert tags["fallibility_has_v11_1"] or tags.get("fallibility_has_v11_2") or tags.get("fallibility_has_v11_3")
+    assert (
+        tags["claim_board_has_v11_0_or_v11_1"]
+        or tags.get("claim_board_has_v11_2")
+        or tags.get("claim_board_has_v11_3")
+    )
+    assert (
+        tags["truth_layer_has_v11_0_or_v11_1"]
+        or tags.get("truth_layer_has_v11_2")
+        or tags.get("truth_layer_has_v11_3")
+    )
 
 
 def test_drift_detection_flags_historical_surfaces():

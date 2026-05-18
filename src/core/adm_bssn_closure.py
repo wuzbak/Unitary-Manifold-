@@ -6,8 +6,6 @@
 """
 from __future__ import annotations
 
-from src.core.pillar255_open_gap_residual_dashboard import residual_t3_status
-
 __all__ = [
     "ADJACENCY_TRACK_LABEL",
     "bssn_rhs",
@@ -27,6 +25,25 @@ HAMILTONIAN_COUPLING_COEFF: float = 0.20
 MOMENTUM_DAMPING_COEFF: float = 1.8
 MOMENTUM_COUPLING_COEFF: float = 0.15
 CLAMP_WARNING_THRESHOLD: float = 1e-6
+
+
+def _kinematic_t3_baseline() -> dict[str, object]:
+    """Return the canonical kinematic T3 baseline without importing the dashboard."""
+    return {
+        "residual_id": "T3",
+        "name": "ADM time parameterisation / BSSN",
+        "adjacency_label": ADJACENCY_TRACK_LABEL,
+        "lapse_identification": "N=phi (radion is lapse in KK ansatz)",
+        "lapse_deviation_percent": 0.6,
+        "kinematic_closure": True,
+        "bssn_full_evolution": False,
+        "status": "PARTIALLY_CLOSED",
+        "closure_blocker": "Full BSSN dynamical evolution equations not yet derived from 5D reduction.",
+        "note": (
+            "Kinematic closure done: lapse N = φ, deviation ≈ 0.6% in slow roll. "
+            "Full BSSN evolution open — requires 5D→4D reduction of extrinsic curvature dynamics."
+        ),
+    }
 
 
 def bssn_rhs(
@@ -194,7 +211,7 @@ def constraint_verdict(hamiltonian_proxy: float, momentum_proxy: float) -> str:
 
 def t3_closure_assessment() -> dict[str, object]:
     """Return integrated reduced-sector T3 closure certificate packet."""
-    baseline = residual_t3_status()
+    baseline = _kinematic_t3_baseline()
     evolution = evolve_bssn_system()
     final_state = evolution["final_state"]
 

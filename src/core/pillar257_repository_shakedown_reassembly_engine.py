@@ -159,12 +159,22 @@ def canonical_surface_sync_check() -> dict[str, Any]:
     missing_surfaces = [rel for rel in _CANONICAL_SURFACES if not (_ROOT / rel).exists()]
 
     version_11_1 = re.compile(r"\bv11\.1\b")
+    version_11_2 = re.compile(r"\bv11\.2\b")
+    version_11_3 = re.compile(r"\bv11\.3\b")
     version_11_0_or_11_1 = re.compile(r"\bv11\.(0|1)\b")
     tags = {
         "status_has_v11_1": bool(version_11_1.search(status_text)),
+        "status_has_v11_2": bool(version_11_2.search(status_text)),
+        "status_has_v11_3": bool(version_11_3.search(status_text)),
         "fallibility_has_v11_1": bool(version_11_1.search(fallibility_text)),
+        "fallibility_has_v11_2": bool(version_11_2.search(fallibility_text)),
+        "fallibility_has_v11_3": bool(version_11_3.search(fallibility_text)),
         "claim_board_has_v11_0_or_v11_1": bool(version_11_0_or_11_1.search(claim_board_text)),
+        "claim_board_has_v11_2": bool(version_11_2.search(claim_board_text)),
+        "claim_board_has_v11_3": bool(version_11_3.search(claim_board_text)),
         "truth_layer_has_v11_0_or_v11_1": bool(version_11_0_or_11_1.search(truth_layer_text)),
+        "truth_layer_has_v11_2": bool(version_11_2.search(truth_layer_text)),
+        "truth_layer_has_v11_3": bool(version_11_3.search(truth_layer_text)),
     }
 
     return {

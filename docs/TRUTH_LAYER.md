@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v11.2
+# Unitary Manifold v11.3
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
@@ -8,7 +8,7 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-05-18 (v11.2 canonical freshness & residual hardening sync)*
+*Last updated: 2026-05-18 (v11.3 ordered residual sprint execution sync)*
 
 ---
 

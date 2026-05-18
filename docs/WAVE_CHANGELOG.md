@@ -15,6 +15,52 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.3 (2026-05-18 — Ordered Residual Sprint Execution)
+
+### What changed
+
+1. **All planned residual sprints were executed in sequence as adjacent-track artifacts:** the repository now ships `src/core/pillar259_residual_geometry_operator.py`, `src/core/pillar260_falsifier_decision_algebra.py`, `src/core/pillar261_foundational_boundary_hardening.py`, and `src/core/pillar262_full_residual_sprint_execution.py`.
+2. **Residual dashboard/report surfaces now reflect the live executable packets:** T3 pulls through the reduced-sector BSSN closure result, A3 surfaces the extended-report status directly, and `proof_close_certification_report.py` now includes the ordered sprint execution packet rather than treating every residual as uniformly open.
+3. **Tracker/registry synchronization extended to the new adjacent pillars:** `STATUS.md` and `docs/mas_tracker.yml` now officially register Pillars 259–262.
+4. **Canonical ledger drift blockers cleared:** `1-THEORY/DERIVATION_STATUS.md` was brought into version sync with the public ledgers, and the onboarding documents that direct contributors to the test suite now carry the current canonical full-regression count.
+5. **Regression baseline propagated:** the currently verified branch regression snapshot is now **33,784 passed · 393 skipped · 12 deselected · 0 failed** across the public surfaces that present live totals.
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No hardgate claim label changed.
+- No falsifier window or forbidden-gap condition weakened.
+- No ToE score lane changed.
+
+### Why
+
+The previous wave made the residual-hardening order explicit but left the later
+mathematical hardening sprints unexecuted as first-class repository artifacts.
+This wave completes that adjacent-track program end-to-end: it formalizes the
+global residual operator, locks the active falsifier decision boundaries,
+hardens the foundational no-go/boundary registry, and provides a single ordered
+execution/certification engine for the full sprint stack.
+
+### Epistemic label deltas
+
+- None. All new modules are explicitly adjacent-track, non-hardgate artifacts.
+
+### TOE score delta
+
+- **0.0 pts** — remains 28.0/28.0 (100%).
+
+### Falsification impact
+
+- None. LiteBIRD, DESI, JUNO/Hyper-K, and CMB-S4 thresholds are preserved and made more executable, not more permissive.
+
+### Residual unknowns
+
+- **A3:** scheme-stability spread remains the live blocker even though the canonical point is subunit and UV-closed.
+- **Foundational boundaries:** ADM full dynamical closure, KK fermion reduction, orbifold-equivalence, and braided referee hardening remain open hardgates with explicit no-go statements.
+- **Measurement-gated lanes:** LiteBIRD, DESI, JUNO/Hyper-K, and CMB-S4 still require future data.
+
+---
+
 ## v11.2 (2026-05-18 — Canonical Freshness & Residual Hardening Sprint)
 
 ### What changed

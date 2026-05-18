@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-05-18 (v11.2 canonical freshness & residual hardening sync).*
+*Last updated: 2026-05-18 (v11.3 ordered residual sprint execution sync).*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
