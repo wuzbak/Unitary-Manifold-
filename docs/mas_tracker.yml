@@ -20,8 +20,8 @@ historical_snapshot_sections:
 public_surface_sync_checkpoint:
   version: "v11.2"
   regression: "33 089 passed, 405 skipped, 12 deselected, 0 failed"
-  readme_synced: false
-  public_badges_synced: false
+  readme_synced: true
+  public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
