@@ -15,6 +15,7 @@ def test_proof_close_certification_report_shape():
     assert report["adjacency_label"] == ADJACENCY_TRACK_LABEL
     assert "proof_closure" in report
     assert "residual_dashboard" in report
+    assert "sprint_execution" in report
 
 
 def test_proof_close_certification_lists_present():
@@ -24,3 +25,4 @@ def test_proof_close_certification_lists_present():
     assert isinstance(report["measurement_gated_items"], list)
     assert "G3_DESI" in report["measurement_gated_items"]
     assert "LITEBIRD_BETA" in report["measurement_gated_items"]
+    assert "RG1" in report["hardened_items"]

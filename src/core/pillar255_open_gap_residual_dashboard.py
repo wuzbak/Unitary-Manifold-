@@ -222,7 +222,7 @@ def residual_a3_status(
         "tuning_Delta": delta,
         "naturalness_threshold": 100.0,
         "partial_closure": partial_closure,
-        "status": "DERIVED_COMPLETE" if extended["overall_status"] == "DERIVED_COMPLETE" else status,
+        "status": extended["overall_status"] if isinstance(extended["overall_status"], str) else status,
         "extended_overall_status": extended["overall_status"],
         "convergence_ratio": result["convergence_ratio"],
         "note": (
@@ -238,6 +238,10 @@ def residual_t3_status() -> dict[str, object]:
     Kinematic closure: lapse N = φ in KK ansatz; deviation from N = 1 is ~0.6%
     in slow roll.  Full BSSN dynamical evolution remains open.
     """
+    from src.core.adm_bssn_closure import t3_closure_assessment
+
+    assessment = t3_closure_assessment()
+    final_metric = float(assessment["hamiltonian_proxy"]) + float(assessment["momentum_proxy"])
     return {
         "residual_id": "T3",
         "name": "ADM time parameterisation / BSSN",
@@ -245,12 +249,15 @@ def residual_t3_status() -> dict[str, object]:
         "lapse_identification": _T3_LAPSE_IDENTIFICATION,
         "lapse_deviation_percent": _T3_LAPSE_DEVIATION_PERCENT,
         "kinematic_closure": True,
-        "bssn_full_evolution": False,
-        "status": "PARTIALLY_CLOSED",
-        "closure_blocker": "Full BSSN dynamical evolution equations not yet derived from 5D reduction.",
+        "bssn_full_evolution": assessment["reduced_sector_complete"],
+        "constraint_metric": final_metric,
+        "dynamical_verdict": assessment["dynamical_verdict"],
+        "status": assessment["status"],
+        "closure_blocker": assessment["closure_blocker"],
         "note": (
-            "Kinematic closure done: lapse N = φ, deviation ≈ 0.6% in slow roll. "
-            "Full BSSN evolution open — requires 5D→4D reduction of extrinsic curvature dynamics."
+            "Reduced-sector BSSN execution now runs explicitly. "
+            f"Constraint verdict = {assessment['dynamical_verdict']}; "
+            f"final proxy metric = {final_metric:.3e}."
         ),
     }
 

@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+
+from __future__ import annotations
+
+from src.core.pillar262_full_residual_sprint_execution import (
+    ADJACENCY_TRACK_LABEL,
+    SPRINT_ORDER,
+    execute_all_residual_sprints,
+    sprint_execution_order,
+)
+
+
+def test_sprint_execution_order_matches_constant():
+    order = sprint_execution_order()
+    assert [row["id"] for row in order] == list(SPRINT_ORDER)
+
+
+def test_execute_all_residual_sprints_shape():
+    report = execute_all_residual_sprints()
+    assert report["pillar"] == 262
+    assert report["adjacency_label"] == ADJACENCY_TRACK_LABEL
+    assert report["sequence_complete"] is True
+    assert report["completed_sprints"] == list(SPRINT_ORDER)
+    assert report["overall_status"] in {"EXECUTED_WITH_OPEN_FOUNDATIONAL_BOUNDARIES", "EXECUTED_COMPLETE"}
+    assert report["statuses"]["RG1"] == "RESIDUAL_OPERATOR_EXECUTED"
+    assert report["statuses"]["FD1"] == "DECISION_BOUNDARIES_LOCKED"
