@@ -36,7 +36,7 @@ def _lambda_pred_for_base_flux(n_flux: int, c_uv_total: float) -> float:
 
     casimir_coeff = float(K_CS * N_W) / (24.0 * math.pi**2)
     rs1_warp_factor = math.exp(-4.0 * PI_KR)
-    effective_flux_channels = int(n_flux * DUAL_FLUX_MULTIPLICITY)
+    effective_flux_channels = n_flux * DUAL_FLUX_MULTIPLICITY
     topological_partition = float(effective_flux_channels * (N_W + 2))
     return casimir_coeff * rs1_warp_factor / (c_uv_total * topological_partition)
 

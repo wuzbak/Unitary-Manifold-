@@ -49,7 +49,7 @@ def uv_counterterm_factor(c_uv_total: float) -> float:
     """
     if c_uv_total <= 0.0:
         raise ValueError("c_uv_total must be positive")
-    return 1.0 / (1.0 + max(math.log10(c_uv_total), 0.0))
+    return 1.0 / (1.0 + abs(math.log10(c_uv_total)))
 
 
 def _verdict_from_delta(delta_total: float) -> str:

@@ -32,6 +32,8 @@ def test_bssn_evolution_step_updates_fields():
     assert out["alpha_new"] != 1.0
     assert out["beta_new"] != 0.0
     assert "hamiltonian_proxy_new" in out
+    assert "hamiltonian_clamped" in out
+    assert "momentum_clamped" in out
 
 
 def test_constraint_verdict_states():

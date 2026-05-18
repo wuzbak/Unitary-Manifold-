@@ -89,9 +89,12 @@ def bssn_evolution_step(
     b_driver_new = b_driver + dt * rhs["d_b_driver"]
 
     # Reduced-sector proxy norms are treated as non-negative magnitudes by
-    # construction, so clamping preserves physical interpretation.
-    h_proxy_new = max(0.0, hamiltonian_proxy + dt * rhs["d_hamiltonian_proxy"])
-    m_proxy_new = max(0.0, momentum_proxy + dt * rhs["d_momentum_proxy"])
+    # construction, so clamping preserves physical interpretation while also
+    # exposing potential integration instability via explicit flags.
+    h_preclamp = hamiltonian_proxy + dt * rhs["d_hamiltonian_proxy"]
+    m_preclamp = momentum_proxy + dt * rhs["d_momentum_proxy"]
+    h_proxy_new = max(0.0, h_preclamp)
+    m_proxy_new = max(0.0, m_preclamp)
 
     return {
         "alpha_new": alpha_new,
@@ -106,6 +109,10 @@ def bssn_evolution_step(
         "d_b_driver": rhs["d_b_driver"],
         "d_hamiltonian_proxy": rhs["d_hamiltonian_proxy"],
         "d_momentum_proxy": rhs["d_momentum_proxy"],
+        "hamiltonian_preclamp": h_preclamp,
+        "momentum_preclamp": m_preclamp,
+        "hamiltonian_clamped": h_preclamp < -1e-6,
+        "momentum_clamped": m_preclamp < -1e-6,
     }
 
 
