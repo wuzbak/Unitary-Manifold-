@@ -17,6 +17,10 @@ from __future__ import annotations
 import math
 from typing import Any
 
+from src.core.braided_winding import braided_ns_r
+from src.core.kk_de_wa_cpl import DESI_DR2_WA, DESI_DR2_WA_SIGMA, um_cpl_wa
+from src.sevend.discrete_torsion_cp import DELTA_CP_GEO_RAD, DELTA_CP_PDG_RAD
+
 __provenance__ = {
     "pillar": 256,
     "title": "Empirical Hardening & Falsification",
@@ -42,8 +46,13 @@ FERMILAB_A_MU_SIGMA_1E11: float = 22.0
 # Reference: https://www.aanda.org/articles/aa/abs/2020/09/aa33910-18/aa33910-18.html
 PLANCK_R_UPPER_95CL: float = 0.032
 # Reference: https://www.isas.jaxa.jp/en/missions/spacecraft/future/litebird.html
-R_PREDICTION: float = 0.001
-R_FALSIFICATION_WINDOW: tuple[float, float] = (0.0005, 0.0015)
+N_W_RESONANT_PARTNER: int = 7
+R_PREDICTION: float = float(braided_ns_r(N_W, N_W_RESONANT_PARTNER).r_eff)
+R_FALSIFICATION_HALF_WIDTH: float = 0.003
+R_FALSIFICATION_WINDOW: tuple[float, float] = (
+    max(0.0, R_PREDICTION - R_FALSIFICATION_HALF_WIDTH),
+    R_PREDICTION + R_FALSIFICATION_HALF_WIDTH,
+)
 
 # Reference: https://physics.nist.gov/constants
 PLANCK_ENERGY_MEV: float = 1.22089e31
@@ -64,6 +73,10 @@ PROTON_RADIUS_CREMA_SIGMA_FM: float = 0.00039
 # Reference: https://physics.nist.gov/cgi-bin/cuu/Value?rp
 PROTON_RADIUS_LEGACY_FM: float = 0.88
 
+EPSILON_DENOMINATOR_GUARD: float = 1e-30
+CKM_CP_TENSION_THRESHOLD_DEG: float = 5.0
+DESI_WA_TENSION_THRESHOLD_SIGMA: float = 2.0
+
 
 __all__ = [
     "ADJACENCY_TRACK_LABEL",
@@ -73,6 +86,7 @@ __all__ = [
     "FERMILAB_A_MU_EXP_1E11",
     "FERMILAB_A_MU_SIGMA_1E11",
     "PLANCK_R_UPPER_95CL",
+    "N_W_RESONANT_PARTNER",
     "R_PREDICTION",
     "R_FALSIFICATION_WINDOW",
     "RHO_CRIT_MEV4",
@@ -81,10 +95,16 @@ __all__ = [
     "PROTON_RADIUS_CREMA_FM",
     "PROTON_RADIUS_CREMA_SIGMA_FM",
     "PROTON_RADIUS_LEGACY_FM",
+    "R_FALSIFICATION_HALF_WIDTH",
+    "EPSILON_DENOMINATOR_GUARD",
+    "CKM_CP_TENSION_THRESHOLD_DEG",
+    "DESI_WA_TENSION_THRESHOLD_SIGMA",
     "derive_muon_g2_from_5d_constraint",
     "tensor_to_scalar_prediction_test",
     "vacuum_catastrophe_resolution_test",
     "proton_radius_puzzle_test",
+    "ckm_cp_phase_honesty_check",
+    "desi_wa_honesty_check",
     "black_box_falsification_threshold",
     "pillar256_empirical_hardening_report",
 ]
@@ -125,6 +145,7 @@ def tensor_to_scalar_prediction_test() -> dict[str, Any]:
         "predicted_r": R_PREDICTION,
         "current_upper_bound_95cl": PLANCK_R_UPPER_95CL,
         "currently_allowed": R_PREDICTION < PLANCK_R_UPPER_95CL,
+        "headroom_to_upper_bound": PLANCK_R_UPPER_95CL - R_PREDICTION,
         "falsification_window": {"min": low, "max": high},
         "falsified_if_litebird_reports_zero": not (low <= 0.0 <= high),
         "falsified_if_outside_window": True,
@@ -175,6 +196,42 @@ def proton_radius_puzzle_test() -> dict[str, Any]:
     }
 
 
+def ckm_cp_phase_honesty_check() -> dict[str, Any]:
+    """Record the 7D geometric CKM CP phase residual against PDG anchor."""
+    delta_geo_deg = math.degrees(DELTA_CP_GEO_RAD)
+    delta_pdg_deg = math.degrees(DELTA_CP_PDG_RAD)
+    residual_deg = abs(delta_geo_deg - delta_pdg_deg)
+    residual_fraction = abs(DELTA_CP_GEO_RAD - DELTA_CP_PDG_RAD) / max(
+        abs(DELTA_CP_PDG_RAD), EPSILON_DENOMINATOR_GUARD
+    )
+    has_tension = residual_deg > CKM_CP_TENSION_THRESHOLD_DEG
+    return {
+        "observable": "delta_cp_ckm",
+        "delta_cp_geo_rad": DELTA_CP_GEO_RAD,
+        "delta_cp_geo_deg": delta_geo_deg,
+        "delta_cp_pdg_rad": DELTA_CP_PDG_RAD,
+        "delta_cp_pdg_deg": delta_pdg_deg,
+        "abs_residual_deg": residual_deg,
+        "fractional_residual": residual_fraction,
+        "verdict": "TENSION_REQUIRES_GEOMETRIC_REFINEMENT" if has_tension else "CONSISTENT",
+    }
+
+
+def desi_wa_honesty_check() -> dict[str, Any]:
+    """Record explicit DESI w_a tension for the current UM w_a = 0 prediction."""
+    wa_pred = float(um_cpl_wa())
+    sigma_distance = abs(wa_pred - DESI_DR2_WA) / DESI_DR2_WA_SIGMA
+    has_tension = sigma_distance > DESI_WA_TENSION_THRESHOLD_SIGMA
+    return {
+        "observable": "w_a",
+        "wa_predicted": wa_pred,
+        "wa_desi_central": DESI_DR2_WA,
+        "wa_desi_sigma": DESI_DR2_WA_SIGMA,
+        "sigma_distance": sigma_distance,
+        "verdict": "TENSION_REQUIRES_NEW_SECTOR" if has_tension else "CONSISTENT",
+    }
+
+
 def black_box_falsification_threshold() -> dict[str, Any]:
     """Link to explicit no-go thresholds maintained in CRITICAL_FAILURE.md."""
     return {
@@ -190,7 +247,15 @@ def pillar256_empirical_hardening_report() -> dict[str, Any]:
     r_test = tensor_to_scalar_prediction_test()
     vacuum = vacuum_catastrophe_resolution_test()
     proton = proton_radius_puzzle_test()
+    ckm_cp = ckm_cp_phase_honesty_check()
+    desi_wa = desi_wa_honesty_check()
     black_box = black_box_falsification_threshold()
+
+    nontrivial_misses: list[str] = []
+    if ckm_cp["verdict"] != "CONSISTENT":
+        nontrivial_misses.append("CKM delta_CP geometric residual remains nontrivial.")
+    if desi_wa["verdict"] != "CONSISTENT":
+        nontrivial_misses.append("DESI w_a tension remains nontrivial for UM w_a=0.")
 
     return {
         "pillar": 256,
@@ -201,6 +266,8 @@ def pillar256_empirical_hardening_report() -> dict[str, Any]:
             "tensor_to_scalar": r_test,
             "vacuum_catastrophe": vacuum,
             "proton_radius": proton,
+            "ckm_cp_phase": ckm_cp,
+            "desi_wa": desi_wa,
             "black_box_falsification": black_box,
         },
         "hardening_verdict": {
@@ -208,5 +275,8 @@ def pillar256_empirical_hardening_report() -> dict[str, Any]:
             "r_prediction_committed": True,
             "vacuum_hierarchy_resolved": bool(vacuum["passes_120_order_requirement"]),
             "anti_curve_fit_guard_passed": bool(proton["no_data_tuning"]),
+            "ckm_cp_phase_tension": ckm_cp["verdict"] != "CONSISTENT",
+            "desi_wa_tension": desi_wa["verdict"] != "CONSISTENT",
+            "nontrivial_misses": nontrivial_misses,
         },
     }

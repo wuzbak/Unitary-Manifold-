@@ -17,8 +17,13 @@ from src.core.pillar256_empirical_hardening_falsification import (
     PLANCK_R_UPPER_95CL,
     PROTON_RADIUS_CREMA_FM,
     PROTON_RADIUS_LEGACY_FM,
+    CKM_CP_TENSION_THRESHOLD_DEG,
+    DESI_WA_TENSION_THRESHOLD_SIGMA,
+    R_FALSIFICATION_HALF_WIDTH,
     R_FALSIFICATION_WINDOW,
     R_PREDICTION,
+    ckm_cp_phase_honesty_check,
+    desi_wa_honesty_check,
     derive_muon_g2_from_5d_constraint,
     tensor_to_scalar_prediction_test,
     vacuum_catastrophe_resolution_test,
@@ -26,6 +31,9 @@ from src.core.pillar256_empirical_hardening_falsification import (
     black_box_falsification_threshold,
     pillar256_empirical_hardening_report,
 )
+
+R_PREDICTION_SANITY_LOWER_BOUND = 0.02
+MAX_EXPECTED_HEADROOM = 0.01
 
 
 def test_constants_and_adjacency_label():
@@ -51,8 +59,12 @@ def test_tensor_to_scalar_prediction_is_fixed_and_falsifiable():
 
     assert row["observable"] == "r"
     assert row["predicted_r"] == pytest.approx(R_PREDICTION)
-    assert row["predicted_r"] < PLANCK_R_UPPER_95CL
+    assert R_PREDICTION_SANITY_LOWER_BOUND < row["predicted_r"] < PLANCK_R_UPPER_95CL
     assert row["currently_allowed"] is True
+    assert row["headroom_to_upper_bound"] > 0.0
+    assert row["headroom_to_upper_bound"] < MAX_EXPECTED_HEADROOM
+    assert hi - lo == pytest.approx(2.0 * R_FALSIFICATION_HALF_WIDTH, rel=1e-12)
+    assert lo <= row["predicted_r"] <= hi
     assert row["falsification_window"]["min"] == pytest.approx(lo)
     assert row["falsification_window"]["max"] == pytest.approx(hi)
     assert row["falsified_if_litebird_reports_zero"] is True
@@ -86,6 +98,20 @@ def test_black_box_falsification_threshold_links_required_file():
     assert row["count_expected"] == 3
 
 
+def test_ckm_cp_honesty_check_records_nontrivial_residual():
+    row = ckm_cp_phase_honesty_check()
+    assert row["observable"] == "delta_cp_ckm"
+    assert row["abs_residual_deg"] > CKM_CP_TENSION_THRESHOLD_DEG
+    assert row["verdict"] == "TENSION_REQUIRES_GEOMETRIC_REFINEMENT"
+
+
+def test_desi_wa_honesty_check_records_nontrivial_tension():
+    row = desi_wa_honesty_check()
+    assert row["observable"] == "w_a"
+    assert row["sigma_distance"] > DESI_WA_TENSION_THRESHOLD_SIGMA
+    assert row["verdict"] == "TENSION_REQUIRES_NEW_SECTOR"
+
+
 def test_integrated_report_contains_all_five_stress_tests():
     report = pillar256_empirical_hardening_report()
     assert report["pillar"] == 256
@@ -97,6 +123,8 @@ def test_integrated_report_contains_all_five_stress_tests():
         "tensor_to_scalar",
         "vacuum_catastrophe",
         "proton_radius",
+        "ckm_cp_phase",
+        "desi_wa",
         "black_box_falsification",
     ):
         assert key in tests
@@ -106,3 +134,6 @@ def test_integrated_report_contains_all_five_stress_tests():
     assert verdict["r_prediction_committed"] is True
     assert verdict["vacuum_hierarchy_resolved"] is True
     assert verdict["anti_curve_fit_guard_passed"] is True
+    assert verdict["ckm_cp_phase_tension"] is True
+    assert verdict["desi_wa_tension"] is True
+    assert len(verdict["nontrivial_misses"]) >= 2

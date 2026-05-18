@@ -23,7 +23,7 @@ What is verified
  1. Integer topology       — Chern-Simons level k_cs = 5² + 7² = 74
  2. Braiding kinematics    — c_s = 12/37 ≈ 0.3243 from the (5,7) braid
  3. CMB spectral index     — nₛ ≈ 0.9635 within Planck 2018 1σ (0.9649 ± 0.0042)
- 4. Tensor ratio           — r ≈ 0.0315 below BICEP/Keck 95 % CL (< 0.036)
+ 4. Tensor ratio           — r ≈ 0.0315 below BICEP/Keck 95 % CL (< R_BICEP_KECK_95)
  5. Birefringence angle    — β ≈ 0.351° [(5,7) GW-derived; canonical: 0.331°]
                              inside the Minami 1σ hint (0.35° ± 0.14°)
  6. Resonance uniqueness   — exactly 2 braid pairs survive all three constraints
@@ -176,7 +176,7 @@ def run_verify() -> int:
     r_eff = pred.r_eff
     c4 = r_eff < R_BICEP_KECK_95
     checks.append(c4)
-    print(_row(4, "r < BICEP/Keck 0.036", f"{r_eff:.4f}", f"< {R_BICEP_KECK_95}", c4))
+    print(_row(4, f"r < BICEP/Keck {R_BICEP_KECK_95:.3f}", f"{r_eff:.4f}", f"< {R_BICEP_KECK_95}", c4))
 
     # ------------------------------------------------------------------
     # CHECK 5 — Birefringence angle β within Minami+Komatsu 1σ hint
