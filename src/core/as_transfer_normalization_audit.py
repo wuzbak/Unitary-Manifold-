@@ -33,6 +33,7 @@ M_KK_WARP_RELATIVE_UNCERTAINTY: float = 0.08
 SC2_PASS_THRESHOLD: float = 0.10
 SC2_TENSION_THRESHOLD: float = 0.20
 MIN_INTERVAL_WIDTH: float = 1e-30
+ROBUSTNESS_OVERLAP_MIN: float = 0.20
 
 
 def classify_sc2_step(metric: float, pass_threshold: float, tension_threshold: float) -> str:
@@ -96,7 +97,7 @@ def as_transfer_chain_audit() -> dict[str, object]:
     )
 
     robustness_overlap = float(uv_report["step7_robustness"]["overlap_fraction"])
-    step5_metric = max(0.0, 0.20 - robustness_overlap)
+    step5_metric = max(0.0, ROBUSTNESS_OVERLAP_MIN - robustness_overlap)
     step5_verdict = classify_sc2_step(
         metric=step5_metric,
         pass_threshold=0.0,
@@ -140,7 +141,7 @@ def as_transfer_chain_audit() -> dict[str, object]:
         },
         "step5_robustness_overlap": {
             "overlap_fraction": robustness_overlap,
-            "required_minimum": 0.20,
+            "required_minimum": ROBUSTNESS_OVERLAP_MIN,
             "deficit_metric": step5_metric,
             "verdict": step5_verdict,
         },

@@ -27,6 +27,14 @@ def test_classify_sc4_point_tension():
     assert classify_sc4_point(10, 0.31) == "TENSION"
 
 
+def test_effective_flux_threshold_changes_verdict():
+    # With dual-flux multiplicity, n_flux=31 gives effective_n_flux=62 >= 61.
+    r30 = residual_log10_ratio(30)
+    r31 = residual_log10_ratio(31)
+    assert classify_sc4_point(30, r30) == "TENSION"
+    assert classify_sc4_point(31, r31) == "PASS"
+
+
 def test_scan_flux_landscape_shape():
     rows = scan_flux_landscape()
     assert len(rows) == len(N_FLUX_SCAN_VALUES)

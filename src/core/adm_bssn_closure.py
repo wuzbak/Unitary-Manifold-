@@ -20,6 +20,12 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 HAMILTONIAN_PROXY_BASELINE: float = 0.004
 MOMENTUM_PROXY_BASELINE: float = 0.003
+# Reduced-sector damping/coupling calibration (stable monotone decay under
+# canonical T3 baseline trajectory).
+HAMILTONIAN_DAMPING_COEFF: float = 2.2
+HAMILTONIAN_COUPLING_COEFF: float = 0.20
+MOMENTUM_DAMPING_COEFF: float = 1.8
+MOMENTUM_COUPLING_COEFF: float = 0.15
 
 
 def bssn_rhs(
@@ -38,8 +44,14 @@ def bssn_rhs(
     d_b_driver = d_k_trace - eta_damp * b_driver
 
     # Damped proxy constraints in the reduced homogeneous sector.
-    d_hamiltonian = -2.2 * alpha * hamiltonian_proxy + 0.20 * abs(k_trace) * momentum_proxy
-    d_momentum = -1.8 * alpha * momentum_proxy + 0.15 * abs(k_trace) * hamiltonian_proxy
+    d_hamiltonian = (
+        -HAMILTONIAN_DAMPING_COEFF * alpha * hamiltonian_proxy
+        + HAMILTONIAN_COUPLING_COEFF * abs(k_trace) * momentum_proxy
+    )
+    d_momentum = (
+        -MOMENTUM_DAMPING_COEFF * alpha * momentum_proxy
+        + MOMENTUM_COUPLING_COEFF * abs(k_trace) * hamiltonian_proxy
+    )
 
     return {
         "d_alpha": d_alpha,
@@ -76,6 +88,8 @@ def bssn_evolution_step(
     beta_new = beta + dt * rhs["d_beta"]
     b_driver_new = b_driver + dt * rhs["d_b_driver"]
 
+    # Reduced-sector proxy norms are treated as non-negative magnitudes by
+    # construction, so clamping preserves physical interpretation.
     h_proxy_new = max(0.0, hamiltonian_proxy + dt * rhs["d_hamiltonian_proxy"])
     m_proxy_new = max(0.0, momentum_proxy + dt * rhs["d_momentum_proxy"])
 

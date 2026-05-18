@@ -24,6 +24,9 @@ __all__ = [
 
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 K_SWEEP: tuple[float, ...] = (0.05, 0.10, 0.15, 0.20)
+# Renormalized Δ routing thresholds for adjacent-track A3 closure packets.
+A3_PASS_DELTA_THRESHOLD: float = 1.0
+A3_TENSION_DELTA_THRESHOLD: float = 3.0
 
 
 def two_loop_qcd_factor(alpha_s_mz: float = 0.113) -> float:
@@ -48,9 +51,9 @@ def uv_counterterm_factor(c_uv_total: float) -> float:
 
 
 def _verdict_from_delta(delta_total: float) -> str:
-    if delta_total < 1.0:
+    if delta_total < A3_PASS_DELTA_THRESHOLD:
         return "PASS"
-    if delta_total < 3.0:
+    if delta_total < A3_TENSION_DELTA_THRESHOLD:
         return "TENSION"
     return "FALSIFIED"
 
