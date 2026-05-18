@@ -7,6 +7,8 @@ from src.core.flux_landscape_extended_scan import (
     ADJACENCY_TRACK_LABEL,
     N_FLUX_REQUIRED_MIN,
     N_FLUX_SCAN_VALUES,
+    SC4_PASS_RESIDUAL_THRESHOLD,
+    SC4_TENSION_RESIDUAL_THRESHOLD,
     classify_sc4_point,
     residual_log10_ratio,
     scan_flux_landscape,
@@ -31,8 +33,8 @@ def test_effective_flux_threshold_changes_verdict():
     # With dual-flux multiplicity, n_flux=31 gives effective_n_flux=62 >= 61.
     r30 = residual_log10_ratio(30)
     r31 = residual_log10_ratio(31)
-    assert r30 <= 0.50
-    assert r31 <= 0.31
+    assert r30 <= SC4_TENSION_RESIDUAL_THRESHOLD
+    assert r31 <= SC4_PASS_RESIDUAL_THRESHOLD
     assert classify_sc4_point(30, r30) == "TENSION"
     assert classify_sc4_point(31, r31) == "PASS"
 

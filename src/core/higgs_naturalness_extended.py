@@ -44,8 +44,9 @@ def three_loop_mixed_factor(alpha_s_mz: float = 0.113, y_t: float = 0.935) -> fl
 def uv_counterterm_factor(c_uv_total: float) -> float:
     """UV counterterm suppression factor inferred from the 10D closure coefficient.
 
-    The benchmark c_UV is translated into an effective finite renormalized fraction
-    using a stable logarithmic normalization.
+    The benchmark c_UV is translated into an effective finite renormalized
+    fraction using symmetric logarithmic suppression around c_UV=1 so both UV-
+    and IR-extreme coefficients are damped in the adjacent-track closure metric.
     """
     if c_uv_total <= 0.0:
         raise ValueError("c_uv_total must be positive")

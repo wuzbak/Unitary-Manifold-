@@ -25,6 +25,8 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 N_FLUX_SCAN_VALUES: tuple[int, ...] = (37, 48, 61, 74, 100, 150, 200, 500, 1000)
 N_FLUX_REQUIRED_MIN: int = REQUIRED_N_FLUX_MIN
+SC4_PASS_RESIDUAL_THRESHOLD: float = 0.31
+SC4_TENSION_RESIDUAL_THRESHOLD: float = 0.50
 
 
 def _lambda_pred_for_base_flux(n_flux: int, c_uv_total: float) -> float:
@@ -52,9 +54,9 @@ def residual_log10_ratio(n_flux: int) -> float:
 def classify_sc4_point(n_flux: int, residual_abs_log10: float) -> str:
     """Classify a scan point as PASS/TENSION/FALSIFIED."""
     effective = effective_flux_sufficiency(base_n_flux=n_flux)
-    if effective["meets_bp_threshold"] and residual_abs_log10 <= 0.31:
+    if effective["meets_bp_threshold"] and residual_abs_log10 <= SC4_PASS_RESIDUAL_THRESHOLD:
         return "PASS"
-    if residual_abs_log10 <= 0.50:
+    if residual_abs_log10 <= SC4_TENSION_RESIDUAL_THRESHOLD:
         return "TENSION"
     return "FALSIFIED"
 

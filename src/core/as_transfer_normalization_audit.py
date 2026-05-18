@@ -67,6 +67,7 @@ def as_transfer_chain_audit() -> dict[str, object]:
     if alpha_low <= alpha_exact <= alpha_high:
         step2_metric = 0.0
     else:
+        # Defensive denominator guard for degenerate intervals.
         interval = max(alpha_high - alpha_low, MIN_INTERVAL_WIDTH)
         nearest = min(abs(alpha_exact - alpha_low), abs(alpha_exact - alpha_high))
         step2_metric = nearest / interval

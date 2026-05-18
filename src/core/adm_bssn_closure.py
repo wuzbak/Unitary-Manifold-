@@ -26,6 +26,7 @@ HAMILTONIAN_DAMPING_COEFF: float = 2.2
 HAMILTONIAN_COUPLING_COEFF: float = 0.20
 MOMENTUM_DAMPING_COEFF: float = 1.8
 MOMENTUM_COUPLING_COEFF: float = 0.15
+CLAMP_WARNING_THRESHOLD: float = 1e-6
 
 
 def bssn_rhs(
@@ -111,8 +112,8 @@ def bssn_evolution_step(
         "d_momentum_proxy": rhs["d_momentum_proxy"],
         "hamiltonian_preclamp": h_preclamp,
         "momentum_preclamp": m_preclamp,
-        "hamiltonian_clamped": h_preclamp < -1e-6,
-        "momentum_clamped": m_preclamp < -1e-6,
+        "hamiltonian_clamped": h_preclamp < -CLAMP_WARNING_THRESHOLD,
+        "momentum_clamped": m_preclamp < -CLAMP_WARNING_THRESHOLD,
     }
 
 
