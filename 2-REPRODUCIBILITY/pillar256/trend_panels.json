@@ -1,0 +1,67 @@
+{
+  "gates": [
+    {
+      "id": "FST-1",
+      "latest_status": "PENDING_EXTERNAL_DATA",
+      "name": "Sterile-neutrino eV discovery",
+      "observable": "sterile_neutrino_branch",
+      "points": [
+        {
+          "created_at_utc": "2026-05-18T04:04:49Z",
+          "distance_to_threshold": null,
+          "snapshot_id": "pillar256-20260518T040449Z",
+          "status": "PENDING_EXTERNAL_DATA"
+        }
+      ],
+      "summary_counts": {
+        "CONSISTENT": 0,
+        "FALSIFIED": 0,
+        "HIGH_TENSION": 0,
+        "PENDING_EXTERNAL_DATA": 1
+      }
+    },
+    {
+      "id": "FST-2",
+      "latest_status": "PENDING_EXTERNAL_DATA",
+      "name": "QCD running chain break",
+      "observable": "alpha_s_1tev",
+      "points": [
+        {
+          "created_at_utc": "2026-05-18T04:04:49Z",
+          "distance_to_threshold": null,
+          "snapshot_id": "pillar256-20260518T040449Z",
+          "status": "PENDING_EXTERNAL_DATA"
+        }
+      ],
+      "summary_counts": {
+        "CONSISTENT": 0,
+        "FALSIFIED": 0,
+        "HIGH_TENSION": 0,
+        "PENDING_EXTERNAL_DATA": 1
+      }
+    },
+    {
+      "id": "FST-3",
+      "latest_status": "PENDING_EXTERNAL_DATA",
+      "name": "0\u03bd\u03b2\u03b2 effective mass boundary",
+      "observable": "mbb_meV",
+      "points": [
+        {
+          "created_at_utc": "2026-05-18T04:04:49Z",
+          "distance_to_threshold": null,
+          "snapshot_id": "pillar256-20260518T040449Z",
+          "status": "PENDING_EXTERNAL_DATA"
+        }
+      ],
+      "summary_counts": {
+        "CONSISTENT": 0,
+        "FALSIFIED": 0,
+        "HIGH_TENSION": 0,
+        "PENDING_EXTERNAL_DATA": 1
+      }
+    }
+  ],
+  "generated_at_utc": "2026-05-18T04:04:49Z",
+  "history_points": 1,
+  "panel_version": "v1"
+}

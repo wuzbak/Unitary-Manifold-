@@ -1,0 +1,73 @@
+# pillar256_thresholds.yml — Machine-readable falsification-gate thresholds for Pillar 256
+# Purpose: Direct CI ingestion of no-go gates with explicit numeric ranges and statuses.
+# Ingest: src/core/pillar256_reproducibility.py
+# Last updated: 2026-05-18
+
+version: "1.0.0"
+effective_date: "2026-05-18"
+source_anchor: "9-INFRASTRUCTURE/CRITICAL_FAILURE.md"
+
+policy: |
+  This registry externalizes Pillar 256 falsification gates into CI-ingestable
+  metadata with explicit probe fields and threshold semantics.
+  Any crossing that satisfies a gate's 'forbidden' condition is binding.
+
+gates:
+  - id: "FST-1"
+    name: "Sterile-neutrino eV discovery"
+    observable: "sterile_neutrino_branch"
+    thresholds:
+      forbidden_mass_window_eV:
+        min: 0.5
+        max: 5.0
+      min_forbidden_mixing_sin2_2theta: 0.02
+    ci_probe_fields:
+      - "mass_eV"
+      - "mixing_sin2_2theta"
+      - "confidence_sigma"
+      - "confirmed"
+    fail_condition: "confirmed AND mass_eV in [0.5,5.0] AND mixing_sin2_2theta > 0.02"
+    trend_metric: "distance_to_forbidden_window_eV"
+    default_status: "PENDING_EXTERNAL_DATA"
+
+  - id: "FST-2"
+    name: "QCD running chain break"
+    observable: "alpha_s_1tev"
+    thresholds:
+      allowed_alpha_s_1tev:
+        min: 0.079
+        max: 0.093
+    ci_probe_fields:
+      - "alpha_s_1tev"
+      - "confidence_sigma"
+      - "confirmed"
+    fail_condition: "confirmed AND (alpha_s_1tev < 0.079 OR alpha_s_1tev > 0.093)"
+    trend_metric: "distance_to_allowed_interval"
+    default_status: "PENDING_EXTERNAL_DATA"
+
+  - id: "FST-3"
+    name: "0νββ effective mass boundary"
+    observable: "mbb_meV"
+    thresholds:
+      soft_allowed_mbb_meV:
+        min: 55.0
+        max: 200.0
+      hard_fail_outside_mbb_meV:
+        min: 30.0
+        max: 250.0
+    ci_probe_fields:
+      - "mbb_meV"
+      - "confidence_sigma"
+      - "confirmed"
+    fail_condition: "confirmed AND confidence_sigma >= 3 AND (mbb_meV < 30 OR mbb_meV > 250)"
+    trend_metric: "distance_to_hard_fail_interval_meV"
+    default_status: "PENDING_EXTERNAL_DATA"
+
+governance:
+  revision_policy: |
+    Threshold ranges may be revised only with external-consensus evidence and a
+    versioned governance entry in docs/falsification/pillar256_threshold_governance.yml.
+  revision_log_file: "docs/falsification/pillar256_threshold_governance.yml"
+  ci_ingest_contract: |
+    CI should parse this file, validate required fields, and evaluate incoming
+    probe payloads per gate using src/core/pillar256_reproducibility.py.
