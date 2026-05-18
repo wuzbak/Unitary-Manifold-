@@ -205,9 +205,8 @@ def _mode_color(mode: str) -> str:
 
 def _latest_report(system: FiveCoresSystem) -> Optional[SystemHealthReport]:
     """Return the last SystemHealthReport in the system history, or None."""
-    if system._history:
-        return system._history[-1]
-    return None
+    h = system.history()
+    return h[-1] if h else None
 
 
 def _core_score(system: FiveCoresSystem, label: str) -> float:
@@ -224,11 +223,13 @@ def _system_health(system: FiveCoresSystem) -> float:
 
 
 def _system_status(system: FiveCoresSystem) -> str:
-    return system._status
+    report = _latest_report(system)
+    return report.status if report is not None else SystemStatus.NOMINAL
 
 
 def _step_count(system: FiveCoresSystem) -> int:
-    return system._step_count
+    report = _latest_report(system)
+    return report.step_count if report is not None else 0
 
 
 # ---------------------------------------------------------------------------
@@ -555,9 +556,9 @@ class PentadOperatorConsole:
         report = _latest_report(self._system)
 
         sys_snap: dict = {
-            "step_count": self._system._step_count,
+            "step_count": _step_count(self._system),
             "phi_trust": self._system.phi_trust,
-            "status": self._system._status,
+            "status": _system_status(self._system),
             "health_score": report.health_score if report else 0.0,
             "per_core_scores": dict(report.per_core_scores) if report else {},
         }
@@ -646,10 +647,15 @@ class PentadOperatorConsole:
                 self._history = [_ReportProxy(d)]
                 self.phi_trust = d.get("phi_trust", 1.0)
 
+            def history(self) -> list:
+                return self._history
+
         class _ReportProxy:
             def __init__(self, d: dict) -> None:
                 self.health_score = d.get("health_score", 0.0)
                 self.per_core_scores = d.get("per_core_scores", {})
+                self.step_count = d.get("step_count", 0)
+                self.status = d.get("status", SystemStatus.NOMINAL)
 
         class _BodyProxy:
             def __init__(self, phi: float) -> None:
