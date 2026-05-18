@@ -20,8 +20,8 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 HAMILTONIAN_PROXY_BASELINE: float = 0.004
 MOMENTUM_PROXY_BASELINE: float = 0.003
-# Reduced-sector damping/coupling calibration (stable monotone decay under
-# canonical T3 baseline trajectory).
+# Reduced-sector damping/coupling calibration tuned so the canonical T3 baseline
+# keeps proxy constraints bounded (<1e-2) and monotone-decaying over 240 steps.
 HAMILTONIAN_DAMPING_COEFF: float = 2.2
 HAMILTONIAN_COUPLING_COEFF: float = 0.20
 MOMENTUM_DAMPING_COEFF: float = 1.8

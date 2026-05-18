@@ -33,6 +33,8 @@ M_KK_WARP_RELATIVE_UNCERTAINTY: float = 0.08
 SC2_PASS_THRESHOLD: float = 0.10
 SC2_TENSION_THRESHOLD: float = 0.20
 MIN_INTERVAL_WIDTH: float = 1e-30
+# Require at least 20% in-band support from the bounded robustness scan to
+# classify the closure as robust rather than fine-tuned.
 ROBUSTNESS_OVERLAP_MIN: float = 0.20
 
 
