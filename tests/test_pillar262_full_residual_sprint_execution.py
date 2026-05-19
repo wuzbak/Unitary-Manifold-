@@ -5,8 +5,11 @@ from __future__ import annotations
 
 from src.core.pillar262_full_residual_sprint_execution import (
     ADJACENCY_TRACK_LABEL,
+    PARALLEL_TRACKS,
     SPRINT_ORDER,
     execute_all_residual_sprints,
+    execute_parallel_residual_tracks,
+    parallel_track_execution_plan,
     sprint_execution_order,
 )
 
@@ -23,5 +26,25 @@ def test_execute_all_residual_sprints_shape():
     assert report["sequence_complete"] is True
     assert report["completed_sprints"] == list(SPRINT_ORDER)
     assert report["overall_status"] in {"EXECUTED_WITH_OPEN_FOUNDATIONAL_BOUNDARIES", "EXECUTED_COMPLETE"}
+    assert report["statuses"]["RG1"] == "RESIDUAL_OPERATOR_EXECUTED"
+    assert report["statuses"]["FD1"] == "DECISION_BOUNDARIES_LOCKED"
+    assert report["parallel_tracks_complete"] is True
+    assert "closure_blockers" in report
+    assert report["parallel_track_packet"]["execution_mode"] == "PARALLEL_MULTI_TRACK"
+
+
+def test_parallel_track_plan_matches_constant():
+    plan = parallel_track_execution_plan()
+    assert {row["id"] for row in plan} == set(PARALLEL_TRACKS)
+    for row in plan:
+        assert row["sprints"] == list(PARALLEL_TRACKS[row["id"]])
+
+
+def test_execute_parallel_residual_tracks_shape():
+    report = execute_parallel_residual_tracks()
+    assert report["adjacency_label"] == ADJACENCY_TRACK_LABEL
+    assert report["execution_mode"] == "PARALLEL_MULTI_TRACK"
+    assert report["parallel_execution_complete"] is True
+    assert set(report["track_reports"]) == set(PARALLEL_TRACKS)
     assert report["statuses"]["RG1"] == "RESIDUAL_OPERATOR_EXECUTED"
     assert report["statuses"]["FD1"] == "DECISION_BOUNDARIES_LOCKED"
