@@ -3364,17 +3364,17 @@ coordinate time at the FTUM fixed point. The §III kinematic gap is **CLOSED**.
 
 Full quantization of the 5D ADM action (ADM gravity as an initial value problem for
 the UM metric ansatz) is not performed. Pillar 212 proves the kinematic coincidence
-at the fixed point; the dynamical off-attractor ADM equations remain as future work.
-The ADM Hamiltonian and momentum constraints are evaluated symbolically for the flat,
-isotropic case but the full inhomogeneous 5D ADM system is not solved.
+at the fixed point; Pillar 263 closes the reduced-sector BSSN lane and Pillar 268
+extends this to linearized inhomogeneous scans. The genuinely open remainder is the
+non-perturbative inhomogeneous / Wheeler-DeWitt sector.
 
-**§III status update:** "Kinematic gap: CLOSED (Pillar 212). Dynamical ADM
-quantization: OPEN (future work)."
+**§III status update:** "Kinematic gap: CLOSED (Pillar 212). Reduced + linearized
+dynamical ADM closure: EXECUTABLE. Non-perturbative ADM quantization: OPEN."
 
 **Canonical status tokens (single-source sync with `1-THEORY/DERIVATION_STATUS.md` and `docs/TRUTH_LAYER.md`):**
-- `ADM_STATUS_CANONICAL: KINEMATIC_CLOSED_DYNAMICAL_OPEN`
-- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN`
-- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: HARDGATE_TRACK_OPEN`
+- `ADM_STATUS_CANONICAL: KINEMATIC_AND_LINEARIZED_DYNAMICAL_CLOSED`
+- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_ZERO_MODE_CLOSED_HIERARCHY_OPEN`
+- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: EXECUTABLE_EQUIVALENCE_CLOSED`
 
 ---
 

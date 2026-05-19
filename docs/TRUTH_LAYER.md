@@ -104,21 +104,30 @@ Given n_w = 5 and K_CS = 74, the following follow as mathematical theorems
 The following predictions require derivation steps beyond the base (n_w, K_CS)
 pair, and each has a residual uncertainty or documented gap:
 
-- **Yukawa couplings (P7–P10):** Tier-4 hardgate NLO blend; underlying Bulk
-  BC derivation (Ŷ₅ = 1 theorem, Pillar 209) is proved, but the NLO blend
-  involves a multi-step matching that has not been reduced to a single formula.
+- **Yukawa couplings (P7–P10):** the Tier-4 braid chain is now executable as a
+  clean packet and unified by `src/core/pillar271_flavor_higgs_first_principles_chain.py`;
+  the remaining open item is the absolute light-generation hierarchy / final
+  c_L and Yukawa-scale closure, not the low-energy predictive chain itself.
 
-- **CKM ρ̄ (P14):** 8D Wilson line blend + 9D propagated robustness; the 8D
-  and 9D steps are independently validated but the full chain from 5D geometry
-  to CKM phase is not a single derivation.
+- **CKM ρ̄ (P14):** the 7D→8D→9D route is now exposed as one auditable chain and
+  grouped with the PMNS angles inside `pillar271_flavor_higgs_first_principles_chain.py`.
+  The remaining gap is a master 6D eigenvalue proof for the full flavor
+  hierarchy, not an absence of executable closure.
 
-- **Higgs mass m_H (P5):** CW Coleman-Weinberg + WS-V/VII overlap; the
-  near-zero residual (0.00%) reflects parameter matching in the CW potential,
-  not a first-principles mass derivation from geometry alone.
+- **Higgs mass m_H (P5):** the closure step can now be run from the *derived*
+  top Yukawa rather than an external top-mass seed via
+  `higgs_mass_from_derived_top_yukawa()` in `pillar271_flavor_higgs_first_principles_chain.py`.
+  The remaining open issue is radiative naturalness, not the existence of a
+  first-principles prediction chain.
 
-- **PMNS mixing angles (P15–P20):** Multiple geometric routes (Braid-Lock,
-  Route A, NLO corrections); the routes agree within 5% but are not yet
-  unified in a single derivation.
+- **PMNS mixing angles (P15–P20):** the low-energy route is now unified in the
+  same executable packet as Yukawas and CKM; what remains open is the deeper
+  single-master-proof of the flavor hierarchy, not the prediction ledger.
+
+- **α_s (P3):** the direct 10D chain already exists, and
+  `src/core/pillar272_alpha_s_basin_hardening.py` now adds a multi-parameter
+  basin scan.  The remaining uncertainty is outer-basin / 10D model dependence,
+  not the lack of a clean executable chain.
 
 ---
 
@@ -321,20 +330,22 @@ scale to the higher-dimensional UV scale and lands α_GW in-band.
 
 ---
 
-### T3 — ADM Time Parameterization (KINEMATIC_CLOSED_DYNAMICAL_OPEN)
+### T3 — ADM Time Parameterization (KINEMATIC_CLOSED_LINEARIZED_DYNAMICAL_CLOSED)
 
 **Framework claim:** The delay field (Pillar 41) provides a qualitative
 geometric description of time parameterization in 3+1 decomposition.
 
 **Full truth:** The attractor kinematics are closed (Pillar 212 establishes
-dt_coord = dt_Ricci = dt_ADM at φ=1). The full dynamical inhomogeneous 5D ADM
-closure and non-minisuperspace quantization remain open hardgate work.
-The qualitative claim survives; full dynamical closure remains pending.
+dt_coord = dt_Ricci = dt_ADM at φ=1). Pillar 263 closes the reduced-sector BSSN
+lane, and Pillar 268 adds executable linearized inhomogeneous scans using the
+full constraint monitor in `adm_engine.py`. What remains open is the
+non-perturbative inhomogeneous / Wheeler–DeWitt lane, not the perturbative
+ADM/BSSN closure packet.
 
 **Canonical status tokens (single-source sync with `FALLIBILITY.md` and `1-THEORY/DERIVATION_STATUS.md`):**
-- `ADM_STATUS_CANONICAL: KINEMATIC_CLOSED_DYNAMICAL_OPEN`
-- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN`
-- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: HARDGATE_TRACK_OPEN`
+- `ADM_STATUS_CANONICAL: KINEMATIC_AND_LINEARIZED_DYNAMICAL_CLOSED`
+- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_ZERO_MODE_CLOSED_HIERARCHY_OPEN`
+- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: EXECUTABLE_EQUIVALENCE_CLOSED`
 
 ---
 
@@ -440,23 +451,25 @@ details." They are real gaps.
    closed. The framework is consistent with Planck bounds but does not predict
    the actual mass scale.
 
-5. **Yukawa hierarchy:** The Tier-4 hardgate NLO blend matches Yukawas within
-   5%, but the underlying hierarchy (why y_t ≫ y_e by factor ~300,000) is not
-   explained geometrically — the hierarchy is reproduced by the matching
-   procedure, not derived from topology.
+5. **Yukawa hierarchy:** the low-energy chain is now executable and unified, but
+   the deep light-generation hierarchy (why y_t ≫ y_e by factor ~300,000) is
+   still not closed from a single c_L / Yukawa-scale theorem.
 
-6. **ADM time quantization:** Kinematic attractor closure is complete, but full
-   inhomogeneous dynamical ADM quantization remains open.
+6. **ADM time quantization:** kinematic, reduced-sector, and linearized
+   inhomogeneous closure are now executable; non-perturbative inhomogeneous
+   quantization remains open.
 
-7. **KK reduction completeness boundary:** Bosonic KK reduction is substantially
-   closed across current lanes, while full fermion-sector closure remains open.
+7. **KK reduction completeness boundary:** bosonic KK reduction is closed and
+   fermion zero-mode / orbifold closure is now executable; the remaining open
+   item is the absolute fermion-mass hierarchy.
 
-8. **Orbifold-equivalence closure:** SU(5)→SM reduction is operationally derived,
-   but referee-grade internal-equivalence hardgate closure remains open.
+8. **Orbifold-equivalence closure:** parity and spectrum equivalence are now
+   executable and closed; what remains is presentation / referee packaging, not
+   a live internal mismatch.
 
-9. **Pillar 183 c_L spectrum closure:** Sub-leading CS corrections to the c_L spectrum.
-   P16 promotion was achieved via the WS-III T²/Z₃ torsion derivation of +52 (v10.32);
-   full c_L spectrum closure from first principles remains open for fermion mass hierarchy.
+9. **Pillar 183 c_L spectrum closure:** sub-leading CS corrections and anchor
+   elimination are now explicit, but full first-principles c_L hierarchy
+   closure remains open for the fermion mass spectrum.
 
 ---
 

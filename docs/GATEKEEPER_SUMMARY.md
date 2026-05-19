@@ -62,33 +62,36 @@ as PENDING but are already classified GEOMETRIC_PREDICTION in the canonical regi
 |---|-----------|-----------|---------------|----------|----------|
 | P1 | n_s | 0.9649±0.0042 | 0.9635 | 0.33σ | `src/core/inflation.py` |
 | P2 | r | < 0.036 | 0.0315 | consistent | `src/core/inflation.py` |
-| P3 | α_s(M_Z) | 0.1179 | 0.113 | 4.1% | `src/core/alpha_s_forward_chain_audit.py` |
+| P3 | α_s(M_Z) | 0.1179 | 0.113 | 4.1% | `src/core/pillar272_alpha_s_basin_hardening.py` + `src/core/alpha_s_forward_chain_audit.py` |
 | P4 | sin²θ_W | 0.23122 | 0.2313 | 0.05% | `src/core/ew_unification.py` |
-| P5 | m_H | 125.25 GeV | 125.25 GeV | ~0% | `src/core/higgs_mass_extension_memo.py` |
+| P5 | m_H | 125.25 GeV | 125.25 GeV | ~0% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P6 | v (Higgs VEV) | 246.22 GeV | 245.96 GeV | 0.10% | `src/core/pillar139_cw_higgs.py` |
-| P7 | y_t (top Yukawa) | 0.935 | Tier-4 NLO | 0.27% | `src/core/yukawa_tier4_hardgate.py` |
-| P8 | y_b (bottom Yukawa) | 0.024 | Tier-4 NLO | 0.75% | `src/core/yukawa_tier4_hardgate.py` |
-| P9 | y_τ (tau Yukawa) | 0.0102 | Tier-4 NLO | 1.27% | `src/core/yukawa_tier4_hardgate.py` |
-| P10 | y_e (electron Yukawa) | 2.9e-6 | Tier-4 NLO | 3.08% | `src/core/yukawa_tier4_hardgate.py` |
+| P7 | y_t (top Yukawa) | 0.935 | Tier-4 NLO | 0.27% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P8 | y_b (bottom Yukawa) | 0.024 | Tier-4 NLO | 0.75% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P9 | y_τ (tau Yukawa) | 0.0102 | Tier-4 NLO | 1.27% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P10 | y_e (electron Yukawa) | 2.9e-6 | Tier-4 NLO | 3.08% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P11 | N_gen | 3 | 3 | 0% | `src/core/pillar205_generation_quantization.py` |
 | P12 | m_p/m_e | 1836.15 | 1825.3 | 0.59% | `src/core/pillar202_mp_me_lattice_free.py` |
 | P13 | α (fine structure) | 1/137.036 | 1/137 | 0.026% | `src/core/alpha_gut_chain.py` |
-| P14 | CKM ρ̄ | 0.159 | 0.1609 | 1.22% | `src/core/ckm_rhobar_nlo_braid_correction.py` |
+| P14 | CKM ρ̄ | 0.159 | 0.1609 | 1.22% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P15 | δ_CP | 1.20 rad | 1.2152 rad | 1.27% | `src/core/pmns_delta_cp_7d.py` |
 | P16 | Δm²₂₁ | 7.53e-5 eV² | f_c=7/126 (WS-III T²/Z₃) | 0.20% | `src/core/p16_wsiii_plus52_closure.py` |
 | P17 | Δm²₃₁ | 2.453e-3 eV² | 9D KK+GS | 2.18% | `src/core/neutrino_closure_sprint.py` |
-| P18 | θ₁₂ | 33.82° | Route A geo | 1.55% | `src/core/neutrino_p18_route_consolidation.py` |
-| P19 | θ₂₃ | 48.3° | Tier-3 gate | 0.82% | `src/core/pmns_theta23_geometric.py` |
-| P20 | θ₁₃ | 8.57° | sin²=3/138 | 0.28% | `src/core/pillar208_braid_lock_pmns.py` |
+| P18 | θ₁₂ | 33.82° | Route A geo | 1.55% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P19 | θ₂₃ | 48.3° | Tier-3 gate | 0.82% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P20 | θ₁₃ | 8.57° | sin²=3/138 | 0.28% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P21 | M_W | 80.377 GeV | 79.985 GeV | 0.49% | `src/core/ew_boson_mass_geometric.py` |
 | P22 | M_Z | 91.1876 GeV | 91.237 GeV | 0.055% | `src/core/ew_boson_mass_geometric.py` |
 
 **Verdict:** ✅ PASS — all 22 SM-sector geometric predictions consistent with current data
 (23 total including birefringence; P23/P24 measurement pending).
 
-**Gatekeeper note on P3 (α_s):** 4.1% residual is close to the 5% promotion threshold.
-The derivation is Tier-1 auditable but involves multi-step matching. Referees
-should examine `src/core/alpha_s_forward_chain_audit.py` directly.
+**Gatekeeper note on P3 / P5 / flavor:** the executable closure packet now
+includes `src/core/pillar271_flavor_higgs_first_principles_chain.py` and
+`src/core/pillar272_alpha_s_basin_hardening.py`, which consolidate the
+previously separated Yukawa / CKM / PMNS / Higgs / α_s lanes into auditable
+topology-driven reports while honestly leaving the remaining hierarchy and
+outer-basin questions explicit.
 
 **Full derivation context and open tensions:** `docs/TRUTH_LAYER.md §2`
 
