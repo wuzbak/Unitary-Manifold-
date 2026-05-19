@@ -234,7 +234,7 @@ def um_vs_planck_peak_comparison() -> dict:
             "Peak positions computed using Hu-Sugiyama ISW phase shift "
             "approximation (Δφ/π ≈ 0.267). Full Boltzmann integration "
             "(CAMB/CLASS) required for sub-percent precision. "
-            "KK correction δ_KK ~ 8×10⁻⁴ is negligible (Pillar 73)."
+            "KK correction δ_KK ~ 8×10⁻⁴ is negligible (Pillar 73, hardgate)."
         ),
     }
 
@@ -254,9 +254,10 @@ def um_ns_sensitivity_check() -> dict:
     positional shift (< 0.01%).
     """
     delta_ns = abs(N_S_UM - 0.9649)
-    # First-order estimate: d(ℓ_n)/d(n_s) ≈ 0 (peak positions independent of n_s)
-    # Second-order Silk damping shift: ~ delta_ns * 0.5% per unit, so ~0.007%
-    estimated_peak_shift_percent = delta_ns * 0.5 * 100   # upper bound
+    # Heuristic scaling: d(ℓ_n)/d(n_s) ≈ 0 at first order; second-order Silk
+    # damping shift is empirically ~ 0.5% per unit Δn_s (upper bound estimate).
+    NS_PEAK_SHIFT_COEFFICIENT = 0.5   # %/unit; upper-bound heuristic
+    estimated_peak_shift_percent = delta_ns * NS_PEAK_SHIFT_COEFFICIENT * 100
     return {
         "n_s_um": N_S_UM,
         "n_s_planck_bestfit": 0.9649,

@@ -227,12 +227,15 @@ class TestCorrectedPeaks:
 
     def test_corrected_spacing_roughly_constant(self):
         """Higher peaks should be roughly uniformly spaced (~300 apart)."""
+        # Tolerance in ℓ: consecutive corrected peaks should be within 5 ℓ of
+        # uniform spacing (they differ only by the constant ISW offset).
+        PEAK_SPACING_TOLERANCE_ELL = 5.0
         ell1 = corrected_peak_position(1)
         ell2 = corrected_peak_position(2)
         ell3 = corrected_peak_position(3)
         spacing_12 = ell2 - ell1
         spacing_23 = ell3 - ell2
-        assert abs(spacing_12 - spacing_23) < 5.0   # within 5 ℓ
+        assert abs(spacing_12 - spacing_23) < PEAK_SPACING_TOLERANCE_ELL
 
 
 # ---------------------------------------------------------------------------
