@@ -28,7 +28,7 @@ def test_execute_all_residual_sprints_shape():
     assert report["overall_status"] in {"EXECUTED_WITH_OPEN_FOUNDATIONAL_BOUNDARIES", "EXECUTED_COMPLETE"}
     assert report["statuses"]["RG1"] == "RESIDUAL_OPERATOR_EXECUTED"
     assert report["statuses"]["FD1"] == "DECISION_BOUNDARIES_LOCKED"
-    assert report["parallel_tracks_complete"] is True
+    assert report["parallel_tracks_complete"]
     assert "closure_blockers" in report
     assert report["parallel_track_packet"]["execution_mode"] == "PARALLEL_MULTI_TRACK"
 
@@ -44,7 +44,7 @@ def test_execute_parallel_residual_tracks_shape():
     report = execute_parallel_residual_tracks()
     assert report["adjacency_label"] == ADJACENCY_TRACK_LABEL
     assert report["execution_mode"] == "PARALLEL_MULTI_TRACK"
-    assert report["parallel_execution_complete"] is True
+    assert report["parallel_execution_complete"]
     assert set(report["track_reports"]) == set(PARALLEL_TRACKS)
     assert report["statuses"]["RG1"] == "RESIDUAL_OPERATOR_EXECUTED"
     assert report["statuses"]["FD1"] == "DECISION_BOUNDARIES_LOCKED"
