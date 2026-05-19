@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.4
+# Unitary Manifold v11.5
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-19 (v11.4 — Pillar 273 numbering correction + canonical freshness sync; ToE 28.0/28 = 100%)*
+*Last updated: 2026-05-19 (v11.5 — Residual Tightening Wave: Pillars 274–281; ToE 28.0/28 = 100%)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.

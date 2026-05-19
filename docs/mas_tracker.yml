@@ -1,4 +1,4 @@
-version: "v11.4"
+version: "v11.5"
 date: "2026-05-19"
 updated: "2026-05-19"
 mas_status: "COMPLETE"
@@ -18,22 +18,39 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.4"
-  regression: "34 070 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.5"
+  regression: "34 187 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.4"
-  pillar: 273
-  artifact: "src/core/pillar273_autonomous_github_community_steward.py"
-  test: "tests/test_pillar273_autonomous_github_community_steward.py"
+  version: "v11.5"
+  wave: "Residual Tightening Wave"
+  pillars_added:
+    - 274
+    - 275
+    - 276
+    - 277
+    - 278
+    - 279
+    - 280
+    - 281
+  per_residual_deltas:
+    JUNO: "Pillar 274 — NLO running + τ-Yukawa back-reaction + seesaw v²/M_R² closes 2.16% gap"
+    A3: "Pillar 275 — Schwinger regulator + closed-form O(1/N) remainder converged Δ_∞"
+    T3: "Pillar 276 — two-sector momentum-constraint closure with non-trivial radion shift"
+    CMB_peak: "Pillar 277 — three-term log-exact S_braid·S_alphaGW·S_5D_cap decomposition"
+    SC4: "Pillar 278 — Theorem 278.1 algebraic enumeration replaces scan attestation"
+    n_w: "Pillar 279 — Planck-free conditional selection of n_w=5 via Convention 279.3"
+    SC2: "Pillar 280 — c_UV-independent interval narrowing ≥40% width reduction"
+    DESI_DR3: "Pillar 281 — three-σ routing drill with idempotence and provenance receipts"
+  substack_errata: "post-186-s02e012 dated 2026-05-19 errata footer (Pillar 259→273 rename); HILS non-negotiable 6 preserved"
   status: "DELIVERED"
-  note: "Pillar 273 resolves the Pillar 259 naming collision: the autonomous GitHub community steward (previously registered under the occupied Pillar 259 slot) is now correctly numbered 273. Pillar 259 remains exclusively the Residual Geometry Operator (src/core/pillar259_residual_geometry_operator.py)."
+  note: "Residual Tightening Wave v11.5 closes or tightens every open residual that is mathematically tractable inside the repository, names every residual that is not, and leaves all hardgate physics untouched. No hardgate label promoted; no falsifier window weakened."
 
 official_pillar_tracking_checkpoint:
-  latest_officially_tracked_pillar: 273
+  latest_officially_tracked_pillar: 281
   canonical_status_ledger: "STATUS.md"
   synced_recent_pillars:
     - 245
@@ -64,8 +81,16 @@ official_pillar_tracking_checkpoint:
     - 271
     - 272
     - 273
+    - 274
+    - 275
+    - 276
+    - 277
+    - 278
+    - 279
+    - 280
+    - 281
   sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
-  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 273, while preserving the frozen hardgate / adjacent-track separation. Pillar 273 is the Autonomous GitHub Community Steward, correctly separated from Pillar 259 (Residual Geometry Operator)."
+  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 281, including the v11.5 Residual Tightening Wave (274–281), while preserving the frozen hardgate / adjacent-track separation."
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:
