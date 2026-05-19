@@ -123,7 +123,15 @@ def _build_track_report(
 
 
 def execute_parallel_residual_tracks(outputs: Dict[str, Dict[str, object]] | None = None) -> Dict[str, object]:
-    """Execute/assemble the parallel multi-track residual sprint packet."""
+    """Execute/assemble the parallel multi-track residual sprint packet.
+
+    Parameters
+    ----------
+    outputs:
+        Optional precomputed sprint outputs from `_run_all_packets()`.
+        Passing this avoids recomputation when a caller already has a packet
+        (used by `execute_all_residual_sprints`).
+    """
     resolved_outputs = outputs if outputs is not None else _run_all_packets()
     statuses = _compute_statuses(resolved_outputs)
     track_reports = {

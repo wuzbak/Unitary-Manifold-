@@ -33,7 +33,7 @@ def test_execute_all_residual_sprints_shape():
     assert report["parallel_track_packet"]["execution_mode"] == "PARALLEL_MULTI_TRACK"
 
 
-def test_parallel_track_plan_matches_constant():
+def test_parallel_track_plan_contains_all_tracks():
     plan = parallel_track_execution_plan()
     assert {track_entry["id"] for track_entry in plan} == set(PARALLEL_TRACKS)
     for track_entry in plan:
