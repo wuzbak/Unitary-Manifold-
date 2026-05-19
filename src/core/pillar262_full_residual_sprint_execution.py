@@ -98,17 +98,28 @@ def _collect_closure_blockers(outputs: Dict[str, Dict[str, object]]) -> Dict[str
     return blockers
 
 
+def _compute_statuses(outputs: Dict[str, Dict[str, object]]) -> Dict[str, str]:
+    return {key: _status_bucket(key, value) for key, value in outputs.items()}
+
+
+def _build_track_report(
+    members: tuple[str, ...], statuses: Dict[str, str], outputs: Dict[str, Dict[str, object]]
+) -> Dict[str, object]:
+    track_statuses = {member: statuses[member] for member in members}
+    return {
+        "sprints": list(members),
+        "statuses": track_statuses,
+        "complete": all(member in outputs for member in members),
+    }
+
+
 def execute_parallel_residual_tracks() -> Dict[str, object]:
     outputs = _run_all_packets()
-    statuses = {key: _status_bucket(key, value) for key, value in outputs.items()}
-    track_reports: Dict[str, Dict[str, object]] = {}
-    for track_id, members in PARALLEL_TRACKS.items():
-        track_statuses = {member: statuses[member] for member in members}
-        track_reports[track_id] = {
-            "sprints": list(members),
-            "statuses": track_statuses,
-            "complete": all(member in outputs for member in members),
-        }
+    statuses = _compute_statuses(outputs)
+    track_reports = {
+        track_id: _build_track_report(members, statuses, outputs)
+        for track_id, members in PARALLEL_TRACKS.items()
+    }
     closure_blockers = _collect_closure_blockers(outputs)
     return {
         "adjacency_label": ADJACENCY_TRACK_LABEL,
@@ -124,7 +135,7 @@ def execute_parallel_residual_tracks() -> Dict[str, object]:
 
 def execute_all_residual_sprints() -> Dict[str, object]:
     outputs = _run_all_packets()
-    statuses = {key: _status_bucket(key, value) for key, value in outputs.items()}
+    statuses = _compute_statuses(outputs)
     formal = formal_proof_closure_certificate()
     parallel_packet = execute_parallel_residual_tracks()
 
