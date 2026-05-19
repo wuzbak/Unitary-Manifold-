@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.5 — Effective 2026-05-19*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.5 wave: Residual Tightening Wave — Pillars 274–281 deliver JUNO Δm²₃₁ NLO/seesaw closure, A3 Higgs Schwinger-regulator convergence, T3 ADM two-sector momentum-constraint extension, CMB peak suppression three-term decomposition, SC4 effective-flux multiplicity theorem, n_w Planck-free parity obstruction, SC2 c_UV-independent interval narrowing, and DESI DR3 publication-day routing drill; adjacent-track only, no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.6 — Effective 2026-05-19*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.6 wave: Convention 279.3 Derivation · CAMB CMB Chain Cross-Check · DESI DR3 Falsification Preparedness — Pillars 282–284 derive Convention 279.3 from the GW ground-state braid (Theorem 282.1 exact + Theorem 282.2 UV-brane Casimir), validate the CMB chain end-to-end analytically with CAMB parameter mapping, and formally declare the no-rescue status for the DESI wₐ dark energy sector with triple-checked tension numbers and a mandatory post-FALSIFIED protocol; adjacent-track only, no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,187 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
-*(v11.5: Residual Tightening Wave — Pillars 274–281 add 117 new tests over the v11.4 baseline of 34,070; no hardgate claim changes)*
+**Latest verified branch regression:** 34,280 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
+*(v11.6: Pillars 282–284 add 93 new tests over the v11.5 baseline of 34,187; no hardgate claim changes)*
 
 ---
 
@@ -328,8 +328,19 @@ Adjacent research pillars — not hard-gate physics claims, but honest quantitat
 | 279 | `src/core/pillar279_nw_parity_handedness_obstruction.py` | n_w Uniqueness Parity/Handedness Obstruction (Planck-free): K_CS = 74 unique sum-of-squares ⇒ {5,7}; Convention 279.3 (short-cycle primary) selects ordered (5,7) without invoking Planck nₛ; remaining residual named (cycle-ordering derivation) | 11 | 🔵 ADJACENT TRACK |
 | 280 | `src/core/pillar280_sc2_c_uv_independent_interval_narrowing.py` | SC2 c_UV-Independent Interval Narrowing: Theorem 280.1 intersects the original [4.2, 4.8]×10⁻¹⁰ α_GW band with the (1±ε_UV) Mukhanov–Sasaki tolerance band, achieving ≥40% width reduction at the canonical ε_UV = 0.04 | 14 | 🔵 ADJACENT TRACK |
 | 281 | `src/core/pillar281_desi_dr3_routing_drill.py` | DESI DR3 Routing Drill (3.2σ / 2.4σ / 1.8σ): synthetic DR3 inputs exercise the publication-day routing in `desi_dr3_publication_day_runbook` for all three verdict branches with mechanical idempotence checks and per-σ green-check receipts (also exported to `9-INFRASTRUCTURE/provenance/`) | 13 | 🔵 ADJACENT TRACK |
+| 282 | `src/core/pillar282_convention279_3_radion_derivation.py` | Convention 279.3 Derivation from GW Ground-State Braid: Theorem 282.1 (exact) proves n_w on short cycle minimises KK mass-squared for any R₁ < R₂; Theorem 282.2 (derived, conditional) proves R₂ > R₁ from UV-brane Casimir forces; upgrades Convention 279.3 from assertion to DERIVED result; remaining soft residual C_BRANE_FROM_5D_ACTION | 25 | 🔵 ADJACENT TRACK |
+| 283 | `src/core/pillar283_camb_cmb_chain_cross_check.py` | CAMB CMB Chain Cross-Check: five-step analytic validation (primordial spectrum → SW plateau → acoustic modulation → Silk damping → Planck Dℓ comparison); CAMB parameter mapping; braided c_s = 12/37 peak-shift quantification; CAMB soft-dependency report; chain_consistent gate | 32 | 🔵 ADJACENT TRACK |
+| 284 | `src/core/pillar284_desi_falsification_preparedness.py` | DESI DR3 Falsification Preparedness (No-Rescue Declaration): triple-checked DR2 tensions (2.07σ BAO-only, 2.75σ combined, machine-precision verified); exhaustive search over 6 UM rescue mechanisms (all ELIMINATED); DR3 all-scenario enumeration (16 scenarios); DR3 combined FALSIFIED projection (3.80σ); post-FALSIFIED 24-h mandatory protocol; DESI Y5 + Roman ST extended projection | 36 | 🔵 ADJACENT TRACK |
 
 Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
+
+### v11.6 Convention 279.3 Derivation · CAMB Cross-Check · DESI Preparedness Wave — Per-Residual Deltas
+
+| Residual / Gap | Before (v11.5) | After (v11.6) | New module |
+|----------------|----------------|---------------|------------|
+| SHORT_LONG_CYCLE_ASSIGNMENT_DERIVATION | Named open residual: Convention 279.3 asserted | DERIVED via Theorem 282.1 (exact algebraic) + Theorem 282.2 (UV-brane Casimir); remaining soft residual: C_BRANE_FROM_5D_ACTION (quantitative only) | Pillar 282 |
+| CAMB CMB chain cross-check | Not performed | Five-step analytic chain validation; CAMB parameter mapping complete; braided c_s correction documented | Pillar 283 |
+| DESI wₐ theoretical preparedness | Routing drilled; no exhaustive rescue search; no triple-checked numbers | Triple-checked (machine-precision); exhaustive rescue search (all ELIMINATED); no-rescue declaration; 16-scenario DR3 enumeration; 24-h post-FALSIFIED protocol | Pillar 284 |
 
 ### v11.5 Residual Tightening Wave — Per-Residual Deltas
 

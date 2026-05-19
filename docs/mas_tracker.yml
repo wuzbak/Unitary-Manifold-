@@ -1,4 +1,4 @@
-version: "v11.5"
+version: "v11.6"
 date: "2026-05-19"
 updated: "2026-05-19"
 mas_status: "COMPLETE"
@@ -18,11 +18,28 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.5"
-  regression: "34 187 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.6"
+  regression: "34 280 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+adjacent_track_checkpoint_v11_6:
+  version: "v11.6"
+  wave: "Convention 279.3 Derivation · CAMB CMB Chain Cross-Check · DESI DR3 Falsification Preparedness"
+  pillars_added:
+    - 282
+    - 283
+    - 284
+  new_tests_added: 93
+  per_residual_deltas:
+    SHORT_LONG_CYCLE_ASSIGNMENT_DERIVATION: "Pillar 282 — Theorems 282.1 (exact, zero free parameters) + 282.2 (UV-brane Casimir, conditional on RS1/KK UV localization) derive Convention 279.3 from geometry; residual upgraded OPEN→SOFT_OPEN; renamed C_BRANE_FROM_5D_ACTION"
+    CAMB_CMB_CHAIN_CROSS_CHECK: "Pillar 283 — Five-step analytic chain validation (primordial spectrum, SW plateau, acoustic modulation, Silk damping, Planck Dℓ comparison); CAMB parameter mapping; braided c_s peak-shift quantification; chain_consistent gate"
+    DESI_WA_THEORETICAL_PREPAREDNESS: "Pillar 284 — Triple-checked DR2 tensions (2.07σ BAO-only, 2.75σ combined, machine-precision); exhaustive rescue search (6 candidates, all ELIMINATED/NOT_IN_UM); formal no-rescue declaration; 16 DR3 scenarios; post-FALSIFIED mandatory 24-h protocol; DESI Y5 + Roman ST extended projection"
+  falsification_threshold: "σ ≥ 3.0 → FALSIFIED (unchanged)"
+  no_rescue_formal_declaration: "Pillar 284 is the first machine-verifiable no-rescue declaration for the DESI wₐ = 0 prediction"
+  status: "DELIVERED"
+  note: "v11.6 addresses the three highest-priority theoretical work items: Convention 279.3 derivation (closes the last qualitative residual in n_w uniqueness), CAMB CMB chain cross-check (validates the CMB prediction chain end-to-end analytically), and DESI theoretical preparedness (triple-checked numbers + exhaustive no-rescue + mandatory protocol). No hardgate label promoted; no falsifier window altered."
 
 adjacent_track_checkpoint:
   version: "v11.5"
@@ -50,7 +67,7 @@ adjacent_track_checkpoint:
   note: "Residual Tightening Wave v11.5 closes or tightens every open residual that is mathematically tractable inside the repository, names every residual that is not, and leaves all hardgate physics untouched. No hardgate label promoted; no falsifier window weakened."
 
 official_pillar_tracking_checkpoint:
-  latest_officially_tracked_pillar: 281
+  latest_officially_tracked_pillar: 284
   canonical_status_ledger: "STATUS.md"
   synced_recent_pillars:
     - 245
@@ -89,8 +106,11 @@ official_pillar_tracking_checkpoint:
     - 279
     - 280
     - 281
+    - 282
+    - 283
+    - 284
   sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
-  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 281, including the v11.5 Residual Tightening Wave (274–281), while preserving the frozen hardgate / adjacent-track separation."
+  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 284, including the v11.6 wave (282–284), while preserving the frozen hardgate / adjacent-track separation."
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:

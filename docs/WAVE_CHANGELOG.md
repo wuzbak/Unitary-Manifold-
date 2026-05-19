@@ -15,7 +15,88 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
-## v11.5 (2026-05-19 — Residual Tightening Wave)
+## v11.6 (2026-05-19 — Convention 279.3 Derivation · CAMB Cross-Check · DESI Preparedness)
+
+### What changed
+
+Three adjacent-track modules (Pillars 282–284) address the three highest-priority
+theoretical work items flagged in the v11.5 wave — Convention 279.3 derivation,
+CAMB CMB chain cross-check, and DESI DR3 falsification preparedness.
+
+| Residual / Gap | Before (v11.5) | After (v11.6) | Module |
+|----------------|----------------|---------------|--------|
+| SHORT_LONG_CYCLE_ASSIGNMENT_DERIVATION | Named open residual in Pillar 279: Convention 279.3 asserted, not derived | **Derived** via Theorem 282.1 (ground-state braid, exact algebra) + Theorem 282.2 (UV-brane Casimir forces R₁ < R₂). Residual upgraded from OPEN (qualitative) to SOFT OPEN (quantitative only: C_BRANE_FROM_5D_ACTION). Planck data not used. | Pillar 282 |
+| CAMB CMB chain cross-check | UM CMB observables documented but never validated end-to-end against CAMB parameter mapping | Five-step analytic chain validation: primordial spectrum → SW plateau → acoustic modulation → Silk damping → Dℓ comparison to Planck 2018 references. CAMB parameter mapping complete. Braided c_s peak shift documented and quantified. Soft CAMB dependency exposed via `camb_soft_dependency_report`. | Pillar 283 |
+| DESI wₐ theoretical preparedness | Routing drill (Pillar 281) mechanically tested; no triple-checked numbers, no exhaustive rescue search, no post-FALSIFIED protocol | Triple-checked DR2 tensions (2.07σ BAO-only, 2.75σ combined) verified to machine precision. Exhaustive search over all 6 UM rescue mechanisms: all ELIMINATED or NOT_IN_UM. Formal no-rescue declaration. DR3 all-scenario enumeration (16 scenarios). Post-FALSIFIED mandatory same-day protocol (6 actions in 24 h). DESI Y5 + Roman projections. | Pillar 284 |
+
+### Why
+
+The v11.5 wave named Convention 279.3 as the single remaining qualitative
+open residual in the n_w uniqueness proof.  Pillar 282 closes this qualitative
+gap: the derivation from GW stabilization + Casimir ground-state braid
+upgrades the residual from a named convention to a derived result.
+
+The CAMB CMB chain was the only UM CMB prediction that had never been
+validated end-to-end.  Pillar 283 delivers that validation analytically
+and exposes the CAMB parameter mapping for future numerical follow-up.
+
+The DESI wₐ threat is the most dangerous live falsification risk.  Pillar 284
+provides the triple-checked numbers, the exhaustive no-rescue search, and the
+mandatory post-FALSIFIED protocol — so that if DR3 falsifies the dark energy
+sector, the response is immediate, honest, and pre-planned.
+
+### Epistemic label deltas
+
+- **n_w uniqueness residual** advanced from OPEN (qualitative) to SOFT OPEN
+  (quantitative only).  The ordered selection (n_w, m_w) = (5, 7) is now
+  DERIVED from geometry (conditional on UV-brane gauge localization in RS1/KK,
+  which is a structural feature, not an additional assumption).
+- **FALLIBILITY.md Admission 1 (n_w)** updated to reflect the Pillar 282
+  derivation and the renamed soft residual C_BRANE_FROM_5D_ACTION.
+- **FALLIBILITY.md §4.4 (wₐ DESI)** expanded with the triple-checked numbers
+  and the formal no-rescue declaration from Pillar 284.
+- **CLAIM_MASTER_BOARD.md S2** updated to note Convention 279.3 is DERIVED.
+- **CLAIM_MASTER_BOARD.md T1** updated with the triple-checked DR2 σ values
+  and the Pillar 284 preparedness pointer.
+- No hardgate label promoted.  No falsifier window altered.
+- All three modules carry `🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT` headers
+  and explicit `separation_guard()` predicates.
+
+### TOE score delta
+
+- No change.  ToE score remains 28.0 / 28.  Convention 279.3 being DERIVED
+  does not promote the n_w uniqueness to a new score tier (it was already
+  contributing through Pillars 67 and 70-D).
+
+### Falsification impact
+
+- LiteBIRD birefringence window **unchanged**.
+- DESI DR3 wₐ falsifier threshold **unchanged** (σ ≥ 3.0 → FALSIFIED).
+- The no-rescue declaration in Pillar 284 is the first formal
+  machine-verifiable statement that no UM mechanism can produce wₐ ≠ 0 at
+  cosmologically relevant amplitude.
+- If DESI DR3 confirms wₐ ≈ −0.62 with σ_wₐ ≈ 0.18 (combined), the UM
+  dark energy sector (wₐ = 0, frozen radion) is FALSIFIED.  The SM
+  parameter derivations (n_s, r, gauge couplings, etc.) survive.
+
+### Residual unknowns
+
+- **C_BRANE_FROM_5D_ACTION** (soft open): derive c_brane from the 5D
+  gravitational action rather than treating it as O(1) natural units.  This
+  residual cannot reverse the n_w = 5 selection.
+- **CAMB numerical cross-check** (soft open): run CAMB with the UM parameter
+  set for a full numerical validation of the CMB chain (Pillar 283 provides
+  the analytic approximation and parameter mapping).
+- Real DESI DR3 publication (G3 stays HIGH_TENSION until ~2027).
+- LiteBIRD measurement (P23/P24 stay PENDING until ~2032).
+
+### Regression
+
+Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 280 passed, 393 skipped, 12 deselected, 0 failed** (+93 new tests over v11.5 baseline of 34 187).
+
+---
+
+
 
 ### What changed
 
