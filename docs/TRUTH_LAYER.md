@@ -8,7 +8,7 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-05-19 (v11.4 Pillar 273 registration correction + canonical freshness sync)*
+*Last updated: 2026-05-19 (v11.5 Residual Tightening Wave — Pillars 274–281; ADM non-perturbative gap documented; JUNO/α_s monitoring updated)*
 
 ---
 
@@ -205,6 +205,10 @@ pair, and each has a residual uncertainty or documented gap:
   for sin²θ₁₂ was retired in v10.27 as incomplete GUT BC — this was a genuine
   correction, not a promotion.
 
+**JUNO risk (P17 — Δm²₃₁):** At JUNO 0.5% precision (~2027) the current 2.18%
+gap projects to ~4.4σ — FALSIFIED unless Pillar 274 NLO+seesaw corrections
+reduce the residual below 0.5%.
+
 ### Parameters promoted in v10.33 (DERIVED certifications)
 
 **14 parameters promoted GEOMETRIC_PREDICTION → DERIVED** (+0.2 pts each):
@@ -342,6 +346,15 @@ full constraint monitor in `adm_engine.py`. What remains open is the
 non-perturbative inhomogeneous / Wheeler–DeWitt lane, not the perturbative
 ADM/BSSN closure packet.
 
+**Canonical status note (v11.5):** The kinematic, reduced-sector BSSN, and
+linearized inhomogeneous closure lanes are now executable (Pillars 212, 263, 268).
+The remaining open gap is the **non-perturbative inhomogeneous / Wheeler–DeWitt
+quantization** of the 5D-KK system. This is not a small technical detail — it is
+the gap between a quantitative classical ADM treatment and a genuine quantum-gravity
+arrow-of-time proof. Classified STRUCTURAL per FALLIBILITY.md §IV severity
+convention. Expected to remain open until a dedicated non-perturbative KK
+quantization program is undertaken.
+
 **Canonical status tokens (single-source sync with `FALLIBILITY.md` and `1-THEORY/DERIVATION_STATUS.md`):**
 - `ADM_STATUS_CANONICAL: KINEMATIC_AND_LINEARIZED_DYNAMICAL_CLOSED`
 - `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_ZERO_MODE_CLOSED_HIERARCHY_OPEN`
@@ -455,9 +468,15 @@ details." They are real gaps.
    the deep light-generation hierarchy (why y_t ≫ y_e by factor ~300,000) is
    still not closed from a single c_L / Yukawa-scale theorem.
 
-6. **ADM time quantization:** kinematic, reduced-sector, and linearized
-   inhomogeneous closure are now executable; non-perturbative inhomogeneous
-   quantization remains open.
+6. **ADM time quantization (STRUCTURAL):** kinematic, reduced-sector, and
+   linearized inhomogeneous closure are now executable (Pillars 212, 263, 268);
+   the remaining open gap is the **non-perturbative inhomogeneous /
+   Wheeler–DeWitt quantization** of the full 5D-KK system. This is the gap
+   between a quantitative classical ADM treatment and a genuine quantum-gravity
+   arrow-of-time proof — a genuinely hard open problem, not a paperwork item.
+   Classified STRUCTURAL per FALLIBILITY.md §IV severity convention. No
+   timeline; requires a dedicated non-perturbative KK quantization research
+   program.
 
 7. **KK reduction completeness boundary:** bosonic KK reduction is closed and
    fermion zero-mode / orbifold closure is now executable; the remaining open
