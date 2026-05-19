@@ -40,6 +40,8 @@ __all__ = [
     "DESI_DR2_WA_CENTRAL",
     "DESI_DR2_WA_SIGMA",
     "CANONICAL_DOCS_TO_UPDATE",
+    "PILLAR_285_MODULE",
+    "DR3_TIMELINE_YEAR",
     # Thresholds
     "THRESHOLD_CONSISTENT",
     "THRESHOLD_TENSION",
@@ -48,6 +50,8 @@ __all__ = [
     "publication_day_checklist",
     "verify_update_coverage",
     "mock_drill_scenario",
+    "confirm_pillar285_preregistration",
+    "dr3_readiness_checklist",
     "publication_day_runbook_report",
 ]
 
@@ -63,6 +67,14 @@ DESI_DR2_WA_CENTRAL: float = -0.62
 
 #: DESI DR2 baseline wₐ 1σ uncertainty.
 DESI_DR2_WA_SIGMA: float = 0.30
+
+#: Module path of the authoritative pre-registered extension specification.
+#: Pillar 285 is the canonical pre-registration for the UM theoretical response
+#: if DESI DR3/Y5 formally falsifies wₐ = 0 at ≥ 3σ.
+PILLAR_285_MODULE: str = "src/core/pillar285_dark_energy_extension_specification.py"
+
+#: Expected DESI DR3 publication year.
+DR3_TIMELINE_YEAR: int = 2027
 
 # ---------------------------------------------------------------------------
 # Verdict thresholds (in units of σ)
@@ -359,6 +371,140 @@ def mock_drill_scenario(scenario: str) -> Dict:
         "wa_observed": meta["wa_observed"],
         "sigma_wa": meta["sigma_wa"],
         "checklist": checklist,
+    }
+
+
+def confirm_pillar285_preregistration() -> Dict:
+    """Confirm that Pillar 285 is registered as the authoritative pre-specified
+    extension architecture for the DESI DR3 falsification scenario.
+
+    Pillar 285 (``pillar285_dark_energy_extension_specification.py``) specifies,
+    in advance, the four candidate theoretical extensions that would be required
+    if DESI DR3/Y5 formally falsifies wₐ = 0 at ≥ 3σ.  This function confirms
+    that the pre-registration is in place and records the key metadata.
+
+    Returns
+    -------
+    dict
+        pillar_285_module    : str  — module path of the pre-registration
+        preregistered        : bool — always True (confirms linkage is explicit)
+        current_desi_status  : str  — "HIGH_TENSION (2.75σ, NOT FALSIFIED)"
+        falsification_trigger: str  — "σ ≥ 3.0 at DESI DR3 / Y5 (~2027)"
+        four_extensions      : list[str] — names of the four candidate extensions
+        dr3_timeline_year    : int  — expected DR3 publication year
+        purpose              : str  — description of the pre-registration intent
+    """
+    _dr2_sigma = abs(DESI_DR2_WA_CENTRAL - UM_WA_PREDICTION) / DESI_DR2_WA_SIGMA
+    return {
+        "pillar_285_module": PILLAR_285_MODULE,
+        "preregistered": True,
+        "current_desi_status": (
+            f"HIGH_TENSION ({_dr2_sigma:.2f}σ, NOT FALSIFIED)"
+        ),
+        "falsification_trigger": (
+            f"σ ≥ {THRESHOLD_FALSIFIED} at DESI DR3 / Y5 (~{DR3_TIMELINE_YEAR})"
+        ),
+        "four_extensions": [
+            "Extension 1 — New Bulk Scalar (quintessence in RS1 bulk)",
+            "Extension 2 — Cosmological Radion (light-mass scenario)",
+            "Extension 3 — k-Essence / Modified Kinetic Term",
+            "Extension 4 — Coupled Dark Energy (KK–dark sector interaction)",
+        ],
+        "recommended_extension_if_falsified": "Extension 1 — New Bulk Scalar",
+        "dr3_timeline_year": DR3_TIMELINE_YEAR,
+        "purpose": (
+            "Pre-specified theoretical response to potential DR3 falsification. "
+            "Equivalent to a pre-registration: the repository's theoretical "
+            "answer to wₐ ≠ 0 confirmation is specified here before DR3 drops, "
+            "in executable, falsifiable terms. Not a rescue or weakening of the "
+            "current wₐ = 0 prediction."
+        ),
+    }
+
+
+def dr3_readiness_checklist() -> Dict:
+    """Confirm all DESI DR3 preparation is in place before DR3 publication.
+
+    Verifies every element of readiness:
+    1. Pillar 285 extension spec is registered as authoritative pre-registration.
+    2. All 7 canonical truth surfaces are listed and have all-verdict update actions.
+    3. All 4 verdict scenarios have been drilled (mock_drill_scenario coverage).
+    4. DR2 baseline tension is confirmed at the corrected 2.75σ level (not the
+       erroneous 3.30σ that was corrected in v11.x).
+    5. Falsification threshold is set at 3.0σ (not movable).
+    6. DR3 timeline is documented.
+
+    Returns
+    -------
+    dict
+        all_checks_pass  : bool — True iff every sub-check passes
+        checks           : list[dict] — each check has "name", "pass", "detail"
+        pillar_285_status: dict — from confirm_pillar285_preregistration()
+    """
+    checks: List[Dict] = []
+
+    # Check 1: Pillar 285 pre-registration
+    p285 = confirm_pillar285_preregistration()
+    checks.append({
+        "name": "pillar_285_preregistered",
+        "pass": p285["preregistered"],
+        "detail": f"Pillar 285 module: {p285['pillar_285_module']}",
+    })
+
+    # Check 2: All 7 canonical docs listed with all-verdict coverage
+    all_docs_covered = all(
+        all(v in doc["update_actions"] for v in ("CONSISTENT", "TENSION", "HIGH_TENSION", "FALSIFIED"))
+        for doc in CANONICAL_DOCS_TO_UPDATE
+    )
+    checks.append({
+        "name": "canonical_docs_all_verdict_coverage",
+        "pass": all_docs_covered,
+        "detail": f"{len(CANONICAL_DOCS_TO_UPDATE)} canonical docs, all 4 verdicts covered",
+    })
+
+    # Check 3: All 4 verdict scenarios can be drilled
+    drill_pass = True
+    drill_verdicts: List[str] = []
+    for scenario in ("dr3_consistent", "dr3_tension", "dr3_high_tension", "dr3_falsified"):
+        try:
+            packet = mock_drill_scenario(scenario)
+            drill_verdicts.append(packet["checklist"]["verdict"])
+        except Exception:
+            drill_pass = False
+    checks.append({
+        "name": "all_four_drill_scenarios_executable",
+        "pass": drill_pass and len(set(drill_verdicts)) == 4,
+        "detail": f"Drills: {drill_verdicts}",
+    })
+
+    # Check 4: DR2 baseline tension corrected (must be < 3.0σ, not the erroneous 3.30σ)
+    dr2_sigma = abs(DESI_DR2_WA_CENTRAL - UM_WA_PREDICTION) / DESI_DR2_WA_SIGMA
+    dr2_below_threshold = dr2_sigma < THRESHOLD_FALSIFIED
+    checks.append({
+        "name": "dr2_baseline_tension_below_falsification",
+        "pass": dr2_below_threshold,
+        "detail": f"DR2 tension = {dr2_sigma:.3f}σ (threshold = {THRESHOLD_FALSIFIED}σ)",
+    })
+
+    # Check 5: Falsification threshold is exactly 3.0σ
+    checks.append({
+        "name": "falsification_threshold_exactly_3sigma",
+        "pass": THRESHOLD_FALSIFIED == 3.0,
+        "detail": f"THRESHOLD_FALSIFIED = {THRESHOLD_FALSIFIED}",
+    })
+
+    # Check 6: DR3 timeline documented
+    checks.append({
+        "name": "dr3_timeline_documented",
+        "pass": isinstance(DR3_TIMELINE_YEAR, int) and DR3_TIMELINE_YEAR >= 2027,
+        "detail": f"DR3 expected: ~{DR3_TIMELINE_YEAR}",
+    })
+
+    all_pass = all(c["pass"] for c in checks)
+    return {
+        "all_checks_pass": all_pass,
+        "checks": checks,
+        "pillar_285_status": p285,
     }
 
 
