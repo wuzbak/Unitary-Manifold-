@@ -199,9 +199,9 @@ This apparent contradiction is resolved as follows — B_μ and the photon are *
 | η-invariant class uniqueness for n_w = 5 | **CLOSED — Pillar 70-D** | Z₂-odd CS boundary phase condition: k_CS(n_w)×η̄(n_w) = odd integer. n_w=5: 74×½=37 (odd ✓). n_w=7: 130×0=0 (even ✗). Pure theorem. See `src/core/nw5_pure_theorem.py`. |
 
 **Canonical status tokens (single-source sync with `FALLIBILITY.md` and `docs/TRUTH_LAYER.md`):**
-- `ADM_STATUS_CANONICAL: KINEMATIC_CLOSED_DYNAMICAL_OPEN`
-- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN`
-- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: HARDGATE_TRACK_OPEN`
+- `ADM_STATUS_CANONICAL: KINEMATIC_AND_LINEARIZED_DYNAMICAL_CLOSED`
+- `KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_ZERO_MODE_CLOSED_HIERARCHY_OPEN`
+- `ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: EXECUTABLE_EQUIVALENCE_CLOSED`
 
 ---
 

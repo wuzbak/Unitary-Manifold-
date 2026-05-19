@@ -1,10 +1,10 @@
 {
   "version": "v10.59",
-  "updated": "2026-05-15",
+  "updated": "2026-05-18",
   "canonical_status_tokens": {
-    "adm": "ADM_STATUS_CANONICAL: KINEMATIC_CLOSED_DYNAMICAL_OPEN",
-    "kk": "KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_OPEN",
-    "orbifold": "ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: HARDGATE_TRACK_OPEN"
+    "adm": "ADM_STATUS_CANONICAL: KINEMATIC_AND_LINEARIZED_DYNAMICAL_CLOSED",
+    "kk": "KK_REDUCTION_STATUS_CANONICAL: BOSONIC_CLOSED_FERMION_ZERO_MODE_CLOSED_HIERARCHY_OPEN",
+    "orbifold": "ORBIFOLD_EQUIVALENCE_STATUS_CANONICAL: EXECUTABLE_EQUIVALENCE_CLOSED"
   },
   "gates": [
     {
@@ -59,14 +59,16 @@
     },
     {
       "key": "ORBIFOLD_EQUIVALENCE_5D",
-      "status": "HARDGATE_TRACK_OPEN",
+      "status": "CLOSED",
       "required_artifacts": [
         "src/core/su5_orbifold_proof.py",
-        "src/core/nw5_pure_theorem.py"
+        "src/core/nw5_pure_theorem.py",
+        "src/core/pillar270_orbifold_kawamura_equivalence.py"
       ],
       "required_tests": [
         "tests/test_su5_orbifold_proof.py",
-        "tests/test_nw5_pure_theorem.py"
+        "tests/test_nw5_pure_theorem.py",
+        "tests/test_pillar270_orbifold_kawamura_equivalence.py"
       ],
       "falsifier": "Internal UM orbifold route fails equivalence with Kawamura projection spectrum.",
       "promotion_rule": "Promote only when internal-geometry orbifold equivalence is proven and independently reproduced.",

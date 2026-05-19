@@ -262,7 +262,7 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Adjacent Research Tracks (Pillars 218–262)
+### Adjacent Research Tracks (Pillars 218–272)
 
 Adjacent research pillars — not hard-gate physics claims, but honest quantitative explorations, closure-support lanes, and domain/application syntheses that extend the Unitary Manifold without changing the frozen core pillar set. Each ships a source module and full test suite.
 
@@ -309,6 +309,16 @@ Adjacent research pillars — not hard-gate physics claims, but honest quantitat
 | 260 | `src/core/pillar260_falsifier_decision_algebra.py` | Falsifier Decision Algebra: executable LiteBIRD / DESI / JUNO / CMB-S4 boundary margins and routing logic with no weakening of existing thresholds | 6 | 🔵 ADJACENT TRACK |
 | 261 | `src/core/pillar261_foundational_boundary_hardening.py` | Foundational Boundary Hardening: machine-readable blocker/no-go registry for the remaining hardgate boundaries (ADM dynamical closure, KK fermion reduction, orbifold equivalence, braided referee dossier) | 3 | 🔵 ADJACENT TRACK |
 | 262 | `src/core/pillar262_full_residual_sprint_execution.py` | Full Residual Sprint Execution Engine: ordered execution and integrated certification of T3 → A3 → SC2 → SC4 → residual geometry → falsifier decision algebra → foundational boundary hardening | 2 | 🔵 ADJACENT TRACK |
+| 263 | `src/core/pillar263_bssn_kk_extrinsic_curvature.py` | BSSN KK Extrinsic Curvature Dynamics: executable 5D→4D reduced-sector BSSN closure layer with KK source terms, conformal variables, and quantitative constraint checks | 56 | 🔵 ADJACENT TRACK |
+| 264 | `src/core/pillar264_higgs_naturalness_two_loop_uv.py` | Higgs Naturalness Two-Loop UV Audit: explicit two-loop and UV-sensitivity hardening for the Higgs hierarchy / naturalness lane without changing score-lane labels | 49 | 🔵 ADJACENT TRACK |
+| 265 | `src/core/pillar265_mukhanov_sasaki_as_closure.py` | Mukhanov-Sasaki A_s Closure: full scalar-power-spectrum normalization lane in the braided KK slow-roll background with explicit transfer-normalization tension accounting | 39 | 🔵 ADJACENT TRACK |
+| 266 | `src/core/pillar266_desi_wa_frozen_radion.py` | DESI Frozen-Radion wₐ Bound: quantitative frozen-radion upper bound, current DESI DR2/Y3 tension, and Y5 falsification projection in one executable packet | 27 | 🔵 ADJACENT TRACK |
+| 267 | `src/core/pillar267_braid_uniqueness_instanton.py` | Braid-Pair Uniqueness Instanton Audit: coprime-pair enumeration, three-constraint funnel, χ² ranking, and explicit remaining theorem-level gap statement for the (5,7) braid | 31 | 🔵 ADJACENT TRACK |
+| 268 | `src/core/pillar268_adm_inhomogeneous_linearized_closure.py` | ADM Linearized Inhomogeneous Closure Audit: executable perturbative inhomogeneous scans extending the ADM/BSSN lane beyond pure kinematics while leaving non-perturbative quantization explicit | 4 | 🔵 ADJACENT TRACK |
+| 269 | `src/core/pillar269_fermion_kk_sector_closure.py` | Fermion KK Sector Closure Packet: consolidated zero-mode/index/orbifold/anchor-elimination audit that closes the fermion zero-mode lane while honestly leaving the absolute hierarchy open | 3 | 🔵 ADJACENT TRACK |
+| 270 | `src/core/pillar270_orbifold_kawamura_equivalence.py` | Orbifold/Kawamura Equivalence Hardening: executable parity-matrix and spectrum equivalence checks between the UM winding-derived orbifold route and the canonical SU(5)/Z₂ projection | 3 | 🔵 ADJACENT TRACK |
+| 271 | `src/core/pillar271_flavor_higgs_first_principles_chain.py` | Unified Flavor + Higgs First-Principles Chain: consolidated topology-driven packet for Yukawas, CKM ρ̄, PMNS angles, and Higgs mass from the derived top Yukawa | 3 | 🔵 ADJACENT TRACK |
+| 272 | `src/core/pillar272_alpha_s_basin_hardening.py` | α_s Basin Hardening: multi-parameter Kähler / complex-structure / flux basin scan around the canonical 10D α_s point with explicit outer-edge tension flags | 3 | 🔵 ADJACENT TRACK |
 
 Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
 

@@ -26,14 +26,14 @@ public_surface_sync_checkpoint:
 
 adjacent_track_checkpoint:
   version: "v11.3"
-  pillar: 262
-  artifact: "src/core/pillar262_full_residual_sprint_execution.py"
-  test: "tests/test_pillar262_full_residual_sprint_execution.py"
+  pillar: 272
+  artifact: "src/core/pillar272_alpha_s_basin_hardening.py"
+  test: "tests/test_pillar272_alpha_s_basin_hardening.py"
   status: "DELIVERED"
-  note: "Ordered residual sprint execution now extends the adjacent hardening lane through Pillar 262: residual geometry operator, falsifier decision algebra, foundational boundary hardening, and a single execution/certification engine that runs the full sprint stack in sequence without changing hardgate claims."
+  note: "The adjacent hardening lane now extends through Pillar 272: reduced-sector and linearized ADM closure support, fermion KK consolidation, orbifold-equivalence hardening, unified flavor+Higgs chaining, and multi-parameter α_s basin robustness."
 
 official_pillar_tracking_checkpoint:
-  latest_officially_tracked_pillar: 262
+  latest_officially_tracked_pillar: 272
   canonical_status_ledger: "STATUS.md"
   synced_recent_pillars:
     - 245
@@ -53,8 +53,18 @@ official_pillar_tracking_checkpoint:
     - 260
     - 261
     - 262
+    - 263
+    - 264
+    - 265
+    - 266
+    - 267
+    - 268
+    - 269
+    - 270
+    - 271
+    - 272
   sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
-  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 262, while preserving the frozen hardgate / adjacent-track separation."
+  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 272, while preserving the frozen hardgate / adjacent-track separation."
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:
