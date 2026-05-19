@@ -254,14 +254,24 @@ def two_radius_gw_potential(
 
     The effective potential including winding back-reaction is:
 
-        V_eff_a(R_a) = V_a(R_a) + n_w_a² / R_a²
-        V_eff_b(R_b) = V_b(R_b) + n_w_b² / R_b²
+        V_eff(R; n) = V(R) + n²/R²
 
-    The effective minimum R_a_eff_min < phi0 (shifted down) because
-    the winding correction dV_winding/dR = -2n²/R³ < 0 pulls the minimum
-    toward smaller R, but its magnitude n²/R³ is larger for the cycle with
-    MORE winding.  Hence the m_w=7 cycle sits further above phi0, while the
-    n_w=5 cycle sits closer to (or at) phi0.
+    The effective minimum satisfies dV_eff/dR = 0:
+
+        4λR(R²−φ₀²) − 2n²/R³ = 0
+
+    At R = φ₀ the bare GW term vanishes, leaving dV_eff/dR = −2n²/R³ < 0,
+    so the true minimum lies at R_eff_min > φ₀.  The shift above φ₀ is LARGER
+    for MORE windings (larger n) because the winding force 2n²/R³ has a larger
+    absolute value, requiring the GW restoring term to grow further to balance
+    it.  Hence:
+
+        n_w_b = 7  ⇒  R_b_eff_min > R_a_eff_min  (n_w_a = 5)
+
+    The cycle with MORE winding (m_w = 7) preferentially sits at LARGER R
+    to minimize winding tension.  The cycle with fewer windings (n_w = 5)
+    sits at SMALLER R.  Therefore n_w = 5 occupies the short cycle — not
+    by convention, but by the energetics of the GW + winding system.
 
     Returns a dict with all intermediate quantities and the effective minima.
     """
@@ -336,10 +346,11 @@ def convention_279_3_derivation_attempt() -> Dict[str, object]:
             V_eff(R; n) = λ(R² − φ₀²)² + n²/R²
         Setting dV_eff/dR = 0:
             4λR(R² − φ₀²) − 2n²/R³ = 0
-        For n > 0 the winding correction adds a POSITIVE contribution that
-        shifts the effective minimum downward from φ₀.  The shift is LARGER
-        for MORE windings (larger n) because dV_winding/dR = −2n²/R³ has a
-        bigger magnitude.
+        At R = φ₀ the GW term vanishes, leaving dV_eff/dR = −2n²/R³ < 0,
+        so the true minimum lies at R_eff_min > φ₀.  The shift ABOVE φ₀ is
+        LARGER for MORE windings (larger n) because the winding force 2n²/R³
+        has larger absolute value, requiring the GW restoring term to grow
+        further to achieve balance.
 
     Step 3 — Asymmetry:
         With n_w_a = 5 (fewer windings) and n_w_b = 7 (more windings):
@@ -372,8 +383,9 @@ def convention_279_3_derivation_attempt() -> Dict[str, object]:
         "Step 1 — GW potential: V(R) = λ(R²−φ₀²)². Bare minimum at R_min = φ₀ "
         "for BOTH cycles. No asymmetry in the separable limit.",
         "Step 2 — Winding back-reaction: E_winding(n,R) ~ n²/R². The effective "
-        "potential V_eff(R;n) = λ(R²−φ₀²)² + n²/R² has its minimum shifted "
-        "downward from φ₀ by an amount that GROWS with n.",
+        "potential V_eff(R;n) = λ(R²−φ₀²)² + n²/R² has dV_eff/dR = −2n²/R³ < 0 "
+        "at R = φ₀, so the true minimum lies ABOVE φ₀ (at larger R). The shift "
+        "above φ₀ grows with n because the winding force has larger absolute value.",
         "Step 3 — Physical interpretation: a cycle with MORE winding modes must "
         "sit at LARGER R to minimize winding tension. With n_w_a=5, n_w_b=7: "
         f"R_a_eff_min ≈ {R_a_min:.6f}, R_b_eff_min ≈ {R_b_min:.6f}. "
