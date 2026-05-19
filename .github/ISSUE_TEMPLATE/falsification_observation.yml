@@ -1,0 +1,35 @@
+name: Falsification / observation ingest
+about: Submit new observational values that may change PASS/TENSION/FALSIFIED routing.
+title: "[Observation] "
+labels: [observation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚖️ Epistemic boundary reminder: observational ingest updates verdict routing; it does not by itself promote hardgate claims.
+  - type: input
+    id: experiment
+    attributes:
+      label: Experiment / release
+      placeholder: LiteBIRD, DESI DR3, CMB-S4, JUNO, Hyper-K
+    validations:
+      required: true
+  - type: textarea
+    id: values
+    attributes:
+      label: Measured values with uncertainties
+      description: Provide numeric values and 1σ uncertainties.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source citation
+      placeholder: arXiv / DOI / collaboration release
+    validations:
+      required: true
+  - type: textarea
+    id: requested
+    attributes:
+      label: Requested routing action
+      description: Which modules/docs should be synced same day?

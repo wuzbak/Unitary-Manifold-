@@ -1,0 +1,21 @@
+title: "Observational Updates"
+labels: [observation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for new data releases and routing implications.
+  - type: input
+    id: release
+    attributes:
+      label: Release
+      placeholder: DESI DR3 / LiteBIRD / CMB-S4 / JUNO / Hyper-K
+    validations:
+      required: true
+  - type: textarea
+    id: values
+    attributes:
+      label: Measurement packet
+      description: Values, uncertainty, and source links.
+    validations:
+      required: true

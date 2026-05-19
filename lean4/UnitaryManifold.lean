@@ -1,3 +1,7 @@
 import UnitaryManifold.Basic
 import UnitaryManifold.NumericalChecks
 import UnitaryManifold.Extended
+
+import UnitaryManifold.BraidUniqueness
+import UnitaryManifold.KCSTopological
+import UnitaryManifold.FalsifierBoundary

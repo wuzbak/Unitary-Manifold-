@@ -41,7 +41,10 @@ GitHub Copilot (AI).
 """
 from __future__ import annotations
 
+import argparse
+import json
 import math
+from pathlib import Path
 from typing import Dict, List, Optional
 
 __all__ = [
@@ -62,6 +65,9 @@ __all__ = [
     "falsification_verdict",
     "monitoring_report",
     "desi_year3_placeholder",
+    "load_mock_payloads",
+    "desi_year3_dry_run",
+    "cli",
 ]
 
 # ---------------------------------------------------------------------------
@@ -86,6 +92,8 @@ MONITOR_INTEGRATION_TARGETS: List[str] = [
     "3-FALSIFICATION/OBSERVATION_TRACKER.md",
     "src/core/canonical_falsifier_evidence_feed.py",
 ]
+
+MOCK_PAYLOAD_PATH = Path(__file__).resolve().parents[2] / "data" / "desi" / "mock_dr3_payloads.json"
 
 REQUIRED_RELEASE_FIELDS: List[str] = [
     "release_name",
@@ -613,3 +621,56 @@ def desi_year3_placeholder() -> Dict:
         ),
         "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
     }
+
+def load_mock_payloads(path: Optional[str] = None) -> List[Dict[str, object]]:
+    """Load DESI DR3 mock payloads from JSON."""
+    payload_path = Path(path) if path else MOCK_PAYLOAD_PATH
+    data = json.loads(payload_path.read_text(encoding="utf-8"))
+    if not isinstance(data, list):
+        raise ValueError("Mock payload file must contain a JSON list.")
+    return [dict(row) for row in data]
+
+
+def desi_year3_dry_run(path: Optional[str] = None) -> Dict[str, object]:
+    """Execute strict ingest over mock payloads and return route summary."""
+    payloads = load_mock_payloads(path)
+    packets = [release_day_decision_packet(dict(payload)) for payload in payloads]
+    route_counts: Dict[str, int] = {"PASS": 0, "TENSION": 0, "FALSIFIED": 0}
+    for packet in packets:
+        route = str(packet["route"])
+        route_counts[route] = route_counts.get(route, 0) + 1
+    return {
+        "pipeline": "DESI_Y3_DRY_RUN",
+        "input_payload_count": len(payloads),
+        "route_counts": route_counts,
+        "packets": packets,
+        "all_routes_present": all(route_counts.get(k, 0) > 0 for k in ("PASS", "TENSION", "FALSIFIED")),
+    }
+
+
+def cli(argv: Optional[List[str]] = None) -> Dict[str, object]:
+    """CLI entrypoint for dry-run and direct routing modes."""
+    parser = argparse.ArgumentParser(description="DESI Year 3 monitoring and routing")
+    parser.add_argument("--dry-run", action="store_true", help="Run mock-drill payload file through strict ingest")
+    parser.add_argument("--mock-file", type=str, default=None, help="Optional mock JSON file path")
+    parser.add_argument("--wa", type=float, default=None, help="Direct w_a value for route_desi_y3")
+    parser.add_argument("--sigma", type=float, default=None, help="Direct sigma for route_desi_y3")
+    parser.add_argument("--json", action="store_true", help="Print JSON output")
+    args = parser.parse_args(argv)
+
+    if args.dry_run:
+        result = desi_year3_dry_run(args.mock_file)
+    elif args.wa is not None and args.sigma is not None:
+        result = route_desi_y3(args.wa, args.sigma)
+    else:
+        result = monitoring_report()
+
+    if args.json:
+        print(json.dumps(result, indent=2, sort_keys=True))
+    else:
+        print(result)
+    return result
+
+
+if __name__ == "__main__":
+    cli()
