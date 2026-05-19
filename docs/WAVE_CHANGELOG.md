@@ -15,6 +15,40 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.6 (2026-05-19 — Environment Hardening)
+
+### What changed
+
+Fixed `.github/copilot-setup-steps.yml` to install from `requirements.txt` instead of a hard-coded partial list. This resolves the 6 pre-existing collection errors caused by `sympy` being absent from the sandbox despite being declared in `requirements.txt`. The 6 affected test files (`test_contract_library_extended.py`, `test_formal_proof_hardening.py`, `test_neural_symbolic_drift_check.py`, `test_parity_suite.py`, `test_pillar254_monograph_irreversibility_validation_certification_engine.py`, `test_symbolic_metric.py`) contribute 215 tests that now collect and pass.
+
+| Metric | v11.5 | v11.6 |
+|--------|-------|-------|
+| Passing tests | 34,187 | 34,267 |
+| Collection errors | 6 | 0 |
+| Failures | 0 | 0 |
+
+### Why
+
+Full repository functionality requires all declared dependencies to be installed in every environment where tests run. The copilot setup steps were manually curated and drifted out of sync with `requirements.txt`.
+
+### Epistemic label deltas
+
+None — no physics modules changed.
+
+### TOE score delta
+
+None.
+
+### Falsification impact
+
+None.
+
+### Residual unknowns
+
+None introduced.
+
+---
+
 ## v11.5 (2026-05-19 — Residual Tightening Wave)
 
 ### What changed
@@ -103,7 +137,7 @@ explicitly out of scope per plan §D):
 
 ### Regression
 
-Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 187 passed, 393 skipped, 12 deselected, 0 failed** (+117 new tests over v11.4 baseline of 34 070).
+Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 187 passed, 393 skipped, 12 deselected, 0 failed** (+117 new tests over v11.4 baseline of 34 070; upgraded to 34 267 in v11.6).
 
 ---
 

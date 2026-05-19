@@ -1,4 +1,4 @@
-version: "v11.5"
+version: "v11.6"
 date: "2026-05-19"
 updated: "2026-05-19"
 mas_status: "COMPLETE"
@@ -18,8 +18,8 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.5"
-  regression: "34 187 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.6"
+  regression: "34 267 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
