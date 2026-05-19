@@ -16,7 +16,7 @@ _SUPPORTED = {"DESI", "LITEBIRD", "CMB-S4", "JUNO", "HYPER-K"}
 def route_observation_packet(experiment: str, sigma: float, in_window: bool) -> Dict[str, object]:
     exp = experiment.strip().upper()
     if exp not in _SUPPORTED:
-        raise ValueError(f"Unsupported experiment: {experiment}")
+        raise ValueError(f"Unsupported experiment: input={experiment!r}, normalized={exp!r}, supported={sorted(_SUPPORTED)}")
     if sigma < 0:
         raise ValueError("sigma must be non-negative")
 

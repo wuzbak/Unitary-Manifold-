@@ -45,7 +45,7 @@ import argparse
 import json
 import math
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 __all__ = [
     # Baseline data
@@ -622,16 +622,21 @@ def desi_year3_placeholder() -> Dict:
         "integration_targets": list(MONITOR_INTEGRATION_TARGETS),
     }
 
-def load_mock_payloads(path: Optional[str] = None) -> List[Dict[str, object]]:
+def load_mock_payloads(path: Optional[Union[str, Path]] = None) -> List[Dict[str, Any]]:
     """Load DESI DR3 mock payloads from JSON."""
     payload_path = Path(path) if path else MOCK_PAYLOAD_PATH
-    data = json.loads(payload_path.read_text(encoding="utf-8"))
+    if not payload_path.exists():
+        raise FileNotFoundError(f"Mock payload file not found: {payload_path}")
+    try:
+        data = json.loads(payload_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Invalid JSON in mock payload file: {payload_path}") from exc
     if not isinstance(data, list):
-        raise ValueError("Mock payload file must contain a JSON list.")
+        raise ValueError(f"Mock payload file must contain a JSON list: {payload_path}")
     return [dict(row) for row in data]
 
 
-def desi_year3_dry_run(path: Optional[str] = None) -> Dict[str, object]:
+def desi_year3_dry_run(path: Optional[Union[str, Path]] = None) -> Dict[str, Any]:
     """Execute strict ingest over mock payloads and return route summary."""
     payloads = load_mock_payloads(path)
     packets = [release_day_decision_packet(dict(payload)) for payload in payloads]

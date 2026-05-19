@@ -58,16 +58,19 @@ jobs:
           from pathlib import Path
           from src.core.desi_year3_monitor import release_day_decision_packet
 
-          payload = {
-              "release_name": "${{ inputs.release_name }}",
-              "year": int("${{ inputs.year }}"),
-              "w0_central": float("${{ inputs.w0_central }}"),
-              "w0_sigma": float("${{ inputs.w0_sigma }}"),
-              "wa_central": float("${{ inputs.wa_central }}"),
-              "wa_sigma": float("${{ inputs.wa_sigma }}"),
-              "reference": "${{ inputs.reference }}",
-              "datasets": "${{ inputs.datasets }}",
-          }
+          try:
+              payload = {
+                  "release_name": "${{ inputs.release_name }}",
+                  "year": int("${{ inputs.year }}"),
+                  "w0_central": float("${{ inputs.w0_central }}"),
+                  "w0_sigma": float("${{ inputs.w0_sigma }}"),
+                  "wa_central": float("${{ inputs.wa_central }}"),
+                  "wa_sigma": float("${{ inputs.wa_sigma }}"),
+                  "reference": "${{ inputs.reference }}",
+                  "datasets": "${{ inputs.datasets }}",
+              }
+          except ValueError as exc:
+              raise SystemExit(f"Invalid workflow input type for DESI DR3 routing: {exc}")
           packet = release_day_decision_packet(payload)
           Path("desi_dr3_packet.json").write_text(json.dumps(packet, indent=2), encoding="utf-8")
           body = [
