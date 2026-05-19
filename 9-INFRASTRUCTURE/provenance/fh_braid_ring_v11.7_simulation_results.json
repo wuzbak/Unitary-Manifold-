@@ -1,0 +1,62 @@
+{
+  "provenance_type": "fh_braid_ring_simulation",
+  "version": "v11.7",
+  "date": "2026-05-19",
+  "description": "(5,7) KK-natural braid ring Fermi-Hubbard simulation \u2014 first concrete quantum simulation lane output",
+  "geometry": {
+    "type": "braid_kk_ring",
+    "n1": 5,
+    "n2": 7,
+    "n_sites": 12,
+    "n_edges": 13,
+    "periodic": true
+  },
+  "parameters": {
+    "t0": 1.0,
+    "U": 61.666666666666664,
+    "U_over_t": 61.666666666666664,
+    "kk_radion_coupling": 0.06486486486486487,
+    "radion_profile": "kk_natural",
+    "phi_0": 1.618033988749895,
+    "phi_n_w": 5
+  },
+  "effective_hoppings": {
+    "min": 0.8190308509952247,
+    "max": 0.9625910585979988,
+    "mean": 0.9128668734195954,
+    "std": 0.039943402787434835,
+    "values": [
+      0.9050032325882734,
+      0.9625910585979988,
+      0.8839274367689405,
+      0.9625910585979988,
+      0.9050032325882735,
+      0.8190308509952247,
+      0.9050032325882734,
+      0.9625910585979988,
+      0.8839274367689405,
+      0.9625910585979988,
+      0.9050032325882735,
+      0.9050032325882735,
+      0.9050032325882735
+    ]
+  },
+  "ground_state_energy": {
+    "method": "strong_coupling_superexchange",
+    "E0_flat_SE": -0.8432432432432433,
+    "E0_curved_SE": -0.7040418325732145,
+    "E0_curved_relative_to_flat": 0.8349214040131069,
+    "units": "t (hopping energy unit)"
+  },
+  "charge_gap": {
+    "method": "strong_coupling_estimate",
+    "value": 119.33333333333333,
+    "units": "t",
+    "note": "Delta_charge = 2U - 4t in strong coupling limit; large U/t=61.7 confirms Mott insulator"
+  },
+  "regime": "Mott insulator (U/t >> 1)",
+  "adjacency_label": "NON_HARDGATE_ADJACENT",
+  "epistemic_status": "ADJACENT_TRACK_ENGINEERING_LANE",
+  "module": "src/quantum/fh_curved.py",
+  "lane": "Quantum Simulation Adjacent Track (non-hardgate)"
+}

@@ -15,7 +15,106 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
-## v11.6 (2026-05-19 — Environment Hardening)
+## v11.7 (2026-05-19 — Seesaw Closure + New Observatory Lanes)
+
+### What changed
+
+Six new adjacent-track pillars (286–291), one preregistration module (JUNO DR1), three provenance artifacts (CMB-S4 routing drill, FH braid ring simulation, XDiag integration test), and full ledger sync.
+
+| Metric | v11.6 | v11.7 |
+|--------|-------|-------|
+| Passing tests | 34,267 | 34,411 |
+| Adjacent pillars | through 285 | through 291 |
+| New tests | — | +144 |
+| Failures | 0 | 0 |
+
+#### Pillar 286 — KK Seesaw Texture Diagonalization
+
+Attempts the geometric derivation of the seesaw participation factor p_R from the
+WS-V Yukawa texture.  The formula `p_R_geom = (y_τ/y_t)² × orbifold_texture_factor × K_CS`
+places p_R_geom within the PMNS admissible window [0, 0.547], yielding status
+`SEESAW_TEXTURE_GAP_CLOSED_CONDITIONALLY`.  The P17 upgrade path (CONDITIONAL_DERIVATION →
+DERIVED) is open but not yet formally escalated.
+
+#### Pillar 287 — Short-Cycle Assignment Derivation
+
+Attempts to derive Convention 279.3 (n_w = 5 on the short cycle) from the
+Goldberger–Wise radion stabilization potential ordering.  The GW argument provides
+partial motivation but is not a unique derivation.  Gap `CYCLE_RADION_COUPLING_UNIQUENESS`
+is explicitly named.  Status: `PARTIALLY_DERIVED_GW_ORDERING`.  Convention 279.3 is
+NOT fully derived — this is the honest honest outcome.
+
+#### Pillar 288 — ACT DR6 CMB Verdict Routing
+
+Explicitly cross-checks UM predictions against the Atacama Cosmology Telescope
+Data Release 6 (2024).  n_s: CONSISTENT (0.66σ from ACT+Planck combined = 0.9660 ± 0.0038).
+r: HIGH_TENSION — UM r=0.0315 exceeds the ACT DR6 95%CL upper limit of r<0.016.
+The P2 falsifier (r<0.010 at ≥3σ *measured*) is NOT triggered; the ACT DR6 limit is a
+95%CL bound, not a 3σ measurement.
+
+#### Pillar 289 — IceCube/KM3NeT Neutrino Preregistration
+
+Formally registers the democratic (1:1:1) flavor ratio prediction and the Majorana
+mixing angle θ_s ~ 0.037 rad (below IceCube sensitivity) against the IceCube HESE
+dataset.  Verdict: CONSISTENT within 2σ.  KM3NeT 2030 routing: PREREGISTERED.
+
+#### Pillar 290 — Dark Matter Direct Detection Constraints
+
+Maps the KK graviton SI cross section (σ_SI ~ 10⁻⁷⁷ cm²) against the LZ Year 2
+sensitivity of 6.6×10⁻⁴⁸ cm².  Status: CONSISTENT_BELOW_LIMIT by ~29 orders of magnitude.
+LZ Year 3 preregistration: CONSISTENT.
+
+#### Pillar 291 — Planetary Defense / Taurid Risk UM Intersection
+
+Applies the CROS φ₀/ξ_c capacity ratio (~3.42) to the Taurid meteor complex risk
+assessment, integrating DART (2022), Hera (2026), and NEO Surveyor (2028) milestones.
+Readiness index: 0.70 (OPERATIONAL_WITH_GAPS).
+
+#### JUNO DR1 Preregistration Package
+
+`juno_dr1_preregistration_package.py` formally locks the JUNO DR1 routing:
+- CONSISTENT: residual < 1%; TENSION: 1–3%; FALSIFIED: ≥ 3%.
+- Preregistered prediction: Δm²₃₁ = 2.452×10⁻³ eV² (NLO-tightened, 0.04% from PDG).
+
+#### Quantum Simulation Lane
+
+- FH braid ring simulation: (5,7) KK-natural braid ring, U/t=61.7 (Mott insulator),
+  effective hoppings 0.819–0.963, superexchange E_0(curved)=-0.704t vs -0.843t (flat).
+  First concrete quantum simulation lane numerical output.
+- XDiag integration test script: `xdiag_integration_test.sh --mock` passes all 4 steps
+  (Python bridge import, XDiag binary check, KAT, parity check).
+- CMB-S4 routing drill: 6 synthetic scenarios (n_s consistent/tension/falsified;
+  r detected/95%CL-tension; peak suppression) with idempotence checks.
+
+### Why
+
+v11.7 extends the observatory monitoring framework to the new ground-based CMB dataset
+(ACT DR6), formally preregisters the JUNO DR1 routing, closes the seesaw texture gap
+conditionally (Pillar 286), and delivers the first concrete quantum simulation output.
+
+### Epistemic label deltas
+
+- P17 (Δm²₃₁): remains CONDITIONAL_DERIVATION; upgrade path open but not formally escalated.
+- Convention 279.3: status updated from CONVENTION to PARTIALLY_DERIVED_GW_ORDERING.
+- No hardgate claim labels changed.
+
+### TOE score delta
+
+None — all Pillars 286–291 are adjacent-track.  ToE score remains 28.0/28 = 100%.
+
+### Falsification impact
+
+- ACT DR6 r limit (0.016 at 95%CL) creates HIGH_TENSION for UM r=0.0315 but does not
+  trigger the P2 falsifier (which requires r<0.010 at ≥3σ measured).
+- JUNO DR1 preregistration locked; DR1 expected ~2027.
+
+### Residual unknowns
+
+1. CYCLE_RADION_COUPLING_UNIQUENESS: Convention 279.3 partially motivated but not proved unique.
+2. SEESAW_TEXTURE_PARTICIPATION_GAP: closed conditionally; full diagonalization not yet done.
+3. ACT DR6 r tension: will sharpen with CMB-S4 and improved tensor-to-scalar measurements.
+
+
 
 ### What changed
 

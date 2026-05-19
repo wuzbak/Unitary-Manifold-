@@ -1,9 +1,11 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.6
+# Unitary Manifold v11.7
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-19 (v11.5 — Residual Tightening Wave: Pillars 274–281; ToE 28.0/28 = 100%)*
+*Last updated: 2026-05-19 (v11.7 — Seesaw Closure: Pillars 286–291; P17 upgrade path open; ACT DR6 HIGH_TENSION on r (P2 not triggered); ToE 28.0/28 = 100%)*
+
+*P17 note: SEESAW_TEXTURE_GAP_CLOSED_CONDITIONALLY (Pillar 286). P17 status remains CONDITIONAL_DERIVATION pending formal diagonalization confirmation. Upgrade path to DERIVED is open but not yet escalated.*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.

@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.6 — Effective 2026-05-19*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.6 env-hardening: fixed copilot-setup-steps.yml to install from requirements.txt, resolving 6 sympy-collection errors; all 215 previously-skipped sympy tests now run and pass — no pillar or hardgate changes). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.7 — Effective 2026-05-19*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.7 seesaw-closure: Pillars 286–291 added — KK seesaw texture diagonalization, short-cycle derivation, ACT DR6 routing, IceCube/KM3NeT preregistration, dark matter direct detection, Taurid planetary defense; JUNO DR1 preregistration package; CMB-S4 routing drill; FH (5,7) braid ring simulation results; XDiag integration test script; 144 new tests, 0 failures). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,267 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
-*(v11.6: env-hardening — copilot-setup-steps.yml now installs from requirements.txt; 6 previously-broken sympy-dependent test files (215 tests) now collect and pass; total increases by +80 from v11.5 baseline of 34,187)*
+**Latest verified branch regression:** 34,411 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
+*(v11.7: seesaw-closure — Pillars 286–291 + JUNO DR1 preregistration package: 144 new tests added, total increases by +144 from v11.6 baseline of 34,267)*
 
 ---
 
