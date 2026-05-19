@@ -39,7 +39,7 @@ PARALLEL_TRACKS: dict[str, tuple[str, ...]] = {
     "TRACK_B_AMPLITUDE_FLUX": ("SC2", "SC4"),
     "TRACK_C_INTEGRATION_GUARDS": ("RG1", "FD1", "FB1"),
 }
-PARALLEL_TRACK_TITLES: dict[str, str] = {
+_PARALLEL_TRACK_TITLES: dict[str, str] = {
     "TRACK_A_DYNAMICS_NATURALNESS": "Dynamics + naturalness hardening",
     "TRACK_B_AMPLITUDE_FLUX": "Amplitude + flux hardening",
     "TRACK_C_INTEGRATION_GUARDS": "Residual integration + guardrails",
@@ -84,7 +84,7 @@ def _run_all_packets() -> Dict[str, Dict[str, object]]:
 
 def parallel_track_execution_plan() -> List[Dict[str, object]]:
     return [
-        {"id": track_id, "title": PARALLEL_TRACK_TITLES[track_id], "sprints": list(members)}
+        {"id": track_id, "title": _PARALLEL_TRACK_TITLES[track_id], "sprints": list(members)}
         for track_id, members in PARALLEL_TRACKS.items()
     ]
 
