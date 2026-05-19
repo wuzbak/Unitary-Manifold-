@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
 *Unitary Manifold v11.4 — Effective 2026-05-19*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.3 wave: Ordered Residual Sprint Execution — T3, A3, SC2, SC4, residual geometry, falsifier decision algebra, and foundational boundary hardening executed as adjacent-track artifacts with integrated certification and no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.4 wave: Pillar 259 naming-collision fix to Pillar 273 autonomous stewardship lane + live regression/doc-count freshness synchronization; adjacent-track only, no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 33,784 passed · 393 skipped · 12 deselected · 0 failed
-*(v11.3: Ordered residual sprint execution — adjacent-track mathematical hardening expanded; no hardgate claim changes)*
+**Latest verified branch regression:** 34,057 passed · 393 skipped · 12 deselected · 0 failed
+*(v11.4: Pillar 273 registry correction + canonical freshness sync; no hardgate claim changes)*
 
 ---
 
