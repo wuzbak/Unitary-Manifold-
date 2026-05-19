@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v11.3
+# Unitary Manifold v11.4
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,13 +8,14 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Score-sync note (v11.3):** Parts 1–6 retain historical gatekeeper framing from
+> **Score-sync note (v11.4):** Parts 1–6 retain historical gatekeeper framing from
 > earlier waves, while canonical current score accounting and lane labels are synced
 > in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
+> Adjacent governance registry is synchronized with Pillar 273 (`pillar273_autonomous_github_community_steward.py`), while Pillar 259 remains the residual geometry operator.
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an explicit
 > override callout is shown.
 
-*Last updated: 2026-05-18 (v11.3 ordered residual sprint execution sync)*
+*Last updated: 2026-05-19 (v11.4 Pillar 273 registration correction + canonical freshness sync)*
 
 ---
 

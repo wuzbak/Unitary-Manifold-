@@ -58,7 +58,7 @@
 | Version | v11.4 |
 | Core physics pillars | 208 — CLOSED |
 | Adjacent research tracks | Pillars 218–273 registered (non-hardgate); Pillar 273 = Autonomous GitHub Community Steward (previously misregistered as 259) |
-| Test suite | **33,784 passed · 393 skipped · 12 deselected · 0 failed** |
+| Test suite | **34,057 passed · 393 skipped · 12 deselected · 0 failed** |
 | ToE Score | **100% (28.0/28.0)** |
 | MAS Programme | COMPLETE (W0–W14 closed) |
 | Post-MAS tracks | T1, T2, T3 — all PASS |
