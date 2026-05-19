@@ -89,7 +89,36 @@ official_pillar_tracking_checkpoint:
     - 279
     - 280
     - 281
-  sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
+  sparse_numbering_note: "Pillar numbers 225, 226, 231, and 247 appeared as gaps in earlier tracker snapshots; all four now have implemented source modules — see sparse_pillar_registry below."
+  sparse_pillar_registry:
+    pillar_225:
+      status: "PRESENT"
+      source: "src/core/pillar225_juno_hyperk_neutron_oscillation_readiness.py"
+      label: "JUNO/Hyper-K neutron oscillation readiness brief"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. The note pre-dated the v11-series adjacent-track sprint that populated this slot. Pillar 225 provides the JUNO and Hyper-Kamiokande neutron-oscillation readiness brief as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
+    pillar_226:
+      status: "PRESENT"
+      source: "src/core/pillar226_cmbs4_acoustic_peak_hardening_brief.py"
+      label: "CMB-S4 acoustic-peak hardening brief"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. Pillar 226 provides the CMB-S4 acoustic-peak hardening brief as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
+    pillar_231:
+      status: "PRESENT"
+      source: "src/core/pillar231_lisa_omega_gw_preregistration_package.py"
+      label: "LISA Ω_GW preregistration package"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. Pillar 231 delivers the LISA gravitational-wave background (Ω_GW) preregistration package as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
+    pillar_247:
+      status: "PRESENT"
+      source: "src/core/pillar247_unified_observation_ingest_verdict_router.py"
+      label: "Unified observation ingest and verdict router"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. Pillar 247 implements the unified observation ingest and verdict router as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
   note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 281, including the v11.5 Residual Tightening Wave (274–281), while preserving the frozen hardgate / adjacent-track separation."
 
 follow_on_execution_modules:
