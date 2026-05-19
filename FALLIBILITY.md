@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,187 passed · 393 skipped · 12 deselected · 0 failed).*
+*Unitary Manifold v11.6 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,267 passed · 393 skipped · 12 deselected · 0 failed).*
 
 ---
 

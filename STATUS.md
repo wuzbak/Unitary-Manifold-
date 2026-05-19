@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.5 — Effective 2026-05-19*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.5 wave: Residual Tightening Wave — Pillars 274–281 deliver JUNO Δm²₃₁ NLO/seesaw closure, A3 Higgs Schwinger-regulator convergence, T3 ADM two-sector momentum-constraint extension, CMB peak suppression three-term decomposition, SC4 effective-flux multiplicity theorem, n_w Planck-free parity obstruction, SC2 c_UV-independent interval narrowing, and DESI DR3 publication-day routing drill; adjacent-track only, no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.6 — Effective 2026-05-19*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.6 env-hardening: fixed copilot-setup-steps.yml to install from requirements.txt, resolving 6 sympy-collection errors; all 215 previously-skipped sympy tests now run and pass — no pillar or hardgate changes). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,187 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
-*(v11.5: Residual Tightening Wave — Pillars 274–281 add 117 new tests over the v11.4 baseline of 34,070; no hardgate claim changes)*
+**Latest verified branch regression:** 34,267 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
+*(v11.6: env-hardening — copilot-setup-steps.yml now installs from requirements.txt; 6 previously-broken sympy-dependent test files (215 tests) now collect and pass; total increases by +80 from v11.5 baseline of 34,187)*
 
 ---
 
