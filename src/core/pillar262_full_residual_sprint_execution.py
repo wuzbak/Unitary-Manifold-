@@ -90,6 +90,10 @@ def parallel_track_execution_plan() -> List[Dict[str, object]]:
 
 
 def _collect_closure_blockers(outputs: Dict[str, Dict[str, object]]) -> Dict[str, str]:
+    """Collect machine-readable closure blockers from sprint outputs.
+
+    Only non-empty string-valued `closure_blocker` fields are included.
+    """
     blockers: Dict[str, str] = {}
     for sprint_id, report in outputs.items():
         blocker = report.get("closure_blocker")
@@ -105,6 +109,11 @@ def _compute_statuses(outputs: Dict[str, Dict[str, object]]) -> Dict[str, str]:
 def _build_track_report(
     members: tuple[str, ...], statuses: Dict[str, str], outputs: Dict[str, Dict[str, object]]
 ) -> Dict[str, object]:
+    """Build a per-track execution report packet.
+
+    Returns sprint membership, per-sprint status map, and a completion flag
+    indicating all track members were executed.
+    """
     track_statuses = {member: statuses[member] for member in members}
     return {
         "sprints": list(members),

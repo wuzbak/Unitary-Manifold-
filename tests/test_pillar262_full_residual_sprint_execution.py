@@ -48,3 +48,12 @@ def test_execute_parallel_residual_tracks_shape():
     assert set(report["track_reports"]) == set(PARALLEL_TRACKS)
     assert report["statuses"]["RG1"] == "RESIDUAL_OPERATOR_EXECUTED"
     assert report["statuses"]["FD1"] == "DECISION_BOUNDARIES_LOCKED"
+
+
+def test_parallel_track_grouping_and_status_isolation():
+    report = execute_parallel_residual_tracks()
+    for track_id, members in PARALLEL_TRACKS.items():
+        track = report["track_reports"][track_id]
+        assert track["sprints"] == list(members)
+        assert set(track["statuses"]) == set(members)
+        assert all(member not in track["statuses"] for member in set(SPRINT_ORDER) - set(members))
