@@ -78,19 +78,21 @@ def test_canonical_surface_sync_shape():
 def test_canonical_surface_sync_version_tags_present():
     row = canonical_surface_sync_check()
     tags = row["version_tags"]
-    assert tags["status_has_v11_1"] or tags.get("status_has_v11_2") or tags.get("status_has_v11_3") or tags.get("status_has_v11_4")
-    assert tags["fallibility_has_v11_1"] or tags.get("fallibility_has_v11_2") or tags.get("fallibility_has_v11_3") or tags.get("fallibility_has_v11_4")
+    assert tags["status_has_v11_1"] or tags.get("status_has_v11_2") or tags.get("status_has_v11_3") or tags.get("status_has_v11_4") or tags.get("status_has_v11_5")
+    assert tags["fallibility_has_v11_1"] or tags.get("fallibility_has_v11_2") or tags.get("fallibility_has_v11_3") or tags.get("fallibility_has_v11_4") or tags.get("fallibility_has_v11_5")
     assert (
         tags["claim_board_has_v11_0_or_v11_1"]
         or tags.get("claim_board_has_v11_2")
         or tags.get("claim_board_has_v11_3")
         or tags.get("claim_board_has_v11_4")
+        or tags.get("claim_board_has_v11_5")
     )
     assert (
         tags["truth_layer_has_v11_0_or_v11_1"]
         or tags.get("truth_layer_has_v11_2")
         or tags.get("truth_layer_has_v11_3")
         or tags.get("truth_layer_has_v11_4")
+        or tags.get("truth_layer_has_v11_5")
     )
 
 

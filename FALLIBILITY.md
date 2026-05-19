@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.6 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,280 passed · 393 skipped · 12 deselected · 0 failed).*
+*Unitary Manifold v11.6 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,357 passed · 393 skipped · 12 deselected · 0 failed).*
 
 ---
 
@@ -269,6 +269,16 @@ The remaining soft residual is renamed:
 
 Impact on n_w = 5 selection: **ZERO** — the anisotropy sign R₂ > R₁
 holds for all c_brane > 0, independently of the exact value.
+
+**Updated (v11.5):** Convention 279.3 has been shown to follow from GW
+dynamics + winding back-reaction in
+`pillar279_nw_parity_handedness_obstruction.convention_279_3_derivation_attempt()`.
+The cycle with more winding modes (m_w = 7) sits at larger compactification
+radius to minimize winding tension; the cycle with fewer windings (n_w = 5)
+sits at the smaller R.  This makes n_w the short-cycle occupant dynamically,
+not by convention.  The residual gap is that the exact quantitative R_min
+split requires a full two-radius GW numerical analysis.  Status upgraded
+from CONVENTION to CONDITIONAL_DERIVATION.
 
 **Admission 2 — k_CS = 74: algebraically derived from the braid pair (May 2026 — Pillar 99-B).**
 The formula k_primary = 2(n₁³+n₂³)/(n₁+n₂) was previously asserted without an explicit

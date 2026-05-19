@@ -92,7 +92,7 @@ sector, the response is immediate, honest, and pre-planned.
 
 ### Regression
 
-Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 280 passed, 393 skipped, 12 deselected, 0 failed** (+93 new tests over v11.5 baseline of 34 187).
+Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 357 passed, 393 skipped, 12 deselected, 0 failed** (+93 new tests from P282–284 over v11.5 baseline of 34 187; +77 additional from main merge: cmb_um_planck_crosscheck ×66 + pillar279 expanded ×11).
 
 ---
 

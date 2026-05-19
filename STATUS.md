@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,280 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
-*(v11.6: Pillars 282–284 add 93 new tests over the v11.5 baseline of 34,187; no hardgate claim changes)*
+**Latest verified branch regression:** 34,357 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
+*(v11.6 + main merge: Pillars 282–284 add 93 new tests; main merge adds 77 more (cmb_um_planck_crosscheck ×66 + pillar279 expanded ×11) over the v11.5 baseline of 34,187; no hardgate claim changes)*
 
 ---
 

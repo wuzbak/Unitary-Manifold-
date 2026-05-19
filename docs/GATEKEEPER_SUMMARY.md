@@ -8,14 +8,15 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Score-sync note (v11.4):** Parts 1–6 retain historical gatekeeper framing from
+> **Score-sync note (v11.5):** Parts 1–6 retain historical gatekeeper framing from
 > earlier waves, while canonical current score accounting and lane labels are synced
 > in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
 > Adjacent governance registry is synchronized with Pillar 273 (`pillar273_autonomous_github_community_steward.py`), while Pillar 259 remains the residual geometry operator.
-> Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an explicit
-> override callout is shown.
+> Residual Tightening Wave (v11.5, Pillars 274–281) closes or names every tractable
+> residual. Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
+> explicit override callout is shown.
 
-*Last updated: 2026-05-19 (v11.4 Pillar 273 registration correction + canonical freshness sync)*
+*Last updated: 2026-05-19 (v11.5 Residual Tightening Wave — Pillars 274–281; all residuals tightened or named; JUNO monitoring active; ADM Wheeler-DeWitt gap classified STRUCTURAL)*
 
 ---
 
@@ -139,13 +140,27 @@ promoted to DERIVED in v10.59 via `src/core/p28_lambda_derived_cert.py`.
 |---|---------|-----------|------|---------|---------------------|
 | T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | ≥3σ → FALSIFIED |
 | T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | CLOSED_WITH_PILLAR52_10D_BRIDGE | Pillar 52 fixes the gravity-scale decade and the 10D UV bridge closes the framework lane; the RS1-only undershoot is retained as provenance only |
+| T3 | JUNO Δm²₃₁ risk | Δm²₃₁ = 2.453×10⁻³ eV² | P17 residual 2.18% → 4.4σ at JUNO 0.5% precision (~2027) | 4.4σ projected | ≤0.5% Pillar 274 NLO+seesaw needed to pass |
 
-**Verdict:** 🟠 TENSION on T1 only; T2 is now closed at framework level by the v10.42 Pillar 52 + 10D bridge, with the RS1-only undershoot retained only as historical provenance.
+**Verdict:** 🟠 TENSION on T1 only; T2 is now closed at framework level by the v10.42 Pillar 52 + 10D bridge, with the RS1-only undershoot retained only as historical provenance. T3 (JUNO Δm²₃₁) is a projected future tension — not yet at falsification threshold but requiring Pillar 274 NLO+seesaw closure before JUNO reaches 0.5% precision (~2027).
 
 **Action required for T1:** Re-run the routing on DESI DR3 / Year 5 within 30 days
 of publication using `src/core/desi_dr2_gap_report.py`. Update this document same day.
 
 **Full truth:** `docs/TRUTH_LAYER.md §3`
+
+---
+
+## Part 5B — ADM / Framework Structural Gaps
+
+These gaps are distinct from active tensions: they are open theoretical problems
+classified STRUCTURAL, not predictions awaiting experimental verdict.
+
+| Gap | Label | Closed Lanes | Open Gap | Classification | Action |
+|-----|-------|-------------|----------|---------------|--------|
+| G1 | ADM Time Parameterization | KINEMATIC_AND_LINEARIZED_DYNAMICAL_CLOSED (Pillars 212, 263, 268) | Non-perturbative Wheeler–DeWitt quantization of the full 5D-KK system remains OPEN. This is classified STRUCTURAL per FALLIBILITY.md §IV — the perturbative treatment cannot substitute. Required for: a first-principles quantum arrow-of-time proof beyond the classical ADM picture. No timeline; requires a dedicated non-perturbative KK quantization research program. | STRUCTURAL | Dedicated non-perturbative KK quantization research program required |
+
+**Full truth:** `docs/TRUTH_LAYER.md §3 (T3)` and `FALLIBILITY.md §IV`
 
 ---
 
