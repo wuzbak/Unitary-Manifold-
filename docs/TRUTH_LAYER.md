@@ -246,7 +246,7 @@ with `axiomzero_pdg_inputs = []`. All 3 gates pass (residual < 5%, AxiomZero pur
 
 ## Section 3 — Open Tensions: Full Accounting
 
-### T1 — DESI wₐ Tension (HIGH_TENSION — DESI DR2 executed, 2026-05-09)
+### T1 — DESI wₐ Tension (HIGH_TENSION — DESI DR2 executed, 2026-05-09; monitor corrected v11.x)
 
 **Framework prediction:** wₐ = 0 (frozen radion; dark energy is the RS1 radion
 in its ground state, which does not evolve)
@@ -256,15 +256,25 @@ in its ground state, which does not evolve)
 - Combined BAO+CMB+SNe: wₐ ≈ −0.55 ± 0.20 → **2.75σ from UM wₐ=0 → HIGH_TENSION**
 - Both cases below 3σ falsification threshold → **UM wₐ=0 NOT FALSIFIED**
 
+**Tension metric correction (v11.x — `pillar_desi_tension_monitor.py`):**
+- Previous monitor computed naive uncorrelated joint quadrature: `√(z_w0² + z_wa²)` = 3.30σ → erroneously flagged CRITICAL
+- **Fix:** Primary metric is now the **wₐ-only** single-parameter tension `|wₐ|/σ_wₐ`, matching the figures published in arXiv:2503.14738 (2.07σ BAO-only, 2.75σ combined)
+- **Additional fix:** A covariance-corrected 2D joint chi-squared `(z_w0² − 2ρ·z_w0·z_wa + z_wa²)/(1−ρ²)` is now available via `joint_tension_sigma()` with ρ = −0.80 (DESI CPL posterior anti-correlation). Joint tensions: 2.27σ (BAO-only), 2.82σ (combined) — both below 3σ
+- `DESI_TENSION_SIGMA` module constant now correctly reports 2.75σ (was incorrectly 3.30σ)
+- `DESI_JOINT_TENSION_SIGMA` = 2.82σ exported as supplementary metric
+
 **Full truth:**
 - 2.07σ (BAO-only) and 2.75σ (combined) are not falsifications (threshold is 3σ)
 - DESI DR2 IS the Year 3 data — the "pending" Y3 milestone has been reached
 - The combined analysis approaches the threshold: if DESI DR3/Y5 confirms wₐ ≈ −0.62
   with σ=0.18, tension reaches 3.44σ → FALSIFIED (DR3-S6 scenario)
-- If wₐ ≈ −0.55 with σ=0.18 (combined central value tightened): 3.06σ → FALSIFIED (DR3-S4)
-- The framework has NO fallback for wₐ ≠ 0; if falsified, the dark energy sector
-  requires fundamental revision — there is no geometric rescue mechanism on offer
-- Frozen-radion mechanism is under genuine existential pressure
+- If wₐ ≈ −0.55 with σ=0.15 (DR3 forecast precision): 3.67σ → FALSIFIED (DR3 combined)
+- **v2.0 extension pre-specification:** `src/core/pillar268_dark_energy_extension_specification.py` (Pillar 268, ADJACENT_TRACK) documents the pre-registered theoretical response. Four candidate extensions are specified with quantitative constraints:
+  - **Ext 1 (preferred):** New bulk scalar quintessence — sub-Planckian if |wₐ| < 2 M_Pl, BF-bound satisfied, GW coupling < 0.01
+  - **Ext 2 (extreme):** Cosmological radion — requires ~10⁸⁷-fold GW tuning; dismantles hierarchy solution; NOT VIABLE within current UM
+  - **Ext 3:** k-Essence bulk scalar (X^n, n≥2) — stable c_s², sub-Planckian, no Pillar-27 conflict if decoupled from braided sector
+  - **Ext 4:** Coupled dark energy — β_DE < 0.10 (CMB bound); explains only |wₐ| < 0.019 within bounds
+- The extension spec is pre-registered and non-negotiable: no rescue mechanism is invoked retroactively
 
 **Routing executed (`src/core/desi_dr2_gap_report.py`):**
 - `execute_dr2_bao_routing()` → route='TENSION', wa_tension_sigma=2.07
@@ -275,6 +285,7 @@ in its ground state, which does not evolve)
 **Action required:** Run `full_dr2_gap_report()` on DESI DR3/Y5 publication (~2027)
 within 30 days. Update this document and OBSERVATION_TRACKER.md same day.
 If route='FALSIFIED', update CLAIM_MASTER_BOARD.md and GATEKEEPER_SUMMARY.md immediately.
+Activate Pillar 268 extension specification and begin v2.0 architecture review.
 
 ---
 

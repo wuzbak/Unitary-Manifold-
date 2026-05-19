@@ -25,15 +25,21 @@ public_surface_sync_checkpoint:
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.3"
-  pillar: 262
-  artifact: "src/core/pillar262_full_residual_sprint_execution.py"
-  test: "tests/test_pillar262_full_residual_sprint_execution.py"
+  version: "v11.6-desi-correction"
+  pillar: 268
+  artifact: "src/core/pillar268_dark_energy_extension_specification.py"
+  test: "tests/test_pillar268_dark_energy_extension_specification.py"
   status: "DELIVERED"
-  note: "Ordered residual sprint execution now extends the adjacent hardening lane through Pillar 262: residual geometry operator, falsifier decision algebra, foundational boundary hardening, and a single execution/certification engine that runs the full sprint stack in sequence without changing hardgate claims."
+  note: >
+    DESI tension monitor corrected (v11.x): DESI_TENSION_SIGMA now correctly reports 2.75σ
+    (wₐ-only, matching published DESI DR2 figures) instead of the erroneous 3.30σ from
+    naive uncorrelated joint quadrature. Covariance-corrected joint chi-squared (ρ=−0.80)
+    added as supplementary metric (2.82σ combined). Pillar 268 pre-registers the v2.0
+    dark energy extension architecture across four candidate extensions with quantitative
+    constraints. Pillars 263–267 from parallel sprint registered. All 138 new tests pass.
 
 official_pillar_tracking_checkpoint:
-  latest_officially_tracked_pillar: 262
+  latest_officially_tracked_pillar: 268
   canonical_status_ledger: "STATUS.md"
   synced_recent_pillars:
     - 245
@@ -53,8 +59,20 @@ official_pillar_tracking_checkpoint:
     - 260
     - 261
     - 262
+    - 263
+    - 264
+    - 265
+    - 266
+    - 267
+    - 268
   sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
-  note: "STATUS.md now explicitly registers every implemented numbered pillar currently present under src/core through Pillar 262, while preserving the frozen hardgate / adjacent-track separation."
+  note: >
+    STATUS.md now registers every implemented numbered pillar through Pillar 268.
+    Pillars 263–268 added in v11.6-desi-correction sprint.
+    DESI tension monitor correction: pillar_desi_tension_monitor.py now reports
+    wₐ-only tension (2.75σ) as primary metric, with covariance-corrected 2D joint
+    (2.82σ) as supplementary. The naive 3.30σ CRITICAL flag was methodologically
+    incorrect and has been replaced.
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:
