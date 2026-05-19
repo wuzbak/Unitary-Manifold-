@@ -56,4 +56,5 @@ def test_parallel_track_grouping_and_status_isolation():
         track = report["track_reports"][track_id]
         assert track["sprints"] == list(members)
         assert set(track["statuses"]) == set(members)
-        assert all(member not in track["statuses"] for member in set(SPRINT_ORDER) - set(members))
+        out_of_track_members = set(SPRINT_ORDER) - set(members)
+        assert all(member not in track["statuses"] for member in out_of_track_members)

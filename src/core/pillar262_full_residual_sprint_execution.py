@@ -39,11 +39,6 @@ PARALLEL_TRACKS: dict[str, tuple[str, ...]] = {
     "TRACK_B_AMPLITUDE_FLUX": ("SC2", "SC4"),
     "TRACK_C_INTEGRATION_GUARDS": ("RG1", "FD1", "FB1"),
 }
-_PARALLEL_TRACK_TITLES: dict[str, str] = {
-    "TRACK_A_DYNAMICS_NATURALNESS": "Dynamics + naturalness hardening",
-    "TRACK_B_AMPLITUDE_FLUX": "Amplitude + flux hardening",
-    "TRACK_C_INTEGRATION_GUARDS": "Residual integration + guardrails",
-}
 
 
 def sprint_execution_order() -> List[Dict[str, str]]:
@@ -83,8 +78,13 @@ def _run_all_packets() -> Dict[str, Dict[str, object]]:
 
 
 def parallel_track_execution_plan() -> List[Dict[str, object]]:
+    track_titles = {
+        "TRACK_A_DYNAMICS_NATURALNESS": "Dynamics + naturalness hardening",
+        "TRACK_B_AMPLITUDE_FLUX": "Amplitude + flux hardening",
+        "TRACK_C_INTEGRATION_GUARDS": "Residual integration + guardrails",
+    }
     return [
-        {"id": track_id, "title": _PARALLEL_TRACK_TITLES[track_id], "sprints": list(members)}
+        {"id": track_id, "title": track_titles[track_id], "sprints": list(members)}
         for track_id, members in PARALLEL_TRACKS.items()
     ]
 
@@ -122,21 +122,22 @@ def _build_track_report(
     }
 
 
-def execute_parallel_residual_tracks() -> Dict[str, object]:
-    outputs = _run_all_packets()
-    statuses = _compute_statuses(outputs)
+def execute_parallel_residual_tracks(outputs: Dict[str, Dict[str, object]] | None = None) -> Dict[str, object]:
+    """Execute/assemble the parallel multi-track residual sprint packet."""
+    resolved_outputs = outputs if outputs is not None else _run_all_packets()
+    statuses = _compute_statuses(resolved_outputs)
     track_reports = {
-        track_id: _build_track_report(members, statuses, outputs)
+        track_id: _build_track_report(members, statuses, resolved_outputs)
         for track_id, members in PARALLEL_TRACKS.items()
     }
-    closure_blockers = _collect_closure_blockers(outputs)
+    closure_blockers = _collect_closure_blockers(resolved_outputs)
     return {
         "adjacency_label": ADJACENCY_TRACK_LABEL,
         "execution_mode": "PARALLEL_MULTI_TRACK",
         "track_plan": parallel_track_execution_plan(),
         "track_reports": track_reports,
         "statuses": statuses,
-        "outputs": outputs,
+        "outputs": resolved_outputs,
         "closure_blockers": closure_blockers,
         "parallel_execution_complete": all(report["complete"] for report in track_reports.values()),
     }
@@ -146,7 +147,7 @@ def execute_all_residual_sprints() -> Dict[str, object]:
     outputs = _run_all_packets()
     statuses = _compute_statuses(outputs)
     formal = formal_proof_closure_certificate()
-    parallel_packet = execute_parallel_residual_tracks()
+    parallel_packet = execute_parallel_residual_tracks(outputs=outputs)
 
     completed = [key for key in SPRINT_ORDER if key in outputs]
     open_boundaries = list(outputs["FB1"]["open_gates"])
