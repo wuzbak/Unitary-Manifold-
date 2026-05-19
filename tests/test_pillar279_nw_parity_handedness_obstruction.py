@@ -160,8 +160,12 @@ def test_convention_279_3_residual_gap_named():
 
 def test_two_radius_gw_winding_asymmetry():
     """n_w=5 cycle must have a smaller effective R_min than n_w=7 cycle."""
-    r = two_radius_gw_potential(1.0, 1.0, phi0=1.0, n_w_a=5, n_w_b=7)
+    phi0 = 1.0
+    r = two_radius_gw_potential(phi0, phi0, phi0=phi0, n_w_a=5, n_w_b=7)
     assert r["R_a_eff_min"] < r["R_b_eff_min"]
+    # Both effective minima must lie above phi0 (winding tension pushes R upward)
+    assert r["R_a_eff_min"] > phi0
+    assert r["R_b_eff_min"] > phi0
 
 
 def test_winding_energy_favors_larger_radius():

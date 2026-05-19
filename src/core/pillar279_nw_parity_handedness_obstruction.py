@@ -288,7 +288,7 @@ def two_radius_gw_potential(
     # V_eff(R) = lam*(R²-phi0²)² + n²/R²
     # dV_eff/dR = 4*lam*R*(R²-phi0²) - 2*n²/R³
     def _find_eff_min(n_w: int) -> float:
-        R = phi0  # start at bare GW minimum
+        R = phi0 if phi0 > 0.0 else 1.0  # start at bare GW minimum
         for _ in range(200):
             f = 4.0 * lam_gw * R * (R**2 - phi0**2) - 2.0 * n_w**2 / R**3
             df = (
@@ -298,8 +298,11 @@ def two_radius_gw_potential(
             step = f / df
             R -= step
             if abs(step) < 1e-12:
-                break
-        return R
+                return R
+        raise RuntimeError(
+            f"two_radius_gw_potential: Newton's method did not converge for "
+            f"n_w={n_w}, phi0={phi0}, lam_gw={lam_gw} after 200 iterations."
+        )
 
     R_a_eff_min = _find_eff_min(n_w_a)
     R_b_eff_min = _find_eff_min(n_w_b)
