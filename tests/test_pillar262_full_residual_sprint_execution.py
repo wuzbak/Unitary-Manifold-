@@ -35,9 +35,9 @@ def test_execute_all_residual_sprints_shape():
 
 def test_parallel_track_plan_matches_constant():
     plan = parallel_track_execution_plan()
-    assert {row["id"] for row in plan} == set(PARALLEL_TRACKS)
-    for row in plan:
-        assert row["sprints"] == list(PARALLEL_TRACKS[row["id"]])
+    assert {track_entry["id"] for track_entry in plan} == set(PARALLEL_TRACKS)
+    for track_entry in plan:
+        assert track_entry["sprints"] == list(PARALLEL_TRACKS[track_entry["id"]])
 
 
 def test_execute_parallel_residual_tracks_shape():

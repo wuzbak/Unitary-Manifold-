@@ -39,6 +39,11 @@ PARALLEL_TRACKS: dict[str, tuple[str, ...]] = {
     "TRACK_B_AMPLITUDE_FLUX": ("SC2", "SC4"),
     "TRACK_C_INTEGRATION_GUARDS": ("RG1", "FD1", "FB1"),
 }
+PARALLEL_TRACK_TITLES: dict[str, str] = {
+    "TRACK_A_DYNAMICS_NATURALNESS": "Dynamics + naturalness hardening",
+    "TRACK_B_AMPLITUDE_FLUX": "Amplitude + flux hardening",
+    "TRACK_C_INTEGRATION_GUARDS": "Residual integration + guardrails",
+}
 
 
 def sprint_execution_order() -> List[Dict[str, str]]:
@@ -79,21 +84,8 @@ def _run_all_packets() -> Dict[str, Dict[str, object]]:
 
 def parallel_track_execution_plan() -> List[Dict[str, object]]:
     return [
-        {
-            "id": "TRACK_A_DYNAMICS_NATURALNESS",
-            "title": "Dynamics + naturalness hardening",
-            "sprints": list(PARALLEL_TRACKS["TRACK_A_DYNAMICS_NATURALNESS"]),
-        },
-        {
-            "id": "TRACK_B_AMPLITUDE_FLUX",
-            "title": "Amplitude + flux hardening",
-            "sprints": list(PARALLEL_TRACKS["TRACK_B_AMPLITUDE_FLUX"]),
-        },
-        {
-            "id": "TRACK_C_INTEGRATION_GUARDS",
-            "title": "Residual integration + guardrails",
-            "sprints": list(PARALLEL_TRACKS["TRACK_C_INTEGRATION_GUARDS"]),
-        },
+        {"id": track_id, "title": PARALLEL_TRACK_TITLES[track_id], "sprints": list(members)}
+        for track_id, members in PARALLEL_TRACKS.items()
     ]
 
 
@@ -131,15 +123,7 @@ def execute_parallel_residual_tracks() -> Dict[str, object]:
 
 
 def execute_all_residual_sprints() -> Dict[str, object]:
-    outputs = {
-        "T3": t3_closure_assessment(),
-        "A3": higgs_naturalness_extended_report(),
-        "SC2": as_transfer_chain_audit(),
-        "SC4": sc4_closure_summary(),
-        "RG1": pillar259_residual_geometry_report(),
-        "FD1": pillar260_falsifier_decision_report(),
-        "FB1": pillar261_foundational_boundary_report(),
-    }
+    outputs = _run_all_packets()
     statuses = {key: _status_bucket(key, value) for key, value in outputs.items()}
     formal = formal_proof_closure_certificate()
     parallel_packet = execute_parallel_residual_tracks()
