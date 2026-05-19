@@ -15,7 +15,47 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
-## v11.3 (2026-05-18 — Ordered Residual Sprint Execution)
+## v11.4 (2026-05-19 — Pillar 259 Naming Collision Fix & Canonical Doc-Count Freshness)
+
+### What changed
+
+1. **Pillar 259 naming collision resolved:** The autonomous GitHub community steward (`pillar259_autonomous_github_community_steward.py`) was occupying the same pillar number as the residual geometry operator (`pillar259_residual_geometry_operator.py`). The steward is now correctly numbered **Pillar 273** with all source files, test files, theory documents, and registry entries updated consistently.
+2. **Files renamed (git mv):** `src/core/pillar259_autonomous_github_community_steward.py` → `pillar273_...`, `tests/test_pillar259_...` → `test_pillar273_...`, `1-THEORY/pillars/PILLAR_259_... .md` → `PILLAR_273_...`.
+3. **All internal references updated:** FALLIBILITY.md operational note, `1-THEORY/DERIVATION_STATUS.md`, `src/core/sm_free_parameters.py`, STATUS.md (new Pillar 273 row added), `docs/mas_tracker.yml` (checkpoint updated to 273, synced_recent_pillars includes 273), README.md honest-status box.
+4. **Stale test counts synchronized:** README.md (4 occurrences of 33,473 → 33,784), FALLIBILITY.md (2 occurrences of 32,993 → 33,784), `9-INFRASTRUCTURE/TEST/README.md` full-suite count.
+5. **HILS_SESSION_CURRENT.md overwritten** to reflect v11.4 state (per session-boot convention).
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No hardgate claim label changed.
+- No falsifier window or forbidden-gap condition weakened.
+- No ToE score lane changed.
+- Pillar 259 (residual geometry operator) is completely untouched.
+
+### Why
+
+A naming collision between two separately-developed adjacent-track modules both claiming the Pillar 259 slot was identified during the full repository audit. The collision was a registry integrity issue — no physics was wrong — but it created ambiguity in the canonical pillar ledger. Resolved by renumbering the later-created steward to the next unoccupied slot (273).
+
+### Epistemic label deltas
+
+- None. All modules involved are explicitly adjacent-track, non-hardgate.
+
+### TOE score delta
+
+- **0.0 pts** — remains 28.0/28.0 (100%).
+
+### Falsification impact
+
+- None. All falsifier windows, DESI thresholds, LiteBIRD gap conditions, and same-day routing rules are unchanged.
+
+### Residual unknowns
+
+- The Substack post-186 (external publication) was written referencing "Pillar 259" for the steward. Per HILS non-negotiable 6 (Substack assets out of scope), the published post is left as historical context; the canonical repository now correctly assigns Pillar 273 to that module.
+
+---
+
+
 
 ### What changed
 

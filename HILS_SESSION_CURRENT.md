@@ -12,9 +12,9 @@
 | **Collaborator (Human)** | ThomasCory Walker-Pearson — theory, scientific direction, framework authority, override |
 | **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 pillars, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
-| **Session opened** | 2026-05-15T21:39:59Z |
-| **Active wave** | v11.0 — Comprehensive Audit & Canonical Freshness Synchronization |
-| **Prior wave** | v10.61 — Pillar 245 terminal full-closure engine |
+| **Session opened** | 2026-05-19T01:42:57Z |
+| **Active wave** | v11.4 — Pillar 259 naming collision fix + canonical doc-count freshness sync |
+| **Prior wave** | v11.3 — Ordered Residual Sprint Execution (Pillars 259–272 adjacent lane) |
 
 ---
 
@@ -30,7 +30,7 @@
 
 ---
 
-## Current Strategic Intent — ACTIVE EXECUTION
+## Current Strategic Intent — COMPLETED
 
 | Priority | Intent | Status |
 |----------|--------|--------|
@@ -46,44 +46,43 @@
 | 10 | USIVF interoperability fabric (Pillar 243) | ✅ v10.58 complete |
 | 11 | P28 DERIVED promotion to 100% ToE | ✅ v10.59 complete |
 | 12 | 10D branch completion + 11D terminal closure handoff | ✅ v10.60–v10.61 complete |
-| 13 | **A–E execution sprint: lab lane completion + publication/session sync** | 🔄 **IN PROGRESS** |
+| 13 | A–E execution sprint: lab lane completion + publication/session sync | ✅ v11.0–v11.3 complete |
+| 14 | **Full audit + top-5 fix sprint: Pillar 259 renaming, stale count sync** | ✅ **v11.4 complete** |
 
 ---
 
-## v11.0 Current State Summary
+## v11.4 Current State Summary
 
 | Item | Value |
 |------|-------|
-| Version | v11.0 |
+| Version | v11.4 |
 | Core physics pillars | 208 — CLOSED |
-| Adjacent research tracks | Pillars 218–245 registered (non-hardgate) |
-| Test suite | **32 993 passed · 393 skipped · 12 deselected · 0 failed** |
-| Local validation (this sandbox) | **32 993 passed · 393 skipped · 12 deselected · 0 failed** |
+| Adjacent research tracks | Pillars 218–273 registered (non-hardgate); Pillar 273 = Autonomous GitHub Community Steward (previously misregistered as 259) |
+| Test suite | **33,784 passed · 393 skipped · 12 deselected · 0 failed** |
 | ToE Score | **100% (28.0/28.0)** |
 | MAS Programme | COMPLETE (W0–W14 closed) |
 | Post-MAS tracks | T1, T2, T3 — all PASS |
 | Extension tracks | ET-1 through ET-6 — all DELIVERED |
 | DBP Ladder | All 6 rungs SOLID/CERTIFIED |
 | Canonical ledger | all_pass: True (version + regression consistent across all docs) |
-| arXiv submission | READY (see `docs/ARXIV_SUBMISSION_STATUS.md`) |
+| arXiv submission | READY — user actively pursuing endorsement |
 | Lab substitute lane | Dual-track packet surface ready (Track A JJ/SQUID, Track B TI winding) |
+| DESI P4 tension | HIGH_TENSION — 2.75σ (DESI DR2); DR3 routing protocol armed (~2027) |
 
 ---
 
-## Six Operational Lanes — Active Monitoring (v11.0)
+## Six Operational Lanes — Active Monitoring (v11.4)
 
 All six lanes run concurrently.  No lane queues behind another.
 
 | Lane | Name | Key Artifact | Status |
 |------|------|-------------|--------|
-| L1 | **Measurement confrontation** | `docs/falsification/instrument_registry.yml`, `src/core/instrument_registry.py` | ✅ Active — P4 HIGH_TENSION (DESI), P3/P3b PENDING (LiteBIRD), lab lane running |
-| L2 | **Closure quality** | `docs/closure_quality_gate.yml`, `src/core/closure_quality_gate.py` | ✅ Active — 24 promotions logged, all gatekeepered PASS, artifact presence verified |
+| L1 | **Measurement confrontation** | `docs/falsification/instrument_registry.yml`, `src/core/instrument_registry.py` | ✅ Active — P4 HIGH_TENSION (DESI 2.75σ), P3/P3b PENDING (LiteBIRD), lab lane running |
+| L2 | **Closure quality** | `docs/closure_quality_gate.yml`, `src/core/closure_quality_gate.py` | ✅ Active — 24 promotions logged, all gatekeepered PASS |
 | L3 | **Auditability** | `9-INFRASTRUCTURE/provenance/claim_queryability_index.yml` | ✅ Active — all claims ≥3 ledger surfaces; 3 machine-readable surfaces active |
 | L4 | **Separation integrity** | `src/core/separation_integrity_checker.py` | ✅ Active — adjacent track labels enforced; Pentad boundary enforced |
 | L5 | **Safety** | `8-SAFETY/SAFETY_LOCKSTEP_AUDIT.md` | ✅ Active — 8 high-risk areas locked; admitted gaps documented |
 | L6 | **HILS governance** | `5-GOVERNANCE/PENTAD_LANE_AUDIT.md` | ✅ Active — Pentad labeled independent governance; 5 mislabeling controls active |
-
-Lane test suite: `pytest tests/test_instrument_registry.py tests/test_closure_quality_gate.py tests/test_auditability_index.py tests/test_separation_integrity.py tests/test_safety_lockstep.py tests/test_pentad_governance_boundary.py -q`
 
 ---
 
@@ -96,7 +95,7 @@ The following remain out of core-physics scope until external data arrives:
 - ❌ No score inflation via adjacent tracks
 - ⏳ P23/P24 birefringence — awaiting LiteBIRD (~2032)
 - ⏳ P25 Ω_GW — awaiting LISA (~2037)
-- ⏳ DESI Year 3 dark energy — awaiting (~2026/2027)
+- ⏳ DESI Year 3 dark energy — awaiting (~2027)
 - ⏳ CMB-S4 acoustic peaks — awaiting (~2030)
 
 **Valid current execution surfaces:**

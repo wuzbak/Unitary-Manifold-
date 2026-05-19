@@ -1,6 +1,6 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.3 — Effective 2026-05-18*
+*Unitary Manifold v11.4 — Effective 2026-05-19*
 *Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.3 wave: Ordered Residual Sprint Execution — T3, A3, SC2, SC4, residual geometry, falsifier decision algebra, and foundational boundary hardening executed as adjacent-track artifacts with integrated certification and no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
@@ -319,6 +319,7 @@ Adjacent research pillars — not hard-gate physics claims, but honest quantitat
 | 270 | `src/core/pillar270_orbifold_kawamura_equivalence.py` | Orbifold/Kawamura Equivalence Hardening: executable parity-matrix and spectrum equivalence checks between the UM winding-derived orbifold route and the canonical SU(5)/Z₂ projection | 3 | 🔵 ADJACENT TRACK |
 | 271 | `src/core/pillar271_flavor_higgs_first_principles_chain.py` | Unified Flavor + Higgs First-Principles Chain: consolidated topology-driven packet for Yukawas, CKM ρ̄, PMNS angles, and Higgs mass from the derived top Yukawa | 3 | 🔵 ADJACENT TRACK |
 | 272 | `src/core/pillar272_alpha_s_basin_hardening.py` | α_s Basin Hardening: multi-parameter Kähler / complex-structure / flux basin scan around the canonical 10D α_s point with explicit outer-edge tension flags | 3 | 🔵 ADJACENT TRACK |
+| 273 | `src/core/pillar273_autonomous_github_community_steward.py` | Autonomous GitHub Community Steward & Security Operations: Pentad-governed deterministic repository/community stewardship — dependency surveillance, stale-issue triage, security vulnerability reporting, contributor onboarding routing, and immutable hash-verified operation reports with explicit human-review boundaries | 220 | 🔵 ADJACENT TRACK |
 
 Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
 

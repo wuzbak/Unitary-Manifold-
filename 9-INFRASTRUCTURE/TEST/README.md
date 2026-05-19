@@ -54,7 +54,7 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 pip install numpy scipy pytest
 python -m pytest tests/ -v          # fast suite — see STATUS.md for current total
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q  # full suite — 29 425 pass
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q  # full suite — 33,784 passed
 ```
 
 Expected result (default):

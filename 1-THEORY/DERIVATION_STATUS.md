@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v11.3 — Unambiguous Record**  
+**The Unitary Manifold v11.4 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-18 (v11.3 ordered residual sprint execution sync)*
+*Last updated: 2026-05-19 (v11.4 Pillar 273 renaming + canonical freshness sync)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
@@ -10,7 +10,7 @@
 >  
 > **Live-ledger note (anti-staleness):** For the latest wave-level status, treat
 > `STATUS.md`, `FALLIBILITY.md`, and `src/core/sm_free_parameters.py` as canonical.
-> Adjacent operational/governance additions (e.g., Pillar 259 autonomous community/security stewardship with Pentad-governed control routing)
+> Adjacent operational/governance additions (e.g., Pillar 273 autonomous community/security stewardship with Pentad-governed control routing)
 > are explicitly non-hardgate and do not change claim statuses in this ledger.
 > Historical sections in this document are preserved for audit traceability.
 
