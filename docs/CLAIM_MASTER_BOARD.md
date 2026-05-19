@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.5
+# Unitary Manifold v11.6
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
@@ -35,7 +35,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P14 | CKM ρ̄ (CP violation) | 0.159 | **0.1609** (8D Wilson blend; 9D robustness) | 1.22% | `DERIVED` | ✅ PASS | ρ̄ outside 5% band at ≥3σ | None | 2026-05-09 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | **1.2152 rad** (7D torsion + 9D KK+GS) | 1.27% | `DERIVED` | ✅ PASS | δ_CP ∉ [0.85, 1.30] rad at <3% (DUNE ~2030) | None | 2026-05-09 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | **f_c=7/126 (WS-III T²/Z₃: +52=πkR+3N_W)** | 0.20% | `DERIVED` | ✅ PASS | Δm²₂₁ outside 5% band at ≥3σ | None | 2026-05-09 |
-| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | **9D KK+GS hardgate corrected** 🔵 JUNO-WATCH: Baseline 2.18% gap projects to ~4.3σ at JUNO 0.5% precision (~2027). Pillar 274 NLO+seesaw (τ-Yukawa RGE + Z₂ Majorana partner, p_R=0.364) tightens to 0.004% — CONDITIONALLY closes gap; p_R is admissibility-fitted, not first-principles fixed. Run `tightened_dm31_prediction()` on JUNO DR1 release. | 2.18% → 0.004% (P274 tightened, conditional) | `DERIVED` | ✅ PASS | Δm²₃₁ ∉ [2.2, 2.7]×10⁻³ eV² at <1% (Hyper-K ~2028) | None | 2026-05-19 |
+| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | **9D KK+GS hardgate corrected** 🔵 JUNO-WATCH: Baseline 2.18% gap projects to ~4.3σ at JUNO 0.5% precision (~2027). Pillar 274 NLO+seesaw (τ-Yukawa RGE + Z₂ Majorana partner) tightens to 0.004% — CONDITIONAL_DERIVATION: correction sign and PMNS admissible window [0, sin²θ₂₃·cos²θ₁₃ ≈ 0.547] established from first principles; fitted p_R ≈ 0.364 lies within window. Named gap: SEESAW_TEXTURE_PARTICIPATION_GAP (exact p_R from WS-V Yukawa texture requires full KK seesaw diagonalization). Upgrade path: derive from pillar271_flavor_higgs_first_principles_chain.py. Run `p_r_conditional_derivation_status()` and `tightened_dm31_prediction()` on JUNO DR1 release. | 2.18% → 0.004% (P274 tightened, CONDITIONAL_DERIVATION) | `DERIVED` | ✅ PASS | Δm²₃₁ ∉ [2.2, 2.7]×10⁻³ eV² at <1% (Hyper-K ~2028) | None | 2026-05-19 |
 | P18 | θ₁₂ (solar mixing) | 33.82° | **Route A geometric** (CS/winding) | 1.55% | `DERIVED` | ✅ PASS | sin²θ₁₂ outside 5% band at ≥3σ | None | 2026-05-09 |
 | P19 | θ₂₃ (atmospheric mixing) | 48.3° | geometric (Tier-3 hardgate) | 0.82% | `DERIVED` | ✅ PASS | sin²θ₂₃ outside 5% band at ≥3σ | None | 2026-05-09 |
 | P20 | θ₁₃ (reactor mixing) | 8.57° | **braid NLO: sin²θ₁₃ = 3/138** | 0.28% | `DERIVED` | ✅ PASS | sin²θ₁₃ outside 5% band at ≥3σ | None | 2026-05-09 |

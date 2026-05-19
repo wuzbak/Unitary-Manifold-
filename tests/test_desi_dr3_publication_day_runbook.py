@@ -17,11 +17,15 @@ from src.core.desi_dr3_publication_day_runbook import (
     CANONICAL_DOCS_TO_UPDATE,
     DESI_DR2_WA_CENTRAL,
     DESI_DR2_WA_SIGMA,
+    DR3_TIMELINE_YEAR,
+    PILLAR_285_MODULE,
     THRESHOLD_CONSISTENT,
     THRESHOLD_FALSIFIED,
     THRESHOLD_HIGH_TENSION,
     THRESHOLD_TENSION,
     UM_WA_PREDICTION,
+    confirm_pillar285_preregistration,
+    dr3_readiness_checklist,
     mock_drill_scenario,
     publication_day_checklist,
     publication_day_runbook_report,
@@ -370,3 +374,115 @@ def test_runbook_report_has_verdict_thresholds():
     assert "verdict_thresholds" in report
     assert "CONSISTENT" in report["verdict_thresholds"]
     assert "FALSIFIED" in report["verdict_thresholds"]
+
+
+# ---------------------------------------------------------------------------
+# Pillar 285 pre-registration + DR3 readiness checklist (new)
+# ---------------------------------------------------------------------------
+
+
+def test_pillar_285_module_constant():
+    assert "pillar285" in PILLAR_285_MODULE
+    assert PILLAR_285_MODULE.endswith(".py")
+
+
+def test_dr3_timeline_year():
+    assert isinstance(DR3_TIMELINE_YEAR, int)
+    assert DR3_TIMELINE_YEAR >= 2027
+
+
+def test_confirm_pillar285_preregistration_structure():
+    p285 = confirm_pillar285_preregistration()
+    for key in (
+        "pillar_285_module",
+        "preregistered",
+        "current_desi_status",
+        "falsification_trigger",
+        "four_extensions",
+        "recommended_extension_if_falsified",
+        "dr3_timeline_year",
+        "purpose",
+    ):
+        assert key in p285
+
+
+def test_confirm_pillar285_preregistered_is_true():
+    p285 = confirm_pillar285_preregistration()
+    assert p285["preregistered"] is True
+
+
+def test_confirm_pillar285_four_extensions():
+    p285 = confirm_pillar285_preregistration()
+    assert len(p285["four_extensions"]) == 4
+    assert "Bulk Scalar" in p285["four_extensions"][0]
+
+
+def test_confirm_pillar285_current_status_not_falsified():
+    p285 = confirm_pillar285_preregistration()
+    assert "NOT FALSIFIED" in p285["current_desi_status"]
+
+
+def test_confirm_pillar285_falsification_trigger_is_3sigma():
+    p285 = confirm_pillar285_preregistration()
+    assert "3.0" in p285["falsification_trigger"]
+
+
+def test_confirm_pillar285_recommended_extension():
+    p285 = confirm_pillar285_preregistration()
+    assert "Bulk Scalar" in p285["recommended_extension_if_falsified"]
+
+
+def test_dr3_readiness_checklist_all_pass():
+    result = dr3_readiness_checklist()
+    assert result["all_checks_pass"] is True
+
+
+def test_dr3_readiness_checklist_structure():
+    result = dr3_readiness_checklist()
+    assert "checks" in result
+    assert "pillar_285_status" in result
+    assert isinstance(result["checks"], list)
+    assert len(result["checks"]) == 6
+
+
+def test_dr3_readiness_each_check_has_name_pass_detail():
+    result = dr3_readiness_checklist()
+    for check in result["checks"]:
+        assert "name" in check
+        assert "pass" in check
+        assert "detail" in check
+        assert isinstance(check["pass"], bool)
+
+
+def test_dr3_readiness_pillar_285_check_passes():
+    result = dr3_readiness_checklist()
+    p285_check = next(c for c in result["checks"] if c["name"] == "pillar_285_preregistered")
+    assert p285_check["pass"] is True
+
+
+def test_dr3_readiness_all_drill_scenarios_executable():
+    result = dr3_readiness_checklist()
+    drill_check = next(c for c in result["checks"] if "drill" in c["name"])
+    assert drill_check["pass"] is True
+
+
+def test_dr3_readiness_dr2_tension_below_falsification():
+    result = dr3_readiness_checklist()
+    tension_check = next(c for c in result["checks"] if "baseline_tension" in c["name"])
+    assert tension_check["pass"] is True
+    # DR2 tension should be ~2.07σ, well below 3.0
+    assert "2." in tension_check["detail"]
+
+
+def test_dr3_readiness_falsification_threshold_check():
+    result = dr3_readiness_checklist()
+    threshold_check = next(c for c in result["checks"] if "threshold" in c["name"])
+    assert threshold_check["pass"] is True
+    assert "3.0" in threshold_check["detail"]
+
+
+def test_dr3_readiness_timeline_documented():
+    result = dr3_readiness_checklist()
+    timeline_check = next(c for c in result["checks"] if "timeline" in c["name"])
+    assert timeline_check["pass"] is True
+    assert "2027" in timeline_check["detail"]

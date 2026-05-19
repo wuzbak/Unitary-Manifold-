@@ -14,14 +14,20 @@ from src.core.pillar274_juno_dm31_tightening import (
     JUNO_PRECISION_TARGET,
     M_ATM_EV,
     M_KK_GEV,
+    P17_SEESAW_PARTICIPATION_GAP,
     PILLAR_NUMBER,
     PILLAR_TITLE,
+    SEESAW_P_R_PMNS_UPPER_BOUND,
+    THETA_13_DEG,
+    THETA_23_DEG,
     V_HIGGS_GEV,
     Y_TAU,
     fractional_seesaw_participation_to_close,
+    geometric_p_r_bounds,
     juno_sigma_projection,
     juno_tightening_report,
     log_scale_ratio,
+    p_r_conditional_derivation_status,
     residual_pct,
     seesaw_partner_correction,
     separation_guard,
@@ -206,3 +212,93 @@ def test_no_hardgate_label_or_falsifier_drift():
     # PDG and precision target unchanged from canonical values
     assert r["inputs"]["DM2_31_PDG_eV2"] == pytest.approx(2.453e-3)
     assert r["inputs"]["juno_precision_target"] == pytest.approx(0.005)
+
+
+# ---------------------------------------------------------------------------
+# Geometric p_R bounds (new — CONDITIONAL_DERIVATION upgrade)
+# ---------------------------------------------------------------------------
+
+
+def test_pmns_mixing_angle_constants():
+    assert THETA_23_DEG == pytest.approx(48.3)
+    assert THETA_13_DEG == pytest.approx(8.57)
+
+
+def test_seesaw_p_r_pmns_upper_bound_formula():
+    """PMNS upper bound = sin²θ₂₃ × cos²θ₁₃ ≈ 0.547."""
+    expected = (
+        math.sin(math.radians(48.3)) ** 2
+        * math.cos(math.radians(8.57)) ** 2
+    )
+    assert SEESAW_P_R_PMNS_UPPER_BOUND == pytest.approx(expected, rel=1e-9)
+    # Must be in (0.4, 0.7) — physically reasonable fraction
+    assert 0.4 < SEESAW_P_R_PMNS_UPPER_BOUND < 0.7
+
+
+def test_geometric_p_r_bounds_structure():
+    bounds = geometric_p_r_bounds()
+    for key in ("lower_bound", "pmns_upper_bound", "fitted_p_r", "in_window", "status", "named_gap"):
+        assert key in bounds
+
+
+def test_geometric_p_r_bounds_window_consistent():
+    """Default fitted p_R must lie within the PMNS admissible window."""
+    bounds = geometric_p_r_bounds()
+    assert bounds["lower_bound"] == 0.0
+    assert bounds["in_window"] is True
+    assert bounds["status"] == "CONDITIONAL_DERIVATION_WINDOW_CONSISTENT"
+    assert bounds["fitted_p_r"] > 0.0
+    assert bounds["fitted_p_r"] < bounds["pmns_upper_bound"]
+
+
+def test_geometric_p_r_bounds_violation_detected():
+    """A p_R above the PMNS upper bound must be flagged as PMNS_BOUND_VIOLATED."""
+    bounds = geometric_p_r_bounds(fitted_p_r=0.99)
+    assert bounds["in_window"] is False
+    assert bounds["status"] == "PMNS_BOUND_VIOLATED"
+
+
+def test_geometric_p_r_bounds_named_gap_is_string():
+    bounds = geometric_p_r_bounds()
+    assert isinstance(bounds["named_gap"], str)
+    assert "SEESAW_TEXTURE_PARTICIPATION_GAP" in bounds["named_gap"]
+
+
+def test_p17_seesaw_participation_gap_constant():
+    assert "SEESAW_TEXTURE_PARTICIPATION_GAP" in P17_SEESAW_PARTICIPATION_GAP
+    assert "CONDITIONAL_DERIVATION" in P17_SEESAW_PARTICIPATION_GAP
+
+
+def test_p_r_conditional_derivation_status_structure():
+    status = p_r_conditional_derivation_status()
+    for key in (
+        "pillar", "parameter", "epistemic_status", "pmns_upper_bound",
+        "fitted_p_r", "window_consistent", "what_is_established",
+        "what_is_not_yet_derived", "named_residual_gap", "upgrade_path",
+    ):
+        assert key in status
+
+
+def test_p_r_conditional_derivation_status_values():
+    status = p_r_conditional_derivation_status()
+    assert status["epistemic_status"] == "CONDITIONAL_DERIVATION"
+    assert status["pillar"] == 274
+    assert status["window_consistent"] is True
+    assert len(status["what_is_established"]) >= 3
+    assert len(status["what_is_not_yet_derived"]) >= 1
+    assert "SEESAW_TEXTURE_PARTICIPATION_GAP" in status["named_residual_gap"]
+
+
+def test_full_report_includes_p_r_bounds_and_conditional_status():
+    """juno_tightening_report must expose the new geometric-bounds sub-reports."""
+    r = juno_tightening_report()
+    assert "p_r_bounds" in r
+    assert "p_r_conditional_derivation" in r
+    assert r["p_r_bounds"]["in_window"] is True
+    assert r["p_r_conditional_derivation"]["epistemic_status"] == "CONDITIONAL_DERIVATION"
+
+
+def test_honest_note_reflects_conditional_derivation():
+    r = juno_tightening_report()
+    assert "CONDITIONAL_DERIVATION" in r["honest_note"]
+    assert "SEESAW_TEXTURE_PARTICIPATION_GAP" in r["honest_note"]
