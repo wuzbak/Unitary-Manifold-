@@ -38,3 +38,12 @@ CITATION.cff                        @wuzbak
 
 # --- CI and repository configuration ---
 .github/                            @wuzbak
+
+# --- Physics-claim and falsifier surfaces (explicit steward routing) ---
+STATUS.md                           @wuzbak
+FALLIBILITY.md                      @wuzbak
+docs/CLAIM_MASTER_BOARD.md          @wuzbak
+docs/TRUTH_LAYER.md                 @wuzbak
+docs/GATEKEEPER_SUMMARY.md          @wuzbak
+3-FALSIFICATION/                    @wuzbak
+1-THEORY/                           @wuzbak

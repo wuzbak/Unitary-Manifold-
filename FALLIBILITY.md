@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,057 passed · 393 skipped · 12 deselected · 0 failed).*
+*Unitary Manifold v11.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,070 passed · 393 skipped · 12 deselected · 0 failed).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (34,057 passed, 393 skipped, 12 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (34,070 passed, 393 skipped, 12 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -76,7 +76,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "34,057 passed · 393 skipped · 12 deselected · 0 failed," this is a statement about
+When the README badge reads "34,070 passed · 393 skipped · 12 deselected · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an

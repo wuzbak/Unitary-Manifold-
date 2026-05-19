@@ -1,0 +1,19 @@
+title: "Theory Discussion"
+labels: [theory]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for framework-level theory discussion.
+  - type: textarea
+    id: thesis
+    attributes:
+      label: Thesis
+      description: What claim or mechanism are you discussing?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Cite modules, tests, and references.

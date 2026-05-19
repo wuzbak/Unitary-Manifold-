@@ -1,0 +1,28 @@
+name: Endorsement request
+about: Coordinate arXiv endorsement and submission readiness.
+title: "[Endorsement] "
+labels: [endorsement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚖️ Epistemic boundary reminder: endorsement packaging must preserve all explicit open tensions and falsifiers.
+  - type: input
+    id: channel
+    attributes:
+      label: Target channel
+      placeholder: arXiv category, institutional review list, referee outreach
+    validations:
+      required: true
+  - type: textarea
+    id: packet
+    attributes:
+      label: Submission packet checklist
+      description: Manuscript version, test counts, falsifiers, and links.
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Blockers
+      description: Any unresolved gating or metadata blockers.
