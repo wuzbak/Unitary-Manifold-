@@ -120,7 +120,12 @@ DESI_DR2: Dict[str, float] = {
     "year": 2025,
 }
 
-# Verify triple-check at module load time:
+# Internal self-consistency check executed at module load time.
+# This verifies that the DESI_DR2 tension values are consistent with the
+# underlying central values and error bars (triple-check principle: if the
+# DESI_DR2 dict is ever edited, this will catch inconsistencies immediately).
+# The assertions are lightweight (two subtractions and comparisons) and will
+# only fail if the module-level constants are mutually inconsistent.
 _bao_check = abs(DESI_DR2["wa_central_bao"] - UM_WA_PREDICTION) / DESI_DR2["wa_sigma_bao"]
 _combined_check = abs(DESI_DR2["wa_central_combined"] - UM_WA_PREDICTION) / DESI_DR2["wa_sigma_combined"]
 assert abs(_bao_check - DESI_DR2["tension_sigma_bao"]) < 1.0e-10, (

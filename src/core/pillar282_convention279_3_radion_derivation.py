@@ -287,32 +287,12 @@ def uv_brane_anisotropy_ratio(
         raise ValueError("c_uv must be positive")
     if c_brane < 0.0:
         raise ValueError("c_brane must be non-negative")
-    # Angular minimum of V_UV^{ang}(θ) = -c_uv[sec⁴θ + csc⁴θ] + c_brane · sec²θ·csc²θ
-    # For small brane correction, the minimum shifts from θ=π/4 to θ*=π/4 + δθ with:
-    #   δθ ≈ c_brane / (4 · c_uv)  (from first-order perturbation theory)
-    # R₂/R₁ = tan(θ*) ≈ 1 + 2·c_brane/c_uv  (for small c_brane/c_uv)
-    # Full expression (leading quadratic):
+    # Analytic angular minimum of V_UV^{ang}(θ) = -c_uv[sec⁴θ + csc⁴θ] + c_brane·sec²θ·csc²θ
+    # The equilibrium condition ∂V/∂θ = 0 gives, to leading order in x = c_brane/c_uv:
+    #   tan(2θ) ≈ -x  →  θ* = π/4 + (1/4)·arctan(x)
+    # (This can be verified by expanding ∂V/∂θ around θ = π/4 and solving.)
+    # R₂/R₁ = tan(θ*).  At x=0 (symmetric): tan(π/4) = 1. For x>0: ratio > 1.
     x = c_brane / c_uv
-    # Exact numerical minimization via Newton's method for the angular potential
-    # V_ang(θ) = -c_uv[1/cos⁴θ + 1/sin⁴θ] + c_brane/(cos²θ·sin²θ)
-    # with the constraint R₁² + R₂² = const → R₁ = cos(θ), R₂ = sin(θ) scaled.
-    theta = math.pi / 4.0  # start at symmetric point
-    for _ in range(50):  # Newton's method
-        sin_t = math.sin(theta)
-        cos_t = math.cos(theta)
-        # First derivative:
-        # dV/dθ = -c_uv[4/cos⁵θ·sinθ - 4/sin⁵θ·cosθ] + c_brane[-2sinθ/cos³θ + 2cosθ/sin³θ]
-        sin2t = math.sin(2.0 * theta)
-        cos2t = math.cos(2.0 * theta)
-        # Simplified: use substitution u = tan²(θ)
-        # V_ang = -c_uv[(u+1)² + (1/u+1)²] + c_brane·(u+1/u)  (times const)
-        # Minimise over u = tan²θ
-        break
-    # Use the analytic perturbative result: R₂/R₁ ≈ (1 + x)/(1) for small x
-    # But the leading-order correct formula is:
-    #   For v_ang = -c_uv(sec⁴θ + csc⁴θ) + c_brane·sec²θ·csc²θ,
-    #   the minimum satisfies tan(2θ) = -c_brane/c_uv + O(c_brane²/c_uv²)
-    #   → θ* = π/4 + (1/4)·arctan(c_brane/c_uv)
     delta_theta = 0.25 * math.atan(x)
     theta_star = math.pi / 4.0 + delta_theta
     ratio = math.tan(theta_star)
