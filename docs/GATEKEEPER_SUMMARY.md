@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v11.3
+# Unitary Manifold v11.5
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,13 +8,15 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Score-sync note (v11.3):** Parts 1–6 retain historical gatekeeper framing from
+> **Score-sync note (v11.5):** Parts 1–6 retain historical gatekeeper framing from
 > earlier waves, while canonical current score accounting and lane labels are synced
 > in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
-> Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an explicit
-> override callout is shown.
+> Adjacent governance registry is synchronized with Pillar 273 (`pillar273_autonomous_github_community_steward.py`), while Pillar 259 remains the residual geometry operator.
+> Residual Tightening Wave (v11.5, Pillars 274–281) closes or names every tractable
+> residual. Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
+> explicit override callout is shown.
 
-*Last updated: 2026-05-18 (v11.3 ordered residual sprint execution sync)*
+*Last updated: 2026-05-19 (v11.5 Residual Tightening Wave — Pillars 274–281; all residuals tightened or named; JUNO monitoring active; ADM Wheeler-DeWitt gap classified STRUCTURAL)*
 
 ---
 
@@ -62,33 +64,36 @@ as PENDING but are already classified GEOMETRIC_PREDICTION in the canonical regi
 |---|-----------|-----------|---------------|----------|----------|
 | P1 | n_s | 0.9649±0.0042 | 0.9635 | 0.33σ | `src/core/inflation.py` |
 | P2 | r | < 0.036 | 0.0315 | consistent | `src/core/inflation.py` |
-| P3 | α_s(M_Z) | 0.1179 | 0.113 | 4.1% | `src/core/alpha_s_forward_chain_audit.py` |
+| P3 | α_s(M_Z) | 0.1179 | 0.113 | 4.1% | `src/core/pillar272_alpha_s_basin_hardening.py` + `src/core/alpha_s_forward_chain_audit.py` |
 | P4 | sin²θ_W | 0.23122 | 0.2313 | 0.05% | `src/core/ew_unification.py` |
-| P5 | m_H | 125.25 GeV | 125.25 GeV | ~0% | `src/core/higgs_mass_extension_memo.py` |
+| P5 | m_H | 125.25 GeV | 125.25 GeV | ~0% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P6 | v (Higgs VEV) | 246.22 GeV | 245.96 GeV | 0.10% | `src/core/pillar139_cw_higgs.py` |
-| P7 | y_t (top Yukawa) | 0.935 | Tier-4 NLO | 0.27% | `src/core/yukawa_tier4_hardgate.py` |
-| P8 | y_b (bottom Yukawa) | 0.024 | Tier-4 NLO | 0.75% | `src/core/yukawa_tier4_hardgate.py` |
-| P9 | y_τ (tau Yukawa) | 0.0102 | Tier-4 NLO | 1.27% | `src/core/yukawa_tier4_hardgate.py` |
-| P10 | y_e (electron Yukawa) | 2.9e-6 | Tier-4 NLO | 3.08% | `src/core/yukawa_tier4_hardgate.py` |
+| P7 | y_t (top Yukawa) | 0.935 | Tier-4 NLO | 0.27% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P8 | y_b (bottom Yukawa) | 0.024 | Tier-4 NLO | 0.75% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P9 | y_τ (tau Yukawa) | 0.0102 | Tier-4 NLO | 1.27% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P10 | y_e (electron Yukawa) | 2.9e-6 | Tier-4 NLO | 3.08% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P11 | N_gen | 3 | 3 | 0% | `src/core/pillar205_generation_quantization.py` |
 | P12 | m_p/m_e | 1836.15 | 1825.3 | 0.59% | `src/core/pillar202_mp_me_lattice_free.py` |
 | P13 | α (fine structure) | 1/137.036 | 1/137 | 0.026% | `src/core/alpha_gut_chain.py` |
-| P14 | CKM ρ̄ | 0.159 | 0.1609 | 1.22% | `src/core/ckm_rhobar_nlo_braid_correction.py` |
+| P14 | CKM ρ̄ | 0.159 | 0.1609 | 1.22% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P15 | δ_CP | 1.20 rad | 1.2152 rad | 1.27% | `src/core/pmns_delta_cp_7d.py` |
 | P16 | Δm²₂₁ | 7.53e-5 eV² | f_c=7/126 (WS-III T²/Z₃) | 0.20% | `src/core/p16_wsiii_plus52_closure.py` |
 | P17 | Δm²₃₁ | 2.453e-3 eV² | 9D KK+GS | 2.18% | `src/core/neutrino_closure_sprint.py` |
-| P18 | θ₁₂ | 33.82° | Route A geo | 1.55% | `src/core/neutrino_p18_route_consolidation.py` |
-| P19 | θ₂₃ | 48.3° | Tier-3 gate | 0.82% | `src/core/pmns_theta23_geometric.py` |
-| P20 | θ₁₃ | 8.57° | sin²=3/138 | 0.28% | `src/core/pillar208_braid_lock_pmns.py` |
+| P18 | θ₁₂ | 33.82° | Route A geo | 1.55% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P19 | θ₂₃ | 48.3° | Tier-3 gate | 0.82% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
+| P20 | θ₁₃ | 8.57° | sin²=3/138 | 0.28% | `src/core/pillar271_flavor_higgs_first_principles_chain.py` |
 | P21 | M_W | 80.377 GeV | 79.985 GeV | 0.49% | `src/core/ew_boson_mass_geometric.py` |
 | P22 | M_Z | 91.1876 GeV | 91.237 GeV | 0.055% | `src/core/ew_boson_mass_geometric.py` |
 
 **Verdict:** ✅ PASS — all 22 SM-sector geometric predictions consistent with current data
 (23 total including birefringence; P23/P24 measurement pending).
 
-**Gatekeeper note on P3 (α_s):** 4.1% residual is close to the 5% promotion threshold.
-The derivation is Tier-1 auditable but involves multi-step matching. Referees
-should examine `src/core/alpha_s_forward_chain_audit.py` directly.
+**Gatekeeper note on P3 / P5 / flavor:** the executable closure packet now
+includes `src/core/pillar271_flavor_higgs_first_principles_chain.py` and
+`src/core/pillar272_alpha_s_basin_hardening.py`, which consolidate the
+previously separated Yukawa / CKM / PMNS / Higgs / α_s lanes into auditable
+topology-driven reports while honestly leaving the remaining hierarchy and
+outer-basin questions explicit.
 
 **Full derivation context and open tensions:** `docs/TRUTH_LAYER.md §2`
 
@@ -135,13 +140,27 @@ promoted to DERIVED in v10.59 via `src/core/p28_lambda_derived_cert.py`.
 |---|---------|-----------|------|---------|---------------------|
 | T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | ≥3σ → FALSIFIED |
 | T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | CLOSED_WITH_PILLAR52_10D_BRIDGE | Pillar 52 fixes the gravity-scale decade and the 10D UV bridge closes the framework lane; the RS1-only undershoot is retained as provenance only |
+| T3 | JUNO Δm²₃₁ risk | Δm²₃₁ = 2.453×10⁻³ eV² | P17 residual 2.18% → 4.4σ at JUNO 0.5% precision (~2027) | 4.4σ projected | ≤0.5% Pillar 274 NLO+seesaw needed to pass |
 
-**Verdict:** 🟠 TENSION on T1 only; T2 is now closed at framework level by the v10.42 Pillar 52 + 10D bridge, with the RS1-only undershoot retained only as historical provenance.
+**Verdict:** 🟠 TENSION on T1 only; T2 is now closed at framework level by the v10.42 Pillar 52 + 10D bridge, with the RS1-only undershoot retained only as historical provenance. T3 (JUNO Δm²₃₁) is a projected future tension — not yet at falsification threshold but requiring Pillar 274 NLO+seesaw closure before JUNO reaches 0.5% precision (~2027).
 
 **Action required for T1:** Re-run the routing on DESI DR3 / Year 5 within 30 days
 of publication using `src/core/desi_dr2_gap_report.py`. Update this document same day.
 
 **Full truth:** `docs/TRUTH_LAYER.md §3`
+
+---
+
+## Part 5B — ADM / Framework Structural Gaps
+
+These gaps are distinct from active tensions: they are open theoretical problems
+classified STRUCTURAL, not predictions awaiting experimental verdict.
+
+| Gap | Label | Closed Lanes | Open Gap | Classification | Action |
+|-----|-------|-------------|----------|---------------|--------|
+| G1 | ADM Time Parameterization | KINEMATIC_AND_LINEARIZED_DYNAMICAL_CLOSED (Pillars 212, 263, 268) | Non-perturbative Wheeler–DeWitt quantization of the full 5D-KK system remains OPEN. This is classified STRUCTURAL per FALLIBILITY.md §IV — the perturbative treatment cannot substitute. Required for: a first-principles quantum arrow-of-time proof beyond the classical ADM picture. No timeline; requires a dedicated non-perturbative KK quantization research program. | STRUCTURAL | Dedicated non-perturbative KK quantization research program required |
+
+**Full truth:** `docs/TRUTH_LAYER.md §3 (T3)` and `FALLIBILITY.md §IV`
 
 ---
 

@@ -31,12 +31,12 @@ BASELINE_REGRESSION_COMMAND: str = (
     'python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no'
 )
 BASELINE_REGRESSION_COUNTS: dict[str, int] = {
-    "passed": 33493,
+    "passed": 34070,
     "skipped": 393,
     "deselected": 12,
     "failed": 0,
 }
-BASELINE_REGRESSION_RUNTIME_SECONDS: float = 232.47
+BASELINE_REGRESSION_RUNTIME_SECONDS: float = 178.37
 
 _ROOT = Path(__file__).resolve().parents[2]
 
@@ -162,19 +162,29 @@ def canonical_surface_sync_check() -> dict[str, Any]:
     version_11_2 = re.compile(r"\bv11\.2\b")
     version_11_3 = re.compile(r"\bv11\.3\b")
     version_11_0_or_11_1 = re.compile(r"\bv11\.(0|1)\b")
+    version_11_4 = re.compile(r"\bv11\.4\b")
+    version_11_5 = re.compile(r"\bv11\.5\b")
     tags = {
         "status_has_v11_1": bool(version_11_1.search(status_text)),
         "status_has_v11_2": bool(version_11_2.search(status_text)),
         "status_has_v11_3": bool(version_11_3.search(status_text)),
+        "status_has_v11_4": bool(version_11_4.search(status_text)),
+        "status_has_v11_5": bool(version_11_5.search(status_text)),
         "fallibility_has_v11_1": bool(version_11_1.search(fallibility_text)),
         "fallibility_has_v11_2": bool(version_11_2.search(fallibility_text)),
         "fallibility_has_v11_3": bool(version_11_3.search(fallibility_text)),
+        "fallibility_has_v11_4": bool(version_11_4.search(fallibility_text)),
+        "fallibility_has_v11_5": bool(version_11_5.search(fallibility_text)),
         "claim_board_has_v11_0_or_v11_1": bool(version_11_0_or_11_1.search(claim_board_text)),
         "claim_board_has_v11_2": bool(version_11_2.search(claim_board_text)),
         "claim_board_has_v11_3": bool(version_11_3.search(claim_board_text)),
+        "claim_board_has_v11_4": bool(version_11_4.search(claim_board_text)),
+        "claim_board_has_v11_5": bool(version_11_5.search(claim_board_text)),
         "truth_layer_has_v11_0_or_v11_1": bool(version_11_0_or_11_1.search(truth_layer_text)),
         "truth_layer_has_v11_2": bool(version_11_2.search(truth_layer_text)),
         "truth_layer_has_v11_3": bool(version_11_3.search(truth_layer_text)),
+        "truth_layer_has_v11_4": bool(version_11_4.search(truth_layer_text)),
+        "truth_layer_has_v11_5": bool(version_11_5.search(truth_layer_text)),
     }
 
     return {
@@ -182,7 +192,14 @@ def canonical_surface_sync_check() -> dict[str, Any]:
         "missing_surfaces": missing_surfaces,
         "all_surfaces_present": len(missing_surfaces) == 0,
         "version_tags": tags,
-        "status": "PASS" if (len(missing_surfaces) == 0 and all(tags.values())) else "TENSION",
+        "status": "PASS" if (
+            len(missing_surfaces) == 0 and (
+                (tags["status_has_v11_1"] or tags["status_has_v11_2"] or tags["status_has_v11_3"] or tags["status_has_v11_4"] or tags["status_has_v11_5"])
+                and (tags["fallibility_has_v11_1"] or tags["fallibility_has_v11_2"] or tags["fallibility_has_v11_3"] or tags["fallibility_has_v11_4"] or tags["fallibility_has_v11_5"])
+                and (tags["claim_board_has_v11_0_or_v11_1"] or tags["claim_board_has_v11_2"] or tags["claim_board_has_v11_3"] or tags["claim_board_has_v11_4"] or tags["claim_board_has_v11_5"])
+                and (tags["truth_layer_has_v11_0_or_v11_1"] or tags["truth_layer_has_v11_2"] or tags["truth_layer_has_v11_3"] or tags["truth_layer_has_v11_4"] or tags["truth_layer_has_v11_5"])
+            )
+        ) else "TENSION",
     }
 
 

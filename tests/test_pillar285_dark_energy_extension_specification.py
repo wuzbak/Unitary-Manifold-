@@ -1,8 +1,8 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-"""Tests for src/core/pillar268_dark_energy_extension_specification.py.
+"""Tests for src/core/pillar285_dark_energy_extension_specification.py.
 
-Pillar 268 — Dark Energy Extension Specification (v2.0 Contingency Architecture)
+Pillar 285 — Dark Energy Extension Specification (v2.0 Contingency Architecture)
 
 Validates: quantitative extension constraints, DR3 falsification routing,
 viability rankings, and the full extension specification report.
@@ -13,7 +13,7 @@ from __future__ import annotations
 import math
 import pytest
 
-from src.core.pillar268_dark_energy_extension_specification import (
+from src.core.pillar285_dark_energy_extension_specification import (
     # Constants
     UM_WA_PREDICTION,
     FALSIFICATION_THRESHOLD_SIGMA,
@@ -477,7 +477,7 @@ class TestExtensionSpecificationReport:
 # ─────────────────────────────────────────────────────────────────────────────
 
 class TestPublishedNumbersCrossCheck:
-    """Verify Pillar 268 numbers are consistent with all other DESI modules."""
+    """Verify Pillar 285 numbers are consistent with all other DESI modules."""
 
     def test_desi_tension_consistent_with_monitor(self):
         # Import the corrected monitor and verify consistency

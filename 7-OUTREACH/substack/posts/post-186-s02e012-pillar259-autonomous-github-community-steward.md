@@ -187,5 +187,17 @@ That is the kind of self-consistency that either holds everywhere or doesn't hol
 
 ---
 
+**Errata (2026-05-19, v11.5):** A naming collision was resolved in v11.4
+between two pillars that had each been labelled "Pillar 259".  The
+autonomous GitHub community steward module described in this post is now
+**Pillar 273** (`src/core/pillar273_autonomous_github_community_steward.py`),
+and "Pillar 259" is exclusively the Residual Geometry Operator.  The
+architecture, behaviour, HILS non-negotiables, and tests described above
+are unchanged; only the pillar number has been corrected in the canonical
+ledgers.  This errata footer is appended in line with HILS non-negotiable
+6 (preserve original article body; do not rewrite history).
+
+---
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.3 — Effective 2026-05-18*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.3 wave: Ordered Residual Sprint Execution — T3, A3, SC2, SC4, residual geometry, falsifier decision algebra, and foundational boundary hardening executed as adjacent-track artifacts with integrated certification and no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.6 — Effective 2026-05-19*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.6 env-hardening: fixed copilot-setup-steps.yml to install from requirements.txt, resolving 6 sympy-collection errors; all 215 previously-skipped sympy tests now run and pass — no pillar or hardgate changes). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 33,784 passed · 393 skipped · 12 deselected · 0 failed
-*(v11.3: Ordered residual sprint execution — adjacent-track mathematical hardening expanded; no hardgate claim changes)*
+**Latest verified branch regression:** 34,267 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
+*(v11.6: env-hardening — copilot-setup-steps.yml now installs from requirements.txt; 6 previously-broken sympy-dependent test files (215 tests) now collect and pass; total increases by +80 from v11.5 baseline of 34,187)*
 
 ---
 
@@ -262,7 +262,7 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Adjacent Research Tracks (Pillars 218–262)
+### Adjacent Research Tracks (Pillars 218–281)
 
 Adjacent research pillars — not hard-gate physics claims, but honest quantitative explorations, closure-support lanes, and domain/application syntheses that extend the Unitary Manifold without changing the frozen core pillar set. Each ships a source module and full test suite.
 
@@ -309,14 +309,45 @@ Adjacent research pillars — not hard-gate physics claims, but honest quantitat
 | 260 | `src/core/pillar260_falsifier_decision_algebra.py` | Falsifier Decision Algebra: executable LiteBIRD / DESI / JUNO / CMB-S4 boundary margins and routing logic with no weakening of existing thresholds | 6 | 🔵 ADJACENT TRACK |
 | 261 | `src/core/pillar261_foundational_boundary_hardening.py` | Foundational Boundary Hardening: machine-readable blocker/no-go registry for the remaining hardgate boundaries (ADM dynamical closure, KK fermion reduction, orbifold equivalence, braided referee dossier) | 3 | 🔵 ADJACENT TRACK |
 | 262 | `src/core/pillar262_full_residual_sprint_execution.py` | Full Residual Sprint Execution Engine: ordered execution and integrated certification of T3 → A3 → SC2 → SC4 → residual geometry → falsifier decision algebra → foundational boundary hardening | 2 | 🔵 ADJACENT TRACK |
-| 263 | `src/core/pillar263_bssn_kk_extrinsic_curvature.py` | BSSN KK Extrinsic Curvature Dynamics: full 5D→4D Arnowitt-Deser-Misner reduction with extrinsic curvature tensor K_ij, trace K, and BSSN decomposition for the KK metric | — | 🔵 ADJACENT TRACK |
-| 264 | `src/core/pillar264_higgs_naturalness_two_loop_uv.py` | Higgs Naturalness Two-Loop UV Completion: RS1/KK two-loop naturalness audit for the Higgs mass against the 1 TeV KK scale | — | 🔵 ADJACENT TRACK |
-| 265 | `src/core/pillar265_mukhanov_sasaki_as_closure.py` | Mukhanov-Sasaki A_s Closure: power spectrum amplitude closure in KK slow-roll geometry via the Mukhanov-Sasaki equation | — | 🔵 ADJACENT TRACK |
-| 266 | `src/core/pillar266_desi_wa_frozen_radion.py` | DESI wₐ Frozen-Radion EoS Bound: quantitative wₐ ≡ 0 derivation from frozen Goldberger-Wise radion (m_r/H₀ ≈ 10⁶⁰), honest 2.07–2.75σ tension with DESI DR2, Y5 falsification projection | — | 🔵 ADJACENT TRACK |
-| 267 | `src/core/pillar267_braid_uniqueness_instanton.py` | Braid Uniqueness Instanton: instanton-sector argument for n_w = 5 uniqueness from the (5,7) braid resonance; links to Pillar 39 and Pillar 70-B | — | 🔵 ADJACENT TRACK |
-| 268 | `src/core/pillar268_dark_energy_extension_specification.py` | Dark Energy Extension Specification (v2.0 Contingency Architecture): pre-registered formal specification of the four candidate theoretical extensions (bulk scalar quintessence, cosmological radion, k-essence, coupled dark energy) that would be required if DESI DR3 falsifies wₐ = 0 at ≥ 3σ; quantitative constraints, BF bound, sub-Planckian displacement checks, GW stability, CMB growth-rate bounds; links to Pillar 266 and corrected tension monitor | 138 | 🔵 ADJACENT TRACK |
+| 263 | `src/core/pillar263_bssn_kk_extrinsic_curvature.py` | BSSN KK Extrinsic Curvature Dynamics: executable 5D→4D reduced-sector BSSN closure layer with KK source terms, conformal variables, and quantitative constraint checks | 56 | 🔵 ADJACENT TRACK |
+| 264 | `src/core/pillar264_higgs_naturalness_two_loop_uv.py` | Higgs Naturalness Two-Loop UV Audit: explicit two-loop and UV-sensitivity hardening for the Higgs hierarchy / naturalness lane without changing score-lane labels | 49 | 🔵 ADJACENT TRACK |
+| 265 | `src/core/pillar265_mukhanov_sasaki_as_closure.py` | Mukhanov-Sasaki A_s Closure: full scalar-power-spectrum normalization lane in the braided KK slow-roll background with explicit transfer-normalization tension accounting | 39 | 🔵 ADJACENT TRACK |
+| 266 | `src/core/pillar266_desi_wa_frozen_radion.py` | DESI Frozen-Radion wₐ Bound: quantitative frozen-radion upper bound, current DESI DR2/Y3 tension, and Y5 falsification projection in one executable packet | 27 | 🔵 ADJACENT TRACK |
+| 267 | `src/core/pillar267_braid_uniqueness_instanton.py` | Braid-Pair Uniqueness Instanton Audit: coprime-pair enumeration, three-constraint funnel, χ² ranking, and explicit remaining theorem-level gap statement for the (5,7) braid | 31 | 🔵 ADJACENT TRACK |
+| 268 | `src/core/pillar268_adm_inhomogeneous_linearized_closure.py` | ADM Linearized Inhomogeneous Closure Audit: executable perturbative inhomogeneous scans extending the ADM/BSSN lane beyond pure kinematics while leaving non-perturbative quantization explicit | 4 | 🔵 ADJACENT TRACK |
+| 269 | `src/core/pillar269_fermion_kk_sector_closure.py` | Fermion KK Sector Closure Packet: consolidated zero-mode/index/orbifold/anchor-elimination audit that closes the fermion zero-mode lane while honestly leaving the absolute hierarchy open | 3 | 🔵 ADJACENT TRACK |
+| 270 | `src/core/pillar270_orbifold_kawamura_equivalence.py` | Orbifold/Kawamura Equivalence Hardening: executable parity-matrix and spectrum equivalence checks between the UM winding-derived orbifold route and the canonical SU(5)/Z₂ projection | 3 | 🔵 ADJACENT TRACK |
+| 271 | `src/core/pillar271_flavor_higgs_first_principles_chain.py` | Unified Flavor + Higgs First-Principles Chain: consolidated topology-driven packet for Yukawas, CKM ρ̄, PMNS angles, and Higgs mass from the derived top Yukawa | 3 | 🔵 ADJACENT TRACK |
+| 272 | `src/core/pillar272_alpha_s_basin_hardening.py` | α_s Basin Hardening: multi-parameter Kähler / complex-structure / flux basin scan around the canonical 10D α_s point with explicit outer-edge tension flags | 3 | 🔵 ADJACENT TRACK |
+| 273 | `src/core/pillar273_autonomous_github_community_steward.py` | Autonomous GitHub Community Steward & Security Operations: Pentad-governed deterministic repository/community stewardship — dependency surveillance, stale-issue triage, security vulnerability reporting, contributor onboarding routing, and immutable hash-verified operation reports with explicit human-review boundaries | 220 | 🔵 ADJACENT TRACK |
+| 274 | `src/core/pillar274_juno_dm31_tightening.py` | JUNO Δm²₃₁ NLO/RGE/Seesaw Tightening: explicit threshold-corrected M_KK→m_atm running, τ-Yukawa back-reaction at NLO, and seesaw v²/M_R² correction with derived sign and coefficient; closes the 2.16% gap to PDG and projects JUNO 0.5%-precision residual | 18 | 🔵 ADJACENT TRACK |
+| 275 | `src/core/pillar275_higgs_naturalness_schwinger_convergence.py` | A3 Higgs Naturalness Schwinger-Regulator Convergence: analytic KK-tower sum with proven absolute convergence, closed-form O(1/N) remainder bound, and Δ_∞ ± analytic error replacing the single N=10 sample | 17 | 🔵 ADJACENT TRACK |
+| 276 | `src/core/pillar276_t3_momentum_constraint_sector.py` | T3 ADM Momentum-Constraint Sector with Non-Trivial Radion Shift: oscillating β^φ(t) coupled (H, M) sector pair on perturbed background; constraint metric ≤ 10⁻¹⁰ over finite-time window advances closure_blocker to "two_sectors_complete" | 16 | 🔵 ADJACENT TRACK |
+| 277 | `src/core/pillar277_cmb_peak_three_term_decomposition.py` | CMB Peak Suppression Three-Term Decomposition: closed-form S_total = S_braid · S_alphaGW · S_5D_cap factoring with log-identity to machine precision; named modules and per-term fractions feed FALLIBILITY Admission #2 rewrite | 14 | 🔵 ADJACENT TRACK |
+| 278 | `src/core/pillar278_sc4_effective_flux_multiplicity_theorem.py` | SC4 Effective-Flux Multiplicity Theorem: algebraic enumeration (Theorem 278.1) of n_eff = 2 · n_flux via orientifold-invariant (2,1)-form count × independent RR/NS-NS channels, replacing the scan-based DUAL_FLUX_MULTIPLICITY attestation | 12 | 🔵 ADJACENT TRACK |
+| 279 | `src/core/pillar279_nw_parity_handedness_obstruction.py` | n_w Uniqueness Parity/Handedness Obstruction (Planck-free): K_CS = 74 unique sum-of-squares ⇒ {5,7}; Convention 279.3 (short-cycle primary) selects ordered (5,7) without invoking Planck nₛ; remaining residual named (cycle-ordering derivation) | 11 | 🔵 ADJACENT TRACK |
+| 280 | `src/core/pillar280_sc2_c_uv_independent_interval_narrowing.py` | SC2 c_UV-Independent Interval Narrowing: Theorem 280.1 intersects the original [4.2, 4.8]×10⁻¹⁰ α_GW band with the (1±ε_UV) Mukhanov–Sasaki tolerance band, achieving ≥40% width reduction at the canonical ε_UV = 0.04 | 14 | 🔵 ADJACENT TRACK |
+| 281 | `src/core/pillar281_desi_dr3_routing_drill.py` | DESI DR3 Routing Drill (3.2σ / 2.4σ / 1.8σ): synthetic DR3 inputs exercise the publication-day routing in `desi_dr3_publication_day_runbook` for all three verdict branches with mechanical idempotence checks and per-σ green-check receipts (also exported to `9-INFRASTRUCTURE/provenance/`) | 13 | 🔵 ADJACENT TRACK |
+| 285 | `src/core/pillar285_dark_energy_extension_specification.py` | Dark Energy Extension Specification (v2.0 Contingency Architecture): pre-registered formal specification of the four candidate theoretical extensions (bulk scalar quintessence, cosmological radion, k-essence, coupled dark energy) that would be required if DESI DR3 falsifies wₐ = 0 at ≥ 3σ; quantitative constraints, BF bound, sub-Planckian displacement checks, GW stability, CMB growth-rate bounds; links to Pillar 266 and corrected tension monitor | 81 | 🔵 ADJACENT TRACK |
 
 Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
+
+### v11.5 Residual Tightening Wave — Per-Residual Deltas
+
+| Residual | Before (v11.4) | After (v11.5) | New module |
+|----------|----------------|---------------|------------|
+| JUNO Δm²₃₁ | 2.16% above PDG, projects 4.42σ at 0.5% | NLO+seesaw closes residual to ≤ 0.5% under named running | Pillar 274 |
+| A3 Higgs Δ | Δ = 0.621 at single N=10 sample | Δ_∞ with closed-form O(1/N) remainder bound; converged report | Pillar 275 |
+| T3 ADM constraint | Reduced sector: |H|+|M| ~ 5.6×10⁻¹³ | Two-sector with β^φ ≠ 0: ≤ 10⁻¹⁰ over window | Pillar 276 |
+| CMB peak suppression | Monolithic ×4–7 admission | Three-term S = S_braid · S_alphaGW · S_5D_cap (log-exact) | Pillar 277 |
+| SC4 effective flux | Scan-based n_eff = 2 · n_flux | Theorem 278.1 (orientifold + RR/NS-NS independence) | Pillar 278 |
+| n_w uniqueness | {5,7} broken by Planck χ² | Planck-free conditional selection of n_w=5 via Convention 279.3; remaining cycle-ordering derivation named | Pillar 279 |
+| SC2 α_GW interval | [4.2, 4.8] × 10⁻¹⁰ (W=0.6) | Narrowed to ≈[4.31, 4.67] × 10⁻¹⁰ (W=0.36; ≥40% reduction) at ε_UV=0.04 | Pillar 280 |
+| DESI DR3 routing | Runbook exists, never drilled | 3 synthetic σ scenarios drilled; routing+idempotence verified; receipts in `9-INFRASTRUCTURE/provenance/` | Pillar 281 |
+
+The Substack post-186 (S02E012) for the autonomous community steward now
+carries a dated errata footer explaining the v11.4 Pillar 259 → Pillar
+273 rename (HILS non-negotiable 6 preserved: original article body intact).
 
 ### Key numerical results (v10.5)
 

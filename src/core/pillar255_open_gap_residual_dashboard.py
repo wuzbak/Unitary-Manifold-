@@ -41,6 +41,7 @@ __all__ = [
     "full_dashboard",
     "closure_priority_ranking",
     "dashboard_report",
+    "v11_5_residual_tightening_overlay",
 ]
 
 # ---------------------------------------------------------------------------
@@ -391,3 +392,55 @@ def dashboard_report() -> str:
         "=" * 72,
     ]
     return "\n".join(lines)
+
+
+def v11_5_residual_tightening_overlay() -> dict[str, object]:
+    """Non-invasive overlay aggregating the v11.5 Residual Tightening Wave.
+
+    🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT
+
+    Aggregates the deltas produced by Pillars 274–281 *without* modifying
+    any existing residual or monitoring field.  Read-only consumers (CI
+    dashboards, paper appendices, audit scripts) can call this to get the
+    tightened per-residual numbers for v11.5 with their named modules.
+    """
+    from src.core.pillar274_juno_dm31_tightening import juno_tightening_report
+    from src.core.pillar275_higgs_naturalness_schwinger_convergence import (
+        schwinger_convergence_report,
+    )
+    from src.core.pillar276_t3_momentum_constraint_sector import (
+        two_sector_closure_assessment,
+    )
+    from src.core.pillar277_cmb_peak_three_term_decomposition import (
+        peak_suppression_report,
+    )
+    from src.core.pillar278_sc4_effective_flux_multiplicity_theorem import (
+        multiplicity_theorem_report,
+    )
+    from src.core.pillar279_nw_parity_handedness_obstruction import (
+        nw_obstruction_report,
+    )
+    from src.core.pillar280_sc2_c_uv_independent_interval_narrowing import (
+        interval_narrowing_report,
+    )
+    from src.core.pillar281_desi_dr3_routing_drill import desi_dr3_drill_report
+
+    return {
+        "wave_id": "v11.5_RESIDUAL_TIGHTENING_WAVE",
+        "adjacency_label": ADJACENCY_TRACK_LABEL,
+        "tightening_modules": {
+            "JUNO": juno_tightening_report(),
+            "A3": schwinger_convergence_report(),
+            "T3": two_sector_closure_assessment(),
+            "CMB_PEAK": peak_suppression_report(),
+            "SC4": multiplicity_theorem_report(),
+            "NW_OBSTRUCTION": nw_obstruction_report(),
+            "SC2": interval_narrowing_report(),
+            "DESI_DR3_DRILL": desi_dr3_drill_report(),
+        },
+        "honest_note": (
+            "v11.5 overlay only — original residual/monitoring fields are "
+            "unchanged. No hardgate label promoted; no falsifier window "
+            "weakened. Each tightening module is non-hardgate adjacent."
+        ),
+    }

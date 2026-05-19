@@ -392,3 +392,45 @@ class TestDashboardReport:
 
     def test_contains_adjacency_label(self):
         assert ADJACENCY_TRACK_LABEL in self.report
+
+
+def test_v11_5_residual_tightening_overlay_aggregates_all_pillars():
+    """Pillar 255 surfaces the v11.5 wave overlay without disturbing fields."""
+    from src.core.pillar255_open_gap_residual_dashboard import (
+        full_dashboard,
+        v11_5_residual_tightening_overlay,
+    )
+
+    overlay = v11_5_residual_tightening_overlay()
+    assert overlay["wave_id"] == "v11.5_RESIDUAL_TIGHTENING_WAVE"
+    assert overlay["adjacency_label"] == "NON_HARDGATE_ADJACENT"
+    expected_keys = {
+        "JUNO", "A3", "T3", "CMB_PEAK", "SC4",
+        "NW_OBSTRUCTION", "SC2", "DESI_DR3_DRILL",
+    }
+    assert set(overlay["tightening_modules"].keys()) == expected_keys
+
+    # Each overlay module reports its own pillar number under 'pillar'
+    pillars = {
+        mod.get("pillar") for mod in overlay["tightening_modules"].values()
+    }
+    assert pillars == {274, 275, 276, 277, 278, 279, 280, 281}
+
+    # Original residual / monitoring fields are untouched
+    fd = full_dashboard()
+    assert set(fd["residuals"].keys()) == {"SC2", "SC4", "A3", "T3"}
+    assert set(fd["monitoring"].keys()) == {"G3", "JUNO"}
+
+
+def test_v11_5_overlay_no_hardgate_drift():
+    """v11.5 overlay must not promote any hardgate label."""
+    from src.core.pillar255_open_gap_residual_dashboard import (
+        v11_5_residual_tightening_overlay,
+    )
+
+    overlay = v11_5_residual_tightening_overlay()
+    for mod in overlay["tightening_modules"].values():
+        sg = mod.get("separation_guard")
+        assert sg is not None
+        assert sg["is_hardgate"] is False
+        assert sg["alters_falsifier_window"] is False

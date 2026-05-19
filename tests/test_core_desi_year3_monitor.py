@@ -22,6 +22,9 @@ from src.core.desi_year3_monitor import (
     falsification_verdict,
     monitoring_report,
     desi_year3_placeholder,
+    load_mock_payloads,
+    desi_year3_dry_run,
+    cli,
 )
 
 
@@ -345,3 +348,30 @@ def test_release_day_decision_packet_ready():
     assert packet["ready_for_publication"] is True
     assert packet["required_same_day_sync"] is True
     assert packet["severity"] in ("LOW", "ELEVATED", "CRITICAL")
+
+def test_load_mock_payloads_default_file():
+    rows = load_mock_payloads()
+    assert isinstance(rows, list)
+    assert len(rows) >= 3
+    assert all("wa_central" in r for r in rows)
+
+
+def test_dry_run_summary_routes_present():
+    summary = desi_year3_dry_run()
+    assert summary["pipeline"] == "DESI_Y3_DRY_RUN"
+    assert summary["all_routes_present"] is True
+    assert summary["route_counts"]["PASS"] >= 1
+
+
+def test_cli_dry_run_json(capsys):
+    result = cli(["--dry-run", "--json"])
+    captured = capsys.readouterr().out
+    assert result["pipeline"] == "DESI_Y3_DRY_RUN"
+    assert "DESI_Y3_DRY_RUN" in captured
+
+
+def test_cli_direct_route_json(capsys):
+    result = cli(["--wa", "-0.62", "--sigma", "0.20", "--json"])
+    captured = capsys.readouterr().out
+    assert result["route"] == "FALSIFIED"
+    assert "FALSIFIED" in captured

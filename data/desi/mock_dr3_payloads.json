@@ -1,0 +1,32 @@
+[
+  {
+    "release_name": "DESI Year 3 Mock PASS",
+    "year": 2027,
+    "w0_central": -0.84,
+    "w0_sigma": 0.06,
+    "wa_central": -0.10,
+    "wa_sigma": 0.20,
+    "reference": "synthetic",
+    "datasets": "BAO + CMB + SNe Ia"
+  },
+  {
+    "release_name": "DESI Year 3 Mock TENSION",
+    "year": 2027,
+    "w0_central": -0.84,
+    "w0_sigma": 0.06,
+    "wa_central": -0.50,
+    "wa_sigma": 0.20,
+    "reference": "synthetic",
+    "datasets": "BAO + CMB + SNe Ia"
+  },
+  {
+    "release_name": "DESI Year 3 Mock FALSIFIED",
+    "year": 2027,
+    "w0_central": -0.84,
+    "w0_sigma": 0.06,
+    "wa_central": -0.70,
+    "wa_sigma": 0.20,
+    "reference": "synthetic",
+    "datasets": "BAO + CMB + SNe Ia"
+  }
+]

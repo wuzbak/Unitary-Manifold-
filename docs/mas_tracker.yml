@@ -1,6 +1,6 @@
-version: "v11.3"
-date: "2026-05-18"
-updated: "2026-05-18"
+version: "v11.6"
+date: "2026-05-19"
+updated: "2026-05-19"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,28 +18,50 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.3"
-  regression: "33 784 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.6"
+  regression: "34 267 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
   version: "v11.6-desi-correction"
-  pillar: 268
-  artifact: "src/core/pillar268_dark_energy_extension_specification.py"
-  test: "tests/test_pillar268_dark_energy_extension_specification.py"
+  wave: "DESI Tension Monitor Correction + P285 Extension Pre-spec"
+  pillar: 285
+  artifact: "src/core/pillar285_dark_energy_extension_specification.py"
+  test: "tests/test_pillar285_dark_energy_extension_specification.py"
   status: "DELIVERED"
+  v11_5_residual_tightening_wave:
+    pillars_added:
+      - 274
+      - 275
+      - 276
+      - 277
+      - 278
+      - 279
+      - 280
+      - 281
+    per_residual_deltas:
+      JUNO: "Pillar 274 — NLO running + τ-Yukawa back-reaction + seesaw v²/M_R² closes 2.16% gap"
+      A3: "Pillar 275 — Schwinger regulator + closed-form O(1/N) remainder converged Δ_∞"
+      T3: "Pillar 276 — two-sector momentum-constraint closure with non-trivial radion shift"
+      CMB_peak: "Pillar 277 — three-term log-exact S_braid·S_alphaGW·S_5D_cap decomposition"
+      SC4: "Pillar 278 — Theorem 278.1 algebraic enumeration replaces scan attestation"
+      n_w: "Pillar 279 — Planck-free conditional selection of n_w=5 via Convention 279.3"
+      SC2: "Pillar 280 — c_UV-independent interval narrowing ≥40% width reduction"
+      DESI_DR3: "Pillar 281 — three-σ routing drill with idempotence and provenance receipts"
+    substack_errata: "post-186-s02e012 dated 2026-05-19 errata footer (Pillar 259→273 rename); HILS non-negotiable 6 preserved"
   note: >
     DESI tension monitor corrected (v11.x): DESI_TENSION_SIGMA now correctly reports 2.75σ
     (wₐ-only, matching published DESI DR2 figures) instead of the erroneous 3.30σ from
     naive uncorrelated joint quadrature. Covariance-corrected joint chi-squared (ρ=−0.80)
-    added as supplementary metric (2.82σ combined). Pillar 268 pre-registers the v2.0
-    dark energy extension architecture across four candidate extensions with quantitative
-    constraints. Pillars 263–267 from parallel sprint registered. All 138 new tests pass.
+    added as supplementary metric (2.82σ combined). Pillar 285 (renumbered from 268 due to
+    collision with P268 ADM inhomogeneous closure from main) pre-registers the v2.0 dark
+    energy extension architecture across four candidate extensions with quantitative
+    constraints. All 81 new tests pass.
 
 official_pillar_tracking_checkpoint:
-  latest_officially_tracked_pillar: 268
+  latest_officially_tracked_pillar: 285
   canonical_status_ledger: "STATUS.md"
   synced_recent_pillars:
     - 245
@@ -65,14 +87,57 @@ official_pillar_tracking_checkpoint:
     - 266
     - 267
     - 268
-  sparse_numbering_note: "No tracked source module currently exists for pillar numbers 225, 226, 231, or 247."
+    - 269
+    - 270
+    - 271
+    - 272
+    - 273
+    - 274
+    - 275
+    - 276
+    - 277
+    - 278
+    - 279
+    - 280
+    - 281
+    - 285
+  sparse_numbering_note: "Pillar numbers 225, 226, 231, and 247 appeared as gaps in earlier tracker snapshots; all four now have implemented source modules — see sparse_pillar_registry below. Slots 282–284 reserved."
+  sparse_pillar_registry:
+    pillar_225:
+      status: "PRESENT"
+      source: "src/core/pillar225_juno_hyperk_neutron_oscillation_readiness.py"
+      label: "JUNO/Hyper-K neutron oscillation readiness brief"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. The note pre-dated the v11-series adjacent-track sprint that populated this slot. Pillar 225 provides the JUNO and Hyper-Kamiokande neutron-oscillation readiness brief as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
+    pillar_226:
+      status: "PRESENT"
+      source: "src/core/pillar226_cmbs4_acoustic_peak_hardening_brief.py"
+      label: "CMB-S4 acoustic-peak hardening brief"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. Pillar 226 provides the CMB-S4 acoustic-peak hardening brief as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
+    pillar_231:
+      status: "PRESENT"
+      source: "src/core/pillar231_lisa_omega_gw_preregistration_package.py"
+      label: "LISA Ω_GW preregistration package"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. Pillar 231 delivers the LISA gravitational-wave background (Ω_GW) preregistration package as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
+    pillar_247:
+      status: "PRESENT"
+      source: "src/core/pillar247_unified_observation_ingest_verdict_router.py"
+      label: "Unified observation ingest and verdict router"
+      track: "NON_HARDGATE_ADJACENT"
+      reason: "Module was added after the original sparse_numbering_note was written. Pillar 247 implements the unified observation ingest and verdict router as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
+      action: "No action required. Tracker note updated to reflect presence."
   note: >
-    STATUS.md now registers every implemented numbered pillar through Pillar 268.
-    Pillars 263–268 added in v11.6-desi-correction sprint.
-    DESI tension monitor correction: pillar_desi_tension_monitor.py now reports
-    wₐ-only tension (2.75σ) as primary metric, with covariance-corrected 2D joint
-    (2.82σ) as supplementary. The naive 3.30σ CRITICAL flag was methodologically
-    incorrect and has been replaced.
+    STATUS.md now registers every implemented numbered pillar through Pillar 285, including
+    the v11.5 Residual Tightening Wave (274–281) and the v11.6-desi-correction sprint
+    (Pillar 285: DESI dark energy extension pre-spec; P268 renumbered from the collision
+    with the ADM inhomogeneous closure module added on main). DESI tension monitor corrected:
+    pillar_desi_tension_monitor.py now reports wₐ-only tension (2.75σ) as primary metric,
+    with covariance-corrected 2D joint (2.82σ) as supplementary.
 
 follow_on_execution_modules:
   ckm_pmns_orbifold:

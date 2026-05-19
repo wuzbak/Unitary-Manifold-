@@ -1,12 +1,12 @@
-# Pillar 259 — Autonomous GitHub Community Steward & Security Operations
+# Pillar 273 — Autonomous GitHub Community Steward & Security Operations
 
 **Status:** 🔵 ADJACENT RESEARCH TRACK (non-hardgate)  
-**Module:** `src/core/pillar259_autonomous_github_community_steward.py`  
-**Tests:** `tests/test_pillar259_autonomous_github_community_steward.py`
+**Module:** `src/core/pillar273_autonomous_github_community_steward.py`  
+**Tests:** `tests/test_pillar273_autonomous_github_community_steward.py`
 
 ## 1) Executive summary
 
-Pillar 259 provides an immediate-use, deterministic operations layer for
+Pillar 273 provides an immediate-use, deterministic operations layer for
 repository stewardship: dependency-risk scanning, stale-issue triage,
 vulnerability reporting, onboarding recommendation routing, immutable
 integrity-hashed operation reports, and **full autonomous Pentad-governed
@@ -55,7 +55,7 @@ This lane is rejected operationally if:
 
 ## 6) Honest boundary
 
-Pillar 259 is an adjacent governance/operations utility lane. It is not a
+Pillar 273 is an adjacent governance/operations utility lane. It is not a
 physics-claim promotion lane and does not reclassify any claim in
 `1-THEORY/DERIVATION_STATUS.md`.
 

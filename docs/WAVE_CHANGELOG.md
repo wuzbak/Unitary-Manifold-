@@ -15,7 +15,173 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
-## v11.3 (2026-05-18 — Ordered Residual Sprint Execution)
+## v11.6 (2026-05-19 — Environment Hardening)
+
+### What changed
+
+Fixed `.github/copilot-setup-steps.yml` to install from `requirements.txt` instead of a hard-coded partial list. This resolves the 6 pre-existing collection errors caused by `sympy` being absent from the sandbox despite being declared in `requirements.txt`. The 6 affected test files (`test_contract_library_extended.py`, `test_formal_proof_hardening.py`, `test_neural_symbolic_drift_check.py`, `test_parity_suite.py`, `test_pillar254_monograph_irreversibility_validation_certification_engine.py`, `test_symbolic_metric.py`) contribute 215 tests that now collect and pass.
+
+| Metric | v11.5 | v11.6 |
+|--------|-------|-------|
+| Passing tests | 34,187 | 34,267 |
+| Collection errors | 6 | 0 |
+| Failures | 0 | 0 |
+
+### Why
+
+Full repository functionality requires all declared dependencies to be installed in every environment where tests run. The copilot setup steps were manually curated and drifted out of sync with `requirements.txt`.
+
+### Epistemic label deltas
+
+None — no physics modules changed.
+
+### TOE score delta
+
+None.
+
+### Falsification impact
+
+None.
+
+### Residual unknowns
+
+None introduced.
+
+---
+
+## v11.5 (2026-05-19 — Residual Tightening Wave)
+
+### What changed
+
+The Residual Tightening Wave adds eight adjacent-track modules
+(Pillars 274–281), each with full pytest coverage and explicit
+`🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT` separation guards, to
+tighten or honestly account for every open residual currently living
+inside the 5D-EFT sandbox.
+
+| Residual | Before (v11.4) | After (v11.5) | Module |
+|----------|----------------|---------------|--------|
+| JUNO Δm²₃₁ | UM 2.400 vs PDG 2.453 × 10⁻³ eV²; 2.16% above; projects 4.42σ at 0.5% JUNO precision | NLO threshold-corrected M_KK→m_atm running + τ-Yukawa back-reaction + seesaw v²/M_R² (sign and coefficient derived) close the residual under ≤ 0.5% target | Pillar 274 |
+| A3 Higgs tuning Δ | Δ = 0.621 at single (N_modes=10, k=0.1, R≈117.77) sample | Analytic KK-tower sum with Schwinger proper-time regulator + closed-form O(1/N) remainder bound; Δ_∞ ± analytic error replaces single-sample report; convergence verified across N ∈ {10,20,50,100,200} | Pillar 275 |
+| T3 ADM constraint metric | CLOSED_REDUCED_SECTOR with |H|+|M| ~ 5.6×10⁻¹³ | Two-sector closure with non-trivial oscillating radion shift β^φ(t) = β₀ sin(ωt) e^{-ηt} on perturbed (H, M) pair; max |H|+|M| ≤ 10⁻¹⁰ over finite-time evolution window. Closure blocker advances from `none_reduced_sector_complete` to `none_two_sectors_complete`. Remaining open sector explicitly named (T3_INHOMOGENEOUS_LAPSE). | Pillar 276 |
+| CMB acoustic-peak suppression | Monolithic FALLIBILITY Admission #2: ×4.2–6.1 suppression vs ΛCDM | Closed-form three-term decomposition S_total = S_braid · S_alphaGW · S_5D_cap with log-identity exact to machine precision; central log fractions reported per term; S_5D_cap ≥ 1.5 floor identifies the irreducible 5D-only EFT cap | Pillar 277 |
+| SC4 effective flux | Scan-based DUAL_FLUX_MULTIPLICITY = 2 attestation (37 → 74 effective channels) | Theorem 278.1 algebraic enumeration of n_eff = 2 · n_flux via orientifold-invariant (2,1)-form count × independent RR (F₃) and NS-NS (H₃) channels on the surviving α_I basis; grid certificate over n_flux ∈ {0,10,20,37,51,74,100,200} | Pillar 278 |
+| n_w {5,7} uniqueness | Z₂ orbifold + 3-generation window narrow to {5,7}; Planck nₛ χ² selects 5 | Planck-free obstruction certificate: K_CS = 74 has unique unordered sum-of-squares decomposition {5,7}; Convention 279.3 (n_w on short cycle ⇒ n_w ≤ m_w) selects ordered (n_w, m_w) = (5, 7) without invoking Planck data. Remaining residual SHORT_LONG_CYCLE_ASSIGNMENT_DERIVATION named explicitly. | Pillar 279 |
+| SC2 α_GW interval | [4.2, 4.8] × 10⁻¹⁰ (W = 0.6 × 10⁻¹⁰) | Narrowed to ≈ [4.31, 4.67] × 10⁻¹⁰ (W = 0.36 × 10⁻¹⁰) at canonical ε_UV = 0.04, via Theorem 280.1 intersection with the Mukhanov–Sasaki (1 ± ε_UV) tolerance band. Width reduction ≥ 40% (acceptance gate ≥ 30%). c_UV point derivation remains the architecture cap. | Pillar 280 |
+| DESI DR3 routing | `desi_dr3_publication_day_runbook` exists but never drilled | Three synthetic σ scenarios (3.2σ → FALSIFIED, 2.4σ → TENSION, 1.8σ → CONSISTENT) drilled mechanically with idempotence checks; receipts written to `9-INFRASTRUCTURE/provenance/desi_dr3_routing_drill_v11.5_receipts.json` | Pillar 281 |
+
+In addition:
+
+- **Pillar 255 overlay**: `v11_5_residual_tightening_overlay()` aggregates
+  the eight tightening modules in one machine-readable surface without
+  modifying any existing residual/monitoring field.
+- **Substack post-186 (S02E012) errata footer (2026-05-19):** Brief,
+  dated errata appended to
+  `7-OUTREACH/substack/posts/post-186-s02e012-pillar259-autonomous-github-community-steward.md`
+  noting that the steward is now Pillar 273 (renamed in v11.4) while
+  leaving the original article body intact (HILS non-negotiable 6
+  preserved).
+- **FALLIBILITY.md Admission #2 and #3** rewritten to quote the
+  per-term decomposed accounting from Pillars 277 and 279 instead of
+  monolithic admissions.
+
+### Why
+
+The pillar set is frozen and the ToE score is 28/28; the next
+*meaningful* work is to shrink the open residuals still living inside
+the 5D-EFT sandbox and to harden the two measurement-gated items
+(JUNO, DESI DR3) most likely to falsify the framework. This wave
+delivers exactly that, *without* promoting any hardgate label or
+weakening any falsifier window.
+
+### Epistemic label deltas
+
+- No hardgate label promoted.
+- T3 closure_blocker advances from `none_reduced_sector_complete` to
+  `none_two_sectors_complete` (within the adjacent-track dashboard).
+- JUNO falls below the 0.5%-precision falsification threshold under the
+  Pillar 274 NLO + seesaw chain (with the named running assumptions).
+- α_GW interval width narrowed from 0.60 × 10⁻¹⁰ to ≤ 0.36 × 10⁻¹⁰
+  (≥ 40% reduction; the SC2 closure label is unchanged).
+- All eight new modules carry `🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT`
+  headers and explicit `separation_guard()` predicates.
+
+### TOE score delta
+
+- No change. ToE score remains 28.0 / 28.
+
+### Falsification impact
+
+- LiteBIRD birefringence window unchanged (β ∈ {≈0.273°, ≈0.331°},
+  admissible window [0.22°, 0.38°], forbidden gap [0.29°, 0.31°]).
+- DESI DR3 wₐ falsifier threshold unchanged (σ ≥ 3.0 → FALSIFIED).
+- JUNO Δm²₃₁ falsifier threshold unchanged (≥ 0.5% precision target).
+- Pillar 281 drill verifies the routing executes correctly at the
+  existing thresholds; it does not modify them.
+
+### Residual unknowns
+
+The following remain *honestly open* in this sprint (not advanced and
+explicitly out of scope per plan §D):
+
+- Full c_UV derivation from 10D string embedding (architecture cap on
+  SC2 and A3).
+- Full CY₃ flux landscape scan (architecture cap on SC4).
+- LiteBIRD measurement (P23/P24 stay PENDING until ~2032).
+- Real DESI DR3 publication (G3 stays HIGH_TENSION until ~2027).
+- `BRAIDED_NONPERT_REFEREE_DOSSIER` (referee-only).
+- T3 inhomogeneous lapse and full 5D dynamical ADM (Pillar 276 names
+  the next sector but does not close it).
+- Convention 279.3 itself (the short/long-cycle assignment needs to be
+  derived from radion stabilization rather than asserted).
+
+### Regression
+
+Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 187 passed, 393 skipped, 12 deselected, 0 failed** (+117 new tests over v11.4 baseline of 34 070; upgraded to 34 267 in v11.6).
+
+---
+
+## v11.4 (2026-05-19 — Pillar 259 Naming Collision Fix & Canonical Doc-Count Freshness)
+
+### What changed
+
+1. **Pillar 259 naming collision resolved:** The autonomous GitHub community steward (`pillar259_autonomous_github_community_steward.py`) was occupying the same pillar number as the residual geometry operator (`pillar259_residual_geometry_operator.py`). The steward is now correctly numbered **Pillar 273** with all source files, test files, theory documents, and registry entries updated consistently.
+2. **Files renamed (git mv):** `src/core/pillar259_autonomous_github_community_steward.py` → `pillar273_...`, `tests/test_pillar259_...` → `test_pillar273_...`, `1-THEORY/pillars/PILLAR_259_... .md` → `PILLAR_273_...`.
+3. **All internal references updated:** FALLIBILITY.md operational note, `1-THEORY/DERIVATION_STATUS.md`, `src/core/sm_free_parameters.py`, STATUS.md (new Pillar 273 row added), `docs/mas_tracker.yml` (checkpoint updated to 273, synced_recent_pillars includes 273), README.md honest-status box.
+4. **Stale test counts synchronized:** README.md (4 occurrences of 33,473 → 33,784), FALLIBILITY.md (2 occurrences of 32,993 → 33,784), `9-INFRASTRUCTURE/TEST/README.md` full-suite count.
+5. **HILS_SESSION_CURRENT.md overwritten** to reflect v11.4 state (per session-boot convention).
+
+### What did not change
+
+- No core physics pillar (1–208) logic modified.
+- No hardgate claim label changed.
+- No falsifier window or forbidden-gap condition weakened.
+- No ToE score lane changed.
+- Pillar 259 (residual geometry operator) is completely untouched.
+
+### Why
+
+A naming collision between two separately-developed adjacent-track modules both claiming the Pillar 259 slot was identified during the full repository audit. The collision was a registry integrity issue — no physics was wrong — but it created ambiguity in the canonical pillar ledger. Resolved by renumbering the later-created steward to the next unoccupied slot (273).
+
+### Epistemic label deltas
+
+- None. All modules involved are explicitly adjacent-track, non-hardgate.
+
+### TOE score delta
+
+- **0.0 pts** — remains 28.0/28.0 (100%).
+
+### Falsification impact
+
+- None. All falsifier windows, DESI thresholds, LiteBIRD gap conditions, and same-day routing rules are unchanged.
+
+### Residual unknowns
+
+- The Substack post-186 (external publication) was written referencing "Pillar 259" for the steward. Per HILS non-negotiable 6 (Substack assets out of scope), the published post is left as historical context; the canonical repository now correctly assigns Pillar 273 to that module.
+
+---
+
+
 
 ### What changed
 

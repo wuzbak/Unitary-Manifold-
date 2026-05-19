@@ -515,3 +515,9 @@ Posts 147 and 148 retain legacy filenames from the transition window. Posts 149 
 | `post-184-s02e010-official-live-validation-report-pillar254-irreversibility.md` | Post 184 · S02E010 | "🚨 OFFICIAL LIVE VALIDATION REPORT: Pillar 254 Irreversibility Certification (Real Run, Full Results)" — **FIRST IN ACTIVE POSTS STACK** |
 | `post-185-s02e011-pillar256-empirical-hardening-falsification.md` | Post 185 · S02E011 | "Pillar 256: Empirical Hardening & Falsification — The Discipline of Saying “No” Before the Data Arrives" |
 | `post-186-s02e012-pillar259-autonomous-github-community-steward.md` | Post 186 · S02E012 | "Pillar 259: What Happens When the Framework Starts Stewarding Itself" |
+| `post-187-s02e013-pillar263-bssn-kk-extrinsic-curvature.md` | Post 187 · S02E013 | "Can the Universe's Shape Be Dynamic? Closing the ADM/BSSN Lane" |
+| `post-188-s02e014-pillar264-higgs-two-loop-uv-audit.md` | Post 188 · S02E014 | "Two-Loop Honesty: What the Higgs Hierarchy Problem Actually Looks Like Inside the Unitary Manifold" |
+| `post-189-s02e015-pillar265-mukhanov-sasaki-as-closure.md` | Post 189 · S02E015 | "The Hardest Number: How We Derive the CMB Amplitude (and Where We Still Fall Short)" |
+| `post-190-s02e016-pillar266-desi-frozen-radion-wa.md` | Post 190 · S02E016 | "The 2.75σ Tension: What DESI Is Actually Telling Us" |
+| `post-191-s02e017-pillar267-braid-uniqueness-instanton.md` | Post 191 · S02E017 | "Why (5,7) and Not (3,11)? The Honest Answer" |
+| `post-192-s02e018-observatory-countdown-special.md` | Post 192 · S02E018 | "The Four Experiments That Will Decide This Framework" |

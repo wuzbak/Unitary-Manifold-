@@ -1,0 +1,100 @@
+name: DESI DR3 Routing
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_name:
+        description: "Release name"
+        required: true
+        default: "DESI Year 3"
+      year:
+        description: "Release year"
+        required: true
+        default: "2027"
+      w0_central:
+        description: "w0 central"
+        required: true
+        default: "-0.84"
+      w0_sigma:
+        description: "w0 sigma"
+        required: true
+        default: "0.06"
+      wa_central:
+        description: "wa central"
+        required: true
+        default: "-0.40"
+      wa_sigma:
+        description: "wa sigma"
+        required: true
+        default: "0.20"
+      reference:
+        description: "Reference/citation"
+        required: true
+        default: "DESI Collaboration (DR3)"
+      datasets:
+        description: "Dataset bundle"
+        required: true
+        default: "BAO + CMB + SNe Ia"
+
+jobs:
+  route-and-open-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Route payload and build decision packet
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from src.core.desi_year3_monitor import release_day_decision_packet
+
+          try:
+              payload = {
+                  "release_name": "${{ inputs.release_name }}",
+                  "year": int("${{ inputs.year }}"),
+                  "w0_central": float("${{ inputs.w0_central }}"),
+                  "w0_sigma": float("${{ inputs.w0_sigma }}"),
+                  "wa_central": float("${{ inputs.wa_central }}"),
+                  "wa_sigma": float("${{ inputs.wa_sigma }}"),
+                  "reference": "${{ inputs.reference }}",
+                  "datasets": "${{ inputs.datasets }}",
+              }
+          except ValueError as exc:
+              raise SystemExit(f"Invalid workflow input type for DESI DR3 routing: {exc}")
+          packet = release_day_decision_packet(payload)
+          Path("desi_dr3_packet.json").write_text(json.dumps(packet, indent=2), encoding="utf-8")
+          body = [
+              "## DESI DR3 Routing Packet",
+              "",
+              f"- Release: **{packet['release']}** ({packet['year']})",
+              f"- Route: **{packet['route']}**",
+              f"- Severity: **{packet['severity']}**",
+              f"- w₀ tension: **{packet['w0_tension_sigma']:.3f}σ**",
+              f"- wₐ tension: **{packet['wa_tension_sigma']:.3f}σ**",
+              "",
+              "### Required same-day sync targets",
+          ]
+          for t in packet["integration_targets"]:
+              body.append(f"- `{t}`")
+          body.extend(["", "```json", json.dumps(packet, indent=2), "```"])
+          Path("desi_dr3_issue.md").write_text("\n".join(body), encoding="utf-8")
+          PY
+      - name: Create routing issue
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "DESI DR3 Routing Verdict: ${{ inputs.release_name }}"
+          content-filepath: desi_dr3_issue.md
+          labels: |
+            observation
+            desi
+            routing

@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.3
+# Unitary Manifold v11.5
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-18 (v11.3 — ordered residual sprint execution sync; ToE 28.0/28 = 100%)*
+*Last updated: 2026-05-19 (v11.5 — Residual Tightening Wave: Pillars 274–281; ToE 28.0/28 = 100%)*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -13,7 +13,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 
 > **Operational hardening note:** Deterministic residual verdict routing and proof-closure certificates are now executable via `src/core/as_transfer_normalization_audit.py`, `src/core/adm_bssn_closure.py`, `src/core/higgs_naturalness_extended.py`, `src/core/flux_landscape_extended_scan.py`, and `src/core/proof_closure_formal_cert.py` (adjacent-track; claim labels unchanged).
 
-> **v11.3 freshness note:** Canonical truth surfaces are synchronized to the 2026-05-18 branch state. Ordered residual sprint execution now adds `pillar259_residual_geometry_operator.py`, `pillar260_falsifier_decision_algebra.py`, `pillar261_foundational_boundary_hardening.py`, and `pillar262_full_residual_sprint_execution.py` as adjacent-track hardening artifacts; no claim labels or falsifier windows are changed in this sync.
+> **v11.4 freshness note:** Canonical truth surfaces are synchronized to the 2026-05-19 branch state. Adjacent-track governance registration is corrected to `pillar273_autonomous_github_community_steward.py` (non-hardgate), while Pillar 259 remains exclusively `pillar259_residual_geometry_operator.py`; no claim labels or falsifier windows are changed in this sync.
 
 ## Lane A — Standard Model Parameters (P1–P33)
 
@@ -21,7 +21,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 |---|-------------------|-----------------|---------------|----------|-------|------------|---------------------|--------------|--------------|
 | P1 | CMB spectral index n_s | 0.9649 ± 0.0042 | **0.9635** | 0.33σ | `DERIVED` | ✅ PASS | n_s ∉ [0.955, 0.972] at <0.001 precision | None | 2026-05-09 |
 | P2 | Tensor-to-scalar ratio r | < 0.036 (BICEP/Keck) | **0.0315** | consistent | `DERIVED` | ✅ PASS | r < 0.010 measured at >3σ (CMB-S4 ~2030) | None | 2026-05-09 |
-| P3 | Strong coupling α_s(M_Z) | 0.1179 | **0.113** (10D CY₃+flux, Tier-1 hardgate) | ~4.1% | `DERIVED` | ✅ PASS | α_s ∉ [0.107, 0.119] at ≥3σ | None | 2026-05-09 |
+| P3 | Strong coupling α_s(M_Z) | 0.1179 | **0.113** (10D CY₃+flux, Tier-1 hardgate) ⚠️ 5%-GATE-BOUNDARY: 4.1% residual is closest to DERIVED threshold of all 28 params; basin scan (Pillar 272) shows 9/27 parameter-space points exceed 5% gate — volatility acknowledged. Run `alpha_s_basin_scan()` on each PDG update. Reclassify to CONSTRAINED if future PDG central value + precision places UM prediction >5% away at ≥3σ. | ~4.1% | `DERIVED` | ✅ PASS | α_s ∉ [0.107, 0.119] at ≥3σ | None | 2026-05-19 |
 | P4 | EW mixing sin²θ_W | 0.23122 | **0.2313** (SU(5)+RGE) | 0.05% | `DERIVED` | ✅ PASS | sin²θ_W outside 5% band at ≥3σ | None | 2026-05-09 |
 | P5 | Higgs mass m_H | 125.25 GeV | **125.25 GeV** (CW, WS-V + WS-VII) | ~0.00% | `DERIVED` | ✅ PASS | m_H measured outside [119, 131] GeV | None | 2026-05-09 |
 | P6 | Higgs VEV v | 246.22 GeV | **245.96 GeV** (Pillar 139 CW) | 0.10% | `DERIVED` | ✅ PASS | v outside 5% band at ≥3σ | None | 2026-05-09 |
@@ -35,7 +35,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P14 | CKM ρ̄ (CP violation) | 0.159 | **0.1609** (8D Wilson blend; 9D robustness) | 1.22% | `DERIVED` | ✅ PASS | ρ̄ outside 5% band at ≥3σ | None | 2026-05-09 |
 | P15 | δ_CP (leptonic CP phase) | 1.20 rad | **1.2152 rad** (7D torsion + 9D KK+GS) | 1.27% | `DERIVED` | ✅ PASS | δ_CP ∉ [0.85, 1.30] rad at <3% (DUNE ~2030) | None | 2026-05-09 |
 | P16 | Δm²₂₁ (solar splitting) | 7.53e-5 eV² | **f_c=7/126 (WS-III T²/Z₃: +52=πkR+3N_W)** | 0.20% | `DERIVED` | ✅ PASS | Δm²₂₁ outside 5% band at ≥3σ | None | 2026-05-09 |
-| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | **9D KK+GS hardgate corrected** | 2.18% | `DERIVED` | ✅ PASS | Δm²₃₁ ∉ [2.2, 2.7]×10⁻³ eV² at <1% (Hyper-K ~2028) | None | 2026-05-09 |
+| P17 | Δm²₃₁ (atmospheric splitting) | 2.453e-3 eV² | **9D KK+GS hardgate corrected** 🔵 JUNO-WATCH: Baseline 2.18% gap projects to ~4.3σ at JUNO 0.5% precision (~2027). Pillar 274 NLO+seesaw (τ-Yukawa RGE + Z₂ Majorana partner, p_R=0.364) tightens to 0.004% — CONDITIONALLY closes gap; p_R is admissibility-fitted, not first-principles fixed. Run `tightened_dm31_prediction()` on JUNO DR1 release. | 2.18% → 0.004% (P274 tightened, conditional) | `DERIVED` | ✅ PASS | Δm²₃₁ ∉ [2.2, 2.7]×10⁻³ eV² at <1% (Hyper-K ~2028) | None | 2026-05-19 |
 | P18 | θ₁₂ (solar mixing) | 33.82° | **Route A geometric** (CS/winding) | 1.55% | `DERIVED` | ✅ PASS | sin²θ₁₂ outside 5% band at ≥3σ | None | 2026-05-09 |
 | P19 | θ₂₃ (atmospheric mixing) | 48.3° | geometric (Tier-3 hardgate) | 0.82% | `DERIVED` | ✅ PASS | sin²θ₂₃ outside 5% band at ≥3σ | None | 2026-05-09 |
 | P20 | θ₁₃ (reactor mixing) | 8.57° | **braid NLO: sin²θ₁₃ = 3/138** | 0.28% | `DERIVED` | ✅ PASS | sin²θ₁₃ outside 5% band at ≥3σ | None | 2026-05-09 |
@@ -95,7 +95,7 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 |---|---------|---------------------|------|---------|---------|---------------------|--------------|
 | T1 | Dark energy wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ (wₐ-only, matching published DESI figures); covariance-corrected joint 2D: 2.27σ / 2.82σ (ρ≈−0.80) — all below 3σ; `DESI_TENSION_SIGMA` now correctly reports 2.75σ (v11.x fix); extension spec pre-registered: `pillar268_dark_energy_extension_specification.py` | σ ≥ 3.0 → FALSIFIED; σ < 2.0 → PASS | DESI DR3 / Y5 (~2027) | 2026-05-19 |
 | T2 | CMB acoustic peak amplitude | Casimir α_GW ∈ [4.2e-10, 4.8e-10] | Baseline suppression ×4.2–6.1 vs ΛCDM; hardening residual tracked by `CMB_PEAK_RESIDUAL_FACTOR` | CLOSED_WITH_PILLAR52_10D_BRIDGE + HARDENED_RESIDUAL_TRACKING | Pillar 52 fixes the gravity-scale decade and the 10D UV bridge lands α_GW in-band; `pillar_cmb_peak_hardening.py` now carries analytic/numeric residual and ±10% sensitivity tracking | CMB-S4 (~2030) | 2026-05-13 |
-| T3 | ADM 3+1 time parameterization | Geometric delay field | **PARTIALLY CLOSED** — `adm_time_parameterization.py`: lapse N=φ, shift Nᵢ=λφBᵢ, 3-metric γᵢⱼ, and quantitative delay rate dτ/dt = 1/√(1+(φ/M_KK)²)−1 computed | Lapse deviation ~0.6% in slow-roll; full dynamical lapse (BSSN) still open | `src/core/adm_time_parameterization.py` | 2026-05-13 |
+| T3 | ADM 3+1 time parameterization | Geometric delay field | **PARTIALLY CLOSED** — `adm_time_parameterization.py` closes the lapse/shift/3-metric packet, `pillar263_bssn_kk_extrinsic_curvature.py` closes the reduced-sector BSSN lane, and `pillar268_adm_inhomogeneous_linearized_closure.py` closes linearized inhomogeneous scans | Non-perturbative inhomogeneous / Wheeler–DeWitt quantization remains open | `src/core/adm_time_parameterization.py`, `src/core/pillar263_bssn_kk_extrinsic_curvature.py`, `src/core/pillar268_adm_inhomogeneous_linearized_closure.py` | 2026-05-18 |
 
 ---
 

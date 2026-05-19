@@ -1,6 +1,6 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-"""Pillar 268 — Dark Energy Extension Specification (v2.0 contingency architecture).
+"""Pillar 285 — Dark Energy Extension Specification (v2.0 contingency architecture).
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT
 
@@ -506,7 +506,7 @@ def dr3_falsification_check(
             "IMMEDIATE: Update CLAIM_MASTER_BOARD.md (T1 → FALSIFIED), "
             "TRUTH_LAYER.md §3, GATEKEEPER_SUMMARY.md, WAVE_CHANGELOG.md, "
             "and OBSERVATION_TRACKER.md same day. "
-            "Activate extension specification from Pillar 268. "
+            "Activate extension specification from Pillar 285. "
             "Specify which extension (1–4) to pursue and begin v2.0 architecture."
         )
         extension_activated = True
@@ -620,7 +620,7 @@ def extension_viability_ranking(wa_target: float = -0.55) -> List[Dict]:
 def extension_specification_report(
     wa_target: float = DESI_DR2_COMBINED["wa_central"],
 ) -> Dict:
-    """Complete Pillar 268 extension specification report.
+    """Complete Pillar 285 extension specification report.
 
     Generates the full pre-specified v2.0 contingency architecture,
     including DR3 scenario analysis, extension rankings, and action protocol.
@@ -684,7 +684,7 @@ def extension_specification_report(
             "2. Update TRUTH_LAYER.md §3 T1 with exact DR3 numbers. "
             "3. Update GATEKEEPER_SUMMARY.md, OBSERVATION_TRACKER.md, WAVE_CHANGELOG.md. "
             "4. Open a new hardgate pillar (v2.0 dark energy sector) using "
-            "the pre-specification from Pillar 268 as the starting architecture. "
+            "the pre-specification from Pillar 285 as the starting architecture. "
             "5. Do NOT declare the full framework falsified — only the "
             "frozen-radion dark-energy prediction is under revision. "
             "All other pillars (birefringence β, nₛ, r, SM parameters) remain "

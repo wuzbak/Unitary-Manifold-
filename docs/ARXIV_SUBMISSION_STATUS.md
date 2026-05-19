@@ -1,4 +1,4 @@
-# arXiv Submission Status — Unitary Manifold v10.61
+# arXiv Submission Status — Unitary Manifold v11.5
 
 *Theory and scientific direction: ThomasCory Walker-Pearson.*  
 *Document engineering: GitHub Copilot (AI).*
@@ -7,7 +7,7 @@
 
 ## Verdict: ✅ READY
 
-**As of 2026-05-15 (v10.61), the manuscript is cleared for arXiv submission.**
+**As of 2026-05-19 (v11.5), the manuscript is cleared for arXiv submission.**
 
 ---
 
@@ -17,19 +17,20 @@
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Version header | ✅ PASS | `main.tex` updated to v10.61 |
-| Test count in abstract | ✅ PASS | 32,857 |
+| Version header | ✅ PASS | `main.tex` updated to v11.5 |
+| Test count in abstract | ✅ PASS | 34,187 |
 | ToE score | ✅ PASS | 28.0/28.0 = 100% — correct and final |
 | P1–P28 labels | ✅ PASS | Match `docs/CLAIM_MASTER_BOARD.md` |
 | Active tensions/falsifiers | ✅ PASS | Match `FALLIBILITY.md` and `3-FALSIFICATION/OBSERVATION_TRACKER.md` |
-| Module file paths | ✅ PASS | All `src/core/` paths are current |
+| Module file paths | ✅ PASS | All `src/core/` paths are current; adjacent registry includes Pillars 218–281 (non-hardgate); Residual Tightening Wave complete |
 
 ### 2.2 Falsification Integrity
 
 | Item | Status | Notes |
 |------|--------|-------|
 | LiteBIRD falsifier wording | ✅ PASS | β ∈ {0.273°, 0.331°}; gap [0.29°,0.31°]; window [0.22°,0.38°] — unchanged |
-| DESI wₐ tension | ✅ PASS | 2.1–2.75σ tension documented; not at falsification threshold |
+| DESI wₐ tension | ✅ PASS | 2.75σ high tension documented; not at falsification threshold |
+| JUNO Δm²₃₁ risk | ✅ DOCUMENTED | 2.18% residual; 4.4σ projected at JUNO 0.5% precision; Pillar 274 NLO+seesaw monitoring active |
 | Epistemic boundary | ✅ PASS | Separation between hardgate and adjacent tracks maintained |
 
 ### 2.3 Metadata & Packaging
@@ -44,11 +45,11 @@
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Full regression | ✅ PASS | 32,857 passed · 393 skipped · 12 deselected · 0 failed |
+| Full regression | ✅ PASS | 34,187 passed · 393 skipped · 12 deselected · 0 failed |
 | Canonical ledger consistency | ✅ PASS | `canonical_ledger_consistency_report()` → all_pass: True |
 | Onboarding docs consistency | ✅ PASS | `onboarding_docs_consistency_report()` → all_pass: True |
 | FALLIBILITY.md gaps honest | ✅ PASS | All architecture limits documented; no gap hidden |
-| Publication sync | ✅ PASS | arXiv docs + relay + session ledgers synced to v10.61 / 100% |
+| Publication sync | ✅ PASS | arXiv docs + relay + session ledgers synced to v11.5 / 100% |
 
 ---
 
@@ -62,7 +63,7 @@
 | References | `6-MONOGRAPH/arxiv/references.bib` |
 | Build script | `6-MONOGRAPH/arxiv/build_submission.sh` |
 | ToE score | **28.0 / 28.0 = 100%** |
-| Test suite | **32,857 passed · 0 failed** |
+| Test suite | **34,187 passed · 0 failed** |
 | Primary falsifier | LiteBIRD β ∈ {0.273°, 0.331°} (~2032) |
 | Zenodo DOI | https://doi.org/10.5281/zenodo.19584531 |
 
@@ -80,6 +81,7 @@ epistemic integrity.
 | n_w=5 first-principles uniqueness | DOCUMENTED as Admission 3 (Planck nₛ selection) | §Outstanding Gaps |
 | DESI wₐ 2.1σ tension | DOCUMENTED as tension, not falsification | §Outstanding Gaps |
 | α_s direct chain ~72% residual | DOCUMENTED as 10D architecture limit | §Outstanding Gaps |
+| JUNO Δm²₃₁ 2.18% residual | DOCUMENTED as projected falsification at JUNO precision | §Outstanding Gaps |
 
 ---
 
@@ -94,4 +96,4 @@ After submission: record the arXiv ID in `CITATION.cff` and
 
 ---
 
-*Document version: 2.0 — 2026-05-15 (v10.61 sync; READY verdict retained)*
+*Document version: 2.2 — 2026-05-19 (v11.5 sync; READY verdict retained)*
