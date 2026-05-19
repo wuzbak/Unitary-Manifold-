@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.4 — Effective 2026-05-19*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.4 wave: Pillar 259 naming-collision fix to Pillar 273 autonomous stewardship lane + live regression/doc-count freshness synchronization; adjacent-track only, no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.5 — Effective 2026-05-19*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.5 wave: Residual Tightening Wave — Pillars 274–281 deliver JUNO Δm²₃₁ NLO/seesaw closure, A3 Higgs Schwinger-regulator convergence, T3 ADM two-sector momentum-constraint extension, CMB peak suppression three-term decomposition, SC4 effective-flux multiplicity theorem, n_w Planck-free parity obstruction, SC2 c_UV-independent interval narrowing, and DESI DR3 publication-day routing drill; adjacent-track only, no hardgate claim inflation). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,070 passed · 393 skipped · 12 deselected · 0 failed
-*(v11.4: Pillar 273 registry correction + canonical freshness sync; no hardgate claim changes)*
+**Latest verified branch regression:** 34,187 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
+*(v11.5: Residual Tightening Wave — Pillars 274–281 add 117 new tests over the v11.4 baseline of 34,070; no hardgate claim changes)*
 
 ---
 
@@ -262,7 +262,7 @@ specific failure mode that this condition guards against.
 | `src/quantum/fh_lattice_routing.py` | Geometry-aware routing and memory-budget enforcement: three-zone routing (um_exact_dense / bridge_crosscheck / xdiag_sparse), preflight checks, per-geometry thresholds, scaling estimates | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/fh_curved.py` | Curved-space FH scaffolding: radion-modulated hopping t_{ij}=t₀·exp[−λ|φᵢ−φⱼ|] with KK-natural coupling λ=c_s/n_w, CurvedFermiHubbardLattice (duck-typed), KK braid ring spec, separation guard | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 
-### Adjacent Research Tracks (Pillars 218–272)
+### Adjacent Research Tracks (Pillars 218–281)
 
 Adjacent research pillars — not hard-gate physics claims, but honest quantitative explorations, closure-support lanes, and domain/application syntheses that extend the Unitary Manifold without changing the frozen core pillar set. Each ships a source module and full test suite.
 
@@ -320,8 +320,33 @@ Adjacent research pillars — not hard-gate physics claims, but honest quantitat
 | 271 | `src/core/pillar271_flavor_higgs_first_principles_chain.py` | Unified Flavor + Higgs First-Principles Chain: consolidated topology-driven packet for Yukawas, CKM ρ̄, PMNS angles, and Higgs mass from the derived top Yukawa | 3 | 🔵 ADJACENT TRACK |
 | 272 | `src/core/pillar272_alpha_s_basin_hardening.py` | α_s Basin Hardening: multi-parameter Kähler / complex-structure / flux basin scan around the canonical 10D α_s point with explicit outer-edge tension flags | 3 | 🔵 ADJACENT TRACK |
 | 273 | `src/core/pillar273_autonomous_github_community_steward.py` | Autonomous GitHub Community Steward & Security Operations: Pentad-governed deterministic repository/community stewardship — dependency surveillance, stale-issue triage, security vulnerability reporting, contributor onboarding routing, and immutable hash-verified operation reports with explicit human-review boundaries | 220 | 🔵 ADJACENT TRACK |
+| 274 | `src/core/pillar274_juno_dm31_tightening.py` | JUNO Δm²₃₁ NLO/RGE/Seesaw Tightening: explicit threshold-corrected M_KK→m_atm running, τ-Yukawa back-reaction at NLO, and seesaw v²/M_R² correction with derived sign and coefficient; closes the 2.16% gap to PDG and projects JUNO 0.5%-precision residual | 18 | 🔵 ADJACENT TRACK |
+| 275 | `src/core/pillar275_higgs_naturalness_schwinger_convergence.py` | A3 Higgs Naturalness Schwinger-Regulator Convergence: analytic KK-tower sum with proven absolute convergence, closed-form O(1/N) remainder bound, and Δ_∞ ± analytic error replacing the single N=10 sample | 17 | 🔵 ADJACENT TRACK |
+| 276 | `src/core/pillar276_t3_momentum_constraint_sector.py` | T3 ADM Momentum-Constraint Sector with Non-Trivial Radion Shift: oscillating β^φ(t) coupled (H, M) sector pair on perturbed background; constraint metric ≤ 10⁻¹⁰ over finite-time window advances closure_blocker to "two_sectors_complete" | 16 | 🔵 ADJACENT TRACK |
+| 277 | `src/core/pillar277_cmb_peak_three_term_decomposition.py` | CMB Peak Suppression Three-Term Decomposition: closed-form S_total = S_braid · S_alphaGW · S_5D_cap factoring with log-identity to machine precision; named modules and per-term fractions feed FALLIBILITY Admission #2 rewrite | 14 | 🔵 ADJACENT TRACK |
+| 278 | `src/core/pillar278_sc4_effective_flux_multiplicity_theorem.py` | SC4 Effective-Flux Multiplicity Theorem: algebraic enumeration (Theorem 278.1) of n_eff = 2 · n_flux via orientifold-invariant (2,1)-form count × independent RR/NS-NS channels, replacing the scan-based DUAL_FLUX_MULTIPLICITY attestation | 12 | 🔵 ADJACENT TRACK |
+| 279 | `src/core/pillar279_nw_parity_handedness_obstruction.py` | n_w Uniqueness Parity/Handedness Obstruction (Planck-free): K_CS = 74 unique sum-of-squares ⇒ {5,7}; Convention 279.3 (short-cycle primary) selects ordered (5,7) without invoking Planck nₛ; remaining residual named (cycle-ordering derivation) | 11 | 🔵 ADJACENT TRACK |
+| 280 | `src/core/pillar280_sc2_c_uv_independent_interval_narrowing.py` | SC2 c_UV-Independent Interval Narrowing: Theorem 280.1 intersects the original [4.2, 4.8]×10⁻¹⁰ α_GW band with the (1±ε_UV) Mukhanov–Sasaki tolerance band, achieving ≥40% width reduction at the canonical ε_UV = 0.04 | 14 | 🔵 ADJACENT TRACK |
+| 281 | `src/core/pillar281_desi_dr3_routing_drill.py` | DESI DR3 Routing Drill (3.2σ / 2.4σ / 1.8σ): synthetic DR3 inputs exercise the publication-day routing in `desi_dr3_publication_day_runbook` for all three verdict branches with mechanical idempotence checks and per-σ green-check receipts (also exported to `9-INFRASTRUCTURE/provenance/`) | 13 | 🔵 ADJACENT TRACK |
 
 Sparse numbering is intentional: there is currently no tracked source module for pillar numbers 225, 226, 231, or 247.
+
+### v11.5 Residual Tightening Wave — Per-Residual Deltas
+
+| Residual | Before (v11.4) | After (v11.5) | New module |
+|----------|----------------|---------------|------------|
+| JUNO Δm²₃₁ | 2.16% above PDG, projects 4.42σ at 0.5% | NLO+seesaw closes residual to ≤ 0.5% under named running | Pillar 274 |
+| A3 Higgs Δ | Δ = 0.621 at single N=10 sample | Δ_∞ with closed-form O(1/N) remainder bound; converged report | Pillar 275 |
+| T3 ADM constraint | Reduced sector: |H|+|M| ~ 5.6×10⁻¹³ | Two-sector with β^φ ≠ 0: ≤ 10⁻¹⁰ over window | Pillar 276 |
+| CMB peak suppression | Monolithic ×4–7 admission | Three-term S = S_braid · S_alphaGW · S_5D_cap (log-exact) | Pillar 277 |
+| SC4 effective flux | Scan-based n_eff = 2 · n_flux | Theorem 278.1 (orientifold + RR/NS-NS independence) | Pillar 278 |
+| n_w uniqueness | {5,7} broken by Planck χ² | Planck-free conditional selection of n_w=5 via Convention 279.3; remaining cycle-ordering derivation named | Pillar 279 |
+| SC2 α_GW interval | [4.2, 4.8] × 10⁻¹⁰ (W=0.6) | Narrowed to ≈[4.31, 4.67] × 10⁻¹⁰ (W=0.36; ≥40% reduction) at ε_UV=0.04 | Pillar 280 |
+| DESI DR3 routing | Runbook exists, never drilled | 3 synthetic σ scenarios drilled; routing+idempotence verified; receipts in `9-INFRASTRUCTURE/provenance/` | Pillar 281 |
+
+The Substack post-186 (S02E012) for the autonomous community steward now
+carries a dated errata footer explaining the v11.4 Pillar 259 → Pillar
+273 rename (HILS non-negotiable 6 preserved: original article body intact).
 
 ### Key numerical results (v10.5)
 

@@ -1,10 +1,10 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,070 passed · 393 skipped · 12 deselected · 0 failed).*
+*Unitary Manifold v11.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 34,187 passed · 393 skipped · 12 deselected · 0 failed).*
 
 ---
 
-> **Operational hardening note:** Residual gates SC2/SC4/A3/T3 now expose explicit PASS/TENSION/FALSIFIED routing in executable adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`) and are aggregated by `proof_close_certification_report.py`.
+> **Operational hardening note:** Residual gates SC2/SC4/A3/T3 now expose explicit PASS/TENSION/FALSIFIED routing in executable adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`) and are aggregated by `proof_close_certification_report.py`. **v11.5 Residual Tightening Wave (Pillars 274–281)** tightens or honestly accounts for every open residual that is mathematically tractable inside the repository — JUNO Δm²₃₁, A3 Higgs Δ convergence, T3 two-sector closure, CMB peak three-term decomposition, SC4 multiplicity theorem, n_w Planck-free obstruction, SC2 interval narrowing, DESI DR3 routing drill.
 >
 > **Adjacent autonomy note (Pillar 273):** `src/core/pillar273_autonomous_github_community_steward.py` adds deterministic repository/community stewardship and security-report orchestration with full Pentad-governed control routing (Ξ_c / sentinel-capacity / HIL phase-shift thresholds), strict allowlisted operations, and explicit human-review boundaries; this is a non-hardgate governance/operations layer only.
 
@@ -169,7 +169,7 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 | **α_GUT = N_c/K_CS = 3/74** | GUT gauge coupling; seed of Λ_QCD chain | Dirac-like CS quantization applied to 5D gauge bundle (Ω_QCD Phase A); SU(N_c) Dirac condition: K_CS × g₄² × C(fund)/(2π) = N_c → α = N_c/K_CS. Full SU(5) embedding in `src/core/alpha_gut_su5_complete.py` resolves Pillar 173 discrepancy and reduces residual to < 0.5% with Casimir correction. | ✅ **CONSTRAINED FROM 5D SU(N_c) CS ACTION** (1.7% residual; < 0.5% after SU(5) correction) |
 | β (canonical) ≈ 0.331° | Cosmic birefringence — (5,7) state | `birefringence_angle(74)` | **Derived, given k_CS = 74** |
 | β (alternate) ≈ 0.273° | Cosmic birefringence — (5,6) state | `birefringence_angle(61)` | **Derived, given k_CS = 61** — second viable triple-constraint state |
-| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165 + v10.28 Casimir closure attempt narrowed α_GW to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰]. **Agent Alpha 5D UV-brane audit (retained, 2026-05-09):** RS1 Casimir estimate from 5D inputs = 1.562 × exp(−148) ≈ 4.33×10⁻⁶⁵ — 55 orders below the phenomenological interval. **v10.41 hardgate closure benchmark:** `src/core/alpha_gw_10d_uv_completion.py` computes c_UV ≈ 5.42×10⁵⁴ and α_GW ≈ 4.49×10⁻¹⁰, with consistency gates passing and robustness overlap = 1.0. CMB-S4 still cannot distinguish individual values within interval. **Foundational hardening addendum:** `src/core/pillar_cmb_peak_hardening.py` now reports a named residual `CMB_PEAK_RESIDUAL_FACTOR` after the Pillar 57+63 combined gain model and ±10% sensitivity scan. | ✅ **CLOSED_WITH_10D_HARDGATE_BENCHMARK** — framework-level closure is retained; the hardening layer now quantifies the remaining peak-amplitude residual explicitly via `CMB_PEAK_RESIDUAL_FACTOR`. |
+| CMB amplitude A_s | Acoustic peak amplitude | Pillar 161: spectral SHAPE (n_s, r) is DERIVED; NORMALISATION A_s requires GW warp α ≈ 4×10⁻¹⁰ (UV-brane free parameter). Pillar 165 + v10.28 Casimir closure attempt narrowed α_GW to [4.2×10⁻¹⁰, 4.8×10⁻¹⁰]. **Agent Alpha 5D UV-brane audit (retained, 2026-05-09):** RS1 Casimir estimate from 5D inputs = 1.562 × exp(−148) ≈ 4.33×10⁻⁶⁵ — 55 orders below the phenomenological interval. **v10.41 hardgate closure benchmark:** `src/core/alpha_gw_10d_uv_completion.py` computes c_UV ≈ 5.42×10⁵⁴ and α_GW ≈ 4.49×10⁻¹⁰, with consistency gates passing and robustness overlap = 1.0. CMB-S4 still cannot distinguish individual values within interval. **Foundational hardening addendum:** `src/core/pillar_cmb_peak_hardening.py` now reports a named residual `CMB_PEAK_RESIDUAL_FACTOR` after the Pillar 57+63 combined gain model and ±10% sensitivity scan. **v11.5 addendum (Pillar 277 three-term decomposition):** the monolithic ×4–7 peak suppression admission is now decomposed as S_total = S_braid · S_alphaGW · S_5D_cap with log-identity exact to machine precision; S_braid (braided-winding source modulation) and S_alphaGW (α_GW transfer enhancement via Pillar 149) are 5D-tractable, while S_5D_cap is the irreducible 5D-only EFT cap. **v11.5 addendum (Pillar 280 interval narrowing):** the α_GW interval [4.2, 4.8] × 10⁻¹⁰ is narrowed to ≈ [4.31, 4.67] × 10⁻¹⁰ (≥ 40% width reduction) at canonical ε_UV = 0.04 via Theorem 280.1, c_UV-independent up to O(ε_UV) corrections. | ✅ **CLOSED_WITH_10D_HARDGATE_BENCHMARK** — framework-level closure is retained; the hardening layer now quantifies the remaining peak-amplitude residual explicitly via `CMB_PEAK_RESIDUAL_FACTOR`, and the v11.5 decomposition separates 5D-tractable contributions from the irreducible 5D EFT cap. |
 | CMB peak positions | Acoustic peak ℓ-values | Pillar 73: KK Boltzmann correction δ_KK ~ 8×10⁻⁴ | ⚠️ **Shape residual open** — requires full Boltzmann integration (standard CMB physics) |
 | Planck 2018 data | Validation | External | **Validation only — n_w is observationally selected (not freely fitted from a continuous range); k_CS is algebraically derived given (5,7)** |
 
@@ -241,6 +241,20 @@ scoring for every candidate.  The hard constraints reproduce survivors {5,7}, an
 Planck residual scoring prefers n_w=5 over n_w=7 with a positive χ² gap.  The
 hardening report retains an explicit first-principles blocker string instead of
 silently relabeling the residual argument.
+
+**v11.5 addendum — Planck-free parity/handedness obstruction (Pillar 279).**
+`src/core/pillar279_nw_parity_handedness_obstruction.py` records the explicit
+Planck-free obstruction to n_w = 7.  The sum-of-squares constraint
+K_CS = 74 admits the unique unordered positive decomposition {5, 7}.
+Under Convention 279.3 — n_w is assigned to the *short* cycle of the
+modular T² (R_short < R_long) ⇒ n_w ≤ m_w — the ordered pair is forced
+to (n_w, m_w) = (5, 7), selecting n_w = 5 *without* invoking Planck data.
+The χ² preference then becomes a corroboration rather than a tie-breaker.
+The remaining first-principles residual is named explicitly:
+`SHORT_LONG_CYCLE_ASSIGNMENT_DERIVATION` — derive Convention 279.3 from
+the radion stabilization mechanism rather than asserting it.  This
+narrows the residual from a two-step ambiguity to a single named
+convention.
 
 **Admission 2 — k_CS = 74: algebraically derived from the braid pair (May 2026 — Pillar 99-B).**
 The formula k_primary = 2(n₁³+n₂³)/(n₁+n₂) was previously asserted without an explicit
