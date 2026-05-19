@@ -1,12 +1,12 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 33,784 passed · 393 skipped · 12 deselected · 0 failed).*
+*Unitary Manifold v11.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 33,784 passed · 393 skipped · 12 deselected · 0 failed).*
 
 ---
 
 > **Operational hardening note:** Residual gates SC2/SC4/A3/T3 now expose explicit PASS/TENSION/FALSIFIED routing in executable adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`) and are aggregated by `proof_close_certification_report.py`.
 >
-> **Adjacent autonomy note (Pillar 259):** `src/core/pillar259_autonomous_github_community_steward.py` adds deterministic repository/community stewardship and security-report orchestration with full Pentad-governed control routing (Ξ_c / sentinel-capacity / HIL phase-shift thresholds), strict allowlisted operations, and explicit human-review boundaries; this is a non-hardgate governance/operations layer only.
+> **Adjacent autonomy note (Pillar 273):** `src/core/pillar273_autonomous_github_community_steward.py` adds deterministic repository/community stewardship and security-report orchestration with full Pentad-governed control routing (Ξ_c / sentinel-capacity / HIL phase-shift thresholds), strict allowlisted operations, and explicit human-review boundaries; this is a non-hardgate governance/operations layer only.
 
 > **Dual-publication notice (v10.28+):** Every claim in this document is
 > simultaneously published in two layers:
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (32 993 passed, 393 skipped, 12 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (33,784 passed, 393 skipped, 12 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -76,7 +76,7 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 
-When the README badge reads "32 993 passed · 393 skipped · 12 deselected · 0 failed," this is a statement about
+When the README badge reads "33,784 passed · 393 skipped · 12 deselected · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an

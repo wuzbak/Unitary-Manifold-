@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Tests for Pillar 259 — Autonomous GitHub Community Steward & Security Operations."""
+"""Tests for Pillar 273 — Autonomous GitHub Community Steward & Security Operations."""
 
 from __future__ import annotations
 
 import pytest
 from datetime import datetime, timezone
 
-from src.core.pillar259_autonomous_github_community_steward import (
+from src.core.pillar273_autonomous_github_community_steward import (
     ADJACENCY_TRACK_LABEL,
     PILLAR_NUMBER,
     PILLAR_TITLE,
@@ -58,7 +58,7 @@ class TestConstants:
         assert ADJACENCY_TRACK_LABEL == "NON_HARDGATE_ADJACENT"
 
     def test_pillar_number(self):
-        assert PILLAR_NUMBER == 259
+        assert PILLAR_NUMBER == 273
 
     def test_pillar_title(self):
         assert "Steward" in PILLAR_TITLE or "Community" in PILLAR_TITLE
