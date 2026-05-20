@@ -3549,8 +3549,9 @@ in `src/core/inflation.py` implement the **leading-order** slow-roll expressions
     r  = 16ε               [leading order; Boyle-Steinhardt corrections are O(ε²)]
     nₜ = −2ε               [leading order; consistency relation r = −8nₜ holds at leading order]
 
-Higher-order (Stewart-Sasaki) corrections are of order ε², εη, η² ≈ (0.036/16)² ≈ 5×10⁻⁶,
-well below Planck 2018 precision (σ_nₛ = 0.0042) and not yet observable.  The predictions
+Higher-order (Stewart-Sasaki) corrections at second order in slow-roll are O(34ε²/3) where
+ε ≈ (1−nₛ)/6 ≈ (1−0.9635)/6 ≈ 0.006, giving a correction of ~4×10⁻⁴ to nₛ.  This is
+well below the Planck 2018 precision (σ_nₛ = 0.0042) and not yet observable.  The predictions
 nₛ ≈ 0.9635 and r ≈ 0.0315 are therefore accurate to well within the experimental
 uncertainty, but they are **not exact** — they are leading-order slow-roll estimates.
 

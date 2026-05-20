@@ -357,7 +357,8 @@ def spectral_index(epsilon: float, eta: float) -> float:
     """Scalar spectral index  nₛ = 1 − 6ε + 2η.
 
     # SLOW-ROLL APPROX (leading order): exact expression is an infinite series in
-    # slow-roll parameters; second-order corrections are O(ε², εη, η²) ~ 10⁻⁴.
+    # slow-roll parameters; second-order (Stewart-Sasaki) corrections are O(34ε²/3)
+    # with ε ≈ (1-nₛ)/6 ≈ 0.006, giving corrections ~ 4×10⁻⁴ — well below σ_nₛ = 0.0042.
 
     Parameters
     ----------
