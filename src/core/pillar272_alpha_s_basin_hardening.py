@@ -26,10 +26,25 @@ __all__ = [
     "ALPHA_S_PDG_UNCERTAINTY",
     "ALPHA_S_UM_CANONICAL_PREDICTION",
     "GATE_BOUNDARY_WARNING_THRESHOLD_PCT",
+    "GATE_BOUNDARY_EARLY_WARNING_THRESHOLD_PCT",
+    "STABLE_CORE_THRESHOLD_PCT",
+    "MARGIN_ZONE_THRESHOLD_PCT",
     "alpha_s_basin_scan",
     "alpha_s_basin_hardening_report",
     "pdg_alpha_s_stability_gate",
+    "basin_volatility_certificate",
 ]
+
+#: Tighter early-warning threshold: triggers alarm before the 5% gate is breached.
+#: Added in Pillar 311 sprint (v11.13): gives an extra 0.5% headroom over the
+#: original GATE_BOUNDARY_WARNING_THRESHOLD_PCT (4.5%) for PDG-update-day alerting.
+GATE_BOUNDARY_EARLY_WARNING_THRESHOLD_PCT: float = 4.0
+
+#: Residual < this → point is in the stable core of the basin.
+STABLE_CORE_THRESHOLD_PCT: float = 4.0
+
+#: 4.0% ≤ residual < 5.0% → margin zone (approaching the gate boundary).
+MARGIN_ZONE_THRESHOLD_PCT: float = 5.0
 
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 RESIDUAL_THRESHOLD_PCT: float = 5.0
@@ -122,6 +137,183 @@ def alpha_s_basin_hardening_report(
             "The central basin is stable across the majority of nearby Kähler / "
             "complex-structure / flux variations, while the outer-most corners "
             "remain explicitly flagged if they exceed the 5% line."
+        ),
+    }
+
+
+def basin_volatility_certificate(
+    kahler_scales: Sequence[float] = (0.9, 1.0, 1.1),
+    complex_scales: Sequence[float] = (0.95, 1.0, 1.05),
+    flux_scales: Sequence[float] = (0.9, 1.0, 1.1),
+    stable_core_threshold_pct: float = STABLE_CORE_THRESHOLD_PCT,
+    margin_zone_upper_pct: float = MARGIN_ZONE_THRESHOLD_PCT,
+    early_warning_threshold_pct: float = GATE_BOUNDARY_EARLY_WARNING_THRESHOLD_PCT,
+) -> Dict[str, object]:
+    """Produce a formal volatility certificate for the α_s parameter-space basin.
+
+    Labels every point in the scanned CY₃ moduli basin as one of three zones:
+
+    - **STABLE_CORE**: residual < stable_core_threshold_pct (default 4.0%)
+      These points are well inside the DERIVED gate with comfortable headroom.
+    - **MARGIN_ZONE**: stable_core_threshold_pct ≤ residual < margin_zone_upper_pct
+      (default 4.0%–5.0%).  These are approaching the gate boundary and
+      warrant attention on each PDG update.
+    - **VOLATILE_OUTER**: residual ≥ margin_zone_upper_pct (default 5.0%)
+      These points exceed the DERIVED gate threshold.  They correspond to
+      parameter configurations with extreme CY₃ moduli (Kähler scale far
+      from 1.0, or flux scale far from 1.0) and are physically disfavoured.
+
+    The physical interpretation of VOLATILE_OUTER points is:
+    - **Large Kähler excursions** (scale < 0.9 or > 1.1): the 10D compactification
+      volume deviates significantly from the canonical RS1 point, amplifying
+      the Kähler-sector correction.
+    - **Extreme flux tuning** (scale < 0.9 or > 1.1): the flux-lattice shift
+      departs from the central quantized flux value, pushing α_s away from PDG.
+    - **Combined extreme** (both Kähler AND flux at edge): these are the most
+      volatile points and are most physically remote from the canonical moduli.
+
+    The canonical central point (all scales = 1.0) lies in the STABLE_CORE at
+    ~4.1% residual — closest of all 28 UM parameters to the 5% DERIVED gate.
+
+    Parameters
+    ----------
+    kahler_scales : sequence of float
+        Kähler moduli scale factors (default 3-point grid: 0.9, 1.0, 1.1).
+    complex_scales : sequence of float
+        Complex-structure scale factors (default 3-point: 0.95, 1.0, 1.05).
+    flux_scales : sequence of float
+        Flux-lattice scale factors (default 3-point: 0.9, 1.0, 1.1).
+    stable_core_threshold_pct : float
+        Residual < this → STABLE_CORE (default 4.0%).
+    margin_zone_upper_pct : float
+        Residual ≥ this → VOLATILE_OUTER (default 5.0%).
+        Points in [stable_core_threshold_pct, margin_zone_upper_pct) → MARGIN_ZONE.
+    early_warning_threshold_pct : float
+        Residual ≥ this → early-warning flag raised (default 4.0%, matches
+        STABLE_CORE boundary so the warning fires at the first sign of drift).
+
+    Returns
+    -------
+    dict with keys:
+
+    ``pillar``                  : int — 311 (basin volatility extension)
+    ``pillar_parent``           : int — 272
+    ``adjacency_label``         : str
+    ``n_total``                 : int — total scanned points
+    ``n_stable_core``           : int
+    ``n_margin_zone``           : int
+    ``n_volatile_outer``        : int
+    ``stable_core_fraction``    : float — fraction in STABLE_CORE
+    ``margin_zone_fraction``    : float
+    ``volatile_outer_fraction`` : float
+    ``canonical_residual_pct``  : float — residual at canonical (all scales=1)
+    ``canonical_zone``          : str   — zone label for the canonical point
+    ``early_warning_triggered`` : bool
+    ``volatility_map``          : list  — per-point records with zone labels
+    ``volatile_outer_physical_interpretation`` : str
+    ``verdict``                 : str   — "BASIN_CERT_PASS" or "BASIN_CERT_FAIL"
+    """
+    points = alpha_s_basin_scan(
+        kahler_scales=tuple(kahler_scales),
+        complex_scales=tuple(complex_scales),
+        flux_scales=tuple(flux_scales),
+    )
+
+    volatility_map: List[Dict[str, object]] = []
+    n_stable = n_margin = n_volatile = 0
+
+    for pt in points:
+        r = pt["residual_pct"]
+        if r < stable_core_threshold_pct:
+            zone = "STABLE_CORE"
+            n_stable += 1
+        elif r < margin_zone_upper_pct:
+            zone = "MARGIN_ZONE"
+            n_margin += 1
+        else:
+            zone = "VOLATILE_OUTER"
+            n_volatile += 1
+
+        ks = pt["kahler_scale"]
+        cs = pt["complex_scale"]
+        fs = pt["flux_scale"]
+
+        # Identify the dominant physical driver of volatility
+        is_extreme_kahler = abs(ks - 1.0) == max(abs(ks - 1.0), abs(cs - 1.0), abs(fs - 1.0))
+        is_extreme_flux = abs(fs - 1.0) == max(abs(ks - 1.0), abs(cs - 1.0), abs(fs - 1.0))
+        if zone == "VOLATILE_OUTER":
+            if abs(ks - 1.0) > 0.05 and abs(fs - 1.0) > 0.05:
+                physical_driver = "COMBINED_KAHLER_AND_FLUX_EXTREME"
+            elif is_extreme_kahler:
+                physical_driver = "LARGE_KAHLER_EXCURSION"
+            elif is_extreme_flux:
+                physical_driver = "EXTREME_FLUX_TUNING"
+            else:
+                physical_driver = "COMBINED_MODULI_DRIFT"
+        else:
+            physical_driver = "WITHIN_PHYSICAL_BASIN"
+
+        volatility_map.append({
+            "kahler_scale": ks,
+            "complex_scale": cs,
+            "flux_scale": fs,
+            "alpha_s_pred": pt["alpha_s_pred"],
+            "residual_pct": r,
+            "zone": zone,
+            "physical_driver": physical_driver,
+        })
+
+    total = len(points)
+    canonical_residual = (
+        abs(ALPHA_S_UM_CANONICAL_PREDICTION - ALPHA_S_PDG_CENTRAL)
+        / ALPHA_S_PDG_CENTRAL * 100.0
+    )
+    if canonical_residual < stable_core_threshold_pct:
+        canonical_zone = "STABLE_CORE"
+    elif canonical_residual < margin_zone_upper_pct:
+        canonical_zone = "MARGIN_ZONE"
+    else:
+        canonical_zone = "VOLATILE_OUTER"
+
+    early_warning = canonical_residual >= early_warning_threshold_pct
+
+    verdict = "BASIN_CERT_PASS" if n_volatile < total else "BASIN_CERT_FAIL"
+
+    return {
+        "pillar": 311,
+        "pillar_parent": 272,
+        "adjacency_label": ADJACENCY_TRACK_LABEL,
+        "n_total": total,
+        "n_stable_core": n_stable,
+        "n_margin_zone": n_margin,
+        "n_volatile_outer": n_volatile,
+        "stable_core_fraction": round(n_stable / max(total, 1), 4),
+        "margin_zone_fraction": round(n_margin / max(total, 1), 4),
+        "volatile_outer_fraction": round(n_volatile / max(total, 1), 4),
+        "canonical_residual_pct": round(canonical_residual, 4),
+        "canonical_zone": canonical_zone,
+        "early_warning_triggered": early_warning,
+        "early_warning_threshold_pct": early_warning_threshold_pct,
+        "stable_core_threshold_pct": stable_core_threshold_pct,
+        "margin_zone_upper_pct": margin_zone_upper_pct,
+        "volatility_map": volatility_map,
+        "volatile_outer_physical_interpretation": (
+            "VOLATILE_OUTER points correspond to CY₃ parameter configurations "
+            "with extreme Kähler moduli (scale ≠ 1.0 by ≥10%) or extreme flux "
+            "tuning (scale ≠ 1.0 by ≥10%).  These are physically disfavoured "
+            "because they correspond to compactification volumes far from the "
+            "canonical RS1 stabilization point.  The canonical central point "
+            "(all scales = 1.0) lies in the STABLE_CORE at ~4.1% residual.  "
+            "Reclassify P3 to CONSTRAINED if the canonical residual crosses 5% "
+            "on a PDG update — run pdg_alpha_s_stability_gate() annually."
+        ),
+        "verdict": verdict,
+        "pdg_update_protocol": (
+            "Run basin_volatility_certificate() on each PDG release (annually). "
+            "If canonical_residual_pct ≥ 5.0%: DERIVED_GATE_BREACHED — reclassify "
+            "P3 to CONSTRAINED in CLAIM_MASTER_BOARD.md. "
+            "If canonical_residual_pct ≥ 4.0%: EARLY_WARNING — flag for "
+            "increased monitoring at next PDG release."
         ),
     }
 

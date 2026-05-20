@@ -112,6 +112,7 @@ __all__ = [
     "route_lab_cp_result",
     "decision_grade_checklist",
     "preregistration_packet",
+    "draft_collaboration_request",
     "pillar307_report",
 ]
 
@@ -474,4 +475,206 @@ def pillar307_report() -> dict:
             "Call route_lab_cp_result() with σ ≤ 10⁻⁵ data. "
             "This is the highest-priority falsifier executable today."
         ),
+    }
+
+
+# ── Collaboration request generator ──────────────────────────────────────────
+
+def draft_collaboration_request(
+    contact_name: Optional[str] = None,
+    contact_institution: Optional[str] = None,
+    include_technical_appendix: bool = True,
+) -> dict:
+    """Generate a structured collaboration request document for the Lab CP campaign.
+
+    Produces a ready-to-send, plain-language collaboration request for an
+    experimental group capable of measuring A_CP^lab at σ ≤ 10⁻⁵.  The
+    document is self-contained and machine-readable; it can be exported to
+    Markdown for distribution.
+
+    Parameters
+    ----------
+    contact_name : str or None
+        Name of the experimental contact (optional; placeholder if None).
+    contact_institution : str or None
+        Institution of the experimental contact (optional; placeholder if None).
+    include_technical_appendix : bool
+        If True, include the full technical specification (default True).
+
+    Returns
+    -------
+    dict with keys:
+
+    ``subject``              : str — subject line for the collaboration request
+    ``preregistration_ref``  : str — formal preregistration reference
+    ``measurement_target``   : dict — what must be measured and to what precision
+    ``experimental_platforms``: list — JJ/SQUID Track A and topological TI Track B
+    ``decision_grade_checklist``: list — F-LAB-CP-1 through F-LAB-CP-5
+    ``timeline``             : str — "Available NOW — no satellite required"
+    ``contact``              : dict — contact fields
+    ``technical_appendix``   : dict or None — geometry derivation and routing table
+    ``document_text``        : str — plain-language Markdown-ready letter body
+    ``status``               : str — "OPERATIONALLY_READY"
+    """
+    contact = {
+        "name": contact_name if contact_name else "[EXPERIMENTAL CONTACT NAME]",
+        "institution": (
+            contact_institution if contact_institution
+            else "[EXPERIMENTAL INSTITUTION]"
+        ),
+    }
+
+    measurement_target = {
+        "observable": "A_CP^lab = (Γ+ − Γ−) / (Γ+ + Γ−)",
+        "predicted_value": f"~O({A_CP_LAB_TARGET_WITH_DILUTION:.0e})",
+        "required_sigma": f"σ(A_CP) ≤ {A_CP_LAB_SIGMA_REQUIRED:.0e}",
+        "significance_required": "≥ 3σ for a decision-grade verdict",
+        "topology_requirement": (
+            "(5,7)-equivalent braid winding geometry must be "
+            "certified in the experimental device"
+        ),
+    }
+
+    experimental_platforms = [
+        {
+            "track": "Track A",
+            "platform": "Josephson-junction / SQUID arrays",
+            "why": (
+                "JJ arrays can be engineered with (5,7)-winding-equivalent "
+                "topological boundary conditions.  The CP asymmetry enters via "
+                "the braid phase difference in the tunnelling Hamiltonian."
+            ),
+            "sensitivity_estimate": (
+                "Modern dilution-refrigerator JJ platforms achieve "
+                "σ(A_CP) ~ 10⁻⁵–10⁻⁶ with lock-in detection and "
+                "repeated switching."
+            ),
+        },
+        {
+            "track": "Track B",
+            "platform": "Topological-insulator (TI) winding devices",
+            "why": (
+                "TI surface states with (5,7)-winding number support "
+                "topological CP breaking via the axion coupling.  "
+                "A_CP is measurable as a Hall asymmetry at low temperature."
+            ),
+            "sensitivity_estimate": (
+                "TI Hall measurements at mK temperatures achieve "
+                "σ(A_CP) ~ few × 10⁻⁵; improvements toward 10⁻⁵ "
+                "are feasible with extended averaging."
+            ),
+        },
+    ]
+
+    checklist = decision_grade_checklist()["checklist"]
+
+    tech_appendix: Optional[dict] = None
+    if include_technical_appendix:
+        prediction = compute_a_cp_lab_prediction()
+        tech_appendix = {
+            "geometry": {
+                "braid_pair": f"(n₁, n₂) = ({N1_BRAID}, {N2_BRAID})",
+                "k_cs": K_CS,
+                "jarlskog_proxy": round(J_GEO_LAYER1, 6),
+                "topology_transfer_efficiency_raw": round(N1_BRAID / K_CS, 5),
+                "orientation_suppression_factor": 100,
+                "a_cp_derivation": prediction,
+            },
+            "routing_table": {
+                "CONSISTENT": (
+                    f"|A_CP| ≥ {CONSISTENT_THRESHOLD:.0e} at ≥3σ, "
+                    "topology certified → Update P8 to CONSISTENT"
+                ),
+                "P8_TENSION": (
+                    f"|A_CP| < {FALSIFICATION_THRESHOLD:.0e} at ≥3σ, "
+                    "topology certified → P8 TENSION "
+                    "(full framework falsification also requires LiteBIRD)"
+                ),
+                "BELOW_SENSITIVITY": (
+                    f"|A_CP| between {FALSIFICATION_THRESHOLD:.0e} and "
+                    f"{CONSISTENT_THRESHOLD:.0e} → improve precision"
+                ),
+                "INCONCLUSIVE": (
+                    "Topology NOT certified → re-certify before reporting"
+                ),
+            },
+            "preregistration_date": "2026-05-20",
+            "preregistration_version": PREREGISTRATION_VERSION,
+        }
+
+    document_text = f"""## Collaboration Request — Lab-Scale CP Falsifier Campaign
+### Preregistration: {PREREGISTRATION_STATUS}
+### Date: 2026-05-20 | Reference: P307 / OBSERVATION_TRACKER P8
+
+Dear {contact["name"]} ({contact["institution"]}),
+
+We are writing to invite your group to participate in a near-term experimental
+campaign to test a specific, quantitative prediction of the Unitary Manifold (UM)
+theoretical framework.
+
+**The Prediction (Preregistered P8)**
+
+The UM (5,7) braid geometry predicts a laboratory-measurable CP asymmetry:
+
+    A_CP^lab = (Γ+ − Γ−) / (Γ+ + Γ−) ~ O(2×10⁻⁵)
+
+in condensed-matter platforms with (5,7)-equivalent topological winding geometry
+(Josephson-junction/SQUID arrays or topological-insulator winding devices).
+
+This prediction is FALSIFIABLE NOW — no satellite or accelerator is required.
+
+**Required Measurement Precision**
+
+    σ(A_CP) ≤ 1×10⁻⁵
+
+at ≥ 3σ significance, in a topology-certified device.
+
+**Decision-Grade Checklist (F-LAB-CP-1 through F-LAB-CP-5)**
+
+Before a verdict (CONSISTENT or P8_TENSION) can be issued, all five items
+must be CONFIRMED:
+
+"""
+    for item in checklist:
+        document_text += (
+            f"  [{item['item']}] {item['description']}: "
+            f"{item['requirement']}\n\n"
+        )
+
+    document_text += f"""
+**Routing Protocol**
+
+Results are routed deterministically via pillar307_lab_cp_falsifier_preregistration.route_lab_cp_result().
+A null result at topology-certified σ ≤ 10⁻⁶ would create a P8-TENSION signal;
+full framework falsification requires BOTH lab tension AND LiteBIRD β ∉ [0.22°, 0.38°].
+
+**Preregistration Reference**
+
+    Framework:   Unitary Manifold v{PREREGISTRATION_VERSION}
+    Preregistered: 2026-05-20
+    Status:      {PREREGISTRATION_STATUS}
+    DOI:         https://doi.org/10.5281/zenodo.19584531
+
+We welcome discussion of platform design, topology certification protocol,
+and blinding strategy.  Please contact us via the GitHub repository:
+https://github.com/wuzbak/Unitary-Manifold-/issues
+
+Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
+Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).
+"""
+
+    return {
+        "subject": (
+            "Collaboration Invitation — Lab-Scale CP Falsifier Campaign "
+            f"(Preregistered P307 / {PREREGISTRATION_STATUS})"
+        ),
+        "preregistration_ref": PREREGISTRATION_STATUS,
+        "measurement_target": measurement_target,
+        "experimental_platforms": experimental_platforms,
+        "decision_grade_checklist": checklist,
+        "timeline": "Available NOW — no satellite or accelerator required",
+        "contact": contact,
+        "technical_appendix": tech_appendix,
+        "document_text": document_text,
+        "status": "OPERATIONALLY_READY",
     }

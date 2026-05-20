@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v11.8
+# Unitary Manifold v11.13
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,15 +8,21 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Score-sync note (v11.5):** Parts 1–6 retain historical gatekeeper framing from
+> **Score-sync note (v11.13):** Parts 1–6 retain historical gatekeeper framing from
 > earlier waves, while canonical current score accounting and lane labels are synced
 > in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
 > Adjacent governance registry is synchronized with Pillar 273 (`pillar273_autonomous_github_community_steward.py`), while Pillar 259 remains the residual geometry operator.
-> Residual Tightening Wave (v11.5, Pillars 274–281) closes or names every tractable
-> residual. Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
+> v11.13 Tightening Sprint (Pillars 309–311): FTUM contractive-regime certified; Cabibbo
+> orbifold derivation PARTIAL_DERIVATION status; α_s basin volatility map produced;
+> Λ_QCD three-path hierarchy reconciled; Lab CP collaboration request operationalised.
+> **Two HIGH_TENSION signals remain active:** (1) r = 0.0315 vs ACT DR6 upper bound
+> r < 0.016 (IRREDUCIBLE_IN_BRAIDED_5D_EFT — Pillar 303); (2) wₐ = 0 vs DESI DR2
+> 2.82σ tension (ARCHITECTURE_LIMIT_CERTIFIED — Pillar 301). Neither has crossed
+> the 3.0σ falsification threshold. Both will resolve definitively in 2027.
+> Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-20 (v11.8 Audit Sprint — CYCLE_RADION_COUPLING_UNIQUENESS closed via APS η̄ theorem; SEESAW_TEXTURE_PARTICIPATION_GAP at maximum 5D-EFT closure; mpmath test robustness hardened; doc headers synced; ACT DR6 HIGH_TENSION wired into observation tracker)*
+*Last updated: 2026-05-20 (v11.13 Tightening Sprint — Pillars 309–311 added: FTUM Lipschitz cert, Cabibbo orbifold, α_s basin volatility; Λ_QCD three-path reconciliation; Lab CP collaboration request operationalised; doc headers synced to v11.13; full regression 35,547 passed, 0 failed)*
 
 ---
 

@@ -492,3 +492,77 @@ class TestPillar207Precision512Bit:
     def test_each_lane_confirms_architecture_limit(self, audit):
         for dps in ALL_LANES:
             assert audit["precision_lanes"][dps]["architecture_limit_confirmed"] is True
+
+
+# ===========================================================================
+# Λ_QCD Three-Path Reconciliation (v11.13 sprint)
+# ===========================================================================
+
+from src.core.qcd_geometry_primary import qcd_path_reconciliation
+
+
+class TestQCDPathReconciliation:
+    """Tests for qcd_path_reconciliation — single-source three-path hierarchy."""
+
+    @pytest.fixture(scope="class")
+    def reconciliation(self):
+        return qcd_path_reconciliation()
+
+    def test_structure_keys(self, reconciliation):
+        required = {
+            "pillar_parent", "title", "path_A", "path_B", "path_C",
+            "path_bc_gap_ratio", "why_paths_differ", "gap_label",
+            "nlo_correction", "citation_erlich", "verdict", "summary",
+        }
+        assert required.issubset(set(reconciliation.keys()))
+
+    def test_pillar_parent(self, reconciliation):
+        assert reconciliation["pillar_parent"] == 182
+
+    def test_verdict_reconciled(self, reconciliation):
+        assert reconciliation["verdict"] == "THREE_PATH_HIERARCHY_RECONCILED"
+
+    def test_gap_label(self, reconciliation):
+        assert reconciliation["gap_label"] == "KNOWN_SOFT_WALL_SYSTEMATIC"
+
+    def test_path_a_label(self, reconciliation):
+        assert "DIMENSIONAL_TRANSMUTATION_CORRECT" in reconciliation["path_A"]["label"]
+
+    def test_path_b_label(self, reconciliation):
+        assert "SM_RGE_CROSS_CHECK" in reconciliation["path_B"]["label"]
+
+    def test_path_c_label(self, reconciliation):
+        assert "GEOMETRIC_LEADING_ORDER" in reconciliation["path_C"]["label"]
+
+    def test_path_c_result_in_pdg_range(self, reconciliation):
+        results = reconciliation["path_C"]["result_mev"]
+        for key, val in results.items():
+            assert 100.0 < val < 400.0, (
+                f"Path C sub-path {key} = {val} MeV outside plausible range."
+            )
+
+    def test_path_bc_gap_ratio_reasonable(self, reconciliation):
+        """Factor B/C-A should be in [1.5, 2.0] — soft-wall systematic."""
+        ratio = reconciliation["path_bc_gap_ratio"]
+        assert 1.5 < ratio < 2.0, (
+            f"B/C gap ratio {ratio:.3f} outside expected soft-wall range [1.5, 2.0]."
+        )
+
+    def test_citation_erlich_present(self, reconciliation):
+        assert "Erlich" in reconciliation["citation_erlich"]
+        assert "2005" in reconciliation["citation_erlich"]
+
+    def test_nlo_correction_mentions_backreaction(self, reconciliation):
+        nlo = reconciliation["nlo_correction"]
+        assert "backreaction" in nlo.lower() or "NLO" in nlo
+
+    def test_summary_non_contradictory_language(self, reconciliation):
+        summary = reconciliation["summary"]
+        assert "NOT contradictory" in summary or "not contradictory" in summary.lower()
+
+    def test_path_c_zero_free_params(self, reconciliation):
+        assert reconciliation["path_C"]["free_params"] == 0
+
+    def test_path_c_no_sm_rge(self, reconciliation):
+        assert reconciliation["path_C"]["sm_rge_used"] is False
+
