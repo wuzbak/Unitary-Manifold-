@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v11.6
+# Unitary Manifold v11.8
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -16,7 +16,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > residual. Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-19 (v11.5 Residual Tightening Wave — Pillars 274–281; all residuals tightened or named; JUNO monitoring active; ADM Wheeler-DeWitt gap classified STRUCTURAL)*
+*Last updated: 2026-05-20 (v11.8 Audit Sprint — CYCLE_RADION_COUPLING_UNIQUENESS closed via APS η̄ theorem; SEESAW_TEXTURE_PARTICIPATION_GAP at maximum 5D-EFT closure; mpmath test robustness hardened; doc headers synced; ACT DR6 HIGH_TENSION wired into observation tracker)*
 
 ---
 

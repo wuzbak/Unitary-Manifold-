@@ -1,7 +1,7 @@
 # The Residual Tightening Wave: Eight Pillars That Made the Numbers Tighter Without Faking It
 
-*Post 193 of the Unitary Manifold series.*  
-*Series S02, Episode E019.*  
+*Post 201 of the Unitary Manifold series.*  
+*Series S02, Episode E027.*  
 *Epistemic category: **meta** — sprint overview, all entries non-hardgate adjacent tracks.*  
 *May 2026.*
 

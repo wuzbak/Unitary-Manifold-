@@ -63,6 +63,7 @@ def test_jax_ground_state_normalization_passes():
 
 
 def test_mpmath_256bit_audit_passes():
+    pytest.importorskip("mpmath")
     result = mpmath_ground_state_audit(80)
     assert result["mpmath_available"] is True
     assert result["passed"] is True

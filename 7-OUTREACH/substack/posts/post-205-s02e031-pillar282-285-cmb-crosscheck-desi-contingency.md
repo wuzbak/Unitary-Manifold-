@@ -1,7 +1,7 @@
 # Before the Verdict: CMB Cross-Checks and the DESI Contingency Architecture
 
-*Post 197 of the Unitary Manifold series.*  
-*Series S02, Episode E023.*  
+*Post 205 of the Unitary Manifold series.*  
+*Series S02, Episode E031.*  
 *Epistemic category: **Adjacent Track** — Pillar 282 CMB Planck crosscheck; Pillar 285 dark energy extension specification, non-hardgate.*  
 *May 2026.*
 

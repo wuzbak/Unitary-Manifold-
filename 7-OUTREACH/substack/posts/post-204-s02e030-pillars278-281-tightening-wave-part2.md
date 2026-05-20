@@ -1,7 +1,7 @@
 # The Tightening Wave, Part II: Theorems, Intervals, and the DESI Drill
 
-*Post 196 of the Unitary Manifold series.*  
-*Series S02, Episode E022.*  
+*Post 204 of the Unitary Manifold series.*  
+*Series S02, Episode E030.*  
 *Epistemic category: **Adjacent Track** — Pillars 278–281, v11.5 residual tightening wave continued, non-hardgate.*  
 *May 2026.*
 

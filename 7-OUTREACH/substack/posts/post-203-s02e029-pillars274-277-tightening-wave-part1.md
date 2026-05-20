@@ -1,7 +1,7 @@
 # The Tightening Wave, Part I: Neutrinos, Naturalness, and the ADM Momentum Sector
 
-*Post 195 of the Unitary Manifold series.*  
-*Series S02, Episode E021.*  
+*Post 203 of the Unitary Manifold series.*  
+*Series S02, Episode E029.*  
 *Epistemic category: **Adjacent Track** — Pillars 274–277, v11.5 residual tightening wave, non-hardgate.*  
 *May 2026.*
 

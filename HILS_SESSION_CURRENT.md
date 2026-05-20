@@ -12,9 +12,9 @@
 | **Collaborator (Human)** | ThomasCory Walker-Pearson — theory, scientific direction, framework authority, override |
 | **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 pillars, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
-| **Session opened** | 2026-05-19T01:42:57Z |
-| **Active wave** | v11.4 — Pillar 259 naming collision fix + canonical doc-count freshness sync |
-| **Prior wave** | v11.3 — Ordered Residual Sprint Execution (Pillars 259–272 adjacent lane) |
+| **Session opened** | 2026-05-20T00:23:22Z |
+| **Active wave** | v11.8 — Full audit sprint: gap closures (P286/287), mpmath robustness, doc sync, article renumber |
+| **Prior wave** | v11.7 — Seesaw closure, Pillars 286–291 + JUNO DR1 preregistration (34,411 tests) |
 
 ---
 
@@ -47,37 +47,41 @@
 | 11 | P28 DERIVED promotion to 100% ToE | ✅ v10.59 complete |
 | 12 | 10D branch completion + 11D terminal closure handoff | ✅ v10.60–v10.61 complete |
 | 13 | A–E execution sprint: lab lane completion + publication/session sync | ✅ v11.0–v11.3 complete |
-| 14 | **Full audit + top-5 fix sprint: Pillar 259 renaming, stale count sync** | ✅ **v11.4 complete** |
+| 14 | Full audit + top-5 fix sprint: Pillar 259 renaming, stale count sync | ✅ v11.4 complete |
+| 15 | Residual tightening wave: Pillars 274–281 + doc sync | ✅ v11.5 complete |
+| 16 | Environment hardening + DESI correction + Pillar 285 | ✅ v11.6 complete |
+| 17 | Seesaw closure: Pillars 286–291, JUNO DR1, CMB-S4 routing, FH ring | ✅ v11.7 complete |
+| 18 | **Full audit sprint: gap closures, mpmath fixes, doc sync, article renumber, outreach post** | ✅ **v11.8 complete** |
 
 ---
 
-## v11.4 Current State Summary
+## v11.8 Current State Summary
 
 | Item | Value |
 |------|-------|
-| Version | v11.4 |
+| Version | v11.8 |
 | Core physics pillars | 208 — CLOSED |
-| Adjacent research tracks | Pillars 218–273 registered (non-hardgate); Pillar 273 = Autonomous GitHub Community Steward (previously misregistered as 259) |
-| Test suite | **34,057 passed · 393 skipped · 12 deselected · 0 failed** |
+| Adjacent research tracks | Pillars 218–291 registered (non-hardgate) |
+| Test suite | **34,411 passed · 393 skipped · 12 deselected · 0 failed** (canonical) |
 | ToE Score | **100% (28.0/28.0)** |
-| MAS Programme | COMPLETE (W0–W14 closed) |
-| Post-MAS tracks | T1, T2, T3 — all PASS |
-| Extension tracks | ET-1 through ET-6 — all DELIVERED |
-| DBP Ladder | All 6 rungs SOLID/CERTIFIED |
-| Canonical ledger | all_pass: True (version + regression consistent across all docs) |
-| arXiv submission | READY — user actively pursuing endorsement |
-| Lab substitute lane | Dual-track packet surface ready (Track A JJ/SQUID, Track B TI winding) |
-| DESI P4 tension | HIGH_TENSION — 2.75σ (DESI DR2); DR3 routing protocol armed (~2027) |
+| Gap closures this wave | CYCLE_RADION_COUPLING_UNIQUENESS: CLOSED (APS η̄ theorem); SEESAW_TEXTURE_PARTICIPATION_GAP: MAXIMUM_5D_EFT_CLOSURE |
+| Convention 279.3 | DERIVED (from APS η̄ selection, Pillar 287 closure) |
+| P17 (Δm²₃₁) label | CONDITIONAL_DERIVATION (maintained; hardgate-consistent; 0.004% at p_R=0.364) |
+| JUNO DR1 preregistration | LOCKED (~2027 publication date) |
+| DESI DR3 routing | ARMED (2.75σ tension; threshold at 3.0σ; DR3 ~2027) |
+| ACT DR6 | HIGH_TENSION — r<0.016 (95%CL) exceeds UM r=0.0315; P2 falsifier NOT triggered |
+| LiteBIRD primary falsifier | ~2032 — β ∈ {0.273°, 0.331°} |
+| Outreach article numbering | Fixed — posts 201–206 (sprint overviews), post 207 (audit report) |
 
 ---
 
-## Six Operational Lanes — Active Monitoring (v11.4)
+## Six Operational Lanes — Active Monitoring (v11.8)
 
 All six lanes run concurrently.  No lane queues behind another.
 
 | Lane | Name | Key Artifact | Status |
 |------|------|-------------|--------|
-| L1 | **Measurement confrontation** | `docs/falsification/instrument_registry.yml`, `src/core/instrument_registry.py` | ✅ Active — P4 HIGH_TENSION (DESI 2.75σ), P3/P3b PENDING (LiteBIRD), lab lane running |
+| L1 | **Measurement confrontation** | `docs/falsification/instrument_registry.yml`, `src/core/instrument_registry.py` | ✅ Active — P4 HIGH_TENSION (DESI 2.75σ), P3 HIGH_TENSION (ACT DR6 r<0.016), LiteBIRD ~2032 |
 | L2 | **Closure quality** | `docs/closure_quality_gate.yml`, `src/core/closure_quality_gate.py` | ✅ Active — 24 promotions logged, all gatekeepered PASS |
 | L3 | **Auditability** | `9-INFRASTRUCTURE/provenance/claim_queryability_index.yml` | ✅ Active — all claims ≥3 ledger surfaces; 3 machine-readable surfaces active |
 | L4 | **Separation integrity** | `src/core/separation_integrity_checker.py` | ✅ Active — adjacent track labels enforced; Pentad boundary enforced |

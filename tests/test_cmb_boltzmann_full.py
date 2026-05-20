@@ -233,6 +233,7 @@ class TestNumericalLineOfSight:
         assert result["passed"] is True
 
     def test_precision_boltzmann_peak_audit_passes(self):
+        pytest.importorskip("mpmath")
         result = precision_boltzmann_peak_audit()
         assert result["mpmath_available"] is True
         assert result["passed"] is True

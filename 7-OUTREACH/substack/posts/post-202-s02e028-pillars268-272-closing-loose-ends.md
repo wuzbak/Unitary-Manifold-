@@ -1,7 +1,7 @@
 # Closing the Loose Ends: Pillars 268–272
 
-*Post 194 of the Unitary Manifold series.*  
-*Series S02, Episode E020.*  
+*Post 202 of the Unitary Manifold series.*  
+*Series S02, Episode E028.*  
 *Epistemic category: **Adjacent Track** — ADM inhomogeneous extension, fermion KK closure, orbifold equivalence, flavor+Higgs chain, α_s basin hardening, non-hardgate.*  
 *May 2026.*
 
