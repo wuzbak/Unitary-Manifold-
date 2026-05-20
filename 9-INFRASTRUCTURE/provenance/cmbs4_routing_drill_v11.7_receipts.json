@@ -1,0 +1,109 @@
+{
+  "pillar": 226,
+  "title": "CMB-S4 Verdict Routing Drill (v11.7 Extension)",
+  "adjacency_label": "NON_HARDGATE_ADJACENT",
+  "version": "v11.7",
+  "date": "2026-05-19",
+  "description": "Synthetic sigma-scenario routing drill for CMB-S4 predictions, modeled after Pillar 281 DESI DR3 routing drill. Tests idempotence and provenance receipt logic for all three UM CMB predictions (ns, r, peak suppression) at CMB-S4 precision.",
+  "um_predictions": {
+    "ns": 0.9635,
+    "r": 0.0315,
+    "peak_suppression_factor": "x4-x7 vs LCDM (FALLIBILITY Admission 2)",
+    "as_nominal": 2.105e-09
+  },
+  "cmbs4_projected_precision": {
+    "sigma_ns": 0.002,
+    "sigma_r": 0.003,
+    "r_upper_95_projected": 0.003,
+    "notes": "CMB-S4 Science Book (2016) projections; actual may differ"
+  },
+  "drill_scenarios": [
+    {
+      "scenario_id": "S1_ns_consistent",
+      "description": "CMB-S4 measures ns=0.964 ± 0.002 → UM within 0.25σ",
+      "measured_ns": 0.964,
+      "sigma_ns": 0.002,
+      "sigma_pull": 0.25,
+      "verdict": "CONSISTENT",
+      "p1_falsifier_triggered": false,
+      "action": "Log to OBSERVATION_TRACKER; P1 DERIVED confirmed",
+      "idempotent": true,
+      "receipt_hash": "S1-ns-CONSISTENT-20260519"
+    },
+    {
+      "scenario_id": "S2_ns_tension",
+      "description": "CMB-S4 measures ns=0.960 ± 0.002 → UM within 1.75σ",
+      "measured_ns": 0.960,
+      "sigma_ns": 0.002,
+      "sigma_pull": 1.75,
+      "verdict": "TENSION",
+      "p1_falsifier_triggered": false,
+      "action": "Flag in CLAIM_MASTER_BOARD; review braided winding mechanism",
+      "idempotent": true,
+      "receipt_hash": "S2-ns-TENSION-20260519"
+    },
+    {
+      "scenario_id": "S3_ns_falsified",
+      "description": "CMB-S4 measures ns=0.955 ± 0.002 → UM at 4.25σ outside range",
+      "measured_ns": 0.955,
+      "sigma_ns": 0.002,
+      "sigma_pull": 4.25,
+      "verdict": "FALSIFIED",
+      "p1_falsifier_triggered": true,
+      "action": "P1 falsified; update FALLIBILITY.md; trigger CLAIM_MASTER_BOARD P1 revision",
+      "idempotent": true,
+      "receipt_hash": "S3-ns-FALSIFIED-20260519"
+    },
+    {
+      "scenario_id": "S4_r_consistent_below_limit",
+      "description": "CMB-S4 measures r < 0.003 (95% CL) → UM r=0.0315 would be falsified",
+      "act_r_upper_95": 0.003,
+      "um_r": 0.0315,
+      "exceeds_limit": true,
+      "verdict": "P2_FALSIFIED_IF_CONFIRMED_AT_3SIGMA",
+      "p2_falsifier_triggered": "CONDITIONAL — requires 3σ measurement not 95%CL limit",
+      "action": "If CMB-S4 measures r<0.010 at >=3sigma: P2 FALSIFIED; update FALLIBILITY.md",
+      "note": "Current ACT DR6 tension (r=0.0315 > 0.016 at 95%CL) precedes this scenario",
+      "idempotent": true,
+      "receipt_hash": "S4-r-P2FALSIFIED-20260519"
+    },
+    {
+      "scenario_id": "S5_r_detected",
+      "description": "CMB-S4 measures r=0.030 ± 0.003 → UM within 0.5σ",
+      "measured_r": 0.03,
+      "sigma_r": 0.003,
+      "sigma_pull": 0.5,
+      "verdict": "CONSISTENT",
+      "p2_falsifier_triggered": false,
+      "action": "P2 DERIVED confirmed; log to OBSERVATION_TRACKER",
+      "idempotent": true,
+      "receipt_hash": "S5-r-CONSISTENT-20260519"
+    },
+    {
+      "scenario_id": "S6_peak_suppression_unchanged",
+      "description": "CMB-S4 confirms peak suppression x4-7 vs LCDM (consistent with FALLIBILITY Admission 2)",
+      "peak_suppression_measured": "x5 (representative)",
+      "verdict": "CONSISTENT_WITH_KNOWN_TENSION",
+      "action": "Confirm FALLIBILITY Admission 2 remains documented; no claim label change",
+      "idempotent": true,
+      "receipt_hash": "S6-peaks-CONSISTENT-20260519"
+    }
+  ],
+  "idempotence_check": {
+    "all_scenarios_idempotent": true,
+    "duplicate_receipt_detection": "receipt_hash provides same-day uniqueness guard",
+    "re_run_verdict": "Identical inputs produce identical verdicts across all 6 scenarios"
+  },
+  "docs_to_update_on_cmbs4_dr1": [
+    "docs/CLAIM_MASTER_BOARD.md",
+    "3-FALSIFICATION/OBSERVATION_TRACKER.md",
+    "FALLIBILITY.md",
+    "docs/WAVE_CHANGELOG.md",
+    "STATUS.md"
+  ],
+  "cmbs4_timeline": {
+    "expected_first_light": "~2029",
+    "expected_dr1": "~2030-2031",
+    "preregistration_status": "LOCKED"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "test": "xdiag_integration_test",
+  "version": "v11.7",
+  "date": "2026-05-19T23:34:46Z",
+  "mock_mode": "true",
+  "kat_n_sites": 4,
+  "kat_e0_exact": -1.6160254037844386,
+  "kat_tolerance": 1e-06,
+  "xdiag_version_pinned": "0.2.x",
+  "steps_passed": [
+    "python_bridge_import",
+    "binary_check",
+    "kat",
+    "parity"
+  ],
+  "status": "PASS"
+}
