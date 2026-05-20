@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.10 — Effective 2026-05-20*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.10 sprint: Pillars 297–300 added; SPT-3G routing (CONSISTENT), Simons Observatory preregistration, Hyper-K running sensitivity timeline, Observatory Network Integration Dashboard (milestone P300); 211 new tests; 0 failures). Prior: v11.9 — new observables sprint: ACT DR6 deep analysis, proton decay prediction, LISA preregistration, WdW gap certificate, P17 upgrade attempt. Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.11 — Effective 2026-05-20*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.11 sprint: Pillars 301–305 added — FULL CLOSURE SPRINT; DESI wₐ architecture limit certified (P301); Convention 279.3 → DERIVED (P302); WZW one-loop r + ACT DR6 irreducibility certificate (P303); KATRIN/Project 8/PTOLEMY preregistration (P304); FH braid ring full phase diagram (P305); 309 new tests; 0 failures; 5 persistent open gaps closed). Prior: v11.10 — Ground-Based CMB Completion + Observatory Network Integration. Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,228 passed · 408 skipped · 12 deselected · 0 failed (in-sandbox, no sympy/lean4/xdiag/z3 optional deps; full canonical ~34,600+)
-*(v11.10: Pillars 297–300 — SPT-3G CMB routing, Simons Observatory preregistration, Hyper-K timeline, Observatory Network Integration Dashboard: 211 new tests added)*
+**Latest verified branch regression:** 34,537 passed · 408 skipped · 12 deselected · 0 failed (in-sandbox, no sympy/lean4/xdiag/z3 optional deps; full canonical ~34,900+)
+*(v11.11: Pillars 301–305 — Full Closure Sprint: DESI architecture limit, Convention 279.3 DERIVED, WZW NLO + ACT DR6 certificate, KATRIN preregistration, FH phase diagram: 309 new tests added; 5 persistent gaps closed)*
 
 ---
 

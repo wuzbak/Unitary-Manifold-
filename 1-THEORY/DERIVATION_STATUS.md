@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v11.10 — Unambiguous Record**  
+**The Unitary Manifold v11.11 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-20 (v11.10 sprint — Pillars 297–300: ACT DR6 deep analysis, proton decay prediction, LISA preregistration, WdW gap certificate, P17 upgrade attempt; WdW gap ARCHITECTURE_LIMIT_CERTIFIED; P3 HIGH_TENSION irreducible in 5D-EFT; CMB-S4 routing preregistered)*
+*Last updated: 2026-05-20 (v11.11 full closure sprint — Pillars 301–305: DESI wₐ ARCHITECTURE_LIMIT (P301); Convention 279.3 DERIVED / CYCLE_RADION_COUPLING_UNIQUENESS CLOSED (P302); WZW one-loop r + ACT DR6 IRREDUCIBLE certificate (P303); KATRIN/Project 8/PTOLEMY preregistered (P304); FH braid ring phase diagram COMPLETE (P305); 5 persistent gaps permanently closed; 309 new tests; 0 failures)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

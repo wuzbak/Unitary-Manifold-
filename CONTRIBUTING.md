@@ -12,7 +12,7 @@ git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 34 228 passed · 408 skipped · 12 deselected · 0 failed
+# Expected: 34 537 passed · 408 skipped · 12 deselected · 0 failed
 python -m pytest tests/ -q           # tests/ only — see STATUS.md for current sub-suite total
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 ```
@@ -30,7 +30,7 @@ The test suite covers (representative selection — see `STATUS.md` for complete
 | Adjacent pillars 209–232 | Universal Yukawa BC, ADM decomposition, RS neutrino spectrum, quantum/cancer/AI bottleneck calculators, interstellar travel, energy manifold, nanotechnology, medical imaging (1,700+ tests across 24 adjacent-track modules) |
 | Integrations | JAX-accelerated evolution, Lean4 formal proof bridge, Z3 SMT bounds, XDiag compatibility bridge (optional-dep guarded) |
 | Richardson (slow) | Second-order convergence rate in time step (11 tests) |
-| **Total (current)** | **Grand total: 34 228 passed · 408 skipped · 12 deselected · 0 failed** (see `STATUS.md` and `README.md` for full per-file breakdown) |
+| **Total (current)** | **Grand total: 34 537 passed · 408 skipped · 12 deselected · 0 failed** (see `STATUS.md` and `README.md` for full per-file breakdown) |
 
 > **Skip note:** 329 tests use conditional `pytest.skip()` guards — 75 dual-use stubs (cold fusion / lattice dynamics) and 254 Pentad product stubs. See `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
 > **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default via `pytest.ini`. Run with `pytest tests/ -m slow`.
