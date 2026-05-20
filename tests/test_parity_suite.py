@@ -12,6 +12,8 @@ import math
 
 import pytest
 
+pytest.importorskip("sympy", reason="sympy not installed — skip SymPy-dependent tests")
+
 from src.core.parity_suite import (
     ALPHA_GUT,
     C_S,

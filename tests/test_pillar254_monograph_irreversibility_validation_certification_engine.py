@@ -6,6 +6,10 @@ from __future__ import annotations
 
 import math
 
+import pytest
+
+pytest.importorskip("sympy", reason="sympy not installed — skip SymPy-dependent tests")
+
 from src.core.pillar254_monograph_irreversibility_validation_certification_engine import (
     ADJACENCY_TRACK_LABEL,
     C_S,

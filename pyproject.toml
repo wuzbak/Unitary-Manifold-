@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 # ---------------------------------------------------------------------------
 [project]
 name = "unitary-manifold"
-version = "11.0.0"
+version = "11.12.0"
 description = "5D Kaluza-Klein physics framework: geometry of irreversibility, CMB predictions, and Standard Model derivation"
 readme = "README.md"
 license = { text = "AGPL-3.0-or-later" }
@@ -36,10 +36,12 @@ dependencies = [
     "numpy>=1.24,<3",
     "scipy>=1.11,<2",
     "mpmath>=1.3,<2",
-    "sympy>=1.12,<2",
 ]
 
 [project.optional-dependencies]
+symbolic = [
+    "sympy>=1.12,<2",
+]
 dev = [
     "pytest>=7.0,<9.1",
 ]
@@ -49,7 +51,7 @@ notebooks = [
     "ipykernel>=6.0",
 ]
 all = [
-    "unitary-manifold[dev,notebooks]",
+    "unitary-manifold[dev,notebooks,symbolic]",
 ]
 
 [project.urls]
@@ -70,11 +72,5 @@ where = [".", "5-GOVERNANCE/Unitary Pentad"]
 include = ["unitary_manifold*", "omega*", "holon_zero*", "UOS*"]
 
 # ---------------------------------------------------------------------------
-# pytest configuration (consolidates pytest.ini)
+# pytest configuration is in pytest.ini (canonical config)
 # ---------------------------------------------------------------------------
-[tool.pytest.ini_options]
-markers = [
-    "slow: expensive numerical tests — deselected by default; run with -m slow",
-]
-addopts = "-m 'not slow'"
-python_files = ["test_*.py", "ALGEBRA_PROOF.py"]

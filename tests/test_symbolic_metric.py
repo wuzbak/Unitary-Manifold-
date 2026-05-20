@@ -17,9 +17,11 @@ These tests verify that:
      the numerical metric from src/core/metric.assemble_5d_metric().
 """
 
+import pytest
+
+pytest.importorskip("sympy", reason="sympy not installed — skip SymPy-dependent tests")
 import sympy as sp
 import numpy as np
-import pytest
 
 from src.core.symbolic_metric import (
     symbolic_5d_metric,

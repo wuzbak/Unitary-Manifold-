@@ -4,6 +4,10 @@
 
 from __future__ import annotations
 
+import pytest
+
+pytest.importorskip("sympy", reason="sympy not installed — skip SymPy-dependent tests")
+
 from src.core.formal_proof_hardening import (
     ASSUMPTION_LEDGER,
     theorem_set,

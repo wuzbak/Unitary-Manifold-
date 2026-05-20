@@ -4,6 +4,10 @@
 
 from __future__ import annotations
 
+import pytest
+
+pytest.importorskip("sympy", reason="sympy not installed — skip SymPy-dependent tests")
+
 from src.core.neural_symbolic_drift_check import (
     equation_family_report,
     track3_drift_artifact,
