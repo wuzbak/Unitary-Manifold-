@@ -1,4 +1,4 @@
-version: "v11.10"
+version: "v11.11"
 date: "2026-05-20"
 updated: "2026-05-20"
 mas_status: "COMPLETE"
@@ -18,34 +18,52 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.10"
-  regression: "34,228 passed · 408 skipped · 12 deselected · 0 failed"
+  version: "v11.11"
+  regression: "34,537 passed · 408 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.10-observatory-network-integration"
-  wave: "Ground-Based CMB Completion + Observatory Network Integration — Pillars 297–300, outreach posts 210–212"
-  pillar: 300
-  artifact: "src/core/pillar300_observatory_network_integration_dashboard.py"
-  test: "tests/test_pillar300_observatory_network_integration_dashboard.py"
+  version: "v11.11-full-closure-sprint"
+  wave: "Full Closure Sprint — No More Half Steps — Pillars 301–305"
+  pillar: 305
+  artifact: "src/core/pillar305_fh_braid_ring_phase_diagram.py"
+  test: "tests/test_pillar305_fh_braid_ring_phase_diagram.py"
   status: "DELIVERED"
-  v11_10_observatory_network_wave:
+  v11_11_full_closure_wave:
     pillars_added:
-      - 297
-      - 298
-      - 299
-      - 300
+      - 301
+      - 302
+      - 303
+      - 304
+      - 305
     per_pillar_deltas:
-      P297: "SPT-3G CMB Tensor Routing — CONSISTENT (r<0.036, n_s 0.55σ); ground-based CMB network summary; joint ACT+SPT-3G preregistration at v11.10"
-      P298: "Simons Observatory Preregistration — routing locked v11.10; SO is first experiment projected to DETECT r at ~10σ; DR1 ~2027, 5-yr ~2029"
-      P299: "Hyper-K Running Sensitivity Timeline — year-by-year exposure curve; GUT model comparison; nuclear matrix element band; timeline preregistered at v11.10"
-      P300: "Observatory Network Integration Dashboard (Milestone P300) — aggregates 12 experiments, 7 falsifiers, 5 decision windows; machine-queryable control tower"
-    new_tests: 211
+      P301: "Rolling Radion Dark Energy — DESI wₐ ARCHITECTURE_LIMIT_CERTIFIED; no rolling radion can produce wₐ≈-0.55 without destroying RS1 hierarchy (fine-tuning ε_GW~10⁻⁸⁸); DESI DR3 routing preregistered; closure FINAL"
+      P302: "Two-Radius GW Moduli Stability — Convention 279.3 DERIVED; CYCLE_RADION_COUPLING_UNIQUENESS CLOSED; n=7 at smaller kR (winding back-reaction); n=5 APS-non-trivial (η̄=1/2); GW+APS agree; gap permanently closed"
+      P303: "WZW One-Loop r Correction — δ_loop=0.00566; r_NLO=0.03132 (0.57% shift); ACT DR6 HIGH_TENSION IRREDUCIBLE_IN_BRAIDED_5D_EFT (87 loops needed, perturbativity breaks at N~176); WZW_LOOP_CAVEAT_PILLAR97B CLOSED"
+      P304: "KATRIN/Project 8/PTOLEMY Neutrino Mass Preregistration — mβ≈0.0515 eV; Planck tension honestly documented (~1.5σ, ΛCDM-dependent); KATRIN 2026 BELOW_SENSITIVITY; Project 8 OBSERVABLE_WINDOW_OPEN; PTOLEMY preregistered"
+      P305: "FH Braid Ring Phase Diagram — 12-site (5,7) braid ring; U_c/t=4.0 (flat)/3.76 (KK); U/t=61.7 deep MOTT; J=0.0648t; D=5.26e-4; KK hopping spread 9%; PHASE_DIAGRAM_COMPLETE"
+    gaps_closed:
+      - name: "DESI_WA_ARCHITECTURE_LIMIT"
+        previous: "HIGH_TENSION recurring question"
+        new: "ARCHITECTURE_LIMIT_CERTIFIED (P301)"
+      - name: "CYCLE_RADION_COUPLING_UNIQUENESS"
+        previous: "PARTIALLY_DERIVED (P287)"
+        new: "CLOSED — DERIVED (P302)"
+      - name: "WZW_LOOP_CAVEAT_PILLAR97B"
+        previous: "Open caveat (P97-B)"
+        new: "CLOSED (P303)"
+      - name: "ACT_DR6_RESOLUTION_QUESTION"
+        previous: "Unresolved HIGH_TENSION"
+        new: "IRREDUCIBLE_CERTIFIED (P303)"
+      - name: "FH_BRAID_RING_PHASE_DIAGRAM"
+        previous: "First result only (v11.7)"
+        new: "FULLY_COMPUTED (P305)"
+    new_tests: 309
     framework_status: "STANDING"
     p_falsifier_triggered: false
-  previous_checkpoint: "v11.9-new-observables-honest-gaps"
+  previous_checkpoint: "v11.10-observatory-network-integration"
   v11_7_seesaw_closure_wave:
     pillars_added:
       - 286

@@ -1,13 +1,17 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.10
+# Unitary Manifold v11.11
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-20 (v11.10 — Pillars 297–300: SPT-3G routing (CONSISTENT), Simons Observatory preregistration (Pillar 298), Hyper-K running sensitivity timeline (Pillar 299), Observatory Network Integration Dashboard (Pillar 300 — milestone). Three outreach posts (210–212). 211 new tests. 0 failures.)*
+*Last updated: 2026-05-20 (v11.11 — Full Closure Sprint: Pillars 301–305: DESI wₐ ARCHITECTURE_LIMIT_CERTIFIED (P301); Convention 279.3 → DERIVED, CYCLE_RADION_COUPLING_UNIQUENESS CLOSED (P302); WZW one-loop r + ACT DR6 IRREDUCIBILITY_CERTIFICATE (P303); KATRIN/Project 8/PTOLEMY preregistration (P304); FH braid ring phase diagram COMPLETE (P305). 309 new tests. 0 failures. 5 persistent gaps permanently closed.)*
 
 *P17 note: Pillar 296 full 3×3 WS-V texture diagonalization confirms p_R upgrade is not achievable within 5D-EFT. P17 remains CONDITIONAL_DERIVATION. JUNO safety maintained (NLO chain 0.004% residual). SEESAW_TEXTURE_FULL_EXACT_WS_V_DIAGONALIZATION gap certified as architecture limit.*
 
-*P3 note (r tension): Pillar 292 deep analysis confirms ACT DR6 HIGH_TENSION is irreducible in 5D-EFT. CMB-S4 routing preregistered: CONSISTENT if r≥0.02 measured; FALSIFIED if r<0.010 at ≥3σ. P2 falsifier NOT triggered.*
+*P3 note (r tension): Pillar 303 (v11.11) formally proves ACT DR6 HIGH_TENSION is IRREDUCIBLE in braided 5D-EFT: r_NLO=0.03132, δ_loop=0.57%, ~87 loops needed to reach r<0.016 (perturbativity breaks at N~176). WZW_LOOP_CAVEAT_PILLAR97B CLOSED. Do not revisit until CMB-S4 or Simons Observatory DR1.*
+
+*DESI wₐ note: Pillar 301 (v11.11) certifies that no rolling-radion 5D-EFT solution can produce wₐ≈-0.55 without destroying the RS1 hierarchy (ε_GW~10⁻⁸⁸ fine-tuning required). ARCHITECTURE_LIMIT_CERTIFIED. Do not revisit until DESI DR3 formally falsifies wₐ=0 at ≥3σ.*
+
+*Convention 279.3 note: Pillar 302 (v11.11) DERIVES n_w=5 as APS-non-trivial primary cycle from two-radius GW winding balance + APS η̄ discriminator. CYCLE_RADION_COUPLING_UNIQUENESS CLOSED. Status upgraded CONDITIONAL_DERIVATION → DERIVED.*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
