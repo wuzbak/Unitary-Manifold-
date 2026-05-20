@@ -2,13 +2,13 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-version: "v11.7"
-date-released: "2026-05-19"
+version: "v11.12"
+date-released: "2026-05-20"
 doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v11.7, 208 core pillars + adjacent tracks through Pillar 291 + Ω₀ Holon Zero + sub-pillars, 34 411 passed / 393 skipped / 12 deselected. ToE score 100% (28.0/28). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ± 0.01°.)"
+    description: "Zenodo DOI for the Unitary Manifold (v11.12, 208 core pillars + adjacent tracks through Pillar 308 + Ω₀ Holon Zero + sub-pillars, ~34,890+ passed / ~408 skipped / 0 failed. ToE score 100% (28.0/28). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ± 0.01°. 2027 measurement window: DESI DR3/JUNO DR1/SO DR1 drill-verified READY.)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"

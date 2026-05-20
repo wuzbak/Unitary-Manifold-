@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v11.11)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v11.12)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -23,7 +23,7 @@
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
 [![34,537 passed · 408 skipped · 12 deselected · 0 failed](https://img.shields.io/badge/tests-34,411%20passed%20%C2%B7%20393%20skipped%20%C2%B7%2012%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![233+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-233%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v11.11-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v11.12-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
