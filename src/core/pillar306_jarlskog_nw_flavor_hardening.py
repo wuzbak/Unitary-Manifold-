@@ -64,6 +64,52 @@ The Jarlskog invariant J_PDG ≈ 3.08×10⁻⁵ has two layers:
   independent Yukawa textures.
 
 ──────────────────────────────────────────────────────────────────────────────
+ITEM A-ADDENDUM: Orbifold Projection Cross-Check (S¹/ℤ₂ → flat 4D brane)
+──────────────────────────────────────────────────────────────────────────────
+
+  MATHEMATICAL CROSS-CHECK (not a derivation — geometric motivation only):
+
+  The braid winding number ratio 2/7 is computed in the curved circular
+  geometry of the S¹/ℤ₂ compactified fifth dimension (polar braid space).
+  Physical quark mixing is measured in flat 4D Minkowski spacetime (Cartesian
+  Yukawa-matrix space).  The projection from 2D polar coordinates to 2D
+  Cartesian coordinates carries a volume correction factor:
+
+    π/4  ≡  Area(unit circle) / Area(circumscribed unit square)
+          = π r² / (2r)²  evaluated at r=1
+          ≈ 0.7854
+
+  This is the natural "squashing factor" from circular to flat geometry.
+  Applying it to the Pillar 306 braid Cabibbo estimate:
+
+    sin(θ_C)_projected = (2/7) × (π/4) = π/14 ≈ 0.22440
+
+  Comparison with PDG:
+    PDG |V_us|       = 0.2253  →  discrepancy 0.40%   ✓ sub-percent
+    PDG λ_CKM        = 0.22500 →  discrepancy 0.27%   ✓ sub-percent
+    Pillar 87 result = √(m_d/m_s) = 0.22361 → 0.62%   (RS wavefunction hierarchy)
+
+  INTERPRETATION:
+  • The π/14 formula is numerically competitive with the RS-motivated Pillar 87
+    result.  Both are complementary, independent routes to the same physical
+    quantity from different aspects of the 5D geometry.
+  • The π/4 factor has a clean geometric identity (circle-in-square projection)
+    but lacks a rigorous first-principles derivation from the 5D effective action.
+    A proper derivation would compute the overlap integral of circular winding
+    modes with the flat-brane zero-mode in the warped RS1 background.
+  • This is NOT the same as RGE running.  RGE running is a QFT effect that
+    evolves the Yukawa couplings from the KK compactification scale M_KK ≈ 110
+    meV down to the low-energy scale where PDG values are measured.  The
+    orbifold projection is a pure geometric correction that would be present
+    even in a tree-level EFT.  Both effects contribute to the physical gap;
+    they must not be conflated.
+
+  STATUS: ORBIFOLD_PROJECTION_MATHEMATICAL_CROSS_CHECK
+  UPGRADE PATH: Compute ∫₀^{πR} dφ f₀(φ)_circular × f₀(φ)_flat-brane in the
+    RS1 warped background.  If the result equals π/4 analytically, upgrade to
+    GEOMETRIC_DERIVATION.  Until then, keep as a motivating cross-check only.
+
+──────────────────────────────────────────────────────────────────────────────
 ITEM B: n_w χ² Residual Preference Tracker (Planck-Free)
 ──────────────────────────────────────────────────────────────────────────────
 
@@ -130,6 +176,10 @@ __all__ = [
     "CABIBBO_ANGLE_PDG_SIN",
     "CABIBBO_RESIDUAL_FRACTION",
     "JARLSKOG_LAYER2_STATUS",
+    # Orbifold projection cross-check (Item A-Addendum)
+    "ORBIFOLD_PROJECTION_FACTOR",
+    "CABIBBO_ANGLE_ORBIFOLD_PROJECTED",
+    "CABIBBO_ORBIFOLD_STATUS",
     # n_w χ² tracker
     "PLANCK_NS_CENTRAL",
     "PLANCK_NS_SIGMA",
@@ -138,6 +188,7 @@ __all__ = [
     # Functions
     "separation_guard",
     "braid_cabibbo_angle_geometric",
+    "orbifold_projection_cabibbo_correction",
     "jarlskog_layer2_constraint",
     "nw_chi2_residual_scan",
     "nw_chi2_preference_summary",
@@ -180,6 +231,21 @@ CABIBBO_RESIDUAL_FRACTION: float = abs(
 ) / CABIBBO_ANGLE_PDG_SIN  # ≈ 0.268 → 27%
 
 JARLSKOG_LAYER2_STATUS: str = "CONSTRAINT_WITH_ARCHITECTURE_LIMIT_ACKNOWLEDGED"
+
+# ── Orbifold projection cross-check constants (Item A-Addendum) ───────────────
+
+#: S¹/ℤ₂ → flat 4D projection factor: Area(unit circle) / Area(circumscribed square)
+#: = π/4.  Corrects the circular braid coordinate to the flat Cartesian
+#: Yukawa-matrix space of 4D effective field theory.
+ORBIFOLD_PROJECTION_FACTOR: float = math.pi / 4.0
+
+#: Orbifold-projected Cabibbo angle: (2/7) × (π/4) = π/14 ≈ 0.22440
+CABIBBO_ANGLE_ORBIFOLD_PROJECTED: float = CABIBBO_ANGLE_GEOMETRIC_SIN * ORBIFOLD_PROJECTION_FACTOR
+
+#: Honest status of the orbifold projection result.  The formula gives
+#: sub-percent accuracy but the π/4 factor is not yet derived from the 5D
+#: effective action — it is a geometric identity (circle/square area ratio).
+CABIBBO_ORBIFOLD_STATUS: str = "ORBIFOLD_PROJECTION_MATHEMATICAL_CROSS_CHECK"
 
 # ── n_w χ² tracker constants ──────────────────────────────────────────────────
 
@@ -255,15 +321,98 @@ def braid_cabibbo_angle_geometric(
     }
 
 
+def orbifold_projection_cabibbo_correction(
+    n1: int = N1_CANONICAL,
+    n2: int = N2_CANONICAL,
+    pdg_vus: float = CABIBBO_ANGLE_PDG_SIN,
+) -> dict:
+    """Apply the S¹/ℤ₂ orbifold projection factor (π/4) to the braid Cabibbo estimate.
+
+    The braid winding number ratio 2/7 = 1 - n₁/n₂ is a quantity native to the
+    curved circular geometry of the compactified fifth dimension (polar braid
+    space on S¹/ℤ₂).  Physical quark mixing angles are measured in flat 4D
+    Minkowski spacetime (Cartesian Yukawa-matrix space).
+
+    The conversion factor between 2D polar area and 2D Cartesian area is:
+
+        π/4  =  Area(unit circle) / Area(circumscribed square)
+
+    Applying this to the braid Cabibbo estimate gives:
+
+        sin(θ_C)_projected = (1 − n₁/n₂) × (π/4) = π/14 ≈ 0.22440
+
+    This is within 0.40 % of PDG |V_us| = 0.2253 — sub-percent accuracy.
+
+    IMPORTANT DISTINCTIONS:
+    • This is a GEOMETRIC correction, not a QFT renormalization-group (RGE)
+      correction.  RGE running evolves Yukawa couplings from M_KK to M_Z
+      and is a separate, additional physical effect.
+    • The π/4 factor is a well-defined geometric identity but has not yet been
+      derived from a first-principles overlap integral in the RS1 warped
+      background.  Until that derivation is complete, the status is
+      MATHEMATICAL_CROSS_CHECK.
+    • The Pillar 87 result (√(m_d/m_s) ≈ 0.22361, 0.62 % accuracy) is an
+      independent, better-motivated derivation via the RS wavefunction hierarchy
+      and remains the primary reference for λ_CKM in the UM framework.
+
+    Parameters
+    ----------
+    n1, n2 : int
+        Braid winding numbers (default: canonical (5, 7)).
+    pdg_vus : float
+        PDG reference value for |V_us| (default: 0.2253).
+
+    Returns
+    -------
+    dict with keys:
+        sin_cabibbo_geometric, orbifold_projection_factor,
+        sin_cabibbo_projected, discrepancy_from_pdg_fraction,
+        pillar87_rs_result, status, note, upgrade_path.
+    """
+    if n1 <= 0 or n2 <= 0:
+        raise ValueError("Braid winding numbers must be positive.")
+    sin_geo = 1.0 - n1 / n2
+    proj_factor = math.pi / 4.0
+    sin_proj = sin_geo * proj_factor
+    discrepancy = abs(sin_proj - pdg_vus) / pdg_vus
+    pillar87 = math.sqrt(4.67 / 93.4)  # √(m_d/m_s) — RS wavefunction hierarchy
+    return {
+        "n1": n1,
+        "n2": n2,
+        "sin_cabibbo_geometric": sin_geo,
+        "orbifold_projection_factor": proj_factor,
+        "orbifold_projection_formula": f"(1 - {n1}/{n2}) × π/4 = π/14",
+        "sin_cabibbo_projected": sin_proj,
+        "sin_cabibbo_pdg": pdg_vus,
+        "discrepancy_from_pdg_fraction": discrepancy,
+        "pillar87_rs_result": pillar87,
+        "pillar87_discrepancy_from_lambda_ckm": abs(pillar87 - 0.22500) / 0.22500,
+        "status": CABIBBO_ORBIFOLD_STATUS,
+        "note": (
+            f"π/14 ≈ {sin_proj:.5f} vs PDG {pdg_vus:.4f}: "
+            f"{discrepancy:.2%} discrepancy.  "
+            "The π/4 factor is a circle-in-square area ratio — a geometric "
+            "cross-check only.  Not yet derived from the 5D effective action.  "
+            "Do NOT conflate with RGE running (a separate QFT correction)."
+        ),
+        "upgrade_path": (
+            "Compute the RS1 overlap integral ∫₀^{πR} f₀^circ(φ) × f₀^flat(φ) dφ. "
+            "If the result equals π/4 analytically, upgrade to GEOMETRIC_DERIVATION."
+        ),
+    }
+
+
 def jarlskog_layer2_constraint() -> dict:
     """Return the Layer 2 Jarlskog gap status and geometric constraint."""
     cabibbo = braid_cabibbo_angle_geometric()
+    orbifold = orbifold_projection_cabibbo_correction()
     return {
         "j_pdg": J_PDG,
         "j_geo_layer1": J_GEO_LAYER1,
         "j_mass_factor": J_MASS_FACTOR,
         "layer1_status": "CLOSED (Pillar 145 — CP violation from n1 != n2)",
         "layer2_geometric_constraint": cabibbo,
+        "layer2_orbifold_projection_cross_check": orbifold,
         "layer2_gap_name": "JARLSKOG_LAYER2_GEOMETRIC_CONSTRAINT",
         "layer2_status": JARLSKOG_LAYER2_STATUS,
         "architecture_limit": (
@@ -360,21 +509,28 @@ def pillar306_report() -> dict:
         "track": ADJACENCY_TRACK_LABEL,
         "separation_guard": separation_guard(),
         "item_a_jarlskog_layer2": jarlskog_layer2_constraint(),
+        "item_a_addendum_orbifold_cross_check": orbifold_projection_cabibbo_correction(),
         "item_b_nw_chi2_tracker": nw_chi2_preference_summary(),
         "combined_status": {
             "JARLSKOG_LAYER2_GEOMETRIC_CONSTRAINT": JARLSKOG_LAYER2_STATUS,
+            "ORBIFOLD_PROJECTION_CROSS_CHECK": CABIBBO_ORBIFOLD_STATUS,
             "NW_CHI2_TRACKER_STATUS": NW_CHI2_TRACKER_STATUS,
             "PILLAR_306_STATUS": "ADJACENT_TRACK_HONEST_ACCOUNTING_COMPLETE",
         },
         "what_this_closes": [
             "Formally documents the Jarlskog Layer 2 geometric constraint "
             "(27% residual = architecture limit, not revisitable in 5D-EFT).",
+            "Documents the orbifold projection cross-check: "
+            "(2/7)(π/4) = π/14 ≈ 0.22440, within 0.40% of PDG |V_us| = 0.2253 "
+            "(MATHEMATICAL_CROSS_CHECK — π/4 not yet derived from 5D EFT).",
             "Quantifies n_w=5 Planck χ² preference (2.04σ disfavouring of n_w=7) "
             "and tabulates it as an executable tracker.",
         ],
         "what_remains_open": [
             "JARLSKOG_LAYER2: Full Yukawa diagonalization requires string-theory "
             "flavor symmetry (ARCHITECTURE_LIMIT).",
+            "ORBIFOLD_PROJECTION: π/4 factor needs first-principles RS1 overlap "
+            "integral derivation before upgrading to GEOMETRIC_DERIVATION.",
             "N_W_UNIQUENESS: Action-level proof excluding n_w=7 without data "
             "(FALLIBILITY.md Admission 3, retained).",
         ],

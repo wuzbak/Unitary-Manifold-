@@ -18,6 +18,9 @@ from src.core.pillar306_jarlskog_nw_flavor_hardening import (
     CABIBBO_ANGLE_PDG_SIN,
     CABIBBO_RESIDUAL_FRACTION,
     JARLSKOG_LAYER2_STATUS,
+    ORBIFOLD_PROJECTION_FACTOR,
+    CABIBBO_ANGLE_ORBIFOLD_PROJECTED,
+    CABIBBO_ORBIFOLD_STATUS,
     PLANCK_NS_CENTRAL,
     PLANCK_NS_SIGMA,
     N_W_CANDIDATES,
@@ -30,6 +33,7 @@ from src.core.pillar306_jarlskog_nw_flavor_hardening import (
     LIKELIHOOD_RATIO,
     separation_guard,
     braid_cabibbo_angle_geometric,
+    orbifold_projection_cabibbo_correction,
     jarlskog_layer2_constraint,
     nw_ns_prediction,
     nw_chi2_residual_scan,
@@ -181,6 +185,76 @@ def test_cabibbo_geometric_theta_braid_deg():
     assert 30 < res["theta_braid_deg"] < 50
 
 
+# ── orbifold projection cross-check constants ──────────────────────────────────
+
+def test_orbifold_projection_factor_is_pi_over_4():
+    assert abs(ORBIFOLD_PROJECTION_FACTOR - math.pi / 4.0) < 1e-12
+
+def test_cabibbo_angle_orbifold_projected_formula():
+    # (2/7) × (π/4) = π/14
+    expected = math.pi / 14.0
+    assert abs(CABIBBO_ANGLE_ORBIFOLD_PROJECTED - expected) < 1e-12
+
+def test_cabibbo_angle_orbifold_projected_sub_percent_from_pdg():
+    # Must be within 1% of PDG |V_us| = 0.2253
+    assert abs(CABIBBO_ANGLE_ORBIFOLD_PROJECTED - 0.2253) / 0.2253 < 0.01
+
+def test_cabibbo_orbifold_status_contains_cross_check():
+    assert "CROSS_CHECK" in CABIBBO_ORBIFOLD_STATUS or "CHECK" in CABIBBO_ORBIFOLD_STATUS
+
+
+# ── orbifold_projection_cabibbo_correction ────────────────────────────────────
+
+def test_orbifold_correction_returns_dict():
+    res = orbifold_projection_cabibbo_correction()
+    assert isinstance(res, dict)
+
+def test_orbifold_correction_canonical():
+    res = orbifold_projection_cabibbo_correction()
+    assert res["n1"] == 5
+    assert res["n2"] == 7
+
+def test_orbifold_correction_projection_factor_is_pi4():
+    res = orbifold_projection_cabibbo_correction()
+    assert abs(res["orbifold_projection_factor"] - math.pi / 4.0) < 1e-12
+
+def test_orbifold_correction_projected_value_is_pi14():
+    res = orbifold_projection_cabibbo_correction()
+    assert abs(res["sin_cabibbo_projected"] - math.pi / 14.0) < 1e-12
+
+def test_orbifold_correction_discrepancy_sub_percent():
+    res = orbifold_projection_cabibbo_correction()
+    # Less than 1% from PDG |V_us|
+    assert res["discrepancy_from_pdg_fraction"] < 0.01
+
+def test_orbifold_correction_status_label():
+    res = orbifold_projection_cabibbo_correction()
+    assert "CROSS_CHECK" in res["status"] or "CHECK" in res["status"]
+
+def test_orbifold_correction_note_mentions_pi4():
+    res = orbifold_projection_cabibbo_correction()
+    assert "π/4" in res["note"] or "pi/4" in res["note"].lower()
+
+def test_orbifold_correction_note_distinguishes_rge():
+    res = orbifold_projection_cabibbo_correction()
+    # Must explicitly distinguish from RGE running
+    assert "RGE" in res["note"] or "running" in res["note"].lower()
+
+def test_orbifold_correction_upgrade_path_present():
+    res = orbifold_projection_cabibbo_correction()
+    assert "upgrade_path" in res
+    assert len(res["upgrade_path"]) > 20
+
+def test_orbifold_correction_invalid_raises():
+    with pytest.raises(ValueError):
+        orbifold_projection_cabibbo_correction(n1=0, n2=7)
+
+def test_orbifold_correction_pillar87_comparison_present():
+    res = orbifold_projection_cabibbo_correction()
+    assert "pillar87_rs_result" in res
+    assert 0.20 < res["pillar87_rs_result"] < 0.25
+
+
 # ── jarlskog_layer2_constraint ────────────────────────────────────────────────
 
 def test_jarlskog_layer2_returns_dict():
@@ -325,6 +399,7 @@ def test_pillar306_report_has_combined_status():
     rpt = pillar306_report()
     cs = rpt["combined_status"]
     assert "JARLSKOG_LAYER2_GEOMETRIC_CONSTRAINT" in cs
+    assert "ORBIFOLD_PROJECTION_CROSS_CHECK" in cs
     assert "NW_CHI2_TRACKER_STATUS" in cs
     assert "PILLAR_306_STATUS" in cs
 
@@ -338,7 +413,7 @@ def test_pillar306_report_what_closes_nonempty():
 
 def test_pillar306_report_what_remains_nonempty():
     rpt = pillar306_report()
-    assert len(rpt["what_remains_open"]) >= 2
+    assert len(rpt["what_remains_open"]) >= 3
 
 def test_pillar306_report_item_a_present():
     rpt = pillar306_report()
