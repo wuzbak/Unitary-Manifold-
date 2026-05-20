@@ -11,11 +11,15 @@ from src.core.pillar287_short_cycle_assignment_derivation import (
     N2,
     PI_KR,
     GW_EPSILON,
+    ETA_BAR_N1,
+    ETA_BAR_N2,
     separation_guard,
     gw_two_radius_potential,
     gw_minimum_radius_ordering,
     kk_mass_ordering_argument,
     convention_279_3_derivation_status,
+    aps_eta_primary_cycle_selection,
+    cycle_uniqueness_closure_certificate,
     short_cycle_derivation_report,
 )
 
@@ -130,5 +134,93 @@ def test_short_cycle_report_pillar():
 
 def test_short_cycle_report_has_all_sections():
     r = short_cycle_derivation_report()
-    for key in ("separation_guard", "gw_potential_ordering", "kk_mass_argument", "derivation_status"):
+    for key in ("separation_guard", "gw_potential_ordering", "kk_mass_argument",
+                "derivation_status", "aps_closure", "closure_certificate"):
         assert key in r
+
+
+# ---------------------------------------------------------------------------
+# APS η̄ primary cycle selection (v11.8 closure)
+# ---------------------------------------------------------------------------
+
+def test_eta_bar_n1_value():
+    # η̄(5) = T(5)/2 mod 1 = 15/2 mod 1 = 1/2
+    assert abs(ETA_BAR_N1 - 0.5) < 1e-12
+
+
+def test_eta_bar_n2_value():
+    # η̄(7) = T(7)/2 mod 1 = 28/2 mod 1 = 0
+    assert abs(ETA_BAR_N2 - 0.0) < 1e-12
+
+
+def test_aps_selection_keys():
+    r = aps_eta_primary_cycle_selection()
+    for key in ("n1_uniquely_selected", "gap_status", "convention_279_3_status",
+                "cs_level_times_eta_n1", "cs_level_times_eta_n2"):
+        assert key in r
+
+
+def test_aps_cs_eta_n1_equals_37():
+    r = aps_eta_primary_cycle_selection()
+    assert abs(r["cs_level_times_eta_n1"] - 37.0) < 1e-10
+
+
+def test_aps_cs_eta_n2_equals_0():
+    r = aps_eta_primary_cycle_selection()
+    assert abs(r["cs_level_times_eta_n2"] - 0.0) < 1e-10
+
+
+def test_aps_n1_is_odd_cs_eta():
+    r = aps_eta_primary_cycle_selection()
+    assert r["n1_is_odd_cs_eta"] is True
+
+
+def test_aps_n2_is_even_cs_eta():
+    r = aps_eta_primary_cycle_selection()
+    assert r["n2_is_even_cs_eta"] is True
+
+
+def test_aps_n1_uniquely_selected():
+    r = aps_eta_primary_cycle_selection()
+    assert r["n1_uniquely_selected"] is True
+
+
+def test_aps_gap_closed():
+    r = aps_eta_primary_cycle_selection()
+    assert r["gap_status"] == "CLOSED_VIA_APS_ETA_Z2_FIXED_POINT"
+
+
+def test_aps_convention_279_3_derived():
+    r = aps_eta_primary_cycle_selection()
+    assert r["convention_279_3_status"] == "DERIVED_FROM_APS_ETA_THEOREM"
+
+
+# ---------------------------------------------------------------------------
+# Closure certificate (v11.8)
+# ---------------------------------------------------------------------------
+
+def test_closure_certificate_keys():
+    c = cycle_uniqueness_closure_certificate()
+    for key in ("gap_name", "gap_closed", "final_status",
+                "convention_279_3_status", "closure_mechanism"):
+        assert key in c
+
+
+def test_closure_certificate_gap_name():
+    c = cycle_uniqueness_closure_certificate()
+    assert c["gap_name"] == "CYCLE_RADION_COUPLING_UNIQUENESS"
+
+
+def test_closure_certificate_gap_closed():
+    c = cycle_uniqueness_closure_certificate()
+    assert c["gap_closed"] is True
+
+
+def test_closure_certificate_final_status():
+    c = cycle_uniqueness_closure_certificate()
+    assert c["final_status"] == "CYCLE_RADION_COUPLING_UNIQUENESS_CLOSED"
+
+
+def test_closure_certificate_convention_derived():
+    c = cycle_uniqueness_closure_certificate()
+    assert c["convention_279_3_status"] == "DERIVED"

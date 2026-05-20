@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v11.6
+# Unitary Manifold v11.8
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
@@ -8,7 +8,7 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-05-19 (v11.5 Residual Tightening Wave — Pillars 274–281; ADM non-perturbative gap documented; JUNO/α_s monitoring updated)*
+*Last updated: 2026-05-20 (v11.8 Audit Sprint — CYCLE_RADION_COUPLING_UNIQUENESS closed via APS η̄ theorem; SEESAW_TEXTURE_PARTICIPATION_GAP at maximum 5D-EFT closure; mpmath test robustness hardened; doc headers synced; ACT DR6 HIGH_TENSION wired into observation tracker)*
 
 ---
 

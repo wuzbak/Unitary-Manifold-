@@ -25,6 +25,7 @@ from src.core.pillar286_kk_seesaw_texture_diagonalization import (
     seesaw_mass_correction_factor,
     tightened_dm31_from_texture,
     p17_upgrade_assessment,
+    pillar286_formal_closure_certificate,
     pillar286_report,
 )
 
@@ -204,3 +205,51 @@ def test_pillar286_report_has_status():
 def test_pillar286_report_adjacency():
     r = pillar286_report()
     assert r["adjacency_label"] == "NON_HARDGATE_ADJACENT"
+
+
+# ---------------------------------------------------------------------------
+# Formal closure certificate (v11.8)
+# ---------------------------------------------------------------------------
+
+def test_formal_closure_certificate_keys():
+    c = pillar286_formal_closure_certificate()
+    for key in ("gap_name", "gap_status", "p_r_geometric_estimate",
+                "p_r_in_pmns_window", "p17_label", "architecture_limit"):
+        assert key in c
+
+
+def test_formal_closure_gap_name():
+    c = pillar286_formal_closure_certificate()
+    assert c["gap_name"] == "SEESAW_TEXTURE_PARTICIPATION_GAP"
+
+
+def test_formal_closure_maximum_5d_eft():
+    c = pillar286_formal_closure_certificate()
+    assert c["gap_status"] == "MAXIMUM_5D_EFT_CLOSURE"
+
+
+def test_formal_closure_pmns_in_window():
+    c = pillar286_formal_closure_certificate()
+    assert c["p_r_in_pmns_window"] is True
+
+
+def test_formal_closure_p17_label_unchanged():
+    c = pillar286_formal_closure_certificate()
+    assert c["p17_label"] == "CONDITIONAL_DERIVATION"
+
+
+def test_formal_closure_p274_juno_verdict():
+    c = pillar286_formal_closure_certificate()
+    assert c["pillar_274_juno_verdict"] == "JUNO_SAFE"
+
+
+def test_formal_closure_p_r_small():
+    c = pillar286_formal_closure_certificate()
+    # Geometric estimate is in PMNS window but much smaller than effective p_R
+    assert 0.0 < c["p_r_geometric_estimate"] < 0.01
+
+
+def test_report_has_closure_certificate():
+    r = pillar286_report()
+    assert "closure_certificate" in r
+    assert r["closure_certificate"]["gap_status"] == "MAXIMUM_5D_EFT_CLOSURE"

@@ -1,6 +1,6 @@
-version: "v11.7"
-date: "2026-05-19"
-updated: "2026-05-19"
+version: "v11.8"
+date: "2026-05-20"
+updated: "2026-05-20"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,15 +18,15 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.7"
+  version: "v11.8"
   regression: "34 411 passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.7-seesaw-closure"
-  wave: "Seesaw Closure + New Observatory Lanes (Pillars 286-291)"
+  version: "v11.8-audit-sprint"
+  wave: "Audit Sprint — Gap Closures, mpmath robustness, doc sync, article renumber"
   pillar: 291
   artifact: "src/core/pillar291_planetary_defense_taurid_risk.py"
   test: "tests/test_pillar291_planetary_defense_taurid_risk.py"

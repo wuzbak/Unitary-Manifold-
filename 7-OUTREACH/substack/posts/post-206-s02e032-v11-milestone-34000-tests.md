@@ -1,7 +1,7 @@
 # From v11.4 to v11.6: What Three Versions Accomplished, and What 34,267 Tests Mean
 
-*Post 198 of the Unitary Manifold series.*  
-*Series S02, Episode E024.*  
+*Post 206 of the Unitary Manifold series.*  
+*Series S02, Episode E032.*  
 *Epistemic category: **Milestone report** — v11.4, v11.5, v11.6 version summaries, infrastructure, and test suite milestone.*  
 *May 2026.*
 
