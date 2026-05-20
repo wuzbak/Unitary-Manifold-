@@ -4,8 +4,10 @@
 
 from __future__ import annotations
 
-import sympy as sp
 import pytest
+
+pytest.importorskip("sympy", reason="sympy not installed — skip SymPy-dependent tests")
+import sympy as sp
 
 from src.core.contract_library_extended import (
     ASSUMPTION_LEDGER,

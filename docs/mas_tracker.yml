@@ -100,7 +100,7 @@ adjacent_track_checkpoint:
       cmbs4_drill: "9-INFRASTRUCTURE/provenance/cmbs4_routing_drill_v11.7_receipts.json — 6 synthetic sigma scenarios"
       xdiag_script: "9-INFRASTRUCTURE/provenance/xdiag_integration_test.sh — XDiag 0.2.x KAT + parity check"
     total_new_tests: 165
-    sparse_numbering_note: "Next available adjacent pillar slot: 292"
+    sparse_numbering_note: "Next available adjacent pillar slot: 309"
   previous_checkpoint: "v11.6-desi-correction"
   v11_5_residual_tightening_wave:
     pillars_added:
