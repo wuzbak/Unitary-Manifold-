@@ -23,7 +23,11 @@ Five new adjacent-track pillars (292–296): ACT DR6 deep analysis, proton decay
 
 ## v11.8 (2026-05-20 — Audit Sprint: Gap Closures + Robustness Hardening)
 
-## v11.7 (2026-05-19 — Seesaw Closure + New Observatory Lanes)
+*(See the full v11.8 entry below for details.)*
+
+---
+
+ (2026-05-19 — Seesaw Closure + New Observatory Lanes)
 
 ### What changed
 

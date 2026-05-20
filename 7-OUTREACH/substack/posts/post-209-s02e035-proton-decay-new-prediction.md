@@ -41,7 +41,7 @@ The proton lifetime then follows from the dimension-6 proton decay operator coef
 
 > τ(p → e⁺π⁰) = M_GUT⁴ / (α_GUT² × A_L² × f_orb² × m_p⁵)
 
-where A_L ≈ 2.7 is the hadronic matrix element, m_p is the proton mass, and f_orb is the orbifold suppression factor from the Z₂/Z₅ compact dimension geometry:
+where A_L ≈ 1.25 is the renormalization enhancement from short-distance QCD (this is the standard SU(5) estimate; sometimes quoted as the "chiral Lagrangian matching coefficient"), m_p is the proton mass, and f_orb is the orbifold suppression factor from the Z₂/Z₅ compact dimension geometry:
 
 > f_orb = (1/n_w) × cos²(π/n_w) ≈ 0.131   (for n_w = 5)
 
