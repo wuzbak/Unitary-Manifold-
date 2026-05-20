@@ -31,7 +31,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** ~34,228 passed (in-sandbox, no sympy/lean4/xdiag/z3) · 408 skipped · 12 deselected · 0 failed
+**Latest verified branch regression:** 34,228 passed · 408 skipped · 12 deselected · 0 failed (in-sandbox, no sympy/lean4/xdiag/z3 optional deps; full canonical ~34,600+)
 *(v11.10: Pillars 297–300 — SPT-3G CMB routing, Simons Observatory preregistration, Hyper-K timeline, Observatory Network Integration Dashboard: 211 new tests added)*
 
 ---

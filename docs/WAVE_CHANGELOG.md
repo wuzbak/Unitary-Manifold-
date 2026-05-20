@@ -25,7 +25,7 @@ Three outreach posts (210–212). 211 new tests. 0 failures.
 
 | Metric | v11.9 | v11.10 |
 |--------|-------|--------|
-| Passing tests | 34,017 (in-sandbox) | ~34,228+ (in-sandbox) |
+| Passing tests | 34,017 passed · 408 skipped · 12 deselected · 0 failed | 34,228 passed · 408 skipped · 12 deselected · 0 failed |
 | Adjacent pillars | through 296 | through 300 |
 | New tests | — | +211 |
 | Failures | 0 | 0 |
