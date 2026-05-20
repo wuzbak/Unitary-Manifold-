@@ -60,6 +60,10 @@ __provenance__ = {
     ),
 }
 
+LOGICAL_UNIT: str = "CANCER_BOTTLENECK_SOLUTIONS"
+LOGICAL_UNIT_PARTNER: int = 228
+LOGICAL_UNIT_ROLE: str = "SOLUTIONS_ENGINE"
+
 __all__ = [
     # Constants
     "N_W",

@@ -34,6 +34,11 @@ __provenance__ = {
 }
 
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
+# This module is the canonical Pillar 256 (empirical hardening and falsification
+# harness). A second module (pillar256_reproducibility) provides reproducibility
+# surfaces infrastructure and carries ID "256-R".
+PILLAR_ID: str = "256"       # canonical Pillar 256
+PILLAR_CANONICAL: bool = True
 
 N_W: int = 5
 K_CS: int = 74

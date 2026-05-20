@@ -87,6 +87,8 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 PILLAR_NUMBER: int = 308
 PILLAR_TITLE: str = "2027 Data Readiness Mock-Drill Audit v2"
+OPERATIONAL_MODULE: bool = True
+OPERATIONAL_MODULE_CATEGORY: str = "MOCK_DRILL_AUDIT"
 READINESS_STATUS: str = "DRILL_VERIFIED_READY_v11.12"
 
 # ── DESI DR3 routing constants ────────────────────────────────────────────────

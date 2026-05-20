@@ -68,6 +68,9 @@ _N_SM_CLOSED: int = 26     # all 26 are closed (zero OPEN/FITTED)
 # Holon theoretical confidence: fraction of SM parameters with non-OPEN status
 HOLON_THEORETICAL_CONFIDENCE: float = _N_SM_CLOSED / _N_SM_TOTAL  # = 1.0
 
+SYNTHESIS_WRAPPER: bool = True
+SYNTHESIS_SOURCES: tuple[int, ...] = (237, 238, 239, 240, 241)
+
 # Sector names (canonical order, aligned with n_w = 5 pillar sequence)
 SECTORS: tuple[str, ...] = (
     "civilizational_resilience",   # P237

@@ -89,6 +89,12 @@ __all__ = [
 # CONSTANTS
 # ─────────────────────────────────────────────────────────────────────────────
 
+# This module is the canonical Pillar 207 (NEGATIVE AUDIT RESULT: DAM/Leech
+# lattice hypothesis rejected). A second module (pillar207_topological_scaling)
+# carries supplemental mathematical exploration under ID "207-TS".
+PILLAR_ID: str = "207"       # canonical Pillar 207
+PILLAR_CANONICAL: bool = True
+
 N_W: int = 5
 K_CS: int = 74              # Exact from braid: 5² + 7² = 74
 K_BARE_LEECH: int = 72      # Hypothesis: K_bare = 3 × 24 (Leech lattice)

@@ -33,6 +33,8 @@ __all__ = [
 ]
 
 ADJACENCY_TRACK_LABEL = "NON_HARDGATE_ADJACENT"
+SYNTHESIS_WRAPPER: bool = True
+SYNTHESIS_SOURCES: tuple[int, ...] = (259, 260, 261)
 SPRINT_ORDER: tuple[str, ...] = ("T3", "A3", "SC2", "SC4", "RG1", "FD1", "FB1")
 PARALLEL_TRACKS: dict[str, tuple[str, ...]] = {
     "TRACK_A_DYNAMICS_NATURALNESS": ("T3", "A3"),

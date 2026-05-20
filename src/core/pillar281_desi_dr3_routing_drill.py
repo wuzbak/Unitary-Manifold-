@@ -54,6 +54,8 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 PILLAR_NUMBER: int = 281
 PILLAR_TITLE: str = "DESI DR3 Routing Drill (3.2σ / 2.4σ / 1.8σ scenarios)"
+OPERATIONAL_MODULE: bool = True
+OPERATIONAL_MODULE_CATEGORY: str = "OBSERVATIONAL_ROUTING_DRILL"
 
 # Plan §C.8 specified σ levels
 DRILL_SIGMA_LEVELS: Tuple[float, float, float] = (3.2, 2.4, 1.8)

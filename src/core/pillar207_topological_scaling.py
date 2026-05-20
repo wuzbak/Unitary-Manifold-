@@ -88,6 +88,12 @@ from typing import Dict, List, Tuple
 # Module constants
 # ---------------------------------------------------------------------------
 
+# This module is a supplemental exploration registered alongside the canonical
+# Pillar 207 (pillar207_dam_lattice_audit.py — NEGATIVE AUDIT RESULT).
+# Use PILLAR_ID to distinguish the two modules that share the "207" number.
+PILLAR_ID: str = "207-TS"       # TS = Topological Scaling (supplemental)
+PILLAR_CANONICAL: bool = False  # Canonical Pillar 207 = pillar207_dam_lattice_audit
+
 #: Winding number (canonical, Pillar 70-D)
 N_W: int = 5
 
