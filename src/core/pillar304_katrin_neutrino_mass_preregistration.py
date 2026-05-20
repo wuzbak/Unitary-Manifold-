@@ -143,11 +143,14 @@ PTOLEMY_SENSITIVITY_EV: float = 0.10      # PTOLEMY neutrino mass sensitivity (d
 PLANCK_SUM_LIMIT_EV: float = 0.12         # Planck 2018 95% CL Σmν < 0.12 eV
 
 # Tension with Planck.
-# APPROXIMATE: σ_Planck ~ 0.04 eV is inferred from (0.12 eV limit) / 3σ,
-# treating the 95% CL as ~2σ.  The true Planck posterior on Σmν is
-# non-Gaussian (one-sided upper limit), so a Gaussian σ_pull is only
-# indicative.  The tension_sigma below should be read as ORDER-OF-MAGNITUDE
-# rather than a precise statistical statement.
+# APPROXIMATE: σ_Planck ~ 0.04 eV is a literature-based effective 1σ
+# uncertainty for the Planck neutrino mass posterior (e.g. Planck 2018 VI
+# Table 5; the posterior shape gives roughly σ ~ 0.04 eV as an effective
+# Gaussian width of the one-sided bound).  This is NOT derived from 0.12/3;
+# the 95% CL → σ mapping for a one-sided Gaussian is 0.12/1.645 ≈ 0.073 eV,
+# not 0.04 eV.  The 0.04 eV reflects the posterior width rather than the tail.
+# Because the Planck posterior is non-Gaussian (hard one-sided upper limit),
+# PLANCK_TENSION_SIGMA is ORDER-OF-MAGNITUDE only; treat as indicative.
 _PLANCK_SIGMA_SUM: float = 0.04           # APPROXIMATE: inferred effective 1σ
 PLANCK_TENSION_SIGMA: float = (SUM_MNU_EV - PLANCK_SUM_LIMIT_EV) / _PLANCK_SIGMA_SUM
 # Note: the true tension is better characterised as Σmν_UM > PLANCK_SUM_LIMIT_EV
