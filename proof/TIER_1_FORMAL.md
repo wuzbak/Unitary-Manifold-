@@ -46,3 +46,17 @@ A valid run for this isolated surface requires successful execution with no fail
 This directory is a formal verification entry point, not a complete map of the repository. Adjacent research tracks and governance frameworks are documented elsewhere and are intentionally excluded from this Tier-1 surface.
 
 Known limits, open problems, and non-claims are cataloged in `FALLIBILITY.md` and must be used as part of any technical assessment.
+
+## Theorem Labeling Key
+
+Results referenced from this Tier-1 surface carry the following epistemic labels:
+
+| Label | Meaning |
+|-------|---------|
+| **PROVED** | Formally derived from the 5D metric ansatz with no free parameters; executable test passes. |
+| **DERIVED** | Algebraically derived given stated assumptions; result is deterministic but depends on the ansatz or an upstream proved step. |
+| **GEOMETRICALLY MOTIVATED** | Identification supported by dimensional / group-theoretic reasoning (e.g., n_w KK species → SU(n_w)); not a rigorous derivation from the 5D action. |
+| **CONDITIONAL THEOREM** | Formally derived given a named axiom or postulate; result is only as strong as the axiom. |
+| **CONJECTURE** | Plausible but not yet derived; flagged in `FALLIBILITY.md`. |
+
+The n_w = 5 uniqueness result is a **CONDITIONAL THEOREM** (conditional on Axiom A, which is itself now DERIVED from the 5D CS action — see `nw5_pure_theorem.py`). The SU(5) gauge-group identification from n_w = 5 KK species is **GEOMETRICALLY MOTIVATED** (minimality argument). All downstream RGE predictions are **DERIVED** given SU(5).

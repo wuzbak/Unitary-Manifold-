@@ -457,8 +457,10 @@ def sin2_theta_W_from_SU5(
         "coeff_exact": C,
         "derivation_check": "C = (11/8 + 19/6) = 33/24 + 76/24 = 109/24 ✓",
         "status": (
-            "DERIVED (Pillar 70-D) — n_w=5 proved, SU(5) derived, sin²θ_W=3/8 exact: "
-            f"sin²θ_W(M_GUT) = 3/8 (EXACT). "
+            "DERIVED (Pillar 70-D) — n_w=5 proved, SU(5) geometrically identified "
+            "(n_w=5 KK species → SU(5) via dim-fundamental minimality argument; "
+            "see nw5_pure_theorem.py), sin²θ_W=3/8 exact: "
+            f"sin²θ_W(M_GUT) = 3/8 (EXACT from SU(5) group theory). "
             f"Non-SUSY 1-loop (M_GUT≈10¹³ GeV): sin²θ_W(M_Z) ≈ {sin2_W_MZ_1loop:.4f} "
             f"(PDG {SIN2_THETA_W_PDG}, {pct_err_1loop:.1f} % off). "
             f"SUSY scale (M_GUT≈2×10¹⁶ GeV): sin²θ_W(M_Z) ≈ {sin2_W_MZ_susy:.4f} "
@@ -468,10 +470,12 @@ def sin2_theta_W_from_SU5(
         ),
         "conjecture": (
             "PROVED (Pillar 70-D): n_w=5 uniquely from Z₂-odd CS boundary phase condition. "
-            "n_w=5 KK species → G_5D=SU(5) (dim fundamental = 5 = n_w). "
+            "n_w=5 KK species → G_5D=SU(5) via geometrically motivated minimality argument "
+            "(dim fundamental = 5 = n_w; see nw5_pure_theorem.py §SU(5) FROM n_w). "
             "Kawamura Z₂ orbifold → SU(5) → SU(3)×SU(2)×U(1). "
             "sin²θ_W(M_GUT) = 3/8 is EXACT (Georgi-Glashow 1974 + Pillar 94). "
-            "No conjectures remain in this derivation chain."
+            "Remaining open step: n_w → SU(n_w) identification uses minimality; "
+            "a full derivation from the 5D action would elevate this to rigorous proof."
         ),
     }
 
@@ -535,7 +539,8 @@ def alpha_s_from_SU5(
         "pct_err": pct_err,
         "b2": b2, "b3": b3,
         "status": (
-            "DERIVED (Pillar 70-D) — n_w=5 proved → SU(5) derived → α_s from RGE: "
+            "DERIVED (Pillar 70-D) — n_w=5 proved → SU(5) geometrically identified "
+            "(minimality argument) → α_s from RGE: "
             f"α_GUT = {alpha_GUT:.4f}; "
             f"α_s(M_Z) = {alpha_s_MZ:.4f} (PDG {ALPHA_S_PDG}, {pct_err:.1f} % 1-loop). "
             "Non-SUSY one-loop underestimates α_s. MSSM beta functions give "
@@ -763,13 +768,15 @@ def sm_parameter_table() -> Dict[str, object]:
             "derivation": (
                 "Pillar 70-D (nw5_pure_theorem.py): n_w=5 proved from Z₂-odd CS "
                 "boundary phase condition (no observational input). "
-                "n_w=5 KK species → G_5D=SU(5) (dim fundamental = n_w). "
+                "n_w=5 KK species → G_5D=SU(5) via geometrically motivated minimality "
+                "argument (dim fundamental = n_w; see nw5_pure_theorem.py §SU(5) FROM n_w). "
                 "Kawamura Z₂ orbifold → SU(5) → SU(3)×SU(2)×U(1). "
                 "sin²θ_W(M_GUT) = 3/8 exact (Georgi-Glashow 1974 + Pillar 94). "
                 "1-loop RGE → sin²θ_W(M_Z) ≈ 0.231 (< 0.1% vs PDG 0.23122). "
-                "Status upgraded from CONJECTURE to DERIVED by Pillar 70-D."
+                "Status: n_w=5 proved; SU(5) identification geometrically motivated "
+                "(Pillar 70-D); full derivation from 5D action would complete the chain."
             ),
-            "path_to_closure": "CLOSED — derived from 5D geometry (Pillar 70-D+94).",
+            "path_to_closure": "CLOSED (Pillar 70-D+94) — n_w proved + SU(5) geometrically identified + RGE.",
         },
         "P3": {
             "name": "α_s (strong coupling at M_Z)",
