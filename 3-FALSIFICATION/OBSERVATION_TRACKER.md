@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-05-20 (v11.10 — SPT-3G routing (CONSISTENT), Simons Observatory preregistration locked, Hyper-K year-by-year timeline, Observatory Network Integration Dashboard (Pillar 300).*
+*Last updated: 2026-05-20 (v11.13 — Jarlskog Layer 2 + n_w χ² tracker HARDENED (P306); Lab CP P8 PREREGISTERED_v11.12 (P307); 2027 mock-drill DRILL_VERIFIED_READY_v11.12 (P308); FTUM contractive-regime cert (P309); Cabibbo orbifold derivation (P310); α_s basin volatility certificate (P311); Λ_QCD three-path reconciliation; Lab CP collaboration request operationalised. All 2027 routing protocols preregistered and idempotent.)*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 

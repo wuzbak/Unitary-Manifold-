@@ -291,3 +291,72 @@ def test_pillar307_report_separation_guard():
     rpt = pillar307_report()
     assert "separation_guard" in rpt
     assert rpt["separation_guard"]["hardgate_impact"] == "NONE"
+
+
+# ── draft_collaboration_request ───────────────────────────────────────────────
+
+from src.core.pillar307_lab_cp_falsifier_preregistration import (
+    draft_collaboration_request,
+)
+
+def test_collaboration_request_returns_dict():
+    req = draft_collaboration_request()
+    assert isinstance(req, dict)
+
+def test_collaboration_request_status_operationally_ready():
+    req = draft_collaboration_request()
+    assert req["status"] == "OPERATIONALLY_READY"
+
+def test_collaboration_request_has_measurement_target():
+    req = draft_collaboration_request()
+    mt = req["measurement_target"]
+    assert "observable" in mt
+    assert "required_sigma" in mt
+    assert "1e-05" in mt["required_sigma"] or "10⁻⁵" in mt["required_sigma"]
+
+def test_collaboration_request_has_two_platforms():
+    req = draft_collaboration_request()
+    assert len(req["experimental_platforms"]) == 2
+
+def test_collaboration_request_checklist_five_items():
+    req = draft_collaboration_request()
+    assert len(req["decision_grade_checklist"]) == 5
+
+def test_collaboration_request_has_document_text():
+    req = draft_collaboration_request()
+    doc = req["document_text"]
+    assert isinstance(doc, str)
+    assert len(doc) > 200
+
+def test_collaboration_request_document_mentions_preregistration():
+    req = draft_collaboration_request()
+    assert "PREREGISTERED" in req["document_text"] or "preregistration" in req["document_text"].lower()
+
+def test_collaboration_request_contact_defaults():
+    req = draft_collaboration_request()
+    assert "name" in req["contact"]
+    assert "institution" in req["contact"]
+
+def test_collaboration_request_custom_contact():
+    req = draft_collaboration_request(
+        contact_name="Dr. Smith",
+        contact_institution="MIT"
+    )
+    assert req["contact"]["name"] == "Dr. Smith"
+    assert req["contact"]["institution"] == "MIT"
+    assert "Dr. Smith" in req["document_text"]
+
+def test_collaboration_request_technical_appendix_present():
+    req = draft_collaboration_request(include_technical_appendix=True)
+    assert req["technical_appendix"] is not None
+    assert "geometry" in req["technical_appendix"]
+    assert "routing_table" in req["technical_appendix"]
+
+def test_collaboration_request_technical_appendix_absent():
+    req = draft_collaboration_request(include_technical_appendix=False)
+    assert req["technical_appendix"] is None
+
+def test_collaboration_request_preregistration_ref():
+    req = draft_collaboration_request()
+    assert "PREREGISTERED" in req["preregistration_ref"]
+
