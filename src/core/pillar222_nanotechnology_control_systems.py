@@ -5,6 +5,8 @@ src/core/pillar222_nanotechnology_control_systems.py
 =====================================================
 Pillar 222 — Nanotechnology and Control Systems.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): nanoscale transport models,
 closed-loop control metrics, and deployment-readiness quantification.
 """

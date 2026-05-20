@@ -3,6 +3,8 @@
 """
 Pillar 232 — Universal Cancer Control Framework.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): this module does not claim a
 single universal cure. It provides a universal *method* for:
 

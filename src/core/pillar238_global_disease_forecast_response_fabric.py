@@ -3,6 +3,8 @@
 """
 Pillar 238 — Global Health Systems Surge Readiness & Response Calculator.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): deterministic calculator
 for public-health-system capacity gaps, transmission-rate estimation, and
 coordinated response-adequacy routing.  All inputs are infrastructure and

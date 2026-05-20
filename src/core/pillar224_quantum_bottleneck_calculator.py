@@ -5,6 +5,8 @@ src/core/pillar224_quantum_bottleneck_calculator.py
 =====================================================
 Pillar 224 — Quantum Computing Bottleneck Calculator.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): uses the Unitary Manifold's
 geometric constants as a *calculator* to produce concrete, numerical answers
 for each of the twelve recognised quantum-computing bottlenecks.

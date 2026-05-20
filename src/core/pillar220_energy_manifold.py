@@ -5,6 +5,8 @@ src/core/pillar220_energy_manifold.py
 ======================================
 Pillar 220 — Manifold Applied to Energy: Consumer to Civilization Scale.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Applies the Unitary Manifold φ-debt entropy accounting framework to energy
 systems across scales — from individual households to the global civilization.
 

@@ -5,6 +5,8 @@ src/core/pillar230_cancer_solutions_engine.py
 =============================================
 Pillar 230 — Cancer Solutions Engine.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): uses empirical oncology data
 and — where the geometry is genuinely relevant — the Unitary Manifold's four
 invariants to compute *solution pathways* for the 3 major roadblocks and 12

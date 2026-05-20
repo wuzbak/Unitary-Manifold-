@@ -5,6 +5,8 @@ src/core/pillar223_medical_imaging_diagnosis.py
 ================================================
 Pillar 223 — Medical Imaging and Health Diagnosis.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): imaging physics and diagnostic
 inference models for safer, more rigorous decision support.
 """
