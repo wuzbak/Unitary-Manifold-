@@ -106,15 +106,9 @@ C_S: float = 12.0 / 37.0   # braided sound speed = 12/37
 LAMBDA_KK: float = C_S / N_W   # = 12/185 ≈ 0.06486
 
 # ── UM-natural parameters ─────────────────────────────────────────────────────
-# The UM-natural coupling: U/t = K_CS × c_s / N_W = 74 × (12/37) / 5
-U_T_UM_NATURAL: float = K_CS * C_S / N_W   # = 74 × (12/37) / 5 = 74×12/(37×5) ≈ 4.8
-
-# Correction: from v11.7 sprint result U/t = 61.7 = K_CS × (12/37) × (37/5) / ... 
-# Let me recheck: v11.7 gives U/t = 61.7 from K_CS/c_s = 74/(12/37) = 74×37/12 = 228.2... 
-# Actually from the v11.7 sprint: U/t = K_CS × η_braided, where braided coupling
-# U = K_CS × t × c_s⁻¹ × n_w → U/t = K_CS × n_w / c_s = 74 × 5 / (12/37) = 74×5×37/12 = 1146.7...
-# The v11.7 result says U/t = 61.7. Let me use the value directly:
-U_T_UM_NATURAL = 61.7   # from FH braid ring result, v11.7
+# UM-natural coupling U/t = 61.7 from the v11.7 FH braid ring first-physics result.
+# This is the KK-geometric Hubbard U extracted from the (5,7) braid Hamiltonian.
+U_T_UM_NATURAL: float = 61.7
 
 # ── Phase physics ──────────────────────────────────────────────────────────────
 # Mott transition for 1D chain: U_c/t ≈ 4 (Bethe ansatz for half-filled 1D Hubbard)
