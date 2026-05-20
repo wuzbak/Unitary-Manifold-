@@ -5,6 +5,8 @@ src/core/pillar218_quantum_control.py
 ======================================
 Pillar 218 — Quantum Computing & Control Systems.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): applies Kaluza-Klein geometry
 insights from the Unitary Manifold to fault-tolerant quantum computation and
 quantum control.  Physical claims are speculative extrapolations; they are

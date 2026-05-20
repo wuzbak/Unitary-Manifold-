@@ -459,7 +459,10 @@ def cfl_timestep(state: FieldState, cfl: float = 0.4) -> float:
 
     The 1-D explicit stability condition for □φ requires
         dt  ≤  cfl * dx²
-    The default safety factor cfl = 0.4 gives comfortable margin for RK4.
+    The default safety factor cfl = 0.4 is a conservative choice: forward-Euler
+    diffusion requires cfl ≤ 0.5, and RK4 permits slightly larger values
+    (~2.79 for pure diffusion); 0.4 is chosen to give comfortable margin across
+    coupled (metric + gauge + scalar) field configurations.
 
     Parameters
     ----------

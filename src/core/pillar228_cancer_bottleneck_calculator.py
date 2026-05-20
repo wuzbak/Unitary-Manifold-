@@ -5,6 +5,8 @@ src/core/pillar228_cancer_bottleneck_calculator.py
 ===================================================
 Pillar 228 — Cancer Bottleneck Calculator.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): uses empirical oncology data
 and — where the geometry is genuinely relevant — the Unitary Manifold's four
 invariants to produce concrete, numerical answers for the 3 major roadblocks

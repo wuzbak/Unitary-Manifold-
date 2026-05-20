@@ -7,7 +7,7 @@
 
 *P17 note: Pillar 296 full 3×3 WS-V texture diagonalization confirms p_R upgrade is not achievable within 5D-EFT. P17 remains CONDITIONAL_DERIVATION. JUNO safety maintained (NLO chain 0.004% residual). SEESAW_TEXTURE_FULL_EXACT_WS_V_DIAGONALIZATION gap certified as architecture limit.*
 
-*P3 note (r tension): Pillar 303 (v11.11) formally proves ACT DR6 HIGH_TENSION is IRREDUCIBLE in braided 5D-EFT: r_NLO=0.03132, δ_loop=0.57%, ~87 loops needed to reach r<0.016 (perturbativity breaks at N~176). WZW_LOOP_CAVEAT_PILLAR97B CLOSED. Do not revisit until CMB-S4 or Simons Observatory DR1.*
+*P3 note (r tension): Pillar 303 (v11.11) formally demonstrates that ACT DR6 HIGH_TENSION is IRREDUCIBLE within the braided 5D-EFT model: r_NLO=0.03132, δ_loop=0.57%, ~87 loops needed to reach r<0.016 (perturbativity breaks at N~176). WZW_LOOP_CAVEAT_PILLAR97B CLOSED. Do not revisit until CMB-S4 or Simons Observatory DR1.*
 
 *DESI wₐ note: Pillar 301 (v11.11) certifies that no rolling-radion 5D-EFT solution can produce wₐ≈-0.55 without destroying the RS1 hierarchy (ε_GW~10⁻⁸⁸ fine-tuning required). ARCHITECTURE_LIMIT_CERTIFIED. Do not revisit until DESI DR3 formally falsifies wₐ=0 at ≥3σ.*
 

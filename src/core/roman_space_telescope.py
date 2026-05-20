@@ -945,8 +945,11 @@ def roman_falsification_conditions() -> Dict[str, Any]:
     sigma_w = roman_wl_sigma_w()
     sigma_s8 = roman_wl_sigma_s8()
     bao_shift = roman_bao_shift_kk()
-    # approximate combined sigma_wa from WL + BAO
-    sigma_wa_approx = 0.07
+    # APPROXIMATE: combined sigma_wa from WL + BAO (Roman Science Book,
+    # Spergel et al. 2015, Table 2.5: σ(wₐ) ~ 0.07 for combined WL+BAO).
+    # This is a Fisher-matrix forecast under idealised assumptions; real
+    # systematics (photo-z, shear calibration, baryons) may degrade by ×2.
+    sigma_wa_approx = 0.07  # APPROXIMATE — Roman Science Book forecast
     return {
         "w_kk_prediction":      W_KK,
         "wa_kk_prediction":     W_A_KK,

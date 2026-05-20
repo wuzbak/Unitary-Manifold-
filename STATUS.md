@@ -104,6 +104,7 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
+| v11.13 | Wave 4 scientific rigor hardening: cmb_transfer "closes"→"partially addresses" acoustic gap; SU(5) identification labeled geometrically motivated; kk_gauge_spectrum truncation documented; preregistration files (CMB-S4, DESI) gain uncertainty bounds & σ-level criteria; TIER_1_FORMAL.md theorem-labeling key added | no new pillars | +0 (35,547 total) | 2026-05-20 |
 | v11.12 | 2027 Measurement Window Readiness: Jarlskog Layer 2 constraint + n_w χ² tracker (P306); Lab CP P8 preregistration machine-queryable (P307); 2027 mock-drill audit DESI/JUNO/SO (P308); 4 outreach posts 213–216 | 306–308 adjacent-track | +~350 | 2026-05-20 |
 | v11.11 | Full Closure Sprint: DESI wₐ architecture limit (P301); Convention 279.3 DERIVED (P302); WZW NLO+ACT DR6 cert (P303); KATRIN preregistration (P304); FH phase diagram (P305); 5 persistent gaps closed | 301–305 | +309 | 2026-05-20 |
 | v11.0 | Comprehensive Audit & Canonical Freshness Synchronization: canonical ledgers and public metadata promoted from mixed v10.52–v10.62 state to unified v11.0 with refreshed branch regression totals and operational archive defaults | canonical surfaces + packaging/citation/archive metadata sync | +0 | 2026-05-16 |

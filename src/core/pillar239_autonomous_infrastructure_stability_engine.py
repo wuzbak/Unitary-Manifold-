@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 239 — Autonomous Infrastructure Stability Engine (adjacent track)."""
+"""Pillar 239 — Autonomous Infrastructure Stability Engine (adjacent track).
+
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

@@ -119,7 +119,11 @@ def kk_spectrum_1d(R: float = 1.0, lam: float = 1.0,
     ----------
     R       : float   compactification radius (φ₀ ℓ_P in Planck units)
     lam     : float   KK coupling
-    n_modes : int     number of modes to include in each direction
+    n_modes : int     number of modes to include in each direction.
+                      Default = 5 is an illustrative truncation only; the KK
+                      tower is infinite.  Physical KK modes are exponentially
+                      suppressed above M_KK = 1/R, so n_modes = 5 captures the
+                      lowest-lying states.  Increase for convergence checks.
 
     Returns
     -------

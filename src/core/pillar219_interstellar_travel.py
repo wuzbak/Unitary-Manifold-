@@ -5,6 +5,8 @@ src/core/pillar219_interstellar_travel.py
 ==========================================
 Pillar 219 — Interstellar Travel: Physics of Limitations and Pathways.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Provides honest quantitative analysis of interstellar travel: energy costs,
 time dilation, radiation hazards, propulsion options, warp geometry bounds
 from the KK compactification, and an overview of realistic near-term probes.

@@ -9,7 +9,8 @@ This module upgrades the minimal KK-tower-Lorentzian transfer function used in
 ``cmb_amplitude.py`` (Pillar 52) with the full Eisenstein & Hu (1998) analytic
 approximation, including baryon loading and acoustic oscillation structure.  It
 provides the first computation of the UM acoustic peak spectrum from first
-principles, closing the spectral-shape gap documented in FALLIBILITY.md §IV.
+principles, partially addressing the spectral-shape gap documented in FALLIBILITY.md §IV.
+A quantified residual amplitude offset remains; see ``pillar_cmb_peak_hardening.py``.
 
 Physical motivation
 -------------------
@@ -36,8 +37,9 @@ where:
 
 The factor (1+3R_b) relative to the canonical (1/3) amplitude gives an
 enhancement of (1+3R_b) ≈ 2.83 in the source function, corresponding to a
-factor ≈ 8× in Dₗ at the first acoustic peak.  This bridges the ×4–7
-suppression gap documented in FALLIBILITY.md.
+factor ≈ 8× in Dₗ at the first acoustic peak.  This partially bridges the ×4–7
+suppression gap documented in FALLIBILITY.md §IV; a residual amplitude offset
+remains (quantified in ``pillar_cmb_peak_hardening.py`` as ``CMB_PEAK_RESIDUAL_FACTOR``).
 
 Eisenstein-Hu (1998) CDM transfer function
 -------------------------------------------

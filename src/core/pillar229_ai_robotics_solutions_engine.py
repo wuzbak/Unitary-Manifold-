@@ -3,6 +3,8 @@
 """
 Pillar 229 — AI & Robotics Solutions Engine (2026).
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): computes solution pathways for
 the three strategic hurdles and twelve technical/operational bottlenecks
 identified in Pillar 227.  Provides intervention ROI ranking, readiness

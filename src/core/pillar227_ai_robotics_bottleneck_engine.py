@@ -3,6 +3,8 @@
 """
 Pillar 227 — AI & Robotics Bottleneck Engine (2026).
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): a deterministic calculator for
 three strategic hurdles and twelve technical/operational bottlenecks that block
 production-grade AI robotics deployment.

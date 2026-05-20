@@ -32,7 +32,7 @@ The standard Hubble-flow slow-roll parameters are (with M_Pl = 1):
 
 and the CMB scalar spectral index is:
 
-    nₛ = 1 − 6ε + 2η        (evaluated at horizon exit φ = φ*)
+    nₛ = 1 − 6ε + 2η        (evaluated at horizon exit φ = φ*; leading-order slow roll)
 
 The Planck 2018 best-fit value is nₛ = 0.9649 ± 0.0042 (68 % CL).
 
@@ -318,9 +318,12 @@ def slow_roll_params(
 ) -> tuple[float, float]:
     """Hubble-flow slow-roll parameters ε and η (Planck units, M_Pl = 1).
 
+    # SLOW-ROLL APPROX (leading order): ε and η are the Hubble-flow parameters
+    # at leading order; higher-order corrections (e.g. Stewart-Sasaki) are O(ε², εη).
+
     Definitions (Liddle & Lyth convention):
-        ε = (1/2)(V'/V)²
-        η = V''/V
+        ε = (1/2)(V'/V)²    [leading-order slow-roll parameter]
+        η = V''/V           [leading-order slow-roll parameter]
 
     Parameters
     ----------
@@ -353,6 +356,10 @@ def slow_roll_params(
 def spectral_index(epsilon: float, eta: float) -> float:
     """Scalar spectral index  nₛ = 1 − 6ε + 2η.
 
+    # SLOW-ROLL APPROX (leading order): exact expression is an infinite series in
+    # slow-roll parameters; second-order (Stewart-Sasaki) corrections are O(34ε²/3)
+    # with ε ≈ (1-nₛ)/6 ≈ 0.006, giving corrections ~ 4×10⁻⁴ — well below σ_nₛ = 0.0042.
+
     Parameters
     ----------
     epsilon : float — first slow-roll parameter ε
@@ -362,11 +369,14 @@ def spectral_index(epsilon: float, eta: float) -> float:
     -------
     ns : float — scalar tilt
     """
-    return 1.0 - 6.0 * epsilon + 2.0 * eta
+    return 1.0 - 6.0 * epsilon + 2.0 * eta  # SLOW-ROLL APPROX (leading order)
 
 
 def tensor_to_scalar_ratio(epsilon: float) -> float:
     """Tensor-to-scalar ratio  r = 16ε.
+
+    # SLOW-ROLL APPROX (leading order): r = 16ε holds at leading order;
+    # next-order corrections are suppressed by additional powers of slow-roll parameters.
 
     Parameters
     ----------
@@ -376,11 +386,14 @@ def tensor_to_scalar_ratio(epsilon: float) -> float:
     -------
     r : float — tensor-to-scalar ratio
     """
-    return 16.0 * epsilon
+    return 16.0 * epsilon  # SLOW-ROLL APPROX (leading order)
 
 
 def gw_spectral_index(epsilon: float) -> float:
     """Tensor spectral tilt  nₜ = −2ε  (single-field consistency relation).
+
+    # SLOW-ROLL APPROX (leading order): the consistency relation r = −8nₜ holds
+    # at leading order in slow roll; sub-leading corrections are O(ε²).
 
     Parameters
     ----------
@@ -390,7 +403,7 @@ def gw_spectral_index(epsilon: float) -> float:
     -------
     nt : float — tensor tilt
     """
-    return -2.0 * epsilon
+    return -2.0 * epsilon  # SLOW-ROLL APPROX (leading order)
 
 
 # ---------------------------------------------------------------------------

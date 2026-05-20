@@ -5,6 +5,8 @@ src/core/pillar221_sound_energy.py
 ==================================
 Pillar 221 — Sound and Sound Energy: physics, utility, and control.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): rigorous acoustics models for
 signal transfer, power transfer, safety bounds, and engineering use-cases.
 """

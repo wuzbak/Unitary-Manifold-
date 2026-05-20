@@ -3,6 +3,8 @@
 """
 Pillar 233 — Quantum-Safe Cryptography Transition Bottleneck Calculator.
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 ADJACENT RESEARCH TRACK (non-hardgate): a deterministic calculator for three
 strategic hurdles and eight technical/operational bottlenecks that impede
 enterprise migration from classical (RSA/ECC) cryptography to post-quantum

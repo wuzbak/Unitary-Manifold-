@@ -69,7 +69,9 @@ With K_CS = 74:
 
 This 1-loop closed-form estimate is within a factor 2.6 of PDG (332 MeV),
 which is the expected 1-loop accuracy.  The full multi-threshold RGE chain
-(Pillar 153) gives the PDG value exactly when using α_s(M_Z) = 0.118.
+(Pillar 153) reproduces the PDG Λ_QCD to within the accuracy of the 4-loop
+MS-bar scheme when α_s(M_Z) = 0.118 is used as an input; this is a
+consistency cross-check, not an independent derivation of Λ_QCD.
 
 ═══════════════════════════════════════════════════════════════════════════════
 HONEST RESIDUALS

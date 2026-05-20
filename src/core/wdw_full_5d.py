@@ -406,8 +406,11 @@ def kk_correction_to_spectrum(
     For the UM with φ₀ = 1 and H_dS ≈ 10⁻⁵:
         exp(−2π × 1 / 10⁻⁵) ≈ exp(−6.3 × 10⁵) → utterly negligible.
 
-    This confirms KK modes decouple during inflation: 4D EFT is exact to
-    many decimal places.
+    This confirms KK modes decouple during inflation: KK corrections to the
+    4D EFT are exponentially suppressed by exp(−6×10⁵), rendering them
+    physically negligible for all observational purposes.  The EFT is NOT
+    exact — it rests on the slow-roll and Born–Oppenheimer approximations —
+    but the KK *correction* to the EFT is negligible.
 
     Parameters
     ----------
@@ -481,7 +484,12 @@ def tensor_power_spectrum(
 
     # Tensor-to-scalar ratio check: r = P_T / P_ζ ≈ 16ε c_s (braided UM)
     # With ε ≈ (1-n_s)/6 and c_s = 12/37, r ≈ 0.0315 (Pillar 97-B)
-    n_T_approx = -C_S_BRAID * 8.0 * 0.006  # approximate slow-roll n_T
+    # APPROXIMATE: ε₀ ≈ (1 − n_s)/6 ≈ (1 − 0.9635)/6 ≈ 0.006 uses the
+    # Planck 2018 best-fit n_s = 0.9635 (UM prediction) and the leading-order
+    # slow-roll relation.  Higher-order slow-roll corrections O(ε²) ~ 10⁻⁵
+    # are not included.  The 0.006 is DERIVED from n_s, not a free parameter.
+    _epsilon_sr = (1.0 - 0.9635) / 6.0  # slow-roll ε₀ from UM n_s prediction
+    n_T_approx = -C_S_BRAID * 8.0 * _epsilon_sr  # APPROXIMATE slow-roll n_T
 
     return {
         "k_values": k_arr,
@@ -834,7 +842,12 @@ def wdw_full_5d_closure_report() -> Dict[str, object]:
             (
                 "KK corrections to power spectra: δ_KK ~ exp(-2π m_n/H_dS) "
                 "are exponentially suppressed for the UM (m_n ≥ 1 ≫ H_dS ≈ 10⁻⁵). "
-                "4D EFT predictions (n_s, r) are exact to ≫100 decimal places."
+                "4D EFT predictions (n_s, r) receive KK corrections "
+                "< exp(−6×10⁵), negligible to any observationally relevant "
+                "precision.  The EFT itself rests on slow-roll and "
+                "Born–Oppenheimer approximations; the statement is that the "
+                "KK *correction* to the EFT is negligible, not that n_s or r "
+                "are computed exactly."
             ),
             (
                 f"Vacuum energy: KK zero-point energy correction δΛ ≈ "
@@ -858,7 +871,7 @@ def wdw_full_5d_closure_report() -> Dict[str, object]:
             "Full 5D inhomogeneous WDW equation — CLOSED via perturbative Halliwell-Hawking expansion.",
             "Non-minisuperspace mode sector — CLOSED: BD vacuum solves each mode WDW.",
             "Operator ordering ambiguity — CLOSED: LB ordering is unique (Halliwell 1988 criterion).",
-            "KK mode contributions to CMB spectra — CLOSED: exponentially suppressed; EFT exact.",
+            "KK mode contributions to CMB spectra — CLOSED: exponentially suppressed; KK correction to EFT negligible.",
             "Wave function factorisation — CLOSED: consistent in Born-Oppenheimer approximation.",
         ],
         "residual_open_items": [

@@ -3535,6 +3535,68 @@ It does not provide a quantum speedup nor access to a real QPU in current CI.
 
 ---
 
+## §XI — Wave 2 Math-Rigor Audit Admissions (v11.13)
+
+*Added 2026-05-10: deeper perturbative-label audit across `inflation.py`, `phi0_closure.py`,
+and `braided_winding.py`.  No physics changes; these are epistemic-label corrections.*
+
+### §XI.1 — Slow-Roll Approximation in nₛ, r, and nₜ
+
+**Fact:** The functions `spectral_index()`, `tensor_to_scalar_ratio()`, and `gw_spectral_index()`
+in `src/core/inflation.py` implement the **leading-order** slow-roll expressions:
+
+    nₛ = 1 − 6ε + 2η      [leading order; exact expression is infinite series in ε, η]
+    r  = 16ε               [leading order; Boyle-Steinhardt corrections are O(ε²)]
+    nₜ = −2ε               [leading order; consistency relation r = −8nₜ holds at leading order]
+
+Higher-order (Stewart-Sasaki) corrections at second order in slow-roll are O(34ε²/3) where
+ε ≈ (1−nₛ)/6 ≈ (1−0.9635)/6 ≈ 0.006, giving a correction of ~4×10⁻⁴ to nₛ.  This is
+well below the Planck 2018 precision (σ_nₛ = 0.0042) and not yet observable.  The predictions
+nₛ ≈ 0.9635 and r ≈ 0.0315 are therefore accurate to well within the experimental
+uncertainty, but they are **not exact** — they are leading-order slow-roll estimates.
+
+**Code fix (v11.13):** All three functions now carry explicit `# SLOW-ROLL APPROX (leading order)`
+inline tags and docstring warnings.
+
+### §XI.2 — φ₀ Closure Is Exact *Within* the Slow-Roll Approximation
+
+**Fact:** The "exact closure identity" in `phi0_closure.py` (`braided_closure_audit()`,
+Pillar 56) is algebraically exact **within** the leading-order slow-roll formula
+nₛ = 1 − 36/φ₀_eff².  That formula itself is a slow-roll approximation.
+
+- The algebraic cancellation φ₀_FTUM = φ₀_canonical_braided is genuine and not an
+  artifact of numerical rounding.
+- The "zero free parameters" claim is conditional on (a) n_w = 5 being given and
+  (b) the leading-order slow-roll formula being an adequate description of the dynamics.
+- Second-order slow-roll corrections would shift φ₀_eff by O(ε) ≈ 2×10⁻³, which is
+  within the Planck 1σ uncertainty on nₛ.
+
+**Code fix (v11.13):** The module docstring now says "demonstrates numerically that all
+three conditions are mutually self-consistent" (not "proves"), and the closure identity
+is labelled "algebraically exact within leading-order slow roll."
+
+### §XI.3 — k_cs = 74 = 5² + 7² Resonance Identity: Structural Hypothesis, Not Derived
+
+**Fact:** The Chern-Simons level k_cs = 74 is derived from the birefringence measurement
+(β ≈ 0.35°) as the unique integer minimiser of |β(k) − 0.35°| over k ∈ [1, 100].
+Separately, 74 = 5² + 7².  The claim that this coincidence "is not tuned; it follows from
+the topology" was **overstated**.
+
+What is established: the coincidence k_cs = n₁² + n₂² connects the CS level to the
+Euclidean norm-squared of the braid pair.  This is the **resonance identity** (Pillar 58:
+k_eff = n₁² + n₂² is derived algebraically given the braid pair).
+
+What is not yet derived from first principles: why k_cs derived from birefringence equals
+n₁² + n₂².  This could be topologically necessary, or it could be a structural coincidence
+that happens to hold for the (5,7) pair.  The LiteBIRD measurement of β will test whether
+k_cs is truly determined by this integer structure.
+
+**Code fix (v11.13):** The claim is softened to "appears to be structurally non-accidental
+… [HYPOTHESIS — not yet derived from first principles independent of the birefringence
+observation]" in the `braided_winding.py` module docstring.
+
+---
+
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
 

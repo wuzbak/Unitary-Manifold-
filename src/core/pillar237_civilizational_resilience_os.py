@@ -3,6 +3,8 @@
 """
 Pillar 237 — Civilizational Resilience Operating System (CROS).
 
+🔵 ADJACENT TRACK — not a hardgate physics claim.
+
 Adjacent applied research track (non-hardgate): deterministic multi-sector
 resilience scoring for integrated civilizational continuity planning.
 
