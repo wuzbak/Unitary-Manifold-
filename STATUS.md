@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.8 — Effective 2026-05-20*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.8 audit sprint: CYCLE_RADION_COUPLING_UNIQUENESS closed via APS η̄ theorem (Pillar 287); SEESAW_TEXTURE_PARTICIPATION_GAP at maximum 5D-EFT closure (Pillar 286); mpmath test robustness hardened; doc headers synced to v11.8; ACT DR6 HIGH_TENSION wired into OBSERVATION_TRACKER.md; 6 duplicate outreach articles renumbered 193–198→201–206; audit report post 207 published). Prior: v11.7 — Pillars 286–291 + JUNO DR1 preregistration (34,411 tests). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.9 — Effective 2026-05-20*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.9 sprint: Pillars 292–296 added; ACT DR6 deep analysis, proton decay prediction, LISA preregistration, WdW gap certificate, P17 upgrade attempt; FH braid ring spectrum first physics output; ~172 new tests; 0 failures). Prior: v11.8 — audit sprint: CYCLE_RADION_COUPLING_UNIQUENESS closed via APS η̄ theorem (Pillar 287); SEESAW_TEXTURE_PARTICIPATION_GAP at maximum 5D-EFT closure (Pillar 286). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
