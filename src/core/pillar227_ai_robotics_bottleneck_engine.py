@@ -430,12 +430,11 @@ def baseline_2026_scenario() -> DeploymentScenario:
     )
 
 
+LOGICAL_UNIT: str = "AI_ROBOTICS_BOTTLENECK_SOLUTIONS"
+LOGICAL_UNIT_PARTNER: int = 229
+LOGICAL_UNIT_ROLE: str = "BOTTLENECK_ANALYSIS"
+
 __all__ = [
-    "N_W",
-    "K_CS",
-    "C_S",
-    "PHI0",
-    "STRATEGIC_HURDLES",
     "BOTTLENECK_ORDER",
     "DeploymentScenario",
     "UniformRange",

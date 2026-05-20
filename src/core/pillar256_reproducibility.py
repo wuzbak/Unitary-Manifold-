@@ -13,6 +13,13 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
+
+# This module provides reproducibility infrastructure (threshold manifests,
+# snapshots, replay) for Pillar 256. It is a supplemental module; the canonical
+# Pillar 256 is pillar256_empirical_hardening_falsification.py.
+PILLAR_ID: str = "256-R"       # R = Reproducibility surfaces (supplemental)
+PILLAR_CANONICAL: bool = False  # Canonical Pillar 256 = pillar256_empirical_hardening_falsification
+
 THRESHOLD_METADATA_PATH = ROOT / "docs" / "falsification" / "pillar256_thresholds.yml"
 THRESHOLD_GOVERNANCE_PATH = (
     ROOT / "docs" / "falsification" / "pillar256_threshold_governance.yml"

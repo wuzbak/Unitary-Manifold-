@@ -865,13 +865,11 @@ def main() -> None:
 # Public API
 # ---------------------------------------------------------------------------
 
+LOGICAL_UNIT: str = "QUANTUM_SAFE_CRYPTO_BOTTLENECK_SOLUTIONS"
+LOGICAL_UNIT_PARTNER: int = 234
+LOGICAL_UNIT_ROLE: str = "BOTTLENECK_ANALYSIS"
+
 __all__ = [
-    # Framework constants
-    "N_W",
-    "K_CS",
-    "C_S",
-    "PHI0",
-    "CURRENT_YEAR",
     # NIST FIPS 203 — ML-KEM
     "ML_KEM_512_PK",
     "ML_KEM_512_CT",

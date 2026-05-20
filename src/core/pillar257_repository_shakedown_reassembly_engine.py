@@ -26,6 +26,8 @@ from typing import Any
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 PILLAR_NUMBER: int = 257
 PILLAR_TITLE: str = "Repository Shakedown & Reassembly Engine"
+OPERATIONAL_MODULE: bool = True
+OPERATIONAL_MODULE_CATEGORY: str = "REPOSITORY_AUDIT"
 
 BASELINE_REGRESSION_COMMAND: str = (
     'python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no'

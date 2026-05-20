@@ -107,6 +107,8 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 PILLAR_NUMBER: int = 298
 PILLAR_TITLE: str = "Simons Observatory CMB Preregistration Package"
+OPERATIONAL_MODULE: bool = True
+OPERATIONAL_MODULE_CATEGORY: str = "PREREGISTRATION_DOCUMENT"
 
 # UM hardgated predictions
 UM_R_HARDGATED: float = 0.0315    # P2 DERIVED (braided winding)

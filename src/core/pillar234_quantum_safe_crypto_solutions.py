@@ -869,13 +869,11 @@ def baseline_solution_plan() -> Dict:
 # __all__
 # ---------------------------------------------------------------------------
 
+LOGICAL_UNIT: str = "QUANTUM_SAFE_CRYPTO_BOTTLENECK_SOLUTIONS"
+LOGICAL_UNIT_PARTNER: int = 233
+LOGICAL_UNIT_ROLE: str = "SOLUTIONS_ENGINE"
+
 __all__ = [
-    # Constants
-    "N_W",
-    "K_CS",
-    "C_S",
-    "PHI0",
-    "ALL_INTERVENTIONS",
     # Registries (read-only)
     "_COST_DENOMINATORS",
     "_SOLUTION_APPROACHES",

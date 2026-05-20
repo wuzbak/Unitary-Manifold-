@@ -640,11 +640,11 @@ def baseline_2026_solutions_scenario() -> DeploymentScenario:
 # __all__
 # ---------------------------------------------------------------------------
 
+LOGICAL_UNIT: str = "AI_ROBOTICS_BOTTLENECK_SOLUTIONS"
+LOGICAL_UNIT_PARTNER: int = 227
+LOGICAL_UNIT_ROLE: str = "SOLUTIONS_ENGINE"
+
 __all__ = [
-    # Constants
-    "N_W",
-    "K_CS",
-    "C_S",
     "PHI0",
     "ALL_INTERVENTIONS",
     # Dataclass

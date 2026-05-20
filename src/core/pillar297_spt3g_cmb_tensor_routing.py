@@ -89,6 +89,8 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 PILLAR_NUMBER: int = 297
 PILLAR_TITLE: str = "SPT-3G CMB Tensor-to-Scalar Ratio Routing"
+OPERATIONAL_MODULE: bool = True
+OPERATIONAL_MODULE_CATEGORY: str = "OBSERVATIONAL_ROUTING_EXERCISE"
 
 # UM hardgated predictions (DERIVED, no free parameters)
 UM_R_HARDGATED: float = 0.0315   # P2 DERIVED

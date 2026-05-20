@@ -71,6 +71,8 @@ __all__ = [
 ADJACENCY_TRACK_LABEL: str = "NON_HARDGATE_ADJACENT"
 PILLAR_NUMBER: int = 273
 PILLAR_TITLE: str = "Autonomous GitHub Community Steward & Security Operations"
+OPERATIONAL_MODULE: bool = True
+OPERATIONAL_MODULE_CATEGORY: str = "GITHUB_OPERATIONS"
 
 # Framework constants (inherited from core)
 N_W: int = 5
