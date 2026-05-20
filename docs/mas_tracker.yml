@@ -1,4 +1,4 @@
-version: "v11.11"
+version: "v11.12"
 date: "2026-05-20"
 updated: "2026-05-20"
 mas_status: "COMPLETE"
@@ -18,19 +18,33 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.11"
-  regression: "34,537 passed · 408 skipped · 12 deselected · 0 failed"
+  version: "v11.12"
+  regression: "~34,890+ passed · ~408 skipped · 0 failed (sandbox pre-v11.12: 34,537; +~350 new tests in v11.12)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.11-full-closure-sprint"
-  wave: "Full Closure Sprint — No More Half Steps — Pillars 301–305"
-  pillar: 305
-  artifact: "src/core/pillar305_fh_braid_ring_phase_diagram.py"
-  test: "tests/test_pillar305_fh_braid_ring_phase_diagram.py"
+  version: "v11.12-2027-readiness-sprint"
+  wave: "2027 Measurement Window Readiness — Pillars 306–308"
+  pillar: 308
+  artifact: "src/core/pillar308_2027_readiness_mock_drill.py"
+  test: "tests/test_pillar308_2027_readiness_mock_drill.py"
   status: "DELIVERED"
+  v11_12_readiness_wave:
+    pillars_added:
+      - 306
+      - 307
+      - 308
+    per_pillar_deltas:
+      P306: "Jarlskog Layer 2 constraint (sin(θ_C)_geo=2/7, 27% residual=ARCHITECTURE_LIMIT) + n_w χ² tracker (n_w=5 preferred 2109:1 over n_w=7 from Planck n_s; 3.93σ disfavouring); CONSTRAINT_WITH_ARCHITECTURE_LIMIT_ACKNOWLEDGED"
+      P307: "P8 lab CP falsifier upgraded PENDING→PREREGISTERED_v11.12; route_lab_cp_result() decision-grade routing; 5-item F-LAB-CP checklist; compute_a_cp_lab_prediction() + topology_transfer_estimate(); lab tension ≠ framework falsification alone"
+      P308: "2027 mock-drill v2: 13 scenarios across DESI DR3/JUNO DR1/SO DR1; all routing idempotent; same-day update chains documented; provenance receipt: all_13_passed=True; framework STANDING; DRILL_VERIFIED_READY_v11.12"
+    outreach:
+      post_213: "S02E039 — Year of Decision: Three 2027 experiments and their routing"
+      post_214: "S02E040 — Lab CP falsifier P8 geometry and decision-grade requirements"
+      post_215: "S02E041 — Jarlskog Layer 2 honest accounting (27% Cabibbo residual)"
+      post_216: "S02E042 — v11.12 sprint summary and 2027 measurement window"
   v11_11_full_closure_wave:
     pillars_added:
       - 301

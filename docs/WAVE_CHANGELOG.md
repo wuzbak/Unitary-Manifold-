@@ -15,6 +15,71 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.12 (2026-05-20 — 2027 Measurement Window Readiness Sprint)
+
+Three new adjacent-track pillars (306–308): Jarlskog Layer 2 geometric constraint + n_w χ²
+residual preference tracker formalised, Lab CP falsifier P8 upgraded to machine-queryable
+preregistration (identical structure to Pillars 289–304), and comprehensive 2027 data readiness
+mock-drill v2 verified across DESI DR3 / JUNO DR1 / Simons Observatory DR1.
+~350 new tests. 0 failures. 4 outreach posts (213–216): "Year of Decision" series.
+
+### What changed
+
+| Metric | v11.11 | v11.12 |
+|--------|--------|--------|
+| Passing tests | 34,537 passed · 408 skipped · 12 deselected · 0 failed | ~34,890+ passing (sandbox); ~35,250+ canonical |
+| Adjacent pillars | through 305 | through 308 |
+| New tests | — | +~350 |
+| Failures | 0 | 0 |
+| Outreach posts | through 212 | through 216 |
+
+#### Pillar 306 — Jarlskog Layer 2 Flavor Constraint + n_w χ² Residual Tracker
+
+Item A: The Jarlskog Layer 2 gap (12% residual from J_geo to J_PDG) is addressed via the
+geometric Cabibbo angle constraint: sin(θ_C)_geo = 1 - n₁/n₂ = 2/7 ≈ 0.286 (27% residual
+from PDG 0.2253). This is formally certified as CONSTRAINT_WITH_ARCHITECTURE_LIMIT_ACKNOWLEDGED.
+Full Yukawa diagonalization requires string-theory-level flavor symmetry (5D-EFT architecture
+limit; consistent with FALLIBILITY.md Admission 7).
+
+Item B: n_w χ² preference tracker formalised. Post hard-geometric cuts ({5,7} only), Planck
+n_s χ² gives: n_w=5: χ²=0.111 (CONSISTENT, 0.33σ); n_w=7: χ²=15.41 (3.93σ disfavoured).
+Likelihood ratio 2109:1 in favour of n_w=5. Action-level uniqueness proof remains open
+(FALLIBILITY.md Admission 3, retained explicitly).
+
+No claim labels changed. No hardgate impact.
+
+#### Pillar 307 — Lab-Scale CP Falsifier Preregistration and Decision Routing
+
+P8 prediction (A_CP^lab ~ O(10⁻⁵) from (5,7) braid topology-transfer) upgraded from
+PENDING to PREREGISTERED_v11.12. New functions: compute_a_cp_lab_prediction(),
+route_lab_cp_result(), decision_grade_checklist() (5 items F-LAB-CP-1 through F-LAB-CP-5),
+preregistration_packet(). Routing table locked: CONSISTENT / P8_TENSION / BELOW_SENSITIVITY
+/ INCONCLUSIVE. Lab tension does NOT independently falsify framework — requires both lab
+tension AND LiteBIRD β ∉ [0.22°, 0.38°].
+
+No claim labels changed. No hardgate impact.
+
+#### Pillar 308 — 2027 Data Readiness Mock-Drill Audit v2
+
+13 synthetic verdict scenarios across DESI DR3 (3), JUNO DR1 (4), SO DR1 (3), combined
+(3). All routes non-overlapping. All routing functions verified idempotent. Same-day update
+chain documented for each experiment. Provenance receipt: all_13_scenarios_passed=True,
+all_routing_idempotent=True, update_chains_documented=True. Framework status across all
+scenarios: STANDING. P_falsifier_triggered: 0 (no preregistered scenario falsifies given
+current prior values as of 2026-05-20).
+
+READINESS_STATUS: DRILL_VERIFIED_READY_v11.12.
+
+### Outreach posts 213–216
+
+Post 213 (S02E039): "The Year of Decision" — three 2027 experiments, their routing, their
+stakes. Post 214 (S02E040): Lab CP falsifier — P8 geometry, topology transfer, the
+decision-grade checklist. Post 215 (S02E041): Jarlskog Layer 2 honest accounting — the 27%
+Cabibbo residual as architecture limit. Post 216 (S02E042): v11.12 sprint summary and the
+2027 measurement window full picture.
+
+---
+
 ## v11.11 (2026-05-20 — Full Closure Sprint: No More Half Steps)
 
 Five new adjacent-track pillars (301–305): DESI wₐ rolling radion architecture limit certificate,

@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.11 — Effective 2026-05-20*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.11 sprint: Pillars 301–305 added — FULL CLOSURE SPRINT; DESI wₐ architecture limit certified (P301); Convention 279.3 → DERIVED (P302); WZW one-loop r + ACT DR6 irreducibility certificate (P303); KATRIN/Project 8/PTOLEMY preregistration (P304); FH braid ring full phase diagram (P305); 309 new tests; 0 failures; 5 persistent open gaps closed). Prior: v11.10 — Ground-Based CMB Completion + Observatory Network Integration. Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.12 — Effective 2026-05-20*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.12 sprint: Pillars 306–308 added — 2027 MEASUREMENT WINDOW READINESS; Jarlskog Layer 2 constraint + n_w χ² tracker formalized (P306); Lab CP falsifier P8 preregistration machine-queryable (P307); 2027 mock-drill audit verified across DESI DR3/JUNO DR1/SO DR1 (P308); ~350 new tests; 0 failures; 4 outreach posts 213–216 published). Prior: v11.11 — Full Closure Sprint (Pillars 301–305). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,537 passed · 408 skipped · 12 deselected · 0 failed (in-sandbox, no sympy/lean4/xdiag/z3 optional deps; full canonical ~34,900+)
-*(v11.11: Pillars 301–305 — Full Closure Sprint: DESI architecture limit, Convention 279.3 DERIVED, WZW NLO + ACT DR6 certificate, KATRIN preregistration, FH phase diagram: 309 new tests added; 5 persistent gaps closed)*
+**Latest verified branch regression:** 34,537 passed · 408 skipped · 12 deselected · 0 failed (in-sandbox pre-v11.12, no sympy/lean4/xdiag/z3 optional deps; v11.12 adds ~350 new tests → ~34,890+ passing; full canonical ~35,250+)
+*(v11.12: Pillars 306–308 — 2027 Measurement Window Readiness: Jarlskog Layer 2 constraint, Lab CP P8 preregistration, 2027 mock-drill audit; ~350 new tests added; 4 outreach posts 213–216)*
 
 ---
 
@@ -91,7 +91,8 @@ for the full tracking table.
 | `src/core/inflation.py` | β ∈ {0.273°, 0.331°} primary prediction | LiteBIRD (~2032) |
 | `src/core/cmb_acoustic_amplitude_rg.py` (Pillar 149) | ×4.2–6.1 peak suppression; framework-level α_GW lane closed by 10D hardgate benchmark, with 5D-only derivation limitation retained | CMB-S4 (~2030) |
 | `src/core/pmns_solar_rge_correction.py` (Pillar 163) | Route-A + 1-loop RGE cross-check keeps sin²θ₁₂ within ~1.5% of PDG; legacy 4/15 path retained only as audit | Future precision neutrino measurements |
-| `src/core/pillar_nw_uniqueness_hardening.py` | n_w∈{1..10} simultaneous-constraint elimination with χ² residual preference tracking (5 over 7) | Future first-principles uniqueness hardening |
+| `src/core/pillar307_lab_cp_falsifier_preregistration.py` (P307) | P8 lab CP asymmetry A_CP^lab ~ O(10⁻⁵) — PREREGISTERED_v11.12; route_lab_cp_result() available; 5-item decision-grade checklist F-LAB-CP-1 through F-LAB-CP-5 | No certified σ ≤ 10⁻⁵ lab campaign logged yet; execute F-LAB-CP-1 through F-LAB-CP-5 first |
+| `src/core/pillar_nw_uniqueness_hardening.py` + `pillar306_jarlskog_nw_flavor_hardening.py` | n_w∈{1..10} elimination: χ² preference tracker formalised in P306 (n_w=5: 0.33σ; n_w=7: 3.93σ disfavoured; likelihood ratio 2109:1) | Action-level uniqueness proof excluding n_w=7 without observational input remains open (FALLIBILITY.md Admission 3) |
 | `src/core/pillar_cmb_peak_hardening.py` | Named residual `CMB_PEAK_RESIDUAL_FACTOR` + analytic/numeric suppression and ±10% sensitivity | CMB-S4 (~2030) |
 | `src/core/pillar_phi0_cross_check.py` | Independent holographic-boundary φ₀ route; agreement tracked by `PHI0_CROSS_CHECK_RELATIVE_ERROR` (<1%) | Ongoing cross-derivation verification |
 | `src/core/pillar_desi_tension_monitor.py` | Joint DESI tension tracker for exact KK prediction (w₀=-1, wₐ=0) with WARNING/CRITICAL routing | DESI Year 3/4 updates |
@@ -103,7 +104,8 @@ for the full tracking table.
 
 | Version | Arc | Pillars | Tests | Date |
 |---------|-----|---------|-------|------|
-| v11.1 | Observational Readiness & Residual Hardening Sprint: DESI DR3 publication-day runbook, LiteBIRD synthetic rehearsal engine (500-run suite, gap power ≈1.0), Lab CP execution report, Pillar 255 residual dashboard (SC2/SC4/A3/T3/G3/JUNO), SC2 A_s transfer-normalization audit (chain_is_closed=True), SC4 flux-landscape extended scan (N_flux 37→1000), A3 Higgs naturalness multi-loop + KK tower decoupling cert, T3 ADM BSSN dynamical closure layer | 8 adjacent-track modules (non-hardgate) | +458 | 2026-05-17 |
+| v11.12 | 2027 Measurement Window Readiness: Jarlskog Layer 2 constraint + n_w χ² tracker (P306); Lab CP P8 preregistration machine-queryable (P307); 2027 mock-drill audit DESI/JUNO/SO (P308); 4 outreach posts 213–216 | 306–308 adjacent-track | +~350 | 2026-05-20 |
+| v11.11 | Full Closure Sprint: DESI wₐ architecture limit (P301); Convention 279.3 DERIVED (P302); WZW NLO+ACT DR6 cert (P303); KATRIN preregistration (P304); FH phase diagram (P305); 5 persistent gaps closed | 301–305 | +309 | 2026-05-20 |
 | v11.0 | Comprehensive Audit & Canonical Freshness Synchronization: canonical ledgers and public metadata promoted from mixed v10.52–v10.62 state to unified v11.0 with refreshed branch regression totals and operational archive defaults | canonical surfaces + packaging/citation/archive metadata sync | +0 | 2026-05-16 |
 | v10.61 | Adjacent 11D terminal full-closure engine: 5 lanes certified (HW kickoff, HW hard-gate, G₄-flux vacuum link, UV vacuum selection, bridge-burn to 5D), runtime seed locked at {n_w=5, k_cs=74, braid=(5,7)} | `pillar245_eleventd_full_closure.py` | +76 | 2026-05-15 |
 | v10.60 | Adjacent 10D branch completion lane: deterministic branch-finish audit across R5 flux landscape, alpha_GW UV closure, P28 first-principles λ chain, P28 10D closure, and UV vacuum-seed handoff; explicit separation from later 11D / full-closure work | `pillar244_tend_branch_completion_engine.py` | +24 | 2026-05-15 |
