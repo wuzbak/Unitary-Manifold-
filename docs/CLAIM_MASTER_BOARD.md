@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.9
+# Unitary Manifold v11.10
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-20 (v11.9 — Pillars 292–296: ACT DR6 deep analysis (P3 HIGH_TENSION irreducible in 5D-EFT, CMB-S4 routing preregistered); proton decay prediction (NEW); LISA preregistration locked; WdW gap certificate; P17 upgrade attempt (remains CONDITIONAL_DERIVATION). ToE 28.0/28 = 100%)*
+*Last updated: 2026-05-20 (v11.10 — Pillars 297–300: SPT-3G routing (CONSISTENT), Simons Observatory preregistration (Pillar 298), Hyper-K running sensitivity timeline (Pillar 299), Observatory Network Integration Dashboard (Pillar 300 — milestone). Three outreach posts (210–212). 211 new tests. 0 failures.)*
 
 *P17 note: Pillar 296 full 3×3 WS-V texture diagonalization confirms p_R upgrade is not achievable within 5D-EFT. P17 remains CONDITIONAL_DERIVATION. JUNO safety maintained (NLO chain 0.004% residual). SEESAW_TEXTURE_FULL_EXACT_WS_V_DIAGONALIZATION gap certified as architecture limit.*
 
