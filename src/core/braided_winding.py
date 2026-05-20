@@ -69,8 +69,11 @@ measurement (β ≈ 0.35°) and found to equal 5² + 7².  The integer 74 is the
 unique minimiser of |β(k) − 0.35°| over k ∈ [1, 100].  Its coincidence with
 5² + 7² is the **resonance identity** — the Chern–Simons level is precisely
 the Euclidean norm-squared of the braid vector (n₁, n₂) = (5, 7).  This
-identity is not tuned; it follows from the topology of the compact dimension
-and the integer structure of the gauge coupling.
+identity appears to be structurally non-accidental — k_cs = n₁² + n₂² connects the
+CS level to the Euclidean norm-squared of the braid pair.  Whether this identity
+follows necessarily from the compact-dimension topology or represents an additional
+structural coincidence is an open question.  [HYPOTHESIS — not yet derived from
+first principles independent of the birefringence observation]
 
 Connections
 -----------

@@ -26,9 +26,12 @@ Three independent constraints must be satisfied simultaneously:
 
 Self-consistency means that the φ₀_eff inferred from condition (1) equals
 the φ₀_eff produced by the FTUM iteration (condition 3), and the λ_COBE
-derived from (2) is positive and finite.  This module proves all three
-conditions hold simultaneously, closing the φ₀ gap documented in
-FALLIBILITY.md.
+derived from (2) is positive and finite.  This module demonstrates numerically
+that all three conditions are mutually self-consistent, closing the φ₀ gap
+documented in FALLIBILITY.md.
+
+Note: condition (1) uses the leading-order slow-roll formula nₛ = 1 − 36/φ₀_eff².
+The "zero free parameters" claim is therefore conditional on that approximation.
 
 Residual open problem
 ---------------------
@@ -489,7 +492,9 @@ def braided_closure_audit() -> dict:
     the gap between the FTUM attractor φ₀_FTUM and the canonical value
     φ₀_canonical.
 
-    **The exact closure identity** (algebraically exact, not an approximation):
+    **The exact closure identity** (algebraically exact *within the leading-order
+    slow-roll formula* nₛ = 1 − 36/φ₀_eff²; the formula itself is SLOW-ROLL APPROX
+    leading order, with higher-order corrections O(ε²) ~ 10⁻⁴):
 
         nₛ_braided(φ₀_FTUM, c_s) = 1 − 36(1+c_s²)/φ₀_FTUM²
                                   = 1 − 36(1+c_s²)/[(n_w×2π)²(1+c_s²)]
@@ -501,7 +506,7 @@ def braided_closure_audit() -> dict:
     requires.  Once the braided formula is used, the three candidate φ₀ values
     collapse to one fixed point:
 
-        φ₀_canonical_braided = φ₀_from_nₛ_braided = φ₀_FTUM  (exact)
+        φ₀_canonical_braided = φ₀_from_nₛ_braided = φ₀_FTUM  (algebraically exact within leading-order slow roll)
 
     The four conditions checked:
 
