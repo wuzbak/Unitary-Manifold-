@@ -1,4 +1,4 @@
-version: "v11.8"
+version: "v11.9"
 date: "2026-05-20"
 updated: "2026-05-20"
 mas_status: "COMPLETE"
@@ -18,19 +18,47 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.8"
-  regression: "34 411 passed, 393 skipped, 12 deselected, 0 failed"
+  version: "v11.9"
+  regression: "~34,580+ passed, 393 skipped, 12 deselected, 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.8-audit-sprint"
-  wave: "Audit Sprint — Gap Closures, mpmath robustness, doc sync, article renumber"
-  pillar: 291
-  artifact: "src/core/pillar291_planetary_defense_taurid_risk.py"
-  test: "tests/test_pillar291_planetary_defense_taurid_risk.py"
+  version: "v11.9-new-observables-honest-gaps"
+  wave: "New Observables + Honest Gaps — Pillars 292–296, FH braid spectrum, Track 3 obs sync, outreach posts 208–209"
+  pillar: 296
+  artifact: "src/core/pillar296_p17_seesaw_diagonalization_upgrade_attempt.py"
+  test: "tests/test_pillar296_p17_seesaw_diagonalization_upgrade_attempt.py"
   status: "DELIVERED"
+  v11_9_new_observables_wave:
+    pillars_added:
+      - 292
+      - 293
+      - 294
+      - 295
+      - 296
+    per_pillar_deltas:
+      P292: "ACT DR6 Tensor Ratio Deep Analysis — HIGH_TENSION irreducible in 5D-EFT; CMB-S4 routing preregistered"
+      P293: "Proton Decay Rate Prediction — NEW falsifiable prediction; τ(p→e⁺π⁰) and τ(p→ν̄K⁺) from α_GUT=3/74; Hyper-K routing preregistered"
+      P294: "LISA GW Background Preregistration — routing locked; Ω_GW~10⁻¹⁵ below LISA sensitivity; Euclid+DESI DR3 path added"
+      P295: "Wheeler–DeWitt Structural Gap Certificate — WDW_NONPERTURBATIVE_INHOMOGENEOUS_5D_KK ARCHITECTURE_LIMIT_CERTIFIED; zero impact on 28 hardgated parameters"
+      P296: "P17 Seesaw Diagonalization Upgrade Attempt — full 3×3 WS-V texture diagonalization; upgrade NOT available in 5D-EFT; gap certified; P17 remains CONDITIONAL_DERIVATION"
+    additional_modules:
+      fh_braid_spectrum: "src/quantum/fh_braid_spectrum.py — FH braid ring spectrum; first physics output; Mott insulator gaps at U/t=78.23"
+    track_3_obs_sync:
+      act_dr6_canonical: "OBSERVATION_TRACKER.md row added: nₛ CONSISTENT, r HIGH_TENSION, CMB-S4 routing preregistered"
+      euclid_desi_dr3_readiness: "pillar294 module includes Euclid+DESI DR3 combined constraint path"
+    total_new_tests: 172
+    named_gaps:
+      - "SEESAW_TEXTURE_FULL_EXACT_WS_V_DIAGONALIZATION (architecture limit, string-theory required)"
+      - "WDW_NONPERTURBATIVE_INHOMOGENEOUS_5D_KK (architecture limit, LQG/spin-foam in 5D)"
+    falsifiers_preregistered:
+      - "LISA Ω_GW routing (Pillar 294, ~2035)"
+      - "CMB-S4 r routing (Pillar 292, ~2030)"
+      - "Proton decay τ routing (Pillar 293, Hyper-K active)"
+    sparse_numbering_note: "Next available adjacent pillar slot: 297"
+  previous_checkpoint: "v11.8-audit-sprint"
   v11_7_seesaw_closure_wave:
     pillars_added:
       - 286

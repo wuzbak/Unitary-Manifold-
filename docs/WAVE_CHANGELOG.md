@@ -15,13 +15,19 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.9 (2026-05-20 — New Observables + Honest Gaps)
+
+Five new adjacent-track pillars (292–296): ACT DR6 deep analysis, proton decay prediction, LISA preregistration, Wheeler–DeWitt certificate, P17 upgrade attempt. First quantum simulation physics output (FH braid ring spectrum). Two outreach posts (208–209). See full entry below.
+
+---
+
 ## v11.8 (2026-05-20 — Audit Sprint: Gap Closures + Robustness Hardening)
 
 *(See the full v11.8 entry below for details.)*
 
 ---
 
-## v11.7 (2026-05-19 — Seesaw Closure + New Observatory Lanes)
+ (2026-05-19 — Seesaw Closure + New Observatory Lanes)
 
 ### What changed
 

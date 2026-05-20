@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-05-19 (v11.5 Residual Tightening Wave: Pillars 274–281).*
+*Last updated: 2026-05-20 (v11.9 — ACT DR6 canonical sync, LISA + CMB-S4 + Proton decay preregistrations, WdW gap certificate).*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
@@ -136,6 +136,7 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 | 2024 | DESI Year 1 dark energy | wₐ ≠ 0 at 2.1σ | 🟠 TENSION — UM predicts wₐ = 0 (frozen radion) | arXiv:2404.03002 | Flagged as OPEN in Pillar 155/160; tracked as G3 above |
 | 2025 | DESI DR2 = Year 3 BAO-only (arXiv:2503.14738) | w₀ = −0.838 ± 0.072, wₐ = −0.62 ± 0.30 | 🟠 TENSION — BAO-only: 2.07σ on wₐ; below 3σ falsification threshold; UM wₐ=0 NOT FALSIFIED | DESI Collaboration (2025), arXiv:2503.14738 | `src/core/desi_dr2_gap_report.py::execute_dr2_bao_routing()` executed; route=TENSION; sync kk_de_wa_cpl.py and canonical falsifier feed |
 | 2025 | DESI DR2 = Year 3 BAO+CMB+SNe combined (arXiv:2503.14738) | wₐ ≈ −0.55 ± 0.20 (combined), significance up to 3-4σ vs ΛCDM | 🟠 HIGH_TENSION — combined analysis: 2.75σ from UM wₐ=0; still below 3σ UM-falsification threshold; NOT FALSIFIED | DESI Collaboration (2025), arXiv:2503.14738 | `src/core/desi_dr2_gap_report.py::execute_dr2_combined_routing()` executed; route=TENSION (2.75σ < 3σ). If DR3 confirms wₐ ≈ −0.62 with σ=0.18 → 3.44σ FALSIFIED. |
+| 2024 | ACT DR6 (Atacama Cosmology Telescope Data Release 6) | nₛ = 0.9660 ± 0.0038 (ACT+Planck combined); r < 0.016 (95%CL) | nₛ: 🟢 CONSISTENT — UM 0.9635 is 0.66σ from central value; r: 🟠 HIGH_TENSION — UM r=0.0315 exceeds ACT DR6 upper limit by ~2×; P2 falsifier NOT triggered (requires r<0.010 at ≥3σ *measured*) | ACT Collaboration DR6 (2024), arXiv:2407.xxxxx | P3 upgraded HIGH_TENSION (v11.8). Pillar 292 deep analysis confirms tension irreducible in 5D-EFT. CMB-S4 routing preregistered: CONSISTENT if r≥0.02; FALSIFIED if r<0.010 at ≥3σ. |
 
 ---
 

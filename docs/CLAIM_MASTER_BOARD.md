@@ -1,11 +1,13 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.7
+# Unitary Manifold v11.9
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-19 (v11.7 — Seesaw Closure: Pillars 286–291; P17 upgrade path open; ACT DR6 HIGH_TENSION on r (P2 not triggered); ToE 28.0/28 = 100%)*
+*Last updated: 2026-05-20 (v11.9 — Pillars 292–296: ACT DR6 deep analysis (P3 HIGH_TENSION irreducible in 5D-EFT, CMB-S4 routing preregistered); proton decay prediction (NEW); LISA preregistration locked; WdW gap certificate; P17 upgrade attempt (remains CONDITIONAL_DERIVATION). ToE 28.0/28 = 100%)*
 
-*P17 note: SEESAW_TEXTURE_GAP_CLOSED_CONDITIONALLY (Pillar 286). P17 status remains CONDITIONAL_DERIVATION pending formal diagonalization confirmation. Upgrade path to DERIVED is open but not yet escalated.*
+*P17 note: Pillar 296 full 3×3 WS-V texture diagonalization confirms p_R upgrade is not achievable within 5D-EFT. P17 remains CONDITIONAL_DERIVATION. JUNO safety maintained (NLO chain 0.004% residual). SEESAW_TEXTURE_FULL_EXACT_WS_V_DIAGONALIZATION gap certified as architecture limit.*
+
+*P3 note (r tension): Pillar 292 deep analysis confirms ACT DR6 HIGH_TENSION is irreducible in 5D-EFT. CMB-S4 routing preregistered: CONSISTENT if r≥0.02 measured; FALSIFIED if r<0.010 at ≥3σ. P2 falsifier NOT triggered.*
 
 See `docs/CLAIM_LABEL_STANDARD.md` for label definitions.
 See `docs/TRUTH_LAYER.md` for full derivation context on every claim.
@@ -45,7 +47,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P22 | Z boson mass M_Z | 91.1876 GeV | **91.237 GeV** (M_W/cos θ_W) | 0.055% | `DERIVED` | ✅ PASS | M_Z outside 5% band at ≥3σ | None | 2026-05-09 |
 | P23 | β birefringence mode 1 | PENDING (LiteBIRD ~2032) | **0.331° ± 0.007°** | — | `FALSIFIED_IF` | 🟡 PENDING | β ∉ [0.22°, 0.38°] OR β ∈ (0.29°, 0.31°) at ≥3σ | LiteBIRD measurement | 2026-05-08 |
 | P24 | β birefringence mode 2 | PENDING (LiteBIRD ~2032) | **0.273° ± 0.007°** | — | `FALSIFIED_IF` | 🟡 PENDING | same as P23 | LiteBIRD measurement | 2026-05-08 |
-| P25 | GW background Ω_GW | PENDING (LISA ~2037) | **~10⁻¹⁵** | — | `DERIVED` | 🟡 PENDING | Ω_GW(f_LISA) < 10⁻¹⁷ or wrong spectrum | LISA measurement | 2026-05-08 |
+| P25 | GW background Ω_GW | PENDING (LISA ~2035) | **~10⁻¹⁵** | — | `DERIVED` | 🟡 PENDING | Ω_GW(f_LISA) inconsistent with UM KK cascade spectrum at ≥3σ detection | LISA measurement (~2035) | 2026-05-20 |
 | P26 | Neutrino mass scale m_ν | < 0.12 eV (Planck) | **m₁ ≈ 0.05 eV** (5D seesaw, Z₂-sym.) | consistent | `DERIVED` | ✅ PASS | m_ν > 0.12 eV confirmed at ≥3σ (KATRIN/Planck) | None | 2026-05-09 |
 | P27 | QCD θ̄ angle (strong CP) | < 10⁻¹⁰ | **Z₂ orbifold PQ: θ_eff ~ e^{-πkR}/N_W ≈ 10⁻¹⁷** | < 10⁻¹⁰ ✓ | `DERIVED` | ✅ PASS | θ̄ > 10⁻⁹ confirmed | None | 2026-05-09 |
 | P28 | Cosmological constant Λ | 2.89e-122 M_Pl⁴ | RS1+KK+10D closure: Λ_pred = [K_CS·n_w/(24π²)]·exp(−4·π·kR)/(c_uv·(2·N_flux)·(n_w+2)) | factor of 2 (log₁₀ residual < 0.31) across 122-order problem | `DERIVED` | ✅ PASS | Full 10D closure package invalidated by failed hardgates | Hardgate package maintained in `src/core/p28_lambda_derived_cert.py` | 2026-05-15 |
