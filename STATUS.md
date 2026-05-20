@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.9 — Effective 2026-05-20*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.9 sprint: Pillars 292–296 added; ACT DR6 deep analysis, proton decay prediction, LISA preregistration, WdW gap certificate, P17 upgrade attempt; FH braid ring spectrum first physics output; ~172 new tests; 0 failures). Prior: v11.8 — audit sprint: CYCLE_RADION_COUPLING_UNIQUENESS closed via APS η̄ theorem (Pillar 287); SEESAW_TEXTURE_PARTICIPATION_GAP at maximum 5D-EFT closure (Pillar 286). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.10 — Effective 2026-05-20*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.10 sprint: Pillars 297–300 added; SPT-3G routing (CONSISTENT), Simons Observatory preregistration, Hyper-K running sensitivity timeline, Observatory Network Integration Dashboard (milestone P300); 211 new tests; 0 failures). Prior: v11.9 — new observables sprint: ACT DR6 deep analysis, proton decay prediction, LISA preregistration, WdW gap certificate, P17 upgrade attempt. Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 34,411 passed · 393 skipped · 12 deselected · 0 failed (canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no`)
-*(v11.7: seesaw-closure — Pillars 286–291 + JUNO DR1 preregistration package: 144 new tests added, total increases by +144 from v11.6 baseline of 34,267)*
+**Latest verified branch regression:** ~34,228 passed (in-sandbox, no sympy/lean4/xdiag/z3) · 408 skipped · 12 deselected · 0 failed
+*(v11.10: Pillars 297–300 — SPT-3G CMB routing, Simons Observatory preregistration, Hyper-K timeline, Observatory Network Integration Dashboard: 211 new tests added)*
 
 ---
 

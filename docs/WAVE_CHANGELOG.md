@@ -15,6 +15,84 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.10 (2026-05-20 — Ground-Based CMB Completion + Observatory Network Integration)
+
+Four new adjacent-track pillars (297–300): SPT-3G CMB routing, Simons Observatory preregistration,
+Hyper-K running sensitivity timeline, Observatory Network Integration Dashboard (milestone Pillar 300).
+Three outreach posts (210–212). 211 new tests. 0 failures.
+
+### What changed
+
+| Metric | v11.9 | v11.10 |
+|--------|-------|--------|
+| Passing tests | 34,017 (in-sandbox) | ~34,228+ (in-sandbox) |
+| Adjacent pillars | through 296 | through 300 |
+| New tests | — | +211 |
+| Failures | 0 | 0 |
+
+#### Pillar 297 — SPT-3G CMB Tensor-to-Scalar Ratio Routing
+
+Formally routes the UM predictions (n_s = 0.9635, r = 0.0315) against the SPT-3G 2022
+observational data (Balkenhol et al. 2023, arXiv:2212.05642): n_s pull = 0.55σ (CONSISTENT),
+r = 0.0315 < SPT-3G r < 0.036 (CONSISTENT).  Builds the complete ground-based CMB network
+summary table, showing SPT-3G as the second instrument (after BICEP/Keck) to return CONSISTENT
+on r — with ACT DR6 the sole HIGH_TENSION data point.  Preregisters routing thresholds for
+the forthcoming joint ACT DR6 + SPT-3G + Planck combined analysis (~2026–2027).
+
+#### Pillar 298 — Simons Observatory CMB Preregistration Package
+
+Formally preregisters the UM routing rules for the Simons Observatory (SO) Large Aperture
+Telescope, currently operational at the Atacama site.  SO is the first ground-based instrument
+projected to *detect* (not merely bound) r = 0.0315 at ~10σ (5-yr baseline, σ_r~0.003) or
+~5σ (DR1, σ_r~0.006).  Three routing outcomes preregistered at v11.10:
+  CONSISTENT      if r_meas ≥ 0.020
+  TENSION_MAINTAINED  if 0.010 ≤ r_meas < 0.020
+  FALSIFIED       if r_meas < 0.010 at ≥3σ measured
+DR1 expected ~2027; 5-yr ~2029.  This pillar fills the critical gap between ACT DR6
+(upper-limit-only) and CMB-S4 (decisive but ~2030).
+
+#### Pillar 299 — Hyper-Kamiokande Running Sensitivity Timeline
+
+Extends Pillar 293 (proton decay prediction) with a year-by-year sensitivity curve:
+HK Year-t sensitivity ≈ 5×10³⁴ × t yr (p→e⁺π⁰, 90%CL, linear exposure model).
+Provides the GUT model comparison table (UM vs. non-SUSY SU(5) [excluded], SUSY SU(5),
+SO(10), Flipped SU(5)) and the nuclear matrix element sensitivity band (±30% lattice QCD
+→ lifetime band [0.49τ, 1.69τ]).  Preregisters the year at which non-observation becomes
+tension vs. the UM GUT sector prediction.
+
+#### Pillar 300 — Observatory Network Integration Dashboard (Milestone)
+
+The "control tower" for all active UM preregistrations.  Aggregates 12 experiments in a
+single queryable table.  Call `observatory_network_status()` for the live network state,
+`query_experiment(name)` for a single-experiment deep-dive, `experiments_by_status(status)`
+to filter, `falsifier_priority_matrix()` for the 7 ranked falsifiers, and
+`upcoming_decision_windows()` for the 2027–2035 event timeline.  Framework status:
+STANDING.  Primary falsifier: LiteBIRD 2032.  P_falsifier_triggered: 0.
+
+### Epistemic label deltas
+
+None.  All new pillars are NON_HARDGATE_ADJACENT.  No claim labels, ToE score, or
+falsifier thresholds changed.  The ACT DR6 HIGH_TENSION on r is maintained.  The
+DESI DR2 HIGH_TENSION on wₐ is maintained.
+
+### Falsification impact
+
+None negative.  SPT-3G routing adds a CONSISTENT data point.  SO preregistration
+establishes the first clear measurement-capable decision point before CMB-S4.
+Hyper-K timeline preregisters year-by-year thresholds.  Pillar 300 makes the
+falsification programme machine-queryable for the first time.
+
+### Residual unknowns
+
+1. ACT DR6 r < 0.016 HIGH_TENSION remains irreducible in 5D-EFT (Pillar 292).
+   Resolution: SO DR1 (~2027) or CMB-S4 (~2030).
+2. DESI DR2 wₐ ≠ 0 at 2.75σ HIGH_TENSION unchanged (Pillar 285).
+   Resolution: DESI DR3 (~2027).
+3. P17 CONDITIONAL_DERIVATION (Δm²₃₁ via seesaw texture): JUNO (~2027).
+4. β birefringence: PENDING — LiteBIRD (~2032), primary falsifier.
+
+---
+
 ## v11.9 (2026-05-20 — New Observables + Honest Gaps)
 
 Five new adjacent-track pillars (292–296): ACT DR6 deep analysis, proton decay prediction, LISA preregistration, Wheeler–DeWitt certificate, P17 upgrade attempt. First quantum simulation physics output (FH braid ring spectrum). Two outreach posts (208–209). See full entry below.

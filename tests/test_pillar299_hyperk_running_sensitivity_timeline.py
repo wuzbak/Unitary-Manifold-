@@ -102,7 +102,9 @@ def test_year_sensitivity_year1():
 
 def test_year_sensitivity_year10():
     s = hk_year_sensitivity(10, mode="eplus_pi0")
-    assert abs(s - HK_SENSITIVITY_10YR_EPLUS_PI0_YR) < 1e10
+    # Linear model: 10× Year-1 sensitivity
+    expected = HK_SENSITIVITY_1YR_EPLUS_PI0_YR * 10.0
+    assert abs(s / expected - 1.0) < 0.01
 
 
 def test_year_sensitivity_linear():

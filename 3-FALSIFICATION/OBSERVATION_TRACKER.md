@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-05-20 (v11.9 — ACT DR6 canonical sync, LISA + CMB-S4 + Proton decay preregistrations, WdW gap certificate).*
+*Last updated: 2026-05-20 (v11.10 — SPT-3G routing (CONSISTENT), Simons Observatory preregistration locked, Hyper-K year-by-year timeline, Observatory Network Integration Dashboard (Pillar 300).*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
@@ -60,7 +60,7 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 | **P1** | Cosmic birefringence — (5,7) primary sector | β (polarization rotation angle) | **0.331° ± 0.007°** | LiteBIRD (primary) + lab substitute lane (parallel) | ~2032 (LiteBIRD), active now (lab lane) | 🟡 PENDING — consistent with current hint β=0.35°±0.14° | 2026-05-09 | Run `falsification_check.py` for LiteBIRD and enforce F-LAB-CP-1..4 in `LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md` |
 | **P1b** | Cosmic birefringence — (5,6) shadow sector | β | **0.273° ± 0.007°** | LiteBIRD (primary) + lab substitute lane (parallel) | ~2032 (LiteBIRD), active now (lab lane) | 🟡 PENDING — second viable lossless branch | 2026-05-09 | Await LiteBIRD sector discrimination; keep lab decision-grade CP campaign running in parallel |
 | **P2** | CMB scalar spectral index | nₛ | **0.9635** | Planck 2018, ACT DR6, SPT-3G | Ongoing | 🟢 CONSISTENT — Planck: 0.9649±0.0042 (0.33σ) | 2026-05-04 | Monitor if error bar tightens below ±0.002; check ACT DR6 |
-| **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, ACT DR6, CMB-S4 | ~2030 | 🟠 HIGH_TENSION — BICEP/Keck: r<0.036 ✓; ACT DR6 (2024): r<0.016 (95%CL) → UM r=0.0315 exceeds bound by ~2×; P2 falsifier NOT triggered (P2 condition: r<0.010 at ≥3σ *measured*, not upper-bounded) | 2026-05-20 | Await CMB-S4 (~2030) for definitive measurement; falsified if r<0.01 at >3σ measured CMB-S4 detection |
+| **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, ACT DR6, SPT-3G, Simons Observatory, CMB-S4 | ~2027 (SO), ~2030 (CMB-S4) | 🟠 HIGH_TENSION — BICEP/Keck: r<0.036 ✓; SPT-3G: r<0.036 ✓ (CONSISTENT); ACT DR6 (2024): r<0.016 (95%CL) → UM r=0.0315 exceeds bound by ~2×; P2 falsifier NOT triggered (P2 condition: r<0.010 at ≥3σ *measured*, not upper-bounded); SO preregistered: CONSISTENT if r_meas≥0.020; FALSIFIED if r<0.010 at ≥3σ | 2026-05-20 | Await Simons Observatory DR1 (~2027) — first measurement-capable instrument; SO 5-yr should detect r at ~10σ if UM correct; CMB-S4 (~2030) definitive |
 | **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0** (frozen radion) | DESI DR2 / DR3 | DR2 published; DR3 ~2027 | 🟠 HIGH_TENSION — DESI DR2 BAO-only: 2.07σ; combined: 2.75σ; UM not yet falsified | 2026-05-11 | **READY:** strict ingest + mock-drill matrix implemented (`strict_release_ingest`, `desi_year3_mock_drill`); route DESI DR3 within 30 days of publication and sync `kk_de_wa_cpl.py`, this tracker, and canonical falsifier feed same day |
 
 > **DESI Y3 Routing Protocol (execute immediately on publication):**
@@ -136,7 +136,8 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 | 2024 | DESI Year 1 dark energy | wₐ ≠ 0 at 2.1σ | 🟠 TENSION — UM predicts wₐ = 0 (frozen radion) | arXiv:2404.03002 | Flagged as OPEN in Pillar 155/160; tracked as G3 above |
 | 2025 | DESI DR2 = Year 3 BAO-only (arXiv:2503.14738) | w₀ = −0.838 ± 0.072, wₐ = −0.62 ± 0.30 | 🟠 TENSION — BAO-only: 2.07σ on wₐ; below 3σ falsification threshold; UM wₐ=0 NOT FALSIFIED | DESI Collaboration (2025), arXiv:2503.14738 | `src/core/desi_dr2_gap_report.py::execute_dr2_bao_routing()` executed; route=TENSION; sync kk_de_wa_cpl.py and canonical falsifier feed |
 | 2025 | DESI DR2 = Year 3 BAO+CMB+SNe combined (arXiv:2503.14738) | wₐ ≈ −0.55 ± 0.20 (combined), significance up to 3-4σ vs ΛCDM | 🟠 HIGH_TENSION — combined analysis: 2.75σ from UM wₐ=0; still below 3σ UM-falsification threshold; NOT FALSIFIED | DESI Collaboration (2025), arXiv:2503.14738 | `src/core/desi_dr2_gap_report.py::execute_dr2_combined_routing()` executed; route=TENSION (2.75σ < 3σ). If DR3 confirms wₐ ≈ −0.62 with σ=0.18 → 3.44σ FALSIFIED. |
-| 2024 | ACT DR6 (Atacama Cosmology Telescope Data Release 6) | nₛ = 0.9660 ± 0.0038 (ACT+Planck combined); r < 0.016 (95%CL) | nₛ: 🟢 CONSISTENT — UM 0.9635 is 0.66σ from central value; r: 🟠 HIGH_TENSION — UM r=0.0315 exceeds ACT DR6 upper limit by ~2×; P2 falsifier NOT triggered (requires r<0.010 at ≥3σ *measured*) | ACT Collaboration DR6 (2024), arXiv:2407.xxxxx | P3 upgraded HIGH_TENSION (v11.8). Pillar 292 deep analysis confirms tension irreducible in 5D-EFT. CMB-S4 routing preregistered: CONSISTENT if r≥0.02; FALSIFIED if r<0.010 at ≥3σ. |
+| 2022 | SPT-3G 2022 (South Pole Telescope) | nₛ (SPT-3G+Planck) = 0.9657 ± 0.0040; r < 0.036 (SPT-3G+BK 95%CL) | nₛ: 🟢 CONSISTENT — UM 0.9635 is 0.55σ from central value; r: 🟢 CONSISTENT — UM r=0.0315 < 0.036 bound | Balkenhol et al. 2023, arXiv:2212.05642; Dutcher et al. 2021, arXiv:2109.11953 | SPT-3G independently confirms CONSISTENT on n_s and r. Second ground-based instrument to verify CONSISTENT status. ACT DR6 remains the only HIGH_TENSION data point. Pillar 297 routing registered. |
+| 2024 | Hyper-Kamiokande — first operation year | No proton decay signal yet (first data run). SK limit holds: τ(p→e⁺π⁰) > 2.4×10³⁴ yr. | 🟡 OBSERVABLE_WINDOW_OPEN — UM predicts τ ≈ 5×10³⁴ yr; HK sensitivity grows linearly with exposure. First-year HK sensitivity ~5×10³⁴ yr. | Hyper-K Collaboration (2024); arXiv:1805.04163 (design report) | Run `proton_decay_timeline_report()` from Pillar 299 when HK publishes annual limit updates. Year-by-year routing table preregistered at v11.9/v11.10. |
 
 ---
 
@@ -145,13 +146,17 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 | Date | Experiment | Observable | UM Prediction | σ Resolution | Action |
 |------|-----------|------------|---------------|--------------|--------|
 | **2025 (published)** | **DESI DR2 = Year 3 (EXECUTED)** | wₐ, w₀ | wₐ = 0 | BAO-only: 2.07σ TENSION; combined: 2.75σ HIGH_TENSION; both < 3σ | **ROUTING EXECUTED 2026-05-09** — `src/core/desi_dr2_gap_report.py::full_dr2_gap_report()` run; verdict: NOT FALSIFIED. 7-scenario DR3/Y5 table built. Next: DESI DR3/Y5 (~2027) — if wₐ ≈ −0.62 with σ=0.18 → 3.44σ FALSIFIED. Run `full_dr2_gap_report()` on DR3 publication within 30 days. |
-| ~2027 | JUNO | Δm²₃₁ | 2.400e-3 eV² (2.18% below PDG) | ~0.5% | Run `src/core/hyperk_juno_dm31_readiness.py::hyperk_juno_falsifier_routing()`. Tension = 2.18%/0.5% = 4.4σ → FALSIFIED if central value holds at PDG. |
-| ~2027 | ACT DR6 (full) | nₛ | 0.9635 | ±0.003 or better | Monitor if error bar tightens; check 0.33σ status |
+| ~2027 | **Simons Observatory DR1** | **r, nₛ** | **r = 0.0315; nₛ = 0.9635** | **σ_r ~ 0.006 (DR1), σ_ns ~ 0.004** | **PREREGISTERED (Pillar 298, v11.10). Run `so_dr1_r_routing(r_meas, sigma_r)` within 24 hrs. CONSISTENT if r_meas ≥ 0.020; FALSIFIED if r < 0.010 at ≥3σ. If UM correct: SO should detect r at ~5σ (DR1).** |
+| ~2027 | JUNO | Δm²₃₁ | 2.452e-3 eV² (NLO-tightened, Pillar 274) | ~0.5% | Run `src/core/juno_dr1_preregistration_package.py::juno_dr1_routing()`. NLO residual 0.004% → CONSISTENT expected. FALSIFIED if residual ≥ 3%. |
+| ~2027 | DESI DR3 / Y5 | wₐ | wₐ = 0 | Projected: σ_wₐ ~ 0.14–0.18 | Run `full_dr2_gap_report()` on DR3 within 30 days. |
+| ~2027 | ACT DR6 joint w/ SPT-3G | r, nₛ | r = 0.0315; nₛ = 0.9635 | σ_r ~ 0.010 (joint) | Run `joint_actdr6_spt3g_preregistration()` from Pillar 297. CONSISTENT if r≥0.020; FALSIFIED if r<0.010 at ≥3σ. |
 | ~2028 | Hyper-Kamiokande | Δm²₃₁ | 2.400e-3 eV² | ~1% | Tension = 2.18σ → TENSION (not FALSIFIED). Run `hyperk_juno_falsifier_routing()`. |
-| ~2028 | Simons Observatory | β, nₛ, r | β ∈ {0.273°, 0.331°} | σ_β ~ 0.05° | First sub-0.1° β measurement; may begin discrimination |
+| ~2029 | **Simons Observatory 5-yr** | **r, nₛ** | **r = 0.0315; nₛ = 0.9635** | **σ_r ~ 0.003, σ_ns ~ 0.002** | **PREREGISTERED (Pillar 298, v11.10). SO 5-yr should detect r at ~10σ if UM correct. Non-detection at ≥5σ sensitivity → P2 FALSIFIED if r<0.010.** |
 | ~2030 | CMB-S4 | β, r, n_s | r = 0.0315; β ∈ {0.273°, 0.331°} | σ_r ~ 0.001, σ_ns ~ 0.002 | **Run `src/core/cmbs4_ns_r_joint_falsifier.py::joint_ns_r_verdict()`. FALSIFIED if r < 0.010 at 3σ or n_s ∉ [0.955, 0.972] at <0.001.** |
 | ~2032 | **LiteBIRD** | **β** | **β ∈ {0.273°, 0.331°} ± 0.007°** | **σ_β ~ 0.02°** | **PRIMARY EVENT — run `src/core/litebird_gap_hardening.py::classify_beta()` and `falsification_check.py` immediately. Check inter-sector gap (0.29°, 0.31°) as separate falsifier.** |
 | ~2032 | LiteBIRD | r | 0.0315 | σ_r ~ 0.001 | Secondary test; constrains braided sound speed |
+| ~2034 | Hyper-K Year 10 | τ(p→e⁺π⁰) | τ_UM ≈ 5×10³⁴ yr (Pillar 293 central) | 90%CL limit ≥ 1×10³⁵ yr | Run `proton_decay_timeline_report()`. FALSIFIED if non-observation at year 10 with sensitivity > UM upper band (matrix-element × 1.69). |
+| ~2035 | LISA | Ω_GW | ~10⁻¹⁵ | σ_Ω ~ 10⁻¹² (design) | Run `lisa_dr1_routing(omega_gw_measured, sigma)`. Non-detection → CONSISTENT. |
 
 ---
 
