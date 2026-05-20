@@ -95,11 +95,16 @@ ELLS_PER_RS: float = math.pi * 13800.0 / 144.7  # ≈ 299.7
 DELTA_KK_REF: float = 8.0e-4
 ELL_KK_REF: float = 100.0
 
-#: Canonical EE/TT ratio in ΛCDM at the first acoustic peak (ℓ ≈ 300)
-R_POL_LCDM_PEAK1: float = 0.28   # approximate Planck 2018 best-fit value
+#: Canonical EE/TT ratio in ΛCDM at the first acoustic peak (ℓ ≈ 300).
+#: APPROXIMATE: Planck 2018 best-fit value; varies ~15% depending on
+#: foreground model and multipole range (cf. Planck 2018 V, Table 1).
+#: Full Boltzmann codes (CAMB/CLASS) give 0.25–0.31 across models.
+R_POL_LCDM_PEAK1: float = 0.28          # approximate; ±0.03 (Planck 2018)
 
-#: FWHM of the first acoustic peak in ℓ (ΛCDM, Planck 2018 fit)
-FWHM_PEAK1_LCDM: float = 150.0   # ℓ units
+#: FWHM of the first acoustic peak in ℓ (ΛCDM, Planck 2018 fit).
+#: APPROXIMATE: inferred from Planck 2018 power spectrum; model-dependent.
+#: Range across ΛCDM parameter variations: ~130–170 ℓ units.
+FWHM_PEAK1_LCDM: float = 150.0          # approximate; ±20 ℓ units
 
 
 # ---------------------------------------------------------------------------

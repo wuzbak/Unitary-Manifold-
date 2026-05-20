@@ -9,9 +9,16 @@ Physical context
 ----------------
 At the Planck length, the smooth 5D Kaluza-Klein manifold transitions to a
 discrete foam of Planck-area patches.  The S¹/Z₂ boundary conditions of the
-Unitary Manifold quantize the area spectrum exactly, with the quantum set
-entirely by k_cs = 74 (the Chern-Simons level derived from the (5,7) braid
-pair) — no new postulates are required.
+Unitary Manifold suggest a quantized area spectrum by analogy with Loop Quantum
+Gravity (LQG), with the area quantum set by k_cs = 74 (the Chern-Simons level
+derived from the (5,7) braid pair) — no new postulates beyond the UM ansatz
+are required for this analogy.
+
+Epistemic caveat: This is a STRUCTURAL ANALOGY, not a first-principles
+derivation from the UM action.  A full derivation would require a spin-foam
+quantization of the 5D KK metric, which is not performed here.  The claim is
+that IF the UM admits a spin-foam quantization, THEN k_cs replaces the Immirzi
+parameter.  This is a predictive conjecture, not a proved theorem.
 
 Area spectrum
 ~~~~~~~~~~~~~
