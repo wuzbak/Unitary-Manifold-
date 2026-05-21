@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v11.12 — Unambiguous Record**  
+**The Unitary Manifold v11.14 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-20 (v11.12 2027 readiness sprint — Pillars 306–308: Jarlskog Layer 2 constraint + n_w χ² tracker (P306); Lab CP P8 PREREGISTERED_v11.12 (P307); 2027 mock-drill audit DESI/JUNO/SO drill-verified READY (P308); ~350 new tests; 0 failures)*
+*Last updated: 2026-05-21 (v11.14 Rigor Synthesis & n_w Exclusion Sprint — Pillar 312 n_w=7 exclusion certificate; WAVE_CHANGELOG v11.13 filled; arXiv v11.13 sync; 4 outreach posts 217–220; 95 new tests; 0 failures)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
