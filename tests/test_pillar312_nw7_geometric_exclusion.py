@@ -207,7 +207,7 @@ def test_constraint_c_k_eff_nw7():
 
 def test_constraint_c_action_ratio():
     result = cs_action_comparison()
-    assert abs(result["action_ratio_nw7_over_nw5"] - 130 / 74) < 1e-9
+    assert abs(result["action_ratio_nw7_over_nw5"] - K_CS_NW7 / K_CS_NW5) < 1e-9
 
 def test_constraint_c_dominant_saddle_is_nw5():
     result = cs_action_comparison()

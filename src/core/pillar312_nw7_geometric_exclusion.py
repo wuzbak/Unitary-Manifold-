@@ -131,7 +131,7 @@ the n_s prediction (Constraint D).  This constraint provides complementary
 information: the braided r_eff for n_w=7 is ~2.2× smaller than for n_w=5,
 which could in principle be tested by a precision r measurement (SO DR1, CMB-S4).
 
-Status: CS_SOUND_SPEED_DISCRIMINATOR  (distinguishes brads, not an exclusion)
+Status: CS_SOUND_SPEED_DISCRIMINATOR  (distinguishes braids, not an exclusion)
 
 ══════════════════════════════════════════════════════════════════════════════
 COMBINED VERDICT
