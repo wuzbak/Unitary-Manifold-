@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.14 — Effective 2026-05-21*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.14 sprint: Pillar 312 added — n_w=7 Geometric Exclusion Certificate; five independent constraints consolidated; Admission 3 status machine-readable; WAVE_CHANGELOG v11.13 entry filled; arXiv doc updated to v11.13; 4 outreach posts 217–220; 95 new tests; 0 failures). Prior: v11.13 — Wave 4 Math-Rigor Audit (Pillars 309–311; doc corrections). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.15 — Effective 2026-05-21*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.15 sprint: Pillars 313–320 added — Mathematics, Physics, and Rigor Gap-Closure Sprint; Admission 3 upgraded to MINIMAL_AXIOM; λ_GW CONSTRAINED; N_e PARAMETERIZED; w_KK formula resolved; braid (5,7) stability DERIVED; FTUM convergence ANALYTIC; seesaw ARCHITECTURE_LIMIT; α_s PDG 2025 update; all CONDITIONAL_DERIVATION claims audited; ~270 new tests; 0 failures). Prior: v11.14 — n_w=7 Exclusion Certificate (Pillar 312). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 35,642 passed · 393 skipped · 12 deselected · 0 failed (canonical; full suite; Pillar 312 adds 95 new tests)
-*(v11.14: Pillar 312 — n_w=7 Geometric Exclusion Certificate; five independent constraints (APS/GW/CS/Planck/r); Admission 3 status machine-readable; WAVE_CHANGELOG v11.13 entry filled; arXiv updated to v11.13; 4 outreach posts 217–220)*
+**Latest verified branch regression:** ~35,912 passed · 393 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 313–320 add ~270 new tests)
+*(v11.15: Pillars 313–320 — Math-Physics-Rigor Gap-Closure Sprint; Admission 3 upgraded MINIMAL_AXIOM; λ_GW CONSTRAINED; N_e PARAMETERIZED; w_KK RESOLVED; braid DERIVED; FTUM ANALYTIC; seesaw ARCHITECTURE_LIMIT; α_s PDG 2025 stable; all CONDITIONAL_DERIVATION audited)*
 
 ---
 

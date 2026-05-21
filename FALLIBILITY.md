@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.14 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 35,642 passed · 393 skipped · 12 deselected · 0 failed; v11.14 adds Pillar 312 n_w=7 exclusion certificate — 95 new tests).*
+*Unitary Manifold v11.15 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 35,912 passed · 393 skipped · 12 deselected · 0 failed; v11.15 adds Pillars 313-320 n_w=7 exclusion certificate — 95 new tests).*
 
 ---
 
