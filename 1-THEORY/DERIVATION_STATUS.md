@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v11.14 — Unambiguous Record**  
+**The Unitary Manifold v11.15 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-21 (v11.14 Rigor Synthesis & n_w Exclusion Sprint — Pillar 312 n_w=7 exclusion certificate; WAVE_CHANGELOG v11.13 filled; arXiv v11.13 sync; 4 outreach posts 217–220; 95 new tests; 0 failures)*
+*Last updated: 2026-05-21 (v11.15 Math-Physics-Rigor Gap-Closure Sprint — Pillars 313-320; Admission 3 MINIMAL_AXIOM; λ_GW CONSTRAINED; N_e PARAMETERIZED; w_KK RESOLVED; braid DERIVED; FTUM ANALYTIC; seesaw ARCHITECTURE_LIMIT; α_s PDG 2025 stable; ~270 new tests; 0 failures)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
