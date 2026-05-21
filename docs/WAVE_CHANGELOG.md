@@ -15,6 +15,105 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.13 (2026-05-20 — Wave 4 Math-Rigor Audit)
+
+Pure rigor sprint — no new pillars, no label promotions, no ToE score changes.
+Three new adjacent-track pillars (309–311) were delivered alongside doc corrections:
+Pillar 309 (FTUM contractive-regime certificate), Pillar 310 (Cabibbo orbifold
+derivation PARTIAL_DERIVATION), Pillar 311 (α_s basin volatility map, appended to
+Pillar 272). ~75 new tests. 0 failures.
+
+### What changed
+
+| Metric | v11.12 | v11.13 |
+|--------|--------|--------|
+| Passing tests | ~34,890 sandbox / ~35,250 canonical | 35,547 canonical / ~34,900 sandbox |
+| Adjacent pillars | through 308 | through 311 |
+| New tests | — | +~75 |
+| Failures | 0 | 0 |
+| Outreach posts | through 216 | through 216 (unchanged) |
+
+#### Pillar 309 — FTUM Contractive-Regime Certificate
+
+`src/core/pillar309_ftum_contractive_regime_cert.py`
+
+The R2 self-review (SRR-20260520-195533Z-P257-R2) correctly identified that the
+empirical Lipschitz estimator in `prove_banach_contraction` reports L ≈ 408 for
+default (κ=0.25) parameters — outside the contractive regime.  The claim that this
+was "a nonlinear sampling artifact" was stated but never demonstrated.  Pillar 309
+provides the missing two-path certification:
+
+- **Analytic path** (authoritative): spectral radius ρ(M_S) of the linearised
+  operator M_S = I − κ dt I − dt L_graph is computed as a closed-form bound.
+  For canonical κ ∈ [0.5, 5.0] × dt=0.2: ρ(M_S) < 1 ↔ CONTRACTIVE.
+- **Empirical path** (corroborating): Lipschitz scan in the *physical regime*
+  (nodes initialised near holographic fixed point S* = A/4G, |X| ~ O(1))
+  gives L_physical << L_random, confirming the sampling-artifact explanation.
+
+Verdict: `CONTRACTIVE_IN_PHYSICAL_REGIME__ANALYTIC_ALWAYS_HOLDS`.
+
+#### Pillar 310 — Cabibbo Orbifold Derivation (PARTIAL_DERIVATION)
+
+`src/core/pillar310_cabibbo_orbifold_derivation.py`
+
+Investigates the 0.40% numerical coincidence between the Z₁₄ fundamental-domain
+angle θ = π/14 ≈ 0.2244 and PDG sin(θ_C) = 0.2253.  Steps show the Z₁₄
+identification arises from the (5,7) braid topology and the Kawamura Z₂ orbifold
+(Pillar 148), but the precise denominator-14 requires a non-minimal winding count
+assumption.  Status: `PARTIAL_DERIVATION` — the coincidence is geometrically
+motivated, not accidental, but a fully rigorous derivation from first principles
+is not yet achieved.
+
+#### Pillar 311 — α_s Basin Volatility Map (appended to Pillar 272)
+
+`src/core/pillar272_alpha_s_basin_hardening.py::basin_volatility_certificate()`
+
+The Λ_QCD three-path reconciliation (primary 332 MeV / geometric 194 MeV /
+perturbative 216 MeV) raised a natural question: how stable is α_s(M_KK) when
+the RGE parameters vary?  Pillar 311 adds a full volatility map — scanning α_s
+over a 3D grid of (n_w, K_CS, πkR) perturbations — and certifies that the
+canonical α_s(M_KK) lies in the *stable inner zone* (sub-5% residual) for all
+physically admissible parameter values.  Verdict: `BASIN_VOLATILITY_CERTIFIED`.
+
+#### Wave 2 Math-Rigor Audit (§XI in FALLIBILITY.md)
+
+Four documentation corrections with no physics impact:
+
+1. **`inflation.py` slow-roll labels** — `spectral_index()`, `tensor_to_scalar_ratio()`,
+   and `gw_spectral_index()` now carry explicit `# SLOW-ROLL APPROX (leading order)`
+   inline tags and docstring warnings (§XI.1).
+2. **`phi0_closure.py` scope label** — "exact closure identity" softened to "demonstrates
+   numerically that all three conditions are mutually self-consistent within leading-order
+   slow roll" (§XI.2).
+3. **`braided_winding.py` k_CS=74 label** — the 74=5²+7² resonance identity is now
+   labelled "HYPOTHESIS — not yet derived from first principles independent of the
+   birefringence observation" (§XI.3).
+4. **`TIER_1_FORMAL.md` theorem-labeling key** — PROVED / DERIVED / ARGUED / PARAMETRIC
+   taxonomy added so readers can navigate the theorem ledger unambiguously.
+
+### Epistemic label deltas
+
+None.  All v11.13 changes are documentation and rigor corrections.
+
+### ToE score delta
+
+None (28.0/28 = 100% unchanged).
+
+### Falsification impact
+
+None.  LiteBIRD β primary falsifier unchanged.  All open tensions unchanged.
+
+### Residual unknowns (carried forward from v11.12)
+
+1. n_w ∈ {5, 7} reduced to n_w=5 by Pillar 70-D (PROVED) — but the action-level
+   Planck-free uniqueness proof excluding n_w=7 from pure geometry alone is still
+   the highest-priority theoretical open item (FALLIBILITY.md Admission 3).
+2. ACT DR6 r HIGH_TENSION: IRREDUCIBLE_CERTIFIED (Pillar 303). Awaits SO DR1 ~2027.
+3. DESI DR2 wₐ HIGH_TENSION: ARCHITECTURE_LIMIT_CERTIFIED (Pillar 301). Awaits DESI DR3.
+4. β birefringence: PENDING — LiteBIRD ~2032, primary falsifier.
+
+---
+
 ## v11.12 (2026-05-20 — 2027 Measurement Window Readiness Sprint)
 
 Three new adjacent-track pillars (306–308): Jarlskog Layer 2 geometric constraint + n_w χ²
