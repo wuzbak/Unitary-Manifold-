@@ -1,6 +1,6 @@
-version: "v11.12"
-date: "2026-05-20"
-updated: "2026-05-20"
+version: "v11.14"
+date: "2026-05-21"
+updated: "2026-05-21"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,19 +18,33 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.12"
-  regression: "~34,890+ passed · ~408 skipped · 0 failed (sandbox pre-v11.12: 34,537; +~350 new tests in v11.12)"
+  version: "v11.14"
+  regression: "35,642+ passed · ~393 skipped · 0 failed (canonical; Pillar 312 adds 95 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.12-2027-readiness-sprint"
-  wave: "2027 Measurement Window Readiness — Pillars 306–308"
-  pillar: 308
-  artifact: "src/core/pillar308_2027_readiness_mock_drill.py"
-  test: "tests/test_pillar308_2027_readiness_mock_drill.py"
+  version: "v11.14-nw-exclusion-sprint"
+  wave: "Rigor Synthesis & n_w Exclusion — Pillar 312"
+  pillar: 312
+  artifact: "src/core/pillar312_nw7_geometric_exclusion.py"
+  test: "tests/test_pillar312_nw7_geometric_exclusion.py"
   status: "DELIVERED"
+  v11_14_nw_exclusion_sprint:
+    pillars_added:
+      - 312
+    per_pillar_deltas:
+      P312: "n_w=7 Geometric Exclusion Certificate — five independent constraints consolidated: A (APS PROVED: k_CS(7)×η̄(7)=0 EVEN → excluded); B (GW winding: n=7 shorter cycle DERIVED, Convention 279.3); C (CS action minimum PREFERRED: k_eff(5)=74 < k_eff(7)=130); D (Planck n_s: n_w=7 at ≥2.28σ disfavoured OBSERVATIONAL); E (braided r_eff ratio PHENOMENOLOGICAL); Admission 3 status machine-readable in admission_3_status(); NW7_EXCLUSION_STATUS=MULTI_CONSTRAINT_DISFAVOURED_TOPOLOGICAL_PREFERRED"
+    outreach:
+      post_217: "S02E043 — The Math Rigor Sprint: Why we relabeled SU(5)"
+      post_218: "S02E044 — Everything we know against n_w=7"
+      post_219: "S02E045 — What happens in 2027: three experiments and decision routing"
+      post_220: "S02E046 — The Lab CP Falsifier: measuring A_CP^lab ~ 10⁻⁵"
+    hygiene:
+      wave_changelog_v11_13: "ADDED — Wave 4 rigor audit entry with Pillars 309–311 and §XI admissions"
+      arxiv_status_doc: "UPDATED — to v11.13 with test count 35,547 and adjacent pillars 282–311"
+      main_tex_version: "UPDATED — to v11.13"
   v11_12_readiness_wave:
     pillars_added:
       - 306

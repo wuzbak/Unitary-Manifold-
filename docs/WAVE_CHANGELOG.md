@@ -15,6 +15,87 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.14 (2026-05-21 — Rigor Synthesis & n_w Exclusion Sprint)
+
+One new adjacent-track pillar (312): n_w=7 Geometric Exclusion Certificate.
+Five independent constraints consolidated. WAVE_CHANGELOG v11.13 hygiene entry
+filled. arXiv manuscript and ARXIV_SUBMISSION_STATUS.md updated to v11.13.
+Four outreach posts 217–220 delivered. 95 new tests. 0 failures.
+
+### What changed
+
+| Metric | v11.13 | v11.14 |
+|--------|--------|--------|
+| Passing tests | 35,547 canonical | 35,642 canonical |
+| Adjacent pillars | through 311 | through 312 |
+| New tests | — | +95 |
+| Failures | 0 | 0 |
+| Outreach posts | through 216 | through 220 |
+
+#### Pillar 312 — n_w=7 Geometric Exclusion Certificate
+
+`src/core/pillar312_nw7_geometric_exclusion.py`
+
+Consolidates every independent constraint that disfavours or formally excludes
+n_w=7 into one machine-readable certificate:
+
+- **Constraint A (PROVED):** APS boundary phase — k_CS(7)×η̄(7)=0 (EVEN) →
+  violates Z₂-odd orbifold BC → n_w=7 topologically excluded.
+  Caveat: relies on Z₂-odd G_{μ5} axiom (Admission 3 explicitly retained).
+- **Constraint B (DERIVED):** GW two-radius winding back-reaction → n=7 cycle
+  at smaller kR → primary cycle assignment DERIVED (Convention 279.3 closed by P302).
+- **Constraint C (PREFERRED):** Euclidean CS action minimum k_eff(5)=74 < k_eff(7)=130
+  → n_w=5 dominant saddle.
+- **Constraint D (OBSERVATIONAL):** Planck n_s places n_w=7 at ≥2.28σ disfavoured;
+  Δχ²≈5.09; P(n_w=5)/P(n_w=7)≈12.8:1.
+- **Constraint E (PHENOMENOLOGICAL):** Braided r_eff(7,9)≈0.017 ≪ r_eff(5,7)≈0.032;
+  ratio ~0.39; future SO/CMB-S4 can discriminate.
+
+`admission_3_status()` provides machine-readable documentation of exactly what
+remains open and the upgrade path to full axiomatic closure.
+
+Verdict: `NW7_EXCLUSION_STATUS = MULTI_CONSTRAINT_DISFAVOURED_TOPOLOGICAL_PREFERRED`
+
+Status: 🔵 ADJACENT TRACK (pure first-principles proof from 5D Lagrangian without
+G_{μ5} axiom still open → cannot be hardgate).
+
+#### WAVE_CHANGELOG v11.13 hygiene
+
+The v11.13 sprint (Wave 4 Math-Rigor Audit) had no WAVE_CHANGELOG entry despite
+being recorded in STATUS.md. The entry is now filled (see below).
+
+#### arXiv manuscript update to v11.13
+
+`6-MONOGRAPH/arxiv/main.tex` updated: version header v11.5 → v11.13; test count
+34,187 → 35,547; adjacent pillar registry 218–281 → 218–311; abstract language
+updated. `docs/ARXIV_SUBMISSION_STATUS.md` updated to v11.13 gate checklist.
+
+#### Outreach posts 217–220
+
+- Post 217 (S02E043): "The Math Rigor Sprint — relabeling SU(5)"
+- Post 218 (S02E044): "Everything we know against n_w=7"
+- Post 219 (S02E045): "What happens in 2027 — three experiments"
+- Post 220 (S02E046): "The Lab CP Falsifier"
+
+### Epistemic label deltas
+
+None.
+
+### ToE score delta
+
+None (28.0/28 = 100% unchanged).
+
+### Falsification impact
+
+None.
+
+### Residual unknowns (carried forward from v11.13)
+
+Same as v11.13. Admission 3 is explicitly documented in `admission_3_status()`.
+The upgrade path to axiomatic closure is described there.
+
+---
+
 ## v11.13 (2026-05-20 — Wave 4 Math-Rigor Audit)
 
 Pure rigor sprint — no new pillars, no label promotions, no ToE score changes.

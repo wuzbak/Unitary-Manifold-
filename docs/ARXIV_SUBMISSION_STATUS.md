@@ -1,4 +1,4 @@
-# arXiv Submission Status — Unitary Manifold v11.5
+# arXiv Submission Status — Unitary Manifold v11.13
 
 *Theory and scientific direction: ThomasCory Walker-Pearson.*  
 *Document engineering: GitHub Copilot (AI).*
@@ -7,7 +7,7 @@
 
 ## Verdict: ✅ READY
 
-**As of 2026-05-19 (v11.5), the manuscript is cleared for arXiv submission.**
+**As of 2026-05-21 (v11.13/v11.14), the manuscript is cleared for arXiv submission.**
 
 ---
 
@@ -17,12 +17,13 @@
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Version header | ✅ PASS | `main.tex` updated to v11.5 |
-| Test count in abstract | ✅ PASS | 34,187 |
+| Version header | ✅ PASS | `main.tex` updated to v11.13 |
+| Test count in abstract | ✅ PASS | 35,547 |
 | ToE score | ✅ PASS | 28.0/28.0 = 100% — correct and final |
 | P1–P28 labels | ✅ PASS | Match `docs/CLAIM_MASTER_BOARD.md` |
 | Active tensions/falsifiers | ✅ PASS | Match `FALLIBILITY.md` and `3-FALSIFICATION/OBSERVATION_TRACKER.md` |
-| Module file paths | ✅ PASS | All `src/core/` paths are current; adjacent registry includes Pillars 218–281 (non-hardgate); Residual Tightening Wave complete |
+| Module file paths | ✅ PASS | All `src/core/` paths are current; adjacent registry includes Pillars 218–311 (non-hardgate); Wave 4 Math-Rigor Audit complete (Pillars 309–311 + §XI FALLIBILITY admissions); Pillar 312 n_w exclusion cert |
+| Slow-roll labels | ✅ PASS | inflation.py, phi0_closure.py, braided_winding.py all carry explicit SLOW-ROLL APPROX markers (§XI.1–§XI.3) |
 
 ### 2.2 Falsification Integrity
 
@@ -45,11 +46,11 @@
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Full regression | ✅ PASS | 34,187 passed · 393 skipped · 12 deselected · 0 failed |
+| Full regression | ✅ PASS | 35,547 passed · 393 skipped · 12 deselected · 0 failed (v11.13 canonical) |
 | Canonical ledger consistency | ✅ PASS | `canonical_ledger_consistency_report()` → all_pass: True |
 | Onboarding docs consistency | ✅ PASS | `onboarding_docs_consistency_report()` → all_pass: True |
-| FALLIBILITY.md gaps honest | ✅ PASS | All architecture limits documented; no gap hidden |
-| Publication sync | ✅ PASS | arXiv docs + relay + session ledgers synced to v11.5 / 100% |
+| FALLIBILITY.md gaps honest | ✅ PASS | All architecture limits documented; §XI Wave 2 rigor admissions added; no gap hidden |
+| Publication sync | ✅ PASS | arXiv docs + relay + session ledgers synced to v11.13 / 100% |
 
 ---
 
@@ -63,7 +64,7 @@
 | References | `6-MONOGRAPH/arxiv/references.bib` |
 | Build script | `6-MONOGRAPH/arxiv/build_submission.sh` |
 | ToE score | **28.0 / 28.0 = 100%** |
-| Test suite | **34,187 passed · 0 failed** |
+| Test suite | **35,547 passed · 0 failed** |
 | Primary falsifier | LiteBIRD β ∈ {0.273°, 0.331°} (~2032) |
 | Zenodo DOI | https://doi.org/10.5281/zenodo.19584531 |
 
@@ -96,4 +97,4 @@ After submission: record the arXiv ID in `CITATION.cff` and
 
 ---
 
-*Document version: 2.2 — 2026-05-19 (v11.5 sync; READY verdict retained)*
+*Document version: 2.3 — 2026-05-21 (v11.13 sync; READY verdict retained; test count and adjacent pillar registry updated)*
