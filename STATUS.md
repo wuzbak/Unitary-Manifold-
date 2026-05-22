@@ -31,7 +31,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** ~36,806 passed · 414 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 334–338 add ~284 new tests; ORD adds 71 tests)
+**Latest verified branch regression:** 37,089 passed · 393 skipped · 0 failed (full suite, all pip-installable optional deps: sympy 1.14, mpmath 1.3, z3 4.16, jax 0.10.1, wandb 0.27; slow-test tier included; 2026-05-22 clean-room run; SRR-20260522-163000Z-v2)
 *(v11.18: Pillars 334–338 — Precision Falsifier & Routing Sprint: JUNO 2027 Full Prediction Package, Simons Observatory r=0.0315 Verification Protocol, DESI DR3 Real-Time Routing Engine, CMB Quadrupole Full Amplitude Mechanism, KK Baryogenesis Washout Quantification; Observatory Routing Daemon)*
 
 ---
