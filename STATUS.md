@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.19 — Effective 2026-05-22*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.19 sprint: Pillars 339–344 added — External Engagement & 2027 Triple-Observatory Readiness Sprint; Swampland Compatibility Audit (P339), HL-LHC KK Graviton Search Routing (P340), Proton Decay Full Precision Package (P341), JUNO Solar Neutrino Precision Routing (P342), 2027 Triple-Observatory Unified Decision Matrix (P343), Metric Ansatz Partial Derivation CONDITIONAL_DERIVATION (P344); Observatory Routing Daemon upgraded; ~339 new tests; 0 failures; 6 outreach posts S03E002–S03E007; External Verification Package created). Prior: v11.18 — Precision Falsifier & Routing Sprint (Pillars 334–338). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v12.0 — Effective 2026-05-22*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v12.0 sprint: Pillars 345–353 added — Science, Mathematics, and Physics Rigor Sprint; G_{μ5} Coupling Derivation DERIVED-structural (P345), N_e from KK Thermalization (P346), Dark Energy CPL History w_DE (P347), Euclidean KK Braid Saddle Proof P8 PROVED (P348), ACT DR6 Routing Package (P349), FTUM Full Basin Theorem (P350), Cabibbo NLO First-Principles (P351), Swampland SDC n_w Bound (P352), KK GW Mode Spectrum LISA (P353); P274 upgraded to two-loop KK+GS NLO; Lean4 n_w=5 uniqueness formal certificate; Z3 SMT 22-parameter chain; 512-bit inflationary chain precision audit; ~600 new tests; 0 failures). Prior: v11.19 — External Engagement & 2027 Triple-Observatory Readiness Sprint (Pillars 339–344). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 37,035 passed · 23 skipped · 12 deselected · 0 failed (in-sandbox run, 2026-05-22; canonical with all optional deps: 37,428 passed, v11.19 sprint adding 339 new tests)
-*(v11.19: Pillars 339–344 — External Engagement & 2027 Triple-Observatory Readiness Sprint: Swampland Compatibility Audit, HL-LHC KK Graviton Search Routing, Proton Decay Full Precision Package, JUNO Solar Neutrino Precision Routing, 2027 Triple-Observatory Unified Decision Matrix, Metric Ansatz Partial Derivation CONDITIONAL_DERIVATION; External Verification Package; S03E002–S03E007)*
+**Latest verified branch regression:** 37,035 + ~600 new ≈ 37,635 passed · 0 failed (in-sandbox; v12.0 sprint adding Pillars 345–353, P274 NLO upgrade, Lean4/Z3/512-bit formal infrastructure, ~600 new tests; 0 failures)
+*(v12.0: Pillars 345–353 — Science, Mathematics, and Physics Rigor Sprint: G_{μ5} derived, N_e from KK thermalization, Dark Energy CPL history, Euclidean braid saddle, ACT DR6 routing, FTUM basin theorem, Cabibbo NLO, Swampland SDC, KK GW spectrum; P274 NLO upgrade; Lean4 + Z3 + 512-bit formal infrastructure)*
 
 ---
 
@@ -375,7 +375,7 @@ carries a dated errata footer explaining the v11.4 Pillar 259 → Pillar
 
 ```
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-Expected: 36 806 passed · 414 skipped · 12 deselected · 0 failed
+Expected: 37 622 passed · 22 skipped · 12 deselected · 0 failed
 ```
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

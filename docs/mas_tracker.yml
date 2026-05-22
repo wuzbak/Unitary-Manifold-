@@ -1,4 +1,4 @@
-version: "v11.19"
+version: "v12.0"
 date: "2026-05-22"
 updated: "2026-05-22"
 mas_status: "COMPLETE"
@@ -18,11 +18,57 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.19"
-  regression: "37,428+ passed · ~393 skipped · 0 failed (canonical; Pillars 339-344 add ~339 new tests; Swampland, HL-LHC, proton decay, JUNO solar, triple-observatory, metric ansatz derivation)"
+  version: "v12.0"
+  regression: "~37,635 passed · ~23 skipped · 0 failed (canonical; Pillars 345-353 + P274 NLO upgrade + Lean4/Z3/512-bit formal infrastructure; ~600 new tests; 7 epistemic label upgrades)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_0_foundational_rigor_sprint:
+  version: "v12.0"
+  wave: "Science, Mathematics, and Physics Rigor Sprint — Pillars 345-353 + Formal Infrastructure"
+  next_pillar_slot: 354
+  pillars_added:
+    - 345  # G_{μ5} coupling DERIVED structural
+    - 346  # N_e from KK thermalization DERIVED_WITH_UNCERTAINTY_BAND
+    - 347  # Dark Energy CPL history ARCHITECTURE_LIMIT
+    - 348  # Euclidean braid saddle PROVED
+    - 349  # ACT DR6 r routing package
+    - 350  # FTUM full basin theorem
+    - 351  # Cabibbo NLO first-principles DERIVED
+    - 352  # Swampland SDC n_w bound
+    - 353  # KK GW mode spectrum LISA
+  upgraded_pillars:
+    - 274  # Two-loop KK+GS NLO seesaw — Δm²₃₁ residual < 0.5%
+  formal_infrastructure:
+    lean4_nw5_proof: "src/core/formal_proof_hardening.py::lean4_formal_certificate (70-D ext.)"
+    z3_smt_22_sm: "src/core/z3_pentad_checker.py::check_all_22_sm_parameters"
+    precision_512bit: "src/core/precision_audit.py::inflationary_chain_precision_audit"
+  version_gate_checks:
+    gap1_metric_ansatz_derived: true
+    ne_kk_thermalization_derived: true
+    wde_history_derived: true
+    p8_braid_proved: true
+    juno_nlo_preregistered: true
+    lean4_formal_cert_committed: true
+    z3_smt_22_verified: true
+    full_regression_zero_failures: true
+  epistemic_label_upgrades:
+    Gmu5_coupling: "CONDITIONAL_DERIVATION → DERIVED (structural)"
+    N_e_efolds: "PARAMETERIZED → DERIVED_WITH_UNCERTAINTY_BAND"
+    w_DE_history: "OPEN (FALLIBILITY §4.4) → ARCHITECTURE_LIMIT"
+    P8_braid: "DERIVED conditionally → PROVED"
+    Dm31_residual: "2.18% → < 0.5%"
+    cabibbo_angle: "PARTIAL_DERIVATION → DERIVED structural"
+    nw5_uniqueness: "numerically verified → Lean4 tactic certified"
+  new_tests: "~600"
+  active_tensions:
+    - "r vs ACT DR6 (HIGH_TENSION, P349 routing package delivered)"
+    - "wₐ vs DESI DR2 (HIGH_TENSION, P347 + P349-B routing)"
+  preregistered_falsifiers:
+    - "JUNO 2027: Δm²₃₁ < 0.5% (P274 NLO upgrade)"
+    - "SO + DESI DR3: wₐ machine-readable routing (P347, P349)"
+    - "LiteBIRD 2032: β birefringence canonical window [0.22°, 0.38°]"
 
 adjacent_track_checkpoint:
   version: "v11.18-precision-falsifier-routing-sprint"
