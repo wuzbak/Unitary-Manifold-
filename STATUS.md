@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.16 — Effective 2026-05-22*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.16 sprint: Pillars 321–328 added — Discovery Physics Sprint; eEDM Barr-Zee, LFV BR(μ→eγ), Leptogenesis η_B, EW Oblique S/T/U, BBN N_eff, SGWB Phase Transition, Neutron EDM Strong CP, CKM Cabibbo Anomaly; ~318 new tests; 0 failures). Prior: v11.15 — Math-Physics-Rigor Gap-Closure Sprint (Pillars 313–320). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.17 — Effective 2026-05-22*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.17 sprint: Pillars 329–333 added — Deep Integration Sprint; Thermal Universe Closure, Bayesian Model Comparison UM vs ΛCDM/MSSM, CMB Quadrupole Topology, Neutrino Mass Ordering (JUNO falsifier), KK Phase Transition Baryogenesis; ~292 new tests; 0 failures). Prior: v11.16 — Discovery Physics Sprint (Pillars 321–328). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** ~36,230 passed · 414 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 321–328 add ~318 new tests)
-*(v11.16: Pillars 321–328 — Discovery Physics Sprint: eEDM Barr-Zee KK, LFV BR(μ→eγ/3e), Leptogenesis η_B geometric seesaw, EW Oblique S/T/U KK tower, BBN N_eff KK consistency, SGWB KK phase transition, Neutron EDM strong CP PQ, CKM Cabibbo anomaly first-row unitarity)*
+**Latest verified branch regression:** ~36,522 passed · 414 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 329–333 add ~292 new tests)
+*(v11.17: Pillars 329–333 — Deep Integration Sprint: Thermal Universe Closure, Bayesian Model Comparison UM vs ΛCDM/MSSM, CMB Quadrupole Topology Prediction, Neutrino Mass Ordering Hard Prediction + JUNO 2027 falsifier, KK Phase Transition Baryogenesis)*
 
 ---
 
