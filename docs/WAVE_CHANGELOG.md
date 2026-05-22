@@ -15,6 +15,57 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.17 (2026-05-22 — Deep Integration Sprint: Five Depth-Integration Pillars 329–333)
+
+Five new adjacent-track pillars assembling previously scattered UM results into
+unified deep-integration modules: complete thermal timeline, Bayesian model
+comparison, CMB large-scale topology, neutrino mass ordering, and KK baryogenesis.
+
+### What changed
+
+| Metric | v11.16 | v11.17 |
+|--------|--------|--------|
+| Passing tests | ~36,230 canonical | ~36,522 canonical |
+| In-sandbox tests | 35,679 | 35,971 |
+| Adjacent pillars | through 328 | through 333 |
+| New test files | — | 5 (one per pillar) |
+| New falsifiers preregistered | — | 2 (JUNO 2027 ordering, LiteBIRD β) |
+
+### New pillars
+
+| Pillar | Module | Physics | Key result |
+|--------|--------|---------|------------|
+| 329 | pillar329_thermal_universe_closure | Thermal Universe Closure from n_w=5, K_CS=74 | Complete thermal timeline T_KK→T_CMB; KK GW peak f~7 mHz in LISA band; PATH_BC_GAP 20% at T_QCD honest |
+| 330 | pillar330_bayesian_model_comparison | Bayesian Model Comparison UM vs ΛCDM+SM vs MSSM | Occam factor: ΛCDM+SM pays ~136 nats (prior volume) vs UM 0 nats; decisive Occam advantage; LL depends on σ_theory |
+| 331 | pillar331_cmb_topology_quadrupole | CMB Quadrupole/Octopole from S¹/Z₂ Braiding | IR suppression f_braid = n_w/K_CS = 6.8% at ℓ=2; direction CORRECT, magnitude insufficient (6.8% vs 40-60% observed); partial mechanism |
+| 332 | pillar332_neutrino_mass_ordering | Neutrino Mass Ordering: Normal Hierarchy | CONDITIONAL_DERIVATION from KK mode n=0,1,2 Sturm-Liouville ordering; Δm²₃₁ > 0 → NORMAL ordering; JUNO 2027 falsifier PREREGISTERED |
+| 333 | pillar333_kk_baryogenesis | KK Phase Transition Baryogenesis | All three Sakharov conditions satisfied at T_KK; η_B estimate 2×10⁻⁶ × washout factor; order-of-magnitude consistent; distinct from Pillar 323 ARCHITECTURE_LIMIT |
+
+### Epistemic label deltas
+
+- Pillar 332: **Normal Hierarchy — PREREGISTERED** (JUNO 2027; inverted ordering at ≥3σ falsifies Pillar 42 Z₂ orbifold mode structure)
+- Pillar 333: **KK Baryogenesis — MECHANISM_VIABLE** (distinct from P323 thermal leptogenesis ARCHITECTURE_LIMIT)
+- Pillar 330: **Bayesian Occam factor documented** (ΛCDM+SM prior volume penalty ~136 nats; LL requires σ_theory per claim)
+
+### TOE score delta
+
+None — all five pillars are adjacent-track (NON_HARDGATE_ADJACENT or HARDGATE_ADJACENT extension). Hardgate ToE score 28/28 unchanged.
+
+### Falsification impact
+
+- **JUNO 2027** (Pillar 332): Inverted neutrino ordering at ≥3σ → falsifies Z₂ orbifold three-generation mechanism
+- **LiteBIRD ~2032** (Pillars 329, 331): β ∈ {0.273°, 0.331°} remains primary falsifier
+- **LISA ~2035** (Pillars 329, 333): KK GW signal at f~7 mHz; Ω_GW h² at edge of sensitivity
+
+### Residual unknowns
+
+- T_QCD residual 20% (PATH_BC_GAP, soft-wall systematic) — not falsification
+- CMB quadrupole full amplitude unexplained (6.8% mechanism vs 40-60% observed)
+- KK baryogenesis washout factor has O(100) uncertainty — lattice calculation needed
+- Bayesian LL advantage requires σ_theory per claim for precise computation
+
+---
+
 ## v11.16 (2026-05-22 — Discovery Physics Sprint: Eight New Experimental Frontiers)
 
 Eight new adjacent-track physics pillars (321–328) opening new experimental prediction
