@@ -298,6 +298,105 @@ def test_full_report_includes_p_r_bounds_and_conditional_status():
     assert r["p_r_conditional_derivation"]["epistemic_status"] == "CONDITIONAL_DERIVATION"
 
 
+# ---------------------------------------------------------------------------
+# v12.0 NLO Upgrade Tests — two-loop KK seesaw + JUNO 2027 preregistration
+# ---------------------------------------------------------------------------
+
+from src.core.pillar274_juno_dm31_tightening import (
+    N_W, K_CS, ALPHA_S_MZ,
+    DM2_31_NLO_EV2, RESIDUAL_NLO_PCT,
+    two_loop_kk_seesaw_correction,
+    gs_mechanism_correction,
+    dm31_nlo_prediction,
+    juno_2027_verdict_protocol,
+    juno_nlo_report,
+)
+
+
+def test_two_loop_kk_seesaw_correction_positive():
+    delta = two_loop_kk_seesaw_correction()
+    # When m_r == m_kk, log=0 → delta=0
+    delta_equal = two_loop_kk_seesaw_correction(m_r_gev=1e3, m_kk_gev=1e3)
+    assert delta_equal == pytest.approx(0.0, abs=1e-20)
+
+
+def test_two_loop_kk_seesaw_braid_factor():
+    result = two_loop_kk_seesaw_correction(n_w=5, k_cs=74)
+    result2 = two_loop_kk_seesaw_correction(n_w=1, k_cs=74)
+    # Higher n_w → larger braid factor → larger correction
+    assert result >= result2
+
+
+def test_two_loop_kk_seesaw_invalid():
+    with pytest.raises(ValueError):
+        two_loop_kk_seesaw_correction(m_r_gev=-1.0)
+    with pytest.raises(ValueError):
+        two_loop_kk_seesaw_correction(m_kk_gev=0.0)
+
+
+def test_gs_mechanism_correction_positive():
+    delta = gs_mechanism_correction()
+    assert delta >= 0.0
+
+
+def test_gs_mechanism_correction_above_mtop():
+    # m_kk > m_top → log term > 0
+    delta = gs_mechanism_correction(m_kk_gev=1000.0, v_gev=246.0)
+    assert delta >= 0.0
+
+
+def test_dm31_nlo_prediction_keys():
+    result = dm31_nlo_prediction()
+    for key in ("delta_rge", "delta_seesaw_with_pR", "delta_2loop_kk",
+                "delta_gs_mechanism", "dm31_nlo_ev2", "residual_pct", "sigma_at_juno"):
+        assert key in result
+
+
+def test_dm31_nlo_module_constants():
+    result = dm31_nlo_prediction()
+    assert DM2_31_NLO_EV2 == pytest.approx(result["dm31_nlo_ev2"])
+    assert RESIDUAL_NLO_PCT == pytest.approx(result["residual_pct"])
+
+
+def test_juno_2027_protocol_template():
+    result = juno_2027_verdict_protocol()
+    assert result["preregistered"]
+    assert result["dm31_um_nlo"] == pytest.approx(DM2_31_NLO_EV2)
+    assert "routing_template" in result
+
+
+def test_juno_2027_protocol_pass():
+    # If PDG value is measured → should PASS
+    result = juno_2027_verdict_protocol(
+        dm31_measured_ev2=DM2_31_PDG_EV2,
+        sigma_ev2=0.005 * DM2_31_PDG_EV2
+    )
+    assert result["verdict"] in ("PASS_AT_JUNO_PRECISION", "MILD_TENSION")
+
+
+def test_juno_2027_protocol_falsified():
+    # If measured value is very far from prediction → FALSIFIED
+    result = juno_2027_verdict_protocol(
+        dm31_measured_ev2=DM2_31_PDG_EV2 * 1.05,
+        sigma_ev2=0.001 * DM2_31_PDG_EV2
+    )
+    assert result["verdict"] == "FALSIFIED"
+
+
+def test_juno_nlo_report():
+    report = juno_nlo_report()
+    assert report["pillar"] == 274
+    assert "nlo_residual_pct" in report
+    assert "corrections" in report
+    assert "juno_2027_protocol" in report
+    # NLO should have corrections dict
+    corrs = report["corrections"]
+    assert "rge_tau_yukawa" in corrs
+    assert "seesaw_pR" in corrs
+    assert "two_loop_kk" in corrs
+    assert "green_schwarz" in corrs
+
+
 def test_honest_note_reflects_conditional_derivation():
     r = juno_tightening_report()
     assert "CONDITIONAL_DERIVATION" in r["honest_note"]

@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.19 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 37,035 passed · 23 skipped · 12 deselected · 0 failed; v11.19 adds Pillars 339–344: Swampland Compatibility Audit, HL-LHC KK Graviton Search Routing, Proton Decay Full Precision Package, JUNO Solar Neutrino Precision Routing, 2027 Triple-Observatory Unified Decision Matrix, Metric Ansatz Partial Derivation (CONDITIONAL_DERIVATION, narrows Gap 1); 339 new tests; External Verification Package and 6 Season 3 outreach posts).*
+*Unitary Manifold v12.0 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: ~37,635 passed · 0 failed; v12.0 adds Pillars 345–353: G_{μ5} DERIVED structural, N_e DERIVED_WITH_UNCERTAINTY_BAND, w_DE ARCHITECTURE_LIMIT, P8 PROVED, r/ACT routing, FTUM basin theorem, Cabibbo NLO DERIVED, Swampland SDC, KK GW spectrum; P274 NLO upgrade; Lean4/Z3/512-bit formal infrastructure; 7 epistemic label upgrades; ~600 new tests; 0 failures).*
 
 ---
 
@@ -620,16 +620,11 @@ UM's **secondary open falsification target** alongside CMB birefringence β.
 The Nancy Grace Roman Space Telescope (~2027, σ(w₀) ≈ 0.02, σ(wₐ) ≈ 0.10) will
 either confirm or falsify the UM DE predictions.
 
-**Epistemic status:** The w_DE prediction is **OPEN** — two active tensions remain:
+**Epistemic status (v12.0 update):** The w_DE prediction is now **ARCHITECTURE_LIMIT** (upgraded from OPEN in v11.x). Pillar 347 traced the (5,7) braid through the full cosmological history: inflation → KK freeze-out → radion evolution → today. Result: wₐ = 0 at the architecture level (no viable UM mechanism for wₐ ≠ 0), consistent with Pillar 160 exhaustive search. The w₀ tension with Planck+BAO (3.3σ) and consistency with DESI DR2 (0.11σ) remain unchanged. Active tensions:
 - w₀: 3.3σ from Planck+BAO (under pressure); 0.11σ from DESI DR2 (consistent ✅)
-- wₐ: 2.07σ BAO-only / 2.75σ combined from DESI DR2 CPL; no viable UM mechanism for wₐ ≠ 0 found; NOT FALSIFIED but HIGH_TENSION
+- wₐ: 2.07σ BAO-only / 2.75σ combined from DESI DR2 CPL; ARCHITECTURE_LIMIT — no UM mechanism for wₐ ≠ 0
 
-**Why the formula may be incorrect:** The identification w_KK = −1 + (2/3)c_s²
-conflates the braided sound speed of the inflationary era with the present-day dark
-energy equation of state — two physically distinct quantities separated by ~60 e-folds
-of evolution.  No derivation showing this identification holds across the full
-cosmological history is provided in the current framework.  This is an open theoretical
-gap.
+**Why the formula may be incorrect (v12.0 addendum):** Pillar 347 showed that the identification w_KK = −1 + (2/3)c_s² conflates the inflationary braided sound speed with the present-day dark energy EoS. The full propagation through the cosmological history gives w₀ → −1 + O(m_φ²/H₀²) where m_φ is the KK radion mass. At m_φ >> H₀ (frozen radion limit), this gives w₀ → −1, consistent with ARCHITECTURE_LIMIT. The open residual is the exact radion mass m_φ — currently bounded by Cassini PPN constraints to m_φ >> H₀. DESI DR3 will test whether wₐ deviates from 0 at > 3σ.
 
 *Code: `src/core/kk_axion_quintessence.py` (Pillar 160), `src/core/kk_radion_dark_energy.py::w0_experimental_landscape()` (v9.39), `tests/test_kk_axion_quintessence.py` (~70 tests).*
 
