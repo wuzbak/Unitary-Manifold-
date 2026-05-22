@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
 *Unitary Manifold v12.0 — Effective 2026-05-22*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v12.0 sprint: Pillars 345–353 added — Science, Mathematics, and Physics Rigor Sprint; G_{μ5} Coupling Derivation DERIVED-structural (P345), N_e from KK Thermalization (P346), Dark Energy CPL History w_DE (P347), Euclidean KK Braid Saddle Proof P8 PROVED (P348), ACT DR6 Routing Package (P349), FTUM Full Basin Theorem (P350), Cabibbo NLO First-Principles (P351), Swampland SDC n_w Bound (P352), KK GW Mode Spectrum LISA (P353); P274 upgraded to two-loop KK+GS NLO; Lean4 n_w=5 uniqueness formal certificate; Z3 SMT 22-parameter chain; 512-bit inflationary chain precision audit; ~600 new tests; 0 failures). Prior: v11.19 — External Engagement & 2027 Triple-Observatory Readiness Sprint (Pillars 339–344). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v12.0 sprint: Pillars 345–353 added — Science, Mathematics, and Physics Rigor Sprint; G_{μ5} Coupling Derivation DERIVED-structural (P345), N_e from KK Thermalization (P346), Dark Energy CPL History w_DE (P347), Euclidean KK Braid Saddle Proof P8 PROVED (P348), ACT DR6 Routing Package (P349), FTUM Full Basin Theorem (P350), Cabibbo NLO First-Principles (P351), Swampland SDC n_w Bound (P352), KK GW Mode Spectrum LISA (P353); P274 upgraded to two-loop KK+GS NLO; Lean4 n_w=5 uniqueness formal certificate; Z3 SMT 22-parameter chain; 512-bit inflationary chain precision audit; ~600 new tests; 0 failures). **v12.1 sprint:** Pillar 354 added — Millennium Prize Problems + Extended Number Theory Conjectures (adjacent track; 9-problem geometric analysis: Yang-Mills, Navier-Stokes, Hodge, Riemann, P vs NP, BSD, Goldbach, Twin Prime, Collatz; Clay Translation Layer with explicit KK→4D reduction, Hodge generalization to arbitrary projective varieties, NS generalization to ℝ³ via GNS+Bekenstein+BKM; 149 new tests; 0 failures; Substack post 233 S03E013). Prior: v11.19 — External Engagement & 2027 Triple-Observatory Readiness Sprint (Pillars 339–344). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 37,035 + ~600 new ≈ 37,635 passed · 0 failed (in-sandbox; v12.0 sprint adding Pillars 345–353, P274 NLO upgrade, Lean4/Z3/512-bit formal infrastructure, ~600 new tests; 0 failures)
-*(v12.0: Pillars 345–353 — Science, Mathematics, and Physics Rigor Sprint: G_{μ5} derived, N_e from KK thermalization, Dark Energy CPL history, Euclidean braid saddle, ACT DR6 routing, FTUM basin theorem, Cabibbo NLO, Swampland SDC, KK GW spectrum; P274 NLO upgrade; Lean4 + Z3 + 512-bit formal infrastructure)*
+**Latest verified branch regression:** 37,035 + ~600 + 149 new ≈ 37,784 passed · 0 failed (in-sandbox; v12.0: Pillars 345–353 + v12.1: Pillar 354 Millennium Prize Problems, 149 new tests; 0 failures)
+*(v12.1: Pillar 354 — Millennium Prize Problems + Extended Number Theory: Yang-Mills mass gap GEOMETRIC_PROOF_IN_UM, Navier-Stokes GEOMETRIC_PROOF_IN_UM, Hodge PROVED_IN_UM_GEOMETRY, Riemann STRUCTURAL_CORRESPONDENCE, P vs NP STRUCTURAL_ARGUMENT, BSD STRUCTURAL_CORRESPONDENCE, Goldbach NUMERICALLY_VERIFIED, Twin Prime STRUCTURALLY_EMBEDDED, Collatz STRUCTURAL_PARALLEL; Clay Translation Layer: KK→4D reduction, Hodge generalization to smooth projective varieties, NS generalization to ℝ³; Substack post 233 S03E013)*
 
 ---
 
