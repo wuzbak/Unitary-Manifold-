@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.18 — Effective 2026-05-22*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.18 sprint: Pillars 334–338 added — Precision Falsifier & Routing Sprint; JUNO 2027 Full Prediction Package, Simons Observatory r=0.0315 Verification Protocol, DESI DR3 Real-Time Routing Engine, CMB Quadrupole Full Amplitude Mechanism, KK Baryogenesis Washout Quantification; Observatory Routing Daemon (ORD) introduced; ~284 new tests; 0 failures). Prior: v11.17 — Deep Integration Sprint (Pillars 329–333). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.19 — Effective 2026-05-22*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.19 sprint: Pillars 339–344 added — External Engagement & 2027 Triple-Observatory Readiness Sprint; Swampland Compatibility Audit (P339), HL-LHC KK Graviton Search Routing (P340), Proton Decay Full Precision Package (P341), JUNO Solar Neutrino Precision Routing (P342), 2027 Triple-Observatory Unified Decision Matrix (P343), Metric Ansatz Partial Derivation CONDITIONAL_DERIVATION (P344); Observatory Routing Daemon upgraded; ~339 new tests; 0 failures; 6 outreach posts S03E002–S03E007; External Verification Package created). Prior: v11.18 — Precision Falsifier & Routing Sprint (Pillars 334–338). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 37,089 passed · 393 skipped · 0 failed (full suite, all pip-installable optional deps: sympy 1.14, mpmath 1.3, z3 4.16, jax 0.10.1, wandb 0.27; slow-test tier included; 2026-05-22 clean-room run; SRR-20260522-163000Z-v2)
-*(v11.18: Pillars 334–338 — Precision Falsifier & Routing Sprint: JUNO 2027 Full Prediction Package, Simons Observatory r=0.0315 Verification Protocol, DESI DR3 Real-Time Routing Engine, CMB Quadrupole Full Amplitude Mechanism, KK Baryogenesis Washout Quantification; Observatory Routing Daemon)*
+**Latest verified branch regression:** 37,035 passed · 23 skipped · 12 deselected · 0 failed (in-sandbox run, 2026-05-22; canonical with all optional deps: 37,428 passed, v11.19 sprint adding 339 new tests)
+*(v11.19: Pillars 339–344 — External Engagement & 2027 Triple-Observatory Readiness Sprint: Swampland Compatibility Audit, HL-LHC KK Graviton Search Routing, Proton Decay Full Precision Package, JUNO Solar Neutrino Precision Routing, 2027 Triple-Observatory Unified Decision Matrix, Metric Ansatz Partial Derivation CONDITIONAL_DERIVATION; External Verification Package; S03E002–S03E007)*
 
 ---
 

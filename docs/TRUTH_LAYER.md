@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v11.8
+# Unitary Manifold v11.19
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v11.19 update: Two active HIGH_TENSION signals maintained. Metric ansatz Gap 1 narrowed
+from "fully postulated" to "CONDITIONAL_DERIVATION" (Pillar 344: RS1 + CSS theorem +
+diffeomorphism invariance derive G_{55}=φ², G_{μ5}=λφB_μ; remaining postulate: Λ₅<0
+from AdS₅ bulk). Swampland audit (Pillar 339): not in Swampland by any criterion
+that does not equally exclude standard large-field inflation. External Verification
+Package created for the three most checkable mathematical claims.*
 
 *For the concise gatekeeper-facing version, see `docs/GATEKEEPER_SUMMARY.md`.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*

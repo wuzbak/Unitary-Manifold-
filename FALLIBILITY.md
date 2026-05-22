@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v11.18 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 36,806 passed · 414 skipped · 12 deselected · 0 failed; v11.18 adds Pillars 313-320 n_w=7 exclusion certificate — 95 new tests).*
+*Unitary Manifold v11.19 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 37,035 passed · 23 skipped · 12 deselected · 0 failed; v11.19 adds Pillars 339–344: Swampland Compatibility Audit, HL-LHC KK Graviton Search Routing, Proton Decay Full Precision Package, JUNO Solar Neutrino Precision Routing, 2027 Triple-Observatory Unified Decision Matrix, Metric Ansatz Partial Derivation (CONDITIONAL_DERIVATION, narrows Gap 1); 339 new tests; External Verification Package and 6 Season 3 outreach posts).*
 
 ---
 
