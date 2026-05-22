@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v11.12
+# Unitary Manifold v11.19
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-20 (v11.12 — 2027 Measurement Window Readiness Sprint: Pillars 306–308: Jarlskog Layer 2 + n_w χ² tracker HARDENED (P306); Lab CP P8 PREREGISTERED_v11.12 (P307); 2027 mock-drill DRILL_VERIFIED_READY_v11.12 (P308). ~350 new tests. 0 failures.)*
+*Last updated: 2026-05-22 (v11.19 — External Engagement & 2027 Triple-Observatory Readiness Sprint: Pillars 339–344 added — Swampland Compatibility Audit (P339), HL-LHC KK Graviton Search Routing (P340), Proton Decay Full Precision Package (P341), JUNO Solar Neutrino Precision Routing (P342), 2027 Triple-Observatory Unified Decision Matrix (P343), Metric Ansatz Partial Derivation CONDITIONAL_DERIVATION (P344). 6 Season 3 outreach posts (S03E002–S03E007). External Verification Package created. ~339 new tests. 0 failures. Canonical test count: 37,428 passing.)*
 
 *P17 note: Pillar 296 full 3×3 WS-V texture diagonalization confirms p_R upgrade is not achievable within 5D-EFT. P17 remains CONDITIONAL_DERIVATION. JUNO safety maintained (NLO chain 0.004% residual). SEESAW_TEXTURE_FULL_EXACT_WS_V_DIAGONALIZATION gap certified as architecture limit.*
 
