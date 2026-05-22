@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.17 — Effective 2026-05-22*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.17 sprint: Pillars 329–333 added — Deep Integration Sprint; Thermal Universe Closure, Bayesian Model Comparison UM vs ΛCDM/MSSM, CMB Quadrupole Topology, Neutrino Mass Ordering (JUNO falsifier), KK Phase Transition Baryogenesis; ~292 new tests; 0 failures). Prior: v11.16 — Discovery Physics Sprint (Pillars 321–328). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.18 — Effective 2026-05-22*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.18 sprint: Pillars 334–338 added — Precision Falsifier & Routing Sprint; JUNO 2027 Full Prediction Package, Simons Observatory r=0.0315 Verification Protocol, DESI DR3 Real-Time Routing Engine, CMB Quadrupole Full Amplitude Mechanism, KK Baryogenesis Washout Quantification; Observatory Routing Daemon (ORD) introduced; ~284 new tests; 0 failures). Prior: v11.17 — Deep Integration Sprint (Pillars 329–333). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** ~36,522 passed · 414 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 329–333 add ~292 new tests)
-*(v11.17: Pillars 329–333 — Deep Integration Sprint: Thermal Universe Closure, Bayesian Model Comparison UM vs ΛCDM/MSSM, CMB Quadrupole Topology Prediction, Neutrino Mass Ordering Hard Prediction + JUNO 2027 falsifier, KK Phase Transition Baryogenesis)*
+**Latest verified branch regression:** ~36,806 passed · 414 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 334–338 add ~284 new tests; ORD adds 71 tests)
+*(v11.18: Pillars 334–338 — Precision Falsifier & Routing Sprint: JUNO 2027 Full Prediction Package, Simons Observatory r=0.0315 Verification Protocol, DESI DR3 Real-Time Routing Engine, CMB Quadrupole Full Amplitude Mechanism, KK Baryogenesis Washout Quantification; Observatory Routing Daemon)*
 
 ---
 
