@@ -1,6 +1,6 @@
-version: "v11.15"
-date: "2026-05-21"
-updated: "2026-05-21"
+version: "v11.16"
+date: "2026-05-22"
+updated: "2026-05-22"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,16 +18,16 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.15"
-  regression: "35,912+ passed · ~393 skipped · 0 failed (canonical; Pillars 313-320 add ~270 new tests)"
+  version: "v11.16"
+  regression: "36,230+ passed · ~414 skipped · 0 failed (canonical; Pillars 321-328 add ~318 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.15-math-rigor-sprint"
-  wave: "Rigor Synthesis & n_w Exclusion — Pillar 312"
-  pillar: 312
+  version: "v11.16-discovery-physics-sprint"
+  wave: "Discovery Physics Sprint — Pillars 321-328"
+  pillar: 328
   artifact: "src/core/pillar312_nw7_geometric_exclusion.py"
   test: "tests/test_pillar312_nw7_geometric_exclusion.py"
   status: "DELIVERED"

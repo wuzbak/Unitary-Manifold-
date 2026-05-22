@@ -15,7 +15,63 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
-## v11.15 (2026-05-21 — Mathematics, Physics, and Rigor: Gap-Closure Sprint)
+## v11.16 (2026-05-22 — Discovery Physics Sprint: Eight New Experimental Frontiers)
+
+Eight new adjacent-track physics pillars (321–328) opening new experimental prediction
+windows: eEDM, LFV, Leptogenesis, EW oblique, BBN, Gravitational waves, Neutron EDM,
+and CKM unitarity.  The sakharov_um_audit leptogenesis gap is explicitly closed at
+ARCHITECTURE_LIMIT.  All 318 new tests pass; 0 regressions.
+
+### What changed
+
+| Metric | v11.15 | v11.16 |
+|--------|--------|--------|
+| Passing tests | ~35,912 canonical | ~36,230 canonical |
+| In-sandbox tests | 35,361 | 35,679 |
+| Adjacent pillars | through 320 | through 328 |
+| New test files | — | 8 (one per pillar) |
+| Experimental predictions | — | 8 new quantitative windows |
+
+### New pillars
+
+| Pillar | Module | Physics | Key result |
+|--------|--------|---------|------------|
+| 321 | pillar321_electron_edm_kk_barr_zee | Electron EDM from KK Barr-Zee | d_e below JILA/ACME III; PMNS phase channel dominant |
+| 322 | pillar322_lepton_flavor_violation_kk | LFV BR(μ→eγ, μ→3e) | Below MEG II; in Mu3e reach |
+| 323 | pillar323_leptogenesis_geometric_seesaw | Leptogenesis η_B from geometric seesaw | ARCHITECTURE_LIMIT — standard leptogenesis requires M_R ~ 6×10¹⁴ GeV, above UM 5D cutoff; closes sakharov_um_audit gap |
+| 324 | pillar324_ew_oblique_kk_tower | EW oblique S,T,U from KK tower | S_KK ~ 0.22 (known RS1 S tension at ~2σ LEP); T_KK ~ 0.002 from braid kinetic mixing; FCC-ee will probe |
+| 325 | pillar325_bbn_neff_kk_consistency | BBN N_eff consistency | ΔN_eff^{KK} ≈ 0; BBN_CONSISTENT; CMB-S4 cannot detect |
+| 326 | pillar326_sgwb_kk_phase_transition | SGWB from KK phase transition | f_peak ~ mHz in LISA band; Ω_GW h² at edge of LISA sensitivity |
+| 327 | pillar327_neutron_edm_strong_cp | Neutron EDM + axion from UM PQ | θ_res (3-loop) ~ 5×10⁻¹¹; d_n ~ 2.6×10⁻²⁶ e·cm; at current nEDM frontier |
+| 328 | pillar328_ckm_cabibbo_anomaly | CKM first-row unitarity | UM exact unitarity; KK W makes apparent deficit larger (anomaly not explained by UM) |
+
+### Epistemic label deltas
+
+- Leptogenesis gap: **OPEN → ARCHITECTURE_LIMIT** (Pillar 323 closes sakharov_um_audit item)
+- d_n at nEDM frontier: **NEW** (θ_res ~ 5×10⁻¹¹ is within factor 1.5 of nEDM@PSI 2020 bound)
+- S parameter tension: **DOCUMENTED** (RS1 S ~ 0.22 is the known 2σ tension of minimal RS1; custodial SU(2) or fermion bulk masses needed to reduce it)
+
+### ToE score delta
+
+None — all pillars are NON_HARDGATE_ADJACENT.  ToE score remains 28.0/28 (100%).
+
+### Falsification impact
+
+- **Pillar 321** (eEDM): ACME III (target 10⁻³⁰ e·cm) — UM prediction ~10⁻³⁴–10⁻³² e·cm; null detection consistent
+- **Pillar 322** (LFV): MEG II (< 4.2×10⁻¹³) — UM prediction below; Mu3e will probe further
+- **Pillar 326** (SGWB): LISA (f ~ mHz, Ω ~ 10⁻¹⁰–10⁻¹²) — edge of detectability; negative result constrains α
+- **Pillar 327** (nEDM): nEDM2 (target 10⁻²⁷) — UM θ_res gives d_n ~ 2.6×10⁻²⁶; current data borderline
+- **Pillar 328** (CKM): Belle II/LHCb sin(2β) measurement — UM prediction 0.823; current 0.699 ± 0.017 gives 7σ tension!
+
+### Residual unknowns
+
+- Pillar 321: Exact sin(δ_CS^{braid}) requires full topology computation; PMNS channel better constrained
+- Pillar 324: RS1 S tension requires custodial SU(2) extension or brane kinetic terms
+- Pillar 328: Wolfenstein sin(2β) prediction 0.823 vs observed 0.699 is a 7σ tension — requires full Wolfenstein parameter refitting (currently using Pillar 215/306 intermediate values)
+
+---
+
+
 
 Eight new adjacent-track rigor pillars (313–320) addressing the residual honest
 gaps documented in FALLIBILITY.md, DERIVATION_STATUS.md, and CLAIM_MASTER_BOARD.md.
