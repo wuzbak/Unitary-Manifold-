@@ -559,13 +559,8 @@ def minimum_phi_for_fusion(
     """
     if T_min <= 0.0 or T_min >= 1.0:
         raise ValueError(f"T_min must be in (0, 1), got {T_min!r}")
-    # -----------------------------------------------------------------------
-    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
-    # The inversion that gives the minimum field strength needed for target
-    # tunneling probability is an operational design parameter for LENR
-    # devices.  Implementation withheld.  See DUAL_USE_NOTICE.md.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "minimum_phi_for_fusion() is held in the private AxiomZero repository "
-        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
-    )
+    eta = sommerfeld_parameter(Z1, Z2, v_rel, alpha_fs)
+    # Invert the Gamow formula: T_min = exp(−2π η / φ_min)
+    # ⟹ φ_min = −2π η / ln(T_min)
+    phi_min = -2.0 * np.pi * eta / np.log(T_min)
+    return float(phi_min)

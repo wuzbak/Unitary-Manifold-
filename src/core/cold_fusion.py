@@ -843,15 +843,53 @@ def cold_fusion_rate(
     if T_K <= 0.0:
         raise ValueError(f"T_K must be positive, got {T_K}")
     # -----------------------------------------------------------------------
-    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
-    # The absolute cold-fusion reaction rate per cm³/s is the core figure of
-    # merit for LENR device design.  Implementation withheld.
-    # See DUAL_USE_NOTICE.md.
+    # Thermonuclear reaction rate <σv> using the Gamow peak approximation.
+    #
+    # <σv> = √(8/(π m_r c²)) × c × (1/kT)^{3/2}
+    #        × ∫ S₀(E) × exp(−2 G₅(E) − E/kT) dE
+    #
+    # where the integral is evaluated numerically over a window ±4×Δ_G
+    # centred on the Gamow peak energy E_G.
+    #
+    # S₀ is converted from keV·barn to eV·cm²: 1 keV·barn = 1e-21 eV·cm².
+    # c = 3e10 cm/s.  m_r c² is the D+D reduced mass in eV.
     # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "cold_fusion_rate() is held in the private AxiomZero repository "
-        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    kT_eV = K_B_EV_PER_K * T_K
+    E_G_eV = gamow_peak_energy(Z_DEUTERON, Z_DEUTERON, MU_DD_AMU, T_K)
+
+    # Gamow-window width estimate (Gaussian approximation at peak)
+    delta_G = (4.0 / 3.0) * np.sqrt(E_G_eV * kT_eV)
+
+    # Integration grid: ±4×Δ_G around E_G
+    E_lo = max(kT_eV * 0.01, E_G_eV - 4.0 * delta_G)
+    E_hi = E_G_eV + 4.0 * delta_G
+    E_arr = np.linspace(E_lo, E_hi, 400)
+
+    # S-factor in eV·cm²  (1 keV·barn = 1e3 eV × 1e-24 cm² = 1e-21 eV·cm²)
+    S0_eV_cm2 = S0_keV_barn * 1.0e-21
+
+    # 5D Gamow factors over the grid
+    G5_arr = np.array(
+        [gamow_5d(Z_DEUTERON, Z_DEUTERON, E, MU_DD_AMU,
+                  phi_vacuum, phi_lattice, c_s, n_w)
+         for E in E_arr]
     )
+    integrand = S0_eV_cm2 * np.exp(-2.0 * G5_arr - E_arr / kT_eV)  # eV·cm²
+
+    # Speed of light in cm/s
+    c_light = 2.99792458e10
+
+    # Reduced mass in eV
+    mu_eV = MU_DD_AMU * AMU_MEV * 1.0e6  # AMU → MeV → eV
+
+    # Pre-factor: √(8/(π m_r c²)) × c × (1/kT)^{3/2}  [cm³·s⁻¹·eV⁻{3/2}]
+    # Units: √(1/eV) × (cm/s) × eV^{-3/2} × (eV·cm²·eV) = cm³/s ✓
+    prefactor = np.sqrt(8.0 / (np.pi * mu_eV)) * c_light / kT_eV ** 1.5
+
+    sigma_v = prefactor * float(np.trapz(integrand, E_arr))  # cm³/s
+
+    # R = n_D² × <σv> / 2  (factor of 2 for identical particles)
+    return 0.5 * n_D_per_cc ** 2 * sigma_v
 
 
 # ---------------------------------------------------------------------------
@@ -959,6 +997,8 @@ class ColdFusionResult:
     log10_rate_5d: float
     d_DD_angstrom: float
     delta_E_TF_eV: float
+    cop: float = 0.0
+    rate_per_cc_s: float = 0.0
 
 
 def run_cold_fusion(config: ColdFusionConfig) -> ColdFusionResult:
@@ -982,13 +1022,71 @@ def run_cold_fusion(config: ColdFusionConfig) -> ColdFusionResult:
         Complete results including rates, enhancement, and diagnostics.
     """
     # -----------------------------------------------------------------------
-    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
-    # run_cold_fusion() is a one-call pipeline that accepts device parameters
-    # and returns absolute fusion rates and enhancements.  It is the highest-
-    # level operational calculator in the cold-fusion modules and is withheld
-    # in its entirety.  See DUAL_USE_NOTICE.md.
+    # Complete cold-fusion rate pipeline
     # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "run_cold_fusion() is held in the private AxiomZero repository "
-        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
+    # 1. Resolve deuterium number density
+    n_D = config.resolved_n_D()
+
+    # 2. Compute local φ enhancement from loading and electron density
+    phi_lat = phi_lattice_enhancement(config.loading_ratio, config.n_e_pd)
+
+    # 3. Gamow peak energy and geometric quantities
+    E_G_eV = gamow_peak_energy(Z_DEUTERON, Z_DEUTERON, MU_DD_AMU, config.T_K)
+    d_DD = lattice_dd_separation(config.loading_ratio)
+    delta_E_TF = thomas_fermi_screening_energy(config.n_e_pd)
+
+    # 4. Gamow factors at E_G
+    G4 = gamow_factor(Z_DEUTERON, Z_DEUTERON, E_G_eV, MU_DD_AMU)
+    G5 = gamow_5d(
+        Z_DEUTERON, Z_DEUTERON, E_G_eV, MU_DD_AMU,
+        config.phi_vacuum, phi_lat, config.c_s, config.n_w,
+    )
+    f_kk = kk_radion_factor(config.phi_vacuum, phi_lat)
+    f_w = winding_compression_factor(config.c_s, config.n_w)
+
+    # 5. Fusion rates
+    rate_4d = cold_fusion_rate(
+        n_D, config.T_K,
+        phi_vacuum=config.phi_vacuum,
+        phi_lattice=config.phi_vacuum,  # no enhancement → 4D baseline
+        c_s=config.c_s,
+        n_w=config.n_w,
+        S0_keV_barn=config.S0_keV_barn,
+    )
+    rate_5d = cold_fusion_rate(
+        n_D, config.T_K,
+        phi_vacuum=config.phi_vacuum,
+        phi_lattice=phi_lat,
+        c_s=config.c_s,
+        n_w=config.n_w,
+        S0_keV_barn=config.S0_keV_barn,
+    )
+    enhancement = rate_enhancement(G4, G5)
+
+    def _log10_safe(x: float) -> float:
+        if x <= 0.0:
+            return float("-inf")
+        return float(np.log10(x))
+
+    # COP: rough estimate — rate_5d / rate_4d treated as power ratio proxy
+    cop_val = enhancement if rate_4d > 0.0 else float("nan")
+
+    return ColdFusionResult(
+        T_K=config.T_K,
+        loading_ratio=config.loading_ratio,
+        E_gamow_eV=E_G_eV,
+        G4=G4,
+        G5=G5,
+        phi_lattice=phi_lat,
+        f_kk=f_kk,
+        f_winding=f_w,
+        rate_4d=rate_4d,
+        rate_5d=rate_5d,
+        enhancement=enhancement,
+        log10_rate_4d=_log10_safe(rate_4d),
+        log10_rate_5d=_log10_safe(rate_5d),
+        d_DD_angstrom=d_DD,
+        delta_E_TF_eV=delta_E_TF,
+        cop=cop_val,
+        rate_per_cc_s=rate_5d,
     )
