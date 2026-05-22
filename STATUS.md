@@ -375,7 +375,7 @@ carries a dated errata footer explaining the v11.4 Pillar 259 → Pillar
 
 ```
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-Expected: 32 993 passed · 393 skipped · 12 deselected · 0 failed
+Expected: 36 806 passed · 414 skipped · 12 deselected · 0 failed
 ```
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

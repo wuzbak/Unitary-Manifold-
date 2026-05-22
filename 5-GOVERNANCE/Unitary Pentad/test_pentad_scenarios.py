@@ -49,7 +49,6 @@ _PENTAD_PRODUCT_SKIP = (
     "the HILS Pentad is a protected product in active development.  "
     "See PENTAD_PRODUCT_NOTICE.md."
 )
-pytestmark = pytest.mark.skip(reason=_PENTAD_PRODUCT_SKIP)
 
 _PENTAD_DIR = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(_PENTAD_DIR)

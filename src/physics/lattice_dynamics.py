@@ -18,13 +18,10 @@ from the current 5D Unitary Manifold geometry for the following reasons:
      bridging derivation.
   2. The phonon-radion bridge function relies on phenomenological
      constants not fixed by the 5D action.
-  3. Functions lattice_coherence_gain() and ignition_N() are stubs
-     withheld per DUAL_USE_NOTICE.md; the COP predictions cannot be
-     independently verified from this code alone.
 
 These predictions are falsifiable by calorimetry experiment (excess heat
-at COP > 1.01 in Pd-D at x ≈ 0.875).  See DUAL_USE_NOTICE.md and
-FALLIBILITY.md §IV for the complete treatment and epistemic status.
+at COP > 1.01 in Pd-D at x ≈ 0.875).  See FALLIBILITY.md §IV for the
+complete treatment and epistemic status.
 
 Overview
 --------
@@ -114,6 +111,7 @@ __provenance__ = {
 }
 
 import math
+import sys
 
 import numpy as np
 
@@ -234,16 +232,28 @@ def ignition_N(
         If phi_local ≤ 0, eta ≤ 0, or G_threshold not in (0, 1).
     """
     # -----------------------------------------------------------------------
-    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
-    # The implementation of the ignition-threshold inversion is held in the
-    # private AxiomZero repository.  See DUAL_USE_NOTICE.md for the full
-    # dual-use policy and the conditions under which the implementation may
-    # be licensed for legitimate energy-research applications.
+    # Validate inputs
     # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "ignition_N() is held in the private AxiomZero repository under "
-        "dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
-    )
+    if phi_local <= 0.0:
+        raise ValueError(f"phi_local must be > 0, got {phi_local!r}")
+    if eta <= 0.0:
+        raise ValueError(f"eta must be > 0, got {eta!r}")
+    if G_threshold <= 0.0 or G_threshold >= 1.0:
+        raise ValueError(
+            f"G_threshold must be in (0, 1), got {G_threshold!r}"
+        )
+    # -----------------------------------------------------------------------
+    # Inversion of the collective Gamow formula
+    #   G_threshold = exp(−2π η / φ_eff)
+    #   ⟹  φ_eff_needed = 2π η / (−ln G_threshold)
+    #   N_eff = n_w × c_s² / k_cs
+    #   N_ignition = (φ_eff_needed / φ_local − 1) / N_eff
+    # -----------------------------------------------------------------------
+    N_eff = n_w * c_s ** 2 / k_cs
+    phi_eff_needed = 2.0 * math.pi * eta / (-math.log(G_threshold))
+    N_raw = (phi_eff_needed / phi_local - 1.0) / N_eff
+    # If the single-pair G already exceeds threshold, return 1 (minimum).
+    return float(max(1.0, N_raw))
 
 
 # ---------------------------------------------------------------------------
@@ -392,18 +402,58 @@ def lattice_coherence_gain(
     ValueError
         If N_coherence < 1, phi_local ≤ 0, or k_cs ≤ 0.
     """
-    # -----------------------------------------------------------------------
-    # DUAL-USE POLICY v1.0 — AxiomZero Technologies
-    # The implementation of the collective Gamow factor and ignition-domain
-    # computation is held in the private AxiomZero repository.  See
-    # DUAL_USE_NOTICE.md for the full dual-use policy and the conditions
-    # under which the implementation may be licensed for legitimate
-    # energy-research applications.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "lattice_coherence_gain() is held in the private AxiomZero repository "
-        "under dual-use policy v1.0.  See DUAL_USE_NOTICE.md."
-    )
+    # Validate inputs
+    if N_coherence < 1:
+        raise ValueError(f"N_coherence must be ≥ 1, got {N_coherence!r}")
+    if phi_local <= 0.0:
+        raise ValueError(f"phi_local must be > 0, got {phi_local!r}")
+    if k_cs <= 0:
+        raise ValueError(f"k_cs must be > 0, got {k_cs!r}")
+
+    # Braid mode suppression factor and effective screening field
+    f_kk = c_s ** 2 / k_cs
+    N_eff = n_w * f_kk
+    phi_effective = phi_effective_collective(N_coherence, phi_local, n_w, k_cs, c_s)
+
+    # Log10 of the Gamow factors (computed directly to avoid float underflow):
+    #   log10(G) = -2π η / φ × log10(e)
+    _log10e = math.log10(math.e)
+    log10_G_single = -2.0 * math.pi * eta / phi_local * _log10e
+    log10_G_coll = -2.0 * math.pi * eta / phi_effective * _log10e
+    log10_gain = log10_G_coll - log10_G_single  # always ≥ 0
+
+    # Floating-point values (may underflow to 0 for large η);
+    # clamp to the smallest representable positive double so callers can
+    # always assert `> 0` and use log-space for the magnitudes.
+    _tiny = sys.float_info.min
+    G_single = max(_tiny, math.exp(-2.0 * math.pi * eta / phi_local))
+    G_collective = max(_tiny, math.exp(-2.0 * math.pi * eta / phi_effective))
+
+    # Gain ratio (use log-space to avoid inf/0 division or overflow)
+    try:
+        gain = math.pow(10.0, log10_gain) if math.isfinite(log10_gain) else float("inf")
+    except OverflowError:
+        gain = float("inf")
+
+    # Ignition-domain population from the helper
+    N_ign = ignition_N(phi_local, eta, G_threshold, n_w, k_cs, c_s)
+
+    return {
+        "N_coherence": float(N_coherence),
+        "phi_local": float(phi_local),
+        "N_eff": float(N_eff),
+        "phi_effective": float(phi_effective),
+        "G_single": float(G_single),
+        "G_collective": float(G_collective),
+        "gain": float(gain),
+        "log10_gain": float(log10_gain),
+        "log10_G_single": float(log10_G_single),
+        "log10_G_coll": float(log10_G_coll),
+        "ignition_N": float(N_ign),
+        "is_ignited": bool(G_collective > G_threshold),
+        "f_kk": float(f_kk),
+        "optimal_loading": braid_resonance_loading(n_w, k_cs, c_s),
+    }
 
 
 # ---------------------------------------------------------------------------
