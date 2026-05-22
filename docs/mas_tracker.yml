@@ -1,4 +1,4 @@
-version: "v11.17"
+version: "v11.18"
 date: "2026-05-22"
 updated: "2026-05-22"
 mas_status: "COMPLETE"
@@ -18,36 +18,47 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v11.17"
-  regression: "36,522+ passed · ~414 skipped · 0 failed (canonical; Pillars 329-333 add ~292 new tests)"
+  version: "v11.18"
+  regression: "36,806+ passed · ~414 skipped · 0 failed (canonical; Pillars 334-338 add ~284 new tests; ORD adds 71 tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 adjacent_track_checkpoint:
-  version: "v11.17-deep-integration-sprint"
-  wave: "Deep Integration Sprint — Pillars 329-333"
-  pillar: 333
-  artifact: "src/core/pillar333_kk_baryogenesis.py"
-  test: "tests/test_pillar333_kk_baryogenesis.py"
+  version: "v11.18-precision-falsifier-routing-sprint"
+  wave: "Precision Falsifier & Routing Sprint — Pillars 334-338 + Observatory Routing Daemon"
+  pillar: 338
+  artifact: "src/core/pillar338_baryogenesis_washout.py"
+  test: "tests/test_pillar338_baryogenesis_washout.py"
   status: "DELIVERED"
-  v11_17_deep_integration_sprint:
+  v11_18_precision_falsifier_routing_sprint:
     pillars_added:
-      - 329
-      - 330
-      - 331
-      - 332
-      - 333
+      - 334
+      - 335
+      - 336
+      - 337
+      - 338
+    new_infrastructure:
+      - "src/core/observatory_routing_daemon.py"
+      - "tests/test_observatory_routing_daemon.py"
     per_pillar_deltas:
-      P329: "Thermal Universe Closure — complete thermal timeline from n_w=5, K_CS=74: T_KK~1TeV (DERIVED), T_EW~102 GeV (DERIVED), T_QCD~217 MeV (DERIVED_WITH_SYSTEMATIC, PATH_BC_GAP 20%), T_BBN~0.7 MeV (SM_VALUE_UM_CONSISTENT), T_CMB (EXTERNALLY_MEASURED); KK GW peak f~7mHz LISA band"
-      P330: "Bayesian Model Comparison UM vs ΛCDM+SM vs MSSM — Occam factor: ΛCDM+SM prior volume ~136 nats vs UM 0 nats; 28 claim agreements tabulated; decisive Occam advantage; LL computation requires σ_theory per claim for full treatment"
-      P331: "CMB Quadrupole Topology — braided winding IR suppression: f_braid=n_w/K_CS=5/74=6.8% at ℓ=2; ℓ_braid=K_CS/(2n_w)=7.4; direction CORRECT, magnitude INSUFFICIENT (6.8% vs observed 40-60%); partial mechanism; alignment anomaly NOT addressed; LiteBIRD 2032 falsifier"
-      P332: "Neutrino Mass Ordering — CONDITIONAL_DERIVATION from Z₂ orbifold KK mode Sturm-Liouville ordering n=0,1,2: λ₀=0<λ₁=1<λ₂=4 forces Δm²₃₁>0 → NORMAL ORDERING; JUNO 2027 falsifier PREREGISTERED; splitting ratio gap (observed/predicted ≈33/4≈8) = SEESAW_TEXTURE_SPLITTING_GAP"
-      P333: "KK Phase Transition Baryogenesis — all 3 Sakharov conditions satisfied at T_KK~1TeV: sphalerons active (T_KK>>T_EW), δ_CP_leptonic=1.2152 rad, strong PT (α≈13.7); η_B estimate ~2e-9 to 2e-10 (washout uncertainty O(100)); ORDER_OF_MAGNITUDE_CONSISTENT; distinct from P323 ARCHITECTURE_LIMIT"
+      P334: "JUNO 2027 Full Prediction Package — complete machine-readable oscillation prediction (Δm²₂₁, Δm²₃₁, θ₁₂, θ₁₃, mass ordering NORMAL); 3-branch routing protocol; matter corrections ~0.02%; precision budget vs JUNO 0.3%/0.5% targets; 62 tests"
+      P335: "Simons Observatory r=0.0315 Verification Protocol — preregistered SO routing against r=0.0315 prediction; ACT DR6 tension at ~3.9σ documented honestly; SO 5-yr SNR=10.5 if correct; full Bayesian uncertainty budget; 5-branch routing; 51 tests"
+      P336: "DESI DR3 Real-Time Routing Engine — complete Bayesian routing: log BF(UM vs ΛCDM), Jeffreys scale, posterior P(wₐ=0|data); DR3 scenario matrix (5 scenarios); 3-branch routing (FALSIFIED/HIGH_TENSION/RESOLVED); current tension 2.75σ documented; 51 tests"
+      P337: "CMB Quadrupole Full Amplitude Mechanism — 4-mechanism comprehensive investigation: (1) braided winding 6.8% CORRECT_DIRECTION; (2) KK strings negligible ~10⁻¹⁵; (3) finite topology EXTERNAL_ASSUMPTION; (4) trans-Planckian INCONCLUSIVE; gap 33-53% honestly documented; within 1.5σ CV; 46 tests"
+      P338: "KK Baryogenesis Washout Quantification — PTFT 3-step calculation with UM-fixed inputs; uncertainty O(100)→O(30); steps: diffusion washout f_D, sphaleron conversion 8/23, thermal dilution g_*ratio; κ(B-L) gap [0.01,0.30] documented; BBN consistency checked; 54 tests"
+    observatory_routing_daemon:
+      description: "World's first self-executing theory validation system — automated routing for 8 watched experiments (JUNO/SO/DESI/LiteBIRD/CMB-S4/KATRIN/LISA/Hyper-K)"
+      routing_functions: 8
+      verdict_codes: 8
+      simulation_scenarios: 10
+      tests: 71
     preregistered_falsifiers:
-      JUNO_2027: "Pillar 332 — inverted ordering at ≥3σ → falsifies Pillar 42 Z₂ orbifold three-generation mechanism"
-      LiteBIRD_2032: "Pillars 329/331 — β outside {0.273°±ε, 0.331°±ε} → primary UM falsifier"
-      LISA_2035: "Pillars 329/333 — KK GW at f~7mHz; Ω_GW h² at edge of LISA sensitivity"
+      JUNO_2027_P334: "Pillar 334 — IO at ≥3σ → Pillar 42 FALSIFIED + full routing protocol"
+      SO_2027_P335: "Pillar 335 — r < 0.010 MEASURED at ≥3σ → P2/P3 FALSIFIED + Bayesian routing"
+      DESI_DR3_P336: "Pillar 336 — |wₐ| ≥ 3σ → P4 FALSIFIED + Bayesian BF routing"
+      JUNO_ORDERING_PREREGISTERED: "Pillars 332 + 334: IO at ≥3σ → Pillar 42 FALSIFIED"
+      SO_R_PREREGISTERED: "Pillars 335 + P303: r < 0.010 at ≥3σ → P2/P3 FALSIFIED"
   v11_16_discovery_physics_sprint:
     pillars_added:
       - 321

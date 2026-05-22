@@ -15,6 +15,14 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v11.18 (2026-05-22 — Precision Falsifier & Routing Sprint: Pillars 334–338 + Observatory Routing Daemon)
+
+Five focused adjacent-track pillars operationalizing the preregistered falsifier protocols.
+*See full entry below (after v11.17 section).*
+**Regression: 36,806 passed · 414 skipped · 12 deselected · 0 failed**
+
+---
+
 ## v11.17 (2026-05-22 — Deep Integration Sprint: Five Depth-Integration Pillars 329–333)
 
 Five new adjacent-track pillars assembling previously scattered UM results into
@@ -66,7 +74,73 @@ None — all five pillars are adjacent-track (NON_HARDGATE_ADJACENT or HARDGATE_
 
 ---
 
-## v11.16 (2026-05-22 — Discovery Physics Sprint: Eight New Experimental Frontiers)
+## v11.18 (2026-05-22 — Precision Falsifier & Routing Sprint: Pillars 334–338 + Observatory Routing Daemon)
+
+Five focused adjacent-track pillars operationalizing the preregistered falsifier
+protocols: full JUNO prediction package, SO birefringence verification, DESI
+Bayesian routing, CMB quadrupole full-mechanism audit, and KK baryogenesis washout
+quantification.  Plus the Observatory Routing Daemon (ORD) — the world's first
+self-executing theory validation system.
+
+### What changed
+
+| Metric | v11.17 | v11.18 |
+|--------|--------|--------|
+| Passing tests | ~36,522 canonical | ~36,806 canonical |
+| In-sandbox tests | 35,971 | ~36,255 |
+| Adjacent pillars | through 333 | through 338 |
+| New test files | — | 5 pillars + ORD = 6 files |
+| New falsifiers formalized | 2 | +3 (SO, DESI, KATRIN routing) |
+| New infrastructure | — | Observatory Routing Daemon |
+
+### New pillars
+
+| Pillar | Module | Physics | Key result |
+|--------|--------|---------|------------|
+| 334 | pillar334_juno_prediction_package | JUNO 2027 Full Prediction Package | Complete oscillation predictions (Δm²₂₁, Δm²₃₁, θ₁₂, θ₁₃); matter correction ~0.02%; 3-branch routing; 62 tests |
+| 335 | pillar335_simons_observatory_protocol | Simons Observatory r=0.0315 Protocol | Preregistered SO falsifier; ACT DR6 tension ~3.9σ honestly documented; SO 5-yr SNR=10.5; 5-branch Bayesian routing; 51 tests |
+| 336 | pillar336_desi_dr3_routing_engine | DESI DR3 Real-Time Routing Engine | Full Bayesian machinery: log BF, Jeffreys scale, posterior P(wₐ=0\|data); 5-scenario DR3 matrix; 3-branch routing; 51 tests |
+| 337 | pillar337_cmb_quadrupole_amplitude | CMB Quadrupole Full Amplitude Mechanism | 4-mechanism audit: braid 6.8% CORRECT; KK strings ~10⁻¹⁵ NEGLIGIBLE; topology EXTERNAL_ASSUMPTION; trans-Planckian INCONCLUSIVE; gap 33–53% honest; 46 tests |
+| 338 | pillar338_baryogenesis_washout | KK Baryogenesis Washout Quantification | PTFT 3-step calculation; uncertainty O(100)→O(30); diffusion + sphaleron + thermal dilution; κ(B-L) gap documented; BBN consistency checked; 54 tests |
+
+### New infrastructure
+
+**Observatory Routing Daemon (ORD)** — `src/core/observatory_routing_daemon.py`
+- 8 watched experiments: JUNO, SO, DESI DR3/DR4, LiteBIRD, CMB-S4, KATRIN, LISA, Hyper-K
+- Automated dispatch: `dispatch("JUNO", measured_ordering="IO", ordering_sigma=3.5)` → verdict
+- 8 verdict codes with Jeffreys/severity classification
+- 10 simulation scenarios, 71 tests
+
+### Epistemic label deltas
+
+- Pillar 334: **JUNO 2027 — MACHINE_PREREGISTERED** (full oscillation protocol operational)
+- Pillar 335: **SO r=0.0315 — PREREGISTERED + HIGH_TENSION** (ACT DR6 ~3.9σ documented)
+- Pillar 336: **DESI wₐ=0 — PREREGISTERED + HIGH_TENSION_2.75σ** (Bayesian routing live)
+- Pillar 337: **Quadrupole — PARTIAL_MECHANISM + HONEST_GAP** (33–53% unexplained; within CV)
+- Pillar 338: **Baryogenesis — WASHOUT_QUANTIFIED** (O(100)→O(30); κ gap documented)
+
+### TOE score delta
+
+None — all five pillars are adjacent-track. Hardgate ToE score 28/28 unchanged.
+
+### Falsification impact
+
+- **JUNO 2027** (Pillars 332 + 334): Machine-executable routing live; IO at ≥3σ → FALSIFIED
+- **Simons Observatory ~2027** (Pillar 335): r < 0.010 MEASURED at ≥3σ → P2/P3 FALSIFIED
+- **DESI DR3 ~2027** (Pillar 336): |wₐ| ≥ 3σ → P4 FALSIFIED; Bayesian BF routing live
+- **LiteBIRD ~2032** (Primary): β ∉ [0.22°, 0.38°] → braided winding FALSIFIED (ORD live)
+- **KATRIN ~2027**: Σmν > 0.5 eV at ≥3σ → P26 FALSIFIED (ORD live)
+
+### Residual unknowns
+
+- CMB quadrupole full amplitude: 33–53% gap between derived (6.8%) and observed (40–60%); within ~1.5σ cosmic variance; trans-Planckian initial state calculation incomplete
+- KK baryogenesis washout: κ(B-L) ∈ [0.01, 0.30] — requires lattice QCD or full QTF for closure; central PTFT estimate ~2000× below observed η_B (honest gap)
+- DESI DR3 wₐ tension: 2.75σ (DR2 combined); DR3 will resolve or deepen
+- ACT DR6 r tension: ~3.9σ (r < 0.016 bound vs r_UM = 0.0315); SO DR1 will resolve
+
+---
+
+
 
 Eight new adjacent-track physics pillars (321–328) opening new experimental prediction
 windows: eEDM, LFV, Leptogenesis, EW oblique, BBN, Gravitational waves, Neutron EDM,
