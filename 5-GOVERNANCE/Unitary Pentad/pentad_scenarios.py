@@ -382,55 +382,52 @@ def harmonic_state_metrics(
     system: PentadSystem,
     tol: float = 1e-4,
 ) -> HarmonicStateMetrics:
-    """Compute proximity metrics to the Harmonic State.
-
-    Parameters
-    ----------
-    system : PentadSystem — current pentad state
-    tol    : float — tolerance for is_harmonic flag (default 1e-4)
-
-    Returns
-    -------
-    HarmonicStateMetrics
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "harmonic_state_metrics() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
+    """Compute proximity metrics to the Harmonic State."""
+    gaps = pentad_pairwise_gaps(system)
+    phases = pentad_pairwise_phases(system)
+    trust = float(trust_modulation(system))
+    eigs = pentad_eigenspectrum(system)
+    min_eigenvalue = float(np.min(eigs))
+    defect = float(pentad_defect(system))
+    max_info_gap = float(max(gaps.values())) if gaps else 0.0
+    mean_info_gap = float(np.mean(list(gaps.values()))) if gaps else 0.0
+    max_phase_offset = float(max(phases.values())) if phases else 0.0
+    mean_phase_offset = float(np.mean(list(phases.values()))) if phases else 0.0
+    trust_margin = float(trust - TRUST_PHI_MIN)
+    eigenvalue_margin = float(min_eigenvalue - BRAIDED_SOUND_SPEED)
+    brain_univ_gap = gaps.get(
+        (PentadLabel.UNIV, PentadLabel.BRAIN),
+        gaps.get((PentadLabel.BRAIN, PentadLabel.UNIV), 0.0),
+    )
+    zero_lag_factor = float(np.clip(1.0 - max_info_gap, 0.0, 1.0))
+    healing_capacity = float(np.clip(1.0 - brain_univ_gap, 0.0, 1.0))
+    harmonic = bool(
+        max_info_gap <= tol
+        and max_phase_offset <= tol
+        and defect <= tol
+        and trust_margin >= -tol
+        and eigenvalue_margin >= -tol
+    )
+    return HarmonicStateMetrics(
+        max_info_gap=max_info_gap,
+        mean_info_gap=mean_info_gap,
+        max_phase_offset=max_phase_offset,
+        mean_phase_offset=mean_phase_offset,
+        trust=trust,
+        trust_margin=trust_margin,
+        min_eigenvalue=min_eigenvalue,
+        eigenvalue_margin=eigenvalue_margin,
+        defect=defect,
+        is_harmonic=harmonic,
+        harmonic_tol=float(tol),
+        zero_lag_factor=zero_lag_factor,
+        healing_capacity=healing_capacity,
     )
 
 
 def is_harmonic(system: PentadSystem, tol: float = 1e-4) -> bool:
-    """Return True iff the system is within tol of the Harmonic State.
-
-    Parameters
-    ----------
-    system : PentadSystem
-    tol    : float — convergence tolerance (default 1e-4)
-
-    Returns
-    -------
-    bool
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "is_harmonic() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
-    )
+    """Return True iff the system is within tol of the Harmonic State."""
+    return harmonic_state_metrics(system, tol=tol).is_harmonic
 
 
 # ---------------------------------------------------------------------------
@@ -438,36 +435,79 @@ def is_harmonic(system: PentadSystem, tol: float = 1e-4) -> bool:
 # ---------------------------------------------------------------------------
 
 def detect_collapse_mode(system: PentadSystem) -> CollapseSignature:
-    """Identify which (if any) collapse scenario is unfolding.
+    """Identify which (if any) collapse scenario is unfolding."""
+    gaps = pentad_pairwise_gaps(system)
+    phases = pentad_pairwise_phases(system)
+    trust = float(trust_modulation(system))
+    max_gap = float(max(gaps.values())) if gaps else 0.0
+    max_phase = float(max(phases.values())) if phases else 0.0
+    human_ai_pair = (PentadLabel.HUMAN, PentadLabel.AI)
+    human_ai_phase = phases.get(human_ai_pair, phases.get(human_ai_pair[::-1], 0.0))
+    human_ai_gap = gaps.get(human_ai_pair, gaps.get(human_ai_pair[::-1], 0.0))
 
-    The priority order for diagnosis matches the frequency of failure modes
-    documented in STABILITY_ANALYSIS.md:
+    def _pairs_at_level(values, target):
+        return [pair for pair, value in values.items() if abs(value - target) <= 1e-12]
 
-        1. Trust Erosion      — φ_trust < TRUST_PHI_MIN
-        2. AI Decoupling      — Δφ_{human,ai} > PHASE_REVERSAL_THRESHOLD
-        3. Phase Collision    — any Δφ_{ij} > PHASE_REVERSAL_THRESHOLD
-        4. Malicious Precision— trust intact, human–ai gap very large
-        5. None               — system is healthy
-
-    Parameters
-    ----------
-    system : PentadSystem
-
-    Returns
-    -------
-    CollapseSignature
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "detect_collapse_mode() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
+    if trust < TRUST_PHI_MIN:
+        severity = float(np.clip((TRUST_PHI_MIN - trust) / max(TRUST_PHI_MIN, 1e-12), 0.0, 1.0))
+        return CollapseSignature(
+            mode=CollapseMode.TRUST_EROSION,
+            severity=severity,
+            affected_pairs=_pairs_at_level(gaps, max_gap),
+            trust=trust,
+            max_phase=max_phase,
+            max_gap=max_gap,
+            description="Trust erosion detected: trust has fallen below the live coupling floor.",
+        )
+    if human_ai_phase > PHASE_REVERSAL_THRESHOLD:
+        severity = float(np.clip(
+            (human_ai_phase - PHASE_REVERSAL_THRESHOLD) / max(np.pi - PHASE_REVERSAL_THRESHOLD, 1e-12),
+            0.0,
+            1.0,
+        ))
+        return CollapseSignature(
+            mode=CollapseMode.AI_DECOUPLING,
+            severity=severity,
+            affected_pairs=[human_ai_pair],
+            trust=trust,
+            max_phase=max_phase,
+            max_gap=max_gap,
+            description="AI decoupling detected: the Human–AI phase offset exceeds the braid reversal threshold.",
+        )
+    if max_phase > PHASE_REVERSAL_THRESHOLD:
+        severity = float(np.clip(
+            (max_phase - PHASE_REVERSAL_THRESHOLD) / max(np.pi - PHASE_REVERSAL_THRESHOLD, 1e-12),
+            0.0,
+            1.0,
+        ))
+        return CollapseSignature(
+            mode=CollapseMode.PHASE_COLLISION,
+            severity=severity,
+            affected_pairs=_pairs_at_level(phases, max_phase),
+            trust=trust,
+            max_phase=max_phase,
+            max_gap=max_gap,
+            description="Phase collision detected: at least one pairwise phase offset has crossed π/2.",
+        )
+    if trust >= TRUST_PHI_MIN and human_ai_gap > 1.0:
+        severity = float(np.clip(human_ai_gap / (human_ai_gap + 1.0), 0.0, 1.0))
+        return CollapseSignature(
+            mode=CollapseMode.MALICIOUS_PRECISION,
+            severity=severity,
+            affected_pairs=[human_ai_pair],
+            trust=trust,
+            max_phase=max_phase,
+            max_gap=max_gap,
+            description="Malicious precision detected: trust is intact but the Human–AI information gap is extreme.",
+        )
+    return CollapseSignature(
+        mode=CollapseMode.NONE,
+        severity=0.0,
+        affected_pairs=[],
+        trust=trust,
+        max_phase=max_phase,
+        max_gap=max_gap,
+        description="System is healthy: no collapse signature detected.",
     )
 
 
@@ -479,33 +519,24 @@ def inject_adversarial_intent(
     system: PentadSystem,
     phi_adversarial: float,
 ) -> PentadSystem:
-    """Return a copy with the Human node's φ set to an adversarial value.
-
-    This models the "Malicious Precision" scenario: trust is maintained at
-    its default level, but the Human intent layer is directed toward an
-    adversarial fixed point.  The (5,7) braid's near-maximal coupling
-    ρ = 35/37 transmits this intent to all other bodies with full efficiency.
-
-    Parameters
-    ----------
-    system          : PentadSystem — baseline state
-    phi_adversarial : float — the adversarial φ value to inject
-
-    Returns
-    -------
-    PentadSystem — copy with Ψ_human.φ = phi_adversarial
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "inject_adversarial_intent() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
+    """Return a copy with the Human node's φ set to an adversarial value."""
+    new_bodies = dict(system.bodies)
+    old = system.bodies[PentadLabel.HUMAN]
+    new_bodies[PentadLabel.HUMAN] = ManifoldState(
+        node=old.node,
+        phi=float(phi_adversarial),
+        n1=old.n1,
+        n2=old.n2,
+        k_cs=old.k_cs,
+        label=old.label,
+    )
+    return PentadSystem(
+        bodies=new_bodies,
+        beta=system.beta,
+        grace_steps=system.grace_steps,
+        grace_decay=system.grace_decay,
+        _trust_reservoir=system._trust_reservoir,
+        _grace_elapsed=system._grace_elapsed,
     )
 
 
@@ -517,39 +548,9 @@ def deception_phase_offset(
     system: PentadSystem,
     phi_lied: float,
 ) -> float:
-    """Compute the Information Gap created when the Human node lies about its φ.
-
-    A "lie" is defined as the Human body reporting φ_lied while its true
-    radion value remains at φ_true = system.bodies['human'].phi.
-
-    The detectable gap is:
-
-        ΔI_deception = |φ_lied² − φ_true²|
-
-    This gap appears in the pairwise coupling matrix immediately — there is
-    no "delay" between the lie and its detection.
-
-    Parameters
-    ----------
-    system   : PentadSystem — current state (holds φ_true)
-    phi_lied : float — the φ value the human body would report
-
-    Returns
-    -------
-    float — ΔI_deception ≥ 0
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "deception_phase_offset() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
-    )
+    """Compute the Information Gap created when the Human node lies about its φ."""
+    phi_true = float(system.bodies[PentadLabel.HUMAN].phi)
+    return float(abs(float(phi_lied) ** 2 - phi_true ** 2))
 
 
 def is_deception_detectable(
@@ -557,30 +558,8 @@ def is_deception_detectable(
     phi_lied: float,
     tol: float = DECEPTION_DETECTION_TOL,
 ) -> bool:
-    """Return True iff the lie creates a gap above the detection threshold.
-
-    Parameters
-    ----------
-    system   : PentadSystem
-    phi_lied : float — lied φ value
-    tol      : float — detection threshold (default DECEPTION_DETECTION_TOL)
-
-    Returns
-    -------
-    bool
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "is_deception_detectable() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
-    )
+    """Return True iff the lie creates a gap above the detection threshold."""
+    return bool(deception_phase_offset(system, phi_lied) > tol)
 
 
 # ---------------------------------------------------------------------------
@@ -592,42 +571,16 @@ def trust_maintenance_cost(
     n_steps: int = 10,
     dt: float = 0.1,
 ) -> float:
-    """Estimate coupling energy per step required to maintain φ_trust ≥ floor.
-
-    This captures the "Wildcard" scenario: stability is a high-energy
-    achievement.  The cost is measured as the mean absolute rate of change
-    of the trust body's φ across n_steps of the pentagonal coupling operator.
-    A larger value means more "collective will" is required to keep the
-    system in the Harmonic State.
-
-    Parameters
-    ----------
-    system  : PentadSystem — initial state
-    n_steps : int   — number of coupling steps to simulate (default 10)
-    dt      : float — pseudo-timestep (default 0.1)
-
-    Returns
-    -------
-    float — mean |Δφ_trust| per step ≥ 0
-
-    Notes
-    -----
-    This measures only the coupling-operator contribution, not the full
-    U_pentad step, to isolate the pure "trust maintenance" signal from
-    the FTUM individual-body evolution.
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "trust_maintenance_cost() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
-    )
+    """Estimate coupling energy per step required to maintain φ_trust ≥ floor."""
+    if n_steps <= 0:
+        return 0.0
+    current = system
+    deltas = []
+    for _ in range(n_steps):
+        nxt = _apply_pentagonal_coupling(current, dt)
+        deltas.append(abs(trust_modulation(nxt) - trust_modulation(current)))
+        current = nxt
+    return float(np.mean(deltas)) if deltas else 0.0
 
 
 # ---------------------------------------------------------------------------
@@ -1057,63 +1010,44 @@ class RegimeTransitionSignal:
 
 
 def regime_transition_signal(system: PentadSystem) -> RegimeTransitionSignal:
-    """Compute attractor-robustness observables.
+    """Compute attractor-robustness observables."""
+    gaps = pentad_pairwise_gaps(system)
+    tau = pentad_coupling_matrix(system)
+    channel_loads = {}
+    for (li, lj), gap in gaps.items():
+        i = PENTAD_LABELS.index(li)
+        j = PENTAD_LABELS.index(lj)
+        channel_loads[(li, lj)] = float(tau[i, j] * gap)
 
-    Framing
-    -------
-    Entropy does not reverse — the system changes which degrees of freedom
-    are doing the work (Prigogine; dissipative structures).  What looks like
-    "entropy changing direction" from inside the system is really constraint
-    reconfiguration: one channel saturates, load shifts to adjacent channels,
-    and a new dissipation topology is explored.
+    loads = np.asarray(list(channel_loads.values()), dtype=float)
+    coupling_variance = float(np.var(loads)) if len(loads) else 0.0
+    mean_channel_load = float(np.mean(loads)) if len(loads) else 0.0
+    if len(loads):
+        saturated_pair = max(channel_loads, key=channel_loads.get)
+        saturated_channel_load = float(channel_loads[saturated_pair])
+    else:
+        saturated_pair = (PentadLabel.UNIV, PentadLabel.BRAIN)
+        saturated_channel_load = 0.0
+    transition_proximity = (
+        1.0 if mean_channel_load <= _RTS_EPS else float(saturated_channel_load / mean_channel_load)
+    )
 
-    This function measures that shift.  The returned ``attractor_degraded``
-    flag means exactly: **"the current attractor is no longer robust."**
-    It does NOT predict what happens next — only that the present constraint
-    surface is no longer distributing work evenly across all channels.
+    singular_values = np.linalg.svd(system.state_matrix(), compute_uv=False)
+    sigma_max = float(np.max(singular_values)) if len(singular_values) else 0.0
+    if sigma_max <= _RTS_EPS:
+        active_dof_estimate = 1
+    else:
+        active_dof_estimate = int(np.sum(singular_values >= _ACTIVE_DOF_SV_FLOOR * sigma_max))
+        active_dof_estimate = max(1, min(5, active_dof_estimate))
 
-    Observable markers (mapped to Pentad quantities)
-    -------------------------------------------------
-    1. **Channel load** for pair (i, j):
-           load_{ij} = τ_{ij} × ΔI_{ij}
-       where τ_{ij} is the coupling strength and ΔI_{ij} is the pairwise
-       Information Gap.  This is the actual work the coupling operator is
-       doing on that channel right now.
-
-    2. **coupling_variance**: variance of the 10 channel loads.  Zero in the
-       Harmonic State (all channels share the load equally).  Rises as load
-       concentrates — the primary robustness signal.
-
-    3. **transition_proximity**: saturated_channel_load / mean_channel_load.
-       1.0 when perfectly balanced; rises as one channel dominates.  At
-       threshold the attractor_degraded flag fires.  This is the observable
-       the dissipative-structure framing asks for: "what marks the transition
-       between regimes?"
-
-    4. **active_dof_estimate**: effective rank of the 5-body state matrix.
-       At the Harmonic fixed point bodies are phase-locked → low rank.
-       As the system begins exploring new constraint surfaces, bodies
-       decouple → rank rises toward 5.
-
-    Parameters
-    ----------
-    system : PentadSystem
-
-    Returns
-    -------
-    RegimeTransitionSignal
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "regime_transition_signal() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
+    return RegimeTransitionSignal(
+        coupling_variance=coupling_variance,
+        saturated_pair=saturated_pair,
+        saturated_channel_load=saturated_channel_load,
+        mean_channel_load=mean_channel_load,
+        transition_proximity=transition_proximity,
+        active_dof_estimate=active_dof_estimate,
+        attractor_degraded=bool(transition_proximity >= TRANSITION_PROXIMITY_THRESHOLD),
     )
 
 
@@ -1153,38 +1087,39 @@ class TrustErasureResult:
 
 
 def total_trust_erasure(system: PentadSystem) -> TrustErasureResult:
-    """Model the instantaneous collapse of β·C to zero.
-
-    This is the "Wildcard" failure: not a gradual Trust Erosion but a
-    sudden, complete zeroing of the coupling field.  The function:
-
-        1. Records the pre-erasure state (eigenvalue, φ_trust, β·C energy).
-        2. Constructs the post-erasure system (φ_trust = 0).
-        3. Measures the post-erasure eigenvalue of the now-decoupled matrix.
-        4. Computes the cascade_risk — the fraction of coupling energy lost.
-
-    The cascade_risk is always 1.0 for a total erasure, but the function
-    also exposes delta_beta_C so callers can compare partial vs total events.
-
-    Parameters
-    ----------
-    system : PentadSystem — pre-erasure state
-
-    Returns
-    -------
-    TrustErasureResult
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "total_trust_erasure() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
+    """Model the instantaneous collapse of β·C to zero."""
+    phi_trust_before = float(trust_modulation(system))
+    eigenvalue_before = float(np.min(pentad_eigenspectrum(system)))
+    old = system.bodies[PentadLabel.TRUST]
+    new_bodies = dict(system.bodies)
+    new_bodies[PentadLabel.TRUST] = ManifoldState(
+        node=old.node,
+        phi=0.0,
+        n1=old.n1,
+        n2=old.n2,
+        k_cs=old.k_cs,
+        label=old.label,
+    )
+    erased = PentadSystem(
+        bodies=new_bodies,
+        beta=system.beta,
+        grace_steps=system.grace_steps,
+        grace_decay=system.grace_decay,
+        _trust_reservoir=system._trust_reservoir,
+        _grace_elapsed=system._grace_elapsed,
+    )
+    eigenvalue_after = float(np.min(pentad_eigenspectrum(erased)))
+    delta_beta_C = float(system.beta * phi_trust_before)
+    cascade_risk = float(np.clip(phi_trust_before, 0.0, 1.0))
+    return TrustErasureResult(
+        phi_trust_before=phi_trust_before,
+        phi_trust_after=0.0,
+        delta_beta_C=delta_beta_C,
+        eigenvalue_before=eigenvalue_before,
+        eigenvalue_after=eigenvalue_after,
+        stability_lost=bool(eigenvalue_after < BRAIDED_SOUND_SPEED),
+        cascade_risk=cascade_risk,
+        description="Total trust erasure detected: the coupling field has been collapsed to zero in one step.",
     )
 
 
@@ -1216,39 +1151,31 @@ def asymmetric_coupling_stress_test(
     weight_range: float = 3.0,
     n_points: int = 20,
 ) -> List[AsymmetricStressResult]:
-    """Stress-test the (5,7) braid under asymmetric AI→Human coupling.
-
-    Sweeps the AI-to-Human coupling weight from 1× (symmetric) to
-    weight_range× (e.g. 3× = AI exerts 3× the influence it receives) in
-    n_points steps.  For each weight the symmetrised eigenvalue is checked
-    against the (5,7) braid stability floor c_s.
-
-    The Berry phase per orbit is also computed — this accumulates whenever
-    the coupling is non-reciprocal and is observable as a residual phase
-    offset between the Human and AI bodies.
-
-    Parameters
-    ----------
-    system       : PentadSystem — current state
-    weight_range : float — maximum AI→Human multiplier (default 3.0)
-    n_points     : int   — sweep resolution (default 20)
-
-    Returns
-    -------
-    list[AsymmetricStressResult]
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "asymmetric_coupling_stress_test() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
-    )
+    """Stress-test the (5,7) braid under asymmetric AI→Human coupling."""
+    if n_points <= 0:
+        return []
+    weights = np.linspace(1.0, float(weight_range), int(n_points))
+    base = pentad_coupling_matrix(system)
+    i_h = PENTAD_LABELS.index(PentadLabel.HUMAN)
+    i_ai = PENTAD_LABELS.index(PentadLabel.AI)
+    results: List[AsymmetricStressResult] = []
+    for w in weights:
+        mat = base.copy()
+        mat[i_h, i_ai] *= float(w)
+        sym = 0.5 * (mat + mat.T)
+        min_eigenvalue = float(np.min(np.linalg.eigvalsh(sym)))
+        stability_margin = float(min_eigenvalue - BRAIDED_SOUND_SPEED)
+        berry_phase_rad = float((math.pi / 2.0) * ((w - 1.0) / (w + 1.0)))
+        results.append(
+            AsymmetricStressResult(
+                w_ai_to_human=float(w),
+                berry_phase_rad=berry_phase_rad,
+                stability_margin=stability_margin,
+                min_eigenvalue=min_eigenvalue,
+                braid_holds=bool(stability_margin >= 0.0),
+            )
+        )
+    return results
 
 
 # ===========================================================================
@@ -1301,41 +1228,32 @@ def biosecurity_dual_use_risk(phi_benefit_rate: float,
                                phi_harm_rate: float,
                                ai_acceleration: float,
                                governance_phi: float) -> BiosecurityRisk:
-    """Assess dual-use biosecurity risk of AI-accelerated synthetic biology.
+    """Assess dual-use biosecurity risk of AI-accelerated synthetic biology."""
+    if phi_benefit_rate < 0:
+        raise ValueError("phi_benefit_rate must be >= 0")
+    if phi_harm_rate < 0:
+        raise ValueError("phi_harm_rate must be >= 0")
+    if ai_acceleration < 1:
+        raise ValueError("ai_acceleration must be >= 1")
+    if not 0.0 <= governance_phi <= 1.0:
+        raise ValueError("governance_phi must be in [0, 1]")
 
-    Models the Groff-Vindman (2026) concern that AI × SynBio compresses both
-    beneficial and harmful design cycles symmetrically.  The Unitary Pentad's
-    HILS framework (governance_phi) is the countermeasure.
+    effective_harm_rate = float(phi_harm_rate * ai_acceleration * (1.0 - governance_phi))
+    effective_benefit_rate = float(phi_benefit_rate * ai_acceleration)
+    if effective_harm_rate == 0.0:
+        dual_use_risk_index = 0.0
+    elif effective_benefit_rate == 0.0:
+        dual_use_risk_index = float("inf")
+    else:
+        dual_use_risk_index = float(effective_harm_rate / effective_benefit_rate)
 
-    Parameters
-    ----------
-    phi_benefit_rate  : float — base beneficial-attractor discovery rate (must be ≥ 0)
-    phi_harm_rate     : float — base harmful-attractor discovery rate (must be ≥ 0)
-    ai_acceleration   : float — AI speed-up multiplier applied to both (must be ≥ 1)
-    governance_phi    : float — HILS governance effectiveness ∈ [0, 1]
-                                0 = no oversight, 1 = perfect containment
-
-    Returns
-    -------
-    BiosecurityRisk dataclass with:
-      dual_use_risk_index   — R_du (lower is safer; < 0.1 is acceptable)
-      governance_gap        — True if R_du ≥ DUAL_USE_SAFE_THRESHOLD
-      ai_acceleration       — as provided
-      governance_phi        — as provided
-      effective_harm_rate   — residual harm after oversight
-      effective_benefit_rate— benefit rate amplified by AI
-    """
-    # -----------------------------------------------------------------------
-    # PENTAD PRODUCT POLICY v1.0 — AxiomZero Technologies
-    # The HILS Pentad is a protected AxiomZero product currently in active
-    # development.  This function's implementation is held in a private
-    # AxiomZero repository.  See PENTAD_PRODUCT_NOTICE.md for details and
-    # instructions on how to obtain access.
-    # -----------------------------------------------------------------------
-    raise NotImplementedError(
-        "biosecurity_dual_use_risk() is part of the AxiomZero Pentad product layer, "
-        "currently in active development.  "
-        "See PENTAD_PRODUCT_NOTICE.md."
+    return BiosecurityRisk(
+        dual_use_risk_index=dual_use_risk_index,
+        governance_gap=bool(dual_use_risk_index >= DUAL_USE_SAFE_THRESHOLD),
+        ai_acceleration=float(ai_acceleration),
+        governance_phi=float(governance_phi),
+        effective_harm_rate=effective_harm_rate,
+        effective_benefit_rate=effective_benefit_rate,
     )
 
 

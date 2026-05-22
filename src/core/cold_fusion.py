@@ -1068,8 +1068,10 @@ def run_cold_fusion(config: ColdFusionConfig) -> ColdFusionResult:
             return float("-inf")
         return float(np.log10(x))
 
-    # COP: rough estimate — rate_5d / rate_4d treated as power ratio proxy
-    cop_val = enhancement if rate_4d > 0.0 else float("nan")
+    # COP proxy: rate_5d / rate_4d = enhancement (rate ratio used as power
+    # ratio approximation; a proper COP requires P_out/P_in in Watts, which
+    # needs a coherence volume and electrical input not specified here).
+    cop_proxy = enhancement if rate_4d > 0.0 else float("nan")
 
     return ColdFusionResult(
         T_K=config.T_K,
@@ -1087,6 +1089,6 @@ def run_cold_fusion(config: ColdFusionConfig) -> ColdFusionResult:
         log10_rate_5d=_log10_safe(rate_5d),
         d_DD_angstrom=d_DD,
         delta_E_TF_eV=delta_E_TF,
-        cop=cop_val,
+        cop=cop_proxy,
         rate_per_cc_s=rate_5d,
     )

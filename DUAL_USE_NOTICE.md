@@ -17,8 +17,9 @@
 The Unitary Manifold is **fully open-source physics research**, published
 transparently under AGPL-3.0 (software) and the Defensive Public Commons
 License v1.0 (theory).  All source code — including every function in
-`src/cold_fusion/`, `src/physics/lattice_dynamics.py`, and
-`src/core/cold_fusion.py` — is complete and publicly available.
+`src/cold_fusion/` (Pillar 15), `src/physics/lattice_dynamics.py`
+(Pillar 15-B), and `src/core/cold_fusion.py` — is complete and publicly
+available.
 
 This notice records the author's ethical commitments regarding the intended
 application of this work.

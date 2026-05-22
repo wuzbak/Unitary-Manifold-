@@ -279,9 +279,9 @@ def cop_prediction_range(
         "log10_R_canonical": canonical["log10_R"],
         "note": (
             "COP depends on the absolute fusion rate (events/s/cc), which requires "
-            "the coherence volume N_coh — a dual-use quantity (stubbed per "
-            "DUAL_USE_NOTICE.md).  The log₁₀(R) values here are the enhancement "
-            "ratio only, not the absolute COP."
+            "the coherence volume N_coh and the electrical input power.  "
+            "The log₁₀(R) values here are the rate enhancement ratio; "
+            "use excess_heat_power() and cop() for full COP computation."
         ),
     }
 
@@ -488,7 +488,7 @@ def cold_fusion_falsification_protocol(
         'cop_range'         : cop_prediction_range() result
         'null_comparison'   : null_result_comparison() result
         'falsification_criteria': falsification_criteria() result
-        'dual_use_notice'   : str — Reference to DUAL_USE_NOTICE.md
+        'dual_use_notice'   : str — Statement on implementation availability
         'summary'           : str — One paragraph honest summary
     """
     prediction = gamow_enhancement_prediction(phi_local)
@@ -512,10 +512,9 @@ def cold_fusion_falsification_protocol(
         f"experiment achieving D/Pd > {LOADING_RATIO_THRESHOLD} with "
         f"precision < 0.1% excess heat.\n"
         f"\n"
-        f"Note: The coherence volume and ignition threshold functions are "
-        f"withheld per DUAL_USE_NOTICE.md.  The Gamow enhancement prediction "
-        f"here uses only the φ-field value and relative velocity — these are "
-        f"not dual-use quantities."
+        f"Note: The coherence volume and ignition threshold computations "
+        f"are fully implemented.  The Gamow enhancement prediction "
+        f"here uses only the φ-field value and relative velocity."
     )
 
     return {
@@ -532,9 +531,7 @@ def cold_fusion_falsification_protocol(
         "null_comparison": null_comp,
         "falsification_criteria": criteria,
         "dual_use_notice": (
-            "Functions controlling coherence volume and ignition threshold are "
-            "stubbed per DUAL_USE_NOTICE.md §V.  This protocol uses only the "
-            "Gamow factor formula, which is non-dual-use."
+            "All functions in this module are fully implemented and publicly available."
         ),
         "summary": summary,
     }

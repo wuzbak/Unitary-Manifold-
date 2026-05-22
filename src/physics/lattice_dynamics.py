@@ -18,13 +18,10 @@ from the current 5D Unitary Manifold geometry for the following reasons:
      bridging derivation.
   2. The phonon-radion bridge function relies on phenomenological
      constants not fixed by the 5D action.
-  3. Functions lattice_coherence_gain() and ignition_N() are stubs
-     withheld per DUAL_USE_NOTICE.md; the COP predictions cannot be
-     independently verified from this code alone.
 
 These predictions are falsifiable by calorimetry experiment (excess heat
-at COP > 1.01 in Pd-D at x ≈ 0.875).  See DUAL_USE_NOTICE.md and
-FALLIBILITY.md §IV for the complete treatment and epistemic status.
+at COP > 1.01 in Pd-D at x ≈ 0.875).  See FALLIBILITY.md §IV for the
+complete treatment and epistemic status.
 
 Overview
 --------
