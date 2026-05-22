@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v12.0 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: ~37,635 passed · 0 failed; v12.0 adds Pillars 345–353: G_{μ5} DERIVED structural, N_e DERIVED_WITH_UNCERTAINTY_BAND, w_DE ARCHITECTURE_LIMIT, P8 PROVED, r/ACT routing, FTUM basin theorem, Cabibbo NLO DERIVED, Swampland SDC, KK GW spectrum; P274 NLO upgrade; Lean4/Z3/512-bit formal infrastructure; 7 epistemic label upgrades; ~600 new tests; 0 failures).*
+*Unitary Manifold v12.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,233 passed · 2 skipped · 12 deselected · 0 failed; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~750 new tests total; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (35,547 passed, 393 skipped, 12 deselected, 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (38,233 passed · 2 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
