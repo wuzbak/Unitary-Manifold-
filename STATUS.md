@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v11.15 — Effective 2026-05-21*
-*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.15 sprint: Pillars 313–320 added — Mathematics, Physics, and Rigor Gap-Closure Sprint; Admission 3 upgraded to MINIMAL_AXIOM; λ_GW CONSTRAINED; N_e PARAMETERIZED; w_KK formula resolved; braid (5,7) stability DERIVED; FTUM convergence ANALYTIC; seesaw ARCHITECTURE_LIMIT; α_s PDG 2025 update; all CONDITIONAL_DERIVATION claims audited; ~270 new tests; 0 failures). Prior: v11.14 — n_w=7 Exclusion Certificate (Pillar 312). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
+*Unitary Manifold v11.16 — Effective 2026-05-22*
+*Pillar set status tracked canonically in `docs/mas_tracker.yml` (v11.16 sprint: Pillars 321–328 added — Discovery Physics Sprint; eEDM Barr-Zee, LFV BR(μ→eγ), Leptogenesis η_B, EW Oblique S/T/U, BBN N_eff, SGWB Phase Transition, Neutron EDM Strong CP, CKM Cabibbo Anomaly; ~318 new tests; 0 failures). Prior: v11.15 — Math-Physics-Rigor Gap-Closure Sprint (Pillars 313–320). Live validation run committed — see `docs/WAVE_CHANGELOG.md`.*
 
 > **Dual-publication system active (v10.28+):** All scientific claims are now
 > simultaneously available at two layers:
@@ -31,8 +31,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** ~35,912 passed · 393 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 313–320 add ~270 new tests)
-*(v11.15: Pillars 313–320 — Math-Physics-Rigor Gap-Closure Sprint; Admission 3 upgraded MINIMAL_AXIOM; λ_GW CONSTRAINED; N_e PARAMETERIZED; w_KK RESOLVED; braid DERIVED; FTUM ANALYTIC; seesaw ARCHITECTURE_LIMIT; α_s PDG 2025 stable; all CONDITIONAL_DERIVATION audited)*
+**Latest verified branch regression:** ~36,230 passed · 414 skipped · 12 deselected · 0 failed (canonical; full suite; Pillars 321–328 add ~318 new tests)
+*(v11.16: Pillars 321–328 — Discovery Physics Sprint: eEDM Barr-Zee KK, LFV BR(μ→eγ/3e), Leptogenesis η_B geometric seesaw, EW Oblique S/T/U KK tower, BBN N_eff KK consistency, SGWB KK phase transition, Neutron EDM strong CP PQ, CKM Cabibbo anomaly first-row unitarity)*
 
 ---
 
