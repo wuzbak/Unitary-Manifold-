@@ -60,6 +60,7 @@ See `docs/GATEKEEPER_SUMMARY.md` for concise PASS/TENSION/FALSIFIED summary.
 | P31 | Oblique U parameter | 0.00 ± 0.09 | **KK first-mode precision lane** (`src/core/ew_precision_oblique.py`) | in-band (<3σ) | `DERIVED` | ✅ PASS | U outside ±3σ consistency ellipse | None | 2026-05-11 |
 | P32 | Z width Γ_Z | 2.4952 GeV | **2.495 GeV-level KK-corrected width** (`src/core/ew_precision_oblique.py`) | <5% | `DERIVED` | ✅ PASS | Γ_Z outside 5% band at ≥3σ | None | 2026-05-11 |
 | P33 | W width Γ_W | 2.085 GeV | **2.085 GeV-level KK-corrected width** (`src/core/ew_precision_oblique.py`) | <5% | `DERIVED` | ✅ PASS | Γ_W outside 5% band at ≥3σ | None | 2026-05-11 |
+| P34 | Non-Gaussianity f_NL^equil | PENDING (SPHEREx ~2026–2030) | **f_NL^equil ∈ [−3, 0]** (DBI c_s=12/37 + KK braid correction; NEW PREDICTION Pillar 375) | Planck 2018 consistent (f_NL=−26±47, <0.5σ) | `FALSIFIED_IF` | 🟡 PENDING | f_NL > +10 at ≥3σ (rules out sub-luminal c_s) | SPHEREx / EUCLID / CMB-S4 measurement | 2026-05-23 |
 
 **ToE Score v11.2: 28.0 / 28.0 = 100%** (P28 promoted GEOMETRIC_PREDICTION → DERIVED; all 28 parameters now fully derived from geometry with zero free parameters.)
 **DERIVED (confirmed): 28 parameters** (P1–P22 legacy + P26, P27, P28 + P29–P33 precision extensions tracked outside the 28-parameter ToE denominator)
