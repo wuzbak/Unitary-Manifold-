@@ -267,8 +267,8 @@ class TestTextureReport:
         assert math.isclose(report["c_L_texture"][1], 0.8, rel_tol=1e-6)
         assert math.isclose(report["c_L_texture"][2], 0.7, rel_tol=1e-6)
         assert math.isclose(report["c_R_texture"][0], 0.3, rel_tol=1e-6)
-        assert math.isclose(report["c_R_texture"][1], 0.1, rel_tol=1e-5)
-        assert math.isclose(report["c_R_texture"][2], -0.1, rel_tol=1e-5)
+        assert math.isclose(report["c_R_texture"][1], 0.1, rel_tol=1e-5, abs_tol=1e-10)
+        assert math.isclose(report["c_R_texture"][2], -0.1, rel_tol=1e-5, abs_tol=1e-10)
 
     def test_p_R_exact_positive(self, report):
         assert report["p_R_exact"] > 0

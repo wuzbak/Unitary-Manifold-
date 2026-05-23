@@ -146,7 +146,9 @@ def kk_mode_mixing_bound() -> Dict[str, Any]:
     # Exponential suppression relative to inflationary Hubble
     # exp(−M_KK/H_inf) ≈ exp(−10¹³) → effectively 0
     suppression_exponent = -M_KK_OVER_H * m1_over_Mkk
-    # Cap for numerical purposes
+    # Cap at -700: math.exp underflows to 0.0 below ~-745 in float64; using -700 as
+    # a clean threshold ensures the result is indistinguishable from 0 while remaining
+    # numerically explicit about the exponential suppression.
     relative_correction = math.exp(max(suppression_exponent, -700))
 
     return {

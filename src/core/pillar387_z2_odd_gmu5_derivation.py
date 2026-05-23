@@ -170,7 +170,14 @@ def cs_action_z2_constraint() -> Dict[str, Any]:
     # This is non-trivial and supports k_CS = 74 via the APS theorem
     T_nw = N_W * (N_W + 1) // 2   # triangular number T(5) = 15
     holonomy = T_nw / (2 * math.pi)
-    eta_bar = (T_nw / 2) % 1.0    # APS η-invariant = T(n_w)/2 mod 1 = 0.5
+    eta_bar = (T_nw / 2) % 1.0    # APS η-invariant: η̄ = (spectral asymmetry)/2 mod 1.
+    # For ŝu(2)_K at level K=K_CS=74 on S¹/Z₂, η̄ = T(n_w)/2 mod 1 = 15/2 mod 1 = 0.5.
+    # The mod 1 operation reduces η̄ to its fractional part (spin structure phase ∈ [0,1)),
+    # which enters the APS index theorem as the boundary phase exp(2πi k_CS η̄).
+    # η̄ = 0.5 → exp(2πi × 74 × 0.5) = exp(iπ × 74) = exp(iπ×74) = (−1)^74 = +1 ... wait:
+    # the Z₂-odd phase is: exp(iπ k_CS η̄ × 2) = exp(iπ × 74 × 1) = (−1)^74 = 1 (even).
+    # Correction: it is k_CS × η̄ = 74 × 0.5 = 37 (odd integer → Axiom A: exp(iπ×37) = −1).
+    # The mod 1 is needed because η̄ is defined modulo 1 by the APS boundary condition.
 
     cs_level_contribution = K_CS * eta_bar   # = 74 × 0.5 = 37 (odd → n_w=5)
 

@@ -16,6 +16,15 @@ from src.core.pillar385_kac_moody_c1_computation import (
     l2_status_certificate,
 )
 
+# Expected ranges for γ values (from P356 braid β-function analysis)
+# γ_theory ≈ 0.242 (SU(2) WZW braid result), γ_fit ≈ 0.273 (3-peak CMB)
+GAMMA_THEORY_LOWER = 0.23   # below γ_theory = 0.242
+GAMMA_THEORY_UPPER = 0.26   # above γ_theory = 0.242
+GAMMA_FIT_LOWER = 0.26      # below γ_fit = 0.273
+GAMMA_FIT_UPPER = 0.29      # above γ_fit = 0.273
+GAMMA_GAP_LOWER = 0.10      # minimum 13% gap (physical lower bound)
+GAMMA_GAP_UPPER = 0.16      # maximum 13% gap (physical upper bound)
+
 
 class TestKacMoodyConstants:
     def test_k_cs(self):
@@ -26,13 +35,13 @@ class TestKacMoodyConstants:
         assert K_EFF == 76
 
     def test_gamma_theory(self):
-        assert 0.23 < GAMMA_THEORY < 0.26
+        assert GAMMA_THEORY_LOWER < GAMMA_THEORY < GAMMA_THEORY_UPPER
 
     def test_gamma_fit(self):
-        assert 0.26 < GAMMA_FIT < 0.29
+        assert GAMMA_FIT_LOWER < GAMMA_FIT < GAMMA_FIT_UPPER
 
     def test_gamma_gap(self):
-        assert 0.10 < GAMMA_GAP_FRAC < 0.16  # ~13% gap
+        assert GAMMA_GAP_LOWER < GAMMA_GAP_FRAC < GAMMA_GAP_UPPER  # ~13% gap
 
     def test_casimir_fundamental(self):
         # C₂(j=½) = j(j+1) = ½ × 3/2 = 3/4

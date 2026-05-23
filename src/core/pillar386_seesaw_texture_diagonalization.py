@@ -201,8 +201,11 @@ def dirac_mass_matrix(y5: float = Y5, vev: float = V_EW,
     np.ndarray
         Shape (3, 3) Dirac mass matrix in GeV.
     """
-    # Normalization factor: y5 × v (the 1/√(πR) is taken as 1 in Planck units
-    # since we normalize to M_KK scale below)
+    # Normalization factor: y5 × v.
+    # The 1/√(πR) factor from the 5D→4D KK reduction is absorbed into the
+    # zero-mode profile normalization returned by kk_profile_zero_mode():
+    # ∫₀^{πR} |f₀(c)|² dy = 1 by construction, so the mass is m_D = y5 × v × f₀(c_L) × f₀(c_R),
+    # with the √(πR) implicit in the profile normalization constant.
     norm = y5 * vev
 
     m_D = np.zeros((3, 3))
