@@ -1,4 +1,4 @@
-version: "v12.7"
+version: "v12.8"
 date: "2026-05-23"
 updated: "2026-05-23"
 mas_status: "COMPLETE"
@@ -18,11 +18,46 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.7"
-  regression: "39,745 passed · 22 skipped · 12 deselected · 0 failed (v12.7 sandbox; Pillars 385–388 + Mathematical Gap Closure Sprint; 219 new tests)"
+  version: "v12.8"
+  regression: "39,952 passed · 22 skipped · 12 deselected · 0 failed (v12.8 sandbox; Pillars 389–393 + Execution Governance + Signal Purge Sprint; 207 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_8_sprint:
+  version: "v12.8"
+  wave: "Execution Governance + Signal Purge Sprint — Pillars 389–393"
+  date: "2026-05-23"
+  pillars_added: [389, 390, 391, 392, 393]
+  new_tests: 207
+  failures: 0
+  status_labels:
+    P389: "GOVERNANCE_ENGINEERING"
+    P390: "GOVERNANCE_ENGINEERING"
+    P391: "GOVERNANCE_ENGINEERING"
+    P392: "GOVERNANCE_ENGINEERING"
+    P393: "GOVERNANCE_ENGINEERING"
+  governance_controls_activated:
+    - "three_lane_model (ROUTINE/SENSITIVE/CRITICAL)"
+    - "authority_inversion_detection"
+    - "scope_creep_detection"
+    - "six_surface_truth_consistency_checker"
+    - "release_blocker_taxonomy"
+    - "signal_noise_triage_filter"
+    - "canonical_14_item_registry"
+    - "decision_readiness_audit_six_windows"
+    - "ten_canonical_rehearsal_drills"
+    - "sprint_completion_gate_six_criteria"
+  high_tension_signals:
+    DESI_WA: "2.75σ; threshold 3.0σ; DR3 ~2027; routing preregistered"
+    ACT_DR6_R: "r<0.016 (95%CL); IRREDUCIBLE_IN_BRAIDED_5D_EFT; SO DR1 ~2027"
+  decision_windows_covered:
+    DESI_DR3: "2027; wₐ=0; preregistered; routing tested"
+    SO_DR1: "2027; r=0.0315; preregistered; routing tested"
+    JUNO: "2027; Δm²₃₁=2.452e-3 eV²; SHA-256 hash committed"
+    SPHEREX: "2028; f_NL∈[-3,0]; preregistered"
+    CMB_S4: "2030; r+β joint; preregistered"
+    LITEBIRD: "2032; β∈{0.273°,0.331°}; PRIMARY FALSIFIER; preregistered"
 
 v12_7_sprint:
   version: "v12.7"
