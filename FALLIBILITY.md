@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v12.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,233 passed · 2 skipped · 12 deselected · 0 failed; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~750 new tests total; 0 failures).*
+*Unitary Manifold v12.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,421 passed · 2 skipped · 12 deselected · 0 failed; v12.2 adds Pillar 355 Second Quantization of φ — CMB amplitude frontier; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~938 new tests total; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (38,233 passed · 2 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (38,421 passed · 2 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -1016,7 +1016,11 @@ prediction.
 *Status: **Amplitude gap closed by Pillar 57 (radion amplification) and Pillar 63
 (E-H baryon-loaded source).  Spectral shape gap — peak positions offset by ~35% from
 naive formula — addressed by Pillar 73 (KK Boltzmann correction shown negligible;
-~35% offset is not a KK effect and requires full Boltzmann integration to resolve).***
+~35% offset is not a KK effect and requires full Boltzmann integration to resolve).
+Quantum second-quantization frontier identified by Pillar 355: Z_φ = 1 + √K_CS/(2φ₀²)
+≈ 5.30 from radion zero-point fluctuation accounts for the ×4–7 gap magnitude to
+within ±26% at the first three acoustic peaks; full closure requires a Z_φ-corrected
+Boltzmann solver.***
 
 #### Root cause of the ×4–7 suppression (Pillar 52)
 
@@ -1084,6 +1088,7 @@ give the correct absolute peak positions and heights from the UM framework.
 | Sub-problem | Status | Reference |
 |-------------|--------|-----------|
 | Integrated amplitude at acoustic peaks (×4–7 gap) | ✅ **Closed** | Pillars 57, 63 |
+| Quantum Z_φ mechanism identified | ✅ **FRONTIER_COMPUTATION** | Pillar 355: Z_φ ≈ 5.30; accounts for ×4–7 gap to ±26% |
 | Correct acoustic peak positions (absolute ℓ) | ⚠️ **Open** — KK correction negligible | Boltzmann required; Pillar 73 |
 | Baryon loading source enhancement | ✅ **Implemented** | `cmb_transfer.py` |
 | E-H CDM transfer function | ✅ **Implemented** | `cmb_transfer.py` |
@@ -1826,6 +1831,7 @@ Open gaps after Pillar 62 — **RESOLVED by Ω_QCD Phase A+B (May 2026):**
 | Muon g−2 anomaly (Pillar 51; final result June 2025) | ⚠️ Open question — bridged | KK correction δa_μ^KK ~ 10⁻⁴¹ (30 orders below anomaly); ALP Barr–Zee upper bound derived |
 | Irreversibility from 5D | ✅ **Lower-bound proved** (April 2026) | `kk_tower_irreversibility_proof()`: every KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound. ADM formalism still absent. |
 | CMB amplitude gap (Pillars 52, 57, 63) | ✅ **Amplitude closed**; shape residual addressed | Baryon loading (Pillar 63) bridges ×4–7; KK correction δ_KK~8×10⁻⁴ quantified by Pillar 73 |
+| CMB amplitude gap — quantum Z_φ frontier (Pillar 355) | ⚡ **FRONTIER_COMPUTATION** — mechanism identified | Z_φ = 1+√K_CS/(2φ₀²) ≈ 5.30 from radion zero-point fluctuation; closes ×4–7 gap to ±26% at acoustic peaks; full Z_φ-corrected Boltzmann solver open |
 | φ₀ self-consistency (Pillar 56) | ✅ **Analytically closed** (April 2026) | Braided nₛ formula collapses all three candidate φ₀ values to φ₀_FTUM exactly; 170 tests |
 | Neutrino-Radion Identity / M_KK scale | ✅ **Substantially closed** (April 2026) | Exact closure at m_ν = 110.13 meV; bridge_ratio = 1.0000; R_KK = 1.792 μm. Fermion sector derivation remains future work. Code: `derive_R_from_neutrino_mass()`, `prove_resonance_identity()` — 315 tests. |
 | Casimir-KK ripple prediction | ✅ **Predicted** — awaiting experiment | δF/F = 0.162% at d ≈ 1.792 μm. Falsifiable at 0.1% precision. |

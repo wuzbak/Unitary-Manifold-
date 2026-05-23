@@ -1,6 +1,6 @@
-version: "v12.1"
-date: "2026-05-22"
-updated: "2026-05-22"
+version: "v12.2"
+date: "2026-05-23"
+updated: "2026-05-23"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,11 +18,33 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.0"
-  regression: "~37,635 passed · ~23 skipped · 0 failed (canonical; Pillars 345-353 + P274 NLO upgrade + Lean4/Z3/512-bit formal infrastructure; ~600 new tests; 7 epistemic label upgrades)"
+  version: "v12.2"
+  regression: "38,421 passed · 2 skipped · 0 failed (canonical; Pillars 345-355 + Second Quantization Z_φ frontier; 188 new tests; 0 failures)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_2_second_quantization_sprint:
+  version: "v12.2"
+  wave: "Second Quantization of φ — CMB Amplitude Frontier"
+  date: "2026-05-23"
+  next_pillar_slot: 356
+  pillars_added:
+    - 355  # Second Quantization of φ: Z_φ and CMB amplitude gap closure
+  new_tests: 188
+  regression_result: "38,421 passed · 2 skipped · 0 failed"
+  key_result:
+    Z_phi: "1 + sqrt(74)/2 ≈ 5.301"
+    Z_phi_half: "≈ 2.302 ∈ [2.0, 2.6] (predicted range)"
+    CMB_gap_closure: "×4–7 classical gap reduced to ±26% residual at acoustic peaks"
+    mechanism: "Radion zero-point fluctuation ⟨δφ²⟩₀ = sqrt(K_CS)/2 contributes Z_φ to CMB transfer function"
+  status: "FRONTIER_COMPUTATION — CMB amplitude mechanism identified; full Boltzmann solver open"
+  frontier_items:
+    - "F1: Z_φ-corrected Boltzmann solver (CLASS/CAMB-equivalent)"
+    - "F2: Scale-dependent Z_φ(k) RG running"
+    - "F3: Two-loop corrections to Z_φ (negligible)"
+    - "F4: Quantum backreaction on baryon-photon sound speed"
+    - "F5: LiteBIRD birefringence test (2032) — primary falsifier of K_CS=74"
 
 v12_0_foundational_rigor_sprint:
   version: "v12.0"
