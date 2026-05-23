@@ -62,7 +62,7 @@ For each wave entry, include:
 - γ L2: NON-PERTURBATIVE_ORIGIN confirmed; specific mechanism unidentified
 - f_NL KK braid correction: large Δc̃_KK from ρ≈0.946; full bispectrum calculation pending
 
-## v12.4 (2026-05-23 — Physics Deep Dive & Gap Closure Sprint: Pillars 357–366 + Dark Energy Formula Canonicalization)
+## v12.5 (2026-05-23 — Physics Deep Dive & Gap Closure Sprint: Pillars 357–366 + Dark Energy Formula Canonicalization)
 
 **What changed:**
 - **Pillar 357** (`src/core/pillar357_act_dr6_tensor_spectrum.py`) — Full scale-dependent tensor spectrum analysis for ACT DR6. Scale dependence of r is negligible (~0.01% running between BICEP and ACT scales); tension IRREDUCIBLE at braided 5D-EFT level. SO DR1 (~2027) is the resolution protocol.
@@ -76,7 +76,7 @@ For each wave entry, include:
 - **Pillar 365** (`src/core/pillar365_baryogenesis_honest_reckoning.py`) — Baryogenesis honest reckoning: ARCHITECTURE_LIMIT certified. Central η_B estimate ~2000× below observed. Even braid enhancement (×74) + O(30) favorable washout approaches but doesn't guarantee the observed value. Paths forward: Affleck-Dine baryogenesis, KK-EWPT.
 - **Pillar 366** (`src/core/pillar366_bayesian_model_comparison.py`) — Full Bayesian model comparison. Net advantage: +128 nats (Occam factor +136 nats; tension penalty −8 nats). UM Bayesian-preferred over ΛCDM+SM even accounting for HIGH_TENSION signals (r-tension, wₐ-tension).
 - 404 new tests; 0 failures.
-- STATUS.md, docs/mas_tracker.yml updated to v12.4; FALLIBILITY.md §4.4 updated with Pillar 359 canonical DE formula.
+- STATUS.md, docs/mas_tracker.yml updated to v12.5; FALLIBILITY.md §4.4 updated with Pillar 359 canonical DE formula.
 
 **Key results:**
 - Dark energy: w₀ = −1 (frozen radion, canonical); old w_KK ≈ −0.930 DEPRECATED
@@ -135,7 +135,7 @@ For each wave entry, include:
 - F356-3: Correct Bessel/FM representation of braid acoustic transfer function
 - F356-4: LiteBIRD birefringence test (~2032)
 
-**Regression:** 38,513 passed · 22 skipped · 12 deselected · 0 failed.
+**Regression:** 39,022 passed · 22 skipped · 12 deselected · 0 failed.
 
 
 
@@ -144,7 +144,7 @@ For each wave entry, include:
 - **Full second-quantization algebra**: mode expansion φ(x) = Σ_k [a_k u_k + h.c.], zero-point variance ⟨δφ²⟩₀ = √K_CS/2, Fock space tower, KK mode sum with braided weights w_n = exp(-n²/K_CS).
 - **One-loop interpretation**: Z_φ − 1 = α × F_KK with α = φ₀⁻² = 1, F_KK = √K_CS/2 ≈ 4.30 — a non-perturbative O(α) correction with KK geometric enhancement ×(16π²F_KK) over the naive 1/(16π²) loop factor.
 - **Z_φ^{1/2} ≈ 2.302** is squarely in the predicted range [2.0, 2.6] (consistent with one-loop quantum correction at coupling α = φ₀⁻² = 1).
-- **188 new tests**, 0 failures. Full regression: 38,513 passed · 22 skipped · 12 deselected · 0 failed.
+- **188 new tests**, 0 failures. Full regression: 39,022 passed · 22 skipped · 12 deselected · 0 failed.
 - **Frontier roadmap**: F1 (Z_φ-corrected Boltzmann solver), F2 (scale-dependent Z_φ(k) RG running), F3 (two-loop corrections, negligible), F4 (quantum backreaction on baryon-photon c_s), F5 (LiteBIRD birefringence test 2032).
 
 **Why:** The CMB acoustic peak amplitude gap (×4–7, documented in FALLIBILITY.md Admission 2) is a real discrepancy that points to the frontier: second quantization of φ. This Pillar identifies the precise quantum mechanism — radion zero-point fluctuation Z_φ — and shows it accounts for the entire gap magnitude to within ±26%.
