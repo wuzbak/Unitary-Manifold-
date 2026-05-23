@@ -302,10 +302,86 @@ python -m pytest omega/test_omega_synthesis.py -v
 | Sector proof not algebraic (Pillar 96) | `tests/test_unitary_closure.py` | `test_algebraic_sector_proof` |
 | Ŷ₅ ≠ 1 from GW vacuum (Pillar 97) | `tests/test_gw_yukawa_derivation.py` | `test_gw_vacuum_yukawa_unity` |
 | Omega engine stub (Pillar Ω) | `omega/test_omega_synthesis.py` | `test_all_six_domains_populated` |
+| Postulate audit fails completeness (Pillar 394) | `tests/test_pillar394_postulate_minimality_audit.py` | `test_completeness_passes` |
+| DAG cycle introduced (Pillar 395) | `tests/test_pillar395_derivation_dag.py` | `test_derivation_dag_is_acyclic` |
+| WZW loops reach r<0.016 before perturbativity breaks (Pillar 396) | `tests/test_pillar396_act_r_tension_architecture_limit.py` | `test_cumulative_correction_at_perturbativity_limit_small` |
+| Discriminant register drops below 10 unique predictions (Pillar 397) | `tests/test_pillar397_unique_discriminant_register.py` | `test_uniquely_discriminating_count_at_least_10` |
 
 ---
 
-## What would constitute a real break
+## 17. Break the Postulate Minimality Audit (Pillar 394)
+
+**Handle:** In `src/core/pillar394_postulate_minimality_audit.py`, add a new entry to
+`DERIVED_CLAIM_DEPENDENCIES` that cites a postulate name not in the registry, or remove
+a postulate that is a dependency of a DERIVED claim.
+
+**Expected result:** `tests/test_pillar394_postulate_minimality_audit.py` fails at
+`test_completeness_passes` or `test_each_derived_claim_has_known_postulate`.
+
+**What this tests:** The claim that every DERIVED result has a documented postulate
+dependency — the fundamental traceability requirement.
+
+```bash
+pytest tests/test_pillar394_postulate_minimality_audit.py -v
+# → FAIL (test_completeness_passes or test_each_derived_claim_has_known_postulate)
+```
+
+---
+
+## 18. Break the Derivation DAG Acyclicity (Pillar 395)
+
+**Handle:** In `src/core/pillar395_derivation_dag.py`, add an edge `("P1: Z₂ orbifold (S¹/Z₂)", "n_w=5 pure theorem")` to `_EDGES` (creating a cycle: P1 → n_w=5 → P1 via the existing edge `("n_w=5 pure theorem", "P1: Z₂ orbifold (S¹/Z₂)")`).
+
+**Expected result:** `tests/test_pillar395_derivation_dag.py` fails at
+`test_derivation_dag_is_acyclic` — the hard gate test that must never be broken.
+
+**What this tests:** The logical consistency requirement that no claim is circularly
+justified.  A cycle means at least one claim depends on itself, directly or indirectly.
+
+```bash
+pytest tests/test_pillar395_derivation_dag.py::TestDAGAcyclicity::test_derivation_dag_is_acyclic -v
+# → FAIL (cycles_found is non-empty)
+```
+
+---
+
+## 19. Break the ACT r-Tension Architecture Limit (Pillar 396)
+
+**Handle:** In `src/core/pillar396_act_r_tension_architecture_limit.py`, change
+`RHO_WZW` from `2 * N_W * N_SHADOW / K_CS` to `0.01`.  With ρ=0.01, the WZW loop
+corrections converge faster and the architecture limit proof may no longer hold.
+
+**Expected result:** `tests/test_pillar396_act_r_tension_architecture_limit.py` fails at
+`test_proof_architecture_limit_certified` — the architecture limit requires ρ to be
+the braid-fixed value 70/74, not a free parameter.
+
+**What this tests:** The claim that ρ = 70/74 is FIXED by the braid (not a free
+parameter) and that this fixed value makes r < 0.016 formally unreachable via WZW loops.
+
+```bash
+pytest tests/test_pillar396_act_r_tension_architecture_limit.py -v
+# → FAIL (test_rho_wzw_formula, test_proof_architecture_limit_certified)
+```
+
+---
+
+## 20. Break the Unique Discriminant Register (Pillar 397)
+
+**Handle:** In `src/core/pillar397_unique_discriminant_register.py`, change the
+discriminant class of P1 (nₛ=0.9635) from `UNIQUELY_DISCRIMINATING` to
+`CONSISTENCY_ONLY`.
+
+**Expected result:** `tests/test_pillar397_unique_discriminant_register.py` fails at
+`test_p1_ns_uniquely_discriminating` and `test_uniquely_discriminating_count_at_least_10`.
+
+**What this tests:** The honest classification requirement — nₛ is uniquely
+discriminating because it is fixed with zero free parameters by a topological integer
+identity, not post-hoc matched.
+
+```bash
+pytest tests/test_pillar397_unique_discriminant_register.py -v
+# → FAIL (test_p1_ns_uniquely_discriminating)
+```
 
 A break that matters is one where:
 

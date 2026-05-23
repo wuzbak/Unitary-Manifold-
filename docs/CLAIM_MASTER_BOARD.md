@@ -1,9 +1,11 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v12.7
+# Unitary Manifold v12.9
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-23 (v12.7 — Mathematical Gap Closure Sprint: Pillars 385–388 added — KM c₁ L2_KACMOODY_CONSTRAINED (P385), seesaw TEXTURE_DIAGONALIZED (P386), Admission 3 FORMALLY_CLOSED (P387), NLO NLO_CORRECTIONS_BOUNDED (P388); 219 new tests; 0 failures. Canonical test count: 39,745 passing.)*
+*Last updated: 2026-05-23 (v12.9 — Epistemological Deep Audit: Pillars 394–397 added; truth surfaces synced; P6 Holographic Entropy corrected to DERIVED_CONDITIONAL (Pillar 379 closure recorded); Admissions 11–13 formalized; 228 new tests; 0 failures. Canonical test count: ≥40,180 passing.)*
+
+*P6 status correction (v12.9): Holographic entropy S=A/4G was listed as ASSUMED in DERIVATION_STATUS.md Part I. Pillar 379 (v12.6) formally derived S\*=A/(4G_N^{4D}) at the FTUM fixed point (DERIVED_CONDITIONAL). DERIVATION_STATUS.md Part I corrected to reflect this. The wave changelog (v12.6) already recorded P6 ASSUMED → DERIVED; the ledger document was not updated at the time. This is now resolved.*
 
 *P17 note: Pillar 296 full 3×3 WS-V texture diagonalization confirms p_R upgrade is not achievable within 5D-EFT. P17 remains CONDITIONAL_DERIVATION. JUNO safety maintained (NLO chain 0.004% residual). SEESAW_TEXTURE_FULL_EXACT_WS_V_DIAGONALIZATION gap certified as architecture limit.*
 

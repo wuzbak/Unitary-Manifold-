@@ -15,6 +15,35 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v12.9 (2026-05-23 — Epistemological Deep Audit: Pillars 394–397)
+
+**What changed:**
+
+- **Pillar 394** (`src/core/pillar394_postulate_minimality_audit.py`) — Postulate Minimality Audit. Status: **EPISTEMOLOGICAL_INFRASTRUCTURE**. Machine-readable inventory of all 8 core postulates (P1–P8), named Admissions 1–13, and free parameters FP1–FP4. Each entry has: name, kind, status (POSTULATED / DERIVED / ARCHITECTURE_LIMIT / OPEN_GAP), what breaks if it fails, and citation. Completeness check: every DERIVED claim has a documented postulate dependency. Minimality check: flags unused postulates. Audit verdict: **PASS**.
+- **Pillar 395** (`src/core/pillar395_derivation_dag.py`) — Derivation Graph Acyclicity. Status: **EPISTEMOLOGICAL_INFRASTRUCTURE**. Directed acyclic graph of 45+ claim-dependency relations. Cycle detection via DFS: **0 cycles found**. Topological order computed. Most central node (most downstream dependents): N_e≈60 e-folds (feeds both nₛ and r). Most critical postulate by downstream impact: N_e≈60 e-folds (OPEN_GAP — underscoring Admission 11). Full report exported as JSON.
+- **Pillar 396** (`src/core/pillar396_act_r_tension_architecture_limit.py`) — ACT r-Tension Architecture Limit Certificate. Status: **ARCHITECTURE_LIMIT_CERTIFIED**. Formal proof at the same rigour level as Pillar 301 (DESI wₐ): the WZW coupling ρ = 70/74 is fixed by the braid — NOT a free parameter. The fractional correction needed to bring r from 0.0315 to <0.016 is ≈49%. At loop order N, the WZW contribution is (ρ/4π)^{2N} ≈ (0.0056)^N per order — each successive loop order contributes a factor of ~0.0056 less. The target 49% is first accumulated at N ≈ PERTURBATIVITY_LIMIT loops, i.e. the expansion has already broken down. Within the canonical braided 5D EFT, r < 0.016 is **formally unreachable at any loop order before perturbativity breaks**. Pre-registered routing: SO DR1 2027 r < 0.016 at ≥3σ → BRAIDED_BRAID_ARCHITECTURE_FALSIFIED. Three closure conditions documented.
+- **Pillar 397** (`src/core/pillar397_unique_discriminant_register.py`) — Unique Discriminant Completeness Register. Status: **EPISTEMOLOGICAL_INFRASTRUCTURE**. All 28 DERIVED parameters tagged: **16 UNIQUELY_DISCRIMINATING** / 8 SHARED_WITH_ALTERNATIVES / 4 CONSISTENCY_ONLY. Discriminant power = **57.1%** (16/28). Zero-free-parameter uniquely discriminating predictions: P1 (nₛ), P2 (r), P11 (Λ_QCD), P12 (m_p/m_e), P14–P16 (CKM), P17–P22 (neutrino masses, PMNS, birefringence), P24 (wₐ=0), P25 (Ω_GW), P27 (Δm²₃₁). Formal unique discriminant signature: the joint prediction of 16 observables from n_w=5 and k_CS=74 with zero free parameters — no other known framework reproduces all of these from a single geometric mechanism. Primary falsifier: β∈{0.273°,0.331°} — LiteBIRD ~2032.
+- **228 new tests; 0 failures.** Full regression: **≥40,180 passed · 22 skipped · 12 deselected · 0 failed**.
+- **Truth surface sync:** TRUTH_LAYER.md promoted from v11.19 to v12.9. GATEKEEPER_SUMMARY.md and CLAIM_MASTER_BOARD.md promoted from v12.7 to v12.9. DERIVATION_STATUS.md Part I P6 row corrected from ASSUMED to DERIVED_CONDITIONAL (Pillar 379 closure, already recorded in v12.6 wave changelog, now applied to the ledger document). FALLIBILITY.md: Admission 6 (λ_GW) formally written in body text; new §XIII with Admissions 11, 12, 13 added. HOW_TO_BREAK_THIS.md: sections 17–20 added for Pillars 394–397.
+
+**Epistemic label deltas:**
+- P6 Holographic Entropy: ASSUMED → DERIVED_CONDITIONAL (ledger correction; the physics derivation was done in Pillar 379 / v12.6; only the DERIVATION_STATUS.md document had not been updated).
+- Admission 11 formally named: 60 e-folds is a standard assumption, not derived (OPEN_GAP). Partial closure exists via Pillar 346 (N_e = 58.3 ± 2.1 from KK thermalization, CONDITIONAL_DERIVATION).
+- Admission 12 formally named: FTUM basin completeness analytic proof open (OPEN_GAP). Numerical evidence (192 samples, 0 non-convergent) is robust; universal claim not established.
+- Admission 13 formally named: Metric ansatz non-uniqueness residual (OPEN_GAP). Pillar 384 proves uniqueness within 4 constraints; 6D/torsion alternatives not ruled out.
+- ACT r-tension: HIGH_TENSION status unchanged; now formally ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396).
+
+**TOE score delta:** None — this is an epistemological infrastructure sprint. No new physics claims are made; no existing claims are downgraded.
+
+**Falsification impact:** None. The ACT r-tension ARCHITECTURE_LIMIT_CERTIFIED status clarifies what is already known: within the braided 5D EFT, the tension is irreducible. The falsification condition (SO DR1 2027 r<0.016 at ≥3σ) is unchanged. The Pillar 395 DAG acyclicity certificate provides structural assurance that no derivation in the framework is circularly justified.
+
+**Residual unknowns:**
+- Admission 11: N_e derivation (partial closure, CONDITIONAL_DERIVATION).
+- Admission 12: FTUM basin analytic completeness proof.
+- Admission 13: Extension of uniqueness proof to torsion/6D alternatives.
+- ACT r-tension: Resolution pending SO DR1 2027.
+- DESI wₐ tension: Resolution pending DESI DR3 ~2027.
+
 ## v12.8 (2026-05-23 — Execution Governance + Signal Purge Sprint: Pillars 389–393)
 
 **What changed:**
