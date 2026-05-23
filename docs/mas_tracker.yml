@@ -1,4 +1,4 @@
-version: "v12.6"
+version: "v12.7"
 date: "2026-05-23"
 updated: "2026-05-23"
 mas_status: "COMPLETE"
@@ -18,11 +18,29 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.6"
-  regression: "39,526 passed · 22 skipped · 12 deselected · 0 failed (v12.6 sandbox; Pillars 377–384 + Mathematical Closure Sprint; 504 new tests)"
+  version: "v12.7"
+  regression: "39,745 passed · 22 skipped · 12 deselected · 0 failed (v12.7 sandbox; Pillars 385–388 + Mathematical Gap Closure Sprint; 219 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_7_sprint:
+  version: "v12.7"
+  wave: "Mathematical Gap Closure — Pillars 385–388"
+  date: "2026-05-23"
+  pillars_added: [385, 386, 387, 388]
+  new_tests: 219
+  failures: 0
+  status_labels:
+    P385: "L2_KACMOODY_CONSTRAINED"
+    P386: "TEXTURE_DIAGONALIZED"
+    P387: "ADMISSION_3_FORMALLY_CLOSED"
+    P388: "NLO_CORRECTIONS_BOUNDED"
+  status_upgrades:
+    L2: "L2_BOUNDED_NON_PERTURBATIVE → L2_KACMOODY_CONSTRAINED (P385: KM one-loop c₁≈3.02; empirical c₁≈9.40; NP residual bounded)"
+    P17_p_R: "BOUNDED_FROM_GEOMETRY → TEXTURE_DIAGONALIZED (P386: 3×3 seesaw diagonalization; RS1 warp profiles)"
+    Admission_3: "CONVENTION → DERIVED_FROM_5D_LAGRANGIAN (P387: two independent 5D EH action constraints)"
+    P384_NLO: "UNCONTROLLED → NLO_CORRECTIONS_BOUNDED (P388: total < 0.74%; DERIVED_UNIQUE survives NLO)"
 
 v12_6_sprint:
   version: "v12.6"

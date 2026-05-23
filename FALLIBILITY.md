@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v12.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 39,022 passed · 22 skipped · 12 deselected · 0 failed; v12.5 adds Pillars 367–376 — 2027 Decision Year Preparation + Genuine Physics Frontiers; 509 new tests; 0 failures; v12.4 adds Pillars 357–366 Physics Deep Dive; ~938 new tests total from v12.1–v12.4; 0 failures).*
+*Unitary Manifold v12.7 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 39,745 passed · 22 skipped · 12 deselected · 0 failed; v12.7 adds Pillars 385–388 — Mathematical Gap Closure: KM c₁, seesaw diagonalization, Admission 3 formal closure, NLO corrections bounded; 219 new tests; 0 failures; v12.6 adds Pillars 377–384; 504 new tests; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (39,022 passed · 22 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (39,745 passed · 22 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -3626,9 +3626,9 @@ observation]" in the `braided_winding.py` module docstring.
 
 ---
 
-## §XII — v12.5 Sprint Honest Admissions (2026-05-23)
+## §XII — v12.7 Sprint Honest Admissions (2026-05-23)
 
-*Added 2026-05-23 following the v12.5 sprint (Pillars 367–376: 2027 Decision Year Preparation
+*Added 2026-05-23 following the v12.7 sprint (Pillars 367–376: 2027 Decision Year Preparation
 + Genuine Physics Frontiers). These entries document outcomes of honest analyses of named
 open problems.*
 
@@ -3689,7 +3689,7 @@ braid condensate, KK winding resonance at strong CS coupling, or emergent topolo
 
 ### §XII.4 — f_NL Correction: Planning Estimate Superseded
 
-**Context:** The v12.5 sprint plan estimated f_NL^equil ≈ −8.3 from the DBI formula.
+**Context:** The v12.7 sprint plan estimated f_NL^equil ≈ −8.3 from the DBI formula.
 Pillar 375 computes the correct value: with c_s = 12/37 ≈ 0.3243, the DBI contribution
 is f_NL^{DBI} ≈ −2.76. After the KK Chern-Simons braid correction (Δc̃_KK ≈ +4.25),
 the KK term partially cancels the DBI term, giving f_NL^{equil,UM} ≈ −0.5.

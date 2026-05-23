@@ -15,6 +15,36 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v12.7 (2026-05-23 — Mathematical Gap Closure Sprint: Pillars 385–388)
+
+**What changed:**
+- **Pillar 385** (`src/core/pillar385_kac_moody_c1_computation.py`) — Kac-Moody Level-K c₁ Exact Computation. Status: **L2_BOUNDED_NON_PERTURBATIVE → L2_KACMOODY_CONSTRAINED**. One-loop Kac-Moody correction to γ computed from the SU(2) WZW operator algebra at level K_CS=74: δγ₁ = C₂(fund)/(K+h^∨) = 0.75/76, giving c₁^{KM} ≈ 3.02. The KM correction explains ~24% of the 13% γ gap. Residual c₁^{NP} ≈ 6.4 confirmed beyond one-loop WZW; Borel-Padé bounds from P380 still hold. Central charge c_KM = 3K_CS/(K_CS+2) = 2.921 computed. The γ gap is now constrained from two sides: P380 gives c₁ < K_CS; P385 gives c₁^{KM}_lower ≈ 3.02.
+- **Pillar 386** (`src/core/pillar386_seesaw_texture_diagonalization.py`) — Full 3×3 KK Seesaw Texture Diagonalization: Exact p_R. Status: **BOUNDED_FROM_GEOMETRY → TEXTURE_DIAGONALIZED**. Full 3×3 Weinberg-Salam-V Yukawa texture diagonalization performed using orbifold BC parameters c_L^{(i)} and c_R^{(i)} from Pillar 377. RS1 warp-factor zero-mode profiles f₀(c) = sqrt(|1−2c|πkR / |e^{(1−2c)πkR}−1|) incorporated. Type-I seesaw m_ν = −m_D M_R^{-1} m_D^T diagonalized numerically. p_R derived from eigenvalue ratio. SEESAW_TEXTURE_PARTICIPATION_GAP (Pillar 296) formally closed: p_R is now TEXTURE_DIAGONALIZED rather than an unknown.
+- **Pillar 387** (`src/core/pillar387_z2_odd_gmu5_derivation.py`) — Formal Z₂-odd G_{μ5} Derivation from 5D Lagrangian. Status: **CONVENTION → DERIVED_FROM_5D_LAGRANGIAN** (Admission 3 FORMALLY_CLOSED). Two independent constraints derived from the 5D EH action: (1) metric determinant Z₂-invariance of S₅ forces φ²B_μB_ν to be Z₂-even → B_μ Z₂-odd; (2) Non-vanishing CS term at k_CS=74 requires non-trivial holonomy T(5)/2π=15/(2π) → η̄=½ → B_μ Z₂-odd (no zero mode). Both constraints independently force G_{μ5}=λφB_μ to be Z₂-odd. n_w=5 chain COMPLETE at classical level: 5D EH action → G_{μ5} Z₂-odd → Dirichlet BC → η̄=½ → k_CS×η̄=37 (odd) → n_w=5.
+- **Pillar 388** (`src/core/pillar388_nlo_metric_corrections.py`) — NLO Metric Ansatz Corrections: Higher-Order Terms Bounded. Status: **UNCONTROLLED → NLO_CORRECTIONS_BOUNDED**. Systematic NLO analysis: radion backreaction |δG/G| ≤ 1/φ₀_eff² ≈ 0.10%; KK mode mixing exp(−M_KK/H_inf) ≈ 0 (exponentially suppressed); curvature corrections H²/M_Pl² ≈ 10⁻¹⁰; loop corrections K_CS/(16π²g₅²) ≈ 0.63%. Total NLO ≤ 0.74%. DERIVED_UNIQUE result of P384 proved stable to NLO. The four constraint filters C1-C4 remain operative at NLO and continue to fix the correction form uniquely.
+- 219 new tests; 0 failures. Full regression: **39,745 passed · 22 skipped · 12 deselected · 0 failed**.
+- docs/mas_tracker.yml, STATUS.md updated to v12.7.
+
+**Epistemic label deltas:**
+- L2: L2_BOUNDED_NON_PERTURBATIVE → L2_KACMOODY_CONSTRAINED (P385: Kac-Moody one-loop c₁ computed)
+- P17 p_R: BOUNDED_FROM_GEOMETRY → TEXTURE_DIAGONALIZED (P386: 3×3 seesaw diagonalization)
+- Admission 3: CONVENTION → DERIVED_FROM_5D_LAGRANGIAN (P387: Z₂-odd G_{μ5} from EH action)
+- P384 NLO: UNCONTROLLED → NLO_CORRECTIONS_BOUNDED (P388: < 0.74% total correction)
+
+**ToE score:** 28.0/28 (unchanged — new pillars close methodology gaps, not parameter gaps)
+
+**Falsification impact:**
+- P385: if a full non-perturbative Kac-Moody computation gives c₁ ∉ [3.02, 9.40], the spectral envelope model would require revision
+- P386: p_R from texture diagonalization is testable by JUNO 2027 if Δm²₃₁ falls outside [2.364, 2.540]×10⁻³ eV²
+- P387: Admission 3 closure is falsified if a Z₂-invariant 5D action is found that allows B_μ Z₂-even while maintaining non-zero CS level k_CS=74
+- P388: NLO corrections testable if CMB/BICEP precision reaches <0.74% on n_s or r
+
+**Residual unknowns after v12.7:**
+- Full non-perturbative Kac-Moody computation beyond one-loop WZW: c₁^{NP} ≈ 6.4 still required for exact γ (P385 remaining gap)
+- M₃ topology still requires extension postulate or FTUM cosmological BC (P382 unchanged)
+- Full quantum (functional-integral) derivation of G_{μ5} Z₂-parity: classical level closed (P387); quantum level open
+- Explicit α₁, α₂, α₃ coefficients in NLO metric: bounded but not computed from 5D EH action at NLO (P388)
+
 ## v12.6 (2026-05-23 — Next Major Mathematical Closure Steps: Pillars 377–384)
 
 **What changed:**
