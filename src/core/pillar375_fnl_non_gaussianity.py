@@ -43,9 +43,11 @@ CANONICAL UM f_NL PREDICTION
 With c_s = 12/37 and ρ = 70/74:
 
     1/c_s² = (37/12)² = 1369/144 ≈ 9.507
-    (1/c_s² - 1) = 1369/144 - 1 = 1225/144 ≈ 8.507
+    (1/c_s² - 1) = 1225/144 ≈ 8.507
 
-    f_NL^{equil,DBI} = -(35/108) × (1225/144) ≈ -27.6
+    f_NL^{equil,DBI} = -(35/108) × 8.507 ≈ −2.76
+
+    [Note: 35/108 = 0.3241, not 3.241; the factor is ~1/3, not ~3]
 
 KK CORRECTION (braid kinetic mixing):
     Δc̃_KK = ρ²/(2(1-ρ²)) = (70/74)²/(2(1-(70/74)²))
@@ -53,48 +55,42 @@ KK CORRECTION (braid kinetic mixing):
     1 - ρ² ≈ 0.1051
     Δc̃_KK ≈ 0.8949/(2×0.1051) ≈ 4.259
 
-    KK correction to f_NL: Δf_NL = -(5/81) × 8.507 × 4.259 ≈ -2.23
+    KK correction to f_NL: Δf_NL = +(5/81) × 8.507 × 4.259 ≈ +2.23
 
-    f_NL^{equil,UM} = -27.6 - (-2.23) ≈ -25.4
-
-WAIT — The sign of the KK correction needs careful treatment.
-The c̃ correction adds to f_NL (not subtracts), because the KK mixing
-enhances the cubic coupling. Recalculating with the correct sign:
-
-    f_NL^{equil,UM} ≈ -(35/108)×(1/c_s²-1) + (5/81)×(1/c_s²-1)×Δc̃_KK
-
-This gives:
-    f_NL^{equil,UM} = -27.6 + 2.23 ≈ -25.4  (unchanged in sign)
+    f_NL^{equil,UM} = −2.76 + 2.23 ≈ −0.53
 
 CANONICAL PREDICTION
 ════════════════════
-    f_NL^equil^{UM,canonical} ≈ −27.6  (DBI approximation)
-    f_NL^equil^{UM,KK-corrected} ≈ −25.4  (with braid mixing)
+    f_NL^equil^{UM,canonical} ≈ −2.76  (DBI only, c_s = 12/37)
+    f_NL^equil^{UM,KK-corrected} ≈ −0.5  (with KK braid correction)
 
-Range: f_NL ∈ [−28, −24]  (theory band from c_s uncertainty O(ε))
+Range: f_NL ∈ [−3, 0]  (theory band including KK correction)
 
-NOTE ON EARLIER ESTIMATE IN PLAN
-══════════════════════════════════
-The planning document stated f_NL ≈ −8.3. This came from the formula
-f_NL ≈ −(35/108)(1/c_s² − 1) applied with c_s ≈ 0.90 (wrong value).
-With the canonical UM c_s = 12/37 ≈ 0.3243:
-    f_NL ≈ -(35/108) × 8.507 ≈ -27.6
+The large Δc̃_KK arises because ρ = 70/74 ≈ 0.946 is close to 1, making
+(1-ρ²) ≈ 0.105 small. This is structural to the (5,7) braid geometry.
+Whether this partial cancellation is exact requires a full bispectrum
+calculation (noted as future work).
 
-The corrected value is f_NL ∈ [−28, −24], not −8.3.
-This is documented transparently. The −8.3 estimate is DEPRECATED.
+NOTE ON EARLIER ESTIMATES
+══════════════════════════
+The sprint planning document stated f_NL ≈ −8.3 (from c_s ≈ 0.90, wrong
+value). An intermediate draft of this module stated f_NL ≈ −27.6 (from a
+factor-of-10 arithmetic error: 35/108 was mistakenly treated as 35/10.8 ≈
+3.24 rather than the correct 0.324). Both estimates are DEPRECATED.
+
+With c_s = 12/37: (35/108) = 0.3241, (1/c_s²-1) = 8.507 → f_NL = -2.76.
+After KK braid correction: f_NL ≈ -0.5. This is the canonical UM value.
 
 OBSERVATIONAL CONSTRAINTS
 ═══════════════════════════
-- Planck 2018 (TTT): f_NL^equil = -26 ± 47  → UM in 1σ band ✓
-- SPHEREx projected: σ(f_NL^equil) ≈ 0.5-5 → DISCRIMINATING
-- CMB-S4 projected:  σ(f_NL^equil) ≈ 2-3   → DISCRIMINATING
-- EUCLID projected:  σ(f_NL^equil) ≈ 2-5   → DISCRIMINATING
+- Planck 2018 (TTT): f_NL^equil = -26 ± 47  → UM f_NL ≈ −0.5: < 0.6σ ✓
+- SPHEREx projected: σ(f_NL^equil) ≈ 5 → tension with ΛCDM ≈ 0.1σ (borderline)
+- CMB-S4 projected:  σ(f_NL^equil) ≈ 2-3   → tension ≈ 0.2σ
+- EUCLID projected:  σ(f_NL^equil) ≈ 2-5   → borderline
 
-At SPHEREx precision (σ ≈ 5): tension with ΛCDM f_NL = 0 at ~5-6σ.
-At CMB-S4 precision (σ ≈ 2): tension at ~12-13σ.
-
-This is the UM's STRONGEST DISCRIMINATING PREDICTION from single-field
-inflation (aside from r and β).
+At SPHEREx precision: the UM f_NL ≈ −0.5 is not strongly discriminating
+from ΛCDM f_NL = 0 (~0.1σ). A FALSIFIED verdict requires f_NL > +10 at ≥3σ
+(which would rule out sub-luminal sound speed).
 
 *Theory: ThomasCory Walker-Pearson.*
 *Code, tests, document engineering: GitHub Copilot (AI).*
@@ -121,7 +117,7 @@ __all__ = [
 PILLAR_NUMBER: int = 375
 PILLAR_TITLE: str = (
     "Non-Gaussianity f_NL^equil from Braided Sound Speed c_s=12/37: "
-    "NEW PREDICTION f_NL ∈ [−28, −24] — Observable at SPHEREx/EUCLID/CMB-S4"
+    "NEW PREDICTION f_NL ∈ [−3, 0] (DBI + KK braid correction)"
 )
 PILLAR_STATUS: str = "NEW_PREDICTION"
 ADJACENCY_TRACK_LABEL: str = "HARDGATE_ADJACENT"
@@ -349,9 +345,11 @@ def fnl_prediction() -> Dict[str, object]:
         },
         "new_to_repository": True,
         "note": (
-            "CORRECTION: Planning document estimated f_NL ≈ −8.3 using "
-            "incorrect c_s ≈ 0.90. With canonical c_s = 12/37 ≈ 0.324, "
-            "the correct value is f_NL ≈ −25.4. Documented transparently."
+            "CORRECTION v12.5: Planning document estimated f_NL ≈ −8.3 (c_s ≈ 0.90, wrong). "
+            "An intermediate draft stated f_NL ≈ −27.6 (arithmetic error: 35/108 ≈ 0.324, not 3.24). "
+            "Canonical value with c_s=12/37: DBI gives f_NL ≈ −2.76; "
+            "KK braid correction (+2.23) gives f_NL ≈ −0.5. "
+            "Both earlier estimates are DEPRECATED. Canonical: f_NL ∈ [−3, 0]."
         ),
     }
 
@@ -366,9 +364,12 @@ def deprecated_estimate_note() -> str:
     return (
         "DEPRECATED: f_NL ≈ −8.3 (from planning document) used c_s ≈ 0.90. "
         "This is incorrect. The canonical UM braided sound speed is c_s = 12/37 ≈ 0.3243. "
-        "Correct value: f_NL^equil_UM ≈ −25.4 (DBI+KK). "
-        "Both values are consistent with Planck 2018 (f_NL = −26 ± 47), "
-        "but the corrected value is MORE precisely consistent with Planck (0.03σ vs 0.65σ)."
+        "An intermediate draft stated f_NL ≈ −27.6 from a factor-of-10 arithmetic error "
+        "(35/108 = 0.324, not 3.24). "
+        "Correct canonical value: f_NL^equil_UM ≈ −0.5 (DBI ≈ −2.76, KK correction +2.23). "
+        "Canonical range: f_NL ∈ [−3, 0]. "
+        "Consistent with Planck 2018 (f_NL = −26 ± 47) at < 0.6σ. "
+        "Borderline discriminator at SPHEREx precision (σ ≈ 5)."
     )
 
 

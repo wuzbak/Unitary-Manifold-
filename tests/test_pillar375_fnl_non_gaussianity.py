@@ -160,7 +160,7 @@ class TestDeprecatedEstimateNote:
     def test_returns_string(self): assert isinstance(deprecated_estimate_note(), str)
     def test_mentions_8_3(self): assert "8.3" in deprecated_estimate_note()
     def test_mentions_deprecated(self): assert "DEPRECATED" in deprecated_estimate_note()
-    def test_mentions_correct_value(self): assert "25" in deprecated_estimate_note()
+    def test_mentions_correct_value(self): assert "0.5" in deprecated_estimate_note() or "0.3" in deprecated_estimate_note()
 
 
 class TestPillar375Summary:
