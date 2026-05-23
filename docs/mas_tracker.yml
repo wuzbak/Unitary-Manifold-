@@ -1,4 +1,4 @@
-version: "v12.2"
+version: "v12.3"
 date: "2026-05-23"
 updated: "2026-05-23"
 mas_status: "COMPLETE"
@@ -18,11 +18,37 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.2"
-  regression: "38,421 passed · 2 skipped · 0 failed (canonical; Pillars 345-355 + Second Quantization Z_φ frontier; 188 new tests; 0 failures)"
+  version: "v12.3"
+  regression: "38,568 passed · 2 skipped · 0 failed (canonical; Pillars 345-356 + Spectral Envelope Z_φ(k) frontier; 147 new tests; 0 failures)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_3_spectral_envelope_sprint:
+  version: "v12.3"
+  wave: "Spectral Envelope of Z_φ(k) — Braid-Induced Scale Dependence and Three-Peak CMB Closure"
+  date: "2026-05-23"
+  next_pillar_slot: 357
+  pillars_added:
+    - 356  # Spectral Envelope of Z_φ(k): braid β-function γ_eff, 3-peak consistency, Bessel ansatz ruling
+  new_tests: 147
+  regression_result: "38,568 passed · 2 skipped · 0 failed"
+  key_result:
+    gamma_theory: "Z_φ^(0) × α × Σ_{n=1}^∞ exp(−n²/K_CS) / (16π²) ≈ 0.242"
+    gamma_fit: "≈ 0.273 (3-peak least-squares from Pillar 149 suppression data)"
+    gamma_agreement: "within 13% (non-perturbative estimate)"
+    mean_residual_flat: "±15% at acoustic peaks (Pillar 355 flat Z_φ^(0))"
+    mean_residual_envelope: "±3% at acoustic peaks (Z_φ(ℓ) spectral envelope)"
+    bessel_ansatz: "RULED_OUT — J_{n-1}(n×ρ)/J_0(ρ) predicts decreasing envelope (wrong direction)"
+    fm_analogy: "Validated as diagnostic: correctly identified need for spectral envelope and continuous (not discrete Bessel) character at high braid modulation depth ρ=35/37"
+    electronic_music_insight: "1970s FM synthesis / ADSR framework mapped to UM: master volume (Pillar 355) + spectral envelope (Pillar 356)"
+  status: "FRONTIER_COMPUTATION — spectral envelope characterized; full Boltzmann solver with Z_φ(k) source open"
+  frontier_items:
+    - "F356-1: Full Z_φ(k)-corrected Boltzmann solver (CLASS/CAMB-equivalent)"
+    - "F356-2: Two-loop verification of γ_theory formula"
+    - "F356-3: Correct Bessel representation of braid acoustic transfer function"
+    - "F356-4: LiteBIRD birefringence test (~2032) — primary falsifier of K_CS=74, γ_eff"
+  substack_post: "7-OUTREACH/substack/posts/post-235-s03e015-spectral-envelope-electronic-music.md"
 
 v12_2_second_quantization_sprint:
   version: "v12.2"

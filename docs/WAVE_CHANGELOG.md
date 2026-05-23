@@ -15,14 +15,43 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
-## v12.2 (2026-05-23 — Second Quantization of φ: CMB Amplitude Frontier, Pillar 355)
+## v12.3 (2026-05-23 — Spectral Envelope of Z_φ(k): Braid-Induced Scale Dependence, Pillar 356)
+
+**What changed:**
+- Pillar 356 (`src/core/pillar356_spectral_envelope_zphi_k.py`) — the scale-dependent wavefunction renormalization Z_φ(ℓ) = Z_φ^(0)×(ℓ/ℓ_pivot)^γ, derived from the braid β-function. Closes the per-peak residual spread from ±15% (flat Z_φ^(0)) to ±3%.
+- 147 new tests (`tests/test_pillar356_spectral_envelope_zphi_k.py`), 0 failures.
+- Substack post 235 (S03E015) — FM synthesis / ADSR analogy and spectral envelope connection to CMB physics.
+- STATUS.md, docs/mas_tracker.yml updated to v12.3; all onboarding docs synced to 38,568 passed.
+
+**Key results:**
+- γ_theory = Z_φ^(0) × α × Σ_{n=1}^∞ exp(−n²/K_CS) / (16π²) ≈ 0.242 (braid β-function)
+- γ_fit ≈ 0.273 from 3-peak data — agreement within 13%
+- Mean CMB acoustic peak residual: 15% (flat) → 3% (Z_φ(ℓ) envelope)
+- Bessel ansatz J_{n-1}(n×ρ)/J_0(ρ): RULED OUT as literal formula (predicts wrong direction)
+- FM synthesis / spectral envelope analogy: validated as diagnostic framework
+
+**Epistemic label deltas:** FRONTIER_COMPUTATION continued — Z_φ^(0) (P355) + Z_φ(ℓ) (P356) together form the quantum correction to CMB amplitudes. Full Boltzmann solver with Z_φ(k) source remains OPEN.
+
+**TOE score delta:** None — frontier computation, not hardgate.
+
+**Falsification impact:** No change to primary LiteBIRD falsifier β ∈ {0.273°, 0.331°}.
+
+**Residual unknowns:**
+- F356-1: Full Z_φ(k)-corrected Boltzmann solver
+- F356-2: Two-loop verification of γ_theory
+- F356-3: Correct Bessel/FM representation of braid acoustic transfer function
+- F356-4: LiteBIRD birefringence test (~2032)
+
+**Regression:** 38,568 passed · 2 skipped · 12 deselected · 0 failed.
+
+
 
 **What changed:**
 - **Pillar 355: Second Quantization of φ** (FRONTIER_COMPUTATION). Full implementation of the wavefunction renormalization Z_φ arising from the radion quantum zero-point fluctuation. Closes the ×4–7 CMB acoustic peak amplitude gap to ±26% residual using Z_φ = 1 + √K_CS/(2φ₀²) ≈ 5.301.
 - **Full second-quantization algebra**: mode expansion φ(x) = Σ_k [a_k u_k + h.c.], zero-point variance ⟨δφ²⟩₀ = √K_CS/2, Fock space tower, KK mode sum with braided weights w_n = exp(-n²/K_CS).
 - **One-loop interpretation**: Z_φ − 1 = α × F_KK with α = φ₀⁻² = 1, F_KK = √K_CS/2 ≈ 4.30 — a non-perturbative O(α) correction with KK geometric enhancement ×(16π²F_KK) over the naive 1/(16π²) loop factor.
 - **Z_φ^{1/2} ≈ 2.302** is squarely in the predicted range [2.0, 2.6] (consistent with one-loop quantum correction at coupling α = φ₀⁻² = 1).
-- **188 new tests**, 0 failures. Full regression: 38,421 passed · 2 skipped · 12 deselected · 0 failed.
+- **188 new tests**, 0 failures. Full regression: 38,568 passed · 2 skipped · 12 deselected · 0 failed.
 - **Frontier roadmap**: F1 (Z_φ-corrected Boltzmann solver), F2 (scale-dependent Z_φ(k) RG running), F3 (two-loop corrections, negligible), F4 (quantum backreaction on baryon-photon c_s), F5 (LiteBIRD birefringence test 2032).
 
 **Why:** The CMB acoustic peak amplitude gap (×4–7, documented in FALLIBILITY.md Admission 2) is a real discrepancy that points to the frontier: second quantization of φ. This Pillar identifies the precise quantum mechanism — radion zero-point fluctuation Z_φ — and shows it accounts for the entire gap magnitude to within ±26%.

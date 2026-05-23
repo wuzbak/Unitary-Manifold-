@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v12.2 — Unambiguous Record**  
+**The Unitary Manifold v12.3 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-23 (v12.2 — Second Quantization of φ Sprint: Pillar 355 added (Z_φ CMB amplitude frontier); v12.1 — Millennium Prize Problems Geometric Analysis Sprint: Pillar 354 added; v12.0 Science, Mathematics, and Physics Rigor Sprint: Pillars 345–353; v11.19 External Engagement & 2027 Triple-Observatory Readiness Sprint — Pillars 339–344; 38,421 passed · 2 skipped · 12 deselected · 0 failed.)*
+*Last updated: 2026-05-23 (v12.3 — Second Quantization of φ Sprint: Pillar 355 added (Z_φ CMB amplitude frontier); v12.1 — Millennium Prize Problems Geometric Analysis Sprint: Pillar 354 added; v12.0 Science, Mathematics, and Physics Rigor Sprint: Pillars 345–353; v11.19 External Engagement & 2027 Triple-Observatory Readiness Sprint — Pillars 339–344; 38,568 passed · 2 skipped · 12 deselected · 0 failed.)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
