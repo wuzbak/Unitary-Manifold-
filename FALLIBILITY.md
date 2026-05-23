@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v12.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,421 passed · 2 skipped · 12 deselected · 0 failed; v12.2 adds Pillar 355 Second Quantization of φ — CMB amplitude frontier; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~938 new tests total; 0 failures).*
+*Unitary Manifold v12.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,568 passed · 2 skipped · 12 deselected · 0 failed; v12.3 adds Pillar 355 Second Quantization of φ — CMB amplitude frontier; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~938 new tests total; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (38,421 passed · 2 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (38,568 passed · 2 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
