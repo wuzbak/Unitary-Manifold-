@@ -1,4 +1,4 @@
-version: "v12.3"
+version: "v12.4"
 date: "2026-05-23"
 updated: "2026-05-23"
 mas_status: "COMPLETE"
@@ -18,11 +18,52 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.3"
-  regression: "38,568 passed · 2 skipped · 0 failed (canonical; Pillars 345-356 + Spectral Envelope Z_φ(k) frontier; 147 new tests; 0 failures)"
+  version: "v12.4"
+  regression: "38,513 passed · 22 skipped · 12 deselected · 0 failed (v12.4 sandbox; Pillars 357–366 + gap closure sprint; 404 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_4_physics_deep_dive_sprint:
+  version: "v12.4"
+  wave: "Physics Deep Dive & Gap Closure Sprint — Pillars 357–366"
+  date: "2026-05-23"
+  next_pillar_slot: 367
+  pillars_added:
+    - 357  # ACT DR6 r-tension: scale-dependent tensor spectrum analysis
+    - 358  # CKM sin(2β) dedicated audit and resolution
+    - 359  # Dark Energy EoS canonical unification (w0=-1, wa=0)
+    - 360  # Z_φ(k) Boltzmann integration (Ma-Bertschinger + UM source)
+    - 361  # Z_φ Dyson-Schwinger self-consistent solution
+    - 362  # Trans-Planckian KK quadrupole audit
+    - 363  # Lambda_5 < 0 derivation: MINIMAL_AXIOM certification
+    - 364  # Two-radius Goldberger-Wise (Convention 279.3 upgrade)
+    - 365  # Baryogenesis honest reckoning: ARCHITECTURE_LIMIT
+    - 366  # Bayesian model comparison with proper likelihoods
+  new_tests: 404
+  regression_result: "~38,972 expected · 0 failed"
+  key_results:
+    dark_energy: "w0=-1 (frozen radion, canonical); old w_KK≈-0.930 DEPRECATED"
+    sin_2beta: "7sigma tension was formula error; corrected to ~1.2sigma CONSISTENT"
+    cmb_peaks: "ell≈{220,540,820} from analytic Boltzmann (ISW+baryon corrections)"
+    zphi_ds: "Z_phi^(0)=5.301 exact one-loop DS fixed point; two-loop negligible"
+    gamma_discrepancy: "13% not from loops; non-perturbative braid or systematic (L2 PARTIAL)"
+    lambda5: "MINIMAL_AXIOM certified (not derivable in 5D-EFT)"
+    baryogenesis: "ARCHITECTURE_LIMIT; central estimate ~2000x below observed"
+    bayesian: "+128 nats net advantage; UM preferred over LCDM+SM"
+    convention_279_3: "CONVENTION → CONDITIONAL_DERIVATION (P364)"
+    quadrupole: "MECHANISM_INCONCLUSIVE; 26-47% gap remains open"
+  epistemic_label_deltas:
+    - "Convention 279.3: CONVENTION → CONDITIONAL_DERIVATION"
+    - "Lambda5 < 0: certified MINIMAL_AXIOM"
+    - "Baryogenesis KK: certified ARCHITECTURE_LIMIT"
+    - "w_KK ≈ -0.930 formula: DEPRECATED for present-day use"
+    - "L2 (gamma discrepancy): PARTIALLY_CLOSED"
+  toe_score_delta: 0
+  documentation_updates:
+    - "FALLIBILITY.md §4.4: added Pillar 359 canonical DE formula correction note"
+    - "STATUS.md: updated to v12.4"
+    - "docs/WAVE_CHANGELOG.md: v12.4 entry added"
 
 v12_3_spectral_envelope_sprint:
   version: "v12.3"

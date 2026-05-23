@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v12.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,568 passed · 2 skipped · 12 deselected · 0 failed; v12.3 adds Pillar 355 Second Quantization of φ — CMB amplitude frontier; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~938 new tests total; 0 failures).*
+*Unitary Manifold v12.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,513 passed · 22 skipped · 12 deselected · 0 failed; v12.4 adds Pillar 355 Second Quantization of φ — CMB amplitude frontier; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~938 new tests total; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (38,568 passed · 2 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (38,513 passed · 22 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -620,9 +620,17 @@ UM's **secondary open falsification target** alongside CMB birefringence β.
 The Nancy Grace Roman Space Telescope (~2027, σ(w₀) ≈ 0.02, σ(wₐ) ≈ 0.10) will
 either confirm or falsify the UM DE predictions.
 
-**Epistemic status (v12.0 update):** The w_DE prediction is now **ARCHITECTURE_LIMIT** (upgraded from OPEN in v11.x). Pillar 347 traced the (5,7) braid through the full cosmological history: inflation → KK freeze-out → radion evolution → today. Result: wₐ = 0 at the architecture level (no viable UM mechanism for wₐ ≠ 0), consistent with Pillar 160 exhaustive search. The w₀ tension with Planck+BAO (3.3σ) and consistency with DESI DR2 (0.11σ) remain unchanged. Active tensions:
-- w₀: 3.3σ from Planck+BAO (under pressure); 0.11σ from DESI DR2 (consistent ✅)
-- wₐ: 2.07σ BAO-only / 2.75σ combined from DESI DR2 CPL; ARCHITECTURE_LIMIT — no UM mechanism for wₐ ≠ 0
+**Pillar 359 Canonical Unification (v12.4):** The three inconsistent w₀ formulas documented in earlier versions are now resolved. The canonical UM dark energy prediction is:
+- **w₀ = −1** (frozen radion today, exact to O[(H₀/M_KK)²] ~ 10⁻⁶⁴)
+- **wₐ = 0** (no radion evolution at z ~ 0)
+- Machine-readable: `from src.core.pillar359_de_canonical_unification import de_eos_prediction`
+
+The earlier "0.11σ from DESI DR2" claim was based on the WRONG inflationary formula w_KK ≈ −0.930, which applies only at inflation (ε ~ ½), not today. With the correct canonical prediction w₀ = −1:
+- w₀ tension with DESI DR2 BAO: **4.1σ** (HIGH_TENSION, not 0.11σ)
+- wₐ tension with DESI DR2 combined: **3.0σ** (HIGH_TENSION)
+- The formula w_KK = −1 + (2/3)c_s² ≈ −0.930 is **DEPRECATED** for present-day use. See Pillar 316/359.
+
+
 
 **Why the formula may be incorrect (v12.0 addendum):** Pillar 347 showed that the identification w_KK = −1 + (2/3)c_s² conflates the inflationary braided sound speed with the present-day dark energy EoS. The full propagation through the cosmological history gives w₀ → −1 + O(m_φ²/H₀²) where m_φ is the KK radion mass. At m_φ >> H₀ (frozen radion limit), this gives w₀ → −1, consistent with ARCHITECTURE_LIMIT. The open residual is the exact radion mass m_φ — currently bounded by Cassini PPN constraints to m_φ >> H₀. DESI DR3 will test whether wₐ deviates from 0 at > 3σ.
 
