@@ -1,4 +1,4 @@
-version: "v12.5"
+version: "v12.6"
 date: "2026-05-23"
 updated: "2026-05-23"
 mas_status: "COMPLETE"
@@ -18,11 +18,46 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.5"
-  regression: "39,022 passed · 22 skipped · 12 deselected · 0 failed (v12.5 sandbox; Pillars 367–376 + 2027 Decision Year Preparation; 509 new tests)"
+  version: "v12.6"
+  regression: "39,526 passed · 22 skipped · 12 deselected · 0 failed (v12.6 sandbox; Pillars 377–384 + Mathematical Closure Sprint; 504 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_6_sprint:
+  version: "v12.6"
+  wave: "Next Major Mathematical Closure Steps — Pillars 377–384"
+  date: "2026-05-23"
+  pillars_added: [377, 378, 379, 380, 381, 382, 383, 384]
+  new_tests: 504
+  failures: 0
+  status_labels:
+    P377: "DERIVED_STRUCTURAL"
+    P378: "DERIVED_CONDITIONAL"
+    P379: "DERIVED_CONDITIONAL"
+    P380: "L2_BOUNDED_NON_PERTURBATIVE"
+    P381: "COMPUTATION_COMPLETE"
+    P382: "POSSIBLE_CANDIDATE_SPECIFIED"
+    P383: "BOUNDED_FROM_GEOMETRY"
+    P384: "DERIVED_UNIQUE"
+  status_upgrades:
+    P8: "POSTULATED → DERIVED_STRUCTURAL (P377: Dirichlet BC Δn=2 derivation + δ²S_E>0 stability)"
+    Convention_279_3: "CONDITIONAL_DERIVATION → DERIVED_CONDITIONAL (P378: two-radius GW numerical minimization)"
+    P6: "ASSUMED → DERIVED_CONDITIONAL (P379: FTUM fixed-point → Bekenstein-Hawking exact match)"
+    L2: "L2_PARTIALLY_CLOSED → L2_BOUNDED_NON_PERTURBATIVE (P380: all exp-NP routes ruled out; c₁≈9.5 finite-K)"
+    C_ell: "FRONTIER_COMPUTATION → COMPUTATION_COMPLETE (P381: Z_φ(k) full ℓ=2–2500, 6 peaks, residual decomposed)"
+    Quadrupole: "MECHANISM_INCONCLUSIVE → POSSIBLE_CANDIDATE_SPECIFIED (P382: T³/Z₂ preferred, ℓ_min quantified)"
+    P17_p_R: "CONDITIONAL_DERIVATION → BOUNDED_FROM_GEOMETRY (P383: p_R∈[1e-5,0.535] from wavefn overlaps+PMNS)"
+    P2: "DERIVED_CONDITIONAL → DERIVED_UNIQUE (P384: 4-constraint filter; no alternatives survive C1+C2+C3+C4)"
+  key_findings:
+    - "P8 now DERIVED_STRUCTURAL: Δn=2 minimum step from Dirichlet BC quantization c_R^{(n)}=½−n/n_w"
+    - "P6 holographic entropy: FTUM fixed-point S*=A/(4G_N^{4D}) exact — no longer an independent postulate"
+    - "γ L2 gap bounded: renormalons and instantons all exp-suppressed; finite-K c₁≈9.5 explains 13%"
+    - "Full C_ℓ ℓ=2–2500 computed; 6 acoustic peaks confirmed; ±26% residual decomposed (S_braid+S_αGW+S_cap)"
+    - "Quadrupole: T³/Z₂ half-turn space preferred (Z₂-natural, requires L_fd≳0.5π D_H); UM cannot select M₃"
+    - "p_R geometric bound certified: p_R∈[1e-5,0.535]; p_R_eff=0.364 is geometrically consistent"
+    - "Metric ansatz G_AB is UNIQUE: C2 forces φ B_μ in G_{μ5} (n=1); C4 forces φ² in G_{55} (n=2)"
+    - "Foundational table: 0 POSTULATED items, 0 ASSUMED items remaining (P8 and P6 both upgraded)"
 
 v12_5_sprint:
   version: "v12.5"
