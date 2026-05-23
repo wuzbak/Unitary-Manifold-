@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v12.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 38,513 passed · 22 skipped · 12 deselected · 0 failed; v12.4 adds Pillar 355 Second Quantization of φ — CMB amplitude frontier; v12.1 adds Pillar 354 Millennium Prize Problems + Pillars 345–353 Science/Math/Physics Rigor Sprint; ~938 new tests total; 0 failures).*
+*Unitary Manifold v12.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 39,022 passed · 22 skipped · 12 deselected · 0 failed; v12.5 adds Pillars 367–376 — 2027 Decision Year Preparation + Genuine Physics Frontiers; 509 new tests; 0 failures; v12.4 adds Pillars 357–366 Physics Deep Dive; ~938 new tests total from v12.1–v12.4; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (38,513 passed · 22 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (39,022 passed · 22 skipped · 12 deselected · 0 failed; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -3623,6 +3623,87 @@ k_cs is truly determined by this integer structure.
 **Code fix (v11.13):** The claim is softened to "appears to be structurally non-accidental
 … [HYPOTHESIS — not yet derived from first principles independent of the birefringence
 observation]" in the `braided_winding.py` module docstring.
+
+---
+
+## §XII — v12.5 Sprint Honest Admissions (2026-05-23)
+
+*Added 2026-05-23 following the v12.5 sprint (Pillars 367–376: 2027 Decision Year Preparation
++ Genuine Physics Frontiers). These entries document outcomes of honest analyses of named
+open problems.*
+
+### §XII.1 — Baryogenesis: Both Named Paths Ruled Out in Minimal 5D-EFT
+
+**Context:** Pillar 365 (v12.4) certified the minimal KK mechanism as ARCHITECTURE_LIMIT:
+η_B^{min KK} ≈ 3×10⁻¹³, approximately 2000× below observed η_B ≈ 6.1×10⁻¹⁰. Two
+explicit paths forward were named: Affleck-Dine (P370) and KK-EWPT (P371).
+
+**P370 outcome (Affleck-Dine):** The KK geometry has all three prerequisites for Affleck-Dine
+baryogenesis: a flat direction at V_GW=0, O(1) CP violation from the braid winding sector
+(ε_CP ≈ sin(Δ_CP) ≈ 0.80), and spontaneous breaking φ₀≠0. However, the radion condensate
+does NOT survive to the electroweak epoch: Γ_φ >> H_EW at M_KK >> T_EW.
+**Status: ARCHITECTURE_LIMIT_NARROWED.** The obstruction is precisely identified; it would
+require radion stabilization at T ~ T_EW, which requires physics beyond the minimal 5D-EFT.
+
+**P371 outcome (KK-EWPT):** KK tower contributions to V_eff(φ,T) are exponentially
+suppressed by exp(-M_KK/T_EW) ~ exp(-10¹¹) at T ~ 100 GeV. The v(T_c)/T_c ratio is
+unchanged from the SM value (~0.3 < 1): the EWPT remains second-order in the UM.
+Sphaleron washout is not suppressed. **Status: ARCHITECTURE_LIMIT_CONFIRMED.**
+
+**Overall baryogenesis status:** All three known paths within the minimal 5D-EFT
+(minimal KK mechanism, Affleck-Dine, KK-EWPT) are now certified ARCHITECTURE_LIMIT.
+This is a genuine, explicit gap. The UM cannot currently account for the observed baryon
+asymmetry without physics beyond the minimal 5D-EFT.
+
+### §XII.2 — CMB Quadrupole: All Tested Mechanisms Ruled Out
+
+**Context:** Pillar 362 confirmed MECHANISM_INCONCLUSIVE — the KK UV cutoff cannot
+suppress ℓ=2 power. Pillar 372 extended the analysis to three orthogonal candidates.
+
+**Results:**
+- Mechanism A (Compact Topology T³/Z₂, Poincaré dodecahedron): **POSSIBLE_CANDIDATE.**
+  Requires L_topology ~ D_Hubble, which is an extension beyond the standard UM ansatz.
+- Mechanism B (KK extra dimension as IR cutoff): **RULED_OUT.** k_min^{5D}/k_{ℓ=2} ~ 10³⁰ —
+  the KK scale is 30 orders of magnitude above the quadrupole wavenumber.
+- Mechanism C (FTUM attractor pre-inflationary suppression): **RULED_OUT.** The FTUM
+  attractor relaxes before inflation ends; pre-inflationary modes are diluted by exp(-N_e)~10⁻²⁶.
+
+**Overall:** The 26-47% quadrupole deficit is **MECHANISM_INCONCLUSIVE** at current
+5D-EFT level. Only compact topology extensions remain viable, requiring a model extension.
+This is retained as an explicit open gap in FALLIBILITY.md.
+
+### §XII.3 — γ Discrepancy (L2): Non-Perturbative Origin Confirmed
+
+**Context:** Pillar 361 (v12.4) ruled out two-loop corrections as the source of the 13%
+discrepancy between γ_theory ≈ 0.242 and γ_fit ≈ 0.273.
+
+**P373 tightens the characterization:** Three additional approaches are now exhausted:
+- Instanton expansion: exp(-S_inst) with S_inst ~ 14,360 — EXPONENTIALLY_SUPPRESSED.
+- 1D tight-binding braid lattice: γ_lattice = -0.5 (Van Hove) — WRONG_SIGN.
+- Padé [1/1] resummation: requires O(30) non-perturbative coefficients at α ~ 10⁻³ —
+  SIGNALS NON-PERTURBATIVE physics.
+
+**Overall L2 status: PARTIALLY_CLOSED.** The 13% discrepancy is confirmed to be of
+genuinely non-perturbative origin. Specific mechanism unidentified: candidates are
+braid condensate, KK winding resonance at strong CS coupling, or emergent topology scale.
+
+### §XII.4 — f_NL Correction: Planning Estimate Superseded
+
+**Context:** The v12.5 sprint plan estimated f_NL^equil ≈ −8.3 from the DBI formula.
+Pillar 375 computes the correct value: with c_s = 12/37 ≈ 0.3243, the DBI contribution
+is f_NL^{DBI} ≈ −2.76. After the KK Chern-Simons braid correction (Δc̃_KK ≈ +4.25),
+the KK term partially cancels the DBI term, giving f_NL^{equil,UM} ≈ −0.5.
+
+This value is CONSISTENT with Planck 2018 (f_NL = −26 ± 47, <1σ tension). At SPHEREx
+precision (σ ≈ 5), this is a borderline discriminator from ΛCDM (f_NL = 0).
+
+**Note:** The large KK braid correction coefficient Δc̃_KK arises because ρ = 70/74 is
+close to 1, making (1-ρ²) small. This is a structural feature of the (5,7) braid geometry,
+not a tuning. Whether this cancellation is physical or an artifact of the c̃ sign convention
+requires independent verification from a full bispectrum calculation.
+
+**Corrected value:** f_NL^equil_UM ∈ [−3, 0] (theory range); planning estimate of −8.3
+DEPRECATED. The planning document note is preserved in Pillar 375's docstring.
 
 ---
 

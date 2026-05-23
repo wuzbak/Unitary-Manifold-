@@ -1,4 +1,4 @@
-version: "v12.4"
+version: "v12.5"
 date: "2026-05-23"
 updated: "2026-05-23"
 mas_status: "COMPLETE"
@@ -18,11 +18,38 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.4"
-  regression: "38,513 passed · 22 skipped · 12 deselected · 0 failed (v12.4 sandbox; Pillars 357–366 + gap closure sprint; 404 new tests)"
+  version: "v12.5"
+  regression: "39,022 passed · 22 skipped · 12 deselected · 0 failed (v12.5 sandbox; Pillars 367–376 + 2027 Decision Year Preparation; 509 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_5_sprint:
+  version: "v12.5"
+  wave: "2027 Decision Year Preparation + Genuine Physics Frontiers — Pillars 367–376"
+  date: "2026-05-23"
+  pillars_added: [367, 368, 369, 370, 371, 372, 373, 374, 375, 376]
+  new_tests: 509
+  failures: 0
+  status_labels:
+    P367: "ROUTING_INFRASTRUCTURE"
+    P368: "ROUTING_INFRASTRUCTURE"
+    P369: "ROUTING_INFRASTRUCTURE"
+    P370: "ARCHITECTURE_LIMIT_NARROWED"
+    P371: "ARCHITECTURE_LIMIT_CONFIRMED"
+    P372: "MECHANISM_INCONCLUSIVE"
+    P373: "L2_PARTIALLY_CLOSED"
+    P374: "FRONTIER_COMPUTATION"
+    P375: "NEW_PREDICTION"
+    P376: "DISCRIMINATOR_CATALOGUE"
+  key_findings:
+    - "All baryogenesis paths (minimal KK, AD, KK-EWPT) now ARCHITECTURE_LIMIT within minimal 5D-EFT"
+    - "CMB quadrupole KK IR cutoff RULED_OUT; FTUM pre-inflation RULED_OUT; topology POSSIBLE_CANDIDATE"
+    - "γ L2: instantons suppressed, lattice wrong sign, Padé signals non-perturbative; L2 confirmed NON-PERTURBATIVE"
+    - "f_NL corrected: planning estimate -8.3 deprecated; canonical f_NL∈[-3,0] from DBI+KK braid correction"
+    - "Full C_ℓ end-to-end prediction from Z_φ(k) framework"
+    - "11-entry discriminator catalogue: birefringence β (rank 1), r SO DR1 (rank 3), proton decay (rank 4)"
+    - "2027 observational cluster: SO DR1 + DESI DR3 + JUNO — first simultaneous decisive test"
 
 v12_4_physics_deep_dive_sprint:
   version: "v12.4"

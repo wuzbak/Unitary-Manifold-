@@ -15,6 +15,53 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v12.5 (2026-05-23 — 2027 Decision Year Preparation + Genuine Physics Frontiers: Pillars 367–376)
+
+**What changed:**
+- **Pillar 367** (`src/core/pillar367_desi_dr3_canonical_routing.py`) — DESI DR3 Escalation Matrix with canonical w₀=−1. Recomputed 7-scenario DR3 routing using w₀=−1 (certified by P359). Nearest falsification DR3-S6 (wₐ≈−0.62, σ=0.18) maps to 3.44σ FALSIFIED. Roman Space Telescope lane added (σ_w₀≈0.02, σ_wₐ≈0.10). Machine-readable: `desi_dr3_canonical_routing()`.
+- **Pillar 368** (`src/core/pillar368_so_dr1_joint_verdict.py`) — SO DR1 + ACT/SPT-3G Joint Verdict Protocol. Joint SO DR1 + ACT DR6 + SPT-3G 2027 composite posterior P(r|all data). UM prediction r=0.0315 would be ~5.25σ detection at SO DR1 σ_r=0.006. CONFIRMED if ≥5σ; FALSIFIED if r<0.010 at ≥3σ. Preregistered: `so_dr1_joint_routing()`.
+- **Pillar 369** (`src/core/pillar369_juno_2027_preregistration.py`) — JUNO 2027 Final Preregistration Package. NLO-tightened prediction Δm²₃₁=2.452×10⁻³ eV² (residual 0.004% from PDG). Machine-readable `juno_2027_verdict()`. SHA-256 preregistration hash. Hyper-K 2028 cross-check protocol.
+- **Pillar 370** (`src/core/pillar370_affleck_dine_kk_baryogenesis.py`) — Affleck-Dine Baryogenesis in KK Geometry. CP violation from braid winding sector: ε_CP ≈ 0.80 (O(1)). Flat direction confirmed. **Obstruction: condensate Γ_φ >> H_EW at M_KK >> T_EW; does not survive to EW epoch.** Status: ARCHITECTURE_LIMIT_NARROWED.
+- **Pillar 371** (`src/core/pillar371_kk_ewpt_baryogenesis.py`) — KK-EWPT Baryogenesis. KK tower modes Boltzmann-suppressed by exp(-M_KK/T_EW)~exp(-10¹¹) at T_EW=100 GeV. v(T_c)/T_c unchanged from SM ~0.3 < 1 (second-order EWPT). Sphaleron not suppressed. **All three baryogenesis paths now ARCHITECTURE_LIMIT within minimal 5D-EFT.** Status: ARCHITECTURE_LIMIT_CONFIRMED.
+- **Pillar 372** (`src/core/pillar372_cmb_quadrupole_topology.py`) — CMB Quadrupole Topology + IR Cutoff Analysis. Mechanism B (KK IR cutoff): RULED_OUT (k_min^{5D}/k_{ℓ=2}~10³⁰). Mechanism C (FTUM pre-inflation): RULED_OUT (modes diluted exp(-N_e)~10⁻²⁶). Mechanism A (compact topology): POSSIBLE_CANDIDATE (requires L~D_H extension). Overall: MECHANISM_INCONCLUSIVE confirmed.
+- **Pillar 373** (`src/core/pillar373_nonperturbative_braid_resummation.py`) — Non-Perturbative Braid Resummation (L2 Closure Attempt). Instantons: exp(-S_inst)~exp(-14360)≈0, SUPPRESSED. 1D tight-binding: γ_lattice=-0.5, WRONG_SIGN. Padé [1/1]: requires O(30) non-perturbative coefficients at α~10⁻³, NON-PERTURBATIVE signal. **All perturbative routes exhausted. L2 confirmed genuinely non-perturbative.** Status: L2_PARTIALLY_CLOSED.
+- **Pillar 374** (`src/core/pillar374_full_zphi_cmb_power_spectrum.py`) — Full Z_φ(k)-Corrected CMB Power Spectrum C_ℓ. End-to-end UM C_ℓ prediction: Z_φ^(0)=5.301 (P361) × spectral envelope (P356) → acoustic peaks ℓ∈{220,540,820,1050,1350,2000}. Honest residuals: ~±3% at fit γ=0.273. Status: FRONTIER_COMPUTATION.
+- **Pillar 375** (`src/core/pillar375_fnl_non_gaussianity.py`) — Non-Gaussianity f_NL from c_s=12/37. NEW PREDICTION. f_NL^{DBI}=-(35/108)(1/c_s²-1)≈-2.76. KK braid correction (Δc̃_KK≈4.25): +2.23, yielding f_NL^{equil,UM}≈-0.5. Planck 2018 consistent. SPHEREx borderline discriminator. **NOTE: planning estimate of -8.3 DEPRECATED; -27.6 in docstring (initial draft) also deprecated. Correct value: f_NL∈[-3,0].** Status: NEW_PREDICTION.
+- **Pillar 376** (`src/core/pillar376_um_vs_lcdm_discriminator.py`) — UM vs ΛCDM Observational Discriminator Catalogue. 11 predictions ranked by discriminating power: (1) birefringence β LiteBIRD 2032 [score 9.5], (2) f_NL SPHEREx [5.0], (3) r SO DR1 [8.5], (4) proton decay HK [8.0], (5) wₐ DESI [6.0]. 6 preregistered routing protocols. Machine-readable: `um_vs_lcdm_discriminator_matrix()`. Status: DISCRIMINATOR_CATALOGUE.
+- 509 new tests; 0 failures.
+- STATUS.md, FALLIBILITY.md, docs/mas_tracker.yml updated to v12.5.
+- Substack post S03E016 (Post-237): "2027: The Year the Theory Either Stands or Falls."
+
+**Key results:**
+- Baryogenesis: ALL three mechanisms (minimal KK, AD, KK-EWPT) are ARCHITECTURE_LIMIT within minimal 5D-EFT — second certified architecture limit (alongside Λ₅ < 0 and G_{μ5} BC)
+- CMB quadrupole: KK IR cutoff and FTUM pre-inflation RULED_OUT; topology remains POSSIBLE_CANDIDATE (extension required)
+- γ L2: all perturbative routes exhausted (instantons, lattice, Padé); confirmed genuinely non-perturbative origin
+- f_NL: corrected from planning estimate; canonical UM value f_NL^equil ∈ [−3, 0] (DBI + KK braid correction)
+- Full C_ℓ prediction: first end-to-end CMB spectrum from UM Z_φ(k) framework
+- Discriminator catalogue: 11 predictions ranked; 2027 cluster (SO DR1 + DESI DR3 + JUNO) identified as first simultaneous decisive test
+
+**Epistemic label deltas:**
+- Affleck-Dine baryogenesis in KK geometry: ARCHITECTURE_LIMIT_NARROWED (P370; CP violation present, condensate survival obstructed)
+- KK-EWPT baryogenesis: ARCHITECTURE_LIMIT_CONFIRMED (P371; EWPT remains second-order)
+- CMB quadrupole KK IR cutoff mechanism: RULED_OUT (P372)
+- CMB quadrupole FTUM pre-inflationary suppression: RULED_OUT (P372)
+- γ L2 discrepancy: L2_PARTIALLY_CLOSED confirmed; perturbative routes exhausted (P373)
+- f_NL^equil planning estimate of −8.3: DEPRECATED (P375; correct value f_NL∈[−3,0])
+
+**ToE score delta:** 0 (no new hardgate claims; all pillars are ROUTING_INFRASTRUCTURE, ARCHITECTURE_LIMIT, FRONTIER_COMPUTATION, NEW_PREDICTION, or DISCRIMINATOR_CATALOGUE)
+
+**Falsification impact:**
+- DESI DR3 routing updated to canonical w₀=−1 (prior routing used deprecated w_KK≈−0.930)
+- SO DR1 preregistered routing: CONFIRMED if r≥0.020 at ≥3σ; FALSIFIED if r<0.010 at ≥3σ
+- JUNO preregistration hash committed
+- 30-day response protocol active for any FALSIFIED outcome
+
+**Residual unknowns:**
+- Baryogenesis: ARCHITECTURE_LIMIT (all paths); requires physics beyond minimal 5D-EFT
+- CMB quadrupole: MECHANISM_INCONCLUSIVE (compact topology extension remains viable)
+- γ L2: NON-PERTURBATIVE_ORIGIN confirmed; specific mechanism unidentified
+- f_NL KK braid correction: large Δc̃_KK from ρ≈0.946; full bispectrum calculation pending
+
 ## v12.4 (2026-05-23 — Physics Deep Dive & Gap Closure Sprint: Pillars 357–366 + Dark Energy Formula Canonicalization)
 
 **What changed:**
