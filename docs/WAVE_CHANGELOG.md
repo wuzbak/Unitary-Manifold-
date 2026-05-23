@@ -17,9 +17,13 @@ For each wave entry, include:
 
 ## v12.7-maint (2026-05-23 — CI Ledger Sync Maintenance)
 
-**What changed:** Canonical ledger consistency tests (`test_canonical_ledger_consistency.py`) were failing on main after PR #591, which added 219 new tests (bumping the full-suite count) without updating the eight onboarding documents (`CONTRIBUTING.md`, `2-REPRODUCIBILITY/README.md`, `9-INFRASTRUCTURE/TEST/README.md`, `.github/copilot-instructions.md`, `9-INFRASTRUCTURE/wiki/Getting-Started.md`, `9-INFRASTRUCTURE/wiki/Contributing.md`, `6-MONOGRAPH/MCP_INGEST.md`, `4-IMPLICATIONS/WHAT_THIS_MEANS.md`). PR #592 restored all eight documents to the canonical count (39,745 passed). This maintenance entry re-triggers CI/Tests on main to clear the stale red badge.
+**What changed:**
+- `test_canonical_ledger_consistency.py` was failing on main after PR #591, which added 219 new tests (full-suite count → 39,745) without updating the eight onboarding documents.
+- Affected docs: `CONTRIBUTING.md`, `2-REPRODUCIBILITY/README.md`, `9-INFRASTRUCTURE/TEST/README.md`, `.github/copilot-instructions.md`, `9-INFRASTRUCTURE/wiki/Getting-Started.md`, `9-INFRASTRUCTURE/wiki/Contributing.md`, `6-MONOGRAPH/MCP_INGEST.md`, `4-IMPLICATIONS/WHAT_THIS_MEANS.md`.
+- PR #592 restored all eight documents to the canonical count (39,745 passed).
+- This maintenance entry re-triggers CI/Tests on main to clear the stale red badge.
 
-**Why:** The `onboarding_docs_consistency_report` guard enforces that every contributor-facing document contains the canonical full-suite passed count extracted from `STATUS.md`. Any drift between `STATUS.md` and these documents would direct contributors or verifiers to a stale test total. PR #591 introduced drift; PR #592 + this entry close it.
+**Why:** The `onboarding_docs_consistency_report` guard enforces that every contributor-facing document contains the canonical full-suite passed count from `STATUS.md`. Drift would direct contributors or verifiers to a stale total. PR #591 introduced drift; PR #592 + this entry close it.
 
 **Epistemic label deltas:** None.  
 **ToE score delta:** None.  
