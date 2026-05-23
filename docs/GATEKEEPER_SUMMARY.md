@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v11.19
+# Unitary Manifold v12.7
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-20 (v11.13 Tightening Sprint — Pillars 309–311 added: FTUM Lipschitz cert, Cabibbo orbifold, α_s basin volatility; Λ_QCD three-path reconciliation; Lab CP collaboration request operationalised; doc headers synced to v11.13; full regression 35,547 passed, 0 failed)*
+*Last updated: 2026-05-23 (v12.7 — Mathematical Gap Closure Sprint: Pillars 385–388 added — KM c₁ L2_KACMOODY_CONSTRAINED (P385), seesaw TEXTURE_DIAGONALIZED (P386), Admission 3 FORMALLY_CLOSED (P387), NLO NLO_CORRECTIONS_BOUNDED (P388). Full regression: 39,745 passed, 22 skipped, 12 deselected, 0 failed)*
 
 ---
 
@@ -245,7 +245,7 @@ Interpretation for gatekeepers:
 ## Part 8 — Verification Instructions
 
 ```bash
-# Full test suite (32,857 passed baseline, 0 failures)
+# Full test suite (39,745 passed baseline, 0 failures)
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q \
   --ignore=tests/test_symbolic_metric.py \
   --ignore=tests/test_formal_proof_hardening.py \

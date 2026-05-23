@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-05-20 (v11.13 — Jarlskog Layer 2 + n_w χ² tracker HARDENED (P306); Lab CP P8 PREREGISTERED_v11.12 (P307); 2027 mock-drill DRILL_VERIFIED_READY_v11.12 (P308); FTUM contractive-regime cert (P309); Cabibbo orbifold derivation (P310); α_s basin volatility certificate (P311); Λ_QCD three-path reconciliation; Lab CP collaboration request operationalised. All 2027 routing protocols preregistered and idempotent.)*
+*Last updated: 2026-05-23 (v12.7 — Mathematical Gap Closure Sprint: Pillars 385–388 added (P385 KM c₁ L2_KACMOODY_CONSTRAINED, P386 seesaw TEXTURE_DIAGONALIZED, P387 Admission 3 FORMALLY_CLOSED, P388 NLO NLO_CORRECTIONS_BOUNDED); 39,745 tests passing; 0 failed. v12.0–v12.7 sprints added Pillars 345–388: Science/Math/Physics Rigor Sprint (P345–353), Millennium Prize geometry (P354), Second Quantization Z_φ (P355), Spectral Envelope Z_φ(k) (P356), Physics Deep Dive Sprint (P357–366), 2027 Decision Year Prep (P367–376), Major Mathematical Closure (P377–384), Gap Closure Sprint (P385–388). See STATUS.md for full sprint log.)*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 

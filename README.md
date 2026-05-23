@@ -21,8 +21,8 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![39,745 passed · 22 skipped · 12 deselected · 0 failed](https://img.shields.io/badge/tests-38%2C421%20passed%20%C2%B7%202%20skipped%20%C2%B7%2012%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
-[![355+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-355%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
+[![39,745 passed · 22 skipped · 12 deselected · 0 failed](https://img.shields.io/badge/tests-39%2C745%20passed%20%C2%B7%2022%20skipped%20%C2%B7%2012%20deselected%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![388+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-388%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v12.7-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
