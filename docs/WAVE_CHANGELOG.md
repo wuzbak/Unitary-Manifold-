@@ -15,6 +15,32 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v12.8 (2026-05-23 — Execution Governance + Signal Purge Sprint: Pillars 389–393)
+
+**What changed:**
+- **Pillar 389** (`src/core/governance_lane_classifier.py`) — Governance Lane Classifier. Status: **GOVERNANCE_ENGINEERING**. Three-lane governance model (ROUTINE / SENSITIVE / CRITICAL) implemented as first-class gate. Lane classification is determined by harm level, reversibility, physics-claim-promotion flag, and falsifier-event flag. Includes: `JudgmentSupportPacket` (risk summary, stakeholders, alternatives, confidence, uncertainty notes, counter-argument, bias flags); `QuorumRequirement` (1/2/3 approvers; role-diversity; dissent artifact; post-action review); `DecisionRecord` validation; `detect_authority_inversion()` (8 signal phrases); `detect_scope_creep()` (actions, files, pillars); `governance_audit_summary()`.
+- **Pillar 390** (`src/core/truth_surface_consistency_checker.py`) — Truth-Surface Consistency Checker. Status: **GOVERNANCE_ENGINEERING**. Enforces coherence across the six canonical truth surfaces: STATUS.md, docs/mas_tracker.yml, docs/CLAIM_MASTER_BOARD.md, docs/TRUTH_LAYER.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md, docs/GATEKEEPER_SUMMARY.md. Divergence taxonomy: RELEASE_BLOCKER (version mismatch, test-count mismatch) / WARNING (missing markers) / INFO (no count present). Any RELEASE_BLOCKER divergence blocks release. Both filesystem and in-memory (text dict) APIs provided.
+- **Pillar 391** (`src/core/signal_noise_filter.py`) — Signal-vs-Noise Filter. Status: **GOVERNANCE_ENGINEERING**. Repository-wide triage classifying items as ACTIONABLE_SIGNAL / MONITOR_ONLY / ARCHIVAL_NOISE. Classification rules: HIGH_TENSION link → ACTIONABLE_SIGNAL; active decision-window link → ACTIONABLE_SIGNAL; near-term window without routing → ACTIONABLE_SIGNAL; consistent + no links → MONITOR_ONLY; speculative + no falsifier + no window → ARCHIVAL_NOISE; superseded → ARCHIVAL_NOISE. Canonical 14-item registry tracks all active tensions, near-term windows, the primary falsifier, and governance items.
+- **Pillar 392** (`src/core/decision_readiness_package_v128.py`) — Decision Readiness Package v12.8. Status: **GOVERNANCE_ENGINEERING**. Consolidates 2027–2032 decision windows: DESI DR3 (wₐ=0, 2027), SO DR1 (r=0.0315, 2027), JUNO (Δm²₃₁, 2027), SPHEREx (f_NL, 2028), CMB-S4 (joint r+β, 2030), LiteBIRD (β, 2032). Each window carries: preregistered prediction, falsification condition, routing function, source module, rehearsal status. 10 canonical drill scenarios all PASS. `decision_readiness_audit()` returns machine-readable `ReadinessReport` with drill_pass_rate=1.0 and all near-term (≤2028) windows ready.
+- **Pillar 393** (`src/core/sprint_completion_gate.py`) — Sprint Completion Gate. Status: **GOVERNANCE_ENGINEERING**. Six formal exit criteria: (1) governance gates active, (2) truth surfaces synchronised, (3) active tensions routed, (4) noise backlog ≤20%, (5) full regression at 0 failures, (6) decision protocols committed. Returns `SprintCompletionReport` with per-gate `GateVerdict` (PASS / FAIL / UNKNOWN) and top-level `SprintStatus` (SPRINT_COMPLETE / SPRINT_BLOCKED).
+- **207 new tests; 0 failures.** Full regression: **39,952 passed · 22 skipped · 12 deselected · 0 failed**.
+- docs/mas_tracker.yml, STATUS.md updated to v12.8.
+
+**Epistemic label deltas:** None (governance-engineering sprint; no physics-label changes).
+
+**ToE score:** 28.0/28 (unchanged).
+
+**Falsification impact:**
+- P391 canonical registry will propagate any new falsified verdict classification automatically to ACTIONABLE_SIGNAL; staleness or archiving of an active-tension item is explicitly prevented by the ARCHIVAL_NOISE rule-set.
+- P392 rehearsal drills now provide documented pass/fail baselines for DESI DR3, SO DR1, JUNO, and LiteBIRD; deviations from these baselines in future data will be immediately classifiable.
+- P393 gate criterion 5 (regression at zero failures) enforces that no physics claim is silently broken by governance changes.
+
+**Residual unknowns after v12.8:**
+- Full non-perturbative Kac-Moody c₁ computation: c₁^{NP} ≈ 6.4 still required (P385 gap unchanged).
+- M₃ topology selection: UM cannot select compact 3-manifold from first principles alone (P382 unchanged).
+- SPHEREx rehearsal drill: not yet run (will be added in a near-term sprint when SPHEREx f_NL uncertainty forecasts are published).
+- Signal-noise filter noise fraction: two items (KACMOODY_C1_NP and M3_TOPOLOGY) currently classified ARCHIVAL_NOISE; reclassification to MONITOR_ONLY possible once near-term tests are identified.
+
 ## v12.7-maint (2026-05-23 — CI Ledger Sync Maintenance)
 
 **What changed:**

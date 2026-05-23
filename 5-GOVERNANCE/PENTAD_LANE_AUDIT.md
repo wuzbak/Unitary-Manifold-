@@ -1,8 +1,8 @@
 # PENTAD_LANE_AUDIT.md — HILS Governance Lane Audit
-# Unitary Manifold v10.62
+# Unitary Manifold v12.8
 # Lane 6: Human-in-the-loop governance — continue Pentad/HILS operational refinement
 # as independent governance engineering, without mislabeling it as physics proof.
-# Last updated: 2026-05-15
+# Last updated: 2026-05-23
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
@@ -89,7 +89,7 @@ The ToE score denominator is fixed at 28 physics parameters only.
 | RAG index (bot/rag_index.py) | ✅ Active |
 | Append-only session log (HILS_SESSION_LOG.md) | ✅ Active |
 | Current session state (HILS_SESSION_CURRENT.md) | ✅ Active |
-| Pentad test suite | ✅ Passing (v10.61: ~1,487 passed, 254 skipped, 0 failed) |
+| Pentad test suite | ✅ Passing (v12.8: ~1,487 passed, 254 skipped, 0 failed) |
 | Co-emergence documentation | ✅ Current (`5-GOVERNANCE/co-emergence/LLM_INGEST.md`) |
 
 ---
@@ -109,8 +109,29 @@ the separation between physics workstreams and governance workstreams.
 
 ---
 
+## Three-Lane Governance Model (v12.8 — Pillar 389)
+
+A formal three-lane governance model has been implemented as first-class infrastructure
+in `src/core/governance_lane_classifier.py`. This model enforces:
+
+| Lane | Harm Level | Reversibility | Min Approvers | Dissent Required | Post-Action Review |
+|------|-----------|--------------|---------------|-----------------|-------------------|
+| ROUTINE | LOW | REVERSIBLE | 1 | No | No |
+| SENSITIVE | MEDIUM–HIGH | PARTIAL–IRREVERSIBLE | 2 | Yes | No |
+| CRITICAL | HIGH (+ falsifier or promotion) | IRREVERSIBLE | 3 | Yes | Yes |
+
+**Explicit failure conditions (always CRITICAL or blocked):**
+- Authority inversion: AI attempting to override human judgment.
+- Silent scope creep: expanding work beyond declared approved scope without declaration.
+
+The lane classifier is validated by 207 tests in
+`tests/test_pillar389_governance_lane_classifier.py`.
+
+---
+
 ## Revision History
 
 | Date | Wave | Change |
 |------|------|--------|
+| 2026-05-23 | v12.8 | Updated version to v12.8; added three-lane governance model section; Pentad test suite count updated |
 | 2026-05-15 | v10.62 | Initial HILS governance lane audit created — six lanes sprint |
