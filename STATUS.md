@@ -31,7 +31,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** ≥41,390 passed · 2 skipped · 12 deselected · 0 failed (v13.1 sandbox; Pillars 402–406; 735 new tests; 0 failures)
+**Latest verified branch regression:** ≥41,605 passed · 2 skipped · 12 deselected · 0 failed (v13.2 sandbox; Pillars 407–412; 215 new tests; 0 failures)
 *(v12.9: Pillars 394–397 — Epistemological Deep Audit; 228 new tests; 0 failures; canonical: ≥40,180)*
 *(v12.8: Pillars 389–393 — Governance Lane Classifier; Truth-Surface Checker; Signal-Noise Filter; Decision Readiness Package; Sprint Completion Gate; 207 new tests; 0 failures)*
 *(v12.7: Pillars 385–388 — KM c₁ computed; seesaw diagonalized; Admission 3 CLOSED; NLO bounded; 0 failures)*
