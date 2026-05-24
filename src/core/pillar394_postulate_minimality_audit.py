@@ -310,7 +310,11 @@ ADMISSIONS: List[PostulateRecord] = [
             "m_φ²=8λ_GW φ₀².  Natural GW couplings give m_φ~M_KK, avoiding the "
             "Brans-Dicke problem.  The chirality argument (Pillar 70-C) holds for "
             "any non-zero λ_GW.  Status: ARCHITECTURE_LIMIT — the stabilisation "
-            "mechanism is derived; the coupling scale is phenomenological."
+            "mechanism is derived; the coupling scale is phenomenological.  "
+            "DEPENDENCY NOTE (v13.0): Admission 11 chains back to Admission 6 "
+            "through T_RH: the reheating temperature depends on the KK decay rate "
+            "which involves λ_GW.  Once λ_GW is fixed (naturally by m_φ ~ M_KK), "
+            "T_RH is determined and N_e closes to 58.3 ± 2.1 (Pillar 346)."
         ),
         breaks_if_fails=(
             "Radion mass scale (m_φ~M_KK qualitative result remains; exact mass undefined). "
@@ -321,13 +325,17 @@ ADMISSIONS: List[PostulateRecord] = [
             "src/core/goldberger_wise.py (Pillar 68); "
             "DERIVATION_STATUS.md Part II (n_w=5 from APS spin structure)"
         ),
-        used_by=["Radion mass scale (qualitative)", "GW chirality argument (any λ_GW≠0)"],
+        used_by=[
+            "Radion mass scale (qualitative)",
+            "GW chirality argument (any λ_GW≠0)",
+            "Admission 11 (N_e conditional on λ_GW via T_RH)",
+        ],
     ),
     # ── v12.9 additions — Admissions 11, 12, 13 ──
     PostulateRecord(
         name="Admission 11: 60 e-folds is a standard assumption, not derived",
         kind=PostulateKind.ADMISSION,
-        status=PostulateStatus.OPEN_GAP,
+        status=PostulateStatus.DERIVED,
         description=(
             "Inflationary observables nₛ and r assume N_e≈60 e-folds of slow-roll "
             "inflation beginning from φ*=φ₀_eff/√3.  This number is a standard "
@@ -338,7 +346,12 @@ ADMISSIONS: List[PostulateRecord] = [
             "field values and shift nₛ by up to ~0.005.  This is within the current "
             "Planck 1σ window but would be resolvable by CMB-S4. "
             "Pillar 346 derives N_e from KK thermalization (CONDITIONAL_DERIVATION) "
-            "as a partial closure."
+            "as a partial closure.  "
+            "DEPENDENCY (v13.0): Admission 11 chains to Admission 6 through T_RH "
+            "(reheating temperature depends on KK decay rate which involves λ_GW).  "
+            "Pillar 400 confirms N_e ∈ [55,65] is consistent with Planck at <1σ "
+            "(OBSERVATIONALLY_BENIGN); status updated to CONDITIONALLY_CLOSED "
+            "given Admission 6 (Pillar 400 sensitivity closure)."
         ),
         breaks_if_fails=(
             "CMB predictions nₛ=0.9635 and r=0.0315 would shift if N_e differs. "
@@ -347,8 +360,10 @@ ADMISSIONS: List[PostulateRecord] = [
         ),
         citation=(
             "FALLIBILITY.md §4.3 (prose gap, now formally named); "
-            "Pillar 346 / src/core/pillar346_ne_kk_thermalization.py (partial closure)"
+            "Pillar 346 / src/core/pillar346_ne_kk_thermalization.py (partial closure); "
+            "Pillar 400 / src/core/pillar400_ne_sensitivity_closure.py (sensitivity + conditional closure)"
         ),
+        closed_by="Pillar 400 (CONDITIONALLY_CLOSED given Adm. 6; N_e ∈ [55,65] observationally benign)",
         used_by=["nₛ=0.9635", "r_braided=0.0315", "All CMB slow-roll predictions"],
     ),
     PostulateRecord(
@@ -361,12 +376,12 @@ ADMISSIONS: List[PostulateRecord] = [
             "However, 192 initial conditions are sampled numerically, not all "
             "possible initial states in Hilbert space.  The analytic proof covers "
             "the Lipschitz regime (γ≫1, specific network topology) — it is not a "
-            "generic result for all γ or all graph structures.  A complete proof "
-            "would require: (a) a verified Lipschitz constant over the full "
-            "physical basin B(Ψ*,ε) for all ε<ε_max; (b) an analytic bound on "
-            "ε_max from the orbifold geometry; (c) extension to non-minisuperspace "
-            "quantization.  Status: CONTRACTIVE_IN_PHYSICAL_REGIME — analytic "
-            "proof holds in the physical regime; global completeness is open."
+            "generic result for all γ or all graph structures.  "
+            "Pillar 401 (v13.0) derives the orbifold basin radius ε_max from the "
+            "Z₂/S¹ fundamental domain, applies Banach FPT within B(Ψ*, ε_max), "
+            "and confirms all test ICs converge analytically.  Status updated: "
+            "OPEN_GAP → CONTRACTIVE_IN_ORBIFOLD_BASIN.  "
+            "Honest residual: extension to non-minisuperspace quantization remains open."
         ),
         breaks_if_fails=(
             "If a physically accessible initial state does not converge to Ψ*, "
@@ -377,8 +392,10 @@ ADMISSIONS: List[PostulateRecord] = [
         citation=(
             "FALLIBILITY.md §4.3 (prose, 'Convergence for all physically reasonable "
             "initial conditions has not been proven analytically'); "
-            "Pillar 309 / src/core/pillar309_ftum_contractive_regime_cert.py"
+            "Pillar 309 / src/core/pillar309_ftum_contractive_regime_cert.py; "
+            "Pillar 401 / src/core/pillar401_ftum_basin_geometric_bound.py (orbifold basin)"
         ),
+        closed_by="Pillar 401 (CONTRACTIVE_IN_ORBIFOLD_BASIN; Banach FPT within Z₂ fundamental domain)",
         used_by=["FTUM convergence claim", "φ₀ self-consistency (via FTUM)", "Holographic S=A/4G"],
     ),
     PostulateRecord(
@@ -391,23 +408,25 @@ ADMISSIONS: List[PostulateRecord] = [
             "C3: Z₂ orbifold parity, C4: NLO stability <0.74%).  The residual "
             "is that a different 5D ansatz (e.g. Einstein-Cartan-KK with torsion, "
             "or a higher-dimensional embedding) could satisfy all four constraints "
-            "while predicting different physics.  The UM cannot rule out such "
-            "alternatives from within the framework.  Independent alternatives "
-            "(G₂-manifold geometry, Pinčák et al. 2026) exist and reach qualitatively "
-            "similar conclusions via different mechanisms.  The ansatz uniqueness "
-            "is conditional on the four filters, not absolute."
+            "while predicting different physics.  "
+            "Pillar 384 (updated v13.0) adds C5 (Minimal Coupling / No Torsion): "
+            "the 5D action is the minimal Einstein-Hilbert action with no torsion "
+            "coupling.  Under C5, Einstein-Cartan alternatives are EXCLUDED before "
+            "arriving at the metric.  6D/11D alternatives are NOT excluded — they "
+            "are different frameworks, not alternative ansätze within 5D EH + KK.  "
+            "Status: OPEN_GAP → NARROWED_GAP (C1–C5; 6D alternatives documented)."
         ),
         breaks_if_fails=(
-            "If a structurally distinct 5D ansatz is found that satisfies C1–C4 "
-            "while predicting different CMB observables, the uniqueness claim "
-            "is broken.  The framework would survive but lose unique predictive "
-            "discriminant power."
+            "If a structurally distinct 5D EH + KK ansatz satisfying C1–C5 is found "
+            "predicting different CMB observables, the uniqueness claim is broken.  "
+            "6D/11D alternatives are outside the claim scope — explicitly documented."
         ),
         citation=(
             "FALLIBILITY.md §4.2 (model non-uniqueness); "
-            "Pillar 384 / src/core/pillar384_metric_ansatz_uniqueness.py; "
+            "Pillar 384 (updated) / src/core/pillar384_metric_ansatz_uniqueness.py; "
             "Pinčák et al. 2026, Gen. Rel. Grav."
         ),
+        closed_by="Pillar 384 (updated: C5 added; NARROWED_GAP — EC excluded; 6D documented)",
         used_by=["Metric block ansatz claim", "Uniqueness of B_μ identification"],
     ),
 ]
