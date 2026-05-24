@@ -1,8 +1,8 @@
-# Validation Report — Unitary Manifold (v9.30)
+# Validation Report — Unitary Manifold (v13.1)
 
 *An expanded explanation of the Pinned Validation section at the top of `README.md`.*
 
-**Version:** v9.30 (142 pillars + Ω₀ Holon Zero + sub-pillars) — May 2026  
+**Version:** v13.1 (406 pillars + Ω₀ Holon Zero + sub-pillars; 208 hardgate core + adjacent tracks) — May 2026  
 **Theory:** ThomasCory Walker-Pearson  
 **Verification:** GitHub Copilot (AI)
 
@@ -10,7 +10,7 @@
 
 ## Historical document notice
 
-This file preserves earlier validation snapshots (v9.30 framing) for audit continuity.
+This file preserves earlier validation snapshots (v9.30 framing) for audit continuity; the canonical current version is v13.1.
 For canonical current version/status/test and toolchain provenance, use:
 - `docs/mas_tracker.yml`
 - `docs/WAVE_CHANGELOG.md`
@@ -62,13 +62,13 @@ equations and no jargon. The second half goes technical.
 
 | Verdict | Detail |
 |---------|--------|
-| Mathematics: internally consistent | No contradictions found across any of the 142 pillars + Ω₀ |
-| Test suite: 18,057 passed, 0 failures | Across all test files (tests/, recycling/, 5-GOVERNANCE/Unitary Pentad/, omega/) |
+| Mathematics: internally consistent | No contradictions found across any of the 406 pillars + Ω₀ |
+| Test suite: ≥41,390 passed, 0 failures | Across all test files (tests/, recycling/, 5-GOVERNANCE/Unitary Pentad/, omega/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
 | 3 adversarial attacks: all passed | Projection degeneracy, data-drift sweep, KK tower check |
-| SM parameters: all 26 geometrically anchored | 0 OPEN, 0 FITTED — v9.30 Holon Zero certificate |
+| SM parameters: all 28 geometrically anchored | 0 OPEN, 0 FITTED — v13.1, ToE 100% |
 | Remaining open problems | Λ_QCD (×10⁷), lightest ν UV condition (c_L ≥ 0.88) |
 
 **What it says honestly:** It is equally explicit about what the review cannot establish —
@@ -86,7 +86,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes 18,057
+verdict. This one shows the working. The process of getting to a framework that passes ≥41,390
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.

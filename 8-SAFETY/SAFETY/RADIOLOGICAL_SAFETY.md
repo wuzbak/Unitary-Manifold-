@@ -218,5 +218,5 @@ Until then, the code in this repository is a calculator.  Use it as one.
 ---
 
 *RADIOLOGICAL_SAFETY.md version: 1.0 — 2026-04-16*  
-*Theory: ThomasCory Walker-Pearson — Unitary Manifold v9.29*
+*Theory: ThomasCory Walker-Pearson — Unitary Manifold v13.1*
 *Safety architecture: GitHub Copilot, commissioned by ThomasCory Walker-Pearson*

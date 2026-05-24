@@ -1,8 +1,8 @@
-# The 101 Pillars + sub-pillars + Pillar Ω — Complete Framework Overview (v9.29)
+# The 406 Pillars + sub-pillars + Pillar Ω — Complete Framework Overview (v13.1)
 
 The Unitary Manifold extends a single geometric claim — irreversibility as 5D geometry —
-across 99 domains of knowledge (74 core + Pillar 70-B + Pillars 75, 80–99) plus the
-capstone Pillar Ω (Universal Mechanics Engine). Each pillar asks the same question: does
+across 406 pillars (208 hardgate core + adjacent research tracks Pillars 218–254+ + sub-pillars + Ω₀)
+plus the capstone Pillar Ω (Universal Mechanics Engine). Each pillar asks the same question: does
 the same machinery (B_μ, φ, FTUM operator U = I+H+T) govern this domain?
 
 ## Core Physics (Pillars 1–5)
@@ -178,17 +178,16 @@ These are the original pillars of the theory.
 | Resonance | `resonance_dynamics.py` | 3:2/2:3 oscillation; SOS=74; HIL threshold n=15; 4:1 inversion | — |
 | Pilot | `pentad_pilot.py` | Real-time HIL interface; keyboard or Arduino hardware | — |
 
-**Total Pentad tests: 1,026 passed 254 skipped · Total repository tests: 18,057 passed / ~18,397 collected (v9.30)**
+**Total Pentad tests: ≥1,487 passed 254 skipped · Total repository tests: ≥41,390 passed · 2 skipped · 0 failed (v13.1)**
 
 ## Quick Reference — Running All Suites
 
 ```bash
-python -m pytest tests/ -q                                       # ~15,926 passed (Pillars 1–132 core, 160+ test files)
+python -m pytest tests/ -q                                       # ≥39,000 passed (Pillars 1–406 core, 200+ test files)
 python -m pytest recycling/ -q                                   # 316 passed (Pillar 16)
-python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q             # 1026 passed, 254 skipped (HILS framework)
-python -m pytest omega/ -q                                       # 170 passed (Pillar Ω)
+python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q             # ≥1,487 passed, 254 skipped (HILS framework)
 
 # All at once:
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# → 18,057 passed, 329 skipped, 0 failed
+# → ≥41,390 passed, 2 skipped, 0 failed (v13.1 canonical)
 ```

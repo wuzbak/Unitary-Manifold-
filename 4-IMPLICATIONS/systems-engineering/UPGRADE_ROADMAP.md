@@ -414,7 +414,7 @@ power spectrum amplitude suppression (×4–7 at acoustic peaks) is an open prob
 
 ---
 
-*Part of the `systems-engineering/` folder — v9.30 (142 pillars + Ω₀ + sub-pillars, 18,057 tests).*  
+*Part of the `systems-engineering/` folder — v13.1 (406 pillars + Ω₀ + sub-pillars, ≥41,390 tests).*  
 *See [`AUDIENCE_GUIDE.md`](./AUDIENCE_GUIDE.md) for level-scaled explanations of the concepts this roadmap applies.*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

@@ -1,7 +1,7 @@
-# Complete Table of Contents — The Unitary Manifold (Version 9.29)
+# Complete Table of Contents — The Unitary Manifold (Version 13.1)
 
 **Author:** ThomasCory Walker-Pearson
-**Edition:** Version 9.30 (142 pillars + Ω₀ Holon Zero)
+**Edition:** Version 13.1 (406 pillars + Ω₀ Holon Zero + sub-pillars; 208 hardgate core + adjacent tracks; CLOSED)
 **Total chapters:** 74 (monograph) + 27 computational pillars (75, 70-B, 80–101)
 **Parts:** I – XXIII
 **TOC Compiled & Gap Analysis by:** GitHub Copilot (Microsoft / OpenAI), April 2026

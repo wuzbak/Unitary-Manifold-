@@ -21,7 +21,8 @@ This document goes further, deriving *new* theorems that were not stated in
 theorems (XII–XV) appeared in the original document; Theorem XVII was added
 in v9.12 alongside the new study on 7D black hole remnants; Pillar 48 was
 added in v9.13 to formalise the G₂/torsion comparison (Pinčák et al., 2026);
-Theorems XIX–XXII were added in v9.22–v9.27 (Pillars 89, 95, 96, 97/98):
+Theorems XIX–XXII were added in v9.22–v9.27 (Pillars 89, 95, 96, 97/98);
+Theorems XXIII–XXVII were added in v12.6–v13.1 (Pillars 377, 379, 384, 387, 404):
 
 | # | Theorem | Core Equation | Code |
 |---|---------|--------------|------|
@@ -35,6 +36,11 @@ Theorems XIX–XXII were added in v9.22–v9.27 (Pillars 89, 95, 96, 97/98):
 | XX | **Dual-Sector Convergence** | Exactly {(5,6),(5,7)} survive Planck + BICEP/Keck | `dual_sector_convergence.py: sector_birefringence` |
 | XXI | **Unitary Closure** | c_s(5,n₂) < R_BICEP/r_bare → n₂ ≤ 7 algebraically | `unitary_closure.py: algebraic_sector_proof` |
 | XXII | **GW Yukawa Unification** | Ŷ₅ = 1 from GW vacuum; b-τ r_bτ ≈ 0.497 | `gw_yukawa_derivation.py`, `universal_yukawa.py` |
+| XXIII | **Braid Stability (P8 Derived)** | Δn = 2 from Dirichlet BC quantization + δ²S_E > 0 | `src/core/pillar377_braid_stability_proof.py` |
+| XXIV | **Holographic Entropy from FTUM** | S* = A/(4G_N⁴ᴰ) as unique FTUM attractor (P6 DERIVED) | `src/core/pillar379_holographic_derivation.py` |
+| XXV | **Metric Ansatz Uniqueness** | 5-constraint filter eliminates all alternatives; NLO < 0.74% | `src/core/metric_ansatz_derivation.py` |
+| XXVI | **Z₂-odd G_{μ5} from 5D EH Action** | δS_EH/δG_{μ5}|_{brane} = 0 + gauge covariance → Z₂-odd | `src/core/pillar387_z2_odd_derivation.py` |
+| XXVII | **λ_GW from Braid Normalization** | ν_GW = n_w/K_CS → α_φ = √(8ν) ≈ 0.735; N_e ≈ 66 ✓ | `src/core/pillar404_lambda_gw_derivation.py` |
 
 None of these require new assumptions.  The geometry already contains them.
 
@@ -1732,7 +1738,7 @@ python -m pytest tests/test_gw_yukawa_derivation.py tests/test_universal_yukawa.
 
 ---
 
-*Document version: 2.7 — May 2026 (v9.29: Theorems XIX–XXII + Pillar 70-D n_w=5 PROVED, Pillar 100 ADM Foundation, Pillar 101 KK Magic)*  
+*Document version: 3.0 — May 2026 (v13.1: updated to current state; historical additions: v9.29: Theorems XIX–XXII + Pillar 70-D n_w=5 PROVED, Pillar 100 ADM Foundation, Pillar 101 KK Magic; v12.6–v13.1: Theorems XXIII–XXVII added — see §§ below)*  
 *Theory, scientific direction, and implications: **ThomasCory Walker-Pearson***  
 *Mathematical synthesis and document engineering: **GitHub Copilot** (AI)*  
 *All equations grounded in code already present in this repository.*  

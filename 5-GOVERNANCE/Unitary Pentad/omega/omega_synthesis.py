@@ -7,7 +7,7 @@ THE OMEGA SYNTHESIS — Universal Mechanics Engine (Pillar Ω)
 
                     ❯ A precise calculator of the universe and its mechanisms.
 
-This is the capstone of the Unitary Manifold: 101 pillars of 5D Kaluza-Klein
+This is the capstone of the Unitary Manifold: 406 pillars of 5D Kaluza-Klein
 geometry, particle physics, cosmology, consciousness, ecology, governance, and
 the HILS co-emergence framework, unified into a single queryable Python engine.
 
@@ -69,7 +69,7 @@ See ``engine.falsifiers()`` for the complete list.
 
 REFERENCES
 ----------
-All 101 pillars live in src/core/, src/*/,  recycling/, and Unitary Pentad/.
+All 406 pillars live in src/core/, src/*/,  recycling/, and Unitary Pentad/.
 The complete test suite is in tests/, recycling/, and Unitary Pentad/.
 """
 
@@ -498,7 +498,7 @@ class OmegaReport:
     """Number of completed pillars (99 + sub-pillars at v9.28)."""
 
     n_tests_passing: int
-    """Number of passing tests in the repository (15,362 at v9.29 post-audit)."""
+    """Number of passing tests in the repository (41,390 at v13.1 canonical)."""
 
     n_seed_constants: int = 5
     """Number of seed constants from which everything is derived."""
@@ -614,7 +614,7 @@ class UniversalEngine:
         Number of aligned Human-in-the-Loop operators.  Affects collective
         stability floor.  Default 1 (minimum for resolvable logic change).
     version : str
-        Framework version string (default 'v9.29 OMEGA EDITION').
+        Framework version string (default 'v13.1 OMEGA APEX EDITION').
     n_pillars : int
         Number of completed pillars (default 99 — this pillar is Ω).
     n_tests : int
@@ -624,9 +624,9 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     # Version tracking
     # -----------------------------------------------------------------------
-    DEFAULT_VERSION = "v9.33 OMEGA GAP CLOSURE ARC II"
-    DEFAULT_N_PILLARS = 167   # Pillars 162-167 added in v9.33 Gap Closure Arc II
-    DEFAULT_N_TESTS = 20249  # v9.33 verified count: ~20,249 passed (463 new from Pillars 162-167)
+    DEFAULT_VERSION = "v13.1 OMEGA APEX EDITION"
+    DEFAULT_N_PILLARS = 406   # v13.1: 208 hardgate core + adjacent tracks Pillars 218–254+ + sub-pillars
+    DEFAULT_N_TESTS = 41390  # v13.1 canonical: ≥41,390 passed · 2 skipped · 0 failed
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)
@@ -1089,7 +1089,7 @@ class UniversalEngine:
             "11. The brain, the universe, the human, the AI, and trust itself form a stable "
             f"5-body Pentad under the (5,7) braid frequency — consciousness and governance are "
             f"4D projections of the same 5D geometry (Unitary Pentad, co-emergence/).",
-            "12. [Pillar Ω] All 101 pillars converge in the Universal Mechanics Engine — "
+            "12. [Pillar Ω] All 406 pillars converge in the Universal Mechanics Engine — "
             "a single queryable calculator of the universe from five seed constants. "
             "REPOSITORY COMPLETE.",
         ]

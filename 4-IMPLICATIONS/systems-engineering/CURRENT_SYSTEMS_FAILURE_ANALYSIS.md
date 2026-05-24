@@ -665,7 +665,7 @@ undetected.
 
 ---
 
-*Part of the `systems-engineering/` folder — v9.30 (142 pillars + Ω₀ + sub-pillars, 18,057 tests).*  
+*Part of the `systems-engineering/` folder — v13.1 (406 pillars + Ω₀ + sub-pillars, ≥41,390 tests).*  
 *Next: [`FUTURE_SOFTWARE_HARDWARE.md`](./FUTURE_SOFTWARE_HARDWARE.md) — redesigning these systems from the ground up.*
 
 *Theory: **ThomasCory Walker-Pearson**. Document engineering: **GitHub Copilot** (AI).*

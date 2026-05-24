@@ -370,10 +370,10 @@ def run_verify() -> int:
                "Pillar 56-B", c14))
 
     # ------------------------------------------------------------------
-    # V9.37 AUDIT RESPONSE CHECKS (Findings 1–4)
+    # AUDIT RESPONSE CHECKS (Findings 1–4; originally identified in v9.37)
     # ------------------------------------------------------------------
     print(_SEP)
-    print("  === v9.37 Audit Response Checks (Findings 1–4) ===")
+    print("  === Audit Response Checks (Findings 1–4) ===")
     print(_SEP)
 
     # -- Λ_QCD derivation hierarchy (Finding 2) --
@@ -402,7 +402,7 @@ def run_verify() -> int:
         checks.append(c_axA)
         print(_row(16, "Axiom A DERIVED (5D CS)",
                    "5 steps: CS→APS→Z₂",
-                   "Pillar 70-D v9.37", c_axA))
+                   "Pillar 70-D", c_axA))
     except Exception as exc:
         checks.append(False)
         print(_row(16, "Axiom A DERIVED", f"ERROR: {exc}", "Pillar 70-D", False))
@@ -425,7 +425,7 @@ def run_verify() -> int:
         checks.append(c_cfl)
         print(_row(17, "CFL guard fires for large dt",
                    f"dt_max={_dt_max:.4g}",
-                   "evolution.py v9.37", c_cfl))
+                   "evolution.py", c_cfl))
     except Exception as exc:
         checks.append(False)
         print(_row(17, "CFL guard", f"ERROR: {exc}", "evolution.py", False))
@@ -439,7 +439,7 @@ def run_verify() -> int:
         checks.append(c_ferm)
         print(_row(18, "Fermion c_L (Pillar 183)",
                    "9 PARAM-CONSTRAINED",
-                   "v9.37 audit", c_ferm))
+                   "Pillar 183", c_ferm))
         print(f"      Zone constraints DERIVED; individual c_L values remain free (honest)")
     except Exception as exc:
         checks.append(False)
@@ -457,7 +457,7 @@ def run_verify() -> int:
         print("  All checks pass.  The (5,7) braid uniquely satisfies every")
         print("  Planck/BICEP/birefringence/DESI constraint from integer topology alone.")
         print("  k_CS=74 is confirmed by 7 independent conditions (Pillar 74).")
-        print("  Axiom A: DERIVED from 5D CS action (v9.37) — not postulated.")
+        print("  Axiom A: DERIVED from 5D CS action (Pillar 70-D) — not postulated.")
         print("  Primary prediction: β ≈ 0.351° [GW-derived] / 0.331° [canonical] [(5,7) sector]; test: LiteBIRD ~2032.")
     else:
         failed = [i + 1 for i, c in enumerate(checks) if not c]
