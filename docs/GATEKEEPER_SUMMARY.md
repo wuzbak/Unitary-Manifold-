@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v12.7
+# Unitary Manifold v12.9
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -16,13 +16,13 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > orbifold derivation PARTIAL_DERIVATION status; α_s basin volatility map produced;
 > Λ_QCD three-path hierarchy reconciled; Lab CP collaboration request operationalised.
 > **Two HIGH_TENSION signals remain active:** (1) r = 0.0315 vs ACT DR6 upper bound
-> r < 0.016 (IRREDUCIBLE_IN_BRAIDED_5D_EFT — Pillar 303); (2) wₐ = 0 vs DESI DR2
+> r < 0.016 (IRREDUCIBLE_IN_BRAIDED_5D_EFT — Pillar 303; ARCHITECTURE_LIMIT_CERTIFIED — Pillar 396 v12.9); (2) wₐ = 0 vs DESI DR2
 > 2.82σ tension (ARCHITECTURE_LIMIT_CERTIFIED — Pillar 301). Neither has crossed
 > the 3.0σ falsification threshold. Both will resolve definitively in 2027.
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-23 (v12.7 — Mathematical Gap Closure Sprint: Pillars 385–388 added — KM c₁ L2_KACMOODY_CONSTRAINED (P385), seesaw TEXTURE_DIAGONALIZED (P386), Admission 3 FORMALLY_CLOSED (P387), NLO NLO_CORRECTIONS_BOUNDED (P388). Full regression: 39,745 passed, 22 skipped, 12 deselected, 0 failed)*
+*Last updated: 2026-05-23 (v12.9 — Epistemological Deep Audit: Pillars 394–397; truth surfaces synced; P6 ASSUMED→DERIVED_CONDITIONAL; Admissions 11–13 formalized; ACT r-tension ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396); full regression: 39,952 passed + ~228 new tests; 0 failures)*
 
 ---
 

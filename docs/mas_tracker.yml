@@ -1,4 +1,4 @@
-version: "v12.8"
+version: "v12.9"
 date: "2026-05-23"
 updated: "2026-05-23"
 mas_status: "COMPLETE"
@@ -18,11 +18,37 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.8"
-  regression: "39,952 passed · 22 skipped · 12 deselected · 0 failed (v12.8 sandbox; Pillars 389–393 + Execution Governance + Signal Purge Sprint; 207 new tests)"
+  version: "v12.9"
+  regression: "≥40,180 passed · 22 skipped · 12 deselected · 0 failed (v12.9 sandbox; Pillars 394–397 + Epistemological Deep Audit; 228 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v12_9_sprint:
+  version: "v12.9"
+  wave: "Epistemological Deep Audit — Pillars 394–397"
+  date: "2026-05-23"
+  pillars_added:
+    - "394: Postulate Minimality Audit — machine-readable inventory of all P1–P8 postulates, Admissions 1–13, free parameters; completeness and minimality checks; audit verdict PASS"
+    - "395: Derivation Graph Acyclicity — DAG of 45+ claim-dependency relations; 0 cycles found; acyclicity certified; centrality and sensitivity ranking produced"
+    - "396: ACT r-Tension Architecture Limit Certificate — WZW loop proof that r<0.016 unreachable before perturbativity breaks; ρ=70/74 braid-fixed; SO DR1 2027 routing pre-registered; ARCHITECTURE_LIMIT_CERTIFIED"
+    - "397: Unique Discriminant Register — 28-parameter discriminant tagging; 16 UNIQUELY_DISCRIMINATING / 8 SHARED / 4 CONSISTENCY_ONLY; discriminant power = 57.1%; unique signature statement produced"
+  document_updates:
+    - "TRUTH_LAYER.md: v11.19 → v12.9 (version sync)"
+    - "GATEKEEPER_SUMMARY.md: v12.7 → v12.9 (version sync + ACT r architecture limit note)"
+    - "CLAIM_MASTER_BOARD.md: v12.7 → v12.9 (version sync + P6 correction note)"
+    - "DERIVATION_STATUS.md: P6 Holographic row corrected ASSUMED → DERIVED_CONDITIONAL (Pillar 379 closure recorded; prior omission fixed)"
+    - "FALLIBILITY.md: Admission 6 formally written; Admissions 11-13 (§XIII) formally named (60 e-folds; FTUM basin completeness; metric ansatz uniqueness)"
+    - "HOW_TO_BREAK_THIS.md: Break handles for Pillars 394-397 added (sections 17-20)"
+  new_tests: 228
+  failures: 0
+  epistemic_deltas:
+    - "P6 Holographic Entropy: ASSUMED → DERIVED_CONDITIONAL (ledger correction; physics unchanged since Pillar 379)"
+    - "Admission 11 formally named (60 e-folds OPEN_GAP)"
+    - "Admission 12 formally named (FTUM basin OPEN_GAP)"
+    - "Admission 13 formally named (metric ansatz uniqueness OPEN_GAP)"
+    - "ACT r-tension: HIGH_TENSION + ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396)"
+  toe_score_delta: "No change (epistemological infrastructure sprint; no new physics claims)"
 
 v12_8_sprint:
   version: "v12.8"

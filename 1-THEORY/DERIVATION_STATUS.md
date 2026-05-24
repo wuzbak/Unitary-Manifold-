@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v12.8 — Unambiguous Record**  
+**The Unitary Manifold v12.9 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-23 (v12.8 — Second Quantization of φ Sprint: Pillar 355 added (Z_φ CMB amplitude frontier); v12.1 — Millennium Prize Problems Geometric Analysis Sprint: Pillar 354 added; v12.0 Science, Mathematics, and Physics Rigor Sprint: Pillars 345–353; v11.19 External Engagement & 2027 Triple-Observatory Readiness Sprint — Pillars 339–344; 39,952 passed · 22 skipped · 12 deselected · 0 failed.)*
+*Last updated: 2026-05-23 (v12.9 — Epistemological Deep Audit: Pillars 394–397 (Postulate Minimality Audit, Derivation DAG Acyclicity, ACT r-Tension Architecture Limit Certificate, Unique Discriminant Register); P6 Holographic Entropy corrected to DERIVED_CONDITIONAL; Admissions 11–13 formally named; truth surfaces synced; ≥40,180 passed · 22 skipped · 12 deselected · 0 failed.)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
@@ -85,7 +85,7 @@ first-order consequences that would require reformulation if the axiom failed.
 | Arrow of time as geometric identity | **DERIVED (conditional)** | B_μ field strength H_μν drives irreversibility; not postulated; depends on P3 interpretation | Observation of macroscopic time-reversal | `src/core/evolution.py` |
 | φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED (conditional)** (Steps 1–3) + CONVENTION (Step 4) | FTUM S*=0.25 → R=√(S*G₅/π) → φ₀_bare=R/ℓ_Pl (Steps 1–3 derived given P5); φ₀_bare=1 is the Planck-unit normalization convention (Step 4) | Non-convergence of FTUM | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
 | α_NM = φ₀⁻² (nonminimal coupling, NOT α_em) | **DERIVED (conditional)** | KK cross-block Riemann R^μ_{5ν5} after dimensional reduction; depends on P2 | α_NM outside 5D geometric range | `src/core/metric.py` |
-| Holographic entropy S = A/4G | **ASSUMED** (P6) | Standard AdS/CFT; not derived from UM geometry | Violation of holographic bound | `src/holography/boundary.py` |
+| Holographic entropy S = A/4G | **DERIVED_CONDITIONAL** (P6) | Pillar 379 derives S\*=A/(4G_N^{4D}) exactly at the FTUM fixed point from 5D Gauss-Bonnet reduction; assumption: standard AdS₅ bulk geometry (Λ₅<0). P6 ASSUMED → DERIVED_CONDITIONAL in v12.6. Conditions: (1) FTUM convergence to unique fixed point Ψ\*; (2) AdS₅ bulk; (3) RS1 compactification. | Violation of holographic bound; deviation from Bekenstein-Hawking at the fixed point | Pillar 379 / `src/core/pillar379_holographic_entropy_derivation.py`; `src/holography/boundary.py` |
 | FTUM fixed-point convergence | **DERIVED (conditional)** | Banach fixed-point theorem applied to U = I+H+T, given P5 | Non-convergence | `src/multiverse/fixed_point.py` |
 | φ₀ self-consistency (Pillar 56) | **CLOSED** | Three φ₀ candidates collapse to single value under c_s-corrected slow-roll | ≠ machine precision agreement | `src/core/phi0_closure.py` |
 | Full ADM 3+1 time decomposition | **SUBSTANTIALLY_CLOSED** | Pillar 212 closes the kinematic gap at the FTUM attractor (N(φ₀)=1, dt_coord=dt_Ricci=dt_ADM). `adm_quantitative_closure.py` adds off-attractor mismatch scans, radion local-quantization evidence, and minisuperspace lapse-path diagnostics. Residual: full inhomogeneous 5D ADM and non-minisuperspace quantization. **Pillar 102-C (`wdw_full_5d.py`) closes the non-minisuperspace WDW sector** (perturbative Halliwell-Hawking expansion). | — | Pillar 212 / `src/core/pillar212_adm_decomposition.py`, `src/core/adm_quantitative_closure.py`; Pillar 102-C / `src/core/wdw_full_5d.py` |

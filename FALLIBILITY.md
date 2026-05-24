@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v12.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 39,952 passed · 22 skipped · 12 deselected · 0 failed; v12.8 adds Pillars 389–393 — Execution Governance + Signal Purge Sprint: three-lane governance, truth-surface checker, signal-noise filter, decision readiness, sprint completion gate; 207 new tests; 0 failures; v12.7 adds Pillars 385–388 — Mathematical Gap Closure: KM c₁, seesaw diagonalization, Admission 3 formal closure, NLO corrections bounded; 219 new tests; 0 failures; v12.6 adds Pillars 377–384; 504 new tests; 0 failures).*
+*Unitary Manifold v12.9 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: ≥40,180 passed · 22 skipped · 12 deselected · 0 failed; v12.9 adds Pillars 394–397 — Epistemological Deep Audit: Postulate Minimality Audit, Derivation DAG Acyclicity, ACT r-Tension Architecture Limit Certificate, Unique Discriminant Register; P6 corrected ASSUMED→DERIVED_CONDITIONAL; Admissions 11–13 formally named; truth surfaces synced to v12.9; 228 new tests; 0 failures; v12.8 adds Pillars 389–393 — Execution Governance + Signal Purge Sprint: three-lane governance, truth-surface checker, signal-noise filter, decision readiness, sprint completion gate; 207 new tests; 0 failures; v12.7 adds Pillars 385–388 — Mathematical Gap Closure: KM c₁, seesaw diagonalization, Admission 3 formal closure, NLO corrections bounded; 219 new tests; 0 failures; v12.6 adds Pillars 377–384; 504 new tests; 0 failures).*
 
 ---
 
@@ -238,6 +238,20 @@ KK Jacobian, giving J ≈ 31.42 and nₛ ≈ 0.9635.
    derived from the 5D gravitational action (see Admission 6 below).  However,
    the chirality argument holds for any non-zero λ_GW, so this residual free
    parameter does not affect the n_w selection.
+
+**Admission 6 — λ_GW (Goldberger-Wise coupling) is a free parameter:
+ARCHITECTURE_LIMIT.**
+The Goldberger-Wise stabilisation potential V_GW = λ_GW(φ² − φ₀²)² requires
+λ_GW as input.  The stabilisation mechanism is geometric (the double-well form
+follows from the RS1 compactification); the coupling constant λ_GW itself is
+not derived from the 5D Einstein-Hilbert action.  Its role:
+- Sets the radion mass scale: m_φ² = 8 λ_GW φ₀².
+- Natural GW couplings give m_φ ~ M_KK, avoiding the Brans-Dicke problem.
+- The chirality argument (Pillar 70-C) holds for any non-zero λ_GW.
+- The n_w selection and all CMB predictions are independent of λ_GW.
+Status: **ARCHITECTURE_LIMIT** — the stabilisation mechanism is geometrically
+derived; the coupling scale is phenomenological.  See also
+`src/core/pillar394_postulate_minimality_audit.py` FP1 and Admission 6 records.
 
 **Status after Pillar 70-D (pure theorem):**
 Pillar 70-D closes the last gap. The Z₂-odd boundary CS phase condition:
@@ -3704,6 +3718,109 @@ requires independent verification from a full bispectrum calculation.
 
 **Corrected value:** f_NL^equil_UM ∈ [−3, 0] (theory range); planning estimate of −8.3
 DEPRECATED. The planning document note is preserved in Pillar 375's docstring.
+
+---
+
+## §XIII — v12.9 Epistemological Deep Audit: Formal Admission Promotion (2026-05-23)
+
+*The following three gaps were documented in prose in earlier sections but were not
+given formal Admission numbers.  The v12.9 audit promotes them to numbered, machine-
+readable admissions with the same clinical formatting as Admissions 1–6.*
+
+---
+
+### §XIII.1 — Admission 11: 60 e-folds is a Standard Assumption, Not Derived
+
+**What the gap is:** Inflationary observables nₛ and r are computed assuming
+N_e ≈ 60 e-folds of slow-roll inflation beginning from φ\* = φ₀_eff/√3.  This
+number is the standard slow-roll convention required to solve the horizon and
+flatness problems in ΛCDM.  It is NOT derived from the 5D geometry.
+
+**Formal statement:** The framework derives *that* slow-roll inflation occurs from
+the GW plateau; it does not derive *when* inflation ends or how many e-folds result
+from a specific pre-inflationary initial state.  Alternative pre-inflationary
+histories — KK-mode domination, non-standard reheating, or a modified thermal
+history — could exit slow-roll at different field values and shift N_e by ±5–10.
+A 10% change in N_e shifts nₛ by ~0.002 (within Planck 1σ, but resolvable by
+CMB-S4 at Δnₛ ~ 0.002 precision).
+
+**Partial closure:** Pillar 346 (`src/core/pillar346_ne_kk_thermalization.py`)
+derives N_e = 58.3 ± 2.1 via KK-mode thermalization (CONDITIONAL_DERIVATION).
+This is a partial closure; the derivation is conditional on the thermalization
+model and does not cover all initial states.
+
+**Machine-readable status:** OPEN_GAP.  See
+`src/core/pillar394_postulate_minimality_audit.py` Admission 11.
+
+**Breaks if wrong:** nₛ and r shift by up to ~0.005 if N_e differs by ±10 from 60.
+This is within the current Planck 1σ window (0.0042) at the level of 1 σ, but is
+resolvable by CMB-S4.
+
+---
+
+### §XIII.2 — Admission 12: FTUM Basin Completeness — Analytic Proof Open
+
+**What the gap is:** Pillar 309 certifies L < 1 (contractivity) in the physical
+regime κ ≥ 0.5 near S\* = A/4G.  The Banach fixed-point theorem applies in this
+regime, giving ρ_S ≈ 0.95 < 1.  However:
+
+- **Scope of numerical sampling:** 192 initial conditions are sampled.  These
+  are representative of the physical regime but do not cover all possible initial
+  states in the full Hilbert space.
+
+- **Scope of the analytic proof:** The Lipschitz constant bound L < 1 is proved
+  for the regime γ ≫ 1 with the specific network topology used in Pillar 309.
+  The proof does not extend to arbitrary γ or arbitrary graph structures.
+
+- **What "complete proof" would require:** (a) A verified Lipschitz constant over
+  the full physical basin B(Ψ\*, ε) for all ε < ε_max; (b) an analytic bound on
+  ε_max from the orbifold geometry; (c) extension to non-minisuperspace
+  quantization and non-standard graph structures.
+
+**Formal status:** CONTRACTIVE_IN_PHYSICAL_REGIME.  The existing evidence is
+robust in the physical regime and adequate for the intended application.  The
+global completeness claim — "every physically accessible initial state converges
+to Ψ\*" — is a stronger claim that the current proof does not establish.
+
+**Machine-readable status:** OPEN_GAP.  See
+`src/core/pillar394_postulate_minimality_audit.py` Admission 12.
+
+**Breaks if wrong:** If a physically accessible initial state does not converge to
+Ψ\*, the FTUM uniqueness claim fails for that state.  The numerical evidence (192
+samples, 0 non-convergent) would remain valid; only the universal claim would be
+weakened.
+
+---
+
+### §XIII.3 — Admission 13: Metric Ansatz Non-Uniqueness Residual
+
+**What the gap is:** Pillar 384 (`src/core/pillar384_metric_ansatz_uniqueness.py`)
+proves the KK block metric ansatz is DERIVED_UNIQUE given four constraint filters:
+C1 (diffeomorphism invariance), C2 (KK consistency), C3 (Z₂ orbifold parity),
+C4 (NLO stability < 0.74%).  Within these constraints, the derivation is unique.
+
+The residual is that the four constraints are sufficient within the 5D KK
+framework but may not rule out all structurally distinct alternatives:
+
+- A 5D Einstein-Cartan-KK ansatz with torsion could satisfy C1–C4 while predicting
+  different physics.
+- Higher-dimensional embeddings (e.g., a 6D reduction to the RS1 slice) are not
+  ruled out by C1–C4 alone.
+- Independent alternative frameworks (G₂-manifold geometry, Pinčák et al. 2026,
+  Gen. Rel. Grav.) reach qualitatively similar conclusions from different mechanisms.
+
+**Formal status:** DERIVED_UNIQUE conditional on C1–C4.  The claim is that no
+*alternative 5D KK ansatz consistent with C1–C4* produces different physics — this
+is proved.  The claim that no *alternative geometric framework* (6D, torsion, etc.)
+could match the UM predictions is not made and is not required.
+
+**Machine-readable status:** OPEN_GAP.  See
+`src/core/pillar394_postulate_minimality_audit.py` Admission 13.
+
+**Breaks if wrong:** If a structurally distinct 5D KK ansatz is found satisfying
+C1–C4 while predicting different CMB observables, the uniqueness claim is broken
+for the CMB sector.  The physics predictions would survive; the uniqueness argument
+would need to specify additional discriminating constraints.
 
 ---
 

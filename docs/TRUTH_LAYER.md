@@ -1,8 +1,25 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v11.19
+# Unitary Manifold v12.9
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v12.9 update (Epistemological Deep Audit): Six targeted epistemological
+tightening actions — no physics deleted, no claims downgraded.
+(1) Truth surfaces synced to v12.9.
+(2) P6 Holographic Entropy corrected to DERIVED_CONDITIONAL (Pillar 379 closed
+it in v12.6 — prior document had not been updated).
+(3) Admissions 11, 12, 13 formally named (60 e-folds assumption; FTUM basin
+completeness gap; metric ansatz non-uniqueness residual).
+(4) Pillar 394 Postulate Minimality Audit — machine-readable inventory of all
+P1–P8 postulates, all named Admissions, all free parameters.
+(5) Pillar 395 Derivation DAG — acyclicity certified; no circular derivations
+found; sensitivity ranking produced.
+(6) Pillar 396 ACT r-Tension Architecture Limit Certificate — formal proof that
+r<0.016 is unreachable via WZW loops before perturbativity breaks; SO DR1 ~2027
+routing pre-registered.
+(7) Pillar 397 Unique Discriminant Register — 28-parameter discriminant tagging;
+discriminant power = 57.1% (16/28 uniquely discriminating); signature statement produced.*
 
 *v11.19 update: Two active HIGH_TENSION signals maintained. Metric ansatz Gap 1 narrowed
 from "fully postulated" to "CONDITIONAL_DERIVATION" (Pillar 344: RS1 + CSS theorem +
@@ -15,7 +32,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-05-20 (v11.8 Audit Sprint — CYCLE_RADION_COUPLING_UNIQUENESS closed via APS η̄ theorem; SEESAW_TEXTURE_PARTICIPATION_GAP at maximum 5D-EFT closure; mpmath test robustness hardened; doc headers synced; ACT DR6 HIGH_TENSION wired into observation tracker)*
+*Last updated: 2026-05-23 (v12.9 — Epistemological Deep Audit: Pillars 394–397 + truth surface sync + P6 fix + Admissions 11–13)*
 
 ---
 
