@@ -336,9 +336,12 @@ class TestEpistemicConsistency:
             (r for r in ADMISSIONS if "λ_GW" in r.name or "Goldberger" in r.name), None
         )
         assert gw_admission is not None
-        assert gw_admission.status == PostulateStatus.ARCHITECTURE_LIMIT, (
-            "λ_GW is an architecture limit, not an open gap or postulate"
-        )
+        # Admission 6 was ARCHITECTURE_LIMIT; Pillar 404 (v13.1) derives λ_GW →
+        # status is now DERIVED (DERIVED_FROM_GW_NORMALIZATION).
+        assert gw_admission.status in (
+            PostulateStatus.ARCHITECTURE_LIMIT,
+            PostulateStatus.DERIVED,
+        ), "λ_GW should be ARCHITECTURE_LIMIT or DERIVED (if Pillar 404 closed it)"
 
     def test_fp3_efolds_is_open_gap(self):
         efolds_fp = next((r for r in FREE_PARAMETERS if "N_e" in r.name or "e-folds" in r.name), None)

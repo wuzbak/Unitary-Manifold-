@@ -1,4 +1,4 @@
-version: "v13.0"
+version: "v13.1"
 date: "2026-05-24"
 updated: "2026-05-24"
 mas_status: "COMPLETE"
@@ -18,11 +18,38 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.0"
-  regression: "≥40,655 passed · 22 skipped · 12 deselected · 0 failed (v13.0 sandbox; Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map; 475 new tests)"
+  version: "v13.1"
+  regression: "≥41,390 passed · 2 skipped · 12 deselected · 0 failed (v13.1 sandbox; Pillars 402–406; 735 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_1_sprint:
+  version: "v13.1"
+  wave: "Admissions Closure Sprint — Pillars 402–406"
+  date: "2026-05-24"
+  pillars_added:
+    - "402: Jarlskog Continuous Scan — continuous Δℓ scan finds exact non-integer target (Δℓ₁₂≈1.390, Δℓ₂₃≈0.665) reproducing J_PDG within 0.02%; required LKT correction δ_KT≈0.053 (NATURAL); FN charge identification n_FN=Δℓ; Admission 7: ARCHITECTURE_LIMIT → ARCHITECTURE_LIMIT_MAPPED"
+    - "403: B_μ Gauge Correction — φ²B_μB_ν metric mixing suppresses gluon→G_KK coupling; suppression factor (1+φ₀²k²/M_KK²)⁻¹ derived; σ ratio bounded ≥ 0.61; m_G_KK lower bound ≥ 1.8 TeV at 95% CL; Admission 10: CONSTRAINED_QUANTIFIED → CONSTRAINED_BOUNDED"
+    - "404: λ_GW Natural Scale Derivation — ν_GW=n_w/K_CS=5/74 from braid identification; α_φ=√(8ν)≈0.735; m_φ≈765 GeV; T_RH≈3.7e8 GeV; N_e≈66 within Planck range; Admission 6: FREE_PARAMETER → DERIVED; cascades to close Admission 11: CONDITIONALLY_CLOSED → CLOSED"
+    - "405: Sobolev H¹ FTUM Extension — H¹(Ω) norm with gradient energy; FTUM contraction extended via Sobolev embedding; KK graviton energy cross-check δE_G_KK ≪ E_basin; Admission 12: CONTRACTIVE_IN_ORBIFOLD_BASIN → CLOSED"
+    - "406: GHY Boundary Terms + C5 Compatibility — GHY S_GHY=(1/κ₅²)∫K derived from Levi-Civita (C5 compatible); Z₂ junction conditions torsion-free; brane R₄ compatible with 5D bulk; Admission 13: NARROWED_GAP → CLOSED"
+  document_updates:
+    - "FALLIBILITY.md: Admissions 6 (ARCHITECTURE_LIMIT→DERIVED), 7 (ARCHITECTURE_LIMIT→ARCHITECTURE_LIMIT_MAPPED), 10 (CONSTRAINED_QUANTIFIED→CONSTRAINED_BOUNDED), 11 (CONDITIONALLY_CLOSED→CLOSED), 12 (CONTRACTIVE→CLOSED), 13 (NARROWED_GAP→CLOSED)"
+    - "pillar394_postulate_minimality_audit.py: Admission 6/11/12/13 statuses updated to DERIVED; Admission 7/10 records added; FP1 updated to DERIVED"
+    - "STATUS.md: v13.1 header + regression line updated + next slot 407"
+    - "docs/mas_tracker.yml: v13.1 sprint entry"
+  new_tests: 735
+  failures: 0
+  epistemic_deltas:
+    - "Admission 6 (λ_GW): ARCHITECTURE_LIMIT → DERIVED_FROM_GW_NORMALIZATION (Pillar 404)"
+    - "Admission 7 (Jarlskog): ARCHITECTURE_LIMIT → ARCHITECTURE_LIMIT_MAPPED (Pillar 402)"
+    - "Admission 10 (LHC KK gluon): CONSTRAINED_QUANTIFIED → CONSTRAINED_BOUNDED (Pillar 403)"
+    - "Admission 11 (N_e): CONDITIONALLY_CLOSED → CLOSED (cascade from Pillar 404)"
+    - "Admission 12 (FTUM basin): CONTRACTIVE_IN_ORBIFOLD_BASIN → CLOSED (Pillar 405)"
+    - "Admission 13 (metric uniqueness): NARROWED_GAP → CLOSED (Pillar 406)"
+  toe_score_delta: "No change to ToE score (epistemological audit; 6 admission statuses updated; no new physics claims)"
+  next_pillar_slot: 407
 
 v13_0_sprint:
   version: "v13.0"

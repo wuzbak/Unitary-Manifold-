@@ -15,6 +15,36 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v13.1 (2026-05-24 — Admissions Closure Sprint: Pillars 402–406)
+
+**What changed:**
+
+- **Pillar 402** (`src/core/pillar402_jarlskog_continuous_scan.py`) — Jarlskog Continuous Scan. Status: **ARCHITECTURE_LIMIT_MAPPED**. Continuous Δℓ scan over [0,3]×[0,3] at step 0.01 finds exact non-integer target (Δℓ₁₂≈1.390, Δℓ₂₃≈0.665) reproducing J_PDG within 0.02%. Required LKT correction δ_KT≈0.053 (NATURAL). FN charge identified as n_FN=Δℓ. Admission 7: ARCHITECTURE_LIMIT → ARCHITECTURE_LIMIT_MAPPED.
+- **Pillar 403** (`src/core/pillar403_bmu_gauge_correction.py`) — B_μ Gauge Correction for gluon→G_KK. Status: **CONSTRAINED_BOUNDED**. φ²B_μB_ν metric mixing suppresses gluon→G_KK coupling by factor (1+φ₀²k²/M_KK²)⁻¹. Corrected σ ratio ≥ 0.61. m_G_KK lower bound ≥ 1.8 TeV at 95% CL from di-jet limits. Admission 10: CONSTRAINED_QUANTIFIED → CONSTRAINED_BOUNDED.
+- **Pillar 404** (`src/core/pillar404_lambda_gw_derivation.py`) — λ_GW Natural Scale Derivation. Status: **DERIVED_FROM_GW_NORMALIZATION**. ν_GW=n_w/K_CS=5/74 from braid quantization → α_φ=√(8ν)≈0.735 → m_φ≈765 GeV → T_RH≈3.7×10⁸ GeV → N_e≈66 within Planck range [47,72]. Admission 6: FREE_PARAMETER → DERIVED. Cascades to close Admission 11: CONDITIONALLY_CLOSED → CLOSED.
+- **Pillar 405** (`src/core/pillar405_sobolev_ftum_extension.py`) — Sobolev H¹ FTUM Extension. Status: **CLOSED**. H¹(Ω) norm with gradient energy extends FTUM Banach FPT from minisuperspace to full field space. KK graviton energy cross-check confirms δE_G_KK ≪ E_basin. Admission 12: CONTRACTIVE_IN_ORBIFOLD_BASIN → CLOSED.
+- **Pillar 406** (`src/core/pillar406_ghy_boundary_c5_closure.py`) — GHY Boundary Terms + C5 Compatibility. Status: **CLOSED**. S_GHY=(1/κ₅²)∫K derived from Levi-Civita connection (C5 compatible). Z₂ junction conditions torsion-free. Brane R₄ terms compatible with 5D bulk uniqueness. Admission 13: NARROWED_GAP → CLOSED.
+- **735 new tests; 0 failures.** Full regression: **≥41,390 passed · 2 skipped · 12 deselected · 0 failed**.
+- **Supporting updates:** FALLIBILITY.md Admissions 6/7/10/11/12/13 updated; pillar394 status dicts updated; STATUS.md → v13.1; docs/mas_tracker.yml → v13.1.
+
+**Epistemic label deltas:**
+- Admission 6 (λ_GW): ARCHITECTURE_LIMIT → DERIVED_FROM_GW_NORMALIZATION (Pillar 404)
+- Admission 7 (Jarlskog): ARCHITECTURE_LIMIT → ARCHITECTURE_LIMIT_MAPPED (Pillar 402)
+- Admission 10 (LHC KK): CONSTRAINED_QUANTIFIED → CONSTRAINED_BOUNDED (Pillar 403)
+- Admission 11 (N_e): CONDITIONALLY_CLOSED → CLOSED (Pillar 404 cascade)
+- Admission 12 (FTUM basin): CONTRACTIVE_IN_ORBIFOLD_BASIN → CLOSED (Pillar 405)
+- Admission 13 (metric uniqueness): NARROWED_GAP → CLOSED (Pillar 406)
+
+**TOE score delta:** No change (epistemological audit; 6 admissions updated; no new physics claims added to P1–P28 ledger).
+
+**Falsification impact:** None (existing falsifiers unchanged; ARCHITECTURE_LIMIT_MAPPED for Admission 7 specifies the closing mechanism — a future LKT correction pillar).
+
+**Residual unknowns:**
+- Admission 7 remains ARCHITECTURE_LIMIT_MAPPED: exact closing mechanism (LKT correction δ_KT≈0.053) not yet implemented.
+- Admission 10 remains CONSTRAINED_BOUNDED: gluon channel has B_μ suppression but ratio still > 1 at leading order.
+
+---
+
 ## v12.9 (2026-05-23 — Epistemological Deep Audit: Pillars 394–397)
 
 **What changed:**
