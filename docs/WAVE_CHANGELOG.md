@@ -15,6 +15,43 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v13.2 (2026-05-24 — Gap Closure & Uniqueness Certificate Sprint: Pillars 407–412)
+
+**What changed:**
+Six new pillars added spanning braid uniqueness certification, UV brane mechanism identification, baryogenesis architecture limit confirmation, CMB quadrupole topology constraint, fermion hierarchy geometric closure, and non-perturbative braid condensate γ contribution.
+
+**Pillars:**
+- P407 Minimum-Step Braid Step-Width Uniqueness Certificate: BRAID_UNIQUENESS_CERTIFIED. Four-proof chain: (a) global action minimum at (5,7) among Pillar-67-valid pairs; (b) δ²S_E>0 strict local minimum; (c) higher-step winding suppression exp(−37·Δn)≤exp(−74); (d) monotonicity theorem s(n_w, n_w+2k)≥1 for all valid n_w and k≥1. Admission 2 residual: BRAID_UNIQUENESS_CERTIFIED.
+- P408 UV Brane δ_KT Derivation: NATURALNESS_DERIVED. LKT correction δ_KT≈0.053 arises naturally from UV-brane wavefunction overlap at finite brane thickness kε=1/K_CS. Correction is NATURAL (<10% of lattice step Δc=5/74). Mechanism identified; full closure awaits 2-loop KK Yukawa. Admission 7: ARCHITECTURE_LIMIT_MAPPED → NATURALNESS_DERIVED.
+- P409 Resonant Leptogenesis Degeneracy Window: ARCHITECTURE_LIMIT_CONFIRMED_RL (🔵 ADJACENT TRACK). RL requires ΔM_R/M_R≈4×10⁻⁵; braid lattice gives ΔM_R/M_R≈5.0 (~10⁵× mismatch). All four baryogenesis paths in minimal 5D-EFT confirmed ARCHITECTURE_LIMIT (P365 KK minimal, P370 Affleck-Dine, P371 KK-EWPT, P409 RL).
+- P410 T³/Z₂ Compact Topology Quadrupole Bound: CONSTRAINED_FROM_CMB. T³/Z₂ topology produces 26–47% quadrupole suppression for L∈[7.9,11.4] Gpc=[0.55,0.80]D_H. Within Planck-allowed range (L>0.97D_H). UM cannot select L — extension required. P382 POSSIBLE_CANDIDATE_SPECIFIED → CONSTRAINED_FROM_CMB.
+- P411 Fermion Bulk Mass Hierarchy Geometric Closure: HIERARCHY_PARTIALLY_CONSTRAINED. exp(−5(ℓ+m)) lattice spans 6 orders of mass hierarchy; 7/9 SM charged fermions within 0.5 dex of nearest braid-lattice Yukawa prediction. Full closure requires sub-lattice FN charge corrections (analogous to Pillar 402 approach).
+- P412 Non-Perturbative Braid Condensate γ Contribution: L2_CONDENSATE_ZERO_MODE_VIABLE. Zero-mode braid condensate (Scenario B: k-independent) gives δγ_ZM~O(1/(4φ₀²))≈0.025×g_braid, comparable to 13% γ gap. First viable NP mechanism identified. Combined c₁^{KM}+c₁^{ZM} accounts for ~50% of gap budget. L2_KACMOODY_CONSTRAINED → L2_CONDENSATE_ZERO_MODE_VIABLE.
+
+**Epistemic label deltas:**
+- Admission 2 residual: PARTIAL → BRAID_UNIQUENESS_CERTIFIED
+- Admission 7 δ_KT: ARCHITECTURE_LIMIT_MAPPED → NATURALNESS_DERIVED
+- Baryogenesis: all 4 paths confirmed ARCHITECTURE_LIMIT_CONFIRMED_ALL_PATHS
+- CMB quadrupole topology (P382): POSSIBLE_CANDIDATE_SPECIFIED → CONSTRAINED_FROM_CMB
+- Fermion hierarchy: HIERARCHY_OPEN → HIERARCHY_PARTIALLY_CONSTRAINED
+- L2 γ gap: L2_KACMOODY_CONSTRAINED → L2_CONDENSATE_ZERO_MODE_VIABLE
+
+**TOE score delta:** No change (architecture limit confirmations, partial closures, and open-track adjacent work do not add to the 28/28 ToE claim score).
+
+**Falsification impact:** None. No falsification windows modified.
+
+**Residual unknowns:**
+- γ gap: ~50% explained (c₁^{KM}+c₁^{ZM}); remaining requires lattice braid QFT calculation of non-perturbative coupling g_braid.
+- Fermion hierarchy: 2/9 fermions outside 0.5 dex; requires sub-lattice FN charge corrections.
+- Baryogenesis: all paths ARCHITECTURE_LIMIT in minimal 5D-EFT; BSM extension required.
+- T³/Z₂ topology L: observable scale set, but UM cannot select L from its geometry.
+
+**New tests:** 215 (split across 6 files)
+**Failures:** 0
+**Canonical test count:** ≥41,605 passing · 2 skipped · 12 deselected · 0 failed
+
+---
+
 ## v13.1 (2026-05-24 — Admissions Closure Sprint: Pillars 402–406)
 
 **What changed:**

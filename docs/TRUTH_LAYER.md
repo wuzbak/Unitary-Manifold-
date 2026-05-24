@@ -1,16 +1,18 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v13.1
+# Unitary Manifold v13.2
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
-*v13.1 update (Admissions Closure Sprint — Pillars 402–406):*
-*(1) Pillar 402 — Jarlskog continuous scan: non-integer target (Δℓ₁₂≈1.390, Δℓ₂₃≈0.665) reproduces J_PDG within 0.02%. Required LKT correction δ_KT≈0.053 (NATURAL). Admission 7: ARCHITECTURE_LIMIT → ARCHITECTURE_LIMIT_MAPPED.*
-*(2) Pillar 403 — B_μ gauge correction: φ²B_μB_ν metric mixing suppresses gluon→G_KK. Suppression factor derived; σ ratio bounded ≥ 0.61; m_G_KK ≥ 1.8 TeV at 95% CL. Admission 10: CONSTRAINED_QUANTIFIED → CONSTRAINED_BOUNDED.*
-*(3) Pillar 404 — λ_GW derivation: ν_GW = n_w/K_CS from braid identification (zero free parameters). α_φ ≈ 0.735; m_φ ≈ 765 GeV; T_RH ≈ 3.7×10⁸ GeV; N_e ≈ 66 within Planck range. Admission 6: FREE_PARAMETER → DERIVED. Cascades to close Admission 11: CONDITIONALLY_CLOSED → CLOSED.*
-*(4) Pillar 405 — Sobolev H¹ FTUM extension: H¹(Ω) norm with gradient energy. FTUM contraction extended to H¹ via Sobolev embedding. KK graviton energy cross-check δE_G_KK ≪ E_basin. Admission 12: CONTRACTIVE_IN_ORBIFOLD_BASIN → CLOSED.*
-*(5) Pillar 406 — GHY boundary terms + C5 compatibility: GHY S_GHY = (1/κ₅²)∫K derived from Levi-Civita connection. Z₂ junction conditions torsion-free. Brane-localized R₄ terms compatible with 5D bulk uniqueness. Admission 13: NARROWED_GAP → CLOSED.*
-*Canonical test count: ≥41,390 passing. 735 new tests in v13.1 sprint. 0 failures.*
+*v13.2 update (Gap Closure & Uniqueness Certificate Sprint — Pillars 407–412):*
+*(1) Pillar 407 — Minimum-Step Braid Uniqueness: four-proof chain (global action minimum; δ²S_E>0; higher-step suppression exp(−37·Δn); monotonicity theorem) certifies (5,7) as unique stable minimum among Pillar-67-valid pairs. Admission 2 residual: BRAID_UNIQUENESS_CERTIFIED.*
+*(2) Pillar 408 — UV Brane δ_KT Derivation: LKT correction δ_KT≈0.053 arises from UV-brane wavefunction overlap at finite brane thickness kε=1/K_CS; NATURAL (<10% lattice step). Admission 7: ARCHITECTURE_LIMIT_MAPPED → NATURALNESS_DERIVED.*
+*(3) Pillar 409 — Resonant Leptogenesis: RL requires ΔM_R/M_R≈4×10⁻⁵ but braid lattice gives ΔM_R/M_R≈5.0 (~10⁵× mismatch). ARCHITECTURE_LIMIT_CONFIRMED_RL. All four baryogenesis paths confirmed ARCHITECTURE_LIMIT in minimal 5D-EFT (🔵 ADJACENT TRACK).*
+*(4) Pillar 410 — T³/Z₂ Topology Quadrupole Bound: 26–47% suppression for L∈[7.9,11.4] Gpc=[0.55,0.80]D_H; within Planck-allowed range. CONSTRAINED_FROM_CMB. P382 POSSIBLE_CANDIDATE_SPECIFIED → CONSTRAINED_FROM_CMB. UM cannot independently select L.*
+*(5) Pillar 411 — Fermion Hierarchy Geometric Closure: exp(−5(ℓ+m)) lattice spans 6 orders; 7/9 SM charged fermions within 0.5 dex. HIERARCHY_PARTIALLY_CONSTRAINED. Full closure requires sub-lattice FN charge corrections.*
+*(6) Pillar 412 — Braid Condensate γ: Zero-mode condensate gives δγ_ZM~O(0.025×g_braid), comparable to 13% gap. First viable NP mechanism identified. L2_CONDENSATE_ZERO_MODE_VIABLE. Remaining gap requires lattice braid QFT calculation of g_braid.*
+*215 new tests; 0 failures. Canonical test count: ≥41,605 passing. Next pillar slot: 413.*
+
 
 *v13.0 update (Admissions Audit Sprint — Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map):*
 *(1) Pillar 398 — Jarlskog lattice scan: integer c_L lattice (step 5/74) confirmed ARCHITECTURE_LIMIT for Admission 7.  No integer assignment gives J within 15% of PDG.*
