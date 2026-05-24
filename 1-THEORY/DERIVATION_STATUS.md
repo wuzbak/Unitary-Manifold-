@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v13.1 — Unambiguous Record**  
+**The Unitary Manifold v13.2 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-24 (v13.1 — Admissions Closure Sprint: Pillars 402-406 added; 735 new tests; admission statuses updated; >=41,390 passing · 0 failed.)*
+*Last updated: 2026-05-24 (v13.2 — Gap Closure & Uniqueness Certificate Sprint: Pillars 407–412 added; 215 new tests; Admission 2 residual BRAID_UNIQUENESS_CERTIFIED; Admission 7 NATURALNESS_DERIVED; baryogenesis all paths ARCHITECTURE_LIMIT_CONFIRMED; CMB quadrupole topology CONSTRAINED_FROM_CMB; fermion hierarchy PARTIALLY_CONSTRAINED; γ gap L2_CONDENSATE_ZERO_MODE_VIABLE; >=41,605 passing · 0 failed.)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

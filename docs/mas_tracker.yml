@@ -1,4 +1,4 @@
-version: "v13.1"
+version: "v13.2"
 date: "2026-05-24"
 updated: "2026-05-24"
 mas_status: "COMPLETE"
@@ -18,11 +18,38 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.1"
-  regression: "≥41,390 passed · 2 skipped · 12 deselected · 0 failed (v13.1 sandbox; Pillars 402–406; 735 new tests)"
+  version: "v13.2"
+  regression: "≥41,605 passed · 2 skipped · 12 deselected · 0 failed (v13.2 sandbox; Pillars 407–412; 215 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_2_sprint:
+  version: "v13.2"
+  wave: "Gap Closure & Uniqueness Certificate Sprint — Pillars 407–412"
+  date: "2026-05-24"
+  pillars_added:
+    - "407: Minimum-Step Braid Step-Width Uniqueness Certificate — BRAID_UNIQUENESS_CERTIFIED; four-proof chain: (a) global action minimum (5,7) among P67-valid pairs; (b) δ²S_E>0 strict minimum; (c) higher-step suppression exp(−37·Δn)≤exp(−74); (d) monotonicity theorem verified; Admission 2 residual: BRAID_UNIQUENESS_CERTIFIED"
+    - "408: UV Brane δ_KT Derivation — NATURALNESS_DERIVED; LKT correction δ_KT≈0.053 from UV-brane wavefunction overlap at finite thickness kε=1/K_CS; NATURAL (<10% lattice step); mechanism identified; full closure awaits 2-loop KK Yukawa; Admission 7: ARCHITECTURE_LIMIT_MAPPED → NATURALNESS_DERIVED"
+    - "409: Resonant Leptogenesis Degeneracy Window — ARCHITECTURE_LIMIT_CONFIRMED_RL; RL requires ΔM_R/M_R≈4e-5; braid lattice gives ΔM_R/M_R≈5.0 (~1e5× mismatch); all 4 baryogenesis paths in minimal 5D-EFT confirmed ARCHITECTURE_LIMIT; 🔵 ADJACENT TRACK"
+    - "410: T³/Z₂ Compact Topology Quadrupole Bound — CONSTRAINED_FROM_CMB; 26–47% suppression for L∈[7.9,11.4] Gpc=[0.55,0.80]D_H; within Planck-allowed range; P382 POSSIBLE_CANDIDATE_SPECIFIED → CONSTRAINED_FROM_CMB"
+    - "411: Fermion Bulk Mass Hierarchy Geometric Closure — HIERARCHY_PARTIALLY_CONSTRAINED; exp(−5(ℓ+m)) lattice spans 6 orders of mass hierarchy; 7/9 SM charged fermions within 0.5 dex; full closure requires sub-lattice FN charge corrections"
+    - "412: Non-Perturbative Braid Condensate γ Contribution — L2_CONDENSATE_ZERO_MODE_VIABLE; zero-mode condensate δγ_ZM~O(0.025×g_braid) comparable to 13% γ gap; first viable NP mechanism; c₁^{KM}+c₁^{ZM} ~50% of budget; L2_KACMOODY_CONSTRAINED → L2_CONDENSATE_ZERO_MODE_VIABLE"
+  document_updates:
+    - "STATUS.md: v13.2 header + regression ≥41,605 + next slot 413"
+    - "docs/CLAIM_MASTER_BOARD.md: v13.2 header + P407–P412 entries + Adm 7 update"
+    - "docs/TRUTH_LAYER.md: v13.2 header + v13.2 update block"
+    - "docs/mas_tracker.yml: v13.2 + public surface sync checkpoint + sprint entry"
+  new_tests: 215
+  failures: 0
+  epistemic_deltas:
+    - "Admission 2 residual (braid step uniqueness): PARTIAL → BRAID_UNIQUENESS_CERTIFIED (Pillar 407)"
+    - "Admission 7 (Jarlskog δ_KT): ARCHITECTURE_LIMIT_MAPPED → NATURALNESS_DERIVED (Pillar 408)"
+    - "Baryogenesis (all paths): confirmed ARCHITECTURE_LIMIT_CONFIRMED_ALL_PATHS (Pillar 409)"
+    - "CMB quadrupole topology: POSSIBLE_CANDIDATE_SPECIFIED → CONSTRAINED_FROM_CMB (Pillar 410)"
+    - "Fermion hierarchy: OPEN → HIERARCHY_PARTIALLY_CONSTRAINED (Pillar 411)"
+    - "L2 γ gap: L2_KACMOODY_CONSTRAINED → L2_CONDENSATE_ZERO_MODE_VIABLE (Pillar 412)"
+  next_pillar_slot: 413
 
 v13_1_sprint:
   version: "v13.1"
