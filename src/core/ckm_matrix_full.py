@@ -711,7 +711,7 @@ def ckm_gap_report(n_w: int = N_W_CANONICAL) -> str:
 
     lines = [
         "=" * 72,
-        "CKM MATRIX STATUS — Pillar 82 + 133 (Unitary Manifold v9.30)",
+        "CKM MATRIX STATUS — Pillar 82 + 133 (Unitary Manifold v13.1)",
         "=" * 72,
         "",
         "WHAT IS GEOMETRICALLY DERIVED",

@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 10.52 — CKM/PMNS closure extension + EW precision cluster + ledger sync |
+| Version | 13.1 — Admissions Closure Sprint (Pillars 402–406; all major admissions CLOSED) |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Canonical status (v10.52):** Pillar set is closed under canonical governance, with active monitoring modules for incoming data releases. ToE score remains **27.8/28.0 (99.3%)** on the legacy denominator per `docs/TOE_SCORE_AUDIT.md`, while P29–P33 EW precision extension rows are now tracked in `docs/CLAIM_MASTER_BOARD.md`. Primary falsifier remains LiteBIRD birefringence with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Canonical status (v13.1):** Pillar set is closed under canonical governance. ToE score: **28.0/28.0 (100%)** — P28 DERIVED via `src/core/p28_lambda_derived_cert.py` (v10.59). All major admissions CLOSED (Admissions 3, 4, 5, 6, 11, 12, 13 fully closed; Admissions 7 and 10 at ARCHITECTURE_LIMIT_MAPPED and CONSTRAINED_BOUNDED respectively). Active monitoring modules for all 2027–2032 decision windows. Primary falsifier: LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -259,8 +259,8 @@ such that `UΨ* = Ψ*`.
 │   ├── test_lattice_dynamics.py          # Pillar 15-B: collective Gamow, phonon-radion bridge (98) — v9.16
 │   ├── test_lattice_boltzmann.py         # Pillar 15-C: KK-mediated radion COP pipeline (187) — v9.16
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: ~13,073 collected — ~13,059 passed · 2 skipped · 11 slow-deselected · 0 failures
-│   # (Pillars 1–99 fully implemented + Pillar 70-B + all sub-pillars)
+│   # Total: ≥41,390 passed · 2 skipped · 12 deselected · 0 failures (v13.1)
+│   # (Pillars 1–406 + Ω₀ + sub-pillars; canonical branch regression)
 │
 ├── brain/
 │   ├── README.md                          # Brain-universe correspondence overview

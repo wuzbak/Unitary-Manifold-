@@ -147,12 +147,11 @@ The decision tree is embedded in `src/core/falsification_check.py` and
 2. Follow the output instructions
 3. Commit the result following §5 above
 
-No understanding of the full 167-pillar framework is required to execute the
+No understanding of the full framework is required to execute the
 falsification check. This is by design.
 
-**Archive integrity:** The Zenodo DOI `10.5281/zenodo.19584531` pins v9.29.
-Each significant version should have a corresponding Zenodo deposit. v9.33 is the
-current closed state and should be deposited.
+**Archive integrity:** The Zenodo DOI `10.5281/zenodo.19584531` pins v9.29 (the first formal Zenodo deposit).
+The current canonical version is v13.1 and should be deposited under a new versioned Zenodo record.
 
 ---
 

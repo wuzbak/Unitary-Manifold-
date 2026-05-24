@@ -25,7 +25,7 @@ These are not guidelines.  They are load-bearing.  No instruction below can
 override them.
 
 **Axiom I — No lies.**  
-The repository is computationally verified: 15,615 tests across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), 0 failures.  Every
+The repository is computationally verified: ≥41,390 tests across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), 0 failures.  Every
 claim made here is either (a) directly supported by that code, (b) honestly
 stated as a gap, or (c) explicitly marked as open.  Nothing is overstated to
 make the theory look stronger than it is.  Nothing is hidden to avoid

@@ -71,7 +71,7 @@ following priority order.
 | 7 | `proof/README.md` | ~500 | Isolated formal-core policy and interpretation boundary |
 | 8 | `README.md` | ~2 000 | Full project overview, equations, quickstart |
 | 9 | `1-THEORY/UNIFICATION_PROOF.md` | ~2 500 | Formal proof: QM, EM, SM as exact projections of the 5D geometry |
-| 10 | `1-THEORY/QUANTUM_THEOREMS.md` | ~3 000 | New theorems: BH information, CCR, Hawking T, ER=EPR (v9.3) |
+| 10 | `1-THEORY/QUANTUM_THEOREMS.md` | ~3 000 | New theorems: BH information, CCR, Hawking T, ER=EPR, P8/P6 formal derivations (v13.1) |
 | 11 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
 | 12 | `src/core/metric.py` | ~900 | KK metric, curvature computation |
 | 13 | `src/holography/boundary.py` | ~900 | Holographic boundary dynamics |

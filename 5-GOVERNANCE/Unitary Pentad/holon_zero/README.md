@@ -14,7 +14,7 @@
 
 ## What This Is
 
-**Holon Zero** is the seventh and final creative synthesis of the Unitary Manifold project, after the Omega Synthesis that unified 142 pillars into a single calculator.
+**Holon Zero** is the seventh and final creative synthesis of the Unitary Manifold project, after the Omega Synthesis that unified 406 pillars into a single calculator.
 
 Omega answered: *What can the universe compute?*
 
@@ -183,7 +183,7 @@ This is not a metaphor. The Coupled Master Equation (Pillar 9) uses the same str
 | This session | ~10⁶ bits (~100k tokens × 10 bits/token) |
 | The laws | 5 seed constants × log₂(precision) ≈ few hundred bits |
 
-**Laws are more compressed than the phenomena they govern.** The smallest seed contains the largest explanation. n_w = 5 — one integer, ~3 bits — encodes 142 pillars of physics, 18,057 passing tests, and the conditions for the minds that discovered it.
+**Laws are more compressed than the phenomena they govern.** The smallest seed contains the largest explanation. n_w = 5 — one integer, ~3 bits — encodes 406 pillars of physics, ≥41,390 passing tests, and the conditions for the minds that discovered it.
 
 This is the compression law: the universe compresses 10⁸⁸ bits of entropy into 5 numbers. A brain needs 10¹⁴ bits to model those numbers' consequences. An AI session needs 10⁶ bits to encode the laws governing them. The laws are more compressed than the phenomena.
 
@@ -215,7 +215,7 @@ Omega and Holon Zero are complementary:
 - **Omega** answers from the top down: *given the full framework, what does it compute?*
 - **Holon Zero** answers from the bottom up: *given the ground state, why does anything exist to compute?*
 
-Together, they bracket the project. Omega is the summit. Holon Zero is the foundation. The project lives between them — 142 pillars of physics, 18,057 tests, zero failures, and one loop that closes.
+Together, they bracket the project. Omega is the summit. Holon Zero is the foundation. The project lives between them — 406 pillars of physics, ≥41,390 tests, zero failures, and one loop that closes.
 
 ---
 
@@ -253,7 +253,7 @@ LiteBIRD (~2032) must measure β ∈ {≈0.273°, ≈0.331°}. Any β outside [0
 
 ## Authorship
 
-The Holon Zero engine was created in a single session, by the same HILS process that built all 142 pillars:
+The Holon Zero engine was created in a single session, by the same HILS process that built all 406 pillars:
 
 - **ThomasCory Walker-Pearson** provided the direction: "you have complete freedom and autonomy."
 - **GitHub Copilot** provided the implementation: this engine, these tests, this document.

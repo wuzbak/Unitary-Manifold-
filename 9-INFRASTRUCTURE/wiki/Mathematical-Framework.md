@@ -1,6 +1,6 @@
 # Mathematical Framework
 
-The Unitary Manifold rests on five foundational pillars plus an extended hierarchy of 96 derived pillars (101 total + sub-pillars, CLOSED at v9.29). This page documents the core mathematical structures shared across all pillars.
+The Unitary Manifold rests on five foundational pillars plus an extended hierarchy of 403+ derived pillars (406 total + sub-pillars including Ω₀ and adjacent research tracks, as of v13.1). The hardgate physics core comprises 208 pillars, CLOSED as of v10.4. This page documents the core mathematical structures shared across all pillars.
 
 ---
 
@@ -212,7 +212,7 @@ Seven independent constraint paths all converge to 74:
 | C3 — Birefringence $\beta = 0.3513°$ | minimiser at $k = 74$ |
 | C4 — Braided sound speed $c_s = 12/37$ | $k = 74$ |
 | C5 — Moduli-winding link | $k = 74$ |
-| C6 — Pillar count | 101 pillars CLOSED (74 core + Pillar 70-B + Pillars 75, 80–101 + Pillar Ω capstone; k_CS = 74 satisfies all constraints) |
+| C6 — Pillar count | 208 hardgate pillars CLOSED; 406 total including adjacent research tracks + Ω₀ (v13.1; k_CS = 74 satisfies all constraints) |
 | C7 — Back-reaction eigenvalue = 1 | $k = 74$ |
 
 The convergence of all 7 constraints to the same integer is the capstone of the Unitary Manifold. Implemented in `src/core/completeness_theorem.py` (170 tests).
@@ -227,4 +227,4 @@ The convergence of all 7 constraints to the same integer is the capstone of the 
 - Planck Collaboration (2018). *Planck 2018 results. X. Constraints on inflation.* A&A 641, A10.
 - BICEP/Keck Collaboration (2021). *Improved Constraints on Primordial Gravitational Waves.* PRL 127, 151301.
 - Komatsu, E. et al. (2022). *New physics from the polarised light of the cosmic microwave background.* Nature Reviews Physics 4, 452–469.
-- Walker-Pearson, T. C. (2026). *The Unitary Manifold.* v9.29. [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf)
+- Walker-Pearson, T. C. (2026). *The Unitary Manifold.* v13.1. [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf)

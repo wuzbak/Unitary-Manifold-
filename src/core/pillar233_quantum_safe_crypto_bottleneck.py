@@ -824,7 +824,7 @@ def main() -> None:
     width = 70
     print("=" * width)
     print("Pillar 233 — Quantum-Safe Cryptography Transition Bottleneck")
-    print("ADJACENT RESEARCH TRACK | Unitary Manifold v10.52")
+    print("ADJACENT RESEARCH TRACK | Unitary Manifold v13.1")
     print("=" * width)
 
     print(

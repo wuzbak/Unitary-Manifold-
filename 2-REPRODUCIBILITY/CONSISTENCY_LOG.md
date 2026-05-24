@@ -364,7 +364,7 @@ their test suites (0 failures):
 | `bmu_time_arrow_lock()` | `src/physics/lattice_dynamics.py` | 19 | B_μ energy routing proof |
 | `calculate_energy_branching_ratio()` | `src/cold_fusion/excess_heat.py` | 25 | Phonon/gamma branching |
 
-**Grand total test count: 18,057 passed, 329 skipped, 0 failed (v9.30 — all suites).**
+**Grand total test count: ≥41,390 passed, 2 skipped, 0 failed (v13.1 — all suites).**
 
 *Note: This log was originally generated at v9.15 (10,589 tests). The function-level results remain valid; only the grand total has grown as the test suite expanded across Pillars 15-C through 142 + Ω₀ + sub-pillars.*
 

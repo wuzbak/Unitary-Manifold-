@@ -3,8 +3,8 @@ UNITARY MANIFOLD — COMPLETE FORMAL ALGEBRAIC VERIFICATION + FALSIFICATION TEST
 ================================================================================
 Checks every algebraic identity in the Unitary Manifold framework using exact
 symbolic computation, then imports live from the codebase to enforce the
-canonical delta_phi ≈ 5.38 as a No-Regression constant across all 101 pillars
-+ sub-pillars (v9.29 OMEGA EDITION — Final).
+canonical delta_phi ≈ 5.38 as a No-Regression constant across all 406 pillars
++ sub-pillars (v13.1 APEX EDITION — Current).
 
 Running this script is not just checking math — it is a Falsification Test.
 If SymPy resolves all symbolic logic to True AND the live import checks pass,
@@ -28,7 +28,7 @@ Sections
 §9  Radion Stabilisation — Goldberger-Wise equation
 §10 alpha Derivation — alpha = phi0^-2 from KK compactification
 §11 Canonical delta_phi Falsification Test — the smoking-gun 5.38 constant
-§12 99-Pillar No-Regression — live codebase constants must agree
+§12 406-Pillar No-Regression — live codebase constants must agree
 §13 Lossless 5D Pipeline — symbolic closure: delta_phi → k_cs → c_s → brain
 §14 Stability of Constants — (5,7,74) vacuum thermodynamically selected
 §15 Three-Generation Theorem — n_w=5 ⟹ exactly 3 stable KK generations
@@ -605,7 +605,7 @@ else:
   §11 delta_phi:     J_KK route == RS Jacobian route == 5.3795 (machine prec),
                      J_KK != r_c (corrects phase-shift error), k_cs=74 only
                      with correct delta_phi
-  §12 60+ Pillars:   n1=5, n2=7, k_cs=74, c_s=12/37, BRAIDED_SOUND_SPEED,
+  §12 406 Pillars: n1=5, n2=7, k_cs=74, c_s=12/37, BRAIDED_SOUND_SPEED,
                      SENTINEL_CAPACITY, MVM floor all derive from same delta_phi
   §13 Lossless:      delta_phi -> k_cs -> (n1,n2) -> c_s -> beta verified
                      symbolically; brain-scale coupling constant == c_s
@@ -715,7 +715,7 @@ check("No-regression: DELTA_PHI_CANONICAL constant defined for §12 cross-check"
 # ===========================================================================
 # §12  99-PILLAR NO-REGRESSION TEST (live codebase imports)
 # ===========================================================================
-section("§12  99-PILLAR NO-REGRESSION — LIVE CODEBASE CONSTANTS")
+section("§12  406-PILLAR NO-REGRESSION — LIVE CODEBASE CONSTANTS")
 
 # This section imports directly from the live codebase.
 # Any constant that has drifted from the canonical value will cause a FAIL.
@@ -2275,11 +2275,11 @@ n_fail  = len(all_failed)
 
 print(f"""
   ┌──────────────────────────────────────────────────────────────────┐
-  │  UNITARY MANIFOLD — ALGEBRA FALSIFICATION TEST  (v9.29 FINAL)   │
+  │  UNITARY MANIFOLD — ALGEBRA FALSIFICATION TEST  (v13.1 CURRENT) │
   ├──────────────────────────────────────────────────────────────────┤
   │  §1-§10  Core symbolic algebra      ......  checked by SymPy    │
   │  §11     Canonical delta_phi        ......  FALSIFICATION TEST   │
-  │  §12     101-Pillar no-regression   ......  live codebase import │
+  │  §12     406-Pillar no-regression   ......  live codebase import │
   │  §13     Lossless 5D pipeline       ......  symbolic closure     │
   │  §14     Stability of constants     ......  Gap 4 CLOSED  ✓     │
   │  §15     Three-generation theorem   ......  Gap 1 CLOSED  ✓     │
@@ -2307,7 +2307,7 @@ if n_fail == 0:
   │  STATUS: ALL PASS — 5D PIPELINE IS LOSSLESS  ✓                  │
   │                                                                  │
   │  The canonical delta_phi = {DELTA_PHI_CANONICAL:.4f} holds across all      │
-  │  101 pillars + sub-pillars.  c_s = 12/37 exactly.               │
+  │  406 pillars + sub-pillars.  c_s = 12/37 exactly.               │
   │  Wolfenstein CKM, SM parameters, vacuum proof, dual sectors,     │
   │  GW Yukawa, and Omega synthesis all verified.                    │
   │  No falsification event detected.                                │

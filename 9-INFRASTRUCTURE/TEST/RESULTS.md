@@ -4,7 +4,9 @@ Run date: 2026-05-02 | Python 3.12 | pytest | numpy ≥ 1.24 | scipy ≥ 1.11
 
 **Fast suite (default `pytest tests/ -v`): PASSED · 76 SKIPPED ⚑ · 11 DESELECTED · 0 FAILED**
 **Slow suite (`pytest tests/ -m slow`): 11 PASSED · 0 FAILED**
-**Grand total (all suites): 15,615 passed · 330 skipped · 11 deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+**Grand total (all suites, v13.1): ≥41,390 passed · 2 skipped · 12 deselected · 0 failures** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/)
+
+> **Historical baseline (2026-05-02, v9.29):** 15,615 passed · 330 skipped · 11 deselected · 0 failures
 
 **14,641 = 11⁴** — prior structural milestone at v9.25. Not a physical claim.
 
