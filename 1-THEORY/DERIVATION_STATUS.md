@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v13.0 — Unambiguous Record**  
+**The Unitary Manifold v13.1 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-24 (v13.0 — Admissions Audit Sprint: Pillars 398–401 added (Jarlskog lattice scan, LHC KK graviton cross-section, N_e sensitivity closure, FTUM orbifold basin bound); Pillar 384 updated (C5 no-torsion); Pillar 394 dependency map updated (Adm. 6 → Adm. 11 chain); Admissions 7/10/11/12/13 statuses updated; 475 new tests; ≥40,655 passing · 0 failed.)*
+*Last updated: 2026-05-24 (v13.1 — Admissions Closure Sprint: Pillars 402-406 added; 735 new tests; admission statuses updated; >=41,390 passing · 0 failed.)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
