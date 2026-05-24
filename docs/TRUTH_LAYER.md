@@ -1,8 +1,16 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v12.9
+# Unitary Manifold v13.0
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v13.0 update (Admissions Audit Sprint — Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map):*
+*(1) Pillar 398 — Jarlskog lattice scan: integer c_L lattice (step 5/74) confirmed ARCHITECTURE_LIMIT for Admission 7.  No integer assignment gives J within 15% of PDG.*
+*(2) Pillar 399 — LHC KK graviton cross-section: Pillar 187 sign error corrected (e^{−πkR} → e^{+πkR}). Correct c₁ ≈ 1.31. Fermion channels SAFE (UV suppression). Gluon channel IN TENSION (B_μ correction OPEN). Admission 10: CONSTRAINED_QUANTIFIED.*
+*(3) Pillar 400 — N_e sensitivity closure: N_e ∈ [55,65] observationally benign at <1σ Planck. Dependency chain Adm. 6 (λ_GW) → T_RH → N_e documented. Admission 11: CONDITIONALLY_CLOSED.*
+*(4) Pillar 401 — FTUM orbifold basin bound: ε_max = π/4 derived from Z₂ fundamental domain. Banach FPT applied within orbifold basin. Admission 12: CONTRACTIVE_IN_ORBIFOLD_BASIN.*
+*(5) Pillar 384 (updated) — C5 no-torsion constraint: Einstein-Cartan alternatives excluded. Admission 13: NARROWED_GAP (C1–C5; 6D alternatives explicitly out-of-scope).*
+*(6) Pillar 394 dependency map updated: Adm. 6 used_by field now includes Adm. 11 (N_e conditional on λ_GW via T_RH).*
 
 *v12.9 update (Epistemological Deep Audit): Six targeted epistemological
 tightening actions — no physics deleted, no claims downgraded.
@@ -32,7 +40,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-05-23 (v12.9 — Epistemological Deep Audit: Pillars 394–397 + truth surface sync + P6 fix + Admissions 11–13)*
+*Last updated: 2026-05-24 (v13.0 — Admissions Audit Sprint: Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map + Admissions 7/10/11/12/13 status updates)*
 
 ---
 

@@ -1,9 +1,19 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v12.9
+# Unitary Manifold v13.0
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-23 (v12.9 — Epistemological Deep Audit: Pillars 394–397 added; truth surfaces synced; P6 Holographic Entropy corrected to DERIVED_CONDITIONAL (Pillar 379 closure recorded); Admissions 11–13 formalized; 228 new tests; 0 failures. Canonical test count: ≥40,180 passing.)*
+*Last updated: 2026-05-24 (v13.0 — Admissions Audit Sprint: Pillars 398–401 added; Pillar 384 updated (C5); Pillar 394 dependency map updated; Admissions 7/10/11/12/13 statuses updated; 475 new tests; 0 failures. Canonical test count: ≥40,655 passing.)*
+
+*Admission 7 (v13.0): Jarlskog gap confirmed ARCHITECTURE_LIMIT by Pillar 398 lattice scan. Integer c_L lattice (step 5/74) too coarse to resolve Cabibbo hierarchy. No integer assignment gives J within 15% of PDG.*
+
+*Admission 10 (v13.0): LHC KK graviton assessment updated to CONSTRAINED_QUANTIFIED by Pillar 399. Pillar 187 sign error corrected (e^{−πkR} → e^{+πkR}). Correct c₁ ≈ 1.31. Fermion channels SAFE (UV suppression). Gluon channel IN TENSION pending B_μ coupling derivation.*
+
+*Admission 11 (v13.0): N_e CONDITIONALLY_CLOSED by Pillar 400. N_e ∈ [55,65] observationally benign at <1σ Planck. Dependency chain Adm. 6 → T_RH → N_e documented. Conditional closure given λ_GW.*
+
+*Admission 12 (v13.0): FTUM basin CONTRACTIVE_IN_ORBIFOLD_BASIN by Pillar 401. Orbifold ε_max = π/4 derived from Z₂ fundamental domain. Banach FPT applied within orbifold basin.*
+
+*Admission 13 (v13.0): Metric ansatz uniqueness NARROWED_GAP by Pillar 384 (C5 added). Einstein-Cartan alternatives excluded by C5 (minimal coupling). 6D alternatives explicitly out-of-scope.*
 
 *P6 status correction (v12.9): Holographic entropy S=A/4G was listed as ASSUMED in DERIVATION_STATUS.md Part I. Pillar 379 (v12.6) formally derived S\*=A/(4G_N^{4D}) at the FTUM fixed point (DERIVED_CONDITIONAL). DERIVATION_STATUS.md Part I corrected to reflect this. The wave changelog (v12.6) already recorded P6 ASSUMED → DERIVED; the ledger document was not updated at the time. This is now resolved.*
 
