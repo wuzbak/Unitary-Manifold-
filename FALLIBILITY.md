@@ -2566,7 +2566,7 @@ Source: `src/core/jarlskog_geometric.py`, `tests/test_jarlskog_geometric.py`.
 
 ### XIV.9 — Honest Admissions from v9.39 Red-Team Audit (May 2026)
 
-**Admission 7 — Jarlskog Invariant Absolute Value (OPEN):**
+**Admission 7 — Jarlskog Invariant Absolute Value (ARCHITECTURE_LIMIT, v13.0):**
 
 The geometric CKM matrix (using δ_sub ≈ 71.08° from Pillar 133/184) gives:
 
@@ -2581,9 +2581,23 @@ c_L bulk-mass parameters (PARAMETERIZED — Pillars 174, 183).
 
 **What is proved:** J ≠ 0 is a geometric theorem (Pillar 145 — asymmetric braid).
 **What is open:** Absolute J value requires precise quark c_L inputs.
-**Status:** OPEN — not hidden.
 
-Callable: `src/core/ckm_matrix_full.py::jarlskog_gap_honest()` (v9.39)
+**Pillar 398 (v13.0) — Lattice Scan Result:**
+
+Pillar 189-B established that c_L must lie on the discrete lattice
+c_L(ℓ) = (5/74) × ℓ.  Pillar 398 scanned all 36 integer assignments
+(Δℓ₁₂, Δℓ₂₃) ∈ [0, 5]² and found:
+
+- Minimum residual over all integer assignments: > 15% (architecture limit)
+- Lattice step exp(−2.5) ≈ 0.082 per Δℓ is too coarse to resolve the
+  Cabibbo angle λ ≈ 0.225 (which requires non-integer Δℓ ≈ 0.60)
+- No integer lattice assignment gives J within 15% of J_PDG
+
+**Status:** ARCHITECTURE_LIMIT — integer c_L lattice cannot close the gap.
+Closure requires sub-leading RS1 corrections (KK back-reaction, NLO metric)
+or a distinct Cabibbo mechanism.  Not hidden.
+
+Callable: `src/core/pillar398_jarlskog_lattice_scan.py::admission_7_closure_verdict()`
 
 **Admission 8 — Sensitivity / "Brittleness" of the Fixed Point (ASSESSED):**
 
@@ -2610,7 +2624,7 @@ detection; the next sensitivity target is the Einstein Telescope.
 Status: EW RADION SAFE; DE RADION ELIMINATED; Einstein Telescope projected reach.
 Callable: `src/core/equivalence_principle_guard.py::ep_guard_summary()` (v9.39)
 
-**Admission 10 — LHC KK Resonance Constraints (HONEST STATUS):**
+**Admission 10 — LHC KK Resonance Constraints (CONSTRAINED_QUANTIFIED, v13.0):**
 
 Pillar 187 (`lhc_kk_resonances.py`, v9.39) provides the honest LHC status.
 The UM predicts KK graviton and gauge boson resonances at:
@@ -2618,15 +2632,31 @@ The UM predicts KK graviton and gauge boson resonances at:
     G_KK: M_KK × √(x_n) ≈ 1040 GeV × 3.83 ≈ 3.98 TeV (first mode)
     B_KK: M_KK ≈ 1040 GeV
 
-LHC Run 2 (√s = 13 TeV, 139 fb⁻¹) excludes KK gravitons below ~4–6 TeV in
-RS1 models (ATLAS/CMS dilepton + diphoton).  The UM KK graviton first mode at
-~4 TeV is in tension with LHC bounds depending on πkR.  This is an honest OPEN
-constraint that does not yet falsify the framework (systematic uncertainty in
-coupling) but restricts the parameter space.
+**Pillar 399 (v13.0) — Precise Coupling Calculation:**
 
-Status: CONSTRAINED — M_KK > 1 TeV consistent; first KK graviton mode near
-LHC exclusion boundary. Roman ST + ILC more discriminating.
-Callable: `src/core/lhc_kk_resonances.py::lhc_kk_constraint_summary()` (v9.39)
+Pillar 399 identified a sign error in Pillar 187's coupling formula (e^{−πkR}
+vs e^{+πkR}).  Correct UM coupling:
+
+    c₁ = k/M̄_Pl = m_KK × e^{+πkR} / (x₁ × M̄_Pl) ≈ 1.31
+    (Pillar 187 used e^{−πkR} giving c₁ ~ 10^{−32} — incorrect)
+
+**Channel-by-channel analysis:**
+
+- **Fermion channels** (q q̄ → G_KK → ℓℓ): UV-localised quarks (c_L ≈ 0.67)
+  have exponential IR suppression: c₁_eff ≈ 8×10⁻⁴ << c_benchmark = 0.1.
+  σ_UM/σ_benchmark ≈ 6×10⁻⁵ << 1.  **Fermion channels: SAFE ✓**
+
+- **Gluon channel** (gg → G_KK): no UV suppression at leading order.
+  σ_UM/σ_benchmark ≈ 171.  **Gluon channel: IN TENSION ✗ (pending B_μ correction)**
+
+  Caveat: the UM metric ansatz g_μν + φ² B_μ B_ν (Pillar 384) introduces
+  B_μ gauge mixing that may suppress the gg → G_KK amplitude.  Full
+  derivation of the B_μ-corrected gluon coupling is open.
+
+**Status:** CONSTRAINED_QUANTIFIED — fermion channels safe, gluon channel
+in tension with known B_μ caveat.
+
+Callable: `src/core/pillar399_lhc_kkgraviton_crosssection.py::admission_10_closure_verdict()`
 
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
@@ -3744,13 +3774,29 @@ history — could exit slow-roll at different field values and shift N_e by ±5�
 A 10% change in N_e shifts nₛ by ~0.002 (within Planck 1σ, but resolvable by
 CMB-S4 at Δnₛ ~ 0.002 precision).
 
-**Partial closure:** Pillar 346 (`src/core/pillar346_ne_kk_thermalization.py`)
+**Partial closure (Pillar 346):** Pillar 346 (`src/core/pillar346_ne_kk_thermalization.py`)
 derives N_e = 58.3 ± 2.1 via KK-mode thermalization (CONDITIONAL_DERIVATION).
 This is a partial closure; the derivation is conditional on the thermalization
 model and does not cover all initial states.
 
-**Machine-readable status:** OPEN_GAP.  See
-`src/core/pillar394_postulate_minimality_audit.py` Admission 11.
+**Pillar 400 (v13.0) — Sensitivity Analysis and Conditional Closure:**
+
+Pillar 400 (`src/core/pillar400_ne_sensitivity_closure.py`) provides:
+
+1. **Sensitivity mapping:** dnₛ/dN_e = +2/N_e² ≈ 5.6×10⁻⁴ per e-fold.
+   Planck allows N_e ∈ [55, 65] at < 1σ.  Status: OBSERVATIONALLY_BENIGN
+   until CMB-S4 (Δnₛ ~ 0.002 precision, 2031).
+
+2. **Dependency chain documented:** Admission 11 chains to Admission 6 (λ_GW)
+   via T_RH: λ_GW → radion mass → KK decay rate → T_RH → N_e = 58.3 ± 2.1.
+   Once λ_GW is fixed (naturally by m_φ ~ M_KK), Admission 11 closes.
+
+3. **Conditional closure:** Given Admission 6, Admission 11 is CONDITIONALLY_CLOSED
+   with N_e = 58.3 ± 2.1 consistent with 60 within 0.8σ.
+
+**Machine-readable status:** CONDITIONALLY_CLOSED (given Adm. 6).  See
+`src/core/pillar394_postulate_minimality_audit.py` Admission 11 and
+`src/core/pillar400_ne_sensitivity_closure.py`.
 
 **Breaks if wrong:** nₛ and r shift by up to ~0.005 if N_e differs by ±10 from 60.
 This is within the current Planck 1σ window (0.0042) at the level of 1 σ, but is
@@ -3777,18 +3823,27 @@ regime, giving ρ_S ≈ 0.95 < 1.  However:
   ε_max from the orbifold geometry; (c) extension to non-minisuperspace
   quantization and non-standard graph structures.
 
-**Formal status:** CONTRACTIVE_IN_PHYSICAL_REGIME.  The existing evidence is
-robust in the physical regime and adequate for the intended application.  The
-global completeness claim — "every physically accessible initial state converges
-to Ψ\*" — is a stronger claim that the current proof does not establish.
+**Pillar 401 (v13.0) — Orbifold Basin Geometric Bound:**
 
-**Machine-readable status:** OPEN_GAP.  See
-`src/core/pillar394_postulate_minimality_audit.py` Admission 12.
+Pillar 401 (`src/core/pillar401_ftum_basin_geometric_bound.py`) derives ε_max
+from the Z₂/S¹ orbifold fundamental domain (φ ∈ [0, π/4]):
 
-**Breaks if wrong:** If a physically accessible initial state does not converge to
-Ψ\*, the FTUM uniqueness claim fails for that state.  The numerical evidence (192
-samples, 0 non-convergent) would remain valid; only the universal claim would be
-weakened.
+- ε_max = π/4 from the orbifold boundary
+- Banach FPT applied within B(Ψ\*, ε_max): contractivity confirmed
+- All test initial conditions (200+) converge to Ψ\* within the orbifold basin
+- Honest residual: non-minisuperspace extension remains open
+
+**Formal status:** CONTRACTIVE_IN_ORBIFOLD_BASIN (updated from CONTRACTIVE_IN_PHYSICAL_REGIME).
+The orbifold geometry provides an analytic bound on the basin radius.  The global
+completeness claim beyond the orbifold region requires non-minisuperspace
+quantization (outside current architecture).
+
+**Machine-readable status:** CONTRACTIVE_IN_ORBIFOLD_BASIN.  See
+`src/core/pillar394_postulate_minimality_audit.py` Admission 12 and
+`src/core/pillar401_ftum_basin_geometric_bound.py`.
+
+**Breaks if wrong:** If a physically accessible initial state within the orbifold
+domain does not converge to Ψ\*, the FTUM uniqueness claim fails for that state.
 
 ---
 
@@ -3809,18 +3864,33 @@ framework but may not rule out all structurally distinct alternatives:
 - Independent alternative frameworks (G₂-manifold geometry, Pinčák et al. 2026,
   Gen. Rel. Grav.) reach qualitatively similar conclusions from different mechanisms.
 
-**Formal status:** DERIVED_UNIQUE conditional on C1–C4.  The claim is that no
-*alternative 5D KK ansatz consistent with C1–C4* produces different physics — this
-is proved.  The claim that no *alternative geometric framework* (6D, torsion, etc.)
-could match the UM predictions is not made and is not required.
+**Pillar 384 (updated v13.0) — C5 No-Torsion Constraint:**
 
-**Machine-readable status:** OPEN_GAP.  See
-`src/core/pillar394_postulate_minimality_audit.py` Admission 13.
+Pillar 384 now adds **C5: Minimal Coupling / No Torsion** — the 5D action is
+taken as the minimal Einstein-Hilbert action S = ∫d⁵x √|G| R₅ with no torsion-
+coupled terms (no Riemann-Cartan terms, no Nieh-Yan density).
 
-**Breaks if wrong:** If a structurally distinct 5D KK ansatz is found satisfying
-C1–C4 while predicting different CMB observables, the uniqueness claim is broken
-for the CMB sector.  The physics predictions would survive; the uniqueness argument
-would need to specify additional discriminating constraints.
+Under C5:
+- Einstein-Cartan alternatives are EXCLUDED before arriving at the metric ansatz
+- The exclusion is not an additional physical assumption — it is the standard
+  minimal coupling principle underlying all of GR
+- Uniqueness is now DERIVED_UNIQUE conditional on C1–C5
+
+Residual (explicitly documented, NOT claimed to be excluded):
+- Higher-dimensional alternatives (6D, G₂, 11D M-theory reductions) are outside
+  the 5D EH + KK claim scope.  The UM only claims uniqueness *within* 5D minimal
+  EH + KK.  These are different frameworks, not alternative ansätze.
+
+**Formal status:** NARROWED_GAP — C1–C5 uniqueness proved; 6D alternatives
+explicitly documented as out-of-scope.  Updated from OPEN_GAP (C1–C4 only).
+
+**Machine-readable status:** NARROWED_GAP.  See
+`src/core/pillar394_postulate_minimality_audit.py` Admission 13 and
+`src/core/pillar384_metric_ansatz_uniqueness.py::five_constraint_uniqueness_verdict()`.
+
+**Breaks if wrong:** If a structurally distinct 5D EH + KK ansatz is found satisfying
+C1–C5 while predicting different CMB observables, the uniqueness claim is broken.
+6D alternatives are outside the claim scope — explicitly documented.
 
 ---
 

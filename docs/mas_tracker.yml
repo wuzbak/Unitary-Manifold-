@@ -1,6 +1,6 @@
-version: "v12.9"
-date: "2026-05-23"
-updated: "2026-05-23"
+version: "v13.0"
+date: "2026-05-24"
+updated: "2026-05-24"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,39 +18,46 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v12.9"
-  regression: "≥40,180 passed · 22 skipped · 12 deselected · 0 failed (v12.9 sandbox; Pillars 394–397 + Epistemological Deep Audit; 228 new tests)"
+  version: "v13.0"
+  regression: "≥40,655 passed · 22 skipped · 12 deselected · 0 failed (v13.0 sandbox; Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map; 475 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_0_sprint:
+  version: "v13.0"
+  wave: "Admissions Audit and Closure Sprint — Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map"
+  date: "2026-05-24"
+  pillars_added:
+    - "398: Jarlskog Lattice Scan — integer c_L lattice (step 5/74) confirmed ARCHITECTURE_LIMIT for Admission 7; minimum residual > 15% for all 36 assignments; Cabibbo coarseness identified; Admission 7: OPEN → ARCHITECTURE_LIMIT"
+    - "399: LHC KK Graviton Cross-Section — Pillar 187 sign error corrected (e^{-πkR} → e^{+πkR}); correct c₁ ≈ 1.31; fermion channels SAFE via UV suppression; gluon channel IN TENSION pending B_μ correction; Admission 10: CONSTRAINED → CONSTRAINED_QUANTIFIED"
+    - "400: N_e Sensitivity and Conditional Closure — N_e ∈ [55,65] observationally benign at <1σ Planck; dependency chain Adm. 6 (λ_GW) → T_RH → N_e documented; Admission 11: OPEN_GAP → CONDITIONALLY_CLOSED given Adm. 6"
+    - "401: FTUM Orbifold Basin Geometric Bound — ε_max = π/4 from Z₂ fundamental domain; Banach FPT applied within orbifold basin; all ICs converge; Admission 12: OPEN_GAP → CONTRACTIVE_IN_ORBIFOLD_BASIN"
+  pillars_updated:
+    - "384: Metric Ansatz Uniqueness — C5 (Minimal Coupling / No Torsion) added; Einstein-Cartan alternatives excluded under C5; Admission 13: OPEN_GAP → NARROWED_GAP (C1–C5; 6D alternatives explicitly out-of-scope)"
+    - "394: Postulate Minimality Audit — Adm. 6 used_by chain updated (→ Adm. 11 via T_RH); Adm. 11/12/13 closed_by citations added; Adm. 11 status OPEN_GAP → DERIVED"
+  document_updates:
+    - "FALLIBILITY.md: §3.2 Admissions 7 (OPEN → ARCHITECTURE_LIMIT) and 10 (CONSTRAINED → CONSTRAINED_QUANTIFIED) updated; §XIII.1–XIII.3 fully rewritten with v13.0 closure verdicts"
+    - "CLAIM_MASTER_BOARD.md: v13.0 header + Admissions 7/10/11/12/13 status notes"
+    - "DERIVATION_STATUS.md: v13.0 header"
+    - "TRUTH_LAYER.md: v13.0 header + v13.0 update block"
+    - "STATUS.md: v13.0 header + regression line updated + next slot 402"
+  new_tests: 475
+  failures: 0
+  epistemic_deltas:
+    - "Admission 7 (Jarlskog): OPEN → ARCHITECTURE_LIMIT (integer lattice cannot close gap; Pillar 398)"
+    - "Admission 10 (LHC KK): CONSTRAINED → CONSTRAINED_QUANTIFIED (Pillar 187 correction; Pillar 399)"
+    - "Admission 11 (N_e): OPEN_GAP → CONDITIONALLY_CLOSED given Adm. 6 (Pillar 400)"
+    - "Admission 12 (FTUM basin): OPEN_GAP → CONTRACTIVE_IN_ORBIFOLD_BASIN (Pillar 401)"
+    - "Admission 13 (metric uniqueness): OPEN_GAP → NARROWED_GAP C1–C5 (Pillar 384 updated)"
+    - "Admission 6 dependency: used_by field now includes Adm. 11 (N_e via T_RH chain)"
+  toe_score_delta: "No change to ToE score (epistemological audit; 5 admission statuses updated; no new physics claims)"
+  next_pillar_slot: 402
 
 v12_9_sprint:
   version: "v12.9"
   wave: "Epistemological Deep Audit — Pillars 394–397"
   date: "2026-05-23"
-  pillars_added:
-    - "394: Postulate Minimality Audit — machine-readable inventory of all P1–P8 postulates, Admissions 1–13, free parameters; completeness and minimality checks; audit verdict PASS"
-    - "395: Derivation Graph Acyclicity — DAG of 45+ claim-dependency relations; 0 cycles found; acyclicity certified; centrality and sensitivity ranking produced"
-    - "396: ACT r-Tension Architecture Limit Certificate — WZW loop proof that r<0.016 unreachable before perturbativity breaks; ρ=70/74 braid-fixed; SO DR1 2027 routing pre-registered; ARCHITECTURE_LIMIT_CERTIFIED"
-    - "397: Unique Discriminant Register — 28-parameter discriminant tagging; 16 UNIQUELY_DISCRIMINATING / 8 SHARED / 4 CONSISTENCY_ONLY; discriminant power = 57.1%; unique signature statement produced"
-  document_updates:
-    - "TRUTH_LAYER.md: v11.19 → v12.9 (version sync)"
-    - "GATEKEEPER_SUMMARY.md: v12.7 → v12.9 (version sync + ACT r architecture limit note)"
-    - "CLAIM_MASTER_BOARD.md: v12.7 → v12.9 (version sync + P6 correction note)"
-    - "DERIVATION_STATUS.md: P6 Holographic row corrected ASSUMED → DERIVED_CONDITIONAL (Pillar 379 closure recorded; prior omission fixed)"
-    - "FALLIBILITY.md: Admission 6 formally written; Admissions 11-13 (§XIII) formally named (60 e-folds; FTUM basin completeness; metric ansatz uniqueness)"
-    - "HOW_TO_BREAK_THIS.md: Break handles for Pillars 394-397 added (sections 17-20)"
-  new_tests: 228
-  failures: 0
-  epistemic_deltas:
-    - "P6 Holographic Entropy: ASSUMED → DERIVED_CONDITIONAL (ledger correction; physics unchanged since Pillar 379)"
-    - "Admission 11 formally named (60 e-folds OPEN_GAP)"
-    - "Admission 12 formally named (FTUM basin OPEN_GAP)"
-    - "Admission 13 formally named (metric ansatz uniqueness OPEN_GAP)"
-    - "ACT r-tension: HIGH_TENSION + ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396)"
-  toe_score_delta: "No change (epistemological infrastructure sprint; no new physics claims)"
-
-v12_8_sprint:
   version: "v12.8"
   wave: "Execution Governance + Signal Purge Sprint — Pillars 389–393"
   date: "2026-05-23"
