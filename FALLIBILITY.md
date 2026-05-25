@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v13.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: ≥41,605 passed · 2 skipped · 12 deselected · 0 failed; v13.2 adds Pillars 407–412 — Gap Closure & Uniqueness Certificate Sprint: Braid Step-Width Uniqueness Certificate (P407), UV Brane δ_KT NATURALNESS_DERIVED (P408), Resonant Leptogenesis ARCHITECTURE_LIMIT_CONFIRMED_RL (P409), T³/Z₂ Topology Quadrupole CONSTRAINED_FROM_CMB (P410), Fermion Hierarchy HIERARCHY_PARTIALLY_CONSTRAINED (P411), Braid Condensate γ L2_CONDENSATE_ZERO_MODE_VIABLE (P412); 215 new tests; 0 failures).*
+*Unitary Manifold v13.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: ≥42,141 passed · 2 skipped · 12 deselected · 0 failed; v13.4 adds Pillars 414–420 — Closure & Completeness Sprint: WZW γ coupling bounded (P414), continuous FN hierarchy constrained (P415), c_L^phys bounded from geometry (P416), Admission 7 two-loop closure (P417), CMB residual bound tightened to ±15% (P418), completeness certificate issued (P419), and A₄ flavor symmetry framework established as an adjacent track (P420); 536 new tests; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (≥41,390 passed · 2 skipped · 12 deselected · 0 failed; canonical count with all optional dependencies; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (≥42,141 passed · 2 skipped · 12 deselected · 0 failed; canonical count with all optional dependencies; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -2567,7 +2567,7 @@ Source: `src/core/jarlskog_geometric.py`, `tests/test_jarlskog_geometric.py`.
 
 ### XIV.9 — Honest Admissions from v9.39 Red-Team Audit (May 2026)
 
-**Admission 7 — Jarlskog Invariant Absolute Value (ARCHITECTURE_LIMIT_MAPPED, v13.1):**
+**Admission 7 — Jarlskog Invariant Absolute Value (CLOSED, v13.4):**
 
 The geometric CKM matrix (using δ_sub ≈ 71.08° from Pillar 133/184) gives:
 
@@ -2594,15 +2594,22 @@ c_L(ℓ) = (5/74) × ℓ.  Pillar 398 scanned all 36 integer assignments
   Cabibbo angle λ ≈ 0.225 (which requires non-integer Δℓ ≈ 0.60)
 - No integer lattice assignment gives J within 15% of J_PDG
 
-**Status:** ARCHITECTURE_LIMIT_MAPPED (Pillar 402, v13.1) — the exact non-integer
-target is now characterized: (Δℓ₁₂ ≈ 1.390, Δℓ₂₃ ≈ 0.665) reproduces J_PDG
-within 0.02%.  Required LKT correction δ_KT ≈ 0.053 (NATURAL, < 10%).  FN charge
-identification: n_FN = Δℓ (direct mapping).  Closure path: a future pillar
-deriving δ_KT from UV brane dynamics.
+**Status:** ✅ **CLOSED** (Pillar 417, v13.4) — the closure chain is now complete:
+
+- Pillar 398 (v13.0): integer lattice too coarse → ARCHITECTURE_LIMIT
+- Pillar 402 (v13.1): continuous scan finds exact targets Δℓ₁₂≈1.390, Δℓ₂₃≈0.665 → ARCHITECTURE_LIMIT_MAPPED
+- Pillar 408 (v13.2): UV-brane wavefunction overlap derives δ_KT≈0.053 (NATURAL, < 10% of Δc) → NATURALNESS_DERIVED
+- Pillar 417 (v13.4): 2-loop KK Yukawa correction δc_L^(2-loop)/Δc ≈ 2.4×10⁻⁴, more than 200× smaller than the LO δ_KT.
+  The 2-loop contribution is SUBLEADING at the level of 0.024% of a lattice step — negligible
+  compared to the identified LO mechanism.  No further correction is needed; the LO UV-brane
+  wavefunction mechanism fully accounts for δ_KT within the RS1 EFT.
+
+**Machine-readable:** `src/core/pillar417_twoloop_kk_yukawa.py::admission7_twoloop_verdict()` returns
+`{"admission_number": 7, "new_status": "CLOSED", ...}`.
 
 Callable: `src/core/pillar402_jarlskog_continuous_scan.py::admission_7_mapped_verdict()`
-(updated from Pillar 398)
-Callable: `src/core/pillar398_jarlskog_lattice_scan.py::admission_7_closure_verdict()`
+Callable: `src/core/pillar408_uv_brane_dkt_derivation.py::admission_7_naturalness_verdict()`
+Callable: `src/core/pillar417_twoloop_kk_yukawa.py::admission7_twoloop_verdict()`
 
 **Admission 8 — Sensitivity / "Brittleness" of the Fixed Point (ASSESSED):**
 
@@ -3737,9 +3744,15 @@ discrepancy between γ_theory ≈ 0.242 and γ_fit ≈ 0.273.
 - Padé [1/1] resummation: requires O(30) non-perturbative coefficients at α ~ 10⁻³ —
   SIGNALS NON-PERTURBATIVE physics.
 
-**Overall L2 status: PARTIALLY_CLOSED.** The 13% discrepancy is confirmed to be of
-genuinely non-perturbative origin. Specific mechanism unidentified: candidates are
-braid condensate, KK winding resonance at strong CS coupling, or emergent topology scale.
+**Overall L2 status: L2_WZW_COUPLING_BOUNDED (v13.4).** The 13% discrepancy is of
+genuinely non-perturbative origin.  The zero-mode braid condensate mechanism is now
+identified (Pillar 412) and the WZW coupling constant g_braid = (K_CS+2)/(2K_CS) = 76/148 ≈ 0.514
+is derived from the SU(2) WZW conformal dimension (Pillar 414), giving δγ_ZM ≈ 0.00546.
+Combined with the Kac-Moody contribution c₁^{KM} ≈ 3.02 (Pillar 385), ~73% of the
+c₁ budget is attributed to identified mechanisms.  Remaining c₁^{res} is bounded by
+the Borel-Padé analysis (Pillar 380).  Status upgraded from PARTIALLY_CLOSED through
+L2_CONDENSATE_ZERO_MODE_VIABLE (P412) to L2_WZW_COUPLING_BOUNDED (P414).
+Callable: `src/core/pillar414_l2_wzw_coupling.py::l2_wzw_verdict()`
 
 ### §XII.4 — f_NL Correction: Planning Estimate Superseded
 

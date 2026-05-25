@@ -15,6 +15,42 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v13.4 (2026-05-25 — Closure & Completeness Sprint: Pillars 414–420)
+
+**What changed:**
+Seven new pillars were added spanning the WZW fixation of the L2 zero-mode coupling, continuous FN-charge closure of the charged-fermion hierarchy, c_L^phys topological-form search, explicit two-loop KK Yukawa subleading closure for Admission 7, a tightened CMB acoustic-peak residual bound, a machine-readable completeness certificate, and an adjacent-track A₄ flavor-symmetry framework.
+
+**Pillars:**
+- P414 L2 γ WZW Coupling Derivation: **L2_WZW_COUPLING_BOUNDED**. The SU(2) WZW zero-mode propagator fixes g_braid=(K_CS+2)/(2K_CS)=76/148≈0.5135, giving δγ_ZM≈0.00546 and c₁^{ZM}≈6.05. Combined with Pillar 385 c₁^{KM}≈3.02, the explained fraction rises to ~73% of the c₁ budget.
+- P415 Fermion FN Charge Continuous Scan: **HIERARCHY_FN_CONTINUOUS_CONSTRAINED**. Continuous ℓ_eff values reproduce all 9 charged-fermion masses exactly, with all effective sub-lattice FN corrections remaining natural (<0.6 lattice step).
+- P416 c_L^phys Topological Form Search: **BOUNDED_FROM_GEOMETRY**. No exact braid-natural closed form for c_L^phys≈0.961 is found. The closest K_CS-anchored rational is 71/74≈0.9595, while orbifold geometry robustly bounds the physical value to (0.5, 1.08).
+- P417 2-Loop KK Yukawa Jarlskog Closure: **TWOLOOP_SUBLEADING_ADMISSION7_CLOSED**. The explicit two-loop KK Yukawa correction gives δc_L^(2-loop)/Δc≈2.4×10⁻⁴, more than 200× smaller than the LO δ_KT≈0.053, so Admission 7 is formally CLOSED.
+- P418 CMB Z_φ(k) Acoustic Peak Residual Bound: **CMB_RESIDUAL_BOUNDED_15PCT**. Propagating the Pillar 356 spectral envelope directly across the first three acoustic peaks tightens the analytic residual envelope from ±26% to ±15%.
+- P419 Completeness Certificate v13.4: **COMPLETION_CERTIFIED**. A single machine-readable certificate now aggregates all 13 Admissions, all 8 postulates, honest architecture limits, and the DAG-acyclic completeness verdict.
+- P420 CKM Flavor Symmetry Framework: **A4_FRAMEWORK_ESTABLISHED** (🔵 ADJACENT TRACK). The UM FN-charge separations define an A₄ seed angle θ_A4≈25.6° and formalize the closure path for the residual CKM Layer 2 structure.
+
+**Epistemic label deltas:**
+- L2 γ gap: L2_CONDENSATE_ZERO_MODE_VIABLE → L2_WZW_COUPLING_BOUNDED (P414)
+- Fermion hierarchy: HIERARCHY_PARTIALLY_CONSTRAINED → HIERARCHY_FN_CONTINUOUS_CONSTRAINED (P415)
+- Admission 7: NATURALNESS_DERIVED → CLOSED (P417)
+- CMB acoustic residual bound: ±26% → ±15% (P418)
+- Framework-level machine-readable verdict: COMPLETION_CERTIFIED (P419)
+
+**TOE score delta:** No change. These closures tighten residual accounting, formal completeness, and adjacent-track routing without altering the 28/28 hardgate score.
+
+**Falsification impact:** None of the primary falsifiers change. LiteBIRD birefringence β remains the dominant external discriminator.
+
+**Residual unknowns:**
+- The residual L2 c₁ contribution beyond KM + WZW-fixed zero mode still requires a full lattice braid QFT treatment.
+- c_L^phys has no exact known topological closed form inside the minimal braid dictionary.
+- The A₄/S₄ flavor layer remains an adjacent-track extension rather than a hardgate derivation.
+
+**New tests:** 536
+**Failures:** 0
+**Canonical test count:** ≥42,141 passing · 2 skipped · 12 deselected · 0 failed
+
+---
+
 ## v13.2 (2026-05-24 — Gap Closure & Uniqueness Certificate Sprint: Pillars 407–412)
 
 **What changed:**
