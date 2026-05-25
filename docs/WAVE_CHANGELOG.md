@@ -15,6 +15,42 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v13.5 (2026-05-25 — Certification & Exhaustion Sprint: Pillars 421–427)
+
+**What changed:**
+Seven new pillars were added spanning the L2 γ gap budget certificate, baryogenesis exhaustion certificate, WDW mini-superspace quantum closure (adjacent track), topology L inflation architecture limit, decision readiness v13.5 update (adjacent track), B_μ gluon channel exact amplitude, and the external verification package v13.5.
+
+**Pillars:**
+- P421 L2 γ Gap Budget Certificate: **L2_GAMMA_BUDGET_CERTIFIED**. Full machine-readable budget: γ_theory=0.242, γ_fit=0.273, gap=0.031 (11.3%). Identified: c₁^{KM}=3.02 (24%) + c₁^{ZM}=6.10 (49%) = 73% explained. Remaining 27% (c₁^{NP}≈3.4) certified ARCHITECTURE_LIMIT — full lattice braid QFT required.
+- P422 Baryogenesis Exhaustion Certificate: **ALL_BARYOGENESIS_PATHS_EXHAUSTED**. All 5 paths (thermal leptogenesis, KK sphaleron, Affleck-Dine, KK-EWPT, resonant leptogenesis) certified ARCHITECTURE_LIMIT. Extension to 6D UV completion required.
+- P423 WDW Mini-Superspace Quantum Closure: **MINI_SUPERSPACE_QUANTUM_CLOSURE** (🔵 ADJACENT TRACK). Mini-superspace WDW [-∂²/∂a² + λ_eff a⁴]Ψ=0 solved analytically; FTUM fixed point φ* is consistent quantum solution; variance ratio ≈10⁻⁶ (stable).
+- P424 Topology L Inflation Architecture Limit: **TOPOLOGY_L_INFLATION_ARCHITECTURE_LIMIT**. Inflationary horizon comoving today: L_H_inf ≈ 10⁻³⁵ D_H — 35 orders of magnitude below the P410 quadrupole-suppression window [7.9, 11.4] Gpc. P410 window also conflicts with Planck lower bound 13.9 Gpc. L selection is an architecture limit.
+- P425 Decision Readiness v13.5: **DECISION_READINESS_V135** (🔵 ADJACENT TRACK). All 6 decision windows updated to v13.5 state (all 13 admissions closed; completion certified P419). All 10 rehearsal drills PASS. DESI: 2.75σ HIGH_TENSION. SO DR1: 2.0σ HIGH_TENSION. JUNO: CONSISTENT.
+- P426 B_μ Gluon Channel Exact Amplitude: **GLUON_CHANNEL_BMU_CORRECTED_EXACT**. Exact Z_gg(q²) computed at m_G_KK=3.98 TeV: Z_gg≈1.44×10⁴; c₁_eff≈0.011; σ_ratio≈2.0. Gluon channel remains IN_TENSION. P403 conservative bound ≥0.61 confirmed and sharpened. m_G_KK ≥ 1.8 TeV constraint stands.
+- P427 External Verification Package v13.5: **EXTERNAL_VERIFICATION_COMPLETE_V135**. Single callable API for external reviewers: 13-admission table, 8 architecture limits, 8 primary predictions (4 CONFIRMED, 2 HIGH_TENSION), complete falsification protocol. No optional dependencies required.
+
+**Epistemic label deltas:**
+- L2 γ gap: L2_WZW_COUPLING_BOUNDED → L2_GAMMA_BUDGET_CERTIFIED (P421; full budget issued)
+- Baryogenesis: path-by-path architecture limits → ALL_BARYOGENESIS_PATHS_EXHAUSTED (P422; exhaustion certified)
+- WDW: OPEN_GAP → MINI_SUPERSPACE_QUANTUM_CLOSURE (P423; mini-superspace tractable limit closed)
+- Topology L: CONSTRAINED_FROM_CMB → TOPOLOGY_L_INFLATION_ARCHITECTURE_LIMIT (P424; inflation cannot select L)
+- Gluon channel: CONSTRAINED_BOUNDED (≥0.61) → GLUON_CHANNEL_BMU_CORRECTED_EXACT (P426; σ_ratio ≈ 2.0 at first KK mode)
+
+**TOE score delta:** No change. All sprint pillars are architecture-limit certifications, adjacent tracks, or refinements. The 28/28 hardgate score is unchanged.
+
+**Falsification impact:** None. Primary falsifier unchanged: LiteBIRD β ∈ {0.273°, 0.331°} (~2032). DESI DR3 (~2027) remains a live secondary falsifier at 2.75σ HIGH_TENSION.
+
+**Residual unknowns:**
+- Remaining 27% of L2 γ gap (c₁^{NP} ≈ 3.4) requires full lattice braid QFT.
+- Baryogenesis requires 6D UV completion or non-minimal sector.
+- Full non-perturbative WDW treatment beyond mini-superspace remains open.
+- Quadrupole topology scale L cannot be derived from UM inflation; extension required.
+- Gluon channel at exact KK mass requires full 5D Bessel wavefunction overlap integral.
+
+**New tests:** 443
+**Failures:** 0
+**Canonical test count:** 42,215 (CI #220 baseline) + 443 (v13.5 sprint) = 42,658 passing in-sprint
+
 ## v13.4 (2026-05-25 — Closure & Completeness Sprint: Pillars 414–420)
 
 **What changed:**
