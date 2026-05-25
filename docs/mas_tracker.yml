@@ -2681,3 +2681,39 @@ v10_32_p16_promotion:
     - "P25 (Ω_GW): DERIVED-PENDING; LISA measurement (~2037) will confirm or falsify"
 
 # Operational addendum: proof-close sprint artifacts are implemented as adjacent-track executable modules (SC2/SC4/A3/T3 routing + proof-close certification).
+
+# v13.3 sprint — Talagrand Convexity Conjecture UM Analysis
+- sprint_id: "v13.3"
+  name: "Talagrand Convexity Conjecture UM Geometric Analysis"
+  status: "COMPLETE"
+  completed: "2026-05-25"
+  summary: >
+    Pillar 413 added: structural correspondence analysis of the Talagrand
+    Convexity Conjecture (proved by Hwa-Song-Tudose, arXiv May 2026).
+    UM geometry independently yields C_UM=3=C_proof via the braid formula
+    ceil(K_CS/(n_w*(n_w+2)))=ceil(74/35)=3.  KK tower verified strictly
+    1-subgaussian (sigma^2_KK=5/148 approx 0.034 << 1).  N_c=3 Kawamura
+    coincidence documented.  FTUM concentration rate lambda_c=c_s=12/37.
+    71 new tests; 0 failures.
+  deliverables:
+    - artifact: "src/core/pillar413_talagrand_convexity.py"
+      test: "tests/test_pillar413_talagrand_convexity.py"
+      status: "STRUCTURAL_CORRESPONDENCE"
+      adjacency: "NON_HARDGATE_ADJACENT"
+      toe_delta: 0.0
+    - artifact: "STATUS.md"
+      status: "SYNCED_TO_v13.3"
+      toe_delta: 0.0
+  parameters_promoted: []
+  toe_score:
+    before: 28.0
+    after: 28.0
+    before_pct: "100%"
+    after_pct: "100%"
+    note: >
+      Pillar 413 is an adjacent-track structural correspondence; it does not
+      affect the 28-parameter hardgate ToE ledger.
+  open_items:
+    - "P23/P24 (β birefringence): LiteBIRD-gated (~2032/2034)"
+    - "P25 (Ω_GW): DERIVED-PENDING; LISA ~2037"
+    - "L2 γ gap: L2_CONDENSATE_ZERO_MODE_VIABLE; full non-perturbative closure pending"
