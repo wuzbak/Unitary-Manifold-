@@ -170,7 +170,7 @@ class TestDR3Tripwire:
         assert result['falsified'] == (result['verdict'] == 'FALSIFIED')
 
 
-class TestDesIDR3OnePagerStatement:
+class TestDesiDR3OnePagerStatement:
     def setup_method(self):
         self.statement = desi_dr3_one_page_statement()
 

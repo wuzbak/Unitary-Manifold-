@@ -97,7 +97,7 @@ class TestGHYBoundaryActionSetup:
         assert '406' in self.setup['pillar_406_reference']
 
 
-class TestExtrisicCurvatureZ2Transform:
+class TestExtrinsicCurvatureZ2Transform:
     def setup_method(self):
         self.ext = extrinsic_curvature_z2_transform()
 
