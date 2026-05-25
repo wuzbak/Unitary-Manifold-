@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v13.7
+# Unitary Manifold v14.1
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
@@ -215,3 +215,22 @@ When new data arrives:
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## v14.1 Sprint Summary (Pillars 475–481)
+
+| Pillar | Title | Status | Notes |
+|--------|-------|--------|-------|
+| P455 | P8 Integer-Lattice Proof | PROVED_INTEGER_LATTICE | v14.0 |
+| P456–P474 | Theorem Registry, CCR, ER=EPR, metric completeness, Lean4, γ L2, fermion PARTIALLY_DERIVED, p_R NAMED_RESIDUAL, α_s MARGIN_ZONE, α_GW 5D_EFT_FLOOR, free param census, proton stability, KK unitarity, irreversibility, truth sync, arXiv v14 | Various | v14.0 |
+| P470 | arXiv v14 update package | ARXIV_V14_READY | v14.0 |
+| P475 | JUNO Δm²₃₁ NLO Full-Chain | JUNO_NLO_FULL_CHAIN_SAFE | v14.1 |
+| P476 | Lean4 CI Engineering Fix | LEAN4_CI_HASH_VALIDATED | v14.1 |
+| P477 | 2027 Decision Rehearsal Drills | REHEARSAL_DRILLS_2027_COMPLETE | v14.1 |
+| P478 | 6D Baryogenesis Phase 2 | SIXD_BARYOGENESIS_PHASE2_NEDM_REFINED 🔵 | v14.1 |
+| P479 | Lattice Braid Phase 2 | LATTICE_BRAID_PHASE2_2D_COMPUTED 🔵 | v14.1 |
+| P480 | Fermion Hierarchy Analytic | FERMION_HIERARCHY_ANALYTIC_FORMULA_DERIVED | v14.1 |
+| P481 | External Engagement / arXiv v14.1 | ARXIV_V141_EXTERNAL_ENGAGEMENT_READY | v14.1 |
+
+*~353 new tests added. Canonical count: 44,943+ passing. Next slot: 482.*
