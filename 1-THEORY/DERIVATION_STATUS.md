@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v13.8 — Unambiguous Record**  
+**The Unitary Manifold v14.0 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-25 (v13.7 — Prediction Hardening & Adjacent Track Phase 1: Pillars 434–440 added; ~430 new tests; ADM BSSN lapse CLOSED (P434); HL-LHC prediction preregistered (P435); proton decay bounded (P436); SPHEREx f_NL SHA-256 committed (P437); lattice braid Phase 1 computed (P438); 6D baryogenesis Phase 1 computed (P439); arXiv v13.7 synced (P440); >=43,439 passing · 0 failed.)*
+*Last updated: 2026-05-25 (v14.0 — theorem-hardening sprint Pillars 455–474 added; P455 integer-lattice P8 proof; P456 conjectures formally stated; P457 completeness certified; P458 Lean4 certificate generated with named CI obstruction; P459 γ final 2% named irreducible; P460 fermion hierarchy partially derived; P465 theorem registry synced; P467 DESI DR3 falsification gate preregistered; P470 KK graviton unitarity bound proved; P471 irreversibility uniqueness bounded; P472 proton stability theorem derived; P473 sync checker; P474 arXiv v14 update ready.)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
@@ -267,6 +267,33 @@ These are not new physical claims but expansions of the verification surface.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## Part XIV — v14.0 theorem-hardening sprint (Pillars 455–474)
+
+| Sprint item | Status | Honest summary | Residual / note |
+|------------|--------|----------------|-----------------|
+| Pillar 455 | **PROVED_OVER_INTEGER_LATTICE** | P8 proved over the integer winding lattice: n₂ = n_w + 2 is the minimum-step partner in the audited discrete family. | Named residual: full functional space of non-perturbative saddles remains open. |
+| Pillar 456 | **FORMALLY_STATED_CONJECTURES** | CCR and ER=EPR are retained honestly as conjectures with explicit proof criteria rather than overclaimed theorems. | Proof criteria are documented; no proof yet claimed. |
+| Pillar 457 | **COMPLETENESS_CERTIFIED** | Metric ansatz completeness certified under the audited constraints. | λ normalization convention remains a named convention, not a hidden derivation. |
+| Pillar 458 | **LEAN4_BLOCKED_NAMED_OBSTRUCTION** | Lean4 certificate generated for the v14 theorem lane. | Compilation blocked by CI/toolchain engineering, not by a discovered mathematical contradiction. |
+| Pillar 459 | **L2_FINAL_2PCT_NAMED_IRREDUCIBLE** | γ non-perturbative budget closed to 98% with a final named irreducible 2%. | Residual is explicitly named, not silently absorbed. |
+| Pillar 460 | **PARTIALLY_DERIVED** | Fermion hierarchy: third generation DERIVED; lighter generations NATURAL within the audited sub-lattice structure. | Full exact closure for lighter generations remains open. |
+| Pillar 461 | **PMNS_PR_NAMED_RESIDUAL** | p_R derivation attempted and bounded in a controlled lane. | PMNS_PR_NAMED_RESIDUAL remains open. |
+| Pillar 462 | **MARGIN_ZONE_CONFIRMED** | α_s remains in the honest margin zone: not closed, not hidden. | 10D flux details still needed for unique-value closure. |
+| Pillar 463 | **5D_EFT_FLOOR_CERTIFIED** | α_GW has a certified 5D EFT floor. | Unique value requires the 10D completion. |
+| Pillar 464 | **V14_FREE_PARAMETER_CENSUS_COMPLETE** | Free-parameter census completed and machine-readable in v14. | Distinguishes closed parameters from named residuals and architecture limits. |
+| Pillar 465 | **THEOREM_REGISTRY_V14** | Machine-readable theorem registry now lists 30+ theorem-status entries. | Registry is a ledger layer, not an independent proof by itself. |
+| Pillar 466 | **ADMISSION_CLOSURE_CERTIFICATE_V14** | Admission closure certificate synced all 13 admissions into a single v14 report. | Historical provenance preserved. |
+| Pillar 467 | **DESI_DR3_FALSIFICATION_GATE_PREREGISTERED** | DESI DR3 falsification gate preregistered with SHA-256 commitment. | Gate is fixed before release; no post-hoc threshold drift permitted. |
+| Pillar 468 | **LITEBIRD_PROTOCOL_FORMALIZED** | LiteBIRD two-branch discrimination protocol formalized. | Measurement remains pending. |
+| Pillar 469 | **SO_DR1_ROUTING_FORMALIZED** | SO DR1 joint referee routing formalized. | Observational execution awaits data release. |
+| Pillar 470 | **PROVED** | KK graviton partial-wave unitarity bound proved for E < M_KK. | Perturbative statement only; non-perturbative Planckian gravity remains outside scope. |
+| Pillar 471 | **BOUNDED** | Irreversibility uniqueness bounded: scalar, two-form, and Z₂-even vector alternatives excluded discretely. | Continuous deformations / nonlinear completions of B_μ are not excluded. |
+| Pillar 472 | **DERIVED_CONDITIONAL** | Proton stability geometric theorem derived in a benchmark RS1-softened uplift package. | Full SU(5) embedding still needed for the O(1) prefactor. |
+| Pillar 473 | **SYNC_CHECKER_COMPLETE** | Truth-surface sync checker for v14 now audits the six canonical surfaces programmatically. | It reports unsynced surfaces honestly rather than masking them. |
+| Pillar 474 | **ARXIV_V14_UPDATE_READY** | arXiv v14 metadata package prepared. | Submission still requires manuscript-side sync and final regression gate. |
 
 ---
 
