@@ -22,7 +22,7 @@ from src.core.pillar417_twoloop_kk_yukawa import (
 
 class TestConstants:
     def test_status(self):
-        assert PILLAR_STATUS == 'TWOOLOOP_SUBLEADING_ADMISSION7_CLOSED'
+        assert PILLAR_STATUS == 'TWOLOOP_SUBLEADING_ADMISSION7_CLOSED'
 
     def test_admission_status(self):
         assert ADMISSION_7_STATUS == 'CLOSED'
@@ -100,7 +100,7 @@ class TestAdmission7Verdict:
         assert admission7_twoloop_verdict()['new_status'] == 'CLOSED'
 
     def test_status_label(self):
-        assert admission7_twoloop_verdict()['status'] == 'TWOOLOOP_SUBLEADING_ADMISSION7_CLOSED'
+        assert admission7_twoloop_verdict()['status'] == 'TWOLOOP_SUBLEADING_ADMISSION7_CLOSED'
 
     def test_subleading_by_more_than_fifty(self):
         assert admission7_twoloop_verdict()['subleading_by_factor'] > 50.0

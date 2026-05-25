@@ -32,7 +32,7 @@ v13_4_sprint:
     - "414: L2 γ WZW Coupling Derivation — L2_WZW_COUPLING_BOUNDED; SU(2) WZW zero-mode propagator fixes g_braid=(K_CS+2)/(2K_CS)=76/148≈0.5135; δγ_ZM≈0.00546; c₁^{KM}+c₁^{ZM} explains ~73% of c₁ budget"
     - "415: Fermion FN Charge Continuous Scan — HIERARCHY_FN_CONTINUOUS_CONSTRAINED; continuous ℓ_eff reproduces all 9 charged-fermion masses exactly; all effective sub-lattice FN corrections remain natural (<0.6)"
     - "416: c_L^phys Topological Form Search — BOUNDED_FROM_GEOMETRY; no exact braid-natural closed form found; closest K_CS-anchored rational 71/74≈0.9595; geometric window (0.5,1.08) verified"
-    - "417: 2-Loop KK Yukawa Jarlskog Closure — TWOOLOOP_SUBLEADING_ADMISSION7_CLOSED; δc_L^(2-loop)/Δc≈2.4e-4 is >200× smaller than LO δ_KT≈0.053; Admission 7 CLOSED"
+    - "417: 2-Loop KK Yukawa Jarlskog Closure — TWOLOOP_SUBLEADING_ADMISSION7_CLOSED; δc_L^(2-loop)/Δc≈2.4e-4 is >200× smaller than LO δ_KT≈0.053; Admission 7 CLOSED"
     - "418: CMB Z_phi(k) Acoustic Peak Residual Bound — CMB_RESIDUAL_BOUNDED_15PCT; k-dependent Z_phi running tightens analytic acoustic residual envelope from ±26% to ±15%"
     - "419: Completeness Certificate v13.4 — COMPLETION_CERTIFIED; aggregates all 13 Admissions, 8 postulates, honest architecture limits, and DAG-acyclic completeness verdict"
     - "420: CKM Flavor Symmetry Framework — A4_FRAMEWORK_ESTABLISHED; adjacent-track A4/S4 extension path formalized from UM FN-charge separations; θ_A4≈25.6° seed angle"
