@@ -146,6 +146,9 @@ C_S: float = 12.0 / 37.0     # braided sound speed
 PHI_STAR: float = 2.0 * math.pi * N_W   # FTUM radion VEV ≈ 31.416
 
 # From Pillar 421: L2_GAMMA_BUDGET_CERTIFIED
+# c₁^{NP} ≈ 3.4 represents the remaining non-perturbative coefficient
+# accounting for 27% of the total L2 γ gap (gap = γ_fit − γ_theory = 0.031;
+# c₁^{NP} / c₁_budget × 100% ≈ 27%); the precise budget is in pillar421.
 C1_NP_ESTIMATE: float = 3.4     # remaining non-perturbative c₁ coefficient
 GAMMA_GAP_FRACTION: float = 0.27   # 27% of L2 γ gap still unaccounted
 

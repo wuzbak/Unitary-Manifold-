@@ -136,6 +136,7 @@ __all__ = [
     'ETA_B_5D_BEST',
     'M_6D_TEV',
     'M_SIGMA_GEV',
+    'M_PL_GEV',
     'six_d_field_content',
     'um_constraints_on_6d',
     'baryogenesis_mechanism_6d',
@@ -162,6 +163,9 @@ ETA_B_5D_BEST: float = 2e-12    # best 5D estimate ~ 3× below observed
 
 # 6D extension parameters (derived from UM constraints; see scoping analysis)
 M_6D_TEV: float = 10.0        # approximate 6D compactification scale in TeV
+# M_Pl in GeV: 1.22×10¹⁹ GeV is the Planck mass expressed in GeV.
+# (In the system where 1 TeV = 10³ GeV, 1.22×10¹⁹ GeV is correct.)
+M_PL_GEV: float = 1.22e19    # Planck mass in GeV
 M_SIGMA_GEV: float = 800.0    # approximate Σ scalar mass in GeV
 
 
@@ -188,7 +192,7 @@ def um_constraints_on_6d() -> List[Dict]:
     M_6D_min_tev = 1.0 / R6_max if R6_max > 0 else float('inf')
 
     # Constraint on Σ mass (C2)
-    H_EW = T_EW_GEV ** 2 / (1.22e19 / 1e3)   # H_EW in GeV (using M_Pl in GeV)
+    H_EW = T_EW_GEV ** 2 / M_PL_GEV   # H_EW in GeV (using M_Pl in GeV)
     m_sigma_max_gev = (M_6D_TEV * 1000) ** (2.0 / 3.0) * H_EW ** (1.0 / 3.0)
 
     # Constraint from c_s (C3)
