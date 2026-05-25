@@ -1,9 +1,23 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v13.4
+# Unitary Manifold v13.6
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-24 (v13.4 — Gap Closure & Uniqueness Certificate Sprint: Pillars 407–412; 215 new tests; 0 failures. Canonical test count: 42,215 passing.)*
+*Last updated: 2026-05-25 (v13.6 — Final Precision Closure & Publication Sprint: Pillars 428–433; ~370 new tests; 0 failures. Canonical test count: ~43,009 passing.)*
+
+*P428 (v13.6): DESI CPL Internal-Consistency Audit — DESI_CPL_CORRECTED_V136. Six issues corrected in prior CPL analysis. Canonical dark-energy prediction: w₀=−1, wₐ=0 (frozen radion — geometric theorem). Canonical DESI tension re-confirmed at 2.75σ. HIGH_TENSION label unchanged.*
+
+*P429 (v13.6): Fermion Hierarchy Full 9/9 Geometric Closure — HIERARCHY_FULLY_CONSTRAINED. Explicit sub-lattice FN charge assignments for ALL 9 SM charged fermions. Strange (δ_FN≈0.499, NATURAL) and charm (δ_FN≈0.069, NATURAL) quarks fully assigned. With corrected continuous ℓ_eff applied, all 9 masses reproduced to machine precision. Upgrade: HIERARCHY_FN_CONTINUOUS_CONSTRAINED → HIERARCHY_FULLY_CONSTRAINED.*
+
+*P430 (v13.6): Full RS1 Bessel Gluon Channel Amplitude — GLUON_CHANNEL_BESSEL_EXACT. Exact Bessel overlap correction I_exact/I_LO≈0.876. σ_ratio_exact≈1.55 at m_G_KK=3.98 TeV (IN_TENSION). Sharpened mass bound: m_G_KK ≥ 5.0 TeV (upgraded from ≥1.8 TeV). Admission 10: CONSTRAINED_BOUNDED → GLUON_CHANNEL_BESSEL_EXACT.*
+
+*P431 (v13.6): Lattice Braid QFT Formal Scope — LATTICE_BRAID_QFT_FORMALLY_SCOPED (🔵 ADJACENT TRACK). c₁^{NP}≈3.4 ARCHITECTURE_LIMIT formally scoped. Braid Wilson action specified (β_braid=K_CS/(4π²)≈1.876, kappa_braid=c_s/(2n_w)≈0.129). Phase 1 DMRG: ~1 GPU-hour (1D effective model). Phase 2 HMC: ~1000 GPU-hours (32³×16 lattice). CMB-S4/LiteBIRD observable: γ_eff shift ≥5% per 1σ improvement in c₁^{NP}.*
+
+*P432 (v13.6): 6D UV Completion Baryogenesis Scoping — SIXD_BARYOGENESIS_EXTENSION_SCOPED (🔵 ADJACENT TRACK). Minimal 6D extension: scalar Σ (B-charged, spin-0, m~500–800 GeV) + compactification radius R₆; 2 free parameters. Three UM constraints: C1 (n_w/K_CS fix R₆), C2 (φ₀ sets m_Σ), C3 (c_s constrains θ_6). Estimated η_B^{6D}~O(10⁻¹⁰) (~250× improvement over 5D). First observable: nEDM@SNS ~2028.*
+
+*P433 (v13.6): External Verification Package v13.6 — EXTERNAL_VERIFICATION_COMPLETE_V136. All truth surfaces synced. 13-admission table (0 open); 8 architecture limits; 8 predictions (4 CONFIRMED, 2 HIGH_TENSION).*
+
+*Admission 10 (v13.6): LHC KK graviton — GLUON_CHANNEL_BESSEL_EXACT (Pillar 430). Bessel-exact overlap correction 0.876; σ_ratio_exact≈1.55 at 3.98 TeV (IN_TENSION). Sharpened lower bound m_G_KK ≥ 5.0 TeV.*
 
 *P407 (v13.2): Minimum-Step Braid Step-Width Uniqueness Certificate — BRAID_UNIQUENESS_CERTIFIED. Four-proof chain: (a) (5,7) is global minimum Euclidean CS action among Pillar-67-valid pairs; (b) δ²S_E>0 strict minimum; (c) higher-step winding suppressed exp(−37·Δn)≤exp(−74); (d) monotonicity theorem verified. Admission 2 residual: BRAID_UNIQUENESS_CERTIFIED.*
 

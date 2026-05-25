@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v13.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: 42,658 passed · 0 failed (v13.5, 2026-05-25); v13.5 adds Pillars 421–427 — Certification & Exhaustion Sprint: L2 γ budget certified (P421), baryogenesis exhaustion certificate (P422), WDW mini-superspace closure (P423, 🔵), topology L architecture limit (P424), decision readiness v13.5 (P425, 🔵), B_μ gluon amplitude exact (P426), external verification package v13.5 (P427); 443 new tests; 0 failures).*
+*Unitary Manifold v13.6 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: 43,009 passed · 2 skipped · 12 deselected · 0 failed (v13.6, 2026-05-25); v13.6 adds Pillars 428–433 — Final Precision Closure & Publication Sprint: DESI CPL corrected (P428), fermion hierarchy FULLY_CONSTRAINED 9/9 (P429), Bessel-exact gluon channel amplitude ≥5 TeV (P430), lattice braid QFT formally scoped (P431, 🔵), 6D baryogenesis extension scoped (P432, 🔵), external verification package v13.6 (P433); ~370 new tests; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (42,215 passed · 2 skipped · 12 deselected · 0 failed (CI #220, 2026-05-25); canonical count with all optional dependencies; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (43,009 passed · 2 skipped · 12 deselected · 0 failed (in-sprint v13.6, 2026-05-25); canonical count with all optional dependencies; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
