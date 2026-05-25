@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v14.0
+# Unitary Manifold v14.2
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -17,14 +17,14 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Λ_QCD three-path hierarchy reconciled; Lab CP collaboration request operationalised.
 > **Two HIGH_TENSION signals remain active:** (1) r = 0.0315 vs ACT DR6 upper bound
 > r < 0.016 (IRREDUCIBLE_IN_BRAIDED_5D_EFT — Pillar 303; ARCHITECTURE_LIMIT_CERTIFIED — Pillar 396 v12.9); (2) wₐ = 0 vs DESI DR2
-> 2.82σ tension (ARCHITECTURE_LIMIT_CERTIFIED — Pillar 301). Neither has crossed
-> the 3.0σ falsification threshold. Both will resolve definitively in 2027.
+> **CPL-corrected 2.30σ tension** (Pillar 428 correction; was 2.07σ/2.82σ raw DR2; ARCHITECTURE_LIMIT_CERTIFIED — Pillar 301). DR3 machine-executable tripwire ready (Pillar 486). Neither has crossed
+> the 3.0σ falsification threshold. Both will resolve definitively in 2026–2027.
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-25 (v14.0 — Pillars 455–474 synced into the gatekeeper layer; P455 integer-lattice P8 proof recorded; P456 conjectures formally stated; P465 theorem registry added; P467 DESI DR3 preregistration locked; v14.0 note only — historical verdict tables below remain preserved)*
+*Last updated: 2026-05-25 (v14.2 — Pillars 482–487 synced; DESI DR2 tension corrected to 2.30σ CPL (Pillar 428); DR3 tripwire operational (P486); Lean4 CI fully activated (P482); Z₂-odd G_{μ5} action-level derived (P487); CMB peak positions quantified (P485))*
 
-> **v14.0 sync note:** P455 upgrades P8 to an integer-lattice proof with a named residual over full functional space. P456 formally states CCR and ER=EPR as conjectures with proof criteria. P465 adds the machine-readable theorem registry. P467 preregisters the DESI DR3 falsification gate before data release.
+> **v14.2 sync note:** DESI wₐ tension corrected from raw DR2 values (2.07σ/2.82σ) to CPL-corrected 2.30σ per Pillar 428. DR3 machine-executable tripwire now in src/core/pillar486_desi_dr3_final_prep.py. Lean4 CI trigger broadened to all branches (P482). Z₂-odd G_{μ5}: Admission 1 classical chain complete via GHY well-posedness (P487).
 
 ---
 
@@ -146,7 +146,7 @@ promoted to DERIVED in v10.59 via `src/core/p28_lambda_derived_cert.py`.
 
 | # | Tension | Prediction | Data | σ-Level | Escalation Condition |
 |---|---------|-----------|------|---------|---------------------|
-| T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.07σ / 2.75σ | ≥3σ → FALSIFIED |
+| T1 | DESI wₐ | wₐ = 0 (frozen radion) | DESI DR2 BAO-only / combined | 2.30σ CPL-corrected (P428) | ≥3σ → FALSIFIED |
 | T2 | CMB peak amplitude | Casimir α_GW bounded | Suppressed ×4.2–6.1 | CLOSED_WITH_PILLAR52_10D_BRIDGE | Pillar 52 fixes the gravity-scale decade and the 10D UV bridge closes the framework lane; the RS1-only undershoot is retained as provenance only |
 | T3 | JUNO Δm²₃₁ risk | Δm²₃₁ = 2.453×10⁻³ eV² | P17 residual 2.18% → 4.4σ at JUNO 0.5% precision (~2027) | 4.4σ projected | ≤0.5% Pillar 274 NLO+seesaw needed to pass |
 

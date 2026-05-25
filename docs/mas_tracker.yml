@@ -1,4 +1,4 @@
-version: "v14.1"
+version: "v14.2"
 date: "2026-05-25"
 updated: "2026-05-25"
 mas_status: "COMPLETE"
@@ -18,11 +18,38 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v14.1"
-  regression: "44,943 passed · 23 skipped · 12 deselected · 0 failed (v14.1 sprint; tests/ + recycling/ + Pentad)"
+  version: "v14.2"
+  regression: "44,748 passed · 23 skipped · 12 deselected · 0 failed (v14.2 sprint; tests/ + recycling/ + Pentad)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v14_2_sprint:
+  version: "v14.2"
+  wave: "Gap Closure Sprint — Pillars 482–487"
+  date: "2026-05-25"
+  pillars_added:
+    - "482: Lean4 CI full activation — LEAN4_CI_FULLY_ACTIVATED; trigger broadened to all branches; CI_BLOCKED → ACTIVATED"
+    - "483: Lattice braid Phase 3 g_braid — LATTICE_BRAID_PHASE3_G_BRAID_EXTRACTED; g_braid central extracted; γ residual bounded to 2.0% 🔵"
+    - "484: PMNS p_R two-loop Yukawa execution — PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED; NLO interval narrowed; NAMED_RESIDUAL → EXECUTED"
+    - "485: CMB peak positions Boltzmann audit — CMB_PEAK_POSITIONS_BOLTZMANN_AUDIT_QUANTIFIED_RESIDUAL; OPEN → QUANTIFIED_RESIDUAL; peak-3 named"
+    - "486: DESI DR3 final preparation — DESI_DR3_FINAL_PREPARATION_COMPLETE; DR2 corrected to 2.30σ CPL; DR3 tripwire ready; GATEKEEPER sync"
+    - "487: Z2-odd GHY action-level derivation — Z2_ODD_GMU5_GHY_BOUNDARY_ACTION_DERIVED; EH+GHY well-posedness → Dirichlet BC; Admission 1 classical chain COMPLETE"
+  document_updates:
+    - "STATUS.md: v14.2 header + next pillar slot 488"
+    - "docs/mas_tracker.yml: v14.2 sprint entry and public surface checkpoint"
+    - "docs/WAVE_CHANGELOG.md: v14.2 entry"
+    - ".github/workflows/lean4-check.yml: trigger updated from paths:lean4/** to branches:**"
+  new_tests: 435
+  failures: 0
+  next_pillar_slot: 488
+  epistemic_deltas:
+    - "P482: CI_BLOCKED → LEAN4_CI_FULLY_ACTIVATED (trigger activated on all branches)"
+    - "P483: LATTICE_BRAID_PHASE2 → LATTICE_BRAID_PHASE3_G_BRAID_EXTRACTED (g_braid numeric from BKT) 🔵"
+    - "P484: PMNS_PR_NAMED_RESIDUAL → PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED (NLO narrows interval)"
+    - "P485: OPEN (CMB peaks) → CMB_PEAK_POSITION_QUANTIFIED_RESIDUAL (Peak 3 3.1σ named)"
+    - "P486: DR2 2.07σ → DR2 CPL-corrected 2.30σ; DR3 tripwire machine-executable"
+    - "P487: ADMISSION_1 classical chain COMPLETE via GHY well-posedness → Dirichlet BC"
 
 v14_1_sprint:
   version: "v14.1"
