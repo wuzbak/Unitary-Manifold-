@@ -20,6 +20,25 @@ n_w=5 certificate (pillar447), P2 ansatz audit (pillar448), fermion hierarchy
 Z3 SMT + DUNE preregistration + v13.8 sprint gate (pillar454). These are
 non-hardgate additions and do not alter the 28 SM parameter derivation table.
 
+sprint registry note (v14.0): Pillars 455–474 added — P8 integer-lattice proof
+(pillar455), quantum theorem formal status (pillar456), metric ansatz completeness
+(pillar457), Lean4 compilation status (pillar458), L2 NP final closure (pillar459),
+fermion hierarchy derived (pillar460), PMNS p_R derived (pillar461), α_s closure
+2026 (pillar462), α_GW SC2 final (pillar463), free parameter census v14 (pillar464),
+theorem registry v14 (pillar465), admission closure certificate (pillar466), DESI
+DR3 falsification gate (pillar467), LiteBIRD discrimination protocol (pillar468),
+SO DR1 joint routing (pillar469), KK graviton unitarity bound (pillar470),
+irreversibility uniqueness theorem (pillar471), proton stability theorem (pillar472),
+truth surface sync v14 (pillar473), arXiv v14 update (pillar474). These are
+non-hardgate additions and do not alter the 28 SM parameter derivation table.
+
+sprint registry note (v14.1): Pillars 475–481 added — JUNO NLO full closure
+(pillar475), Lean4 CI hash-validated fix (pillar476), decision rehearsal full
+drills COMPLETE (pillar477), 6D baryogenesis phase 2 🔵 (pillar478), lattice braid
+phase 2 🔵 (pillar479), fermion hierarchy analytic formula derived (pillar480),
+arXiv v14.1 external engagement (pillar481). These are non-hardgate additions
+and do not alter the 28 SM parameter derivation table.
+
 Scope
 -----
 The Standard Model (with massive Dirac neutrinos) has 28 independent free
