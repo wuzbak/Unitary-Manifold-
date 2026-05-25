@@ -33,7 +33,7 @@ consistently disfavours wₐ ≈ 0.
 **Current status:** 2.07σ (BAO-only). NOT reached.
 **Projected DR3:** If central value holds and σ_wₐ ≈ 0.12 → tension ≈ 5.2σ (FALSIFIED).
 
-## DESI data version (Issue 5 of Pillar 421)
+## DESI data version (Issue 5 of Pillar 428)
 
 - **DESI Year 3 / DR2**: correct name for arXiv:2503.14738 (March 2025)
 - **DESI DR3 / Y5**: Full 5-year analysis; expected late 2026 to 2027
@@ -41,7 +41,7 @@ consistently disfavours wₐ ≈ 0.
 ## Same-day sync targets
 
 - `src/core/kk_de_wa_cpl.py`
-- `src/core/pillar421_desi_cpl_consistency_audit.py`
+- `src/core/pillar428_desi_cpl_consistency_audit.py`
 - `3-FALSIFICATION/OBSERVATION_TRACKER.md`
 - `src/core/canonical_falsifier_evidence_feed.py`
 - `FALLIBILITY.md` §4.4
@@ -51,6 +51,6 @@ consistently disfavours wₐ ≈ 0.
 | Date | Version | Change |
 |---|---|---|
 | 2026-05-19 | v1 | Initial preregistration |
-| 2026-05-25 | v2 | Pillar 421 six-issue audit: corrected comparison (CPL, not w₀CDM), 2D tension with ρ = −0.97, updated DESI naming (Y3/DR2), Bayesian context |
+| 2026-05-25 | v2 | Pillar 428 six-issue audit: corrected comparison (CPL, not w₀CDM), 2D tension with ρ = −0.97, updated DESI naming (Y3/DR2), Bayesian context |
 
 Timestamp: 2026-05-25T03:00:00Z

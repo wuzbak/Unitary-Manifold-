@@ -170,16 +170,16 @@ C_S_BRAIDED: float = 12.0 / 37.0
 #: UM dark energy EoS from inflationary-epoch slow-roll formula:
 #:   w_KK = −1 + (2/3)c_s²   with c_s = 12/37
 #:
-#: SCOPE WARNING (Pillar 421, Issue 2): This formula gives the equation of
+#: SCOPE WARNING (Pillar 428, Issue 2): This formula gives the equation of
 #: state of the INFLATIONARY KK zero-mode during inflation.  After reheating
 #: the inflaton decays; w_KK does NOT apply to today's dark energy.
 #: The physically self-consistent DE prediction from the frozen-radion
-#: mechanism is w₀ = −1, not −0.9302.  See pillar421_desi_cpl_consistency_audit.py.
+#: mechanism is w₀ = −1, not −0.9302.  See pillar428_desi_cpl_consistency_audit.py.
 W_KK: float = -1.0 + (2.0 / 3.0) * C_S_BRAIDED ** 2
 
 #: UM wₐ prediction (frozen radion: wₐ = 0 exactly)
 #: This IS the physically self-consistent prediction from the GW mechanism.
-#: See ISSUE 1 note in pillar421_desi_cpl_consistency_audit.py for why
+#: See ISSUE 1 note in pillar428_desi_cpl_consistency_audit.py for why
 #: the wₐ = 0 and w₀ = −0.9302 claims cannot both be derived from the
 #: same physical field.
 W_A_UM: float = 0.0
@@ -197,7 +197,7 @@ H0_GEV: float = 2.184e-42  # 67.4 km/s/Mpc in natural units
 #: DESI Year 3 / DR2 CPL constraints (BAO + CMB + SNe, arXiv:2503.14738).
 #: These are from the CPL fit with wₐ FREE (the correct comparison surface).
 #: Do NOT confuse with the w₀CDM fit (wₐ forced to 0) which gives
-#: w₀CDM = −0.92 ± 0.09 — that comparison is circular (see Pillar 421 Issue 3).
+#: w₀CDM = −0.92 ± 0.09 — that comparison is circular (see Pillar 428 Issue 3).
 DESI_DR2_W0: float = -0.838     # CPL fit; wₐ free
 DESI_DR2_W0_SIGMA: float = 0.072
 DESI_DR2_WA: float = -0.62
@@ -243,16 +243,16 @@ A_DESI_MAX: float = 1.0 / (1.0 + Z_DESI_MIN)    # a = 1
 def um_cpl_w0() -> float:
     """Return the w_KK value from the inflationary-epoch slow-roll formula.
 
-    SCOPE NOTE (Pillar 421, Issue 2):
+    SCOPE NOTE (Pillar 428, Issue 2):
     The formula w₀ = w_KK = −1 + (2/3)c_s² with c_s = 12/37 applies to the
     INFLATIONARY KK zero-mode during the inflationary epoch.  After reheating
     the inflaton decays.  This value is NOT a first-principles prediction for
     today's dark energy.  The physically self-consistent dark energy prediction
-    from the frozen-radion mechanism is w₀ = −1 (see Pillar 421).
+    from the frozen-radion mechanism is w₀ = −1 (see Pillar 428).
 
     This function is retained for backward compatibility with existing callers
     that expect the inflationary w_KK value.  New callers should use
-    pillar421_desi_cpl_consistency_audit.frozen_radion_prediction() for the
+    pillar428_desi_cpl_consistency_audit.frozen_radion_prediction() for the
     correct dark energy prediction.
 
     Returns
@@ -580,7 +580,7 @@ def joint_cpl_tension_2d(
 def cpl_tension_analysis() -> Dict[str, object]:
     """Compute sigma-tension of UM (w₀, wₐ) vs DESI Year 3 / DR2 CPL constraints.
 
-    IMPORTANT — Pillar 421 corrections applied here:
+    IMPORTANT — Pillar 428 corrections applied here:
 
     Issue 1/2: The w₀ = −0.9302 value returned by um_cpl_w0() is from the
     INFLATIONARY KK zero-mode formula, not the dark energy field today.
@@ -641,7 +641,7 @@ def cpl_tension_analysis() -> Dict[str, object]:
                 "NOT the dark energy prediction for today). "
                 "wₐ = 0 (frozen radion, GW mechanism). "
                 "Note: these two mechanism claims are mutually exclusive "
-                "(Pillar 421 Issue 1). The coherent frozen-radion DE prediction "
+                "(Pillar 428 Issue 1). The coherent frozen-radion DE prediction "
                 "is w₀ = −1, wₐ = 0."
             ),
         },
@@ -710,7 +710,7 @@ def cpl_tension_analysis() -> Dict[str, object]:
             f"2D joint tension (frozen-radion coherent point, −1, 0): "
             f"{joint_2d_frozen['effective_sigma']:.1f}σ. "
             "The frozen-radion point matches DESI's stated ΛCDM exclusion (~3.9σ). "
-            "wₐ tension is an HONEST OPEN PROBLEM; see Pillar 421."
+            "wₐ tension is an HONEST OPEN PROBLEM; see Pillar 428."
         ),
     }
 
@@ -722,7 +722,7 @@ def cpl_tension_analysis() -> Dict[str, object]:
 def pillar155_summary() -> Dict[str, object]:
     """Structured Pillar 155 closure summary for audit tools.
 
-    Updated by Pillar 421 audit to reflect corrected tension analysis.
+    Updated by Pillar 428 audit to reflect corrected tension analysis.
 
     Returns
     -------
@@ -745,7 +745,7 @@ def pillar155_summary() -> Dict[str, object]:
         "um_w0": W_KK,
         "um_w0_inflationary_epoch_note": (
             "W_KK = −0.9302 applies to the inflationary KK zero-mode epoch. "
-            "Frozen-radion DE prediction is w₀ = −1 (Pillar 421 Issue 2)."
+            "Frozen-radion DE prediction is w₀ = −1 (Pillar 428 Issue 2)."
         ),
         "um_w0_frozen_radion_coherent": -1.0,
         "um_wa": W_A_UM,
@@ -772,7 +772,7 @@ def pillar155_summary() -> Dict[str, object]:
             "GW-stabilised EW radion at m_r >> H₀ → frozen field → wₐ = 0 exactly. "
             "This is the physically self-consistent dark energy mechanism. "
             "The w_KK = −0.9302 formula is from the inflationary-epoch KK zero-mode "
-            "and applies to a different field and epoch (Pillar 421 Issues 1–2). "
+            "and applies to a different field and epoch (Pillar 428 Issues 1–2). "
             f"KK multi-mode correction: |wₐ^{{KK}}| ~ {kk_wa['wa_kk_total_schematic']:.2e} ≈ 0."
         ),
         "open_problem": (
@@ -784,14 +784,14 @@ def pillar155_summary() -> Dict[str, object]:
             "Resolution requires a new geometric sector in the 5D UM action "
             "(e.g., bulk quintessence field distinct from the GW radion) — "
             "outside the current UM single-component KK zero-mode description. "
-            "See Pillar 421 for full six-issue audit and corrected analysis."
+            "See Pillar 428 for full six-issue audit and corrected analysis."
         ),
         "pillar_references": [
             "Pillar 136 (KK radion dark energy, w_KK computation)",
             "Pillar 147 (DE radion eliminated by fifth-force)",
             "Pillar 151 (DESI Y3/DR2 reconciliation; wₐ open problem documented)",
             "Pillar 81 (RS geometry, πkR = 37, M_KK scale)",
-            "Pillar 421 (DESI CPL internal-consistency audit — corrects Issues 1–6)",
+            "Pillar 428 (DESI CPL internal-consistency audit — corrects Issues 1–6)",
             "DESI Y3/DR2 (2025, arXiv:2503.14738)",
         ],
     }

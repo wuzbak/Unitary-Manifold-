@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-tests/test_pillar421_desi_cpl_consistency_audit.py
+tests/test_pillar428_desi_cpl_consistency_audit.py
 ====================================================
-Pillar 421 — Tests for pillar421_desi_cpl_consistency_audit.py.
+Pillar 428 — Tests for pillar428_desi_cpl_consistency_audit.py.
 
 Tests cover all six documented issues and the corrected analysis functions.
 """
@@ -13,7 +13,7 @@ from __future__ import annotations
 import math
 import pytest
 
-from src.core.pillar421_desi_cpl_consistency_audit import (
+from src.core.pillar428_desi_cpl_consistency_audit import (
     # Constants
     C_S_BRAIDED_INFLATIONARY,
     W_KK_INFLATIONARY,
@@ -38,7 +38,7 @@ from src.core.pillar421_desi_cpl_consistency_audit import (
     circular_comparison_audit,
     desi_naming_timeline,
     bayesian_context,
-    pillar421_summary,
+    pillar428_summary,
 )
 
 
@@ -457,18 +457,18 @@ class TestBayesianContext:
 
 
 # ---------------------------------------------------------------------------
-# pillar421_summary — complete
+# pillar428_summary — complete
 # ---------------------------------------------------------------------------
 
 class TestPillar421Summary:
     def setup_method(self):
-        self.summary = pillar421_summary()
+        self.summary = pillar428_summary()
 
     def test_returns_dict(self):
         assert isinstance(self.summary, dict)
 
-    def test_pillar_is_421(self):
-        assert self.summary["pillar"] == 421
+    def test_pillar_is_428(self):
+        assert self.summary["pillar"] == 428
 
     def test_title_nonempty(self):
         assert len(self.summary["title"]) > 20

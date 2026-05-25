@@ -593,7 +593,7 @@ Each subsection is tagged with a **severity tier** using the following scale:
 
 ### 4.4 Dark energy equation of state — current observational pressure  *(Tier: STRUCTURAL)*
 
-**Pillar 421 six-issue audit (v13.4, 2026-05-25):** The following is the corrected analysis
+**Pillar 428 six-issue audit (v13.4, 2026-05-25):** The following is the corrected analysis
 replacing the pre-421 text.  Key corrections: (1) w_KK = −0.9302 is an inflationary-epoch
 formula — not a dark energy prediction for today; (2) the "0.11σ from DESI DR2" claim is
 identified as a circular comparison (both the DESI w₀CDM fit and the UM had wₐ = 0);
@@ -637,12 +637,12 @@ Projected wₐ tension at DR3 (if central value holds): ~4.6σ (1D wₐ), exceed
 falsification threshold.
 
 **Pillar 160 / 359 legacy:** The wₐ = 0 prediction and exhaustive search (all KK modes
-frozen) remain valid.  Module: `src/core/pillar421_desi_cpl_consistency_audit.py`.
+frozen) remain valid.  Module: `src/core/pillar428_desi_cpl_consistency_audit.py`.
 
 **Falsification target:** UM DE prediction (w₀ = −1, wₐ = 0) will be definitively tested
 by DESI DR3 (late 2026). Roman Space Telescope (~2027) serves as a corroborating instrument.
 
-*Code: `src/core/kk_axion_quintessence.py` (Pillar 160), `src/core/kk_radion_dark_energy.py::w0_experimental_landscape()`, `src/core/kk_de_wa_cpl.py::joint_cpl_tension_2d()`, `src/core/pillar421_desi_cpl_consistency_audit.py` (six-issue audit), `tests/test_pillar421_desi_cpl_consistency_audit.py`.*
+*Code: `src/core/kk_axion_quintessence.py` (Pillar 160), `src/core/kk_radion_dark_energy.py::w0_experimental_landscape()`, `src/core/kk_de_wa_cpl.py::joint_cpl_tension_2d()`, `src/core/pillar428_desi_cpl_consistency_audit.py` (six-issue audit), `tests/test_pillar428_desi_cpl_consistency_audit.py`.*
 
 ### 4.5 Interpretational risks  *(Tier: INTERPRETIVE)*
 

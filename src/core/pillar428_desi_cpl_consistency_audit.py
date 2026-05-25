@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-src/core/pillar421_desi_cpl_consistency_audit.py
+src/core/pillar428_desi_cpl_consistency_audit.py
 =================================================
-Pillar 421 — DESI CPL Internal-Consistency Audit and Corrected Tension Analysis.
+Pillar 428 — DESI CPL Internal-Consistency Audit and Corrected Tension Analysis.
 
 STATUS: 🔵 ADJACENT TRACK — epistemic audit; non-hardgate.
 
@@ -248,7 +248,7 @@ desi_naming_timeline() → dict
 bayesian_context() → dict
     Posterior probability P(|wₐ| < threshold | DESI data) estimate.
 
-pillar421_summary() → dict
+pillar428_summary() → dict
     Complete corrected analysis summary.
 """
 
@@ -736,7 +736,7 @@ def bayesian_context() -> Dict[str, object]:
 # Full corrected summary
 # ---------------------------------------------------------------------------
 
-def pillar421_summary() -> Dict[str, object]:
+def pillar428_summary() -> Dict[str, object]:
     """Complete corrected analysis summary for Pillar 421.
 
     Returns
@@ -752,7 +752,7 @@ def pillar421_summary() -> Dict[str, object]:
     bayes = bayesian_context()
 
     return {
-        "pillar": 421,
+        "pillar": 428,
         "title": "DESI CPL Internal-Consistency Audit and Corrected Tension Analysis",
         "status": "🔵 ADJACENT TRACK — epistemic audit; non-hardgate",
         "issue_1_logical_contradiction": {

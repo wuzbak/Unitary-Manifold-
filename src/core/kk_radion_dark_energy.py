@@ -165,7 +165,7 @@ W_PLANCK_BAO_CENTRAL: float = -1.03     # Planck+BAO combined w
 W_PLANCK_BAO_SIGMA: float = 0.03        # 1σ
 
 #: DESI Year 3 / DR2 w₀CDM value (wₐ FORCED TO 0 in the DESI fit).
-#: CIRCULAR COMPARISON WARNING (Pillar 421 Issue 3): comparing the UM's
+#: CIRCULAR COMPARISON WARNING (Pillar 428 Issue 3): comparing the UM's
 #: w_KK = −0.9302 (which also has wₐ = 0) to this value is circular.
 #: The DESI fitter and the UM both assume wₐ = 0, so agreement is
 #: guaranteed by construction.  This gives 0.11σ — not an independent test.
@@ -199,7 +199,7 @@ def kk_eos_leading_order(
     This formula gives the equation of state of the INFLATIONARY KK zero-mode
     during the inflationary epoch.  It is NOT a prediction for today's dark
     energy.  The physically self-consistent frozen-radion dark energy prediction
-    is w₀ = −1 (see pillar421_desi_cpl_consistency_audit.py).
+    is w₀ = −1 (see pillar428_desi_cpl_consistency_audit.py).
 
     Parameters
     ----------
@@ -393,7 +393,7 @@ def eos_tension_vs_datasets(
             "consistent_2sigma": desi_cpl_sigma <= 2.0,
             "consistent_3sigma": desi_cpl_sigma <= 3.0,
             "label": "DESI Y3/DR2 CPL (w₀ free)",
-            "note": "CORRECT comparison: wₐ free in DESI fit (Pillar 421 Issue 3)",
+            "note": "CORRECT comparison: wₐ free in DESI fit (Pillar 428 Issue 3)",
             "is_circular": False,
         },
         "desi_dr2_w0cdm": {
@@ -406,7 +406,7 @@ def eos_tension_vs_datasets(
             "note": (
                 "CIRCULAR comparison: DESI forced wₐ = 0 to obtain this value. "
                 "The UM also has wₐ = 0.  Agreement here is not independent. "
-                "Do NOT use this value for UM validation (Pillar 421 Issue 3)."
+                "Do NOT use this value for UM validation (Pillar 428 Issue 3)."
             ),
             "is_circular": True,
         },
@@ -517,7 +517,7 @@ def w0_experimental_landscape() -> Dict[str, object]:
                 "note": (
                     "Circular: DESI assumed wₐ = 0 to get this number; "
                     "UM also has wₐ = 0.  Agreement is not independent. "
-                    "The reported 0.11σ 'agreement' is an artifact (Pillar 421 Issue 3)."
+                    "The reported 0.11σ 'agreement' is an artifact (Pillar 428 Issue 3)."
                 ),
                 "is_circular": True,
             },
@@ -640,5 +640,5 @@ def pillar136_summary() -> Dict[str, object]:
             "w_KK = −1 + (2/3) × c_s² = −1 + (2/3) × (12/37)² ≈ −0.9302 "
             "(INFLATIONARY EPOCH; see Pillar 421 Issue 2 for scope limitation)"
         ),
-        "pillar421_reference": "Pillar 421 (DESI CPL internal-consistency audit — six-issue correction)",
+        "pillar428_reference": "Pillar 428 (DESI CPL internal-consistency audit — six-issue correction)",
     }
