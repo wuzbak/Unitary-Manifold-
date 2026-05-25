@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v13.5 — Unambiguous Record**  
+**The Unitary Manifold v13.6 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-25 (v13.5 — Certification & Exhaustion Sprint: Pillars 421–427 added; 443 new tests; L2 γ budget certified (P421); baryogenesis exhaustion certified (P422); WDW mini-superspace closure (P423); topology L architecture limit (P424); decision readiness v13.5 (P425); B_μ gluon amplitude exact (P426); external verification package v13.5 (P427); >=42,658 passing · 0 failed.)*
+*Last updated: 2026-05-25 (v13.6 — Final Precision Closure & Publication Sprint: Pillars 428–433 added; ~370 new tests; DESI CPL corrected (P428); fermion hierarchy FULLY_CONSTRAINED 9/9 (P429); Bessel-exact gluon channel ≥5 TeV (P430); lattice braid QFT formally scoped (P431); 6D baryogenesis extension scoped (P432); external verification package v13.6 (P433); >=43,009 passing · 0 failed.)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

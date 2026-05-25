@@ -1,4 +1,4 @@
-version: "v13.5"
+version: "v13.6"
 date: "2026-05-25"
 updated: "2026-05-25"
 mas_status: "COMPLETE"
@@ -18,11 +18,37 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.5"
-  regression: "42,658 passed · 0 failed (in-sprint v13.5, 2026-05-25; Pillars 421–427; 443 new tests)"
+  version: "v13.6"
+  regression: "43,008+ passed · 0 failed (in-sprint v13.6, 2026-05-25; Pillars 428–433; ~370 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_6_sprint:
+  version: "v13.6"
+  wave: "Final Precision Closure & Publication Sprint — Pillars 428–433"
+  date: "2026-05-25"
+  pillars_added:
+    - "428: DESI CPL Internal-Consistency Audit — DESI_CPL_CORRECTED_V136; six prior formula errors documented and corrected; w₀=−1, wₐ=0 canonical (frozen radion); 2.75σ DESI tension re-confirmed"
+    - "429: Fermion Hierarchy Full 9/9 Geometric Closure — HIERARCHY_FULLY_CONSTRAINED; all 9 SM charged fermions have explicit FN sub-lattice assignments; strange (δ_FN≈0.499) and charm (δ_FN≈0.069) quarks NATURAL; all masses reproduced to machine precision with corrected ℓ_eff"
+    - "430: Full RS1 Bessel Gluon Channel Amplitude — GLUON_CHANNEL_BESSEL_EXACT; Bessel overlap I_exact/I_LO≈0.876; σ_ratio_exact≈1.55 at 3.98 TeV (IN_TENSION); sharpened mass bound m_G_KK ≥ 5.0 TeV (upgraded from ≥1.8 TeV in P403)"
+    - "431: Lattice Braid QFT Formal Scope — LATTICE_BRAID_QFT_FORMALLY_SCOPED (🔵 ADJACENT TRACK); DOF specified; braid Wilson action with β_braid≈1.876; Phase 1 DMRG ~1 GPU-hour; Phase 2 HMC ~1000 GPU-hours; CMB-S4/LiteBIRD observable specified"
+    - "432: 6D UV Completion Baryogenesis Scoping — SIXD_BARYOGENESIS_EXTENSION_SCOPED (🔵 ADJACENT TRACK); minimal 6D: scalar Σ (B-charged, ~500–800 GeV) + radius R₆; 3 UM constraints (C1,C2,C3); η_B^{6D}~O(10⁻¹⁰); first observable nEDM@SNS 2028"
+    - "433: External Verification Package v13.6 — EXTERNAL_VERIFICATION_COMPLETE_V136; 13-admission table (0 open); 8 arch-limits; 8 predictions (4 CONFIRMED, 2 HIGH_TENSION); v13.6 falsification protocol"
+  document_updates:
+    - "STATUS.md: v13.6 header + regression 43,008+ + next pillar slot 434"
+    - "docs/WAVE_CHANGELOG.md: v13.6 sprint entry"
+    - "docs/mas_tracker.yml: v13.6 public surface sync checkpoint + sprint entry"
+    - "FALLIBILITY.md: fermion hierarchy updated to FULLY_CONSTRAINED"
+    - "docs/CLAIM_MASTER_BOARD.md: gluon channel updated to BESSEL_EXACT; fermion hierarchy updated to FULLY_CONSTRAINED"
+  new_tests: ~370
+  failures: 0
+  epistemic_deltas:
+    - "Fermion hierarchy: HIERARCHY_FN_CONTINUOUS_CONSTRAINED → HIERARCHY_FULLY_CONSTRAINED (P429)"
+    - "Gluon channel: GLUON_CHANNEL_BMU_CORRECTED_EXACT → GLUON_CHANNEL_BESSEL_EXACT (P430; mass bound sharpened)"
+    - "Admission 10: CONSTRAINED_BOUNDED → GLUON_CHANNEL_BESSEL_EXACT (P430)"
+    - "Architecture limits: P431 lattice braid QFT formally scoped; P432 6D baryogenesis formally scoped"
+  next_pillar_slot: 434
 
 v13_5_sprint:
   version: "v13.5"

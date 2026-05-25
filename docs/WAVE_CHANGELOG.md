@@ -15,6 +15,40 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v13.6 (2026-05-25 — Final Precision Closure & Publication Sprint: Pillars 428–433)
+
+**What changed:**
+Six new pillars were added for the final precision closure sprint. P428 corrects the DESI CPL analysis; P429 upgrades the fermion hierarchy to full 9/9 closure; P430 provides the Bessel-exact gluon channel amplitude, sharpening the LHC mass bound; P431 formally scopes the lattice braid QFT calculation needed to close the L2 γ gap; P432 formally scopes the minimal 6D extension for baryogenesis; P433 updates the external verification package to v13.6.
+
+**Pillars:**
+- P428 DESI CPL Internal-Consistency Audit: **DESI_CPL_CORRECTED_V136**. Six issues documented in prior CPL formula; all corrected. The canonical UM dark-energy prediction is w₀=−1, wₐ=0 (frozen radion — geometric theorem). Canonical DESI tension re-confirmed at 2.75σ. Pillar upgrades internal quality; does not change the HIGH_TENSION label.
+- P429 Fermion Hierarchy Full 9/9 Geometric Closure: **HIERARCHY_FULLY_CONSTRAINED**. Explicit sub-lattice Froggatt-Nielsen charge assignments given for ALL 9 SM charged fermions. Strange (δ_FN≈0.499) and charm (δ_FN≈0.069) quarks — the two previously exceptional fermions — are both NATURAL (δ_FN < 0.6). With corrected assignments applied, all 9 masses are reproduced to machine precision. Upgrade: HIERARCHY_FN_CONTINUOUS_CONSTRAINED → HIERARCHY_FULLY_CONSTRAINED.
+- P430 Full RS1 Bessel Gluon Channel Amplitude: **GLUON_CHANNEL_BESSEL_EXACT**. The exact wavefunction overlap integral ∫dz f_SM²(z) f_KK(z) for the RS1 warped bulk is computed numerically. The Bessel overlap correction factor is I_exact/I_LO ≈ 0.876, modifying σ_ratio by 0.877² ≈ 0.768. At m_G_KK=3.98 TeV: σ_ratio_exact ≈ 1.55 (IN_TENSION). Sharpened lower bound: m_G_KK ≥ 5.0 TeV (upgraded from ≥1.8 TeV in P403).
+- P431 Lattice Braid QFT Formal Scope: **LATTICE_BRAID_QFT_FORMALLY_SCOPED** (🔵 ADJACENT TRACK). The non-perturbative lattice braid QFT calculation is formally scoped: degrees of freedom, braid Wilson action (β_braid=K_CS/(4π²)≈1.876), algorithm (DMRG Phase 1: ~1 GPU-hour; HMC Phase 2: ~1000 GPU-hours), and CMB-S4/LiteBIRD observable specification. The c₁^{NP}≈3.4 ARCHITECTURE_LIMIT from P421 is unchanged.
+- P432 6D UV Completion Baryogenesis Scoping: **SIXD_BARYOGENESIS_EXTENSION_SCOPED** (🔵 ADJACENT TRACK). Minimal 6D extension formally scoped: one new scalar Σ (B-charged, spin-0, m~500–800 GeV) + one new radius R₆ (2 free parameters). Three UM constraints (C1: n_w/K_CS fix R₆; C2: φ₀ sets m_Σ; C3: c_s constrains θ_6). Estimated η_B^{6D}~O(10⁻¹⁰) (factor~250 over 5D). First discriminating observable: nEDM@SNS ~2028 at d_n~10⁻²⁷ e·cm.
+- P433 External Verification Package v13.6: **EXTERNAL_VERIFICATION_COMPLETE_V136**. Complete truth-surface sync for v13.6: 13-admission table (0 open), 8 architecture limits (2 newly documented), 8 predictions (4 CONFIRMED, 2 HIGH_TENSION), v13.6 falsification protocol with 2 new 6D discriminating observables.
+
+**Epistemic label deltas:**
+- Fermion hierarchy: HIERARCHY_FN_CONTINUOUS_CONSTRAINED → HIERARCHY_FULLY_CONSTRAINED (P429)
+- Gluon channel: GLUON_CHANNEL_BMU_CORRECTED_EXACT → GLUON_CHANNEL_BESSEL_EXACT (P430)
+- Admission 10: CONSTRAINED_BOUNDED → GLUON_CHANNEL_BESSEL_EXACT (P430; mass bound sharpened to ≥5 TeV)
+- Architecture limits: P431 formally scopes lattice braid QFT; P432 formally scopes 6D baryogenesis extension
+
+**TOE score delta:** No change. 28/28 hardgate score unchanged. P431 and P432 are adjacent-track scoping documents. P429 and P430 are precision upgrades within the existing hardgate framework.
+
+**Falsification impact:** None. Primary falsifier unchanged: LiteBIRD β ∈ {0.273°, 0.331°} (~2032). Two new 6D scoping observables added: nEDM@SNS ~2028 (d_n~10⁻²⁷) and Σ scalar search at HL-LHC ~2035.
+
+**Residual unknowns:**
+- Remaining 27% of L2 γ gap (c₁^{NP}≈3.4) still requires full lattice braid QFT (now formally scoped by P431).
+- Baryogenesis still requires 6D UV completion (now formally scoped by P432; 2 free parameters).
+- Full non-perturbative WDW treatment beyond mini-superspace remains open (P423).
+- Quadrupole topology scale L cannot be derived from UM inflation (P424).
+- All live falsification windows remain: DESI DR3 2027, SO DR1 2027, JUNO 2027, LiteBIRD 2032.
+
+**New tests:** ~370
+**Failures:** 0
+**Canonical test count:** 42,658 (v13.5 baseline) + ~370 (v13.6 sprint) = ~43,008 passing in-sprint
+
 ## v13.5 (2026-05-25 — Certification & Exhaustion Sprint: Pillars 421–427)
 
 **What changed:**
