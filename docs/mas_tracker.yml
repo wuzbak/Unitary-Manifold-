@@ -1,4 +1,4 @@
-version: "v14.0"
+version: "v14.1"
 date: "2026-05-25"
 updated: "2026-05-25"
 mas_status: "COMPLETE"
@@ -18,13 +18,39 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v14.0"
-  regression: "44,590 passed · 2 skipped · 12 deselected · 0 failed (v14.0 baseline before new pillar tests; tests/ + recycling/ + Pentad)"
+  version: "v14.1"
+  regression: "44,943 passed · 23 skipped · 12 deselected · 0 failed (v14.1 sprint; tests/ + recycling/ + Pentad)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
-v14_0_sprint:
+v14_1_sprint:
+  version: "v14.1"
+  wave: "External Engagement Sprint — Pillars 475–481"
+  date: "2026-05-25"
+  pillars_added:
+    - "475: JUNO NLO full-chain — JUNO_NLO_FULL_CHAIN_SAFE; residual 0.04% after seesaw p_R + RGE"
+    - "476: Lean4 CI engineering fix — LEAN4_CI_HASH_VALIDATED; SHA-256 Tier 1 + optional Tier 2"
+    - "477: 2027 rehearsal drills — REHEARSAL_DRILLS_2027_COMPLETE; 6 windows × 5 scenarios all correct"
+    - "478: 6D baryogenesis Phase 2 — SIXD_BARYOGENESIS_PHASE2_NEDM_REFINED; d_n≈7.8e-27 e·cm 🔵"
+    - "479: Lattice braid Phase 2 — LATTICE_BRAID_PHASE2_2D_COMPUTED; η≈0.0849 BKT QLRO 🔵"
+    - "480: Fermion hierarchy analytic — FERMION_HIERARCHY_ANALYTIC_FORMULA_DERIVED; ℓ_eff=-ln(m/mt)/5 all 9/9"
+    - "481: arXiv v14.1 engagement — ARXIV_V141_EXTERNAL_ENGAGEMENT_READY; 5-path protocol"
+  document_updates:
+    - "STATUS.md: v14.1 header + next pillar slot 482"
+    - "docs/mas_tracker.yml: v14.1 sprint entry and public surface checkpoint"
+    - "docs/WAVE_CHANGELOG.md: v14.1 entry"
+    - "docs/TRUTH_LAYER.md: v14.1 tokens + sprint summary"
+    - "docs/CLAIM_MASTER_BOARD.md: v14.1 header + sprint table"
+  new_tests: ~353
+  failures: 0
+  next_pillar_slot: 482
+  epistemic_deltas:
+    - "P475: JUNO T3 → JUNO_NLO_FULL_CHAIN_SAFE (0.04% residual)"
+    - "P476: CI_BLOCKED → LEAN4_CI_HASH_VALIDATED (Tier 1 operational)"
+    - "P480: PARTIALLY_CONSTRAINED → ANALYTIC_FORMULA_DERIVED (ℓ_eff exact)"
+
+
   version: "v14.0"
   wave: "Theorem Hardening, Publication Sync, and Conditional Extensions — Pillars 455–474"
   date: "2026-05-25"
