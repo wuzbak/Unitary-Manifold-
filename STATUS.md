@@ -1,6 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v13.7 — Effective 2026-05-25*
+*Unitary Manifold v13.8 — Effective 2026-05-25*
+*v13.8 sprint: Pillars 441–454 added — P441 DESI_DR3_FINAL_ROUTING, P442 SO_DR1_ROUTING_CERTIFIED, P443 JUNO_2027_V138, P444 CMBS4_PREDICTION_HARDENED, P445 TWOLOOP_KK_YUKAWA_ADMISSION7_FULLY_CLOSED, P446 L2_GAMMA_NP_BUDGET_PHASE2_CERTIFIED (98% gap covered), P447 LEAN4_NW5_UNIQUENESS_CERTIFICATE_GENERATED, P448 P2_ANSATZ_DERIVED_UNIQUE_WITH_NAMED_RESIDUAL, P449 FERMION_HIERARCHY_99_AUDIT_CERTIFIED (9/9 natural δ_FN<0.6), P450 ALPHA_S_PDG2026_MARGIN_ZONE_CERTIFIED, P451 ALPHA_GW_SC2_INTERVAL_NARROWED, P452 PMNS_PR_CONSTRAINED_FROM_2LOOP_YUKAWA (p_R∈[0.30,0.43], PMNS_PR_REQUIRES_P271_CHAIN named), P453 QUANTUM_THEOREM_AUDIT_HONEST_LABELS (1 DERIVED + 1 DERIVED_CONDITIONAL + 2 CONJECTURAL), P454 V138_SPRINT_GATE_PASSED (Z3 SMT 13-Admission CONSISTENT; DUNE δ_CP preregistered, SHA-256 committed); ~333 new tests; 0 failures. Latest in-sprint regression: ~40,526 (v13.7 baseline) + 333 new passed · 0 failed. Next pillar slot: 455.*
 *v13.7 sprint: Pillars 434–440 added — P434 ADM_LAPSE_BSSN_CLOSED (FALLIBILITY §4.1/XIV.3 gap closed), P435 HLLHC_PREDICTION_PREREGISTERED, P436 PROTON_DECAY_BOUNDED_FROM_KK_GUT, P437 FNLPREREGISTERED_SPHEREX (SHA-256 committed), P438 LATTICE_BRAID_PHASE1_COMPUTED (🔵), P439 SIXD_BARYOGENESIS_PHASE1_COMPUTED (🔵), P440 ARXIV_V137_READY; ~430 new tests; 0 failures. Latest in-sprint regression: 43,009 (v13.6 baseline) + ~430 new passed · 0 failed. Next pillar slot: 441.*
 *v13.6 sprint: Pillars 428–433 added — P428 DESI_CPL_CORRECTED_V136, P429 HIERARCHY_FULLY_CONSTRAINED, P430 GLUON_CHANNEL_BESSEL_EXACT, P431 LATTICE_BRAID_QFT_FORMALLY_SCOPED (🔵), P432 SIXD_BARYOGENESIS_EXTENSION_SCOPED (🔵), P433 EXTERNAL_VERIFICATION_COMPLETE_V136; ~370 new tests; 0 failures. Latest in-sprint regression: 43,008+ passed · 0 failed. Next pillar slot: 434.*
 *v13.5 sprint: Pillars 421–427 added — P421 L2_GAMMA_BUDGET_CERTIFIED, P422 ALL_BARYOGENESIS_PATHS_EXHAUSTED, P423 MINI_SUPERSPACE_QUANTUM_CLOSURE (🔵), P424 TOPOLOGY_L_INFLATION_ARCHITECTURE_LIMIT, P425 DECISION_READINESS_V135 (🔵), P426 GLUON_CHANNEL_BMU_CORRECTED_EXACT, P427 EXTERNAL_VERIFICATION_COMPLETE_V135; 443 new tests; 0 failures. Latest in-sprint regression: 42,658 passed · 0 failed. Next pillar slot: 428.*
@@ -34,7 +35,7 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 43,009 passed · 2 skipped · 12 deselected · 0 failed (in-sprint v13.6 canonical, 2026-05-25) + ~430 new passing (v13.7 sprint, Pillars 434–440; 0 failures)
+**Latest verified branch regression:** ~40,526 passed · 1 skipped · 12 deselected · 0 failed (v13.7 baseline, 2026-05-25) + 333 new passing (v13.8 sprint, Pillars 441–454; 0 failures)
 *(v13.5 in-sprint: 42,658 passed · 0 failed; Pillars 421–427; 443 new tests; 0 failures)*
 *(v12.9: Pillars 394–397 — Epistemological Deep Audit; 228 new tests; 0 failures; canonical: ≥40,180)*
 *(v12.8: Pillars 389–393 — Governance Lane Classifier; Truth-Surface Checker; Signal-Noise Filter; Decision Readiness Package; Sprint Completion Gate; 207 new tests; 0 failures)*

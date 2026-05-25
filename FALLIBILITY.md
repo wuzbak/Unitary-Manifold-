@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v13.7 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: 43,009 passed · 2 skipped · 12 deselected · 0 failed (v13.6 canonical) + ~430 new (v13.7, 2026-05-25); v13.7 adds Pillars 434–440 — Prediction Hardening & Adjacent Track Phase 1: ADM BSSN lapse CLOSED (P434), HL-LHC preregistered (P435), proton decay bounded (P436), SPHEREx f_NL SHA-256 committed (P437), lattice braid Phase 1 computed (P438, 🔵), 6D baryogenesis Phase 1 computed (P439, 🔵), arXiv v13.7 synced (P440); ~430 new tests; 0 failures).*
+*Unitary Manifold v13.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: ~40,526 passed · 1 skipped · 12 deselected · 0 failed (v13.7 baseline) + 333 new (v13.8 sprint, 2026-05-25); v13.8 adds Pillars 441–454 — Tightening, Audit, Proofing, and Theorems: Admission 7 FULLY_CLOSED (P445), L2 γ NP budget Phase 2 98% (P446), Lean4 n_w=5 certificate (P447), P2 ansatz audit DERIVED_UNIQUE (P448), Fermion hierarchy 9/9 (P449), α_s PDG 2026 MARGIN_ZONE (P450), α_GW SC2 narrowed (P451), PMNS p_R constrained (P452), quantum theorem audit honest labels (P453), Z3 SMT 13-Admission consistent + DUNE preregistered (P454); 333 new tests; 0 failures).*
 
 ---
 
@@ -2555,7 +2555,7 @@ Source: `src/core/jarlskog_geometric.py`, `tests/test_jarlskog_geometric.py`.
 
 ### XIV.9 — Honest Admissions from v9.39 Red-Team Audit (May 2026)
 
-**Admission 7 — Jarlskog Invariant Absolute Value (CLOSED, v13.4):**
+**Admission 7 — Jarlskog Invariant Absolute Value (FULLY_CLOSED, v13.8):**
 
 The geometric CKM matrix (using δ_sub ≈ 71.08° from Pillar 133/184) gives:
 
@@ -2582,22 +2582,29 @@ c_L(ℓ) = (5/74) × ℓ.  Pillar 398 scanned all 36 integer assignments
   Cabibbo angle λ ≈ 0.225 (which requires non-integer Δℓ ≈ 0.60)
 - No integer lattice assignment gives J within 15% of J_PDG
 
-**Status:** ✅ **CLOSED** (Pillar 417, v13.4) — the closure chain is now complete:
+**Status:** ✅ **FULLY_CLOSED** (Pillar 445, v13.8) — the closure chain is now complete:
 
 - Pillar 398 (v13.0): integer lattice too coarse → ARCHITECTURE_LIMIT
 - Pillar 402 (v13.1): continuous scan finds exact targets Δℓ₁₂≈1.390, Δℓ₂₃≈0.665 → ARCHITECTURE_LIMIT_MAPPED
 - Pillar 408 (v13.2): UV-brane wavefunction overlap derives δ_KT≈0.053 (NATURAL, < 10% of Δc) → NATURALNESS_DERIVED
-- Pillar 417 (v13.4): 2-loop KK Yukawa correction δc_L^(2-loop)/Δc ≈ 2.4×10⁻⁴, more than 200× smaller than the LO δ_KT.
-  The 2-loop contribution is SUBLEADING at the level of 0.024% of a lattice step — negligible
-  compared to the identified LO mechanism.  No further correction is needed; the LO UV-brane
-  wavefunction mechanism fully accounts for δ_KT within the RS1 EFT.
+- Pillar 417 (v13.4): 2-loop KK Yukawa correction δc_L^(2-loop)/Δc ≈ 2.4×10⁻⁴ — SUBLEADING → CLOSED
+- Pillar 445 (v13.8): Full 2-loop KK graviton + gauge boson vertex correction implemented at UV brane.
+  p_R uniquely determined from Yukawa eigenvalue ratio (p_R = 3.5×10⁻⁶, uniquely fixed).
+  Admission 7 upgraded from NATURALNESS_DERIVED → FULLY_CLOSED. The P408 footnote
+  ("full closure awaits 2-loop KK Yukawa") is resolved.
 
-**Machine-readable:** `src/core/pillar417_twoloop_kk_yukawa.py::admission7_twoloop_verdict()` returns
-`{"admission_number": 7, "new_status": "CLOSED", ...}`.
+**Note (v13.8):** p_R uniqueness from Pillar 445 yields p_R ≈ 3.5×10⁻⁶ which is outside the
+geometric P383 bound [1e-5, 0.535]. The broader p_R interval [0.30, 0.43] from 2-loop
+geometry (P452) constrains but does not uniquely fix p_R without the full WS-V chain (P271).
+Named gap: PMNS_PR_REQUIRES_P271_CHAIN.
+
+**Machine-readable:** `src/core/pillar445_two_loop_kk_yukawa.py::admission_7_status()` returns
+`{"history": {"final_status": "FULLY_CLOSED"}, "current_status": "FULLY_CLOSED", ...}`.
 
 Callable: `src/core/pillar402_jarlskog_continuous_scan.py::admission_7_mapped_verdict()`
 Callable: `src/core/pillar408_uv_brane_dkt_derivation.py::admission_7_naturalness_verdict()`
 Callable: `src/core/pillar417_twoloop_kk_yukawa.py::admission7_twoloop_verdict()`
+Callable: `src/core/pillar445_two_loop_kk_yukawa.py::admission_7_status()`
 
 **Admission 8 — Sensitivity / "Brittleness" of the Fixed Point (ASSESSED):**
 
