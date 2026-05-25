@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v13.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: ≥42,141 passed · 2 skipped · 12 deselected · 0 failed; v13.4 adds Pillars 414–420 — Closure & Completeness Sprint: WZW γ coupling bounded (P414), continuous FN hierarchy constrained (P415), c_L^phys bounded from geometry (P416), Admission 7 two-loop closure (P417), CMB residual bound tightened to ±15% (P418), completeness certificate issued (P419), and A₄ flavor symmetry framework established as an adjacent track (P420); 536 new tests; 0 failures).*
+*Unitary Manifold v13.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 42,215 passed · 2 skipped · 12 deselected · 0 failed (CI #220, 2026-05-25); v13.4 adds Pillars 414–420 — Closure & Completeness Sprint: WZW γ coupling bounded (P414), continuous FN hierarchy constrained (P415), c_L^phys bounded from geometry (P416), Admission 7 two-loop closure (P417), CMB residual bound tightened to ±15% (P418), completeness certificate issued (P419), and A₄ flavor symmetry framework established as an adjacent track (P420); 536 new tests; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (≥42,141 passed · 2 skipped · 12 deselected · 0 failed; canonical count with all optional dependencies; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (42,215 passed · 2 skipped · 12 deselected · 0 failed (CI #220, 2026-05-25); canonical count with all optional dependencies; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution

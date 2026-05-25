@@ -19,7 +19,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v13.4"
-  regression: "≥42,141 passed · 2 skipped · 12 deselected · 0 failed (v13.4 sandbox; Pillars 414–420; 536 new tests)"
+  regression: "42,215 passed · 2 skipped · 12 deselected · 0 failed (CI #220, v13.4, 2026-05-25; Pillars 414–420; 536 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
@@ -37,7 +37,7 @@ v13_4_sprint:
     - "419: Completeness Certificate v13.4 — COMPLETION_CERTIFIED; aggregates all 13 Admissions, 8 postulates, honest architecture limits, and DAG-acyclic completeness verdict"
     - "420: CKM Flavor Symmetry Framework — A4_FRAMEWORK_ESTABLISHED; adjacent-track A4/S4 extension path formalized from UM FN-charge separations; θ_A4≈25.6° seed angle"
   document_updates:
-    - "README.md: v13.4 header + regression 42,141 + badges synced"
+    - "README.md: v13.4 header + regression 42,215 (CI #220) + badges synced"
     - "STATUS.md: v13.4 header + sprint summary + next pillar slot 421"
     - "FALLIBILITY.md: v13.4 header + latest regression line updated"
     - "1-THEORY/DERIVATION_STATUS.md: v13.4 header + sprint summary"

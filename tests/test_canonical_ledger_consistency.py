@@ -66,18 +66,16 @@ class TestOnboardingDocsConsistency:
         report = onboarding_docs_consistency_report()
         drifted = report["drifted_docs"]
         canonical = report["canonical"]
-        min_passed = report["min_passed"]
         assert drifted == [], (
-            f"These onboarding docs do not contain a recent passed count "
-            f"(>= {min_passed:,} passed, i.e. 85% of {canonical['passed']:,}): "
-            f"{drifted}. Update them to a recent test count to match STATUS.md."
+            f"These onboarding docs do not contain the canonical passed count "
+            f"({canonical['passed']} passed): {drifted}. "
+            f"Update them to match STATUS.md."
         )
 
     def test_onboarding_all_pass(self):
         report = onboarding_docs_consistency_report()
         assert report["all_pass"] is True, (
-            f"Onboarding consistency check failed. These docs are too stale "
-            f"(need >= {report['min_passed']:,} passed): {report['drifted_docs']}"
+            f"Onboarding consistency check failed. Drifted docs: {report['drifted_docs']}"
         )
 
 
