@@ -1,6 +1,6 @@
 # n_w = 5 Uniqueness Status — Canonical Reference Document
 
-**Version:** v13.1 (n_w=5 uniqueness chain COMPLETE — Pillar 70-D APS theorem + Pillar 387 Z₂-odd G_{μ5} derivation; Admission 3 FORMALLY_CLOSED)  
+**Version:** v13.4 (n_w=5 uniqueness chain COMPLETE — Pillar 70-D APS theorem + Pillar 387 Z₂-odd G_{μ5} derivation; Admission 3 FORMALLY_CLOSED)  
 **Theory:** ThomasCory Walker-Pearson  
 **Documentation:** GitHub Copilot (AI)  
 **Supersedes:** Scattered discussions across Pillars 39, 67, 70-B, 70-C, 70-C-bis

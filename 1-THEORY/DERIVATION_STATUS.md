@@ -2,7 +2,7 @@
 
 **The Unitary Manifold v13.4 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-25 (v13.4 — Closure & Completeness Sprint: Pillars 414–420 added; 536 new tests; Admission 7 CLOSED; fermion hierarchy HIERARCHY_FN_CONTINUOUS_CONSTRAINED; c_L^phys BOUNDED_FROM_GEOMETRY; CMB peak residuals bounded at ±15%; framework COMPLETION_CERTIFIED; >=42,141 passing · 0 failed.)*
+*Last updated: 2026-05-25 (v13.4 — Closure & Completeness Sprint: Pillars 414–420 added; 536 new tests; Admission 7 CLOSED; fermion hierarchy HIERARCHY_FN_CONTINUOUS_CONSTRAINED; c_L^phys BOUNDED_FROM_GEOMETRY; CMB peak residuals bounded at ±15%; framework COMPLETION_CERTIFIED; >=42,215 passing · 0 failed.)*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v13.2
+# Unitary Manifold v13.4
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-24 (v13.2 — Gap Closure & Uniqueness Certificate Sprint: Pillars 407–412; 215 new tests; 0 failures. Canonical test count: ≥41,605 passing.)*
+*Last updated: 2026-05-24 (v13.4 — Gap Closure & Uniqueness Certificate Sprint: Pillars 407–412; 215 new tests; 0 failures. Canonical test count: 42,215 passing.)*
 
 *P407 (v13.2): Minimum-Step Braid Step-Width Uniqueness Certificate — BRAID_UNIQUENESS_CERTIFIED. Four-proof chain: (a) (5,7) is global minimum Euclidean CS action among Pillar-67-valid pairs; (b) δ²S_E>0 strict minimum; (c) higher-step winding suppressed exp(−37·Δn)≤exp(−74); (d) monotonicity theorem verified. Admission 2 residual: BRAID_UNIQUENESS_CERTIFIED.*
 

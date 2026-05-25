@@ -1,5 +1,5 @@
 # arXiv Submission Guide
-## The Unitary Manifold v13.1 — Step-by-Step Instructions
+## The Unitary Manifold v13.4 — Step-by-Step Instructions
 
 ---
 

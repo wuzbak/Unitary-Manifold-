@@ -4,7 +4,7 @@
 
 Welcome to the **Unitary Manifold** project wiki. This wiki documents the theory, code, and usage of the Unitary Manifold (UM) framework — a five-dimensional gauge-geometric approach that geometrises thermodynamic irreversibility and information flow.
 
-**Current version:** 13.1 · **406 pillars + Ω₀ Holon Zero + sub-pillars closed** · **≥41,390 tests passing · 0 failures**
+**Current version:** 13.4 · **406 pillars + Ω₀ Holon Zero + sub-pillars closed** · **42,215 tests passing · 0 failures**
 
 ---
 

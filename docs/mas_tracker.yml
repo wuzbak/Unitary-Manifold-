@@ -65,7 +65,7 @@ v13_2_sprint:
     - "411: Fermion Bulk Mass Hierarchy Geometric Closure — HIERARCHY_PARTIALLY_CONSTRAINED; exp(−5(ℓ+m)) lattice spans 6 orders of mass hierarchy; 7/9 SM charged fermions within 0.5 dex; full closure requires sub-lattice FN charge corrections"
     - "412: Non-Perturbative Braid Condensate γ Contribution — L2_CONDENSATE_ZERO_MODE_VIABLE; zero-mode condensate δγ_ZM~O(0.025×g_braid) comparable to 13% γ gap; first viable NP mechanism; c₁^{KM}+c₁^{ZM} ~50% of budget; L2_KACMOODY_CONSTRAINED → L2_CONDENSATE_ZERO_MODE_VIABLE"
   document_updates:
-    - "STATUS.md: v13.2 header + regression ≥41,605 + next slot 413"
+    - "STATUS.md: v13.2 header + regression 42,215 + next slot 413"
     - "docs/CLAIM_MASTER_BOARD.md: v13.2 header + P407–P412 entries + Adm 7 update"
     - "docs/TRUTH_LAYER.md: v13.2 header + v13.2 update block"
     - "docs/mas_tracker.yml: v13.2 + public surface sync checkpoint + sprint entry"

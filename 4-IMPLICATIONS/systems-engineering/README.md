@@ -130,7 +130,7 @@ print(f"Stability at n=15: {engine.__class__(n_hil=15).hils().stability_floor:.3
 ---
 
 *Systems Engineering folder — updated April 2026 (v2: multi-audience bridge + upgrade roadmap).*  
-*Part of the Unitary Manifold repository (v13.1, 406 pillars + Ω₀ + sub-pillars, ≥41,390 tests).*
+*Part of the Unitary Manifold repository (v13.4, 406 pillars + Ω₀ + sub-pillars, 42,215 tests).*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Document engineering and synthesis: **GitHub Copilot** (AI).*

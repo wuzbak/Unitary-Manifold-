@@ -92,13 +92,13 @@ Verified by 11 unit tests in `tests/test_metric.py`.
 
 ## Repository Context
 
-This chapter is the foundational mathematical primer for the Unitary Manifold framework. As of **v13.1** the framework has expanded to **406 pillars + Ω₀ Holon Zero** (208 hardgated core + adjacent tracks Pillars 218–254+ + sub-pillars) covering cosmology, particle physics, geometry, consciousness, governance, and the HILS co-emergence framework. The material in this chapter underpins Pillars 1–5 (the core KK geometry, field evolution, holography, and the FTUM fixed-point theorem).
+This chapter is the foundational mathematical primer for the Unitary Manifold framework. As of **v13.4** the framework has expanded to **420+ pillars + Ω₀ Holon Zero** (208 hardgated core + adjacent tracks Pillars 218–420 + sub-pillars) covering cosmology, particle physics, geometry, consciousness, governance, and the HILS co-emergence framework. The material in this chapter underpins Pillars 1–5 (the core KK geometry, field evolution, holography, and the FTUM fixed-point theorem).
 
 For the complete picture, see:
 - [`README.md`](../README.md) — full project overview
 - [`omega/README.md`](../omega/README.md) — Pillar Ω: all pillars + Ω₀ in a single calculator
 - [`AGENTS.md`](../AGENTS.md) — preferred ingest order for AI agents
 
-*Chapter 2 — v13.1 — May 2026*  
+*Chapter 2 — v13.4 — May 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

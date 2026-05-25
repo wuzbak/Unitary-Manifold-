@@ -857,7 +857,7 @@ def eta_invariant_schematic(n_w: int) -> Dict:
 def eta_class_uniqueness_argument() -> Dict:
     """Formalize the η-invariant class requirement as a proved uniqueness theorem.
 
-    **STATUS (v13.1, Pillar 70-D + 387): PROVED — Admission 3 FORMALLY_CLOSED.**
+    **STATUS (v13.4, Pillar 70-D + 387): PROVED — Admission 3 FORMALLY_CLOSED.**
 
     This function presents the strongest first-principles argument for excluding
     n_w = 7 without observational input.  Previously labelled PHYSICALLY-MOTIVATED,

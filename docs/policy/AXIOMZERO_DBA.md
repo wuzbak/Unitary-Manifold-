@@ -25,7 +25,7 @@ architecture, and AI governance services provided by the Registrant.
 
 AxiomZero Technologies is established to facilitate the development and deployment of
 high-speed "Authority Engines" and software architectures based on the
-Unitary Manifold (v13.1 — APEX EDITION) framework.  Key activities include:
+Unitary Manifold (v13.4 — APEX EDITION) framework.  Key activities include:
 
 - **Performance Engineering** — Production of digital assets with zero-tolerance load
   architectures.

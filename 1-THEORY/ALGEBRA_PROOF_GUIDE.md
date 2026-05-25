@@ -283,7 +283,7 @@ machine precision. Any code change that shifts these constants causes
 
 **Test suite cross-reference:**
 - All 200+ test files in `tests/`.
-- Full regression: ≥41,390 passed · 2 skipped · 12 deselected · 0 failed (v13.1).
+- Full regression: 42,215 passed · 2 skipped · 12 deselected · 0 failed (v13.1).
 - CI workflow runs `python3 ALGEBRA_PROOF.py` as a pre-merge gate.
 
 ---
@@ -544,7 +544,7 @@ falsifiers) — all deterministically derived from these seeds.
 | 9  | Radion stable: m_φ² = 8λφ₀² > 0 | ✓ symbolic | test_evolution.py |
 | 10 | α = φ₀⁻² from G₅₅ = φ² | ✓ symbolic | test_fixed_point.py |
 | 11 | Δφ ≈ 5.38 No-Regression constant | ✓ live import | all 200+ test files |
-| 12 | 406-pillar codebase constants match | ✓ live import | ≥41,390 passing tests |
+| 12 | 406-pillar codebase constants match | ✓ live import | 42,215 passing tests |
 | 13 | Lossless 5D pipeline closure | ✓ chain | test_e2e_pipeline.py |
 | 14 | (5,7,74) thermodynamically selected | ✓ scan | test_braided_winding.py |
 | 15 | 3 generations, 4th excluded | ✓ counting | test_three_generations.py |
@@ -760,16 +760,16 @@ admission (×4–7 peak suppression) is partially closed (Z_φ ≈ 5.301 reduces
 
 ---
 
-## §39 — Current Framework Status (v13.1)
+## §39 — Current Framework Status (v13.4)
 
 | Item | Value |
 |------|-------|
-| Version | v13.1 |
+| Version | v13.4 |
 | Core physics pillars (hardgate, CLOSED) | 208 |
-| Adjacent research tracks (non-hardgate) | Pillars 218–254+ |
-| Total pillars + sub-pillars | 406 |
+| Adjacent research tracks (non-hardgate) | Pillars 218–420 |
+| Total pillars + sub-pillars | 420+ |
 | ToE score | **28.0 / 28.0 = 100%** |
-| Test suite | ≥ 41,390 passed · 2 skipped · 12 deselected · 0 failed |
+| Test suite | 42,215 passed · 2 skipped · 12 deselected · 0 failed |
 | Primary falsifier | Birefringence β ∈ {≈0.273°, ≈0.331°} — LiteBIRD ~2032 |
 | Next decision windows | SO DR1 2027; JUNO 2027; DESI DR3; LiteBIRD ~2032 |
 | Pillar set status | CLOSED (no new hardgate pillars without new observational gap) |

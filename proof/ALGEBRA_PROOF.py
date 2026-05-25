@@ -4,7 +4,7 @@ UNITARY MANIFOLD — COMPLETE FORMAL ALGEBRAIC VERIFICATION + FALSIFICATION TEST
 Checks every algebraic identity in the Unitary Manifold framework using exact
 symbolic computation, then imports live from the codebase to enforce the
 canonical delta_phi ≈ 5.38 as a No-Regression constant across all 406 pillars
-+ sub-pillars (v13.1 APEX EDITION — Current).
++ sub-pillars (v13.4 APEX EDITION — Current).
 
 Running this script is not just checking math — it is a Falsification Test.
 If SymPy resolves all symbolic logic to True AND the live import checks pass,

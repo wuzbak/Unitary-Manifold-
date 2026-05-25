@@ -498,7 +498,7 @@ class OmegaReport:
     """Number of completed pillars (99 + sub-pillars at v9.28)."""
 
     n_tests_passing: int
-    """Number of passing tests in the repository (41,390 at v13.1 canonical)."""
+    """Number of passing tests in the repository (42,215 at v13.4 canonical)."""
 
     n_seed_constants: int = 5
     """Number of seed constants from which everything is derived."""
@@ -614,7 +614,7 @@ class UniversalEngine:
         Number of aligned Human-in-the-Loop operators.  Affects collective
         stability floor.  Default 1 (minimum for resolvable logic change).
     version : str
-        Framework version string (default 'v13.1 OMEGA APEX EDITION').
+        Framework version string (default 'v13.4 OMEGA APEX EDITION').
     n_pillars : int
         Number of completed pillars (default 99 — this pillar is Ω).
     n_tests : int
@@ -624,9 +624,9 @@ class UniversalEngine:
     # -----------------------------------------------------------------------
     # Version tracking
     # -----------------------------------------------------------------------
-    DEFAULT_VERSION = "v13.1 OMEGA APEX EDITION"
-    DEFAULT_N_PILLARS = 406   # v13.1: 208 hardgate core + adjacent tracks Pillars 218–254+ + sub-pillars
-    DEFAULT_N_TESTS = 41390  # v13.1 canonical: ≥41,390 passed · 2 skipped · 0 failed
+    DEFAULT_VERSION = "v13.4 OMEGA APEX EDITION"
+    DEFAULT_N_PILLARS = 406   # v13.4: 208 hardgate core + adjacent tracks Pillars 218–420 + sub-pillars
+    DEFAULT_N_TESTS = 42215  # v13.4 canonical: 42,215 passed · 2 skipped · 0 failed
 
     # -----------------------------------------------------------------------
     # Physical constants (from the geometry — do not tune)
