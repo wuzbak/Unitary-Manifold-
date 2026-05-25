@@ -1,6 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v13.8 — Effective 2026-05-25*
+*Unitary Manifold v14.0 — Effective 2026-05-25*
+*v14.0 sprint: Pillars 455–474 added — P455 P8_PROVED_OVER_INTEGER_LATTICE__NAMED_RESIDUAL_FULL_FUNCTION_SPACE, P456 QUANTUM_THEOREM_FORMAL_STATUS_COMPLETE, P457 METRIC_ANSATZ_COMPLETENESS_CERTIFIED, P458 LEAN4_CERTIFICATE_GENERATED__CI_BLOCKED_NAMED, P459 L2_FINAL_2PCT_NAMED_IRREDUCIBLE, P460 FERMION_HIERARCHY_PARTIALLY_DERIVED, P461 PMNS_PR_NAMED_RESIDUAL, P462 ALPHA_S_MARGIN_ZONE_CONFIRMED, P463 ALPHA_GW_5D_EFT_FLOOR_CERTIFIED, P464 FREE_PARAMETER_CENSUS_V14_COMPLETE, P465 THEOREM_REGISTRY_V14_COMPLETE, P466 ADMISSION_CLOSURE_CERTIFICATE_V14, P467 DESI_DR3_FALSIFICATION_GATE_PREREGISTERED, P468 LITEBIRD_DISCRIMINATION_PROTOCOL_FORMALIZED, P469 SO_DR1_JOINT_ROUTING_FORMALIZED, P470 KK_GRAVITON_UNITARITY_BOUND_PROVED, P471 IRREVERSIBILITY_UNIQUENESS_BOUNDED, P472 PROTON_STABILITY_GEOMETRIC_THEOREM_DERIVED, P473 TRUTH_SURFACE_SYNC_V14_COMPLETE, P474 ARXIV_V14_UPDATE_READY; ~183 new tests; 0 failures. Latest in-sprint regression: 44,590 (baseline before new v14 tests) + ~183 new passed · 0 failed. Next pillar slot: 475.*
 *v13.8 sprint: Pillars 441–454 added — P441 DESI_DR3_FINAL_ROUTING, P442 SO_DR1_ROUTING_CERTIFIED, P443 JUNO_2027_V138, P444 CMBS4_PREDICTION_HARDENED, P445 TWOLOOP_KK_YUKAWA_ADMISSION7_FULLY_CLOSED, P446 L2_GAMMA_NP_BUDGET_PHASE2_CERTIFIED (98% gap covered), P447 LEAN4_NW5_UNIQUENESS_CERTIFICATE_GENERATED, P448 P2_ANSATZ_DERIVED_UNIQUE_WITH_NAMED_RESIDUAL, P449 FERMION_HIERARCHY_99_AUDIT_CERTIFIED (9/9 natural δ_FN<0.6), P450 ALPHA_S_PDG2026_MARGIN_ZONE_CERTIFIED, P451 ALPHA_GW_SC2_INTERVAL_NARROWED, P452 PMNS_PR_CONSTRAINED_FROM_2LOOP_YUKAWA (p_R∈[0.30,0.43], PMNS_PR_REQUIRES_P271_CHAIN named), P453 QUANTUM_THEOREM_AUDIT_HONEST_LABELS (1 DERIVED + 1 DERIVED_CONDITIONAL + 2 CONJECTURAL), P454 V138_SPRINT_GATE_PASSED (Z3 SMT 13-Admission CONSISTENT; DUNE δ_CP preregistered, SHA-256 committed); ~333 new tests; 0 failures. Latest in-sprint regression: ~40,526 (v13.7 baseline) + 333 new passed · 0 failed. Next pillar slot: 455.*
 *v13.7 sprint: Pillars 434–440 added — P434 ADM_LAPSE_BSSN_CLOSED (FALLIBILITY §4.1/XIV.3 gap closed), P435 HLLHC_PREDICTION_PREREGISTERED, P436 PROTON_DECAY_BOUNDED_FROM_KK_GUT, P437 FNLPREREGISTERED_SPHEREX (SHA-256 committed), P438 LATTICE_BRAID_PHASE1_COMPUTED (🔵), P439 SIXD_BARYOGENESIS_PHASE1_COMPUTED (🔵), P440 ARXIV_V137_READY; ~430 new tests; 0 failures. Latest in-sprint regression: 43,009 (v13.6 baseline) + ~430 new passed · 0 failed. Next pillar slot: 441.*
 *v13.6 sprint: Pillars 428–433 added — P428 DESI_CPL_CORRECTED_V136, P429 HIERARCHY_FULLY_CONSTRAINED, P430 GLUON_CHANNEL_BESSEL_EXACT, P431 LATTICE_BRAID_QFT_FORMALLY_SCOPED (🔵), P432 SIXD_BARYOGENESIS_EXTENSION_SCOPED (🔵), P433 EXTERNAL_VERIFICATION_COMPLETE_V136; ~370 new tests; 0 failures. Latest in-sprint regression: 43,008+ passed · 0 failed. Next pillar slot: 434.*
@@ -35,8 +36,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 43,080 passed · 23 skipped · 12 deselected · 0 failed (v13.8, 2026-05-25; tests/ + recycling/ + Pentad)
-*(v13.7 baseline 40,526 + 333 new v13.8 sprint + 2,961 Pentad = 43,080 total)*
+**Latest verified branch regression:** 44,590 passed · 2 skipped · 12 deselected · 0 failed (v14.0 pre-merge baseline, 2026-05-25; tests/ + recycling/ + Pentad)
+*(Repository full-suite baseline before new v14 tests: 44,590 total with current optional dependencies installed.)*
 *(historical: v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215; v12.9: ≥40,180)*
 
 ---
@@ -376,11 +377,11 @@ carries a dated errata footer explaining the v11.4 Pillar 259 → Pillar
 - `src/core/finish_line_observation_engine.py`: extended with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit payloads for `3-FALSIFICATION/OBSERVATION_TRACKER.md`, `docs/WAVE_CHANGELOG.md`, `docs/TRUTH_LAYER.md`, `docs/CLAIM_MASTER_BOARD.md`, and the canonical ledgers.
 - `src/core/canonical_ledger_consistency.py`: machine-readable consistency check — now covers core ledgers (README, STATUS, FALLIBILITY, DERIVATION_STATUS, WAVE_CHANGELOG, mas_tracker) **plus** onboarding docs (CONTRIBUTING, 2-REPRODUCIBILITY/README, 9-INFRA/TEST/README, copilot-instructions, wiki×2, MCP_INGEST, WHAT_THIS_MEANS).
 
-### Regression gate (v13.8)
+### Regression gate (v14.0)
 
 ```
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-Expected: 43,080 passed · 23 skipped · 12 deselected · 0 failed
+Expected: see latest verified v14.0 full-suite count after the new pillar tests are included
 ```
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

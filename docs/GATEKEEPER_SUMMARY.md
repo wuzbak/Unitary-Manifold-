@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v13.7
+# Unitary Manifold v14.0
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-25 (v13.7 — Prediction Hardening & Adjacent Track Phase 1: Pillars 434–440; ADM BSSN lapse CLOSED; HL-LHC/Hyper-K/SPHEREx preregistered; lattice braid Phase 1 computed; 6D baryogenesis Phase 1 computed; ~430 new tests; 0 failures)*
+*Last updated: 2026-05-25 (v14.0 — Pillars 455–474 synced into the gatekeeper layer; P455 integer-lattice P8 proof recorded; P456 conjectures formally stated; P465 theorem registry added; P467 DESI DR3 preregistration locked; v14.0 note only — historical verdict tables below remain preserved)*
+
+> **v14.0 sync note:** P455 upgrades P8 to an integer-lattice proof with a named residual over full functional space. P456 formally states CCR and ER=EPR as conjectures with proof criteria. P465 adds the machine-readable theorem registry. P467 preregisters the DESI DR3 falsification gate before data release.
 
 ---
 

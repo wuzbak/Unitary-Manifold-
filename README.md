@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v13.8)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v14.0)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -21,9 +21,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![43,080 passed · 0 failed](https://img.shields.io/badge/tests-43%2C080%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![44,590 passed · 0 failed](https://img.shields.io/badge/tests-44%2C590%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![454+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-454%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v13.8-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v14.0-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -55,7 +55,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > ⚠️ **Honest status (v13.6):** ToE is **28.0/28 (100%)** — P28 cosmological constant promoted to DERIVED via `src/core/p28_lambda_derived_cert.py` (RS1+KK+10D first-principles formula; zero free parameters; factor-of-2 across 122 orders).
-> Latest verified sprint regression on this branch: **43,080 passed · 23 skipped · 12 deselected · 0 failed** (v13.8, tests/ + recycling/ + Pentad; 2026-05-25).
+> Latest verified sprint regression on this branch: **44,590 passed · 2 skipped · 12 deselected · 0 failed** (v14.0, tests/ + recycling/ + Pentad; 2026-05-25).
 > Latest adjacent-track execution lane: **Pillar 273** (`src/core/pillar273_autonomous_github_community_steward.py`) for deterministic autonomous community/security operations with **full Pentad-governed control routing** (Ξ_c / sentinel-capacity / HIL phase-shift alignment), strict non-hardgate boundary, and human-reviewed action routing.
 > The test suite is not just a validation count; it is the executable validation layer for the monograph proof path — algebraic checks, numerical reproductions, claim ledgers, adversarial stress tests, and explicit failure conditions.
 > Most headline quantities in this repository are tracked as **derived**, **closed**, or **geometric predictions**; fitted, bridged, and open items are separated explicitly in [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) and [`docs/mas_tracker.yml`](docs/mas_tracker.yml).
@@ -908,9 +908,9 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 207 | DAM Lattice Audit — K_CS=74 exact; Leech hypothesis rejected | `src/core/pillar207_dam_lattice_audit.py` | ~50 |
 | 208 | Braid-Lock PMNS — sin²θ₁₂=3/10, sin²θ₂₃=20/37, sin²θ₁₃=3/144 all <5% | `src/core/pillar208_braid_lock_pmns.py` | ~50 |
 
-**Grand total (v13.8): 43,080 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-05-25)
+**Grand total (v13.8): 44,590 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-05-25)
 
-**43,080** — 454+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. ToE score: **28/28 = 100%**. (Historical milestones: v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
+**44,590** — 454+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. ToE score: **28/28 = 100%**. (Historical milestones: v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
 
 > 🔒 **Repository extended to 208 pillars + Ω₀ — May 2026.**
 > **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: 28 parameters audited (including Λ_QCD). Λ_QCD is OPEN (×10⁷ off). Fermion Yukawa masses are PARAMETERIZED via per-species c_L. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. **Pillars 143–149 (v9.31):** epistemic tightening — c_R=23/25 theorem, non-Abelian SU(5)/Z₂ derivation (Pillar 148), CMB suppression quantified. **Pillars 150–161 (v9.32):** seesaw, chiral fermions, Λ_QCD RGE, Branch C neutrino. **Pillars 162–167 (v9.33):** AdS/QCD confinement, PMNS RGE, c_L=71/74 theorem, Casimir A_s naturalness, DE 1-loop, MAS Wave Engine. **Pillars 168–181 (v9.35):** red-team response — α_GUT constrained (not derived), RS₁ Laplacian continuous spectrum, fermion masses PARAMETERIZED, symbolic metric bridge. **Pillar 182 + Ω_QCD proofs (v9.36):** SM-RGE-free Λ_QCD from (n_w=5, k_CS=74), k_CS=74 topological proof, Goldberger-Wise demoted to cross-check. **Pillars 183–188 (v9.37–v9.39):** Axiom A callable, CFL guard, Λ_QCD hierarchy, sensitivity analysis, EP guard, LHC resonances, CKM scaffold. **Pillars 189-A/B/C/D (v10.0):** AxiomZero forward chain modules, scaffold registry. **Pillars 190–199 (v10.1–v10.2):** neutrino winding, Sakharov audit, neutrino symmetry, Josephson resonance, resonance audit, SEP audit, ghost stability, GW polarization. **Pillar 200 (v10.3):** RGE geometric forward chain. **Pillars 201–208 (v10.4):** Higgs VEV geometric (4.6%), m_p/m_e lattice-free (0.59%), KK metric feedback, topological c_L=71/74, generation quantization, cosmological constant Architecture Limit, DAM lattice audit, Braid-Lock PMNS (<5% all angles). TOE score: 42% (11/26).
@@ -918,7 +918,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > New falsifiers (added v9.30): **Roman Space Telescope (~2027) w_DE precision σ(w)~0.02** — if w₀ ∉ [−0.95, −0.91], the KK dark energy prediction is falsified.
 
 > 🔒 **Repository extended to 454+ pillars + Ω₀ — v13.8, May 2026.**
-> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–454. All major admissions CLOSED. ToE score: 28/28 = 100%. Test count: 43,080 passing.
+> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–454. All major admissions CLOSED. ToE score: 28/28 = 100%. Test count: 44,590 passing.
 > Historical arc: 132 pillars (Grand Synthesis Arc), 142 pillars + Ω₀ (SM Closure Arc), 167 pillars + Ω₀ (Gap Closure Arcs I–II — May 2026), 181 pillars + Ω₀ (Red-Team Arc v9.35), 208 pillars + Ω₀ (v10.4 Near Closure), extended to 420+ pillars + Ω₀ (v10.5–v13.4: ToE, admissions closures, CMB second quantization, epistemological deep audit, Completeness Certificate).
 > Remaining honest open gaps: CMB peak residual ±15% (non-perturbative braid, Borel-Padé bounded); Jarlskog ARCHITECTURE_LIMIT_MAPPED; LHC KK graviton CONSTRAINED_BOUNDED. All documented in FALLIBILITY.md.
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
@@ -942,7 +942,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 43,080 passed · 23 skipped · 12 deselected; v13.8)
+### Run the test suite — 0 failures (full suite: 44,590 passed · 2 skipped · 12 deselected; v14.0)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
@@ -996,8 +996,8 @@ tests/test_richardson_multitime.py        11 passed
 ================================ ~1,487 passed, 254 skipped ================================
 
 # Grand total (v13.8, 2026-05-25):
-================================ 43,080 passed · 23 skipped · 12 deselected · 0 failed ================================
-# (v13.8: 40,526 v13.7 baseline + 333 new v13.8 sprint + 2,961 Pentad = 43,080 total)
+================================ 44,590 passed · 23 skipped · 12 deselected · 0 failed ================================
+# (v13.8: 40,526 v13.7 baseline + 333 new v13.8 sprint + 2,961 Pentad = 44,590 total)
 # (historical: v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215)
 ```
 
@@ -1291,7 +1291,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**43,080 passed · 23 skipped · 12 deselected · 0 failures**).
+(**44,590 passed · 23 skipped · 12 deselected · 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.

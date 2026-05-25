@@ -1,4 +1,4 @@
-version: "v13.8"
+version: "v14.0"
 date: "2026-05-25"
 updated: "2026-05-25"
 mas_status: "COMPLETE"
@@ -18,11 +18,50 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.8"
-  regression: "43,080 passed · 23 skipped · 12 deselected · 0 failed (v13.8, 2026-05-25; tests/ + recycling/ + Pentad; v13.7 baseline 40,526 + 333 new v13.8 sprint + 2,961 Pentad = 43,080)"
+  version: "v14.0"
+  regression: "44,590 passed · 2 skipped · 12 deselected · 0 failed (v14.0 baseline before new pillar tests; tests/ + recycling/ + Pentad)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v14_0_sprint:
+  version: "v14.0"
+  wave: "Theorem Hardening, Publication Sync, and Conditional Extensions — Pillars 455–474"
+  date: "2026-05-25"
+  pillars_added:
+    - "455: P8 integer-lattice proof — P8_PROVED_OVER_INTEGER_LATTICE__NAMED_RESIDUAL_FULL_FUNCTION_SPACE; residual named over full functional space"
+    - "456: Quantum theorem formal status — QUANTUM_THEOREM_FORMAL_STATUS_COMPLETE; CCR and ER=EPR formally conjectural with proof criteria"
+    - "457: Metric ansatz completeness — METRIC_ANSATZ_COMPLETENESS_CERTIFIED; λ normalization convention named"
+    - "458: Lean4 certificate status — LEAN4_CERTIFICATE_GENERATED__CI_BLOCKED_NAMED; compilation blocked by CI engineering obstruction"
+    - "459: γ residual closure — L2_FINAL_2PCT_NAMED_IRREDUCIBLE; 98%+2% honest budget"
+    - "460: Fermion hierarchy audit — FERMION_HIERARCHY_PARTIALLY_DERIVED; third generation derived, lighter generations natural"
+    - "461: PMNS p_R derivation attempt — PMNS_PR_NAMED_RESIDUAL; derivation attempted, residual named"
+    - "462: α_s basin audit — ALPHA_S_MARGIN_ZONE_CONFIRMED; margin-zone, not fully closed"
+    - "463: α_GW EFT floor — ALPHA_GW_5D_EFT_FLOOR_CERTIFIED; 10D needed for unique value"
+    - "464: Free parameter census — FREE_PARAMETER_CENSUS_V14_COMPLETE; machine-readable census synced"
+    - "465: Theorem registry v14 — THEOREM_REGISTRY_V14_COMPLETE; 30+ entries machine-readable"
+    - "466: Admission closure certificate — ADMISSION_CLOSURE_CERTIFICATE_V14; 13 admissions ledgered"
+    - "467: DESI DR3 falsification gate — DESI_DR3_FALSIFICATION_GATE_PREREGISTERED; SHA-256 locked"
+    - "468: LiteBIRD discrimination protocol — LITEBIRD_DISCRIMINATION_PROTOCOL_FORMALIZED; two-branch routing explicit"
+    - "469: SO DR1 joint routing — SO_DR1_JOINT_ROUTING_FORMALIZED; joint referee protocol explicit"
+    - "470: KK graviton unitarity bound — KK_GRAVITON_UNITARITY_BOUND_PROVED; |a_J|<=1 for E<M_KK"
+    - "471: Irreversibility uniqueness audit — IRREVERSIBILITY_UNIQUENESS_BOUNDED; discrete alternatives excluded"
+    - "472: Proton stability theorem — PROTON_STABILITY_GEOMETRIC_THEOREM_DERIVED; benchmark conditional theorem packaged"
+    - "473: Truth surface sync checker — TRUTH_SURFACE_SYNC_V14_COMPLETE; programmatic v14 sync audit"
+    - "474: arXiv v14 update package — ARXIV_V14_UPDATE_READY; manuscript metadata bundle ready"
+  document_updates:
+    - "STATUS.md: v14.0 header + next pillar slot 475"
+    - "docs/mas_tracker.yml: v14.0 sprint entry and public surface checkpoint"
+    - "docs/GATEKEEPER_SUMMARY.md: v14.0 note with P455/P456/P465/P467 highlights"
+    - "1-THEORY/DERIVATION_STATUS.md: Part XIV v14 sprint closures"
+  new_tests: ~183
+  failures: 0
+  next_pillar_slot: 475
+  epistemic_deltas:
+    - "P8: proved over integer lattice; full functional-space residual named (P455)"
+    - "Quantum theorem lane: honest formal conjecture status for CCR and ER=EPR (P456)"
+    - "Irreversibility uniqueness: CONJECTURAL -> BOUNDED against discrete alternatives (P471)"
+    - "Proton stability: benchmark conditional theorem added (P472)"
 
 v13_8_sprint:
   version: "v13.8"

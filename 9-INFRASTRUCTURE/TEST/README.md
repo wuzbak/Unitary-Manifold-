@@ -1,6 +1,6 @@
 # Test Suite — Unitary Manifold
 
-Canonical full regression (STATUS.md): **43,080 passed · 23 skipped · 12 deselected · 0 failed** (v13.8, 2026-05-25; tests/ + recycling/ + Pentad).
+Canonical full regression (STATUS.md): **44,590 passed · 23 skipped · 12 deselected · 0 failed** (v13.8, 2026-05-25; tests/ + recycling/ + Pentad).
 
 **Historical checkpoint:** 33,398 tests: 32,993 passed · 393 skipped · 12 deselected · 0 failures (verified 2026-05-16, Python 3.12, pytest)
 
@@ -54,13 +54,13 @@ The key counter-argument: k_cs = 74 was derived *independently* from the birefri
 pip install numpy scipy pytest
 python -m pytest tests/ -v          # fast suite — see STATUS.md for current total
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q  # full suite — 43,080 passed
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q  # full suite — 44,590 passed
 ```
 
 Expected result (default):
 
 ```
-43,080 passed · 23 skipped · 12 deselected · 0 failed (exact count may vary by optional-dep availability; with full deps: 43,080+)
+44,590 passed · 23 skipped · 12 deselected · 0 failed (exact count may vary by optional-dep availability; with full deps: 44,590+)
 ```
 
 ---
