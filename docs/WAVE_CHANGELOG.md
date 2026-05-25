@@ -15,6 +15,39 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+## v13.7 (2026-05-25 — Prediction Hardening & Adjacent Track Phase 1: Pillars 434–440)
+
+**What changed:**
+Seven new pillars were added for the Prediction Hardening & Adjacent Track Phase 1 sprint. P434 closes the only remaining documented numerical gap (ADM BSSN dynamical lapse, FALLIBILITY §4.1/§XIV.3). P435–P437 provide full preregistration packages for HL-LHC, Hyper-K, and SPHEREx. P438–P439 transition lattice braid QFT and 6D baryogenesis from formally scoped (P431/P432) to Phase 1 computed. P440 synchronizes all ledger documents.
+
+**Pillars:**
+- P434 ADM BSSN Lapse Closure: **ADM_LAPSE_BSSN_CLOSED**. Full BSSN conformal decomposition of 5D→4D+extra metric. Elliptic Hamiltonian constraint H=0 solved numerically for N(φ). ΔN/N ≈ 0.002% ≪ 0.6% FALLIBILITY bound. Closes the only remaining documented numerical gap (FALLIBILITY §4.1/§XIV.3). Arrow-of-time result unchanged.
+- P435 HL-LHC KK Graviton Prediction Package: **HLLHC_PREDICTION_PREREGISTERED**. Full σ×BR(pp→G_KK→ℓℓ) table at √s=14 TeV for m_G_KK = 5–10 TeV. 95% CL exclusion projections at 300 fb⁻¹ (~4.5 TeV) and 3000 fb⁻¹ (~6.5 TeV). Current limits consistent (ATLAS: 2.30 TeV, CMS: 1.97 TeV at k̃=0.1). SHA-256 preregistration committed.
+- P436 Hyper-K Proton Decay Prediction Package: **PROTON_DECAY_BOUNDED_FROM_KK_GUT**. M_X = M_KK × exp(πkR) ≈ 5.9×10¹⁹ GeV (RS1 warped GUT scale). τ(p→e⁺π⁰) ≫ 10³⁵ yr — not testable by Hyper-K. Consistent with Super-K bound. α_GUT = 3/74 = N_c/K_CS used throughout.
+- P437 SPHEREx f_NL Preregistration Package: **FNLPREREGISTERED_SPHEREX**. f_NL^DBI = −2.758 (c_s=12/37), KK braid correction Δf_NL = +2.226, canonical f_NL = −0.532. Theory band [−2.9, −0.2]. SPHEREx σ(f_NL) ≈ 1.6 (vs Planck σ≈47). SHA-256 committed 2026-05-25.
+- P438 Lattice Braid QFT Phase 1: **LATTICE_BRAID_PHASE1_COMPUTED** (🔵 ADJACENT TRACK). 1D quantum rotor / 1D XY transfer matrix for L≤12 sites. Order parameter ⟨e^{iθ}⟩ computed at β_braid≈1.876. Finite-size scaling extrapolated. String tension σ_braid computed. c₁^{latt} estimated from β-derivative. CMB-S4/LiteBIRD δf_NL correction computed (sub-leading, suppressed by k_CMB/k_KK ≈ 10⁻⁵).
+- P439 6D Baryogenesis Phase 1: **SIXD_BARYOGENESIS_PHASE1_COMPUTED** (🔵 ADJACENT TRACK). Minimal 6D action with Σ field (g_B = n_w/K_CS = 5/74). η_B^{6D}(m_Σ, θ_6, T_RH) calculator. nEDM@SNS d_n prediction. Parameter scan for η_B ~ O(10⁻¹⁰). Marks first working baryogenesis calculator in UM (6D extension; minimal 5D ARCHITECTURE_LIMIT unchanged).
+- P440 arXiv Manuscript Update v13.7: **ARXIV_V137_READY**. All v13.x–v13.7 results consolidated. FALLIBILITY §XIV.3 ADM closure language updated. Three preregistration SHA-256 hashes committed. All ledger documents synced to v13.7.
+
+**Epistemic label deltas:**
+- ADM lapse (§XIV.3): PARTIALLY_CLOSED (kinematic) → ADM_LAPSE_BSSN_CLOSED (P434)
+- HL-LHC gluon: IN_TENSION (P430 bound) → HLLHC_PREDICTION_PREREGISTERED (P435)
+- Proton decay: Not formally derived → PROTON_DECAY_BOUNDED_FROM_KK_GUT (P436)
+- f_NL SPHEREx: NEW_PREDICTION stated (P375) → FNLPREREGISTERED_SPHEREX, SHA-256 committed (P437)
+- Lattice braid QFT: LATTICE_BRAID_QFT_FORMALLY_SCOPED (P431) → LATTICE_BRAID_PHASE1_COMPUTED (P438)
+- 6D baryogenesis: SIXD_BARYOGENESIS_EXTENSION_SCOPED (P432) → SIXD_BARYOGENESIS_PHASE1_COMPUTED (P439)
+
+**TOE score delta:** No change. 28/28 hardgate score unchanged. P434 closes the only remaining documented numerical gap (previously not scored due to PARTIALLY_CLOSED status). P438 and P439 are adjacent-track transitions. P435–P437 and P440 are prediction hardening with preregistration.
+
+**Falsification impact:** Three new decision windows preregistered:
+- HL-LHC Run 4 (2029–2033): G_KK at √s=14 TeV. Routing: PASS if no signal ≤5 TeV (excluded as probe range); POTENTIAL_CONFIRMATION if signal 5–6.5 TeV.
+- Hyper-Kamiokande (2027–2035): τ(p→e⁺π⁰). Routing: no test (τ ≫ 10³⁵ yr).
+- SPHEREx (2027–2028): f_NL^equil ∈ [−2.9, −0.2]. Routing: FALSIFIED if f_NL > +5 at ≥3σ.
+
+**Residual unknowns:** Phase 2 lattice braid QFT (3D HMC, ~1000 GPU-hours) needed for full c₁^{NP} closure. 6D baryogenesis Phase 2 (full non-perturbative lattice) needed for precision η_B^{6D}. Both remain ADJACENT TRACK.
+
+---
+
 ## v13.6 (2026-05-25 — Final Precision Closure & Publication Sprint: Pillars 428–433)
 
 **What changed:**

@@ -1,19 +1,23 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v13.6
+# Unitary Manifold v13.7
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-25 (v13.6 — Final Precision Closure & Publication Sprint: Pillars 428–433; ~370 new tests; 0 failures. Canonical test count: ~43,009 passing.)*
+*Last updated: 2026-05-25 (v13.7 — Prediction Hardening & Adjacent Track Phase 1: Pillars 434–440; ~430 new tests; 0 failures. Canonical test count: ~43,439 passing.)*
 
-*P428 (v13.6): DESI CPL Internal-Consistency Audit — DESI_CPL_CORRECTED_V136. Six issues corrected in prior CPL analysis. Canonical dark-energy prediction: w₀=−1, wₐ=0 (frozen radion — geometric theorem). Canonical DESI tension re-confirmed at 2.75σ. HIGH_TENSION label unchanged.*
+*P440 (v13.7): arXiv Manuscript Update v13.7 — ARXIV_V137_READY. All v13.x–v13.7 results consolidated. FALLIBILITY §XIV.3 ADM gap CLOSED. Three preregistrations committed (P435/436/437). All ledger documents synced. Next pillar slot: 441.*
 
-*P429 (v13.6): Fermion Hierarchy Full 9/9 Geometric Closure — HIERARCHY_FULLY_CONSTRAINED. Explicit sub-lattice FN charge assignments for ALL 9 SM charged fermions. Strange (δ_FN≈0.499, NATURAL) and charm (δ_FN≈0.069, NATURAL) quarks fully assigned. With corrected continuous ℓ_eff applied, all 9 masses reproduced to machine precision. Upgrade: HIERARCHY_FN_CONTINUOUS_CONSTRAINED → HIERARCHY_FULLY_CONSTRAINED.*
+*P439 (v13.7): 6D Baryogenesis Phase 1 — SIXD_BARYOGENESIS_PHASE1_COMPUTED (🔵 ADJACENT TRACK). η_B^{6D}(m_Σ, θ_6, T_RH) calculator implemented. Canonical benchmark: m_Σ=650 GeV, θ_6=π/4 gives η_B viable for sin(θ_6)=O(1). nEDM@SNS d_n prediction: ≈10⁻²⁷ e·cm (TESTABLE_SNS_2028 regime for m_Σ~500 GeV). Parameter scan identifies viable region. Baryogenesis in minimal 5D-EFT remains ARCHITECTURE_LIMIT (P422/P371). Transition: SIXD_BARYOGENESIS_EXTENSION_SCOPED → SIXD_BARYOGENESIS_PHASE1_COMPUTED.*
 
-*P430 (v13.6): Full RS1 Bessel Gluon Channel Amplitude — GLUON_CHANNEL_BESSEL_EXACT. Exact Bessel overlap correction I_exact/I_LO≈0.876. σ_ratio_exact≈1.55 at m_G_KK=3.98 TeV (IN_TENSION). Sharpened mass bound: m_G_KK ≥ 5.0 TeV (upgraded from ≥1.8 TeV). Admission 10: CONSTRAINED_BOUNDED → GLUON_CHANNEL_BESSEL_EXACT.*
+*P438 (v13.7): Lattice Braid QFT Phase 1 — LATTICE_BRAID_PHASE1_COMPUTED (🔵 ADJACENT TRACK). 1D quantum rotor / 1D XY transfer matrix at β_braid = K_CS/(4π²) ≈ 1.876. Order parameter ⟨e^{iθ}⟩ computed (pseudo-ordered at finite L). Correlation length ξ_braid and string tension σ_braid computed. Finite-size scaling extrapolated. c₁^{latt} estimated from β-derivative. CMB-S4/LiteBIRD δf_NL correction: sub-leading (suppressed by k_CMB/k_KK ≈ 10⁻⁵). Transition: LATTICE_BRAID_QFT_FORMALLY_SCOPED → LATTICE_BRAID_PHASE1_COMPUTED.*
 
-*P431 (v13.6): Lattice Braid QFT Formal Scope — LATTICE_BRAID_QFT_FORMALLY_SCOPED (🔵 ADJACENT TRACK). c₁^{NP}≈3.4 ARCHITECTURE_LIMIT formally scoped. Braid Wilson action specified (β_braid=K_CS/(4π²)≈1.876, kappa_braid=c_s/(2n_w)≈0.129). Phase 1 DMRG: ~1 GPU-hour (1D effective model). Phase 2 HMC: ~1000 GPU-hours (32³×16 lattice). CMB-S4/LiteBIRD observable: γ_eff shift ≥5% per 1σ improvement in c₁^{NP}.*
+*P437 (v13.7): SPHEREx f_NL Preregistration Package — FNLPREREGISTERED_SPHEREX. f_NL^DBI = −(35/108)(1/c_s² − 1) = −2.758 (c_s=12/37). KK braid correction: Δf_NL = +(5/81)(1/c_s² − 1) × ρ²/(2(1−ρ²)) = +2.226 (ρ=70/74). Canonical f_NL = −0.532. Theory band: [−2.9, −0.2]. SPHEREx σ(f_NL)≈1.6 (vs Planck σ≈47). SHA-256 preregistration committed 2026-05-25. Decision window: SPHEREx full data 2027–2028.*
 
-*P432 (v13.6): 6D UV Completion Baryogenesis Scoping — SIXD_BARYOGENESIS_EXTENSION_SCOPED (🔵 ADJACENT TRACK). Minimal 6D extension: scalar Σ (B-charged, spin-0, m~500–800 GeV) + compactification radius R₆; 2 free parameters. Three UM constraints: C1 (n_w/K_CS fix R₆), C2 (φ₀ sets m_Σ), C3 (c_s constrains θ_6). Estimated η_B^{6D}~O(10⁻¹⁰) (~250× improvement over 5D). First observable: nEDM@SNS ~2028.*
+*P436 (v13.7): Hyper-K Proton Decay Prediction Package — PROTON_DECAY_BOUNDED_FROM_KK_GUT. M_X = M_KK × exp(πkR) = M_KK × exp(37) ≈ 5.9×10¹⁹ GeV. α_GUT = N_c/K_CS = 3/74. Orbital suppression f_orb = cos²(π/n_w)/n_w ≈ 0.131. τ(p→e⁺π⁰) ≫ 10³⁵ yr — NOT_TESTABLE_HYPERK. Consistent with Super-K bound τ > 1.6×10³⁴ yr. Decision window: Hyper-K 2027–2035 (10³⁴ yr reach).*
+
+*P435 (v13.7): HL-LHC KK Graviton Prediction Package — HLLHC_PREDICTION_PREREGISTERED. σ×BR(pp→G_KK→ℓℓ) at √s=14 TeV tabulated for m_G_KK = 5–10 TeV at k̃ = 0.01, 0.05, 0.10. 95% CL reach: 300 fb⁻¹ → ~4.5 TeV; 3000 fb⁻¹ → ~6.5 TeV (at k̃=0.10). Current limits: ATLAS 2.30 TeV, CMS 1.97 TeV (Run 2). UM bound m_G_KK ≥ 5.0 TeV consistent with both. SHA-256 preregistration committed. Decision window: HL-LHC Run 4 2029–2033.*
+
+*P434 (v13.7): ADM BSSN Lapse Closure — ADM_LAPSE_BSSN_CLOSED. Full BSSN conformal decomposition implemented. Hamiltonian constraint H=0 solved numerically for N(φ). ΔN/N = ε_SR/(M_KK/H)² = 0.00336/(4π)² ≈ 0.002% ≪ 0.6% FALLIBILITY bound. Arrow-of-time result unchanged. Closes last documented numerical gap (FALLIBILITY §4.1/§XIV.3). Transition: PARTIALLY_CLOSED (kinematic) → ADM_LAPSE_BSSN_CLOSED.*
 
 *P433 (v13.6): External Verification Package v13.6 — EXTERNAL_VERIFICATION_COMPLETE_V136. All truth surfaces synced. 13-admission table (0 open); 8 architecture limits; 8 predictions (4 CONFIRMED, 2 HIGH_TENSION).*
 
