@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v13.2
+# Unitary Manifold v13.4
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
@@ -11,7 +11,7 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *(4) Pillar 410 — T³/Z₂ Topology Quadrupole Bound: 26–47% suppression for L∈[7.9,11.4] Gpc=[0.55,0.80]D_H; within Planck-allowed range. CONSTRAINED_FROM_CMB. P382 POSSIBLE_CANDIDATE_SPECIFIED → CONSTRAINED_FROM_CMB. UM cannot independently select L.*
 *(5) Pillar 411 — Fermion Hierarchy Geometric Closure: exp(−5(ℓ+m)) lattice spans 6 orders; 7/9 SM charged fermions within 0.5 dex. HIERARCHY_PARTIALLY_CONSTRAINED. Full closure requires sub-lattice FN charge corrections.*
 *(6) Pillar 412 — Braid Condensate γ: Zero-mode condensate gives δγ_ZM~O(0.025×g_braid), comparable to 13% gap. First viable NP mechanism identified. L2_CONDENSATE_ZERO_MODE_VIABLE. Remaining gap requires lattice braid QFT calculation of g_braid.*
-*215 new tests; 0 failures. Canonical test count: ≥41,605 passing. Next pillar slot: 413.*
+*215 new tests; 0 failures. Canonical test count: 42,215 passing. Next pillar slot: 413.*
 
 
 *v13.0 update (Admissions Audit Sprint — Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map):*

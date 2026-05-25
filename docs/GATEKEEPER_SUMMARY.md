@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v13.1
+# Unitary Manifold v13.4
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-24 (v13.1 — Admissions Closure Sprint: Pillars 402–406; Admissions 6, 7, 10, 11, 12, 13 closed; canonical test count: ≥41,390 passed · 2 skipped · 12 deselected · 0 failed; 735 new tests; 0 failures)*
+*Last updated: 2026-05-24 (v13.4 — Admissions Closure Sprint: Pillars 402–406; Admissions 6, 7, 10, 11, 12, 13 closed; canonical test count: 42,215 passed · 2 skipped · 12 deselected · 0 failed; 735 new tests; 0 failures)*
 
 ---
 

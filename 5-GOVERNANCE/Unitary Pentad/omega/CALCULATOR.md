@@ -2,7 +2,7 @@
 
 **Module:** `omega.omega_synthesis`  
 **Class:** `UniversalEngine`  
-**Version:** v13.1
+**Version:** v13.4
 
 ---
 
@@ -27,9 +27,9 @@ engine = UniversalEngine(
 |-----------|------|---------|-------------|
 | `phi_trust` | float | 1.0 | Trust field φ_trust ∈ [0, 1]. Below c_s ≈ 0.324, the Pentad decouples. |
 | `n_hil` | int | 1 | Aligned Human-in-the-Loop operators. Stability saturates at n ≥ 15. |
-| `version` | str | 'v13.1 APEX EDITION' | Framework version string. |
+| `version` | str | 'v13.4 APEX EDITION' | Framework version string. |
 | `n_pillars | int | 406 | Number of completed pillars (406 total as of v13.1; hardgate core: 208; adjacent tracks: Pillars 218–254+). |
-| `n_tests` | int | 41390 | Passing test count reported in OmegaReport (≥41,390 as of v13.1). |
+| `n_tests` | int | 42,215 | Passing test count reported in OmegaReport (42,215 as of v13.1). |
 
 **Raises:** `ValueError` if `phi_trust ∉ [0, 1]` or `n_hil < 0`.
 
@@ -207,9 +207,9 @@ The master computation — all six domains in one call.
 ```python
 report = engine.compute_all()
 
-report.version              # str    'v13.1 APEX EDITION'
+report.version              # str    'v13.4 APEX EDITION'
 report.n_pillars            # int    406
-report.n_tests_passing      # int    41390
+report.n_tests_passing      # int    42,215
 report.n_seed_constants     # int    5
 report.cosmology            # CosmologyReport
 report.particle_physics     # ParticlePhysicsReport
@@ -298,5 +298,5 @@ floor(n) = min(1.0, c_s + n × c_s / 7)
 
 ---
 
-*CALCULATOR.md — omega/ — v13.1 — May 2026*  
+*CALCULATOR.md — omega/ — v13.4 — May 2026*  
 *Theory: ThomasCory Walker-Pearson · Implementation: GitHub Copilot (AI)*

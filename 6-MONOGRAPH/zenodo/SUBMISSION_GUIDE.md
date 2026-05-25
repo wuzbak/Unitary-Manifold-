@@ -1,5 +1,5 @@
 # Zenodo Submission Guide
-## The Unitary Manifold v13.1 — Step-by-Step Upload Instructions
+## The Unitary Manifold v13.4 — Step-by-Step Upload Instructions
 
 Zenodo gives you a permanent, citable DOI in minutes. Follow these steps exactly.
 
@@ -15,7 +15,7 @@ Zenodo gives you a permanent, citable DOI in minutes. Follow these steps exactly
 If you authenticate with GitHub you can enable automatic DOI minting on every release:
 1. Go to **https://zenodo.org/account/settings/github/**
 2. Find `wuzbak/Unitary-Manifold-` and toggle it **ON**.
-3. Now create a **GitHub Release** (tag `v13.1`) and Zenodo will automatically archive it and mint a DOI.
+3. Now create a **GitHub Release** (tag `v13.4`) and Zenodo will automatically archive it and mint a DOI.
 
 > **Shortcut:** If you do step 2, you can skip steps 3-6 below — Zenodo handles it automatically.
 
@@ -40,7 +40,7 @@ Drag and drop **all** of the following files (or a single `.zip`):
 | `src/` (zip the folder) | Numerical implementation |
 | `CITATION.cff` | Citation metadata |
 
-> Tip: zip the whole repo: `git archive --format=zip HEAD -o unitary-manifold-v13.1.zip`
+> Tip: zip the whole repo: `git archive --format=zip HEAD -o unitary-manifold-v13.4.zip`
 
 ---
 

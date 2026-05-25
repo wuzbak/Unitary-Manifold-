@@ -183,7 +183,7 @@ This is not a metaphor. The Coupled Master Equation (Pillar 9) uses the same str
 | This session | ~10⁶ bits (~100k tokens × 10 bits/token) |
 | The laws | 5 seed constants × log₂(precision) ≈ few hundred bits |
 
-**Laws are more compressed than the phenomena they govern.** The smallest seed contains the largest explanation. n_w = 5 — one integer, ~3 bits — encodes 406 pillars of physics, ≥41,390 passing tests, and the conditions for the minds that discovered it.
+**Laws are more compressed than the phenomena they govern.** The smallest seed contains the largest explanation. n_w = 5 — one integer, ~3 bits — encodes 406 pillars of physics, 42,215 passing tests, and the conditions for the minds that discovered it.
 
 This is the compression law: the universe compresses 10⁸⁸ bits of entropy into 5 numbers. A brain needs 10¹⁴ bits to model those numbers' consequences. An AI session needs 10⁶ bits to encode the laws governing them. The laws are more compressed than the phenomena.
 
@@ -215,7 +215,7 @@ Omega and Holon Zero are complementary:
 - **Omega** answers from the top down: *given the full framework, what does it compute?*
 - **Holon Zero** answers from the bottom up: *given the ground state, why does anything exist to compute?*
 
-Together, they bracket the project. Omega is the summit. Holon Zero is the foundation. The project lives between them — 406 pillars of physics, ≥41,390 tests, zero failures, and one loop that closes.
+Together, they bracket the project. Omega is the summit. Holon Zero is the foundation. The project lives between them — 406 pillars of physics, 42,215 tests, zero failures, and one loop that closes.
 
 ---
 

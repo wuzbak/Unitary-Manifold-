@@ -47,7 +47,7 @@ Seven new pillars were added spanning the WZW fixation of the L2 zero-mode coupl
 
 **New tests:** 536
 **Failures:** 0
-**Canonical test count:** ≥42,141 passing · 2 skipped · 12 deselected · 0 failed
+**Canonical test count:** 42,215 passed · 2 skipped · 12 deselected · 0 failed (CI #220, 2026-05-25)
 
 ---
 

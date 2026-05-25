@@ -151,7 +151,7 @@ No understanding of the full framework is required to execute the
 falsification check. This is by design.
 
 **Archive integrity:** The Zenodo DOI `10.5281/zenodo.19584531` pins v9.29 (the first formal Zenodo deposit).
-The current canonical version is v13.1 and should be deposited under a new versioned Zenodo record.
+The current canonical version is v13.4 and should be deposited under a new versioned Zenodo record.
 
 ---
 

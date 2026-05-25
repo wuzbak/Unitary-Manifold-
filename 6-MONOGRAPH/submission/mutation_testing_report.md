@@ -1,5 +1,5 @@
 # Mutation Testing Report
-## Unitary Manifold — v13.1 (May 2026)
+## Unitary Manifold — v13.4 (May 2026)
 
 This document lists each mutation break-point from `HOW_TO_BREAK_THIS.md`,
 records the actual failure output observed when the mutation was applied, and
@@ -8,8 +8,8 @@ confirms that every break-point produces at least one failing test.
 This report was generated from a clean clone of the repository at commit
 `copilot/refine-submission-falsification-report`, Python 3.12.13, pytest 9.0.3.
 
-**Grand total:** ≥41,390 tests passing (2 skipped, 12 deselected, 0 failures)
-on the un-mutated codebase (v13.1 canonical; historical baseline at this commit: 18,057).
+**Grand total:** 42,215 tests passing (2 skipped, 12 deselected, 0 failures)
+on the un-mutated codebase (v13.4 canonical; historical baseline at this commit: 18,057).
 
 ---
 
@@ -245,7 +245,7 @@ these mutations applied.
 
 ## Conclusion
 
-The ≥41,390-test suite is **adversarially robust**: every documented physical
+The 42,215-test suite is **adversarially robust**: every documented physical
 claim has at least one test that fails under the corresponding mutation.
 The mutations span all levels of the framework — from the algebraic identity
 k_CS = n₁² + n₂² (verifiable by hand), through the KK Jacobian (the

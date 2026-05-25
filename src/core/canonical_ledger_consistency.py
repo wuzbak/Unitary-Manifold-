@@ -203,12 +203,12 @@ def onboarding_docs_consistency_report() -> Dict[str, object]:
     """Check that every onboarding document contains the canonical passed count.
 
     The canonical count is taken from STATUS.md (the single source of truth).
-    Any onboarding document that does *not* contain that count has drifted and
-    will direct contributors or verifiers to a stale total.
+    Any onboarding document that does *not* contain that exact count has drifted
+    and will direct contributors or verifiers to a stale total.
 
     Returns a dict with:
       ``canonical``      – the regression dict extracted from STATUS.md
-      ``results``        – per-document {path, found, text_present} entries
+      ``results``        – per-document {path, exists, canonical_count_found}
       ``drifted_docs``   – list of keys whose content does not contain the count
       ``all_pass``       – True if every onboarding doc contains the canonical count
     """

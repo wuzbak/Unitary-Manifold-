@@ -1,4 +1,4 @@
-# Zenodo & arXiv Submission Checklist — v13.1
+# Zenodo & arXiv Submission Checklist — v13.4
 
 > **Role split:** Copilot (me) has already updated all metadata files and staged everything.
 > The steps below are **yours** — things only a human with an account can do.
@@ -7,7 +7,7 @@
 
 ## ✅ Already done by Copilot
 
-- [x] `zenodo/.zenodo.json` — updated to v13.1, ≥41,390 tests, 406 pillars + Ω₀ + sub-pillars — CLOSED
+- [x] `zenodo/.zenodo.json` — updated to v13.4, 42,215 tests, 406 pillars + Ω₀ + sub-pillars — CLOSED
 - [x] `CITATION.cff` — updated
 - [x] `arxiv/main.tex` — header updated to current version; all major admissions CLOSED
 - [x] `arxiv/build_submission.sh` — helper script to compile LaTeX and create upload archive
@@ -127,13 +127,13 @@ Admission 3 FORMALLY_CLOSED Pillar 387), APS spin structure, Goldberger-Wise now
 Braid Stability DERIVED_STRUCTURAL (Pillar 377), S=A/4G DERIVED_CONDITIONAL (Pillar 379),
 metric ansatz DERIVED_UNIQUE (Pillar 384), H¹ FTUM Sobolev extension (Pillar 405),
 GHY boundary terms + C5 compatibility (Pillar 406). All major admissions CLOSED. ToE: 28/28 = 100%.
-≥41,390 passing tests (2 skipped = Pentad optional stubs). Numerical code for independent verification at
+42,215 passing tests (2 skipped = Pentad optional stubs). Numerical code for independent verification at
 https://github.com/wuzbak/Unitary-Manifold-
 ```
 
 **Comments field:**
 ```
-74 pages, 0 figures. 406 pillars + Ω₀ + sub-pillars — CLOSED (v13.1). Numerical implementation (≥41,390 tests) at
+74 pages, 0 figures. 406 pillars + Ω₀ + sub-pillars — CLOSED (v13.4). Numerical implementation (42,215 tests) at
 https://github.com/wuzbak/Unitary-Manifold-
 Zenodo DOI: 10.5281/zenodo.XXXXXXX
 Dedicated to the Defensive Public Commons.

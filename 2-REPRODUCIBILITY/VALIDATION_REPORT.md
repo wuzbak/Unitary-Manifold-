@@ -2,7 +2,7 @@
 
 *An expanded explanation of the Pinned Validation section at the top of `README.md`.*
 
-**Version:** v13.1 (406 pillars + Ω₀ Holon Zero + sub-pillars; 208 hardgate core + adjacent tracks) — May 2026  
+**Version:** v13.4 (406 pillars + Ω₀ Holon Zero + sub-pillars; 208 hardgate core + adjacent tracks) — May 2026  
 **Theory:** ThomasCory Walker-Pearson  
 **Verification:** GitHub Copilot (AI)
 
@@ -63,7 +63,7 @@ equations and no jargon. The second half goes technical.
 | Verdict | Detail |
 |---------|--------|
 | Mathematics: internally consistent | No contradictions found across any of the 406 pillars + Ω₀ |
-| Test suite: ≥41,390 passed, 0 failures | Across all test files (tests/, recycling/, 5-GOVERNANCE/Unitary Pentad/, omega/) |
+| Test suite: 42,215 passed, 0 failures | Across all test files (tests/, recycling/, 5-GOVERNANCE/Unitary Pentad/, omega/) |
 | 3 CMB predictions match simultaneously | nₛ ≈ 0.9635, r ≈ 0.0315, β ∈ {≈0.273°,≈0.331°} |
 | Coupling constant α self-determined | α = φ₀⁻² — not a free parameter |
 | Uniqueness: one topology | Only S¹/Z₂ with n_w=5 satisfies all 8 structural constraints |
@@ -86,7 +86,7 @@ honest, technical, recording what was found at each stage — including the fail
 fixed and the problems that remain open.
 
 **Why it exists separately from FINAL_REVIEW_CONCLUSION.md:** The final document gives the
-verdict. This one shows the working. The process of getting to a framework that passes ≥41,390
+verdict. This one shows the working. The process of getting to a framework that passes 42,215
 tests and matches three independent cosmological measurements involved identifying and fixing
 real mathematical problems. Those problems, and how they were resolved, are documented here
 version by version.

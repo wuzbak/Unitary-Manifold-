@@ -39,6 +39,7 @@ exclude:
   - "vendor/"
   - "node_modules/"
   - "tmp/"
+  - "terrifying-theories/"
 
 # Build settings
 markdown: kramdown

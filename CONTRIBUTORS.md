@@ -126,7 +126,7 @@ platform, or downstream redistribution.
 - Pillar 70-C (`geometric_chirality_uniqueness.py`): n_w=5 DERIVED from GW+APS+SU(2)_L geometry; 88 tests
 - Pillar 99-B (`anomaly_closure.py` extension): k_primary derived from cubic CS integral; 47 tests
 - Pillar 15-F (`cold_fusion/falsification_protocol.py`): experimental falsification criteria; 64 tests
-- Grand total v13.1: **≥41,390 passed, 2 skipped, 0 failed**
+- Grand total v13.1: **42,215 passed, 2 skipped, 0 failed**
 
 ---
 
@@ -173,6 +173,6 @@ platform, or downstream redistribution.
 
 ---
 
-*This contributors file was last updated May 2026 (v13.1 — 406 pillars + sub-pillars + Ω₀, ≥41,390 tests; ToE 100%; all admissions CLOSED; AxiomZero Technologies DBA active). Legal rights section authored by ThomasCory Walker-Pearson.*
+*This contributors file was last updated May 2026 (v13.4 — 406 pillars + sub-pillars + Ω₀, 42,215 tests; ToE 100%; all admissions CLOSED; AxiomZero Technologies DBA active). Legal rights section authored by ThomasCory Walker-Pearson.*
 
 **DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)
