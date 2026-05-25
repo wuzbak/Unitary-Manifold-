@@ -593,63 +593,56 @@ Each subsection is tagged with a **severity tier** using the following scale:
 
 ### 4.4 Dark energy equation of state — current observational pressure  *(Tier: STRUCTURAL)*
 
-The Unitary Manifold predicts w_KK = −1 + (2/3)c_s² ≈ −0.9302 from the braided
-sound speed c_s = 12/37.  As of May 2026 (v9.39 update), the experimental
-situation is a **live controversy between datasets** — the UM prediction acts as
-a discriminant, not a simple failure:
+**Pillar 428 six-issue audit (v13.4, 2026-05-25):** The following is the corrected analysis
+replacing the pre-421 text.  Key corrections: (1) w_KK = −0.9302 is an inflationary-epoch
+formula — not a dark energy prediction for today; (2) the "0.11σ from DESI DR2" claim is
+identified as a circular comparison (both the DESI w₀CDM fit and the UM had wₐ = 0);
+(3) the correct comparison uses the DESI CPL fit (wₐ free); (4) the 2D joint tension properly
+accounts for ρ(w₀, wₐ) = −0.97 with signed residuals.
 
-- Planck 2018 + BAO: w = −1.03 ± 0.03 (3.3σ tension with UM)
-- DES Year-3 + Planck + BAO + SNe Ia: w = −0.98 ± 0.06 (0.83σ tension with UM)
-- DESI DR2 BAO (2025): w₀ = −0.92 ± 0.09 (**0.11σ tension with UM ✅**)
+**Corrected UM dark energy predictions:**
+- **w₀ = −1** (frozen EW radion, m_r >> H₀ — physically self-consistent)
+- **wₐ = 0** (frozen radion — no evolution; single coherent mechanism)
+- *Inflationary epoch note:* w_KK = −1 + (2/3)c_s² ≈ −0.9302 is a valid formula
+  for the inflationary KK zero-mode during inflation; it does NOT apply to today's dark energy.
 
-**Planck vs DESI internal tension:** Planck+BAO and DESI DR2 disagree on w₀ by
-~1.2σ — a live experimental controversy independent of the UM.  The UM prediction
-w_KK ≈ −0.930 lies squarely in the DESI-preferred region.
+**DESI Year 3 / DR2 (BAO + CMB + SNe, arXiv:2503.14738, March 2025):**
+- CPL fit (wₐ free — CORRECT comparison): w₀ = −0.838 ± 0.072, wₐ = −0.62 ± 0.30, ρ = −0.97
+- w₀CDM fit (wₐ = 0 forced — CIRCULAR, do not use for UM validation): w₀ = −0.92 ± 0.09
 
-The w₀ tension differs significantly between datasets.  At σ(w) = 0.03 (Planck+BAO)
-the UM prediction is 3.3σ from the central value; at σ(w) = 0.09 (DESI DR2)
-it is 0.11σ from the central value.  The two datasets are themselves in ~1.2σ
-tension with each other, independent of the UM.  The UM prediction w_KK ≈ −0.930
-lies in the DESI-preferred region and in tension with Planck+BAO.  See
-`w0_experimental_landscape()` in `src/core/kk_radion_dark_energy.py` for the
-full machine-readable comparison.
+**Corrected tension table:**
+| Quantity | UM prediction | DESI CPL value | Tension |
+|---|---|---|---|
+| w₀ | −1 (frozen radion) | −0.838 ± 0.072 | 2.25σ (1D) |
+| wₐ | 0 (frozen radion) | −0.62 ± 0.30 | 2.07σ (1D) |
+| Joint 2D (correct) | (−1, 0) | CPL with ρ=−0.97 | **≈ 2.30σ** (correlation reduces tension) |
 
-At σ(w) = 0.03 (Planck+BAO), the tension |w_predicted − w_observed| / σ = |−0.9302 − (−1.03)| / 0.03 ≈ 3.3σ.
-At σ(w) = 0.09 (DESI DR2), the tension |−0.9302 − (−0.92)| / 0.09 ≈ 0.11σ ✅.
+**Key geometric insight (Issue 4 of Pillar 421):** The joint 2D χ² with ρ = −0.97 gives
+≈ 2.30σ for the frozen-radion point — LESS than the naive diagonal 3.06σ — because the
+UM residuals (Δw₀ < 0, Δwₐ > 0) align with the DESI anti-correlation ellipse major axis.
+The inflationary w₀ = −0.9302 point, by contrast, gives ≈ 3.63σ (2D) — the correlation
+INCREASES tension there because the residuals are more off-axis.
 
-**New (Pillar 160): wₐ tension — AGENT GAMMA ROUTING EXECUTED (2026-05-09).**  The UM predicts wₐ = 0 (frozen EW radion: m_r >> H₀).
-DESI DR2 (arXiv:2503.14738, March 2025) = Year 3 data:
-- BAO-only: wₐ = −0.62 ± 0.30 → **2.07σ tension** (TENSION, not FALSIFIED)
-- Combined BAO+CMB+SNe: wₐ ≈ −0.55 ± 0.20 → **2.75σ tension** (HIGH_TENSION, not FALSIFIED)
-- Module: `src/core/desi_dr2_gap_report.py::full_dr2_gap_report()`
-- Falsification threshold: wₐ ≠ 0 at ≥3σ. Current status: NOT reached.
-- Nearest falsification scenario: DESI DR3/Y5 with wₐ ≈ −0.62, σ=0.18 → 3.44σ FALSIFIED (DR3-S6).
+**DESI's reported 3.9σ ΛCDM exclusion** comes from the full likelihood analysis across all
+data vectors; it is NOT reproduced by the 2D CPL Gaussian summary statistics alone.
 
-**Exhaustive search (Pillar 160):** No viable mechanism for wₐ ≠ 0 was found in the UM:
-- KK axion tower from EW sector: all modes m_n >> H₀ → all frozen → wₐ = 0.
-- DE-sector light radion: eliminated by Cassini PPN fifth-force constraint.
-- Multi-mode KK axion coherent sum: modes too heavy for coherent quintessence.
+**Current status (2026-05-25):** HIGH_TENSION.
+- 1D wₐ tension: 2.07σ (pre-registered falsification threshold: ≥3σ)
+- 2D joint tension (frozen-radion point, CPL summary): 2.30σ
+- Falsification threshold NOT reached by CPL summary statistics alone
 
-**FORMAL DECLARATION (Pillar 160):** The dark energy equation of state (w₀, wₐ) is the
-UM's **secondary open falsification target** alongside CMB birefringence β.
-The Nancy Grace Roman Space Telescope (~2027, σ(w₀) ≈ 0.02, σ(wₐ) ≈ 0.10) will
-either confirm or falsify the UM DE predictions.
+**DESI naming (Issue 5):** The dataset is correctly called "DESI Year 3 / DR2".
+DESI completed its 5-year survey in April 2026. DR3 (full Y5 analysis) expected late 2026.
+Projected wₐ tension at DR3 (if central value holds): ~4.6σ (1D wₐ), exceeding the
+falsification threshold.
 
-**Pillar 359 Canonical Unification (v12.4):** The three inconsistent w₀ formulas documented in earlier versions are now resolved. The canonical UM dark energy prediction is:
-- **w₀ = −1** (frozen radion today, exact to O[(H₀/M_KK)²] ~ 10⁻⁶⁴)
-- **wₐ = 0** (no radion evolution at z ~ 0)
-- Machine-readable: `from src.core.pillar359_de_canonical_unification import de_eos_prediction`
+**Pillar 160 / 359 legacy:** The wₐ = 0 prediction and exhaustive search (all KK modes
+frozen) remain valid.  Module: `src/core/pillar428_desi_cpl_consistency_audit.py`.
 
-The earlier "0.11σ from DESI DR2" claim was based on the WRONG inflationary formula w_KK ≈ −0.930, which applies only at inflation (ε ~ ½), not today. With the correct canonical prediction w₀ = −1:
-- w₀ tension with DESI DR2 BAO: **4.1σ** (HIGH_TENSION, not 0.11σ)
-- wₐ tension with DESI DR2 combined: **3.0σ** (HIGH_TENSION)
-- The formula w_KK = −1 + (2/3)c_s² ≈ −0.930 is **DEPRECATED** for present-day use. See Pillar 316/359.
+**Falsification target:** UM DE prediction (w₀ = −1, wₐ = 0) will be definitively tested
+by DESI DR3 (late 2026). Roman Space Telescope (~2027) serves as a corroborating instrument.
 
-
-
-**Why the formula may be incorrect (v12.0 addendum):** Pillar 347 showed that the identification w_KK = −1 + (2/3)c_s² conflates the inflationary braided sound speed with the present-day dark energy EoS. The full propagation through the cosmological history gives w₀ → −1 + O(m_φ²/H₀²) where m_φ is the KK radion mass. At m_φ >> H₀ (frozen radion limit), this gives w₀ → −1, consistent with ARCHITECTURE_LIMIT. The open residual is the exact radion mass m_φ — currently bounded by Cassini PPN constraints to m_φ >> H₀. DESI DR3 will test whether wₐ deviates from 0 at > 3σ.
-
-*Code: `src/core/kk_axion_quintessence.py` (Pillar 160), `src/core/kk_radion_dark_energy.py::w0_experimental_landscape()` (v9.39), `tests/test_kk_axion_quintessence.py` (~70 tests).*
+*Code: `src/core/kk_axion_quintessence.py` (Pillar 160), `src/core/kk_radion_dark_energy.py::w0_experimental_landscape()`, `src/core/kk_de_wa_cpl.py::joint_cpl_tension_2d()`, `src/core/pillar428_desi_cpl_consistency_audit.py` (six-issue audit), `tests/test_pillar428_desi_cpl_consistency_audit.py`.*
 
 ### 4.5 Interpretational risks  *(Tier: INTERPRETIVE)*
 

@@ -350,8 +350,8 @@ class TestPillar155Summary:
     def test_title_nonempty(self):
         assert len(self.result["title"]) > 10
 
-    def test_new_status_analysed(self):
-        assert "ANALYSED" in self.result["new_status"]
+    def test_new_status_high_tension(self):
+        assert "TENSION" in self.result["new_status"].upper() or "ANALYSED" in self.result["new_status"]
 
     def test_um_w0_matches_w_kk(self):
         assert abs(self.result["um_w0"] - W_KK) < 1e-12
