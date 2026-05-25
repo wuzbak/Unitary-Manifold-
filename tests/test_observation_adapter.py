@@ -331,7 +331,7 @@ def test_observation_report_overall_status_valid():
 
 
 def test_observation_report_framework_version():
-    assert observation_report().framework_version == "v10.52"
+    assert observation_report().framework_version == "v13.1"
 
 
 def test_observation_report_records_are_observation_records():
