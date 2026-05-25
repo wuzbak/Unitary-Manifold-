@@ -918,7 +918,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > New falsifiers (added v9.30): **Roman Space Telescope (~2027) w_DE precision σ(w)~0.02** — if w₀ ∉ [−0.95, −0.91], the KK dark energy prediction is falsified.
 
 > 🔒 **Repository extended to 454+ pillars + Ω₀ — v13.8, May 2026.**
-> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–454. All major admissions CLOSED. ToE score: 28/28 = 100%. Test count: ~40,859 passing.
+> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–454. All major admissions CLOSED. ToE score: 28/28 = 100%. Test count: 43,080 passing.
 > Historical arc: 132 pillars (Grand Synthesis Arc), 142 pillars + Ω₀ (SM Closure Arc), 167 pillars + Ω₀ (Gap Closure Arcs I–II — May 2026), 181 pillars + Ω₀ (Red-Team Arc v9.35), 208 pillars + Ω₀ (v10.4 Near Closure), extended to 420+ pillars + Ω₀ (v10.5–v13.4: ToE, admissions closures, CMB second quantization, epistemological deep audit, Completeness Certificate).
 > Remaining honest open gaps: CMB peak residual ±15% (non-perturbative braid, Borel-Padé bounded); Jarlskog ARCHITECTURE_LIMIT_MAPPED; LHC KK graviton CONSTRAINED_BOUNDED. All documented in FALLIBILITY.md.
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
