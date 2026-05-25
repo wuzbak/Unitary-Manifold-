@@ -35,12 +35,9 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** ~40,526 passed · 1 skipped · 12 deselected · 0 failed (v13.7 baseline, 2026-05-25) + 333 new passing (v13.8 sprint, Pillars 441–454; 0 failures)
-*(v13.5 in-sprint: 42,658 passed · 0 failed; Pillars 421–427; 443 new tests; 0 failures)*
-*(v12.9: Pillars 394–397 — Epistemological Deep Audit; 228 new tests; 0 failures; canonical: ≥40,180)*
-*(v12.8: Pillars 389–393 — Governance Lane Classifier; Truth-Surface Checker; Signal-Noise Filter; Decision Readiness Package; Sprint Completion Gate; 207 new tests; 0 failures)*
-*(v12.7: Pillars 385–388 — KM c₁ computed; seesaw diagonalized; Admission 3 CLOSED; NLO bounded; 0 failures)*
-*(v12.6: Pillars 377–384 — P8 POSTULATED→DERIVED; P6 ASSUMED→DERIVED; metric uniqueness; Borel-Padé γ bound; full C_ℓ; topology candidate; p_R bound; 0 failures)*
+**Latest verified branch regression:** 43,080 passed · 23 skipped · 12 deselected · 0 failed (v13.8, 2026-05-25; tests/ + recycling/ + Pentad)
+*(v13.7 baseline 40,526 + 333 new v13.8 sprint + 2,961 Pentad = 43,080 total)*
+*(historical: v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215; v12.9: ≥40,180)*
 
 ---
 
@@ -379,11 +376,11 @@ carries a dated errata footer explaining the v11.4 Pillar 259 → Pillar
 - `src/core/finish_line_observation_engine.py`: extended with PMNS θ₁₂ and LISA Ω_GW routing plus same-commit payloads for `3-FALSIFICATION/OBSERVATION_TRACKER.md`, `docs/WAVE_CHANGELOG.md`, `docs/TRUTH_LAYER.md`, `docs/CLAIM_MASTER_BOARD.md`, and the canonical ledgers.
 - `src/core/canonical_ledger_consistency.py`: machine-readable consistency check — now covers core ledgers (README, STATUS, FALLIBILITY, DERIVATION_STATUS, WAVE_CHANGELOG, mas_tracker) **plus** onboarding docs (CONTRIBUTING, 2-REPRODUCIBILITY/README, 9-INFRA/TEST/README, copilot-instructions, wiki×2, MCP_INGEST, WHAT_THIS_MEANS).
 
-### Regression gate (v13.6)
+### Regression gate (v13.8)
 
 ```
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-Expected: 43,009 passed · 2 skipped · 12 deselected · 0 failed
+Expected: 43,080 passed · 23 skipped · 12 deselected · 0 failed
 ```
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v13.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: ~40,526 passed · 1 skipped · 12 deselected · 0 failed (v13.7 baseline) + 333 new (v13.8 sprint, 2026-05-25); v13.8 adds Pillars 441–454 — Tightening, Audit, Proofing, and Theorems: Admission 7 FULLY_CLOSED (P445), L2 γ NP budget Phase 2 98% (P446), Lean4 n_w=5 certificate (P447), P2 ansatz audit DERIVED_UNIQUE (P448), Fermion hierarchy 9/9 (P449), α_s PDG 2026 MARGIN_ZONE (P450), α_GW SC2 narrowed (P451), PMNS p_R constrained (P452), quantum theorem audit honest labels (P453), Z3 SMT 13-Admission consistent + DUNE preregistered (P454); 333 new tests; 0 failures).*
+*Unitary Manifold v13.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: 43,080 passed · 23 skipped · 12 deselected · 0 failed (v13.8, 2026-05-25; tests/ + recycling/ + Pentad); v13.8 adds Pillars 441–454 — Tightening, Audit, Proofing, and Theorems: Admission 7 FULLY_CLOSED (P445), L2 γ NP budget Phase 2 98% (P446), Lean4 n_w=5 certificate (P447), P2 ansatz audit DERIVED_UNIQUE (P448), Fermion hierarchy 9/9 (P449), α_s PDG 2026 MARGIN_ZONE (P450), α_GW SC2 narrowed (P451), PMNS p_R constrained (P452), quantum theorem audit honest labels (P453), Z3 SMT 13-Admission consistent + DUNE preregistered (P454); 333 new tests; 0 failures).*
 
 ---
 

@@ -19,7 +19,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v13.8"
-  regression: "~40,526 passed · 1 skipped · 12 deselected · 0 failed (v13.7 baseline) + 333 new (v13.8 sprint, 2026-05-25; Pillars 441–454)"
+  regression: "43,080 passed · 23 skipped · 12 deselected · 0 failed (v13.8, 2026-05-25; tests/ + recycling/ + Pentad; v13.7 baseline 40,526 + 333 new v13.8 sprint + 2,961 Pentad = 43,080)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
