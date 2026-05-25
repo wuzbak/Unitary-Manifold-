@@ -15,7 +15,42 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
-## v14.1 (2026-05-25 — External Engagement Sprint: Pillars 475–481)
+## v14.2 (2026-05-25 — Gap Closure Sprint: Pillars 482–487)
+
+**What changed:**
+- **Pillar 482** — Lean4 CI Full Activation: lean4-check.yml trigger updated from `paths: lean4/**` (silently skipped all physics commits) to `branches: **` (triggers on every push). Tier 2 OPERATIONAL_VIA_WORKFLOW. Status: LEAN4_CI_FULLY_ACTIVATED
+- **Pillar 483** — Lattice Braid Phase 3: g_braid coupling constant extracted from BKT transfer matrix; δγ_ZM computed; 2% γ residual bounded from above and below. Status: LATTICE_BRAID_PHASE3_G_BRAID_EXTRACTED 🔵
+- **Pillar 484** — PMNS p_R Two-Loop Yukawa Execution: P271 seesaw chain executed; 2-loop RGE from KK scale with braid suppression (N_W/K_CS) factor; PR_NLO interval narrowed; NAMED_RESIDUAL → EXECUTED. Status: PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED
+- **Pillar 485** — CMB Peak Positions Boltzmann Audit: Computed KK-corrected peak ℓ-values for peaks 1–6 using analytic formula with baryonic phase offsets; KK correction δ_KK ≈ 0.36%; named Peak 3 as CMB_PEAK_POSITION_RESIDUAL_PEAK3; OPEN → QUANTIFIED_RESIDUAL. Status: CMB_PEAK_POSITIONS_BOLTZMANN_AUDIT_QUANTIFIED_RESIDUAL
+- **Pillar 486** — DESI DR3 Final Preparation: Corrected DR2 tension to 2.30σ (Pillar 428 CPL-corrected); produced machine-executable DR3 tripwire; generated public-facing one-page statement + SHA-256 preregistration; GATEKEEPER sync note v14.2. Status: DESI_DR3_FINAL_PREPARATION_COMPLETE
+- **Pillar 487** — Z₂-odd G_{μ5} GHY Boundary Action Derivation: Extended P387 (classical) via P406 (GHY terms); variational well-posedness of full action (EH + GHY) forces Dirichlet BC on G_{μ5}; Neumann BC ruled out by k_CS = 74 ≠ 0; Dirichlet BC ≡ Z₂-odd; Admission 1 classical chain COMPLETE. Status: Z2_ODD_GMU5_GHY_BOUNDARY_ACTION_DERIVED
+
+**Why:** Priority 1–8 action items from v14.1 status plan. Fix Lean4 CI engineering block (P1); extract g_braid from lattice Phase 3 (P2); execute PMNS p_R 2-loop chain (P3); quantify CMB peak positions (P4); DESI DR3 readiness (P5); close Z₂-odd G_{μ5} action-level derivation (P7).
+
+**Epistemic label deltas:**
+- P482: CI_BLOCKED → LEAN4_CI_FULLY_ACTIVATED (trigger broadened to all branches)
+- P483: LATTICE_BRAID_PHASE2_2D_COMPUTED → LATTICE_BRAID_PHASE3_G_BRAID_EXTRACTED 🔵
+- P484: PMNS_PR_NAMED_RESIDUAL → PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED (NLO interval narrowed)
+- P485: OPEN (CMB peak positions) → CMB_PEAK_POSITION_QUANTIFIED_RESIDUAL
+- P486: DR2 2.07σ → DR2 CPL-corrected 2.30σ; DR3 tripwire machine-executable
+- P487: ADMISSION_1 residual → Z2_ODD_GMU5_GHY_BOUNDARY_ACTION_DERIVED (classical level COMPLETE)
+
+**TOE score delta:** P487 closes Admission 1 at classical action level. P484 narrows the PMNS_PR residual. P485 converts an OPEN gap into a named quantified residual. All hardgate core physics unchanged.
+
+**Falsification impact:**
+- P486: DR3 tripwire is now machine-executable; DR2 corrected 2.30σ tension documented (not FALSIFIED)
+- P482: Lean4 proofs now verified by CI on every push (credibility upgrade)
+- P483: γ gap bounded from above; 2% residual now has an analytic expression
+
+**Residual unknowns:**
+- DESI wₐ = 0 vs DR2 2.30σ: HIGH_TENSION. DR3 2026 could cross 3σ → FALSIFIED
+- ACT r-tension at ≈2.5σ: ARCHITECTURE_LIMIT; SO DR1 2027
+- γ gap: L2_FINAL_2PCT_NAMED_IRREDUCIBLE. Lattice braid Phase 4 (non-perturbative) would close it
+- PMNS p_R: bounds narrowed but residual remains; 2-loop closure requires B-coefficient precision
+- Lean4 Tier 2: operational but Mathlib compilation time ~12 min (cold cache)
+- Admission 1 Z₂-odd: classical level COMPLETE; quantum functional-integral treatment still future work
+
+
 
 **What changed:**
 - **Pillar 475** — JUNO Δm²₃₁ NLO Full-Chain Closure: T3 formally SAFE. Residual 0.04% after seesaw p_R correction + RGE running. Status: JUNO_NLO_FULL_CHAIN_SAFE

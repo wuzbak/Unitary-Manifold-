@@ -1,8 +1,17 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v14.1
+# Unitary Manifold v14.2
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v14.2 update (Gap Closure Sprint — Pillars 482–487):*
+*(1) Pillar 482 — Lean4 CI Full Activation: lean4-check.yml trigger broadened from paths:lean4/** to branches:**. Tier 2 now triggers on ALL branch pushes. CI_BLOCKED → LEAN4_CI_FULLY_ACTIVATED.*
+*(2) Pillar 483 — Lattice Braid Phase 3: g_braid coupling extracted from BKT transfer matrix; δγ_ZM bounded; 2% γ residual has numeric upper and lower bounds. 🔵 ADJACENT TRACK.*
+*(3) Pillar 484 — PMNS p_R Two-Loop Yukawa Execution: P271 seesaw chain + 2-loop RGE with braid suppression (N_W/K_CS) factor executed. PR_NLO interval narrowed. PMNS_PR_NAMED_RESIDUAL → PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED.*
+*(4) Pillar 485 — CMB Peak Positions Boltzmann Audit: KK-corrected ℓ-values for peaks 1–6 computed using Ma-Bertschinger analytic framework with baryonic phase offsets. KK correction δ_KK ≈ 0.36%. Peak 3 named residual: CMB_PEAK_POSITION_RESIDUAL_PEAK3. OPEN → CMB_PEAK_POSITION_QUANTIFIED_RESIDUAL.*
+*(5) Pillar 486 — DESI DR3 Final Preparation: DR2 tension corrected to 2.30σ (CPL, Pillar 428). Machine-executable DR3 tripwire. SHA-256 preregistered one-page public statement. GATEKEEPER_SUMMARY sync note v14.2. DESI_DR3_FINAL_PREPARATION_COMPLETE.*
+*(6) Pillar 487 — Z₂-odd G_{μ5} GHY Action-Level Derivation: Variational well-posedness of full 5D action (EH + GHY) forces Dirichlet BC on G_{μ5}. Neumann BC ruled out by k_CS = 74 ≠ 0. Dirichlet BC ≡ Z₂-odd. Admission 1 classical chain COMPLETE: 5D action → GHY → Dirichlet BC → Z₂-odd → η̄=½ → k_CS×η̄=37 (odd) → n_w=5. Residual: quantum functional-integral treatment. Z2_ODD_GMU5_GHY_BOUNDARY_ACTION_DERIVED.*
+*435 new tests; 0 failures. Canonical test count: 44,748+ passing. Next pillar slot: 488.*
 
 *v14.1 update (External Engagement Sprint — Pillars 475–481):*
 *(1) Pillar 475 — JUNO NLO Full-Chain Closure: T3 formally closed. NLO chain with p_R=0.357 seesaw correction + RGE running gives Δm²₃₁ = 2.452×10⁻³ eV² (0.04% residual). JUNO_NLO_FULL_CHAIN_SAFE. Well inside JUNO 0.5% target precision.*

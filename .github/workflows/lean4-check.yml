@@ -2,12 +2,11 @@ name: Lean 4 Formal Proofs
 
 on:
   push:
-    paths:
-      - 'lean4/**'
-      - '.github/workflows/lean4-check.yml'
+    branches:
+      - '**'
   pull_request:
-    paths:
-      - 'lean4/**'
+    branches:
+      - '**'
 
 jobs:
   lean4-build:
