@@ -181,7 +181,7 @@ def pipeline_ns_r(
         created_utc=_now_utc(),
         parameters={"phi0_bare": phi0, "n_w": n_w, "c_s": c_s},
         assumptions=("A1", "A2", "A3"),
-        framework_version="v13.1",
+        framework_version="v13.2",
     )
 
     steps = (
@@ -263,7 +263,7 @@ def pipeline_alpha_gut(
         created_utc=_now_utc(),
         parameters={"N_C": N_C, "K_CS": K_CS, "gamma_SU5": gamma_SU5},
         assumptions=("A_GUT_RGE", "A_KCS_RESONANCE"),
-        framework_version="v13.1",
+        framework_version="v13.2",
     )
 
     steps = (
@@ -330,7 +330,7 @@ def pipeline_kk_tower(
         created_utc=_now_utc(),
         parameters={"M_KK_TeV": M_KK_TeV, "n_modes": n_modes},
         assumptions=("A_KK_GEOMETRY", "A_FLAT_EXTRA_DIM"),
-        framework_version="v13.1",
+        framework_version="v13.2",
     )
 
     steps = tuple(
@@ -425,7 +425,7 @@ def pipeline_lambda_qcd(
             "M_GUT_GeV": M_GUT_GeV,
         },
         assumptions=("A_GUT_RGE", "A_1LOOP_RUNNING", "A_DECOUPLING"),
-        framework_version="v13.1",
+        framework_version="v13.2",
     )
 
     steps = (
@@ -502,5 +502,5 @@ def full_pipeline_report() -> dict:
         "kk_tower_certificate": kk,
         "lambda_qcd_certificate": lqcd,
         "overall_pass": all_pass,
-        "framework_version": "v13.1",
+        "framework_version": "v13.2",
     }
