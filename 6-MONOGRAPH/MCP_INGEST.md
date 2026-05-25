@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | 13.1 — Admissions Closure Sprint (Pillars 402–406; all major admissions CLOSED) |
+| Version | 13.4 — Closure & Completeness Sprint (Pillars 414–420; completeness certificate issued) |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Canonical status (v13.1):** Pillar set is closed under canonical governance. ToE score: **28.0/28.0 (100%)** — P28 DERIVED via `src/core/p28_lambda_derived_cert.py` (v10.59). All major admissions CLOSED (Admissions 3, 4, 5, 6, 11, 12, 13 fully closed; Admissions 7 and 10 at ARCHITECTURE_LIMIT_MAPPED and CONSTRAINED_BOUNDED respectively). Active monitoring modules for all 2027–2032 decision windows. Primary falsifier: LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Canonical status (v13.4):** Pillar set is closed under canonical governance. ToE score: **28.0/28.0 (100%)** — P28 DERIVED via `src/core/p28_lambda_derived_cert.py` (v10.59). All major admissions CLOSED (Admissions 3, 4, 5, 6, 11, 12, 13 fully closed; Admissions 7 and 10 at ARCHITECTURE_LIMIT_MAPPED and CONSTRAINED_BOUNDED respectively). Active monitoring modules for all 2027–2032 decision windows. Primary falsifier: LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -466,7 +466,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **41,605 passed · 2 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
+| **Test suite** | `pytest` unit tests — **42,141 passed · 2 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

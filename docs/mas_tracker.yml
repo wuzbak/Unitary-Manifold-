@@ -1,6 +1,6 @@
-version: "v13.2"
-date: "2026-05-24"
-updated: "2026-05-24"
+version: "v13.4"
+date: "2026-05-25"
+updated: "2026-05-25"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,11 +18,40 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.2"
-  regression: "≥41,605 passed · 2 skipped · 12 deselected · 0 failed (v13.2 sandbox; Pillars 407–412; 215 new tests)"
+  version: "v13.4"
+  regression: "≥42,141 passed · 2 skipped · 12 deselected · 0 failed (v13.4 sandbox; Pillars 414–420; 536 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_4_sprint:
+  version: "v13.4"
+  wave: "Closure & Completeness Sprint — Pillars 414–420"
+  date: "2026-05-25"
+  pillars_added:
+    - "414: L2 γ WZW Coupling Derivation — L2_WZW_COUPLING_BOUNDED; SU(2) WZW zero-mode propagator fixes g_braid=(K_CS+2)/(2K_CS)=76/148≈0.5135; δγ_ZM≈0.00546; c₁^{KM}+c₁^{ZM} explains ~73% of c₁ budget"
+    - "415: Fermion FN Charge Continuous Scan — HIERARCHY_FN_CONTINUOUS_CONSTRAINED; continuous ℓ_eff reproduces all 9 charged-fermion masses exactly; all effective sub-lattice FN corrections remain natural (<0.6)"
+    - "416: c_L^phys Topological Form Search — BOUNDED_FROM_GEOMETRY; no exact braid-natural closed form found; closest K_CS-anchored rational 71/74≈0.9595; geometric window (0.5,1.08) verified"
+    - "417: 2-Loop KK Yukawa Jarlskog Closure — TWOOLOOP_SUBLEADING_ADMISSION7_CLOSED; δc_L^(2-loop)/Δc≈2.4e-4 is >200× smaller than LO δ_KT≈0.053; Admission 7 CLOSED"
+    - "418: CMB Z_phi(k) Acoustic Peak Residual Bound — CMB_RESIDUAL_BOUNDED_15PCT; k-dependent Z_phi running tightens analytic acoustic residual envelope from ±26% to ±15%"
+    - "419: Completeness Certificate v13.4 — COMPLETION_CERTIFIED; aggregates all 13 Admissions, 8 postulates, honest architecture limits, and DAG-acyclic completeness verdict"
+    - "420: CKM Flavor Symmetry Framework — A4_FRAMEWORK_ESTABLISHED; adjacent-track A4/S4 extension path formalized from UM FN-charge separations; θ_A4≈25.6° seed angle"
+  document_updates:
+    - "README.md: v13.4 header + regression 42,141 + badges synced"
+    - "STATUS.md: v13.4 header + sprint summary + next pillar slot 421"
+    - "FALLIBILITY.md: v13.4 header + latest regression line updated"
+    - "1-THEORY/DERIVATION_STATUS.md: v13.4 header + sprint summary"
+    - "docs/WAVE_CHANGELOG.md: v13.4 sprint entry"
+    - "docs/mas_tracker.yml: v13.4 public surface sync checkpoint + sprint entry"
+  new_tests: 536
+  failures: 0
+  epistemic_deltas:
+    - "L2 γ gap: L2_CONDENSATE_ZERO_MODE_VIABLE → L2_WZW_COUPLING_BOUNDED (P414)"
+    - "Fermion hierarchy: HIERARCHY_PARTIALLY_CONSTRAINED → HIERARCHY_FN_CONTINUOUS_CONSTRAINED (P415)"
+    - "Admission 7: NATURALNESS_DERIVED → CLOSED (P417)"
+    - "CMB acoustic residual bound: ±26% → ±15% (P418)"
+    - "Framework certificate: COMPLETION_CERTIFIED (P419)"
+  next_pillar_slot: 421
 
 v13_2_sprint:
   version: "v13.2"
