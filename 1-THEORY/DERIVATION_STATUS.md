@@ -1,6 +1,6 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v13.7 — Unambiguous Record**  
+**The Unitary Manifold v13.8 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 *Last updated: 2026-05-25 (v13.7 — Prediction Hardening & Adjacent Track Phase 1: Pillars 434–440 added; ~430 new tests; ADM BSSN lapse CLOSED (P434); HL-LHC prediction preregistered (P435); proton decay bounded (P436); SPHEREx f_NL SHA-256 committed (P437); lattice braid Phase 1 computed (P438); 6D baryogenesis Phase 1 computed (P439); arXiv v13.7 synced (P440); >=43,439 passing · 0 failed.)*
 

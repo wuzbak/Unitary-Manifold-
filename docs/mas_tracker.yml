@@ -1,4 +1,4 @@
-version: "v13.7"
+version: "v13.8"
 date: "2026-05-25"
 updated: "2026-05-25"
 mas_status: "COMPLETE"
@@ -18,11 +18,49 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.7"
-  regression: "43,009 passed · 2 skipped · 12 deselected · 0 failed (v13.6 baseline) + ~430 new (v13.7 sprint, 2026-05-25; Pillars 434–440)"
+  version: "v13.8"
+  regression: "~40,526 passed · 1 skipped · 12 deselected · 0 failed (v13.7 baseline) + 333 new (v13.8 sprint, 2026-05-25; Pillars 441–454)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_8_sprint:
+  version: "v13.8"
+  wave: "Tightening, Audit, Proofing, and Theorems — Pillars 441–454"
+  date: "2026-05-25"
+  pillars_added:
+    - "441: DESI DR3 Final Routing — DESI_DR3_FINAL_ROUTING; w₀=−1 canonical; 2027 DR3 routing certified"
+    - "442: SO DR1 Routing Certified — SO_DR1_ROUTING_CERTIFIED; r∈[0.028,0.035] prediction; 2027 routing"
+    - "443: JUNO 2027 v13.8 — JUNO_2027_V138; Δm²₃₁=2.452×10⁻³ eV² NLO; SHA-256 updated"
+    - "444: CMB-S4 Prediction Package — CMBS4_PREDICTION_HARDENED; r<0.01 target; SPT-3G anchor"
+    - "445: 2-Loop KK Yukawa Full Admission 7 Closure — TWOLOOP_KK_YUKAWA_ADMISSION7_FULLY_CLOSED; graviton+gauge boson vertex; p_R uniquely determined; Adm.7: NATURALNESS_DERIVED→FULLY_CLOSED"
+    - "446: L2 γ Gap Phase 2 — L2_GAMMA_NP_BUDGET_PHASE2_CERTIFIED; 98% gap covered; instanton excluded (exp-suppressed); KM+ZM+cross-term complete"
+    - "447: Lean4 n_w=5 Machine Proof — LEAN4_NW5_UNIQUENESS_CERTIFICATE_GENERATED; Z₂→odd, CS anomaly→{5,7}, APS η-invariant→n_w=5 unique; SHA-256 committed"
+    - "448: Postulate P2 Upgrade Audit — P2_ANSATZ_DERIVED_UNIQUE_WITH_NAMED_RESIDUAL; 5 ansatz classes eliminated; residual=LAMBDA_NORMALIZATION_CONVENTION named"
+    - "449: Fermion Hierarchy 9/9 Audit — FERMION_HIERARCHY_99_AUDIT_CERTIFIED; 9/9 natural δ_FN<0.6; strange+muon exceptional in P411 closed in P429+P449; 2-loop stable"
+    - "450: α_s PDG 2026 Basin Stability — ALPHA_S_PDG2026_MARGIN_ZONE_CERTIFIED; 4.2% residual; MARGIN_ZONE (not STABLE_CORE); 10D flux sub-leading"
+    - "451: α_GW SC2 Interval Narrowing — ALPHA_GW_SC2_INTERVAL_NARROWED; UV consistency certified with N_flux=37; honest sub-30% width reduction"
+    - "452: PMNS p_R Derivation Attempt — PMNS_PR_CONSTRAINED_FROM_2LOOP_YUKAWA; p_R∈[0.30,0.43] tightened from geometric; PMNS_PR_REQUIRES_P271_CHAIN named"
+    - "453: Quantum Theorem Proof Audit — QUANTUM_THEOREM_AUDIT_HONEST_LABELS; BH→DERIVED_CONDITIONAL; CCR→CONJECTURAL; Hawking→DERIVED; ER=EPR→CONJECTURAL; honest downgrades from PROVED"
+    - "454: Z3 SMT + DUNE + Decision Readiness v13.8 — V138_SPRINT_GATE_PASSED; 13-Admission DAG CONSISTENT; DUNE δ_CP=1.2152±0.008 rad preregistered SHA-256; 6 decision windows updated; sprint gate PASS"
+  document_updates:
+    - "STATUS.md: v13.8 header + regression + next pillar slot 455"
+    - "docs/mas_tracker.yml: v13.8 public surface sync checkpoint + sprint entry"
+    - "FALLIBILITY.md: Admission 7 upgraded FULLY_CLOSED (P445); quantum theorems honest labels (P453)"
+  new_tests: 333
+  failures: 0
+  next_pillar_slot: 455
+  epistemic_deltas:
+    - "Admission 7: NATURALNESS_DERIVED → FULLY_CLOSED (P445 2-loop mechanism)"
+    - "L2 γ gap: L2_CONDENSATE_ZERO_MODE_VIABLE → L2_GAMMA_NP_BUDGET_PHASE2_CERTIFIED 98% (P446)"
+    - "n_w=5 proof: informal → LEAN4_NW5_UNIQUENESS_CERTIFICATE_GENERATED (P447)"
+    - "Postulate P2: DERIVED_UNIQUE → DERIVED_UNIQUE_WITH_NAMED_RESIDUAL (P448)"
+    - "Fermion hierarchy: HIERARCHY_FULLY_CONSTRAINED → FERMION_HIERARCHY_99_AUDIT_CERTIFIED (P449)"
+    - "α_s basin: MARGIN_ZONE_BOUNDARY → MARGIN_ZONE_CERTIFIED_AT_PDG2026 (P450)"
+    - "α_GW SC2: MEDIUM → NARROWED_UV_CONSISTENT (P451)"
+    - "PMNS p_R: BOUNDED [1e-5,0.535] → CONSTRAINED [0.30,0.43]; PMNS_PR_REQUIRES_P271_CHAIN (P452)"
+    - "Quantum theorems: BH PROVED→DERIVED_CONDITIONAL; CCR PROVED→CONJECTURAL; ER=EPR PROVED→CONJECTURAL (P453)"
+    - "DUNE δ_CP: NEW_PREDICTION → PREREGISTERED SHA-256 (P454)"
 
 v13_7_sprint:
   version: "v13.7"

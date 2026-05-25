@@ -12,6 +12,14 @@ while prior adjacent updates (Pillar 242 PCCRE addition, Pillar 238 rename, and
 Pillar 241 hazard-key update) remain non-hardgate and do not affect the
 28 SM parameter status table below.
 
+sprint registry note (v13.8): Pillars 441–454 added — 2-loop KK Yukawa
+(Admission 7 FULLY_CLOSED, pillar445), L2 γ NP Phase 2 (pillar446), Lean4
+n_w=5 certificate (pillar447), P2 ansatz audit (pillar448), fermion hierarchy
+9/9 audit (pillar449), α_s PDG 2026 basin (pillar450), α_GW SC2 narrowing
+(pillar451), PMNS p_R derivation (pillar452), quantum theorem audit (pillar453),
+Z3 SMT + DUNE preregistration + v13.8 sprint gate (pillar454). These are
+non-hardgate additions and do not alter the 28 SM parameter derivation table.
+
 Scope
 -----
 The Standard Model (with massive Dirac neutrinos) has 28 independent free
@@ -1362,7 +1370,7 @@ def pillar88_summary() -> Dict[str, object]:
     return {
         "pillar": 88,
         "name": "Standard Model Free Parameters — Complete UM Audit",
-        "version": "v9.21",
+        "version": "v13.8",
         "toe_score": toe,
         "neutrino_resolution_a": nu_res,
         "sin2_theta_W_SU5_conjecture": sin2W,

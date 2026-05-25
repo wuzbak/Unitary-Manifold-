@@ -350,8 +350,10 @@ def rehearsal_drill(scenario: str) -> Dict[str, Any]:
     scenarios: Dict[str, dict] = {
         'A': {'type': 'r', 'meas': 0.031, 'sig': 0.002, 'expected': 'STRONG_CONFIRMATION'},
         'B': {'type': 'r', 'meas': 0.015, 'sig': 0.002, 'expected': 'HIGH_TENSION'},
-        'C': {'type': 'r', 'meas': 0.004, 'sig': 0.002, 'expected': 'FALSIFIED'},
-        'D': {'type': 'ns', 'meas': 0.963, 'sig': 0.002, 'expected': 'CONSISTENT'},
+        # C: snr = 0.004/0.001 = 4 ≥ 3 and r < 0.006 → FALSIFIED
+        'C': {'type': 'r', 'meas': 0.004, 'sig': 0.001, 'expected': 'FALSIFIED'},
+        # D: dev = |0.967 - 0.9635| / 0.002 = 1.75 ∈ [1, 2) → CONSISTENT
+        'D': {'type': 'ns', 'meas': 0.967, 'sig': 0.002, 'expected': 'CONSISTENT'},
         'E': {'type': 'beta', 'meas': 0.330, 'sig': 0.030, 'expected': 'CONFIRMED_PRIMARY'},
     }
     if scenario not in scenarios:
