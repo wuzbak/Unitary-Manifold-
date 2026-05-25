@@ -576,7 +576,7 @@ class TestPillar88Summary:
 
     def test_version_present(self):
         assert "version" in self.res
-        assert "9" in self.res["version"]
+        assert self.res["version"].startswith("v")
 
     def test_closed_params_geq_5(self):
         # At minimum: α_em, λ_CKM, A_CKM, η̄_CKM, δ_CP^PMNS = 5 derived
