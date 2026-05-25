@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v13.4
+# Unitary Manifold v13.7
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-24 (v13.4 — Admissions Closure Sprint: Pillars 402–406; Admissions 6, 7, 10, 11, 12, 13 closed; canonical test count: 42,215 passed · 2 skipped · 12 deselected · 0 failed; 735 new tests; 0 failures)*
+*Last updated: 2026-05-25 (v13.7 — Prediction Hardening & Adjacent Track Phase 1: Pillars 434–440; ADM BSSN lapse CLOSED; HL-LHC/Hyper-K/SPHEREx preregistered; lattice braid Phase 1 computed; 6D baryogenesis Phase 1 computed; ~430 new tests; 0 failures)*
 
 ---
 

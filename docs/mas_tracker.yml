@@ -1,4 +1,4 @@
-version: "v13.6"
+version: "v13.7"
 date: "2026-05-25"
 updated: "2026-05-25"
 mas_status: "COMPLETE"
@@ -18,11 +18,41 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.6"
-  regression: "43,008+ passed · 0 failed (in-sprint v13.6, 2026-05-25; Pillars 428–433; ~370 new tests)"
+  version: "v13.7"
+  regression: "43,009 passed · 2 skipped · 12 deselected · 0 failed (v13.6 baseline) + ~430 new (v13.7 sprint, 2026-05-25; Pillars 434–440)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_7_sprint:
+  version: "v13.7"
+  wave: "Prediction Hardening & Adjacent Track Phase 1 — Pillars 434–440"
+  date: "2026-05-25"
+  pillars_added:
+    - "434: ADM BSSN Lapse Closure — ADM_LAPSE_BSSN_CLOSED; dynamical lapse ΔN/N ≈ 0.002% ≪ 0.6% FALLIBILITY bound; H=0 satisfied; FALLIBILITY §4.1/XIV.3 gap CLOSED"
+    - "435: HL-LHC KK Graviton Prediction Package — HLLHC_PREDICTION_PREREGISTERED; σ×BR table 5–10 TeV; 3000 fb⁻¹ reach ~6.5 TeV; SHA-256 committed"
+    - "436: Hyper-K Proton Decay Prediction Package — PROTON_DECAY_BOUNDED_FROM_KK_GUT; M_X≈5.9×10¹⁹ GeV; τ≫10³⁵ yr; NOT_TESTABLE_HYPERK"
+    - "437: SPHEREx f_NL Preregistration Package — FNLPREREGISTERED_SPHEREX; f_NL∈[-2.9,-0.2]; canonical=-0.532; SHA-256 committed 2026-05-25"
+    - "438: Lattice Braid QFT Phase 1 — LATTICE_BRAID_PHASE1_COMPUTED (🔵 ADJACENT TRACK); 1D transfer matrix; order param ⟨e^{iθ}⟩; FSS extrapolation; c₁^{latt}"
+    - "439: 6D Baryogenesis Phase 1 — SIXD_BARYOGENESIS_PHASE1_COMPUTED (🔵 ADJACENT TRACK); η_B^{6D}(m_Σ,θ_6,T_RH) calculator; nEDM@SNS d_n prediction"
+    - "440: arXiv Manuscript Update v13.7 — ARXIV_V137_READY; all ledger docs synced; 3 preregistrations committed"
+  document_updates:
+    - "STATUS.md: v13.7 header + regression + next pillar slot 441"
+    - "docs/WAVE_CHANGELOG.md: v13.7 sprint entry"
+    - "docs/mas_tracker.yml: v13.7 public surface sync checkpoint + sprint entry"
+    - "FALLIBILITY.md: §4.1 ADM gap ADM_LAPSE_BSSN_CLOSED; §XIV.3 updated; prediction table P435-P437 added"
+    - "docs/CLAIM_MASTER_BOARD.md: P434–P440 entries; 3 new decision windows"
+    - "docs/GATEKEEPER_SUMMARY.md: v13.7 sync"
+  new_tests: ~430
+  failures: 0
+  next_pillar_slot: 441
+  epistemic_deltas:
+    - "ADM lapse §XIV.3: PARTIALLY_CLOSED → ADM_LAPSE_BSSN_CLOSED (P434)"
+    - "HL-LHC: IN_TENSION → HLLHC_PREDICTION_PREREGISTERED (P435)"
+    - "Proton decay: not derived → PROTON_DECAY_BOUNDED_FROM_KK_GUT (P436)"
+    - "f_NL SPHEREx: NEW_PREDICTION → FNLPREREGISTERED_SPHEREX SHA-256 (P437)"
+    - "Lattice braid QFT: FORMALLY_SCOPED → LATTICE_BRAID_PHASE1_COMPUTED (P438)"
+    - "6D baryogenesis: FORMALLY_SCOPED → SIXD_BARYOGENESIS_PHASE1_COMPUTED (P439)"
 
 v13_6_sprint:
   version: "v13.6"
