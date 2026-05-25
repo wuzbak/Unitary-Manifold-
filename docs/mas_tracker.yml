@@ -1,4 +1,4 @@
-version: "v13.4"
+version: "v13.5"
 date: "2026-05-25"
 updated: "2026-05-25"
 mas_status: "COMPLETE"
@@ -18,11 +18,37 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v13.4"
-  regression: "42,215 passed · 2 skipped · 12 deselected · 0 failed (CI #220, v13.4, 2026-05-25; Pillars 414–420; 536 new tests)"
+  version: "v13.5"
+  regression: "42,658 passed · 0 failed (in-sprint v13.5, 2026-05-25; Pillars 421–427; 443 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v13_5_sprint:
+  version: "v13.5"
+  wave: "Certification & Exhaustion Sprint — Pillars 421–427"
+  date: "2026-05-25"
+  pillars_added:
+    - "421: L2 γ Gap Budget Certificate — L2_GAMMA_BUDGET_CERTIFIED; γ_theory=0.242, γ_fit=0.273, gap=11.3%; c₁^{KM}=3.02 (24%) + c₁^{ZM}=6.10 (49%) = 73% identified; remaining 27% c₁^{NP}≈3.4 certified ARCHITECTURE_LIMIT"
+    - "422: Baryogenesis Exhaustion Certificate — ALL_BARYOGENESIS_PATHS_EXHAUSTED; all 5 paths (thermal leptogenesis, KK sphaleron, Affleck-Dine, KK-EWPT, resonant leptogenesis) certified ARCHITECTURE_LIMIT; 6D UV completion required"
+    - "423: WDW Mini-Superspace Quantum Closure — MINI_SUPERSPACE_QUANTUM_CLOSURE (🔵 ADJACENT TRACK); [-∂²/∂a² + λ_eff a⁴]Ψ=0 solved analytically; FTUM fixed point φ* quantum-consistent; variance ratio ≈10⁻⁶"
+    - "424: Topology L Inflation Architecture Limit — TOPOLOGY_L_INFLATION_ARCHITECTURE_LIMIT; L_H_inf comoving today ≈10⁻³⁵ D_H; P410 window [7.9,11.4] Gpc conflicts with Planck lower bound 13.9 Gpc; L selection is architecture limit"
+    - "425: Decision Readiness v13.5 — DECISION_READINESS_V135 (🔵 ADJACENT TRACK); 6 decision windows + 10 rehearsal drills all PASS; updated to v13.5 completion state"
+    - "426: B_μ Gluon Channel Exact Amplitude — GLUON_CHANNEL_BMU_CORRECTED_EXACT; Z_gg≈1.44×10⁴ at m_G_KK=3.98 TeV; σ_ratio≈2.0; IN_TENSION confirmed; P403 bound ≥0.61 sharpened"
+    - "427: External Verification Package v13.5 — EXTERNAL_VERIFICATION_COMPLETE_V135; single callable API for external reviewers; 13 admissions + 8 arch-limits + 8 predictions + falsification protocol"
+  document_updates:
+    - "STATUS.md: v13.5 header + regression 42,658 + next pillar slot 428"
+    - "docs/WAVE_CHANGELOG.md: v13.5 sprint entry"
+    - "docs/mas_tracker.yml: v13.5 public surface sync checkpoint + sprint entry"
+  new_tests: 443
+  failures: 0
+  epistemic_deltas:
+    - "L2 γ gap: L2_WZW_COUPLING_BOUNDED → L2_GAMMA_BUDGET_CERTIFIED (P421; full budget issued)"
+    - "Baryogenesis: path-by-path → ALL_BARYOGENESIS_PATHS_EXHAUSTED (P422)"
+    - "WDW: OPEN_GAP → MINI_SUPERSPACE_QUANTUM_CLOSURE (P423)"
+    - "Topology L: CONSTRAINED_FROM_CMB → TOPOLOGY_L_INFLATION_ARCHITECTURE_LIMIT (P424)"
+    - "Gluon channel: CONSTRAINED_BOUNDED (≥0.61) → GLUON_CHANNEL_BMU_CORRECTED_EXACT (P426)"
+  next_pillar_slot: 428
 
 v13_4_sprint:
   version: "v13.4"
