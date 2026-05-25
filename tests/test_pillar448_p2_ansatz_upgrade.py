@@ -5,9 +5,12 @@ import pytest
 from src.core.pillar448_p2_ansatz_upgrade_audit import (
     PILLAR_STATUS, VERSION, P2_STATUS, RESIDUAL_NAME,
     CONSTRAINTS,
-    test_class_a_scalar_function, test_class_b_radion_power,
-    test_class_c_g55_power, test_class_d_tensor_mixing,
-    test_class_e_two_b_fields, run_all_ansatz_tests,
+    test_class_a_scalar_function as _class_a_scalar_function,
+    test_class_b_radion_power as _class_b_radion_power,
+    test_class_c_g55_power as _class_c_g55_power,
+    test_class_d_tensor_mixing as _class_d_tensor_mixing,
+    test_class_e_two_b_fields as _class_e_two_b_fields,
+    run_all_ansatz_tests,
     p2_upgrade_verdict, pillar_report,
 )
 
@@ -32,64 +35,64 @@ class TestMetadata:
 
 class TestClassA:
     def test_uniqueness(self):
-        r = test_class_a_scalar_function()
+        r = _class_a_scalar_function()
         assert 'UNIQUE' in r['verdict'] or 'unique' in str(r['survivors'])
 
     def test_class_label(self):
-        r = test_class_a_scalar_function()
+        r = _class_a_scalar_function()
         assert r['class'] == 'A'
 
     def test_survivors_single(self):
-        r = test_class_a_scalar_function()
+        r = _class_a_scalar_function()
         # Only f(φ) = λφ should survive
         assert len(r['survivors']) == 1
 
 
 class TestClassB:
     def test_n1_unique(self):
-        r = test_class_b_radion_power()
+        r = _class_b_radion_power()
         assert 'UNIQUE' in r['verdict'] or r['unique_power'] == 1
 
     def test_class_label(self):
-        r = test_class_b_radion_power()
+        r = _class_b_radion_power()
         assert r['class'] == 'B'
 
     def test_unique_power_is_1(self):
-        r = test_class_b_radion_power()
+        r = _class_b_radion_power()
         assert r['unique_power'] == 1
 
 
 class TestClassC:
     def test_m2_unique(self):
-        r = test_class_c_g55_power()
+        r = _class_c_g55_power()
         assert 'UNIQUE' in r['verdict'] or r['unique_power'] == 2
 
     def test_class_label(self):
-        r = test_class_c_g55_power()
+        r = _class_c_g55_power()
         assert r['class'] == 'C'
 
     def test_unique_power_is_2(self):
-        r = test_class_c_g55_power()
+        r = _class_c_g55_power()
         assert r['unique_power'] == 2
 
 
 class TestClassD:
     def test_excluded_by_z2(self):
-        r = test_class_d_tensor_mixing()
+        r = _class_d_tensor_mixing()
         assert 'EXCLUDED' in r['verdict']
 
     def test_class_label(self):
-        r = test_class_d_tensor_mixing()
+        r = _class_d_tensor_mixing()
         assert r['class'] == 'D'
 
 
 class TestClassE:
     def test_excluded_single_compact(self):
-        r = test_class_e_two_b_fields()
+        r = _class_e_two_b_fields()
         assert 'EXCLUDED' in r['verdict']
 
     def test_class_label(self):
-        r = test_class_e_two_b_fields()
+        r = _class_e_two_b_fields()
         assert r['class'] == 'E'
 
 
