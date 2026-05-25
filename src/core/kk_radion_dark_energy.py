@@ -164,8 +164,21 @@ LAMBDA_GW_NATURAL: float = 1.0
 W_PLANCK_BAO_CENTRAL: float = -1.03     # Planck+BAO combined w
 W_PLANCK_BAO_SIGMA: float = 0.03        # 1σ
 
-W_DESI_DR2_CENTRAL: float = -0.92      # DESI DR2 w₀CDM (April 2025)
-W_DESI_DR2_SIGMA: float = 0.09         # 1σ
+#: DESI Year 3 / DR2 w₀CDM value (wₐ FORCED TO 0 in the DESI fit).
+#: CIRCULAR COMPARISON WARNING (Pillar 421 Issue 3): comparing the UM's
+#: w_KK = −0.9302 (which also has wₐ = 0) to this value is circular.
+#: The DESI fitter and the UM both assume wₐ = 0, so agreement is
+#: guaranteed by construction.  This gives 0.11σ — not an independent test.
+#: Use W_DESI_DR2_CPL_W0 below for the correct comparison.
+W_DESI_DR2_W0CDM_CENTRAL: float = -0.92   # w₀CDM (wₐ = 0 assumed)
+W_DESI_DR2_W0CDM_SIGMA: float = 0.09      # 1σ
+W_DESI_DR2_CENTRAL: float = W_DESI_DR2_W0CDM_CENTRAL  # backward-compat alias
+
+#: DESI Year 3 / DR2 CPL w₀ (wₐ FREE in the DESI fit) — CORRECT comparison.
+#: This is independent: DESI did not assume wₐ = 0 to obtain this value.
+W_DESI_DR2_CPL_W0: float = -0.838    # CPL fit; wₐ free
+W_DESI_DR2_CPL_W0_SIGMA: float = 0.072
+W_DESI_DR2_SIGMA: float = W_DESI_DR2_CPL_W0_SIGMA  # backward-compat alias (CPL value)
 
 W_ROMAN_FORECAST_CENTRAL: float = -1.0  # Roman forecast (nominal ΛCDM)
 W_ROMAN_FORECAST_SIGMA: float = 0.02    # 1σ (forecast)
@@ -180,7 +193,13 @@ def kk_eos_leading_order(
     n1: int = N1_CANONICAL,
     n2: int = N2_CANONICAL,
 ) -> float:
-    """Compute the leading-order KK dark energy EoS w_KK = −1 + (2/3)c_s².
+    """Compute the leading-order KK zero-mode EoS w_KK = −1 + (2/3)c_s².
+
+    SCOPE NOTE (Pillar 421, Issue 2):
+    This formula gives the equation of state of the INFLATIONARY KK zero-mode
+    during the inflationary epoch.  It is NOT a prediction for today's dark
+    energy.  The physically self-consistent frozen-radion dark energy prediction
+    is w₀ = −1 (see pillar421_desi_cpl_consistency_audit.py).
 
     Parameters
     ----------
@@ -189,7 +208,7 @@ def kk_eos_leading_order(
     Returns
     -------
     float
-        w_KK — leading-order EoS.
+        w_KK = −1 + (2/3)c_s² ≈ −0.9302 (inflationary epoch value).
     """
     if n1 <= 0 or n2 <= 0:
         raise ValueError(f"Winding numbers must be positive; got n1={n1}, n2={n2}.")
@@ -323,10 +342,16 @@ def eos_tension_vs_datasets(
 ) -> Dict[str, object]:
     """Compute tension of w_KK against multiple observational datasets.
 
+    Pillar 421 corrections applied:
+    - DESI CPL fit (w₀ free) used as primary comparison (non-circular).
+    - DESI w₀CDM fit (wₐ forced to 0) labeled as circular comparison.
+    - Frozen-radion coherent prediction (w₀ = −1) also computed.
+
     Datasets included:
-      - Planck + BAO combined: w = −1.03 ± 0.03 (tightest, but older)
-      - DESI DR2 (2025): w₀ = −0.92 ± 0.09 (latest; w_KK within 1σ ✅)
-      - Roman Space Telescope (forecast): w = −1.00 ± 0.02 (future falsifier)
+      - Planck + BAO combined: w = −1.03 ± 0.03 (older; prior-dominated)
+      - DESI Y3/DR2 CPL: w₀ = −0.838 ± 0.072 (correct; wₐ free in fit)
+      - DESI Y3/DR2 w₀CDM: w₀ = −0.92 ± 0.09 (CIRCULAR — wₐ forced to 0)
+      - Roman Space Telescope (forecast): w = −1.00 ± 0.02
 
     Parameters
     ----------
@@ -338,13 +363,18 @@ def eos_tension_vs_datasets(
         Per-dataset tension dict with 'sigma' and 'consistent' fields.
     """
     w_pred = kk_eos_leading_order(n1, n2)
+    w_pred_frozen = -1.0  # frozen-radion coherent prediction
 
-    planck_sigma = abs(w_pred - W_PLANCK_BAO_CENTRAL) / W_PLANCK_BAO_SIGMA
-    desi_sigma = abs(w_pred - W_DESI_DR2_CENTRAL) / W_DESI_DR2_SIGMA
-    roman_sigma = abs(w_pred - W_ROMAN_FORECAST_CENTRAL) / W_ROMAN_FORECAST_SIGMA
+    planck_sigma       = abs(w_pred - W_PLANCK_BAO_CENTRAL) / W_PLANCK_BAO_SIGMA
+    desi_cpl_sigma     = abs(w_pred - W_DESI_DR2_CPL_W0) / W_DESI_DR2_CPL_W0_SIGMA
+    desi_w0cdm_sigma   = abs(w_pred - W_DESI_DR2_W0CDM_CENTRAL) / W_DESI_DR2_W0CDM_SIGMA
+    roman_sigma        = abs(w_pred - W_ROMAN_FORECAST_CENTRAL) / W_ROMAN_FORECAST_SIGMA
+    # Frozen-radion coherent point
+    frozen_desi_cpl_sigma = abs(w_pred_frozen - W_DESI_DR2_CPL_W0) / W_DESI_DR2_CPL_W0_SIGMA
 
     return {
-        "w_predicted": w_pred,
+        "w_predicted_inflationary_kk": w_pred,
+        "w_predicted_frozen_radion_coherent": w_pred_frozen,
         "planck_bao": {
             "w_central": W_PLANCK_BAO_CENTRAL,
             "w_sigma": W_PLANCK_BAO_SIGMA,
@@ -353,15 +383,44 @@ def eos_tension_vs_datasets(
             "consistent_2sigma": planck_sigma <= 2.0,
             "consistent_3sigma": planck_sigma <= 3.0,
             "label": "Planck+BAO",
+            "note": "Prior-dominated; w = const assumption; superseded by DESI",
         },
-        "desi_dr2": {
-            "w_central": W_DESI_DR2_CENTRAL,
-            "w_sigma": W_DESI_DR2_SIGMA,
-            "sigma_tension": desi_sigma,
-            "consistent_1sigma": desi_sigma <= 1.0,
-            "consistent_2sigma": desi_sigma <= 2.0,
-            "consistent_3sigma": desi_sigma <= 3.0,
-            "label": "DESI DR2",
+        "desi_dr2_cpl": {
+            "w_central": W_DESI_DR2_CPL_W0,
+            "w_sigma": W_DESI_DR2_CPL_W0_SIGMA,
+            "sigma_tension": desi_cpl_sigma,
+            "consistent_1sigma": desi_cpl_sigma <= 1.0,
+            "consistent_2sigma": desi_cpl_sigma <= 2.0,
+            "consistent_3sigma": desi_cpl_sigma <= 3.0,
+            "label": "DESI Y3/DR2 CPL (w₀ free)",
+            "note": "CORRECT comparison: wₐ free in DESI fit (Pillar 421 Issue 3)",
+            "is_circular": False,
+        },
+        "desi_dr2_w0cdm": {
+            "w_central": W_DESI_DR2_W0CDM_CENTRAL,
+            "w_sigma": W_DESI_DR2_W0CDM_SIGMA,
+            "sigma_tension": desi_w0cdm_sigma,
+            "consistent_1sigma": desi_w0cdm_sigma <= 1.0,
+            "consistent_2sigma": desi_w0cdm_sigma <= 2.0,
+            "label": "DESI Y3/DR2 w₀CDM (wₐ = 0 assumed)",
+            "note": (
+                "CIRCULAR comparison: DESI forced wₐ = 0 to obtain this value. "
+                "The UM also has wₐ = 0.  Agreement here is not independent. "
+                "Do NOT use this value for UM validation (Pillar 421 Issue 3)."
+            ),
+            "is_circular": True,
+        },
+        "frozen_radion_vs_desi_cpl": {
+            "w_central": W_DESI_DR2_CPL_W0,
+            "w_sigma": W_DESI_DR2_CPL_W0_SIGMA,
+            "sigma_tension": frozen_desi_cpl_sigma,
+            "w_predicted": w_pred_frozen,
+            "label": "Frozen-radion coherent DE (w₀ = −1) vs DESI Y3/DR2 CPL",
+            "note": (
+                "The physically self-consistent UM frozen-radion dark energy "
+                "prediction (w₀ = −1, wₐ = 0) compared to DESI CPL (correct). "
+                "This gives 2.25σ on w₀ alone; joint 2D with ρ = −0.97 gives ~3.9σ."
+            ),
         },
         "roman_forecast": {
             "w_central": W_ROMAN_FORECAST_CENTRAL,
@@ -378,69 +437,97 @@ def eos_tension_vs_datasets(
 def w0_experimental_landscape() -> Dict[str, object]:
     """Frame the UM w₀ prediction as a discriminant between competing datasets.
 
-    The UM predicts w_KK ≈ −0.930 (zero free parameters).  Current
-    observational constraints disagree with each other:
+    Pillar 421 corrections applied:
+    - Primary DESI comparison uses the CPL fit (w₀ = −0.838 ± 0.072; wₐ free).
+    - The w₀CDM value (−0.92 ± 0.09) is documented as a circular comparison.
+    - The frozen-radion coherent prediction (w₀ = −1) is included.
+    - The 0.11σ claim (from the circular w₀CDM comparison) is removed.
 
-      • Planck+BAO:  w = −1.03 ± 0.03 (3.3σ tension with UM)
-      • DESI DR2:    w = −0.92 ± 0.09 (0.11σ tension with UM)
-      • DES Y3+BAO:  w = −0.98 ± 0.06 (0.83σ tension with UM)
+    The UM has two w₀ values depending on which physical mechanism is cited:
+      • w_KK = −0.9302 (inflationary-epoch formula; scope caveat applies)
+      • w₀ = −1 (frozen-radion DE; physically self-consistent with wₐ = 0)
 
-    The Planck vs DESI disagreement is a live experimental controversy.
-    The UM prediction lies squarely in the DESI-preferred region, making
-    it a *discriminant*: if DESI DR2 is confirmed by Roman (~2027), the
-    UM is supported; if Planck+BAO is vindicated, the UM is under pressure.
+    Against DESI CPL:
+      • w_KK gives 1.28σ tension (w₀ only; but mechanism is inflationary epoch)
+      • w₀ = −1 gives 2.25σ tension on w₀ alone; ~3.9σ joint 2D
 
     Returns
     -------
     dict
-        'w_predicted'         : float
-        'datasets'            : dict — per-experiment tensions
-        'planck_desi_tension' : float — internal Planck vs DESI tension in σ
-        'um_position'         : str  — 'DESI-preferred' | 'Planck-preferred' | 'intermediate'
-        'discriminant_status' : str  — plain-language summary
-        'roman_falsifier'     : str  — what Roman will measure
+        'w_predicted_kk'              : float
+        'w_predicted_frozen_radion'   : float
+        'datasets'                    : dict — per-experiment tensions
+        'planck_desi_tension'         : float — internal Planck vs DESI tension in σ
+        'um_position'                 : str
+        'discriminant_status'         : str
+        'roman_falsifier'             : str
     """
-    w_pred = W_KK_LEADING
+    w_pred_kk = W_KK_LEADING
+    w_pred_frozen = -1.0
 
-    # Per-dataset sigma tensions
-    planck_sigma = abs(w_pred - W_PLANCK_BAO_CENTRAL) / W_PLANCK_BAO_SIGMA
-    desi_sigma   = abs(w_pred - W_DESI_DR2_CENTRAL)   / W_DESI_DR2_SIGMA
-    roman_sigma  = abs(w_pred - W_ROMAN_FORECAST_CENTRAL) / W_ROMAN_FORECAST_SIGMA
+    # Per-dataset sigma tensions (using CPL as primary)
+    planck_sigma        = abs(w_pred_kk - W_PLANCK_BAO_CENTRAL) / W_PLANCK_BAO_SIGMA
+    desi_cpl_sigma      = abs(w_pred_kk - W_DESI_DR2_CPL_W0) / W_DESI_DR2_CPL_W0_SIGMA
+    desi_w0cdm_sigma    = abs(w_pred_kk - W_DESI_DR2_W0CDM_CENTRAL) / W_DESI_DR2_W0CDM_SIGMA
+    roman_sigma         = abs(w_pred_kk - W_ROMAN_FORECAST_CENTRAL) / W_ROMAN_FORECAST_SIGMA
+    frozen_cpl_sigma    = abs(w_pred_frozen - W_DESI_DR2_CPL_W0) / W_DESI_DR2_CPL_W0_SIGMA
 
     # DES Y3 + Planck + BAO: w = −0.98 ± 0.06 (Abbott et al. 2022)
     w_des_y3 = -0.98
     sigma_des_y3 = 0.06
-    des_sigma = abs(w_pred - w_des_y3) / sigma_des_y3
+    des_sigma = abs(w_pred_kk - w_des_y3) / sigma_des_y3
 
-    # Internal Planck vs DESI tension
-    planck_desi_internal = abs(W_PLANCK_BAO_CENTRAL - W_DESI_DR2_CENTRAL) / math.sqrt(
-        W_PLANCK_BAO_SIGMA**2 + W_DESI_DR2_SIGMA**2
+    # Internal Planck vs DESI tension (CPL w₀)
+    planck_desi_internal = abs(W_PLANCK_BAO_CENTRAL - W_DESI_DR2_CPL_W0) / math.sqrt(
+        W_PLANCK_BAO_SIGMA**2 + W_DESI_DR2_CPL_W0_SIGMA**2
     )
 
-    # Classify UM position
-    if desi_sigma < 1.0 and planck_sigma > 2.0:
+    # Classify UM position using CPL comparison (non-circular)
+    if desi_cpl_sigma < 1.5 and planck_sigma > 2.0:
         um_position = "DESI-preferred"
-    elif planck_sigma < 1.0 and desi_sigma > 2.0:
+    elif planck_sigma < 1.0 and desi_cpl_sigma > 2.0:
         um_position = "Planck-preferred"
     else:
         um_position = "intermediate"
 
     return {
-        "w_predicted": w_pred,
+        "w_predicted_kk": w_pred_kk,
+        "w_predicted_frozen_radion": w_pred_frozen,
         "datasets": {
             "planck_bao": {
                 "w_central": W_PLANCK_BAO_CENTRAL,
                 "w_sigma": W_PLANCK_BAO_SIGMA,
                 "sigma_tension": planck_sigma,
                 "label": "Planck+BAO",
-                "note": "Tightest constraint; assumes ΛCDM prior",
+                "note": "Tightest constraint; prior-dominated (w = const assumed)",
             },
-            "desi_dr2": {
-                "w_central": W_DESI_DR2_CENTRAL,
-                "w_sigma": W_DESI_DR2_SIGMA,
-                "sigma_tension": desi_sigma,
-                "label": "DESI DR2 (2025)",
-                "note": "Wider errors; BAO-only; w₀CDM fit",
+            "desi_dr2_cpl": {
+                "w_central": W_DESI_DR2_CPL_W0,
+                "w_sigma": W_DESI_DR2_CPL_W0_SIGMA,
+                "sigma_tension": desi_cpl_sigma,
+                "label": "DESI Y3/DR2 CPL (w₀ free — CORRECT comparison)",
+                "note": "Primary comparison; wₐ was free in the DESI fit",
+                "is_circular": False,
+            },
+            "desi_dr2_w0cdm": {
+                "w_central": W_DESI_DR2_W0CDM_CENTRAL,
+                "w_sigma": W_DESI_DR2_W0CDM_SIGMA,
+                "sigma_tension": desi_w0cdm_sigma,
+                "label": "DESI Y3/DR2 w₀CDM (wₐ = 0 FORCED — CIRCULAR)",
+                "note": (
+                    "Circular: DESI assumed wₐ = 0 to get this number; "
+                    "UM also has wₐ = 0.  Agreement is not independent. "
+                    "The reported 0.11σ 'agreement' is an artifact (Pillar 421 Issue 3)."
+                ),
+                "is_circular": True,
+            },
+            "frozen_radion_vs_desi_cpl": {
+                "w_central": W_DESI_DR2_CPL_W0,
+                "w_sigma": W_DESI_DR2_CPL_W0_SIGMA,
+                "sigma_tension": frozen_cpl_sigma,
+                "w_predicted": w_pred_frozen,
+                "label": "Frozen-radion DE (w₀ = −1) vs DESI CPL",
+                "note": "Physically coherent single-mechanism UM prediction",
             },
             "des_y3_planck_bao": {
                 "w_central": w_des_y3,
@@ -454,36 +541,35 @@ def w0_experimental_landscape() -> Dict[str, object]:
                 "w_sigma": W_ROMAN_FORECAST_SIGMA,
                 "sigma_tension": roman_sigma,
                 "label": "Roman (~2027, forecast)",
-                "note": "σ(w₀) ≈ 0.02 forecast; will discriminate",
+                "note": "σ(w₀) ≈ 0.02 forecast; corroborating instrument",
             },
         },
         "planck_desi_tension": planck_desi_internal,
         "um_position": um_position,
         "discriminant_status": (
-            f"w_KK = {w_pred:.4f} lies in the DESI DR2-preferred region ({desi_sigma:.2f}σ) "
-            f"and is {planck_sigma:.2f}σ from Planck+BAO.  "
-            f"Planck and DESI themselves disagree by {planck_desi_internal:.2f}σ on w₀.  "
-            "The UM prediction is NOT falsified — it is a DISCRIMINANT between "
-            "two conflicting experimental datasets.  "
-            "Roman (~2027, σ(w₀)≈0.02) will resolve this: "
-            f"w_Roman outside [{w_pred - 0.04:.3f}, {w_pred + 0.04:.3f}] falsifies UM."
+            f"w_KK = {w_pred_kk:.4f} (inflationary-epoch formula) is {desi_cpl_sigma:.2f}σ "
+            f"from DESI Y3/DR2 CPL w₀ = {W_DESI_DR2_CPL_W0} and {planck_sigma:.2f}σ from "
+            f"Planck+BAO.  Planck and DESI disagree internally by "
+            f"{planck_desi_internal:.2f}σ on w₀.  "
+            f"The frozen-radion coherent UM prediction (w₀ = −1) is "
+            f"{frozen_cpl_sigma:.2f}σ from DESI CPL w₀ (joint 2D ~3.9σ). "
+            "Roman (~2027, σ(w₀)≈0.02) will serve as a corroborating instrument; "
+            "DESI DR3 (late 2026) is the primary upcoming test. "
+            "See Pillar 421 for complete corrected tension analysis."
         ),
         "roman_falsifier": (
-            f"Roman Space Telescope (~2027, σ(w₀)≈0.02): "
-            f"w₀_Roman outside [{w_pred - 0.04:.3f}, {w_pred + 0.04:.3f}] falsifies "
-            f"the leading-order w_KK = {w_pred:.4f} prediction."
-        ),
-        "experimental_context": (
-            "The Planck+BAO vs DESI DR2 tension on w₀ is a live controversy "
-            f"({planck_desi_internal:.1f}σ internal disagreement between experiments) "
-            "independent of the UM.  Citing only Planck+BAO as the definitive "
-            "constraint overstates the experimental consensus as of 2026."
+            f"Roman: σ(w₀) ≈ 0.02. If w₀ measured outside [{w_pred_kk - 0.04:.3f}, "
+            f"{w_pred_kk + 0.04:.3f}], inflationary w_KK is under pressure. "
+            f"If w₀ measured outside [−1.04, −0.96], frozen-radion DE is under pressure."
         ),
     }
 
 
 def pillar136_summary() -> Dict[str, object]:
     """Return a structured summary of Pillar 136 closure status.
+
+    Updated by Pillar 421 audit to reflect corrected tension analysis and
+    to use the non-circular DESI CPL comparison.
 
     Returns
     -------
@@ -493,48 +579,66 @@ def pillar136_summary() -> Dict[str, object]:
     corrected = kk_eos_corrected()
     tensions = eos_tension_vs_datasets()
 
-    # Correction negligible → w_corrected ≈ w_KK → honest about tension
+    # Correction negligible → w_corrected ≈ w_KK
     correction_negligible = corrected["correction_negligible"]
     w_final = corrected["w_corrected"]
 
-    # Best observational status
-    desi_consistent = tensions["desi_dr2"]["consistent_1sigma"]
-    planck_consistent = tensions["planck_bao"]["consistent_3sigma"]
+    # Use CPL (non-circular) as primary comparison
+    desi_cpl_consistent_2sigma = tensions["desi_dr2_cpl"]["consistent_2sigma"]
+    planck_consistent_3sigma = tensions["planck_bao"]["consistent_3sigma"]
+    frozen_cpl_sigma = tensions["frozen_radion_vs_desi_cpl"]["sigma_tension"]
 
-    if desi_consistent:
+    if desi_cpl_consistent_2sigma:
         best_status = (
-            "⚠️ OPEN — TENSION 3.4σ with Planck+BAO (w=−1.03±0.03, primary constraint); "
-            "0.11σ with DESI DR2 (w=−0.92±0.09, wider errors); "
-            "2.5σ with DES Y3+Planck+BAO. "
-            "The Planck+BAO constraint is from the same data used to select n_w=5; "
-            "internal consistency requires acknowledging this as an OPEN tension."
+            "⚠️ HIGH_TENSION — Pillar 421 corrected analysis: "
+            f"w_KK (inflationary-epoch) = {W_KK_LEADING:.4f} is "
+            f"{tensions['desi_dr2_cpl']['sigma_tension']:.2f}σ from DESI Y3/DR2 CPL w₀. "
+            f"Frozen-radion coherent DE (w₀ = −1) is {frozen_cpl_sigma:.2f}σ on w₀ alone "
+            "and ~3.9σ joint 2D.  wₐ = 0 vs DESI wₐ = −0.62 is ~2.07σ. "
+            "The circular w₀CDM comparison (0.11σ) is no longer reported as validation."
         )
-    elif planck_consistent:
-        best_status = "⚠️ OPEN — within 3σ of all datasets but tension not resolved"
+    elif planck_consistent_3sigma:
+        best_status = "⚠️ OPEN — within 3σ of Planck+BAO; tension with DESI CPL"
     else:
-        best_status = "⚠️ OPEN — TENSION outside 3σ of Planck+BAO"
+        best_status = "⚠️ OPEN — TENSION outside 3σ with primary datasets"
 
     return {
         "pillar": 136,
-        "title": "KK Radion Dark Energy — Corrected EoS",
+        "title": "KK Radion Dark Energy — Corrected EoS (Pillar 421 audit applied)",
         "w_leading": W_KK_LEADING,
+        "w_leading_scope": (
+            "Inflationary-epoch KK zero-mode formula (NOT dark energy today). "
+            "Frozen-radion coherent DE prediction: w₀ = −1 (Pillar 421)."
+        ),
         "w_corrected": w_final,
         "delta_w": corrected["delta_w"],
         "correction_negligible": correction_negligible,
         "m_r_over_h0": corrected["m_r_over_h0"],
         "tensions": {
             "planck_bao_sigma": tensions["planck_bao"]["sigma_tension"],
-            "desi_dr2_sigma": tensions["desi_dr2"]["sigma_tension"],
+            "desi_dr2_cpl_sigma": tensions["desi_dr2_cpl"]["sigma_tension"],
+            "desi_dr2_w0cdm_sigma_circular": tensions["desi_dr2_w0cdm"]["sigma_tension"],
+            "desi_dr2_w0cdm_is_circular": True,
+            "frozen_radion_desi_cpl_sigma": frozen_cpl_sigma,
             "roman_sigma": tensions["roman_forecast"]["sigma_tension"],
         },
-        "desi_consistent_1sigma": desi_consistent,
-        "planck_consistent_3sigma": planck_consistent,
+        "desi_cpl_consistent_2sigma": desi_cpl_consistent_2sigma,
+        "planck_consistent_3sigma": planck_consistent_3sigma,
         "status": best_status,
-        "toe_status": "⚠️ TENSION: 3.4σ with Planck+BAO; 0.11σ with DESI DR2 (wider errors); 2.5σ with DES Y3",
-        "falsifier": (
-            "Roman Space Telescope (launch ~2027, forecast σ(w) = 0.02): "
-            f"if w₀_Roman falls outside [−0.95, −0.91], the leading-order "
-            "w_KK prediction is falsified."
+        "toe_status": (
+            f"⚠️ HIGH_TENSION: w_KK(infl) = {tensions['desi_dr2_cpl']['sigma_tension']:.2f}σ "
+            f"from DESI Y3/DR2 CPL; frozen-radion DE ~3.9σ joint 2D; "
+            f"wₐ = 0 is 2.07σ from DESI wₐ = −0.62. "
+            "See Pillar 421 for complete corrected analysis."
         ),
-        "key_formula": "w_KK = −1 + (2/3) × c_s² = −1 + (2/3) × (12/37)² ≈ −0.9302",
+        "falsifier": (
+            "DESI DR3 (late 2026, full 5-year data, σ(wₐ)≈0.12): primary test. "
+            "Roman Space Telescope (launch ~2027, σ(w₀)≈0.02): corroborating instrument. "
+            f"If DR3 wₐ = 0 excluded at >3σ, the frozen-radion wₐ = 0 prediction is falsified."
+        ),
+        "key_formula": (
+            "w_KK = −1 + (2/3) × c_s² = −1 + (2/3) × (12/37)² ≈ −0.9302 "
+            "(INFLATIONARY EPOCH; see Pillar 421 Issue 2 for scope limitation)"
+        ),
+        "pillar421_reference": "Pillar 421 (DESI CPL internal-consistency audit — six-issue correction)",
     }

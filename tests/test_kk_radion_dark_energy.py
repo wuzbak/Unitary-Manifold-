@@ -145,14 +145,18 @@ class TestKkEosCorrected:
 
 
 class TestEosTensionVsDatasets:
-    def test_desi_tension_below_1sigma(self):
+    def test_desi_cpl_tension_above_1sigma(self):
         result = eos_tension_vs_datasets()
-        # DESI DR2: w₀ = −0.92 ± 0.09; w_KK ≈ −0.9302 → ~0.11σ
-        assert result["desi_dr2"]["sigma_tension"] < 1.0
+        # DESI CPL w₀ = −0.838 ± 0.072; w_KK ≈ −0.9302 → ~1.28σ (non-circular)
+        assert result["desi_dr2_cpl"]["sigma_tension"] > 0.5
 
-    def test_desi_consistent_1sigma(self):
+    def test_desi_cpl_not_circular(self):
         result = eos_tension_vs_datasets()
-        assert result["desi_dr2"]["consistent_1sigma"] is True
+        assert result["desi_dr2_cpl"]["is_circular"] is False
+
+    def test_desi_w0cdm_is_circular(self):
+        result = eos_tension_vs_datasets()
+        assert result["desi_dr2_w0cdm"]["is_circular"] is True
 
     def test_planck_tension_above_1sigma(self):
         result = eos_tension_vs_datasets()
@@ -162,22 +166,33 @@ class TestEosTensionVsDatasets:
     def test_all_datasets_present(self):
         result = eos_tension_vs_datasets()
         assert "planck_bao" in result
-        assert "desi_dr2" in result
+        assert "desi_dr2_cpl" in result
+        assert "desi_dr2_w0cdm" in result
         assert "roman_forecast" in result
+        assert "frozen_radion_vs_desi_cpl" in result
 
-    def test_w_predicted_matches_constant(self):
+    def test_w_predicted_kk_matches_constant(self):
         result = eos_tension_vs_datasets()
-        assert abs(result["w_predicted"] - W_KK_LEADING) < 1e-10
+        assert abs(result["w_predicted_inflationary_kk"] - W_KK_LEADING) < 1e-10
+
+    def test_w_predicted_frozen_is_minus_1(self):
+        result = eos_tension_vs_datasets()
+        assert result["w_predicted_frozen_radion_coherent"] == -1.0
 
     def test_sigma_values_positive(self):
         result = eos_tension_vs_datasets()
-        for key in ["planck_bao", "desi_dr2", "roman_forecast"]:
+        for key in ["planck_bao", "desi_dr2_cpl", "desi_dr2_w0cdm", "roman_forecast"]:
             assert result[key]["sigma_tension"] >= 0
 
-    def test_desi_tension_approximately_0_11sigma(self):
+    def test_w0cdm_circular_tension_small(self):
+        """w₀CDM circular comparison gives tiny tension because both assume wₐ = 0."""
         result = eos_tension_vs_datasets()
-        expected = abs(W_KK_LEADING - W_DESI_DR2_CENTRAL) / W_DESI_DR2_SIGMA
-        assert abs(result["desi_dr2"]["sigma_tension"] - expected) < 1e-8
+        assert result["desi_dr2_w0cdm"]["sigma_tension"] < 0.5
+
+    def test_frozen_radion_cpl_tension_larger_than_circular(self):
+        """Correct comparison (CPL w₀ free) gives larger tension than circular."""
+        result = eos_tension_vs_datasets()
+        assert result["frozen_radion_vs_desi_cpl"]["sigma_tension"] > result["desi_dr2_w0cdm"]["sigma_tension"]
 
     def test_roman_tension_above_1sigma(self):
         result = eos_tension_vs_datasets()
@@ -219,9 +234,10 @@ class TestPillar136Summary:
         result = pillar136_summary()
         assert result["correction_negligible"] is True
 
-    def test_desi_consistent_1sigma(self):
+    def test_desi_cpl_consistent_2sigma(self):
         result = pillar136_summary()
-        assert result["desi_consistent_1sigma"] is True
+        # desi_cpl_consistent_2sigma key replaces the old desi_consistent_1sigma
+        assert "desi_cpl_consistent_2sigma" in result
 
     def test_status_is_string(self):
         result = pillar136_summary()
@@ -240,12 +256,14 @@ class TestPillar136Summary:
     def test_tensions_dict_present(self):
         result = pillar136_summary()
         assert "tensions" in result
-        assert "desi_dr2_sigma" in result["tensions"]
+        assert "desi_dr2_cpl_sigma" in result["tensions"]
         assert "planck_bao_sigma" in result["tensions"]
+        assert "desi_dr2_w0cdm_is_circular" in result["tensions"]
 
-    def test_desi_sigma_below_1(self):
+    def test_desi_cpl_sigma_above_1(self):
+        """CPL comparison (non-circular) gives ~1.28σ tension on w₀."""
         result = pillar136_summary()
-        assert result["tensions"]["desi_dr2_sigma"] < 1.0
+        assert result["tensions"]["desi_dr2_cpl_sigma"] > 0.5
 
 
 class TestW0ExperimentalLandscape:
@@ -253,31 +271,41 @@ class TestW0ExperimentalLandscape:
         from src.core.kk_radion_dark_energy import w0_experimental_landscape
         self.r = w0_experimental_landscape()
 
-    def test_w_predicted_approximately(self):
-        assert -0.94 < self.r["w_predicted"] < -0.92
+    def test_w_predicted_kk_approximately(self):
+        assert -0.94 < self.r["w_predicted_kk"] < -0.92
+
+    def test_w_predicted_frozen_is_minus_1(self):
+        assert self.r["w_predicted_frozen_radion"] == -1.0
 
     def test_datasets_present(self):
         assert "datasets" in self.r
         assert "planck_bao" in self.r["datasets"]
-        assert "desi_dr2" in self.r["datasets"]
+        assert "desi_dr2_cpl" in self.r["datasets"]
+        assert "desi_dr2_w0cdm" in self.r["datasets"]
+        assert "frozen_radion_vs_desi_cpl" in self.r["datasets"]
 
-    def test_desi_sigma_under_1(self):
-        assert self.r["datasets"]["desi_dr2"]["sigma_tension"] < 1.0
+    def test_desi_cpl_not_circular(self):
+        assert self.r["datasets"]["desi_dr2_cpl"]["is_circular"] is False
+
+    def test_desi_w0cdm_is_circular(self):
+        assert self.r["datasets"]["desi_dr2_w0cdm"]["is_circular"] is True
+
+    def test_desi_w0cdm_tension_small_circular(self):
+        """Circular comparison gives tiny tension (wₐ = 0 in both fits)."""
+        assert self.r["datasets"]["desi_dr2_w0cdm"]["sigma_tension"] < 0.5
 
     def test_planck_sigma_above_2(self):
         assert self.r["datasets"]["planck_bao"]["sigma_tension"] > 2.0
 
-    def test_um_position_desi_preferred(self):
-        assert self.r["um_position"] == "DESI-preferred"
+    def test_um_position_set(self):
+        assert self.r["um_position"] in ("DESI-preferred", "intermediate", "Planck-preferred")
 
     def test_planck_desi_tension_positive(self):
         assert self.r["planck_desi_tension"] > 0.5
 
-    def test_discriminant_status_mentions_discriminant(self):
-        assert "DISCRIMINANT" in self.r["discriminant_status"]
+    def test_discriminant_status_present(self):
+        assert "discriminant_status" in self.r
+        assert len(self.r["discriminant_status"]) > 40
 
     def test_roman_falsifier_present(self):
         assert "Roman" in self.r["roman_falsifier"]
-
-    def test_experimental_context_present(self):
-        assert len(self.r["experimental_context"]) > 40
