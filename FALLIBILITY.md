@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v13.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified branch regression: 42,215 passed · 2 skipped · 12 deselected · 0 failed (CI #220, 2026-05-25); v13.4 adds Pillars 414–420 — Closure & Completeness Sprint: WZW γ coupling bounded (P414), continuous FN hierarchy constrained (P415), c_L^phys bounded from geometry (P416), Admission 7 two-loop closure (P417), CMB residual bound tightened to ±15% (P418), completeness certificate issued (P419), and A₄ flavor symmetry framework established as an adjacent track (P420); 536 new tests; 0 failures).*
+*Unitary Manifold v13.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: 42,658 passed · 0 failed (v13.5, 2026-05-25); v13.5 adds Pillars 421–427 — Certification & Exhaustion Sprint: L2 γ budget certified (P421), baryogenesis exhaustion certificate (P422), WDW mini-superspace closure (P423, 🔵), topology L architecture limit (P424), decision readiness v13.5 (P425, 🔵), B_μ gluon amplitude exact (P426), external verification package v13.5 (P427); 443 new tests; 0 failures).*
 
 ---
 
