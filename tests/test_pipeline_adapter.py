@@ -88,7 +88,7 @@ class TestPipelineManifest:
         assert cert_ns_r.manifest.run_id == "um_ns_r_v1"
 
     def test_ns_r_manifest_framework_version(self, cert_ns_r):
-        assert cert_ns_r.manifest.framework_version == "v13.1"
+        assert cert_ns_r.manifest.framework_version == "v13.2"
 
     def test_ns_r_manifest_has_parameters(self, cert_ns_r):
         assert isinstance(cert_ns_r.manifest.parameters, dict)
@@ -393,7 +393,7 @@ class TestFullPipelineReport:
         assert report["overall_pass"] is True
 
     def test_report_framework_version(self, report):
-        assert report["framework_version"] == "v13.1"
+        assert report["framework_version"] == "v13.2"
 
     def test_report_certificates_are_prediction_certificates(self, report):
         for key in ("ns_r_certificate", "alpha_gut_certificate",

@@ -424,7 +424,7 @@ def observation_report() -> ObservationReport:
         n_tension=n_tension,
         n_fail=n_fail,
         overall_status=overall,
-        framework_version="v13.1",
+        framework_version="v13.2",
     )
 
 
