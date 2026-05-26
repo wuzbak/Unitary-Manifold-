@@ -2,7 +2,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** 13.0 — Justice Systems Deep-Dive Edition — May 2026
+**Version:** 14.0 — Book of Theorems Edition — May 2026
 
 ---
 
@@ -67,6 +67,10 @@ to this repository.
 **v13.0 — Justice Systems Deep-Dive Edition (May 2026):**
 - Book 18: *The Iron Cage* — America's prison and detention machine: hard data, constitutional boundaries, oversight failure points, and an actionable rebuild blueprint
 - Focus: immediate fixes (0–24 months) plus structural redesign (2–10 years)
+
+**v14.0 — Book of Theorems Edition (May 2026):**
+- Book 19: *The Book of Theorems* — a complete record of all 32 registered theorems and proofs (T001–T032) plus Theorems XII–XXVII from the quantum register; updated to v14.2 basis (44,748 tests)
+- Focus: academic-grade proof exposition, epistemic honesty labels, fully reproducible code citations, and human-readable narrative for every result the framework has proved, derived, or conjectured
 
 ---
 
@@ -511,6 +515,36 @@ A full-spectrum analysis of U.S. prisons and detention systems grounded in publi
 
 ---
 
+### 19. [The Book of Theorems: Proofs, Derivations, and Discoveries of the Unitary Manifold](book-theorems-and-proofs-unitary-manifold.md)
+**Physics Core — Complete Theorem and Proof Record**
+
+| Property | Value |
+|---|---|
+| Size | ~73 KB |
+| Version basis | v14.2 (44,748 tests, 0 failures) |
+| Theorems covered | T001–T032 (all registry entries) + Theorems XII–XXVII |
+| Framework connection | **Direct physics** — every result derived from the 5D KK metric |
+| Code verification | All results reproducible via `python3 -m pytest` |
+| Epistemic discipline | All claims labeled: PROVED / DERIVED / IDENTIFIED / CONDITIONAL / CONJECTURE |
+
+A complete academic-grade record of every theorem, derivation, and conjecture produced by the Unitary Manifold framework. Written with two complementary goals: rigorous enough that a physicist can follow every proof step and run every verification command; readable enough that a motivated reader without a physics degree can understand what was done and why it matters.
+
+**Contents by part:**
+- **Part I** — The starting metric and KK reduction (the architecture behind all results)
+- **Part II** — Topological and algebraic theorems: n_w = 5, k_CS = 74, three generations, APS eta invariant
+- **Part III** — Quantum mechanics from geometry: path integral phase, Born rule, Schrödinger equation, CCR
+- **Part IV** — Electromagnetism and ground state: Lorentz force from geodesic, FTUM fixed point, φ₀ closure
+- **Part V** — Black hole theorems: information preservation, Hawking temperature, KK remnant mass
+- **Part VI** — Holography, entropy, irreversibility: S = A/4G from FTUM, Second Law as theorem, Banach contractivity
+- **Part VII** — Standard Model emergence: gauge structure, α_GUT = 3/74, Yukawa unification, CKM, PMNS
+- **Part VIII** — Cosmological predictions: inflation (n_s, r), birefringence β, CMB peaks, N_e ≈ 60
+- **Part IX** — Open conjectures: CCR from geometry, ER=EPR, P8 beyond the lattice, proton stability
+- **Appendices** — Complete theorem registry, verification commands, falsification conditions, admitted gaps
+
+This is the definitive proof record of the framework. Nothing is papered over. Every gap is named. Every result that can be verified by running code is verified by running code.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -565,6 +599,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 16 | The Honest Machine | **Co-Emergence / AI Governance** | Human-AI research governance and role-partition analysis | No |
 | 17 | The Pentad Deployment Guide | **Governance Operations** | Operational deployment guidance for the independent Pentad framework | No |
 | 18 | The Iron Cage | **Justice / Governance** | Data-driven prison and detention systems audit with implementation blueprint | No |
+| 19 | The Book of Theorems | **Physics Core — Theorems** | Direct proof record: all 32 registered theorems + Theorems XII–XXVII; v14.2 basis | No (AI-verified; 44,748 tests) |
 
 **Books 5–18 are AxiomZero-commissioned works, not peer-reviewed physics.**
 Books 7–18 (education, engineering, politics, climate, orientation, falsification, co-emergence, deployment operations, and justice systems)
@@ -592,6 +627,7 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 | 11.0 — Integrity & Co-Emergence Edition | May 2026 | Books 15–16 added: *The Falsification Decade* — falsification-first public audit and reading path for the next instrument cycle; *The Honest Machine* — a governance-forward account of human-AI co-emergent research, role partition, and responsible scientific collaboration |
 | 12.0 — Deployment & Operations Edition | May 2026 | Book 17 added: *The Pentad Deployment Guide* — deployment-facing handbook for setup, operation, safety discipline, and integration strategy for the independent Unitary Pentad framework |
 | 13.0 — Justice Systems Deep-Dive Edition | May 2026 | Book 18 added: *The Iron Cage* — data-driven analysis of U.S. prisons and detention systems with constitutional case framing, oversight failure mapping, and immediate + structural reform blueprint |
+| 14.0 — Book of Theorems Edition | May 2026 | Book 19 added: *The Book of Theorems* — complete record of all 32 registered theorems (T001–T032) and Theorems XII–XXVII; proof exposition with epistemic honesty labels (PROVED / DERIVED / IDENTIFIED / CONDITIONAL / CONJECTURE); all results reproducible via `python3 -m pytest`; updated to v14.2 basis (44,748 tests, 0 failures) |
 
 ---
 
