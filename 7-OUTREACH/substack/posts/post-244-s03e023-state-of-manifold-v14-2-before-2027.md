@@ -24,7 +24,7 @@ Z3 SMT:    CONSISTENT — all 13 Admissions simultaneously satisfiable
 Versions:  v1.0 (original) through v14.2 (current)
 ```
 
-This is a five-year accumulation of derivations, gap closures, predictions, architecture limits, and honest documentation. The next twelve months will produce empirical data that no amount of derivation work can substitute for.
+This is an accumulation of derivations, gap closures, predictions, architecture limits, and honest documentation — built since April 2026. The next twelve months will produce empirical data that no amount of derivation work can substitute for.
 
 ---
 
