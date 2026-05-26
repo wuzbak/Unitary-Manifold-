@@ -1,6 +1,6 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v14.1 — Unambiguous Record**  
+**The Unitary Manifold v14.2 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 *Last updated: 2026-05-25 (v14.0 — theorem-hardening sprint Pillars 455–474 added; P455 integer-lattice P8 proof; P456 conjectures formally stated; P457 completeness certified; P458 Lean4 certificate generated with named CI obstruction; P459 γ final 2% named irreducible; P460 fermion hierarchy partially derived; P465 theorem registry synced; P467 DESI DR3 falsification gate preregistered; P470 KK graviton unitarity bound proved; P471 irreversibility uniqueness bounded; P472 proton stability theorem derived; P473 sync checker; P474 arXiv v14 update ready.)*
 

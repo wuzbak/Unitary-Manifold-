@@ -26,6 +26,8 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 
 > **v14.2 sync note:** DESI wₐ tension corrected from raw DR2 values (2.07σ/2.82σ) to CPL-corrected 2.30σ per Pillar 428. DR3 machine-executable tripwire now in src/core/pillar486_desi_dr3_final_prep.py. Lean4 CI trigger broadened to all branches (P482). Z₂-odd G_{μ5}: Admission 1 classical chain complete via GHY well-posedness (P487).
 
+> **v14.0 sync note (Theorem Registry Sprint — Pillars 455–474):** P455 integer-lattice P8 proof (P455); conjectures formally stated (P456); metric ansatz completeness certified; Lean4 CI hash-validated (P458); γ final 2% named irreducible (P459); fermion hierarchy partially derived (P460); theorem registry synced (P465); DESI DR3 falsification gate preregistered (P467); KK unitarity proved (P470); irreversibility uniqueness bounded (P471); proton stability derived (P472); truth-surface sync checker (P473); arXiv v14 update (P474). All hardgates closed as of v14.0.
+
 ---
 
 ## How to Read This Document
