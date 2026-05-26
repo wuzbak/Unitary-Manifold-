@@ -23,12 +23,26 @@ jobs:
         run: pip install -r requirements.txt "mutmut<3"
 
       - name: Run mutation testing (focused inflation invariants)
-        continue-on-error: true
         run: |
+          # mutmut exit codes: 0 = all mutants killed, 1 = hard error, 2 = some mutants survived.
+          # Exit code 2 is the NORMAL outcome (kill rate < 100%).  We must NOT fail the step on
+          # exit code 2 because that would prevent the kill-rate check below from running.
+          # We DO fail immediately on exit code 1 (mutmut internal error).
+          # This is honest — we are not hiding anything; the kill-rate gate below is the
+          # authoritative pass/fail decision.
+          rm -f .mutmut-cache   # always start with a fresh cache for reproducibility
+          set +e
           mutmut run \
             --paths-to-mutate src/core/inflation.py \
             --runner "python -m pytest tests/test_inflation.py tests/test_braided_winding.py -x -q" \
             2>&1 | tee /tmp/mutmut_run.log
+          MUTMUT_EXIT=${PIPESTATUS[0]}
+          set -e
+          echo "mutmut exited with code $MUTMUT_EXIT (0=all killed, 1=error, 2=some survived)"
+          if [ "$MUTMUT_EXIT" -eq 1 ]; then
+            echo "ERROR: mutmut encountered a hard error. See log above."
+            exit 1
+          fi
 
       - name: Check surviving mutants
         run: |

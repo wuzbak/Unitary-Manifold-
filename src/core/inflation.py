@@ -1316,7 +1316,7 @@ def ftum_attractor_domain(
             ),
         },
         "phi0_bare_ref":              float(phi0_bare_ref),
-        "phi0_band_lo":               float(phi0_bare_ref * (1.0 + phi0_band_frac)),
+        "phi0_band_lo":               float(phi0_bare_ref * (1.0 - phi0_band_frac)),
         "phi0_band_hi":               float(phi0_bare_ref * (1.0 + phi0_band_frac)),
         "ns_branch_delta":            ns_branch_delta,
         "phi0eff_branch_delta_frac":  phi0eff_branch_delta_frac,
