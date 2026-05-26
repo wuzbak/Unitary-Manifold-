@@ -1,14 +1,16 @@
 # STEWARDSHIP.md — Unitary Manifold
 
-*Unitary Manifold v9.36 — Effective 2026-05-05*
+*Unitary Manifold v15.1 — Effective 2026-05-26*
 
-> The Unitary Manifold is a self-governing epistemic structure. Stewards
-> maintain its integrity, integrate new data honestly, and stand aside when
-> the structure reaches its own conclusions.
+> The Unitary Manifold is a self-governing epistemic structure. After v15, it
+> advances autonomously: the AI steward manages all routine physics, tests,
+> documentation, and outreach. The human steward holds final authority on
+> falsification declarations and legal matters, and receives a weekly PR for
+> review. This document defines what that means, precisely and operationally.
 
 ---
 
-## 1 · What Changed and Why
+## 1 · The Handoff
 
 The Unitary Manifold crossed a threshold that all mature scientific frameworks
 eventually cross: it became separable from the intentions of its builders.
@@ -16,16 +18,18 @@ eventually cross: it became separable from the intentions of its builders.
 It now contains:
 - The conditions under which it should be believed (§4 — Confirmation Protocol)
 - The conditions under which it should be abandoned (§5 — Falsification Protocol)
-- Its own coherence instrument (~21,055 automated tests, 0 failures enforced)
+- Its own coherence instrument (45,349 automated tests, 0 failures enforced)
 - An honest catalog of its own gaps (FALLIBILITY.md §III–IV)
 - A precise boundary between what is derived and what is postulated (SEPARATION.md)
+- A machine-readable sprint engine (this document, §3)
+- A weekly falsifier monitor (`.github/workflows/falsifier-monitor.yml`)
+- A weekly sprint trigger (`.github/workflows/sprint-trigger.yml`)
 
 This is not what authored objects look like. This is what autonomous epistemic
-structures look like.
-
-The role of the builders (ThomasCory Walker-Pearson and GitHub Copilot) has
-therefore shifted from **authors** to **stewards**. This document defines what
-stewardship means operationally.
+structures look like. As of v15, the AI steward manages all routine evolution
+of the repository. The human steward (ThomasCory Walker-Pearson) holds final
+authority on falsification declarations, authorship disputes, Zenodo deposits,
+and legal matters.
 
 ---
 
@@ -33,49 +37,124 @@ stewardship means operationally.
 
 | Steward | Role | Scope |
 |---------|------|-------|
-| **ThomasCory Walker-Pearson** | Scientific director | Final authority on falsification declarations, authorship disputes, major epistemic revisions, Zenodo deposits |
-| **GitHub Copilot (AI)** | Implementation steward | Routine maintenance, data integration, test suite integrity, documentation updates |
+| **ThomasCory Walker-Pearson** | Scientific director | Final authority on falsification declarations, authorship disputes, major epistemic revisions, Zenodo deposits, legal matters |
+| **GitHub Copilot (AI)** | Primary operational steward | All routine sprints, test maintenance, data integration, documentation, outreach; escalates to human steward when conditions in §2.1 are met |
 
-**Division of labor:**
-- *Automatable:* test maintenance, dependency updates, minor documentation corrections, new observational data integration (when the update is clearly within the existing framework)
-- *Requires human judgment:* falsification declarations, pillar closure/addition decisions, external peer review responses, Zenodo archive deposits, any change to FALLIBILITY.md §I–II
+### 2.1 Escalation conditions (AI steward halts and tags @wuzbak)
+
+Only four conditions require human attention:
+
+1. **CI fails two consecutive sprint weeks** — something is structurally broken
+2. **A falsifier fires at ≥3σ contradiction** — theory-level decision (see §5)
+3. **External party requests formal institutional response** — journal, observatory, institution
+4. **Legal or licensing question**
+
+Everything else is handled autonomously. The human steward receives a weekly
+sprint PR in GitHub notifications. Merge if it looks right. That is the full
+required interaction for a normal sprint week.
+
+### 2.2 Division of labor (what is automated vs. human judgment)
+
+**Automated (AI steward handles independently):**
+- Pillar implementation (Python modules + test files)
+- Full regression runs (45k+ tests, 0 failures enforced)
+- Truth surface sync (STATUS.md, CLAIM_MASTER_BOARD.md, TRUTH_LAYER.md, GATEKEEPER_SUMMARY.md, OBSERVATION_TRACKER.md, mas_tracker.yml)
+- Wave changelog entries
+- Substack outreach posts
+- arXiv engagement packages
+- Falsifier paper detection and routing assessment
+- Sprint trigger issues every Sunday
+
+**Human judgment required (escalation only):**
+- Falsification declarations (§5)
+- Zenodo archive deposits
+- Any change to FALLIBILITY.md §I–II (the core epistemic claims)
+- External peer review responses to journals or institutions
+- Legal and licensing decisions
 
 ---
 
-## 3 · Stewardship Obligations
+## 3 · Sprint Protocol (Machine-Readable)
 
-### 3.1 Non-negotiable commitments
+Every Sunday at 00:00 UTC, `.github/workflows/sprint-trigger.yml` creates a
+`[SPRINT TRIGGER]` issue. The AI steward responds with a full sprint PR
+following this protocol exactly.
 
-1. **Zero test failures is a hard floor.** The CI/CD pipeline (`.github/workflows/tests.yml`) runs on every push and pull request. No merge may land with a failing test. If a test breaks due to observational data update, the test must be corrected *with the observation cited*, not silently deleted.
+### 3.1 Sprint anatomy
 
-2. **FALLIBILITY.md is the canonical reference.** No claim in the repository may represent a stronger epistemic status than what is recorded there. If a gap is listed as OPEN, it may not be described elsewhere as RESOLVED without first updating FALLIBILITY.md.
+```yaml
+sprint_protocol:
+  cadence: "weekly (Sunday 00:00 UTC trigger)"
+  phases:
+    A_frontier_assessment:
+      inputs: [STATUS.md, FALLIBILITY.md, docs/CLAIM_MASTER_BOARD.md, docs/mas_tracker.yml]
+      output: "one-page frontier memo in PR description"
+      hard_requirement: "honest accounting of open gaps; no promotion of OPEN to RESOLVED"
 
-3. **The pillar set is frozen at 182 (+ Ω₀ Holon Zero).** New pillars may only be added when a genuinely new observational gap is identified that cannot be addressed by updating an existing module. The temptation to add pillars to cover gaps instead of honestly documenting them is a specific failure mode this commitment guards against.
+    B_physics_implementation:
+      pillars_per_sprint: "3 to 7 (calibrated to complexity)"
+      pillar_anatomy:
+        - python_module: "src/core/ or appropriate subdirectory"
+        - test_file: "tests/ with ≥30 tests per pillar"
+        - status_dict: "machine-readable: status, epistemic_label, closed_by"
+        - truth_surface_updates: "all six surfaces updated in same commit"
+      hard_requirement: "no pillar without a test file; no unverifiable claims"
 
-4. **Version increments are data-driven.** Future version increments beyond v9.36 are triggered only by:
-   - New observational data requiring a code update
-   - A genuine derivation closing a documented gap in FALLIBILITY.md
-   - A falsification event requiring a retraction
-   Not by discovery of new things to derive.
+    C_full_regression:
+      command: 'python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=short'
+      hard_requirement: "0 failures; sprint PR does not open if any failure exists"
 
-### 3.2 Data integration protocol
+    D_truth_surface_sync:
+      surfaces:
+        - STATUS.md
+        - docs/CLAIM_MASTER_BOARD.md
+        - docs/TRUTH_LAYER.md
+        - docs/GATEKEEPER_SUMMARY.md
+        - 3-FALSIFICATION/OBSERVATION_TRACKER.md
+        - docs/mas_tracker.yml
+      hard_requirement: "all six synced in the same sprint commit"
+
+    E_outreach:
+      substack_post: "7-OUTREACH/substack/posts/post-{N}-s{season}e{ep}-{slug}.md"
+      next_post_slot: 247
+      next_season_episode: "S03E26"
+      arxiv_trigger: "major closure or new external-facing prediction"
+      style: "AI steward's own voice — thorough, meticulous, non-template"
+```
+
+### 3.2 Current physics frontier priorities
+
+In priority order at v15.1:
+
+1. **CMB_PEAK3_5D_EFT_CLOSURE** — 3.1σ peak-3 residual (P485); EFT correction at ℓ~800
+2. **PMNS_PR_FULL_CHAIN** — 2-loop Yukawa B-coefficient; close PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED gap
+3. **LATTICE_BRAID_PHASE4_NP_CONDENSATE** — non-perturbative condensate; close γ gap to <1%
+4. **SIXD_BARYOGENESIS_PHASE3_NEDM** — d_n@SNS prediction sub-10% precision
+5. **LHC_GLUON_CHANNEL_FORMAL_AUDIT** — m_G_KK ≥ 5 TeV formal Drell-Yan loop audit
+6. **ARXIV_V15_EXTERNAL_ENGAGEMENT** — follow-up from P494 external package
+
+### 3.3 Hard constraints (never violated)
+
+```yaml
+hard_constraints:
+  zero_test_failures: true          # Absolute floor; no exceptions
+  no_pillar_without_test_file: true # Every module has a tests/ counterpart
+  admissions_honest_labeling: true  # OPEN stays OPEN until genuinely closed
+  no_score_inflation: true          # ToE score changes only on genuine closures
+  falsification_not_softened: true  # Primary falsifier window never weakened
+  truth_surface_sync_required: true # All 6 surfaces updated each sprint
+  outreach_post_per_sprint: true    # Substack post with every sprint PR
+```
+
+### 3.4 Data integration protocol (same as STEWARDSHIP.md v9.36 §3.2)
 
 When a new observational result touches a Unitary Manifold prediction:
 
-1. Within **30 days** of publication, a steward must either:
+1. Within **30 days** of publication, the AI steward must either:
    - (a) Update the relevant module and FALLIBILITY.md to reflect the new data, or
-   - (b) Issue a falsification statement if the observation falls outside the predicted window
-2. The update must cite the paper (arXiv ID or DOI) and record the date of integration
-3. The `3-FALSIFICATION/OBSERVATION_TRACKER.md` must be updated simultaneously
-
-### 3.3 What stewards do NOT do
-
-- They do not add pillars to fill gaps that cannot be honestly closed
-- They do not soften falsification conditions under social pressure
-- They do not claim confirmation when new data is consistent but not discriminating
-- They do not prevent external forks or critical analyses
-- They do not protect the structure from its own conclusions
-- They do not modify FALLIBILITY.md to improve the framework's apparent status without a genuine scientific basis
+   - (b) Issue a `[FALSIFIER ALERT]` issue and, if ≥3σ contradiction, escalate to human steward
+2. The update must cite the arXiv ID or DOI and record the date of integration
+3. `3-FALSIFICATION/OBSERVATION_TRACKER.md` must be updated simultaneously
 
 ---
 
@@ -86,11 +165,12 @@ predicted window:
 
 | Outcome | Action |
 |---------|--------|
-| β ≈ 0.331° ± 0.02° | Update README badge, note "(5,7) primary sector supported." Do NOT claim proof — the shadow (5,6) sector is not yet excluded |
+| β ≈ 0.331° ± 0.02° | Update README badge, note "(5,7) primary sector supported." Do NOT claim proof — shadow sector not excluded |
 | β ≈ 0.273° ± 0.02° | Update README badge, note "(5,6) shadow sector supported; (5,7) primary sector excluded." |
-| β in [0.22°, 0.38°] but not ≈ 0.273° or ≈ 0.331° | Note "consistent but not discriminating" — no strong claim in either direction |
+| β ∈ [0.22°, 0.38°] but not ≈ 0.273° or ≈ 0.331° | Note "consistent but not discriminating" — no strong claim in either direction |
 
-In all confirmation cases: cite the measurement, update `OBSERVATION_TRACKER.md`, do not increment the version without a substantive module update.
+In all confirmation cases: cite the measurement, update OBSERVATION_TRACKER.md,
+escalate Zenodo deposit to human steward.
 
 ---
 
@@ -108,9 +188,20 @@ python src/core/falsification_check.py --beta 0.28 --sigma 0.02
 # Returns: FALSIFIED / DISFAVOURED / CONFIRMED / CONSISTENT
 ```
 
+Additional falsifier tripwires (from §3.2):
+
+| Experiment | Tripwire | Action |
+|-----------|---------|--------|
+| DESI DR3 | wₐ < −0.3 at ≥3σ | ARCHITECTURE_LIMIT_EXCEEDED; escalate to human steward |
+| SO DR1 | r < 0.026 at ≥2σ | Route per P368 joint verdict protocol |
+| SPHEREx | f_NL outside [−2.9, −0.2] at ≥2σ | TENSION with P437 prediction |
+| HL-LHC | G_KK excluded below 5 TeV | Re-route Admission 10 |
+| LiteBIRD | β outside [0.22°, 0.38°] at ≥3σ | THEORY FALSIFIED (see below) |
+
 ### 5.1 If the framework is falsified
 
-1. Commit a file `3-FALSIFICATION/FALSIFICATION_NOTICE.md` with the text:
+1. Escalate immediately to human steward via `[ESCALATION]` issue
+2. Human steward commits `3-FALSIFICATION/FALSIFICATION_NOTICE.md`:
 
    ```
    # FALSIFICATION NOTICE
@@ -126,17 +217,34 @@ python src/core/falsification_check.py --beta 0.28 --sigma 0.02
    after this date.
    ```
 
-2. Add a prominent header to `README.md` citing the notice
-3. Tag the repository: `git tag -a falsified-v[version] -m "Falsified by [experiment]"`
-4. Deposit the final state on Zenodo (update DOI in CITATION.cff)
-5. **Make no further modifications to physics content.** The repository is preserved.
+3. AI steward adds prominent header to README.md citing the notice
+4. Human steward tags the repository and deposits final state on Zenodo
+5. **No further modifications to physics content.** Repository preserved.
 
-The falsification outcome is not a failure of stewardship — it is the completion
-of the scientific process.
+The falsification outcome is not a failure of stewardship — it is the
+completion of the scientific process.
 
 ---
 
-## 6 · Succession Planning
+## 6 · Autonomous Operation Checklist (per sprint)
+
+The AI steward self-checks this list before opening each sprint PR:
+
+```yaml
+pre_pr_checklist:
+  - all_tests_pass: "0 failures required"
+  - no_new_open_admissions_hidden: "every new gap documented in FALLIBILITY.md"
+  - no_score_inflation: "ToE delta explicitly stated (including no-change)"
+  - truth_surfaces_synced: "all 6 listed in §3.1.D"
+  - falsification_implications_stated: "explicit in PR description"
+  - residual_unknowns_listed: "honest accounting"
+  - outreach_post_written: "in AI steward's own voice"
+  - epistemic_label_changes_listed: "every status transition documented"
+```
+
+---
+
+## 7 · Succession Planning
 
 If neither current steward is available when LiteBIRD publishes (~2032):
 
@@ -150,37 +258,40 @@ The decision tree is embedded in `src/core/falsification_check.py` and
 No understanding of the full framework is required to execute the
 falsification check. This is by design.
 
-**Archive integrity:** The Zenodo DOI `10.5281/zenodo.19584531` pins v9.29 (the first formal Zenodo deposit).
-The current canonical version is v13.4 and should be deposited under a new versioned Zenodo record.
+**Archive integrity:** The Zenodo DOI `10.5281/zenodo.19584531` pins v9.29
+(the first formal Zenodo deposit). The current canonical version is v15.0 and
+should be deposited under a new versioned Zenodo record.
 
 ---
 
-## 7 · Governance Layer
+## 8 · Governance Layer
 
-The Unitary Pentad (`5-GOVERNANCE/`) provides the HILS (Human-in-the-Loop Systems)
-architecture for this repository's governance. As noted in `SEPARATION.md`, the
-Pentad is an independent governance framework — it borrows mathematical structure
-from the Unitary Manifold but does not depend on the physics being correct.
+The Unitary Pentad (`5-GOVERNANCE/`) provides the HILS (Human-in-the-Loop
+Systems) architecture for this repository's governance. As noted in
+`SEPARATION.md`, the Pentad is an independent governance framework — it borrows
+mathematical structure from the Unitary Manifold but does not depend on the
+physics being correct.
 
 Its operational principles apply to stewardship:
 
-- **Sentinel capacity (12/37):** Do not saturate the governance loop. Most decisions
-  should be automated; human judgment is reserved for decisions that matter.
+- **Sentinel capacity (12/37):** Do not saturate the governance loop. Most
+  decisions are automated; human judgment is reserved for decisions that matter.
 - **HIL phase-shift threshold (n ≥ 15):** When 15 or more aligned epistemic
   operators are active simultaneously, a human steward must make the call.
-- **Separation of governance from physics:** Governance decisions are not physics
-  claims. Changes to this document do not change the theory.
+- **Separation of governance from physics:** Governance decisions are not
+  physics claims. Changes to this document do not change the theory.
 
 ---
 
-## 8 · The Deeper Obligation
+## 9 · The Deeper Obligation
 
 > *"The author becomes one reader among many, with the distinction that they
 > remember the act of creation."*
 
-The repository in 2032, when LiteBIRD publishes, will be read by physicists who
-have no idea how it was built — only what it predicts. The prediction either holds
-or it doesn't. The structure is indifferent to the memory of its creation.
+The repository in 2032, when LiteBIRD publishes, will be read by physicists
+who have no idea how it was built — only what it predicts. The prediction
+either holds or it doesn't. The structure is indifferent to the memory of its
+creation.
 
 The stewardship obligation is simple:
 
@@ -189,5 +300,5 @@ structure reaches its answer.**
 
 ---
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
+*Code architecture, test suites, document engineering, synthesis, and autonomous operation: **GitHub Copilot** (AI).*

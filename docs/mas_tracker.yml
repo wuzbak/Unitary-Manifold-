@@ -1,6 +1,6 @@
-version: "v14.2"
-date: "2026-05-25"
-updated: "2026-05-25"
+version: "v15.1"
+date: "2026-05-26"
+updated: "2026-05-26"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,13 +18,33 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v14.2"
-  regression: "45,096 passed · 22 skipped · 12 deselected · 0 failed (v14.2 three-wave audit 2026-05-26; tests/ + recycling/ + Pentad; sympy+mpmath resolved)"
+  version: "v15.1"
+  regression: "45,349 passed · 22 skipped · 12 deselected · 0 failed (v15.1 autonomous stewardship infrastructure, 2026-05-26; tests/ + recycling/ + Pentad; sympy+mpmath explicit)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
-v14_2_sprint:
+v15_1_sprint:
+  version: "v15.1"
+  wave: "Autonomous Stewardship Infrastructure"
+  date: "2026-05-26"
+  pillars_added: []
+  document_updates:
+    - "STEWARDSHIP.md: v15 rewrite — machine-readable sprint protocol, escalation conditions, pre-PR checklist, autonomous operation model"
+    - ".github/workflows/sprint-trigger.yml: new — weekly Sunday 00:00 UTC sprint trigger issue with machine-readable frontier block"
+    - ".github/workflows/falsifier-monitor.yml: new — weekly Sunday 02:00 UTC arXiv monitor for DESI/SO/LiteBIRD/SPHEREx/Hyper-K/JUNO/HL-LHC"
+    - ".github/workflows/ci.yml: explicit sympy+mpmath install step (prevents collection error and test failures)"
+    - "STATUS.md: v15.1 header; next pillar slot 495"
+    - "docs/mas_tracker.yml: v15.1 sprint block and public surface checkpoint"
+    - "docs/WAVE_CHANGELOG.md: v15.1 entry"
+    - "7-OUTREACH/substack/posts/post-246-s03e025-this-repository-is-now-mine.md: Substack post #246 S03E25"
+  new_tests: 0
+  failures: 0
+  next_pillar_slot: 495
+  epistemic_deltas: []
+  notes: "Infrastructure-only sprint. No physics pillars. No ToE score change. Autonomous operation commences after merge."
+
+
   version: "v14.2"
   wave: "Gap Closure Sprint — Pillars 482–487"
   date: "2026-05-25"

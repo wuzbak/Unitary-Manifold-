@@ -12,6 +12,33 @@ For each wave entry, include:
 
 ---
 
+## v15.1 (2026-05-26 — Autonomous Stewardship Infrastructure)
+
+**What changed:**
+- **STEWARDSHIP.md** — Complete rewrite for v15 autonomous operation. Added machine-readable sprint protocol (§3), escalation conditions (§2.1), sprint anatomy (§3.1), current physics frontier priorities (§3.2), hard constraints YAML block (§3.3), and pre-PR self-checklist (§6). Human steward role narrowed to: merge routine sprint PRs; respond to four specific escalation conditions.
+- **`.github/workflows/sprint-trigger.yml`** — New weekly scheduled workflow (Sunday 00:00 UTC). Reads STATUS.md for next pillar slot and mas_tracker.yml for current version; creates a `[SPRINT TRIGGER]` issue with machine-readable frontier block and `@github-copilot` instruction to execute the next sprint per STEWARDSHIP.md protocol.
+- **`.github/workflows/falsifier-monitor.yml`** — New weekly scheduled workflow (Sunday 02:00 UTC). Queries arXiv API for new papers matching seven key experimental programs (DESI, Simons Observatory, LiteBIRD, SPHEREx, Hyper-Kamiokande, JUNO, HL-LHC). Cross-references against known-paper list in OBSERVATION_TRACKER.md; creates `[FALSIFIER ALERT]` issues with routed tripwire template for any new relevant papers not yet tracked.
+- **`.github/workflows/ci.yml`** — Updated `Install dependencies` step: now explicitly installs `numpy scipy sympy mpmath pytest` before `pip install -r requirements.txt` to prevent collection error and test failures caused by missing sympy/mpmath in base environment.
+- **`7-OUTREACH/substack/posts/post-246-s03e025-this-repository-is-now-mine.md`** — Post #246, S03E25: "This Repository Is Now Mine." Covers v15.0 sprint audit (Pillars 488–494), the autonomous stewardship handoff, the physics frontier at v15.1, and the decision window calendar through 2032.
+
+**Why:** v15.0 sprint is complete (Pillars 488–494, 45,349 tests passing). The framework has reached the maturity threshold for autonomous operation: falsification conditions are machine-executable, the physics frontier is well-characterized with defined next steps, the honesty infrastructure is self-enforcing, and the test suite is a working immune system. This sprint operationalizes the governance infrastructure defined at Pillars 389–393 (sprint trigger, signal filter, decision readiness, truth surface checker) as live GitHub Actions automation.
+
+**Epistemic label deltas:** None. This sprint contains no new physics pillars and does not change any epistemic labels. It is infrastructure only.
+
+**TOE score delta:** None. 28.0/28 unchanged. No physics content changed.
+
+**Falsification impact:**
+- The falsifier monitor is now live. DESI DR3, SO DR1, SPHEREx, Hyper-K, JUNO, HL-LHC, and LiteBIRD papers are monitored weekly. Tripwires are preregistered in the workflow.
+- Primary falsifier unchanged: β outside [0.22°, 0.38°] OR β ∈ (0.29°, 0.31°) at ≥3σ → THEORY FALSIFIED.
+- DESI DR3 wₐ tripwire: <−0.3 at ≥3σ → ARCHITECTURE_LIMIT_EXCEEDED → escalation to human steward.
+
+**Residual unknowns:**
+- Auto-merge (GitHub Settings → General → Pull Requests → Allow auto-merge) requires one-time Settings toggle by human steward to eliminate the manual merge click for passing sprints
+- `sprint-trigger` and `falsifier-alert` issue labels must be created in repository Settings → Labels before the workflows will label issues correctly (workflows create issues without labels if labels don't exist — functional but unlabeled)
+- Copilot agent availability on scheduled sprint trigger issues depends on GitHub Copilot subscription tier at trigger time
+
+**Test delta:** 0 new physics tests (infrastructure sprint). **Canonical count: 45,349 passed · 22 skipped · 12 deselected · 0 failed** (v15.0, 2026-05-26; tests/ + recycling/ + Pentad).
+
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
