@@ -27,3 +27,5 @@ docs/_build/
 
 # W&B offline runs (re-generated each run)
 wandb/offline-run-*/
+.mutmut-cache
+*.bak
