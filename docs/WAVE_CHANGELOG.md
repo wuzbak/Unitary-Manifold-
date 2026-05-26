@@ -42,6 +42,42 @@ For each wave entry, include:
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
 
+
+## v15.0 (2026-05-26 — Honest Audit / Ledger Sync Sprint: Pillars 488–494)
+
+**What changed:**
+- **Pillar 488** — v15 Ledger Audit Complete: canonical ledgers and onboarding docs synchronized; doc-drift regression closed. Status: V15_LEDGER_AUDIT_COMPLETE
+- **Pillar 489** — CMB Peak-3 5D EFT Irreducible: peak-3 at ℓ≈800 kept inside the 5D window while the 3.1σ amplitude residual is named as a genuine UV-normalization cap. Status: CMB_PEAK3_FIVE_D_EFT_IRREDUCIBLE
+- **Pillar 490** — α_s Full-Chain Audit v15: α_s^(5D)≈0.1130 remains 4.3% below PDG 2024; honest margin-zone label retained. Status: ALPHA_S_FULL_CHAIN_AUDIT_V15
+- **Pillar 491** — P8 / CCR Formal Status v15: P8 proved on the integer lattice with a named full-function-space residual; CCR restated precisely as conjectural. Status: P8_CCR_FORMAL_STATUS_V15
+- **Pillar 492** — Free Parameter Final Census v15: zero structural free parameters certified; three observational anchors recorded. Status: FREE_PARAMETER_FINAL_CENSUS_V15
+- **Pillar 493** — Admission Closure Certificate v15: all 13 admissions exported machine-readably with honest gap labels. Status: ADMISSION_CLOSURE_CERTIFICATE_V15
+- **Pillar 494** — arXiv v15 External Package: abstract update, reviewer briefing, falsification protocol, prediction table, and readiness checklist bundled. Status: ARXIV_V15_EXTERNAL_PACKAGE
+
+**Why:** v15 is an honesty-and-synchronization wave: close the doc-drift failures, freeze the public ledgers to one canonical test total, and state the remaining irreducible gaps without overclaiming closure.
+
+**Epistemic label deltas:**
+- Ledger drift: FAILING_CONSISTENCY_CHECK → SYNCHRONIZED_CANONICAL_LEDGER
+- Peak-3 residual: QUANTIFIED_RESIDUAL → GENUINE_5D_EFT_CAP
+- α_s: MARGIN_ZONE retained, but named explicitly as irreducible without 10D completion
+- P8 / CCR: lattice proof and conjectural boundary separated cleanly
+- Free parameters / admissions: honest-gaps-only framing exported machine-readably
+
+**TOE score delta:** None. v15 is an audit, naming, and packaging sprint rather than a new hardgate-claim expansion.
+
+**Falsification impact:**
+- LiteBIRD birefringence window remains the primary bright-line falsifier.
+- Peak-3 residual is now explicitly scoped to UV normalization rather than hidden inside generic transfer uncertainty.
+- α_s remains a visible margin-zone discrepancy pending 10D completion.
+
+**Residual unknowns:**
+- Peak-3 amplitude normalization still needs UV-brane / 10D completion input.
+- α_s(M_Z) remains ~4.3% low relative to PDG 2024.
+- CCR remains conjectural; full-function-space extension of P8 remains open.
+- Admission 6 / 7 / 10 remain the named honest-gap trio in the v15 certificate.
+
+**Test delta:** +253 passing (Pillars 488–494). **Canonical count: 45,349 passed · 22 skipped · 12 deselected · 0 failed** (v15.0, 2026-05-26; tests/ + recycling/ + Pentad).
+
 ## v14.2 (2026-05-25 — Gap Closure Sprint: Pillars 482–487)
 
 **What changed:**
@@ -77,7 +113,7 @@ For each wave entry, include:
 - Lean4 Tier 2: operational but Mathlib compilation time ~12 min (cold cache)
 - Admission 1 Z₂-odd: classical level COMPLETE; quantum functional-integral treatment still future work
 
-**Test delta:** +435 passing (Pillars 482–487). **Canonical count: 44,748 passed · 23 skipped · 12 deselected · 0 failed** (v14.2, 2026-05-25; tests/ + recycling/ + Pentad).
+**Test delta:** +435 passing (Pillars 482–487). **Canonical count: 45,096 passed · 22 skipped · 12 deselected · 0 failed** (v14.2, 2026-05-26; tests/ + recycling/ + Pentad).
 
 
 
@@ -107,7 +143,7 @@ For each wave entry, include:
 - P480 sub-lattice FN correction (δ_FN < 1 for all 9 fermions; analytic formula exact)
 - P478 hadronic uncertainty factor ~3 (lattice QCD Phase 3 would resolve)
 
-**Test delta:** +353 passing. **Canonical count: 44,590 + 353 = 44,943 passed · 23 skipped · 12 deselected · 0 failed** (v14.1; superseded by v14.2 canonical: 44,748 passed · 23 skipped · 12 deselected · 0 failed)
+**Test delta:** +353 passing. **Canonical count: 44,943 passed · 23 skipped · 12 deselected · 0 failed** (v14.1; later superseded by v14.2 canonical: 45,096 passed · 22 skipped · 12 deselected · 0 failed, then by v15.0 canonical: 45,349 passed · 22 skipped · 12 deselected · 0 failed)
 
 ---
 

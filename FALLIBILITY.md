@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v14.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: 44,748 passed · 23 skipped · 12 deselected · 0 failed (v14.2, 2026-05-25; tests/ + recycling/ + Pentad); v14.0 Pillars 455–474 (Pillar 455 P8 integer-lattice, Pillar 470 KK unitarity proved); v14.1 adds Pillars 475–481 — External Engagement Sprint: JUNO NLO full-chain closure (P475), Lean4 CI hash-validated (P476), 2027 rehearsal drills complete (P477), 6D baryogenesis Phase 2 d_n≈7.8×10⁻²⁷ e·cm 🔵 (P478), lattice braid Phase 2 BKT QLRO 🔵 (P479), fermion hierarchy analytic formula ℓ_eff=-ln(m/mt)/5 (P480), arXiv v14.1 external engagement package (P481); ~353 new tests; 0 failures; v14.2 adds Pillars 482–487 — Gap Closure Sprint: Lean4 CI activated (P482), lattice braid P3 🔵 (P483), PMNS p_R NLO executed (P484), CMB peaks quantified (P485), DESI DR3 prep (P486), Z₂-odd GHY derived (P487); +435 new tests; 0 failures).*
+*Unitary Manifold v15.0 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified sprint regression: 45,349 passed · 22 skipped · 12 deselected · 0 failed (v15.0, 2026-05-26; tests/ + recycling/ + Pentad); v14.0 Pillars 455–474 (Pillar 455 P8 integer-lattice, Pillar 470 KK unitarity proved); v14.1 adds Pillars 475–481 — External Engagement Sprint: JUNO NLO full-chain closure (P475), Lean4 CI hash-validated (P476), 2027 rehearsal drills complete (P477), 6D baryogenesis Phase 2 d_n≈7.8×10⁻²⁷ e·cm 🔵 (P478), lattice braid Phase 2 BKT QLRO 🔵 (P479), fermion hierarchy analytic formula ℓ_eff=-ln(m/mt)/5 (P480), arXiv v14.1 external engagement package (P481); ~353 new tests; 0 failures; v14.2 adds Pillars 482–487 — Gap Closure Sprint: Lean4 CI activated (P482), lattice braid P3 🔵 (P483), PMNS p_R NLO executed (P484), CMB peaks quantified (P485), DESI DR3 prep (P486), Z₂-odd GHY derived (P487); +435 new tests; 0 failures; v15.0 adds Pillars 488–494 — ledger audit complete (P488), peak-3 EFT cap named (P489), α_s v15 honest audit (P490), P8/CCR formal status (P491), free-parameter final census (P492), admission closure certificate (P493), arXiv external package (P494); +253 new tests; 0 failures).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (43,009 passed · 2 skipped · 12 deselected · 0 failed (in-sprint v13.6, 2026-05-25); canonical count with all optional dependencies; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (45,349 passed · 22 skipped · 12 deselected · 0 failed (v15.0, 2026-05-26); collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution

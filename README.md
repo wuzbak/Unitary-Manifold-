@@ -942,7 +942,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 44,748 passed · 23 skipped · 12 deselected; v14.2)
+### Run the test suite — 0 failures (full suite: 45,349 passed · 22 skipped · 12 deselected; v15.0)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
@@ -1291,7 +1291,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**44,590 passed · 23 skipped · 12 deselected · 0 failures**).
+(**45,349 passed · 22 skipped · 12 deselected · 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.

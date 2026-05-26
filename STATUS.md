@@ -40,8 +40,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 44,943 passed · 23 skipped · 12 deselected · 0 failed (v14.1 sprint, 2026-05-25; tests/ + recycling/ + Pentad)
-*(Repository full-suite: 44,943 passing = 44,590 v14.0 baseline + 353 new v14.1 tests.)*
+**Latest verified branch regression:** 45,349 passed · 22 skipped · 12 deselected · 0 failed (v15.0 sprint, 2026-05-26; tests/ + recycling/ + Pentad)
+*(Repository full-suite: 45,349 passing = 45,096 v14.2 baseline + 253 new v15.0 tests.)*
 *(historical: v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215; v12.9: ≥40,180)*
 
 ---
