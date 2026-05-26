@@ -1,6 +1,6 @@
-version: "v14.2"
-date: "2026-05-25"
-updated: "2026-05-25"
+version: "v15.0"
+date: "2026-05-26"
+updated: "2026-05-26"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,11 +18,40 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v14.2"
-  regression: "45,096 passed · 22 skipped · 12 deselected · 0 failed (v14.2 three-wave audit 2026-05-26; tests/ + recycling/ + Pentad; sympy+mpmath resolved)"
+  version: "v15.0"
+  regression: "45,349 passed · 22 skipped · 12 deselected · 0 failed (v15.0 honest-audit sprint 2026-05-26; tests/ + recycling/ + Pentad; ledger drift fixed)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v15_0_sprint:
+  version: "v15.0"
+  wave: "Honest Audit / Ledger Sync Sprint — Pillars 488–494"
+  date: "2026-05-26"
+  pillars_added:
+    - "488: v15 ledger audit — V15_LEDGER_AUDIT_COMPLETE; canonical ledgers + onboarding docs synchronized"
+    - "489: CMB peak-3 EFT audit — CMB_PEAK3_FIVE_D_EFT_IRREDUCIBLE; 3.1σ residual named as genuine 5D EFT cap"
+    - "490: α_s full-chain audit — ALPHA_S_FULL_CHAIN_AUDIT_V15; 0.1130 vs PDG 2024 0.1181 remains margin-zone"
+    - "491: P8 / CCR formal status — P8_CCR_FORMAL_STATUS_V15; lattice proof separated from conjectural CCR limit"
+    - "492: free-parameter census — FREE_PARAMETER_FINAL_CENSUS_V15; 0 structural free parameters, 3 observational anchors"
+    - "493: admission closure certificate — ADMISSION_CLOSURE_CERTIFICATE_V15; all 13 admissions exported machine-readably"
+    - "494: arXiv v15 package — ARXIV_V15_EXTERNAL_PACKAGE; abstract/reviewer/falsifier/readiness packet"
+  document_updates:
+    - "STATUS.md: v15.0 header + next pillar slot 495"
+    - "README.md: badges + canonical regression updated to 45,349 passed"
+    - "FALLIBILITY.md and DERIVATION_STATUS.md: v15.0 live-ledger sync"
+    - "docs/WAVE_CHANGELOG.md: v15.0 entry"
+    - "docs/mas_tracker.yml: v15.0 sprint entry and public surface checkpoint"
+    - "All onboarding docs: canonical passed count updated to 45,349"
+  new_tests: 253
+  failures: 0
+  next_pillar_slot: 495
+  epistemic_deltas:
+    - "Ledger drift: failing consistency check → synchronized canonical ledger"
+    - "Peak-3 residual: quantified residual → genuine 5D EFT cap"
+    - "α_s: MARGIN_ZONE retained with explicit 10D-completion caveat"
+    - "P8 / CCR: lattice proof and conjectural limit boundary separated cleanly"
+    - "Free parameters / admissions: honest gap registry exported machine-readably"
 
 v14_2_sprint:
   version: "v14.2"
