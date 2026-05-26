@@ -50,6 +50,8 @@ For each wave entry, include:
 - Lean4 Tier 2: operational but Mathlib compilation time ~12 min (cold cache)
 - Admission 1 Z₂-odd: classical level COMPLETE; quantum functional-integral treatment still future work
 
+**Test delta:** +435 passing (Pillars 482–487). **Canonical count: 44,748 passed · 23 skipped · 12 deselected · 0 failed** (v14.2, 2026-05-25; tests/ + recycling/ + Pentad).
+
 
 
 **What changed:**
@@ -78,7 +80,7 @@ For each wave entry, include:
 - P480 sub-lattice FN correction (δ_FN < 1 for all 9 fermions; analytic formula exact)
 - P478 hadronic uncertainty factor ~3 (lattice QCD Phase 3 would resolve)
 
-**Test delta:** +353 passing. **Canonical count: 44,590 + 353 = 44,943 passed · 23 skipped · 12 deselected · 0 failed**
+**Test delta:** +353 passing. **Canonical count: 44,590 + 353 = 44,943 passed · 23 skipped · 12 deselected · 0 failed** (v14.1; superseded by v14.2 canonical: 44,748 passed · 23 skipped · 12 deselected · 0 failed)
 
 ---
 
