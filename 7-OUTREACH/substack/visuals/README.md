@@ -4,6 +4,7 @@
 > summarize repository claims, verification status, falsification windows, and
 > workflow structure; they do not replace `FALLIBILITY.md`,
 > `1-THEORY/DERIVATION_STATUS.md`, `3-FALSIFICATION/`, or the executable tests.
+> The images themselves have not undergone independent peer review.
 
 Use these PNGs as headers, inline explainers, and figure inserts in Substack
 posts.  Keep captions honest: automated tests demonstrate internal consistency

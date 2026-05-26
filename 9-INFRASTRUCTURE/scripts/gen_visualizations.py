@@ -18,7 +18,18 @@ import matplotlib.gridspec as gridspec
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from matplotlib.colors import LinearSegmentedColormap
 
-REPO = Path(__file__).resolve().parents[2]
+def find_repo_root(start: Path) -> Path:
+    for candidate in (start, *start.parents):
+        if (
+            (candidate / "pyproject.toml").exists()
+            and (candidate / "7-OUTREACH").is_dir()
+            and (candidate / "9-INFRASTRUCTURE").is_dir()
+        ):
+            return candidate
+    raise RuntimeError("Could not locate Unitary-Manifold repository root")
+
+
+REPO = find_repo_root(Path(__file__).resolve())
 GALLERY = REPO / "7-OUTREACH" / "visualizations"
 SUBSTACK_VISUALS = REPO / "7-OUTREACH" / "substack" / "visuals"
 RESULTS = REPO / "9-INFRASTRUCTURE" / "results"
