@@ -12,20 +12,30 @@
 
 ## Directory Structure
 
-This directory is organized into two subdirectories:
+This directory is organized into three subdirectories:
 
 ```
 substack/
 ├── posts/      ← All post-*.md and epilog-*.md article drafts (Posts 00–151+)
 ├── books/      ← All book-*.md full-length book drafts (17 books)
+├── visuals/    ← Substack-ready PNG figures and caption/index guide
 └── README.md   ← This file
 ```
 
 All post filenames in the tables below live inside `posts/`.
 All book filenames live inside `books/`.
+All visual assets live inside `visuals/`.
 
 This directory contains ready-to-publish Substack post drafts for communicating
 the Unitary Manifold framework to a general audience.
+
+## Substack Visuals
+
+**[visuals/](visuals/README.md)** contains 18 PNG figures for explaining the
+repository structure, main prediction windows, falsification path, proof/test
+growth, human-AI workflow, and governance boundary.  These are outreach aids,
+not primary evidence; each figure should be paired with the relevant technical
+source and the caveats in `FALLIBILITY.md`.
 
 ## The Canonical Book — Version Omega
 

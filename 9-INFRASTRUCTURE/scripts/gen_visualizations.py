@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
 Generate all Unitary Manifold visualizations.
-Outputs go to BOTH:
+Outputs go to:
   - 7-OUTREACH/visualizations/   (canonical collected gallery)
+  - 7-OUTREACH/substack/visuals/ (Substack-ready visual assets)
   - 9-INFRASTRUCTURE/results/    (existing PNG home)
 """
 
 import os, sys
+from pathlib import Path
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -16,11 +18,13 @@ import matplotlib.gridspec as gridspec
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from matplotlib.colors import LinearSegmentedColormap
 
-REPO = "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-"
-GALLERY = f"{REPO}/7-OUTREACH/visualizations"
-RESULTS = f"{REPO}/9-INFRASTRUCTURE/results"
-os.makedirs(GALLERY, exist_ok=True)
-os.makedirs(RESULTS, exist_ok=True)
+REPO = Path(__file__).resolve().parents[2]
+GALLERY = REPO / "7-OUTREACH" / "visualizations"
+SUBSTACK_VISUALS = REPO / "7-OUTREACH" / "substack" / "visuals"
+RESULTS = REPO / "9-INFRASTRUCTURE" / "results"
+OUTPUT_DIRS = (GALLERY, SUBSTACK_VISUALS, RESULTS)
+for outdir in OUTPUT_DIRS:
+    outdir.mkdir(parents=True, exist_ok=True)
 
 # ── palette ──────────────────────────────────────────────────────────────────
 UM_BLUE   = '#1565C0'
@@ -41,7 +45,7 @@ plt.rcParams.update({
 })
 
 def save(fig, name, tight=True):
-    for outdir in (GALLERY, RESULTS):
+    for outdir in OUTPUT_DIRS:
         path = os.path.join(outdir, name)
         if tight:
             fig.savefig(path, bbox_inches='tight', facecolor=fig.get_facecolor())
@@ -1063,4 +1067,6 @@ if __name__ == '__main__':
         except Exception as e:
             print(f"  ✗  {fn.__name__}: {e}")
             import traceback; traceback.print_exc()
-    print(f"\nDone. Figures in:\n  {GALLERY}\n  {RESULTS}")
+    print("\nDone. Figures in:")
+    for outdir in OUTPUT_DIRS:
+        print(f"  {outdir}")
