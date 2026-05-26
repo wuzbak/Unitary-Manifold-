@@ -137,17 +137,17 @@ The required degeneracy is extreme:
 
 What does the UM braid geometry predict for ΔM_R/M_R?
 
-The right-handed neutrino mass matrix in the KK seesaw has eigenvalues set by the warp-factor profiles. The splitting between the two lightest right-handed neutrino states is determined by the braid lattice step:
+The right-handed neutrino mass matrix in the KK seesaw has eigenvalues set by the warp-factor profiles. Two quantities must be distinguished here:
+
+**Braid lattice step (c-parameter space):** The lattice step in the dimensionless bulk mass parameter c is Δc = n_w/K_CS = 5/74 ≈ 0.068. This is the step in c between adjacent braid lattice sites.
+
+**Resulting right-handed neutrino mass ratio:** The right-handed neutrino masses scale as M_R ∝ exp(kπR × c_R) from the warp-factor profile. For two adjacent lattice sites with Δc = 0.068, the mass ratio is exp(kπR × 0.068) ≈ exp(37π × 0.068) ≈ exp(7.9) ≈ 2700. But the seesaw mass matrix has three generations, and the eigenvalue computation (Pillar 409) uses the full 3×3 texture. The relevant splitting between the two lightest right-handed neutrino mass eigenvalues — after diagonalizing the full texture — is:
 
 ```
-ΔM_R / M_R ≈ Δℓ × (n_w/K_CS) = (5/74) ≈ 0.068
+ΔM_R / M_R ≈ 5.0   (from the 3×3 seesaw eigenvalue computation, Pillar 409)
 ```
 
-Numerically:
-
-```
-ΔM_R / M_R ≈ 5.0   (from the braid lattice geometry)
-```
+This is a mass ratio of order 1 (the two lightest right-handed neutrinos differ by a factor of ~6), not the tiny degeneracy required for resonant leptogenesis.
 
 This is approximately 10⁵ times larger than what resonant leptogenesis requires. To get the resonant enhancement, you need the two masses to be degenerate to one part in 100,000. The braid geometry produces a splitting of order unity. These are not in the same universe.
 
