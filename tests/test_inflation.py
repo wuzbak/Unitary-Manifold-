@@ -2191,3 +2191,624 @@ class TestRS1JacobianTrace:
         expected_flat = float(effective_phi0_kk(1.0, 5))
         assert self.trace["phi0_eff_rs1"]  == pytest.approx(expected_rs1,  rel=1e-12)
         assert self.trace["phi0_eff_flat"] == pytest.approx(expected_flat, rel=1e-12)
+
+
+# ===========================================================================
+# Exact-value arithmetic tests — mutation-hard-gate kill-rate improvement
+# These tests pin precise numerical outputs for every core formula function
+# so that arithmetic mutations (constant changes, sign flips, operator swaps)
+# are caught deterministically.
+# ===========================================================================
+
+import math as _math
+
+from src.core.inflation import (
+    casimir_A_c_from_phi_min,
+    cs_level_for_birefringence,
+    gauge_coupling_5d_for_alpha,
+)
+
+
+class TestExactArithmeticGWPotential:
+    """Pin exact floating-point values for gw_potential."""
+
+    def test_half_phi_lam1(self):
+        assert gw_potential(0.5, 1.0, 1.0) == pytest.approx(0.5625, rel=1e-14)
+
+    def test_zero_phi_lam1(self):
+        assert gw_potential(0.0, 1.0, 1.0) == pytest.approx(1.0, rel=1e-14)
+
+    def test_two_phi_lam2(self):
+        # V = 2*(4-1)^2 = 2*9 = 18
+        assert gw_potential(2.0, 1.0, 2.0) == pytest.approx(18.0, rel=1e-14)
+
+    def test_lam3_phi_half(self):
+        # V = 3*(0.25-1)^2 = 3*0.5625 = 1.6875
+        assert gw_potential(0.5, 1.0, 3.0) == pytest.approx(1.6875, rel=1e-14)
+
+    def test_phi_equals_phi0_exact_zero(self):
+        assert gw_potential(2.5, 2.5) == pytest.approx(0.0, abs=1e-14)
+
+    def test_phi_equals_neg_phi0_exact_zero(self):
+        assert gw_potential(-2.5, 2.5) == pytest.approx(0.0, abs=1e-14)
+
+    def test_phi_3_phi0_2_lam1(self):
+        # V = (9 - 4)^2 = 25
+        assert gw_potential(3.0, 2.0, 1.0) == pytest.approx(25.0, rel=1e-14)
+
+    def test_lam_scaling_factor_five(self):
+        v1 = gw_potential(0.7, 1.2, 1.0)
+        v5 = gw_potential(0.7, 1.2, 5.0)
+        assert v5 == pytest.approx(5.0 * v1, rel=1e-13)
+
+
+class TestExactArithmeticGWPotentialDerivs:
+    """Pin exact (V, dV, d2V) triples for gw_potential_derivs."""
+
+    def test_phi05_phi0_1_lam1(self):
+        V, dV, d2V = gw_potential_derivs(0.5, 1.0, 1.0)
+        assert V   == pytest.approx(0.5625, rel=1e-14)
+        assert dV  == pytest.approx(-1.5,   rel=1e-14)
+        assert d2V == pytest.approx(-1.0,   rel=1e-14)
+
+    def test_phi2_phi0_1_lam1(self):
+        V, dV, d2V = gw_potential_derivs(2.0, 1.0, 1.0)
+        assert V   == pytest.approx(9.0,  rel=1e-14)
+        assert dV  == pytest.approx(24.0, rel=1e-14)
+        assert d2V == pytest.approx(44.0, rel=1e-14)
+
+    def test_phi1_phi0_1_lam2(self):
+        # V = 0, dV = 0, d2V = 4*2*(3-1) = 16
+        V, dV, d2V = gw_potential_derivs(1.0, 1.0, 2.0)
+        assert V   == pytest.approx(0.0,  abs=1e-14)
+        assert dV  == pytest.approx(0.0,  abs=1e-14)
+        assert d2V == pytest.approx(16.0, rel=1e-14)
+
+    def test_phi0_top_of_hill(self):
+        # phi=0: V = phi0^4, dV = 0, d2V = -4*lam*phi0^2
+        phi0, lam = 2.0, 1.0
+        V, dV, d2V = gw_potential_derivs(0.0, phi0, lam)
+        assert V   == pytest.approx(phi0**4, rel=1e-14)
+        assert dV  == pytest.approx(0.0, abs=1e-14)
+        assert d2V == pytest.approx(-4.0 * lam * phi0**2, rel=1e-14)
+
+    def test_phi15_phi0_1_lam1(self):
+        phi, phi0, lam = 1.5, 1.0, 1.0
+        V_exp   = (phi**2 - phi0**2)**2
+        dV_exp  = 4*phi*(phi**2 - phi0**2)
+        d2V_exp = 4*(3*phi**2 - phi0**2)
+        V, dV, d2V = gw_potential_derivs(phi, phi0, lam)
+        assert V   == pytest.approx(V_exp,   rel=1e-14)
+        assert dV  == pytest.approx(dV_exp,  rel=1e-14)
+        assert d2V == pytest.approx(d2V_exp, rel=1e-14)
+
+
+class TestExactArithmeticSlowRoll:
+    """Pin exact slow-roll ε, η values."""
+
+    def test_spectral_index_exact_01_02(self):
+        assert spectral_index(0.01, 0.02) == pytest.approx(0.98, rel=1e-14)
+
+    def test_spectral_index_exact_005_neg01(self):
+        assert spectral_index(0.005, -0.01) == pytest.approx(0.95, rel=1e-14)
+
+    def test_spectral_index_zero_epsilon(self):
+        assert spectral_index(0.0, 0.1) == pytest.approx(1.2, rel=1e-14)
+
+    def test_spectral_index_zero_eta(self):
+        assert spectral_index(0.02, 0.0) == pytest.approx(0.88, rel=1e-14)
+
+    def test_spectral_index_coefficients(self):
+        # Vary epsilon only: Δns = -6*Δε
+        ns1 = spectral_index(0.01, 0.0)
+        ns2 = spectral_index(0.02, 0.0)
+        assert ns2 - ns1 == pytest.approx(-0.06, rel=1e-13)
+
+    def test_spectral_index_eta_coefficient(self):
+        # Vary eta only: Δns = +2*Δη
+        ns1 = spectral_index(0.0, 0.1)
+        ns2 = spectral_index(0.0, 0.2)
+        assert ns2 - ns1 == pytest.approx(0.2, rel=1e-13)
+
+    def test_tensor_to_scalar_exact_001(self):
+        assert tensor_to_scalar_ratio(0.01) == pytest.approx(0.16, rel=1e-14)
+
+    def test_tensor_to_scalar_exact_0025(self):
+        assert tensor_to_scalar_ratio(0.0025) == pytest.approx(0.04, rel=1e-14)
+
+    def test_tensor_to_scalar_coefficient_is_16(self):
+        eps = 0.03
+        assert tensor_to_scalar_ratio(eps) == pytest.approx(16.0 * eps, rel=1e-14)
+
+    def test_tensor_to_scalar_half_epsilon(self):
+        eps = 0.005
+        assert tensor_to_scalar_ratio(eps) == pytest.approx(16.0 * eps, rel=1e-14)
+
+    def test_gw_spectral_index_exact_001(self):
+        assert gw_spectral_index(0.01) == pytest.approx(-0.02, rel=1e-14)
+
+    def test_gw_spectral_index_exact_0005(self):
+        assert gw_spectral_index(0.005) == pytest.approx(-0.01, rel=1e-14)
+
+    def test_gw_spectral_index_coefficient_is_neg2(self):
+        eps = 0.003
+        assert gw_spectral_index(eps) == pytest.approx(-2.0 * eps, rel=1e-14)
+
+    def test_slow_roll_epsilon_formula(self):
+        # ε = (1/2)(dV/V)^2
+        V, dV, d2V = 0.5625, -1.5, -1.0
+        eps, _ = slow_roll_params(0.5, V, dV, d2V)
+        expected_eps = 0.5 * (dV / V) ** 2
+        assert eps == pytest.approx(expected_eps, rel=1e-13)
+
+    def test_slow_roll_eta_formula(self):
+        V, dV, d2V = 0.5625, -1.5, -1.0
+        _, eta = slow_roll_params(0.5, V, dV, d2V)
+        expected_eta = d2V / V
+        assert eta == pytest.approx(expected_eta, rel=1e-13)
+
+    def test_slow_roll_epsilon_at_phi2(self):
+        V, dV, d2V = 9.0, 24.0, 44.0
+        eps, eta = slow_roll_params(2.0, V, dV, d2V)
+        assert eps == pytest.approx(0.5 * (24.0/9.0)**2, rel=1e-13)
+        assert eta == pytest.approx(44.0/9.0, rel=1e-13)
+
+
+class TestExactArithmeticJacobians:
+    """Pin exact Jacobian values for both S¹ and RS1 projections."""
+
+    def test_jacobian_5d_4d_nw5_phi01(self):
+        expected = 5 * 2 * _math.pi * _math.sqrt(1.0)
+        assert jacobian_5d_4d(1.0, 5) == pytest.approx(expected, rel=1e-14)
+
+    def test_jacobian_5d_4d_nw3_phi04(self):
+        expected = 3 * 2 * _math.pi * _math.sqrt(4.0)
+        assert jacobian_5d_4d(4.0, 3) == pytest.approx(expected, rel=1e-14)
+
+    def test_jacobian_5d_4d_nw1_phi01(self):
+        expected = 2 * _math.pi
+        assert jacobian_5d_4d(1.0, 1) == pytest.approx(expected, rel=1e-14)
+
+    def test_jacobian_5d_4d_nw2_phi09(self):
+        expected = 2 * 2 * _math.pi * _math.sqrt(9.0)
+        assert jacobian_5d_4d(9.0, 2) == pytest.approx(expected, rel=1e-14)
+
+    def test_jacobian_5d_4d_nw5_phi04(self):
+        expected = 5 * 2 * _math.pi * _math.sqrt(4.0)
+        assert jacobian_5d_4d(4.0, 5) == pytest.approx(expected, rel=1e-14)
+
+    def test_jacobian_5d_4d_scaling_sqrt_phi0(self):
+        # J ∝ √φ₀: doubling φ₀ increases J by √2
+        j1 = jacobian_5d_4d(1.0, 3)
+        j4 = jacobian_5d_4d(4.0, 3)
+        assert j4 == pytest.approx(2.0 * j1, rel=1e-13)
+
+    def test_jacobian_5d_4d_linear_in_n_winding(self):
+        j3 = jacobian_5d_4d(1.0, 3)
+        j6 = jacobian_5d_4d(1.0, 6)
+        assert j6 == pytest.approx(2.0 * j3, rel=1e-13)
+
+    def test_effective_phi0_kk_nw5_phi01(self):
+        expected = 5 * 2 * _math.pi * 1.0   # J * phi0 = 10π * 1
+        assert effective_phi0_kk(1.0, 5) == pytest.approx(expected, rel=1e-14)
+
+    def test_effective_phi0_kk_nw3_phi04(self):
+        # J = 3*2π*2 = 12π;  phi0_eff = 12π*4 = 48π
+        expected = 3 * 2 * _math.pi * _math.sqrt(4.0) * 4.0
+        assert effective_phi0_kk(4.0, 3) == pytest.approx(expected, rel=1e-14)
+
+    def test_jacobian_rs_orbifold_exact_k1_rc1(self):
+        import numpy as np
+        expected = np.sqrt((1.0 - np.exp(-2*_math.pi)) / 2.0)
+        from src.core.inflation import jacobian_rs_orbifold
+        assert jacobian_rs_orbifold(1.0, 1.0) == pytest.approx(expected, rel=1e-14)
+
+    def test_jacobian_rs_orbifold_saturation_k2_rc10(self):
+        # At large kr_c, J_RS → 1/√(2k) = 1/2
+        from src.core.inflation import jacobian_rs_orbifold
+        assert jacobian_rs_orbifold(2.0, 10.0) == pytest.approx(1.0 / 2.0, rel=1e-6)
+
+    def test_jacobian_rs_orbifold_saturation_k8_rc5(self):
+        from src.core.inflation import jacobian_rs_orbifold
+        assert jacobian_rs_orbifold(8.0, 5.0) == pytest.approx(1.0 / _math.sqrt(16.0), rel=1e-6)
+
+
+class TestExactArithmeticCasimir:
+    """Pin exact Casimir potential and derivative values."""
+
+    def test_casimir_potential_phi2_Ac1(self):
+        # V_C = 1/16
+        assert casimir_potential(2.0, 1.0) == pytest.approx(0.0625, rel=1e-14)
+
+    def test_casimir_potential_phi1_Ac2(self):
+        assert casimir_potential(1.0, 2.0) == pytest.approx(2.0, rel=1e-14)
+
+    def test_casimir_potential_phi05_Ac1(self):
+        # V_C = 1/0.0625 = 16
+        assert casimir_potential(0.5, 1.0) == pytest.approx(16.0, rel=1e-14)
+
+    def test_casimir_potential_phi4_power_law(self):
+        # V_C ∝ φ⁻⁴: doubling φ reduces V by factor 16
+        v1 = casimir_potential(1.0, 1.0)
+        v2 = casimir_potential(2.0, 1.0)
+        assert v1 / v2 == pytest.approx(16.0, rel=1e-13)
+
+    def test_casimir_effective_derivs_phi2_phi01_lam1_Ac01(self):
+        # V = (4-1)^2 + 0.1/16 = 9 + 0.00625 = 9.00625
+        # dV = 4*(4-1)*2 - 4*0.1/32 = 24 - 0.0125 = 23.9875
+        # d2V = 4*(12-1) + 20*0.1/64 = 44 + 0.03125 = 44.03125
+        V, dV, d2V = casimir_effective_potential_derivs(2.0, 1.0, 1.0, 0.1)
+        assert V   == pytest.approx(9.00625,  rel=1e-13)
+        assert dV  == pytest.approx(23.9875,  rel=1e-13)
+        assert d2V == pytest.approx(44.03125, rel=1e-13)
+
+    def test_casimir_effective_derivs_zero_Ac_reduces_to_gw(self):
+        phi, phi0, lam = 1.5, 1.0, 1.0
+        V_c, dV_c, d2V_c = casimir_effective_potential_derivs(phi, phi0, lam, 0.0)
+        V_g, dV_g, d2V_g = gw_potential_derivs(phi, phi0, lam)
+        assert V_c   == pytest.approx(V_g,   rel=1e-13)
+        assert dV_c  == pytest.approx(dV_g,  rel=1e-13)
+        assert d2V_c == pytest.approx(d2V_g, rel=1e-13)
+
+
+class TestExactArithmeticBirefringence:
+    """Pin exact values for birefringence and CS-level formulas."""
+
+    def test_cs_axion_photon_coupling_k1_alpha1_rc1(self):
+        # g = 1*1/(2π²) = 1/(2π²)
+        expected = 1.0 / (2.0 * _math.pi**2)
+        assert cs_axion_photon_coupling(1, 1.0, 1.0) == pytest.approx(expected, rel=1e-14)
+
+    def test_cs_axion_photon_coupling_k2_alpha05_rc2(self):
+        # g = 2*0.5/(2π²*2) = 1/(4π²)
+        expected = 2 * 0.5 / (2.0 * _math.pi**2 * 2.0)
+        assert cs_axion_photon_coupling(2, 0.5, 2.0) == pytest.approx(expected, rel=1e-14)
+
+    def test_cs_axion_photon_coupling_linear_in_kcs(self):
+        g1 = cs_axion_photon_coupling(1, 0.01, 1.0)
+        g5 = cs_axion_photon_coupling(5, 0.01, 1.0)
+        assert g5 == pytest.approx(5.0 * g1, rel=1e-13)
+
+    def test_cs_axion_photon_coupling_inverse_in_rc(self):
+        g1 = cs_axion_photon_coupling(1, 1.0, 1.0)
+        g2 = cs_axion_photon_coupling(1, 1.0, 2.0)
+        assert g1 == pytest.approx(2.0 * g2, rel=1e-13)
+
+    def test_cs_axion_photon_coupling_linear_in_alpha(self):
+        g_a = cs_axion_photon_coupling(3, 0.5, 1.0)
+        g_b = cs_axion_photon_coupling(3, 1.0, 1.0)
+        assert g_b == pytest.approx(2.0 * g_a, rel=1e-13)
+
+    def test_field_displacement_gw_phi10(self):
+        # Δφ = 10*(1 - 1/√3)
+        expected = 10.0 * (1.0 - 1.0 / _math.sqrt(3.0))
+        assert field_displacement_gw(10.0) == pytest.approx(expected, rel=1e-14)
+
+    def test_field_displacement_gw_phi1(self):
+        expected = 1.0 * (1.0 - 1.0 / _math.sqrt(3.0))
+        assert field_displacement_gw(1.0) == pytest.approx(expected, rel=1e-14)
+
+    def test_field_displacement_gw_phi_star_formula(self):
+        # Δφ = phi_min * (1 - 1/√3) — coefficient must be exactly this
+        phi_m = 5.0
+        expected = phi_m - phi_m / _math.sqrt(3.0)
+        assert field_displacement_gw(phi_m) == pytest.approx(expected, rel=1e-14)
+
+    def test_birefringence_angle_gagg01_dphi5(self):
+        # β = 0.5 * 0.1 * 5.0 = 0.25
+        assert birefringence_angle(0.1, 5.0) == pytest.approx(0.25, rel=1e-14)
+
+    def test_birefringence_angle_gagg002_dphi3(self):
+        # β = 0.5 * 0.02 * 3.0 = 0.03
+        assert birefringence_angle(0.02, 3.0) == pytest.approx(0.03, rel=1e-14)
+
+    def test_birefringence_angle_half_factor(self):
+        # β ∝ g_agg/2 * Δφ
+        g, dp = 0.4, 2.5
+        assert birefringence_angle(g, dp) == pytest.approx(0.5 * g * dp, rel=1e-14)
+
+    def test_birefringence_angle_linear_in_gagg(self):
+        b1 = birefringence_angle(0.1, 1.0)
+        b2 = birefringence_angle(0.2, 1.0)
+        assert b2 == pytest.approx(2.0 * b1, rel=1e-13)
+
+    def test_birefringence_angle_linear_in_dphi(self):
+        b1 = birefringence_angle(0.1, 1.0)
+        b2 = birefringence_angle(0.1, 2.0)
+        assert b2 == pytest.approx(2.0 * b1, rel=1e-13)
+
+
+class TestExactArithmeticGaugeCoupling:
+    """Pin exact gauge coupling values for 4D/5D RS1 projections."""
+
+    def test_fine_structure_rs_round_trip(self):
+        # α = g4²/(4π) where g4 = g5/J_RS
+        from src.core.inflation import jacobian_rs_orbifold, fine_structure_rs
+        g5, k, rc = 1.0, 1.0, 1.0
+        J = jacobian_rs_orbifold(k, rc)
+        g4 = g5 / J
+        expected_alpha = g4**2 / (4.0 * _math.pi)
+        assert fine_structure_rs(g5, k, rc) == pytest.approx(expected_alpha, rel=1e-14)
+
+    def test_gauge_coupling_4d_exact_k1_rc1(self):
+        import numpy as np
+        from src.core.inflation import gauge_coupling_4d
+        J = _math.sqrt((1 - _math.exp(-2*_math.pi)) / 2.0)
+        assert gauge_coupling_4d(1.0, 1.0, 1.0) == pytest.approx(1.0 / J, rel=1e-14)
+
+    def test_gauge_coupling_4d_linear_in_g5(self):
+        from src.core.inflation import gauge_coupling_4d
+        g1 = gauge_coupling_4d(1.0, 1.0, 1.0)
+        g2 = gauge_coupling_4d(2.0, 1.0, 1.0)
+        assert g2 == pytest.approx(2.0 * g1, rel=1e-13)
+
+    def test_gauge_coupling_5d_for_alpha_round_trip(self):
+        # g5_recovered = g4 * J = √(4π α) * J
+        from src.core.inflation import gauge_coupling_5d_for_alpha, jacobian_rs_orbifold
+        alpha, k, rc = 1.0 / 137.036, 1.0, 1.0
+        J = jacobian_rs_orbifold(k, rc)
+        g4 = _math.sqrt(4.0 * _math.pi * alpha)
+        expected_g5 = g4 * J
+        assert gauge_coupling_5d_for_alpha(alpha, k, rc) == pytest.approx(expected_g5, rel=1e-13)
+
+    def test_fine_structure_rs_inverse_in_g5_squared(self):
+        from src.core.inflation import fine_structure_rs
+        a1 = fine_structure_rs(1.0, 1.0, 1.0)
+        a2 = fine_structure_rs(2.0, 1.0, 1.0)
+        # α ∝ g4² ∝ g5²
+        assert a2 == pytest.approx(4.0 * a1, rel=1e-12)
+
+
+class TestExactArithmeticCasimirAcMin:
+    """Pin casimir_A_c_from_phi_min formula."""
+
+    def test_casimir_Ac_formula_exact(self):
+        # A_c = λ * phi_min^6 * (phi_min^2 - phi0^2)
+        phi_min, phi0, lam = 2.0, 1.0, 1.0
+        expected = lam * phi_min**6 * (phi_min**2 - phi0**2)
+        assert casimir_A_c_from_phi_min(phi_min, phi0, lam) == pytest.approx(expected, rel=1e-13)
+
+    def test_casimir_Ac_phi_min_15_phi0_1(self):
+        phi_min, phi0, lam = 1.5, 1.0, 1.0
+        expected = phi_min**6 * (phi_min**2 - phi0**2)
+        assert casimir_A_c_from_phi_min(phi_min, phi0, lam) == pytest.approx(expected, rel=1e-13)
+
+    def test_casimir_Ac_scales_with_lam(self):
+        phi_min, phi0 = 2.0, 1.0
+        A1 = casimir_A_c_from_phi_min(phi_min, phi0, 1.0)
+        A3 = casimir_A_c_from_phi_min(phi_min, phi0, 3.0)
+        assert A3 == pytest.approx(3.0 * A1, rel=1e-13)
+
+
+class TestExactArithmeticEffectivePhi0Rs:
+    """Pin effective_phi0_rs formula."""
+
+    def test_large_krc_saturates(self):
+        # At large kr_c: J_RS → 1/√(2k), so phi0_eff → n_w * 2π / √(2k) * phi0_bare
+        from src.core.inflation import effective_phi0_rs, jacobian_rs_orbifold
+        phi0_bare, k, rc, n_w = 1.0, 2.0, 20.0, 7
+        J = jacobian_rs_orbifold(k, rc)
+        expected = n_w * 2 * _math.pi * J * phi0_bare
+        assert effective_phi0_rs(phi0_bare, k, rc, n_w) == pytest.approx(expected, rel=1e-12)
+
+    def test_phi0_bare_scaling(self):
+        from src.core.inflation import effective_phi0_rs
+        r1 = effective_phi0_rs(1.0, 1.0, 1.0, 5)
+        r2 = effective_phi0_rs(2.0, 1.0, 1.0, 5)
+        assert r2 == pytest.approx(2.0 * r1, rel=1e-12)
+
+    def test_n_winding_scaling(self):
+        from src.core.inflation import effective_phi0_rs
+        r5 = effective_phi0_rs(1.0, 1.0, 1.0, 5)
+        r10 = effective_phi0_rs(1.0, 1.0, 1.0, 10)
+        assert r10 == pytest.approx(2.0 * r5, rel=1e-12)
+
+
+class TestExactArithmeticCSLevel:
+    """Pin cs_level_for_birefringence inverse formula."""
+
+    def test_round_trip_kcs_then_beta(self):
+        # Compute k_cs, then verify birefringence angle matches target
+        alpha_em = 1.0 / 137.036
+        r_c = 12.0
+        delta_phi = 5.0
+        beta_target_deg = 0.35
+        k_cs_float = cs_level_for_birefringence(beta_target_deg, alpha_em, r_c, delta_phi)
+        # Verify: β_rad = k_cs * α / (4π² r_c / Δφ * ???)
+        beta_rad_target = beta_target_deg * _math.pi / 180.0
+        expected = beta_rad_target * 4.0 * _math.pi**2 * r_c / (alpha_em * delta_phi)
+        assert k_cs_float == pytest.approx(expected, rel=1e-13)
+
+    def test_kcs_linear_in_beta_target(self):
+        alpha_em = 1.0 / 137.036
+        k1 = cs_level_for_birefringence(0.1, alpha_em, 1.0, 1.0)
+        k2 = cs_level_for_birefringence(0.2, alpha_em, 1.0, 1.0)
+        assert k2 == pytest.approx(2.0 * k1, rel=1e-13)
+
+    def test_kcs_inversely_proportional_to_alpha(self):
+        k1 = cs_level_for_birefringence(0.3, 1.0, 1.0, 1.0)
+        k2 = cs_level_for_birefringence(0.3, 2.0, 1.0, 1.0)
+        assert k1 == pytest.approx(2.0 * k2, rel=1e-13)
+
+    def test_kcs_linear_in_rc(self):
+        k1 = cs_level_for_birefringence(0.3, 1.0, 1.0, 1.0)
+        k2 = cs_level_for_birefringence(0.3, 1.0, 2.0, 1.0)
+        assert k2 == pytest.approx(2.0 * k1, rel=1e-13)
+
+
+class TestExactArithmeticBMuAndQuadratic:
+    """Pin exact arithmetic in b_mu_rotation_angle and quadratic_correction_bound."""
+
+    def test_alpha_rad_formula_b001_g001_L1000(self):
+        # alpha = 0.5 * g * b * L = 0.5 * 0.01 * 0.001 * 1000 = 0.005
+        r = b_mu_rotation_angle(0.001, 0.01, 1000.0)
+        assert r["alpha_rad"] == pytest.approx(0.005, rel=1e-14)
+
+    def test_coupling_factor_formula(self):
+        # coupling_factor = 0.5 * g * L
+        g, L = 0.02, 500.0
+        r = b_mu_rotation_angle(0.001, g, L)
+        assert r["coupling_factor"] == pytest.approx(0.5 * g * L, rel=1e-14)
+
+    def test_alpha_rad_linear_in_b_mu(self):
+        r1 = b_mu_rotation_angle(0.001, 0.01, 1000.0)
+        r2 = b_mu_rotation_angle(0.002, 0.01, 1000.0)
+        assert r2["alpha_rad"] == pytest.approx(2.0 * r1["alpha_rad"], rel=1e-13)
+
+    def test_alpha_rad_linear_in_g_agamma(self):
+        r1 = b_mu_rotation_angle(0.001, 0.01, 1000.0)
+        r2 = b_mu_rotation_angle(0.001, 0.02, 1000.0)
+        assert r2["alpha_rad"] == pytest.approx(2.0 * r1["alpha_rad"], rel=1e-13)
+
+    def test_alpha_rad_linear_in_L(self):
+        r1 = b_mu_rotation_angle(0.001, 0.01, 1000.0)
+        r2 = b_mu_rotation_angle(0.001, 0.01, 2000.0)
+        assert r2["alpha_rad"] == pytest.approx(2.0 * r1["alpha_rad"], rel=1e-13)
+
+    def test_quadratic_bound_exact_prefactor_small_alpha(self):
+        import math as _m
+        alpha = 0.001
+        expected = _m.sin(4.0 * alpha) / (4.0 * alpha)
+        r = quadratic_correction_bound(alpha)
+        assert r["exact_prefactor"] == pytest.approx(expected, rel=1e-13)
+
+    def test_quadratic_bound_analytic_formula(self):
+        alpha = 0.005
+        r = quadratic_correction_bound(alpha)
+        expected_approx = 8.0 * alpha**2 / 3.0
+        assert r["analytic_approximation"] == pytest.approx(expected_approx, rel=1e-13)
+
+    def test_quadratic_bound_zero_alpha_gives_one(self):
+        r = quadratic_correction_bound(0.0)
+        assert r["exact_prefactor"] == pytest.approx(1.0, rel=1e-14)
+
+    def test_quadratic_bound_fractional_deviation_is_abs_diff(self):
+        import math as _m
+        alpha = 0.01
+        r = quadratic_correction_bound(alpha)
+        expected_pf = _m.sin(0.04) / 0.04
+        expected_dev = abs(expected_pf - 1.0)
+        assert r["fractional_deviation"] == pytest.approx(expected_dev, rel=1e-12)
+
+
+class TestExactArithmeticBMuKineticRunning:
+    """Pin exact arithmetic in b_mu_kinetic_running."""
+
+    def test_gamma_zero_returns_one(self):
+        from src.core.inflation import b_mu_kinetic_running
+        assert b_mu_kinetic_running(0.10, 0.05, 0.0) == pytest.approx(1.0, rel=1e-14)
+
+    def test_gamma_one_returns_ratio(self):
+        from src.core.inflation import b_mu_kinetic_running
+        assert b_mu_kinetic_running(0.10, 0.05, 1.0) == pytest.approx(2.0, rel=1e-14)
+
+    def test_gamma_two_returns_ratio_squared(self):
+        from src.core.inflation import b_mu_kinetic_running
+        assert b_mu_kinetic_running(0.10, 0.05, 2.0) == pytest.approx(4.0, rel=1e-13)
+
+    def test_power_law_formula_general(self):
+        from src.core.inflation import b_mu_kinetic_running
+        k_scale, k_ref, gamma = 0.20, 0.05, 0.5
+        expected = (k_scale / k_ref) ** gamma
+        assert b_mu_kinetic_running(k_scale, k_ref, gamma) == pytest.approx(expected, rel=1e-13)
+
+    def test_equal_scales_any_gamma_is_one(self):
+        from src.core.inflation import b_mu_kinetic_running
+        assert b_mu_kinetic_running(0.05, 0.05, 3.0) == pytest.approx(1.0, rel=1e-14)
+
+
+class TestExactArithmeticGoldbergerWise:
+    """Pin exact values for goldberger_wise_radion_potential."""
+
+    def test_at_star_V_zero(self):
+        from src.core.inflation import goldberger_wise_radion_potential
+        assert goldberger_wise_radion_potential(1.5, 12.0, 12.0) == pytest.approx(0.0, abs=1e-14)
+
+    def test_phi15_rc12_rcs125(self):
+        from src.core.inflation import goldberger_wise_radion_potential
+        # V = 1.5^2 * (12-12.5)^2 = 2.25 * 0.25 = 0.5625
+        assert goldberger_wise_radion_potential(1.5, 12.0, 12.5) == pytest.approx(0.5625, rel=1e-14)
+
+    def test_phi2_rc10_rcs12(self):
+        from src.core.inflation import goldberger_wise_radion_potential
+        # V = 4 * 4 = 16
+        assert goldberger_wise_radion_potential(2.0, 10.0, 12.0) == pytest.approx(16.0, rel=1e-14)
+
+    def test_scales_quadratic_in_phi(self):
+        from src.core.inflation import goldberger_wise_radion_potential
+        v1 = goldberger_wise_radion_potential(1.0, 10.0, 12.0)
+        v2 = goldberger_wise_radion_potential(2.0, 10.0, 12.0)
+        assert v2 == pytest.approx(4.0 * v1, rel=1e-13)
+
+    def test_scales_quadratic_in_delta_rc(self):
+        from src.core.inflation import goldberger_wise_radion_potential
+        v1 = goldberger_wise_radion_potential(1.0, 11.0, 12.0)
+        v2 = goldberger_wise_radion_potential(1.0, 10.0, 12.0)
+        # delta_rc1 = 1, delta_rc2 = 2 → V2 = 4*V1
+        assert v2 == pytest.approx(4.0 * v1, rel=1e-13)
+
+    def test_scales_linear_in_lam_gw(self):
+        from src.core.inflation import goldberger_wise_radion_potential
+        v1 = goldberger_wise_radion_potential(1.5, 12.0, 12.5, lam_gw=1.0)
+        v3 = goldberger_wise_radion_potential(1.5, 12.0, 12.5, lam_gw=3.0)
+        assert v3 == pytest.approx(3.0 * v1, rel=1e-13)
+
+
+class TestExactArithmeticDualJacobianPaths:
+    """Pin exact numeric outputs from verify_dual_jacobian_paths."""
+
+    @pytest.fixture(scope="class")
+    def result(self):
+        return verify_dual_jacobian_paths()
+
+    def test_flat_phi0eff_exact(self, result):
+        # phi0_eff_flat = 5 * 2π * 1 = 10π
+        assert result["flat_branch"]["phi0_eff"] == pytest.approx(10.0 * _math.pi, rel=1e-13)
+
+    def test_rs1_jacobian_exact(self, result):
+        from src.core.inflation import jacobian_rs_orbifold
+        J = jacobian_rs_orbifold(1.0, 12.0)
+        expected = 7.0 * J
+        assert result["rs1_branch"]["jacobian"] == pytest.approx(expected, rel=1e-13)
+
+    def test_phi0eff_delta_frac_exact(self, result):
+        # |10π - phi0eff_rs1| / ATTRACTOR_PHI0_EFF_TARGET
+        from src.core.inflation import ATTRACTOR_PHI0_EFF_TARGET
+        expected = abs(10.0 * _math.pi - result["rs1_branch"]["phi0_eff"]) / ATTRACTOR_PHI0_EFF_TARGET
+        assert result["phi0eff_delta_frac"] == pytest.approx(expected, rel=1e-12)
+
+    def test_ns_delta_sigma_exact(self, result):
+        from src.core.inflation import PLANCK_NS_SIGMA
+        expected = abs(result["flat_branch"]["ns"] - result["rs1_branch"]["ns"]) / PLANCK_NS_SIGMA
+        assert result["ns_delta_sigma"] == pytest.approx(expected, rel=1e-12)
+
+
+class TestExactArithmeticRS1Trace:
+    """Pin exact numeric outputs from rs1_jacobian_trace."""
+
+    @pytest.fixture(scope="class")
+    def trace(self):
+        from src.core.inflation import rs1_jacobian_trace
+        return rs1_jacobian_trace()
+
+    def test_J_RS_saturated_exact(self, trace):
+        expected = 1.0 / _math.sqrt(2.0)
+        assert trace["J_RS_saturated"] == pytest.approx(expected, rel=1e-13)
+
+    def test_phi0_eff_flat_exact(self, trace):
+        expected = 5 * 2 * _math.pi  # n_w=5, phi0_bare=1, J_KK=2π
+        assert trace["phi0_eff_flat"] == pytest.approx(expected, rel=1e-13)
+
+    def test_phi0_eff_rs1_exact(self, trace):
+        expected = 7 * 2 * _math.pi * trace["J_RS"] * 1.0
+        assert trace["phi0_eff_rs1"] == pytest.approx(expected, rel=1e-13)
+
+    def test_delta_analytic_formula(self, trace):
+        # δ = 7√2/10 − 1
+        expected = 7.0 * _math.sqrt(2.0) / 10.0 - 1.0
+        assert trace["delta_analytic"] == pytest.approx(expected, rel=1e-13)
+
+    def test_warp_factor_exp_suppression(self, trace):
+        # warp = exp(-2π*k*r_c) = exp(-2π*12) ≈ 1.8e-33
+        expected = _math.exp(-2 * _math.pi * 1.0 * 12.0)
+        assert trace["warp_factor"] == pytest.approx(expected, rel=1e-10)
