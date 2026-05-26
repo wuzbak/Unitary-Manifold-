@@ -1,0 +1,247 @@
+name: Falsifier Monitor
+
+on:
+  schedule:
+    # Every Sunday at 02:00 UTC — runs after sprint trigger, gives time for arXiv indexing
+    - cron: "0 2 * * 0"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Manual trigger reason (optional)"
+        required: false
+        default: "Manual check"
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  monitor-falsifiers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install arXiv query dependencies
+        run: pip install requests
+
+      - name: Run falsifier monitor
+        id: monitor
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PYEOF'
+          import json
+          import os
+          import re
+          import subprocess
+          import urllib.request
+          import urllib.parse
+          import datetime
+          import xml.etree.ElementTree as ET
+
+          # ---- Falsifier experiments and search queries ----
+          MONITORS = [
+              {
+                  "name": "DESI_DARK_ENERGY",
+                  "label": "DESI DR3 — dark energy w₀wₐ",
+                  "tripwire": "wₐ<−0.3 at ≥3σ → ARCHITECTURE_LIMIT_EXCEEDED; ESCALATION required",
+                  "query": "DESI AND (dark energy OR w0 OR wa) AND (DR3 OR DR2 OR year 3)",
+                  "keywords": ["DESI", "dark energy", "w_0", "w_a", "CPL"],
+              },
+              {
+                  "name": "SIMONS_OBSERVATORY_CMB",
+                  "label": "Simons Observatory DR1 — r and birefringence",
+                  "tripwire": "r<0.026 at ≥2σ → route per P368; β outside [0.22°,0.38°] at ≥3σ → FALSIFIED",
+                  "query": "Simons Observatory AND (B-mode OR tensor-to-scalar OR birefringence)",
+                  "keywords": ["Simons Observatory", "SO DR1", "B-mode", "tensor-to-scalar ratio", "birefringence"],
+              },
+              {
+                  "name": "LITEBIRD_CMB",
+                  "label": "LiteBIRD — primary birefringence falsifier",
+                  "tripwire": "β outside [0.22°,0.38°] OR β∈(0.29°,0.31°) at ≥3σ → THEORY FALSIFIED",
+                  "query": "LiteBIRD AND (birefringence OR B-mode OR cosmic polarization rotation)",
+                  "keywords": ["LiteBIRD", "birefringence", "cosmic birefringence", "CMB polarization"],
+              },
+              {
+                  "name": "SPHEREX_FNL",
+                  "label": "SPHEREx — f_NL primordial non-Gaussianity",
+                  "tripwire": "f_NL outside [−2.9, −0.2] at ≥2σ → TENSION with P437 prediction",
+                  "query": "SPHEREx AND (primordial non-Gaussianity OR f_NL OR fNL)",
+                  "keywords": ["SPHEREx", "non-Gaussianity", "f_NL", "primordial"],
+              },
+              {
+                  "name": "HYPER_KAMIOKANDE",
+                  "label": "Hyper-Kamiokande — proton decay and neutrino mixing",
+                  "tripwire": "p→e⁺π⁰ τ<10³⁵ yr at discovery → ROUTING per P436; neutrino ordering data → JUNO routing",
+                  "query": "Hyper-Kamiokande AND (proton decay OR neutrino oscillation OR delta CP)",
+                  "keywords": ["Hyper-Kamiokande", "Hyper-K", "proton decay", "neutrino ordering"],
+              },
+              {
+                  "name": "JUNO_NEUTRINO",
+                  "label": "JUNO — neutrino mass ordering (Δm²₃₁)",
+                  "tripwire": "Δm²₃₁ deviates from 2.452×10⁻³ eV² by >3σ → P369 routing",
+                  "query": "JUNO AND (neutrino mass ordering OR delta m squared OR reactor neutrino)",
+                  "keywords": ["JUNO", "neutrino mass ordering", "Δm²₃₁", "mass hierarchy"],
+              },
+              {
+                  "name": "HLLHC_KK_GRAVITON",
+                  "label": "HL-LHC — KK graviton / resonance searches",
+                  "tripwire": "G_KK exclusion below 5 TeV → CONSTRAINED; discovery → CONFIRMATION CANDIDATE",
+                  "query": "(LHC OR ATLAS OR CMS) AND (Kaluza-Klein graviton OR extra dimensions OR resonance) AND (TeV OR diphoton OR dilepton)",
+                  "keywords": ["Kaluza-Klein", "extra dimensions", "KK graviton", "HL-LHC", "resonance"],
+              },
+          ]
+
+          # ---- Load known arXiv IDs from OBSERVATION_TRACKER.md ----
+          known_ids = set()
+          try:
+              with open("3-FALSIFICATION/OBSERVATION_TRACKER.md", "r") as f:
+                  content = f.read()
+              # Match arXiv IDs like 2301.12345 or arXiv:2301.12345
+              known_ids = set(re.findall(r"\b(?:arXiv:)?(\d{4}\.\d{4,5})\b", content))
+          except Exception as e:
+              print(f"Warning: could not read OBSERVATION_TRACKER.md: {e}")
+
+          print(f"Known arXiv IDs in tracker: {len(known_ids)}")
+
+          # ---- Query arXiv API ----
+          BASE = "http://export.arxiv.org/api/query"
+          NS = {"atom": "http://www.w3.org/2005/Atom"}
+
+          new_alerts = []
+
+          for monitor in MONITORS:
+              try:
+                  params = urllib.parse.urlencode({
+                      "search_query": f"abs:{monitor['query']}",
+                      "sortBy": "submittedDate",
+                      "sortOrder": "descending",
+                      "max_results": 10,
+                  })
+                  url = f"{BASE}?{params}"
+                  req = urllib.request.Request(url, headers={"User-Agent": "Unitary-Manifold-FalsifierMonitor/1.0"})
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      xml_data = resp.read()
+
+                  root = ET.fromstring(xml_data)
+                  entries = root.findall("atom:entry", NS)
+
+                  for entry in entries:
+                      arxiv_id_raw = (entry.find("atom:id", NS).text or "").strip()
+                      # Extract clean ID like "2301.12345"
+                      arxiv_id_match = re.search(r"(\d{4}\.\d{4,5})(v\d+)?$", arxiv_id_raw)
+                      if not arxiv_id_match:
+                          continue
+                      arxiv_id = arxiv_id_match.group(1)
+
+                      if arxiv_id in known_ids:
+                          continue  # Already tracked
+
+                      title = (entry.find("atom:title", NS).text or "").strip().replace("\n", " ")
+                      summary = (entry.find("atom:summary", NS).text or "").strip().replace("\n", " ")[:500]
+                      published = (entry.find("atom:published", NS).text or "").strip()[:10]
+
+                      # Check keyword relevance
+                      combined = (title + " " + summary).lower()
+                      if not any(kw.lower() in combined for kw in monitor["keywords"]):
+                          continue  # Not actually relevant
+
+                      new_alerts.append({
+                          "monitor": monitor["name"],
+                          "label": monitor["label"],
+                          "tripwire": monitor["tripwire"],
+                          "arxiv_id": arxiv_id,
+                          "title": title,
+                          "summary": summary,
+                          "published": published,
+                          "url": f"https://arxiv.org/abs/{arxiv_id}",
+                      })
+                      known_ids.add(arxiv_id)  # Don't double-report within this run
+
+              except Exception as e:
+                  print(f"Warning: arXiv query failed for {monitor['name']}: {e}")
+
+          print(f"New alerts found: {len(new_alerts)}")
+
+          # ---- Write outputs ----
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              out.write(f"alert_count={len(new_alerts)}\n")
+
+          with open("/tmp/alerts.json", "w") as f:
+              json.dump(new_alerts, f)
+
+          PYEOF
+
+      - name: Create falsifier alert issues
+        if: ${{ steps.monitor.outputs.alert_count != '0' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PYEOF'
+          import json
+          import subprocess
+
+          with open("/tmp/alerts.json") as f:
+              alerts = json.load(f)
+
+          for alert in alerts:
+              today = __import__('datetime').date.today().isoformat()
+              body = f"""## [FALSIFIER ALERT] — {alert['label']}
+
+          **arXiv ID:** [{alert['arxiv_id']}]({alert['url']})
+          **Published:** {alert['published']}
+          **Title:** {alert['title']}
+
+          **Abstract excerpt:**
+          > {alert['summary']}
+
+          ---
+
+          ### Routing template
+
+          ```yaml
+          falsifier_alert:
+            experiment: "{alert['monitor']}"
+            arxiv_id: "{alert['arxiv_id']}"
+            date_detected: "{today}"
+            tripwire: "{alert['tripwire']}"
+            routing_required: true
+          ```
+
+          ### Required actions
+
+          1. Read the full paper at {alert['url']}
+          2. Execute routing check: `python src/core/falsification_check.py --help`
+          3. Update `3-FALSIFICATION/OBSERVATION_TRACKER.md` with arXiv ID and verdict
+          4. If tripwire triggered (≥3σ contradiction): create `[ESCALATION]` issue and tag @wuzbak
+          5. If MONITOR_ONLY: add to tracker and continue routine sprints
+
+          @github-copilot Please assess this paper against the canonical predictions and execute the routing protocol.
+          """
+
+              result = subprocess.run(
+                  [
+                      "gh", "issue", "create",
+                      "--title", f"[FALSIFIER ALERT] {alert['label']} — arXiv:{alert['arxiv_id']}",
+                      "--body", body,
+                      "--label", "falsifier-alert",
+                  ],
+                  capture_output=True, text=True
+              )
+              if result.returncode == 0:
+                  print(f"Created issue for {alert['arxiv_id']}: {result.stdout.strip()}")
+              else:
+                  print(f"Failed to create issue for {alert['arxiv_id']}: {result.stderr}")
+
+          PYEOF
+
+      - name: Summary (no alerts)
+        if: ${{ steps.monitor.outputs.alert_count == '0' }}
+        run: |
+          echo "Falsifier monitor complete: no new papers detected this week."
+          echo "All key observational programs remain on watch."
+          echo "DESI DR3 | SO DR1 | SPHEREx | Hyper-K | JUNO | HL-LHC | LiteBIRD"
