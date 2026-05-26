@@ -24,7 +24,7 @@ The Unitary Manifold's claims in v10.4 include:
 
 If any of these derivations silently imports a PDG value and uses it in the calculation, the claim is false. Not wrong in a scientific sense — circular. The number comes out right because it was put in.
 
-This kind of error is not rare in the literature. It happens when a codebase grows over two years and 208 pillars, when modules are refactored, when a helper function that used to be pure suddenly gains a dependency on a constants file that was updated with measured values.
+This kind of error is not rare in the literature. It happens when a codebase grows rapidly across 208 pillars, when modules are refactored, when a helper function that used to be pure suddenly gains a dependency on a constants file that was updated with measured values.
 
 ---
 
@@ -49,7 +49,7 @@ An annotated import does not trigger a violation. It does trigger a reclassifica
 
 **v10.4 result: 0 violations detected across all 208 pillars.**
 
-This is not a trivial result. It required auditing hundreds of import statements across a codebase built over two years. Several modules were refactored when the guard found unannotated dependencies during development. The 0-violation result reflects the state after those corrections.
+This is not a trivial result. It required auditing hundreds of import statements across a codebase built in intensive weeks beginning April 2026. Several modules were refactored when the guard found unannotated dependencies during development. The 0-violation result reflects the state after those corrections.
 
 ---
 

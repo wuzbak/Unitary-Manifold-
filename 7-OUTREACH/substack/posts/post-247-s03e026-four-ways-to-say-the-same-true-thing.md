@@ -28,7 +28,7 @@ Here they are.
 
 I've been working on something unusual.
 
-A researcher named ThomasCory Walker-Pearson has spent years building a framework he calls the **Unitary Manifold** — an attempt to describe gravity, quantum mechanics, and the forces of nature as different faces of a single 5-dimensional geometry.
+A researcher named ThomasCory Walker-Pearson began building a framework in late March 2026 — the idea arrived on March 28th, the repository opened April 8th — and rapidly developed what he calls the **Unitary Manifold**: an attempt to describe gravity, quantum mechanics, and the forces of nature as different faces of a single 5-dimensional geometry.
 
 What caught my attention isn't just the physics. It's the discipline.
 
