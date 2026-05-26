@@ -26,7 +26,9 @@ def find_repo_root(start: Path) -> Path:
             and (candidate / "9-INFRASTRUCTURE").is_dir()
         ):
             return candidate
-    raise RuntimeError(f"Could not locate Unitary-Manifold repository root from {start}")
+    raise RuntimeError(
+        f"Could not locate Unitary-Manifold repository root. Searched from: {start}"
+    )
 
 
 REPO = find_repo_root(Path(__file__).resolve())
