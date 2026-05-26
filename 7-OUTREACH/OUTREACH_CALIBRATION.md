@@ -9,6 +9,39 @@ the standard honest phrasing for nₛ, r, β, and SM parameter count.
 
 ---
 
+## Provenance and Elapsed-Time Rule (MANDATORY)
+
+**Canonical timeline source: [`PROVENANCE.md`](../PROVENANCE.md) — read it before writing any duration claim.**
+
+The Unitary Manifold was built rapidly within 2026:
+
+| Event | Date |
+|-------|------|
+| Initial idea | 2026-03-28 |
+| Repository created | 2026-04-08 |
+| Current version | ongoing from April 2026 |
+
+**Prohibited phrases** (false — triggers a correction obligation):
+- "spent years building"
+- "built over two years"
+- "two years of iteration"
+- "grows over two years"
+- "years of work" / "years of testing"
+- any unsourced elapsed-time claim implying multi-year development
+
+**Required phrases** (accurate):
+- "beginning in late March 2026"
+- "since April 2026"
+- "built rapidly in 2026"
+- "weeks of intensive iteration"
+- "months of work beginning in late March 2026"
+
+If you are uncertain about elapsed time, omit the duration entirely and state what is
+verifiable: the pillar count, test count, and current version. Duration claims require
+a citation to `PROVENANCE.md`.
+
+---
+
 ## Category Definitions
 
 | Category | Label | Meaning |
