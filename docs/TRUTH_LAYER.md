@@ -1,8 +1,14 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v15.4
+# Unitary Manifold v15.5
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v15.5 update (No-Claim / Earned-Yes Claim Audit — Pillar 508):*
+*(1) Pillar 508 adds an executable no/yes boundary audit over the frontier proof-lane bundle.*
+*(2) Explicit NO lanes: no full non-perturbative 5D-KK quantum-gravity closure; no P8 full functional-space proof; no external L2/γ HMC receipt; no Lean4 build receipt; CCR and ER=EPR remain conjectural theorem lanes.*
+*(3) Earned YES lanes are scoped to repository evidence only: P507 frontier ledger complete, P8 integer-lattice proof, 5D-KK structural gap certified, L2/γ finite-volume packet ready, Lean4 local manifest present, and CCR/ER=EPR conjecture lanes formalized.*
+*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508 regression: 21 passed · 0 failed. Latest full regression: 46,088 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 509.*
 
 *v15.4 update (Frontier Proof-Lane Certificate — Pillar 507):*
 *(1) Pillar 507 adds an executable certificate for the 5D-KK/P8/PMNS/L2γ/Lean4/CCR/ER=EPR proof-lane bundle.*

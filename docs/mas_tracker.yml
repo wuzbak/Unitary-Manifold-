@@ -1,4 +1,4 @@
-version: "v15.4"
+version: "v15.5"
 date: "2026-06-01"
 updated: "2026-06-01"
 mas_status: "COMPLETE"
@@ -18,11 +18,33 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.4"
-  regression: "233 passed · 0 failed focused proof-lane regression for P295/P455/P491/P456/P503/P504/P507; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed"
+  version: "v15.5"
+  regression: "21 passed · 0 failed focused P507/P508 claim-boundary regression; latest full regression 46,088 passed · 2 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v15_5_no_earned_yes_claim_audit:
+  version: "v15.5"
+  wave: "No/earned-yes claim-boundary audit — Pillar 508"
+  date: "2026-06-01"
+  pillars_added:
+    - "508: No-claim and earned-yes claim-boundary audit — NO_AND_EARNED_YES_AUDIT_COMPLETE; explicit no-claims and evidence-limited yes-claims made executable"
+  document_updates:
+    - "STATUS.md: v15.5 header; next pillar slot 509"
+    - "README.md and truth surfaces: v15.5 no/earned-yes status note"
+    - "docs/WAVE_CHANGELOG.md: v15.5 entry"
+    - "docs/mas_tracker.yml: v15.5 tracker block and regression checkpoint"
+  focused_regression: "21 passed · 0 failed (P507/P508 claim-boundary tests)"
+  full_regression: "46,088 passed · 2 skipped · 12 deselected · 0 failed"
+  failures: 0
+  next_pillar_slot: 509
+  epistemic_deltas:
+    - "P508: Explicit NO lanes are machine-readable: no full non-perturbative 5D-KK quantum-gravity closure, no P8 full functional-space proof, no external L2/γ HMC receipt, no Lean4 build receipt, CCR and ER=EPR not proved"
+    - "P508: Earned YES lanes are scoped to repository evidence only: frontier ledger complete, P8 integer-lattice proof, structural gap certification, finite-volume L2/γ packet, local Lean4 manifest, formalized conjecture lanes"
+    - "No hardgate score inflation; yes/no boundaries are audit labels, not physics promotion"
+  toe_score_delta: 0.0
+  notes: "Converts the user's no/earned-yes instruction into an executable claim-boundary audit. External receipts and stronger theorem proofs remain evidence-gated."
 
 v15_4_frontier_proof_lane_certificate:
   version: "v15.4"
