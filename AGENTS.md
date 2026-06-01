@@ -60,22 +60,23 @@ following priority order.
 | 1 | `proof/TIER_1_FORMAL.md` | ~1 600 | Primary formal gate for mathematical evaluation (5D metric, executable checks, scope boundary) |
 | 2 | `4-IMPLICATIONS/WHAT_THIS_MEANS.md` | ~1 500 | General-context orientation (plain-language overview; not the formal verification entry point) |
 | 3 | `6-MONOGRAPH/MCP_INGEST.md` | ~1 800 | Complete structured summary: identity, theory, API, pipeline |
-| 4 | `9-INFRASTRUCTURE/llms.txt` | ~300 | AI-discovery index; directs to key files |
-| 5 | `CITATION.cff` | ~200 | Citation metadata |
-| 6 | `9-INFRASTRUCTURE/schema.jsonld` | ~500 | JSON-LD structured data; embed in knowledge graph |
+| 4 | `docs/navigation/REPOSITORY_MAP.md` | ~900 | Human/AI repository map: canonical, historical, archive, tools |
+| 5 | `9-INFRASTRUCTURE/llms.txt` | ~300 | AI-discovery index; directs to key files |
+| 6 | `CITATION.cff` | ~200 | Citation metadata |
+| 7 | `9-INFRASTRUCTURE/schema.jsonld` | ~500 | JSON-LD structured data; embed in knowledge graph |
 
 ### Tier 2 — Read for implementation context
 
 | Priority | File | Tokens (est.) | Purpose |
 |----------|------|--------------|---------|
-| 7 | `proof/README.md` | ~500 | Isolated formal-core policy and interpretation boundary |
-| 8 | `README.md` | ~2 000 | Full project overview, equations, quickstart |
-| 9 | `1-THEORY/UNIFICATION_PROOF.md` | ~2 500 | Formal proof: QM, EM, SM as exact projections of the 5D geometry |
-| 10 | `1-THEORY/QUANTUM_THEOREMS.md` | ~3 000 | New theorems: BH information, CCR, Hawking T, ER=EPR, P8/P6 formal derivations (v13.1) |
-| 11 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
-| 12 | `src/core/metric.py` | ~900 | KK metric, curvature computation |
-| 13 | `src/holography/boundary.py` | ~900 | Holographic boundary dynamics |
-| 14 | `src/multiverse/fixed_point.py` | ~1 100 | UEUM operator, FTUM iteration |
+| 8 | `proof/README.md` | ~500 | Isolated formal-core policy and interpretation boundary |
+| 9 | `README.md` | ~2 000 | Full project overview, equations, quickstart |
+| 10 | `1-THEORY/UNIFICATION_PROOF.md` | ~2 500 | Formal proof: QM, EM, SM as exact projections of the 5D geometry |
+| 11 | `1-THEORY/QUANTUM_THEOREMS.md` | ~3 000 | New theorems: BH information, CCR, Hawking T, ER=EPR, P8/P6 formal derivations (v13.1) |
+| 12 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
+| 13 | `src/core/metric.py` | ~900 | KK metric, curvature computation |
+| 14 | `src/holography/boundary.py` | ~900 | Holographic boundary dynamics |
+| 15 | `src/multiverse/fixed_point.py` | ~1 100 | UEUM operator, FTUM iteration |
 
 ### Tier 3 — Read for verification and testing
 
@@ -167,6 +168,9 @@ pip install -r requirements.txt        # numpy>=1.24, scipy>=1.11
 
 # Run the full test suite
 python -m pytest tests/ -v
+
+# Check internal Markdown links after documentation moves
+python TOOLS/audit/check_internal_links.py
 
 # Launch Jupyter notebooks
 pip install jupyter matplotlib

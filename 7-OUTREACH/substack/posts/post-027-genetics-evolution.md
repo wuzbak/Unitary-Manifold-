@@ -296,7 +296,7 @@ finding: governance_phi = 1 (full HILS oversight) drives harm-to-benefit
 ratio → 0 regardless of AI acceleration — because AI multiplies both harm
 and benefit equally. The HILS layer is the only reliable brake.
 
-**See post 27.a:** [Synthetic Biology Is Attractor Engineering](post-97-synthetic-biology-attractor-engineering.md)
+**See post 27.a:** [Synthetic Biology Is Attractor Engineering](post-097-synthetic-biology-attractor-engineering.md)
 
 ---
 

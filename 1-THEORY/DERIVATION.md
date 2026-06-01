@@ -746,7 +746,7 @@ gap at [0.29°, 0.31°]).  A measurement inside the gap, or outside [0.22°, 0.3
 falsifies the entire braiding mechanism simultaneously.
 
 See [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) and
-[`submission/falsification_report.md`](submission/falsification_report.md)
+[`submission/falsification_report.md`](../6-MONOGRAPH/submission/falsification_report.md)
 for the complete falsification conditions.
 
 ---

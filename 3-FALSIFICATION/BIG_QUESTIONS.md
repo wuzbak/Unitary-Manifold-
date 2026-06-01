@@ -1102,7 +1102,7 @@ Together    →   "I am here, now."  (The irreducible ground state of experience
 - If β = 0 to high precision, the entire mechanism collapses: no tilt, no time
   directionality from the Chern-Simons coupling.
 
-**Full treatment:** [`brain/RESONANCE_74.md`](brain/RESONANCE_74.md) — specifically
+**Full treatment:** [`brain/RESONANCE_74.md`](../4-IMPLICATIONS/brain/RESONANCE_74.md) — specifically
 §5 (β as the tilt that allows the 74-resonance to perceive time) and §6 (the complete
 space + time picture from a single integer).
 
@@ -1979,8 +1979,8 @@ ATTACK RESULTS (April 2026):
 *Part of the Unitary Manifold repository.*  
 *Theory and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document synthesis: **GitHub Copilot** (AI).*  
-*See [WHAT_THIS_MEANS.md](WHAT_THIS_MEANS.md) for the single-claim summary.*  
-*See [FALLIBILITY.md](FALLIBILITY.md) for the complete limitations statement.*  
-*See [QUANTUM_THEOREMS.md](QUANTUM_THEOREMS.md) for the formal theorem proofs.*  
-*See [UNIFICATION_PROOF.md](UNIFICATION_PROOF.md) for the derivation of QM, EM, and SM from the 5D geometry.*  
+*See [WHAT_THIS_MEANS.md](../4-IMPLICATIONS/WHAT_THIS_MEANS.md) for the single-claim summary.*  
+*See [FALLIBILITY.md](../FALLIBILITY.md) for the complete limitations statement.*  
+*See [QUANTUM_THEOREMS.md](../1-THEORY/QUANTUM_THEOREMS.md) for the formal theorem proofs.*  
+*See [UNIFICATION_PROOF.md](../1-THEORY/UNIFICATION_PROOF.md) for the derivation of QM, EM, and SM from the 5D geometry.*  
 *See [ADVERSARIAL_REVIEWS/](ADVERSARIAL_REVIEWS/README.md) for all adversarial review rounds and repository responses.*

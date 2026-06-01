@@ -95,11 +95,11 @@ maps to exactly one of these three violations.
 
 This folder is an engineering-facing projection of the core physics:
 
-- Mathematical foundations: [`../src/core/`](../src/core/) and [`../UNIFICATION_PROOF.md`](../UNIFICATION_PROOF.md)
-- Universal Mechanics Engine (all 99 pillars): [`../omega/`](../omega/) — `UniversalEngine.compute_all()` produces falsifiable predictions, particle physics, cosmology, and HILS status in one call
+- Mathematical foundations: [`../src/core/`](../../src/core) and [`../UNIFICATION_PROOF.md`](../../1-THEORY/UNIFICATION_PROOF.md)
+- Universal Mechanics Engine (all 99 pillars): [`../omega/`](../../5-GOVERNANCE/Unitary%20Pentad/omega) — `UniversalEngine.compute_all()` produces falsifiable predictions, particle physics, cosmology, and HILS status in one call
 - Biological analogue (brain as a Unitary Manifold system): [`../brain/`](../brain/)
-- Materials/recycling analogue (Pillar 16): [`../recycling/`](../recycling/)
-- HILS governance (Unitary Pentad): [`../Unitary Pentad/`](../Unitary%20Pentad/)
+- Materials/recycling analogue (Pillar 16): [`../recycling/`](../../recycling)
+- HILS governance (Unitary Pentad): [`../Unitary Pentad/`](../../5-GOVERNANCE/Unitary%20Pentad)
 - Cosmological predictions and core claim: [`../WHAT_THIS_MEANS.md`](../WHAT_THIS_MEANS.md)
 
 The same field equations — `G_AB`, `B_μ`, `φ`, `Ψ*` — describe the early universe,

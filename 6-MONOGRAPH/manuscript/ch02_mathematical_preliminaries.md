@@ -96,8 +96,8 @@ This chapter is the foundational mathematical primer for the Unitary Manifold fr
 
 For the complete picture, see:
 - [`README.md`](../README.md) — full project overview
-- [`omega/README.md`](../omega/README.md) — Pillar Ω: all pillars + Ω₀ in a single calculator
-- [`AGENTS.md`](../AGENTS.md) — preferred ingest order for AI agents
+- [`omega/README.md`](../../5-GOVERNANCE/Unitary%20Pentad/omega/README.md) — Pillar Ω: all pillars + Ω₀ in a single calculator
+- [`AGENTS.md`](../../AGENTS.md) — preferred ingest order for AI agents
 
 *Chapter 2 — v13.4 — May 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  

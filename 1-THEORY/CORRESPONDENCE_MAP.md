@@ -5,8 +5,8 @@
 > physics-literate readers who need to know *exactly* where this framework sits,
 > where it agrees with known results, and where it deliberately departs.
 >
-> For the prose narrative see [`WHAT_THIS_MEANS.md`](WHAT_THIS_MEANS.md).  
-> For admitted gaps and fitted parameters see [`FALLIBILITY.md`](FALLIBILITY.md).
+> For the prose narrative see [`WHAT_THIS_MEANS.md`](../4-IMPLICATIONS/WHAT_THIS_MEANS.md).  
+> For admitted gaps and fitted parameters see [`FALLIBILITY.md`](../FALLIBILITY.md).
 
 ---
 

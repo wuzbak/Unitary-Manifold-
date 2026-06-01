@@ -17,7 +17,7 @@ The most valuable contributions are rigorous checks of the theoretical framework
 - **FTUM:** Provide a formal proof or counterexample for the fixed-point theorem.
 - **Completeness theorem:** Verify that all 7 independent constraints converge to $k_\text{CS} = 74$ (see `src/core/completeness_theorem.py`).
 
-See the [AI & Automated Review Invitation](../discussions/AI-Automated-Review-Invitation.md) for a structured checklist of verification tasks.
+See the [AI & Automated Review Invitation](../../4-IMPLICATIONS/discussions/AI-Automated-Review-Invitation.md) for a structured checklist of verification tasks.
 
 ### Code Contributions
 
@@ -96,7 +96,7 @@ python -m pytest tests/ -m slow
 
 ## Citing This Work
 
-If you use the Unitary Manifold framework in your research, please cite it using the metadata in [`CITATION.cff`](../CITATION.cff):
+If you use the Unitary Manifold framework in your research, please cite it using the metadata in [`CITATION.cff`](../../CITATION.cff):
 
 ```bibtex
 @article{walker-pearson2026unitary,
@@ -114,7 +114,7 @@ If you use the Unitary Manifold framework in your research, please cite it using
 ## Review and Discussion
 
 For mathematical peer review and automated verification, see the discussion thread:
-[`discussions/AI-Automated-Review-Invitation.md`](../discussions/AI-Automated-Review-Invitation.md)
+[`discussions/AI-Automated-Review-Invitation.md`](../../4-IMPLICATIONS/discussions/AI-Automated-Review-Invitation.md)
 
 For technical questions or suggestions, open an [Issue](https://github.com/wuzbak/Unitary-Manifold-/issues) on GitHub.
 

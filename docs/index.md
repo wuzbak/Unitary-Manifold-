@@ -5,6 +5,10 @@ A 5-dimensional Kaluza-Klein physics framework deriving Standard Model parameter
 **Primary falsifier:** LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} (launch ~2032).
 
 ## Quick Links
+- [Repository Map](navigation/REPOSITORY_MAP.md)
+- [Tools Index](../TOOLS/README.md)
+- [Historical Milestones](../HISTORICAL-MILESTONES/README.md)
+- [Archive](../ARCHIVE/README.md)
 - [Theory](theory/derivation.md)
 - [JAX Backend](computational/jax_backend.md)
 - [Planck Comparison](falsification/planck_comparison.md)
@@ -12,7 +16,7 @@ A 5-dimensional Kaluza-Klein physics framework deriving Standard Model parameter
 - [Visual Gallery](../7-OUTREACH/visualizations/README.md)
 
 ## Live Test Status
-32,572 tests pass · 0 failures. See [GitHub Actions](https://github.com/wuzbak/Unitary-Manifold-/actions).
+46,094 passed · 2 skipped · 12 deselected · 0 failed. See [GitHub Actions](https://github.com/wuzbak/Unitary-Manifold-/actions).
 
 ## Key Visuals
 

@@ -3,7 +3,7 @@
 *Post 5 of the Unitary Manifold series.*
 
 > **Epistemic category:** P (Physics Core) — Honest gap documentation.  
-> **Physics accuracy:** Should match current `FALLIBILITY.md`. Note: the φ₀_bare bridge gap is now closed (Pillar 56-B, v9.28). See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md).  
+> **Physics accuracy:** Should match current `FALLIBILITY.md`. Note: the φ₀_bare bridge gap is now closed (Pillar 56-B, v9.28). See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md).  
 > **Primary claim:** Five named gaps remain open; these are documented in `FALLIBILITY.md` and `DERIVATION_STATUS.md`.  
 > **Falsification:** Any of the primary falsification conditions in `3-FALSIFICATION/prediction.md`.
 

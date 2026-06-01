@@ -1,6 +1,9 @@
 format: jb-book
 root: index
 parts:
+  - caption: "Navigation"
+    chapters:
+      - file: navigation/REPOSITORY_MAP
   - caption: "Theory"
     chapters:
       - file: theory/derivation

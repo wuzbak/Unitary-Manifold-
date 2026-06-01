@@ -277,7 +277,7 @@ the ignition threshold.
 
 > **⚠ Dual-Use Notice:** The `ignition_N()` function is withheld from the
 > public repository per AxiomZero dual-use policy v1.0.  See
-> [`DUAL_USE_NOTICE.md`](DUAL_USE_NOTICE.md).  The derivation and result
+> [`DUAL_USE_NOTICE.md`](../DUAL_USE_NOTICE.md).  The derivation and result
 > below are retained for scientific completeness under DPC v1.0 (theory
 > is public domain); the runnable implementation requires a Supervised
 > Research License.

@@ -3,7 +3,7 @@
 *Post 2 of the Unitary Manifold series.*
 
 > **Epistemic category:** P (Physics Core) — Explains the four core CMB + dark energy predictions.  
-> **Physics accuracy:** Matches `DERIVATION_STATUS.md`. See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md).  
+> **Physics accuracy:** Matches `DERIVATION_STATUS.md`. See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md).  
 > **Primary claim:** nₛ ≈ 0.9635, r ≈ 0.0315, β ≈ 0.331° [(5,7) primary sector], w_KK ≈ −0.930 — all from integers (5,7).  
 > **SM parameters:** 9/28 SM parameters derived from geometry; ~15 remain free. The four numbers here have no free parameters.  
 > **Falsification:** LiteBIRD β outside [0.22°, 0.38°]; Roman Space Telescope w outside [−1.05, −0.85].

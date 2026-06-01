@@ -105,17 +105,27 @@ For claim taxonomy and boundary rules, use:
 
 ---
 
-## 🗂️ Document Map
+## 🗂️ Repository Map / Document Map
+
+For the full human/AI navigation map, see [`docs/navigation/REPOSITORY_MAP.md`](docs/navigation/REPOSITORY_MAP.md).
 
 ### **Start Here**
-- [`README.md`](README.md)
-- [`FALLIBILITY.md`](FALLIBILITY.md)
-- [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md)
+- [`README.md`](README.md) — public front door and quick start
+- [`proof/TIER_1_FORMAL.md`](proof/TIER_1_FORMAL.md) — formal evaluation gate
+- [`FALLIBILITY.md`](FALLIBILITY.md) — limits, non-claims, unresolved gaps
+- [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) — claim status ledger
 
 ### **Canonical Status**
 - [`STATUS.md`](STATUS.md) — ` [CANONICAL] `
 - [`docs/mas_tracker.yml`](docs/mas_tracker.yml) — ` [CANONICAL] `
 - [`docs/WAVE_CHANGELOG.md`](docs/WAVE_CHANGELOG.md) — ` [CANONICAL] `
+- [`9-INFRASTRUCTURE/provenance/README.md`](9-INFRASTRUCTURE/provenance/README.md) — ` [CANONICAL] ` provenance/toolchain map
+
+### **Navigation / Organization**
+- [`docs/navigation/REPOSITORY_MAP.md`](docs/navigation/REPOSITORY_MAP.md) — full repository map for humans and AI
+- [`TOOLS/`](TOOLS/) — calculators, verification entrypoints, notebooks, and maintenance utilities
+- [`HISTORICAL-MILESTONES/`](HISTORICAL-MILESTONES/) — dated audits, release milestones, historical records
+- [`ARCHIVE/`](ARCHIVE/) — superseded or inactive material retained for provenance
 
 ### **Safety / Legal**
 - [`DUAL_USE_NOTICE.md`](DUAL_USE_NOTICE.md) — ` [SAFETY] `
@@ -128,6 +138,7 @@ For claim taxonomy and boundary rules, use:
 - [`docs/reviews/PEER_REVIEW_RESPONSE_v933.md`](docs/reviews/PEER_REVIEW_RESPONSE_v933.md) — ` [REVIEW] [ARCHIVE] `
 - [`docs/reviews/RED_TEAM_RESPONSE.md`](docs/reviews/RED_TEAM_RESPONSE.md) — ` [REVIEW] [ARCHIVE] `
 - [`docs/reviews/REVIEW_REQUEST.md`](docs/reviews/REVIEW_REQUEST.md) — ` [REVIEW] [ARCHIVE] `
+- [`HISTORICAL-MILESTONES/audits/AUDIT_v10_42_2026-05-10.md`](HISTORICAL-MILESTONES/audits/AUDIT_v10_42_2026-05-10.md) — ` [HISTORICAL] `
 
 ### **Operations**
 - [`docs/operations/RELAY.md`](docs/operations/RELAY.md) — ` [OPERATIONS] [ARCHIVE] `
@@ -175,14 +186,17 @@ Start with the layer that matches your purpose:
 | 📚 **Monograph** | [`6-MONOGRAPH/`](6-MONOGRAPH/) | The v9a book (PDF), arXiv paper, manuscript chapters |
 | 📣 **Outreach** | [`7-OUTREACH/`](7-OUTREACH/) | AxiomZero Substack posts and books — *not peer-reviewed physics* (includes [`FROM_THE_FIXED_POINT_OPED.md`](7-OUTREACH/FROM_THE_FIXED_POINT_OPED.md)) |
 | 🛡️ **Safety** | [`8-SAFETY/`](8-SAFETY/) | Dual-use safety, radiological review, security protocols |
-| 🔧 **Infrastructure** | [`9-INFRASTRUCTURE/`](9-INFRASTRUCTURE/) | Notebooks, bots, scripts, AI tools, provenance inventory |
+| 🔧 **Infrastructure** | [`9-INFRASTRUCTURE/`](9-INFRASTRUCTURE/) | Bots, scripts, provenance inventory, results, support assets |
+| 🧰 **Tools** | [`TOOLS/`](TOOLS/) | Calculators, verification entrypoints, notebooks index, maintenance utilities |
+| 🕰️ **Historical Milestones** | [`HISTORICAL-MILESTONES/`](HISTORICAL-MILESTONES/) | Dated audits, release records, historical milestone snapshots |
+| 🗄️ **Archive** | [`ARCHIVE/`](ARCHIVE/) | Superseded/inactive material retained for provenance |
 
 **Entry points by role:**
 - *Physicist reviewing the theory:* `FALLIBILITY.md` → `1-THEORY/DERIVATION_STATUS.md` → `3-FALSIFICATION/` → `2-REPRODUCIBILITY/`
-- *Reproducing results:* `python VERIFY.py` → `python -m pytest tests/ -q` → `2-REPRODUCIBILITY/`
+- *Reproducing results:* `python VERIFY.py` → `python -m pytest tests/ -q` → `2-REPRODUCIBILITY/` → `TOOLS/`
 - *Understanding the falsifiers:* `3-FALSIFICATION/prediction.md`
 - *General reader (optional):* `4-IMPLICATIONS/WHAT_THIS_MEANS.md` → `7-OUTREACH/`
-- *Build/audit/toolchain provenance:* `9-INFRASTRUCTURE/provenance/README.md`
+- *Build/audit/toolchain provenance:* `9-INFRASTRUCTURE/provenance/README.md` → `TOOLS/`
 
 ---
 

@@ -24,7 +24,7 @@ The framework makes one central claim with a testable, near-term prediction:
 
 ## How to Break It — Mechanically
 
-[`HOW_TO_BREAK_THIS.md`](../HOW_TO_BREAK_THIS.md) gives you **specific handles** for
+[`HOW_TO_BREAK_THIS.md`](../../1-THEORY/HOW_TO_BREAK_THIS.md) gives you **specific handles** for
 each claim — exact code lines to mutate, exact tests that must fail when the
 mutation is made.
 
@@ -75,8 +75,8 @@ Post findings as a GitHub Issue, or submit a PR with a failing test that capture
 
 ## What Honest Engagement Looks Like
 
-- Read [`FALLIBILITY.md`](../FALLIBILITY.md) before claiming the framework is broken — the known gaps are documented there, not hidden.
-- Read [`CORRESPONDENCE_MAP.md`](../CORRESPONDENCE_MAP.md) to understand which claims are derived vs fitted before attacking the derivations.
+- Read [`FALLIBILITY.md`](../../FALLIBILITY.md) before claiming the framework is broken — the known gaps are documented there, not hidden.
+- Read [`CORRESPONDENCE_MAP.md`](../../1-THEORY/CORRESPONDENCE_MAP.md) to understand which claims are derived vs fitted before attacking the derivations.
 - A "this is speculative" comment is not an adversarial contribution — the framework is openly speculative. The question is whether it is *internally consistent* and *falsifiable*.
 
 ---

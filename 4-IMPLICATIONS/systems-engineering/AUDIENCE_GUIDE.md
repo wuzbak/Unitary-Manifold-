@@ -386,8 +386,8 @@ The Jacobian eigenvalues at `Ψ*` are `{−0.110, −0.070, −0.050}` with spec
 
 A 192-case sweep (covering all combinations of boundary conditions and initial states
 in the parameter space) confirms 100% convergence to the same fixed point with no
-multi-attractor pathology.  See [`../src/multiverse/basin_analysis.py`](../src/multiverse/basin_analysis.py)
-and [`../tests/test_basin_analysis.py`](../tests/test_basin_analysis.py) (114 tests, all passing).
+multi-attractor pathology.  See [`../src/multiverse/basin_analysis.py`](../../src/multiverse/basin_analysis.py)
+and [`../tests/test_basin_analysis.py`](../../tests/test_basin_analysis.py) (114 tests, all passing).
 
 ### The Key Physical Constants
 
@@ -413,7 +413,7 @@ state divergence that scales with the total number of silent drops.
 
 1. **CMB power spectrum amplitude** is suppressed ×4–7 at acoustic peaks relative to
    observation.  This is an active open problem, not a resolved discrepancy.  See
-   [`../FALLIBILITY.md`](../FALLIBILITY.md).
+   [`../FALLIBILITY.md`](../../FALLIBILITY.md).
 2. **`c_L` spectrum** — first-principles derivation of fermion bulk-mass parameters from
    5D orbifold BCs is open; current values derived via bisection at Ŷ₅=1 (Pillar 98).
 3. **Full CKM CP phase** — δ = 72° geometric prediction at 1.35σ; analytic derivation

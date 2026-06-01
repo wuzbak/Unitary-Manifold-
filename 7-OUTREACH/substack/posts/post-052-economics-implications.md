@@ -138,7 +138,7 @@ economics, political economy, and democratic deliberation — not for geometry.
 The structural analysis in this post is paired with two full investigative companions
 that ground the framework in documented, accountable specifics.
 
-**[The Prediction Market Reckoning — Omega Edition](book-prediction-markets-omega.md)**
+**[The Prediction Market Reckoning — Omega Edition](../books/book-prediction-markets.md)**
 covers the economics of information aggregation directly — prediction markets as
 potential φ-stable aggregators and the documented ways they fail at that function.
 New in the Omega Edition:
@@ -150,7 +150,7 @@ New in the Omega Edition:
 - **Sports Betting Lessons**: PASPA repeal and what the US learned (and didn't) about
   channeling, integrity monitoring, and regulatory capture in a legal wagering market
 
-**[The Climate Reckoning — Omega Edition](book-climate-reckoning-omega.md)**
+**[The Climate Reckoning — Omega Edition](../books/book-climate-reckoning.md)**
 covers the economics of externalities and φ-debt at civilizational scale — specifically:
 - **Carbon Markets chapter**: voluntary carbon offset fraud as an unclosed entropy loop
   (the Guardian/Zeit/SourceMaterial investigation into Verra, the REDD+ baseline problem,
@@ -168,7 +168,7 @@ Both books are publication-ready Markdown, available in full in this repository.
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Recycling module: `recycling/`*
 *φ-debt framework: `recycling/README.md`, `recycling/polymers.py`*
-*Companion books: [The Prediction Market Reckoning](book-prediction-markets-omega.md) · [The Climate Reckoning](book-climate-reckoning-omega.md)*
+*Companion books: [The Prediction Market Reckoning](../books/book-prediction-markets.md) · [The Climate Reckoning](../books/book-climate-reckoning.md)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

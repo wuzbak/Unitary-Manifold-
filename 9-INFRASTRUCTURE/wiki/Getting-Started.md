@@ -11,7 +11,7 @@ This page covers installing the Unitary Manifold package and running the built-i
 - SciPy ≥ 1.11 (for holographic utilities, braided-winding solvers, and CMB transfer)
 - pytest ≥ 7 (for running the test suite)
 
-All dependencies are listed in [`requirements.txt`](../requirements.txt).
+All dependencies are listed in [`requirements.txt`](../../requirements.txt).
 
 ---
 

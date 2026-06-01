@@ -91,7 +91,7 @@ to this repository.
 | New in v2.0 | Part VIII: Digital Court Record Revolution; Part IX: Policing the Police; Part X: AI Algorithms and the New Bias Frontier |
 | New in v3.0 | Part XI: Whistleblower Protection and the Laws That Don't Work; Part XII: International Accountability Comparison |
 | Framework connection | Pillar 18 (justice), Pillar 19 (governance), φ-entropy, B_μ amplification |
-| Companion post | [post-51-justice-implications.md](post-51-justice-implications.md) |
+| Companion post | [post-51-justice-implications.md](../posts/post-051-justice-implications.md) |
 
 The definitive investigative journalism guide to criminal justice accountability — PACER, FOIA,
 consent decrees, predictive policing algorithms, whistleblower protection failures, and
@@ -118,7 +118,7 @@ international accountability comparison.
 | New in v2.0 | Loss and Damage Framework (COP27/28); Fossil Fuel Disinformation Machine |
 | New in v3.0 | Carbon Markets chapter; Shipping and Aviation Loophole; 2025-2026 Litigation Landscape |
 | Framework connection | Pillar 22 (climate), φ-debt, global entropy accounting |
-| Companion post | [post-52-economics-implications.md](post-52-economics-implications.md) |
+| Companion post | [post-52-economics-implications.md](../posts/post-052-economics-implications.md) |
 
 From the Urgenda ruling to the Maui wildfires, from Exxon's internal documents to the COP28
 Loss and Damage Fund — now expanded with the full carbon market accountability map and the
@@ -146,7 +146,7 @@ Loss and Damage Fund — now expanded with the full carbon market accountability
 | New in v2.0 | The 2024 Election and Prediction Markets; Governance by Algorithm |
 | New in v3.0 | Academic Evidence chapter; International Markets chapter; Sports Betting Comparison |
 | Framework connection | Pillar 19 (governance), FTUM attractor, φ-stability, information aggregation |
-| Companion post | [post-52-economics-implications.md](post-52-economics-implications.md) |
+| Companion post | [post-52-economics-implications.md](../posts/post-052-economics-implications.md) |
 
 An unflinching look at whether prediction markets are tools of democratic enlightenment or
 engines of manipulation — now expanded with the full academic evidence base and international
@@ -172,7 +172,7 @@ regulatory comparison.
 | Size | ~393 KB (complete source archive — use the 6-part series for Substack publication) |
 | Substack publication | Use the 6-part series below — each part is 12-17 KB |
 | Framework connection | HILS (Human-in-the-Loop Systems), co-emergence framework, AI epistemics |
-| Companion posts | [post-53-education-implications.md](post-53-education-implications.md) · [post-54-ai-implications.md](post-54-ai-implications.md) |
+| Companion posts | [post-53-education-implications.md](../posts/post-053-education-implications.md) · [post-54-ai-implications.md](../posts/post-054-ai-implications.md) |
 
 **Note:** At 393KB, this book is too large for a single Substack post. The complete source
 is preserved here for archival purposes. For publication, use the **6-Part Series** below.
@@ -248,7 +248,7 @@ investigative journalism, the falsification condition.
 | Version | 1.0 — Omega Edition — April 2026 |
 | Audience | All engineers: DIY makers → hobbyists → community college → undergraduates → working engineers → senior architects → NASA/defense/medical |
 | Framework connection | φ (capacity/headroom), B_μ (queue pressure), G_AB (topology), FTUM Ψ\* (fixed point), k_cs=74 (minimum complexity), ∇_μJ^μ=0 (no silent failures) |
-| Companion post | [post-16-domain-applications.md](post-16-domain-applications.md) · [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md) |
+| Companion post | [post-16-domain-applications.md](../posts/post-016-domain-applications.md) · [post-93-governance-is-a-physics-problem.md](../posts/post-093-governance-is-a-physics-problem.md) |
 
 A step-by-step understanding of what every engineered system gets right and wrong — from consumer gaming hardware to satellites and space technology — for engineers at every level. Part III diagnoses current systems (consumer electronics, embedded firmware, networking, robotics, space). Part V provides ten immediate fixes. Part VI covers next-generation architecture. Six appendices include a full glossary, key standards, data sources, further reading, an event timeline, and a printable quick-reference diagnostic card.
 
@@ -302,7 +302,7 @@ Includes three appendices: the five seed constants, the Walker-Pearson field equ
 |---|---|
 | Size | ~117 KB |
 | Framework connection | Pillar 9 (consciousness), FTUM fixed-point convergence, φ-homeostasis |
-| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+| Companion posts | [post-24-educational-systems.md](../posts/post-024-educational-systems.md) · [post-53-education-implications.md](../posts/post-053-education-implications.md) |
 
 Evidence-grounded analysis covering PISA/NAEP data, the Science of Reading, cognitive science
 (spacing, retrieval practice, interleaving, the 2-sigma problem), structural failures (NCLB/ESSA
@@ -322,7 +322,7 @@ recognition to Kaluza-Klein geometry.
 | Grades | PreKindergarten through Grade 5 |
 | Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, NCAS, SHAPE America, CASEL |
 | Framework connection | FTUM convergence, φ-field iteration, executive function as attractor |
-| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+| Companion posts | [post-24-educational-systems.md](../posts/post-024-educational-systems.md) · [post-53-education-implications.md](../posts/post-053-education-implications.md) |
 
 Grade-by-grade curriculum (PreK–5) across all subject areas: Mathematics, ELA/Literacy, Science
 (NGSS-aligned), Social Studies (C3 Framework), Visual Arts, Music, Drama/Movement, PE/Health, and
@@ -341,7 +341,7 @@ connect each grade level to the Unitary Manifold mathematical structure.
 | Grades | Grades 6 through 8 |
 | Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, NCAS, SHAPE America, CASEL |
 | Framework connection | FTUM convergence, disciplinary literacy as attractor identification, algebraic thinking |
-| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+| Companion posts | [post-24-educational-systems.md](../posts/post-024-educational-systems.md) · [post-53-education-implications.md](../posts/post-053-education-implications.md) |
 
 Complete middle school curriculum guide covering the concrete-to-abstract transition, disciplinary
 literacy, and adolescent brain development. Each of Grades 6, 7, and 8 receives a full chapter with
@@ -360,7 +360,7 @@ formative assessment guidance, intervention resources, and a full bibliography.
 | Grades | Grades 9–12 + undergraduate, graduate, professional, and research levels |
 | Standards | CCSSM, CCSS ELA, NGSS, C3 Framework, AP/IB, AAC&U High-Impact Practices |
 | Framework connection | FTUM convergence as the structure of expertise development; the full K-12 arc as fixed-point iteration toward the knowledge frontier |
-| Companion posts | [post-24-educational-systems.md](post-24-educational-systems.md) · [post-53-education-implications.md](post-53-education-implications.md) |
+| Companion posts | [post-24-educational-systems.md](../posts/post-024-educational-systems.md) · [post-53-education-implications.md](../posts/post-053-education-implications.md) |
 
 High school curriculum (Grades 9-12 with Framework Seeds at each grade level connecting to the
 Unitary Manifold), followed by the undergraduate years, graduate study, professional and vocational
@@ -380,7 +380,7 @@ toward the frontier of human knowledge.
 | Audience | Every American — no prior political or academic knowledge required |
 | Parts | Parts I–VII + six appendices |
 | Framework connection | Pillar 18 (justice), Pillar 19 (governance), φ-entropy, B_μ bias field, FTUM fixed-point analysis |
-| Companion posts | [post-51-justice-implications.md](post-51-justice-implications.md) · [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md) |
+| Companion posts | [post-51-justice-implications.md](../posts/post-051-justice-implications.md) · [post-93-governance-is-a-physics-problem.md](../posts/post-093-governance-is-a-physics-problem.md) |
 
 A comprehensive, fearless analysis of American politics and media — separately and in their mutual
 manipulation. Part I: what politics and media are for. Part II: what is actually working. Part III:
@@ -408,7 +408,7 @@ journalism; (E) Reform organizations directory; (F) Further reading (22 curated 
 | Audience | Anyone who flies, anyone who cares about public safety infrastructure |
 | Parts | Parts I–VII + three appendices + priority action list |
 | Framework connection | φ-collapse (controller/hardware/frequency capacity), B_μ divergence (delay cascades, deferred maintenance), G_AB degradation (single points of failure), FTUM fixed-point analysis of NAS stability |
-| Companion posts | [post-16-domain-applications.md](post-16-domain-applications.md) · [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md) |
+| Companion posts | [post-16-domain-applications.md](../posts/post-016-domain-applications.md) · [post-93-governance-is-a-physics-problem.md](../posts/post-093-governance-is-a-physics-problem.md) |
 
 The definitive expert treatment of U.S. air traffic control — how it works, why it is failing, and exactly how to fix it. Written for the general reader but technically precise enough for aviation professionals.
 
@@ -589,24 +589,24 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 
 | Post | Cross-references |
 |------|-----------------|
-| [post-51-justice-implications.md](post-51-justice-implications.md) | The Broken Scale (all 12 parts) |
-| [post-52-economics-implications.md](post-52-economics-implications.md) | Prediction Markets Reckoning + Climate Reckoning |
-| [post-53-education-implications.md](post-53-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) + K-12 Curriculum Volumes 7–10 |
-| [post-54-ai-implications.md](post-54-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
-| [post-24-educational-systems.md](post-24-educational-systems.md) | The Learning Crisis (Book 7) + K-12 Curriculum Volumes 8–10 |
-| [post-149-s01e002-the-falsification-decade-begins.md](post-149-s01e002-the-falsification-decade-begins.md) | The Falsification Decade (Book 15) |
-| [post-151-s01e004-the-honest-machine.md](post-151-s01e004-the-honest-machine.md) | The Honest Machine (Book 16) |
+| [post-51-justice-implications.md](../posts/post-051-justice-implications.md) | The Broken Scale (all 12 parts) |
+| [post-52-economics-implications.md](../posts/post-052-economics-implications.md) | Prediction Markets Reckoning + Climate Reckoning |
+| [post-53-education-implications.md](../posts/post-053-education-implications.md) | Axiom Journalism AI Series (Parts 1, 3, 4) + K-12 Curriculum Volumes 7–10 |
+| [post-54-ai-implications.md](../posts/post-054-ai-implications.md) | Axiom Journalism AI Series (Parts 1, 2, 4, 6) |
+| [post-24-educational-systems.md](../posts/post-024-educational-systems.md) | The Learning Crisis (Book 7) + K-12 Curriculum Volumes 8–10 |
+| [post-149-s01e002-the-falsification-decade-begins.md](../posts/post-149-s01e002-the-falsification-decade-begins.md) | The Falsification Decade (Book 15) |
+| [post-151-s01e004-the-honest-machine.md](../posts/post-151-s01e004-the-honest-machine.md) | The Honest Machine (Book 16) |
 
 **For cross-referencing the physics:**
-- Justice framework: [post-51-justice-implications.md](post-51-justice-implications.md)
-- Economics framework: [post-52-economics-implications.md](post-52-economics-implications.md)
-- Education framework: [post-53-education-implications.md](post-53-education-implications.md)
-- AI implications: [post-54-ai-implications.md](post-54-ai-implications.md)
-- Governance: [post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md)
-- Human-AI collaboration: [post-37-human-ai-collaboration.md](post-37-human-ai-collaboration.md)
-- Philosophy of science: [post-05-honest-gaps.md](post-05-honest-gaps.md)
-- Falsification culture: [post-149-s01e002-the-falsification-decade-begins.md](post-149-s01e002-the-falsification-decade-begins.md)
-- Co-emergence / AI governance: [post-151-s01e004-the-honest-machine.md](post-151-s01e004-the-honest-machine.md)
+- Justice framework: [post-51-justice-implications.md](../posts/post-051-justice-implications.md)
+- Economics framework: [post-52-economics-implications.md](../posts/post-052-economics-implications.md)
+- Education framework: [post-53-education-implications.md](../posts/post-053-education-implications.md)
+- AI implications: [post-54-ai-implications.md](../posts/post-054-ai-implications.md)
+- Governance: [post-93-governance-is-a-physics-problem.md](../posts/post-093-governance-is-a-physics-problem.md)
+- Human-AI collaboration: [post-37-human-ai-collaboration.md](../posts/post-037-human-ai-collaboration.md)
+- Philosophy of science: [post-05-honest-gaps.md](../posts/post-005-honest-gaps.md)
+- Falsification culture: [post-149-s01e002-the-falsification-decade-begins.md](../posts/post-149-s01e002-the-falsification-decade-begins.md)
+- Co-emergence / AI governance: [post-151-s01e004-the-honest-machine.md](../posts/post-151-s01e004-the-honest-machine.md)
 
 ---
 
@@ -639,7 +639,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 **Books 5–21 are AxiomZero-commissioned works, not peer-reviewed physics.**
 Books 7–19 (education, engineering, politics, climate, orientation, falsification, co-emergence, deployment operations, justice systems, and theorem exposition)
 use either social commentary, systems analysis, or direct framework exposition as labeled. Books 20–21 are standalone civic analysis and make no physics claim.
-See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistemic map.
+See [`OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md) for the full epistemic map.
 
 ---
 

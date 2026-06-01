@@ -136,7 +136,7 @@ The structure does not replace judgment.
 ## Going Deeper: The Broken Scale
 
 The structural implications above are paired with a full investigative companion:
-**[The Broken Scale — Omega Edition](book-broken-scale-omega.md)** — the AxiomZero
+**[The Broken Scale — Omega Edition](../books/book-broken-scale.md)** — the AxiomZero
 framework's complete guide to criminal justice accountability journalism.
 
 Where this post provides the theoretical framework (retribution as geometric
@@ -167,7 +167,7 @@ It is the investigative journalist's companion to the structural framework in th
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Justice module: `src/justice/`*
 *Information conservation: `QUANTUM_THEOREMS.md` (Theorem XII)*
-*Companion book: [The Broken Scale — Omega Edition](book-broken-scale-omega.md)*
+*Companion book: [The Broken Scale — Omega Edition](../books/book-broken-scale.md)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

@@ -302,8 +302,8 @@ The cold fusion mechanism described here relies on:
 
 | File | Description |
 |------|-------------|
-| [`src/core/cold_fusion.py`](../src/core/cold_fusion.py) | Full implementation: Gamow factors, tunneling, rate calculation, lattice helpers |
-| [`tests/test_cold_fusion.py`](../tests/test_cold_fusion.py) | 240 tests covering all functions and edge cases |
+| [`src/core/cold_fusion.py`](../../src/core/cold_fusion.py) | Full implementation: Gamow factors, tunneling, rate calculation, lattice helpers |
+| [`tests/test_cold_fusion.py`](../../tests/test_cold_fusion.py) | 240 tests covering all functions and edge cases |
 
 ### Quick Start
 

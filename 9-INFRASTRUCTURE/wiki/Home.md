@@ -30,7 +30,7 @@ The core claim is that the **Second Law of Thermodynamics is a geometric identit
 | Nonminimal coupling $\alpha$ | $\phi_0^{-2}$ (derived, not fitted) | — |
 | Chern–Simons level $k_\text{CS}$ | 74 = $5^2 + 7^2$ | selected by birefringence data |
 
-The braided (5, 7) winding resolution — using $k_\text{CS} = 74$ — simultaneously satisfies all three CMB constraints without new free parameters. See [`src/core/braided_winding.py`](../src/core/braided_winding.py).
+The braided (5, 7) winding resolution — using $k_\text{CS} = 74$ — simultaneously satisfies all three CMB constraints without new free parameters. See [`src/core/braided_winding.py`](../../src/core/braided_winding.py).
 
 **Primary falsifier:** LiteBIRD birefringence measurement (~2032). Any $\beta$ inconsistent with 0.3513° would falsify the braided-winding mechanism.
 
@@ -52,13 +52,13 @@ The braided (5, 7) winding resolution — using $k_\text{CS} = 74$ — simultane
 
 ## Quick Links
 
-- **Source code:** [`src/`](../src/)
-- **Full monograph:** [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf)
-- **Plain-language summary:** [`WHAT_THIS_MEANS.md`](../WHAT_THIS_MEANS.md)
-- **Honest limitations:** [`FALLIBILITY.md`](../FALLIBILITY.md)
-- **Unification proof:** [`UNIFICATION_PROOF.md`](../UNIFICATION_PROOF.md)
-- **Quantum theorems:** [`QUANTUM_THEOREMS.md`](../QUANTUM_THEOREMS.md)
-- **Citation:** [`CITATION.cff`](../CITATION.cff)
+- **Source code:** [`src/`](../../src)
+- **Full monograph:** [`THEBOOKV9a (1).pdf`](<../../6-MONOGRAPH/THEBOOKV9a (1).pdf>)
+- **Plain-language summary:** [`WHAT_THIS_MEANS.md`](../../4-IMPLICATIONS/WHAT_THIS_MEANS.md)
+- **Honest limitations:** [`FALLIBILITY.md`](../../FALLIBILITY.md)
+- **Unification proof:** [`UNIFICATION_PROOF.md`](../../1-THEORY/UNIFICATION_PROOF.md)
+- **Quantum theorems:** [`QUANTUM_THEOREMS.md`](../../1-THEORY/QUANTUM_THEOREMS.md)
+- **Citation:** [`CITATION.cff`](../../CITATION.cff)
 
 ---
 

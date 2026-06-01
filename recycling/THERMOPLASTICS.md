@@ -652,5 +652,5 @@ do not add them.
 see [`FOREVER_CHEMICALS_PFAS.md`](FOREVER_CHEMICALS_PFAS.md).*
 
 *For the underlying physics framework (φ-chain topology model of polymer
-degradation), see [`../polymers.py`](../polymers.py) and the parent
+degradation), see [`polymers.py`](polymers.py) and the parent
 [`README.md`](README.md).*
