@@ -1,0 +1,673 @@
+{
+  "metadata": {
+    "node_count": 42,
+    "edge_count": 53,
+    "acyclicity_verdict": "PASS",
+    "most_central_node": [
+      "P1: Z₂ orbifold (S¹/Z₂)",
+      19
+    ],
+    "most_critical_postulate": [
+      "P1: Z₂ orbifold (S¹/Z₂)",
+      19
+    ]
+  },
+  "nodes": [
+    {
+      "id": 0,
+      "name": "P1: Z₂ orbifold (S¹/Z₂)",
+      "kind": "POSTULATE",
+      "status": "POSTULATED",
+      "citation": "Pillar 39",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 1,
+      "name": "P2: 5D KK metric ansatz",
+      "kind": "POSTULATE",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 344, 384",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 2,
+      "name": "P3: B_μ irreversibility 1-form",
+      "kind": "POSTULATE",
+      "status": "POSTULATED",
+      "citation": "src/core/evolution.py",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 3,
+      "name": "P4: Goldberger-Wise potential",
+      "kind": "POSTULATE",
+      "status": "POSTULATED",
+      "citation": "Pillar 68",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 4,
+      "name": "P5: FTUM operator U=I+H+T",
+      "kind": "POSTULATE",
+      "status": "POSTULATED",
+      "citation": "src/multiverse/fixed_point.py",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 5,
+      "name": "P6: Holographic S=A/4G",
+      "kind": "POSTULATE",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 379",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 6,
+      "name": "P7: Braid n₁=n_w n₂=n_w+2",
+      "kind": "POSTULATE",
+      "status": "DERIVED_STRUCTURAL",
+      "citation": "Pillar 377",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 7,
+      "name": "P8: (5,7) braid stability",
+      "kind": "POSTULATE",
+      "status": "DERIVED_STRUCTURAL",
+      "citation": "Pillar 377",
+      "group": "POSTULATE"
+    },
+    {
+      "id": 8,
+      "name": "Λ₅<0 (AdS₅ bulk)",
+      "kind": "FREE_PARAMETER",
+      "status": "ARCHITECTURE_LIMIT",
+      "citation": "Pillar 363",
+      "group": "FREE_PARAMETER"
+    },
+    {
+      "id": 9,
+      "name": "N_e≈60 e-folds",
+      "kind": "FREE_PARAMETER",
+      "status": "OPEN_GAP",
+      "citation": "Pillar 346 (partial)",
+      "group": "FREE_PARAMETER"
+    },
+    {
+      "id": 10,
+      "name": "λ_GW (GW coupling)",
+      "kind": "FREE_PARAMETER",
+      "status": "ARCHITECTURE_LIMIT",
+      "citation": "Pillar 68; Admission 6",
+      "group": "FREE_PARAMETER"
+    },
+    {
+      "id": 11,
+      "name": "c_L/c_R (fermion bulk mass)",
+      "kind": "FREE_PARAMETER",
+      "status": "OPEN_GAP",
+      "citation": "Pillar 189-B",
+      "group": "FREE_PARAMETER"
+    },
+    {
+      "id": 12,
+      "name": "Z₂-odd B_μ / G_{μ5}",
+      "kind": "DERIVED",
+      "status": "DERIVED_FROM_5D_LAGRANGIAN",
+      "citation": "Pillar 387",
+      "group": "DERIVED"
+    },
+    {
+      "id": 13,
+      "name": "n_w∈{5,7} selection",
+      "kind": "DERIVED",
+      "status": "PROVED",
+      "citation": "Pillar 67",
+      "group": "DERIVED"
+    },
+    {
+      "id": 14,
+      "name": "η̄(5)=½ APS",
+      "kind": "DERIVED",
+      "status": "DERIVED_STRUCTURAL",
+      "citation": "Pillar 70-B",
+      "group": "DERIVED"
+    },
+    {
+      "id": 15,
+      "name": "n_w=5 pure theorem",
+      "kind": "DERIVED",
+      "status": "PROVED",
+      "citation": "Pillar 70-D",
+      "group": "DERIVED"
+    },
+    {
+      "id": 16,
+      "name": "k_CS=74 algebraic",
+      "kind": "DERIVED",
+      "status": "PROVED",
+      "citation": "Pillars 58, 99-B",
+      "group": "DERIVED"
+    },
+    {
+      "id": 17,
+      "name": "c_s=12/37 braided sound speed",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/braided_winding.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 18,
+      "name": "N_gen=3 (T²/Z₃ orbifold)",
+      "kind": "DERIVED",
+      "status": "PROVED",
+      "citation": "Pillar 42",
+      "group": "DERIVED"
+    },
+    {
+      "id": 19,
+      "name": "SU(3)×SU(2)×U(1) gauge group",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillars 70-D, 94",
+      "group": "DERIVED"
+    },
+    {
+      "id": 20,
+      "name": "φ₀ self-consistency (Pillar 56)",
+      "kind": "DERIVED",
+      "status": "CLOSED",
+      "citation": "Pillar 56",
+      "group": "DERIVED"
+    },
+    {
+      "id": 21,
+      "name": "φ₀=1 Planck unit (FTUM bridge)",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 56-B",
+      "group": "DERIVED"
+    },
+    {
+      "id": 22,
+      "name": "nₛ=0.9635",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/inflation.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 23,
+      "name": "r_bare=0.097",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/inflation.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 24,
+      "name": "r_braided=0.0315",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/braided_winding.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 25,
+      "name": "β∈{0.273°,0.331°} birefringence",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/inflation.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 26,
+      "name": "f_NL≈−0.5 (DBI+KK)",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 375",
+      "group": "DERIVED"
+    },
+    {
+      "id": 27,
+      "name": "Ω_GW~10⁻¹⁵",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 353",
+      "group": "DERIVED"
+    },
+    {
+      "id": 28,
+      "name": "sin²θ_W=0.2313",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/ew_unification.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 29,
+      "name": "α_s(M_Z)≈0.113",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 272",
+      "group": "DERIVED"
+    },
+    {
+      "id": 30,
+      "name": "Λ_QCD≈332 MeV",
+      "kind": "DERIVED",
+      "status": "DERIVED",
+      "citation": "Pillar 153",
+      "group": "DERIVED"
+    },
+    {
+      "id": 31,
+      "name": "m_H=125.25 GeV",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 271",
+      "group": "DERIVED"
+    },
+    {
+      "id": 32,
+      "name": "m_p/m_e≈1825.3",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/proton_electron_mass.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 33,
+      "name": "PMNS angles (braid-lock)",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 208",
+      "group": "DERIVED"
+    },
+    {
+      "id": 34,
+      "name": "Yukawa couplings y_t,y_b,y_τ,y_e",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "Pillar 271",
+      "group": "DERIVED"
+    },
+    {
+      "id": 35,
+      "name": "Arrow of time (geometric identity)",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/evolution.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 36,
+      "name": "BH information conservation",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "1-THEORY/QUANTUM_THEOREMS.md",
+      "group": "DERIVED"
+    },
+    {
+      "id": 37,
+      "name": "FTUM basin contractivity",
+      "kind": "DERIVED",
+      "status": "CONTRACTIVE_IN_PHYSICAL_REGIME",
+      "citation": "Pillar 309",
+      "group": "DERIVED"
+    },
+    {
+      "id": 38,
+      "name": "w₀=−1 dark energy",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/kk_dark_energy.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 39,
+      "name": "Neutrino-radion identity (M_KK~110meV)",
+      "kind": "DERIVED",
+      "status": "DERIVED_CONDITIONAL",
+      "citation": "src/core/zero_point_vacuum.py",
+      "group": "DERIVED"
+    },
+    {
+      "id": 40,
+      "name": "r=0.0315 vs ACT DR6 r<0.016 (HIGH_TENSION)",
+      "kind": "TENSION",
+      "status": "IRREDUCIBLE_IN_BRAIDED_5D_EFT",
+      "citation": "Pillar 303",
+      "group": "TENSION"
+    },
+    {
+      "id": 41,
+      "name": "wₐ=0 vs DESI 2.82σ (HIGH_TENSION)",
+      "kind": "TENSION",
+      "status": "ARCHITECTURE_LIMIT_CERTIFIED",
+      "citation": "Pillar 301",
+      "group": "TENSION"
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "target": 13,
+      "source_name": "P1: Z₂ orbifold (S¹/Z₂)",
+      "target_name": "n_w∈{5,7} selection"
+    },
+    {
+      "source": 0,
+      "target": 18,
+      "source_name": "P1: Z₂ orbifold (S¹/Z₂)",
+      "target_name": "N_gen=3 (T²/Z₃ orbifold)"
+    },
+    {
+      "source": 0,
+      "target": 12,
+      "source_name": "P1: Z₂ orbifold (S¹/Z₂)",
+      "target_name": "Z₂-odd B_μ / G_{μ5}"
+    },
+    {
+      "source": 1,
+      "target": 12,
+      "source_name": "P2: 5D KK metric ansatz",
+      "target_name": "Z₂-odd B_μ / G_{μ5}"
+    },
+    {
+      "source": 13,
+      "target": 14,
+      "source_name": "n_w∈{5,7} selection",
+      "target_name": "η̄(5)=½ APS"
+    },
+    {
+      "source": 0,
+      "target": 14,
+      "source_name": "P1: Z₂ orbifold (S¹/Z₂)",
+      "target_name": "η̄(5)=½ APS"
+    },
+    {
+      "source": 14,
+      "target": 15,
+      "source_name": "η̄(5)=½ APS",
+      "target_name": "n_w=5 pure theorem"
+    },
+    {
+      "source": 12,
+      "target": 15,
+      "source_name": "Z₂-odd B_μ / G_{μ5}",
+      "target_name": "n_w=5 pure theorem"
+    },
+    {
+      "source": 15,
+      "target": 16,
+      "source_name": "n_w=5 pure theorem",
+      "target_name": "k_CS=74 algebraic"
+    },
+    {
+      "source": 6,
+      "target": 16,
+      "source_name": "P7: Braid n₁=n_w n₂=n_w+2",
+      "target_name": "k_CS=74 algebraic"
+    },
+    {
+      "source": 7,
+      "target": 16,
+      "source_name": "P8: (5,7) braid stability",
+      "target_name": "k_CS=74 algebraic"
+    },
+    {
+      "source": 16,
+      "target": 17,
+      "source_name": "k_CS=74 algebraic",
+      "target_name": "c_s=12/37 braided sound speed"
+    },
+    {
+      "source": 6,
+      "target": 17,
+      "source_name": "P7: Braid n₁=n_w n₂=n_w+2",
+      "target_name": "c_s=12/37 braided sound speed"
+    },
+    {
+      "source": 15,
+      "target": 19,
+      "source_name": "n_w=5 pure theorem",
+      "target_name": "SU(3)×SU(2)×U(1) gauge group"
+    },
+    {
+      "source": 18,
+      "target": 19,
+      "source_name": "N_gen=3 (T²/Z₃ orbifold)",
+      "target_name": "SU(3)×SU(2)×U(1) gauge group"
+    },
+    {
+      "source": 19,
+      "target": 28,
+      "source_name": "SU(3)×SU(2)×U(1) gauge group",
+      "target_name": "sin²θ_W=0.2313"
+    },
+    {
+      "source": 16,
+      "target": 29,
+      "source_name": "k_CS=74 algebraic",
+      "target_name": "α_s(M_Z)≈0.113"
+    },
+    {
+      "source": 19,
+      "target": 29,
+      "source_name": "SU(3)×SU(2)×U(1) gauge group",
+      "target_name": "α_s(M_Z)≈0.113"
+    },
+    {
+      "source": 29,
+      "target": 30,
+      "source_name": "α_s(M_Z)≈0.113",
+      "target_name": "Λ_QCD≈332 MeV"
+    },
+    {
+      "source": 16,
+      "target": 32,
+      "source_name": "k_CS=74 algebraic",
+      "target_name": "m_p/m_e≈1825.3"
+    },
+    {
+      "source": 18,
+      "target": 32,
+      "source_name": "N_gen=3 (T²/Z₃ orbifold)",
+      "target_name": "m_p/m_e≈1825.3"
+    },
+    {
+      "source": 3,
+      "target": 20,
+      "source_name": "P4: Goldberger-Wise potential",
+      "target_name": "φ₀ self-consistency (Pillar 56)"
+    },
+    {
+      "source": 4,
+      "target": 20,
+      "source_name": "P5: FTUM operator U=I+H+T",
+      "target_name": "φ₀ self-consistency (Pillar 56)"
+    },
+    {
+      "source": 20,
+      "target": 21,
+      "source_name": "φ₀ self-consistency (Pillar 56)",
+      "target_name": "φ₀=1 Planck unit (FTUM bridge)"
+    },
+    {
+      "source": 4,
+      "target": 37,
+      "source_name": "P5: FTUM operator U=I+H+T",
+      "target_name": "FTUM basin contractivity"
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "source_name": "P5: FTUM operator U=I+H+T",
+      "target_name": "P6: Holographic S=A/4G"
+    },
+    {
+      "source": 5,
+      "target": 36,
+      "source_name": "P6: Holographic S=A/4G",
+      "target_name": "BH information conservation"
+    },
+    {
+      "source": 4,
+      "target": 36,
+      "source_name": "P5: FTUM operator U=I+H+T",
+      "target_name": "BH information conservation"
+    },
+    {
+      "source": 4,
+      "target": 38,
+      "source_name": "P5: FTUM operator U=I+H+T",
+      "target_name": "w₀=−1 dark energy"
+    },
+    {
+      "source": 3,
+      "target": 38,
+      "source_name": "P4: Goldberger-Wise potential",
+      "target_name": "w₀=−1 dark energy"
+    },
+    {
+      "source": 5,
+      "target": 39,
+      "source_name": "P6: Holographic S=A/4G",
+      "target_name": "Neutrino-radion identity (M_KK~110meV)"
+    },
+    {
+      "source": 16,
+      "target": 39,
+      "source_name": "k_CS=74 algebraic",
+      "target_name": "Neutrino-radion identity (M_KK~110meV)"
+    },
+    {
+      "source": 21,
+      "target": 22,
+      "source_name": "φ₀=1 Planck unit (FTUM bridge)",
+      "target_name": "nₛ=0.9635"
+    },
+    {
+      "source": 9,
+      "target": 22,
+      "source_name": "N_e≈60 e-folds",
+      "target_name": "nₛ=0.9635"
+    },
+    {
+      "source": 21,
+      "target": 23,
+      "source_name": "φ₀=1 Planck unit (FTUM bridge)",
+      "target_name": "r_bare=0.097"
+    },
+    {
+      "source": 9,
+      "target": 23,
+      "source_name": "N_e≈60 e-folds",
+      "target_name": "r_bare=0.097"
+    },
+    {
+      "source": 23,
+      "target": 24,
+      "source_name": "r_bare=0.097",
+      "target_name": "r_braided=0.0315"
+    },
+    {
+      "source": 17,
+      "target": 24,
+      "source_name": "c_s=12/37 braided sound speed",
+      "target_name": "r_braided=0.0315"
+    },
+    {
+      "source": 16,
+      "target": 25,
+      "source_name": "k_CS=74 algebraic",
+      "target_name": "β∈{0.273°,0.331°} birefringence"
+    },
+    {
+      "source": 1,
+      "target": 25,
+      "source_name": "P2: 5D KK metric ansatz",
+      "target_name": "β∈{0.273°,0.331°} birefringence"
+    },
+    {
+      "source": 17,
+      "target": 26,
+      "source_name": "c_s=12/37 braided sound speed",
+      "target_name": "f_NL≈−0.5 (DBI+KK)"
+    },
+    {
+      "source": 24,
+      "target": 27,
+      "source_name": "r_braided=0.0315",
+      "target_name": "Ω_GW~10⁻¹⁵"
+    },
+    {
+      "source": 16,
+      "target": 27,
+      "source_name": "k_CS=74 algebraic",
+      "target_name": "Ω_GW~10⁻¹⁵"
+    },
+    {
+      "source": 3,
+      "target": 31,
+      "source_name": "P4: Goldberger-Wise potential",
+      "target_name": "m_H=125.25 GeV"
+    },
+    {
+      "source": 20,
+      "target": 31,
+      "source_name": "φ₀ self-consistency (Pillar 56)",
+      "target_name": "m_H=125.25 GeV"
+    },
+    {
+      "source": 11,
+      "target": 34,
+      "source_name": "c_L/c_R (fermion bulk mass)",
+      "target_name": "Yukawa couplings y_t,y_b,y_τ,y_e"
+    },
+    {
+      "source": 1,
+      "target": 34,
+      "source_name": "P2: 5D KK metric ansatz",
+      "target_name": "Yukawa couplings y_t,y_b,y_τ,y_e"
+    },
+    {
+      "source": 16,
+      "target": 33,
+      "source_name": "k_CS=74 algebraic",
+      "target_name": "PMNS angles (braid-lock)"
+    },
+    {
+      "source": 17,
+      "target": 33,
+      "source_name": "c_s=12/37 braided sound speed",
+      "target_name": "PMNS angles (braid-lock)"
+    },
+    {
+      "source": 2,
+      "target": 35,
+      "source_name": "P3: B_μ irreversibility 1-form",
+      "target_name": "Arrow of time (geometric identity)"
+    },
+    {
+      "source": 1,
+      "target": 35,
+      "source_name": "P2: 5D KK metric ansatz",
+      "target_name": "Arrow of time (geometric identity)"
+    },
+    {
+      "source": 24,
+      "target": 40,
+      "source_name": "r_braided=0.0315",
+      "target_name": "r=0.0315 vs ACT DR6 r<0.016 (HIGH_TENSION)"
+    },
+    {
+      "source": 38,
+      "target": 41,
+      "source_name": "w₀=−1 dark energy",
+      "target_name": "wₐ=0 vs DESI 2.82σ (HIGH_TENSION)"
+    }
+  ]
+}

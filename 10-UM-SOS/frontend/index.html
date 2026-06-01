@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UM-SOS Explorer</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <h1>UM-SOS Prediction Explorer</h1>
+    <p>Machine-readable registry, admissions dashboard, and governance lane classifier.</p>
+  </header>
+
+  <section>
+    <h2>Predictions</h2>
+    <input id="search" placeholder="Filter by experiment / id / status" />
+    <table id="pred-table">
+      <thead>
+        <tr><th>ID</th><th>Quantity</th><th>Predicted</th><th>Experiment</th><th>Status</th><th>Label</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Admissions</h2>
+    <ul id="admissions"></ul>
+  </section>
+
+  <section>
+    <h2>Governance Classifier</h2>
+    <textarea id="gov-input" rows="3" placeholder="Describe an action"></textarea>
+    <button id="gov-run">Classify</button>
+    <pre id="gov-out"></pre>
+  </section>
+
+  <section>
+    <h2>Links</h2>
+    <ul>
+      <li><a href="../graph/index.html">Derivation graph</a></li>
+      <li><a href="../registry/predictions.json">Preregistration registry JSON</a></li>
+    </ul>
+  </section>
+
+  <script src="./main.js"></script>
+</body>
+</html>

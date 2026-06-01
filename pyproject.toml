@@ -50,8 +50,13 @@ notebooks = [
     "jupyter>=1.0",
     "ipykernel>=6.0",
 ]
+um_sos = [
+    "fastapi>=0.110,<1",
+    "uvicorn>=0.30,<1",
+    "httpx>=0.27,<1",
+]
 all = [
-    "unitary-manifold[dev,notebooks,symbolic]",
+    "unitary-manifold[dev,notebooks,symbolic,um_sos]",
 ]
 
 [project.urls]
