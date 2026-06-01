@@ -1,6 +1,6 @@
 # Separation of Concerns — What Is Physics, What Is Application
 
-*Unitary Manifold v13.1 — ThomasCory Walker-Pearson, 2026*
+*Unitary Manifold v15.6 — ThomasCory Walker-Pearson, 2026*
 
 ---
 
@@ -27,6 +27,14 @@ directly against real Planck 2018 satellite data.
 
 This document makes the distinction explicit so that neither you nor any
 downstream reader confuses one for the other.
+
+**Interpretation guardrail (v15.6):** treat legacy v15.1-era references as
+historical snapshots, not current status. The core lens remains the 5D
+Kaluza-Klein metric \(G_{AB}\), combining \(g_{\mu\nu}\), the irreversibility
+field \(B_\mu\), and the dynamic radion \(\phi\). The \((5,7)\) braid sector
+fixes \(k_{\rm CS}=5^2+7^2=74\) where invoked, the 3:2 scaffold is a structural
+diagnostic, and phase-flip or loop-inversion language is topology/orientation
+language rather than ordinary arithmetic contradiction.
 
 ---
 
