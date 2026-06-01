@@ -21,7 +21,7 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![45,349 passed · 0 failed](https://img.shields.io/badge/tests-45%2C349%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![45,517 passed · 0 failed](https://img.shields.io/badge/tests-45%2C517%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![494+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-494%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v15.1-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
@@ -55,7 +55,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > ⚠️ **Honest status (v15.1):** ToE is **28.0/28 (100%)** — P28 cosmological constant promoted to DERIVED via `src/core/p28_lambda_derived_cert.py` (RS1+KK+10D first-principles formula; zero free parameters; factor-of-2 across 122 orders).
-> Latest verified sprint regression on this branch: **45,349 passed · 22 skipped · 12 deselected · 0 failed** (v15.1, tests/ + recycling/ + Pentad; 2026-05-26).
+> Latest verified sprint regression on this branch: **45,517 passed · 22 skipped · 12 deselected · 0 failed** (v15.1, tests/ + recycling/ + Pentad; 2026-05-26).
 > Latest adjacent-track execution lane: **Pillar 273** (`src/core/pillar273_autonomous_github_community_steward.py`) for deterministic autonomous community/security operations with **full Pentad-governed control routing** (Ξ_c / sentinel-capacity / HIL phase-shift alignment), strict non-hardgate boundary, and human-reviewed action routing.
 > The test suite is not just a validation count; it is the executable validation layer for the monograph proof path — algebraic checks, numerical reproductions, claim ledgers, adversarial stress tests, and explicit failure conditions.
 > Most headline quantities in this repository are tracked as **derived**, **closed**, or **geometric predictions**; fitted, bridged, and open items are separated explicitly in [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) and [`docs/mas_tracker.yml`](docs/mas_tracker.yml).
@@ -942,7 +942,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 45,349 passed · 22 skipped · 12 deselected; v15.0)
+### Run the test suite — 0 failures (full suite: 45,517 passed · 22 skipped · 12 deselected; v15.0)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
@@ -1291,7 +1291,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**45,349 passed · 22 skipped · 12 deselected · 0 failures**).
+(**45,517 passed · 22 skipped · 12 deselected · 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.

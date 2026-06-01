@@ -1,0 +1,223 @@
+{
+  "generated_at": "2026-06-01T02:46:00.485195+00:00",
+  "schema_version": "1.0.0",
+  "registry_kind": "um_sos_preregistration_registry",
+  "entry_count": 8,
+  "entries": [
+    {
+      "pillar": 435,
+      "title": "HL-LHC KK Graviton Prediction Package — m_G_KK ≥ 5.0 TeV (Bessel-exact), σ×BR(pp→G_KK→ℓℓ) preregistered 2026-05-25",
+      "status": "HLLHC_PREDICTION_PREREGISTERED",
+      "experiment": "HL-LHC Run 4",
+      "decision_window": "2029-2033",
+      "hash": "2b35ba0e5f58414bcbf3d17a2218da3687d98f0ae0c82e1a0441d26bd80815b2",
+      "tripwire": "m_G_KK < 5.0 TeV",
+      "prediction_summary": "Bessel-exact lower bound m_G_KK >= 5.0 TeV",
+      "source_module": "src/core/pillar435_hllhc_kk_graviton.py"
+    },
+    {
+      "pillar": 437,
+      "title": "SPHEREx f_NL Preregistration Package — f_NL^equil ∈ [−2.9, −0.2] (DBI + KK braid correction; SHA-256 committed 2026-05-25)",
+      "status": "FNLPREREGISTERED_SPHEREX",
+      "experiment": "SPHEREx",
+      "decision_window": "2027-2028",
+      "hash": "ba72fa17112ff46a0fd08b0f0110f96baf963c230189e04f6a4d9a5948e91f13",
+      "tripwire": "f_NL inconsistent with preregistered range",
+      "prediction_summary": "Primordial non-Gaussianity f_NL preregistered",
+      "source_module": "src/core/pillar437_spherex_fnl_preregistration.py"
+    },
+    {
+      "pillar": 442,
+      "title": "SO DR1 routing protocol",
+      "status": "SO_DR1_ROUTING_CERTIFIED",
+      "experiment": "Simons Observatory DR1",
+      "decision_window": "2027",
+      "hash": "b6bbb72455dab56e37d5c61b40458674b49e58c6e1173a8aa7ceb09d2e90714b",
+      "tripwire": "r excludes preregistered routing",
+      "prediction_summary": "SO DR1 decision routing for tensor-to-scalar ratio",
+      "source_module": "src/core/pillar442_so_dr1_routing.py"
+    },
+    {
+      "pillar": 467,
+      "title": "DESI DR3 falsification gate",
+      "status": "DESI_DR3_FALSIFICATION_GATE_PREREGISTERED",
+      "experiment": "DESI DR3",
+      "decision_window": "2026",
+      "hash": "2239650b23a8d9152052f794bdadbe52d64f68aa5a69840b6fde7ff0e1af1ebb",
+      "tripwire": "w_a tension exceeds predefined sigma gates",
+      "prediction_summary": "DESI DR3 falsification protocol preregistered",
+      "source_module": "src/core/pillar467_desi_dr3_falsification_gate.py"
+    },
+    {
+      "pillar": 468,
+      "title": "LiteBIRD discrimination protocol",
+      "status": "LITEBIRD_DISCRIMINATION_PROTOCOL_FORMALIZED",
+      "experiment": "LiteBIRD",
+      "decision_window": "~2032",
+      "hash": "21d0cb3362f05511396dc3fe62675df217cb8f3b550097cb33a5bff1beaa48f1",
+      "tripwire": "beta in forbidden interval or outside admissible range",
+      "prediction_summary": "Birefringence discrimination protocol formalized",
+      "source_module": "src/core/pillar468_litebird_discrimination_protocol.py"
+    },
+    {
+      "pillar": 469,
+      "title": "SO DR1 joint routing",
+      "status": "SO_DR1_JOINT_ROUTING_FORMALIZED",
+      "experiment": "Simons Observatory DR1",
+      "decision_window": "2027",
+      "hash": "84c67bc66341455582648c58d85f785b717b1b1f701a95be8363e299c66b6754",
+      "tripwire": "joint r constraints violate SO routing protocol",
+      "prediction_summary": "SO DR1 joint-routing formalized",
+      "source_module": "src/core/pillar469_so_dr1_joint_routing.py"
+    },
+    {
+      "pillar": 475,
+      "title": "JUNO Δm²₃₁ NLO Full-Chain Closure — T3 RESOLVED: 0.04% residual below JUNO 0.5% gate",
+      "status": "JUNO_NLO_FULL_CHAIN_SAFE",
+      "experiment": "JUNO",
+      "decision_window": "2027",
+      "hash": "1b6bc0fcda8dd6c8ba297f262b0c2c160e1c46a2a1a33f6f624f5c93ec6eac59",
+      "tripwire": "Delta m^2_31 outside preregistered NLO band",
+      "prediction_summary": "JUNO NLO full-chain safety package",
+      "source_module": "src/core/pillar475_juno_nlo_full_closure.py"
+    },
+    {
+      "pillar": 486,
+      "title": "DESI DR3 Final Preparation — Corrected DR2 Tension 2.30σ; Machine-Executable Tripwire; GATEKEEPER Sync to v14.2",
+      "status": "DESI_DR3_FINAL_PREPARATION_COMPLETE",
+      "experiment": "DESI DR3",
+      "decision_window": "2026",
+      "hash": "eea7cf7cdb1185c23d684ae5a0ef2215223c83b2d0b90c5a336f8d10e1c5af20",
+      "tripwire": "DR3 one/two-dimensional tension exceeds falsification gates",
+      "prediction_summary": "Final DESI DR3 preregistration synchronization package",
+      "source_module": "src/core/pillar486_desi_dr3_final_prep.py"
+    }
+  ],
+  "admissions": [
+    {
+      "name": "Admission 1: n_w=5 observationally selected within constrained set",
+      "status": "OPEN_GAP",
+      "breaks_if_fails": "All predictions built on n_w=5.",
+      "citation": "FALLIBILITY.md §3.2 Admission 1; src/core/nw5_pure_theorem.py (Pillar 70-D)",
+      "closed_by": "Pillar 70-D (geometric selection; n_w=5 now PURE_THEOREM from Z₂-odd CS boundary phase)",
+      "used_by": [
+        "All n_w=5 derived results"
+      ]
+    },
+    {
+      "name": "Admission 2: k_CS=74 algebraically derived from braid pair",
+      "status": "DERIVED",
+      "breaks_if_fails": "k_CS=74; all birefringence/CMB predictions.",
+      "citation": "FALLIBILITY.md §3.2 Admission 2; src/core/anomaly_closure.py (Pillars 58, 99-B)",
+      "closed_by": "Pillar 99-B (DERIVED from CS integral)",
+      "used_by": [
+        "k_CS=74",
+        "β∈{0.273°,0.331°}",
+        "c_s=12/37"
+      ]
+    },
+    {
+      "name": "Admission 3: r=0.097 (bare) tension resolved via braiding",
+      "status": "DERIVED",
+      "breaks_if_fails": "r prediction; BICEP/Keck compliance.",
+      "citation": "FALLIBILITY.md §3.2 Admission 3; src/core/pillar387_z2_odd_gmu5_derivation.py (P387)",
+      "closed_by": "Pillar 387 (ADMISSION_3_FORMALLY_CLOSED; CONVENTION → DERIVED_FROM_5D_LAGRANGIAN)",
+      "used_by": [
+        "r_braided=0.0315",
+        "BICEP/Keck consistency"
+      ]
+    },
+    {
+      "name": "Admission 4: φ₀ self-consistency closed analytically",
+      "status": "DERIVED",
+      "breaks_if_fails": "φ₀ self-consistency; all slow-roll predictions.",
+      "citation": "FALLIBILITY.md §3.2 Admission 4; src/core/phi0_closure.py (Pillar 56)",
+      "closed_by": "Pillar 56 (CLOSED analytically)",
+      "used_by": [
+        "φ₀=1 Planck unit",
+        "nₛ=0.9635",
+        "r_braided=0.0315"
+      ]
+    },
+    {
+      "name": "Admission 5: r_braided=r_bare×c_s now derived (Pillar 97-B)",
+      "status": "DERIVED",
+      "breaks_if_fails": "r_braided value; BICEP/Keck consistency.",
+      "citation": "FALLIBILITY.md §3.2 Admission 5; src/core/braided_winding.py::braided_r_full_derivation()",
+      "closed_by": "Pillar 97-B (DERIVED via WZW reduction)",
+      "used_by": [
+        "r_braided=0.0315"
+      ]
+    },
+    {
+      "name": "Admission 6: λ_GW (Goldberger-Wise coupling) is a free parameter",
+      "status": "DERIVED",
+      "breaks_if_fails": "Radion mass scale (m_φ~M_KK qualitative result remains; exact mass undefined). Does NOT break n_w selection or CMB predictions.",
+      "citation": "FALLIBILITY.md §3.2 (referenced 'see Admission 6 below') and §4.6; src/core/pillar404_lambda_gw_derivation.py (Pillar 404); src/core/goldberger_wise.py (Pillar 68); DERIVATION_STATUS.md Part II (n_w=5 from APS spin structure)",
+      "closed_by": "Pillar 404 (DERIVED_FROM_GW_NORMALIZATION; ν_GW=n_w/K_CS braid identification)",
+      "used_by": [
+        "Radion mass scale (qualitative)",
+        "GW chirality argument (any λ_GW≠0)",
+        "Admission 11 (N_e conditional on λ_GW via T_RH)"
+      ]
+    },
+    {
+      "name": "Admission 7: Jarlskog invariant absolute value (ARCHITECTURE_LIMIT_MAPPED)",
+      "status": "ARCHITECTURE_LIMIT",
+      "breaks_if_fails": "Absolute Jarlskog invariant value J_PDG ≈ 3.08e-5.",
+      "citation": "FALLIBILITY.md §XIII Admission 7; Pillar 398 / src/core/pillar398_jarlskog_lattice_scan.py (integer scan); Pillar 402 / src/core/pillar402_jarlskog_continuous_scan.py (continuous map)",
+      "closed_by": "Pillar 402 (ARCHITECTURE_LIMIT_MAPPED — target quantified; δ_KT≈0.053 specified)",
+      "used_by": [
+        "CKM Jarlskog invariant J",
+        "CP violation in kaon/B sector"
+      ]
+    },
+    {
+      "name": "Admission 10: LHC KK resonance constraints (CONSTRAINED_BOUNDED)",
+      "status": "ARCHITECTURE_LIMIT",
+      "breaks_if_fails": "If m_G_KK < 1.8 TeV were observed (no resonance seen above this), the UM KK spectrum would be excluded.",
+      "citation": "FALLIBILITY.md §XIII Admission 10; Pillar 399 / src/core/pillar399_lhc_kkgraviton_crosssection.py (CONSTRAINED_QUANTIFIED); Pillar 403 / src/core/pillar403_bmu_gauge_correction.py (CONSTRAINED_BOUNDED)",
+      "closed_by": "Pillar 403 (CONSTRAINED_BOUNDED — B_μ suppression derived; m_G_KK ≥ 1.8 TeV lower bound)",
+      "used_by": [
+        "LHC KK graviton di-jet/di-lepton predictions",
+        "KK mass spectrum"
+      ]
+    },
+    {
+      "name": "Admission 11: 60 e-folds is a standard assumption, not derived",
+      "status": "DERIVED",
+      "breaks_if_fails": "CMB predictions nₛ=0.9635 and r=0.0315 would shift if N_e differs. A 10% change in N_e shifts nₛ by ~0.002 — within Planck 1σ but resolvable by CMB-S4 (Δnₛ~0.002 precision).",
+      "citation": "FALLIBILITY.md §4.3 (prose gap, now formally named); Pillar 346 / src/core/pillar346_ne_kk_thermalization.py (partial closure); Pillar 400 / src/core/pillar400_ne_sensitivity_closure.py (sensitivity + conditional closure); Pillar 404 / src/core/pillar404_lambda_gw_derivation.py (CLOSES via λ_GW derivation)",
+      "closed_by": "Pillar 404 (CLOSED: λ_GW derived → T_RH → N_e chain complete)",
+      "used_by": [
+        "nₛ=0.9635",
+        "r_braided=0.0315",
+        "All CMB slow-roll predictions"
+      ]
+    },
+    {
+      "name": "Admission 12: FTUM basin completeness — analytic proof open",
+      "status": "DERIVED",
+      "breaks_if_fails": "If a physically accessible initial state does not converge to Ψ*, the FTUM uniqueness claim is invalid for that initial state.  The existing 192-sample numerical evidence would remain valid; only the universal claim would be weakened.",
+      "citation": "FALLIBILITY.md §4.3 (prose, 'Convergence for all physically reasonable initial conditions has not been proven analytically'); Pillar 309 / src/core/pillar309_ftum_contractive_regime_cert.py; Pillar 401 / src/core/pillar401_ftum_basin_geometric_bound.py (orbifold basin); Pillar 405 / src/core/pillar405_sobolev_ftum_extension.py (H¹ closure)",
+      "closed_by": "Pillar 405 (CLOSED: H¹ Sobolev extension; gradient perturbations bounded; KK energy cross-check)",
+      "used_by": [
+        "FTUM convergence claim",
+        "φ₀ self-consistency (via FTUM)",
+        "Holographic S=A/4G"
+      ]
+    },
+    {
+      "name": "Admission 13: Metric ansatz non-uniqueness residual",
+      "status": "DERIVED",
+      "breaks_if_fails": "If a structurally distinct 5D EH + KK ansatz satisfying C1–C5 is found predicting different CMB observables, the uniqueness claim is broken.  6D/11D alternatives are outside the claim scope — explicitly documented.",
+      "citation": "FALLIBILITY.md §4.2 (model non-uniqueness); Pillar 384 (updated) / src/core/pillar384_metric_ansatz_uniqueness.py; Pillar 406 / src/core/pillar406_ghy_boundary_c5_closure.py; Pinčák et al. 2026, Gen. Rel. Grav.",
+      "closed_by": "Pillar 406 (CLOSED: GHY from Levi-Civita; Z₂ junctions torsion-free; brane R₄ compatible)",
+      "used_by": [
+        "Metric block ansatz claim",
+        "Uniqueness of B_μ identification"
+      ]
+    }
+  ],
+  "prediction_registry_size": 17
+}

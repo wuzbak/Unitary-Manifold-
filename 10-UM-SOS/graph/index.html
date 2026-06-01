@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UM-SOS Derivation Graph</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #0b1220; color: #e5e7eb; }
+    header { padding: 1rem 1.25rem; border-bottom: 1px solid #1f2937; }
+    #meta { font-size: 0.9rem; color: #93c5fd; }
+    svg { width: 100vw; height: calc(100vh - 84px); display: block; }
+    .link { stroke: #334155; stroke-width: 1.2; opacity: 0.6; }
+    .node text { fill: #f8fafc; font-size: 10px; pointer-events: none; }
+    .tooltip { position: fixed; background: #111827; color: #fff; padding: 6px 8px; border-radius: 6px; display: none; border: 1px solid #374151; font-size: 12px; max-width: 360px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>UM-SOS Derivation DAG</h1>
+  <div id="meta">Loading...</div>
+</header>
+<svg id="graph"></svg>
+<div id="tooltip" class="tooltip"></div>
+<script>
+(async () => {
+  const resp = await fetch('./dag.json');
+  const data = await resp.json();
+  document.getElementById('meta').textContent = `nodes=${data.metadata.node_count} edges=${data.metadata.edge_count} acyclic=${data.metadata.acyclicity_verdict}`;
+
+  const svg = document.getElementById('graph');
+  const ns = 'http://www.w3.org/2000/svg';
+  const w = svg.clientWidth;
+  const h = svg.clientHeight;
+  const nodes = data.nodes.map((n, i) => ({ ...n, x: Math.random()*w, y: Math.random()*h, vx: 0, vy: 0 }));
+  const links = data.links.map(l => ({ source: nodes[l.source], target: nodes[l.target] }));
+  const tooltip = document.getElementById('tooltip');
+
+  function color(kind) {
+    return ({POSTULATE:'#f59e0b', DERIVED:'#22c55e', FREE_PARAMETER:'#ef4444', TENSION:'#f97316'})[kind] || '#60a5fa';
+  }
+
+  links.forEach(l => {
+    const line = document.createElementNS(ns, 'line');
+    line.setAttribute('class', 'link');
+    svg.appendChild(line);
+    l.el = line;
+  });
+
+  nodes.forEach(n => {
+    const g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'node');
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('r', '4');
+    c.setAttribute('fill', color(n.kind));
+    const t = document.createElementNS(ns, 'text');
+    t.textContent = n.name.slice(0, 34);
+    t.setAttribute('dx', '7');
+    t.setAttribute('dy', '3');
+    g.appendChild(c);
+    g.appendChild(t);
+    g.addEventListener('mouseenter', (e) => {
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = `<b>${n.name}</b><br>${n.kind} · ${n.status}<br>${n.citation || ''}`;
+    });
+    g.addEventListener('mousemove', (e) => {
+      tooltip.style.left = `${e.clientX + 8}px`;
+      tooltip.style.top = `${e.clientY + 8}px`;
+    });
+    g.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+    svg.appendChild(g);
+    n.el = g;
+  });
+
+  function tick() {
+    for (const n of nodes) {
+      n.vx += (w/2 - n.x) * 0.00005;
+      n.vy += (h/2 - n.y) * 0.00005;
+    }
+    for (const l of links) {
+      const dx = l.target.x - l.source.x;
+      const dy = l.target.y - l.source.y;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const force = (dist - 80) * 0.0006;
+      const fx = dx / dist * force;
+      const fy = dy / dist * force;
+      l.source.vx += fx; l.source.vy += fy;
+      l.target.vx -= fx; l.target.vy -= fy;
+    }
+    for (let i=0; i<nodes.length; i++) {
+      for (let j=i+1; j<nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const d2 = dx*dx + dy*dy + 0.01;
+        if (d2 < 2500) {
+          const r = 0.08 / d2;
+          a.vx -= dx*r; a.vy -= dy*r;
+          b.vx += dx*r; b.vy += dy*r;
+        }
+      }
+    }
+    nodes.forEach(n => {
+      n.vx *= 0.95; n.vy *= 0.95;
+      n.x = Math.max(10, Math.min(w-10, n.x + n.vx));
+      n.y = Math.max(10, Math.min(h-10, n.y + n.vy));
+      n.el.setAttribute('transform', `translate(${n.x},${n.y})`);
+    });
+    links.forEach(l => {
+      l.el.setAttribute('x1', l.source.x); l.el.setAttribute('y1', l.source.y);
+      l.el.setAttribute('x2', l.target.x); l.el.setAttribute('y2', l.target.y);
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

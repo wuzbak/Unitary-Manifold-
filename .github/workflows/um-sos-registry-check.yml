@@ -1,0 +1,28 @@
+name: UM-SOS Registry Integrity
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  registry-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy sympy mpmath
+      - name: Rebuild registry and graph
+        run: |
+          python 10-UM-SOS/scripts/build_registry.py
+          python 10-UM-SOS/scripts/build_graph.py
+      - name: Ensure generated files committed
+        run: |
+          git diff --exit-code -- 10-UM-SOS/registry/predictions.json 10-UM-SOS/graph/dag.json

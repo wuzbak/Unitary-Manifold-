@@ -1,0 +1,37 @@
+name: UM-SOS Pages Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '10-UM-SOS/frontend/**'
+      - '10-UM-SOS/graph/**'
+      - '10-UM-SOS/registry/**'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare site
+        run: |
+          mkdir -p site
+          cp -r 10-UM-SOS/frontend site/
+          cp -r 10-UM-SOS/graph site/
+          cp -r 10-UM-SOS/registry site/
+          cp 10-UM-SOS/frontend/index.html site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
