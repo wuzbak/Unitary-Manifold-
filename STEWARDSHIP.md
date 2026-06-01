@@ -1,6 +1,6 @@
 # STEWARDSHIP.md — Unitary Manifold
 
-*Unitary Manifold v15.1 — Effective 2026-05-26*
+*Unitary Manifold v15.3 — Effective 2026-06-01*
 
 > The Unitary Manifold is a self-governing epistemic structure. After v15, it
 > advances autonomously: the AI steward manages all routine physics, tests,
@@ -124,14 +124,17 @@ sprint_protocol:
 
 ### 3.2 Current physics frontier priorities
 
-In priority order at v15.1:
+In priority order at v15.3:
 
 1. **CMB_PEAK3_5D_EFT_CLOSURE** — 3.1σ peak-3 residual (P485); EFT correction at ℓ~800
-2. **PMNS_PR_FULL_CHAIN** — 2-loop Yukawa B-coefficient; close PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED gap
-3. **LATTICE_BRAID_PHASE4_NP_CONDENSATE** — non-perturbative condensate; close γ gap to <1%
-4. **SIXD_BARYOGENESIS_PHASE3_NEDM** — d_n@SNS prediction sub-10% precision
-5. **LHC_GLUON_CHANNEL_FORMAL_AUDIT** — m_G_KK ≥ 5 TeV formal Drell-Yan loop audit
-6. **ARXIV_V15_EXTERNAL_ENGAGEMENT** — follow-up from P494 external package
+2. **ARXIV_V15_EXTERNAL_ENGAGEMENT** — follow-up from P494 external package; external receipt remains human/venue-gated
+
+Completed from the v15.1 frontier list by Pillars 503–506:
+
+- ✅ **PMNS_PR_FULL_CHAIN** — P503 `PMNS_PR_FULL_CHAIN_SYNCHRONIZED`; residual retained explicitly
+- ✅ **LATTICE_BRAID_PHASE4_NP_CONDENSATE** — P504 `LATTICE_BRAID_PHASE4_NP_CONDENSATE_BOUNDED` 🔵; external HMC receipt not claimed
+- ✅ **SIXD_BARYOGENESIS_PHASE3_NEDM** — P505 `SIXD_BARYOGENESIS_PHASE3_NEDM_PRECISION_CERTIFIED` 🔵
+- ✅ **LHC_GLUON_CHANNEL_FORMAL_AUDIT** — P506 `LHC_GLUON_CHANNEL_FORMAL_AUDIT_COMPLETE`
 
 ### 3.3 Hard constraints (never violated)
 

@@ -1,4 +1,4 @@
-version: "v15.2"
+version: "v15.3"
 date: "2026-06-01"
 updated: "2026-06-01"
 mas_status: "COMPLETE"
@@ -18,11 +18,37 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.2"
-  regression: "45,989 passed · 2 skipped · 12 deselected · 0 failed (v15.2 completion-audit sync, 2026-06-01; tests/ + recycling/ + Pentad)"
+  version: "v15.3"
+  regression: "77 passed · 0 failed focused frontier regression for P503-P506; latest full regression carried forward: 45,989 passed · 2 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v15_3_frontier_priorities_2_5:
+  version: "v15.3"
+  wave: "Stewardship frontier priorities 2-5 execution — Pillars 503-506"
+  date: "2026-06-01"
+  pillars_added:
+    - "503: PMNS p_R full-chain synchronization — PMNS_PR_FULL_CHAIN_SYNCHRONIZED; PDG solar-angle gap retained explicitly"
+    - "504: Lattice braid Phase 4 NP condensate — LATTICE_BRAID_PHASE4_NP_CONDENSATE_BOUNDED 🔵; CPU finite-volume certificate, external HMC receipt not claimed"
+    - "505: 6D baryogenesis Phase 3 nEDM — SIXD_BARYOGENESIS_PHASE3_NEDM_PRECISION_CERTIFIED 🔵; sub-10% nEDM@SNS band"
+    - "506: LHC gluon channel formal audit — LHC_GLUON_CHANNEL_FORMAL_AUDIT_COMPLETE; m_G_KK >= 5 TeV formal routing retained"
+  document_updates:
+    - "STATUS.md: v15.3 frontier-priority header; next pillar slot 507"
+    - "README.md: version/pillar badge and honest-status block synced"
+    - "docs/WAVE_CHANGELOG.md: v15.3 entry"
+    - "docs/CLAIM_MASTER_BOARD.md, docs/TRUTH_LAYER.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: frontier sync notes"
+  focused_regression: "77 passed · 0 failed (P503-P506 focused tests)"
+  latest_full_regression_carried_forward: "45,989 passed · 2 skipped · 12 deselected · 0 failed"
+  failures: 0
+  next_pillar_slot: 507
+  epistemic_deltas:
+    - "P503: PMNS_PR_TWO_LOOP_YUKAWA_EXECUTED -> PMNS_PR_FULL_CHAIN_SYNCHRONIZED; residual retained, no hardgate promotion"
+    - "P504: L2_GBRAID_BOUNDED_QUANTIFIED -> L2_PHASE4_NP_CONDENSATE_BOUNDED 🔵"
+    - "P505: SIXD_BARYOGENESIS_PHASE2_NEDM_REFINED -> SIXD_BARYOGENESIS_PHASE3_NEDM_PRECISION_CERTIFIED 🔵"
+    - "P506: GLUON_CHANNEL_BESSEL_EXACT -> LHC_GLUON_CHANNEL_FORMAL_AUDIT_COMPLETE"
+  toe_score_delta: 0.0
+  notes: "Implements user-requested priorities 2-5 while preserving explicit residual and external-receipt boundaries."
 
 v15_2_completion_audit:
   version: "v15.2"

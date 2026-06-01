@@ -12,6 +12,26 @@ For each wave entry, include:
 
 ---
 
+## v15.3 (2026-06-01 — Stewardship Frontier Priorities 2–5: Pillars 503–506)
+
+**What changed:**
+- **Pillar 503** — `src/core/pillar503_pmns_pr_full_chain.py` synchronizes the PMNS p_R full-chain audit against Pillar 484 and retains the PDG solar-angle gap explicitly. Status: `PMNS_PR_FULL_CHAIN_SYNCHRONIZED`.
+- **Pillar 504** — `src/core/pillar504_lattice_braid_phase4_np_condensate.py` adds a finite-volume non-perturbative condensate bound for the lattice-braid γ lane. Status: `LATTICE_BRAID_PHASE4_NP_CONDENSATE_BOUNDED` 🔵.
+- **Pillar 505** — `src/core/pillar505_sixd_baryogenesis_phase3_nedm.py` adds the three-loop-QCD/hadronic uncertainty envelope for nEDM@SNS. Status: `SIXD_BARYOGENESIS_PHASE3_NEDM_PRECISION_CERTIFIED` 🔵.
+- **Pillar 506** — `src/core/pillar506_lhc_gluon_channel_formal_audit.py` completes the executable LHC gluon-channel audit and retains the m_G_KK ≥ 5 TeV routing. Status: `LHC_GLUON_CHANNEL_FORMAL_AUDIT_COMPLETE`.
+
+**Why:** The user requested execution of stewardship priorities 2, 3, 4, and 5 from `STEWARDSHIP.md §3.2`.
+
+**Epistemic label deltas:** Frontier labels are synchronized/bounded/certified, but no hardgate physics score is inflated and no external HMC, SNS, HL-LHC, arXiv, or Zenodo receipt is claimed.
+
+**TOE score delta:** None. 28.0/28 unchanged.
+
+**Falsification impact:** nEDM@SNS and HL-LHC tripwire rows are now machine-readable; existing primary falsifier windows are unchanged.
+
+**Residual unknowns:** PMNS microscopic three-generation QFT caveat retained; lattice external HMC receipt not claimed; 6D baryogenesis remains adjacent-track; HL-LHC still awaits Run-4 data.
+
+**Test delta:** +77 focused passing tests for P503–P506; latest full regression carried forward from v15.2 until next full-suite execution.
+
 ## v15.2 (2026-06-01 — Implementation and Completion-Audit Sync: Pillars 495–502)
 
 **What changed:**

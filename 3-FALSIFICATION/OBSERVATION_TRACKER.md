@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-06-01 (v15.2 — active decision-window sync through Pillars 495–501 and P502 completion master audit; latest full regression 45,989 passed · 2 skipped · 12 deselected · 0 failed. No falsifier window changed.)*
+*Last updated: 2026-06-01 (v15.3 — Pillars 503–506 execute stewardship priorities 2–5; focused regression 77 passed · 0 failed; latest full regression carried forward 45,989 passed · 2 skipped · 12 deselected · 0 failed. No primary falsifier window changed.)*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
@@ -32,6 +32,8 @@
 > **Operational hardening note:** Same-day decision routing is now backed by executable adjacent-track packs (`desi_dr3_publication_day_runbook.py`, `litebird_synthetic_rehearsal.py`, `lab_cp_execution_report.py`) and final sprint aggregation (`proof_close_certification_report.py`) for deterministic verdict handoff.
 
 > **v11.4 freshness note:** Canonical observation-routing surfaces are synchronized to the 2026-05-19 branch state. Residual execution priority remains `T3 → A3 → SC2 → SC4`; all observational falsifier windows and same-day routing rules are unchanged.
+
+> **v15.3 freshness note:** P503–P506 add machine-readable PMNS, lattice-braid, nEDM@SNS, and HL-LHC audit/tripwire surfaces. P505 records the nEDM@SNS 2028 adjacent-track band; P506 records the HL-LHC Run-4 m_G_KK ≥ 5 TeV routing. No primary falsifier window changed.
 
 > **v15.2 freshness note:** P495–P501 keep DESI DR3, SO DR1, JUNO, SPHEREx, HL-LHC, CMB amplitude, and CKM residual windows active. P502 adds a completion audit only; it does not alter any observational prediction or falsification threshold.
 
@@ -97,6 +99,9 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 | **P6** | PMNS solar mixing angle (Route A + RS see-saw cross-route) | sin²θ₁₂ | **0.302252** Route A baseline + RS see-saw cross-route packet (`src/core/pmns_seesaw_5d.py`) | Ongoing neutrino experiments | Ongoing | 🟢 CONSISTENT — Route A remains canonical (1.55% from PDG 0.307); v10.52 adds RS see-saw cross-route closure surface in CKM/PMNS lane | 2026-05-11 | Monitor NuFIT updates; keep Route A canonical and use see-saw lane as executable cross-check |
 | **P7** | Cold fusion: φ-enhanced Gamow factor / COP | Excess heat at predicted COP | Falsifiable COP prediction (Pillar 15) | Calorimetry experiments | Ongoing | 🟡 PENDING — no confirmed measurement; prediction explicitly framed as falsifiable | 2026-05-04 | Monitor LENR experimental literature |
 | **P8** | Lab-scale CP asymmetry in certified (5,7) condensed matter | \(A_{CP}^{lab}=(\Gamma_+-\Gamma_-)/(\Gamma_++\Gamma_-)\) | **Order \(10^{-5}\)** (geometry-transfer target from \(J_{geo}\)) | JJ/SQUID arrays; topological-insulator winding devices | Now | 🟡 PENDING — no decision-grade \(\sigma_A\le10^{-5}\) campaign logged yet | 2026-05-09 | Execute canonical substitute lane in `src/core/lab_litebird_substitute.py` and `3-FALSIFICATION/LAB_LITEBIRD_SUBSTITUTE_PROTOCOL.md`; falsify on F-LAB-CP-1..4 at decision-grade controls |
+
+| **P9** | 6D baryogenesis adjacent-track nEDM | neutron EDM d_n | Pillar 505 band around ~10⁻²⁶–10⁻²⁷ e·cm with sub-10% internal uncertainty | nEDM@SNS | ~2028 | 🟡 PENDING 🔵 — adjacent-track, no ToE hardgate impact | 2026-06-01 | Use `src/core/pillar505_sixd_baryogenesis_phase3_nedm.py`; route result without changing core falsifier windows |
+| **P10** | LHC gluon-channel KK graviton audit | m_G_KK exclusion / dilepton-gluon channel | formal routing bound m_G_KK ≥ 5 TeV | HL-LHC Run 4 | 2029–2033 | 🟡 PENDING — Admission 10 routing, no current exclusion | 2026-06-01 | Use `src/core/pillar506_lhc_gluon_channel_formal_audit.py`; reroute Admission 10 if G_KK excluded below 5 TeV at ≥2σ |
 
 ---
 

@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v15.2
+# Unitary Manifold v15.3
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v15.3 update (Stewardship Frontier Priorities 2–5 — Pillars 503–506):*
+*(1) Pillar 503 synchronizes the PMNS p_R full-chain audit while retaining the microscopic three-generation residual and PDG solar-angle gap explicitly.*
+*(2) Pillar 504 bounds the lattice-braid Phase-4 non-perturbative condensate lane as an adjacent-track CPU finite-volume certificate; no external HMC receipt is claimed.*
+*(3) Pillar 505 certifies a sub-10% nEDM@SNS adjacent-track prediction band using three-loop-QCD and hadronic uncertainty budgets.*
+*(4) Pillar 506 completes the LHC gluon-channel formal audit and retains the m_G_KK ≥ 5 TeV routing for HL-LHC.*
+*(5) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P503–P506 regression: 77 passed · 0 failed. Next pillar slot: 507.*
 
 *v15.2 update (Implementation and Completion-Audit Sync — Pillars 495–502):*
 *(1) Pillars 495–501 synchronize active decision windows for CMB amplitude residuals, CKM phase residual tracking, DESI DR3, SO DR1, JUNO, SPHEREx, and HL-LHC.*
@@ -75,7 +82,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.2 — implementation/completion audit sync through Pillar 502; no hardgate physics claim promotions; 45,989 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 implemented as Pillars 503–506; no hardgate physics claim promotions; focused regression 77 passed · 0 failed; latest full regression carried forward: 45,989 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 
