@@ -82,7 +82,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 implemented as Pillars 503–506; no hardgate physics claim promotions; focused regression 77 passed · 0 failed; latest full regression carried forward: 45,989 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 implemented as Pillars 503–506; no hardgate physics claim promotions; focused regression 77 passed · 0 failed; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 

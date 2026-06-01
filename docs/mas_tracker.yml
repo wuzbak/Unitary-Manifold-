@@ -19,7 +19,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v15.3"
-  regression: "77 passed · 0 failed focused frontier regression for P503-P506; latest full regression carried forward: 45,989 passed · 2 skipped · 12 deselected · 0 failed"
+  regression: "77 passed · 0 failed focused frontier regression for P503-P506; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
@@ -39,7 +39,7 @@ v15_3_frontier_priorities_2_5:
     - "docs/WAVE_CHANGELOG.md: v15.3 entry"
     - "docs/CLAIM_MASTER_BOARD.md, docs/TRUTH_LAYER.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: frontier sync notes"
   focused_regression: "77 passed · 0 failed (P503-P506 focused tests)"
-  latest_full_regression_carried_forward: "45,989 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "46,066 passed · 2 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 507
   epistemic_deltas:

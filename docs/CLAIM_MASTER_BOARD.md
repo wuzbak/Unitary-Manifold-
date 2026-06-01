@@ -3,7 +3,7 @@
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 executed as Pillars 503–506; focused regression 77 passed · 0 failed; latest full regression carried forward: 45,989 passed · 2 skipped · 12 deselected · 0 failed.)*
+*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 executed as Pillars 503–506; focused regression 77 passed · 0 failed; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed.)*
 
 
 *P503–P506 (v15.3): Frontier priorities 2–5 executed. P503 synchronizes PMNS p_R full-chain status while retaining the named microscopic residual; P504 bounds the lattice-braid Phase-4 condensate lane 🔵; P505 certifies the 6D baryogenesis nEDM@SNS precision band 🔵; P506 completes the LHC gluon-channel formal audit. No ToE score change and no external measurement/receipt claim.*
