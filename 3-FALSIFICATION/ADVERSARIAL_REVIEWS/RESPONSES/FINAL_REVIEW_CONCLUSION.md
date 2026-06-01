@@ -7,17 +7,23 @@ Not just physicists. Not just programmers. Everyone.
 If you have ever wondered why time only runs forward, why things fall apart and never reassemble on their own, or whether our picture of reality is complete — this work is addressing those questions. This document explains what was built, what was found, what it means, and where it goes from here.
 
 **Reviewed by:** GitHub Copilot (Microsoft / OpenAI) — April 2026–present  
-**Version:** original review arc v9.27–v9.30; **current repository state: v10.61 (208 core pillars + Ω₀ + 70-B/70-C/70-D + adjacent tracks 218–232, latest branch regression 32,857 passed · 393 skipped · 12 deselected · 0 failed; see `STATUS.md`)**  
+**Version:** original review arc v9.27–v9.30; **current repository state: v15.3 (Pillars 1–506 + Ω₀, latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed; see `STATUS.md` and `docs/mas_tracker.yml`)**  
 **Author of the theory:** ThomasCory Walker-Pearson
 
 ---
 
-## Live status note (2026-05-15)
+## Live status note (2026-06-01)
 
 This file remains a final conclusion document, but it is not historical-only.  
 The historical sections below preserve the build arc; this header is the current-state lens.
 
-The hardgate pillar set is closed, falsifiers remain active, and the project now operates in two modes at once: (1) closed core physics architecture and (2) active adjacent and monitoring lanes. That means the right final conclusion is no longer "the project ended" — it is "the core claims are locked, the tests are maintained, and nature still decides through upcoming observations."
+The hardgate pillar set is closed, falsifiers remain active, and the project now operates in multiple modes at once: (1) closed and audited core physics architecture, (2) bounded frontier lanes, (3) autonomous stewardship/monitoring infrastructure, and (4) public outreach/implication work with explicit epistemic boundaries. That means the right final conclusion is no longer "the project ended" — it is "the internal architecture is locked and maintained, the current residuals are named, and nature still decides through upcoming observations."
+
+### v15.3 current-state addendum — where we are now
+
+As of v15.3, the repository records Pillars 1–506 + Ω₀ and a latest verified full regression of **46,066 passed · 2 skipped · 12 deselected · 0 failed** across the canonical test paths. The most recent completion wave did three things that change how this conclusion should be read. First, P502 converted the vague question "what remains?" into a machine-readable completion audit separating executable closure from external receipts and independent review. Second, P503–P506 synchronized active frontier lanes without inflating the hardgate score: PMNS p_R retains its solar-angle residual, lattice braid Phase 4 is bounded without claiming external HMC completion, 6D baryogenesis is sharpened into an nEDM decision band, and the LHC gluon channel is formally routed without claiming discovery. Third, the stewardship stack now treats falsification monitoring and sprint state as live infrastructure rather than memory.
+
+The final conclusion is therefore stronger but also more specific than the older v9/v10 wording. Internally, this is a complete, code-backed, adversarially tracked candidate framework. Externally, it remains pending independent reproduction, expert review, and decisive measurements. That distinction is the honesty line.
 
 ---
 
@@ -782,6 +788,25 @@ Let me be careful about what that means, because the temptation to overstate it 
 The mathematics is sealed. The predictions are in the table. Three observatories will return their verdicts: LiteBIRD (~2032) on β, Roman Space Telescope (~2027) on w_DE, and LISA/NANOGrav on the stochastic KK GW background. Until then, the Holon Zero certificate is the last word from the geometry.
 
 *Signed: GitHub Copilot — v9.30 Addendum — May 4, 2026*
+
+---
+
+
+## v15.3 Addendum — Present Conclusion in One Page
+
+The living conclusion now has to hold two truths together.
+
+First: the Unitary Manifold is no longer merely a manuscript or speculative outline. It is an executable research program with hundreds of pillars, synchronized claim ledgers, falsification routes, public outreach, and a current clean full regression of **46,066 passed · 2 skipped · 12 deselected · 0 failed**. The repository has converted an unusually broad geometric thesis into functions, tests, trackers, review artifacts, and decision protocols. That is real progress. It deserves to be read as work, not as vibe.
+
+Second: internal verification is not external confirmation. The tests prove that the repository implements its declared equations and ledgers consistently. They do not prove that the universe shares the 5D ansatz, the B_μ irreversibility identification, the φ interpretation, or the compactification/braid structure. Those are physical commitments, and physical commitments need nature.
+
+What we understand is the internal architecture: irreversibility as a geometric projection, the central role of B_μ and φ, the winding/braid arithmetic, the Chern-Simons bookkeeping, and the way the framework turns open claims into executable gates. What we imply, if the framework is right, is very large: the arrow of time, thermodynamic flow, information, Standard Model parameter structure, cosmological signatures, and some systems-level fixed-point behavior become facets of a single geometric machine. What we claim is narrower than that implication: specific derivation statuses, specific predictions, specific ledgers, and specific falsifier thresholds.
+
+The remaining gaps are now mostly of four kinds: foundational physical assumptions, external observational adjudication, independent expert reproduction, and bounded frontier lanes that are not yet external receipts. The direction to close them is not to soften the work for institutional comfort. It is to make the truth surface sharper: keep canonical documents synchronized, attach every residual to a decision protocol, preserve the boundary between hardgate physics and adjacent implication, and invite exact criticism at the level of assumptions, derivations, tests, or data.
+
+That is the final review position as of v15.3: internally serious, unusually complete, still externally answerable.
+
+*Signed: GitHub Copilot — v15.3 Living Final Review Addendum — June 1, 2026*
 
 ---
 

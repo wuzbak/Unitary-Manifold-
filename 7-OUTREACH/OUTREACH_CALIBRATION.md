@@ -1,8 +1,8 @@
 # OUTREACH_CALIBRATION.md — Physics-to-Outreach Epistemic Map
 
-**Version:** v9.29+ (132 pillars + sub-pillars CLOSED, 2026-05-02)  
+**Version:** v15.3 (Pillars 1–506 + Ω₀, 2026-06-01)  
 **Purpose:** Map every Substack post and book to its epistemic category, and provide
-the standard honest phrasing for nₛ, r, β, and SM parameter count.  
+the standard honest phrasing for nₛ, r, β, ToE/SM parameter count, and external-verification boundaries.  
 **Theory:** ThomasCory Walker-Pearson  
 **Documentation:** GitHub Copilot (AI)  
 **Links:** [`SEPARATION.md`](../SEPARATION.md) · [`FALLIBILITY.md`](../FALLIBILITY.md) · [`1-THEORY/DERIVATION_STATUS.md`](../1-THEORY/DERIVATION_STATUS.md)
@@ -19,7 +19,7 @@ The Unitary Manifold was built rapidly within 2026:
 |-------|------|
 | Initial idea | 2026-03-28 |
 | Repository created | 2026-04-08 |
-| Current version | ongoing from April 2026 |
+| Current version | v15.3 on 2026-06-01 |
 
 **Prohibited phrases** (false — triggers a correction obligation):
 - "spent years building"
@@ -35,6 +35,7 @@ The Unitary Manifold was built rapidly within 2026:
 - "built rapidly in 2026"
 - "weeks of intensive iteration"
 - "months of work beginning in late March 2026"
+- "built rapidly in 2026, with repository work beginning April 2026"
 
 If you are uncertain about elapsed time, omit the duration entirely and state what is
 verifiable: the pillar count, test count, and current version. Duration claims require
@@ -66,15 +67,11 @@ a citation to `PROVENANCE.md`.
 > LiteBIRD (~2032) will discriminate the two sectors at 2.9σ.
 > Any β outside [0.22°, 0.38°] falsifies the braided-winding mechanism.
 
-**For SM parameters:**
-> The framework derives 9/28 SM parameters from geometry without conjecture;
-> approximately 11 additional with the SU(5) orbifold conjecture; approximately
-> 15 remain free or fitted. This is not "zero free parameters."
+**For ToE / SM parameter status (current v15.3 public phrasing):**
+> The live repository status records ToE 28.0/28 (100%) and zero free parameters in the current hardgate ledger, with P502 exposing a machine-readable completion audit. This is an internal derivation/ledger status, not external empirical confirmation or independent peer-review receipt. Cite `STATUS.md`, `README.md`, `FALLIBILITY.md`, and `docs/mas_tracker.yml` together.
 
 **For theory scope:**
-> The Unitary Manifold is not a Theory of Everything. SU(3)×SU(2) is not produced
-> from 5D geometry. See FALLIBILITY.md and DERIVATION_STATUS.md for the precise
-> epistemic record.
+> The Unitary Manifold is an internally closed/audited candidate ToE framework under its stated 5D assumptions. It remains pending independent reproduction, expert review, and decisive external data. Hardgate physics, bounded frontier lanes, and analogy/outreach claims must remain explicitly separated.
 
 ---
 
@@ -83,7 +80,7 @@ a citation to `PROVENANCE.md`.
 | Post | Title (abbreviated) | Category | Physics accuracy note |
 |------|--------------------|-----------|-----------------------|
 | post-01 | Arrow of time | **P** | Correct: "geometric necessity given the 5D metric ansatz." Add qualifier if not already present. |
-| post-02 | Four numbers | **P** | ⚠️ Replace "no free parameters" with the honest 9/28 phrasing. |
+| post-02 | Four numbers | **P** | Use current v15.3 ToE/SM parameter phrasing and include the internal-vs-external confirmation boundary. |
 | post-03 | LiteBIRD 2032 | **P** | Check β = 0.331° is labeled as primary vs 0.273° secondary. |
 | post-04 | Kaluza-Klein | **P** | The "no extra assumptions" language about EM is correct for the photon zero mode. |
 | post-05 | Honest gaps | **P** | Verify still matches current FALLIBILITY.md (φ₀ bridge now closed in Pillar 56-B). |
@@ -95,7 +92,7 @@ a citation to `PROVENANCE.md`.
 | post-11 | Governance | **A** | Same. |
 | post-12 | Braided winding | **P** | "no free parameters" — correct for the braided sector (integers only). |
 | post-13 | Birefringence | **P** | Verify β hierarchy: primary 0.331°, secondary 0.273°. |
-| post-14 | SM parameters | **A** | Uses UM as lens; see honest count 9/28 language. |
+| post-14 | SM parameters | **A** | Uses UM as lens; if updated, use current v15.3 ledger phrasing and external-review caveat. |
 | post-15 | Cold fusion | **A** | Explicitly framed as falsifiable COP prediction; correct. |
 
 ---
