@@ -1,6 +1,6 @@
-version: "v15.1"
-date: "2026-05-26"
-updated: "2026-05-26"
+version: "v15.2"
+date: "2026-06-01"
+updated: "2026-06-01"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,11 +18,38 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.1"
-  regression: "45,349 passed · 22 skipped · 12 deselected · 0 failed (v15.1 autonomous stewardship infrastructure, 2026-05-26; tests/ + recycling/ + Pentad; sympy+mpmath explicit)"
+  version: "v15.2"
+  regression: "45,989 passed · 2 skipped · 12 deselected · 0 failed (v15.2 completion-audit sync, 2026-06-01; tests/ + recycling/ + Pentad)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v15_2_completion_audit:
+  version: "v15.2"
+  wave: "Implementation and Completion-Audit Sync — Pillars 495–502"
+  date: "2026-06-01"
+  pillars_added:
+    - "495: CMB amplitude IR window — CMB_AMPLITUDE_IR_WINDOW_FORMALIZED; peak-amplitude suppression residual bounded as OPEN_GAP_BOUNDED"
+    - "496: CKM phase closure lane — CKM_PHASE_CLOSURE_LANE_SYNCHRONIZED; sub-1% residual tracked"
+    - "497: DESI DR3 decision window — active routing synchronized"
+    - "498: SO DR1 decision window — active routing synchronized"
+    - "499: JUNO decision window — active routing synchronized"
+    - "500: SPHEREx decision window — active routing synchronized"
+    - "501: HL-LHC decision window — active routing synchronized"
+    - "502: Completion master audit — COMPLETION_MASTER_AUDIT; executable blockers separated from arXiv/Zenodo external receipt unknowns"
+  document_updates:
+    - "STATUS.md: v15.2 header; P502 completion audit recorded; next pillar slot 503"
+    - "README.md: v15.2 badges and honest-status block synced"
+    - "docs/mas_tracker.yml: v15.2 completion-audit block and regression checkpoint"
+    - "docs/WAVE_CHANGELOG.md: v15.2 entry"
+    - "docs/TRUTH_LAYER.md, docs/CLAIM_MASTER_BOARD.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: truth-surface sync notes"
+  regression: "45,989 passed · 2 skipped · 12 deselected · 0 failed"
+  failures: 0
+  next_pillar_slot: 503
+  epistemic_deltas:
+    - "No hardgate score inflation; P502 is an audit/ledger pillar, not a physics-claim promotion"
+    - "Executable completion status is now machine-readable; external arXiv/Zenodo receipts remain EXTERNAL_UNVERIFIED until independently attached"
+  notes: "Completion audit converts vague remaining-work pressure into explicit done/pending/external categories."
 
 v15_1_sprint:
   version: "v15.1"

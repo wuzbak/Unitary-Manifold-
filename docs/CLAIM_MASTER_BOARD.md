@@ -1,9 +1,11 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v14.1
+# Unitary Manifold v15.2
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-05-25 (v13.7 — Prediction Hardening & Adjacent Track Phase 1: Pillars 434–440; ~430 new tests; 0 failures. Canonical test count: ~43,439 passing.)*
+*Last updated: 2026-06-01 (v15.2 — implementation/completion audit sync: Pillars 495–502; latest verified full regression 45,989 passed · 2 skipped · 12 deselected · 0 failed.)*
+
+*P502 (v15.2): Completion Master Audit — COMPLETION_MASTER_AUDIT. Executable repository completion is now machine-readable via `src/core/pillar502_completion_master_audit.py`; arXiv submission and Zenodo DOI are explicitly retained as `EXTERNAL_UNVERIFIED` until independent receipts are attached. No hardgate physics label is promoted by this audit.*
 
 *P440 (v13.7): arXiv Manuscript Update v13.7 — ARXIV_V137_READY. All v13.x–v13.7 results consolidated. FALLIBILITY §XIV.3 ADM gap CLOSED. Three preregistrations committed (P435/436/437). All ledger documents synced. Next pillar slot: 441.*
 

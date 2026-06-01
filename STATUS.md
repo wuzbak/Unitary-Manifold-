@@ -1,7 +1,7 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v15.1 — Effective 2026-05-26*
-*v15.2 implementation wave (2026-06-01): Tiers 1–6 execution package completed — UM-SOS platform scaffold delivered (registry export, graph export/UI, FastAPI endpoints, governance-integrated AI query, frontend explorer, Docker + Pages/CI workflows), manuscript expansion chapters added, Substack post #250 published in-repo, and sprint pillars P495–P501 added for active decision-window synchronization; targeted UM-SOS + new-pillar tests added. Latest full regression after implementation: 45,517 passed · 22 skipped · 12 deselected · 0 failed. Next pillar slot: 502.*
+*Unitary Manifold v15.2 — Effective 2026-06-01*
+*v15.2 implementation/completion wave (2026-06-01): Tiers 1–6 execution package completed — UM-SOS platform scaffold delivered (registry export, graph export/UI, FastAPI endpoints, governance-integrated AI query, frontend explorer, Docker + Pages/CI workflows), manuscript expansion chapters added, Substack post #250 published in-repo, sprint pillars P495–P501 added for active decision-window synchronization, and P502 COMPLETION_MASTER_AUDIT added as the executable done/pending/external-verification ledger. Latest full regression after completion-audit sync: 45,989 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 503.*
 *v15.1 sprint (2026-05-26): Autonomous stewardship infrastructure — sprint trigger (`.github/workflows/sprint-trigger.yml`, weekly Sunday 00:00 UTC), falsifier monitor (`.github/workflows/falsifier-monitor.yml`, weekly Sunday 02:00 UTC), CI sympy/mpmath explicit install, STEWARDSHIP.md v15 rewrite (machine-readable sprint protocol), Substack post #246 S03E25. No new physics pillars; 0 test failures. Canonical regression: 45,517 passed · 22 skipped · 12 deselected · 0 failed. Next pillar slot: 495.*
 *v15.0 sprint (2026-05-26): Pillars 488–494 added — P488 V15_LEDGER_AUDIT_COMPLETE, P489 CMB_PEAK3_FIVE_D_EFT_IRREDUCIBLE (3.1σ peak-3 residual certified irreducible in current 5D-EFT), P490 ALPHA_S_FULL_CHAIN_AUDIT_V15 (margin zone confirmed), P491 P8_CCR_FORMAL_STATUS_V15 (P8 PROVED_INTEGER_LATTICE; CCR CONJECTURAL_FORMALLY_STATED), P492 FREE_PARAMETER_FINAL_CENSUS_V15 (3 free parameters: n_w, K_CS, c_s), P493 ADMISSION_CLOSURE_CERTIFICATE_V15 (0 OPEN admissions; 8 architecture limits), P494 ARXIV_V15_EXTERNAL_PACKAGE; 253 new tests; 0 failures. Next pillar slot: 495.*
 *v14.2 audit (2026-05-26): Three-wave sanity audit complete — deps sympy+mpmath resolved (previously caused collection error in test_v12_formal_infrastructure.py and 2 mpmath test failures); full regression now resolves to 45,096 passed · 22 skipped · 12 deselected · 0 failed across all three suites (tests/ + recycling/ + Pentad). Waves 2 and 3 identical — confirmed stable. Next pillar slot: 488.*
@@ -41,8 +41,8 @@
 | Recycling (Pillar 16 φ-debt entropy) | `recycling/` | ✅ CLOSED |
 | Unitary Pentad (HILS governance) | 18 modules | ✅ CLOSED (independent framework) |
 
-**Latest verified branch regression:** 45,517 passed · 22 skipped · 12 deselected · 0 failed (v15.0 sprint, 2026-05-26; tests/ + recycling/ + Pentad)
-*(Repository full-suite: 45,517 passing = 45,096 v14.2 baseline + 253 new v15.0 tests.)*
+**Latest verified branch regression:** 45,989 passed · 2 skipped · 12 deselected · 0 failed (v15.2 completion-audit sync, 2026-06-01; tests/ + recycling/ + Pentad)
+*(Repository full-suite: 45,989 passing = 45,517 v15.1/v15.2 implementation checkpoint + 472 subsequent passing tests.)*
 *(historical: v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215; v12.9: ≥40,180)*
 
 ---

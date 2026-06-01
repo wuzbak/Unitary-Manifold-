@@ -12,6 +12,31 @@ For each wave entry, include:
 
 ---
 
+## v15.2 (2026-06-01 — Implementation and Completion-Audit Sync: Pillars 495–502)
+
+**What changed:**
+- **Pillars 495–501** — Active decision-window synchronization for CMB amplitude residuals, CKM phase residual tracking, DESI DR3, SO DR1, JUNO, SPHEREx, and HL-LHC.
+- **Pillar 502** — `src/core/pillar502_completion_master_audit.py` adds a machine-readable completion ledger that separates executable repository work from external receipt-only unknowns (arXiv submission and Zenodo DOI verification).
+- **README / STATUS / mas_tracker / truth surfaces** — v15.2 regression, next pillar slot, and completion-audit status synchronized.
+
+**Why:** The repository already had implementation-wave artifacts, but the public truth surfaces still pointed at the pre-completion slot. This sync records the actual executable state: P502 exists, tests pass, and remaining work is categorized instead of left vague.
+
+**Epistemic label deltas:** None to hardgate physics claims. P502 is an audit/coordination pillar. It does not promote OPEN physics to RESOLVED and does not inflate the ToE score.
+
+**TOE score delta:** None. ToE remains 28.0/28.
+
+**Falsification impact:**
+- No falsifier window is weakened or widened.
+- DESI DR3, SO DR1, JUNO, SPHEREx, HL-LHC, and LiteBIRD routing remain active.
+- P502 makes external receipt gaps explicit: arXiv and Zenodo can be tracked by evidence, not assumed from repository readiness.
+
+**Residual unknowns:**
+- ArXiv submission receipt remains `EXTERNAL_UNVERIFIED` until attached.
+- Zenodo DOI receipt remains `EXTERNAL_UNVERIFIED` until attached.
+- Lean4 Tier-2 full compilation remains dependent on an explicit compilation certificate if not present in the local checkout.
+
+**Test delta:** Latest verified full regression: **45,989 passed · 2 skipped · 12 deselected · 0 failed** (2026-06-01; tests/ + recycling/ + Pentad).
+
 ## v15.1 (2026-05-26 — Autonomous Stewardship Infrastructure)
 
 **What changed:**
