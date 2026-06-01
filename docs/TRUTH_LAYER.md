@@ -1,8 +1,14 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v15.6
+# Unitary Manifold v15.7
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v15.7 update (AI Governance Stack Operationalized — Pillar 510):*
+*(1) Pillar 510 adds a seven-layer operational AI governance overlay for autonomous stewardship: constitution, approval gates, safety protocols, audit trails, human-in-the-loop verification, brand-safety/content moderation, and runtime sandboxing.*
+*(2) The Unitary Pentad remains the native HILS framework; the external seven-layer pattern is used as an operational validation checklist, not as a replacement and not as a physics claim.*
+*(3) Critical/forbidden actions require human authority and audit metadata; public-facing text is screened against claim-boundary overclaims before outreach, arXiv, README, or institutional messaging.*
+*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P510 regression: 10 passed · 0 failed. Latest v15.6 full regression: 46,094 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 511.*
 
 *v15.6 update (Earned Proof-Advancement Redo — Pillar 509):*
 *(1) Pillar 509 adds earned conditional theorem kernels for CCR and ER=EPR instead of stopping at the v15.5 no-claim audit.*
@@ -99,7 +105,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo; CCR/ER=EPR conditional theorem kernels added; no hardgate physics claim promotions; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized; no hardgate physics claim promotions; focused P510 regression 10 passed · 0 failed; latest v15.6 full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 

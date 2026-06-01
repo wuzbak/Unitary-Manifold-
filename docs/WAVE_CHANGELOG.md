@@ -12,6 +12,26 @@ For each wave entry, include:
 
 ---
 
+## v15.7 (2026-06-01 — AI Governance Stack Operationalization: Pillar 510)
+
+**What changed:**
+- **Pillar 510** — `src/core/pillar510_ai_governance_stack.py` maps the seven operational AI governance layers onto repository artifacts and adds executable approval gates, public-claim safety filtering, and AI-steward audit metadata.
+- **Tests** — `tests/test_pillar510_ai_governance_stack.py` verifies exact seven-layer coverage, human approval for critical/forbidden actions, public overclaim blocking, and audit schema completeness.
+- **Ledgers** — `STATUS.md`, `README.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/mas_tracker.yml`, and this changelog are synced to v15.7.
+- **Outreach** — post #252 / S03E030 explains why autonomous science needs explicit governance controls.
+
+**Why:** The user approved the plan to incorporate the HTEK seven-layer AI governance insight as a production-control overlay. The goal is to make autonomous stewardship safer, more inspectable, and easier to explain without replacing the native Unitary Pentad/HILS framework.
+
+**Epistemic label deltas:** `AI_GOVERNANCE_STACK_OPERATIONALIZED` is an operational governance label. It does not promote a physics theorem, close an empirical residual, or alter the hardgate score.
+
+**TOE score delta:** None. 28.0/28 unchanged.
+
+**Falsification impact:** No falsifier window is weakened or widened. The governance stack makes falsification and public-response routing more explicit.
+
+**Residual unknowns:** External review, observational data, and institutional reception remain external receipts. Governance hardening improves control and auditability; it is not evidence that nature confirms the framework.
+
+**Test delta:** Focused P510 regression: **10 passed · 0 failed**. Latest v15.6 full regression baseline: **46,094 passed · 2 skipped · 12 deselected · 0 failed**.
+
 ## v15.6 (2026-06-01 — Earned Proof-Advancement Redo: Pillar 509)
 
 **What changed:**
