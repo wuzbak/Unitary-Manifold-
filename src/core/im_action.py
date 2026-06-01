@@ -314,7 +314,7 @@ def schrodinger_derivation_steps() -> list:
             'step':     5,
             'name':     'Polar decomposition → Schrödinger equation',
             'input':    'A, S with ψ = A exp(iS/ℏ)',
-            'output':   'Hamilton-Jacobi + continuity residuals equivalent to Schrödinger',
+            'output':   'Hamilton-Jacobi + continuity equations equivalent to Schrödinger equation',
             'type':     'MATH',
             'location': 'src/core/im_action.py::polar_schrodinger_residuals',
             'note':     ("The real residual is Hamilton-Jacobi plus Bohm quantum "
@@ -385,10 +385,16 @@ def stationary_phase_hamilton_jacobi_residual(
         kinetic = grad**2 / (2.0 * mass)
     else:
         kinetic = np.sum(grad**2, axis=-1) / (2.0 * mass)
-    return np.asarray(dS_dt, dtype=float) + kinetic + np.asarray(potential, dtype=float)
+    return (
+        np.asarray(dS_dt, dtype=float)
+        + kinetic
+        + np.asarray(potential, dtype=float)
+    )
 
 
-def polar_decomposition(psi: np.ndarray, hbar: float = 1.0) -> tuple[np.ndarray, np.ndarray]:
+def polar_decomposition(
+    psi: np.ndarray, hbar: float = 1.0,
+) -> tuple[np.ndarray, np.ndarray]:
     """Return A and S from ψ = A exp(iS/ℏ)."""
     if hbar <= 0:
         raise ValueError('hbar must be positive')
@@ -483,7 +489,7 @@ def gap3_status() -> str:
         "  Schrödinger equation (math)\n"
         "\n"
         "The original document back-derived the Schrödinger equation.\n"
-        "This module implements steps 1, 4, and 5 as executable residuals.  The single postulate\n"
+        "This module implements steps 1, 4, and 5 as executable residuals.\n"
         "(step 2) is not additional — it is the standard quantisation\n"
         "step used in every quantum field theory.\n"
     )
