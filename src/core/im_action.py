@@ -490,6 +490,6 @@ def gap3_status() -> str:
         "\n"
         "The original document back-derived the Schrödinger equation.\n"
         "This module implements steps 1, 4, and 5 as executable residuals.\n"
-        "(step 2) is not additional — it is the standard quantisation\n"
+        "The single postulate (step 2) is not additional — it is the standard quantisation\n"
         "step used in every quantum field theory.\n"
     )

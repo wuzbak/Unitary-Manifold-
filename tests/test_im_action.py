@@ -287,10 +287,19 @@ class TestGapStatusStrings:
         assert 'RESOLVED' in s
         assert 'REMAINS' in s
 
-    def test_gap3_status_mentions_resolved(self):
+    def test_gap3_status_matches_forward_chain_boundary(self):
         s = gap3_status()
+        chain = gap3_forward_derivation_chain()
         assert 'PARTIALLY RESOLVED' in s
         assert 'executable residuals' in s
+        assert 'single postulate' in s
+        assert chain['overall_status'].startswith('PARTIALLY_RESOLVED')
+        assert chain['postulate_count'] == 1
+        implemented = [
+            step for step in chain['steps'].values()
+            if step['status'] == 'IMPLEMENTED'
+        ]
+        assert len(implemented) == 3
 
     def test_gap1_mentions_postulate(self):
         s = gap1_status()
