@@ -21,7 +21,7 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![46,076 passed · 0 failed](https://img.shields.io/badge/tests-46%2C076%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![46,088 passed · 0 failed](https://img.shields.io/badge/tests-46%2C088%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![508+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-508%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v15.5-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)

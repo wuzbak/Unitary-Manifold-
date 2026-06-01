@@ -93,7 +93,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.4 — Pillar 507 frontier proof-lane certificate; no hardgate physics claim promotions; focused proof-lane regression 233 passed · 0 failed; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.5 — Pillar 508 no/earned-yes claim-boundary audit; no hardgate physics claim promotions; focused P507/P508 regression 21 passed · 0 failed; latest full regression 46,088 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 

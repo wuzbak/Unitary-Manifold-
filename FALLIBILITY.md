@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v15.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified full regression: 46,076 passed · 2 skipped · 12 deselected · 0 failed (v15.4, 2026-06-01; tests/ + recycling/ + Pentad); v15.4 adds Pillar 507 — frontier proof-lane certificate for 5D-KK, P8, PMNS, L2/γ, Lean4, CCR, and ER=EPR lanes; focused proof-lane regression: 233 passed · 0 failed; v14.0 Pillars 455–474 (Pillar 455 P8 integer-lattice, Pillar 470 KK unitarity proved); v14.1 adds Pillars 475–481 — External Engagement Sprint: JUNO NLO full-chain closure (P475), Lean4 CI hash-validated (P476), 2027 rehearsal drills complete (P477), 6D baryogenesis Phase 2 d_n≈7.8×10⁻²⁷ e·cm 🔵 (P478), lattice braid Phase 2 BKT QLRO 🔵 (P479), fermion hierarchy analytic formula ℓ_eff=-ln(m/mt)/5 (P480), arXiv v14.1 external engagement package (P481); ~353 new tests; 0 failures; v14.2 adds Pillars 482–487 — Gap Closure Sprint: Lean4 CI activated (P482), lattice braid P3 🔵 (P483), PMNS p_R NLO executed (P484), CMB peaks quantified (P485), DESI DR3 prep (P486), Z₂-odd GHY derived (P487); +435 new tests; 0 failures; v15.0 adds Pillars 488–494 — ledger audit complete (P488), peak-3 EFT cap named (P489), α_s v15 honest audit (P490), P8/CCR formal status (P491), free-parameter final census (P492), admission closure certificate (P493), arXiv external package (P494); +253 new tests; 0 failures).*
+*Unitary Manifold v15.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest verified full regression: 46,088 passed · 2 skipped · 12 deselected · 0 failed (v15.5, 2026-06-01; tests/ + recycling/ + Pentad); v15.5 adds Pillar 508 — no/earned-yes claim-boundary audit: no full non-perturbative 5D-KK quantum-gravity closure, no P8 full functional-space proof, no external L2/γ HMC receipt, no Lean4 build receipt, CCR and ER=EPR remain conjectural; focused P507/P508 regression: 21 passed · 0 failed; v15.4 adds Pillar 507 — frontier proof-lane certificate for 5D-KK, P8, PMNS, L2/γ, Lean4, CCR, and ER=EPR lanes; v14.0 Pillars 455–474 (Pillar 455 P8 integer-lattice, Pillar 470 KK unitarity proved); v14.1 adds Pillars 475–481 — External Engagement Sprint; v14.2 adds Pillars 482–487 — Gap Closure Sprint; v15.0 adds Pillars 488–494 — ledger audit, formal status, census, admission closure, and arXiv external package).*
 
 ---
 
@@ -46,7 +46,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (46,076 passed · 2 skipped · 12 deselected · 0 failed (v15.4, 2026-06-01); collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (46,088 passed · 2 skipped · 12 deselected · 0 failed (v15.5, 2026-06-01); collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
