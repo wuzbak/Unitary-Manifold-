@@ -29,7 +29,7 @@ For each wave entry, include:
 
 **Residual unknowns:** Full quantum-gravity closure, P8 full functional-space proof, external HMC receipt, Lean4 build receipt, RS1 curved-orbifold star-product theorem, and KK RT derivation remain open/not claimed.
 
-**Test delta:** Focused P507/P508/P509 regression: **28 passed · 0 failed**. Latest full regression carried forward from v15.5: **46,088 passed · 2 skipped · 12 deselected · 0 failed**.
+**Test delta:** Focused P507/P508/P509 regression: **28 passed · 0 failed**. Latest full regression: **46,094 passed · 2 skipped · 12 deselected · 0 failed**.
 
 ## v15.5 (2026-06-01 — No/Earned-Yes Claim Audit: Pillar 508)
 

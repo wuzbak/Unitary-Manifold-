@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo added; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo added; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
 
 > **v15.6 sync note:** Pillar 509 moves CCR and ER=EPR from bare conjecture records to earned conditional theorem kernels. It still does not claim full 5D-KK quantum-gravity closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product closure, or unconditional KK Ryu-Takayanagi ER=EPR closure.
 

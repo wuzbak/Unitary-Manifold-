@@ -8,7 +8,7 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *(1) Pillar 509 adds earned conditional theorem kernels for CCR and ER=EPR instead of stopping at the v15.5 no-claim audit.*
 *(2) CCR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated finite-Weyl regulator and continuum-tangent hypotheses; ER=EPR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated KK holography, RT-functional, and graph-homology hypotheses.*
 *(3) Full non-perturbative 5D-KK closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK RT theorem remain evidence-gated and not claimed.*
-*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508/P509 regression: 28 passed · 0 failed. Latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 510.*
+*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508/P509 regression: 28 passed · 0 failed. Latest full regression: 46,094 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 510.*
 
 *v15.5 update (No-Claim / Earned-Yes Claim Audit — Pillar 508):*
 *(1) Pillar 508 adds an executable no/yes boundary audit over the frontier proof-lane bundle.*
@@ -99,7 +99,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo; CCR/ER=EPR conditional theorem kernels added; no hardgate physics claim promotions; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo; CCR/ER=EPR conditional theorem kernels added; no hardgate physics claim promotions; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 

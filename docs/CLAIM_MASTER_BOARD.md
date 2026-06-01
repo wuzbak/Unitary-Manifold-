@@ -3,7 +3,7 @@
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo added; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed.)*
+*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo added; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed.)*
 
 *P509 (v15.6): Earned Proof-Advancement Redo — EARNED_PROOF_ADVANCEMENT_KERNELS_CERTIFIED. `src/core/pillar509_earned_proof_advancement.py` advances CCR and ER=EPR from bare conjecture lanes to earned conditional theorem kernels with explicit hypotheses, proof steps, earned-yes predicates, and remaining full-closure residuals. No ToE score change; no false unconditional/external/full-functional closure claim.*
 

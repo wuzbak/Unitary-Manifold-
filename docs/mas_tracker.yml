@@ -19,7 +19,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v15.6"
-  regression: "28 passed · 0 failed focused P507/P508/P509 proof-advancement regression; latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed"
+  regression: "28 passed · 0 failed focused P507/P508/P509 proof-advancement regression; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
@@ -36,7 +36,7 @@ v15_6_earned_proof_advancement_redo:
     - "docs/WAVE_CHANGELOG.md: v15.6 entry"
     - "docs/mas_tracker.yml: v15.6 tracker block and regression checkpoint"
   focused_regression: "28 passed · 0 failed (P507/P508/P509 proof-advancement tests)"
-  full_regression: "46,088 passed · 2 skipped · 12 deselected · 0 failed (carried forward from v15.5 until next full-suite execution)"
+  full_regression: "46,094 passed · 2 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 510
   epistemic_deltas:
