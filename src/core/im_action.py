@@ -305,7 +305,7 @@ def schrodinger_derivation_steps() -> list:
             'step':     4,
             'name':     'Stationary-phase approximation',
             'input':    'Path integral Z = ∫[Dφ] exp(i S/ℏ)',
-            'output':   'Hamilton-Jacobi equation ∂_t S_cl + |∇S_cl|²/(2m) + V = 0',
+            'output':   'Hamilton-Jacobi equation ∂_t S_cl + |∇S_cl|²/(2 mass) + V = 0',
             'type':     'MATH',
             'location': 'src/core/im_action.py::stationary_phase_hamilton_jacobi_residual',
             'note':     'Exact leading saddle condition; corrections are O(ℏ).',
@@ -373,7 +373,7 @@ def stationary_phase_hamilton_jacobi_residual(
 
     For a non-relativistic action phase S, the saddle of exp(iS/ℏ) obeys
 
-        ∂_t S + |∇S|²/(2m) + V = 0.
+        ∂_t S + |∇S|²/(2 mass) + V = 0.
 
     Returning the left-hand side makes the statement falsifiable: exact
     solutions give zero up to discretisation.
@@ -395,7 +395,12 @@ def stationary_phase_hamilton_jacobi_residual(
 def polar_decomposition(
     psi: np.ndarray, hbar: float = 1.0,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Return A and S from ψ = A exp(iS/ℏ)."""
+    """Return amplitude and phase arrays from ψ = A exp(iS/ℏ).
+
+    This helper performs one-dimensional phase unwrapping with ``np.unwrap``.
+    It returns ``(amplitude, phase)`` where ``amplitude = |ψ|`` and
+    ``phase = ℏ unwrap(arg ψ)``.
+    """
     if hbar <= 0:
         raise ValueError('hbar must be positive')
     psi_arr = np.asarray(psi, dtype=complex)

@@ -276,6 +276,20 @@ class TestGap3ExecutableMath:
                 dx=0.1,
             )
 
+    def test_polar_schrodinger_residuals_reject_invalid_constants(self):
+        kwargs = dict(
+            amplitude=np.ones(5),
+            dA_dt=0.0,
+            phase=np.linspace(0.0, 1.0, 5),
+            dS_dt=0.0,
+            potential=0.0,
+            dx=0.1,
+        )
+        with pytest.raises(ValueError, match='hbar'):
+            polar_schrodinger_residuals(**kwargs, hbar=0.0)
+        with pytest.raises(ValueError, match='mass'):
+            polar_schrodinger_residuals(**kwargs, mass=0.0)
+
 
 # ---------------------------------------------------------------------------
 # gap status strings
