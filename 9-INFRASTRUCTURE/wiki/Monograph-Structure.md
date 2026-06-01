@@ -1,6 +1,6 @@
 # Monograph Structure
 
-The full monograph *The Unitary Manifold* (v9.14, Academic Edition) is included in the repository as [`THEBOOKV9a (1).pdf`](.<../../6-MONOGRAPH/THEBOOKV9a (1).pdf>). It spans **74 chapters** organised into **XXIII parts**.
+The full monograph *The Unitary Manifold* (v9.14, Academic Edition) is included in the repository as [`THEBOOKV9a (1).pdf`](<../../6-MONOGRAPH/THEBOOKV9a (1).pdf>). It spans **74 chapters** organised into **XXIII parts**.
 
 A complete chapter-by-chapter table of contents is in [`TABLE_OF_CONTENTS.md`](../../6-MONOGRAPH/TABLE_OF_CONTENTS.md).
 

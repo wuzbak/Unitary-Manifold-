@@ -53,7 +53,7 @@ The braided (5, 7) winding resolution — using $k_\text{CS} = 74$ — simultane
 ## Quick Links
 
 - **Source code:** [`src/`](../../src)
-- **Full monograph:** [`THEBOOKV9a (1).pdf`](.<../../6-MONOGRAPH/THEBOOKV9a (1).pdf>)
+- **Full monograph:** [`THEBOOKV9a (1).pdf`](<../../6-MONOGRAPH/THEBOOKV9a (1).pdf>)
 - **Plain-language summary:** [`WHAT_THIS_MEANS.md`](../../4-IMPLICATIONS/WHAT_THIS_MEANS.md)
 - **Honest limitations:** [`FALLIBILITY.md`](../../FALLIBILITY.md)
 - **Unification proof:** [`UNIFICATION_PROOF.md`](../../1-THEORY/UNIFICATION_PROOF.md)
