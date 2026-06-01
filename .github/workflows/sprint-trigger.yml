@@ -82,11 +82,12 @@ jobs:
             next_pillar_slot: ${NEXT_SLOT}
             physics_frontier_priorities:
               1: CMB_PEAK3_5D_EFT_CLOSURE          # 3.1σ peak-3 residual; next: EFT correction at ℓ~800
-              2: PMNS_PR_FULL_CHAIN                 # 2-loop Yukawa B-coefficient precision
-              3: LATTICE_BRAID_PHASE4_NP_CONDENSATE # NP condensate γ full closure
-              4: SIXD_BARYOGENESIS_PHASE3_NEDM      # d_n@SNS sub-10% precision
-              5: LHC_GLUON_CHANNEL_FORMAL_AUDIT     # m_G_KK ≥ 5 TeV Drell-Yan loop
-              6: ARXIV_V15_ENGAGEMENT               # external reviewer outreach follow-up
+              2: ARXIV_V15_ENGAGEMENT               # external reviewer outreach follow-up
+              completed_v15_3:
+                - PMNS_PR_FULL_CHAIN                 # P503 synchronized; residual retained
+                - LATTICE_BRAID_PHASE4_NP_CONDENSATE # P504 bounded; external HMC not claimed
+                - SIXD_BARYOGENESIS_PHASE3_NEDM      # P505 precision certificate
+                - LHC_GLUON_CHANNEL_FORMAL_AUDIT     # P506 formal audit complete
             active_decision_windows:
               DESI_DR3:   { expected: "2026",      tripwire: "wₐ<-0.3 at ≥3σ → ARCHITECTURE_LIMIT_EXCEEDED" }
               SO_DR1:     { expected: "2027",      tripwire: "r<0.026 at ≥2σ → ROUTING per P368" }

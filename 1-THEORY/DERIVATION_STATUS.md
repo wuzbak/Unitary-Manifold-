@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v15.1 — Unambiguous Record**  
+**The Unitary Manifold v15.3 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-05-26 (v15.1 — autonomous stewardship infrastructure added: sprint-trigger.yml, falsifier-monitor.yml, machine-readable STEWARDSHIP.md §3; v15.0 Pillars 488–494 added; P488 ledger audit complete; P489 peak-3 EFT cap named; P490 α_s final honest audit; P491 P8/CCR formal status fixed; P492 free-parameter census finalized; P493 admissions certificate exported; P494 arXiv v15 package ready.)*
+*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 executed as Pillars 503–506; PMNS p_R full-chain synchronized with residual retained; lattice braid Phase-4 bounded 🔵; 6D baryogenesis nEDM precision certified 🔵; LHC gluon-channel formal audit complete; no hardgate score inflation.)*
 *Latest verified sprint regression: 45,349 passed · 22 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.

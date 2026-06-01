@@ -1,9 +1,12 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v15.2
+# Unitary Manifold v15.3
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-06-01 (v15.2 — implementation/completion audit sync: Pillars 495–502; latest verified full regression 45,989 passed · 2 skipped · 12 deselected · 0 failed.)*
+*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 executed as Pillars 503–506; focused regression 77 passed · 0 failed; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed.)*
+
+
+*P503–P506 (v15.3): Frontier priorities 2–5 executed. P503 synchronizes PMNS p_R full-chain status while retaining the named microscopic residual; P504 bounds the lattice-braid Phase-4 condensate lane 🔵; P505 certifies the 6D baryogenesis nEDM@SNS precision band 🔵; P506 completes the LHC gluon-channel formal audit. No ToE score change and no external measurement/receipt claim.*
 
 *P502 (v15.2): Completion Master Audit — COMPLETION_MASTER_AUDIT. Executable repository completion is now machine-readable via `src/core/pillar502_completion_master_audit.py`; arXiv submission and Zenodo DOI are explicitly retained as `EXTERNAL_UNVERIFIED` until independent receipts are attached. No hardgate physics label is promoted by this audit.*
 
