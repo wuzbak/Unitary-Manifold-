@@ -1,8 +1,13 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v15.3
+# Unitary Manifold v15.4
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v15.4 update (Frontier Proof-Lane Certificate — Pillar 507):*
+*(1) Pillar 507 adds an executable certificate for the 5D-KK/P8/PMNS/L2γ/Lean4/CCR/ER=EPR proof-lane bundle.*
+*(2) Non-perturbative 5D-KK remains architecture-limit certified; P8 full functional space remains named; PMNS residual remains retained; L2γ external HMC receipt and Lean4 build receipt remain evidence-gated; CCR and ER=EPR remain conjectural.*
+*(3) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused proof-lane regression: 233 passed · 0 failed. Next pillar slot: 508.*
 
 *v15.3 update (Stewardship Frontier Priorities 2–5 — Pillars 503–506):*
 *(1) Pillar 503 synchronizes the PMNS p_R full-chain audit while retaining the microscopic three-generation residual and PDG solar-angle gap explicitly.*
@@ -82,7 +87,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 implemented as Pillars 503–506; no hardgate physics claim promotions; focused regression 77 passed · 0 failed; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.4 — Pillar 507 frontier proof-lane certificate; no hardgate physics claim promotions; focused proof-lane regression 233 passed · 0 failed; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 

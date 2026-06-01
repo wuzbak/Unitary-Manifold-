@@ -223,7 +223,7 @@ def completion_certificate() -> Dict[str, object]:
         "external_receipt_pending": external_receipt_pending,
         "unproved_but_named": unproved_but_named,
         "hardgate_score_delta": sum(float(lane["hardgate_score_delta"]) for lane in registry.values()),
-        "claim_guard": "No conjectural, external, or architecture-limit lane is promoted to hardgate proof.",
+        "claim_guard": "Conjectural, external, and architecture-limit lanes are not promoted to hardgate proof.",
     }
 
 

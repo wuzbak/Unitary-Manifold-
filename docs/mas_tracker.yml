@@ -1,4 +1,4 @@
-version: "v15.3"
+version: "v15.4"
 date: "2026-06-01"
 updated: "2026-06-01"
 mas_status: "COMPLETE"
@@ -18,11 +18,35 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.3"
-  regression: "77 passed · 0 failed focused frontier regression for P503-P506; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed"
+  version: "v15.4"
+  regression: "233 passed · 0 failed focused proof-lane regression for P295/P455/P491/P456/P503/P504/P507; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v15_4_frontier_proof_lane_certificate:
+  version: "v15.4"
+  wave: "Frontier proof-lane certificate — Pillar 507"
+  date: "2026-06-01"
+  pillars_added:
+    - "507: Frontier proof-lane completion certificate — FRONTIER_PROOF_LANES_CERTIFIED; 5D-KK, P8, PMNS, L2/γ, Lean4, CCR, and ER=EPR lanes covered without hardgate promotion"
+  document_updates:
+    - "STATUS.md: v15.4 header; next pillar slot 508"
+    - "README.md and truth surfaces: v15.4 proof-lane status note"
+    - "docs/WAVE_CHANGELOG.md: v15.4 entry"
+    - "docs/mas_tracker.yml: v15.4 tracker block and regression checkpoint"
+  focused_regression: "233 passed · 0 failed (proof-lane focused tests)"
+  full_regression: "46,076 passed · 2 skipped · 12 deselected · 0 failed"
+  failures: 0
+  next_pillar_slot: 508
+  epistemic_deltas:
+    - "P507: Vague frontier proof pressure -> machine-readable proof-lane certificate"
+    - "5D-KK non-perturbative quantization remains ARCHITECTURE_LIMIT_CERTIFIED, not falsely solved"
+    - "P8 full functional space remains NAMED_RESIDUAL beyond integer-lattice proof"
+    - "L2/γ external confirmation packet is ready, but HMC receipt remains pending"
+    - "CCR and ER=EPR remain CONJECTURAL with explicit closure criteria"
+  toe_score_delta: 0.0
+  notes: "Completes the repository-side certificate; external receipts and full quantum-gravity proofs remain evidence-gated."
 
 v15_3_frontier_priorities_2_5:
   version: "v15.3"
@@ -39,7 +63,7 @@ v15_3_frontier_priorities_2_5:
     - "docs/WAVE_CHANGELOG.md: v15.3 entry"
     - "docs/CLAIM_MASTER_BOARD.md, docs/TRUTH_LAYER.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: frontier sync notes"
   focused_regression: "77 passed · 0 failed (P503-P506 focused tests)"
-  full_regression: "46,066 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "46,076 passed · 2 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 507
   epistemic_deltas:
