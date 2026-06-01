@@ -16,9 +16,17 @@ of content in the Unitary Manifold repository:
 This distinction matters.  Conflating them would misrepresent the framework's
 epistemic status and damage its scientific credibility.
 
+**Current alignment note (v15.6):** older references to v15.1 or earlier states
+are historical snapshots.  The current interpretive boundary is three-tiered:
+Tier 1 is the falsifiable physics core, Tier 2 is self-consistent conjectural or
+phenomenological extension, and Tier 3 is analogical application.  All three must
+be read through the 5D metric lens \(G_{AB}\): \(g_{\mu\nu}\), \(B_\mu\), and the
+dynamic radion \(\phi\), with the \((5,7)\) sector fixing \(k_{\rm CS}=5^2+7^2=74\)
+where that braid chain is invoked.
+
 ---
 
-## Category 1 — Physics Claims (derived from the 5D action)
+## Category 1 / Tier 1 — Physics Claims (derived from the 5D action)
 
 The following are formal predictions or theorems of the Unitary Manifold:
 
@@ -31,16 +39,20 @@ The following are formal predictions or theorems of the Unitary Manifold:
 | n_s = 0.9635 | PREDICTION | Pillar 27 | Planck n_s outside 2σ window |
 | r = 0.0315 | PREDICTION | Pillar 27 | BICEP/Keck r > 0.036 |
 | β ∈ {0.273°, 0.331°} | PREDICTION | Pillar 27 | LiteBIRD β outside [0.22°, 0.38°] |
-| 9 of 28 SM parameters derived | AUDIT | Pillar 88 (`sm_free_parameters.py`) | Any derived parameter measured to conflict |
+| SM-parameter derivation ledger | AUDIT | `1-THEORY/DERIVATION_STATUS.md`, `docs/mas_tracker.yml` | Any derived parameter measured to conflict |
 | sin²θ_W, α_s from SU(5) orbifold | PROVED (Pillar 94) | `su5_orbifold_proof.py` | GUT-scale measurement |
-| Gamow factor enhancement (cold fusion) | FALSIFIABLE PREDICTION | Pillar 15 | Calorimetry null at predicted COP |
 
 ---
 
-## Category 2 — Phenomenological Bridges (mathematical analogies, not physics derivations)
+## Category 2 / Tier 2 — Self-Consistent Conjectures and Phenomenological Bridges
 
-The following modules use UM mathematical structure as a language for
-modelling non-physics domains.  They are NOT predictions of the 5D action.
+Tier 2 material may be mathematically well-defined and internally tested, but it
+is not promoted to Tier 1 unless a derivation from the 5D action and an explicit
+falsification path are both present.  This includes contested or extension-lane
+physics claims such as cold-fusion/Gamow-factor modules unless and until their
+field-theoretic vertex and external confirmation are separately established.
+
+The following bridge remains extension-lane material, not Tier 1 physics:
 
 ### 2.1 Consciousness Coupling (`src/consciousness/coupled_attractor.py`)
 
@@ -66,7 +78,14 @@ this specific claim.
 
 **Classification:** Phenomenological Bridge — mathematical analogy, not physics claim.
 
-### 2.2 Medicine, Justice, Governance, Psychology, Ecology, Climate, Marine
+---
+
+## Category 3 / Tier 3 — Analogical Applications (mathematical analogies, not physics derivations)
+
+The following modules use UM mathematical structure as a language for
+modelling non-physics domains.  They are NOT predictions of the 5D action.
+
+### 3.1 Medicine, Justice, Governance, Psychology, Ecology, Climate, Marine
 (`src/medicine/`, `src/justice/`, `src/governance/`, `src/psychology/`,
 `src/ecology/`, `src/climate/`, `src/marine/`)
 
@@ -81,7 +100,11 @@ not derivation.
 
 **Classification:** Phenomenological Bridge — mathematical framework application.
 
-### 2.4 Adjacent Fermi–Hubbard Quantum Simulation (`src/quantum/`)
+Any phase-flip, loop-inversion, or shorthand anomaly language used in these
+bridges is interpretive topology/orientation language. It must not be presented
+as an empirical Tier 1 result or as a literal violation of ordinary arithmetic.
+
+### 3.2 Adjacent Fermi–Hubbard Quantum Simulation (`src/quantum/`)
 
 **What it is:** A dedicated quantum-simulation engineering and benchmarking lane
 for Fermi–Hubbard model research (Hamiltonian construction, JW/BK mappings,
@@ -92,7 +115,7 @@ connected-but-separate computational research stream and is explicitly non-hardg
 
 **Classification:** Phenomenological/engineering adjacent research.
 
-### 2.3 The Unitary Pentad (`5-GOVERNANCE/Unitary Pentad/`)
+### 3.3 The Unitary Pentad (`5-GOVERNANCE/Unitary Pentad/`)
 
 **What it is:** An independent governance framework (HILS — Human-in-the-Loop
 Systems) that borrows mathematical structure from the UM but does NOT depend
@@ -111,8 +134,9 @@ geometry theorems.
 When writing documentation, blog posts, or paper abstracts about the UM:
 
 - **Only cite Category 1 items** as predictions or derivations of the framework.
-- **Clearly label Category 2 items** as "phenomenological model", "mathematical
-  analogy", or "framework application" before presenting them.
+- **Clearly label Category 2 and Category 3 items** as "conjectural extension",
+  "phenomenological model", "mathematical analogy", or "framework application"
+  before presenting them.
 - **Do not** describe the consciousness coupling, domain models, or Pentad as
   "derived from the 5D action" or "predicted by the UM geometry".
 

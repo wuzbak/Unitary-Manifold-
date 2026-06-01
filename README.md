@@ -5,6 +5,9 @@
 >  
 > To evaluate the mathematical core, begin with executable verification: run `python VERIFY.py` and review [`proof/TIER_1_FORMAL.md`](proof/TIER_1_FORMAL.md).  
 > The 5D metric closure and CMB-facing predictions are tied to the integer pair \((n_1, n_2) = (5, 7)\); assess that formal chain before evaluating broader repository scope.
+> Treat legacy references to earlier v15.x states, including v15.1, as historical snapshots; the current canonical status is the version named in this header, `STATUS.md`, and `docs/mas_tracker.yml`.
+>
+> **Interpretation guardrail:** read the framework through the 5D Kaluza-Klein metric lens first: \(G_{AB}\) packages \(g_{\mu\nu}\), the irreversibility gauge field \(B_\mu\), and the dynamic radion \(\phi\). The \((5,7)\) sector gives the topological braid constraint \(k_{\rm CS}=5^2+7^2=74\), while the 3:2 scaffold is a structural diagnostic, not a license to blur tiers. Phase flips, loop inversions, or shorthand anomalies are orientation/topology statements inside that lens, not ordinary arithmetic contradictions.
 
 **The foundational claim is irreversibility.** The original monograph established that the arrow of time is not a statistical artefact of 4D physics — it is geometrised into a 5D parent structure whose 4D projection *is* thermodynamics and information flow. This repository was built, from the top down, to verify that proof. Every pillar, every derivation, and every test is downstream of that monograph-first closure.
 
@@ -202,7 +205,7 @@ Start with the layer that matches your purpose:
 > ## ⚡ 30-Second Physics Check — Try It Now
 >
 > A single integer pair `(n₁, n₂) = (5, 7)` from 5D Kaluza-Klein topology predicts
-> three independent CMB observables that all pass current constraints — from arithmetic alone.
+> three independent CMB observables that all pass current constraints — through the topological braid constraint \(k_{\rm CS}=5^2+7^2=74\), not from unconstrained numerology.
 >
 > ```bash
 > pip install numpy scipy    # one-time

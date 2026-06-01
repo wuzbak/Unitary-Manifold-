@@ -43,6 +43,8 @@ It is written in the same clinical tone expected of a refereed submission.
 
 > **Historical note:** Some sections below retain prior-wave examples and labels for traceability.
 > Canonical current state is maintained in `docs/mas_tracker.yml`, `docs/WAVE_CHANGELOG.md`, and `9-INFRASTRUCTURE/provenance/README.md`.
+>
+> **Interpretation guardrail:** all core claims in this document should be read through the 5D Kaluza-Klein metric ansatz \(G_{AB}\), where \(g_{\mu\nu}\), \(B_\mu\), and the dynamic radion \(\phi\) are coupled before projection back to 4D. The \((5,7)\) braid sector and \(k_{\rm CS}=5^2+7^2=74\) are topological constraints, not free arithmetic decoration. Phase flips, loop inversions, or other shorthand anomaly language must therefore be treated as topology/orientation statements inside the metric framework, not as literal contradictions of ordinary arithmetic.
 
 ## I. Scope of Verification
 
