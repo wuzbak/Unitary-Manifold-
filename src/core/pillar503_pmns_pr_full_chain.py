@@ -119,12 +119,19 @@ def full_chain_consistency(pr: float = PR_NLO) -> Dict[str, object]:
     """Return the full-chain consistency verdict without promoting hidden gaps."""
     texture = effective_pr_from_texture(pr)
     window = solar_angle_window()
-    synchronized = bool(texture["within_pillar484_interval"] and window["target_in_window"])
+    texture_sync = bool(
+        PR_NLO_LOW <= texture["input_p_r"] <= PR_NLO_HIGH
+        and abs(texture["texture_correction"]) < 0.08
+    )
+    pdg_gap_retained = not bool(window["target_in_window"])
+    synchronized = texture_sync and pdg_gap_retained
     return {
         "pillar": PILLAR_NUMBER,
         "status": PILLAR_STATUS,
         "residual_name": RESIDUAL_NAME,
         "synchronized": synchronized,
+        "texture_sync": texture_sync,
+        "pdg_gap_retained": pdg_gap_retained,
         "hardgate_score_delta": 0.0,
         "epistemic_delta": "NAMED_RESIDUAL -> FULL_CHAIN_SYNCHRONIZED",
         "texture": texture,
