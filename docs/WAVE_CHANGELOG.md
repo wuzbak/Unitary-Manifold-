@@ -12,6 +12,44 @@ For each wave entry, include:
 
 ---
 
+## v15.6 (2026-06-01 — Earned Proof-Advancement Redo: Pillar 509)
+
+**What changed:**
+- **Pillar 509** — `src/core/pillar509_earned_proof_advancement.py` adds earned conditional theorem kernels for CCR and ER=EPR instead of stopping at the v15.5 no-claim audit.
+- **Tests** — `tests/test_pillar509_earned_proof_advancement.py` verifies conditional proof advancement, earned-yes predicates, full-closure residuals, and no false unconditional/external closure.
+- **Ledgers** — `STATUS.md`, `README.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/mas_tracker.yml`, and this changelog are synced to v15.6.
+
+**Why:** The user rejected a result that merely made the audit say "NO" and requested earned YES movement from conjecture toward proof. This redo advances CCR and ER=EPR from bare conjecture lanes to conditional theorem kernels with explicit hypotheses, finite proof steps, earned predicates, and residual closure gates.
+
+**Epistemic label deltas:** CCR and ER=EPR move from `CONJECTURAL` only to `CONDITIONAL_THEOREM_KERNEL_PROVED` for their stated kernels. Full non-perturbative 5D-KK closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK Ryu-Takayanagi ER=EPR theorem remain evidence-gated and not claimed.
+
+**TOE score delta:** None. 28.0/28 unchanged.
+
+**Falsification impact:** No falsifier window is weakened or widened. The proof kernels sharpen what is earned inside the repository while preserving the external/full-theorem closure conditions.
+
+**Residual unknowns:** Full quantum-gravity closure, P8 full functional-space proof, external HMC receipt, Lean4 build receipt, RS1 curved-orbifold star-product theorem, and KK RT derivation remain open/not claimed.
+
+**Test delta:** Focused P507/P508/P509 regression: **28 passed · 0 failed**. Latest full regression: **46,094 passed · 2 skipped · 12 deselected · 0 failed**.
+
+## v15.5 (2026-06-01 — No/Earned-Yes Claim Audit: Pillar 508)
+
+**What changed:**
+- **Pillar 508** — `src/core/pillar508_no_and_earned_yes_claim_audit.py` adds an executable no-claim / earned-yes audit over the frontier bundle.
+- **Tests** — `tests/test_pillar508_no_and_earned_yes_claim_audit.py` verifies that no forbidden closure is claimed and every positive yes is evidence-scoped.
+- **Ledgers** — `STATUS.md`, `README.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/mas_tracker.yml`, and this changelog are synced to v15.5.
+
+**Why:** The user requested that the repository stop deferring the claim-boundary work and make the "no" and earned "yes" explicit: no full non-perturbative 5D-KK quantum-gravity closure, no P8 full functional-space proof, no external L2/γ HMC receipt, no Lean4 build receipt, and CCR/ER=EPR remain conjectural theorem lanes.
+
+**Epistemic label deltas:** The boundary is now `NO_AND_EARNED_YES_AUDIT_COMPLETE`. The NO board blocks false closure. The YES board is limited to earned repository evidence: frontier ledger completeness, P8 integer-lattice proof, structural gap certification, finite-volume L2/γ packet readiness, local Lean4 manifest presence, and formal CCR/ER=EPR conjecture lanes.
+
+**TOE score delta:** None. 28.0/28 unchanged.
+
+**Falsification impact:** No falsifier window is weakened or widened. External HMC and Lean4 build receipts remain required before any receipt claim; CCR/ER=EPR and full functional-space/non-perturbative lanes remain proof-gated.
+
+**Residual unknowns:** Full non-perturbative 5D-KK quantum gravity, P8 full functional-space proof, external L2/γ HMC confirmation, current Lean4 build receipt, CCR proof, and ER=EPR proof remain open/not claimed.
+
+**Test delta:** Focused P507/P508 regression: **21 passed · 0 failed**. Latest full regression: **46,088 passed · 2 skipped · 12 deselected · 0 failed**.
+
 ## v15.4 (2026-06-01 — Frontier Proof-Lane Certificate: Pillar 507)
 
 **What changed:**

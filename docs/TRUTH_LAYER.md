@@ -1,8 +1,20 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v15.4
+# Unitary Manifold v15.6
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v15.6 update (Earned Proof-Advancement Redo — Pillar 509):*
+*(1) Pillar 509 adds earned conditional theorem kernels for CCR and ER=EPR instead of stopping at the v15.5 no-claim audit.*
+*(2) CCR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated finite-Weyl regulator and continuum-tangent hypotheses; ER=EPR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated KK holography, RT-functional, and graph-homology hypotheses.*
+*(3) Full non-perturbative 5D-KK closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK RT theorem remain evidence-gated and not claimed.*
+*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508/P509 regression: 28 passed · 0 failed. Latest full regression: 46,094 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 510.*
+
+*v15.5 update (No-Claim / Earned-Yes Claim Audit — Pillar 508):*
+*(1) Pillar 508 adds an executable no/yes boundary audit over the frontier proof-lane bundle.*
+*(2) Explicit NO lanes: no full non-perturbative 5D-KK quantum-gravity closure; no P8 full functional-space proof; no external L2/γ HMC receipt; no Lean4 build receipt; CCR and ER=EPR remain conjectural theorem lanes.*
+*(3) Earned YES lanes are scoped to repository evidence only: P507 frontier ledger complete, P8 integer-lattice proof, 5D-KK structural gap certified, L2/γ finite-volume packet ready, Lean4 local manifest present, and CCR/ER=EPR conjecture lanes formalized.*
+*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508 regression: 21 passed · 0 failed. Latest full regression: 46,088 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 509.*
 
 *v15.4 update (Frontier Proof-Lane Certificate — Pillar 507):*
 *(1) Pillar 507 adds an executable certificate for the 5D-KK/P8/PMNS/L2γ/Lean4/CCR/ER=EPR proof-lane bundle.*
@@ -87,7 +99,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.4 — Pillar 507 frontier proof-lane certificate; no hardgate physics claim promotions; focused proof-lane regression 233 passed · 0 failed; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo; CCR/ER=EPR conditional theorem kernels added; no hardgate physics claim promotions; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 
