@@ -424,7 +424,9 @@ def polar_schrodinger_residuals(
         S_t + S_x²/(2m) + V − ℏ² A_xx/(2mA) = 0
         A_t + A_x S_x/m + A S_xx/(2m) = 0
 
-    in one spatial dimension.
+    in one spatial dimension. Multi-dimensional grids are intentionally not
+    supported here; callers must reduce to a 1D profile or add the full
+    tensor-gradient implementation separately.
     """
     if dx <= 0:
         raise ValueError('dx must be positive')
