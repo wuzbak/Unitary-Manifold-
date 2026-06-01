@@ -18,6 +18,10 @@ from src.core.im_action import (
     canonical_momentum_phi,
     ccr_residual,
     schrodinger_derivation_steps,
+    gap3_forward_derivation_chain,
+    stationary_phase_hamilton_jacobi_residual,
+    polar_decomposition,
+    polar_schrodinger_residuals,
     gap1_status,
     gap3_status,
 )
@@ -195,6 +199,84 @@ class TestSchrodingerDerivationSteps:
                 'SE' in out)
 
 
+class TestGap3ExecutableMath:
+    def test_forward_chain_marks_single_explicit_postulate(self):
+        chain = gap3_forward_derivation_chain()
+        assert chain['overall_status'] == 'PARTIALLY_RESOLVED_WITH_EXPLICIT_POSTULATE'
+        assert chain['postulate_count'] == 1
+        statuses = {step['status'] for step in chain['steps'].values()}
+        assert 'POSTULATE' in statuses
+        assert chain['steps'][1]['status'] == 'IMPLEMENTED'
+        assert chain['steps'][4]['symbol'] == 'stationary_phase_hamilton_jacobi_residual'
+        assert chain['steps'][5]['symbol'] == 'polar_schrodinger_residuals'
+
+    def test_stationary_phase_hamilton_jacobi_free_particle(self):
+        mass = 2.0
+        momentum = 3.0
+        grad_S = np.full(16, momentum)
+        dS_dt = np.full(16, -(momentum**2) / (2.0 * mass))
+        residual = stationary_phase_hamilton_jacobi_residual(
+            dS_dt, grad_S, potential=0.0, mass=mass,
+        )
+        np.testing.assert_allclose(residual, 0.0, atol=1e-12)
+
+    def test_stationary_phase_hamilton_jacobi_multi_gradient(self):
+        mass = 5.0
+        grad_S = np.array([[3.0, 4.0], [5.0, 12.0]])
+        potential = np.array([1.0, -2.0])
+        kinetic = np.array([25.0, 169.0]) / (2.0 * mass)
+        dS_dt = -(kinetic + potential)
+        residual = stationary_phase_hamilton_jacobi_residual(
+            dS_dt, grad_S, potential=potential, mass=mass,
+        )
+        np.testing.assert_allclose(residual, 0.0, atol=1e-12)
+
+    def test_polar_decomposition_recovers_amplitude_and_phase(self):
+        x = np.linspace(0.0, 1.0, 32)
+        amplitude = 1.0 + 0.1 * x
+        phase = 0.25 + 0.5 * x
+        psi = amplitude * np.exp(1j * phase)
+        A, S = polar_decomposition(psi)
+        np.testing.assert_allclose(A, amplitude, rtol=1e-12)
+        np.testing.assert_allclose(S, phase, rtol=1e-12)
+
+    def test_polar_schrodinger_residuals_free_plane_wave(self):
+        mass = 2.0
+        momentum = 3.0
+        x = np.linspace(-1.0, 1.0, 81)
+        dx = x[1] - x[0]
+        amplitude = np.ones_like(x)
+        phase = momentum * x
+        dS_dt = np.full_like(x, -(momentum**2) / (2.0 * mass))
+        residuals = polar_schrodinger_residuals(
+            amplitude=amplitude,
+            dA_dt=0.0,
+            phase=phase,
+            dS_dt=dS_dt,
+            potential=0.0,
+            dx=dx,
+            mass=mass,
+        )
+        np.testing.assert_allclose(
+            residuals['real_hamilton_jacobi_residual'], 0.0, atol=1e-12,
+        )
+        np.testing.assert_allclose(
+            residuals['imaginary_continuity_residual'], 0.0, atol=1e-12,
+        )
+        np.testing.assert_allclose(residuals['quantum_potential'], 0.0, atol=1e-12)
+
+    def test_polar_schrodinger_residuals_reject_zero_amplitude(self):
+        with pytest.raises(ValueError, match='amplitude'):
+            polar_schrodinger_residuals(
+                amplitude=np.array([1.0, 0.0, 1.0]),
+                dA_dt=0.0,
+                phase=np.array([0.0, 0.1, 0.2]),
+                dS_dt=0.0,
+                potential=0.0,
+                dx=0.1,
+            )
+
+
 # ---------------------------------------------------------------------------
 # gap status strings
 # ---------------------------------------------------------------------------
@@ -207,7 +289,8 @@ class TestGapStatusStrings:
 
     def test_gap3_status_mentions_resolved(self):
         s = gap3_status()
-        assert 'RESOLVED' in s
+        assert 'PARTIALLY RESOLVED' in s
+        assert 'executable residuals' in s
 
     def test_gap1_mentions_postulate(self):
         s = gap1_status()

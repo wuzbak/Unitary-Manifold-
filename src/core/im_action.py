@@ -59,8 +59,9 @@ in Part IV of UNIFICATION_PROOF.md) is:
     Step 4: Stationary-phase approximation             [→ Hamilton-Jacobi]
     Step 5: Polar decomposition ψ = φ e^{iS}          [→ Schrödinger]
 
-Steps 1, 4, 5 are pure mathematics.
-Steps 2, 3 require the quantisation postulate (once).
+Steps 1, 4, 5 are implemented below as executable identities.
+Step 2 is the quantisation postulate. Step 3 is the standard path-integral
+construction once the quantum Hamiltonian is accepted.
 
 This is the standard derivation in every QFT textbook.  The claim is that
 this framework connects to it at the same postulate level — not that it
@@ -81,6 +82,17 @@ ccr_residual(phi, pi_phi, dx, hbar)
 schrodinger_derivation_steps()
     Returns the five steps connecting KK geometry to the Schrödinger
     equation, with the exact location of the quantisation postulate.
+
+gap3_forward_derivation_chain()
+    Machine-readable Gap 3 status: what is implemented, what is a
+    postulate, and what is standard mathematical construction.
+
+stationary_phase_hamilton_jacobi_residual(dS_dt, grad_S, V, mass)
+    Computes the Hamilton-Jacobi residual obtained by stationary phase.
+
+polar_schrodinger_residuals(A, dA_dt, S, dS_dt, V, dx, hbar, mass)
+    Computes the real/imaginary residuals of the Schrödinger equation after
+    ψ = A exp(iS/ℏ).
 
 im_action_from_kk_reduction(B, phi, u, dx)
     Show Im(S₄) as a function of KK fields only.
@@ -293,22 +305,153 @@ def schrodinger_derivation_steps() -> list:
             'step':     4,
             'name':     'Stationary-phase approximation',
             'input':    'Path integral Z = ∫[Dφ] exp(i S/ℏ)',
-            'output':   'Hamilton-Jacobi equation ∂_t S_cl + ½|∇S_cl|² + V = 0',
+            'output':   'Hamilton-Jacobi equation ∂_t S_cl + |∇S_cl|²/(2m) + V = 0',
             'type':     'MATH',
-            'location': 'src/core/im_action.py (this file, documented)',
-            'note':     'Exact in the ℏ→0 limit; corrections are O(ℏ).',
+            'location': 'src/core/im_action.py::stationary_phase_hamilton_jacobi_residual',
+            'note':     'Exact leading saddle condition; corrections are O(ℏ).',
         },
         {
             'step':     5,
             'name':     'Polar decomposition → Schrödinger equation',
-            'input':    'Hamilton-Jacobi + φ field equation □φ + αRφ = ...',
-            'output':   'iℏ ∂_t ψ = [−ℏ²∇²/2m + V] ψ',
+            'input':    'A, S with ψ = A exp(iS/ℏ)',
+            'output':   'Hamilton-Jacobi + continuity residuals equivalent to Schrödinger',
             'type':     'MATH',
-            'location': 'UNIFICATION_PROOF.md §IV.3',
-            'note':     ("Write ψ = φ exp(iS_cl). The □φ term is Bohm's "
-                         "quantum potential. Non-relativistic + flat-space limit."),
+            'location': 'src/core/im_action.py::polar_schrodinger_residuals',
+            'note':     ("The real residual is Hamilton-Jacobi plus Bohm quantum "
+                         "potential; the imaginary residual is continuity."),
         },
     ]
+
+
+def gap3_forward_derivation_chain() -> dict:
+    """Machine-readable status of the Gap 3 forward derivation.
+
+    The point is accountability: geometry supplies Im(S₄), the quantum
+    bridge is one explicit postulate, and the semiclassical/polar algebra is
+    executable in this module.
+    """
+    return {
+        'overall_status': 'PARTIALLY_RESOLVED_WITH_EXPLICIT_POSTULATE',
+        'postulate_count': 1,
+        'steps': {
+            1: {
+                'claim': 'KK reduction gives Im(S₄) = ∫ Bμ J^μ d⁴x',
+                'status': 'IMPLEMENTED',
+                'symbol': 'im_action_from_kk_reduction',
+            },
+            2: {
+                'claim': 'Promote canonical fields to CCR',
+                'status': 'POSTULATE',
+                'symbol': 'canonical_momentum_phi / ccr_residual',
+            },
+            3: {
+                'claim': 'CCR plus Hamiltonian gives path-integral representation',
+                'status': 'STANDARD_QFT_CONSTRUCTION',
+                'symbol': 'schrodinger_derivation_steps',
+            },
+            4: {
+                'claim': 'Stationary phase gives Hamilton-Jacobi equation',
+                'status': 'IMPLEMENTED',
+                'symbol': 'stationary_phase_hamilton_jacobi_residual',
+            },
+            5: {
+                'claim': 'Polar form ψ = A exp(iS/ℏ) splits Schrödinger into real/imag equations',
+                'status': 'IMPLEMENTED',
+                'symbol': 'polar_schrodinger_residuals',
+            },
+        },
+    }
+
+
+def stationary_phase_hamilton_jacobi_residual(
+    dS_dt: np.ndarray | float,
+    grad_S: np.ndarray,
+    potential: np.ndarray | float,
+    mass: float = 1.0,
+) -> np.ndarray:
+    """Residual of the leading stationary-phase Hamilton-Jacobi equation.
+
+    For a non-relativistic action phase S, the saddle of exp(iS/ℏ) obeys
+
+        ∂_t S + |∇S|²/(2m) + V = 0.
+
+    Returning the left-hand side makes the statement falsifiable: exact
+    solutions give zero up to discretisation.
+    """
+    if mass <= 0:
+        raise ValueError('mass must be positive')
+    grad = np.asarray(grad_S, dtype=float)
+    if grad.ndim == 1:
+        kinetic = grad**2 / (2.0 * mass)
+    else:
+        kinetic = np.sum(grad**2, axis=-1) / (2.0 * mass)
+    return np.asarray(dS_dt, dtype=float) + kinetic + np.asarray(potential, dtype=float)
+
+
+def polar_decomposition(psi: np.ndarray, hbar: float = 1.0) -> tuple[np.ndarray, np.ndarray]:
+    """Return A and S from ψ = A exp(iS/ℏ)."""
+    if hbar <= 0:
+        raise ValueError('hbar must be positive')
+    psi_arr = np.asarray(psi, dtype=complex)
+    return np.abs(psi_arr), hbar * np.unwrap(np.angle(psi_arr))
+
+
+def polar_schrodinger_residuals(
+    amplitude: np.ndarray,
+    dA_dt: np.ndarray | float,
+    phase: np.ndarray,
+    dS_dt: np.ndarray | float,
+    potential: np.ndarray | float,
+    dx: float,
+    hbar: float = 1.0,
+    mass: float = 1.0,
+) -> dict:
+    """Residuals after substituting ψ = A exp(iS/ℏ) into Schrödinger.
+
+    The equation iℏ∂_tψ = [−ℏ²∇²/(2m) + V]ψ is equivalent to:
+
+        S_t + S_x²/(2m) + V − ℏ² A_xx/(2mA) = 0
+        A_t + A_x S_x/m + A S_xx/(2m) = 0
+
+    in one spatial dimension.
+    """
+    if dx <= 0:
+        raise ValueError('dx must be positive')
+    if hbar <= 0:
+        raise ValueError('hbar must be positive')
+    if mass <= 0:
+        raise ValueError('mass must be positive')
+
+    A = np.asarray(amplitude, dtype=float)
+    S = np.asarray(phase, dtype=float)
+    if A.shape != S.shape:
+        raise ValueError('amplitude and phase must have the same shape')
+    if A.ndim != 1:
+        raise ValueError('only one-dimensional grids are supported')
+    if np.any(A <= 0):
+        raise ValueError('amplitude must be strictly positive')
+
+    A_x = np.gradient(A, dx, edge_order=2)
+    A_xx = np.gradient(A_x, dx, edge_order=2)
+    S_x = np.gradient(S, dx, edge_order=2)
+    S_xx = np.gradient(S_x, dx, edge_order=2)
+
+    real = (
+        np.asarray(dS_dt, dtype=float)
+        + S_x**2 / (2.0 * mass)
+        + np.asarray(potential, dtype=float)
+        - hbar**2 * A_xx / (2.0 * mass * A)
+    )
+    imaginary = (
+        np.asarray(dA_dt, dtype=float)
+        + A_x * S_x / mass
+        + A * S_xx / (2.0 * mass)
+    )
+    return {
+        'real_hamilton_jacobi_residual': real,
+        'imaginary_continuity_residual': imaginary,
+        'quantum_potential': -hbar**2 * A_xx / (2.0 * mass * A),
+    }
 
 
 def gap1_status() -> str:
@@ -330,9 +473,9 @@ def gap1_status() -> str:
 def gap3_status() -> str:
     """Return the honest status of Gap 3 after this module."""
     return (
-        "GAP 3 STATUS: RESOLVED (forward derivation exists)\n"
+        "GAP 3 STATUS: PARTIALLY RESOLVED (forward derivation boundary explicit)\n"
         "\n"
-        "The forward path is:\n"
+        "The executable forward path is:\n"
         "  KK reduction (derived) →\n"
         "  CCR postulate (once, same as all QFT) →\n"
         "  path integral (math) →\n"
@@ -340,7 +483,7 @@ def gap3_status() -> str:
         "  Schrödinger equation (math)\n"
         "\n"
         "The original document back-derived the Schrödinger equation.\n"
-        "This module provides the forward path.  The single postulate\n"
+        "This module implements steps 1, 4, and 5 as executable residuals.  The single postulate\n"
         "(step 2) is not additional — it is the standard quantisation\n"
         "step used in every quantum field theory.\n"
     )
