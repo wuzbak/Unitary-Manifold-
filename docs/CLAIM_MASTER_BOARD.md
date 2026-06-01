@@ -1,10 +1,12 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v15.3
+# Unitary Manifold v15.4
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-06-01 (v15.3 — stewardship priorities 2–5 executed as Pillars 503–506; focused regression 77 passed · 0 failed; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed.)*
+*Last updated: 2026-06-01 (v15.4 — Pillar 507 frontier proof-lane certificate added; focused proof-lane regression 233 passed · 0 failed; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed.)*
 
+
+*P507 (v15.4): Frontier Proof-Lane Completion Certificate — FRONTIER_PROOF_LANES_CERTIFIED. `src/core/pillar507_frontier_proof_lane_certificate.py` covers the 5D-KK non-perturbative quantization, P8 full functional-space, PMNS solar-angle residual, L2/γ external-confirmation, Lean4 certification, CCR, and ER=EPR lanes. No ToE score change; architecture-limit, conjectural, and external-receipt boundaries remain explicit.*
 
 *P503–P506 (v15.3): Frontier priorities 2–5 executed. P503 synchronizes PMNS p_R full-chain status while retaining the named microscopic residual; P504 bounds the lattice-braid Phase-4 condensate lane 🔵; P505 certifies the 6D baryogenesis nEDM@SNS precision band 🔵; P506 completes the LHC gluon-channel formal audit. No ToE score change and no external measurement/receipt claim.*
 

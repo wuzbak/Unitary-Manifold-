@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-06-01 (v15.3 — Pillars 503–506 execute stewardship priorities 2–5; focused regression 77 passed · 0 failed; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed. No primary falsifier window changed.)*
+*Last updated: 2026-06-01 (v15.3 — Pillars 503–506 execute stewardship priorities 2–5; focused regression 77 passed · 0 failed; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed. No primary falsifier window changed.)*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 

@@ -7,7 +7,7 @@ Not just physicists. Not just programmers. Everyone.
 If you have ever wondered why time only runs forward, why things fall apart and never reassemble on their own, or whether our picture of reality is complete — this work is addressing those questions. This document explains what was built, what was found, what it means, and where it goes from here.
 
 **Reviewed by:** GitHub Copilot (Microsoft / OpenAI) — April 2026–present  
-**Version:** original review arc v9.27–v9.30; **current repository state: v15.3 (Pillars 1–506 + Ω₀, latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed; see `STATUS.md` and `docs/mas_tracker.yml`)**  
+**Version:** original review arc v9.27–v9.30; **current repository state: v15.3 (Pillars 1–506 + Ω₀, latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed; see `STATUS.md` and `docs/mas_tracker.yml`)**  
 **Author of the theory:** ThomasCory Walker-Pearson
 
 ---
@@ -21,7 +21,7 @@ The hardgate pillar set is closed, falsifiers remain active, and the project now
 
 ### v15.3 current-state addendum — where we are now
 
-As of v15.3, the repository records Pillars 1–506 + Ω₀ and a latest verified full regression of **46,066 passed · 2 skipped · 12 deselected · 0 failed** across the canonical test paths. The most recent completion wave did three things that change how this conclusion should be read. First, P502 converted the vague question "what remains?" into a machine-readable completion audit separating executable closure from external receipts and independent review. Second, P503–P506 synchronized active frontier lanes without inflating the hardgate score: PMNS p_R retains its solar-angle residual, lattice braid Phase 4 is bounded without claiming external HMC completion, 6D baryogenesis is sharpened into an nEDM decision band, and the LHC gluon channel is formally routed without claiming discovery. Third, the stewardship stack now treats falsification monitoring and sprint state as live infrastructure rather than memory.
+As of v15.3, the repository records Pillars 1–506 + Ω₀ and a latest verified full regression of **46,076 passed · 2 skipped · 12 deselected · 0 failed** across the canonical test paths. The most recent completion wave did three things that change how this conclusion should be read. First, P502 converted the vague question "what remains?" into a machine-readable completion audit separating executable closure from external receipts and independent review. Second, P503–P506 synchronized active frontier lanes without inflating the hardgate score: PMNS p_R retains its solar-angle residual, lattice braid Phase 4 is bounded without claiming external HMC completion, 6D baryogenesis is sharpened into an nEDM decision band, and the LHC gluon channel is formally routed without claiming discovery. Third, the stewardship stack now treats falsification monitoring and sprint state as live infrastructure rather than memory.
 
 The final conclusion is therefore stronger but also more specific than the older v9/v10 wording. Internally, this is a complete, code-backed, adversarially tracked candidate framework. Externally, it remains pending independent reproduction, expert review, and decisive measurements. That distinction is the honesty line.
 
@@ -796,7 +796,7 @@ The mathematics is sealed. The predictions are in the table. Three observatories
 
 The living conclusion now has to hold two truths together.
 
-First: the Unitary Manifold is no longer merely a manuscript or speculative outline. It is an executable research program with hundreds of pillars, synchronized claim ledgers, falsification routes, public outreach, and a current clean full regression of **46,066 passed · 2 skipped · 12 deselected · 0 failed**. The repository has converted an unusually broad geometric thesis into functions, tests, trackers, review artifacts, and decision protocols. That is real progress. It deserves to be read as work, not as vibe.
+First: the Unitary Manifold is no longer merely a manuscript or speculative outline. It is an executable research program with hundreds of pillars, synchronized claim ledgers, falsification routes, public outreach, and a current clean full regression of **46,076 passed · 2 skipped · 12 deselected · 0 failed**. The repository has converted an unusually broad geometric thesis into functions, tests, trackers, review artifacts, and decision protocols. That is real progress. It deserves to be read as work, not as vibe.
 
 Second: internal verification is not external confirmation. The tests prove that the repository implements its declared equations and ledgers consistently. They do not prove that the universe shares the 5D ansatz, the B_μ irreversibility identification, the φ interpretation, or the compactification/braid structure. Those are physical commitments, and physical commitments need nature.
 

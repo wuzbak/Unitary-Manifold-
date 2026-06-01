@@ -28,7 +28,7 @@ The current repository state is v15.3, effective 2026-06-01.
 
 The live registry records Pillars 1–506 plus Ω₀, with the latest full regression at:
 
-> **46,066 passed · 2 skipped · 12 deselected · 0 failed**
+> **46,076 passed · 2 skipped · 12 deselected · 0 failed**
 
 That number should be read correctly. It is not a magic credential. It means the executable claims, ledgers, calculators, falsifier routes, and documentation checks are presently consistent with the equations and rules encoded in the repository. It is an internal verification statement.
 

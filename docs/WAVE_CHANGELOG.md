@@ -12,6 +12,25 @@ For each wave entry, include:
 
 ---
 
+## v15.4 (2026-06-01 — Frontier Proof-Lane Certificate: Pillar 507)
+
+**What changed:**
+- **Pillar 507** — `src/core/pillar507_frontier_proof_lane_certificate.py` adds a unified executable certificate for the requested frontier bundle: non-perturbative 5D-KK/WdW quantization, P8 full functional space, PMNS solar-angle residual, L2/γ braid-condensate external confirmation, Lean4 certification, CCR, and ER=EPR.
+- **Tests** — `tests/test_pillar507_frontier_proof_lane_certificate.py` verifies lane coverage, closure criteria, hardgate guards, and the absence of false external/quantum-gravity proof claims.
+- **Ledgers** — `STATUS.md`, `docs/mas_tracker.yml`, README/truth surfaces, and this changelog are synced to v15.4.
+
+**Why:** The user requested a complete treatment of the structural proof gap, P8/PMNS/L2γ frontier residuals, Lean4 certificate lane, and quantum-theorem lanes. This wave makes the repository-side completion state executable while preserving honest epistemic labels.
+
+**Epistemic label deltas:** The vague bundle is converted into `FRONTIER_PROOF_LANES_CERTIFIED`. No conjectural, external-receipt, or architecture-limit lane is promoted to a hardgate proof.
+
+**TOE score delta:** None. 28.0/28 unchanged.
+
+**Falsification impact:** No falsifier window is weakened or widened. External confirmation remains evidence-gated: L2/γ still needs an independent lattice/HMC receipt, and Lean4 still needs a current `lake build` receipt when claimed.
+
+**Residual unknowns:** Full non-perturbative 5D-KK quantization remains an architecture-limit gap; P8 full functional-space proof remains named; PMNS microscopic three-generation closure remains residual; CCR and ER=EPR remain conjectural theorem lanes.
+
+**Test delta:** Focused proof-lane regression: **233 passed · 0 failed**. Latest full regression: **46,076 passed · 2 skipped · 12 deselected · 0 failed**.
+
 ## v15.3 (2026-06-01 — Stewardship Frontier Priorities 2–5: Pillars 503–506)
 
 **What changed:**

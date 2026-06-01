@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v15.3
+# Unitary Manifold v15.4
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-06-01 (v15.3 — Pillars 503–506 added for stewardship priorities 2–5; focused regression 77 passed · 0 failed; latest full regression 46,066 passed · 2 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+*Last updated: 2026-06-01 (v15.4 — Pillar 507 frontier proof-lane certificate added; focused proof-lane regression 233 passed · 0 failed; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+
+> **v15.4 sync note:** Pillar 507 certificates the requested 5D-KK/P8/PMNS/L2γ/Lean4/CCR/ER=EPR proof-lane bundle. It does not claim missing full quantum-gravity proofs, external HMC receipts, Lean4 build receipts, or conjectural theorem closure.
 
 > **v15.3 sync note:** Pillars 503–506 implement frontier priorities 2–5 as bounded/synchronized executable audits. No hardgate score inflation: PMNS residual retained, lattice HMC external receipt not claimed, 6D baryogenesis remains adjacent-track, and HL-LHC remains future data.
 
