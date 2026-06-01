@@ -1,9 +1,9 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v15.6 — Unambiguous Record**  
+**The Unitary Manifold v15.7 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo added; CCR and ER=EPR now have conditional theorem kernels, while full 5D-KK non-perturbative quantum gravity, P8 full functional space, external L2/γ HMC, Lean4 build, unconditional CCR star-product closure, and unconditional KK RT closure remain unclaimed; no hardgate score inflation.)*
-*Latest verified full regression: 46,094 passed · 2 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
+*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized as stewardship control-plane hardening only; CCR and ER=EPR retain their v15.6 conditional theorem kernels, while full 5D-KK non-perturbative quantum gravity, P8 full functional space, external L2/γ HMC, Lean4 build, unconditional CCR star-product closure, and unconditional KK RT closure remain unclaimed; no hardgate score inflation.)*
+*Latest verified full regression: 45,649 passed · 22 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

@@ -73,7 +73,7 @@ v15_7_ai_governance_stack_operationalized:
     - "docs/mas_tracker.yml: governance-stack checkpoint"
     - "7-OUTREACH/substack/posts/post-252-s03e030-ai-governance-stack.md: public explanation"
   focused_regression: "10 passed · 0 failed (P510 governance-stack tests)"
-  full_regression: "pending after v15.7 sync; v15.6 baseline 46,094 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "45,649 passed · 22 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 511
   epistemic_deltas:

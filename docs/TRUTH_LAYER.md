@@ -8,7 +8,7 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *(1) Pillar 510 adds a seven-layer operational AI governance overlay for autonomous stewardship: constitution, approval gates, safety protocols, audit trails, human-in-the-loop verification, brand-safety/content moderation, and runtime sandboxing.*
 *(2) The Unitary Pentad remains the native HILS framework; the external seven-layer pattern is used as an operational validation checklist, not as a replacement and not as a physics claim.*
 *(3) Critical/forbidden actions require human authority and audit metadata; public-facing text is screened against claim-boundary overclaims before outreach, arXiv, README, or institutional messaging.*
-*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P510 regression: 10 passed · 0 failed. Latest v15.6 full regression: 46,094 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 511.*
+*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P510 regression: 10 passed · 0 failed. Latest full regression: 45,649 passed · 22 skipped · 12 deselected · 0 failed. Next pillar slot: 511.*
 
 *v15.6 update (Earned Proof-Advancement Redo — Pillar 509):*
 *(1) Pillar 509 adds earned conditional theorem kernels for CCR and ER=EPR instead of stopping at the v15.5 no-claim audit.*
@@ -105,7 +105,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized; no hardgate physics claim promotions; focused P510 regression 10 passed · 0 failed; latest v15.6 full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized; no hardgate physics claim promotions; focused P510 regression 10 passed · 0 failed; latest full regression 45,649 passed · 22 skipped · 12 deselected · 0 failed)*
 
 ---
 

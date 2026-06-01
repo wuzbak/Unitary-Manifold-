@@ -30,7 +30,7 @@ For each wave entry, include:
 
 **Residual unknowns:** External review, observational data, and institutional reception remain external receipts. Governance hardening improves control and auditability; it is not evidence that nature confirms the framework.
 
-**Test delta:** Focused P510 regression: **10 passed · 0 failed**. Latest v15.6 full regression baseline: **46,094 passed · 2 skipped · 12 deselected · 0 failed**.
+**Test delta:** Focused P510 regression: **10 passed · 0 failed**. Latest full regression: **45,649 passed · 22 skipped · 12 deselected · 0 failed**.
 
 ## v15.6 (2026-06-01 — Earned Proof-Advancement Redo: Pillar 509)
 

@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized; focused P510 regression 10 passed · 0 failed; latest v15.6 full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized; focused P510 regression 10 passed · 0 failed; latest full regression 45,649 passed · 22 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
 
 > **v15.7 sync note:** Pillar 510 operationalizes a seven-layer AI governance stack for autonomous stewardship. This is a control-plane and auditability hardening step: it adds approval tiers, public-claim safety filtering, and audit metadata without changing any physics verdict, ToE score, or falsifier window.
 
