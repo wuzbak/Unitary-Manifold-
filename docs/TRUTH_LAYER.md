@@ -1,8 +1,14 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v14.2
+# Unitary Manifold v15.2
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v15.2 update (Implementation and Completion-Audit Sync — Pillars 495–502):*
+*(1) Pillars 495–501 synchronize active decision windows for CMB amplitude residuals, CKM phase residual tracking, DESI DR3, SO DR1, JUNO, SPHEREx, and HL-LHC.*
+*(2) Pillar 502 — Completion Master Audit: `completion_master_audit()` returns the machine-readable ledger of executable tasks, external receipt-only unknowns, immediate actions, completion fraction, next Substack slot, and monograph-version detection. The audit deliberately separates repository-readiness evidence from arXiv/Zenodo external verification.*
+*(3) No hardgate physics claim is promoted. No falsification condition is softened. ToE score remains 28.0/28.*
+*Latest full regression: 45,989 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 503.*
 
 *v14.2 update (Gap Closure Sprint — Pillars 482–487):*
 *(1) Pillar 482 — Lean4 CI Full Activation: lean4-check.yml trigger broadened from paths:lean4/** to branches:**. Tier 2 now triggers on ALL branch pushes. CI_BLOCKED → LEAN4_CI_FULLY_ACTIVATED.*
@@ -69,7 +75,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-05-24 (v13.0 — Admissions Audit Sprint: Pillars 398–401 + Pillar 384 C5 + Pillar 394 dependency map + Admissions 7/10/11/12/13 status updates)*
+*Last updated: 2026-06-01 (v15.2 — implementation/completion audit sync through Pillar 502; no hardgate physics claim promotions; 45,989 passed · 2 skipped · 12 deselected · 0 failed)*
 
 ---
 

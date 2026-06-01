@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-05-23 (v12.7 — Mathematical Gap Closure Sprint: Pillars 385–388 added (P385 KM c₁ L2_KACMOODY_CONSTRAINED, P386 seesaw TEXTURE_DIAGONALIZED, P387 Admission 3 FORMALLY_CLOSED, P388 NLO NLO_CORRECTIONS_BOUNDED); 39,745 tests passing; 0 failed. v12.0–v12.7 sprints added Pillars 345–388: Science/Math/Physics Rigor Sprint (P345–353), Millennium Prize geometry (P354), Second Quantization Z_φ (P355), Spectral Envelope Z_φ(k) (P356), Physics Deep Dive Sprint (P357–366), 2027 Decision Year Prep (P367–376), Major Mathematical Closure (P377–384), Gap Closure Sprint (P385–388). See STATUS.md for full sprint log.)*
+*Last updated: 2026-06-01 (v15.2 — active decision-window sync through Pillars 495–501 and P502 completion master audit; latest full regression 45,989 passed · 2 skipped · 12 deselected · 0 failed. No falsifier window changed.)*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
@@ -32,6 +32,8 @@
 > **Operational hardening note:** Same-day decision routing is now backed by executable adjacent-track packs (`desi_dr3_publication_day_runbook.py`, `litebird_synthetic_rehearsal.py`, `lab_cp_execution_report.py`) and final sprint aggregation (`proof_close_certification_report.py`) for deterministic verdict handoff.
 
 > **v11.4 freshness note:** Canonical observation-routing surfaces are synchronized to the 2026-05-19 branch state. Residual execution priority remains `T3 → A3 → SC2 → SC4`; all observational falsifier windows and same-day routing rules are unchanged.
+
+> **v15.2 freshness note:** P495–P501 keep DESI DR3, SO DR1, JUNO, SPHEREx, HL-LHC, CMB amplitude, and CKM residual windows active. P502 adds a completion audit only; it does not alter any observational prediction or falsification threshold.
 
 ## Decision Tree (LiteBIRD / CMB-S4)
 

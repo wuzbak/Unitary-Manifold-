@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v14.2
+# Unitary Manifold v15.2
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-05-25 (v14.2 — Pillars 482–487 synced; DESI DR2 tension corrected to 2.30σ CPL (Pillar 428); DR3 tripwire operational (P486); Lean4 CI fully activated (P482); Z₂-odd G_{μ5} action-level derived (P487); CMB peak positions quantified (P485))*
+*Last updated: 2026-06-01 (v15.2 — Pillars 495–502 synced; P502 completion master audit added; latest full regression 45,989 passed · 2 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+
+> **v15.2 sync note:** The completion state is now auditable through `src/core/pillar502_completion_master_audit.py`. Executable repository blockers are separated from external receipt-only unknowns (arXiv and Zenodo). No PASS/TENSION/FALSIFIED verdict changes in this sync.
 
 > **v14.2 sync note:** DESI wₐ tension corrected from raw DR2 values (2.07σ/2.82σ) to CPL-corrected 2.30σ per Pillar 428. DR3 machine-executable tripwire now in src/core/pillar486_desi_dr3_final_prep.py. Lean4 CI trigger broadened to all branches (P482). Z₂-odd G_{μ5}: Admission 1 classical chain complete via GHY well-posedness (P487).
 
