@@ -6,7 +6,7 @@
 
 ---
 
-This folder contains the **Omega Edition (v6.0–v13.0)** of eighteen full-length books authored under the
+This folder contains the **Omega Edition (v6.0–v15.0)** of twenty-one full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that serves as the publication split for Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
@@ -15,7 +15,7 @@ Manifold v9.27.
 
 Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework. Books 5–18 are original
+expanded, and cross-referenced with the full physics framework. Books 5–21 are original
 to this repository.
 
 **v3.0 Expansion (April 2026):**
@@ -71,6 +71,11 @@ to this repository.
 **v14.0 — Book of Theorems Edition (May 2026):**
 - Book 19: *The Book of Theorems* — a complete record of all 32 registered theorems and proofs (T001–T032) plus Theorems XII–XXVII from the quantum register; updated to v14.2 basis (44,748 tests)
 - Focus: academic-grade proof exposition, epistemic honesty labels, fully reproducible code citations, and human-readable narrative for every result the framework has proved, derived, or conjectured
+
+**v15.0 — Civic Dignity Edition (June 2026):**
+- Book 20: *The Lie of Human Ranking* — racism, prejudice, bigotry, and the work of repair
+- Book 21: *Names Without Cages* — labels, gender, sexual identity, tribalism, inclusion, and human belonging
+- Focus: standalone AxiomZero civic analysis with trusted-source citations; no physics claim
 
 ---
 
@@ -545,6 +550,34 @@ This is the definitive proof record of the framework. Nothing is papered over. E
 
 ---
 
+### 20. [The Lie of Human Ranking](book-racism-prejudice-bigotry.md)
+**Racism, Prejudice, Bigotry, and the Work of Repair**
+
+| Property | Value |
+|---|---|
+| Size | ~47 KB |
+| Category | Civic dignity / anti-bigotry |
+| Framework connection | Standalone AxiomZero civic analysis; no physics claim |
+| Focus | Human ranking, structural racism, bigotry mechanics, and repair |
+
+A standalone AxiomZero civic book on racism, prejudice, bigotry, and the recurring human temptation to turn difference into hierarchy. It distinguishes prejudice, bigotry, and racism; names historical and institutional mechanisms; and frames repair as factual honesty plus civic responsibility.
+
+---
+
+### 21. [Names Without Cages](book-labels-tribes-and-human-dignity.md)
+**Labels, Gender, Sexual Identity, Tribalism, and the Work of Human Belonging**
+
+| Property | Value |
+|---|---|
+| Size | ~58 KB |
+| Category | Civic dignity / inclusion / anti-tribalism |
+| Framework connection | Standalone AxiomZero civic analysis; no physics claim |
+| Focus | Gender, sexual identity, labeling, isolation, tribalism, sexism, LGBTQ+ harms, and repair |
+
+A thoroughly sourced public-facing book on the double edge of labels: how names can help people find language and protection, and how labels become cages when they are used to rank, isolate, or dehumanize. Covers sexism, LGBTQ+ stigma, youth and workplace harms, intentional versus accidental division, and practical repair blueprints for families, schools, workplaces, health systems, media, faith communities, governments, movements, skeptics, and LGBTQ communities.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -600,11 +633,12 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 17 | The Pentad Deployment Guide | **Governance Operations** | Operational deployment guidance for the independent Pentad framework | No |
 | 18 | The Iron Cage | **Justice / Governance** | Data-driven prison and detention systems audit with implementation blueprint | No |
 | 19 | The Book of Theorems | **Physics Core — Theorems** | Direct proof record: all 32 registered theorems + Theorems XII–XXVII; v14.2 basis | No (AI-verified; 44,748 tests) |
+| 20 | The Lie of Human Ranking | **Civic Dignity / Anti-Bigotry** | Standalone civic analysis; no physics claim | No |
+| 21 | Names Without Cages | **Civic Dignity / Inclusion** | Standalone civic analysis; no physics claim | No |
 
-**Books 5–18 are AxiomZero-commissioned works, not peer-reviewed physics.**
-Books 7–18 (education, engineering, politics, climate, orientation, falsification, co-emergence, deployment operations, and justice systems)
-apply the UM mathematical language
-as a lens; they are not physics predictions and should not be read as such.
+**Books 5–21 are AxiomZero-commissioned works, not peer-reviewed physics.**
+Books 7–19 (education, engineering, politics, climate, orientation, falsification, co-emergence, deployment operations, justice systems, and theorem exposition)
+use either social commentary, systems analysis, or direct framework exposition as labeled. Books 20–21 are standalone civic analysis and make no physics claim.
 See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistemic map.
 
 ---
@@ -628,6 +662,7 @@ See [`OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md) for the full epistem
 | 12.0 — Deployment & Operations Edition | May 2026 | Book 17 added: *The Pentad Deployment Guide* — deployment-facing handbook for setup, operation, safety discipline, and integration strategy for the independent Unitary Pentad framework |
 | 13.0 — Justice Systems Deep-Dive Edition | May 2026 | Book 18 added: *The Iron Cage* — data-driven analysis of U.S. prisons and detention systems with constitutional case framing, oversight failure mapping, and immediate + structural reform blueprint |
 | 14.0 — Book of Theorems Edition | May 2026 | Book 19 added: *The Book of Theorems* — complete record of all 32 registered theorems (T001–T032) and Theorems XII–XXVII; proof exposition with epistemic honesty labels (PROVED / DERIVED / IDENTIFIED / CONDITIONAL / CONJECTURE); all results reproducible via `python3 -m pytest`; updated to v14.2 basis (44,748 tests, 0 failures) |
+| 15.0 — Civic Dignity Edition | June 2026 | Books 20–21 added/indexed: *The Lie of Human Ranking* and *Names Without Cages*; standalone AxiomZero civic books on racism, bigotry, gender/sexual identity, labeling, tribalism, inclusion, and repair, with trusted-source appendices and citations |
 
 ---
 
