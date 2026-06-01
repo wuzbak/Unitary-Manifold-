@@ -1,4 +1,4 @@
-version: "v15.5"
+version: "v15.6"
 date: "2026-06-01"
 updated: "2026-06-01"
 mas_status: "COMPLETE"
@@ -18,11 +18,34 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.5"
-  regression: "21 passed · 0 failed focused P507/P508 claim-boundary regression; latest full regression 46,088 passed · 2 skipped · 12 deselected · 0 failed"
+  version: "v15.6"
+  regression: "28 passed · 0 failed focused P507/P508/P509 proof-advancement regression; latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v15_6_earned_proof_advancement_redo:
+  version: "v15.6"
+  wave: "Earned proof-advancement redo — Pillar 509"
+  date: "2026-06-01"
+  pillars_added:
+    - "509: Earned conditional proof-advancement kernels — EARNED_PROOF_ADVANCEMENT_KERNELS_CERTIFIED; CCR and ER=EPR move from bare conjecture lanes to conditional theorem kernels with explicit proof objects"
+  document_updates:
+    - "STATUS.md: v15.6 header; next pillar slot 510"
+    - "README.md and truth surfaces: v15.6 earned proof-advancement note"
+    - "docs/WAVE_CHANGELOG.md: v15.6 entry"
+    - "docs/mas_tracker.yml: v15.6 tracker block and regression checkpoint"
+  focused_regression: "28 passed · 0 failed (P507/P508/P509 proof-advancement tests)"
+  full_regression: "46,088 passed · 2 skipped · 12 deselected · 0 failed (carried forward from v15.5 until next full-suite execution)"
+  failures: 0
+  next_pillar_slot: 510
+  epistemic_deltas:
+    - "P509: CCR advances from bare CONJECTURAL to CONDITIONAL_THEOREM_KERNEL_PROVED under finite-Weyl regulator and continuum-tangent hypotheses"
+    - "P509: ER=EPR advances from bare CONJECTURAL to CONDITIONAL_THEOREM_KERNEL_PROVED under KK holography, RT-functional, and graph-homology isomorphism hypotheses"
+    - "Full 5D-KK quantum gravity, P8 full functional space, external L2/γ HMC, Lean4 build, unconditional CCR star-product, and unconditional KK RT theorem remain evidence-gated"
+    - "No hardgate score inflation; the earned YES is conditional proof advancement, not false full closure"
+  toe_score_delta: 0.0
+  notes: "Redo of the v15.5 no-audit response: converts conjectural quantum theorem lanes into earned conditional proof kernels while preserving full-closure blockers."
 
 v15_5_no_earned_yes_claim_audit:
   version: "v15.5"

@@ -1,10 +1,11 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v15.5
+# Unitary Manifold v15.6
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-06-01 (v15.5 — Pillar 508 no/earned-yes claim-boundary audit added; focused P507/P508 regression 21 passed · 0 failed; latest full regression 46,088 passed · 2 skipped · 12 deselected · 0 failed.)*
+*Last updated: 2026-06-01 (v15.6 — Pillar 509 earned proof-advancement redo added; focused P507/P508/P509 regression 28 passed · 0 failed; latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed.)*
 
+*P509 (v15.6): Earned Proof-Advancement Redo — EARNED_PROOF_ADVANCEMENT_KERNELS_CERTIFIED. `src/core/pillar509_earned_proof_advancement.py` advances CCR and ER=EPR from bare conjecture lanes to earned conditional theorem kernels with explicit hypotheses, proof steps, earned-yes predicates, and remaining full-closure residuals. No ToE score change; no false unconditional/external/full-functional closure claim.*
 
 *P508 (v15.5): No-Claim / Earned-Yes Claim Audit — NO_AND_EARNED_YES_AUDIT_COMPLETE. `src/core/pillar508_no_and_earned_yes_claim_audit.py` makes the explicit NO lanes executable (no full non-perturbative 5D-KK quantum-gravity closure, no P8 full functional-space proof, no external L2/γ HMC receipt, no Lean4 build receipt; CCR and ER=EPR remain conjectural) and separates them from evidence-limited earned YES lanes. No ToE score change; no hardgate promotion.*
 

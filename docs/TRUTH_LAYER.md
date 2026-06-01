@@ -1,8 +1,14 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v15.5
+# Unitary Manifold v15.6
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v15.6 update (Earned Proof-Advancement Redo — Pillar 509):*
+*(1) Pillar 509 adds earned conditional theorem kernels for CCR and ER=EPR instead of stopping at the v15.5 no-claim audit.*
+*(2) CCR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated finite-Weyl regulator and continuum-tangent hypotheses; ER=EPR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated KK holography, RT-functional, and graph-homology hypotheses.*
+*(3) Full non-perturbative 5D-KK closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK RT theorem remain evidence-gated and not claimed.*
+*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508/P509 regression: 28 passed · 0 failed. Latest full regression carried forward from v15.5: 46,088 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 510.*
 
 *v15.5 update (No-Claim / Earned-Yes Claim Audit — Pillar 508):*
 *(1) Pillar 508 adds an executable no/yes boundary audit over the frontier proof-lane bundle.*
