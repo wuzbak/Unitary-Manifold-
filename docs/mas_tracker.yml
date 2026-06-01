@@ -1,4 +1,4 @@
-version: "v15.6"
+version: "v15.7"
 date: "2026-06-01"
 updated: "2026-06-01"
 mas_status: "COMPLETE"
@@ -23,6 +23,65 @@ public_surface_sync_checkpoint:
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
+
+v15_7_ai_governance_stack_operationalized:
+  version: "v15.7"
+  wave: "AI governance stack operationalization — Pillar 510"
+  date: "2026-06-01"
+  pillars_added:
+    - "510: Seven-layer AI governance stack operationalized — AI_GOVERNANCE_STACK_OPERATIONALIZED; operational control overlay for autonomous stewardship"
+  governance_stack_checkpoint:
+    - layer: "Constitution"
+      artifacts: ["STEWARDSHIP.md", "5-GOVERNANCE/SEPARATION.md", "5-GOVERNANCE/co-emergence/TRUST_PROTOCOL.md"]
+      status: "OPERATIONALIZED"
+      open_gaps: []
+      required_approval: "routine"
+    - layer: "Approval gates"
+      artifacts: ["STEWARDSHIP.md §2.1", "STEWARDSHIP.md §8.1", "src/core/pillar510_ai_governance_stack.py"]
+      status: "OPERATIONALIZED"
+      open_gaps: []
+      required_approval: "sensitive"
+    - layer: "Safety protocols"
+      artifacts: ["STEWARDSHIP.md §3.3", "STEWARDSHIP.md §5", "FALLIBILITY.md", "3-FALSIFICATION/OBSERVATION_TRACKER.md"]
+      status: "OPERATIONALIZED"
+      open_gaps: []
+      required_approval: "sensitive"
+    - layer: "Audit trails"
+      artifacts: ["docs/mas_tracker.yml", "docs/WAVE_CHANGELOG.md", "STATUS.md", "src/core/pillar510_ai_governance_stack.py"]
+      status: "OPERATIONALIZED"
+      open_gaps: []
+      required_approval: "routine"
+    - layer: "Human-in-the-loop verification"
+      artifacts: ["STEWARDSHIP.md §2", "STEWARDSHIP.md §8", "5-GOVERNANCE/co-emergence/TRUST_PROTOCOL.md §9"]
+      status: "OPERATIONALIZED"
+      open_gaps: []
+      required_approval: "critical"
+    - layer: "Brand safety and content moderation"
+      artifacts: ["docs/CLAIM_MASTER_BOARD.md", "docs/TRUTH_LAYER.md", "docs/GATEKEEPER_SUMMARY.md", "src/core/pillar508_no_and_earned_yes_claim_audit.py"]
+      status: "OPERATIONALIZED"
+      open_gaps: []
+      required_approval: "sensitive"
+    - layer: "Runtime sandboxing"
+      artifacts: ["STEWARDSHIP.md §8.4", ".github/workflows/", "pyproject.toml"]
+      status: "OPERATIONALIZED"
+      open_gaps: []
+      required_approval: "routine"
+  approval_tiers: ["routine", "sensitive", "critical", "forbidden"]
+  document_updates:
+    - "STEWARDSHIP.md: seven-layer operational governance stack and approval gates"
+    - "STATUS.md and truth surfaces: v15.7 governance hardening note"
+    - "docs/mas_tracker.yml: governance-stack checkpoint"
+    - "7-OUTREACH/substack/posts/post-252-s03e030-ai-governance-stack.md: public explanation"
+  focused_regression: "10 passed · 0 failed (P510 governance-stack tests)"
+  full_regression: "45,649 passed · 22 skipped · 12 deselected · 0 failed"
+  failures: 0
+  next_pillar_slot: 511
+  epistemic_deltas:
+    - "Operational governance hardening only; no physics claim promotion"
+    - "Critical and forbidden actions route through explicit human authority gates"
+    - "Public-facing claims require claim-boundary safety screening"
+  toe_score_delta: 0.0
+  notes: "Adds an external seven-layer AI-governance operational overlay while preserving the Unitary Pentad as the native HILS framework."
 
 v15_6_earned_proof_advancement_redo:
   version: "v15.6"

@@ -16,7 +16,7 @@ A 5-dimensional Kaluza-Klein physics framework deriving Standard Model parameter
 - [Visual Gallery](../7-OUTREACH/visualizations/README.md)
 
 ## Live Test Status
-46,094 passed · 2 skipped · 12 deselected · 0 failed. See [GitHub Actions](https://github.com/wuzbak/Unitary-Manifold-/actions).
+45,649 passed · 22 skipped · 12 deselected · 0 failed. See [GitHub Actions](https://github.com/wuzbak/Unitary-Manifold-/actions).
 
 ## Key Visuals
 

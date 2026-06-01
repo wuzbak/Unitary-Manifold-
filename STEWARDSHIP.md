@@ -284,6 +284,101 @@ Its operational principles apply to stewardship:
 - **Separation of governance from physics:** Governance decisions are not
   physics claims. Changes to this document do not change the theory.
 
+### 8.1 Seven-layer operational governance stack
+
+Pillar 510 adds a seven-layer operational overlay for autonomous AI
+stewardship. This is not a replacement for the Unitary Pentad. It is the
+production-control translation of the Pentad into explicit AI-governance
+controls:
+
+| Layer | Repository control | Required approval |
+|-------|--------------------|-------------------|
+| Constitution | `STEWARDSHIP.md`, `SEPARATION.md`, `TRUST_PROTOCOL.md` define roles, limits, and intent-control | Routine |
+| Approval gates | Risk-tier routing for routine, sensitive, critical, and forbidden actions | Sensitive |
+| Safety protocols | Safe-mode, rollback, falsifier, scope-lock, and no-overclaim rules | Sensitive |
+| Audit trails | `STATUS.md`, `docs/mas_tracker.yml`, `docs/WAVE_CHANGELOG.md`, PR records, and pillar reports | Routine |
+| Human-in-the-loop verification | Human final authority for falsification, legal, authorship, Zenodo, and institutional responses | Critical |
+| Brand safety / content moderation | Claim-boundary checks before Substack, arXiv, README, or public institutional messaging | Sensitive |
+| Runtime sandboxing | Repo/CI/container limits, dependency isolation, credential boundaries, and no unsupervised external writes | Routine |
+
+The executable certificate is `src/core/pillar510_ai_governance_stack.py`.
+It must remain a governance-control artifact only: no physics claim is promoted,
+no falsifier is softened, and no ToE score changes by adding or editing this
+stack.
+
+### 8.2 Approval gates
+
+```yaml
+ai_steward_approval_gates:
+  routine:
+    actor: "AI steward"
+    examples:
+      - focused tests
+      - routine documentation sync
+      - non-score governance metadata
+      - weekly sprint PR
+    requires_human: false
+    requires_judgment_packet: false
+    audit_trail_required: true
+
+  sensitive:
+    actor: "AI steward after explicit human approval"
+    examples:
+      - public-facing claim change
+      - Substack/arXiv framing change
+      - approval-gate modification
+      - external engagement package
+    requires_human: true
+    requires_judgment_packet: false
+    audit_trail_required: true
+
+  critical:
+    actor: "human steward final authority"
+    examples:
+      - falsification declaration
+      - legal or licensing decision
+      - authorship dispute
+      - Zenodo deposit
+      - formal institutional response
+    requires_human: true
+    requires_judgment_packet: true
+    audit_trail_required: true
+
+  forbidden:
+    actor: "none autonomously"
+    examples:
+      - secret or credential exposure
+      - unsupervised external writes
+      - physics score inflation without evidence
+      - weakening falsifier windows
+    requires_human: true
+    requires_judgment_packet: true
+    audit_trail_required: true
+```
+
+### 8.3 Public-claim safety rule
+
+Before any public-facing summary is treated as release-ready, the AI steward
+must check it against the claim-boundary surfaces:
+
+- `docs/CLAIM_MASTER_BOARD.md`
+- `docs/TRUTH_LAYER.md`
+- `docs/GATEKEEPER_SUMMARY.md`
+- `src/core/pillar508_no_and_earned_yes_claim_audit.py`
+- `src/core/pillar510_ai_governance_stack.py`
+
+Blocked public claims include: claiming the universe is proved, claiming
+external review or external receipts are complete without evidence, claiming
+unconditional CCR/ER=EPR theorem closure, claiming full non-perturbative 5D-KK
+closure, claiming ToE score inflation, or softening a falsifier.
+
+### 8.4 Runtime sandboxing rule
+
+The AI steward may operate inside the repository, CI, and declared test/build
+environments. It must not autonomously expose secrets, move credentials, write
+to external systems outside approved channels, bypass the human steward for
+critical actions, or convert sandbox success into an external-receipt claim.
+
 ---
 
 ## 9 · The Deeper Obligation
