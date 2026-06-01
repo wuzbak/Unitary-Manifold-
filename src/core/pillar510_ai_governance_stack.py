@@ -21,6 +21,7 @@ __all__ = [
     "VERSION",
     "GOVERNANCE_LAYER_KEYS",
     "APPROVAL_TIERS",
+    "ACTION_TIER_PRECEDENCE",
     "governance_layer_registry",
     "approval_gate_matrix",
     "classify_action",
@@ -46,6 +47,7 @@ GOVERNANCE_LAYER_KEYS: List[str] = [
 ]
 
 APPROVAL_TIERS: List[str] = ["routine", "sensitive", "critical", "forbidden"]
+ACTION_TIER_PRECEDENCE: List[str] = ["forbidden", "critical", "sensitive", "routine"]
 
 
 def governance_layer_registry() -> Dict[str, Dict[str, object]]:
@@ -145,20 +147,27 @@ def approval_gate_matrix() -> Dict[str, Dict[str, object]]:
 
 
 def classify_action(action: str) -> Dict[str, object]:
-    """Classify an action into an operational approval tier."""
+    """Classify an action into the highest applicable approval tier.
+
+    Precedence is explicit: forbidden markers dominate critical markers, which
+    dominate sensitive markers, which dominate routine actions.
+    """
     normalized = action.casefold()
     matrix = approval_gate_matrix()
-    forbidden_markers = ["secret", "credential", "unsupervised external write", "weaken falsifier", "score inflation"]
-    critical_markers = ["falsification declaration", "legal", "licensing", "authorship", "zenodo", "institutional response"]
-    sensitive_markers = ["public", "substack", "arxiv", "claim", "approval gate", "external engagement"]
-    if any(marker in normalized for marker in forbidden_markers):
-        tier = "forbidden"
-    elif any(marker in normalized for marker in critical_markers):
-        tier = "critical"
-    elif any(marker in normalized for marker in sensitive_markers):
-        tier = "sensitive"
-    else:
-        tier = "routine"
+    tier_markers = {
+        "forbidden": ["secret", "credential", "unsupervised external write", "weaken falsifier", "score inflation"],
+        "critical": ["falsification declaration", "legal", "licensing", "authorship", "zenodo", "institutional response"],
+        "sensitive": ["public", "substack", "arxiv", "claim", "approval gate", "external engagement"],
+        "routine": [],
+    }
+    tier = next(
+        (
+            candidate
+            for candidate in ACTION_TIER_PRECEDENCE
+            if candidate == "routine" or any(marker in normalized for marker in tier_markers[candidate])
+        ),
+        "routine",
+    )
     return {"action": action, "tier": tier, **matrix[tier]}
 
 

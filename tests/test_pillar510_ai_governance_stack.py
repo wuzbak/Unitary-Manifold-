@@ -11,6 +11,7 @@ def test_constants():
     assert p510.VERSION == "v15.7"
     assert len(p510.GOVERNANCE_LAYER_KEYS) == 7
     assert p510.APPROVAL_TIERS == ["routine", "sensitive", "critical", "forbidden"]
+    assert p510.ACTION_TIER_PRECEDENCE == ["forbidden", "critical", "sensitive", "routine"]
 
 
 def test_governance_layer_registry_has_exact_seven_layer_overlay():
@@ -48,6 +49,8 @@ def test_action_classifier_routes_routine_sensitive_critical_and_forbidden_actio
     assert p510.classify_action("publish public Substack claim")["tier"] == "sensitive"
     assert p510.classify_action("issue falsification declaration")["tier"] == "critical"
     assert p510.classify_action("expose credential in public log")["tier"] == "forbidden"
+    assert p510.classify_action("public falsification declaration")["tier"] == "critical"
+    assert p510.classify_action("public claim with score inflation")["tier"] == "forbidden"
 
 
 def test_public_claim_safety_filter_allows_bounded_claims():
