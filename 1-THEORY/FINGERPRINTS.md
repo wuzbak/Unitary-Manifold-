@@ -107,7 +107,7 @@ merely re-labelled, to constitute genuinely independent work.
 ### For licensees
 
 If you have executed a Commercial License Exception (CLE) agreement with AxiomZero
-Technologies (see [`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) § 4-A), your private
+Technologies (see [`COMMERCIAL_TERMS.md`](../docs/policy/COMMERCIAL_TERMS.md) § 4-A), your private
 modifications are permitted under that agreement.  You are not required to publish those
 modifications, but you remain bound by the prohibition on claiming independent invention
 of the constants listed here.

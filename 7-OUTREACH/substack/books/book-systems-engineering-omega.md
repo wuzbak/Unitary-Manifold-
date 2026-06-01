@@ -808,17 +808,17 @@ The names change. The analysis does not. A NASA systems engineer and a 14-year-o
 
 For readers who want the engineering analysis without the physics framework:
 
-- **[systems-engineering/AUDIENCE_GUIDE.md](../systems-engineering/AUDIENCE_GUIDE.md)** — Level-by-level explanation for every engineering audience
-- **[systems-engineering/CURRENT_SYSTEMS_FAILURE_ANALYSIS.md](../systems-engineering/CURRENT_SYSTEMS_FAILURE_ANALYSIS.md)** — Full domain-by-domain failure analysis: telecommunications, IoT, social media, gaming, financial markets, healthcare, critical infrastructure
-- **[systems-engineering/FUTURE_SOFTWARE_HARDWARE.md](../systems-engineering/FUTURE_SOFTWARE_HARDWARE.md)** — Seven architectural patterns for next-generation systems
-- **[systems-engineering/FIRMWARE_FIXES.md](../systems-engineering/FIRMWARE_FIXES.md)** — Ten immediate firmware patches with pseudocode
-- **[systems-engineering/UPGRADE_ROADMAP.md](../systems-engineering/UPGRADE_ROADMAP.md)** — Phase 0 → Phase 4 upgrade path with decision gates and success criteria
+- **[systems-engineering/AUDIENCE_GUIDE.md](../../../4-IMPLICATIONS/systems-engineering/AUDIENCE_GUIDE.md)** — Level-by-level explanation for every engineering audience
+- **[systems-engineering/CURRENT_SYSTEMS_FAILURE_ANALYSIS.md](../../../4-IMPLICATIONS/systems-engineering/CURRENT_SYSTEMS_FAILURE_ANALYSIS.md)** — Full domain-by-domain failure analysis: telecommunications, IoT, social media, gaming, financial markets, healthcare, critical infrastructure
+- **[systems-engineering/FUTURE_SOFTWARE_HARDWARE.md](../../../4-IMPLICATIONS/systems-engineering/FUTURE_SOFTWARE_HARDWARE.md)** — Seven architectural patterns for next-generation systems
+- **[systems-engineering/FIRMWARE_FIXES.md](../../../4-IMPLICATIONS/systems-engineering/FIRMWARE_FIXES.md)** — Ten immediate firmware patches with pseudocode
+- **[systems-engineering/UPGRADE_ROADMAP.md](../../../4-IMPLICATIONS/systems-engineering/UPGRADE_ROADMAP.md)** — Phase 0 → Phase 4 upgrade path with decision gates and success criteria
 
 For the physics that underlies the engineering analysis:
 
-- **[post-16-domain-applications.md](post-16-domain-applications.md)** — "The Same Geometry, Everywhere Else"
-- **[post-37-human-ai-collaboration.md](post-37-human-ai-collaboration.md)** — How this book was built
-- **[post-93-governance-is-a-physics-problem.md](post-93-governance-is-a-physics-problem.md)** — Organizations as physical systems
+- **[post-16-domain-applications.md](../posts/post-016-domain-applications.md)** — "The Same Geometry, Everywhere Else"
+- **[post-37-human-ai-collaboration.md](../posts/post-037-human-ai-collaboration.md)** — How this book was built
+- **[post-93-governance-is-a-physics-problem.md](../posts/post-093-governance-is-a-physics-problem.md)** — Organizations as physical systems
 
 ---
 

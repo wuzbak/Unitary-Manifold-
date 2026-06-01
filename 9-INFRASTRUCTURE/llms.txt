@@ -6,11 +6,12 @@
 >
 > A 5-dimensional Kaluza-Klein framework unifying thermodynamic irreversibility,
 > information flow, and quantum transition asymmetry as projections of a single
-> higher-dimensional geometry. By ThomasCory Walker-Pearson (v10.4, 208 pillars + sub-pillars, ~23,524 tests, TOE 42%, 2026).
-> REPOSITORY COMPLETE (v10.4 — 208 pillars + sub-pillars). ~23,524 passing tests.
+> higher-dimensional geometry. By ThomasCory Walker-Pearson (current public status: see README.md, STATUS.md, docs/mas_tracker.yml, and docs/navigation/REPOSITORY_MAP.md).
 
 ## Start Here
 
+- [Repository Map](../docs/navigation/REPOSITORY_MAP.md): **Human/AI navigation map** — canonical surfaces, tools, historical milestones, archives, and role-based paths. Start here for repository orientation.
+- [Tools Index](../TOOLS/README.md): Calculators, verification scripts, notebooks, and maintenance utilities.
 - [What This Means](../4-IMPLICATIONS/WHAT_THIS_MEANS.md): **Core claim in plain language** — what this work is saying, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. Start here.
 - [MCP Ingest Proof](../6-MONOGRAPH/MCP_INGEST.md): Complete low-token structured summary — optimised for AI ingestion.
 - [README](../README.md): Project overview, equations, quickstart code examples.

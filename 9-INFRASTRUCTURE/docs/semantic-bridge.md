@@ -1,7 +1,7 @@
 # Semantic Bridge: Theory ↔ Implementation
 
 > **Version:** v13.4 — 406 pillars + Ω₀ + sub-pillars, 42,215 passing tests  
-> **Scope of this document:** The five original core modules in `/src/core/`, `/src/holography/`, and `/src/multiverse/` that form the mathematical backbone (Pillars 1–5). The full framework is synthesized in [`omega/omega_synthesis.py`](../omega/omega_synthesis.py) (Pillar Ω). For the complete module index see [`README.md`](../README.md) and [`AGENTS.md`](../AGENTS.md).
+> **Scope of this document:** The five original core modules in `/src/core/`, `/src/holography/`, and `/src/multiverse/` that form the mathematical backbone (Pillars 1–5). The full framework is synthesized in [`omega/omega_synthesis.py`](../../5-GOVERNANCE/Unitary%20Pentad/omega/omega_synthesis.py) (Pillar Ω). For the complete module index see [`README.md`](../README.md) and [`AGENTS.md`](../../AGENTS.md).
 
 > This document sits **alongside** the source code without modifying it.
 > It maps every abstract claim in the Unitary-Manifold monograph to a

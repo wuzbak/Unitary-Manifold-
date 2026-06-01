@@ -48,7 +48,7 @@ sense of "confirmed by new experiments." That is the work of the next decade.
 
 ## The Four Pinned Validation Documents
 
-### 1 · [FINAL_REVIEW_CONCLUSION.md](FINAL_REVIEW_CONCLUSION.md)
+### 1 · [FINAL_REVIEW_CONCLUSION.md](../3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/FINAL_REVIEW_CONCLUSION.md)
 *"The Closing Review — for Everyone"*
 
 **What it is:** The final plain-language and technical summary of the entire project, written by
@@ -77,7 +77,7 @@ computational one.
 
 ---
 
-### 2 · [REVIEW_CONCLUSION.md](REVIEW_CONCLUSION.md)
+### 2 · [REVIEW_CONCLUSION.md](../3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/REVIEW_CONCLUSION.md)
 *"The Internal Iterative Review — v9.0 through v9.23"*
 
 **What it is:** A chronological technical audit of every version of the framework from first
@@ -126,7 +126,7 @@ probed is a very different thing from one that accumulates epicycles.
 
 ---
 
-### 3 · [submission/falsification_report.md](submission/falsification_report.md)
+### 3 · [submission/falsification_report.md](../6-MONOGRAPH/submission/falsification_report.md)
 *"The Pre-Submission Honest Assessment"*
 
 **What it is:** A deliberately adversarial pre-submission document, written in the format of
@@ -172,7 +172,7 @@ at the top of the README, is inviting falsification — the correct scientific p
 
 ---
 
-### 4 · [ALGEBRA_PROOF.py](ALGEBRA_PROOF.py)
+### 4 · [ALGEBRA_PROOF.py](../ALGEBRA_PROOF.py)
 *"114 Algebraic Checks — Formal Falsification Test"*
 
 **What it is:** A single executable Python script that verifies the algebraic and numerical
@@ -388,10 +388,10 @@ removed or numerically violated).
 
 | Claim | What it asserts | Key number | What would falsify it |
 |-------|-----------------|------------|-----------------------|
-| [`integer_derivation/`](claims/integer_derivation/) | k_CS = 74 is derived from (5,7) braid geometry — not a fit | k_CS = 74 = 5²+7² | β null result at 3σ; or k_CS found to require external input |
-| [`tensor_ratio_fix/`](claims/tensor_ratio_fix/) | r ≈ 0.097 under single-winding; braided state resolves to r ≈ 0.0315 | r = 0.097 (single) / 0.0315 (braided) | CMB-S4 confirms r < 0.036 for single-winding |
-| [`amplitude_normalization/`](claims/amplitude_normalization/) | COBE amplitude λ uniquely fixes the overall normalisation; nₛ and r are λ-free | λ = 6.99 × 10⁻¹⁵ | λ-dependence found in nₛ or r |
-| [`anomaly_inflow/`](claims/anomaly_inflow/) | 5D Chern-Simons inflow generates the axion-photon coupling g_aγγ → β ≈ 0.35° | g_aγγ ≈ 2.28 × 10⁻³ | β null result at 3σ; or formula shown inconsistent with 5D CS action |
+| [`integer_derivation/`](../claims/integer_derivation) | k_CS = 74 is derived from (5,7) braid geometry — not a fit | k_CS = 74 = 5²+7² | β null result at 3σ; or k_CS found to require external input |
+| [`tensor_ratio_fix/`](../claims/tensor_ratio_fix) | r ≈ 0.097 under single-winding; braided state resolves to r ≈ 0.0315 | r = 0.097 (single) / 0.0315 (braided) | CMB-S4 confirms r < 0.036 for single-winding |
+| [`amplitude_normalization/`](../claims/amplitude_normalization) | COBE amplitude λ uniquely fixes the overall normalisation; nₛ and r are λ-free | λ = 6.99 × 10⁻¹⁵ | λ-dependence found in nₛ or r |
+| [`anomaly_inflow/`](../claims/anomaly_inflow) | 5D Chern-Simons inflow generates the axion-photon coupling g_aγγ → β ≈ 0.35° | g_aγγ ≈ 2.28 × 10⁻³ | β null result at 3σ; or formula shown inconsistent with 5D CS action |
 
 These tests provide a sharper target than the main suite: they are written so that
 if any one of the four core quantitative claims is weakened, its test suite immediately
@@ -467,21 +467,21 @@ The live badge reflects the current status of the `main` branch:
 | Document | Role in validation |
 |----------|--------------------|
 | `VALIDATION_REPORT.md` ← *this file* | Expanded explanation of what validation means and how each document fits |
-| [`FINAL_REVIEW_CONCLUSION.md`](FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 142 pillars + Ω₀; includes v9.30 Addendum (SM Closure, my voice) |
-| [`REVIEW_CONCLUSION.md`](REVIEW_CONCLUSION.md) | Version-by-version technical audit; shows the working and the failures fixed |
-| [`submission/falsification_report.md`](submission/falsification_report.md) | Pre-submission adversarial assessment; every known failure mode stated first |
-| [`ALGEBRA_PROOF.py`](ALGEBRA_PROOF.py) | 206 executable algebraic checks; lossless 5D pipeline proof in §19 |
-| [`claims/`](claims/) | Four isolated core-claim suites (integer_derivation, tensor_ratio_fix, amplitude_normalization, anomaly_inflow) |
-| [`.github/workflows/tests.yml`](.github/workflows/tests.yml) | CI: 6-job parallel test pipeline; runs on every push and pull request |
-| [`.github/workflows/release.yml`](.github/workflows/release.yml) | CI: creates GitHub Release + triggers Zenodo archiving on `v*` tag push |
-| [`.github/workflows/build-download.yml`](.github/workflows/build-download.yml) | CI: manual ZIP artifact build for offline distribution |
-| [`.github/workflows/pages.yml`](.github/workflows/pages.yml) | CI: deploys GitHub Pages site on push to `main` |
-| [`FALLIBILITY.md`](FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
-| [`HOW_TO_BREAK_THIS.md`](HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
-| [`TEST/RESULTS.md`](TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
-| [`tests/`](tests/) | 160+ pytest files; ~16,545 fast-passing + 11 slow-deselected + 75 skipped |
-| [`recycling/`](recycling/) | Pillar 16 φ-debt suite; 316 tests |
-| [`Unitary Pentad/`](Unitary%20Pentad/) | HILS governance suite; 18+ modules, 1,026 passing + 254 skipped |
+| [`FINAL_REVIEW_CONCLUSION.md`](../3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/FINAL_REVIEW_CONCLUSION.md) | Plain-language + technical closing review; verdict across all 142 pillars + Ω₀; includes v9.30 Addendum (SM Closure, my voice) |
+| [`REVIEW_CONCLUSION.md`](../3-FALSIFICATION/ADVERSARIAL_REVIEWS/RESPONSES/REVIEW_CONCLUSION.md) | Version-by-version technical audit; shows the working and the failures fixed |
+| [`submission/falsification_report.md`](../6-MONOGRAPH/submission/falsification_report.md) | Pre-submission adversarial assessment; every known failure mode stated first |
+| [`ALGEBRA_PROOF.py`](../ALGEBRA_PROOF.py) | 206 executable algebraic checks; lossless 5D pipeline proof in §19 |
+| [`claims/`](../claims) | Four isolated core-claim suites (integer_derivation, tensor_ratio_fix, amplitude_normalization, anomaly_inflow) |
+| [`.github/workflows/tests.yml`](../.github/workflows/tests.yml) | CI: 6-job parallel test pipeline; runs on every push and pull request |
+| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | CI: creates GitHub Release + triggers Zenodo archiving on `v*` tag push |
+| [`.github/workflows/build-download.yml`](../.github/workflows/build-download.yml) | CI: manual ZIP artifact build for offline distribution |
+| [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) | CI: deploys GitHub Pages site on push to `main` |
+| [`FALLIBILITY.md`](../FALLIBILITY.md) | Complete statement of framework limitations and falsification conditions |
+| [`HOW_TO_BREAK_THIS.md`](../1-THEORY/HOW_TO_BREAK_THIS.md) | Adversarial guide: how to attempt to falsify the framework |
+| [`TEST/RESULTS.md`](../9-INFRASTRUCTURE/TEST/RESULTS.md) | Full per-test table: every test name, class, and PASSED / SKIPPED result |
+| [`tests/`](../tests) | 160+ pytest files; ~16,545 fast-passing + 11 slow-deselected + 75 skipped |
+| [`recycling/`](../recycling) | Pillar 16 φ-debt suite; 316 tests |
+| [`Unitary Pentad/`](../5-GOVERNANCE/Unitary%20Pentad) | HILS governance suite; 18+ modules, 1,026 passing + 254 skipped |
 
 ---
 

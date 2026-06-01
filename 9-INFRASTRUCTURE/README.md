@@ -1,7 +1,7 @@
 # 9-INFRASTRUCTURE — Tools, Bots, and Support
 
-This folder contains AI assistant infrastructure, Jupyter notebooks, scripts,
-documentation tools, and other support materials.
+This folder contains AI assistant infrastructure, scripts, provenance, results,
+and support materials. The cross-repository tool index now lives in [`../TOOLS/`](../TOOLS/).
 
 ---
 
@@ -10,11 +10,11 @@ documentation tools, and other support materials.
 | Item | Description |
 |------|-------------|
 | [`bot/`](bot/) | AI assistant infrastructure: RAG, Copilot Extension, Custom GPT, pages chatbot |
-| [`notebooks/`](notebooks/) | Jupyter notebooks: quickstart, holographic boundary, FTUM fixed point |
+| [`notebooks/`](notebooks/) | Jupyter notebooks: quickstart, holographic boundary, FTUM fixed point; indexed from [`../TOOLS/`](../TOOLS/) |
 | [`docs/`](docs/) | Semantic bridge documentation |
 | [`provenance/`](provenance/) | Canonical toolchain/language/suite/AI provenance and freshness policy |
 | [`cold-fusion/`](cold-fusion/) | Cold fusion public-facing documentation |
-| [`scripts/`](scripts/) | Maintenance scripts |
+| [`scripts/`](scripts/) | Maintenance scripts; indexed from [`../TOOLS/`](../TOOLS/) |
 | [`wiki/`](wiki/) | GitHub wiki source |
 | [`results/`](results/) | Archived numerical results |
 | [`TEST/`](TEST/) | Test result records |

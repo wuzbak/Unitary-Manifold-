@@ -409,7 +409,7 @@ physics.  The architectural patterns and hardware principles derived from formal
 geometric theorems would require re-derivation from whatever replaces the braided-winding
 mechanism.
 
-Known limitations are documented in [`../FALLIBILITY.md`](../FALLIBILITY.md).  The CMB
+Known limitations are documented in [`../FALLIBILITY.md`](../../FALLIBILITY.md).  The CMB
 power spectrum amplitude suppression (×4–7 at acoustic peaks) is an open problem.
 
 ---

@@ -3,7 +3,7 @@
 **Document version:** 3.0 — April 2026  
 **Effective date:** March 26, 2026  
 **Jurisdiction:** United States  
-**Governing files:** [`LICENSE`](LICENSE) · [`LICENSE-AGPL`](LICENSE-AGPL) · [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md) · [`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) · [`FINGERPRINTS.md`](FINGERPRINTS.md)
+**Governing files:** [`LICENSE`](LICENSE) · [`LICENSE-AGPL`](LICENSE-AGPL) · [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md) · [`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) · [`FINGERPRINTS.md`](1-THEORY/FINGERPRINTS.md)
 
 > This is the single authoritative reference for all legal, licensing, and intellectual-property
 > questions about this repository and the AxiomZero Technologies business.  It synthesizes the
@@ -358,7 +358,7 @@ Known open problems and honest gaps are documented in [`FALLIBILITY.md`](FALLIBI
 | [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md) | Business commencement notice — DBA, product list, calibration services, IP policy |
 | [`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) | Commercial ToS — engagements, § 4-A CLE tier, calibration framing, payment, liability |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contributor guide — DCO, additional IP grant (§ 6), code style |
-| [`FINGERPRINTS.md`](FINGERPRINTS.md) | Technical fingerprints — (5,7,74) triad, c_s=12/37, Ξ_c=35/74, provenance markers |
+| [`FINGERPRINTS.md`](1-THEORY/FINGERPRINTS.md) | Technical fingerprints — (5,7,74) triad, c_s=12/37, Ξ_c=35/74, provenance markers |
 | [`NOTICE`](NOTICE) | Brief dual-license notice — for downstream users |
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Honest gap assessment — known open problems and epistemics |
 | [`CITATION.cff`](CITATION.cff) | Machine-readable citation metadata |

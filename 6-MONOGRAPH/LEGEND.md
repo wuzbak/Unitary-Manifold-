@@ -46,23 +46,23 @@ This repository works the same way. The 5D geometry of the Unitary Manifold is t
 
 | Location | What It Is | What It Does |
 |---|---|---|
-| [`WHAT_THIS_MEANS.md`](./WHAT_THIS_MEANS.md) | **⭐ START HERE — The Big Picture** | Plain-language explanation of the core claim, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. For all audiences. |
+| [`WHAT_THIS_MEANS.md`](../4-IMPLICATIONS/WHAT_THIS_MEANS.md) | **⭐ START HERE — The Big Picture** | Plain-language explanation of the core claim, what it means for our 4D existence, the quantitative results, honest gaps, and falsification conditions. For all audiences. |
 | [`README.md`](./README.md) | **Central Overview** | Full mathematical structure, field equations, quickstart code, and monograph chapter index. Start here for the technical picture. |
-| [`THEBOOKV9a (1).pdf`](./THEBOOKV9a%20(1).pdf) | **The Full Monograph** | 74 chapters, XXIII parts. Every proof, derivation, and philosophical argument. The core text. |
-| [`/src/core/metric.py`](./src/core/metric.py) | **The Geometry Engine** | Builds the 5D Kaluza–Klein metric from three fields (g, B, φ). Computes all curvature tensors (Christoffel, Riemann, Ricci, scalar R). |
-| [`/src/core/evolution.py`](./src/core/evolution.py) | **The Field Propagator** | Advances all three fields forward in time using the Walker–Pearson equations. Includes diagnostics for constraint monitoring and information current. |
-| [`/src/holography/boundary.py`](./src/holography/boundary.py) | **The Holographic Screen** | Projects 5D bulk information onto a 4D boundary. Implements the entropy-area law S = A/4G (Pillar 3). |
-| [`/src/multiverse/fixed_point.py`](./src/multiverse/fixed_point.py) | **The Convergence Theorem** | Implements the operator U = I + H + T and iterates toward the fixed point Ψ* guaranteed by the Final Theorem (FTUM). |
-| [`/omega/`](./omega/) | **Pillar Ω — Universal Mechanics Engine** | Capstone calculator: 5 seed constants → all observables. `UniversalEngine.compute_all()` covers cosmology, particle physics, geometry, consciousness, HILS, and 8 falsifiable predictions. 168 tests. |
-| [`/recycling/`](./recycling/) | **Pillar 16 — φ-Debt Entropy Accounting** | Entropy accounting for material flows; φ-debt framework applied to recycling systems. 316 tests. |
-| [`/Unitary Pentad/`](./Unitary%20Pentad/) | **HILS Governance Framework** | Independent 18-module Human-in-the-Loop Systems governance framework. Borrows mathematical structure from the manifold but stands alone. 1,266 tests. |
-| [`/embryology-manifold/`](./embryology-manifold/) | **Pillar TVC — Embryology** | Falsifiable predictions from the compactification scale: R_egg ≈ 59.7 μm, N_Zn ≈ 2.19×10⁹, HOX groups = 10. |
-| [`/systems-engineering/`](./systems-engineering/) | **Engineering Applications** | Translates the geometric stability framework into actionable guidance for engineers, architects, and executives across 14 failure domains. |
+| [`THEBOOKV9a (1).pdf`](<THEBOOKV9a (1).pdf>) | **The Full Monograph** | 74 chapters, XXIII parts. Every proof, derivation, and philosophical argument. The core text. |
+| [`/src/core/metric.py`](../src/core/metric.py) | **The Geometry Engine** | Builds the 5D Kaluza–Klein metric from three fields (g, B, φ). Computes all curvature tensors (Christoffel, Riemann, Ricci, scalar R). |
+| [`/src/core/evolution.py`](../src/core/evolution.py) | **The Field Propagator** | Advances all three fields forward in time using the Walker–Pearson equations. Includes diagnostics for constraint monitoring and information current. |
+| [`/src/holography/boundary.py`](../src/holography/boundary.py) | **The Holographic Screen** | Projects 5D bulk information onto a 4D boundary. Implements the entropy-area law S = A/4G (Pillar 3). |
+| [`/src/multiverse/fixed_point.py`](../src/multiverse/fixed_point.py) | **The Convergence Theorem** | Implements the operator U = I + H + T and iterates toward the fixed point Ψ* guaranteed by the Final Theorem (FTUM). |
+| [`/omega/`](../5-GOVERNANCE/Unitary%20Pentad/omega) | **Pillar Ω — Universal Mechanics Engine** | Capstone calculator: 5 seed constants → all observables. `UniversalEngine.compute_all()` covers cosmology, particle physics, geometry, consciousness, HILS, and 8 falsifiable predictions. 168 tests. |
+| [`/recycling/`](../recycling) | **Pillar 16 — φ-Debt Entropy Accounting** | Entropy accounting for material flows; φ-debt framework applied to recycling systems. 316 tests. |
+| [`/Unitary Pentad/`](../5-GOVERNANCE/Unitary%20Pentad) | **HILS Governance Framework** | Independent 18-module Human-in-the-Loop Systems governance framework. Borrows mathematical structure from the manifold but stands alone. 1,266 tests. |
+| [`/embryology-manifold/`](../4-IMPLICATIONS/embryology-manifold) | **Pillar TVC — Embryology** | Falsifiable predictions from the compactification scale: R_egg ≈ 59.7 μm, N_Zn ≈ 2.19×10⁹, HOX groups = 10. |
+| [`/systems-engineering/`](../4-IMPLICATIONS/systems-engineering) | **Engineering Applications** | Translates the geometric stability framework into actionable guidance for engineers, architects, and executives across 14 failure domains. |
 | [`/manuscript/`](./manuscript/) | **Mathematical Foundation** | Chapter 2: tensors, differential geometry, manifolds — the conceptual bedrock, written accessibly. |
-| [`/discussions/`](./discussions/) | **Open Review** | Invitation for AI systems, theorem provers, and researchers to verify and comment on the work. |
+| [`/discussions/`](../4-IMPLICATIONS/discussions) | **Open Review** | Invitation for AI systems, theorem provers, and researchers to verify and comment on the work. |
 | [`/arxiv/`](./arxiv/) | **Academic Submission** | LaTeX source and step-by-step guide for submitting to arXiv (primary: `gr-qc`). |
 | [`/zenodo/`](./zenodo/) | **Permanent Archive** | Metadata and guide for minting a citable DOI via Zenodo. |
-| [`CITATION.cff`](./CITATION.cff) | **How to Cite** | Formal citation metadata in CFF format for academic reference managers. |
+| [`CITATION.cff`](../CITATION.cff) | **How to Cite** | Formal citation metadata in CFF format for academic reference managers. |
 
 ---
 
@@ -139,12 +139,12 @@ print(f"Final time: {history[-1].t:.3f}")
 See `README.md` §4 for full code examples covering curvature, holography, and fixed-point iteration.
 
 ### If you want to cite or archive this work
-- Use [`CITATION.cff`](./CITATION.cff) for reference manager import.
+- Use [`CITATION.cff`](../CITATION.cff) for reference manager import.
 - See [`/zenodo/SUBMISSION_GUIDE.md`](./zenodo/SUBMISSION_GUIDE.md) to mint a permanent DOI.
 - See [`/arxiv/SUBMISSION_GUIDE.md`](./arxiv/SUBMISSION_GUIDE.md) to submit to arXiv (`gr-qc`, `hep-th`, `math-ph`).
 
 ### If you want to contribute or review
-Open an issue or see [`/discussions/AI-Automated-Review-Invitation.md`](./discussions/AI-Automated-Review-Invitation.md).  
+Open an issue or see [`/discussions/AI-Automated-Review-Invitation.md`](../4-IMPLICATIONS/discussions/AI-Automated-Review-Invitation.md).  
 AI systems, theorem provers, and mathematicians are explicitly welcomed for independent verification.
 
 ---

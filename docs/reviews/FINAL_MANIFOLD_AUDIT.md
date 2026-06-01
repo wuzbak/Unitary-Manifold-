@@ -5,7 +5,7 @@
 > ⚠️ **SUPERSEDED — 2026-05-10**  
 > This audit was conducted at v9.29 (2026-05-02) when the framework had 101 pillars and a ToE score
 > of ~54%. The current state (v13.4, 2026-05-24) has 406 pillars + Ω₀ + sub-pillars and a ToE score of **28/28 = 100%**.  
-> The canonical current-state audit is: **[`../../AUDIT_v10_42_2026-05-10.md`](../../AUDIT_v10_42_2026-05-10.md)**  
+> The canonical current-state audit is: **[`../../HISTORICAL-MILESTONES/audits/AUDIT_v10_42_2026-05-10.md`](../../HISTORICAL-MILESTONES/audits/AUDIT_v10_42_2026-05-10.md)**  
 > This document is preserved below for historical provenance only.
 
 **Date:** 2026-05-02  

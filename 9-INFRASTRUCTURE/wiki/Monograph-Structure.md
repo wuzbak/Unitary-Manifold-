@@ -1,8 +1,8 @@
 # Monograph Structure
 
-The full monograph *The Unitary Manifold* (v9.14, Academic Edition) is included in the repository as [`THEBOOKV9a (1).pdf`](../THEBOOKV9a%20(1).pdf). It spans **74 chapters** organised into **XXIII parts**.
+The full monograph *The Unitary Manifold* (v9.14, Academic Edition) is included in the repository as [`THEBOOKV9a (1).pdf`](.<../../6-MONOGRAPH/THEBOOKV9a (1).pdf>). It spans **74 chapters** organised into **XXIII parts**.
 
-A complete chapter-by-chapter table of contents is in [`TABLE_OF_CONTENTS.md`](../TABLE_OF_CONTENTS.md).
+A complete chapter-by-chapter table of contents is in [`TABLE_OF_CONTENTS.md`](../../6-MONOGRAPH/TABLE_OF_CONTENTS.md).
 
 ---
 
@@ -198,9 +198,9 @@ The numerical implementations in `src/` correspond directly to key chapters:
 
 ## Manuscript Sources
 
-The LaTeX source for the arXiv submission is in [`arxiv/main.tex`](../arxiv/main.tex) with bibliography in [`arxiv/references.bib`](../arxiv/references.bib).
+The LaTeX source for the arXiv submission is in [`arxiv/main.tex`](../../6-MONOGRAPH/arxiv/main.tex) with bibliography in [`arxiv/references.bib`](../../6-MONOGRAPH/arxiv/references.bib).
 
-Chapter 2 is also available as standalone Markdown in [`manuscript/ch02_mathematical_preliminaries.md`](../manuscript/ch02_mathematical_preliminaries.md).
+Chapter 2 is also available as standalone Markdown in [`manuscript/ch02_mathematical_preliminaries.md`](../../6-MONOGRAPH/manuscript/ch02_mathematical_preliminaries.md).
 
 ---
 

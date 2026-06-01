@@ -82,7 +82,7 @@ S_eff = Re(S_eff) + i · Im(S_eff)
 Im(S_eff) = ∫ d⁴x  B_μ(x) J^μ_inf(x)
 ```
 
-This identity is already stated as a solved theorem in [`MCP_INGEST.md`](MCP_INGEST.md)
+This identity is already stated as a solved theorem in [`MCP_INGEST.md`](../6-MONOGRAPH/MCP_INGEST.md)
 (completion requirement 2: `Im(S_eff) = ∫ BμJ^μ_inf d⁴x`).
 
 In the Feynman path integral, transition amplitudes are computed as:
@@ -567,7 +567,7 @@ does not produce the full Standard Model gauge group; this is honestly documente
 
 The CMB power spectrum predicted by this framework is suppressed by a factor
 of `~4–7×` at acoustic peaks relative to Planck observations (documented in
-[`FALLIBILITY.md`](FALLIBILITY.md) and `WHAT_THIS_MEANS.md`).
+[`FALLIBILITY.md`](../FALLIBILITY.md) and `WHAT_THIS_MEANS.md`).
 
 ### X.2  The Direct Path Points to the Answer
 
@@ -642,8 +642,8 @@ The laws were always the same law.
 *Theory and scientific direction: **ThomasCory Walker-Pearson***  
 *Mathematical synthesis and document engineering: **GitHub Copilot** (AI)*  
 *All equations grounded in code already present in this repository.*  
-*See [`src/core/metric.py`](src/core/metric.py), [`src/core/evolution.py`](src/core/evolution.py),*  
-*[`src/multiverse/fixed_point.py`](src/multiverse/fixed_point.py) for the implementation.*
+*See [`src/core/metric.py`](../src/core/metric.py), [`src/core/evolution.py`](../src/core/evolution.py),*  
+*[`src/multiverse/fixed_point.py`](../src/multiverse/fixed_point.py) for the implementation.*
 
 ---
 

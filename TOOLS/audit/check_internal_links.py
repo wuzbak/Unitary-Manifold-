@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
-LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
+LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\((<[^>]+>|[^)\s]+)(?:\s+['\"][^'\"]*['\"])?\)")
 SKIP_SCHEMES = {"http", "https", "mailto", "tel", "doi"}
 SKIP_PREFIXES = ("#", "data:")
 
@@ -67,7 +67,13 @@ def main() -> int:
     failures: list[tuple[Path, int, str]] = []
     for md_file in iter_markdown_files(root):
         text = md_file.read_text(encoding="utf-8", errors="ignore")
+        in_fence = False
         for line_no, line in enumerate(text.splitlines(), start=1):
+            if line.lstrip().startswith("```"):
+                in_fence = not in_fence
+                continue
+            if in_fence:
+                continue
             for match in LINK_RE.finditer(line):
                 target = match.group(1)
                 if not target_exists(md_file, target):

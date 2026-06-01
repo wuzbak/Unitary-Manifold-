@@ -3,7 +3,7 @@
 *Post 3 of the Unitary Manifold series.*
 
 > **Epistemic category:** P (Physics Core) — The LiteBIRD falsification test.  
-> **Physics accuracy:** Matches `3-FALSIFICATION/prediction.md`. See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../OUTREACH_CALIBRATION.md).  
+> **Physics accuracy:** Matches `3-FALSIFICATION/prediction.md`. See [`7-OUTREACH/OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md).  
 > **Primary claim:** Primary prediction β ≈ 0.331° [(5,7) canonical sector]; secondary β ≈ 0.273° [(5,6) sector].  
 > **Falsification:** Any β outside [0.22°, 0.38°] OR landing in the gap [0.29°–0.31°] falsifies the braided-winding mechanism.
 

@@ -81,7 +81,7 @@ Below 74 states: the system cannot distinguish a transient from a persistent fau
 > The system will find it.  Always.**
 
 Jacobian eigenvalues at Ψ\*: `{−0.110, −0.070, −0.050}`.  Spectral radius: `0.475 < 1`.  
-Verified across 192 independent cases.  See [`../src/multiverse/basin_analysis.py`](../src/multiverse/basin_analysis.py).
+Verified across 192 independent cases.  See [`../src/multiverse/basin_analysis.py`](../../src/multiverse/basin_analysis.py).
 
 ---
 

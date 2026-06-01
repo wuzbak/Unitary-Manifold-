@@ -349,8 +349,8 @@ What the UM ZPE mechanism *does* suggest:
 
 | File | Description |
 |------|-------------|
-| [`src/core/zero_point_vacuum.py`](../src/core/zero_point_vacuum.py) | Full implementation: ZPE density, braid suppression, Casimir predictions, dark energy scale |
-| [`tests/test_zero_point_vacuum.py`](../tests/test_zero_point_vacuum.py) | 239 tests covering all functions and edge cases |
+| [`src/core/zero_point_vacuum.py`](../../src/core/zero_point_vacuum.py) | Full implementation: ZPE density, braid suppression, Casimir predictions, dark energy scale |
+| [`tests/test_zero_point_vacuum.py`](../../tests/test_zero_point_vacuum.py) | 239 tests covering all functions and edge cases |
 
 ### Quick Start
 
