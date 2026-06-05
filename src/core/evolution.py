@@ -285,11 +285,6 @@ class FieldState:
         return braid_winding_number(self.phi, self.dx)
 
 
-# Backward-compatible module-level export for callers that expect a top-level
-# factory function alongside FieldState.flat().
-initialize_dynamic_braid = FieldState.initialize_dynamic_braid
-
-
 # ---------------------------------------------------------------------------
 # Discrete operators
 # ---------------------------------------------------------------------------

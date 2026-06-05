@@ -1,6 +1,6 @@
 # STEWARDSHIP.md — Unitary Manifold
 
-*Unitary Manifold v15.8 — Effective 2026-06-05*
+*Unitary Manifold v15.3 — Effective 2026-06-01*
 
 > The Unitary Manifold is a self-governing epistemic structure. After v15, it
 > advances autonomously: the AI steward manages all routine physics, tests,

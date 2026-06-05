@@ -1,4 +1,4 @@
-version: "v15.9"
+version: "v15.8"
 date: "2026-06-05"
 updated: "2026-06-05"
 mas_status: "COMPLETE"
@@ -18,51 +18,13 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.9"
-  regression: "45,751 passed · 0 failed (full: tests/ + recycling/ + Pentad; v15.9 all-10-priorities sprint 2026-06-05)"
+  version: "v15.8"
+  regression: "82 passed · 0 failed focused P511–P515 topological engine sprint; latest full regression 45,726 passed · 22 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
-v15_9_all_10_priorities_sprint:
-  version: "v15.9"
-  wave: "All-10-priorities sprint — Pillar 516, Lean4 extension, arXiv sync, r-tension formal status, CI health, outreach"
-  date: "2026-06-05"
-  next_pillar_slot: 517
-  next_substack_post: "#255 S03E033"
-  new_pillars:
-    - slot: 516
-      id: "KK_BACKREACTION_ARCHITECTURE_AUDIT"
-      status: "ARCHITECTURE_LIMIT_CERTIFIED"
-      source: "src/core/pillar516_kk_backreaction_architecture_audit.py"
-  new_docs:
-    - "docs/R_TENSION_FORMAL_STATUS.md"
-    - "docs/JUNO_DECISION_PROTOCOL.md"
-    - "docs/CI_HEALTH.md → 9-INFRASTRUCTURE/CI_HEALTH.md"
-    - "src/README.md"
-    - "7-OUTREACH/substack/posts/post-254-s03e032-the-honest-tension-r-prediction-and-cmbs4-decision.md"
-  new_tests: 25
-  test_delta: "+25 (10 pillar516 + 15 evolution regime map)"
-  full_regression: "45,751 passed · 0 failed"
-  lean4_theorems_added: 25
-  high_tension_signals:
-    r_tension:
-      prediction: "r = 0.0315"
-      bound: "ACT DR6 r < 0.016 (95% CL)"
-      sigma: "~2"
-      status: "HIGH_TENSION"
-      certified_pillar: 396
-      decidable_by: "CMB-S4 ~2030"
-      formal_status_doc: "docs/R_TENSION_FORMAL_STATUS.md"
-    w_a_tension:
-      prediction: "w_a = 0"
-      bound: "DESI DR2 2.30sigma CPL"
-      status: "HIGH_TENSION"
-      certified_pillar: 301
-      decidable_by: "DESI DR3"
-      tripwire_pillar: 486
-
-
+v15_8_topological_irreversibility_engine:
   version: "v15.8"
   wave: "Topological irreversibility engine — Pillars 511–515"
   date: "2026-06-05"

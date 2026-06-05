@@ -1,21 +1,11 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v15.8
+# Unitary Manifold v15.7
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-06-05 (v15.8 — Pillars 511–515 topological irreversibility engine; Pillar 516 KK backreaction architecture audit; focused P511–P515 regression 82 passed · 0 failed; latest full regression 45,726 passed · 22 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized; focused P510 regression 10 passed · 0 failed; latest full regression 45,649 passed · 22 skipped · 12 deselected · 0 failed.)*
 
-*P516 (v15.9): KK Backreaction Architecture Audit — KK_BACKREACTION_ARCHITECTURE_AUDIT_COMPLETE. `src/core/pillar516_kk_backreaction_architecture_audit.py` formally certifies the KK backreaction decoupling as ARCHITECTURE_LIMIT_CERTIFIED, documents the four-step closure path for full dynamic coupling, and establishes the regime map distinguishing factory IC from solver capacity. The decoupling is conservative (lower bound on winding-geometry coupling). No ToE score change; no physics promotion.*
-
-*P515 (v15.8): Nonlinear Metric Evolution Unbounded from Flat-Space Cage — NONLINEAR_METRIC_EVOLUTION_CERTIFIED. P515 proves that the solver can handle large-deviation IC (amplitude up to 0.5) while factory IC near-flatness is by architectural design, not geometric constraint.*
-
-*P514 (v15.8): Dynamic Loopback Proof of Genuine Field Irreversibility — DYNAMIC_LOOPBACK_PROOF_CERTIFIED. Forward-only irreversibility proof replaces the ill-posed backward-evolution test; TestDynamicLoopbackProof verifies field_distance >> topological_distance after 50 steps.*
-
-*P513 (v15.8): Topological Information Current with Chern-Simons Correction — TOPOLOGICAL_INFORMATION_CURRENT_CERTIFIED. J^0 now carries k_CS=74-weighted Chern-Simons correction proportional to winding number n_w.*
-
-*P512 (v15.8): Dynamic Winding History Tracking — WINDING_HISTORY_TRACKING_CERTIFIED. run_evolution(track_winding=True) records winding history at each step.*
-
-*P511 (v15.8): Braid Winding Observable with Gradient-Space Algorithm — BRAID_WINDING_OBSERVABLE_CERTIFIED. Gradient-space winding number is a genuine topological observable; phi>0 constraint respected without requiring sign changes.*
+*P510 (v15.7): AI Governance Stack Operationalized — AI_GOVERNANCE_STACK_OPERATIONALIZED. `src/core/pillar510_ai_governance_stack.py` maps the seven operational AI governance layers onto existing stewardship artifacts, adds executable approval tiers, public-claim safety filtering, and audit-trail schema metadata. This is operational governance hardening only: no ToE score change, no physics promotion, and no falsifier softening.*
 
 *P509 (v15.6): Earned Proof-Advancement Redo — EARNED_PROOF_ADVANCEMENT_KERNELS_CERTIFIED. `src/core/pillar509_earned_proof_advancement.py` advances CCR and ER=EPR from bare conjecture lanes to earned conditional theorem kernels with explicit hypotheses, proof steps, earned-yes predicates, and remaining full-closure residuals. No ToE score change; no false unconditional/external/full-functional closure claim.*
 
