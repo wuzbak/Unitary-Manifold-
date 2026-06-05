@@ -3207,3 +3207,50 @@ v10_32_p16_promotion:
     - "P23/P24 (β birefringence): LiteBIRD-gated (~2032/2034)"
     - "P25 (Ω_GW): DERIVED-PENDING; LISA ~2037"
     - "L2 γ gap: L2_CONDENSATE_ZERO_MODE_VIABLE; full non-perturbative closure pending"
+
+# v15.9 sprint — Neural Disorder Geometric Analysis
+- sprint_id: "v15.9"
+  name: "Neural Disorder Geometric Analysis — Pillar 516"
+  status: "COMPLETE"
+  completed: "2026-06-05"
+  summary: >
+    Pillar 516 added: NEURAL_DISORDER_GEOMETRIC_ANALYSIS — adjacent-track
+    STRUCTURAL_CORRESPONDENCE analysis of seven neurological and psychiatric
+    disorders (Alzheimer's disease, anterograde amnesia, retrograde amnesia,
+    major depressive disorder, epilepsy, schizophrenia, TBI concussion, TBI
+    severe) through the UM geometric lens.  Each disorder is mapped to specific
+    failures of g_mu_nu, B_mu, phi, k_cs=74, and the beta*C coupling operator.
+    Machine-readable DisorderProfile registry, five-class universal intervention
+    framework, and geometric analysis functions implemented.  Substack post #254
+    S03E032 published in-repo.  174 new tests; 0 failures.
+    Full regression: 45,900 passed * 22 skipped * 12 deselected * 0 failed.
+    Next pillar slot: 517.  Next Substack post: #255 S03E033.
+  deliverables:
+    - artifact: "src/core/pillar516_neural_disorder_geometric_analysis.py"
+      test: "tests/test_pillar516_neural_disorder_geometric_analysis.py"
+      status: "STRUCTURAL_CORRESPONDENCE"
+      adjacency: "NON_HARDGATE_ADJACENT"
+      toe_delta: 0.0
+    - artifact: "4-IMPLICATIONS/brain/DISORDERS_MANIFOLD.md"
+      status: "CREATED_v15.9"
+      toe_delta: 0.0
+    - artifact: "7-OUTREACH/substack/posts/post-254-s03e032-the-broken-fixed-point-neuroscience-disorders-geometry.md"
+      status: "PUBLISHED_IN_REPO"
+      toe_delta: 0.0
+    - artifact: "STATUS.md"
+      status: "SYNCED_TO_v15.9"
+      toe_delta: 0.0
+  parameters_promoted: []
+  toe_score:
+    before: 28.0
+    after: 28.0
+    before_pct: "100%"
+    after_pct: "100%"
+    note: >
+      Pillar 516 is an adjacent-track structural correspondence; it does not
+      affect the 28-parameter hardgate ToE ledger.  TOE delta = 0.
+  open_items:
+    - "P23/P24 (beta birefringence): LiteBIRD-gated (~2032/2034)"
+    - "P25 (Omega_GW): DERIVED-PENDING; LISA ~2037"
+    - "L2 gamma gap: L2_CONDENSATE_ZERO_MODE_VIABLE; full non-perturbative closure pending"
+    - "NEURAL_DISORDER clinical predictions: require pre-registered human trials for validation"

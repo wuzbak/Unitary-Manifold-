@@ -12,6 +12,50 @@ For each wave entry, include:
 
 ---
 
+## v15.9 (2026-06-05 — Neural Disorder Geometric Analysis: Pillar 516)
+
+### What changed
+- Pillar 516 (NEURAL_DISORDER_GEOMETRIC_ANALYSIS) added as STRUCTURAL_CORRESPONDENCE adjacent track.
+- `4-IMPLICATIONS/brain/DISORDERS_MANIFOLD.md` created: geometric analysis of seven
+  neurological/psychiatric disorders (Alzheimer's, anterograde amnesia, retrograde amnesia,
+  major depression, epilepsy, schizophrenia, concussion, severe TBI) through the UM
+  lens — each disorder mapped to failures of g_μν, B_μ, φ, k_cs, and β·C coupling.
+- `src/core/pillar516_neural_disorder_geometric_analysis.py`: machine-readable
+  DisorderProfile registry, five-class universal intervention framework, and
+  geometric analysis functions (kcs_drift_from_grid_cell_loss, gamma_entrainment_
+  winding_restoration, information_gap, phase_locking_deviation, ftum_convergence_
+  residual, coupled_fixed_point_status).
+- `tests/test_pillar516_neural_disorder_geometric_analysis.py`: 174 new tests, all passing.
+- Substack post #254 S03E032 published in-repo.
+
+### Why
+- The `brain/` directory had extensive structural and dynamical alignment documentation
+  but nothing on pathology.  Disorders are the most medically urgent domain and the
+  most concrete test of the brain-UM correspondence.
+- Understanding which geometric component fails in each disorder provides an
+  organizing framework for intervention design that current medicine lacks.
+
+### Epistemic label deltas
+- **None**. Pillar 516 is STRUCTURAL_CORRESPONDENCE (adjacent track); no hardgate
+  epistemic labels changed.
+
+### TOE score delta
+- **No change**. Adjacent-track pillar; ToE score remains 28/28 = 100%.
+
+### Falsification impact
+- No falsifier removed or weakened.
+- Five falsifiable predictions explicitly stated (entorhinal-first AD trial, grid-cell
+  biomarker, ketamine reconsolidation window, antipsychotic dose-reduction with
+  coupling adjunct, winding-ratio DBS).
+
+### Residual unknowns
+- All clinical predictions require pre-registered human trials for validation.
+- The extension from cosmological field equations to biological scales requires
+  additional assumptions not derived from UM axioms.
+- L2 γ gap remains open (L2_CONDENSATE_ZERO_MODE_VIABLE).
+
+---
+
 ## v15.8 (2026-06-05 — Topological Irreversibility Engine: Pillars 511–515)
 
 **What changed:**
