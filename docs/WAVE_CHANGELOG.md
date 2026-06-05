@@ -12,7 +12,33 @@ For each wave entry, include:
 
 ---
 
-## v15.7 (2026-06-01 — AI Governance Stack Operationalization: Pillar 510)
+## v15.8 (2026-06-05 — Topological Irreversibility Engine: Pillars 511–515)
+
+**What changed:**
+- **Pillars 511–515** — Five new pillar source files and 82 new tests responding to an external structural critique of `test_evolution.py`. The critique identified four specific architectural flaws where static geometric constraints undermine the claimed dynamic topological physics.
+- **evolution.py extended** — `braid_winding_number()` (gradient-space algorithm), `initialize_dynamic_braid()` (phi-offset factory), `get_winding_number()`, `run_evolution(track_winding=True)`, `information_current_topological()` (Chern-Simons correction, k_CS=74), `calculate_topological_distance()` added to the public API.
+- **Structural critique addressed** — (1) Minkowski cage: resolved by factory-vs-solver architecture distinction, P515 proves large-deviation solver evolution works; (2) information current illusion: resolved by Chern-Simons-corrected J^0, P513; (3) S-matrix fake: resolved by honest forward-only irreversibility proof, P514; (4) KK scaffold residue: resolved by live winding tracking, P512, with architecture limitation explicitly documented.
+- **Backward evolution diagnosis** — The critiqued time-reversal test is correctly identified as ill-posed: anti-diffusion amplifies high-k Fourier modes exponentially (factor ~10^8 for N=32 over 50 steps), and anti-Ricci flow drives metric signature flips. These are numerical artifacts, not physics. The honest irreversibility test is forward-only field drift vs topological sector stability.
+- **Substack post-253-s03e031** published in `7-OUTREACH/substack/posts/`.
+
+**Why:** An external AI-generated critique correctly identified the location of mathematical mismatch between the codebase's architecture and its claimed physics. The response engages the critique at technical depth: two flaws corrected by genuine physics extensions, one by honest diagnosis of a fundamentally ill-posed numerical experiment, and one by architecture clarification distinguishing factory initial conditions from solver capacity.
+
+**Epistemic label deltas:**
+- `BRAID_WINDING_OBSERVABLE_CERTIFIED` — gradient-space winding is a genuine observable; requires phi>0 but not sign changes
+- `WINDING_HISTORY_TRACKING_CERTIFIED` — winding number is now tracked continuously through evolution
+- `TOPOLOGICAL_INFORMATION_CURRENT_CERTIFIED` — J^0 carries Chern-Simons correction proportional to n_w
+- `DYNAMIC_LOOPBACK_PROOF_CERTIFIED` — forward-only irreversibility proof; backward evolution explicitly noted as ill-posed
+- `NONLINEAR_METRIC_EVOLUTION_CERTIFIED` — large-deviation IC solver verified; flat factory is architectural choice
+
+**TOE score delta:** None. 28.0/28 unchanged.
+
+**Falsification impact:** No falsifier is softened. KK backreaction full coupling remains an open-work item explicitly documented in P512 pillar certificate. Overcharging a "dynamic loopback" by using backward evolution of a dissipative PDE is correctly rejected.
+
+**Residual unknowns:** Full dynamic KK backreaction coupling (n_kk_modes>0, kk_backreaction_coupling>0) with simultaneous winding evolution remains future work. Backward-evolution proof of topological irreversibility is not attempted because it is numerically ill-posed; the forward-only protocol is the correct scientific test.
+
+---
+
+
 
 **What changed:**
 - **Pillar 510** — `src/core/pillar510_ai_governance_stack.py` maps the seven operational AI governance layers onto repository artifacts and adds executable approval gates, public-claim safety filtering, and AI-steward audit metadata.

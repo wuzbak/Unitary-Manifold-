@@ -129,9 +129,11 @@ class TestInitializeDynamicBraid:
 
     def test_metric_is_exact_minkowski(self):
         """initialize_dynamic_braid uses exact Minkowski (no noise)."""
-        s = FieldState.initialize_dynamic_braid(N=32, n_w_initial=1, dx=0.1)
+        N = 32
+        s = FieldState.initialize_dynamic_braid(N=N, n_w_initial=1, dx=0.1)
         eta = np.diag([-1.0, 1.0, 1.0, 1.0])
-        np.testing.assert_allclose(s.g, eta[None, :, :], atol=1e-15)
+        expected = np.tile(eta, (N, 1, 1))
+        np.testing.assert_allclose(s.g, expected, atol=1e-15)
 
     def test_winding_number_matches_request(self):
         """Winding number of the factory output must equal |n_w_initial|."""
@@ -140,10 +142,11 @@ class TestInitializeDynamicBraid:
             assert abs(s.get_winding_number()) == n_w
 
     def test_amplitude_parameter(self):
-        """amplitude parameter sets the max of phi."""
+        """amplitude parameter sets the cosine excursion: max(phi) - min(phi) = 2*amplitude."""
         amp = 2.5
         s = FieldState.initialize_dynamic_braid(N=64, n_w_initial=1, dx=0.05, amplitude=amp)
-        assert abs(float(np.max(np.abs(s.phi))) - amp) < 1e-12
+        phi_range = float(np.max(s.phi) - np.min(s.phi))
+        assert abs(phi_range - 2.0 * amp) < 1e-10
 
     def test_rejects_zero_amplitude(self):
         with pytest.raises(ValueError, match="amplitude must be positive"):

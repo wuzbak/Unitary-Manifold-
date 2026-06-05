@@ -57,8 +57,9 @@ FieldState
 FieldState.flat(N, dx, lam, alpha, phi0, m_phi)
     Factory: flat Minkowski background with small perturbations.
 
-FieldState.initialize_dynamic_braid(N, n_w_initial, dx, amplitude)
+FieldState.initialize_dynamic_braid(N, n_w_initial, dx, amplitude, phi_offset)
     Factory: clean Minkowski background with scalar field of winding number n_w.
+    phi_offset keeps phi > 0 for non-degenerate 5D metric.
 
 FieldState.get_winding_number()
     Instance method: return the topological braid winding number of the state.
@@ -210,7 +211,8 @@ class FieldState:
         N: int = 64,
         n_w_initial: int = 1,
         dx: float = 0.05,
-        amplitude: float = 1.0,
+        amplitude: float = 0.8,
+        phi_offset: float = 1.0,
         lam: float = _LAM_DEFAULT,
         alpha: float = _ALPHA_DEFAULT,
         phi0: float = _PHI0_DEFAULT,
@@ -222,26 +224,32 @@ class FieldState:
 
         The field is constructed as:
 
-            φ(x) = amplitude · cos(2π n_w · x / L)
+            φ(x) = phi_offset + amplitude · cos(2π n_w · x / L)
 
         where L = N · dx is the domain length and x = [0, dx, 2dx, …, (N-1)dx].
 
-        This cosine mode has exactly n_w_initial zero-crossings per period and
-        the corresponding (φ, −∂_x φ) phase vector completes n_w_initial full
-        rotations around the origin as x traverses [0, L).  The resulting
-        topological winding number computed by braid_winding_number(φ, dx) is
-        n_w_initial (to within rounding of the discrete gradient).
+        The DC offset ``phi_offset`` ensures that φ > 0 everywhere on the grid
+        (provided ``phi_offset > amplitude``), which is required so that the 5-D
+        metric component G_55 = φ² remains non-degenerate and the field can be
+        evolved by :func:`step` without triggering the near-singular-metric guard.
+
+        The gradient-space winding number computed by :func:`braid_winding_number`
+        depends only on ∂_x φ and ∂²_x φ, which are independent of the constant
+        offset ``phi_offset``.  Therefore the winding number of the output state
+        equals n_w_initial regardless of the offset value.
 
         The metric is initialised to exact flat Minkowski (no noise), and B = 0.
-        This provides a clean, noise-free starting point for topological tests
-        that is analytically distinguishable from the FieldState.flat() factory.
+        This provides a clean, analytically reproducible starting point for
+        topological tests that is distinguishable from the FieldState.flat() factory.
 
         Parameters
         ----------
         N            : number of grid points
         n_w_initial  : target winding number (integer ≥ 0)
         dx           : grid spacing
-        amplitude    : amplitude of the cosine mode (default 1.0)
+        amplitude    : amplitude of the cosine mode (default 0.8)
+        phi_offset   : DC offset added to the cosine field (default 1.0).
+                       Set > amplitude to guarantee φ > 0 throughout the domain.
         lam, alpha, phi0, m_phi, n_kk_modes, kk_backreaction_coupling :
                        as for FieldState.flat()
         """
@@ -254,7 +262,7 @@ class FieldState:
             )
         L = N * dx
         x = np.arange(N, dtype=float) * dx
-        phi = amplitude * np.cos(2.0 * np.pi * n_w_initial * x / L)
+        phi = phi_offset + amplitude * np.cos(2.0 * np.pi * n_w_initial * x / L)
 
         eta = np.diag([-1.0, 1.0, 1.0, 1.0])
         g = np.tile(eta, (N, 1, 1)).astype(float)
@@ -689,22 +697,28 @@ _K_CS: int = 74
 def braid_winding_number(phi: np.ndarray, dx: float) -> int:
     """Topological braid winding number of the scalar field on the 1-D grid.
 
-    Computes the integer winding of the (φ, −∂_x φ) phase vector around the
-    origin as x traverses the periodic 1-D domain [0, L).  This integer is a
-    topological invariant preserved under smooth deformations that do not take
-    the phase vector through zero.
+    Computes the integer winding of the gradient-space vector (∂_x φ, −∂²_x φ)
+    around the origin as x traverses the periodic 1-D domain [0, L).
+
+    Unlike the naive (φ, −∂_x φ) phase-space formulation, this gradient-space
+    definition does NOT require φ to cross zero.  It is therefore compatible with
+    initial conditions where φ > 0 everywhere (which is required so that the 5-D
+    metric component G_55 = φ² remains non-degenerate).  For the cosine mode
+    φ = φ₀ + A·cos(2π n_w x / L) the gradient-space vector traces an ellipse
+    proportional to (−Ak·sin, Ak²·cos) — independent of the DC offset φ₀ — and
+    winds exactly n_w times around the origin.
+
+    Near-constant fields (peak-to-peak amplitude < 1 % of mean absolute value)
+    are detected and immediately returned as winding number 0, avoiding
+    degenerate arctan2 calls on essentially zero-gradient fields.
 
     Algorithm
     ---------
-    1. Compute φ and ∂_x φ using second-order central differences.
-    2. Evaluate the phase angle θ(x) = arctan2(−∂_x φ, φ) at each grid point.
-    3. Compute the incremental phase change δθ_k = θ_{k+1} − θ_k, wrapped into
-       [−π, π] to handle discontinuities in arctan2.
-    4. Close the loop by adding the step θ_0 − θ_{N-1} (also wrapped).
-    5. The winding number is round(Σ δθ_k / 2π).
-
-    For the cosine mode φ = A·cos(2π n_w x / L) the result is exactly n_w
-    (to within the rounding of the discrete gradient approximation).
+    1. Early exit: if max(φ) − min(φ) < 0.01 · mean|φ|, return 0.
+    2. Compute ∂_x φ and ∂²_x φ using second-order central differences.
+    3. Evaluate θ(x) = arctan2(−∂²_x φ, ∂_x φ) at each grid point.
+    4. Compute wrapped increments δθ_k ∈ (−π, π].
+    5. Close the periodic loop and sum: n_w = round(Σ δθ_k / 2π).
 
     Parameters
     ----------
@@ -715,12 +729,20 @@ def braid_winding_number(phi: np.ndarray, dx: float) -> int:
     -------
     int : integer winding number (positive for counter-clockwise winding)
     """
-    dphi = np.gradient(phi, dx, edge_order=2)
-    theta = np.arctan2(-dphi, phi)
+    # Early exit for near-constant fields — no phase winding possible
+    phi_pp = float(np.max(phi) - np.min(phi))
+    phi_scale = float(np.mean(np.abs(phi))) + 1e-10
+    if phi_pp < 1e-2 * phi_scale:
+        return 0
+
+    # Gradient-space winding: (dphi, -d2phi) winds n_w times for cos(n_w * kx)
+    dphi  = np.gradient(phi,  dx, edge_order=2)
+    d2phi = np.gradient(dphi, dx, edge_order=2)
+    theta = np.arctan2(-d2phi, dphi)
     # Close the loop and sum wrapped increments
     theta_closed = np.append(theta, theta[0])
     d_theta = np.diff(theta_closed)
-    d_theta = (d_theta + np.pi) % (2.0 * np.pi) - np.pi   # wrap to [−π, π]
+    d_theta = (d_theta + np.pi) % (2.0 * np.pi) - np.pi   # wrap to (−π, π]
     return int(np.round(np.sum(d_theta) / (2.0 * np.pi)))
 
 
