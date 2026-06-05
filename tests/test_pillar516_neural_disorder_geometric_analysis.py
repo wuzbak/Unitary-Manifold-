@@ -538,7 +538,7 @@ class TestKcsDriftFromGridCellLoss:
 
     def test_above_threshold_at_80_percent(self):
         k_eff = kcs_drift_from_grid_cell_loss(0.8)
-        # 0.8 × 74 = 59.2 — below 74 (consciousness threshold not met)
+        # 0.8 × 74 = 59.2 — below the K_CS consciousness threshold of 74
         assert k_eff == pytest.approx(59.2)
         assert not k_cs_is_above_consciousness_threshold(k_eff)
 
