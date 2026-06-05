@@ -22,6 +22,7 @@ objects, carrying different physical labels.
 | [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) | LTP, synaptic directionality, the action-potential refractory period — the neural B_μ |
 | [`COUPLED_MASTER_EQUATION.md`](./COUPLED_MASTER_EQUATION.md) | **The dynamical alignment** — Brain and universe as coupled fixed-point attractors; the Coupled Master Equation; consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ |
 | [`RESONANCE_74.md`](./RESONANCE_74.md) | **k_cs = 74 as the Resonance Integer** — the minimum complexity for self-awareness; the hippocampus-EC knot; β = 0.3513° as the tilt that allows the 74-resonance to perceive time |
+| [`DISORDERS_MANIFOLD.md`](./DISORDERS_MANIFOLD.md) | **Pathology** — Alzheimer's, amnesia, depression, epilepsy, schizophrenia, TBI as specific geometric failures of g_μν, B_μ, φ, k_cs, and β·C; five-class universal intervention framework; falsifiable clinical predictions (Pillar 516) |
 
 ---
 
