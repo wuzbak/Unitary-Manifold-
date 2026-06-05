@@ -161,8 +161,29 @@ def export_registry() -> Dict[str, Any]:
 
 
 def write_registry_json(output_path: str | Path) -> Path:
+    """Write the registry JSON to *output_path*.
+
+    If the file already exists and the only difference from what would be
+    written is the ``generated_at`` timestamp, the existing file is left
+    unchanged.  This keeps CI diffs clean: the file is only rewritten when
+    the substantive registry content actually changes.
+    """
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     payload = export_registry()
+
+    if out.exists():
+        try:
+            existing = json.loads(out.read_text(encoding="utf-8"))
+            # Compare content without the ephemeral timestamp field.
+            existing_stable = {k: v for k, v in existing.items() if k != "generated_at"}
+            new_stable = {k: v for k, v in payload.items() if k != "generated_at"}
+            if existing_stable == new_stable:
+                # Content unchanged — preserve the existing timestamp so that
+                # `git diff` reports no changes.
+                return out
+        except (json.JSONDecodeError, OSError):
+            pass  # fall through to rewrite
+
     out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return out

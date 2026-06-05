@@ -39,7 +39,15 @@ phase 2 🔵 (pillar479), fermion hierarchy analytic formula derived (pillar480)
 arXiv v14.1 external engagement (pillar481). These are non-hardgate additions
 and do not alter the 28 SM parameter derivation table.
 
-Scope
+sprint registry note (v15.8): Pillars 511–515 added — topological irreversibility
+engine: braid winding observable with gradient-space algorithm (pillar511), dynamic
+winding history tracking via run_evolution (pillar512), Chern-Simons-corrected
+topological information current (pillar513), dynamic loopback proof of genuine field
+irreversibility (pillar514), nonlinear metric evolution with amplitude 0.3–0.5
+factory seeds (pillar515). No new SM parameter admissions; no parameter values
+changed; no hardgate score inflation. Latest full regression: 45,726 passed · 22
+skipped · 12 deselected · 0 failed. Next pillar slot: 516.
+
 -----
 The Standard Model (with massive Dirac neutrinos) has 28 independent free
 parameters in its Lagrangian.  A Theory of Everything must either:

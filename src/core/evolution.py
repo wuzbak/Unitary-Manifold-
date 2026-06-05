@@ -57,6 +57,13 @@ FieldState
 FieldState.flat(N, dx, lam, alpha, phi0, m_phi)
     Factory: flat Minkowski background with small perturbations.
 
+FieldState.initialize_dynamic_braid(N, n_w_initial, dx, amplitude, phi_offset)
+    Factory: clean Minkowski background with scalar field of winding number n_w.
+    phi_offset keeps phi > 0 for non-degenerate 5D metric.
+
+FieldState.get_winding_number()
+    Instance method: return the topological braid winding number of the state.
+
 step(state, dt)
     Advance state by one RK4 timestep dt.  O(dt⁴) local truncation error.
     A metric volume-preservation projection is applied after each step to
@@ -72,11 +79,23 @@ _check_cfl(state, dt, cfl)
     Check whether dt satisfies the CFL stability condition.  Returns a
     dict with keys ok, dt_given, dt_max, dx, ratio, message.
 
-run_evolution(state, dt, steps, callback, check_cfl)
-    Iterate *steps* RK4 timesteps, collecting history.
+run_evolution(state, dt, steps, callback, check_cfl, track_winding)
+    Iterate *steps* RK4 timesteps, collecting history.  With track_winding=True
+    also records the braid winding number at every step.
 
-information_current(g, phi, dx)
-    J^μ_inf = ρ u^μ (conserved information current).
+braid_winding_number(phi, dx)
+    Integer topological winding number of the (φ, −∂_x φ) phase vector.
+
+information_current(g, phi, dx, winding_number=None)
+    J^μ_inf = ρ u^μ (conserved information current).  When winding_number is
+    supplied, a Chern-Simons topological correction factor (1 + n_w / k_CS)
+    is applied where k_CS = 74.
+
+information_current_topological(state)
+    Convenience wrapper: information_current with the state's own winding number.
+
+calculate_topological_distance(s1, s2)
+    |n_w(s1) − n_w(s2)| — discrete topological distance between two states.
 
 conjugate_momentum_phi(state)
     π_φ = ∂_t φ — canonical conjugate momentum of the scalar field.
@@ -106,7 +125,7 @@ __provenance__ = {
 }
 
 from dataclasses import dataclass
-from typing import Callable, List, Optional
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
@@ -184,6 +203,86 @@ class FieldState:
                    phi0=phi0, m_phi=m_phi,
                    n_kk_modes=n_kk_modes,
                    kk_backreaction_coupling=kk_backreaction_coupling)
+
+    # ------------------------------------------------------------------
+    @classmethod
+    def initialize_dynamic_braid(
+        cls,
+        N: int = 64,
+        n_w_initial: int = 1,
+        dx: float = 0.05,
+        amplitude: float = 0.8,
+        phi_offset: float = 1.0,
+        lam: float = _LAM_DEFAULT,
+        alpha: float = _ALPHA_DEFAULT,
+        phi0: float = _PHI0_DEFAULT,
+        m_phi: float = _M_PHI_DEFAULT,
+        n_kk_modes: int = _N_KK_MODES_DEFAULT,
+        kk_backreaction_coupling: float = _KK_BACKREACTION_COUPLING_DEFAULT,
+    ) -> "FieldState":
+        """Create a FieldState with a scalar field of topological winding number n_w_initial.
+
+        The field is constructed as:
+
+            φ(x) = phi_offset + amplitude · cos(2π n_w · x / L)
+
+        where L = N · dx is the domain length and x = [0, dx, 2dx, …, (N-1)dx].
+
+        The DC offset ``phi_offset`` ensures that φ > 0 everywhere on the grid
+        (provided ``phi_offset > amplitude``), which is required so that the 5-D
+        metric component G_55 = φ² remains non-degenerate and the field can be
+        evolved by :func:`step` without triggering the near-singular-metric guard.
+
+        The gradient-space winding number computed by :func:`braid_winding_number`
+        depends only on ∂_x φ and ∂²_x φ, which are independent of the constant
+        offset ``phi_offset``.  Therefore the winding number of the output state
+        equals n_w_initial regardless of the offset value.
+
+        The metric is initialised to exact flat Minkowski (no noise), and B = 0.
+        This provides a clean, analytically reproducible starting point for
+        topological tests that is distinguishable from the FieldState.flat() factory.
+
+        Parameters
+        ----------
+        N            : number of grid points
+        n_w_initial  : target winding number (integer ≥ 0)
+        dx           : grid spacing
+        amplitude    : amplitude of the cosine mode (default 0.8)
+        phi_offset   : DC offset added to the cosine field (default 1.0).
+                       Set > amplitude to guarantee φ > 0 throughout the domain.
+        lam, alpha, phi0, m_phi, n_kk_modes, kk_backreaction_coupling :
+                       as for FieldState.flat()
+        """
+        if amplitude <= 0.0:
+            raise ValueError("amplitude must be positive.")
+        if N < 4 * abs(n_w_initial):
+            raise ValueError(
+                f"Need at least 4 grid points per winding period; "
+                f"N={N} is insufficient for n_w_initial={n_w_initial}."
+            )
+        L = N * dx
+        x = np.arange(N, dtype=float) * dx
+        phi = phi_offset + amplitude * np.cos(2.0 * np.pi * n_w_initial * x / L)
+
+        eta = np.diag([-1.0, 1.0, 1.0, 1.0])
+        g = np.tile(eta, (N, 1, 1)).astype(float)
+        B = np.zeros((N, 4))
+
+        return cls(
+            g=g, B=B, phi=phi, t=0.0, dx=dx, lam=lam, alpha=alpha,
+            phi0=phi0, m_phi=m_phi,
+            n_kk_modes=n_kk_modes,
+            kk_backreaction_coupling=kk_backreaction_coupling,
+        )
+
+    def get_winding_number(self) -> int:
+        """Return the topological braid winding number of the scalar field.
+
+        Delegates to the module-level :func:`braid_winding_number` function.
+        Provided as a convenience method so callers do not need to pass
+        (phi, dx) separately.
+        """
+        return braid_winding_number(self.phi, self.dx)
 
 
 # ---------------------------------------------------------------------------
@@ -528,40 +627,60 @@ def run_evolution(
     steps: int,
     callback: Optional[Callable[[FieldState, int], None]] = None,
     check_cfl: bool = True,
-) -> List[FieldState]:
+    track_winding: bool = False,
+) -> Union[List[FieldState], Dict[str, list]]:
     """Integrate the field equations for *steps* timesteps.
 
     Parameters
     ----------
-    state     : FieldState — initial conditions
-    dt        : float      — timestep
-    steps     : int        — number of steps
-    callback  : optional callable(state, step_index) called after each step
-    check_cfl : bool       — if True (default), raise ValueError before the
-                             first step when dt exceeds the CFL-stable limit
-                             cfl_timestep(state) = 0.4 × dx².  Set False
-                             to suppress the check (e.g. for benchmark tests).
+    state         : FieldState — initial conditions
+    dt            : float      — timestep (may be negative for backward evolution)
+    steps         : int        — number of steps
+    callback      : optional callable(state, step_index) called after each step
+    check_cfl     : bool       — if True (default), raise ValueError before the
+                                 first step when |dt| exceeds the CFL-stable limit
+                                 cfl_timestep(state) = 0.4 × dx².  Set False
+                                 to suppress the check (e.g. for backward evolution
+                                 or benchmark tests).
+    track_winding : bool       — if True, record the braid winding number at each
+                                 step and return a dict with keys ``'history'``
+                                 (List[FieldState]) and ``'winding_history'``
+                                 (List[int]) instead of a plain list.
 
     Returns
     -------
-    history : list of FieldState  (length steps + 1, including initial state)
+    If track_winding is False (default):
+        history : List[FieldState]  (length steps + 1, including initial state)
+    If track_winding is True:
+        dict with keys:
+            ``'history'``         : List[FieldState]  (length steps + 1)
+            ``'winding_history'`` : List[int]          (length steps + 1)
 
     Raises
     ------
     ValueError
-        If check_cfl=True and dt > cfl_timestep(state).
+        If check_cfl=True and |dt| > cfl_timestep(state).
     """
     if check_cfl:
-        report = _check_cfl(state, dt)
+        report = _check_cfl(state, abs(dt))
         if not report["ok"]:
             raise ValueError(report["message"])
 
-    history = [state]
+    history: List[FieldState] = [state]
+    winding_history: List[int] = (
+        [braid_winding_number(state.phi, state.dx)] if track_winding else []
+    )
+
     for i in range(steps):
         state = step(state, dt)
         history.append(state)
+        if track_winding:
+            winding_history.append(braid_winding_number(state.phi, state.dx))
         if callback is not None:
             callback(state, i + 1)
+
+    if track_winding:
+        return {"history": history, "winding_history": winding_history}
     return history
 
 
@@ -569,12 +688,100 @@ def run_evolution(
 # Diagnostics
 # ---------------------------------------------------------------------------
 
-def information_current(g, phi, dx):
+# Chern-Simons level k_CS = 74 — the "fingerprint constant" of the Unitary
+# Manifold (5, 7, 74) triad.  Used to compute the topological channel capacity
+# and to modulate the information current by the braided winding sector.
+_K_CS: int = 74
+
+
+def braid_winding_number(phi: np.ndarray, dx: float) -> int:
+    """Topological braid winding number of the scalar field on the 1-D grid.
+
+    Computes the integer winding of the gradient-space vector (∂_x φ, −∂²_x φ)
+    around the origin as x traverses the periodic 1-D domain [0, L).
+
+    Unlike the naive (φ, −∂_x φ) phase-space formulation, this gradient-space
+    definition does NOT require φ to cross zero.  It is therefore compatible with
+    initial conditions where φ > 0 everywhere (which is required so that the 5-D
+    metric component G_55 = φ² remains non-degenerate).  For the cosine mode
+    φ = φ₀ + A·cos(2π n_w x / L) the gradient-space vector traces an ellipse
+    proportional to (−Ak·sin, Ak²·cos) — independent of the DC offset φ₀ — and
+    winds exactly n_w times around the origin.
+
+    Near-constant fields (peak-to-peak amplitude < 1 % of mean absolute value)
+    are detected and immediately returned as winding number 0, avoiding
+    degenerate arctan2 calls on essentially zero-gradient fields.
+
+    Algorithm
+    ---------
+    1. Early exit: if max(φ) − min(φ) < 0.01 · mean|φ|, return 0.
+    2. Compute ∂_x φ and ∂²_x φ using second-order central differences.
+    3. Evaluate θ(x) = arctan2(−∂²_x φ, ∂_x φ) at each grid point.
+    4. Compute wrapped increments δθ_k ∈ (−π, π].
+    5. Close the periodic loop and sum: n_w = round(Σ δθ_k / 2π).
+
+    Parameters
+    ----------
+    phi : ndarray, shape (N,)  — scalar field values on the periodic grid
+    dx  : float                — grid spacing
+
+    Returns
+    -------
+    int : integer winding number (positive for counter-clockwise winding)
+    """
+    # Early exit for near-constant fields — no phase winding possible
+    phi_pp = float(np.max(phi) - np.min(phi))
+    phi_scale = float(np.mean(np.abs(phi))) + 1e-10
+    if phi_pp < 1e-2 * phi_scale:
+        return 0
+
+    # Gradient-space winding: (dphi, -d2phi) winds n_w times for cos(n_w * kx)
+    dphi  = np.gradient(phi,  dx, edge_order=2)
+    d2phi = np.gradient(dphi, dx, edge_order=2)
+    theta = np.arctan2(-d2phi, dphi)
+    # Close the loop and sum wrapped increments
+    theta_closed = np.append(theta, theta[0])
+    d_theta = np.diff(theta_closed)
+    d_theta = (d_theta + np.pi) % (2.0 * np.pi) - np.pi   # wrap to (−π, π]
+    return int(np.round(np.sum(d_theta) / (2.0 * np.pi)))
+
+
+def information_current(
+    g: np.ndarray,
+    phi: np.ndarray,
+    dx: float,
+    winding_number: Optional[int] = None,
+) -> np.ndarray:
     """Approximate conserved information current J^μ_inf = ρ u^μ.
 
     In the symmetry-reduced 1-D system we identify:
         ρ = φ²   (information density)
         u^μ = (1, ∂_x φ / |∂φ|, 0, 0) / √|g_00|   (unit 4-velocity proxy)
+
+    Topological correction (Pillar 513)
+    ------------------------------------
+    When *winding_number* is supplied, the current is modulated by the
+    Chern-Simons channel factor from the braided winding sector:
+
+        J^μ → J^μ · (1 + n_w / k_CS)
+
+    where k_CS = 74 is the Chern-Simons level of the Unitary Manifold.
+    This encodes the topological channel capacity (6.21 bits per k_CS=74
+    channel clearance) into the information current.  The correction term
+    is dimensionless, bounded for all physical n_w ∈ {0,…,7}, and vanishes
+    when winding_number=0 or when the parameter is omitted.
+
+    The original 2-argument signature (g, phi, dx) is fully preserved for
+    backward compatibility; the winding_number parameter defaults to None
+    (no topological correction applied).
+
+    Parameters
+    ----------
+    g              : ndarray, shape (N, 4, 4) — metric tensor
+    phi            : ndarray, shape (N,)       — scalar field
+    dx             : float                     — grid spacing
+    winding_number : int or None               — braid winding number n_w;
+                                                 None disables topological correction
 
     Returns
     -------
@@ -589,7 +796,59 @@ def information_current(g, phi, dx):
     J = np.zeros((N, 4))
     J[:, 0] = rho / np.sqrt(g00)
     J[:, 1] = rho * dphi / (norm * np.sqrt(g00))
+
+    if winding_number is not None:
+        # Chern-Simons topological modulation
+        cs_factor = 1.0 + float(winding_number) / float(_K_CS)
+        J *= cs_factor
+
     return J
+
+
+def information_current_topological(state: FieldState) -> np.ndarray:
+    """Convenience wrapper: compute information_current with the state's winding number.
+
+    Reads n_w = state.get_winding_number() and delegates to
+    information_current(state.g, state.phi, state.dx, winding_number=n_w).
+
+    This is the topologically-corrected information current that incorporates
+    the braided winding history into J^μ, addressing the 'static local density'
+    critique of the classical definition.
+
+    Parameters
+    ----------
+    state : FieldState
+
+    Returns
+    -------
+    J : ndarray, shape (N, 4)
+    """
+    n_w = state.get_winding_number()
+    return information_current(state.g, state.phi, state.dx, winding_number=n_w)
+
+
+def calculate_topological_distance(s1: FieldState, s2: FieldState) -> int:
+    """Integer topological distance between two field states.
+
+    Computes |n_w(s1) − n_w(s2)| where n_w is the braid winding number.
+    A distance of 0 means the two states have the same topological winding
+    sector; any non-zero value indicates a topological transition occurred.
+
+    This is a discrete metric on the space of braided field configurations:
+    it distinguishes genuine topological information preservation (distance = 0)
+    from field-level irreversibility (L∞ norm of φ₁ − φ₂ > 0).
+
+    Parameters
+    ----------
+    s1, s2 : FieldState
+
+    Returns
+    -------
+    int : |n_w(s1) − n_w(s2)| ≥ 0
+    """
+    n1 = braid_winding_number(s1.phi, s1.dx)
+    n2 = braid_winding_number(s2.phi, s2.dx)
+    return abs(n1 - n2)
 
 
 def conjugate_momentum_phi(state: FieldState) -> np.ndarray:
