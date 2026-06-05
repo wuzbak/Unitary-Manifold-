@@ -19,7 +19,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v15.9"
-  regression: "46,218 passed · 2 skipped · 12 deselected · 0 failed (full: tests/ + recycling/ + Pentad; v15.9 all-10-priorities sprint 2026-06-05)"
+  regression: "45,751 passed · 0 failed (full: tests/ + recycling/ + Pentad; v15.9 all-10-priorities sprint 2026-06-05)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true

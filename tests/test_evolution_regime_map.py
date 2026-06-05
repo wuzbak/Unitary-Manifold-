@@ -35,7 +35,7 @@ def test_factory_ic_near_flat_is_by_design():
 
     assert metric_deviation < 0.01
     assert phi_deviation < 0.01
-    assert metric_deviation >= 1.0e-5
+    assert metric_deviation >= 1.0e-4 / 10.0
 
 
 def test_solver_can_handle_large_deviation_amplitude():

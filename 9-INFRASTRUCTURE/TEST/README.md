@@ -1,6 +1,6 @@
 # Test Suite — Unitary Manifold
 
-Canonical full regression (STATUS.md): **46,218 passed · 2 skipped · 12 deselected · 0 failed** (v15.8, 2026-06-05; tests/ + recycling/ + Pentad).
+Canonical full regression (STATUS.md): **45,726 passed · 22 skipped · 12 deselected · 0 failed** (v15.8, 2026-06-05; tests/ + recycling/ + Pentad).
 
 **Historical checkpoint:** 33,398 tests: 32,993 passed · 393 skipped · 12 deselected · 0 failures (verified 2026-05-16, Python 3.12, pytest)
 
@@ -60,7 +60,7 @@ python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q  # full su
 Expected result (default):
 
 ```
-46,218 passed · 2 skipped · 12 deselected · 0 failed (canonical v15.8 full-deps checkpoint)
+45,726 passed · 22 skipped · 12 deselected · 0 failed (canonical v15.8 full-deps checkpoint)
 ```
 
 ---
