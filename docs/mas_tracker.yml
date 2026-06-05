@@ -19,7 +19,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v15.9"
-  regression: "82 passed · 0 failed focused P511–P515 topological engine sprint; latest full regression 45,900 passed · 22 skipped · 12 deselected · 0 failed"
+  regression: "82 passed · 0 failed focused P511–P515 topological engine sprint; latest full regression 45,905 passed · 22 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
@@ -64,7 +64,7 @@ v15_8_topological_irreversibility_engine:
     - "docs/mas_tracker.yml: v15.8 tracker block and regression checkpoint"
     - "docs/WAVE_CHANGELOG.md: v15.8 entry"
   focused_regression: "82 passed · 0 failed (P511–P515 topological engine tests)"
-  full_regression: "45,900 passed · 22 skipped · 12 deselected · 0 failed"
+  full_regression: "45,905 passed · 22 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 516
   epistemic_deltas:
@@ -3223,7 +3223,7 @@ v10_32_p16_promotion:
     Machine-readable DisorderProfile registry, five-class universal intervention
     framework, and geometric analysis functions implemented.  Substack post #254
     S03E032 published in-repo.  174 new tests; 0 failures.
-    Full regression: 45,900 passed * 22 skipped * 12 deselected * 0 failed.
+    Full regression: 45,905 passed * 22 skipped * 12 deselected * 0 failed.
     Next pillar slot: 517.  Next Substack post: #255 S03E033.
   deliverables:
     - artifact: "src/core/pillar516_neural_disorder_geometric_analysis.py"
