@@ -2,13 +2,8 @@
 
 **The Unitary Manifold v15.9 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-<<<<<<< HEAD
-*Last updated: 2026-06-05 (v15.8 — Pillars 511–515 topological irreversibility engine: braid winding observable, dynamic winding history tracking, Chern-Simons-corrected information current, dynamic loopback proof, and nonlinear metric evolution; no new admissions opened, no hardgate score inflation, no falsifier softened; Pillar 510 AI governance stack retained.)*
-*Latest verified full regression: 45,905 passed · 22 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
-=======
 *Last updated: 2026-06-05 (v15.9 — All-10-priorities sprint: Pillar 516 KK backreaction architecture audit (ARCHITECTURE_LIMIT_CERTIFIED), Lean4 extended (25 new theorems across Basic/FalsifierBoundary/BraidUniqueness), arXiv main.tex synced to v15.8, R_TENSION_FORMAL_STATUS.md (r=0.0315 vs ACT DR6 r<0.016 ~2σ HIGH_TENSION formally documented), JUNO_DECISION_PROTOCOL.md, CI_HEALTH.md, outreach letter + templates; Pillars 511–515 topological irreversibility engine retained; no new admissions opened, no hardgate score inflation, no falsifier softened.)*
 *Latest verified full regression: 46,218 passed · 2 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
->>>>>>> origin/main
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
