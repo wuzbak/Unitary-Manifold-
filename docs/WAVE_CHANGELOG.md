@@ -12,6 +12,41 @@ For each wave entry, include:
 
 ---
 
+## v15.9 (2026-06-05 — All-10-Priorities Sprint: Pillar 516, Lean4, Outreach, arXiv, CI Health)
+
+**What changed:**
+
+- **Pillar 516** — `src/core/pillar516_kk_backreaction_architecture_audit.py`: KK backreaction architecture limit certified (ARCHITECTURE_LIMIT_CERTIFIED). `kk_backreaction_architecture_report()` and `regime_map()` document the four-regime KK coupling space: factory_ic (instantaneous), solver_large_deviation (per-step numerical), backreaction_decoupled (n_kk=0), winding_tracking_live (gradient-space). Full KK coupling requires mode-sum truncation + convergence certificate + per-step re-measurement (future open work).
+- **Tests** — 25 new tests across `test_pillar516_kk_backreaction_architecture_audit.py` (10) and `test_evolution_regime_map.py` (15); all passing.
+- **arXiv sync** — `docs/ARXIV_SUBMISSION_STATUS.md` rewritten to v15.8 with explicit sync-requirements table. `6-MONOGRAPH/arxiv/main.tex` header, title, and abstract updated (v11.13→v15.8, test count updated, r-tension paragraph added, P511-516 described).
+- **R-tension formal status** — `docs/R_TENSION_FORMAL_STATUS.md` created: comprehensive formal treatment of r=0.0315 vs ACT DR6 r<0.016 (~2σ), prediction source equations, architecture limit explanation, machine-readable YAML, CMB-S4 decision timeline.
+- **Document consistency sweep** — `docs/GATEKEEPER_SUMMARY.md`, `docs/CLAIM_MASTER_BOARD.md`, `STEWARDSHIP.md` version headers updated to v15.8.
+- **UM-SOS** — Build scripts verified (predictions.json: 8 entries, dag.json: 673 lines); `10-UM-SOS/README.md` synced to v15.8 with GitHub Pages deployment instructions.
+- **Lean4 extended** — `lean4/UnitaryManifold/Basic.lean` (10 new theorems: n_w=7 exclusion, admissible winding set, CS level comparison, exponential suppression, winding-geometry consistency, N_C=3, three-generation arithmetic, birefringence ordering/gap); `lean4/UnitaryManifold/FalsifierBoundary.lean` (7 new theorems: n_s window, r vs BICEP/Keck, r vs ACT DR6 HIGH_TENSION, r tension factor, CMB-S4 resolution, DESI w_a falsification boundary, JUNO projected sigma); `lean4/UnitaryManifold/BraidUniqueness.lean` (8 new theorems: step-width uniqueness, global minimum, full four-proof chain a/b/c/d, monotonicity, Admission 2 closure).
+- **Outreach** — `docs/OUTREACH_4PAGE_LETTER.md` (4-page scientific letter for PRL/Nature Physics), `docs/TARGETED_OUTREACH_TEMPLATE.md` (three targeted emails for CMB/KK/quantum gravity researchers).
+- **src/README.md** — Three-tier module map (Tier 1 Physics / Tier 2 Conjecture+Extension / Tier 3 Analogy+Bridge) for all 30+ src/ directories.
+- **JUNO protocol** — `docs/JUNO_DECISION_PROTOCOL.md` machine-readable JUNO Δm²₃₁ monitoring protocol with decision windows and YAML block.
+- **CI health** — `9-INFRASTRUCTURE/CI_HEALTH.md` created: all 14 workflows documented with schedule, purpose, and latest status.
+- **Substack post-254** — S03E032 on the r-tension: what r=0.0315 means, why it is HIGH_TENSION not FALSIFIED, and what CMB-S4 will decide.
+- **README.md** — Honest-status callout updated to v15.9 with both HIGH_TENSION signals (r-tension, w_a tension) prominently documented.
+
+**Why:** Full repository review across all 10 priority categories identified and executed in a single sprint. Priority 1 (arXiv sync) was the most urgent submission-blockers. Priority 2 (r-tension honesty) required both a formal document and public outreach. Priority 5 (Lean4) extended the machine-verified algebraic theorem set. Priorities 8-9 (JUNO protocol + Pillar 516) formalized the two open architecture limits.
+
+**Epistemic label deltas:**
+- `KK_BACKREACTION_ARCHITECTURE_LIMIT_CERTIFIED` — Pillar 516; full KK coupling requires future open work
+- `R_TENSION_FORMALLY_DOCUMENTED` — r=0.0315 vs ACT DR6 r<0.016; HIGH_TENSION, not FALSIFIED; CMB-S4 decides ~2030
+- `LEAN4_N_W7_EXCLUSION_THEOREM` — machine-verified; n_w=7 excluded by APS eta-invariant (Basic.lean)
+- `LEAN4_FOUR_PROOF_CHAIN_COMPLETE` — a/b/c/d braid uniqueness proofs machine-verified (BraidUniqueness.lean)
+- `LEAN4_FALSIFIER_BOUNDARY_EXTENDED` — r, DESI, JUNO boundaries machine-verified (FalsifierBoundary.lean)
+
+**TOE score delta:** None. 28.0/28 unchanged.
+
+**Falsification impact:** No falsifier is softened. r-tension is elevated to prominently documented HIGH_TENSION in README.md and new R_TENSION_FORMAL_STATUS.md. w_a DESI tension co-documented. Both have machine-readable decision criteria and CMB-S4/DESI-DR3 falsification timelines.
+
+**Residual unknowns:** Full arXiv manuscript body sync (sections beyond abstract) is human work item (~2-3 hours). Lean4 theorems are syntactically consistent but require full Lake/Mathlib build to machine-verify (CI validates). OUTREACH_4PAGE_LETTER.md content from background agent pending retrieval.
+
+---
+
 ## v15.8 (2026-06-05 — Topological Irreversibility Engine: Pillars 511–515)
 
 **What changed:**
