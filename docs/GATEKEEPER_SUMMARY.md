@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v15.7
+# Unitary Manifold v15.8
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-06-01 (v15.7 — Pillar 510 AI governance stack operationalized; focused P510 regression 10 passed · 0 failed; latest full regression 45,649 passed · 22 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+*Last updated: 2026-06-05 (v15.8 — Pillars 511–515 topological irreversibility engine added: braid winding observable, dynamic winding history tracking, Chern-Simons-corrected information current, forward loopback proof, nonlinear metric evolution; Pillar 516 KK backreaction architecture audit; focused P511–P515 regression 82 passed · 0 failed; latest full regression 45,726 passed · 22 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+
+> **v15.8 sync note:** Pillars 511–515 deliver the topological irreversibility engine in response to a structural critique of test_evolution.py. Four identified architectural flaws addressed: Minkowski cage replaced by factory-vs-solver architecture proof; J^0 illusion replaced by Chern-Simons-corrected topological current (k_CS=74); S-matrix fake replaced by forward-only honest irreversibility measure; KK scaffold residue replaced by live winding tracking with explicit open-work record. Pillar 516 certifies the KK backreaction architecture limit as ARCHITECTURE_LIMIT_CERTIFIED. No physics promotion, no ToE score change, no falsifier softened.
 
 > **v15.7 sync note:** Pillar 510 operationalizes a seven-layer AI governance stack for autonomous stewardship. This is a control-plane and auditability hardening step: it adds approval tiers, public-claim safety filtering, and audit metadata without changing any physics verdict, ToE score, or falsifier window.
 
