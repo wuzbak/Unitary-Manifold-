@@ -13,7 +13,11 @@ pip install -r requirements.txt pytest
 
 # Full test suite (~2 min):
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
+<<<<<<< HEAD
 # Expected: 45,905 passed · 22 skipped · 12 deselected · 0 failed
+=======
+# Expected: 46,218 passed · 2 skipped · 12 deselected · 0 failed
+>>>>>>> origin/main
 
 # Single-module fast check:
 python -m pytest tests/test_metric.py tests/test_evolution.py -v

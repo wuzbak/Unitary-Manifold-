@@ -48,6 +48,17 @@ factory seeds (pillar515). No new SM parameter admissions; no parameter values
 changed; no hardgate score inflation. Latest full regression: 45,726 passed · 22
 skipped · 12 deselected · 0 failed. Next pillar slot: 516.
 
+sprint registry note (v15.9): Pillar 516 added — KK backreaction architecture audit
+(pillar516_kk_backreaction_architecture_audit.py): certifies the architecture limit
+(ARCHITECTURE_LIMIT_CERTIFIED) for KK backreaction, with regime_map() documenting
+four coupling regimes; full dynamic KK backreaction coupling (n_kk_modes > 0)
+remains future open work. Also: +25 Lean4 theorems (Basic, FalsifierBoundary,
+BraidUniqueness), r-tension formally documented (HIGH_TENSION, CMB-S4 decision
+experiment), arXiv sync, JUNO decision protocol, UM-SOS build verified, CI health
+report, src module map. No new SM parameter admissions; no parameter values changed;
+no hardgate score inflation. Latest full regression: 46,218 passed · 2 skipped ·
+12 deselected · 0 failed. Next pillar slot: 517.
+
 -----
 The Standard Model (with massive Dirac neutrinos) has 28 independent free
 parameters in its Lagrangian.  A Theory of Everything must either:
