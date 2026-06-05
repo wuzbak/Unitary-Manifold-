@@ -1,4 +1,4 @@
-version: "v15.8"
+version: "v15.9"
 date: "2026-06-05"
 updated: "2026-06-05"
 mas_status: "COMPLETE"
@@ -18,14 +18,14 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.8"
-  regression: "82 passed · 0 failed focused P511–P515 topological engine sprint; latest full regression 45,726 passed · 22 skipped · 12 deselected · 0 failed"
+  version: "v15.9"
+  regression: "82 passed · 0 failed focused P511–P515 topological engine sprint; latest full regression 45,900 passed · 22 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
 v15_8_topological_irreversibility_engine:
-  version: "v15.8"
+  version: "v15.9"
   wave: "Topological irreversibility engine — Pillars 511–515"
   date: "2026-06-05"
   pillars_added:
@@ -64,7 +64,7 @@ v15_8_topological_irreversibility_engine:
     - "docs/mas_tracker.yml: v15.8 tracker block and regression checkpoint"
     - "docs/WAVE_CHANGELOG.md: v15.8 entry"
   focused_regression: "82 passed · 0 failed (P511–P515 topological engine tests)"
-  full_regression: "45,726 passed · 22 skipped · 12 deselected · 0 failed"
+  full_regression: "45,900 passed · 22 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 516
   epistemic_deltas:
