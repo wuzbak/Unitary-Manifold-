@@ -1,6 +1,6 @@
-version: "v15.9"
-date: "2026-06-05"
-updated: "2026-06-05"
+version: "v16.0"
+date: "2026-06-10"
+updated: "2026-06-10"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -18,13 +18,80 @@ historical_snapshot_sections:
   - "mas_wave_ledgers"
 
 public_surface_sync_checkpoint:
-  version: "v15.9"
-  regression: "46,218 passed · 2 skipped · 12 deselected · 0 failed (full: tests/ + recycling/ + Pentad; v15.9 all-10-priorities sprint 2026-06-05)"
+  version: "v16.0"
+  regression: "TBD after full regression (v16.0 decision-window sprint 2026-06-10; baseline: 46,218 + 112 new tests)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
-v15_9_all_10_priorities_sprint:
+v16_0_decision_window_sprint:
+  version: "v16.0"
+  wave: "Decision-Window sprint — Pillars 517+518, Lean4 CCRKernel, decision briefs, JUNO rapid-response, Substack #255"
+  date: "2026-06-10"
+  next_pillar_slot: 519
+  next_substack_post: "#256 S03E034"
+  new_pillars:
+    - slot: 517
+      id: "P_R_ARCHITECTURE_LIMIT_CERTIFIED"
+      status: "P_R_ARCHITECTURE_LIMIT_CERTIFIED"
+      source: "src/core/pillar517_wsv_pr_first_principles.py"
+      description: "WS-V Yukawa texture p_R first-principles derivation attempt; exact obstruction certified as shared KK-backreaction root cause with Pillar 516; tightened admissible window [0.246, 0.491]; JUNO rapid-response protocol staged"
+    - slot: 518
+      id: "CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED"
+      status: "CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED"
+      source: "src/core/pillar518_cmb_amplitude_architecture_limit.py"
+      description: "CMB acoustic peak amplitude gap — exhaustive Cases A/B/C; ARCHITECTURE_LIMIT formally certified; oldest gap closed as architecture limit analogous to r-tension and wₐ tension"
+  new_docs:
+    - "docs/JUNO_RAPID_RESPONSE_TEMPLATE.md"
+    - "docs/DESI_DR3_DECISION_BRIEF.md"
+    - "docs/SPHEREX_DECISION_BRIEF.md"
+    - "lean4/UnitaryManifold/CCRKernel.lean"
+    - "7-OUTREACH/substack/posts/post-255-s03e033-the-next-three-years.md"
+  new_tests: 112
+  test_delta: "+112 (61 pillar517 + 51 pillar518)"
+  classification_upgrades:
+    p_r: "CONDITIONAL_DERIVATION → ARCHITECTURE_LIMIT_CERTIFIED (Pillar 517)"
+    cmb_amplitude: "OPEN_GAP_BOUNDED → ARCHITECTURE_LIMIT_CERTIFIED (Pillar 518)"
+  lean4_theorems_added: 18
+  lean4_new_file: "CCRKernel.lean (CCR + ER=EPR conditional theorem kernels)"
+  active_decision_windows:
+    juno:
+      prediction_eV2: 2.453e-3
+      pdg_eV2: 2.453e-3
+      baseline_residual_pct: 2.18
+      nlo_residual_pct: 0.004
+      phase1_date: "~2026"
+      full_stats_date: "~2027"
+      rapid_response_template: "docs/JUNO_RAPID_RESPONSE_TEMPLATE.md"
+      status: "STAGED_READY"
+    desi_dr3:
+      prediction_wa: 0.0
+      desi_dr2_sigma: 2.75
+      decision_date: "~2027"
+      decision_brief: "docs/DESI_DR3_DECISION_BRIEF.md"
+      falsification_threshold_sigma: 3.0
+      status: "HIGH_TENSION"
+    spherex:
+      prediction_fnl_canonical: -0.532
+      prediction_fnl_band: [-2.9, -0.2]
+      sigma_fnl_spherex: 1.6
+      decision_date: "~2027-2028"
+      decision_brief: "docs/SPHEREX_DECISION_BRIEF.md"
+      preregistration_sha256: "see Pillar 437"
+      status: "PENDING_DECISION"
+    cmb_s4:
+      prediction_r: 0.0315
+      act_dr6_bound: 0.016
+      act_dr6_sigma: 2.0
+      decision_date: "~2030"
+      status: "HIGH_TENSION"
+    litebird:
+      prediction_beta_mode1_deg: 0.331
+      prediction_beta_mode2_deg: 0.273
+      decision_date: "~2032"
+      status: "PENDING"
+
+
   version: "v15.9"
   wave: "All-10-priorities sprint — Pillar 516, Lean4 extension, arXiv sync, r-tension formal status, CI health, outreach"
   date: "2026-06-05"
