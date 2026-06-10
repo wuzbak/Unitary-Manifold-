@@ -19,7 +19,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v16.0"
-  regression: "TBD after full regression (v16.0 decision-window sprint 2026-06-10; baseline: 46,218 + 112 new tests)"
+  regression: "46,042 passed · 22 skipped · 12 deselected · 0 failed (2026-06-10; fastapi+httpx env; canonical ledger 46,218 in no-fastapi env)"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true

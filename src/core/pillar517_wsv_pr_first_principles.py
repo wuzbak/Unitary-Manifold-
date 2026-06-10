@@ -143,7 +143,7 @@ C_S: float = 12.0 / 37.0              # geometric sound speed (Pillar 97)
 # Seesaw parameters
 V_HIGGS_GEV: float = 246.22            # Higgs VEV
 M_KK_GEV: float = 1.0e3               # KK mass scale (1 TeV reference)
-SEESAW_DELTA: float = (V_HIGGS_GEV / M_KK_GEV) ** 2   # ≈ 0.0606
+SEESAW_DELTA: float = (V_HIGGS_GEV / M_KK_GEV) ** 2   # ≈ 0.0606 (seesaw suppression; reserved for future NLO use)
 
 # Derived results (computed below)
 def _sin2_theta23() -> float:

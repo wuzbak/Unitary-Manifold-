@@ -129,19 +129,13 @@ N_W: int = 5
 K_CS: int = 74
 C_S: float = 12.0 / 37.0
 M_KK_GEV: float = 1.0e3              # TeV-scale KK
-H_INF_GEV: float = 5.0e13 / 1.0e9   # inflationary Hubble in GeV (≈ 5×10⁴ GeV)
+H_INF_GEV: float = 5.0e4              # inflationary Hubble in GeV (5×10⁴ GeV)
 K_ACOUSTIC_OVER_MPC: float = 0.02    # acoustic scale ≈ 0.02 Mpc⁻¹ (ℓ ≈ 220)
 PLANCK_LENGTH_GEV_INV: float = 1.616e-35 / (1.97e-16)  # l_Pl in GeV⁻¹
 
-# KK correction to photon transfer at acoustic scale (dimensionless)
-# ΔT/T ~ (k_acoustic / M_KK)² ~ (H_inf / M_KK)² ~ (5e4 / 1e3)^2 = 2500 ... wrong units
-# Physical: k_acoustic in Mpc⁻¹; M_KK in GeV. Cross-check via Hubble:
-# (H_inf / M_KK)² ≈ (5e4 GeV / 1e3 GeV)² ≈ 2.5e3 -- but H_inf is during inflation
-# At acoustic horizon, k_acoustic ~ 0.02 h/Mpc, convert: k ≈ 0.02/Mpc × ħc/GeV
-# ħc = 0.197 GeV·fm = 0.197e-15 GeV·m; 1 Mpc = 3.086e22 m
-# k_phys ≈ 0.02 / (3.086e22) * (0.197e-15) GeV? No, units don't work that way.
-# The dimensionless ratio is (k / M_Pl)^2 at the acoustic scale ≪ M_Pl.
-# For acoustic scale k ~ H_0 ~ 10^{-42} GeV and M_KK ~ 1 TeV:
+# KK correction to photon transfer at acoustic scale (dimensionless).
+# At the acoustic scale, k ~ H_0 ~ 10^{-42} GeV and M_KK ~ 1 TeV:
+# correction ~ (k / M_KK)² ~ (10^{-42} / 10³)² ≈ 10^{-90} — negligible.
 KK_CORRECTION_AT_ACOUSTIC_SCALE: float = (1e-42 / M_KK_GEV) ** 2  # ≈ 10⁻⁹⁰ (negligible)
 
 N_FREE_PARAMS_CASE_A: int = 1   # β(k) momentum function

@@ -55,9 +55,9 @@ $$f_\mathrm{NL}^\mathrm{DBI} = -\frac{35}{108} \times 8.507 \approx -2.758$$
 
 The (5,7) braided winding sector adds a correction from the Chern-Simons topology:
 
-$$\Delta f_\mathrm{NL}^\mathrm{KK} = +\frac{5}{81}\left(\frac{1}{c_s^2} - 1\right) \times \frac{\rho^2}{2(1-\rho^2)}$$
+$$\Delta f_\mathrm{NL}^\mathrm{KK} = +\frac{5}{81} \times (1/c_s^2 - 1) \times \frac{(70/74)^2}{2(1-(70/74)^2)}$$
 
-where ρ = 70/74 is the braid correlation parameter.
+where $(1/c_s^2 - 1) \approx 8.507$ (from Step 2) and $\rho = 70/74$ is the braid correlation parameter.
 
 $$\Delta f_\mathrm{NL}^\mathrm{KK} = +\frac{5}{81} \times 8.507 \times \frac{(70/74)^2}{2(1-(70/74)^2)} \approx +2.226$$
 
