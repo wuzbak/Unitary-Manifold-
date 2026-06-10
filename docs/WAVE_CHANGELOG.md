@@ -12,6 +12,32 @@ For each wave entry, include:
 
 ---
 
+## v16.0 (2026-06-10 — Decision-Window Sprint: Pillars 517–518, Pre-Registration, Lean4 CCRKernel)
+
+**What changed:**
+
+- **Pillar 517** — `src/core/pillar517_wsv_pr_first_principles.py`: WS-V Yukawa texture p_R first-principles derivation attempt. Result: p_R^{leading} = 0.491 from sin²θ₂₃·cos²θ₁₃·(1 + n_w²/k_CS·c_s). Exact fitted value 0.364 requires KK tower suppression S_KK≈1.35 — same full-mode-sum computation as Pillar 516. Status: P_R_ARCHITECTURE_LIMIT_CERTIFIED. Admissible window tightened to [0.246, 0.491]. JUNO rapid-response protocol embedded.
+- **Pillar 518** — `src/core/pillar518_cmb_amplitude_architecture_limit.py`: CMB acoustic-peak amplitude gap (×4–7 suppression, Admission 2) exhaustively closed. Case A (non-Bunch-Davies): requires |β_k|~1.05–1.47 → new free parameter. Case B (pre-inflationary phase): requires ~1.8 new e-folds → new field content. Case C (KK propagator): ~10⁻⁹⁰ correction, negligible. All three paths lead to ARCHITECTURE_LIMIT. CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED. Oldest open gap formally resolved.
+- **Pre-registration documents** — `docs/JUNO_RAPID_RESPONSE_TEMPLATE.md`, `docs/DESI_DR3_DECISION_BRIEF.md`, `docs/SPHEREX_DECISION_BRIEF.md`: standalone publishable briefs pre-registered before upcoming experimental decision windows (JUNO ~2026, DESI DR3 ~2027, SPHEREx ~2027–2028).
+- **Lean4 CCRKernel** — `lean4/UnitaryManifold/CCRKernel.lean`: 18 new theorems. CCR + ER=EPR conditional theorem kernels with open conditions declared as named `axiom` statements (ccr_p8_full_functional_space_closed, erepr_kk_entanglement_geometry_identification). Honest epistemic position: stronger than conjecture, weaker than unconditional theorem.
+- **Substack #255** — `7-OUTREACH/substack/posts/post-255-s03e033-the-next-three-years.md`: "The Next Three Years" — comprehensive decision-window post covering JUNO, DESI, SPHEREx, and CMB-S4 timelines plus architecture limit framework.
+- **Tests** — 112 new tests across `test_pillar517_wsv_pr_first_principles.py` (61) and `test_pillar518_cmb_amplitude_architecture_limit.py` (51); all passing.
+
+**Why:**
+The framework needed its open gaps formally closed (not softened) and its falsifiable predictions pre-registered in externally shareable form before experimental data arrives. Priority: honest closure over additional pillars.
+
+**Epistemic label deltas:**
+- Pillar 274 (NLO seesaw p_R): `CONDITIONAL_DERIVATION` → `ARCHITECTURE_LIMIT_CERTIFIED` (p_R derivation obstruction certified)
+- Admission 2 (CMB amplitude gap): `OPEN_TENSION_BOUNDED` → `ARCHITECTURE_LIMIT_CERTIFIED` (formally resolved, all paths exhausted)
+
+**TOE score delta:** 28.0/28 (unchanged — no new hardgate claims; ARCHITECTURE_LIMIT_CERTIFIED is epistemic closure, not score inflation).
+
+**Falsification impact:** None softened. JUNO, DESI, SPHEREx tripwires unmodified. Pre-registration documents make falsification conditions externally visible and linkable.
+
+**Residual unknowns:** KK mode-sum convergence certificate (open since Pillar 516). CCR/ER=EPR unconditional proof (awaits full P8 functional-space closure). r-tension ~2σ HIGH_TENSION (ACT DR6). wₐ=0 tension 2.75σ (DESI DR2).
+
+---
+
 ## v15.9 (2026-06-05 — All-10-Priorities Sprint: Pillar 516, Lean4, Outreach, arXiv, CI Health)
 
 **What changed:**

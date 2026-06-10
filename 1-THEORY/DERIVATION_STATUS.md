@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v15.9 — Unambiguous Record**  
+**The Unitary Manifold v16.0 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-06-05 (v15.9 — All-10-priorities sprint: Pillar 516 KK backreaction architecture audit (ARCHITECTURE_LIMIT_CERTIFIED), Lean4 extended (25 new theorems across Basic/FalsifierBoundary/BraidUniqueness), arXiv main.tex synced to v15.8, R_TENSION_FORMAL_STATUS.md (r=0.0315 vs ACT DR6 r<0.016 ~2σ HIGH_TENSION formally documented), JUNO_DECISION_PROTOCOL.md, CI_HEALTH.md, outreach letter + templates; Pillars 511–515 topological irreversibility engine retained; no new admissions opened, no hardgate score inflation, no falsifier softened.)*
+*Last updated: 2026-06-10 (v16.0 — Decision-window sprint: Pillar 517 WS-V p_R first-principles attempt → P_R_ARCHITECTURE_LIMIT_CERTIFIED (fitted p_R=0.364 requires KK tower suppression S_KK≈1.35, same backreaction as Pillar 516; admissible window [0.246, 0.491]); Pillar 518 CMB amplitude gap formally closed as CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED — Cases A/B/C exhausted, Admission 2 resolved; JUNO_RAPID_RESPONSE_TEMPLATE.md, DESI_DR3_DECISION_BRIEF.md, SPHEREX_DECISION_BRIEF.md pre-registered; CCRKernel.lean (18 theorems, open conditions as named axioms); Substack #255 S03E033; 112 new tests; 0 failures.)*
 *Latest verified full regression: 46,218 passed · 2 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
