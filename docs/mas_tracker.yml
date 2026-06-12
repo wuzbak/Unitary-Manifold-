@@ -24,6 +24,7 @@ public_surface_sync_checkpoint:
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
+<<<<<<< HEAD
 v17_0_11d_precision_expansion_sprint:
   version: "v17.0"
   wave: "11D Precision Expansion — Pillars 519–524, 321 new tests, architecture limit upgrades, Substack #257"
@@ -93,6 +94,28 @@ v16_1_trl7_infrastructure_sprint:
   date: "2026-06-12"
   next_pillar_slot: 519
   next_substack_post: "#257 S03E035"
+=======
+v16_1_book_sprint:
+  version: "v16.1"
+  wave: "Military Accountability Edition — Book 23 (The Blank Check), Substack #256 S03E034"
+  date: "2026-06-12"
+  next_pillar_slot: 519
+  next_substack_post: "#257 S03E035"
+  new_books:
+    - number: 23
+      title: "The Blank Check"
+      subtitle: "America's Defense System, the Military-Industrial Complex, and the Accountability Gap"
+      file: "7-OUTREACH/substack/books/book-blank-check-military-accountability.md"
+      category: "Defense / Governance / Civic Accountability"
+      size_kb: 43
+      edition: "v16.1 — Military Accountability Edition"
+  new_docs:
+    - "7-OUTREACH/substack/books/book-blank-check-military-accountability.md"
+    - "7-OUTREACH/substack/posts/post-256-s03e034-the-blank-check-military-accountability.md"
+  new_pillars: []
+  new_tests: 0
+  test_delta: "+0 (documentation sprint)"
+>>>>>>> refs/remotes/origin/main
 
 v16_0_decision_window_sprint:
   version: "v16.0"
