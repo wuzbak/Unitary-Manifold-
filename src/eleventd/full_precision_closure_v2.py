@@ -205,11 +205,7 @@ def full_precision_closure_v2_report(
         "track": "🔵 ADJACENT TRACK",
         "sprint": "v17.0 — 11D Precision Expansion",
         "deliverables": {
-            "1_bridge_burn": {
-                "label": "Bridge burn confirmed",
-                "status": "CONFIRMED",
-                "pillar": 245,
-                "detail": bridge,
+                "status": "CONFIRMED" if bridge["bridge_burn_confirmed"] else "UNAVAILABLE",
             },
             "2_g4_zphi_correction": {
                 "label": "G4 Z_φ correction quantified",
