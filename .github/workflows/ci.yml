@@ -36,7 +36,7 @@ jobs:
           # z3 is an optional integration (guarded by try/except in code), so
           # a graceful skip is acceptable if no binary wheel is available.
           grep -v "^z3-solver" requirements.txt | pip install -r /dev/stdin
-          pip install "z3-solver>=4.12.0" --only-binary :all: || true
+          pip install "z3-solver>=4.12.0" --only-binary :all: || echo "z3-solver binary wheel not available on this runner; skipping (optional integration, guarded by try/except in code)"
       - name: Full regression gate (with coverage on ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: |

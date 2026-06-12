@@ -251,7 +251,7 @@ def rge_running_correction(
     float
         Dimensionless correction δ_RGE (multiply by Δm²₃₁ baseline to get eV²).
     """
-    m_atm_ev = math.sqrt(dm2_31_ev2)              # ≈ 0.04782 eV (from 2NLO value)
+    m_atm_ev = math.sqrt(dm2_31_ev2)              # eV; depends on dm2_31_ev2 argument
     m_kk_ev = m_kk_gev * 1.0e9                    # GeV → eV
     log_ratio = math.log(m_kk_ev / m_atm_ev)      # ln(M_KK/m_atm) ≈ 25.2
     return (y_tau ** 2) / (8.0 * math.pi ** 2) * log_ratio
