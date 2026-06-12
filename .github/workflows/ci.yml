@@ -25,7 +25,18 @@ jobs:
           # sympy and mpmath required: missing sympy causes collection error in
           # test_v12_formal_infrastructure.py; missing mpmath causes 2 failures
           pip install numpy scipy sympy mpmath pytest pytest-cov
-          pip install -r requirements.txt
+      - name: Install requirements (Ubuntu — source builds allowed)
+        if: matrix.os == 'ubuntu-latest'
+        run: pip install -r requirements.txt
+      - name: Install requirements (macOS — z3-solver binary-only to avoid ARM build failure)
+        if: matrix.os == 'macos-14'
+        run: |
+          # Install all requirements except z3-solver, then install z3-solver
+          # binary-only (source compilation fails on macOS-14 ARM64).
+          # z3 is an optional integration (guarded by try/except in code), so
+          # a graceful skip is acceptable if no binary wheel is available.
+          grep -v "^z3-solver" requirements.txt | pip install -r /dev/stdin
+          pip install "z3-solver>=4.12.0" --only-binary :all: || echo "z3-solver binary wheel not available on this runner; skipping (optional integration, guarded by try/except in code)"
       - name: Full regression gate (with coverage on ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -34,7 +45,7 @@ jobs:
             --cov=src --cov-report=xml:coverage.xml --cov-report=term-missing \
             --cov-fail-under=85
       - name: Full regression gate (smoke — macos)
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-14'
         run: |
           python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
             -q --tb=short
