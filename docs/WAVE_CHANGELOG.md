@@ -12,6 +12,29 @@ For each wave entry, include:
 
 ---
 
+## v17.0 (2026-06-12 — 11D Precision Expansion Sprint: Pillars 519–524, Architecture Limit Upgrades)
+
+**What changed:**
+
+- **Pillar 519** — `src/eleventd/g4_flux_zphi_correction.py`: G4-flux quantitative Z_φ correction δZ_φ^{G4} = |χ(CY₃)|/(8π K_CS) × G_KK(πkR) ≈ 1.33 for quintic CY₃ (h₁₁=1, h₂₁=101, χ=−200). CMB amplitude residual partially resolved. `zphi_correction` key added to g4_flux_selection_summary.
+- **Pillar 520** — `src/eleventd/e8_gauge_pr_derivation.py`: E8 gauge threshold correction → p_R CONDITIONAL_DERIVATION_11D certificate. Upgrades P517 from ARCHITECTURE_LIMIT. Open condition: Vol(CY₃) from P521.
+- **Pillar 521** — `src/eleventd/moduli_stabilization_nlo.py`: NLO Goldberger-Wise potential V_GW^{11D} = V_GW^{5D} + δV_G4; joint (πkR, Vol(CY₃)) minimization; NLO shifts < 0.74% (P388 bound). Unlocks P520 unconditional derivation.
+- **Pillar 522** — `src/eleventd/precision_correction_pipeline.py`: Full 11D precision correction pipeline: G4 Z_φ → NLO seed → E8 p_R → CMB amplitude → falsifier map. All outputs bit-reproducible.
+- **Pillar 523** — `src/eleventd/architecture_limit_upgrade.py`: Machine-readable upgrade certificates: P517 P_R_ARCHITECTURE_LIMIT_CERTIFIED → P_R_CONDITIONAL_DERIVATION_11D; P518 CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED → CMB_AMPLITUDE_11D_PARTIAL_CLOSURE; 5D_IRREDUCIBLE_FLOOR labelled.
+- **Pillar 524** — `src/eleventd/full_precision_closure_v2.py`: Terminal Sprint v17.0 certificate; irreducible floor inventory 3 gaps; successor to Pillar 245.
+
+**Why:** P517/P518 were the only two pillars with dead-end ARCHITECTURE_LIMIT status. 11D G4-flux content provides quantitative corrections and a conditional p_R derivation, replacing permanent ceiling with bounded conditional status.
+
+**Epistemic label deltas:** P517: `P_R_ARCHITECTURE_LIMIT_CERTIFIED → P_R_CONDITIONAL_DERIVATION_11D`; P518: `CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED → CMB_AMPLITUDE_11D_PARTIAL_CLOSURE`
+
+**TOE score delta:** 0 (all 🔵 ADJACENT TRACK)
+
+**Falsification impact:** CMB amplitude irreducible floor now quantitatively bounded — CMB-S4 (~2030) can distinguish 5D floor from instrumental noise. LiteBIRD birefringence falsifier β ∈ {0.273°, 0.331°} unchanged.
+
+**Residual unknowns:** (1) CMB amplitude 5D_IRREDUCIBLE_FLOOR survives G4 correction; (2) n_w=7 exclusion Z₂-odd boundary derivation (Admission 3) open; (3) DESI wₐ tension awaits DR3 ~2027.
+
+---
+
 ## v16.0 (2026-06-10 — Decision-Window Sprint: Pillars 517–518, Pre-Registration, Lean4 CCRKernel)
 
 **What changed:**
