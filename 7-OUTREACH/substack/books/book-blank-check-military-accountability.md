@@ -513,7 +513,7 @@ Every VA medical center and regional benefit office should publish monthly:
 
 - average wait time to first mental health appointment,
 - veteran suicide data for the facility catchment area (rolling 12-month),
-- enrollment rate for recent separees in catchment area,
+- enrollment rate for recent separating service members in catchment area,
 - community care referral utilization and wait times,
 - MST disclosure rate and care access rate.
 
@@ -568,7 +568,7 @@ The public record will remain.
 7. Legislative reform of the Feres doctrine creating a limited cause of action for egregious civil rights violations by superior officers.
 8. Legislation mandating the 30-day cost-growth trigger with automatic IG review.
 9. Legislation restructuring contractor incentive fee criteria to require on-time delivery before fee eligibility.
-10. Mandatory discharge characterization review process for separees with documented mental health conditions.
+10. Mandatory discharge characterization review process for separating service members with documented mental health conditions.
 
 ### Long-term structural commitments
 

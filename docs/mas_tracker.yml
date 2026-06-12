@@ -24,13 +24,6 @@ public_surface_sync_checkpoint:
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
-v16_0_decision_window_sprint:
-  version: "v16.0"
-  wave: "Decision-Window sprint — Pillars 517+518, Lean4 CCRKernel, decision briefs, JUNO rapid-response, Substack #255"
-  date: "2026-06-10"
-  next_pillar_slot: 519
-  next_substack_post: "#257 S03E035"
-
 v16_1_book_sprint:
   version: "v16.1"
   wave: "Military Accountability Edition — Book 23 (The Blank Check), Substack #256 S03E034"
@@ -44,7 +37,7 @@ v16_1_book_sprint:
       file: "7-OUTREACH/substack/books/book-blank-check-military-accountability.md"
       category: "Defense / Governance / Civic Accountability"
       size_kb: 43
-      edition: "v16.0 — Military Accountability Edition"
+      edition: "v16.1 — Military Accountability Edition"
   new_docs:
     - "7-OUTREACH/substack/books/book-blank-check-military-accountability.md"
     - "7-OUTREACH/substack/posts/post-256-s03e034-the-blank-check-military-accountability.md"
@@ -52,6 +45,12 @@ v16_1_book_sprint:
   new_tests: 0
   test_delta: "+0 (documentation sprint)"
 
+v16_0_decision_window_sprint:
+  version: "v16.0"
+  wave: "Decision-Window sprint — Pillars 517+518, Lean4 CCRKernel, decision briefs, JUNO rapid-response, Substack #255"
+  date: "2026-06-10"
+  next_pillar_slot: 519
+  next_substack_post: "#256 S03E034"
   new_pillars:
     - slot: 517
       id: "P_R_ARCHITECTURE_LIMIT_CERTIFIED"

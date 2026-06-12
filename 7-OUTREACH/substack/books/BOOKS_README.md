@@ -6,7 +6,7 @@
 
 ---
 
-This folder contains the **Omega Edition (v6.0–v16.0)** of twenty-three full-length books authored under the
+This folder contains the **Omega Edition (v6.0–v16.1)** of twenty-three full-length books authored under the
 AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
 that serves as the publication split for Book 4. Each book is
 Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
@@ -82,7 +82,7 @@ to this repository.
 - Deep-dive into Alzheimer's, amnesia, depression, epilepsy, schizophrenia, and TBI through the UM geometric framework
 - Framework connections: Pillar 516, φ-potential well topology, φ-collapse as disorder geometry
 
-**v16.0 — Military Accountability Edition (June 2026):**
+**v16.1 — Military Accountability Edition (June 2026):**
 - Book 23: *The Blank Check* — America's defense system, the military-industrial complex, and the accountability gap
 - Covers: Pentagon audit failures (8 consecutive), defense spending ($893B FY2025), revolving door quantified, F-35 cost growth, procurement fraud ($10.8B confirmed), military sexual assault, veteran suicide crisis, veterans benefits gaps, international comparison, immediate fixes, and structural redesign blueprint
 - Framework connections: Pillar 18 (justice), Pillar 19 (governance), φ-collapse (capacity failures), B_μ amplification (spending runaway), FTUM attractor analysis
@@ -705,7 +705,7 @@ See [`OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md) for the full epis
 | 14.0 — Book of Theorems Edition | May 2026 | Book 19 added: *The Book of Theorems* — complete record of all 32 registered theorems (T001–T032) and Theorems XII–XXVII; proof exposition with epistemic honesty labels (PROVED / DERIVED / IDENTIFIED / CONDITIONAL / CONJECTURE); all results reproducible via `python3 -m pytest`; updated to v14.2 basis (44,748 tests, 0 failures) |
 | 15.0 — Civic Dignity Edition | June 2026 | Books 20–21 added/indexed: *The Lie of Human Ranking* and *Names Without Cages*; standalone AxiomZero civic books on racism, bigotry, gender/sexual identity, labeling, tribalism, inclusion, and repair, with trusted-source appendices and citations |
 | 15.9 — Neuroscience & Disorders Edition | June 2026 | Book 22 added: *The Broken Fixed Point* — neuroscience, consciousness, and the geometry of neurological disorders; ~20,000-word deep-dive into Alzheimer's, amnesia, depression, epilepsy, schizophrenia, and TBI through the UM geometric framework; full appendices A–D and bibliography with 48 peer-reviewed citations; Pillar 516 NEURAL_DISORDER_GEOMETRIC_ANALYSIS (174 tests, 0 failures, STRUCTURAL_CORRESPONDENCE) |
-| 16.0 — Military Accountability Edition | June 2026 | Book 23 added: *The Blank Check* — America's defense system, the military-industrial complex, and the accountability gap; data-driven audit of Pentagon audit failures (8 consecutive), $893B FY2025 defense budget, revolving door (80%+ of four-star retirees → industry), F-35 lifecycle cost growth ($233B → $485B), $10.8B confirmed procurement fraud, military sexual assault epidemic, veteran suicide crisis (34.7/100K), VA access gap; immediate fix package + structural redesign blueprint; framework connections: Pillar 18, Pillar 19, φ-collapse, B_μ amplification |
+| 16.1 — Military Accountability Edition | June 2026 | Book 23 added: *The Blank Check* — America's defense system, the military-industrial complex, and the accountability gap; data-driven audit of Pentagon audit failures (8 consecutive), $893B FY2025 defense budget, revolving door (80%+ of four-star retirees → industry), F-35 lifecycle cost growth ($233B → $485B), $10.8B confirmed procurement fraud, military sexual assault epidemic, veteran suicide crisis (34.7/100K), VA access gap; immediate fix package + structural redesign blueprint; framework connections: Pillar 18, Pillar 19, φ-collapse, B_μ amplification |
 
 ---
 
