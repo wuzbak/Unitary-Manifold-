@@ -1,6 +1,6 @@
 # REPRODUCIBILITY.md — Unitary Manifold
 
-*Version: v16.0 · Updated: 2026-06-12*
+*Version: v16.1 · Updated: 2026-06-12*
 *This is the primary auditor-facing document. Read this first.*
 
 ---

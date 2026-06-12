@@ -185,12 +185,11 @@ class TestBraidArchitecture:
         assert WINDING_PAIR == (5, 7)
 
     def test_braided_sound_speed_rational(self):
-        n1, n2 = WINDING_PAIR
-        expected_num = n1 + n2              # 12
-        expected_den = n1**2 + n2**2 - 1   # 73? let's compute honestly
-        # The canonical value is 12/37 from the geometry — verify rational form
-        # Note: the denominator is derived from the full braid spectrum; use
-        # the stored constant as ground truth and verify it is in (0, 1).
+        # The canonical sound speed c_s = 12/37 comes from the full braid
+        # spectrum derivation — the denominator 37 is not n₁²+n₂²-1 = 73, but
+        # the result of summing the geometric series over the (5,7) braid modes.
+        # Verify the stored constant is subluminal; the exact rational form is
+        # tested in test_sound_speed_approx_value below.
         assert 0.0 < BRAIDED_SOUND_SPEED < 1.0, "Sound speed must be subluminal"
 
     def test_sound_speed_approx_value(self):

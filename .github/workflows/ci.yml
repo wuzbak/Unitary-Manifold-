@@ -10,7 +10,7 @@ jobs:
   full-regression:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-14]
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
