@@ -1,6 +1,6 @@
-version: "v16.0"
-date: "2026-06-10"
-updated: "2026-06-10"
+version: "v16.1-book"
+date: "2026-06-12"
+updated: "2026-06-12"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -29,7 +29,29 @@ v16_0_decision_window_sprint:
   wave: "Decision-Window sprint — Pillars 517+518, Lean4 CCRKernel, decision briefs, JUNO rapid-response, Substack #255"
   date: "2026-06-10"
   next_pillar_slot: 519
-  next_substack_post: "#256 S03E034"
+  next_substack_post: "#257 S03E035"
+
+v16_1_book_sprint:
+  version: "v16.1-book"
+  wave: "Military Accountability Edition — Book 23 (The Blank Check), Substack #256 S03E034"
+  date: "2026-06-12"
+  next_pillar_slot: 519
+  next_substack_post: "#257 S03E035"
+  new_books:
+    - number: 23
+      title: "The Blank Check"
+      subtitle: "America's Defense System, the Military-Industrial Complex, and the Accountability Gap"
+      file: "7-OUTREACH/substack/books/book-blank-check-military-accountability.md"
+      category: "Defense / Governance / Civic Accountability"
+      size_kb: 43
+      edition: "v16.0 — Military Accountability Edition"
+  new_docs:
+    - "7-OUTREACH/substack/books/book-blank-check-military-accountability.md"
+    - "7-OUTREACH/substack/posts/post-256-s03e034-the-blank-check-military-accountability.md"
+  new_pillars: []
+  new_tests: 0
+  test_delta: "+0 (documentation sprint)"
+
   new_pillars:
     - slot: 517
       id: "P_R_ARCHITECTURE_LIMIT_CERTIFIED"
