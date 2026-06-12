@@ -211,7 +211,11 @@ def falsifier_map(
     import math
 
     zphi_0 = 1.0 + math.sqrt(74) / 2.0
-    zphi_correction_magnitude = zphi_nlo - zphi_0
+    cmb = cmb_amplitude_chain(zphi_nlo)
+    zphi_correction_magnitude = abs(
+        (cmb["amp_ratio_at_nlo"][0] + cmb["amp_ratio_at_nlo"][1]) / 2.0
+        - (cmb["amp_ratio_at_zphi0"][0] + cmb["amp_ratio_at_zphi0"][1]) / 2.0
+    )
     return {
         "litebird": {
             "prediction": "β ∈ {0.273°, 0.331°} — birefringence primary falsifier",
