@@ -93,7 +93,7 @@ def p517_upgrade_certificate(
             "in Pillar 517. With CY₃ volume from Pillar 521, p_R is conditionally derived."
         ),
         "p_r_conditional": cert_nlo["p_r_conditional"],
-        "p_r_at_fiducial_vol": cert["p_r_conditional"],
+        "p_r_at_fiducial_vol": cert_fiducial["p_r_conditional"],
         "p_r_at_nlo_vol": cert_nlo["p_r_conditional"],
         "e8_threshold_correction": cert_nlo["e8_threshold_correction"],
         "vol_cy3_used": vol_nlo,
