@@ -2,7 +2,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** 16.0 — Military Accountability Edition — June 2026
+**Version:** 16.1 — Military Accountability Edition — June 2026
 
 ---
 
