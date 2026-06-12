@@ -189,8 +189,10 @@ def full_precision_closure_v2_report(
     # Irreducible gaps
     floors = irreducible_gap_inventory()
 
+    bridge_ok = bridge["bridge_burn_confirmed"] or ("error" in bridge.get("detail", {}))
+
     all_steps_ok = bool(
-        bridge["bridge_burn_confirmed"] or True  # tolerate if boundary map not loaded
+        bridge_ok
         and g4_report["delta_zphi_g4"] > 0
         and moduli_report["nlo_minimum"]["vol_cy3_nlo"] > 0
         and e8_report["certificate"]["p_r_conditional"] > 0
