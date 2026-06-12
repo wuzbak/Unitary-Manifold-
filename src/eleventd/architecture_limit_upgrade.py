@@ -72,11 +72,10 @@ def p517_upgrade_certificate(
     dict
         Machine-readable upgrade certificate with all transition metadata.
     """
-    e8_report = e8_gauge_pr_report(vol_cy3, n_w, k_cs)
-    cert = e8_report["certificate"]
-    moduli_report = moduli_stabilization_nlo_report()
-    vol_nlo = moduli_report["nlo_minimum"]["vol_cy3_nlo"]
-    # Evaluate p_R at the NLO-stabilized volume
+    fiducial_report = e8_gauge_pr_report(VOL_CY3_FIDUCIAL, n_w, k_cs)
+    cert_fiducial = fiducial_report["certificate"]
+
+    vol_nlo = vol_cy3
     e8_nlo_report = e8_gauge_pr_report(vol_nlo, n_w, k_cs)
     cert_nlo = e8_nlo_report["certificate"]
 
