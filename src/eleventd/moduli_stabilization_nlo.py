@@ -93,7 +93,7 @@ VOL_CY3_REF: float = (PI_KR_0 / K_CS) ** 3   # = 0.125
 ETA_BAR_0: float = 0.5
 
 
-def v_gw_5d(pi_kr: float, epsilon: float = GW_EPSILON, k: float = GW_K) -> float:
+def v_gw_5d(pi_kr: float, epsilon: float = GW_EPSILON, _k: float = GW_K) -> float:
     """Return the 5D Goldberger-Wise potential V_GW^{5D}(R).
 
     V_GW^{5D} = M_5^5 × (u₀ exp(-2πkR) − u₁ exp(-4πkR))
@@ -106,8 +106,8 @@ def v_gw_5d(pi_kr: float, epsilon: float = GW_EPSILON, k: float = GW_K) -> float
         πkR parameter.
     epsilon : float
         GW UV boundary mass parameter.
-    k : float
-        Warp factor parameter k.
+    _k : float
+        Warp factor parameter (unused here because `pi_kr` is already πkR).
 
     Returns
     -------
