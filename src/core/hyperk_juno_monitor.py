@@ -47,6 +47,7 @@ __all__ = [
     "JUNO_FIRST_DATA",
     # Baseline dicts
     "NUFIT_BASELINE",
+    "JUNO_2026_RELEASE",
     "UM_PREDICTION",
     # Functions
     "update_with_measurement",
@@ -86,8 +87,36 @@ NUFIT_BASELINE: Dict = {
     "dm2_31_central": DM2_31_PDG,
     "dm2_31_sigma_frac": DM2_31_PDG_SIGMA_FRAC,
     "dm2_31_sigma_abs": DM2_31_PDG * DM2_31_PDG_SIGMA_FRAC,
-    "status": "CURRENT_BASELINE",
-    "note": "Normal ordering (NH), Δm²₃₁ = Δm²₃₂ + Δm²₂₁ in NH",
+    "status": "SUPERSEDED_BY_JUNO_2026",
+    "note": (
+        "Normal ordering (NH), Δm²₃₁ = Δm²₃₂ + Δm²₂₁ in NH. "
+        "Superseded as primary monitoring anchor by JUNO 2026 (Nature, June 10 2026), "
+        "which achieved 0.81% precision vs PDG 1.3%."
+    ),
+}
+
+#: JUNO first physics results — primary observational anchor from June 10 2026.
+#: 59 days of baseline reactor antineutrino data (Nature, 2026).
+JUNO_2026_RELEASE: Dict = {
+    "release": "JUNO First Physics Results (Nature 2026)",
+    "year": 2026,
+    "reference": (
+        "JUNO Collaboration, 'First measurement of Δm²₃₁ with reactor "
+        "antineutrinos by JUNO,' Nature (June 10, 2026)"
+    ),
+    "dm2_31_central": 2.411e-3,
+    "dm2_31_sigma_frac": 0.008125,
+    "dm2_31_sigma_abs": 2.411e-3 * 0.008125,
+    "exposure_days": 59,
+    "status": "ACTIVE_TRACKING",
+    "note": (
+        "First sub-1% precision measurement of Δm²₃₁ (0.81% fractional σ). "
+        "Derived from 59 days of baseline reactor antineutrino data. "
+        "UM 2NLO bare value (2.2845e-3 eV²) is EXCLUDED at 6.46σ. "
+        "Best-attempt projection with RGE+seesaw at PMNS max: 2.3457e-3 eV², "
+        "tension 3.33σ, still EXCLUDED. Status: HONEST_OPEN_PROBLEM. "
+        "See Pillar 525 and FALLIBILITY.md §XV."
+    ),
 }
 
 #: UM prediction for Δm²₃₁
@@ -230,34 +259,46 @@ def falsification_verdict(dm2_31_obs: float, dm2_31_sigma_frac: float) -> Dict:
 
 
 def monitoring_report() -> Dict:
-    """Generate current monitoring report vs NuFIT baseline.
+    """Generate current monitoring report vs JUNO 2026 (primary) and NuFIT baseline.
 
     Returns
     -------
     dict with full monitoring state.
     """
-    verdict = falsification_verdict(DM2_31_PDG, DM2_31_PDG_SIGMA_FRAC)
+    verdict_juno = falsification_verdict(
+        JUNO_2026_RELEASE["dm2_31_central"],
+        JUNO_2026_RELEASE["dm2_31_sigma_frac"],
+    )
+    verdict_pdg = falsification_verdict(DM2_31_PDG, DM2_31_PDG_SIGMA_FRAC)
 
     return {
-        "version": "v10.18",
-        "current_baseline": NUFIT_BASELINE,
+        "version": "v17.1",
+        "primary_anchor": JUNO_2026_RELEASE,
+        "legacy_baseline": NUFIT_BASELINE,
         "um_prediction": UM_PREDICTION,
-        "current_verdict": verdict,
+        "current_verdict_juno_2026": verdict_juno,
+        "legacy_verdict_pdg_2023": verdict_pdg,
+        "current_verdict": verdict_juno,  # primary active verdict
         "falsification_summary": (
-            f"UM Δm²₃₁ (follow-up) = {DM2_31_UM_NLO:.4e} eV² vs PDG "
-            f"{DM2_31_PDG:.4e} ± {DM2_31_PDG_SIGMA_FRAC*100:.1f}% eV² "
-            f"({verdict['tension_sigma']:.2f}σ)"
+            f"UM Δm²₃₁ (2NLO) = {DM2_31_UM_NLO:.4e} eV² vs JUNO 2026 "
+            f"{JUNO_2026_RELEASE['dm2_31_central']:.4e} ± "
+            f"{JUNO_2026_RELEASE['dm2_31_sigma_frac']*100:.2f}% eV² "
+            f"({verdict_juno['tension_sigma']:.2f}σ). Status: HONEST_OPEN_PROBLEM."
         ),
         "next_milestone": {
-            "experiments": ["JUNO", "Hyper-Kamiokande"],
+            "experiments": ["JUNO (extended run)", "Hyper-Kamiokande"],
             "juno_first_data": JUNO_FIRST_DATA,
             "hyperk_first_data": HYPERK_FIRST_DATA,
             "expected_sigma_frac": min(HYPERK_EXPECTED_SIGMA_FRAC, JUNO_EXPECTED_SIGMA_FRAC),
             "note": (
-                f"JUNO first data ~{JUNO_FIRST_DATA}, Hyper-K ~{HYPERK_FIRST_DATA}. "
-                f"Both expect σ(Δm²₃₁) ≈ 0.5%, providing a decisive test of the UM follow-up estimate."
+                f"JUNO has delivered first physics ({JUNO_FIRST_DATA}): 0.81% precision. "
+                f"Hyper-K first data ~{HYPERK_FIRST_DATA}, expecting σ ≈ 0.5%. "
+                "Best-attempt projection (Pillar 525): 2.3457e-3 eV² at 3.33σ — "
+                "still EXCLUDED. Closure path: WS-V KK Yukawa texture diagonalization."
             ),
         },
+        "pillar_525_ref": "src/core/pillar525_juno_2026_falsification_response.py",
+        "fallibility_ref": "FALLIBILITY.md §XV",
         "update_instructions": (
             "When results are available, call:\n"
             "  update_with_measurement(dm2_31_obs, dm2_31_sigma_frac, experiment, year)"

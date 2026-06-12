@@ -209,20 +209,21 @@ def test_monitoring_report_returns_dict():
 
 def test_monitoring_report_keys():
     report = monitoring_report()
-    for key in ("version", "current_baseline", "um_prediction",
+    for key in ("version", "primary_anchor", "um_prediction",
                 "current_verdict", "next_milestone"):
         assert key in report
 
 
 def test_monitoring_report_version():
     report = monitoring_report()
-    assert report["version"] == "v10.18"
+    assert report["version"] == "v17.1"
 
 
 def test_monitoring_report_next_milestone():
     report = monitoring_report()
     ms = report["next_milestone"]
-    assert "JUNO" in ms["experiments"]
+    # JUNO has delivered first data; experiments list now includes extended run
+    assert any("JUNO" in e for e in ms["experiments"])
     assert "Hyper-Kamiokande" in ms["experiments"]
     assert ms["juno_first_data"] == JUNO_FIRST_DATA
     assert ms["hyperk_first_data"] == HYPERK_FIRST_DATA
@@ -279,3 +280,143 @@ def test_sensitivity_projection_margins_positive():
     for exp_key in ("juno", "hyperk"):
         assert result[exp_key]["margin_to_lower_window_edge_sigma"] > 0
         assert result[exp_key]["margin_to_upper_window_edge_sigma"] > 0
+
+
+# ---------------------------------------------------------------------------
+# JUNO_2026_RELEASE — new data anchor (Pillar 525)
+# ---------------------------------------------------------------------------
+
+from src.core.hyperk_juno_monitor import JUNO_2026_RELEASE  # noqa: E402
+
+
+def test_juno_2026_release_in_all():
+    from src.core import hyperk_juno_monitor
+    assert "JUNO_2026_RELEASE" in hyperk_juno_monitor.__all__
+
+
+def test_juno_2026_release_is_dict():
+    assert isinstance(JUNO_2026_RELEASE, dict)
+
+
+def test_juno_2026_release_keys():
+    for key in ("release", "year", "reference", "dm2_31_central",
+                "dm2_31_sigma_frac", "dm2_31_sigma_abs",
+                "exposure_days", "status", "note"):
+        assert key in JUNO_2026_RELEASE, f"Missing key: {key}"
+
+
+def test_juno_2026_central_value():
+    assert abs(JUNO_2026_RELEASE["dm2_31_central"] - 2.411e-3) < 1e-15
+
+
+def test_juno_2026_sigma_frac():
+    assert abs(JUNO_2026_RELEASE["dm2_31_sigma_frac"] - 0.008125) < 1e-10
+
+
+def test_juno_2026_sigma_abs_consistent():
+    c = JUNO_2026_RELEASE["dm2_31_central"]
+    f = JUNO_2026_RELEASE["dm2_31_sigma_frac"]
+    assert abs(JUNO_2026_RELEASE["dm2_31_sigma_abs"] - c * f) < 1e-15
+
+
+def test_juno_2026_status_active_tracking():
+    assert JUNO_2026_RELEASE["status"] == "ACTIVE_TRACKING"
+
+
+def test_juno_2026_exposure_days():
+    assert JUNO_2026_RELEASE["exposure_days"] == 59
+
+
+def test_juno_2026_year():
+    assert JUNO_2026_RELEASE["year"] == 2026
+
+
+def test_juno_2026_precision_better_than_pdg():
+    # 0.81% JUNO beats 1.3% PDG
+    assert JUNO_2026_RELEASE["dm2_31_sigma_frac"] < DM2_31_PDG_SIGMA_FRAC
+
+
+def test_juno_2026_central_above_um_nlo():
+    # JUNO measures higher than UM 2NLO prediction
+    assert JUNO_2026_RELEASE["dm2_31_central"] > DM2_31_UM_NLO
+
+
+def test_juno_2026_excludes_um_nlo():
+    """JUNO 2026 excludes the bare 2NLO prediction at > 6σ."""
+    result = update_with_measurement(
+        JUNO_2026_RELEASE["dm2_31_central"],
+        JUNO_2026_RELEASE["dm2_31_sigma_frac"],
+        "JUNO First Physics (Nature 2026)",
+        2026,
+    )
+    assert result["tension_sigma"] > 6.0
+    assert not result["overall_consistent"]
+    assert result["falsification_verdict"]["level"] == "EXCLUDED"
+
+
+def test_juno_2026_tension_approx_6_46sigma():
+    result = update_with_measurement(
+        JUNO_2026_RELEASE["dm2_31_central"],
+        JUNO_2026_RELEASE["dm2_31_sigma_frac"],
+        "JUNO 2026",
+        2026,
+    )
+    assert 5.5 < result["tension_sigma"] < 8.0
+
+
+def test_juno_2026_in_falsification_window():
+    """JUNO 2026 central value is inside the UM falsification window [2.2, 2.7]e-3."""
+    lo, hi = DM2_31_FALSIFICATION_WINDOW
+    assert lo <= JUNO_2026_RELEASE["dm2_31_central"] <= hi
+
+
+# ---------------------------------------------------------------------------
+# Updated monitoring_report() — v17.1
+# ---------------------------------------------------------------------------
+
+def test_monitoring_report_version_v17():
+    report = monitoring_report()
+    assert report["version"] == "v17.1"
+
+
+def test_monitoring_report_has_primary_anchor():
+    report = monitoring_report()
+    assert "primary_anchor" in report
+
+
+def test_monitoring_report_primary_anchor_is_juno_2026():
+    report = monitoring_report()
+    assert report["primary_anchor"]["year"] == 2026
+
+
+def test_monitoring_report_has_legacy_baseline():
+    report = monitoring_report()
+    assert "legacy_baseline" in report
+
+
+def test_monitoring_report_has_juno_2026_verdict():
+    report = monitoring_report()
+    assert "current_verdict_juno_2026" in report
+
+
+def test_monitoring_report_juno_verdict_excluded():
+    report = monitoring_report()
+    assert report["current_verdict_juno_2026"]["level"] == "EXCLUDED"
+
+
+def test_monitoring_report_has_pillar525_ref():
+    report = monitoring_report()
+    assert "pillar_525_ref" in report
+    assert "525" in report["pillar_525_ref"]
+
+
+def test_monitoring_report_has_fallibility_ref():
+    report = monitoring_report()
+    assert "fallibility_ref" in report
+    assert "XV" in report["fallibility_ref"]
+
+
+def test_monitoring_report_falsification_summary_mentions_open_problem():
+    report = monitoring_report()
+    assert "HONEST_OPEN_PROBLEM" in report["falsification_summary"]
+

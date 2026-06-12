@@ -3895,7 +3895,144 @@ C1–C5 while predicting different CMB observables, the uniqueness claim is brok
 
 ---
 
-## Cross-Reference Index
+## §XV — JUNO 2026 Falsification Event: Honest Response (June 12 2026)
+
+*Added following the JUNO Collaboration's publication in Nature (June 10 2026):
+first sub-1% measurement of Δm²₃₁ from 59 days of reactor antineutrino data.*
+
+---
+
+### §XV.1 — The Measurement
+
+**JUNO First Physics Results (Nature, June 10 2026):**
+
+| Parameter | Value |
+|-----------|-------|
+| Δm²₃₁ (central) | 2.411 × 10⁻³ eV² |
+| Fractional σ | 0.81% (59-day exposure) |
+| Absolute σ | ≈ 1.96 × 10⁻⁵ eV² |
+| Ordering | Normal hierarchy assumed |
+| Prior baseline (PDG 2023) | 2.453 × 10⁻³ eV² ± 1.3% |
+
+JUNO achieves 0.81% precision, surpassing the PDG 2023 baseline (1.3%) by
+a factor of 1.6.  It is now the primary experimental anchor for Δm²₃₁ monitoring.
+
+---
+
+### §XV.2 — The Verdict on the UM 2NLO Estimate
+
+**Pillar 17 2NLO prediction** (from `src/sixd/neutrino_dm31_2nlo.py`):
+
+    Δm²₃₁(2NLO) = 2.453 × 10⁻³ × (1 − 0.0687) ≈ 2.2845 × 10⁻³ eV²
+
+**Tension with JUNO 2026:**
+
+    |2.411 − 2.2845| × 10⁻³ / (1.959 × 10⁻⁵) ≈ **6.46σ**
+
+**Verdict: EXCLUDED.**  The bare 2NLO estimate is outside the JUNO observational
+constraint at 6.46σ.  The monitoring harness (`hyperk_juno_monitor.py`) correctly
+returns `EXCLUDED 🔴` — this is the system functioning as designed.
+
+---
+
+### §XV.3 — Rigorous Best-Attempt Projection
+
+**What was done:** Every correction already named in the repository chain was
+applied starting from the 2NLO baseline.  No new free parameters were introduced.
+
+**Step 1 — τ-Yukawa RGE running** (Pillar 274):
+
+    δ_RGE = (y_τ²/8π²) × ln(M_KK/m_atm) = (0.0102²/8π²) × ln(10¹²/0.0478)
+           ≈ 4.04 × 10⁻⁵
+
+Sign: positive (Δm²₃₁ runs upward toward PDG as μ decreases from M_KK = 1 TeV).
+Contribution: 0.004% — negligible on its own.
+
+**Step 2 — KK Majorana seesaw partner** (Pillar 274), maximally aggressive at PMNS bound:
+
+    δ_seesaw^max = p_R^max × (v/M_R)²
+                 = sin²θ₂₃ × cos²θ₁₃ × (246.22/1000)²
+                 ≈ 0.4411 × 0.06062 ≈ 2.674%
+
+Named gap: SEESAW_TEXTURE_PARTICIPATION_GAP — the exact p_R requires full
+KK Yukawa texture diagonalization (WS-V).  The PMNS geometric bound gives
+p_R^max ≈ 0.441; using this maximum represents the most aggressive defensible
+correction within existing framework architecture.
+
+**Step 3 — KK tower mixing correction** (shown negligible):
+
+    ε_KK = Δm²₃₁ / M²_KK(TeV) ≈ 2.3 × 10⁻³ / (10¹²)² ≈ 2.3 × 10⁻²¹
+
+Correction to Δm²₃₁: < 10⁻²⁰ × JUNO σ.  "Extra-dimensional sequestration"
+at the TeV KK scale cannot rescue the 2NLO value by any experimentally
+accessible amount.  This is not a dismissal of the 11D geometry — it is the
+correct quantitative result: KK mixing is suppressed by (m_atm/M_KK)² ~ 10⁻²¹.
+
+**Combined projection:**
+
+    Δm²₃₁(projected) = 2.2845 × 10⁻³ × (1 + 4.04×10⁻⁵ + 0.02674)
+                      ≈ 2.3457 × 10⁻³ eV²
+
+**Tension of projection with JUNO 2026:**
+
+    |2.411 − 2.346| × 10⁻³ / 1.959 × 10⁻⁵ ≈ **3.33σ**
+
+**Verdict: EXCLUDED** (> 3σ, even with maximally aggressive corrections at the
+PMNS geometric bound).  Residual gap: 2.71% from JUNO central value.
+
+---
+
+### §XV.4 — What This Gap Means
+
+The projection is inside the falsification window [2.2, 2.7] × 10⁻³ eV², but the
+improved JUNO precision (0.81%) now resolves the gap structurally:
+
+| Estimate | Δm²₃₁ [eV²] | Tension vs JUNO | Level |
+|----------|-------------|-----------------|-------|
+| UM 2NLO bare | 2.2845 × 10⁻³ | 6.46σ | EXCLUDED |
+| UM + RGE only | 2.2846 × 10⁻³ | 6.46σ | EXCLUDED |
+| UM + RGE + seesaw (p_R=max) | 2.3457 × 10⁻³ | 3.33σ | EXCLUDED |
+| JUNO 2026 | 2.411 × 10⁻³ | 0σ | OBSERVATION |
+| Closure target | ≤ 2.411 ± 1% | < 1σ | REQUIRED |
+
+The remaining 2.71% gap is structural: it requires either:
+1. The exact p_R from WS-V KK Yukawa texture diagonalization — if p_R is
+   between 0.441 (PMNS max) and the value needed to close the full 5.22% gap
+   (p_R ≈ 0.86), the PMNS geometric bound is violated, indicating the seesaw
+   architecture in its current form cannot fully close the gap.
+2. A deeper correction from the 6D+ orbifold geometry — the full 6D fixed-point
+   wavefunction treatment (WS-V/WS-III) may contribute corrections not captured
+   in the T²/Z₃ 2NLO expansion.
+3. A revision of the 2NLO calculation itself — if the T²/Z₃ modular geometry
+   at 2NLO requires non-perturbative contributions that shift the result upward.
+
+**Nothing in this analysis involves fitting parameters to the JUNO observation.**
+
+---
+
+### §XV.5 — Official Status
+
+| Field | Value |
+|-------|-------|
+| **Admission tag** | `JUNO_2026_P17_EXCLUDED` |
+| **Status** | `HONEST_OPEN_PROBLEM` |
+| **Bare tension** | 6.46σ (EXCLUDED) |
+| **Projected tension** | 3.33σ (EXCLUDED) |
+| **Residual gap** | 2.71% |
+| **Falsification window** | [2.2, 2.7] × 10⁻³ eV² — NOT softened |
+| **Closure path** | WS-V: KK Yukawa texture diagonalization |
+| **Machine-readable** | `juno_2026_falsification_verdict()` in Pillar 525 |
+| **Source module** | `src/core/pillar525_juno_2026_falsification_response.py` |
+| **Monitor updated** | `src/core/hyperk_juno_monitor.py` — JUNO 2026 is now primary anchor |
+| **Test file** | `tests/test_pillar525_juno_2026_falsification_response.py` |
+
+**The falsification window [2.2, 2.7] × 10⁻³ eV² is not softened.**  JUNO 2026
+(2.411 × 10⁻³ eV²) lies within this window — which means the UM is not globally
+falsified by this measurement.  But the 2NLO estimate at 2.285 × 10⁻³ eV² is now
+definitively excluded at sub-1% JUNO precision, and this is documented as the
+honest open problem it is.
+
+---
 
 | Document | Purpose | Relationship to this file |
 |----------|---------|---------------------------|
