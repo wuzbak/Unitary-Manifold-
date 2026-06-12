@@ -24,12 +24,10 @@ where:
     G_KK(x) = x / (1 + x/K_CS)   (radion-KK geometry factor; reduces to x
                for x ≪ K_CS, saturates to K_CS for x ≫ K_CS)
 
-For the quintic CY₃ benchmark (h_{1,1}=1, h_{2,1}=101, χ=−200) at πkR=37.0:
+For the quintic CY₃ benchmark (h_{1,1}=1, h_{2,1}=101, χ=−200) at πkR=37.0,
+this module computes δZ_φ^{G4} via `delta_zphi_g4()` and defines:
 
-    δZ_φ^{G4} ≈ 200/(8π×74) × G_KK(37) ≈ 0.1076 × 35.32 ≈ 3.80
-
-This is added to Z_φ^{(0)} = 1 + √K_CS/2 ≈ 5.301 (Pillar 355), yielding a
-corrected Z_φ^{NLO} ≈ 9.10.
+    Z_φ^{NLO} = Z_φ^{(0)} + δZ_φ^{G4}
 
 Residual gap accounting
 -----------------------
