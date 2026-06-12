@@ -8,7 +8,10 @@ on:
 
 jobs:
   full-regression:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-14]
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     steps:
@@ -21,7 +24,24 @@ jobs:
           python -m pip install --upgrade pip
           # sympy and mpmath required: missing sympy causes collection error in
           # test_v12_formal_infrastructure.py; missing mpmath causes 2 failures
-          pip install numpy scipy sympy mpmath pytest
+          pip install numpy scipy sympy mpmath pytest pytest-cov
           pip install -r requirements.txt
-      - name: Full regression gate
-        run: python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=short
+      - name: Full regression gate (with coverage on ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
+            -q --tb=short \
+            --cov=src --cov-report=xml:coverage.xml --cov-report=term-missing \
+            --cov-fail-under=85
+      - name: Full regression gate (smoke — macos)
+        if: matrix.os == 'macos-latest'
+        run: |
+          python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
+            -q --tb=short
+      - name: Upload coverage report
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+          if-no-files-found: warn
