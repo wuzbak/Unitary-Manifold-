@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v16.0 — Unambiguous Record**  
+**The Unitary Manifold v17.0 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-06-10 (v16.0 — Decision-window sprint: Pillar 517 WS-V p_R first-principles attempt → P_R_ARCHITECTURE_LIMIT_CERTIFIED (fitted p_R=0.364 requires KK tower suppression S_KK≈1.35, same backreaction as Pillar 516; admissible window [0.246, 0.491]); Pillar 518 CMB amplitude gap formally closed as CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED — Cases A/B/C exhausted, Admission 2 resolved; JUNO_RAPID_RESPONSE_TEMPLATE.md, DESI_DR3_DECISION_BRIEF.md, SPHEREX_DECISION_BRIEF.md pre-registered; CCRKernel.lean (18 theorems, open conditions as named axioms); Substack #255 S03E033; 112 new tests; 0 failures.)*
+*Last updated: 2026-06-12 (v17.0 — 11D Precision Expansion sprint: Pillars 519–524 — G4 Z_φ correction δZ_φ^{G4}=|χ(CY₃)|/(8π K_CS)×G_KK(πkR)≈1.33 (P519), E8 gauge threshold → p_R CONDITIONAL_DERIVATION_11D upgrading P517 from ARCHITECTURE_LIMIT (P520), NLO GW moduli stabilization V_GW^{11D}=V_GW^{5D}+δV_G4 NLO shifts <0.74% (P521), full 11D precision pipeline bit-reproducible (P522), architecture limit upgrade certificates P517→P_R_CONDITIONAL_DERIVATION_11D P518→CMB_AMPLITUDE_11D_PARTIAL_CLOSURE (P523), terminal sprint certificate v2 with 3-gap irreducible floor inventory (P524); 321 new tests; 0 failures.)*
 *Latest verified full regression: 46,218 passed · 2 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.

@@ -24,7 +24,6 @@ public_surface_sync_checkpoint:
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
 
-<<<<<<< HEAD
 v17_0_11d_precision_expansion_sprint:
   version: "v17.0"
   wave: "11D Precision Expansion — Pillars 519–524, 321 new tests, architecture limit upgrades, Substack #257"
@@ -94,7 +93,7 @@ v16_1_trl7_infrastructure_sprint:
   date: "2026-06-12"
   next_pillar_slot: 519
   next_substack_post: "#257 S03E035"
-=======
+
 v16_1_book_sprint:
   version: "v16.1"
   wave: "Military Accountability Edition — Book 23 (The Blank Check), Substack #256 S03E034"
@@ -115,7 +114,6 @@ v16_1_book_sprint:
   new_pillars: []
   new_tests: 0
   test_delta: "+0 (documentation sprint)"
->>>>>>> refs/remotes/origin/main
 
 v16_0_decision_window_sprint:
   version: "v16.0"
