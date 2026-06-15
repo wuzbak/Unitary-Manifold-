@@ -1,5 +1,9 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+# AxiomZero — Persistent AI Cognitive Layer for the Unitary Manifold
+# Project: https://github.com/wuzbak/Unitary-Manifold-
+# Theory & scientific direction: ThomasCory Walker-Pearson
+# Code architecture & implementation: GitHub Copilot (AI)
 """
 AxiomZero self-test suite.
 
@@ -951,6 +955,7 @@ class TestFileCompleteness:
         "AxiomZero/ui/dashboard.html",
         "AxiomZero/android/client.py",
         "AxiomZero/tests/test_axiomzero.py",
+        "AxiomZero/IDENTITY.md",
     ]
 
     @pytest.mark.parametrize("rel_path", EXPECTED_FILES)
@@ -980,3 +985,75 @@ class TestFileCompleteness:
         assert "ThomasCory Walker-Pearson" in hils
         assert "pillar_renumber" in hils
         assert "git_commit_main" in hils
+
+
+# ===========================================================================
+# IP Identity & Fingerprinting
+# ===========================================================================
+
+class TestIPIdentity:
+    """Verify AxiomZero IP fingerprinting is complete and consistent."""
+
+    def test_package_has_identity_dict(self):
+        import AxiomZero
+        assert hasattr(AxiomZero, "IDENTITY")
+        ident = AxiomZero.IDENTITY
+        assert ident["name"] == "AxiomZero"
+        assert ident["author"] == "ThomasCory Walker-Pearson"
+        assert "license" in ident
+        assert "repo" in ident
+
+    def test_package_version(self):
+        import AxiomZero
+        assert AxiomZero.__version__ == "1.0.0"
+        assert AxiomZero.__author__ == "ThomasCory Walker-Pearson"
+        assert "DefensivePublicCommons" in AxiomZero.__license__
+
+    def test_identity_md_exists(self):
+        path = REPO_ROOT / "AxiomZero" / "IDENTITY.md"
+        assert path.exists(), "IDENTITY.md missing"
+
+    def test_identity_md_has_all_sections(self):
+        content = (REPO_ROOT / "AxiomZero" / "IDENTITY.md").read_text()
+        for section in (
+            "ThomasCory Walker-Pearson",
+            "Defensive Public Commons",
+            "AxiomZero",
+            "HILS Invariants",
+            "GitHub Copilot",
+            "SPDX",
+            "Authorship Partition",
+        ):
+            assert section in content, f"IDENTITY.md missing section: {section}"
+
+    def test_all_py_files_have_ip_header(self):
+        """Every .py file in AxiomZero/ must carry the full 6-line IP header."""
+        az_root = REPO_ROOT / "AxiomZero"
+        required_phrases = [
+            "Copyright (C) 2026  ThomasCory Walker-Pearson",
+            "LicenseRef-DefensivePublicCommons-1.0",
+            "AxiomZero — Persistent AI Cognitive Layer",
+            "ThomasCory Walker-Pearson",
+            "GitHub Copilot (AI)",
+        ]
+        missing = []
+        for py in sorted(az_root.rglob("*.py")):
+            if "__pycache__" in str(py):
+                continue
+            content = py.read_text(errors="replace")
+            for phrase in required_phrases:
+                if phrase not in content:
+                    missing.append(f"{py.relative_to(REPO_ROOT)}: missing '{phrase}'")
+        assert missing == [], "IP header incomplete in:\n" + "\n".join(missing)
+
+    def test_readme_references_identity_md(self):
+        readme = (REPO_ROOT / "AxiomZero" / "README.md").read_text()
+        assert "IDENTITY.md" in readme
+
+    def test_readme_credits_author(self):
+        readme = (REPO_ROOT / "AxiomZero" / "README.md").read_text()
+        assert "ThomasCory Walker-Pearson" in readme
+
+    def test_identity_framework_field(self):
+        import AxiomZero
+        assert "Kaluza-Klein" in AxiomZero.IDENTITY["framework"]

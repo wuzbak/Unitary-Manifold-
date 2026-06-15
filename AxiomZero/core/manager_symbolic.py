@@ -1,5 +1,9 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+# AxiomZero — Persistent AI Cognitive Layer for the Unitary Manifold
+# Project: https://github.com/wuzbak/Unitary-Manifold-
+# Theory & scientific direction: ThomasCory Walker-Pearson
+# Code architecture & implementation: GitHub Copilot (AI)
 """
 AxiomZero Manager 3 — Symbolic Math & Proof Verifier
 
@@ -175,15 +179,38 @@ class SymbolicManager:
                 return {"ok": False, "block": True, "reason": f"z3_pentad_checker.py error: {exc}"}
 
         # Check Z3 constraints from payload
+        # Constraints must be pre-built z3 expressions passed as a list of dicts:
+        #   {"type": "le", "lhs": <numeric>, "rhs": <numeric>}
+        # Raw eval() is intentionally NOT used — payload may come from external sources.
         constraints = payload.get("z3_constraints", [])
-        if constraints:
+        if constraints and isinstance(constraints, list):
             solver = z3.Solver()
+            _z3_vars: Dict[str, Any] = {}
             for c in constraints:
+                if not isinstance(c, dict):
+                    return {"ok": False, "block": True,
+                            "reason": "Z3 constraint must be a dict, not a raw expression string"}
+                ctype = c.get("type", "")
                 try:
-                    solver.add(eval(c, {"z3": z3}))  # noqa: S307 — payload is internal
+                    lhs_name = str(c.get("lhs_var", "x"))
+                    rhs = float(c.get("rhs", 0))
+                    if lhs_name not in _z3_vars:
+                        _z3_vars[lhs_name] = z3.Real(lhs_name)
+                    v = _z3_vars[lhs_name]
+                    if ctype == "le":
+                        solver.add(v <= rhs)
+                    elif ctype == "ge":
+                        solver.add(v >= rhs)
+                    elif ctype == "eq":
+                        solver.add(v == rhs)
+                    elif ctype == "ne":
+                        solver.add(v != rhs)
+                    else:
+                        return {"ok": False, "block": True,
+                                "reason": f"Unknown Z3 constraint type '{ctype}'"}
                 except Exception as exc:
                     return {"ok": False, "block": True,
-                            "reason": f"Z3 constraint parse error '{c}': {exc}"}
+                            "reason": f"Z3 constraint error in {c}: {exc}"}
             result = solver.check()
             if result == z3.unsat:
                 return {"ok": False, "block": True,

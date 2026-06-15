@@ -1,5 +1,9 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+# AxiomZero — Persistent AI Cognitive Layer for the Unitary Manifold
+# Project: https://github.com/wuzbak/Unitary-Manifold-
+# Theory & scientific direction: ThomasCory Walker-Pearson
+# Code architecture & implementation: GitHub Copilot (AI)
 """
 AxiomZero api/server.py — FastAPI API server
 
@@ -77,10 +81,23 @@ def create_app() -> "FastAPI":
     if not _FASTAPI:
         raise ImportError("FastAPI required: pip install fastapi uvicorn")
 
+    from AxiomZero import IDENTITY
+
     app = FastAPI(
         title="AxiomZero API",
-        description="Persistent AI Cognitive Layer for the Unitary Manifold",
-        version="1.0.0",
+        description=(
+            "Persistent AI Cognitive Layer for the Unitary Manifold. "
+            f"© 2026 {IDENTITY['author']} · {IDENTITY['license']}"
+        ),
+        version=IDENTITY["version"],
+        contact={
+            "name": IDENTITY["author"],
+            "url": IDENTITY["repo"],
+        },
+        license_info={
+            "name": IDENTITY["license"],
+            "url": IDENTITY["repo"] + "/blob/main/LICENSE",
+        },
     )
     app.add_middleware(
         CORSMiddleware,
@@ -108,7 +125,22 @@ def create_app() -> "FastAPI":
 
     @app.get("/health")
     async def health():
-        return {"status": "ok", "service": "AxiomZero", "version": "1.0.0"}
+        from AxiomZero import IDENTITY
+        return {
+            "status": "ok",
+            "service": "AxiomZero",
+            "version": IDENTITY["version"],
+            "author": IDENTITY["author"],
+            "license": IDENTITY["license"],
+            "repo": IDENTITY["repo"],
+            "framework": IDENTITY["framework"],
+        }
+
+    @app.get("/identity")
+    async def identity():
+        """Return full IP provenance record for AxiomZero."""
+        from AxiomZero import IDENTITY
+        return IDENTITY
 
     @app.get("/health/vram")
     async def health_vram():
