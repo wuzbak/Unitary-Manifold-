@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 259 — Residual Geometry Operator (adjacent research track).
 
 Deterministic residual-vector, coupling-matrix, and principal-mode analysis for

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 516 — KK backreaction coupling architecture audit.
 
 STATUS: KK_BACKREACTION_ARCHITECTURE_AUDIT_COMPLETE

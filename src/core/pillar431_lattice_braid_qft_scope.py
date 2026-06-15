@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 431 — Lattice Braid QFT: Formal Scope for L2 γ Gap Closure.
 
 🔵 ADJACENT TRACK — scoping document; non-hardgate; no claim label change.

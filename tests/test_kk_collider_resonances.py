@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """
 test_kk_collider_resonances.py — Test suite for Pillar 43: KK collider
 resonance predictions (src/core/kk_collider_resonances.py).

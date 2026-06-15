@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
 ws_vi_cy3_synthesis.py — WS-VI: 10D CY₃ Full Moduli + Flux Synthesis for P3 (α_s).

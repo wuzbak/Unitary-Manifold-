@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 140: Lightest Neutrino Mass RS (src/core/neutrino_lightest_mass.py).
 
 IMPORTANT: m_nu1 ≈ 1.097 eV — this VIOLATES the Planck Σm_ν < 0.12 eV bound.

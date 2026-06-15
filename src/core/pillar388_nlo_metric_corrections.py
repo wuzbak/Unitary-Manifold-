@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 388 — NLO Metric Ansatz Corrections: Higher-Order Terms Bounded
 
 Status: NLO_CORRECTIONS_BOUNDED

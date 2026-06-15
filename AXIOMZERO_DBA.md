@@ -1,7 +1,11 @@
-# [POLICY] [CANONICAL] Document Relocated
+# [POLICY] [CANONICAL] Document Superseded
 
-This document has moved to:
+The DBA (Doing Business As) registration has been superseded by the incorporation of
+**AxiomZero Technologies & Consulting, SPC** (Washington State SPC, UBI 606 239 876,
+incorporated June 11, 2026).
 
-- [`docs/policy/AXIOMZERO_DBA.md`](docs/policy/AXIOMZERO_DBA.md)
+The current canonical document is:
 
-This root stub is retained for link continuity and discoverability.
+- [`AXIOMZERO_SPC.md`](AXIOMZERO_SPC.md) — Corporate commencement notice
+
+This stub is retained for link continuity and discoverability.

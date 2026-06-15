@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 320 — CONDITIONAL_DERIVATION Audit."""
 import pytest
 from src.core.pillar320_conditional_derivation_audit import (

@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 from src.core.pillar225_juno_hyperk_neutron_oscillation_readiness import (
     ADJACENCY_TRACK_LABEL,

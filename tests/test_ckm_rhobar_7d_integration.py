@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for 7D CKM ρ̄ integration: src/sevend/ckm_rhobar_7d_integration.py"""
 
 from __future__ import annotations

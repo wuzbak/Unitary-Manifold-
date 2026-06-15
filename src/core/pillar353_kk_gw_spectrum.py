@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 353 — Full KK Mode GW Background Spectrum for LISA.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

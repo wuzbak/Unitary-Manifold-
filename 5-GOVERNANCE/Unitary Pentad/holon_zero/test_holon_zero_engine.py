@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """
 5-GOVERNANCE/Unitary Pentad/holon_zero/test_holon_zero_engine.py
 =====================================

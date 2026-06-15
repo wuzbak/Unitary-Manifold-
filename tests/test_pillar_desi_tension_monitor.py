@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for src/core/pillar_desi_tension_monitor.py.
 
 v11.x note: the monitor now reports the wₐ-only tension (2.75σ) as the primary

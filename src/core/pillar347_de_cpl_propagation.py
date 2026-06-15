@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 347 — Dark Energy CPL History: Full w₀/wₐ Derivation from KK Radion EOM.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

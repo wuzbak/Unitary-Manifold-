@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Post-MAS Track 1: formal proof hardening (Lean4-style workflow).
 
 This module provides machine-checkable theorem artifacts and an explicit

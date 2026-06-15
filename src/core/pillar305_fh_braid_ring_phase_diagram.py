@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 305 — Fermi-Hubbard Braid Ring Phase Diagram.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

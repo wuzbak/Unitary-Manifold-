@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for src/sixd/higgs_mass_6d_cw.py — WS-V P5 GEOMETRIC_ESTIMATE_CERTIFIED."""
 from __future__ import annotations

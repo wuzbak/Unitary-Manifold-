@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """
 test_three_generations.py — Test suite for Pillar 42: Three-Generation Theorem
 (src/core/three_generations.py).

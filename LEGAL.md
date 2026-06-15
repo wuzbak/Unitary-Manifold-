@@ -1,9 +1,9 @@
-# Legal Framework — AxiomZero Technologies / Unitary Manifold
+# Legal Framework — AxiomZero Technologies & Consulting, SPC / Unitary Manifold
 
-**Document version:** 3.0 — April 2026  
-**Effective date:** March 26, 2026  
-**Jurisdiction:** United States  
-**Governing files:** [`LICENSE`](LICENSE) · [`LICENSE-AGPL`](LICENSE-AGPL) · [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md) · [`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) · [`FINGERPRINTS.md`](1-THEORY/FINGERPRINTS.md)
+**Document version:** 4.0 — June 2026  
+**Effective date:** June 11, 2026 (SPC incorporation)  
+**Jurisdiction:** Washington State, United States  
+**Governing files:** [`LICENSE`](LICENSE) · [`LICENSE-AGPL`](LICENSE-AGPL) · [`docs/policy/AXIOMZERO_SPC.md`](docs/policy/AXIOMZERO_SPC.md) · [`docs/policy/COMMERCIAL_TERMS.md`](docs/policy/COMMERCIAL_TERMS.md) · [`FINGERPRINTS.md`](1-THEORY/FINGERPRINTS.md)
 
 > This is the single authoritative reference for all legal, licensing, and intellectual-property
 > questions about this repository and the AxiomZero Technologies business.  It synthesizes the
@@ -32,13 +32,25 @@ constructed to generate a business, the commit history will correct you.
 
 | Field | Value |
 |-------|-------|
-| **Legal rights holder** | ThomasCory Walker-Pearson (individual) |
-| **Trade name (DBA)** | AxiomZero Technologies |
-| **DBA commencement** | March 26, 2026 |
-| **Jurisdiction** | United States |
+| **Corporate rights holder** | AxiomZero Technologies & Consulting, SPC |
+| **Entity type** | Washington State Social Purpose Corporation (SPC) |
+| **UBI** | 606 239 876 |
+| **Incorporation date** | June 11, 2026 |
+| **Jurisdiction** | Washington State, United States |
+| **Principal office** | Duvall, WA, United States |
+| **Registered agent** | ThomasCory Walker-Pearson, Duvall, WA |
+| **Chief Purpose Officer** | ThomasCory Walker-Pearson |
+| **Social purpose** | Responsible AI governance, open-science, commitment to the public good, and environmental stewardship |
 | **GitHub** | [@wuzbak](https://github.com/wuzbak) |
 | **Repository** | https://github.com/wuzbak/Unitary-Manifold- |
 | **Zenodo DOI** | https://doi.org/10.5281/zenodo.19584531 |
+| **Contact** | https://www.linkedin.com/company/axiomzero-technologies-consulting-spc/ |
+
+**IP assignment:** All intellectual-property rights — including copyright, future rights,
+and all claims — originally created by ThomasCory Walker-Pearson have been formally
+assigned to AxiomZero Technologies & Consulting, SPC effective June 11, 2026.  A signed
+IP Assignment Agreement is held by the corporation.  See
+[`docs/policy/IP_ASSIGNMENT_NOTICE.md`](docs/policy/IP_ASSIGNMENT_NOTICE.md).
 
 **AI co-author note:** GitHub Copilot (an AI system developed by GitHub and Microsoft) is the
 implementation partner for this project — responsible for code architecture, automated test suites,
@@ -47,7 +59,7 @@ are work product produced under the direction and review of ThomasCory Walker-Pe
 No AI system or its corporate operator acquires any intellectual-property right from such
 contributions.  The human-AI role partition is made explicit in every file.
 
-Full DBA commencement notice: [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md)
+Full SPC commencement notice: [`docs/policy/AXIOMZERO_SPC.md`](docs/policy/AXIOMZERO_SPC.md)
 
 ---
 
@@ -77,8 +89,8 @@ reports, or Commercial License Exceptions) built around the open core.
 
 **Copyright carve-out for AGPL enforcement:** Notwithstanding the public-domain
 dedication of the theoretical content, copyright is expressly **retained** by
-ThomasCory Walker-Pearson in the software implementation (all directories listed in
-`LICENSE-AGPL`) solely to enable AGPL-3.0 copyleft enforcement.
+AxiomZero Technologies & Consulting, SPC in the software implementation (all
+directories listed in `LICENSE-AGPL`) solely to enable AGPL-3.0 copyleft enforcement.
 
 **The following acts are strictly and irrevocably prohibited under DPC v1.0:**
 
@@ -117,10 +129,11 @@ Key provisions:
 AxiomZero Technologies complies with AGPL-3.0.  Any modified versions deployed in commercial
 services are published in this repository.
 
-### Instrument 3: Common Law Trademark — *the name, not the ideas*
+### Instrument 3: Corporate Trademark — *the name, not the ideas*
 
-**Asserted as of:** March 26, 2026  
-**Marks:** "AxiomZero Technologies" (word mark) and "AZ" monogram
+**Entity:** AxiomZero Technologies & Consulting, SPC (WA SPC, UBI 606 239 876)  
+**Incorporated:** June 11, 2026  
+**Marks:** "AxiomZero Technologies & Consulting" (word mark) and "AZ" monogram
 
 The trademark protects the **brand name only** — not any intellectual content.  You can use
 the theory, cite the equations, build on the code, publish competing frameworks, and build
@@ -254,9 +267,9 @@ obligation.
 - A separately negotiated, written permission releasing a specific licensee from the
   AGPL-3.0 network-service source-disclosure requirement for that licensee's own
   private modifications.
-- Available only from ThomasCory Walker-Pearson / AxiomZero Technologies as the sole
+- Available only from AxiomZero Technologies & Consulting, SPC as the sole
   copyright holder.
-- Governed by a signed Statement of Work; see `COMMERCIAL_TERMS.md` § 4-A.
+- Governed by a signed Statement of Work; see `docs/policy/COMMERCIAL_TERMS.md` § 4-A.
 
 **What a CLE is NOT:**
 
@@ -275,11 +288,11 @@ affects what a specific paying client may do with their own private modification
 
 The following statements are **permanent and unconditional**:
 
-1. **DPC v1.0 is not revoked by the DBA.** The irrevocable public-domain dedication
+1. **DPC v1.0 is not revoked by the SPC incorporation.** The irrevocable public-domain dedication
    of the theory, equations, and manuscripts remains in full force regardless of any
    commercial relationship or business registration.
 
-2. **AGPL-3.0 is not waived by the DBA.** The copyleft obligations on the software
+2. **AGPL-3.0 is not waived by the SPC incorporation.** The copyleft obligations on the software
    remain in full force.  No Commercial Service agreement — including a CLE — grants a
    client an exemption from any AGPL-3.0 obligations that apply to third parties;
    a CLE affects only that specific client's own private modifications.
@@ -288,11 +301,12 @@ The following statements are **permanent and unconditional**:
    provision executed by AxiomZero and a client may restrict the public's rights under
    DPC v1.0 or AGPL-3.0.  Any clause that purports to do so is void.
 
-4. **The trademark applies to the name, not the ideas.** The Common Law Trademark on
-   "AxiomZero Technologies" and "AZ" monograms applies solely to trade-name and logo
-   identifiers — not to the intellectual content, equations, or methods of the open core.
+4. **The trademark applies to the name, not the ideas.** The trademark on
+   "AxiomZero Technologies & Consulting" and "AZ" monograms applies solely to trade-name
+   and logo identifiers — not to the intellectual content, equations, or methods of the
+   open core.
 
-5. **Science before commerce.** The Unitary Manifold framework and all 142 pillars + Ω₀
+5. **Science before commerce.** The Unitary Manifold framework and all core pillars + Ω₀
    were publicly established with full commit history and Zenodo DOI **before**
    any commercial structure was created.  This order is documented and irrevocable.
 
@@ -302,16 +316,17 @@ The following statements are **permanent and unconditional**:
    work product built around the open core.
 
 7. **The copyright carve-out for AGPL enforcement does not reduce public freedoms.**
-   Copyright is retained in the software solely to enable AGPL-3.0 enforcement.  Any
-   person who follows the AGPL-3.0 terms has full freedom to use, modify, and deploy
+   Copyright is retained by the SPC in the software solely to enable AGPL-3.0 enforcement.
+   Any person who follows the AGPL-3.0 terms has full freedom to use, modify, and deploy
    the software.
 
 ---
 
 ## Part VII — Conflict of Interest Disclosure
 
-ThomasCory Walker-Pearson has a financial interest in the reputation of the Unitary
-Manifold framework.  This is disclosed here and in [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md).
+ThomasCory Walker-Pearson, as Chief Purpose Officer of AxiomZero Technologies & Consulting,
+SPC, has a financial interest in the reputation of the Unitary Manifold framework.
+This is disclosed here and in [`docs/policy/AXIOMZERO_SPC.md`](docs/policy/AXIOMZERO_SPC.md).
 
 This interest has **not** weakened the falsification conditions.  The primary falsifier
 (birefringence β ∈ {≈0.273°, ≈0.331°}, to be tested by LiteBIRD ~2032) is stated more
@@ -328,19 +343,21 @@ Known open problems and honest gaps are documented in [`FALLIBILITY.md`](FALLIBI
 | Question | Answer |
 |----------|--------|
 | Who owns the theory? | No one — irrevocably public domain under DPC v1.0 |
-| Who owns the code copyright? | ThomasCory Walker-Pearson — retained solely for AGPL enforcement |
+| Who owns the code copyright? | AxiomZero Technologies & Consulting, SPC — retained solely for AGPL enforcement |
 | Who owns the code usage rights? | Copyleft under AGPL-3.0 — open forever |
-| Who is the legal rights holder? | ThomasCory Walker-Pearson (individual) |
-| Who is the commercial operator? | AxiomZero Technologies (DBA, est. March 26, 2026) |
-| Who owns the brand name? | ThomasCory Walker-Pearson — Common Law Trademark |
+| Who is the legal rights holder? | AxiomZero Technologies & Consulting, SPC (WA SPC, UBI 606 239 876) |
+| Who is the commercial operator? | AxiomZero Technologies & Consulting, SPC (incorporated June 11, 2026) |
+| Who is the Chief Purpose Officer? | ThomasCory Walker-Pearson |
+| Who owns the brand name? | AxiomZero Technologies & Consulting, SPC |
 | Can AxiomZero charge for the equations or code itself? | No — and does not |
 | Can AxiomZero charge for services built around it? | Yes — consulting, calibration, CLEs, etc. |
-| What is the primary commercial value-add? | Domain calibration of the 74 Pillars for specific enterprise contexts |
+| What is the primary commercial value-add? | Domain calibration of the Pillars for specific enterprise contexts |
 | Can someone build a competing service using this framework? | Yes — DPC v1.0 and AGPL-3.0 explicitly permit this |
 | Can someone patent the equations? | No — DPC v1.0 prohibits this permanently |
 | What if someone deploys modified code as a SaaS product? | They must release their modified source under AGPL-3.0 (unless they hold a CLE) |
 | What is a Commercial License Exception (CLE)? | A negotiated permission from AxiomZero releasing a specific client from AGPL source-disclosure on their private modifications |
 | What AGPL directories are covered? | src/, tests/, recycling/, scripts/, submission/, Unitary Pentad/, omega/, bot/, embryology-manifold/ |
+| Are all products production-ready? | No — all products are under active development; use at your own risk |
 | Are contributors' IP rights protected? | Yes — DCO + additional grant in CONTRIBUTING.md § 6 |
 | Can derivative works be identified if renamed? | Yes — FINGERPRINTS.md documents the (5,7,74) triad and other unique markers |
 | Is there a conflict of interest? | Yes — disclosed above (Part VII) |
@@ -355,18 +372,19 @@ Known open problems and honest gaps are documented in [`FALLIBILITY.md`](FALLIBI
 |----------|-----------|
 | [`LICENSE`](LICENSE) | Defensive Public Commons License v1.0 — full text; "no fee" scope; copyright carve-out |
 | [`LICENSE-AGPL`](LICENSE-AGPL) | GNU AGPL-3.0 — full directory scope, key provisions, and CLE note |
-| [`AXIOMZERO_DBA.md`](AXIOMZERO_DBA.md) | Business commencement notice — DBA, product list, calibration services, IP policy |
-| [`COMMERCIAL_TERMS.md`](COMMERCIAL_TERMS.md) | Commercial ToS — engagements, § 4-A CLE tier, calibration framing, payment, liability |
+| [`docs/policy/AXIOMZERO_SPC.md`](docs/policy/AXIOMZERO_SPC.md) | Corporate commencement notice — SPC, UBI, social purpose, product list, IP policy |
+| [`docs/policy/IP_ASSIGNMENT_NOTICE.md`](docs/policy/IP_ASSIGNMENT_NOTICE.md) | IP assignment notice — formal transfer from individual to SPC |
+| [`docs/policy/COMMERCIAL_TERMS.md`](docs/policy/COMMERCIAL_TERMS.md) | Commercial ToS — engagements, § 4-A CLE tier, calibration framing, payment, liability |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contributor guide — DCO, additional IP grant (§ 6), code style |
 | [`FINGERPRINTS.md`](1-THEORY/FINGERPRINTS.md) | Technical fingerprints — (5,7,74) triad, c_s=12/37, Ξ_c=35/74, provenance markers |
 | [`NOTICE`](NOTICE) | Brief dual-license notice — for downstream users |
 | [`FALLIBILITY.md`](FALLIBILITY.md) | Honest gap assessment — known open problems and epistemics |
 | [`CITATION.cff`](CITATION.cff) | Machine-readable citation metadata |
-| **[`LEGAL.md`](LEGAL.md)** | **This file — consolidated legal reference (v3.0)** |
+| **[`LEGAL.md`](LEGAL.md)** | **This file — consolidated legal reference (v4.0)** |
 
 ---
 
-*Document version: 3.0 — April 2026*  
+*Document version: 4.0 — June 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
 

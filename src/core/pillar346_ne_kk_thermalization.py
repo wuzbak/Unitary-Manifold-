@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 346 — N_e from KK Thermalization and FTUM Entropy Budget.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

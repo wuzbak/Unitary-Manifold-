@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 317 — Braid (5,7) Stability Field-Theoretic Certificate.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

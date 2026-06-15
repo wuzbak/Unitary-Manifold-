@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """DESI tension monitor for the exact KK dark-energy prediction (w0=-1, wa=0).
 
 Tension metric policy (v11.x correction)

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 448 — Postulate P2 Upgrade Audit."""
 import pytest
 from src.core.pillar448_p2_ansatz_upgrade_audit import (

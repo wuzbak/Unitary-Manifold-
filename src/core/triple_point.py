@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """src/core/triple_point.py
 ============================
 The Triple-Point Bridge: Lean 4 ↔ JAX ↔ Z3 unified verification pipeline.

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 40 — AdS₅/CFT₄ KK Tower Holographic Dictionary
 =========================================================
 Implements the full AdS₅/CFT₄ holographic dictionary for the entire

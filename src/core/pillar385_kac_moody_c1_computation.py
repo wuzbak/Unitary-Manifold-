@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 385 — Kac-Moody Level-K c₁ Exact Computation
 
 Status: L2_KACMOODY_CONSTRAINED

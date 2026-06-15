@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """
 Pillar 282 — CMB Planck Cross-Check (adjacent research track)
 Status: ADJACENT_TRACK_NON_HARDGATE

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """src/core/wandb_logger.py
 ============================
 Weights & Biases experiment logger for Unitary Manifold physics runs.

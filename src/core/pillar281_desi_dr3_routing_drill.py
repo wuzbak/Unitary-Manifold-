@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 281 — DESI DR3 Routing Drill (3.2σ / 2.4σ / 1.8σ scenarios).
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

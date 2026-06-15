@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for P3 DERIVED certification (α_s from 10D CY₃ moduli+flux closure)."""
 from src.core.p3_alpha_s_derived_cert import (

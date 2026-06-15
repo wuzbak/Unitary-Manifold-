@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for P26 CONSTRAINED→GEOMETRIC_PREDICTION closure (neutrino mass)."""
 from src.core.p26_neutrino_mass_gp_closure import (

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 239 — Autonomous Infrastructure Stability Engine (adjacent track).
 
 🔵 ADJACENT TRACK — not a hardgate physics claim.

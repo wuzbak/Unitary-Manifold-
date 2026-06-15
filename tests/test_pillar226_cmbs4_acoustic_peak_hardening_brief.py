@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 from src.core.pillar226_cmbs4_acoustic_peak_hardening_brief import (
     ADJACENCY_TRACK_LABEL,

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 302 — Two-Radius GW Moduli Stability: Close Convention 279.3 → DERIVED.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

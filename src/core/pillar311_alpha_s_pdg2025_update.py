@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 311 (v11.15) — α_s Basin PDG 2025 Update.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

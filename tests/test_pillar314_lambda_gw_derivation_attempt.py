@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 314 — λ_GW Architecture Limit Formal Certificate."""
 import pytest
 from src.core.pillar314_lambda_gw_derivation_attempt import (

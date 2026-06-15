@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Executable deeper-principle derivation certificate for the 5D metric ansatz.
 
 This module formalizes the UM claim that the KK block metric is not inserted as
