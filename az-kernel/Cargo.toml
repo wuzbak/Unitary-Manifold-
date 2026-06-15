@@ -1,0 +1,42 @@
+[package]
+name = "az-kernel"
+version = "0.1.0"
+edition = "2021"
+authors = ["ThomasCory Walker-Pearson <theory@unitarymanifold.org>"]
+description = "AxiomZero Bare-Metal Kernel — 5D Kaluza-Klein Operating System"
+license = "LicenseRef-DefensivePublicCommons-1.0"
+repository = "https://github.com/wuzbak/Unitary-Manifold-"
+
+# SPRINT 0: Bare-metal build configuration
+[profile.dev]
+panic = "abort"
+opt-level = 1
+
+[profile.release]
+panic = "abort"
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = "debuginfo"
+
+[dependencies]
+# UEFI boot services (Sprint 0)
+uefi = { version = "0.33", features = ["alloc"] }
+uefi-services = "0.24"
+
+# Embedded utilities for no_std kernel (Sprint 1)
+bitflags = "2"
+spin = "0.9"          # spinlock primitives (no OS mutexes available)
+log = "0.4"
+
+# Physics-informed data structures (Sprint 1)
+heapless = "0.8"       # fixed-capacity collections (no heap until AZ-MM boots)
+libm = "0.2"           # software math (sqrtf) for no_std geodesic scheduler
+
+[dev-dependencies]
+# Sprint 0 validation: kernel spec tests run on host (not bare metal)
+criterion = "0.5"
+
+[[bin]]
+name = "az-kernel"
+path = "src/main.rs"
