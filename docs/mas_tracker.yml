@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 version: "v18.0"
 date: "2026-06-15"
 updated: "2026-06-15"
+=======
+version: "v17.1"
+date: "2026-06-12"
+updated: "2026-06-12"
+>>>>>>> origin/main
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
