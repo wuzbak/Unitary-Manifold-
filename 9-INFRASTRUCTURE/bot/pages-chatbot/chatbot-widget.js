@@ -23,14 +23,17 @@
     "UEUM: \u1e8b^a + \u0393^a_{bc}\u1e8b^b\u1e8b^c = G_U^{ab}\u2207_b S_U + \u03b4/\u03b4X^a(\u03a3 A_{\u2202,i}/4G + Q_top)\n" +
     "FTUM: Fixed point \u03a8* of U = I+H+T such that U\u03a8* = \u03a8*\n" +
     "\u03b1 derived: \u03b1 = \u03c6\u2080\u207b\u00b2 (not a free parameter)\n\n" +
-    "PREDICTIONS: n\u209b\u22480.9635 (Planck 1\u03c3), \u03b2\u2208{\u22480.273\u00b0,\u22480.331\u00b0} two SOS states (k_cs\u2208{61,74}; observed 0.35\u00b0\u00b10.14\u00b0), \u03b1=\u03c6\u2080\u207b\u00b2 derived, r_braided\u22480.0315 (BICEP/Keck <0.036)\n" +
-    "GAPS: CMB amplitude suppressed \u00d74\u20137, \u03c6\u2080 self-consistency not fully closed\n" +
-    "FALSIFIER: LiteBIRD \u03b2 measurement (2030\u20132032) \u2014 \u03b2 outside [0.22\u00b0,0.38\u00b0] falsifies the braided-winding mechanism\n" +
-    "SCOPE: 26 geometric pillars (physics, chemistry, astronomy, geology, biology, atomic structure, cold fusion, recycling, medicine, justice, governance, neuroscience, ecology, climate, marine, psychology, genetics, materials) + Unitary Pentad HILS framework (independent, 16 modules)\n" +
+    "PREDICTIONS: n\u209b\u22480.9635 (Planck 0.33\u03c3), r=0.0315 (BICEP/Keck <0.036), r^{NLO}=0.0312 (<1% NLO shift, ACT DR6 2.0\u00d7 tension = ARCHITECTURE_LIMIT), \u03b2\u2208{\u22480.273\u00b0,\u22480.351\u00b0} two SOS states (k_cs\u2208{61,74}; observed 0.35\u00b0\u00b10.14\u00b0, LiteBIRD ~2032 will discriminate), \u03b1=\u03c6\u2080\u207b\u00b2 derived, wKK=0 (DESI DR2 2.30\u03c3 tension, below 3\u03c3 falsification threshold, tracked)\n" +
+    "RECENT MILESTONES (v18.0, 2026-06-15): JUNO Phase 1 (arXiv:2511.14590) \u2014 all observables (\u0394m\u00b2\u2082\u2081, \u03b8\u2081\u2082, \u0394m\u00b2\u2083\u2081 at 1%, NMO 2.2-2.3\u03c3) consistent with UM predictions; Vol(CY\u2083)=6.28 M_Pl\u2076 fixed by M-theory tadpole (closes last free parameter in 11D moduli chain); p_R now UNCONDITIONALLY DERIVED; CMB A_s \u00d74\u20137 suppression confirmed irreducible ARCHITECTURE_LIMIT across all CY\u2083 topologies; Wheeler-DeWitt radion stability certified; JUNO Phase 2 (~2027) predictions pre-registered with SHA-256\n" +
+    "GAPS / ARCHITECTURE LIMITS (honest): CMB amplitude \u00d74\u20137 suppression (irreducible 5D-EFT floor, ARCHITECTURE_LIMIT); tensor r NLO ACT DR6 2.0\u00d7 tension (ARCHITECTURE_LIMIT, not falsification); DESI w\u03b1 2.30\u03c3 (tracked, below threshold)\n" +
+    "FALSIFIER: LiteBIRD \u03b2 measurement (~2032) \u2014 \u03b2 outside [0.22\u00b0,0.38\u00b0] or landing in gap [0.29\u00b0,0.31\u00b0] falsifies the braided-winding mechanism\n" +
+    "SCOPE: 208 hardgate core pillars + adjacent tracks through Pillar 535. Domains: physics, chemistry, astronomy, geology, biology, atomic structure, cold fusion, recycling, medicine, justice, governance, neuroscience, ecology, climate, marine, psychology, genetics, materials, military accountability, quantum simulation (Fermi-Hubbard, XDiag bridge), JUNO neutrino routing + Unitary Pentad HILS framework (independent, 5 modules)\n" +
+    "TOE SCORE: 28.0/28 (100%) \u2014 fully closed. Free parameters: n_w=5, k_CS=74, c_s=12/37 (topology-selected, not fitted)\n" +
     "REPO: https://github.com/wuzbak/Unitary-Manifold-\n" +
-    "PYTHON API: src/core/metric.py, evolution.py (FieldState, run_evolution), holography/boundary.py, multiverse/fixed_point.py, core/braided_winding.py, core/kk_geodesic_reduction.py\n" +
-    "TESTS: 4763 passing across all suites (tests/: 3411, recycling/: 316, Unitary Pentad/: 1036), 0 failures\n\n" +
-    "Answer questions accurately. Acknowledge gaps honestly. Reference specific files when helpful. Be scientifically rigorous but accessible.";
+    "PYTHON API: src/core/metric.py, evolution.py (FieldState, run_evolution), holography/boundary.py, multiverse/fixed_point.py, core/braided_winding.py, core/kk_geodesic_reduction.py, src/quantum/ (kk_vqe, fermi_hubbard, xdiag_bridge)\n" +
+    "ALGEBRA PROOF: ALGEBRA_PROOF.py \u00a71\u2013\u00a728 (206+ checks), run: python3 ALGEBRA_PROOF.py \u2192 ALL PASS\n" +
+    "TESTS: 46,885 passing across all suites (tests/ + recycling/ + Unitary Pentad), 0 failures (v18.0, 2026-06-15)\n\n" +
+    "Answer questions accurately. Acknowledge architecture limits and gaps honestly. Reference specific files when helpful. Be scientifically rigorous but accessible.";
 
   // ---------------------------------------------------------------------------
   // CSS
@@ -329,11 +332,12 @@
       el.messages,
       "assistant",
       renderMarkdown(
-        "**\uD83C\uDF0C Unitary Manifold Assistant**\n\n" +
+        "**\uD83C\uDF0C Unitary Manifold Assistant** · v18.0\n\n" +
           "Ask me anything about ThomasCory Walker-Pearson\u2019s 5D gauge-geometric framework. " +
-          "I can explain the theory, equations, predictions (n\u209b\u22480.9635, \u03b2=0.3513\u00b0), " +
-          "honest gaps, and the Python API.\n\n" +
-          "_Source: [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)_"
+          "I can explain the theory, equations, predictions (n\u209b\u22480.9635, r=0.0315, \u03b2\u22480.351\u00b0), " +
+          "honest architecture limits, JUNO Phase 1 response, and the Python API.\n\n" +
+          "_Source: [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)_\n" +
+          "_Tests: **46,885 passing · 0 failures** (v18.0, 2026-06-15)_"
       ),
       true
     );

@@ -30,12 +30,28 @@ async function loadPredictions() {
     tr.innerHTML = `<td>${p.id}</td><td>${p.quantity || ''}</td><td>${p.predicted_value ?? ''} ${p.units || ''}</td><td>${p.experiment || ''}</td><td>${p.current_status || p.status || ''}</td><td>${p.epistemic_label || ''}</td>`;
     tbody.appendChild(tr);
   }
+
   const search = document.getElementById('search');
   search.addEventListener('input', () => {
     const q = search.value.toLowerCase();
     for (const tr of tbody.querySelectorAll('tr')) {
       tr.style.display = tr.innerText.toLowerCase().includes(q) ? '' : 'none';
     }
+  });
+
+  // Export visible rows as CSV
+  document.getElementById('export-btn').addEventListener('click', () => {
+    const headers = ['ID', 'Quantity', 'Predicted', 'Experiment', 'Status', 'Label'];
+    const visibleRows = [...tbody.querySelectorAll('tr')].filter(tr => tr.style.display !== 'none');
+    const csvRows = [headers.join(','), ...visibleRows.map(tr =>
+      [...tr.querySelectorAll('td')].map(td => `"${td.innerText.replace(/"/g, '""')}"`).join(',')
+    )];
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'um-sos-predictions.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
   });
 }
 
@@ -57,9 +73,10 @@ async function loadAdmissions() {
 }
 
 function setupGovernance() {
+  const out = document.getElementById('gov-out');
+
   document.getElementById('gov-run').addEventListener('click', async () => {
     const text = document.getElementById('gov-input').value;
-    const out = document.getElementById('gov-out');
     try {
       const r = await fetch(`${apiBase}/governance/classify`, {
         method: 'POST',
@@ -70,6 +87,11 @@ function setupGovernance() {
     } catch {
       out.textContent = JSON.stringify({ lane: 'SENSITIVE', note: 'API unavailable in static mode' }, null, 2);
     }
+  });
+
+  document.getElementById('gov-clear').addEventListener('click', () => {
+    document.getElementById('gov-input').value = '';
+    out.textContent = '';
   });
 }
 
