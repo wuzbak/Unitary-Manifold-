@@ -12,6 +12,30 @@ For each wave entry, include:
 
 ---
 
+## v17.1 (2026-06-12 — JUNO 2026 Falsification Response: Pillar 525)
+
+**What changed:**
+
+- **Pillar 525** — `src/core/juno_2026_falsification_response.py`: JUNO First Physics Results (Nature, June 10 2026) — Δm²₃₁ = 2.411×10⁻³ eV², 0.81% precision, 59-day exposure. Rigorous correction chain: τ-Yukawa RGE (+0.004%) + seesaw at PMNS max p_R=0.441 (+2.67%) → projected Δm²₃₁ = 2.3457×10⁻³ eV², tension 3.33σ, still EXCLUDED. KK tower correction negligible (ε_KK≈2.3×10⁻²¹). Status: JUNO_2026_FALSIFICATION_RESPONSE.
+- **FALLIBILITY.md §XV** — JUNO 2026 formally added as §XV Honest Open Problem.
+- **CLAIM_MASTER_BOARD P17** — updated to HONEST_OPEN_PROBLEM.
+- **hyperk_juno_monitor.py** — JUNO 2026 is now primary anchor; monitoring_report() v17.1.
+- **CI fix** — z3-solver binary-only install on macOS-14 + correct macOS smoke-test condition.
+
+**Why:** JUNO First Physics Results published June 10 2026 (Nature). Required immediate honest processing: tension quantified, corrections applied, falsification status determined (still EXCLUDED), and documented as open problem.
+
+**Epistemic label deltas:** P17 CLAIM_MASTER_BOARD: OPEN → HONEST_OPEN_PROBLEM; JUNO 2026 anchor: PREDICTED → TENSION_3.33σ_EXCLUDED
+
+**TOE score delta:** 0
+
+**Falsification impact:** JUNO 2026 result is 3.33σ tension but still EXCLUDED (not falsified). LiteBIRD birefringence falsifier β ∈ {0.273°, 0.331°} unchanged.
+
+**Regression:** 46,218 passed · 2 skipped · 12 deselected · 0 failed (+60 new tests)
+
+**Residual unknowns:** JUNO tension 3.33σ — monitors open; full JUNO dataset (~2028) will sharpen.
+
+---
+
 ## v17.0 (2026-06-12 — 11D Precision Expansion Sprint: Pillars 519–524, Architecture Limit Upgrades)
 
 **What changed:**
