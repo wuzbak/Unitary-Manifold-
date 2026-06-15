@@ -6801,3 +6801,56 @@ v10_32_p16_promotion:
     - "P25 (Omega_GW): DERIVED-PENDING; LISA ~2037"
     - "L2 gamma gap: L2_CONDENSATE_ZERO_MODE_VIABLE; full non-perturbative closure pending"
     - "NEURAL_DISORDER clinical predictions: require pre-registered human trials for validation"
+
+# v18.1 sprint — AxiomZero IP Registry
+- sprint_id: "v18.1"
+  name: "AxiomZero IP Registry — Pillar 536"
+  status: "COMPLETE"
+  completed: "2026-06-15"
+  summary: >
+    Pillar 536 added: AXIOMZERO_IP_REGISTRY — formal SHA-256-fingerprinted
+    provenance registry for all AxiomZero IP assets. New top-level folder
+    12-AZ-IP/ created containing README.md, FINGERPRINT_MANIFEST.md, and
+    IP_REGISTRY.json (schema axiomzero-ip-registry-v1). Physics-to-OS mapping
+    table (12 derivation links) formally registered. verify_against_registry()
+    live verification function committed. Authorship declared machine-readable.
+    Substack post #259 S03E037 published in-repo. 70 new tests; 0 failures.
+    Full regression: 46,955 passed * 23 skipped * 12 deselected * 0 failed.
+    Next pillar slot: 537. Next Substack post: #260 S03E038.
+  deliverables:
+    - artifact: "src/core/pillar536_axiomzero_ip_registry.py"
+      test: "tests/test_pillar536_axiomzero_ip_registry.py"
+      status: "AXIOMZERO_IP_REGISTRY"
+      adjacency: "NON_HARDGATE_ADJACENT"
+      toe_delta: 0.0
+    - artifact: "12-AZ-IP/README.md"
+      status: "CREATED_v18.1"
+      toe_delta: 0.0
+    - artifact: "12-AZ-IP/FINGERPRINT_MANIFEST.md"
+      status: "CREATED_v18.1"
+      toe_delta: 0.0
+    - artifact: "12-AZ-IP/IP_REGISTRY.json"
+      status: "CREATED_v18.1"
+      toe_delta: 0.0
+    - artifact: "7-OUTREACH/substack/posts/post-259-s03e037-axiomzero-ip-the-physics-os-gets-a-fingerprint.md"
+      status: "PUBLISHED_IN_REPO"
+      toe_delta: 0.0
+    - artifact: "STATUS.md"
+      status: "SYNCED_TO_v18.1"
+      toe_delta: 0.0
+  parameters_promoted: []
+  toe_score:
+    before: 28.0
+    after: 28.0
+    before_pct: "100%"
+    after_pct: "100%"
+    note: >
+      Pillar 536 is an IP registry and provenance pillar; it does not
+      affect the 28-parameter hardgate ToE ledger. TOE delta = 0.
+  open_items:
+    - "P23/P24 (beta birefringence): LiteBIRD-gated (~2032/2034)"
+    - "P25 (Omega_GW): DERIVED-PENDING; LISA ~2037"
+    - "L2 gamma gap: L2_CONDENSATE_ZERO_MODE_VIABLE; full non-perturbative closure pending"
+    - "JUNO Phase 2 decision window: ~2027, 0.5% Dm2_31 precision"
+  next_pillar_slot: 537
+  next_substack_post: "#260 S03E038"
