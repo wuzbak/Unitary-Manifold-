@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--
+  AxiomZero Dashboard
+  Copyright (C) 2026  ThomasCory Walker-Pearson
+  SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+
+  Theory: ThomasCory Walker-Pearson
+  Code: GitHub Copilot (AI)
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AxiomZero — Cognitive Layer</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e; --blue: #58a6ff;
+    --green: #3fb950; --yellow: #d29922; --red: #f85149;
+    --purple: #bc8cff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--text); padding: 1.5rem; }
+  h1 { color: var(--blue); font-size: 1.5rem; margin-bottom: 0.5rem; }
+  h2 { color: var(--purple); font-size: 1.1rem; margin: 1rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+  .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+  .card h3 { color: var(--blue); font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .badge { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.75rem; font-weight: bold; }
+  .badge-ok { background: #1a3a25; color: var(--green); }
+  .badge-warn { background: #3a2d0a; color: var(--yellow); }
+  .badge-err { background: #3a1015; color: var(--red); }
+  .badge-info { background: #0d2040; color: var(--blue); }
+  .manager-row { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  .manager-row:last-child { border-bottom: none; }
+  .task-item { padding: 0.5rem; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+  .task-item:last-child { border-bottom: none; }
+  .hils-alert { background: #2d1a1a; border: 1px solid var(--red); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
+  .hils-alert h3 { color: var(--red); }
+  .btn { background: var(--blue); color: #000; border: none; border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font-family: monospace; font-size: 0.82rem; }
+  .btn-reject { background: var(--red); color: #fff; }
+  .btn:hover { opacity: 0.8; }
+  pre { background: #0a0d11; border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem; font-size: 0.78rem; overflow-x: auto; max-height: 200px; overflow-y: auto; }
+  .refresh-bar { color: var(--muted); font-size: 0.75rem; margin-top: 1rem; text-align: right; }
+  input, textarea { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 0.4rem; border-radius: 4px; font-family: monospace; width: 100%; }
+  select { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 0.3rem; border-radius: 4px; font-family: monospace; }
+  .form-row { margin: 0.4rem 0; }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.2rem; }
+  #status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 0.3rem 1rem; font-size: 0.75rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<h1>⚛ AxiomZero — Persistent AI Cognitive Layer</h1>
+<p class="subtitle">Unitary Manifold Physics Framework · Human-in-the-Loop Intelligence</p>
+
+<!-- HILS Alerts (populated by JS) -->
+<div id="hils-alerts"></div>
+
+<div class="grid">
+
+  <!-- Orchestrator Status -->
+  <div class="card">
+    <h3>System Status</h3>
+    <div id="system-status">Loading…</div>
+  </div>
+
+  <!-- Manager Pipeline -->
+  <div class="card">
+    <h3>7-Manager Pipeline</h3>
+    <div id="manager-grid">
+      <div class="manager-row"><span>M1 Geometry</span><span class="badge badge-info">—</span></div>
+      <div class="manager-row"><span>M2 Field Solver</span><span class="badge badge-info">—</span></div>
+      <div class="manager-row"><span>M3 Symbolic ✓</span><span class="badge badge-info">—</span></div>
+      <div class="manager-row"><span>M4 Test Guard ✓</span><span class="badge badge-info">—</span></div>
+      <div class="manager-row"><span>M5 RAG Engine</span><span class="badge badge-info">—</span></div>
+      <div class="manager-row"><span>M6 Web OSINT</span><span class="badge badge-info">—</span></div>
+      <div class="manager-row"><span>M7 Executive</span><span class="badge badge-info">—</span></div>
+    </div>
+  </div>
+
+  <!-- Submit Task -->
+  <div class="card">
+    <h3>Submit Task</h3>
+    <div class="form-row">
+      <label>Description</label>
+      <input type="text" id="task-desc" placeholder="Check Pillar 300 geometric consistency…">
+    </div>
+    <div class="form-row">
+      <label>Epistemic Label</label>
+      <select id="task-label">
+        <option value="HARDGATE">HARDGATE</option>
+        <option value="ADJACENT-TRACK">ADJACENT-TRACK</option>
+        <option value="GOVERNANCE">GOVERNANCE</option>
+      </select>
+    </div>
+    <div class="form-row" style="margin-top:0.6rem">
+      <button class="btn" onclick="submitTask()">▶ Submit</button>
+    </div>
+    <div id="task-submit-result" style="margin-top:0.5rem;font-size:0.8rem;color:var(--green)"></div>
+  </div>
+
+  <!-- RAG Query -->
+  <div class="card">
+    <h3>RAG Query</h3>
+    <div class="form-row">
+      <label>Query</label>
+      <input type="text" id="rag-query" placeholder="5D winding number braided sound speed…">
+    </div>
+    <div class="form-row" style="margin-top:0.6rem">
+      <button class="btn" onclick="ragQuery()">⚡ Search</button>
+    </div>
+    <pre id="rag-result" style="margin-top:0.5rem;max-height:120px"></pre>
+  </div>
+
+</div>
+
+<!-- Pending Approvals -->
+<h2>⚠ Pending Human Approvals (HILS)</h2>
+<div id="pending-approvals" class="card" style="max-height:200px;overflow-y:auto">
+  <p style="color:var(--muted);font-size:0.85rem">Loading…</p>
+</div>
+
+<!-- Recent Tasks -->
+<h2>Recent Tasks</h2>
+<div id="task-list" class="card" style="max-height:250px;overflow-y:auto">
+  <p style="color:var(--muted);font-size:0.85rem">Loading…</p>
+</div>
+
+<!-- Audit Log -->
+<h2>Audit Log</h2>
+<pre id="audit-log" style="max-height:180px"></pre>
+
+<div class="refresh-bar">Auto-refresh every 10s · <a href="/docs" style="color:var(--blue)">API Docs</a></div>
+<div id="status-bar">AxiomZero v1.0 · Theory: ThomasCory Walker-Pearson · Code: GitHub Copilot (AI)</div>
+
+<script>
+const API = '';  // same origin
+
+async function fetchJSON(path) {
+  try {
+    const r = await fetch(API + path);
+    return await r.json();
+  } catch(e) { return null; }
+}
+
+async function refresh() {
+  // System status
+  const status = await fetchJSON('/status');
+  if (status) {
+    document.getElementById('system-status').innerHTML = `
+      <div class="manager-row"><span>LangGraph</span><span class="badge ${status.langgraph_available ? 'badge-ok' : 'badge-warn'}">${status.langgraph_available ? 'active' : 'stub'}</span></div>
+      <div class="manager-row"><span>Active tasks</span><span class="badge badge-info">${status.active_tasks}</span></div>
+      <div class="manager-row"><span>Pending approvals</span><span class="badge ${status.pending_approvals > 0 ? 'badge-warn' : 'badge-ok'}">${status.pending_approvals}</span></div>
+      <div class="manager-row"><span>Total tasks</span><span class="badge badge-info">${status.total_tasks}</span></div>
+    `;
+  }
+
+  // HILS alerts
+  const approvals = await fetchJSON('/approvals/pending');
+  const alertsDiv = document.getElementById('hils-alerts');
+  if (approvals && approvals.length > 0) {
+    alertsDiv.innerHTML = `<div class="hils-alert"><h3>⚠ ${approvals.length} task(s) require your approval</h3><p style="font-size:0.85rem;margin-top:0.3rem">Review in the Pending Approvals section below.</p></div>`;
+  } else {
+    alertsDiv.innerHTML = '';
+  }
+
+  // Pending approvals
+  const pendingDiv = document.getElementById('pending-approvals');
+  if (approvals && approvals.length > 0) {
+    pendingDiv.innerHTML = approvals.map(t => `
+      <div class="task-item">
+        <strong>${t.task_id}</strong> · <span class="badge badge-warn">${t.epistemic_label}</span>
+        <p>${t.description}</p>
+        <p style="color:var(--muted);font-size:0.78rem">${JSON.stringify(t.results).slice(0,150)}</p>
+        <button class="btn" onclick="approve('${t.task_id}', true)">✔ Approve</button>
+        <button class="btn btn-reject" onclick="approve('${t.task_id}', false)" style="margin-left:0.3rem">✗ Reject</button>
+      </div>
+    `).join('');
+  } else {
+    pendingDiv.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">No pending approvals.</p>';
+  }
+
+  // Tasks
+  const tasks = await fetchJSON('/tasks');
+  if (tasks) {
+    const taskDiv = document.getElementById('task-list');
+    if (tasks.length === 0) {
+      taskDiv.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">No tasks yet.</p>';
+    } else {
+      taskDiv.innerHTML = tasks.slice(-10).reverse().map(t => {
+        const cls = t.status === 'complete' ? 'badge-ok' : t.status === 'human_review' ? 'badge-warn' : t.status === 'failed' ? 'badge-err' : 'badge-info';
+        return `<div class="task-item">
+          <span class="badge ${cls}">${t.status}</span> <strong>${t.task_id}</strong>
+          · <span class="badge badge-info">${t.epistemic_label}</span>
+          <p style="margin-top:0.2rem">${t.description}</p>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // Audit log
+  const logs = await fetchJSON('/logs?n=20');
+  if (logs) {
+    document.getElementById('audit-log').textContent =
+      logs.map(e => `[${new Date(e.ts*1000).toISOString().slice(11,19)}] ${e.event_type} · ${e.manager} · ${e.task_id}`).join('\n') || '(empty)';
+  }
+}
+
+async function submitTask() {
+  const desc = document.getElementById('task-desc').value.trim();
+  const label = document.getElementById('task-label').value;
+  if (!desc) return;
+  const r = await fetch(API + '/tasks', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({description: desc, epistemic_label: label})
+  });
+  const data = await r.json();
+  document.getElementById('task-submit-result').textContent =
+    r.ok ? `✔ Task submitted: ${data.task_id}` : `✗ Error: ${JSON.stringify(data)}`;
+  await refresh();
+}
+
+async function approve(taskId, approved) {
+  await fetch(API + `/tasks/${taskId}/approve`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({approved, note: 'Human decision via dashboard'})
+  });
+  await refresh();
+}
+
+async function ragQuery() {
+  const q = document.getElementById('rag-query').value.trim();
+  if (!q) return;
+  const r = await fetch(API + '/rag/query', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({query: q, n_results: 3})
+  });
+  const data = await r.json();
+  document.getElementById('rag-result').textContent =
+    JSON.stringify(data.results || data, null, 2).slice(0, 600);
+}
+
+// Initial load + auto-refresh
+refresh();
+setInterval(refresh, 10000);
+</script>
+
+</body>
+</html>
