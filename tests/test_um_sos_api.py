@@ -1,3 +1,6 @@
+import pytest
+
+fastapi = pytest.importorskip("fastapi", reason="fastapi not installed")
 from fastapi.testclient import TestClient
 
 from src.core.um_sos_api import create_app
