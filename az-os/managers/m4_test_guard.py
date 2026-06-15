@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
 az-os/managers/m4_test_guard.py — Manager 4: Test Orchestration & CI Guard

@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for src/core/p28_lambda_derived_cert.py — P28 DERIVED promotion cert."""
 from __future__ import annotations

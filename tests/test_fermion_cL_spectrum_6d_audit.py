@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for WS-A: src/core/fermion_cL_spectrum_6d_audit.py"""
 
 from __future__ import annotations

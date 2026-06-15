@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 143: c_R = 23/25 as Topological Invariant
 (src/core/rmatrix_braid_neutrino.py).
 

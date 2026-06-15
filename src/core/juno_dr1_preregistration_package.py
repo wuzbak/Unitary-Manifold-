@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """JUNO DR1 Preregistration Package — Δm²₃₁ same-day routing for JUNO Data Release 1 (~2027).
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 387 — Formal Z₂-odd G_{μ5} Derivation from 5D Lagrangian
 
 Status: ADMISSION_3_FORMALLY_CLOSED

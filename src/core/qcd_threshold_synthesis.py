@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """
 src/core/qcd_threshold_synthesis.py
 =====================================

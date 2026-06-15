@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 245 — 11D / Terminal Full-Closure Engine.
 
 Adjacent research track (non-hardgate): consolidate all existing Hořava-Witten

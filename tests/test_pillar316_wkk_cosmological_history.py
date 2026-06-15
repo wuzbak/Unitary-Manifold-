@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 316 — w_KK Cosmological History Derivation."""
 import math
 import pytest

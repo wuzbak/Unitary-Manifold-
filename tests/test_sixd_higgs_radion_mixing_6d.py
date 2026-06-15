@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for src/sixd/higgs_radion_mixing_6d.py — Track 1 (Higgs θ_HR, 6D+ Workstream)."""
 from __future__ import annotations

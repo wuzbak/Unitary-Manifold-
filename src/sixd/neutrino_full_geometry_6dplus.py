@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
 neutrino_full_geometry_6dplus.py — WS-III targeted follow-up in a full-geometry

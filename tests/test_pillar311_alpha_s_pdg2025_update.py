@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 311 PDG 2025 Update — α_s Basin Refresh."""
 import pytest
 from src.core.pillar311_alpha_s_pdg2025_update import (

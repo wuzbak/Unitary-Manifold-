@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for WS-C: src/core/ckm_rhobar_nlo_braid_correction.py"""
 
 from __future__ import annotations

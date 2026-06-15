@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
 neutrino_overlap_integrals_nlo.py — NLO fixed-point overlap integrals on T²/Z₃

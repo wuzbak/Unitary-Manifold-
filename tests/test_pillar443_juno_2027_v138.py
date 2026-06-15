@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 443 — JUNO 2027 Routing Package v13.8."""
 import pytest
 from src.core.pillar443_juno_2027_v138 import (

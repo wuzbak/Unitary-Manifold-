@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """P16 DERIVED certification: f_c = (N_W+2)/(K_CS+πkR+3N_W) = 7/126 is purely algebraic.
 

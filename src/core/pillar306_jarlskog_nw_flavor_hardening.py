@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 306 — Jarlskog Layer 2 Flavor Constraint + n_w χ² Residual Tracker.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
 ws_v_6dplus_synthesis.py — WS-V: 6D+ Full Geometry Synthesis for P5 (Higgs mass)

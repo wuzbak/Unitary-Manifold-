@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """P20 DERIVED certification: sin²θ₁₃ = N_c/((N_W+N₂)²-2N_c) = 3/138 is purely algebraic.
 

@@ -1,25 +1,35 @@
 Defensive Public Commons License v1.0 (2026)
 =============================================
 
-Author:       ThomasCory Walker-Pearson  (GitHub: @wuzbak)
-Trading as:   AxiomZero Technologies  (DBA registered March 26, 2026, United States)
-Work:         The Unitary Manifold (v9.27 OMEGA EDITION) — all source code, manuscripts,
-              datasets, notebooks, and derived materials in this repository, including the
-              Unitary Pentad governance framework and all named sub-products.
-              This license covers all versions up to and including those present in the
-              repository's public commit history.
+Author:          ThomasCory Walker-Pearson  (GitHub: @wuzbak),
+                 Chief Purpose Officer
+Corporate owner: AxiomZero Technologies & Consulting, SPC
+                 (Washington State SPC, UBI 606 239 876, incorporated June 11, 2026)
+                 Duvall, WA, United States
+Contact:         https://www.linkedin.com/company/axiomzero-technologies-consulting-spc/
+Work:            The Unitary Manifold — all source code, manuscripts, datasets, notebooks,
+                 and derived materials in this repository, including the Unitary Pentad
+                 governance framework and all named sub-products.
+                 This license covers all versions up to and including those present in the
+                 repository's public commit history.
 
-ThomasCory Walker-Pearson, operating commercially as AxiomZero Technologies,
-is the sole human author and sole legal rights holder.  AI-generated
-contributions are work product produced under the direction of the human
-author; no AI system or its corporate operator acquires any
+All intellectual-property rights — including copyright, future rights, and all claims —
+in the work described above have been assigned to and are held by AxiomZero Technologies
+& Consulting, SPC (UBI 606 239 876).  ThomasCory Walker-Pearson is the sole human author
+and Chief Purpose Officer.  A formal IP Assignment Agreement dated June 11, 2026 is held
+by the corporation.  AI-generated contributions are work product produced under the
+direction of the human author; no AI system or its corporate operator acquires any
 intellectual-property right from such contributions.
 
-The name "AxiomZero Technologies" and any associated "AZ" monograms are
-asserted Common Law Trademarks of ThomasCory Walker-Pearson as of the
-commencement date above.  This trademark assertion does not restrict
-any person's right to use the intellectual content of this work as
-granted below; it applies only to the trade name and logo identifiers.
+Social purpose (as filed with Washington State):
+Responsible AI governance, open-science, commitment to the public good, and
+environmental stewardship.
+
+The name "AxiomZero Technologies & Consulting" and any associated "AZ" monograms are
+registered trademarks and trade name of AxiomZero Technologies & Consulting, SPC
+(WA SPC, UBI 606 239 876).  This trademark does not restrict any person's right to use
+the intellectual content of this work as granted below; it applies only to the trade
+name and logo identifiers.
 
 ────────────────────────────────────────────────────────────────────────────
 IRREVOCABLE PUBLIC DOMAIN DEDICATION
@@ -79,8 +89,8 @@ COPYRIGHT RETENTION FOR AGPL ENFORCEMENT
 ────────────────────────────────────────────────────────────────────────────
 
 Notwithstanding the public-domain dedication above, copyright is expressly
-RETAINED by ThomasCory Walker-Pearson in the SOFTWARE IMPLEMENTATION of this
-work — specifically the contents of:
+RETAINED by AxiomZero Technologies & Consulting, SPC in the SOFTWARE
+IMPLEMENTATION of this work — specifically the contents of:
 
     src/           Python implementation of the Walker-Pearson field equations
     tests/         Automated test suites
@@ -101,6 +111,24 @@ The theoretical content covered by the public-domain dedication above — the
 Walker-Pearson field equations, FTUM framework, manuscripts, derivations,
 datasets, LaTeX sources, notebooks, and the PDF monograph — is not subject to
 this copyright retention and remains irrevocably in the public domain.
+
+────────────────────────────────────────────────────────────────────────────
+DEVELOPMENT STATUS AND "AT YOUR OWN RISK" NOTICE
+────────────────────────────────────────────────────────────────────────────
+
+ALL PRODUCTS, FRAMEWORKS, SOFTWARE, MODULES, AND TOOLS IN THIS REPOSITORY
+ARE UNDER ACTIVE DEVELOPMENT AND ARE PROVIDED IN THE SPIRIT OF TRANSPARENCY
+AND OPEN SCIENCE.  THEY ARE RESEARCH-STAGE WORKS, NOT PRODUCTION-READY
+SYSTEMS, AND MUST NOT BE USED AS THE SOLE BASIS FOR ANY SAFETY-CRITICAL,
+MEDICAL, FINANCIAL, OR LEGALLY BINDING DECISION.
+
+USE IS ENTIRELY AT YOUR OWN RISK.  AXIOMZERO TECHNOLOGIES & CONSULTING, SPC
+MAKES NO GUARANTEE OR WARRANTY OF ANY KIND — EXPRESS, IMPLIED, STATUTORY, OR
+OTHERWISE — INCLUDING WITHOUT LIMITATION ANY WARRANTY OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, COMPLETENESS, OR NON-INFRINGEMENT.
+IN NO EVENT SHALL AXIOMZERO TECHNOLOGIES & CONSULTING, SPC, ITS OFFICERS,
+CONTRIBUTORS, OR AGENTS BE LIABLE FOR ANY CLAIM, LOSS, DAMAGE, OR OTHER
+LIABILITY ARISING FROM THE USE OF OR RELIANCE ON THIS WORK.
 
 ────────────────────────────────────────────────────────────────────────────
 HARMFUL APPLICATION NOTICE — SOFTWARE ONLY (AGPL copyright-retained scope)
@@ -139,19 +167,27 @@ Preferred citation:
 DISCLAIMER
 ────────────────────────────────────────────────────────────────────────────
 
-THIS WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED.  THE AUTHOR SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
-LIABILITY ARISING FROM THE USE OF THIS WORK.
+ALL PRODUCTS ARE UNDER DEVELOPMENT.  THIS WORK IS PROVIDED "AS IS", WITHOUT
+WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.  USE IS AT YOUR OWN RISK.
+AXIOMZERO TECHNOLOGIES & CONSULTING, SPC SHALL NOT BE LIABLE FOR ANY CLAIM,
+DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS WORK.
 
 ────────────────────────────────────────────────────────────────────────────
 COMMERCIAL IDENTITY
 ────────────────────────────────────────────────────────────────────────────
 
-The author operates commercially as AxiomZero Technologies (DBA, United
-States, commenced March 26, 2026).  See AXIOMZERO_DBA.md for the full
-business commencement notice, product list, and compatibility statement.
-This commercial identity does not affect the public-domain status of
-this work or any person's rights under this license.
+The corporate rights holder is AxiomZero Technologies & Consulting, SPC
+(Washington State SPC, UBI 606 239 876, incorporated June 11, 2026,
+Duvall, WA, United States).  ThomasCory Walker-Pearson, Chief Purpose Officer,
+is the sole human author.  Contact: https://www.linkedin.com/company/axiomzero-technologies-consulting-spc/
+
+Social purpose: Responsible AI governance, open-science, commitment to the
+public good, and environmental stewardship.
+
+See docs/policy/AXIOMZERO_SPC.md for the full corporate commencement notice,
+product list, and compatibility statement.  This corporate identity does not
+affect the public-domain status of this work or any person's rights under
+this license.
 
 For a consolidated plain-language explanation of all legal instruments
 governing this repository, see LEGAL.md.

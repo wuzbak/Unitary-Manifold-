@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 241 — Planetary Early Warning & Coordinated Response Grid.
 
 Adjacent research track (non-hardgate): compound-risk warning and response prioritization.

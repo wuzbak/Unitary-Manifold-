@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 512 — Winding History Tracking in run_evolution.
 
 STATUS: WINDING_HISTORY_TRACKING_CERTIFIED

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 142: CKM ρ̄ Closure (src/core/ckm_rho_bar_closure.py).
 
 Honest: both leading and subleading give ρ̄ ~ 0.113–0.119 vs PDG 0.159; ~25% discrepancy.

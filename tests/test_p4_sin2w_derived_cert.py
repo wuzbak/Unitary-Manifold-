@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for P4 DERIVED certification (sin²θ_W from SU(5) 3/8 + RGE)."""
 from src.core.p4_sin2w_derived_cert import (

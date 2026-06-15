@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for P12 DERIVED certification (m_p/m_e = K_CS²/N_c)."""
 from src.core.p12_mp_me_derived_cert import (

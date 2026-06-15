@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DPC-1.0
 """
 AUDIT_TOOLS.py — Unitary Manifold v13.4 (406 pillars + Ω₀ Holon Zero) Reproducible Audit Calculator

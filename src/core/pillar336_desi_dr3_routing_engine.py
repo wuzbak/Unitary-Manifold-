@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 336 — DESI DR3 Real-Time Routing Engine.
 
 🔵 ADJACENT TRACK — HARDGATE_ADJACENT (extends P4 / CLAIM_MASTER_BOARD wₐ=0)

@@ -12,7 +12,7 @@ identifiers:
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
-    affiliation: "AxiomZero Technologies (DBA) / Independent Researcher, Pacific Northwest, USA"
+    affiliation: "AxiomZero Technologies & Consulting, SPC — Duvall, WA, USA (Chief Purpose Officer)"
 notes: >
   Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
   Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).

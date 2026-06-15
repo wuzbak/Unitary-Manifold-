@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for 8D Rung 3: src/eightd/wilson_line_gauge.py"""
 
 from __future__ import annotations

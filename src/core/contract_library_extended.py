@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Extended SymPy-backed formal contract library (Pillars 1–101 scope).
 
 Extends the Track-1 assumption ledger from ``formal_proof_hardening`` with

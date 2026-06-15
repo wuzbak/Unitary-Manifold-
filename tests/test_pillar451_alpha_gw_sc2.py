@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 451 — α_GW SC2 Interval Narrowing."""
 import pytest
 from src.core.pillar451_alpha_gw_sc2_narrowing import (

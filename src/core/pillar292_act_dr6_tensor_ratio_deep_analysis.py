@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 292 — ACT DR6 Tensor Ratio Deep Analysis.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 261 — Foundational Boundary Hardening (adjacent research track).
 
 Executable blocker/no-go registry for the remaining foundational hardgate

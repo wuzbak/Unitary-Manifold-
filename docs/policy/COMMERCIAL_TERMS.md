@@ -1,14 +1,20 @@
-# Commercial Terms of Service — AxiomZero Technologies
+# Commercial Terms of Service — AxiomZero Technologies & Consulting, SPC
 
 > **Badge:** `[POLICY]` `[CANONICAL]`
 
-**Document version:** 1.0 — April 2026  
-**Effective date:** March 26, 2026  
-**Jurisdiction:** United States
+**Document version:** 2.0 — June 2026  
+**Effective date:** June 11, 2026  
+**Jurisdiction:** Washington State, United States
 
-> **⚠ NOT LEGAL ADVICE.**  This document establishes the commercial framework under which AxiomZero
-> Technologies offers paid services.  Nothing herein constitutes legal, financial, or scientific
-> advice.  Consult a licensed attorney before entering any commercial agreement.
+> **⚠ NOT LEGAL ADVICE.**  This document establishes the commercial framework under which
+> AxiomZero Technologies & Consulting, SPC offers paid services.  Nothing herein constitutes
+> legal, financial, or scientific advice.  Consult a licensed attorney before entering any
+> commercial agreement.
+
+> **⚠ ALL PRODUCTS UNDER DEVELOPMENT — AT YOUR OWN RISK.**  All software, frameworks, tools,
+> and materials offered by AxiomZero Technologies & Consulting, SPC are under active development
+> and are provided in the spirit of transparency and open science.  They are research-stage works.
+> Use is entirely at your own risk.  No guarantee or warranty of any kind is made.
 
 ---
 
@@ -20,8 +26,8 @@ repository) is and remains irrevocably dedicated to the public domain under the
 open-source software under the **GNU Affero General Public License v3.0** (`LICENSE-AGPL`).
 
 These Commercial Terms of Service ("Commercial ToS") govern only the *additional*, value-added
-services that **AxiomZero Technologies** ("AxiomZero," "we," "us") offers to clients
-("Client," "you") on a paid basis.  Nothing in this document alters, limits, or supersedes
+services that **AxiomZero Technologies & Consulting, SPC** ("AxiomZero," "we," "us") offers to
+clients ("Client," "you") on a paid basis.  Nothing in this document alters, limits, or supersedes
 the rights granted by DPC v1.0 or AGPL-3.0 to any person.
 
 The open-core architecture is permanent:
@@ -44,8 +50,8 @@ AGPL-3.0, including but not limited to:
 - All manuscripts, LaTeX sources (`arxiv/`), notebooks (`notebooks/`), and the full monograph
 - The Unitary Pentad HILS governance framework and all associated modules
 
-**"AxiomZero Commercial Services"** means services offered by AxiomZero Technologies
-*beyond* the Open Core, including:
+**"AxiomZero Commercial Services"** means services offered by AxiomZero Technologies & Consulting, SPC
+& Consulting, SPC
 
 - Scientific consulting and technical advisory engagements
 - Custom software engineering on systems built *around* (not solely implementing) the Open Core
@@ -166,11 +172,12 @@ A CLE does **not** grant the Client:
 
 ### 4-A.3 CLE availability and pricing
 
-CLE agreements are available solely from ThomasCory Walker-Pearson / AxiomZero Technologies
-as the sole copyright holder of the AGPL-covered software.  Pricing and scope are negotiated
-on a per-engagement basis via a signed Statement of Work.  Interested parties should contact
-AxiomZero via GitHub Issues at https://github.com/wuzbak/Unitary-Manifold-/issues or the
-contact details in an applicable SoW.
+CLE agreements are available solely from AxiomZero Technologies & Consulting, SPC
+(WA SPC, UBI 606 239 876) as the sole copyright holder of the AGPL-covered software.
+Pricing and scope are negotiated on a per-engagement basis via a signed Statement of
+Work.  Interested parties should contact AxiomZero via GitHub Issues at
+https://github.com/wuzbak/Unitary-Manifold-/issues or via
+https://www.linkedin.com/company/axiomzero-technologies-consulting-spc/
 
 ### 4-A.4 Domain-calibration services
 
@@ -271,8 +278,8 @@ Unless otherwise stated in the SoW:
 
 ### 5.3 Intellectual property assignment for new work
 
-By default, copyright in Proprietary Outputs remains with **ThomasCory Walker-Pearson /
-AxiomZero Technologies**.  Full copyright assignment to the Client requires:
+By default, copyright in Proprietary Outputs remains with **AxiomZero Technologies
+& Consulting, SPC**.  Full copyright assignment to the Client requires:
 
 - an explicit "IP Assignment" clause in the SoW signed by both parties; and
 - payment in full of all invoices under that SoW.
@@ -322,10 +329,10 @@ Open Core in violation of DPC v1.0 or AGPL-3.0.
 
 ## § 7 · Trademark
 
-The following marks are asserted **Common Law Trademarks** of ThomasCory Walker-Pearson
-as of March 26, 2026:
+The following marks are registered trade name and trademarks of AxiomZero Technologies
+& Consulting, SPC (WA SPC, UBI 606 239 876, incorporated June 11, 2026):
 
-- **AxiomZero Technologies** (word mark)
+- **AxiomZero Technologies & Consulting** (word mark)
 - **AZ** monogram (when used in the context of the Unitary Manifold or related services)
 
 **Permitted uses:**  Clients may use these marks solely to identify AxiomZero as the provider
@@ -384,12 +391,12 @@ governing the Unitary Manifold.  The following statements are permanent and unco
    AGPL-3.0.  Any clause in an SoW that purports to do so is void.
 
 4. **Trademark applies to the name, not the ideas.**  The Common Law Trademark on
-   "AxiomZero Technologies" and "AZ" monograms applies solely to trade-name and logo
+   "AxiomZero Technologies & Consulting, SPC" and "AZ" monograms applies solely to trade-name and logo
    identifiers, not to the intellectual content, equations, or methods of the Open Core.
 
-5. **Mirror of AXIOMZERO_DBA.md § 5.**  This clause is the contractual counterpart to the
-   No-Contradiction Statement in `AXIOMZERO_DBA.md § 5`.  Both documents are consistent and
-   mutually reinforcing.
+5. **Mirror of AXIOMZERO_SPC.md § 8.**  This clause is the contractual counterpart to the
+   No-Contradiction Statement in `docs/policy/AXIOMZERO_SPC.md § 8`.  Both documents are
+   consistent and mutually reinforcing.
 
 ---
 
@@ -405,9 +412,9 @@ remaining provisions shall continue in full force.
 **Waiver.**  Failure to enforce any provision of this ToS does not constitute a waiver of the
 right to enforce that provision in the future.
 
-**Notices.**  All notices under this ToS shall be in writing and delivered by email to the
-address specified in the applicable SoW, or via the GitHub Issues tracker at
-https://github.com/wuzbak/Unitary-Manifold-/issues.
+**Notices.**  All notices under this ToS shall be in writing and delivered via
+https://www.linkedin.com/company/axiomzero-technologies-consulting-spc/ or the GitHub
+Issues tracker at https://github.com/wuzbak/Unitary-Manifold-/issues.
 
 **Amendment.**  AxiomZero may update this ToS from time to time.  Material changes will be
 announced via a commit to the repository's default branch.  Engagements already in progress
@@ -418,8 +425,8 @@ under a signed SoW are governed by the version of this ToS in effect at the time
 ## § 11 · Consolidated Legal Reference
 
 For a single plain-language document synthesizing all legal instruments — DPC v1.0,
-AGPL-3.0, Common Law Trademark, this Commercial ToS (including the § 4-A Commercial
-License Exception tier), and the DBA registration — including the open-core business
+AGPL-3.0, Corporate Trademark, this Commercial ToS (including the § 4-A Commercial
+License Exception tier), and the SPC incorporation — including the open-core business
 model, the conflict-of-interest disclosure, and the no-contradiction statement,
 see [`../../LEGAL.md`](../../LEGAL.md).
 
@@ -428,8 +435,8 @@ variable names are changed, see [`../../1-THEORY/FINGERPRINTS.md`](../../1-THEOR
 
 ---
 
-*Document version: 1.1 — April 2026*  
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Document version: 2.0 — June 2026*  
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson** (Chief Purpose Officer).*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*  
 
 > **Reminder:** This document is not a substitute for legal counsel.  Have a licensed attorney

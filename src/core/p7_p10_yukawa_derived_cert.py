@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """P7–P10 Yukawa quartet DERIVED certification: y_t, y_b, y_τ, y_e via Tier-4 NLO braid.
 

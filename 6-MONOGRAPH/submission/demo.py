@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """
 demo.py — Artifact 2: Unitary Manifold reproducible demo
 Usage:  python submission/demo.py   (~4 s, seed=42, 6/6 PASS expected)

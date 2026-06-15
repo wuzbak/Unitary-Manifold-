@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 354 — Millennium Prize Problems + Extended Number Theory Conjectures.
 
 🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT

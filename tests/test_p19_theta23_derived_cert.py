@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for P19 DERIVED certification (θ₂₃ Tier-3 geometric)."""
 from src.core.p19_theta23_derived_cert import (

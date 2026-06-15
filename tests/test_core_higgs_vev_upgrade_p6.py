@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for src/core/higgs_vev_upgrade_p6.py — P6 upgrade (Pillar 139 certificate)."""
 from __future__ import annotations

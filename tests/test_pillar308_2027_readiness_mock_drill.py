@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 308 — 2027 Data Readiness Mock-Drill Audit v2."""
 import pytest
 from src.core.pillar308_2027_readiness_mock_drill import (

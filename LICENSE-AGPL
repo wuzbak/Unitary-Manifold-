@@ -2,7 +2,9 @@ GNU AFFERO GENERAL PUBLIC LICENSE
 Version 3, 19 November 2007
 SPDX-License-Identifier: AGPL-3.0-or-later
 
-Copyright (C) 2026  ThomasCory Walker-Pearson  (trading as AxiomZero Technologies)
+Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+(WA SPC, UBI 606 239 876)
+ThomasCory Walker-Pearson, Chief Purpose Officer
 
 ────────────────────────────────────────────────────────────────────────────
 SCOPE — SOFTWARE ONLY
@@ -76,6 +78,18 @@ legally enforceable copyleft teeth:
   • Together, DPC v1.0 + AGPL-3.0 protect both the theory and the
     implementation for the global public in perpetuity.  For a consolidated
     plain-language explanation of all legal instruments, see LEGAL.md.
+
+────────────────────────────────────────────────────────────────────────────
+DEVELOPMENT STATUS AND DISCLAIMER
+────────────────────────────────────────────────────────────────────────────
+
+ALL SOFTWARE IN THIS REPOSITORY IS UNDER ACTIVE DEVELOPMENT AND IS PROVIDED
+IN THE SPIRIT OF TRANSPARENCY AND OPEN SCIENCE.  IT IS A RESEARCH-STAGE WORK.
+
+USE IS ENTIRELY AT YOUR OWN RISK.  AXIOMZERO TECHNOLOGIES & CONSULTING, SPC
+MAKES NO GUARANTEE OR WARRANTY OF ANY KIND — EXPRESS OR IMPLIED — INCLUDING
+WITHOUT LIMITATION ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, OR NON-INFRINGEMENT.
 
 ────────────────────────────────────────────────────────────────────────────
 DISCLAIMER

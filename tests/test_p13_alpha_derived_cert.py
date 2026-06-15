@@ -1,4 +1,4 @@
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for P13 DERIVED certification (α = 1/137.0 from N_c/K_CS chain)."""
 from src.core.p13_alpha_derived_cert import (

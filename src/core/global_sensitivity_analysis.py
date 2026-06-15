@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Post-MAS Track 2: variance-based global sensitivity analysis.
 
 Implements a compact Saltelli/Sobol estimator for core solver outputs.

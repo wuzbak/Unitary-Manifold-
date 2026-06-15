@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 163: PMNS Solar Angle θ₁₂ RGE Running 4/15 → PDG
 (src/core/pmns_solar_rge_correction.py).
 

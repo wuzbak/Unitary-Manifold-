@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 295 — Wheeler–DeWitt Structural Gap Certificate."""
 import pytest
 from src.core.pillar295_wheeler_dewitt_structural_gap_certificate import (

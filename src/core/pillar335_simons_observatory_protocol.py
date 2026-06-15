@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 335 — Simons Observatory r=0.0315 Verification Protocol.
 
 🔵 ADJACENT TRACK — HARDGATE_ADJACENT (extends P2/P3 — n_s, r predictions)

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  ThomasCory Walker-Pearson
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for src/core/alpha_gut_su5_complete.py — SU(5) α_GUT derivation."""
 from __future__ import annotations
 
