@@ -3,18 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UM-SOS Explorer</title>
+  <title>UM-SOS Explorer — Unitary Manifold v18.0</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <header>
     <h1>UM-SOS Prediction Explorer</h1>
-    <p>Machine-readable registry, admissions dashboard, and governance lane classifier.</p>
+    <p>Machine-readable registry, admissions dashboard, and governance lane classifier &nbsp;·&nbsp; <strong>v18.0</strong> &nbsp;·&nbsp; 535+ pillars &nbsp;·&nbsp; 46 885 tests passing</p>
   </header>
 
   <section>
     <h2>Predictions</h2>
-    <input id="search" placeholder="Filter by experiment / id / status" />
+    <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.4rem;">
+      <input id="search" placeholder="Filter by experiment / id / status" style="margin:0;" />
+      <button id="export-btn" title="Export visible rows as CSV">⬇ Export CSV</button>
+    </div>
     <table id="pred-table">
       <thead>
         <tr><th>ID</th><th>Quantity</th><th>Predicted</th><th>Experiment</th><th>Status</th><th>Label</th></tr>
@@ -24,22 +27,27 @@
   </section>
 
   <section>
-    <h2>Admissions</h2>
+    <h2>Admissions &amp; Architecture Limits</h2>
     <ul id="admissions"></ul>
   </section>
 
   <section>
     <h2>Governance Classifier</h2>
-    <textarea id="gov-input" rows="3" placeholder="Describe an action"></textarea>
-    <button id="gov-run">Classify</button>
+    <textarea id="gov-input" rows="3" placeholder="Describe an action or claim to classify"></textarea>
+    <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+      <button id="gov-run">Classify</button>
+      <button id="gov-clear" style="background:#374151;">Clear</button>
+    </div>
     <pre id="gov-out"></pre>
   </section>
 
   <section>
     <h2>Links</h2>
     <ul>
-      <li><a href="../graph/index.html">Derivation graph</a></li>
+      <li><a href="../graph/index.html">Derivation DAG</a></li>
       <li><a href="../registry/predictions.json">Preregistration registry JSON</a></li>
+      <li><a href="https://github.com/wuzbak/Unitary-Manifold-" target="_blank" rel="noopener">GitHub repository</a></li>
+      <li><a href="https://doi.org/10.5281/zenodo.19584531" target="_blank" rel="noopener">DOI: 10.5281/zenodo.19584531</a></li>
     </ul>
   </section>
 
