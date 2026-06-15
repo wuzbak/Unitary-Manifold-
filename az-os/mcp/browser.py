@@ -165,7 +165,7 @@ class MCPBrowserServer:
 
         # Block tokens in query string
         query = parsed.query.lower()
-        suspicious = ["token=", "key=", "******secret=", "api_key="]
+        suspicious = ["token=", "key=", "secret=", "api_key="]
         for s in suspicious:
             if s in query:
                 return f"URL contains suspicious query parameter '{s}'"

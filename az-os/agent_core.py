@@ -274,7 +274,10 @@ class AgentCore:
             while True:
                 time.sleep(MONITOR_INTERVAL)
                 if self._m6:
-                    self._m6.monitor_sweep()
+                    try:
+                        self._m6.monitor_sweep()
+                    except Exception:
+                        pass  # log sweep errors silently; never kill the monitor thread
 
         self._monitor_thread = threading.Thread(target=_loop, daemon=True)
         self._monitor_thread.start()

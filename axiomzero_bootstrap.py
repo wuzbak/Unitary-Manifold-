@@ -307,6 +307,11 @@ def register_service(platform_id: str) -> bool:
         """))
 
     if platform_id == "linux":
+        import getpass
+        try:
+            _username = getpass.getuser()
+        except Exception:
+            _username = os.environ.get("USER", "user")
         service_content = textwrap.dedent(f"""\
             [Unit]
             Description=AxiomZero Cognitive Layer Daemon
@@ -314,7 +319,7 @@ def register_service(platform_id: str) -> bool:
 
             [Service]
             Type=simple
-            User={os.getlogin()}
+            User={_username}
             ExecStart={sys.executable} {daemon_script}
             Restart=on-failure
             RestartSec=30
