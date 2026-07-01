@@ -30,7 +30,11 @@ Given the following PROVED/DERIVED results from earlier pillars:
        — Minimum-step braid formula from the UM orbifold algebra
          (Pillars 58, 67).  The +2 step is the smallest increment
          consistent with the Z₂ symmetry.
-       Status: ALGEBRAICALLY DERIVED.
+       Equivalently (Pillar 537): k_CS = 2(n_before²+1) where n_before =
+         n_w + 1 = 6 is the pre-Z₂-projection parent integer.  The +2 braid
+         step arises from the Z₂-symmetric ±1 displacement of n_w and n_shadow
+         around n_before — it is a theorem, not a convention.
+       Status: ALGEBRAICALLY DERIVED (Pillar 537 closes the analytic derivation).
 
   (H4) G_{μ5} = λφ B_μ is Z₂-odd: G_{μ5}(x, −y) = −G_{μ5}(x, y).
        — Direct from the UM metric ansatz: φ is Z₂-even, B_μ is Z₂-odd.

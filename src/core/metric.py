@@ -498,6 +498,12 @@ def derive_nw_index_theorem(
 
         n_w_before_projection = 2 × Index(D₅) = 6
 
+    n_before = 6 is the shadow-pair parent integer (Pillar 537,
+    pillar537_shadow_pair_parent_derivation.py).  The observable braid pair
+    (5, 7) = (n_before − z2_removes, n_before + z2_removes) and the
+    Chern-Simons level K_CS = (n_before−1)²+(n_before+1)² = 2(n_before²+1) = 74
+    follow directly from this single integer — without observational input.
+
     The Z₂ projection removes one linear combination (the odd-parity mode
     that does not satisfy the orbifold boundary condition):
 

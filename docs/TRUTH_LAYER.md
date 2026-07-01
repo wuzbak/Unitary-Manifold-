@@ -174,6 +174,15 @@ The entire predictive chain of the Unitary Manifold hangs on two constants:
   are identified — it is not a free parameter, but it rests on the uniqueness
   proof.
 
+  **Pillar 537 deepens this:** K_CS = 74 is also derivable directly from the
+  single parent integer n_before = 6 (the pre-Z₂-projection winding count in
+  `metric.py`), via the identity K_CS = (n_before−1)² + (n_before+1)² = 2(n_before²+1) = 74.
+  No observational input is required. See `src/core/pillar537_shadow_pair_parent_derivation.py`.
+
+  **Terminology note (PR #665):** The label "(5,6) shadow sector" used in
+  birefringence forecasts refers to the K_CS=61 / β≈0.273° measurement branch —
+  a distinct concept from the "shadow-pair parent" n_before=6 in Pillar 537.
+
 **Truth statement:** If the Z₂ orbifold uniqueness proof (Steps 1–3 in
 Pillar 67) is found to be incomplete, all predictions built on n_w = 5 and
 K_CS = 74 would require re-derivation.
