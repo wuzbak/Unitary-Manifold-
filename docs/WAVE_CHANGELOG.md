@@ -12,6 +12,27 @@ For each wave entry, include:
 
 ---
 
+## v18.1 (2026-07-01 — LiteBIRD Forecast Label Fix + Ledger Sync)
+
+**What changed:**
+- Fixed primary/shadow label inversion in litebird_forecast.py and tests
+- Synced all onboarding docs to 46,955 passed (Pillar 536 v18.1 baseline)
+- Updated IP registry fingerprints for az-os/agent_core.py, az-os/hils.py, az-os/state.py, src/core/axiomzero_guard.py
+
+**Why:** Correctness fix for birefringence forecasting labels; ledger and registry consistency enforcement.
+
+**Epistemic label deltas:** None. No hardgate score change.
+
+**TOE score delta:** 0 (28/28 unchanged)
+
+**Falsification impact:** None softened.
+
+**Residual unknowns:** Same as v18.0.
+
+**Test delta:** 0 new physics tests. Latest full regression: **46,955 passed · 23 skipped · 12 deselected · 0 failed** (2026-07-01).
+
+---
+
 ## v18.0 (2026-06-15 — JUNO Phase 1 Response + Full Architecture Closure: Pillars 525–535)
 
 **What changed:**

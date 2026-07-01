@@ -10,8 +10,8 @@ Physical motivation
 --------------------
 The Unitary Manifold predicts two canonical birefringence angles:
 
-    β_canonical  = 0.273°   (primary SOS resonance: arctan(5/7)×(2/k_cs))
-    β_derived    = 0.331°   (secondary: from braided causal-order mixing)
+    β_canonical  = 0.273°   ((5,6) lossless shadow sector, k_CS = 61; scaled as β(5,7)×61/74)
+    β_derived    = 0.331°   ((5,7) primary sector, k_CS = 74; from braided causal-order mixing)
 
 And two derived / full-formula values:
 
@@ -129,10 +129,10 @@ import numpy as np
 # Module-level constants
 # ---------------------------------------------------------------------------
 
-#: Primary canonical birefringence angle (degrees) — arctan(5/7) × (2/k_cs) route
+#: (5,6) lossless shadow-sector birefringence angle (degrees); k_CS = 61; β(5,7)×61/74.
 BETA_CANONICAL: float = 0.273
 
-#: Secondary derived angle (degrees) — braided causal-order mixing
+#: (5,7) primary-sector birefringence angle (degrees); k_CS = 74; braided causal-order mixing.
 BETA_DERIVED: float = 0.331
 
 #: Full-formula angle 1 (degrees) — with Kibble-Zurek correction
@@ -146,9 +146,9 @@ BETA_PREDICTIONS: List[float] = [BETA_CANONICAL, BETA_FULL_1, BETA_DERIVED, BETA
 
 #: Labels for the four peaks
 BETA_LABELS: List[str] = [
-    "canonical (arctan route)",
+    "canonical [(5,6) shadow sector, k_CS=61]",
     "full-formula+KZ",
-    "derived (CS-mixing)",
+    "derived [(5,7) primary sector, k_CS=74, CS-mixing]",
     "full-formula+CS",
 ]
 
