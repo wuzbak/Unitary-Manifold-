@@ -153,7 +153,7 @@ All 3 hardgates pass. Module: `src/core/p16_wsiii_plus52_closure.py`.
 
 | # | Claim | Status | Label | Gatekeeper | Falsifier | Source |
 |---|-------|--------|-------|------------|-----------|--------|
-| S1 | k_CS = 74 = 5² + 7² (CS level) | ✅ PROVED | `DERIVED` | PASS | Algebraic: k_CS ≠ 74 would invalidate the topological proof | Pillars 58, 99-B, 207; `src/core/k_cs_topological_proof.py` |
+| S1 | k_CS = 74 = 5² + 7² (CS level) | ✅ PROVED | `DERIVED` | PASS | Algebraic: k_CS ≠ 74 would invalidate the topological proof | Pillars 58, 99-B, 207, **537**; `src/core/k_cs_topological_proof.py`, `src/core/pillar537_shadow_pair_parent_derivation.py` |
 | S2 | n_w = 5 uniqueness (Z₂ orbifold) | ✅ PROVED + quantified hardening scan | `DERIVED` | PASS | Z₂ mod uniqueness: only {5, 7} survive; Planck n_s residual χ² prefers 5 | Pillars 39, 67, 70-B, 70-D; `src/eleventd/uv_vacuum_selection_gate.py`; `src/core/pillar_nw_uniqueness_hardening.py` |
 | S3 | SU(3)×SU(2)×U(1) from n_w=5 geometry | ✅ PROVED | `DERIVED` | PASS | Gauge group differs from SM at ≥3σ | Pillar 148; `src/core/sm_gauge_emergence.py` |
 | S4 | N_gen = 3 from T²/Z₃ orbifold | ✅ DERIVED | `ALGEBRAIC` | PASS | 4th light neutrino at ≥5σ | Pillar 205; `src/core/pillar205_generation_quantization.py` |

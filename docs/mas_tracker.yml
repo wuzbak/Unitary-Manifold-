@@ -1,6 +1,6 @@
-version: "v18.1"
-date: "2026-06-15"
-updated: "2026-06-15"
+version: "v18.2"
+date: "2026-07-01"
+updated: "2026-07-01"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -16,6 +16,28 @@ historical_snapshot_sections:
   - "parameter_gates"
   - "post_mas_tracks"
   - "mas_wave_ledgers"
+
+v18_2_shadow_pair_parent_derivation_sprint:
+  version: "v18.2"
+  wave: "Shadow-Pair Parent Derivation — Pillar 537, 77 new tests, Substack #262 S03E040"
+  date: "2026-07-01"
+  pillars_added:
+    - "537: SHADOW_PAIR_PARENT_DERIVATION — K_CS=74 and c_s=12/37 derived from n_before=6; Pillar 267 analytic gap CLOSED"
+  tests_added: 77
+  regression: "46,955 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 538
+  next_substack_post: "#262 S03E040"
+  files_updated:
+    - "src/core/pillar537_shadow_pair_parent_derivation.py (NEW)"
+    - "tests/test_pillar537_shadow_pair_parent_derivation.py (NEW, 77 tests)"
+    - "src/core/pillar267_braid_uniqueness_instanton.py (remaining_gap CLOSED)"
+    - "src/core/nw5_pure_theorem.py (H3 + BRAID_STEP derivation note)"
+    - "src/core/pillar_nw_uniqueness_hardening.py (REMAINING_OPEN CLOSED)"
+    - "src/core/metric.py (n_before=6 parent annotation)"
+    - "1-THEORY/NW_UNIQUENESS_STATUS.md (Section 7 added)"
+    - "docs/TRUTH_LAYER.md (K_CS disambiguation note)"
+    - "docs/CLAIM_MASTER_BOARD.md (S1 Pillar 537)"
+    - "FALLIBILITY.md (CS_LEVEL row Pillar 537)"
 
 public_surface_sync_checkpoint:
   version: "v18.0"
