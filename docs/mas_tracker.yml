@@ -1,4 +1,4 @@
-version: "v18.2"
+version: "v18.3"
 date: "2026-07-01"
 updated: "2026-07-01"
 mas_status: "COMPLETE"
@@ -16,6 +16,23 @@ historical_snapshot_sections:
   - "parameter_gates"
   - "post_mas_tracks"
   - "mas_wave_ledgers"
+
+v18_3_enteric_neural_core_sprint:
+  version: "v18.3"
+  wave: "Enteric Neural Core — Pillar 538 (ADJACENT TRACK), 75 new tests"
+  date: "2026-07-01"
+  pillars_added:
+    - "538: ENTERIC_NEURAL_CORE — 🔵 ADJACENT TRACK; ENS/toroidal/KK geometric framework; toroidal null point at ~4.4 cm below navel; ENS autonomy φ-debt metric; embryological n_before=6 link"
+  tests_added: 75
+  regression: "47,030 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 539
+  next_substack_post: "#263 S03E041"
+  toe_delta: 0.0
+  files_updated:
+    - "src/core/pillar538_enteric_neural_core.py (NEW)"
+    - "tests/test_pillar538_enteric_neural_core.py (NEW, 75 tests)"
+    - "STATUS.md (v18.3)"
+    - "docs/mas_tracker.yml (v18.3)"
 
 v18_2_shadow_pair_parent_derivation_sprint:
   version: "v18.2"
