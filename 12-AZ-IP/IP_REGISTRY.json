@@ -7,22 +7,25 @@
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "assets": {
     "az-os/agent_core.py": {
-      "sha256": "e809d18411658c78e03f868e63a2404fcc0036f379d2cb97760b25a6aeb732e8",
+      "sha256": "d1a020d30fb93a507f9d5fbd05b0af08f509c916cf879bc94ca5693c1057e982",
       "description": "AZ-OS cognitive layer \u2014 7-manager \u00d7 5-sub-agent AI network",
       "status": "REGISTERED",
-      "size_bytes": 10922
+      "size_bytes": 10922,
+      "updated": "2026-07-01"
     },
     "az-os/hils.py": {
-      "sha256": "c20ee28516ece9971e959d960c985d83c0007b248bb435cbaec027f6b6a180b4",
+      "sha256": "8e5adde1a074b77db89e547ed10f508d6deea1226d3d2ad2069dfbde3a229b79",
       "description": "AZ-OS HILS framework \u2014 Human-in-the-Loop Systems integration",
       "status": "REGISTERED",
-      "size_bytes": 7360
+      "size_bytes": 7360,
+      "updated": "2026-07-01"
     },
     "az-os/state.py": {
-      "sha256": "ea0dde3223ae5b23f21b1182ab8b505415d4986c8787ffb69b60f250c61bad1e",
+      "sha256": "d92d0d48789d80fb86333368ee9ae56967564cedad7ef8e45ca8c4ae2d871aa7",
       "description": "AZ-OS state machine \u2014 kernel-cognitive shared state",
       "status": "REGISTERED",
-      "size_bytes": 10751
+      "size_bytes": 10751,
+      "updated": "2026-07-01"
     },
     "az-kernel/Cargo.toml": {
       "sha256": "70a28581a19bfa8bebef2f88f6614483cec66e22567bc3c42a0dab8dcb8b9ea0",
@@ -43,10 +46,11 @@
       "size_bytes": 8373
     },
     "src/core/axiomzero_guard.py": {
-      "sha256": "cbcd6d4248fa4b4aa617753db125c921b5bbe666400aa74728c69e0f11e70d03",
+      "sha256": "f02d92c6482484ce639d4ff00bb9d675691fe53b2268cb2d255f90e8784806ee",
       "description": "AxiomZero guard \u2014 SM-seed audit, zero-parameter status",
       "status": "REGISTERED",
-      "size_bytes": 14943
+      "size_bytes": 14943,
+      "updated": "2026-07-01"
     }
   }
 }
