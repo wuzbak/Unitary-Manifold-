@@ -69,7 +69,7 @@ from typing import Sequence
 # Module-level constants
 # ---------------------------------------------------------------------------
 
-BETA_CANONICAL: float = 0.273   # degrees — primary SOS resonance
+BETA_CANONICAL: float = 0.273   # degrees — (5,6) lossless shadow sector, k_CS=61; β(5,7)×61/74
 BETA_DERIVED: float = 0.331     # degrees — braided causal-order mixing
 BETA_FULL_1: float = 0.290      # degrees — with Kibble-Zurek correction
 BETA_FULL_2: float = 0.351      # degrees — with full (5,7)+CS-mixing correction
