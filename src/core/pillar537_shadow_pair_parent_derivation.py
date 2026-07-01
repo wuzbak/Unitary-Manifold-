@@ -125,6 +125,7 @@ __all__ = [
     "N_SHADOW_OBSERVED",
     "K_CS_DERIVED",
     "C_S_DERIVED",
+    "BRAID_STEP_DERIVED",
     "PARENT_PRIME",
     "PILLAR_STATUS",
     "PROOF_METHOD",
@@ -168,7 +169,8 @@ N_SHADOW_OBSERVED: int = N_BEFORE + Z2_REMOVES  # = 7
 K_CS_DERIVED: int = N_W_OBSERVED**2 + N_SHADOW_OBSERVED**2  # = 74
 
 #: Braided sound speed, derived: c_s = 2·N_BEFORE / (N_BEFORE² + 1) = 12/37.
-C_S_DERIVED: float = (N_SHADOW_OBSERVED**2 - N_W_OBSERVED**2) / K_CS_DERIVED  # = 12/37
+#: Stored as float ≈ 0.32432; exact rational form is 12/37 (12 and 37 coprime).
+C_S_DERIVED: float = (N_SHADOW_OBSERVED**2 - N_W_OBSERVED**2) / K_CS_DERIVED  # ≈ 0.32432 (= 12/37)
 
 #: n_before² + 1 = 37 (prime — the denominator of c_s in lowest terms).
 PARENT_PRIME: int = N_BEFORE**2 + 1  # = 37
@@ -303,6 +305,9 @@ def cs_from_parent(n_before: int = N_BEFORE, z2_removes: int = Z2_REMOVES) -> fl
     p, q = shadow_pair(n_before, z2_removes)
     kcs = p * p + q * q
     if kcs == 0:
+        # Reachable only if shadow_pair returns (0, 0), which requires n_before == z2_removes.
+        # The shadow_pair() guard prevents n_before <= z2_removes, so this is a
+        # belt-and-suspenders defence against future callers bypassing shadow_pair().
         raise ValueError("K_CS is zero — degenerate parent.")
     return (q * q - p * p) / kcs
 
