@@ -8,16 +8,16 @@
     "value": "10.5281/zenodo.19584531"
   },
   "name": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility",
-  "headline": "The Unitary Manifold (v11.12 — 208 Core Pillars + Adjacent Tracks through Pillar 308, ~34,890+ Tests)",
-  "description": "A five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The Walker-Pearson field equations show that the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate. v11.12: Pillars 306–308 (Jarlskog Layer 2, Lab CP preregistration, 2027 readiness drill). ToE score 100% (28.0/28). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ~2032. 2027 window: DESI DR3/JUNO DR1/SO DR1 drill-verified READY.",
-  "version": "11.12",
-  "datePublished": "2026-05-20",
+  "headline": "The Unitary Manifold (v18.2 — 208 Core Pillars + 537+ Total Pillars + Ω₀, ~46,955+ Tests)",
+  "description": "A five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The Walker-Pearson field equations show that the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate. v18.2: Pillar 537 (Shadow-Pair Parent Derivation — K_CS=74 and c_s=12/37 derived from pre-Z₂-projection parent integer n_before=6 without observational input). ToE score 100% (28.0/28). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ~2032. 2027 window: DESI DR3/JUNO DR1/SO DR1 drill-verified READY.",
+  "version": "18.2",
+  "datePublished": "2026-07-01",
   "author": {
     "@type": "Person",
     "name": "ThomasCory Walker-Pearson",
     "affiliation": {
       "@type": "Organization",
-      "name": "Independent Researcher, Pacific Northwest, USA"
+      "name": "AxiomZero Technologies & Consulting, SPC — Duvall, WA, USA (Chief Purpose Officer)"
     }
   },
   "license": "https://creativecommons.org/publicdomain/zero/1.0/",
@@ -37,7 +37,16 @@
     "quantum gravity",
     "omega synthesis",
     "universal mechanics engine",
-    "thermodynamics"
+    "thermodynamics",
+    "braided winding",
+    "CMB birefringence",
+    "Standard Model parameters",
+    "Fermi-Hubbard",
+    "XDiag",
+    "JAX",
+    "Lean4",
+    "adjacent research tracks",
+    "AxiomZero OS"
   ],
   "about": [
     {

@@ -2,13 +2,13 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-version: "v11.12"
-date-released: "2026-05-20"
+version: "v18.2"
+date-released: "2026-07-01"
 doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v11.12, 208 core pillars + adjacent tracks through Pillar 308 + Ω₀ Holon Zero + sub-pillars, ~34,890+ passed / ~408 skipped / 0 failed. ToE score 100% (28.0/28). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ± 0.01°. 2027 measurement window: DESI DR3/JUNO DR1/SO DR1 drill-verified READY.)"
+    description: "Zenodo DOI for the Unitary Manifold (v18.2, 208 hardgated core pillars + 537+ total pillars + Ω₀ Holon Zero + sub-pillars, 46,955+ passed / 23 skipped / 0 failed. ToE score 100% (28.0/28). Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ± 0.01°. 2027 measurement window: DESI DR3/JUNO DR1/SO DR1 drill-verified READY.)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
@@ -28,13 +28,15 @@ abstract: >
   the Walker-Pearson equations — show that the Second Law of Thermodynamics is
   a geometric identity rather than a statistical postulate. The framework
   derives 28.0/28 Standard Model and cosmological observables without free
-  parameters (v11.0), with the primary open falsifier being the CMB
+  parameters, with the primary open falsifier being the CMB
   polarisation birefringence angle β ∈ {0.273°, 0.331°} measurable by LiteBIRD
-  (~2032). Adjacent research tracks (Pillars 218–232) extend the geometric
-  machinery to quantum computing, energy systems, biomedical applications, and
-  AI/robotics—all as honest quantitative explorations, not hardgated physics
-  claims. Infrastructure includes JAX-accelerated evolution, Lean4 formal
-  proofs, Z3 SMT bounds verification, and an XDiag quantum many-body bridge.
+  (~2032). The hardgated core comprises 208 pillars; the full pillar set stands
+  at 537+ (v18.2, 2026-07-01). Adjacent research tracks (Pillars 218–232+)
+  extend the geometric machinery to quantum computing, energy systems, biomedical
+  applications, and AI/robotics—all as honest quantitative explorations, not
+  hardgated physics claims. Infrastructure includes JAX-accelerated evolution,
+  Lean4 formal proofs, Z3 SMT bounds verification, XDiag quantum many-body
+  bridge, and the AxiomZero OS cognitive layer.
 keywords:
   - Kaluza-Klein theory
   - 5D gravity
