@@ -11,8 +11,8 @@ Physical motivation
 The Unitary Manifold makes four quantitative predictions for the CMB
 birefringence angle β measurable by the LiteBIRD satellite (launch ~2032):
 
-    β_canonical  = 0.273°   (primary SOS resonance)
-    β_derived    = 0.331°   (secondary: braided causal-order mixing)
+    β_canonical  = 0.273°   ((5,6) lossless shadow sector, k_CS=61; β(5,7)×61/74)
+    β_derived    = 0.331°   ((5,7) primary sector, k_CS=74; braided causal-order mixing)
     β_full_1     ≈ 0.290°   (with Kibble-Zurek correction)
     β_full_2     ≈ 0.351°   (with full (5,7) + CS-mixing correction)
 
@@ -212,14 +212,14 @@ def detection_significance(
 # ---------------------------------------------------------------------------
 
 _SCENARIOS: dict[str, dict] = {
-    "canonical_primary": {
+    "shadow_sector": {
         "beta": 0.273,
-        "label": "β = 0.273° (canonical, primary)",
+        "label": "β = 0.273° (shadow sector, (5,6), k_CS=61)",
         "expected_outcome": "CONFIRMATION",
     },
-    "canonical_secondary": {
+    "primary_sector": {
         "beta": 0.331,
-        "label": "β = 0.331° (canonical, secondary)",
+        "label": "β = 0.331° (primary sector, (5,7), k_CS=74)",
         "expected_outcome": "CONFIRMATION",
     },
     "full_formula": {
@@ -246,7 +246,7 @@ def forecast_scenarios() -> dict:
     Returns
     -------
     dict
-        Keys: 'canonical_primary', 'canonical_secondary', 'full_formula',
+        Keys: 'shadow_sector', 'primary_sector', 'full_formula',
               'forbidden_gap', 'outside_window'.
         Each value is a dict containing:
             beta, label, expected_outcome,

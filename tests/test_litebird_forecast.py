@@ -322,11 +322,11 @@ class TestForecastScenarios:
     def test_returns_five_keys(self):
         assert len(self.scenarios) == 5
 
-    def test_has_canonical_primary(self):
-        assert "canonical_primary" in self.scenarios
+    def test_has_shadow_sector(self):
+        assert "shadow_sector" in self.scenarios
 
-    def test_has_canonical_secondary(self):
-        assert "canonical_secondary" in self.scenarios
+    def test_has_primary_sector(self):
+        assert "primary_sector" in self.scenarios
 
     def test_has_full_formula(self):
         assert "full_formula" in self.scenarios
@@ -338,7 +338,7 @@ class TestForecastScenarios:
         assert "outside_window" in self.scenarios
 
     def test_confirmation_scenarios_pass(self):
-        for key in ("canonical_primary", "canonical_secondary", "full_formula"):
+        for key in ("shadow_sector", "primary_sector", "full_formula"):
             assert self.scenarios[key]["passes_test"] is True, f"{key} should pass"
 
     def test_falsification_scenarios_fail(self):
@@ -351,8 +351,8 @@ class TestForecastScenarios:
     def test_outside_window_outcome(self):
         assert self.scenarios["outside_window"]["expected_outcome"] == "FALSIFICATION"
 
-    def test_canonical_primary_outcome(self):
-        assert self.scenarios["canonical_primary"]["expected_outcome"] == "CONFIRMATION"
+    def test_shadow_sector_outcome(self):
+        assert self.scenarios["shadow_sector"]["expected_outcome"] == "CONFIRMATION"
 
     def test_sigmas_per_peak_keys(self):
         expected = {"beta_canonical", "beta_full_1", "beta_derived", "beta_full_2"}
@@ -369,8 +369,8 @@ class TestForecastScenarios:
             assert isinstance(s["interpretation"], str)
             assert len(s["interpretation"]) > 10
 
-    def test_canonical_primary_beta(self):
-        assert self.scenarios["canonical_primary"]["beta"] == pytest.approx(0.273)
+    def test_shadow_sector_beta(self):
+        assert self.scenarios["shadow_sector"]["beta"] == pytest.approx(0.273)
 
     def test_forbidden_gap_beta(self):
         assert self.scenarios["forbidden_gap"]["beta"] == pytest.approx(0.300)
