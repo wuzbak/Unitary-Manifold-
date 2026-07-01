@@ -2,7 +2,7 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Tests for Pillar 538 — Enteric Neural Core: ENS as Second Brain and KK Biophysical Coupling.
 
-Covers all exported constants and functions.  ~38 tests.
+Covers all exported constants and functions.  75 tests.
 """
 
 from __future__ import annotations
@@ -432,4 +432,4 @@ class TestPillar538Summary:
     def test_comparison_table_present(self):
         table = pillar538_summary()["comparison_table"]
         assert isinstance(table, list)
-        assert len(table) > 0
+        assert len(table) == len(enteric_vs_cranial_comparison())
