@@ -193,5 +193,12 @@ class TestRangeCustomization:
         assert set(report["survivor_nw"]) == {5, 7}
 
     def test_open_argument_preserved(self):
+        # Pillar 537 (shadow_pair_parent_derivation) closed the first-principles
+        # uniqueness argument analytically.  The field now records the closure
+        # rather than the open argument, so we assert the closure is reported.
         report = quantified_elimination_report()
-        assert "first-principles" in report["remaining_open_first_principles_argument"]
+        arg = report["remaining_open_first_principles_argument"]
+        assert arg, "Field must not be empty"
+        assert "537" in arg or "CLOSED" in arg, (
+            f"Expected Pillar 537 closure notice in remaining_open_first_principles_argument, got: {arg[:120]}"
+        )

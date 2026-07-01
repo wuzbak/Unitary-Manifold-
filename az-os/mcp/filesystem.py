@@ -150,10 +150,11 @@ class MCPFilesystemServer:
                     f"Path '{path}' matches blocked pattern '{pattern}'"
                 )
 
-        # Check whitelist
+        # Check whitelist (resolve each root to handle OS-level symlinks such
+        # as macOS /tmp → /private/tmp before comparing paths)
         for root in ALLOWED_ROOTS:
             try:
-                resolved.relative_to(root)
+                resolved.relative_to(root.resolve())
                 return resolved
             except ValueError:
                 continue
