@@ -3,7 +3,7 @@
 **The Unitary Manifold v18.1 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 *Last updated: 2026-06-15 (v18.0 — JUNO Phase 1 Response + Full Architecture Closure sprint: Pillars 525–535 — JUNO Phase 1 formally routed all consistent (P525), G4 flux quantization Vol(CY₃)=6.28 M_Pl^6 unconditional (P526), p_R UNCONDITIONAL_DERIVATION seesaw gap fully closed (P527), CMB A_s architecture limit confirmed across CY₃ scan (P528), tensor r^{NLO}=0.0312 architecture limit confirmed (P529), moduli dark energy wₐ_eff≈0 DESI 2.30σ below threshold (P530), WdW radion stable πkR=37 (P531), GW braid spectrum f_peak~10^12 Hz outside detector bands (P532), θ₁₂ MSW routing JUNO consistent (P533), JUNO Phase 2 pre-registered SHA-256 sprint gate PASSED (P534), architecture closure v3 certificate 28/28 unchanged (P535); 491 new tests; 0 failures.)*
-*Latest verified full regression: 46,218 passed · 2 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
+*Latest verified full regression: 46,955 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

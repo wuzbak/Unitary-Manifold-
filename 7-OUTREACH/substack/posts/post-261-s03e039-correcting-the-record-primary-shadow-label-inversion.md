@@ -176,7 +176,7 @@ The fix was applied across all four layers, in two commits, on the PR branch
 - `test_canonical_primary_beta` → `test_shadow_sector_beta`
 
 All 206 tests in `test_litebird_forecast.py` and `test_litebird_boundary.py`
-pass after the fix. The full repository regression (47,659 tests) shows no
+pass after the fix. The full repository regression (46,955 tests) shows no
 regressions attributable to these changes.
 
 ---
