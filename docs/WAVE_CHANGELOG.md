@@ -12,24 +12,24 @@ For each wave entry, include:
 
 ---
 
-## v18.2 (2026-07-01 — Shadow-Pair Parent Derivation: Pillar 537)
+## v18.3 (2026-07-01 — Enteric Neural Core: Pillar 538)
 
 **What changed:**
-- **Pillar 537** (`src/core/pillar537_shadow_pair_parent_derivation.py`): Closes the analytic gap in Pillar 267 — K_CS=74 and c_s=12/37 are now derived from the single pre-Z₂-projection parent integer n_before=2×n_generations=6 without any observational input. Algebraic identity: K_CS=(n_before−1)²+(n_before+1)²=2(n_before²+1)=74; braid step Δ=2 is a theorem. 77 new tests.
-- Updated canonical ledger version to v18.2 across STATUS.md, docs/mas_tracker.yml, FALLIBILITY.md, DERIVATION_STATUS.md, WAVE_CHANGELOG.md, and README.md.
-- Fixed `remaining_open_first_principles_argument` in Pillar 537 to record closure.
+- **Pillar 538** (`src/core/pillar538_enteric_neural_core.py`): Adds the Enteric Neural Core adjacent track with quantitative ENS-to-5D geometry mappings and calibrated invariants. 75 new tests.
+- Updated canonical ledger version to v18.3 across STATUS.md, docs/mas_tracker.yml, FALLIBILITY.md, DERIVATION_STATUS.md, WAVE_CHANGELOG.md, and README.md.
+- Synchronized canonical onboarding and ingest docs to the current regression baseline.
 
-**Why:** The first-principles uniqueness argument for the (5,7) braid pair is now analytically closed — no observational input required.
+**Why:** Extend adjacent-track quantitative coverage and keep all canonical/public ledgers synchronized to the latest validated repository state.
 
-**Epistemic label deltas:** `remaining_open_first_principles_argument` → CLOSED (Pillar 537).
+**Epistemic label deltas:** No hardgate epistemic status change (adjacent-track expansion only).
 
 **TOE score delta:** 0 (28/28 unchanged — architecture score unchanged, this is a proof-lane closure).
 
 **Falsification impact:** None softened. Birefringence prediction β∈{0.273°, 0.331°} unchanged.
 
-**Residual unknowns:** Same as v18.1.
+**Residual unknowns:** Same as v18.2.
 
-**Test delta:** 77 new tests (Pillar 537). Latest full regression: **46,955 passed · 23 skipped · 12 deselected · 0 failed** (2026-07-01).
+**Test delta:** 75 new tests (Pillar 538). Latest full regression: **47,030 passed · 23 skipped · 12 deselected · 0 failed** (2026-07-01).
 
 ---
 

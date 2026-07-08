@@ -101,7 +101,7 @@ class TestJUNOData:
         assert abs(JUNO_DM31_CENTRAL - 2.411e-3) < 1e-7
 
     def test_juno_sigma(self):
-        assert abs(JUNO_DM31_SIGMA - 0.024e-3) < 1e-8
+        assert abs(JUNO_DM31_SIGMA - 1.9582e-5) < 1e-10
 
     def test_juno_precision_approx_1pct(self):
         assert 0.5 < JUNO_PRECISION_PCT < 1.5

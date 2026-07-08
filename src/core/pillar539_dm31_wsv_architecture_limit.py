@@ -264,7 +264,7 @@ def compute_tension(predicted: float, observed: float, sigma: float) -> float:
     float
         Number of standard deviations.
     """
-    return abs(predicted - observed) / sigma
+    return round(abs(predicted - observed) / sigma, 12)
 
 
 def case_a_bare_2nlo() -> Dict[str, object]:
@@ -389,6 +389,7 @@ def case_e_wsiii_comparison() -> Dict[str, object]:
             "+ RGE + seesaw at max p_R"
         ),
         "ws3_additional_ev2": _WS3_ADDITIONAL_EV2,
+        "ws3_max_shift_ev2": _WS3_ADDITIONAL_EV2,
         "dm31_ev2": CASE_E_DM31,
         "juno_central_ev2": JUNO_DM31_CENTRAL,
         "tension_sigma": tension,
