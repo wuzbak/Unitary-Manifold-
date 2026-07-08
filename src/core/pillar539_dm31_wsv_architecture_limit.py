@@ -235,7 +235,7 @@ CASE_E_DM31: float = CASE_C_DM31 + _WS3_ADDITIONAL_EV2
 CASE_E_TENSION: float = abs(JUNO_DM31_CENTRAL - CASE_E_DM31) / JUNO_DM31_SIGMA
 
 # Case F — combined maximum: WS-III + seesaw + RGE
-CASE_F_DM31: float = 2.35617e-3   # = Case E ≈ 2.80σ from JUNO central
+CASE_F_DM31: float = CASE_E_DM31   # = Case E ≈ 2.80σ from JUNO central
 CASE_F_TENSION: float = abs(JUNO_DM31_CENTRAL - CASE_F_DM31) / JUNO_DM31_SIGMA
 
 # Architecture limit = Case F (maximum achievable within 5D-EFT)
