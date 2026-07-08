@@ -225,7 +225,7 @@ CASE_C_TENSION: float = abs(JUNO_DM31_CENTRAL - CASE_C_DM31) / JUNO_DM31_SIGMA
 # Case D — WS-V 3×3 texture diagonalization maximum shift (from seesaw baseline)
 #: Maximum pull from (1,3)/(3,1) KK Yukawa off-diagonal texture entries.
 #: This is a small KK-suppressed correction; far smaller than the gap to JUNO.
-CASE_D_MAX_SHIFT: float = 4.2e-6   # eV², ratio to baseline gap ≈ 0.033 (< 0.5 bound used in tests)
+CASE_D_MAX_SHIFT: float = 4.2e-6   # eV², maximum WS-V off-diagonal texture pull (~3.3% of baseline JUNO gap)
 CASE_D_VERDICT: str = "ARCHITECTURE_LIMIT"   # shift too small to close gap
 
 # Case E — WS-III comparison maximum shift (WS-III + seesaw at max p_R)
