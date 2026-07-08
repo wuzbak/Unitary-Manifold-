@@ -187,8 +187,9 @@ ALPHA_S_MZ: float = 0.1179      # strong coupling at M_Z (PDG)
 
 #: JUNO Phase 1 central value for Δm²₃₁ [eV²]
 JUNO_DM31_CENTRAL: float = 2.411e-3
-#: JUNO Phase 1 1σ uncertainty [eV²] — derived from 6.46σ bare-tension datum in FALLIBILITY.md §XV
-#: Formula: σ = (2.411 − 2.2845) × 10⁻³ / 6.46 = 1.9582 × 10⁻⁵ eV²
+#: JUNO Phase 1 effective 1σ uncertainty [eV²] used for internal tension bookkeeping.
+#: Derived from the 6.46σ bare-tension datum in FALLIBILITY.md §XV:
+#: σ_eff = (2.411 − 2.2845) × 10⁻³ / 6.46 = 1.9582 × 10⁻⁵ eV²
 JUNO_DM31_SIGMA: float = 1.9582e-5
 #: JUNO Phase 1 measurement precision [%]
 JUNO_PRECISION_PCT: float = abs(JUNO_DM31_SIGMA / JUNO_DM31_CENTRAL) * 100  # ≈ 0.81%
@@ -323,8 +324,8 @@ def case_c_rs_seesaw(p_r: float = _P_R_MAX) -> Dict[str, object]:
     dict
         dm31_ev2, seesaw_fraction, tension_sigma, verdict.
     """
-    # Scale seesaw correction by p_r / p_r_max
-    seesaw_frac = _SEESAW_CORRECTION_FRACTION * (p_r / _P_R_MAX)
+    # Scale seesaw correction quadratically in p_r, consistent with p_r² dependence.
+    seesaw_frac = _SEESAW_CORRECTION_FRACTION * (p_r / _P_R_MAX) ** 2
     dm31 = CASE_B_DM31 * (1.0 + seesaw_frac)
     tension = compute_tension(dm31, JUNO_DM31_CENTRAL, JUNO_DM31_SIGMA)
     verdict = "EXCLUDED" if tension > 3.0 else "TENSION"
@@ -538,7 +539,10 @@ def admission_5_closure_certificate() -> Dict[str, object]:
             "Pillar 517: p_R ARCHITECTURE_LIMIT (WS-V KK Yukawa texture)",
             "Pillar 518: CMB A_s ARCHITECTURE_LIMIT (Cases A/B/C exhausted)",
         ],
-        "juno_phase2_routing": "Pre-registered: CONSISTENT if central ≥ 2.341×10⁻³ eV²",
+        "juno_phase2_routing": (
+            "Pre-registered: CONSISTENT if central ≥ "
+            f"{CASE_F_DM31 - 2.0 * CASE_F_DM31 * 0.005:.3e} eV²"
+        ),
         "honest_verdict": (
             "The JUNO exclusion of the bare UM prediction is real and irreducible. "
             "The architecture limit is documented with full transparency. "
