@@ -2,7 +2,7 @@
 
 **The Unitary Manifold v18.3 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-07-01 (v18.3 — Enteric Neural Core sprint: Pillar 538 (ENTERIC_NEURAL_CORE) added as an adjacent track with quantitative ENS geometry mapping; 75 new tests, 0 failures.)*
+*Last updated: 2026-07-08 (v18.3 — Pillar 539 integration and canonical-ledger synchronization.)*
 *Latest verified full regression: 47,030 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.

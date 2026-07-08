@@ -256,7 +256,7 @@ class TestCaseBRGE:
 # case_c_rs_seesaw()
 # ---------------------------------------------------------------------------
 
-class TestCaseCseesaw:
+class TestCaseCSeesaw:
     def setup_method(self):
         self.result = case_c_rs_seesaw()
 
