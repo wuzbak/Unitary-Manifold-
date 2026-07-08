@@ -1,9 +1,9 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v18.2 — Unambiguous Record**  
+**The Unitary Manifold v18.3 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-07-01 (v18.2 — Shadow-Pair Parent Derivation sprint: Pillar 537 (SHADOW_PAIR_PARENT_DERIVATION) closes the analytic gap — K_CS=74 and c_s=12/37 derived from single pre-Z₂-projection parent integer n_before=6 without observational input; braid step Δ=2 is now a theorem; 77 new tests, 0 failures.)*
-*Latest verified full regression: 46,955 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
+*Last updated: 2026-07-08 (v18.3 — Pillar 539 integration and canonical-ledger synchronization.)*
+*Latest verified full regression: 47,030 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
