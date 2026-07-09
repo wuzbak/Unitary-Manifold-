@@ -1,5 +1,5 @@
 # Zenodo Submission Guide
-## The Unitary Manifold v18.2 — Step-by-Step Upload Instructions
+## The Unitary Manifold v18.4 — Step-by-Step Upload Instructions
 
 Zenodo gives you a permanent, citable DOI in minutes. Follow these steps exactly.
 
@@ -18,7 +18,7 @@ Zenodo gives you a permanent, citable DOI in minutes. Follow these steps exactly
 If you authenticate with GitHub you can enable automatic DOI minting on every release:
 1. Go to **https://zenodo.org/account/settings/github/**
 2. Find `wuzbak/Unitary-Manifold-` and toggle it **ON**.
-3. Now create a **GitHub Release** (tag `v18.2`) and Zenodo will automatically archive it and mint a new version DOI.
+3. Now create a **GitHub Release** (tag `v18.4`) and Zenodo will automatically archive it and mint a new version DOI.
 
 > **Shortcut:** If you do step 2, you can skip steps 3-6 below — Zenodo handles it automatically.
 
@@ -44,7 +44,7 @@ Drag and drop **all** of the following files (or a single `.zip`):
 | `src/` (zip the folder) | Numerical implementation |
 | `CITATION.cff` | Citation metadata |
 
-> Tip: zip the whole repo: `git archive --format=zip HEAD -o unitary-manifold-v18.2.zip`
+> Tip: zip the whole repo: `git archive --format=zip HEAD -o unitary-manifold-v18.4.zip`
 
 ---
 
@@ -56,7 +56,7 @@ Copy-paste the values below into the Zenodo form:
 
 **Title:**
 ```
-The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (v18.2)
+The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (v18.4)
 ```
 
 **Authors:**
@@ -82,10 +82,16 @@ Conjecture holds. The framework derives 28.0/28 Standard Model and cosmological
 observables without free parameters. Primary falsifier: CMB polarisation
 birefringence angle β ∈ {0.273°, 0.331°} ± 0.01° (LiteBIRD ~2032).
 
-v18.2 (2026-07-01): 208 hardgated core pillars + 537+ total pillars + Ω₀ Holon
-Zero. 46,955+ tests passing. Pillar 537: Shadow-Pair Parent Derivation — K_CS=74
+v18.4 (2026-07-09): 208 hardgated core pillars + 540+ total pillars + Ω₀ Holon
+Zero. 47,171 tests passing. Pillar 537: Shadow-Pair Parent Derivation — K_CS=74
 and c_s=12/37 derived from pre-Z₂-projection parent integer n_before=6 without
-observational input. Adjacent research tracks (Pillars 218–232+) extend the
+observational input. Pillar 538: Enteric Neural Core — 5D KK structural mapping
+of the Enteric Nervous System. Pillar 540: Full Dimensional Synthesis — terminal
+6D→11D synthesis certificate with seven new computations across all dimensional
+modules. v18.0 JUNO Phase 1 Response: all JUNO Phase 1 observables consistent,
+Vol(CY₃)=6.28 M_Pl⁶ fixed unconditionally, p_R derived unconditionally, CMB A_s
+architecture limit confirmed, tensor r^{NLO}=0.0312 architecture limit confirmed,
+WdW radion stable. Adjacent research tracks (Pillars 218–540+) extend the
 geometric machinery to quantum computing, energy systems, biomedical applications,
 and AI/robotics — honest quantitative explorations, not hardgated physics claims.
 Infrastructure: JAX-accelerated evolution, Lean4 formal proofs, Z3 SMT bounds
@@ -93,7 +99,7 @@ verification, XDiag quantum many-body bridge, AxiomZero OS cognitive layer.
 Dedicated to the Defensive Public Commons.
 ```
 
-**Version:** `18.2`
+**Version:** `18.4`
 
 **Language:** English
 
