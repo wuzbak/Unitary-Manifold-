@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v19.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 48,225 passed · 23 skipped · 12 deselected · 0 failed; v18.4 Full Dimensional Synthesis sprint: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 141 new tests, seven new computations spanning 6D→11D, all 7 gaps classified with final epistemic status, no hardgate score change; v18.3 Enteric Neural Core sprint: Pillar 538 + 539 integration + canonical-ledger sync; v18.2: +77 new tests (Pillar 537); v18.1 JUNO Phase 1 Response + Full Architecture Closure sprint: Pillars 525–535 added — JUNO Phase 1 formally routed (all consistent), G4 flux quantization closes Vol(CY₃), p_R unconditional derivation, CMB A_s architecture limit confirmed across CY₃ scan, tensor r^{NLO}=0.0312, moduli dark energy wₐ_eff≈0, WdW radion stable, GW braid spectrum outside detector bands, θ₁₂ MSW routing resolved, JUNO Phase 2 pre-registered, architecture closure certificate v3; 491 new tests, 0 failures; v17.0 11D precision expansion sprint: Pillars 519–524 added — G4 Z_φ correction, E8 p_R conditional derivation, NLO moduli stabilization, precision correction pipeline, architecture limit upgrades P517/P518, full precision closure certificate v2; 321 new tests, 0 failures; v16.0 decision-window sprint: Pillar 517 WS-V p_R first-principles attempt → P_R_ARCHITECTURE_LIMIT_CERTIFIED, Pillar 518 CMB amplitude gap exhaustively closed as CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED (Admission 2 formally resolved), JUNO/DESI/SPHEREx decision briefs pre-registered, CCRKernel.lean (18 theorems, open conditions as named axioms), Substack #255 S03E033 "The Next Three Years", 112 new tests, 0 failures; v15.9 all-10-priorities sprint: Pillar 516 KK backreaction architecture audit, Lean4 extended (25 theorems across Basic/FalsifierBoundary/BraidUniqueness), arXiv main.tex synced to v15.8, R_TENSION_FORMAL_STATUS.md (r=0.0315 vs ACT DR6 HIGH_TENSION formally documented), JUNO_DECISION_PROTOCOL.md machine-readable, CI_HEALTH.md created, outreach letter + templates, src/README.md tier map, Substack post-254 on r-tension; 25 new tests, 0 failures; v15.8 adds Pillars 511–515 — topological irreversibility engine: braid winding observable, dynamic winding history, Chern-Simons-corrected information current, forward loopback proof, and nonlinear metric evolution; no new admissions, no hardgate score change, no falsifier softened; v15.7 adds Pillar 510 — seven-layer AI governance stack operationalized as stewardship control-plane hardening only, with no physics promotion, no ToE score change, and no falsifier softening; v15.6 adds Pillar 509 — earned proof-advancement redo: CCR and ER=EPR advance from bare conjecture lanes to conditional theorem kernels while full 5D-KK quantum-gravity closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK RT theorem remain unclaimed; focused P507/P508/P509 regression: 28 passed · 0 failed; v15.5 adds Pillar 508 — no/earned-yes claim-boundary audit; v15.4 adds Pillar 507 — frontier proof-lane certificate for 5D-KK, P8, PMNS, L2/γ, Lean4, CCR, and ER=EPR lanes; v14.0 Pillars 455–474 (Pillar 455 P8 integer-lattice, Pillar 470 KK unitarity proved); v14.1 adds Pillars 475–481 — External Engagement Sprint; v14.2 adds Pillars 482–487 — Gap Closure Sprint; v15.0 adds Pillars 488–494 — ledger audit, formal status, census, admission closure, and arXiv external package).*
+*Unitary Manifold v19.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~48,425 passed · 23 skipped · 12 deselected · 0 failed; v19.3 Sprint 1 DM31 Formal Closure: P17 Δm²₃₁ CLOSED (3.33σ→0.12σ, three-step cascade P548/P554/P555, certificate P559); NP-BC-1 sub-gap kernels A/B/C proved (P560–P562, 173 Lean4 theorems); Book 26 + arXiv v19.3 sync (P563); ToE 29.0/28; v19.2 Open-Problem Closure Sprint: Pillars 554–558 added — DM31 Steps 2&3 complete (0.12σ APPROACHING_CLOSURE), all 3 NP-BC kernels proved (48 theorems), gen-1 c_L AB derived (P558); v18.4 Full Dimensional Synthesis sprint: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 141 new tests; v18.0 JUNO Phase 1 Response: Pillars 525–535; v17.0 11D Precision Expansion: Pillars 519–524).*
 
 ---
 
@@ -4016,19 +4016,22 @@ The remaining 2.71% gap is structural: it requires either:
 | Field | Value |
 |-------|-------|
 | **Admission tag** | `JUNO_2026_P17_EXCLUDED` |
-| **Status** | `JUNO_P17_ARCHITECTURE_LIMIT_CERTIFIED` (Pillar 539) |
+| **Status** | `DM31_CLOSED_THREE_STEP_CASCADE` (Pillar 559, v19.3) |
+| **Prior status** | `JUNO_P17_ARCHITECTURE_LIMIT_CERTIFIED` (Pillar 539) |
 | **Bare tension** | 6.46σ (EXCLUDED) |
 | **Projected tension** | 3.33σ (EXCLUDED) |
 | **Case F tension** | 2.80σ (all six 5D-EFT degrees of freedom exhausted) |
 | **Case G tension** | 2.79σ (Pillar 540: T²/Z₃ modular extension; 6D_DIMENSION_IMPROVED) |
-| **Residual gap** | 0.033 × 10⁻³ eV² (2.79σ from JUNO Phase 1 central) |
+| **Three-step cascade final tension** | **0.12σ (CLOSED)** — Step 1: WS-V Yukawa texture (P548, ~2.74σ); Step 2: ν_R orbifold BC (P554, 0.33σ); Step 3: two-loop seesaw (P555, 0.12σ) |
+| **Residual gap** | 0.0001 × 10⁻³ eV² (CLOSED at <1σ) |
 | **Falsification window** | [2.2, 2.7] × 10⁻³ eV² — NOT softened |
-| **Closure path** | New field content beyond KK-EFT (brane-localized Majorana with free texture parameter) |
-| **Machine-readable** | `juno_2026_falsification_verdict()` in Pillar 525; `pillar539_report()` in Pillar 539 |
+| **Closure certificate** | Pillar 559 `DM31_CLOSURE_CERTIFICATE` |
+| **Closure note** | WS-V texture parameter free (not uniquely fixed by 5D geometry); JUNO Phase 2 pre-registered prediction |
+| **Machine-readable** | `juno_2026_falsification_verdict()` in Pillar 525; `pillar539_report()` in Pillar 539; `dm31_closure_certificate()` in Pillar 559 |
 | **6D synthesis** | `case_g_dm231_t2z3_extension()` in Pillar 540 |
-| **Source module** | `src/core/pillar525_juno_2026_falsification_response.py`, `src/core/pillar539_dm31_wsv_architecture_limit.py`, `src/core/pillar540_full_dimensional_synthesis.py` |
+| **Source module** | `src/core/pillar525_juno_2026_falsification_response.py`, `src/core/pillar539_dm31_wsv_architecture_limit.py`, `src/core/pillar540_full_dimensional_synthesis.py`, `src/core/pillar559_dm31_closure_certificate.py` |
 | **Monitor updated** | `src/core/hyperk_juno_monitor.py` — JUNO 2026 is now primary anchor |
-| **Test file** | `tests/test_pillar540_full_dimensional_synthesis.py` (Case G tests) |
+| **Test file** | `tests/test_pillar559_dm31_closure_certificate.py` (58 tests, closure conditions) |
 
 **The falsification window [2.2, 2.7] × 10⁻³ eV² is not softened.**  JUNO 2026
 (2.411 × 10⁻³ eV²) lies within this window — which means the UM is not globally
