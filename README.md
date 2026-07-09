@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v19.0)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v19.1)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -24,9 +24,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![47,846 passed · 0 failed](https://img.shields.io/badge/tests-47%2C846%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![47,977 passed · 0 failed](https://img.shields.io/badge/tests-47%2C977%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![539+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-539%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v19.0-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v19.1-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -58,7 +58,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > ⚠️ **Honest status (v18.0):** ToE is **28.0/28 (100%)** — P28 cosmological constant promoted to DERIVED via `src/core/p28_lambda_derived_cert.py` (RS1+KK+10D first-principles formula; zero free parameters; factor-of-2 across 122 orders). P502 exposes the machine-readable completion audit; P503–P506 execute stewardship priorities 2–5, P507 certificates the 5D-KK/P8/PMNS/L2γ/Lean4/CCR/ER=EPR proof lanes without hardgate score inflation, P508 makes the no-claim / earned-yes boundary executable, P509 performs the redo: CCR and ER=EPR advance from bare conjecture lanes to earned conditional theorem kernels, P510 operationalizes the seven-layer AI governance stack, P511–P515 deliver the topological irreversibility engine (braid winding, dynamic history, Chern-Simons current, loopback proof, nonlinear metric evolution), P516 formalizes the KK backreaction architecture limit (ARCHITECTURE_LIMIT_CERTIFIED), P517–P518 certify tensor r and CMB amplitude as irreducible architecture limits. v17.0 (P519–P524): quantitative 11D corrections — G4 Z_φ field-strength renormalization, E8 gauge-threshold p_R conditional derivation (upgrades P517 from ARCHITECTURE_LIMIT to CONDITIONAL_DERIVATION_11D once Vol(CY₃) is fixed), NLO Goldberger-Wise moduli stabilization, full 11D→5D precision-correction pipeline. v18.0 (P525–P535, JUNO Phase 1 Response sprint): P525 JUNO_PHASE1_CONSISTENT — all JUNO Phase 1 observables (Δm²₂₁, θ₁₂, Δm²₃₁ at 1%, NMO 2.2–2.3σ preference) consistent with UM predictions; rapid-response within 3 days of arXiv:2511.14590; P526 FLUX_QUANTIZATION_COMPLETE — M-theory tadpole cancellation fixes Vol(CY₃) = 6.28 M_Pl⁶, closing the last free parameter in the 11D moduli chain; P527 UNCONDITIONAL_DERIVATION — p_R now derived unconditionally from Vol(CY₃), fully closing SEESAW_TEXTURE_PARTICIPATION_GAP; P528 confirms CMB A_s ×4–7 suppression irreducible across all admissible CY₃ topologies (ARCHITECTURE_LIMIT confirmed at 5D-EFT floor); P529 NLO tensor-spectrum: r^{NLO} = 0.0312 (<1% shift from r = 0.0315), ACT DR6 2.0× tension persists as ARCHITECTURE_LIMIT; P530 moduli-coupled dark energy wₐ_eff ≈ 0 — DESI 2.30σ tension tracked, below 3σ falsification threshold; P531 Wheeler-DeWitt radion stability certified (canonical πkR = 37 is a stable saddle); P532 GW braid transition spectrum: f_peak ~10¹² Hz, beyond all current detector bands (LISA/DECIGO/PTA); P533 θ₁₂ solar/reactor tension resolved as MSW matter-effect artefact; P534 JUNO Phase 2 (~2027) predictions pre-registered with SHA-256 fingerprint; P535 ARCHITECTURE_CLOSURE_CERT_V3 — terminal v18.0 closure certificate (2 irreducible architecture limits confirmed, 8 gaps closed this sprint, ToE 28/28 unchanged).
-> Latest full regression: **47,846 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-07-09, v19.0).
+> Latest full regression: **47,977 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-07-09, v19.1).
 >
 > 🟡 **HIGH_TENSION signals — read before citing (v18.0):**
 > - **r-tension:** Framework predicts r = 0.0315 (derived from N_w=5, k_CS=74, braid geometry — not a free parameter). ACT DR6 combined bound: r < 0.016 (95% CL). Gap: ~2σ. Status: ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396) — irreducible in current 5D-EFT. Decidable by CMB-S4 (~2030, σ_r ≈ 0.003). Formal treatment: [`docs/R_TENSION_FORMAL_STATUS.md`](docs/R_TENSION_FORMAL_STATUS.md).

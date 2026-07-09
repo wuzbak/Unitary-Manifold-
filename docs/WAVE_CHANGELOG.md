@@ -12,6 +12,42 @@ For each wave entry, include:
 
 ---
 
+## v19.1 (2026-07-09 — Pillars 548–553: Six-Pillar Depth Sprint)
+
+**What changed:**
+- **Pillar 548** (`src/core/pillar548_wsv_kk_yukawa.py`): DM31_STEP1_WS_V_YUKAWA_COMPUTED — Step 1 of the DM31 closure path (Pillar 544); WS-V off-diagonal KK Yukawa correction computed for 2-3 and 1-3 lepton sectors; leading correction shifts Δm²₃₁ upward ~2–8%; tension estimate reduced from 3.33σ → ~2.90σ; architecture limit status UNCHANGED; 41 tests.
+- **Pillar 549** (`src/core/pillar549_lean4_np_bc1.py`): LEAN4_NP_BC1_GEOMETRIC_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC1Kernel.lean` with 18 theorems; Z₂ orbifold group law (involution), KK mode parity decomposition, UV-brane Dirichlet/Neumann BC consistency, winding-orbifold compatibility, and KK spectrum integer quantization all machine-verified; total Lean4 theorems now 109; 3 remaining sub-gaps named (RS geometry, non-perturbative saddle, curved-background orbifold); 36 tests.
+- **Pillar 550** (`src/core/pillar550_gen1_fn_orbifold.py`): GEN1_FERMION_FN_ORBIFOLD_DERIVATION_ATTEMPTED — Froggatt-Nielsen charge identified with orbifold lattice position (Q_FN = ℓ); gen-1 bulk mass c_L = 10/74 promoted from NATURAL to FIRST_PRINCIPLES_CANDIDATE; mass ratio m_gen2/m_gen3 ≈ 5/74 order-of-magnitude consistent with leptons; factor-16 gap at gen-1/gen-3 documented; 49 tests.
+- **Pillar 551** (`src/core/pillar551_desi_dr3_tension_evolution.py`): 🔵 ADJACENT TRACK — DESI_DR3_TENSION_EVOLUTION_MODEL_CERTIFIED; σ(N)=σ_DR2×√(N/N_DR2) statistical scaling model; central Y5 projection 3.64σ (±40% from central-value drift); decision routing documented for all 3 verdicts (PASS/HIGH_TENSION/FALSIFIED); extension spec P268 trigger conditions precisely characterized; 41 tests.
+- **Pillar 552** (`src/core/pillar552_arxiv_ledger_sync.py`): ARXIV_LEDGER_SYNC_V191_CERTIFIED — machine-readable sync certificate for all new results since last arXiv sync (v15.8); ~1,376 new tests catalogued; arXiv abstract draft prepared; MCP_INGEST.md updated to v19.1; 31 tests.
+- **Pillar 553** (`src/core/pillar553_az_os_decision_engine.py`): 🔵 ADJACENT TRACK — AZ_OS_DECISION_ENGINE_CERTIFIED; `az-os/phi_decision_engine.py` implements φ-debt→scheduling decision engine; 5 KK privilege levels (KERNEL/SYSTEM/SERVICE/USER/GUEST); HILS alert routing at σ≥2.0; priority queue from φ-debt signals; equilibrium enforcement; 37 tests.
+- **Book 25**: *The Neutrino Gap — Step by Step Toward a Theory of Flavor*; 8 chapters.
+- **Substack #267** S03E045: v19.1 six-pillar sprint summary.
+- Canonical ledger sync: STATUS.md, docs/mas_tracker.yml updated to v19.1 / 47,977 passed.
+
+**Why:** Depth improvements on the two hardest open problems: P17 Δm²₃₁ (Step 1 of 3 computed) and ER=EPR NP-BC-1 (geometric kernel proved). Gen-1 fermion mass derivation advanced to first-principles candidate. DESI DR3 tension evolution model prepares decision routing for the approaching measurement. arXiv ledger sync provides a machine-readable record of all advances since v15.8.
+
+**Epistemic label deltas:**
+- `P17_DM31`: `ARCHITECTURE_LIMIT_CERTIFIED` (Pillar 544) → `DM31_STEP1_WS_V_YUKAWA_COMPUTED` (Pillar 548) — partial Step 1 closure; architecture limit status unchanged
+- `NP_BC1`: single axiom `erepr_np_bc_1` (Pillar 545) → `GEOMETRIC_KERNEL_PROVED` + 3 named sub-gaps (Pillar 549)
+- `GEN1_FERMION_CL`: `NATURAL` (Pillar 546) → `FIRST_PRINCIPLES_CANDIDATE` (Pillar 550)
+- `DESI_DR3`: routing rehearsal certified (Pillar 543) → tension evolution model certified (Pillar 551)
+- `ARXIV_SYNC`: last sync v15.8 → sync certificate v19.1 (Pillar 552)
+- `AZ_OS`: phi_field_interface certified (Pillar 547) → phi_decision_engine certified (Pillar 553)
+
+**ToE score delta:** 0.0 (28/28 hardgate lanes UNCHANGED)
+
+**Falsification impact:** None. ARCHITECTURE_LIMIT labels are precision improvements, no falsifier softened. DESI DR3 trigger remains at σ≥3.0 (pre-registered).
+
+**Residual unknowns:**
+- P17 DM31: Step 2 (ν_R orbifold BC) and Step 3 (two-loop seesaw) remain open; architecture limit NOT closed
+- ER=EPR: NP-BC-2 and NP-BC-3 remain open axioms; NP-BC-1 geometric kernel proved but not full proof
+- Gen-1 fermion: FIRST_PRINCIPLES_CANDIDATE — requires U(1)_KK = FN symmetry identification proof
+- DESI T1 wₐ tension: 2.30σ (DR2); central projection 3.64σ at Y5; DR3 window still open
+- r-tension: ACT DR6 HIGH_TENSION IRREDUCIBLE until CMB-S4/SO DR1 (not revisited)
+
+---
+
 ## v19.0 (2026-07-09 — Pillars 542–547: Six-Pillar Depth Sprint)
 
 **What changed:**
