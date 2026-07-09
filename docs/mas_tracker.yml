@@ -1,6 +1,44 @@
-version: "v19.1"
+version: "v19.2"
 date: "2026-07-09"
 updated: "2026-07-09"
+
+v19_2_open_problem_closure_sprint:
+  version: "v19.2"
+  wave: "v19.2 Open-Problem Closure Sprint — Pillars 554–558"
+  date: "2026-07-09"
+  pillars_added:
+    - "554: DM31_STEP2_NU_R_ORBIFOLD_BC — ν_R Dirichlet BC; +0.40% Δm²₃₁; tension 0.82σ→0.33σ; 47 tests"
+    - "555: DM31_STEP3_TWO_LOOP_SEESAW — two-loop KK EW; +0.169% shift; tension →0.12σ; 3-step cascade; 51 tests"
+    - "556: LEAN4_NP_BC2_GEOMETRIC_KERNEL_PROVED — NPBC2Kernel.lean 16 theorems; total 125; sub-gaps D/E/F; 40 tests"
+    - "557: LEAN4_NP_BC3_GEOMETRIC_KERNEL_PROVED — NPBC3Kernel.lean 14 theorems; total 139; all 3 kernels proved; 53 tests"
+    - "558: GEN1_CL_AHARONOV_BOHM_DERIVED — gen-1 c_L=10/74 from AB mechanism; all gen DERIVED; closes P550 candidate; 57 tests"
+  tests_added: 248
+  regression: "48,225 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 559
+  next_substack_post: "#269 S03E047"
+  toe_delta: 0.5
+  lean4_theorems_total: 139
+  epistemic_deltas:
+    - "DM31 Step 2 (P554): ν_R orbifold BC derived; +0.40% correction; tension 0.82σ→0.33σ"
+    - "DM31 Step 3 (P555): two-loop seesaw computed; +0.169% correction; tension →0.12σ; APPROACHING_CLOSURE"
+    - "NP_BC2 (P556): axiom (P545) → GEOMETRIC_KERNEL_PROVED + 3 named sub-gaps D/E/F; 16 theorems"
+    - "NP_BC3 (P557): axiom (P545) → GEOMETRIC_KERNEL_PROVED + 3 named sub-gaps G/H/I; 14 theorems; ALL_THREE_KERNELS_PROVED"
+    - "GEN1_CL (P558): FIRST_PRINCIPLES_CANDIDATE (P550) → DERIVED via Aharonov-Bohm mechanism; c_L=10/74"
+  documents_updated:
+    - "src/core/pillar554_dm31_step2_nu_r_orbifold_bc.py (NEW)"
+    - "src/core/pillar555_dm31_step3_two_loop_seesaw.py (NEW)"
+    - "src/core/pillar556_erepr_np_bc2_ir_brane.py (NEW)"
+    - "src/core/pillar557_erepr_np_bc3_kk_cs.py (NEW)"
+    - "src/core/pillar558_gen1_cl_ab_derived.py (NEW)"
+    - "lean4/UnitaryManifold/NPBC2Kernel.lean (NEW)"
+    - "lean4/UnitaryManifold/NPBC3Kernel.lean (NEW)"
+    - "tests/test_pillar554_dm31_step2_nu_r_orbifold_bc.py (NEW)"
+    - "tests/test_pillar555_dm31_step3_two_loop_seesaw.py (NEW)"
+    - "tests/test_pillar556_erepr_np_bc2_ir_brane.py (NEW)"
+    - "tests/test_pillar557_erepr_np_bc3_kk_cs.py (NEW)"
+    - "tests/test_pillar558_gen1_cl_ab_derived.py (NEW)"
+    - "STATUS.md (updated to v19.2)"
+    - "docs/mas_tracker.yml (updated to v19.2)"
 
 v19_1_six_pillar_depth_sprint:
   version: "v19.1"

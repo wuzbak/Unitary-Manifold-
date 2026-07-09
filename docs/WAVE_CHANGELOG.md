@@ -12,6 +12,28 @@ For each wave entry, include:
 
 ---
 
+## v19.2 (2026-07-09 — Pillars 554–558: Open-Problem Closure Sprint)
+
+**What changed:**
+- **Pillar 554** (`src/core/pillar554_dm31_step2_nu_r_orbifold_bc.py`): DM31_STEP2_NU_R_ORBIFOLD_BC — ν_R Dirichlet BC from Z₂ orbifold; Bessel-zero KK spectrum; Δm²₃₁ upward correction +0.40%; tension 0.82σ→0.33σ; 47 tests.
+- **Pillar 555** (`src/core/pillar555_dm31_step3_two_loop_seesaw.py`): DM31_STEP3_TWO_LOOP_SEESAW — two-loop KK EW gauge correction; G₅_EW²/(16π²) loop factor; +0.169% shift; tension →0.12σ; full 3-step cascade; 51 tests.
+- **Pillar 556** (`src/core/pillar556_erepr_np_bc2_ir_brane.py`): LEAN4_NP_BC2_GEOMETRIC_KERNEL_PROVED — NPBC2Kernel.lean 16 theorems (Robin BC algebra, mixing parameter, k_CS constraint, UV/IR compatibility); total Lean4 139; sub-gaps D/E/F; 40 tests.
+- **Pillar 557** (`src/core/pillar557_erepr_np_bc3_kk_cs.py`): LEAN4_NP_BC3_GEOMETRIC_KERNEL_PROVED — NPBC3Kernel.lean 14 theorems (k_CS positivity/parity/braid, vacuum zero action, winding factorization); all 3 NP-BC kernels proved; sub-gaps G/H/I; 53 tests.
+- **Pillar 558** (`src/core/pillar558_gen1_cl_ab_derived.py`): GEN1_CL_AHARONOV_BOHM_DERIVED — gen-1 c_L = 10/74 from first principles via Aharonov-Bohm mechanism (A_y zero mode of U(1)_KK); Q_FN = ℓ derived not assumed; all 3 generations DERIVED; closes CANDIDATE from P550; 57 tests.
+- **New Lean4 files**: NPBC2Kernel.lean (16 theorems), NPBC3Kernel.lean (14 theorems); total 139 theorems.
+- Canonical ledger sync: STATUS.md, docs/mas_tracker.yml updated to v19.2 / 48,225 passed.
+
+**Epistemic delta:**
+- `DM31 Step 2`: ν_R orbifold BC → +0.40% upward Δm²₃₁ correction (Pillar 554)
+- `DM31 Step 3`: two-loop seesaw → +0.169% further correction; tension 0.12σ; APPROACHING_CLOSURE (Pillar 555)
+- `NP-BC-2`: axiom (P545) → GEOMETRIC_KERNEL_PROVED + 3 sub-gaps D/E/F (Pillar 556)
+- `NP-BC-3`: axiom (P545) → GEOMETRIC_KERNEL_PROVED + 3 sub-gaps G/H/I; ALL_THREE_KERNELS_PROVED (Pillar 557)
+- `GEN1_CL`: FIRST_PRINCIPLES_CANDIDATE (P550) → DERIVED via AB mechanism (Pillar 558)
+
+**Test regression:** 48,225 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
 ## v19.1 (2026-07-09 — Pillars 548–553: Six-Pillar Depth Sprint)
 
 **What changed:**
