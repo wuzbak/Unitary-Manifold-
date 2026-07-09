@@ -281,7 +281,8 @@ def test_closure_certificate_tension_after():
 
 def test_closure_certificate_reduction_factor():
     cert = closure_certificate()
-    assert cert["reduction_factor"] >= 10.0  # 3.33 / 0.12 ≈ 28
+    assert cert["reduction_factor"] >= 10.0  # 3.33 / 0.12 ≈ 27.75
+    assert 20.0 <= cert["reduction_factor"] <= 35.0
 
 
 def test_closure_certificate_has_claims():

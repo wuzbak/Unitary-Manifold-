@@ -74,7 +74,8 @@ PILLAR_TITLE: str = "Book 26 + arXiv v19.3 Sync Certificate"
 VERSION: str = "v19.3"
 
 LEAN4_TOTAL: int = 173
-TEST_COUNT_DELTA: int = 200  # approximate new tests in Sprint 1
+# Sum of tests across P559(58) + P560(46) + P561(44) + P562(50) + P563(37) = 235
+TEST_COUNT_DELTA: int = 235  # Sprint 1 new tests (exact from SPRINT_SUMMARY)
 
 # Sprint 1 pillar list
 SPRINT_SUMMARY: List[Dict[str, Any]] = [

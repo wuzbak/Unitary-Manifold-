@@ -97,7 +97,9 @@ def test_arxiv_sync_headlines():
 
 
 def test_arxiv_sync_lean4_added():
-    assert ARXIV_SYNC["lean4_theorems_added"] == 173 - 109  # 64
+    # 173 - 109 = 64 theorems added since v19.1 sync (Pillar 552), spanning v19.1→v19.3
+    # (12+11+11=34 added this sprint; 30 added between P552 and P559)
+    assert ARXIV_SYNC["lean4_theorems_added"] == 173 - 109  # 64 total since v19.1
 
 
 # ─── Book 26 ─────────────────────────────────────────────────────────────────
