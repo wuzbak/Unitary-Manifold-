@@ -1,6 +1,6 @@
-version: "v18.3"
-date: "2026-07-01"
-updated: "2026-07-01"
+version: "v18.4"
+date: "2026-07-09"
+updated: "2026-07-09"
 mas_status: "COMPLETE"
 mas_completion_certificate: "docs/MAS_COMPLETION_CERTIFICATE.md"
 post_mas_robustness_certificate: "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md"
@@ -16,6 +16,26 @@ historical_snapshot_sections:
   - "parameter_gates"
   - "post_mas_tracks"
   - "mas_wave_ledgers"
+
+v18_4_full_dimensional_synthesis_sprint:
+  version: "v18.4"
+  wave: "Full Dimensional Synthesis — Pillar 540 (ADJACENT TRACK), 141 new tests, Substack #265 S03E043"
+  date: "2026-07-09"
+  pillars_added:
+    - "540: FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 🔵 ADJACENT TRACK; 7 new computations spanning 6D→11D; Case G Δm²₃₁ 6D_DIMENSION_IMPROVED; CMB A_s 6D partial improvement; tensor ratio irreducible confirmed; Higgs naturalness DERIVED_PARTIAL_6D (Δ^{6D}≈4.2); baryogenesis TESTABLE_6D_MECHANISM (nEDM@SNS 2028); dimensional hierarchy matrix; terminal synthesis certificate"
+  tests_added: 141
+  regression: "47,171 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 541
+  next_substack_post: "#265 S03E043"
+  toe_delta: 0.0
+  epistemic_deltas:
+    - "DM231: 6D_DIMENSION_IMPROVED (tension 2.801→2.791σ)"
+    - "CMB_AMPLITUDE: CMB_AMPLITUDE_6D_PARTIAL_IMPROVEMENT (δA_s/A_s ≈ 1.58e-4)"
+    - "TENSOR_RATIO: TENSOR_RATIO_6D_CONFIRMED_IRREDUCIBLE (r=0.0315 unchanged)"
+    - "HIGGS_NATURALNESS A3: DERIVED_PARTIAL_6D (Δ^{6D}≈4.2 < 100)"
+    - "BARYOGENESIS: TESTABLE_6D_MECHANISM (nEDM@SNS 2028)"
+    - "DESI_WA: AWAITS_OBSERVATION (DESI DR3 ~2027)"
+    - "NW_UNIQUENESS: AWAITS_OBSERVATION (LiteBIRD ~2032)"
 
 v18_3_enteric_neural_core_sprint:
   version: "v18.3"

@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v18.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 47,030 passed · 23 skipped · 12 deselected · 0 failed; v18.3 reflects Pillar 539 integration plus canonical-ledger synchronization for status surfaces; v18.2: +77 new tests (Pillar 537); v18.1 JUNO Phase 1 Response + Full Architecture Closure sprint: Pillars 525–535 added — JUNO Phase 1 formally routed (all consistent), G4 flux quantization closes Vol(CY₃), p_R unconditional derivation, CMB A_s architecture limit confirmed across CY₃ scan, tensor r^{NLO}=0.0312, moduli dark energy wₐ_eff≈0, WdW radion stable, GW braid spectrum outside detector bands, θ₁₂ MSW routing resolved, JUNO Phase 2 pre-registered, architecture closure certificate v3; 491 new tests, 0 failures; v17.0 11D precision expansion sprint: Pillars 519–524 added — G4 Z_φ correction, E8 p_R conditional derivation, NLO moduli stabilization, precision correction pipeline, architecture limit upgrades P517/P518, full precision closure certificate v2; 321 new tests, 0 failures; v16.0 decision-window sprint: Pillar 517 WS-V p_R first-principles attempt → P_R_ARCHITECTURE_LIMIT_CERTIFIED, Pillar 518 CMB amplitude gap exhaustively closed as CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED (Admission 2 formally resolved), JUNO/DESI/SPHEREx decision briefs pre-registered, CCRKernel.lean (18 theorems, open conditions as named axioms), Substack #255 S03E033 "The Next Three Years", 112 new tests, 0 failures; v15.9 all-10-priorities sprint: Pillar 516 KK backreaction architecture audit, Lean4 extended (25 theorems across Basic/FalsifierBoundary/BraidUniqueness), arXiv main.tex synced to v15.8, R_TENSION_FORMAL_STATUS.md (r=0.0315 vs ACT DR6 HIGH_TENSION formally documented), JUNO_DECISION_PROTOCOL.md machine-readable, CI_HEALTH.md created, outreach letter + templates, src/README.md tier map, Substack post-254 on r-tension; 25 new tests, 0 failures; v15.8 adds Pillars 511–515 — topological irreversibility engine: braid winding observable, dynamic winding history, Chern-Simons-corrected information current, forward loopback proof, and nonlinear metric evolution; no new admissions, no hardgate score change, no falsifier softened; v15.7 adds Pillar 510 — seven-layer AI governance stack operationalized as stewardship control-plane hardening only, with no physics promotion, no ToE score change, and no falsifier softening; v15.6 adds Pillar 509 — earned proof-advancement redo: CCR and ER=EPR advance from bare conjecture lanes to conditional theorem kernels while full 5D-KK quantum-gravity closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK RT theorem remain unclaimed; focused P507/P508/P509 regression: 28 passed · 0 failed; v15.5 adds Pillar 508 — no/earned-yes claim-boundary audit; v15.4 adds Pillar 507 — frontier proof-lane certificate for 5D-KK, P8, PMNS, L2/γ, Lean4, CCR, and ER=EPR lanes; v14.0 Pillars 455–474 (Pillar 455 P8 integer-lattice, Pillar 470 KK unitarity proved); v14.1 adds Pillars 475–481 — External Engagement Sprint; v14.2 adds Pillars 482–487 — Gap Closure Sprint; v15.0 adds Pillars 488–494 — ledger audit, formal status, census, admission closure, and arXiv external package).*
+*Unitary Manifold v18.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 47,171 passed · 23 skipped · 12 deselected · 0 failed; v18.4 Full Dimensional Synthesis sprint: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 141 new tests, seven new computations spanning 6D→11D, all 7 gaps classified with final epistemic status, no hardgate score change; v18.3 Enteric Neural Core sprint: Pillar 538 + 539 integration + canonical-ledger sync; v18.2: +77 new tests (Pillar 537); v18.1 JUNO Phase 1 Response + Full Architecture Closure sprint: Pillars 525–535 added — JUNO Phase 1 formally routed (all consistent), G4 flux quantization closes Vol(CY₃), p_R unconditional derivation, CMB A_s architecture limit confirmed across CY₃ scan, tensor r^{NLO}=0.0312, moduli dark energy wₐ_eff≈0, WdW radion stable, GW braid spectrum outside detector bands, θ₁₂ MSW routing resolved, JUNO Phase 2 pre-registered, architecture closure certificate v3; 491 new tests, 0 failures; v17.0 11D precision expansion sprint: Pillars 519–524 added — G4 Z_φ correction, E8 p_R conditional derivation, NLO moduli stabilization, precision correction pipeline, architecture limit upgrades P517/P518, full precision closure certificate v2; 321 new tests, 0 failures; v16.0 decision-window sprint: Pillar 517 WS-V p_R first-principles attempt → P_R_ARCHITECTURE_LIMIT_CERTIFIED, Pillar 518 CMB amplitude gap exhaustively closed as CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED (Admission 2 formally resolved), JUNO/DESI/SPHEREx decision briefs pre-registered, CCRKernel.lean (18 theorems, open conditions as named axioms), Substack #255 S03E033 "The Next Three Years", 112 new tests, 0 failures; v15.9 all-10-priorities sprint: Pillar 516 KK backreaction architecture audit, Lean4 extended (25 theorems across Basic/FalsifierBoundary/BraidUniqueness), arXiv main.tex synced to v15.8, R_TENSION_FORMAL_STATUS.md (r=0.0315 vs ACT DR6 HIGH_TENSION formally documented), JUNO_DECISION_PROTOCOL.md machine-readable, CI_HEALTH.md created, outreach letter + templates, src/README.md tier map, Substack post-254 on r-tension; 25 new tests, 0 failures; v15.8 adds Pillars 511–515 — topological irreversibility engine: braid winding observable, dynamic winding history, Chern-Simons-corrected information current, forward loopback proof, and nonlinear metric evolution; no new admissions, no hardgate score change, no falsifier softened; v15.7 adds Pillar 510 — seven-layer AI governance stack operationalized as stewardship control-plane hardening only, with no physics promotion, no ToE score change, and no falsifier softening; v15.6 adds Pillar 509 — earned proof-advancement redo: CCR and ER=EPR advance from bare conjecture lanes to conditional theorem kernels while full 5D-KK quantum-gravity closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK RT theorem remain unclaimed; focused P507/P508/P509 regression: 28 passed · 0 failed; v15.5 adds Pillar 508 — no/earned-yes claim-boundary audit; v15.4 adds Pillar 507 — frontier proof-lane certificate for 5D-KK, P8, PMNS, L2/γ, Lean4, CCR, and ER=EPR lanes; v14.0 Pillars 455–474 (Pillar 455 P8 integer-lattice, Pillar 470 KK unitarity proved); v14.1 adds Pillars 475–481 — External Engagement Sprint; v14.2 adds Pillars 482–487 — Gap Closure Sprint; v15.0 adds Pillars 488–494 — ledger audit, formal status, census, admission closure, and arXiv external package).*
 
 ---
 
@@ -1110,6 +1110,7 @@ give the correct absolute peak positions and heights from the UM framework.
 | Silk damping envelope | ✅ **Implemented** | `cmb_transfer.py` |
 | KK Boltzmann correction magnitude | ✅ **Quantified** | `cmb_boltzmann_peaks.py` δ_KK~8×10⁻⁴ |
 | **Residual within 5D-EFT architecture (all mechanisms)** | ✅ **CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED** | **Pillar 518** — Cases A/B/C exhausted; no mechanism closes gap without new free parameter or new field content; Admission 2 formally resolved |
+| **6D Coleman-Weinberg correction (T²/Z₃)** | `CMB_AMPLITUDE_6D_PARTIAL_IMPROVEMENT` | **Pillar 540** — δA_s/A_s ≈ 1.58×10⁻⁴ (Vol_{T²/Z₃}/Vol_{S¹} = (√3/2)/74²); fraction of suppression gap recovered ≈ 0.02%; 5D_IRREDUCIBLE_FLOOR label survives; bound narrowed |
 
 **Import caveat (Pillar 63):** The Eisenstein-Hu (1998) CDM transfer function
 with baryon loading is established standard cosmology published in 1998 — it
@@ -4015,22 +4016,31 @@ The remaining 2.71% gap is structural: it requires either:
 | Field | Value |
 |-------|-------|
 | **Admission tag** | `JUNO_2026_P17_EXCLUDED` |
-| **Status** | `HONEST_OPEN_PROBLEM` |
+| **Status** | `JUNO_P17_ARCHITECTURE_LIMIT_CERTIFIED` (Pillar 539) |
 | **Bare tension** | 6.46σ (EXCLUDED) |
 | **Projected tension** | 3.33σ (EXCLUDED) |
-| **Residual gap** | 2.71% |
+| **Case F tension** | 2.80σ (all six 5D-EFT degrees of freedom exhausted) |
+| **Case G tension** | 2.79σ (Pillar 540: T²/Z₃ modular extension; 6D_DIMENSION_IMPROVED) |
+| **Residual gap** | 0.033 × 10⁻³ eV² (2.79σ from JUNO Phase 1 central) |
 | **Falsification window** | [2.2, 2.7] × 10⁻³ eV² — NOT softened |
-| **Closure path** | WS-V: KK Yukawa texture diagonalization |
-| **Machine-readable** | `juno_2026_falsification_verdict()` in Pillar 525 |
-| **Source module** | `src/core/pillar525_juno_2026_falsification_response.py` |
+| **Closure path** | New field content beyond KK-EFT (brane-localized Majorana with free texture parameter) |
+| **Machine-readable** | `juno_2026_falsification_verdict()` in Pillar 525; `pillar539_report()` in Pillar 539 |
+| **6D synthesis** | `case_g_dm231_t2z3_extension()` in Pillar 540 |
+| **Source module** | `src/core/pillar525_juno_2026_falsification_response.py`, `src/core/pillar539_dm31_wsv_architecture_limit.py`, `src/core/pillar540_full_dimensional_synthesis.py` |
 | **Monitor updated** | `src/core/hyperk_juno_monitor.py` — JUNO 2026 is now primary anchor |
-| **Test file** | `tests/test_pillar525_juno_2026_falsification_response.py` |
+| **Test file** | `tests/test_pillar540_full_dimensional_synthesis.py` (Case G tests) |
 
 **The falsification window [2.2, 2.7] × 10⁻³ eV² is not softened.**  JUNO 2026
 (2.411 × 10⁻³ eV²) lies within this window — which means the UM is not globally
 falsified by this measurement.  But the 2NLO estimate at 2.285 × 10⁻³ eV² is now
 definitively excluded at sub-1% JUNO precision, and this is documented as the
 honest open problem it is.
+
+**Pillar 540 Case G note:** The T²/Z₃ modular extension adds a small positive
+shift δΔm²₃₁ ≈ 2ε × Δm²₃₁^{CaseF} × w_3 ≈ 1.96×10⁻⁷ eV² (ε_{T²/Z₃} =
+(1/74)² ≈ 1.83×10⁻⁴).  This reduces tension from 2.801σ to 2.791σ
+(6D_DIMENSION_IMPROVED), but the T²/Z₃ correction is 280× smaller than the
+residual gap.  Architecture limit is confirmed at 6D.
 
 ---
 

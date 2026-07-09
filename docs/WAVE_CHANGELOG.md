@@ -12,6 +12,41 @@ For each wave entry, include:
 
 ---
 
+## v18.4 (2026-07-09 — Pillar 540: Full Dimensional Synthesis Certificate)
+
+**What changed:**
+- **Pillar 540** (`src/core/pillar540_full_dimensional_synthesis.py`): Full
+  Dimensional Synthesis — 6D→11D Gap Resolution & Architecture Understanding
+  Certificate.  Seven new computations chain every existing dimensional module
+  (6D through 11D) into a single rigorous terminal certificate.
+
+**Why:** Every remaining gap carried a label documenting what 5D alone cannot
+resolve.  Pillar 540 answers definitively how far the full 6D→11D tower
+actually gets us, classifying every gap with a final, honest status.
+
+**Epistemic label deltas:**
+- `DM231`: Case G (T²/Z₃ modular) → `6D_DIMENSION_IMPROVED`; tension 2.801→2.791σ
+- `CMB_AMPLITUDE`: `CMB_AMPLITUDE_6D_PARTIAL_IMPROVEMENT`; δA_s/A_s ≈ 1.58×10⁻⁴
+- `TENSOR_RATIO`: `TENSOR_RATIO_6D_CONFIRMED_IRREDUCIBLE`; r unchanged at 0.0315
+- `HIGGS_NATURALNESS` (A3): `DERIVED_PARTIAL_6D`; Δ^{6D} ≈ 4.2 < 100
+- `BARYOGENESIS`: `TESTABLE_6D_MECHANISM`; nEDM@SNS 2028, d_n ≈ 7.8×10⁻²⁷ e·cm
+- `DESI_WA`: `AWAITS_OBSERVATION` (DESI DR3 ~2027)
+- `NW_UNIQUENESS`: `AWAITS_OBSERVATION` (LiteBIRD ~2032)
+
+**ToE score delta:** 0.0 (28/28 hardgate lanes UNCHANGED)
+
+**Falsification impact:** None.  No falsifier softened.  ARCHITECTURE_LIMIT
+labels are reclassified as ARCHITECTURE_UNDERSTOOD — not opened.
+
+**Residual unknowns:** CMB amplitude ≥77.7% suppression is 5D_IRREDUCIBLE_FLOOR
+confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreducible.
+
+**Tests added:** 141
+
+**Regression:** 47,030 + 141 = 47,171 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
 ## v18.3 (2026-07-08 — Pillar 539 + Canonical Ledger Sync)
 
 **What changed:**
