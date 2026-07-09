@@ -272,7 +272,7 @@ Here is the complete falsification calendar. These are the experiments that will
 
 The UM is organized into **pillars** — individual derivations, proofs, or computations that each establish a specific result.
 
-**Current count:** 541 pillars (slots 0–540, with Ω₀ Holon Zero and sub-pillars 70-B/C/D).
+**Current count:** Slots 0–540, plus the special Ω₀ Holon Zero pillar and sub-pillars 70-B/C/D. The highest-numbered pillar is 540; next slot is 541.
 
 The pillars divide into two categories:
 
@@ -401,7 +401,7 @@ JUNO Phase 2 (~2027) will measure `Δm²₃₁` to 0.5% precision. UM predicts n
 
 **Version:** 18.4 — Full Dimensional Synthesis  
 **Date:** 2026-07-09  
-**Pillars:** 540 (Ω₀ + sub-pillars + 540 core slots, next slot: 541)  
+**Pillars:** Highest slot 540 (Ω₀ Holon Zero + sub-pillars 70-B/C/D are additional special entries; next numbered slot: 541)  
 **Tests:** 47,171 passed · 23 skipped · 12 deselected · **0 failed**  
 **ToE score:** 28.0/28 = 100%  
 **Hardgate closed:** Yes (208 core pillars, formally closed)  
