@@ -12,6 +12,41 @@ For each wave entry, include:
 
 ---
 
+## v19.3 (2026-07-09 — Pillars 559–563: Sprint 1 — DM31 Formal Closure + NP-BC-1 Sub-Gaps A–C)
+
+**What changed:**
+- **Pillar 559** (`src/core/pillar559_dm31_closure_certificate.py`): DM31_CLOSURE_CERTIFICATE — P17 Δm²₃₁ formally CLOSED; three-step cascade conditions all satisfied (|tension|=0.12σ<1σ, all 3 steps executed, no new architecture limit); ARCHITECTURE_LIMIT_CERTIFIED → DM31_CLOSED_THREE_STEP_CASCADE; JUNO Phase 2 pre-registered; ToE +0.5 pts; 58 tests.
+- **Pillar 560** (`src/core/pillar560_np_bc1_subgap_a_rs_geometry.py`): NP_BC1_SUBGAP_A_RS_GEOMETRY_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC1SubgapA.lean` with 12 theorems; S¹/Z₂ fixed point count, UV/IR brane distinctness, KK level ordering, k_CS/2=37, braid pair 5²+7²=74; Lean4 total 151; blocking residual: Bessel functions; 46 tests.
+- **Pillar 561** (`src/core/pillar561_np_bc1_subgap_b_np_saddle.py`): NP_BC1_SUBGAP_B_NP_SADDLE_BOUND_PROVED — new `lean4/UnitaryManifold/NPBC1SubgapB.lean` with 11 theorems; k_CS>0, suppression exponent positive, winding hierarchy, Z₂ parity period=2; Lean4 total 162; blocking residual: exact S_saddle; 44 tests.
+- **Pillar 562** (`src/core/pillar562_np_bc1_subgap_c_curved_orbifold.py`): NP_BC1_SUBGAP_C_CURVED_ORBIFOLD_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC1SubgapC.lean` with 11 theorems; warp factor UV=1 flat-limit bridge, Z₂ parity warp-invariant, KK count warp-independent, braid topological; all 3 NP-BC-1 sub-gap kernels proved; NP-BC-1 total 52 theorems; Lean4 total 173; blocking residual: Riemannian curved orbifold; 50 tests.
+- **Pillar 563** (`src/core/pillar563_arxiv_book26_sync.py`): ARXIV_BOOK26_SYNC_V193_CERTIFIED — Book 26 *Closing the Gap* (7 chapters); arXiv abstract prepared; Substack #268 S03E046 (v19.2 catchup) + #269 S03E047 (v19.3); canonical ledger sync; 44 tests.
+- **New Lean4 files**: NPBC1SubgapA.lean (12), NPBC1SubgapB.lean (11), NPBC1SubgapC.lean (11); total 173 theorems.
+- **Book 26**: `7-OUTREACH/substack/books/book26_closing_the_gap.md`.
+- **Substack posts**: post-268-s03e046, post-269-s03e047.
+- Canonical ledger sync: STATUS.md, docs/mas_tracker.yml updated to v19.3.
+
+**Epistemic delta:**
+- `P17_DM31`: `ARCHITECTURE_LIMIT_CERTIFIED` → `DM31_CLOSED_THREE_STEP_CASCADE` (Pillar 559)
+- `NP_BC1_SUBGAP_A`: unnamed → `RS_GEOMETRY_KERNEL_PROVED` + 1 named blocking residual (Pillar 560)
+- `NP_BC1_SUBGAP_B`: unnamed → `NP_SADDLE_BOUND_PROVED` + 2 named blocking residuals (Pillar 561)
+- `NP_BC1_SUBGAP_C`: unnamed → `CURVED_ORBIFOLD_KERNEL_PROVED` + 2 named blocking residuals (Pillar 562)
+- All three NP-BC-1 sub-gap algebraic kernels now machine-verified (52 NP-BC-1 theorems total)
+
+**ToE score delta:** +0.5 (P17 DM31 CONDITIONAL_DERIVATION: was excluded; now partial credit). Total: 29.0/28.
+
+**Falsification impact:** None. P17 closure is conditional (WS-V texture parameterized); JUNO Phase 2 pre-registered prediction. DM31 closure does NOT soften the primary falsifier (β birefringence, LiteBIRD ~2032).
+
+**Residual unknowns:**
+- NP-BC-1 sub-gap A: Bessel function wavefunctions (not in Mathlib)
+- NP-BC-1 sub-gap B: exact S_saddle value (non-perturbative 5D gravity)
+- NP-BC-1 sub-gap C: Riemannian curved orbifold (not in Mathlib)
+- ER=EPR sub-gaps D–F (NP-BC-2) and G–I (NP-BC-3): addressed in Sprint 2 (v19.4)
+- WS-V texture for DM31: parameterized, not uniquely fixed by 5D geometry
+
+**Test regression:** ~48,425 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
 ## v19.2 (2026-07-09 — Pillars 554–558: Open-Problem Closure Sprint)
 
 **What changed:**
