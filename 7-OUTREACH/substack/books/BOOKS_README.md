@@ -87,6 +87,11 @@ to this repository.
 - Covers: Pentagon audit failures (8 consecutive), defense spending ($893B FY2025), revolving door quantified, F-35 cost growth, procurement fraud ($10.8B confirmed), military sexual assault, veteran suicide crisis, veterans benefits gaps, international comparison, immediate fixes, and structural redesign blueprint
 - Framework connections: Pillar 18 (justice), Pillar 19 (governance), φ-collapse (capacity failures), B_μ amplification (spending runaway), FTUM attractor analysis
 
+**v19.0 — Six-Pillar Depth Sprint (July 2026):**
+- Book 24: *The Frozen Radion* — dark energy at the edge of 5D physics; DESI DR3 readiness
+- Covers: What DESI is measuring, why wₐ=0 is the UM prediction (frozen radion mechanism), KK tower stability, DESI DR2 tension at 2.30σ, decision window, preregistration of falsification conditions
+- Framework connections: Pillar 6 (Black Hole Transceiver), Pillar 29 (DESI wₐ), Pillar 38 (FTUM), Pillar 543 (DESI DR3 routing), CLAIM_MASTER_BOARD P28
+
 ---
 
 ## The Four Books (v3.0 — Omega Expanded)
@@ -617,6 +622,20 @@ A data-driven accountability audit of America's defense establishment: eight con
 
 ---
 
+### 24. [The Frozen Radion](book-frozen-radion-dark-energy.md)
+**Dark Energy at the Edge of 5D Physics**
+
+| Property | Value |
+|---|---|
+| Size | ~18 KB |
+| Category | Physics / cosmology / dark energy |
+| Framework connection | Pillar 6 (KK tower stability), Pillar 29 (DESI wₐ constraint), Pillar 38 (FTUM attractor), Pillar 543 (DESI DR3 readiness), CLAIM_MASTER_BOARD P28 |
+| Companion post | [post-266-s03e044](../posts/post-266-s03e044-v190-six-pillars-one-shared-interface.md) |
+
+What DESI is really measuring, why the Unitary Manifold predicts exactly wₐ=0 (the frozen radion), how the framework will respond to DESI Year 3 data, and a complete preregistration of the falsification conditions. Covers: the 5D mechanism that locks dark energy to a cosmological constant, the DESI DR2 tension at 2.30σ, the KK tower stability argument, the decision window (DESI DR3 ~2026), and an honest assessment of what falsification would mean. Eight chapters, written for a general scientific audience.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -706,6 +725,7 @@ See [`OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md) for the full epis
 | 15.0 — Civic Dignity Edition | June 2026 | Books 20–21 added/indexed: *The Lie of Human Ranking* and *Names Without Cages*; standalone AxiomZero civic books on racism, bigotry, gender/sexual identity, labeling, tribalism, inclusion, and repair, with trusted-source appendices and citations |
 | 15.9 — Neuroscience & Disorders Edition | June 2026 | Book 22 added: *The Broken Fixed Point* — neuroscience, consciousness, and the geometry of neurological disorders; ~20,000-word deep-dive into Alzheimer's, amnesia, depression, epilepsy, schizophrenia, and TBI through the UM geometric framework; full appendices A–D and bibliography with 48 peer-reviewed citations; Pillar 516 NEURAL_DISORDER_GEOMETRIC_ANALYSIS (174 tests, 0 failures, STRUCTURAL_CORRESPONDENCE) |
 | 16.1 — Military Accountability Edition | June 2026 | Book 23 added: *The Blank Check* — America's defense system, the military-industrial complex, and the accountability gap; data-driven audit of Pentagon audit failures (8 consecutive), $893B FY2025 defense budget, revolving door (80%+ of four-star retirees → industry), F-35 lifecycle cost growth ($233B → $485B), $10.8B confirmed procurement fraud, military sexual assault epidemic, veteran suicide crisis (34.7/100K), VA access gap; immediate fix package + structural redesign blueprint; framework connections: Pillar 18, Pillar 19, φ-collapse, B_μ amplification |
+| 19.0 — Six-Pillar Depth Sprint | July 2026 | Book 24 added: *The Frozen Radion* — dark energy at the edge of 5D physics; what DESI is measuring, why wₐ=0 is the UM prediction (frozen radion mechanism), KK tower stability argument, DESI DR2 tension at 2.30σ, decision window, preregistration of falsification conditions; 8 chapters; companion to Pillar 543 DESI_DR3_DECISION_DAY_READY_CERTIFIED and Substack #266 S03E044 |
 
 ---
 
