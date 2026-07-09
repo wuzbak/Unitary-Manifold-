@@ -52,6 +52,20 @@ jobs:
             fi
           fi
 
+      - name: Enforce onboarding docs consistency with STATUS.md
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.sha }}"
+          CHANGED="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | tr -d '\r')"
+
+          # Only check when STATUS.md is among the changed files (canonical truth surface).
+          if echo "$CHANGED" | grep -qx "STATUS.md"; then
+            python3 TOOLS/checks/check_onboarding_consistency.py
+          fi
+
       - name: Enforce honesty-gate checklist presence in PR body
         shell: bash
         env:
