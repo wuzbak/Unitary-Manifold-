@@ -1,7 +1,7 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
 *Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-06-01 (v15.3 — Pillars 503–506 execute stewardship priorities 2–5; focused regression 77 passed · 0 failed; latest full regression 46,076 passed · 2 skipped · 12 deselected · 0 failed. No primary falsifier window changed.)*
+*Last updated: 2026-07-09 (v19.0 — Pillar 543 DESI DR3 Decision-Day Readiness: routing rehearsal complete (5 synthetic scenarios, all branches verified), live tension 2.30σ (DR2 CPL-corrected), falsification threshold σ≥3.0, DR3 expected late 2026, preregistration hash recorded; Pillar 544 P17 Δm²₃₁ routing: JUNO Phase 1 best projection 3.33σ above 2.411e-3 eV², ARCHITECTURE_LIMIT_CERTIFIED; no primary falsifier window changed; full regression 47,424 passed · 23 skipped · 12 deselected · 0 failed.)*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 

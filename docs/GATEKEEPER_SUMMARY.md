@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v15.8
+# Unitary Manifold v19.0
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-06-05 (v15.8 — Pillars 511–515 topological irreversibility engine added: braid winding observable, dynamic winding history tracking, Chern-Simons-corrected information current, forward loopback proof, nonlinear metric evolution; Pillar 516 KK backreaction architecture audit; focused P511–P515 regression 82 passed · 0 failed; latest full regression 45,726 passed · 22 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+*Last updated: 2026-07-09 (v19.0 — Pillars 517–547: v16.0 decision-window sprint (Pillars 517–518, Pillar 517 p_R ARCHITECTURE_LIMIT_CERTIFIED, Pillar 518 CMB amplitude gap CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED, 112 new tests); v17.0 11D precision expansion (Pillars 519–524, G4 Z_φ correction, E8 p_R conditional derivation, NLO moduli stabilization, 321 new tests); v18.0 JUNO Phase 1 response (Pillars 525–535, JUNO Phase 1 all consistent, Vol(CY₃)=6.28 M_Pl⁶ unconditional, θ₁₂ MSW routing resolved, JUNO Phase 2 pre-registered, 491 new tests); v18.1 AxiomZero IP registry (Pillar 536, 70 new tests); v18.2 Shadow-Pair Parent Derivation (Pillar 537, K_CS=74 and c_s=12/37 derived from n_before=6, 77 new tests); v18.3 Enteric Neural Core (Pillar 538 🔵, 75 new tests); v18.4 Full Dimensional Synthesis (Pillar 540 🔵, 6D→11D terminal certificate, 141 new tests); v18.5 Branch Canonicality Certificate (Pillar 541, (5,7) canonical vs (5,6) shadow sector, both above ACT DR6, 74 new tests); v19.0 Six-Pillar sprint: Pillar 542 Ledger Sync Certificate; Pillar 543 DESI DR3 Decision-Day Readiness 🔵; Pillar 544 P17 Δm²₃₁ ARCHITECTURE_LIMIT_CERTIFIED; Pillar 545 Lean4 ERWormhole.lean 13 new theorems; Pillar 546 Fermion c_L Orbifold BC; Pillar 547 AZ-OS φ-field interface; Book 24 The Frozen Radion; Substack #266 S03E044; full regression 47,424 passed · 23 skipped · 12 deselected · 0 failed; ToE score 28/28 unchanged.)*
 
 > **v15.8 sync note:** Pillars 511–515 deliver the topological irreversibility engine in response to a structural critique of test_evolution.py. Four identified architectural flaws addressed: Minkowski cage replaced by factory-vs-solver architecture proof; J^0 illusion replaced by Chern-Simons-corrected topological current (k_CS=74); S-matrix fake replaced by forward-only honest irreversibility measure; KK scaffold residue replaced by live winding tracking with explicit open-work record. Pillar 516 certifies the KK backreaction architecture limit as ARCHITECTURE_LIMIT_CERTIFIED. No physics promotion, no ToE score change, no falsifier softened.
 
