@@ -53,7 +53,6 @@ CANONICAL_TRUTH_SURFACES: Dict[str, str] = {
     "docs/TRUTH_LAYER.md": "v18.5",
     "docs/GATEKEEPER_SUMMARY.md": "v18.5",
     "3-FALSIFICATION/OBSERVATION_TRACKER.md": "v18.5",
-    "docs/GATEKEEPER_SUMMARY.md": "v18.5",
 }
 
 # Regression snapshot at time of ledger sync (post-P541)
