@@ -1,4 +1,4 @@
-version: "v18.4"
+version: "v18.5"
 date: "2026-07-09"
 updated: "2026-07-09"
 mas_status: "COMPLETE"
@@ -16,6 +16,30 @@ historical_snapshot_sections:
   - "parameter_gates"
   - "post_mas_tracks"
   - "mas_wave_ledgers"
+
+v18_5_branch_canonicality_sprint:
+  version: "v18.5"
+  wave: "Branch Canonicality Certificate — Pillar 541 (SHADOW_SECTOR_CLASSIFIED), 74 new tests, Substack #265 S03E043 published"
+  date: "2026-07-09"
+  pillars_added:
+    - "541: SHADOW_SECTOR_CLASSIFIED — NON_CANONICAL_BRANCH_CERTIFIED; (5,7) canonical vs (5,6) shadow sector; r=0.0175 NOT canonical UM prediction; both sectors have ACT DR6 tension; three independent selection mechanisms; LiteBIRD discriminability 5.8σ; 74 tests"
+  tests_added: 74
+  regression: "47,245 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 542
+  next_substack_post: "#266 S03E044"
+  substack_post: "#265 S03E043 published in-repo (7-OUTREACH/substack/posts/post-265-s03e043-v185-branch-canonicality-both-sectors-have-act-tension.md)"
+  toe_delta: 0.0
+  epistemic_deltas:
+    - "BRANCH_CANONICALITY: SHADOW_SECTOR_CLASSIFIED — (5,6) pair formally sub-canonical on 3 independent grounds"
+    - "R_SHADOW: formally certified as non-canonical (r=0.0175); both sectors above ACT DR6 limit"
+    - "PILLAR_EXPLAINER: updated to v18.5 (test counts, pillar counts, §Branch Canonicality, §Known Open Problems)"
+  documents_updated:
+    - "src/core/pillar541_branch_canonicality_certificate.py (NEW)"
+    - "tests/test_pillar541_branch_canonicality.py (NEW, 74 tests)"
+    - "7-OUTREACH/substack/posts/post-265-s03e043-v185-branch-canonicality-both-sectors-have-act-tension.md (NEW)"
+    - "7-OUTREACH/pillar-guide/PILLAR_DESCRIPTIONS.md (updated to v18.5)"
+    - "STATUS.md (v18.5 header)"
+    - "docs/mas_tracker.yml (v18.5 entry)"
 
 v18_4_full_dimensional_synthesis_sprint:
   version: "v18.4"
