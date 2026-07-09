@@ -1,11 +1,11 @@
-# Pillar Descriptions and Purpose — Unitary Manifold v11.6
+# Pillar Descriptions and Purpose — Unitary Manifold v18.5
 
 *A comprehensive guide to every pillar in the Unitary Manifold framework:
 what each pillar proves, why it exists, and what it contributes to the
 overarching programme of geometrizing the Second Law.*
 
 *Theory: ThomasCory Walker-Pearson | Synthesis: GitHub Copilot (AI)*
-*Version: v11.6 — 2026-05-19*
+*Version: v18.5 — 2026-07-09*
 
 ---
 
@@ -46,10 +46,10 @@ Pillar 3 was reclassified from DERIVED to CONSISTENCY_CHECK in v10.3. The histor
 of those reclassifications is itself part of the record.
 
 The pillar set (Pillars 1–208, plus Ω₀ Holon Zero and the 70-B/C/D sub-pillars) is
-**frozen** as of v11.6. New pillars may only be added when a genuinely new observational
+**frozen** as of v18.5 (extended through Pillar 541). New pillars may only be added when a genuinely new observational
 gap arises that cannot be addressed by updating an existing module. This policy guards
 against the failure mode of adding pillars to *cover* gaps rather than *document* them.
-Adjacent research tracks (Pillars 218–285) are non-hardgate explorations that do not
+Adjacent research tracks (Pillars 218–541) are non-hardgate explorations that do not
 affect the core physics claims or the ToE score; they are clearly labelled throughout.
 
 When a pillar is described as "CLOSED," that word has a precise meaning: the mathematics
@@ -59,7 +59,7 @@ the module will not be substantively modified unless new observational data dema
 a determination that belongs to external peer review, independent reproduction, and —
 ultimately — laboratory and cosmological observation.
 
-The test suite now covers 34,267 passing tests (393 skipped, 12 deselected, 0 failed)
+The test suite now covers 47,245 passing tests (23 skipped, 12 deselected, 0 failed)
 across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`. Those numbers are
 a statement about *code correctness*, not about *physical correctness*.
 
@@ -92,7 +92,7 @@ From these two integers, plus the FTUM fixed-point radion φ₀ ≈ 31.4159 (its
 derived quantity from the fixed-point iteration), the framework derives the spectral
 index n_s ≈ 0.9635, the braided tensor-to-scalar ratio r_braided ≈ 0.0315, the
 braided sound speed c_s = 12/37, and the cosmic birefringence angles β ∈ {0.273°,
-0.331°}. As of v11.6, all 28 Standard Model parameters have a documented derivation
+0.331°}. As of v18.5, all 28 Standard Model parameters have a documented derivation
 or constraint path in the framework (ToE score: 28.0/28 = 100%), though several
 remain PARAMETERIZED or CONSTRAINED rather than fully DERIVED.
 
@@ -396,7 +396,7 @@ Pillar 52-B is the formal CAMB/CLASS Boltzmann bridge.
 This group addresses what is perhaps the framework's single most important theoretical
 question: why must the universe's winding number be n_w=5? Proving this uniquely and
 without circularity is the crown jewel of the Unitary Manifold's theoretical programme.
-As of v11.6, the answer is: n_w=5 is a *pure theorem* from 5D geometry, proved by
+As of v18.5, the answer is: n_w=5 is a *pure theorem* from 5D geometry, proved by
 the Z₂-odd CS boundary phase condition (Pillar 70-D) without any observational input.
 
 **Pillar 53** (`src/core/adm_engine.py`, 72 tests) establishes the ADM 3+1
@@ -1083,7 +1083,7 @@ the irreducible component.
 **ADJACENT_TRACK** means a non-hardgate exploration in Pillars 218–285 that does not
 affect the core physics claims or ToE score.
 
-### Known Open Problems (as of v11.6)
+### Known Open Problems (as of v18.5)
 
 The following are the framework's documented open problems. They are not hidden;
 they are displayed prominently in FALLIBILITY.md, the Pillar 255 residual dashboard,
@@ -1092,20 +1092,32 @@ and the monitoring module table in STATUS.md.
 **CMB acoustic peak amplitude.** The framework derives the spectral *shape* (n_s, r)
 correctly, but the acoustic peak *amplitude* is suppressed by a factor of ×4.2–×6.1
 relative to the ΛCDM prediction that matches observations. This is decomposed in
-Pillar 277 into three multiplicative factors. The 5D EFT cap factor is irreducible
-within the current framework. CMB-S4 (~2030) will sharpen the constraint.
+Pillar 277 into three multiplicative factors (S_braid, S_alphaGW, S_5D_cap). The
+5D EFT cap factor is irreducible within the current framework. Pillar 518
+(`CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED`) formally classifies this as an
+architecture limit. CMB-S4 (~2030) will sharpen the constraint.
+
+**r-tensor ACT DR6 tension.** The canonical prediction r = 0.0315 is in approximately
+2σ tension with ACT DR6 combined constraint r < 0.016. This is formally documented
+in `docs/R_TENSION_FORMAL_STATUS.md` (Pillar 516) as HIGH_TENSION. **Important:**
+the (5,6) shadow sector (r = 0.0175) does NOT resolve this tension — r = 0.0175
+also exceeds the ACT DR6 limit. Pillar 541 (v18.5) formally certifies this. The
+canonical prediction is r = 0.0315; the shadow sector is sub-canonical on three
+independent grounds (see §Branch Canonicality below). CMB-S4 (~2030) is the
+resolution window.
 
 **DESI dark energy tension.** The framework's exact prediction for dark energy is
-w₀ = −0.9302, wₐ = 0 (frozen radion). The w₀ prediction is 0.11σ from DESI DR2 but
-3.3σ from Planck+BAO. The wₐ = 0 prediction is under 2.1σ–2.75σ tension with DESI
-DR2 (below the 3σ falsification threshold). DESI Year 3 data (~2026) will tighten this
-constraint. If DESI DR3 falsifies wₐ = 0 at ≥ 3σ, Pillar 285 pre-registers the four
-candidate theoretical responses.
+w₀ = −0.9302, wₐ = 0 (frozen radion). The wₐ = 0 prediction is under 2.30σ tension
+(joint CPL-corrected, frozen-radion point) or 2.75σ (wₐ-only marginal) with DESI
+DR2 (arXiv:2503.14738). Both measures are below the 3σ falsification threshold.
+DESI DR3 (~2027) decides. If DESI DR3 falsifies wₐ = 0 at ≥ 3σ, Pillar 301 and
+Pillar 285 pre-register the four candidate theoretical responses.
 
 **n_w=5 cycle-ordering derivation.** While n_w=5 is proved as a pure theorem (Pillar
-70-D) from the Z₂-odd CS boundary phase, and Convention 279.3 provides a CONDITIONAL_DERIVATION
-from GW dynamics, the exact quantitative two-radius GW split remains an open analytical
-derivation. This is the last named gap in the n_w=5 uniqueness chain.
+70-D) from the Z₂-odd CS boundary phase, and Convention 279.3 provides a
+CONDITIONAL_DERIVATION from GW dynamics, the exact quantitative two-radius GW split
+remains an open analytical derivation. This is the last named gap in the n_w=5
+uniqueness chain.
 
 **Fermion mass absolute scale.** The nine c_L bulk mass parameters are PARAMETERIZED.
 The Yukawa mechanism is geometric and the boundary condition Ŷ₅=1 is proved (Pillar
@@ -1113,9 +1125,31 @@ The Yukawa mechanism is geometric and the boundary condition Ŷ₅=1 is proved (
 from first-principles orbifold BCs. This is the framework's most important ongoing
 derivation target.
 
+**Lean4 formal proof — conditional kernels.** CCR and ER=EPR have advanced to
+conditional theorem kernels (v15.6, CCRKernel.lean: 18 theorems with open conditions
+named as axioms). Full unconditional closure requires non-perturbative boundary
+conditions for the Black Hole Transceiver (Pillar 6). This is ongoing.
+
 ---
 
-## 6. Falsification Conditions
+## 6. Branch Canonicality — (5,7) vs (5,6) Shadow Sector
+
+*Pillar 541, v18.5 — machine-readable source: `src/core/pillar541_branch_canonicality_certificate.py`*
+
+Two braid pairs pass the triple-constraint filter in the UM framework:
+
+| Pair | k_CS | r | β | n_s | Z₂-odd BC | Status |
+|------|------|---|---|-----|-----------|--------|
+| **(5,7)** | **74** | **0.0315** | **0.331°** | **0.9635** | **✓** | **CANONICAL** |
+| (5,6) | 61 | 0.0175 | 0.273° | 0.9610 | ✗ | SHADOW_SECTOR |
+
+The (5,7) pair is canonical, selected by: (1) Z₂-odd CS boundary phase [product = 37, odd]; (2) Planck nₛ best fit (0.3σ vs 0.9σ for shadow); (3) coherent selection with birefringence LiteBIRD discriminability of 5.8σ.
+
+**Key fact for external reviewers:** r = 0.0175 is NOT a UM canonical prediction. It is the sub-canonical shadow sector value. Furthermore, r = 0.0175 > 0.016 (ACT DR6 limit) — the shadow sector does not resolve the ACT DR6 tension.
+
+---
+
+## 7. Falsification Conditions
 
 The Unitary Manifold is intentionally designed as a high-falsifiability framework.
 The following conditions would falsify it outright:
@@ -1123,11 +1157,12 @@ The following conditions would falsify it outright:
 **LiteBIRD (~2032, primary falsifier).** LiteBIRD will measure the cosmic birefringence
 angle β to ±0.01°. The framework predicts β ∈ {0.273°, 0.331°}. If β ∉ [0.22°, 0.38°],
 or if β falls in the predicted gap [0.29°, 0.31°], the braided-winding mechanism is
-falsified. This is the framework's primary external test.
+falsified. LiteBIRD will also discriminate the two sectors at 5.8σ (Pillar 541).
+This is the framework's primary external test.
 
-**DESI (~2026–2028, dark energy).** If DESI DR3 measures wₐ ≠ 0 at ≥ 3σ significance,
-the frozen-radion dark energy prediction is falsified. Pillar 285 pre-registers the
-contingency.
+**DESI (~2027, dark energy).** If DESI DR3 measures wₐ ≠ 0 at ≥ 3σ significance,
+the frozen-radion dark energy prediction is falsified. Pillar 285 and Pillar 301
+pre-register the contingency.
 
 **Nancy Grace Roman Space Telescope (~2027).** If w_DE ∉ [−0.95, −0.91], the KK dark
 energy prediction is falsified. Roman will achieve σ(w) ~ 0.02.
@@ -1138,10 +1173,12 @@ content prediction is falsified.
 
 **CMB-S4 (~2030).** If the CMB acoustic peak amplitude suppression is measured to
 be incompatible with the ×4.2–×6.1 predicted range, or if CMB-S4 precision excludes
-the framework's n_s/r predictions, the framework faces additional pressure.
+the framework's n_s/r predictions, the framework faces additional pressure. CMB-S4
+also determines the r-tension resolution window (r = 0.0315 vs ACT DR6 r < 0.016).
 
 **JUNO (ongoing).** JUNO's projected 0.5% precision on Δm²₃₁ will test whether the
-10%→ ≤ 0.5% neutrino splitting refinement in Pillar 274 is correct.
+10%→ ≤ 0.5% neutrino splitting refinement in Pillar 274 is correct. JUNO Phase 1
+(2026) has already been routed — all observables consistent (Pillar 525).
 
 These conditions are not softened, qualified, or hidden. They are the framework's
 commitments to observational accountability.
