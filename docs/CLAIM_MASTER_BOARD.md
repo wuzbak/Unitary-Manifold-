@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v15.8
+# Unitary Manifold v18.4
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-06-05 (v15.8 — Pillars 511–515 topological irreversibility engine; Pillar 516 KK backreaction architecture audit; focused P511–P515 regression 82 passed · 0 failed; latest full regression 45,726 passed · 22 skipped · 12 deselected · 0 failed; ToE score unchanged.)*
+*Last updated: 2026-07-09 (v18.4 — Full Dimensional Synthesis: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED; 141 new tests; seven computations spanning 6D→11D; Case G Δm²₃₁ 6D_DIMENSION_IMPROVED (tension 2.801→2.791σ); CMB A_s 6D partial improvement δA_s/A_s≈1.58×10⁻⁴; tensor ratio TENSOR_RATIO_6D_CONFIRMED_IRREDUCIBLE (r=0.0315 unchanged); Higgs naturalness DERIVED_PARTIAL_6D (Δ^{6D}≈4.2); baryogenesis TESTABLE_6D_MECHANISM (nEDM@SNS 2028 d_n≈7.8×10⁻²⁷ e·cm); full regression 47,171 passed · 23 skipped · 12 deselected · 0 failed; ToE score 28/28 unchanged. v18.3: Pillar 538 ENTERIC_NEURAL_CORE (🔵 ADJACENT TRACK; ENS/KK geometric mapping; 75 new tests). v18.2: Pillar 537 SHADOW_PAIR_PARENT_DERIVATION — K_CS=74 and c_s=12/37 derived from n_before=6 without observational input; 77 new tests. v18.0 JUNO Phase 1 Response: Pillars 525–535 — all JUNO Phase 1 observables consistent, Vol(CY₃)=6.28 M_Pl⁶ fixed unconditionally, p_R unconditional derivation, CMB A_s architecture limit confirmed across CY₃ scan, r^{NLO}=0.0312 architecture limit confirmed, WdW radion stable, θ₁₂ MSW routing resolved, JUNO Phase 2 pre-registered; 491 new tests. Substack #264 S03E042 published.)*
 
 *P516 (v15.9): KK Backreaction Architecture Audit — KK_BACKREACTION_ARCHITECTURE_AUDIT_COMPLETE. `src/core/pillar516_kk_backreaction_architecture_audit.py` formally certifies the KK backreaction decoupling as ARCHITECTURE_LIMIT_CERTIFIED, documents the four-step closure path for full dynamic coupling, and establishes the regime map distinguishing factory IC from solver capacity. The decoupling is conservative (lower bound on winding-geometry coupling). No ToE score change; no physics promotion.*
 
