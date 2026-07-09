@@ -49,8 +49,9 @@ The pillar set (Pillars 1–208, plus Ω₀ Holon Zero and the 70-B/C/D sub-pill
 **frozen** as of v18.5 (extended through Pillar 541). New pillars may only be added when a genuinely new observational
 gap arises that cannot be addressed by updating an existing module. This policy guards
 against the failure mode of adding pillars to *cover* gaps rather than *document* them.
-Adjacent research tracks (Pillars 218–541) are non-hardgate explorations that do not
+Adjacent research tracks (Pillars 218–540) are non-hardgate explorations that do not
 affect the core physics claims or the ToE score; they are clearly labelled throughout.
+Pillar 541 is a core architecture certificate (SHADOW_SECTOR_CLASSIFIED), not an adjacent track.
 
 When a pillar is described as "CLOSED," that word has a precise meaning: the mathematics
 is faithfully implemented and tested, the epistemic status is honestly documented, and

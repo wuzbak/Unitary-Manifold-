@@ -370,13 +370,15 @@ class TestBranchCanonicality:
 
 class TestCrossConsistency:
     def test_canonical_r_consistent_with_braided_formula(self):
-        """r_canonical from formula = 0.0315 exactly."""
+        """r_canonical from formula = 0.0315 exactly (by construction — R_CANONICAL sets the scale)."""
         r_formula = r_braided_from_pair(5, 7)
-        assert abs(r_formula - R_CANONICAL) < 1e-6
+        assert abs(r_formula - R_CANONICAL) < 1e-6  # absolute; exact by definition
 
     def test_shadow_r_consistent_with_braided_formula(self):
-        """r_shadow from formula ≈ 0.0175 within 0.5%."""
+        """r_shadow from formula ≈ 0.0175 within 0.5% (relative; R_SHADOW is rounded to 4 d.p.)."""
         r_formula = r_braided_from_pair(5, 6)
+        # Relative tolerance because R_SHADOW = 0.0175 is a rounded nominal value;
+        # the formula yields 0.0315 × (11/61) / (12/37) ≈ 0.017504... which rounds to 0.0175.
         assert abs(r_formula - R_SHADOW) / R_SHADOW < 0.005
 
     def test_canonical_ns_tension_consistent(self):

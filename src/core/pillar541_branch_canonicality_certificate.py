@@ -147,7 +147,7 @@ LITEBIRD_SIGMA_DEG: float = 0.01
 #: Gap discriminability in LiteBIRD σ units
 LITEBIRD_DISCRIMINABILITY_SIGMA: float = (
     (BETA_CANONICAL_DEG - BETA_SHADOW_DEG) / LITEBIRD_SIGMA_DEG
-)  # ≈ 5.8σ
+)  # = 5.8σ for the (5,7)/(5,6) pair; validation gate in _validate() requires ≥4.0σ
 
 #: Planck 2018 CMB spectral index
 NS_PLANCK: float = 0.9649
