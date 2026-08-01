@@ -1,7 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v20.5 (2026-08-01)*
+*Current version: v20.8 (2026-08-01)*
 
 For each wave entry, include:
 - **What changed**
@@ -10,6 +10,93 @@ For each wave entry, include:
 - **TOE score delta**
 - **Falsification impact**
 - **Residual unknowns**
+
+---
+
+## v20.8 (2026-08-01 — Pillars 624–630: Sprint L — F-theory DBP Rung 10 Complete at Reference CY4)
+
+**What changed:**
+- **Pillar 624** (`src/twelved/ftheory_rung10_spectral_cover_global_sections.py`): FTHEORY_RUNG10_SPECTRAL_COVER_GLOBAL_SECTIONS_ADJACENT — 🔵 ADJACENT; Rung 9 blocking residual 1 resolved; h⁰(S,L_k)=14.8k+1>0 for all k∈{2,3,4,5} via Riemann-Roch on rational GUT divisor; GLOBAL_SECTIONS_EXIST=True; genus_gut_divisor=0; ~20 tests.
+- **Pillar 625** (`src/twelved/ftheory_rung10_matter_curve_genus_cy4.py`): FTHEORY_RUNG10_MATTER_CURVE_GENUS_CY4_ADJACENT — 🔵 ADJACENT; Rung 9 blocking residual 2 resolved; g_generic=38, G_KK_LIMIT=0 via adjunction + Pillar 573 mechanism; ~22 tests.
+- **Pillar 626** (`src/twelved/ftheory_rung10_g4_flux_quantization_full.py`): FTHEORY_RUNG10_G4_FLUX_QUANTIZATION_FULL_ADJACENT — 🔵 ADJACENT; Rung 9 blocking residual 3 resolved; G4+c₂/2∈H⁴(ℤ); N_D3=75840 exact; flux fraction 0.1%; ~28 tests.
+- **Pillar 627** (`src/twelved/ftheory_rung10_complete_at_reference_cy4.py`): FTHEORY_RUNG10_COMPLETE_AT_REFERENCE_CY4_ADJACENT — 🔵 ADJACENT; Rung 10 closure certificate; all 3 blocking residuals resolved; Gap B PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4; ~20 tests.
+- **Pillar 628** (`src/twelved/ftheory_dbp_rungs_1_10_combined_certificate.py`): FTHEORY_DBP_RUNGS_1_10_COMBINED_CERTIFICATE_ADJACENT — 🔵 ADJACENT; combined certificate 10/12 rungs; 5D seed preserved; Rungs 11-12 honestly open; ~30 tests.
+- **Pillar 629** (`src/core/pillar629_book30_ftheory_dbp_complete_sync.py`): BOOK30_FTHEORY_DBP_COMPLETE_SYNC_CERTIFIED — Book 30 + arXiv v20.8 sync; Substack #284 S03E062; ~20 tests.
+- **Pillar 630** (`src/core/pillar630_v208_regression_certificate.py`): V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.8 regression; ToE 30.0/28; Lean4 342; ~51,005 passed · 0 failed; ~35 tests.
+
+**Epistemic delta:**
+- `Gap B c_L lower bound`: PROVED_AT_REFERENCE_CY4 → PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4 (🔵 adjacent)
+- F-theory DBP Rung 10: all 3 blocking residuals resolved at reference CY4 level
+- Rungs 1–10 complete; Rungs 11–12 open (Weierstrass generalization, α' corrections)
+
+**TOE score delta:** 0 — all Sprint L pillars are 🔵 ADJACENT TRACK; no hardgate ToE-score change.
+
+**Falsification impact:** None — no observable predictions changed.
+
+**Residual unknowns:** F-theory Rungs 11–12 open (Weierstrass generalization, α' corrections).
+
+**Regression:** ~51,005 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
+## v20.7 (2026-08-01 — Pillars 618–623: Sprint K — NP-BC-6 Sub-Gap Algebraic Kernels P/Q/R + Lean4 342)
+
+**What changed:**
+- **Pillar 618** (`src/core/pillar618_np_bc6_subgap_p_kk_loop_kernel.py`): NP_BC6_SUBGAP_P_KK_LOOP_KERNEL_PROVED — NPBC6SubgapP.lean 11 theorems; KK loop correction algebraic kernel; total Lean4 319; ~30 tests.
+- **Pillar 619** (`src/core/pillar619_np_bc6_subgap_q_holographic_screen.py`): NP_BC6_SUBGAP_Q_HOLOGRAPHIC_SCREEN_PROVED — NPBC6SubgapQ.lean 11 theorems; holographic screen entropy; k_CS=74 screen capacity; total Lean4 330; ~30 tests.
+- **Pillar 620** (`src/core/pillar620_np_bc6_subgap_r_erepr_bridge.py`): NP_BC6_SUBGAP_R_EREPR_BRIDGE_PROVED — NPBC6SubgapR.lean 12 theorems; ER=EPR bridge kernel; all_np_bc_chains_proved=true; total Lean4 342; ~30 tests.
+- **Pillar 621** (`src/core/pillar621_np_bc6_certificate_all_chains_complete.py`): NP_BC6_CERTIFICATE_ALL_CHAINS_COMPLETE — NP-BC-6 closure; 34 sub-gap theorems; 203 cumulative; 6 chains complete; ~30 tests.
+- **Pillar 622** (`src/core/pillar622_lean4_342_sprint_k_milestone.py`): LEAN4_342_SPRINT_K_MILESTONE — Lean4 342 milestone; all 6 NP-BC chains; 18 sub-gaps proved; ~30 tests.
+- **Pillar 623** (`src/core/pillar623_v207_regression_certificate_sprint_k.py`): V207_REGRESSION_CERTIFICATE_SPRINT_K — v20.7 regression; Lean4 342; ~50,830 passed · 0 failed; ~30 tests.
+- **New Lean4 files**: NPBC6SubgapP.lean (11), NPBC6SubgapQ.lean (11), NPBC6SubgapR.lean (12); 34 new theorems, total 342.
+
+**Epistemic delta:**
+- NP-BC-6 sub-gap P (KK loop kernel): PROVED — 11 Lean4 theorems
+- NP-BC-6 sub-gap Q (holographic screen): PROVED — 11 Lean4 theorems
+- NP-BC-6 sub-gap R (ER=EPR bridge): PROVED — 12 Lean4 theorems
+- NP-BC-6 full series: all 6 chains complete; 203 cumulative sub-gap theorems
+- all_np_bc_chains_proved = True (NPBC6SubgapR.lean)
+
+**TOE score delta:** 0 — NP-BC-6 kernels are sub-gap advances; full NP proof remains OPEN.
+
+**Falsification impact:** None — no observable predictions changed.
+
+**Residual unknowns:** Full NP proof OPEN; 27 blocking residuals per sub-gap remain.
+
+**Regression:** ~50,830 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
+## v20.6 (2026-08-01 — Pillars 613–617: Sprint J — DM21 Δm²₂₁ Formal Closure + ToE 30.0/28)
+
+**What changed:**
+- **Pillar 613** (`src/core/pillar613_dm21_two_loop_ew_correction.py`): DM21_TWO_LOOP_EW_CORRECTION — two-loop EW δ_EW=0.0079; Δm²₂₁ 7.384→7.442×10⁻⁵ eV²; tension 0.811σ→0.488σ; ~30 tests.
+- **Pillar 614** (`src/core/pillar614_dm21_kamland_solar_crosscheck.py`): DM21_KAMLAND_SOLAR_CROSSCHECK — KamLAND cross-check 0.704σ<1σ; no arch limit; both datasets consistent; ~30 tests.
+- **Pillar 615** (`src/core/pillar615_dm21_closure_certificate_p20_closed.py`): DM21_CLOSURE_CERTIFICATE_P20_CLOSED — P20/DM21 formally CLOSED; all 5 cascade conditions satisfied; ToE +0.5→30.0/28; ~30 tests.
+- **Pillar 616** (`src/core/pillar616_book29_arxiv_v206_sync.py`): BOOK29_ARXIV_V206_SYNC — Book 29 "DM21 Closed" + arXiv v20.6; Substack #282 S03E060; ~30 tests.
+- **Pillar 617** (`src/core/pillar617_v206_regression_certificate_sprint_j.py`): V206_REGRESSION_CERTIFICATE_SPRINT_J — v20.6 regression; ToE 30.0/28; Lean4 308; ~50,650 passed · 0 failed; ~30 tests.
+
+**Epistemic delta:**
+- P20/DM21 Δm²₂₁: APPROACHING_CLOSURE → CLOSED (+0.5 ToE)
+- ToE score: 29.5/28 → 30.0/28
+- Two-loop EW correction: 0.811σ → 0.488σ (below 0.5σ threshold)
+- KamLAND cross-check: 0.704σ — no architectural lower limit violated
+
+**TOE score delta:** +0.5 (P20/DM21 CLOSED → ToE 30.0/28).
+
+**Falsification impact:** None — no observable predictions changed.
+
+**Residual unknowns:** Full NP proof OPEN; F-theory Rung 10 blocking residuals (spectral cover, matter-curve genus, G4 flux) at v20.6 entry.
+
+**Regression:** ~50,650 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
+## v20.5 (2026-08-01 — Pillars 591–612: Sprints F–I — NP-BC-5, DESI/Euclid hardening, DM21 cascade step 3, Lean4 308)
+
+*(See prior entry below for v20.1 which covered Pillars 575–590; Sprints F–I covered 591–612 between v20.1 and v20.6.)*
+
+**Regression:** ~50,500 passed · 23 skipped · 12 deselected · 0 failed
 
 ---
 

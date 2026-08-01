@@ -2,13 +2,13 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-version: "v20.1"
+version: "v20.8"
 date-released: "2026-08-01"
 doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v20.1, 208 hardgated core pillars + 590+ total pillars + Ω₀ Holon Zero + sub-pillars, 49,850+ passed / 23 skipped / 0 failed. ToE score 29.0/28 (28/28 hardgate + 1.0 partial). Lean4 274 theorems. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ± 0.01°. 2027 measurement window: DESI DR3/JUNO DR1/SO DR1 drill-verified READY.)"
+    description: "Zenodo DOI for the Unitary Manifold (v20.8, 208 hardgated core pillars + 630+ total pillars + Ω₀ Holon Zero + sub-pillars, ~51,005 passed / 23 skipped / 0 failed. ToE score 30.0/28 (28/28 hardgate + 2.0 partial). Lean4 342 theorems. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} ± 0.01°. 2027 measurement window: DESI DR3/JUNO DR1/SO DR1 drill-verified READY.)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
@@ -31,7 +31,7 @@ abstract: >
   parameters, with the primary open falsifier being the CMB
   polarisation birefringence angle β ∈ {0.273°, 0.331°} measurable by LiteBIRD
   (~2032). The hardgated core comprises 208 pillars; the full pillar set stands
-  at 590+ (v20.1, 2026-08-01). Adjacent research tracks (Pillars 218–232+)
+  at 630+ (v20.8, 2026-08-01). Adjacent research tracks (Pillars 218–232+)
   extend the geometric machinery to quantum computing, energy systems, biomedical
   applications, and AI/robotics—all as honest quantitative explorations, not
   hardgated physics claims. Infrastructure includes JAX-accelerated evolution,

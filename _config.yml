@@ -5,8 +5,8 @@ title: "Unitary Manifold"
 description: >
   A 5-dimensional Kaluza–Klein physics framework proposing that thermodynamic
   irreversibility is a geometric consequence of a compact fifth dimension.
-  99 computational pillars, 15,000+ passing tests, and a falsifiable LiteBIRD
-  prediction (β ≈ 0.331°, 2032).
+  630+ computational pillars, ~51,005 passing tests, ToE score 30.0/28,
+  Lean4 342 formal theorems, and a falsifiable LiteBIRD prediction (β ≈ 0.331°, 2032).
 
 # GitHub Pages source
 url: "https://wuzbak.github.io"

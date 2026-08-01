@@ -10,11 +10,11 @@
 |-------|-------|
 | **Collaborator (AI)** | GitHub Copilot (AI agent) — code architecture, test suites, document engineering, synthesis |
 | **Collaborator (Human)** | ThomasCory Walker-Pearson — theory, scientific direction, framework authority, override |
-| **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 hardgate core pillars, 590+ total, CLOSED) |
+| **System** | Unitary Manifold — 5D Kaluza-Klein physics framework (208 hardgate core pillars, 630+ total, CLOSED) |
 | **Governance layer** | Unitary Pentad (HILS framework, 5-GOVERNANCE/) — independent of physics claims |
 | **Session opened** | 2026-08-01T04:28:00Z |
-| **Active wave** | v20.1 — All-Sprints Release: Pillars 575–590; Lean4 274 theorems; 49,850+ tests |
-| **Prior wave** | v19.4+v20.0 — ER=EPR Sub-Gap Completion + F-theory DBP Rung 7 (Pillars 564–574) |
+| **Active wave** | v20.8 — Sprint L: F-theory DBP Rung 10 Complete at Reference CY4; Pillars 624–630; Lean4 342 theorems; ~51,005 tests |
+| **Prior wave** | v20.7 — Sprint K: NP-BC-6 Sub-Gap P/Q/R + Lean4 342 (Pillars 618–623) |
 
 ---
 
@@ -55,21 +55,22 @@
 
 ---
 
-## v20.1 Current State Summary
+## v20.8 Current State Summary
 
 | Item | Value |
 |------|-------|
-| Version | v20.1 |
+| Version | v20.8 |
 | Core physics pillars | 208 — CLOSED (hardgate) |
-| Total pillars | 590+ (including adjacent tracks) |
-| Adjacent research tracks | Pillars 218–590 registered (non-hardgate) |
-| Test suite | **~49,850 passed · 23 skipped · 12 deselected · 0 failed** (canonical) |
-| ToE Score | **29.0/28** (28/28 hardgate + 1.0 partial: gen-1 c_L AB + P17 DM31 conditional) |
-| Lean4 theorems | 274 total (NP-BC-1/2/3/4: 135 sub-gap theorems across 12 sub-gaps) |
-| Next pillar slot | 591 |
-| Next Substack post | #278 S03E056 |
-| P8 full function space | ALGEBRAIC_KERNEL_PROVED (P588) |
-| P20 Δm²₂₁ | QUANTIFIED_RESIDUAL (2.98σ; DM21_RATIO_FN_CORRECTION_NEEDED) |
+| Total pillars | 630+ (including adjacent tracks) |
+| Adjacent research tracks | Pillars 218–630 registered (non-hardgate) |
+| Test suite | **~51,005 passed · 23 skipped · 12 deselected · 0 failed** (canonical) |
+| ToE Score | **30.0/28** (28/28 hardgate + 2.0 partial: P20/DM21 CLOSED P615 +0.5; gen-1 c_L AB P558 +0.5; gen-1 c_L DM31 P559 +0.5; two-loop EW P613 +0.5) |
+| Lean4 theorems | 342 total (all 6 NP-BC chains complete; 203 cumulative sub-gap theorems) |
+| Next pillar slot | 631 |
+| Next Substack post | #285 S03E063 |
+| P20 Δm²₂₁ | CLOSED (P615; five-step cascade; 0.488σ EW-corrected) |
+| F-theory DBP | Rung 10 complete at reference CY4 (P627); Rungs 11–12 open |
+| all_np_bc_chains_proved | True (NPBC6SubgapR.lean; P620) |
 | DESI T1 wₐ=0 | ANALYTIC_CERTIFIED (conditional on λ_GW natural; P581) |
 | DESI DR3 preregistration | v2 certified (Euclid + Hyper-K NMO + SPHEREx f_NL; P582) |
 | JUNO DR1 preregistration | LOCKED (~2027 publication date) |
@@ -78,7 +79,7 @@
 
 ---
 
-## Six Operational Lanes — Active Monitoring (v20.1)
+## Six Operational Lanes — Active Monitoring (v20.8)
 
 All six lanes run concurrently.  No lane queues behind another.
 
