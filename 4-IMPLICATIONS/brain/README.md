@@ -136,7 +136,7 @@ Neuroscience has independently found exactly these three structures in the brain
 ---
 
 *Brain alignment folder — created April 2026.*  
-*Part of the Unitary Manifold repository (v13.4, 406 pillars + Ω₀ + sub-pillars, 42,215 tests) —
+*Part of the Unitary Manifold repository (v20.1, 590+ pillars + Ω₀ + sub-pillars, ~49,850 tests) —
 see [`../WHAT_THIS_MEANS.md`](../WHAT_THIS_MEANS.md) for the core cosmological claim.*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.

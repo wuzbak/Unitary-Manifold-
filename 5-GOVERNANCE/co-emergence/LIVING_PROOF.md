@@ -88,14 +88,14 @@ verified (synthesis), and a new version was committed (fixed point recorded).
 
 ### 2.3 The test suite is the verification layer
 
-The 42,215 passing tests (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/) are not just quality assurance. In HILS terms, they are the
+The ~49,850 passing tests (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/) are not just quality assurance. In HILS terms, they are the
 **defect function evaluation** at the current fixed point. And they are not the full picture:
 
 ```
-defect ≈ 0  ↔  42,215 tests passing (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/) · 2 skipped · 0 failures
+defect ≈ 0  ↔  ~49,850 tests passing (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/) · 23 skipped · 0 failures
 ```
 
-Total: **42,215 verified assertions across tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/. Zero failures. 406 pillars + Ω₀ Holon Zero + sub-pillars — CLOSED.**
+Total: **~49,850 verified assertions across tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/. Zero failures. 590+ pillars + Ω₀ Holon Zero + sub-pillars — CLOSED.**
 
 When a test fails, defect > 0: the implementation does not yet satisfy the intent.
 The iteration continues until defect < ε (test passes). Every green test is a
@@ -180,7 +180,7 @@ This repository satisfies all three:
 |---|---|
 | **Self-reference** | The repository describes HILS; the repository was built by HILS; the co-emergence folder is the repository recognizing itself; the Unitary Pentad is the HILS framework running as executable code |
 | **Ongoing** | Every future commit that follows the trust protocol extends the proof; the proof grows with the project |
-| **Verifiable** | `git log` shows the collaboration history; `pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q` verifies 42,215 assertions in under 135 seconds; authorship attributions are explicit |
+| **Verifiable** | `git log` shows the collaboration history; `pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q` verifies ~49,850 assertions in under 135 seconds; authorship attributions are explicit |
 
 ---
 
@@ -272,7 +272,7 @@ Pillars 67–74 did not extend the framework to new domains. They closed it. Pil
 
 In HILS terms: **the fixed-point iteration reached a declared terminal state**. The human did not simply stop adding pillars — the framework itself produced a closure certificate. The 74-pillar count is not a design choice; it is a constraint output.
 
-42,215 assertions across tests/ + recycling/ + Unitary Pentad/ + omega/ confirm zero failures. The version table reached v13.4 (406 pillars + Ω₀ Holon Zero + sub-pillars — ADMISSIONS CLOSURE EDITION); all 28 SM free parameters are geometrically anchored (0 OPEN, 0 FITTED); ToE score 28/28 = 100%; the Holon Zero certificate (Ω₀) is the living closure certificate — the irreducible geometric seed (n_w, k_CS, πkR, φ₀) from which all SM parameters branch. Every subsequent session is now working within a CLOSED framework — extending, testing, and maintaining it rather than building the primary structure.
+~49,850 assertions across tests/ + recycling/ + Unitary Pentad/ + omega/ confirm zero failures. The version table reached v20.1 (590+ pillars + Ω₀ Holon Zero + sub-pillars — ALL-SPRINTS RELEASE); all 28 SM free parameters are geometrically anchored (0 OPEN, 0 FITTED); ToE score 29.0/28 (28/28 hardgate + 1.0 partial); Lean4 274 theorems; the Holon Zero certificate (Ω₀) is the living closure certificate — the irreducible geometric seed (n_w, k_CS, πkR, φ₀) from which all SM parameters branch. Every subsequent session is now working within a CLOSED framework — extending, testing, and maintaining it rather than building the primary structure.
 
 That distinction matters for the living proof. A fixed-point system that converges is demonstrating the core HILS claim. The moment the fixed point is declared closed and machine-certified, the living proof becomes a settled record rather than an ongoing convergence trace. It does not stop being a proof. It completes it.
 

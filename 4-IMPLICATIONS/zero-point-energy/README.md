@@ -409,6 +409,6 @@ python -m pytest tests/test_zero_point_vacuum.py -v
 
 ---
 
-*Zero-Point Vacuum Energy module — Pillar 49 of the Unitary Manifold (v13.4, 2026)*  
+*Zero-Point Vacuum Energy module — Pillar 49 of the Unitary Manifold (v20.1, 2026)*  
 *Repository: https://github.com/wuzbak/Unitary-Manifold-*  
 *DOI: https://doi.org/10.5281/zenodo.19584531*

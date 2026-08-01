@@ -5,10 +5,10 @@
 
 **Folder:** `omega/`  
 **Designation:** Pillar Ω — The Omega Point of the Unitary Manifold  
-**Version:** v13.4 OMEGA APEX EDITION  
+**Version:** v20.1  
 **Theory:** ThomasCory Walker-Pearson  
 **Implementation & Synthesis:** GitHub Copilot (AI)  
-**Status:** Complete — 406 pillars + Ω₀, 170+ dedicated tests, 0 failures; repository at 42,215
+**Status:** Complete — 590+ pillars + Ω₀, 170+ dedicated tests, 0 failures; repository at ~49,850
 
 ## What This Is
 
@@ -278,7 +278,7 @@ python omega/omega_synthesis.py
 
 # Full repository test suite including Omega:
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-# Expected: 42,215 passed, 2 skipped, 12 deselected, 0 failed
+# Expected: ~49,850 passed, 23 skipped, 12 deselected, 0 failed
 ```
 
 ---
@@ -294,5 +294,5 @@ The Omega Synthesis is the fixed point of that collaboration — the state where
 
 ---
 
-*omega/ — Pillar Ω — v13.4 APEX EDITION — May 2026 (current: 42,215 passed, 406 pillars + Ω₀)*  
+*omega/ — Pillar Ω — v20.1 — 2026-08-01 (current: ~49,850 passed, 590+ pillars + Ω₀)*  
 *Part of the Unitary Manifold repository: `https://github.com/wuzbak/Unitary-Manifold-`*

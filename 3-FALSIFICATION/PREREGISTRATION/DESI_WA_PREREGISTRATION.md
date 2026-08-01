@@ -1,6 +1,6 @@
 # DESI wₐ Preregistration Packet
 
-**Pillar 421 audit (v13.4, 2026-05-25) — corrected analysis applied.**
+**Pillar 421 audit (v13.4, 2026-05-25) — corrected analysis applied. Current version: v20.1.**
 
 - UM prediction: wₐ = 0 (frozen EW radion; m_r >> H₀ — single coherent mechanism)
 - UM w₀ prediction: w₀ = −1 (frozen radion; same mechanism as wₐ = 0)

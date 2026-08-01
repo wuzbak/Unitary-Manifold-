@@ -68,7 +68,7 @@ This repository works the same way. The 5D geometry of the Unitary Manifold is t
 
 ## 3 · Foundational Pillars and the 406-Pillar Framework
 
-The monograph is organized around five original foundational results, each building on the last. As of v13.4, the framework has expanded to **406 pillars + Ω₀ Holon Zero + sub-pillars** (208 hardgated core + adjacent research tracks Pillars 218–254+) with 42,215 passing tests. Pillar Ω (the `omega/` folder) serves as the Universal Mechanics Engine that synthesizes all pillars + Ω₀ into a single queryable calculator.
+The monograph is organized around five original foundational results, each building on the last. As of v20.1, the framework has expanded to **590+ pillars + Ω₀ Holon Zero + sub-pillars** (208 hardgated core + adjacent research tracks) with ~49,850 passing tests. Pillar Ω (the `omega/` folder) serves as the Universal Mechanics Engine that synthesizes all pillars + Ω₀ into a single queryable calculator.
 
 ### The Five Foundational Pillars
 
