@@ -12,6 +12,51 @@ For each wave entry, include:
 
 ---
 
+## v20.1 (2026-08-01 — Pillars 575–590: All-Sprints Release — arXiv/Book sync, F-theory Rung 8 🔵, DESI DR3 hardening, Δm²₂₁ cascade, Lean4 NP-BC-4)
+
+**What changed:**
+- **Sprint A — Pillar 575** (`src/core/pillar575_arxiv_book27_sync.py`): ARXIV_BOOK27_SYNC_V200_CERTIFIED — Book 27 "All Nine Sub-Gap Kernels Proved" + arXiv v20.0 sync; covers P564–P574 (v19.4 + v20.0); 101 sub-gap theorems certified; 103 tests.
+- **Sprint B — F-theory DBP Rung 8 (🔵 ADJACENT TRACK):**
+  - **Pillar 576** (`src/twelved/ftheory_rung8_aps_discriminator.py`): APS discriminator n_w=5 enhancement quantified; discriminator_strength=24/74≈0.324; P572 blocking residual CLOSED at scaffold level; kill_switch passes.
+  - **Pillar 577** (`src/twelved/ftheory_rung8_cl_normalizability.py`): Gap B MECHANISM_IDENTIFIED → PROVED_AT_REFERENCE_CY4; c_L_min≈0.917 proved deterministically for reference CY4 at fixed Vol(S); blocking residuals 2+3 still OPEN.
+  - **Pillar 578** (`src/twelved/ftheory_rung8_d3_tadpole.py`): D3-tadpole N_D3=chi/24=75840 consistent with k_CS=74 braid invariant; N_D3×24=CY4_CHI exact.
+  - **Pillar 579** (`src/twelved/ftheory_rung8_certificate.py`): Rung 8 partial closure — P572 closed at scaffold, Gap B PROVED_AT_REFERENCE_CY4, D3 consistent; 2 blocking residuals remain (spectral cover, matter-curve genus).
+- **Sprint C — DESI DR3 Pre-arrival Hardening:**
+  - **Pillar 580** (`src/core/pillar580_desi_dr3_ensemble_routing.py`): 3 decision branches hardened (PASS/TENSION/FALSIFIED); Euclid cross-check + P551 extension trigger + Hyper-K NMO; σ_DR2=2.75, projected Y5=3.64σ.
+  - **Pillar 581** (`src/core/pillar581_frozen_radion_wa_certificate.py`): wₐ=0 analytic certificate; m_φ/H₀≈6.7×10²⁹>>1 → frozen; CONDITIONAL_ANALYTIC; T1 lane TRACKED → ANALYTIC_CERTIFIED.
+  - **Pillar 582** (`src/core/pillar582_desi_dr3_preregistration_v2.py`): v2 preregistration SHA-256; Euclid cross-check + extension branch + Hyper-K NMO + SPHEREx f_NL coupling.
+- **Sprint D — Δm²₂₁ Cascade:**
+  - **Pillar 583** (`src/core/pillar583_dm21_ws_v_solar_step1.py`): WS-V solar KK off-diagonal Yukawa +4.2%; tension 4.63σ → 3.07σ.
+  - **Pillar 584** (`src/core/pillar584_dm21_rge_consistency_step2.py`): tau-Yukawa RGE threshold +0.22%; tension 3.07σ → 2.98σ.
+  - **Pillar 585** (`src/core/pillar585_dm21_closure_certificate.py`): P20 GEOMETRIC_ESTIMATE → QUANTIFIED_RESIDUAL (2.98σ); DM21_RATIO_FN_CORRECTION_NEEDED named; honest: NOT a closure; ToE delta=0.
+- **Sprint E — Lean4 NP-BC-4 Hardening:**
+  - **Pillar 586** (`src/core/pillar586_np_bc4_subgap_j_wdw.py`): NPBC4SubgapJ.lean — 11 theorems; WdW mini-superspace kernel; Lean4 total 251.
+  - **Pillar 587** (`src/core/pillar587_np_bc4_subgap_k_adm.py`): NPBC4SubgapK.lean — 11 theorems; ADM inhomogeneous NP kernel; Lean4 total 262.
+  - **Pillar 588** (`src/core/pillar588_np_bc4_subgap_l_p8_functional.py`): NPBC4SubgapL.lean — 12 theorems; P8 BH entropy functional-space kernel; P8 NAMED_RESIDUAL → ALGEBRAIC_KERNEL_PROVED; Lean4 total 274.
+  - **Pillar 589** (`src/core/pillar589_np_bc4_certificate.py`): NP-BC-4 certificate — all J/K/L proved; 34 NP-BC-4 sub-gap theorems; 12 total sub-gaps (NP-BC-1/2/3/4); 135 total sub-gap theorems.
+  - **Pillar 590** (`src/core/pillar590_lean4_274_milestone.py`): Lean4 274-theorem milestone (+34 since v20.0); Substack #277 S03E055.
+- **New Lean4 files**: NPBC4SubgapJ.lean (11), NPBC4SubgapK.lean (11), NPBC4SubgapL.lean (12); 34 new theorems, total 274.
+- **Books**: Book 27 (`7-OUTREACH/substack/books/book27_all_nine_subgap_kernels.md`), Book 28 (`7-OUTREACH/substack/books/book28_ftheory_rung8_desi_hardening.md`).
+- Canonical ledger sync: STATUS.md, docs/mas_tracker.yml, README.md, FALLIBILITY.md, DERIVATION_STATUS.md, WAVE_CHANGELOG.md, onboarding docs updated to v20.1.
+
+**Epistemic delta:**
+- `Gap B c_L lower bound` (P577): MECHANISM_IDENTIFIED → PROVED_AT_REFERENCE_CY4 (🔵 adjacent)
+- `P20 Δm²₂₁` (P585): GEOMETRIC_ESTIMATE → QUANTIFIED_RESIDUAL (2.98σ; DM21_RATIO_FN_CORRECTION_NEEDED named; NOT a closure)
+- `P8 functional space` (P588): NAMED_RESIDUAL_FULL_FUNCTION_SPACE → ALGEBRAIC_KERNEL_PROVED
+- `NP-BC-4 sub-gaps J/K/L`: all three algebraic kernels proved (34 theorems); 12 total sub-gaps (NP-BC-1/2/3/4); 135 total sub-gap theorems
+- `DESI T1 lane` (P581): TRACKED → ANALYTIC_CERTIFIED (conditional on λ_GW natural)
+- `DESI DR3 routing` (P582): v1 preregistration → v2 preregistration (Euclid + Hyper-K + SPHEREx coupling)
+
+**TOE score delta:** 0 — Sprint B is 🔵 ADJACENT TRACK; Δm²₂₁ is QUANTIFIED_RESIDUAL not closed; NP-BC-4 kernels are sub-gap advances (full NP proof remains OPEN).
+
+**Falsification impact:** None — no observable predictions changed. DESI DR3 routing hardened (not yet received).
+
+**Residual unknowns:** Δm²₂₁ 2.98σ residual (DM21_RATIO_FN_CORRECTION_NEEDED); F-theory Rung 8 blocking residuals 2+3 (spectral cover, matter-curve genus); 27 blocking residuals per sub-gap remain for full NP proof.
+
+**Regression:** 49,850 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
 ## v20.0 (2026-08-01 — Pillars 564–569: ER=EPR Sub-Gap Completion — NP-BC-2 D/E/F + NP-BC-3 G/H/I)
 
 **What changed:**

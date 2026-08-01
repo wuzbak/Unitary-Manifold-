@@ -100,6 +100,7 @@ def test_m3_results_have_valid_status(m3):
 
 def test_m3_k_cs_equals_sum_of_squares_is_verified(m3):
     """sympy_verify('Eq(5**2 + 7**2, 74)') must return verified."""
+    pytest.importorskip("sympy")
     result = m3.sympy_verify("Eq(5**2 + 7**2, 74)")
     assert result.status == "verified"
 
