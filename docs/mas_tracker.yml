@@ -1,6 +1,56 @@
-version: "v19.3"
-date: "2026-07-09"
-updated: "2026-07-09"
+version: "v19.4"
+date: "2026-08-01"
+updated: "2026-08-01"
+
+v19_4_erepr_subgap_completion:
+  version: "v19.4"
+  wave: "v19.4 ER=EPR Sub-Gap Completion Sprint — NP-BC-2 D/E/F + NP-BC-3 G/H/I (2026-08-01): Pillars 564–569"
+  date: "2026-08-01"
+  pillars_added:
+    - "564: NP_BC2_SUBGAP_D_MIXING_ANGLE_KERNEL_PROVED — NPBC2SubgapD.lean 11 theorems; total 184; mixing angle kernel n_w/k_CS=5/74; 70 tests"
+    - "565: NP_BC2_SUBGAP_E_SADDLE_BOUND_KERNEL_PROVED — NPBC2SubgapE.lean 11 theorems; total 195; NP/pert ratio=14; 73 tests"
+    - "566: NP_BC2_SUBGAP_F_UV_IR_CONSISTENCY_KERNEL_PROVED — NPBC2SubgapF.lean 11 theorems; total 206; all 3 NP-BC-2 sub-gaps proved (D/E/F, 33 theorems); 83 tests"
+    - "567: NP_BC3_SUBGAP_G_PATH_INTEGRAL_TOPOLOGY_KERNEL_PROVED — NPBC3SubgapG.lean 11 theorems; total 217; winding bound n_w×k_CS=370; 80 tests"
+    - "568: NP_BC3_SUBGAP_H_CS_ENTANGLEMENT_KERNEL_PROVED — NPBC3SubgapH.lean 11 theorems; total 228; D>8 topological order; 82 tests"
+    - "569: NP_BC3_SUBGAP_I_CS_EREPR_GEOMETRY_KERNEL_PROVED — NPBC3SubgapI.lean 12 theorems; total 240; ALL_NINE_SUBGAP_KERNELS_PROVED milestone; 101 subgap theorems; 125 tests"
+  tests_added: 413
+  regression: "~48,838 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 570
+  next_substack_post: "#271 S03E049"
+  toe_delta: 0
+  lean4_theorems_total: 240
+  lean4_new_theorems: 67
+  milestone: "ALL_NINE_SUBGAP_KERNELS_PROVED — 101 sub-gap theorems across NP-BC-1 (A/B/C), NP-BC-2 (D/E/F), NP-BC-3 (G/H/I)"
+  epistemic_deltas:
+    - "NP_BC2_SUBGAP_D (P564): unnamed blocking residual → MIXING_ANGLE_KERNEL_PROVED"
+    - "NP_BC2_SUBGAP_E (P565): unnamed blocking residual → SADDLE_BOUND_KERNEL_PROVED"
+    - "NP_BC2_SUBGAP_F (P566): unnamed blocking residual → UV_IR_CONSISTENCY_KERNEL_PROVED; all 3 NP-BC-2 sub-gap kernels proved"
+    - "NP_BC3_SUBGAP_G (P567): unnamed blocking residual → PATH_INTEGRAL_TOPOLOGY_KERNEL_PROVED"
+    - "NP_BC3_SUBGAP_H (P568): unnamed blocking residual → CS_ENTANGLEMENT_KERNEL_PROVED"
+    - "NP_BC3_SUBGAP_I (P569): unnamed blocking residual → CS_EREPR_GEOMETRY_KERNEL_PROVED; ALL_NINE_SUBGAP_KERNELS_PROVED"
+  documents_updated:
+    - "lean4/UnitaryManifold/NPBC2SubgapD.lean (NEW)"
+    - "lean4/UnitaryManifold/NPBC2SubgapE.lean (NEW)"
+    - "lean4/UnitaryManifold/NPBC2SubgapF.lean (NEW)"
+    - "lean4/UnitaryManifold/NPBC3SubgapG.lean (NEW)"
+    - "lean4/UnitaryManifold/NPBC3SubgapH.lean (NEW)"
+    - "lean4/UnitaryManifold/NPBC3SubgapI.lean (NEW)"
+    - "src/core/pillar564_np_bc2_subgap_d_mixing_angle.py (NEW)"
+    - "src/core/pillar565_np_bc2_subgap_e_saddle_bound.py (NEW)"
+    - "src/core/pillar566_np_bc2_subgap_f_uv_ir.py (NEW)"
+    - "src/core/pillar567_np_bc3_subgap_g_path_integral.py (NEW)"
+    - "src/core/pillar568_np_bc3_subgap_h_cs_entanglement.py (NEW)"
+    - "src/core/pillar569_np_bc3_subgap_i_cs_erepr.py (NEW)"
+    - "tests/test_pillar564_np_bc2_subgap_d_mixing_angle.py (NEW)"
+    - "tests/test_pillar565_np_bc2_subgap_e_saddle_bound.py (NEW)"
+    - "tests/test_pillar566_np_bc2_subgap_f_uv_ir.py (NEW)"
+    - "tests/test_pillar567_np_bc3_subgap_g_path_integral.py (NEW)"
+    - "tests/test_pillar568_np_bc3_subgap_h_cs_entanglement.py (NEW)"
+    - "tests/test_pillar569_np_bc3_subgap_i_cs_erepr.py (NEW)"
+    - "STATUS.md (updated to v19.4)"
+    - "docs/mas_tracker.yml (updated to v19.4)"
+
+v19_3_sprint1_dm31_closure_np_bc1_subgaps:
 
 v19_3_sprint1_dm31_closure_np_bc1_subgaps:
   version: "v19.3"

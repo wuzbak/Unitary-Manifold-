@@ -259,7 +259,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_lattice_dynamics.py          # Pillar 15-B: collective Gamow, phonon-radion bridge (98) — v9.16
 │   ├── test_lattice_boltzmann.py         # Pillar 15-C: KK-mediated radion COP pipeline (187) — v9.16
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 48,425 passed · 23 skipped · 12 deselected · 0 failures (v18.4, 2026-07-09)
+│   # Total: 48,838 passed · 23 skipped · 12 deselected · 0 failures (v19.4, 2026-08-01)
 │   # (Pillars 1–494 + Ω₀ + sub-pillars; canonical branch regression)
 │
 ├── brain/
@@ -466,7 +466,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **48,425 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
+| **Test suite** | `pytest` unit tests — **48,838 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 
