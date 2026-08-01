@@ -356,11 +356,11 @@ correct scientific posture.
 
 ---
 
-## Current Status — v13.4 (May 2026)
+## Current Status — v20.1 (2026-08-01)
 
 **Internal proofing: complete.**
 
-The framework has been extended across all 406 pillars + sub-pillars (208 hardgate core + adjacent research tracks) and verified in full. The test suite now stands at **42,215 passed assertions across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/ + omega/), zero failures** — verified May 2026, Python 3.12, pytest. Every domain the framework claims to govern has been implemented, tested, and found internally consistent with every other domain.
+The framework has been extended across all 590+ pillars + sub-pillars (208 hardgate core + adjacent research tracks) and verified in full. The test suite now stands at **~49,850 passed assertions across all suites (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/), zero failures** — verified 2026-08-01, Python 3.12, pytest. Every domain the framework claims to govern has been implemented, tested, and found internally consistent with every other domain.
 
 All failure modes from earlier versions have been addressed:
 

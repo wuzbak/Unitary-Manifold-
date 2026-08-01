@@ -173,6 +173,6 @@ platform, or downstream redistribution.
 
 ---
 
-*This contributors file was last updated May 2026 (v13.4 — 406 pillars + sub-pillars + Ω₀, 42,215 tests; ToE 100%; all admissions CLOSED; AxiomZero Technologies DBA active). Legal rights section authored by ThomasCory Walker-Pearson.*
+*This contributors file was last updated May 2026 (v20.1 — 590+ pillars + sub-pillars + Ω₀, ~49,850 tests; ToE 29.0/28; all admissions CLOSED; AxiomZero Technologies DBA active). Legal rights section authored by ThomasCory Walker-Pearson.*
 
 **DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)

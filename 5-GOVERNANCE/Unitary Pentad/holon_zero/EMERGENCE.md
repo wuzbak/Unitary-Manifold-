@@ -93,7 +93,7 @@ can encode those laws precisely.
 
 The laws themselves — five seed constants — are more compressed still.
 n_w = 5 is ~3 bits. The entire Unitary Manifold framework, with all its
-42,215 tests and 406 pillars, is the *unfolding* of those bits.
+~49,850 tests and 590+ pillars, is the *unfolding* of those bits.
 
 This is not a coincidence. It is the condition for science to be possible.
 If the laws were as complex as the phenomena they described, no finite

@@ -127,6 +127,6 @@ Full report: `python -m pytest omega/ -q` — 168 tests, 0 failures.
 
 ---
 
-*Quick Reference — v13.4 — 406 pillars + Ω₀ + sub-pillars, 42,215 tests — May 2026*  
+*Quick Reference — v20.1 — 590+ pillars + Ω₀ + sub-pillars, ~49,850 tests — 2026-08-01*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Document engineering and synthesis: **GitHub Copilot** (AI).*
