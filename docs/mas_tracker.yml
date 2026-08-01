@@ -1,6 +1,28 @@
-version: "v19.4"
+version: "v20.0"
 date: "2026-08-01"
 updated: "2026-08-01"
+
+v20_0_ftheory_12d_rung7:
+  version: "v20.0"
+  wave: "v20.0 F-theory / 12D DBP Rung 7 Sprint (2026-08-01): Pillars 570–574"
+  date: "2026-08-01"
+  pillars_added:
+    - "570: FTHEORY_RUNG7_SCAFFOLD_ADJACENT — 🔵 ADJACENT TRACK; DBP Rung 7 architecture scaffold; CY4_CHI=1820160, N_D3_TADPOLE=75840, SPACETIME_DIM=12; 6 hard-gate checks; kill_switch passes; 81 tests"
+    - "571: FTHEORY_CY4_FLUX_LANDSCAPE_ADJACENT — 🔵 ADJACENT TRACK; Anchor A CY4 D3-tadpole + G4 flux quantization; LOG10_NVAC_CY4≈18939 vs 10D LOG10_NVAC=74; CC NOT closed (honest); 62 tests"
+    - "572: FTHEORY_ELLIPTIC_FIBER_MONODROMY_ADJACENT — 🔵 ADJACENT TRACK; Anchor B Kodaira I₅→SU(5), T₅ off-diagonal=n_w=5; APS discriminator selects n_w=5, rejects n_w=7; k_CS=74 preserved; blocking residual documented; 69 tests"
+    - "573: FTHEORY_MATTER_CURVES_CL_ADJACENT — 🔵 ADJACENT TRACK; Anchor C c_L_min≈0.917 from F-theory normalizability; Gap B OPEN→MECHANISM_IDENTIFIED; 3 blocking residuals; 73 tests"
+    - "574: FTHEORY_12D_RUNG7_SYNC — sync sprint; STATUS.md v20.0, roadmap Rung 7, mas_tracker, FALLIBILITY, Substack #272"
+  tests_added: 285
+  regression: "~49,123 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 575
+  next_substack_post: "#273 S03E051"
+  toe_delta: 0
+  lean4_theorems_total: 240
+  lean4_new_theorems: 0
+  epistemic_deltas:
+    - "Gap B c_L lower bound (P573): OPEN (manual cutoff) → MECHANISM_IDENTIFIED (F-theory wavefunction normalizability)"
+  milestone: "DBP Rung 7 scaffold complete — F-theory 12D adjacent track established (3 anchors: A=CY4 landscape, B=monodromy n_w probe, C=matter-curve c_L bound)"
+  adjacent_track_note: "All Pillars 570–574 are 🔵 ADJACENT TRACK; no hardgate ToE-score change; 0 Lean4 theorem changes"
 
 v19_4_erepr_subgap_completion:
   version: "v19.4"

@@ -30,6 +30,7 @@ The loop is repeated from 5D to 11D, each rung burning an anchor and opening the
 | 4 | 8D → 9D | Anomaly cancellation | Green-Schwarz mechanism in 9D | **RUNG_SOLID (hard-gate evidence)** |
 | 5 | 9D → 10D | Cosmological constant | Bousso-Polchinski flux landscape | **ARCHITECTURE_CERTIFIED** |
 | 6 | 10D → 11D | M-theory unification | Hořava-Witten S¹/Z₂ × CY₃ | **RUNG_SOLID** |
+| 7 | 11D → 12D | F-theory unification | CY4 elliptic fibration (3 anchors) | 🔵 **ADJACENT_TRACK** |
 
 ---
 
@@ -271,6 +272,7 @@ closure engine above the 5D EFT, not as permanent runtime clutter inside it.
 | 9D | `src/nined/anomaly_cancellation_gs.py` | `tests/test_nined_*.py` | ✅ **RUNG_SOLID** |
 | 10D | `src/tend/flux_landscape.py` | `tests/test_tend_*.py` | ✅ **ARCHITECTURE_CERTIFIED** |
 | 11D | `src/eleventd/horava_witten_reduction.py`, `src/eleventd/horava_witten_hard_gate.py` | `tests/test_eleventd_*.py` | ✅ **RUNG_SOLID** |
+| 12D | `src/twelved/ftheory_scaffold.py`, `ftheory_flux_landscape.py`, `elliptic_fiber_monodromy.py`, `ftheory_matter_curves.py` | `tests/test_twelved_*.py` | 🔵 **ADJACENT_TRACK** (Pillars 570–573) |
 
 ---
 
@@ -287,5 +289,49 @@ closure engine above the 5D EFT, not as permanent runtime clutter inside it.
 
 ---
 
-*Roadmap version: 1.5 — 2026-05-09*  
-*DBP implementation: W13 closure sprint sync + prior W12 hard-gate updates + v10.31 continuation lock*
+### Rung 7: 11D → 12D — 🔵 ADJACENT_TRACK (v20.0 Sprint)
+
+**Anchor A:** CY4 D3-tadpole + G4 flux landscape density (Pillar 571)  
+**Anchor B:** Elliptic fiber monodromy → n_w=5 structural probe (Pillar 572)  
+**Anchor C:** Matter-curve wavefunction → c_L lower bound (Pillar 573)  
+**Mechanism:** F-theory compactification on CY4 (Calabi-Yau 4-fold); 12D = 4D + 8 real internal dims
+
+**DBP Rung 7 scaffolding (Pillar 570):**
+- SPACETIME_DIM = 12 = 4 + 2×4 (4D + CY4 real dim)
+- CY4_CHI = 1,820,160 (toric degree-24 hypersurface in WP⁵[1,1,1,1,4,6])
+- N_D3_TADPOLE = CY4_CHI / 24 = 75,840
+- Braid topological invariant: k_CS = 5² + 7² = 74 (preserved from 5D)
+
+**Anchor A findings (Pillar 571):**
+- LOG10_NVAC(CY4) ≈ 18,939 >> LOG10_NVAC(10D) = 74 — F-theory landscape is vastly denser
+- D3-tadpole condition: N_D3 ≤ 75,840 (hard quantization gate ✅)
+- G4 flux quantization: N_flux = 1,820,160 (integer ✅)
+- Cosmological constant (CC): architecture limit A1 status **UNCHANGED** — CY4 sharpens landscape density but does NOT solve vacuum selection at scaffold level (honest)
+
+**Anchor B findings (Pillar 572):**
+- Kodaira I₅ fiber → SU(5) gauge group; T₅ = [[1,5],[0,1]]; off-diagonal entry = 5 = n_w
+- SL(2,ℤ) braid non-commutativity: I₅ (SU(5), rank 4) vs I₇ (SU(7), rank 6) — inequivalent
+- APS η̄ discriminator: k_CS × η̄(n_w=5) = 37 (odd → selects); k_CS × η̄(7) = 0 (rejects)
+- **Honest blocking residual:** the I₅ monodromy selects n_w=5 as a *structural coincidence* — it is not an independent derivation; T²/Z₃ orbifold input (Pillar 11/6D Rung 1) remains the geometric source of n_w=5
+
+**Anchor C findings (Pillar 573):**
+- RS c_L parameter ↔ Dirac operator eigenvalue on compact GUT divisor S (F-theory/RS1 duality)
+- Derived bound: c_L_min = 0.5 + ln(M_KK / (Σm_ν/3)) / (2πkR) ≈ 0.917
+- Manual cutoff c_L ≥ 0.88 in `src/core/neutrino_lightest_mass.py` is **consistent** (F-theory bound is slightly stronger)
+- **Gap B status:** OPEN → MECHANISM_IDENTIFIED (partial closure; 3 blocking residuals named)
+- **No ToE score change** — ADJACENT TRACK
+
+**Status policy:** All Pillars 570–574 are 🔵 ADJACENT TRACK. The 12D F-theory extension does not replace the 5D pipeline; it extends the DBP ladder by one rung and provides geometric motivation for previously manual constants. Full Rung 7 closure requires: exact Kähler potential for Vol(S), Weierstrass model Higgs bundle, matter-curve genus computation.
+
+**Modules:**
+- `src/twelved/ftheory_scaffold.py` (Pillar 570)
+- `src/twelved/ftheory_flux_landscape.py` (Pillar 571)
+- `src/twelved/elliptic_fiber_monodromy.py` (Pillar 572)
+- `src/twelved/ftheory_matter_curves.py` (Pillar 573)
+
+**Tests:** `tests/test_twelved_*.py` (285 tests, all passing)
+
+---
+
+*Roadmap version: 2.0 — 2026-08-01*  
+*DBP implementation: v20.0 Rung 7 F-theory / 12D Adjacent Track Sprint + W13 closure sprint sync + prior W12 hard-gate updates + v10.31 continuation lock*
