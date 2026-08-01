@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v19.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~48,838 passed · 23 skipped · 12 deselected · 0 failed; v19.3 Sprint 1 DM31 Formal Closure: P17 Δm²₃₁ CLOSED (3.33σ→0.12σ, three-step cascade P548/P554/P555, certificate P559); NP-BC-1 sub-gap kernels A/B/C proved (P560–P562, 173 Lean4 theorems); Book 26 + arXiv v19.3 sync (P563); ToE 29.0/28; v19.2 Open-Problem Closure Sprint: Pillars 554–558 added — DM31 Steps 2&3 complete (0.12σ APPROACHING_CLOSURE), all 3 NP-BC kernels proved (48 theorems), gen-1 c_L AB derived (P558); v18.4 Full Dimensional Synthesis sprint: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 141 new tests; v18.0 JUNO Phase 1 Response: Pillars 525–535; v17.0 11D Precision Expansion: Pillars 519–524; v14.0 theorem-hardening sprint: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
+*Unitary Manifold v20.0 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~49,123 passed · 23 skipped · 12 deselected · 0 failed; v20.0 F-theory / 12D DBP Rung 7 Sprint: Pillars 570–574 🔵 ADJACENT TRACK — scaffold, CY4 flux landscape, elliptic fiber monodromy n_w probe, matter-curve c_L bound; Gap B OPEN→MECHANISM_IDENTIFIED; 285 new tests; ToE 29.0/28 UNCHANGED; v19.4 ER=EPR Sub-Gap Completion Sprint: P17 Δm²₃₁ CLOSED (3.33σ→0.12σ, three-step cascade P548/P554/P555, certificate P559); NP-BC-1 sub-gap kernels A/B/C proved (P560–P562, 173 Lean4 theorems); Book 26 + arXiv v19.3 sync (P563); ToE 29.0/28; v19.2 Open-Problem Closure Sprint: Pillars 554–558 added — DM31 Steps 2&3 complete (0.12σ APPROACHING_CLOSURE), all 3 NP-BC kernels proved (48 theorems), gen-1 c_L AB derived (P558); v18.4 Full Dimensional Synthesis sprint: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 141 new tests; v18.0 JUNO Phase 1 Response: Pillars 525–535; v17.0 11D Precision Expansion: Pillars 519–524; v14.0 theorem-hardening sprint: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
 
 ---
 
@@ -3551,6 +3551,32 @@ requirements.
 These ten entries are kept explicit to preserve epistemic integrity: every status
 promotion must attach hard-gate evidence, and every residual that still needs higher-D
 physics remains labeled as an architecture limit until closed.
+
+### DBP Rung 7 — F-theory / 12D ADJACENT TRACK Status (v20.0)
+
+**Pillars 570–574** add DBP Rung 7 as a 🔵 ADJACENT TRACK extension.  These pillars
+do NOT claim to close any hardgate architecture limits; they provide geometric motivation
+and mechanism identification for previously manual constants.
+
+| Anchor | Claim | Status | Blocking residuals |
+|--------|-------|--------|--------------------|
+| A — CY4 flux landscape (P571) | F-theory landscape LOG10_NVAC ≈ 18,939 >> 10D value 74 | ADJACENT_TRACK_CERTIFIED | Vacuum selection mechanism (not solved at scaffold) |
+| B — Elliptic fiber monodromy (P572) | Kodaira I₅ off-diagonal = n_w = 5 (structural coincidence) | ADJACENT_TRACK_COMPATIBILITY | Non-circular n_w derivation requires full T²/Z₃ input |
+| C — Matter-curve c_L bound (P573) | F-theory wavefunction normalizability → c_L_min ≈ 0.917 | MECHANISM_IDENTIFIED | Exact Vol(S), Weierstrass model, matter-curve genus |
+
+**Honest assessment:** The 12D F-theory extension is architecturally sound and the three
+anchors are internally self-consistent.  However, none of the three anchors constitutes
+a full derivation:
+
+- Anchor A: The CC problem is unchanged.  F-theory sharpens the landscape density but
+  does not solve vacuum selection (Bousso-Polchinski architecture limit A-1 is UNCHANGED).
+- Anchor B: The I₅ monodromy selects n_w=5 as a structural coincidence, consistent with
+  but not independent of the T²/Z₃ orbifold derivation in Rung 1.
+- Anchor C: The c_L lower bound mechanism is identified and physically motivated.  Gap B
+  status is OPEN → MECHANISM_IDENTIFIED.  The exact c_L_min depends on CY4 Kähler geometry
+  not computed at the scaffold level.
+
+**ToE score:** UNCHANGED (29.0/28).  All Pillars 570–574 are 🔵 ADJACENT TRACK.
 
 ---
 

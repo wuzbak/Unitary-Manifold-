@@ -12,7 +12,7 @@ For each wave entry, include:
 
 ---
 
-## v19.4 (2026-08-01 — Pillars 564–569: ER=EPR Sub-Gap Completion — NP-BC-2 D/E/F + NP-BC-3 G/H/I)
+## v20.0 (2026-08-01 — Pillars 564–569: ER=EPR Sub-Gap Completion — NP-BC-2 D/E/F + NP-BC-3 G/H/I)
 
 **What changed:**
 - **Pillar 564** (`src/core/pillar564_np_bc2_subgap_d_mixing_angle.py`): NP_BC2_SUBGAP_D_MIXING_ANGLE_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC2SubgapD.lean` with 11 theorems; Robin BC mixing n_w/k_CS=5/74, k_CS mod n_w=4, mixing product=345, braid kernel; Lean4 total 184; 70 tests.
@@ -23,7 +23,7 @@ For each wave entry, include:
 - **Pillar 569** (`src/core/pillar569_np_bc3_subgap_i_cs_erepr.py`): NP_BC3_SUBGAP_I_CS_EREPR_GEOMETRY_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC3SubgapI.lean` with 12 theorems; braid k_CS=5²+7²=74, ER=EPR parameter=k_CS, topological protection, all 9 sub-gap kernels proved; Lean4 total 240; ER=EPR MILESTONE: ALL_NINE_SUBGAP_KERNELS_PROVED (101 sub-gap theorems); 125 tests.
 - **New Lean4 files**: NPBC2SubgapD.lean (11), NPBC2SubgapE.lean (11), NPBC2SubgapF.lean (11), NPBC3SubgapG.lean (11), NPBC3SubgapH.lean (11), NPBC3SubgapI.lean (12); 67 new theorems, total 240.
 - **Substack post**: post-270-s03e048.
-- Canonical ledger sync: STATUS.md, docs/mas_tracker.yml, README.md, FALLIBILITY.md, DERIVATION_STATUS.md, WAVE_CHANGELOG.md, onboarding docs updated to v19.4.
+- Canonical ledger sync: STATUS.md, docs/mas_tracker.yml, README.md, FALLIBILITY.md, DERIVATION_STATUS.md, WAVE_CHANGELOG.md, onboarding docs updated to v20.0.
 
 **Epistemic delta:**
 - `NP_BC2_SUBGAP_D` (P564): unnamed blocking residual → `MIXING_ANGLE_KERNEL_PROVED`
@@ -39,7 +39,7 @@ For each wave entry, include:
 
 **Residual unknowns:** 27 blocking residuals across 9 sub-gaps (3 per sub-gap); all require non-perturbative 5D quantum gravity formalization in Mathlib. Full ER=EPR proof remains OPEN.
 
-**Regression:** 48,838 passed · 23 skipped · 12 deselected · 0 failed
+**Regression:** 49,123 passed · 23 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -71,7 +71,7 @@ For each wave entry, include:
 - NP-BC-1 sub-gap A: Bessel function wavefunctions (not in Mathlib)
 - NP-BC-1 sub-gap B: exact S_saddle value (non-perturbative 5D gravity)
 - NP-BC-1 sub-gap C: Riemannian curved orbifold (not in Mathlib)
-- ER=EPR sub-gaps D–F (NP-BC-2) and G–I (NP-BC-3): addressed in Sprint 2 (v19.4)
+- ER=EPR sub-gaps D–F (NP-BC-2) and G–I (NP-BC-3): addressed in Sprint 2 (v20.0)
 - WS-V texture for DM31: parameterized, not uniquely fixed by 5D geometry
 
 **Test regression:** ~48,425 passed · 23 skipped · 12 deselected · 0 failed
