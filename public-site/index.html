@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unitary Manifold — 5D Kaluza-Klein Physics Framework</title>
+  <meta name="description" content="A 5-dimensional Kaluza-Klein physics framework with 590 computational pillars, 49,850+ tests, and a falsifiable LiteBIRD prediction. Explore 5D spacetime, calculators, and the Unitary Pentad." />
+  <meta property="og:title" content="Unitary Manifold — 5D Physics" />
+  <meta property="og:description" content="Explore a 5D physics framework with interactive calculators, the Pentad governance simulator, and real physics engines." />
+  <meta name="theme-color" content="#050a1a" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css" />
+
+  <!-- Three.js (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous" defer></script>
+
+  <style>
+    /* Page-specific hero overrides */
+    .hero-canvas { background: radial-gradient(ellipse at 60% 40%, #0a1a3a 0%, #050a1a 70%); }
+    .predictions-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+    .prediction-card {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      transition: all 0.2s;
+    }
+    .prediction-card:hover { border-color: rgba(59,139,255,0.4); }
+    .prediction-name { font-size: 0.8rem; color: var(--color-muted); margin-bottom: 0.4rem; }
+    .prediction-value { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .pillar-ticker { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-muted); }
+    .toe-ring {
+      width: 160px; height: 160px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .toe-ring svg { transform: rotate(-90deg); }
+    .toe-ring-label {
+      position: absolute;
+      inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .nav-mobile-toggle { display: none; background: none; border: none; color: var(--color-text); font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 600px) { .nav-mobile-toggle { display: block; } }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────────────────────── -->
+<nav class="nav">
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo">UM</div>
+    Unitary Manifold
+  </a>
+  <ul class="nav-links">
+    <li><a href="apps/index.html">Apps</a></li>
+    <li><a href="explore/index.html">Explore 5D</a></li>
+    <li><a href="pentad/index.html">Pentad</a></li>
+    <li><a href="status/index.html">Status</a></li>
+    <li><a href="about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-canvas" id="hero-canvas"></div>
+  <div class="container hero-content">
+    <div class="hero-eyebrow">
+      <span>●</span>
+      <span>5-Dimensional Kaluza-Klein Framework &nbsp;·&nbsp; v20.1 Active</span>
+    </div>
+    <h1 class="hero-title">The Unitary Manifold:<br>A 5D Physics Engine</h1>
+    <p class="hero-subtitle">
+      A compact extra dimension unifies thermodynamic irreversibility with
+      Kaluza-Klein geometry. 590 computational pillars, 274 Lean4 theorems,
+      and a falsifiable prediction awaiting LiteBIRD 2032.
+    </p>
+    <div class="hero-btns">
+      <a href="apps/index.html" class="btn btn-primary">🧮 Open Calculators</a>
+      <a href="explore/index.html" class="btn btn-outline">🌌 Explore 5D Space</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="stat-pillars">590</div>
+        <div class="hero-stat-label">Computational Pillars</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="stat-tests">49,850</div>
+        <div class="hero-stat-label">Passing Tests</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="stat-lean4">274</div>
+        <div class="hero-stat-label">Lean4 Theorems</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value text-gold" id="stat-toe">29.0/28</div>
+        <div class="hero-stat-label">ToE Score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LiteBIRD Countdown ───────────────────────────────────────────────── -->
+<section class="section-sm" style="background:var(--color-bg2);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
+  <div class="container">
+    <div class="countdown-block">
+      <div class="text-xs text-muted" style="margin-bottom:.5rem">COUNTDOWN TO FALSIFICATION TEST</div>
+      <div style="font-weight:700;font-size:1.1rem;color:var(--color-gold)">LiteBIRD Birefringence Measurement</div>
+      <div class="text-sm text-muted" style="margin:.4rem 0">Prediction: β ∈ {0.273°, 0.331°} &nbsp;|&nbsp; Falsification window: [0.22°, 0.38°] excluding gap [0.29°–0.31°]</div>
+      <div class="countdown-digits" id="countdown-digits">
+        <div class="countdown-unit"><div class="countdown-num" id="cd-years">—</div><div class="countdown-label">years</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-days">—</div><div class="countdown-label">days</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-hours">—</div><div class="countdown-label">hours</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-mins">—</div><div class="countdown-label">mins</div></div>
+      </div>
+      <div class="text-xs text-muted">Launch ~2032 · Primary falsifier for the braided-winding mechanism</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Apps Grid ────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Interactive Engines</div>
+      <h2 class="section-title">Physics Calculators & Simulators</h2>
+      <p class="section-desc">Fully functional apps powered by the real physics — every calculation mirrors the Python modules exactly.</p>
+    </div>
+    <div class="grid-4" style="gap:1rem">
+      <a href="apps/kk-mass-calculator.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(59,139,255,0.1)">⚛️</div>
+        <div class="app-card-title">KK Mass Calculator</div>
+        <div class="app-card-desc">Compute Kaluza-Klein graviton mass m_G_KK from warp factor k̃ and compare to LHC bounds.</div>
+        <span class="badge badge-blue">Calculator</span>
+      </a>
+      <a href="apps/birefringence-predictor.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(240,192,64,0.1)">🔭</div>
+        <div class="app-card-title">Birefringence Predictor</div>
+        <div class="app-card-desc">Predict CMB birefringence angle β from braid parameters. See the LiteBIRD falsification window.</div>
+        <span class="badge badge-gold">LiteBIRD 2032</span>
+      </a>
+      <a href="apps/toe-score.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(48,209,88,0.1)">📊</div>
+        <div class="app-card-title">ToE Score Dashboard</div>
+        <div class="app-card-desc">Live 29.0/28 score, all 13 admissions, 8 predictions, and epistemic status for each claim.</div>
+        <span class="badge badge-green">29.0/28</span>
+      </a>
+      <a href="apps/cmb-parameters.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(124,77,255,0.1)">🌊</div>
+        <div class="app-card-title">CMB Parameters</div>
+        <div class="app-card-desc">Interactive n_s, r, f_NL calculator. Compare UM predictions to Planck 2018, ACT DR6, BICEP/Keck.</div>
+        <span class="badge badge-adj">CMB</span>
+      </a>
+      <a href="apps/desi-tracker.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(255,159,10,0.1)">📡</div>
+        <div class="app-card-title">DESI Tension Tracker</div>
+        <div class="app-card-desc">w₀-wₐ dark energy plane visualizer, current 2.75σ DESI DR2 tension, and DR3 decision tree.</div>
+        <span class="badge badge-orange">2.75σ Tension</span>
+      </a>
+      <a href="apps/lean4-progress.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(59,139,255,0.1)">📐</div>
+        <div class="app-card-title">Lean4 Theorem Progress</div>
+        <div class="app-card-desc">274 formally verified theorems, NP-BC series progress, and the path to the 300-theorem milestone.</div>
+        <span class="badge badge-blue">274 theorems</span>
+      </a>
+      <a href="apps/pentad-simulator.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(240,192,64,0.1)">⬡</div>
+        <div class="app-card-title">Pentad Simulator</div>
+        <div class="app-card-desc">Simulate the 5-body pentagonal orbit — universe, brain, human, AI, and trust field. See convergence or collapse.</div>
+        <span class="badge badge-gold">HILS</span>
+      </a>
+      <a href="explore/index.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(124,77,255,0.1)">🌌</div>
+        <div class="app-card-title">5D Space Explorer</div>
+        <div class="app-card-desc">WebGL interactive visualization of 5D Kaluza-Klein geometry. Navigate the compact extra dimension.</div>
+        <span class="badge badge-adj">WebGL 3D</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Key Predictions ───────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--color-bg2)">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Scientific Claims</div>
+      <h2 class="section-title">Key Predictions & Their Status</h2>
+      <p class="section-desc">Every claim is falsifiable, every status is honest. Green = confirmed, orange = in tension, blue = pending external measurement.</p>
+    </div>
+    <div class="predictions-row" id="predictions-container">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── ToE Score Ring ─────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="align-items:center">
+      <div>
+        <div class="section-eyebrow">Theory of Everything Score</div>
+        <h2 style="margin-bottom:1rem">29.0 / 28 Hardgate Claims</h2>
+        <p class="text-muted" style="margin-bottom:1.5rem">
+          28 hardgated physics claims are fully derived from the 5D geometry.
+          The score exceeds 28 due to a +1.0 partial conditional advance (gen-1 c_L AB + DM31 conditional).
+          0 test failures is a hard invariant — no claim is promoted without executable verification.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+          <div class="card">
+            <div class="text-xs text-muted mb-1">Hardgate Pillars</div>
+            <div style="font-size:1.8rem;font-weight:700;font-family:var(--font-mono);color:var(--color-green)">208</div>
+          </div>
+          <div class="card">
+            <div class="text-xs text-muted mb-1">Adjacent Tracks</div>
+            <div style="font-size:1.8rem;font-weight:700;font-family:var(--font-mono);color:#a990ff">24+</div>
+          </div>
+          <div class="card">
+            <div class="text-xs text-muted mb-1">Lean4 Theorems</div>
+            <div style="font-size:1.8rem;font-weight:700;font-family:var(--font-mono);color:var(--color-accent)">274</div>
+          </div>
+          <div class="card">
+            <div class="text-xs text-muted mb-1">Total Tests</div>
+            <div style="font-size:1.8rem;font-weight:700;font-family:var(--font-mono);color:var(--color-gold)">49,850</div>
+          </div>
+        </div>
+        <a href="apps/toe-score.html" class="btn btn-primary">View Full Dashboard →</a>
+      </div>
+      <div class="text-center">
+        <div class="toe-ring">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="68" fill="none" stroke="#1a2a4a" stroke-width="12"/>
+            <circle cx="80" cy="80" r="68" fill="none" stroke="url(#toeGrad)" stroke-width="12"
+              stroke-dasharray="427.3" stroke-dashoffset="15.3" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="toeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#3b8bff"/>
+                <stop offset="100%" stop-color="#30d158"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="toe-ring-label">
+            <div style="font-size:2rem;font-weight:700;font-family:var(--font-mono);color:var(--color-gold)">29.0</div>
+            <div style="font-size:.8rem;color:var(--color-muted)">out of 28</div>
+          </div>
+        </div>
+        <div style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
+          ~96.4% complete &nbsp;·&nbsp; 1 external measurement window open
+        </div>
+        <div style="margin-top:.5rem">
+          <span class="badge badge-gold">LiteBIRD ~2032</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Key Equations ─────────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--color-bg2)">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Mathematical Foundation</div>
+      <h2 class="section-title">The 5D Metric Ansatz</h2>
+    </div>
+    <div class="grid-2">
+      <div>
+        <h3 style="margin-bottom:1rem;color:var(--color-accent)">KK Metric</h3>
+        <div class="equation-block">
+ds² = e^{2A(y)} η_{μν} dx^μ dx^ν + e^{-2A(y)} dy²
+
+A(y) = −k|y| &nbsp;&nbsp; (Randall-Sundrum warp factor)
+
+n_w = 5 &nbsp;&nbsp; k_CS = 74 = 5² + 7²
+c_s  = 12/37 ≈ 0.3243 &nbsp;&nbsp; (braided sound speed)
+        </div>
+        <p class="text-sm text-muted" style="margin-top:1rem">
+          The compact S¹/Z₂ extra dimension at scale r_c ≈ 1/k generates
+          the observed mass hierarchy through exponential warping.
+        </p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:1rem;color:var(--color-accent)">Braided KK Inflation</h3>
+        <div class="equation-block">
+n_s = 1 − 6ε_SR + 2ε_SR ln(c_s) ≈ 0.9635
+
+r   = 16 ε_SR c_s ≈ 0.0315
+
+f_NL^DBI = −(35/108)(1/c_s² − 1) ≈ −0.532
+
+β ∈ {0.273°, 0.331°} &nbsp;&nbsp; (LiteBIRD 2032)
+        </div>
+        <p class="text-sm text-muted" style="margin-top:1rem">
+          Planck 2018 confirms n_s = 0.9649 ± 0.0042
+          (UM: 0.9635, 0.3σ tension). BICEP/Keck: r &lt; 0.036 ✓
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pentad Preview ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="align-items:center;gap:3rem">
+      <div>
+        <div class="section-eyebrow">HILS Governance</div>
+        <h2 style="margin-bottom:1rem">The Unitary Pentad</h2>
+        <p class="text-muted" style="margin-bottom:1rem">
+          An independent governance framework borrowing the mathematical structure
+          of the Unitary Manifold — the (5,7) braid algebra, the φ-attractor,
+          k_CS = 74 — as design principles for Human-in-the-Loop systems.
+        </p>
+        <p class="text-muted" style="margin-bottom:1.5rem">
+          Five bodies in stable co-orbit: the Universe (Ψ_univ), Brain (Ψ_brain),
+          Human Intent (Ψ_human), AI Precision (Ψ_AI), and Trust Field (β·C).
+          The (5,7) braid winding frequency keeps all five in stable pentagonal orbit.
+        </p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <a href="pentad/index.html" class="btn btn-primary">Explore Pentad →</a>
+          <a href="apps/pentad-simulator.html" class="btn btn-outline">Run Simulation</a>
+        </div>
+      </div>
+      <div>
+        <div class="viz-container" style="height:320px">
+          <canvas id="pentad-preview-canvas" width="520" height="320" style="width:100%;height:100%"></canvas>
+          <div class="canvas-overlay">Unitary Pentad · 5-body orbital · c_s = 12/37</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Unitary Manifold</div>
+        <div class="footer-desc">
+          A 5-dimensional Kaluza-Klein physics framework. v20.1 · 590 pillars ·
+          49,850 tests · 274 Lean4 theorems.
+          <br><br>
+          <a href="https://doi.org/10.5281/zenodo.19584531" style="font-size:0.8rem">DOI: 10.5281/zenodo.19584531</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Physics</div>
+        <ul class="footer-links">
+          <li><a href="apps/kk-mass-calculator.html">KK Mass Calculator</a></li>
+          <li><a href="apps/birefringence-predictor.html">Birefringence Predictor</a></li>
+          <li><a href="apps/cmb-parameters.html">CMB Parameters</a></li>
+          <li><a href="apps/desi-tracker.html">DESI Tracker</a></li>
+          <li><a href="apps/toe-score.html">ToE Score</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Framework</div>
+        <ul class="footer-links">
+          <li><a href="pentad/index.html">Unitary Pentad</a></li>
+          <li><a href="apps/pentad-simulator.html">Pentad Simulator</a></li>
+          <li><a href="explore/index.html">5D Explorer</a></li>
+          <li><a href="status/index.html">Status Dashboard</a></li>
+          <li><a href="apps/lean4-progress.html">Lean4 Progress</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Repository</div>
+        <ul class="footer-links">
+          <li><a href="https://github.com/wuzbak/Unitary-Manifold-">GitHub Repository</a></li>
+          <li><a href="about/index.html">About & Citation</a></li>
+          <li><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md">Fallibility.md</a></li>
+          <li><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md">README</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <em>Theory, framework, and scientific direction: <strong>ThomasCory Walker-Pearson</strong>.</em><br>
+        <em>Code architecture, test suites, document engineering: <strong>GitHub Copilot</strong> (AI).</em>
+      </div>
+      <div>© 2026 ThomasCory Walker-Pearson · Defensive Public Commons License v1.0</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Scripts ────────────────────────────────────────────────────────────── -->
+<script src="js/physics-engine.js"></script>
+<script src="js/visualizations.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ── Countdown ──────────────────────────────────────────────────────────
+  function updateCountdown() {
+    const cd = UM.litebirdCountdown();
+    if (cd.past) return;
+    document.getElementById("cd-years").textContent = cd.years;
+    document.getElementById("cd-days").textContent  = cd.days;
+    document.getElementById("cd-hours").textContent = cd.hours;
+    document.getElementById("cd-mins").textContent  = cd.mins;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  // ── Predictions grid ───────────────────────────────────────────────────
+  const toe = UM.toeScoreDashboard();
+  const container = document.getElementById("predictions-container");
+  const statusMap = {
+    "CONFIRMED":   { cls: "badge-green",  icon: "✓" },
+    "CONSISTENT":  { cls: "badge-blue",   icon: "~" },
+    "IN_TENSION":  { cls: "badge-orange", icon: "⚠" },
+    "PENDING":     { cls: "badge-blue",   icon: "◷" },
+  };
+  toe.predictions.forEach(p => {
+    const s = statusMap[p.status] || { cls: "badge-blue", icon: "?" };
+    const sigmaStr = p.sigma != null ? `<span class="text-xs text-muted">${p.sigma}σ</span>` : "";
+    container.insertAdjacentHTML("beforeend", `
+      <div class="prediction-card">
+        <div class="prediction-name">${p.name}</div>
+        <div class="prediction-value">${p.um}</div>
+        <div class="text-sm text-muted" style="margin-bottom:.5rem">${p.measured}</div>
+        <span class="badge ${s.cls}">${s.icon} ${p.status}</span>
+        ${sigmaStr}
+      </div>`);
+  });
+
+  // ── Hero 3D ────────────────────────────────────────────────────────────
+  const heroCanvas = document.getElementById("hero-canvas");
+  if (heroCanvas && typeof KK5DAnimation !== "undefined") {
+    new KK5DAnimation(heroCanvas, { nw: 5, kcs: 74 });
+  }
+
+  // ── Pentad preview ─────────────────────────────────────────────────────
+  const pc = document.getElementById("pentad-preview-canvas");
+  if (pc && typeof PentadOrbitalViz !== "undefined") {
+    new PentadOrbitalViz(pc, { speed: 0.7 });
+  }
+});
+</script>
+</body>
+</html>

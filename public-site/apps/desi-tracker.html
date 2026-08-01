@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>DESI Tension Tracker — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" crossorigin="anonymous" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:2rem">
+    <div class="section-eyebrow">Dark Energy Tracker</div>
+    <h1 style="margin-bottom:.5rem">DESI Tension Tracker</h1>
+    <p class="text-muted">The UM predicts w₀ = −1, wₐ = 0 (frozen radion — no rolling dark energy). DESI DR2 shows 2.75σ tension. Track the decision tree toward DR3.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:2rem;align-items:start">
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:1.25rem">Input Observation</h3>
+        <div class="form-group">
+          <label class="form-label">Tension σ (observed)</label>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <input type="range" id="sigmaObs" min="0" max="5" step="0.05" value="2.75" oninput="updateDESI()"/>
+            <span class="range-val" id="sigmaVal">2.75</span>
+          </div>
+          <div class="text-xs text-muted">DESI DR2: 2.75σ · Projected DR3: 3.64σ</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">w₀ (measured)</label>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <input type="range" id="w0obs" min="-2" max="0" step="0.01" value="-0.727" oninput="updateDESI()"/>
+            <span class="range-val" id="w0Val">-0.727</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">wₐ (measured)</label>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <input type="range" id="waobs" min="-2" max="1" step="0.01" value="-0.75" oninput="updateDESI()"/>
+            <span class="range-val" id="waVal">-0.75</span>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="resetDR2()">Reset to DESI DR2</button>
+        <button class="btn btn-outline btn-sm" onclick="resetDR3proj()">Set DR3 projected</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:1rem">Decision Branches</h3>
+        <div id="branch-display"></div>
+        <div style="margin-top:1rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px">
+          <div class="text-xs text-muted" style="margin-bottom:.4rem">Recommended Action</div>
+          <div id="action-text" class="text-sm"></div>
+        </div>
+        <div class="text-xs text-muted" style="margin-top:.75rem;border-top:1px solid var(--color-border);padding-top:.75rem">
+          Architecture limit CERTIFIED (P301): no rolling-radion solution avoids RS1 hierarchy fine-tuning at σ≥3. Do not revisit until DR3 formally falsifies at ≥3σ.
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:1rem">w₀–wₐ Plane</h3>
+        <div style="height:320px">
+          <canvas id="de-plane-chart"></canvas>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.75rem;font-size:.75rem;color:var(--color-muted)">
+          <span><span style="display:inline-block;width:10px;height:10px;background:#30d158;border-radius:50%;margin-right:3px"></span>UM / ΛCDM: w₀=−1, wₐ=0</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#ff9f0a;border-radius:50%;margin-right:3px"></span>DESI DR2 best fit</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#3b8bff;border-radius:50%;margin-right:3px"></span>Your input</span>
+        </div>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:.75rem">Results</h4>
+        <div id="desi-result-rows"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="../js/physics-engine.js"></script>
+<script src="../js/visualizations.js"></script>
+<script>
+let deChart = null;
+function updateDESI() {
+  const sigma = parseFloat(document.getElementById("sigmaObs").value);
+  const w0    = parseFloat(document.getElementById("w0obs").value);
+  const wa    = parseFloat(document.getElementById("waobs").value);
+  document.getElementById("sigmaVal").textContent = sigma.toFixed(2);
+  document.getElementById("w0Val").textContent    = w0.toFixed(3);
+  document.getElementById("waVal").textContent    = wa.toFixed(3);
+
+  const res = UM.desiTensionTracker(sigma, w0, wa);
+
+  // Branch display
+  const bEl = document.getElementById("branch-display");
+  const branches = [
+    { label:"PASS",      thresh:"σ < 2.0",    active: res.decision_branch==="PASS",      cls:"badge-green"  },
+    { label:"TENSION",   thresh:"2.0 ≤ σ < 3.0", active: res.decision_branch==="TENSION",   cls:"badge-orange" },
+    { label:"FALSIFIED", thresh:"σ ≥ 3.0",    active: res.decision_branch==="FALSIFIED",  cls:"badge-red"    },
+  ];
+  bEl.innerHTML = branches.map(b => `
+    <div style="display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <span class="badge ${b.active?b.cls:'badge-blue'}" style="opacity:${b.active?1:0.3};min-width:80px;justify-content:center">${b.label}</span>
+      <span class="text-mono text-xs text-muted">${b.thresh}</span>
+      ${b.active?'<span style="margin-left:auto;color:var(--color-gold)">← current</span>':''}
+    </div>`).join("");
+  document.getElementById("action-text").textContent = res.action;
+
+  // Results
+  const rows = [
+    ["Decision branch", `<span class="badge ${res.falsified?'badge-red':res.decision_branch==='TENSION'?'badge-orange':'badge-green'}">${res.decision_branch}</span>`],
+    ["Δw₀ from UM", `<span class="text-mono">${res.delta_w0}</span>`],
+    ["Δwₐ from UM", `<span class="text-mono">${res.delta_wa}</span>`],
+    ["Combined distance", `<span class="text-mono">${res.combined_distance}</span>`],
+    ["DR3 projected σ", `<span class="text-mono">${res.dr3_projected_sigma}</span>`],
+    ["Decision window", `<span class="text-xs text-muted">${res.decision_window}</span>`],
+  ];
+  document.getElementById("desi-result-rows").innerHTML = rows.map(([l,v]) =>
+    `<div class="result-row"><span class="result-label">${l}</span><span>${v}</span></div>`).join("");
+
+  // Update chart
+  updateChart(w0, wa);
+}
+
+function updateChart(w0, wa) {
+  const canvas = document.getElementById("de-plane-chart");
+  if (!canvas) return;
+  if (deChart) { deChart.destroy(); deChart = null; }
+  const ctx = canvas.getContext("2d");
+  deChart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        { label:"UM / ΛCDM", data:[{x:-1,y:0}], pointBackgroundColor:"#30d158", pointRadius:10 },
+        { label:"DESI DR2",  data:[{x:-0.727,y:-0.75}], pointBackgroundColor:"#ff9f0a", pointRadius:8 },
+        { label:"Your input", data:[{x:w0,y:wa}], pointBackgroundColor:"#3b8bff", pointRadius:8 },
+      ],
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {
+        legend: { labels: { color:"#7a8ba8", font:{size:11} } },
+        tooltip:{ backgroundColor:"#0d1830", bodyColor:"#7a8ba8" },
+      },
+      scales: {
+        x:{ title:{display:true,text:"w₀",color:"#7a8ba8"}, ticks:{color:"#7a8ba8"}, grid:{color:"#1a2a4a"}, min:-2, max:0 },
+        y:{ title:{display:true,text:"wₐ",color:"#7a8ba8"}, ticks:{color:"#7a8ba8"}, grid:{color:"#1a2a4a"}, min:-2, max:0.5 },
+      },
+    },
+  });
+}
+
+function resetDR2()    { document.getElementById("sigmaObs").value=-0+2.75; document.getElementById("w0obs").value=-0.727; document.getElementById("waobs").value=-0.75; updateDESI(); }
+function resetDR3proj(){ document.getElementById("sigmaObs").value=3.64; updateDESI(); }
+document.addEventListener("DOMContentLoaded", () => { if(typeof Chart!=="undefined") updateDESI(); else setTimeout(updateDESI, 600); });
+</script>
+</body>
+</html>

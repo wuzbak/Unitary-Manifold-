@@ -472,3 +472,67 @@ class UOSShell:
         self._handlers[IntentAction.UNKNOWN] = lambda i: (
             f"Intent '{i.raw}' could not be resolved. Try: help"
         )
+
+
+class CommandParser:
+    """Minimal parser for the Pentad operator REPL."""
+
+    def parse(self, command_str: str) -> Dict[str, List[str] | str]:
+        raw = command_str.strip()
+        if not raw:
+            return {"command": "", "args": []}
+        tokens = raw.split()
+        return {"command": tokens[0].lower(), "args": tokens[1:]}
+
+
+class PentadShell:
+    """Small REPL-style shell supporting status, alert, reset, and help."""
+
+    def __init__(self) -> None:
+        self._parser = CommandParser()
+        self._history: List[str] = []
+        self._alerts: List[Dict[str, str]] = []
+        self._reset_count = 0
+
+    def execute(self, command_str: str):
+        parsed = self._parser.parse(command_str)
+        command = parsed["command"]
+        args = list(parsed["args"])
+        self._history.append(command_str.strip())
+
+        if command == "status":
+            return {
+                "command": "status",
+                "alerts": len(self._alerts),
+                "history": len(self._history),
+                "reset_count": self._reset_count,
+            }
+        if command == "alert":
+            if len(args) < 2:
+                raise ValueError("alert requires BODY_ID and ALERT_TYPE arguments.")
+            record = {
+                "body_id": args[0],
+                "alert_type": args[1],
+                "message": " ".join(args[2:]),
+            }
+            self._alerts.append(record)
+            return {"command": "alert", "record": record, "alerts": len(self._alerts)}
+        if command == "reset":
+            self._alerts.clear()
+            self._reset_count += 1
+            return {
+                "command": "reset",
+                "status": "reset",
+                "reset_count": self._reset_count,
+            }
+        if command == "help":
+            return {
+                "command": "help",
+                "commands": ["status", "alert", "reset", "help"],
+            }
+        raise ValueError(f"Unsupported shell command: {command!r}")
+
+    def get_history(self) -> List[str]:
+        """Return the ordered command history."""
+
+        return list(self._history)

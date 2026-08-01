@@ -25,6 +25,7 @@ from unitary_pentad import PentadSystem, PENTAD_LABELS
 from consciousness_autopilot import AutopilotUniverse, AutopilotMode
 
 from pentad_operator_console import (
+    OperatorConsole,
     RST, GRN, YLW, RED,
     phi_color,
     bar,
@@ -367,3 +368,21 @@ class TestPentadOperatorConsole:
         assert "event_008" in result
         assert "event_007" in result
         assert "event_000" not in result
+
+
+class TestOperatorConsole:
+    def test_display_state_returns_all_bodies(self, pentad: PentadSystem) -> None:
+        console = OperatorConsole(pentad)
+        state = console.display_state()
+        assert set(state.keys()) == set(PENTAD_LABELS)
+
+    def test_alert_history_records_alerts(self, pentad: PentadSystem) -> None:
+        console = OperatorConsole(pentad)
+        console.alert("human", "warning")
+        assert len(console.get_alert_history()) == 1
+
+    def test_run_diagnostic_returns_report(self, pentad: PentadSystem) -> None:
+        console = OperatorConsole(pentad)
+        report = console.run_diagnostic()
+        assert "stability_score" in report
+        assert "trust_modulation" in report

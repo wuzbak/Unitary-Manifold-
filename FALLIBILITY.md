@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v20.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~49,850 passed · 23 skipped · 12 deselected · 0 failed; v20.0 F-theory / 12D DBP Rung 7 Sprint: Pillars 570–574 🔵 ADJACENT TRACK — scaffold, CY4 flux landscape, elliptic fiber monodromy n_w probe, matter-curve c_L bound; Gap B OPEN→MECHANISM_IDENTIFIED; 285 new tests; ToE 29.0/28 UNCHANGED; v19.4 ER=EPR Sub-Gap Completion Sprint: P17 Δm²₃₁ CLOSED (3.33σ→0.12σ, three-step cascade P548/P554/P555, certificate P559); NP-BC-1 sub-gap kernels A/B/C proved (P560–P562, 173 Lean4 theorems); Book 26 + arXiv v19.3 sync (P563); ToE 29.0/28; v19.2 Open-Problem Closure Sprint: Pillars 554–558 added — DM31 Steps 2&3 complete (0.12σ APPROACHING_CLOSURE), all 3 NP-BC kernels proved (48 theorems), gen-1 c_L AB derived (P558); v18.4 Full Dimensional Synthesis sprint: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 141 new tests; v18.0 JUNO Phase 1 Response: Pillars 525–535; v17.0 11D Precision Expansion: Pillars 519–524; v14.0 theorem-hardening sprint: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
+*Unitary Manifold v20.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~50,500 passed · 23 skipped · 12 deselected · 0 failed; v20.0 F-theory / 12D DBP Rung 7 Sprint: Pillars 570–574 🔵 ADJACENT TRACK — scaffold, CY4 flux landscape, elliptic fiber monodromy n_w probe, matter-curve c_L bound; Gap B OPEN→MECHANISM_IDENTIFIED; 285 new tests; ToE 29.0/28 UNCHANGED; v19.4 ER=EPR Sub-Gap Completion Sprint: P17 Δm²₃₁ CLOSED (3.33σ→0.12σ, three-step cascade P548/P554/P555, certificate P559); NP-BC-1 sub-gap kernels A/B/C proved (P560–P562, 173 Lean4 theorems); Book 26 + arXiv v19.3 sync (P563); ToE 29.0/28; v19.2 Open-Problem Closure Sprint: Pillars 554–558 added — DM31 Steps 2&3 complete (0.12σ APPROACHING_CLOSURE), all 3 NP-BC kernels proved (48 theorems), gen-1 c_L AB derived (P558); v18.4 Full Dimensional Synthesis sprint: Pillar 540 FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 141 new tests; v18.0 JUNO Phase 1 Response: Pillars 525–535; v17.0 11D Precision Expansion: Pillars 519–524; v14.0 theorem-hardening sprint: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
 
 ---
 
@@ -48,7 +48,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (~49,850 passed · 23 skipped · 12 deselected · 0 failed (v20.1, 2026-08-01; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (~50,500 passed · 23 skipped · 12 deselected · 0 failed (v20.1, 2026-08-01; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution

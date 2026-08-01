@@ -43,7 +43,7 @@ NetworkStack(local_node_id)
 from __future__ import annotations
 
 import hashlib
-from collections import deque
+from collections import Counter, deque
 from dataclasses import dataclass, field
 from typing import Any, Deque, Dict, List, Optional, Tuple
 
@@ -507,3 +507,87 @@ class NetworkStack:
             "bytes_sent": self._bytes_sent,
             "router_frames_forwarded": self.router._frame_count,
         }
+
+
+class PentadNetworkNode:
+    """Peer-to-peer Pentad node for Phase 3 network orchestration."""
+
+    def __init__(self, node_id: str, host: str, port: int) -> None:
+        self.node_id = node_id
+        self.host = host
+        self.port = port
+        self._connections: Dict[str, "PentadNetworkNode"] = {}
+        self._broadcast_log: List[Dict[str, Any]] = []
+        self._message_counts: Counter[str] = Counter()
+
+    def connect(self, remote_node: "PentadNetworkNode") -> bool:
+        """Record a bidirectional connection between two nodes."""
+
+        if remote_node.node_id == self.node_id:
+            return False
+        self._connections[remote_node.node_id] = remote_node
+        remote_node._connections[self.node_id] = self
+        return True
+
+    def broadcast(self, message: str) -> int:
+        """Record a broadcast delivery to all connected peers."""
+
+        targets = self.get_connected_nodes()
+        event = {"from": self.node_id, "message": message, "targets": targets}
+        self._broadcast_log.append(event)
+        for node_id, node in self._connections.items():
+            node._broadcast_log.append(
+                {"from": self.node_id, "message": message, "targets": [node_id]}
+            )
+            self._message_counts[node_id] += 1
+        return len(targets)
+
+    def get_connected_nodes(self) -> List[str]:
+        """Return all connected node identifiers."""
+
+        return sorted(self._connections.keys())
+
+    def get_network_entropy(self) -> float:
+        """Return normalized Shannon entropy of message distribution."""
+
+        total = sum(self._message_counts.values())
+        if total <= 0 or len(self._message_counts) <= 1:
+            return 0.0
+        probs = np.array(
+            [count / total for count in self._message_counts.values() if count > 0],
+            dtype=float,
+        )
+        entropy = float(-np.sum(probs * np.log2(probs)))
+        return float(entropy / np.log2(len(self._message_counts)))
+
+
+class NetworkTopology:
+    """Manage a collection of Pentad network nodes."""
+
+    def __init__(self) -> None:
+        self._nodes: Dict[str, PentadNetworkNode] = {}
+
+    def add_node(self, node: PentadNetworkNode) -> None:
+        self._nodes[node.node_id] = node
+
+    def remove_node(self, node_id: str) -> PentadNetworkNode | None:
+        node = self._nodes.pop(node_id, None)
+        if node is None:
+            return None
+        for other in self._nodes.values():
+            other._connections.pop(node_id, None)
+        return node
+
+    def get_topology_stability(self) -> float:
+        """Return a compact stability score for the current topology."""
+
+        n_nodes = len(self._nodes)
+        if n_nodes <= 1:
+            return 0.0
+        degrees = [len(node._connections) for node in self._nodes.values()]
+        ideal_degree = max(1, min(len(self._nodes) - 1, WINDING_NUMBER - 1))
+        degree_score = float(np.mean([min(deg / ideal_degree, 1.0) for deg in degrees]))
+        total_edges = sum(degrees) / 2.0
+        max_edges = n_nodes * (n_nodes - 1) / 2.0
+        density = total_edges / max(max_edges, 1.0)
+        return float(np.clip(0.6 * degree_score + 0.4 * density, 0.0, 1.0))

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Pentad Simulator — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:2rem">
+    <div class="section-eyebrow">5-Body HILS Simulation</div>
+    <h1 style="margin-bottom:.5rem">Unitary Pentad Simulator</h1>
+    <p class="text-muted">Simulate the five-body pentagonal orbit — Universe, Brain, Human, AI, and Trust Field. Adjust coupling constants and watch convergence or collapse.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem;align-items:start">
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:1.25rem">Coupling Parameters</h3>
+        <div class="form-group">
+          <label class="form-label">Birefringence coupling β</label>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <input type="range" id="betaC" min="0.05" max="1.0" step="0.01" value="0.331" oninput="runSim()"/>
+            <span class="range-val" id="betaVal">0.331</span>
+          </div>
+          <div class="text-xs text-muted">Canonical: β = 0.331° → sets inter-body coupling strength</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Trust field φ<sub>trust</sub></label>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <input type="range" id="phiTrust" min="0.0" max="1.5" step="0.05" value="1.0" oninput="runSim()"/>
+            <span class="range-val" id="phiTrustVal">1.00</span>
+          </div>
+          <div class="text-xs text-muted">Trust floor: φ_trust ≥ 0.1 required for stable orbit</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Simulation steps</label>
+          <select class="form-control" id="simSteps" onchange="runSim()">
+            <option value="50">50 steps</option>
+            <option value="100" selected>100 steps</option>
+            <option value="200">200 steps</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem">
+          <button class="btn btn-primary btn-sm" onclick="runSim()">▶ Run Simulation</button>
+          <button class="btn btn-outline btn-sm" onclick="setCollapse()">⚡ Trust Collapse</button>
+          <button class="btn btn-outline btn-sm" onclick="resetCanon()">↺ Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:1rem">Result</h3>
+        <div id="sim-verdict" style="text-align:center;padding:1.25rem;background:rgba(0,0,0,0.3);border-radius:8px;margin-bottom:1rem">
+          <div style="font-size:2rem;margin-bottom:.5rem" id="verdict-emoji">⬡</div>
+          <div style="font-weight:700;font-size:1.1rem" id="verdict-label">—</div>
+          <div class="text-sm text-muted mt-1" id="verdict-detail">Run simulation to see result</div>
+        </div>
+        <div id="sim-body-states"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.75rem">Orbital Visualization</h3>
+        <div style="background:#050a1a;border-radius:8px;overflow:hidden">
+          <canvas id="pentad-sim-canvas" width="520" height="400" style="width:100%;display:block"></canvas>
+        </div>
+        <div class="text-xs text-muted mt-1">c_s = 12/37 · (5,7) braid stabilizes the orbit</div>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:.75rem">Pentad Master Equation</h4>
+        <div class="equation-block" style="font-size:.82rem">
+U_pentad(Ψ_univ ⊗ Ψ_brain ⊗ Ψ_human ⊗ Ψ_AI ⊗ Ψ_trust)
+  = Ψ_univ ⊗ ... ⊗ Ψ_trust
+
+U_pentad = Σᵢ (Uᵢ ⊗ I⊗others) + β_eff · C_pentad
+τᵢⱼ = β × φ_trust (trust-modulated coupling)
+
+Stability: min eigenvalue ≥ c_s = 12/37
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="../js/physics-engine.js"></script>
+<script src="../js/visualizations.js"></script>
+<script>
+let orbViz = null;
+
+function runSim() {
+  const beta  = parseFloat(document.getElementById("betaC").value);
+  const phi   = parseFloat(document.getElementById("phiTrust").value);
+  const steps = parseInt(document.getElementById("simSteps").value);
+  document.getElementById("betaVal").textContent     = beta.toFixed(3);
+  document.getElementById("phiTrustVal").textContent = phi.toFixed(2);
+
+  const res = UM.simulatePentad(steps, { beta, trust: phi });
+
+  // Verdict
+  const em = { HARMONIC_STATE:"✅", TRUST_COLLAPSE:"💥", CONVERGENT_WITH_RESIDUAL:"⚡" };
+  document.getElementById("verdict-emoji").textContent  = em[res.verdict] || "⬡";
+  document.getElementById("verdict-label").textContent  = res.verdict.replace(/_/g," ");
+  document.getElementById("verdict-detail").textContent =
+    `Stability: ${res.stability_score}% · Step: ${res.convergence_step >= 0 ? res.convergence_step : "not converged"}`;
+
+  // Body states
+  const bs = document.getElementById("sim-body-states");
+  bs.innerHTML = "";
+  res.final_states.forEach(b => {
+    const defPct = Math.min(100, b.defect * 100 * 10);
+    bs.insertAdjacentHTML("beforeend", `
+      <div style="display:flex;align-items:center;gap:.75rem;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+        <div style="font-family:var(--font-mono);font-size:.8rem;min-width:70px;color:var(--color-muted)">${b.name}</div>
+        <div style="flex:1">
+          <div class="progress-track" style="height:6px">
+            <div class="${defPct<20?'progress-fill-green':'progress-fill'}" style="width:${Math.min(100,b.phi*80)}%;height:100%;border-radius:3px;background:${defPct>30?'#ff453a':'#30d158'}"></div>
+          </div>
+        </div>
+        <div class="text-mono text-xs" style="min-width:55px;text-align:right">φ=${b.phi.toFixed(3)}</div>
+      </div>`);
+  });
+
+  // Update viz speed/trust
+  if (orbViz) orbViz.setTrustLevel(phi);
+}
+
+function setCollapse() {
+  document.getElementById("phiTrust").value = 0.0;
+  runSim();
+}
+function resetCanon() {
+  document.getElementById("betaC").value    = 0.331;
+  document.getElementById("phiTrust").value = 1.0;
+  document.getElementById("simSteps").value = 100;
+  runSim();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementById("pentad-sim-canvas");
+  if (canvas && typeof PentadOrbitalViz !== "undefined") {
+    orbViz = new PentadOrbitalViz(canvas, { speed: 1.0 });
+  }
+  runSim();
+});
+</script>
+</body>
+</html>

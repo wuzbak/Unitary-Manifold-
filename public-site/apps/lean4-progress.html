@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Lean4 Theorem Progress — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" crossorigin="anonymous" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:2rem">
+    <div class="section-eyebrow">Formal Verification</div>
+    <h1 style="margin-bottom:.5rem">Lean4 Theorem Progress</h1>
+    <p class="text-muted">274 theorems formally verified in Lean 4 across the NP-BC series. Each theorem is a machine-checked algebraic kernel for an open non-perturbative problem.</p>
+  </div>
+
+  <!-- Hero counter -->
+  <div style="background:linear-gradient(135deg,rgba(59,139,255,0.1),rgba(124,77,255,0.05));border:1px solid rgba(59,139,255,0.3);border-radius:16px;padding:2rem;text-align:center;margin-bottom:2rem">
+    <div style="font-family:var(--font-mono);font-size:4rem;font-weight:900;color:var(--color-accent)" id="lean4-counter">274</div>
+    <div class="text-muted">Lean4 Theorems Proved</div>
+    <div style="max-width:400px;margin:1rem auto 0">
+      <div class="progress-track" style="height:12px">
+        <div class="progress-fill" id="lean4-progress-bar" style="width:54.8%"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--color-muted);margin-top:.3rem">
+        <span>0</span><span id="pct-label">274 / 500 (54.8%)</span><span>500</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+    <div>
+      <div class="card">
+        <h3 style="margin-bottom:1.25rem">NP-BC Series Progress</h3>
+        <div id="np-bc-list"></div>
+        <div style="margin-top:1.25rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px">
+          <div class="text-xs text-muted" style="margin-bottom:.4rem">Combined Sub-Gap Theorems</div>
+          <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--color-gold)">135</div>
+          <div class="text-xs text-muted">across 12 sub-gaps (NP-BC-1/2/3/4, A–L)</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:1rem">Theorems by Category</h3>
+        <div style="height:260px"><canvas id="lean4-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:.75rem">Milestones</h4>
+        <div id="milestones-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <h3 style="margin-bottom:1rem">What Lean4 Verifies</h3>
+    <p class="text-sm text-muted" style="margin-bottom:.75rem">
+      The Lean4 files verify <strong>algebraic kernel constraints</strong> for non-perturbative problems — not full functional-space proofs. Each "proved" theorem is a necessary algebraic condition on the operator algebra, not a complete non-perturbative closure. This distinction is documented honestly in every Lean4 file.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div style="padding:1rem;background:rgba(48,209,88,0.05);border:1px solid rgba(48,209,88,0.2);border-radius:8px">
+        <div class="text-xs text-green" style="margin-bottom:.4rem">WHAT IS PROVED</div>
+        <ul class="text-sm text-muted" style="padding-left:1.2rem;line-height:1.8">
+          <li>Arithmetic consistency of operator algebra</li>
+          <li>KK correction coefficients (n_w/k_CS fractions)</li>
+          <li>Parity conditions from n_w = 5 (odd)</li>
+          <li>Braid identity 5² + 7² = 74</li>
+          <li>Algebraic kernel constraints (necessary conditions)</li>
+        </ul>
+      </div>
+      <div style="padding:1rem;background:rgba(255,69,58,0.05);border:1px solid rgba(255,69,58,0.2);border-radius:8px">
+        <div style="font-size:.75rem;color:var(--color-red);margin-bottom:.4rem">WHAT IS NOT PROVED</div>
+        <ul class="text-sm text-muted" style="padding-left:1.2rem;line-height:1.8">
+          <li>Full Wheeler-DeWitt functional quantization</li>
+          <li>Non-perturbative operator-ordering uniqueness</li>
+          <li>Physical Hilbert-space inner product</li>
+          <li>Complete closed-form functional solutions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="../js/physics-engine.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const data = UM.lean4Progress();
+
+  // NP-BC list
+  const npList = document.getElementById("np-bc-list");
+  data.np_bc_series.forEach(s => {
+    const pct = Math.round((s.theorems / data.total_lean4) * 100);
+    npList.insertAdjacentHTML("beforeend", `
+      <div style="margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem">
+          <span style="font-weight:600">${s.name}</span>
+          <span class="text-mono text-xs text-gold">${s.theorems} theorems</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--color-muted);margin-bottom:.4rem">
+          Sub-gaps ${s.sub_gaps.join(", ")} · ${s.complete?'<span style="color:var(--color-green)">COMPLETE ✓</span>':'IN PROGRESS'}
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>`);
+  });
+
+  // Milestones
+  const milestones = [
+    { n:48,  label:"NP-BC-1 complete (A/B/C)",  done:true },
+    { n:85,  label:"NP-BC-2 complete (D/E/F)",  done:true },
+    { n:101, label:"NP-BC-3 complete (G/H/I)",  done:true },
+    { n:135, label:"NP-BC-4 complete (J/K/L)",  done:true },
+    { n:169, label:"NP-BC-5 (M/N/O) — next",   done:false },
+    { n:300, label:"Lean4 300-theorem milestone",done:false },
+  ];
+  const mlList = document.getElementById("milestones-list");
+  milestones.forEach(m => {
+    const current = data.total_lean4 >= m.n;
+    mlList.insertAdjacentHTML("beforeend", `
+      <div style="display:flex;align-items:center;gap:.75rem;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+        <span style="font-size:1rem">${current?'✅':'⭕'}</span>
+        <div style="flex:1">
+          <span class="text-sm ${current?'text-green':''}">${m.n} theorems — ${m.label}</span>
+        </div>
+      </div>`);
+  });
+
+  // Chart
+  if (typeof Chart !== "undefined") {
+    const canvas = document.getElementById("lean4-chart");
+    new Chart(canvas.getContext("2d"), {
+      type: "doughnut",
+      data: {
+        labels: data.np_bc_series.map(s => s.name).concat(["Other"]),
+        datasets: [{
+          data: data.np_bc_series.map(s => s.theorems).concat([data.other_theorems]),
+          backgroundColor: ["#3b8bff","#7c4dff","#30d158","#f0c040","#ff9f0a"],
+          borderWidth: 0,
+        }],
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false, cutout:"65%",
+        plugins: {
+          legend: { labels:{color:"#7a8ba8",font:{size:11}}, position:"bottom" },
+          tooltip:{ backgroundColor:"#0d1830", bodyColor:"#7a8ba8" },
+        },
+      },
+    });
+  }
+});
+</script>
+</body>
+</html>

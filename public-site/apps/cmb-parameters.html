@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CMB Parameters — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:2rem">
+    <div class="section-eyebrow">Inflation Calculator</div>
+    <h1 style="margin-bottom:.5rem">CMB Parameters</h1>
+    <p class="text-muted">Compute n<sub>s</sub>, r, and f<sub>NL</sub> from the braided Kaluza-Klein inflation model. Adjust ε<sub>SR</sub> and c<sub>s</sub> to explore the parameter space.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem;align-items:start">
+    <div class="card">
+      <h3 style="margin-bottom:1.25rem">Inflation Parameters</h3>
+      <div class="form-group">
+        <label class="form-label">Slow-roll parameter ε<sub>SR</sub></label>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <input type="range" id="epsSR" min="0.0001" max="0.02" step="0.0001" value="0.0036" oninput="updateCMB()"/>
+          <span class="range-val" id="epsSRVal">0.0036</span>
+        </div>
+        <div class="text-xs text-muted">Canonical: 0.0036 (from n_w=5 slow-roll)</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sound speed c<sub>s</sub></label>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <input type="range" id="cS" min="0.05" max="1.0" step="0.005" value="0.3243" oninput="updateCMB()"/>
+          <span class="range-val" id="cSVal">0.3243</span>
+        </div>
+        <div class="text-xs text-muted">Braided: c<sub>s</sub> = 12/37 ≈ 0.3243</div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="resetCanonical()" style="margin-top:.5rem">Reset to canonical</button>
+      <div class="equation-block" style="margin-top:1rem;font-size:.82rem">
+n_s = 1 − 6ε + 2ε·ln(c_s)
+r   = 16ε·c_s
+f_NL = −(35/108)(1/c_s² − 1)
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:1.25rem">Computed Values</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;text-align:center;margin-bottom:1.25rem">
+          <div>
+            <div class="text-xs text-muted">n_s</div>
+            <div class="text-mono text-gold" style="font-size:1.4rem;font-weight:700" id="res-ns">—</div>
+            <div class="text-xs" id="ns-status">—</div>
+          </div>
+          <div>
+            <div class="text-xs text-muted">r</div>
+            <div class="text-mono text-gold" style="font-size:1.4rem;font-weight:700" id="res-r">—</div>
+            <div class="text-xs" id="r-status">—</div>
+          </div>
+          <div>
+            <div class="text-xs text-muted">f<sub>NL</sub></div>
+            <div class="text-mono text-gold" style="font-size:1.4rem;font-weight:700" id="res-fnl">—</div>
+            <div class="text-xs" id="fnl-status">—</div>
+          </div>
+        </div>
+        <div id="cmb-result-rows"></div>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:.75rem">Comparison Table</h4>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Parameter</th><th>UM Prediction</th><th>Measurement</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>n_s</td><td class="text-mono">0.9635</td><td class="text-mono">0.9649 ± 0.0042<br><span class="text-xs text-muted">Planck 2018</span></td><td><span class="badge badge-green">0.3σ ✓</span></td></tr>
+              <tr><td>r</td><td class="text-mono">0.0315</td><td class="text-mono">&lt; 0.036 (95%)<br><span class="text-xs text-muted">BICEP/Keck</span></td><td><span class="badge badge-green">CONSISTENT ✓</span></td></tr>
+              <tr><td>f<sub>NL</sub></td><td class="text-mono">−0.532</td><td class="text-mono">±47 (Planck)<br>σ≈1.6 (SPHEREx)</td><td><span class="badge badge-blue">PENDING 2027</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-muted" style="margin-top:.75rem">Note: n_s and r are fully derived from 5D geometry. A_s normalization requires α_GW (UV-brane parameter) — documented open admission in FALLIBILITY.md.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script src="../js/physics-engine.js"></script>
+<script>
+function updateCMB() {
+  const eps = parseFloat(document.getElementById("epsSR").value);
+  const cs  = parseFloat(document.getElementById("cS").value);
+  document.getElementById("epsSRVal").textContent = eps.toFixed(4);
+  document.getElementById("cSVal").textContent    = cs.toFixed(4);
+  const res = UM.cmbParameters(eps, cs);
+  document.getElementById("res-ns").textContent  = res.n_s;
+  document.getElementById("res-r").textContent   = res.r;
+  document.getElementById("res-fnl").textContent = res.f_NL;
+  const nsTen = Math.abs(res.n_s - res.n_s_planck) / res.n_s_sigma;
+  document.getElementById("ns-status").innerHTML = `<span class="badge ${nsTen<2?'badge-green':'badge-orange'}">${nsTen.toFixed(1)}σ vs Planck</span>`;
+  document.getElementById("r-status").innerHTML  = `<span class="badge ${res.r_below_bound?'badge-green':'badge-red'}">${res.r_below_bound?'< 0.036 ✓':'> 0.036 ✗'}</span>`;
+  document.getElementById("fnl-status").innerHTML = `<span class="badge badge-blue">f_NL band: [${res.f_NL_band[0]}, ${res.f_NL_band[1]}]</span>`;
+}
+function resetCanonical() {
+  document.getElementById("epsSR").value = 0.0036;
+  document.getElementById("cS").value    = (12/37).toFixed(4);
+  updateCMB();
+}
+document.addEventListener("DOMContentLoaded", updateCMB);
+</script>
+</body>
+</html>

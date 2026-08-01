@@ -65,7 +65,8 @@ __provenance__ = {
     "fingerprint": "(5, 7, 74)",
 }
 
-from dataclasses import dataclass
+from collections import Counter
+from dataclasses import dataclass, field
 from typing import Tuple
 
 from unitary_pentad import PENTAD_LABELS, PentadSystem, trust_modulation
@@ -292,3 +293,74 @@ def evaluate_cloud_adjunct(
         failover_mode="continue_local_without_cloud",
         rationale="Unsupported adjunct request; preserve the closed Pentad orbit.",
     )
+
+
+@dataclass
+class CloudPentadNode:
+    """Distributed node carrying a five-body Pentad state."""
+
+    node_id: str
+    body_states: dict[str, float] = field(
+        default_factory=lambda: {label: 0.5 for label in PENTAD_LABELS}
+    )
+    reference_phase: float = 0.5
+    sync_count: int = 0
+
+    def __post_init__(self) -> None:
+        merged = {label: 0.5 for label in PENTAD_LABELS}
+        for label, value in self.body_states.items():
+            if label in merged:
+                merged[label] = float(min(1.0, max(0.0, value)))
+        self.body_states = merged
+        self.reference_phase = float(min(1.0, max(0.0, self.reference_phase)))
+
+    def sync(self, other_node: "CloudPentadNode") -> dict[str, float]:
+        """Synchronize body states by averaging them across two nodes."""
+
+        synced = {}
+        for label in PENTAD_LABELS:
+            avg = 0.5 * (self.body_states[label] + other_node.body_states[label])
+            synced[label] = float(min(1.0, max(0.0, avg)))
+        self.body_states.update(synced)
+        other_node.body_states.update(synced)
+        self.sync_count += 1
+        other_node.sync_count += 1
+        return dict(synced)
+
+    def get_phase_offset(self) -> float:
+        """Return the mean Moiré phase offset from the node reference."""
+
+        mean_phase = sum(self.body_states.values()) / len(PENTAD_LABELS)
+        return float(abs(mean_phase - self.reference_phase))
+
+    def is_quorum_reached(self) -> bool:
+        """Return True when at least three bodies agree on the same binary state."""
+
+        votes = [int(self.body_states[label] >= 0.5) for label in PENTAD_LABELS]
+        ones = sum(votes)
+        zeros = len(votes) - ones
+        return max(ones, zeros) >= 3
+
+
+class DistributedConsensus:
+    """Minimal distributed consensus tracker with a 3-vote quorum."""
+
+    def __init__(self, quorum_size: int = 3) -> None:
+        self.quorum_size = quorum_size
+        self._votes: dict[str, str] = {}
+
+    def vote(self, node_id: str, proposal: str) -> int:
+        """Cast or replace a node's vote and return the proposal tally."""
+
+        self._votes[node_id] = proposal
+        return sum(1 for value in self._votes.values() if value == proposal)
+
+    def get_consensus(self) -> str | None:
+        """Return the consensus proposal once the quorum threshold is reached."""
+
+        if not self._votes:
+            return None
+        proposal, count = Counter(self._votes.values()).most_common(1)[0]
+        if count >= self.quorum_size:
+            return proposal
+        return None

@@ -39,6 +39,8 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
+import numpy as np
+
 from five_cores.five_cores_system import (
     FiveCoresSystem,
     CoreLabel,
@@ -721,3 +723,53 @@ class PentadOperatorConsole:
             max_events=max_ev,
         )
         return render_console(state)
+
+
+class OperatorConsole:
+    """Lightweight diagnostic console for direct five-body inspection."""
+
+    def __init__(self, pentad: Optional[PentadSystem] = None) -> None:
+        self._pentad = PentadSystem.default() if pentad is None else pentad
+        self._alerts: List[Dict[str, str]] = []
+
+    def display_state(self) -> Dict[str, float]:
+        """Return the current φ state for all five Pentad bodies."""
+
+        return {
+            label: float(self._pentad.bodies[label].phi)
+            for label in PENTAD_LABELS
+        }
+
+    def alert(self, body_id: str, alert_type: str) -> Dict[str, str]:
+        """Record an alert against one body or subsystem."""
+
+        record = {
+            "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
+            "body_id": body_id,
+            "alert_type": alert_type,
+        }
+        self._alerts.append(record)
+        return dict(record)
+
+    def get_alert_history(self) -> List[Dict[str, str]]:
+        """Return the recorded alert history."""
+
+        return list(self._alerts)
+
+    def run_diagnostic(self) -> Dict[str, Any]:
+        """Return a compact diagnostic report for the current Pentad state."""
+
+        states = self.display_state()
+        trust = float(np.clip(trust_modulation(self._pentad), 0.0, 1.0))
+        defect = float(max(0.0, pentad_defect(self._pentad)))
+        stability = float(np.clip(1.0 / (1.0 + defect), 0.0, 1.0))
+        low_bodies = [label for label, phi in states.items() if phi < 0.3]
+        return {
+            "body_states": states,
+            "trust_modulation": trust,
+            "defect": defect,
+            "stability_score": stability,
+            "alert_count": len(self._alerts),
+            "low_bodies": low_bodies,
+            "healthy": stability >= 0.5 and trust >= 0.3 and not low_bodies,
+        }

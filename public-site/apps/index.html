@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Apps & Calculators — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+
+<div style="padding-top:60px">
+  <div class="container section">
+    <div class="section-header">
+      <div class="section-eyebrow">Interactive Physics Engines</div>
+      <h1 class="section-title">Calculators & Simulators</h1>
+      <p class="section-desc">All calculations use the actual physics — every result mirrors the Python modules in <code>src/core/</code>. Zero approximations.</p>
+    </div>
+
+    <div class="grid-3" style="gap:1.5rem">
+      <a href="kk-mass-calculator.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(59,139,255,0.12)">⚛️</div>
+        <div class="app-card-title">KK Mass Calculator</div>
+        <div class="app-card-desc">Compute the Kaluza-Klein graviton mass m_G_KK from warp factor k̃ (0.01–0.15), compare to ATLAS/CMS Run 2 bounds, and see the UM lower bound of 5 TeV.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-blue">m_G_KK</span>
+          <span class="badge badge-green">LHC bounds</span>
+        </div>
+      </a>
+
+      <a href="birefringence-predictor.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(240,192,64,0.12)">🔭</div>
+        <div class="app-card-title">Birefringence Predictor</div>
+        <div class="app-card-desc">Predict CMB birefringence angle β from the (n_w, k_CS) braid parameters. See the admissible window [0.22°, 0.38°] and the gap [0.29°–0.31°] that would falsify the theory.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-gold">LiteBIRD 2032</span>
+          <span class="badge badge-blue">Falsifiable</span>
+        </div>
+      </a>
+
+      <a href="toe-score.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(48,209,88,0.12)">📊</div>
+        <div class="app-card-title">ToE Score Dashboard</div>
+        <div class="app-card-desc">Live 29.0/28 Theory of Everything score. All 13 admissions, 8 predictions, 28 hardgate claims, and honest epistemic status for every item.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-green">29.0/28</span>
+          <span class="badge badge-orange">1 open measurement</span>
+        </div>
+      </a>
+
+      <a href="cmb-parameters.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(124,77,255,0.12)">🌊</div>
+        <div class="app-card-title">CMB Parameters</div>
+        <div class="app-card-desc">Interactive n_s, r, f_NL calculator. Adjust ε_SR and c_s, compare against Planck 2018, ACT DR6, BICEP/Keck, and the SPHEREx f_NL decision window.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-adj">n_s = 0.9635</span>
+          <span class="badge badge-adj">r = 0.0315</span>
+        </div>
+      </a>
+
+      <a href="desi-tracker.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(255,159,10,0.12)">📡</div>
+        <div class="app-card-title">DESI Tension Tracker</div>
+        <div class="app-card-desc">Dark energy w₀-wₐ plane visualizer. Current 2.75σ DESI DR2 tension, DR3 decision tree (PASS/TENSION/FALSIFIED branches), and the frozen-radion architecture limit.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-orange">2.75σ DESI DR2</span>
+          <span class="badge badge-blue">DR3 ~2027</span>
+        </div>
+      </a>
+
+      <a href="lean4-progress.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(59,139,255,0.12)">📐</div>
+        <div class="app-card-title">Lean4 Theorem Progress</div>
+        <div class="app-card-desc">274 formally verified theorems across NP-BC-1/2/3/4 series, 12 sub-gap kernels, and the path to the 300-theorem milestone.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-blue">274 theorems</span>
+          <span class="badge badge-green">NP-BC-4 ✓</span>
+        </div>
+      </a>
+
+      <a href="pentad-simulator.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(240,192,64,0.12)">⬡</div>
+        <div class="app-card-title">Pentad Simulator</div>
+        <div class="app-card-desc">Simulate the 5-body Unitary Pentad orbital — universe, brain, human, AI, and trust field. Adjust couplings and watch convergence or collapse in real time.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-gold">5-body HILS</span>
+          <span class="badge badge-adj">Live simulation</span>
+        </div>
+      </a>
+
+      <a href="../explore/index.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(124,77,255,0.12)">🌌</div>
+        <div class="app-card-title">5D Space Explorer</div>
+        <div class="app-card-desc">WebGL 3D interactive visualization of the Kaluza-Klein extra dimension. Navigate the S¹ fiber bundle, the KK tower, and the (5,7) winding strands.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-adj">WebGL 3D</span>
+          <span class="badge badge-blue">Interactive</span>
+        </div>
+      </a>
+
+      <a href="../pentad/index.html" class="app-card">
+        <div class="app-card-icon" style="background:rgba(48,209,88,0.12)">🔐</div>
+        <div class="app-card-title">HILS Governance Interface</div>
+        <div class="app-card-desc">The full Unitary Pentad governance interface. Scenario runner, trust field calculator, 5-body stability analysis, and HILS Certification Protocol v1.0.</div>
+        <div class="flex gap-1 flex-wrap mt-1">
+          <span class="badge badge-green">Ξ_c = 35/74</span>
+          <span class="badge badge-blue">Cert. Protocol</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Quick Reference -->
+    <div class="card mt-4">
+      <h3 style="margin-bottom:1rem">Quick Reference — Core Constants</h3>
+      <div class="grid-4" style="gap:1rem">
+        <div><div class="text-xs text-muted">Winding number</div><div class="text-mono text-gold" style="font-size:1.1rem">n_w = 5</div></div>
+        <div><div class="text-xs text-muted">Chern-Simons level</div><div class="text-mono text-gold" style="font-size:1.1rem">k_CS = 74</div></div>
+        <div><div class="text-xs text-muted">Braided sound speed</div><div class="text-mono text-gold" style="font-size:1.1rem">c_s = 12/37</div></div>
+        <div><div class="text-xs text-muted">Spectral index</div><div class="text-mono text-gold" style="font-size:1.1rem">n_s = 0.9635</div></div>
+        <div><div class="text-xs text-muted">Tensor-to-scalar</div><div class="text-mono text-gold" style="font-size:1.1rem">r = 0.0315</div></div>
+        <div><div class="text-xs text-muted">f_NL canonical</div><div class="text-mono text-gold" style="font-size:1.1rem">f_NL = −0.532</div></div>
+        <div><div class="text-xs text-muted">Birefringence β₁</div><div class="text-mono text-gold" style="font-size:1.1rem">0.273°</div></div>
+        <div><div class="text-xs text-muted">Birefringence β₂</div><div class="text-mono text-gold" style="font-size:1.1rem">0.331°</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div><em>Theory: <strong>ThomasCory Walker-Pearson</strong> · Implementation: <strong>GitHub Copilot</strong> (AI)</em></div>
+      <div>© 2026 · <a href="../about/index.html">About</a> · <a href="https://github.com/wuzbak/Unitary-Manifold-">GitHub</a></div>
+    </div>
+  </div>
+</footer>
+<script src="../js/physics-engine.js"></script>
+</body>
+</html>

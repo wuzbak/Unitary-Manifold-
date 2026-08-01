@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Unitary Pentad — HILS Governance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="../apps/index.html">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="index.html" class="active">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+<div style="padding-top:60px">
+
+<!-- Hero -->
+<div style="background:linear-gradient(135deg,rgba(240,192,64,0.08),rgba(59,139,255,0.05));border-bottom:1px solid var(--color-border);padding:4rem 0 3rem">
+  <div class="container">
+    <div class="section-eyebrow">HILS Governance Framework</div>
+    <h1 style="margin-bottom:1rem">The Unitary Pentad</h1>
+    <p style="color:var(--color-muted);max-width:640px;font-size:1.05rem;line-height:1.7">
+      An independent governance architecture borrowing the mathematical structure of the Unitary Manifold —
+      the (5,7) braid algebra, the φ-attractor, k_CS = 74 — as design principles for Human-in-the-Loop systems.
+      <strong>Not a physics claim.</strong> Valid even if LiteBIRD measures β = 0.
+    </p>
+    <div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap">
+      <a href="../apps/pentad-simulator.html" class="btn btn-primary">▶ Run Simulation</a>
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/5-GOVERNANCE" class="btn btn-outline">📂 Source Code</a>
+    </div>
+  </div>
+</div>
+
+<div class="container section">
+  <!-- Five Bodies -->
+  <div class="section-header">
+    <div class="section-eyebrow">The Five Bodies</div>
+    <h2 class="section-title">Pentagonal Co-Orbit</h2>
+    <p class="section-desc">Each body is a manifold in the 5-body coupled system. All five must converge simultaneously to achieve the Pentad fixed point.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:3rem">
+    <div class="card text-center" style="border-color:rgba(59,139,255,0.4)">
+      <div style="font-size:2rem;margin-bottom:.5rem">🌌</div>
+      <div style="font-family:var(--font-mono);font-size:.85rem;color:var(--color-gold);font-weight:700">Ψ_univ</div>
+      <div style="font-size:.8rem;font-weight:600;margin:.3rem 0">Physical Manifold</div>
+      <div class="text-xs text-muted">5D KK geometry source · cosmological scale</div>
+    </div>
+    <div class="card text-center" style="border-color:rgba(48,209,88,0.4)">
+      <div style="font-size:2rem;margin-bottom:.5rem">🧠</div>
+      <div style="font-family:var(--font-mono);font-size:.85rem;color:var(--color-gold);font-weight:700">Ψ_brain</div>
+      <div style="font-size:.8rem;font-weight:600;margin:.3rem 0">Biological Observer</div>
+      <div class="text-xs text-muted">Neural integration · predictive coding · neural scale</div>
+    </div>
+    <div class="card text-center" style="border-color:rgba(255,159,10,0.4)">
+      <div style="font-size:2rem;margin-bottom:.5rem">🧭</div>
+      <div style="font-family:var(--font-mono);font-size:.85rem;color:var(--color-gold);font-weight:700">Ψ_human</div>
+      <div style="font-size:.8rem;font-weight:600;margin:.3rem 0">Intent Layer</div>
+      <div class="text-xs text-muted">Semantic direction · judgment · personal scale</div>
+    </div>
+    <div class="card text-center" style="border-color:rgba(124,77,255,0.4)">
+      <div style="font-size:2rem;margin-bottom:.5rem">🤖</div>
+      <div style="font-family:var(--font-mono);font-size:.85rem;color:var(--color-gold);font-weight:700">Ψ_AI</div>
+      <div style="font-size:.8rem;font-weight:600;margin:.3rem 0">Operational Precision</div>
+      <div class="text-xs text-muted">Truth machine · implementation · computational scale</div>
+    </div>
+    <div class="card text-center" style="border-color:rgba(240,192,64,0.4)">
+      <div style="font-size:2rem;margin-bottom:.5rem">🔐</div>
+      <div style="font-family:var(--font-mono);font-size:.85rem;color:var(--color-gold);font-weight:700">β·C</div>
+      <div style="font-size:.8rem;font-weight:600;margin:.3rem 0">Trust Field</div>
+      <div class="text-xs text-muted">Stabilizing medium · cross-scale coupling</div>
+    </div>
+  </div>
+
+  <!-- Live Orbital -->
+  <div class="grid-2" style="gap:2rem;align-items:center;margin-bottom:3rem">
+    <div>
+      <h3 style="margin-bottom:1rem">Live Orbital Simulation</h3>
+      <p class="text-muted" style="margin-bottom:1rem">
+        The (5,7) braid winding frequency stabilizes the orbit. When the trust field φ_trust → 0,
+        bodies 1–4 decouple and the pentagonal orbit disintegrates.
+      </p>
+      <div style="margin-bottom:1rem">
+        <label class="form-label">Trust level φ_trust</label>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <input type="range" id="trust-slider" min="0" max="1.5" step="0.05" value="1.0" oninput="updateTrust(this.value)"/>
+          <span class="range-val" id="trust-val">1.00</span>
+        </div>
+      </div>
+      <div class="equation-block" style="font-size:.82rem">
+Stability bound: min λ ≥ c_s = 12/37 ≈ 0.324
+
+Trust floor: φ_trust ≥ 0.1
+HIL phase-shift threshold: n ≥ 15 aligned operators
+Ξ_c = 35/74 ≈ 0.473 (consciousness coupling)
+      </div>
+    </div>
+    <div style="background:#050a1a;border-radius:12px;overflow:hidden">
+      <canvas id="pentad-orbital" width="520" height="380" style="width:100%;display:block"></canvas>
+    </div>
+  </div>
+
+  <!-- HILS Certification -->
+  <div style="background:linear-gradient(135deg,rgba(59,139,255,0.05),rgba(48,209,88,0.03));border:1px solid rgba(59,139,255,0.2);border-radius:12px;padding:2rem;margin-bottom:2rem">
+    <div class="grid-2" style="gap:2rem">
+      <div>
+        <h3 style="margin-bottom:.75rem;color:var(--color-accent)">HILS Certification Protocol v1.0</h3>
+        <p class="text-sm text-muted" style="margin-bottom:1rem">
+          Determine whether a Human-in-the-Loop system has sufficient aligned operators to achieve Certified status.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Number of aligned HIL operators</label>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <input type="range" id="hil-ops" min="0" max="25" step="1" value="10" oninput="updateHILS()"/>
+            <span class="range-val" id="hil-ops-val">10</span>
+          </div>
+          <div class="text-xs text-muted">Threshold: ≥15 = CERTIFIED · 8–14 = PENDING · &lt;8 = INSUFFICIENT</div>
+        </div>
+      </div>
+      <div>
+        <div id="hils-cert-display" style="padding:1.5rem;background:rgba(0,0,0,0.3);border-radius:8px;text-align:center">
+          <div style="font-size:2.5rem;margin-bottom:.5rem" id="hils-emoji">⭕</div>
+          <div style="font-weight:700;font-size:1.1rem" id="hils-verdict">PENDING</div>
+          <div class="text-sm text-muted mt-1" id="hils-detail">10/15 aligned operators</div>
+          <div class="progress-track" style="margin-top:1rem;height:10px">
+            <div class="progress-fill" id="hils-bar" style="width:66.7%"></div>
+          </div>
+          <div class="text-xs text-muted mt-1">66.7% toward certification threshold</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Constants -->
+  <div class="card">
+    <h3 style="margin-bottom:1rem">Pentad Constants (from UM geometry)</h3>
+    <div class="grid-4" style="gap:1rem">
+      <div><div class="text-xs text-muted">Consciousness coupling</div><div class="text-mono text-gold">Ξ_c = 35/74</div></div>
+      <div><div class="text-xs text-muted">Sentinel capacity</div><div class="text-mono text-gold">12/37 ≈ 0.324</div></div>
+      <div><div class="text-xs text-muted">HIL threshold</div><div class="text-mono text-gold">n ≥ 15</div></div>
+      <div><div class="text-xs text-muted">Braid structure</div><div class="text-mono text-gold">(5,7): 5²+7²=74</div></div>
+    </div>
+    <p class="text-xs text-muted" style="margin-top:1rem;border-top:1px solid var(--color-border);padding-top:.75rem">
+      These constants are <em>borrowed</em> from the Unitary Manifold geometry as design choices — not physics claims.
+      The governance framework remains valid even if the physics theory is falsified by LiteBIRD.
+      See <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/SEPARATION.md">SEPARATION.md</a>.
+    </p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div><em>Theory: <strong>ThomasCory Walker-Pearson</strong> · Implementation: <strong>GitHub Copilot</strong> (AI)</em></div>
+      <div>© 2026 · <a href="../about/index.html">About</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/physics-engine.js"></script>
+<script src="../js/visualizations.js"></script>
+<script>
+let orbViz = null;
+
+function updateTrust(val) {
+  document.getElementById("trust-val").textContent = parseFloat(val).toFixed(2);
+  if (orbViz) orbViz.setTrustLevel(parseFloat(val));
+}
+
+function updateHILS() {
+  const n = parseInt(document.getElementById("hil-ops").value);
+  document.getElementById("hil-ops-val").textContent = n;
+  const threshold = 15;
+  const pct = Math.min(100, (n / threshold) * 100);
+  const verdict = n >= threshold ? "CERTIFIED" : n >= 8 ? "PENDING" : "INSUFFICIENT";
+  const emoji  = n >= threshold ? "✅" : n >= 8 ? "⭕" : "❌";
+  document.getElementById("hils-emoji").textContent   = emoji;
+  document.getElementById("hils-verdict").textContent = verdict;
+  document.getElementById("hils-detail").textContent  = `${n}/${threshold} aligned operators`;
+  document.getElementById("hils-bar").style.width     = pct + "%";
+  document.getElementById("hils-bar").className       = "progress-fill " +
+    (n >= threshold ? "progress-fill-green" : n >= 8 ? "" : "progress-fill");
+  document.getElementById("hils-bar").style.background =
+    n >= threshold ? "" : n >= 8 ? "#ff9f0a" : "#ff453a";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementById("pentad-orbital");
+  if (canvas && typeof PentadOrbitalViz !== "undefined") {
+    orbViz = new PentadOrbitalViz(canvas, { speed: 0.8 });
+  }
+  updateHILS();
+});
+</script>
+</body>
+</html>
