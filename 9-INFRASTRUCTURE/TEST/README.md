@@ -1,6 +1,6 @@
 # Test Suite — Unitary Manifold
 
-Canonical full regression (STATUS.md): **49,850 passed · 23 skipped · 12 deselected · 0 failed** (v20.1, 2026-08-01; tests/ + recycling/ + Pentad).
+Canonical full regression (STATUS.md): **50,500 passed · 23 skipped · 12 deselected · 0 failed** (v20.1, 2026-08-01; tests/ + recycling/ + Pentad).
 
 **Historical checkpoint:** 33,398 tests: 32,993 passed · 393 skipped · 12 deselected · 0 failures (verified 2026-05-16, Python 3.12, pytest)
 

@@ -16,6 +16,8 @@ if _PENTAD_DIR not in sys.path:
     sys.path.insert(0, _PENTAD_DIR)
 
 from pentad_enterprise_bridge import (
+    EnterpriseRoutingLayer,
+    OrganizationPentad,
     SHIP_DOMAINS,
     ShipDomain,
     UserProfile,
@@ -208,3 +210,33 @@ class TestRouting:
         intent = TaskIntent(task_id="t", user_id="captain", domain=ShipDomain.CHORES)
         with pytest.raises(ValueError):
             route_task_intent(default_system, profile, intent, protocols={})
+
+
+class TestOrganizationPentad:
+    def test_couple_organizations_creates_link(self):
+        orgs = OrganizationPentad({"a": PentadSystem.default(), "b": PentadSystem.default()})
+        orgs.couple_organizations("a", "b")
+        assert orgs.detect_defection("a") is False
+
+    def test_stability_score_is_bounded(self):
+        orgs = OrganizationPentad({"a": PentadSystem.default(), "b": PentadSystem.default()})
+        orgs.couple_organizations("a", "b")
+        assert 0.0 <= orgs.get_stability_score() <= 1.0
+
+    def test_detects_defection_without_links(self):
+        orgs = OrganizationPentad({"solo": PentadSystem.default(), "other": PentadSystem.default()})
+        assert orgs.detect_defection("solo") is True
+
+
+class TestEnterpriseRoutingLayer:
+    def test_route_decision_prefers_explicit_body(self):
+        layer = EnterpriseRoutingLayer()
+        route = layer.route_decision("d1", {"body_id": PentadLabel.AI})
+        assert route["target_body"] == PentadLabel.AI
+
+    def test_load_balance_distribution_sums_to_one(self):
+        layer = EnterpriseRoutingLayer()
+        layer.route_decision("d1", {"domain": ShipDomain.ENGINEERING})
+        layer.route_decision("d2", {"domain": ShipDomain.PILOTING})
+        balance = layer.get_load_balance()
+        assert pytest.approx(sum(balance["distribution"].values())) == 1.0

@@ -58,14 +58,17 @@ route_task_intent(system, profile, intent, protocols=None) -> RoutedIntent
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, Mapping, Optional, Tuple
+from typing import Any, Dict, List, Mapping, Optional, Tuple
 
 import numpy as np
 
 from unitary_pentad import (
+    BRAIDED_SOUND_SPEED,
     PENTAD_LABELS,
     PentadLabel,
     PentadSystem,
+    TRUST_PHI_MIN,
+    pentad_defect,
     trust_modulation,
 )
 
@@ -360,3 +363,172 @@ def route_task_intent(
         allowed_actions=protocol.allowed_actions,
         rationale=rationale,
     )
+
+
+def _clone_with_body_phi(system: PentadSystem, label: str, phi: float) -> PentadSystem:
+    """Return a copy of ``system`` with one body's φ value replaced."""
+
+    bodies = dict(system.bodies)
+    old = bodies[label]
+    bodies[label] = type(old)(
+        node=old.node,
+        phi=float(np.clip(phi, 0.0, 1.0)),
+        n1=old.n1,
+        n2=old.n2,
+        k_cs=old.k_cs,
+        label=old.label,
+    )
+    return PentadSystem(
+        bodies=bodies,
+        beta=system.beta,
+        grace_steps=system.grace_steps,
+        grace_decay=system.grace_decay,
+        _trust_reservoir=system._trust_reservoir,
+        _grace_elapsed=system._grace_elapsed,
+    )
+
+
+class OrganizationPentad:
+    """Multi-organization coupling state over a fleet of Pentad systems."""
+
+    def __init__(self, organizations: Optional[Mapping[str, PentadSystem]] = None) -> None:
+        self.organizations: Dict[str, PentadSystem] = dict(organizations or {})
+        self._trust_links: Dict[str, set[str]] = {
+            org_id: set() for org_id in self.organizations
+        }
+
+    def _ensure_org(self, org_id: str) -> PentadSystem:
+        if org_id not in self.organizations:
+            self.organizations[org_id] = PentadSystem.default()
+            self._trust_links[org_id] = set()
+        return self.organizations[org_id]
+
+    def couple_organizations(self, org1_id: str, org2_id: str) -> Tuple[str, str]:
+        """Bidirectionally couple two organizations through the trust field."""
+
+        if org1_id == org2_id:
+            self._ensure_org(org1_id)
+            return (org1_id, org2_id)
+
+        org1 = self._ensure_org(org1_id)
+        org2 = self._ensure_org(org2_id)
+
+        shared_trust = 0.5 * (
+            trust_modulation(org1) + trust_modulation(org2)
+        ) + 0.5 * BRAIDED_SOUND_SPEED
+        shared_trust = float(np.clip(shared_trust, TRUST_PHI_MIN, 1.0))
+
+        self.organizations[org1_id] = _clone_with_body_phi(
+            org1, PentadLabel.TRUST, shared_trust
+        )
+        self.organizations[org2_id] = _clone_with_body_phi(
+            org2, PentadLabel.TRUST, shared_trust
+        )
+        self._trust_links.setdefault(org1_id, set()).add(org2_id)
+        self._trust_links.setdefault(org2_id, set()).add(org1_id)
+        return (org1_id, org2_id)
+
+    def get_stability_score(self) -> float:
+        """Return an aggregate cross-organization stability score in [0, 1]."""
+
+        if not self.organizations:
+            return 0.0
+
+        internal_scores = []
+        for system in self.organizations.values():
+            trust = float(np.clip(trust_modulation(system), 0.0, 1.0))
+            defect = float(max(0.0, pentad_defect(system)))
+            internal_scores.append(float(np.clip(0.65 * trust + 0.35 * (1.0 / (1.0 + defect)), 0.0, 1.0)))
+
+        n_orgs = len(self.organizations)
+        max_links = max(n_orgs * (n_orgs - 1), 1)
+        link_count = sum(len(v) for v in self._trust_links.values())
+        link_density = float(link_count / max_links)
+
+        score = 0.8 * float(np.mean(internal_scores)) + 0.2 * link_density
+        return float(np.clip(score, 0.0, 1.0))
+
+    def detect_defection(self, org_id: str) -> bool:
+        """Return True when an organization has decoupled from the shared braid."""
+
+        system = self._ensure_org(org_id)
+        trust = float(trust_modulation(system))
+        links = len(self._trust_links.get(org_id, set()))
+        defect = float(max(0.0, pentad_defect(system)))
+        if trust < TRUST_PHI_MIN:
+            return True
+        if len(self.organizations) > 1 and links == 0:
+            return True
+        return bool(defect > 3.0)
+
+
+class EnterpriseRoutingLayer:
+    """Route enterprise decisions through the five-body Pentad hierarchy."""
+
+    _DOMAIN_BODY_MAP: Dict[str, str] = {
+        ShipDomain.CHORES: PentadLabel.UNIV,
+        ShipDomain.ENGINEERING: PentadLabel.AI,
+        ShipDomain.NAVIGATION: PentadLabel.UNIV,
+        ShipDomain.PILOTING: PentadLabel.HUMAN,
+        ShipDomain.EXOTIC_PROPULSION: PentadLabel.TRUST,
+        "safety": PentadLabel.BRAIN,
+        "biology": PentadLabel.BRAIN,
+        "trust": PentadLabel.TRUST,
+        "human": PentadLabel.HUMAN,
+        "ai": PentadLabel.AI,
+    }
+
+    def __init__(self, organization_pentad: Optional[OrganizationPentad] = None) -> None:
+        self.organization_pentad = (
+            OrganizationPentad() if organization_pentad is None else organization_pentad
+        )
+        self._route_history: List[Dict[str, Any]] = []
+        self._body_loads: Dict[str, float] = {label: 0.0 for label in PENTAD_LABELS}
+
+    def route_decision(self, decision_id: str, payload: Mapping[str, Any]) -> Dict[str, Any]:
+        """Route a decision payload to the most appropriate Pentad body."""
+
+        explicit_body = payload.get("body_id")
+        if explicit_body in PENTAD_LABELS:
+            body_id = str(explicit_body)
+        else:
+            domain = str(payload.get("domain", "")).lower()
+            body_id = self._DOMAIN_BODY_MAP.get(domain, PentadLabel.HUMAN)
+
+        entropy = float(payload.get("entropy", 1.0))
+        criticality = float(np.clip(payload.get("criticality", 0.5), 0.0, 1.0))
+        load = entropy * (1.0 + criticality)
+        self._body_loads[body_id] += load
+
+        route = {
+            "decision_id": decision_id,
+            "target_body": body_id,
+            "payload": dict(payload),
+            "load": load,
+            "route_index": len(self._route_history),
+        }
+        self._route_history.append(route)
+        return route
+
+    def get_load_balance(self) -> Dict[str, Any]:
+        """Return entropy-weighted load distribution across Pentad bodies."""
+
+        total = float(sum(self._body_loads.values()))
+        if total <= _EPS:
+            distribution = {label: 0.0 for label in PENTAD_LABELS}
+            entropy = 0.0
+        else:
+            distribution = {
+                label: float(self._body_loads[label] / total) for label in PENTAD_LABELS
+            }
+            probs = np.array([p for p in distribution.values() if p > 0.0], dtype=float)
+            entropy = float(-np.sum(probs * np.log2(probs)))
+            entropy /= np.log2(len(PENTAD_LABELS))
+
+        dominant_body = max(distribution, key=distribution.get)
+        return {
+            "distribution": distribution,
+            "entropy": float(np.clip(entropy, 0.0, 1.0)),
+            "dominant_body": dominant_body,
+            "routes": len(self._route_history),
+        }

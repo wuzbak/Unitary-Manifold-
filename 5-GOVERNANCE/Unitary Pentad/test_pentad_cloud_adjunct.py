@@ -16,10 +16,12 @@ if _PENTAD_DIR not in sys.path:
 
 from pentad_cloud_adjunct import (
     CLOUD_ADJUNCT_ROLES,
+    CloudPentadNode,
     CloudAdjunctDecision,
     CloudAdjunctPolicy,
     CloudAdjunctRequest,
     CloudAdjunctRole,
+    DistributedConsensus,
     default_cloud_adjunct_policy,
     evaluate_cloud_adjunct,
 )
@@ -183,3 +185,29 @@ class TestCloudAdjunctRouting:
         assert decision.can_join_active_orbit is False
         assert decision.active_orbit_bodies == PENTAD_LABELS
         assert len(decision.active_orbit_bodies) == 5
+
+
+class TestCloudPentadNode:
+    def test_sync_averages_state(self):
+        a = CloudPentadNode("a", {label: 0.0 for label in PENTAD_LABELS})
+        b = CloudPentadNode("b", {label: 1.0 for label in PENTAD_LABELS})
+        synced = a.sync(b)
+        assert synced[PentadLabel.UNIV] == pytest.approx(0.5)
+        assert b.body_states[PentadLabel.UNIV] == pytest.approx(0.5)
+
+    def test_phase_offset_is_non_negative(self):
+        node = CloudPentadNode("n1")
+        assert node.get_phase_offset() >= 0.0
+
+    def test_quorum_reached_for_majority(self):
+        node = CloudPentadNode("n2", {label: 1.0 for label in PENTAD_LABELS})
+        assert node.is_quorum_reached() is True
+
+
+class TestDistributedConsensus:
+    def test_consensus_after_three_votes(self):
+        consensus = DistributedConsensus()
+        consensus.vote("n1", "approve")
+        consensus.vote("n2", "approve")
+        consensus.vote("n3", "approve")
+        assert consensus.get_consensus() == "approve"

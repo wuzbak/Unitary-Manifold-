@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Birefringence Predictor — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .window-bar { position:relative; height:24px; border-radius:12px; background:rgba(255,255,255,0.04); border:1px solid var(--color-border); overflow:visible; margin:1rem 0; }
+    .window-bar-fill { position:absolute; height:100%; border-radius:12px; }
+    .window-bar-marker { position:absolute; top:-4px; width:3px; height:32px; border-radius:2px; }
+    .litebird-banner {
+      background:linear-gradient(135deg,rgba(240,192,64,0.12),rgba(59,139,255,0.06));
+      border:1px solid rgba(240,192,64,0.4);
+      border-radius:12px; padding:1.25rem; margin-top:1.5rem;
+    }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:2rem">
+    <div class="section-eyebrow">Falsifiable Prediction</div>
+    <h1 style="margin-bottom:.5rem">CMB Birefringence Predictor</h1>
+    <p class="text-muted">The braided-winding mechanism predicts CMB polarization rotation angle β. This is the <strong>primary falsifier</strong> of the Unitary Manifold — test by LiteBIRD ~2032.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem;align-items:start">
+    <div>
+      <div class="card">
+        <h3 style="margin-bottom:1.25rem">Braid Parameters</h3>
+        <div class="form-group">
+          <label class="form-label">Winding number n_w</label>
+          <select class="form-control" id="nwBire" onchange="updateBire()">
+            <option value="5" selected>n_w = 5 (canonical — selected by Planck n_s)</option>
+            <option value="3">n_w = 3</option>
+            <option value="7">n_w = 7</option>
+            <option value="11">n_w = 11</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">k_CS level (Chern-Simons)</label>
+          <select class="form-control" id="kcsBire" onchange="updateBire()">
+            <option value="74" selected>k_CS = 74 = 5²+7² (canonical)</option>
+            <option value="50">k_CS = 50</option>
+            <option value="100">k_CS = 100</option>
+          </select>
+        </div>
+
+        <div class="equation-block" style="margin-top:1rem;font-size:.85rem">
+β₁ ≈ (n_w/k_CS) × (π/2) × (k_CS/(n_w²+n₂²)) [rad → °]
+
+Canonical: β₁ = 0.273°, β₂ = 0.331°
+Derived:   β₁ = 0.290°, β₂ = 0.351°
+
+Admissible window: [0.22°, 0.38°]
+Prediction gap: [0.29°, 0.31°] → FALSIFY if β lands here
+        </div>
+
+        <div class="litebird-banner">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">
+            <span style="font-size:1.2rem">🔭</span>
+            <span style="font-weight:700;color:var(--color-gold)">LiteBIRD Test — ~2032</span>
+          </div>
+          <div class="text-sm text-muted" id="cd-msg">Computing countdown...</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h3 style="margin-bottom:1.25rem">Predicted β Values</h3>
+
+        <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:1.25rem;margin-bottom:1.25rem">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div>
+              <div class="text-xs text-muted">Canonical β₁</div>
+              <div class="text-mono" style="font-size:1.6rem;font-weight:700;color:var(--color-gold)" id="beta1-can">0.273°</div>
+              <span class="badge badge-green mt-1" id="badge1-can">IN WINDOW</span>
+            </div>
+            <div>
+              <div class="text-xs text-muted">Canonical β₂</div>
+              <div class="text-mono" style="font-size:1.6rem;font-weight:700;color:var(--color-gold)" id="beta2-can">0.331°</div>
+              <span class="badge badge-green mt-1" id="badge2-can">IN WINDOW</span>
+            </div>
+            <div>
+              <div class="text-xs text-muted">Derived β₁</div>
+              <div class="text-mono" style="font-size:1.3rem;font-weight:600;color:var(--color-muted)" id="beta1-der">0.290°</div>
+              <span class="badge badge-orange mt-1" id="badge1-der">NEAR GAP</span>
+            </div>
+            <div>
+              <div class="text-xs text-muted">Derived β₂</div>
+              <div class="text-mono" style="font-size:1.3rem;font-weight:600;color:var(--color-muted)" id="beta2-der">0.351°</div>
+              <span class="badge badge-green mt-1" id="badge2-der">IN WINDOW</span>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="margin-bottom:.75rem;font-size:.9rem">Admissible Window Visualization</h4>
+        <div style="font-size:.75rem;color:var(--color-muted);display:flex;justify-content:space-between">
+          <span>0.20°</span><span>0.25°</span><span>0.30°</span><span>0.35°</span><span>0.40°</span>
+        </div>
+        <div style="position:relative;height:36px;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--color-border);margin:.3rem 0 .5rem;overflow:visible">
+          <!-- Admissible window (green) -->
+          <div style="position:absolute;left:10%;right:10%;top:0;bottom:0;background:rgba(48,209,88,0.12);border-radius:4px"></div>
+          <!-- Forbidden gap [0.29-0.31] -->
+          <div style="position:absolute;left:45%;width:10%;top:0;bottom:0;background:rgba(255,69,58,0.2);border-radius:2px"></div>
+          <!-- β markers -->
+          <div class="window-bar-marker" id="marker-b1c" style="background:var(--color-gold);left:26.5%;top:-4px"></div>
+          <div class="window-bar-marker" id="marker-b2c" style="background:#f0c040aa;left:55.5%;top:-4px"></div>
+        </div>
+        <div style="display:flex;gap:1rem;font-size:.75rem;color:var(--color-muted);flex-wrap:wrap">
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--color-gold);border-radius:50%;margin-right:3px"></span>β predictions</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:rgba(48,209,88,0.5);margin-right:3px"></span>Admissible [0.22°,0.38°]</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:rgba(255,69,58,0.5);margin-right:3px"></span>Falsification gap [0.29°,0.31°]</span>
+        </div>
+
+        <div class="result-box" style="margin-top:1.5rem">
+          <div class="text-xs text-muted">Falsification Condition</div>
+          <div class="text-sm" style="margin-top:.5rem;line-height:1.5" id="falsify-cond">
+            Any β <strong>outside</strong> [0.22°, 0.38°], or landing <strong>inside</strong> the gap [0.29°–0.31°],
+            falsifies the braided-winding mechanism. Both canonical predictions are clear of the gap.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="../js/physics-engine.js"></script>
+<script>
+function updateBire() {
+  const nw  = parseInt(document.getElementById("nwBire").value);
+  const kcs = parseInt(document.getElementById("kcsBire").value);
+  const res = UM.birefringencePredictor(nw, kcs);
+
+  document.getElementById("beta1-can").textContent = res.beta_canonical_1_deg + "°";
+  document.getElementById("beta2-can").textContent = res.beta_canonical_2_deg + "°";
+  document.getElementById("beta1-der").textContent = res.beta_derived_1_deg + "°";
+  document.getElementById("beta2-der").textContent = res.beta_derived_2_deg + "°";
+
+  const mkBadge = (el, ok) => {
+    el.textContent = ok ? "IN WINDOW ✓" : "OUT OF WINDOW ✗";
+    el.className = "badge mt-1 " + (ok ? "badge-green" : "badge-red");
+  };
+  mkBadge(document.getElementById("badge1-can"), res.in_admissible_window_1);
+  mkBadge(document.getElementById("badge2-can"), res.in_admissible_window_2);
+
+  // Move markers: window is [0.20°, 0.40°] → 0% to 100%
+  const toPos = b => ((b - 0.20) / 0.20 * 100).toFixed(1) + "%";
+  document.getElementById("marker-b1c").style.left = toPos(res.beta_canonical_1_deg);
+  document.getElementById("marker-b2c").style.left = toPos(res.beta_canonical_2_deg);
+
+  // Countdown
+  const cd = UM.litebirdCountdown();
+  if (!cd.past) {
+    document.getElementById("cd-msg").textContent =
+      `${cd.years} years (${cd.days} days) until LiteBIRD launch`;
+  }
+}
+document.addEventListener("DOMContentLoaded", updateBire);
+</script>
+</body>
+</html>

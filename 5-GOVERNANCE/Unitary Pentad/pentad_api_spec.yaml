@@ -1,0 +1,77 @@
+openapi: "3.0.0"
+info:
+  title: "Unitary Pentad API"
+  version: "1.0.0"
+  description: "Public API for the Unitary Pentad HILS governance framework"
+paths:
+  /stability:
+    post:
+      summary: "Compute a Pentad stability score"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body_states:
+                  type: array
+                  minItems: 5
+                  maxItems: 5
+                  items:
+                    type: number
+      responses:
+        "200":
+          description: "Stability score computed"
+  /scenario:
+    post:
+      summary: "Run a named Pentad scenario"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scenario_name:
+                  type: string
+                  enum: [harmonic, collapse, wildcard]
+      responses:
+        "200":
+          description: "Scenario result"
+  /trust-field:
+    post:
+      summary: "Compute the trust-field coupling matrix"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: "Trust field matrix"
+  /simulate:
+    post:
+      summary: "Simulate a five-body trajectory"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                steps:
+                  type: integer
+                  minimum: 0
+                initial_state:
+                  type: object
+      responses:
+        "200":
+          description: "Simulation trajectory"
+  /export:
+    get:
+      summary: "Export a static website snapshot"
+      responses:
+        "200":
+          description: "Static JSON export"

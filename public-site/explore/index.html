@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>5D Space Explorer — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <style>
+    body { overflow: hidden; }
+    #explorer-canvas { position:fixed; inset:0; z-index:0; }
+    .explorer-ui {
+      position:fixed; z-index:10; pointer-events:none;
+    }
+    .explorer-top {
+      top:70px; left:0; right:0;
+      display:flex; justify-content:center;
+    }
+    .explorer-pill {
+      background:rgba(5,10,26,0.85);
+      border:1px solid var(--color-border);
+      backdrop-filter:blur(12px);
+      border-radius:30px;
+      padding:.5rem 1.5rem;
+      display:flex; align-items:center; gap:1rem;
+      pointer-events:all;
+    }
+    .explorer-side {
+      top:80px; right:1.5rem; width:300px;
+      display:flex; flex-direction:column; gap:.75rem;
+      pointer-events:all;
+    }
+    .explorer-panel {
+      background:rgba(5,10,26,0.9);
+      border:1px solid var(--color-border);
+      backdrop-filter:blur(12px);
+      border-radius:10px;
+      padding:1rem;
+    }
+    .explorer-bottom {
+      bottom:1.5rem; left:50%; transform:translateX(-50%);
+      display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center;
+      pointer-events:all;
+    }
+    @media(max-width:700px){
+      .explorer-side { display:none; }
+      body { overflow:auto; }
+    }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="apps/index.html">Apps</a></li>
+    <li><a href="index.html" class="active">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+
+<!-- 3D Canvas -->
+<div id="explorer-canvas"></div>
+
+<!-- UI overlays -->
+<div class="explorer-ui explorer-top">
+  <div class="explorer-pill">
+    <span class="text-xs text-muted">5D EXPLORER</span>
+    <span class="text-mono text-xs text-gold">n_w = 5 · k_CS = 74 · c_s = 12/37</span>
+    <span class="text-xs text-muted">|</span>
+    <span class="text-mono text-xs" id="explorer-mode">KK TORUS MODE</span>
+  </div>
+</div>
+
+<div class="explorer-ui explorer-side">
+  <div class="explorer-panel">
+    <div class="text-xs text-muted mb-2">VISUALIZATION CONTROLS</div>
+    <div class="form-group" style="margin-bottom:.75rem">
+      <label class="form-label" style="font-size:.75rem">Winding number n_w</label>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <input type="range" id="ctrl-nw" min="1" max="10" step="1" value="5" oninput="updateExplorer()"/>
+        <span class="range-val text-xs" id="nw-display">5</span>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:.75rem">
+      <label class="form-label" style="font-size:.75rem">KK modes visible</label>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <input type="range" id="ctrl-kk" min="1" max="8" step="1" value="4" oninput="updateExplorer()"/>
+        <span class="range-val text-xs" id="kk-display">4</span>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:.75rem">
+      <label class="form-label" style="font-size:.75rem">Rotation speed</label>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <input type="range" id="ctrl-speed" min="0" max="3" step="0.1" value="1.0" oninput="updateExplorer()"/>
+        <span class="range-val text-xs" id="speed-display">1.0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="explorer-panel">
+    <div class="text-xs text-muted mb-2">5D GEOMETRY</div>
+    <div style="font-size:.8rem;line-height:1.8;color:var(--color-text)">
+      <div><span class="text-mono text-gold">n_w = 5</span> — winding number</div>
+      <div><span class="text-mono text-gold">k_CS = 74</span> — Chern-Simons level</div>
+      <div><span class="text-mono text-gold">5² + 7² = 74</span> — braid resonance</div>
+      <div><span class="text-mono text-gold">c_s = 12/37</span> — sound speed</div>
+    </div>
+    <div style="margin-top:.75rem;border-top:1px solid var(--color-border);padding-top:.75rem">
+      <div class="text-xs text-muted">KK Mass Tower (first 4 modes)</div>
+      <div id="kk-masses" style="margin-top:.4rem;font-size:.8rem;line-height:1.8"></div>
+    </div>
+  </div>
+
+  <div class="explorer-panel">
+    <div class="text-xs text-muted mb-2">VIEWING TIP</div>
+    <div class="text-xs text-muted" style="line-height:1.7">
+      Move your mouse to rotate the viewpoint. The torus represents the compact S¹ extra dimension. The colored helical strands are the n_w = 5 winding modes. Concentric rings show the Kaluza-Klein mass tower.
+    </div>
+  </div>
+</div>
+
+<div class="explorer-ui explorer-bottom">
+  <button class="btn btn-outline btn-sm" onclick="setMode('torus')">🌀 KK Torus</button>
+  <button class="btn btn-outline btn-sm" onclick="setMode('braid')">⬡ Braid View</button>
+  <button class="btn btn-outline btn-sm" onclick="toggleParticles()">✨ Gravitons</button>
+  <a href="../apps/kk-mass-calculator.html" class="btn btn-primary btn-sm">⚛️ Calculate m_G_KK</a>
+</div>
+
+<script src="../js/physics-engine.js"></script>
+<script src="../js/visualizations.js"></script>
+<script>
+let animation = null;
+let showParticles = true;
+
+function initExplorer() {
+  const container = document.getElementById("explorer-canvas");
+  if (typeof KK5DAnimation !== "undefined") {
+    animation = new KK5DAnimation(container, { nw:5, kcs:74, interactive:true });
+  }
+  updateKKMasses();
+}
+
+function updateExplorer() {
+  const nw    = parseInt(document.getElementById("ctrl-nw").value);
+  const speed = parseFloat(document.getElementById("ctrl-speed").value);
+  document.getElementById("nw-display").textContent    = nw;
+  document.getElementById("kk-display").textContent    = document.getElementById("ctrl-kk").value;
+  document.getElementById("speed-display").textContent = speed.toFixed(1);
+  if (animation) {
+    animation.opts.nw = nw;
+    // Speed update: handled next frame naturally
+  }
+  updateKKMasses();
+}
+
+function updateKKMasses() {
+  const kTilde = 0.1;
+  const el = document.getElementById("kk-masses");
+  el.innerHTML = "";
+  for (let n = 1; n <= 4; n++) {
+    const m = (kTilde * 2.405 * n * Math.sqrt(74/5)).toFixed(3);
+    el.insertAdjacentHTML("beforeend",
+      `<div><span class="text-mono text-gold">m<sub>${n}</sub></span> ≈ ${m} TeV</div>`);
+  }
+}
+
+function setMode(mode) {
+  document.getElementById("explorer-mode").textContent =
+    mode === "torus" ? "KK TORUS MODE" : "BRAID TOPOLOGY MODE";
+}
+
+function toggleParticles() {
+  showParticles = !showParticles;
+  if (animation && animation.objects.particles) {
+    animation.objects.particles.visible = showParticles;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof KK5DAnimation !== "undefined") initExplorer();
+  else setTimeout(initExplorer, 600);
+});
+</script>
+</body>
+</html>

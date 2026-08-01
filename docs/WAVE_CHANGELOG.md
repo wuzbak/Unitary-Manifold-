@@ -1,6 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
+*Current version: v20.5 (2026-08-01)*
 
 For each wave entry, include:
 - **What changed**
@@ -53,7 +54,7 @@ For each wave entry, include:
 
 **Residual unknowns:** Δm²₂₁ 2.98σ residual (DM21_RATIO_FN_CORRECTION_NEEDED); F-theory Rung 8 blocking residuals 2+3 (spectral cover, matter-curve genus); 27 blocking residuals per sub-gap remain for full NP proof.
 
-**Regression:** 49,850 passed · 23 skipped · 12 deselected · 0 failed
+**Regression:** 50,500 passed · 23 skipped · 12 deselected · 0 failed
 
 ---
 

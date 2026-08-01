@@ -34,6 +34,7 @@ ManifoldProfiler
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
@@ -436,3 +437,54 @@ class ManifoldProfiler:
             "session_entropy": self._session_entropy,
             "max_traces": self.max_traces,
         }
+
+
+SENTINEL_CAPACITY: float = BRAIDED_SOUND_SPEED
+
+
+class EntropyProfiler:
+    """Wall-clock profiler that exposes entropy-weighted load metrics."""
+
+    def __init__(self) -> None:
+        self._starts: Dict[str, float] = {}
+        self._durations: Dict[str, float] = {}
+
+    def start_profile(self, label: str) -> None:
+        self._starts[label] = time.perf_counter()
+
+    def end_profile(self, label: str) -> float:
+        if label not in self._starts:
+            raise KeyError(f"No active profile for {label!r}.")
+        duration = time.perf_counter() - self._starts.pop(label)
+        self._durations[label] = duration
+        return duration
+
+    def get_entropy_load(self, label: str) -> float:
+        duration = self._durations.get(label, 0.0)
+        return float(duration / max(BRAIDED_SOUND_SPEED, 1e-12))
+
+    def get_profile_report(self) -> Dict[str, Dict[str, float]]:
+        return {
+            label: {
+                "duration": duration,
+                "entropy_load": self.get_entropy_load(label),
+            }
+            for label, duration in self._durations.items()
+        }
+
+
+class SentinelProfiler:
+    """Track sentinel-channel loads against the braid capacity floor."""
+
+    def __init__(self) -> None:
+        self._loads: Dict[str, List[float]] = {}
+
+    def record_load(self, axiom_id: str, load: float) -> None:
+        self._loads.setdefault(axiom_id, []).append(float(load))
+
+    def get_overloaded_axioms(self) -> List[str]:
+        overloaded = []
+        for axiom_id, loads in self._loads.items():
+            if loads and loads[-1] > SENTINEL_CAPACITY:
+                overloaded.append(axiom_id)
+        return sorted(overloaded)

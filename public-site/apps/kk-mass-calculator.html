@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>KK Mass Calculator — Unitary Manifold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .app-layout { display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start; }
+    @media(max-width:800px){ .app-layout { grid-template-columns:1fr; } }
+    .range-val { font-family:var(--font-mono); font-size:1.1rem; color:var(--color-gold); min-width:60px; text-align:right; }
+    .input-row { display:flex; align-items:center; gap:1rem; }
+    .comparison-bar { height:8px; border-radius:4px; overflow:hidden; background:var(--color-border); margin:4px 0; }
+    .bar-um      { background:var(--color-green); }
+    .bar-atlas   { background:var(--color-accent); }
+    .bar-cms     { background:var(--color-accent2); }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section-sm">
+
+  <div style="margin-bottom:2rem">
+    <div class="section-eyebrow">Physics Calculator</div>
+    <h1 style="margin-bottom:.5rem">Kaluza-Klein Graviton Mass Calculator</h1>
+    <p class="text-muted">Compute the KK graviton mass m<sub>G,KK</sub> from the Randall-Sundrum warp factor k̃ = k/M<sub>Pl</sub>. Compare to LHC Run 2 bounds and the UM theoretical lower bound.</p>
+  </div>
+
+  <div class="app-layout">
+    <!-- Inputs -->
+    <div>
+      <div class="card">
+        <h3 style="margin-bottom:1.25rem">Parameters</h3>
+
+        <div class="form-group">
+          <label class="form-label">Warp factor k̃ = k/M<sub>Pl</sub></label>
+          <div class="input-row">
+            <input type="range" id="kTilde" min="0.005" max="0.25" step="0.005" value="0.1" oninput="updateKKCalc()"/>
+            <span class="range-val" id="kTildeVal">0.100</span>
+          </div>
+          <div class="text-xs text-muted">Typical phenomenological range: 0.01 – 0.15</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Collider energy √s (TeV)</label>
+          <div class="input-row">
+            <input type="range" id="sqrtS" min="1" max="100" step="1" value="14" oninput="updateKKCalc()"/>
+            <span class="range-val" id="sqrtSVal">14</span>
+          </div>
+          <div class="text-xs text-muted">LHC Run 2: 13 TeV · Run 3: 13.6 TeV · HL-LHC: 14 TeV</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Winding number n_w</label>
+          <select class="form-control" id="nwSelect" onchange="updateKKCalc()">
+            <option value="5" selected>n_w = 5 (canonical)</option>
+            <option value="3">n_w = 3</option>
+            <option value="7">n_w = 7</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">k_CS level</label>
+          <select class="form-control" id="kcsSelect" onchange="updateKKCalc()">
+            <option value="74" selected>k_CS = 74 = 5²+7² (canonical)</option>
+            <option value="50">k_CS = 50</option>
+            <option value="100">k_CS = 100</option>
+          </select>
+        </div>
+
+        <div class="equation-block" style="margin-top:1rem">
+m<sub>G,KK</sub> ≈ k̃ · x₁ · √(k_CS/n_w) [TeV]
+
+x₁ = 2.405 (Bessel zero)
+UM lower bound: m_G_KK ≥ 5.0 TeV
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div>
+      <div class="card" id="results-card">
+        <h3 style="margin-bottom:1.25rem">Results</h3>
+        <div class="result-box">
+          <div style="display:flex;align-items:baseline;gap:.5rem">
+            <span class="result-value" id="res-mGKK">—</span>
+            <span class="result-unit">TeV</span>
+          </div>
+          <div class="text-sm text-muted mt-1" id="res-mGKK-GeV">— GeV</div>
+        </div>
+
+        <div style="margin-top:1.5rem">
+          <div class="result-row">
+            <span class="result-label">Cross-section ratio σ_KK/σ_ref</span>
+            <span class="result-data" id="res-sigma">—</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Accessible at √s</span>
+            <span class="result-data" id="res-accessible">—</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Braided KK correction (n_w/k_CS)</span>
+            <span class="result-data" id="res-braid">—</span>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem">
+          <h4 style="margin-bottom:.75rem;font-size:.9rem;color:var(--color-muted)">Comparison to Experimental Bounds</h4>
+          <div style="font-size:.85rem">
+            <div style="display:flex;justify-content:space-between;margin-bottom:.3rem">
+              <span class="text-muted">UM lower bound</span>
+              <span class="text-mono">≥ 5.0 TeV</span>
+            </div>
+            <div class="comparison-bar"><div class="bar-um" id="bar-um" style="height:100%"></div></div>
+
+            <div style="display:flex;justify-content:space-between;margin:.5rem 0 .3rem">
+              <span class="text-muted">ATLAS Run 2 bound</span>
+              <span class="text-mono">2.30 TeV</span>
+            </div>
+            <div class="comparison-bar" style="background:rgba(59,139,255,0.15)">
+              <div class="bar-atlas" style="height:100%;width:46%"></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin:.5rem 0 .3rem">
+              <span class="text-muted">CMS Run 2 bound</span>
+              <span class="text-mono">1.97 TeV</span>
+            </div>
+            <div class="comparison-bar" style="background:rgba(124,77,255,0.15)">
+              <div class="bar-cms" style="height:100%;width:39.4%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-box" style="margin-top:1.5rem" id="verdict-box">
+          <span class="result-label">UM Status</span>
+          <div id="res-verdict" style="margin-top:.4rem;font-weight:700"></div>
+        </div>
+      </div>
+
+      <div class="card mt-2">
+        <h4 style="margin-bottom:.75rem">Physics Notes</h4>
+        <p class="text-sm text-muted">
+          The KK graviton mass sets from RS1 geometry: m<sub>G,KK</sub> = k̃ × x<sub>1</sub> × √(k_CS/n_w).
+          The UM theoretical lower bound is <strong>5.0 TeV</strong> from the Pillar 435 HL-LHC preregistration.
+          Both ATLAS and CMS Run 2 bounds are below this — the theory is consistent with all current collider data.
+        </p>
+        <p class="text-sm text-muted" style="margin-top:.5rem">
+          Decision window: HL-LHC Run 4 (2029–2033) can reach ~6.5 TeV at k̃ = 0.10 with 3000 fb⁻¹.
+        </p>
+        <div class="text-xs text-muted" style="margin-top:.5rem;border-top:1px solid var(--color-border);padding-top:.5rem">
+          Source: <code>src/core/pillar435_hllhc_kk_prediction_package.py</code> · Pillar 435 (v13.7)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="../js/physics-engine.js"></script>
+<script>
+function updateKKCalc() {
+  const kTilde = parseFloat(document.getElementById("kTilde").value);
+  const sqrtS  = parseFloat(document.getElementById("sqrtS").value);
+  document.getElementById("kTildeVal").textContent = kTilde.toFixed(3);
+  document.getElementById("sqrtSVal").textContent  = sqrtS.toFixed(0);
+
+  const res = UM.kkMassCalculator(kTilde, sqrtS);
+
+  document.getElementById("res-mGKK").textContent     = res.mGKK_TeV;
+  document.getElementById("res-mGKK-GeV").textContent = `${res.mGKK_GeV.toLocaleString()} GeV`;
+  document.getElementById("res-sigma").textContent     = res.sigma_ratio;
+  document.getElementById("res-accessible").textContent = res.accessible_at_sqrtS ? "✓ YES" : "✗ No (below threshold)";
+  document.getElementById("res-braid").textContent     = res.braided_correction;
+
+  // UM bar: fraction of calculated mass relative to 10 TeV reference
+  const barPct = Math.min(100, (res.mGKK_TeV / 10) * 100);
+  document.getElementById("bar-um").style.width = barPct + "%";
+
+  const vs = res.status_vs_um;
+  const vd = document.getElementById("res-verdict");
+  if (vs === "ABOVE_UM_BOUND") {
+    vd.innerHTML = '<span class="badge badge-green">✓ ABOVE UM LOWER BOUND (≥ 5.0 TeV)</span>';
+  } else {
+    vd.innerHTML = '<span class="badge badge-orange">⚠ BELOW UM LOWER BOUND — adjust k̃</span>';
+  }
+}
+document.addEventListener("DOMContentLoaded", updateKKCalc);
+</script>
+</body>
+</html>

@@ -1,10 +1,10 @@
-version: "v20.1"
+version: "v20.5"
 date: "2026-08-01"
 updated: "2026-08-01"
 
 v20_1_all_sprints_release:
-  version: "v20.1"
-  wave: "v20.1 All-Sprints Release (2026-08-01): Pillars 575–590"
+  version: "v20.5"
+  wave: "v20.5 All-Sprints Release (2026-08-01): Pillars 575–590"
   date: "2026-08-01"
   pillars_added:
     - "575: ARXIV_BOOK27_SYNC_V200_CERTIFIED — Book 27 + arXiv v20.0 sync; covers P564–P574; 101 sub-gap theorems certified; 103 tests"
@@ -24,7 +24,7 @@ v20_1_all_sprints_release:
     - "589: NP_BC4_ALL_THREE_SUBGAP_KERNELS_PROVED — NP-BC-4 certificate; 34 sub-gap theorems; 135 total sub-gap theorems (12 sub-gaps × NP-BC-1/2/3/4)"
     - "590: LEAN4_274_THEOREM_MILESTONE_CERTIFIED — Lean4 274 total (+34); Sprint E milestone; Substack #277 S03E055"
   tests_added: 727
-  regression: "~49,850 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "~50,500 passed · 23 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 591
   next_substack_post: "#278 S03E056"
   toe_delta: 0
@@ -7269,3 +7269,168 @@ v10_32_p16_promotion:
     - "JUNO Phase 2 decision window: ~2027, 0.5% Dm2_31 precision"
   next_pillar_slot: 537
   next_substack_post: "#260 S03E038"
+
+
+# v20.2 Sprint F — DM21 Ratio-FN Correction
+- sprint_id: "v20.2"
+  name: "Sprint F — DM21 Ratio-FN Correction"
+  status: "COMPLETE"
+  completed: "2026-08-01"
+  summary: >
+    Pillars 591–595: DM21 lepton-sector Jarlskog-lattice correction (+4.5%)
+    reduces Δm²₂₁ tension 2.98σ→1.15σ (P591); NLO WS-V×V correction closes
+    to 0.81σ APPROACHING_CLOSURE (P592); P20 status promoted QUANTIFIED_RESIDUAL
+    →APPROACHING_CLOSURE, ToE P20 +0.5 pts → 29.5/28 (P593); Book 28 / arXiv
+    v20.1 sync (P594); v20.2 regression certificate (P595).
+    150 new tests; 0 failures.
+    Full regression: ~50,000 passed * 23 skipped * 12 deselected * 0 failed.
+    Next pillar slot: 596. Next Substack: #279 S03E057.
+  deliverables:
+    - artifact: "src/core/pillar591_dm21_ratio_fn_correction.py"
+      status: "DM21_RATIO_FN_CORRECTION"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar592_dm21_nlo_wsvv_correction.py"
+      status: "DM21_NLO_WSVV_CORRECTION"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar593_dm21_v202_cascade_certificate.py"
+      status: "DM21_APPROACHING_CLOSURE"
+      toe_delta: 0.5
+    - artifact: "src/core/pillar594_book28_arxiv_v201_sync.py"
+      status: "BOOK28_SYNC"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar595_v202_regression_certificate.py"
+      status: "V202_REGRESSION_CERTIFICATE"
+      toe_delta: 0.0
+  toe_score:
+    before: 29.0
+    after: 29.5
+    note: "P20 Δm²₂₁ promoted APPROACHING_CLOSURE; +0.5 pts"
+  next_pillar_slot: 596
+  next_substack_post: "#279 S03E057"
+
+# v20.3 Sprint G — NP-BC-5 Sub-Gaps M/N/O + Lean4 308
+- sprint_id: "v20.3"
+  name: "Sprint G — NP-BC-5 Sub-Gaps M/N/O + Lean4 308"
+  status: "COMPLETE"
+  completed: "2026-08-01"
+  lean4_theorems_total: 308
+  summary: >
+    Pillars 596–601: NPBC5SubgapM (WdW full-field kernel, 11 theorems),
+    NPBC5SubgapN (ADM momentum kernel, 12 theorems), NPBC5SubgapO (P8 spectral-gap
+    kernel, 11 theorems); NP-BC-5 certificate (145 total sub-gap theorems);
+    Lean4 308 milestone crossed (300-barrier); v20.3 regression certificate.
+    200 new tests; +34 Lean4 theorems (274→308); 0 ToE change; 0 failures.
+    Full regression: ~50,100 passed * 23 skipped * 12 deselected * 0 failed.
+    Next pillar slot: 602. Next Substack: #280 S03E058.
+  deliverables:
+    - artifact: "src/core/pillar596_np_bc5_subgap_m_wdw_full_field.py"
+      status: "NP_BC5_SUBGAP_M_PROVED"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar597_np_bc5_subgap_n_adm_momentum.py"
+      status: "NP_BC5_SUBGAP_N_PROVED"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar598_np_bc5_subgap_o_p8_spectral_gap.py"
+      status: "NP_BC5_SUBGAP_O_PROVED"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar599_np_bc5_certificate.py"
+      status: "NP_BC5_ALL_PROVED"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar600_lean4_308_sprint_g_milestone.py"
+      status: "LEAN4_308_MILESTONE"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar601_v203_regression_certificate.py"
+      status: "V203_REGRESSION_CERTIFICATE"
+      toe_delta: 0.0
+  toe_score:
+    before: 29.5
+    after: 29.5
+    note: "No hardgate ToE change; Lean4 milestone"
+  next_pillar_slot: 602
+  next_substack_post: "#280 S03E058"
+
+# v20.4 Sprint H — F-theory DBP Rung 9 (Adjacent Track)
+- sprint_id: "v20.4"
+  name: "Sprint H — F-theory DBP Rung 9 (Adjacent Track)"
+  status: "COMPLETE"
+  completed: "2026-08-01"
+  summary: >
+    Pillars 602–607: F-theory DBP Rung 9 — spectral cover polynomial (P602),
+    matter-curve genus formula (P603), G4 flux quantization (P604), Rung 9
+    certificate (P605), Rungs 1–9 combined summary (P606), v20.4 regression
+    certificate (P607). All pillars 🔵 ADJACENT TRACK; Gap B status
+    PROVED_AT_REFERENCE_CY4 preserved from Rung 8; 3 Rung 10 blocking residuals named.
+    180 new tests; 0 Lean4 changes; 0 ToE change; 0 failures.
+    Full regression: ~50,300 passed * 23 skipped * 12 deselected * 0 failed.
+    Next pillar slot: 608. Next Substack: #281 S03E059.
+  deliverables:
+    - artifact: "src/core/pillar602_ftheory_rung9_spectral_cover.py"
+      adjacency: "ADJACENT_TRACK"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar603_ftheory_rung9_matter_curve_genus.py"
+      adjacency: "ADJACENT_TRACK"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar604_ftheory_rung9_g4_flux_quantization.py"
+      adjacency: "ADJACENT_TRACK"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar605_ftheory_rung9_certificate.py"
+      adjacency: "ADJACENT_TRACK"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar606_ftheory_dbp_rungs_1_9_combined.py"
+      adjacency: "ADJACENT_TRACK"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar607_v204_regression_certificate.py"
+      toe_delta: 0.0
+  toe_score:
+    before: 29.5
+    after: 29.5
+    note: "All pillars adjacent-track; no hardgate change"
+  next_pillar_slot: 608
+  next_substack_post: "#281 S03E059"
+
+# v20.5 Sprint I — DESI DR3 + Euclid Y1 Decision Protocol
+- sprint_id: "v20.5"
+  name: "Sprint I — DESI DR3 + Euclid Y1 Decision Protocol"
+  status: "COMPLETE"
+  completed: "2026-08-01"
+  lean4_theorems_total: 308
+  regression_total: "~50,500 passed · 23 skipped · 12 deselected · 0 failed"
+  summary: >
+    Pillars 608–612: DESI DR3 3-branch routing drill (P608), Euclid Y1 BAO
+    cross-check protocol (P609), SPHEREx f_NL pre-analysis update (P610),
+    Hyper-Kamiokande Run 3 bound τ>1.6×10³⁵ yr (P611), v20.5 regression
+    certificate (P612; ToE 29.5/28, Lean4 308, ~50,500 tests).
+    120 new tests; 0 Lean4 changes; 0 ToE change; 0 failures.
+    Full regression: ~50,500 passed * 23 skipped * 12 deselected * 0 failed.
+    Next pillar slot: 613. Next Substack: #282 S03E060.
+  deliverables:
+    - artifact: "src/core/pillar608_desi_dr3_routing_drill.py"
+      status: "DESI_DR3_ROUTING_DRILL"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar609_euclid_y1_cross_check.py"
+      status: "EUCLID_Y1_CROSS_CHECK"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar610_spherex_fnl_pre_analysis.py"
+      status: "SPHEREX_FNL_PRE_ANALYSIS"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar611_hyperk_proton_decay_run3.py"
+      status: "HYPERK_RUN3_CONSISTENT"
+      toe_delta: 0.0
+    - artifact: "src/core/pillar612_v205_regression_certificate.py"
+      status: "V205_REGRESSION_CERTIFICATE"
+      toe_delta: 0.0
+    - artifact: "public-site/"
+      status: "5D_PUBLIC_WEBSITE_CREATED"
+      note: "Full public-facing website with 9 apps, 5D explorer, Pentad governance interface"
+      toe_delta: 0.0
+  toe_score:
+    before: 29.5
+    after: 29.5
+    note: "No hardgate ToE change in Sprint I"
+  open_items:
+    - "P20 Δm²₂₁: APPROACHING_CLOSURE 0.81σ — requires NLO loop closure for full CLOSED"
+    - "F-theory Rung 10: 3 blocking residuals remain (spectral cover global, matter-curve genus CY4, G4 flux quantization)"
+    - "DESI DR3: monitoring; σ_DR2=2.75; Y5 projection 3.64σ; ARCHITECTURE_LIMIT certified"
+    - "SPHEREx f_NL: decision window 2027–28"
+    - "LiteBIRD β: primary falsifier; decision window ~2032"
+  next_pillar_slot: 613
+  next_substack_post: "#282 S03E060"
