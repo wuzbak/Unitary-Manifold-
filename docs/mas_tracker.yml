@@ -1,6 +1,38 @@
-version: "v20.8"
+version: "v20.9"
 date: "2026-08-01"
 updated: "2026-08-01"
+
+v20_9_sprints_m_q:
+  version: "v20.9"
+  wave: "Sprints M–Q — Tier 1–5 Gap Closure (2026-08-01): Pillars 631–652"
+  date: "2026-08-01"
+  pillars_added:
+    - "631: DESI_DR3_FALSIFICATION_RESPONSE — rolling-radion wₐ; 3-branch PASS/TENSION/FALSIFIED; ~25 tests"
+    - "632: ACT_R_TENSION_CMB_S4_READINESS — R_NLO irreducibility cert; CMB-S4/SO 3-branch protocol; ~22 tests"
+    - "633: V209_SPRINT_M_REGRESSION — Sprint M cert; ~18 tests"
+    - "634: JARLSKOG_LAYER2_FN_MECHANISM — FN flavor-symmetry; MECHANISM_SCOPED; ~20 tests"
+    - "635: P19_LIGHTEST_NU_CL_BOUND — m_ν₁≤15 meV; ~18 tests"
+    - "636: SU3_ORBIFOLD_EQUIVALENCE — INTERNALLY_DERIVED; ~22 tests"
+    - "637: FERMION_HIERARCHY_FN_COMPLETE — all 9/9 within 0.05 dex; ~17 tests"
+    - "638: V209_SPRINT_N_REGRESSION — Sprint N cert; ~18 tests"
+    - "639: CMB_ZPHI_BOLTZMANN_PHASE1 — Z_φ=5.30; 37.9% coverage; ~22 tests"
+    - "640: BARYOGENESIS_6D_PHASE3 — 🔵 ADJACENT; d_n^NLO cert; ~25 tests"
+    - "641: HIGGS_NATURALNESS_6D_NLO — Δ^{6D,NLO}=4.223<100; ~20 tests"
+    - "642: CC_10D_PATH_ROADMAP — 4-step roadmap; 57-order residual; ~22 tests"
+    - "643: V209_SPRINT_O_REGRESSION — Sprint O cert; ~18 tests"
+    - "644: LITEBIRD_READINESS_HARDENING — 4-branch verdict table; ~22 tests"
+    - "645: SPHEREX_FNL_SHARPENED — f_NL^KK=−1.93; sharpened band; ~22 tests"
+    - "646: LISA_OGW_TEMPLATE — Ω_GW^peak=4.53×10⁻¹⁴; LISA SNR; ~22 tests"
+    - "647: MULTI_EXPERIMENT_JOINT_PROTOCOL — 5-experiment portfolio; ~20 tests"
+    - "648: V209_SPRINT_P_REGRESSION — Sprint P cert; ~12 tests"
+    - "649: TIER1_4_GAP_SYNTHESIS — cross-pillar synthesis cert; ~32 tests"
+    - "650: TOE_SCORE_LEDGER_V209 — ToE 30.0/28 confirmed; ~12 tests"
+    - "651: BOOK31_ARXIV_V209_SYNC — Book 31 + arXiv v20.9 sync; ~15 tests"
+    - "652: V209_FINAL_REGRESSION — final regression cert; ~22 tests"
+  tests_added: 435
+  regression: "~51,440 passed · 23 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 653
+  next_substack_post: "#286 S03E064"
 
 v20_8_sprint_l:
   version: "v20.8"

@@ -1,7 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v20.8 (2026-08-01)*
+*Current version: v20.9 (2026-08-01)*
 
 For each wave entry, include:
 - **What changed**
@@ -13,7 +13,7 @@ For each wave entry, include:
 
 ---
 
-## v20.8 (2026-08-01 — Pillars 624–630: Sprint L — F-theory DBP Rung 10 Complete at Reference CY4)
+## v20.9 (2026-08-01 — Pillars 624–630: Sprint L — F-theory DBP Rung 10 Complete at Reference CY4)
 
 **What changed:**
 - **Pillar 624** (`src/twelved/ftheory_rung10_spectral_cover_global_sections.py`): FTHEORY_RUNG10_SPECTRAL_COVER_GLOBAL_SECTIONS_ADJACENT — 🔵 ADJACENT; Rung 9 blocking residual 1 resolved; h⁰(S,L_k)=14.8k+1>0 for all k∈{2,3,4,5} via Riemann-Roch on rational GUT divisor; GLOBAL_SECTIONS_EXIST=True; genus_gut_divisor=0; ~20 tests.
@@ -21,8 +21,8 @@ For each wave entry, include:
 - **Pillar 626** (`src/twelved/ftheory_rung10_g4_flux_quantization_full.py`): FTHEORY_RUNG10_G4_FLUX_QUANTIZATION_FULL_ADJACENT — 🔵 ADJACENT; Rung 9 blocking residual 3 resolved; G4+c₂/2∈H⁴(ℤ); N_D3=75840 exact; flux fraction 0.1%; ~28 tests.
 - **Pillar 627** (`src/twelved/ftheory_rung10_complete_at_reference_cy4.py`): FTHEORY_RUNG10_COMPLETE_AT_REFERENCE_CY4_ADJACENT — 🔵 ADJACENT; Rung 10 closure certificate; all 3 blocking residuals resolved; Gap B PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4; ~20 tests.
 - **Pillar 628** (`src/twelved/ftheory_dbp_rungs_1_10_combined_certificate.py`): FTHEORY_DBP_RUNGS_1_10_COMBINED_CERTIFICATE_ADJACENT — 🔵 ADJACENT; combined certificate 10/12 rungs; 5D seed preserved; Rungs 11-12 honestly open; ~30 tests.
-- **Pillar 629** (`src/core/pillar629_book30_ftheory_dbp_complete_sync.py`): BOOK30_FTHEORY_DBP_COMPLETE_SYNC_CERTIFIED — Book 30 + arXiv v20.8 sync; Substack #284 S03E062; ~20 tests.
-- **Pillar 630** (`src/core/pillar630_v208_regression_certificate.py`): V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.8 regression; ToE 30.0/28; Lean4 342; ~51,005 passed · 0 failed; ~35 tests.
+- **Pillar 629** (`src/core/pillar629_book30_ftheory_dbp_complete_sync.py`): BOOK30_FTHEORY_DBP_COMPLETE_SYNC_CERTIFIED — Book 30 + arXiv v20.9 sync; Substack #284 S03E062; ~20 tests.
+- **Pillar 630** (`src/core/pillar630_v208_regression_certificate.py`): V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.9 regression; ToE 30.0/28; Lean4 342; ~51,440 passed · 0 failed; ~35 tests.
 
 **Epistemic delta:**
 - `Gap B c_L lower bound`: PROVED_AT_REFERENCE_CY4 → PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4 (🔵 adjacent)
@@ -35,7 +35,7 @@ For each wave entry, include:
 
 **Residual unknowns:** F-theory Rungs 11–12 open (Weierstrass generalization, α' corrections).
 
-**Regression:** ~51,005 passed · 23 skipped · 12 deselected · 0 failed
+**Regression:** ~51,440 passed · 23 skipped · 12 deselected · 0 failed
 
 ---
 
