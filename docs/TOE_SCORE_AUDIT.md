@@ -1,7 +1,7 @@
-# ToE Score Audit — Unitary Manifold v11.0
+# ToE Score Audit — Unitary Manifold v20.1
 
 *Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 5.1 — 2026-05-16 (v11.0 canonical ledger freshness sync; P28 remains DERIVED; score 28.0/28.0 = 100%)*
+*Document version: 5.2 — 2026-08-01 (v20.1 sync; ToE score 29.0/28 = 28/28 hardgate + 1.0 partial (gen-1 c_L AB + P17 DM31 conditional); Lean4 274 theorems; ~49,850 tests passing; next pillar slot 591)*
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`

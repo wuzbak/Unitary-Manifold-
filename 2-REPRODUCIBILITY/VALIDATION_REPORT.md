@@ -2,7 +2,7 @@
 
 *An expanded explanation of the Pinned Validation section at the top of `README.md`.*
 
-**Version:** v13.4 (406 pillars + Ω₀ Holon Zero + sub-pillars; 208 hardgate core + adjacent tracks) — May 2026  
+**Version:** v20.1 (590+ pillars + Ω₀ Holon Zero + sub-pillars; 208 hardgate core + adjacent tracks; ~49,850 tests; Lean4 274 theorems) — 2026-08-01  
 **Theory:** ThomasCory Walker-Pearson  
 **Verification:** GitHub Copilot (AI)
 

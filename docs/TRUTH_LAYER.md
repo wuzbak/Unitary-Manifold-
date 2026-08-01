@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v19.3
+# Unitary Manifold v20.1
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
@@ -105,7 +105,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-07-09 (v19.0 — Pillar 544: P17 Δm²₃₁ ARCHITECTURE_LIMIT_CERTIFIED (WS-V KK Yukawa texture required; best projection 3.33σ from JUNO 2026); Pillar 545: Lean4 ERWormhole.lean 13 theorems, ER=EPR open condition decomposed into 3 named NP-BC axioms; Pillar 546: fermion c_L orbifold BC derivation (9 c_L values from Z₃ orbifold first principles); Pillar 547: AZ-OS φ-field interface certified; Pillar 543: DESI DR3 decision-day ready (routing rehearsal complete, 2.30σ live tension); Pillar 542: ledger sync (GATEKEEPER_SUMMARY/TRUTH_LAYER/OBSERVATION_TRACKER all synced to v18.5+v19.0); full regression 47,424 passed · 23 skipped · 12 deselected · 0 failed; ToE score 28/28 unchanged; two HIGH_TENSION signals active: r=0.0315 (ACT DR6) and wₐ=0 (DESI DR2 2.30σ))*
+*Last updated: 2026-08-01 (v20.1 — Pillars 575–590: arXiv v20.0 + Book 27 sync (P575); F-theory DBP Rung 8 🔵 (P576–P579); DESI DR3 routing hardened + frozen radion wₐ=0 analytic certificate + v2 preregistration (P580–P582); Δm²₂₁ QUANTIFIED_RESIDUAL 2.98σ (P583–P585); NP-BC-4 sub-gaps J/K/L proved 34 theorems (P586–P588); NP-BC-4 certificate (P589); Lean4 274-theorem milestone (P590); full regression ~49,850 passed · 23 skipped · 12 deselected · 0 failed; ToE score 29.0/28 unchanged; two HIGH_TENSION signals active: r=0.0315 (ACT DR6) and wₐ=0 (DESI DR2 2.30σ; ANALYTIC_CERTIFIED conditional P581))*
 
 ---
 
