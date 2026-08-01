@@ -12,6 +12,37 @@ For each wave entry, include:
 
 ---
 
+## v19.4 (2026-08-01 — Pillars 564–569: ER=EPR Sub-Gap Completion — NP-BC-2 D/E/F + NP-BC-3 G/H/I)
+
+**What changed:**
+- **Pillar 564** (`src/core/pillar564_np_bc2_subgap_d_mixing_angle.py`): NP_BC2_SUBGAP_D_MIXING_ANGLE_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC2SubgapD.lean` with 11 theorems; Robin BC mixing n_w/k_CS=5/74, k_CS mod n_w=4, mixing product=345, braid kernel; Lean4 total 184; 70 tests.
+- **Pillar 565** (`src/core/pillar565_np_bc2_subgap_e_saddle_bound.py`): NP_BC2_SUBGAP_E_SADDLE_BOUND_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC2SubgapE.lean` with 11 theorems; NP action positivity, k_CS floor, NP/pert ratio=14, superadditivity; Lean4 total 195; 73 tests.
+- **Pillar 566** (`src/core/pillar566_np_bc2_subgap_f_uv_ir.py`): NP_BC2_SUBGAP_F_UV_IR_CONSISTENCY_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC2SubgapF.lean` with 11 theorems; UV-IR action independence; all 3 NP-BC-2 sub-gaps proved (D/E/F, 33 theorems); Lean4 total 206; 83 tests.
+- **Pillar 567** (`src/core/pillar567_np_bc3_subgap_g_path_integral.py`): NP_BC3_SUBGAP_G_PATH_INTEGRAL_TOPOLOGY_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC3SubgapG.lean` with 11 theorems; winding sectors ℕ, vacuum S(0)=0, factorization S(n)=n×k_CS, winding bound n_w×k_CS=370; Lean4 total 217; 80 tests.
+- **Pillar 568** (`src/core/pillar568_np_bc3_subgap_h_cs_entanglement.py`): NP_BC3_SUBGAP_H_CS_ENTANGLEMENT_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC3SubgapH.lean` with 11 theorems; k_CS>1 (D>1 topological order), D>8, S_topo>ln(8), even-level bosonic CS, wormhole throat k_CS/2=37; Lean4 total 228; 82 tests.
+- **Pillar 569** (`src/core/pillar569_np_bc3_subgap_i_cs_erepr.py`): NP_BC3_SUBGAP_I_CS_EREPR_GEOMETRY_KERNEL_PROVED — new `lean4/UnitaryManifold/NPBC3SubgapI.lean` with 12 theorems; braid k_CS=5²+7²=74, ER=EPR parameter=k_CS, topological protection, all 9 sub-gap kernels proved; Lean4 total 240; ER=EPR MILESTONE: ALL_NINE_SUBGAP_KERNELS_PROVED (101 sub-gap theorems); 125 tests.
+- **New Lean4 files**: NPBC2SubgapD.lean (11), NPBC2SubgapE.lean (11), NPBC2SubgapF.lean (11), NPBC3SubgapG.lean (11), NPBC3SubgapH.lean (11), NPBC3SubgapI.lean (12); 67 new theorems, total 240.
+- **Substack post**: post-270-s03e048.
+- Canonical ledger sync: STATUS.md, docs/mas_tracker.yml, README.md, FALLIBILITY.md, DERIVATION_STATUS.md, WAVE_CHANGELOG.md, onboarding docs updated to v19.4.
+
+**Epistemic delta:**
+- `NP_BC2_SUBGAP_D` (P564): unnamed blocking residual → `MIXING_ANGLE_KERNEL_PROVED`
+- `NP_BC2_SUBGAP_E` (P565): unnamed blocking residual → `SADDLE_BOUND_KERNEL_PROVED`
+- `NP_BC2_SUBGAP_F` (P566): unnamed blocking residual → `UV_IR_CONSISTENCY_KERNEL_PROVED`; ALL_THREE_NP_BC2_SUBGAP_KERNELS_PROVED
+- `NP_BC3_SUBGAP_G` (P567): unnamed blocking residual → `PATH_INTEGRAL_TOPOLOGY_KERNEL_PROVED`
+- `NP_BC3_SUBGAP_H` (P568): unnamed blocking residual → `CS_ENTANGLEMENT_KERNEL_PROVED`
+- `NP_BC3_SUBGAP_I` (P569): unnamed blocking residual → `CS_EREPR_GEOMETRY_KERNEL_PROVED`; **ALL_NINE_SUBGAP_KERNELS_PROVED** (ER=EPR milestone)
+
+**TOE score delta:** 0 (ER=EPR / P6 UNCHANGED — sub-gap kernels are partial advances, full NP proof remains OPEN)
+
+**Falsification impact:** None — no observable predictions changed.
+
+**Residual unknowns:** 27 blocking residuals across 9 sub-gaps (3 per sub-gap); all require non-perturbative 5D quantum gravity formalization in Mathlib. Full ER=EPR proof remains OPEN.
+
+**Regression:** 48,838 passed · 23 skipped · 12 deselected · 0 failed
+
+---
+
 ## v19.3 (2026-07-09 — Pillars 559–563: Sprint 1 — DM31 Formal Closure + NP-BC-1 Sub-Gaps A–C)
 
 **What changed:**
