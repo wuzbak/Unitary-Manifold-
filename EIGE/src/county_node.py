@@ -48,6 +48,7 @@ from .constants import (
     SHARD_COUNT,
     WINDING_NUMBER,
 )
+from .hsm_interface import KeyProvider, SoftwareKeyProvider
 from .metric_closure import MetricClosure, ClosureStatus, ClosureResult
 
 
@@ -115,10 +116,31 @@ class CountyNode:
         county_id: str,
         county_name: str,
         hmac_key: Optional[bytes] = None,
+        key_provider: Optional[KeyProvider] = None,
     ) -> None:
         self.county_id = county_id
         self.county_name = county_name
-        self._hmac_key: bytes = hmac_key or self._derive_key(county_id)
+
+        # Key provider precedence:
+        #  1. Explicit key_provider (HSMKeyProvider / MockHSMKeyProvider)
+        #  2. Legacy hmac_key bytes (wrapped in a one-shot provider)
+        #  3. Default: SoftwareKeyProvider(county_id) — mirrors old _derive_key()
+        if key_provider is not None:
+            self._key_provider: KeyProvider = key_provider
+        elif hmac_key is not None:
+            # Wrap a raw bytes key for backward-compat with existing tests
+            from .hsm_interface import MockHSMKeyProvider
+            mock = MockHSMKeyProvider(keys={"legacy": hmac_key}, active_label="legacy")
+            self._key_provider = mock
+        else:
+            self._key_provider = SoftwareKeyProvider(county_id)
+
+        # Keep legacy attribute for tests that access _hmac_key directly
+        self._hmac_key: bytes = (
+            hmac_key
+            if hmac_key is not None
+            else SoftwareKeyProvider._derive(county_id)
+        )
 
         self._chain = ShardedChernSimonChain(n_shards=SHARD_COUNT)
         self._ballot_records: List[BallotRecord] = []
@@ -320,11 +342,7 @@ class CountyNode:
 
     def _sign_payload(self, payload: dict) -> str:
         """Produce an HMAC-SHA512 signature of the telemetry payload."""
-        # Exclude the signature field itself to avoid circular dependency
-        signable = {k: v for k, v in payload.items() if k != "hmac_signature"}
-        message = json.dumps(signable, sort_keys=True).encode("utf-8")
-        sig = hmac.new(self._hmac_key, message, hashlib.sha512).hexdigest()
-        return sig
+        return self._key_provider.sign_dict(payload)
 
     @staticmethod
     def _derive_key(county_id: str) -> bytes:
