@@ -122,6 +122,40 @@ BACKUP_CRON_HOURS: int = 1
 """Cold storage snapshot interval (hours)."""
 
 # ---------------------------------------------------------------------------
+# Chaos Injection & Freedom Floor constants
+# ---------------------------------------------------------------------------
+
+CHAOS_NOISE_BUDGET_DEFAULT: float = 0.10
+"""
+Default noise budget ε for the ChaosInjector: fraction of ballots that may
+be perturbed during a chaos injection run.  Values in [0, 1].
+"""
+
+FREEDOM_FLOOR: float = 0.85
+"""
+Minimum fraction of county nodes that must contribute non-trivially
+(ballot_count ≥ FREEDOM_FLOOR_MIN_BALLOTS) before the Freedom Floor
+Guardian fires a FreedomFloorBreach event.
+
+Rationale: if fewer than 85% of counties are participating meaningfully,
+the system may be "stabilising" φ_eff by silently suppressing low-turnout
+counties — which is mathematically convenient but democratically destructive.
+"""
+
+FREEDOM_FLOOR_MIN_BALLOTS: int = 1
+"""
+Minimum ballot count a county node must have to be considered a
+"non-trivial participant" for freedom-floor monitoring purposes.
+"""
+
+HOLOGRAPHIC_SCREEN_MIN_CONFIDENCE: float = 0.60
+"""
+Minimum mark_confidence value (0–1) that the HolographicScreen will accept
+without routing to the human adjudicator queue.  Below this threshold an
+AdmissibilityError is raised.
+"""
+
+# ---------------------------------------------------------------------------
 # Version
 # ---------------------------------------------------------------------------
 
