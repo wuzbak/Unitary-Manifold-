@@ -46,6 +46,7 @@ from typing import Any, Optional
 
 from .constants import K_CS, PHI_0, PHI_TOLERANCE, ENGINE_VERSION
 from .holon_zero_cert import validate_holon_zero_cert
+from .oscal_validator import validate_oscal_schema
 
 
 # ---------------------------------------------------------------------------
@@ -149,6 +150,7 @@ class FederalAuditor:
         "_k_cs",
         "_phi_0",
         "_phi_tolerance",
+        "_oscal_preflight",
         "__class__",
         "__repr__",
         "__str__",
@@ -162,11 +164,13 @@ class FederalAuditor:
         k_cs: int = K_CS,
         phi_0: float = PHI_0,
         phi_tolerance: float = PHI_TOLERANCE,
+        oscal_preflight: bool = False,
     ) -> None:
         self._k_cs = k_cs
         self._phi_0 = phi_0
         self._phi_tolerance = phi_tolerance
         self._history: list = []
+        self._oscal_preflight = oscal_preflight
 
     def __getattr__(self, name: str) -> Any:
         """Block all attribute access that is not in the explicit allowlist."""
@@ -194,6 +198,26 @@ class FederalAuditor:
         because the cert contains no raw ballot data by construction.
         """
         ts = datetime.now(timezone.utc).isoformat()
+
+        # OSCAL 1.5.0 schema pre-flight check (when enabled)
+        if self._oscal_preflight and isinstance(cert, dict):
+            vr = validate_oscal_schema(cert)
+            if not vr.valid:
+                result = AuditResult(
+                    verdict=AuditVerdict.SCHEMA_INVALID,
+                    jurisdiction_id="UNKNOWN",
+                    block_height=0,
+                    state_hash="",
+                    phi_verified=False,
+                    k_cs_verified=False,
+                    proof_status="OSCAL_SCHEMA_INVALID",
+                    timestamp=ts,
+                    remarks=(
+                        f"OSCAL 1.5.0 pre-flight failed: {'; '.join(vr.errors[:3])}"
+                    ),
+                )
+                self._history.append(result)
+                return result
 
         # Structural validation
         if not isinstance(cert, dict):

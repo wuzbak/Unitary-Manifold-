@@ -50,6 +50,7 @@ from .constants import (
 )
 from .hsm_interface import KeyProvider, SoftwareKeyProvider
 from .metric_closure import MetricClosure, ClosureStatus, ClosureResult
+from .rust_bridge import RustBallotBridge
 
 
 # ---------------------------------------------------------------------------
@@ -117,6 +118,7 @@ class CountyNode:
         county_name: str,
         hmac_key: Optional[bytes] = None,
         key_provider: Optional[KeyProvider] = None,
+        use_rust: bool = False,
     ) -> None:
         self.county_id = county_id
         self.county_name = county_name
@@ -142,7 +144,12 @@ class CountyNode:
             else SoftwareKeyProvider._derive(county_id)
         )
 
-        self._chain = ShardedChernSimonChain(n_shards=SHARD_COUNT)
+        # Chain: use Rust bridge if requested, else pure-Python
+        if use_rust:
+            self._chain = RustBallotBridge(n_shards=SHARD_COUNT)
+        else:
+            self._chain = ShardedChernSimonChain(n_shards=SHARD_COUNT)
+
         self._ballot_records: List[BallotRecord] = []
         self._sequence_index: int = 0
         self._online: bool = True

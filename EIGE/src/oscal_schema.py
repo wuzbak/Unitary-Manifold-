@@ -53,6 +53,33 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
             "as a hash chain break, satisfying SI-7 software and information integrity controls."
         ),
     },
+    "si7_integrity_checks": {
+        "control_id": "SI-7(1)",
+        "control_family": "System and Information Integrity",
+        "vvsg_criterion": "Periodic and Event-Driven Integrity Checks",
+        "oscal_taxonomy": "System Integrity (SI) Enhancement Component",
+        "description": (
+            "SI-7(1) Integrity Checks: ChernSimonChain.sha512_hexdigest() provides a "
+            "cryptographically-standard integrity check on the running hash state, "
+            "verifiable at any point by an independent auditor without requiring "
+            "access to raw ballot data.  RecoveryKernel.cold_start_integrity_assertion() "
+            "performs an event-driven integrity check on every node cold-start."
+        ),
+    },
+    "si7_cryptographic_protection": {
+        "control_id": "SI-7(6)",
+        "control_family": "System and Information Integrity",
+        "vvsg_criterion": "Cryptographic Protection of Software and Firmware Integrity",
+        "oscal_taxonomy": "System Integrity (SI) Enhancement Component",
+        "description": (
+            "SI-7(6) Cryptographic Protection: All HMAC-SHA512 telemetry signatures "
+            "use a 512-bit key managed by the KeyProvider abstraction layer (HSMKeyProvider "
+            "in production).  The Pedersen commitment in HolonZeroCert provides a "
+            "zero-knowledge cryptographic proof of metric state without revealing raw values.  "
+            "ShardManifest primary_entries are cryptographically chained via the CS rolling "
+            "hash, providing tamper-evidence across the holographic shard set."
+        ),
+    },
     "metric_closure": {
         "control_id": "AC-1",
         "control_family": "Access Control",
@@ -73,6 +100,21 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
             "3:2 Scaffold Invariant Auditing Engine maps field layers to legal audit "
             "counterweights (voter registry ↔ boundary tally), satisfying AU-12 audit "
             "generation requirements with 500ms dossier emission guarantee."
+        ),
+    },
+    "au12_system_wide_audit_trail": {
+        "control_id": "AU-12(1)",
+        "control_family": "Audit and Accountability",
+        "vvsg_criterion": "System-Wide Audit Trail Compilation",
+        "oscal_taxonomy": "Audit Logging (AU) Enhancement Component",
+        "description": (
+            "AU-12(1) System-Wide Audit Trail: The state mesh aggregates HMAC-signed "
+            "telemetry payloads from all 39 county nodes into a unified audit trail.  "
+            "Each SentinelLoadBalancer intercept event appends an OSCAL 1.5.0 dossier "
+            "to the append-only public dashboard mirror, compiling a system-wide "
+            "chronological record of all override attempts and metric violations.  "
+            "The NormalisationLog from HolographicScreen provides per-ballot decision "
+            "audit records meeting AU-12(1) compilation requirements."
         ),
     },
     "hils_pentad": {
@@ -448,3 +490,62 @@ def build_override_dossier(
         metadata=metadata,
         results=results,
     )
+
+
+# ---------------------------------------------------------------------------
+# SI-7 evidence block builder
+# ---------------------------------------------------------------------------
+
+def build_si7_evidence_block(chain: Any) -> dict:
+    """Generate a machine-verifiable NIST SP-800-53 R5 SI-7 evidence record.
+
+    The evidence record contains the Chern-Simons hash state and its
+    SHA-512 digest, suitable for inclusion in an OSCAL component definition
+    dossier as a ``ImplementedRequirement`` observation.
+
+    No raw ballot data, voter identifiers, or plaintext selection vectors
+    are included — only aggregate cryptographic state (satisfying SI-7's
+    integrity-without-exposure requirement).
+
+    Parameters
+    ----------
+    chain : ChernSimonChain
+        An instantiated ``ChernSimonChain`` or ``ShardedChernSimonChain``
+        object whose ``state`` and ``sha512_hexdigest()`` method are used
+        to derive the evidence record.
+
+    Returns
+    -------
+    dict
+        A structured OSCAL-compatible observation dict with fields:
+        ``control_id``, ``ballot_count``, ``cs_hash_state_hex``,
+        ``sha512_hexdigest``, ``timestamp``, ``engine_version``.
+    """
+    from .constants import ENGINE_VERSION  # avoid circular import at module level
+
+    now = datetime.now(timezone.utc).isoformat()
+    cs_state = int(chain.state)
+    hexdigest = chain.sha512_hexdigest() if hasattr(chain, "sha512_hexdigest") else ""
+    ballot_count = (
+        len(chain._entries) if hasattr(chain, "_entries")
+        else getattr(chain, "_global_sequence", 0)
+    )
+
+    return {
+        "oscal_version": OSCAL_VERSION,
+        "control_id": "SI-7",
+        "enhancement_controls": ["SI-7(1)", "SI-7(6)"],
+        "component": "ChernSimonHashChain",
+        "observation_type": "integrity_evidence",
+        "ballot_count": ballot_count,
+        "cs_hash_state_hex": format(cs_state, "x"),
+        "sha512_hexdigest": hexdigest,
+        "timestamp": now,
+        "engine_version": ENGINE_VERSION,
+        "description": (
+            "Machine-verifiable SI-7 integrity evidence.  "
+            "The cs_hash_state_hex and sha512_hexdigest fields constitute "
+            "cryptographic evidence that the ballot processing chain has not "
+            "been retroactively modified since last checkpoint."
+        ),
+    }

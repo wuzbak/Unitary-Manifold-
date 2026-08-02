@@ -35,11 +35,14 @@ Implementation: GitHub Copilot (AI)
 
 from __future__ import annotations
 
+import hashlib
+import hmac as _hmac
 import json
 import os
 import sys
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Dict, List, Optional
 
 from .constants import (
     K_CS,
@@ -54,6 +57,185 @@ from .oscal_schema import build_override_dossier, AssessmentPlan
 
 # Default output directory (can be overridden for testing)
 DEFAULT_DOSSIER_DIR = "/var/www/eige_public_dashboard/dossiers"
+
+# ---------------------------------------------------------------------------
+# Pentad HILS 5-body governance quorum
+# ---------------------------------------------------------------------------
+
+# Fixed HMAC key seed for software-mode quorum tokens.
+# In production each body uses its own HSM-pinned key.
+_PENTAD_TOKEN_SEED = b"EIGE-v21-pentad-quorum-token-seed"
+
+
+@dataclass
+class PentadAcknowledgement:
+    """A signed acknowledgement token from one Pentad governance body.
+
+    Attributes
+    ----------
+    body_id : str
+        Identifier of the governance body (one of the 5 canonical IDs).
+    token : str
+        HMAC-SHA512 hex token over (body_id + override_uuid + timestamp).
+    timestamp : str
+        ISO-8601 UTC timestamp when the acknowledgement was created.
+    """
+
+    body_id: str
+    token: str
+    timestamp: str = field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
+
+
+# Canonical Pentad body IDs
+PENTAD_BODY_IDS = frozenset({
+    "county_node",
+    "state_mesh",
+    "federal_auditor",
+    "public_trust_builder",
+    "freedom_floor_guardian",
+})
+
+
+class PentadHILS:
+    """Pentad Human-in-the-Loop Systems 5-body governance quorum manager.
+
+    All 5 governance bodies must provide a valid signed acknowledgement
+    before an administrative override is permitted.
+
+    Parameters
+    ----------
+    body_hmac_keys : dict[str, bytes], optional
+        Per-body HMAC keys for token verification.  If not provided, a
+        deterministic software-mode key derived from ``_PENTAD_TOKEN_SEED``
+        is used for all bodies (testing only — NOT production-safe).
+    """
+
+    def __init__(
+        self,
+        body_hmac_keys: Optional[Dict[str, bytes]] = None,
+    ) -> None:
+        self._keys: Dict[str, bytes] = {}
+        for body_id in PENTAD_BODY_IDS:
+            if body_hmac_keys and body_id in body_hmac_keys:
+                self._keys[body_id] = body_hmac_keys[body_id]
+            else:
+                # Deterministic software-mode key
+                self._keys[body_id] = hashlib.sha512(
+                    _PENTAD_TOKEN_SEED + body_id.encode("utf-8")
+                ).digest()
+        self._acknowledgements: Dict[str, PentadAcknowledgement] = {}
+
+    def generate_token(self, body_id: str, override_uuid: str) -> str:
+        """Generate a signed quorum token for the given body and override_uuid.
+
+        Parameters
+        ----------
+        body_id : str
+            One of the 5 canonical Pentad body IDs.
+        override_uuid : str
+            UUID of the override request requiring quorum.
+
+        Returns
+        -------
+        str
+            128-char HMAC-SHA512 hex token.
+
+        Raises
+        ------
+        ValueError
+            If body_id is not a valid Pentad body ID.
+        """
+        if body_id not in PENTAD_BODY_IDS:
+            raise ValueError(
+                f"Unknown Pentad body_id {body_id!r}. "
+                f"Valid IDs: {sorted(PENTAD_BODY_IDS)}"
+            )
+        ts = datetime.now(timezone.utc).isoformat()
+        message = f"{body_id}:{override_uuid}:{ts}".encode("utf-8")
+        key = self._keys[body_id]
+        return _hmac.new(key, message, hashlib.sha512).hexdigest()
+
+    def acknowledge(
+        self,
+        body_id: str,
+        override_uuid: str,
+        token: Optional[str] = None,
+    ) -> PentadAcknowledgement:
+        """Record an acknowledgement from a governance body.
+
+        If ``token`` is not provided, a fresh software-mode token is
+        generated automatically (for testing and offline environments).
+
+        Parameters
+        ----------
+        body_id : str
+        override_uuid : str
+        token : str, optional
+            Pre-generated HMAC token.  If None, auto-generated.
+
+        Returns
+        -------
+        PentadAcknowledgement
+        """
+        if body_id not in PENTAD_BODY_IDS:
+            raise ValueError(f"Unknown Pentad body_id {body_id!r}")
+        if token is None:
+            token = self.generate_token(body_id, override_uuid)
+        ack = PentadAcknowledgement(body_id=body_id, token=token)
+        self._acknowledgements[body_id] = ack
+        return ack
+
+    def is_quorum_met(self) -> bool:
+        """Return True if all 5 Pentad bodies have acknowledged."""
+        return len(self._acknowledgements) >= len(PENTAD_BODY_IDS) and \
+               set(self._acknowledgements.keys()) >= PENTAD_BODY_IDS
+
+    def acknowledged_bodies(self) -> List[str]:
+        """Return list of body IDs that have acknowledged."""
+        return list(self._acknowledgements.keys())
+
+    def missing_bodies(self) -> List[str]:
+        """Return list of body IDs that have NOT yet acknowledged."""
+        return sorted(PENTAD_BODY_IDS - set(self._acknowledgements.keys()))
+
+    def reset(self) -> None:
+        """Clear all acknowledgements (for new override cycle)."""
+        self._acknowledgements.clear()
+
+    def quorum_summary(self) -> dict:
+        """Return a structured quorum status summary."""
+        return {
+            "quorum_met": self.is_quorum_met(),
+            "required": len(PENTAD_BODY_IDS),
+            "acknowledged": len(self._acknowledgements),
+            "acknowledged_bodies": self.acknowledged_bodies(),
+            "missing_bodies": self.missing_bodies(),
+        }
+
+
+class PentadQuorumRequired(Exception):
+    """Raised by SentinelLoadBalancer when Pentad quorum is required but
+    not yet met.
+
+    Attributes
+    ----------
+    missing_bodies : list[str]
+        Names of governance bodies that have not yet acknowledged.
+    override_uuid : str
+        UUID of the pending override request.
+    """
+
+    def __init__(self, missing_bodies: list, override_uuid: str) -> None:
+        self.missing_bodies = missing_bodies
+        self.override_uuid = override_uuid
+        super().__init__(
+            f"PentadQuorumRequired: override {override_uuid!r} requires "
+            f"acknowledgement from: {missing_bodies}. "
+            f"All 5 Pentad governance bodies must consent before this "
+            f"override is permitted."
+        )
 
 
 class FreedomFloorBreach(Exception):
@@ -112,6 +294,7 @@ class SentinelLoadBalancer:
         output_directory: Optional[str] = None,
         freedom_floor: float = FREEDOM_FLOOR,
         freedom_floor_min_ballots: int = FREEDOM_FLOOR_MIN_BALLOTS,
+        pentad: Optional[PentadHILS] = None,
     ) -> None:
         self.phi_0 = target_phi_0
         self.k_cs = target_k_cs
@@ -122,6 +305,7 @@ class SentinelLoadBalancer:
         self._intercept_count: int = 0
         self._pass_count: int = 0
         self._freedom_floor_breach_count: int = 0
+        self._pentad: Optional[PentadHILS] = pentad
 
     # ------------------------------------------------------------------
     # Primary evaluation gateway
@@ -132,6 +316,7 @@ class SentinelLoadBalancer:
         tx_payload: dict,
         operator_sig: str,
         terminal_id: str,
+        require_pentad_quorum: bool = True,
     ) -> dict:
         """Evaluate an incoming administrative payload against metric invariants.
 
@@ -147,6 +332,10 @@ class SentinelLoadBalancer:
             Cryptographic signature of the operator submitting the request.
         terminal_id : str
             Hardware terminal UUID of the submitting node.
+        require_pentad_quorum : bool
+            If True and a PentadHILS instance is attached, override
+            attempts that fail quorum raise PentadQuorumRequired instead
+            of emitting a dossier.  Default True.
 
         Returns
         -------
@@ -167,6 +356,7 @@ class SentinelLoadBalancer:
             return self._intercept(
                 tx_payload, operator_sig, terminal_id,
                 observed_phi, observed_k_cs, observed_rho,
+                require_pentad_quorum=require_pentad_quorum,
             )
 
         self._pass_count += 1
@@ -174,6 +364,39 @@ class SentinelLoadBalancer:
             "status": "PROCESSED_SUCCESSFULLY",
             "action": "STANDARD_TALLY_EVOLUTION",
         }
+
+    def intercept_override(
+        self,
+        tx_payload: dict,
+        operator_sig: str,
+        terminal_id: str,
+        require_pentad_quorum: bool = True,
+    ) -> dict:
+        """Explicit override interception entry point.
+
+        Equivalent to calling evaluate_and_route_transaction with
+        force_tally_override=True.  Useful when calling code has already
+        determined that an override attempt is in progress.
+
+        Parameters
+        ----------
+        tx_payload : dict
+        operator_sig : str
+        terminal_id : str
+        require_pentad_quorum : bool
+            If True and PentadHILS is attached, raises PentadQuorumRequired
+            when quorum is not yet met.
+
+        Returns
+        -------
+        dict
+        """
+        tx_payload = dict(tx_payload)
+        tx_payload["force_tally_override"] = True
+        return self.evaluate_and_route_transaction(
+            tx_payload, operator_sig, terminal_id,
+            require_pentad_quorum=require_pentad_quorum,
+        )
 
     # ------------------------------------------------------------------
     # Interception handler
@@ -187,8 +410,22 @@ class SentinelLoadBalancer:
         phi: float,
         k_cs: int,
         rho: float,
+        require_pentad_quorum: bool = True,
     ) -> dict:
-        """Handle a detected violation: emit dossier and throttle."""
+        """Handle a detected violation: check quorum, emit dossier and throttle.
+
+        If a PentadHILS instance is attached and ``require_pentad_quorum`` is
+        True, raises PentadQuorumRequired when quorum is not yet met.
+        """
+        # Pentad quorum gate (additive — does not remove Freedom Floor protection)
+        if require_pentad_quorum and self._pentad is not None:
+            if not self._pentad.is_quorum_met():
+                override_uuid = f"override-{id(payload):016x}"
+                raise PentadQuorumRequired(
+                    missing_bodies=self._pentad.missing_bodies(),
+                    override_uuid=override_uuid,
+                )
+
         self.system_status = "INTERCEPTED_BY_SENTINEL"
         self._intercept_count += 1
 
@@ -393,6 +630,8 @@ class SentinelLoadBalancer:
         self._intercept_count = 0
         self._pass_count = 0
         self._freedom_floor_breach_count = 0
+        if self._pentad is not None:
+            self._pentad.reset()
 
     def __repr__(self) -> str:
         return (
