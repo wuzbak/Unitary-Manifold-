@@ -1,0 +1,133 @@
+# EIGE v21.0 — Kubernetes Network Policy
+# Enforces microsegmentation: only explicitly permitted traffic flows allowed.
+# All other ingress/egress denied by default.
+#
+# AxiomZero Technologies & Consulting, SPC
+# Theory & scientific direction: ThomasCory Walker-Pearson
+# Code architecture & synthesis:  GitHub Copilot (AI)
+---
+# Default deny-all for the eige-prod namespace
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: eige-prod
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+# County nodes may receive ballot ingest from trusted LAN scanners only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: county-ingress-from-scanner
+  namespace: eige-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: eige-county
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: eige-scanner-lan
+      ports:
+        - protocol: TCP
+          port: 50051  # gRPC ingest
+---
+# County nodes may send telemetry to state mesh only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: county-egress-to-state
+  namespace: eige-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: eige-county
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: eige-state
+      ports:
+        - protocol: TCP
+          port: 50052  # gRPC aggregate
+---
+# State mesh may receive telemetry from county nodes
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: state-ingress-from-county
+  namespace: eige-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: eige-state
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: eige-county
+      ports:
+        - protocol: TCP
+          port: 50052
+---
+# State mesh may send Holon Zero Certs to federal tier only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: state-egress-to-federal
+  namespace: eige-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: eige-state
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: eige-federal
+      ports:
+        - protocol: TCP
+          port: 50053  # gRPC federal cert submission
+---
+# Dashboard pods may query state HTTP API only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dashboard-ingress
+  namespace: eige-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: eige-dashboard
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: eige-frontend
+      ports:
+        - protocol: TCP
+          port: 443
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: eige-state
+      ports:
+        - protocol: TCP
+          port: 8081  # HTTP API

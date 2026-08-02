@@ -1,0 +1,101 @@
+# EIGE v21.0 — King County Node Pod Manifest
+# AxiomZero Technologies & Consulting, SPC
+# Theory & scientific direction: ThomasCory Walker-Pearson
+# Code architecture & synthesis:  GitHub Copilot (AI)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eige-county-node
+  namespace: eige-prod
+  labels:
+    app: eige-county
+    version: "21.0.0"
+    tier: county
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eige-county
+  template:
+    metadata:
+      labels:
+        app: eige-county
+        version: "21.0.0"
+        tier: county
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      serviceAccountName: eige-county-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: county-node
+          image: axiomzero/eige-county:21.0.0
+          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          env:
+            - name: K_CS
+              value: "74"
+            - name: SHARD_COUNT
+              value: "8"
+            - name: PHI_TOLERANCE
+              value: "1e-15"
+            - name: PHI_DRIFT_WARNING
+              value: "1e-12"
+            - name: OSCAL_OUTPUT_DIR
+              value: "/var/eige/dossiers"
+            - name: COUNTY_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['county.eige.wa.gov/id']
+          ports:
+            - name: grpc-ingest
+              containerPort: 50051
+              protocol: TCP
+            - name: http-telemetry
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: dossier-vol
+              mountPath: /var/eige/dossiers
+            - name: shard-data
+              mountPath: /var/eige/shards
+            - name: tmp-vol
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "2000m"
+              memory: "1Gi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: dossier-vol
+          persistentVolumeClaim:
+            claimName: eige-dossier-pvc
+        - name: shard-data
+          persistentVolumeClaim:
+            claimName: eige-shard-pvc
+        - name: tmp-vol
+          emptyDir: {}

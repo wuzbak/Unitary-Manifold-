@@ -1,0 +1,84 @@
+# EIGE v21.0 — Backup CronJob (Hourly Cold Storage Snapshots)
+# AxiomZero Technologies & Consulting, SPC
+# Theory & scientific direction: ThomasCory Walker-Pearson
+# Code architecture & synthesis:  GitHub Copilot (AI)
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: eige-backup-cron
+  namespace: eige-prod
+  labels:
+    app: eige-backup
+    version: "21.0.0"
+spec:
+  schedule: "0 * * * *"   # Every hour on the hour
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 24
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app: eige-backup
+          annotations:
+            sidecar.istio.io/inject: "false"
+        spec:
+          serviceAccountName: eige-backup-sa
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10003
+            fsGroup: 10003
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: backup-runner
+              image: axiomzero/eige-backup:21.0.0
+              imagePullPolicy: Always
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: false
+                capabilities:
+                  drop: ["ALL"]
+              command: ["/usr/local/bin/eige-backup"]
+              args:
+                - "--snapshot-dir=/var/eige/snapshots"
+                - "--shard-dir=/var/eige/shards"
+                - "--county-count=39"
+                - "--replicate-to-peers"
+                - "--max-retry=3"
+              env:
+                - name: EIGE_SNAPSHOT_ENCRYPTION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: eige-backup-secret
+                      key: snapshot-encryption-key
+                - name: EIGE_PEER_NODES
+                  valueFrom:
+                    configMapKeyRef:
+                      name: eige-config
+                      key: peer-node-addresses
+              volumeMounts:
+                - name: snapshot-vol
+                  mountPath: /var/eige/snapshots
+                - name: shard-source
+                  mountPath: /var/eige/shards
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "128Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "512Mi"
+          volumes:
+            - name: snapshot-vol
+              persistentVolumeClaim:
+                claimName: eige-snapshot-pvc
+            - name: shard-source
+              persistentVolumeClaim:
+                claimName: eige-shard-pvc
+                readOnly: true
