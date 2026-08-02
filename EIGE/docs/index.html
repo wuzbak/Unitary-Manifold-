@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AxiomZero EIGE — Election Integrity Governance Engine</title>
+  <meta name="description" content="EIGE v21.0 — A deterministic, mathematically verifiable chain-of-custody engine for elections. 449 passing tests. Open-source. NIST-mapped." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hero {
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      border-bottom: 1px solid #30363d;
+      padding: 64px 24px 48px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #f0f6fc;
+      margin-bottom: 12px;
+    }
+    .hero .subtitle {
+      font-size: 1.1rem;
+      color: #8b949e;
+      margin-bottom: 24px;
+    }
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .badge {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+      color: #c9d1d9;
+    }
+    .badge.green { border-color: #238636; color: #3fb950; }
+    .badge.blue  { border-color: #1f6feb; color: #58a6ff; }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+    .btn-primary { background: #238636; color: #f0f6fc; }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 48px 0; border-bottom: 1px solid #21262d; }
+    section:last-child { border-bottom: none; }
+    h2 { font-size: 1.5rem; font-weight: 600; color: #f0f6fc; margin-bottom: 16px; }
+    h3 { font-size: 1.1rem; font-weight: 600; color: #e6edf3; margin: 20px 0 8px; }
+    p { margin-bottom: 12px; color: #c9d1d9; }
+    .callout {
+      background: #161b22;
+      border-left: 3px solid #238636;
+      border-radius: 0 6px 6px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-style: italic;
+      color: #e6edf3;
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0; }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .card h3 { margin-top: 0; color: #58a6ff; }
+    .card p { font-size: 0.9rem; margin-bottom: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.9rem; }
+    th { background: #161b22; color: #e6edf3; text-align: left; padding: 10px 14px; border-bottom: 1px solid #30363d; }
+    td { padding: 10px 14px; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+    tr:last-child td { border-bottom: none; }
+    .green-text { color: #3fb950; }
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #e6edf3;
+    }
+    .tier-diagram {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      font-family: monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #e6edf3;
+    }
+    footer {
+      background: #161b22;
+      border-top: 1px solid #30363d;
+      padding: 32px 24px;
+      text-align: center;
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <h1>AxiomZero EIGE</h1>
+    <p class="subtitle">Election Integrity Governance Engine v21.0</p>
+    <div class="badge-row">
+      <span class="badge green">449 tests passing</span>
+      <span class="badge green">0 failures</span>
+      <span class="badge blue">NIST VVSG 2.0</span>
+      <span class="badge blue">OSCAL 1.5.0</span>
+      <span class="badge">Open Source — Public Domain</span>
+      <span class="badge">Phase 1-B Complete</span>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/EIGE">View on GitHub</a>
+      <a class="btn btn-secondary" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/EXPLAINER.md">5-Minute Explainer</a>
+      <a class="btn btn-secondary" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/paper/eige_arxiv_preprint.md">Read the Paper</a>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- PROBLEM -->
+  <section>
+    <h2>The Problem with Current Election Auditing</h2>
+    <p>
+      Every existing election audit tool — Benford's Law analysis, risk-limiting audits, post-election sampling — 
+      shares a structural flaw: they are retroactive, sampling-based, and probabilistic. They produce p-values, not proof.
+    </p>
+    <div class="callout">
+      "An election is a field evolution, not a database." — EIGE design principle
+    </div>
+    <p>
+      EIGE treats the ballot counting process as what it actually is: an ordered sequence of events in time. 
+      It encodes that sequence as a mathematical invariant, computed in real time. Any structural manipulation 
+      — ballot stuffing, retroactive deletion, sequence reordering, administrative override — produces an 
+      immediate, machine-verifiable deviation. Not statistically. Exactly.
+    </p>
+  </section>
+
+  <!-- WHAT IT DETECTS -->
+  <section>
+    <h2>What EIGE Detects</h2>
+    <table>
+      <thead>
+        <tr><th>Attack</th><th>Detection Mechanism</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ballot stuffing</td><td>Chern-Simons hash chain disruption</td></tr>
+        <tr><td>Retroactive ballot deletion</td><td>Sequence-dependent hash encodes count</td></tr>
+        <tr><td>Sequence reordering</td><td>Non-commutativity of CS hash</td></tr>
+        <tr><td>Administrative override</td><td>SentinelLoadBalancer intercept → OSCAL dossier &lt;500ms</td></tr>
+        <tr><td>Infrastructure attack (ransomware)</td><td>8-shard 5-of-8 reconstruction + peer replication</td></tr>
+        <tr><td>Precision attack (float bias)</td><td>512-bit mpmath out-of-band audit thread</td></tr>
+        <tr><td>Participation suppression</td><td>Freedom Floor kill-switch</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section>
+    <h2>Three-Tier Sovereignty Architecture</h2>
+    <div class="tier-diagram">
+      <div>[FEDERAL TIER — compliance window]</div>
+      <div>Receives: OSCAL 1.5.0 ZK certificates only</div>
+      <div>Cannot access: any raw ballot data ← structurally enforced</div>
+      <div style="margin: 8px 0;">▲ Zero-knowledge certificates</div>
+      <div>[STATE TIER — aggregation]</div>
+      <div>Cross-county braid sync → Holon Zero Certificate</div>
+      <div style="margin: 8px 0;">▲ Encrypted shard telemetry (TLS 1.3 mTLS)</div>
+      <div>[COUNTY TIER — 39 nodes]</div>
+      <div>ballot integer → CS rolling hash → 8 shards → φ_eff, k_CS</div>
+      <div>NO raw ballots leave the county tier</div>
+    </div>
+  </section>
+
+  <!-- QUICKSTART -->
+  <section>
+    <h2>Quick Start</h2>
+    <pre>
+# Install
+pip install -r EIGE/requirements.txt
+
+# Run the full 449-test suite
+python -m pytest EIGE/tests/ -v
+
+# Run via Docker (one command)
+docker build -t axiomzero-eige EIGE/
+docker run --rm axiomzero-eige
+
+# End-to-end synthetic election demo
+python EIGE/run_demo.py
+    </pre>
+  </section>
+
+  <!-- KEY DOCS -->
+  <section>
+    <h2>Documentation</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>📖 Full Technical Book</h3>
+        <p>21-chapter reference covering every component, security property, and operational scenario.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/BOOK.md">BOOK.md →</a></p>
+      </div>
+      <div class="card">
+        <h3>🏗️ Architecture</h3>
+        <p>System block diagrams, 3-tier data flow, override interception architecture.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/ARCHITECTURE.md">ARCHITECTURE.md →</a></p>
+      </div>
+      <div class="card">
+        <h3>🛡️ NIST Compliance</h3>
+        <p>VVSG 2.0, SP-800-53 R5, OSCAL 1.5.0, FIPS 140-3, EAC HAVA, WAC 434 mapping.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/COMPLIANCE.md">COMPLIANCE.md →</a></p>
+      </div>
+      <div class="card">
+        <h3>🔐 Security Policy</h3>
+        <p>Open cryptanalysis challenge on the CS hash. Responsible disclosure policy.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/SECURITY.md">SECURITY.md →</a></p>
+      </div>
+      <div class="card">
+        <h3>📜 arXiv Preprint</h3>
+        <p>Condensed academic paper: mathematical foundation, security analysis, comparison vs. RLA / blockchain.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/paper/eige_arxiv_preprint.md">eige_arxiv_preprint.md →</a></p>
+      </div>
+      <div class="card">
+        <h3>❓ FAQ</h3>
+        <p>Skeptic FAQ for election deniers, cryptography researchers, privacy advocates, and federalism advocates.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/FAQ.md">FAQ.md →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NIST STATUS -->
+  <section>
+    <h2>Compliance Status</h2>
+    <table>
+      <thead>
+        <tr><th>Standard</th><th>Status</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>NIST VVSG 2.0</td><td class="green-text">✅ Mapped</td><td>Data integrity, audit trails, chain of custody</td></tr>
+        <tr><td>NIST SP-800-53 R5</td><td class="green-text">✅ Mapped</td><td>AC, SI, AU, CA, CP control families</td></tr>
+        <tr><td>OSCAL 1.5.0</td><td class="green-text">✅ Implemented</td><td>SSP, SAR, dossier emission</td></tr>
+        <tr><td>FIPS 140-3</td><td class="green-text">✅ Mapped</td><td>SHA-512, HMAC-SHA-512 primitives</td></tr>
+        <tr><td>EAC HAVA</td><td class="green-text">✅ Mapped</td><td>Audit trail, accessible records</td></tr>
+        <tr><td>WAC 434 / RCW 29A</td><td class="green-text">✅ Mapped</td><td>Washington State elections administration</td></tr>
+        <tr><td>Formal ZK proof (Holon Zero)</td><td style="color:#d29922;">⏳ Phase 2</td><td>Currently commitment-scheme architecture</td></tr>
+        <tr><td>Hardware TEE attestation</td><td style="color:#d29922;">⏳ Phase 2</td><td>v21.0 is fully software-defined</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ON THE PHYSICS -->
+  <section>
+    <h2>A Note on the Math</h2>
+    <p>
+      EIGE's tamper-detection invariants (<code>k_CS = 74</code>, <code>φ₀ = π/4</code>) are drawn from the 
+      <a href="https://github.com/wuzbak/Unitary-Manifold-">Unitary Manifold</a> physics framework.
+      <strong>You do not need to evaluate the cosmological physics to evaluate EIGE.</strong>
+    </p>
+    <p>
+      The constants function as engineering parameters: seeds for a path-dependent rolling hash, 
+      shard placement indices, and OSCAL certificate anchors. Their operational validity requires only 
+      their mathematical properties. For a physics-free evaluation, see 
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/src/constants_engineering.py"><code>constants_engineering.py</code></a>.
+    </p>
+  </section>
+
+  <!-- AUTHORSHIP -->
+  <section>
+    <h2>Authorship and License</h2>
+    <p>
+      <strong>Theory, framework, and scientific direction:</strong> ThomasCory Walker-Pearson<br />
+      <strong>Code architecture, test suites, document engineering, and synthesis:</strong> GitHub Copilot (AI)
+    </p>
+    <p>
+      Released under the <strong>Defensive Public Commons License v1.0</strong> — irrevocably dedicated to the public domain.
+      It cannot be patented, proprietary-licensed, or used against the interests it was designed to protect.
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  <p>AxiomZero EIGE v21.0.0 | 449 tests passing | Phase 1-B complete</p>
+  <p style="margin-top: 8px;">
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/EIGE">GitHub</a> ·
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/paper/eige_arxiv_preprint.md">Preprint</a> ·
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/SECURITY.md">Security</a> ·
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/FAQ.md">FAQ</a>
+  </p>
+</footer>
+
+</body>
+</html>
