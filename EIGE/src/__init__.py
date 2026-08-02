@@ -23,3 +23,48 @@ PILLAR = "19-EIGE"
 EPISTEMIC_LABEL = "🔵 ADJACENT TRACK"
 VERSION = "21.0.0"
 JURISDICTION_DEFAULT = "WA-KING-COUNTY"
+
+# Phase 1: Chaos Injection
+from .chaos_injection import (
+    ChaosInjector,
+    FreedomFloorViolation,
+    InjectionEvent,
+    NoiseMode,
+)
+
+# Phase 2: Holographic Screening Layer
+from .holographic_screen import (
+    HolographicScreen,
+    AdmissibilityError,
+    NormalisationRecord,
+    NormalisationStatus,
+    WriteInRegistry,
+)
+
+# Phase 3: Public Trust Index
+from .public_trust_index import (
+    PublicTrustIndexBuilder,
+    PublicTrustReport,
+)
+
+# Phase 4: Freedom Floor Kill-Switch (in sentinel)
+from .sentinel_load_balance import FreedomFloorBreach
+
+__all__ = [
+    # Chaos injection
+    "ChaosInjector",
+    "FreedomFloorViolation",
+    "InjectionEvent",
+    "NoiseMode",
+    # Holographic screen
+    "HolographicScreen",
+    "AdmissibilityError",
+    "NormalisationRecord",
+    "NormalisationStatus",
+    "WriteInRegistry",
+    # Public trust index
+    "PublicTrustIndexBuilder",
+    "PublicTrustReport",
+    # Freedom floor (sentinel)
+    "FreedomFloorBreach",
+]

@@ -41,7 +41,29 @@ handlers from stalling code reviews by restricting hardware access or funding ch
 
 ---
 
-## Phase 2: Braid-Lock Implementation
+## Phase 1-B: Chaos Resilience & Public Trust Sprint ✅
+
+**Objective:** Address the three architectural vulnerabilities identified in the adversarial analysis
+(Translation Gap, Over-Fitting Trap, Epistemic Barrier) and produce the comprehensive EIGE book.
+
+**Deliverables:**
+- ✅ **Phase 1** — `ChaosInjector`: adversarial noise injection, replay attack, burst testing, freedom floor kill-switch (`chaos_injection.py`)
+- ✅ **Phase 2** — `HolographicScreen`: fuzzy mark normalisation, write-in resolution, admissibility rejection, normalisation audit log (`holographic_screen.py`)
+- ✅ **Phase 3** — `PublicTrustIndexBuilder` / `PublicTrustReport`: plain-English, legally defensible trust summaries with zero 5D/KK vocabulary (`public_trust_index.py`)
+- ✅ **Phase 4** — Freedom Floor Kill-Switch: `check_freedom_floor()` + `check_participation_variance()` + `FreedomFloorBreach` in `SentinelLoadBalancer`
+- ✅ **Phase 5** — Full-pipeline chaos integration test suite: 7 adversarial scenarios covering clean baseline, 10% noise, 50% zero-out, multi-county mesh, freedom floor enforcement, admissibility routing, and public vocabulary verification
+- ✅ **EIGE Book** — 21-chapter comprehensive technical and operational reference (`BOOK.md`)
+- ✅ **449 tests passing**, 0 failures
+
+**New constants** (all configurable):
+- `CHAOS_NOISE_BUDGET_DEFAULT = 0.10`
+- `FREEDOM_FLOOR = 0.85`
+- `FREEDOM_FLOOR_MIN_BALLOTS = 1`
+- `HOLOGRAPHIC_SCREEN_MIN_CONFIDENCE = 0.60`
+
+---
+
+
 
 **Objective:** Deploy the validated logic clusters across 39 regional county nodes and secure the network topology.
 
@@ -94,6 +116,11 @@ Week 13+:   Multi-party Next.js frontend + mTLS cert provisioning      ← Phase
 | Phase | Tests | Status |
 |-------|-------|--------|
 | Phase 1 (TRL-7) | 312 | ✅ PASSING |
+| Phase 1-B (Chaos Injection) | +86 new | ✅ PASSING |
+| Phase 2 (Holographic Screen) | +72 new | ✅ PASSING |
+| Phase 3 (Public Trust Index) | +45 new | ✅ PASSING |
+| Phase 4+5 (Freedom Floor + Integration) | +47 new | ✅ PASSING |
+| **Total (v21.0 complete)** | **449** | ✅ **ALL PASSING** |
 | Phase 2 (Braid-Lock) | ~600 | 🔲 Planned |
 | Phase 3 (Mainnet) | ~1,200 | 🔲 Planned |
 

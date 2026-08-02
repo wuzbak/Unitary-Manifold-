@@ -41,12 +41,55 @@ import sys
 from datetime import datetime, timezone
 from typing import Optional
 
-from .constants import K_CS, PHI_0, PHI_TOLERANCE, DOSSIER_EMIT_DEADLINE_MS
+from .constants import (
+    K_CS,
+    PHI_0,
+    PHI_TOLERANCE,
+    DOSSIER_EMIT_DEADLINE_MS,
+    FREEDOM_FLOOR,
+    FREEDOM_FLOOR_MIN_BALLOTS,
+)
 from .oscal_schema import build_override_dossier, AssessmentPlan
 
 
 # Default output directory (can be overridden for testing)
 DEFAULT_DOSSIER_DIR = "/var/www/eige_public_dashboard/dossiers"
+
+
+class FreedomFloorBreach(Exception):
+    """
+    Raised by SentinelLoadBalancer.check_freedom_floor() when participation
+    variance has dropped below the freedom_floor threshold.
+
+    This indicates the engine may be "stabilising" φ_eff by suppressing
+    low-turnout or noisy counties — mathematically convenient, but
+    democratically destructive.
+
+    Attributes
+    ----------
+    participating_fraction : float
+        Fraction of counties contributing non-trivially at detection time.
+    freedom_floor : float
+        The configured minimum acceptable fraction.
+    county_counts : list[int]
+        Ballot counts per county at detection time.
+    """
+
+    def __init__(
+        self,
+        participating_fraction: float,
+        freedom_floor: float,
+        county_counts: list,
+    ) -> None:
+        self.participating_fraction = participating_fraction
+        self.freedom_floor = freedom_floor
+        self.county_counts = county_counts
+        super().__init__(
+            f"FreedomFloorBreach: participating fraction {participating_fraction:.3f} "
+            f"is below freedom_floor {freedom_floor:.3f}. "
+            f"The system is suppressing participation variance. "
+            f"Certification must be suspended immediately."
+        )
 
 
 class SentinelLoadBalancer:
@@ -67,13 +110,18 @@ class SentinelLoadBalancer:
         target_phi_0: float = PHI_0,
         target_k_cs: int = K_CS,
         output_directory: Optional[str] = None,
+        freedom_floor: float = FREEDOM_FLOOR,
+        freedom_floor_min_ballots: int = FREEDOM_FLOOR_MIN_BALLOTS,
     ) -> None:
         self.phi_0 = target_phi_0
         self.k_cs = target_k_cs
         self.output_directory = output_directory or DEFAULT_DOSSIER_DIR
+        self.freedom_floor = freedom_floor
+        self.freedom_floor_min_ballots = freedom_floor_min_ballots
         self.system_status: str = "CLOSED_PURE"
         self._intercept_count: int = 0
         self._pass_count: int = 0
+        self._freedom_floor_breach_count: int = 0
 
     # ------------------------------------------------------------------
     # Primary evaluation gateway
@@ -222,16 +270,135 @@ class SentinelLoadBalancer:
         """Return the number of clean transactions processed this session."""
         return self._pass_count
 
+    def freedom_floor_breach_count(self) -> int:
+        """Return the number of freedom-floor breach events recorded this session."""
+        return self._freedom_floor_breach_count
+
+    def check_freedom_floor(self, county_ballot_counts: list) -> bool:
+        """Check that county participation is above the freedom-floor threshold.
+
+        This is the explicit kill-switch against Flaw 2 (Over-Fitting Trap):
+        it prevents the engine from "stabilising" φ_eff by suppressing
+        low-turnout or noisy counties.
+
+        After every anomaly event (override intercept, metric violation, etc.),
+        call this method with current county ballot counts.  If the
+        participating fraction drops below freedom_floor, a FreedomFloorBreach
+        event is raised, a OSCAL dossier is written, and certification is frozen.
+
+        Parameters
+        ----------
+        county_ballot_counts : list[int]
+            Current ballot count for each county node.  Counties with count
+            below freedom_floor_min_ballots are considered non-participating.
+
+        Returns
+        -------
+        bool
+            True if the floor is intact.
+
+        Raises
+        ------
+        FreedomFloorBreach
+            If the participating fraction falls below self.freedom_floor.
+        """
+        if not county_ballot_counts:
+            return True
+
+        non_trivial = sum(
+            1 for c in county_ballot_counts
+            if c >= self.freedom_floor_min_ballots
+        )
+        fraction = non_trivial / len(county_ballot_counts)
+
+        if fraction < self.freedom_floor:
+            self._freedom_floor_breach_count += 1
+            self.system_status = "FREEDOM_FLOOR_BREACH"
+            raise FreedomFloorBreach(
+                participating_fraction=fraction,
+                freedom_floor=self.freedom_floor,
+                county_counts=list(county_ballot_counts),
+            )
+        return True
+
+    def check_participation_variance(
+        self,
+        county_ballot_counts: list,
+    ) -> dict:
+        """Compute participation variance metrics across county nodes.
+
+        This non-raising diagnostic method reports participation statistics
+        without blocking execution.  Use it for monitoring; use
+        check_freedom_floor() for enforcement.
+
+        Parameters
+        ----------
+        county_ballot_counts : list[int]
+            Current ballot count per county.
+
+        Returns
+        -------
+        dict
+            {
+              'county_count': int,
+              'non_trivial_count': int,
+              'participating_fraction': float,
+              'freedom_floor': float,
+              'floor_intact': bool,
+              'min_count': int,
+              'max_count': int,
+              'mean_count': float,
+              'coefficient_of_variation': float,
+            }
+        """
+        if not county_ballot_counts:
+            return {
+                "county_count": 0,
+                "non_trivial_count": 0,
+                "participating_fraction": 1.0,
+                "freedom_floor": self.freedom_floor,
+                "floor_intact": True,
+                "min_count": 0,
+                "max_count": 0,
+                "mean_count": 0.0,
+                "coefficient_of_variation": 0.0,
+            }
+
+        counts = list(county_ballot_counts)
+        n = len(counts)
+        non_trivial = sum(
+            1 for c in counts if c >= self.freedom_floor_min_ballots
+        )
+        fraction = non_trivial / n
+        mean = sum(counts) / n
+        variance = sum((c - mean) ** 2 for c in counts) / n if n > 1 else 0.0
+        std_dev = variance ** 0.5
+        cv = (std_dev / mean) if mean > 0 else 0.0
+
+        return {
+            "county_count": n,
+            "non_trivial_count": non_trivial,
+            "participating_fraction": fraction,
+            "freedom_floor": self.freedom_floor,
+            "floor_intact": fraction >= self.freedom_floor,
+            "min_count": min(counts),
+            "max_count": max(counts),
+            "mean_count": mean,
+            "coefficient_of_variation": cv,
+        }
+
     def reset_status(self) -> None:
         """Reset system status to CLOSED_PURE (for testing / new election cycles)."""
         self.system_status = "CLOSED_PURE"
         self._intercept_count = 0
         self._pass_count = 0
+        self._freedom_floor_breach_count = 0
 
     def __repr__(self) -> str:
         return (
             f"SentinelLoadBalancer("
             f"phi_0={self.phi_0:.16f}, k_cs={self.k_cs}, "
             f"status={self.system_status!r}, "
-            f"intercepts={self._intercept_count}, passes={self._pass_count})"
+            f"intercepts={self._intercept_count}, passes={self._pass_count}, "
+            f"freedom_floor_breaches={self._freedom_floor_breach_count})"
         )
