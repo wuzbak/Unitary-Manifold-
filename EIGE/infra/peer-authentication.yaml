@@ -1,0 +1,77 @@
+# EIGE v21.0 — Istio mTLS Peer Authentication Policy
+# Enforces STRICT mTLS across all EIGE pods in the eige-prod namespace.
+# No plaintext traffic permitted within the cluster.
+#
+# AxiomZero Technologies & Consulting, SPC
+# Theory & scientific direction: ThomasCory Walker-Pearson
+# Code architecture & synthesis:  GitHub Copilot (AI)
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: eige-strict-mtls
+  namespace: eige-prod
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: eige-county-to-state
+  namespace: eige-prod
+spec:
+  selector:
+    matchLabels:
+      app: eige-state
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/eige-prod/sa/eige-county-sa
+      to:
+        - operation:
+            methods: ["POST"]
+            paths: ["/telemetry", "/grpc.*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: eige-state-to-federal
+  namespace: eige-prod
+spec:
+  selector:
+    matchLabels:
+      app: eige-federal
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/eige-prod/sa/eige-state-sa
+      to:
+        - operation:
+            methods: ["POST"]
+            # Federal tier only accepts Holon Zero Certificate blobs
+            paths: ["/cert/submit"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: eige-deny-raw-ballot-egress
+  namespace: eige-prod
+spec:
+  selector:
+    matchLabels:
+      app: eige-county
+  action: DENY
+  rules:
+    - to:
+        - operation:
+            # Deny any path that contains "ballot" to external services
+            paths: ["/ballot*", "/raw*", "/ingest/export*"]
+      from:
+        - source:
+            notPrincipals:
+              - cluster.local/ns/eige-prod/sa/eige-county-sa
