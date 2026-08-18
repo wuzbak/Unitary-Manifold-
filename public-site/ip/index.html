@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IP & Products — AxiomZero / Unitary Manifold</title>
+  <meta name="description" content="The full AxiomZero intellectual property catalog: apps, physics engines, operating systems, development tools, and interactive calculators built on the 5D Kaluza-Klein framework." />
+  <meta property="og:title" content="AxiomZero IP & Products — Unitary Manifold" />
+  <meta property="og:description" content="Apps, engines, OS, tools, and calculators built on the 5D Kaluza-Klein physics framework." />
+  <meta name="theme-color" content="#050a1a" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/main.css" />
+
+  <style>
+    .ip-hero {
+      background: linear-gradient(135deg, #050a1a 0%, #0a1a3a 50%, #050a1a 100%);
+      padding: 5rem 0 3rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .ip-category {
+      margin-bottom: 3.5rem;
+    }
+    .ip-category-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+    .ip-category-icon {
+      font-size: 2rem;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .ip-category-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .ip-category-count {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--color-muted);
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+      margin-left: auto;
+    }
+    .ip-item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .ip-item {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ip-item:hover {
+      border-color: rgba(59,139,255,0.4);
+      transform: translateY(-1px);
+    }
+    .ip-item a { text-decoration: none; color: inherit; }
+    .ip-item-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--color-text);
+      margin-bottom: 0.4rem;
+    }
+    .ip-item-desc {
+      font-size: 0.82rem;
+      color: var(--color-muted);
+      line-height: 1.5;
+    }
+    .ip-item-path {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: rgba(59,139,255,0.7);
+      margin-top: 0.6rem;
+    }
+    .ip-status-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.6rem;
+      background: rgba(48,209,88,0.12);
+      color: #30d158;
+      border: 1px solid rgba(48,209,88,0.3);
+    }
+    .ip-status-badge.adjacent {
+      background: rgba(124,77,255,0.12);
+      color: #9b59ff;
+      border-color: rgba(124,77,255,0.3);
+    }
+    .private-note {
+      background: rgba(255,159,10,0.08);
+      border: 1px solid rgba(255,159,10,0.3);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      margin-top: 2rem;
+    }
+    .private-note strong { color: #ff9f0a; }
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .summary-stat {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .summary-stat-value {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+    .summary-stat-label {
+      font-size: 0.72rem;
+      color: var(--color-muted);
+      margin-top: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a class="nav-brand" href="../index.html">
+    <div class="nav-logo">UM</div>
+    Unitary Manifold
+  </a>
+  <ul class="nav-links">
+    <li><a href="../apps/index.html">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><a href="index.html" class="active">IP</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- IP Hero -->
+<section class="ip-hero">
+  <div class="container">
+    <div class="section-eyebrow">AxiomZero Technology Stack</div>
+    <h1 class="section-title" style="font-size:2.2rem; margin-bottom:1rem">
+      Intellectual Property &amp; Products
+    </h1>
+    <p style="color:var(--color-muted); max-width:640px; line-height:1.7; margin-bottom:2rem">
+      Every app, engine, OS, tool, and calculator built on the Unitary Manifold 5D Kaluza-Klein
+      framework. All assets are registered in the
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/IP_REGISTRY.json"
+         style="color:var(--color-accent)" target="_blank" rel="noopener">IP registry</a>
+      and licensed under the Defensive Public Commons License v1.0.
+    </p>
+
+    <!-- Summary stats -->
+    <div class="summary-bar">
+      <div class="summary-stat">
+        <div class="summary-stat-value">6</div>
+        <div class="summary-stat-label">Apps</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-value">14</div>
+        <div class="summary-stat-label">Engines</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-value">4</div>
+        <div class="summary-stat-label">OS Layers</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-value">13</div>
+        <div class="summary-stat-label">Tools</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-value">9</div>
+        <div class="summary-stat-label">Calculators</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-value">590</div>
+        <div class="summary-stat-label">Total Pillars<br/><span style="font-size:0.6rem;font-weight:400">(208 hardgate + adjacent)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container section">
+
+  <!-- ── APPS ─────────────────────────────────────────────────────────────── -->
+  <div class="ip-category">
+    <div class="ip-category-header">
+      <div class="ip-category-icon">📱</div>
+      <div>
+        <div class="ip-category-title">Applications</div>
+        <div style="font-size:0.8rem;color:var(--color-muted)">Interactive interfaces &amp; user-facing systems</div>
+      </div>
+      <div class="ip-category-count">6 registered</div>
+    </div>
+    <div class="ip-item-grid">
+      <div class="ip-item">
+        <div class="ip-item-name">Unitary Manifold Public Web App</div>
+        <div class="ip-item-desc">Full static web application: interactive physics calculators, 5D WebGL explorer, Pentad simulator, and IP catalog. Deployable to GitHub Pages.</div>
+        <div class="ip-item-path">public-site/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">AxiomZero Android Client</div>
+        <div class="ip-item-desc">Mobile interface to the AxiomZero API. Physics queries, HILS governance interactions, and AI assistant access from Android devices.</div>
+        <div class="ip-item-path">AxiomZero/android/client.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">AxiomZero Web Dashboard</div>
+        <div class="ip-item-desc">Browser dashboard for the cognitive layer. 7-manager × 5-sub-agent status, active HILS sessions, and φ-field decision metrics.</div>
+        <div class="ip-item-path">AxiomZero/ui/dashboard.html</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">AxiomZero REST API Server</div>
+        <div class="ip-item-desc">REST API exposing physics queries, HILS certification, manager status, and φ-field evaluation to external clients.</div>
+        <div class="ip-item-path">AxiomZero/api/server.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">UM-SOS Frontend</div>
+        <div class="ip-item-desc">Browser front-end for the Scientific OS. Derivation DAG, preregistration registry, prediction status, and governance lane classification.</div>
+        <div class="ip-item-path">10-UM-SOS/frontend/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">EIGE Governance Application</div>
+        <div class="ip-item-desc">Emergent Intelligence Governance Engine — AI-augmented governance, adjudication, disaster recovery, and Chern-Simons tamper-evident decisions.</div>
+        <div class="ip-item-path">EIGE/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ENGINES ────────────────────────────────────────────────────────── -->
+  <div class="ip-category">
+    <div class="ip-category-header">
+      <div class="ip-category-icon">⚙️</div>
+      <div>
+        <div class="ip-category-title">Physics &amp; AI Engines</div>
+        <div style="font-size:0.8rem;color:var(--color-muted)">Core computation and inference engines</div>
+      </div>
+      <div class="ip-category-count">14 registered</div>
+    </div>
+    <div class="ip-item-grid">
+      <div class="ip-item">
+        <div class="ip-item-name">Walker-Pearson Field Evolution Engine</div>
+        <div class="ip-item-desc">Primary KK integrator. FieldState API, constraint evolution, drives all 590 pillar computations.</div>
+        <div class="ip-item-path">src/core/evolution.py</div>
+        <span class="ip-status-badge">HARDGATE</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">KK Metric &amp; Curvature Engine</div>
+        <div class="ip-item-desc">5D metric tensor, Ricci curvature, geometric quantities from warp factor k̃ and radius R₅.</div>
+        <div class="ip-item-path">src/core/metric.py</div>
+        <span class="ip-status-badge">HARDGATE</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">CMB Transfer &amp; Inflation Engine</div>
+        <div class="ip-item-desc">Computes n_s = 0.9635, r = 0.0315, f_NL from (n_w=5, k_CS=74, c_s=12/37) braid parameters.</div>
+        <div class="ip-item-path">src/core/ (inflation, cmb_transfer)</div>
+        <span class="ip-status-badge">HARDGATE</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">Birefringence Prediction Engine</div>
+        <div class="ip-item-desc">Predicts β ∈ {0.273°, 0.331°} from Chern-Simons coupling. Primary LiteBIRD 2032 falsifier.</div>
+        <div class="ip-item-path">src/core/ (birefringence)</div>
+        <span class="ip-status-badge">HARDGATE</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">FTUM Fixed-Point Engine</div>
+        <div class="ip-item-desc">UEUM operator and fixed-point iteration for multiverse landscape thermodynamics (Pillars 5, 29, 38).</div>
+        <div class="ip-item-path">src/multiverse/fixed_point.py</div>
+        <span class="ip-status-badge">HARDGATE</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">Holographic Boundary Engine</div>
+        <div class="ip-item-desc">Entropy-area relations (Pillar 4), boundary state evolution, AdS/CFT KK bulk projection.</div>
+        <div class="ip-item-path">src/holography/boundary.py</div>
+        <span class="ip-status-badge">HARDGATE</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">φ-Debt Recycling Engine</div>
+        <div class="ip-item-desc">Golden-ratio entropy accounting, informational debt flow through 5D geometry. 316-test validated (Pillar 16).</div>
+        <div class="ip-item-path">recycling/</div>
+        <span class="ip-status-badge">HARDGATE</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">Quantum Simulation Engine (KK-VQE)</div>
+        <div class="ip-item-desc">VQE applied to KK tower states. Fermi-Hubbard with JW/BK encodings. XDiag bridge.</div>
+        <div class="ip-item-path">src/quantum/</div>
+        <span class="ip-status-badge adjacent">ADJACENT TRACK</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">AxiomZero Cognitive AI Engine</div>
+        <div class="ip-item-desc">7-manager × 5-sub-agent network. φ-field decision routing, HILS, physics-aware LLM inference.</div>
+        <div class="ip-item-path">az-os/agent_core.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">Model Router Engine</div>
+        <div class="ip-item-desc">φ-weighted multi-model dispatch. Selects optimal LLM for each query type across 7 domains.</div>
+        <div class="ip-item-path">AxiomZero/core/model_router.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">φ-Field Decision Engine</div>
+        <div class="ip-item-desc">Implements φ-field alignment scoring for all AZ-OS routing decisions. Physics-grounded AI governance.</div>
+        <div class="ip-item-path">az-os/phi_decision_engine.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">MAS Wave Engine</div>
+        <div class="ip-item-desc">Multi-Agent System wave engine for emergent self-organization. MAS ledger protocol and consensus.</div>
+        <div class="ip-item-path">src/meta/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">EIGE Adjudicator Engine</div>
+        <div class="ip-item-desc">Chern-Simons hashing for tamper-evident governance. Chaos injection, φ-weighted adjudication.</div>
+        <div class="ip-item-path">EIGE/src/adjudicator_api.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">RAG Physics Engine</div>
+        <div class="ip-item-desc">Retrieval-augmented generation over all 590 pillars, theorems, tests, and claims. Powers Copilot Extension.</div>
+        <div class="ip-item-path">bot/ · 9-INFRASTRUCTURE/bot/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OS ────────────────────────────────────────────────────────────── -->
+  <div class="ip-category">
+    <div class="ip-category-header">
+      <div class="ip-category-icon">🖥️</div>
+      <div>
+        <div class="ip-category-title">Operating Systems</div>
+        <div style="font-size:0.8rem;color:var(--color-muted)">Bare-metal kernels, cognitive OS, scientific OS</div>
+      </div>
+      <div class="ip-category-count">4 registered</div>
+    </div>
+    <div class="ip-item-grid">
+      <div class="ip-item">
+        <div class="ip-item-name">AZ-OS — AxiomZero Cognitive OS</div>
+        <div class="ip-item-desc">Python cognitive operating system with 7-manager × 5-sub-agent AI network. HILS at kernel level. φ-field routing. First OS with formal human-AI oversight as a primitive.</div>
+        <div class="ip-item-path">az-os/ · managers/m1…m7</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">AZ-KERNEL — Bare-Metal UEFI Kernel</div>
+        <div class="ip-item-desc">Rust <code>no_std</code> UEFI kernel. 5-level scheduler derived from n_w=5. φ-ratio memory alignment. Physics-derived primitives. Only kernel derived from unified physics theory.</div>
+        <div class="ip-item-path">az-kernel/ (Cargo.toml, src/)</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">UM-SOS — Scientific OS</div>
+        <div class="ip-item-desc">7-layer scientific operating system. Prediction API → experimental monitor → DAG → preregistration → frontend → AI governance → deployment. Tamper-evident registry.</div>
+        <div class="ip-item-path">10-UM-SOS/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">AxiomZero Full-Stack OS Environment</div>
+        <div class="ip-item-desc">Complete integrated OS: bootstrap, Docker, persistent AI memory, MCP, governance, tests. Single-command deploy via <code>./axiomzero.sh</code>.</div>
+        <div class="ip-item-path">AxiomZero/ (axiomzero.sh, docker-compose.yml)</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOOLS ─────────────────────────────────────────────────────────── -->
+  <div class="ip-category">
+    <div class="ip-category-header">
+      <div class="ip-category-icon">🔧</div>
+      <div>
+        <div class="ip-category-title">Development Tools &amp; Bridges</div>
+        <div style="font-size:0.8rem;color:var(--color-muted)">Verification, automation, and integration tooling</div>
+      </div>
+      <div class="ip-category-count">13 registered</div>
+    </div>
+    <div class="ip-item-grid">
+      <div class="ip-item">
+        <div class="ip-item-name">Lean4 Formal Proof Bridge</div>
+        <div class="ip-item-desc">Python ↔ Lean4 bridge. Exports theorems, invokes checker, imports certificates. Backs 274 formal proofs.</div>
+        <div class="ip-item-path">lean4/ · src/core/formal_proof_hardening.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">Z3 SMT Bounds Verifier</div>
+        <div class="ip-item-desc">Formally verifies Pentad invariants: SENTINEL_CAPACITY ≤ 12/37, Ξ_c = 35/74, k_CS = 74.</div>
+        <div class="ip-item-path">src/core/z3_pentad_checker.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">SymPy Symbolic Metric Bridge</div>
+        <div class="ip-item-desc">KK metric, Christoffel symbols, Riemann tensor symbolically. Produces LaTeX + Lean4 input.</div>
+        <div class="ip-item-path">src/core/symbolic_metric.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">AxiomZero Guard (SM-Seed Auditor)</div>
+        <div class="ip-item-desc">Verifies all SM parameters are derived from zero free parameters in 5D geometry. Flags regressions.</div>
+        <div class="ip-item-path">src/core/axiomzero_guard.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">JAX GPU/TPU Acceleration Backend</div>
+        <div class="ip-item-desc">GPU-accelerated field evolution and automatic differentiation. Graceful NumPy fallback.</div>
+        <div class="ip-item-path">src/core/jax_backend.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">Internal Link Auditor</div>
+        <div class="ip-item-desc">Validates all Markdown internal links across the repository. Prevents broken docs from reaching CI.</div>
+        <div class="ip-item-path">TOOLS/audit/check_internal_links.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">Physics Consistency Checker</div>
+        <div class="ip-item-desc">Validates pillar output mutual consistency, constant uniqueness, and ToE score correctness.</div>
+        <div class="ip-item-path">TOOLS/checks/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">W&amp;B Experiment Tracker</div>
+        <div class="ip-item-desc">Weights &amp; Biases integration. Logs pillar outputs, convergence metrics, CMB parameter sweeps.</div>
+        <div class="ip-item-path">src/core/wandb_logger.py</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">DVC Data Version Control</div>
+        <div class="ip-item-desc">Dataset provenance for Planck data, CMB maps, simulation outputs alongside code history.</div>
+        <div class="ip-item-path">.dvc/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">SLSA Provenance Generator</div>
+        <div class="ip-item-desc">Supply-chain Level 2 signed provenance for all registered IP assets. Tamper-evident verification.</div>
+        <div class="ip-item-path">9-INFRASTRUCTURE/provenance/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">CI/CD Workflow Suite</div>
+        <div class="ip-item-desc">GitHub Actions: 49,850+ test runner, CodeQL, SLSA, Pages deploy, PR automation. 0-failure hard gate.</div>
+        <div class="ip-item-path">.github/workflows/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">MCP Server Integration</div>
+        <div class="ip-item-desc">Model Context Protocol config connecting AI agents and editors to the physics corpus and HILS layer.</div>
+        <div class="ip-item-path">AxiomZero/mcp/ · 9-INFRASTRUCTURE/mcp-config.json</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+      <div class="ip-item">
+        <div class="ip-item-name">RAG Copilot Extension &amp; Custom GPT</div>
+        <div class="ip-item-desc">Physics-aware AI coding assistant. Indexes all pillars, theorems, and claims for editor + ChatGPT use.</div>
+        <div class="ip-item-path">bot/ · 9-INFRASTRUCTURE/bot/</div>
+        <span class="ip-status-badge">REGISTERED</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CALCULATORS ────────────────────────────────────────────────────── -->
+  <div class="ip-category">
+    <div class="ip-category-header">
+      <div class="ip-category-icon">🧮</div>
+      <div>
+        <div class="ip-category-title">Interactive Calculators &amp; Simulators</div>
+        <div style="font-size:0.8rem;color:var(--color-muted)">Browser-based physics tools — zero installation</div>
+      </div>
+      <div class="ip-category-count">9 registered</div>
+    </div>
+    <div class="ip-item-grid">
+      <a href="../apps/kk-mass-calculator.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">⚛️ KK Mass Calculator</div>
+        <div class="ip-item-desc">m_G_KK vs warp factor k̃. ATLAS/CMS Run 2 bounds comparison. UM lower bound: 5 TeV.</div>
+        <div class="ip-item-path">public-site/apps/kk-mass-calculator.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../apps/birefringence-predictor.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">🔭 Birefringence Predictor</div>
+        <div class="ip-item-desc">β ∈ {0.273°, 0.331°}. Admissible window [0.22°, 0.38°]. Falsification gap [0.29°–0.31°]. LiteBIRD 2032.</div>
+        <div class="ip-item-path">public-site/apps/birefringence-predictor.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../apps/toe-score.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">📊 ToE Score Dashboard</div>
+        <div class="ip-item-desc">Live 29.0/28 score. All 13 admissions, 8 predictions, 28 hardgate claims with epistemic labels.</div>
+        <div class="ip-item-path">public-site/apps/toe-score.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../apps/cmb-parameters.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">🌊 CMB Parameters Calculator</div>
+        <div class="ip-item-desc">Interactive n_s, r, f_NL. Compares Planck 2018, ACT DR6, BICEP/Keck, SPHEREx f_NL window.</div>
+        <div class="ip-item-path">public-site/apps/cmb-parameters.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../apps/desi-tracker.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">📡 DESI Tension Tracker</div>
+        <div class="ip-item-desc">w₀-wₐ visualizer. 2.75σ DESI DR2 tension, DR3 decision tree, frozen-radion limit.</div>
+        <div class="ip-item-path">public-site/apps/desi-tracker.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../apps/lean4-progress.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">📐 Lean4 Theorem Tracker</div>
+        <div class="ip-item-desc">274 formally verified theorems. NP-BC-1/2/3/4 series. Path to 300-theorem milestone.</div>
+        <div class="ip-item-path">public-site/apps/lean4-progress.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../apps/pentad-simulator.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">⬡ Pentad Simulator</div>
+        <div class="ip-item-desc">5-body HILS orbital simulation. Adjust Ξ_c, SENTINEL_CAPACITY. Watch convergence or collapse.</div>
+        <div class="ip-item-path">public-site/apps/pentad-simulator.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../explore/index.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">🌌 5D Space Explorer</div>
+        <div class="ip-item-desc">WebGL 3D navigation of the KK extra dimension. S¹ fiber bundle, KK tower, (5,7) winding strands.</div>
+        <div class="ip-item-path">public-site/explore/index.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+      <a href="../pentad/index.html" class="ip-item" style="display:block">
+        <div class="ip-item-name">🔐 HILS Governance Interface</div>
+        <div class="ip-item-desc">Pentad scenario runner, trust field calculator, HILS Certification Protocol v1.0.</div>
+        <div class="ip-item-path">public-site/pentad/index.html</div>
+        <span class="ip-status-badge">LIVE</span>
+      </a>
+    </div>
+    <div style="margin-top:1rem; text-align:center">
+      <a href="../apps/index.html" class="btn btn-outline" style="font-size:0.9rem">
+        Open Calculators Hub →
+      </a>
+    </div>
+  </div>
+
+  <!-- Private Repo Integration Note -->
+  <div class="private-note">
+    <strong>⚠ Pending: wuzbak/Private Integration</strong><br/>
+    The repository <code>wuzbak/Private</code> contains additional apps, engines, and OS assets.
+    To integrate them: grant repository access, copy source files into the appropriate
+    <code>12-AZ-IP/</code> subfolder (<code>apps/</code>, <code>engines/</code>, <code>os/</code>,
+    <code>tools/</code>, or <code>calculators/</code>), and register each asset in
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/IP_REGISTRY.json"
+       style="color:#ff9f0a" target="_blank" rel="noopener">IP_REGISTRY.json</a>
+    with SHA-256 fingerprint.
+  </div>
+
+  <!-- Registry link -->
+  <div class="card mt-4">
+    <h3 style="margin-bottom:0.75rem">Machine-Readable Registry</h3>
+    <p style="font-size:0.88rem; color:var(--color-muted); margin-bottom:1rem">
+      All assets above are registered in the tamper-evident
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/IP_REGISTRY.json"
+         target="_blank" rel="noopener" style="color:var(--color-accent)">IP_REGISTRY.json</a>
+      (Pillar 536) with SHA-256 fingerprints, categories, and provenance. Licensed under the
+      Defensive Public Commons License v1.0 — commercial patents on the Walker-Pearson field
+      equations or AxiomZero OS architecture are explicitly prohibited.
+    </p>
+    <div class="flex gap-1 flex-wrap">
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:0.82rem">📁 IP Registry Folder</a>
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/IP_REGISTRY.json" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:0.82rem">🔏 IP_REGISTRY.json</a>
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/FINGERPRINT_MANIFEST.md" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:0.82rem">🔑 Fingerprint Manifest</a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div><em>Theory: <strong>ThomasCory Walker-Pearson</strong> · Implementation: <strong>GitHub Copilot</strong> (AI)</em></div>
+      <div>© 2026 · <a href="../about/index.html">About</a> · <a href="https://github.com/wuzbak/Unitary-Manifold-">GitHub</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
