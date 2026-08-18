@@ -26,8 +26,8 @@ Some stable entrypoints intentionally remain at the repository root for compatib
 
 | Tool area | Path | Use |
 |-----------|------|-----|
-| PCCRE calculator | [`../pillar242-pccre/CALCULATOR.md`](../pillar242-pccre/CALCULATOR.md) | Pillar 242 calculator documentation. |
-| USIVF calculator | [`../pillar243-usivf/CALCULATOR.md`](../pillar243-usivf/CALCULATOR.md) | Pillar 243 calculator documentation. |
+| PCCRE calculator | [`../src/core/pillar242_pccre.py`](../src/core/pillar242_pccre.py) | Pillar 242 executable physics module (calculator docs integrated in module). |
+| USIVF calculator | [`../src/core/pillar243_usivf.py`](../src/core/pillar243_usivf.py) | Pillar 243 executable physics module (calculator docs integrated in module). |
 | Core Python calculators | [`../src/core/`](../src/core/) | Main executable physics/audit modules. |
 | Omega synthesis | [`../5-GOVERNANCE/Unitary Pentad/omega/omega_synthesis.py`](../5-GOVERNANCE/Unitary%20Pentad/omega/omega_synthesis.py) | Governance/summary calculator surface. |
 

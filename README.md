@@ -13,7 +13,7 @@
 
 **This repository is also living proof of a new kind of scientific workflow.** The original theory and scientific direction are human (ThomasCory Walker-Pearson). The executable proof path, test suites, adversarial review infrastructure, and audit trail were built in genuine intellectual partnership with GitHub Copilot (AI). At this scope and with this degree of provenance transparency, this human-AI co-creation is, to our knowledge, near-singular. The physics stands or falls on its own merit. The workflow is documented regardless, and is itself a contribution.
 
-**The ToE consequence:** 28.0/28 (100%) — all 28 SM parameters derived from geometry with zero free parameters. One external measurement window remains open (LiteBIRD ~2032, β to ±0.01°).
+**The ToE consequence:** 30.0/28 — **28/28 hardgate** (all 28 SM parameters derived from geometry with zero free parameters; 100% hardgate score) **+ 2.0 partial credit** (DM21 Δm²₂₁ CLOSED +0.5; gen-1 c_L AB mechanism +0.5; DM31 P559 conditional +0.5; two-loop EW P613 +0.5). One external measurement window remains open (LiteBIRD ~2032, β to ±0.01°).
 
 **Foundational proof stack — start here:**
 [`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>) · the monograph that set the programme  

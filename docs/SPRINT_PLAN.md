@@ -17,21 +17,20 @@ Then store the verified state in agent memory before proceeding.
 
 ---
 
-## CURRENT STATE (v20.5 — 2026-08-01)
+## CURRENT STATE (v21.0-S — 2026-08-18)
 
 | Field | Value |
 |-------|-------|
-| Version | v20.5 |
-| Next pillar slot | **613** |
-| Lean4 theorems | **308** |
-| Full regression | **~50,500 passed · 23 skipped · 12 deselected · 0 failed** |
-| ToE score | **29.5/28** |
-| Next Substack post | #282 S03E060 |
-| Open named residuals | DM21 APPROACHING_CLOSURE 0.81σ (requires NLO loop closure for CLOSED) |
-| Open adjacent tracks | F-theory DBP Rung 10 — 3 blocking residuals named |
-| NP-BC progress | NP-BC-5 complete (15 sub-gaps A–O, 145 total sub-gap theorems) |
-| Open adjacent tracks | F-theory DBP Rung 8 → 2 blocking residuals (spectral cover, matter-curve genus) |
-| NP-BC progress | NP-BC-4 complete (12 sub-gaps A–L, 135 total sub-gap theorems) |
+| Version | v21.0-S |
+| Next pillar slot | **688** |
+| Lean4 theorems | **365** |
+| Full regression | **~51,951 passed · 23 skipped · 12 deselected · 0 failed** |
+| ToE score | **30.0/28** (28/28 hardgate + 2.0 partial) |
+| Next Substack post | #286 S03E064 |
+| Open named residuals | F-theory Rungs 11–12 (Weierstrass generalization, α' corrections); phi0_ftum_bridge.py formal connection open; ΛQCD CY₄ moduli stabilization (4-step roadmap, Pillar 685) |
+| Open adjacent tracks | F-theory DBP Rungs 11–12; CY₄ moduli stabilization |
+| NP-BC progress | All 6 chains complete (Pillar 621); 203 cumulative sub-gap theorems |
+| Architecture limits | r-tension IRREDUCIBLE (Pillar 396); wₐ=0 IRREDUCIBLE (Pillar 301); ΛQCD moduli gap (Pillar 685) |
 
 ---
 
