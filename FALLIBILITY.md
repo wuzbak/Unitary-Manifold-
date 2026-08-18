@@ -4083,3 +4083,36 @@ residual gap.  Architecture limit is confirmed at 6D.
 | [`1-THEORY/NW_UNIQUENESS_STATUS.md`](1-THEORY/NW_UNIQUENESS_STATUS.md) | n_w uniqueness argument summary | Canonical reference for §II Admission 1 and §IV.3 (phenomenological fragility). |
 | [`2-REPRODUCIBILITY/VALIDATION_REPORT.md`](2-REPRODUCIBILITY/VALIDATION_REPORT.md) | What the test suite validates and what it does not | Scope context for the "15k+ passed" numbers in §I. Distinguishes internal consistency from empirical confirmation. |
 | [`docs/LITEBIRD_FALSIFIER_BRIEF.md`](docs/LITEBIRD_FALSIFIER_BRIEF.md) | LiteBIRD discriminating-prediction summary | Details the primary falsification test: β ∈ {0.273°, 0.331°} with gap [0.29°–0.31°]. |
+
+---
+
+## XV. Birefringence β Derivation-Path Ambiguity — New Admission (v20.9, 2026-08-18)
+
+**Admission — GW-radion (5,6) variant near inter-sector gap boundary:**
+
+The canonical FTUM inter-sector gap [0.29°, 0.31°] is valid as a
+falsification zone for the *canonical FTUM Δφ path* (primary, preregistered).
+A secondary, model-dependent **GW-radion derivation path** (using the
+Goldberger-Wise potential with φ_min_bare = 18) produces a (5,6) sector
+variant at β ≈ 0.290°, which approaches the lower boundary of this gap.
+
+| Derivation path | (5,6) β | (5,7) β | Gap [0.29°, 0.31°] valid? |
+|-----------------|---------|---------|---------------------------|
+| Canonical FTUM (preregistered) | 0.273° | 0.331° | ✅ Both outside |
+| GW-radion (model-dependent) | 0.290° | 0.351° | ⚠️ (5,6) GW approaches lower bound |
+
+**Implication:** If LiteBIRD measures β ≈ 0.290° (within ±0.02°), the
+result is *ambiguous*: it could indicate the GW-radion (5,6) sector or
+fall in the inter-sector dead zone.  CMB-S4 precision (σ_β ≈ 0.01°) is
+required to resolve this ambiguity.  A LiteBIRD measurement of β ≈ 0.29°
+is therefore **not** immediately a falsification — it is a call for
+CMB-S4 follow-up.
+
+**This does not weaken the primary falsification condition:** any β outside
+[0.22°, 0.38°] at 3σ remains a hard falsification under both derivation
+paths simultaneously.
+
+**Resolution status:** DISCLOSED — documented in
+`3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md` (the single authoritative
+reference for all β values), `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`
+(updated gap-zone note, v20.9), and `3-FALSIFICATION/prediction.md`.

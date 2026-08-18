@@ -236,7 +236,7 @@ Start with the layer that matches your purpose:
 > ```
 > ────────────────────────────────────────────────────────────────────────
 >   UNITARY MANIFOLD — OBSERVABLE CONSISTENCY CHECKS (208 pillars + Ω₀)
->   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)
+>   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.331° [canonical FTUM PRIMARY; GW-radion: 0.351°]  (< 1 s)
 > ────────────────────────────────────────────────────────────────────────
 >   Check                         Value                   Reference       Result
 > ────────────────────────────────────────────────────────────────────────
@@ -244,7 +244,7 @@ Start with the layer that matches your purpose:
 >   2.  c_s = 12/37               0.324324                12/37=0.324324  [PASS] ✓
 >   3.  nₛ (Planck 1σ check)      0.9635  (0.33σ)         0.9649±0.0042   [PASS] ✓
 >   4.  r < BICEP/Keck 0.036      0.0315                  < 0.036         [PASS] ✓
->   5.  β (5,7) sector [PRIMARY]  0.351°  (0.01σ)         0.35°±0.14°     [PASS] ✓
+>   5.  β (5,7) canonical [PRIMARY]  0.331°  (0.13σ)         0.35°±0.14°     [PASS] ✓
 >   6.  Surviving pairs (nₛ+r)   2 pair(s): (5,6), (5,7) expect 2        [PASS] ✓
 >   7.  Unique topology (5 axioms) S¹/Z₂ (1 of 8)          S¹/Z₂ only      [PASS] ✓
 >   8.  FTUM fixed point          S=0.250000  (128 iter)  S*=0.2500       [PASS] ✓

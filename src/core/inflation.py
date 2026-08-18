@@ -236,9 +236,16 @@ import numpy as np
 PLANCK_NS_CENTRAL = 0.9649
 PLANCK_NS_SIGMA   = 0.0042   # 1-σ uncertainty
 
-# Minami & Komatsu (2020) / Diego-Palazuelos et al. (2022) birefringence hint
-BIREFRINGENCE_TARGET_DEG = 0.35    # rotation angle β  [degrees]
-BIREFRINGENCE_SIGMA_DEG  = 0.14    # 1-σ uncertainty
+# Minami & Komatsu (2020) / Diego-Palazuelos et al. (2022) birefringence observational hint.
+# This is the OBSERVATIONAL PRIOR, not the UM prediction.
+# UM primary predictions (canonical FTUM path, preregistered):
+#   β ≈ 0.331° [(5,7) sector]  ← PRIMARY hardgate prediction
+#   β ≈ 0.273° [(5,6) sector]  ← shadow sector
+# GW-radion model-dependent variants (additional GW potential assumptions):
+#   β ≈ 0.351° [(5,7) GW]  β ≈ 0.290° [(5,6) GW]
+# See 3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md for the complete two-axis map.
+BIREFRINGENCE_TARGET_DEG = 0.35    # observational hint β  [degrees] — NOT the UM prediction
+BIREFRINGENCE_SIGMA_DEG  = 0.14    # 1-σ observational uncertainty
 
 # ---------------------------------------------------------------------------
 # PRIMARY PREDICTION: β ≈ 0.331° [(5,7) canonical sector]
