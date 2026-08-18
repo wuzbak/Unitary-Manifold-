@@ -124,10 +124,20 @@ NARROWED: str = "NARROWED"
 UNCHANGED: str = "UNCHANGED"
 
 
-def _status(residual_frac: float) -> str:
-    """Map residual fraction to status code."""
+def _status(residual_frac: float, residual_frac_before: float | None = None) -> str:
+    """Map residual fraction to status code.
+
+    Parameters
+    ----------
+    residual_frac : float
+        Residual fraction after the proposed fix.
+    residual_frac_before : float or None
+        Residual fraction before the fix; if provided, used to detect UNCHANGED.
+    """
     if residual_frac < 0.01:
         return CLOSED
+    if residual_frac_before is not None and residual_frac >= residual_frac_before:
+        return UNCHANGED
     return NARROWED
 
 
@@ -176,7 +186,7 @@ def audit_gap1_cmb_peak_amplitude() -> dict:
         "loop_correction_frac": loop_correction_frac,
         "residual_before": residual_fraction_before,
         "residual_after": residual_fraction_after,
-        "status": NARROWED,
+        "status": _status(residual_fraction_after, residual_fraction_before),
         "fix_description": (
             "1-loop KK propagator correction δZ_φ/Z_φ ≈ α_s × N_c / (4π) ≈ 0.67%. "
             "Reduces the ±26% uncertainty to ±25.3%. "
