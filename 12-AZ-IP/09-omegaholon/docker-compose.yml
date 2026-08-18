@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  omegaholon:
+    build: .
+    ports:
+      - "7871:7871"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - OMEGA_HOST=0.0.0.0
+      - OMEGA_PORT=7871
+    restart: unless-stopped

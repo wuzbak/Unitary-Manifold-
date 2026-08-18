@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Full-backup rules for pre-API-31 devices.
+  Same policy as data_extraction_rules.xml — exclude session crypto material.
+-->
+<full-backup-content>
+    <exclude domain="file" path="experiments/" />
+    <exclude domain="file" path="sessions/" />
+    <exclude domain="sharedpref" path="gibber_calibration.xml" />
+</full-backup-content>

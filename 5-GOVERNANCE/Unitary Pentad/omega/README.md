@@ -1,3 +1,5 @@
+> **Canonical source note:** the authoritative consolidated software copy now lives under `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/`. This legacy location remains in place for governance and repository test compatibility.
+
 # The Omega Synthesis — Universal Mechanics Engine (Pillar Ω)
 
 > *"A shadow cast by a three-dimensional object onto a two-dimensional wall. The shadow's shape is completely determined by the 3D geometry that casts it. The Unitary Manifold says our 4D experience of irreversibility is that shadow."*  

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SDAM</string>
+    <string name="notification_title">SDAM Sentinel</string>
+    <string name="notification_text">Listening for acoustic transmissions</string>
+    <string name="notification_stop">Stop</string>
+    <string name="tab_transmit">📤 Transmit</string>
+    <string name="tab_receive">📥 Receive</string>
+    <string name="tab_calibrate">🎙️ Calibrate</string>
+    <string name="tab_settings">⚙️ Settings</string>
+    <string name="permission_denied">RECORD_AUDIO permission required. Grant it in Settings.</string>
+</resources>

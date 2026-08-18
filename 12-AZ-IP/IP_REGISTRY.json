@@ -266,7 +266,216 @@
             "updated": "2026-08-18",
             "sha256": "833934d1b8114dded07bacb0466412e6e1dd23a264c4f0e834df1e72b6401cde",
             "size_bytes": 30840
+        },
+        "12-AZ-IP/01-axiom-os/README.md": {
+            "description": "Canonical merged Axiom OS suite README",
+            "category": "os",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
+            "size_bytes": 2191
+        },
+        "12-AZ-IP/02-az-kernel/README.md": {
+            "description": "Canonical merged AZ-KERNEL README",
+            "category": "os",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "e0b802846f751dd6fc1f16e8a502f2dab85bc7b4ca4037ceefe537b86997f242",
+            "size_bytes": 1233
+        },
+        "12-AZ-IP/03-eige/README.md": {
+            "description": "Canonical EIGE product README",
+            "category": "apps",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "489f7b37166b0f51c541bee8cd673c465082488361b4d304ec7bc6506060058d",
+            "size_bytes": 6660
+        },
+        "12-AZ-IP/04-um-sos/README.md": {
+            "description": "Canonical UM-SOS product README",
+            "category": "os",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
+            "size_bytes": 3008
+        },
+        "12-AZ-IP/05-uos-kernel/README.md": {
+            "description": "Canonical UOS kernel README",
+            "category": "os",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "674e39f3e40ebd8f2e9cf541ec523684e3aeac48ccac54f80dd624e1ef501aa3",
+            "size_bytes": 10692
+        },
+        "12-AZ-IP/06-omega-synthesis/README.md": {
+            "description": "Canonical Omega synthesis README",
+            "category": "engines",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "af6232e4e7127837432ab47bc8cd170b5699c07b770187aeed6424a9d3808312",
+            "size_bytes": 12592
+        },
+        "12-AZ-IP/07-holon-zero/README.md": {
+            "description": "Canonical Holon Zero README",
+            "category": "engines",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "eb471d8cdccded2d3566c12ca7e66be81af2fe5c1dfcbd82d4e41a05d3f32d4d",
+            "size_bytes": 11971
+        },
+        "12-AZ-IP/README.md": {
+            "description": "Canonical 12-AZ-IP master registry README",
+            "category": "tools",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "e87c8ab2fbd1a1803da78cf54bfb2f9ee021ee6a314a3c6cc502897fbba776c0",
+            "size_bytes": 4348
+        },
+        "12-AZ-IP/NOTICE": {
+            "description": "Canonical AxiomZero notice file",
+            "category": "tools",
+            "status": "REGISTERED",
+            "updated": "2026-08-18",
+            "sha256": "34d225c70d36ddc941f2412caafef832e2ca15bf3ea8f219aec9f48ad8efda5c",
+            "size_bytes": 593
         }
     },
-    "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint."
+    "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
+    "products": [
+        {
+            "name": "Axiom OS Core Suite",
+            "version": "1.0.0",
+            "trl": "TRL-5",
+            "port": "http://localhost:8000",
+            "tests": "162",
+            "description": "Canonical merge of AxiomZero full-stack plus az-os legacy agent/\u03c6 infrastructure.",
+            "link": "01-axiom-os/"
+        },
+        {
+            "name": "AZ-KERNEL Rust Kernel",
+            "version": "0.1.0",
+            "trl": "TRL-3",
+            "port": "UEFI / QEMU",
+            "tests": "1",
+            "description": "Bare-metal Rust kernel with merged fuller az-kernel tree and legacy kk_channel IPC primitive.",
+            "link": "02-az-kernel/"
+        },
+        {
+            "name": "EIGE Governance Engine",
+            "version": "21.0.0",
+            "trl": "TRL-7",
+            "port": "CLI / Docker / notebook",
+            "tests": "449",
+            "description": "Deterministic election integrity and governance stack with full source, infra, schemas, and tests.",
+            "link": "03-eige/"
+        },
+        {
+            "name": "UM-SOS Scientific OS",
+            "version": "15.8",
+            "trl": "TRL-6",
+            "port": "/api/v1/*",
+            "tests": "1",
+            "description": "Seven-layer scientific operating system with backend, frontend, DAG explorer, and preregistration registry.",
+            "link": "04-um-sos/"
+        },
+        {
+            "name": "UOS Kernel Prototype",
+            "version": "0.1",
+            "trl": "TRL-3",
+            "port": "Python library",
+            "tests": "566",
+            "description": "Geometric OS prototype copied from the Pentad with dedicated UOS regression tests.",
+            "link": "05-uos-kernel/"
+        },
+        {
+            "name": "Omega Synthesis Engine",
+            "version": "20.1",
+            "trl": "TRL-5",
+            "port": "Python library",
+            "tests": "170",
+            "description": "Universal mechanics calculator spanning cosmology, particle physics, HILS, and falsifiers.",
+            "link": "06-omega-synthesis/"
+        },
+        {
+            "name": "Holon Zero Engine",
+            "version": "1.0",
+            "trl": "TRL-5",
+            "port": "Python library",
+            "tests": "347",
+            "description": "Ground-state engine merged from holon-zero and holon_zero, including subpillars and repo-root tests.",
+            "link": "07-holon-zero/"
+        },
+        {
+            "name": "AxiomZero REST API",
+            "version": "1.0.0",
+            "trl": "TRL-4",
+            "port": "http://localhost:8000/api",
+            "tests": "162 inherited",
+            "description": "FastAPI service exposing orchestrator status, governance gates, and provenance endpoints.",
+            "link": "01-axiom-os/api/"
+        },
+        {
+            "name": "AxiomZero Android Client",
+            "version": "1.0.0",
+            "trl": "TRL-3",
+            "port": "Thin client \u2192 API",
+            "tests": "162 inherited",
+            "description": "Android/Termux client for mobile access to the Axiom OS API and dashboard workflows.",
+            "link": "01-axiom-os/android/"
+        },
+        {
+            "name": "AxiomZero Web Dashboard",
+            "version": "1.0.0",
+            "trl": "TRL-4",
+            "port": "http://localhost:8000",
+            "tests": "162 inherited",
+            "description": "Browser dashboard for live manager status, HILS checkpoints, and system telemetry.",
+            "link": "01-axiom-os/ui/"
+        },
+        {
+            "name": "AxiomZero MCP Stack",
+            "version": "1.0.0",
+            "trl": "TRL-4",
+            "port": "Filesystem / execution / browser MCP",
+            "tests": "162 inherited",
+            "description": "Merged MCP implementations preserving both AxiomZero server classes and az-os legacy classes.",
+            "link": "01-axiom-os/mcp/"
+        },
+        {
+            "name": "AxiomZero Memory Stack",
+            "version": "1.0.0",
+            "trl": "TRL-4",
+            "port": "SQLite / vector store",
+            "tests": "162 inherited",
+            "description": "Persistent state DB, vector store, and session audit trail for the canonical OS layer.",
+            "link": "01-axiom-os/memory/"
+        },
+        {
+            "name": "UM-SOS Frontend & Graph",
+            "version": "15.8",
+            "trl": "TRL-5",
+            "port": "Static frontend / GitHub Pages",
+            "tests": "1 inherited",
+            "description": "Static frontend plus derivation graph assets extracted into the canonical UM-SOS folder.",
+            "link": "04-um-sos/frontend/"
+        },
+        {
+            "name": "AZ IP Common Library",
+            "version": "1.0.0",
+            "trl": "TRL-6",
+            "port": "Python import",
+            "tests": "shared",
+            "description": "Shared canonical helper library retained in place for all products under 12-AZ-IP/lib/az_ip_common/.",
+            "link": "lib/az_ip_common/"
+        },
+        {
+            "name": "IP & Products Catalog",
+            "version": "2026-08-18",
+            "trl": "TRL-7",
+            "port": "Registry docs",
+            "tests": "manifest-backed",
+            "description": "Master registry surfaces, manifests, and catalog tooling for the consolidated canonical IP folder.",
+            "link": "tools/"
+        }
+    ]
 }

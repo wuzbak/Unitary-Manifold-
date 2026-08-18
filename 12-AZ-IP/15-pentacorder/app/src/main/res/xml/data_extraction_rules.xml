@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Data extraction rules for Android 12+ (API 31+).
+  We exclude the experiments/ folder and all audit logs from cloud backup
+  because they contain cryptographic session data that should stay on-device.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="experiments/" />
+        <exclude domain="file" path="sessions/" />
+        <exclude domain="sharedpref" path="gibber_calibration.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="experiments/" />
+        <exclude domain="file" path="sessions/" />
+    </device-transfer>
+</data-extraction-rules>

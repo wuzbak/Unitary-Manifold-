@@ -1,3 +1,5 @@
+> **Canonical source note:** the authoritative consolidated software copy now lives under `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/`. This legacy location remains in place for governance and repository test compatibility.
+
 # Unitary Operating System (UOS)
 
 > **A 5-dimensional Kaluza–Klein operating system built on the Unitary Manifold.**

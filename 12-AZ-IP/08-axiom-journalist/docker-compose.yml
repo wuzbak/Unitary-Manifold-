@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  journalist:
+    build: .
+    ports:
+      - "7870:7870"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - AXIOM_HOST=0.0.0.0
+      - AXIOM_PORT=7870
+    restart: unless-stopped
