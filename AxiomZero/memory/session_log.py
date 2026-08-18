@@ -28,6 +28,25 @@ from typing import Any, Dict, List, Optional
 logger = logging.getLogger(__name__)
 
 LOG_FILE = Path.home() / ".axiomzero" / "agent_audit.jsonl"
+MAX_LOG_SIZE_BYTES: int = 50 * 1024 * 1024  # 50 MB
+
+
+def _rotate_log_if_needed(log_path: Path) -> None:
+    """Rotate the log file if it exceeds MAX_LOG_SIZE_BYTES, compressing the old file."""
+    import gzip
+    import shutil
+
+    if not log_path.exists() or log_path.stat().st_size < MAX_LOG_SIZE_BYTES:
+        return
+
+    # Find a non-colliding archive name
+    import datetime
+    ts = datetime.datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    archive = log_path.with_suffix(f".{ts}.jsonl.gz")
+    with open(log_path, "rb") as f_in, gzip.open(archive, "wb") as f_out:
+        shutil.copyfileobj(f_in, f_out)
+    log_path.unlink()
+    logger.info("Rotated audit log → %s", archive)
 
 
 def log_event(
@@ -39,6 +58,7 @@ def log_event(
 ) -> None:
     """
     Write a single audit event to the JSONL log.
+    Rotates the log file at 50 MB, compressing the old file with gzip.
 
     event_type: one of 'pillar_modified', 'test_result', 'paper_found',
                 'hils_decision', 'agent_error', 'task_complete'
@@ -52,6 +72,7 @@ def log_event(
         **data,
     }
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    _rotate_log_if_needed(LOG_FILE)
     with open(LOG_FILE, "a") as f:
         f.write(json.dumps(entry) + "\n")
 

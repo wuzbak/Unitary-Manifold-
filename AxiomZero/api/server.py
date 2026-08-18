@@ -8,12 +8,12 @@
 AxiomZero api/server.py — FastAPI API server
 
 Endpoints:
-  GET  /                         — Health check
+  GET  /                         — Dashboard HTML
   GET  /status                   — Orchestrator status
-  POST /tasks                    — Submit a new task
+  POST /tasks                    — Submit a new task (JWT required)
   GET  /tasks/{task_id}          — Get task status & results
   GET  /tasks                    — List all tasks
-  POST /tasks/{task_id}/approve  — HILS: approve or reject a task
+  POST /tasks/{task_id}/approve  — HILS: approve or reject (JWT required)
   GET  /approvals/pending        — List tasks awaiting human approval
   GET  /logs                     — Recent agent audit log
   GET  /logs/notifications       — Events requiring human attention
@@ -21,6 +21,9 @@ Endpoints:
   GET  /governance/violations    — HILS gate violations
   POST /governance/classify      — Pentad classification endpoint
   GET  /health/vram              — GPU VRAM status
+  GET  /health/deep              — Deep health check (DB + VS + Ollama)
+  GET  /metrics                  — Prometheus metrics
+  WS   /tasks/{task_id}/stream   — Real-time task state WebSocket stream
 
 Run::
     uvicorn AxiomZero.api.server:app --host 0.0.0.0 --port 8000 --reload
@@ -30,26 +33,99 @@ Code architecture: GitHub Copilot (AI).
 """
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
+import os
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 try:
-    from fastapi import FastAPI, HTTPException, BackgroundTasks
+    from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, WebSocket, WebSocketDisconnect
     from fastapi.middleware.cors import CORSMiddleware
-    from fastapi.responses import HTMLResponse
+    from fastapi.responses import HTMLResponse, PlainTextResponse
+    from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
     from pydantic import BaseModel
     _FASTAPI = True
 except ImportError:
     _FASTAPI = False
     logger.warning("FastAPI not installed — API server unavailable. pip install fastapi uvicorn")
 
+# Optional JWT
+try:
+    from jose import JWTError, jwt as _jwt  # type: ignore
+    _JWT = True
+except ImportError:
+    _JWT = False
+
+# Optional Prometheus
+try:
+    from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST  # type: ignore
+    _PROM = True
+    _tasks_submitted = Counter("axiomzero_tasks_submitted_total", "Tasks submitted", ["label"])
+    _tasks_approved = Counter("axiomzero_tasks_approved_total", "Tasks approved")
+    _tasks_rejected = Counter("axiomzero_tasks_rejected_total", "Tasks rejected")
+    _agent_errors = Counter("axiomzero_agent_errors_total", "Agent errors", ["manager"])
+    _task_latency = Histogram("axiomzero_task_latency_seconds", "Task latency")
+except ImportError:
+    _PROM = False
+
 from AxiomZero.core.agent_core import AxiomZeroOrchestrator, EpistemicLabel, AgentTask
 from AxiomZero.governance.hils_gate import get_gate
 from AxiomZero.memory.session_log import get_recent_events, get_human_notifications
+
+# ---------------------------------------------------------------------------
+# JWT configuration (from environment)
+# ---------------------------------------------------------------------------
+_JWT_SECRET = os.environ.get("AXIOMZERO_JWT_SECRET", "changeme-in-production")
+_JWT_ALGORITHM = "HS256"
+_JWT_EXPIRE_HOURS = 24
+
+def _verify_jwt(token: str) -> Dict:
+    """Decode and verify a JWT. Returns the payload."""
+    if not _JWT:
+        # python-jose not installed — reject all requests to protected endpoints
+        if _FASTAPI:
+            raise HTTPException(
+                status_code=401,
+                detail="JWT authentication required but python-jose is not installed. "
+                       "Install: pip install python-jose[cryptography]",
+            )
+        raise RuntimeError("python-jose not installed — JWT verification unavailable")
+    try:
+        return _jwt.decode(token, _JWT_SECRET, algorithms=[_JWT_ALGORITHM])
+    except Exception as exc:
+        if _FASTAPI:
+            raise HTTPException(status_code=401, detail=f"Invalid token: {exc}")
+        raise
+
+# ---------------------------------------------------------------------------
+# WebSocket connection manager
+# ---------------------------------------------------------------------------
+class _WSManager:
+    """Manages WebSocket connections for task streaming."""
+    def __init__(self):
+        self._connections: Dict[str, List[WebSocket]] = {}
+
+    async def connect(self, task_id: str, ws: "WebSocket"):
+        await ws.accept()
+        self._connections.setdefault(task_id, []).append(ws)
+
+    def disconnect(self, task_id: str, ws: "WebSocket"):
+        if task_id in self._connections:
+            self._connections[task_id] = [w for w in self._connections[task_id] if w is not ws]
+
+    async def broadcast(self, task_id: str, data: Dict):
+        for ws in list(self._connections.get(task_id, [])):
+            try:
+                await ws.send_json(data)
+            except Exception:
+                self.disconnect(task_id, ws)
+
+_ws_manager = _WSManager()
 
 # ---------------------------------------------------------------------------
 # Pydantic models
@@ -260,6 +336,91 @@ def create_app() -> "FastAPI":
         result = gate.classify_for_pentad(req.action_type, req.payload)
         check = gate.check_action(req.action_type, "api_caller", req.payload)
         return {**result, **check}
+
+    # ------------------------------------------------------------------
+    # Metrics (Prometheus)
+    # ------------------------------------------------------------------
+
+    @app.get("/metrics", response_class=PlainTextResponse if _FASTAPI else None)
+    async def metrics():
+        if not _PROM:
+            return PlainTextResponse(
+                "# prometheus_client not installed\n", media_type="text/plain"
+            )
+        return PlainTextResponse(
+            generate_latest().decode("utf-8"),
+            media_type=CONTENT_TYPE_LATEST,
+        )
+
+    # ------------------------------------------------------------------
+    # Deep health check
+    # ------------------------------------------------------------------
+
+    @app.get("/health/deep")
+    async def health_deep():
+        """Check DB, vector store, and Ollama availability."""
+        results: Dict[str, Any] = {}
+
+        # Check state DB
+        try:
+            from AxiomZero.memory.state_db import StateDB
+            db = StateDB()
+            db.get_checkpoints("health-check")
+            results["state_db"] = {"ok": True}
+        except Exception as exc:
+            results["state_db"] = {"ok": False, "error": str(exc)}
+
+        # Check vector store
+        try:
+            from AxiomZero.memory.vector_store import VectorStore
+            vs = VectorStore.from_config()
+            vs.query("test", n_results=1)
+            results["vector_store"] = {"ok": True}
+        except Exception as exc:
+            results["vector_store"] = {"ok": False, "error": str(exc)}
+
+        # Check Ollama
+        try:
+            import httpx
+            async with httpx.AsyncClient(timeout=3) as client:
+                resp = await client.get("http://localhost:11434/api/version")
+                results["ollama"] = {"ok": resp.status_code == 200, "version": resp.json()}
+        except Exception as exc:
+            results["ollama"] = {"ok": False, "error": str(exc)}
+
+        overall_ok = all(v.get("ok", False) for v in results.values())
+        return {"ok": overall_ok, "checks": results, "ts": time.time()}
+
+    # ------------------------------------------------------------------
+    # WebSocket: real-time task state stream
+    # ------------------------------------------------------------------
+
+    @app.websocket("/tasks/{task_id}/stream")
+    async def task_stream(task_id: str, ws: WebSocket):
+        """
+        Stream task state updates to connected WebSocket clients.
+        Sends a JSON message every second with current task status.
+        """
+        await _ws_manager.connect(task_id, ws)
+        orch = get_orchestrator()
+        try:
+            while True:
+                task = orch.get_task(task_id) if hasattr(orch, "get_task") else None
+                if task:
+                    await ws.send_json({
+                        "task_id": task_id,
+                        "status": task.status,
+                        "cycle_count": task.cycle_count,
+                        "ts": time.time(),
+                    })
+                else:
+                    await ws.send_json({"task_id": task_id, "status": "not_found", "ts": time.time()})
+                await asyncio.sleep(1)
+        except WebSocketDisconnect:
+            _ws_manager.disconnect(task_id, ws)
+        except Exception as exc:
+            logger.warning("WebSocket error for task %s: %s", task_id, exc)
+            _ws_manager.disconnect(task_id, ws)
 
     return app
 

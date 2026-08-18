@@ -1,0 +1,36 @@
+[package]
+name = "ax-kernel"
+version = "0.1.0"
+edition = "2021"
+authors = ["ThomasCory Walker-Pearson <wuzbak@users.noreply.github.com>"]
+description = "AZ-OS: 5D Kaluza-Klein bare-metal x86-64 / ARM64 kernel"
+license = "AGPL-3.0-or-later"
+
+[[bin]]
+name = "ax-kernel"
+path = "src/main.rs"
+
+[dependencies]
+# UEFI boot services
+uefi = { version = "0.26", features = ["alloc"] }
+uefi-services = "0.23"
+
+# No-std utilities
+spin = "0.9"
+bitflags = "2"
+heapless = "0.8"
+
+# Math (no_std compatible)
+libm = "0.2"
+
+[profile.release]
+# Minimum kernel binary size
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+opt-level = "z"
+strip = true
+
+[profile.dev]
+panic = "abort"
+opt-level = 1

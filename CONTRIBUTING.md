@@ -184,3 +184,40 @@ and AGPL-3.0 are never diminished by this grant.
 ---
 
 *Questions? Open a GitHub Issue or Discussion.*
+
+---
+
+## Enhanced Development Workflow (v20.1+)
+
+### Branch naming convention
+
+```
+<github-handle>/<short-description>
+# e.g.  wuzbak/pillar-233-dark-energy
+```
+
+### Quick commands
+
+```bash
+make install-dev      # install all deps + pre-commit hooks
+make test             # full 0-failure suite
+make lint             # ruff + mypy
+make fmt              # black autoformat
+make test-cov         # coverage report to htmlcov/
+make docker-up        # Prometheus + Grafana + Jaeger monitoring stack
+make docs             # build MkDocs site
+```
+
+### Pull request → Pentad approval checklist
+
+1. `make lint` passes (ruff + mypy).
+2. `make test` passes — **0 failures**.
+3. PR classified: `POST /api/v1/governance/classify` with diff summary.
+4. Epistemic label applied: `HARDGATE` or `ADJACENT-TRACK`.
+5. One human acknowledgment of the label.
+
+### Secrets policy
+
+Never commit credentials. Use env vars + `pydantic-settings`.
+`detect-secrets` pre-commit hook blocks accidental commits.
+See `SECURITY.md` for responsible disclosure.
