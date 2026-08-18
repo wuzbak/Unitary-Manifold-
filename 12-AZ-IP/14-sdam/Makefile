@@ -1,11 +1,24 @@
-.PHONY: build debug release install clean test
+# SDAM — Software-Defined Acoustic Modem
+# Kotlin/Android project — requires Android SDK and NDK
+.PHONY: build debug release install clean test android-build gibberlink-docs
+
+# Primary Android project (full ggwave/AES app)
 build:
-	cd android && ./gradlew assembleDebug
+	cd app && ./gradlew assembleDebug
 release:
-	cd android && ./gradlew assembleRelease
+	cd app && ./gradlew assembleRelease
 install:
-	cd android && ./gradlew installDebug
+	cd app && ./gradlew installDebug
 test:
-	cd android && ./gradlew test
+	cd app && ./gradlew test
 clean:
-	cd android && ./gradlew clean
+	cd app && ./gradlew clean
+
+# Legacy Android project
+android-build:
+	cd android && ./gradlew assembleDebug
+
+# Gibberlink docs
+gibberlink-docs:
+	@echo "Gibberlink docs: see gibberlink/README.md"
+	@cat gibberlink/README.md
