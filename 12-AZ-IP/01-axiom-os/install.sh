@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: AGPL-3.0-or-later
 set -euo pipefail
-ROOT="/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/01-axiom-os"
+ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 python3 -m pip install -r "$ROOT/requirements.txt"
 python3 "$ROOT/axiomzero_bootstrap.py" --help >/dev/null || true

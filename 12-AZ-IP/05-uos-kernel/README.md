@@ -262,4 +262,4 @@ engineering applications.
 
 ## Canonical source
 
-Canonical IP location: `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/05-uos-kernel/`.
+Canonical IP location: `12-AZ-IP/05-uos-kernel/`.

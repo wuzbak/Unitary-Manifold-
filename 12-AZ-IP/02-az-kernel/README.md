@@ -1,6 +1,6 @@
 # 02-az-kernel — Canonical AxiomZero Rust Kernel
 
-This folder is the canonical merge of `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/az-kernel/` (full implementation) and `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/11-AZ-OS/ax-kernel/` (earlier prototype).
+This folder is the canonical merge of `az-kernel/` (full implementation) and `11-AZ-OS/ax-kernel/` (earlier prototype).
 
 ## Merge policy applied
 
@@ -11,9 +11,9 @@ This folder is the canonical merge of `/home/runner/work/Unitary-Manifold-/Unita
 ## Build
 
 ```bash
-cd /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/02-az-kernel
+cd 12-AZ-IP/02-az-kernel
 cargo check
-bash /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/02-az-kernel/scripts/build.sh
+bash 12-AZ-IP/02-az-kernel/scripts/build.sh
 ```
 
 ## Deployment targets
@@ -25,7 +25,7 @@ bash /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/02-az-kernel
 ## Tests
 
 ```bash
-python3 -m pytest /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/02-az-kernel/tests/test_layout.py -q
+python3 -m pytest 12-AZ-IP/02-az-kernel/tests/test_layout.py -q
 ```
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.

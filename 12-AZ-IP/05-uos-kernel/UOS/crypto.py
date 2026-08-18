@@ -302,10 +302,24 @@ class ManifoldCipher:
         self.key = key
         self._alpha = 0.05 + 0.01 * key.tier    # damping coefficient per tier
 
-    def _keystream(self, length: int) -> bytes:
-        """Generate ``length`` bytes of keystream."""
-        # Seed φ from the private key mean
-        phi = float(np.mean(self.key.private_key))
+    def _keystream(self, length: int, nonce: bytes = b"") -> bytes:
+        """Generate ``length`` bytes of keystream.
+
+        Parameters
+        ----------
+        length:
+            Number of keystream bytes to produce.
+        nonce:
+            Per-message nonce mixed into the initial seed so that two
+            plaintexts encrypted under the same key produce distinct
+            keystreams.  *Must* be unique for every encryption call.
+        """
+        # Seed φ from the private key mean XOR-folded with the nonce bytes
+        phi_seed = float(np.mean(self.key.private_key))
+        if nonce:
+            nonce_int = int.from_bytes(nonce, "big") % (2**31)
+            phi_seed += nonce_int * 1e-9  # small perturbation per nonce
+        phi = phi_seed
         dt = BRAIDED_SOUND_SPEED
         stream = bytearray(length)
         for i in range(length):
@@ -313,14 +327,27 @@ class ManifoldCipher:
             stream[i] = int(abs(phi) * 255) % 256
         return bytes(stream)
 
-    def encrypt(self, plaintext: bytes) -> bytes:
-        """Encrypt plaintext; return ciphertext."""
-        ks = self._keystream(len(plaintext))
-        return bytes(a ^ b for a, b in zip(plaintext, ks))
+    def encrypt(self, plaintext: bytes, nonce: bytes | None = None) -> bytes:
+        """Encrypt plaintext; return ``nonce || ciphertext``.
 
-    def decrypt(self, ciphertext: bytes) -> bytes:
-        """Decrypt ciphertext; return plaintext (symmetric with encrypt)."""
-        return self.encrypt(ciphertext)  # XOR is its own inverse
+        A random 16-byte nonce is generated automatically when *nonce* is
+        ``None``.  The nonce is prepended to the output so that
+        :meth:`decrypt` can recover it without out-of-band transmission.
+        """
+        import os
+        if nonce is None:
+            nonce = os.urandom(16)
+        ks = self._keystream(len(plaintext), nonce)
+        ciphertext = bytes(a ^ b for a, b in zip(plaintext, ks))
+        return nonce + ciphertext
+
+    def decrypt(self, blob: bytes) -> bytes:
+        """Decrypt ``nonce || ciphertext`` produced by :meth:`encrypt`."""
+        if len(blob) < 16:
+            raise ValueError("Blob too short to contain a 16-byte nonce")
+        nonce, ciphertext = blob[:16], blob[16:]
+        ks = self._keystream(len(ciphertext), nonce)
+        return bytes(a ^ b for a, b in zip(ciphertext, ks))
 
 
 # ===========================================================================

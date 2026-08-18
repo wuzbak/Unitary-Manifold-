@@ -72,4 +72,4 @@ See `10-UM-SOS/ROADMAP.md` for the remaining implementation roadmap.
 
 ## Canonical source
 
-This product is canonically consolidated at `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/04-um-sos/`.
+This product is canonically consolidated at `12-AZ-IP/04-um-sos/`.

@@ -277,4 +277,4 @@ This canonical folder preserves the richer `holon_zero/` package (including `sub
 
 ## Canonical source
 
-Canonical IP location: `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/07-holon-zero/`.
+Canonical IP location: `12-AZ-IP/07-holon-zero/`.

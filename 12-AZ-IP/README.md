@@ -1,6 +1,6 @@
 # 12-AZ-IP — Canonical AxiomZero IP Folder
 
-All scattered AxiomZero software assets have been copied into `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/` and consolidated here as the canonical software registry. The shared library at `12-AZ-IP/lib/az_ip_common/` remains in place for cross-product imports.
+All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and consolidated here as the canonical software registry. The shared library at `12-AZ-IP/lib/az_ip_common/` remains in place for cross-product imports.
 
 ## Product registry (15 canonical software products / surfaces)
 

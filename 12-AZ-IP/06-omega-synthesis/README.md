@@ -300,4 +300,4 @@ The Omega Synthesis is the fixed point of that collaboration — the state where
 
 ## Canonical source
 
-Canonical IP location: `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/06-omega-synthesis/`.
+Canonical IP location: `12-AZ-IP/06-omega-synthesis/`.

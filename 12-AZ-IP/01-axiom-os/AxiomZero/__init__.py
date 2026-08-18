@@ -23,5 +23,5 @@ IDENTITY = {
     "theory_direction": "ThomasCory Walker-Pearson",
     "code_implementation": "GitHub Copilot (AI)",
     "framework": "Unitary Manifold (5D Kaluza-Klein)",
-    "canonical_root": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/01-axiom-os",
+    "canonical_root": "12-AZ-IP/01-axiom-os",
 }
