@@ -216,6 +216,7 @@ class TestInflationaryChain512Bit:
         assert "r_braided" in result["chain"]
 
 
+sympy = pytest.importorskip("sympy", reason="sympy required for formal_proof_hardening")
 from src.core.formal_proof_hardening import (
     nw_uniqueness_lean4_proof,
     verify_nw_uniqueness,

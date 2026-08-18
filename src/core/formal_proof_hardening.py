@@ -12,7 +12,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List
 
-import sympy as sp
+try:
+    import sympy as sp
+except ImportError:  # pragma: no cover
+    sp = None  # type: ignore[assignment]
 
 __all__ = [
     "ASSUMPTION_LEDGER",
@@ -46,20 +49,33 @@ ASSUMPTION_LEDGER: List[Dict[str, str]] = [
 ]
 
 
+_SYMPY_AVAILABLE: bool = sp is not None
+
+
 @dataclass(frozen=True)
 class TheoremArtifact:
     theorem_id: str
     statement: str
-    lhs: sp.Expr
-    rhs: sp.Expr
+    lhs: object  # sp.Expr when sympy available, else None
+    rhs: object  # sp.Expr when sympy available, else None
     assumptions: List[str]
 
     def verify(self) -> bool:
-        return bool(sp.simplify(self.lhs - self.rhs) == 0)
+        if sp is None:  # pragma: no cover
+            raise ImportError(
+                "sympy is required to verify TheoremArtifact. "
+                "Install it with: pip install sympy"
+            )
+        return bool(sp.simplify(self.lhs - self.rhs) == 0)  # type: ignore[operator]
 
 
 def theorem_set() -> List[TheoremArtifact]:
     """Return the Track 1 theorem set in machine-checkable form."""
+    if sp is None:  # pragma: no cover
+        raise ImportError(
+            "sympy is required for theorem_set(). "
+            "Install it with: pip install sympy"
+        )
     phi0 = sp.Symbol("phi0", positive=True, nonzero=True, real=True)
     n_w = sp.Symbol("N_w", integer=True, positive=True)
     c_s = sp.Symbol("c_s", real=True)
@@ -93,6 +109,11 @@ def theorem_set() -> List[TheoremArtifact]:
 
 def verify_theorem_set() -> List[Dict[str, object]]:
     """Verify every theorem in Track 1 and return per-theorem results."""
+    if sp is None:  # pragma: no cover
+        raise ImportError(
+            "sympy is required for verify_theorem_set(). "
+            "Install it with: pip install sympy"
+        )
     results: List[Dict[str, object]] = []
     for theorem in theorem_set():
         results.append(
@@ -108,6 +129,11 @@ def verify_theorem_set() -> List[Dict[str, object]]:
 
 def track1_proof_hardening_artifact() -> Dict[str, object]:
     """Return the complete Track 1 artifact package."""
+    if sp is None:  # pragma: no cover
+        raise ImportError(
+            "sympy is required for track1_proof_hardening_artifact(). "
+            "Install it with: pip install sympy"
+        )
     theorem_results = verify_theorem_set()
     all_verified = all(item["verified"] for item in theorem_results)
     return {
