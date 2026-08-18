@@ -934,7 +934,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > Each pillar has its own folder (`PILLARS/PXXX/`) with source links, test links, and theory doc links.
 > Regenerate the index: `python3 PILLARS/build_index.py`
 
-**Grand total (v21.0-S): ~51,951 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-01)
+**Grand total (v21.0-S): ~51,951 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-18)
 
 **~51,440** — 630+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. ToE score: **30.0/28** (28/28 hardgate + 2.0 partial). Lean4 342 theorems. (Historical milestones: v13.8: 44,590; v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
 

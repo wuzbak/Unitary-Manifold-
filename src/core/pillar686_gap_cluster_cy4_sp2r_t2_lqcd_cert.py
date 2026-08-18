@@ -26,6 +26,7 @@ GitHub Copilot (AI).
 """
 from __future__ import annotations
 
+import importlib
 from typing import Any, Dict, List
 
 __all__ = [
@@ -87,7 +88,6 @@ def import_all_pillars() -> Dict[str, Any]:
     ]
     for key, module_path, func_name in pillar_imports:
         try:
-            import importlib
             mod = importlib.import_module(module_path)
             func = getattr(mod, func_name)
             cert = func()

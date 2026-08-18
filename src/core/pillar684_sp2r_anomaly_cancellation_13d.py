@@ -328,7 +328,7 @@ def i14_factorization() -> Dict[str, Any]:
     dict
         Factorization description and consistency check.
     """
-    k_gs = float(gs_counterterm_coefficient()["k_GS_exact"].replace("5/2", "2.5"))
+    k_gs = float(Fraction(gs_counterterm_coefficient()["k_GS_exact"]))
     return {
         "anomaly_polynomial": "I_{15} (degree-15 form in 13D)",
         "factorization": "I_{15} = X_4 ∧ X_{11}",

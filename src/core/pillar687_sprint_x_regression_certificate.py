@@ -103,7 +103,7 @@ def sprint_x_regression_certificate() -> Dict[str, Any]:
     # Check broken-test fix
     try:
         import src.core.formal_proof_hardening as fph
-        sympy_guarded = hasattr(fph, "_SYMPY_AVAILABLE")
+        sympy_guarded = isinstance(getattr(fph, "_SYMPY_AVAILABLE", None), bool)
         fix_status = "FIXED" if sympy_guarded else "UNFIXED"
     except Exception:
         fix_status = "UNFIXED"
