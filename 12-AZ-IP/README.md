@@ -1,119 +1,47 @@
-# 12-AZ-IP — AxiomZero Intellectual Property Registry
+# 12-AZ-IP — Canonical AxiomZero IP Folder
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+All scattered AxiomZero software assets have been copied into `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/` and consolidated here as the canonical software registry. The shared library at `12-AZ-IP/lib/az_ip_common/` remains in place for cross-product imports.
 
----
+## Product registry (15 canonical software products / surfaces)
 
-## What Is AxiomZero IP?
+| Product | Version | TRL | Port / Endpoint | Test Count | Description | Folder |
+|---|---:|---|---|---:|---|---|
+| Axiom OS Core Suite | 1.0.0 | TRL-5 | http://localhost:8000 | 162 | Canonical merge of AxiomZero full-stack plus az-os legacy agent/φ infrastructure. | [01-axiom-os/](01-axiom-os/) |
+| AZ-KERNEL Rust Kernel | 0.1.0 | TRL-3 | UEFI / QEMU | 1 | Bare-metal Rust kernel with merged fuller az-kernel tree and legacy kk_channel IPC primitive. | [02-az-kernel/](02-az-kernel/) |
+| EIGE Governance Engine | 21.0.0 | TRL-7 | CLI / Docker / notebook | 449 | Deterministic election integrity and governance stack with full source, infra, schemas, and tests. | [03-eige/](03-eige/) |
+| UM-SOS Scientific OS | 15.8 | TRL-6 | /api/v1/* | 1 | Seven-layer scientific operating system with backend, frontend, DAG explorer, and preregistration registry. | [04-um-sos/](04-um-sos/) |
+| UOS Kernel Prototype | 0.1 | TRL-3 | Python library | 566 | Geometric OS prototype copied from the Pentad with dedicated UOS regression tests. | [05-uos-kernel/](05-uos-kernel/) |
+| Omega Synthesis Engine | 20.1 | TRL-5 | Python library | 170 | Universal mechanics calculator spanning cosmology, particle physics, HILS, and falsifiers. | [06-omega-synthesis/](06-omega-synthesis/) |
+| Holon Zero Engine | 1.0 | TRL-5 | Python library | 347 | Ground-state engine merged from holon-zero and holon_zero, including subpillars and repo-root tests. | [07-holon-zero/](07-holon-zero/) |
+| AxiomZero REST API | 1.0.0 | TRL-4 | http://localhost:8000/api | 162 inherited | FastAPI service exposing orchestrator status, governance gates, and provenance endpoints. | [01-axiom-os/api/](01-axiom-os/api/) |
+| AxiomZero Android Client | 1.0.0 | TRL-3 | Thin client → API | 162 inherited | Android/Termux client for mobile access to the Axiom OS API and dashboard workflows. | [01-axiom-os/android/](01-axiom-os/android/) |
+| AxiomZero Web Dashboard | 1.0.0 | TRL-4 | http://localhost:8000 | 162 inherited | Browser dashboard for live manager status, HILS checkpoints, and system telemetry. | [01-axiom-os/ui/](01-axiom-os/ui/) |
+| AxiomZero MCP Stack | 1.0.0 | TRL-4 | Filesystem / execution / browser MCP | 162 inherited | Merged MCP implementations preserving both AxiomZero server classes and az-os legacy classes. | [01-axiom-os/mcp/](01-axiom-os/mcp/) |
+| AxiomZero Memory Stack | 1.0.0 | TRL-4 | SQLite / vector store | 162 inherited | Persistent state DB, vector store, and session audit trail for the canonical OS layer. | [01-axiom-os/memory/](01-axiom-os/memory/) |
+| UM-SOS Frontend & Graph | 15.8 | TRL-5 | Static frontend / GitHub Pages | 1 inherited | Static frontend plus derivation graph assets extracted into the canonical UM-SOS folder. | [04-um-sos/frontend/](04-um-sos/frontend/) |
+| AZ IP Common Library | 1.0.0 | TRL-6 | Python import | shared | Shared canonical helper library retained in place for all products under 12-AZ-IP/lib/az_ip_common/. | [lib/az_ip_common/](lib/az_ip_common/) |
+| IP & Products Catalog | 2026-08-18 | TRL-7 | Registry docs | manifest-backed | Master registry surfaces, manifests, and catalog tooling for the consolidated canonical IP folder. | [tools/](tools/) |
 
-**AxiomZero** is the intellectual property name for the full Unitary Manifold
-technology stack — comprising the 5D physics framework, the AxiomZero Operating
-System, interactive calculators, development tools, and all derived artefacts.
-This folder contains the machine-readable IP registry, SHA-256 fingerprint manifest,
-and provenance declarations for all AxiomZero assets, organized by category.
+## Canonical consolidated folders
 
----
+- `01-axiom-os/` — merged `AxiomZero/` + `az-os/`
+- `02-az-kernel/` — merged `az-kernel/` + `11-AZ-OS/ax-kernel/`
+- `03-eige/` — copied from `EIGE/`
+- `04-um-sos/` — copied from `10-UM-SOS/`
+- `05-uos-kernel/` — copied from Pentad `UOS/` plus UOS tests
+- `06-omega-synthesis/` — copied from Pentad `omega/`
+- `07-holon-zero/` — merged `holon-zero/` + `holon_zero/` plus root Holon tests
 
-## IP Categories
+## Shared assets retained
 
-| Subfolder | Asset class | Description |
-|-----------|-------------|-------------|
-| [`apps/`](apps/README.md) | **Applications** | Android client, web dashboards, AxiomZero full-stack app, EIGE governance app, UM-SOS frontend |
-| [`engines/`](engines/README.md) | **Physics & AI Engines** | Walker-Pearson integrator, KK metric engine, CMB engine, birefringence engine, FTUM engine, holographic engine, cognitive AI engine (14 engines total) |
-| [`os/`](os/README.md) | **Operating Systems** | AZ-OS (cognitive Python OS), AZ-KERNEL (Rust bare-metal UEFI), UM-SOS (Scientific OS), AxiomZero full-stack environment |
-| [`tools/`](tools/README.md) | **Development Tools** | Lean4/Z3 formal verification bridges, audit tools, JAX/W&B integrations, SLSA provenance, CI/CD suite, MCP server, RAG/Copilot extension (13 tools total) |
-| [`calculators/`](calculators/README.md) | **Interactive Calculators** | KK Mass Calculator, Birefringence Predictor, ToE Dashboard, CMB Parameters, DESI Tracker, Lean4 Progress, Pentad Simulator, 5D Explorer, HILS Interface (9 calculators total) |
+- `LICENSE-AGPL`
+- `NOTICE`
+- `IP_REGISTRY.json`
+- `FINGERPRINT_MANIFEST.md`
+- `lib/az_ip_common/`
+- `tools/`
+- `engines/`
+- `calculators/`
 
----
-
-## Assets Pending Integration from `wuzbak/Private`
-
-The repository `wuzbak/Private` contains additional apps, engines, and OS assets.
-To integrate them:
-1. Grant access to the repository
-2. Copy source files into the relevant subfolder (`apps/`, `engines/`, `os/`, `tools/`, `calculators/`)
-3. Register each asset in `IP_REGISTRY.json` with SHA-256 fingerprint and description
-4. Update `FINGERPRINT_MANIFEST.md`
-
----
-
-## Scope Summary
-
-| Asset class | Description |
-|-------------|-------------|
-| **Physics framework** | 5D Kaluza-Klein metric ansatz, 590 pillars, ToE derivation chain |
-| **AxiomZero OS (AZ-OS)** | Python cognitive layer — 7-manager × 5-sub-agent AI network |
-| **AZ-KERNEL** | Rust no_std UEFI bare-metal kernel, physics-derived primitives |
-| **UM-SOS** | 7-layer Unitary Manifold Scientific Operating System |
-| **Interactive calculators** | 9 browser-based physics calculators, zero installation required |
-| **Development tools** | 13 tools: Lean4, Z3, SymPy, JAX, W&B, SLSA, CI/CD, MCP, RAG |
-| **Applications** | Android client, web dashboards, governance apps |
-| **Test infrastructure** | 49,850+ passing tests, CI/CD, SLSA provenance |
-| **Outreach corpus** | Substack posts, monograph, arXiv preprint, governance docs |
-
----
-
-## Authorship
-
-**Primary author / IP owner:** ThomasCory Walker-Pearson (2026)
-
-All work produced in this repository was created under a documented human-AI
-collaboration under the HILS (Human-in-the-Loop Systems) framework:
-
-- **Scientific direction, theory, and judgment:** ThomasCory Walker-Pearson
-- **Code architecture, test suites, document engineering:** GitHub Copilot (AI)
-
-The legal copyright is carried by the
-`# Copyright (C) 2026  ThomasCory Walker-Pearson` SPDX header at the top of
-every `.py` file. This authorship declaration is authoritative.
-
----
-
-## Files in This Folder
-
-| File / Folder | Purpose |
-|---------------|---------|
-| `README.md` | This file — overview, categories, and authorship |
-| `FINGERPRINT_MANIFEST.md` | Human-readable SHA-256 fingerprints of key IP assets |
-| `IP_REGISTRY.json` | Machine-readable IP provenance registry (Pillar 536) |
-| `apps/` | Application IP registry — Android, web dashboards, EIGE |
-| `engines/` | Physics & AI engine IP registry — 14 registered engines |
-| `os/` | Operating system IP registry — AZ-OS, AZ-KERNEL, UM-SOS |
-| `tools/` | Development tool IP registry — 13 registered tools |
-| `calculators/` | Interactive calculator IP registry — 9 registered calculators |
-
----
-
-## License
-
-All AxiomZero IP is irrevocably dedicated to the public domain under the
-**Defensive Public Commons License v1.0 (2026)**. Commercial patents on the
-Walker-Pearson field equations, AxiomZero OS kernel architecture, or FTUM
-operator are explicitly prohibited. Attribution is requested but not legally
-required.
-
-Preferred citation:
-
-```
-Walker-Pearson, T. (2026). The Unitary Manifold: A 5D Gauge Geometry of
-Emergent Irreversibility (v18.0). Zenodo.
-https://doi.org/10.5281/zenodo.19584531
-```
-
----
-
-## Pillar 536 — AXIOMZERO_IP_REGISTRY
-
-Pillar 536 is the formal machine-readable registry of all AxiomZero IP assets,
-authored by ThomasCory Walker-Pearson and fingerprinted at commit time. The
-registry is implemented in `src/core/pillar536_axiomzero_ip_registry.py` and
-tested in `tests/test_pillar536_axiomzero_ip_registry.py`.
-
-The SHA-256 fingerprints in `IP_REGISTRY.json` and `FINGERPRINT_MANIFEST.md`
-constitute a tamper-evident provenance record. Any modification to a registered
-asset will produce a different fingerprint and is detectable.
-
----
-
-*AxiomZero IP Registry v1.0 — 2026-06-15*
+Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
+Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

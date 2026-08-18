@@ -1,0 +1,14 @@
+# OmegaHolon — Living Systems Engine: Dependencies
+
+# Core UI
+gradio>=4.20.0
+
+# Data / math
+numpy>=1.24
+scipy>=1.11
+
+# Optional — export to PDF
+# reportlab>=4.0.0
+
+# Optional — data visualization in history (future)
+# plotly>=5.0.0

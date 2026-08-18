@@ -1,0 +1,91 @@
+NOTICE
+======
+Project: The Unitary Manifold (all versions in the repository's public commit history)
+Author:  ThomasCory Walker-Pearson  (GitHub: @wuzbak), Chief Purpose Officer
+Entity:  AxiomZero Technologies & Consulting, SPC
+         Washington State SPC · UBI 606 239 876 · Incorporated June 11, 2026
+         Duvall, WA, United States
+Contact: https://www.linkedin.com/company/axiomzero-technologies-consulting-spc/
+Date:    2026
+
+Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+All rights reserved except as explicitly granted below.
+
+All intellectual-property rights — including copyright, future rights, and all
+claims — are held by AxiomZero Technologies & Consulting, SPC (UBI 606 239 876).
+ThomasCory Walker-Pearson is the sole human author and Chief Purpose Officer.
+A formal IP Assignment Agreement dated June 11, 2026 is held by the corporation.
+AI systems and their corporate operators acquire no intellectual-property rights
+from any contribution made to this project.
+
+Social purpose (as filed with Washington State):
+Responsible AI governance, open-science, commitment to the public good, and
+environmental stewardship.
+
+⚠  DEVELOPMENT STATUS — ALL PRODUCTS UNDER DEVELOPMENT
+All software, frameworks, tools, and materials in this repository are under active
+development and are included in the spirit of transparency and open science.  They
+are research-stage works.  USE IS AT YOUR OWN RISK.  No guarantee or warranty of
+any kind is made.  See the DISCLAIMER sections in LICENSE and LICENSE-AGPL.
+
+────────────────────────────────────────────────────────────────────────────
+DUAL-LICENSE STRUCTURE
+────────────────────────────────────────────────────────────────────────────
+
+This repository uses two complementary licenses to protect the work for the
+global public in perpetuity:
+
+Layer 1 — THEORETICAL CONTENT (manuscripts, equations, datasets, PDF)
+    License: Defensive Public Commons License v1.0 (2026)
+    File:    LICENSE
+    Scope:   All non-software content: the Walker-Pearson field equations,
+             the Unitary Manifold framework (FTUM), manuscripts, notebooks,
+             figures, and the PDF monograph.
+    Effect:  Irrevocable public domain dedication.  No patents.  No
+             exclusive IP claims.  No paywalls.  No proprietary relicensing.
+
+Layer 2 — SOFTWARE IMPLEMENTATION (Python source code and all automation)
+    License: GNU Affero General Public License v3.0 or later (AGPL-3.0+)
+    File:    LICENSE-AGPL
+    SPDX:    AGPL-3.0-or-later
+    Scope:   src/   tests/   recycling/   scripts/   submission/
+             Unitary Pentad/   omega/   bot/   embryology-manifold/
+    Effect:  Strong copyleft.  Any company or individual who distributes or
+             deploys a modified version of this software — including as a
+             network service — MUST release their modified source code under
+             the same terms.  This closes the "SaaS loophole" and makes
+             commercial lock-in on the implementation legally impossible.
+
+────────────────────────────────────────────────────────────────────────────
+WHY BOTH LAYERS?
+────────────────────────────────────────────────────────────────────────────
+
+  • The DPC v1.0 is a clear statement of intent and prohibitions that any
+    reader can understand; it covers the mathematics and ideas which cannot
+    be owned by anyone.
+
+  • The AGPL-3.0 provides legally enforceable, court-tested copyleft for
+    the software.  Copyright (the usual enforcement lever) is retained by
+    the author specifically so that the AGPL can be enforced.
+
+  • Together they ensure that neither the theory nor the implementation can
+    be captured into a closed, proprietary, or commercially gated product.
+
+────────────────────────────────────────────────────────────────────────────
+ATTRIBUTION (REQUESTED, NOT REQUIRED)
+────────────────────────────────────────────────────────────────────────────
+
+    Walker-Pearson, T. (AxiomZero Technologies & Consulting, SPC). (2026). The Unitary Manifold:
+    A 5D Gauge Geometry of Emergent Irreversibility.
+    https://github.com/wuzbak/Unitary-Manifold-
+    DOI: https://doi.org/10.5281/zenodo.19584531
+
+────────────────────────────────────────────────────────────────────────────
+CONSOLIDATED LEGAL REFERENCE
+────────────────────────────────────────────────────────────────────────────
+
+For a single consolidated plain-language explanation of all legal instruments
+(DPC v1.0, AGPL-3.0, Common Law Trademark, DBA), the open-core business model,
+and the no-contradiction statement, see LEGAL.md.
+
+────────────────────────────────────────────────────────────────────────────
