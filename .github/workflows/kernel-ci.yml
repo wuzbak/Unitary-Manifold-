@@ -14,6 +14,9 @@ env:
   CARGO_TERM_COLOR: always
   RUSTFLAGS: "-D warnings"
 
+permissions:
+  contents: read
+
 jobs:
   build-kernel:
     name: Build ax-kernel (x86-64 UEFI)
@@ -104,6 +107,8 @@ jobs:
   clippy:
     name: Clippy (host target)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
