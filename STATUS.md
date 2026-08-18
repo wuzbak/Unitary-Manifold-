@@ -1,8 +1,12 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v21.5 — Effective 2026-08-18*
+*Unitary Manifold v21.6 — Effective 2026-08-18*
 
-*v21.5 Sprint X — Tightening 14 + NP BC13 + DESI routing (2026-08-18): Pillar 702 (NP_BC13_INSTANTON_KERNEL_COMPUTED: BC13 closed; S_inst=2π/G_N*×(K_CS/N_W)³≫700; amplitude doubly-exp suppressed; K_BC13=0; CP-conserving θ_YM=0); Pillar 703 (BARYON_ASYMMETRY_KK_SPHALERON_TIGHTENING: KK correction to η_B is O(T²/M_KK²)~10⁻⁴; leptogenesis above M_KK dominant — Tightening 14); Pillar 704 (DESI_DARK_ENERGY_KK_ROUTING: KK predicts w₀=−1 exactly; DESI Y1 ~3σ tension tracked; H₀ tension architecture limit documented; DESI Year 5 falsifier 2028); Pillar 705 (SPRINT_X_REGRESSION_CERTIFICATE_ISSUED: v21.5 sync; BC1–BC13 complete; next slot 706). Sprint totals: +55 tests, 0 ToE change, next pillar slot: 706. Full regression: ~52,467 passed.*
+*v21.6 Sprint Y — NP-BC14 + CMB/GW/collider routing (2026-08-18): Pillar 706 (NP_BC14_CONDENSATE_KERNEL_COMPUTED: gluon+Higgs condensates; BC1–BC14 closed); Pillar 707 (CMB_SPECTRAL_DISTORTION_KK_NULL: y,μ < 10⁻⁴⁰; PIXIE null prediction); Pillar 708 (GW_BACKGROUND_KK_KK_SCATTERING: f_peak~10²⁷ Hz null; f_bubble~10⁻⁴ Hz in LISA band if PT occurs); Pillar 709 (KK_RESONANCE_ATLAS_CMS_ROUTING: M_G*≈2.5 TeV in HL-LHC Run 4 reach; narrow width; G*→ℓℓ/γγ); Pillar 710 (SPRINT_Y_REGRESSION_CERTIFICATE_ISSUED: v21.6 sync; BC1–BC14; next slot 711). Sprint totals: +56 tests, 0 ToE change, next pillar slot: 711. Full regression: ~52,523 passed.*
+
+*v21.5 Sprint X — Tightening 14 + NP BC13 + DESI routing (2026-08-18)
+
+Pillar 702 (NP_BC13_INSTANTON_KERNEL_COMPUTED: BC13 closed; S_inst=2π/G_N*×(K_CS/N_W)³≫700; amplitude doubly-exp suppressed; K_BC13=0; CP-conserving θ_YM=0); Pillar 703 (BARYON_ASYMMETRY_KK_SPHALERON_TIGHTENING: KK correction to η_B is O(T²/M_KK²)~10⁻⁴; leptogenesis above M_KK dominant — Tightening 14); Pillar 704 (DESI_DARK_ENERGY_KK_ROUTING: KK predicts w₀=−1 exactly; DESI Y1 ~3σ tension tracked; H₀ tension architecture limit documented; DESI Year 5 falsifier 2028); Pillar 705 (SPRINT_X_REGRESSION_CERTIFICATE_ISSUED: v21.5 sync; BC1–BC13 complete; next slot 706). Sprint totals: +55 tests, 0 ToE change, next pillar slot: 706. Full regression: ~52,467 passed.*
 
 *v21.4 Sprint W — Tightening 13 + NP BC12 + 700-pillar milestone (2026-08-18)
 
