@@ -77,8 +77,12 @@ class StateDB:
             conn.executescript(self.SCHEMA)
 
     def _conn(self) -> sqlite3.Connection:
-        conn = sqlite3.connect(str(self.db_path))
+        conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
         conn.row_factory = sqlite3.Row
+        # Enable WAL mode for reliable concurrent access (write-ahead logging)
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA synchronous=NORMAL")
+        conn.execute("PRAGMA wal_autocheckpoint=1000")
         return conn
 
     # ------------------------------------------------------------------

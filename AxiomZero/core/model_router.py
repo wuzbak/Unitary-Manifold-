@@ -36,6 +36,75 @@ _MODEL_PARAMS_B = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Singleton VRAM capability probe (queries nvidia-smi once per process)
+# ---------------------------------------------------------------------------
+
+_VRAM_CAPABILITY: Optional[Dict[str, Any]] = None  # cached result
+
+
+async def probe_vram_capability() -> Dict[str, Any]:
+    """
+    Query GPU VRAM capacity once and cache the result.
+
+    Returns a dict with keys:
+      - available: bool           — True if GPU is present
+      - total_mb: float           — total VRAM in MiB
+      - free_mb: float            — free VRAM in MiB
+      - recommended_model_tier: str  — 'large' | 'medium' | 'small' | 'cpu'
+    """
+    global _VRAM_CAPABILITY
+    if _VRAM_CAPABILITY is not None:
+        return _VRAM_CAPABILITY
+
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            "nvidia-smi",
+            "--query-gpu=memory.total,memory.free",
+            "--format=csv,noheader,nounits",
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.DEVNULL,
+        )
+        stdout, _ = await proc.communicate()
+        line = stdout.decode().strip().splitlines()[0]
+        total, free = (float(x.strip()) for x in line.split(","))
+
+        if free >= 20_000:
+            tier = "large"       # 70B+ models
+        elif free >= 8_000:
+            tier = "medium"      # 13B models
+        elif free >= 4_000:
+            tier = "small"       # 7B models (quantized)
+        else:
+            tier = "cpu"         # CPU fallback
+
+        _VRAM_CAPABILITY = {
+            "available": True,
+            "total_mb": total,
+            "free_mb": free,
+            "recommended_model_tier": tier,
+        }
+    except Exception:
+        _VRAM_CAPABILITY = {
+            "available": False,
+            "total_mb": 0.0,
+            "free_mb": 0.0,
+            "recommended_model_tier": "cpu",
+        }
+
+    logger.info("VRAM capability: %s", _VRAM_CAPABILITY)
+    return _VRAM_CAPABILITY
+
+
+# Model selection table keyed by VRAM tier
+_TIER_MODEL_DEFAULTS: Dict[str, Dict[str, str]] = {
+    "large":  {"strategic": "llama3.1:70b", "math": "qwen2.5-coder:32b",  "test": "qwen2.5-coder:7b",  "embed": "nomic-embed-text"},
+    "medium": {"strategic": "llama3.1:8b",  "math": "qwen2.5-coder:7b",   "test": "qwen2.5-coder:1.5b","embed": "nomic-embed-text"},
+    "small":  {"strategic": "llama3.1:8b",  "math": "qwen2.5-coder:1.5b", "test": "qwen2.5-coder:1.5b","embed": "nomic-embed-text"},
+    "cpu":    {"strategic": "llama3.2:3b",  "math": "qwen2.5-coder:1.5b", "test": "qwen2.5-coder:1.5b","embed": "nomic-embed-text"},
+}
+
+
 class ModelRouter:
     """
     VRAM-aware model router for the AxiomZero agent network.
@@ -44,6 +113,8 @@ class ModelRouter:
     - Max 2 heavy models (>4B params) loaded simultaneously
     - Queuing rather than OOM-crashing when limit is hit
     - nvidia-smi VRAM monitor (pauses inference at >90%)
+    - Singleton VRAM probe: GPU capability queried once per process
+    - Automatic model tier selection based on available VRAM
     """
 
     def __init__(self, config: Dict):
@@ -59,6 +130,23 @@ class ModelRouter:
             "test": config.get("test", "qwen2.5-coder:1.5b"),
             "embed": config.get("embed", "nomic-embed-text"),
         }
+        self._vram_tier: Optional[str] = None  # set after probe
+
+    async def adapt_to_vram(self) -> str:
+        """
+        Run the singleton VRAM probe (once per process) and update the
+        model map to the appropriate tier.  Returns the selected tier name.
+        """
+        cap = await probe_vram_capability()
+        tier = cap["recommended_model_tier"]
+        self._vram_tier = tier
+        tier_defaults = _TIER_MODEL_DEFAULTS.get(tier, _TIER_MODEL_DEFAULTS["cpu"])
+        for key, default_model in tier_defaults.items():
+            # Only override if user has not explicitly configured this key
+            if key not in self.config:
+                self._model_map[key] = default_model
+        logger.info("Model map updated for VRAM tier %r: %s", tier, self._model_map)
+        return tier
 
     def resolve(self, model_key: str) -> str:
         """Resolve a logical key ('strategic', 'math', 'test', 'embed') to a model name."""
@@ -111,6 +199,7 @@ class ModelRouter:
             "currently_loaded_heavy": list(self._loaded_heavy),
             "heavy_slots_available": self._semaphore._value,  # type: ignore[attr-defined]
             "model_map": self._model_map,
+            "vram_tier": self._vram_tier,
         }
 
 

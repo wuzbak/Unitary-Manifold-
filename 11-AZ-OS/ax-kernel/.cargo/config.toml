@@ -1,0 +1,14 @@
+[build]
+# Kernel target: x86-64 UEFI (bare-metal)
+target = "x86_64-unknown-uefi"
+rustflags = ["-C", "link-arg=/subsystem:efi_application"]
+
+[unstable]
+# Enable nightly features required for UEFI kernel
+build-std = ["core", "compiler_builtins", "alloc"]
+build-std-features = ["compiler-builtins-mem"]
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+panic = "abort"

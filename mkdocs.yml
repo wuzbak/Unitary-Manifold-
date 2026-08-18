@@ -1,0 +1,70 @@
+site_name: "Unitary Manifold"
+site_url: "https://wuzbak.github.io/Unitary-Manifold-/"
+site_description: "5D Kaluza-Klein Physics Framework — v20.1"
+site_author: "ThomasCory Walker-Pearson"
+repo_url: "https://github.com/wuzbak/Unitary-Manifold-"
+repo_name: "wuzbak/Unitary-Manifold-"
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: deep purple
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: deep purple
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+
+nav:
+  - Home: index.md
+  - Theory:
+    - Overview: 1-THEORY/UNIFICATION_PROOF.md
+    - Quantum Theorems: 1-THEORY/QUANTUM_THEOREMS.md
+  - Architecture Decisions:
+    - ADR-001 LangGraph: docs/adr/ADR-001-langgraph.md
+    - ADR-002 KK Privilege Rings: docs/adr/ADR-002-kk-privilege-rings.md
+    - ADR-003 HILS Gate Design: docs/adr/ADR-003-hils-gate.md
+  - Governance: 5-GOVERNANCE/Unitary Pentad/README.md
+  - AxiomZero: AxiomZero/README.md
+  - Contributing: CONTRIBUTING.md
+  - Security: SECURITY.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/wuzbak/Unitary-Manifold-
+    - icon: fontawesome/solid/book
+      link: https://doi.org/10.5281/zenodo.19584531

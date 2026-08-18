@@ -65,13 +65,18 @@ class FilesystemServer:
     # ------------------------------------------------------------------
 
     def read(self, rel_or_abs_path: str) -> str:
-        """Read a file.  Path must be within allowed_roots."""
+        """Read a file.  Path must be within allowed_roots and ≤ 100 MB."""
         target = self._resolve(rel_or_abs_path)
         self._check_read(target)
         if not target.exists():
             raise FileNotFoundError(f"File not found: {rel_or_abs_path}")
         if target.is_dir():
             raise IsADirectoryError(f"Path is a directory: {rel_or_abs_path}")
+        size = target.stat().st_size
+        if size > 100 * 1024 * 1024:
+            raise ValueError(
+                f"File too large ({size / 1024 / 1024:.1f} MB > 100 MB limit): {rel_or_abs_path}"
+            )
         return target.read_text(errors="replace")
 
     def write(self, rel_or_abs_path: str, content: str) -> None:

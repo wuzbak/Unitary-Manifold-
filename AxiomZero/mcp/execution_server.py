@@ -56,18 +56,23 @@ DEFAULT_WHITELIST = [
 BLOCKED_PATTERNS = [
     # Destructive file operations
     r"rm\s+-r", r"rm\s+--recursive", r"rmdir",
-    r"shred\b", r"wipe\b", r"mkfs\b", r"dd\s+if=",
+    r"shred\b", r"wipe\b", r"mkfs\b", r"dd\s+if=", r"\bdd\b.*of=",
     # Dangerous git operations
     r"git\s+reset\s+--hard", r"git\s+push\s+--force", r"git\s+push\s+-f\b",
     r"git\s+clean\s+-f", r"git\s+checkout\s+--",
     # Privilege escalation
-    r"\bsudo\b", r"\bsu\s+-\b", r"\bdoas\b",
+    r"\bsudo\b", r"\bsu\s+-\b", r"\bdoas\b", r"\bchmod\s+777\b",
     # Network misuse
     r"\bcurl\b.*\|\s*(bash|sh|python)", r"\bwget\b.*\|\s*(bash|sh|python)",
-    # Path traversal
-    r"\.\./", r"/etc/", r"/proc/", r"/sys/",
+    # Path traversal outside repo
+    r"\.\./", r"/etc/", r"/proc/", r"/sys/", r"/boot/", r"/dev/",
     # Shell expansion abuse
     r";\s*rm\b", r"&&\s*rm\b", r"\|\s*sh\b", r"`.*`",
+    # Fork bombs / resource exhaustion
+    r":\(\)\{", r"yes\s*\|", r"while\s+true",
+    # System-level commands
+    r"\bkill\s+-9\s+1\b", r"\bpkill\b", r"\bhalt\b", r"\breboot\b", r"\bpoweroff\b",
+    r"\biptables\b", r"\bnftables\b",
 ]
 
 BLOCKED_PATTERN_RE = [re.compile(p, re.IGNORECASE) for p in BLOCKED_PATTERNS]
@@ -133,6 +138,12 @@ class ExecutionServer:
         logger.info("EXEC: %s", command)
         self._audit_log(command, blocked=False)
 
+        # Sandbox the working directory to within the repo root
+        if cwd:
+            requested_cwd = Path(cwd).resolve()
+            if not str(requested_cwd).startswith(str(self.repo_root)):
+                cwd = str(self.repo_root)
+                logger.warning("CWD outside repo root; redirected to %s", cwd)
         work_dir = cwd or str(self.repo_root)
 
         try:
