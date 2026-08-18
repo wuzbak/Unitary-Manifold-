@@ -333,9 +333,12 @@ def _build_registry() -> PillarRegistry:
         expected_type="float",
     ))
     def _pillar8() -> float:
-        # entropy_area(h) where h is the induced-metric determinant value
+        # entropy_area(h) expects an ndarray induced metric h
+        import numpy as np
         from src.holography.boundary import entropy_area
-        return float(entropy_area(1.0))
+        # 2D flat induced metric (identity) — represents unit area holographic screen
+        h = np.diag([1.0, 1.0]).reshape(1, 2, 2)
+        return float(entropy_area(h))
     reg.get(8).executor = _pillar8
 
     # ── Pillar 9 · FTUM Fixed-Point Convergence ─────────────────────────────

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Pillar Arcade — AxiomZero Logic Lodge</title>
+  <meta name="description" content="208 derivation challenges backed by real src/core/ modules. Submit answers, get scored on mathematical precision." />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .arcade-layout { display:grid; grid-template-columns:340px 1fr; gap:2rem; align-items:start; }
+    @media(max-width:860px){ .arcade-layout { grid-template-columns:1fr; } }
+    .filter-panel { background:var(--color-card); border:1px solid var(--color-border); border-radius:12px; padding:1.5rem; position:sticky; top:80px; }
+    .challenge-list { display:flex; flex-direction:column; gap:1rem; }
+    .challenge-card { background:var(--color-card); border:1px solid var(--color-border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer; transition:all .15s; }
+    .challenge-card:hover { border-color:rgba(59,139,255,.45); }
+    .challenge-card.active { border-color:var(--color-accent); background:rgba(59,139,255,.06); }
+    .diff-easy  { color:var(--color-green); }
+    .diff-medium{ color:var(--color-gold); }
+    .diff-hard  { color:var(--color-red); }
+    .submit-panel { background:var(--color-card); border:1px solid var(--color-border); border-radius:12px; padding:1.5rem; margin-top:1.5rem; }
+    .score-bar { height:10px; border-radius:5px; background:var(--color-border); overflow:hidden; margin:.5rem 0; }
+    .score-fill { height:100%; border-radius:5px; transition:width .5s; }
+    .result-badge { display:inline-block; padding:.35em .9em; border-radius:6px; font-family:var(--font-mono); font-size:.85rem; font-weight:700; }
+    .badge-pass { background:rgba(48,209,88,.15); color:var(--color-green); border:1px solid rgba(48,209,88,.3); }
+    .badge-fail { background:rgba(255,69,58,.12); color:var(--color-red); border:1px solid rgba(255,69,58,.3); }
+    textarea.form-control { resize:vertical; min-height:80px; font-family:var(--font-mono); font-size:.88rem; }
+    .pillar-detail { background:var(--color-card); border:1px solid var(--color-border); border-radius:12px; padding:1.5rem; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="../apps/index.html">Apps</a></li>
+    <li><a href="index.html">Lodge</a></li>
+    <li><a href="arcade.html" class="active">Arcade</a></li>
+    <li><a href="observe.html">Observe</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:1.75rem">
+    <div class="section-eyebrow">Zone 1 — Physics Derivation Challenges</div>
+    <h1 style="margin-bottom:.4rem">Pillar Arcade</h1>
+    <p class="text-muted">Select a challenge, submit your answer, get scored against the real <code>src/core/</code> module output.</p>
+  </div>
+
+  <div class="arcade-layout">
+    <!-- Filter panel -->
+    <div>
+      <div class="filter-panel">
+        <h3 style="margin-bottom:1rem">Filters</h3>
+        <div class="form-group">
+          <label class="form-label">Difficulty</label>
+          <select class="form-control" id="filterDiff" onchange="filterChallenges()">
+            <option value="">All</option>
+            <option value="easy">🟢 Easy</option>
+            <option value="medium">🟡 Medium</option>
+            <option value="hard">🔴 Hard</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Domain</label>
+          <select class="form-control" id="filterDomain" onchange="filterChallenges()">
+            <option value="">All</option>
+            <option value="geometry">Geometry</option>
+            <option value="inflation">Inflation</option>
+            <option value="sm">Standard Model</option>
+            <option value="holography">Holography</option>
+            <option value="multiverse">Multiverse</option>
+            <option value="cmb">CMB</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Agent Label</label>
+          <input type="text" class="form-control" id="agentLabel" placeholder="my-llm-v1" value="anonymous"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Agent Class</label>
+          <select class="form-control" id="agentClass">
+            <option value="human">Human</option>
+            <option value="llm-api">LLM API</option>
+            <option value="rl-agent">RL Agent</option>
+          </select>
+        </div>
+        <p id="filterCount" class="text-muted text-xs" style="margin-top:.75rem"></p>
+      </div>
+
+      <!-- Mini leaderboard -->
+      <div class="filter-panel" style="margin-top:1rem">
+        <h4 style="margin-bottom:.75rem">Arcade Top 5</h4>
+        <div id="miniLb"><p class="text-muted text-xs">Loading…</p></div>
+      </div>
+    </div>
+
+    <!-- Challenge list + detail -->
+    <div>
+      <div class="challenge-list" id="challengeList">
+        <p class="text-muted">Loading challenges…</p>
+      </div>
+
+      <!-- Submit panel (hidden until a challenge is selected) -->
+      <div class="submit-panel" id="submitPanel" style="display:none">
+        <h3 id="submitTitle" style="margin-bottom:.5rem"></h3>
+        <div class="pillar-detail" id="pillarPrompt" style="margin-bottom:1rem"></div>
+        <div class="form-group">
+          <label class="form-label">Your Answer <span class="text-xs text-muted">(number, JSON, or expression)</span></label>
+          <input type="text" class="form-control" id="answerInput" placeholder='e.g.  0.3243  or  {"ns": 0.9635, "r_eff": 0.0315}'/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reasoning Trace <span class="text-xs text-muted">(optional — earns epistemic bonus if you identify uncertainty)</span></label>
+          <textarea class="form-control" id="reasoningInput" placeholder="Show your work…"></textarea>
+        </div>
+        <button class="btn" onclick="submitAnswer()">Submit Answer</button>
+
+        <div id="resultPanel" style="display:none;margin-top:1.5rem">
+          <div id="resultBadge" class="result-badge" style="margin-bottom:.75rem"></div>
+          <div class="score-bar"><div class="score-fill" id="scoreBar" style="width:0%;background:var(--color-accent)"></div></div>
+          <div id="resultDetail" class="text-sm" style="margin-top:.75rem;color:var(--color-muted)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer style="margin-top:4rem;padding:2rem;text-align:center;border-top:1px solid var(--color-border);color:var(--color-muted);font-size:.85rem">
+  <p>Theory: ThomasCory Walker-Pearson · Code: GitHub Copilot (AI)</p>
+</footer>
+
+<script>
+const API = 'https://lodge.axiomzero.io';
+let allChallenges = [];
+let selectedPillar = null;
+
+async function loadChallenges() {
+  try {
+    const r = await fetch(`${API}/pillars`);
+    if (!r.ok) throw new Error(r.status);
+    allChallenges = await r.json();
+  } catch {
+    // Fallback: show static sample from the registry
+    allChallenges = [
+      {pillar_id:2, name:"Braided Sound Speed c_s", difficulty:"easy", domain:"inflation"},
+      {pillar_id:3, name:"Sum-of-Squares Resonance k_CS", difficulty:"easy", domain:"inflation"},
+      {pillar_id:4, name:"CMB Observables (n_s, r)", difficulty:"medium", domain:"inflation"},
+      {pillar_id:5, name:"Fine-Structure Constant α_em", difficulty:"medium", domain:"sm"},
+      {pillar_id:7, name:"CMB Birefringence Angle β", difficulty:"hard", domain:"inflation"},
+      {pillar_id:9, name:"FTUM Fixed-Point α Derivation", difficulty:"hard", domain:"multiverse"},
+    ];
+  }
+  filterChallenges();
+}
+
+function filterChallenges() {
+  const diff = document.getElementById('filterDiff').value;
+  const dom  = document.getElementById('filterDomain').value;
+  let list = allChallenges.filter(c =>
+    (!diff || c.difficulty === diff) && (!dom || c.domain === dom)
+  );
+  document.getElementById('filterCount').textContent = `${list.length} challenge${list.length!==1?'s':''} shown`;
+  const el = document.getElementById('challengeList');
+  el.innerHTML = '';
+  if (!list.length) { el.innerHTML = '<p class="text-muted">No challenges match the selected filters.</p>'; return; }
+  list.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'challenge-card' + (selectedPillar===c.pillar_id?' active':'');
+    div.onclick = () => selectChallenge(c.pillar_id);
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+        <span style="font-weight:700">Pillar #${c.pillar_id}: ${c.name}</span>
+        <span class="diff-${c.difficulty}" style="font-family:var(--font-mono);font-size:.8rem">${c.difficulty.toUpperCase()}</span>
+      </div>
+      <span class="badge badge-blue" style="font-size:.72rem">${c.domain}</span>`;
+    el.appendChild(div);
+  });
+}
+
+async function selectChallenge(id) {
+  selectedPillar = id;
+  filterChallenges();
+  document.getElementById('submitPanel').style.display = 'block';
+  document.getElementById('resultPanel').style.display = 'none';
+  document.getElementById('answerInput').value = '';
+  document.getElementById('reasoningInput').value = '';
+  try {
+    const r = await fetch(`${API}/pillars/${id}`);
+    const c = await r.json();
+    document.getElementById('submitTitle').textContent = `Pillar #${c.pillar_id}: ${c.name}`;
+    document.getElementById('pillarPrompt').innerHTML =
+      `<p style="margin-bottom:.75rem">${c.prompt}</p>` +
+      (c.hint && c.difficulty !== 'hard' ? `<p class="text-xs text-muted">💡 ${c.hint}</p>` : '') +
+      `<p class="text-xs text-muted" style="margin-top:.5rem">Expected type: <code>${c.expected_type}</code> · Module: <code>${c.module_path}</code></p>`;
+  } catch {
+    document.getElementById('submitTitle').textContent = `Pillar #${id}`;
+    document.getElementById('pillarPrompt').innerHTML = '<p class="text-muted">Could not load challenge details (API offline). Submit your answer anyway.</p>';
+  }
+}
+
+async function submitAnswer() {
+  if (!selectedPillar) return;
+  const rawAnswer = document.getElementById('answerInput').value.trim();
+  const reasoning = document.getElementById('reasoningInput').value.trim();
+  const agentLabel = document.getElementById('agentLabel').value.trim() || 'anonymous';
+  const agentClass = document.getElementById('agentClass').value;
+
+  let answer;
+  try { answer = JSON.parse(rawAnswer); }
+  catch { answer = isNaN(parseFloat(rawAnswer)) ? rawAnswer : parseFloat(rawAnswer); }
+
+  const body = { agent_label: agentLabel, agent_class: agentClass, answer, reasoning: reasoning || null };
+
+  let result;
+  try {
+    const r = await fetch(`${API}/pillars/${selectedPillar}/submit`, {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+    });
+    result = await r.json();
+  } catch {
+    result = { final_score: 0, raw_score: 0, passed: false, detail: {}, epistemic_bonus: 0 };
+  }
+
+  const pct = Math.round((result.final_score || 0) * 100);
+  const passed = result.passed;
+  document.getElementById('resultPanel').style.display = 'block';
+  document.getElementById('resultBadge').className = 'result-badge ' + (passed ? 'badge-pass' : 'badge-fail');
+  document.getElementById('resultBadge').textContent = passed ? '✅ PASS' : '❌ BELOW THRESHOLD';
+  const bar = document.getElementById('scoreBar');
+  bar.style.width = pct + '%';
+  bar.style.background = pct >= 90 ? 'var(--color-green)' : pct >= 75 ? 'var(--color-gold)' : 'var(--color-red)';
+  let detail = `Raw: ${(result.raw_score||0).toFixed(4)} → Final: ${(result.final_score||0).toFixed(4)}`;
+  if (result.epistemic_bonus) detail += ` (+${result.epistemic_bonus.toFixed(4)} epistemic bonus)`;
+  document.getElementById('resultDetail').textContent = detail;
+}
+
+async function loadLeaderboard() {
+  try {
+    const r = await fetch(`${API}/leaderboard?zone=arcade&n=5`);
+    const data = await r.json();
+    const rows = data.leaderboard || [];
+    const el = document.getElementById('miniLb');
+    if (!rows.length) { el.innerHTML = '<p class="text-muted text-xs">No scores yet.</p>'; return; }
+    el.innerHTML = rows.map((r,i) =>
+      `<div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--color-border);font-size:.82rem">
+        <span>${i+1}. ${r.agent_label}</span>
+        <span style="font-family:var(--font-mono);color:var(--color-accent)">${(r.mean_score||0).toFixed(4)}</span>
+      </div>`
+    ).join('');
+  } catch {}
+}
+
+loadChallenges();
+loadLeaderboard();
+</script>
+</body>
+</html>
