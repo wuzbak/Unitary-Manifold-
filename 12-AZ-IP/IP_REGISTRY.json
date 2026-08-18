@@ -42,13 +42,15 @@
       "description": "AZ-OS φ-field decision routing engine",
       "category": "engines",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "az-os/phi_field_interface.py": {
       "description": "AZ-OS φ-field interface — bridges cognitive layer to physics",
       "category": "engines",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "az-kernel/Cargo.toml": {
       "sha256": "70a28581a19bfa8bebef2f88f6614483cec66e22567bc3c42a0dab8dcb8b9ea0",
@@ -83,139 +85,162 @@
       "description": "Walker-Pearson field evolution engine — primary KK integrator",
       "category": "engines",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/core/metric.py": {
       "description": "KK metric & curvature engine — 5D tensor computation",
       "category": "engines",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/multiverse/fixed_point.py": {
       "description": "FTUM fixed-point iteration engine — multiverse landscape thermodynamics",
       "category": "engines",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/holography/boundary.py": {
       "description": "Holographic boundary engine — entropy-area, AdS/CFT projection",
       "category": "engines",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/core/jax_backend.py": {
       "description": "JAX GPU/TPU acceleration backend for field evolution",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/core/symbolic_metric.py": {
       "description": "SymPy symbolic metric bridge — LaTeX and Lean4 output",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/core/z3_pentad_checker.py": {
       "description": "Z3 SMT bounds verifier for Unitary Pentad invariants",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/core/formal_proof_hardening.py": {
       "description": "Lean4 formal proof bridge — exports/imports theorem certificates",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "src/core/wandb_logger.py": {
       "description": "Weights & Biases experiment tracker integration",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "AxiomZero/android/client.py": {
       "description": "AxiomZero Android client — mobile interface to the cognitive OS",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "AxiomZero/ui/dashboard.html": {
       "description": "AxiomZero web dashboard — 7-manager network status and HILS interface",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "AxiomZero/api/server.py": {
       "description": "AxiomZero REST API server — physics queries, HILS certification",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "AxiomZero/core/model_router.py": {
       "description": "AxiomZero model router engine — φ-weighted multi-model dispatch",
       "category": "engines",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/apps/kk-mass-calculator.html": {
       "description": "KK Mass Calculator — Kaluza-Klein graviton mass vs warp factor",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/apps/birefringence-predictor.html": {
       "description": "Birefringence Predictor — CMB angle β from braid parameters",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/apps/toe-score.html": {
       "description": "ToE Score Dashboard — live 29.0/28 theory score with all claims",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/apps/cmb-parameters.html": {
       "description": "CMB Parameters Calculator — interactive n_s, r, f_NL",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/apps/desi-tracker.html": {
       "description": "DESI Tension Tracker — dark energy w0-wa visualizer",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/apps/lean4-progress.html": {
       "description": "Lean4 Theorem Progress Tracker — 274/300 formally verified",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/apps/pentad-simulator.html": {
       "description": "Pentad Simulator — 5-body HILS orbital simulation",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/explore/index.html": {
       "description": "5D Space Explorer — WebGL Kaluza-Klein geometry visualizer",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/pentad/index.html": {
       "description": "HILS Governance Interface — Pentad scenario runner and certification",
       "category": "calculators",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     },
     "public-site/ip/index.html": {
       "description": "IP & Products hub page — full AxiomZero IP catalog on the public site",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "sha256": "pending"
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint."
