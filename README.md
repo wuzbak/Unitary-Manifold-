@@ -930,6 +930,10 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 207 | DAM Lattice Audit — K_CS=74 exact; Leech hypothesis rejected | `src/core/pillar207_dam_lattice_audit.py` | ~50 |
 | 208 | Braid-Lock PMNS — sin²θ₁₂=3/10, sin²θ₂₃=20/37, sin²θ₁₃=3/144 all <5% | `src/core/pillar208_braid_lock_pmns.py` | ~50 |
 
+> 📂 **For the full navigable per-pillar index (Pillars 1–652+), see [`PILLARS/README.md`](PILLARS/README.md).**
+> Each pillar has its own folder (`PILLARS/PXXX/`) with source links, test links, and theory doc links.
+> Regenerate the index: `python3 PILLARS/build_index.py`
+
 **Grand total (v20.9): ~51,440 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-01)
 
 **~51,440** — 630+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. ToE score: **30.0/28** (28/28 hardgate + 2.0 partial). Lean4 342 theorems. (Historical milestones: v13.8: 44,590; v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
