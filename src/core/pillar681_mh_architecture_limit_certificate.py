@@ -296,7 +296,7 @@ def mh_architecture_certificate() -> Dict[str, object]:
         "case_a_ghu": case_a_ghu(),
         "case_b_cw": case_b_cw(),
         "case_c_kk_scalar": case_c_kk_scalar(),
-        "case_d_combined": case_d_combined_maximum(),
+        "case_d_combined": (case_d := case_d_combined_maximum()),
         "p5_status": "OPEN (ARCHITECTURE LIMIT) — unchanged",
         "toe_impact": {
             "m_H": "OPEN (ARCHITECTURE LIMIT) — ceiling now formally certified",
@@ -304,7 +304,7 @@ def mh_architecture_certificate() -> Dict[str, object]:
         },
         "formal_claim": (
             "The 5D RS1 architecture cannot derive m_H = 125.25 GeV. "
-            f"The maximum achievable value within 5D EFT is ≈ {case_d_combined_maximum()['m_h_5d_ceiling_gev']:.1f} GeV. "
+            f"The maximum achievable value within 5D EFT is ≈ {case_d['m_h_5d_ceiling_gev']:.1f} GeV. "
             "A UV completion beyond RS1/5D is required."
         ),
         "claimed": what_is_claimed(),

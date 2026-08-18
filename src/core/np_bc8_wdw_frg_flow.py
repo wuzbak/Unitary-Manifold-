@@ -113,7 +113,7 @@ def uv_fixed_point() -> Dict[str, object]:
         "g_n_star_mpl2": g_star,
         "g_n_star_gev2": g_n_gev2,
         "g_n_newton_gev2": 6.674e-39,
-        "consistency_ratio": g_star,
+        "consistency_ratio": consistency,
         "critical_exponent": CRITICAL_EXPONENT,
         "beta_coefficient": FRG_BETA_COEFFICIENT,
         "n_w_k_cs_product": N_W * K_CS,

@@ -173,7 +173,7 @@ def planck_ns_n1_selection(n_test: int = 15) -> Dict[str, object]:
         except Exception:
             ns = float("nan")
         ok = ns_lo <= ns <= ns_hi
-        tested.append({"n1": n1, "ns": round(ns, 4), "viable": ok})
+        tested.append({"n1": n1, "ns": round(ns, 4), "viable": ok, "ns_ok": ok})
     viable_n1 = [t["n1"] for t in tested if t["viable"]]
     return {
         "step": 2,

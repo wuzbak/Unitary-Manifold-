@@ -228,7 +228,7 @@ def cl_bisection_comparison() -> Dict[str, object]:
     return {
         "comparison": rows,
         "max_delta_pct": max_delta_pct,
-        "all_agree_sub_half_pct": all(r["agrees_sub_1p5_pct"] for r in rows),
+        "all_agree_sub_1p5_pct": all(r["agrees_sub_1p5_pct"] for r in rows),
         "status": (
             "CL_TOPO_AGREES_WITH_BISECT_SUB_1P5_PCT"
             if max_delta_pct < 1.5

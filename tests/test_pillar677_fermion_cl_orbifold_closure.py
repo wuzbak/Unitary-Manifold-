@@ -95,7 +95,7 @@ def test_bisection_comparison_returns_dict():
 
 def test_bisection_comparison_all_agree():
     result = cl_bisection_comparison()
-    assert result["all_agree_sub_half_pct"] is True, (
+    assert result["all_agree_sub_1p5_pct"] is True, (
         f"Bisection comparison failed. max_delta={result.get('max_delta_pct')}%"
     )
 
