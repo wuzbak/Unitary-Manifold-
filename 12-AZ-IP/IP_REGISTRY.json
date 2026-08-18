@@ -1,56 +1,222 @@
 {
-  "schema": "axiomzero-ip-registry-v1",
+  "schema": "axiomzero-ip-registry-v2",
   "pillar": 536,
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
+  "updated": "2026-08-18",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
+  "categories": {
+    "apps": "12-AZ-IP/apps/README.md",
+    "engines": "12-AZ-IP/engines/README.md",
+    "os": "12-AZ-IP/os/README.md",
+    "tools": "12-AZ-IP/tools/README.md",
+    "calculators": "12-AZ-IP/calculators/README.md"
+  },
   "assets": {
     "az-os/agent_core.py": {
       "sha256": "d1a020d30fb93a507f9d5fbd05b0af08f509c916cf879bc94ca5693c1057e982",
-      "description": "AZ-OS cognitive layer \u2014 7-manager \u00d7 5-sub-agent AI network",
+      "description": "AZ-OS cognitive layer — 7-manager × 5-sub-agent AI network",
+      "category": "os",
       "status": "REGISTERED",
       "size_bytes": 10922,
       "updated": "2026-07-01"
     },
     "az-os/hils.py": {
       "sha256": "8e5adde1a074b77db89e547ed10f508d6deea1226d3d2ad2069dfbde3a229b79",
-      "description": "AZ-OS HILS framework \u2014 Human-in-the-Loop Systems integration",
+      "description": "AZ-OS HILS framework — Human-in-the-Loop Systems integration",
+      "category": "os",
       "status": "REGISTERED",
       "size_bytes": 7360,
       "updated": "2026-07-01"
     },
     "az-os/state.py": {
       "sha256": "d92d0d48789d80fb86333368ee9ae56967564cedad7ef8e45ca8c4ae2d871aa7",
-      "description": "AZ-OS state machine \u2014 kernel-cognitive shared state",
+      "description": "AZ-OS state machine — kernel-cognitive shared state",
+      "category": "os",
       "status": "REGISTERED",
       "size_bytes": 10751,
       "updated": "2026-07-01"
     },
+    "az-os/phi_decision_engine.py": {
+      "description": "AZ-OS φ-field decision routing engine",
+      "category": "engines",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "az-os/phi_field_interface.py": {
+      "description": "AZ-OS φ-field interface — bridges cognitive layer to physics",
+      "category": "engines",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
     "az-kernel/Cargo.toml": {
       "sha256": "70a28581a19bfa8bebef2f88f6614483cec66e22567bc3c42a0dab8dcb8b9ea0",
-      "description": "AZ-KERNEL Rust manifest \u2014 UEFI bare-metal kernel",
+      "description": "AZ-KERNEL Rust manifest — UEFI bare-metal kernel",
+      "category": "os",
       "status": "REGISTERED",
       "size_bytes": 1139
     },
     "az-kernel/rust-toolchain.toml": {
       "sha256": "5bc46966dda9ee6e2a4c6faddd950b6ba0309b2a3b319abf30ff7e1d334296ae",
       "description": "AZ-KERNEL toolchain pin",
+      "category": "os",
       "status": "REGISTERED",
       "size_bytes": 150
     },
     "11-AZ-OS/README.md": {
       "sha256": "ed6f086e66fd0188d10e1172c614c25c2717e3bfaac8bd6d7b6bc64d5cc91c15",
       "description": "AxiomZero OS top-level documentation",
+      "category": "os",
       "status": "REGISTERED",
       "size_bytes": 8373
     },
     "src/core/axiomzero_guard.py": {
       "sha256": "f02d92c6482484ce639d4ff00bb9d675691fe53b2268cb2d255f90e8784806ee",
-      "description": "AxiomZero guard \u2014 SM-seed audit, zero-parameter status",
+      "description": "AxiomZero guard — SM-seed audit, zero-parameter status",
+      "category": "tools",
       "status": "REGISTERED",
       "size_bytes": 14943,
       "updated": "2026-07-01"
+    },
+    "src/core/evolution.py": {
+      "description": "Walker-Pearson field evolution engine — primary KK integrator",
+      "category": "engines",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/core/metric.py": {
+      "description": "KK metric & curvature engine — 5D tensor computation",
+      "category": "engines",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/multiverse/fixed_point.py": {
+      "description": "FTUM fixed-point iteration engine — multiverse landscape thermodynamics",
+      "category": "engines",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/holography/boundary.py": {
+      "description": "Holographic boundary engine — entropy-area, AdS/CFT projection",
+      "category": "engines",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/core/jax_backend.py": {
+      "description": "JAX GPU/TPU acceleration backend for field evolution",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/core/symbolic_metric.py": {
+      "description": "SymPy symbolic metric bridge — LaTeX and Lean4 output",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/core/z3_pentad_checker.py": {
+      "description": "Z3 SMT bounds verifier for Unitary Pentad invariants",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/core/formal_proof_hardening.py": {
+      "description": "Lean4 formal proof bridge — exports/imports theorem certificates",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "src/core/wandb_logger.py": {
+      "description": "Weights & Biases experiment tracker integration",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "AxiomZero/android/client.py": {
+      "description": "AxiomZero Android client — mobile interface to the cognitive OS",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "AxiomZero/ui/dashboard.html": {
+      "description": "AxiomZero web dashboard — 7-manager network status and HILS interface",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "AxiomZero/api/server.py": {
+      "description": "AxiomZero REST API server — physics queries, HILS certification",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "AxiomZero/core/model_router.py": {
+      "description": "AxiomZero model router engine — φ-weighted multi-model dispatch",
+      "category": "engines",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/apps/kk-mass-calculator.html": {
+      "description": "KK Mass Calculator — Kaluza-Klein graviton mass vs warp factor",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/apps/birefringence-predictor.html": {
+      "description": "Birefringence Predictor — CMB angle β from braid parameters",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/apps/toe-score.html": {
+      "description": "ToE Score Dashboard — live 29.0/28 theory score with all claims",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/apps/cmb-parameters.html": {
+      "description": "CMB Parameters Calculator — interactive n_s, r, f_NL",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/apps/desi-tracker.html": {
+      "description": "DESI Tension Tracker — dark energy w0-wa visualizer",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/apps/lean4-progress.html": {
+      "description": "Lean4 Theorem Progress Tracker — 274/300 formally verified",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/apps/pentad-simulator.html": {
+      "description": "Pentad Simulator — 5-body HILS orbital simulation",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/explore/index.html": {
+      "description": "5D Space Explorer — WebGL Kaluza-Klein geometry visualizer",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/pentad/index.html": {
+      "description": "HILS Governance Interface — Pentad scenario runner and certification",
+      "category": "calculators",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
+    },
+    "public-site/ip/index.html": {
+      "description": "IP & Products hub page — full AxiomZero IP catalog on the public site",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-08-18"
     }
-  }
+  },
+  "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint."
 }
