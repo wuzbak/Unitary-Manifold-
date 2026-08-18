@@ -1,6 +1,6 @@
 # Prediction
 
-## The sharpest predictions of the Unitary Manifold (v9.28)
+## The sharpest predictions of the Unitary Manifold (v20.9 — updated 2026-08-18)
 
 > **β Prediction Hierarchy (for LiteBIRD discrimination):**
 >
@@ -14,6 +14,11 @@
 > LiteBIRD (~2032) will discriminate between primary (0.331°) and secondary (0.273°) at 2.9σ.
 > A result β < 0.22° or β > 0.38° falsifies the braided-winding mechanism.
 > A result β ∈ (0.29°, 0.31°) (in the predicted gap) would strongly disfavor the framework.
+>
+> **Two derivation paths exist** (see `3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md`):
+> the canonical FTUM path (primary, preregistered: 0.331°/0.273°) and the GW-radion
+> model-dependent variant (0.351°/0.290°). The table above and all preregistration
+> documents refer to the canonical FTUM values.
 
 ---
 
@@ -119,8 +124,9 @@ print(f"β(5,6) = {cos.beta_56_deg:.3f}°")   # 0.273°
 - Minami & Komatsu 2020: arXiv:2011.11612 (β = 0.35° ± 0.14°)
 - Diego-Palazuelos et al. 2022: arXiv:2201.07241 (independent confirmation)
 - LiteBIRD collaboration: arXiv:2202.02773 (forecast σ_β ≈ 0.02°; launch ~2032)
-- `src/core/inflation.py`: `cs_axion_photon_coupling()`, `birefringence_angle()`
+- `src/core/inflation.py`: `cs_axion_photon_coupling()`, `birefringence_angle()`, `effective_phi0_kk()`, `field_displacement_gw()`
 - `src/core/dual_sector_convergence.py`: Pillar 95 — exact two-sector derivation
+- `3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md` — **canonical reference for all β values and their derivation paths**
 - `omega/omega_synthesis.py`: `UniversalEngine.cosmology()` — live β computation
 - `claims/integer_derivation/README.md`
 - `claims/anomaly_inflow/README.md`

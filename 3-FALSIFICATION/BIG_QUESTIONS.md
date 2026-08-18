@@ -4,6 +4,22 @@
 > *"Geometry is not the language in which God wrote the universe. It is the universe."*  
 > — Walker-Pearson, *The Unitary Manifold*, v9.27
 
+> **⚠️ Birefringence β notation note (v20.9 — 2026-08-18):**
+> This document quotes β = 0.3513° throughout. This is the **GW-radion
+> full-derivation value** (model-dependent, using Goldberger-Wise potential
+> with φ_min_bare = 18 and Δφ = φ_min × (1 − 1/√3)).
+>
+> The **primary hardgate preregistered prediction** is β = **0.331°** (canonical
+> FTUM Δφ path, no GW potential assumptions) — see
+> `3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md` and
+> `3-FALSIFICATION/PREREGISTRATION/LITEBIRD_BETA_PREREGISTRATION.md`.
+>
+> For the adjacent-track consciousness attractor (Questions 21–22), the 6%
+> difference between 0.3513° and 0.331° is immaterial at the level of the
+> qualitative claim; both values are within the Minami & Komatsu 1σ hint.
+> The preregistered prediction for LiteBIRD is 0.331°.
+
+
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
 **Date:** April 2026  

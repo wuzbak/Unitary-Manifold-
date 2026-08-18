@@ -24,7 +24,7 @@ What is verified
  2. Braiding kinematics    — c_s = 12/37 ≈ 0.3243 from the (5,7) braid
  3. CMB spectral index     — nₛ ≈ 0.9635 within Planck 2018 1σ (0.9649 ± 0.0042)
  4. Tensor ratio           — r ≈ 0.0315 below BICEP/Keck 95 % CL (< R_BICEP_KECK_95)
- 5. Birefringence angle    — β ≈ 0.351° [(5,7) GW-derived; canonical: 0.331°]
+ 5. Birefringence angle    — β ≈ 0.331° [(5,7) canonical FTUM, PRIMARY]; GW-radion variant: 0.351°
                              inside the Minami 1σ hint (0.35° ± 0.14°)
  6. Resonance uniqueness   — exactly 2 braid pairs survive all three constraints
  7. Topology uniqueness    — S¹/Z₂ is the unique compact topology passing all
@@ -83,8 +83,13 @@ from src.core.inflation import (
     BIREFRINGENCE_SIGMA_DEG,
     birefringence_angle,
     cs_axion_photon_coupling,
+    effective_phi0_kk,
     field_displacement_gw,
     jacobian_rs_orbifold,
+)
+from src.core.litebird_boundary import (
+    BETA_DERIVED as _BETA_CANONICAL_57,   # 0.331° — (5,7) canonical FTUM primary
+    BETA_FULL_2  as _BETA_GW_57,          # 0.351° — (5,7) GW-radion variant
 )
 from src.core.uniqueness import uniqueness_scan
 from src.core.phi0_closure import closure_audit as _phi0_closure_audit
@@ -137,7 +142,7 @@ def run_verify() -> int:
 
     print(_SEP)
     print("  UNITARY MANIFOLD — OBSERVABLE CONSISTENCY CHECKS (142 pillars + Ω₀)")
-    print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)")
+    print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.331° [canonical FTUM PRIMARY; GW-radion: 0.351°]  (< 1 s)")
     print(_SEP)
     print(f"  {'Check':<28s}  {'Value':<22s}  {'Reference':<14s}  Result")
     print(_SEP)
@@ -179,26 +184,22 @@ def run_verify() -> int:
     print(_row(4, f"r < BICEP/Keck {R_BICEP_KECK_95:.3f}", f"{r_eff:.4f}", f"< {R_BICEP_KECK_95}", c4))
 
     # ------------------------------------------------------------------
-    # CHECK 5 — Birefringence angle β within Minami+Komatsu 1σ hint
-    # Computed here: β ≈ 0.351° [(5,7) via GW field_displacement_gw()]
-    # Canonical (direct CS formula, δφ = φ₀_eff): β ≈ 0.331°
-    # Both are within the Minami+Komatsu 1σ hint (0.35° ± 0.14°)
-    # Secondary: β ≈ 0.273° / 0.290° [(5,6) canonical / GW-derived]
+    # CHECK 5 — Birefringence angle β (5,7) canonical FTUM sector
+    # PRIMARY prediction: β = 0.331° — canonical FTUM value (BETA_DERIVED in
+    #   litebird_boundary.py), preregistered in LITEBIRD_BETA_PREREGISTRATION.md
+    # GW-radion variant (model-dependent): β = 0.351° (BETA_FULL_2)
+    #   Requires: GW potential + φ_min_bare = 18; not preregistered
+    # Both within Minami+Komatsu 1σ hint (0.35° ± 0.14°)
+    # See 3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md for derivation map
     # ------------------------------------------------------------------
-    # GW-derived parameters: flat S¹/Z₂, r_c = 12, phi_min_bare = 18
-    _alpha_em = 1.0 / 137.036
-    _r_c = 12.0
-    _phi_min_bare = 18.0
-    phi_min_phys = jacobian_rs_orbifold(k=1, r_c=_r_c) * _phi_min_bare
-    delta_phi = field_displacement_gw(phi_min_phys)
-    g_agg = cs_axion_photon_coupling(k_cs_predicted, _alpha_em, _r_c)
-    beta_rad = birefringence_angle(g_agg, delta_phi)
-    beta_deg = math.degrees(beta_rad)
+    beta_deg = _BETA_CANONICAL_57     # 0.331° — canonical FTUM primary
     beta_pull = abs(beta_deg - BIREFRINGENCE_TARGET_DEG) / BIREFRINGENCE_SIGMA_DEG
     c5 = beta_pull <= 1.0
     checks.append(c5)
     ref5 = f"0.35°±0.14°"
-    print(_row(5, "β (5,7) sector [PRIMARY]", f"{beta_deg:.3f}°  ({beta_pull:.2f}σ)", ref5, c5))
+    print(_row(5, "β (5,7) canonical [PRIMARY]", f"{beta_deg:.3f}°  ({beta_pull:.2f}σ)", ref5, c5))
+    print(f"         (GW-radion variant, model-dependent: β={_BETA_GW_57:.3f}°"
+          f" — see BIREFRINGENCE_CLARIFICATION.md)")
 
     # ------------------------------------------------------------------
     # CHECK 6 — Resonance selectivity: exactly 2 pairs survive all constraints
@@ -370,10 +371,10 @@ def run_verify() -> int:
                "Pillar 56-B", c14))
 
     # ------------------------------------------------------------------
-    # AUDIT RESPONSE CHECKS (Findings 1–4; originally identified in v9.37)
+    # V9.37 AUDIT RESPONSE CHECKS (Findings 1–4)
     # ------------------------------------------------------------------
     print(_SEP)
-    print("  === Audit Response Checks (Findings 1–4) ===")
+    print("  === v9.37 Audit Response Checks (Findings 1–4) ===")
     print(_SEP)
 
     # -- Λ_QCD derivation hierarchy (Finding 2) --
@@ -402,7 +403,7 @@ def run_verify() -> int:
         checks.append(c_axA)
         print(_row(16, "Axiom A DERIVED (5D CS)",
                    "5 steps: CS→APS→Z₂",
-                   "Pillar 70-D", c_axA))
+                   "Pillar 70-D v9.37", c_axA))
     except Exception as exc:
         checks.append(False)
         print(_row(16, "Axiom A DERIVED", f"ERROR: {exc}", "Pillar 70-D", False))
@@ -425,7 +426,7 @@ def run_verify() -> int:
         checks.append(c_cfl)
         print(_row(17, "CFL guard fires for large dt",
                    f"dt_max={_dt_max:.4g}",
-                   "evolution.py", c_cfl))
+                   "evolution.py v9.37", c_cfl))
     except Exception as exc:
         checks.append(False)
         print(_row(17, "CFL guard", f"ERROR: {exc}", "evolution.py", False))
@@ -439,7 +440,7 @@ def run_verify() -> int:
         checks.append(c_ferm)
         print(_row(18, "Fermion c_L (Pillar 183)",
                    "9 PARAM-CONSTRAINED",
-                   "Pillar 183", c_ferm))
+                   "v9.37 audit", c_ferm))
         print(f"      Zone constraints DERIVED; individual c_L values remain free (honest)")
     except Exception as exc:
         checks.append(False)
@@ -457,8 +458,8 @@ def run_verify() -> int:
         print("  All checks pass.  The (5,7) braid uniquely satisfies every")
         print("  Planck/BICEP/birefringence/DESI constraint from integer topology alone.")
         print("  k_CS=74 is confirmed by 7 independent conditions (Pillar 74).")
-        print("  Axiom A: DERIVED from 5D CS action (Pillar 70-D) — not postulated.")
-        print("  Primary prediction: β ≈ 0.351° [GW-derived] / 0.331° [canonical] [(5,7) sector]; test: LiteBIRD ~2032.")
+        print("  Axiom A: DERIVED from 5D CS action (v9.37) — not postulated.")
+        print("  Primary prediction: β ≈ 0.331° [canonical FTUM PRIMARY] / 0.351° [GW-radion variant] [(5,7) sector]; test: LiteBIRD ~2032.")
     else:
         failed = [i + 1 for i, c in enumerate(checks) if not c]
         print(f"  FAILED checks: {failed}")

@@ -236,7 +236,7 @@ Start with the layer that matches your purpose:
 > ```
 > ────────────────────────────────────────────────────────────────────────
 >   UNITARY MANIFOLD — OBSERVABLE CONSISTENCY CHECKS (208 pillars + Ω₀)
->   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.351° [GW-derived; canonical 0.331°]  (< 1 s)
+>   Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.331° [canonical FTUM PRIMARY; GW-radion: 0.351°]  (< 1 s)
 > ────────────────────────────────────────────────────────────────────────
 >   Check                         Value                   Reference       Result
 > ────────────────────────────────────────────────────────────────────────
@@ -244,7 +244,7 @@ Start with the layer that matches your purpose:
 >   2.  c_s = 12/37               0.324324                12/37=0.324324  [PASS] ✓
 >   3.  nₛ (Planck 1σ check)      0.9635  (0.33σ)         0.9649±0.0042   [PASS] ✓
 >   4.  r < BICEP/Keck 0.036      0.0315                  < 0.036         [PASS] ✓
->   5.  β (5,7) sector [PRIMARY]  0.351°  (0.01σ)         0.35°±0.14°     [PASS] ✓
+>   5.  β (5,7) canonical [PRIMARY]  0.331°  (0.13σ)         0.35°±0.14°     [PASS] ✓
 >   6.  Surviving pairs (nₛ+r)   2 pair(s): (5,6), (5,7) expect 2        [PASS] ✓
 >   7.  Unique topology (5 axioms) S¹/Z₂ (1 of 8)          S¹/Z₂ only      [PASS] ✓
 >   8.  FTUM fixed point          S=0.250000  (128 iter)  S*=0.2500       [PASS] ✓
@@ -929,6 +929,10 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 206 | Cosmological Constant — RS1+GB exhausts 64 orders; 58-order ARCHITECTURE LIMIT | `src/core/pillar206_cosmological_constant.py` | ~50 |
 | 207 | DAM Lattice Audit — K_CS=74 exact; Leech hypothesis rejected | `src/core/pillar207_dam_lattice_audit.py` | ~50 |
 | 208 | Braid-Lock PMNS — sin²θ₁₂=3/10, sin²θ₂₃=20/37, sin²θ₁₃=3/144 all <5% | `src/core/pillar208_braid_lock_pmns.py` | ~50 |
+
+> 📂 **For the full navigable per-pillar index (Pillars 1–652+), see [`PILLARS/README.md`](PILLARS/README.md).**
+> Each pillar has its own folder (`PILLARS/PXXX/`) with source links, test links, and theory doc links.
+> Regenerate the index: `python3 PILLARS/build_index.py`
 
 **Grand total (v20.9): ~51,440 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-01)
 

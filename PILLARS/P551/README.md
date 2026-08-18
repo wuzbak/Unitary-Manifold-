@@ -1,0 +1,24 @@
+# Pillar 551 — desi_dr3_tension_evolution
+
+🔵 ADJACENT TRACK — NOT A HARDGATE PHYSICS CLAIM
+
+**Status:** 🟡 ADJACENT | **Framework version:** v20.9 | **Last updated:** 2026-08-18
+
+## Claim
+
+*(One-sentence claim — see `docs/mas_tracker.yml` for the full description of Pillar 551.)*
+
+## Navigation
+
+- **Source module(s):** `src/core/pillar551_desi_dr3_tension_evolution.py`
+- **Test file(s):** `tests/test_pillar551_desi_dr3_tension_evolution.py`
+- **Theory doc:** *(none yet — see `PILLARS/README.md` for derivation references)*
+- **Registry entry:** [`docs/mas_tracker.yml`](../../docs/mas_tracker.yml) — search for `pillar: 551`
+
+## Links
+
+- [← Back to PILLARS master index](../README.md)
+- [← Repository root](../../README.md)
+
+---
+*Navigation stub auto-generated 2026-08-18. For full claim details see `docs/mas_tracker.yml`.*

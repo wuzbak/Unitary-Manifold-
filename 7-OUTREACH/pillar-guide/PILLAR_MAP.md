@@ -1,3 +1,7 @@
+> **⚠️ VERSION FREEZE NOTICE (2026-08-18):** This document was accurate at v11.6 and is now a historical narrative companion. Current pillar data is maintained in [`PILLARS/README.md`](../../PILLARS/README.md) (auto-generated from `docs/mas_tracker.yml`). The tables below are frozen at v11.6 and are NOT updated. For current pillar status, use `PILLARS/` instead.
+
+---
+
 # Pillar Map — Unitary Manifold v11.6
 
 *How the pillars connect: derivation chains, dependency networks,

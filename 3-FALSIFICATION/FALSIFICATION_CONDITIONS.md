@@ -1,6 +1,7 @@
 # Falsification Conditions — Unitary Manifold
 
-*Unitary Manifold v9.33 — ThomasCory Walker-Pearson, 2026*
+*Unitary Manifold v20.9 — ThomasCory Walker-Pearson, 2026*
+*Last updated: 2026-08-18*
 
 ---
 
@@ -45,6 +46,24 @@ the framework predicts **no** viable state in that interval.
 *Code:* `src/core/braided_winding.birefringence_scenario_scan()`,
 `src/core/dual_sector_convergence.py` (Pillar 95),
 `src/core/unitary_closure.py` (Pillar 96).
+
+**Domain-of-validity note (GW-radion derivation path):**
+The gap [0.29°, 0.31°] is the exact inter-sector dead zone under the
+*canonical FTUM Δφ path* (primary, preregistered).  A secondary
+model-dependent GW-radion derivation yields a (5,6) variant at β ≈ 0.290°,
+which lies near the lower boundary of this gap.
+
+| Derivation path | (5,6) β | (5,7) β | Gap clean? |
+|-----------------|---------|---------|------------|
+| Canonical FTUM (primary) | 0.273° | 0.331° | ✅ Yes |
+| GW-radion (variant) | 0.290° | 0.351° | ⚠️ (5,6) variant near gap boundary |
+
+If LiteBIRD measures β ≈ 0.290°, adjudicating between
+"GW-radion (5,6) confirmed" and "inter-sector gap falsification" requires
+CMB-S4 precision (σ_β ≈ 0.01°).  A result at exactly 0.290° ± 0.01° at 3σ
+would be ambiguous between the two interpretations; 0.290° ± 0.005° would
+resolve them.  See `3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md` for the
+complete two-axis derivation map.
 
 ---
 
