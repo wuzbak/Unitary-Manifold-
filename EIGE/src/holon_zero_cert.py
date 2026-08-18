@@ -40,6 +40,7 @@ from .oscal_schema import (
     NIST_SP800_53_MAPPINGS,
     new_uuid,
 )
+from .zk_proof import PedersenProof, commit_metric_state, verify_metric_proof
 
 
 # ---------------------------------------------------------------------------
@@ -47,6 +48,71 @@ from .oscal_schema import (
 # ---------------------------------------------------------------------------
 
 def generate_holon_zero_cert(
+    chain_or_jurisdiction_id=None,
+    phi_eff: Optional[float] = None,
+    k_cs: Optional[int] = None,
+    block_height: Optional[int] = None,
+    state_hash: Optional[str] = None,
+    *,
+    jurisdiction_id: Optional[str] = None,
+    timestamp: Optional[str] = None,
+) -> dict:
+    """Generate an OSCAL 1.5.0 Holon Zero Certificate.
+
+    Accepts multiple calling conventions:
+
+    Keyword-only (recommended)::
+
+        generate_holon_zero_cert(jurisdiction_id="WA-KING", phi_eff=..., ...)
+
+    Chain-first::
+
+        generate_holon_zero_cert(chain, jurisdiction_id="WA-KING")
+
+    Legacy positional::
+
+        generate_holon_zero_cert("WA-KING", phi_eff, k_cs, block_height, state_hash)
+    """
+    # Resolve calling convention
+    if isinstance(chain_or_jurisdiction_id, str):
+        # Positional string: old API — chain_or_jurisdiction_id is the jid
+        jid = chain_or_jurisdiction_id
+        _phi_eff = phi_eff
+        _k_cs = k_cs if k_cs is not None else K_CS
+        _block_height = block_height if block_height is not None else 0
+        _state_hash = state_hash or ""
+    elif chain_or_jurisdiction_id is not None:
+        # Chain object passed as first positional arg
+        chain = chain_or_jurisdiction_id
+        jid = jurisdiction_id or ""
+        _phi_eff = phi_eff if phi_eff is not None else PHI_0
+        _k_cs = k_cs if k_cs is not None else K_CS
+        _block_height = block_height if block_height is not None else (
+            len(chain._entries) if hasattr(chain, "_entries") else
+            getattr(chain, "_global_sequence", 0)
+        )
+        _state_hash = state_hash or (
+            chain.sha512_hexdigest() if hasattr(chain, "sha512_hexdigest") else ""
+        )
+    else:
+        # All keyword args (new recommended API)
+        jid = jurisdiction_id or ""
+        _phi_eff = phi_eff
+        _k_cs = k_cs if k_cs is not None else K_CS
+        _block_height = block_height if block_height is not None else 0
+        _state_hash = state_hash or ""
+
+    return _generate_cert_impl(
+        jurisdiction_id=jid,
+        phi_eff=_phi_eff if _phi_eff is not None else PHI_0,
+        k_cs=_k_cs,
+        block_height=_block_height,
+        state_hash=_state_hash,
+        timestamp=timestamp,
+    )
+
+
+def _generate_cert_impl(
     jurisdiction_id: str,
     phi_eff: float,
     k_cs: int,
@@ -171,21 +237,10 @@ def generate_holon_zero_cert(
         state_hash=state_hash,
     )
 
-    # Embed proof flags directly in the output dict for easy validation
+    # Embed Pedersen proof instead of raw phi_eff — ZK guarantee
+    zk_proof = commit_metric_state(phi_eff=phi_eff, k_cs=k_cs)
     cert_dict = cert.to_dict()
-    cert_dict["zero_knowledge_proof"] = {
-        "phi_eff": phi_eff,
-        "phi_0": PHI_0,
-        "phi_delta": phi_delta,
-        "phi_verified": phi_ok,
-        "k_cs": k_cs,
-        "k_cs_expected": K_CS,
-        "k_cs_verified": kcs_ok,
-        "proof_status": proof_status,
-        "block_height": block_height,
-        "state_hash": state_hash,
-        "timestamp": ts,
-    }
+    cert_dict["zero_knowledge_proof"] = zk_proof.as_dict()
 
     return cert_dict
 
@@ -193,8 +248,9 @@ def generate_holon_zero_cert(
 def validate_holon_zero_cert(cert: dict) -> bool:
     """Validate the structure and invariants of a Holon Zero Certificate.
 
-    This function performs a structural and mathematical validation of the
-    certificate.  It does NOT access any raw ballot data.
+    Supports two formats:
+      - Legacy (v < 21.0): zero_knowledge_proof has phi_verified/k_cs_verified booleans.
+      - v21.0+: zero_knowledge_proof is a PedersenProof dict with proof_bytes.
 
     Parameters
     ----------
@@ -213,12 +269,26 @@ def validate_holon_zero_cert(cert: dict) -> bool:
         if "component-definition" not in cert:
             return False
 
-        proof = cert["zero_knowledge_proof"]
+        proof_data = cert["zero_knowledge_proof"]
 
-        # Invariant checks
-        phi_ok = proof.get("phi_verified", False)
-        kcs_ok = proof.get("k_cs_verified", False)
-        proof_status = proof.get("proof_status", "")
+        # Detect format by presence of proof_bytes (Pedersen) vs phi_verified (legacy)
+        if "proof_bytes" in proof_data:
+            # Pedersen format (v21.0+)
+            from .zk_proof import proof_from_dict, verify_metric_proof
+            try:
+                proof = proof_from_dict(proof_data)
+            except (KeyError, ValueError):
+                return False
+            phi_ok = proof.phi_delta_bound
+            kcs_ok = proof.k_cs_match
+            proof_status = proof_data.get("proof_status", "")
+            if not verify_metric_proof(proof):
+                return False
+        else:
+            # Legacy boolean format
+            phi_ok = proof_data.get("phi_verified", False)
+            kcs_ok = proof_data.get("k_cs_verified", False)
+            proof_status = proof_data.get("proof_status", "")
 
         if not (phi_ok and kcs_ok):
             return False

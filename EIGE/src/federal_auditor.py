@@ -46,6 +46,7 @@ from typing import Any, Optional
 
 from .constants import K_CS, PHI_0, PHI_TOLERANCE, ENGINE_VERSION
 from .holon_zero_cert import validate_holon_zero_cert
+from .oscal_validator import validate_oscal_schema
 
 
 # ---------------------------------------------------------------------------
@@ -149,6 +150,7 @@ class FederalAuditor:
         "_k_cs",
         "_phi_0",
         "_phi_tolerance",
+        "_oscal_preflight",
         "__class__",
         "__repr__",
         "__str__",
@@ -162,11 +164,13 @@ class FederalAuditor:
         k_cs: int = K_CS,
         phi_0: float = PHI_0,
         phi_tolerance: float = PHI_TOLERANCE,
+        oscal_preflight: bool = False,
     ) -> None:
         self._k_cs = k_cs
         self._phi_0 = phi_0
         self._phi_tolerance = phi_tolerance
         self._history: list = []
+        self._oscal_preflight = oscal_preflight
 
     def __getattr__(self, name: str) -> Any:
         """Block all attribute access that is not in the explicit allowlist."""
@@ -195,6 +199,26 @@ class FederalAuditor:
         """
         ts = datetime.now(timezone.utc).isoformat()
 
+        # OSCAL 1.5.0 schema pre-flight check (when enabled)
+        if self._oscal_preflight and isinstance(cert, dict):
+            vr = validate_oscal_schema(cert)
+            if not vr.valid:
+                result = AuditResult(
+                    verdict=AuditVerdict.SCHEMA_INVALID,
+                    jurisdiction_id="UNKNOWN",
+                    block_height=0,
+                    state_hash="",
+                    phi_verified=False,
+                    k_cs_verified=False,
+                    proof_status="OSCAL_SCHEMA_INVALID",
+                    timestamp=ts,
+                    remarks=(
+                        f"OSCAL 1.5.0 pre-flight failed: {'; '.join(vr.errors[:3])}"
+                    ),
+                )
+                self._history.append(result)
+                return result
+
         # Structural validation
         if not isinstance(cert, dict):
             result = AuditResult(
@@ -214,10 +238,16 @@ class FederalAuditor:
         if not validate_holon_zero_cert(cert):
             # Determine if it's a structural or invariant issue
             has_proof = "zero_knowledge_proof" in cert
-            proof = cert.get("zero_knowledge_proof", {})
-            phi_ok = bool(proof.get("phi_verified", False))
-            kcs_ok = bool(proof.get("k_cs_verified", False))
-            proof_status = proof.get("proof_status", "INVARIANTS_VIOLATED")
+            proof_data = cert.get("zero_knowledge_proof", {})
+
+            # Support both Pedersen and legacy boolean formats
+            if "proof_bytes" in proof_data:
+                phi_ok = bool(proof_data.get("phi_delta_bound", False))
+                kcs_ok = bool(proof_data.get("k_cs_match", False))
+            else:
+                phi_ok = bool(proof_data.get("phi_verified", False))
+                kcs_ok = bool(proof_data.get("k_cs_verified", False))
+            proof_status = proof_data.get("proof_status", "INVARIANTS_VIOLATED")
 
             if not has_proof or not cert.get("component-definition"):
                 verdict = AuditVerdict.SCHEMA_INVALID
@@ -243,17 +273,26 @@ class FederalAuditor:
             return result
 
         # Certificate passes — extract proof metadata only
-        proof = cert["zero_knowledge_proof"]
+        proof_data = cert["zero_knowledge_proof"]
         comp_def = cert["component-definition"]
+
+        # Support both Pedersen (v21+) and legacy boolean format
+        if "proof_bytes" in proof_data:
+            phi_ok = bool(proof_data.get("phi_delta_bound", False))
+            kcs_ok = bool(proof_data.get("k_cs_match", False))
+        else:
+            phi_ok = bool(proof_data.get("phi_verified", False))
+            kcs_ok = bool(proof_data.get("k_cs_verified", False))
+        proof_status = proof_data.get("proof_status", "")
 
         result = AuditResult(
             verdict=AuditVerdict.VERIFIED,
             jurisdiction_id=comp_def.get("jurisdiction_id", "UNKNOWN"),
             block_height=comp_def.get("block_height", 0),
             state_hash=comp_def.get("state_hash", ""),
-            phi_verified=bool(proof.get("phi_verified", False)),
-            k_cs_verified=bool(proof.get("k_cs_verified", False)),
-            proof_status=proof.get("proof_status", ""),
+            phi_verified=phi_ok,
+            k_cs_verified=kcs_ok,
+            proof_status=proof_status,
             timestamp=ts,
             remarks="All invariants verified. Certificate is authentic.",
         )

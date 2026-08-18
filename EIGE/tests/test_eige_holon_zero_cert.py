@@ -49,11 +49,11 @@ class TestGenerateHolonZeroCert:
 
     def test_proof_phi_verified_true(self):
         cert = self._valid_cert(phi_eff=PHI_0)
-        assert cert["zero_knowledge_proof"]["phi_verified"] is True
+        assert cert["zero_knowledge_proof"]["phi_delta_bound"] is True
 
     def test_proof_k_cs_verified_true(self):
         cert = self._valid_cert(k_cs=K_CS)
-        assert cert["zero_knowledge_proof"]["k_cs_verified"] is True
+        assert cert["zero_knowledge_proof"]["k_cs_match"] is True
 
     def test_proof_status_verified(self):
         cert = self._valid_cert()
@@ -61,12 +61,12 @@ class TestGenerateHolonZeroCert:
 
     def test_phi_drift_yields_violated_status(self):
         cert = self._valid_cert(phi_eff=PHI_0 + 1e-10)
-        assert cert["zero_knowledge_proof"]["phi_verified"] is False
+        assert cert["zero_knowledge_proof"]["phi_delta_bound"] is False
         assert cert["zero_knowledge_proof"]["proof_status"] == "INVARIANTS_VIOLATED"
 
     def test_wrong_k_cs_yields_violated_status(self):
         cert = self._valid_cert(k_cs=73)
-        assert cert["zero_knowledge_proof"]["k_cs_verified"] is False
+        assert cert["zero_knowledge_proof"]["k_cs_match"] is False
 
     def test_jurisdiction_id_stored(self):
         cert = self._valid_cert(jurisdiction_id="WA-PIERCE-COUNTY")

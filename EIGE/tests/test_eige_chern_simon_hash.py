@@ -195,12 +195,14 @@ class TestShardedChernSimonChain:
     def test_reconstruct_check_passes_with_threshold(self):
         sc = ShardedChernSimonChain()
         available = list(range(SHARD_RECONSTRUCTION_THRESHOLD))
-        assert sc.reconstruct_check(available) is True
+        success, _, _ = sc.reconstruct_check(available)
+        assert success is True
 
     def test_reconstruct_check_fails_below_threshold(self):
         sc = ShardedChernSimonChain()
         available = list(range(SHARD_RECONSTRUCTION_THRESHOLD - 1))
-        assert sc.reconstruct_check(available) is False
+        success, _, _ = sc.reconstruct_check(available)
+        assert success is False
 
     def test_telemetry_dict_structure(self):
         sc = ShardedChernSimonChain()

@@ -1,0 +1,33 @@
+[package]
+name = "eige_rust_core"
+version = "21.0.0"
+edition = "2021"
+authors = [
+    "ThomasCory Walker-Pearson <theory@axiomzero.org>",
+    "GitHub Copilot <implementation>",
+]
+description = "EIGE v21.0 Rust fast-ingestion engine — PyO3 bridge"
+license = "LicenseRef-DefensivePublicCommons-1.0"
+
+[lib]
+name = "eige_rust_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.21", features = ["extension-module"] }
+sha2 = "0.10"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+# No additional dev deps needed — tests are in the Python test suite
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+# Build with:
+#   pip install maturin
+#   maturin build --release
+#   pip install target/wheels/eige_rust_core-*.whl

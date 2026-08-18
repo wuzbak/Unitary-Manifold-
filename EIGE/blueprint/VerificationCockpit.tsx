@@ -12,6 +12,7 @@
 // ---------------------------------------------------------------------------
 
 export type ClosureStatus = "STABLE" | "DRIFTED" | "VIOLATED";
+export type AdjudicationResolution = "ACCEPTED" | "REJECTED";
 
 export interface CountyTelemetry {
   county_id: number;
@@ -27,9 +28,13 @@ export interface CountyTelemetry {
 export interface HolonZeroCert {
   cert_id: string;
   state_hash: string;
-  phi_verified: boolean;
-  k_cs_verified: boolean;
-  proof_status: ClosureStatus;
+  phi_delta_bound: boolean;    // v21+ Pedersen proof format
+  k_cs_match: boolean;         // v21+ Pedersen proof format
+  /** @deprecated use phi_delta_bound for v21+ certs */
+  phi_verified?: boolean;
+  /** @deprecated use k_cs_match for v21+ certs */
+  k_cs_verified?: boolean;
+  proof_status: "INVARIANTS_VERIFIED" | "INVARIANTS_VIOLATED";
   issued_at: string;       // ISO-8601
   county_count: number;
   engine_version: string;
@@ -53,10 +58,100 @@ export interface OverrideDossier {
 }
 
 // ---------------------------------------------------------------------------
-// Constants (mirrors constants.py)
+// Phase 2 Adjudicator types (maps to adjudicator_api.py)
 // ---------------------------------------------------------------------------
 
-export const K_CS = 74 as const;
+/** Payload sent to POST /adjudicate */
+export interface AdjudicatorEnqueueRequest {
+  record: Record<string, unknown>;
+  reason: string;
+  field_name: string | null;
+}
+
+/** Item returned from GET /queue */
+export interface AdjudicatorQueueItem {
+  id: string;
+  payload: Record<string, unknown>;
+  queued_at: string;  // ISO-8601
+  status: "pending" | "resolved";
+}
+
+/** Payload sent to POST /resolve/<record_id> */
+export interface AdjudicatorResolveRequest {
+  resolution: AdjudicationResolution;
+  selection_vector: number[] | null;
+}
+
+/** Response from POST /resolve/<record_id> */
+export interface AdjudicatorResolveResponse {
+  status: "resolved";
+  record_id: string;
+  resolution: AdjudicationResolution;
+}
+
+// ---------------------------------------------------------------------------
+// Adjudicator API client
+// ---------------------------------------------------------------------------
+
+export class AdjudicatorClient {
+  private readonly baseUrl: string;
+
+  constructor(baseUrl: string = "http://localhost:5050") {
+    this.baseUrl = baseUrl.replace(/\/$/, "");
+  }
+
+  /** Submit an AdmissibilityError record to the human adjudicator queue. */
+  async enqueue(req: AdjudicatorEnqueueRequest): Promise<{ record_id: string }> {
+    const resp = await fetch(`${this.baseUrl}/adjudicate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req),
+    });
+    if (!resp.ok) {
+      throw new Error(`/adjudicate failed: ${resp.status} ${resp.statusText}`);
+    }
+    return resp.json();
+  }
+
+  /** Fetch the current adjudicator queue. */
+  async getQueue(): Promise<{ items: AdjudicatorQueueItem[]; count: number }> {
+    const resp = await fetch(`${this.baseUrl}/queue`);
+    if (!resp.ok) {
+      throw new Error(`/queue failed: ${resp.status} ${resp.statusText}`);
+    }
+    return resp.json();
+  }
+
+  /** Mark a queued record as human-reviewed. */
+  async resolve(
+    recordId: string,
+    resolution: AdjudicationResolution,
+    selectionVector: number[] | null = null,
+  ): Promise<AdjudicatorResolveResponse> {
+    const body: AdjudicatorResolveRequest = {
+      resolution,
+      selection_vector: selectionVector,
+    };
+    const resp = await fetch(`${this.baseUrl}/resolve/${recordId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) {
+      throw new Error(`/resolve failed: ${resp.status} ${resp.statusText}`);
+    }
+    return resp.json();
+  }
+
+  /** Health check. */
+  async health(): Promise<{ status: string; queue_depth: number }> {
+    const resp = await fetch(`${this.baseUrl}/health`);
+    if (!resp.ok) throw new Error(`/health failed: ${resp.status}`);
+    return resp.json();
+  }
+}
+
+
 export const PHI_0 = Math.PI / 4;
 export const PHI_TOLERANCE = 1e-15;
 export const PHI_DRIFT_WARNING = 1e-12;
