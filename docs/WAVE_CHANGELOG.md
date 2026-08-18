@@ -1,7 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v20.9 (2026-08-01)*
+*Current version: v21.0 (2026-08-01)*
 
 For each wave entry, include:
 - **What changed**
@@ -22,7 +22,7 @@ For each wave entry, include:
 - **Pillar 627** (`src/twelved/ftheory_rung10_complete_at_reference_cy4.py`): FTHEORY_RUNG10_COMPLETE_AT_REFERENCE_CY4_ADJACENT — 🔵 ADJACENT; Rung 10 closure certificate; all 3 blocking residuals resolved; Gap B PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4; ~20 tests.
 - **Pillar 628** (`src/twelved/ftheory_dbp_rungs_1_10_combined_certificate.py`): FTHEORY_DBP_RUNGS_1_10_COMBINED_CERTIFICATE_ADJACENT — 🔵 ADJACENT; combined certificate 10/12 rungs; 5D seed preserved; Rungs 11-12 honestly open; ~30 tests.
 - **Pillar 629** (`src/core/pillar629_book30_ftheory_dbp_complete_sync.py`): BOOK30_FTHEORY_DBP_COMPLETE_SYNC_CERTIFIED — Book 30 + arXiv v20.9 sync; Substack #284 S03E062; ~20 tests.
-- **Pillar 630** (`src/core/pillar630_v208_regression_certificate.py`): V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.9 regression; ToE 30.0/28; Lean4 342; ~51,440 passed · 0 failed; ~35 tests.
+- **Pillar 630** (`src/core/pillar630_v208_regression_certificate.py`): V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.9 regression; ToE 30.0/28; Lean4 342; ~51,811 passed · 0 failed; ~35 tests.
 
 **Epistemic delta:**
 - `Gap B c_L lower bound`: PROVED_AT_REFERENCE_CY4 → PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4 (🔵 adjacent)
@@ -35,7 +35,7 @@ For each wave entry, include:
 
 **Residual unknowns:** F-theory Rungs 11–12 open (Weierstrass generalization, α' corrections).
 
-**Regression:** ~51,440 passed · 23 skipped · 12 deselected · 0 failed
+**Regression:** ~51,811 passed · 23 skipped · 12 deselected · 0 failed
 
 ---
 
