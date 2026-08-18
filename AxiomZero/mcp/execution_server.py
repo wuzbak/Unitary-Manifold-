@@ -141,7 +141,17 @@ class ExecutionServer:
         # Sandbox the working directory to within the repo root
         if cwd:
             requested_cwd = Path(cwd).resolve()
-            if not str(requested_cwd).startswith(str(self.repo_root)):
+            # Use is_relative_to (Python 3.9+) for correct prefix check;
+            # falls back to relative_to exception for older Pythons.
+            try:
+                is_inside = requested_cwd.is_relative_to(self.repo_root)
+            except AttributeError:
+                try:
+                    requested_cwd.relative_to(self.repo_root)
+                    is_inside = True
+                except ValueError:
+                    is_inside = False
+            if not is_inside:
                 cwd = str(self.repo_root)
                 logger.warning("CWD outside repo root; redirected to %s", cwd)
         work_dir = cwd or str(self.repo_root)

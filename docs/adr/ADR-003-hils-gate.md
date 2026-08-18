@@ -1,4 +1,4 @@
-# ADR-002: KK-Mapped Privilege Rings for AZ-OS
+# ADR-003: HILS Gate Design
 
 **Date:** 2026-08-18
 **Status:** Accepted
@@ -8,47 +8,48 @@
 
 ## Context
 
-The AZ-OS bare-metal kernel needs a security model for process isolation.
-Standard OS ring models (0–3, kernel to user) are based on arbitrary
-engineering convention.  AZ-OS requires a principled model derived directly
-from the underlying physics framework.
+AxiomZero is an AI cognitive layer that can propose code changes, pillar
+additions, and system mutations.  Without a hard gate, an AI inference error
+could corrupt the physics framework (which has a hard requirement of 0 test
+failures) or commit changes that have not been validated by the human operator.
 
 ## Decision
 
-Map the 5 Kaluza-Klein extra-dimension privilege rings directly to OS security rings:
+Every **mutating** action performed by the AI must pass the **HILS gate**
+before execution.
 
-| KK concept | AZ-OS ring |
-|---|---|
-| Fiber bundle — 5 KK extra dimensions | 5 privilege rings (KK levels 0–4) |
-| Winding number n_w = 5 | 5 interrupt priority rings |
-| k_cs = 74 = 5² + 7² | 74 pages per compactification domain |
-| KK adjacency rule | IPC rule: only adjacent rings may communicate |
-| φ-debt entropy (Pillar 16) | Memory eviction: evict lowest φ-debt pages first |
-| Holographic boundary (Pillar 4) | IPC channel interface boundary |
-| Pentad clearance bits | Process security descriptor |
+The gate has two modes:
+1. **Synchronous approval** — the agent submits an action to the API, which
+   returns 202 Accepted and a `task_id`.  Execution is blocked until the human
+   calls `POST /tasks/{task_id}/approve` with `approved: true`.
+2. **Quorum bypass** — the canonical primary operator (`wuzbak`) may
+   pre-authorize a class of actions (e.g., read-only operations) by setting
+   `quorum_bypass: true` in their `HILOperator` record.
 
 ## Rationale
 
-1. **Principled derivation.** Every security property is a theorem of the KK
-   geometry, not an engineering choice.
-2. **IPC type safety.** The adjacency rule is enforceable at compile time using
-   Rust newtypes for each ring level — cross-ring violations are caught before
-   runtime.
-3. **Memory management.** φ-debt scoring gives a physics-grounded eviction policy
-   that is more predictable than LRU alone.
+| Property | Design |
+|---|---|
+| Single point of human control | M7 Executive is the only manager that communicates with the human |
+| Non-bypassable | M4 Test gate is hard-wired as a mandatory gateway in the LangGraph |
+| Auditability | Every gate decision written to `state.db` and `agent_audit.jsonl` |
+| Graceful degradation | If the gate is unreachable, the action is REJECTED (fail-closed) |
+| Revocability | All approvals time-out after 24 hours unless refreshed |
 
 ## Consequences
 
-* **Positive:** Security model is formally derivable and falsifiable.
-* **Positive:** Compile-time IPC safety prevents entire class of privilege-escalation bugs.
-* **Negative:** 5-ring model is less standard than 4-ring x86; kernel developers need
-  to understand the KK geometry to reason about security.
-* **Negative:** φ-debt eviction requires tracking per-page entropy state; adds ~8 bytes/page overhead.
+* **Positive:** Formal proof that no AI action can occur without human awareness.
+* **Positive:** Audit trail is immutable (append-only JSONL).
+* **Negative:** Adds latency to every mutating action (typically 30–300 s for human response).
+* **Negative:** If the human is unavailable, the agent is blocked.  Mitigated by
+  pre-authorization classes and quorum bypass for low-risk actions.
 
-## Implementation notes
+## Open questions
 
-The adjacency rule: process at ring `i` may send IPC messages only to rings
-`i-1` and `i+1` (modulo 5 for ring 0 and ring 4, with special kernel-bypass
-for emergency signals).
+1. What is the right timeout for an approval?  Currently 24 hours; may need
+   to be configurable per action class.
+2. Should the gate be federated (multiple humans must approve high-risk
+   actions)?  Currently single-human; Pentad quorum model covers governance-level
+   decisions separately.
 
 *Theory: ThomasCory Walker-Pearson. Code: GitHub Copilot (AI).*

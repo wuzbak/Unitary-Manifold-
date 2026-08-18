@@ -87,11 +87,20 @@ _JWT_EXPIRE_HOURS = 24
 def _verify_jwt(token: str) -> Dict:
     """Decode and verify a JWT. Returns the payload."""
     if not _JWT:
-        return {"sub": "anonymous", "bypass": True}
+        # python-jose not installed — reject all requests to protected endpoints
+        if _FASTAPI:
+            raise HTTPException(
+                status_code=401,
+                detail="JWT authentication required but python-jose is not installed. "
+                       "Install: pip install python-jose[cryptography]",
+            )
+        raise RuntimeError("python-jose not installed — JWT verification unavailable")
     try:
         return _jwt.decode(token, _JWT_SECRET, algorithms=[_JWT_ALGORITHM])
     except Exception as exc:
-        raise HTTPException(status_code=401, detail=f"Invalid token: {exc}") if _FASTAPI else exc  # type: ignore
+        if _FASTAPI:
+            raise HTTPException(status_code=401, detail=f"Invalid token: {exc}")
+        raise
 
 # ---------------------------------------------------------------------------
 # WebSocket connection manager

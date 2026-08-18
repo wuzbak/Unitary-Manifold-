@@ -31,7 +31,7 @@ class AuthenticatedHTTPClient:
     def _headers(self) -> Dict[str, str]:
         h: Dict[str, str] = {"Content-Type": "application/json"}
         if self.jwt_token:
-            h["Authorization"] = f"******"
+            h["Authorization"] = "Bearer " + self.jwt_token
         return h
 
     async def __aenter__(self):

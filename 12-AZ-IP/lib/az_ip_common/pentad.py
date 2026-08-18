@@ -20,7 +20,7 @@ async def pentad_classify(
         import httpx  # type: ignore
         headers: Dict[str, str] = {}
         if jwt_token:
-            headers["Authorization"] = f"******"
+            headers["Authorization"] = "Bearer " + jwt_token
         async with httpx.AsyncClient(timeout=timeout) as client:
             resp = await client.post(
                 f"{axiomzero_url}/api/v1/governance/classify",
