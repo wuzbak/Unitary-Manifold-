@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v20.9)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v21.0)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -24,9 +24,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![~51,440 passed · 0 failed](https://img.shields.io/badge/tests-~51%2C005%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
+[![~51,811 passed · 0 failed](https://img.shields.io/badge/tests-~51%2C811%20passed%20%C2%B7%200%20failed-brightgreen)](tests/)
 [![630+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-630%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v20.9-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v21.0-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -57,8 +57,8 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 
 </details>
 
-> ⚠️ **Honest status (v20.9):** ToE is **30.0/28** — 28/28 hardgate + 2.0 partial credit (P20/DM21 CLOSED P615 +0.5; gen-1 c_L AB mechanism P558 +0.5; gen-1 c_L DM31 P559 +0.5; DM21 two-loop EW P613 +0.5). All 6 NP-BC sub-gap kernel chains proved (P621; 203 cumulative); Lean4 342 theorems total (P622). F-theory DBP Rung 10 complete at reference CY4 (P627); Rungs 1–10/12 done; Book 30 + arXiv v20.9 sync (P629). Full regression: **~51,440 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-01, v20.9).**
-> Latest full regression: **~51,440 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-01, v20.9).**
+> ⚠️ **Honest status (v20.9):** ToE is **30.0/28** — 28/28 hardgate + 2.0 partial credit (P20/DM21 CLOSED P615 +0.5; gen-1 c_L AB mechanism P558 +0.5; gen-1 c_L DM31 P559 +0.5; DM21 two-loop EW P613 +0.5). All 6 NP-BC sub-gap kernel chains proved (P621; 203 cumulative); Lean4 342 theorems total (P622). F-theory DBP Rung 10 complete at reference CY4 (P627); Rungs 1–10/12 done; Book 30 + arXiv v20.9 sync (P629). Full regression: **~51,811 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-01, v20.9).**
+> Latest full regression: **~51,811 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-01, v20.9).**
 >
 > 🟡 **HIGH_TENSION signals — read before citing (v18.0):**
 > - **r-tension:** Framework predicts r = 0.0315 (derived from N_w=5, k_CS=74, braid geometry — not a free parameter). ACT DR6 combined bound: r < 0.016 (95% CL). Gap: ~2σ. Status: ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396) — irreducible in current 5D-EFT. Decidable by CMB-S4 (~2030, σ_r ≈ 0.003). Formal treatment: [`docs/R_TENSION_FORMAL_STATUS.md`](docs/R_TENSION_FORMAL_STATUS.md).
@@ -934,7 +934,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > Each pillar has its own folder (`PILLARS/PXXX/`) with source links, test links, and theory doc links.
 > Regenerate the index: `python3 PILLARS/build_index.py`
 
-**Grand total (v20.9): ~51,440 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-01)
+**Grand total (v20.9): ~51,811 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-01)
 
 **~51,440** — 630+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. ToE score: **30.0/28** (28/28 hardgate + 2.0 partial). Lean4 342 theorems. (Historical milestones: v13.8: 44,590; v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
 
@@ -1022,7 +1022,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ ~1,487 passed, 254 skipped ================================
 
 # Grand total (v20.9, 2026-08-01):
-================================ ~51,440 passed · 23 skipped · 12 deselected · 0 failed ================================
+================================ ~51,811 passed · 23 skipped · 12 deselected · 0 failed ================================
 # (v20.9: 630+ pillars, Lean4 342 theorems; historical: v20.5: 50,500; v13.8 = 44,590; v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215)
 ```
 
