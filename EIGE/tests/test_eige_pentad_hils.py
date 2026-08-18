@@ -215,7 +215,7 @@ class TestSentinelWithPentadQuorum:
 
 class TestSentinelWithoutPentad:
     def test_clean_transaction_passes_without_pentad(self, sentinel_no_pentad):
-        from constants import PHI_0, K_CS
+        from EIGE.src.constants import PHI_0, K_CS
         result = sentinel_no_pentad.evaluate_and_route_transaction(
             tx_payload={"phi_eff": PHI_0, "k_cs_level": K_CS, "kinetic_mixing_rho": 0.0},
             operator_sig="sig",

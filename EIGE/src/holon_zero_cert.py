@@ -48,6 +48,71 @@ from .zk_proof import PedersenProof, commit_metric_state, verify_metric_proof
 # ---------------------------------------------------------------------------
 
 def generate_holon_zero_cert(
+    chain_or_jurisdiction_id=None,
+    phi_eff: Optional[float] = None,
+    k_cs: Optional[int] = None,
+    block_height: Optional[int] = None,
+    state_hash: Optional[str] = None,
+    *,
+    jurisdiction_id: Optional[str] = None,
+    timestamp: Optional[str] = None,
+) -> dict:
+    """Generate an OSCAL 1.5.0 Holon Zero Certificate.
+
+    Accepts multiple calling conventions:
+
+    Keyword-only (recommended)::
+
+        generate_holon_zero_cert(jurisdiction_id="WA-KING", phi_eff=..., ...)
+
+    Chain-first::
+
+        generate_holon_zero_cert(chain, jurisdiction_id="WA-KING")
+
+    Legacy positional::
+
+        generate_holon_zero_cert("WA-KING", phi_eff, k_cs, block_height, state_hash)
+    """
+    # Resolve calling convention
+    if isinstance(chain_or_jurisdiction_id, str):
+        # Positional string: old API — chain_or_jurisdiction_id is the jid
+        jid = chain_or_jurisdiction_id
+        _phi_eff = phi_eff
+        _k_cs = k_cs if k_cs is not None else K_CS
+        _block_height = block_height if block_height is not None else 0
+        _state_hash = state_hash or ""
+    elif chain_or_jurisdiction_id is not None:
+        # Chain object passed as first positional arg
+        chain = chain_or_jurisdiction_id
+        jid = jurisdiction_id or ""
+        _phi_eff = phi_eff if phi_eff is not None else PHI_0
+        _k_cs = k_cs if k_cs is not None else K_CS
+        _block_height = block_height if block_height is not None else (
+            len(chain._entries) if hasattr(chain, "_entries") else
+            getattr(chain, "_global_sequence", 0)
+        )
+        _state_hash = state_hash or (
+            chain.sha512_hexdigest() if hasattr(chain, "sha512_hexdigest") else ""
+        )
+    else:
+        # All keyword args (new recommended API)
+        jid = jurisdiction_id or ""
+        _phi_eff = phi_eff
+        _k_cs = k_cs if k_cs is not None else K_CS
+        _block_height = block_height if block_height is not None else 0
+        _state_hash = state_hash or ""
+
+    return _generate_cert_impl(
+        jurisdiction_id=jid,
+        phi_eff=_phi_eff if _phi_eff is not None else PHI_0,
+        k_cs=_k_cs,
+        block_height=_block_height,
+        state_hash=_state_hash,
+        timestamp=timestamp,
+    )
+
+
+def _generate_cert_impl(
     jurisdiction_id: str,
     phi_eff: float,
     k_cs: int,

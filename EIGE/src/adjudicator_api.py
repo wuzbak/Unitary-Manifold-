@@ -74,69 +74,78 @@ class AdjudicatorQueue:
     """
 
     def __init__(self) -> None:
-        self._queue: Dict[str, dict] = {}
-        self._resolved: Dict[str, dict] = {}
+        self._items: Dict[str, dict] = {}
+        self._order: List[str] = []
 
-    def enqueue(self, record: dict, reason: str, field_name: Optional[str] = None) -> str:
-        """Add an admissibility-error record to the queue.
+    def enqueue(self, payload: dict) -> str:
+        """Add an admissibility-error payload to the queue.
+
+        Parameters
+        ----------
+        payload : dict
+            Dict with at least ``reason`` key; may include ``record``
+            and ``field_name`` entries.
 
         Returns
         -------
         str
-            New UUID record_id.
+            New UUID record id.
         """
         record_id = str(uuid.uuid4())
-        self._queue[record_id] = {
-            "record_id": record_id,
-            "record": record,
-            "reason": reason,
-            "field_name": field_name,
+        self._items[record_id] = {
+            "id": record_id,
+            "payload": payload,
             "queued_at": datetime.now(timezone.utc).isoformat(),
-            "status": "PENDING",
+            "status": "pending",
         }
+        self._order.append(record_id)
         return record_id
 
+    def list_items(self) -> List[dict]:
+        """Return all queue items in insertion order."""
+        return [self._items[rid] for rid in self._order if rid in self._items]
+
     def get_queue(self) -> List[dict]:
-        """Return all pending queue items as a list."""
-        return list(self._queue.values())
+        """Alias for list_items() — kept for Flask endpoint compatibility."""
+        return self.list_items()
 
     def resolve(
         self,
         record_id: str,
-        resolution: str,
-        selection_vector: Optional[List[int]] = None,
-    ) -> Optional[dict]:
+        selection_vector=None,
+        resolution: str = "ACCEPTED",
+    ) -> bool:
         """Mark a record as resolved.
 
         Parameters
         ----------
         record_id : str
+        selection_vector : any, optional
+            Corrected selection vector supplied by the human adjudicator.
         resolution : str
-            "ACCEPTED" or "REJECTED".
-        selection_vector : list[int], optional
-            Corrected selection vector when resolution == "ACCEPTED".
+            Resolution disposition ("ACCEPTED" or "REJECTED").
 
         Returns
         -------
-        dict or None
-            The resolved item, or None if record_id not found.
+        bool
+            True if found and resolved; False if record_id not found.
         """
-        item = self._queue.pop(record_id, None)
+        item = self._items.get(record_id)
         if item is None:
-            return None
-        item["status"] = "RESOLVED"
+            return False
+        item["status"] = "resolved"
         item["resolution"] = resolution
         item["resolved_at"] = datetime.now(timezone.utc).isoformat()
         if selection_vector is not None:
             item["corrected_selection_vector"] = selection_vector
-        self._resolved[record_id] = item
-        return item
+        return True
 
     def queue_depth(self) -> int:
-        return len(self._queue)
+        pending = sum(1 for v in self._items.values() if v["status"] == "pending")
+        return pending
 
     def __len__(self) -> int:
-        return len(self._queue)
+        return len(self._items)
 
 
 # ---------------------------------------------------------------------------
@@ -171,53 +180,47 @@ def create_app(queue: Optional[AdjudicatorQueue] = None) -> "Flask":
         )
 
     app = Flask("eige_adjudicator")
-    q = queue or _global_queue
+    q = queue if queue is not None else _global_queue
 
     @app.route("/health", methods=["GET"])
     def health():
-        return jsonify({"status": "OK", "queue_depth": q.queue_depth()})
+        return jsonify({"status": "ok", "queue_depth": q.queue_depth()})
 
     @app.route("/adjudicate", methods=["POST"])
     def adjudicate():
         """Accept an AdmissibilityError payload and add it to the queue."""
-        data = request.get_json(force=True, silent=True) or {}
-        record = data.get("record", {})
-        reason = data.get("reason", "")
-        field_name = data.get("field_name", None)
+        data = request.get_json(force=True, silent=True)
+        if not data:
+            return jsonify({"error": "JSON body required"}), 400
+        if not data.get("reason") and not data.get("record") and not data.get("field_name"):
+            return jsonify({"error": "payload must include at least one field"}), 400
 
-        if not reason:
-            return jsonify({"error": "reason field is required"}), 400
-
-        record_id = q.enqueue(record=record, reason=reason, field_name=field_name)
+        record_id = q.enqueue(payload=data)
         return jsonify({"status": "QUEUED", "record_id": record_id}), 201
 
     @app.route("/queue", methods=["GET"])
     def get_queue():
         """Return the current adjudicator queue."""
-        return jsonify(q.get_queue())
+        items = q.list_items()
+        return jsonify({"items": items, "count": len(items)})
 
     @app.route("/resolve/<record_id>", methods=["POST"])
     def resolve(record_id: str):
         """Mark a queued record as human-reviewed."""
         data = request.get_json(force=True, silent=True) or {}
-        resolution = data.get("resolution", "")
         selection_vector = data.get("selection_vector", None)
+        resolution = data.get("resolution", "ACCEPTED")
 
-        if resolution not in ("ACCEPTED", "REJECTED"):
-            return jsonify(
-                {"error": "resolution must be 'ACCEPTED' or 'REJECTED'"}
-            ), 400
-
-        item = q.resolve(
+        success = q.resolve(
             record_id=record_id,
-            resolution=resolution,
             selection_vector=selection_vector,
+            resolution=resolution,
         )
-        if item is None:
+        if not success:
             return jsonify({"error": f"record_id {record_id!r} not found"}), 404
 
         return jsonify({
-            "status": "RESOLVED",
+            "status": "resolved",
             "record_id": record_id,
             "resolution": resolution,
         })

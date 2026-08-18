@@ -54,12 +54,34 @@ Implementation: GitHub Copilot (AI)
 
 from __future__ import annotations
 
+import enum
+import random
 import time
 import uuid
 from typing import Dict, List, Optional, Any
 
 from .holographic_screen import HolographicScreen, AdmissibilityError
 from .constants import HOLOGRAPHIC_SCREEN_MIN_CONFIDENCE
+
+
+# ---------------------------------------------------------------------------
+# ScannerFormat enum
+# ---------------------------------------------------------------------------
+
+class ScannerFormat(str, enum.Enum):
+    """Wire format emitted by a physical ballot scanner.
+
+    OMR_DICT
+        Standard format — dict with ``ballot_serial``, ``marks``, ``write_ins``,
+        ``page_confidence``, and ``adjudication_flag`` keys.
+
+    FLAT_CONFIDENCE
+        Legacy format — dict with ``id``/``sequence``, ``confidence_scores``,
+        and optional ``selections`` keys.
+    """
+
+    OMR_DICT = "OMR_DICT"
+    FLAT_CONFIDENCE = "FLAT_CONFIDENCE"
 
 
 # ---------------------------------------------------------------------------
@@ -76,21 +98,80 @@ class ScannerAdapter:
         is created with the system-wide min_confidence threshold.
     races : int, optional
         Expected number of races per ballot.  Passed through to HolographicScreen.
+    jurisdiction_id : str, optional
+        Jurisdiction identifier tag included in processed record metadata.
+    num_candidates : int, optional
+        Alias for ``races``; number of candidates / races on each ballot.
     """
 
     def __init__(
         self,
         screen: Optional[HolographicScreen] = None,
         races: Optional[int] = None,
+        jurisdiction_id: Optional[str] = None,
+        num_candidates: Optional[int] = None,
     ) -> None:
-        self._screen = screen or HolographicScreen(races=races)
+        effective_races = num_candidates if num_candidates is not None else races
+        self._screen = screen or HolographicScreen(races=effective_races)
+        self.jurisdiction_id = jurisdiction_id or ""
         self._admitted_count: int = 0
         self._rejected_count: int = 0
         self._rejection_log: List[dict] = []
+        self._total_processed: int = 0
 
     # ------------------------------------------------------------------
     # Primary interface
     # ------------------------------------------------------------------
+
+    def process(self, raw_omr: dict) -> dict:
+        """Translate and screen a raw OMR record; return a status dict.
+
+        Parameters
+        ----------
+        raw_omr : dict
+            Raw scanner output in OMR_DICT or FLAT_CONFIDENCE format.
+
+        Returns
+        -------
+        dict
+            ``{"status": "ACCEPTED"|"REJECTED"|"QUEUED_FOR_ADJUDICATION",
+               "vector": list[int] | None, ...}``
+        """
+        self._total_processed += 1
+        adj_record = self._translate(raw_omr)
+
+        # Records with adjudication_flag go to human review queue
+        if adj_record.get("adjudication_flag"):
+            self._rejected_count += 1
+            self._rejection_log.append({
+                "raw_omr": raw_omr,
+                "reason": "adjudication_flag set",
+                "field_name": "adjudication_flag",
+                "timestamp_ns": time.time_ns(),
+            })
+            return {"status": "QUEUED_FOR_ADJUDICATION", "vector": None,
+                    "jurisdiction_id": self.jurisdiction_id}
+
+        try:
+            vector = self._screen.normalise(adj_record)
+            self._admitted_count += 1
+            return {"status": "ACCEPTED", "vector": vector,
+                    "jurisdiction_id": self.jurisdiction_id}
+        except AdmissibilityError as e:
+            self._rejected_count += 1
+            self._rejection_log.append({
+                "raw_omr": raw_omr,
+                "reason": e.reason,
+                "field_name": e.field_name,
+                "timestamp_ns": time.time_ns(),
+            })
+            return {"status": "REJECTED", "vector": None,
+                    "reason": e.reason,
+                    "jurisdiction_id": self.jurisdiction_id}
+
+    def process_batch(self, raw_omr_records: List[dict]) -> List[dict]:
+        """Process a list of OMR records; returns a list of status dicts."""
+        return [self.process(r) for r in raw_omr_records]
 
     def screen_omr_record(self, raw_omr: dict) -> Optional[List[int]]:
         """Translate a raw OMR dict and pass it through the holographic screen.
@@ -143,6 +224,12 @@ class ScannerAdapter:
         Supports OMR_DICT, FLAT_CONFIDENCE, and pass-through for records
         already in the expected format.
         """
+        fmt = raw_omr.get("scanner_format")
+
+        # Explicit format tag
+        if fmt == ScannerFormat.FLAT_CONFIDENCE or fmt == ScannerFormat.FLAT_CONFIDENCE.value:
+            return self._from_flat_confidence(raw_omr)
+
         # Standard OMR_DICT format: "marks" key with confidence scores
         if "marks" in raw_omr:
             return self._from_omr_dict(raw_omr)
@@ -150,6 +237,10 @@ class ScannerAdapter:
         # Legacy FLAT_CONFIDENCE format: conf_scores + selections
         if "conf_scores" in raw_omr and "selections" in raw_omr:
             return self._from_flat_confidence(raw_omr)
+
+        # New FLAT_CONFIDENCE with confidence_scores key
+        if "confidence_scores" in raw_omr:
+            return self._from_confidence_scores(raw_omr)
 
         # Pass-through: already in AdjudicationRecord format or compatible
         return raw_omr
@@ -207,12 +298,33 @@ class ScannerAdapter:
             "adjudication_flag": adjudicated,
         }
 
+    @staticmethod
+    def _from_confidence_scores(raw_omr: dict) -> dict:
+        """Translate FLAT_CONFIDENCE format with ``confidence_scores`` key."""
+        scores = raw_omr.get("confidence_scores", [])
+        adjudicated = bool(raw_omr.get("adjudication_flag", False))
+        # Highest-scoring candidate wins
+        if scores:
+            winner = int(max(range(len(scores)), key=lambda i: scores[i]))
+            selections = [{"value": winner, "confidence": float(scores[winner]),
+                           "adjudicated": adjudicated}]
+            min_conf = float(scores[winner])
+        else:
+            selections = []
+            min_conf = 1.0
+        return {
+            "selections": selections,
+            "mark_confidence": min_conf,
+            "adjudication_flag": adjudicated,
+        }
+
     # ------------------------------------------------------------------
     # Diagnostics
     # ------------------------------------------------------------------
 
     @property
-    def admitted_count(self) -> int:
+    def total_processed(self) -> int:
+        return self._total_processed
         return self._admitted_count
 
     @property
@@ -259,11 +371,13 @@ class MockScanner:
         n_races: int = 3,
         base_confidence: float = 0.95,
         seed: int = 42,
+        num_candidates: Optional[int] = None,
     ) -> None:
-        self.n_races = n_races
+        self.n_races = num_candidates if num_candidates is not None else n_races
         self.base_confidence = base_confidence
         self._counter: int = 0
         self._seed = seed
+        self._rng = random.Random(seed)
 
     def next_record(
         self,
@@ -295,14 +409,13 @@ class MockScanner:
         write_ins = []
 
         for race_idx in range(self.n_races):
-            # Deterministic position: alternates 0/1 based on counter + race
-            position = (self._counter + race_idx) % 2
             conf = self.base_confidence - (race_idx * 0.01)
 
             if race_idx == 0 and with_write_in:
                 marks.append({"position": 0, "confidence": conf})
                 write_ins.append(with_write_in)
             else:
+                position = self._rng.randint(0, max(1, self.n_races - 1))
                 marks.append({"position": position, "confidence": conf})
                 write_ins.append("")
 
@@ -312,6 +425,8 @@ class MockScanner:
             "write_ins": write_ins,
             "page_confidence": page_conf,
             "adjudication_flag": adjudicated,
+            "scanner_format": ScannerFormat.OMR_DICT,
+            "sequence": self._counter,
         }
 
     def emit_batch(

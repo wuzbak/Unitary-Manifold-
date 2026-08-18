@@ -524,7 +524,7 @@ def build_si7_evidence_block(chain: Any) -> dict:
     from .constants import ENGINE_VERSION  # avoid circular import at module level
 
     now = datetime.now(timezone.utc).isoformat()
-    cs_state = int(chain.state)
+    cs_state = int(getattr(chain, "state", None) or getattr(chain, "_state", 0))
     hexdigest = chain.sha512_hexdigest() if hasattr(chain, "sha512_hexdigest") else ""
     ballot_count = (
         len(chain._entries) if hasattr(chain, "_entries")

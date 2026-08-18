@@ -63,26 +63,32 @@ class RustBallotBridge:
     _rust_module = None
     _rust_available: Optional[bool] = None
 
-    def __init__(self, n_shards: int = SHARD_COUNT) -> None:
-        self._n_shards = n_shards
-        self._rust = self.__class__.try_import_rust()
-        if self._rust is not None:
-            # Rust module is available — use it
-            self._engine = self._rust.ShardedChainRS(n_shards)
-            self._using_rust = True
+    def __init__(
+        self,
+        n_shards: int = SHARD_COUNT,
+        county_id: Optional[int] = None,
+        num_shards: Optional[int] = None,
+        use_rust: bool = False,
+    ) -> None:
+        effective_shards = num_shards if num_shards is not None else n_shards
+        self._n_shards = effective_shards
+        self.county_id = county_id
+        # Respect caller's explicit choice; also try Rust if requested
+        rust_available = self.__class__.try_import_rust()
+        self._use_rust: bool = use_rust and rust_available
+        if self._use_rust and self.__class__._rust_module is not None:
+            self._engine = self.__class__._rust_module.ShardedChainRS(effective_shards)
         else:
-            # Fallback: pure-Python implementation
-            self._engine = ShardedChernSimonChain(n_shards=n_shards)
-            self._using_rust = False
+            self._engine = ShardedChernSimonChain(n_shards=effective_shards)
 
     @classmethod
-    def try_import_rust(cls):
+    def try_import_rust(cls) -> bool:
         """Attempt to import the compiled PyO3 Rust module.
 
         Returns
         -------
-        module or None
-            The ``eige_rust_core`` module if available, else None.
+        bool
+            True if ``eige_rust_core`` is importable; False otherwise.
         """
         if cls._rust_available is None:
             try:
@@ -92,12 +98,22 @@ class RustBallotBridge:
             except ImportError:
                 cls._rust_module = None
                 cls._rust_available = False
-        return cls._rust_module
+        return cls._rust_available  # type: ignore[return-value]
+
+    @property
+    def _using_rust(self) -> bool:
+        """Backward-compatible alias for ``_use_rust``."""
+        return self._use_rust
 
     @property
     def using_rust(self) -> bool:
         """True if the Rust engine is active; False if using Python fallback."""
-        return self._using_rust
+        return self._use_rust
+
+    @property
+    def state(self) -> int:
+        """Current primary hash state integer."""
+        return self._engine.primary_digest()
 
     def update(self, ballot_int: int) -> int:
         """Ingest one ballot.  Routes to Rust or Python transparently.
@@ -105,9 +121,27 @@ class RustBallotBridge:
         Returns
         -------
         int
-            Shard index that received this ballot.
+            Primary hash state after ingesting this ballot.
         """
-        return self._engine.update(ballot_int)
+        self._engine.update(ballot_int)
+        return self.state
+
+    def reset(self) -> int:
+        """Reset the engine to its initial state.
+
+        Returns
+        -------
+        int
+            Hash state after reset (equals initial state).
+        """
+        self._engine._primary.reset()
+        for shard in self._engine._shards:
+            shard.reset()
+        return self.state
+
+    def checkpoint_all(self) -> list:
+        """Return a list of (shard_index, digest) tuples."""
+        return self._engine.checkpoint_all()
 
     def primary_digest(self) -> int:
         """Return the primary chain's current hash state."""
@@ -137,35 +171,39 @@ class RustBallotBridge:
         """Return telemetry dict; identical structure regardless of backend."""
         return self._engine.get_telemetry()
 
-    def checkpoint_manifests(self) -> dict:
-        """Return shard manifests (Python fallback only; Rust returns serialized form)."""
-        if self._using_rust:
-            # When Rust is available, use Python deserialization of exported data
-            # Rust exports manifest dicts; convert back to ShardManifest objects
+    def checkpoint_manifests(self) -> list:
+        """Return shard manifests as a list (one entry per shard)."""
+        if self._use_rust and self.__class__._rust_module is not None:
             from .chern_simon_hash import ShardManifest, ShardEntry
-            raw_manifests = self._rust.export_manifests(self._engine)
-            manifests = {}
+            raw_manifests = self.__class__._rust_module.export_manifests(self._engine)
+            manifests = []
             for idx, raw in enumerate(raw_manifests):
-                entries = [
-                    ShardEntry(**e) for e in raw.get("entries", [])
-                ]
-                primary_entries = [
-                    ShardEntry(**e) for e in raw.get("primary_entries", [])
-                ]
-                manifests[idx] = ShardManifest(
+                entries = [ShardEntry(**e) for e in raw.get("entries", [])]
+                primary_entries = [ShardEntry(**e) for e in raw.get("primary_entries", [])]
+                manifests.append(ShardManifest(
                     shard_index=idx,
                     entries=entries,
                     primary_entries=primary_entries,
                     final_state=raw["final_state"],
                     entry_count=raw["entry_count"],
                     primary_final_state=raw["primary_final_state"],
-                )
+                ))
             return manifests
-        return self._engine.checkpoint_manifests()
+        return list(self._engine.checkpoint_manifests().values())
 
-    def reconstruct_check(self, available_shard_indices: list) -> tuple:
-        """Delegate reconstruct_check to the underlying engine."""
+    def reconstruct_check(self, available_shard_indices: Optional[list] = None) -> tuple:
+        """Delegate reconstruct_check to the underlying engine.
+
+        If ``available_shard_indices`` is omitted, defaults to all shard indices
+        (full reconstruction pass).
+        """
+        if available_shard_indices is None:
+            available_shard_indices = list(range(self._n_shards))
         return self._engine.reconstruct_check(available_shard_indices)
+
+    def sha512_hexdigest(self) -> str:
+        """Return the SHA-512 hexdigest of the primary chain's current state."""
+        return self._engine._primary.sha512_hexdigest()
 
     def __repr__(self) -> str:
         backend = "Rust" if self._using_rust else "Python"

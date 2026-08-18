@@ -333,6 +333,11 @@ class ChernSimonChain:
         """Return the current hash state as an integer."""
         return self._state
 
+    @property
+    def state(self) -> int:
+        """Current hash state as an integer (alias for ``_state``)."""
+        return self._state
+
     def hexdigest(self) -> str:
         """Return the current hash state as a 16-char hex string."""
         return f"{self._state:016x}"

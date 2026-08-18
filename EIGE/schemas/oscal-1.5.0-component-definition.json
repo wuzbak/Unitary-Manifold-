@@ -5,7 +5,7 @@
   "description": "Bundled JSON Schema for OSCAL 1.5.0 component-definition documents used by EIGE NIST SP-800-53 R5 compliance artifacts.",
   "type": "object",
   "required": ["component-definition"],
-  "additionalProperties": false,
+  "additionalProperties": true,
   "properties": {
     "component-definition": {
       "type": "object",
