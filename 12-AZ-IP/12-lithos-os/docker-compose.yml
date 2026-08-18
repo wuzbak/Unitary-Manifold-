@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  lithos-os:
+    build: .
+    ports:
+      - "7861:7861"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - LITHOS_HOST=0.0.0.0
+      - LITHOS_PORT=7861
+    restart: unless-stopped

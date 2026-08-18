@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  filmers-companion:
+    build: .
+    ports:
+      - "7864:7864"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - FC_HOST=0.0.0.0
+      - FC_PORT=7864
+    restart: unless-stopped
