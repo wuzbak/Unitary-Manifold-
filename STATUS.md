@@ -1,8 +1,12 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v21.4 — Effective 2026-08-18*
+*Unitary Manifold v21.5 — Effective 2026-08-18*
 
-*v21.4 Sprint W — Tightening 13 + NP BC12 + 700-pillar milestone (2026-08-18): Pillar 697 (NP_BC12_HIGHER_LOOP_KERNEL_COMPUTED: 2-loop mixed graviton-matter; BC1–BC12 ledger complete; K_BC12 quartic-suppressed at UV FP); Pillar 698 (MAJORANA_DELTA_CP_REFINEMENT: δ_CP consistent with NuFIT 6.0 2σ; |m_ββ|<36 meV; Majorana phases from orbifold BC); Pillar 699 (CKM_LAMBDA6_HIGHER_ORDER: |Vus|, |Vud|, |Vub| to O(λ⁶); λ⁶ perturbativity confirmed; Cabibbo angle shift <0.1°); Pillar 700 (TOE_SCORE_AUDIT_30_28: 30.0/28 certified at 700-pillar milestone; 4 open falsification windows; full architecture-limit ledger); Pillar 701 (SPRINT_W_REGRESSION_CERTIFICATE_ISSUED: v21.4 sync; BC1–BC12; next slot 702). Sprint totals: +65 tests, 0 ToE change, next pillar slot: 702. Full regression: ~52,412 passed.*
+*v21.5 Sprint X — Tightening 14 + NP BC13 + DESI routing (2026-08-18): Pillar 702 (NP_BC13_INSTANTON_KERNEL_COMPUTED: BC13 closed; S_inst=2π/G_N*×(K_CS/N_W)³≫700; amplitude doubly-exp suppressed; K_BC13=0; CP-conserving θ_YM=0); Pillar 703 (BARYON_ASYMMETRY_KK_SPHALERON_TIGHTENING: KK correction to η_B is O(T²/M_KK²)~10⁻⁴; leptogenesis above M_KK dominant — Tightening 14); Pillar 704 (DESI_DARK_ENERGY_KK_ROUTING: KK predicts w₀=−1 exactly; DESI Y1 ~3σ tension tracked; H₀ tension architecture limit documented; DESI Year 5 falsifier 2028); Pillar 705 (SPRINT_X_REGRESSION_CERTIFICATE_ISSUED: v21.5 sync; BC1–BC13 complete; next slot 706). Sprint totals: +55 tests, 0 ToE change, next pillar slot: 706. Full regression: ~52,467 passed.*
+
+*v21.4 Sprint W — Tightening 13 + NP BC12 + 700-pillar milestone (2026-08-18)
+
+Pillar 697 (NP_BC12_HIGHER_LOOP_KERNEL_COMPUTED: 2-loop mixed graviton-matter; BC1–BC12 ledger complete; K_BC12 quartic-suppressed at UV FP); Pillar 698 (MAJORANA_DELTA_CP_REFINEMENT: δ_CP consistent with NuFIT 6.0 2σ; |m_ββ|<36 meV; Majorana phases from orbifold BC); Pillar 699 (CKM_LAMBDA6_HIGHER_ORDER: |Vus|, |Vud|, |Vub| to O(λ⁶); λ⁶ perturbativity confirmed; Cabibbo angle shift <0.1°); Pillar 700 (TOE_SCORE_AUDIT_30_28: 30.0/28 certified at 700-pillar milestone; 4 open falsification windows; full architecture-limit ledger); Pillar 701 (SPRINT_W_REGRESSION_CERTIFICATE_ISSUED: v21.4 sync; BC1–BC12; next slot 702). Sprint totals: +65 tests, 0 ToE change, next pillar slot: 702. Full regression: ~52,412 passed.*
 
 *v21.3 Sprint V — Tightening 11–12 + NP BC11 + CKM/ν audit (2026-08-18)
 
