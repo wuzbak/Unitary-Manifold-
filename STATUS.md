@@ -1,8 +1,12 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v21.7 — Effective 2026-08-18*
+*Unitary Manifold v21.8 — Effective 2026-08-18*
 
-*v21.7 Sprint Z — Tightening 15–16 + NP BC15 + B-mode + DM relic (2026-08-18): Pillar 711 (NP_BC15_CHERN_SIMONS_KERNEL_COMPUTED: BC15 closed; K_CS=74 coincides with braided winding — self-consistency); Pillar 712 (TENSOR_SPECTRAL_INDEX_TIGHTENING_15: n_T^KK=−r/(8c_s²)=−0.047 with c_s=12/37; below BICEP3 sensitivity); Pillar 713 (BMODE_POLARISATION_POWER_SPECTRUM: r=0.0315 within BICEP/Keck; LiteBIRD 31.5σ detection; primary falsifier ~2032); Pillar 714 (KK_DM_RELIC_DENSITY_TIGHTENING_16: Ω_KK h²≈0.056 factor ~2 below observed — architecture limit); Pillar 715 (SPRINT_Z_REGRESSION_CERTIFICATE_ISSUED: v21.7 sync; BC1–BC15; next slot 716). Sprint totals: +55 tests, 0 ToE change, next pillar slot: 716. Full regression: ~52,578 passed.*
+*v21.8 Sprint AA — Tightening 17–18 + NP BC16 + EW/DM routing (2026-08-18): Pillar 716 (NP_BC16_GAUGE_ANOMALY_KERNEL: BC16 closed; primary BC1–BC16 ladder complete); Pillar 717 (KK_DM_DIRECT_DETECTION: grav null ~10⁻⁵⁶ cm²; EW channel ~10⁻⁴⁶ cm² in XENON-nT reach); Pillar 718 (FINE_STRUCTURE_KK_RUNNING_TIGHTENING_17: Δα^KK/α ~ 0.2% — sub-percent); Pillar 719 (SIN2_THETAW_KK_TIGHTENING_18: Δsin²θ_W ~ 1.5×10⁻⁴; visible at Tera-Z); Pillar 720 (SPRINT_AA_CERTIFICATE: v21.8 sync; BC1–BC16 ladder complete; next slot 721). Sprint totals: +52 tests, 0 ToE change, next pillar slot: 721. Full regression: ~52,630 passed.*
+
+*v21.7 Sprint Z — Tightening 15–16 + NP BC15 + B-mode + DM relic (2026-08-18)
+
+Pillar 711 (NP_BC15_CHERN_SIMONS_KERNEL_COMPUTED: BC15 closed; K_CS=74 coincides with braided winding — self-consistency); Pillar 712 (TENSOR_SPECTRAL_INDEX_TIGHTENING_15: n_T^KK=−r/(8c_s²)=−0.047 with c_s=12/37; below BICEP3 sensitivity); Pillar 713 (BMODE_POLARISATION_POWER_SPECTRUM: r=0.0315 within BICEP/Keck; LiteBIRD 31.5σ detection; primary falsifier ~2032); Pillar 714 (KK_DM_RELIC_DENSITY_TIGHTENING_16: Ω_KK h²≈0.056 factor ~2 below observed — architecture limit); Pillar 715 (SPRINT_Z_REGRESSION_CERTIFICATE_ISSUED: v21.7 sync; BC1–BC15; next slot 716). Sprint totals: +55 tests, 0 ToE change, next pillar slot: 716. Full regression: ~52,578 passed.*
 
 *v21.6 Sprint Y — NP-BC14 + CMB/GW/collider routing (2026-08-18)
 
