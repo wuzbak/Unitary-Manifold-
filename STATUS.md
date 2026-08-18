@@ -1,8 +1,12 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v21.3 — Effective 2026-08-18*
+*Unitary Manifold v21.4 — Effective 2026-08-18*
 
-*v21.3 Sprint V — Tightening 11–12 + NP BC11 + CKM/ν audit (2026-08-18): Pillar 692 (NP_BC11_FERMION_GAUGE_LOOP_KERNEL_COMPUTED: BC11 closed; BC1–BC11 ledger complete); Pillar 693 (CKM_JARLSKOG_FULL_AUDIT: J≈3.08×10⁻⁵; FN Tightening 11 shifts J by <1%; unitarity triangle α+β+γ=π confirmed); Pillar 694 (DM31_JUNO_PHASE2_ROUTING: Δm²₃₁=2.4109×10⁻³ eV²; JUNO Phase 2 σ≈2.4×10⁻⁶ eV²; IH at >3σ would falsify KK-NH); Pillar 695 (UNITARITY_TRIANGLE_CLOSURE_AUDIT: first+second row unitarity <10⁻⁴; α+β+γ=180° with FN correction); Pillar 696 (SPRINT_V_REGRESSION_CERTIFICATE_ISSUED: v21.3 sync; BC1–BC11 complete; PMNS all 3 angles; next slot 697). Sprint totals: +76 tests, 0 ToE change, next pillar slot: 697. Full regression: ~52,347 passed.*
+*v21.4 Sprint W — Tightening 13 + NP BC12 + 700-pillar milestone (2026-08-18): Pillar 697 (NP_BC12_HIGHER_LOOP_KERNEL_COMPUTED: 2-loop mixed graviton-matter; BC1–BC12 ledger complete; K_BC12 quartic-suppressed at UV FP); Pillar 698 (MAJORANA_DELTA_CP_REFINEMENT: δ_CP consistent with NuFIT 6.0 2σ; |m_ββ|<36 meV; Majorana phases from orbifold BC); Pillar 699 (CKM_LAMBDA6_HIGHER_ORDER: |Vus|, |Vud|, |Vub| to O(λ⁶); λ⁶ perturbativity confirmed; Cabibbo angle shift <0.1°); Pillar 700 (TOE_SCORE_AUDIT_30_28: 30.0/28 certified at 700-pillar milestone; 4 open falsification windows; full architecture-limit ledger); Pillar 701 (SPRINT_W_REGRESSION_CERTIFICATE_ISSUED: v21.4 sync; BC1–BC12; next slot 702). Sprint totals: +65 tests, 0 ToE change, next pillar slot: 702. Full regression: ~52,412 passed.*
+
+*v21.3 Sprint V — Tightening 11–12 + NP BC11 + CKM/ν audit (2026-08-18)
+
+Pillar 692 (NP_BC11_FERMION_GAUGE_LOOP_KERNEL_COMPUTED: BC11 closed; BC1–BC11 ledger complete); Pillar 693 (CKM_JARLSKOG_FULL_AUDIT: J≈3.08×10⁻⁵; FN Tightening 11 shifts J by <1%; unitarity triangle α+β+γ=π confirmed); Pillar 694 (DM31_JUNO_PHASE2_ROUTING: Δm²₃₁=2.4109×10⁻³ eV²; JUNO Phase 2 σ≈2.4×10⁻⁶ eV²; IH at >3σ would falsify KK-NH); Pillar 695 (UNITARITY_TRIANGLE_CLOSURE_AUDIT: first+second row unitarity <10⁻⁴; α+β+γ=180° with FN correction); Pillar 696 (SPRINT_V_REGRESSION_CERTIFICATE_ISSUED: v21.3 sync; BC1–BC11 complete; PMNS all 3 angles; next slot 697). Sprint totals: +76 tests, 0 ToE change, next pillar slot: 697. Full regression: ~52,347 passed.*
 
 *v21.2 Sprint U — Tightening 8–10 + NP BC10 (2026-08-18)
 
