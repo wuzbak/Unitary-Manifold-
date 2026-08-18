@@ -1,8 +1,12 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v21.2 — Effective 2026-08-18*
+*Unitary Manifold v21.3 — Effective 2026-08-18*
 
-*v21.2 Sprint U — Tightening 8–10 + NP BC10 (2026-08-18): Pillar 687 (NP_BC10_RADION_SCALAR_LOOP_KERNEL_COMPUTED: Γ_scalar=K_CS×36/(64π⁶)×M_KK⁴~1.5% of Γ_graviton; K_BC10=G_N*×Γ_scalar×(1−G_N/G_N*)²; BC1–BC10 ledger complete); Pillar 688 (PMNS_THETA23_KK_OVERLAP_CONSISTENCY_CHECKED: sin²θ₂₃=sin²(π/4+ε₂₃); near-maximal from near-degenerate KK wavefunctions; unified θ₁₂/θ₁₃/θ₂₃ PMNS framework complete); Pillar 689 (NU_MASS_HIERARCHY_NORMAL_PREDICTED_FROM_ORBIFOLD_BC: NH from UV-peaked c_L via Z₂ Dirichlet BC for ν_R; NuFIT 6.0 Δχ²≈5 consistent; Σm_ν<0.12 eV satisfied); Pillar 690 (MAJORANA_SEESAW_ARCHITECTURE_LIMIT_DOCUMENTED: K(c_ν)=1/(x_1×M_KK) computed; m_ν≫49 meV for IR-peaked ν_R — architecture limit); Pillar 691 (SPRINT_U_REGRESSION_CERTIFICATE_ISSUED: v21.2 sync; BC1–BC10 complete; PMNS all 3 angles; next slot 692). Sprint totals: +90 tests, 0 ToE change, next pillar slot: 692. Full regression: ~52,271 passed.*
+*v21.3 Sprint V — Tightening 11–12 + NP BC11 + CKM/ν audit (2026-08-18): Pillar 692 (NP_BC11_FERMION_GAUGE_LOOP_KERNEL_COMPUTED: BC11 closed; BC1–BC11 ledger complete); Pillar 693 (CKM_JARLSKOG_FULL_AUDIT: J≈3.08×10⁻⁵; FN Tightening 11 shifts J by <1%; unitarity triangle α+β+γ=π confirmed); Pillar 694 (DM31_JUNO_PHASE2_ROUTING: Δm²₃₁=2.4109×10⁻³ eV²; JUNO Phase 2 σ≈2.4×10⁻⁶ eV²; IH at >3σ would falsify KK-NH); Pillar 695 (UNITARITY_TRIANGLE_CLOSURE_AUDIT: first+second row unitarity <10⁻⁴; α+β+γ=180° with FN correction); Pillar 696 (SPRINT_V_REGRESSION_CERTIFICATE_ISSUED: v21.3 sync; BC1–BC11 complete; PMNS all 3 angles; next slot 697). Sprint totals: +76 tests, 0 ToE change, next pillar slot: 697. Full regression: ~52,347 passed.*
+
+*v21.2 Sprint U — Tightening 8–10 + NP BC10 (2026-08-18)
+
+Pillar 687 (NP_BC10_RADION_SCALAR_LOOP_KERNEL_COMPUTED: Γ_scalar=K_CS×36/(64π⁶)×M_KK⁴~1.5% of Γ_graviton; K_BC10=G_N*×Γ_scalar×(1−G_N/G_N*)²; BC1–BC10 ledger complete); Pillar 688 (PMNS_THETA23_KK_OVERLAP_CONSISTENCY_CHECKED: sin²θ₂₃=sin²(π/4+ε₂₃); near-maximal from near-degenerate KK wavefunctions; unified θ₁₂/θ₁₃/θ₂₃ PMNS framework complete); Pillar 689 (NU_MASS_HIERARCHY_NORMAL_PREDICTED_FROM_ORBIFOLD_BC: NH from UV-peaked c_L via Z₂ Dirichlet BC for ν_R; NuFIT 6.0 Δχ²≈5 consistent; Σm_ν<0.12 eV satisfied); Pillar 690 (MAJORANA_SEESAW_ARCHITECTURE_LIMIT_DOCUMENTED: K(c_ν)=1/(x_1×M_KK) computed; m_ν≫49 meV for IR-peaked ν_R — architecture limit); Pillar 691 (SPRINT_U_REGRESSION_CERTIFICATE_ISSUED: v21.2 sync; BC1–BC10 complete; PMNS all 3 angles; next slot 692). Sprint totals: +90 tests, 0 ToE change, next pillar slot: 692. Full regression: ~52,271 passed.*
 
 
 
