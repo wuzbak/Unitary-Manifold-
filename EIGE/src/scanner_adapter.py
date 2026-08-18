@@ -325,7 +325,6 @@ class ScannerAdapter:
     @property
     def total_processed(self) -> int:
         return self._total_processed
-        return self._admitted_count
 
     @property
     def rejected_count(self) -> int:

@@ -70,12 +70,10 @@ export interface AdjudicatorEnqueueRequest {
 
 /** Item returned from GET /queue */
 export interface AdjudicatorQueueItem {
-  record_id: string;
-  record: Record<string, unknown>;
-  reason: string;
-  field_name: string | null;
+  id: string;
+  payload: Record<string, unknown>;
   queued_at: string;  // ISO-8601
-  status: "PENDING" | "RESOLVED";
+  status: "pending" | "resolved";
 }
 
 /** Payload sent to POST /resolve/<record_id> */
@@ -86,7 +84,7 @@ export interface AdjudicatorResolveRequest {
 
 /** Response from POST /resolve/<record_id> */
 export interface AdjudicatorResolveResponse {
-  status: "RESOLVED";
+  status: "resolved";
   record_id: string;
   resolution: AdjudicationResolution;
 }
@@ -116,7 +114,7 @@ export class AdjudicatorClient {
   }
 
   /** Fetch the current adjudicator queue. */
-  async getQueue(): Promise<AdjudicatorQueueItem[]> {
+  async getQueue(): Promise<{ items: AdjudicatorQueueItem[]; count: number }> {
     const resp = await fetch(`${this.baseUrl}/queue`);
     if (!resp.ok) {
       throw new Error(`/queue failed: ${resp.status} ${resp.statusText}`);
