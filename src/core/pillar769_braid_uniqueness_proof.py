@@ -207,9 +207,12 @@ def apply_all_filters() -> Dict:
     after_ab = filter_b_spectral_index(after_a)
     after_abc = filter_c_minimum_step(after_ab)
 
-    rejected_by_a = [p for p in all_pairs if p not in after_a]
-    rejected_by_b = [p for p in after_a if p not in after_ab]
-    rejected_by_c = [p for p in after_ab if p not in after_abc]
+    after_a_set = set(after_a)
+    after_ab_set = set(after_ab)
+    after_abc_set = set(after_abc)
+    rejected_by_a = [p for p in all_pairs if p not in after_a_set]
+    rejected_by_b = [p for p in after_a if p not in after_ab_set]
+    rejected_by_c = [p for p in after_ab if p not in after_abc_set]
 
     return {
         "admissible_set_size": len(all_pairs),
