@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TerraOS — Soil &amp; Water Expert System — AxiomZero</title>
+  <meta name="description" content="Soil and water expert consultation: describe your soil/water condition to receive science-backed remediation recommendations." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/11-terra-os.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="../js/az-api.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">🌍</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 11 · 12-AZ-IP/11-terra-os</div>
+        <div class="app-title">TerraOS — Soil &amp; Water Expert System</div>
+        <div class="app-subtitle">RAG-powered expert system for soil science, water quality analysis, and land remediation. TF-IDF retrieval from authoritative soil and water documentation. Practical recommendations for professionals and researchers.</div>
+        <div class="app-tags"><span class="tag tag-adjacent">🔵 Adjacent Track</span><span class="tag tag-dep">FastAPI</span><span class="tag tag-dep">TF-IDF</span><span class="tag tag-dep">Python</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container section-sm">
+  <!-- API endpoint bar -->
+  <div class="api-endpoint-bar">
+    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
+    <input type="text" id="endpointInput" placeholder="https://your-host:8001" />
+    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
+    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
+  </div>
+
+  <div class="app-layout">
+    <div>
+      <div class="panel" id="inputPanel">
+        <div class="panel-title">⚙️ Input</div>
+        <div class="form-group">
+          <label class="form-label">Query / Input</label>
+          <textarea id="mainInput" class="form-input" rows="5" placeholder="Enter your query here…"></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitQuery()">Submit</button>
+      </div>
+    </div>
+    <div>
+      <div class="panel output-panel" id="outputPanel">
+        <div class="panel-title">📊 Output</div>
+        <div id="outputArea">
+          <div class="az-offline-notice">
+            <div class="az-offline-icon">📡</div>
+            <strong>Demo Mode</strong>
+            <p>Connect a live backend URL above, or see sample output below.</p>
+          </div>
+          <div id="sampleOutput" style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
+            <em>Sample output will appear here after submitting a query.</em>
+          </div>
+        </div>
+      </div>
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export session as PDF dossier</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="epistemic-box" style="margin-top:2rem">
+    <strong>Dependencies:</strong> fastapi, uvicorn, numpy, scikit-learn
+  </div>
+
+  <div class="run-local" style="margin-top:1.5rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span>💻 Run Locally</span><span>▾</span>
+    </div>
+    <div class="run-local-body">
+<div class="code-block">pip install -r 12-AZ-IP/11-terra-os/requirements.txt
+cd 12-AZ-IP/11-terra-os
+python run.py   # → http://localhost:8001</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
+        Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/11-terra-os" target="_blank">12-AZ-IP/11-terra-os ↗</a>
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+<script>
+var liveMode = false, lastInput = '', lastOutput = '';
+AZAPI.bindCustomEndpoint('endpointInput', '11-terra-os');
+
+function connectAPI() {
+  var url = document.getElementById('endpointInput').value.trim();
+  if (!url) { alert('Enter a backend URL.'); return; }
+  AZAPI.endpoints['11-terra-os'] = url.replace(/\/$/,'');
+  document.getElementById('connStatus').textContent = '● Connecting…';
+  AZAPI.call('11-terra-os', '/health').then(function(r) {
+    document.getElementById('connStatus').textContent = r.ok ? '🟢 Live' : '🔴 Unreachable';
+    liveMode = r.ok;
+  });
+}
+
+function submitQuery() {
+  var input = document.getElementById('mainInput').value.trim();
+  if (!input) return;
+  lastInput = input;
+  var out = document.getElementById('outputArea');
+  AZAPI.setLoading(out, true);
+  if (liveMode) {
+    AZAPI.call('11-terra-os', '/query', { method:'POST', body:{ input: input } }).then(function(r) {
+      if (r.ok) {
+        lastOutput = JSON.stringify(r.data, null, 2);
+        AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
+      } else {
+        AZAPI.showError(out, r.error);
+      }
+    });
+  } else {
+    setTimeout(function() {
+      lastOutput = 'Demo mode — sample response for: "' + input.slice(0,60) + '…"\n\n{ "status": "ok", "result": "[Connect a live backend to see real output]", "epistemic": "demo" }';
+      AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
+    }, 600);
+  }
+}
+
+window.addEventListener('load', function() {
+  document.getElementById('dossierBtn').addEventListener('click', function() {
+    AZDossier.export({
+      appName: 'TerraOS — Soil &amp; Water Expert System',
+      appId: '11-terra-os', version: 'v1.0',
+      epistemic: '🔵 ADJACENT TRACK',
+      inputs:  [{ label: 'Query', value: lastInput || '(none)' }],
+      outputs: [{ label: 'Result', value: lastOutput || '(none)' }],
+      notes: 'Backend port: 8001. Connect a live instance to generate real outputs.',
+      dependencies: ['fastapi, uvicorn, numpy, scikit-learn'],
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Holon Zero — Ground State Engine · AxiomZero</title>
+  <meta name="description" content="Compute the ground state of the Unitary Manifold: phi-trust, resonance signature, entanglement measure. Runs fully in-browser." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/07-holon-zero.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">⬡</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 07 · 12-AZ-IP/07-holon-zero</div>
+        <div class="app-title">Holon Zero</div>
+        <div class="app-subtitle">Ground State Engine of the Unitary Manifold. Every system has a ground state — a zero-point configuration of minimum coherent energy. Holon Zero computes it across cosmology, consciousness, ecology, governance, and biology from seed constants alone.</div>
+        <div class="app-tags">
+          <span class="tag tag-green">🟢 Runs in Browser</span>
+          <span class="tag tag-physics">⚛️ Physics</span>
+          <span class="tag tag-dep">JavaScript</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <div class="app-layout">
+    <div>
+      <div class="panel">
+        <div class="panel-title">⚙️ System Input</div>
+
+        <div class="form-group">
+          <label class="form-label">Domain</label>
+          <select id="domainSel" class="form-input" onchange="computeHolon()">
+            <option value="cosmos">Cosmology — KK ground state</option>
+            <option value="consciousness">Consciousness — HILS attractor</option>
+            <option value="ecology">Ecology — ecosystem coherence</option>
+            <option value="governance">Governance — Pentad equilibrium</option>
+            <option value="biology">Biology — phi-homeostasis</option>
+            <option value="physics">Particle Physics — vacuum energy</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phi-trust seed φ₀ (0–1)</label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="phiSeed" min="0" max="1" step="0.01" value="0.73" oninput="computeHolon()"/>
+            <span style="font-family:var(--font-mono);color:var(--color-gold);min-width:42px" id="phiVal">0.73</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Operator count n (HIL operators)</label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="nOp" min="1" max="30" step="1" value="15" oninput="computeHolon()"/>
+            <span style="font-family:var(--font-mono);color:var(--color-gold);min-width:28px" id="nOpVal">15</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Entropy load S (0–1)</label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="entropy" min="0" max="1" step="0.01" value="0.20" oninput="computeHolon()"/>
+            <span style="font-family:var(--font-mono);color:var(--color-gold);min-width:42px" id="entropyVal">0.20</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="computeHolon()">Compute Ground State</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel output-panel">
+        <div class="panel-title">📊 Ground State</div>
+        <div id="holonResult"><div style="color:var(--color-muted);font-size:.9rem">Click Compute.</div></div>
+      </div>
+
+      <div class="viz-canvas-wrap" style="margin-top:1rem">
+        <canvas id="holonViz" width="600" height="200"></canvas>
+      </div>
+
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export ground state dossier (PDF)</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="epistemic-box" style="margin-top:2rem">
+    <strong>Epistemic Status</strong> — Holon Zero applies the Unitary Manifold's 5D metric structure to non-physics domains (consciousness, governance, ecology). These are <strong>adjacent tracks</strong>, not hardgate physics claims. All outputs are mathematical models; interpret accordingly.
+  </div>
+
+  <div class="run-local" style="margin-top:1.5rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span>💻 Run Backend Locally</span><span>▾</span>
+    </div>
+    <div class="run-local-body">
+<div class="code-block">pip install numpy scipy
+cd 12-AZ-IP/07-holon-zero
+python holon_zero_engine.py --domain cosmos --phi0 0.73
+# or:
+python -c "from holon_zero.holon_zero_engine import HolonZeroEngine; h=HolonZeroEngine(); print(h.compute_ground_state('cosmos'))"</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/07-holon-zero" target="_blank">12-AZ-IP/07-holon-zero ↗</a></p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+
+<script>
+const XI_C = 35/74, C_S = 12/37, SENTINEL = 12/37, HIL_SAT = 15;
+
+const DOMAINS = {
+  cosmos:        { label:'Cosmology',       icon:'🌌', phi_base: 0.9999, ent_base: 1e-123 },
+  consciousness: { label:'Consciousness',   icon:'🧠', phi_base: XI_C,   ent_base: 0.12 },
+  ecology:       { label:'Ecology',         icon:'🌿', phi_base: 0.618,  ent_base: 0.33 },
+  governance:    { label:'Governance',      icon:'⚖️', phi_base: 0.5,    ent_base: 0.44 },
+  biology:       { label:'Biology',         icon:'🧬', phi_base: 0.73,   ent_base: 0.25 },
+  physics:       { label:'Particle Physics',icon:'⚛️', phi_base: 1.0,    ent_base: 1e-60 },
+};
+
+let lastResult = {};
+
+function computeHolon() {
+  const domain  = document.getElementById('domainSel').value;
+  const phi0    = +document.getElementById('phiSeed').value;
+  const nOp     = +document.getElementById('nOp').value;
+  const entropy = +document.getElementById('entropy').value;
+
+  document.getElementById('phiVal').textContent    = phi0.toFixed(2);
+  document.getElementById('nOpVal').textContent    = nOp;
+  document.getElementById('entropyVal').textContent= entropy.toFixed(2);
+
+  const d  = DOMAINS[domain];
+  const hil_phase = Math.min(nOp / HIL_SAT, 1.0);
+  const phi_trust = Math.max(0, d.phi_base * phi0 - entropy * (1 - XI_C));
+  const resonance = Math.abs(Math.sin(phi0 * Math.PI * C_S * nOp));
+  const ground_energy = d.ent_base * Math.exp(-phi_trust / C_S);
+  const coherence = phi_trust > XI_C ? 'COHERENT' : 'SUB-THRESHOLD';
+  const hil_status = nOp >= HIL_SAT ? 'SATURATED' : `${nOp}/${HIL_SAT}`;
+
+  const cohColor = coherence === 'COHERENT' ? 'var(--color-green)' : 'var(--color-orange)';
+
+  document.getElementById('holonResult').innerHTML = `
+    <div style="margin-bottom:1rem">
+      <div style="font-size:.78rem;color:var(--color-muted)">${d.icon} ${d.label} Ground State</div>
+      <div class="result-value">${phi_trust.toFixed(5)}</div>
+      <div class="result-label">φ-trust</div>
+    </div>
+    <div class="result-row"><span class="result-row-label">Coherence status</span><span class="result-row-val" style="color:${cohColor};font-weight:700">${coherence}</span></div>
+    <div class="result-row"><span class="result-row-label">Resonance signature</span><span class="result-row-val">${resonance.toFixed(6)}</span></div>
+    <div class="result-row"><span class="result-row-label">Ground energy</span><span class="result-row-val">${ground_energy.toExponential(4)}</span></div>
+    <div class="result-row"><span class="result-row-label">HIL phase shift</span><span class="result-row-val">${(hil_phase*100).toFixed(1)}% — ${hil_status}</span></div>
+    <div class="result-row"><span class="result-row-label">Ξ_c threshold</span><span class="result-row-val">${XI_C.toFixed(6)}</span></div>
+    <div class="result-row"><span class="result-row-label">Sentinel capacity</span><span class="result-row-val">${SENTINEL.toFixed(6)}</span></div>
+  `;
+
+  drawHolonViz(phi_trust, resonance, nOp, entropy);
+  lastResult = { domain, phi0, nOp, entropy, phi_trust, resonance, ground_energy, coherence, hil_status };
+}
+
+function drawHolonViz(phi_trust, resonance, nOp, entropy) {
+  const canvas = document.getElementById('holonViz');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#030815';
+  ctx.fillRect(0, 0, W, H);
+
+  // Draw phi-trust bar
+  const barH = 12, barY = 30, barX = 80;
+  ctx.fillStyle = '#1a2a4a';
+  ctx.fillRect(barX, barY, W-barX-20, barH);
+  const trustPct = Math.min(1, phi_trust);
+  const color = phi_trust > XI_C ? '#30d158' : '#ff9f0a';
+  ctx.fillStyle = color;
+  ctx.fillRect(barX, barY, (W-barX-20)*trustPct, barH);
+
+  ctx.fillStyle = '#7a8ba8';
+  ctx.font = '10px JetBrains Mono, monospace';
+  ctx.fillText('φ-trust', 10, barY+9);
+  ctx.fillStyle = '#e8ecf4';
+  ctx.fillText(phi_trust.toFixed(4), barX + (W-barX-20)*trustPct + 4, barY+9);
+
+  // Threshold line
+  ctx.strokeStyle = 'rgba(240,192,64,0.6)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  const threshX = barX + (W-barX-20) * XI_C;
+  ctx.beginPath(); ctx.moveTo(threshX, barY-4); ctx.lineTo(threshX, barY+barH+4); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = 'rgba(240,192,64,0.8)';
+  ctx.font = '9px JetBrains Mono, monospace';
+  ctx.fillText('Ξ_c', threshX+2, barY-6);
+
+  // Resonance waveform
+  ctx.beginPath();
+  ctx.strokeStyle = '#7c4dff';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i <= 300; i++) {
+    const x = barX + (i/300)*(W-barX-20);
+    const t = (i/300)*2*Math.PI*nOp;
+    const amp = 40;
+    const y = H - 60 + amp * Math.sin(t) * Math.exp(-entropy * t / (2*Math.PI*nOp));
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  ctx.fillStyle = '#7a8ba8';
+  ctx.font = '10px JetBrains Mono, monospace';
+  ctx.fillText('Resonance  n_op=' + nOp, 10, H-50);
+}
+
+window.addEventListener('load', function() {
+  document.getElementById('dossierBtn').addEventListener('click', function() {
+    if (!lastResult.domain) { alert('Run a computation first.'); return; }
+    const d = DOMAINS[lastResult.domain];
+    AZDossier.export({
+      appName: 'Holon Zero — Ground State Engine',
+      appId: '07-holon-zero', version: 'v20.1',
+      epistemic: lastResult.domain === 'cosmos' || lastResult.domain === 'physics'
+        ? '⚛️ PHYSICS' : '🔵 ADJACENT TRACK',
+      inputs: [
+        { label: 'Domain',          value: d.label },
+        { label: 'Phi-trust seed',  value: lastResult.phi0 },
+        { label: 'HIL operators n', value: lastResult.nOp },
+        { label: 'Entropy load S',  value: lastResult.entropy },
+      ],
+      outputs: [
+        { label: 'Phi-trust',       value: lastResult.phi_trust.toFixed(6) },
+        { label: 'Coherence',       value: lastResult.coherence },
+        { label: 'Resonance',       value: lastResult.resonance.toFixed(6) },
+        { label: 'Ground energy',   value: lastResult.ground_energy.toExponential(4) },
+        { label: 'HIL status',      value: lastResult.hil_status },
+      ],
+      notes: 'Ξ_c threshold = ' + XI_C.toFixed(6) + '. System is coherent when φ-trust > Ξ_c.',
+      dependencies: ['JavaScript (browser)', 'numpy/scipy (backend)', 'jsPDF'],
+    });
+  });
+  computeHolon();
+});
+</script>
+</body>
+</html>

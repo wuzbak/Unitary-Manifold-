@@ -24,6 +24,8 @@
     .rubric-key { color:var(--color-muted); font-size:.8rem; font-family:var(--font-mono); }
     .hils-note { background:rgba(240,192,64,.07); border:1px solid rgba(240,192,64,.2); border-radius:8px; padding:1rem; font-size:.88rem; color:var(--color-gold); margin:1rem 0; }
   </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
 </head>
 <body>
 <nav class="nav">
@@ -206,6 +208,25 @@ async function submitLodge() {
 }
 
 loadPrompts();
+</script>
+
+<div style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:900">
+  <button class="btn-dossier" id="dossierBtn" onclick="exportLodgeDossier()" style="box-shadow:0 4px 20px rgba(240,192,64,0.3)">📄 Export Dossier</button>
+</div>
+<script>
+function exportLodgeDossier() {
+  if(typeof AZDossier==='undefined'){alert('PDF library loading, try again.');return;}
+  AZDossier.export({
+    appName: 'Logic Lodge — Lodge',
+    appId: 'lodge-lodge',
+    version: 'v1.0',
+    epistemic: '⚛️ PHYSICS — scored against real src/core/ outputs',
+    inputs: [{label:'Session',value:new Date().toISOString()}],
+    outputs: [{label:'Zone',value:'Logic Lodge — Lodge'}],
+    notes: 'Visit the full API reference at /lodge/api-docs.html for programmatic access.',
+    dependencies:['fastapi','uvicorn','numpy','gymnasium','jsPDF'],
+  });
+}
 </script>
 </body>
 </html>

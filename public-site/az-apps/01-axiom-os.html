@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>AxiomOS — Persistent AI Cognitive Layer · AxiomZero</title>
+  <meta name="description" content="Multi-agent OS kernel with persistent memory, goal scheduling, and Kaluza-Klein grounded belief engine." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/01-axiom-os.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="../js/az-api.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">🧠</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 01 · 12-AZ-IP/01-axiom-os</div>
+        <div class="app-title">AxiomOS — Persistent AI Cognitive Layer</div>
+        <div class="app-subtitle">A multi-agent operating system with persistent memory, hierarchical goal scheduling, and a belief engine grounded in the 5D Kaluza-Klein metric. AxiomOS is the cognitive foundation on which all other AZ products can run as agents.</div>
+        <div class="app-tags">
+          <span class="tag tag-ai">🤖 AI Agent</span>
+          <span class="tag tag-os">OS</span>
+          <span class="tag tag-dep">Python</span>
+          <span class="tag tag-dep">FastAPI</span>
+          <span class="tag tag-dep">Docker</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container section-sm">
+  <div class="api-endpoint-bar">
+    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
+    <input type="text" id="endpointInput" placeholder="https://your-axiom-os-host" />
+    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
+    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
+  </div>
+
+  <div class="app-layout">
+    <div>
+      <div class="panel">
+        <div class="panel-title">⚙️ Agent Query</div>
+        <div class="form-group">
+          <label class="form-label">Agent goal / directive</label>
+          <textarea id="agentGoal" class="form-input" rows="4" placeholder="e.g. Summarise the key findings from the attached document and identify 3 actionable next steps."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Memory context tag</label>
+          <input type="text" id="memTag" class="form-input" placeholder="session-001 (optional)"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Agent mode</label>
+          <select id="agentMode" class="form-input">
+            <option value="think">Think — reason and plan</option>
+            <option value="act">Act — execute and report</option>
+            <option value="reflect">Reflect — review prior memory</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitGoal()">Submit to Agent</button>
+      </div>
+    </div>
+    <div>
+      <div class="panel output-panel">
+        <div class="panel-title">📊 Agent Response</div>
+        <div id="outputArea">
+          <div class="az-offline-notice">
+            <div class="az-offline-icon">🧠</div>
+            <strong>Demo Mode</strong>
+            <p>Connect a live AxiomOS backend or see the demo output below after submitting a goal.</p>
+          </div>
+        </div>
+      </div>
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export agent session dossier (PDF)</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Architecture overview -->
+  <div class="card" style="margin-top:2rem">
+    <h3 style="margin-bottom:1rem">Architecture</h3>
+    <div class="grid-3">
+      <div><div style="font-size:1.5rem;margin-bottom:.4rem">🧠</div><strong>Belief Engine</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">KK-grounded belief lattice. Truth values are φ-coherence scores, not binary.</p></div>
+      <div><div style="font-size:1.5rem;margin-bottom:.4rem">🗂️</div><strong>Persistent Memory</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Append-only session ledger. Memory decays by entropy rate, recoverable by resonance.</p></div>
+      <div><div style="font-size:1.5rem;margin-bottom:.4rem">📡</div><strong>Multi-Agent Bus</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">FastAPI message bus. Spawn, inspect, and kill sub-agents. Parent agent is always steward.</p></div>
+    </div>
+  </div>
+
+  <div class="run-local" style="margin-top:1.5rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span>💻 Run Locally</span><span>▾</span>
+    </div>
+    <div class="run-local-body">
+<div class="code-block">docker build -t axiom-os 12-AZ-IP/01-axiom-os
+docker run -p 8000:8000 axiom-os
+# or without Docker:
+pip install -r 12-AZ-IP/01-axiom-os/requirements.txt
+cd 12-AZ-IP/01-axiom-os && python -m uvicorn api.main:app --port 8000</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/01-axiom-os" target="_blank">12-AZ-IP/01-axiom-os ↗</a></p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+<script>
+var liveMode=false, lastInput='', lastOutput='';
+AZAPI.bindCustomEndpoint('endpointInput','01-axiom-os');
+function connectAPI(){
+  var url=document.getElementById('endpointInput').value.trim();
+  if(!url){alert('Enter a backend URL.');return;}
+  AZAPI.endpoints['01-axiom-os']=url.replace(/\/$/,'');
+  AZAPI.call('01-axiom-os','/health').then(function(r){
+    document.getElementById('connStatus').textContent=r.ok?'🟢 Live':'🔴 Unreachable';
+    liveMode=r.ok;
+  });
+}
+function submitGoal(){
+  var goal=document.getElementById('agentGoal').value.trim();
+  var tag=document.getElementById('memTag').value.trim()||'default';
+  var mode=document.getElementById('agentMode').value;
+  if(!goal)return;
+  lastInput='['+mode+'] '+goal;
+  var out=document.getElementById('outputArea');
+  AZAPI.setLoading(out,true);
+  if(liveMode){
+    AZAPI.call('01-axiom-os','/agent/run',{method:'POST',body:{goal,mode,memory_tag:tag}}).then(function(r){
+      if(r.ok){lastOutput=JSON.stringify(r.data,null,2);AZAPI.showResult(out,'<pre class="code-block" style="white-space:pre-wrap;margin:0">'+lastOutput+'</pre>');}
+      else{AZAPI.showError(out,r.error);}
+    });
+  } else {
+    setTimeout(function(){
+      lastOutput='[DEMO] Agent responded in think mode:\n\nGoal: "'+goal.slice(0,80)+'"\nMemory tag: '+tag+'\nSteps identified: 3\nConfidence: 0.847\nφ-trust: 0.6831\n\n[Connect live backend for real agent execution]';
+      AZAPI.showResult(out,'<pre class="code-block" style="white-space:pre-wrap;margin:0">'+lastOutput+'</pre>');
+    },700);
+  }
+}
+window.addEventListener('load',function(){
+  document.getElementById('dossierBtn').addEventListener('click',function(){
+    AZDossier.export({appName:'AxiomOS — AI Cognitive Layer',appId:'01-axiom-os',version:'v1.0',
+      epistemic:'🔵 ADJACENT TRACK — AI Systems',
+      inputs:[{label:'Goal',value:lastInput||'(none)'}],
+      outputs:[{label:'Response',value:lastOutput||'(none)'}],
+      dependencies:['fastapi','uvicorn','numpy','docker','jsPDF']});
+  });
+});
+</script>
+</body>
+</html>

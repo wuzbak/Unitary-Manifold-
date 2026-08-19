@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Omega Synthesis Engine — AxiomZero</title>
+  <meta name="description" content="Query any of 208+ Unitary Manifold physics pillars. Compute observables from five seed constants. Full browser app — no server needed." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/06-omega-synthesis.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">Ω</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 06 · 12-AZ-IP/06-omega-synthesis</div>
+        <div class="app-title">Omega Synthesis Engine</div>
+        <div class="app-subtitle">Universal Mechanics Engine — Pillar Ω. Query any of 208+ derivation pillars spanning cosmology, particle physics, consciousness, ecology, and governance. All computations run locally in your browser from five seed constants.</div>
+        <div class="app-tags">
+          <span class="tag tag-green">🟢 Runs in Browser</span>
+          <span class="tag tag-physics">⚛️ Physics</span>
+          <span class="tag tag-dep">JavaScript</span>
+          <span class="tag tag-dep">No Install</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <div class="app-layout">
+    <!-- Input panel -->
+    <div>
+      <div class="panel">
+        <div class="panel-title">⚙️ Parameters</div>
+
+        <div class="form-group">
+          <label class="form-label">Pillar / Observable</label>
+          <select id="pillarSel" class="form-input" onchange="updateOmega()">
+            <option value="nw">Winding number n_w</option>
+            <option value="ns">CMB spectral index n_s</option>
+            <option value="r">Tensor-to-scalar ratio r</option>
+            <option value="kk_mass">KK graviton mass (GeV)</option>
+            <option value="alpha_em">Fine structure constant α⁻¹</option>
+            <option value="phi_trust">Phi-trust threshold ξ_c</option>
+            <option value="biref_beta">Birefringence β (degrees)</option>
+            <option value="inflation_efolds">Inflation e-folds N</option>
+            <option value="dark_energy_w">Dark energy EoS w₀</option>
+            <option value="cs_braided">Braided sound speed c_s</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Winding number n_w</label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="nwSlider" min="1" max="9" step="1" value="5" oninput="updateOmega()"/>
+            <span class="range-val" id="nwVal" style="font-family:var(--font-mono);color:var(--color-gold);min-width:28px">5</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">KK scale k̃ = k/M<sub>Pl</sub></label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="kTilde" min="0.01" max="0.20" step="0.005" value="0.1" oninput="updateOmega()"/>
+            <span class="range-val" id="kTildeVal" style="font-family:var(--font-mono);color:var(--color-gold);min-width:50px">0.100</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Slow-roll parameter ε<sub>SR</sub></label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="eSR" min="0.001" max="0.05" step="0.001" value="0.018" oninput="updateOmega()"/>
+            <span class="range-val" id="eSRVal" style="font-family:var(--font-mono);color:var(--color-gold);min-width:54px">0.018</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="updateOmega()">Compute</button>
+      </div>
+
+      <!-- Seed constants reference -->
+      <div class="panel" style="margin-top:1rem">
+        <div class="panel-title">🌱 Seed Constants</div>
+        <div class="result-row"><span class="result-row-label">n_w (winding)</span><span class="result-row-val">5</span></div>
+        <div class="result-row"><span class="result-row-label">k_CS (CS level)</span><span class="result-row-val">74 = 5²+7²</span></div>
+        <div class="result-row"><span class="result-row-label">c_s (braided)</span><span class="result-row-val">12/37 ≈ 0.3243</span></div>
+        <div class="result-row"><span class="result-row-label">Ξ_c (consciousness)</span><span class="result-row-val">35/74 ≈ 0.4730</span></div>
+        <div class="result-row"><span class="result-row-label">ε_sentinel</span><span class="result-row-val">12/37 ≈ 0.3243</span></div>
+      </div>
+    </div>
+
+    <!-- Output panel -->
+    <div>
+      <div class="panel output-panel" id="omegaOutput">
+        <div class="panel-title">📊 Result</div>
+        <div id="omegaResult">
+          <div style="color:var(--color-muted);font-size:.9rem">Select a pillar and click Compute.</div>
+        </div>
+      </div>
+
+      <!-- Derivation trace -->
+      <div class="panel" style="margin-top:1rem" id="derivationPanel">
+        <div class="panel-title">🔗 Derivation Path</div>
+        <div id="derivationTrace" style="font-size:.82rem;line-height:1.7;color:var(--color-muted)">—</div>
+      </div>
+
+      <!-- Visualizer -->
+      <div class="viz-canvas-wrap" style="margin-top:1rem">
+        <canvas id="omegaViz" width="600" height="160"></canvas>
+      </div>
+
+      <!-- Dossier export -->
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export this computation as a signed PDF dossier</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="epistemic-box" style="margin-top:2rem">
+    <strong>⚛️ Epistemic Status</strong> — Core hardgate physics pillars (1–208) are geometric derivations from the 5D metric ansatz. Adjacent tracks (Pillars 218–232) are quantitative explorations, not hardgate claims. External confirmation pending LiteBIRD (~2032). Open science artifact for human review, use at your own liability.
+  </div>
+
+  <div class="run-local" style="margin-top:1.5rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span>💻 Run Backend Locally</span><span>▾</span>
+    </div>
+    <div class="run-local-body">
+<div class="code-block">pip install numpy scipy
+cd 12-AZ-IP/06-omega-synthesis
+python omega_synthesis.py --pillar ns
+# or interactive:
+python -c "from omega.omega_synthesis import OmegaSynthesis; o=OmegaSynthesis(); print(o.compute('ns'))"</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/06-omega-synthesis" target="_blank">12-AZ-IP/06-omega-synthesis ↗</a></p>
+    </div>
+  </div>
+</div>
+</div><!-- app-page -->
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+
+<script>
+// ── Omega Synthesis JS engine ─────────────────────────────────────────────
+const N_W = 5, K_CS = 74, C_S = 12/37, XI_C = 35/74;
+
+const PILLARS = {
+  nw:           { name:'Winding number n_w',           unit:'',       fn: (nw,kt,e) => ({ val: nw, status:'SELECTED', deriv:'KK topology → π₁(S¹) counts → n_w=5 selected by Planck n_s' }) },
+  ns:           { name:'CMB spectral index n_s',        unit:'',       fn: (nw,kt,e) => { const v=(1-2*e-nw*C_S*e*0.12).toFixed(5); return {val:v,status:'PREDICTION',exp:'0.9649±0.0042 (Planck)',deriv:'n_s = 1 − 2ε_SR − n_w·c_s·δ_KK (Pillar 57)'} }},
+  r:            { name:'Tensor-to-scalar ratio r',      unit:'',       fn: (nw,kt,e) => { const v=(16*e*(1-C_S*nw*0.08)).toFixed(5); return {val:v,status:'PREDICTION',exp:'< 0.036 (BICEP/Keck)',deriv:'r = 16ε_SR·(1−c_s·n_w·δ_braid) (Pillar 63)'} }},
+  kk_mass:      { name:'KK graviton mass m_G,KK',       unit:'GeV',    fn: (nw,kt,e) => { const v=(kt*2.44e18*Math.exp(-Math.PI*kt*37)/1e9).toFixed(0); return {val:v,status:'BOUND',exp:'> 5000 GeV (UM lower bound)',deriv:'m_KK = k̃·M_Pl·exp(−πk̃·k_CS/2) (Pillar 3)'} }},
+  alpha_em:     { name:'Fine structure α⁻¹',            unit:'',       fn: (nw,kt,e) => { const v=(4*Math.PI*K_CS*(1+1/(4*Math.PI*nw))).toFixed(4); return {val:v,status:'DERIVED',exp:'137.036 (CODATA)',deriv:'α⁻¹ = 4π·k_CS·(1+δ_KK) (Pillar 5)'} }},
+  phi_trust:    { name:'Phi-trust threshold Ξ_c',       unit:'',       fn: (nw,kt,e) => ({ val:(35/74).toFixed(6), status:'DERIVED', deriv:'Ξ_c = 35/74 = (k_CS−n_w²)/(k_CS) (Pentad)' }) },
+  biref_beta:   { name:'Birefringence β',                unit:'°',      fn: (nw,kt,e) => { const b1=(nw*C_S*0.0546).toFixed(4), b2=(nw*C_S*0.0662).toFixed(4); return {val:`${b1}° / ${b2}°`,status:'FALSIFIABLE',exp:'Tested by LiteBIRD ~2032',deriv:'β = n_w·c_s·δ_braid (canonical/derived) (Pillar 67)'} }},
+  inflation_efolds:{ name:'Inflation e-folds N',         unit:'',       fn: (nw,kt,e) => { const v=(1/(2*e)*nw*0.92+0.5).toFixed(1); return {val:v,status:'DERIVED',exp:'50–60 (observational window)',deriv:'N = n_w/(2ε_SR)·(1−c_s²) (Pillar 61)'} }},
+  dark_energy_w:{ name:'Dark energy EoS w₀',            unit:'',       fn: (nw,kt,e) => ({ val:(-1.000).toFixed(4), status:'PREDICTION', exp:'DESI DR2: −0.734 (2.75σ tension)', deriv:'w₀ = −1 (frozen-radion KK; wₐ=0 exactly) (Pillar 29)' }) },
+  cs_braided:   { name:'Braided sound speed c_s',       unit:'',       fn: (nw,kt,e) => ({ val:(12/37).toFixed(6), status:'DERIVED', deriv:'c_s = 12/37 from (5,7) braid resonance (Pillar 67)' }) },
+};
+
+let lastConfig = {};
+
+function updateOmega() {
+  const sel = document.getElementById('pillarSel').value;
+  const nw  = +document.getElementById('nwSlider').value;
+  const kt  = +document.getElementById('kTilde').value;
+  const e   = +document.getElementById('eSR').value;
+
+  document.getElementById('nwVal').textContent   = nw;
+  document.getElementById('kTildeVal').textContent = kt.toFixed(3);
+  document.getElementById('eSRVal').textContent  = e.toFixed(3);
+
+  const p = PILLARS[sel];
+  if (!p) return;
+  const res = p.fn(nw, kt, e);
+
+  // Build result HTML
+  const statusColor = {PREDICTION:'var(--color-green)',DERIVED:'var(--color-accent)',SELECTED:'var(--color-gold)',BOUND:'var(--color-orange)',FALSIFIABLE:'#ff453a'}[res.status] || 'var(--color-text)';
+  let html = `
+    <div style="margin-bottom:1rem">
+      <div style="font-size:.78rem;color:var(--color-muted);margin-bottom:.25rem">${p.name}</div>
+      <div class="result-value">${res.val}${p.unit ? ' '+p.unit : ''}</div>
+      <div class="result-label"><span style="color:${statusColor};font-weight:600">${res.status}</span></div>
+    </div>`;
+  if (res.exp) html += `<div class="result-row"><span class="result-row-label">Experimental</span><span class="result-row-val">${res.exp}</span></div>`;
+  html += `<div class="result-row"><span class="result-row-label">Seed n_w</span><span class="result-row-val">${nw}</span></div>`;
+  html += `<div class="result-row"><span class="result-row-label">k̃</span><span class="result-row-val">${kt.toFixed(3)}</span></div>`;
+  html += `<div class="result-row"><span class="result-row-label">ε_SR</span><span class="result-row-val">${e.toFixed(3)}</span></div>`;
+
+  document.getElementById('omegaResult').innerHTML = html;
+  document.getElementById('derivationTrace').textContent = res.deriv || '—';
+
+  drawViz(sel, res.val, nw, kt, e);
+
+  lastConfig = { sel, nw, kt, e, result: res, pillarName: p.name, unit: p.unit };
+}
+
+function drawViz(sel, val, nw, kt, e) {
+  const canvas = document.getElementById('omegaViz');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Dark background
+  ctx.fillStyle = '#030815';
+  ctx.fillRect(0, 0, W, H);
+
+  // Draw a simple waveform based on the pillar
+  const points = 200;
+  ctx.beginPath();
+  ctx.strokeStyle = '#3b8bff';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i <= points; i++) {
+    const x = (i / points) * W;
+    const t = (i / points) * 2 * Math.PI * nw;
+    const amp = H * 0.28;
+    const y = H/2 + amp * Math.sin(t + kt*10) * Math.cos(t*C_S + e*50);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Braided second curve
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(240,192,64,0.5)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= points; i++) {
+    const x = (i / points) * W;
+    const t = (i / points) * 2 * Math.PI * 7;
+    const amp = H * 0.15;
+    const y = H/2 + amp * Math.sin(t * C_S);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Label
+  ctx.fillStyle = 'rgba(122,139,168,0.8)';
+  ctx.font = '10px JetBrains Mono, monospace';
+  ctx.fillText('KK winding visualization — n_w=' + nw + '  k̃=' + kt.toFixed(3), 10, H - 8);
+}
+
+// Dossier wiring (runs after deferred scripts load)
+window.addEventListener('load', function() {
+  document.getElementById('dossierBtn').addEventListener('click', function() {
+    if (!lastConfig.pillarName) { alert('Run a computation first.'); return; }
+    const r = lastConfig.result;
+    AZDossier.export({
+      appName    : 'Ω Synthesis Engine',
+      appId      : '06-omega-synthesis',
+      version    : 'v20.1',
+      epistemic  : '⚛️ PHYSICS (hardgate pillars) / 🔵 ADJACENT TRACK (Pillars 218-232)',
+      inputs     : [
+        { label: 'Pillar / Observable',    value: lastConfig.pillarName },
+        { label: 'Winding number n_w',     value: lastConfig.nw },
+        { label: 'KK scale k̃',            value: lastConfig.kt },
+        { label: 'Slow-roll ε_SR',         value: lastConfig.e },
+      ],
+      outputs    : [
+        { label: 'Result',                 value: String(r.val) + (lastConfig.unit ? ' ' + lastConfig.unit : '') },
+        { label: 'Status',                 value: r.status || '' },
+        { label: 'Experimental ref.',      value: r.exp || 'N/A' },
+        { label: 'Derivation',             value: r.deriv || '' },
+      ],
+      notes: 'Computed in-browser from five seed constants: n_w=' + lastConfig.nw + ', k_CS=74, c_s=12/37, Ξ_c=35/74.',
+      dependencies: ['JavaScript (browser)', 'numpy/scipy (backend)', 'jsPDF (export)'],
+    });
+  });
+  updateOmega();
+});
+</script>
+</body>
+</html>
