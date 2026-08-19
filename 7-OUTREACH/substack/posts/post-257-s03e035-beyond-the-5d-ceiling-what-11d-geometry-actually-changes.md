@@ -131,8 +131,8 @@ and here is what it would take to go further.*
 
 ## What Didn't Change
 
-The hardgate score remains 100% (28.0/28.0).  All 208 core physics pillars
-are unchanged.  The ToE score tracks hardgate observational agreement — it does
+The hardgate score remains 100% (framework internally consistent).  All 208 core physics pillars
+are unchanged.  The framework derivation coverage tracks hardgate observational agreement — it does
 not count adjacent-track computational achievements.  That separation is
 intentional and non-negotiable.
 

@@ -279,7 +279,7 @@ def extension_spec_trigger() -> Dict[str, Any]:
             "Extension requires new physics beyond the minimal 5D-EFT."
         ),
         "toe_impact_if_triggered": (
-            "ToE score impact: T1 (dark energy wₐ) moves from HIGH_TENSION to FALSIFIED. "
+            "framework derivation coverage impact: T1 (dark energy wₐ) moves from HIGH_TENSION to FALSIFIED. "
             "P28 (cosmological constant reclassification) may be affected. "
             "No hardgate physics (P1–P28 Lane A) is affected by wₐ tension alone."
         ),

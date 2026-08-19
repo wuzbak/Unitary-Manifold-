@@ -33,10 +33,10 @@ Tier 4 — Pending Experimental Verdicts:
   P646: LISA Ω_GW template hardened
   P647: Multi-experiment joint protocol certified (5 experiments)
 
-ToE score impact:
-  No hardgate ToE score change from this sprint (all advances are status
+framework derivation coverage impact:
+  No hardgate physics label change from this sprint (all advances are status
   improvements, not new external-measurement confirmations).
-  Current ToE score: 30.0/28.
+  Current framework derivation coverage: framework internally consistent.
 """
 from __future__ import annotations
 

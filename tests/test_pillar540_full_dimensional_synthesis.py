@@ -531,7 +531,7 @@ class TestTerminalCertificate:
         assert cert["no_hardgate_score_change"] is True
 
     def test_terminal_certificate_toe_score_unchanged(self, cert):
-        """ToE score = '28/28'."""
+        """framework derivation coverage = '28/28'."""
         assert cert["toe_score"] == "28/28"
 
     def test_all_gaps_classified(self, cert):

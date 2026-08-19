@@ -208,7 +208,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "The full C_ℓ Boltzmann integration is NOT implemented (Phase 2 is open)",
         "The ×2.64 residual S_5D_cap is NOT closed by this pillar",
-        "No ToE score change — the CMB amplitude gap remains partially open",
+        "No physics label change — the CMB amplitude gap remains partially open",
         "Z_φ is a one-loop estimate; non-perturbative corrections are not evaluated",
     ]
 

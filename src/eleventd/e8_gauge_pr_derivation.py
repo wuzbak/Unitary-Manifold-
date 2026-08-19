@@ -47,7 +47,7 @@ Prior status map:
     Pillar 520 : CONDITIONAL_DERIVATION_11D — p_R derivable from E8 threshold,
                  conditional on Vol(CY₃) from Pillar 521.  This upgrades P517.
 
-No hardgate physics score changes.  The ToE score change from ARCHITECTURE_LIMIT
+No hardgate physics score changes.  The physics label change from ARCHITECTURE_LIMIT
 → CONDITIONAL_DERIVATION_11D is tracked in Pillar 523.
 """
 

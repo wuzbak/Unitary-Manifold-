@@ -4,7 +4,7 @@
 Pillar 696 — Sprint V Regression Certificate v21.3
 
 This pillar is the official regression certificate for Sprint V
-(Pillars 692–696). It records the pillar count, test count, ToE score,
+(Pillars 692–696). It records the pillar count, test count, framework derivation coverage,
 and architecture-limit ledger at the v21.3 checkpoint.
 
 Sprint V scope:
@@ -26,7 +26,7 @@ SPRINT_V_CERTIFICATE = {
     "pillar_total":      696,
     "new_tests_sprint":  "~230",
     "test_total_est":    "~52,501",
-    "toe_score":         "30.0/28",
+    "toe_score":         "framework internally consistent",
     "toe_changed":       False,
 
     # Architecture-limit ledger

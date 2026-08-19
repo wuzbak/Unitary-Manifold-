@@ -98,7 +98,7 @@ An ARCHITECTURE_LIMIT is a gap that cannot be closed by small corrections within
 3. External data that would force a specific revision of the framework
 
 It is NOT:
-- A free parameter adjustment (that would reduce the ToE score)
+- A free parameter adjustment (that would reduce the framework derivation coverage)
 - A post-hoc rationalization of a failed prediction
 - A way of hiding a problem
 

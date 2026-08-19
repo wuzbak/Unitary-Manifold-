@@ -29,7 +29,7 @@ Before describing what we did, here is what this sprint explicitly does **not** 
 - It does **not** provide an independent derivation of n_w = 5 from F-theory geometry
   alone (the I₅ monodromy coincidence is documented as structurally consistent, not
   independent).
-- It does **not** change the hardgate ToE score (remains 29.0/28).
+- It does **not** change the hardgate physics coverage (remains 29.0/28).
 - The original Gemini Notebook "storyboard" material that inspired this sprint was
   found to contain multiple fabricated outputs (a detailed audit is in the internal
   planning documents). None of that material was included in the implementation.
@@ -202,7 +202,7 @@ No regressions. All 285 new tests pass.
 
 | Item | Status |
 |------|--------|
-| ToE score | 29.0/28 (UNCHANGED) |
+| framework derivation coverage | 29.0/28 (UNCHANGED) |
 | Lean4 theorems | 240 (UNCHANGED) |
 | DBP rungs | 7 (Rungs 1–6 hardgate, Rung 7 adjacent track) |
 | Gap A (CC) | OPEN — F-theory landscape density documented; vacuum selection unsolved |

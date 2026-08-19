@@ -64,7 +64,7 @@
 | Total pillars | 630+ (including adjacent tracks) |
 | Adjacent research tracks | Pillars 218–630 registered (non-hardgate) |
 | Test suite | **~51,005 passed · 23 skipped · 12 deselected · 0 failed** (canonical) |
-| ToE Score | **30.0/28** (28/28 hardgate + 2.0 partial: P20/DM21 CLOSED P615 +0.5; gen-1 c_L AB P558 +0.5; gen-1 c_L DM31 P559 +0.5; two-loop EW P613 +0.5) |
+| Framework status | All hardgate derivation chains closed; 2 partial closures in Yukawa sector (see DERIVATION_STATUS.md); LiteBIRD falsifier pending (~2032) |
 | Lean4 theorems | 342 total (all 6 NP-BC chains complete; 203 cumulative sub-gap theorems) |
 | Next pillar slot | 631 |
 | Next Substack post | #285 S03E063 |

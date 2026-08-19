@@ -99,7 +99,7 @@ __provenance__ = {
     "fingerprint": "(5, 7, 74)",
     "status": (
         "ADJACENT RESEARCH TRACK — deterministic 11D terminal-closure audit; "
-        "non-hardgate, no ToE score delta"
+        "non-hardgate, no physics label delta"
     ),
 }
 

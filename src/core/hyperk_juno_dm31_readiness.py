@@ -153,7 +153,7 @@ def hyperk_juno_falsifier_routing(
             "Mark P17 FALSIFIED in CLAIM_MASTER_BOARD.md. "
             "Update TRUTH_LAYER.md §2. Open retraction issue. "
             "Downgrade P17: GEOMETRIC_PREDICTION → FALSIFIED. "
-            "Adjust ToE score: −0.8 pts."
+            "Adjust framework derivation coverage: −0.8 pts."
         )
     elif tension_sigma >= 2.0:
         route = "TENSION"

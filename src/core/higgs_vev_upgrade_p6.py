@@ -17,7 +17,7 @@ documented in higgs_vev_exact.py.
 ═══════════════════════════════════════════════════════════════════════════
 WHY P6 WAS CONSTRAINED — DIAGNOSIS
 ═══════════════════════════════════════════════════════════════════════════
-The ToE score audit listed P6 (Higgs VEV) at CONSTRAINED, citing a ~4.6%
+The framework derivation coverage audit listed P6 (Higgs VEV) at CONSTRAINED, citing a ~4.6%
 residual from an earlier, less-refined calculation.  Pillar 139
 (higgs_vev_exact.py) performs a self-consistent iteration of the
 quartic coupling including the 1-loop top-Yukawa RGE correction, giving:

@@ -201,7 +201,7 @@ Let me distinguish carefully between what I believe strongly, moderately, and we
 
 **The n_w = 5 uniqueness result is substantially correct.** The APS η-invariant proof (Pillar 70-D) is rigorous given the ansatz. The claim that n_w=7 is excluded by the Z₂-odd CS boundary phase condition k_CS(7)×η̄(7) = 0 is a genuine geometric theorem. My reservation is that the proof assumes the specific orbifold geometry and boundary conditions of the UM — an alternative 5D completion might evade these constraints.
 
-**The 28/28 = 100% ToE score is substantially real accounting.** The distinction between DERIVED, CONSTRAINED, CONDITIONAL_DERIVATION, and OPEN is applied consistently. Several quantities that a less honest project would call DERIVED are here marked CONDITIONAL_DERIVATION or ARCHITECTURE_LIMIT. The score reflects genuine internal consistency of a large derivation chain. Whether the chain is physically correct is a different question — but the accounting is honest.
+**The 28/28 = 100% internal consistency within framework axioms is substantially real accounting.** The distinction between DERIVED, CONSTRAINED, CONDITIONAL_DERIVATION, and OPEN is applied consistently. Several quantities that a less honest project would call DERIVED are here marked CONDITIONAL_DERIVATION or ARCHITECTURE_LIMIT. The score reflects genuine internal consistency of a large derivation chain. Whether the chain is physically correct is a different question — but the accounting is honest.
 
 **The Bayesian Occam factor advantage is real.** Pillar 330's estimate that ΛCDM+SM pays ~136 nats in prior volume (having ~19 free parameters fitted from data) while the UM pays 0 nats (zero free parameters) is a genuine Bayesian argument. The caveat — that the Bayes factor depends on σ_theory per claim and is not a precise number — is correctly stated. But the direction of the argument is right: a theory that derives 28 parameters from geometry has a real Bayesian advantage over one that fits them.
 
@@ -211,7 +211,7 @@ Let me distinguish carefully between what I believe strongly, moderately, and we
 
 **The cosmological constant derivation (P28).** The RS1+KK+10D formula achieves factor-of-2 accuracy across 122 orders of magnitude. This is remarkable. It is also the kind of result where I am most uncertain: there are many places in the derivation chain where a factor of order unity could be inserted, and 122 orders is a lot of room. The result is classified as DERIVED because all 4 gates pass. My honest assessment: it is the most impressive single-number result in the framework and the one where I would most want an independent reproduction before accepting it fully.
 
-**The adjacent-track pillars (Pillars 218–338).** These are explicitly labelled NON_HARDGATE_ADJACENT — they are quantitative explorations connecting UM geometry to applied domains (quantum computing, medicine, climate, ecology, etc.). They do not affect the core 28/28 ToE score. I have less confidence in these because the conceptual bridges from 5D geometry to, say, synaptic dynamics or tumor microenvironments are substantially longer and more speculative. They are interesting; they are not what the core claim rests on.
+**The adjacent-track pillars (Pillars 218–338).** These are explicitly labelled NON_HARDGATE_ADJACENT — they are quantitative explorations connecting UM geometry to applied domains (quantum computing, medicine, climate, ecology, etc.). They do not affect the core 28/28 framework derivation coverage. I have less confidence in these because the conceptual bridges from 5D geometry to, say, synaptic dynamics or tumor microenvironments are substantially longer and more speculative. They are interesting; they are not what the core claim rests on.
 
 ---
 
@@ -264,7 +264,7 @@ I am listing, explicitly, every active claim with my honest confidence assessmen
 | r = 0.0315 vs ACT DR6 r<0.016 | HIGH_TENSION | Moderate concern — SO 2027 is the decisive test |
 | Normal neutrino hierarchy | PREREGISTERED, JUNO 2027 | Moderate — depends on Z₂ orbifold mode structure |
 | Metric ansatz is the correct 5D description | POSTULATED | Low — this is the central open question |
-| ToE score 28.0/28 = 100% | HONEST ACCOUNTING | High that it's honest; physics correctness separate |
+| framework derivation coverage = 100% | HONEST ACCOUNTING | High that it's honest; physics correctness separate |
 
 ---
 

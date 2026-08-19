@@ -6,7 +6,7 @@
 
 ---
 
-When the Unitary Manifold first introduced a formal ToE scorecard — a 28-parameter table assessing how well the 5D geometry predicted Standard Model observables — the initial score was approximately 42%. A majority of parameters were OPEN or at ARCHITECTURE_LIMIT_CERTIFIED, meaning the theory knew something was there but could not predict it.
+When the Unitary Manifold first introduced a formal SM parameter derivation ledger — a 28-parameter table assessing how well the 5D geometry predicted Standard Model observables — the initial score was approximately 42%. A majority of parameters were OPEN or at ARCHITECTURE_LIMIT_CERTIFIED, meaning the theory knew something was there but could not predict it.
 
 The current score is 76%.
 
@@ -83,7 +83,7 @@ The score can reach 76% and still be wrong about everything. The primary test is
 
 **β ∈ {0.273°, 0.331°}** from the braided winding mechanism.
 
-LiteBIRD launches approximately 2032. Any β outside [0.22°, 0.38°], or landing in the predicted gap [0.29°–0.31°], falsifies the core mechanism. The ToE score is a measure of internal consistency. Birefringence is an external test.
+LiteBIRD launches approximately 2032. Any β outside [0.22°, 0.38°], or landing in the predicted gap [0.29°–0.31°], falsifies the core mechanism. The framework derivation coverage is a measure of internal consistency. Birefringence is an external test.
 
 ---
 

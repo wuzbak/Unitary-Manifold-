@@ -167,7 +167,7 @@ Pillar 242 is an **adjacent research track**. This means:
 - The cascade coupling formula (C[i,j] = C_S × gap_i × gap_j) is a motivated theoretical construction, not an empirically validated causal model.
 - The geometric constant C_S is the UM braided sound speed. Its use here as a cascade propagation rate is a co-emergent structural choice — an honest hypothesis, not a proven physical law.
 - The UPRI is a routing and prioritisation tool. It is not a prediction of specific future events.
-- None of this affects the core physics ToE score (99.3%). Adjacent tracks do not contribute to or detract from the hardgate physics claims.
+- None of this affects the core physics framework derivation coverage (99.3%). Adjacent tracks do not contribute to or detract from the hardgate physics claims.
 
 The falsification condition is explicit: FALSIFIED if the UPRI ordering repeatedly fails to match observed compound-crisis severity rankings across multi-sector emergencies with documented sector readiness inputs.
 

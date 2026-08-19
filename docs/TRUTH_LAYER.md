@@ -8,36 +8,36 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *(1) Pillar 510 adds a seven-layer operational AI governance overlay for autonomous stewardship: constitution, approval gates, safety protocols, audit trails, human-in-the-loop verification, brand-safety/content moderation, and runtime sandboxing.*
 *(2) The Unitary Pentad remains the native HILS framework; the external seven-layer pattern is used as an operational validation checklist, not as a replacement and not as a physics claim.*
 *(3) Critical/forbidden actions require human authority and audit metadata; public-facing text is screened against claim-boundary overclaims before outreach, arXiv, README, or institutional messaging.*
-*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P510 regression: 10 passed · 0 failed. Latest full regression: 45,649 passed · 22 skipped · 12 deselected · 0 failed. Next pillar slot: 511.*
+*(4) No physics label promoted. Framework state unchanged. Focused P510 regression: 10 passed · 0 failed. Latest full regression: 45,649 passed · 22 skipped · 12 deselected · 0 failed. Next pillar slot: 511.*
 
 *v15.6 update (Earned Proof-Advancement Redo — Pillar 509):*
 *(1) Pillar 509 adds earned conditional theorem kernels for CCR and ER=EPR instead of stopping at the v15.5 no-claim audit.*
 *(2) CCR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated finite-Weyl regulator and continuum-tangent hypotheses; ER=EPR advances to `CONDITIONAL_THEOREM_KERNEL_PROVED` under the stated KK holography, RT-functional, and graph-homology hypotheses.*
 *(3) Full non-perturbative 5D-KK closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK RT theorem remain evidence-gated and not claimed.*
-*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508/P509 regression: 28 passed · 0 failed. Latest full regression: 46,094 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 510.*
+*(4) No physics label promoted. Framework state unchanged. Focused P507/P508/P509 regression: 28 passed · 0 failed. Latest full regression: 46,094 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 510.*
 
 *v15.5 update (No-Claim / Earned-Yes Claim Audit — Pillar 508):*
 *(1) Pillar 508 adds an executable no/yes boundary audit over the frontier proof-lane bundle.*
 *(2) Explicit NO lanes: no full non-perturbative 5D-KK quantum-gravity closure; no P8 full functional-space proof; no external L2/γ HMC receipt; no Lean4 build receipt; CCR and ER=EPR remain conjectural theorem lanes.*
 *(3) Earned YES lanes are scoped to repository evidence only: P507 frontier ledger complete, P8 integer-lattice proof, 5D-KK structural gap certified, L2/γ finite-volume packet ready, Lean4 local manifest present, and CCR/ER=EPR conjecture lanes formalized.*
-*(4) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P507/P508 regression: 21 passed · 0 failed. Latest full regression: 46,088 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 509.*
+*(4) No physics label promoted. Framework state unchanged. Focused P507/P508 regression: 21 passed · 0 failed. Latest full regression: 46,088 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 509.*
 
 *v15.4 update (Frontier Proof-Lane Certificate — Pillar 507):*
 *(1) Pillar 507 adds an executable certificate for the 5D-KK/P8/PMNS/L2γ/Lean4/CCR/ER=EPR proof-lane bundle.*
 *(2) Non-perturbative 5D-KK remains architecture-limit certified; P8 full functional space remains named; PMNS residual remains retained; L2γ external HMC receipt and Lean4 build receipt remain evidence-gated; CCR and ER=EPR remain conjectural.*
-*(3) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused proof-lane regression: 233 passed · 0 failed. Next pillar slot: 508.*
+*(3) No physics label promoted. Framework state unchanged. Focused proof-lane regression: 233 passed · 0 failed. Next pillar slot: 508.*
 
 *v15.3 update (Stewardship Frontier Priorities 2–5 — Pillars 503–506):*
 *(1) Pillar 503 synchronizes the PMNS p_R full-chain audit while retaining the microscopic three-generation residual and PDG solar-angle gap explicitly.*
 *(2) Pillar 504 bounds the lattice-braid Phase-4 non-perturbative condensate lane as an adjacent-track CPU finite-volume certificate; no external HMC receipt is claimed.*
 *(3) Pillar 505 certifies a sub-10% nEDM@SNS adjacent-track prediction band using three-loop-QCD and hadronic uncertainty budgets.*
 *(4) Pillar 506 completes the LHC gluon-channel formal audit and retains the m_G_KK ≥ 5 TeV routing for HL-LHC.*
-*(5) No hardgate physics score is promoted. ToE score remains 28.0/28. Focused P503–P506 regression: 77 passed · 0 failed. Next pillar slot: 507.*
+*(5) No physics label promoted. Framework state unchanged. Focused P503–P506 regression: 77 passed · 0 failed. Next pillar slot: 507.*
 
 *v15.2 update (Implementation and Completion-Audit Sync — Pillars 495–502):*
 *(1) Pillars 495–501 synchronize active decision windows for CMB amplitude residuals, CKM phase residual tracking, DESI DR3, SO DR1, JUNO, SPHEREx, and HL-LHC.*
 *(2) Pillar 502 — Completion Master Audit: `completion_master_audit()` returns the machine-readable ledger of executable tasks, external receipt-only unknowns, immediate actions, completion fraction, next Substack slot, and monograph-version detection. The audit deliberately separates repository-readiness evidence from arXiv/Zenodo external verification.*
-*(3) No hardgate physics claim is promoted. No falsification condition is softened. ToE score remains 28.0/28.*
+*(3) No physics label promoted. No falsification condition softened. Framework state unchanged.*
 *Latest full regression: 45,989 passed · 2 skipped · 12 deselected · 0 failed. Next pillar slot: 503.*
 
 *v14.2 update (Gap Closure Sprint — Pillars 482–487):*
@@ -105,7 +105,7 @@ Package created for the three most checkable mathematical claims.*
 *For the canonical label registry, see `docs/CLAIM_LABEL_STANDARD.md`.*
 *For the single-source claim board, see `docs/CLAIM_MASTER_BOARD.md`.*
 
-*Last updated: 2026-08-01 (v20.1 — Pillars 575–590: arXiv v20.0 + Book 27 sync (P575); F-theory DBP Rung 8 🔵 (P576–P579); DESI DR3 routing hardened + frozen radion wₐ=0 analytic certificate + v2 preregistration (P580–P582); Δm²₂₁ QUANTIFIED_RESIDUAL 2.98σ (P583–P585); NP-BC-4 sub-gaps J/K/L proved 34 theorems (P586–P588); NP-BC-4 certificate (P589); Lean4 274-theorem milestone (P590); full regression ~49,850 passed · 23 skipped · 12 deselected · 0 failed; ToE score 29.0/28 unchanged; two HIGH_TENSION signals active: r=0.0315 (ACT DR6) and wₐ=0 (DESI DR2 2.30σ; ANALYTIC_CERTIFIED conditional P581))*
+*Last updated: 2026-08-01 (v20.1 — Pillars 575–590: arXiv v20.0 + Book 27 sync (P575); F-theory DBP Rung 8 🔵 (P576–P579); DESI DR3 routing hardened + frozen radion wₐ=0 analytic certificate + v2 preregistration (P580–P582); Δm²₂₁ QUANTIFIED_RESIDUAL 2.98σ (P583–P585); NP-BC-4 sub-gaps J/K/L proved 34 theorems (P586–P588); NP-BC-4 certificate (P589); Lean4 274-theorem milestone (P590); full regression ~49,850 passed · 23 skipped · 12 deselected · 0 failed; two HIGH_TENSION signals active: r=0.0315 (ACT DR6) and wₐ=0 (DESI DR2 2.30σ; ANALYTIC_CERTIFIED conditional P581))*
 
 ---
 
@@ -153,7 +153,7 @@ without conflating their scope.
   (`ADJACENT_TRACK_NON_HARDGATE`), not a hardgate physics-claim lane.
 - Score policy: this lane does not alter ToE scoring or claim promotions.
 - Guardrail: `separation_guard()` explicitly forbids physics-claim promotion and
-  ToE score deltas from USIVF results.
+  Physics label deltas from USIVF results.
 
 ---
 
@@ -624,7 +624,7 @@ A complete ToE would additionally:
 - Derive the Yukawa hierarchy without any NLO blend procedure
 - Achieve full ADM 3+1 quantization
 
-Current ToE score: **100%** (28.0/28.0, v10.59 — P28 DERIVED cert) — see `docs/TOE_SCORE_AUDIT.md`.
+Current framework status: all 208 hardgate pillar derivation chains internally self-consistent. External empirical confirmation pending (LiteBIRD ~2032). See FALLIBILITY.md for gaps and architecture limits.md`.
 
 ---
 

@@ -243,4 +243,4 @@ class TestSeparationGuard:
 
     def test_no_score_change(self):
         guard = separation_guard()
-        assert "ToE score" in guard
+        assert "framework derivation coverage" in guard

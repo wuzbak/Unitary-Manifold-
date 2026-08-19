@@ -191,7 +191,7 @@ def honest_caveats() -> Dict:
         ),
         'adjacent_track_label': (
             'This pillar is an ADJACENT TRACK (non-hardgate). The result does '
-            'not affect the ToE score or any hardgate derivation. It addresses '
+            'not affect the framework derivation coverage or any hardgate derivation. It addresses '
             'the last open item in the T3 momentum-constraint sequence.'
         ),
     }

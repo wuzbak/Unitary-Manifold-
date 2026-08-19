@@ -63,7 +63,7 @@ From n_w = 5 and K_CS = 74, using the 5D braid geometry, every other prediction 
 
 ## Part 2: What the Framework Derives
 
-### The Standard Model Parameters (ToE Score: 28.0/28.0)
+### The Standard Model Parameters (ToE Score: framework internally consistent)
 
 The 28 Standard Model parameters — quark masses, lepton masses, CKM mixing angles, CP phase, PMNS neutrino mixing angles, neutrino mass splittings, gauge coupling constants, Higgs mass and VEV — are all classified in the CLAIM_MASTER_BOARD with one of six epistemic labels. As of v12.0:
 
@@ -308,7 +308,7 @@ This is v12.0. This is where we are.
 **Current version:** v12.0 (2026-05-22)  
 **Pillar count:** 208 hardgate (CLOSED) + 353 adjacent-track total  
 **Test count:** 37,635 passing · 0 failing  
-**ToE score:** 28.0/28.0  
+**framework derivation coverage:** framework internally consistent  
 **Formal certificates:** Lean4 n_w=5 uniqueness · Z3 22-parameter chain · 512-bit inflationary audit  
 **Active high tensions:** r vs ACT DR6 (~2σ) · wₐ vs DESI DR2 (2.75σ)  
 **Primary falsifier:** LiteBIRD birefringence β ∈ {0.273°, 0.331°} (~2032)  

@@ -21,7 +21,7 @@ size constants are drawn directly from the published NIST FIPS standards:
 Gap scores are in [0.0, 1.0] where 0.0 = bottleneck fully resolved and
 1.0 = bottleneck is completely blocking migration.
 
-🔵 ADJACENT TRACK — This module does NOT affect the Unitary Manifold ToE score.
+🔵 ADJACENT TRACK — This module does NOT affect the Unitary Manifold framework derivation coverage.
 """
 from __future__ import annotations
 

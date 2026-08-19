@@ -86,7 +86,7 @@ These 64 pillars are formally closed (hardgate). Each has passing test suite.
 
 These 411 pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
 They are quantitative explorations connecting UM geometry to applied domains.
-They have full test suites and markdown documentation but do NOT affect the core ToE score.
+They have full test suites and markdown documentation but do NOT affect the hardgate physics claim labels.
 
 | Pillar # | Name / Claim | Status | Primary Source |
 |---|---|---|---|

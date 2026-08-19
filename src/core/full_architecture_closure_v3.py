@@ -30,7 +30,7 @@ RESULT
 
 Architecture closure v3: 2 IRREDUCIBLE limits confirmed,
 1 tension below threshold, 4 gaps closed in this sprint.
-ToE score: 28/28 hardgate lanes UNCHANGED.
+Framework state: hardgate physics labels UNCHANGED.
 """
 
 from __future__ import annotations

@@ -124,7 +124,7 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
         "status": "ARCHITECTURE_LIMIT_CERTIFIED(6D+)",
     },
     "toe_score": {
-        "topic": "ToE score — completeness",
+        "topic": "framework derivation coverage — SM parameter completeness",
         "answer": (
             "The canonical ToE / closure percentage is no longer maintained as a fixed "
             "hard-coded number inside the bot. Consult docs/mas_tracker.yml, STATUS.md, "

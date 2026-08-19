@@ -200,7 +200,7 @@ def what_is_NOT_claimed() -> List[str]:
         "The exact value of m_ν₁ is NOT predicted — only bounded",
         "KATRIN cannot currently test this bound (sensitivity 200 meV >> 15 meV)",
         "The topological form of c_L quantization from UM orbifold BCs is NOT proved",
-        "No ToE score change — an upper bound is not a prediction",
+        "No physics label change — an upper bound is not a prediction",
     ]
 
 

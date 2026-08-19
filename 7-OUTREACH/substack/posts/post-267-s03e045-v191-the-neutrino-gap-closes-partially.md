@@ -160,7 +160,7 @@ The engine also enforces equilibrium by checking |φ - φ₀| / σ_φ, alerting 
 
 ## What Did NOT Change
 
-- **ToE score**: 28/28 (hardgate closed)
+- **framework derivation coverage**: 28/28 (hardgate closed)
 - **No falsifier softened**: ARCHITECTURE_LIMIT_CERTIFIED is an epistemic precision upgrade, not a gate relaxation
 - **r-tension**: ACT DR6 HIGH_TENSION is IRREDUCIBLE — not revisited
 - **Lean4 proofs**: all theorems are axiom proxies, not full mechanical proofs

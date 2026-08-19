@@ -26,7 +26,7 @@ audit infrastructure, CI/CD automation, and AI assistant integrations.
 | Field | Value |
 |-------|-------|
 | **Source path** | `TOOLS/checks/` |
-| **Description** | Suite of physics-layer consistency checkers. Validates that pillar outputs are mutually consistent, that constants are not redefined, and that the ToE score is computed correctly. |
+| **Description** | Suite of physics-layer consistency checkers. Validates that pillar outputs are mutually consistent, that constants are not redefined, and that physics claim labels are consistent. |
 | **Status** | REGISTERED |
 | **Category** | Validation Tool |
 

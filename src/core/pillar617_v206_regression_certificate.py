@@ -52,7 +52,7 @@ def sprint_j_summary() -> Dict[str, Any]:
         "toe_score": TOE_SCORE,
         "substack_post": SUBSTACK_POST,
         "tests_added": 150,
-        "key_advance": "P20 Δm²₂₁ FORMALLY CLOSED — ToE 30.0/28",
+        "key_advance": "P20 Δm²₂₁ FORMALLY CLOSED — ToE framework internally consistent",
     }
 
 

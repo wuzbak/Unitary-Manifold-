@@ -319,7 +319,7 @@ closure engine above the 5D EFT, not as permanent runtime clutter inside it.
 - Derived bound: c_L_min = 0.5 + ln(M_KK / (Σm_ν/3)) / (2πkR) ≈ 0.917
 - Manual cutoff c_L ≥ 0.88 in `src/core/neutrino_lightest_mass.py` is **consistent** (F-theory bound is slightly stronger)
 - **Gap B status:** OPEN → MECHANISM_IDENTIFIED (partial closure; 3 blocking residuals named)
-- **No ToE score change** — ADJACENT TRACK
+- **No framework derivation coverage change** — ADJACENT TRACK
 
 **Status policy:** All Pillars 570–574 are 🔵 ADJACENT TRACK. The 12D F-theory extension does not replace the 5D pipeline; it extends the DBP ladder by one rung and provides geometric motivation for previously manual constants. Full Rung 7 closure requires: exact Kähler potential for Vol(S), Weierstrass model Higgs bundle, matter-curve genus computation.
 

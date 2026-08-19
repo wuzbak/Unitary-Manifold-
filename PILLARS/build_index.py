@@ -68,7 +68,7 @@ These {len(rows_hardgate)} pillars are formally closed (hardgate). Each has pass
 
 These {len(rows_adjacent)} pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
 They are quantitative explorations connecting UM geometry to applied domains.
-They have full test suites and markdown documentation but do NOT affect the core ToE score.
+They have full test suites and markdown documentation but do NOT affect the hardgate physics claim labels.
 
 {header}
 """ + "\n".join(r for _, r in rows_adjacent) + """

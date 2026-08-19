@@ -13,7 +13,7 @@ PDG sin²θ_W appears ONLY as comparison target.
 ═══════════════════════════════════════════════════════════════════════════
 WHY P4 WAS CONSTRAINED — DIAGNOSIS
 ═══════════════════════════════════════════════════════════════════════════
-The ToE score audit listed P4 (sin²θ_W) at ~3% residual, CONSTRAINED.
+The framework derivation coverage audit listed P4 (sin²θ_W) at ~3% residual, CONSTRAINED.
 This was because the calculation had not been fully consolidated into a
 single geometric module.  The correct derivation already existed in
 sm_free_parameters.py (Pillar 70-D / Pillar 94) but was not formally

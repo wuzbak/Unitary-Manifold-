@@ -33,9 +33,9 @@ and diagrams** generated directly from the canonical repository data:
 
 - CMB nₛ–r plane vs Planck 2018 & BICEP/Keck
 - Birefringence falsification window (primary falsifier)
-- All 28 SM parameter residuals dashboard (ToE 28.0/28 = 100%)
+- All 28 SM parameter residuals dashboard (ToE framework internally consistent = 100%)
 - 5D metric decomposition, (5,7) braid topology, dimensional roadmap
-- Test suite growth, ToE score timeline, MAS wave progress
+- Test suite growth, framework derivation coverage timeline, MAS wave progress
 - Quantum lane architecture, FTUM convergence, falsification calendar
 - Human-AI co-creation workflow, Unitary Pentad governance
 
@@ -54,7 +54,7 @@ Current report:
 
 - `FINDINGS_REPORT_2026-05-18_SRR-20260518-072524Z-P257-R1.md`
 
-This lane is explicitly non-hardgate and does not alter ToE score or claim
+This lane is explicitly non-hardgate and does not alter physics claim labels or claim
 labels by itself.
 
 ---

@@ -179,7 +179,7 @@ def separation_guard() -> str:
         "HARDGATE_ADJACENT: Pillar 357 extends the hardgate r prediction (P3) "
         "with a scale-dependence analysis and SO routing protocol. "
         "The hardgate r = 0.0315 is not modified by this pillar. "
-        "No ToE score is affected."
+        "No framework derivation coverage is affected."
     )
 
 

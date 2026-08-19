@@ -25,7 +25,7 @@ Then store the verified state in agent memory before proceeding.
 | Next pillar slot | **688** |
 | Lean4 theorems | **365** |
 | Full regression | **~51,951 passed · 23 skipped · 12 deselected · 0 failed** |
-| ToE score | **30.0/28** (28/28 hardgate + 2.0 partial) |
+| Framework consistency status | All derivation chains internally self-consistent; external confirmation pending (LiteBIRD ~2032) |
 | Next Substack post | #286 S03E064 |
 | Open named residuals | F-theory Rungs 11–12 (Weierstrass generalization, α' corrections); phi0_ftum_bridge.py formal connection open; ΛQCD CY₄ moduli stabilization (4-step roadmap, Pillar 685) |
 | Open adjacent tracks | F-theory DBP Rungs 11–12; CY₄ moduli stabilization |

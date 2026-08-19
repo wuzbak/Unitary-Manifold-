@@ -172,7 +172,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "Non-perturbative completion of Higgs naturalness is NOT achieved — architecture limit",
         "The hierarchy problem (why M_KK ≪ M_Pl) is NOT solved in this pillar",
-        "No ToE score change — naturalness improvement is an architecture-limit refinement",
+        "No physics label change — naturalness improvement is an architecture-limit refinement",
         "P5 (Higgs mass from first principles) remains OPEN — this is a naturalness bound",
     ]
 

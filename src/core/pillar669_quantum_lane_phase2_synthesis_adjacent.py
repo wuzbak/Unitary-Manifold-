@@ -73,7 +73,7 @@ def what_is_NOT_claimed() -> List[str]:
     """Return the honest non-claims of the Phase 2 synthesis."""
     return [
         "No live XDiag many-body spectrum is produced in CI.",
-        "No hardgate ToE score changes are claimed from these adjacent-track certificates.",
+        "No hardgate framework derivation coverage changes are claimed from these adjacent-track certificates.",
         "The synthesis does not claim an experimental confirmation of condensed-matter braid physics.",
     ]
 

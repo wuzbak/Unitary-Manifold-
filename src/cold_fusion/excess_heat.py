@@ -5,6 +5,13 @@ src/cold_fusion/excess_heat.py
 ==============================
 Excess heat and energy balance for LENR — Pillar 15.
 
+EPISTEMIC STATUS: SPECULATIVE ENGINEERING CONJECTURE.
+The phonon-radion bridge invoked here is not derived from a first-principles
+field-theoretic vertex.  Cold fusion / LENR remains experimentally contested
+in mainstream physics.  This module provides a COP prediction under specific
+lattice conditions; it is a falsifiable conjecture, not a confirmed or
+hardgate physics result.
+
 In the Unitary Manifold, the anomalous heat reported in electrolytic Pd/D
 experiments arises from φ-enhanced D+D fusion events at coherent lattice sites.
 Each fusion event releases a nuclear Q-value; the total excess power is the

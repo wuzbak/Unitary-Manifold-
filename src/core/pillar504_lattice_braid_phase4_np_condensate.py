@@ -2,7 +2,7 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 504 — Lattice Braid Phase 4 Non-Perturbative Condensate.
 
-🔵 ADJACENT TRACK — non-hardgate; no ToE score change.
+🔵 ADJACENT TRACK — non-hardgate; no physics label change.
 
 STATUS: LATTICE_BRAID_PHASE4_NP_CONDENSATE_BOUNDED
 

@@ -36,7 +36,7 @@ coverage, but this pillar adds a single machine-readable integrity layer for:
 
 - Separation guard is explicit (`NON_HARDGATE_ADJACENT`)
 - Hardgate claims are not modified
-- ToE score is unchanged
+- physics claim labels are unchanged
 - Historical drift is reported, not suppressed
 
 ## 5) Falsification/rejection behavior

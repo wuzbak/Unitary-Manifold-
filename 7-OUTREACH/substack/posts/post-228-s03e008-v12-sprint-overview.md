@@ -93,7 +93,7 @@ These are not rebranding exercises. They reflect genuine mathematical work.
 
 Equally important: what v12.0 does *not* change.
 
-The 208 hardgate core pillars are unchanged. The ToE score is still 28.0/28.0. No new observational claims are added by v12.0 — the new pillars are all adjacent-track (mathematical infrastructure and derivation tightening), not new empirical predictions.
+The 208 hardgate core pillars are unchanged. The framework derivation coverage is still framework internally consistent. No new observational claims are added by v12.0 — the new pillars are all adjacent-track (mathematical infrastructure and derivation tightening), not new empirical predictions.
 
 The active tensions remain active:
 - **r vs. ACT DR6**: Our prediction r = 0.0315 sits in tension with ACT's upper bound r < 0.016 at 95% CL. This is documented honestly. The SO measurement will resolve it.

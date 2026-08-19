@@ -46,7 +46,7 @@ The following pillars add new physics or formal results since v15.8:
 This pillar does NOT:
   - Submit to arXiv (no arXiv API key or submission infrastructure)
   - Update arxiv/main.tex directly (requires full LaTeX rewrite)
-  - Change the ToE score
+  - Change the framework derivation coverage
 
 This pillar:
   - Issues a machine-readable sync certificate
@@ -194,7 +194,7 @@ New results since v15.8 (the last arXiv submission):
    The extension specification (Pillar 268) is pre-registered and will be
    triggered if the threshold is exceeded.
 
-The framework's ToE score remains 28/28 (hardgate closed). The primary
+The framework's framework derivation coverage unchanged (hardgate closed). The primary
 falsifier is birefringence β, to be measured by LiteBIRD (launch ~2032).
 All open problems and architecture limits are documented in FALLIBILITY.md.
 

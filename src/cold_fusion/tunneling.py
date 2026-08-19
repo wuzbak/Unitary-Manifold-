@@ -5,6 +5,16 @@ src/cold_fusion/tunneling.py
 ============================
 Quantum tunneling with φ-field enhancement — Pillar 15.
 
+EPISTEMIC STATUS: SPECULATIVE ENGINEERING CONJECTURE.
+The phonon-radion bridge invoked here is not derived from a first-principles
+field-theoretic vertex.  This module assumes that the φ field couples to the
+Gamow tunneling exponent with a specific enhancement factor; that assumption
+is unvalidated from QFT first principles.  The COP pipeline contains an
+intrinsic scale mismatch addressed by a speculative bridging assumption.
+Cold fusion / LENR remains experimentally contested in mainstream physics.
+This pillar is framed as a falsifiable COP prediction under specific
+lattice conditions, not as confirmed or hardgate physics.
+
 In the Unitary Manifold, cold fusion (LENR) is reframed as coherent quantum
 tunneling whose probability is amplified by the local entanglement-capacity
 scalar φ.  When deuterium nuclei are confined in a Pd lattice, the radion field

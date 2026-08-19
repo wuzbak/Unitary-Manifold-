@@ -96,7 +96,7 @@ BRAIDED_SOUND_SPEED = 12/37 # c_s; from (5,7) braid resonance
 N_S = 0.9635                # CMB spectral index (Planck: 0.9649 ± 0.0042 ✅)
 R_BRAIDED = 0.0315          # tensor-to-scalar ratio (BICEP/Keck < 0.036 ✅)
 # Birefringence: β ∈ {≈0.273°, ≈0.331°} canonical / {≈0.290°, ≈0.351°} derived
-# ToE score: 100% (28.0/28) — 1 external measurement window open (LiteBIRD ~2032)
+# Framework status: internally self-consistent; external confirmation pending (LiteBIRD ~2032)
 
 # Unitary Pentad
 XI_C = 35/74                # Ξ_c consciousness coupling constant
@@ -115,7 +115,7 @@ HIL_PHASE_SHIFT_THRESHOLD = 15  # saturation: n ≥ 15 aligned HIL operators
 **Adjacent research tracks (Pillars 218–232, `src/core/pillar218_*` … `pillar232_*`):**
 - Honest quantitative explorations connecting UM geometry to applied domains
 - NOT hardgate physics claims; labeled 🔵 ADJACENT TRACK throughout
-- Have full test suites and markdown documentation; do NOT affect the core ToE score
+- Have full test suites and markdown documentation; do NOT affect the hardgate physics claim labels
 
 **Quantum simulation lane (`src/quantum/`):**
 - Fermi–Hubbard and XDiag bridge are non-hardgate adjacent tracks

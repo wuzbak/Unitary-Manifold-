@@ -213,7 +213,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "DESI DR3 data has NOT been received — this is a pre-registration only",
         "The 6D dilaton extension is not yet derived — it is nominated as a replacement",
-        "No upgrade to the ToE score is claimed from this pillar",
+        "No upgrade to the framework derivation coverage is claimed from this pillar",
         "The framework is NOT falsified by DR2 alone (2.82σ < 3.0σ threshold)",
         "The Roman ST agreement rule has not been tested — it is forward-looking",
     ]

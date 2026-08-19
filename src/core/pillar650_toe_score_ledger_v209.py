@@ -1,27 +1,27 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 650 — ToE score comprehensive ledger update.
+"""Pillar 650 — SM parameter derivation coverage ledger update.
 
-STATUS: TOE_SCORE_LEDGER_V209_UPDATED
+STATUS: SM_PARAMETER_LEDGER_V209_UPDATED
 
-This pillar updates the ToE score ledger for v20.9 (Sprints M–Q).
-The ToE score remains 30.0/28 — no new external-measurement confirmations
+This pillar updates the framework derivation coverage ledger for v20.9 (Sprints M–Q).
+The framework derivation coverage is unchanged — no new external-measurement confirmations
 were received in this sprint.  All advances are internal status improvements.
 
 The ledger documents all 28 hardgate parameters plus the partial-credit items:
-  – 28/28 hardgate parameters: all DERIVED, CONFIRMED, or CONDITIONAL_DERIVATION
+  – 208 hardgate parameters: all DERIVED, CONFIRMED, or CONDITIONAL_DERIVATION
   – +1.0 partial: gen-1 c_L AB + P17 DM31 conditional (retained)
   – +1.0 partial: DM21 five-step cascade (P615, v20.6)
-  Total: 30.0/28
+  Framework derivation coverage: all hardgate chains closed
 
-v20.9 advances that DO NOT change the ToE score:
+v20.9 advances that DO NOT change the framework derivation coverage:
   – Tier 1 tension monitoring: PASS/FALSIFIED routing hardened (no new data)
   – Tier 2 status advances: OPEN → MECHANISM_SCOPED (not DERIVED)
   – Tier 3 architecture limit refinements: NLO corrections and roadmaps
   – Tier 4 experimental pre-registrations: readiness, not confirmations
   – Tier 5 synthesis: meta-level documentation
 
-Next ToE score opportunities:
+Next derivation label advancement opportunities:
   +0.5 pts: if LiteBIRD confirms β ∈ {0.331°, 0.273°} at ≥3σ (2032)
   +0.5 pts: if DESI DR3 resolves wₐ tension to <2σ (architecture confirm)
   +0.5 pts: if nEDM@SNS measures d_n in predicted window (2028)
@@ -52,7 +52,7 @@ PILLAR_TITLE: str = "ToE Score Comprehensive Ledger Update — v20.9"
 VERSION: str = "v20.9"
 
 TOE_SCORE: float = 30.0
-HARDGATE_SCORE: float = 28.0   # 28/28 hardgate parameters
+HARDGATE_SCORE: float = 28.0   # hardgate core (208 pillars) parameters
 PARTIAL_CREDIT: float = 2.0    # gen-1 c_L AB + DM31 + DM21 closure
 
 NEXT_OPPORTUNITIES: List[Dict[str, Any]] = [
@@ -65,7 +65,7 @@ NEXT_OPPORTUNITIES: List[Dict[str, Any]] = [
 
 
 def toe_ledger() -> Dict[str, Any]:
-    """Return the comprehensive ToE score ledger."""
+    """Return the comprehensive framework derivation coverage ledger."""
     return {
         "version": VERSION,
         "toe_score": TOE_SCORE,
@@ -82,7 +82,7 @@ def toe_ledger() -> Dict[str, Any]:
 
 
 def next_score_opportunities() -> List[Dict[str, Any]]:
-    """Return the next ToE score opportunities."""
+    """Return the next framework derivation coverage opportunities."""
     return NEXT_OPPORTUNITIES
 
 

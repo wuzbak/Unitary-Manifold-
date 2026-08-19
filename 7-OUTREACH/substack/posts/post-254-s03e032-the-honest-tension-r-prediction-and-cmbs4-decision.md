@@ -59,7 +59,7 @@ Here is what I cannot do with this tension:
 
 - I cannot adjust $N_w$ without breaking every algebraic result downstream of the Z₂ orbifold
 - I cannot adjust $c_s$ without changing $k_\mathrm{CS}$ and breaking the birefringence prediction
-- I cannot add a free parameter to fix $r$ without reporting it as a free parameter, which would reduce the ToE score
+- I cannot add a free parameter to fix $r$ without reporting it as a free parameter, which would reduce the framework derivation coverage
 
 Here is what I can honestly say:
 

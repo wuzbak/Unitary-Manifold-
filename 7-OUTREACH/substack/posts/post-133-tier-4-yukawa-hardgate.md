@@ -69,7 +69,7 @@ After v10.28, all four are GEOMETRIC_PREDICTION (0.8 each = 3.2 points).
 
 **Net gain: +1.2 points.**
 
-Combined with the simultaneous promotion of P17 (atmospheric neutrino splitting), v10.28 moved the ToE score from 70% to 76%.
+Combined with the simultaneous promotion of P17 (atmospheric neutrino splitting), v10.28 moved the framework derivation coverage from 70% to 76%.
 
 ---
 

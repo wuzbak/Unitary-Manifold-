@@ -178,7 +178,7 @@ def what_is_NOT_claimed() -> List[str]:
         "The fermion bulk-mass parameters ℓ_f are not uniquely predicted — they are fitted to the lattice",
         "The topological U(1)_FN charge quantization from UM orbifold BCs is NOT proved",
         "A 1.0 dex residual on some light quarks remains — naturalness argument only",
-        "No ToE score change — analytic formula completion is a consistency improvement",
+        "No physics label change — analytic formula completion is a consistency improvement",
     ]
 
 

@@ -82,9 +82,9 @@ from the live repository data.
 
 ![Repository layers](fig04_repository_layer_architecture.png)
 
-### ToE score timeline
+### framework derivation coverage timeline
 
-![ToE score timeline](fig09_toe_score_timeline.png)
+![framework derivation coverage timeline](fig09_toe_score_timeline.png)
 
 ### Braid topology and K_CS
 

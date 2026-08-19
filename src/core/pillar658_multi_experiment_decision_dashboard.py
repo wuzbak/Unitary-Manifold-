@@ -115,7 +115,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         'The dashboard does not ingest live measurements.',
         'No experiment is marked PASS, TENSION, or FALSIFIED yet.',
-        'No ToE score gain is claimed from dashboard synchronization.',
+        'No framework derivation coverage gain is claimed from dashboard synchronization.',
     ]
 
 

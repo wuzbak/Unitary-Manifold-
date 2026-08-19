@@ -27,7 +27,7 @@ A 5-dimensional Kaluza-Klein physics framework deriving Standard Model parameter
 ![CMB ns-r plane](../9-INFRASTRUCTURE/results/fig01_cmb_ns_r_plane.png)
 
 ### ToE Score Timeline
-![ToE score timeline](../9-INFRASTRUCTURE/results/fig09_toe_score_timeline.png)
+![framework derivation coverage timeline](../9-INFRASTRUCTURE/results/fig09_toe_score_timeline.png)
 
 ### Repository Epistemic Layer Architecture
 ![Repository layers](../9-INFRASTRUCTURE/results/fig04_repository_layer_architecture.png)

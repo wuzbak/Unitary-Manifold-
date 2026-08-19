@@ -54,7 +54,7 @@ The pillar set (Pillars 1–208, plus Ω₀ Holon Zero and the 70-B/C/D sub-pill
 gap arises that cannot be addressed by updating an existing module. This policy guards
 against the failure mode of adding pillars to *cover* gaps rather than *document* them.
 Adjacent research tracks (Pillars 218–540) are non-hardgate explorations that do not
-affect the core physics claims or the ToE score; they are clearly labelled throughout.
+affect the core physics claims or the framework derivation coverage; they are clearly labelled throughout.
 Pillar 541 is a core architecture certificate (SHADOW_SECTOR_CLASSIFIED), not an adjacent track.
 
 When a pillar is described as "CLOSED," that word has a precise meaning: the mathematics
@@ -98,7 +98,7 @@ derived quantity from the fixed-point iteration), the framework derives the spec
 index n_s ≈ 0.9635, the braided tensor-to-scalar ratio r_braided ≈ 0.0315, the
 braided sound speed c_s = 12/37, and the cosmic birefringence angles β ∈ {0.273°,
 0.331°}. As of v18.5, all 28 Standard Model parameters have a documented derivation
-or constraint path in the framework (ToE score: 28.0/28 = 100%), though several
+or constraint path in the framework (framework state: all 208 hardgate derivation chains internally consistent), though several
 remain PARAMETERIZED or CONSTRAINED rather than fully DERIVED.
 
 ---
@@ -623,9 +623,9 @@ the completeness identity ↔ O∘T bijection confirmed.
 
 ### 3.8 SM Parameter Closure Arc (Pillars 133–167)
 
-This arc, developed in waves between v9.30 and v9.33, brought the ToE score from
+This arc, developed in waves between v9.30 and v9.33, brought the framework derivation coverage from
 partial coverage to 100% by documenting a derivation or honest constraint path for
-all 28 Standard Model parameters. It is important to understand what "100% ToE score"
+all 28 Standard Model parameters. It is important to understand what "100% framework derivation coverage"
 means in this context: it means every SM parameter has been addressed — some are
 DERIVED (no free parameters, geometric prediction), some are PARAMETERIZED (consistent
 with the framework but requiring per-species inputs), some are CONSTRAINED (derived
@@ -850,7 +850,7 @@ yet determine (the absolute 5D Planck mass M₅).
 
 They are honest quantitative explorations that extend the Unitary Manifold framework
 to applied domains, emerging technologies, and frontier physics questions. They do
-not affect the core physics claims, the ToE score, or the 208 hardgated pillars. They
+not affect the core physics claims, the framework derivation coverage, or the 208 hardgated pillars. They
 are not physics claims — they are structured applications of the framework's
 mathematical tools, documented with explicit non-hardgate labeling throughout their
 source modules and test suites.
@@ -1086,7 +1086,7 @@ into three factors (S_braid, S_alphaGW, S_5D_cap), where the 5D EFT cap factor i
 the irreducible component.
 
 **ADJACENT_TRACK** means a non-hardgate exploration in Pillars 218–285 that does not
-affect the core physics claims or ToE score.
+affect the core physics claims or framework derivation coverage.
 
 ### Known Open Problems (as of v18.5)
 

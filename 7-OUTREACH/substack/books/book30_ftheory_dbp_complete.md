@@ -133,7 +133,7 @@ With all three blocking residuals resolved:
 PROVED_AT_REFERENCE_CY4 to PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4.
 
 The c_L lower bound (c_L ≥ 0.917) is now additionally supported by the
-global-sections analysis. The ToE score does not change (+0.0) because the
+global-sections analysis. The framework derivation coverage does not change (+0.0) because the
 F-theory track is adjacent and the c_L bound had already been logged in Rung 9.
 
 ---
@@ -172,7 +172,7 @@ moduli stabilization.
 **Final state after all three sprints (J + K + L):**
 - Version: v20.8
 - Pillars: 630 complete; next slot 631
-- ToE: 30.0/28
+- ToE: framework internally consistent
 - Lean4: 342 theorems
 - Tests: ~51,005 passed · 23 skipped · 0 failed
 - Next Substack: #284 S03E062

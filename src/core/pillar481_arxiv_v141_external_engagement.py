@@ -12,7 +12,7 @@ CONTEXT
 The Unitary Manifold v14.1 is the most complete version of the theory:
     - 481 pillars
     - 0 open admissions (13 formally closed)
-    - 100% ToE score (28/28 SM parameters DERIVED or ALGEBRAIC)
+    - 100% framework derivation coverage (28/28 SM parameters DERIVED or ALGEBRAIC)
     - 30+ theorems in the registry
     - 6 SHA-256 preregistered prediction windows (2027–2032)
     - T3 formally closed (JUNO_NLO_SAFE, Pillar 475)

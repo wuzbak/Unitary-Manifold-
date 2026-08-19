@@ -138,7 +138,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 375 is a new prediction for f_NL from the "
         "braided sound speed c_s=12/37. Status: NEW_PREDICTION. "
-        "No ToE score affected. This prediction is testable at SPHEREx, EUCLID, CMB-S4."
+        "No framework derivation coverage affected. This prediction is testable at SPHEREx, EUCLID, CMB-S4."
     )
 
 

@@ -235,7 +235,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "The scalar loop closes any physics gap",
         "Higher-spin KK contributions are included",
-        "NP-BC10 modifies any ToE score component",
+        "NP-BC10 modifies any framework derivation coverage component",
         "The Goldberger-Wise zero-mode mass is derived ab initio",
     ]
 

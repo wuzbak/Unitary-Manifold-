@@ -46,7 +46,7 @@
 |------|--------|-------|
 | Version header | ⚠️ NEEDS UPDATE | `main.tex` says v11.13; must be v15.8 |
 | Test count in abstract | ⚠️ NEEDS UPDATE | Says 35,547; canonical is 45,726 |
-| ToE score | ✅ PASS | 28.0/28.0 = 100% — correct and final |
+| framework derivation coverage | ✅ PASS | framework internally consistent = 100% — correct and final |
 | P1–P28 labels | ✅ PASS | Match `docs/CLAIM_MASTER_BOARD.md` |
 | r tension (ACT DR6) | ⚠️ NEEDS UPDATE | Must explicitly name r=0.0315 vs r<0.016 HIGH_TENSION |
 | DESI wₐ tension | ⚠️ NEEDS UPDATE | Update to CPL-corrected 2.30σ; DR3 tripwire named |
@@ -93,7 +93,7 @@
 | Manuscript | `6-MONOGRAPH/arxiv/main.tex` |
 | References | `6-MONOGRAPH/arxiv/references.bib` |
 | Build script | `6-MONOGRAPH/arxiv/build_submission.sh` |
-| ToE score | **28.0 / 28.0 = 100%** |
+| framework derivation coverage | **28.0 / 28.0 = 100%** |
 | Test suite | **45,726 passed · 0 failed** |
 | Primary falsifier | LiteBIRD β ∈ {0.273°, 0.331°} (~2032) |
 | Active HIGH_TENSION | r=0.0315 vs ACT DR6 r<0.016 (2σ); DESI wₐ=0 vs −0.55±0.20 (2.30σ) |

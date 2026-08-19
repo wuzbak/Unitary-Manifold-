@@ -287,7 +287,7 @@ This has to be said every time because drift is easy.
 
 That means:
 
-- no ToE score inflation,
+- no framework derivation coverage inflation,
 - no hardgate-promotion by prose,
 - no pretending a comparative state atlas is the same thing as a physics derivation,
 - no clinical claims,

@@ -70,9 +70,9 @@ This is the section that matters for falsifiability. Every number here is a **pr
 
 ### Standard Model Parameters — Derived, Not Fitted
 
-The UM has derived all 28 Standard Model parameters from geometry. **Zero free parameters.** The ToE score is:
+The UM has derived all 28 Standard Model parameters from geometry. **Note: Yukawa sector uses fitted c_L inputs; topological sector only is zero-free-parameter. See DERIVATION_STATUS.md.** Coverage:
 
-> **28.0/28 = 100%**
+> **framework internally consistent = 100%**
 
 This includes:
 - The three gauge coupling constants (α_em, α_s, α_W)
@@ -167,7 +167,7 @@ This section is the honest scoreboard. No marketing. No minimization.
 
 ✅ **JUNO Phase 1 is fully consistent** — every JUNO neutrino observable routes correctly through the UM framework. The NMO preference is predicted by UM from anomaly cancellation, not fitted.
 
-✅ **All 28 SM parameters are derived from geometry** — zero free parameters introduced for each. ToE score 28/28 = 100%.
+✅ **All 28 SM parameters have closed derivation chains within the framework.** Note: Yukawa sector c_L values use root-finding against observed masses — not zero-free-parameter predictions. Internal consistency: 28/28.
 
 ✅ **K_CS = 74 is now a theorem** — not an observation. Proved from `N_gen = 3` alone.
 
@@ -403,7 +403,7 @@ JUNO Phase 2 (~2027) will measure `Δm²₃₁` to 0.5% precision. UM predicts n
 **Date:** 2026-07-09  
 **Pillars:** Highest slot 540 (Ω₀ Holon Zero + sub-pillars 70-B/C/D are additional special entries; next numbered slot: 541)  
 **Tests:** 47,171 passed · 23 skipped · 12 deselected · **0 failed**  
-**ToE score:** 28.0/28 = 100%  
+**framework derivation coverage:** framework internally consistent = 100%  
 **Hardgate closed:** Yes (208 core pillars, formally closed)  
 **TRL level:** 7 (operational reproducibility, SLSA Level-3 provenance)  
 **DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)  

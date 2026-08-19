@@ -279,7 +279,7 @@ These lanes are **parallel** to, not replacements for, LiteBIRD:
 | Admissible window | Lane-specific | [0.22°, 0.38°] |
 | Forbidden gap | Lane-specific | (0.29°, 0.31°) |
 | Falsification power | Lab-accessible | Definitive cosmological |
-| ToE score contribution | Up to +1.0 pts | Primary falsifier |
+| framework derivation coverage contribution | Up to +1.0 pts | Primary falsifier |
 
 A positive lab result does **not** pre-confirm LiteBIRD.  It reduces prior
 uncertainty and increases pressure for the cosmological measurement.
@@ -328,7 +328,7 @@ A lab falsification is final.
 | Replications | 3 |
 | Decision grade | ✅ YES |
 | **Verdict** | **SUPPORTED** |
-| ToE score contribution | **+0.4 pts** |
+| framework derivation coverage contribution | **+0.4 pts** |
 
 *Gate logic:* topology gate → PASS; sensitivity gate (σ_A < 10⁻⁵) → PASS;
 replication gate (≥ 2) → PASS; zero-consistency check → NOT zero-consistent
@@ -353,7 +353,7 @@ at 82 380 σ; predicted-value proximity (< 3 σ) → PASS.  All gates pass →
 | Calibration confirmed | ✅ YES |
 | Decision grade | ✅ YES |
 | **Verdict** | **SUPPORTED** |
-| ToE score contribution | **+0.3 pts** |
+| framework derivation coverage contribution | **+0.3 pts** |
 
 *Gate logic:* calibration gate → PASS; gap check → NOT in gap; window
 check → in window; predicted-value proximity (0.00 σ < 3 σ) → PASS.
@@ -377,7 +377,7 @@ All gates pass → `SUPPORTED`.
 | Foreground subtracted | ✅ YES |
 | Decision grade | ✅ YES |
 | **Verdict** | **SUPPORTED** |
-| ToE score contribution | **+0.3 pts** |
+| framework derivation coverage contribution | **+0.3 pts** |
 
 *Gate logic:* calibration gate → PASS; foreground gate → PASS; gap check →
 NOT in gap; window check → in window; predicted-value proximity (0.00 σ <
@@ -393,13 +393,13 @@ NOT in gap; window check → in window; predicted-value proximity (0.00 σ <
 | Supported lanes | 3 / 3 |
 | Falsified lanes | 0 / 3 |
 | Evidence strength score | **1.00 / 1.00** — VERY STRONG |
-| Total ToE score contribution | **+1.0 pts** |
+| Total framework derivation coverage contribution | **+1.0 pts** |
 | **Composite verdict** | **STRONGLY_SUPPORTED** |
 
 Composite summary (engine output):
 ```
 Composite [STRONGLY_SUPPORTED]: 3 decision-grade lanes, 3 supported,
-0 falsified. ToE score contribution: +1.0 pts.
+0 falsified. framework derivation coverage contribution: +1.0 pts.
 (Lane A: SUPPORTED | Lane B: SUPPORTED | Lane C: SUPPORTED)
 ```
 
@@ -447,7 +447,7 @@ and produces a composite `STRONGLY_SUPPORTED` verdict.  The run validates:
 2. **The composite aggregation logic is correct** — all three SUPPORTED lanes
    propagate to `STRONGLY_SUPPORTED`.
 3. **The evidence strength metric is calibrated** — all-supported → 1.0/1.0.
-4. **ToE score accounting is correct** — A(+0.4) + B(+0.3) + C(+0.3) = +1.0 pts.
+4. **framework derivation coverage accounting is correct** — A(+0.4) + B(+0.3) + C(+0.3) = +1.0 pts.
 
 ### 10.5 · Relationship to Actual Campaign Data
 

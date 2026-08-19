@@ -13,7 +13,7 @@ No measured gauge coupling is used as an input.
 ═══════════════════════════════════════════════════════════════════════════
 WHY P13 WAS CONSTRAINED — DIAGNOSIS
 ═══════════════════════════════════════════════════════════════════════════
-The ToE score audit listed P13 (α_em) at CONSTRAINED because the full
+The framework derivation coverage audit listed P13 (α_em) at CONSTRAINED because the full
 geometric derivation chain had not been formally consolidated into a single
 certificate module.  The correct derivation already existed in two places:
 

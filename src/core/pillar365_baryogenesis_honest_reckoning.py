@@ -105,7 +105,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 365 performs honest reckoning on the "
         "KK baryogenesis mechanism. Status: ARCHITECTURE_LIMIT. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 

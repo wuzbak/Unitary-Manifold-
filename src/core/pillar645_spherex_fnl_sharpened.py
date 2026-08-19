@@ -188,7 +188,7 @@ def what_is_NOT_claimed() -> List[str]:
         "SPHEREx data has NOT been received — sharpened prediction is forward-looking",
         "The KK c_s correction is a leading-order estimate; NLO KK corrections are open",
         "f_NL at 1.2σ is below the 3σ detection threshold — will not falsify at SPHEREx alone",
-        "No ToE score change — prediction sharpening is not confirmation",
+        "No physics label change — prediction sharpening is not confirmation",
     ]
 
 

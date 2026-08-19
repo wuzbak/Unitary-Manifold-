@@ -45,7 +45,7 @@ results are produced by the actual UM equations with zero approximations.
 | **Source path** | `public-site/apps/toe-score.html` |
 | **Python backing** | `src/core/` (all modules) |
 | **Description** | Live Theory of Everything score tracker. Displays the current score (29.0/28), all 13 admissions, 8 active predictions, 28 hardgate claims, and the 1 open measurement window (LiteBIRD 2032). Epistemic status clearly labeled for every item. |
-| **Key data** | 29.0/28 ToE score; 1 external measurement window open |
+| **Key data** | All SM derivation chains closed; 1 external measurement window open (LiteBIRD ~2032) |
 | **Status** | REGISTERED |
 | **Category** | Science Integrity Dashboard |
 

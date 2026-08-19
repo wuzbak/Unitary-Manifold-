@@ -5,6 +5,14 @@ src/cold_fusion/lattice.py
 ==========================
 Palladium lattice geometry and deuterium loading — Pillar 15.
 
+EPISTEMIC STATUS: SPECULATIVE ENGINEERING CONJECTURE.
+The KK-compactified lattice model is not derived from a first-principles
+solid-state QFT.  The coupling between the radion field φ and the lattice
+constant is a model assumption, not a proved consequence of the 5D metric.
+Cold fusion / LENR remains experimentally contested in mainstream physics.
+This module is a component of a falsifiable COP prediction framework, not
+a confirmed or hardgate physics result.
+
 In the Unitary Manifold the Pd host lattice is modelled as a KK-compactified
 FCC crystal whose geometric parameters derive from the local radion field φ.
 Deuterium occupies octahedral interstitial sites; the loading ratio ρ = N_D/N_Pd

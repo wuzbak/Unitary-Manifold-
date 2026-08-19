@@ -211,7 +211,7 @@ def separation_guard() -> str:
     return (
         "ADJACENT_TRACK_ONLY: Pillar 328 audits CKM first-row unitarity from UM geometry. "
         "Results are NON_HARDGATE adjacent-track calculations.  "
-        "No hardgate ToE score components are affected."
+        "No hardgate framework derivation coverage components are affected."
     )
 
 

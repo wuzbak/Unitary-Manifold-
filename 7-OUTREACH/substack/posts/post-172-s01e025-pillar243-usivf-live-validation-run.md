@@ -131,7 +131,7 @@ attention.
 - Core physics pillars 1–208: 29,108 passing. Clean.
 - All 5 USIVF lanes: above threshold. Clean.
 - Monte Carlo P10: 0.792 — above the partial-robustness floor. Clean.
-- Separation guard: hardgate isolation confirmed, ToE score unaffected. Clean.
+- Separation guard: hardgate isolation confirmed, framework derivation coverage unaffected. Clean.
 
 **What needs attention (environment, not physics):**
 
@@ -147,7 +147,7 @@ attention.
 - The USIVF score of 0.852 is not a physics validation score. It is an
   interoperability and workflow-readiness score for the *engineering layer*.
 - Passing USIVF does not change the hardgated physics status of any pillar.
-- The ToE score remains 99.3% (27.8/28). The USIVF run did not move it.
+- The framework state unchanged (27.8/28). The USIVF run did not move it.
 
 ---
 

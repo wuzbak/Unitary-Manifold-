@@ -154,7 +154,7 @@ def what_is_claimed() -> List[str]:
         "The ACT tension cannot be closed by perturbative loops within 5D-EFT (Pillar 303)",
         "CMB-S4/SO will arbitrate between BICEP/Keck and ACT normalizations by 2030",
         "Three response branches are pre-registered for the CMB-S4/SO verdict",
-        "No ToE score change is claimed until CMB-S4/SO data arrives",
+        "No physics label change is claimed until CMB-S4/SO data arrives",
     ]
 
 

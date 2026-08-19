@@ -11,7 +11,7 @@ IoT feasibility assessment, and enterprise CBOM planning.
 
 Depends on Pillar 233 for bottleneck definitions and the baseline 2026 scenario.
 
-🔵 ADJACENT TRACK — This module does NOT affect the Unitary Manifold ToE score.
+🔵 ADJACENT TRACK — This module does NOT affect the Unitary Manifold framework derivation coverage.
 """
 from __future__ import annotations
 

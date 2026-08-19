@@ -98,7 +98,7 @@ These test the repository infrastructure: CI health, document freshness, claim l
 **Examples:**
 - `test_status_md_pillar_count_consistent`: Asserts pillar count in STATUS.md matches src/core/ file count
 - `test_claim_labels_standard_compliant`: Asserts all claim labels use only approved vocabulary
-- `test_toe_score_consistent_across_documents`: Asserts ToE score agrees between STATUS, mas_tracker, and GATEKEEPER
+- `test_framework_status_consistent_across_documents`: Asserts framework derivation coverage agrees between STATUS, mas_tracker, and GATEKEEPER
 
 These tests protect against documentation drift — the gradual divergence between code and documentation that plagues large projects.
 

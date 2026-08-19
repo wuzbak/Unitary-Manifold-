@@ -337,7 +337,7 @@
 
 ## 7. Adjacent Research Tracks — Pillars 218–285
 
-> **Policy:** All adjacent tracks are 🔵 ADJACENT TRACK — non-hardgate quantitative explorations, closure-support lanes, and domain/application syntheses. They do not affect the ToE score and carry explicit `separation_guard()` or `ADJACENCY_TRACK_LABEL`. Steward approval (ThomasCory Walker-Pearson) required for any formal pillar-numbering promotion.
+> **Policy:** All adjacent tracks are 🔵 ADJACENT TRACK — non-hardgate quantitative explorations, closure-support lanes, and domain/application syntheses. They do not affect the framework derivation coverage and carry explicit `separation_guard()` or `ADJACENCY_TRACK_LABEL`. Steward approval (ThomasCory Walker-Pearson) required for any formal pillar-numbering promotion.
 >
 > **Note:** Pillar numbers 225, 226, 231, 247 have no currently tracked source module (sparse numbering is intentional). Pillars 282, 283, 284 are reserved/gap.
 

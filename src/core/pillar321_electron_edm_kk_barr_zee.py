@@ -192,7 +192,7 @@ def separation_guard() -> str:
         "ADJACENT_TRACK_ONLY: Pillar 321 computes eEDM from KK Barr-Zee mechanism. "
         "Results are NOT hardgate physics predictions; they are quantitative adjacent-track "
         "calculations connecting the UM KK mass scale and CP structure to experimental "
-        "bounds.  No hardgate ToE score components are affected."
+        "bounds.  No hardgate framework derivation coverage components are affected."
     )
 
 

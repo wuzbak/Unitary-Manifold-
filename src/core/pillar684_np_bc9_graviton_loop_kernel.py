@@ -307,7 +307,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "The graviton one-loop calculation closes any physics gap — it is a structural result",
         "A full Wilsonian effective action is computed — only the leading kernel is computed",
-        "NP-BC9 advances any ToE score component",
+        "NP-BC9 advances any framework derivation coverage component",
         "Multi-loop graviton contributions are included",
     ]
 

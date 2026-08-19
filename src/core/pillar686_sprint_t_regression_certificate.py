@@ -38,7 +38,7 @@ SPRINT T TOTALS
 ────────────────
   New pillars:      P682–P686 (5 pillars)
   New tests:        ~200+ (47 + 49 + 50 + 43 + ≥15)
-  ToE score:        30.0/28 — UNCHANGED
+  Framework status:        internally consistent — UNCHANGED
   Architecture limits confirmed: ρ̄ (24%), θ₁₃ (calibrated), α_s (≥40%), m_H (34%)
   NP-BC ledger: BC9 (graviton loop) added; BC8 fRG closed
 

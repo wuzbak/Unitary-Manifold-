@@ -768,7 +768,7 @@ admission (×4–7 peak suppression) is partially closed (Z_φ ≈ 5.301 reduces
 | Core physics pillars (hardgate, CLOSED) | 208 |
 | Adjacent research tracks (non-hardgate) | Pillars 218–420 |
 | Total pillars + sub-pillars | 420+ |
-| ToE score | **28.0 / 28.0 = 100%** |
+| Framework consistency status | **All derivation chains internally self-consistent within stated axioms. External empirical confirmation pending (LiteBIRD ~2032).** |
 | Test suite | ~49,850 passed · 23 skipped · 12 deselected · 0 failed |
 | Primary falsifier | Birefringence β ∈ {≈0.273°, ≈0.331°} — LiteBIRD ~2032 |
 | Next decision windows | SO DR1 2027; JUNO 2027; DESI DR3; LiteBIRD ~2032 |

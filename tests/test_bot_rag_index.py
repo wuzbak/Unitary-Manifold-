@@ -222,7 +222,7 @@ def test_answer_question_litebird():
 
 def test_answer_question_toe_score():
     idx = RAGIndex()
-    result = answer_question(idx, "What is the current ToE score?")
+    result = answer_question(idx, "What is the current framework derivation coverage status?")
     assert "answer" in result
     assert len(result["answer"]) > 20
 

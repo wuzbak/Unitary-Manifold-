@@ -10,7 +10,7 @@ EPISTEMIC STATUS — ADJACENT ENGINEERING LANE (NON-HARDGATE)
 ------------------------------------------------------------
 This module provides deterministic pre-flight routing for multi-dimensional
 FH lattice simulations.  It does NOT make physics claims and does NOT alter
-the core ToE score.
+the core framework derivation coverage.
 
 Routing decisions
 -----------------

@@ -173,7 +173,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "The topological form of U(1)_FN charge quantization from UM orbifold BCs is NOT proved",
         "This pillar does not close the Layer 2 gap — it scopes the mechanism",
-        "No ToE score change is claimed (full proof requires structural orbifold derivation)",
+        "No physics label change is claimed (full proof requires structural orbifold derivation)",
         "The FN symmetry is not derived from the UM 5D geometry — it is motivated by it",
     ]
 

@@ -9,7 +9,7 @@ Sprint W scope:
     P697  NP-BC12 — Higher-loop mixed graviton-matter WdW kernel
     P698  Tightening 13 — Majorana phase δ_CP refinement + |m_ββ|
     P699  CKM Wolfenstein λ⁶ higher-order correction
-    P700  ToE score audit 30.0/28 (700-pillar milestone)
+    P700  framework derivation coverage audit framework internally consistent (700-pillar milestone)
     P701  Sprint W regression certificate (this file)
 
 Theory: ThomasCory Walker-Pearson (2026)
@@ -24,7 +24,7 @@ SPRINT_W_CERTIFICATE = {
     "pillar_total":      701,
     "new_tests_sprint":  "~230",
     "test_total_est":    "~52,577",
-    "toe_score":         "30.0/28",
+    "toe_score":         "framework internally consistent",
     "toe_changed":       False,
 
     "architecture_limits": {
@@ -35,7 +35,7 @@ SPRINT_W_CERTIFICATE = {
         "delta_cp":              "Consistent with NuFIT 6.0 2σ (P698)",
         "m_bb_below_ks3":        "|m_ββ| < 36 meV (P698)",
         "ckm_lambda6":           "λ⁶ perturbativity confirmed (P699)",
-        "toe_audit":             "30.0/28 certified at 700-pillar milestone (P700)",
+        "toe_audit":             "framework internally consistent certified at 700-pillar milestone (P700)",
     },
 
     "np_bc_ledger": {

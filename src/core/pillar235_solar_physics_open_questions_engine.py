@@ -9,7 +9,7 @@ questions. It does not claim these questions are solved by theory alone; it
 provides deterministic diagnostics, simulation hooks, and explicit falsification
 conditions that can be tested against observations.
 
-🔵 ADJACENT TRACK — This module does NOT affect the Unitary Manifold ToE score.
+🔵 ADJACENT TRACK — This module does NOT affect the Unitary Manifold framework derivation coverage.
 """
 from __future__ import annotations
 

@@ -166,7 +166,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "The 6D CP mechanism is not yet independently proved from UM orbifold geometry",
         "d_n is NOT currently measured below the bound — this is a prediction for 2028",
-        "No ToE score change — the mechanism is testable but not yet confirmed",
+        "No physics label change — the mechanism is testable but not yet confirmed",
         "The baryon asymmetry η_B is viability-demonstrated, not precision-computed",
     ]
 

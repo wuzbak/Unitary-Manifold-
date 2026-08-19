@@ -198,4 +198,4 @@ class TestFullAudit:
 class TestSeparationGuard:
     def test_returns_string(self): assert isinstance(separation_guard(), str)
     def test_hardgate_adjacent(self): assert "HARDGATE_ADJACENT" in separation_guard()
-    def test_no_score_change(self): assert "ToE score" in separation_guard()
+    def test_no_score_change(self): assert "framework derivation coverage" in separation_guard()

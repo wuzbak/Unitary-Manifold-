@@ -50,7 +50,7 @@ __provenance__ = {
     "version": "v11.1",
     "status": (
         "ADJACENT RESEARCH TRACK — full 28/28 geometric closure ledger; "
-        "non-hardgate, no ToE score delta"
+        "non-hardgate, no physics label delta"
     ),
     "license_software": "AGPL-3.0-or-later",
     "license_theory": "Defensive Public Commons v1.0",

@@ -7,7 +7,7 @@
 
 ---
 
-The Unitary Manifold reached a ToE score of 28.0/28 — 100% across its 28 parameter gates — while maintaining an honest accounting of its residuals. Every named residual was documented in FALLIBILITY.md. Every gap was labeled and preserved.
+The Unitary Manifold reached a framework derivation coverage of framework internally consistent — 100% across its 28 parameter gates — while maintaining an honest accounting of its residuals. Every named residual was documented in FALLIBILITY.md. Every gap was labeled and preserved.
 
 But "100% score with named residuals" is not the end state. The residuals need to be worked on. The open gaps need to be tightened. The admissions need to be reformulated from broad claims into precise, per-term accountings that tell you exactly where the problem is, how large it is, and which part of the framework is responsible.
 

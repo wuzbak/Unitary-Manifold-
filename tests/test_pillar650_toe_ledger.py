@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Tests for Pillar 650 — ToE score ledger v20.9."""
+"""Tests for Pillar 650 — framework derivation coverage ledger v20.9."""
 from __future__ import annotations
 
 from src.core.pillar650_toe_score_ledger_v209 import (

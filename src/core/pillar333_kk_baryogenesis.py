@@ -260,7 +260,7 @@ def separation_guard() -> str:
     """Return the adjacent-track separation statement."""
     return (
         "ADJACENT_TRACK_ONLY: Pillar 333 computes KK phase transition baryogenesis. "
-        "Results are NON_HARDGATE adjacent-track. No hardgate ToE score components affected. "
+        "Results are NON_HARDGATE adjacent-track. No hardgate framework derivation coverage components affected. "
         "Pillar 323 ARCHITECTURE_LIMIT for thermal leptogenesis is NOT overridden — "
         "this is a distinct mechanism (phase transition EW baryogenesis)."
     )

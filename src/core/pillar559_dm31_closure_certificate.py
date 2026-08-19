@@ -296,7 +296,7 @@ def closure_certificate() -> Dict[str, Any]:
             "All three correction steps (Steps 1–3) are derived from the 5D KK geometry.",
             "The 3-step cascade reduces the initial 3.33σ tension by a factor of ~28.",
             "This constitutes CONDITIONAL_DERIVATION of P17 (not bare ESTIMATE).",
-            "ToE score upgraded: P17 from excluded to partial (+0.5 pts).",
+            "framework derivation coverage upgraded: P17 from excluded to partial (+0.5 pts).",
         ],
         "what_is_NOT_claimed": [
             "WS-V texture is not uniquely fixed by 5D geometry (parameterized).",

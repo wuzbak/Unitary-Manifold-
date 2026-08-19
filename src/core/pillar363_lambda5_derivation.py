@@ -86,7 +86,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 363 attempts to derive Λ₅ < 0 from 5D physics. "
         "Result: MINIMAL_AXIOM. This supports the hardgate metric ansatz (P1). "
-        "No ToE score is affected."
+        "No framework derivation coverage is affected."
     )
 
 

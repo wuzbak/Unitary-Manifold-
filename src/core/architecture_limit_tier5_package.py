@@ -7,7 +7,7 @@ Targets:
   - P28 (cosmological constant Λ)
 
 This package deepens mechanism depth and closure milestones without claiming
-hardgate promotion or ToE score inflation.
+hardgate promotion or framework derivation coverage inflation.
 """
 from __future__ import annotations
 

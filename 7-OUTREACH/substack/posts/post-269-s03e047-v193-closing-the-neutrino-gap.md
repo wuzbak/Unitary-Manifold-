@@ -36,7 +36,7 @@ Three formal conditions all satisfied:
 - All three correction steps executed ✓
 - No additional architecture limit identified ✓
 
-ToE score: **+0.5 pts** (conditional derivation). Total: 29.0/28.
+framework derivation coverage: **+0.5 pts** (conditional derivation). Total: 29.0/28.
 
 Pre-registered JUNO Phase 2 prediction: residual < 0.5σ at 3× Phase 1 statistics.
 

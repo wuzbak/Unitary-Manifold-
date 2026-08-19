@@ -50,7 +50,7 @@ Moving down the ladder — demotion — is also possible and has happened. P17 w
 
 At the start of each wave, the planner (human + AI jointly) reviews:
 
-1. **Current ToE scorecard** — which parameters are closest to the next promotion threshold?
+1. **Current SM parameter derivation ledger** — which parameters are closest to the next promotion threshold?
 2. **Blocking dependencies** — which parameters require another parameter or module to close first?
 3. **Geometric tool availability** — which dimensional corrections (NLO, 7D, 9D, etc.) are already implemented?
 4. **Risk budget** — how many parameters are in the wave? Large waves risk delivering nothing if all targets miss their gates.
@@ -86,7 +86,7 @@ This documentation serves two purposes:
 
 It is not a guarantee. Parameters sometimes miss their gates. Waves sometimes close zero parameters.
 
-It is not a roadmap that implies the remaining parameters will be closed. The ToE score at 76% does not mean that 24% of the work remains and will be done in the same way. Some architecture limits (P27, P28) may require physics that the 5D framework cannot provide without extension to 10D or 11D.
+It is not a roadmap that implies the remaining parameters will be closed. The framework derivation coverage at 76% does not mean that 24% of the work remains and will be done in the same way. Some architecture limits (P27, P28) may require physics that the 5D framework cannot provide without extension to 10D or 11D.
 
 It is a discipline for being honest about what has been done, what is in progress, and what is genuinely unknown.
 

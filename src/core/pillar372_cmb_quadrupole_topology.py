@@ -120,7 +120,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 372 investigates CMB quadrupole suppression "
         "mechanisms. All candidates RULED_OUT except non-trivial topology. "
-        "Status: MECHANISM_INCONCLUSIVE. No ToE score affected."
+        "Status: MECHANISM_INCONCLUSIVE. No framework derivation coverage affected."
     )
 
 

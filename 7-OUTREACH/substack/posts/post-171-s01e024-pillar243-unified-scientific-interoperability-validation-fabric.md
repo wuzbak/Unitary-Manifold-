@@ -52,7 +52,7 @@ returns:
 ## What We Are Not Claiming
 
 - This is **not** a hardgate physics pillar.
-- This does **not** change the ToE score.
+- This does **not** change the physics claim labels.
 - Passing interoperability contracts does **not** promote physics claims.
 - This does **not** claim Einstein Toolkit, symbolic engines, cosmology stacks,
   and UM governance are equivalent systems.

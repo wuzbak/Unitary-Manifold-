@@ -12,7 +12,7 @@ Six Lean4 files. Sixty-seven new formal theorems. A single milestone condition t
 
 **ALL_NINE_SUBGAP_KERNELS_PROVED.**
 
-This post documents the completion of the NP-BC-1/2/3 sub-gap programme — the nine algebraic kernel chains that underlie the non-perturbative proof strategy for the braided Chern-Simons field theory. It is a mathematical milestone, not a physics announcement. No observable predictions change. No ToE score increments. But the formal machinery now in place is the closest thing this framework has built to a genuine non-perturbative treatment of its own geometry.
+This post documents the completion of the NP-BC-1/2/3 sub-gap programme — the nine algebraic kernel chains that underlie the non-perturbative proof strategy for the braided Chern-Simons field theory. It is a mathematical milestone, not a physics announcement. No observable predictions change. No physics label changes. But the formal machinery now in place is the closest thing this framework has built to a genuine non-perturbative treatment of its own geometry.
 
 ---
 

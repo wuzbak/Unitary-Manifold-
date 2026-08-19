@@ -6,7 +6,7 @@
 
 ---
 
-*This article picks up from post 135, which traced the ToE score from its early baseline of ~42% to v10.28's score of 76%. If you want the earlier history, start there. This post covers what came after.*
+*This article picks up from post 135, which traced the framework derivation coverage from its early baseline of ~42% to v10.28's score of 76%. If you want the earlier history, start there. This post covers what came after.*
 
 At v10.28, the Unitary Manifold had promoted 21.2 out of 28 Standard Model parameters to scores of 0.8 or above. The five biggest wins — the Yukawa quartet (P7–P10) and atmospheric neutrino splitting (P17) — had just come through simultaneously in the project's largest single-wave score jump.
 

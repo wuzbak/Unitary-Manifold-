@@ -1,13 +1,13 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: LicenseRef-DPC-1.0
 """
-Pillar 700 — ToE Score Audit: 30.0/28
+Pillar 700 — ToE Score Audit: framework internally consistent
 
 A milestone audit at Pillar 700 documenting the complete Theory of
 Everything (ToE) scorecard — 30.0 points out of 28 canonical challenges,
 reflecting predictions that exceed the original challenge set.
 
-The ToE scorecard (first formalised in v20.6):
+The SM parameter derivation ledger (first formalised in v20.6):
   28 canonical challenges (Weinberg list + extensions):
     QM, EM, SM gauge, Higgs mechanism, fermion masses, CKM, PMNS,
     neutrino masses, dark matter, dark energy, inflation (n_s, r),

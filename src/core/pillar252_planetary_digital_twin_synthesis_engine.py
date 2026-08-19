@@ -9,7 +9,7 @@ governance response into scenario-grade trajectories.
 Boundary statement (strict):
 - This module is policy-simulation infrastructure for comparative planning.
 - It is not a claim of deterministic planetary prediction.
-- It does not modify hardgate physics status or ToE score.
+- It does not modify hardgate physics status or framework derivation coverage.
 """
 
 from __future__ import annotations

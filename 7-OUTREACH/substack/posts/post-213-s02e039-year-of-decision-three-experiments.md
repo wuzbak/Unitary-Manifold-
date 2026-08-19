@@ -79,7 +79,7 @@ As of v11.12 (2026-05-20):
 
 - **34,537+ passing tests** across 208 core pillars + adjacent tracks through Pillar 308
 - **0 failures**
-- **100% ToE score** (28.0/28 Standard Model observables derived)
+- **100% internal consistency within framework axioms** (framework internally consistent Standard Model observables derived)
 - **Five gaps permanently certified** in v11.11: DESI wₐ ARCHITECTURE_LIMIT, Convention 279.3 DERIVED, WZW NLO+ACT DR6 IRREDUCIBLE, KATRIN preregistration, FH phase diagram complete
 - **Three experiments preregistered and drill-verified** for ~2027 (Pillar 308 v2 mock-drill)
 - **Primary falsifier:** LiteBIRD β ∈ {0.273°, 0.331°} — still ~2032

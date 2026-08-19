@@ -57,8 +57,8 @@ governance frameworks).  The Pentad falls outside Category-1 by explicit declara
 check that no Pentad file asserts DERIVED/PROVED for Pentad-specific constructs.
 
 ### Control 4: Score isolation
-Pentad test results are never added to the ToE score denominator.
-The ToE score denominator is fixed at 28 physics parameters only.
+Pentad test results are never added to the framework derivation coverage denominator.
+The framework derivation coverage denominator is fixed at 28 physics parameters only.
 
 ### Control 5: Session non-negotiables
 `HILS_SESSION_CURRENT.md §Non-Negotiables` item 2 reads:

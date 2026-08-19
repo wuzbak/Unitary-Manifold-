@@ -32,7 +32,7 @@ There was also an errata footer added to the published Substack post-186, which 
 
 v11.4 also synchronized the test counts across canonical surfaces. Four occurrences of a stale count (33,473) in README.md were updated to the verified 33,784, and FALLIBILITY.md was similarly updated.
 
-**v11.4 ToE score delta:** 0. No physics changed. The pillar set was tidied.
+**v11.4 physics label delta:** 0. No physics changed. The pillar set was tidied.
 
 **Why this matters:** a framework that makes precision claims about 28 measured parameters needs to be able to account for every module it contains. A naming collision is not a physics error, but it is a registry integrity error — and registry integrity is what makes the framework's honest accounting trustworthy. v11.4 restored full registry integrity.
 
@@ -42,7 +42,7 @@ v11.4 also synchronized the test counts across canonical surfaces. Four occurren
 
 Version 11.5 is the substantive scientific milestone. The WAVE_CHANGELOG describes it in detail; this article covers the strategic picture.
 
-The Unitary Manifold reached 28/28 — a 100% ToE score across its 28 parameter gates — while carrying a set of named, honest residuals in FALLIBILITY.md. The score was not achieved by pretending the residuals did not exist. It was achieved by demonstrating that the parameter gates themselves were closed while acknowledging open gaps in specific derivation chains.
+The Unitary Manifold reached 28/28 — a 100% internal consistency within framework axioms across its 28 parameter gates — while carrying a set of named, honest residuals in FALLIBILITY.md. The score was not achieved by pretending the residuals did not exist. It was achieved by demonstrating that the parameter gates themselves were closed while acknowledging open gaps in specific derivation chains.
 
 v11.5 is the sprint that worked on those gaps.
 
@@ -61,7 +61,7 @@ Additionally, FALLIBILITY.md Admissions #2 and #3 were rewritten. The monolithic
 
 **v11.5 test count:** 34,187 passed · 393 skipped · 12 deselected · 0 failed (+117 new tests over v11.4 baseline of 34,070).
 
-**v11.5 ToE score delta:** 0. The tightening wave does not promote hardgate labels or claim new closures. It makes existing honest admissions more precise.
+**v11.5 physics label delta:** 0. The tightening wave does not promote hardgate labels or claim new closures. It makes existing honest admissions more precise.
 
 ---
 
@@ -83,7 +83,7 @@ These six files contain 215 tests. They were not failing because of physics prob
 
 **v11.6 test count:** 34,267 passed · 393 skipped · 12 deselected · 0 failed.
 
-**v11.6 ToE score delta:** 0. No physics modules changed.
+**v11.6 physics label delta:** 0. No physics modules changed.
 
 **Why this matters:** the environment hardening is not glamorous, but it has a specific epistemic significance. A test that cannot be collected in the CI environment is a test that provides no assurance. The sympy-dependent tests verify properties of the symbolic metric bridge, the formal proof hardening module, the neural-symbolic consistency checker, and the parity suite. These are not trivial tests — they include things like verifying that the 5D metric tensor is symbolically correct and that the Lean4 proof bridge produces consistent results. Having 215 of them silently broken in the CI environment meant that a category of verification was not actually running. v11.6 restored those 215 tests to their proper functioning.
 

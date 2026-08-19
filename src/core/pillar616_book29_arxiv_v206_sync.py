@@ -48,7 +48,7 @@ def book_summary() -> Dict[str, Any]:
         "tests_added": TESTS_ADDED_THIS_SPRINT,
         "toe_score": TOE_SCORE,
         "substack_post": SUBSTACK_POST,
-        "theme": "DM21 five-step cascade formal closure; ToE 30.0/28",
+        "theme": "DM21 five-step cascade formal closure; framework status framework internally consistent",
     }
 
 
@@ -63,7 +63,7 @@ def arxiv_sync_certificate() -> Dict[str, Any]:
         "synchronized": True,
         "honest_note": (
             "Book 29 covers Sprint J: five-step DM21 cascade closure (P613-P615). "
-            "arXiv v20.6 sync certified against v20.5 baseline with ToE 30.0/28. "
+            "arXiv v20.6 sync certified against v20.5 baseline with framework status framework internally consistent. "
             "P20 joins P17 as the second neutrino parameter closed from ARCHITECTURE_LIMIT."
         ),
     }

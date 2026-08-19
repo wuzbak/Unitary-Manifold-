@@ -121,7 +121,7 @@ D_A_RECOMB: float = 14000.0   # Mpc
 def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 374 is the end-to-end CMB C_ℓ prediction. "
-        "Status: FRONTIER_COMPUTATION. No ToE score affected."
+        "Status: FRONTIER_COMPUTATION. No framework derivation coverage affected."
     )
 
 

@@ -68,7 +68,7 @@ a citation to `PROVENANCE.md`.
 > Any β outside [0.22°, 0.38°] falsifies the braided-winding mechanism.
 
 **For ToE / SM parameter status (current v15.3 public phrasing):**
-> The live repository status records ToE 28.0/28 (100%) and zero free parameters in the current hardgate ledger, with P502 exposing a machine-readable completion audit. This is an internal derivation/ledger status, not external empirical confirmation or independent peer-review receipt. Cite `STATUS.md`, `README.md`, `FALLIBILITY.md`, and `docs/mas_tracker.yml` together.
+> The live repository status records ToE framework internally consistent (100%) and zero free parameters in the current hardgate ledger, with P502 exposing a machine-readable completion audit. This is an internal derivation/ledger status, not external empirical confirmation or independent peer-review receipt. Cite `STATUS.md`, `README.md`, `FALLIBILITY.md`, and `docs/mas_tracker.yml` together.
 
 **For theory scope:**
 > The Unitary Manifold is an internally closed/audited candidate ToE framework under its stated 5D assumptions. It remains pending independent reproduction, expert review, and decisive external data. Hardgate physics, bounded frontier lanes, and analogy/outreach claims must remain explicitly separated.

@@ -159,7 +159,7 @@ def what_is_claimed() -> List[str]:
         "The F-theory G4 flux landscape scaffold (Pillars 570–628) completes Step 1 scaffolding",
         "Each step is honestly labelled with its status (ADJACENT_TRACK, NOMINATED, etc.)",
         "The total targeted reduction ≈ 57 orders fully accounts for the residual gap",
-        "This is an architecture-limit roadmap — no ToE score change",
+        "This is an architecture-limit roadmap — no physics label change",
     ]
 
 
@@ -169,7 +169,7 @@ def what_is_NOT_claimed() -> List[str]:
         "The CC problem is NOT solved — this pillar documents the path, not the solution",
         "Steps 2–4 are NOMINATED only — no quantitative calculation is performed here",
         "The anthropic Step 4 is explicitly non-derivable from UM geometry",
-        "No ToE score change for architecture-limit documentation",
+        "No physics label change for architecture-limit documentation",
     ]
 
 

@@ -133,7 +133,7 @@ def separation_guard() -> str:
     return (
         "FRONTIER_COMPUTATION: Pillar 361 derives the self-consistent "
         "Dyson-Schwinger solution for Z_φ and two-loop γ_eff corrections. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 

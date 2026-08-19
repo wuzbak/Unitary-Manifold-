@@ -21,7 +21,7 @@ From these one can construct a natural Fermi–Hubbard parameter ratio:
 At U/t ≈ 78 the 1D Hubbard model is deep in the Mott insulating phase.
 This is an honest, quantitative adjacent-track connection between the KK
 braid geometry and condensed-matter physics.  It is NOT a hardgate UM
-pillar and does NOT alter the core ToE score.
+pillar and does NOT alter the core framework derivation coverage.
 
 The bridge is CLOSED (all computations pass automated validation).
 

@@ -305,8 +305,8 @@ completeness, not as a prediction.*
 
 ## What This Means for the Framework
 
-Pillar 538 does not change the ToE score.  The hardgate parameter ledger
-remains at 28.0/28.0 (100 %).
+Pillar 538 does not change the physics claim labels.  The hardgate parameter ledger
+remains at framework internally consistent (100 %).
 
 What it does do:
 

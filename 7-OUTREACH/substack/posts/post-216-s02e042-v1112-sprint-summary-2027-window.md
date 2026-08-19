@@ -8,7 +8,7 @@
 
 ## What v11.12 Is
 
-The Unitary Manifold v11.12 sprint is not about adding new claims. Every claim that can be made within the current 5D-EFT architecture has been made. The framework is at 100% ToE score — 28.0/28 Standard Model observables derived, zero test failures across 34,537+ tests.
+The Unitary Manifold v11.12 sprint is not about adding new claims. Every claim that can be made within the current 5D-EFT architecture has been made. The framework is internally self-consistent — all 28 Standard Model observables have closed derivation chains, zero test failures across 34,537+ tests.
 
 v11.12 is about something different: getting the framework into the best possible shape *before* the 2027 measurement window opens. It is a consolidation sprint — three pillars, four outreach posts, a publication infrastructure refresh, and a comprehensive drill across every active preregistration.
 

@@ -37,7 +37,7 @@ SPRINT U TOTALS
 ────────────────
   New pillars:  P687–P691 (5 pillars)
   New tests:    ~230+
-  ToE score:    30.0/28 — UNCHANGED
+  Framework status:    internally consistent — UNCHANGED
   NP-BC ledger: BC1–BC10 now complete
   PMNS framework: all three mixing angles (θ₁₂, θ₁₃, θ₂₃) implemented
 

@@ -10,7 +10,7 @@ EPISTEMIC STATUS — ADJACENT ENGINEERING LANE (NON-HARDGATE)
 ------------------------------------------------------------
 This module extends the FH adjacent research lane to multi-dimensional
 geometries.  Results are NOT hardgate UM pillars and do NOT alter the
-core ToE score.  All geometry labels carry explicit ADJACENT_TRACK markers.
+core framework derivation coverage.  All geometry labels carry explicit ADJACENT_TRACK markers.
 
 Supported geometries
 --------------------

@@ -23,7 +23,7 @@ Closure conditions (all met):
   ✅ KamLAND independent cross-check consistent (0.70σ)
 
 P20 status advance: APPROACHING_CLOSURE → DM21_CLOSED_FIVE_STEP_CASCADE
-ToE score: 29.5/28 → 30.0/28  (+0.5 pts for P20 closure)
+framework derivation coverage: 29.5/28 → framework internally consistent  (+0.5 pts for P20 closure)
 """
 from __future__ import annotations
 
@@ -173,7 +173,7 @@ def closure_conditions() -> Dict[str, Any]:
 
 
 def toe_upgrade() -> Dict[str, Any]:
-    """Return the ToE score upgrade for P20 closure."""
+    """Return the framework derivation coverage upgrade for P20 closure."""
     return {
         "pillar_target": "P20",
         "parameter": "Δm²₂₁ (solar neutrino mass splitting)",
@@ -226,7 +226,7 @@ def dm21_closure_certificate() -> Dict[str, Any]:
             "The tension trajectory runs 4.63σ → 3.07σ → 2.98σ → 1.15σ → 0.81σ → 0.49σ.",
             "All four formal closure conditions are satisfied.",
             "P20 joins P17 (DM31) as the second hardgate neutrino parameter to close from ARCHITECTURE_LIMIT.",
-            "The ToE score advances from 29.5/28 to 30.0/28 (+0.5 pts).",
+            "The framework derivation coverage advances from 29.5/28 to framework internally consistent (+0.5 pts).",
         ],
         "what_is_NOT_claimed": [
             "An exact non-perturbative two-loop EW QFT calculation.",

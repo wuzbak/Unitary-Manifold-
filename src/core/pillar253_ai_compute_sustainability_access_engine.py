@@ -8,7 +8,7 @@ cost affordability pressure.
 
 Boundary statement (strict):
 - This module is a planning and prioritization surface.
-- It is not a hardgate physics claim and does not change ToE score.
+- It is not a hardgate physics claim and does not change framework derivation coverage.
 - Outputs are policy/engineering guidance, not market-price guarantees.
 """
 
