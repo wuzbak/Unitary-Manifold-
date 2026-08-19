@@ -299,3 +299,58 @@ class TestPillar134Summary:
         result = pillar134_summary()
         lo, hi = result["interval_gev"]
         assert lo < HIGGS_MASS_PDG_GEV < hi
+
+
+# ---------------------------------------------------------------------------
+# TestProve5dGhuCeiling — G1 gap closure
+# ---------------------------------------------------------------------------
+
+from src.core.higgs_mass_closure import prove_5d_ghu_ceiling
+
+
+class TestProve5dGhuCeiling:
+    """Tests for G1 closure: GHU ceiling impossibility theorem."""
+
+    def test_status(self):
+        r = prove_5d_ghu_ceiling()
+        assert r["status"] in ("HONEST_GAP_PROVED", "REQUIRES_RECHECK")
+
+    def test_honest_gap_proved(self):
+        """The ceiling must be below PDG 125.25 GeV."""
+        r = prove_5d_ghu_ceiling()
+        assert r["status"] == "HONEST_GAP_PROVED"
+
+    def test_m_H_tree_positive(self):
+        r = prove_5d_ghu_ceiling()
+        assert r["m_H_tree_gev"] > 0.0
+
+    def test_m_H_nlo_greater_than_tree(self):
+        r = prove_5d_ghu_ceiling()
+        assert r["m_H_nlo_gev"] > r["m_H_tree_gev"]
+
+    def test_m_H_ceiling_below_pdg(self):
+        r = prove_5d_ghu_ceiling()
+        assert r["m_H_ceiling_gev"] < r["m_H_pdg_gev"]
+
+    def test_gap_floor_pct_positive(self):
+        r = prove_5d_ghu_ceiling()
+        assert r["gap_floor_pct"] >= 0.0
+
+    def test_hosotani_theta_value(self):
+        """θ_H = 5π/74 ≈ 0.2121 rad."""
+        import math
+        r = prove_5d_ghu_ceiling()
+        expected = math.pi * 5 / 74
+        assert abs(r["hosotani_theta"] - expected) < 1e-10
+
+    def test_impossible_flag_true(self):
+        r = prove_5d_ghu_ceiling()
+        assert r["impossible_within_minimal_ghu"] is True
+
+    def test_what_could_close_gap_nonempty(self):
+        r = prove_5d_ghu_ceiling()
+        assert len(r["what_could_close_gap"]) >= 1
+
+    def test_theorem_string(self):
+        r = prove_5d_ghu_ceiling()
+        assert "THEOREM" in r["theorem"]

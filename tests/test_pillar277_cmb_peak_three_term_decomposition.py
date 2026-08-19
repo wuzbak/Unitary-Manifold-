@@ -135,3 +135,65 @@ def test_no_hardgate_drift():
     rep = peak_suppression_report()
     assert rep["separation_guard"]["is_hardgate"] is False
     assert rep["separation_guard"]["alters_falsifier_window"] is False
+
+
+# ---------------------------------------------------------------------------
+# TestS5DCapAnalyticBound — G6 gap closure
+# ---------------------------------------------------------------------------
+
+from src.core.pillar277_cmb_peak_three_term_decomposition import s5d_cap_analytic_bound
+import math
+
+
+class TestS5DCapAnalyticBound:
+    """Tests for G6 closure: analytic monotone bound on S_5D_cap(N)."""
+
+    def test_status(self):
+        r = s5d_cap_analytic_bound(74)
+        assert r["status"] == "ANALYTIC_BOUND_PROVED"
+
+    def test_natural_n_is_74(self):
+        r = s5d_cap_analytic_bound(74)
+        assert r["N_natural"] == 74
+
+    def test_convergence_rate_1_over_N(self):
+        r = s5d_cap_analytic_bound(74)
+        assert r["convergence_rate"] == "O(1/N)"
+
+    def test_k_cap_positive(self):
+        r = s5d_cap_analytic_bound(74)
+        assert r["K_cap"] > 0.0
+
+    def test_k_cap_formula(self):
+        """K_cap = 25π/(6×37²) ≈ 0.00960."""
+        r = s5d_cap_analytic_bound(74)
+        expected = 25 * math.pi / (6 * 37**2)
+        assert abs(r["K_cap"] - expected) < 1e-8
+
+    def test_delta_at_natural_n_small(self):
+        """At N=74, correction is tiny relative to cap."""
+        r = s5d_cap_analytic_bound(74)
+        assert r["delta_at_natural_N"] < 0.001
+
+    def test_delta_monotone_decreasing(self):
+        """Larger N → smaller correction."""
+        r1 = s5d_cap_analytic_bound(10)
+        r2 = s5d_cap_analytic_bound(100)
+        assert r1["delta_S_cap_bound"] > r2["delta_S_cap_bound"]
+
+    def test_s_cap_floor_respected(self):
+        r = s5d_cap_analytic_bound(74)
+        assert r["S_cap_floor"] >= 1.50
+
+    def test_s_cap_upper_greater_than_floor(self):
+        r = s5d_cap_analytic_bound(74)
+        assert r["S_cap_upper"] > r["S_cap_floor"]
+
+    def test_theorem_string(self):
+        r = s5d_cap_analytic_bound(74)
+        assert "THEOREM" in r["theorem"]
+
+    def test_invalid_n_raises(self):
+        import pytest
+        with pytest.raises(ValueError):
+            s5d_cap_analytic_bound(0)

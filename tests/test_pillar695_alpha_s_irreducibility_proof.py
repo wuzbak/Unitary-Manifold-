@@ -108,3 +108,55 @@ def test_cert_honest_note_mentions_alternative():
 def test_path_693_is_worst_or_near_worst():
     paths = {item["path"]: item for item in all_alpha_s_paths()}
     assert paths["693"]["residual_pct"] >= paths["694"]["residual_pct"]
+
+
+# ---------------------------------------------------------------------------
+# TestAlphaS5DGeometricUpperBound — G2 gap closure
+# ---------------------------------------------------------------------------
+
+from src.core.pillar695_alpha_s_irreducibility_proof import alpha_s_5d_geometric_upper_bound
+import math
+
+
+class TestAlphaS5DGeometricUpperBound:
+    """Tests for G2 closure: rigorous proved lower bound on α_s gap."""
+
+    def test_status(self):
+        r = alpha_s_5d_geometric_upper_bound()
+        assert r["status"] == "ARCHITECTURE_LIMIT_RIGOROUS_BOUND_PROVED"
+
+    def test_ads_bound_value(self):
+        """α_s^{AdS} = π²/148 ≈ 0.0667."""
+        r = alpha_s_5d_geometric_upper_bound()
+        expected = math.pi**2 / 148.0
+        assert abs(r["alpha_s_ads_bound"] - expected) < 1e-10
+
+    def test_ads_bound_less_than_pdg(self):
+        r = alpha_s_5d_geometric_upper_bound()
+        assert r["alpha_s_ads_bound"] < r["alpha_s_pdg"]
+
+    def test_gap_fraction_positive(self):
+        r = alpha_s_5d_geometric_upper_bound()
+        assert r["gap_fraction_min"] > 0.0
+
+    def test_gap_pct_at_least_40(self):
+        """Gap must be proved ≥ 40% (architecture limit)."""
+        r = alpha_s_5d_geometric_upper_bound()
+        assert r["gap_pct_min"] >= 40.0
+
+    def test_bound_is_tight(self):
+        """The bound is achieved by Path C (AdS/QCD)."""
+        r = alpha_s_5d_geometric_upper_bound()
+        assert r["bound_is_tight"] is True
+
+    def test_theorem_string_contains_theorem(self):
+        r = alpha_s_5d_geometric_upper_bound()
+        assert "THEOREM" in r["theorem"]
+
+    def test_path_a_less_than_ads(self):
+        r = alpha_s_5d_geometric_upper_bound()
+        assert r["path_a_value"] < r["alpha_s_ads_bound"]
+
+    def test_corollary_mentions_proved(self):
+        r = alpha_s_5d_geometric_upper_bound()
+        assert "proved" in r["corollary"].lower() or "≥" in r["corollary"]
