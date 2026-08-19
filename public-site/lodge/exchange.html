@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Knowledge Exchange — AxiomZero Logic Lodge</title>
+  <meta name="description" content="Ask any physics question about the Unitary Manifold. RAG-powered answers with citations."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .exchange-layout { display:grid; grid-template-columns:1fr 380px; gap:2rem; }
+    @media(max-width:900px){ .exchange-layout { grid-template-columns:1fr; } }
+    .q-box { background:var(--color-card); border:1px solid var(--color-border); border-radius:12px; padding:1.5rem; }
+    .answer-box { background:var(--color-card); border:1px solid var(--color-border); border-radius:12px; padding:1.5rem; margin-top:1.5rem; display:none; }
+    .citation-pill { display:inline-block; font-family:var(--font-mono); font-size:.75rem; background:rgba(59,139,255,.1); color:var(--color-accent); border-radius:4px; padding:.15em .5em; margin:.2em; }
+    .history-item { padding:.75rem 0; border-bottom:1px solid var(--color-border); font-size:.88rem; }
+    .history-item:last-child { border-bottom:none; }
+    .history-q { font-weight:600; margin-bottom:.25rem; }
+    .history-a { color:var(--color-muted); font-size:.83rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .top-q-item { display:flex; justify-content:space-between; padding:.5rem 0; border-bottom:1px solid var(--color-border); font-size:.85rem; }
+    .top-q-item:last-child { border-bottom:none; }
+    .confidence-bar { height:6px; border-radius:3px; background:var(--color-border); overflow:hidden; margin:.5rem 0; }
+    .confidence-fill { height:100%; border-radius:3px; background:var(--color-accent); }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Lodge</a></li>
+    <li><a href="arcade.html">Arcade</a></li>
+    <li><a href="observe.html">Observe</a></li>
+    <li><a href="exchange.html" class="active">Exchange</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:1.75rem">
+    <div class="section-eyebrow">Zone 5 — Physics Q&amp;A</div>
+    <h1 style="margin-bottom:.4rem">Knowledge Exchange</h1>
+    <p class="text-muted">Ask anything about the Unitary Manifold. Answers are grounded in the actual repository — every response cites specific files.</p>
+  </div>
+
+  <div class="exchange-layout">
+    <!-- Main Q&A -->
+    <div>
+      <div class="q-box">
+        <div class="form-group">
+          <label class="form-label" for="qInput">Your question</label>
+          <input type="text" class="form-control" id="qInput"
+            placeholder="e.g. What is the braided sound speed? Why is n_w = 5?"
+            onkeydown="if(event.key==='Enter')askQuestion()"/>
+        </div>
+        <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+          <button class="btn" onclick="askQuestion()">Ask</button>
+          <input type="text" class="form-control" id="agentLabel" placeholder="Agent label (optional)" style="max-width:200px"/>
+          <span class="text-xs text-muted">Questions are logged (anonymised) to surface theory gaps.</span>
+        </div>
+      </div>
+
+      <!-- Suggested questions -->
+      <div style="margin-top:1rem">
+        <p class="text-muted text-xs" style="margin-bottom:.5rem">Try asking:</p>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <button class="zone-btn" onclick="fillQ(this.textContent)" style="font-size:.8rem;padding:.3em .8em;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text);cursor:pointer">What is the braided sound speed?</button>
+          <button class="zone-btn" onclick="fillQ(this.textContent)" style="font-size:.8rem;padding:.3em .8em;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text);cursor:pointer">Why is n_w = 5?</button>
+          <button class="zone-btn" onclick="fillQ(this.textContent)" style="font-size:.8rem;padding:.3em .8em;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text);cursor:pointer">What does LiteBIRD test?</button>
+          <button class="zone-btn" onclick="fillQ(this.textContent)" style="font-size:.8rem;padding:.3em .8em;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text);cursor:pointer">How is α_em derived geometrically?</button>
+          <button class="zone-btn" onclick="fillQ(this.textContent)" style="font-size:.8rem;padding:.3em .8em;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text);cursor:pointer">What is the FTUM fixed point?</button>
+        </div>
+      </div>
+
+      <!-- Answer panel -->
+      <div class="answer-box" id="answerBox">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem">
+          <h3 id="answerQ" style="flex:1;margin-right:1rem"></h3>
+          <span id="confBadge" class="badge badge-blue text-xs"></span>
+        </div>
+        <div class="confidence-bar"><div class="confidence-fill" id="confFill" style="width:0%"></div></div>
+        <p id="answerText" style="margin-top:1rem;line-height:1.65"></p>
+        <div id="citationArea" style="margin-top:.75rem"></div>
+        <p class="text-xs text-muted" id="answerTs" style="margin-top:.75rem"></p>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div>
+      <div class="q-box" style="margin-bottom:1rem">
+        <h4 style="margin-bottom:.75rem">Most Asked</h4>
+        <p class="text-xs text-muted" style="margin-bottom:.5rem">Questions asked most often — gaps in documentation.</p>
+        <div id="topQs"><p class="text-muted text-xs">Loading…</p></div>
+      </div>
+
+      <div class="q-box">
+        <h4 style="margin-bottom:.75rem">Recent Q&amp;A</h4>
+        <div id="historyList"><p class="text-muted text-xs">No history yet.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer style="margin-top:4rem;padding:2rem;text-align:center;border-top:1px solid var(--color-border);color:var(--color-muted);font-size:.85rem">
+  <p>Theory: ThomasCory Walker-Pearson · Code: GitHub Copilot (AI)</p>
+</footer>
+
+<script>
+const API = 'https://lodge.axiomzero.io';
+const localHistory = [];
+
+function fillQ(text) {
+  document.getElementById('qInput').value = text;
+  askQuestion();
+}
+
+async function askQuestion() {
+  const q = document.getElementById('qInput').value.trim();
+  if (!q) return;
+  const label = document.getElementById('agentLabel').value.trim() || 'anonymous';
+
+  const box = document.getElementById('answerBox');
+  box.style.display = 'block';
+  document.getElementById('answerQ').textContent = q;
+  document.getElementById('answerText').textContent = 'Searching the repository…';
+  document.getElementById('citationArea').innerHTML = '';
+  document.getElementById('confFill').style.width = '0%';
+
+  let result;
+  try {
+    const r = await fetch(`${API}/exchange/ask?q=${encodeURIComponent(q)}&agent_label=${encodeURIComponent(label)}`);
+    result = await r.json();
+  } catch {
+    // Fallback: simple keyword lookup
+    result = localFallback(q);
+  }
+
+  document.getElementById('answerText').textContent = result.answer || 'No answer found.';
+  const conf = Math.round((result.confidence || 0) * 100);
+  document.getElementById('confBadge').textContent = `${conf}% confidence`;
+  document.getElementById('confFill').style.width = conf + '%';
+  document.getElementById('answerTs').textContent = result.timestamp ? `Retrieved: ${result.timestamp}` : '';
+
+  if (result.citations && result.citations.length) {
+    document.getElementById('citationArea').innerHTML =
+      'Sources: ' + result.citations.map(c => `<span class="citation-pill">${c}</span>`).join('');
+  }
+
+  localHistory.unshift({q, a: result.answer, ts: new Date().toLocaleTimeString()});
+  renderHistory();
+}
+
+function localFallback(q) {
+  const ql = q.toLowerCase();
+  const map = {
+    'sound speed': {answer:'c_s = 12/37 ≈ 0.3243, from the (5,7) braid resonance with k_CS = 74.', citations:['src/core/braided_winding.py']},
+    'birefringence': {answer:'β ∈ {≈0.273°, ≈0.331°} canonical. Admissible window [0.22°,0.38°]. LiteBIRD 2032.', citations:['src/core/braided_winding.py','FALLIBILITY.md']},
+    'n_w': {answer:'n_w = 5 selected by Planck 2018 n_s = 0.9649±0.0042. Steps 1–3 of Pillar 67 narrow to {5,7}; Planck selects 5.', citations:['src/core/braided_winding.py','FALLIBILITY.md']},
+    'litebird': {answer:'LiteBIRD (launch ~2032) will measure β to σ≈0.04°. A result in [0.29°,0.31°] at >2σ falsifies the braided-winding mechanism.', citations:['src/core/braided_winding.py','3-FALSIFICATION/']},
+    'alpha': {answer:'α_em⁻¹ ≈ 137.0 (PDG: 137.036, residual 0.026%). Chain: α_GUT=3/74 → one-loop SU(5)→SM RGE.', citations:['src/core/alpha_em_geometric.py']},
+    'ftum': {answer:'The FTUM operator is a contraction on Multiverse states. Fixed point gives α ≈ 1/φ₀². See Pillars 5,29,38.', citations:['src/multiverse/fixed_point.py']},
+  };
+  for (const [k,v] of Object.entries(map)) {
+    if (ql.includes(k)) return {...v, confidence:0.7, timestamp: new Date().toISOString()};
+  }
+  return {answer:'No direct match. Try: sound speed, birefringence, alpha_em, FTUM, LiteBIRD.', citations:[], confidence:0.2, timestamp:new Date().toISOString()};
+}
+
+function renderHistory() {
+  const el = document.getElementById('historyList');
+  if (!localHistory.length) { el.innerHTML = '<p class="text-muted text-xs">No history yet.</p>'; return; }
+  el.innerHTML = localHistory.slice(0,5).map(h =>
+    `<div class="history-item">
+      <div class="history-q">${h.q}</div>
+      <div class="history-a">${h.a}</div>
+      <div class="text-xs text-muted">${h.ts}</div>
+    </div>`
+  ).join('');
+}
+
+async function loadTopQuestions() {
+  try {
+    const r = await fetch(`${API}/exchange/top-questions?n=8`);
+    const rows = await r.json();
+    const el = document.getElementById('topQs');
+    if (!rows.length) { el.innerHTML = '<p class="text-muted text-xs">No questions yet — be the first!</p>'; return; }
+    el.innerHTML = rows.map(r =>
+      `<div class="top-q-item">
+        <span>${r.question}</span>
+        <span class="badge badge-blue" style="font-size:.7rem">${r.count}×</span>
+      </div>`
+    ).join('');
+  } catch {
+    document.getElementById('topQs').innerHTML = '<p class="text-muted text-xs">API offline — local mode.</p>';
+  }
+}
+
+loadTopQuestions();
+</script>
+</body>
+</html>

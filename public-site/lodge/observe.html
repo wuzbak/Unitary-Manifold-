@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Observability Console — AxiomZero Logic Lodge</title>
+  <meta name="description" content="Live leaderboard, active session tracker, and pillar difficulty heatmap. Updated every 2 seconds."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .obs-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    @media(max-width:800px){ .obs-grid { grid-template-columns:1fr; } }
+    .obs-card { background:var(--color-card); border:1px solid var(--color-border); border-radius:12px; padding:1.5rem; }
+    .lb-row { display:flex; justify-content:space-between; align-items:center; padding:.55rem 0; border-bottom:1px solid var(--color-border); font-size:.9rem; }
+    .lb-row:last-child { border-bottom:none; }
+    .lb-rank { color:var(--color-muted); font-family:var(--font-mono); min-width:2rem; }
+    .lb-score { font-family:var(--font-mono); font-weight:700; }
+    .score-green { color:var(--color-green); }
+    .score-gold  { color:var(--color-gold); }
+    .score-red   { color:var(--color-red); }
+    .pulse { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .live-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--color-green); margin-right:.4rem; }
+    .stat-mini { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+    .stat-mini-box { background:rgba(59,139,255,.08); border:1px solid var(--color-border); border-radius:8px; padding:.6rem 1rem; flex:1; min-width:110px; text-align:center; }
+    .stat-mini-val { font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--color-accent); }
+    .stat-mini-lbl { font-size:.75rem; color:var(--color-muted); }
+    .zone-filter-bar { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1rem; }
+    .zone-btn { padding:.3em .9em; border-radius:6px; font-size:.8rem; cursor:pointer; border:1px solid var(--color-border); background:transparent; color:var(--color-text); transition:all .15s; }
+    .zone-btn.active { background:var(--color-accent); border-color:var(--color-accent); color:#fff; }
+    .heatmap { display:grid; grid-template-columns:repeat(auto-fill,minmax(48px,1fr)); gap:4px; margin-top:.75rem; }
+    .heatmap-cell { height:32px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.7rem; cursor:default; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Lodge</a></li>
+    <li><a href="arcade.html">Arcade</a></li>
+    <li><a href="observe.html" class="active">Observe</a></li>
+    <li><a href="exchange.html">Exchange</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:1.75rem">
+    <div class="section-eyebrow">Zone 4 — Real-Time Monitoring</div>
+    <h1 style="margin-bottom:.4rem">
+      <span class="live-dot pulse"></span>Observability Console
+    </h1>
+    <p class="text-muted">Live leaderboard and session activity. Updates every 2 s via SSE.</p>
+  </div>
+
+  <!-- Global stats -->
+  <div class="stat-mini" id="globalStats">
+    <div class="stat-mini-box"><div class="stat-mini-val" id="gAgents">—</div><div class="stat-mini-lbl">Agents</div></div>
+    <div class="stat-mini-box"><div class="stat-mini-val" id="gScores">—</div><div class="stat-mini-lbl">Total scores</div></div>
+    <div class="stat-mini-box"><div class="stat-mini-val" id="gMean">—</div><div class="stat-mini-lbl">Global mean</div></div>
+    <div class="stat-mini-box"><div class="stat-mini-val" id="gTs">—</div><div class="stat-mini-lbl">Last update</div></div>
+  </div>
+
+  <!-- Zone filter -->
+  <div class="zone-filter-bar">
+    <button class="zone-btn active" onclick="setZone(null,this)">All Zones</button>
+    <button class="zone-btn" onclick="setZone('arcade',this)">🕹 Arcade</button>
+    <button class="zone-btn" onclick="setZone('lodge',this)">🏛 Lodge</button>
+    <button class="zone-btn" onclick="setZone('training',this)">⚙ Training</button>
+    <button class="zone-btn" onclick="setZone('exchange',this)">💬 Exchange</button>
+  </div>
+
+  <div class="obs-grid">
+    <!-- Leaderboard -->
+    <div class="obs-card">
+      <h3 style="margin-bottom:1rem">Leaderboard</h3>
+      <div id="lbRows"><p class="text-muted text-sm">Connecting to SSE stream…</p></div>
+    </div>
+
+    <!-- Registry heatmap -->
+    <div class="obs-card">
+      <h3 style="margin-bottom:.5rem">Pillar Difficulty Map</h3>
+      <p class="text-muted text-xs" style="margin-bottom:.75rem">Each cell = one pillar. Colour = difficulty tier.</p>
+      <div class="heatmap" id="heatmap"></div>
+      <div style="display:flex;gap:1rem;margin-top:.75rem;font-size:.75rem">
+        <span style="color:var(--color-green)">■ Easy</span>
+        <span style="color:var(--color-gold)">■ Medium</span>
+        <span style="color:var(--color-red)">■ Hard</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer style="margin-top:4rem;padding:2rem;text-align:center;border-top:1px solid var(--color-border);color:var(--color-muted);font-size:.85rem">
+  <p>Theory: ThomasCory Walker-Pearson · Code: GitHub Copilot (AI)</p>
+</footer>
+
+<script>
+const API = 'https://lodge.axiomzero.io';
+let activeZone = null;
+let evtSrc = null;
+
+function setZone(z, btn) {
+  activeZone = z;
+  document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  startStream();
+}
+
+function scoreColor(s) {
+  if (s >= 0.90) return 'score-green';
+  if (s >= 0.75) return 'score-gold';
+  return 'score-red';
+}
+
+function renderLeaderboard(rows) {
+  const el = document.getElementById('lbRows');
+  if (!rows.length) { el.innerHTML = '<p class="text-muted text-sm">No scores recorded yet.</p>'; return; }
+  el.innerHTML = rows.map((r, i) => {
+    const s = (r.mean_score || 0);
+    return `<div class="lb-row">
+      <span class="lb-rank">${i+1}</span>
+      <span style="flex:1;padding:0 .75rem">${r.agent_label}</span>
+      <span class="text-xs text-muted" style="margin-right:.75rem">${r.pillars_attempted||0} pillars</span>
+      <span class="lb-score ${scoreColor(s)}">${s.toFixed(4)}</span>
+    </div>`;
+  }).join('');
+}
+
+function startStream() {
+  if (evtSrc) evtSrc.close();
+  const url = API + '/stream/leaderboard' + (activeZone ? `?zone=${activeZone}` : '');
+  try {
+    evtSrc = new EventSource(url);
+    evtSrc.onmessage = e => {
+      const d = JSON.parse(e.data);
+      renderLeaderboard(d.leaderboard || []);
+      const s = d.summary || {};
+      document.getElementById('gAgents').textContent = s.n_agents ?? '—';
+      document.getElementById('gScores').textContent = s.n_score_rows ?? '—';
+      document.getElementById('gMean').textContent = s.global_mean_score != null ? s.global_mean_score.toFixed(4) : '—';
+      document.getElementById('gTs').textContent = new Date().toLocaleTimeString();
+    };
+    evtSrc.onerror = () => fallbackPoll();
+  } catch { fallbackPoll(); }
+}
+
+async function fallbackPoll() {
+  try {
+    const url = API + '/leaderboard?n=10' + (activeZone ? `&zone=${activeZone}` : '');
+    const r = await fetch(url);
+    const d = await r.json();
+    renderLeaderboard(d.leaderboard || []);
+    const s = d.summary || {};
+    document.getElementById('gAgents').textContent = s.n_agents ?? '—';
+    document.getElementById('gScores').textContent = s.n_score_rows ?? '—';
+    document.getElementById('gMean').textContent = s.global_mean_score != null ? s.global_mean_score.toFixed(4) : '—';
+    document.getElementById('gTs').textContent = new Date().toLocaleTimeString();
+  } catch {}
+  setTimeout(() => startStream(), 5000);
+}
+
+// Heatmap from pillar list
+async function buildHeatmap() {
+  let pillars = [];
+  try {
+    const r = await fetch(API + '/pillars');
+    pillars = await r.json();
+  } catch {
+    // Static fallback
+    pillars = [
+      {pillar_id:1,difficulty:'easy'},{pillar_id:2,difficulty:'easy'},{pillar_id:3,difficulty:'easy'},
+      {pillar_id:4,difficulty:'medium'},{pillar_id:5,difficulty:'medium'},{pillar_id:6,difficulty:'medium'},
+      {pillar_id:7,difficulty:'hard'},{pillar_id:8,difficulty:'medium'},{pillar_id:9,difficulty:'hard'},
+      {pillar_id:10,difficulty:'medium'},{pillar_id:11,difficulty:'medium'},
+    ];
+  }
+  const colours = {easy:'rgba(48,209,88,.35)',medium:'rgba(240,192,64,.35)',hard:'rgba(255,69,58,.35)'};
+  const hm = document.getElementById('heatmap');
+  hm.innerHTML = pillars.map(p =>
+    `<div class="heatmap-cell" style="background:${colours[p.difficulty]||'rgba(59,139,255,.15)'}" title="Pillar #${p.pillar_id} (${p.difficulty})">${p.pillar_id}</div>`
+  ).join('');
+}
+
+startStream();
+buildHeatmap();
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Lodge ledger — local session data (never committed to main repo)
+*.db
+*.jsonl
+lodge_queue/
+exchange_history.jsonl
+leaderboard.db

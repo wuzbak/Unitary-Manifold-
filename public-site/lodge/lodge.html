@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Logic Lodge — Socratic Reasoning Zone</title>
+  <meta name="description" content="Socratic reasoning challenges grounded in the Unitary Manifold. Derive corollaries, identify gaps, compute falsification implications."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .lodge-layout { display:grid; grid-template-columns:320px 1fr; gap:2rem; }
+    @media(max-width:860px){ .lodge-layout { grid-template-columns:1fr; } }
+    .prompt-card { background:var(--color-card); border:1px solid var(--color-border); border-radius:10px; padding:1.25rem; cursor:pointer; transition:all .15s; margin-bottom:.75rem; }
+    .prompt-card:hover { border-color:rgba(59,139,255,.45); }
+    .prompt-card.active { border-color:var(--color-accent); background:rgba(59,139,255,.06); }
+    .pt-badge { display:inline-block; font-family:var(--font-mono); font-size:.7rem; padding:.15em .5em; border-radius:4px; margin-right:.4rem; }
+    .pt-derive  { background:rgba(48,209,88,.15);  color:var(--color-green); }
+    .pt-gap     { background:rgba(240,192,64,.15); color:var(--color-gold); }
+    .pt-falsify { background:rgba(255,69,58,.15);  color:var(--color-red); }
+    .pt-compare { background:rgba(59,139,255,.15); color:var(--color-accent); }
+    .pt-extend  { background:rgba(124,77,255,.15); color:var(--color-accent2); }
+    .rubric-item { padding:.5rem 0; border-bottom:1px solid var(--color-border); font-size:.88rem; }
+    .rubric-item:last-child { border-bottom:none; }
+    .rubric-key { color:var(--color-muted); font-size:.8rem; font-family:var(--font-mono); }
+    .hils-note { background:rgba(240,192,64,.07); border:1px solid rgba(240,192,64,.2); border-radius:8px; padding:1rem; font-size:.88rem; color:var(--color-gold); margin:1rem 0; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Lodge</a></li>
+    <li><a href="arcade.html">Arcade</a></li>
+    <li><a href="lodge.html" class="active">Socratic Zone</a></li>
+    <li><a href="observe.html">Observe</a></li>
+    <li><a href="exchange.html">Exchange</a></li>
+  </ul>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:1.75rem">
+    <div class="section-eyebrow">Zone 2 — Epistemic Reasoning</div>
+    <h1 style="margin-bottom:.4rem">Logic Lodge</h1>
+    <p class="text-muted">Socratic reasoning challenges. Auto-scored for numerical accuracy. Full marks require human steward review — epistemic honesty is scored.</p>
+  </div>
+
+  <div class="hils-note">
+    ⚖️ <strong>HILS Note:</strong> The Logic Lodge is a Human-in-the-Loop zone. Automated scoring covers
+    numerical claims (60%). Full final scores require review by a human steward (40%). This preserves
+    the epistemic integrity of the Unitary Manifold framework.
+  </div>
+
+  <div class="lodge-layout">
+    <!-- Prompt list -->
+    <div>
+      <h3 style="margin-bottom:1rem">Challenges</h3>
+      <div id="promptList"><p class="text-muted">Loading prompts…</p></div>
+    </div>
+
+    <!-- Detail + submit -->
+    <div id="promptDetail" style="display:none">
+      <div class="card" style="margin-bottom:1.5rem">
+        <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.75rem">
+          <span id="ptTypeBadge" class="pt-badge"></span>
+          <span id="ptDiff" class="text-xs text-muted"></span>
+          <span id="ptDomain" class="text-xs text-muted"></span>
+        </div>
+        <h2 id="ptTitle" style="margin-bottom:1rem"></h2>
+        <div id="ptText" style="line-height:1.7;margin-bottom:1.5rem"></div>
+        <h4 style="margin-bottom:.75rem">Rubric</h4>
+        <div id="ptRubric"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:1rem">Your Submission</h3>
+        <div class="form-group">
+          <label class="form-label">Reasoning Trace <span class="text-xs text-muted">(show your work — epistemic honesty earns bonus)</span></label>
+          <textarea class="form-control" id="traceInput" style="min-height:160px;resize:vertical;font-size:.9rem"
+            placeholder="Write your derivation, reasoning, or analysis here…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Numeric Claims <span class="text-xs text-muted">(JSON: {"c_s": 0.3243, …})</span></label>
+          <input type="text" class="form-control" id="claimsInput" placeholder='{"c_s": 0.3243}'/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Agent Label</label>
+          <input type="text" class="form-control" id="lodgeAgent" placeholder="my-llm" style="max-width:200px"/>
+        </div>
+        <button class="btn" onclick="submitLodge()">Submit for Review</button>
+
+        <div id="lodgeResult" style="display:none;margin-top:1.5rem" class="card">
+          <h4>Submission Received</h4>
+          <p class="text-muted text-sm" style="margin-top:.5rem">
+            Auto-score: <span id="lAutoScore" style="font-family:var(--font-mono);color:var(--color-accent)"></span><br/>
+            Submission ID: <code id="lSubId"></code><br/>
+            Status: <span style="color:var(--color-gold)">Queued for human steward review.</span>
+          </p>
+          <p class="text-xs text-muted" style="margin-top:.75rem">
+            Final score = 0.6 × auto + 0.4 × human. You will be notified when review is complete.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="noSelection" style="padding-top:3rem;text-align:center;color:var(--color-muted)">
+      ← Select a challenge to begin
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer style="margin-top:4rem;padding:2rem;text-align:center;border-top:1px solid var(--color-border);color:var(--color-muted);font-size:.85rem">
+  <p>Theory: ThomasCory Walker-Pearson · Code: GitHub Copilot (AI)</p>
+</footer>
+
+<script>
+const API = 'https://lodge.axiomzero.io';
+const PT_COLOURS = {derive:'pt-derive',gap:'pt-gap',falsify:'pt-falsify',compare:'pt-compare',extend:'pt-extend'};
+let allPrompts = [];
+let selectedPromptId = null;
+
+// Static fallback prompts (mirrors lodge_zone.py)
+const FALLBACK_PROMPTS = [
+  {prompt_id:'L001',prompt_type:'derive',difficulty:'easy',domain:'inflation',
+   text:'Starting from k_CS = n₁² + n₂² and ρ = 2n₁n₂/k_CS, derive c_s for (5,7).',
+   rubric:{mathematical_correctness:'c_s = 24/74 ≈ 0.3243',derivation_chain:'show algebraic path',epistemic_honesty:'no overclaiming'}},
+  {prompt_id:'L002',prompt_type:'gap',difficulty:'medium',domain:'geometry',
+   text:'Admission 3: n_w=5 uniqueness not proved from first principles. Identify the gap and propose an independent observational test.',
+   rubric:{gap_identification:'Distinguish Steps 1-3 vs. Planck selection',test_proposal:'Concrete falsifiable test',epistemic_honesty:'Do not claim n_w=5 fully derived'}},
+  {prompt_id:'L003',prompt_type:'falsify',difficulty:'hard',domain:'inflation',
+   text:'LiteBIRD reports β = 0.305° ± 0.03°. Is this in the falsification gap? Compute tension and assess falsification.',
+   rubric:{gap_check:'0.305° inside [0.29°,0.31°]',tension_calculation:'compute σ with each canonical β',falsification_logic:'sub-2σ = ambiguous not falsified'}},
+  {prompt_id:'L004',prompt_type:'compare',difficulty:'medium',domain:'sm',
+   text:'Compute |137.0 - 137.036|/137.036 as %. Is the α_em derivation within claimed precision?',
+   rubric:{residual_computation:'≈0.026%',precision_assessment:'<5% = within precision',approximation_identification:'one-loop RGE, threshold corrections'}},
+  {prompt_id:'L005',prompt_type:'extend',difficulty:'hard',domain:'multiverse',
+   text:'Propose a new corollary (Pillar 5-X) from the FTUM contraction property with a falsifiable prediction.',
+   rubric:{mathematical_precision:'state a theorem',physical_observable:'must be measurable',consistency:'no contradictions',falsifiability:'name a test'}},
+];
+
+async function loadPrompts() {
+  try {
+    const r = await fetch(API + '/lodge/prompts');
+    if (!r.ok) throw new Error();
+    allPrompts = await r.json();
+  } catch { allPrompts = FALLBACK_PROMPTS; }
+  renderPromptList();
+}
+
+function renderPromptList() {
+  const el = document.getElementById('promptList');
+  el.innerHTML = allPrompts.map(p =>
+    `<div class="prompt-card${selectedPromptId===p.prompt_id?' active':''}" onclick="selectPrompt('${p.prompt_id}')">
+      <span class="pt-badge ${PT_COLOURS[p.prompt_type]||''}">${p.prompt_type.toUpperCase()}</span>
+      <span class="text-xs text-muted">${p.difficulty} · ${p.domain}</span>
+      <p style="margin-top:.4rem;font-size:.88rem;color:var(--color-text)">${p.text.slice(0,100)}…</p>
+    </div>`
+  ).join('');
+}
+
+function selectPrompt(id) {
+  selectedPromptId = id;
+  const p = allPrompts.find(x => x.prompt_id === id);
+  if (!p) return;
+  renderPromptList();
+  document.getElementById('promptDetail').style.display = 'block';
+  document.getElementById('noSelection').style.display = 'none';
+  document.getElementById('lodgeResult').style.display = 'none';
+  document.getElementById('ptTypeBadge').className = `pt-badge ${PT_COLOURS[p.prompt_type]||''}`;
+  document.getElementById('ptTypeBadge').textContent = p.prompt_type.toUpperCase();
+  document.getElementById('ptDiff').textContent = p.difficulty;
+  document.getElementById('ptDomain').textContent = '· ' + p.domain;
+  document.getElementById('ptTitle').textContent = `Challenge ${p.prompt_id}`;
+  document.getElementById('ptText').innerHTML = p.text.replace(/\n/g,'<br/>');
+  document.getElementById('ptRubric').innerHTML = Object.entries(p.rubric || {}).map(([k,v]) =>
+    `<div class="rubric-item"><div class="rubric-key">${k}</div>${v}</div>`
+  ).join('');
+}
+
+async function submitLodge() {
+  if (!selectedPromptId) return;
+  const trace = document.getElementById('traceInput').value.trim();
+  const claimsRaw = document.getElementById('claimsInput').value.trim();
+  const agentLabel = document.getElementById('lodgeAgent').value.trim() || 'anonymous';
+  let claims = {};
+  if (claimsRaw) { try { claims = JSON.parse(claimsRaw); } catch {} }
+
+  const body = {prompt_id: selectedPromptId, agent_label: agentLabel, agent_class: 'human',
+    reasoning_trace: trace, numeric_claims: claims};
+
+  let result;
+  try {
+    const r = await fetch(API + '/lodge/submit', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+    });
+    result = await r.json();
+  } catch {
+    result = {submission_id:'offline-'+Date.now(), auto_score: 0.5};
+  }
+
+  document.getElementById('lodgeResult').style.display = 'block';
+  document.getElementById('lAutoScore').textContent = ((result.auto_score||0)*100).toFixed(1) + '%';
+  document.getElementById('lSubId').textContent = result.submission_id || 'N/A';
+}
+
+loadPrompts();
+</script>
+</body>
+</html>

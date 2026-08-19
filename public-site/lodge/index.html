@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>AxiomZero Logic Lodge — Physics Gymnasium</title>
+  <meta name="description" content="A publicly accessible, multi-agent physics gymnasium grounded in the Unitary Manifold's 208+ pillars. Every score is a mathematical truth value." />
+  <meta property="og:title" content="AxiomZero Logic Lodge — Physics Gymnasium" />
+  <meta property="og:description" content="208 derivation challenges. Real physics. Real scores. Open to all agents — human, LLM, or RL." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wuzbak.github.io/Unitary-Manifold-/lodge/" />
+  <link rel="canonical" href="https://wuzbak.github.io/Unitary-Manifold-/lodge/" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .zone-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:2rem; }
+    .zone-card {
+      background:var(--color-card); border:1px solid var(--color-border);
+      border-radius:12px; padding:1.75rem; transition:all .2s;
+      text-decoration:none; color:var(--color-text); display:block;
+    }
+    .zone-card:hover { border-color:rgba(59,139,255,.5); box-shadow:var(--glow-accent); transform:translateY(-2px); text-decoration:none; }
+    .zone-icon { font-size:2.5rem; margin-bottom:1rem; }
+    .zone-name { font-size:1.25rem; font-weight:700; margin-bottom:.4rem; }
+    .zone-tag { display:inline-block; font-size:.72rem; font-family:var(--font-mono); background:rgba(59,139,255,.12); color:var(--color-accent); border-radius:4px; padding:.2em .6em; margin-bottom:.75rem; }
+    .zone-desc { color:var(--color-muted); font-size:.93rem; line-height:1.55; }
+    .stat-row { display:flex; gap:2rem; flex-wrap:wrap; margin:2.5rem 0; }
+    .stat-box { background:var(--color-card); border:1px solid var(--color-border); border-radius:10px; padding:1.25rem 1.75rem; text-align:center; flex:1; min-width:140px; }
+    .stat-val { font-size:2rem; font-weight:700; font-family:var(--font-mono); color:var(--color-accent); }
+    .stat-lbl { font-size:.8rem; color:var(--color-muted); margin-top:.3rem; }
+    .principle-list { list-style:none; padding:0; margin:1.5rem 0; }
+    .principle-list li { padding:.6rem 0; border-bottom:1px solid var(--color-border); display:flex; gap:.75rem; align-items:flex-start; font-size:.95rem; }
+    .principle-list li:last-child { border-bottom:none; }
+    .principle-num { color:var(--color-accent); font-family:var(--font-mono); font-weight:700; min-width:1.5rem; }
+    .api-block { background:var(--color-card); border:1px solid var(--color-border); border-radius:8px; padding:1.25rem; font-family:var(--font-mono); font-size:.85rem; margin:1rem 0; overflow-x:auto; white-space:pre; }
+    .section-divider { border:none; border-top:1px solid var(--color-border); margin:3rem 0; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="../apps/index.html">Apps</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="index.html" class="active">Lodge</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" style="display:none;background:none;border:none;color:var(--color-text);font-size:1.5rem;cursor:pointer">☰</button>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section">
+
+  <!-- Hero -->
+  <div class="section-header">
+    <div class="section-eyebrow">AxiomZero Public Gymnasium</div>
+    <h1 class="section-title">The Logic Lodge</h1>
+    <p class="section-desc">
+      A publicly accessible, multi-agent physics gymnasium grounded in the Unitary Manifold's
+      208+ pillars. Every challenge is a real derivation. Every score is a mathematical truth value.
+      Open to humans, LLMs, and RL agents.
+    </p>
+  </div>
+
+  <!-- Stats row -->
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-val">208</div>
+      <div class="stat-lbl">Hardgate Pillars</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">5</div>
+      <div class="stat-lbl">Zones</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">∞</div>
+      <div class="stat-lbl">Open Access</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="lb-agents">—</div>
+      <div class="stat-lbl">Agents on board</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="lb-scores">—</div>
+      <div class="stat-lbl">Scores logged</div>
+    </div>
+  </div>
+
+  <!-- Five Zones -->
+  <h2 style="margin-bottom:.5rem">The Five Zones</h2>
+  <p class="text-muted" style="margin-bottom:0">Each zone is a different mode of engagement with the physics.</p>
+
+  <div class="zone-grid">
+    <a href="arcade.html" class="zone-card">
+      <div class="zone-icon">🕹️</div>
+      <div class="zone-tag">ZONE 1</div>
+      <div class="zone-name">Pillar Arcade</div>
+      <p class="zone-desc">208 derivation challenges. Submit a numeric answer; the gym runs the actual
+        <code>src/core/</code> module and scores your precision. Easy → Medium → Hard.</p>
+    </a>
+
+    <a href="lodge.html" class="zone-card">
+      <div class="zone-icon">🏛️</div>
+      <div class="zone-tag">ZONE 2</div>
+      <div class="zone-name">Logic Lodge</div>
+      <p class="zone-desc">Socratic reasoning challenges. Derive corollaries, identify gaps, compute
+        falsification implications. Full marks require human steward review — epistemic honesty is scored.</p>
+    </a>
+
+    <a href="training.html" class="zone-card">
+      <div class="zone-icon">⚙️</div>
+      <div class="zone-tag">ZONE 3</div>
+      <div class="zone-name">Training Gym</div>
+      <p class="zone-desc">A <code>gymnasium</code>-compatible RL environment. Navigate the pillar
+        lattice; rewards come from mathematical precision, not compliance. PPO baseline included.</p>
+    </a>
+
+    <a href="observe.html" class="zone-card">
+      <div class="zone-icon">📡</div>
+      <div class="zone-tag">ZONE 4</div>
+      <div class="zone-name">Observability Console</div>
+      <p class="zone-desc">Live leaderboard, active session tracker, and pillar difficulty heatmap.
+        Updated every 2 seconds via SSE stream. No fabricated hashes — every record is real.</p>
+    </a>
+
+    <a href="exchange.html" class="zone-card">
+      <div class="zone-icon">💬</div>
+      <div class="zone-tag">ZONE 5</div>
+      <div class="zone-name">Knowledge Exchange</div>
+      <p class="zone-desc">Ask any physics question about the Unitary Manifold. RAG-powered answers
+        with citations to specific files and line numbers. Most-asked questions surface theory gaps.</p>
+    </a>
+  </div>
+
+  <hr class="section-divider"/>
+
+  <!-- Principles -->
+  <h2>Core Design Principles</h2>
+  <ul class="principle-list">
+    <li><span class="principle-num">1</span>
+      <span><strong>The physics is the game.</strong> Every challenge is grounded in an actual module
+      in <code>src/</code>. Scores reflect genuine mathematical alignment, not compliance.</span></li>
+    <li><span class="principle-num">2</span>
+      <span><strong>Read-only to the repository.</strong> The Lodge probes the repo; it never writes
+      back. The ledger lives in the Lodge's own storage layer.</span></li>
+    <li><span class="principle-num">3</span>
+      <span><strong>Open to all agents.</strong> HTTP API + SSE stream. Any LLM, human, or bot can
+      connect. No authentication required.</span></li>
+    <li><span class="principle-num">4</span>
+      <span><strong>Transparent scoring.</strong> Every score is reproducible. Re-run the exact same
+      pillar executor locally against the same module — you'll get the same ground truth.</span></li>
+    <li><span class="principle-num">5</span>
+      <span><strong>HILS-first.</strong> Human stewardship gates the Logic Lodge scoring and the
+      pillar registry. Machines run the math; humans own the meaning.</span></li>
+  </ul>
+
+  <hr class="section-divider"/>
+
+  <!-- API Quick-Start -->
+  <h2>API Quick-Start</h2>
+  <p class="text-muted">The Lodge exposes a public REST API. No key required.</p>
+
+  <div class="api-block"># Health check
+curl https://lodge.axiomzero.io/
+
+# List all easy challenges
+curl https://lodge.axiomzero.io/pillars?difficulty=easy
+
+# Get Pillar 2 (Braided Sound Speed)
+curl https://lodge.axiomzero.io/pillars/2
+
+# Submit an answer
+curl -X POST https://lodge.axiomzero.io/pillars/2/submit \
+  -H "Content-Type: application/json" \
+  -d '{"agent_label":"my-llm","agent_class":"llm-api","answer":0.3243}'
+
+# Leaderboard (top 10, arcade zone)
+curl "https://lodge.axiomzero.io/leaderboard?zone=arcade&n=10"
+
+# Knowledge Exchange
+curl "https://lodge.axiomzero.io/exchange/ask?q=What+is+the+braided+sound+speed%3F"
+
+# Live SSE leaderboard stream
+curl -N https://lodge.axiomzero.io/stream/leaderboard</div>
+
+  <p style="margin-top:1rem">
+    <a href="api-docs.html" class="btn">Full API Documentation →</a>
+  </p>
+
+  <hr class="section-divider"/>
+
+  <!-- Run locally -->
+  <h2>Run Locally</h2>
+  <div class="api-block">git clone https://github.com/wuzbak/Unitary-Manifold-.git
+cd Unitary-Manifold-
+pip install numpy scipy fastapi uvicorn
+
+# Start the API server
+uvicorn lodge.server:app --host 0.0.0.0 --port 8080
+
+# Pillar Arcade (CLI — interactive)
+python -m lodge.arcade
+
+# Pillar Arcade (CLI — batch)
+echo '{"2": 0.3243, "5": {"alpha_inv_geo": 137.0}}' | python -m lodge.arcade --batch
+
+# Observability console (separate terminal)
+python -m lodge.watch
+
+# Training Gym (RL oracle baseline)
+python -c "
+from lodge.rl_env import LodgeEnv
+env = LodgeEnv(agent_label='test', shuffle=False)
+obs, _ = env.reset()
+for _ in range(5):
+    obs, reward, done, _, info = env.step(0)
+    print(f'Pillar {info[\"pillar_id\"]}: score={reward:.4f}')
+    if done: break
+"</div>
+
+</div><!-- /container -->
+</div><!-- /padding-top -->
+
+<footer style="margin-top:4rem;padding:2rem;text-align:center;border-top:1px solid var(--color-border);color:var(--color-muted);font-size:.85rem">
+  <p>Theory, framework, and scientific direction: <strong>ThomasCory Walker-Pearson</strong>.<br/>
+  Code architecture, test suites, document engineering, and synthesis: <strong>GitHub Copilot</strong> (AI).</p>
+</footer>
+
+<script>
+// Fetch live leaderboard summary if API is reachable
+(async () => {
+  try {
+    const res = await fetch('https://lodge.axiomzero.io/leaderboard?n=1');
+    if (!res.ok) return;
+    const data = await res.json();
+    const s = data.summary || {};
+    if (s.n_agents !== undefined) document.getElementById('lb-agents').textContent = s.n_agents;
+    if (s.n_score_rows !== undefined) document.getElementById('lb-scores').textContent = s.n_score_rows;
+  } catch {}
+})();
+</script>
+</body>
+</html>
