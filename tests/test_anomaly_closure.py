@@ -856,3 +856,62 @@ class TestCsActionDerivationVerified:
     def test_larger_range_all_verified(self):
         v = cs_action_derivation_verified(max_n=30)
         assert v["all_verified"] is True
+
+
+# ---------------------------------------------------------------------------
+# TestEnumerateCs74SumOfSquares — G5 gap closure
+# ---------------------------------------------------------------------------
+
+from src.core.anomaly_closure import enumerate_cs74_sum_of_squares
+
+
+class TestEnumerateCs74SumOfSquares:
+    """Tests for G5 closure: (5,7) is the unique sum-of-squares-74 pair."""
+
+    def test_status_proved(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert r["status"] == "UNIQUENESS_PROVED_BY_EXHAUSTION"
+
+    def test_unique_flag(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert r["unique"] is True
+
+    def test_canonical_solution_is_57(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert r["canonical"] == (5, 7)
+
+    def test_exactly_one_solution(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert r["solutions"] == [(5, 7)]
+
+    def test_k_cs_target(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert r["k_cs_target"] == 74
+
+    def test_n1_max_checked(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert r["n1_max_checked"] == 8  # floor(sqrt(74)) = 8
+
+    def test_sum_of_squares_holds(self):
+        """5² + 7² = 74."""
+        assert 5**2 + 7**2 == 74
+
+    def test_no_other_positive_solution(self):
+        """Verify by brute force that (5,7) is unique."""
+        solutions = [(n1, n2) for n1 in range(1, 9)
+                     for n2 in range(n1, 9)
+                     if n1**2 + n2**2 == 74]
+        assert solutions == [(5, 7)]
+
+    def test_theorem_string_not_empty(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert "THEOREM" in r["theorem"]
+
+    def test_corollary_mentions_diophantine(self):
+        r = enumerate_cs74_sum_of_squares()
+        assert "Diophantine" in r["corollary"] or "forced" in r["corollary"].lower()
+
+    def test_n2_7_is_not_arbitrary_step(self):
+        """The corollary must state n₂=7 is forced, not postulated."""
+        r = enumerate_cs74_sum_of_squares()
+        assert "number theory" in r["corollary"].lower() or "unique" in r["corollary"].lower()

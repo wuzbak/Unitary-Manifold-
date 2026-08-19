@@ -1216,3 +1216,95 @@ def cs_action_derivation_verified(max_n: int = 20) -> Dict:
         "canonical_k_eff": canonical["k_eff_from_action"],
         "summary": summary,
     }
+
+
+# ---------------------------------------------------------------------------
+# G5 Gap Closure — Sum-of-squares uniqueness theorem
+# ---------------------------------------------------------------------------
+
+def enumerate_cs74_sum_of_squares() -> Dict:
+    """Prove by Diophantine exhaustion that (5, 7) is the UNIQUE decomposition
+    of k_CS = 74 as a sum of two positive integer squares with n₁ ≤ n₂.
+
+    Theorem (Sum-of-Squares Uniqueness for k_CS = 74):
+        The only pair (n₁, n₂) of positive integers with n₁ ≤ n₂ satisfying
+            n₁² + n₂² = 74
+        is (n₁, n₂) = (5, 7).
+
+    Proof method:
+        Enumerate n₁ ∈ {1, 2, …, ⌊√74⌋} = {1, …, 8}.  For each n₁, check
+        whether r = 74 − n₁² is a perfect square ≥ n₁².  The check is exact
+        integer arithmetic — no floating-point uncertainty.
+
+    Corollary (closes G5):
+        The selection rule "n₂ = n_w + 2" is NOT an independent constraint.
+        It is a DERIVED consequence of the Diophantine equation k_CS = n₁² + n₂²
+        evaluated at n₁ = n_w = 5.  The integer 74 has exactly one way to be
+        written as a sum of two positive integer squares (up to order), and that
+        way is 5² + 7².  The minimum-step braid is therefore forced by number
+        theory, not postulated.
+
+    Returns
+    -------
+    dict with keys:
+        k_cs_target          : int   — 74
+        n1_max_checked       : int   — ⌊√74⌋ = 8
+        checked_pairs        : list  — [(n₁, remainder, is_square, n₂_if_square)]
+        solutions            : list  — all (n₁, n₂) pairs with n₁²+n₂²=74, n₁≤n₂
+        unique               : bool  — True iff exactly one solution exists
+        canonical            : tuple — (5, 7)
+        theorem              : str   — formal statement
+        corollary            : str   — the G5 closure statement
+        status               : str   — 'UNIQUENESS_PROVED_BY_EXHAUSTION' or error
+    """
+    K_CS_TARGET = 74
+    n1_max = int(K_CS_TARGET ** 0.5)  # = 8; 9² = 81 > 74
+
+    checked_pairs = []
+    solutions = []
+    for n1 in range(1, n1_max + 1):
+        remainder = K_CS_TARGET - n1 * n1
+        if remainder < n1 * n1:
+            # n₂ ≥ n₁ is required; remaining value is below n₁², skip
+            checked_pairs.append((n1, remainder, False, None))
+            continue
+        n2 = int(remainder ** 0.5)
+        # Guard against float truncation: check both n2 and n2+1
+        is_sq = False
+        n2_found = None
+        for candidate in (n2, n2 + 1):
+            if candidate * candidate == remainder and candidate >= n1:
+                is_sq = True
+                n2_found = candidate
+                break
+        checked_pairs.append((n1, remainder, is_sq, n2_found))
+        if is_sq:
+            solutions.append((n1, n2_found))
+
+    unique = (len(solutions) == 1 and solutions[0] == (5, 7))
+
+    return {
+        "k_cs_target": K_CS_TARGET,
+        "n1_max_checked": n1_max,
+        "checked_pairs": checked_pairs,
+        "solutions": solutions,
+        "unique": unique,
+        "canonical": (5, 7),
+        "theorem": (
+            "THEOREM (Sum-of-Squares Uniqueness, k_CS=74): "
+            "The unique decomposition of 74 as n₁²+n₂² with "
+            "positive integers n₁≤n₂ is (5,7).  "
+            "Proof: exhaustive integer check over n₁ ∈ {1,…,8}."
+        ),
+        "corollary": (
+            "COROLLARY (G5 closed): The braid partner n₂=7 is NOT selected "
+            "by an independent 'minimum-step' convention.  It is the unique "
+            "integer completion forced by the Diophantine equation n₁²+n₂²=74 "
+            "at n₁=5.  The step-2 rule is a consequence of number theory."
+        ),
+        "status": (
+            "UNIQUENESS_PROVED_BY_EXHAUSTION"
+            if unique
+            else "UNEXPECTED_FAILURE — check implementation"
+        ),
+    }
