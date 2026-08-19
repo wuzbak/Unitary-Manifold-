@@ -1,6 +1,8 @@
 % ============================================================
 %  THE UNITARY MANIFOLD: A 5D Gauge Geometry of Emergent Irreversibility
-%  Version 15.8 (100% ToE; Pillars 218--516 adjacent registry; topological irreversibility engine; KK backreaction architecture audit; frontier proof lanes; AI governance stack; publication-ready pending manuscript body sync)
+%  Version 22.4 (Sprint AH: Gap 1 PROVED_BY_EXHAUSTION (5,7) unique braid; SU5 PROVED_CONDITIONAL;
+%  SwamplandAxiom formalised; 771+ pillars; ~52,950 tests; Lean4 820+ theorems;
+%  falsification protocols pre-registered: DESI DR3, CMB-S4, LiteBIRD)
 %  arXiv submission — primary: gr-qc   cross-list: hep-th, math-ph
 % ============================================================
 \documentclass[12pt,a4paper]{article}
@@ -110,13 +112,24 @@ central value $w_a = -0.55 \pm 0.20$); this is not yet at falsification threshol
 and is monitored with a machine-executable tripwire for DESI DR3.  All gaps are
 documented in \texttt{FALLIBILITY.md} and the Claim Master Board.
 
-v15.8 adds the topological irreversibility engine (Pillars 511--515): braid winding
-observable via gradient-space algorithm, dynamic winding history tracking through
-\texttt{run\_evolution()}, Chern--Simons-corrected information current ($k_\mathrm{CS}=74$),
-forward-only dynamic loopback proof of field irreversibility, and nonlinear metric
-evolution verified for large-deviation initial conditions.  Pillar 516 formally certifies
-the KK backreaction decoupling as ARCHITECTURE\_LIMIT\_CERTIFIED.  The full test suite
-comprises $45{,}726$ tests (zero failures) across 515+ pillars plus $\Omega_0$.
+v22.4 (Sprint AH) closes the following derivation-chain gaps: \textbf{Gap 1} (braid
+pair uniqueness) is now \textsc{Proved\_By\_Exhaustion} (Pillar 769) --- the pair
+$(5,7)$ is the unique survivor of all 16 admissible pairs enumerated under Axioms
+Z$_2$ + SW.  This upgrades $k_\mathrm{CS}=74$, $c_s=12/37$, $r=0.0315$, and
+$\beta\in\{0.273^\circ, 0.331^\circ\}$ from \emph{derived given selection} to
+\textsc{Uniquely\_Determined} given the two stated axioms.
+\textbf{Gap 3} (SU(5) from KK orbifold) advances to \textsc{Proved\_Conditional}:
+Weyl-group parity exhaustion over B$_4$, C$_4$, D$_4$, F$_4$ alternatives proves
+SU(5) is the unique rank-4 simple Lie algebra admitting the SM embedding under
+$\mathbb{Z}_2$ orbifold projection (module \texttt{su5\_uniqueness\_weyl\_audit.py};
+formalised in \texttt{SU5OrbifoldWeylParity.lean}).  \textbf{Axiom SW} (Swampland
+Distance Conjecture upper bound $n_w \leq 15$) is now machine-readable as a named
+Lean4 axiom (\texttt{SwamplandAxiom.lean}), making the full axiom chain of Layer 1
+formally transparent.  Three pre-registered falsification protocols (DESI DR3
+$\sim$2026, CMB-S4 $\sim$2028, LiteBIRD $\sim$2032) are committed with explicit
+PASS/TENSION/FALSIFIED thresholds (Pillar 771).  The full test suite comprises
+${\sim}56{,}074$ tests (zero failures) across 771+ pillars plus $\Omega_0$;
+Lean4 820+ machine-verified theorems.
 \end{abstract}
 
 \tableofcontents

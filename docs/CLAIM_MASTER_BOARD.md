@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v21.0-S
+# Unitary Manifold v22.4
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-08-01 (v20.1 — Pillars 575–590: Sprint A — P575: ARXIV_BOOK27_SYNC_V200_CERTIFIED (Book 27 + arXiv v20.0 sync; 101 sub-gap theorems certified; 103 tests). Sprint B — F-theory DBP Rung 8 🔵 ADJACENT TRACK (P576–P579). Sprint C — P580: DESI_DR3_ENSEMBLE_ROUTING_HARDENED; P581: FROZEN_RADION_WA_ANALYTIC_CERTIFICATE (wₐ=0 conditional analytic cert); P582: DESI_DR3_PREREGISTRATION_V2_CERTIFIED. Sprint D — P583–P585: Δm²₂₁ three-step cascade (QUANTIFIED_RESIDUAL, 2.98σ). Sprint E — P586–P590: NP-BC-4 sub-gaps J/K/L proved (34 theorems; Lean4 274 total); NP-BC-4 certificate; Lean4 274-theorem milestone. Epistemic deltas: Gap B c_L PROVED_AT_REFERENCE_CY4 🔵; P20 Δm²₂₁ QUANTIFIED_RESIDUAL (2.98σ); P8 full function-space ALGEBRAIC_KERNEL_PROVED (P588); DESI T1 ANALYTIC_CERTIFIED (conditional). v19.3: P559–P563. v19.2: P554–P558. Full regression: ~49,850 passed · 23 skipped · 12 deselected · 0 failed. framework state internally consistent.)*
+*Last updated: 2026-08-19 (v22.4 — Sprint AH: Gap 1 PROVED_BY_EXHAUSTION (P769); Gap 3 PROVED_CONDITIONAL (P770 + su5_uniqueness_weyl_audit.py); falsification protocols pre-registered (P771); ~56,074 passed · 47 skipped · 12 deselected · 0 failed. Open gaps: Gap 2 ADM UV-regulator (community-level), Gap 4 FN charges (architecture limit, 9 free params), Gap 5 CMB peak shape (~35% residual). Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *P516 (v15.9): KK Backreaction Architecture Audit — KK_BACKREACTION_ARCHITECTURE_AUDIT_COMPLETE. `src/core/pillar516_kk_backreaction_architecture_audit.py` formally certifies the KK backreaction decoupling as ARCHITECTURE_LIMIT_CERTIFIED, documents the four-step closure path for full dynamic coupling, and establishes the regime map distinguishing factory IC from solver capacity. The decoupling is conservative (lower bound on winding-geometry coupling). No physics label promoted.*
 
