@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v21.0-S
+# Unitary Manifold v22.4
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*

@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-08-01 (v20.5 mega-sprint COMPLETE)*
+*Last updated: 2026-08-19 (v22.4 Sprint AH COMPLETE)*
 *Purpose: Persistent continuity document for token-budget resilience. Any new agent session
 MUST read STATUS.md + mas_tracker.yml + this file as the first three operations.*
 
@@ -17,20 +17,20 @@ Then store the verified state in agent memory before proceeding.
 
 ---
 
-## CURRENT STATE (v21.0-S — 2026-08-18)
+## CURRENT STATE (v22.4 — 2026-08-19)
 
 | Field | Value |
 |-------|-------|
-| Version | v21.0-S |
-| Next pillar slot | **688** |
-| Lean4 theorems | **365** |
-| Full regression | **~51,951 passed · 23 skipped · 12 deselected · 0 failed** |
+| Version | v22.4 |
+| Next pillar slot | **772** |
+| Lean4 theorems | **820+** |
+| Full regression | **~56,074 passed · 47 skipped · 12 deselected · 0 failed** |
 | Framework consistency status | All derivation chains internally self-consistent; external confirmation pending (LiteBIRD ~2032) |
-| Next Substack post | #286 S03E064 |
-| Open named residuals | F-theory Rungs 11–12 (Weierstrass generalization, α' corrections); phi0_ftum_bridge.py formal connection open; ΛQCD CY₄ moduli stabilization (4-step roadmap, Pillar 685) |
-| Open adjacent tracks | F-theory DBP Rungs 11–12; CY₄ moduli stabilization |
-| NP-BC progress | All 6 chains complete (Pillar 621); 203 cumulative sub-gap theorems |
-| Architecture limits | r-tension IRREDUCIBLE (Pillar 396); wₐ=0 IRREDUCIBLE (Pillar 301); ΛQCD moduli gap (Pillar 685) |
+| Open named gaps | Gap 2 (ADM UV regulator, community-level); Gap 4 (FN charges, 9 free params, architecture limit); Gap 5 (CMB peak shape ~35% residual) |
+| Gap 1 status | **PROVED_BY_EXHAUSTION** (Pillar 769) — (5,7) unique braid survivor |
+| Gap 3 status | **PROVED_CONDITIONAL** (su5_uniqueness_weyl_audit.py + SU5OrbifoldWeylParity.lean) |
+| Architecture limits | r-tension IRREDUCIBLE (Pillar 396); wₐ=0 IRREDUCIBLE (Pillar 301); FN charges 9 free params |
+| Falsification protocols | DESI DR3 (~2026), CMB-S4 (~2028), LiteBIRD (~2032) — pre-registered (Pillar 771) |
 
 ---
 
