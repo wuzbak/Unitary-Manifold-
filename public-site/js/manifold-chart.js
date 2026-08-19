@@ -193,12 +193,13 @@ function drawGroundlines() {
   ctx.lineTo(CX + RADIUS, CY);
   ctx.stroke();
 
-  // V* = 1.0 annotation
+  // V* = 1.0 annotation — split left and right of sector boundary
   ctx.fillStyle = '#7aa8d8';
   ctx.font = `${Math.max(9, W * 0.013)}px Inter, sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.fillText('STABLE GROUNDLINE (V*=1.0)', CX - RADIUS * 0.35, CY + 14);
-  ctx.fillText('STABLE GROUNDLINE (V*=1.0)', CX + RADIUS * 0.35, CY + 14);
+  ctx.textAlign = 'right';
+  ctx.fillText('STABLE GROUNDLINE (V*=1.0)', CX - 10, CY + 14);
+  ctx.textAlign = 'left';
+  ctx.fillText('STABLE GROUNDLINE (V*=1.0)', CX + 10, CY + 14);
   ctx.restore();
 }
 
@@ -344,9 +345,10 @@ function drawFixedPointTrajectory() {
   let converged = false;
 
   for (let i = 0; i < params.iterations; i++) {
+    const prev = { ...state };
     state = fixedPointMap(state.r, state.theta);
     points.push({ ...state });
-    if (state.r < params.eps + FIXED_POINT_R && Math.abs(state.r - FIXED_POINT_R) < params.eps) {
+    if (Math.abs(state.r - prev.r) < params.eps && Math.abs(state.theta - prev.theta) < params.eps) {
       converged = true;
       break;
     }
