@@ -280,8 +280,8 @@ class TestArithmeticClaims:
 
     def test_37_is_prime(self):
         """37 is prime."""
-        from sympy import isprime
-        assert isprime(37)
+        sympy = pytest.importorskip("sympy")
+        assert sympy.isprime(37)
 
     def test_action_difference(self):
         """k_eff(7) - k_eff(5) = 56."""

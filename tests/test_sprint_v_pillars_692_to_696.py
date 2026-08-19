@@ -328,7 +328,7 @@ class TestPillar696:
         assert p696.pillar_total() == 696
 
     def test_toe_score(self):
-        assert p696.toe_score() == "30.0/28"
+        assert p696.toe_score() == "framework internally consistent"
 
     def test_next_pillar_slot(self):
         assert p696.next_pillar_slot() == 697

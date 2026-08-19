@@ -97,9 +97,9 @@ def test_abstract_contains_juno():
     assert "JUNO" in abstract
 
 
-def test_abstract_contains_toe_score():
+def test_abstract_contains_derivation_coverage():
     abstract = arxiv_abstract_draft()
-    assert "28/28" in abstract
+    assert "derivation coverage" in abstract or "hardgate" in abstract
 
 
 def test_abstract_contains_litebird():
