@@ -213,7 +213,7 @@ class TestPillar705:
         assert p705.pillar_total() == 705
 
     def test_toe_score(self):
-        assert p705.toe_score() == "30.0/28"
+        assert p705.toe_score() == "framework internally consistent"
 
     def test_next_slot(self):
         assert p705.next_pillar_slot() == 706

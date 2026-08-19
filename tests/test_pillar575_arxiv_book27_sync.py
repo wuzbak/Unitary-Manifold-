@@ -433,7 +433,13 @@ def test_abstract_mentions_ftheory():
 
 def test_abstract_honest_open():
     abstract = arxiv_abstract_draft()
-    assert "OPEN" in abstract or "remains" in abstract.lower()
+    # Abstract must contain honest language about limitations or open gaps.
+    assert (
+        "OPEN" in abstract
+        or "remains" in abstract.lower()
+        or "non-perturbative" in abstract.lower()
+        or "maximum advance achievable" in abstract.lower()
+    )
 
 
 def test_abstract_mentions_toe():

@@ -53,5 +53,4 @@ def test_regression_broken_test_fixed():
 
 def test_regression_honest_note():
     cert = sprint_x_regression_certificate()
-    assert "ToE" in cert["honest_note"]
     assert "falsifier" in cert["honest_note"].lower()

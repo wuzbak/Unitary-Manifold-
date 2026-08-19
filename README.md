@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v21.8)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v22.4)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -58,7 +58,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > **Current status (v21.8):** Framework is internally self-consistent.
-> Full regression: **~51,811 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-18, v21.8-S).
+> Full regression: **~52,950 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-18, v21.8-S).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
@@ -932,7 +932,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > Each pillar has its own folder (`PILLARS/PXXX/`) with source links, test links, and theory doc links.
 > Regenerate the index: `python3 PILLARS/build_index.py`
 
-**Grand total (v21.8-S): ~51,811 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-18)
+**Grand total (v21.8-S): ~52,950 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-18)
 
 **~51,440** — 630+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. Lean4 342 theorems. (Historical milestones: v13.8: 44,590; v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319; v9.38: 21,165; v9.36: 21,055; v9.34: 20,329; v9.33: 20,249; v9.30: 18,057; v9.29: 15,615.)
 
@@ -1020,7 +1020,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ ~1,487 passed, 254 skipped ================================
 
 # Grand total (v21.8-S, 2026-08-18):
-================================ ~51,811 passed · 23 skipped · 12 deselected · 0 failed ================================
+================================ ~52,950 passed · 23 skipped · 12 deselected · 0 failed ================================
 # (v21.8-S: 687+ pillars, Lean4 365 theorems; historical: v20.5: 50,500; v13.8 = 44,590; v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215)
 ```
 

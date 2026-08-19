@@ -123,7 +123,7 @@ def test_all_deltas_now_at_v185():
 # ─── framework derivation coverage ───────────────────────────────────────────────────────────────
 
 def test_toe_score_unchanged():
-    assert TOE_SCORE["score"] == "28.0/28"
+    assert TOE_SCORE["score"] == "framework internally consistent"
 
 
 def test_toe_score_percentage():
