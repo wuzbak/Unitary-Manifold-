@@ -281,7 +281,7 @@ These are not new physical claims but expansions of the verification surface.
 | Pillar 458 | **LEAN4_BLOCKED_NAMED_OBSTRUCTION** | Lean4 certificate generated for the v14 theorem lane. | Compilation blocked by CI/toolchain engineering, not by a discovered mathematical contradiction. |
 | Pillar 459 | **L2_FINAL_2PCT_NAMED_IRREDUCIBLE** | γ non-perturbative budget closed to 98% with a final named irreducible 2%. | Residual is explicitly named, not silently absorbed. |
 | Pillar 460 | **PARTIALLY_DERIVED** | Fermion hierarchy: third generation DERIVED; lighter generations NATURAL within the audited sub-lattice structure. | Full exact closure for lighter generations remains open. |
-| Pillar 461 | **PMNS_PR_NAMED_RESIDUAL** | p_R derivation attempted and bounded in a controlled lane. | PMNS_PR_NAMED_RESIDUAL remains open. |
+| Pillar 461 | **PMNS_PR_BOUNDED_ANALYTICALLY** | p_R monotonicity proved: dI/dp_R > 0 analytically (PMNSSolarAngleBound.lean, 12 theorems); sin²θ₁₂ is monotone in p_R; leading-order formula gives ARCHITECTURE_LIMIT at this order. | Exact numerical value of p_R still requires higher-order wavefunction matching. |
 | Pillar 462 | **MARGIN_ZONE_CONFIRMED** | α_s remains in the honest margin zone: not closed, not hidden. | 10D flux details still needed for unique-value closure. |
 | Pillar 463 | **5D_EFT_FLOOR_CERTIFIED** | α_GW has a certified 5D EFT floor. | Unique value requires the 10D completion. |
 | Pillar 464 | **V14_FREE_PARAMETER_CENSUS_COMPLETE** | Free-parameter census completed and machine-readable in v14. | Distinguishes closed parameters from named residuals and architecture limits. |
@@ -295,6 +295,11 @@ These are not new physical claims but expansions of the verification surface.
 | Pillar 472 | **DERIVED_CONDITIONAL** | Proton stability geometric theorem derived in a benchmark RS1-softened uplift package. | Full SU(5) embedding still needed for the O(1) prefactor. |
 | Pillar 473 | **SYNC_CHECKER_COMPLETE** | Truth-surface sync checker for v14 now audits the six canonical surfaces programmatically. | It reports unsynced surfaces honestly rather than masking them. |
 | Pillar 474 | **ARXIV_V14_UPDATE_READY** | arXiv v14 metadata package prepared. | Submission still requires manuscript-side sync and final regression gate. |
+| Pillar 700 | **NW5_APS_PHASE_PROVED** | NPW5APS.lean (18 theorems): k_CS(5)×η̄(5)=37 (odd → CONSISTENT), k_CS(7)×η̄(7)=0 (even → EXCLUDED). Capstone of the n_w uniqueness chain. | Axiom SW (Weyl parity) remains IRREDUCIBLE_POSTULATE; this closes the selection conditioned on that axiom. |
+| Pillar 701 | **PMNS_PR_BOUNDED_ANALYTICALLY** | PMNSSolarAngleBound.lean (12 theorems) + pmns_solar_angle_analytic_bound.py: dI_unnorm/dp_R > 0 proved, sin²θ₁₂ is monotone in p_R. Leading-order formula gives ARCHITECTURE_LIMIT numerically; upgrade is from NAMED_RESIDUAL to BOUNDED_ANALYTICALLY. | Full numerical closure requires higher-order KK wavefunction matching beyond leading RS1. |
+| Pillar 702 | **CL_GEOMETRIC_QUANTIZATION_ATTEMPTED** | cl_geometric_quantization.py + OrbifoldBCUniqueness.lean (15 theorems): the PATTERN c_L^(n) = ½ + (n_w−n)/(2n_w) is PROVED UNIQUE from Z₂ orbifold BCs. Numerical c_L values remain FITTED (mass input required). | FITTED label honestly retained: exact c_L values cannot be derived geometrically without observed masses at this order. |
+| Pillar 703 | **SHADOW_PAIR_KCS_FORMALLY_PROVED** | ShadowPairKCSFormal.lean (17 theorems): K_CS=74 from (n_before−1)²+(n_before+1)²=74 at n_before=6; c_s=12/37 from (n+1)²−(n−1)²=24; 37 is prime; n_before=6 is unique in neighbourhood. Pillar 537 arithmetic now machine-checked. | n_before=6 selection itself is from Planck n_s data; arithmetic consequence is now machine-checked. |
+| Pillar 704 | **DIMENSIONAL_CHAIN_CONDITIONALLY_UNIQUE** | DimensionalChainUniqueness.lean (14 theorems): the reference CY4 (χ=148) is the unique element of the finite constraint set {n_w=5, K_CS=74, N_gen=3, SU(5)} with the given selection criteria. | Conditional uniqueness only: conditioned on the reference CY4 selection criteria, which are themselves derived from Planck data. |
 
 ---
 
