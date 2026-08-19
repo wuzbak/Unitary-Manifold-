@@ -34,7 +34,7 @@ python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (takes ~130 seconds):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 52,950 passed · 23 skipped · 12 deselected · 0 failed
+# Expected: 56,074 passed · 47 skipped · 12 deselected · 0 failed
 ```
 
 ## Repository Structure
@@ -62,7 +62,7 @@ src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 5-GOVERNANCE/Unitary Pentad/ ← Independent HILS governance framework
-tests/              ← 200+ test files, 52,950+ passing tests (all pillars, adjacent tracks, integrations)
+tests/              ← 200+ test files, 56,074+ passing tests (all pillars, adjacent tracks, integrations)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 5-GOVERNANCE/co-emergence/ ← HILS framework documentation
 ```
