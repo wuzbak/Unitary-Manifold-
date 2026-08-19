@@ -345,9 +345,16 @@ follows with **no additional free parameter**.  The birefringence observation se
 which admissible braid pair the universe is in; it does not freely tune k_CS.
 Verified by `algebraic_k_eff_proof(n1, n2)` in `anomaly_closure.py`.
 
-The residual gap: a field-theoretic proof that (5, 7) is the *only* stable minimum-step
-braid pair remains open.  The current derivation establishes it as the minimum-action
-pair in the Euclidean path integral.
+**Sprint AH Gap 1 update (v22.4):** The uniqueness of (5,7) is now
+PROVED_BY_EXHAUSTION (`pillar769_braid_uniqueness_proof.py`). The full
+admissible set (all Z₂-odd pairs with n_w ≤ 15, bounded by Axiom SW from
+the Swampland Distance Conjecture) is finite and enumerated. Three filters —
+BICEP/Keck tensor bound, Planck n_s window, and minimum-step Z₂-odd step —
+are applied exhaustively; (5,7) is the unique survivor. This upgrades the
+status from "minimum-action motivation" to PROVED_BY_EXHAUSTION. The
+remaining conditional dependence is Axiom SW (n_w ≤ 15), which relies on
+the Swampland Distance Conjecture. A first-principles proof of Axiom SW from
+the 5D action alone is nominated as the next Lean4 target.
 
 > **k_CS = 74 Derivation Chain (Epistemic Box)**
 >
