@@ -346,9 +346,8 @@ theorem gen2_mixing_correction_direction :
 
 /-- Updated G4 closure certificate with generation-mixing correction.
     Status upgrade: PARTIALLY_BOUNDED → GENERATION_MIXING_CORRECTION_APPLIED.
-    The correction matrix closes gen 2 and gen 3 within 2/K_CS of the bisection
-    value (proved analytically in generation_mixing_delta_cl()).
-    The Lean4 proxy confirms the norm bound: max |ε_ij| < 1/K_CS. -/
+    The correction matrix bounds: max |ε_ij| < 2/K_CS (for 3 generations, max |i−j| = 2).
+    The Lean4 proxy confirms the norm bound: max |ε_ij| < 2/K_CS. -/
 theorem g4_generation_mixing_closure :
     -- Mixing norm bound: max |i−j| < K_CS
     (2 : ℕ) < K_CS ∧

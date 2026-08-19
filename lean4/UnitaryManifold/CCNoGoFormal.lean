@@ -86,11 +86,11 @@ theorem rs1_tuning_is_nontrivial (k_sq4 : ℤ) (hk : 0 < k_sq4) :
 -- The residual ratio after 5D cancellation:
 --   Λ_residual / Λ_Planck ≈ M_KK^4 / M_Pl^4 = exp(−4πkR)
 -- In the proxy, πkR = K_CS/2 = 37, so 4πkR = 148.
--- Proxy: residual exponent = 4 × K_CS/2 = 4 × N_FLUX.
--- This is ≪ 122 (the full CC problem magnitude), showing genuine partial improvement.
+-- This is > 122 (the full CC problem magnitude), showing the KK suppression
+-- OVERSHOOTS the observed CC scale (10^{−148} < 10^{−122}).
+-- The BP flux landscape fills the gap from 10^{−148} back to 10^{−122}.
 -- ---------------------------------------------------------------------------
-theorem rs1_cc_partial_improvement :
-    4 * N_FLUX < 122 := by decide
+theorem rs1_cc_kk_suppression_exponent : 4 * N_FLUX = 148 := by decide
 
 -- Concretely: 4 × 37 = 148 > 122; the KK suppression is 10^{−148}, which
 -- *overshoots* the CC scale 10^{−122} — the BP flux landscape fills this gap.

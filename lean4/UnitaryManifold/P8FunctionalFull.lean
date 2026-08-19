@@ -96,7 +96,7 @@ theorem lsc_convergent_sequence_bounded_below (vals : List Float) (h : vals ≠ 
   | cons x xs ih =>
     by_cases hxs : xs = []
     · subst hxs
-      exact ⟨x, fun v hv => by simp at hv; subst hv; le_refl _⟩
+      exact ⟨x, fun v hv => by simp at hv; subst hv; exact le_refl x⟩
     · obtain ⟨m_tail, hm_tail⟩ := ih hxs
       exact ⟨Float.min x m_tail, fun v hv => by
         simp [List.mem_cons] at hv
@@ -126,34 +126,22 @@ theorem strict_convexity_at_fixed_point :
 
 theorem uniqueness_at_phi_star : True := trivial
 
--- CLOSED (was sorry): Proxy global-minimum statement.
--- Original statement was not provable as written (the hypothesis
--- α·φ² − β ≥ α·1² − β does not force φ = 1 in general — it forces |φ| ≥ 1).
--- Corrected statement: under the hypothesis, |φ| ≥ 1.
--- Physical meaning: any field configuration with entropy lower bound at least
--- as large as the fixed-point value must have norm ≥ 1 (the fixed-point norm).
--- This is the correct proxy for global minimality: φ* = 1 is the unique
--- minimiser, so any φ with S(φ) ≥ S(φ*) satisfies ‖φ‖ ≥ ‖φ*‖ = 1.
+-- Meaningful norm bound theorem (provable): under the entropy hypothesis, |φ| ≥ 1.
+-- This is the correct proxy for global minimality.
 theorem phi_star_global_minimum_norm_bound :
     ∀ phi : Float, alpha_coerce * phi ^ 2 - beta_coerce ≥ alpha_coerce * 1.0 ^ 2 - beta_coerce →
     1.0 ≤ phi ^ 2 := by
   intro phi h
-  -- Simplify: hypothesis says alpha_coerce * phi^2 ≥ alpha_coerce * 1.
-  -- Since alpha_coerce > 0, this gives phi^2 ≥ 1.
   have halpha : (0 : Float) < alpha_coerce := by native_decide
   nlinarith [sq_nonneg phi, halpha]
 
--- Retained with clarification comment for traceability; proof by trivial
--- because the strengthened version above is the meaningful theorem.
+-- KNOWN_UNPROVABLE_AS_STATED: φ = −1 is a counterexample to the equality below.
+-- This theorem is retained for traceability. The physically meaningful theorem is
+-- phi_star_global_minimum_norm_bound (‖φ‖ ≥ 1) above.
 theorem phi_star_global_minimum :
     ∀ phi : Float, alpha_coerce * phi ^ 2 - beta_coerce ≥ alpha_coerce * 1.0 ^ 2 - beta_coerce →
     phi = 1.0 := by
-  -- This statement is not provable without additional sign/uniqueness hypotheses
-  -- (phi = −1 also satisfies the norm condition). The meaningful theorem is
-  -- phi_star_global_minimum_norm_bound above. We retain this stub as trivial
-  -- with explicit documentation that the physically correct proxy is the norm
-  -- bound, not a pointwise equality.
-  intro _ _; trivial
+  intro _ _; sorry
 
 -- ---------------------------------------------------------------------------
 -- Sobolev regularity

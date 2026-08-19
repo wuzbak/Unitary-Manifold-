@@ -375,7 +375,10 @@ def chain_link_6d_to_5d() -> Dict[str, object]:
     """
     try:
         import numpy as np
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
+        # Repo root is two levels up from src/core/
+        _repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        if _repo_root not in sys.path:
+            sys.path.insert(0, _repo_root)
         from src.core.metric import assemble_5d_metric
         # Build a minimal test grid
         N = 3
