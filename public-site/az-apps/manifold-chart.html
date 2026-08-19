@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>U-BCC Manifold Chart — Unitary Manifold Braid Convergence · AxiomZero</title>
+  <meta name="description" content="Interactive 5D/4D Kaluza-Klein state-space nomogram. Visualise curvature level sets, braid index spokes, and fixed-point convergence trajectories for the Unitary Manifold framework." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/manifold-chart.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <style>
+    /* ── Chart layout ──────────────────────────────────────────────────── */
+    .chart-layout {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .chart-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ── Canvas wrapper ────────────────────────────────────────────────── */
+    .canvas-wrap {
+      position: relative;
+      background: #050a1a;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .75rem;
+    }
+    #bcc-canvas {
+      display: block;
+      cursor: crosshair;
+      max-width: 100%;
+    }
+
+    /* ── Tooltip ───────────────────────────────────────────────────────── */
+    #bcc-tooltip {
+      display: none;
+      position: fixed;
+      background: rgba(10,22,50,0.97);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: .6rem .9rem;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--color-text);
+      pointer-events: none;
+      z-index: 200;
+      min-width: 180px;
+    }
+    .tt-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .tt-row:last-child { border-bottom: none; }
+    .tt-row span:first-child { color: var(--color-muted); }
+    .tt-row span:last-child  { color: var(--color-accent); font-weight: 600; }
+
+    /* ── Control panel ─────────────────────────────────────────────────── */
+    .ctrl-panel {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .ctrl-section-title {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--color-muted);
+      margin-bottom: .35rem;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: .35rem;
+    }
+    .ctrl-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+    .ctrl-label {
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--color-text);
+      white-space: nowrap;
+    }
+    .ctrl-val {
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--color-accent);
+      font-weight: 700;
+      min-width: 42px;
+      text-align: right;
+    }
+    input[type="range"] {
+      flex: 1;
+      accent-color: var(--color-accent);
+      cursor: pointer;
+    }
+    input[type="number"] {
+      width: 62px;
+      background: #0a1224;
+      border: 1px solid var(--color-border);
+      border-radius: 5px;
+      color: var(--color-text);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      padding: .2rem .4rem;
+      text-align: center;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .15rem 0;
+    }
+    .toggle-row label { font-size: .85rem; color: var(--color-text); cursor: pointer; }
+    input[type="checkbox"] { accent-color: var(--color-accent); width: 15px; height: 15px; cursor: pointer; }
+
+    /* ── Readout panel ─────────────────────────────────────────────────── */
+    .readout-panel {
+      background: #070f22;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+    }
+    .readout-row {
+      display: flex;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .18rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .readout-row:last-child { border-bottom: none; }
+    .readout-key { color: var(--color-muted); }
+    .readout-val { color: var(--color-green); font-weight: 600; }
+
+    /* ── Info box ──────────────────────────────────────────────────────── */
+    .info-box {
+      background: rgba(59,139,255,0.06);
+      border: 1px solid rgba(59,139,255,0.2);
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      font-size: .84rem;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+    .info-box code {
+      font-family: var(--font-mono);
+      background: rgba(255,255,255,0.07);
+      padding: .1em .35em;
+      border-radius: 3px;
+      font-size: .82em;
+    }
+
+    /* ── Eq display ────────────────────────────────────────────────────── */
+    .eq-block {
+      background: #070f22;
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 6px 6px 0;
+      padding: .6rem 1rem;
+      font-family: var(--font-mono);
+      font-size: .83rem;
+      color: #a8ceff;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- Tooltip (position: fixed, shown on hover) -->
+<div id="bcc-tooltip"></div>
+
+<div class="app-page">
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">🌀</div>
+      <div class="app-meta">
+        <div class="app-id-badge">U-BCC v19.3 · Unitary Manifold Braid Convergence Chart</div>
+        <div class="app-title">Manifold Braid Chart</div>
+        <div class="app-subtitle">
+          An interactive Smith-chart analogue for the 5D/4D Kaluza-Klein state space.
+          Level sets map curvature, coupling, and braid topology; the convergence spiral
+          traces the fixed-point iteration <em>x</em><sub>k+1</sub> = T(<em>x</em><sub>k</sub>).
+          Hover to read state coordinates. Click anywhere inside the chart to set the
+          trajectory start point.
+        </div>
+        <div class="app-tags">
+          <span class="tag tag-green">🟢 Runs in Browser</span>
+          <span class="tag tag-physics">⚛️ KK Physics</span>
+          <span class="tag tag-dep">Canvas / Vanilla JS</span>
+          <span class="tag tag-dep">No backend required</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Main content ───────────────────────────────────────────────────────── -->
+<div class="container section-sm">
+
+  <!-- Epistemic status -->
+  <div class="info-box" style="margin-bottom:1.5rem">
+    <strong>Epistemic status:</strong> The coordinate map and level-set families are derived
+    from the Unitary Manifold equations (see <code>src/core/metric.py</code>,
+    <code>src/core/fixed_point.py</code>). The fixed-point map <code>T(x)</code> rendered
+    here is a phenomenological model matching the qualitative behaviour of the Python
+    implementation — not a pixel-perfect numerical solve. The weight parameters
+    <code>w_B, w_φ, w_K, w_U</code> are adjustable (and presently unfixed from first
+    principles): use the sliders to explore sensitivity. Spectral index shown as
+    n<sub>s</sub> = 0.9635 ± 0.0042 [Planck 2018 1σ].
+  </div>
+
+  <!-- Chart + controls -->
+  <div class="chart-layout">
+
+    <!-- Canvas -->
+    <div class="canvas-wrap">
+      <canvas id="bcc-canvas" width="700" height="700" title="U-BCC Chart — hover to read state, click to set trajectory"></canvas>
+    </div>
+
+    <!-- Right-side controls -->
+    <div class="ctrl-panel">
+
+      <!-- Radial weights -->
+      <div>
+        <div class="ctrl-section-title">Radial Weights  r = √(Σ wᵢ ŷᵢ²)</div>
+
+        <div style="margin-bottom:.6rem">
+          <div class="ctrl-row">
+            <span class="ctrl-label">w<sub>B</sub></span>
+            <input type="range" id="wB" min="0" max="1" step="0.01" value="0.25"
+              oninput="updateParam('wB',this.value); document.getElementById('wB-val').textContent=parseFloat(this.value).toFixed(2)">
+            <span class="ctrl-val" id="wB-val">0.25</span>
+          </div>
+          <div class="ctrl-row">
+            <span class="ctrl-label">w<sub>φ</sub></span>
+            <input type="range" id="wPhi" min="0" max="1" step="0.01" value="0.25"
+              oninput="updateParam('wPhi',this.value); document.getElementById('wPhi-val').textContent=parseFloat(this.value).toFixed(2)">
+            <span class="ctrl-val" id="wPhi-val">0.25</span>
+          </div>
+          <div class="ctrl-row">
+            <span class="ctrl-label">w<sub>K</sub></span>
+            <input type="range" id="wK" min="0" max="1" step="0.01" value="0.25"
+              oninput="updateParam('wK',this.value); document.getElementById('wK-val').textContent=parseFloat(this.value).toFixed(2)">
+            <span class="ctrl-val" id="wK-val">0.25</span>
+          </div>
+          <div class="ctrl-row">
+            <span class="ctrl-label">w<sub>U</sub></span>
+            <input type="range" id="wU" min="0" max="1" step="0.01" value="0.25"
+              oninput="updateParam('wU',this.value); document.getElementById('wU-val').textContent=parseFloat(this.value).toFixed(2)">
+            <span class="ctrl-val" id="wU-val">0.25</span>
+          </div>
+          <button class="btn btn-outline" style="width:100%;margin-top:.5rem;font-size:.8rem;padding:.35rem"
+            onclick="normaliseWeights()">Normalise weights → Σwᵢ = 1</button>
+        </div>
+      </div>
+
+      <!-- Braid indices -->
+      <div>
+        <div class="ctrl-section-title">Braid Pair (n₁, n₂)</div>
+        <div style="font-size:.8rem;color:var(--color-muted);margin-bottom:.5rem">
+          θ = atan2(n₂, n₁) · k_CS = n₁²+n₂²<br>
+          Canonical: (5, 7) → k_CS = 74
+        </div>
+        <div class="ctrl-row" style="gap:.75rem">
+          <label class="ctrl-label">n₁</label>
+          <input type="number" id="n1" value="5" min="-10" max="10"
+            oninput="params.n1=parseInt(this.value)||1; document.getElementById('kcs-display').textContent='k_CS = '+(params.n1*params.n1+params.n2*params.n2); render()">
+          <label class="ctrl-label">n₂</label>
+          <input type="number" id="n2" value="7" min="-10" max="10"
+            oninput="params.n2=parseInt(this.value)||0; document.getElementById('kcs-display').textContent='k_CS = '+(params.n1*params.n1+params.n2*params.n2); render()">
+        </div>
+        <div id="kcs-display" style="font-family:var(--font-mono);font-size:.9rem;color:var(--color-accent);margin-top:.5rem;text-align:center;font-weight:700">
+          k_CS = 74
+        </div>
+      </div>
+
+      <!-- Convergence -->
+      <div>
+        <div class="ctrl-section-title">Fixed-Point Iteration</div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Steps</span>
+          <input type="range" id="iterations" min="3" max="40" step="1" value="20"
+            oninput="updateParam('iterations',this.value); document.getElementById('iter-val').textContent=parseInt(this.value)">
+          <span class="ctrl-val" id="iter-val">20</span>
+        </div>
+        <div class="ctrl-row" style="margin-top:.4rem">
+          <span class="ctrl-label">ε threshold</span>
+          <input type="range" id="eps" min="-6" max="-2" step="0.5" value="-4"
+            oninput="params.eps=Math.pow(10,parseFloat(this.value)); document.getElementById('eps-val').textContent='1e'+this.value; render()">
+          <span class="ctrl-val" id="eps-val">1e-4</span>
+        </div>
+      </div>
+
+      <!-- Display toggles -->
+      <div>
+        <div class="ctrl-section-title">Display Layers</div>
+        <div class="toggle-row">
+          <label for="tog-res">R₄ level sets</label>
+          <input type="checkbox" id="tog-res" checked
+            onchange="updateBoolParam('showResistance',this.checked)">
+        </div>
+        <div class="toggle-row">
+          <label for="tog-rea">G_eff arcs</label>
+          <input type="checkbox" id="tog-rea" checked
+            onchange="updateBoolParam('showReactance',this.checked)">
+        </div>
+        <div class="toggle-row">
+          <label for="tog-braid">Braid spokes</label>
+          <input type="checkbox" id="tog-braid" checked
+            onchange="updateBoolParam('showBraidGrid',this.checked)">
+        </div>
+        <div class="toggle-row">
+          <label for="tog-traj">Trajectory</label>
+          <input type="checkbox" id="tog-traj" checked
+            onchange="updateBoolParam('showTrajectory',this.checked)">
+        </div>
+      </div>
+
+      <!-- Export -->
+      <div>
+        <div class="ctrl-section-title">Export</div>
+        <button class="btn btn-outline" style="width:100%;font-size:.85rem" onclick="exportPNG()">
+          ↓ Export PNG
+        </button>
+      </div>
+
+    </div><!-- ctrl-panel -->
+  </div><!-- chart-layout -->
+
+  <!-- State readout (updated by hover — static fallback) -->
+  <div style="margin-top:1.5rem;margin-bottom:2rem">
+    <h3 style="margin-bottom:.75rem">State Readout <span style="font-size:.8rem;font-weight:400;color:var(--color-muted)">(hover over chart)</span></h3>
+    <div class="readout-panel">
+      <div class="readout-row"><span class="readout-key">r (normalised)</span><span class="readout-val">—</span></div>
+      <div class="readout-row"><span class="readout-key">θ (degrees)</span><span class="readout-val">—</span></div>
+      <div class="readout-row"><span class="readout-key">B̂ (irreversibility)</span><span class="readout-val">—</span></div>
+      <div class="readout-row"><span class="readout-key">φ̂ (radion)</span><span class="readout-val">—</span></div>
+      <div class="readout-row"><span class="readout-key">K̂ (curvature gradient)</span><span class="readout-val">—</span></div>
+      <div class="readout-row"><span class="readout-key">Û (duality coeff.)</span><span class="readout-val">—</span></div>
+      <div class="readout-row"><span class="readout-key">k_CS = n₁²+n₂²</span><span class="readout-val" id="static-kcs">74</span></div>
+      <div class="readout-row"><span class="readout-key">Sector</span><span class="readout-val">—</span></div>
+    </div>
+  </div>
+
+  <!-- Equations reference -->
+  <div style="margin-bottom:3rem">
+    <h3 style="margin-bottom:.75rem">Generating Equations</h3>
+    <div class="eq-block">
+State vector:  x = (B_μ, φ, ∇K, U_bulk, n₁, n₂) ∈ ℳ<br><br>
+Radial coord:  r = √(w_B·B̂² + w_φ·φ̂² + w_K·K̂² + w_U·Û²)    [Eq. 2.1]<br>
+Angular coord: θ = atan2(n₂, n₁) ∈ [0, 2π)                      [Eq. 2.2]<br>
+Braid index:   k_CS = n₁² + n₂²   (canonical: n₁=5, n₂=7 → 74) [Eq. 3.1]<br><br>
+Level-set families:<br>
+  ① Bulk curvature gradient  ∇K = const    (left sector)<br>
+  ② Duality coefficient      U_bulk = const<br>
+  ③ 4D curvature             R₄ = const    (right sector)<br>
+  ④ Effective coupling       G_eff = const<br><br>
+Fixed-point iteration:  x_{k+1} = T(x_k),  ‖x_{k+1} − x_k‖ &lt; ε → x*<br><br>
+Normalised coordinates (hats):  Â = |A| / A₀<br>
+  B̂ = |B_μ|/B₀ · φ̂ = |φ−φ*|/φ₀ · K̂ = |∇K|/K₀ · Û = |U−U*|/U₀<br><br>
+Architecture constants:<br>
+  k_CS = 74 · c_s = 12/37 ≈ 0.3243 · n_s = 0.9635 ± 0.0042 [Planck 2018]<br>
+  r_tensor = 0.0315 [BICEP/Keck &lt; 0.036]
+    </div>
+
+    <div class="info-box" style="margin-top:1rem">
+      <strong>Honest gap:</strong> The weight parameters w<sub>B</sub>, w<sub>φ</sub>,
+      w<sub>K</sub>, w<sub>U</sub> are not yet pinned from first principles — they define
+      the radial metric on state space. The equal-weight choice (0.25 each) is a natural
+      default. The fixed-point map <em>T</em>(<em>x</em>) rendered here is a qualitative
+      model; the full numerical solve lives in
+      <code>src/core/fixed_point.py</code>. See <code>FALLIBILITY.md</code> for admitted
+      open problems.
+    </div>
+  </div>
+
+  <!-- Back link -->
+  <div style="margin-bottom:3rem">
+    <a href="index.html" class="btn btn-outline">← Back to AZ Products</a>
+  </div>
+
+</div><!-- container -->
+</div><!-- app-page -->
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+
+<script src="../js/manifold-chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    initChart('bcc-canvas', 'bcc-tooltip');
+
+    // Wire k_CS display to initial values
+    document.getElementById('kcs-display').textContent =
+      'k_CS = ' + (params.n1 * params.n1 + params.n2 * params.n2);
+  });
+</script>
+</body>
+</html>
