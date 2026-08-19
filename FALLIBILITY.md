@@ -1137,6 +1137,7 @@ give the correct absolute peak positions and heights from the UM framework.
 | KK Boltzmann correction magnitude | ✅ **Quantified** | `cmb_boltzmann_peaks.py` δ_KK~8×10⁻⁴ |
 | **Residual within 5D-EFT architecture (all mechanisms)** | ✅ **CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED** | **Pillar 518** — Cases A/B/C exhausted; no mechanism closes gap without new free parameter or new field content; Admission 2 formally resolved |
 | **6D Coleman-Weinberg correction (T²/Z₃)** | `CMB_AMPLITUDE_6D_PARTIAL_IMPROVEMENT` | **Pillar 540** — δA_s/A_s ≈ 1.58×10⁻⁴ (Vol_{T²/Z₃}/Vol_{S¹} = (√3/2)/74²); fraction of suppression gap recovered ≈ 0.02%; 5D_IRREDUCIBLE_FLOOR label survives; bound narrowed |
+| **G1 — Warp-factor photon dilution** | ✅ **STRUCTURAL_FLOOR_PROVEN** | `pillar277_cmb_peak_three_term_decomposition.py` — `warp_factor_photon_dilution()`: S_warp = I₄/I₂² derived analytically for RS1/GW profile; S_warp^{RS1} ∈ [4, 7] confirmed by the Jensen/Cauchy-Schwarz lower bound S_warp ≥ 1/πR; irreducibility proved: no 5D parameter adjustment (holding nₛ, r, β fixed) can lower S_warp. The ×4–7 CMB amplitude suppression is an IRREDUCIBLE 5D STRUCTURAL LIMIT. NOT labelled CLOSED — full 6D lensing + Boltzmann integration (future) or LiteBIRD/CMB-S4 falsification required. |
 
 **Import caveat (Pillar 63):** The Eisenstein-Hu (1998) CDM transfer function
 with baryon loading is established standard cosmology published in 1998 — it
@@ -1897,7 +1898,7 @@ Open gaps after Pillar 62 — **RESOLVED by Ω_QCD Phase A+B (May 2026):**
 | **Analytic uniqueness of lossless sectors (Pillar 96)** | ✅ **CLOSED** (April 2026) | `unitary_closure.py`: c_s(5,n₂)<r_limit/r_bare → n₂≤7 analytically; β-window → n₂∈{6,7}; FTUM agnostic; Unitary Summation capstone; 14,641=11⁴ tests; 59 tests. |
 | **GW Yukawa Derivation (Pillar 97)** | ✅ **SUBSTANTIALLY CLOSED** (April 2026) | `gw_yukawa_derivation.py`: Ŷ₅=1 from GW vacuum profile; electron mass ≈ 0.509 MeV (< 0.48% off PDG); neutrino c_{Lν_i} from GW braid suppression; Σm_ν ≈ 108 meV < 120 meV ✓. Caveat: c_Le = 0.7980 is winding-quantised anchor, not independently derived from 5D BCs. 88 tests. |
 | **Universal Yukawa Test (Pillar 98)** | ✅ **SUBSTANTIALLY CLOSED** (April 2026) | `universal_yukawa.py`: 9 c_L values derived from Ŷ₅=1 condition via bisection; all masses reproduced to < 0.01%; c_L ordering correct in all sectors; b-τ unification r_bτ ≈ 0.497 (SM one-loop, consistent with SU(5)); winding consistency 9/9; 0 free fermion sector parameters. Caveat: c_L from bisection, not first-principles orbifold BCs. 126 tests. |
-| **Fermion c_L Orbifold BC Spectrum (Pillar 677)** | ✅ **CL_ORBIFOLD_BC_SPECTRUM_DERIVED** (Aug 2026) | `pillar677_fermion_cl_orbifold_closure.py`: c_L topological spectrum derived from Z₂-odd orbifold BCs (Kawamura projection); 3-generation SU(3) Hilbert equivalence proved; bisection agreement <1.3% for all 3 generations; ν seesaw c_L completion. Closes the first-principles BC gap from Pillar 98 caveat. 25 tests. |
+| **Fermion c_L Orbifold BC Spectrum (Pillar 677)** | ✅ **BC_SPECTRUM_ANALYTICALLY_DERIVED** / ⚠️ **PARTIALLY_BOUNDED** (Aug 2026) | `pillar677_fermion_cl_orbifold_closure.py`: Theorems 677.A–C (c_L topological spectrum, SU(3) Hilbert equivalence, ν seesaw) + **Theorems 677.D.a–e** (gap-closure sprint): (a) Dirac zero-mode survival proved from Z₂-odd BC; (b) generation ladder c_L^(i) derived from CS winding-induced bulk-mass shift; (c) O(1/K_CS²) residual bound formula proved, but only Gen 1 (|Δ|=0.00154) is within NLO bound; Gen 2 (|Δ|=0.00230) and Gen 3 (|Δ|=0.01195) exceed the bound — generation-mixing corrections required; (d) c_R zero-mode derived from Z₂-even BC; (e) c_R normalisation certificate (all c_R^(n) ≥ 0). Lean4 arithmetic proxy: `DiracOrbifoldSpectrum.lean` (32 theorems). `yukawa_orbifold_bc_texture.py` extended with `z2_bc_zero_mode_proof()`, `cl_higher_order_bound()`, `cr_z2even_analytic_proof()`. **Residual open:** APS functional-analytic proof, quark/lepton c_L splitting, generation-mixing O(i/K_CS) corrections for gen 2 and gen 3. |
 | **Issue 2: N_gen=3 postulate vs. derivation** | ✅ **CLOSED** (April 2026) | `n_gen_derivation_status()` in `three_generations.py`: 5-step logical chain, labels n_w=5 as the ONE observational input; N_gen=3 is a conditional theorem (Atiyah-Singer + CS gap). NOT a postulate. |
 | **Issue 3: KK tower truncation / hidden irreversibility** | ✅ **CLOSED** (April 2026) | `kk_tower_irreversibility_proof()` in `kk_backreaction.py`: each KK mode has dS_n/dt ≥ 0; zero-mode truncation is a lower bound on total entropy production. |
 | **Issue 4: Analytic Banach fixed-point proof** | ✅ **CLOSED** (April 2026) | `analytic_banach_proof()` in `fixed_point.py`: closed-form L = max(ρ_S, ρ_X) where ρ_S = max(|1−κdt|, |1−(κ+λ_max)dt|) and ρ_X = 1/(1+γdt) < 1. No sampling required; three checkable sufficient conditions given. |
@@ -3629,6 +3630,39 @@ compilation requires the Lean4 toolchain (not installed in CI).
 machine-checked proof.  The Python bridge confirms that the theorem export
 artifact has the correct schema and that claimed constants are consistent —
 it does not re-execute the Lean4 type-checker.
+
+**G3 — SU(5) Orbifold Weyl-group parity: LIE_ALGEBRA_PARTIALLY_FORMALISED**
+`lean4/UnitaryManifold/SU5OrbifoldWeylParity.lean` has been extended (Block E,
+10 new theorems) to include matrix-level arithmetic: the Kawamura parity matrix
+P = diag(+1,+1,+1,−1,−1) is constructed as `kawamura_parity : Fin 5 → ℤ` and
+the following are proved at the matrix-arithmetic level:
+  - P·P = I (involution): `kawamura_P_squared_is_identity`
+  - Tr(P) = 1: `kawamura_trace`
+  - Even eigenspace dimension = 3: `kawamura_even_eigenspace_dim`
+  - Odd eigenspace dimension = 2: `kawamura_odd_eigenspace_dim`
+  - Even dim = N_c = 3: `kawamura_even_dim_equals_n_colour`
+These go beyond the integer/cardinality proxy level of Blocks A–D.
+**Residual open:** conjugacy-class exhaustion in GL(5,ℤ) and full root-system
+construction as a `Finset` — require Mathlib's LinearAlgebra.Matrix or a
+dedicated `decide`-on-finite-type enumeration.  Label: `LIE_ALGEBRA_PARTIALLY_FORMALISED` (NOT CLOSED).
+
+**G4 — c_L/c_R from orbifold BC: BC_SPECTRUM_ANALYTICALLY_DERIVED / PARTIALLY_BOUNDED**
+`lean4/UnitaryManifold/DiracOrbifoldSpectrum.lean` (32 theorems) formalises:
+  - Dirac zero-mode survival condition (Z₂-odd BC → LH c_L > ½)
+  - Generation ladder c_L^(i) = 1 − N_c/K_CS − (i−1)/(2K_CS) from CS winding
+  - O(1/K_CS²) residual bound formula |c_L^topo − c_L^bisect| ≤ N_c²/K_CS² + N_c³/K_CS³ = 0.00171
+  - c_R^(n) = ½ − n/(2n_w) normalisation certificate (all c_R ≥ 0)
+The Python derivation is in `pillar677_fermion_cl_orbifold_closure.py`
+(Theorems 677.D.a–e) and `yukawa_orbifold_bc_texture.py` (analytic theorem blocks).
+**Honest residual assessment (Aug 2026):** The NLO+NNLO bound (0.00171) covers Gen 1
+(|Δ|=0.00154 ✓) but does NOT cover Gen 2 (|Δ|=0.00230 ✗) or Gen 3 (|Δ|=0.01195 ✗).
+The gen-3 residual is 7× the NLO bound; this likely reflects generation-mixing corrections
+proportional to (i−1)/K_CS not yet formally derived.  The O(1/K_CS) formula structure is
+proved; the tight per-generation bound requires further analytic work.
+Label: `BC_SPECTRUM_ANALYTICALLY_DERIVED` (c_L/c_R formulae proved) + `PARTIALLY_BOUNDED`
+(gen-2 and gen-3 residuals not formally covered). NOT CLOSED.
+**Residual open:** full functional-analytic proof; generation-mixing O(1/K_CS²) terms;
+APS index theorem zero-mode counting.
 
 ### §X.2 — 512-bit Precision Certificate
 
