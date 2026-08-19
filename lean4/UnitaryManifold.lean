@@ -21,3 +21,6 @@ import UnitaryManifold.Lean4SixHundredMilestone
 import UnitaryManifold.HolographicEntropyLipschitz
 import UnitaryManifold.CCRConditionalKernel
 import UnitaryManifold.Lean4SevenHundredMilestone
+import UnitaryManifold.P8FunctionalFull
+import UnitaryManifold.Lean4EightHundredMilestone
+import UnitaryManifold.LiteBIRDBirefringenceFormal
