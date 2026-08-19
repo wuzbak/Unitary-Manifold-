@@ -84,7 +84,7 @@ Architecture limit formal declaration
   Blocking theories:   LQG in 5D not fully developed; spin-foam models for
                        KK compactification not yet constructed
   Timeline:            Long-term (decade+); not a near-term falsifier
-  Impact on ToE score: NONE — all 28 parameters are independent of this gap
+  Impact on framework derivation coverage: NONE — all 28 parameters are independent of this gap
 """
 from __future__ import annotations
 
@@ -291,7 +291,7 @@ def closing_mechanism() -> Dict[str, object]:
         ],
         "near_term_substitute": (
             "The perturbative WdW (Pillar 102-C) is sufficient for all current "
-            "UM predictions. The non-perturbative gap does NOT affect the ToE score "
+            "UM predictions. The non-perturbative gap does NOT affect the framework derivation coverage "
             "or any of the 28 hardgated parameters."
         ),
     }

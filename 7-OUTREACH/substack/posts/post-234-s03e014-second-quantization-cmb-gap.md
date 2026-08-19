@@ -247,7 +247,7 @@ That is not a coincidence you invent. That is what a framework looks like when i
 
 For the record: here is the Unitary Manifold's current status across its major predictions and tensions.
 
-**Hardgate predictions (ToE score: 28.0/28 = 100%):**
+**Hardgate predictions (Framework consistency: all 208 hardgate derivation chains self-consistent = 100%):**
 
 | Observable | UM Prediction | Measurement | Status |
 |------------|--------------|-------------|--------|

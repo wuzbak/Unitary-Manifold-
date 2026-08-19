@@ -103,7 +103,7 @@ The pillar explainer is the document we hand to new collaborators, external revi
 
 **Test suite:** 47,245 passed · 23 skipped · 12 deselected · 0 failed  
 **Pillar count:** 541 (core architecture) + Ω₀ + 70-B/C/D + 330+ adjacent tracks  
-**ToE score:** 28.0/28 = 100% (unchanged — Pillar 541 is architecture documentation, not a new claim)
+**framework derivation coverage:** framework internally consistent = 100% (unchanged — Pillar 541 is architecture documentation, not a new claim)
 
 **Active decision windows:**
 

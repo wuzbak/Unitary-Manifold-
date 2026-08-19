@@ -151,7 +151,7 @@ Before the v11.5 tightening wave (which added Pillars 274–281), before the DES
 
 Pillars 257–262 answer those questions deterministically.
 
-This is not glamorous work. It does not advance the ToE score. It does not close a parameter gate. But it is the work that makes every subsequent closure trustworthy — because every subsequent closure is built on a verified, consistent, auditable foundation.
+This is not glamorous work. It does not advance the physics claim labels. It does not close a parameter gate. But it is the work that makes every subsequent closure trustworthy — because every subsequent closure is built on a verified, consistent, auditable foundation.
 
 A framework that can tell you where it is failing, in machine-readable form, with hash-verified reports, is a framework that takes its own honesty seriously.
 

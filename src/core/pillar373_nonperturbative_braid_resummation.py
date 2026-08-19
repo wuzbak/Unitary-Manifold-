@@ -135,7 +135,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 373 attempts L2 closure via non-perturbative "
         "braid resummation. Status: L2_PARTIALLY_CLOSED. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 

@@ -111,7 +111,7 @@ instrument upgrades, and coordinated observing campaigns.
 - No claim that "the Sun is solved."  
 - No claim that one model component is final.  
 - Every lane includes an explicit failure condition.  
-- Adjacent-track status is explicit and does not alter hardgate ToE score.
+- Adjacent-track status is explicit and does not alter hardgate framework derivation coverage.
 
 ---
 

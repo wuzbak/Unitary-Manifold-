@@ -156,7 +156,7 @@ def separation_guard() -> str:
     return (
         "FRONTIER_COMPUTATION: Pillar 362 audits the trans-Planckian KK mechanism "
         "for CMB quadrupole suppression. Result: MECHANISM_INCONCLUSIVE. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 

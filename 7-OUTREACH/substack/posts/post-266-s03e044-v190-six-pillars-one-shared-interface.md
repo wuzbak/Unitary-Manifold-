@@ -167,7 +167,7 @@ Available at: `7-OUTREACH/substack/books/book-frozen-radion-dark-energy.md`
 
 ## State of the Framework
 
-**ToE score: 28/28 (100%) — unchanged**
+**framework derivation coverage (100%) — unchanged**
 
 **Active decision windows:**
 - DESI DR3: late 2026 (wₐ tension at 2.30σ)

@@ -328,7 +328,7 @@ class TestSeparationGuard:
         assert "ADJACENT_TRACK_NON_HARDGATE" in separation_guard()
 
     def test_separation_guard_mentions_toe_score(self):
-        assert "ToE score" in separation_guard()
+        assert "framework derivation coverage" in separation_guard()
 
     def test_separation_guard_mentions_boltzmann(self):
         assert "Boltzmann" in separation_guard()

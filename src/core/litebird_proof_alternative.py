@@ -43,7 +43,7 @@ For each lane this module provides:
   * Decision thresholds (pass / fail / inconclusive)
   * Uncertainty budget
   * Evidence strength metric
-  * Scoring contribution to the ToE score (if decision-grade positive)
+  * Scoring contribution to the framework derivation coverage (if decision-grade positive)
   * Composite verdict aggregating all three lanes
 
 Public API
@@ -153,7 +153,7 @@ SIGMA_A_THRESHOLD: float = 1.0e-5
 #: Minimum independent replications for decision-grade verdict
 LANE_A_MIN_REPLICATIONS: int = 2
 
-#: ToE score contribution if Lane A supports at decision-grade (pts)
+#: framework derivation coverage contribution if Lane A supports at decision-grade (pts)
 LANE_A_TOE_CONTRIBUTION: float = 0.4
 
 # ---------------------------------------------------------------------------
@@ -186,7 +186,7 @@ _PHI_SIGMA_THEORY: float = 0.2  # degrees theoretical uncertainty
 PHI_ROT_WINDOW_LOW: float = min(PHI_ROT_PRIMARY, PHI_ROT_SHADOW) - 5.0 * _PHI_SIGMA_THEORY
 PHI_ROT_WINDOW_HIGH: float = max(PHI_ROT_PRIMARY, PHI_ROT_SHADOW) + 5.0 * _PHI_SIGMA_THEORY
 
-#: ToE score contribution if Lane B confirms at decision grade (pts)
+#: framework derivation coverage contribution if Lane B confirms at decision grade (pts)
 LANE_B_TOE_CONTRIBUTION: float = 0.3
 
 # ---------------------------------------------------------------------------
@@ -212,7 +212,7 @@ BETA_LAB_WINDOW_HIGH: float = 0.38  # degrees
 BETA_LAB_GAP_LOWER: float = 0.29   # degrees
 BETA_LAB_GAP_UPPER: float = 0.31   # degrees
 
-#: ToE score contribution if Lane C confirms at decision grade (pts)
+#: framework derivation coverage contribution if Lane C confirms at decision grade (pts)
 LANE_C_TOE_CONTRIBUTION: float = 0.3
 
 
@@ -666,7 +666,7 @@ def composite_proof_alternative(
         f"{n_dg} decision-grade lanes, "
         f"{n_sup} supported, "
         f"{n_fal} falsified. "
-        f"ToE score contribution: +{total_toe:.1f} pts. "
+        f"framework derivation coverage contribution: +{total_toe:.1f} pts. "
         f"(Lane A: {lane_a_result.get('verdict','?')} | "
         f"Lane B: {lane_b_result.get('verdict','?')} | "
         f"Lane C: {lane_c_result.get('verdict','?')})"

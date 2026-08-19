@@ -264,7 +264,7 @@ def architecture_limit_certificate() -> Dict[str, object]:
         ),
         "not_a_falsifier": True,
         "is_missing_prediction": True,
-        "hardgate_score_impact": "None — does not affect ToE score",
+        "hardgate_score_impact": "None — does not affect framework derivation coverage",
     }
 
 

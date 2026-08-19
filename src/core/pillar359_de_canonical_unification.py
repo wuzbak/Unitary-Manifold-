@@ -184,7 +184,7 @@ def separation_guard() -> str:
         "HARDGATE_ADJACENT: Pillar 359 extends the hardgate dark energy "
         "prediction (P4) with a canonical formula unification. The hardgate "
         "w₀ = −1, wₐ = 0 prediction is documented and cross-checked here. "
-        "No ToE score is affected."
+        "No framework derivation coverage is affected."
     )
 
 

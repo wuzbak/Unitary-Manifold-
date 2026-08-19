@@ -23,7 +23,7 @@ SPRINT_X_CERTIFICATE = {
     "pillar_total":      705,
     "new_tests_sprint":  "~200",
     "test_total_est":    "~52,612",
-    "toe_score":         "30.0/28",
+    "toe_score":         "framework internally consistent",
     "toe_changed":       False,
 
     "architecture_limits": {

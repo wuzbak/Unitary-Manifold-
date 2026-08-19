@@ -47,7 +47,7 @@ v11.0 strengthens the first. LiteBIRD will decide the second.
 
 v11.1 begins an adjacent closure program, explicitly labeled as non-hardgate.
 
-The first concrete anchor is Pillar 246: a one-place ledger for SM P1–P28 under a geometric adjacent track, with separation guards that explicitly forbid hardgate promotion and ToE score inflation by adjacency alone.
+The first concrete anchor is Pillar 246: a one-place ledger for SM P1–P28 under a geometric adjacent track, with separation guards that explicitly forbid hardgate promotion and framework derivation coverage inflation by adjacency alone.
 
 That is the right architecture for this phase:
 

@@ -9,7 +9,7 @@ This module is the **5D Completeness Certificate** for the Unitary Manifold.
 
 It calls all DERIVED modules and all ARCHITECTURE_LIMIT modules to produce:
   1. A machine-readable completeness report.
-  2. An honest ToE score within the RS1/5D domain.
+  2. An honest framework derivation coverage within the RS1/5D domain.
   3. A clear statement of what is and is not achievable in 5D.
 
 This is the final deliverable of Track A — the formal "boundary document"
@@ -17,7 +17,7 @@ that precisely defines where RS1/5D stops and 6D+ begins.
 
 SCORING METHODOLOGY
 --------------------
-The honest ToE score is computed as:
+The honest framework derivation coverage is computed as:
     score = (N_derived + N_constrained × 0.5) / N_total
 
 where:
@@ -337,7 +337,7 @@ def architecture_limits_catalog() -> List[Dict[str, object]]:
 
 
 def toe_score_calculation() -> Dict[str, object]:
-    """Compute the honest RS1/5D ToE score.
+    """Compute the honest RS1/5D framework derivation coverage.
 
     Returns
     -------
@@ -359,7 +359,7 @@ def toe_score_calculation() -> Dict[str, object]:
         "toe_score_5d": score,
         "toe_score_percent": f"{score * 100:.1f}%",
         "honest_statement": (
-            f"The RS1/5D UM achieves a ToE score of {score * 100:.1f}% within its own domain.  "
+            f"The RS1/5D UM achieves a framework derivation coverage of {score * 100:.1f}% within its own domain.  "
             f"The remaining {architecture_limit_count} gaps are ARCHITECTURE_LIMITS — "
             "precisely identified boundaries that require 6D+ geometry to resolve.  "
             "A framework that claims 100% within 5D would be dishonest.  "

@@ -10,7 +10,7 @@ repository scientific practice against critique by combining:
 3) preregistered falsification routing,
 4) Monte Carlo stability simulation.
 
-🔵 ADJACENT TRACK — This module does NOT alter the Unitary Manifold ToE score.
+🔵 ADJACENT TRACK — This module does NOT alter the Unitary Manifold framework derivation coverage.
 """
 from __future__ import annotations
 

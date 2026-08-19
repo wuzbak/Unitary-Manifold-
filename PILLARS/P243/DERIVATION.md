@@ -84,7 +84,7 @@ deterministic, and CI-safe.
 
 Pillar 243 exports a `separation_guard()` with strict policy:
 - hardgate isolation = true,
-- ToE score delta allowed = false,
+- physics label advancement allowed = false,
 - physics-claim promotion allowed = false.
 
 This prevents adjacent-lane tooling success from being misrepresented as

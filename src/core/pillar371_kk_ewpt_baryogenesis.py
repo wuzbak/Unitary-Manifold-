@@ -134,7 +134,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 371 tests KK-EWPT baryogenesis. "
         "Status: ARCHITECTURE_LIMIT_CONFIRMED. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 
@@ -321,7 +321,7 @@ def baryogenesis_architecture_limit_summary() -> Dict[str, object]:
             "within the minimal 5D-EFT. A UV completion (full 10D string theory "
             "compactification, M-theory flux landscape, or Affleck-Dine with "
             "non-minimal KK condensate) is required. "
-            "This is honestly documented and does not affect the ToE score."
+            "This is honestly documented and does not affect physics claim labels."
         ),
         "paths_forward": [
             "Affleck-Dine with a light KK tower field m_n ~ T_EW (non-minimal)",

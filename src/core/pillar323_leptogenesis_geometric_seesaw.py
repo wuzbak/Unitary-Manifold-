@@ -219,7 +219,7 @@ def separation_guard() -> str:
     return (
         "ADJACENT_TRACK_ONLY: Pillar 323 calculates η_B from geometric seesaw leptogenesis. "
         "This closes the sakharov_um_audit.py gap item. Results are NON_HARDGATE and do not "
-        "affect the ToE score."
+        "affect the framework derivation coverage."
     )
 
 

@@ -151,7 +151,7 @@ def gap_cluster_synthesis_certificate() -> Dict[str, Any]:
             "gaps that are provably irreducible within RS1/5D. "
             "One is ADJACENT_TRACK_CERTIFIED (CY4 χ=148). "
             "One is PROVED_AT_SCAFFOLD_LEVEL (Sp(2,ℝ) anomaly). "
-            "No ToE score change. No hardgate physics claim promoted."
+            "No physics label change. No hardgate physics claim promoted."
         ),
         "toe_impact": 0,
         "honest_note": (

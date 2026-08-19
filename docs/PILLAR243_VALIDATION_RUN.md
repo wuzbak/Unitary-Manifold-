@@ -133,7 +133,7 @@ physics_claim_promotion_allowed: false
 ```
 
 Pillar 243 is an **adjacent research track**. Running this validation report
-does **not** alter the ToE score (100%, 28/28) and does **not** promote
+does **not** alter the framework derivation coverage (100%, 28/28) and does **not** promote
 any interoperability result to a hardgate physics claim.
 
 ---

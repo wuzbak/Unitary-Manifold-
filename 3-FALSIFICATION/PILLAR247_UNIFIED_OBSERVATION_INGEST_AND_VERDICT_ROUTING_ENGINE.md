@@ -11,7 +11,7 @@
 Pillar 247 defines a single deterministic orchestration layer that consumes release payloads, runs lane-specific falsifier logic, and emits one integrated decision packet.
 
 It is an **adjacent operations track**:
-- does **not** change ToE score,
+- does **not** change framework derivation coverage,
 - does **not** promote/demote hardgate claims automatically,
 - does enforce same-day sync targets when a route is `FALSIFIED`.
 

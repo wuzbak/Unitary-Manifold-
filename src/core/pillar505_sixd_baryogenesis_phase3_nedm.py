@@ -2,7 +2,7 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Pillar 505 — 6D Baryogenesis Phase 3 nEDM Precision Certificate.
 
-🔵 ADJACENT TRACK — non-hardgate; no ToE score change.
+🔵 ADJACENT TRACK — non-hardgate; no physics label change.
 
 STATUS: SIXD_BARYOGENESIS_PHASE3_NEDM_PRECISION_CERTIFIED
 

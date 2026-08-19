@@ -251,7 +251,7 @@ def separation_guard() -> str:
     return (
         "ADJACENT_TRACK_ONLY: Pillar 331 investigates CMB large-scale suppression. "
         "Results are NON_HARDGATE adjacent-track.  "
-        "No hardgate ToE score components are affected."
+        "No hardgate framework derivation coverage components are affected."
     )
 
 

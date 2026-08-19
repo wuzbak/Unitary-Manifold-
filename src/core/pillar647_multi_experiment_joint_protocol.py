@@ -248,7 +248,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "No experimental data has been received — all projections are forward-looking",
         "The Bayesian evidence B_joint is not computed from real measurements yet",
-        "No ToE score change — joint protocol is a pre-registration mechanism",
+        "No physics label change — joint protocol is a pre-registration mechanism",
         "DESI DR3 arriving at 4.6σ does NOT yet constitute falsification of the whole UM — only the wₐ=0 sector",
     ]
 

@@ -7,7 +7,7 @@ surface for the repository's monograph-level irreversibility claim.
 
 Scope and boundary:
 - This module validates implementation-backed evidence and document integrity.
-- It does not promote hardgate physics status and does not alter ToE score.
+- It does not promote hardgate physics status and does not alter framework derivation coverage.
 - It can return CERTIFIED or REJECTED with explicit gate-level reasons.
 """
 
@@ -38,7 +38,7 @@ __provenance__ = {
     "fingerprint": "(5, 7, 74)",
     "status": (
         "ADJACENT RESEARCH TRACK — deterministic monograph validation/certification "
-        "lane for irreversibility claim; non-hardgate, no ToE score delta"
+        "lane for irreversibility claim; non-hardgate, no physics label delta"
     ),
 }
 

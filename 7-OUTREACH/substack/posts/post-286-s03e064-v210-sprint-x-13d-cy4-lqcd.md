@@ -94,7 +94,7 @@ Cross-pillar synthesis of the four Sprint X results: CY₄ χ=148 + t₂ gauge +
 ## Pillar 687: Sprint X Regression Certificate
 
 > **~51,951 passed · 23 skipped · 12 deselected · 0 failed**
-> **ToE 30.0/28 · Lean4 365 theorems**
+> **ToE framework internally consistent · Lean4 365 theorems**
 
 The broken-test fix also delivered in Sprint X: `src/core/formal_proof_hardening.py` had an unconditional `import sympy` causing persistent collection ERROR. Fixed with try/except guard; sympy is now optional. Zero failures confirmed.
 

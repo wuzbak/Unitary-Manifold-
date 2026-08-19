@@ -4,7 +4,7 @@
 
 This module operationalizes the requested "golden push" as a strict command
 layer over the current locked state:
-  - ToE score fixed at 21.5 / 28 (v10.32: P16 promoted CONSTRAINED→GEOMETRIC_PREDICTION),
+  - framework derivation coverage fixed at 21.5 / 28 (v10.32: P16 promoted CONSTRAINED→GEOMETRIC_PREDICTION),
   - no softened falsifiers,
   - no promotion by rhetoric.
 """

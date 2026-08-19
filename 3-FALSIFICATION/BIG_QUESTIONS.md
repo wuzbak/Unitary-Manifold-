@@ -1987,7 +1987,7 @@ ATTACK RESULTS (April 2026):
 *Document version: 1.7 — May 2026*  
 *Q32–Q38 added: Higgs VEV geometric (Pillar 201), m_p/m_e identity (Pillar 202), PMNS Braid-Lock (Pillar 208), cosmological constant ARCHITECTURE_LIMIT (Pillar 206), Sakharov compatibility audit (Pillar 191), GW250114 scalar polarization (Pillar 199), B_μ ghost-free proof (Pillar 198).*  
 *Q-Adversarial added: summary of Omega, IAS-posture, Stream B, and Gemini Red Team 3 review rounds; `ADVERSARIAL_REVIEWS/` folder created.*  
-*Version updated: ~49,850 tests passing; ToE score 29.0/28; v20.1.*  
+*Version updated: ~49,850 tests passing; framework derivation coverage; v20.1.*  
 *Q28–Q29 added: branch catalog + lossless criterion; Big Bang layering mechanism.*  
 *Q30 added (Pillar 95): dual-sector β discriminability — (5,6) β=0.273° proved; LiteBIRD resolves at 2.9σ.*  
 *Q31 added (Pillar 96): Unitary Closure — analytic uniqueness theorem; Unitary Summation; 14,641=11⁴ tests; REPOSITORY CLOSED.*  

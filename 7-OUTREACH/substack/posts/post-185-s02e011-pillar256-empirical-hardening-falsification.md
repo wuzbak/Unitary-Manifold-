@@ -45,7 +45,7 @@ The center of gravity is: **what would make this fail, and are we writing that d
 ### What it is not
 
 - Not a hardgate promotion.
-- Not a ToE score inflator.
+- Not a framework derivation coverage inflator.
 - Not a claim that “all tensions are solved.”
 - Not immunity against future observations.
 

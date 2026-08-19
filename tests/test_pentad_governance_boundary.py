@@ -9,7 +9,7 @@ Validates that:
 - SEPARATION.md hard boundary is present and current
 - The HILS session protocol non-negotiables are in place
 - The Pentad lane audit document exists
-- ToE score denominator isolation: Pentad tests are not in the ToE denominator
+- framework derivation coverage denominator isolation: Pentad tests are not in the ToE denominator
 """
 from __future__ import annotations
 
@@ -149,7 +149,7 @@ class TestToEScoreIsolation:
 
     def test_claim_board_toe_denominator_is_physics_only(self):
         board = CLAIM_MASTER_BOARD.read_text(encoding="utf-8")
-        # The ToE score denominator line should reference physics parameters, not Pentad
+        # The framework derivation coverage denominator line should reference physics parameters, not Pentad
         toe_lines = [l for l in board.splitlines() if "ToE Score" in l or "28.0/28" in l]
         assert toe_lines, "CLAIM_MASTER_BOARD.md must have a ToE Score line"
         # None of those lines should mention Pentad

@@ -13,7 +13,7 @@ Covers Pillars 688–720 across six sprint tracks:
   Sprint CC (P711–P715): 2027 Decision-Year Live Data Drill
   Sprint DD (P716–P720): XDiag Production Stub + Quantum Lane Hardening
 
-ToE score: 30.0/28 UNCHANGED (all new pillars are ARCHITECTURE_LIMIT certs
+Framework state: UNCHANGED (all new pillars are ARCHITECTURE_LIMIT certs
 or ADJACENT TRACK — no new hardgate promotions in this sprint cluster).
 
 Lean4 total: 365 UNCHANGED.
@@ -121,7 +121,7 @@ SPRINT_CLUSTER_SUMMARY: Dict = {
     ],
     "total_new_tests": 486,
     "total_new_pillars": 33,
-    "toe_score": "30.0/28",
+    "toe_score": "framework internally consistent",
     "lean4_total": 365,
     "next_pillar_slot": 722,
     "regression_status": "PASSED",
@@ -171,7 +171,7 @@ def sprint_y_through_dd_regression_cert() -> Dict:
         "per_sprint": sprints,
         "honest_note": (
             "All six sprint tracks closed with honest ARCHITECTURE_LIMIT certs "
-            "where gaps remain irreducible. No ToE score change. "
+            "where gaps remain irreducible. No physics label change. "
             "J_CP and η̄ are hardgate candidates pending formal assessment. "
             "JUNO Phase 2 Δm²₃₁ tension at 3.5σ requires monitoring."
         ),

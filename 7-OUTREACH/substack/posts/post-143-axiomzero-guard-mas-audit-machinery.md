@@ -92,7 +92,7 @@ Every parameter promotion at GEOMETRIC_PREDICTION or above requires a correspond
 
 A test in `tests/` calls each certification module and asserts all three conditions pass. If someone edits the underlying derivation in a way that changes the residual above 5%, the certification test fails. The scorecard cannot be promoted silently.
 
-This architecture means the ToE score is not just a number in a markdown file. It is a number that 27,000+ tests defend. Every point on the scoreboard is backed by code that will fail if the point is no longer warranted.
+This architecture means the framework derivation coverage is not just a number in a markdown file. It is a number that 27,000+ tests defend. Every point on the scoreboard is backed by code that will fail if the point is no longer warranted.
 
 ---
 

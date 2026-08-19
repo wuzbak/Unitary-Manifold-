@@ -17,7 +17,7 @@ Sprint X (v21.0-S extension) delivers:
   - test_v12_formal_infrastructure.py: bare module-level import moved behind
     pytest.importorskip("sympy") — collection ERROR eliminated.
 
-ToE score: 30.0/28 UNCHANGED (all new pillars are ADJACENT or ARCHITECTURE_LIMIT)
+framework derivation coverage: framework internally consistent UNCHANGED (all new pillars are ADJACENT or ARCHITECTURE_LIMIT)
 Lean4 theorems: 365 UNCHANGED
 Next pillar slot: 688
 Next version: v21.0-X
@@ -132,6 +132,6 @@ def sprint_x_regression_certificate() -> Dict[str, Any]:
             "Sprint X addresses the three explicit ✗ gaps in the problem statement "
             "(CY4 χ=148 construction, t₂ gauge, Sp(2,ℝ) anomaly, ΛQCD moduli) "
             "plus the persistent broken-test collection error. "
-            "No ToE score promoted. No falsifier weakened."
+            "No framework derivation coverage promoted. No falsifier weakened."
         ),
     }

@@ -8,7 +8,7 @@ Exact diagonalization (ED) solver for the 1D Fermi–Hubbard model.
 EPISTEMIC STATUS — ADJACENT_TRACK_ED_CLOSED
 -------------------------------------------
 This module is an adjacent research track; it is NOT a hardgate UM pillar
-and does not alter the core ToE score.  Results are validated against known
+and does not alter the core framework derivation coverage.  Results are validated against known
 Bethe Ansatz exact solutions for the 2-site half-filling case.
 
 Physical context

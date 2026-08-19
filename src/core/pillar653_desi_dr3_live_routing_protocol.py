@@ -117,7 +117,7 @@ def what_is_NOT_claimed() -> List[str]:
     """Return honest non-claims for Pillar 653."""
     return [
         'DESI DR3 data is not embedded here; this module only routes live inputs.',
-        'No ToE score gain is claimed from preregistration alone.',
+        'No framework derivation coverage gain is claimed from preregistration alone.',
         'The rolling-radion extension is not activated unless the live verdict reaches FALSIFIED.',
         'This pillar does not soften the pre-registered 3 sigma falsification threshold.',
     ]

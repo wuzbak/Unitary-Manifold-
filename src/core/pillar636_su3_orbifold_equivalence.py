@@ -161,7 +161,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "The Hilbert-space functional analysis (Lean4 formal proof) is NOT complete",
         "The framework is not yet fully Kawamura-independent at referee-grade rigor",
-        "No ToE score change — the residual open requires Lean4 formal proof",
+        "No physics label change — the residual open requires Lean4 formal proof",
         "SU(5) GUT is not derived from the UM — only the SM subgroup projection is addressed",
     ]
 

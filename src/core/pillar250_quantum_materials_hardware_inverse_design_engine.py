@@ -8,7 +8,7 @@ fabricable quantum hardware.
 
 Boundary statement (strict):
 - This module is an engineering planning and comparative simulation surface.
-- It is not a hardgate physics claim and does not alter ToE score surfaces.
+- It is not a hardgate physics claim and does not alter framework derivation coverage surfaces.
 - It does not guarantee fabrication success or commercial device outcomes.
 """
 

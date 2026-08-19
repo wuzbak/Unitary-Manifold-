@@ -62,7 +62,7 @@ cosmological constant, and UV vacuum selection — each rung built on the last.
 framework to applied domains — biophysics, neuroscience, climate, dark energy
 extensions — without making hardgate physics claims. They inherit the framework's
 constants and falsification infrastructure but are clearly separated from the
-core ToE score (28.0/28.0 = 100% as of v11.6, with 0 free parameters).
+core framework state (208 hardgate pillars internally consistent; Yukawa sector uses fitted c_L inputs).
 
 **The Integrity Layer.** The Unitary Pentad (independent HILS governance
 framework) and Ω₀ Holon Zero sit orthogonally: they borrow mathematical
@@ -244,7 +244,7 @@ The entire framework rests on two derived integers. Neither is a free parameter.
 ## 4. Standard Model Parameter Derivation Map
 
 All 28 SM parameters derive from the geometry with **zero free parameters**
-(ToE score 28.0/28.0 = 100% as of v11.6). The derivation paths group naturally:
+(framework state: 208 hardgate derivation chains internally consistent). The derivation paths group naturally:
 
 ### Group A — From Braided Winding Directly (CMB predictions)
 
@@ -546,7 +546,7 @@ function. This map shows the clusters and their interconnections.
 │  (n_w=5, K_CS=74, c_s=12/37, φ₀) as modeling language.  │
 │  Connected via USIVF (P243) and falsifier infrastructure  │
 │  (P247, P255, P260, P281, P285).                         │
-│  Do NOT affect the 28-parameter ToE score.               │
+│  Do NOT affect the 28-parameter SM derivation coverage.               │
 └────────┬─────────────────────────────────────────────────┘
          │
 ┌────────▼─────────────────────────────────────────────────┐
@@ -669,7 +669,7 @@ the codebase) connect to the core through a well-defined interface:
 ### What They Do NOT Inherit
 
 - Hardgate physics labels (`DERIVED` / `GEOMETRIC_PREDICTION`)
-- Contribution to the 28-parameter ToE score (28.0/28.0 = 100%)
+- Contribution to the 28-parameter SM derivation coverage (framework internally consistent = 100%)
 - Any obligation to produce parameter-level predictions
 - Formal pillar numbering until steward approval
 
@@ -709,7 +709,7 @@ the codebase) connect to the core through a well-defined interface:
 
 The adjacent track interface is designed so that:
 1. No adjacent-track module can change a hardgate pillar's epistemic label.
-2. No adjacent-track result propagates into the 28-parameter ToE score.
+2. No adjacent-track result propagates into the 28-parameter SM derivation coverage.
 3. The HILS framework (Cluster I) governs adjacent track additions.
 4. See `SEPARATION.md` for the complete formal boundary specification.
 
@@ -758,7 +758,7 @@ The adjacent track interface is designed so that:
 
 **"How many parameters are truly free?"**
 ```
-  Zero. As of v11.6, ToE score = 28.0/28.0 = 100%.
+  Zero. As of v11.6, framework state.0 = 100%.
   All 28 SM parameters are DERIVED from the 5D metric geometry
   with n_w=5 and K_CS=74 (themselves derived, not fitted).
   See docs/CLAIM_MASTER_BOARD.md for per-parameter status.

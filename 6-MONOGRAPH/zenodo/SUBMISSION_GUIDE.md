@@ -78,7 +78,7 @@ action whose field equations (the Walker-Pearson equations) demonstrate that:
 (i) the Second Law is a geometric identity; (ii) information pressure provides
 a geometric alternative to dark energy; (iii) entropic holography identifies
 boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship
-Conjecture holds. The framework derives 28.0/28 Standard Model and cosmological
+Conjecture holds. The framework closes derivation chains for 28 Standard Model and cosmological
 observables without free parameters. Primary falsifier: CMB polarisation
 birefringence angle β ∈ {0.273°, 0.331°} ± 0.01° (LiteBIRD ~2032).
 

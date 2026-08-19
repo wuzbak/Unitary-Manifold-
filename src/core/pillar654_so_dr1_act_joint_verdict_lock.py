@@ -101,7 +101,7 @@ def what_is_NOT_claimed() -> List[str]:
     """Return honest non-claims for Pillar 654."""
     return [
         'No SO DR1 data is included here.',
-        'No ToE score change is awarded before live measurements arrive.',
+        'No physics label change is awarded before live measurements arrive.',
         'This module does not claim to remove the ACT tension inside 5D EFT.',
         'The architecture-limit branch is not triggered unless the observed r falls below 0.016.',
     ]

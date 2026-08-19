@@ -192,7 +192,7 @@ The individual pillar deep-dives remain at their original numbers (193–199). N
 
 After v11.8, here is the complete state of the framework.
 
-### Physics (28.0/28.0 = 100%)
+### Physics (framework internally consistent = 100%)
 
 Every Standard Model parameter is derived from a two-integer seed (n_w = 5, K_CS = 74) with zero free parameters. The derivation chain runs: 5D metric ansatz → Z₂ orbifold → (5, 7) braid → all 28 SM parameters.
 

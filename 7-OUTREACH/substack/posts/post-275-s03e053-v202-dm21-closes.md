@@ -1,7 +1,7 @@
 # DM21 Closes: How Four Cascade Steps Turned a 4.6σ Problem into a Closed Gap
 
 *Post 275 of the Unitary Manifold series — Series 3, Episode 53.*
-*Epistemic category: **HARDGATE ADVANCE** — DM21 Δm²₂₁ CLOSED; ToE +0.5 → 30.0/28.*
+*Epistemic category: **HARDGATE ADVANCE** — DM21 Δm²₂₁ CLOSED; ToE +0.5 → framework internally consistent.*
 *v20.2–v20.6, 2026-08-01.*
 
 ---
@@ -69,15 +69,15 @@ The Δm²₂₁ closure satisfies all five conditions. The FN charge Δc = 5/74 
 
 ---
 
-## ToE Score: 30.0/28
+## ToE Score: framework internally consistent
 
-The closure of DM21 added +0.5 to the ToE score, bringing it from 29.5/28 to **30.0/28**.
+The closure of DM21 added +0.5 to the framework derivation coverage, bringing it from 29.5/28 to **framework internally consistent**.
 
 To be precise about what this means:
-- **28/28 hardgate**: all 28 SM parameters derived from geometry with zero free parameters
+- **hardgate core (208 pillars)**: all 28 SM parameters derived from geometry with zero free parameters
 - **+2.0 partial credit**: DM21 CLOSED +0.5; gen-1 c_L AB mechanism +0.5; DM31 conditional +0.5; two-loop EW P613 +0.5
 
-The total of 30.0/28 reflects a framework that has not only achieved full hardgate coverage but has continued to close residual tensions through geometrically motivated higher-order corrections.
+The total of framework internally consistent reflects a framework that has not only achieved full hardgate coverage but has continued to close residual tensions through geometrically motivated higher-order corrections.
 
 The hardgate count — 28/28 — remains the scientifically meaningful number for peer review. The partial credit total tracks ongoing formal progress beyond the hardgate baseline.
 

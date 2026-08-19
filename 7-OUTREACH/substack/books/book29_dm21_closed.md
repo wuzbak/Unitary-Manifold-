@@ -90,7 +90,7 @@ Five conditions must all be satisfied for formal DM21 closure:
 
 All five conditions are satisfied. The P20/DM21 sub-gap is formally closed.
 
-**ToE score impact: +0.5 points → 30.0/28**
+**framework derivation coverage impact: +0.5 points → framework internally consistent**
 
 The score exceeds 28 because the UM has closed more of the internal consistency
 conditions (sub-gap kernels, NP-BC chains, cross-checks) than the original 28
@@ -136,7 +136,7 @@ Pillars 613–617 complete Sprint J. The full cascade:
 | 616 | Book 29 + arXiv v20.6 sync | — |
 | 617 | v20.6 regression | ~50,650 passed · 0 failed |
 
-ToE score after Sprint J: **30.0/28**. Lean4 total: 308 (unchanged). All tests
+framework derivation coverage after Sprint J: **framework internally consistent**. Lean4 total: 308 (unchanged). All tests
 green. The repository is in the cleanest state since v19.0.
 
 ---

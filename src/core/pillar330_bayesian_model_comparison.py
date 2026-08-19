@@ -265,7 +265,7 @@ def separation_guard() -> str:
     return (
         "ADJACENT_TRACK_ONLY: Pillar 330 performs Bayesian model comparison. "
         "Results are NON_HARDGATE adjacent-track calculations.  "
-        "No hardgate ToE score components (P1–P28) are affected."
+        "No hardgate framework derivation coverage components (P1–P28) are affected."
     )
 
 

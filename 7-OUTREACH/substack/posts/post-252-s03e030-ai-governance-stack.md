@@ -89,7 +89,7 @@ where authority, risk, or public consequence matters.
 Pillar 510 does not make the physics truer.
 
 It does not confirm LiteBIRD. It does not close a non-perturbative quantum
-gravity gap. It does not increase the ToE score. It does not make external
+gravity gap. It does not increase the framework derivation coverage. It does not make external
 review complete. It does not turn a governance pattern into a scientific
 measurement.
 

@@ -5,6 +5,19 @@ src/core/universal_yukawa.py
 ==============================
 Pillar 98 — Universal Yukawa Test: c_L Spectrum at Ŷ₅=1 and b-τ Unification.
 
+EPISTEMIC STATUS — READ BEFORE CITING:
+The c_L values computed in this module are obtained by root-finding (bisection)
+against known experimental charged-fermion masses.  The computation proceeds
+as: given observed mass → invert wavefunction formula → output c_L.  This is
+parameter fitting, not a top-down geometric prediction.  The result is
+internally self-consistent with the framework; it is not a free-parameter-free
+prediction of fermion masses.  The claim that this module uses "zero free
+parameters" means only that Ŷ₅ and v_EW are taken as framework constants
+before the inversion — the inversion itself requires the observed masses.
+Pillar 677 makes progress toward deriving c_L from orbifold boundary
+conditions, but calibration against experimental input remains.
+See DERIVATION_STATUS.md for the FITTED label applied to Yukawa sector claims.
+
 THE GAP THIS CLOSES
 -------------------
 Pillar 97 derives Ŷ₅ = 1 (the 5D Yukawa coupling) from the GW vacuum and shows

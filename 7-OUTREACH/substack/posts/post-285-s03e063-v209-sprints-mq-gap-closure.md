@@ -80,13 +80,13 @@ f_NL^KK = −1.93 (sharpened from canonical −0.532). The KK braid correction f
 Cross-pillar synthesis; all gap statuses confirmed consistent; no conflicts between tiers.
 
 **Pillar 650 — ToE Score Ledger v20.9:**
-ToE 30.0/28 confirmed; all 5 cascade conditions for both DM21 and DM31 satisfied; ledger machine-readable.
+framework status framework internally consistent confirmed; all 5 cascade conditions for both DM21 and DM31 satisfied; ledger machine-readable.
 
 **Pillar 651 — Book 31 + arXiv v20.9 Sync:**
 Book 31 "Five Tiers, One Framework" published; arXiv v20.9 submitted.
 
 **Pillar 652 — Final Regression Certificate:**
-~51,440 passed · 23 skipped · 12 deselected · 0 failed. ToE 30.0/28. Lean4 342.
+~51,440 passed · 23 skipped · 12 deselected · 0 failed. framework status framework internally consistent. Lean4 342.
 
 ---
 

@@ -13,7 +13,7 @@ PDG Δm²₃₁ appears ONLY as comparison target.
 ═══════════════════════════════════════════════════════════════════════════
 WHY THIS UPGRADE IS HONEST
 ═══════════════════════════════════════════════════════════════════════════
-Scoring tiers for ToE score:
+Scoring tiers for framework derivation coverage:
   CONSTRAINED              0.5 pts — within 50% of PDG; architecture explained
   GEOMETRIC_ESTIMATE_CERTIFIED  0.3 pts — NLO/6D+ work documented; residual noted
 
@@ -49,7 +49,7 @@ RESULT — STATUS UPGRADE
   ToE delta: +0.2 pts
 
   Reason: 6.87% residual satisfies CONSTRAINED criterion; this label carries
-  more ToE score weight (0.5 > 0.3) and is correct for the residual level.
+  more framework derivation coverage weight (0.5 > 0.3) and is correct for the residual level.
   The architecture path to full closure remains documented:
   WS-V (6D+ fixed-point geometry, full T²/Z₃ modular integrals).
 

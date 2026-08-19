@@ -1,7 +1,14 @@
-# ToE Score Audit — Unitary Manifold v20.1
+# SM Parameter Coverage Audit — Unitary Manifold v20.1
 
-*Formal audit of the 5D Theory of Everything score across all Standard Model parameters.*  
-*Document version: 5.2 — 2026-08-01 (v20.1 sync; ToE score 29.0/28 = 28/28 hardgate + 1.0 partial (gen-1 c_L AB + P17 DM31 conditional); Lean4 274 theorems; ~49,850 tests passing; next pillar slot 591)*
+*Audit of the 5D framework's derivation coverage across Standard Model parameters.*  
+*Document version: 5.2 — 2026-08-01 (v20.1 sync; Lean4 274 theorems; ~49,850 tests passing; next pillar slot 591)*
+
+> **Important — epistemic framing:** The scoring system in this document tracks how many SM parameters
+> have closed derivation chains within the framework. A parameter marked DERIVED means the derivation
+> chain closes within the stated axioms — it does **not** mean the result is empirically confirmed
+> independent of external data. Parameters in the Yukawa sector are derived via root-finding (bisection)
+> against observed masses; they are not free-parameter-free predictions. See DERIVATION_STATUS.md and
+> FALLIBILITY.md for honest per-claim labels.
 
 > **Dual-publication system active (v10.28+):**
 > - Full derivation context and open tensions: `docs/TRUTH_LAYER.md`
@@ -119,7 +126,7 @@ includes waves that delivered closure evidence but **did not** change score:
 *v10.59 closure: P28 GEOMETRIC_PREDICTION→DERIVED (+0.2) via first-principles RS1+KK+10D UV derivation `p28_lambda_derived_cert.py`; formula: Λ_pred = [K_CS·n_w/(24π²)]·exp(−4·π·kR)/(c_uv·(2·N_flux)·(n_w+2)); log₁₀ residual < 0.31 across 122-order problem; AxiomZero compliant (axiomzero_pdg_inputs = []); all 4 gates pass = +0.2 pts (99.3%→100%).*
 
 *v10.40 closure: P28 ARCHITECTURE_LIMIT_CERTIFIED→GEOMETRIC_PREDICTION (+0.7) via `p28_lambda_10d_closure.py` + hardgate default integration (`p28_lambda_promotion_hardgate.py`); closure package provides effective N_flux=74 and explicit UV vacuum selection = +0.7 pts (96.8%→99.3%).*
-*v10.42 closure refinement (non-score lane): G2/T2 α_GW is now canonically closed via `alpha_gw_pillar52_10d_bridge.py`, which combines the Pillar 52 COBE-normalized gravity anchor with `alpha_gw_10d_uv_completion.py` to bridge the 5D KK scale to the UV completion and keep `alpha_gw_exact` in [4.2e-10, 4.8e-10]. ToE score unchanged because alpha_GW is tracked outside the 28-parameter score ledger.*
+*v10.42 closure refinement (non-score lane): G2/T2 α_GW is now canonically closed via `alpha_gw_pillar52_10d_bridge.py`, which combines the Pillar 52 COBE-normalized gravity anchor with `alpha_gw_10d_uv_completion.py` to bridge the 5D KK scale to the UV completion and keep `alpha_gw_exact` in [4.2e-10, 4.8e-10]. framework derivation coverage unchanged because alpha_GW is tracked outside the 28-parameter score ledger.*
 
 ### Normalized score
 

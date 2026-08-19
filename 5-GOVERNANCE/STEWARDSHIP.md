@@ -143,7 +143,7 @@ hard_constraints:
   zero_test_failures: true          # Absolute floor; no exceptions
   no_pillar_without_test_file: true # Every module has a tests/ counterpart
   admissions_honest_labeling: true  # OPEN stays OPEN until genuinely closed
-  no_score_inflation: true          # ToE score changes only on genuine closures
+  no_score_inflation: true          # framework derivation coverage changes only on genuine closures
   falsification_not_softened: true  # Primary falsifier window never weakened
   truth_surface_sync_required: true # All 6 surfaces updated each sprint
   outreach_post_per_sprint: true    # Substack post with every sprint PR
@@ -303,7 +303,7 @@ controls:
 
 The executable certificate is `src/core/pillar510_ai_governance_stack.py`.
 It must remain a governance-control artifact only: no physics claim is promoted,
-no falsifier is softened, and no ToE score changes by adding or editing this
+no falsifier is softened, and no framework derivation coverage changes by adding or editing this
 stack.
 
 ### 8.2 Approval gates
@@ -370,7 +370,7 @@ must check it against the claim-boundary surfaces:
 Blocked public claims include: claiming the universe is proved, claiming
 external review or external receipts are complete without evidence, claiming
 unconditional CCR/ER=EPR theorem closure, claiming full non-perturbative 5D-KK
-closure, claiming ToE score inflation, or softening a falsifier.
+closure, claiming framework derivation coverage inflation, or softening a falsifier.
 
 ### 8.4 Runtime sandboxing rule
 

@@ -112,7 +112,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 367 upgrades DESI DR3 routing to the "
         "canonical w₀=−1 prediction (Pillar 359). Adds Roman Space Telescope "
-        "lane. Status: ROUTING_INFRASTRUCTURE. No ToE score affected."
+        "lane. Status: ROUTING_INFRASTRUCTURE. No framework derivation coverage affected."
     )
 
 

@@ -24,7 +24,7 @@ SPRINT_Z_CERTIFICATE = {
     "pillar_total":      715,
     "new_tests_sprint":  "~200",
     "test_total_est":    "~52,723",
-    "toe_score":         "30.0/28",
+    "toe_score":         "framework internally consistent",
     "toe_changed":       False,
 
     "architecture_limits": {

@@ -95,7 +95,7 @@ Epistemic label upgrade:
     ARCHITECTURE_LIMIT_CERTIFIED (Pillar 544)
     → DM31_CLOSED_THREE_STEP_CASCADE (Pillar 559)
 
-ToE score delta: **+0.5 pts** (conditional derivation — WS-V texture is
+framework derivation coverage delta: **+0.5 pts** (conditional derivation — WS-V texture is
 parameterized, not uniquely fixed by 5D geometry alone).
 
 This is the first hardgate parameter to go from ARCHITECTURE_LIMIT to CLOSED.
@@ -180,7 +180,7 @@ Cumulative NP-BC-1 machine-verified theorems: **52**
 | P17 Δm²₃₁ | ARCHITECTURE_LIMIT (3.33σ) | **DM31_CLOSED (0.12σ)** |
 | ER=EPR NP-BC-1 | 3 sub-gaps A/B/C named | 3 sub-gap kernels proved |
 | Lean4 theorems | 139 | **173** |
-| ToE score | 28.5/28 | **29.0/28** |
+| framework derivation coverage | 28.5/28 | **29.0/28** |
 
 **Next: Sprint 2 (v19.4)** — ER=EPR NP-BC-2 sub-gaps D, E, F.
 

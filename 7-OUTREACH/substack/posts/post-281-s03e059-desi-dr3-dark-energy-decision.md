@@ -55,7 +55,7 @@ Action: Execute rolling-radion 6D Phase 2 (documented in Pillar 631 deliverables
 
 If DR3 crosses 3.0σ, wₐ = 0 is formally FALSIFIED within the 5D-EFT architecture. The framework requires structural revision: either a new stabilization mechanism for the radion or a different compactification geometry.
 
-Action: Issue a formal falsification notice within 72 hours. Document in FALLIBILITY.md. Activate the 6D/11D extension programme as the formal successor framework (not a fix — a genuine structural change). The ToE score for the wₐ prediction drops to FALSIFIED.
+Action: Issue a formal falsification notice within 72 hours. Document in FALLIBILITY.md. Activate the 6D/11D extension programme as the formal successor framework (not a fix — a genuine structural change). The framework derivation coverage for the wₐ prediction drops to FALSIFIED.
 
 This is not hypothetical planning. The protocol is machine-executable. The tripwire condition (`desi_dr3_wA_tension > 3.0`) is coded in `src/core/pillar486_desi_dr3_final_prep.py`.
 

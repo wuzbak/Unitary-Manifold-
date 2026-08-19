@@ -143,7 +143,7 @@ def separation_guard() -> str:
     return (
         "ADJACENT_TRACK_ONLY: Pillar 322 computes LFV branching ratios from "
         "KK photon exchange.  Results are NOT hardgate physics predictions.  "
-        "No hardgate ToE score components are affected."
+        "No hardgate framework derivation coverage components are affected."
     )
 
 

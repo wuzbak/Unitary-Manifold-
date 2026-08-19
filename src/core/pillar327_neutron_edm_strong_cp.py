@@ -171,7 +171,7 @@ M_AX_GEV: float = LAMBDA_QCD_GEV ** 2 / F_PQ_GEV   # axion mass (approximate)
 def separation_guard() -> str:
     return (
         "ADJACENT_TRACK_ONLY: Pillar 327 computes d_n and axion parameters from UM PQ mechanism. "
-        "Results are NON_HARDGATE.  No hardgate ToE score components are affected."
+        "Results are NON_HARDGATE.  No hardgate framework derivation coverage components are affected."
     )
 
 

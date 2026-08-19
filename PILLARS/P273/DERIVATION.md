@@ -42,7 +42,7 @@ and aligns autonomous execution to Pentad core governance constants
 - Pentad governance decision schema (`PentadGovernanceDecision`) controls autonomy level.
 - Deterministic SHA256 integrity hash on operation payloads.
 - Separation guard is explicit (`NON_HARDGATE_ADJACENT`).
-- No hardgate-claim or ToE score modifications.
+- No hardgate-claim or physics label modifications.
 
 ## 5) Rejection behavior
 

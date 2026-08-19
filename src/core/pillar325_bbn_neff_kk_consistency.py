@@ -162,7 +162,7 @@ def separation_guard() -> str:
     return (
         "ADJACENT_TRACK_ONLY: Pillar 325 computes BBN N_eff consistency from UM KK modes. "
         "Results are NON_HARDGATE adjacent-track calculations.  "
-        "No hardgate ToE score components are affected."
+        "No hardgate framework derivation coverage components are affected."
     )
 
 

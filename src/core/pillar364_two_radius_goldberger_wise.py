@@ -99,7 +99,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 364 upgrades Convention 279.3 "
         "(n_w=5 vs n_w=7 radius assignment) from CONDITIONAL_DERIVATION "
-        "via two-radius GW + braid back-reaction. No ToE score affected."
+        "via two-radius GW + braid back-reaction. No framework derivation coverage affected."
     )
 
 

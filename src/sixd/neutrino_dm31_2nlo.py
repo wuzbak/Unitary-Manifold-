@@ -67,7 +67,7 @@ RESULT
 ═══════════════════════════════════════════════════════════════════════════
   NLO residual:   7.26%   (GEOMETRIC_ESTIMATE_CERTIFIED)
   2NLO residual:  6.87%   (GEOMETRIC_ESTIMATE_CERTIFIED, improved)
-  ToE score:      0.3 pts (unchanged; status tier not crossed)
+  Physics label delta: 0.3 pts (unchanged; status tier not crossed)
   Improvement:    0.39% absolute reduction in residual
 
 Theory, framework, and scientific direction: ThomasCory Walker-Pearson.

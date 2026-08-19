@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v21.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~51,811 passed · 23 skipped · 12 deselected · 0 failed; **v21.1 Sprint T — Tightening 5–7 + NP BC9 (2026-08-18)**: P682 (JARLSKOG_LAYER2: FN correction Δδ≈−0.34°; ρ̄ architecture-limit boundary confirmed; 47 tests); P683 (PMNS_THETA13_KK_OVERLAP: sin θ₁₃=λ_C×exp(−Δc×πkR) calibrated; <0.1% residual; 49 tests); P684 (NP_BC9_GRAVITON_LOOP: K_BC9=G_N*×Γ_grav×(1−G_N/G_N*)²; Γ~10⁻⁸¹ suppressed; 50 tests); P685 (ALPHA_S_FRG_TWO_LOOP: Robinson-Wilczek |Δα_s|/α_s~10⁻⁴³; ≥40% architecture limit confirmed; 43 tests); P686 (SPRINT_T_CERT: v21.1 sync; NP-BC9 closed; next slot 687; 41 tests); 230 new tests; ToE 30.0/28 UNCHANGED; v21.0 Sprints M–Q Tier 1–5 Gap Closure: P631–P652 — Tier 1 Falsification Tensions (DESI DR3 rolling-radion 3-branch protocol P631; ACT r-tension irreducibility + CMB-S4 readiness P632); Tier 2 Derivation Gaps (Jarlskog FN mechanism scoped P634; m_ν₁≤15 meV P635; SU(3) orbifold equivalence INTERNALLY_DERIVED P636; all 9 fermions within 0.05 dex P637); Tier 3 Architecture Limits (Z_φ Phase 1 P639; baryogenesis 6D Phase 3 🔵 P640; Higgs NLO naturalness P641; CC 10D roadmap P642); Tier 4 Experiments (LiteBIRD 4-branch verdict P644; SPHEREx f_NL sharpened P645; LISA GW template P646; joint protocol P647); Tier 5 Synthesis (gap synthesis cert P649; ToE ledger P650; Book 31 sync P651; final regression cert P652); 435 new tests; ToE 30.0/28 UNCHANGED; v20.8 Sprint L — F-theory DBP Rung 10 Complete at Reference CY4 (2026-08-01): Pillar 624–630; 175 new tests; ToE 30.0/28 UNCHANGED; v14.0 theorem-hardening sprint: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
+*Unitary Manifold v21.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~51,811 passed · 23 skipped · 12 deselected · 0 failed; **v21.1 Sprint T — Tightening 5–7 + NP BC9 (2026-08-18)**: P682 (JARLSKOG_LAYER2: FN correction Δδ≈−0.34°; ρ̄ architecture-limit boundary confirmed; 47 tests); P683 (PMNS_THETA13_KK_OVERLAP: sin θ₁₃=λ_C×exp(−Δc×πkR) calibrated; <0.1% residual; 49 tests); P684 (NP_BC9_GRAVITON_LOOP: K_BC9=G_N*×Γ_grav×(1−G_N/G_N*)²; Γ~10⁻⁸¹ suppressed; 50 tests); P685 (ALPHA_S_FRG_TWO_LOOP: Robinson-Wilczek |Δα_s|/α_s~10⁻⁴³; ≥40% architecture limit confirmed; 43 tests); P686 (SPRINT_T_CERT: v21.1 sync; NP-BC9 closed; next slot 687; 41 tests); 230 new tests; v21.0 Sprints M–Q Tier 1–5 Gap Closure: P631–P652 — Tier 1 Falsification Tensions (DESI DR3 rolling-radion 3-branch protocol P631; ACT r-tension irreducibility + CMB-S4 readiness P632); Tier 2 Derivation Gaps (Jarlskog FN mechanism scoped P634; m_ν₁≤15 meV P635; SU(3) orbifold equivalence INTERNALLY_DERIVED P636; all 9 fermions within 0.05 dex P637); Tier 3 Architecture Limits (Z_φ Phase 1 P639; baryogenesis 6D Phase 3 🔵 P640; Higgs NLO naturalness P641; CC 10D roadmap P642); Tier 4 Experiments (LiteBIRD 4-branch verdict P644; SPHEREx f_NL sharpened P645; LISA GW template P646; joint protocol P647); Tier 5 Synthesis (gap synthesis cert P649; ToE ledger P650; Book 31 sync P651; final regression cert P652); 435 new tests; v20.8 Sprint L — F-theory DBP Rung 10 Complete at Reference CY4 (2026-08-01): Pillar 624–630; 175 new tests; v14.0 theorem-hardening sprint: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
 
 ---
 
@@ -77,14 +77,22 @@ framework as a description of nature.  Specifically:
   Diego-Palazuelos et al. 2022).
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
+- No test pulls live experimental data from particle detectors or satellites.
+  Passing every test means the code faithfully executes the framework's
+  equations.  It says nothing about whether those equations describe nature.
 
-When the README badge reads "34,070 passed · 393 skipped · 12 deselected · 0 failed," this is a statement about
+The test count (currently ~51,811) is a measure of **implementation coverage
+and internal mathematical self-consistency**.  It is not a measure of
+empirical truth.  A physicist reading a large test count should understand
+exactly this and nothing more.
+
+When the README badge reads "~51,811 passed · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an
 engineering integration track for reproducibility and cross-engine parity
 audits. Success in this lane validates tooling compatibility only; it does not
-by itself upgrade any physics claim label or ToE score component.
+by itself upgrade any physics claim label.
 
 ---
 
@@ -159,6 +167,17 @@ avoid: *which outputs are genuinely derived, and which are fitted to observation
 > for the full epistemic ledger using the DERIVED (conditional) / DERIVED (structural)
 > qualifier convention.  [`docs/CLAIM_MASTER_BOARD.md`](docs/CLAIM_MASTER_BOARD.md)
 > is the single-source claim registry.
+
+> **⚠️ Yukawa sector honesty note (c_L inputs):**
+> The localisation parameters c_L for each charged-fermion species are solved by
+> root-finding (bisection) against known experimental masses.  They are not
+> derived top-down from the (5,7) topology.  Pillar 677 makes substantial
+> progress toward closing this gap via orbifold boundary conditions, but residual
+> agreement of <1.3% still requires external mass input for calibration.
+> The claim "zero free parameters" applies only to the *topological sector*
+> (n_w, k_CS, braided sound speed).  It does **not** apply to the Yukawa sector
+> as currently implemented.  This is a documented open problem; see
+> `1-THEORY/DERIVATION_STATUS.md` for the per-claim FITTED labels.
 
 ### 3.1 Derivation chain
 
@@ -3577,7 +3596,7 @@ a full derivation:
   status is OPEN → MECHANISM_IDENTIFIED.  The exact c_L_min depends on CY4 Kähler geometry
   not computed at the scaffold level.
 
-**ToE score:** UNCHANGED (29.0/28).  All Pillars 570–574 are 🔵 ADJACENT TRACK.
+**Framework state:** internally consistent; no falsification threshold crossed.  All Pillars 570–574 are 🔵 ADJACENT TRACK.
 
 ---
 

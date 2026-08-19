@@ -39,7 +39,7 @@ observation and independent review.
 | [`fig06_derivation_status_breakdown.png`](fig06_derivation_status_breakdown.png) | Derivation/claim-status breakdown for explaining what is derived, constrained, or still bounded by caveats. |
 | [`fig07_mas_wave_progress.png`](fig07_mas_wave_progress.png) | MAS wave progress and growth of the machine-audited sprint record. |
 | [`fig08_test_suite_growth.png`](fig08_test_suite_growth.png) | Test suite growth over versions, useful for reproducibility and audit posts. |
-| [`fig09_toe_score_timeline.png`](fig09_toe_score_timeline.png) | ToE score timeline as tracked by the repository's internal claim ledger. |
+| [`fig09_toe_score_timeline.png`](fig09_toe_score_timeline.png) | framework derivation coverage timeline as tracked by the repository's internal claim ledger. |
 | [`fig10_5d_metric_structure.png`](fig10_5d_metric_structure.png) | 5D metric decomposition: 4D spacetime block, gauge field coupling, and radion/extra-dimensional term. |
 | [`fig11_braid_topology.png`](fig11_braid_topology.png) | `(5,7)` braid topology and `K_CS = 74` visual hook. |
 | [`fig12_quantum_lane_architecture.png`](fig12_quantum_lane_architecture.png) | Quantum simulation/interoperability lane architecture. |

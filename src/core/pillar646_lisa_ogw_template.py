@@ -178,7 +178,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "LISA data has NOT been received — this is a spectral template only",
         "The exact f_peak depends on reheating temperature (uncertain to order of magnitude)",
-        "No ToE score change — pending experimental verdict",
+        "No physics label change — pending experimental verdict",
         "The KK graviton coupling is computed from the 5D action; quantum corrections are open",
     ]
 

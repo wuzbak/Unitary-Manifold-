@@ -364,6 +364,6 @@ def pillar257_repository_shakedown_report() -> dict[str, Any]:
         "transparency_findings": transparency_findings,
         "overall_status": overall_status,
         "non_hardgate_statement": (
-            "Pillar 257 is an adjacent-track shakedown and does not modify hardgate claims or ToE score."
+            "Pillar 257 is an adjacent-track shakedown and does not modify hardgate claims or framework derivation coverage."
         ),
     }

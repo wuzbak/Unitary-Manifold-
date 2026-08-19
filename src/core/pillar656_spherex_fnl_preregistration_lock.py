@@ -98,7 +98,7 @@ def what_is_claimed() -> List[str]:
         'The KK-centered target remains f_NL = -1.93.',
         'PASS, TENSION, and FALSIFIED are decided from 2 sigma interval overlap with the locked band.',
         'The lock is hash-committed with SHA-256.',
-        'No ToE score change is claimed without live SPHEREx data.',
+        'No physics label change is claimed without live SPHEREx data.',
     ]
 
 

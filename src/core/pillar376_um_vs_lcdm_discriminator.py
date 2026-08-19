@@ -124,7 +124,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 376 provides the systematic UM vs ΛCDM+SM "
         "discriminator catalogue for external reviewers. "
-        "Status: DISCRIMINATOR_CATALOGUE. No ToE score affected."
+        "Status: DISCRIMINATOR_CATALOGUE. No framework derivation coverage affected."
     )
 
 

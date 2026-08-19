@@ -206,7 +206,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "LiteBIRD data has NOT been received — this is readiness hardening only",
         "The β hint (0.35° ± 0.14°) is a weak indication, not a measurement",
-        "No ToE score change — pending experimental verdict",
+        "No physics label change — pending experimental verdict",
         "SO cannot definitively discriminate the two branches (σ_SO = 0.10° > gap = 0.058°)",
     ]
 

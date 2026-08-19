@@ -186,7 +186,7 @@ Total Lean4 theorems: **240**
 ❌ **NOT claimed:**
 - ER=EPR is NOT proved — 27 blocking residuals remain (3 per sub-gap)
 - P6 (Black Hole Transceiver) status is UNCHANGED
-- No ToE score change — sub-gap kernels are partial advances, not full closure
+- No physics label change — sub-gap kernels are partial advances, not full closure
 - Full non-perturbative proof requires CS-RT identification in curved wormhole
   geometry, Picard-Lefschetz thimble decomposition, and operator insertions —
   all require non-perturbative 5D quantum gravity outside current Mathlib scope
@@ -200,7 +200,7 @@ Total Lean4 theorems: **240**
 | New pillars | 6 (564–569) |
 | New Lean4 theorems | 67 (173→240) |
 | New tests | 413 |
-| ToE score change | 0 (unchanged at 29.0/28) |
+| framework derivation coverage change | 0 (unchanged at 29.0/28) |
 | Next pillar slot | 570 |
 
 Full regression: ~48,838 passed · 23 skipped · 12 deselected · **0 failed**

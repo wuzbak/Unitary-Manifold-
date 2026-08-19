@@ -329,7 +329,7 @@ Full regression after Pillars 511–515:
 
 All 65 original `test_evolution.py` tests continue to pass. The 82 new tests are
 additive. No existing falsifier is softened. No hardgate threshold is adjusted.
-The ToE score remains 28.0/28. Next pillar slot: 516.
+The framework state unchanged Next pillar slot: 516.
 
 ---
 

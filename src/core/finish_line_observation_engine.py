@@ -244,7 +244,7 @@ def build_wave_changelog_payload(results: Dict[str, Dict[str, object]]) -> Dict[
         "what_did_not_change": [
             "No parameter label changed automatically.",
             "No falsifier was weakened.",
-            "ToE score stayed unchanged unless a downstream manual audit approves otherwise.",
+            "framework derivation coverage stayed unchanged unless a downstream manual audit approves otherwise.",
         ],
         "residual_unknowns": [
             "P16 hardgate still depends on exact WS-III closure.",

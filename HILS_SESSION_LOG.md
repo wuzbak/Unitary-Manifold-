@@ -222,7 +222,7 @@ NEXT TRIGGERS:
 2. **`src/core/experiment_monitor_matrix.py`** — integrated the lab CP lane into the unified monitoring matrix and high-priority execution queue.
 3. **`src/core/canonical_falsifier_evidence_feed.py`** — version synced to v10.61 and now exposes the richer lab lane packet surface.
 4. **`tests/test_core_lab_litebird_substitute.py`**, **`tests/test_core_experiment_monitor_matrix.py`**, and **`tests/test_core_canonical_falsifier_evidence_feed.py`** — extended to cover the new machine-readable lab execution path and current monitor versions.
-5. **`docs/ARXIV_SUBMISSION_STATUS.md`**, **`docs/ARXIV_SUBMISSION_GUIDE.md`**, **`docs/operations/RELAY.md`**, **`docs/GATEKEEPER_SUMMARY.md`**, and **`6-MONOGRAPH/arxiv/main.tex`** — synced to v10.61, 32,857 tests, and 28.0/28.0 = 100%.
+5. **`docs/ARXIV_SUBMISSION_STATUS.md`**, **`docs/ARXIV_SUBMISSION_GUIDE.md`**, **`docs/operations/RELAY.md`**, **`docs/GATEKEEPER_SUMMARY.md`**, and **`6-MONOGRAPH/arxiv/main.tex`** — synced to v10.61, 32,857 tests; all SM derivation chains closed.
 6. **`HILS_SESSION_CURRENT.md`** — overwritten to reflect the current v10.61 execution sprint state.
 
 ### Open loops resolved

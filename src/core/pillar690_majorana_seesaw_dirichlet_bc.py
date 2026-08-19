@@ -295,7 +295,7 @@ def majorana_seesaw_certificate() -> Dict[str, object]:
         "m_majorana_kk_gev": M_MAJORANA_KK_GEV,
         "architecture_limit": arch,
         "p_nu_mass_status": "ARCHITECTURE LIMIT — KK seesaw exceeds target; UV-peaked ν_R needed",
-        "toe_impact": "0 — architecture limit documented; no ToE score change",
+        "toe_impact": "0 — architecture limit documented; no physics label change",
         "claimed": what_is_claimed(),
         "not_claimed": what_is_NOT_claimed(),
         "link_to_p689": "Normal hierarchy from UV-peaked c_L consistent with UV-peaked ν_R needed here",

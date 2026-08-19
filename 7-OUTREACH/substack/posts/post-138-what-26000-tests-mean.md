@@ -41,7 +41,7 @@ These tests catch errors that would not necessarily show up as wrong numbers —
 
 ### 3. Epistemic gate tests
 
-A third category is unusual. These tests verify that claimed promotions in the ToE scorecard are justified:
+A third category is unusual. These tests verify that claimed promotions in the SM parameter derivation ledger are justified:
 
 - For each GEOMETRIC_PREDICTION parameter, a test verifies that the residual against PDG is below 5%
 - For ALGEBRAIC parameters, a test verifies the exact integer result

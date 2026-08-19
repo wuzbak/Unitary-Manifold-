@@ -96,7 +96,7 @@ def separation_guard() -> str:
         "HARDGATE_ADJACENT: Pillar 369 preregisters the JUNO 2027 and "
         "Hyper-K 2028 verdict protocols for Δm²₃₁. NLO-tightened prediction "
         "from Pillar 274 (residual 0.004%). Status: ROUTING_INFRASTRUCTURE. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 

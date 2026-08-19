@@ -117,7 +117,7 @@ These tests are not ceremonial. They are:
 
 1. **Numerical correctness tests** — verifying that specific physics calculations produce specific numbers, catching regressions when code changes
 2. **Consistency tests** — verifying that the theory's internal consistency conditions hold (PMNS unitarity, field equation reduction, AxiomZero Guard clean pass)
-3. **Epistemic gate tests** — verifying that claimed promotions in the ToE scorecard are backed by calculations that actually pass the stated thresholds
+3. **Epistemic gate tests** — verifying that claimed promotions in the SM parameter derivation ledger are backed by calculations that actually pass the stated thresholds
 
 The zero-failure baseline is a hard operational rule. A test failure blocks a merge. There are no "known failing tests we are ignoring." Every test that runs, runs to pass.
 

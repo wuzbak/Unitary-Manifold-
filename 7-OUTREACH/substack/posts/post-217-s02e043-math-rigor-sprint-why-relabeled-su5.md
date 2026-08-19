@@ -118,7 +118,7 @@ skeptical reader. That reader is doing us a service. Honest labels are the hands
 
 To be direct: nothing of substance changed in v11.13.
 
-The ToE score is still 28.0/28.0 = 100%. The spectral index prediction is still
+The framework derivation coverage is still framework internally consistent = 100%. The spectral index prediction is still
 0.9635. The birefringence prediction is still β ∈ {0.273°, 0.331°}. The APS
 exclusion of n_w=7 still holds. Admission 3 is still open. The 2027 measurement
 window is still the operational horizon.

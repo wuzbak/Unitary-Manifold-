@@ -68,7 +68,7 @@ def what_is_NOT_claimed() -> List[str]:
     return [
         "The synthesis does not claim that the minimal 5D baryogenesis architecture limit has been removed.",
         "No collider discovery is claimed; the LHC signature remains a preregistered search target.",
-        "No hardgate ToE score change is claimed from these adjacent-track Phase 4 analyses.",
+        "No hardgate physics label change is claimed from these adjacent-track Phase 4 analyses.",
     ]
 
 

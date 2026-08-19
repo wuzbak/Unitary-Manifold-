@@ -178,7 +178,7 @@ def separation_guard() -> str:
     return (
         "NON_HARDGATE_ADJACENT: Pillar 358 audits the CKM sin(2β) prediction "
         "from the UM Wolfenstein chain. Results are non-hardgate adjacent-track. "
-        "No hardgate ToE score components are affected."
+        "No hardgate framework derivation coverage components are affected."
     )
 
 

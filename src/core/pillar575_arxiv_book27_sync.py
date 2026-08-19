@@ -54,7 +54,7 @@ HEADLINE ADVANCES FOR ARXIV UPDATE
    Gap B status: OPEN (manual RS1 cutoff) → MECHANISM_IDENTIFIED (F-theory normalizability)
 
 3. NO TOE-SCORE CHANGE
-   ToE score remains 29.0/28 after both sprints.
+   framework derivation coverage unchanged after both sprints.
    ER=EPR proof itself remains OPEN (27 blocking residuals in the NP gravity sector).
    F-theory anchors are 🔵 ADJACENT TRACK (non-hardgate).
 
@@ -221,7 +221,7 @@ ARXIV_SYNC: Dict[str, Any] = {
         "Lean4 total reaches 240 theorems (+67 since v19.3 sync)",
         "F-theory DBP Rung 7 adjacent track: 3 anchors (CY4 landscape, monodromy, c_L bound)",
         "Gap B c_L lower bound: OPEN (manual cutoff) → MECHANISM_IDENTIFIED (F-theory normalizability)",
-        "ToE score: 29.0/28 maintained (ER=EPR remains OPEN; F-theory is ADJACENT_TRACK)",
+        "framework derivation coverage: 29.0/28 maintained (ER=EPR remains OPEN; F-theory is ADJACENT_TRACK)",
     ],
     "abstract_status": "PREPARED — ready for arXiv update submission",
     "all_nine_subgap_milestone": True,
@@ -275,7 +275,7 @@ LEAN4_THEOREM_COUNT: Dict[str, Any] = {
     "np_bc_subgap_theorems_total": 101,
 }
 
-# ToE score state at this sync
+# framework derivation coverage state at this sync
 TOE_SCORE_AT_SYNC: Dict[str, Any] = {
     "score": 29.0,
     "max_hardgate": 28.0,
@@ -339,7 +339,7 @@ def lean4_advancement() -> Dict[str, Any]:
 
 
 def toe_score_summary() -> Dict[str, Any]:
-    """Summarise ToE score state at this sync."""
+    """Summarise framework derivation coverage state at this sync."""
     return TOE_SCORE_AT_SYNC
 
 
@@ -356,7 +356,7 @@ def arxiv_abstract_draft() -> str:
         "opens three research anchors connecting the Unitary Manifold to F-theory. "
         "The APS discriminator selects n_w=5 via Kodaira I_5 monodromy; the matter-curve "
         "normalizability identifies the mechanism for the c_L ≥ 0.88 lower bound "
-        "(c_L_min ≈ 0.917 from F-theory). The ToE score remains 29.0/28; no hardgate "
+        "(c_L_min ≈ 0.917 from F-theory). The framework derivation coverage is unchanged; no hardgate "
         "physics claims change."
     )
 

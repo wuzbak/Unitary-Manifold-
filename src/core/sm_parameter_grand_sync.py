@@ -12,6 +12,16 @@ This module provides an authoritative ledger of the UM's explanatory
 coverage of the 26 (or 28) SM parameters — honest about accuracy levels,
 constraints vs predictions, and remaining open questions.
 
+IMPORTANT — Yukawa sector epistemic status:
+The c_L localisation values used to reproduce charged-fermion masses are
+solved by root-finding (bisection) against known experimental masses.
+They are not derived top-down from the (5,7) braid topology.  Pillar 677
+makes progress toward first-principles orbifold BCs but residual calibration
+against experimental input remains.  Parameters marked DERIVED in the Yukawa
+sector reflect derivation *within the framework*; they do not represent
+parameter-free predictions from geometry alone.  See DERIVATION_STATUS.md
+for per-claim FITTED / CONSTRAINED labels.
+
 Note: This module does NOT import from the other Pillar 137–142 modules
 to avoid circular imports.  It carries its own summary of their results.
 """

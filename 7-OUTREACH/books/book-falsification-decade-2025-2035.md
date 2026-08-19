@@ -12,8 +12,8 @@ honestly documenting what would kill it.*
 ---
 
 > **v21.0-S Update Note (2026-08-18):** This book was originally written at framework
-> version ~v16 (34,411 tests, ToE 28.0/28, 208 pillars). The current state is v21.0-S:
-> **~51,951 passing tests · 687+ pillars · ToE 30.0/28 · Lean4 365 theorems**.
+> version ~v16 (34,411 tests, framework status framework internally consistent, 208 pillars). The current state is v21.0-S:
+> **~51,951 passing tests · 687+ pillars · framework internally consistent · Lean4 365 theorems**.
 >
 > **Key updates since original writing:**
 > - DM21 (solar neutrino Δm²₂₁) is now formally **CLOSED** (Pillar 615; 4.63σ → 0.488σ cascade)
@@ -22,7 +22,7 @@ honestly documenting what would kill it.*
 > - F-theory DBP Rungs 1–10 complete at reference CY₄ χ=148
 > - **DESI DR3 is now imminent** (expected ~2026 — "horizon" tension is active, not future)
 > - r-tension with ACT DR6 remains at ~2σ (ARCHITECTURE_LIMIT_CERTIFIED; CMB-S4 decides ~2030)
-> - ToE score 30.0/28 = 28/28 hardgate + 2.0 partial credit
+> - framework internally consistent = all hardgate derivation chains closed, partial credit for additional closures
 >
 > The "Four Horsemen" framing below remains correct. The appendix metrics are updated
 > at the end of this note. The falsification conditions are unchanged.
@@ -40,7 +40,7 @@ honestly documenting what would kill it.*
 > | BICEP/Keck r bound | r < 0.036 | BICEP/Keck (done) | ✅ | CONSISTENT |
 >
 > **Framework metrics (v21.0-S):**
-> - ToE score: **30.0/28** (28/28 hardgate + 2.0 partial)
+> - framework derivation coverage: **framework internally consistent** (hardgate core (208 pillars) + 2.0 partial)
 > - Test suite: **~51,951 passed · 23 skipped · 0 failed**
 > - Pillars: **687+** (208 core hardgate + 479+ adjacent/formal)
 > - Lean4 theorems: **365**
@@ -74,7 +74,7 @@ Fundamental physics has been in an unusual situation for roughly thirty years. T
 
 String theory has been developing since the 1970s. It has produced extraordinary mathematics, genuine insights into black hole thermodynamics, the AdS/CFT correspondence, and structures that have proven useful in condensed matter physics. But it has not made a decisive prediction that has been tested. Loop quantum gravity has predictions about the discreteness of spacetime at the Planck scale, but those scales are extraordinarily far from anything accessible to current technology. Asymptotic safety has predictions about the UV completion of gravity, but again, at energies far beyond the LHC.
 
-The Unitary Manifold is a 5-dimensional Kaluza-Klein framework developed in 2026 by ThomasCory Walker-Pearson. It is a Theory of Everything proposal in the sense that it claims to derive the Standard Model gauge group, the cosmological constant, the CMB spectral index, the tensor-to-scalar ratio, and several other measured quantities from a single 5D metric ansatz with a specific braided winding geometry. It currently scores 28.0/28 on an internal Theory of Everything scorecard — 100% on its own accounting.
+The Unitary Manifold is a 5-dimensional Kaluza-Klein framework developed in 2026 by ThomasCory Walker-Pearson. It is a Theory of Everything proposal in the sense that it claims to derive the Standard Model gauge group, the cosmological constant, the CMB spectral index, the tensor-to-scalar ratio, and several other measured quantities from a single 5D metric ansatz with a specific braided winding geometry. It currently scores framework internally consistent on an internal Theory of Everything scorecard — 100% on its own accounting.
 
 I want to be careful about what that number means. A theory that scores 100% on its own scorecard is either genuinely correct or has constructed a scorecard that it was guaranteed to pass. The Unitary Manifold documentation is honest about this: the scorecard was built around measurements that were already known when the framework was developed. The genuinely decisive tests — the ones where the UM made predictions before the experiments delivered their results, or where the experimental precision will improve enough to either confirm or falsify the UM's specific numerical predictions — are the ones this book is about.
 
@@ -458,7 +458,7 @@ The Unitary Manifold's core framework — Pillars 1–208 — represents hardgat
 
 These adjacent tracks deserve a word of honest context. They are explicitly labeled as "ADJACENT TRACK" throughout the documentation, not as hardgated physics claims. They are quantitative explorations that ask: if the UM's geometric structures (the φ₀ golden ratio, the braided winding, the KK hierarchy) appear in the organization of complex biological and social systems, what does that predict?
 
-This is a genuinely interesting research program. But it is important to be clear about its epistemic status. The adjacent tracks do not rely on the core physics being correct — they are geometric explorations that would be interesting even if the 5D interpretation is wrong. And they do not affect the ToE score of 28.0/28, which is based entirely on the hardgated physics claims.
+This is a genuinely interesting research program. But it is important to be clear about its epistemic status. The adjacent tracks do not rely on the core physics being correct — they are geometric explorations that would be interesting even if the 5D interpretation is wrong. And they do not affect the framework derivation coverage of framework internally consistent, which is based entirely on the hardgated physics claims.
 
 The falsification conditions in this book apply to the core framework, not to the adjacent tracks. If LiteBIRD falsifies the birefringence prediction, the adjacent neuroscience applications of the golden ratio coupling constant do not suddenly become false — they were always independent explorations.
 
@@ -518,7 +518,7 @@ With respect and anticipation,
 | BICEP/Keck r bound | r < 0.036 | BICEP/Keck (done) | ✅ | CONSISTENT |
 
 **Framework metrics:**
-- ToE score: 28.0/28 (100%) on internal scorecard
+- framework state (100%) on internal scorecard
 - Test suite: 34,411 passed, 393 skipped, 12 deselected, 0 failed
 - Pillars: 208 core (hardgate) + 24+ adjacent tracks
 - Repository: github.com/wuzbak/Unitary-Manifold-

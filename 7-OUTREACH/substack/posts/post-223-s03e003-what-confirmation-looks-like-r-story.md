@@ -105,11 +105,11 @@ If SO measures r = 0.031 ± 0.003, the framework status updates as follows:
 |----------------|------------------------|
 | r = 0.0315 (PREREGISTERED, HIGH_TENSION with ACT DR6) | CONFIRMED — SO DR1 2027 |
 | ACT DR6 tension (r < 0.016 at 95% CL) | RESOLVED — ACT bound was at the tail of its posterior |
-| ToE score: 28.0/28 | +0 (r was already counted as DERIVED) |
+| Framework consistency: all 208 hardgate derivation chains self-consistent | +0 (r was already counted as DERIVED) |
 | External credibility | SUBSTANTIALLY INCREASED |
 | 2027 joint verdict | Contribution: SO PASS ✓ |
 
-The framework's ToE score doesn't change — r was already marked DERIVED in the hardgate register. What changes is the *evidential support* for that derivation. There's a difference between a prediction that has been made and a prediction that has been tested and survived.
+The framework's framework derivation coverage doesn't change — r was already marked DERIVED in the hardgate register. What changes is the *evidential support* for that derivation. There's a difference between a prediction that has been made and a prediction that has been tested and survived.
 
 ---
 

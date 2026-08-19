@@ -21,7 +21,7 @@ Key numbers at time of this review request:
 |--------|-------|
 | Active pillars | 208 core + special modules |
 | Test suite size | ~26 300 passing tests (0 failures gated) |
-| Claimed ToE score | 19.5 / 28 SM parameters (~70%) |
+| Claimed framework derivation coverage | 19.5 / 28 SM parameters (~70%) |
 | Primary falsifier | CMB birefringence β ∈ {0.273°, 0.331°} — LiteBIRD ~2032 |
 | Authorship model | Human theory + AI (GitHub Copilot) code/tests |
 
@@ -36,7 +36,7 @@ Supporting frameworks co-located in this repo:
 ## 2 · Why an In-House Review Is Warranted
 
 1. **Scale:** The repo is unusually large for a solo research project — 26 000+ tests, 200+ source modules, governance documents, bot infrastructure, and a LaTeX monograph.
-2. **Extraordinary claims:** Deriving all Standard Model parameters from geometry would be a landmark result. The scoring system (ToE score) is self-assessed.
+2. **Extraordinary claims:** Deriving all Standard Model parameters from geometry would be a landmark result. The scoring system (framework derivation coverage) is self-assessed.
 3. **AI authorship:** The codebase is explicitly AI-generated (GitHub Copilot). The test suite was also written by AI. This means passing tests confirm internal self-consistency, not physical correctness.
 4. **Tooling and access patterns:** The repo includes MCP server configurations, a RAG bot, and a Copilot Extension — these require careful review of what data they expose and to whom.
 5. **Licensing complexity:** Multiple license files exist (`LICENSE`, `LICENSE-AGPL`, `COMMERCIAL_TERMS.md`, `LEGAL.md`, `DUAL_USE_NOTICE.md`). Their interaction needs clarification.

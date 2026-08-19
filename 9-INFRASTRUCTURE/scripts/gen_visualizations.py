@@ -224,7 +224,7 @@ def fig03_toe_parameter_dashboard():
         mpatches.Patch(color='#AAAAAA',label='Measurement-gated (pending)'),
     ]
     ax.legend(handles=legend_elems, loc='lower right', fontsize=9)
-    ax.text(3.8, 1.2, 'ToE Score\n28.0/28 = 100 %', fontsize=13,
+    ax.text(3.8, 1.2, 'ToE Score\nframework internally consistent = 100 %', fontsize=13,
             fontweight='bold', color=UM_GREEN,
             bbox=dict(boxstyle='round', facecolor='white', edgecolor=UM_GREEN))
     fig.text(0.98, 0.01, 'Unitary Manifold v10.59',
@@ -362,7 +362,7 @@ def fig06_derivation_status():
                 'ALGEBRAIC (exact): 1',
                 'PENDING: 0'],
                loc='lower center', bbox_to_anchor=(0.5, -0.22), fontsize=9)
-    ax1.set_title('28 SM Parameter Status\n(v10.59: 28.0/28 = 100 %)')
+    ax1.set_title('28 SM Parameter Status\n(v10.59: framework internally consistent = 100 %)')
 
     # Bar: claim types
     claim_types = {
@@ -494,7 +494,7 @@ def fig09_toe_score_timeline():
                 xy=(5, 27.1/28*100), xytext=(3.5, 82),
                 fontsize=9, color=UM_BLUE,
                 arrowprops=dict(arrowstyle='->', color=UM_BLUE))
-    ax.annotate('P28 Λ DERIVED\n28.0/28 = 100 %  🏆',
+    ax.annotate('P28 Λ DERIVED\nframework internally consistent = 100 %  🏆',
                 xy=(11, 100), xytext=(9.2, 89),
                 fontsize=9, color=UM_GREEN, fontweight='bold',
                 arrowprops=dict(arrowstyle='->', color=UM_GREEN))
@@ -678,7 +678,7 @@ def fig12_quantum_lane_architecture():
 
     ax.text(6, 0.35,
             'Quantum lane validates tooling compatibility; '
-            'does not affect core ToE score or hardgate claims',
+            'does not affect core framework derivation coverage or hardgate claims',
             ha='center', fontsize=8.5, color='#777', fontstyle='italic')
     fig.text(0.98, 0.01, 'Unitary Manifold v10.59 | src/quantum/',
              ha='right', fontsize=7, color='gray')

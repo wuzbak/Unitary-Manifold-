@@ -17,7 +17,7 @@ single adjacent v11.1 closure programme, with every entry marked as geometric.
 4. Issues a closure certificate with explicit falsification condition.
 5. Enforces separation guard metadata:
    - hardgate isolation = `True`
-   - ToE score delta allowed = `False`
+   - physics label advancement allowed = `False`
    - physics claim promotion allowed = `False`
 
 ## Outputs

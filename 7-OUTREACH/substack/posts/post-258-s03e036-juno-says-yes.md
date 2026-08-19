@@ -54,7 +54,7 @@ When a major experimental result arrives, the Unitary Manifold protocol is clear
 
 **Pillar 534** — JUNO Phase 2 Pre-Registration. Full statistics from JUNO arrive around 2027, with ~0.5% precision on Δm²₃₁. We've pre-registered our predictions: expected pull < 0.1σ. The SHA-256 fingerprint is committed in the source code. When JUNO Phase 2 publishes, there will be no ambiguity about what we predicted and when.
 
-**Pillar 535** — Architecture Closure Certificate v3. The terminal certificate for the v18.0 sprint: 2 irreducible architecture limits confirmed (CMB amplitude, tensor ratio), 1 tension below threshold (DESI wₐ), 8 gaps closed. ToE score: 28/28. Unchanged.
+**Pillar 535** — Architecture Closure Certificate v3. The terminal certificate for the v18.0 sprint: 2 irreducible architecture limits confirmed (CMB amplitude, tensor ratio), 1 tension below threshold (DESI wₐ), 8 gaps closed. framework derivation coverage. Unchanged.
 
 ---
 

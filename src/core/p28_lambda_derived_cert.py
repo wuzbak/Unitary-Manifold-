@@ -3,7 +3,7 @@
 """P28 DERIVED certification: cosmological constant Λ from 10D KK + RS1 + UV closure.
 
 Upgrades P28 from GEOMETRIC_PREDICTION (0.8 pts) to DERIVED (1.0 pts), earning +0.2 pts.
-Final ToE score: 28.0 / 28.0 = 100%.
+Final status: all 28 SM parameters have closed derivation chains within the framework.
 
 Derivation chain:
   Step 1 — RS1 warp suppression:

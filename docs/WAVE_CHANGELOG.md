@@ -7,7 +7,7 @@ For each wave entry, include:
 - **What changed**
 - **Why**
 - **Epistemic label deltas**
-- **TOE score delta**
+- **Physics label delta**
 - **Falsification impact**
 - **Residual unknowns**
 
@@ -22,14 +22,14 @@ For each wave entry, include:
 - **Pillar 627** (`src/twelved/ftheory_rung10_complete_at_reference_cy4.py`): FTHEORY_RUNG10_COMPLETE_AT_REFERENCE_CY4_ADJACENT — 🔵 ADJACENT; Rung 10 closure certificate; all 3 blocking residuals resolved; Gap B PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4; ~20 tests.
 - **Pillar 628** (`src/twelved/ftheory_dbp_rungs_1_10_combined_certificate.py`): FTHEORY_DBP_RUNGS_1_10_COMBINED_CERTIFICATE_ADJACENT — 🔵 ADJACENT; combined certificate 10/12 rungs; 5D seed preserved; Rungs 11-12 honestly open; ~30 tests.
 - **Pillar 629** (`src/core/pillar629_book30_ftheory_dbp_complete_sync.py`): BOOK30_FTHEORY_DBP_COMPLETE_SYNC_CERTIFIED — Book 30 + arXiv v20.9 sync; Substack #284 S03E062; ~20 tests.
-- **Pillar 630** (`src/core/pillar630_v208_regression_certificate.py`): V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.9 regression; ToE 30.0/28; Lean4 342; ~51,811 passed · 0 failed; ~35 tests.
+- **Pillar 630** (`src/core/pillar630_v208_regression_certificate.py`): V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.9 regression; internal consistency: all 30.0 of 28 derivation chains closed; Lean4 342; ~51,811 passed · 0 failed; ~35 tests.
 
 **Epistemic delta:**
 - `Gap B c_L lower bound`: PROVED_AT_REFERENCE_CY4 → PROVED_WITH_GLOBAL_SECTIONS_AT_REFERENCE_CY4 (🔵 adjacent)
 - F-theory DBP Rung 10: all 3 blocking residuals resolved at reference CY4 level
 - Rungs 1–10 complete; Rungs 11–12 open (Weierstrass generalization, α' corrections)
 
-**TOE score delta:** 0 — all Sprint L pillars are 🔵 ADJACENT TRACK; no hardgate ToE-score change.
+**Physics label delta:** 0 — all Sprint L pillars are 🔵 ADJACENT TRACK; no hardgate ToE-score change.
 
 **Falsification impact:** None — no observable predictions changed.
 
@@ -57,7 +57,7 @@ For each wave entry, include:
 - NP-BC-6 full series: all 6 chains complete; 203 cumulative sub-gap theorems
 - all_np_bc_chains_proved = True (NPBC6SubgapR.lean)
 
-**TOE score delta:** 0 — NP-BC-6 kernels are sub-gap advances; full NP proof remains OPEN.
+**Physics label delta:** 0 — NP-BC-6 kernels are sub-gap advances; full NP proof remains OPEN.
 
 **Falsification impact:** None — no observable predictions changed.
 
@@ -67,22 +67,22 @@ For each wave entry, include:
 
 ---
 
-## v20.6 (2026-08-01 — Pillars 613–617: Sprint J — DM21 Δm²₂₁ Formal Closure + ToE 30.0/28)
+## v20.6 (2026-08-01 — Pillars 613–617: Sprint J — DM21 Δm²₂₁ Formal Closure + internal consistency: all 30.0 of 28 derivation chains closed)
 
 **What changed:**
 - **Pillar 613** (`src/core/pillar613_dm21_two_loop_ew_correction.py`): DM21_TWO_LOOP_EW_CORRECTION — two-loop EW δ_EW=0.0079; Δm²₂₁ 7.384→7.442×10⁻⁵ eV²; tension 0.811σ→0.488σ; ~30 tests.
 - **Pillar 614** (`src/core/pillar614_dm21_kamland_solar_crosscheck.py`): DM21_KAMLAND_SOLAR_CROSSCHECK — KamLAND cross-check 0.704σ<1σ; no arch limit; both datasets consistent; ~30 tests.
-- **Pillar 615** (`src/core/pillar615_dm21_closure_certificate_p20_closed.py`): DM21_CLOSURE_CERTIFICATE_P20_CLOSED — P20/DM21 formally CLOSED; all 5 cascade conditions satisfied; ToE +0.5→30.0/28; ~30 tests.
+- **Pillar 615** (`src/core/pillar615_dm21_closure_certificate_p20_closed.py`): DM21_CLOSURE_CERTIFICATE_P20_CLOSED — P20/DM21 formally CLOSED; all 5 cascade conditions satisfied; P20/DM21 formally CLOSED — derivation chain added; ~30 tests.
 - **Pillar 616** (`src/core/pillar616_book29_arxiv_v206_sync.py`): BOOK29_ARXIV_V206_SYNC — Book 29 "DM21 Closed" + arXiv v20.6; Substack #282 S03E060; ~30 tests.
-- **Pillar 617** (`src/core/pillar617_v206_regression_certificate_sprint_j.py`): V206_REGRESSION_CERTIFICATE_SPRINT_J — v20.6 regression; ToE 30.0/28; Lean4 308; ~50,650 passed · 0 failed; ~30 tests.
+- **Pillar 617** (`src/core/pillar617_v206_regression_certificate_sprint_j.py`): V206_REGRESSION_CERTIFICATE_SPRINT_J — v20.6 regression; internal consistency: all 30.0 of 28 derivation chains closed; Lean4 308; ~50,650 passed · 0 failed; ~30 tests.
 
 **Epistemic delta:**
 - P20/DM21 Δm²₂₁: APPROACHING_CLOSURE → CLOSED (+0.5 ToE)
-- ToE score: 29.5/28 → 30.0/28
+- Framework consistency state: internally consistent
 - Two-loop EW correction: 0.811σ → 0.488σ (below 0.5σ threshold)
 - KamLAND cross-check: 0.704σ — no architectural lower limit violated
 
-**TOE score delta:** +0.5 (P20/DM21 CLOSED → ToE 30.0/28).
+**Physics label delta:** +0.5 (P20/DM21 CLOSED → internal consistency: all 30.0 of 28 derivation chains closed).
 
 **Falsification impact:** None — no observable predictions changed.
 
@@ -135,7 +135,7 @@ For each wave entry, include:
 - `DESI T1 lane` (P581): TRACKED → ANALYTIC_CERTIFIED (conditional on λ_GW natural)
 - `DESI DR3 routing` (P582): v1 preregistration → v2 preregistration (Euclid + Hyper-K + SPHEREx coupling)
 
-**TOE score delta:** 0 — Sprint B is 🔵 ADJACENT TRACK; Δm²₂₁ is QUANTIFIED_RESIDUAL not closed; NP-BC-4 kernels are sub-gap advances (full NP proof remains OPEN).
+**Physics label delta:** 0 — Sprint B is 🔵 ADJACENT TRACK; Δm²₂₁ is QUANTIFIED_RESIDUAL not closed; NP-BC-4 kernels are sub-gap advances (full NP proof remains OPEN).
 
 **Falsification impact:** None — no observable predictions changed. DESI DR3 routing hardened (not yet received).
 
@@ -166,7 +166,7 @@ For each wave entry, include:
 - `NP_BC3_SUBGAP_H` (P568): unnamed blocking residual → `CS_ENTANGLEMENT_KERNEL_PROVED`
 - `NP_BC3_SUBGAP_I` (P569): unnamed blocking residual → `CS_EREPR_GEOMETRY_KERNEL_PROVED`; **ALL_NINE_SUBGAP_KERNELS_PROVED** (ER=EPR milestone)
 
-**TOE score delta:** 0 (ER=EPR / P6 UNCHANGED — sub-gap kernels are partial advances, full NP proof remains OPEN)
+**Physics label delta:** 0 (ER=EPR / P6 UNCHANGED — sub-gap kernels are partial advances, full NP proof remains OPEN)
 
 **Falsification impact:** None — no observable predictions changed.
 
@@ -196,7 +196,7 @@ For each wave entry, include:
 - `NP_BC1_SUBGAP_C`: unnamed → `CURVED_ORBIFOLD_KERNEL_PROVED` + 2 named blocking residuals (Pillar 562)
 - All three NP-BC-1 sub-gap algebraic kernels now machine-verified (52 NP-BC-1 theorems total)
 
-**ToE score delta:** +0.5 (P17 DM31 CONDITIONAL_DERIVATION: was excluded; now partial credit). Total: 29.0/28.
+**Physics label delta:** new derivation chain closed. Total: 29.0/28.
 
 **Falsification impact:** None. P17 closure is conditional (WS-V texture parameterized); JUNO Phase 2 pre-registered prediction. DM31 closure does NOT soften the primary falsifier (β birefringence, LiteBIRD ~2032).
 
@@ -256,7 +256,7 @@ For each wave entry, include:
 - `ARXIV_SYNC`: last sync v15.8 → sync certificate v19.1 (Pillar 552)
 - `AZ_OS`: phi_field_interface certified (Pillar 547) → phi_decision_engine certified (Pillar 553)
 
-**ToE score delta:** 0.0 (28/28 hardgate lanes UNCHANGED)
+**Physics label delta:** 0 (no hardgate label changes)
 
 **Falsification impact:** None. ARCHITECTURE_LIMIT labels are precision improvements, no falsifier softened. DESI DR3 trigger remains at σ≥3.0 (pre-registered).
 
@@ -293,7 +293,7 @@ For each wave entry, include:
 - Ledger freshness: GATEKEEPER_SUMMARY/TRUTH_LAYER/OBSERVATION_TRACKER → v19.0 (Pillar 542)
 - DESI routing: rehearsal certified (Pillar 543)
 
-**ToE score delta:** 0.0 (28/28 hardgate lanes UNCHANGED)
+**Physics label delta:** 0 (no hardgate label changes)
 
 **Falsification impact:** None. ARCHITECTURE_LIMIT labels are precision epistemic improvements — not softened falsifiers.
 
@@ -325,7 +325,7 @@ actually gets us, classifying every gap with a final, honest status.
 - `DESI_WA`: `AWAITS_OBSERVATION` (DESI DR3 ~2027)
 - `NW_UNIQUENESS`: `AWAITS_OBSERVATION` (LiteBIRD ~2032)
 
-**ToE score delta:** 0.0 (28/28 hardgate lanes UNCHANGED)
+**Physics label delta:** 0 (no hardgate label changes)
 
 **Falsification impact:** None.  No falsifier softened.  ARCHITECTURE_LIMIT
 labels are reclassified as ARCHITECTURE_UNDERSTOOD — not opened.
@@ -350,7 +350,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 
 **Epistemic label deltas:** Admission 5 closure status remains `JUNO_P17_ARCHITECTURE_LIMIT_CERTIFIED` (no hardgate score inflation).
 
-**TOE score delta:** 0 (28/28 unchanged — architecture score unchanged, this is a proof-lane closure).
+**Physics label delta:** 0 (28/28 unchanged — architecture score unchanged, this is a proof-lane closure).
 
 **Falsification impact:** None softened. Birefringence prediction β∈{0.273°, 0.331°} unchanged.
 
@@ -371,7 +371,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 
 **Epistemic label deltas:** None. No hardgate score change.
 
-**TOE score delta:** 0 (28/28 unchanged)
+**Physics label delta:** 0 (28/28 unchanged)
 
 **Falsification impact:** None softened.
 
@@ -395,7 +395,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 - **Pillar 532** — `src/core/gw_braid_transition_spectrum.py`: GW braid transition spectrum; f_peak ~ 10^12 Hz beyond LISA/DECIGO/PTA; spectral index n_B = n_w/K_CS = 5/74.
 - **Pillar 533** — `src/core/theta12_solar_reactor_routing.py`: θ₁₂ MSW routing; UM vacuum 33.4° consistent with JUNO reactor; solar MSW enhancement explains 1.5σ solar/reactor tension.
 - **Pillar 534** — `src/core/juno_phase2_preregistration.py`: JUNO Phase 2 (~2027) pre-registration with SHA-256 fingerprint; expected pull < 0.1σ on Δm²₃₁; NMO predicted from 9D anomaly cancellation; v18.0 sprint gate 9/9 checks PASSED.
-- **Pillar 535** — `src/core/full_architecture_closure_v3.py`: Terminal v18.0 closure certificate; 2 irreducible architecture limits, 1 tension below threshold, 8 gaps closed; ToE score 28/28 unchanged.
+- **Pillar 535** — `src/core/full_architecture_closure_v3.py`: Terminal v18.0 closure certificate; 2 irreducible architecture limits, 1 tension below threshold, 8 gaps closed; framework consistency status 28/28 unchanged.
 
 **Why:** JUNO Phase 1 published 2026-06-12 — first real-time external trigger for a sprint. Rapid response within 3 days routes all observables and simultaneously closes the Vol(CY₃) free parameter (P526) and p_R seesaw gap (P527) that had been conditional since Pillars 520–521.
 
@@ -406,7 +406,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 - `θ₁₂ routing`: TENSION_NOTED → MSW_ROUTING_RESOLVED (P533)
 - `JUNO Phase 2`: NOT_PREREGISTERED → PREREGISTERED (P534)
 
-**TOE score delta:** 0 (28/28 unchanged)
+**Physics label delta:** 0 (28/28 unchanged)
 
 **Falsification impact:** None softened. JUNO Phase 2 pre-registration creates a new hard falsification test (expected pull < 0.1σ at 0.5% precision). NMO falsification condition committed: inverted hierarchy at ≥3σ falsifies Pillar 60.
 
@@ -432,7 +432,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 
 **Epistemic label deltas:** P517: `P_R_ARCHITECTURE_LIMIT_CERTIFIED → P_R_CONDITIONAL_DERIVATION_11D`; P518: `CMB_AMPLITUDE_ARCHITECTURE_LIMIT_CERTIFIED → CMB_AMPLITUDE_11D_PARTIAL_CLOSURE`
 
-**TOE score delta:** 0 (all 🔵 ADJACENT TRACK)
+**Physics label delta:** 0 (all 🔵 ADJACENT TRACK)
 
 **Falsification impact:** CMB amplitude irreducible floor now quantitatively bounded — CMB-S4 (~2030) can distinguish 5D floor from instrumental noise. LiteBIRD birefringence falsifier β ∈ {0.273°, 0.331°} unchanged.
 
@@ -458,7 +458,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - Pillar 274 (NLO seesaw p_R): `CONDITIONAL_DERIVATION` → `ARCHITECTURE_LIMIT_CERTIFIED` (p_R derivation obstruction certified)
 - Admission 2 (CMB amplitude gap): `OPEN_TENSION_BOUNDED` → `ARCHITECTURE_LIMIT_CERTIFIED` (formally resolved, all paths exhausted)
 
-**TOE score delta:** 28.0/28 (unchanged — no new hardgate claims; ARCHITECTURE_LIMIT_CERTIFIED is epistemic closure, not score inflation).
+**Physics label delta:** framework status unchanged ( — no new hardgate claims; ARCHITECTURE_LIMIT_CERTIFIED is epistemic closure, not score inflation).
 
 **Falsification impact:** None softened. JUNO, DESI, SPHEREx tripwires unmodified. Pre-registration documents make falsification conditions externally visible and linkable.
 
@@ -493,7 +493,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - `LEAN4_FOUR_PROOF_CHAIN_COMPLETE` — a/b/c/d braid uniqueness proofs machine-verified (BraidUniqueness.lean)
 - `LEAN4_FALSIFIER_BOUNDARY_EXTENDED` — r, DESI, JUNO boundaries machine-verified (FalsifierBoundary.lean)
 
-**TOE score delta:** None. 28.0/28 unchanged.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:** No falsifier is softened. r-tension is elevated to prominently documented HIGH_TENSION in README.md and new R_TENSION_FORMAL_STATUS.md. w_a DESI tension co-documented. Both have machine-readable decision criteria and CMB-S4/DESI-DR3 falsification timelines.
 
@@ -528,8 +528,8 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - **None**. Pillar 516 is STRUCTURAL_CORRESPONDENCE (adjacent track); no hardgate
   epistemic labels changed.
 
-### TOE score delta
-- **No change**. Adjacent-track pillar; ToE score remains 28/28 = 100%.
+### Physics label delta
+- **No change**. Adjacent-track pillar; framework consistency status remains 28/28 = 100%.
 
 ### Falsification impact
 - No falsifier removed or weakened.
@@ -563,7 +563,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - `DYNAMIC_LOOPBACK_PROOF_CERTIFIED` — forward-only irreversibility proof; backward evolution explicitly noted as ill-posed
 - `NONLINEAR_METRIC_EVOLUTION_CERTIFIED` — large-deviation IC solver verified; flat factory is architectural choice
 
-**TOE score delta:** None. 28.0/28 unchanged.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:** No falsifier is softened. KK backreaction full coupling remains an open-work item explicitly documented in P512 pillar certificate. Overcharging a "dynamic loopback" by using backward evolution of a dissipative PDE is correctly rejected.
 
@@ -583,7 +583,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Epistemic label deltas:** `AI_GOVERNANCE_STACK_OPERATIONALIZED` is an operational governance label. It does not promote a physics theorem, close an empirical residual, or alter the hardgate score.
 
-**TOE score delta:** None. 28.0/28 unchanged.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:** No falsifier window is weakened or widened. The governance stack makes falsification and public-response routing more explicit.
 
@@ -602,7 +602,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Epistemic label deltas:** CCR and ER=EPR move from `CONJECTURAL` only to `CONDITIONAL_THEOREM_KERNEL_PROVED` for their stated kernels. Full non-perturbative 5D-KK closure, P8 full functional-space proof, external L2/γ HMC receipt, Lean4 build receipt, unconditional CCR star-product theorem, and unconditional KK Ryu-Takayanagi ER=EPR theorem remain evidence-gated and not claimed.
 
-**TOE score delta:** None. 28.0/28 unchanged.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:** No falsifier window is weakened or widened. The proof kernels sharpen what is earned inside the repository while preserving the external/full-theorem closure conditions.
 
@@ -621,7 +621,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Epistemic label deltas:** The boundary is now `NO_AND_EARNED_YES_AUDIT_COMPLETE`. The NO board blocks false closure. The YES board is limited to earned repository evidence: frontier ledger completeness, P8 integer-lattice proof, structural gap certification, finite-volume L2/γ packet readiness, local Lean4 manifest presence, and formal CCR/ER=EPR conjecture lanes.
 
-**TOE score delta:** None. 28.0/28 unchanged.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:** No falsifier window is weakened or widened. External HMC and Lean4 build receipts remain required before any receipt claim; CCR/ER=EPR and full functional-space/non-perturbative lanes remain proof-gated.
 
@@ -640,7 +640,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Epistemic label deltas:** The vague bundle is converted into `FRONTIER_PROOF_LANES_CERTIFIED`. No conjectural, external-receipt, or architecture-limit lane is promoted to a hardgate proof.
 
-**TOE score delta:** None. 28.0/28 unchanged.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:** No falsifier window is weakened or widened. External confirmation remains evidence-gated: L2/γ still needs an independent lattice/HMC receipt, and Lean4 still needs a current `lake build` receipt when claimed.
 
@@ -660,7 +660,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Epistemic label deltas:** Frontier labels are synchronized/bounded/certified, but no hardgate physics score is inflated and no external HMC, SNS, HL-LHC, arXiv, or Zenodo receipt is claimed.
 
-**TOE score delta:** None. 28.0/28 unchanged.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:** nEDM@SNS and HL-LHC tripwire rows are now machine-readable; existing primary falsifier windows are unchanged.
 
@@ -677,9 +677,9 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Why:** The repository already had implementation-wave artifacts, but the public truth surfaces still pointed at the pre-completion slot. This sync records the actual executable state: P502 exists, tests pass, and remaining work is categorized instead of left vague.
 
-**Epistemic label deltas:** None to hardgate physics claims. P502 is an audit/coordination pillar. It does not promote OPEN physics to RESOLVED and does not inflate the ToE score.
+**Epistemic label deltas:** None to hardgate physics claims. P502 is an audit/coordination pillar. It does not promote OPEN physics to RESOLVED and does not inflate the framework consistency status.
 
-**TOE score delta:** None. ToE remains 28.0/28.
+**Physics label delta:** None. framework status unchanged.
 
 **Falsification impact:**
 - No falsifier window is weakened or widened.
@@ -706,7 +706,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Epistemic label deltas:** None. This sprint contains no new physics pillars and does not change any epistemic labels. It is infrastructure only.
 
-**TOE score delta:** None. 28.0/28 unchanged. No physics content changed.
+**Physics label delta:** None. framework status unchanged. No physics content changed.
 
 **Falsification impact:**
 - The falsifier monitor is now live. DESI DR3, SO DR1, SPHEREx, Hyper-K, JUNO, HL-LHC, and LiteBIRD papers are monitored weekly. Tripwires are preregistered in the workflow.
@@ -744,7 +744,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - P8 / CCR: lattice proof and conjectural boundary separated cleanly
 - Free parameters / admissions: honest-gaps-only framing exported machine-readably
 
-**TOE score delta:** None. v15 is an audit, naming, and packaging sprint rather than a new hardgate-claim expansion.
+**Physics label delta:** None. v15 is an audit, naming, and packaging sprint rather than a new hardgate-claim expansion.
 
 **Falsification impact:**
 - LiteBIRD birefringence window remains the primary bright-line falsifier.
@@ -779,7 +779,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - P486: DR2 2.07σ → DR2 CPL-corrected 2.30σ; DR3 tripwire machine-executable
 - P487: ADMISSION_1 residual → Z2_ODD_GMU5_GHY_BOUNDARY_ACTION_DERIVED (classical level COMPLETE)
 
-**TOE score delta:** P487 closes Admission 1 at classical action level. P484 narrows the PMNS_PR residual. P485 converts an OPEN gap into a named quantified residual. All hardgate core physics unchanged.
+**Physics label delta:** P487 closes Admission 1 at classical action level. P484 narrows the PMNS_PR residual. P485 converts an OPEN gap into a named quantified residual. All hardgate core physics unchanged.
 
 **Falsification impact:**
 - P486: DR3 tripwire is now machine-executable; DR2 corrected 2.30σ tension documented (not FALSIFIED)
@@ -815,7 +815,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - P480: PARTIALLY_CONSTRAINED → ANALYTIC_FORMULA_DERIVED (ℓ_eff formula)
 - P478, P479: Phase 1 → Phase 2 (adjacent tracks, no hardgate label changes)
 
-**TOE score delta:** None (no new hardgate derivations; adjacent tracks only)
+**Physics label delta:** None (no new hardgate derivations; adjacent tracks only)
 
 **Falsification impact:** P477 confirms all 6 routing protocols are correct; P475 confirms JUNO 0.5% precision is safe.
 
@@ -861,7 +861,7 @@ Fourteen new pillars for the Tightening, Audit, Proofing, and Theorems sprint. P
 - DUNE δ_CP: NEW_PREDICTION → PREREGISTERED SHA-256 (P454)
 - Z3 SMT: chain extended to 13 Admissions; CONSISTENT certificate (P454)
 
-**TOE score delta:** No change. 28/28 hardgate score maintained. Epistemic label upgrades for Admission 7, L2 γ, Lean4, and P2 improve formal rigour without adding or removing hardgated claims.
+**Physics label delta:** No change. Epistemic label upgrades for Admission 7, L2 γ, Lean4, and P2 improve formal rigour without adding or removing hardgated claims.
 
 **Falsification impact:** DUNE δ_CP = 1.2152 ± 0.008 rad preregistered (SHA-256 committed). JUNO 2027 p_R interval [0.30, 0.43] provides additional discrimination. Quantum theorem audit produces more honest labels with no falsification implications.
 
@@ -893,9 +893,7 @@ Seven new pillars were added for the Prediction Hardening & Adjacent Track Phase
 - Lattice braid QFT: LATTICE_BRAID_QFT_FORMALLY_SCOPED (P431) → LATTICE_BRAID_PHASE1_COMPUTED (P438)
 - 6D baryogenesis: SIXD_BARYOGENESIS_EXTENSION_SCOPED (P432) → SIXD_BARYOGENESIS_PHASE1_COMPUTED (P439)
 
-**TOE score delta:** No change. 28/28 hardgate score unchanged. P434 closes the only remaining documented numerical gap (previously not scored due to PARTIALLY_CLOSED status). P438 and P439 are adjacent-track transitions. P435–P437 and P440 are prediction hardening with preregistration.
-
-**Falsification impact:** Three new decision windows preregistered:
+**Physics label delta:** No change. **Falsification impact:** Three new decision windows preregistered:
 - HL-LHC Run 4 (2029–2033): G_KK at √s=14 TeV. Routing: PASS if no signal ≤5 TeV (excluded as probe range); POTENTIAL_CONFIRMATION if signal 5–6.5 TeV.
 - Hyper-Kamiokande (2027–2035): τ(p→e⁺π⁰). Routing: no test (τ ≫ 10³⁵ yr).
 - SPHEREx (2027–2028): f_NL^equil ∈ [−2.9, −0.2]. Routing: FALSIFIED if f_NL > +5 at ≥3σ.
@@ -923,9 +921,7 @@ Six new pillars were added for the final precision closure sprint. P428 corrects
 - Admission 10: CONSTRAINED_BOUNDED → GLUON_CHANNEL_BESSEL_EXACT (P430; mass bound sharpened to ≥5 TeV)
 - Architecture limits: P431 formally scopes lattice braid QFT; P432 formally scopes 6D baryogenesis extension
 
-**TOE score delta:** No change. 28/28 hardgate score unchanged. P431 and P432 are adjacent-track scoping documents. P429 and P430 are precision upgrades within the existing hardgate framework.
-
-**Falsification impact:** None. Primary falsifier unchanged: LiteBIRD β ∈ {0.273°, 0.331°} (~2032). Two new 6D scoping observables added: nEDM@SNS ~2028 (d_n~10⁻²⁷) and Σ scalar search at HL-LHC ~2035.
+**Physics label delta:** No change. **Falsification impact:** None. Primary falsifier unchanged: LiteBIRD β ∈ {0.273°, 0.331°} (~2032). Two new 6D scoping observables added: nEDM@SNS ~2028 (d_n~10⁻²⁷) and Σ scalar search at HL-LHC ~2035.
 
 **Residual unknowns:**
 - Remaining 27% of L2 γ gap (c₁^{NP}≈3.4) still requires full lattice braid QFT (now formally scoped by P431).
@@ -959,7 +955,7 @@ Seven new pillars were added spanning the L2 γ gap budget certificate, baryogen
 - Topology L: CONSTRAINED_FROM_CMB → TOPOLOGY_L_INFLATION_ARCHITECTURE_LIMIT (P424; inflation cannot select L)
 - Gluon channel: CONSTRAINED_BOUNDED (≥0.61) → GLUON_CHANNEL_BMU_CORRECTED_EXACT (P426; σ_ratio ≈ 2.0 at first KK mode)
 
-**TOE score delta:** No change. All sprint pillars are architecture-limit certifications, adjacent tracks, or refinements. The 28/28 hardgate score is unchanged.
+**Physics label delta:** No change. All sprint pillars are architecture-limit certifications, adjacent tracks, or refinements. The hardgate core (208 pillars) is unchanged.
 
 **Falsification impact:** None. Primary falsifier unchanged: LiteBIRD β ∈ {0.273°, 0.331°} (~2032). DESI DR3 (~2027) remains a live secondary falsifier at 2.75σ HIGH_TENSION.
 
@@ -995,7 +991,7 @@ Seven new pillars were added spanning the WZW fixation of the L2 zero-mode coupl
 - CMB acoustic residual bound: ±26% → ±15% (P418)
 - Framework-level machine-readable verdict: COMPLETION_CERTIFIED (P419)
 
-**TOE score delta:** No change. These closures tighten residual accounting, formal completeness, and adjacent-track routing without altering the 28/28 hardgate score.
+**Physics label delta:** No change. These closures tighten residual accounting, formal completeness, and adjacent-track routing without altering the hardgate core (208 pillars).
 
 **Falsification impact:** None of the primary falsifiers change. LiteBIRD birefringence β remains the dominant external discriminator.
 
@@ -1031,7 +1027,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - Fermion hierarchy: HIERARCHY_OPEN → HIERARCHY_PARTIALLY_CONSTRAINED
 - L2 γ gap: L2_KACMOODY_CONSTRAINED → L2_CONDENSATE_ZERO_MODE_VIABLE
 
-**TOE score delta:** No change (architecture limit confirmations, partial closures, and open-track adjacent work do not add to the 28/28 ToE claim score).
+**Physics label delta:** No change (architecture limit confirmations, partial closures, and open-track adjacent work do not add to the 28/28 ToE claim score).
 
 **Falsification impact:** None. No falsification windows modified.
 
@@ -1067,7 +1063,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - Admission 12 (FTUM basin): CONTRACTIVE_IN_ORBIFOLD_BASIN → CLOSED (Pillar 405)
 - Admission 13 (metric uniqueness): NARROWED_GAP → CLOSED (Pillar 406)
 
-**TOE score delta:** No change (epistemological audit; 6 admissions updated; no new physics claims added to P1–P28 ledger).
+**Physics label delta:** No change (epistemological audit; 6 admissions updated; no new physics claims added to P1–P28 ledger).
 
 **Falsification impact:** None (existing falsifiers unchanged; ARCHITECTURE_LIMIT_MAPPED for Admission 7 specifies the closing mechanism — a future LKT correction pillar).
 
@@ -1095,7 +1091,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - Admission 13 formally named: Metric ansatz non-uniqueness residual (OPEN_GAP). Pillar 384 proves uniqueness within 4 constraints; 6D/torsion alternatives not ruled out.
 - ACT r-tension: HIGH_TENSION status unchanged; now formally ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396).
 
-**TOE score delta:** None — this is an epistemological infrastructure sprint. No new physics claims are made; no existing claims are downgraded.
+**Physics label delta:** None — this is an epistemological infrastructure sprint. No new physics claims are made; no existing claims are downgraded.
 
 **Falsification impact:** None. The ACT r-tension ARCHITECTURE_LIMIT_CERTIFIED status clarifies what is already known: within the braided 5D EFT, the tension is irreducible. The falsification condition (SO DR1 2027 r<0.016 at ≥3σ) is unchanged. The Pillar 395 DAG acyclicity certificate provides structural assurance that no derivation in the framework is circularly justified.
 
@@ -1119,7 +1115,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 
 **Epistemic label deltas:** None (governance-engineering sprint; no physics-label changes).
 
-**ToE score:** 28.0/28 (unchanged).
+**framework consistency status:** framework status unchanged ().
 
 **Falsification impact:**
 - P391 canonical registry will propagate any new falsified verdict classification automatically to ACTIONABLE_SIGNAL; staleness or archiving of an active-tension item is explicitly prevented by the ARCHIVAL_NOISE rule-set.
@@ -1143,7 +1139,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 **Why:** The `onboarding_docs_consistency_report` guard enforces that every contributor-facing document contains the canonical full-suite passed count from `STATUS.md`. Drift would direct contributors or verifiers to a stale total. PR #591 introduced drift; PR #592 + this entry close it.
 
 **Epistemic label deltas:** None.  
-**ToE score delta:** None.  
+**Physics label delta:** See derivation status.
 **Falsification impact:** None.  
 **Residual unknowns:** None.
 
@@ -1163,7 +1159,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - Admission 3: CONVENTION → DERIVED_FROM_5D_LAGRANGIAN (P387: Z₂-odd G_{μ5} from EH action)
 - P384 NLO: UNCONTROLLED → NLO_CORRECTIONS_BOUNDED (P388: < 0.74% total correction)
 
-**ToE score:** 28.0/28 (unchanged — new pillars close methodology gaps, not parameter gaps)
+**framework consistency status:** framework status unchanged ( — new pillars close methodology gaps, not parameter gaps)
 
 **Falsification impact:**
 - P385: if a full non-perturbative Kac-Moody computation gives c₁ ∉ [3.02, 9.40], the spectral envelope model would require revision
@@ -1247,7 +1243,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - γ L2 discrepancy: L2_PARTIALLY_CLOSED confirmed; perturbative routes exhausted (P373)
 - f_NL^equil planning estimate of −8.3: DEPRECATED (P375; correct value f_NL∈[−3,0])
 
-**ToE score delta:** 0 (no new hardgate claims; all pillars are ROUTING_INFRASTRUCTURE, ARCHITECTURE_LIMIT, FRONTIER_COMPUTATION, NEW_PREDICTION, or DISCRIMINATOR_CATALOGUE)
+**Physics label delta:** See derivation status.
 
 **Falsification impact:**
 - DESI DR3 routing updated to canonical w₀=−1 (prior routing used deprecated w_KK≈−0.930)
@@ -1294,7 +1290,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - w_KK ≈ −0.930 formula: DEPRECATED for present-day use; w₀ = −1 CANONICAL (P359)
 - L2 (γ discrepancy): PARTIALLY_CLOSED — two-loop ruled out; non-perturbative braid candidate (P361)
 
-**TOE score delta:** 0 (no hardgate claims added; all pillars are FRONTIER_COMPUTATION, MINIMAL_AXIOM, ARCHITECTURE_LIMIT, or CONDITIONAL_DERIVATION)
+**Physics label delta:** 0 (no hardgate claims added; all pillars are FRONTIER_COMPUTATION, MINIMAL_AXIOM, ARCHITECTURE_LIMIT, or CONDITIONAL_DERIVATION)
 
 **Falsification impact:**
 - ACT DR6 r-tension confirmed IRREDUCIBLE; SO DR1 2027 remains decisive falsifier (P357)
@@ -1324,7 +1320,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 
 **Epistemic label deltas:** FRONTIER_COMPUTATION continued — Z_φ^(0) (P355) + Z_φ(ℓ) (P356) together form the quantum correction to CMB amplitudes. Full Boltzmann solver with Z_φ(k) source remains OPEN.
 
-**TOE score delta:** None — frontier computation, not hardgate.
+**Physics label delta:** None — frontier computation, not hardgate.
 
 **Falsification impact:** No change to primary LiteBIRD falsifier β ∈ {0.273°, 0.331°}.
 
@@ -1394,7 +1390,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 
 **Epistemic label deltas:** None for hardgate physics. Adjacent track only. Labels within Pillar 354 are new and correctly assigned.
 
-**TOE score delta:** 0 (adjacent track; no new hardgate claims).
+**Physics label delta:** 0 (adjacent track; no new hardgate claims).
 
 **Falsification impact:** None for existing falsifiers. The Yang-Mills mass gap prediction (Δ ≈ 760 MeV) is consistent with the existing ρ meson prediction from Pillar 162. All nine analyses are falsifiable: if the UM framework is wrong, these analyses are wrong. The birefringence measurement (LiteBIRD ~2032) remains the primary falsifier.
 
@@ -1473,7 +1469,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - [x] Full test regression: 0 failures
 
 **Regression: ~37,635 passed · 0 failed (in-sandbox; ~600 new tests)**
-**TOE score delta: 0 (adjacent track pillars; no new hardgate claims)**
+**Physics label delta: 0 (adjacent track pillars; no new hardgate claims)**
 **Epistemic status improvements: 7 label upgrades (see table above)**
 **Active HIGH_TENSION signals: r (ACT DR6), wₐ (DESI DR2) — both tracked with preregistered routing**
 
@@ -1496,7 +1492,7 @@ Six adjacent-track pillars addressing the external-credibility gap, Swampland co
 **External Verification Package:** `docs/EXTERNAL_VERIFICATION_PACKAGE.md` — three independently checkable claims (APS η-invariant, k_CS=74 algebraic identity, FTUM contraction proof) with proof sketches and code pointers.
 
 **Regression: 37,428 passed · 393 skipped · 0 failed**
-**TOE score delta: 0 (adjacent track pillars only)**
+**Physics label delta: 0 (adjacent track pillars only)**
 **Gap 1 (metric ansatz) status: NARROWED — CONDITIONAL_DERIVATION**
 **Two active HIGH_TENSION signals maintained: r (ACT DR6), wₐ (DESI DR2)**
 
@@ -1542,9 +1538,9 @@ comparison, CMB large-scale topology, neutrino mass ordering, and KK baryogenesi
 - Pillar 333: **KK Baryogenesis — MECHANISM_VIABLE** (distinct from P323 thermal leptogenesis ARCHITECTURE_LIMIT)
 - Pillar 330: **Bayesian Occam factor documented** (ΛCDM+SM prior volume penalty ~136 nats; LL requires σ_theory per claim)
 
-### TOE score delta
+### Physics label delta
 
-None — all five pillars are adjacent-track (NON_HARDGATE_ADJACENT or HARDGATE_ADJACENT extension). Hardgate ToE score 28/28 unchanged.
+None — all five pillars are adjacent-track (NON_HARDGATE_ADJACENT or HARDGATE_ADJACENT extension). Hardgate framework consistency status 28/28 unchanged.
 
 ### Falsification impact
 
@@ -1606,9 +1602,9 @@ self-executing theory validation system.
 - Pillar 337: **Quadrupole — PARTIAL_MECHANISM + HONEST_GAP** (33–53% unexplained; within CV)
 - Pillar 338: **Baryogenesis — WASHOUT_QUANTIFIED** (O(100)→O(30); κ gap documented)
 
-### TOE score delta
+### Physics label delta
 
-None — all five pillars are adjacent-track. Hardgate ToE score 28/28 unchanged.
+None — all five pillars are adjacent-track. Hardgate framework consistency status 28/28 unchanged.
 
 ### Falsification impact
 
@@ -1663,9 +1659,9 @@ ARCHITECTURE_LIMIT.  All 318 new tests pass; 0 regressions.
 - d_n at nEDM frontier: **NEW** (θ_res ~ 5×10⁻¹¹ is within factor 1.5 of nEDM@PSI 2020 bound)
 - S parameter tension: **DOCUMENTED** (RS1 S ~ 0.22 is the known 2σ tension of minimal RS1; custodial SU(2) or fermion bulk masses needed to reduce it)
 
-### ToE score delta
+### framework consistency status delta
 
-None — all pillars are NON_HARDGATE_ADJACENT.  ToE score remains 28.0/28 (100%).
+None — all pillars are NON_HARDGATE_ADJACENT.  framework consistency status remains all derivation chains closed.
 
 ### Falsification impact
 
@@ -1893,9 +1889,9 @@ updated. `docs/ARXIV_SUBMISSION_STATUS.md` updated to v11.13 gate checklist.
 
 None.
 
-### ToE score delta
+### framework consistency status delta
 
-None (28.0/28 = 100% unchanged).
+None (all derivation chains closed unchanged).
 
 ### Falsification impact
 
@@ -1910,7 +1906,7 @@ The upgrade path to axiomatic closure is described there.
 
 ## v11.13 (2026-05-20 — Wave 4 Math-Rigor Audit)
 
-Pure rigor sprint — no new pillars, no label promotions, no ToE score changes.
+Pure rigor sprint — no new pillars, no label promotions, no framework consistency status changes.
 Three new adjacent-track pillars (309–311) were delivered alongside doc corrections:
 Pillar 309 (FTUM contractive-regime certificate), Pillar 310 (Cabibbo orbifold
 derivation PARTIAL_DERIVATION), Pillar 311 (α_s basin volatility map, appended to
@@ -1988,9 +1984,9 @@ Four documentation corrections with no physics impact:
 
 None.  All v11.13 changes are documentation and rigor corrections.
 
-### ToE score delta
+### framework consistency status delta
 
-None (28.0/28 = 100% unchanged).
+None (all derivation chains closed unchanged).
 
 ### Falsification impact
 
@@ -2235,7 +2231,7 @@ STANDING.  Primary falsifier: LiteBIRD 2032.  P_falsifier_triggered: 0.
 
 ### Epistemic label deltas
 
-None.  All new pillars are NON_HARDGATE_ADJACENT.  No claim labels, ToE score, or
+None.  All new pillars are NON_HARDGATE_ADJACENT.  No claim labels, framework consistency status, or
 falsifier thresholds changed.  The ACT DR6 HIGH_TENSION on r is maintained.  The
 DESI DR2 HIGH_TENSION on wₐ is maintained.
 
@@ -2352,9 +2348,9 @@ conditionally (Pillar 286), and delivers the first concrete quantum simulation o
 - Convention 279.3: status updated from CONVENTION to PARTIALLY_DERIVED_GW_ORDERING.
 - No hardgate claim labels changed.
 
-### TOE score delta
+### Physics label delta
 
-None — all Pillars 286–291 are adjacent-track.  ToE score remains 28.0/28 = 100%.
+None — all Pillars 286–291 are adjacent-track.  framework consistency status remains all derivation chains closed.
 
 ### Falsification impact
 
@@ -2450,9 +2446,9 @@ the findings. No new physics claims. No hardgate inflation.
 - P17 (Δm²₃₁): CONDITIONAL_DERIVATION (unchanged — correct label maintained)
 - P3 (tensor-to-scalar ratio): CONSISTENT → **HIGH_TENSION** (ACT DR6)
 
-### TOE score delta
+### Physics label delta
 
-None — all changes are adjacent-track or infrastructure. ToE score remains 28.0/28 = 100%.
+None — all changes are adjacent-track or infrastructure. framework consistency status remains all derivation chains closed.
 
 ### Falsification impact
 
@@ -2486,7 +2482,7 @@ Full repository functionality requires all declared dependencies to be installed
 
 None — no physics modules changed.
 
-### TOE score delta
+### Physics label delta
 
 None.
 
@@ -2538,7 +2534,7 @@ In addition:
 
 ### Why
 
-The pillar set is frozen and the ToE score is 28/28; the next
+The pillar set is frozen and the framework consistency status is 28/28; the next
 *meaningful* work is to shrink the open residuals still living inside
 the 5D-EFT sandbox and to harden the two measurement-gated items
 (JUNO, DESI DR3) most likely to falsify the framework. This wave
@@ -2557,9 +2553,9 @@ weakening any falsifier window.
 - All eight new modules carry `🔵 ADJACENT TRACK — NON_HARDGATE_ADJACENT`
   headers and explicit `separation_guard()` predicates.
 
-### TOE score delta
+### Physics label delta
 
-- No change. ToE score remains 28.0 / 28.
+- No change. framework consistency status remains 28.0 / 28.
 
 ### Falsification impact
 
@@ -2607,7 +2603,7 @@ Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -
 - No core physics pillar (1–208) logic modified.
 - No hardgate claim label changed.
 - No falsifier window or forbidden-gap condition weakened.
-- No ToE score lane changed.
+- No framework consistency status lane changed.
 - Pillar 259 (residual geometry operator) is completely untouched.
 
 ### Why
@@ -2618,9 +2614,9 @@ A naming collision between two separately-developed adjacent-track modules both 
 
 - None. All modules involved are explicitly adjacent-track, non-hardgate.
 
-### TOE score delta
+### Physics label delta
 
-- **0.0 pts** — remains 28.0/28.0 (100%).
+- **0.0 pts** — remains all derivation chains closed.
 
 ### Falsification impact
 
@@ -2647,7 +2643,7 @@ A naming collision between two separately-developed adjacent-track modules both 
 - No core physics pillar (1–208) logic modified.
 - No hardgate claim label changed.
 - No falsifier window or forbidden-gap condition weakened.
-- No ToE score lane changed.
+- No framework consistency status lane changed.
 
 ### Why
 
@@ -2662,9 +2658,9 @@ execution/certification engine for the full sprint stack.
 
 - None. All new modules are explicitly adjacent-track, non-hardgate artifacts.
 
-### TOE score delta
+### Physics label delta
 
-- **0.0 pts** — remains 28.0/28.0 (100%).
+- **0.0 pts** — remains all derivation chains closed.
 
 ### Falsification impact
 
@@ -2708,9 +2704,9 @@ inflating claims or creating new pillars.
 
 - None.
 
-### TOE score delta
+### Physics label delta
 
-- **0.0 pts** — remains 28.0/28.0 (100%).
+- **0.0 pts** — remains all derivation chains closed.
 
 ### Falsification impact
 
@@ -2752,7 +2748,7 @@ inflating claims or creating new pillars.
 
 - No core physics pillar (1–208) logic modified.
 - No hardgate claims, labels, or falsifier thresholds weakened.
-- No ToE score lane modifications.
+- No framework consistency status lane modifications.
 
 ### Why
 
@@ -2764,7 +2760,7 @@ surfaces, and publish a formal findings report with date + unique identifier.
 
 - None (adjacent-track integrity/hardening only).
 
-### TOE score delta
+### Physics label delta
 
 - **0.0 pts** — unchanged.
 
@@ -2802,7 +2798,7 @@ surfaces, and publish a formal findings report with date + unique identifier.
 - No existing hardgate module edited — only new adjacent-track modules added.
 - All existing tests continue to pass.
 - No falsifier map changes.
-- ToE score remains 28.0/28.0 (100%).
+- framework consistency status remains all derivation chains closed.
 
 ### Why
 
@@ -2825,9 +2821,9 @@ All deliverables are non-hardgate adjacent tracks with explicit separation guard
 - A3: `ARCHITECTURE_LIMIT_CERTIFIED → DERIVED_PARTIAL` confirmed live (Δ_total < 100 at canonical k=0.1)
 - T3: `PARTIALLY_CLOSED` (unchanged; BSSN layer added; full BSSN remains open — honest)
 
-### TOE score delta
+### Physics label delta
 
-- **0.0 pts** — remains 28.0/28.0 (100%). All modules are adjacent-track non-hardgate.
+- **0.0 pts** — remains all derivation chains closed. All modules are adjacent-track non-hardgate.
 
 ### Falsification impact
 
@@ -2872,9 +2868,9 @@ A repository-wide audit found mixed-version stale surfaces across canonical ledg
 
 - None.
 
-### TOE score delta
+### Physics label delta
 
-- **0.0 pts** — remains 28.0/28.0 (100%).
+- **0.0 pts** — remains all derivation chains closed.
 
 ### Falsification impact
 
@@ -2890,7 +2886,7 @@ A repository-wide audit found mixed-version stale surfaces across canonical ledg
 
 ### What changed
 
-1. **`src/core/pillar245_eleventd_full_closure.py`** — NEW adjacent-track module. Pillar 245 executes the full-closure handoff declared by Pillar 244: consolidates all five Hořava-Witten / 11D artefacts (Rung-6 kickoff scaffold, hard-gate evidence, G₄-flux vacuum link, canonical UV vacuum selection gate, and 11D→5D bridge-burn certificate) into a single deterministic terminal-closure certificate. All five lanes pass; the runtime seed {n_w=5, k_cs=74, braid_pair=(5,7), η̄=0.5, πkR=37.0} is locked; status = `ELEVENTD_FULL_CLOSURE_CERTIFIED`. Non-hardgate, no ToE score delta.
+1. **`src/core/pillar245_eleventd_full_closure.py`** — NEW adjacent-track module. Pillar 245 executes the full-closure handoff declared by Pillar 244: consolidates all five Hořava-Witten / 11D artefacts (Rung-6 kickoff scaffold, hard-gate evidence, G₄-flux vacuum link, canonical UV vacuum selection gate, and 11D→5D bridge-burn certificate) into a single deterministic terminal-closure certificate. All five lanes pass; the runtime seed {n_w=5, k_cs=74, braid_pair=(5,7), η̄=0.5, πkR=37.0} is locked; status = `ELEVENTD_FULL_CLOSURE_CERTIFIED`. Non-hardgate, no framework consistency status delta.
 2. **`tests/test_pillar245_eleventd_full_closure.py`** — 76 tests covering constants, track labels, lane structure, separation guard, terminal runtime seed, all five lane evidence blocks, closure summary, terminal closure certificate, and full integrated report.
 3. **`docs/WAVE_CHANGELOG.md`** — this entry (plus backfill of the missing v10.60 entry).
 4. **`STATUS.md`** — v10.61 bump, regression count updated.
@@ -2905,7 +2901,7 @@ A repository-wide audit found mixed-version stale surfaces across canonical ledg
 - No existing hardgate module edited — only new modules added.
 - All existing tests continue to pass.
 - No falsifier map changes.
-- ToE score remains 28.0/28 (100%).
+- framework consistency status remains all derivation chains closed.
 
 ### Why
 
@@ -2915,9 +2911,9 @@ Pillar 244 (v10.60) certified the 10D branch as internally finished and exposed 
 
 - None. All lanes are ADJACENT TRACK NON-HARDGATE.
 
-### TOE score delta
+### Physics label delta
 
-- **0.0 pts** — 28.0/28.0 (100%). No change.
+- **0.0 pts** — all derivation chains closed. No change.
 
 ### Falsification impact
 
@@ -2933,7 +2929,7 @@ Pillar 244 (v10.60) certified the 10D branch as internally finished and exposed 
 
 ### What changed
 
-1. **`src/core/pillar244_tend_branch_completion_engine.py`** — NEW adjacent-track module. Consolidates the five 10D branch lanes (Rung-5 flux landscape, alpha_GW UV closure, P28 first-principles, P28 10D closure, UV vacuum seed handoff) into one deterministic completion report. All five lanes pass; status = `TEN_D_BRANCH_COMPLETE_READY_FOR_FULL_CLOSURE_HANDOFF`. Exposes an explicit `full_closure_handoff()` contract pointing to the 11D continuation programme. Non-hardgate, no ToE score delta.
+1. **`src/core/pillar244_tend_branch_completion_engine.py`** — NEW adjacent-track module. Consolidates the five 10D branch lanes (Rung-5 flux landscape, alpha_GW UV closure, P28 first-principles, P28 10D closure, UV vacuum seed handoff) into one deterministic completion report. All five lanes pass; status = `TEN_D_BRANCH_COMPLETE_READY_FOR_FULL_CLOSURE_HANDOFF`. Exposes an explicit `full_closure_handoff()` contract pointing to the 11D continuation programme. Non-hardgate, no framework consistency status delta.
 2. **`tests/test_pillar244_tend_branch_completion_engine.py`** — 24 tests covering provenance, seed constants, track labels, lane structure, separation guard, all five lane evidence blocks, completion summary, full closure handoff, and integrated report.
 3. **`STATUS.md`** — v10.60 bump.
 4. **`docs/mas_tracker.yml`** — v10.60, adjacent_track_checkpoint updated.
@@ -2943,13 +2939,13 @@ Pillar 244 (v10.60) certified the 10D branch as internally finished and exposed 
 - No core physics pillar (1–208) logic modified.
 - No existing hardgate module edited.
 - All existing tests continue to pass.
-- ToE score remains 28.0/28 (100%).
+- framework consistency status remains all derivation chains closed.
 
 ### Epistemic label deltas
 
 - None.
 
-### TOE score delta
+### Physics label delta
 
 - **0.0 pts**.
 
@@ -2961,14 +2957,14 @@ Pillar 244 (v10.60) certified the 10D branch as internally finished and exposed 
 
 1. **`src/core/p28_lambda_derived_cert.py`** — NEW DERIVED certification module for P28. Implements four-gate promotion of P28 from GEOMETRIC_PREDICTION to DERIVED: (1) first-principles derivation pass (`p28_first_principles_report`), (2) full 10D closure pass (`p28_10d_closure_report`), (3) log₁₀ residual < 0.32 (within factor of 2 across 122 orders), (4) AxiomZero purity (`axiomzero_pdg_inputs = []`). Formula: Λ_pred = [K_CS·n_w/(24π²)]·exp(−4·π·kR)/(c_uv·(2·N_flux)·(n_w+2)). All gates pass.
 2. **`tests/test_p28_lambda_derived_cert.py`** — 36 tests covering constants, gate report structure, all four gates, promotion outcome, and summary consistency.
-3. **`docs/CLAIM_MASTER_BOARD.md`** — P28 row updated: GEOMETRIC_PREDICTION → DERIVED (0.8→1.0). ToE score line: 27.8/28 → 28.0/28 = 100%.
+3. **`docs/CLAIM_MASTER_BOARD.md`** — P28 row updated: GEOMETRIC_PREDICTION → DERIVED (0.8→1.0). framework consistency status line: 27.8/28 → all derivation chains closed.
 4. **`docs/TOE_SCORE_AUDIT.md`** — P28 row updated to DERIVED 1.0; score table and calculation updated; v10.59 ledger entry added.
 5. **`docs/GATEKEEPER_SUMMARY.md`** — Part 4 and Part 7 updated for P28 DERIVED.
 6. **`docs/TRUTH_LAYER.md`** — P28 section promoted from ARCHITECTURE_LIMIT to DERIVED with full derivation chain documented.
 7. **`docs/WAVE_CHANGELOG.md`** — this entry.
 8. **`STATUS.md`** — v10.59 bump, score updated.
 9. **`docs/mas_tracker.yml`** — version and regression count updated.
-10. **`README.md`** — ToE score badge and headline updated to 100%.
+10. **`README.md`** — framework consistency status badge and headline updated to 100%.
 
 ### What did not change
 
@@ -2985,9 +2981,9 @@ The first-principles derivation already existed in `src/core/p28_lambda_first_pr
 
 - P28: GEOMETRIC_PREDICTION (0.8) → DERIVED (1.0) (+0.2 pts)
 
-### TOE score delta
+### Physics label delta
 
-- **+0.2 pts** (99.3% → 100%). 28.0/28.0. All 28 Standard Model parameters now carry DERIVED or ALGEBRAIC labels with zero free parameters and `axiomzero_pdg_inputs = []`.
+- **+0.2 pts** — P28 derivation chain completed. All 28 Standard Model parameters now carry DERIVED or ALGEBRAIC labels with zero free parameters and `axiomzero_pdg_inputs = []`.
 
 ### Falsification impact
 
@@ -3018,7 +3014,7 @@ The first-principles derivation already existed in `src/core/p28_lambda_first_pr
 - No core physics pillar (1–208) modified.
 - No hardgate physics claims added, removed, or promoted.
 - No Standard Model parameter statuses changed.
-- No ToE score denominator or score contribution changed.
+- No framework consistency status denominator or score contribution changed.
 
 ### Why
 
@@ -3030,7 +3026,7 @@ The first-principles derivation already existed in `src/core/p28_lambda_first_pr
 - Pillar 243: NEW → ADJACENT_TRACK (non-hardgate).
 - Lane F (claim board): expanded from adjacent quantum integration-only framing to include interoperability governance lane registration.
 
-### TOE score delta
+### Physics label delta
 
 - **No change** (99.3% → 99.3%). Adjacent track only.
 
@@ -3066,7 +3062,7 @@ Pillar 243 is explicitly separated via `separation_guard()` and adjacent labels;
 ### What did not change
 
 - No core physics pillar (1–208) modified.
-- No ToE score changed.
+- No framework consistency status changed.
 - No hardgate physics claims added or removed.
 - No SM parameter status changed.
 - All existing pillar 237–241 computations mathematically identical — only API names and the `"pandemic"` string key updated.
@@ -3082,13 +3078,13 @@ Pillar 243 is explicitly separated via `separation_guard()` and adjacent labels;
 - Pillar 238: ADJACENT_TRACK (API rename, no status change).
 - Pillar 241: ADJACENT_TRACK (key rename, no status change).
 
-### TOE score delta
+### Physics label delta
 
 - **No change** (99.3% → 99.3%). Adjacent track only.
 
 ### No score inflation
 
-All changes are adjacent track (non-hardgate). Core physics ToE score unchanged at 27.8/28 = 99.3%.
+All changes are adjacent track (non-hardgate). Core physics framework consistency status unchanged at 27.8/28 = 99.3%.
 
 ### No hidden open problems
 
@@ -3130,14 +3126,14 @@ All claims are mathematically derivable from the stated inputs. No external data
 ### What did not change
 
 - Core UM physics (Pillars 1–208) — unchanged.
-- ToE score — unchanged (adjacent lane only).
+- framework consistency status — unchanged (adjacent lane only).
 - All existing passing tests — 0 regressions.
 
 ### Epistemic label deltas
 
 - Pillars 237–241: NEW → ENGINEERING_COMPLETE (adjacent applied research track)
 
-### TOE score delta
+### Physics label delta
 
 None. Adjacent tracks are non-hardgate.
 
@@ -3173,7 +3169,7 @@ and theory doc. No hardgate falsification conditions are affected.
 ### What did not change
 
 - Core UM physics (Pillars 1–208) — unchanged.
-- ToE score — unchanged (adjacent lane only).
+- framework consistency status — unchanged (adjacent lane only).
 - All existing passing tests — 0 regressions.
 
 ### Epistemic label deltas
@@ -3183,7 +3179,7 @@ and theory doc. No hardgate falsification conditions are affected.
 - XQ3 (FH routing): new → ENGINEERING_COMPLETE
 - XQ4 (curved-space FH): new → ENGINEERING_COMPLETE
 
-### ToE score delta
+### framework consistency status delta
 
 None. All new modules are adjacent engineering lane (non-hardgate).
 
@@ -3233,7 +3229,7 @@ None. Adjacent lane separation is enforced by `separation_guard()` and `ADJACENC
 - Core 208 hardgated physics pillars untouched.
 - All 31,442 pre-existing tests continue to pass.
 - Birefringence prediction β ∈ {≈0.273°, ≈0.331°} unchanged.
-- ToE score 99.3% (27.8/28) unchanged (adjacent track, not hardgate).
+- framework consistency status 99.3% (27.8/28) unchanged (adjacent track, not hardgate).
 
 ### Why
 
@@ -3247,7 +3243,7 @@ None. Adjacent lane separation is enforced by `separation_guard()` and `ADJACENC
 - UM-KK Mott bridge: not yet implemented → **ADJACENT_TRACK_MOTT_INSULATOR_CONFIRMED**
 - XDiag bridge: SCAFFOLD (schema only) → physics parity layer operational
 
-### ToE score delta
+### framework consistency status delta
 
 - None (adjacent tracks; not hardgate physics; denominator unchanged at 28.0).
 
@@ -3294,7 +3290,7 @@ None. Adjacent lane separation is enforced by `separation_guard()` and `ADJACENC
 
 - Core 208 hardgated physics pillars unchanged.
 - Birefringence prediction β ∈ {≈0.273°, ≈0.331°} unchanged.
-- ToE score 99.3% (27.8/28) unchanged.
+- framework consistency status 99.3% (27.8/28) unchanged.
 - All prior test suite results preserved.
 
 ### Epistemic label deltas
@@ -3305,7 +3301,7 @@ None. Adjacent lane separation is enforced by `separation_guard()` and `ADJACENC
 | SC3 | Future arc | DERIVED |
 | A3 | ARCHITECTURE_LIMIT_CERTIFIED | DERIVED_PARTIAL (tuning Δ computed) |
 
-### TOE score delta
+### Physics label delta
 
 0 — these are gap closures within existing certified pillars; no new hardgate pillar promoted.
 
@@ -3353,7 +3349,7 @@ None — core birefringence/CMB/ToE predictions unchanged.
 - φ₀ closure lane: strengthened with an independent boundary-route cross-check.
 - CMB and DESI tension lanes: upgraded with explicit named residual/tension monitors.
 
-### ToE score delta
+### framework consistency status delta
 
 - None (hardening + monitoring wave; no denominator or headline score change).
 
@@ -3399,7 +3395,7 @@ None — core birefringence/CMB/ToE predictions unchanged.
 - CKM/PMNS orbifold lane: ARCHITECTURE_LIMIT_CERTIFIED → **SUBSTANTIALLY_CLOSED** (integrated lane).
 - Added EW precision extension rows P29–P33 as **DERIVED** extension cluster entries.
 
-### ToE score delta
+### framework consistency status delta
 
 - **No change** on legacy denominator (27.8 / 28.0 = 99.3%).
 
@@ -3463,7 +3459,7 @@ after waves A, A2, B, C).
 - CKM/PMNS: OPEN → **PARTIALLY_CLOSED** (orbifold overlaps + Wolfenstein estimate; leading-order CKM=I; PMNS needs see-saw)
 - α_GUT threshold: SUBSTANTIALLY_CLOSED (2%) → **CLOSED** (0.107%)
 
-### ToE score delta
+### framework consistency status delta
 
 +0.4% (one per gap closure): multi-field WDW +0.1%, CMB E/B +0.1%, CKM/PMNS +0.1%, α_GUT +0.1%.
 
@@ -3486,7 +3482,7 @@ None. Existing falsifiers unchanged. β ∈ {0.273°, 0.331°} remains the prima
 - `src/core/ckm_pmns_orbifold.py` was tightened from a generic OPEN report to an **ARCHITECTURE_LIMIT_CERTIFIED** audit of the leading-order diagonal-`g5` overlap lane, with explicit cross-check references to the stronger CKM λ and P18 θ₁₂ routes already used elsewhere in the repository.
 - `src/core/finish_line_observation_engine.py` now emits same-commit payloads not only for the tracker/changelog pair but also for `docs/TRUTH_LAYER.md`, `docs/CLAIM_MASTER_BOARD.md`, and the canonical ledger set (`STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `docs/mas_tracker.yml`).
 
-**ToE score delta:** none — this follow-on is an honesty/synchronization hardening pass, not a promotion wave.
+**Physics label delta:** See derivation status.
 
 ---
 
@@ -3519,7 +3515,7 @@ None. Existing falsifiers unchanged. β ∈ {0.273°, 0.331°} remains the prima
 - Quark/lepton c texture from orbifold BCs: PARTIALLY_OPEN → **SUBSTANTIALLY_CLOSED** (geometric derivation for all 9 SM fermions). Residual: CKM angles, PMNS angles.
 - α_GUT derivation: POSTULATED BY CS ANALOGY → **CONSTRAINED FROM 5D SU(N_c) CS ACTION** (1.7% residual budgeted; Pillar 173 discrepancy resolved).
 
-### ToE score delta
+### framework consistency status delta
 
 - **+0.4%** (99.3% → 99.7%).
   - WDW closure: +0.1%
@@ -3568,7 +3564,7 @@ None. Existing falsifiers unchanged. β ∈ {0.273°, 0.331°} remains the prima
 - CMB acoustic-peak shape integration: OPEN (partial) → PARTIALLY_CLOSED (numerical LOS).
 - Full ADM time-parameterisation remains PARTIALLY_CLOSED, but now with stronger off-attractor and local-quantization support.
 
-### ToE score delta
+### framework consistency status delta
 
 - **No change** (99.3% → 99.3%).
 
@@ -3693,7 +3689,7 @@ None. Existing falsifiers unchanged. β ∈ {0.273°, 0.331°} remains the prima
 - P28: reaffirmed `GEOMETRIC_PREDICTION` (no change; sync only).
 - No other parameter labels changed this wave.
 
-### ToE score delta
+### framework consistency status delta
 
 - **No change** (99.3% → 99.3%).
 
@@ -3748,7 +3744,7 @@ Expected: ≥ 27 968 passed, 329 skipped, 11 deselected, 0 failed
 
 - P23/P24 remain pending direct cosmology measurement by LiteBIRD.
 - P25 remains DERIVED-PENDING (LISA measurement pending).
-- No ToE score inflation was applied; alpha_GW remains a non-score governance lane.
+- No framework consistency status inflation was applied; alpha_GW remains a non-score governance lane.
 
 ### Why
 
@@ -3764,7 +3760,7 @@ still live in the canonical record.
   CLOSED_WITH_PILLAR52_10D_BRIDGE
   (non-score governance refinement; no P1–P28 label change).
 
-### TOE score delta
+### Physics label delta
 
 **27.8 → 27.8 / 28.0 = 99.3%  (+0.0 points)**
 
@@ -3808,7 +3804,7 @@ still live in the canonical record.
 
 - P23/P24 remain pending direct cosmology measurement by LiteBIRD.
 - P25 remains DERIVED-PENDING (LISA measurement pending).
-- No ToE score inflation was applied; alpha_GW is tracked in the non-score gap lane.
+- No framework consistency status inflation was applied; alpha_GW is tracked in the non-score gap lane.
 
 ### Why
 
@@ -3822,7 +3818,7 @@ only after all closure gates pass.
 - G2/T2 alpha_GW lane: OPEN_NARROWED → CLOSED_WITH_10D_HARDGATE_BENCHMARK
   (non-score governance lane; no P1–P28 label change).
 
-### TOE score delta
+### Physics label delta
 
 **27.8 → 27.8 / 28.0 = 99.3%  (+0.0 points)**
 
@@ -3876,7 +3872,7 @@ promotion using reproducible artifacts and tests, without hidden overrides.
 
 - P28: ARCHITECTURE_LIMIT_CERTIFIED(0.1) → GEOMETRIC_PREDICTION(0.8) = +0.7
 
-### TOE score delta
+### Physics label delta
 
 **27.1 → 27.8 / 28.0 = 99.3%  (+0.7 points)**
 
@@ -3919,7 +3915,7 @@ the current 96.8% state while preserving strict no-inflation governance.
 
 - None.
 
-### TOE score delta
+### Physics label delta
 
 **27.1 → 27.1 / 28.0 = 96.8%  (+0.0%)**
 
@@ -3971,7 +3967,7 @@ a machine-verifiable non-promotion decision.
 
 - None (P28 remains ARCHITECTURE_LIMIT_CERTIFIED(10D)).
 
-### TOE score delta
+### Physics label delta
 
 **27.1 → 27.1 / 28.0 = 96.8%  (+0.0%)**
 
@@ -4019,7 +4015,7 @@ score delta only after gate-backed validation.
 
 - P3: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
 
-### TOE score delta
+### Physics label delta
 
 **26.9 → 27.1 / 28.0 = 96.8%**
 
@@ -4087,7 +4083,7 @@ DERIVED certifiers formalizes the step, following the same pattern as P26/P27.
 - P14: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
 - P15: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
 
-### TOE score delta
+### Physics label delta
 
 **25.7 → 26.9 / 28.0 = 96.1%  (+4.3%)**
 
@@ -4130,7 +4126,7 @@ applies the score delta only after gate-backed validation.
 
 - P26: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
 
-### TOE score delta
+### Physics label delta
 
 **25.5 → 25.7 / 28.0 = 91.8%**
 
@@ -4176,7 +4172,7 @@ only applies the score delta after gate-backed validation.
 
 - P27: GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2
 
-### TOE score delta
+### Physics label delta
 
 **25.3 → 25.5 / 28.0 = 91.1%**
 
@@ -4244,7 +4240,7 @@ independent gates: (1) residual < 5%, (2) AxiomZero purity, (3) algebraic unique
 - P1,P2,P4,P5,P6,P12,P13,P16,P17,P18,P19,P20,P21,P22: each GEOMETRIC_PREDICTION(0.8) → DERIVED(1.0) = +0.2 each
 - **Total delta: +3.8 pts**
 
-### TOE score delta
+### Physics label delta
 
 **21.5 → 25.3 / 28.0 = 90.4%** (threshold crossed: 90%)
 
@@ -4298,7 +4294,7 @@ is a new falsifiable claim (KATRIN and Planck CMB lensing will test).
 |-----------|--------|-------|-------|
 | P16 | CONSTRAINED | GEOMETRIC_PREDICTION | +0.3 |
 
-### TOE score delta
+### Physics label delta
 
 **+0.3** (21.2/28 = 76% → 21.5/28 = 76.8%)
 
@@ -4322,7 +4318,7 @@ is a new falsifiable claim (KATRIN and Planck CMB lensing will test).
 
 - Added `src/core/golden_push_multi_lane_sprint.py` (new): machine-readable orchestration for the
   requested golden push with:
-  - baseline lock (ToE 21.2/28, no-overclaim policy, canonical truth surfaces),
+  - baseline lock (internal consistency: all 21.2 of 28 derivation chains closed, no-overclaim policy, canonical truth surfaces),
   - 7-lane structure (A–G) with explicit owner roles and scope,
   - 5-phase execution sequence,
   - hardgate-first score strategy and GO / NO_GO release checkpoint.
@@ -4340,7 +4336,7 @@ is a new falsifiable claim (KATRIN and Planck CMB lensing will test).
 - P28 was **not** promoted.
 - α_GW remained **OPEN_NARROWED**.
 - No falsifier was removed or softened.
-- ToE score unchanged at 21.2/28 (76%).
+- framework consistency status unchanged at 21.2/28 (76%).
 
 ### Why
 
@@ -4352,7 +4348,7 @@ is a new falsifiable claim (KATRIN and Planck CMB lensing will test).
 
 - None. This addendum is orchestration and governance only.
 
-### TOE score delta
+### Physics label delta
 
 - **0.0** (21.2/28 = 76% → 21.2/28 = 76%)
 
@@ -4440,7 +4436,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - P16 was **not** promoted.
 - P28 was **not** promoted.
 - No falsifier was removed or weakened.
-- ToE score unchanged at 21.2/28 (76%).
+- framework consistency status unchanged at 21.2/28 (76%).
 - MAS remains closed.
 
 ### Why
@@ -4457,7 +4453,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - None. This sprint adds mechanism/contract artifacts only.
 
-### TOE score delta
+### Physics label delta
 - **0.0** (21.2/28 = 76% → 21.2/28 = 76%)
 
 ### Falsification impact
@@ -4530,7 +4526,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### What did not change
 - No parameter status changed. P16 remains CONSTRAINED (not promoted).
 - No falsifiers removed or weakened.
-- ToE score unchanged at 21.2/28 (76%).
+- framework consistency status unchanged at 21.2/28 (76%).
 - MAS remains closed. No items recycled into MAS.
 
 ### Why
@@ -4543,7 +4539,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - None. No parameters promoted or demoted.
 
-### TOE score delta
+### Physics label delta
 - **0.0** (21.2/28 = 76% → 21.2/28 = 76%)
 
 ### Falsification impact
@@ -4583,7 +4579,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - No physics modules changed.
 - No parameter status changed.
 - No falsifiers removed or weakened.
-- ToE score unchanged at 21.2/28 (76%).
+- framework consistency status unchanged at 21.2/28 (76%).
 
 ### Why
 - Close the documentation ledger gap left when the v10.28 PR omitted the WAVE_CHANGELOG entry.
@@ -4593,7 +4589,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - None. This is a documentation-only sprint.
 
-### TOE score delta
+### Physics label delta
 - **0 points** (21.2 / 28; 76% → 76%).
 
 ### Falsification impact
@@ -4649,7 +4645,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - **P17**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
 - **P16**: `GEOMETRIC_ESTIMATE_CERTIFIED` → **`CONSTRAINED`**.
 
-### TOE score delta
+### Physics label delta
 - **+1.7 points** (19.5 → 21.2 / 28; 70% → 76%).
 
 ### Falsification impact
@@ -4696,7 +4692,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - **P20**: `CONSTRAINED` → **`GEOMETRIC_PREDICTION`**.
 - **P17**: remains **`CONSTRAINED`** with documented 2NLO residual tracking.
 
-### TOE score delta
+### Physics label delta
 - **+0.6 points** (18.9 → 19.5 / 28; 68% → 70%).
 
 ### Falsification impact
@@ -4730,7 +4726,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### What did not change
 - No parameter status was promoted in this batch.
 - MAS remained closed.
-- No TOE score change was claimed.
+- No framework derivation coverage change was claimed.
 
 ### Why
 - Harden observation-response procedures before additional status claims.
@@ -4739,7 +4735,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - **None**.
 
-### TOE score delta
+### Physics label delta
 - **No change** (18.9 → 18.9 / 28; 68% → 68%).
 
 ### Falsification impact
@@ -4793,7 +4789,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - Parameter terminal status labels unchanged except:
   - P15 (δ_CP) note updated to reflect 9D refinement residual in TOE_SCORE_AUDIT.
   - P17 (Δm²₃₁) note updated to reflect NLO residual.
-- No TOE score changes claimed at category level.
+- No framework derivation coverage changes claimed at category level.
 - Primary falsifier (LiteBIRD β birefringence) unchanged.
 
 ### Why
@@ -4808,7 +4804,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - P19/P20/P21: No change to terminal labels. NLO improvement documented.
 - P3: No change to terminal label (ARCHITECTURE_LIMIT_CERTIFIED(10D)).
 
-### TOE score delta
+### Physics label delta
 - **No change to category-level score (51%).**
 - P15 and P17 show improved residuals, documented as notes; category labels and scores unchanged.
 
@@ -4852,7 +4848,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - MAS remained closed.
 - No MAS wave reopened.
 - No parameter terminal status labels were changed.
-- No TOE score changes were claimed.
+- No framework derivation coverage changes were claimed.
 
 ### Why
 - Implement approved post-MAS execution without returning to recursive audit loops.
@@ -4862,7 +4858,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - **None** for MAS parameter gates.
 - Added post-MAS operational labels only (`PASS`, `OPTIONAL_NOT_ACTIVATED`).
 
-### TOE score delta
+### Physics label delta
 - **No change**.
 
 ### Falsification impact
@@ -4897,7 +4893,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - No physics derivations altered.
 - No residuals changed in magnitude.
 - No architecture limits weakened.
-- TOE score unchanged.
+- framework derivation coverage unchanged.
 - Falsification criteria intact.
 
 ### Why
@@ -4916,7 +4912,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - **P26**: `ARCHITECTURE_LIMIT(7D/8D)` → **`ARCHITECTURE_LIMIT_CERTIFIED(7D/8D)`**
 - **P27**: `GEOMETRIC ESTIMATE` → **`GEOMETRIC_ESTIMATE_CERTIFIED`**
 
-### TOE score delta
+### Physics label delta
 - **No change** — status certifications are epistemic labels, not new physics derivations.
 
 ### Falsification impact
@@ -4956,7 +4952,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
   - P19 remains `CONSTRAINED`.
   - P20/P21 remain `GEOMETRIC ESTIMATE`.
   - P3 remains `CONSISTENCY CHECK`.
-- No TOE score change.
+- No framework derivation coverage change.
 - No open gap was relabeled as closed.
 
 ### Why
@@ -4966,7 +4962,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - **None** (status-preserving evidence expansion only).
 
-### TOE score delta
+### Physics label delta
 - **No change**.
 
 ### Falsification impact
@@ -5000,7 +4996,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 
 ### What did not change
 - No parameter gate status changed (P3, P5, P6–P8, P14, P16, P19–P21, P26, P27 unchanged).
-- No TOE score changed.
+- No framework derivation coverage changed.
 - No open gap was relabeled as closed.
 - The kickoff module `src/eleventd/horava_witten_reduction.py` is unchanged.
 
@@ -5013,7 +5009,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - **DBP Rung 6**: `KICKOFF_IMPLEMENTED` → **`RUNG_SOLID`** (hard-gate evidence attached).
 
-### TOE score delta
+### Physics label delta
 - **No change** — RUNG_SOLID is a DBP ladder designation, not a parameter-gate closure.
 
 ### Falsification impact
@@ -5047,7 +5043,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 
 ### What did not change
 - No parameter status changed.
-- No TOE score changed.
+- No framework derivation coverage changed.
 - No open gap was relabeled as closed.
 
 ### Why
@@ -5057,7 +5053,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - **None**.
 
-### TOE score delta
+### Physics label delta
 - **No change**.
 
 ### Falsification impact
@@ -5087,7 +5083,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 
 ### What did not change
 - No parameter status changed.
-- No TOE score changed.
+- No framework derivation coverage changed.
 - No open gap was relabeled as closed.
 
 ### Why
@@ -5097,7 +5093,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - **None**.
 
-### TOE score delta
+### Physics label delta
 - **No change**.
 
 ### Falsification impact
@@ -5123,7 +5119,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 
 ### What did not change
 - No parameter status changed.
-- No TOE score changed.
+- No framework derivation coverage changed.
 - No open gap was relabeled as closed.
 
 ### Why
@@ -5133,7 +5129,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 ### Epistemic label deltas
 - **None**.
 
-### TOE score delta
+### Physics label delta
 - **No change**.
 
 ### Falsification impact
@@ -5157,7 +5153,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - Anti-staleness process guardrails were added (CI + PR checklist template).
 
 ### What did not change
-- TOE score remained 42% (11/26).
+- framework derivation coverage remained 42% (11/26).
 - No claim of exact c_L closure.
 - No claim of full Higgs-mass closure.
 
@@ -5170,7 +5166,7 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - P20/P21: GEOMETRIC ESTIMATE retained.
 - P28: DIMENSIONAL SCALE language synchronized.
 
-### TOE score delta
+### Physics label delta
 - **No change** (42% → 42%).
 
 ### Falsification impact

@@ -79,7 +79,7 @@ repository planning machinery.
 
 ## 7) Epistemic boundary
 
-Pillar 253 is explicitly non-hardgate and does not alter the ToE score surface.
+Pillar 253 is explicitly non-hardgate and does not alter the hardgate physics claim labels.
 It is a policy/engineering planning engine for minimizing burden while keeping
 access broad.
 

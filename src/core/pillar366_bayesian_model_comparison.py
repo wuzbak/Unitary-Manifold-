@@ -172,7 +172,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 366 extends the Bayesian model comparison "
         "(Pillar 330) with full likelihood ratio including honest residuals. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 

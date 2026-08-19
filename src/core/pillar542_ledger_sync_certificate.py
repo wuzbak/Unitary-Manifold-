@@ -102,9 +102,9 @@ LEDGER_SYNC_DELTAS: List[Dict[str, str]] = [
     },
 ]
 
-# Current ToE score (unchanged — ledger sync is bookkeeping only)
+# Current framework derivation coverage (unchanged — ledger sync is bookkeeping only)
 TOE_SCORE: Dict[str, Any] = {
-    "score": "28.0/28",
+    "score": "framework internally consistent",
     "percentage": 100.0,
     "hardgate_changes": 0,
     "note": "Ledger sync: bookkeeping only; no hardgate promotion, no physics change",

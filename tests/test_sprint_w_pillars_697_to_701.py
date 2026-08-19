@@ -5,7 +5,7 @@ Tests for Sprint W — Pillars 697–701
   P697  NP-BC12 higher-loop mixed graviton-matter kernel
   P698  Majorana δ_CP refinement + |m_ββ|
   P699  CKM λ⁶ higher-order corrections
-  P700  ToE score audit 30.0/28 (700-pillar milestone)
+  P700  framework derivation coverage audit 30.0/28 (700-pillar milestone)
   P701  Sprint W regression certificate v21.4
 """
 
@@ -207,7 +207,7 @@ class TestPillar699:
 
 # ─────────────────────────────────────────────────────────────────────────────
 class TestPillar700:
-    """ToE score audit 30.0/28"""
+    """framework derivation coverage audit 30.0/28"""
 
     def test_score_string(self):
         assert p700.score_string() == "30.0/28"

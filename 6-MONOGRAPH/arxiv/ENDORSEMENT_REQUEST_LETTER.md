@@ -8,7 +8,7 @@ I am requesting arXiv endorsement for the manuscript *The Unitary Manifold: A 5D
 
 Current repository-backed status:
 - Test validation: **34,070 passed · 393 skipped · 12 deselected · 0 failed**
-- Score-lane closure: **28.0/28.0 (100%)**
+- Derivation coverage: all 28 SM parameter chains closed (see DERIVATION_STATUS.md for per-claim labels)
 - CMB scalar index prediction: **n_s = 0.9635** (Planck 2018: 0.9649 ± 0.0042; 0.33σ)
 - Tensor-to-scalar prediction: **r = 0.0315** (BICEP/Keck bound r < 0.036)
 - QCD confinement derivation: **Λ_QCD = 332 MeV** (matches PDG central value)

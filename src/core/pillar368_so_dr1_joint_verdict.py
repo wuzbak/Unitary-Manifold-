@@ -95,7 +95,7 @@ def separation_guard() -> str:
         "HARDGATE_ADJACENT: Pillar 368 provides the SO DR1 + ACT DR6 + SPT-3G "
         "joint verdict routing protocol for the r prediction. "
         "ACT DR6 tension is IRREDUCIBLE at 5D-EFT (Pillar 357). "
-        "Status: ROUTING_INFRASTRUCTURE. No ToE score affected."
+        "Status: ROUTING_INFRASTRUCTURE. No framework derivation coverage affected."
     )
 
 

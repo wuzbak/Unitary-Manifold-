@@ -74,7 +74,7 @@ __provenance__ = {
     "fingerprint": "(5, 7, 74)",
     "status": (
         "ADJACENT RESEARCH TRACK — deterministic interoperability and validation "
-        "fabric; non-hardgate, no ToE score delta"
+        "fabric; non-hardgate, no physics label delta"
     ),
     "external_scope_statement": (
         "Einstein Toolkit strongest match for large computational-physics "

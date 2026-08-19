@@ -28,7 +28,7 @@ the compact dimension as a site-dependent hopping modulation.
 
 IMPORTANT: This is an ADJACENT TRACK connection — the existence of such a
 coupling does NOT constitute a hardgate UM pillar and does NOT alter the
-core ToE score.  The separation is enforced explicitly by ``separation_guard()``.
+core framework derivation coverage.  The separation is enforced explicitly by ``separation_guard()``.
 
 KK-natural coupling
 -------------------
@@ -534,7 +534,7 @@ def separation_guard() -> dict[str, str]:
             "fh_curved.py is an adjacent engineering lane exploring the "
             "connection between KK radion geometry and FH hopping modulation. "
             "It does NOT constitute a hardgate UM pillar and does NOT alter "
-            "the core ToE score.  See docs/CLAIM_MASTER_BOARD.md §Lane F."
+            "the core framework derivation coverage.  See docs/CLAIM_MASTER_BOARD.md §Lane F."
         ),
     }
 

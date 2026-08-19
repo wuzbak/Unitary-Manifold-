@@ -178,7 +178,7 @@ def separation_guard() -> str:
     return (
         "HARDGATE_ADJACENT: Pillar 370 assesses Affleck-Dine baryogenesis "
         "in KK geometry. Status: ARCHITECTURE_LIMIT_NARROWED. "
-        "No ToE score affected."
+        "No framework derivation coverage affected."
     )
 
 

@@ -120,7 +120,7 @@ def test_all_deltas_now_at_v185():
         assert d["now_at"] == "v18.5", f"{d['document']} not synced to v18.5"
 
 
-# ─── ToE score ───────────────────────────────────────────────────────────────
+# ─── framework derivation coverage ───────────────────────────────────────────────────────────────
 
 def test_toe_score_unchanged():
     assert TOE_SCORE["score"] == "28.0/28"

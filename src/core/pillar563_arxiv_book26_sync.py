@@ -12,7 +12,7 @@ and provides the repository record for Book 26 ("Closing the Gap").
 Pillar 559: DM31_CLOSURE_CERTIFICATE
   - P17 Δm²₃₁ formally closed: 3.33σ → 0.12σ → CLOSED (< 1σ threshold)
   - P17 epistemic upgrade: ARCHITECTURE_LIMIT_CERTIFIED → DM31_CLOSED_THREE_STEP_CASCADE
-  - ToE score delta: +0.5 pts (P17 now CONDITIONAL_DERIVATION)
+  - physics label delta: +0.5 pts (P17 now CONDITIONAL_DERIVATION)
 
 Pillar 560: NP_BC1_SUBGAP_A_RS_GEOMETRY_KERNEL_PROVED
   - Sub-gap A (RS geometry): algebraic kernel proved (12 theorems, NPBC1SubgapA.lean)
@@ -195,7 +195,7 @@ def lean4_advancement() -> Dict[str, Any]:
 
 
 def toe_score_summary() -> Dict[str, Any]:
-    """Summarize the ToE score state after Sprint 1."""
+    """Summarize the framework derivation coverage state after Sprint 1."""
     return {
         "before_v19_3": 28.5,   # 28/28 + 0.5 partial (gen-1 c_L AB, P558)
         "after_v19_3": 29.0,    # +0.5 for P17 DM31 closure (P559)

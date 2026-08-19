@@ -291,7 +291,7 @@ EXTENSION_TRACK_STATUS: Dict[str, Dict] = {
         "epistemic_outcome": "ARCHITECTURE_LIMIT_CERTIFIED(10D)",
     },
     "ET-5": {
-        "title": "Prediction registry and ToE score audit",
+        "title": "Prediction registry and framework derivation coverage audit",
         "parameter": "all",
         "artifact": "src/core/prediction_registry.py",
         "status": "DELIVERED",
@@ -453,7 +453,7 @@ def scope_freeze_summary() -> Dict:
     Returns
     -------
     dict
-        Full summary: version, date, MAS status, ToE score, counts by status,
+        Full summary: version, date, MAS status, framework derivation coverage, counts by status,
         DBP ladder state, robustness track state, extension track state,
         and architecture limits.
     """

@@ -287,12 +287,12 @@ def separation_guard() -> str:
     Declare the scope boundary of this module relative to the hardgate core.
 
     This module is an ADJACENT TRACK.  It does not modify any hardgate pillar,
-    ToE score, or core physics claim.
+    framework derivation coverage, or core physics claim.
     """
     return (
         "ADJACENT_TRACK_NON_HARDGATE: This module performs a CMB cross-check "
         "using standard cosmological inputs. It does not modify any hardgate "
-        "claim or ToE score. The UM provides inflationary seed parameters "
+        "claim or framework derivation coverage. The UM provides inflationary seed parameters "
         "(n_s, r, A_s); post-recombination processing uses standard Boltzmann "
         "physics. Consistency is expected and observed."
     )

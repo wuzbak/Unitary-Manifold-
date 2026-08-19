@@ -43,7 +43,7 @@ There was, at one point, a clean narrative arc: 99.3% complete, waiting on one f
 
 Then someone actually closed the final lane.
 
-P28 moved from GEOMETRIC_PREDICTION to DERIVED via a four-gate certification chain (first-principles pass, 10D closure pass, residual threshold pass, AxiomZero purity pass). The ToE score moved from 27.8/28 to 28.0/28. No denominator tricks. No "weights update pending." No "interpretive harmonization." Just: promoted, certified, and test-backed.
+P28 moved from GEOMETRIC_PREDICTION to DERIVED via a four-gate certification chain (first-principles pass, 10D closure pass, residual threshold pass, AxiomZero purity pass). The P28 promoted from GEOMETRIC_PREDICTION to DERIVED. No denominator tricks. No "weights update pending." No "interpretive harmonization." Just: promoted, certified, and test-backed.
 
 This has created a deeply inconvenient public-relations situation in which the repository can now honestly say "100%" while simultaneously insisting it might still be falsified by data. In other words: the mathematics says "closure," the epistemics say "wait for sky," and both statements are being maintained in explicit tension.
 
@@ -206,7 +206,7 @@ It's all the way down.
 - **April 2026:** First 99 pillars established. Tests written.
 - **~April–May 2026:** 108 more pillars. QCD solved. Standard Model substantially derived. Cold fusion module added. Consciousness coupling constant derived. Egg cell radius predicted.
 - **May 2026:** 208 core physics pillars sealed. Pillar set frozen. Status: CLOSED.
-- **May 2026:** P28 DERIVED cert lands (v10.59). ToE score moves to 28.0/28 = 100%.
+- **May 2026:** P28 DERIVED cert lands (v10.59). P28 promoted to DERIVED status.
 - **May 2026:** Adjacent terminal closure lanes (P244/P245) certified without changing hardgate score.
 - **May 2026:** 172 Substack posts published. This one is 173.
 - **~2028:** LiteBIRD launches.
@@ -284,4 +284,4 @@ Nature has until approximately 2032.
 ---
 
 *Post 173 — Series S01E026 — May 2026*  
-*32,993 tests. 208 pillars. 28.0/28. Nature decides the rest.*
+*32,993 tests. 208 pillars. framework internally consistent. Nature decides the rest.*

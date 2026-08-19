@@ -24,7 +24,7 @@ SPRINT_AA_CERTIFICATE = {
     "pillar_total":      720,
     "new_tests_sprint":  "~200",
     "test_total_est":    "~52,778",
-    "toe_score":         "30.0/28",
+    "toe_score":         "framework internally consistent",
     "toe_changed":       False,
 
     "architecture_limits": {

@@ -17,7 +17,7 @@ The interface (az-os/phi_field_interface.py) implements:
 4. φ-debt energy accounting: every OS operation has a fractional energy cost
    in units of (Δφ)²/(2φ₀²).
 
-This is an infrastructure pillar — no new hardgate physics, no ToE score
+This is an infrastructure pillar — no new hardgate physics, no framework derivation coverage
 change.  The convergence serves the longer-term goal of: physics-informed
 AI resource accounting where agent operations are metered in φ-field units.
 

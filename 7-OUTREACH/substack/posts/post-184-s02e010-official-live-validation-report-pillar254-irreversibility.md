@@ -95,7 +95,7 @@ This is exactly what certification should look like: explicit gates, explicit ou
 ### Does not establish
 
 - It does **not** upgrade hardgate status.
-- It does **not** change ToE score.
+- It does **not** change framework derivation coverage.
 - It does **not** prove the universe must obey the model.
 
 Sky-facing experimental adjudication remains external.

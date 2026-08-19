@@ -212,7 +212,7 @@ def separation_guard() -> str:
         "(Pillars 355-356) to include peak position predictions via the analytic "
         "Ma-Bertschinger tight-coupling Boltzmann hierarchy. Standard ΛCDM "
         "transfer physics applies; Z_φ(k) modifies amplitudes only. "
-        "No ToE score is affected."
+        "No framework derivation coverage is affected."
     )
 
 
