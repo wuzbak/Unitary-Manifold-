@@ -13,10 +13,22 @@ import json
 import sys
 from pathlib import Path
 
-root = Path(__file__).resolve().parents[2]
+# Walk up from the resolved path until we find the repo root (contains src/core/).
+# Using .resolve() avoids symlink confusion when this script is invoked through
+# the 10-UM-SOS → 12-AZ-IP/04-um-sos symlink chain.
+_here = Path(__file__).resolve().parent
+root = _here
+while root != root.parent:
+    if (root / "src" / "core").is_dir():
+        break
+    root = root.parent
 sys.path.insert(0, str(root))
 
-from src.core.um_sos_registry import write_registry_json, get_registry_entries  # type: ignore
+from src.core.um_sos_registry import write_registry_json  # type: ignore
+try:
+    from src.core.um_sos_registry import get_registry_entries  # type: ignore
+except ImportError:
+    get_registry_entries = None  # type: ignore
 
 # ---------------------------------------------------------------------------
 # JSON Schema for a single registry entry
@@ -87,7 +99,9 @@ if __name__ == "__main__":
     if args.validate or args.dry_run:
         print("Validating registry entries…")
         try:
-            entries = get_registry_entries()  # type: ignore[attr-defined]
+            entries = get_registry_entries() if callable(get_registry_entries) else None  # type: ignore
+            if entries is None:
+                raise AttributeError
         except AttributeError:
             # Fallback: read the existing file if get_registry_entries isn't exposed
             if out.exists():

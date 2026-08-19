@@ -11,7 +11,15 @@ import argparse
 import sys
 from pathlib import Path
 
-root = Path(__file__).resolve().parents[2]
+# Walk up from the resolved path until we find the repo root (contains src/core/).
+# Using .resolve() avoids symlink confusion when this script is invoked through
+# the 10-UM-SOS → 12-AZ-IP/04-um-sos symlink chain.
+_here = Path(__file__).resolve().parent
+root = _here
+while root != root.parent:
+    if (root / "src" / "core").is_dir():
+        break
+    root = root.parent
 sys.path.insert(0, str(root))
 
 from src.core.um_sos_graph import write_graph_json  # type: ignore
