@@ -4,7 +4,7 @@
     "pillar_status": "AXIOMZERO_IP_REGISTRY",
     "author": "ThomasCory Walker-Pearson",
     "date": "2026-06-15",
-    "updated": "2026-08-18",
+    "updated": "2026-08-19",
     "license": "LicenseRef-DefensivePublicCommons-1.0",
     "categories": {
         "apps": "12-AZ-IP/apps/README.md",
@@ -476,6 +476,15 @@
             "tests": "manifest-backed",
             "description": "Master registry surfaces, manifests, and catalog tooling for the consolidated canonical IP folder.",
             "link": "tools/"
+        },
+        {
+            "name": "AxiomZero \u03a9 Oracle",
+            "version": "1.0.0",
+            "trl": "TRL-5",
+            "port": "http://localhost:7872",
+            "tests": "83",
+            "description": "Grand Synthesis Engine \u2014 applies the full AxiomZero epistemic framework (Pentad, Omega Score, governance audit, decision resonance) to any real-world system.",
+            "link": "16-oracle/"
         }
     ]
 }
