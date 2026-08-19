@@ -40,8 +40,9 @@ def test_next_pillar_slot():
     assert SPRINT_CLUSTER_SUMMARY["next_pillar_slot"] == 722
 
 
-def test_toe_score_unchanged():
-    assert SPRINT_CLUSTER_SUMMARY["toe_score"] == "30.0/28"
+def test_epistemic_status_field():
+    # Module uses plain epistemic status; ToE score language retired per integrity policy
+    assert SPRINT_CLUSTER_SUMMARY["toe_score"] == "framework internally consistent"
 
 
 def test_lean4_unchanged():
