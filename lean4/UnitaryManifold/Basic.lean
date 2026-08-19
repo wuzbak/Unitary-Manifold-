@@ -4,6 +4,28 @@
 Machine-checked proofs of the three algebraic identities from
 `src/core/formal_proof_hardening.py`, plus arithmetic verification
 of the fundamental UM constants.
+
+## Library Structure (v21.8+)
+
+| File | Content | Est. Theorems |
+|------|---------|--------------|
+| Basic.lean | Core constants: K_CS, n_w, c_s, ξ_c, T1–T20 | ~20 |
+| Extended.lean | Contract library T2–T20 | ~30 |
+| BraidUniqueness.lean | Four-proof braid uniqueness chain | ~12 |
+| KCSTopological.lean | Topological identity + Z₂ parity | ~2 |
+| NumericalChecks.lean | Compile-time #guard checks | ~10 |
+| FalsifierBoundary.lean | Falsifier arithmetic | ~12 |
+| CCRKernel.lean | CCR + ER=EPR conditional kernels | ~15 |
+| ERWormhole.lean | ER wormhole axiom structure | ~10 |
+| NPBC1–6 files | NP-BC chain (6 kernels, 16 sub-gaps) | ~183 |
+| NWIntegerLattice.lean | Exhaustive n_w ∈ {5,7} Finset proof | ~20 |
+| FalsifierConditional.lean | Conditional falsifier theorems | ~25 |
+| JarlskogCertificate.lean | Jarlskog Layer 2 rational cert | ~18 |
+| SoundSpeedBounds.lean | c_s = 12/37 stability certificate | ~18 |
+| InflationObservableChain.lean | n_s/r/β algebraic derivation chain | ~16 |
+| NWUniquenessHonest.lean | Honest proof-distance map | ~14 |
+
+**Total: ~476 theorems** (v21.8+)
 -/
 import Mathlib.Tactic
 

@@ -1,6 +1,8 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
-*Unitary Manifold v21.8 — Effective 2026-08-18*
+*Unitary Manifold v21.8 — Effective 2026-08-19*
+
+*v21.8 Sprint AB — Lean4 Proof Expansion + Circularity Audit (2026-08-19): Six new Lean4 modules (NWIntegerLattice: exhaustive Finset proof n_w∈{5,7} via Z₂∩CS-anomaly-gap, 20 theorems; FalsifierConditional: conditional falsifier theorems with hypothesis structure for LiteBIRD/JUNO/ACT/DESI/LHC/nEDM@SNS, 25 theorems; JarlskogCertificate: Jarlskog Layer 2 rational arithmetic certificate closing Admission 7, 18 theorems; SoundSpeedBounds: c_s=12/37 full stability certificate — positivity/subluminality/Higuchi/primality, 18 theorems; InflationObservableChain: algebraic derivation chain n_s/r/β with Planck discriminator, 16 theorems; NWUniquenessHonest: explicit proof-distance map with three open axioms named). Python: nw_circularity_audit.py (machine-readable dependency graph of n_w selection chain, classifying each step as PROVED/GEOMETRIC/AXIOM_DEPENDENT/OBSERVATIONAL_INPUT/ARCHITECTURE_LIMIT; 48 tests). Lean4 theorem total: 365 → 476 (+111). Next pillar slot: 721.*
 
 *v21.8 Sprint AA — Tightening 17–18 + NP BC16 + EW/DM routing (2026-08-18): Pillar 716 (NP_BC16_GAUGE_ANOMALY_KERNEL: BC16 closed; primary BC1–BC16 ladder complete); Pillar 717 (KK_DM_DIRECT_DETECTION: grav null ~10⁻⁵⁶ cm²; EW channel ~10⁻⁴⁶ cm² in XENON-nT reach); Pillar 718 (FINE_STRUCTURE_KK_RUNNING_TIGHTENING_17: Δα^KK/α ~ 0.2% — sub-percent); Pillar 719 (SIN2_THETAW_KK_TIGHTENING_18: Δsin²θ_W ~ 1.5×10⁻⁴; visible at Tera-Z); Pillar 720 (SPRINT_AA_CERTIFICATE: v21.8 sync; BC1–BC16 ladder complete; next slot 721). Sprint totals: +52 tests, 0 ToE change, next pillar slot: 721. Full regression: ~52,630 passed. AxiomZero Logic Lodge test suite added (106 tests covering all 5 zones: Pillar Arcade, Logic Lodge, Training Gym, Observability, Knowledge Exchange).*
 
