@@ -758,7 +758,7 @@ The adjacent track interface is designed so that:
 
 **"How many parameters are truly free?"**
 ```
-  Zero. As of v11.6, framework state.0 = 100%.
+  Zero. As of v11.6, all derivation chains closed within framework axioms.
   All 28 SM parameters are DERIVED from the 5D metric geometry
   with n_w=5 and K_CS=74 (themselves derived, not fitted).
   See docs/CLAIM_MASTER_BOARD.md for per-parameter status.

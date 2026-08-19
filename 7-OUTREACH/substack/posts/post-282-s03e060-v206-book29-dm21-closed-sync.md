@@ -18,7 +18,7 @@ Sprint J (Pillars 613–617, v20.6) delivered the final steps of the DM21 cascad
 
 **Pillar 616** — Book 29 + arXiv v20.6 Sync: Book 29 titled "DM21 Closed — The Solar Neutrino Gap Falls" published; arXiv v20.6 submitted; Substack #282 S03E060.
 
-**Pillar 617** — v20.6 Regression Certificate: framework status framework internally consistent; Lean4 308 theorems; ~50,650 passed · 0 failed.
+**Pillar 617** — v20.6 Regression Certificate: framework internally consistent; Lean4 308 theorems; ~50,650 passed · 0 failed.
 
 ---
 
@@ -47,7 +47,7 @@ The book documents:
 | Two-loop EW correction | Pillar 613 | +0.5 |
 | **Total** | | **framework internally consistent** |
 
-The 30.0 total means the framework has proven more than its own stated hardgate conditions. The hardgate 28/28 remains the scientifically peer-reviewable baseline. The +2.0 partial credit represents formally closed sub-gap residuals that went beyond the original 28-parameter scope.
+The framework has closed all 28 hardgate derivation chains (the peer-reviewable baseline) plus 2.0 additional partial closures in the Yukawa sector that went beyond the original 28-parameter scope.
 
 ---
 
