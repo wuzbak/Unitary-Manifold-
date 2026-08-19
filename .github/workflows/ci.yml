@@ -46,6 +46,8 @@ jobs:
             --cov-fail-under=85
       - name: Full regression gate (smoke — macos)
         if: matrix.os == 'macos-14'
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
             -q --tb=short
