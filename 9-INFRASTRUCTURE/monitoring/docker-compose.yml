@@ -1,0 +1,68 @@
+# 9-INFRASTRUCTURE/monitoring/docker-compose.yml
+# Local observability stack: Prometheus + Grafana + Jaeger
+# Theory: ThomasCory Walker-Pearson | Code: GitHub Copilot (AI)
+#
+# Usage:
+#   docker compose -f 9-INFRASTRUCTURE/monitoring/docker-compose.yml up -d
+#   Prometheus: http://localhost:9090
+#   Grafana:    http://localhost:3000  (admin/admin)
+#   Jaeger:     http://localhost:16686
+
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.51.2
+    container_name: um-prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    networks:
+      - um-obs
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: um-grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - um-obs
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    container_name: um-jaeger
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"   # Jaeger UI
+      - "4317:4317"     # OTLP gRPC
+      - "4318:4318"     # OTLP HTTP
+    restart: unless-stopped
+    networks:
+      - um-obs
+
+networks:
+  um-obs:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:

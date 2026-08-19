@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  terra-os:
+    build: .
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    restart: unless-stopped

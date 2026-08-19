@@ -50,3 +50,36 @@ __provenance__ = {
     "license_theory": "Defensive Public Commons v1.0",
     "fingerprint": "(5, 7, 74)",  # The braid triad; unique to this framework
 }
+
+# ---------------------------------------------------------------------------
+# Consolidated HILS-gate invariants — single source of truth (v2.0+)
+# ---------------------------------------------------------------------------
+try:
+    from hils_core import (  # type: ignore[import-not-found]
+        HILS_CORE_VERSION,
+        HIL_PHASE_SHIFT_THRESHOLD,
+        SENTINEL_CAPACITY,
+        BRAIDED_SOUND_SPEED,
+        TRUST_PHI_MIN,
+        HILOperator,
+        HILSCertificationPipeline,
+        HILSGateDecision,
+        EpistemicClass,
+        CANONICAL_PRIMARY_OPERATOR,
+        build_certified_pipeline,
+    )
+    __all__ = [
+        "HILS_CORE_VERSION",
+        "HIL_PHASE_SHIFT_THRESHOLD",
+        "SENTINEL_CAPACITY",
+        "BRAIDED_SOUND_SPEED",
+        "TRUST_PHI_MIN",
+        "HILOperator",
+        "HILSCertificationPipeline",
+        "HILSGateDecision",
+        "EpistemicClass",
+        "CANONICAL_PRIMARY_OPERATOR",
+        "build_certified_pipeline",
+    ]
+except ImportError:
+    pass  # hils_core available as direct import from the Pentad directory

@@ -1,0 +1,17 @@
+# AXIOM — Investigative Journalist AI: Dependencies
+
+# Core UI
+gradio>=4.20.0
+
+# Data / utilities
+numpy>=1.24
+
+# Optional — LLM integration (uncomment to enable AI-assisted entity extraction)
+# openai>=1.14.0
+
+# Optional — PDF source ingestion
+# pypdf>=3.0.0
+
+# Optional — web scraping / FOIA fetch
+# requests>=2.31.0
+# beautifulsoup4>=4.12.0

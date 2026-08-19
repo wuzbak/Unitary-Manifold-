@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  eige:
+    build: .
+    command: pytest tests/ -v --tb=short
+    environment:
+      - EIGE_COUNTY_COUNT=39
+      - EIGE_K_CS=74

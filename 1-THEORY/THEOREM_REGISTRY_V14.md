@@ -1,5 +1,14 @@
 # Theorem Registry v14
 
+> **v21.0-S canonical pointer (2026-08-18):** This registry covers theorems T001–T014 from
+> the v14 sprint (Pillars 447–474). It is preserved for audit traceability. The current
+> framework state is v21.0-S with 687+ pillars, 365 Lean4 theorems, and ToE 30.0/28.
+> For current formal proof status, see `lean4/UnitaryManifold/` and
+> `src/core/pillar622_lean4_342_sprint_k_milestone.py` (all 6 NP-BC chains complete, 203
+> cumulative sub-gap theorems). For current derivation status, see
+> [`DERIVATION_STATUS.md`](DERIVATION_STATUS.md). The theorem labels below remain valid;
+> no T001–T014 entry has been falsified or demoted since v14.
+
 Machine-readable theorem/conjecture registry rendered as markdown for review.
 
 | ID | Name | Status | Claim | Proof module | Test file | Falsification | Pillar(s) |

@@ -215,7 +215,7 @@ class TestIPRegistryJSON:
         pytest.skip("12-AZ-IP/IP_REGISTRY.json not found")
 
     def test_schema_field(self, registry):
-        assert registry["schema"] == "axiomzero-ip-registry-v1"
+        assert registry["schema"] == "axiomzero-ip-registry-v2"
 
     def test_pillar_536(self, registry):
         assert registry["pillar"] == 536

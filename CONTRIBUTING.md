@@ -12,7 +12,7 @@ git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 51,811 passed · 23 skipped · 12 deselected · 0 failed
+# Expected: 51,951 passed · 23 skipped · 12 deselected · 0 failed
 python -m pytest tests/ -q           # tests/ only — see STATUS.md for current sub-suite total
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 ```
@@ -30,7 +30,7 @@ The test suite covers (representative selection — see `STATUS.md` for complete
 | Adjacent pillars 209–232 | Universal Yukawa BC, ADM decomposition, RS neutrino spectrum, quantum/cancer/AI bottleneck calculators, interstellar travel, energy manifold, nanotechnology, medical imaging (1,700+ tests across 24 adjacent-track modules) |
 | Integrations | JAX-accelerated evolution, Lean4 formal proof bridge, Z3 SMT bounds, XDiag compatibility bridge (optional-dep guarded) |
 | Richardson (slow) | Second-order convergence rate in time step (11 tests) |
-| **Total (current)** | **Grand total: 51,811 passed · 23 skipped · 12 deselected · 0 failed** (see `STATUS.md` and `README.md` for full per-file breakdown) |
+| **Total (current)** | **Grand total: 51,951 passed · 23 skipped · 12 deselected · 0 failed** (see `STATUS.md` and `README.md` for full per-file breakdown) |
 
 > **Skip note:** 329 tests use conditional `pytest.skip()` guards — 75 dual-use stubs (cold fusion / lattice dynamics) and 254 Pentad product stubs. See `DUAL_USE_NOTICE.md` and `PENTAD_PRODUCT_NOTICE.md`.
 > **Slow note:** 11 tests in `test_richardson_multitime.py` are marked `@pytest.mark.slow` and deselected by default via `pytest.ini`. Run with `pytest tests/ -m slow`.
@@ -184,3 +184,40 @@ and AGPL-3.0 are never diminished by this grant.
 ---
 
 *Questions? Open a GitHub Issue or Discussion.*
+
+---
+
+## Enhanced Development Workflow (v20.1+)
+
+### Branch naming convention
+
+```
+<github-handle>/<short-description>
+# e.g.  wuzbak/pillar-233-dark-energy
+```
+
+### Quick commands
+
+```bash
+make install-dev      # install all deps + pre-commit hooks
+make test             # full 0-failure suite
+make lint             # ruff + mypy
+make fmt              # black autoformat
+make test-cov         # coverage report to htmlcov/
+make docker-up        # Prometheus + Grafana + Jaeger monitoring stack
+make docs             # build MkDocs site
+```
+
+### Pull request → Pentad approval checklist
+
+1. `make lint` passes (ruff + mypy).
+2. `make test` passes — **0 failures**.
+3. PR classified: `POST /api/v1/governance/classify` with diff summary.
+4. Epistemic label applied: `HARDGATE` or `ADJACENT-TRACK`.
+5. One human acknowledgment of the label.
+
+### Secrets policy
+
+Never commit credentials. Use env vars + `pydantic-settings`.
+`detect-secrets` pre-commit hook blocks accidental commits.
+See `SECURITY.md` for responsible disclosure.

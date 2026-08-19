@@ -18,7 +18,7 @@ audit infrastructure, CI/CD automation, and AI assistant integrations.
 | Field | Value |
 |-------|-------|
 | **Source path** | `TOOLS/audit/check_internal_links.py` |
-| **Description** | Crawls all Markdown files in the repository and validates every internal `[link](path)` reference. Catches broken documentation links before they reach CI. Run: `python TOOLS/audit/check_internal_links.py`. |
+| **Description** | Crawls all Markdown files in the repository and validates every internal link reference. Catches broken documentation links before they reach CI. Run: `python TOOLS/audit/check_internal_links.py`. |
 | **Status** | REGISTERED |
 | **Category** | Documentation Tool |
 

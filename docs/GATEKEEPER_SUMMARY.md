@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v20.1
+# Unitary Manifold v21.0-S
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-08-01 (v20.1 — Pillars 575–590: Book 27 + arXiv v20.0 sync (P575); F-theory DBP Rung 8 🔵 ADJACENT (P576–P579); DESI DR3 ensemble routing hardened (P580); frozen radion wₐ=0 analytic certificate (P581); DESI DR3 preregistration v2 (P582); Δm²₂₁ three-step cascade QUANTIFIED_RESIDUAL 2.98σ (P583–P585); NP-BC-4 sub-gaps J/K/L proved 34 theorems (P586–P588); NP-BC-4 certificate (P589); Lean4 274-theorem milestone (P590); full regression ~49,850 passed · 23 skipped · 12 deselected · 0 failed; ToE score 29.0/28 unchanged. v19.0: P541–P547. v19.2: P554–P558. v19.3: P559–P563. v19.4+v20.0: P564–P574.)*
+*Last updated: 2026-08-18 (v21.0-S — Sprint X: P682–P687; CY4 χ=148, t₂ gauge cert, Sp(2,ℝ) anomaly 13D, ΛQCD moduli; broken-test fix; ~51,951 passed · 23 skipped · 12 deselected · 0 failed; ToE 30.0/28 unchanged); F-theory DBP Rung 8 🔵 ADJACENT (P576–P579); DESI DR3 ensemble routing hardened (P580); frozen radion wₐ=0 analytic certificate (P581); DESI DR3 preregistration v2 (P582); Δm²₂₁ three-step cascade QUANTIFIED_RESIDUAL 2.98σ (P583–P585); NP-BC-4 sub-gaps J/K/L proved 34 theorems (P586–P588); NP-BC-4 certificate (P589); Lean4 274-theorem milestone (P590); full regression ~49,850 passed · 23 skipped · 12 deselected · 0 failed; ToE score 29.0/28 unchanged. v19.0: P541–P547. v19.2: P554–P558. v19.3: P559–P563. v19.4+v20.0: P564–P574.)*
 
 > **v15.8 sync note:** Pillars 511–515 deliver the topological irreversibility engine in response to a structural critique of test_evolution.py. Four identified architectural flaws addressed: Minkowski cage replaced by factory-vs-solver architecture proof; J^0 illusion replaced by Chern-Simons-corrected topological current (k_CS=74); S-matrix fake replaced by forward-only honest irreversibility measure; KK scaffold residue replaced by live winding tracking with explicit open-work record. Pillar 516 certifies the KK backreaction architecture limit as ARCHITECTURE_LIMIT_CERTIFIED. No physics promotion, no ToE score change, no falsifier softened.
 
