@@ -942,7 +942,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > New falsifiers (added v9.30): **Roman Space Telescope (~2027) w_DE precision σ(w)~0.02** — if w₀ ∉ [−0.95, −0.91], the KK dark energy prediction is falsified.
 
 > 🔒 **Repository at 771+ pillars + Ω₀ — v22.4, 2026-08-19.**
-> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–781. Test count: ~52,950 passing (internal self-consistency). Lean4 820+ theorems.
+> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–781. Test count: ~56,074 passing (internal self-consistency). Lean4 820+ theorems.
 > Historical arc: 208 pillars + Ω₀ (v10.4 Near Closure), 420+ pillars + Ω₀ (v10.5–v13.4), 630+ pillars + Ω₀ (v20.9), 687+ pillars + Ω₀ (v21.0-S), 771+ pillars + Ω₀ (v22.4: Sprint AH Gap 1 PROVED_BY_EXHAUSTION; SU5 PROVED_CONDITIONAL; SwamplandAxiom formalised).
 > Remaining honest open gaps: CMB peak shape residual ~35% (Gap 5); ADM full 3-metric UV regulator (Gap 2, community-level open); FN charges 9 free parameters (Gap 4 architecture limit). All documented in FALLIBILITY.md and docs/SPRINT_AH_CLOSURE_AUDIT.md.
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
