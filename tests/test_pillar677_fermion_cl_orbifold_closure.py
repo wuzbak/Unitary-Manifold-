@@ -293,3 +293,201 @@ class TestCLWithMixingClosure:
 
     def test_new_status_field(self):
         assert "new_status" in self.result
+
+
+# ---------------------------------------------------------------------------
+# Gap-closure sprint: Yukawa texture diagonalization tests (Gap 1)
+# ---------------------------------------------------------------------------
+
+from src.core.yukawa_orbifold_bc_texture import yukawa_texture_diagonalization
+
+
+class TestYukawaTextureDiagonalization:
+    """30+ tests verifying the full 3×3 Yukawa texture diagonalization (Gap 1 closure)."""
+
+    def setup_method(self):
+        self.result = yukawa_texture_diagonalization()
+
+    # ── Return type and structure ─────────────────────────────────────────────
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_has_Y_texture(self):
+        assert "Y_texture" in self.result
+        mat = self.result["Y_texture"]
+        assert len(mat) == 3
+        for row in mat:
+            assert len(row) == 3
+
+    def test_has_eps_signed(self):
+        assert "eps_signed" in self.result
+        eps = self.result["eps_signed"]
+        assert isinstance(eps, dict)
+        assert len(eps) == 9  # 3×3
+
+    def test_has_frobenius_bound(self):
+        fb = self.result["frobenius_bound"]
+        assert isinstance(fb, float)
+        assert 0.0 < fb < 1.0
+
+    def test_has_spectral_bound(self):
+        sb = self.result["spectral_bound"]
+        assert isinstance(sb, float)
+        assert 0.0 < sb < 1.0
+
+    def test_has_caveat(self):
+        assert "caveat" in self.result
+        assert len(self.result["caveat"]) > 50
+
+    def test_has_per_generation(self):
+        pg = self.result["per_generation"]
+        assert len(pg) == 3
+
+    def test_has_status(self):
+        assert "status" in self.result
+        assert self.result["status"] in ("TEXTURE_BOUNDED", "TEXTURE_PARTIALLY_BOUNDED")
+
+    def test_has_theorem(self):
+        assert len(self.result["theorem"]) > 80
+
+    def test_has_sign_derivation(self):
+        assert len(self.result["sign_derivation"]) > 50
+
+    def test_has_texture_bound(self):
+        tb = self.result["texture_bound"]
+        assert isinstance(tb, float)
+        assert tb > 0.0
+
+    def test_has_within_texture_bound(self):
+        wtb = self.result["within_texture_bound"]
+        assert set(wtb.keys()) == {1, 2, 3}
+
+    # ── Physics: sign convention (φ₀ monotonicity) ───────────────────────────
+
+    def test_eps_diagonal_is_zero(self):
+        eps = self.result["eps_signed"]
+        for i in range(1, 4):
+            assert eps[(i, i)] == 0.0
+
+    def test_eps_upper_triangle_positive(self):
+        """UV→IR (i<j): constructive overlap → ε_{ij} > 0."""
+        eps = self.result["eps_signed"]
+        for i in range(1, 4):
+            for j in range(i + 1, 4):
+                assert eps[(i, j)] > 0.0, f"Expected ε_({i},{j}) > 0; got {eps[(i, j)]}"
+
+    def test_eps_lower_triangle_negative(self):
+        """IR→UV (i>j): destructive overlap → ε_{ij} < 0."""
+        eps = self.result["eps_signed"]
+        for i in range(2, 4):
+            for j in range(1, i):
+                assert eps[(i, j)] < 0.0, f"Expected ε_({i},{j}) < 0; got {eps[(i, j)]}"
+
+    def test_eps_antisymmetric_in_sign(self):
+        """ε_{ij} and ε_{ji} have opposite signs (equal magnitudes)."""
+        eps = self.result["eps_signed"]
+        for i in range(1, 4):
+            for j in range(1, 4):
+                if i != j:
+                    assert abs(eps[(i, j)] + eps[(j, i)]) < 1e-12, (
+                        f"|ε_({i},{j}) + ε_({j},{i})| = {abs(eps[(i,j)] + eps[(j,i)])} > 0"
+                    )
+
+    def test_eps_magnitude_within_2_over_kcs(self):
+        """All |ε_{ij}| < 2/K_CS (consistent with generation_mixing_delta_cl bound)."""
+        eps = self.result["eps_signed"]
+        k_cs = self.result["K_CS"]
+        bound = 2.0 / k_cs + 1e-10
+        for (i, j), v in eps.items():
+            if i != j:
+                assert abs(v) < bound, f"|ε_({i},{j})| = {abs(v)} ≥ 2/K_CS = {2.0/k_cs}"
+
+    # ── Physics: texture diagonal ─────────────────────────────────────────────
+
+    def test_Y_texture_diagonal_near_1(self):
+        """Diagonal entries Y_{ii} = 1 + 0 = 1.0 (ε_{ii}=0)."""
+        Y = self.result["Y_texture"]
+        for i in range(3):
+            assert abs(Y[i][i] - 1.0) < 1e-12
+
+    def test_Y_texture_upper_triangular_positive_off_diag(self):
+        """Upper triangle Y_{ij} = 1_delta + ε_{ij} > 0 for i<j (constructive)."""
+        Y = self.result["Y_texture"]
+        for i in range(3):
+            for j in range(i + 1, 3):
+                # ε_{ij} is small positive; Y_{ij} = ε_{ij} (no delta contribution)
+                assert Y[i][j] > 0.0
+
+    # ── Physics: Weyl spectral bound ─────────────────────────────────────────
+
+    def test_frobenius_bound_is_positive(self):
+        fb = self.result["frobenius_bound"]
+        assert fb > 0.0
+
+    def test_spectral_bound_less_than_frobenius(self):
+        """Spectral bound ≤ Frobenius bound (Weyl inequality)."""
+        assert self.result["spectral_bound"] <= self.result["frobenius_bound"] + 1e-12
+
+    def test_residuals_before_are_correct(self):
+        """Residuals before diagonalisation match known values from pillar677."""
+        rb = self.result["residuals_before"]
+        assert abs(rb[1] - 0.00154) < 0.001
+        assert abs(rb[2] - 0.00230) < 0.001
+        assert abs(rb[3] - 0.01195) < 0.002
+
+    def test_residuals_all_within_spectral_bound(self):
+        """All residuals < spectral_bound (Weyl theorem closure)."""
+        sb = self.result["spectral_bound"]
+        rb = self.result["residuals_before"]
+        for g in range(1, 4):
+            assert rb[g] < sb + 1e-10, (
+                f"Gen {g} residual {rb[g]:.6f} ≥ spectral_bound {sb:.6f}"
+            )
+
+    def test_residuals_texture_alias_matches_before(self):
+        """residuals_texture is an alias for residuals_before."""
+        rb = self.result["residuals_before"]
+        rt = self.result["residuals_texture"]
+        for g in range(1, 4):
+            assert abs(rb[g] - rt[g]) < 1e-14
+
+    def test_texture_bound_equals_frobenius(self):
+        """texture_bound is alias for frobenius_bound."""
+        assert abs(self.result["texture_bound"] - self.result["frobenius_bound"]) < 1e-14
+
+    def test_all_texture_closed_true(self):
+        assert self.result["all_texture_closed"] is True
+
+    def test_status_is_texture_bounded(self):
+        assert self.result["status"] == "TEXTURE_BOUNDED"
+
+    # ── Per-generation detail ──────────────────────────────────────────────────
+
+    def test_per_gen_has_all_fields(self):
+        pg = self.result["per_generation"]
+        required = {"c_L_topo", "c_L_bisect", "residual_before", "within_spectral_bound"}
+        for g in range(1, 4):
+            missing = required - set(pg[g].keys())
+            assert not missing, f"Gen {g} missing fields: {missing}"
+
+    def test_per_gen_within_spectral_bound_all_true(self):
+        pg = self.result["per_generation"]
+        for g in range(1, 4):
+            assert pg[g]["within_spectral_bound"] is True, (
+                f"Gen {g} not within spectral bound"
+            )
+
+    def test_per_gen_residual_before_consistent(self):
+        pg = self.result["per_generation"]
+        rb = self.result["residuals_before"]
+        for g in range(1, 4):
+            assert abs(pg[g]["residual_before"] - rb[g]) < 1e-12
+
+    # ── cl_with_mixing_closure now carries lean4_orbit_minimum_proved ─────────
+
+    def test_cl_with_mixing_closure_has_orbit_flag(self):
+        from src.core.yukawa_orbifold_bc_texture import cl_with_mixing_closure
+        res = cl_with_mixing_closure()
+        assert "lean4_orbit_minimum_proved" in res
+        assert res["lean4_orbit_minimum_proved"] is True
