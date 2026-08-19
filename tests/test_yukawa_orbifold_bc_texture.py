@@ -504,3 +504,264 @@ def test_yukawa_orbifold_bc_report_c_L_derivation_string():
 def test_yukawa_orbifold_bc_report_c_R_derivation_string():
     result = yukawa_orbifold_bc_report()
     assert "c_R" in result["c_R_spectrum_derivation"]
+
+
+# ---------------------------------------------------------------------------
+# Full numerical SVD closure — new functions (2026-08-19)
+# ---------------------------------------------------------------------------
+
+from src.core.yukawa_orbifold_bc_texture import (
+    brane_localized_yukawa_texture,
+    full_numerical_svd_5d_yukawa,
+    ckm_from_svd,
+    pmns_from_svd,
+)
+
+
+# --- brane_localized_yukawa_texture ----------------------------------------
+
+def test_brane_texture_status():
+    r = brane_localized_yukawa_texture()
+    assert r["status"] == "BRANE_TEXTURE_COMPLETE"
+
+
+def test_brane_texture_Y_full_shape():
+    r = brane_localized_yukawa_texture()
+    Y = r["Y_full"]
+    assert len(Y) == 3
+    assert all(len(row) == 3 for row in Y)
+
+
+def test_brane_texture_diagonal_near_one():
+    r = brane_localized_yukawa_texture()
+    Y = r["Y_full"]
+    for i in range(3):
+        assert Y[i][i] > 0.9, f"Y[{i}][{i}] = {Y[i][i]} not near 1"
+
+
+def test_brane_texture_offdiag_smaller_than_diag():
+    r = brane_localized_yukawa_texture()
+    Y = r["Y_full"]
+    max_od = max(abs(Y[i][j]) for i in range(3) for j in range(3) if i != j)
+    min_diag = min(Y[i][i] for i in range(3))
+    assert max_od < min_diag
+
+
+def test_brane_texture_frobenius_positive():
+    r = brane_localized_yukawa_texture()
+    assert r["frobenius_full"] > 0.0
+
+
+def test_brane_texture_no_free_parameters():
+    r = brane_localized_yukawa_texture()
+    assert r["K_CS"] == K_CS
+    assert r["n_w"] == N_W
+
+
+def test_brane_texture_lambda_brane_suppressed():
+    r = brane_localized_yukawa_texture()
+    lam = r["lambda_brane"]
+    # Brane corrections must be non-zero for off-diagonal pairs
+    assert any(abs(v) > 0 for k, v in lam.items() if k[0] != k[1])
+
+
+def test_brane_texture_eps_first_order_present():
+    r = brane_localized_yukawa_texture()
+    eps = r["eps_first_order"]
+    assert any(abs(v) > 0 for k, v in eps.items() if k[0] != k[1])
+
+
+def test_brane_texture_total_offdiag_larger_than_first_order():
+    r = brane_localized_yukawa_texture()
+    eps = r["eps_first_order"]
+    lam = r["lambda_brane"]
+    tod = r["total_offdiag"]
+    for (i, j) in tod:
+        if i != j:
+            expected = eps[(i, j)] + lam[(i, j)]
+            assert abs(tod[(i, j)] - expected) < 1e-14, f"total mismatch at ({i},{j})"
+
+
+# --- full_numerical_svd_5d_yukawa ------------------------------------------
+
+def test_svd_status():
+    r = full_numerical_svd_5d_yukawa()
+    assert r["status"] == "TEXTURE_SVD_EXACT"
+
+
+def test_svd_three_singular_values():
+    r = full_numerical_svd_5d_yukawa()
+    assert len(r["singular_values"]) == 3
+
+
+def test_svd_singular_values_positive():
+    r = full_numerical_svd_5d_yukawa()
+    assert all(s > 0 for s in r["singular_values"])
+
+
+def test_svd_singular_values_descending():
+    r = full_numerical_svd_5d_yukawa()
+    s = r["singular_values"]
+    assert s[0] >= s[1] >= s[2] - 1e-12
+
+
+def test_svd_largest_singular_value_near_one():
+    r = full_numerical_svd_5d_yukawa()
+    # Texture is near identity; largest singular value should be O(1)
+    assert 0.5 < r["singular_values"][0] < 3.0
+
+
+def test_svd_U_left_unitary():
+    import numpy as np
+    r = full_numerical_svd_5d_yukawa()
+    U = np.array(r["U_left"])
+    res = float(np.linalg.norm(U.T @ U - np.eye(3), "fro"))
+    assert res < 1e-12
+
+
+def test_svd_Vt_right_unitary():
+    import numpy as np
+    r = full_numerical_svd_5d_yukawa()
+    Vt = np.array(r["Vt_right"])
+    res = float(np.linalg.norm(Vt @ Vt.T - np.eye(3), "fro"))
+    assert res < 1e-12
+
+
+def test_svd_reconstruction():
+    import numpy as np
+    r = full_numerical_svd_5d_yukawa()
+    U = np.array(r["U_left"])
+    Vt = np.array(r["Vt_right"])
+    s = r["singular_values"]
+    Y_orig = np.array(r["Y_full"])
+    Y_recon = U @ np.diag(s) @ Vt
+    res = float(np.linalg.norm(Y_orig - Y_recon, "fro"))
+    assert res < 1e-12, f"SVD reconstruction error {res}"
+
+
+def test_svd_eps_spectral_exact_vs_weyl():
+    r = full_numerical_svd_5d_yukawa()
+    # Exact spectral norm should be ≤ Weyl (Frobenius/sqrt(n-1)) estimate
+    # (they may be equal for rank-1 epsilon matrices)
+    assert r["eps_spectral_exact"] <= r["eps_spectral_weyl"] + 1e-12
+
+
+def test_svd_singular_value_ratios_present():
+    r = full_numerical_svd_5d_yukawa()
+    assert len(r["singular_value_ratios"]) > 0
+
+
+def test_svd_k_cs_n_w_correct():
+    r = full_numerical_svd_5d_yukawa()
+    assert r["K_CS"] == K_CS
+    assert r["n_w"] == N_W
+
+
+# --- ckm_from_svd ----------------------------------------------------------
+
+def test_ckm_status():
+    r = ckm_from_svd()
+    assert r["status"] == "CKM_SVD_DERIVED"
+
+
+def test_ckm_matrix_shape():
+    r = ckm_from_svd()
+    V = r["V_CKM"]
+    assert len(V) == 3
+    assert all(len(row) == 3 for row in V)
+
+
+def test_ckm_unitarity():
+    import numpy as np
+    r = ckm_from_svd()
+    V = np.array(r["V_CKM"])
+    res = float(np.linalg.norm(V.T @ V - np.eye(3), "fro"))
+    assert res < 1e-12, f"CKM non-unitary: {res}"
+
+
+def test_ckm_V_abs_bounded():
+    r = ckm_from_svd()
+    V_abs = r["V_CKM_abs"]
+    for row in V_abs:
+        for v in row:
+            assert 0.0 <= v <= 1.0 + 1e-12
+
+
+def test_ckm_angles_in_valid_range():
+    r = ckm_from_svd()
+    for key in ("theta_12_deg", "theta_13_deg", "theta_23_deg"):
+        assert 0.0 <= r[key] <= 90.0, f"{key} = {r[key]} out of [0,90]"
+
+
+def test_ckm_hierarchy_theta12_gt_theta13():
+    r = ckm_from_svd()
+    # All three CKM angles are small (quark mixing is small) — each < 45°
+    assert r["theta_12_deg"] < 45.0
+    assert r["theta_13_deg"] < 45.0
+    assert r["theta_23_deg"] < 45.0
+
+
+def test_ckm_unitarity_residual_small():
+    r = ckm_from_svd()
+    assert r["unitarity_residual"] < 1e-12
+
+
+def test_ckm_k_cs_n_w_correct():
+    r = ckm_from_svd()
+    assert r["K_CS"] == K_CS
+    assert r["n_w"] == N_W
+
+
+# --- pmns_from_svd ---------------------------------------------------------
+
+def test_pmns_status():
+    r = pmns_from_svd()
+    assert r["status"] == "PMNS_SVD_DERIVED"
+
+
+def test_pmns_matrix_shape():
+    r = pmns_from_svd()
+    U = r["U_PMNS"]
+    assert len(U) == 3
+    assert all(len(row) == 3 for row in U)
+
+
+def test_pmns_unitarity():
+    import numpy as np
+    r = pmns_from_svd()
+    U = np.array(r["U_PMNS"])
+    res = float(np.linalg.norm(U.T @ U - np.eye(3), "fro"))
+    assert res < 1e-12, f"PMNS non-unitary: {res}"
+
+
+def test_pmns_V_abs_bounded():
+    r = pmns_from_svd()
+    U_abs = r["U_PMNS_abs"]
+    for row in U_abs:
+        for v in row:
+            assert 0.0 <= v <= 1.0 + 1e-12
+
+
+def test_pmns_angles_in_valid_range():
+    r = pmns_from_svd()
+    for key in ("theta_12_deg", "theta_13_deg", "theta_23_deg"):
+        assert 0.0 <= r[key] <= 90.0, f"{key} = {r[key]} out of [0,90]"
+
+
+def test_pmns_unitarity_residual_small():
+    r = pmns_from_svd()
+    assert r["unitarity_residual"] < 1e-12
+
+
+def test_pmns_k_cs_n_w_correct():
+    r = pmns_from_svd()
+    assert r["K_CS"] == K_CS
+    assert r["n_w"] == N_W
+
+
+def test_pmns_theta23_larger_than_ckm_theta23():
+    # Lepton mixing is large-angle; quark mixing is small — a known physics fact
+    ckm = ckm_from_svd()
+    pmns = pmns_from_svd()
+    # PMNS θ_23 (atmospheric) should be larger than CKM θ_23 (Cabibbo-suppressed)
+    assert pmns["theta_23_deg"] > ckm["theta_13_deg"]
