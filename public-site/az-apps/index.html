@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>AZ Products — AxiomZero Technologies & Consulting, SPC</title>
+  <meta name="description" content="16 AxiomZero software products: AI agents, physics engines, operating systems, governance tools, and more. axiomzerospc.org" />
+  <meta property="og:title" content="AxiomZero Product Suite — 16 Applications" />
+  <meta property="og:description" content="Explore all 16 AxiomZero products built on the Unitary Manifold physics framework." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://axiomzerospc.org/az-apps/" />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><a href="../ip/index.html">IP</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="app-page">
+<div style="background:linear-gradient(135deg,rgba(13,24,48,0.97) 60%,rgba(59,139,255,0.06));border-bottom:1px solid var(--color-border);padding:2.5rem 0 2rem">
+  <div class="container">
+    <div class="section-eyebrow">AxiomZero Technologies &amp; Consulting, SPC · UBI 606 239 876</div>
+    <h1 style="margin-bottom:.5rem">Product Suite</h1>
+    <p class="text-muted" style="max-width:620px">16 production applications built on the Unitary Manifold physics framework — AI agents, operating systems, governance engines, divination tools, and more. Each runs standalone and exports a dossier.</p>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.5rem">
+      <div class="hero-stat"><div class="hero-stat-value">16</div><div class="hero-stat-label">Products</div></div>
+      <div class="hero-stat"><div class="hero-stat-value" style="color:var(--color-green)">3</div><div class="hero-stat-label">Run in Browser</div></div>
+      <div class="hero-stat"><div class="hero-stat-value" style="color:var(--color-accent)">10</div><div class="hero-stat-label">API Backends</div></div>
+      <div class="hero-stat"><div class="hero-stat-value" style="color:var(--color-orange)">3</div><div class="hero-stat-label">Mobile / Native</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
+    <button class="filter-btn" onclick="filterProducts('js',this)">🟢 Runs in Browser</button>
+    <button class="filter-btn" onclick="filterProducts('api',this)">🔵 API Backend</button>
+    <button class="filter-btn" onclick="filterProducts('os',this)">⚙️ Operating System</button>
+    <button class="filter-btn" onclick="filterProducts('mobile',this)">📱 Mobile / Native</button>
+    <button class="filter-btn" onclick="filterProducts('ai',this)">🤖 AI Agent</button>
+  </div>
+
+  <div class="az-product-grid" id="productGrid">
+
+    <a href="01-axiom-os.html" class="az-product-card" data-tags="ai api">
+      <div class="az-product-num">Product 01</div>
+      <div class="az-product-icon">🧠</div>
+      <div class="az-product-name">AxiomOS — Persistent AI Cognitive Layer</div>
+      <div class="az-product-desc">A multi-agent OS kernel with persistent memory, goal scheduling, and a Kaluza-Klein grounded belief engine.</div>
+      <div class="az-product-footer"><span class="tag tag-ai">AI Agent</span><span class="tag tag-dep">Python</span><span class="tag tag-dep">FastAPI</span></div>
+    </a>
+
+    <a href="02-az-kernel.html" class="az-product-card" data-tags="mobile">
+      <div class="az-product-num">Product 02</div>
+      <div class="az-product-icon">⚙️</div>
+      <div class="az-product-name">AZ Kernel — Rust Core</div>
+      <div class="az-product-desc">The canonical Rust kernel implementing memory safety, concurrency, and KK metric computation at the OS boundary.</div>
+      <div class="az-product-footer"><span class="tag tag-mobile">Native / Rust</span><span class="tag tag-dep">Rust</span><span class="tag tag-dep">no_std</span></div>
+    </a>
+
+    <a href="03-eige.html" class="az-product-card" data-tags="api ai">
+      <div class="az-product-num">Product 03</div>
+      <div class="az-product-icon">🗳️</div>
+      <div class="az-product-name">EIGE — Election Integrity Governance Engine</div>
+      <div class="az-product-desc">Automated audit engine for democratic processes: compliance scoring, anomaly detection, and public transparency reports.</div>
+      <div class="az-product-footer"><span class="tag tag-adjacent">Adjacent Track</span><span class="tag tag-dep">Python</span><span class="tag tag-dep">FastAPI</span></div>
+    </a>
+
+    <a href="04-um-sos.html" class="az-product-card" data-tags="api">
+      <div class="az-product-num">Product 04</div>
+      <div class="az-product-icon">🔬</div>
+      <div class="az-product-name">UM-SOS — Scientific Operating System</div>
+      <div class="az-product-desc">A full scientific computing OS: pillar scheduler, live derivation runner, observability dashboard, and result store.</div>
+      <div class="az-product-footer"><span class="tag tag-os">OS</span><span class="tag tag-dep">Python</span><span class="tag tag-dep">React</span></div>
+    </a>
+
+    <a href="05-uos-kernel.html" class="az-product-card" data-tags="os api">
+      <div class="az-product-num">Product 05</div>
+      <div class="az-product-icon">🌀</div>
+      <div class="az-product-name">UOS Kernel — 5D Operating System</div>
+      <div class="az-product-desc">A 5-dimensional Kaluza-Klein operating system: process scheduling governed by the winding number n_w=5.</div>
+      <div class="az-product-footer"><span class="tag tag-os">OS</span><span class="tag tag-physics">Physics</span><span class="tag tag-dep">Python</span></div>
+    </a>
+
+    <a href="06-omega-synthesis.html" class="az-product-card" data-tags="js">
+      <div class="az-product-num">Product 06</div>
+      <div class="az-product-icon">Ω</div>
+      <div class="az-product-name">Omega Synthesis — Universal Mechanics Engine</div>
+      <div class="az-product-desc">Query any of 208+ physics pillars. Returns observables, derivation paths, and falsifiability status from five seed constants.</div>
+      <div class="az-product-footer"><span class="tag tag-green">🟢 Browser</span><span class="tag tag-physics">Physics</span><span class="tag tag-dep">JS</span></div>
+    </a>
+
+    <a href="07-holon-zero.html" class="az-product-card" data-tags="js">
+      <div class="az-product-num">Product 07</div>
+      <div class="az-product-icon">⬡</div>
+      <div class="az-product-name">Holon Zero — Ground State Engine</div>
+      <div class="az-product-desc">The ground state of the Unitary Manifold. Computes phi-trust, resonance signatures, and entanglement measures across domains.</div>
+      <div class="az-product-footer"><span class="tag tag-green">🟢 Browser</span><span class="tag tag-physics">Physics</span><span class="tag tag-dep">JS</span></div>
+    </a>
+
+    <a href="08-axiom-journalist.html" class="az-product-card" data-tags="ai api">
+      <div class="az-product-num">Product 08</div>
+      <div class="az-product-icon">⬛</div>
+      <div class="az-product-name">AXIOM — Investigative Journalist AI</div>
+      <div class="az-product-desc">AI research platform for investigative journalism: source analysis, claim credibility scoring, structured dossier generation.</div>
+      <div class="az-product-footer"><span class="tag tag-ai">AI Agent</span><span class="tag tag-dep">Gradio</span><span class="tag tag-dep">Python</span></div>
+    </a>
+
+    <a href="09-omegaholon.html" class="az-product-card" data-tags="ai api">
+      <div class="az-product-num">Product 09</div>
+      <div class="az-product-icon">🌱</div>
+      <div class="az-product-name">OmegaHolon — Living Systems Engine</div>
+      <div class="az-product-desc">Models any living system as a holon. Outputs resonance analysis, phi-coherence score, and systemic intervention recommendations.</div>
+      <div class="az-product-footer"><span class="tag tag-ai">AI Agent</span><span class="tag tag-dep">Gradio</span><span class="tag tag-dep">Python</span></div>
+    </a>
+
+    <a href="10-filmers-companion.html" class="az-product-card" data-tags="ai api">
+      <div class="az-product-num">Product 10</div>
+      <div class="az-product-icon">🎬</div>
+      <div class="az-product-name">Filmer's Companion — Film Production AI</div>
+      <div class="az-product-desc">AI suite for independent filmmakers: cinematography advisor, location scouter, AD assistant, finance calculator.</div>
+      <div class="az-product-footer"><span class="tag tag-ai">AI Agent</span><span class="tag tag-dep">Python</span><span class="tag tag-dep">Gradio</span></div>
+    </a>
+
+    <a href="11-terra-os.html" class="az-product-card" data-tags="ai api">
+      <div class="az-product-num">Product 11</div>
+      <div class="az-product-icon">🌍</div>
+      <div class="az-product-name">TerraOS — Soil &amp; Water Expert System</div>
+      <div class="az-product-desc">RAG-powered expert system for soil science, water quality analysis, and land remediation recommendations.</div>
+      <div class="az-product-footer"><span class="tag tag-adjacent">Adjacent Track</span><span class="tag tag-dep">FastAPI</span><span class="tag tag-dep">TF-IDF</span></div>
+    </a>
+
+    <a href="12-lithos-os.html" class="az-product-card" data-tags="ai api">
+      <div class="az-product-num">Product 12</div>
+      <div class="az-product-icon">💎</div>
+      <div class="az-product-name">LithosOS — Mineral &amp; Gemstone Identifier</div>
+      <div class="az-product-desc">Identify minerals and gemstones from descriptions. Returns properties, formation context, and crystallographic data.</div>
+      <div class="az-product-footer"><span class="tag tag-adjacent">Adjacent Track</span><span class="tag tag-dep">FastAPI</span><span class="tag tag-dep">Python</span></div>
+    </a>
+
+    <a href="13-delphi.html" class="az-product-card" data-tags="ai api">
+      <div class="az-product-num">Product 13</div>
+      <div class="az-product-icon">🔮</div>
+      <div class="az-product-name">DelPhi — Oracle Divination Suite</div>
+      <div class="az-product-desc">Five oracle engines grounded in Unitary Manifold geometry. Query for synthesis, probability, pattern, resonance, or counsel readings.</div>
+      <div class="az-product-footer"><span class="tag tag-adjacent">Adjacent Track</span><span class="tag tag-dep">FastAPI</span><span class="tag tag-dep">Python</span></div>
+    </a>
+
+    <a href="14-sdam.html" class="az-product-card" data-tags="mobile">
+      <div class="az-product-num">Product 14</div>
+      <div class="az-product-icon">📡</div>
+      <div class="az-product-name">SDAM — Software-Defined Acoustic Modem</div>
+      <div class="az-product-desc">Native Android acoustic modem using audio DSP. Sends and receives data over sound waves — no network hardware required.</div>
+      <div class="az-product-footer"><span class="tag tag-mobile">Android</span><span class="tag tag-dep">Kotlin</span><span class="tag tag-dep">DSP</span></div>
+    </a>
+
+    <a href="15-pentacorder.html" class="az-product-card" data-tags="mobile">
+      <div class="az-product-num">Product 15</div>
+      <div class="az-product-icon">📲</div>
+      <div class="az-product-name">Pentacorder — 5-Pillar Field Scanner</div>
+      <div class="az-product-desc">Android field scanner that measures 5 real-world observables and maps them to Unitary Manifold pillar predictions.</div>
+      <div class="az-product-footer"><span class="tag tag-mobile">Android</span><span class="tag tag-dep">Kotlin</span><span class="tag tag-dep">Physics</span></div>
+    </a>
+
+    <a href="16-oracle.html" class="az-product-card" data-tags="js ai">
+      <div class="az-product-num">Product 16 · Capstone</div>
+      <div class="az-product-icon">🔯</div>
+      <div class="az-product-name">Ω Oracle — Grand Synthesis Engine</div>
+      <div class="az-product-desc">The capstone of the AZ suite. Pentad modeler, EIGE audit, decision resonance, and synthesis score. Unifies all 15 prior products.</div>
+      <div class="az-product-footer"><span class="tag tag-green">🟢 Browser</span><span class="tag tag-ai">AI Engine</span><span class="tag tag-dep">JS</span></div>
+    </a>
+
+  </div><!-- end product grid -->
+
+  <!-- Lodge cross-link -->
+  <div class="card card-accent" style="margin-top:3rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+    <div style="font-size:2.5rem">🏛️</div>
+    <div style="flex:1">
+      <h3 style="margin-bottom:.25rem">Logic Lodge — Physics Gymnasium</h3>
+      <p class="text-muted" style="margin:0">5-zone public physics challenge space: 208 derivation challenges, Socratic Q&A, RL training gym, live observability, and knowledge exchange.</p>
+    </div>
+    <a href="../lodge/index.html" class="btn btn-outline">Enter Lodge →</a>
+  </div>
+
+</div><!-- container -->
+</div><!-- app-page -->
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+
+<script>
+function filterProducts(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.az-product-card').forEach(card => {
+    if (type === 'all') { card.style.display = ''; return; }
+    const tags = card.dataset.tags || '';
+    card.style.display = tags.includes(type) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

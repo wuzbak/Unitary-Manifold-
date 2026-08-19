@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SDAM — Software-Defined Acoustic Modem — AxiomZero</title>
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/14-sdam.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">📡</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 14 · 12-AZ-IP/14-sdam · Android</div>
+        <div class="app-title">SDAM — Software-Defined Acoustic Modem</div>
+        <div class="app-subtitle">Native Android application. Build from source in the open repository. No web-hosted version — this product runs natively on-device.</div>
+        <div class="app-tags">
+          <span class="tag tag-mobile">📱 Android</span>
+          <span class="tag tag-dep">Build from source</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container section-sm">
+  <div class="card card-accent" style="margin-bottom:2rem">
+    <h3 style="margin-bottom:.5rem">📱 Native Application</h3>
+    <p style="color:var(--color-muted);font-size:.9rem">This product runs natively on Android. Build from the open-source repository below.</p>
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/14-sdam" target="_blank" class="btn btn-primary" style="margin-top:1rem">View Source on GitHub ↗</a>
+  </div>
+  <div class="grid-3"><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">🔊</div><strong>Audio DSP</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">OFDM over audio — transmits data via speaker, decodes via microphone.</p></div><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">📵</div><strong>No Internet</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Works in air-gapped environments, Faraday cages, and remote areas.</p></div><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">🔐</div><strong>AES-256 Encryption</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Optional payload encryption. Key exchange via QR code handshake.</p></div></div>
+  <div class="run-local" style="margin-top:2rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')"><span>🛠️ Build Instructions</span><span>▾</span></div>
+    <div class="run-local-body"><div class="code-block"># Android Studio required
+git clone https://github.com/wuzbak/Unitary-Manifold-
+cd 12-AZ-IP/14-sdam/android
+# Open in Android Studio → Build → Run</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/14-sdam" target="_blank">12-AZ-IP/14-sdam ↗</a></p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+</body>
+</html>

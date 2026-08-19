@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Training Gym — Zone 3 · Logic Lodge · AxiomZero</title>
+  <meta name="description" content="Reinforcement learning training gym for the 208-pillar Unitary Manifold lattice. Gymnasium-compatible environment. AxiomZero Logic Lodge Zone 3." />
+  <link rel="canonical" href="https://axiomzerospc.org/lodge/training.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+  <style>
+    .zone-card{background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:1rem;transition:border-color .2s,box-shadow .2s,transform .15s;text-decoration:none;color:var(--color-text);}
+    .zone-card:hover{border-color:rgba(59,139,255,.5);box-shadow:var(--glow-accent);transform:translateY(-2px);}
+    .stat-box{background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.25rem 1.75rem;text-align:center;flex:1;min-width:140px;}
+    .episode-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-family:var(--font-mono);font-size:.82rem;}
+    .episode-row:last-child{border-bottom:none;}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="../apps/index.html">Apps</a></li>
+    <li><a href="../az-apps/index.html">AZ Products</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="index.html" class="active">Lodge</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div style="padding-top:80px">
+<div style="background:linear-gradient(135deg,rgba(48,209,88,0.06),rgba(13,24,48,0.97));border-bottom:1px solid var(--color-border);padding:2.5rem 0 2rem">
+  <div class="container">
+    <div class="section-eyebrow">Logic Lodge · Zone 3</div>
+    <h1 style="margin-bottom:.5rem">🏋️ Training Gym</h1>
+    <p class="text-muted" style="max-width:640px">A <code>gymnasium</code>-compatible reinforcement learning environment over the 208-pillar Unitary Manifold lattice. Train RL agents to navigate physics challenges, accumulate precision reward, and discover optimal derivation paths.</p>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1.5rem">
+      <div class="stat-box"><div style="font-size:1.6rem;font-weight:700;color:var(--color-green)" id="st-episodes">0</div><div style="font-size:.78rem;color:var(--color-muted)">Episodes Run</div></div>
+      <div class="stat-box"><div style="font-size:1.6rem;font-weight:700;color:var(--color-accent)" id="st-bestReward">—</div><div style="font-size:.78rem;color:var(--color-muted)">Best Reward</div></div>
+      <div class="stat-box"><div style="font-size:1.6rem;font-weight:700;color:var(--color-gold)" id="st-pillarsHit">0</div><div style="font-size:.78rem;color:var(--color-muted)">Pillars Hit</div></div>
+      <div class="stat-box"><div style="font-size:1.6rem;font-weight:700">208</div><div style="font-size:.78rem;color:var(--color-muted)">Total Pillars</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <div class="app-layout">
+    <!-- Left: Episode simulator -->
+    <div>
+      <div class="panel">
+        <div class="panel-title">🎮 Episode Simulator</div>
+        <p style="font-size:.85rem;color:var(--color-muted);margin-bottom:1rem">Select a sequence of pillar guesses. Each guess earns reward proportional to precision. Best strategy: follow derivation order.</p>
+
+        <div class="form-group">
+          <label class="form-label">Pillar ID (1–208)</label>
+          <div style="display:flex;gap:.5rem">
+            <input type="number" id="pillarGuess" class="form-input" min="1" max="208" value="57" style="max-width:100px"/>
+            <input type="number" id="answerGuess" class="form-input" placeholder="Your answer" style="flex:1"/>
+            <button class="btn btn-outline btn-sm" onclick="addGuess()">Add</button>
+          </div>
+        </div>
+
+        <div id="guessQueue" style="margin:1rem 0;min-height:60px;background:#030815;border:1px solid var(--color-border);border-radius:6px;padding:.75rem;font-family:var(--font-mono);font-size:.8rem;color:var(--color-muted)">
+          No guesses yet. Add pillar + answer pairs above.
+        </div>
+
+        <div style="display:flex;gap:.75rem">
+          <button class="btn btn-primary" style="flex:1" onclick="runEpisode()">▶ Run Episode</button>
+          <button class="btn btn-outline" onclick="clearGuesses()">Clear</button>
+        </div>
+      </div>
+
+      <!-- Environment spec -->
+      <div class="panel" style="margin-top:1rem">
+        <div class="panel-title">📐 Environment Spec</div>
+        <div class="result-row"><span class="result-row-label">Module</span><span class="result-row-val">lodge.rl_env</span></div>
+        <div class="result-row"><span class="result-row-label">Observation space</span><span class="result-row-val">Box(208,) — pillar states</span></div>
+        <div class="result-row"><span class="result-row-label">Action space</span><span class="result-row-val">Discrete(208) — pillar select</span></div>
+        <div class="result-row"><span class="result-row-label">Reward function</span><span class="result-row-val">precision_score(answer, ref)</span></div>
+        <div class="result-row"><span class="result-row-label">Episode length</span><span class="result-row-val">Max 208 steps</span></div>
+        <div class="result-row"><span class="result-row-label">Termination</span><span class="result-row-val">All pillars visited or 0 reward ×5</span></div>
+      </div>
+    </div>
+
+    <!-- Right: Results + reward chart -->
+    <div>
+      <div class="panel output-panel" id="episodeOutput">
+        <div class="panel-title">📊 Episode Results</div>
+        <div id="episodeResult"><div style="color:var(--color-muted);font-size:.9rem">Run an episode to see results.</div></div>
+      </div>
+
+      <div class="viz-canvas-wrap" style="margin-top:1rem">
+        <canvas id="rewardChart" width="600" height="180"></canvas>
+      </div>
+
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export training session dossier (PDF)</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick-start code -->
+  <h2 style="margin-top:3rem;margin-bottom:1rem">Python Quick-Start</h2>
+  <div class="code-block">import gymnasium as gym
+from lodge.rl_env import PillarGymEnv
+
+env = PillarGymEnv()
+obs, info = env.reset()
+
+# Random agent baseline
+for step in range(208):
+    action = env.action_space.sample()          # pick a pillar
+    obs, reward, terminated, truncated, info = env.step(action)
+    print(f"Step {step}: pillar={info['pillar_id']}  reward={reward:.4f}")
+    if terminated or truncated:
+        break
+
+env.close()</div>
+
+  <!-- Zone nav -->
+  <h2 style="margin-top:3rem;margin-bottom:1rem">Other Zones</h2>
+  <div class="grid-3" style="gap:1rem">
+    <a href="arcade.html" class="zone-card"><div style="font-size:1.5rem">🕹️</div><div><strong>Zone 1 — Arcade</strong><div style="font-size:.82rem;color:var(--color-muted)">208 scored challenges</div></div></a>
+    <a href="lodge.html" class="zone-card"><div style="font-size:1.5rem">📚</div><div><strong>Zone 2 — Lodge</strong><div style="font-size:.82rem;color:var(--color-muted)">Socratic Q&amp;A + review</div></div></a>
+    <a href="observe.html" class="zone-card"><div style="font-size:1.5rem">📡</div><div><strong>Zone 4 — Observe</strong><div style="font-size:.82rem;color:var(--color-muted)">Live observability</div></div></a>
+  </div>
+</div>
+</div>
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+
+<script>
+// ── Reference values for 10 representative pillars ────────────────────────
+const REF = {
+  2:0.9635,5:137.036,29:-1.0,57:0.9635,61:55,63:0.0315,67:0.2731,
+  70:0.4730,100:74,208:0.3243
+};
+var guesses=[], totalEpisodes=0, bestReward=null, allPillarsHit=new Set();
+
+function precisionScore(guess, ref) {
+  const err = Math.abs(guess - ref) / Math.abs(ref || 1);
+  return Math.max(0, 1 - err);
+}
+
+function addGuess() {
+  const pid = +document.getElementById('pillarGuess').value;
+  const ans = +document.getElementById('answerGuess').value;
+  if (!pid || isNaN(ans)) return;
+  guesses.push({pid, ans});
+  renderQueue();
+  document.getElementById('answerGuess').value = '';
+}
+function clearGuesses() { guesses=[]; renderQueue(); }
+function renderQueue() {
+  const el = document.getElementById('guessQueue');
+  if (!guesses.length) { el.textContent='No guesses yet.'; return; }
+  el.innerHTML = guesses.map((g,i)=>`<div>Pillar ${g.pid} → ${g.ans} ${REF[g.pid]!==undefined?'(ref: '+REF[g.pid]+')':''}</div>`).join('');
+}
+
+function runEpisode() {
+  if (!guesses.length) { alert('Add at least one guess.'); return; }
+  totalEpisodes++;
+  let totalReward=0, rewards=[];
+  const rows=guesses.map(g=>{
+    const ref=REF[g.pid];
+    let r, note;
+    if (ref===undefined) { r=0; note='No reference (pillar not in demo set)'; }
+    else { r=precisionScore(g.ans,ref); note=`ref=${ref}`; }
+    totalReward+=r; rewards.push(r);
+    allPillarsHit.add(g.pid);
+    return `<div class="episode-row"><span>P${g.pid}</span><span>${g.ans}</span><span style="color:${r>0.9?'var(--color-green)':r>0.5?'var(--color-orange)':'var(--color-red)'}">${r.toFixed(4)}</span><span style="color:var(--color-muted)">${note}</span></div>`;
+  }).join('');
+
+  const avg=totalReward/guesses.length;
+  if (bestReward===null||avg>bestReward) bestReward=avg;
+  document.getElementById('st-episodes').textContent=totalEpisodes;
+  document.getElementById('st-bestReward').textContent=bestReward.toFixed(4);
+  document.getElementById('st-pillarsHit').textContent=allPillarsHit.size;
+
+  document.getElementById('episodeResult').innerHTML=`
+    <div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap">
+      <div class="stat-box" style="flex:1"><div class="result-value" style="font-size:1.4rem">${avg.toFixed(4)}</div><div class="result-label">Avg reward</div></div>
+      <div class="stat-box" style="flex:1"><div class="result-value" style="font-size:1.4rem">${guesses.length}</div><div class="result-label">Steps</div></div>
+    </div>
+    <div style="margin-top:.5rem">${rows}</div>
+  `;
+  drawRewardChart(rewards);
+  window._lastSessionData = {totalEpisodes,bestReward,guesses,rewards,avg};
+}
+
+function drawRewardChart(rewards) {
+  const canvas=document.getElementById('rewardChart');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height,pad=30;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#030815';ctx.fillRect(0,0,W,H);
+  if(!rewards.length)return;
+  const bw=(W-pad*2)/rewards.length;
+  rewards.forEach((r,i)=>{
+    const barH=(H-pad*2)*r;
+    const x=pad+i*bw+bw*.1;
+    ctx.fillStyle=r>0.9?'#30d158':r>0.5?'#ff9f0a':'#ff453a';
+    ctx.fillRect(x,H-pad-barH,bw*.8,barH);
+  });
+  ctx.strokeStyle='rgba(59,139,255,0.3)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+  const threshY=H-pad-(H-pad*2)*0.8;
+  ctx.beginPath();ctx.moveTo(pad,threshY);ctx.lineTo(W-pad,threshY);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(122,139,168,0.6)';ctx.font='9px JetBrains Mono,monospace';
+  ctx.fillText('0.8 threshold',W-pad-70,threshY-3);
+  ctx.fillStyle='#7a8ba8';ctx.fillText('Reward per step',pad,H-8);
+}
+
+window.addEventListener('load',function(){
+  document.getElementById('dossierBtn').addEventListener('click',function(){
+    const s=window._lastSessionData||{};
+    AZDossier.export({
+      appName:'Logic Lodge — Training Gym (Zone 3)',
+      appId:'lodge-training-gym',version:'v1.0',
+      epistemic:'⚛️ PHYSICS — scored against real src/core/ outputs',
+      inputs:[{label:'Episodes run',value:totalEpisodes},{label:'Pillars guessed',value:guesses.map(g=>'P'+g.pid).join(', ')||'(none)'}],
+      outputs:[{label:'Best reward',value:bestReward!==null?bestReward.toFixed(4):'(none)'},{label:'Pillars hit',value:allPillarsHit.size},{label:'Last ep avg reward',value:s.avg!==undefined?s.avg.toFixed(4):'(none)'}],
+      notes:'Demo mode — 10 reference pillars available. Run lodge.rl_env locally for all 208.',
+      dependencies:['gymnasium','numpy','scipy','fastapi (backend)','jsPDF'],
+    });
+  });
+});
+</script>
+</body>
+</html>

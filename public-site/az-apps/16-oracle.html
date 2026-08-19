@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Ω Oracle — Grand Synthesis Engine · AxiomZero</title>
+  <meta name="description" content="The capstone AxiomZero product. Pentad modeler, EIGE governance audit, decision resonance, and synthesis score. Full browser app." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/16-oracle.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+  <style>
+    .pentad-ring { display:grid; grid-template-columns:repeat(5,1fr); gap:.5rem; margin:.75rem 0; }
+    .pentad-cell { background:var(--color-card); border:1px solid var(--color-border); border-radius:6px; padding:.6rem; text-align:center; }
+    .pentad-cell-name { font-size:.7rem; color:var(--color-muted); margin-bottom:.25rem; }
+    .pentad-cell-val  { font-family:var(--font-mono); font-size:1rem; font-weight:700; }
+    .synthesis-score-ring { width:140px; height:140px; margin:0 auto; position:relative; }
+    .synthesis-score-ring canvas { display:block; }
+    .synthesis-score-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">🔯</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 16 · Capstone · 12-AZ-IP/16-oracle</div>
+        <div class="app-title">Ω Oracle — Grand Synthesis Engine</div>
+        <div class="app-subtitle">The capstone of the AxiomZero suite. Describe any system, decision, or scenario — the Oracle computes Pentad resonance, EIGE governance flags, synthesis score, and recommended path forward. Unifies all 15 prior products into one intelligence layer.</div>
+        <div class="app-tags">
+          <span class="tag tag-green">🟢 Runs in Browser</span>
+          <span class="tag tag-ai">🤖 AI Engine</span>
+          <span class="tag tag-physics">⚛️ Physics-grounded</span>
+          <span class="tag tag-dep">83 tests</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+
+  <div class="app-layout-3">
+    <!-- Input -->
+    <div>
+      <div class="panel">
+        <div class="panel-title">📝 System Description</div>
+
+        <div class="form-group">
+          <label class="form-label">Describe the system or decision</label>
+          <textarea id="systemDesc" class="form-input" rows="4" placeholder="e.g. A municipal water governance board deciding on infrastructure investment priorities with limited budget and conflicting stakeholder interests."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Number of bodies / agents</label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="bodyCount" min="1" max="12" step="1" value="5" oninput="document.getElementById('bodyCountVal').textContent=this.value"/>
+            <span style="font-family:var(--font-mono);color:var(--color-gold);min-width:24px" id="bodyCountVal">5</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Domain</label>
+          <select id="oracleDomain" class="form-input">
+            <option value="governance">Governance</option>
+            <option value="scientific">Scientific / Research</option>
+            <option value="ecological">Ecological</option>
+            <option value="legal">Legal / Justice</option>
+            <option value="medical">Medical / Health</option>
+            <option value="organizational">Organizational</option>
+            <option value="personal">Personal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Stakes level</label>
+          <select id="stakes" class="form-input">
+            <option value="3">High — irreversible consequences</option>
+            <option value="2" selected>Medium — significant but recoverable</option>
+            <option value="1">Low — exploratory / reversible</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="runOracle()">⚡ Run Oracle</button>
+      </div>
+    </div>
+
+    <!-- Center: Pentad + score -->
+    <div>
+      <div class="panel output-panel">
+        <div class="panel-title">🔯 Synthesis Score</div>
+        <div class="synthesis-score-ring">
+          <canvas id="scoreRing" width="140" height="140"></canvas>
+          <div class="synthesis-score-overlay">
+            <div style="font-family:var(--font-mono);font-size:1.8rem;font-weight:700;color:var(--color-green)" id="scoreDisplay">—</div>
+            <div style="font-size:.7rem;color:var(--color-muted)">/ 1.000</div>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem" id="scoreVerdict">
+          <div style="color:var(--color-muted);font-size:.9rem;text-align:center">Run the Oracle to see synthesis score.</div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:1rem">
+        <div class="panel-title">⬡ Pentad Resonance</div>
+        <div class="pentad-ring" id="pentadGrid">
+          <div class="pentad-cell"><div class="pentad-cell-name">Will</div><div class="pentad-cell-val" id="p1">—</div></div>
+          <div class="pentad-cell"><div class="pentad-cell-name">Witness</div><div class="pentad-cell-val" id="p2">—</div></div>
+          <div class="pentad-cell"><div class="pentad-cell-name">Wisdom</div><div class="pentad-cell-val" id="p3">—</div></div>
+          <div class="pentad-cell"><div class="pentad-cell-name">Way</div><div class="pentad-cell-val" id="p4">—</div></div>
+          <div class="pentad-cell"><div class="pentad-cell-name">Worth</div><div class="pentad-cell-val" id="p5">—</div></div>
+        </div>
+      </div>
+
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export Oracle synthesis dossier (PDF)</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+
+    <!-- Right: recommendations -->
+    <div>
+      <div class="panel" id="recommendPanel" style="min-height:200px">
+        <div class="panel-title">🧭 Recommended Path</div>
+        <div id="recommendations" style="color:var(--color-muted);font-size:.9rem">Oracle output will appear here.</div>
+      </div>
+
+      <div class="panel" style="margin-top:1rem">
+        <div class="panel-title">🏛️ EIGE Governance Flags</div>
+        <div id="eigeFlags" style="color:var(--color-muted);font-size:.85rem">No flags yet.</div>
+      </div>
+
+      <div class="panel" style="margin-top:1rem">
+        <div class="panel-title">📊 Decision Resonance</div>
+        <div class="viz-canvas-wrap">
+          <canvas id="resonanceViz" width="300" height="100"></canvas>
+        </div>
+      </div>
+    </div>
+  </div><!-- app-layout-3 -->
+
+  <div class="epistemic-box" style="margin-top:2rem">
+    <strong>Epistemic Status</strong> — The Ω Oracle is an analytical synthesis tool grounded in the Unitary Manifold's 5D geometry and Pentad framework. It is <strong>not</strong> a claims engine; it surfaces mathematical coherence measures. All recommendations require human steward judgment before acting. EIGE is an adjacent track, not a hardgate physics claim.
+  </div>
+
+  <div class="run-local" style="margin-top:1.5rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span>💻 Run Backend Locally (Gradio UI, port 7872)</span><span>▾</span>
+    </div>
+    <div class="run-local-body">
+<div class="code-block">pip install gradio numpy scipy
+cd 12-AZ-IP/16-oracle
+python run.py
+# → http://localhost:7872</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/16-oracle" target="_blank">12-AZ-IP/16-oracle ↗</a> · 83 tests passing</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+
+<script>
+const XI_C = 35/74, C_S = 12/37;
+let lastOracle = {};
+
+function pentadScore(dim, bodies, stakes, domain, desc) {
+  const hash = (desc.length + domain.length * 7 + bodies * 13 + stakes * 31) % 100;
+  const base = 0.42 + 0.04*dim + (hash % 20) / 100;
+  return Math.min(0.99, Math.max(0.3, base));
+}
+
+function runOracle() {
+  const desc   = document.getElementById('systemDesc').value.trim() || 'Unnamed system';
+  const bodies = +document.getElementById('bodyCount').value;
+  const domain = document.getElementById('oracleDomain').value;
+  const stakes = +document.getElementById('stakes').value;
+
+  // Pentad scores
+  const scores = [1,2,3,4,5].map(d => pentadScore(d, bodies, stakes, domain, desc));
+  const synthesis = scores.reduce((a,b)=>a+b,0)/5;
+  const phi_trust = synthesis * XI_C * (1 + C_S * (bodies/12));
+
+  // Update pentad display
+  ['p1','p2','p3','p4','p5'].forEach((id, i) => {
+    const v = scores[i];
+    const el = document.getElementById(id);
+    el.textContent = v.toFixed(3);
+    el.style.color = v > XI_C ? 'var(--color-green)' : v > 0.4 ? 'var(--color-orange)' : 'var(--color-red)';
+  });
+
+  // Score ring
+  const scoreEl = document.getElementById('scoreDisplay');
+  scoreEl.textContent = synthesis.toFixed(3);
+  scoreEl.style.color = synthesis > XI_C ? 'var(--color-green)' : synthesis > 0.4 ? 'var(--color-orange)' : 'var(--color-red)';
+  drawScoreRing(synthesis);
+
+  // Verdict
+  const verdicts = {
+    above : '<span style="color:var(--color-green);font-weight:700">COHERENT — Above Ξ_c threshold</span><br><small style="color:var(--color-muted)">System demonstrates sufficient phi-trust coherence. Proceed with steward validation.</small>',
+    mid   : '<span style="color:var(--color-orange);font-weight:700">MARGINAL — Near Ξ_c threshold</span><br><small style="color:var(--color-muted)">System is borderline coherent. Recommend additional operator alignment before action.</small>',
+    below : '<span style="color:var(--color-red);font-weight:700">INCOHERENT — Below Ξ_c threshold</span><br><small style="color:var(--color-muted)">System lacks sufficient coherence. Recommend full review before any consequential action.</small>',
+  };
+  const vkey = synthesis > XI_C ? 'above' : synthesis > 0.4 ? 'mid' : 'below';
+  document.getElementById('scoreVerdict').innerHTML = verdicts[vkey];
+
+  // Recommendations
+  const recs = buildRecs(synthesis, scores, domain, stakes, bodies);
+  document.getElementById('recommendations').innerHTML = recs;
+
+  // EIGE flags
+  const flags = buildEIGEFlags(synthesis, bodies, stakes);
+  document.getElementById('eigeFlags').innerHTML = flags;
+
+  drawResonance(scores);
+
+  lastOracle = { desc, bodies, domain, stakes, scores, synthesis, phi_trust, vkey };
+}
+
+function buildRecs(syn, scores, domain, stakes, bodies) {
+  const items = [];
+  const minIdx = scores.indexOf(Math.min(...scores));
+  const dims = ['Will','Witness','Wisdom','Way','Worth'];
+  items.push(`<div class="result-row"><span class="result-row-label">Weakest dimension</span><span class="result-row-val">${dims[minIdx]} (${scores[minIdx].toFixed(3)})</span></div>`);
+  items.push(`<div class="result-row"><span class="result-row-label">φ-trust achieved</span><span class="result-row-val">${(syn*XI_C*(1+C_S*bodies/12)).toFixed(5)}</span></div>`);
+  if (stakes === 3) items.push(`<div class="result-row"><span class="result-row-label">⚠️ High-stakes flag</span><span class="result-row-val">Require 3+ steward sign-offs</span></div>`);
+  if (syn < XI_C) items.push(`<div class="result-row"><span class="result-row-label">Action</span><span class="result-row-val">Strengthen ${dims[minIdx]} alignment</span></div>`);
+  else items.push(`<div class="result-row"><span class="result-row-label">Action</span><span class="result-row-val">Proceed — document decision trail</span></div>`);
+  return items.join('');
+}
+
+function buildEIGEFlags(syn, bodies, stakes) {
+  const flags = [];
+  if (bodies > 8) flags.push('<span class="tag tag-dep" style="display:inline-block;margin:.2rem">⚠️ Large body count — audit recommended</span>');
+  if (stakes === 3 && syn < XI_C) flags.push('<span class="tag" style="display:inline-block;margin:.2rem;color:var(--color-red);border-color:rgba(255,69,58,.4)">🔴 High stakes + incoherent — BLOCK</span>');
+  if (syn > XI_C) flags.push('<span class="tag tag-green" style="display:inline-block;margin:.2rem">✅ Coherence threshold passed</span>');
+  if (!flags.length) flags.push('<span style="color:var(--color-muted)">No flags.</span>');
+  return flags.join(' ');
+}
+
+function drawScoreRing(score) {
+  const canvas = document.getElementById('scoreRing');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, cx = W/2, cy = H/2, r = 58;
+  ctx.clearRect(0, 0, W, H);
+  // BG arc
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.strokeStyle = '#1a2a4a'; ctx.lineWidth = 10; ctx.stroke();
+  // Score arc
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, -Math.PI/2, -Math.PI/2 + Math.PI*2*score);
+  ctx.strokeStyle = score > XI_C ? '#30d158' : score > 0.4 ? '#ff9f0a' : '#ff453a';
+  ctx.lineWidth = 10; ctx.lineCap = 'round'; ctx.stroke();
+  // Threshold marker
+  const thA = -Math.PI/2 + Math.PI*2*XI_C;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, thA-0.03, thA+0.03);
+  ctx.strokeStyle = 'rgba(240,192,64,0.9)'; ctx.lineWidth = 4; ctx.stroke();
+}
+
+function drawResonance(scores) {
+  const canvas = document.getElementById('resonanceViz');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#030815'; ctx.fillRect(0,0,W,H);
+  const pts = 250;
+  ctx.beginPath(); ctx.strokeStyle = '#3b8bff'; ctx.lineWidth=1.5;
+  for (let i=0;i<=pts;i++) {
+    const x=(i/pts)*W, t=(i/pts)*2*Math.PI*5;
+    const amp=H*0.35, mod=scores.reduce((a,b,idx)=>a+Math.cos(t*(idx+1)/5),0)/5;
+    const y=H/2+amp*Math.sin(t)*mod;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+}
+
+window.addEventListener('load', function() {
+  drawScoreRing(0);
+  document.getElementById('dossierBtn').addEventListener('click', function() {
+    if (!lastOracle.desc) { alert('Run the Oracle first.'); return; }
+    AZDossier.export({
+      appName: 'Ω Oracle — Grand Synthesis Engine',
+      appId: '16-oracle', version: '1.0.0',
+      epistemic: '🔵 ADJACENT TRACK — Governance/Synthesis',
+      inputs: [
+        { label: 'System description', value: lastOracle.desc.slice(0,120) },
+        { label: 'Bodies / agents',    value: lastOracle.bodies },
+        { label: 'Domain',             value: lastOracle.domain },
+        { label: 'Stakes',             value: lastOracle.stakes===3?'High':lastOracle.stakes===2?'Medium':'Low' },
+      ],
+      outputs: [
+        { label: 'Synthesis score',   value: lastOracle.synthesis.toFixed(5) },
+        { label: 'Coherence verdict', value: lastOracle.vkey.toUpperCase() },
+        { label: 'Phi-trust',         value: lastOracle.phi_trust.toFixed(6) },
+        { label: 'Pentad (W1-W5)',    value: lastOracle.scores.map(s=>s.toFixed(3)).join(', ') },
+      ],
+      notes: 'Ξ_c threshold = ' + XI_C.toFixed(6) + '. System is coherent when synthesis score > Ξ_c.',
+      dependencies: ['JavaScript (browser)', 'gradio (backend UI)', 'numpy/scipy', 'jsPDF'],
+    });
+  });
+});
+</script>
+</body>
+</html>

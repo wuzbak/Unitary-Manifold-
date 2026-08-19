@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>UOS Kernel — 5D Operating System — AxiomZero</title>
+  <meta name="description" content="A 5-dimensional Kaluza-Klein operating system kernel. Process scheduling is governed by the winding number n_w=5 — every scheduler quantum maps to a KK mode." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/05-uos-kernel.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="../js/az-api.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">🌀</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 05 · 12-AZ-IP/05-uos-kernel</div>
+        <div class="app-title">UOS Kernel — 5D Operating System</div>
+        <div class="app-subtitle">A 5-dimensional Kaluza-Klein operating system kernel. Process scheduling is governed by the winding number n_w=5 — every scheduler quantum maps to a KK mode.</div>
+        <div class="app-tags">
+          <span class="tag tag-os">⚙️ OS</span>
+          <span class="tag tag-physics">⚛️ Physics-grounded</span>
+          <span class="tag tag-dep">Python</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container section-sm">
+  <div class="api-endpoint-bar">
+    <span style="font-size:.8rem;color:var(--color-muted)">🔌 Backend URL</span>
+    <input type="text" id="endpointInput" placeholder="https://your-host:8030"/>
+    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
+    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
+  </div>
+  <div class="app-layout">
+    <div>
+      <div class="panel">
+        <div class="panel-title">⚙️ Command</div>
+        <div class="form-group">
+          <label class="form-label">OS command / query</label>
+          <textarea id="mainInput" class="form-input" rows="5" placeholder="e.g. run pillar 57 / status / list pillars"></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitCmd()">Execute</button>
+      </div>
+    </div>
+    <div>
+      <div class="panel output-panel">
+        <div class="panel-title">📊 Output</div>
+        <div id="outputArea"><div class="az-offline-notice"><div class="az-offline-icon">⚙️</div><strong>Demo Mode</strong><p>Enter a command and submit.</p></div></div>
+      </div>
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export session dossier</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+  </div>
+  <div class="run-local" style="margin-top:1.5rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')"><span>💻 Run Locally</span><span>▾</span></div>
+    <div class="run-local-body">
+<div class="code-block">pip install -r 12-AZ-IP/05-uos-kernel/requirements.txt
+cd 12-AZ-IP/05-uos-kernel && python run.py</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/05-uos-kernel" target="_blank">12-AZ-IP/05-uos-kernel ↗</a></p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+<script>
+var liveMode=false,lastIn='',lastOut='';
+AZAPI.bindCustomEndpoint('endpointInput','05-uos-kernel');
+function connectAPI(){var url=document.getElementById('endpointInput').value.trim();if(!url)return;AZAPI.endpoints['05-uos-kernel']=url.replace(/\/$/,'');AZAPI.call('05-uos-kernel','/health').then(function(r){document.getElementById('connStatus').textContent=r.ok?'🟢 Live':'🔴 Unreachable';liveMode=r.ok;});}
+function submitCmd(){var cmd=document.getElementById('mainInput').value.trim();if(!cmd)return;lastIn=cmd;var out=document.getElementById('outputArea');AZAPI.setLoading(out,true);if(liveMode){AZAPI.call('05-uos-kernel','/exec',{method:'POST',body:{command:cmd}}).then(function(r){if(r.ok){lastOut=JSON.stringify(r.data,null,2);AZAPI.showResult(out,'<pre class="code-block" style="white-space:pre-wrap;margin:0">'+lastOut+'</pre>');}else{AZAPI.showError(out,r.error);}});}else{setTimeout(function(){lastOut='[DEMO] Command: '+cmd+'\nStatus: ok\nResult: [Connect live backend for real output]';AZAPI.showResult(out,'<pre class="code-block" style="white-space:pre-wrap;margin:0">'+lastOut+'</pre>');},500);}}
+window.addEventListener('load',function(){document.getElementById('dossierBtn').addEventListener('click',function(){AZDossier.export({appName:'UOS Kernel — 5D Operating System',appId:'05-uos-kernel',version:'v1.0',epistemic:'⚛️ PHYSICS-grounded OS',inputs:[{label:'Command',value:lastIn||'(none)'}],outputs:[{label:'Result',value:lastOut||'(none)'}],dependencies:['Python','FastAPI','numpy']});});});
+</script>
+</body>
+</html>

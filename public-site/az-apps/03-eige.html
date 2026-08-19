@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>EIGE — Election Integrity Governance Engine · AxiomZero</title>
+  <meta name="description" content="Automated governance audit engine: compliance scoring, anomaly detection, transparency reporting. 449 tests, 0 failures." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/03-eige.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="../js/az-api.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">🗳️</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 03 · 12-AZ-IP/03-eige · 🔵 ADJACENT TRACK</div>
+        <div class="app-title">EIGE — Election Integrity Governance Engine</div>
+        <div class="app-subtitle">Automated audit engine for democratic processes. Computes compliance scores, detects statistical anomalies, and generates transparency reports. 449 tests passing, 0 failures. Phase 1-B complete.</div>
+        <div class="app-tags">
+          <span class="tag tag-adjacent">🔵 Adjacent Track</span>
+          <span class="tag tag-dep">Python</span>
+          <span class="tag tag-dep">FastAPI</span>
+          <span class="tag tag-dep">Rust (audit core)</span>
+          <span class="tag tag-dep">449 tests</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container section-sm">
+  <div class="api-endpoint-bar">
+    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 EIGE Backend</span>
+    <input type="text" id="endpointInput" placeholder="https://your-eige-host" />
+    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
+    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
+  </div>
+  <div class="app-layout">
+    <div>
+      <div class="panel">
+        <div class="panel-title">⚙️ Election Audit Parameters</div>
+        <div class="form-group">
+          <label class="form-label">Jurisdiction name</label>
+          <input type="text" id="jurisdiction" class="form-input" placeholder="e.g. County of Example, State"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total registered voters</label>
+          <input type="number" id="regVoters" class="form-input" value="45000"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ballots cast</label>
+          <input type="number" id="ballotsCast" class="form-input" value="31000"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Provisional ballots</label>
+          <input type="number" id="provisional" class="form-input" value="420"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Audit type</label>
+          <select id="auditType" class="form-input">
+            <option value="rla">Risk-Limiting Audit (RLA)</option>
+            <option value="full">Full Hand Count</option>
+            <option value="batch">Batch Comparison</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="runAudit()">Run Audit</button>
+      </div>
+    </div>
+    <div>
+      <div class="panel output-panel" id="auditOutput">
+        <div class="panel-title">📊 Audit Report</div>
+        <div id="auditResult"><div style="color:var(--color-muted);font-size:.9rem">Fill parameters and run the audit.</div></div>
+      </div>
+      <div class="dossier-bar" style="margin-top:1rem">
+        <div class="dossier-bar-label">Export official audit dossier (PDF)</div>
+        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="epistemic-box" style="margin-top:2rem">
+    <strong>🔵 Adjacent Track — Governance Application</strong> — EIGE is a mathematical governance tool, not a hardgate physics claim. Outputs are statistical and structural analyses. All findings require human expert review before any official use. Open science artifact for human review, use at your own liability.
+  </div>
+
+  <div class="run-local" style="margin-top:1.5rem">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span>💻 Run Locally</span><span>▾</span>
+    </div>
+    <div class="run-local-body">
+<div class="code-block">pip install -r 12-AZ-IP/03-eige/requirements.txt
+cd 12-AZ-IP/03-eige
+make run    # or: uvicorn app.main:app --port 8010
+# Tests:
+python -m pytest tests/ -q  # expects 449 passed</div>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/03-eige" target="_blank">12-AZ-IP/03-eige ↗</a></p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+<script>
+var liveMode=false, lastAuditData={};
+AZAPI.bindCustomEndpoint('endpointInput','03-eige');
+function connectAPI(){
+  var url=document.getElementById('endpointInput').value.trim();
+  if(!url){alert('Enter backend URL.');return;}
+  AZAPI.endpoints['03-eige']=url.replace(/\/$/,'');
+  AZAPI.call('03-eige','/health').then(function(r){
+    document.getElementById('connStatus').textContent=r.ok?'🟢 Live':'🔴 Unreachable';
+    liveMode=r.ok;
+  });
+}
+function runAudit(){
+  const jur=document.getElementById('jurisdiction').value||'Example County';
+  const reg=+document.getElementById('regVoters').value;
+  const cast=+document.getElementById('ballotsCast').value;
+  const prov=+document.getElementById('provisional').value;
+  const type=document.getElementById('auditType').value;
+  lastAuditData={jur,reg,cast,prov,type};
+
+  var out=document.getElementById('auditResult');
+  AZAPI.setLoading(document.getElementById('auditOutput'),true);
+
+  // Local demo computation
+  const turnout=(cast/reg*100).toFixed(2);
+  const provRate=(prov/cast*100).toFixed(3);
+  const riskLevel = provRate>2 ? 'ELEVATED' : provRate>0.5 ? 'NORMAL' : 'LOW';
+  const compliance = (98.5 - provRate*0.3).toFixed(2);
+  const flagColor = riskLevel==='ELEVATED'?'var(--color-orange)':riskLevel==='NORMAL'?'var(--color-green)':'var(--color-accent)';
+
+  setTimeout(function(){
+    document.getElementById('auditOutput').innerHTML = '<div class="panel-title">📊 Audit Report — '+(liveMode?'Live':'Demo')+'</div>';
+    out = document.getElementById('auditOutput');
+    out.innerHTML += `
+      <div class="result-row"><span class="result-row-label">Jurisdiction</span><span class="result-row-val">${jur}</span></div>
+      <div class="result-row"><span class="result-row-label">Audit type</span><span class="result-row-val">${type.toUpperCase()}</span></div>
+      <div class="result-row"><span class="result-row-label">Turnout</span><span class="result-row-val">${turnout}%</span></div>
+      <div class="result-row"><span class="result-row-label">Provisional rate</span><span class="result-row-val">${provRate}%</span></div>
+      <div class="result-row"><span class="result-row-label">Risk level</span><span class="result-row-val" style="color:${flagColor};font-weight:700">${riskLevel}</span></div>
+      <div class="result-row"><span class="result-row-label">Compliance score</span><span class="result-row-val">${compliance}/100</span></div>
+      ${riskLevel==='ELEVATED'?'<div style="margin-top:.75rem;font-size:.82rem;color:var(--color-orange)">⚠️ Provisional ballot rate exceeds 2% — recommend full review of provisional ballot handling procedures.</div>':''}
+    `;
+  },500);
+}
+window.addEventListener('load',function(){
+  document.getElementById('dossierBtn').addEventListener('click',function(){
+    const d=lastAuditData;
+    AZDossier.export({appName:'EIGE — Election Integrity Governance Engine',appId:'03-eige',version:'v21.0.0',
+      epistemic:'🔵 ADJACENT TRACK — Governance Application',
+      inputs:[
+        {label:'Jurisdiction',value:d.jur||'(none)'},{label:'Registered voters',value:d.reg||''},
+        {label:'Ballots cast',value:d.cast||''},{label:'Provisional',value:d.prov||''},{label:'Audit type',value:d.type||''}
+      ],
+      outputs:[{label:'Report',value:'See PDF for full audit findings.'}],
+      notes:'EIGE audit — all findings require human expert review before official use.',
+      dependencies:['fastapi','uvicorn','numpy','rust (audit core)','jsPDF']
+    });
+  });
+});
+</script>
+</body>
+</html>

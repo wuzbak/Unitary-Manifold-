@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>API Reference — Logic Lodge · AxiomZero</title>
+  <meta name="description" content="Complete REST API and WebSocket reference for the AxiomZero Logic Lodge server. Try endpoints live." />
+  <link rel="canonical" href="https://axiomzerospc.org/lodge/api-docs.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <script src="../js/az-api.js"></script>
+  <style>
+    .endpoint-block{background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius);margin-bottom:1.25rem;overflow:hidden;}
+    .endpoint-header{display:flex;align-items:center;gap:.75rem;padding:.9rem 1.25rem;cursor:pointer;user-select:none;}
+    .endpoint-header:hover{background:rgba(255,255,255,.02);}
+    .method-badge{font-family:var(--font-mono);font-size:.72rem;font-weight:700;padding:.2em .65em;border-radius:4px;}
+    .method-get{background:rgba(48,209,88,.15);color:#30d158;border:1px solid rgba(48,209,88,.3);}
+    .method-post{background:rgba(59,139,255,.15);color:#3b8bff;border:1px solid rgba(59,139,255,.3);}
+    .method-ws{background:rgba(240,192,64,.15);color:#f0c040;border:1px solid rgba(240,192,64,.3);}
+    .endpoint-path{font-family:var(--font-mono);font-size:.88rem;color:var(--color-text);}
+    .endpoint-desc{color:var(--color-muted);font-size:.82rem;margin-left:auto;}
+    .endpoint-body{padding:0 1.25rem 1.25rem;display:none;}
+    .endpoint-body.open{display:block;}
+    .try-row{display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap;}
+    .try-row input{flex:1;min-width:140px;background:transparent;border:1px solid var(--color-border);border-radius:4px;color:var(--color-text);font-family:var(--font-mono);font-size:.82rem;padding:.35rem .7rem;}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="../apps/index.html">Apps</a></li>
+    <li><a href="../az-apps/index.html">AZ Products</a></li>
+    <li><a href="index.html" class="active">Lodge</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v20.1</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div style="padding-top:80px">
+<div style="background:linear-gradient(135deg,rgba(59,139,255,0.06),rgba(13,24,48,0.97));border-bottom:1px solid var(--color-border);padding:2.5rem 0 2rem">
+  <div class="container">
+    <div class="section-eyebrow">Logic Lodge</div>
+    <h1 style="margin-bottom:.5rem">📡 API Reference</h1>
+    <p class="text-muted" style="max-width:640px">Full REST + WebSocket API for the Lodge server (<code>lodge/server.py</code>). Try any endpoint live against a running backend.</p>
+    <div class="api-endpoint-bar" style="margin-top:1.5rem;max-width:600px">
+      <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">Backend URL</span>
+      <input type="text" id="baseUrl" placeholder="https://lodge.axiomzero.io" style="flex:1;background:transparent;border:1px solid var(--color-border);border-radius:4px;color:var(--color-text);font-family:var(--font-mono);font-size:.82rem;padding:.35rem .7rem"/>
+      <button class="btn btn-outline btn-sm" onclick="setBase()">Set</button>
+      <span id="baseStatus" style="font-size:.78rem;color:var(--color-muted)">● Not set</span>
+    </div>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <h2 style="margin-bottom:1.5rem">REST Endpoints</h2>
+
+  <!-- GET /pillars -->
+  <div class="endpoint-block">
+    <div class="endpoint-header" onclick="toggle(this)">
+      <span class="method-badge method-get">GET</span>
+      <span class="endpoint-path">/pillars</span>
+      <span class="endpoint-desc">List all 208 pillar challenges</span>
+      <span>▾</span>
+    </div>
+    <div class="endpoint-body">
+      <p style="font-size:.85rem;color:var(--color-muted)">Returns a JSON array of all 208 challenge definitions with ID, prompt, domain, and difficulty.</p>
+      <div class="code-block">GET /pillars
+Accept: application/json
+
+→ 200 OK
+[
+  { "id": 2, "domain": "cosmology", "prompt": "Compute the CMB spectral index n_s from the UM braid parameters.", "difficulty": "medium" },
+  { "id": 5, "domain": "particle_physics", "prompt": "Derive α⁻¹ from k_CS and the KK geometry.", "difficulty": "hard" },
+  ...
+]</div>
+      <div class="try-row">
+        <button class="btn btn-outline btn-sm" onclick="tryGet('/pillars','pillarsResult')">Try it ↗</button>
+        <div id="pillarsResult" style="font-family:var(--font-mono);font-size:.78rem;color:var(--color-muted);margin-top:.5rem;flex:100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GET /pillars/:id -->
+  <div class="endpoint-block">
+    <div class="endpoint-header" onclick="toggle(this)">
+      <span class="method-badge method-get">GET</span>
+      <span class="endpoint-path">/pillars/{id}</span>
+      <span class="endpoint-desc">Get one pillar challenge</span>
+      <span>▾</span>
+    </div>
+    <div class="endpoint-body">
+      <p style="font-size:.85rem;color:var(--color-muted)">Returns full challenge data for pillar <code>id</code>.</p>
+      <div class="code-block">GET /pillars/57
+→ 200 OK
+{
+  "id": 57,
+  "domain": "cosmology",
+  "prompt": "Compute n_s from the braided KK slow-roll correction.",
+  "reference_value": 0.9635,
+  "unit": "",
+  "difficulty": "hard",
+  "src_module": "src/core/cmb_transfer.py"
+}</div>
+      <div class="try-row">
+        <input type="number" id="pillarId" value="57" style="max-width:80px"/>
+        <button class="btn btn-outline btn-sm" onclick="tryGet('/pillars/'+document.getElementById('pillarId').value,'pillarResult')">Try it</button>
+        <div id="pillarResult" style="font-family:var(--font-mono);font-size:.78rem;color:var(--color-muted);margin-top:.5rem;flex:100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST /pillars/:id/submit -->
+  <div class="endpoint-block">
+    <div class="endpoint-header" onclick="toggle(this)">
+      <span class="method-badge method-post">POST</span>
+      <span class="endpoint-path">/pillars/{id}/submit</span>
+      <span class="endpoint-desc">Submit an answer for scoring</span>
+      <span>▾</span>
+    </div>
+    <div class="endpoint-body">
+      <p style="font-size:.85rem;color:var(--color-muted)">Submit your numeric or dict answer. Returns precision score, error, and epistemic label.</p>
+      <div class="code-block">POST /pillars/57/submit
+Content-Type: application/json
+
+{ "answer": 0.9635, "agent_type": "human", "session_id": "my-session-001" }
+
+→ 200 OK
+{
+  "pillar_id": 57,
+  "score": 0.9997,
+  "error_pct": 0.0003,
+  "verdict": "PRECISE",
+  "reference": 0.9635,
+  "epistemic": "HARDGATE"
+}</div>
+      <div class="try-row">
+        <input type="number" id="submitPillar" value="57" style="max-width:80px" placeholder="Pillar ID"/>
+        <input type="number" id="submitAnswer" value="0.9635" placeholder="Your answer" step="any"/>
+        <button class="btn btn-outline btn-sm" onclick="trySubmit()">Try it</button>
+        <div id="submitResult" style="font-family:var(--font-mono);font-size:.78rem;color:var(--color-muted);margin-top:.5rem;flex:100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GET /leaderboard -->
+  <div class="endpoint-block">
+    <div class="endpoint-header" onclick="toggle(this)">
+      <span class="method-badge method-get">GET</span>
+      <span class="endpoint-path">/leaderboard</span>
+      <span class="endpoint-desc">Top scores by zone</span>
+      <span>▾</span>
+    </div>
+    <div class="endpoint-body">
+      <div class="code-block">GET /leaderboard?zone=arcade&n=10
+→ 200 OK
+{ "zone": "arcade", "entries": [{ "rank":1,"agent":"human:alice","score":0.9812,"pillars_correct":187 }, ...] }</div>
+      <div class="try-row">
+        <button class="btn btn-outline btn-sm" onclick="tryGet('/leaderboard?zone=arcade&n=5','lbResult')">Try it</button>
+        <div id="lbResult" style="font-family:var(--font-mono);font-size:.78rem;color:var(--color-muted);margin-top:.5rem;flex:100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST /lodge/submit -->
+  <div class="endpoint-block">
+    <div class="endpoint-header" onclick="toggle(this)">
+      <span class="method-badge method-post">POST</span>
+      <span class="endpoint-path">/lodge/submit</span>
+      <span class="endpoint-desc">Submit Socratic reasoning trace</span>
+      <span>▾</span>
+    </div>
+    <div class="endpoint-body">
+      <div class="code-block">POST /lodge/submit
+{ "pillar_id": 5, "reasoning": "The fine structure constant arises from k_CS=74...", "agent_type": "human" }
+→ 200 OK
+{ "queue_id": "lq-0042", "auto_score": 0.61, "status": "pending_review" }</div>
+    </div>
+  </div>
+
+  <!-- GET /exchange/query -->
+  <div class="endpoint-block">
+    <div class="endpoint-header" onclick="toggle(this)">
+      <span class="method-badge method-post">POST</span>
+      <span class="endpoint-path">/exchange/query</span>
+      <span class="endpoint-desc">Knowledge Exchange RAG query</span>
+      <span>▾</span>
+    </div>
+    <div class="endpoint-body">
+      <div class="code-block">POST /exchange/query
+{ "question": "What is the birefringence prediction?", "top_k": 5 }
+→ 200 OK
+{ "answer": "β ∈ {≈0.273°, ≈0.331°} ...", "sources": ["Pillar 67", "FALLIBILITY.md"], "confidence": 0.91 }</div>
+    </div>
+  </div>
+
+  <h2 style="margin:2.5rem 0 1.5rem">WebSocket Endpoints</h2>
+
+  <div class="endpoint-block">
+    <div class="endpoint-header" onclick="toggle(this)">
+      <span class="method-badge method-ws">WS</span>
+      <span class="endpoint-path">/ws/observe</span>
+      <span class="endpoint-desc">Real-time session observability stream</span>
+      <span>▾</span>
+    </div>
+    <div class="endpoint-body">
+      <p style="font-size:.85rem;color:var(--color-muted)">Connect via WebSocket to receive live session events: submissions, scores, leaderboard updates, and system metrics.</p>
+      <div class="code-block">// JavaScript
+const ws = new WebSocket('wss://lodge.axiomzero.io/ws/observe');
+ws.onmessage = (e) => {
+  const event = JSON.parse(e.data);
+  // event.type: "submission" | "score" | "leaderboard_update" | "heartbeat"
+  console.log(event);
+};
+
+# Python
+import websockets, asyncio, json
+async def observe():
+    async with websockets.connect('wss://lodge.axiomzero.io/ws/observe') as ws:
+        async for msg in ws:
+            print(json.loads(msg))
+asyncio.run(observe())</div>
+    </div>
+  </div>
+
+  <h2 style="margin:2.5rem 0 1.5rem">Client Examples</h2>
+
+  <div class="grid-2" style="gap:1.25rem">
+    <div>
+      <h4 style="margin-bottom:.75rem">Python</h4>
+<div class="code-block">import requests
+
+BASE = 'https://lodge.axiomzero.io'
+
+# List pillars
+pillars = requests.get(f'{BASE}/pillars').json()
+
+# Submit answer
+resp = requests.post(f'{BASE}/pillars/57/submit', json={
+    'answer': 0.9635, 'agent_type': 'python-script'
+}).json()
+print(resp['score'])  # 0.9997</div>
+    </div>
+    <div>
+      <h4 style="margin-bottom:.75rem">JavaScript (fetch)</h4>
+<div class="code-block">const BASE = 'https://lodge.axiomzero.io';
+
+// Submit answer
+const resp = await fetch(`${BASE}/pillars/57/submit`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ answer: 0.9635, agent_type: 'browser' })
+});
+const data = await resp.json();
+console.log(data.score); // 0.9997</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+  Open science artifact for human review, use at your own liability.
+</div>
+
+<script>
+var BASE = 'https://lodge.axiomzero.io';
+
+function setBase() {
+  var val = document.getElementById('baseUrl').value.trim().replace(/\/$/,'');
+  if (!val) return;
+  BASE = val; AZAPI.endpoints['lodge'] = val;
+  document.getElementById('baseStatus').textContent = '🟢 Set: ' + val;
+}
+
+function toggle(header) { header.nextElementSibling.classList.toggle('open'); }
+
+function tryGet(path, resultId) {
+  var el = document.getElementById(resultId);
+  el.textContent = 'Loading…';
+  AZAPI.call('lodge', path).then(function(r) {
+    el.textContent = r.ok ? JSON.stringify(r.data, null, 2).slice(0, 500) : '❌ ' + r.error + (r.offline?' (API offline)':'');
+  });
+}
+
+function trySubmit() {
+  var pid = document.getElementById('submitPillar').value;
+  var ans = +document.getElementById('submitAnswer').value;
+  var el = document.getElementById('submitResult');
+  el.textContent = 'Loading…';
+  AZAPI.call('lodge', '/pillars/'+pid+'/submit', { method:'POST', body:{ answer:ans, agent_type:'browser' } }).then(function(r) {
+    el.textContent = r.ok ? JSON.stringify(r.data, null, 2) : '❌ ' + r.error + (r.offline?' (API offline — run server locally)':'');
+  });
+}
+</script>
+</body>
+</html>
