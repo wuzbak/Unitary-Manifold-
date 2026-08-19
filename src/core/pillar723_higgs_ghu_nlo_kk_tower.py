@@ -98,7 +98,7 @@ def compute_delta_lambda_kk(
         "tower_sum":        tower_sum,
         "g5_sq":            g5_sq,
         "k_cs_over_n_w":    k_cs / n_w,
-        "n_cut":            n_cut if (n_cut := k_cs) else k_cs,
+        "n_cut":            k_cs,
     }
 
 

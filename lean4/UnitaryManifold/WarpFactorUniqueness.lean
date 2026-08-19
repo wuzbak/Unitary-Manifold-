@@ -183,10 +183,10 @@ theorem warp_adS_radius_bound : (1127 : ℕ) > 1000 := by native_decide
 /-- 74 / 5 = 14 in natural number division (floor). -/
 theorem warp_kk_excitation_count : (74 : ℕ) / 5 = 14 := by native_decide
 
--- ── Theorem 17: 37 ≥ 37 ──────────────────────────────────────────────────
+-- ── Theorem 17: πkR lower bound (non-trivial) ──────────────────────────────
 
-/-- The smallest integer ≥ 37 is 37 itself. -/
-theorem warp_37_ge_37 : pi_kR_int ≥ pi_kR_int := by native_decide
+/-- The hierarchy exponent πkR_int strictly exceeds 36 (hierarchy window lower bound). -/
+theorem warp_37_gt_36 : pi_kR_int > 36 := by native_decide
 
 -- ── Theorem 18: 37 ∣ 74 ──────────────────────────────────────────────────
 
