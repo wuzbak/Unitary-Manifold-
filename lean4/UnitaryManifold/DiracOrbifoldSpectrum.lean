@@ -244,17 +244,26 @@ theorem combined_bound :
     3 * K_CS ^ 2 * (K_CS ^ 3) := by
   native_decide
 
-/-- Theorem 24: Gen-1 residual (15 units in 10^6 scale) ≤ NLO bound (1643 units).
-    Proxy (integer, scaled × 10^6): 15 ≤ 1643.  Observed |Δc_L| ≈ 0.000015. -/
-theorem gen1_residual_within_bound : (15 : ℕ) ≤ 1643 := by native_decide
+/-- Theorem 24: Gen-1 residual (1541 in 10^6 scale) ≤ NLO bound (1643 in 10^6 scale).
+    Actual: |Δc_L| ≈ 0.001541 < NLO = 9/5476 ≈ 0.001643.
+    Proxy (integer, both scaled × 10^6): 1541 ≤ 1643. -/
+theorem gen1_residual_within_bound : (1541 : ℕ) ≤ 1643 := by native_decide
 
-/-- Theorem 25: Gen-2 residual (23 units in 10^4 scale) ≤ combined bound (230 units).
-    Proxy (integer, scaled × 10^4): 23 ≤ 230.  Observed |Δc_L| ≈ 0.0023. -/
-theorem gen2_residual_within_bound : (23 : ℕ) ≤ 230 := by native_decide
+/-- Theorem 25 (HONEST): Gen-2 residual EXCEEDS combined NLO+NNLO bound.
+    Actual: |Δc_L| ≈ 0.002297 > combined = 0.001710.
+    Proxy (integer, both scaled × 10^6): 2297 > 1710.
+    Epistemic label: RESIDUAL_EXCEEDS_PERTURBATIVE_BOUND.
+    Generation-mixing corrections O((i-1)/K_CS) required to formally cover gen 2. -/
+theorem gen2_residual_exceeds_combined_bound : (2297 : ℕ) > 1710 := by native_decide
 
-/-- Theorem 26: Gen-3 residual (16 units in 10^4 scale) ≤ combined bound (230 units).
-    Proxy (integer, scaled × 10^4): 16 ≤ 230.  Observed |Δc_L| ≈ 0.0016. -/
-theorem gen3_residual_within_bound : (16 : ℕ) ≤ 230 := by native_decide
+/-- Theorem 26 (HONEST): Gen-3 residual far EXCEEDS combined NLO+NNLO bound.
+    Actual: |Δc_L| ≈ 0.011946 >> combined = 0.001710 (7× excess).
+    Proxy (integer, both scaled × 10^6): 11946 > 1710.
+    Epistemic label: RESIDUAL_EXCEEDS_PERTURBATIVE_BOUND.
+    The gen-3 residual indicates that the simple ladder formula c_L^(i) =
+    1 − N_c/K_CS − (i−1)/(2K_CS) is insufficiently tight for i=3; further
+    analytic work (generation-mixing, higher-winding corrections) is required. -/
+theorem gen3_residual_exceeds_combined_bound : (11946 : ℕ) > 1710 := by native_decide
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- BLOCK D — c_R Normalisation Certificate
@@ -283,15 +292,23 @@ theorem cr_gen5_nonneg : N_W - N_W = 0 := by native_decide
 -- Combined G4 closure certificate
 -- ─────────────────────────────────────────────────────────────────────────────
 
-/-- G4 closure certificate: all proxy theorems in this file together assert
-    BC_SPECTRUM_ANALYTICALLY_DERIVED status.
-    Proxy: the total theorem count = 32; K_CS × N_W = 74 × 5 = 370;
-    c_L^(1) + c_L^(2) + c_L^(3) numerators = 71 + 70 + 69 = 210 (scaled). -/
+/-- G4 closure certificate (HONEST): proxy theorems assert BC_SPECTRUM_ANALYTICALLY_DERIVED
+    for c_L/c_R formulae, but residual bound is PARTIALLY_BOUNDED only.
+    Gen 1 residual (1541 × 10^{-6}) is within NLO bound (1643 × 10^{-6}) ✓.
+    Gen 2 residual (2297 × 10^{-6}) EXCEEDS combined bound (1710 × 10^{-6}) ✗.
+    Gen 3 residual (11946 × 10^{-6}) FAR EXCEEDS combined bound ✗.
+    Proxy arithmetic for basic identities: K_CS × N_W = 370; c_L ladder sum = 210. -/
 theorem g4_bc_spectrum_certificate :
     (K_CS - N_C) + (K_CS - N_C - 1) + (K_CS - N_C - 2) = 210 ∧
     K_CS * N_W = 370 ∧
     N_C ^ 2 < K_CS ∧
-    N_W + 1 = 6 := by
+    N_W + 1 = 6 ∧
+    -- Gen 1 residual within NLO bound (honest)
+    (1541 : ℕ) ≤ 1643 ∧
+    -- Gen 2 residual EXCEEDS combined bound (honest)
+    (2297 : ℕ) > 1710 ∧
+    -- Gen 3 residual far EXCEEDS combined bound (honest)
+    (11946 : ℕ) > 1710 := by
   native_decide
 
 /-- Total theorem count in this file. -/
