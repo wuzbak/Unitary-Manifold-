@@ -121,3 +121,118 @@ def test_audit_contains_peak_ratio():
 
 def test_audit_is_honest_about_approximation():
     assert AUDIT["honesty_label"] == "SIMPLIFIED_HIERARCHY"
+
+
+# ---------------------------------------------------------------------------
+# Gap-closure sprint: CMB suppression floor analytic tests
+# ---------------------------------------------------------------------------
+
+import sys as _sys
+import os as _os
+import math as _math
+_sys.path.insert(0, _os.path.join(_os.path.dirname(__file__), ".."))
+
+from src.core.pillar698_cmb_phase2_boltzmann_solver import (
+    eta_suppression_ratio,
+    cmb_suppression_floor_audit,
+    C_S,
+    N_W,
+    DELTA_KK,
+    TAU_REC_MPC,
+    D_A_LAST_SCATTERING_MPC,
+)
+
+
+class TestEtaSuppression:
+    def test_returns_dict(self):
+        result = eta_suppression_ratio(k_mpc=0.02)
+        assert isinstance(result, dict)
+
+    def test_eta_less_than_one_for_positive_k(self):
+        for k in [0.005, 0.015, 0.04, 0.08]:
+            result = eta_suppression_ratio(k_mpc=k)
+            assert result["eta_suppression"] < 1.0, f"η ≥ 1 at k={k}"
+
+    def test_eta_greater_than_zero(self):
+        for k in [0.01, 0.05]:
+            result = eta_suppression_ratio(k_mpc=k)
+            assert result["eta_suppression"] > 0.0
+
+    def test_suppression_necessary_flag(self):
+        result = eta_suppression_ratio(k_mpc=0.03)
+        assert result["suppression_is_necessary"] is True
+
+    def test_eta_less_than_one_flag(self):
+        result = eta_suppression_ratio(k_mpc=0.03)
+        assert result["eta_less_than_one"] is True
+
+    def test_delta_kk_analytic_positive(self):
+        result = eta_suppression_ratio(k_mpc=0.03)
+        assert result["delta_kk_analytic"] > 0.0
+
+    def test_eta_decreases_with_k(self):
+        # Higher k → more suppression → lower η
+        eta_low = eta_suppression_ratio(k_mpc=0.01)["eta_suppression"]
+        eta_high = eta_suppression_ratio(k_mpc=0.05)["eta_suppression"]
+        assert eta_high < eta_low
+
+    def test_floor_theorem_string(self):
+        result = eta_suppression_ratio(k_mpc=0.02)
+        assert "SUPPRESSION_FLOOR_PROVED_ANALYTIC" in result["floor_theorem"]
+
+    def test_status_field(self):
+        result = eta_suppression_ratio(k_mpc=0.02)
+        assert result["status"] == "SUPPRESSION_FLOOR_PROVED_ANALYTIC"
+
+    def test_k_ratio_computed(self):
+        result = eta_suppression_ratio(k_mpc=0.05)
+        assert result["k_ratio"] > 0.0
+
+    def test_suppression_integral_positive(self):
+        result = eta_suppression_ratio(k_mpc=0.03)
+        assert result["suppression_integral"] > 0.0
+
+
+class TestCMBSuppressionFloorAudit:
+    def setup_method(self):
+        self.result = cmb_suppression_floor_audit()
+
+    def test_returns_dict(self):
+        assert isinstance(self.result, dict)
+
+    def test_all_three_peaks_present(self):
+        peaks = self.result["per_peak"]
+        assert "peak_1" in peaks
+        assert "peak_2" in peaks
+        assert "peak_3" in peaks
+
+    def test_all_peaks_suppressed(self):
+        assert self.result["all_peaks_suppressed"] is True
+
+    def test_all_peak_eta_less_than_one(self):
+        for name, peak in self.result["per_peak"].items():
+            assert peak["eta"] < 1.0, f"Peak {name} has η ≥ 1"
+
+    def test_all_suppression_necessary(self):
+        for name, peak in self.result["per_peak"].items():
+            assert peak["suppression_is_necessary"] is True, f"Peak {name} not marked necessary"
+
+    def test_status_field(self):
+        assert self.result["status"] == "SUPPRESSION_FLOOR_PROVED_ANALYTIC"
+
+    def test_theorem_mentions_kk(self):
+        assert "KK" in self.result["theorem"] or "kk" in self.result["theorem"].lower()
+
+    def test_lean4_proxy_bound_present(self):
+        assert len(self.result["lean4_proxy_bound"]) > 30
+
+    def test_epistemic_upgrade_present(self):
+        assert len(self.result["epistemic_upgrade"]) > 30
+
+    def test_peak2_more_suppressed_than_peak1(self):
+        peaks = self.result["per_peak"]
+        assert peaks["peak_2"]["eta"] < peaks["peak_1"]["eta"]
+
+    def test_peak3_most_suppressed(self):
+        peaks = self.result["per_peak"]
+        assert peaks["peak_3"]["eta"] < peaks["peak_2"]["eta"]
