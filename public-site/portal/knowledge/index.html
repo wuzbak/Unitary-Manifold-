@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Portal — axiomzerosp.org</title>
+  <meta name="description" content="Browse all 208+ Unitary Manifold physics pillars, 872+ Lean4 theorems, and the live Claim Master Board — with epistemic gate labels and a D3 lattice graph." />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/main.css" />
+  <link rel="manifest" href="../../manifest.webmanifest" />
+  <style>
+    .kp-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2rem; }
+    .kp-tab {
+      padding:0.5em 1.2em; border-radius:20px; cursor:pointer; font-weight:600; font-size:0.85rem;
+      background:rgba(59,139,255,0.08); border:1px solid rgba(59,139,255,0.2); color:#7a8ba8;
+      transition:all 0.15s;
+    }
+    .kp-tab.active { background:rgba(59,139,255,0.2); border-color:rgba(59,139,255,0.5); color:#3b8bff; }
+    .kp-tab:hover { color:#e8ecf4; }
+    .kp-panel { display:none; }
+    .kp-panel.active { display:block; }
+
+    /* Pillar table */
+    .pillar-search-bar {
+      display:flex; gap:0.75rem; margin-bottom:1.25rem; flex-wrap:wrap;
+    }
+    #pillar-search {
+      flex:1; min-width:200px; padding:0.6rem 1rem; background:#0d1830;
+      border:1px solid #1a2a4a; border-radius:8px; color:#e8ecf4; font-family:inherit; font-size:0.9rem; outline:none;
+    }
+    #pillar-search:focus { border-color:rgba(59,139,255,0.4); }
+    .gate-filter {
+      display:flex; gap:0.4rem; flex-wrap:wrap;
+    }
+    .gate-btn {
+      padding:0.4em 0.85em; border-radius:20px; border:1px solid; font-size:0.78rem; font-weight:600;
+      cursor:pointer; background:transparent; transition:all 0.15s;
+    }
+    .gate-btn[data-gate="ALL"]       { border-color:#4a5a7a; color:#7a8ba8; }
+    .gate-btn[data-gate="HARDGATE"]  { border-color:rgba(48,209,88,0.4); color:#30d158; }
+    .gate-btn[data-gate="ADJACENT"]  { border-color:rgba(59,139,255,0.4); color:#3b8bff; }
+    .gate-btn[data-gate="OPEN_GAP"]  { border-color:rgba(255,159,10,0.4); color:#ff9f0a; }
+    .gate-btn.active { background:rgba(255,255,255,0.08); }
+
+    .pillar-grid {
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:0.85rem;
+    }
+    .pillar-card {
+      background:var(--color-card); border:1px solid var(--color-border); border-radius:10px;
+      padding:1rem; transition:border-color 0.15s; cursor:pointer;
+    }
+    .pillar-card:hover { border-color:rgba(59,139,255,0.35); }
+    .pillar-id {
+      font-family:var(--font-mono); font-size:0.75rem; color:#7a8ba8; margin-bottom:0.3rem;
+    }
+    .pillar-name { font-weight:600; font-size:0.9rem; margin-bottom:0.4rem; }
+    .pillar-desc { font-size:0.8rem; color:#7a8ba8; }
+    .pillar-gate {
+      display:inline-block; font-family:var(--font-mono); font-size:0.65rem; font-weight:700;
+      padding:0.1em 0.5em; border-radius:3px; margin-bottom:0.5rem;
+    }
+    .gate-HARDGATE       { background:rgba(48,209,88,0.12); color:#30d158; border:1px solid rgba(48,209,88,0.25); }
+    .gate-ADJACENT_TRACK { background:rgba(59,139,255,0.1); color:#3b8bff; border:1px solid rgba(59,139,255,0.2); }
+    .gate-OPEN_GAP       { background:rgba(255,159,10,0.1); color:#ff9f0a; border:1px solid rgba(255,159,10,0.2); }
+
+    /* Claim board */
+    .claim-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+    .claim-table th {
+      text-align:left; padding:0.65rem 0.75rem; background:#0d1830;
+      border-bottom:2px solid #1a2a4a; color:#7a8ba8; font-weight:600; font-size:0.78rem;
+    }
+    .claim-table td { padding:0.65rem 0.75rem; border-bottom:1px solid #1a2a4a; vertical-align:top; }
+    .claim-table tr:hover td { background:rgba(59,139,255,0.04); }
+    .tension-ok   { color:#30d158; font-weight:600; }
+    .tension-warn { color:#ff9f0a; font-weight:600; }
+    .tension-open { color:#7a8ba8; }
+
+    /* Graph placeholder */
+    #pillar-graph-canvas {
+      width:100%; height:520px; background:#0a1228; border:1px solid #1a2a4a; border-radius:12px;
+      display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+    }
+    .graph-placeholder {
+      text-align:center; color:#7a8ba8;
+    }
+    .graph-placeholder h3 { margin-bottom:0.5rem; color:#e8ecf4; }
+
+    /* Theorem list */
+    .theorem-list { display:flex; flex-direction:column; gap:0.6rem; }
+    .theorem-row {
+      background:var(--color-card); border:1px solid var(--color-border); border-radius:8px;
+      padding:0.85rem 1rem; display:flex; gap:1rem; align-items:flex-start;
+    }
+    .theorem-id { font-family:var(--font-mono); font-size:0.75rem; color:#3b8bff; min-width:80px; }
+    .theorem-name { font-weight:600; font-size:0.88rem; }
+    .theorem-pillar { font-size:0.78rem; color:#7a8ba8; margin-top:0.2rem; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="../index.html">
+    <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
+    axiomzerosp.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Knowledge</a></li>
+    <li><a href="../../az-apps/">Apps</a></li>
+    <li><a href="../gym/">Gym</a></li>
+    <li><a href="../engine/">Science Engine</a></li>
+    <li><a href="../library/">Library</a></li>
+    <li><a href="../../status/">Status</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:2.5rem 1.5rem;">
+
+  <div style="margin-bottom:2rem;">
+    <div style="font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:#3b8bff;margin-bottom:0.4rem;">Knowledge Portal</div>
+    <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:0.5rem;">Navigate the Lattice</h1>
+    <p style="color:#7a8ba8;max-width:620px;">
+      208+ physics pillars, 872+ Lean4 theorems, live claim tracking, and an interactive dependency graph.
+      Every claim carries an epistemic gate label. Click any pillar to ask the assistant about it.
+    </p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="kp-tabs" role="tablist">
+    <button class="kp-tab active" onclick="switchTab('pillars')" id="tab-pillars" role="tab" aria-selected="true">🏛️ Pillars</button>
+    <button class="kp-tab" onclick="switchTab('claims')" id="tab-claims" role="tab" aria-selected="false">📋 Claim Board</button>
+    <button class="kp-tab" onclick="switchTab('theorems')" id="tab-theorems" role="tab" aria-selected="false">✓ Theorems</button>
+    <button class="kp-tab" onclick="switchTab('graph')" id="tab-graph" role="tab" aria-selected="false">🕸️ Lattice Graph</button>
+    <button class="kp-tab" onclick="switchTab('gaps')" id="tab-gaps" role="tab" aria-selected="false">○ Open Gaps</button>
+  </div>
+
+  <!-- ── PILLARS ── -->
+  <div class="kp-panel active" id="panel-pillars">
+    <div class="pillar-search-bar">
+      <input id="pillar-search" type="search" placeholder="Search pillars by name, number, or topic…" oninput="filterPillars()" />
+      <div class="gate-filter">
+        <button class="gate-btn active" data-gate="ALL" onclick="setGate(this,'ALL')">All</button>
+        <button class="gate-btn" data-gate="HARDGATE" onclick="setGate(this,'HARDGATE')">Hardgate</button>
+        <button class="gate-btn" data-gate="ADJACENT" onclick="setGate(this,'ADJACENT')">Adjacent</button>
+        <button class="gate-btn" data-gate="OPEN_GAP" onclick="setGate(this,'OPEN_GAP')">Open Gap</button>
+      </div>
+    </div>
+    <div class="pillar-grid" id="pillar-grid">
+      <!-- Populated by JS from PILLARS data -->
+    </div>
+    <p id="pillar-count" style="color:#7a8ba8;font-size:0.82rem;margin-top:1rem;"></p>
+  </div>
+
+  <!-- ── CLAIM BOARD ── -->
+  <div class="kp-panel" id="panel-claims">
+    <p style="color:#7a8ba8;margin-bottom:1.25rem;font-size:0.88rem;">
+      Live tracking of major predictions. Tension values are updated as new data arrives.
+      DESI Year 2 and LiteBIRD are the primary upcoming tests.
+    </p>
+    <div style="overflow-x:auto;">
+    <table class="claim-table">
+      <thead>
+        <tr>
+          <th>Prediction</th>
+          <th>Value</th>
+          <th>Observation</th>
+          <th>Tension</th>
+          <th>Status</th>
+          <th>Test</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CMB spectral index <em>n<sub>s</sub></em></td>
+          <td><code>0.9635</code></td>
+          <td>0.9649 ± 0.0042</td>
+          <td class="tension-ok">0.3σ ✓</td>
+          <td><span class="pillar-gate gate-HARDGATE">HARDGATE</span></td>
+          <td>Planck 2018</td>
+        </tr>
+        <tr>
+          <td>Tensor-to-scalar ratio <em>r</em></td>
+          <td><code>0.0315</code></td>
+          <td>&lt; 0.036</td>
+          <td class="tension-ok">Within bound ✓</td>
+          <td><span class="pillar-gate gate-HARDGATE">HARDGATE</span></td>
+          <td>BICEP/Keck</td>
+        </tr>
+        <tr>
+          <td>Birefringence β (canonical)</td>
+          <td><code>≈0.273°, ≈0.331°</code></td>
+          <td>TBD — admissible [0.22°,0.38°]</td>
+          <td class="tension-open">Untested</td>
+          <td><span class="pillar-gate gate-HARDGATE">HARDGATE</span></td>
+          <td>LiteBIRD ~2032</td>
+        </tr>
+        <tr>
+          <td>Higgs mass</td>
+          <td><code>~126.2 GeV</code></td>
+          <td>125.25 ± 0.17 GeV</td>
+          <td class="tension-warn">~1σ consistent</td>
+          <td><span class="pillar-gate gate-HARDGATE">HARDGATE</span></td>
+          <td>LHC</td>
+        </tr>
+        <tr>
+          <td>Dark energy EoS <em>w<sub>a</sub></em></td>
+          <td><code>0</code> (KK prediction)</td>
+          <td>DESI Y1: tension w<sub>a</sub>≠0</td>
+          <td class="tension-warn">~2σ tension</td>
+          <td><span class="pillar-gate gate-OPEN_GAP">OPEN_GAP</span></td>
+          <td>DESI Year 2</td>
+        </tr>
+        <tr>
+          <td>Δm²₂₁ neutrino mass splitting</td>
+          <td>NLO correction applied</td>
+          <td>PDG value</td>
+          <td class="tension-warn">1.07σ residual</td>
+          <td><span class="pillar-gate gate-OPEN_GAP">OPEN_GAP</span></td>
+          <td>Ongoing (Pillar 773)</td>
+        </tr>
+        <tr>
+          <td>CMB acoustic peak amplitude</td>
+          <td>η(k)&lt;1 from KK geometry</td>
+          <td>Planck peaks suppressed ×4–7</td>
+          <td class="tension-warn">Architecture limit</td>
+          <td><span class="pillar-gate gate-OPEN_GAP">OPEN_GAP</span></td>
+          <td>See Pillars 57+63</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="margin-top:1rem;font-size:0.8rem;color:#7a8ba8;">
+      Full board: <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/CLAIM_MASTER_BOARD.md" target="_blank">CLAIM_MASTER_BOARD.md</a> ·
+      Admitted gaps: <a href="../library/#fallibility">FALLIBILITY register</a>
+    </p>
+  </div>
+
+  <!-- ── THEOREMS ── -->
+  <div class="kp-panel" id="panel-theorems">
+    <p style="color:#7a8ba8;margin-bottom:1.25rem;font-size:0.88rem;">
+      872+ Lean4 formally verified theorems. Each theorem is machine-checkable and tied to a specific pillar.
+      Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/lean4" target="_blank">lean4/UnitaryManifold/</a>
+    </p>
+    <div class="theorem-list" id="theorem-list">
+      <!-- Sample theorems — full list loaded from API -->
+    </div>
+    <p style="margin-top:1.25rem;color:#7a8ba8;font-size:0.82rem;">
+      Showing a representative sample. Full registry:
+      <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/THEOREM_REGISTRY_V14.md" target="_blank">THEOREM_REGISTRY_V14.md</a>
+    </p>
+  </div>
+
+  <!-- ── LATTICE GRAPH ── -->
+  <div class="kp-panel" id="panel-graph">
+    <p style="color:#7a8ba8;margin-bottom:1rem;font-size:0.88rem;">
+      Interactive dependency graph of all 208+ pillars. Click a node to explore — the assistant tracks your trail and warns if you drift too deep.
+    </p>
+    <div id="pillar-graph-canvas">
+      <div class="graph-placeholder">
+        <div style="font-size:3rem;margin-bottom:1rem;">🕸️</div>
+        <h3>Pillar Lattice Graph</h3>
+        <p style="max-width:380px;margin:0 auto 1.25rem;">
+          D3.js force-directed graph of all pillar dependencies loading…
+        </p>
+        <div id="graph-status" style="font-family:var(--font-mono);font-size:0.78rem;color:#3b8bff;">Initializing graph engine…</div>
+      </div>
+    </div>
+    <p style="margin-top:0.75rem;font-size:0.8rem;color:#7a8ba8;">
+      Node color: <span style="color:#30d158;">■</span> Hardgate &nbsp;
+      <span style="color:#3b8bff;">■</span> Adjacent Track &nbsp;
+      <span style="color:#ff9f0a;">■</span> Open Gap &nbsp;
+      <span style="color:#7c4dff;">■</span> Arch Limit
+    </p>
+  </div>
+
+  <!-- ── OPEN GAPS ── -->
+  <div class="kp-panel" id="panel-gaps">
+    <p style="color:#7a8ba8;margin-bottom:1.25rem;font-size:0.88rem;">
+      Every acknowledged open problem in the framework — no hiding, no wishful framing.
+      From <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md" target="_blank">FALLIBILITY.md</a>.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:0.85rem;" id="gap-list">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+</main>
+
+<!-- Detail modal -->
+<div id="pillar-modal" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(5,10,26,0.88);align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#0d1830;border:1px solid #1a2a4a;border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:2rem;">
+    <div id="modal-content"></div>
+    <button onclick="closeModal()" style="margin-top:1.5rem;padding:0.5em 1.2em;background:rgba(59,139,255,0.12);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;cursor:pointer;font-weight:600;">Close</button>
+    <button onclick="askAssistant()" style="margin-top:1.5rem;margin-left:0.5rem;padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;cursor:pointer;font-weight:600;">Ask Assistant →</button>
+  </div>
+</div>
+
+<footer style="background:#030710;border-top:1px solid #0d1628;padding:2rem 1.5rem;text-align:center;color:#4a5a7a;font-size:0.8rem;margin-top:4rem;">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 · Open science artifact for human review · Use at your own liability
+</footer>
+
+<script src="../../js/assistant.js" defer></script>
+
+<script>
+// ── Tab switching ──────────────────────────────────────────────────────────
+var activeTab = 'pillars';
+function switchTab(id) {
+  document.querySelectorAll('.kp-tab').forEach(function(t) { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  document.querySelectorAll('.kp-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  document.getElementById('tab-' + id).setAttribute('aria-selected','true');
+  document.getElementById('panel-' + id).classList.add('active');
+  activeTab = id;
+  if (id === 'graph') initGraph();
+  if (id === 'theorems' && !theoremLoaded) renderTheorems();
+  if (id === 'gaps' && !gapsLoaded) renderGaps();
+}
+
+// ── Pillar data (representative sample; full list loaded from status.json) ──
+var PILLARS = [
+  { id:1,  name:'5D Kaluza-Klein Metric Ansatz',       gate:'HARDGATE',       desc:'The foundational metric that generates all other structures.' },
+  { id:2,  name:'5D Einstein Field Equations',          gate:'HARDGATE',       desc:'EFE in 5D — source of compactification geometry.' },
+  { id:3,  name:'Kaluza-Klein Compactification',        gate:'HARDGATE',       desc:'S¹/Z₂ orbifold reduction to 4D effective theory.' },
+  { id:4,  name:'Holographic Entropy-Area',             gate:'HARDGATE',       desc:'Bekenstein-Hawking from 5D holographic boundary.' },
+  { id:5,  name:'FTUM Fixed-Point Iteration',           gate:'HARDGATE',       desc:'Fractal Topological Unitary Manifold convergence proof.' },
+  { id:9,  name:'Consciousness Coupling (Pillar 9)',    gate:'ADJACENT_TRACK', desc:'Brain-universe attractor model — not a hardgate physics claim.' },
+  { id:15, name:'Cold Fusion COP Prediction',           gate:'ADJACENT_TRACK', desc:'φ-enhanced tunneling COP — falsifiable LENR prediction, not confirmation.' },
+  { id:57, name:'CMB Suppression Mechanism (Pillar 57)',gate:'OPEN_GAP',       desc:'Suppression floor mechanism addressing ×4–7 amplitude gap.' },
+  { id:67, name:'Winding Number Selection (n_w=5)',     gate:'HARDGATE',       desc:'n_w=5 selected by Planck n_s data after geometric narrowing to {5,7}.' },
+  { id:70, name:'Ω₀ Holon Zero',                       gate:'HARDGATE',       desc:'Master convergence attractor — Ω₀ origin holon.' },
+  { id:208,name:'Adjacent Track Boundary (Pillar 208)', gate:'HARDGATE',       desc:'Final hardgate pillar — closes the 208-pillar core set.' },
+  { id:218,name:'Applied Domain Track 218',             gate:'ADJACENT_TRACK', desc:'First of 24+ adjacent research tracks. Exploratory, non-hardgate.' },
+  { id:700,name:'NPW5 APS Theorem',                    gate:'HARDGATE',       desc:'Lean4 NPW5APS.lean — 18 theorems. Pillar 700.' },
+  { id:772,name:'Lepton Jarlskog Lattice',              gate:'HARDGATE',       desc:'n_FN_lepton=1 derived from NH+Dirichlet BC orbifold lattice.' },
+  { id:773,name:'Δm²₂₁ NLO Lattice Correction',        gate:'OPEN_GAP',       desc:'NLO mechanisms reduce tension 1.16σ→1.07σ. Sub-1σ not yet achieved.' },
+];
+
+var gateFilter = 'ALL';
+function filterPillars() {
+  var q = document.getElementById('pillar-search').value.toLowerCase();
+  renderPillars(q, gateFilter);
+}
+function setGate(btn, g) {
+  document.querySelectorAll('.gate-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  gateFilter = g;
+  filterPillars();
+}
+function renderPillars(q, gate) {
+  var grid = document.getElementById('pillar-grid');
+  q = (q||'').toLowerCase(); gate = gate||'ALL';
+  var filtered = PILLARS.filter(function(p) {
+    var matchQ = !q || (String(p.id).includes(q) || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+    var matchG = gate==='ALL' || p.gate===gate || (gate==='ADJACENT' && p.gate==='ADJACENT_TRACK');
+    return matchQ && matchG;
+  });
+  grid.innerHTML = filtered.map(function(p) {
+    return '<div class="pillar-card" onclick="openPillar(' + p.id + ')" tabindex="0" role="button" aria-label="Pillar ' + p.id + ': ' + escH(p.name) + '">' +
+      '<div class="pillar-id">Pillar ' + p.id + '</div>' +
+      '<span class="pillar-gate gate-' + p.gate + '">' + p.gate.replace('_',' ') + '</span>' +
+      '<div class="pillar-name">' + escH(p.name) + '</div>' +
+      '<div class="pillar-desc">' + escH(p.desc) + '</div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('pillar-count').textContent = 'Showing ' + filtered.length + ' of ' + PILLARS.length + ' loaded pillars (full 208+ via API)';
+}
+renderPillars('','ALL');
+
+// ── Pillar modal ──────────────────────────────────────────────────────────
+var currentPillar = null;
+function openPillar(id) {
+  currentPillar = PILLARS.find(function(p){ return p.id===id; });
+  if (!currentPillar) return;
+  document.getElementById('modal-content').innerHTML =
+    '<div style="font-family:var(--font-mono);font-size:0.75rem;color:#7a8ba8;margin-bottom:0.4rem;">Pillar ' + currentPillar.id + '</div>' +
+    '<span class="pillar-gate gate-' + currentPillar.gate + '" style="margin-bottom:0.75rem;display:inline-block;">' + currentPillar.gate.replace('_',' ') + '</span>' +
+    '<h2 style="font-size:1.3rem;margin-bottom:0.75rem;">' + escH(currentPillar.name) + '</h2>' +
+    '<p style="color:#7a8ba8;">' + escH(currentPillar.desc) + '</p>' +
+    '<p style="margin-top:1rem;font-size:0.82rem;color:#4a5a7a;">Full derivation and tests: ' +
+    '<a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/src/core" target="_blank">src/core/</a> · ' +
+    '<a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/tests" target="_blank">tests/</a></p>';
+  document.getElementById('pillar-modal').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('pillar-modal').style.display = 'none';
+}
+function askAssistant() {
+  if (!currentPillar) return;
+  closeModal();
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.open();
+    setTimeout(function() {
+      AZAssistant.send('Tell me about Pillar ' + currentPillar.id + ': ' + currentPillar.name + ' (gate: ' + currentPillar.gate + ')');
+    }, 400);
+  }
+}
+
+// ── Theorems ──────────────────────────────────────────────────────────────
+var theoremLoaded = false;
+var THEOREMS = [
+  { id:'YukawaSVDClosure',       name:'Yukawa SVD Exact Closure',      pillar:'Yukawa SVD',    count:30 },
+  { id:'DimensionalChainClosure',name:'11D→5D Dimensional Chain Uniqueness', pillar:'Pillars 1–7', count:37 },
+  { id:'SwamplandAxiom',         name:'Swampland Axiom SW (n_w≤15)',   pillar:'Axiom SW',       count:24 },
+  { id:'NPW5APS',                name:'NPW5 APS Theorem',              pillar:'Pillar 700',     count:18 },
+  { id:'ShadowPairKCSFormal',    name:'Shadow Pair K_CS Formal',       pillar:'Pillar 703',     count:17 },
+  { id:'OrbifoldBCUniqueness',   name:'Orbifold BC Uniqueness',        pillar:'Pillar 702',     count:15 },
+  { id:'PMNSSolarAngleBound',    name:'PMNS Solar Angle Bound',        pillar:'Pillar 701',     count:12 },
+  { id:'P8FunctionalFull',       name:'P8 Functional (0 sorry stubs)', pillar:'Pillar 8',       count:0  },
+  { id:'AlphaGUTDerivation',     name:'α_GUT Derivation',              pillar:'α_GUT',          count:9  },
+  { id:'CCNoGoFormal',           name:'CC No-Go in RS1 Ansatz',        pillar:'CC',             count:7  },
+  { id:'Dm21NLOLatticeClosure',  name:'Δm²₂₁ NLO Lattice Correction', pillar:'Pillar 773',     count:13 },
+  { id:'LeptonJarlskogLatticeClosure','name':'Lepton Jarlskog Lattice', pillar:'Pillar 772',    count:15 },
+];
+function renderTheorems() {
+  theoremLoaded = true;
+  document.getElementById('theorem-list').innerHTML = THEOREMS.map(function(t) {
+    return '<div class="theorem-row">' +
+      '<div class="theorem-id">' + escH(t.id) + '.lean</div>' +
+      '<div>' +
+        '<div class="theorem-name">' + escH(t.name) + '</div>' +
+        '<div class="theorem-pillar">' + escH(t.pillar) + (t.count ? ' · ' + t.count + ' theorems' : ' · complete') + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('') + '<p style="color:#7a8ba8;font-size:0.8rem;margin-top:0.5rem;">Total: 872+ theorems across all .lean files in lean4/UnitaryManifold/</p>';
+}
+
+// ── Gaps ─────────────────────────────────────────────────────────────────
+var gapsLoaded = false;
+var GAPS = [
+  { id:'G1', name:'CMB Acoustic Peak Amplitude', desc:'Power spectrum suppressed ×4–7 at acoustic peaks. Architecture limit — documented in FALLIBILITY.md Admission 2. Addressed by Pillars 57+63.' },
+  { id:'G2', name:'n_w=5 Uniqueness Proof',      desc:'n_w=5 not yet proved from first principles alone. Steps 1–3 narrow to {5,7}; Planck n_s provides final selection. Admission 3.' },
+  { id:'G3', name:'FN Charge Free Parameters',   desc:'9 free Froggatt-Nielsen charges — architecture limit. Yukawa SVD closed the texture gap but charges remain fitting targets.' },
+  { id:'G4', name:'Δm²₂₁ Sub-1σ',              desc:'Neutrino mass-squared splitting tension: NLO mechanisms reduce to 1.07σ. Sub-1σ gate NLO_INSUFFICIENT_FOR_SUB_1SIGMA.' },
+  { id:'G5', name:'DESI w_a≠0 Tension',         desc:'DESI Year 1 hints w_a≠0. KK predicts w_a=0. DESI Year 2 data will adjudicate. Tracked in CLAIM_MASTER_BOARD.' },
+  { id:'G6', name:'α_s Route C Insufficient',   desc:'Strong coupling via holographic Route C does not achieve required precision. Route C INSUFFICIENT gate active.' },
+];
+function renderGaps() {
+  gapsLoaded = true;
+  document.getElementById('gap-list').innerHTML = GAPS.map(function(g) {
+    return '<div style="background:rgba(255,159,10,0.05);border:1px solid rgba(255,159,10,0.2);border-radius:10px;padding:1rem 1.25rem;">' +
+      '<div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">' +
+        '<span style="font-family:var(--font-mono);font-size:0.75rem;color:#ff9f0a;font-weight:700;">' + escH(g.id) + '</span>' +
+        '<strong style="font-size:0.92rem;">' + escH(g.name) + '</strong>' +
+        '<span class="pillar-gate gate-OPEN_GAP" style="margin-left:auto;">OPEN GAP</span>' +
+      '</div>' +
+      '<p style="font-size:0.84rem;color:#7a8ba8;margin:0;">' + escH(g.desc) + '</p>' +
+    '</div>';
+  }).join('');
+}
+
+// ── Graph (D3) ────────────────────────────────────────────────────────────
+var graphLoaded = false;
+function initGraph() {
+  if (graphLoaded) return;
+  graphLoaded = true;
+  var canvas = document.getElementById('pillar-graph-canvas');
+  var status = document.getElementById('graph-status');
+  // Load D3 dynamically
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js';
+  s.onload = function() { buildD3Graph(canvas); status && (status.style.display='none'); };
+  s.onerror = function() { status.textContent = 'D3 load failed. Check connection.'; };
+  document.head.appendChild(s);
+}
+
+function buildD3Graph(container) {
+  container.innerHTML = '';
+  var W = container.clientWidth || 800;
+  var H = 520;
+  var svg = d3.select(container).append('svg')
+    .attr('width', W).attr('height', H)
+    .style('background','transparent');
+
+  // Node data (representative; full would be loaded from API)
+  var nodes = PILLARS.map(function(p) { return { id:p.id, name:p.name, gate:p.gate }; });
+  var links = [
+    {source:1,target:2},{source:2,target:3},{source:3,target:4},
+    {source:1,target:5},{source:5,target:70},{source:4,target:67},
+    {source:67,target:700},{source:700,target:772},{source:772,target:773},
+    {source:208,target:218},
+  ].filter(function(l) {
+    return nodes.find(function(n){return n.id===l.source;}) &&
+           nodes.find(function(n){return n.id===l.target;});
+  });
+
+  var gateColor = { HARDGATE:'#30d158', ADJACENT_TRACK:'#3b8bff', OPEN_GAP:'#ff9f0a' };
+
+  var sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(function(d){return d.id;}).distance(90))
+    .force('charge', d3.forceManyBody().strength(-180))
+    .force('center', d3.forceCenter(W/2, H/2))
+    .force('collision', d3.forceCollide(28));
+
+  var link = svg.append('g').selectAll('line').data(links).enter().append('line')
+    .attr('stroke','#1a2a4a').attr('stroke-width',1.5);
+
+  var node = svg.append('g').selectAll('g').data(nodes).enter().append('g')
+    .attr('cursor','pointer')
+    .on('click', function(event,d) { openPillar(d.id); })
+    .call(d3.drag()
+      .on('start', function(event,d){ if(!event.active) sim.alphaTarget(0.3).restart(); d.fx=d.x;d.fy=d.y; })
+      .on('drag',  function(event,d){ d.fx=event.x;d.fy=event.y; })
+      .on('end',   function(event,d){ if(!event.active) sim.alphaTarget(0); d.fx=null;d.fy=null; })
+    );
+
+  node.append('circle').attr('r',16)
+    .attr('fill',function(d){ return gateColor[d.gate]||'#7a8ba8'; })
+    .attr('fill-opacity',0.18)
+    .attr('stroke',function(d){ return gateColor[d.gate]||'#7a8ba8'; })
+    .attr('stroke-width',1.5);
+
+  node.append('text')
+    .attr('text-anchor','middle').attr('dy','0.35em')
+    .attr('fill','#e8ecf4').attr('font-size','9px').attr('font-family','JetBrains Mono,monospace')
+    .text(function(d){ return d.id; });
+
+  node.append('title').text(function(d){ return 'Pillar '+d.id+': '+d.name; });
+
+  sim.on('tick', function() {
+    link.attr('x1',function(d){return d.source.x;}).attr('y1',function(d){return d.source.y;})
+        .attr('x2',function(d){return d.target.x;}).attr('y2',function(d){return d.target.y;});
+    node.attr('transform',function(d){ return 'translate('+d.x+','+d.y+')'; });
+  });
+}
+
+// ── Utilities ────────────────────────────────────────────────────────────
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Init assistant context ────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.setPageContext('Knowledge Portal — pillar browser, claim board, Lean4 theorem registry, and dependency graph');
+  }
+});
+</script>
+</body>
+</html>

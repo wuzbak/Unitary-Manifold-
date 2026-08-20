@@ -229,5 +229,14 @@ function filterProducts(type, btn) {
   });
 }
 </script>
+<!-- Persistent AI Assistant -->
+<script src="../js/assistant.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof AZAssistant !== 'undefined') {
+      AZAssistant.setPageContext('AZ Products hub — 16 AxiomZero IP products: OS, EIGE, Oracle, Journalist, manifold chart, and more');
+    }
+  });
+</script>
 </body>
 </html>

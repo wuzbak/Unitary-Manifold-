@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>axiomzerosp.org — Open Science Portal</title>
+  <meta name="description" content="AxiomZero open science portal: 208+ physics pillars, 872+ Lean4 theorems, 16 AZ-IP products, gym, calculators, and a persistent AI assistant grounded in the Unitary Manifold." />
+  <meta property="og:title" content="axiomzerosp.org — Open Science Portal" />
+  <meta property="og:description" content="Explore the Unitary Manifold 5D Kaluza-Klein physics framework. All tools, apps, knowledge, and a RAG-grounded AI assistant — open, honest, public domain." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://axiomzerosp.org/portal/" />
+  <link rel="canonical" href="https://axiomzerosp.org/portal/" />
+  <meta name="theme-color" content="#050a1a" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+
+  <style>
+    /* Portal-specific styles */
+    .portal-hero {
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1.5rem 3rem;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 50% 30%, #0a1a3a 0%, #050a1a 70%);
+    }
+    .portal-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 60%, rgba(59,139,255,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 300px at 80% 20%, rgba(124,77,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .portal-wordmark {
+      font-family: var(--font-mono);
+      font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #3b8bff;
+      margin-bottom: 1.25rem;
+      opacity: 0.85;
+    }
+    .portal-headline {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, #e8ecf4 40%, #3b8bff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .portal-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: #7a8ba8;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.6;
+    }
+    .entry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      max-width: 740px;
+      width: 100%;
+      margin: 0 auto 1.5rem;
+    }
+    .entry-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.25rem 1rem;
+      background: rgba(13,24,48,0.8);
+      border: 1px solid #1a2a4a;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #e8ecf4;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .entry-card:hover {
+      border-color: rgba(59,139,255,0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(59,139,255,0.15);
+      color: #e8ecf4;
+      text-decoration: none;
+    }
+    .entry-icon { font-size: 2rem; }
+    .entry-label { font-weight: 600; font-size: 0.9rem; }
+    .entry-desc { font-size: 0.75rem; color: #7a8ba8; text-align: center; }
+
+    .stats-row {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #3b8bff;
+    }
+    .stat-label { font-size: 0.78rem; color: #7a8ba8; }
+
+    /* Sections */
+    .section { padding: 4rem 1.5rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #3b8bff;
+      margin-bottom: 0.5rem;
+    }
+    .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 0.75rem; }
+    .section-desc { color: #7a8ba8; max-width: 620px; margin-bottom: 2rem; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .feature-card {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(59,139,255,0.35); }
+    .feature-card-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .feature-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.85rem; color: #7a8ba8; margin: 0; }
+    .feature-card a.btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.45em 1em;
+      background: rgba(59,139,255,0.12);
+      border: 1px solid rgba(59,139,255,0.25);
+      border-radius: 6px;
+      color: #3b8bff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .feature-card a.btn:hover { background: rgba(59,139,255,0.22); text-decoration: none; }
+
+    .alt-bg { background: #050e1e; }
+
+    /* Epistemic banner */
+    .epistemic-banner {
+      background: rgba(240,192,64,0.06);
+      border: 1px solid rgba(240,192,64,0.18);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.88rem;
+      color: #b8a060;
+      max-width: 860px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+    .epistemic-banner strong { color: #f0c040; }
+
+    /* Search bar */
+    .portal-search-wrap {
+      max-width: 540px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+    #portal-search {
+      width: 100%;
+      padding: 0.85rem 3rem 0.85rem 1.25rem;
+      background: rgba(13,24,48,0.9);
+      border: 1px solid #1a2a4a;
+      border-radius: 10px;
+      color: #e8ecf4;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    #portal-search:focus { border-color: rgba(59,139,255,0.45); }
+    .portal-search-btn {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #3b8bff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav class="nav">
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
+    axiomzerosp.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="knowledge/">Knowledge</a></li>
+    <li><a href="../az-apps/">Apps</a></li>
+    <li><a href="gym/">Gym</a></li>
+    <li><a href="engine/">Science Engine</a></li>
+    <li><a href="library/">Library</a></li>
+    <li><a href="../status/">Status</a></li>
+    <li><a href="../about/">About</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="portal-hero">
+  <div class="portal-wordmark">axiomzerosp.org · Open Science Portal</div>
+  <h1 class="portal-headline">Explore the Edge<br>of What We Know</h1>
+  <p class="portal-sub">
+    The Unitary Manifold is a 5-dimensional Kaluza-Klein physics framework — publicly open, radically honest about its gaps, and built to be traversed by anyone. Start anywhere.
+  </p>
+
+  <!-- Search -->
+  <div class="portal-search-wrap">
+    <input id="portal-search" type="search" placeholder="Search pillars, theorems, tools, apps…" aria-label="Search the knowledge base" />
+    <button class="portal-search-btn" onclick="portalSearch()" aria-label="Search">⌕</button>
+  </div>
+
+  <!-- Entry cards by user type -->
+  <div class="entry-grid">
+    <a class="entry-card" href="knowledge/">
+      <span class="entry-icon">🔬</span>
+      <span class="entry-label">Scientist</span>
+      <span class="entry-desc">Pillars, theorems, open gaps, claim board</span>
+    </a>
+    <a class="entry-card" href="gym/">
+      <span class="entry-icon">🧮</span>
+      <span class="entry-label">Student</span>
+      <span class="entry-desc">Derivation walkthroughs, exercises, calculators</span>
+    </a>
+    <a class="entry-card" href="../az-apps/">
+      <span class="entry-icon">⚙️</span>
+      <span class="entry-label">Builder</span>
+      <span class="entry-desc">16 AZ-IP apps, APIs, open source</span>
+    </a>
+    <a class="entry-card" href="library/">
+      <span class="entry-icon">📖</span>
+      <span class="entry-label">Citizen</span>
+      <span class="entry-desc">Plain-language explanations, monograph, citations</span>
+    </a>
+    <a class="entry-card" href="engine/">
+      <span class="entry-icon">🚀</span>
+      <span class="entry-label">Researcher</span>
+      <span class="entry-desc">Live computation, HF Spaces, Oracle engine</span>
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">208+</div>
+      <div class="stat-label">Physics Pillars</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">872+</div>
+      <div class="stat-label">Lean4 Theorems</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">56,279</div>
+      <div class="stat-label">Tests Passing</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">16</div>
+      <div class="stat-label">AZ-IP Products</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Test Failures</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Epistemic Honesty Banner ── -->
+<section class="section" style="padding-top:2.5rem;padding-bottom:1.5rem;">
+  <div class="section-inner">
+    <div class="epistemic-banner">
+      <strong>Epistemic honesty notice:</strong>
+      This framework makes falsifiable predictions. The primary test is CMB birefringence
+      β ∈ {≈0.273°, ≈0.331°}, measurable by LiteBIRD (~2032). Documented open gaps and
+      admitted failures are listed in the
+      <a href="library/#fallibility" style="color:#f0c040;">FALLIBILITY register</a>.
+      All claims carry gate labels: <strong style="color:#30d158;">HARDGATE</strong> (formally closed),
+      <strong style="color:#3b8bff;">ADJACENT_TRACK</strong> (exploratory, not a hardgate claim),
+      or <strong style="color:#ff9f0a;">OPEN_GAP</strong> (acknowledged open problem).
+    </div>
+  </div>
+</section>
+
+<!-- ── Knowledge ── -->
+<section class="section alt-bg">
+  <div class="section-inner">
+    <div class="section-label">Knowledge Portal</div>
+    <h2 class="section-title">Navigate the Lattice</h2>
+    <p class="section-desc">Browse all 208+ pillars with epistemic status labels, explore the Lean4 theorem registry, and inspect what is and isn't claimed.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">🏛️</div>
+        <h3>Pillar Browser</h3>
+        <p>All 208+ physics pillars, searchable and filterable by gate status, topic, and derivation chain.</p>
+        <a href="knowledge/#pillars" class="btn">Browse Pillars →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">📋</div>
+        <h3>Claim Master Board</h3>
+        <p>Live tracking of all major predictions, their current tension with data, and DESI/LiteBIRD status.</p>
+        <a href="knowledge/#claims" class="btn">View Claims →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">✓</div>
+        <h3>Theorem Registry</h3>
+        <p>872+ Lean4 formally verified theorems — machine-readable proofs tied to each pillar.</p>
+        <a href="knowledge/#theorems" class="btn">Theorem Registry →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🕸️</div>
+        <h3>Pillar Lattice Graph</h3>
+        <p>Interactive D3 graph of pillar dependencies. Click any node to explore — the assistant tracks your trail.</p>
+        <a href="knowledge/#graph" class="btn">Open Graph →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Apps Hub ── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">AZ-IP Product Suite</div>
+    <h2 class="section-title">16 Applications, Open &amp; Ready</h2>
+    <p class="section-desc">From the Axiom OS to the Ω Oracle grand synthesis engine — every tool is interactive, documented, and openly licensed.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">🌀</div>
+        <h3>Ω Oracle (Product 16)</h3>
+        <p>Grand synthesis engine: Pentad modeler, EIGE governance audit, decision resonance, synthesis score.</p>
+        <a href="../az-apps/16-oracle.html" class="btn">Open Oracle →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">📰</div>
+        <h3>Axiom Journalist (Product 8)</h3>
+        <p>6-tab offline workbench for empirical investigation — outputs a structured dossier PDF.</p>
+        <a href="../az-apps/08-axiom-journalist.html" class="btn">Open Journalist →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🗺️</div>
+        <h3>Manifold Braid Chart</h3>
+        <p>Interactive U-BCC braid chart of the 5D extra-dimensional structure. Click nodes to navigate.</p>
+        <a href="../az-apps/manifold-chart.html" class="btn">Open Chart →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">⊙</div>
+        <h3>All 16 Products</h3>
+        <p>OS, EIGE, SOS, Kernel, Holon Zero, OmegaHolon, Delphi, SDAM, Pentacorder, and more.</p>
+        <a href="../az-apps/" class="btn">All Apps →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gym ── -->
+<section class="section alt-bg">
+  <div class="section-inner">
+    <div class="section-label">Gym — Interactive Learning</div>
+    <h2 class="section-title">Work Through the Physics</h2>
+    <p class="section-desc">Step-by-step derivation walkthroughs, hypothesis sandboxes, and live calculators — guided by the assistant when you want it.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">⚛️</div>
+        <h3>KK Mass Calculator</h3>
+        <p>Compute Kaluza-Klein tower masses from 5D parameters. Adjust winding number, compactification radius.</p>
+        <a href="../apps/kk-mass-calculator.html" class="btn">Open Calculator →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🌌</div>
+        <h3>CMB Parameter Explorer</h3>
+        <p>Vary inflation parameters and see predicted CMB spectra vs Planck observations in real time.</p>
+        <a href="../apps/cmb-parameters.html" class="btn">CMB Explorer →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">💡</div>
+        <h3>Birefringence Predictor</h3>
+        <p>Compute β from braided-winding geometry — the primary LiteBIRD falsifier.</p>
+        <a href="../apps/birefringence-predictor.html" class="btn">Predict β →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🏋️</div>
+        <h3>Full Gym</h3>
+        <p>Derivation walkthroughs, hypothesis testing, VQE sandbox, Fermi-Hubbard exercises.</p>
+        <a href="gym/" class="btn">Enter Gym →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Science Engine ── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Science Engine — Live Computation</div>
+    <h2 class="section-title">Run the Physics</h2>
+    <p class="section-desc">Hugging Face Spaces hosting Gradio UIs for the Oracle, CMB calculator, VQE sandbox, and more. Results always include uncertainty and epistemic status.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">🤗</div>
+        <h3>Oracle on HF Spaces</h3>
+        <p>Full Oracle engine running on Hugging Face — Pentad modeling, synthesis scoring, live computation.</p>
+        <a href="https://huggingface.co/spaces/axiomzero/oracle" target="_blank" rel="noopener" class="btn">Open HF Space →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🔭</div>
+        <h3>CMB Calculator Space</h3>
+        <p>Gradio UI for CMB transfer function and acoustic peak predictions from UM geometry.</p>
+        <a href="https://huggingface.co/spaces/axiomzero/cmb-calculator" target="_blank" rel="noopener" class="btn">CMB Space →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">⚗️</div>
+        <h3>VQE Sandbox</h3>
+        <p>Variational Quantum Eigensolver for Fermi-Hubbard and KK tower systems.</p>
+        <a href="https://huggingface.co/spaces/axiomzero/vqe-sandbox" target="_blank" rel="noopener" class="btn">VQE Space →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">📊</div>
+        <h3>All Engines</h3>
+        <p>Full index of all HF Spaces, Gradio apps, and API endpoints.</p>
+        <a href="engine/" class="btn">Science Engine →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Library ── -->
+<section class="section alt-bg">
+  <div class="section-inner">
+    <div class="section-label">Open Science Library</div>
+    <h2 class="section-title">Full Knowledge, Open Access</h2>
+    <p class="section-desc">The complete monograph, arxiv preprint, BibTeX citations, and status dashboard — everything needed to verify, cite, or build on this work.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">📚</div>
+        <h3>74-Chapter Monograph</h3>
+        <p>The complete Unitary Manifold book — all theory, derivations, and predictions in one place.</p>
+        <a href="library/#monograph" class="btn">Read Monograph →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">📄</div>
+        <h3>arXiv Preprint</h3>
+        <p>Formal LaTeX submission with references, appendices, and reproducibility data.</p>
+        <a href="library/#arxiv" class="btn">arXiv Draft →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🔓</div>
+        <h3>FALLIBILITY Register</h3>
+        <p>Every acknowledged gap, admitted failure, and open problem — the honest accounting.</p>
+        <a href="library/#fallibility" class="btn">View Gaps →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">📌</div>
+        <h3>Status Dashboard</h3>
+        <p>Live test counts, Lean4 theorem totals, DESI tracker, and framework version.</p>
+        <a href="../status/" class="btn">View Status →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer style="background:#030710;border-top:1px solid #0d1628;padding:2.5rem 1.5rem;text-align:center;color:#4a5a7a;font-size:0.82rem;">
+  <div style="max-width:860px;margin:0 auto;">
+    <div style="margin-bottom:0.75rem;">
+      <strong style="color:#7a8ba8;">AxiomZero Technologies &amp; Consulting, SPC</strong> — UBI 606 239 876
+    </div>
+    <div style="margin-bottom:0.5rem;">
+      <a href="https://axiomzerosp.org" style="color:#4a5a7a;">axiomzerosp.org</a> ·
+      <a href="mailto:cpo@axiomzerospc.org" style="color:#4a5a7a;">cpo@axiomzerospc.org</a> ·
+      <a href="https://github.com/wuzbak/Unitary-Manifold-" target="_blank" rel="noopener" style="color:#4a5a7a;">GitHub</a> ·
+      <a href="https://doi.org/10.5281/zenodo.19584531" target="_blank" rel="noopener" style="color:#4a5a7a;">Zenodo</a>
+    </div>
+    <div>Open science artifact for human review. Use at your own liability.</div>
+    <div style="margin-top:0.5rem;">
+      Theory &amp; scientific direction: <em>ThomasCory Walker-Pearson</em> ·
+      Code, engineering, synthesis: <em>GitHub Copilot (AI)</em>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Persistent Assistant ── -->
+<script src="../js/assistant.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof AZAssistant !== 'undefined') {
+      AZAssistant.setPageContext('axiomzerosp.org Portal Home — entry hub for all UM knowledge, apps, gym, and science engine');
+    }
+  });
+
+  function portalSearch() {
+    var q = document.getElementById('portal-search').value.trim();
+    if (q) window.location.href = 'search/?q=' + encodeURIComponent(q);
+  }
+  document.getElementById('portal-search').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') portalSearch();
+  });
+</script>
+</body>
+</html>
