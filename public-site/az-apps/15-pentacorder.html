@@ -1,64 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pentacorder — 5-Pillar Field Scanner — AxiomZero</title>
+  <meta name="description" content="Interactive 5-sensor field scanner simulator with live gauges, sparkline history, geolocation status, Pentad axiom checking, and PDF dossier export." />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/15-pentacorder.html" />
   <meta name="theme-color" content="#050a1a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/main.css"/>
-  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/az-apps.css" />
+  <script src="../js/az-api.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <style>
+    :root{--color-card:#0d1830;--color-border:rgba(122,139,168,.22);--color-muted:#8da0c4;--color-text:#edf3ff;--color-accent:#3b8bff;--font-mono:'JetBrains Mono',monospace;--radius:18px;--color-good:#30d158;--color-amber:#f5b942;--color-bad:#ff647c}
+    body{background:#050a1a;color:var(--color-text)} .dashboard-shell{padding:2rem 0 3rem} .hero-note{max-width:760px;color:var(--color-muted);line-height:1.65;font-size:.95rem;margin-top:.65rem}
+    .control-bar,.panel-box,.gauge-card{background:linear-gradient(180deg,rgba(13,24,48,.98),rgba(8,16,34,.98));border:1px solid var(--color-border);border-radius:var(--radius);box-shadow:0 18px 44px rgba(0,0,0,.22)} .control-bar{padding:1rem 1.2rem;display:grid;grid-template-columns:auto auto auto 1fr;gap:.85rem;align-items:center;margin-bottom:1.25rem}
+    .control-bar button,.control-bar select{border-radius:12px;border:1px solid rgba(122,139,168,.2);padding:.75rem .9rem;font:inherit;background:rgba(255,255,255,.04);color:var(--color-text)} .control-bar button.primary{background:linear-gradient(135deg,rgba(59,139,255,.98),rgba(97,175,255,.92));border-color:transparent;font-weight:700;color:#fff}
+    .gps-box{justify-self:end;text-align:right;color:var(--color-muted);font-size:.82rem;line-height:1.45} .gauge-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}
+    .gauge-card{padding:1rem;position:relative;overflow:hidden} .gauge-top{display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start} .pillar-badge{font-family:var(--font-mono);font-size:.7rem;color:var(--color-accent);background:rgba(59,139,255,.12);border:1px solid rgba(59,139,255,.22);border-radius:999px;padding:.2rem .55rem;white-space:nowrap}
+    .gauge-title{font-size:.86rem;color:var(--color-muted);line-height:1.45;margin-top:.15rem} .gauge-ring{width:112px;height:112px;border-radius:50%;margin:1rem auto .9rem;display:grid;place-items:center;background:conic-gradient(var(--color-accent) 0deg,rgba(255,255,255,.08) 0deg 360deg);position:relative}
+    .gauge-ring::after{content:'';position:absolute;inset:10px;border-radius:50%;background:#091325;border:1px solid rgba(122,139,168,.12)} .gauge-ring-inner{position:relative;z-index:1;text-align:center;padding:0 .45rem} .gauge-value{font-family:var(--font-mono);font-size:2rem;color:var(--color-accent);line-height:1.05;letter-spacing:-.04em} .gauge-unit{font-family:var(--font-mono);font-size:.74rem;color:var(--color-muted);margin-top:.2rem}
+    .delta{text-align:center;font-size:.84rem;margin-bottom:.65rem;color:var(--color-muted)} .delta strong{font-family:var(--font-mono);font-size:.94rem;display:block;margin-top:.2rem} .spark-wrap{background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:12px;padding:.45rem} .spark-wrap canvas{width:100%;height:auto;display:block}
+    .detail-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:1rem;margin-top:1.35rem;align-items:start} .panel-box{padding:1.1rem} .panel-head{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.85rem} .eyebrow{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--color-muted)}
+    .panel-list,.axiom-list,.snapshot-list{display:grid;gap:.75rem} .row-card,.axiom-item{background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:12px;padding:.8rem .9rem} .row-card strong,.snapshot-list strong{display:block;margin-bottom:.28rem} .row-card p,.snapshot-list p,.helper,.gps-box p{margin:0;color:var(--color-muted);font-size:.82rem;line-height:1.55}
+    .axiom-item{display:flex;align-items:center;gap:.7rem;padding:.72rem .8rem} .axiom-item input{width:18px;height:18px;margin:0;accent-color:var(--color-good)} .coherence-box{margin-top:.95rem;padding:.9rem;border-radius:12px;background:rgba(59,139,255,.08);border:1px solid rgba(59,139,255,.15)} .coherence-value{font-family:var(--font-mono);font-size:1.7rem;color:var(--color-accent);margin-top:.35rem}
+    .snapshot-list .mono{font-family:var(--font-mono);color:var(--color-text);font-size:.88rem} .dossier-bar{margin-top:1rem}
+    @media (max-width:1240px){.gauge-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr}} @media (max-width:960px){.control-bar{grid-template-columns:1fr}.gps-box{justify-self:start;text-align:left}.gauge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}} @media (max-width:640px){.gauge-grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">AZ Products</a></li>
-    <li><a href="../apps/index.html">Calculators</a></li>
-    <li><span class="nav-badge">v20.1</span></li>
-  </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
-</nav>
-<div class="app-page">
-<div class="app-hero">
-  <div class="container">
-    <div class="app-hero-inner">
-      <div class="app-icon-lg">📲</div>
-      <div class="app-meta">
-        <div class="app-id-badge">Product 15 · 12-AZ-IP/15-pentacorder · Android</div>
-        <div class="app-title">Pentacorder — 5-Pillar Field Scanner</div>
-        <div class="app-subtitle">Native Android application. Build from source in the open repository. No web-hosted version — this product runs natively on-device.</div>
-        <div class="app-tags">
-          <span class="tag tag-mobile">📱 Android</span>
-          <span class="tag tag-dep">Build from source</span>
+  <nav class="nav">
+    <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">AZ Products</a></li>
+      <li><a href="../apps/index.html">Calculators</a></li>
+      <li><a href="../lodge/index.html">Lodge</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><span class="nav-badge">v20.1</span></li>
+    </ul>
+    <button class="nav-mobile-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  </nav>
+
+  <div class="app-page">
+    <div class="app-hero">
+      <div class="container">
+        <div class="app-hero-inner">
+          <div class="app-icon-lg">📲</div>
+          <div class="app-meta">
+            <div class="app-id-badge">Product 15 · 12-AZ-IP/15-pentacorder · Browser Dashboard</div>
+            <div class="app-title">Pentacorder — 5-Pillar Field Scanner</div>
+            <div class="app-subtitle">Real-time 5-sensor dashboard. Each sensor axis maps to a Unitary Manifold pillar. Compare measured readings to UM theoretical predictions.</div>
+            <div class="app-tags"><span class="tag tag-green">🟢 Runs in Browser</span><span class="tag tag-physics">5 Pillars</span><span class="tag tag-dep">Live Scan Simulator</span></div>
+            <div class="hero-note">Pentacorder fuses five simulated sensor feeds into a single dashboard: metric, holographic entropy, consciousness coupling, atmosphere, and FTUM fixed-point light proxy. Gauges update live, sparkline histories track the last 30 readings, and the Pentad Axiom Checker evaluates current coherence.</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="container section-sm">
-  <div class="card card-accent" style="margin-bottom:2rem">
-    <h3 style="margin-bottom:.5rem">📱 Native Application</h3>
-    <p style="color:var(--color-muted);font-size:.9rem">This product runs natively on Android. Build from the open-source repository below.</p>
-    <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/15-pentacorder" target="_blank" class="btn btn-primary" style="margin-top:1rem">View Source on GitHub ↗</a>
-  </div>
-  <div class="grid-3"><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">📡</div><strong>5 Sensor Pillars</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Accelerometer, barometer, magnetometer, light, audio — each mapped to a UM pillar.</p></div><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">⚛️</div><strong>Live Comparison</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Measured vs theoretical UM predictions with epistemic confidence bars.</p></div><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">📄</div><strong>Field Dossier</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Export PDF with GPS stamp, sensor readings, and pillar comparisons.</p></div></div>
-  <div class="run-local" style="margin-top:2rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')"><span>🛠️ Build Instructions</span><span>▾</span></div>
-    <div class="run-local-body"><div class="code-block"># Android Studio + NDK required
-cd 12-AZ-IP/15-pentacorder
-./gradlew assembleDebug</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/15-pentacorder" target="_blank">12-AZ-IP/15-pentacorder ↗</a></p>
+
+    <div class="container dashboard-shell">
+      <div class="control-bar">
+        <button class="primary" id="toggleScanBtn">Pause scanning</button>
+        <select id="intervalSelect" aria-label="Scan interval selector"><option value="500">0.5s</option><option value="1000" selected>1s</option><option value="2000">2s</option><option value="5000">5s</option></select>
+        <button id="resetBtn">Reset baselines</button>
+        <div class="gps-box"><strong style="color:var(--color-text)">Location</strong><p id="gpsStatus">Resolving GPS…</p><p class="helper">Boot cadence starts at 0.8 s; selector overrides subsequent scan interval.</p></div>
+      </div>
+
+      <section class="gauge-grid" id="gaugeGrid">
+        <article class="gauge-card" data-sensor="metric"><div class="gauge-top"><div><div class="eyebrow">Pillar 1 — Metric</div><div class="gauge-title">Accelerometer proxy → KK metric deviation</div></div><span class="pillar-badge">FLAT LOCAL</span></div><div class="gauge-ring" id="ring-metric"><div class="gauge-ring-inner"><div class="gauge-value" id="value-metric">0.0000</div><div class="gauge-unit">Δg</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-metric">Δ 0.0000</strong></div><div class="spark-wrap"><canvas id="spark-metric" width="120" height="40"></canvas></div></article>
+        <article class="gauge-card" data-sensor="entropy"><div class="gauge-top"><div><div class="eyebrow">Pillar 4 — Holographic Entropy</div><div class="gauge-title">Magnetometer proxy → area entropy field</div></div><span class="pillar-badge">EARTH NOMINAL</span></div><div class="gauge-ring" id="ring-entropy"><div class="gauge-ring-inner"><div class="gauge-value" id="value-entropy">47.2</div><div class="gauge-unit">µT</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-entropy">Δ 0.0</strong></div><div class="spark-wrap"><canvas id="spark-entropy" width="120" height="40"></canvas></div></article>
+        <article class="gauge-card" data-sensor="consciousness"><div class="gauge-top"><div><div class="eyebrow">Pillar 9 — Consciousness Coupling</div><div class="gauge-title">Audio proxy → φ-coupling strength</div></div><span class="pillar-badge">QUIET ROOM</span></div><div class="gauge-ring" id="ring-consciousness"><div class="gauge-ring-inner"><div class="gauge-value" id="value-consciousness">40.0</div><div class="gauge-unit">dB</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-consciousness">Δ 0.0</strong></div><div class="spark-wrap"><canvas id="spark-consciousness" width="120" height="40"></canvas></div></article>
+        <article class="gauge-card" data-sensor="climate"><div class="gauge-top"><div><div class="eyebrow">Pillar 22 — Climate / Atmosphere</div><div class="gauge-title">Barometer proxy → atmospheric field</div></div><span class="pillar-badge">ISA BASELINE</span></div><div class="gauge-ring" id="ring-climate"><div class="gauge-ring-inner"><div class="gauge-value" id="value-climate">1013.3</div><div class="gauge-unit">hPa</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-climate">Δ 0.0</strong></div><div class="spark-wrap"><canvas id="spark-climate" width="120" height="40"></canvas></div></article>
+        <article class="gauge-card" data-sensor="ftum"><div class="gauge-top"><div><div class="eyebrow">Pillar 5 — FTUM Fixed-Point</div><div class="gauge-title">Light proxy → multiverse convergence proxy</div></div><span class="pillar-badge">OFFICE LUX</span></div><div class="gauge-ring" id="ring-ftum"><div class="gauge-ring-inner"><div class="gauge-value" id="value-ftum">500</div><div class="gauge-unit">lux</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-ftum">Δ 0</strong></div><div class="spark-wrap"><canvas id="spark-ftum" width="120" height="40"></canvas></div></article>
+      </section>
+
+      <section class="detail-grid">
+        <div class="panel-box">
+          <div class="panel-head"><div><div class="eyebrow">Sensor Model</div><h2 style="margin:.2rem 0 0">Theoretical baselines</h2></div><span class="pillar-badge">SIM MATH</span></div>
+          <div class="panel-list">
+            <div class="row-card"><strong>Pillar 1 — Metric</strong><p>Theoretical 0.000 local metric deviation. Simulated with Gaussian noise in the ±0.005 band to emulate accelerometer jitter.</p></div>
+            <div class="row-card"><strong>Pillar 4 — Holographic Entropy</strong><p>Theoretical 47.2 µT, matching nominal terrestrial magnetic field conditions with ±2 µT sensor variation.</p></div>
+            <div class="row-card"><strong>Pillar 9 — Consciousness Coupling</strong><p>Theoretical 40 dB quiet-room acoustic floor with ±5 dB ambient fluctuation mapped onto φ-coupling amplitude.</p></div>
+            <div class="row-card"><strong>Pillar 22 &amp; 5</strong><p>Atmospheric ISA baseline 1013.25 hPa with ±2 hPa drift. FTUM light proxy targets 500 lux with ±50 lux illumination noise.</p></div>
+          </div>
+        </div>
+
+        <div class="panel-box">
+          <div class="panel-head"><div><div class="eyebrow">Pentad Axiom Checker</div><h2 style="margin:.2rem 0 0">Axiom pass / fail</h2></div><span class="pillar-badge">READ ONLY</span></div>
+          <div class="axiom-list">
+            <label class="axiom-item"><input type="checkbox" id="axiom1" disabled /><span>Axiom 1 — Metric within tolerance</span></label>
+            <label class="axiom-item"><input type="checkbox" id="axiom2" disabled /><span>Axiom 2 — Entropy above floor</span></label>
+            <label class="axiom-item"><input type="checkbox" id="axiom3" disabled /><span>Axiom 3 — φ-coupling non-zero</span></label>
+            <label class="axiom-item"><input type="checkbox" id="axiom4" disabled /><span>Axiom 4 — Pressure in standard range</span></label>
+            <label class="axiom-item"><input type="checkbox" id="axiom5" disabled /><span>Axiom 5 — Lux &gt; 0</span></label>
+          </div>
+          <div class="coherence-box"><div class="eyebrow">Overall Pentad coherence score</div><div class="coherence-value" id="coherenceValue">100%</div><div class="helper">Computed as <span class="mono">(passing axioms / 5) × 100%</span>.</div></div>
+        </div>
+
+        <div class="panel-box">
+          <div class="panel-head"><div><div class="eyebrow">Snapshot</div><h2 style="margin:.2rem 0 0">Last scan reading set</h2></div><span class="pillar-badge">LATEST</span></div>
+          <div class="snapshot-list" id="snapshotList"><div class="row-card"><strong>Awaiting scan</strong><p>Start the scanner to populate the latest Pentacorder reading set.</p></div></div>
+          <div class="dossier-bar"><div class="dossier-bar-label">Export the most recent scan set as a Pentacorder dossier.</div><button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button></div>
+        </div>
+      </section>
     </div>
   </div>
-</div>
-</div>
-<div class="az-org-strip">
-  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
-  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
-  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
-  Open science artifact for human review, use at your own liability.
-</div>
+
+  <div class="az-org-strip">
+    AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+    <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+    <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+    Open science artifact for human review, use at your own liability.
+  </div>
+
+  <script>
+    const sensors=[{id:'metric',pillar:'Pillar 1',name:'Metric',unit:'Δg',theoretical:0,range:.005,decimals:4},{id:'entropy',pillar:'Pillar 4',name:'Holographic Entropy',unit:'µT',theoretical:47.2,range:2,decimals:1},{id:'consciousness',pillar:'Pillar 9',name:'Consciousness Coupling',unit:'dB',theoretical:40,range:5,decimals:1},{id:'climate',pillar:'Pillar 22',name:'Climate / Atmosphere',unit:'hPa',theoretical:1013.25,range:2,decimals:2},{id:'ftum',pillar:'Pillar 5',name:'FTUM Fixed-Point',unit:'lux',theoretical:500,range:50,decimals:0}];
+    const state={running:true,intervalMs:800,timer:null,histories:{},latest:{},baselines:{},gps:'GPS unavailable — using simulated coordinates',scanIndex:0}; sensors.forEach(sensor=>{state.histories[sensor.id]=[]; state.baselines[sensor.id]=sensor.theoretical;});
+    function gaussian(){let u=0,v=0; while(u===0) u=Math.random(); while(v===0) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);} const formatNumber=(value,decimals)=>Number(value).toFixed(decimals);
+    function toleranceColor(absDelta,sigma){if(absDelta<=2*sigma) return {color:'var(--color-good)',label:'within ±2σ'}; if(absDelta<=3*sigma) return {color:'var(--color-amber)',label:'within ±3σ'}; return {color:'var(--color-bad)',label:'outside tolerance'};}
+    const simulateValue=(sensor)=>sensor.theoretical+(gaussian()*(sensor.range/2));
+    function updateGauge(sensor,measured){const sigma=sensor.range/2,delta=measured-sensor.theoretical,absDelta=Math.abs(delta),rating=toleranceColor(absDelta,sigma),normalized=Math.max(0,1-Math.min(absDelta/(sensor.range*1.5),1)),degrees=Math.round(40+normalized*280); document.getElementById(`value-${sensor.id}`).textContent=formatNumber(measured,sensor.decimals); const deltaEl=document.getElementById(`delta-${sensor.id}`); deltaEl.textContent=`Δ ${delta>=0?'+':''}${formatNumber(delta,sensor.decimals)} · ${rating.label}`; deltaEl.style.color=rating.color; document.getElementById(`ring-${sensor.id}`).style.background=`conic-gradient(${rating.color} ${degrees}deg, rgba(255,255,255,.08) ${degrees}deg 360deg)`; state.latest[sensor.id]={measured,delta,rating:rating.label,sigma};}
+    function drawSparkline(sensor){const canvas=document.getElementById(`spark-${sensor.id}`),ctx=canvas.getContext('2d'),width=canvas.width,height=canvas.height; ctx.clearRect(0,0,width,height); ctx.fillStyle='#081122'; ctx.fillRect(0,0,width,height); const history=state.histories[sensor.id]; if(!history.length) return; const values=history.map(entry=>entry.measured),min=Math.min(...values,sensor.theoretical-sensor.range),max=Math.max(...values,sensor.theoretical+sensor.range),span=max-min||1; ctx.strokeStyle='rgba(141,160,196,.12)'; ctx.beginPath(); ctx.moveTo(0,height/2); ctx.lineTo(width,height/2); ctx.stroke(); ctx.beginPath(); ctx.lineWidth=1.6; ctx.strokeStyle='#3b8bff'; values.forEach((value,index)=>{const x=(index/Math.max(values.length-1,1))*width,y=height-((value-min)/span)*(height-6)-3; if(index===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.stroke();}
+    function updateAxioms(){const metricPass=Math.abs(state.latest.metric.delta)<=.01,entropyPass=state.latest.entropy.measured>=45,consciousnessPass=state.latest.consciousness.measured>0,climatePass=state.latest.climate.measured>=1008&&state.latest.climate.measured<=1018,ftumPass=state.latest.ftum.measured>0,passes=[metricPass,entropyPass,consciousnessPass,climatePass,ftumPass]; document.getElementById('axiom1').checked=metricPass; document.getElementById('axiom2').checked=entropyPass; document.getElementById('axiom3').checked=consciousnessPass; document.getElementById('axiom4').checked=climatePass; document.getElementById('axiom5').checked=ftumPass; state.coherence=Math.round((passes.filter(Boolean).length/5)*100); document.getElementById('coherenceValue').textContent=`${state.coherence}%`;}
+    function updateSnapshot(){const list=document.getElementById('snapshotList'),timestamp=new Date().toLocaleTimeString(); list.innerHTML=`<div class="row-card"><strong>Scan ${state.scanIndex}</strong><p class="mono">${timestamp}</p></div><div class="row-card"><strong>Metric</strong><p class="mono">${formatNumber(state.latest.metric.measured,4)} Δg</p></div><div class="row-card"><strong>Entropy</strong><p class="mono">${formatNumber(state.latest.entropy.measured,1)} µT</p></div><div class="row-card"><strong>Consciousness</strong><p class="mono">${formatNumber(state.latest.consciousness.measured,1)} dB</p></div><div class="row-card"><strong>Pressure</strong><p class="mono">${formatNumber(state.latest.climate.measured,2)} hPa</p></div><div class="row-card"><strong>FTUM lux</strong><p class="mono">${formatNumber(state.latest.ftum.measured,0)} lux</p></div><div class="row-card"><strong>Pentad coherence</strong><p class="mono">${state.coherence}%</p></div>`;}
+    function scanOnce(){state.scanIndex+=1; sensors.forEach(sensor=>{const measured=simulateValue(sensor),history=state.histories[sensor.id]; history.push({measured,timestamp:Date.now()}); if(history.length>30) history.shift(); updateGauge(sensor,measured); drawSparkline(sensor);}); updateAxioms(); updateSnapshot();}
+    function startScanner(){stopScanner(); state.timer=setInterval(scanOnce,state.intervalMs); state.running=true; document.getElementById('toggleScanBtn').textContent='Pause scanning';}
+    function stopScanner(){if(state.timer) clearInterval(state.timer); state.timer=null; state.running=false; document.getElementById('toggleScanBtn').textContent='Start scanning';}
+    function resetBaselines(){sensors.forEach(sensor=>{state.histories[sensor.id]=[]; state.baselines[sensor.id]=sensor.theoretical;}); state.scanIndex=0; scanOnce(); if(state.running) startScanner();}
+    function resolveGPS(){const fallbackLat=47.6062+(Math.random()-.5)*.08,fallbackLon=-122.3321+(Math.random()-.5)*.08,fallback=`GPS unavailable — using simulated coordinates ${fallbackLat.toFixed(4)}, ${fallbackLon.toFixed(4)}`; if(!navigator.geolocation){state.gps=fallback; document.getElementById('gpsStatus').textContent=fallback; return;} navigator.geolocation.getCurrentPosition(position=>{const {latitude,longitude}=position.coords; state.gps=`GPS lock ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`; document.getElementById('gpsStatus').textContent=state.gps;},()=>{state.gps=fallback; document.getElementById('gpsStatus').textContent=fallback;},{enableHighAccuracy:false,timeout:3000,maximumAge:300000});}
+    function exportDossier(){if(!state.latest.metric){alert('Run at least one scan before exporting a dossier.');return;} AZDossier.export({appName:'Pentacorder — 5-Pillar Field Scanner',appId:'15-pentacorder',version:'v20.1',epistemic:'🟢 Browser simulator',inputs:[{label:'GPS status',value:state.gps},{label:'Scan interval',value:`${state.intervalMs} ms`},{label:'Scan index',value:String(state.scanIndex)}],outputs:sensors.map(sensor=>({label:`${sensor.pillar} — ${sensor.name}`,value:`${formatNumber(state.latest[sensor.id].measured,sensor.decimals)} ${sensor.unit} (Δ ${formatNumber(state.latest[sensor.id].delta,sensor.decimals)})`})).concat([{label:'Pentad coherence',value:`${state.coherence}%`}]),notes:'Gauge state compares measured values against Unitary Manifold theoretical baselines. Green status indicates within ±2σ, amber within ±3σ, red outside tolerance. Readings are simulated with Gaussian noise and last-30 sparkline history.',dependencies:['JavaScript (browser)','Canvas 2D','Geolocation API','jsPDF']});}
+    document.getElementById('toggleScanBtn').addEventListener('click',()=>{if(state.running) stopScanner(); else {state.running=true; startScanner();}}); document.getElementById('intervalSelect').addEventListener('change',event=>{state.intervalMs=Number(event.target.value); if(state.running) startScanner();}); document.getElementById('resetBtn').addEventListener('click',resetBaselines); document.getElementById('dossierBtn').addEventListener('click',exportDossier); window.addEventListener('load',()=>{resolveGPS(); scanOnce(); state.running=true; startScanner();});
+  </script>
 </body>
 </html>

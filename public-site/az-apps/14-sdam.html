@@ -1,65 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SDAM — Software-Defined Acoustic Modem — AxiomZero</title>
+  <meta name="description" content="Interactive OFDM-over-audio modem simulator. Encode text into a simulated acoustic waveform, inspect metadata, decode the hex payload, and export a PDF dossier." />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/14-sdam.html" />
   <meta name="theme-color" content="#050a1a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/main.css"/>
-  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/az-apps.css" />
+  <script src="../js/az-api.js" defer></script>
+  <script src="../js/dossier.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <style>
+    :root{--color-card:#0d1830;--color-border:rgba(122,139,168,.22);--color-muted:#8da0c4;--color-text:#edf3ff;--color-accent:#3b8bff;--font-mono:'JetBrains Mono',monospace;--radius:18px;--color-ok:#30d158;--color-warn:#f5b942;--color-danger:#ff5d73}
+    body{background:#050a1a;color:var(--color-text)} .app-shell{padding:2rem 0 3rem} .hero-note{max-width:720px;color:var(--color-muted);font-size:.95rem;line-height:1.65;margin-top:.65rem}
+    .sim-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem;align-items:start} .sim-card{background:linear-gradient(180deg,rgba(13,24,48,.98),rgba(8,16,34,.98));border:1px solid var(--color-border);border-radius:var(--radius);padding:1.35rem;box-shadow:0 18px 44px rgba(0,0,0,.22)}
+    .card-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:1rem} .eyebrow{font-family:var(--font-mono);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--color-muted)} .status-chip{border:1px solid rgba(59,139,255,.32);background:rgba(59,139,255,.12);color:var(--color-accent);border-radius:999px;padding:.22rem .7rem;font-size:.72rem;font-family:var(--font-mono)}
+    .form-grid{display:grid;gap:.9rem} .field label{display:block;margin-bottom:.35rem;font-size:.85rem;color:var(--color-muted)} .field textarea,.field select,.field input[type=text]{width:100%;background:rgba(4,9,23,.85);color:var(--color-text);border:1px solid rgba(122,139,168,.24);border-radius:12px;padding:.8rem .9rem;font:inherit;resize:vertical;min-height:48px}
+    .field textarea{min-height:112px;line-height:1.55} .inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem} .toggle-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem .95rem;background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:12px}
+    .toggle-row small{color:var(--color-muted);display:block;margin-top:.2rem;font-size:.74rem} .toggle-row input{width:18px;height:18px;accent-color:var(--color-accent);flex-shrink:0} .button-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.2rem}
+    .btn-primary-soft,.btn-secondary-soft{border:1px solid transparent;border-radius:12px;padding:.8rem 1rem;font-weight:600;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,background .16s ease} .btn-primary-soft{background:linear-gradient(135deg,rgba(59,139,255,.98),rgba(97,175,255,.92));color:#fff;box-shadow:0 10px 28px rgba(59,139,255,.22)} .btn-secondary-soft{background:rgba(255,255,255,.04);border-color:rgba(122,139,168,.18);color:var(--color-text)} .btn-primary-soft:hover,.btn-secondary-soft:hover,.btn-dossier:hover{transform:translateY(-1px)}
+    .canvas-shell{margin-top:1rem;background:rgba(2,6,16,.96);border:1px solid rgba(122,139,168,.2);border-radius:14px;padding:.75rem;overflow-x:auto} .canvas-caption{display:flex;justify-content:space-between;gap:1rem;font-size:.76rem;font-family:var(--font-mono);color:var(--color-muted);margin-bottom:.55rem} #waveCanvas{width:100%;max-width:600px;height:auto;display:block;margin:0 auto;border-radius:10px}
+    .meta-grid,.kpi-row,.spec-grid{display:grid;gap:.75rem} .meta-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:1rem} .kpi-row{grid-template-columns:repeat(3,minmax(0,1fr))} .spec-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:1rem}
+    .metric-box,.decode-box,.tech-box,.kpi{background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:14px;padding:.9rem} .kpi{background:rgba(59,139,255,.07);border-color:rgba(59,139,255,.14);padding:.8rem} .metric-box .label,.decode-box .label,.kpi .label{color:var(--color-muted);font-size:.73rem;text-transform:uppercase;letter-spacing:.07em;font-family:var(--font-mono)}
+    .metric-box .value,.decode-box .value{margin-top:.35rem;font-family:var(--font-mono);font-size:1rem;color:var(--color-text);word-break:break-word} .kpi strong{display:block;font-family:var(--font-mono);font-size:1.15rem;color:var(--color-accent);margin-top:.35rem} .decode-output{display:grid;gap:.85rem;margin-top:1rem} .recovered-message{min-height:114px;white-space:pre-wrap;line-height:1.6;font-size:.94rem}
+    .helper{color:var(--color-muted);font-size:.77rem;line-height:1.55} .formula{font-family:var(--font-mono);color:#b7d2ff;font-size:.95rem;padding:.85rem 1rem;background:rgba(59,139,255,.08);border:1px solid rgba(59,139,255,.15);border-radius:12px;margin-top:.9rem;overflow-x:auto} .mono{font-family:var(--font-mono)}
+    .legend-line{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:.85rem;font-size:.76rem;color:var(--color-muted)} .legend-line span::before{content:'•';color:var(--color-accent);margin-right:.35rem}
+    @media (max-width:960px){.sim-grid,.inline-grid,.meta-grid,.kpi-row,.spec-grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">AZ Products</a></li>
-    <li><a href="../apps/index.html">Calculators</a></li>
-    <li><span class="nav-badge">v20.1</span></li>
-  </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
-</nav>
-<div class="app-page">
-<div class="app-hero">
-  <div class="container">
-    <div class="app-hero-inner">
-      <div class="app-icon-lg">📡</div>
-      <div class="app-meta">
-        <div class="app-id-badge">Product 14 · 12-AZ-IP/14-sdam · Android</div>
-        <div class="app-title">SDAM — Software-Defined Acoustic Modem</div>
-        <div class="app-subtitle">Native Android application. Build from source in the open repository. No web-hosted version — this product runs natively on-device.</div>
-        <div class="app-tags">
-          <span class="tag tag-mobile">📱 Android</span>
-          <span class="tag tag-dep">Build from source</span>
+  <nav class="nav">
+    <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">AZ Products</a></li>
+      <li><a href="../apps/index.html">Calculators</a></li>
+      <li><a href="../lodge/index.html">Lodge</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><span class="nav-badge">v20.1</span></li>
+    </ul>
+    <button class="nav-mobile-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  </nav>
+
+  <div class="app-page">
+    <div class="app-hero">
+      <div class="container">
+        <div class="app-hero-inner">
+          <div class="app-icon-lg">📡</div>
+          <div class="app-meta">
+            <div class="app-id-badge">Product 14 · 12-AZ-IP/14-sdam · Browser Simulator</div>
+            <div class="app-title">SDAM — Software-Defined Acoustic Modem</div>
+            <div class="app-subtitle">Transmit data via sound. OFDM-over-audio modem: encode a message to a waveform, decode it back — works through any air gap.</div>
+            <div class="app-tags">
+              <span class="tag tag-green">🟢 Runs in Browser</span>
+              <span class="tag tag-ai">OFDM Simulator</span>
+              <span class="tag tag-dep">UTF-8 → Hex → Waveform</span>
+            </div>
+            <div class="hero-note">This is a mathematical simulator, not a hardware modem. It converts UTF-8 bytes into an OFDM-like hex payload, visualizes carrier-shifted sinusoidal segments, and decodes the same payload back under ideal air-gap conditions.</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="container section-sm">
-  <div class="card card-accent" style="margin-bottom:2rem">
-    <h3 style="margin-bottom:.5rem">📱 Native Application</h3>
-    <p style="color:var(--color-muted);font-size:.9rem">This product runs natively on Android. Build from the open-source repository below.</p>
-    <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/14-sdam" target="_blank" class="btn btn-primary" style="margin-top:1rem">View Source on GitHub ↗</a>
-  </div>
-  <div class="grid-3"><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">🔊</div><strong>Audio DSP</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">OFDM over audio — transmits data via speaker, decodes via microphone.</p></div><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">📵</div><strong>No Internet</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Works in air-gapped environments, Faraday cages, and remote areas.</p></div><div class="card"><div style="font-size:1.5rem;margin-bottom:.4rem">🔐</div><strong>AES-256 Encryption</strong><p style="font-size:.82rem;color:var(--color-muted);margin-top:.25rem">Optional payload encryption. Key exchange via QR code handshake.</p></div></div>
-  <div class="run-local" style="margin-top:2rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')"><span>🛠️ Build Instructions</span><span>▾</span></div>
-    <div class="run-local-body"><div class="code-block"># Android Studio required
-git clone https://github.com/wuzbak/Unitary-Manifold-
-cd 12-AZ-IP/14-sdam/android
-# Open in Android Studio → Build → Run</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/14-sdam" target="_blank">12-AZ-IP/14-sdam ↗</a></p>
+
+    <div class="container app-shell">
+      <div class="sim-grid">
+        <section class="sim-card">
+          <div class="card-head">
+            <div><div class="eyebrow">Encode</div><h2 style="margin:.2rem 0 0">Acoustic Transmit Builder</h2></div>
+            <div class="status-chip">TX / OFDM</div>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="messageInput">Message to encode</label>
+              <textarea id="messageInput" maxlength="200" placeholder="Type up to 200 characters. Example: Air gap link online at node α-5."></textarea>
+              <div class="helper" id="charCount">0 / 200 chars</div>
+            </div>
+            <div class="inline-grid">
+              <div class="field">
+                <label for="carrierSelect">Carrier frequency</label>
+                <select id="carrierSelect"><option value="1000">1000 Hz</option><option value="2000">2000 Hz</option><option value="4000" selected>4000 Hz</option><option value="8000">8000 Hz</option></select>
+              </div>
+              <div class="field">
+                <label for="modulationSelect">Modulation</label>
+                <select id="modulationSelect"><option value="BPSK">BPSK</option><option value="QPSK" selected>QPSK</option><option value="16-QAM">16-QAM</option></select>
+              </div>
+            </div>
+            <label class="toggle-row" for="encryptionToggle"><span>AES-256 payload wrapper<small>Label only — no real cryptography is applied in this browser simulator.</small></span><input type="checkbox" id="encryptionToggle" /></label>
+            <div class="button-row"><button class="btn-primary-soft" id="encodeBtn">Encode</button><button class="btn-secondary-soft" id="sampleBtn">Load Sample</button></div>
+          </div>
+          <div class="canvas-shell">
+            <div class="canvas-caption"><span>Simulated OFDM waveform</span><span class="mono" id="segmentLabel">Segments: 0</span></div>
+            <canvas id="waveCanvas" width="600" height="120"></canvas>
+          </div>
+          <div class="meta-grid">
+            <div class="metric-box"><div class="label">Symbol rate</div><div class="value" id="symbolRateValue">—</div></div>
+            <div class="metric-box"><div class="label">Bandwidth</div><div class="value" id="bandwidthValue">—</div></div>
+            <div class="metric-box"><div class="label">Estimated TX time</div><div class="value" id="txTimeValue">—</div></div>
+            <div class="metric-box"><div class="label">Encoded hex preview</div><div class="value" id="hexPreviewValue">—</div></div>
+          </div>
+        </section>
+
+        <section class="sim-card">
+          <div class="card-head">
+            <div><div class="eyebrow">Decode</div><h2 style="margin:.2rem 0 0">Air-Gap Receive Console</h2></div>
+            <div class="status-chip">RX / IDEAL</div>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="hexInput">Hex input</label>
+              <textarea id="hexInput" spellcheck="false" placeholder="Paste encoded hex bytes here."></textarea>
+              <div class="helper">Whitespace is ignored. Valid pairs decode directly to UTF-8 text.</div>
+            </div>
+            <div class="button-row"><button class="btn-primary-soft" id="decodeBtn">Decode</button><button class="btn-secondary-soft" id="copyHexBtn">Use Last Encode</button></div>
+          </div>
+          <div class="decode-output">
+            <div class="decode-box recovered-message"><div class="label">Recovered message</div><div class="value" id="decodedMessage">— Awaiting payload —</div></div>
+            <div class="kpi-row">
+              <div class="kpi"><div class="label">SNR estimate</div><strong id="snrValue">—</strong></div>
+              <div class="kpi"><div class="label">BER estimate</div><strong id="berValue">0.0</strong></div>
+              <div class="kpi"><div class="label">Confidence</div><strong id="confidenceValue">—</strong></div>
+            </div>
+            <div class="decode-box"><div class="label">Decoder telemetry</div><div class="value" id="decodeTelemetry">Hex payload not yet parsed.</div></div>
+          </div>
+        </section>
+      </div>
+
+      <section class="sim-card" style="margin-top:1.5rem">
+        <div class="card-head">
+          <div><div class="eyebrow">Technical Notes</div><h2 style="margin:.2rem 0 0">OFDM-over-Audio Spec Sheet</h2></div>
+          <div class="status-chip">SIM SPEC</div>
+        </div>
+        <div class="spec-grid">
+          <div class="tech-box"><strong>Channel parameters</strong><p class="helper">OFDM subcarriers = <span class="mono">52</span><br />Guard interval = <span class="mono">1/4</span><br />Coding rate = <span class="mono">3/4</span></p></div>
+          <div class="tech-box"><strong>Nominal acoustic range</strong><p class="helper">~10 m at <span class="mono">4000 Hz</span><br />~30 m at <span class="mono">1000 Hz</span><br />Higher carriers trade reach for throughput.</p></div>
+          <div class="tech-box"><strong>Encoding model</strong><p class="helper">UTF-8 bytes are rendered as hex, then mapped to sine segments. Each unique character value creates one visualized cycle with <span class="mono">f = carrier + (charCode × 20)</span>.</p></div>
+          <div class="tech-box"><strong>Ideal decode assumptions</strong><p class="helper">This simulator assumes deterministic sync, no packet loss, and zero symbol errors. BER stays fixed at <span class="mono">0.0</span> while confidence is derived from payload validity and modulation margin.</p></div>
+        </div>
+        <div class="formula">s(t) = Σ A<sub>k</sub> · cos(2π·f<sub>k</sub>·t + φ<sub>k</sub>)</div>
+        <div class="legend-line"><span>Amplitude follows modulation profile: BPSK &lt; QPSK &lt; 16-QAM</span><span>Waveform shown is illustrative math, not speaker-ready PCM</span><span>Encrypted mode is tagged in metadata only</span></div>
+      </section>
+
+      <div class="dossier-bar"><div class="dossier-bar-label">Export the latest SDAM encode/decode session as a PDF dossier.</div><button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button></div>
     </div>
   </div>
-</div>
-</div>
-<div class="az-org-strip">
-  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
-  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
-  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
-  Open science artifact for human review, use at your own liability.
-</div>
+
+  <div class="az-org-strip">
+    AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+    <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+    <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+    Open science artifact for human review, use at your own liability.
+  </div>
+
+  <script>
+    const SAMPLE_MESSAGE='Air gap uplink ready. Packet alpha-5 acknowledged.';
+    const MODULATION={'BPSK':{bitsPerSymbol:1,amplitude:.42,phaseShift:Math.PI/8},'QPSK':{bitsPerSymbol:2,amplitude:.62,phaseShift:Math.PI/4},'16-QAM':{bitsPerSymbol:4,amplitude:.88,phaseShift:Math.PI/3}};
+    const state={lastEncode:null,lastDecode:null};
+    const messageInput=document.getElementById('messageInput'),carrierSelect=document.getElementById('carrierSelect'),modulationSelect=document.getElementById('modulationSelect'),encryptionToggle=document.getElementById('encryptionToggle'),hexInput=document.getElementById('hexInput'),waveCanvas=document.getElementById('waveCanvas');
+    const updateCharCount=()=>document.getElementById('charCount').textContent=`${messageInput.value.length} / 200 chars`;
+    const bytesToHex=(bytes)=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
+    function hexToBytes(hex){const clean=hex.replace(/\s+/g,'').trim(); if(!clean) return new Uint8Array(); if(!/^[0-9a-fA-F]+$/.test(clean)||clean.length%2!==0) throw new Error('Hex input must contain an even number of hexadecimal characters.'); const bytes=new Uint8Array(clean.length/2); for(let i=0;i<clean.length;i+=2) bytes[i/2]=parseInt(clean.slice(i,i+2),16); return bytes;}
+    const formatPreview=(hex)=>{const pairs=hex.match(/.{1,2}/g)||[]; const preview=pairs.slice(0,32).join(' '); return pairs.length>32?`${preview} …`:preview||'—';};
+    const normaliseChars=(message)=>Array.from(message||'').map((char)=>char.codePointAt(0)&0xff);
+    const uniqueValues=(values)=>Array.from(new Set(values));
+    function estimateMetrics(bytesLength,carrier,modulation){const profile=MODULATION[modulation]; const symbolRate=Math.round((carrier/18)+(profile.bitsPerSymbol*85)); const bandwidth=Math.round((52*(carrier/1000)*9.5)+(profile.bitsPerSymbol*70)); const totalBits=bytesLength*8; const ofdmSymbols=Math.max(1,Math.ceil(totalBits/(52*profile.bitsPerSymbol*.75))); const txSeconds=ofdmSymbols*(1/symbolRate)*52*1.25; return {symbolRate,bandwidth,txSeconds,totalBits,profile};}
+    function drawWaveform(chars,carrier,modulation){const ctx=waveCanvas.getContext('2d'),width=waveCanvas.width,height=waveCanvas.height; ctx.clearRect(0,0,width,height); ctx.fillStyle='#03101f'; ctx.fillRect(0,0,width,height); for(let x=0;x<=width;x+=30){ctx.strokeStyle='rgba(141,160,196,.08)';ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,height);ctx.stroke();} for(let y=0;y<=height;y+=24){ctx.strokeStyle='rgba(141,160,196,.07)';ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(width,y);ctx.stroke();}
+      const values=uniqueValues(chars).length?uniqueValues(chars):[0x41],segmentWidth=width/values.length,ampBase=MODULATION[modulation].amplitude; ctx.lineWidth=1.8; ctx.strokeStyle='#3b8bff'; ctx.beginPath(); values.forEach((charCode,segmentIndex)=>{const startX=segmentIndex*segmentWidth,frequency=carrier+(charCode*20),amplitude=(height*.12)+(ampBase*height*.18)+((charCode%11)*.55); for(let i=0;i<=segmentWidth;i++){const x=startX+i,t=i/segmentWidth,phase=MODULATION[modulation].phaseShift,y=(height/2)+Math.sin((t*Math.PI*2)+phase)*amplitude*Math.cos((frequency/9000)*Math.PI); if(segmentIndex===0&&i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);}}); ctx.stroke();
+      ctx.strokeStyle='rgba(245,185,66,.58)'; ctx.lineWidth=1; ctx.beginPath(); for(let x=0;x<=width;x++){const t=x/width,envelope=Math.sin(t*Math.PI*values.length)*(ampBase*16),y=(height/2)+envelope; if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);} ctx.stroke(); ctx.fillStyle='rgba(141,160,196,.9)'; ctx.font='10px JetBrains Mono, monospace'; ctx.fillText(`carrier=${carrier}Hz  mod=${modulation}  unique=${values.length}`,10,height-10); document.getElementById('segmentLabel').textContent=`Segments: ${values.length}`;}
+    function encodeMessage(){const message=messageInput.value.slice(0,200),carrier=Number(carrierSelect.value),modulation=modulationSelect.value,taggedEncryption=encryptionToggle.checked; if(!message.trim()){alert('Enter a message to encode.');return;} const bytes=new TextEncoder().encode(message),hex=bytesToHex(bytes),metrics=estimateMetrics(bytes.length,carrier,modulation),chars=normaliseChars(message); drawWaveform(chars,carrier,modulation); document.getElementById('symbolRateValue').textContent=`${metrics.symbolRate} sym/s`; document.getElementById('bandwidthValue').textContent=`${metrics.bandwidth} Hz est.`; document.getElementById('txTimeValue').textContent=`${metrics.txSeconds.toFixed(3)} s`; document.getElementById('hexPreviewValue').textContent=formatPreview(hex); hexInput.value=hex; document.getElementById('decodedMessage').textContent=message; document.getElementById('snrValue').textContent=`${(31+metrics.profile.bitsPerSymbol*4+carrier/2000).toFixed(1)} dB`; document.getElementById('confidenceValue').textContent='99.8%'; document.getElementById('decodeTelemetry').textContent=`Payload length ${bytes.length} bytes • ${metrics.totalBits} bits • ${taggedEncryption?'AES-256 label asserted':'plaintext frame'} • ideal BER 0.0`; state.lastEncode={message,carrier,modulation,taggedEncryption,bytesLength:bytes.length,hex,metrics,uniqueCount:uniqueValues(chars).length}; state.lastDecode={message,snr:`${(31+metrics.profile.bitsPerSymbol*4+carrier/2000).toFixed(1)} dB`,confidence:'99.8%',telemetry:document.getElementById('decodeTelemetry').textContent};}
+    function decodeHex(){try{const bytes=hexToBytes(hexInput.value); if(!bytes.length){alert('Paste or generate a hex payload first.');return;} const message=new TextDecoder().decode(bytes),modulation=state.lastEncode?state.lastEncode.modulation:'QPSK',carrier=state.lastEncode?state.lastEncode.carrier:4000,validityBoost=/^[	
+ -~ -￿]*$/.test(message)?.9:.4,snr=(29+MODULATION[modulation].bitsPerSymbol*4.5+carrier/2500+validityBoost).toFixed(1),confidence=Math.min(100,95+Math.round(validityBoost*5)); document.getElementById('decodedMessage').textContent=message||'(empty payload)'; document.getElementById('snrValue').textContent=`${snr} dB`; document.getElementById('berValue').textContent='0.0'; document.getElementById('confidenceValue').textContent=`${confidence}%`; document.getElementById('decodeTelemetry').textContent=`Decoded ${bytes.length} bytes from ${bytes.length*2} hex symbols • ideal channel lock maintained • UTF-8 frame valid`; state.lastDecode={message,snr:`${snr} dB`,confidence:`${confidence}%`,telemetry:document.getElementById('decodeTelemetry').textContent};}catch(error){document.getElementById('decodedMessage').textContent='Decode failed.'; document.getElementById('snrValue').textContent='—'; document.getElementById('confidenceValue').textContent='0%'; document.getElementById('decodeTelemetry').textContent=error.message;}}
+    function exportDossier(){const encode=state.lastEncode,decode=state.lastDecode; if(!encode){alert('Run an encode session before exporting a dossier.');return;} AZDossier.export({appName:'SDAM — Software-Defined Acoustic Modem',appId:'14-sdam',version:'v20.1',epistemic:'🟢 Browser simulator',inputs:[{label:'Message',value:encode.message},{label:'Carrier frequency',value:`${encode.carrier} Hz`},{label:'Modulation',value:encode.modulation},{label:'Encryption label',value:encode.taggedEncryption?'AES-256 tag ON (label only)':'Off'}],outputs:[{label:'Hex payload',value:encode.hex},{label:'Symbol rate',value:`${encode.metrics.symbolRate} sym/s`},{label:'Bandwidth',value:`${encode.metrics.bandwidth} Hz est.`},{label:'TX time',value:`${encode.metrics.txSeconds.toFixed(3)} s`},{label:'Recovered message',value:decode?decode.message:encode.message},{label:'Decode confidence',value:decode?decode.confidence:'—'},{label:'SNR estimate',value:decode?decode.snr:'—'}],notes:'OFDM formula: s(t) = Σ A_k · cos(2π·f_k·t + φ_k). Visual waveform renders one cycle per unique character value using f = carrier + (charCode × 20). BER is fixed at 0.0 in ideal simulated conditions.',dependencies:['JavaScript (browser)','TextEncoder/TextDecoder','Canvas 2D','jsPDF']});}
+    document.getElementById('encodeBtn').addEventListener('click',encodeMessage); document.getElementById('decodeBtn').addEventListener('click',decodeHex); document.getElementById('sampleBtn').addEventListener('click',()=>{messageInput.value=SAMPLE_MESSAGE; updateCharCount(); encodeMessage();}); document.getElementById('copyHexBtn').addEventListener('click',()=>{if(state.lastEncode){hexInput.value=state.lastEncode.hex; decodeHex();}}); document.getElementById('dossierBtn').addEventListener('click',exportDossier); messageInput.addEventListener('input',updateCharCount); window.addEventListener('load',()=>{messageInput.value=SAMPLE_MESSAGE; updateCharCount(); encodeMessage(); decodeHex();});
+  </script>
 </body>
 </html>

@@ -351,16 +351,55 @@
         </div>
       </div>
 
+      <!-- Presets -->
+      <div>
+        <div class="ctrl-section-title">Presets</div>
+        <select id="presetSel" class="form-input" style="font-size:.8rem;padding:.3rem .5rem;width:100%;margin-bottom:.4rem" onchange="loadPreset(this.value)">
+          <option value="">— load preset —</option>
+          <option value="canonical">Canonical (5,7) — k_CS=74</option>
+          <option value="near_critical">Near-critical (n₁=7, n₂=7) — k_CS=98</option>
+          <option value="marginal">Marginal stability (n₁=1, n₂=1) — k_CS=2</option>
+          <option value="bulk_dominated">Bulk-dominated (w_B=0.7)</option>
+          <option value="brane_dominated">Brane-dominated (w_U=0.7)</option>
+        </select>
+        <button class="btn btn-outline" style="width:100%;font-size:.78rem;padding:.3rem" onclick="shareURL()">🔗 Copy shareable URL</button>
+      </div>
+
+      <!-- Trajectory animation -->
+      <div>
+        <div class="ctrl-section-title">Trajectory Animation</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <button class="btn btn-outline" style="flex:1;font-size:.78rem;padding:.3rem" id="animPlayBtn" onclick="toggleAnimation()">▶ Play</button>
+          <button class="btn btn-outline" style="font-size:.78rem;padding:.3rem .6rem" onclick="stepAnimation()" title="Step forward one iteration">⏭ Step</button>
+          <button class="btn btn-outline" style="font-size:.78rem;padding:.3rem .6rem" onclick="resetAnimation()" title="Reset to start">⏮ Reset</button>
+        </div>
+        <div class="ctrl-row" style="margin-top:.5rem">
+          <span class="ctrl-label" style="font-size:.75rem">Speed</span>
+          <input type="range" id="animSpeed" min="100" max="1200" step="100" value="500">
+          <span class="ctrl-val" style="font-size:.75rem" id="animSpeed-val">500ms</span>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:.72rem;color:var(--color-accent);margin-top:.4rem;text-align:center" id="animStep">Step: —</div>
+      </div>
+
       <!-- Export -->
       <div>
         <div class="ctrl-section-title">Export</div>
-        <button class="btn btn-outline" style="width:100%;font-size:.85rem" onclick="exportPNG()">
-          ↓ Export PNG
-        </button>
+        <div style="display:flex;flex-direction:column;gap:.4rem">
+          <button class="btn btn-outline" style="width:100%;font-size:.82rem" onclick="exportPNG()">↓ Export PNG</button>
+          <button class="btn btn-outline" style="width:100%;font-size:.82rem" onclick="exportSVG()">↓ Export SVG</button>
+        </div>
       </div>
 
     </div><!-- ctrl-panel -->
   </div><!-- chart-layout -->
+
+  <!-- Physics sidebar (live equation display) -->
+  <details style="margin-bottom:1.5rem" open>
+    <summary style="cursor:pointer;font-weight:600;font-size:.95rem;padding:.5rem 0;user-select:none">
+      ⚛️ Live Physics — current parameter state
+    </summary>
+    <div class="eq-block" id="liveSidebar" style="margin-top:.5rem;font-size:.8rem">—</div>
+  </details>
 
   <!-- State readout (updated by hover — static fallback) -->
   <div style="margin-top:1.5rem;margin-bottom:2rem">
@@ -427,12 +466,180 @@ Architecture constants:<br>
 <script src="../js/manifold-chart.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Load URL state if present
+    loadURLState();
     initChart('bcc-canvas', 'bcc-tooltip');
-
-    // Wire k_CS display to initial values
     document.getElementById('kcs-display').textContent =
       'k_CS = ' + (params.n1 * params.n1 + params.n2 * params.n2);
+    updatePhysicsSidebar();
   });
+
+  /* ── URL state ─────────────────────────────────────────────────────────── */
+  function saveURLState() {
+    const p = params;
+    const hash = new URLSearchParams({
+      wB: p.wB, wPhi: p.wPhi, wK: p.wK, wU: p.wU,
+      n1: p.n1, n2: p.n2, eps: p.eps, iter: p.iterations,
+      res: p.showResistance?1:0, rea: p.showReactance?1:0,
+      braid: p.showBraidGrid?1:0, traj: p.showTrajectory?1:0,
+    }).toString();
+    history.replaceState(null, '', '#' + hash);
+  }
+
+  function loadURLState() {
+    const hash = location.hash.slice(1);
+    if (!hash) return;
+    try {
+      const q = new URLSearchParams(hash);
+      if (q.has('wB'))   { params.wB   = parseFloat(q.get('wB'));   document.getElementById('wB').value   = params.wB;   document.getElementById('wB-val').textContent   = params.wB.toFixed(2); }
+      if (q.has('wPhi')) { params.wPhi = parseFloat(q.get('wPhi')); document.getElementById('wPhi').value = params.wPhi; document.getElementById('wPhi-val').textContent = params.wPhi.toFixed(2); }
+      if (q.has('wK'))   { params.wK   = parseFloat(q.get('wK'));   document.getElementById('wK').value   = params.wK;   document.getElementById('wK-val').textContent   = params.wK.toFixed(2); }
+      if (q.has('wU'))   { params.wU   = parseFloat(q.get('wU'));   document.getElementById('wU').value   = params.wU;   document.getElementById('wU-val').textContent   = params.wU.toFixed(2); }
+      if (q.has('n1'))   { params.n1   = parseInt(q.get('n1'));     document.getElementById('n1').value   = params.n1; }
+      if (q.has('n2'))   { params.n2   = parseInt(q.get('n2'));     document.getElementById('n2').value   = params.n2; }
+      if (q.has('iter')) { params.iterations = parseInt(q.get('iter')); document.getElementById('iterations').value = params.iterations; document.getElementById('iter-val').textContent = params.iterations; }
+      if (q.has('res'))  { params.showResistance = q.get('res')==='1'; document.getElementById('tog-res').checked   = params.showResistance; }
+      if (q.has('rea'))  { params.showReactance  = q.get('rea')==='1'; document.getElementById('tog-rea').checked   = params.showReactance; }
+      if (q.has('braid')){ params.showBraidGrid  = q.get('braid')==='1'; document.getElementById('tog-braid').checked = params.showBraidGrid; }
+      if (q.has('traj')) { params.showTrajectory = q.get('traj')==='1'; document.getElementById('tog-traj').checked  = params.showTrajectory; }
+    } catch(e) { console.warn('URL state parse error:', e); }
+  }
+
+  function shareURL() {
+    saveURLState();
+    navigator.clipboard.writeText(location.href).then(() => alert('Shareable URL copied to clipboard.'));
+  }
+
+  /* ── Presets ───────────────────────────────────────────────────────────── */
+  const PRESETS = {
+    canonical:       { wB:0.25,  wPhi:0.25,  wK:0.25,  wU:0.25,  n1:5,  n2:7,  iterations:20 },
+    near_critical:   { wB:0.25,  wPhi:0.25,  wK:0.25,  wU:0.25,  n1:7,  n2:7,  iterations:20 },
+    marginal:        { wB:0.25,  wPhi:0.25,  wK:0.25,  wU:0.25,  n1:1,  n2:1,  iterations:30 },
+    bulk_dominated:  { wB:0.70,  wPhi:0.10,  wK:0.10,  wU:0.10,  n1:5,  n2:7,  iterations:20 },
+    brane_dominated: { wB:0.10,  wPhi:0.10,  wK:0.10,  wU:0.70,  n1:5,  n2:7,  iterations:20 },
+  };
+
+  function loadPreset(key) {
+    if (!key || !PRESETS[key]) return;
+    const p = PRESETS[key];
+    Object.assign(params, p);
+    // Sync sliders/inputs
+    ['wB','wPhi','wK','wU'].forEach(k => {
+      const sl = document.getElementById(k); if (sl) { sl.value = params[k]; document.getElementById(k+'-val').textContent = params[k].toFixed(2); }
+    });
+    document.getElementById('n1').value = params.n1;
+    document.getElementById('n2').value = params.n2;
+    document.getElementById('iterations').value = params.iterations;
+    document.getElementById('iter-val').textContent = params.iterations;
+    document.getElementById('kcs-display').textContent = 'k_CS = ' + (params.n1*params.n1 + params.n2*params.n2);
+    render();
+    updatePhysicsSidebar();
+    saveURLState();
+    document.getElementById('presetSel').value = '';
+  }
+
+  /* ── Trajectory animation ──────────────────────────────────────────────── */
+  let animTimer = null;
+  let animStepIdx = 0;
+  let animRunning = false;
+
+  function toggleAnimation() {
+    animRunning = !animRunning;
+    document.getElementById('animPlayBtn').textContent = animRunning ? '⏸ Pause' : '▶ Play';
+    if (animRunning) {
+      scheduleAnimStep();
+    } else {
+      clearTimeout(animTimer);
+    }
+  }
+
+  function scheduleAnimStep() {
+    const speed = parseInt(document.getElementById('animSpeed').value);
+    document.getElementById('animSpeed-val').textContent = speed + 'ms';
+    animTimer = setTimeout(() => {
+      if (!animRunning) return;
+      stepAnimation();
+      if (animStepIdx < params.iterations) scheduleAnimStep();
+      else { animRunning = false; document.getElementById('animPlayBtn').textContent = '▶ Play'; }
+    }, speed);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('animSpeed').addEventListener('input', function() {
+      document.getElementById('animSpeed-val').textContent = this.value + 'ms';
+    });
+  });
+
+  function stepAnimation() {
+    animStepIdx = Math.min(animStepIdx + 1, params.iterations);
+    document.getElementById('animStep').textContent = 'Step: ' + animStepIdx + ' / ' + params.iterations;
+    // Temporarily render with fewer iterations to show animated build-up
+    const saved = params.iterations;
+    params.iterations = animStepIdx;
+    render();
+    params.iterations = saved;
+  }
+
+  function resetAnimation() {
+    animRunning = false;
+    clearTimeout(animTimer);
+    document.getElementById('animPlayBtn').textContent = '▶ Play';
+    animStepIdx = 0;
+    document.getElementById('animStep').textContent = 'Step: 0 / ' + params.iterations;
+    render();
+  }
+
+  /* ── SVG export ────────────────────────────────────────────────────────── */
+  function exportSVG() {
+    // Snapshot canvas as data URL and embed in an SVG wrapper
+    const canvas = document.getElementById('bcc-canvas');
+    const dataURL = canvas.toDataURL('image/png');
+    const w = canvas.width, h = canvas.height;
+    const kcs = params.n1*params.n1 + params.n2*params.n2;
+    const svgStr = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${w}" height="${h+40}">
+  <rect width="${w}" height="${h+40}" fill="#050a1a"/>
+  <image x="0" y="0" width="${w}" height="${h}" xlink:href="${dataURL}"/>
+  <text x="${w/2}" y="${h+18}" text-anchor="middle" font-family="monospace" font-size="12" fill="#3b8bff">U-BCC Manifold Chart — n₁=${params.n1}, n₂=${params.n2}, k_CS=${kcs} — AxiomZero Technologies &amp; Consulting, SPC</text>
+  <text x="${w/2}" y="${h+34}" text-anchor="middle" font-family="monospace" font-size="10" fill="#7a8ba8">w_B=${params.wB.toFixed(3)} · w_φ=${params.wPhi.toFixed(3)} · w_K=${params.wK.toFixed(3)} · w_U=${params.wU.toFixed(3)} — axiomzerospc.org</text>
+</svg>`;
+    const blob = new Blob([svgStr], { type: 'image/svg+xml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `UMChart-k${kcs}-n${params.n1}x${params.n2}.svg`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  /* ── Live physics sidebar ──────────────────────────────────────────────── */
+  function updatePhysicsSidebar() {
+    const kcs = params.n1*params.n1 + params.n2*params.n2;
+    const theta = Math.atan2(params.n2, params.n1);
+    const r = Math.sqrt(params.wB*0.25 + params.wPhi*0.25 + params.wK*0.25 + params.wU*0.25);
+    const ns = 0.9635;
+    const cs = (12/37).toFixed(5);
+    const sidebar = document.getElementById('liveSidebar');
+    if (sidebar) sidebar.textContent =
+      `Braid pair:    (n₁, n₂) = (${params.n1}, ${params.n2})\n` +
+      `Braid index:   k_CS = n₁²+n₂² = ${kcs}  ${ kcs===74 ? '← CANONICAL ✓' : kcs<74 ? '← below canonical' : '← above canonical' }\n` +
+      `Angular coord: θ = atan2(n₂,n₁) = ${(theta*180/Math.PI).toFixed(2)}°\n` +
+      `Radial weight: r̂ = √(w_B·B̂²+w_φ·φ̂²+w_K·K̂²+w_U·Û²)\n` +
+      `Weights:       w_B=${params.wB.toFixed(3)}  w_φ=${params.wPhi.toFixed(3)}  w_K=${params.wK.toFixed(3)}  w_U=${params.wU.toFixed(3)}\n` +
+      `\n` +
+      `Architecture constants:\n` +
+      `  c_s = 12/37 = ${cs}  (braided sound speed)\n` +
+      `  n_s = ${ns} ± 0.0042  [Planck 2018]\n` +
+      `  r   = 0.0315          [BICEP/Keck < 0.036]\n` +
+      `\n` +
+      `Fixed-point convergence threshold: ε = ${params.eps.toExponential(1)}\n` +
+      `Iteration steps rendered: ${params.iterations}`;
+  }
+
+  // Hook updatePhysicsSidebar into param changes
+  const _origUpdateParam = window.updateParam;
+  window.updateParam = function(key, value) { _origUpdateParam(key, value); updatePhysicsSidebar(); saveURLState(); };
+  const _origUpdateBool = window.updateBoolParam;
+  window.updateBoolParam = function(key, value) { _origUpdateBool(key, value); saveURLState(); };
 </script>
 </body>
 </html>
