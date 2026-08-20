@@ -1,15 +1,15 @@
 {
-  "version": "v22.6",
+  "version": "v22.9",
   "generated": "2026-08-20",
-  "tests_passed": 56279,
+  "tests_passed": 56747,
   "tests_skipped": 47,
   "tests_deselected": 12,
   "tests_failed": 0,
-  "lean4_theorems": 872,
+  "lean4_theorems": 976,
   "pillars": 208,
   "adjacent_tracks": 24,
   "next_pillar_slot": 774,
-  "regression": "56,279 passed · 47 skipped · 12 deselected · 0 failed",
+  "regression": "56,747 passed · 47 skipped · 12 deselected · 0 failed",
   "epistemic_status": "Internally self-consistent framework. External confirmation pending (LiteBIRD ~2032).",
   "predictions": {
     "n_s": {"um": 0.9635, "planck": 0.9649, "sigma": 0.0042, "tension_sigma": 0.3, "gate": "HARDGATE"},
@@ -34,10 +34,10 @@
     "HIL_THRESHOLD": 15
   },
   "portal": {
-    "home": "https://axiomzerosp.org/portal/",
-    "knowledge": "https://axiomzerosp.org/portal/knowledge/",
-    "gym": "https://axiomzerosp.org/portal/gym/",
-    "engine": "https://axiomzerosp.org/portal/engine/",
-    "library": "https://axiomzerosp.org/portal/library/"
+    "home": "https://axiomzerospc.org/portal/",
+    "knowledge": "https://axiomzerospc.org/portal/knowledge/",
+    "gym": "https://axiomzerospc.org/portal/gym/",
+    "engine": "https://axiomzerospc.org/portal/engine/",
+    "library": "https://axiomzerospc.org/portal/library/"
   }
 }

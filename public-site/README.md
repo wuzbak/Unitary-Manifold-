@@ -1,21 +1,31 @@
-#!/usr/bin/env python3
-"""
-Script to compute SRI hashes for CDN scripts after deployment.
-Run: python3 TOOLS/compute_sri.py
+# public-site
 
-Then replace the CDN script tags with the output:
-  <script src="..." integrity="sha384-HASH" crossorigin="anonymous">
-"""
-import urllib.request, hashlib, base64
+Public webspace for AxiomZero Technologies & Consulting, SPC — UBI 606 239 876.
 
-CDNS = {
-    "three.js r128": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
-    "Chart.js 3.9.1": "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js",
-}
+Current sync target: **v22.9**  
+Public status snapshot: **56,747 passing tests · 976 Lean4 theorems · 0 failed**
 
-for name, url in CDNS.items():
-    data = urllib.request.urlopen(url).read()
-    digest = base64.b64encode(hashlib.sha384(data).digest()).decode()
-    print(f'\n# {name}')
-    print(f'# URL: {url}')
-    print(f'integrity="sha384-{digest}" crossorigin="anonymous"')
+## Structure
+
+- `index.html` — primary landing page
+- `az-apps/` — AZ products hub and public app pages
+- `portal/` — open science portal
+- `status/` — public status dashboard
+- `apps/` — calculators and focused tools
+- `css/`, `js/`, `data/` — shared assets and status feed
+
+## Deploy
+
+From the repository root:
+
+```bash
+firebase deploy --only hosting
+```
+
+Preview channel:
+
+```bash
+firebase hosting:channel:deploy preview --expires 1h
+```
+
+See `../DEPLOY.md` for the full deployment checklist, sitemap expectations, and product-page notes.
