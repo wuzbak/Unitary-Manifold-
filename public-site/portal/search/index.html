@@ -106,12 +106,16 @@ var INDEX = [
 
 var typeColors = { PILLAR:'#7c4dff', APP:'#3b8bff', CALC:'#30d158', PAGE:'#7a8ba8', THEOREM:'#f0c040' };
 
-function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// Track last search query in a module variable — avoids embedding user input in onclick attrs
+var _lastSearchQuery = '';
 
 function doSearch() {
   var q = document.getElementById('main-search').value.trim().toLowerCase();
   var out = document.getElementById('search-results');
   if (!q) { out.innerHTML = '<p style="color:#7a8ba8;">Enter a search term above.</p>'; return; }
+  _lastSearchQuery = q;
 
   var results = INDEX.filter(function(item) {
     return (
@@ -126,32 +130,33 @@ function doSearch() {
     out.innerHTML = [
       '<p style="color:#7a8ba8;margin-bottom:1rem;">No local results for "<strong>' + escH(q) + '</strong>".</p>',
       '<p style="color:#7a8ba8;font-size:0.88rem;">Try the assistant for a RAG-grounded answer:</p>',
-      '<button onclick="askAssistantSearch(\'' + escH(q) + '\')" style="margin-top:0.5rem;padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;cursor:pointer;">Ask AI Assistant →</button>',
+      '<button id="az-ask-btn" style="margin-top:0.5rem;padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;cursor:pointer;">Ask AI Assistant →</button>',
     ].join('');
+    var askBtn = document.getElementById('az-ask-btn');
+    if (askBtn) askBtn.addEventListener('click', function() { askAssistantLastSearch(); });
     return;
   }
 
-  // Also offer assistant for any search
+  // Offer assistant for any search
   out.innerHTML = '<p style="color:#7a8ba8;margin-bottom:1.25rem;">' + results.length + ' results for "<strong style="color:#e8ecf4;">' + escH(q) + '</strong>" · ' +
-    '<button onclick="askAssistantSearch(\'' + escH(q) + '\')" style="background:none;border:none;color:#3b8bff;cursor:pointer;font-size:0.88rem;padding:0;text-decoration:underline;">Ask AI Assistant →</button>' +
+    '<button id="az-ask-btn2" style="background:none;border:none;color:#3b8bff;cursor:pointer;font-size:0.88rem;padding:0;text-decoration:underline;">Ask AI Assistant →</button>' +
     '</p>' +
     results.map(function(r) {
-      var gateHtml = r.gate ? '<span class="result-gate gate-' + r.gate + '">' + r.gate.replace('_',' ') + '</span>' : '';
+      var gateHtml = r.gate ? '<span class="result-gate gate-' + escH(r.gate) + '">' + escH(r.gate.replace('_',' ')) + '</span>' : '';
       return [
         '<div class="result-card">',
-          '<div class="result-type" style="color:' + (typeColors[r.type]||'#7a8ba8') + ';">' + r.type + gateHtml + '</div>',
+          '<div class="result-type" style="color:' + escH(typeColors[r.type]||'#7a8ba8') + ';">' + escH(r.type) + gateHtml + '</div>',
           '<div class="result-title"><a href="' + escH(r.url) + '" style="color:#e8ecf4;text-decoration:none;">' + escH(r.title) + '</a></div>',
           '<div class="result-desc">' + escH(r.desc) + '</div>',
         '</div>',
       ].join('');
     }).join('');
+  var askBtn2 = document.getElementById('az-ask-btn2');
+  if (askBtn2) askBtn2.addEventListener('click', function() { askAssistantLastSearch(); });
 }
 
-function askAssistantSearch(q) {
-  if (typeof AZAssistant !== 'undefined') {
-    AZAssistant.open();
-    setTimeout(function() { AZAssistant.send(q); }, 400);
-  }
+function askAssistantLastSearch() {
+  askAssistantSearch(_lastSearchQuery);
 }
 
 // Read query from URL

@@ -318,9 +318,9 @@ function calcBire() {
   var in_gap     = parseFloat(beta_deg_1) >= 0.29 && parseFloat(beta_deg_1) <= 0.31;
 
   result.innerHTML = [
-    '<strong>Birefringence β (' + mode + '):</strong>',
-    '  β₁ ≈ ' + beta_deg_1 + '°',
-    '  β₂ ≈ ' + beta_deg_2 + '°',
+    '<strong>Birefringence β (' + escH(mode) + '):</strong>',
+    '  β₁ ≈ ' + escH(beta_deg_1) + '°',
+    '  β₂ ≈ ' + escH(beta_deg_2) + '°',
     '',
     'Admissible window: [0.22°, 0.38°] → ' + (in_window ? '✓ in window' : '⚠️ outside window'),
     'Falsification gap [0.29°–0.31°] → ' + (in_gap ? '⚠️ IN GAP — mechanism falsified' : '✓ not in gap'),

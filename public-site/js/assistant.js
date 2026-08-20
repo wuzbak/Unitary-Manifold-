@@ -430,7 +430,10 @@
 
   function escAttr(s) { return escHtml(s); }
 
-  function stripHtml(s) { return String(s).replace(/<[^>]+>/g, ''); }
+  function stripHtml(s) {
+    // Remove all HTML-special characters to produce safe plain text for API history
+    return String(s).replace(/[<>"'&]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
 
   // ── Page context injection API ────────────────────────────────────────────
   /**
