@@ -11,7 +11,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | v22.4 — Sprint AH (Pillars 575–590; Lean4 274 theorems; 56,074+ tests; 2026-08-19) |
+| Version | v22.6 — Sprint AK (Pillars 773+; Lean4 872 theorems; 56,279+ tests; 2026-08-20) |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |

@@ -86,7 +86,7 @@ and internal mathematical self-consistency**.  It is not a measure of
 empirical truth.  A physicist reading a large test count should understand
 exactly this and nothing more.
 
-When the README badge reads "~56,074 passed · 0 failed," this is a statement about
+When the README badge reads "~56,279 passed · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an
