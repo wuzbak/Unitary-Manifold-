@@ -59,6 +59,20 @@ report, src module map. No new SM parameter admissions; no parameter values chan
 no hardgate score inflation. Latest full regression: 46,218 passed · 2 skipped ·
 12 deselected · 0 failed. Next pillar slot: 517.
 
+sprint registry note (v22.11): Pillar 785 added —
+(pillar785_g4_criterion2_higgs_correlation.py): G4 Criterion 2 Higgs correlation
+audit; consolidates TYPE_AB_CLASSIFICATION_COMPLETE gate for all four generation
+gap groups; G1/G2/G3 remain TYPE_B_STRUCTURAL_FLOOR (all 4 criteria); G4
+TYPE_B_CANDIDATE (criteria 1,3,4 met; criterion 2 partial). Also: UM Reader/
+Educator page (public-site/az-apps/um-reader.html, 302 entries, TTS+KaTeX),
+UM Physics Image Generator (public-site/az-apps/um-image-generator.html, 8 Canvas
+viz types), visualization module overhaul (src/visualization/ — pillar_plots,
+geometry_viz, feynman_diagrams, cmb_skymap), portal knowledge-base + HF Spaces
+sync, reader-index.json (300 posts + 2 books, 9 topic categories). Lean4 total:
+976 theorems. No new SM parameter admissions; no parameter values changed; no
+hardgate score inflation. Latest full regression: 56,964 passed · 47 skipped ·
+12 deselected · 0 failed. Next pillar slot: 786.
+
 -----
 The Standard Model (with massive Dirac neutrinos) has 28 independent free
 parameters in its Lagrangian.  A Theory of Everything must either:
