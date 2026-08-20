@@ -130,7 +130,7 @@ Status
                      DR3 data takes precedence.
 
 Lean4: 18 proxy theorems in TypeABGapClassification.lean (958 → 976 total).
-Tests: 120 in tests/test_pillar784_type_ab_gap_classification.py.
+Tests: 179 in tests/test_pillar784_type_ab_gap_classification.py.
 """
 from __future__ import annotations
 
