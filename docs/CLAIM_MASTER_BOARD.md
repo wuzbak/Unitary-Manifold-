@@ -258,3 +258,14 @@ When new data arrives:
 | P481 | External Engagement / arXiv v14.1 | ARXIV_V141_EXTERNAL_ENGAGEMENT_READY | v14.1 |
 
 *~353 new tests added. Canonical count: 44,943+ passing. Next slot: 482.*
+
+---
+
+## v22.6 Sprint AK — Δm²₂₁ NLO Lattice (Pillar 773)
+
+| Pillar | Title | Status | Notes |
+|--------|-------|--------|-------|
+| P772 | Lepton-Sector Jarlskog-Lattice Closure | LEPTON_JARLSKOG_LATTICE_DERIVED | Derives n_FN_lepton=1 from NH+Dirichlet BC; tension 2.98σ→1.16σ; Lean4 +15 (total 859); 88 tests |
+| P773 | DM21 NLO Lattice Correction | DM21_NLO_PARTIAL_CLOSURE | Three NLO mechanisms: winding+KK+BKT; δ_NLO=(5/74)²×[1/2+1/(4π²)]≈0.0024; tension 1.16σ→1.07σ; gate NLO_INSUFFICIENT_FOR_SUB_1SIGMA; Lean4 +13 (total 872); 117 tests; next Pillar 774 |
+
+*Sprint AK: 1 pillar; 117 new tests; Lean4 +13 (859→872); full regression ~56,279 passed · 0 failed.*

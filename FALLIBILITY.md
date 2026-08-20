@@ -4177,3 +4177,46 @@ paths simultaneously.
 `3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md` (the single authoritative
 reference for all β values), `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`
 (updated gap-zone note, v20.9), and `3-FALSIFICATION/prediction.md`.
+
+
+## XVI. Δm²₂₁ NLO Lattice Correction — Partial Closure Admission (v22.6, 2026-08-20)
+
+**Admission — Δm²₂₁ tension after NLO: 1.07σ residual remains.**
+
+Pillar 772 derived the lepton-sector Froggatt-Nielsen charge n_FN_lepton = 1
+from the NH + Dirichlet BC orbifold lattice, reducing the Δm²₂₁ PDG tension
+from 2.98σ → 1.16σ (leading-order, zero free parameters).
+
+Pillar 773 computed all three NLO corrections available from first principles
+within the 5D orbifold geometry (zero additional free parameters):
+
+| NLO Mechanism | Formula | Correction |
+|---------------|---------|-----------|
+| Winding-mode exchange (IR fixed point) | (n_w/k_CS)² × cos²θ₁₂ / 2 | ≈ +0.158% |
+| One-loop KK threshold at μ = m_KK | (n_w/k_CS)² / (4π²) | ≈ +0.012% |
+| Brane-kinetic term (BKT) mixing | (n_w/k_CS)² × sin²θ₁₂ / 2 | ≈ +0.070% |
+| **Combined NLO δ** | **(n_w/k_CS)² × [1/2 + 1/(4π²)]** | **≈ +0.240%** |
+
+The angular decomposition (winding + BKT) is algebraically complete
+(cos²θ₁₂ + sin²θ₁₂ = 1), so no further angular NLO channel exists.
+
+**Honest result:**
+
+| Step | Pillar | Tension |
+|------|--------|---------|
+| WS-V solar KK Yukawa | 583 | 3.07σ |
+| RGE tau-threshold | 584 | 2.98σ |
+| LO lepton-lattice FN (DERIVED) | 772 | 1.16σ |
+| NLO: winding + KK + BKT | 773 | 1.07σ |
+
+The 1.07σ residual is irreducible within perturbative NLO in the 5D orbifold.
+Sub-1σ closure requires either:
+- NNLO corrections (O(ε³) = O((5/74)³) ≈ 2×10⁻⁴); or
+- A non-perturbative lattice QCD-style calculation of the orbifold
+  Yukawa potential that avoids the perturbative ordering assumption.
+
+**This is the target for Pillar 774.**
+
+Named residual: `DM21_NLO_1_07SIGMA_RESIDUAL`
+NLO gate: `NLO_INSUFFICIENT_FOR_SUB_1SIGMA`
+Next slot: Pillar 774 (NNLO or non-perturbative lattice).
