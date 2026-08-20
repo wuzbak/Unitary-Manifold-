@@ -116,7 +116,7 @@ function normalizeStatus(s) {
   if (s === 'PASS' || s.includes('PASS') || s.includes('DERIVED') || s.includes('PROVED')) return 'PASS';
   if (s.includes('TENSION') || s.includes('SIGMA')) return 'TENSION';
   if (s.includes('FALSIFIED')) return 'FALSIFIED';
-  if (s.includes('AWAITING') || s.includes('AWAITING')) return 'AWAITING';
+  if (s.includes('AWAITING') || s.includes('PENDING')) return 'AWAITING';
   if (s.includes('ARCHITECTURE_LIMIT') || s.includes('ARCHITECTURE')) return 'ARCHITECTURE_LIMIT';
   if (s.includes('ADJACENT') || s.includes('SPECULATIVE')) return 'ADJACENT_TRACK';
   return 'AWAITING';

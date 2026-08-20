@@ -106,7 +106,7 @@ class TestPhysicsFunctions:
         excluded = is_xenon_nt_excluded(M_KK_TEV_CENTRAL)
         # Central: should not be mass-excluded (M > 0.5 TeV)
         # σ_SI check: our estimate is below limit
-        assert not excluded or True  # architecture limit — accept either
+        assert not excluded  # central M_KK=1 TeV: M > 0.5 TeV exclusion and sigma_SI < XENON-nT limit
 
 
 # ---------------------------------------------------------------------------
@@ -166,7 +166,7 @@ class TestDMKKCertificate:
         assert self.cert.m_kk_tev_central == M_KK_TEV_CENTRAL
 
     def test_below_xenon_limit(self):
-        assert self.cert.below_xenon_limit or True  # architecture limit
+        assert self.cert.below_xenon_limit  # sigma_SI << XENON-nT limit at 1 TeV
 
     def test_kk_tower_nonempty(self):
         assert len(self.cert.kk_tower) > 0

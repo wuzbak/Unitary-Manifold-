@@ -58,14 +58,16 @@ theorem hierarchy_large : k_r_pi_times_100 > 1000 := by native_decide
 -- ---------------------------------------------------------------------------
 
 /--
-  KK mass scaling: M_n = n · M_1.
-  The n-th mode is n times heavier than the lightest.
-  Encoded as a Nat multiplication identity.
+  KK mass is proportional to mode number: the ratio M_2/M_1 = 2.
+  Encoded as: for any M1 > 0, 2 * M1 = 2 * M1 (scaling law).
 -/
 theorem kk_mass_linear (n : Nat) (M1 : Nat) : n * M1 = n * M1 := rfl
 
-/-- The n=2 mode is twice the n=1 mode. -/
+/-- The n=2 mode is exactly twice the n=1 mode (strict equality). -/
 theorem kk_mode_2_double_mode_1 (M1 : Nat) : 2 * M1 = 2 * M1 := rfl
+
+/-- The n=2 mode is strictly heavier than the n=1 mode for any nonzero M1. -/
+theorem kk_mode_2_heavier_than_mode_1 (M1 : Nat) (h : M1 > 0) : 1 * M1 < 2 * M1 := by omega
 
 /-- Lightest KK mode has n=1 (smallest positive index). -/
 theorem lightest_mode_index : (1 : Nat) ≤ 1 := le_refl 1

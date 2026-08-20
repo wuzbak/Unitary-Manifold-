@@ -205,7 +205,7 @@ def scan_kk_tower(n_modes: int = 5) -> list:
         entries.append(KKModeEntry(
             mode_n=n,
             mass_tev=round(m_tev, 4),
-            sigma_si_cm2=round(sigma, 52),
+            sigma_si_cm2=sigma,
             omega_h2=round(omega, 4),
             xenon_excluded=excluded,
             relic_consistent=relic_ok,
