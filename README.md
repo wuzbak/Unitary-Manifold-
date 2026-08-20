@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v22.10)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v22.11)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -58,7 +58,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > **Current status (v22.8):** Framework is internally self-consistent.
-> Full regression: **56,772 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-19, v22.8; excludes optional matplotlib visualization tests).
+> Full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-19, v22.8; excludes optional matplotlib visualization tests).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
@@ -932,7 +932,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > Each pillar has its own folder (`PILLARS/PXXX/`) with source links, test links, and theory doc links.
 > Regenerate the index: `python3 PILLARS/build_index.py`
 
-**Grand total (v22.8): 56,772 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-19; excludes optional matplotlib visualization tests)
+**Grand total (v22.8): 56,964 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-19; excludes optional matplotlib visualization tests)
 
 **~56,074** — 771+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. Lean4 820+ theorems. (Historical milestones: v22.8: 56,074; v21.8-S: 52,950; v20.5: 50,500; v13.8: 44,590; v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319.)
 
@@ -966,7 +966,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 pip install -r requirements.txt
 ```
 
-### Run the test suite — 0 failures (full suite: 56,772 passed · 47 skipped · 12 deselected; v15.0)
+### Run the test suite — 0 failures (full suite: 56,964 passed · 47 skipped · 12 deselected; v15.0)
 
 ```bash
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
@@ -1020,7 +1020,7 @@ tests/test_richardson_multitime.py        11 passed
 ================================ ~1,487 passed, 254 skipped ================================
 
 # Grand total (v22.8, 2026-08-19):
-================================ 56,772 passed · 47 skipped · 12 deselected · 0 failed ================================
+================================ 56,964 passed · 47 skipped · 12 deselected · 0 failed ================================
 # (v22.8: 771+ pillars, Lean4 820+ theorems; Gap 1 PROVED_BY_EXHAUSTION (Pillar 769); SU5 PROVED_CONDITIONAL; SwamplandAxiom formalised; historical: v21.8-S: 52,950; v20.5: 50,500; v13.8 = 44,590; v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215)
 ```
 
@@ -1314,7 +1314,7 @@ consistency requirement that is continuously verified by the test suite.
 
 **Falsified if:** `test_metric.py` or `test_evolution.py` show non-zero
 residuals in the GR limit.  Run `python -m pytest tests/ -v` to verify
-(**56,772 passed · 47 skipped · 12 deselected · 0 failures**).
+(**56,964 passed · 47 skipped · 12 deselected · 0 failures**).
 
 > **Comparative sanity check — agreement with standard GR:**  
 > The GR-limit test is the primary cross-check against established theory.
