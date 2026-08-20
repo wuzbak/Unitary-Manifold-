@@ -13,6 +13,23 @@
   <script src="../js/az-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script src="../js/dossier.js" defer></script>
+  <style>
+    .proc-table { width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:.8rem; }
+    .proc-table th { text-align:left; padding:.4rem .6rem; color:var(--color-muted); font-size:.72rem; border-bottom:1px solid var(--color-border); }
+    .proc-table td { padding:.4rem .6rem; border-bottom:1px solid rgba(255,255,255,.04); }
+    .proc-table tr:hover td { background:rgba(59,139,255,.04); }
+    .pid-badge { font-family:var(--font-mono); font-size:.68rem; background:rgba(59,139,255,.12); color:var(--color-accent); border-radius:3px; padding:.1em .45em; }
+    .kk-mode { font-family:var(--font-mono); font-size:.7rem; color:#7c4dff; }
+    .state-run  { color:#30d158; font-weight:700; }
+    .state-wait { color:#ff9f0a; }
+    .state-idle { color:var(--color-muted); }
+    .metric-bar { height:6px; border-radius:3px; background:rgba(59,139,255,.15); overflow:hidden; margin-top:3px; }
+    .metric-fill { height:100%; border-radius:3px; background:var(--color-accent); transition:width .5s; }
+    .terminal-out { background:#050a1a; border:1px solid var(--color-border); border-radius:8px; padding:1rem; font-family:var(--font-mono); font-size:.8rem; line-height:1.7; color:#7aa8d8; min-height:160px; max-height:300px; overflow-y:auto; white-space:pre-wrap; }
+    .k-const { color:#a78bff; font-weight:600; }
+    .scheduler-lane { display:flex; gap:2px; height:28px; margin-top:.5rem; border-radius:4px; overflow:hidden; }
+    .sched-slot { flex:1; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.62rem; color:rgba(255,255,255,.7); border-radius:2px; transition:background .3s; }
+  </style>
 </head>
 <body>
 <nav class="nav">
@@ -20,10 +37,13 @@
   <ul class="nav-links">
     <li><a href="index.html" class="active">AZ Products</a></li>
     <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><a href="../about/index.html">About</a></li>
     <li><span class="nav-badge">v20.1</span></li>
   </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  <button class="nav-mobile-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
 </nav>
+
 <div class="app-page">
 <div class="app-hero">
   <div class="container">
@@ -32,67 +52,351 @@
       <div class="app-meta">
         <div class="app-id-badge">Product 05 · 12-AZ-IP/05-uos-kernel</div>
         <div class="app-title">UOS Kernel — 5D Operating System</div>
-        <div class="app-subtitle">A 5-dimensional Kaluza-Klein operating system kernel. Process scheduling is governed by the winding number n_w=5 — every scheduler quantum maps to a KK mode.</div>
+        <div class="app-subtitle">
+          A 5-dimensional Kaluza-Klein operating system kernel. Process scheduling is governed by
+          winding number <strong>n<sub>w</sub> = 5</strong> — every scheduler quantum maps to a KK mode.
+          The scheduler runs 5 quantum lanes; each process is assigned a KK mode index k ∈ {1…5}.
+        </div>
         <div class="app-tags">
           <span class="tag tag-os">⚙️ OS</span>
-          <span class="tag tag-physics">⚛️ Physics-grounded</span>
-          <span class="tag tag-dep">Python</span>
+          <span class="tag tag-physics">⚛️ KK-grounded</span>
+          <span class="tag tag-dep">Browser simulator</span>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <div class="container section-sm">
-  <div class="api-endpoint-bar">
-    <span style="font-size:.8rem;color:var(--color-muted)">🔌 Backend URL</span>
-    <input type="text" id="endpointInput" placeholder="https://your-host:8030"/>
-    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
-    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
+
+  <!-- ── System metrics ─────────────────────────────────────────────── -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem">
+    <div class="panel" style="text-align:center">
+      <div style="font-size:1.6rem;font-weight:700;font-family:var(--font-mono);color:var(--color-accent)" id="cpu-pct">—</div>
+      <div style="font-size:.72rem;color:var(--color-muted)">CPU utilisation</div>
+      <div class="metric-bar"><div class="metric-fill" id="cpu-bar" style="width:0%"></div></div>
+    </div>
+    <div class="panel" style="text-align:center">
+      <div style="font-size:1.6rem;font-weight:700;font-family:var(--font-mono);color:#30d158" id="proc-count">0</div>
+      <div style="font-size:.72rem;color:var(--color-muted)">Active processes</div>
+    </div>
+    <div class="panel" style="text-align:center">
+      <div style="font-size:1.6rem;font-weight:700;font-family:var(--font-mono);color:#a78bff" id="kk-mode-display">—</div>
+      <div style="font-size:.72rem;color:var(--color-muted)">Current KK mode</div>
+    </div>
+    <div class="panel" style="text-align:center">
+      <div style="font-size:1.6rem;font-weight:700;font-family:var(--font-mono);color:#ff9f0a" id="uptime-display">0s</div>
+      <div style="font-size:.72rem;color:var(--color-muted)">Kernel uptime</div>
+    </div>
+    <div class="panel" style="text-align:center">
+      <div style="font-size:1.6rem;font-weight:700;font-family:var(--font-mono);color:var(--color-accent)">74</div>
+      <div style="font-size:.72rem;color:var(--color-muted)">k<sub>CS</sub> = 5²+7²</div>
+    </div>
+    <div class="panel" style="text-align:center">
+      <div style="font-size:1.6rem;font-weight:700;font-family:var(--font-mono);color:#ff3b30" id="sched-tick">0</div>
+      <div style="font-size:.72rem;color:var(--color-muted)">Scheduler ticks</div>
+    </div>
   </div>
-  <div class="app-layout">
-    <div>
-      <div class="panel">
-        <div class="panel-title">⚙️ Command</div>
-        <div class="form-group">
-          <label class="form-label">OS command / query</label>
-          <textarea id="mainInput" class="form-input" rows="5" placeholder="e.g. run pillar 57 / status / list pillars"></textarea>
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitCmd()">Execute</button>
+
+  <!-- ── KK scheduler visualiser ──────────────────────────────────── -->
+  <div class="panel" style="margin-bottom:1.5rem">
+    <div class="panel-title">⚙️ KK Mode Scheduler — n<sub>w</sub> = 5 quantum lanes</div>
+    <div style="font-size:.78rem;color:var(--color-muted);margin-bottom:.75rem">
+      Each lane corresponds to a KK excitation mode. The scheduler round-robins across 5 lanes per tick.
+      Lane width is proportional to the KK mass: m<sub>k</sub> = k / (R · ℓ_P) where R = compactification radius.
+    </div>
+    <div class="scheduler-lane" id="sched-lane">
+      <div class="sched-slot" style="background:rgba(59,139,255,.25)">k=1</div>
+      <div class="sched-slot" style="background:rgba(124,77,255,.2)">k=2</div>
+      <div class="sched-slot" style="background:rgba(48,209,88,.2)">k=3</div>
+      <div class="sched-slot" style="background:rgba(240,192,64,.2)">k=4</div>
+      <div class="sched-slot" style="background:rgba(255,59,48,.2)">k=5</div>
+    </div>
+    <div style="display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap">
+      <button class="btn btn-primary btn-sm" id="schedBtn" onclick="toggleScheduler()">▶ Start Kernel</button>
+      <button class="btn btn-outline btn-sm" onclick="spawnProcess()">+ Spawn process</button>
+      <button class="btn btn-outline btn-sm" onclick="killAll()" style="color:#ff3b30;border-color:rgba(255,59,48,.3)">⊗ Kill all</button>
+    </div>
+  </div>
+
+  <!-- ── Process table ──────────────────────────────────────────────── -->
+  <div class="panel" style="margin-bottom:1.5rem">
+    <div class="panel-title">👾 Process Table</div>
+    <table class="proc-table">
+      <thead>
+        <tr>
+          <th>PID</th><th>Process name</th><th>KK mode</th><th>State</th>
+          <th>CPU %</th><th>Priority</th><th>Ticks</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="procTableBody">
+        <tr><td colspan="8" style="text-align:center;padding:1.5rem;color:var(--color-muted)">Start the kernel to spawn processes.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Kernel command interface ──────────────────────────────────── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+    <div class="panel">
+      <div class="panel-title">💻 Kernel REPL</div>
+      <div class="form-group">
+        <input type="text" id="kernelCmd" class="form-input" placeholder="help / ps / top / uname / pillar 57 / kk-modes"
+          onkeydown="if(event.key==='Enter') runCmd()"/>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="runCmd()">Execute</button>
+      <div class="terminal-out" id="termOut" style="margin-top:.75rem">UOS Kernel v5.0.0 — n_w=5 · k_CS=74 · c_s=12/37
+Type 'help' for available commands.
+Ready.
+</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">📊 KK Mode Energy Levels</div>
+      <div style="font-size:.78rem;color:var(--color-muted);margin-bottom:.75rem">
+        m<sub>k</sub> = k / (R · ℓ<sub>P</sub>) — mass of k-th KK excitation
+      </div>
+      <div id="kkEnergyBars"></div>
+      <div style="margin-top:1rem;font-family:var(--font-mono);font-size:.75rem;color:var(--color-muted)">
+        R = compactification radius · n<sub>w</sub> = <span class="k-const">5</span> ·
+        k<sub>CS</sub> = <span class="k-const">74</span> · c<sub>s</sub> = <span class="k-const">12/37 ≈ 0.3243</span>
       </div>
     </div>
-    <div>
-      <div class="panel output-panel">
-        <div class="panel-title">📊 Output</div>
-        <div id="outputArea"><div class="az-offline-notice"><div class="az-offline-icon">⚙️</div><strong>Demo Mode</strong><p>Enter a command and submit.</p></div></div>
-      </div>
-      <div class="dossier-bar" style="margin-top:1rem">
-        <div class="dossier-bar-label">Export session dossier</div>
-        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
-      </div>
-    </div>
   </div>
-  <div class="run-local" style="margin-top:1.5rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')"><span>💻 Run Locally</span><span>▾</span></div>
+
+  <!-- ── Epistemic + run-local ─────────────────────────────────────── -->
+  <div class="epistemic-box" style="margin-bottom:1rem">
+    <strong>Epistemic status:</strong> The KK mode scheduler is a conceptual demonstration — it
+    maps real OS scheduler concepts (round-robin, priority, quantum) to the KK geometric structure
+    of the Unitary Manifold (n<sub>w</sub>=5 lanes, k<sub>CS</sub>=74 braid resonance, c<sub>s</sub>=12/37
+    sound speed). Not a claim that an OS can be built from this physics alone.
+    <span style="color:var(--color-muted)">🔵 ADJACENT TRACK</span>
+  </div>
+
+  <div class="run-local">
+    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span>💻 Run Python backend locally</span><span>▾</span>
+    </div>
     <div class="run-local-body">
-<div class="code-block">pip install -r 12-AZ-IP/05-uos-kernel/requirements.txt
+      <div class="code-block">pip install -r 12-AZ-IP/05-uos-kernel/requirements.txt
 cd 12-AZ-IP/05-uos-kernel && python run.py</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/05-uos-kernel" target="_blank">12-AZ-IP/05-uos-kernel ↗</a></p>
+      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
+        Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/05-uos-kernel" target="_blank">12-AZ-IP/05-uos-kernel ↗</a>
+      </p>
     </div>
   </div>
+
 </div>
 </div>
+
 <div class="az-org-strip">
   AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
   <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
   <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
   Open science artifact for human review, use at your own liability.
 </div>
+
 <script>
-var liveMode=false,lastIn='',lastOut='';
-AZAPI.bindCustomEndpoint('endpointInput','05-uos-kernel');
-function connectAPI(){var url=document.getElementById('endpointInput').value.trim();if(!url)return;AZAPI.endpoints['05-uos-kernel']=url.replace(/\/$/,'');AZAPI.call('05-uos-kernel','/health').then(function(r){document.getElementById('connStatus').textContent=r.ok?'🟢 Live':'🔴 Unreachable';liveMode=r.ok;});}
-function submitCmd(){var cmd=document.getElementById('mainInput').value.trim();if(!cmd)return;lastIn=cmd;var out=document.getElementById('outputArea');AZAPI.setLoading(out,true);if(liveMode){AZAPI.call('05-uos-kernel','/exec',{method:'POST',body:{command:cmd}}).then(function(r){if(r.ok){lastOut=JSON.stringify(r.data,null,2);AZAPI.showResult(out,'<pre class="code-block" style="white-space:pre-wrap;margin:0">'+lastOut+'</pre>');}else{AZAPI.showError(out,r.error);}});}else{setTimeout(function(){lastOut='[DEMO] Command: '+cmd+'\nStatus: ok\nResult: [Connect live backend for real output]';AZAPI.showResult(out,'<pre class="code-block" style="white-space:pre-wrap;margin:0">'+lastOut+'</pre>');},500);}}
-window.addEventListener('load',function(){document.getElementById('dossierBtn').addEventListener('click',function(){AZDossier.export({appName:'UOS Kernel — 5D Operating System',appId:'05-uos-kernel',version:'v1.0',epistemic:'⚛️ PHYSICS-grounded OS',inputs:[{label:'Command',value:lastIn||'(none)'}],outputs:[{label:'Result',value:lastOut||'(none)'}],dependencies:['Python','FastAPI','numpy']});});});
+'use strict';
+/* ─── Kernel state ──────────────────────────────────────────────────────── */
+var N_W = 5;  // winding number — 5 KK lanes
+var K_CS = 74;
+var C_S = 12/37;
+var running = false;
+var tick = 0;
+var uptime = 0;
+var schedInterval = null;
+var uptimeInterval = null;
+var currentKKMode = 1;
+var pidCounter = 1000;
+var processes = [];
+
+var PROC_NAMES = [
+  'phi_field_daemon','kk_metric_solver','braided_winding_sync','ftum_iterator',
+  'cmb_transfer_fn','holographic_bdry','inflation_engine','sm_param_sync',
+  'entropy_monitor','pillar_scheduler','radion_field_srv','consciousness_couple',
+  'geodesic_tracer','anomaly_cancel','yukawa_texture_svc','ckm_phase_daemon',
+  'alpha_s_runner','dark_energy_watch','graviton_propagate','planck_data_fetch'
+];
+var KK_COLORS = ['rgba(59,139,255,.7)','rgba(124,77,255,.7)','rgba(48,209,88,.7)','rgba(240,192,64,.7)','rgba(255,59,48,.7)'];
+
+/* ─── KK energy bars ────────────────────────────────────────────────────── */
+function renderKKBars() {
+  var bars = '';
+  for (var k = 1; k <= N_W; k++) {
+    var mass = k;  // proportional to k (in natural units, R=1)
+    var pct  = (mass / N_W) * 100;
+    var col  = KK_COLORS[k-1];
+    bars += '<div style="margin-bottom:.55rem">'
+      + '<div style="display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:.2rem">'
+      + '<span style="font-family:var(--font-mono);color:var(--color-muted)">k=' + k + '  m<sub>'+k+'</sub>=' + k + '/Rℓ_P</span>'
+      + '<span style="font-family:var(--font-mono);color:var(--color-accent)">' + pct.toFixed(0) + '%</span>'
+      + '</div>'
+      + '<div class="metric-bar"><div style="height:100%;border-radius:3px;width:' + pct + '%;background:' + col + '"></div></div>'
+      + '</div>';
+  }
+  document.getElementById('kkEnergyBars').innerHTML = bars;
+}
+
+/* ─── Scheduler ─────────────────────────────────────────────────────────── */
+function toggleScheduler() {
+  if (running) {
+    running = false;
+    clearInterval(schedInterval);
+    clearInterval(uptimeInterval);
+    document.getElementById('schedBtn').textContent = '▶ Start Kernel';
+    appendTerminal('Kernel halted. Scheduler stopped.');
+  } else {
+    running = true;
+    if (processes.length === 0) spawnProcess(); spawnProcess(); spawnProcess();
+    schedInterval  = setInterval(schedulerTick, 400);
+    uptimeInterval = setInterval(function(){ uptime++; document.getElementById('uptime-display').textContent = formatUptime(uptime); }, 1000);
+    document.getElementById('schedBtn').textContent = '⏸ Halt Kernel';
+    appendTerminal('Kernel started. Scheduler running n_w=' + N_W + ' KK lanes.');
+  }
+}
+
+function formatUptime(s) {
+  if (s < 60) return s + 's';
+  if (s < 3600) return Math.floor(s/60) + 'm ' + (s%60) + 's';
+  return Math.floor(s/3600) + 'h ' + Math.floor((s%3600)/60) + 'm';
+}
+
+function schedulerTick() {
+  tick++;
+  currentKKMode = ((tick - 1) % N_W) + 1;
+
+  // Update each process
+  processes.forEach(function(p) {
+    p.ticks++;
+    if (p.kkMode === currentKKMode) {
+      p.state = 'RUNNING';
+      p.cpu = Math.min(99, 40 + Math.random() * 40);
+    } else if (p.priority > 3) {
+      p.state = 'WAITING';
+      p.cpu = Math.min(5, Math.random() * 5);
+    } else {
+      p.state = 'IDLE';
+      p.cpu = 0;
+    }
+  });
+
+  // Highlight active lane
+  var slots = document.querySelectorAll('.sched-slot');
+  slots.forEach(function(s, i) {
+    s.style.opacity = (i + 1 === currentKKMode) ? '1' : '0.35';
+    s.style.fontWeight = (i + 1 === currentKKMode) ? '700' : '400';
+  });
+
+  var totalCPU = processes.reduce(function(a, p){ return a + p.cpu; }, 0) / Math.max(1, processes.length);
+  document.getElementById('cpu-pct').textContent = totalCPU.toFixed(0) + '%';
+  document.getElementById('cpu-bar').style.width = totalCPU + '%';
+  document.getElementById('proc-count').textContent = processes.length;
+  document.getElementById('kk-mode-display').textContent = 'k=' + currentKKMode;
+  document.getElementById('sched-tick').textContent = tick;
+
+  renderProcTable();
+}
+
+function spawnProcess() {
+  var name = PROC_NAMES[Math.floor(Math.random() * PROC_NAMES.length)];
+  var kkMode = Math.floor(Math.random() * N_W) + 1;
+  processes.push({ pid: pidCounter++, name: name, kkMode: kkMode, state: 'IDLE', cpu: 0, priority: Math.floor(Math.random() * 5) + 1, ticks: 0 });
+  renderProcTable();
+  appendTerminal('[spawn] PID ' + (pidCounter-1) + ' ' + name + ' → KK mode k=' + kkMode);
+}
+
+function killAll() {
+  processes = [];
+  renderProcTable();
+  appendTerminal('[kill] All processes terminated.');
+}
+
+function killPID(pid) {
+  var p = processes.find(function(x){ return x.pid === pid; });
+  processes = processes.filter(function(x){ return x.pid !== pid; });
+  renderProcTable();
+  if (p) appendTerminal('[kill] PID ' + pid + ' ' + p.name + ' terminated.');
+}
+
+function renderProcTable() {
+  var body = document.getElementById('procTableBody');
+  if (!processes.length) {
+    body.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1rem;color:var(--color-muted)">No processes running.</td></tr>';
+    return;
+  }
+  body.innerHTML = processes.map(function(p){
+    var stateCls = p.state==='RUNNING' ? 'state-run' : p.state==='WAITING' ? 'state-wait' : 'state-idle';
+    var col = KK_COLORS[p.kkMode-1];
+    return '<tr>'
+      + '<td><span class="pid-badge">' + p.pid + '</span></td>'
+      + '<td style="font-family:var(--font-mono);font-size:.78rem">' + p.name + '</td>'
+      + '<td><span style="font-family:var(--font-mono);font-size:.7rem;color:' + col + ';font-weight:700">k=' + p.kkMode + '</span></td>'
+      + '<td class="' + stateCls + '">' + p.state + '</td>'
+      + '<td style="font-family:var(--font-mono)">' + p.cpu.toFixed(0) + '%</td>'
+      + '<td style="font-family:var(--font-mono)">' + p.priority + '</td>'
+      + '<td style="font-family:var(--font-mono)">' + p.ticks + '</td>'
+      + '<td><button onclick="killPID(' + p.pid + ')" style="background:none;border:none;color:#ff3b30;cursor:pointer;font-size:.8rem">✕</button></td>'
+      + '</tr>';
+  }).join('');
+}
+
+/* ─── REPL ──────────────────────────────────────────────────────────────── */
+function appendTerminal(text) {
+  var t = document.getElementById('termOut');
+  t.textContent += '\n' + text;
+  t.scrollTop = t.scrollHeight;
+}
+
+function runCmd() {
+  var cmd = document.getElementById('kernelCmd').value.trim();
+  document.getElementById('kernelCmd').value = '';
+  if (!cmd) return;
+  appendTerminal('\n$ ' + cmd);
+  var parts = cmd.toLowerCase().split(/\s+/);
+  switch(parts[0]) {
+    case 'help':
+      appendTerminal('Available: ps, top, uname, kk-modes, pillar <n>, spawn, kill-all, uptime, clear');
+      break;
+    case 'uname':
+      appendTerminal('UOS Kernel v5.0.0  n_w=5  k_CS=74  c_s=12/37  arch=5D-KK');
+      break;
+    case 'ps':
+      if (!processes.length) { appendTerminal('No processes running.'); break; }
+      processes.forEach(function(p){ appendTerminal('  ' + p.pid + '  ' + p.state.padEnd(8) + '  k=' + p.kkMode + '  ' + p.name); });
+      break;
+    case 'top':
+      appendTerminal('PID   STATE    k  CPU%  NAME');
+      var sorted = processes.slice().sort(function(a,b){ return b.cpu-a.cpu; }).slice(0,5);
+      sorted.forEach(function(p){ appendTerminal(String(p.pid).padEnd(6) + p.state.padEnd(9) + p.kkMode + '  ' + p.cpu.toFixed(0).padEnd(6) + p.name); });
+      break;
+    case 'kk-modes':
+      appendTerminal('KK excitation modes (n_w=5):');
+      for (var k=1;k<=5;k++) appendTerminal('  k=' + k + '  mass='+k+'/Rℓ_P  color=' + ['blue','purple','green','gold','red'][k-1]);
+      break;
+    case 'pillar':
+      var n = parseInt(parts[1]);
+      if (!n) { appendTerminal('Usage: pillar <number>'); break; }
+      appendTerminal('Pillar ' + n + ': status=ACTIVE  kk_mode=' + (((n-1)%5)+1) + '  epistemic=physics-derived');
+      break;
+    case 'spawn':
+      spawnProcess();
+      break;
+    case 'kill-all':
+      killAll();
+      break;
+    case 'uptime':
+      appendTerminal('Uptime: ' + formatUptime(uptime) + '  Ticks: ' + tick + '  Scheduler: ' + (running?'RUNNING':'HALTED'));
+      break;
+    case 'clear':
+      document.getElementById('termOut').textContent = '';
+      break;
+    default:
+      appendTerminal('Unknown command: ' + cmd + '. Type help.');
+  }
+}
+
+/* ─── Init ──────────────────────────────────────────────────────────────── */
+renderKKBars();
+renderProcTable();
 </script>
 </body>
 </html>

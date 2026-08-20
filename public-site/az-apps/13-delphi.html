@@ -1,162 +1,569 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DelPhi — Oracle Divination Suite — AxiomZero</title>
-  <meta name="description" content="Oracle divination: choose an oracle type and enter your query for a mathematically-structured reading." />
+  <meta
+    name="description"
+    content="Interactive oracle suite with tarot, I Ching, numerology, mirror reflection, and phi-weighted decision synthesis."
+  />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/13-delphi.html" />
   <meta name="theme-color" content="#050a1a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/main.css"/>
-  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/az-apps.css" />
   <script src="../js/az-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script src="../js/dossier.js" defer></script>
+  <style>
+    body { margin: 0; background: #050a1a; color: var(--color-text); font-family: "Inter", sans-serif; }
+    .app-shell { max-width: 1240px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .hero, .panel, .reading-card { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: 0 24px 48px rgba(0,0,0,.22); }
+    .hero { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; padding: 1.5rem; margin-bottom: 1rem; }
+    .hero-icon { width: 72px; height: 72px; display: grid; place-items: center; border-radius: 20px; font-size: 2rem; background: radial-gradient(circle at top, rgba(125,92,255,.35), rgba(59,139,255,.14)); }
+    .eyebrow, .mono { font-family: var(--font-mono), "JetBrains Mono", monospace; }
+    .eyebrow { color: var(--color-accent); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+    .subtitle { color: var(--color-muted); line-height: 1.6; max-width: 76ch; }
+    .btn-export, .btn-primary { border-radius: 12px; padding: .9rem 1rem; cursor: pointer; font: inherit; font-weight: 700; }
+    .btn-export { border: 1px solid var(--color-border); background: transparent; color: var(--color-text); }
+    .btn-primary { border: 0; background: linear-gradient(135deg, var(--color-accent), #7d5cff); color: #fff; }
+    .tabs { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1rem; }
+    .tab-btn { border: 1px solid var(--color-border); border-radius: 999px; background: rgba(255,255,255,.03); color: var(--color-text); padding: .75rem 1rem; cursor: pointer; font-weight: 600; }
+    .tab-btn.active { background: linear-gradient(135deg, var(--color-accent), #7d5cff); border-color: transparent; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .panel { padding: 1.25rem; }
+    .layout { display: grid; grid-template-columns: 400px 1fr; gap: 1rem; }
+    .field { margin-bottom: .9rem; }
+    .field label { display: block; margin-bottom: .4rem; color: var(--color-muted); font-size: .9rem; }
+    .field input, .field textarea, .field select { width: 100%; box-sizing: border-box; padding: .82rem .9rem; border-radius: 12px; border: 1px solid var(--color-border); background: var(--color-card); color: var(--color-text); font: inherit; }
+    input[type="range"] { width: 100%; accent-color: var(--color-accent); }
+    .reading-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+    .reading-card { padding: 1rem; }
+    .reading-card h3 { margin: .35rem 0; }
+    .reading-output { border: 1px solid var(--color-border); border-radius: 16px; padding: 1rem; background: rgba(255,255,255,.02); min-height: 240px; }
+    .oracle-note { color: var(--color-muted); line-height: 1.6; }
+    .phi-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .slider-row { border: 1px solid var(--color-border); border-radius: 14px; padding: .75rem .85rem; margin-bottom: .75rem; background: rgba(255,255,255,.02); }
+    .slider-head { display: flex; justify-content: space-between; gap: .75rem; margin-bottom: .45rem; }
+    @media (max-width: 980px) {
+      .hero, .layout, .reading-grid, .phi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">AZ Products</a></li>
-    <li><a href="../apps/index.html">Calculators</a></li>
-    <li><a href="../lodge/index.html">Lodge</a></li>
-    <li><a href="../about/index.html">About</a></li>
-    <li><span class="nav-badge">v20.1</span></li>
-  </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
-</nav>
-<div class="app-page">
-<div class="app-hero">
-  <div class="container">
-    <div class="app-hero-inner">
-      <div class="app-icon-lg">🔮</div>
-      <div class="app-meta">
-        <div class="app-id-badge">Product 13 · 12-AZ-IP/13-delphi</div>
-        <div class="app-title">DelPhi — Oracle Divination Suite</div>
-        <div class="app-subtitle">Five oracle engines grounded in Unitary Manifold geometry: Synthesis, Probability, Pattern, Resonance, and Counsel. Each provides a structured reading with epistemic confidence. Not superstition — mathematical exploration of possibility space.</div>
-        <div class="app-tags"><span class="tag tag-adjacent">🔵 Adjacent Track</span><span class="tag tag-dep">FastAPI</span><span class="tag tag-dep">Python</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container section-sm">
-  <!-- API endpoint bar -->
-  <div class="api-endpoint-bar">
-    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
-    <input type="text" id="endpointInput" placeholder="https://your-host:8080" />
-    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
-    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
-  </div>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Products</a></li>
+      <li><a href="../apps/index.html">Apps</a></li>
+      <li><a href="../lodge/index.html">Lodge</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><span class="nav-badge">🔮 DelPhi</span></li>
+    </ul>
+    <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  </nav>
 
-  <div class="app-layout">
-    <div>
-      <div class="panel" id="inputPanel">
-        <div class="panel-title">⚙️ Input</div>
-        <div class="form-group">
-          <label class="form-label">Query / Input</label>
-          <textarea id="mainInput" class="form-input" rows="5" placeholder="Enter your query here…"></textarea>
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitQuery()">Submit</button>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-icon">🔮</div>
+      <div>
+        <div class="eyebrow">Product 13 · DelPhi</div>
+        <h1 style="margin:.35rem 0 .7rem;">DelPhi — Oracle Divination Suite</h1>
+        <p class="subtitle">
+          Five oracles for structured contemplation and decision analysis.
+          Each oracle draws from a distinct epistemic tradition.
+        </p>
       </div>
+      <button id="exportBtn" class="btn-export">Export Dossier</button>
+    </section>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tarot">Tarot Oracle</button>
+      <button class="tab-btn" data-tab="iching">I Ching Oracle</button>
+      <button class="tab-btn" data-tab="numerology">Numerology Oracle</button>
+      <button class="tab-btn" data-tab="mirror">Mirror Oracle</button>
+      <button class="tab-btn" data-tab="phi">Phi Oracle</button>
     </div>
-    <div>
-      <div class="panel output-panel" id="outputPanel">
-        <div class="panel-title">📊 Output</div>
-        <div id="outputArea">
-          <div class="az-offline-notice">
-            <div class="az-offline-icon">📡</div>
-            <strong>Demo Mode</strong>
-            <p>Connect a live backend URL above, or see sample output below.</p>
+
+    <section class="tab-panel active" id="tab-tarot">
+      <div class="layout">
+        <div class="panel">
+          <div class="field">
+            <label for="tarotQuestion">Question</label>
+            <textarea id="tarotQuestion" rows="5" placeholder="What pattern am I entering?"></textarea>
           </div>
-          <div id="sampleOutput" style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
-            <em>Sample output will appear here after submitting a query.</em>
-          </div>
+          <button class="btn-primary" id="tarotBtn">Draw Tarot Reading</button>
+        </div>
+        <div class="reading-output" id="tarotOutput">
+          <p class="oracle-note">Enter a question to draw three seeded cards for Past, Present, and Future.</p>
         </div>
       </div>
-      <div class="dossier-bar" style="margin-top:1rem">
-        <div class="dossier-bar-label">Export session as PDF dossier</div>
-        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+    </section>
+
+    <section class="tab-panel" id="tab-iching">
+      <div class="layout">
+        <div class="panel">
+          <div class="field">
+            <label for="ichingQuestion">Question</label>
+            <textarea id="ichingQuestion" rows="5" placeholder="What is the right posture for this decision?"></textarea>
+          </div>
+          <button class="btn-primary" id="ichingBtn">Cast Hexagram</button>
+        </div>
+        <div class="reading-output" id="ichingOutput">
+          <p class="oracle-note">Generate six coin tosses to form a hexagram reading.</p>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="tab-panel" id="tab-numerology">
+      <div class="layout">
+        <div class="panel">
+          <div class="field">
+            <label for="numerologyName">Full name</label>
+            <input id="numerologyName" type="text" placeholder="Alex Jordan Rivera" />
+          </div>
+          <div class="field">
+            <label for="numerologyBirthdate">Birthdate</label>
+            <input id="numerologyBirthdate" type="date" />
+          </div>
+          <button class="btn-primary" id="numerologyBtn">Compute Numbers</button>
+        </div>
+        <div class="reading-output" id="numerologyOutput">
+          <p class="oracle-note">Life Path, Expression, and Soul Urge interpretations will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-mirror">
+      <div class="layout">
+        <div class="panel">
+          <div class="field">
+            <label for="mirrorStatement">Situation statement</label>
+            <textarea id="mirrorStatement" rows="6" placeholder="My team is stuck because we keep over-planning."></textarea>
+          </div>
+          <button class="btn-primary" id="mirrorBtn">Reflect Statement</button>
+        </div>
+        <div class="reading-output" id="mirrorOutput">
+          <p class="oracle-note">The mirror oracle returns five reframes for contemplation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-phi">
+      <div class="layout">
+        <div class="panel">
+          <div class="phi-grid">
+            <div>
+              <div class="field">
+                <label for="optionAName">Option A</label>
+                <input id="optionAName" type="text" placeholder="Stay in-house" />
+              </div>
+              <div class="slider-row"><div class="slider-head"><strong>Coherence</strong><span class="mono" id="aCoherenceVal">5</span></div><input id="aCoherence" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Complexity</strong><span class="mono" id="aComplexityVal">5</span></div><input id="aComplexity" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Adaptability</strong><span class="mono" id="aAdaptabilityVal">5</span></div><input id="aAdaptability" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Emergence</strong><span class="mono" id="aEmergenceVal">5</span></div><input id="aEmergence" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Resonance</strong><span class="mono" id="aResonanceVal">5</span></div><input id="aResonance" type="range" min="0" max="10" step="1" value="5" /></div>
+            </div>
+            <div>
+              <div class="field">
+                <label for="optionBName">Option B</label>
+                <input id="optionBName" type="text" placeholder="Partner externally" />
+              </div>
+              <div class="slider-row"><div class="slider-head"><strong>Coherence</strong><span class="mono" id="bCoherenceVal">5</span></div><input id="bCoherence" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Complexity</strong><span class="mono" id="bComplexityVal">5</span></div><input id="bComplexity" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Adaptability</strong><span class="mono" id="bAdaptabilityVal">5</span></div><input id="bAdaptability" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Emergence</strong><span class="mono" id="bEmergenceVal">5</span></div><input id="bEmergence" type="range" min="0" max="10" step="1" value="5" /></div>
+              <div class="slider-row"><div class="slider-head"><strong>Resonance</strong><span class="mono" id="bResonanceVal">5</span></div><input id="bResonance" type="range" min="0" max="10" step="1" value="5" /></div>
+            </div>
+          </div>
+          <button class="btn-primary" id="phiBtn">Compare Options</button>
+        </div>
+        <div class="reading-output" id="phiOutput">
+          <p class="oracle-note">Run the phi oracle to compare two options with φ-weighted synthesis scoring.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="az-org-strip">
+    AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+    <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+    <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+    Open science artifact for human review, use at your own liability.
   </div>
 
-  <div class="epistemic-box" style="margin-top:2rem">
-    <strong>Dependencies:</strong> fastapi, uvicorn, numpy
-  </div>
+  <script>
+    const PHI = 1.61803398875;
+    const STORAGE_PREFIX = "az-delphi-";
+    const tarotDeck = [
+      "The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant","The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune","Justice","The Hanged Man","Death","Temperance","The Devil","The Tower","The Star","The Moon","The Sun","Judgement","The World",
+      "Ace of Wands","Two of Wands","Three of Wands","Four of Wands","Five of Wands","Six of Wands","Seven of Wands","Eight of Wands","Nine of Wands","Ten of Wands","Page of Wands","Knight of Wands","Queen of Wands","King of Wands",
+      "Ace of Cups","Two of Cups","Three of Cups","Four of Cups","Five of Cups","Six of Cups","Seven of Cups","Eight of Cups","Nine of Cups","Ten of Cups","Page of Cups","Knight of Cups","Queen of Cups","King of Cups",
+      "Ace of Swords","Two of Swords","Three of Swords","Four of Swords","Five of Swords","Six of Swords","Seven of Swords","Eight of Swords","Nine of Swords","Ten of Swords","Page of Swords","Knight of Swords","Queen of Swords","King of Swords",
+      "Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles","Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
+    ];
+    const hexagrams = [
+      { name: "The Creative", text: "Initiating energy is strong and generative. Act clearly and sustain momentum with integrity." },
+      { name: "The Receptive", text: "Yielding strength and responsiveness are favored. Support what is forming rather than forcing it." },
+      { name: "Difficulty at the Beginning", text: "Beginnings are fertile but disordered. Stabilize the first steps before scaling effort." },
+      { name: "Youthful Folly", text: "Learning requires humility and repetition. Ask better questions before demanding better answers." },
+      { name: "Waiting", text: "Timing is part of wisdom. Prepare inwardly while circumstances ripen." },
+      { name: "Conflict", text: "A difference is present and must be clarified. Seek principled alignment rather than victory alone." },
+      { name: "The Army", text: "Discipline and structure are required now. Leadership should be firm, calm, and accountable." },
+      { name: "Holding Together", text: "Union forms around shared trust. Consolidate relationships that can truly endure." },
+      { name: "Small Taming", text: "Gentle constraints shape the larger pattern. Modest but steady adjustments create leverage." },
+      { name: "Treading", text: "Move carefully in a charged environment. Courtesy and precision reduce unnecessary risk." },
+      { name: "Peace", text: "Heaven and earth are in communication. Use the opening to establish durable balance." },
+      { name: "Standstill", text: "Channels are blocked and progress resists pressure. Preserve integrity until conditions change." },
+      { name: "Fellowship", text: "Shared purpose attracts cooperation. Name the common cause explicitly." },
+      { name: "Great Possession", text: "Abundance creates responsibility. Steward resources with generosity and form." },
+      { name: "Modesty", text: "True strength does not need spectacle. Reduce excess and let substance speak." },
+      { name: "Enthusiasm", text: "Momentum rises when people feel meaning. Direct excitement into prepared action." },
+      { name: "Following", text: "Respond to what is alive and moving. Alignment now matters more than authorship." },
+      { name: "Work on the Decayed", text: "A neglected pattern needs repair. Restore fundamentals before seeking novelty." },
+      { name: "Approach", text: "A moment of access is opening. Meet it with care, generosity, and readiness." },
+      { name: "Contemplation", text: "Observation transforms understanding. Step back far enough to see the whole field." },
+      { name: "Biting Through", text: "Something obstructive must be addressed directly. Decisive clarity frees stalled progress." },
+      { name: "Grace", text: "Form matters because it reveals inner order. Beautify without abandoning truth." },
+      { name: "Splitting Apart", text: "Structures may be weakening from below. Simplify and protect the core." },
+      { name: "Return", text: "The cycle turns back toward origin. Small sincere beginnings carry unusual force." },
+      { name: "Innocence", text: "Act without hidden motive. Straightforwardness is the cleanest path through complexity." },
+      { name: "Great Taming", text: "Stored strength can now be directed. Use restraint to turn power into reliability." },
+      { name: "Nourishment", text: "What you take in shapes what you become. Feed the pattern you want to grow." },
+      { name: "Great Preponderance", text: "Weight exceeds the structure's comfort. Simplify the load or reinforce the beam." },
+      { name: "The Abysmal", text: "A repeated challenge teaches depth. Move with sincerity through what cannot be bypassed." },
+      { name: "The Clinging", text: "Illumination depends on what it attaches to. Keep returning to what is clear and true." },
+      { name: "Influence", text: "Subtle attraction changes the field. Gentle sincerity has more power than pressure." },
+      { name: "Duration", text: "Endurance comes from right alignment, not rigid force. Build the rhythm you can keep." },
+      { name: "Retreat", text: "Strategic withdrawal preserves strength. Distance can be an intelligent form of action." },
+      { name: "Great Power", text: "Power is available and must be disciplined. Let force serve principle, not ego." },
+      { name: "Progress", text: "Advancement is possible through openness and visibility. Share the light without burning it out." },
+      { name: "Darkening of the Light", text: "Protect insight when the environment is hostile. Conceal the flame without betraying it." },
+      { name: "The Family", text: "Order begins in close relations. Clarify roles and obligations at the center." },
+      { name: "Opposition", text: "Difference need not become fracture. Respect contrast while finding workable bridges." },
+      { name: "Obstruction", text: "The path is not straight right now. Adapt your route rather than denying the terrain." },
+      { name: "Deliverance", text: "Release follows tension when the knot is recognized. Act quickly once the opening appears." },
+      { name: "Decrease", text: "Reduction may create integrity. Let go of what weakens concentration." },
+      { name: "Increase", text: "Support what is fruitful and generous. Growth becomes stable when it circulates." },
+      { name: "Breakthrough", text: "A threshold demands honest declaration. Name the truth clearly and act without rancor." },
+      { name: "Coming to Meet", text: "An encounter brings both attraction and caution. Welcome it thoughtfully, not naively." },
+      { name: "Gathering Together", text: "Convergence intensifies meaning and responsibility. Bring people or parts into shared form." },
+      { name: "Pushing Upward", text: "Slow upward growth is favored. Persistent effort matters more than dramatic leaps." },
+      { name: "Oppression", text: "Constraint reveals what cannot continue as before. Conserve essence while pressure passes." },
+      { name: "The Well", text: "Return to the source that sustains everyone. Renewal comes from restoring the channel." },
+      { name: "Revolution", text: "Deep change becomes legitimate when its time has truly arrived. Prepare carefully, then act decisively." },
+      { name: "The Cauldron", text: "Transformation works through proper vessels. Refine the container as much as the content." },
+      { name: "The Arousing", text: "Shock awakens movement and truth. Respond without panic to the energy released." },
+      { name: "Keeping Still", text: "Stillness restores perspective and self-command. Let the mountain reset your motion." },
+      { name: "Development", text: "Gradual progress creates lasting trust. Allow the next stage to earn itself." },
+      { name: "The Marrying Maiden", text: "A secondary role or constrained union is indicated. Negotiate dignity within imperfect conditions." },
+      { name: "Abundance", text: "Peak intensity is here but will not last forever. Use the fullness while the light is high." },
+      { name: "The Wanderer", text: "Travel lightly and stay alert to context. Temporary roles require adaptable manners." },
+      { name: "The Gentle", text: "Soft influence penetrates where force fails. Persistence and tact reshape the situation." },
+      { name: "The Joyous", text: "Open exchange and delight loosen rigid patterns. Let sincerity make connection easy." },
+      { name: "Dispersion", text: "Something fixed is dissolving. Spread tension out so energy can move again." },
+      { name: "Limitation", text: "Healthy boundaries create usable freedom. Design constraints that protect what matters." },
+      { name: "Inner Truth", text: "Authenticity aligns inner and outer worlds. Trust what rings true after testing it." },
+      { name: "Small Preponderance", text: "Attend to details and small measures. Success comes through precision, not scale." },
+      { name: "After Completion", text: "A structure is finished but not beyond decay. Stay attentive after apparent success." },
+      { name: "Before Completion", text: "The crossing is near but unfinished. Do not relax your care too early." }
+    ];
+    let lastReadings = { activeTab: "tarot" };
 
-  <div class="run-local" style="margin-top:1.5rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
-      <span>💻 Run Locally</span><span>▾</span>
-    </div>
-    <div class="run-local-body">
-<div class="code-block">pip install -r 12-AZ-IP/13-delphi/requirements.txt
-cd 12-AZ-IP/13-delphi
-python run.py   # → http://localhost:8080</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
-        Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/13-delphi" target="_blank">12-AZ-IP/13-delphi ↗</a>
-      </p>
-    </div>
-  </div>
-</div>
-</div>
-<div class="az-org-strip">
-  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
-  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
-  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
-  Open science artifact for human review, use at your own liability.
-</div>
-<script>
-var liveMode = false, lastInput = '', lastOutput = '';
-AZAPI.bindCustomEndpoint('endpointInput', '13-delphi');
-
-function connectAPI() {
-  var url = document.getElementById('endpointInput').value.trim();
-  if (!url) { alert('Enter a backend URL.'); return; }
-  AZAPI.endpoints['13-delphi'] = url.replace(/\/$/,'');
-  document.getElementById('connStatus').textContent = '● Connecting…';
-  AZAPI.call('13-delphi', '/health').then(function(r) {
-    document.getElementById('connStatus').textContent = r.ok ? '🟢 Live' : '🔴 Unreachable';
-    liveMode = r.ok;
-  });
-}
-
-function submitQuery() {
-  var input = document.getElementById('mainInput').value.trim();
-  if (!input) return;
-  lastInput = input;
-  var out = document.getElementById('outputArea');
-  AZAPI.setLoading(out, true);
-  if (liveMode) {
-    AZAPI.call('13-delphi', '/query', { method:'POST', body:{ input: input } }).then(function(r) {
-      if (r.ok) {
-        lastOutput = JSON.stringify(r.data, null, 2);
-        AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-      } else {
-        AZAPI.showError(out, r.error);
+    function hashString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i += 1) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
       }
-    });
-  } else {
-    setTimeout(function() {
-      lastOutput = 'Demo mode — sample response for: "' + input.slice(0,60) + '…"\n\n{ "status": "ok", "result": "[Connect a live backend to see real output]", "epistemic": "demo" }';
-      AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-    }, 600);
-  }
-}
+      return hash >>> 0;
+    }
 
-window.addEventListener('load', function() {
-  document.getElementById('dossierBtn').addEventListener('click', function() {
-    AZDossier.export({
-      appName: 'DelPhi — Oracle Divination Suite',
-      appId: '13-delphi', version: 'v1.0',
-      epistemic: '🔵 ADJACENT TRACK',
-      inputs:  [{ label: 'Query', value: lastInput || '(none)' }],
-      outputs: [{ label: 'Result', value: lastOutput || '(none)' }],
-      notes: 'Backend port: 8080. Connect a live instance to generate real outputs.',
-      dependencies: ['fastapi, uvicorn, numpy'],
+    function seededRandom(seed) {
+      return function() {
+        seed |= 0;
+        seed = (seed + 0x6D2B79F5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function switchTab(tab) {
+      lastReadings.activeTab = tab;
+      document.querySelectorAll(".tab-btn").forEach(function(btn) {
+        btn.classList.toggle("active", btn.dataset.tab === tab);
+      });
+      document.querySelectorAll(".tab-panel").forEach(function(panel) {
+        panel.classList.toggle("active", panel.id === "tab-" + tab);
+      });
+      saveReading("meta", lastReadings);
+    }
+
+    function tarotMeaning(card, position) {
+      const suitNotes = {
+        Wands: "creative momentum, risk, and will",
+        Cups: "emotion, memory, and relational truth",
+        Swords: "clarity, conflict, and decision",
+        Pentacles: "material structure, labor, and resources"
+      };
+      const suit = Object.keys(suitNotes).find(function(name) { return card.includes(name); });
+      if (!suit) {
+        return position + " reveals " + card + " as a major archetype of transition, identity, and conscious choice.";
+      }
+      return position + " highlights " + suitNotes[suit] + " through " + card + ".";
+    }
+
+    function runTarot() {
+      const question = document.getElementById("tarotQuestion").value.trim() || "Unnamed question";
+      const rng = seededRandom(hashString(question));
+      const deck = tarotDeck.slice();
+      const positions = ["Past", "Present", "Future"];
+      const draw = [];
+      for (let i = 0; i < 3; i += 1) {
+        const index = Math.floor(rng() * deck.length);
+        draw.push({ position: positions[i], card: deck.splice(index, 1)[0] });
+      }
+      document.getElementById("tarotOutput").innerHTML = "<div class='reading-grid'>" + draw.map(function(item) {
+        return "<div class='reading-card'><div class='eyebrow'>" + item.position + "</div><h3>" + item.card + "</h3><p class='oracle-note'>" + tarotMeaning(item.card, item.position) + "</p></div>";
+      }).join("") + "</div>";
+      saveReading("tarot", { question: question, draw: draw });
+    }
+
+    function runIChing() {
+      const question = document.getElementById("ichingQuestion").value.trim() || "Unnamed question";
+      const rng = seededRandom(hashString(question + "hex"));
+      const tosses = [];
+      for (let i = 0; i < 6; i += 1) {
+        const sum = [rng(), rng(), rng()].reduce(function(total, value) { return total + (value > 0.5 ? 3 : 2); }, 0);
+        tosses.push(sum);
+      }
+      const binary = tosses.map(function(sum) { return sum % 2 === 0 ? 0 : 1; }).join("");
+      const number = (parseInt(binary, 2) % 64) + 1;
+      const hex = hexagrams[number - 1];
+      document.getElementById("ichingOutput").innerHTML =
+        "<div class='reading-card'><div class='eyebrow'>Hexagram " + number + "</div><h2 style='margin:.35rem 0 .5rem;'>" + hex.name + "</h2>" +
+        "<p class='oracle-note'>" + hex.text + "</p><p class='oracle-note'><strong>Coin tosses:</strong> " + tosses.join(", ") + "</p></div>";
+      saveReading("iching", { question: question, tosses: tosses, number: number, name: hex.name, text: hex.text });
+    }
+
+    function reduceNumber(value) {
+      while (value > 9 && ![11, 22, 33].includes(value)) {
+        value = String(value).split("").reduce(function(sum, digit) { return sum + Number(digit); }, 0);
+      }
+      return value;
+    }
+
+    function numerologyInterpret(number) {
+      const meanings = {
+        1: "initiative and individuation",
+        2: "partnership and attunement",
+        3: "expression and synthesis",
+        4: "structure and discipline",
+        5: "change and exploration",
+        6: "care and responsibility",
+        7: "analysis and inner search",
+        8: "power and manifestation",
+        9: "completion and service",
+        11: "inspiration and heightened intuition",
+        22: "master-building and large-scale realization",
+        33: "compassionate teaching and stewardship"
+      };
+      return meanings[number] || "pattern and meaning";
+    }
+
+    function runNumerology() {
+      const name = document.getElementById("numerologyName").value.trim() || "Unnamed";
+      const birthdate = document.getElementById("numerologyBirthdate").value;
+      const dateDigits = birthdate.replace(/\D/g, "");
+      const lifePath = reduceNumber(dateDigits.split("").reduce(function(sum, digit) { return sum + Number(digit); }, 0));
+      const letters = name.toUpperCase().replace(/[^A-Z]/g, "").split("");
+      const expression = reduceNumber(letters.reduce(function(sum, char) { return sum + (char.charCodeAt(0) - 64); }, 0));
+      const soulUrge = reduceNumber(letters.filter(function(char) { return "AEIOU".includes(char); }).reduce(function(sum, char) { return sum + (char.charCodeAt(0) - 64); }, 0));
+
+      document.getElementById("numerologyOutput").innerHTML =
+        "<div class='reading-grid'>" +
+        [["Life Path", lifePath], ["Expression", expression], ["Soul Urge", soulUrge]].map(function(item) {
+          return "<div class='reading-card'><div class='eyebrow'>" + item[0] + "</div><h2 class='mono' style='margin:.35rem 0;'>" + item[1] + "</h2><p class='oracle-note'>Themes of " + numerologyInterpret(item[1]) + ".</p></div>";
+        }).join("") +
+        "</div>";
+      saveReading("numerology", { name: name, birthdate: birthdate, lifePath: lifePath, expression: expression, soulUrge: soulUrge });
+    }
+
+    function runMirror() {
+      const statement = document.getElementById("mirrorStatement").value.trim() || "No statement entered.";
+      const reframes = [
+        { title: "What is the opposite?", text: "Imagine the reverse: " + statement.replace(/\bis\b/gi, "is not") + " — what changes?" },
+        { title: "What would a neutral observer see?", text: "A neutral observer might see competing signals, incentives, and incomplete evidence." },
+        { title: "What does this assume?", text: "This assumes the current framing captures the whole pattern rather than one stressful slice of it." },
+        { title: "What would change if this were true?", text: "If fully true, priorities, resource allocation, and communication cadence would likely need adjustment." },
+        { title: "What is the smallest possible action?", text: "Take the smallest reversible step that generates new evidence within 24 hours." }
+      ];
+      document.getElementById("mirrorOutput").innerHTML = "<div class='reading-grid'>" + reframes.map(function(item) {
+        return "<div class='reading-card'><div class='eyebrow'>" + item.title + "</div><p class='oracle-note'>" + item.text + "</p></div>";
+      }).join("") + "</div>";
+      saveReading("mirror", { statement: statement, reframes: reframes });
+    }
+
+    function updatePhiLabels() {
+      ["aCoherence","aComplexity","aAdaptability","aEmergence","aResonance","bCoherence","bComplexity","bAdaptability","bEmergence","bResonance"].forEach(function(id) {
+        document.getElementById(id + "Val").textContent = document.getElementById(id).value;
+      });
+    }
+
+    function optionScore(prefix) {
+      const coherence = Number(document.getElementById(prefix + "Coherence").value);
+      const complexity = Number(document.getElementById(prefix + "Complexity").value);
+      const adaptability = Number(document.getElementById(prefix + "Adaptability").value);
+      const emergence = Number(document.getElementById(prefix + "Emergence").value);
+      const resonance = Number(document.getElementById(prefix + "Resonance").value);
+      const weights = [PHI, 1, Math.sqrt(PHI), PHI * 0.9, PHI * 1.2];
+      const weighted = (coherence * weights[0]) + (complexity * weights[1]) + (adaptability * weights[2]) + (emergence * weights[3]) + (resonance * weights[4]);
+      return {
+        coherence, complexity, adaptability, emergence, resonance,
+        score: weighted / weights.reduce(function(sum, value) { return sum + value; }, 0)
+      };
+    }
+
+    function runPhi() {
+      const aName = document.getElementById("optionAName").value.trim() || "Option A";
+      const bName = document.getElementById("optionBName").value.trim() || "Option B";
+      const optionA = optionScore("a");
+      const optionB = optionScore("b");
+      const winner = optionA.score >= optionB.score ? aName : bName;
+      const diff = Math.abs(optionA.score - optionB.score);
+      const reasoning = diff < 0.35
+        ? "The spread is narrow, so the decision is near equilibrium; prefer the option with better execution certainty."
+        : winner + " leads because it produces the stronger combined coherence, emergence, and resonance profile.";
+      document.getElementById("phiOutput").innerHTML =
+        "<div class='reading-grid'>" +
+        "<div class='reading-card'><div class='eyebrow'>" + aName + "</div><h2 class='mono' style='margin:.35rem 0;'>" + optionA.score.toFixed(2) + "</h2><p class='oracle-note'>Coherence " + optionA.coherence + ", complexity " + optionA.complexity + ", adaptability " + optionA.adaptability + ", emergence " + optionA.emergence + ", resonance " + optionA.resonance + ".</p></div>" +
+        "<div class='reading-card'><div class='eyebrow'>" + bName + "</div><h2 class='mono' style='margin:.35rem 0;'>" + optionB.score.toFixed(2) + "</h2><p class='oracle-note'>Coherence " + optionB.coherence + ", complexity " + optionB.complexity + ", adaptability " + optionB.adaptability + ", emergence " + optionB.emergence + ", resonance " + optionB.resonance + ".</p></div>" +
+        "<div class='reading-card'><div class='eyebrow'>Recommendation</div><h2 style='margin:.35rem 0;'>" + winner + "</h2><p class='oracle-note'>" + reasoning + "</p></div>" +
+        "</div>";
+      saveReading("phi", { aName: aName, bName: bName, optionA: optionA, optionB: optionB, winner: winner, reasoning: reasoning });
+    }
+
+    function saveReading(key, payload) {
+      localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(payload));
+    }
+
+    function restoreReading(key) {
+      const raw = localStorage.getItem(STORAGE_PREFIX + key);
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch (error) { return null; }
+    }
+
+    function restoreAll() {
+      const meta = restoreReading("meta");
+      if (meta && meta.activeTab) switchTab(meta.activeTab);
+
+      const tarot = restoreReading("tarot");
+      if (tarot) {
+        document.getElementById("tarotQuestion").value = tarot.question;
+        runTarot();
+      }
+      const iching = restoreReading("iching");
+      if (iching) {
+        document.getElementById("ichingQuestion").value = iching.question;
+        runIChing();
+      }
+      const numerology = restoreReading("numerology");
+      if (numerology) {
+        document.getElementById("numerologyName").value = numerology.name;
+        document.getElementById("numerologyBirthdate").value = numerology.birthdate;
+        runNumerology();
+      }
+      const mirror = restoreReading("mirror");
+      if (mirror) {
+        document.getElementById("mirrorStatement").value = mirror.statement;
+        runMirror();
+      }
+      const phi = restoreReading("phi");
+      if (phi) {
+        document.getElementById("optionAName").value = phi.aName;
+        document.getElementById("optionBName").value = phi.bName;
+        ["Coherence","Complexity","Adaptability","Emergence","Resonance"].forEach(function(dim) {
+          document.getElementById("a" + dim).value = phi.optionA[dim.toLowerCase()];
+          document.getElementById("b" + dim).value = phi.optionB[dim.toLowerCase()];
+        });
+        updatePhiLabels();
+        runPhi();
+      } else {
+        updatePhiLabels();
+      }
+    }
+
+    function exportDossier() {
+      const active = lastReadings.activeTab || "tarot";
+      const reading = restoreReading(active);
+      if (!reading) {
+        if (active === "tarot") runTarot();
+        if (active === "iching") runIChing();
+        if (active === "numerology") runNumerology();
+        if (active === "mirror") runMirror();
+        if (active === "phi") runPhi();
+      }
+      const current = restoreReading(active);
+      let inputs = [];
+      let outputs = [];
+      if (active === "tarot") {
+        inputs = [{ label: "Question", value: current.question }];
+        outputs = [{ label: "Cards", value: current.draw.map(function(item) { return item.position + ": " + item.card; }).join(" | ") }];
+      } else if (active === "iching") {
+        inputs = [{ label: "Question", value: current.question }];
+        outputs = [{ label: "Hexagram", value: "Hexagram " + current.number + " — " + current.name }, { label: "Interpretation", value: current.text }];
+      } else if (active === "numerology") {
+        inputs = [{ label: "Name", value: current.name }, { label: "Birthdate", value: current.birthdate }];
+        outputs = [
+          { label: "Life Path", value: String(current.lifePath) },
+          { label: "Expression", value: String(current.expression) },
+          { label: "Soul Urge", value: String(current.soulUrge) }
+        ];
+      } else if (active === "mirror") {
+        inputs = [{ label: "Statement", value: current.statement }];
+        outputs = current.reframes.map(function(item) { return { label: item.title, value: item.text }; });
+      } else if (active === "phi") {
+        inputs = [{ label: "Option A", value: current.aName }, { label: "Option B", value: current.bName }];
+        outputs = [
+          { label: current.aName + " Score", value: current.optionA.score.toFixed(2) },
+          { label: current.bName + " Score", value: current.optionB.score.toFixed(2) },
+          { label: "Recommendation", value: current.winner + " — " + current.reasoning }
+        ];
+      }
+
+      AZDossier.export({
+        appName: "DelPhi — Oracle Divination Suite",
+        appId: "13-delphi",
+        version: "v20.1",
+        epistemic: "🔵 ADJACENT TRACK",
+        inputs: inputs,
+        outputs: outputs,
+        notes: "Current export captures the active oracle tab: " + active + ". All readings are computed locally and saved to localStorage.",
+        dependencies: ["Inter", "JetBrains Mono", "jsPDF", "AZDossier"]
+      });
+    }
+
+    document.querySelectorAll(".tab-btn").forEach(function(button) {
+      button.addEventListener("click", function() { switchTab(button.dataset.tab); });
     });
-  });
-});
-</script>
+    document.getElementById("tarotBtn").addEventListener("click", runTarot);
+    document.getElementById("ichingBtn").addEventListener("click", runIChing);
+    document.getElementById("numerologyBtn").addEventListener("click", runNumerology);
+    document.getElementById("mirrorBtn").addEventListener("click", runMirror);
+    document.getElementById("phiBtn").addEventListener("click", runPhi);
+    document.getElementById("exportBtn").addEventListener("click", exportDossier);
+    document.querySelectorAll('input[type="range"]').forEach(function(input) {
+      input.addEventListener("input", updatePhiLabels);
+    });
+    window.addEventListener("DOMContentLoaded", restoreAll);
+  </script>
 </body>
 </html>

@@ -1,162 +1,489 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>OmegaHolon — Living Systems Engine — AxiomZero</title>
-  <meta name="description" content="Living systems analysis using Unitary Manifold geometry: enter a system description, receive holon resonance analysis." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ω OmegaHolon — Living Systems Engine — AxiomZero</title>
+  <meta
+    name="description"
+    content="Interactive living systems engine for mapping holons, phi-resonance, entropy debt, and emergence score."
+  />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/09-omegaholon.html" />
   <meta name="theme-color" content="#050a1a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/main.css"/>
-  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/az-apps.css" />
   <script src="../js/az-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script src="../js/dossier.js" defer></script>
+  <style>
+    body {
+      margin: 0;
+      background: #050a1a;
+      color: var(--color-text);
+      font-family: "Inter", sans-serif;
+    }
+    .app-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+    }
+    .hero-card,
+    .panel-card,
+    .result-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: 0 24px 48px rgba(0,0,0,.25);
+    }
+    .hero-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.25rem;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .hero-icon {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: radial-gradient(circle at top, rgba(59,139,255,.45), rgba(59,139,255,.1));
+      font-size: 2rem;
+    }
+    .eyebrow,
+    .mono {
+      font-family: var(--font-mono), "JetBrains Mono", monospace;
+    }
+    .eyebrow {
+      color: var(--color-accent);
+      font-size: .78rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      color: var(--color-muted);
+      max-width: 72ch;
+      line-height: 1.6;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 420px) 1fr;
+      gap: 1rem;
+    }
+    .panel-card,
+    .result-card {
+      padding: 1.25rem;
+    }
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .field {
+      margin-bottom: 1rem;
+    }
+    .field label {
+      display: block;
+      margin-bottom: .45rem;
+      color: var(--color-muted);
+      font-size: .92rem;
+    }
+    .field input[type="text"],
+    .field select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: .82rem .95rem;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: var(--color-card);
+      color: var(--color-text);
+      font: inherit;
+    }
+    .slider-row {
+      padding: .9rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      margin-bottom: .75rem;
+    }
+    .slider-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      margin-bottom: .65rem;
+    }
+    .slider-head strong {
+      font-size: .96rem;
+    }
+    .slider-value {
+      color: var(--color-accent);
+      font-size: .9rem;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--color-accent);
+    }
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: .95rem 1rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      opacity: .96;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-accent), #7d5cff);
+      color: #fff;
+    }
+    .btn-secondary {
+      margin-top: .75rem;
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+    .quick-grid,
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .85rem;
+    }
+    .quick-stat,
+    .metric {
+      padding: .95rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--color-border);
+      background: rgba(255,255,255,.025);
+    }
+    .quick-stat span,
+    .metric span {
+      display: block;
+      color: var(--color-muted);
+      font-size: .78rem;
+      margin-bottom: .4rem;
+    }
+    .quick-stat strong,
+    .metric strong {
+      font-size: 1rem;
+    }
+    .result-card {
+      min-height: 100%;
+    }
+    .label-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .45rem .8rem;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      margin-bottom: 1rem;
+    }
+    .status-self-organizing .label-banner,
+    .status-self-organizing .accent {
+      background: rgba(48, 209, 88, .12);
+      color: #57df84;
+    }
+    .status-adaptive .label-banner,
+    .status-adaptive .accent {
+      background: rgba(59, 139, 255, .12);
+      color: #7bb1ff;
+    }
+    .status-structured .label-banner,
+    .status-structured .accent {
+      background: rgba(255, 184, 77, .12);
+      color: #ffd07a;
+    }
+    .status-incoherent .label-banner,
+    .status-incoherent .accent {
+      background: rgba(255, 107, 107, .12);
+      color: #ff8a8a;
+    }
+    .explain {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+    @media (max-width: 900px) {
+      .layout,
+      .hero-card {
+        grid-template-columns: 1fr;
+      }
+      .quick-grid,
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">AZ Products</a></li>
-    <li><a href="../apps/index.html">Calculators</a></li>
-    <li><a href="../lodge/index.html">Lodge</a></li>
-    <li><a href="../about/index.html">About</a></li>
-    <li><span class="nav-badge">v20.1</span></li>
-  </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
-</nav>
-<div class="app-page">
-<div class="app-hero">
-  <div class="container">
-    <div class="app-hero-inner">
-      <div class="app-icon-lg">🌱</div>
-      <div class="app-meta">
-        <div class="app-id-badge">Product 09 · 12-AZ-IP/09-omegaholon</div>
-        <div class="app-title">OmegaHolon — Living Systems Engine</div>
-        <div class="app-subtitle">Model any living system as a holon: a complete system and part of something larger. Outputs phi-coherence score, resonance analysis, and systemic intervention recommendations grounded in the Unitary Manifold.</div>
-        <div class="app-tags"><span class="tag tag-ai">🤖 AI Engine</span><span class="tag tag-dep">Gradio</span><span class="tag tag-dep">Python</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container section-sm">
-  <!-- API endpoint bar -->
-  <div class="api-endpoint-bar">
-    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
-    <input type="text" id="endpointInput" placeholder="https://your-host:7871" />
-    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
-    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
-  </div>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Products</a></li>
+      <li><a href="../apps/index.html">Apps</a></li>
+      <li><a href="../lodge/index.html">Lodge</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><span class="nav-badge">Ω Holon</span></li>
+    </ul>
+    <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  </nav>
 
-  <div class="app-layout">
-    <div>
-      <div class="panel" id="inputPanel">
-        <div class="panel-title">⚙️ Input</div>
-        <div class="form-group">
-          <label class="form-label">Query / Input</label>
-          <textarea id="mainInput" class="form-input" rows="5" placeholder="Enter your query here…"></textarea>
+  <main class="app-shell">
+    <section class="hero-card">
+      <div class="hero-icon">🌀</div>
+      <div>
+        <div class="eyebrow">Product 09 · Ω OmegaHolon</div>
+        <h1 style="margin:.35rem 0 0.75rem;">Ω OmegaHolon — Living Systems Engine</h1>
+        <p class="subtitle">
+          Map any living system as a holon — a complete whole and a part of something larger.
+          Compute φ-resonance, entropy debt, and emergence score from the Unitary Manifold geometry.
+        </p>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="panel-card">
+        <div class="panel-title">Holon Inputs</div>
+
+        <div class="field">
+          <label for="systemName">System name</label>
+          <input id="systemName" type="text" placeholder="e.g. Pacific kelp forest" />
         </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitQuery()">Submit</button>
+
+        <div class="field">
+          <label for="systemType">System type</label>
+          <select id="systemType">
+            <option value="biological">Biological</option>
+            <option value="social">Social</option>
+            <option value="cognitive">Cognitive</option>
+            <option value="ecological">Ecological</option>
+            <option value="economic">Economic</option>
+          </select>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head"><strong>Coherence</strong><span class="slider-value mono" id="coherenceValue">0.70</span></div>
+          <input id="coherence" type="range" min="0" max="1" step="0.01" value="0.70" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><strong>Complexity</strong><span class="slider-value mono" id="complexityValue">0.65</span></div>
+          <input id="complexity" type="range" min="0" max="1" step="0.01" value="0.65" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><strong>Connectivity</strong><span class="slider-value mono" id="connectivityValue">0.72</span></div>
+          <input id="connectivity" type="range" min="0" max="1" step="0.01" value="0.72" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><strong>Adaptability</strong><span class="slider-value mono" id="adaptabilityValue">0.61</span></div>
+          <input id="adaptability" type="range" min="0" max="1" step="0.01" value="0.61" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><strong>Emergence</strong><span class="slider-value mono" id="emergenceValue">0.78</span></div>
+          <input id="emergence" type="range" min="0" max="1" step="0.01" value="0.78" />
+        </div>
+
+        <button class="btn-primary" id="runBtn">Run Holon Analysis</button>
+        <button class="btn-secondary" id="exportBtn">Export Dossier</button>
       </div>
-    </div>
-    <div>
-      <div class="panel output-panel" id="outputPanel">
-        <div class="panel-title">📊 Output</div>
-        <div id="outputArea">
-          <div class="az-offline-notice">
-            <div class="az-offline-icon">📡</div>
-            <strong>Demo Mode</strong>
-            <p>Connect a live backend URL above, or see sample output below.</p>
+
+      <div class="result-card status-adaptive" id="resultCard">
+        <div class="label-banner" id="labelBanner">◉ ADAPTIVE</div>
+        <h2 id="resultName" style="margin:.1rem 0 .3rem;">Awaiting analysis</h2>
+        <p id="resultSubtitle" class="subtitle" style="margin-top:0;">Run the engine to compute local holon metrics.</p>
+
+        <div class="quick-grid" style="margin:1rem 0;">
+          <div class="quick-stat">
+            <span>System Type</span>
+            <strong id="resultType">—</strong>
           </div>
-          <div id="sampleOutput" style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
-            <em>Sample output will appear here after submitting a query.</em>
+          <div class="quick-stat">
+            <span>Super-holon Link</span>
+            <strong id="superHolon">—</strong>
           </div>
         </div>
+
+        <div class="metrics-grid">
+          <div class="metric"><span>φ-Resonance</span><strong class="mono accent" id="phiResonance">0.000</strong></div>
+          <div class="metric"><span>Entropy Debt</span><strong class="mono accent" id="entropyDebt">0.000</strong></div>
+          <div class="metric"><span>Holon Score</span><strong class="mono accent" id="holonScore">0.000</strong></div>
+          <div class="metric"><span>Sub-holons Identified</span><strong class="mono accent" id="subHolons">1</strong></div>
+        </div>
+
+        <div class="explain" id="analysisText">
+          OmegaHolon interprets living systems as nested wholes. Your output will include coherence structure,
+          phi-resonance, entropy debt, and a super-holon embedding statement.
+        </div>
       </div>
-      <div class="dossier-bar" style="margin-top:1rem">
-        <div class="dossier-bar-label">Export session as PDF dossier</div>
-        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
-      </div>
-    </div>
+    </section>
+  </main>
+
+  <div class="az-org-strip">
+    AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+    <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+    <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+    Open science artifact for human review, use at your own liability.
   </div>
 
-  <div class="epistemic-box" style="margin-top:2rem">
-    <strong>Dependencies:</strong> gradio, numpy, scipy
-  </div>
+  <script>
+    const BRAIDED_SOUND_SPEED = 12 / 37;
+    const PHI = 1.618;
+    const STORAGE_KEY = "az-omegaholon-last";
+    const SUPER_SYSTEMS = {
+      biological: "the biosphere",
+      social: "a wider civic network",
+      cognitive: "a larger field of meaning",
+      ecological: "a planetary ecosystem",
+      economic: "a regional exchange system"
+    };
+    let lastRun = null;
 
-  <div class="run-local" style="margin-top:1.5rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
-      <span>💻 Run Locally</span><span>▾</span>
-    </div>
-    <div class="run-local-body">
-<div class="code-block">pip install -r 12-AZ-IP/09-omegaholon/requirements.txt
-cd 12-AZ-IP/09-omegaholon
-python run.py   # → http://localhost:7871</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
-        Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/09-omegaholon" target="_blank">12-AZ-IP/09-omegaholon ↗</a>
-      </p>
-    </div>
-  </div>
-</div>
-</div>
-<div class="az-org-strip">
-  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
-  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
-  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
-  Open science artifact for human review, use at your own liability.
-</div>
-<script>
-var liveMode = false, lastInput = '', lastOutput = '';
-AZAPI.bindCustomEndpoint('endpointInput', '09-omegaholon');
+    function updateSliderLabels() {
+      ["coherence", "complexity", "connectivity", "adaptability", "emergence"].forEach(function(id) {
+        document.getElementById(id + "Value").textContent = Number(document.getElementById(id).value).toFixed(2);
+      });
+    }
 
-function connectAPI() {
-  var url = document.getElementById('endpointInput').value.trim();
-  if (!url) { alert('Enter a backend URL.'); return; }
-  AZAPI.endpoints['09-omegaholon'] = url.replace(/\/$/,'');
-  document.getElementById('connStatus').textContent = '● Connecting…';
-  AZAPI.call('09-omegaholon', '/health').then(function(r) {
-    document.getElementById('connStatus').textContent = r.ok ? '🟢 Live' : '🔴 Unreachable';
-    liveMode = r.ok;
-  });
-}
+    function classify(score) {
+      if (score > 0.75) return { label: "SELF-ORGANIZING", className: "status-self-organizing" };
+      if (score > 0.5) return { label: "ADAPTIVE", className: "status-adaptive" };
+      if (score > 0.25) return { label: "STRUCTURED", className: "status-structured" };
+      return { label: "INCOHERENT", className: "status-incoherent" };
+    }
 
-function submitQuery() {
-  var input = document.getElementById('mainInput').value.trim();
-  if (!input) return;
-  lastInput = input;
-  var out = document.getElementById('outputArea');
-  AZAPI.setLoading(out, true);
-  if (liveMode) {
-    AZAPI.call('09-omegaholon', '/query', { method:'POST', body:{ input: input } }).then(function(r) {
-      if (r.ok) {
-        lastOutput = JSON.stringify(r.data, null, 2);
-        AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-      } else {
-        AZAPI.showError(out, r.error);
+    function runAnalysis() {
+      const systemName = document.getElementById("systemName").value.trim() || "Unnamed living system";
+      const type = document.getElementById("systemType").value;
+      const coherence = Number(document.getElementById("coherence").value);
+      const complexity = Number(document.getElementById("complexity").value);
+      const connectivity = Number(document.getElementById("connectivity").value);
+      const adaptability = Number(document.getElementById("adaptability").value);
+      const emergence = Number(document.getElementById("emergence").value);
+
+      const phiResonance = Math.sqrt(coherence * complexity * BRAIDED_SOUND_SPEED);
+      const entropyDebt = 1 - Math.min(1, phiResonance * PHI);
+      const holonScore = (coherence + connectivity + adaptability + emergence) / 4;
+      const emergenceState = classify(holonScore);
+      const subHolons = Math.floor(complexity * 7) + 1;
+      const superHolonLink = "Embedded in " + SUPER_SYSTEMS[type];
+
+      lastRun = {
+        systemName,
+        type,
+        coherence,
+        complexity,
+        connectivity,
+        adaptability,
+        emergence,
+        phiResonance,
+        entropyDebt,
+        holonScore,
+        emergenceLabel: emergenceState.label,
+        cardClass: emergenceState.className,
+        subHolons,
+        superHolonLink
+      };
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(lastRun));
+      renderResult(lastRun);
+    }
+
+    function renderResult(result) {
+      const card = document.getElementById("resultCard");
+      card.className = "result-card " + result.cardClass;
+      document.getElementById("labelBanner").textContent = "◉ " + result.emergenceLabel;
+      document.getElementById("resultName").textContent = result.systemName;
+      document.getElementById("resultSubtitle").textContent =
+        "Holon map for a " + result.type + " system with nested identity, emergent behavior, and larger-system coupling.";
+      document.getElementById("resultType").textContent = result.type.toUpperCase();
+      document.getElementById("superHolon").textContent = result.superHolonLink;
+      document.getElementById("phiResonance").textContent = result.phiResonance.toFixed(3);
+      document.getElementById("entropyDebt").textContent = result.entropyDebt.toFixed(3);
+      document.getElementById("holonScore").textContent = result.holonScore.toFixed(3);
+      document.getElementById("subHolons").textContent = String(result.subHolons);
+      document.getElementById("analysisText").innerHTML =
+        "<strong class='accent'>" + result.emergenceLabel + "</strong> systems show " +
+        "φ-resonance at <span class='mono'>" + result.phiResonance.toFixed(3) + "</span>, " +
+        "entropy debt at <span class='mono'>" + result.entropyDebt.toFixed(3) + "</span>, and " +
+        result.subHolons + " nested sub-holon" + (result.subHolons === 1 ? "" : "s") +
+        ". " + result.superHolonLink + ".";
+    }
+
+    function restoreLastRun() {
+      updateSliderLabels();
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const saved = JSON.parse(raw);
+        document.getElementById("systemName").value = saved.systemName || "";
+        document.getElementById("systemType").value = saved.type || "biological";
+        ["coherence", "complexity", "connectivity", "adaptability", "emergence"].forEach(function(id) {
+          if (typeof saved[id] === "number") {
+            document.getElementById(id).value = saved[id];
+          }
+        });
+        updateSliderLabels();
+        lastRun = saved;
+        renderResult(saved);
+      } catch (error) {
+        console.error("OmegaHolon restore failed", error);
       }
-    });
-  } else {
-    setTimeout(function() {
-      lastOutput = 'Demo mode — sample response for: "' + input.slice(0,60) + '…"\n\n{ "status": "ok", "result": "[Connect a live backend to see real output]", "epistemic": "demo" }';
-      AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-    }, 600);
-  }
-}
+    }
 
-window.addEventListener('load', function() {
-  document.getElementById('dossierBtn').addEventListener('click', function() {
-    AZDossier.export({
-      appName: 'OmegaHolon — Living Systems Engine',
-      appId: '09-omegaholon', version: 'v1.0',
-      epistemic: '🔵 ADJACENT TRACK',
-      inputs:  [{ label: 'Query', value: lastInput || '(none)' }],
-      outputs: [{ label: 'Result', value: lastOutput || '(none)' }],
-      notes: 'Backend port: 7871. Connect a live instance to generate real outputs.',
-      dependencies: ['gradio, numpy, scipy'],
+    function exportDossier() {
+      if (!lastRun) runAnalysis();
+      if (!lastRun) return;
+      AZDossier.export({
+        appName: "Ω OmegaHolon — Living Systems Engine",
+        appId: "09-omegaholon",
+        version: "v20.1",
+        epistemic: "🔵 ADJACENT TRACK",
+        inputs: [
+          { label: "System Name", value: lastRun.systemName },
+          { label: "System Type", value: lastRun.type },
+          { label: "Coherence", value: lastRun.coherence.toFixed(2) },
+          { label: "Complexity", value: lastRun.complexity.toFixed(2) },
+          { label: "Connectivity", value: lastRun.connectivity.toFixed(2) },
+          { label: "Adaptability", value: lastRun.adaptability.toFixed(2) },
+          { label: "Emergence", value: lastRun.emergence.toFixed(2) }
+        ],
+        outputs: [
+          { label: "φ-Resonance", value: lastRun.phiResonance.toFixed(3) },
+          { label: "Entropy Debt", value: lastRun.entropyDebt.toFixed(3) },
+          { label: "Holon Score", value: lastRun.holonScore.toFixed(3) },
+          { label: "Emergence Label", value: lastRun.emergenceLabel },
+          { label: "Sub-holons", value: String(lastRun.subHolons) },
+          { label: "Super-holon Link", value: lastRun.superHolonLink }
+        ],
+        notes: "Computed locally in browser using braided sound speed 12/37 and φ = 1.618.",
+        dependencies: ["Inter", "JetBrains Mono", "jsPDF", "AZDossier"]
+      });
+    }
+
+    document.querySelectorAll('input[type="range"]').forEach(function(slider) {
+      slider.addEventListener("input", updateSliderLabels);
     });
-  });
-});
-</script>
+    document.getElementById("runBtn").addEventListener("click", runAnalysis);
+    document.getElementById("exportBtn").addEventListener("click", exportDossier);
+    window.addEventListener("DOMContentLoaded", restoreLastRun);
+  </script>
 </body>
 </html>

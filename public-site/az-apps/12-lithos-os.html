@@ -1,162 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LithosOS — Mineral &amp; Gemstone Identifier — AxiomZero</title>
-  <meta name="description" content="Mineral identification: describe a specimen's properties to receive identification and detailed crystallographic data." />
+  <meta
+    name="description"
+    content="Interactive mineral and gemstone identifier using a standard property matrix and local browser scoring."
+  />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/12-lithos-os.html" />
   <meta name="theme-color" content="#050a1a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/main.css"/>
-  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/az-apps.css" />
   <script src="../js/az-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script src="../js/dossier.js" defer></script>
+  <style>
+    body { margin: 0; background: #050a1a; color: var(--color-text); font-family: "Inter", sans-serif; }
+    .app-shell { max-width: 1240px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .hero, .panel, .match-card { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: 0 24px 48px rgba(0,0,0,.22); }
+    .hero { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; padding: 1.5rem; margin-bottom: 1rem; }
+    .hero-icon { width: 72px; height: 72px; display: grid; place-items: center; border-radius: 20px; font-size: 2rem; background: radial-gradient(circle at top, rgba(125,92,255,.32), rgba(59,139,255,.14)); }
+    .eyebrow, .mono { font-family: var(--font-mono), "JetBrains Mono", monospace; }
+    .eyebrow { color: var(--color-accent); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+    .subtitle { color: var(--color-muted); line-height: 1.6; max-width: 76ch; }
+    .btn-export, .btn-primary { border-radius: 12px; padding: .9rem 1rem; cursor: pointer; font: inherit; font-weight: 700; }
+    .btn-export { border: 1px solid var(--color-border); background: transparent; color: var(--color-text); }
+    .btn-primary { border: 0; background: linear-gradient(135deg, var(--color-accent), #7d5cff); color: #fff; }
+    .layout { display: grid; grid-template-columns: 380px 1fr; gap: 1rem; }
+    .panel { padding: 1.25rem; }
+    .field { margin-bottom: .9rem; }
+    .field label { display: block; margin-bottom: .4rem; color: var(--color-muted); font-size: .9rem; }
+    .field input, .field select { width: 100%; box-sizing: border-box; padding: .82rem .9rem; border-radius: 12px; border: 1px solid var(--color-border); background: var(--color-card); color: var(--color-text); font: inherit; }
+    input[type="range"] { width: 100%; accent-color: var(--color-accent); }
+    .results { display: grid; gap: 1rem; }
+    .matches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .match-card { padding: 1rem; }
+    .confidence { font-size: 1.65rem; font-weight: 800; }
+    .feature-list { margin: .8rem 0 0; padding-left: 1.1rem; color: var(--color-muted); line-height: 1.55; }
+    .analysis-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+    .analysis-card { border: 1px solid var(--color-border); border-radius: 14px; padding: .9rem; background: rgba(255,255,255,.025); }
+    .analysis-card span { display: block; color: var(--color-muted); font-size: .76rem; margin-bottom: .3rem; }
+    @media (max-width: 1000px) {
+      .hero, .layout, .matches, .analysis-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">AZ Products</a></li>
-    <li><a href="../apps/index.html">Calculators</a></li>
-    <li><a href="../lodge/index.html">Lodge</a></li>
-    <li><a href="../about/index.html">About</a></li>
-    <li><span class="nav-badge">v20.1</span></li>
-  </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
-</nav>
-<div class="app-page">
-<div class="app-hero">
-  <div class="container">
-    <div class="app-hero-inner">
-      <div class="app-icon-lg">💎</div>
-      <div class="app-meta">
-        <div class="app-id-badge">Product 12 · 12-AZ-IP/12-lithos-os</div>
-        <div class="app-title">LithosOS — Mineral &amp; Gemstone Identifier</div>
-        <div class="app-subtitle">Identify minerals and gemstones from physical descriptions. Returns crystallographic system, hardness, luster, formation context, and economic notes. Backed by a curated mineral knowledge base.</div>
-        <div class="app-tags"><span class="tag tag-adjacent">🔵 Adjacent Track</span><span class="tag tag-dep">FastAPI</span><span class="tag tag-dep">Python</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container section-sm">
-  <!-- API endpoint bar -->
-  <div class="api-endpoint-bar">
-    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
-    <input type="text" id="endpointInput" placeholder="https://your-host:7861" />
-    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
-    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
-  </div>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Products</a></li>
+      <li><a href="../apps/index.html">Apps</a></li>
+      <li><a href="../lodge/index.html">Lodge</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><span class="nav-badge">💎 LithosOS</span></li>
+    </ul>
+    <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  </nav>
 
-  <div class="app-layout">
-    <div>
-      <div class="panel" id="inputPanel">
-        <div class="panel-title">⚙️ Input</div>
-        <div class="form-group">
-          <label class="form-label">Query / Input</label>
-          <textarea id="mainInput" class="form-input" rows="5" placeholder="Enter your query here…"></textarea>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-icon">💎</div>
+      <div>
+        <div class="eyebrow">Product 12 · LithosOS</div>
+        <h1 style="margin:.35rem 0 .7rem;">LithosOS — Mineral &amp; Gemstone Identifier</h1>
+        <p class="subtitle">
+          Identify minerals and gemstones from physical and optical properties.
+          Uses the standard mineralogical property matrix and local scoring against 25 common specimens.
+        </p>
+      </div>
+      <button id="exportBtn" class="btn-export">Export Dossier</button>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <div class="field">
+          <label for="hardness">Hardness (Mohs)</label>
+          <input id="hardness" type="range" min="1" max="10" step="0.1" value="7" />
+          <div class="eyebrow" id="hardnessValue" style="margin-top:.35rem;">7.0</div>
         </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitQuery()">Submit</button>
+        <div class="field">
+          <label for="luster">Luster</label>
+          <select id="luster">
+            <option>Metallic</option><option>Adamantine</option><option selected>Vitreous</option><option>Resinous</option>
+            <option>Pearly</option><option>Silky</option><option>Dull</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="color">Color</label>
+          <input id="color" type="text" placeholder="green, purple, clear…" value="clear" />
+        </div>
+        <div class="field">
+          <label for="streak">Streak color</label>
+          <select id="streak">
+            <option selected>White</option><option>Black</option><option>Gray</option><option>Red</option>
+            <option>Yellow</option><option>Green</option><option>Blue</option><option>None</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cleavage">Cleavage</label>
+          <select id="cleavage">
+            <option>None</option><option>Perfect</option><option>Good</option><option>Distinct</option><option>Poor</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fracture">Fracture</label>
+          <select id="fracture">
+            <option selected>Conchoidal</option><option>Irregular</option><option>Fibrous</option><option>Splintery</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="gravity">Specific gravity</label>
+          <input id="gravity" type="number" min="1" max="8" step="0.1" value="2.7" />
+        </div>
+        <div class="field">
+          <label for="crystalSystem">Crystal system</label>
+          <select id="crystalSystem">
+            <option>Cubic</option><option>Tetragonal</option><option selected>Hexagonal</option><option>Orthorhombic</option>
+            <option>Monoclinic</option><option>Triclinic</option><option>Amorphous</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="transparency">Transparency</label>
+          <select id="transparency">
+            <option selected>Transparent</option><option>Translucent</option><option>Opaque</option>
+          </select>
+        </div>
+        <button id="identifyBtn" class="btn-primary">Identify Mineral</button>
       </div>
-    </div>
-    <div>
-      <div class="panel output-panel" id="outputPanel">
-        <div class="panel-title">📊 Output</div>
-        <div id="outputArea">
-          <div class="az-offline-notice">
-            <div class="az-offline-icon">📡</div>
-            <strong>Demo Mode</strong>
-            <p>Connect a live backend URL above, or see sample output below.</p>
-          </div>
-          <div id="sampleOutput" style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
-            <em>Sample output will appear here after submitting a query.</em>
+
+      <div class="results">
+        <div class="matches" id="matches">
+          <div class="match-card"><div class="eyebrow">Top Match</div><h2 style="margin:.35rem 0;">Awaiting identification</h2><p class="subtitle">Enter specimen properties to score the mineral matrix.</p></div>
+        </div>
+
+        <div class="panel">
+          <div class="eyebrow">Property Analysis</div>
+          <div class="analysis-grid" id="analysisGrid" style="margin-top:1rem;">
+            <div class="analysis-card"><span>Hardness</span><strong>Not analyzed yet</strong></div>
           </div>
         </div>
       </div>
-      <div class="dossier-bar" style="margin-top:1rem">
-        <div class="dossier-bar-label">Export session as PDF dossier</div>
-        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
-      </div>
-    </div>
+    </section>
+  </main>
+
+  <div class="az-org-strip">
+    AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+    <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+    <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+    Open science artifact for human review, use at your own liability.
   </div>
 
-  <div class="epistemic-box" style="margin-top:2rem">
-    <strong>Dependencies:</strong> fastapi, uvicorn, numpy, scikit-learn
-  </div>
+  <script>
+    const STORAGE_KEY = "az-lithos-os";
+    const minerals = [
+      { name: "Quartz", hardness: 7, luster: "Vitreous", streak: "White", cleavage: "None", fracture: "Conchoidal", gravity: 2.65, crystal: "Hexagonal", transparency: "Transparent", features: "Hexagonal silica with conchoidal fracture." },
+      { name: "Feldspar", hardness: 6, luster: "Vitreous", streak: "White", cleavage: "Good", fracture: "Irregular", gravity: 2.56, crystal: "Monoclinic", transparency: "Translucent", features: "Common rock former with two cleavage directions." },
+      { name: "Calcite", hardness: 3, luster: "Vitreous", streak: "White", cleavage: "Perfect", fracture: "Irregular", gravity: 2.71, crystal: "Hexagonal", transparency: "Transparent", features: "Reactive carbonate with perfect rhombohedral cleavage." },
+      { name: "Pyrite", hardness: 6.25, luster: "Metallic", streak: "Black", cleavage: "Poor", fracture: "Irregular", gravity: 5, crystal: "Cubic", transparency: "Opaque", features: "Brassy metallic cubes, often called fool's gold." },
+      { name: "Galena", hardness: 2.5, luster: "Metallic", streak: "Gray", cleavage: "Perfect", fracture: "Irregular", gravity: 7.5, crystal: "Cubic", transparency: "Opaque", features: "Very dense lead sulfide with cubic cleavage." },
+      { name: "Fluorite", hardness: 4, luster: "Vitreous", streak: "White", cleavage: "Perfect", fracture: "Conchoidal", gravity: 3.18, crystal: "Cubic", transparency: "Transparent", features: "Octahedral cleavage and colorful transparency." },
+      { name: "Apatite", hardness: 5, luster: "Vitreous", streak: "White", cleavage: "Poor", fracture: "Conchoidal", gravity: 3.2, crystal: "Hexagonal", transparency: "Translucent", features: "Reference mineral for Mohs hardness 5." },
+      { name: "Topaz", hardness: 8, luster: "Vitreous", streak: "White", cleavage: "Perfect", fracture: "Conchoidal", gravity: 3.53, crystal: "Orthorhombic", transparency: "Transparent", features: "Hard gemstone with perfect basal cleavage." },
+      { name: "Corundum", hardness: 9, luster: "Adamantine", streak: "None", cleavage: "None", fracture: "Conchoidal", gravity: 4, crystal: "Hexagonal", transparency: "Transparent", features: "Extremely hard aluminum oxide." },
+      { name: "Diamond", hardness: 10, luster: "Adamantine", streak: "None", cleavage: "Perfect", fracture: "Conchoidal", gravity: 3.5, crystal: "Cubic", transparency: "Transparent", features: "Highest Mohs hardness and adamantine sparkle." },
+      { name: "Gypsum", hardness: 2, luster: "Pearly", streak: "White", cleavage: "Perfect", fracture: "Fibrous", gravity: 2.3, crystal: "Monoclinic", transparency: "Transparent", features: "Soft sulfate, often fibrous or satin spar." },
+      { name: "Halite", hardness: 2.5, luster: "Vitreous", streak: "White", cleavage: "Perfect", fracture: "Conchoidal", gravity: 2.17, crystal: "Cubic", transparency: "Transparent", features: "Rock salt with cubic habit and taste." },
+      { name: "Magnetite", hardness: 6, luster: "Metallic", streak: "Black", cleavage: "None", fracture: "Irregular", gravity: 5.17, crystal: "Cubic", transparency: "Opaque", features: "Magnetic iron oxide with black streak." },
+      { name: "Hematite", hardness: 5.5, luster: "Metallic", streak: "Red", cleavage: "None", fracture: "Irregular", gravity: 5.26, crystal: "Hexagonal", transparency: "Opaque", features: "Red streak is the classic hematite diagnostic." },
+      { name: "Malachite", hardness: 3.5, luster: "Dull", streak: "Green", cleavage: "Good", fracture: "Fibrous", gravity: 4, crystal: "Monoclinic", transparency: "Opaque", features: "Green copper carbonate with banded habit." },
+      { name: "Azurite", hardness: 3.75, luster: "Vitreous", streak: "Blue", cleavage: "Good", fracture: "Conchoidal", gravity: 3.8, crystal: "Monoclinic", transparency: "Translucent", features: "Deep blue copper carbonate mineral." },
+      { name: "Olivine", hardness: 6.75, luster: "Vitreous", streak: "White", cleavage: "Poor", fracture: "Conchoidal", gravity: 3.3, crystal: "Orthorhombic", transparency: "Transparent", features: "Olive-green magnesium iron silicate." },
+      { name: "Garnet", hardness: 7, luster: "Resinous", streak: "White", cleavage: "None", fracture: "Conchoidal", gravity: 4, crystal: "Cubic", transparency: "Transparent", features: "Equant crystals with no cleavage." },
+      { name: "Tourmaline", hardness: 7.25, luster: "Vitreous", streak: "White", cleavage: "Poor", fracture: "Conchoidal", gravity: 3.1, crystal: "Hexagonal", transparency: "Transparent", features: "Prismatic borosilicate with strong pleochroic colors." },
+      { name: "Talc", hardness: 1, luster: "Pearly", streak: "White", cleavage: "Perfect", fracture: "Fibrous", gravity: 2.75, crystal: "Monoclinic", transparency: "Translucent", features: "Softest mineral; greasy or soapy feel." },
+      { name: "Mica", hardness: 2.5, luster: "Pearly", streak: "White", cleavage: "Perfect", fracture: "Splintery", gravity: 2.8, crystal: "Monoclinic", transparency: "Transparent", features: "Splits into thin elastic sheets." },
+      { name: "Obsidian", hardness: 5.5, luster: "Vitreous", streak: "None", cleavage: "None", fracture: "Conchoidal", gravity: 2.4, crystal: "Amorphous", transparency: "Opaque", features: "Volcanic glass with conchoidal fracture." },
+      { name: "Amethyst", hardness: 7, luster: "Vitreous", streak: "White", cleavage: "None", fracture: "Conchoidal", gravity: 2.65, crystal: "Hexagonal", transparency: "Transparent", features: "Purple quartz variety." },
+      { name: "Emerald", hardness: 7.75, luster: "Vitreous", streak: "White", cleavage: "Poor", fracture: "Conchoidal", gravity: 2.75, crystal: "Hexagonal", transparency: "Transparent", features: "Green beryl colored by chromium or vanadium." },
+      { name: "Sapphire", hardness: 9, luster: "Adamantine", streak: "None", cleavage: "None", fracture: "Conchoidal", gravity: 4, crystal: "Hexagonal", transparency: "Transparent", features: "Gem corundum other than ruby." }
+    ];
+    let lastIdentification = null;
 
-  <div class="run-local" style="margin-top:1.5rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
-      <span>💻 Run Locally</span><span>▾</span>
-    </div>
-    <div class="run-local-body">
-<div class="code-block">pip install -r 12-AZ-IP/12-lithos-os/requirements.txt
-cd 12-AZ-IP/12-lithos-os
-python run.py   # → http://localhost:7861</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
-        Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/12-lithos-os" target="_blank">12-AZ-IP/12-lithos-os ↗</a>
-      </p>
-    </div>
-  </div>
-</div>
-</div>
-<div class="az-org-strip">
-  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
-  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
-  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
-  Open science artifact for human review, use at your own liability.
-</div>
-<script>
-var liveMode = false, lastInput = '', lastOutput = '';
-AZAPI.bindCustomEndpoint('endpointInput', '12-lithos-os');
+    function updateHardness() {
+      document.getElementById("hardnessValue").textContent = Number(document.getElementById("hardness").value).toFixed(1);
+    }
 
-function connectAPI() {
-  var url = document.getElementById('endpointInput').value.trim();
-  if (!url) { alert('Enter a backend URL.'); return; }
-  AZAPI.endpoints['12-lithos-os'] = url.replace(/\/$/,'');
-  document.getElementById('connStatus').textContent = '● Connecting…';
-  AZAPI.call('12-lithos-os', '/health').then(function(r) {
-    document.getElementById('connStatus').textContent = r.ok ? '🟢 Live' : '🔴 Unreachable';
-    liveMode = r.ok;
-  });
-}
+    function identify() {
+      const input = {
+        hardness: Number(document.getElementById("hardness").value),
+        luster: document.getElementById("luster").value,
+        color: document.getElementById("color").value.trim(),
+        streak: document.getElementById("streak").value,
+        cleavage: document.getElementById("cleavage").value,
+        fracture: document.getElementById("fracture").value,
+        gravity: Number(document.getElementById("gravity").value),
+        crystal: document.getElementById("crystalSystem").value,
+        transparency: document.getElementById("transparency").value
+      };
 
-function submitQuery() {
-  var input = document.getElementById('mainInput').value.trim();
-  if (!input) return;
-  lastInput = input;
-  var out = document.getElementById('outputArea');
-  AZAPI.setLoading(out, true);
-  if (liveMode) {
-    AZAPI.call('12-lithos-os', '/query', { method:'POST', body:{ input: input } }).then(function(r) {
-      if (r.ok) {
-        lastOutput = JSON.stringify(r.data, null, 2);
-        AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-      } else {
-        AZAPI.showError(out, r.error);
+      const scored = minerals.map(function(mineral) {
+        let score = 0;
+        if (Math.abs(mineral.hardness - input.hardness) <= 0.5) score += 1;
+        if (mineral.luster === input.luster) score += 1;
+        if (mineral.streak === input.streak) score += 1;
+        if (Math.abs(mineral.gravity - input.gravity) <= 0.3) score += 1;
+        if (mineral.cleavage === input.cleavage) score += 0.5;
+        if (mineral.crystal === input.crystal) score += 0.5;
+        if (mineral.transparency === input.transparency) score += 0.5;
+        if (mineral.fracture === input.fracture) score += 0.5;
+        return { mineral: mineral, score: score, confidence: Math.min(100, (score / 6) * 100) };
+      }).sort(function(a, b) {
+        return b.score - a.score || b.confidence - a.confidence;
+      }).slice(0, 3);
+
+      lastIdentification = { input: input, matches: scored };
+      renderMatches(scored);
+      renderAnalysis(input, scored[0].mineral);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(lastIdentification));
+    }
+
+    function renderMatches(scored) {
+      document.getElementById("matches").innerHTML = scored.map(function(item, index) {
+        const mineral = item.mineral;
+        return "<div class='match-card'>" +
+          "<div class='eyebrow'>" + (index === 0 ? "Top Match" : "Candidate " + (index + 1)) + "</div>" +
+          "<h2 style='margin:.35rem 0 .4rem;'>" + mineral.name + "</h2>" +
+          "<div class='confidence mono'>" + item.confidence.toFixed(0) + "%</div>" +
+          "<p class='subtitle' style='margin:.6rem 0 0;'>" + mineral.features + "</p>" +
+          "<ul class='feature-list'>" +
+          "<li>Hardness " + mineral.hardness + " · SG " + mineral.gravity + "</li>" +
+          "<li>" + mineral.luster + " luster · " + mineral.streak + " streak</li>" +
+          "<li>" + mineral.crystal + " system · " + mineral.transparency + "</li>" +
+          "</ul>" +
+          "</div>";
+      }).join("");
+    }
+
+    function renderAnalysis(input, top) {
+      const cards = [
+        { title: "Hardness", text: input.hardness >= 8 ? "Very hard specimen; gems and oxides rise in ranking." : input.hardness >= 5 ? "Moderate hardness fits silicates and many framework minerals." : "Low hardness suggests carbonates, sulfates, or sheet silicates." },
+        { title: "Luster", text: input.luster + " surfaces sharply narrow probable mineral classes." },
+        { title: "Color", text: input.color ? "Observed color: " + input.color + ". Use with caution because impurities can shift color strongly." : "No color entered; physical properties dominate the match." },
+        { title: "Streak", text: input.streak === "Red" ? "Red streak strongly favors hematite-like iron oxides." : input.streak === "Green" ? "Green streak is uncommon and boosts copper carbonates." : input.streak + " streak refines the candidate list." },
+        { title: "Cleavage & Fracture", text: input.cleavage + " cleavage with " + input.fracture.toLowerCase() + " fracture points toward " + top.name + "." },
+        { title: "Density & Structure", text: "Specific gravity " + input.gravity.toFixed(1) + " and " + input.crystal.toLowerCase() + " symmetry align most closely with " + top.name + "." }
+      ];
+      document.getElementById("analysisGrid").innerHTML = cards.map(function(card) {
+        return "<div class='analysis-card'><span>" + card.title + "</span><strong>" + card.text + "</strong></div>";
+      }).join("");
+    }
+
+    function restore() {
+      updateHardness();
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const saved = JSON.parse(raw);
+        if (!saved.input) return;
+        Object.keys(saved.input).forEach(function(key) {
+          const el = document.getElementById(key === "crystal" ? "crystalSystem" : key);
+          if (el) el.value = saved.input[key];
+        });
+        updateHardness();
+        identify();
+      } catch (error) {
+        console.error("Lithos restore failed", error);
       }
-    });
-  } else {
-    setTimeout(function() {
-      lastOutput = 'Demo mode — sample response for: "' + input.slice(0,60) + '…"\n\n{ "status": "ok", "result": "[Connect a live backend to see real output]", "epistemic": "demo" }';
-      AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-    }, 600);
-  }
-}
+    }
 
-window.addEventListener('load', function() {
-  document.getElementById('dossierBtn').addEventListener('click', function() {
-    AZDossier.export({
-      appName: 'LithosOS — Mineral &amp; Gemstone Identifier',
-      appId: '12-lithos-os', version: 'v1.0',
-      epistemic: '🔵 ADJACENT TRACK',
-      inputs:  [{ label: 'Query', value: lastInput || '(none)' }],
-      outputs: [{ label: 'Result', value: lastOutput || '(none)' }],
-      notes: 'Backend port: 7861. Connect a live instance to generate real outputs.',
-      dependencies: ['fastapi, uvicorn, numpy, scikit-learn'],
-    });
-  });
-});
-</script>
+    function exportDossier() {
+      if (!lastIdentification) identify();
+      const top = lastIdentification.matches[0];
+      AZDossier.export({
+        appName: "LithosOS — Mineral & Gemstone Identifier",
+        appId: "12-lithos-os",
+        version: "v20.1",
+        epistemic: "🔵 ADJACENT TRACK",
+        inputs: [
+          { label: "Hardness", value: String(lastIdentification.input.hardness) },
+          { label: "Luster", value: lastIdentification.input.luster },
+          { label: "Color", value: lastIdentification.input.color || "Not entered" },
+          { label: "Streak", value: lastIdentification.input.streak },
+          { label: "Cleavage", value: lastIdentification.input.cleavage },
+          { label: "Fracture", value: lastIdentification.input.fracture },
+          { label: "Specific Gravity", value: String(lastIdentification.input.gravity) },
+          { label: "Crystal System", value: lastIdentification.input.crystal },
+          { label: "Transparency", value: lastIdentification.input.transparency }
+        ],
+        outputs: [
+          { label: "Top Match", value: top.mineral.name + " (" + top.confidence.toFixed(0) + "%)" },
+          { label: "Top 3 Candidates", value: lastIdentification.matches.map(function(item) { return item.mineral.name + " " + item.confidence.toFixed(0) + "%"; }).join(" | ") },
+          { label: "Key Identifying Features", value: top.mineral.features }
+        ],
+        notes: "Scoring uses hardness ±0.5, luster, streak, and specific gravity ±0.3 as core points, with minor tie-breakers from cleavage, fracture, transparency, and crystal system.",
+        dependencies: ["Inter", "JetBrains Mono", "jsPDF", "AZDossier"]
+      });
+    }
+
+    document.getElementById("hardness").addEventListener("input", updateHardness);
+    document.getElementById("identifyBtn").addEventListener("click", identify);
+    document.getElementById("exportBtn").addEventListener("click", exportDossier);
+    window.addEventListener("DOMContentLoaded", restore);
+  </script>
 </body>
 </html>

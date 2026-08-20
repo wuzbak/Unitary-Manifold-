@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>AXIOM — Investigative Journalist AI — AxiomZero</title>
-  <meta name="description" content="AI-assisted journalism research: enter an investigation lead, receive structured source analysis and credibility scores." />
+  <meta name="description" content="In-browser investigative workbench. Build empirical dossiers with source-tier classification, confidence scoring, entity mapping, thread tracking, and structured brief generation." />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/08-axiom-journalist.html" />
   <meta name="theme-color" content="#050a1a" />
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -13,6 +13,109 @@
   <script src="../js/az-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script src="../js/dossier.js" defer></script>
+
+  <style>
+    /* ── Journalist workbench layout ──────────────────────────────────────── */
+    .jw-tabs { display:flex; gap:.35rem; flex-wrap:wrap; margin:1.5rem 0 0; border-bottom:1px solid var(--color-border); padding-bottom:0; }
+    .jw-tab  { font-size:.82rem; font-family:var(--font-mono); padding:.45rem 1rem; cursor:pointer;
+               border:1px solid transparent; border-bottom:none; border-radius:6px 6px 0 0;
+               color:var(--color-muted); background:transparent; transition:.15s; white-space:nowrap; }
+    .jw-tab:hover  { color:var(--color-text); border-color:var(--color-border); }
+    .jw-tab.active { color:var(--color-accent); background:var(--color-card);
+                     border-color:var(--color-border); border-bottom:1px solid var(--color-card); margin-bottom:-1px; }
+    .jw-panel      { display:none; padding:1.5rem 0; }
+    .jw-panel.active { display:block; }
+
+    /* ── Confidence badges ─────────────────────────────────────────────────── */
+    .conf { display:inline-block; font-family:var(--font-mono); font-size:.7rem; font-weight:700;
+            padding:.18em .65em; border-radius:4px; letter-spacing:.04em; }
+    .conf-confirmed    { background:rgba(48,209,88,.15);  color:#30d158; border:1px solid rgba(48,209,88,.35); }
+    .conf-corroborated { background:rgba(59,139,255,.12); color:#3b8bff; border:1px solid rgba(59,139,255,.3); }
+    .conf-alleged      { background:rgba(255,159,10,.12); color:#ff9f0a; border:1px solid rgba(255,159,10,.3); }
+    .conf-unverified   { background:rgba(255,59,48,.1);   color:#ff3b30; border:1px solid rgba(255,59,48,.25); }
+
+    /* ── Tier badges ───────────────────────────────────────────────────────── */
+    .tier { font-size:.68rem; font-family:var(--font-mono); font-weight:700; padding:.15em .55em;
+            border-radius:3px; }
+    .tier-1 { background:rgba(48,209,88,.15);  color:#30d158; }
+    .tier-2 { background:rgba(59,139,255,.12); color:#3b8bff; }
+    .tier-3 { background:rgba(255,159,10,.12); color:#ff9f0a; }
+    .tier-0 { background:rgba(122,139,168,.12); color:var(--color-muted); }
+
+    /* ── Thread tag ────────────────────────────────────────────────────────── */
+    .thread-tag { display:inline-block; font-size:.65rem; font-family:var(--font-mono);
+                  background:rgba(124,77,255,.12); color:#a78bff;
+                  border:1px solid rgba(124,77,255,.25); border-radius:3px;
+                  padding:.1em .5em; margin:.1rem .1rem 0 0; cursor:pointer; }
+    .thread-tag.active { background:rgba(124,77,255,.3); }
+
+    /* ── Card rows (entity / source / claim list) ─────────────────────────── */
+    .rec-list { display:flex; flex-direction:column; gap:.6rem; margin-top:1rem; }
+    .rec-card { background:var(--color-card); border:1px solid var(--color-border);
+                border-radius:8px; padding:1rem 1.1rem; position:relative; }
+    .rec-card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem; }
+    .rec-card-title { font-weight:600; font-size:.92rem; }
+    .rec-card-meta  { font-size:.77rem; color:var(--color-muted); margin-top:.25rem; }
+    .rec-card-body  { font-size:.83rem; color:var(--color-muted); margin-top:.5rem; border-top:1px solid rgba(255,255,255,.05); padding-top:.5rem; }
+    .rec-del { background:none; border:none; color:var(--color-muted); cursor:pointer; font-size:1rem; padding:0 .25rem; flex-shrink:0; }
+    .rec-del:hover { color:#ff3b30; }
+
+    /* ── Legal risk pill ───────────────────────────────────────────────────── */
+    .legal-pill { display:inline-block; font-size:.65rem; font-family:var(--font-mono);
+                  background:rgba(255,59,48,.1); color:#ff3b30;
+                  border:1px solid rgba(255,59,48,.25); border-radius:3px; padding:.1em .5em; }
+
+    /* ── Brief output ─────────────────────────────────────────────────────── */
+    #briefOutput {
+      background:#050a1a; border:1px solid var(--color-border); border-radius:8px;
+      padding:1.5rem; font-family:var(--font-mono); font-size:.8rem; line-height:1.7;
+      color:var(--color-text); white-space:pre-wrap; word-break:break-word; min-height:200px;
+      overflow-y:auto; max-height:70vh;
+    }
+
+    /* ── Thread table ─────────────────────────────────────────────────────── */
+    .thread-table { width:100%; border-collapse:collapse; font-size:.83rem; }
+    .thread-table th { font-family:var(--font-mono); font-size:.72rem; color:var(--color-muted);
+                       text-align:left; padding:.5rem .75rem; border-bottom:1px solid var(--color-border); }
+    .thread-table td { padding:.55rem .75rem; border-bottom:1px solid rgba(255,255,255,.04); vertical-align:top; }
+    .thread-table tr:hover td { background:rgba(59,139,255,.03); }
+
+    /* ── Score cards ───────────────────────────────────────────────────────── */
+    .score-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:1rem; margin:1rem 0; }
+    .score-card { background:var(--color-card); border:1px solid var(--color-border);
+                  border-radius:8px; padding:1rem; text-align:center; }
+    .score-val  { font-size:1.75rem; font-weight:700; font-family:var(--font-mono); color:var(--color-accent); }
+    .score-lbl  { font-size:.72rem; color:var(--color-muted); margin-top:.2rem; }
+
+    /* ── Contradiction block ───────────────────────────────────────────────── */
+    .contradiction { font-size:.78rem; color:#ff9f0a; margin-top:.3rem;
+                     padding:.3rem .6rem; border-left:2px solid #ff9f0a;
+                     background:rgba(255,159,10,.05); border-radius:0 4px 4px 0; }
+
+    /* ── Empty state ───────────────────────────────────────────────────────── */
+    .empty-state { text-align:center; padding:2.5rem 1rem; color:var(--color-muted); font-size:.88rem; }
+    .empty-state-icon { font-size:2.5rem; margin-bottom:.75rem; opacity:.5; }
+
+    /* ── Methodology box ───────────────────────────────────────────────────── */
+    .method-box { background:rgba(59,139,255,.05); border:1px solid rgba(59,139,255,.15);
+                  border-radius:8px; padding:1rem 1.25rem; font-size:.82rem; line-height:1.65;
+                  color:var(--color-muted); }
+    .method-box strong { color:var(--color-text); }
+
+    /* ── Scrollable source picker ──────────────────────────────────────────── */
+    .source-picker { border:1px solid var(--color-border); border-radius:6px;
+                     max-height:140px; overflow-y:auto; padding:.4rem; }
+    .source-picker label { display:flex; align-items:center; gap:.5rem; padding:.25rem .3rem;
+                           font-size:.8rem; cursor:pointer; border-radius:4px; }
+    .source-picker label:hover { background:rgba(59,139,255,.06); }
+
+    /* ── Responsive ────────────────────────────────────────────────────────── */
+    @media (max-width:700px) {
+      .jw-tabs { gap:.2rem; }
+      .jw-tab  { padding:.35rem .65rem; font-size:.75rem; }
+      .app-layout { grid-template-columns:1fr !important; }
+    }
+  </style>
 </head>
 <body>
 <nav class="nav">
@@ -24,9 +127,12 @@
     <li><a href="../about/index.html">About</a></li>
     <li><span class="nav-badge">v20.1</span></li>
   </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  <button class="nav-mobile-toggle" aria-label="Menu"
+    onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
 </nav>
+
 <div class="app-page">
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
 <div class="app-hero">
   <div class="container">
     <div class="app-hero-inner">
@@ -34,128 +140,846 @@
       <div class="app-meta">
         <div class="app-id-badge">Product 08 · 12-AZ-IP/08-axiom-journalist</div>
         <div class="app-title">AXIOM — Investigative Journalist AI</div>
-        <div class="app-subtitle">AI research platform for investigative journalism. Structured document analysis, source credibility scoring, claim verification, and dossier generation grounded in AxiomZero's epistemic framework.</div>
-        <div class="app-tags"><span class="tag tag-ai">🤖 AI Agent</span><span class="tag tag-dep">Gradio</span><span class="tag tag-dep">Python</span><span class="tag tag-dep">FastAPI</span></div>
+        <div class="app-subtitle">
+          In-browser empirical dossier workbench. Map entities, log tiered sources, score claims by
+          evidence, track investigation threads, and generate structured briefs ready for human
+          editorial review. All data stays in your browser.
+        </div>
+        <div class="app-tags">
+          <span class="tag tag-ai">⬛ AXIOM</span>
+          <span class="tag tag-dep">Offline-first</span>
+          <span class="tag tag-dep">localStorage</span>
+          <span class="tag tag-dep">OSINT methodology</span>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 <div class="container section-sm">
-  <!-- API endpoint bar -->
-  <div class="api-endpoint-bar">
-    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
-    <input type="text" id="endpointInput" placeholder="https://your-host:7870" />
-    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
-    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
+
+  <!-- ── Methodology strip ────────────────────────────────────────────── -->
+  <div class="method-box" style="margin-bottom:1.5rem">
+    <strong>AXIOM Investigative Methodology</strong> &nbsp;·&nbsp;
+    Source Standard: Tier 1 (court/FOIA/regulatory) | Tier 2 (established journalism/academic) | Tier 3 (secondary/unverified) &nbsp;·&nbsp;
+    Confidence: <span class="conf conf-confirmed">CONFIRMED</span>
+    <span class="conf conf-corroborated">CORROBORATED</span>
+    <span class="conf conf-alleged">ALLEGED</span>
+    <span class="conf conf-unverified">UNVERIFIED</span>
+    &nbsp;·&nbsp; <em>No output is ready to publish. All output is for human review only.</em>
   </div>
 
-  <div class="app-layout">
-    <div>
-      <div class="panel" id="inputPanel">
-        <div class="panel-title">⚙️ Input</div>
+  <!-- ── Score summary ────────────────────────────────────────────────── -->
+  <div class="score-grid" id="scoreGrid">
+    <div class="score-card"><div class="score-val" id="sc-entities">0</div><div class="score-lbl">Entities mapped</div></div>
+    <div class="score-card"><div class="score-val" id="sc-sources">0</div><div class="score-lbl">Sources logged</div></div>
+    <div class="score-card"><div class="score-val" id="sc-claims">0</div><div class="score-lbl">Claims scored</div></div>
+    <div class="score-card"><div class="score-val" id="sc-quality">—</div><div class="score-lbl">Source quality</div></div>
+    <div class="score-card"><div class="score-val" id="sc-confidence">—</div><div class="score-lbl">Avg confidence</div></div>
+    <div class="score-card"><div class="score-val" id="sc-threads">0</div><div class="score-lbl">Threads tracked</div></div>
+  </div>
+
+  <!-- ── Tabs ─────────────────────────────────────────────────────────── -->
+  <div class="jw-tabs" role="tablist">
+    <button class="jw-tab active" onclick="showTab('case')"    role="tab">📋 Case</button>
+    <button class="jw-tab"        onclick="showTab('entities')"role="tab">👥 Entities</button>
+    <button class="jw-tab"        onclick="showTab('sources')" role="tab">📁 Sources</button>
+    <button class="jw-tab"        onclick="showTab('claims')"  role="tab">⚖ Claims</button>
+    <button class="jw-tab"        onclick="showTab('threads')" role="tab">🔗 Threads</button>
+    <button class="jw-tab"        onclick="showTab('brief')"   role="tab">📄 Brief</button>
+  </div>
+
+  <!-- ══════════════════ TAB: CASE ══════════════════════════════════════ -->
+  <div class="jw-panel active" id="tab-case">
+    <div style="max-width:640px">
+      <div class="form-group">
+        <label class="form-label">Investigation Title *</label>
+        <input type="text" id="caseTitle" class="form-input" placeholder="e.g. Financial Misconduct at Acme Corp" oninput="autoSaveCase()"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Journalist / Researcher</label>
+        <input type="text" id="caseJournalist" class="form-input" placeholder="Your name or team" oninput="autoSaveCase()"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date of Compilation</label>
+        <input type="date" id="caseDate" class="form-input" oninput="autoSaveCase()"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Investigative Lead *</label>
+        <textarea id="caseLead" class="form-input" rows="4"
+          placeholder="The starting premise: the allegation, the tip, the document, or the pattern you spotted. Be specific — the more precise the lead, the more coherent the dossier."
+          oninput="autoSaveCase()"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Prefatory Note <span style="color:var(--color-muted);font-weight:400">(optional — methodology statement, scope, what this document is/is not)</span></label>
+        <textarea id="casePrefatory" class="form-input" rows="4"
+          placeholder="This dossier is an act of journalism. Every factual claim herein is sourced to public documents…"
+          oninput="autoSaveCase()"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Investigation Status</label>
+        <select id="caseStatus" class="form-input" onchange="autoSaveCase()">
+          <option value="Active">Active</option>
+          <option value="On Hold">On Hold</option>
+          <option value="Closed — Published">Closed — Published</option>
+          <option value="Closed — Spiked">Closed — Spiked</option>
+          <option value="Referred to Counsel">Referred to Counsel</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Open Questions</label>
+        <div style="display:flex;gap:.5rem">
+          <input type="text" id="oqInput" class="form-input" placeholder="What remains unanswered?" style="flex:1"/>
+          <button class="btn btn-outline btn-sm" onclick="addOpenQuestion()">Add</button>
+        </div>
+        <div class="rec-list" id="oqList"></div>
+      </div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem">
+        <button class="btn btn-outline btn-sm" onclick="clearCase()" style="color:#ff3b30;border-color:rgba(255,59,48,.3)">🗑 Clear all data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ TAB: ENTITIES ══════════════════════════════════ -->
+  <div class="jw-panel" id="tab-entities">
+    <div style="max-width:560px">
+      <div class="panel" style="margin-bottom:1.5rem">
+        <div class="panel-title">Add Entity</div>
         <div class="form-group">
-          <label class="form-label">Query / Input</label>
-          <textarea id="mainInput" class="form-input" rows="5" placeholder="Enter your query here…"></textarea>
+          <label class="form-label">Name *</label>
+          <input type="text" id="entName" class="form-input" placeholder="Full name, organization, or structure"/>
         </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitQuery()">Submit</button>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select id="entType" class="form-input">
+            <option value="Person">Person</option>
+            <option value="Organization">Organization</option>
+            <option value="Government Agency">Government Agency</option>
+            <option value="Corporate Structure">Corporate Structure</option>
+            <option value="Financial Instrument">Financial Instrument</option>
+            <option value="Location">Location</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description / Role in investigation</label>
+          <textarea id="entDesc" class="form-input" rows="2" placeholder="Who are they and how do they connect to the lead?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stated position (public or on-record)</label>
+          <input type="text" id="entStated" class="form-input" placeholder="What have they said publicly?"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contradiction (where the documentary record differs)</label>
+          <input type="text" id="entContradiction" class="form-input" placeholder="Where does the record diverge from their stated position?"/>
+        </div>
+        <button class="btn btn-primary" onclick="addEntity()">Add Entity</button>
       </div>
     </div>
-    <div>
-      <div class="panel output-panel" id="outputPanel">
-        <div class="panel-title">📊 Output</div>
-        <div id="outputArea">
-          <div class="az-offline-notice">
-            <div class="az-offline-icon">📡</div>
-            <strong>Demo Mode</strong>
-            <p>Connect a live backend URL above, or see sample output below.</p>
+    <div class="rec-list" id="entityList"></div>
+  </div>
+
+  <!-- ══════════════════ TAB: SOURCES ═══════════════════════════════════ -->
+  <div class="jw-panel" id="tab-sources">
+    <div style="max-width:580px">
+      <div class="panel" style="margin-bottom:1.5rem">
+        <div class="panel-title">Log Source</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group">
+            <label class="form-label">Title *</label>
+            <input type="text" id="srcTitle" class="form-input" placeholder="Document or article title"/>
           </div>
-          <div id="sampleOutput" style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
-            <em>Sample output will appear here after submitting a query.</em>
+          <div class="form-group">
+            <label class="form-label">Source Tier</label>
+            <select id="srcTier" class="form-input">
+              <option value="1">Tier 1 — Primary Record (court/FOIA/regulatory)</option>
+              <option value="2">Tier 2 — Established/On-Record</option>
+              <option value="3">Tier 3 — Secondary/Unverified</option>
+              <option value="0">Unclassified</option>
+            </select>
           </div>
         </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group">
+            <label class="form-label">Source type</label>
+            <input type="text" id="srcType" class="form-input" placeholder="e.g. Court filing, FOIA, News article"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="srcDate" class="form-input"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">URL or document reference</label>
+          <input type="text" id="srcUrl" class="form-input" placeholder="https:// or case number / docket / FOIA ref"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Key excerpt (the passage that matters)</label>
+          <textarea id="srcExcerpt" class="form-input" rows="3" placeholder='"…the exact language from the document that supports the claim…"'></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="addSource()">Log Source</button>
       </div>
-      <div class="dossier-bar" style="margin-top:1rem">
-        <div class="dossier-bar-label">Export session as PDF dossier</div>
-        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+    </div>
+    <div class="rec-list" id="sourceList"></div>
+  </div>
+
+  <!-- ══════════════════ TAB: CLAIMS ════════════════════════════════════ -->
+  <div class="jw-panel" id="tab-claims">
+    <div style="max-width:600px">
+      <div class="panel" style="margin-bottom:1.5rem">
+        <div class="panel-title">Add Claim</div>
+        <div class="form-group">
+          <label class="form-label">Claim statement *</label>
+          <textarea id="claimStatement" class="form-input" rows="3"
+            placeholder="State the factual claim the investigation is building toward. Be precise."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Attach sources <span style="color:var(--color-muted);font-weight:400">(confidence auto-scores from attached source tiers)</span></label>
+          <div class="source-picker" id="claimSourcePicker"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Entities involved</label>
+          <div class="source-picker" id="claimEntityPicker"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Legal risk flags</label>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.25rem">
+            <label style="display:flex;align-items:center;gap:.3rem;font-size:.82rem"><input type="checkbox" value="LIBEL_EXPOSURE" class="claim-legal"> Libel exposure</label>
+            <label style="display:flex;align-items:center;gap:.3rem;font-size:.82rem"><input type="checkbox" value="SOURCE_PROTECT" class="claim-legal"> Source protection</label>
+            <label style="display:flex;align-items:center;gap:.3rem;font-size:.82rem"><input type="checkbox" value="WHISTLEBLOWER" class="claim-legal"> Whistleblower considerations</label>
+            <label style="display:flex;align-items:center;gap:.3rem;font-size:.82rem"><input type="checkbox" value="PRIVACY" class="claim-legal"> Privacy law</label>
+            <label style="display:flex;align-items:center;gap:.3rem;font-size:.82rem"><input type="checkbox" value="NATIONAL_SECURITY" class="claim-legal"> National security</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Assign threads</label>
+          <div id="claimThreadPicker" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.25rem"></div>
+        </div>
+        <button class="btn btn-primary" onclick="addClaim()">Add Claim</button>
       </div>
+    </div>
+    <div class="rec-list" id="claimList"></div>
+  </div>
+
+  <!-- ══════════════════ TAB: THREADS ═══════════════════════════════════ -->
+  <div class="jw-panel" id="tab-threads">
+    <div style="max-width:620px">
+      <div class="panel" style="margin-bottom:1.5rem">
+        <div class="panel-title">Define Investigation Thread</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group">
+            <label class="form-label">Thread code *</label>
+            <input type="text" id="thrCode" class="form-input" placeholder="e.g. FINANCIAL_SECRECY"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Thread name *</label>
+            <input type="text" id="thrName" class="form-input" placeholder="e.g. Financial Secrecy Architecture"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Core question this thread answers</label>
+          <input type="text" id="thrQuestion" class="form-input" placeholder="How does wealth hide itself from accountability?"/>
+        </div>
+        <button class="btn btn-primary" onclick="addThread()">Add Thread</button>
+      </div>
+      <table class="thread-table" id="threadTable">
+        <thead><tr><th>Code</th><th>Thread Name</th><th>Core Question</th><th></th></tr></thead>
+        <tbody id="threadTableBody"></tbody>
+      </table>
     </div>
   </div>
 
-  <div class="epistemic-box" style="margin-top:2rem">
-    <strong>Dependencies:</strong> gradio, numpy, requests, beautifulsoup4, PyPDF2
+  <!-- ══════════════════ TAB: BRIEF ═════════════════════════════════════ -->
+  <div class="jw-panel" id="tab-brief">
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+      <button class="btn btn-primary" onclick="generateBrief()">⚙️ Generate Brief</button>
+      <button class="btn btn-outline" onclick="copyBrief()">📋 Copy to clipboard</button>
+      <button class="btn btn-outline" id="dossierBtn">📄 Export PDF Dossier</button>
+    </div>
+    <pre id="briefOutput">— Generate brief to see structured dossier output —</pre>
   </div>
 
-  <div class="run-local" style="margin-top:1.5rem">
+  <!-- ── Run-local accordion ───────────────────────────────────────────── -->
+  <div class="run-local" style="margin-top:2rem">
     <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
-      <span>💻 Run Locally</span><span>▾</span>
+      <span>💻 Run Python backend locally (full AI agent mode)</span><span>▾</span>
     </div>
     <div class="run-local-body">
-<div class="code-block">pip install -r 12-AZ-IP/08-axiom-journalist/requirements.txt
+      <div class="code-block">pip install -r 12-AZ-IP/08-axiom-journalist/requirements.txt
 cd 12-AZ-IP/08-axiom-journalist
-python run.py   # → http://localhost:7870</div>
+python run.py   # → http://localhost:7870 (Gradio)</div>
       <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
         Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/08-axiom-journalist" target="_blank">12-AZ-IP/08-axiom-journalist ↗</a>
       </p>
     </div>
   </div>
-</div>
-</div>
+
+</div><!-- /container -->
+</div><!-- /app-page -->
+
 <div class="az-org-strip">
   AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
   <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
   <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
   Open science artifact for human review, use at your own liability.
 </div>
-<script>
-var liveMode = false, lastInput = '', lastOutput = '';
-AZAPI.bindCustomEndpoint('endpointInput', '08-axiom-journalist');
 
-function connectAPI() {
-  var url = document.getElementById('endpointInput').value.trim();
-  if (!url) { alert('Enter a backend URL.'); return; }
-  AZAPI.endpoints['08-axiom-journalist'] = url.replace(/\/$/,'');
-  document.getElementById('connStatus').textContent = '● Connecting…';
-  AZAPI.call('08-axiom-journalist', '/health').then(function(r) {
-    document.getElementById('connStatus').textContent = r.ok ? '🟢 Live' : '🔴 Unreachable';
-    liveMode = r.ok;
-  });
+<!-- ════════════════════════════════════════════════════════════════════════
+     AXIOM INVESTIGATIVE WORKBENCH — Application Logic
+     All data stored in localStorage key "axiom_case_v1".
+     No data leaves the browser.
+════════════════════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ─── Storage key ──────────────────────────────────────────────────────── */
+const STORE_KEY = 'axiom_case_v1';
+
+/* ─── In-memory state ──────────────────────────────────────────────────── */
+var state = {
+  title: '', journalist: '', date: '', lead: '', prefatory: '', status: 'Active',
+  entities: [],
+  sources: [],
+  claims: [],
+  threads: [],
+  openQuestions: [],
+};
+
+/* ─── Source / confidence helpers ─────────────────────────────────────── */
+var TIER_WEIGHT  = { 1: 1.0, 2: 0.65, 3: 0.25, 0: 0.1 };
+var TIER_LABEL   = { 1: 'Tier 1 — Primary Record', 2: 'Tier 2 — Established/On-Record', 3: 'Tier 3 — Secondary/Unverified', 0: 'Unclassified' };
+var CONF_WEIGHT  = { CONFIRMED: 1.0, CORROBORATED: 0.75, ALLEGED: 0.40, UNVERIFIED: 0.15 };
+
+function scoreConfidence(sourceIds) {
+  var srcs = sourceIds.map(function(id) { return state.sources.find(function(s){ return s.id === id; }); }).filter(Boolean);
+  var t1 = srcs.filter(function(s){ return s.tier == 1; }).length;
+  var t2 = srcs.filter(function(s){ return s.tier == 2; }).length;
+  if (t1 >= 2) return 'CONFIRMED';
+  if (t1 >= 1 && t2 >= 1) return 'CORROBORATED';
+  if (t1 >= 1 || t2 >= 2) return 'ALLEGED';
+  return 'UNVERIFIED';
 }
 
-function submitQuery() {
-  var input = document.getElementById('mainInput').value.trim();
-  if (!input) return;
-  lastInput = input;
-  var out = document.getElementById('outputArea');
-  AZAPI.setLoading(out, true);
-  if (liveMode) {
-    AZAPI.call('08-axiom-journalist', '/query', { method:'POST', body:{ input: input } }).then(function(r) {
-      if (r.ok) {
-        lastOutput = JSON.stringify(r.data, null, 2);
-        AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-      } else {
-        AZAPI.showError(out, r.error);
-      }
-    });
-  } else {
-    setTimeout(function() {
-      lastOutput = 'Demo mode — sample response for: "' + input.slice(0,60) + '…"\n\n{ "status": "ok", "result": "[Connect a live backend to see real output]", "epistemic": "demo" }';
-      AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-    }, 600);
+function confBadge(conf) {
+  return '<span class="conf conf-' + conf.toLowerCase() + '">' + conf + '</span>';
+}
+
+function tierBadge(tier) {
+  return '<span class="tier tier-' + tier + '">' + TIER_LABEL[tier] + '</span>';
+}
+
+/* ─── Unique id generator ──────────────────────────────────────────────── */
+var _uid = 0;
+function uid() { return ++_uid; }
+
+/* ─── Persistence ─────────────────────────────────────────────────────── */
+function saveState() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (raw) {
+      var s = JSON.parse(raw);
+      Object.assign(state, s);
+      // restore uid counter beyond all existing ids
+      var allIds = [].concat(state.entities, state.sources, state.claims, state.threads, state.openQuestions)
+                     .map(function(x){ return x.id || 0; });
+      _uid = allIds.length ? Math.max.apply(null, allIds) : 0;
+    }
+  } catch(e) {}
+}
+
+function autoSaveCase() {
+  state.title      = v('caseTitle');
+  state.journalist = v('caseJournalist');
+  state.date       = v('caseDate');
+  state.lead       = v('caseLead');
+  state.prefatory  = v('casePrefatory');
+  state.status     = v('caseStatus');
+  saveState();
+  updateScores();
+}
+
+/* ─── DOM helpers ─────────────────────────────────────────────────────── */
+function v(id)    { return (document.getElementById(id) || {}).value || ''; }
+function el(id)   { return document.getElementById(id); }
+function esc(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function setV(id, val) { var e = el(id); if (e) e.value = val || ''; }
+
+/* ─── Tab navigation ───────────────────────────────────────────────────── */
+function showTab(name) {
+  document.querySelectorAll('.jw-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.jw-panel').forEach(function(p){ p.classList.remove('active'); });
+  var tabs = document.querySelectorAll('.jw-tab');
+  var tabNames = ['case','entities','sources','claims','threads','brief'];
+  var idx = tabNames.indexOf(name);
+  if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
+  var panel = el('tab-' + name);
+  if (panel) {
+    panel.classList.add('active');
+    if (name === 'claims')  refreshClaimPickers();
+    if (name === 'threads') refreshThreadTable();
+    if (name === 'brief')   {} // generate only on button click
   }
 }
 
-window.addEventListener('load', function() {
-  document.getElementById('dossierBtn').addEventListener('click', function() {
-    AZDossier.export({
-      appName: 'AXIOM — Investigative Journalist AI',
-      appId: '08-axiom-journalist', version: 'v1.0',
-      epistemic: '🔵 ADJACENT TRACK',
-      inputs:  [{ label: 'Query', value: lastInput || '(none)' }],
-      outputs: [{ label: 'Result', value: lastOutput || '(none)' }],
-      notes: 'Backend port: 7870. Connect a live instance to generate real outputs.',
-      dependencies: ['gradio, numpy, requests, beautifulsoup4, PyPDF2'],
-    });
+/* ─── Score board ──────────────────────────────────────────────────────── */
+function updateScores() {
+  el('sc-entities').textContent = state.entities.length;
+  el('sc-sources').textContent  = state.sources.length;
+  el('sc-claims').textContent   = state.claims.length;
+  el('sc-threads').textContent  = state.threads.length;
+
+  if (state.sources.length) {
+    var qs = state.sources.reduce(function(a,s){ return a + (TIER_WEIGHT[s.tier] || 0.1); }, 0) / state.sources.length;
+    el('sc-quality').textContent = (qs * 100).toFixed(0) + '%';
+  } else { el('sc-quality').textContent = '—'; }
+
+  if (state.claims.length) {
+    var cs = state.claims.reduce(function(a,c){ return a + (CONF_WEIGHT[scoreConfidence(c.sourceIds)] || 0.15); }, 0) / state.claims.length;
+    el('sc-confidence').textContent = (cs * 100).toFixed(0) + '%';
+  } else { el('sc-confidence').textContent = '—'; }
+}
+
+/* ─── Open questions ───────────────────────────────────────────────────── */
+function addOpenQuestion() {
+  var txt = v('oqInput').trim();
+  if (!txt) return;
+  state.openQuestions.push({ id: uid(), text: txt });
+  el('oqInput').value = '';
+  saveState(); renderOQ();
+}
+
+function delOQ(id) {
+  state.openQuestions = state.openQuestions.filter(function(q){ return q.id !== id; });
+  saveState(); renderOQ();
+}
+
+function renderOQ() {
+  var list = el('oqList');
+  if (!state.openQuestions.length) { list.innerHTML = ''; return; }
+  list.innerHTML = state.openQuestions.map(function(q){
+    return '<div class="rec-card" style="padding:.6rem .9rem;display:flex;justify-content:space-between;align-items:center">'
+      + '<span style="font-size:.85rem">❓ ' + esc(q.text) + '</span>'
+      + '<button class="rec-del" onclick="delOQ(' + q.id + ')" aria-label="Delete">✕</button>'
+      + '</div>';
+  }).join('');
+}
+
+function clearCase() {
+  if (!confirm('Clear ALL case data? This cannot be undone.')) return;
+  state = { title:'', journalist:'', date:'', lead:'', prefatory:'', status:'Active',
+            entities:[], sources:[], claims:[], threads:[], openQuestions:[] };
+  _uid = 0;
+  saveState(); initUI();
+}
+
+/* ─── Entities ─────────────────────────────────────────────────────────── */
+function addEntity() {
+  var name = v('entName').trim();
+  if (!name) { alert('Entity name required.'); return; }
+  var contradiction = v('entContradiction').trim();
+  state.entities.push({
+    id: uid(), name: name, type: v('entType'),
+    description: v('entDesc').trim(), statedPosition: v('entStated').trim(),
+    contradictions: contradiction ? [contradiction] : [],
   });
+  ['entName','entDesc','entStated','entContradiction'].forEach(function(id){ el(id).value = ''; });
+  saveState(); renderEntities(); updateScores();
+}
+
+function delEntity(id) {
+  state.entities = state.entities.filter(function(e){ return e.id !== id; });
+  saveState(); renderEntities(); updateScores();
+}
+
+function renderEntities() {
+  var list = el('entityList');
+  if (!state.entities.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👤</div>No entities mapped yet.<br>Add people, organizations, and structures involved in the investigation.</div>';
+    return;
+  }
+  list.innerHTML = state.entities.map(function(e){
+    var contradictions = (e.contradictions || []).map(function(c){
+      return '<div class="contradiction">⚠ Contradiction: ' + esc(c) + '</div>';
+    }).join('');
+    return '<div class="rec-card">'
+      + '<div class="rec-card-head">'
+      + '<div><div class="rec-card-title">[' + esc(e.type) + '] ' + esc(e.name) + '</div>'
+      + (e.description ? '<div class="rec-card-meta">' + esc(e.description) + '</div>' : '')
+      + '</div>'
+      + '<button class="rec-del" onclick="delEntity(' + e.id + ')" aria-label="Delete entity">✕</button>'
+      + '</div>'
+      + (e.statedPosition ? '<div class="rec-card-body"><strong>Stated position:</strong> ' + esc(e.statedPosition) + contradictions + '</div>' : contradictions)
+      + '</div>';
+  }).join('');
+}
+
+/* ─── Sources ─────────────────────────────────────────────────────────── */
+function addSource() {
+  var title = v('srcTitle').trim();
+  if (!title) { alert('Source title required.'); return; }
+  state.sources.push({
+    id: uid(), title: title, tier: parseInt(v('srcTier')||1,10),
+    sourceType: v('srcType').trim(), date: v('srcDate'), url: v('srcUrl').trim(),
+    excerpt: v('srcExcerpt').trim(),
+  });
+  ['srcTitle','srcType','srcDate','srcUrl','srcExcerpt'].forEach(function(id){ el(id).value=''; });
+  el('srcTier').value = '1';
+  saveState(); renderSources(); updateScores();
+}
+
+function delSource(id) {
+  state.sources = state.sources.filter(function(s){ return s.id !== id; });
+  // remove from claims
+  state.claims.forEach(function(c){ c.sourceIds = (c.sourceIds||[]).filter(function(sid){ return sid !== id; }); });
+  saveState(); renderSources(); renderClaims(); updateScores();
+}
+
+function renderSources() {
+  var list = el('sourceList');
+  if (!state.sources.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📁</div>No sources logged yet.<br>Log every document, filing, or article. Tier 1 anchors the investigation.</div>';
+    return;
+  }
+  // sort tier1 first
+  var sorted = state.sources.slice().sort(function(a,b){ return a.tier - b.tier; });
+  list.innerHTML = sorted.map(function(s){
+    return '<div class="rec-card">'
+      + '<div class="rec-card-head">'
+      + '<div>'
+      + '<div class="rec-card-title">' + esc(s.title) + '</div>'
+      + '<div class="rec-card-meta">' + tierBadge(s.tier)
+      + (s.sourceType ? ' &nbsp;·&nbsp; ' + esc(s.sourceType) : '')
+      + (s.date ? ' &nbsp;·&nbsp; ' + esc(s.date) : '') + '</div>'
+      + (s.url ? '<div class="rec-card-meta" style="margin-top:.2rem"><a href="' + esc(s.url) + '" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--color-accent)">' + esc(s.url.slice(0,80)) + (s.url.length>80?'…':'') + '</a></div>' : '')
+      + '</div>'
+      + '<button class="rec-del" onclick="delSource(' + s.id + ')" aria-label="Delete source">✕</button>'
+      + '</div>'
+      + (s.excerpt ? '<div class="rec-card-body"><em>"' + esc(s.excerpt) + '"</em></div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+/* ─── Claim pickers ────────────────────────────────────────────────────── */
+function refreshClaimPickers() {
+  // Sources picker
+  var sp = el('claimSourcePicker');
+  if (!state.sources.length) { sp.innerHTML = '<div style="padding:.5rem;font-size:.8rem;color:var(--color-muted)">No sources logged yet — go to Sources tab.</div>'; }
+  else { sp.innerHTML = state.sources.map(function(s){ return '<label><input type="checkbox" class="claim-src" value="' + s.id + '"> <span>' + tierBadge(s.tier) + ' ' + esc(s.title) + '</span></label>'; }).join(''); }
+
+  // Entity picker
+  var ep = el('claimEntityPicker');
+  if (!state.entities.length) { ep.innerHTML = '<div style="padding:.5rem;font-size:.8rem;color:var(--color-muted)">No entities mapped yet — go to Entities tab.</div>'; }
+  else { ep.innerHTML = state.entities.map(function(e){ return '<label><input type="checkbox" class="claim-ent" value="' + esc(e.name) + '"> ' + esc(e.name) + ' <small style="color:var(--color-muted)">[' + esc(e.type) + ']</small></label>'; }).join(''); }
+
+  // Thread picker
+  var tp = el('claimThreadPicker');
+  if (!state.threads.length) { tp.innerHTML = '<span style="font-size:.8rem;color:var(--color-muted)">No threads defined yet — go to Threads tab.</span>'; }
+  else { tp.innerHTML = state.threads.map(function(t){ return '<label class="thread-tag" style="cursor:pointer"><input type="checkbox" class="claim-thread" value="' + esc(t.code) + '" style="display:none"> [THREAD: ' + esc(t.code) + ']</label>'; }).join(''); }
+
+  // Thread picker visual toggle
+  tp.querySelectorAll('.claim-thread').forEach(function(cb){
+    cb.parentElement.addEventListener('click', function(){ this.classList.toggle('active'); });
+  });
+}
+
+/* ─── Claims ───────────────────────────────────────────────────────────── */
+function addClaim() {
+  var stmt = v('claimStatement').trim();
+  if (!stmt) { alert('Claim statement required.'); return; }
+  var srcIds = Array.from(document.querySelectorAll('.claim-src:checked')).map(function(cb){ return parseInt(cb.value,10); });
+  var entities = Array.from(document.querySelectorAll('.claim-ent:checked')).map(function(cb){ return cb.value; });
+  var legalRisks = Array.from(document.querySelectorAll('.claim-legal:checked')).map(function(cb){ return cb.value; });
+  var threads = Array.from(document.querySelectorAll('.claim-thread:checked')).map(function(cb){ return cb.value; });
+  state.claims.push({ id: uid(), statement: stmt, sourceIds: srcIds, entities: entities, legalRisks: legalRisks, threads: threads });
+  el('claimStatement').value = '';
+  document.querySelectorAll('.claim-src,.claim-ent,.claim-legal,.claim-thread').forEach(function(cb){ cb.checked = false; });
+  document.querySelectorAll('.claim-thread').forEach(function(cb){ cb.parentElement.classList.remove('active'); });
+  saveState(); renderClaims(); updateScores();
+}
+
+function delClaim(id) {
+  state.claims = state.claims.filter(function(c){ return c.id !== id; });
+  saveState(); renderClaims(); updateScores();
+}
+
+function renderClaims() {
+  var list = el('claimList');
+  if (!state.claims.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚖</div>No claims added yet.<br>Each claim should be falsifiable, precise, and attached to sources.</div>';
+    return;
+  }
+  list.innerHTML = state.claims.map(function(c){
+    var conf = scoreConfidence(c.sourceIds);
+    var srcNames = (c.sourceIds||[]).map(function(id){ var s = state.sources.find(function(x){return x.id===id;}); return s ? esc(s.title) : null; }).filter(Boolean);
+    var threads = (c.threads||[]).map(function(t){ return '<span class="thread-tag">[THREAD: ' + esc(t) + ']</span>'; }).join(' ');
+    var legal = (c.legalRisks||[]).filter(function(r){return r;}).map(function(r){ return '<span class="legal-pill">⚖ ' + esc(r) + '</span>'; }).join(' ');
+    return '<div class="rec-card">'
+      + '<div class="rec-card-head">'
+      + '<div style="flex:1">'
+      + '<div class="rec-card-title" style="margin-bottom:.35rem">' + confBadge(conf) + ' &nbsp;' + esc(c.statement) + '</div>'
+      + (srcNames.length ? '<div class="rec-card-meta">Sources: ' + srcNames.join(' · ') + '</div>' : '')
+      + (c.entities && c.entities.length ? '<div class="rec-card-meta">Entities: ' + c.entities.map(esc).join(', ') + '</div>' : '')
+      + '</div>'
+      + '<button class="rec-del" onclick="delClaim(' + c.id + ')" aria-label="Delete claim">✕</button>'
+      + '</div>'
+      + ((threads || legal) ? '<div class="rec-card-body" style="display:flex;flex-wrap:wrap;gap:.35rem;align-items:center">' + threads + legal + '</div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+/* ─── Threads ──────────────────────────────────────────────────────────── */
+function addThread() {
+  var code = v('thrCode').trim().replace(/\s+/g,'_').toUpperCase();
+  var name = v('thrName').trim();
+  if (!code || !name) { alert('Thread code and name are required.'); return; }
+  if (state.threads.find(function(t){ return t.code === code; })) { alert('Thread code already exists.'); return; }
+  state.threads.push({ id: uid(), code: code, name: name, question: v('thrQuestion').trim() });
+  ['thrCode','thrName','thrQuestion'].forEach(function(id){ el(id).value=''; });
+  saveState(); refreshThreadTable(); updateScores();
+}
+
+function delThread(id) {
+  state.threads = state.threads.filter(function(t){ return t.id !== id; });
+  saveState(); refreshThreadTable(); updateScores();
+}
+
+function refreshThreadTable() {
+  var tbody = el('threadTableBody');
+  if (!state.threads.length) {
+    tbody.innerHTML = '<tr><td colspan="4" class="empty-state" style="padding:2rem">No threads defined. Threads organize your investigation across entities, sources, and claims.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.threads.map(function(t){
+    return '<tr>'
+      + '<td><span class="thread-tag">[THREAD: ' + esc(t.code) + ']</span></td>'
+      + '<td style="font-weight:600">' + esc(t.name) + '</td>'
+      + '<td style="color:var(--color-muted)">' + esc(t.question||'') + '</td>'
+      + '<td><button class="rec-del" onclick="delThread(' + t.id + ')">✕</button></td>'
+      + '</tr>';
+  }).join('');
+}
+
+/* ─── Brief generation ─────────────────────────────────────────────────── */
+function generateBrief() {
+  var now = new Date();
+  var dateStr = now.toISOString().replace('T',' ').slice(0,19) + ' UTC';
+  var divider = '═'.repeat(72);
+  var dash    = '─'.repeat(72);
+  var lines   = [];
+
+  // ── Header block (empirical dossier format) ──────────────────────────
+  lines.push(divider);
+  lines.push('  AXIOM INVESTIGATIVE BRIEF');
+  lines.push('  ' + (state.title || '[UNTITLED INVESTIGATION]').toUpperCase());
+  lines.push(divider);
+  lines.push('');
+  lines.push('  Investigation Direction and Framework:  ' + (state.journalist || 'Not specified'));
+  lines.push('  Research, Synthesis, and Writing:       AXIOM Investigative AI (AxiomZero)');
+  lines.push('  Methodology:                            AXIOM OSINT Triangulation Chain');
+  lines.push('  Source Standard:                        Tier 1 (court/FOIA/regulatory) |');
+  lines.push('                                          Tier 2 (established journalism/academic) |');
+  lines.push('                                          Tier 3 (secondary/unverified)');
+  lines.push('  Confidence Classification:              CONFIRMED | CORROBORATED | ALLEGED | UNVERIFIED');
+  lines.push('  Date of Compilation:                    ' + (state.date || dateStr));
+  lines.push('  Status:                                 ' + state.status);
+  lines.push('');
+
+  // ── Thread-tracking table ────────────────────────────────────────────
+  if (state.threads.length) {
+    lines.push(dash);
+    lines.push('  THREAD-TRACKING SYSTEM');
+    lines.push(dash);
+    lines.push('');
+    state.threads.forEach(function(t){
+      lines.push('  [THREAD: ' + t.code + '] — ' + t.name);
+      if (t.question) lines.push('    Core question: ' + t.question);
+    });
+    lines.push('');
+  }
+
+  // ── Prefatory note ────────────────────────────────────────────────────
+  if (state.prefatory && state.prefatory.trim()) {
+    lines.push(dash);
+    lines.push('  PREFATORY NOTE');
+    lines.push(dash);
+    lines.push('');
+    wordWrap(state.prefatory, 68).forEach(function(l){ lines.push('  ' + l); });
+    lines.push('');
+  }
+
+  // ── Investigative lead ────────────────────────────────────────────────
+  lines.push(dash);
+  lines.push('  INVESTIGATIVE LEAD');
+  lines.push(dash);
+  lines.push('');
+  wordWrap(state.lead || '(No lead entered)', 68).forEach(function(l){ lines.push('  ' + l); });
+  lines.push('');
+
+  // ── Entities ──────────────────────────────────────────────────────────
+  lines.push(dash);
+  lines.push('  ENTITIES IDENTIFIED (' + state.entities.length + ')');
+  lines.push(dash);
+  if (!state.entities.length) {
+    lines.push('  None recorded.');
+  } else {
+    state.entities.forEach(function(e){
+      lines.push('');
+      lines.push('  [' + e.type + '] ' + e.name.toUpperCase());
+      if (e.description) { lines.push('    Description:      ' + e.description); }
+      if (e.statedPosition) { lines.push('    Stated position:  ' + e.statedPosition); }
+      (e.contradictions||[]).forEach(function(c){ lines.push('    ⚠ Contradiction: ' + c); });
+    });
+  }
+  lines.push('');
+
+  // ── Sources ───────────────────────────────────────────────────────────
+  var sqScore = state.sources.length
+    ? (state.sources.reduce(function(a,s){return a+(TIER_WEIGHT[s.tier]||0.1);},0)/state.sources.length*100).toFixed(0)+'%'
+    : '—';
+  lines.push(dash);
+  lines.push('  SOURCES (' + state.sources.length + ' total | source quality score: ' + sqScore + ')');
+  lines.push(dash);
+  if (!state.sources.length) {
+    lines.push('  None recorded.');
+  } else {
+    var sorted = state.sources.slice().sort(function(a,b){return a.tier-b.tier;});
+    sorted.forEach(function(s,i){
+      lines.push('');
+      lines.push('  [' + (i+1) + '] ' + TIER_LABEL[s.tier].toUpperCase());
+      lines.push('      ' + s.title);
+      if (s.sourceType) lines.push('      Type: ' + s.sourceType);
+      if (s.url) lines.push('      Ref:  ' + s.url);
+      if (s.date) lines.push('      Date: ' + s.date);
+      if (s.excerpt) { lines.push('      Excerpt:'); wordWrap('"' + s.excerpt + '"', 62).forEach(function(l){ lines.push('        ' + l); }); }
+    });
+  }
+  lines.push('');
+
+  // ── Claims & confidence ───────────────────────────────────────────────
+  var claimConfs = state.claims.map(function(c){ return scoreConfidence(c.sourceIds); });
+  var avgConf = state.claims.length
+    ? (state.claims.reduce(function(a,c,i){ return a + (CONF_WEIGHT[claimConfs[i]]||0.15); },0) / state.claims.length * 100).toFixed(0) + '%'
+    : '—';
+  lines.push(dash);
+  lines.push('  CLAIMS & CONFIDENCE (' + state.claims.length + ' claims | avg confidence: ' + avgConf + ')');
+  lines.push(dash);
+  if (!state.claims.length) {
+    lines.push('  None recorded.');
+  } else {
+    state.claims.forEach(function(c,i){
+      var conf = claimConfs[i];
+      var marker = (conf==='CONFIRMED'||conf==='CORROBORATED') ? '✓' : '⚠';
+      var srcNames = (c.sourceIds||[]).map(function(id){ var s=state.sources.find(function(x){return x.id===id;}); return s?s.title:null; }).filter(Boolean);
+      lines.push('');
+      lines.push('  [' + (i+1) + '] [' + marker + ' ' + conf + '] ' + c.statement);
+      if (c.entities && c.entities.length) lines.push('      Entities: ' + c.entities.join(', '));
+      if (srcNames.length) lines.push('      Sources: ' + srcNames.join('; '));
+      if (c.threads && c.threads.length) lines.push('      Threads: ' + c.threads.map(function(t){ return '[THREAD: '+t+']'; }).join(' '));
+      if (c.legalRisks && c.legalRisks.length) lines.push('      ⚖ Legal flags: ' + c.legalRisks.join(' | '));
+    });
+  }
+  lines.push('');
+
+  // ── Open questions ─────────────────────────────────────────────────────
+  lines.push(dash);
+  lines.push('  OPEN QUESTIONS');
+  lines.push(dash);
+  if (!state.openQuestions.length) {
+    lines.push('  None recorded.');
+  } else {
+    state.openQuestions.forEach(function(q,i){ lines.push('  [' + (i+1) + '] ' + q.text); });
+  }
+  lines.push('');
+
+  // ── Legal risk summary ────────────────────────────────────────────────
+  var legalClaims = state.claims.filter(function(c){ return c.legalRisks && c.legalRisks.length; });
+  if (legalClaims.length) {
+    lines.push(dash);
+    lines.push('  ⚖ LEGAL RISK SUMMARY');
+    lines.push(dash);
+    lines.push('  This investigation contains claims with legal risk flags.');
+    lines.push('  Review with qualified legal counsel before any publication or distribution.');
+    legalClaims.forEach(function(c){
+      lines.push('  · ' + c.statement.slice(0,80) + (c.statement.length>80?'…':''));
+      lines.push('    Flags: ' + c.legalRisks.join(' | '));
+    });
+    lines.push('');
+  }
+
+  // ── Gate ──────────────────────────────────────────────────────────────
+  lines.push(divider);
+  lines.push('  ⚠  AXIOM OUTPUT — FOR HUMAN REVIEW ONLY. NOT READY TO PUBLISH.');
+  lines.push('  This brief is a research instrument, not a publishable article.');
+  lines.push('  All claims require editorial judgment, legal review, and source verification');
+  lines.push('  before any public distribution.');
+  lines.push('');
+  lines.push('  AxiomZero Technologies & Consulting, SPC — UBI 606 239 876');
+  lines.push('  Open science artifact for human review, use at your own liability.');
+  lines.push(divider);
+
+  el('briefOutput').textContent = lines.join('\n');
+}
+
+/* ─── Word wrap utility ────────────────────────────────────────────────── */
+function wordWrap(text, width) {
+  var words = text.split(' '), lines = [], cur = '';
+  words.forEach(function(w){ if ((cur+' '+w).trim().length > width) { lines.push(cur.trim()); cur=w; } else { cur=(cur+' '+w).trim(); } });
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+/* ─── Copy brief ───────────────────────────────────────────────────────── */
+function copyBrief() {
+  var txt = el('briefOutput').textContent;
+  if (!txt || txt.startsWith('—')) { alert('Generate a brief first.'); return; }
+  navigator.clipboard.writeText(txt).then(function(){ alert('Brief copied to clipboard.'); });
+}
+
+/* ─── PDF export ───────────────────────────────────────────────────────── */
+function exportDossierPDF() {
+  var brief = el('briefOutput').textContent;
+  if (!brief || brief.startsWith('—')) { generateBrief(); brief = el('briefOutput').textContent; }
+  var confCounts = {};
+  state.claims.forEach(function(c){ var k=scoreConfidence(c.sourceIds); confCounts[k]=(confCounts[k]||0)+1; });
+  AZDossier.exportInvestigative({
+    title: state.title || 'Untitled Investigation',
+    journalist: state.journalist || '',
+    date: state.date || new Date().toISOString().slice(0,10),
+    status: state.status,
+    lead: state.lead,
+    prefatory: state.prefatory,
+    threads: state.threads,
+    entities: state.entities,
+    sources: state.sources,
+    claims: state.claims.map(function(c){ return Object.assign({}, c, { confidence: scoreConfidence(c.sourceIds) }); }),
+    openQuestions: state.openQuestions,
+    sourceTierLabel: TIER_LABEL,
+    confCounts: confCounts,
+    briefText: brief,
+  });
+}
+
+/* ─── Init ─────────────────────────────────────────────────────────────── */
+function initUI() {
+  setV('caseTitle',      state.title);
+  setV('caseJournalist', state.journalist);
+  setV('caseDate',       state.date);
+  setV('caseLead',       state.lead);
+  setV('casePrefatory',  state.prefatory);
+  setV('caseStatus',     state.status);
+  renderOQ(); renderEntities(); renderSources(); renderClaims(); refreshThreadTable();
+  updateScores();
+}
+
+window.addEventListener('load', function() {
+  loadState(); initUI();
+  el('dossierBtn').addEventListener('click', exportDossierPDF);
+  // set today as default date if empty
+  if (!state.date) { var today = new Date().toISOString().slice(0,10); setV('caseDate', today); state.date = today; }
 });
 </script>
 </body>

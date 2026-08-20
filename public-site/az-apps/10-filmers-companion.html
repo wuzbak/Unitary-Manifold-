@@ -1,162 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Filmer's Companion — Film Production AI — AxiomZero</title>
-  <meta name="description" content="Film production AI: enter project details to receive AI-driven production planning across cinematography, locations, scheduling, and finance." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filmer&apos;s Companion — AI Film Production Suite — AxiomZero</title>
+  <meta
+    name="description"
+    content="Interactive production suite with shot calculator, scene scheduler, and budget tracker for independent filmmakers."
+  />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/10-filmers-companion.html" />
   <meta name="theme-color" content="#050a1a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/main.css"/>
-  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/az-apps.css" />
   <script src="../js/az-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script src="../js/dossier.js" defer></script>
+  <style>
+    body { margin: 0; background: #050a1a; color: var(--color-text); font-family: "Inter", sans-serif; }
+    .app-shell { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .hero, .panel { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: 0 24px 48px rgba(0,0,0,.22); }
+    .hero { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; padding: 1.5rem; align-items: center; margin-bottom: 1rem; }
+    .hero-icon { width: 72px; height: 72px; border-radius: 20px; display: grid; place-items: center; font-size: 2rem; background: radial-gradient(circle at top, rgba(255,184,77,.35), rgba(59,139,255,.12)); }
+    .eyebrow, .mono { font-family: var(--font-mono), "JetBrains Mono", monospace; }
+    .eyebrow { color: var(--color-accent); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+    .subtitle { color: var(--color-muted); line-height: 1.6; max-width: 70ch; }
+    .btn-export { border: 1px solid var(--color-border); background: transparent; color: var(--color-text); padding: .85rem 1rem; border-radius: 12px; cursor: pointer; font-weight: 700; }
+    .tabs { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .tab-btn { border: 1px solid var(--color-border); background: rgba(255,255,255,.03); color: var(--color-text); border-radius: 999px; padding: .7rem 1rem; cursor: pointer; font-weight: 600; }
+    .tab-btn.active { background: linear-gradient(135deg, var(--color-accent), #7d5cff); border-color: transparent; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .panel { padding: 1.25rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+    .field { margin-bottom: .9rem; }
+    .field label { display: block; margin-bottom: .4rem; color: var(--color-muted); font-size: .9rem; }
+    .field input, .field select { width: 100%; box-sizing: border-box; padding: .82rem .9rem; border-radius: 12px; border: 1px solid var(--color-border); background: var(--color-card); color: var(--color-text); font: inherit; }
+    .btn-primary, .btn-danger { border: 0; padding: .85rem 1rem; border-radius: 12px; cursor: pointer; font: inherit; font-weight: 700; }
+    .btn-primary { background: linear-gradient(135deg, var(--color-accent), #7d5cff); color: #fff; }
+    .btn-danger { background: rgba(255,107,107,.15); color: #ff8a8a; }
+    .readout, .table-wrap, .budget-breakdown { border: 1px solid var(--color-border); border-radius: 16px; background: rgba(255,255,255,.02); padding: 1rem; }
+    .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin-top: 1rem; }
+    .metric { border: 1px solid var(--color-border); border-radius: 14px; padding: .85rem .9rem; background: rgba(255,255,255,.025); }
+    .metric span { display: block; font-size: .76rem; color: var(--color-muted); margin-bottom: .35rem; }
+    .metric strong { font-size: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: .75rem .55rem; border-bottom: 1px solid rgba(255,255,255,.07); text-align: left; vertical-align: top; font-size: .92rem; }
+    th { color: var(--color-muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+    .empty { color: var(--color-muted); text-align: center; padding: 1rem 0; }
+    .bar { margin-bottom: .75rem; }
+    .bar-head { display: flex; justify-content: space-between; gap: .75rem; font-size: .9rem; margin-bottom: .35rem; }
+    .bar-track { height: 10px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,.06); }
+    .bar-fill { height: 100%; border-radius: 999px; }
+    .summary-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1rem; }
+    @media (max-width: 900px) {
+      .hero, .summary-grid, .form-grid, .metrics { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">AZ Products</a></li>
-    <li><a href="../apps/index.html">Calculators</a></li>
-    <li><a href="../lodge/index.html">Lodge</a></li>
-    <li><a href="../about/index.html">About</a></li>
-    <li><span class="nav-badge">v20.1</span></li>
-  </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
-</nav>
-<div class="app-page">
-<div class="app-hero">
-  <div class="container">
-    <div class="app-hero-inner">
-      <div class="app-icon-lg">🎬</div>
-      <div class="app-meta">
-        <div class="app-id-badge">Product 10 · 12-AZ-IP/10-filmers-companion</div>
-        <div class="app-title">Filmer's Companion — Film Production AI</div>
-        <div class="app-subtitle">AI agent suite for independent filmmakers. Cinematography advisor, location scouter, assistant director scheduler, and budget calculator — all in one coherent production intelligence layer.</div>
-        <div class="app-tags"><span class="tag tag-ai">🤖 AI Agent</span><span class="tag tag-dep">Gradio</span><span class="tag tag-dep">Python</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container section-sm">
-  <!-- API endpoint bar -->
-  <div class="api-endpoint-bar">
-    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
-    <input type="text" id="endpointInput" placeholder="https://your-host:7873" />
-    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
-    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
-  </div>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Products</a></li>
+      <li><a href="../apps/index.html">Apps</a></li>
+      <li><a href="../lodge/index.html">Lodge</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><span class="nav-badge">🎬 Suite</span></li>
+    </ul>
+    <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  </nav>
 
-  <div class="app-layout">
-    <div>
-      <div class="panel" id="inputPanel">
-        <div class="panel-title">⚙️ Input</div>
-        <div class="form-group">
-          <label class="form-label">Query / Input</label>
-          <textarea id="mainInput" class="form-input" rows="5" placeholder="Enter your query here…"></textarea>
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitQuery()">Submit</button>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-icon">🎬</div>
+      <div>
+        <div class="eyebrow">Product 10 · Filmer&apos;s Companion</div>
+        <h1 style="margin:.35rem 0 .7rem;">Filmer&apos;s Companion — AI Film Production Suite</h1>
+        <p class="subtitle">
+          Production tools for independent filmmakers: shot calculator, day/scene scheduler,
+          budget estimator, and location physics tagger.
+        </p>
       </div>
+      <button id="exportBtn" class="btn-export">Export Dossier</button>
+    </section>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="shot">Shot Calculator</button>
+      <button class="tab-btn" data-tab="schedule">Scene Scheduler</button>
+      <button class="tab-btn" data-tab="budget">Budget Tracker</button>
     </div>
-    <div>
-      <div class="panel output-panel" id="outputPanel">
-        <div class="panel-title">📊 Output</div>
-        <div id="outputArea">
-          <div class="az-offline-notice">
-            <div class="az-offline-icon">📡</div>
-            <strong>Demo Mode</strong>
-            <p>Connect a live backend URL above, or see sample output below.</p>
+
+    <section class="tab-panel active" id="tab-shot">
+      <div class="panel">
+        <div class="form-grid">
+          <div class="field">
+            <label for="fps">Frame rate</label>
+            <select id="fps">
+              <option>24</option><option>25</option><option>30</option><option>48</option><option>60</option>
+            </select>
           </div>
-          <div id="sampleOutput" style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
-            <em>Sample output will appear here after submitting a query.</em>
+          <div class="field">
+            <label for="shutterAngle">Shutter angle</label>
+            <select id="shutterAngle">
+              <option>90</option><option>120</option><option>135</option><option>144</option><option>172.8</option><option selected>180</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="iso">ISO</label>
+            <input id="iso" type="number" min="100" max="12800" step="100" value="800" />
+          </div>
+          <div class="field">
+            <label for="ndStops">ND filter stops</label>
+            <select id="ndStops">
+              <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" id="computeShotBtn">Compute Exposure</button>
+        <div class="readout" style="margin-top:1rem;">
+          <div class="eyebrow">Shot Read-out</div>
+          <div class="metrics">
+            <div class="metric"><span>Shutter Speed</span><strong class="mono" id="shotShutter">1/48 s</strong></div>
+            <div class="metric"><span>Exposure Value</span><strong class="mono" id="shotEV">10.59</strong></div>
+            <div class="metric"><span>Effective ISO</span><strong class="mono" id="shotEffectiveISO">800</strong></div>
+            <div class="metric"><span>T-stop Recommendation</span><strong class="mono" id="shotTstop">T2.8</strong></div>
+          </div>
+          <p class="subtitle" id="shotNote" style="margin:1rem 0 0;">
+            Neutral cinema baseline for practical independent production setups.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-schedule">
+      <div class="summary-grid">
+        <div class="panel">
+          <div class="form-grid">
+            <div class="field">
+              <label for="sceneNumber">Scene number</label>
+              <input id="sceneNumber" type="text" placeholder="24A" />
+            </div>
+            <div class="field">
+              <label for="sceneLocation">Location</label>
+              <input id="sceneLocation" type="text" placeholder="Warehouse roof" />
+            </div>
+            <div class="field">
+              <label for="sceneIO">INT / EXT</label>
+              <select id="sceneIO"><option>INT</option><option>EXT</option></select>
+            </div>
+            <div class="field">
+              <label for="sceneTime">DAY / NIGHT</label>
+              <select id="sceneTime"><option>DAY</option><option>NIGHT</option></select>
+            </div>
+            <div class="field">
+              <label for="scenePages">Estimated pages</label>
+              <input id="scenePages" type="number" min="0.125" max="8" step="0.125" value="1" />
+            </div>
+            <div class="field">
+              <label for="sceneCast">Cast</label>
+              <input id="sceneCast" type="text" placeholder="Ava, Tomas, Driver" />
+            </div>
+          </div>
+          <button class="btn-primary" id="addSceneBtn">Add Scene</button>
+        </div>
+
+        <div class="panel">
+          <div class="metric">
+            <span>Total Scenes</span>
+            <strong class="mono" id="sceneCount">0</strong>
+          </div>
+          <div class="metric" style="margin-top:.8rem;">
+            <span>Total Shoot Hours</span>
+            <strong class="mono" id="totalShootHours">0.0 h</strong>
+          </div>
+          <div class="metric" style="margin-top:.8rem;">
+            <span>Company Move Strategy</span>
+            <strong id="moveStrategy">Add scenes to optimize by location.</strong>
           </div>
         </div>
       </div>
-      <div class="dossier-bar" style="margin-top:1rem">
-        <div class="dossier-bar-label">Export session as PDF dossier</div>
-        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
+
+      <div class="panel" style="margin-top:1rem;">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Scene</th>
+                <th>Location</th>
+                <th>Setup</th>
+                <th>Pages</th>
+                <th>Est. Shoot Time</th>
+                <th>Turnaround</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="scheduleTableBody">
+              <tr><td colspan="7" class="empty">No scenes scheduled yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="tab-panel" id="tab-budget">
+      <div class="summary-grid">
+        <div class="panel">
+          <div class="form-grid">
+            <div class="field">
+              <label for="budgetDepartment">Department</label>
+              <select id="budgetDepartment">
+                <option>Camera</option><option>Lighting</option><option>Sound</option><option>Art</option>
+                <option>Wardrobe</option><option>Locations</option><option>Transport</option><option>Catering</option>
+                <option>Post</option><option>Contingency</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="budgetDescription">Description</label>
+              <input id="budgetDescription" type="text" placeholder="A-camera rental" />
+            </div>
+            <div class="field">
+              <label for="budgetRate">Rate</label>
+              <input id="budgetRate" type="number" min="0" step="0.01" value="350" />
+            </div>
+            <div class="field">
+              <label for="budgetDays">Days</label>
+              <input id="budgetDays" type="number" min="0" step="1" value="1" />
+            </div>
+            <div class="field">
+              <label for="budgetQty">Quantity</label>
+              <input id="budgetQty" type="number" min="0" step="1" value="1" />
+            </div>
+          </div>
+          <button class="btn-primary" id="addBudgetBtn">Add Line Item</button>
+        </div>
+
+        <div class="panel budget-breakdown">
+          <div class="metric">
+            <span>Grand Total</span>
+            <strong class="mono" id="grandTotal">$0.00</strong>
+          </div>
+          <div id="budgetBars" style="margin-top:1rem;">
+            <div class="empty">Budget percentages will render here.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:1rem;">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Description</th>
+                <th>Rate</th>
+                <th>Days</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="budgetTableBody">
+              <tr><td colspan="7" class="empty">No budget lines added yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="az-org-strip">
+    AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+    <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+    <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+    Open science artifact for human review, use at your own liability.
   </div>
 
-  <div class="epistemic-box" style="margin-top:2rem">
-    <strong>Dependencies:</strong> gradio, numpy, pandas
-  </div>
+  <script>
+    const STORAGE_KEY = "az-filmers-companion";
+    const budgetColors = ["#7bb1ff", "#57df84", "#ffd07a", "#ff8a8a", "#9c89ff", "#58d6d6", "#ffb54d", "#89f0ff", "#c8ff76", "#d1a0ff"];
+    let state = { activeTab: "shot", shot: {}, scenes: [], budget: [] };
 
-  <div class="run-local" style="margin-top:1.5rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
-      <span>💻 Run Locally</span><span>▾</span>
-    </div>
-    <div class="run-local-body">
-<div class="code-block">pip install -r 12-AZ-IP/10-filmers-companion/requirements.txt
-cd 12-AZ-IP/10-filmers-companion
-python run.py   # → http://localhost:7873</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
-        Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/10-filmers-companion" target="_blank">12-AZ-IP/10-filmers-companion ↗</a>
-      </p>
-    </div>
-  </div>
-</div>
-</div>
-<div class="az-org-strip">
-  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
-  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
-  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
-  Open science artifact for human review, use at your own liability.
-</div>
-<script>
-var liveMode = false, lastInput = '', lastOutput = '';
-AZAPI.bindCustomEndpoint('endpointInput', '10-filmers-companion');
+    function switchTab(tab) {
+      state.activeTab = tab;
+      document.querySelectorAll(".tab-btn").forEach(function(btn) {
+        btn.classList.toggle("active", btn.dataset.tab === tab);
+      });
+      document.querySelectorAll(".tab-panel").forEach(function(panel) {
+        panel.classList.toggle("active", panel.id === "tab-" + tab);
+      });
+      saveState();
+    }
 
-function connectAPI() {
-  var url = document.getElementById('endpointInput').value.trim();
-  if (!url) { alert('Enter a backend URL.'); return; }
-  AZAPI.endpoints['10-filmers-companion'] = url.replace(/\/$/,'');
-  document.getElementById('connStatus').textContent = '● Connecting…';
-  AZAPI.call('10-filmers-companion', '/health').then(function(r) {
-    document.getElementById('connStatus').textContent = r.ok ? '🟢 Live' : '🔴 Unreachable';
-    liveMode = r.ok;
-  });
-}
+    function computeShot() {
+      const fps = Number(document.getElementById("fps").value);
+      const angle = Number(document.getElementById("shutterAngle").value);
+      const iso = Math.max(100, Math.min(12800, Number(document.getElementById("iso").value) || 800));
+      const ndStops = Number(document.getElementById("ndStops").value);
+      const shutterSeconds = 1 / (fps * (360 / angle));
+      const effectiveISO = iso / Math.pow(2, ndStops);
+      const ev = Math.log2(100 / (effectiveISO * shutterSeconds));
+      const tStops = ["T1.3", "T1.5", "T2.0", "T2.8", "T4.0", "T5.6", "T8.0", "T11", "T16"];
+      const tIndex = Math.max(0, Math.min(tStops.length - 1, Math.round((ev - 7) / 1.15)));
+      const denominator = Math.round(1 / shutterSeconds);
 
-function submitQuery() {
-  var input = document.getElementById('mainInput').value.trim();
-  if (!input) return;
-  lastInput = input;
-  var out = document.getElementById('outputArea');
-  AZAPI.setLoading(out, true);
-  if (liveMode) {
-    AZAPI.call('10-filmers-companion', '/query', { method:'POST', body:{ input: input } }).then(function(r) {
-      if (r.ok) {
-        lastOutput = JSON.stringify(r.data, null, 2);
-        AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
+      state.shot = {
+        fps, angle, iso, ndStops, shutterSeconds, effectiveISO, ev, tstop: tStops[tIndex]
+      };
+
+      document.getElementById("shotShutter").textContent = "1/" + denominator + " s";
+      document.getElementById("shotEV").textContent = ev.toFixed(2);
+      document.getElementById("shotEffectiveISO").textContent = effectiveISO.toFixed(0);
+      document.getElementById("shotTstop").textContent = tStops[tIndex];
+      document.getElementById("shotNote").textContent =
+        "Exposure budget assumes neutral scene brightness. Higher EV values favor smaller apertures; ND " +
+        ndStops + " stop(s) reduce effective ISO to " + effectiveISO.toFixed(0) + ".";
+      saveState();
+    }
+
+    function turnaroundNote(scene) {
+      const castCount = scene.cast.filter(Boolean).length;
+      if (scene.io === "EXT" && scene.time === "NIGHT") return "Night exterior — 12h turnaround suggested";
+      if (scene.pages > 3 || castCount > 5) return "Heavy scene — stagger crew call";
+      return "Standard 10h turnaround";
+    }
+
+    function addScene() {
+      const scene = {
+        id: Date.now().toString(),
+        number: document.getElementById("sceneNumber").value.trim() || "TBD",
+        location: document.getElementById("sceneLocation").value.trim() || "Unassigned",
+        io: document.getElementById("sceneIO").value,
+        time: document.getElementById("sceneTime").value,
+        pages: Number(document.getElementById("scenePages").value) || 1,
+        cast: document.getElementById("sceneCast").value.split(",").map(function(name) { return name.trim(); }).filter(Boolean)
+      };
+      state.scenes.push(scene);
+      renderScenes();
+      saveState();
+    }
+
+    function deleteScene(id) {
+      state.scenes = state.scenes.filter(function(scene) { return scene.id !== id; });
+      renderScenes();
+      saveState();
+    }
+
+    function renderScenes() {
+      const tbody = document.getElementById("scheduleTableBody");
+      const sorted = state.scenes.slice().sort(function(a, b) {
+        return a.location.localeCompare(b.location) || a.number.localeCompare(b.number);
+      });
+      if (!sorted.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">No scenes scheduled yet.</td></tr>';
       } else {
-        AZAPI.showError(out, r.error);
+        tbody.innerHTML = sorted.map(function(scene) {
+          const hours = scene.pages * 12;
+          return "<tr>" +
+            "<td><strong>" + scene.number + "</strong><br><span class='eyebrow'>" + scene.cast.join(", ") + "</span></td>" +
+            "<td>" + scene.location + "</td>" +
+            "<td>" + scene.io + " / " + scene.time + "</td>" +
+            "<td class='mono'>" + scene.pages.toFixed(3).replace(/\.000$/, "") + "</td>" +
+            "<td class='mono'>" + hours.toFixed(1) + " h</td>" +
+            "<td>" + turnaroundNote(scene) + "</td>" +
+            "<td><button class='btn-danger' onclick=\"deleteScene('" + scene.id + "')\">Delete</button></td>" +
+            "</tr>";
+        }).join("");
       }
-    });
-  } else {
-    setTimeout(function() {
-      lastOutput = 'Demo mode — sample response for: "' + input.slice(0,60) + '…"\n\n{ "status": "ok", "result": "[Connect a live backend to see real output]", "epistemic": "demo" }';
-      AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-    }, 600);
-  }
-}
+      const totalHours = sorted.reduce(function(sum, scene) { return sum + scene.pages * 12; }, 0);
+      document.getElementById("sceneCount").textContent = String(sorted.length);
+      document.getElementById("totalShootHours").textContent = totalHours.toFixed(1) + " h";
+      document.getElementById("moveStrategy").textContent =
+        sorted.length ? "Sorted by location to reduce company moves across " + new Set(sorted.map(function(scene) { return scene.location; })).size + " location cluster(s)." : "Add scenes to optimize by location.";
+    }
 
-window.addEventListener('load', function() {
-  document.getElementById('dossierBtn').addEventListener('click', function() {
-    AZDossier.export({
-      appName: 'Filmer's Companion — Film Production AI',
-      appId: '10-filmers-companion', version: 'v1.0',
-      epistemic: '🔵 ADJACENT TRACK',
-      inputs:  [{ label: 'Query', value: lastInput || '(none)' }],
-      outputs: [{ label: 'Result', value: lastOutput || '(none)' }],
-      notes: 'Backend port: 7873. Connect a live instance to generate real outputs.',
-      dependencies: ['gradio, numpy, pandas'],
+    function addBudget() {
+      const item = {
+        id: Date.now().toString(),
+        department: document.getElementById("budgetDepartment").value,
+        description: document.getElementById("budgetDescription").value.trim() || "Untitled line item",
+        rate: Number(document.getElementById("budgetRate").value) || 0,
+        days: Number(document.getElementById("budgetDays").value) || 0,
+        qty: Number(document.getElementById("budgetQty").value) || 0
+      };
+      item.total = item.rate * item.days * item.qty;
+      state.budget.push(item);
+      renderBudget();
+      saveState();
+    }
+
+    function deleteBudget(id) {
+      state.budget = state.budget.filter(function(item) { return item.id !== id; });
+      renderBudget();
+      saveState();
+    }
+
+    function currency(value) {
+      return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
+    }
+
+    function renderBudget() {
+      const tbody = document.getElementById("budgetTableBody");
+      if (!state.budget.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">No budget lines added yet.</td></tr>';
+      } else {
+        tbody.innerHTML = state.budget.map(function(item) {
+          return "<tr>" +
+            "<td>" + item.department + "</td>" +
+            "<td>" + item.description + "</td>" +
+            "<td class='mono'>" + currency(item.rate) + "</td>" +
+            "<td class='mono'>" + item.days + "</td>" +
+            "<td class='mono'>" + item.qty + "</td>" +
+            "<td class='mono'>" + currency(item.total) + "</td>" +
+            "<td><button class='btn-danger' onclick=\"deleteBudget('" + item.id + "')\">Delete</button></td>" +
+            "</tr>";
+        }).join("");
+      }
+      const grandTotal = state.budget.reduce(function(sum, item) { return sum + item.total; }, 0);
+      document.getElementById("grandTotal").textContent = currency(grandTotal);
+
+      const byDept = {};
+      state.budget.forEach(function(item) {
+        byDept[item.department] = (byDept[item.department] || 0) + item.total;
+      });
+      const departments = Object.keys(byDept);
+      document.getElementById("budgetBars").innerHTML = !departments.length
+        ? '<div class="empty">Budget percentages will render here.</div>'
+        : departments.map(function(name, index) {
+            const pct = grandTotal ? (byDept[name] / grandTotal) * 100 : 0;
+            return "<div class='bar'>" +
+              "<div class='bar-head'><strong>" + name + "</strong><span class='mono'>" + pct.toFixed(1) + "% · " + currency(byDept[name]) + "</span></div>" +
+              "<div class='bar-track'><div class='bar-fill' style='width:" + pct.toFixed(2) + "%;background:" + budgetColors[index % budgetColors.length] + ";'></div></div>" +
+              "</div>";
+          }).join("");
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function restoreState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          state = JSON.parse(saved);
+        } catch (error) {
+          console.error("Filmer restore failed", error);
+        }
+      }
+      if (state.shot.fps) {
+        document.getElementById("fps").value = state.shot.fps;
+        document.getElementById("shutterAngle").value = state.shot.angle;
+        document.getElementById("iso").value = state.shot.iso;
+        document.getElementById("ndStops").value = state.shot.ndStops;
+      }
+      computeShot();
+      renderScenes();
+      renderBudget();
+      switchTab(state.activeTab || "shot");
+    }
+
+    function exportDossier() {
+      computeShot();
+      const grandTotal = state.budget.reduce(function(sum, item) { return sum + item.total; }, 0);
+      AZDossier.export({
+        appName: "Filmer's Companion — AI Film Production Suite",
+        appId: "10-filmers-companion",
+        version: "v20.1",
+        epistemic: "🔵 ADJACENT TRACK",
+        inputs: [
+          { label: "Frame Rate", value: String(state.shot.fps || 24) + " fps" },
+          { label: "Shutter Angle", value: String(state.shot.angle || 180) + "°" },
+          { label: "ISO", value: String(state.shot.iso || 800) },
+          { label: "ND Stops", value: String(state.shot.ndStops || 0) },
+          { label: "Scheduled Scenes", value: String(state.scenes.length) },
+          { label: "Budget Lines", value: String(state.budget.length) }
+        ],
+        outputs: [
+          { label: "Shutter Speed", value: "1/" + Math.round(1 / state.shot.shutterSeconds) + " s" },
+          { label: "Exposure Value", value: state.shot.ev.toFixed(2) },
+          { label: "Effective ISO", value: state.shot.effectiveISO.toFixed(0) },
+          { label: "T-stop Recommendation", value: state.shot.tstop },
+          { label: "Schedule Summary", value: state.scenes.map(function(scene) { return scene.number + "@" + scene.location; }).join(" | ") || "No scenes" },
+          { label: "Grand Total", value: currency(grandTotal) },
+          { label: "Budget Detail", value: state.budget.map(function(item) { return item.department + ": " + item.description + " " + currency(item.total); }).join(" | ") || "No budget lines" }
+        ],
+        notes: "Scene time estimate uses 12h per script page. Full budget exported from live browser state.",
+        dependencies: ["Inter", "JetBrains Mono", "jsPDF", "AZDossier"]
+      });
+    }
+
+    document.querySelectorAll(".tab-btn").forEach(function(button) {
+      button.addEventListener("click", function() { switchTab(button.dataset.tab); });
     });
-  });
-});
-</script>
+    document.getElementById("computeShotBtn").addEventListener("click", computeShot);
+    document.getElementById("addSceneBtn").addEventListener("click", addScene);
+    document.getElementById("addBudgetBtn").addEventListener("click", addBudget);
+    document.getElementById("exportBtn").addEventListener("click", exportDossier);
+    window.addEventListener("DOMContentLoaded", restoreState);
+  </script>
 </body>
 </html>
