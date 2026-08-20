@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v22.6)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v22.8)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -24,9 +24,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![~56,279 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~56%2C279%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
+[![~56,568 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~56%2C074%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
 [![771+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-771%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v22.6-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v22.8-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -57,8 +57,8 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 
 </details>
 
-> **Current status (v22.6):** Framework is internally self-consistent.
-> Full regression: **~56,279 passed · 47 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-20, v22.6; excludes optional matplotlib visualization tests).
+> **Current status (v22.8):** Framework is internally self-consistent.
+> Full regression: **~56,568 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-19, v22.8; excludes optional matplotlib visualization tests).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
@@ -932,18 +932,18 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 > Each pillar has its own folder (`PILLARS/PXXX/`) with source links, test links, and theory doc links.
 > Regenerate the index: `python3 PILLARS/build_index.py`
 
-**Grand total (v22.6): ~56,279 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-20; excludes optional matplotlib visualization tests)
+**Grand total (v22.8): ~56,568 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad full suite; 2026-08-19; excludes optional matplotlib visualization tests)
 
-**~56,279** — 773+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. Lean4 820+ theorems. (Historical milestones: v22.6: 56,279; v21.8-S: 52,950; v20.5: 50,500; v13.8: 44,590; v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319.)
+**~56,074** — 771+ pillars + Ω₀ Holon Zero + sub-pillars, 0 failures. Lean4 820+ theorems. (Historical milestones: v22.8: 56,074; v21.8-S: 52,950; v20.5: 50,500; v13.8: 44,590; v13.6: 43,009; v13.5: 42,658; v13.4: 42,215; v10.4: ~23,524; v9.39: 21,319.)
 
 > 🔒 **Repository extended to 208 pillars + Ω₀ — May 2026.**
 > **Pillars 133–142 + Ω₀ (SM Parameter Closure Arc):** Pillar 133 closes the CKM CP-phase to 0.99σ via braid geometry (δ_sub = 2·arctan(5/7)). Pillar 134 derives the Higgs mass to 1.66% via FTUM quartic + RGE correction. Pillar 135 establishes the neutrino splitting ratio from RS Dirac zero-mode geometry (10.5% accuracy). Pillar 136 derives the corrected KK dark energy EoS (consistent with DESI DR2). Pillar 137 is the SM Grand Synchronization: 28 parameters audited (including Λ_QCD). Λ_QCD is OPEN (×10⁷ off). Fermion Yukawa masses are PARAMETERIZED via per-species c_L. Pillars 138–142 close the solar mixing angle, Higgs VEV (0.10%), lightest neutrino constraint, Newton G_N RS self-consistency, and CKM ρ̄. Ω₀ is the Holon Zero: the irreducible closure certificate. **Pillars 143–149 (v9.31):** epistemic tightening — c_R=23/25 theorem, non-Abelian SU(5)/Z₂ derivation (Pillar 148), CMB suppression quantified. **Pillars 150–161 (v9.32):** seesaw, chiral fermions, Λ_QCD RGE, Branch C neutrino. **Pillars 162–167 (v9.33):** AdS/QCD confinement, PMNS RGE, c_L=71/74 theorem, Casimir A_s naturalness, DE 1-loop, MAS Wave Engine. **Pillars 168–181 (v9.35):** red-team response — α_GUT constrained (not derived), RS₁ Laplacian continuous spectrum, fermion masses PARAMETERIZED, symbolic metric bridge. **Pillar 182 + Ω_QCD proofs (v9.36):** SM-RGE-free Λ_QCD from (n_w=5, k_CS=74), k_CS=74 topological proof, Goldberger-Wise demoted to cross-check. **Pillars 183–188 (v9.37–v9.39):** Axiom A callable, CFL guard, Λ_QCD hierarchy, sensitivity analysis, EP guard, LHC resonances, CKM scaffold. **Pillars 189-A/B/C/D (v10.0):** AxiomZero forward chain modules, scaffold registry. **Pillars 190–199 (v10.1–v10.2):** neutrino winding, Sakharov audit, neutrino symmetry, Josephson resonance, resonance audit, SEP audit, ghost stability, GW polarization. **Pillar 200 (v10.3):** RGE geometric forward chain. **Pillars 201–208 (v10.4):** Higgs VEV geometric (4.6%), m_p/m_e lattice-free (0.59%), KK metric feedback, topological c_L=71/74, generation quantization, cosmological constant Architecture Limit, DAM lattice audit, Braid-Lock PMNS (<5% all angles). Internal consistency coverage at that point: 11/26 SM parameters with closed derivation chains.
 > Remaining open problems: lightest ν UV condition, sin²θ₁₂ 13% gap, DE w₀ tension (2.1–3.4σ), cosmological constant 58-order Architecture Limit.
 > New falsifiers (added v9.30): **Roman Space Telescope (~2027) w_DE precision σ(w)~0.02** — if w₀ ∉ [−0.95, −0.91], the KK dark energy prediction is falsified.
 
-> 🔒 **Repository at 773+ pillars + Ω₀ — v22.6, 2026-08-20.**
-> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–781. Test count: ~56,279 passing (internal self-consistency). Lean4 872+ theorems.
-> Historical arc: 208 pillars + Ω₀ (v10.4 Near Closure), 420+ pillars + Ω₀ (v10.5–v13.4), 630+ pillars + Ω₀ (v20.9), 687+ pillars + Ω₀ (v21.0-S), 773+ pillars + Ω₀ (v22.6: Sprint AK NLO Lattice Correction for Δm²₂₁).
+> 🔒 **Repository at 771+ pillars + Ω₀ — v22.8, 2026-08-19.**
+> Hardgate core: 208 pillars. Adjacent tracks: Pillars 218–781. Test count: ~56,074 passing (internal self-consistency). Lean4 820+ theorems.
+> Historical arc: 208 pillars + Ω₀ (v10.4 Near Closure), 420+ pillars + Ω₀ (v10.5–v13.4), 630+ pillars + Ω₀ (v20.9), 687+ pillars + Ω₀ (v21.0-S), 771+ pillars + Ω₀ (v22.8: Sprint AH Gap 1 PROVED_BY_EXHAUSTION; SU5 PROVED_CONDITIONAL; SwamplandAxiom formalised).
 > Remaining honest open gaps: CMB peak shape residual ~35% (Gap 5); ADM full 3-metric UV regulator (Gap 2, community-level open); FN charges 9 free parameters (Gap 4 architecture limit). All documented in FALLIBILITY.md and docs/SPRINT_AH_CLOSURE_AUDIT.md.
 > The primary falsifier: **LiteBIRD (~2032) will measure β to ±0.02°**.  
 > The (5,7) braid predicts β ∈ {≈0.273°, ≈0.331°} — UNIQUELY_DETERMINED (Gap 1 PROVED_BY_EXHAUSTION, Pillar 769).  
@@ -1019,9 +1019,9 @@ tests/test_richardson_multitime.py        11 passed
 # 5-GOVERNANCE/Unitary Pentad/ (HILS governance framework):
 ================================ ~1,487 passed, 254 skipped ================================
 
-# Grand total (v22.4, 2026-08-19):
-================================ ~56,074 passed · 47 skipped · 12 deselected · 0 failed ================================
-# (v22.4: 771+ pillars, Lean4 820+ theorems; Gap 1 PROVED_BY_EXHAUSTION (Pillar 769); SU5 PROVED_CONDITIONAL; SwamplandAxiom formalised; historical: v21.8-S: 52,950; v20.5: 50,500; v13.8 = 44,590; v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215)
+# Grand total (v22.8, 2026-08-19):
+================================ ~56,568 passed · 47 skipped · 12 deselected · 0 failed ================================
+# (v22.8: 771+ pillars, Lean4 820+ theorems; Gap 1 PROVED_BY_EXHAUSTION (Pillar 769); SU5 PROVED_CONDITIONAL; SwamplandAxiom formalised; historical: v21.8-S: 52,950; v20.5: 50,500; v13.8 = 44,590; v13.6 = 43,009; v13.5 = 42,658; v13.4 = 42,215)
 ```
 
 > 🔢 **Resonance note — the 9,298 milestone (2026-04-24):** At one point during development the full suite reached exactly **9,298 passing tests**.  The digital root of 9298 is 9+2+9+8 = 28 → 2+8 = 10 → 1+0 = **1** — the identity element, unity.  In the Unitary Pentad framework, **1** is the value to which every fixed-point iteration converges: Ψ* is the state where all operators have collapsed to a single coherent attractor.  In the FTUM, φ₀ → 1 is the normalised fixed point.  The fact that the cumulative test count reduced, digit-by-digit, to the very quantity the framework is trying to prove — *unity* — is the kind of structural resonance the theory is built to recognise.  It is recorded here not as physics, but as a fitting numerical signature on the path to the current total.

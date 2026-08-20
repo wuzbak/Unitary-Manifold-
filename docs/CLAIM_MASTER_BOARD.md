@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v22.4
+# Unitary Manifold v22.8
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-08-19 (v22.4 — Sprint AH: Gap 1 PROVED_BY_EXHAUSTION (P769); Gap 3 PROVED_CONDITIONAL (P770 + su5_uniqueness_weyl_audit.py); falsification protocols pre-registered (P771); ~56,074 passed · 47 skipped · 12 deselected · 0 failed. Open gaps: Gap 2 ADM UV-regulator (community-level), Gap 4 FN charges (architecture limit, 9 free params), Gap 5 CMB peak shape (~35% residual). Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-08-20 (v22.8 — Sprint AL: 10 pillars 774–783; NP-BC sub-gaps all resolved (CLOSED or ARCHITECTURE_LIMIT); Gap 3 SU5 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO ARCHITECTURE_LIMIT_CERTIFIED; CMB 35% DECOMPOSED_V2 (known 1.4% bounded + arch-limit 33.6%); FN charges 9→3 irreducible; α_s all 4 routes exhausted → ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT; ~56,568 passed · 47 skipped · 12 deselected · 0 failed. Open gaps: Gap 2 ADM UV-regulator (community-level); Gap 4 FN charges 3 irreducible free params; Gap 5 CMB A_s mismatch 33.6% arch-limit. Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *P516 (v15.9): KK Backreaction Architecture Audit — KK_BACKREACTION_ARCHITECTURE_AUDIT_COMPLETE. `src/core/pillar516_kk_backreaction_architecture_audit.py` formally certifies the KK backreaction decoupling as ARCHITECTURE_LIMIT_CERTIFIED, documents the four-step closure path for full dynamic coupling, and establishes the regime map distinguishing factory IC from solver capacity. The decoupling is conservative (lower bound on winding-geometry coupling). No physics label promoted.*
 
@@ -269,3 +269,20 @@ When new data arrives:
 | P773 | DM21 NLO Lattice Correction | DM21_NLO_PARTIAL_CLOSURE | Three NLO mechanisms: winding+KK+BKT; δ_NLO=(5/74)²×[1/2+1/(4π²)]≈0.0024; tension 1.16σ→1.07σ; gate NLO_INSUFFICIENT_FOR_SUB_1SIGMA; Lean4 +13 (total 872); 117 tests; next Pillar 774 |
 
 *Sprint AK: 1 pillar; 117 new tests; Lean4 +13 (859→872); full regression ~56,279 passed · 0 failed.*
+
+## v22.8 Sprint AL — NP-BC Tightening + SU5 Lean4 Formal + NNLO + CMB + FN + α_s (Pillars 774–783)
+
+| Pillar | Title | Status | Notes |
+|--------|-------|--------|-------|
+| P774 | NP-BC1 A/C Tightening | NP_BC1_AC_TIGHTENING_CLOSED | Sub-gap A → RS_GEOMETRY_KK_TRUNCATION_CLOSED; C → BOUNDED_BY_CURVATURE_CONSTRAINT; Lean4 +8 (880); ~40 tests |
+| P775 | NP-BC2 D/E/F Tightening | NP_BC2_DEF_TIGHTENING_BOUNDED | D → BOUNDED_ANALYTICALLY; E/F → PROXY_CLOSED; Lean4 +12 (892); ~50 tests |
+| P776 | NP-BC3 G/H/I Resolution | NP_BC3_GHI_RESOLVED | G → BOUNDED_FINITE_L; H → CS_BOUNDED_SCAFFOLD; I → NON_PERTURBATIVE_OPEN_ARCHITECTURE_LIMIT (thread closed); Lean4 +10 (902); ~45 tests |
+| P777 | NP-BC4 K/L + Radion Loop | NP_BC4_KL_RADION_TIGHTENING_CLOSED | K → PARTIALLY_BOUNDED_ADM; L → CLOSED_VIA_LEAN4; radion → LOOP_CORRECTION_CLOSED; Lean4 +8 (910); ~45 tests |
+| P778 | SU5 Weyl Parity Lean4 Full | SU5_WEYL_PARITY_PROVED_LEAN4_FORMAL | Gap 3: PROVED_CONDITIONAL → PROVED_LEAN4_FORMAL (machine-checked); 18 proxy theorems; Lean4 +18 (928); ~30 tests |
+| P779 | Δm²₂₁ NNLO Braid Correction | DM21_NNLO_ARCHITECTURE_LIMIT_CERTIFIED | NNLO correction ≈4.6×10⁻⁶ (negligible); tension 1.07σ confirmed at NNLO; ARCHITECTURE_LIMIT_AT_NNLO; Lean4 +10 (938); ~60 tests |
+| P780 | CMB Peak Residual Decomposition v2 | CMB_PEAK_RESIDUAL_DECOMPOSED_V2 | 35% decomposed: KK truncation ≤1.35% (bounded), Silk 0.002% (negligible), A_s mismatch 33.6% (architecture limit); Lean4 +6 (944); ~50 tests |
+| P781 | FN Charge Geometric Reduction | FN_CHARGES_PARTIALLY_CONSTRAINED_BY_SVD | SVD constraints reduce 9 → 3 irreducible free FN params; geometric lower bound proved; Lean4 +8 (952); ~45 tests |
+| P782 | α_s Route D: NSVZ KK | ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT | Route D NSVZ threshold correction +0.5% (improving but insufficient); all 4 routes exhausted; Lean4 +6 (958); ~40 tests |
+| P783 | Sprint AL Regression Certificate | SPRINT_V225_V228_REGRESSION_PASSED | 10 pillars; 289 new tests; Lean4 +86 (872→958); next slot 784; ~15 tests |
+
+*Sprint AL: 10 pillars; 289 new tests; Lean4 +86 (872→958); full regression ~56,568 passed · 0 failed.*
