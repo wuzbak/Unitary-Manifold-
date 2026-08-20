@@ -1,0 +1,36 @@
+{
+  "name": "Unitary Manifold — AxiomZero",
+  "short_name": "AxiomZero",
+  "description": "5D Kaluza-Klein physics framework and AxiomZero product suite. Interactive tools: manifold chart, investigative journalist AI, KK OS kernel, and 16 products.",
+  "start_url": "/az-apps/index.html",
+  "display": "standalone",
+  "background_color": "#050a1a",
+  "theme_color": "#050a1a",
+  "orientation": "any",
+  "categories": ["science", "education", "productivity"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23050a1a'/%3E%3Ccircle cx='256' cy='256' r='200' fill='none' stroke='%233b8bff' stroke-width='12'/%3E%3Ccircle cx='256' cy='256' r='8' fill='%233b8bff'/%3E%3Cline x1='256' y1='56' x2='256' y2='456' stroke='%233b8bff' stroke-width='2' stroke-dasharray='8 6'/%3E%3Ctext x='256' y='270' font-family='monospace' font-size='64' fill='%233b8bff' text-anchor='middle' dominant-baseline='middle'%3EAZ%3C/text%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Manifold Chart",
+      "url": "/az-apps/manifold-chart.html",
+      "description": "U-BCC Smith-chart analogue for 5D KK state space"
+    },
+    {
+      "name": "AXIOM Journalist",
+      "url": "/az-apps/08-axiom-journalist.html",
+      "description": "Empirical investigative dossier workbench"
+    },
+    {
+      "name": "Logic Lodge",
+      "url": "/lodge/index.html",
+      "description": "Physics gymnasium — 208 pillar challenges"
+    }
+  ]
+}

@@ -1,162 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TerraOS — Soil &amp; Water Expert System — AxiomZero</title>
-  <meta name="description" content="Soil and water expert consultation: describe your soil/water condition to receive science-backed remediation recommendations." />
+  <meta
+    name="description"
+    content="Interactive soil and water assessment tool for field conditions, remediation planning, and water quality indexing."
+  />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/11-terra-os.html" />
   <meta name="theme-color" content="#050a1a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/main.css"/>
-  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/az-apps.css" />
   <script src="../js/az-api.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script src="../js/dossier.js" defer></script>
+  <style>
+    body { margin: 0; background: #050a1a; color: var(--color-text); font-family: "Inter", sans-serif; }
+    .app-shell { max-width: 1220px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .hero, .panel { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: 0 24px 48px rgba(0,0,0,.22); }
+    .hero { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; padding: 1.5rem; margin-bottom: 1rem; }
+    .hero-icon { width: 72px; height: 72px; border-radius: 20px; display: grid; place-items: center; background: radial-gradient(circle at top, rgba(87,223,132,.28), rgba(59,139,255,.12)); font-size: 2rem; }
+    .eyebrow, .mono { font-family: var(--font-mono), "JetBrains Mono", monospace; }
+    .eyebrow { color: var(--color-accent); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+    .subtitle { color: var(--color-muted); line-height: 1.6; max-width: 74ch; }
+    .btn-export, .btn-primary { border-radius: 12px; padding: .9rem 1rem; cursor: pointer; font: inherit; font-weight: 700; }
+    .btn-export { border: 1px solid var(--color-border); background: transparent; color: var(--color-text); }
+    .btn-primary { border: 0; background: linear-gradient(135deg, var(--color-accent), #57df84); color: #03111f; }
+    .panel { padding: 1.25rem; }
+    .stack { display: grid; gap: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
+    .field { margin-bottom: .9rem; }
+    .field label { display: block; margin-bottom: .4rem; color: var(--color-muted); font-size: .9rem; }
+    .field input, .field select { width: 100%; box-sizing: border-box; padding: .82rem .9rem; border-radius: 12px; border: 1px solid var(--color-border); background: var(--color-card); color: var(--color-text); font: inherit; }
+    .check-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; }
+    .check-item { display: flex; align-items: center; gap: .55rem; border: 1px solid var(--color-border); border-radius: 12px; padding: .7rem .8rem; background: rgba(255,255,255,.02); }
+    .two-col { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1rem; }
+    .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin: 1rem 0; }
+    .metric { border: 1px solid var(--color-border); border-radius: 14px; padding: .9rem; background: rgba(255,255,255,.025); }
+    .metric span { display: block; color: var(--color-muted); font-size: .76rem; margin-bottom: .3rem; }
+    .meter { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; margin-top: 1rem; }
+    .meter-bar { height: 72px; border-radius: 14px; border: 1px solid var(--color-border); background: rgba(255,255,255,.035); position: relative; overflow: hidden; }
+    .meter-fill { position: absolute; inset: auto 0 0 0; height: 0; background: linear-gradient(180deg, rgba(87,223,132,.95), rgba(59,139,255,.75)); transition: height .25s ease; }
+    .meter-bar label { position: absolute; bottom: .45rem; width: 100%; text-align: center; font-size: .7rem; color: var(--color-muted); }
+    .recommendations { padding-left: 1.2rem; line-height: 1.6; }
+    .formula { border: 1px dashed var(--color-border); border-radius: 14px; padding: .95rem 1rem; background: rgba(255,255,255,.02); color: var(--color-muted); }
+    @media (max-width: 960px) {
+      .hero, .two-col, .form-grid, .check-grid, .metric-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">AZ Products</a></li>
-    <li><a href="../apps/index.html">Calculators</a></li>
-    <li><a href="../lodge/index.html">Lodge</a></li>
-    <li><a href="../about/index.html">About</a></li>
-    <li><span class="nav-badge">v20.1</span></li>
-  </ul>
-  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
-</nav>
-<div class="app-page">
-<div class="app-hero">
-  <div class="container">
-    <div class="app-hero-inner">
-      <div class="app-icon-lg">🌍</div>
-      <div class="app-meta">
-        <div class="app-id-badge">Product 11 · 12-AZ-IP/11-terra-os</div>
-        <div class="app-title">TerraOS — Soil &amp; Water Expert System</div>
-        <div class="app-subtitle">RAG-powered expert system for soil science, water quality analysis, and land remediation. TF-IDF retrieval from authoritative soil and water documentation. Practical recommendations for professionals and researchers.</div>
-        <div class="app-tags"><span class="tag tag-adjacent">🔵 Adjacent Track</span><span class="tag tag-dep">FastAPI</span><span class="tag tag-dep">TF-IDF</span><span class="tag tag-dep">Python</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container section-sm">
-  <!-- API endpoint bar -->
-  <div class="api-endpoint-bar">
-    <span style="font-size:.8rem;color:var(--color-muted);white-space:nowrap">🔌 Backend URL</span>
-    <input type="text" id="endpointInput" placeholder="https://your-host:8001" />
-    <button class="btn btn-outline btn-sm" onclick="connectAPI()">Connect</button>
-    <span id="connStatus" style="font-size:.78rem;color:var(--color-muted)">● Offline demo</span>
-  </div>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Products</a></li>
+      <li><a href="../apps/index.html">Apps</a></li>
+      <li><a href="../lodge/index.html">Lodge</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><span class="nav-badge">🌱 TerraOS</span></li>
+    </ul>
+    <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  </nav>
 
-  <div class="app-layout">
-    <div>
-      <div class="panel" id="inputPanel">
-        <div class="panel-title">⚙️ Input</div>
-        <div class="form-group">
-          <label class="form-label">Query / Input</label>
-          <textarea id="mainInput" class="form-input" rows="5" placeholder="Enter your query here…"></textarea>
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="submitQuery()">Submit</button>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-icon">🌱</div>
+      <div>
+        <div class="eyebrow">Product 11 · TerraOS</div>
+        <h1 style="margin:.35rem 0 .7rem;">TerraOS — Soil &amp; Water Expert System</h1>
+        <p class="subtitle">
+          Soil science, water quality, and land remediation knowledge base.
+          Input field conditions, receive expert assessment and remediation pathway.
+        </p>
       </div>
-    </div>
-    <div>
-      <div class="panel output-panel" id="outputPanel">
-        <div class="panel-title">📊 Output</div>
-        <div id="outputArea">
-          <div class="az-offline-notice">
-            <div class="az-offline-icon">📡</div>
-            <strong>Demo Mode</strong>
-            <p>Connect a live backend URL above, or see sample output below.</p>
+      <button id="exportBtn" class="btn-export">Export Dossier</button>
+    </section>
+
+    <div class="stack">
+      <section class="panel">
+        <div class="two-col">
+          <div>
+            <div class="eyebrow">Soil Assessment</div>
+            <div class="form-grid" style="margin-top:.75rem;">
+              <div class="field">
+                <label for="soilTexture">Soil texture</label>
+                <select id="soilTexture">
+                  <option>Sandy</option><option>Loamy</option><option>Clay</option><option>Silt</option>
+                  <option>Peat</option><option>Chalky</option><option>Loamy Sand</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="soilPh">pH</label>
+                <input id="soilPh" type="number" min="3" max="9" step="0.1" value="6.5" />
+              </div>
+              <div class="field">
+                <label for="soilOm">Organic matter %</label>
+                <input id="soilOm" type="number" min="0" max="20" step="0.1" value="5.5" />
+              </div>
+              <div class="field">
+                <label for="soilCec">CEC (meq/100g)</label>
+                <input id="soilCec" type="number" min="0" max="60" step="0.1" value="18" />
+              </div>
+              <div class="field">
+                <label for="soilCompaction">Compaction</label>
+                <select id="soilCompaction"><option>Low</option><option selected>Medium</option><option>High</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Contaminants</label>
+              <div class="check-grid">
+                <label class="check-item"><input type="checkbox" value="Heavy metals" class="contaminant" />Heavy metals</label>
+                <label class="check-item"><input type="checkbox" value="Hydrocarbons" class="contaminant" />Hydrocarbons</label>
+                <label class="check-item"><input type="checkbox" value="Pesticides" class="contaminant" />Pesticides</label>
+                <label class="check-item"><input type="checkbox" value="Nitrates" class="contaminant" />Nitrates</label>
+                <label class="check-item"><input type="checkbox" value="Salinity" class="contaminant" />Salinity</label>
+                <label class="check-item"><input type="checkbox" value="None" class="contaminant" />None</label>
+              </div>
+            </div>
+            <button id="soilBtn" class="btn-primary">Assess Soil</button>
           </div>
-          <div id="sampleOutput" style="margin-top:1rem;font-size:.85rem;color:var(--color-muted)">
-            <em>Sample output will appear here after submitting a query.</em>
+
+          <div>
+            <div class="metric-grid">
+              <div class="metric"><span>Suitability Score</span><strong class="mono" id="soilScore">—</strong></div>
+              <div class="metric"><span>Classification</span><strong id="soilClass">Awaiting input</strong></div>
+              <div class="metric"><span>Texture Context</span><strong id="soilTextureOut">—</strong></div>
+              <div class="metric"><span>Contaminant Load</span><strong id="soilContaminantLoad">—</strong></div>
+            </div>
+            <div class="meter">
+              <div class="meter-bar"><div class="meter-fill" id="meter1"></div><label>1</label></div>
+              <div class="meter-bar"><div class="meter-fill" id="meter2"></div><label>2</label></div>
+              <div class="meter-bar"><div class="meter-fill" id="meter3"></div><label>3</label></div>
+              <div class="meter-bar"><div class="meter-fill" id="meter4"></div><label>4</label></div>
+              <div class="meter-bar"><div class="meter-fill" id="meter5"></div><label>5</label></div>
+            </div>
+            <ul class="recommendations" id="soilRecommendations">
+              <li>Assess soil to receive remediation guidance.</li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div class="dossier-bar" style="margin-top:1rem">
-        <div class="dossier-bar-label">Export session as PDF dossier</div>
-        <button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button>
-      </div>
+      </section>
+
+      <section class="panel">
+        <div class="two-col">
+          <div>
+            <div class="eyebrow">Water Quality Panel</div>
+            <div class="form-grid" style="margin-top:.75rem;">
+              <div class="field">
+                <label for="waterPh">pH</label>
+                <input id="waterPh" type="number" min="0" max="14" step="0.1" value="7.2" />
+              </div>
+              <div class="field">
+                <label for="waterTurbidity">Turbidity (NTU)</label>
+                <input id="waterTurbidity" type="number" min="0" step="0.1" value="3" />
+              </div>
+              <div class="field">
+                <label for="waterDo">Dissolved oxygen (mg/L)</label>
+                <input id="waterDo" type="number" min="0" step="0.1" value="8.1" />
+              </div>
+              <div class="field">
+                <label for="waterNitrate">Nitrates (mg/L)</label>
+                <input id="waterNitrate" type="number" min="0" step="0.1" value="1.4" />
+              </div>
+              <div class="field">
+                <label for="waterColiform">Coliform (CFU/100mL)</label>
+                <input id="waterColiform" type="number" min="0" step="1" value="12" />
+              </div>
+            </div>
+            <button id="waterBtn" class="btn-primary">Compute Water Quality</button>
+          </div>
+
+          <div>
+            <div class="metric-grid">
+              <div class="metric"><span>Water Quality Index</span><strong class="mono" id="waterWqi">—</strong></div>
+              <div class="metric"><span>Grade</span><strong id="waterGrade">Awaiting input</strong></div>
+              <div class="metric"><span>Dominant Concern</span><strong id="waterConcern">—</strong></div>
+              <div class="metric"><span>Action Priority</span><strong id="waterAction">—</strong></div>
+            </div>
+            <div class="formula">
+              WQI = 0.20·pH + 0.20·Turbidity + 0.25·DO + 0.20·Nitrates + 0.15·Coliform,
+              where each term is first converted to a 0–100 sub-index.
+            </div>
+            <p class="subtitle" id="waterExplanation" style="margin-top:1rem;">
+              Water quality explanation will appear here after calculation.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
+  </main>
+
+  <div class="az-org-strip">
+    AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
+    <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
+    <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
+    Open science artifact for human review, use at your own liability.
   </div>
 
-  <div class="epistemic-box" style="margin-top:2rem">
-    <strong>Dependencies:</strong> fastapi, uvicorn, numpy, scikit-learn
-  </div>
+  <script>
+    const STORAGE_KEY = "az-terra-os";
+    let lastSoil = null;
+    let lastWater = null;
 
-  <div class="run-local" style="margin-top:1.5rem">
-    <div class="run-local-header" onclick="this.nextElementSibling.classList.toggle('open')">
-      <span>💻 Run Locally</span><span>▾</span>
-    </div>
-    <div class="run-local-body">
-<div class="code-block">pip install -r 12-AZ-IP/11-terra-os/requirements.txt
-cd 12-AZ-IP/11-terra-os
-python run.py   # → http://localhost:8001</div>
-      <p style="font-size:.82rem;color:var(--color-muted);margin-top:.5rem">
-        Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/11-terra-os" target="_blank">12-AZ-IP/11-terra-os ↗</a>
-      </p>
-    </div>
-  </div>
-</div>
-</div>
-<div class="az-org-strip">
-  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;·&nbsp;
-  <a href="https://axiomzerospc.org">axiomzerospc.org</a> &nbsp;·&nbsp;
-  <a href="mailto:cpo@axiomzerospc.org">cpo@axiomzerospc.org</a> &nbsp;·&nbsp;
-  Open science artifact for human review, use at your own liability.
-</div>
-<script>
-var liveMode = false, lastInput = '', lastOutput = '';
-AZAPI.bindCustomEndpoint('endpointInput', '11-terra-os');
+    function getSelectedContaminants() {
+      const inputs = Array.from(document.querySelectorAll(".contaminant:checked")).map(function(input) { return input.value; });
+      return inputs.includes("None") && inputs.length > 1 ? inputs.filter(function(value) { return value !== "None"; }) : inputs;
+    }
 
-function connectAPI() {
-  var url = document.getElementById('endpointInput').value.trim();
-  if (!url) { alert('Enter a backend URL.'); return; }
-  AZAPI.endpoints['11-terra-os'] = url.replace(/\/$/,'');
-  document.getElementById('connStatus').textContent = '● Connecting…';
-  AZAPI.call('11-terra-os', '/health').then(function(r) {
-    document.getElementById('connStatus').textContent = r.ok ? '🟢 Live' : '🔴 Unreachable';
-    liveMode = r.ok;
-  });
-}
+    function soilClassification(score) {
+      if (score > 80) return "EXCELLENT";
+      if (score > 60) return "GOOD";
+      if (score > 40) return "MARGINAL";
+      if (score > 20) return "POOR";
+      return "SEVERELY DEGRADED";
+    }
 
-function submitQuery() {
-  var input = document.getElementById('mainInput').value.trim();
-  if (!input) return;
-  lastInput = input;
-  var out = document.getElementById('outputArea');
-  AZAPI.setLoading(out, true);
-  if (liveMode) {
-    AZAPI.call('11-terra-os', '/query', { method:'POST', body:{ input: input } }).then(function(r) {
-      if (r.ok) {
-        lastOutput = JSON.stringify(r.data, null, 2);
-        AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-      } else {
-        AZAPI.showError(out, r.error);
+    function assessSoil() {
+      const texture = document.getElementById("soilTexture").value;
+      const ph = Number(document.getElementById("soilPh").value);
+      const om = Number(document.getElementById("soilOm").value);
+      const cec = Number(document.getElementById("soilCec").value);
+      const compaction = document.getElementById("soilCompaction").value;
+      const contaminants = getSelectedContaminants();
+
+      const phPenalty = ph >= 6 && ph <= 7 ? 0 : Math.min(40, Math.abs(ph - 6.5) * 14);
+      const omBonus = Math.min(18, om * 1.1);
+      const cecBonus = Math.min(14, cec * 0.22);
+      const compactionPenalty = compaction === "Low" ? 0 : compaction === "Medium" ? 10 : 22;
+      const contaminantPenalty = contaminants.includes("None") || !contaminants.length ? 0 : contaminants.length * 12;
+      const textureBias = ({ "Loamy": 7, "Loamy Sand": 3, "Silt": 4, "Clay": 2, "Peat": 5, "Sandy": -3, "Chalky": -2 })[texture] || 0;
+
+      const score = Math.max(0, Math.min(100, 68 - phPenalty - compactionPenalty - contaminantPenalty + omBonus + cecBonus + textureBias));
+      const classification = soilClassification(score);
+      const recommendations = [];
+
+      if (ph < 5.5) recommendations.push("Lime application recommended to raise soil pH.");
+      if (ph > 7.5) recommendations.push("Sulfur or acid-forming amendments may improve micronutrient availability.");
+      if (om < 3) recommendations.push("Increase compost, cover crops, or mulch to build organic matter.");
+      if (cec < 10) recommendations.push("Add biochar or clay-rich amendments to improve nutrient holding capacity.");
+      if (compaction === "High") recommendations.push("Subsoiling or controlled traffic advised to break compaction.");
+      if (contaminants.includes("Heavy metals")) recommendations.push("Phytoremediation or bioremediation required for heavy metal hotspots.");
+      if (contaminants.includes("Hydrocarbons")) recommendations.push("Bioventing and microbial remediation recommended for hydrocarbon contamination.");
+      if (contaminants.includes("Pesticides")) recommendations.push("Targeted bioremediation and monitoring recommended for pesticide residues.");
+      if (contaminants.includes("Nitrates")) recommendations.push("Use denitrifying buffer strips and reduce nutrient loading.");
+      if (contaminants.includes("Salinity")) recommendations.push("Gypsum and leaching plan recommended to reduce salinity.");
+      if (!recommendations.length) recommendations.push("No acute remediation trigger detected; maintain monitoring and structure-building practices.");
+
+      lastSoil = { texture, ph, om, cec, compaction, contaminants, score, classification, recommendations };
+      document.getElementById("soilScore").textContent = score.toFixed(1);
+      document.getElementById("soilClass").textContent = classification;
+      document.getElementById("soilTextureOut").textContent = texture;
+      document.getElementById("soilContaminantLoad").textContent = contaminants.join(", ") || "None";
+      document.getElementById("soilRecommendations").innerHTML = recommendations.map(function(item) { return "<li>" + item + "</li>"; }).join("");
+
+      const filledBars = Math.ceil(score / 20);
+      [1, 2, 3, 4, 5].forEach(function(index) {
+        document.getElementById("meter" + index).style.height = index <= filledBars ? Math.max(25, score - ((index - 1) * 20)) + "%" : "0";
+      });
+      saveState();
+    }
+
+    function waterGrade(score) {
+      if (score >= 90) return "EXCELLENT";
+      if (score >= 75) return "GOOD";
+      if (score >= 50) return "POOR";
+      return "UNSAFE";
+    }
+
+    function computeWater() {
+      const ph = Number(document.getElementById("waterPh").value);
+      const turbidity = Number(document.getElementById("waterTurbidity").value);
+      const dissolvedOxygen = Number(document.getElementById("waterDo").value);
+      const nitrates = Number(document.getElementById("waterNitrate").value);
+      const coliform = Number(document.getElementById("waterColiform").value);
+
+      const phIndex = Math.max(0, 100 - Math.abs(ph - 7) * 20);
+      const turbidityIndex = Math.max(0, 100 - turbidity * 4);
+      const oxygenIndex = Math.max(0, Math.min(100, (dissolvedOxygen / 8) * 100));
+      const nitrateIndex = Math.max(0, 100 - nitrates * 7);
+      const coliformIndex = Math.max(0, 100 - coliform * 0.16);
+      const wqi = (0.20 * phIndex) + (0.20 * turbidityIndex) + (0.25 * oxygenIndex) + (0.20 * nitrateIndex) + (0.15 * coliformIndex);
+      const grade = waterGrade(wqi);
+
+      const subIndices = [
+        { name: "pH", value: phIndex },
+        { name: "Turbidity", value: turbidityIndex },
+        { name: "Dissolved oxygen", value: oxygenIndex },
+        { name: "Nitrates", value: nitrateIndex },
+        { name: "Coliform", value: coliformIndex }
+      ];
+      const concern = subIndices.sort(function(a, b) { return a.value - b.value; })[0];
+
+      lastWater = { ph, turbidity, dissolvedOxygen, nitrates, coliform, wqi, grade, concern: concern.name };
+      document.getElementById("waterWqi").textContent = wqi.toFixed(1);
+      document.getElementById("waterGrade").textContent = grade;
+      document.getElementById("waterConcern").textContent = concern.name;
+      document.getElementById("waterAction").textContent = grade === "UNSAFE" ? "Immediate intervention" : grade === "POOR" ? "Targeted mitigation" : "Routine stewardship";
+      document.getElementById("waterExplanation").textContent =
+        "The lowest-scoring parameter is " + concern.name + ". WQI " + wqi.toFixed(1) +
+        " reflects weighted field suitability for irrigation, habitat support, and human-contact caution screening.";
+      saveState();
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ lastSoil: lastSoil, lastWater: lastWater }));
+    }
+
+    function restoreState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        if (data.lastSoil) {
+          const soil = data.lastSoil;
+          document.getElementById("soilTexture").value = soil.texture;
+          document.getElementById("soilPh").value = soil.ph;
+          document.getElementById("soilOm").value = soil.om;
+          document.getElementById("soilCec").value = soil.cec;
+          document.getElementById("soilCompaction").value = soil.compaction;
+          document.querySelectorAll(".contaminant").forEach(function(input) {
+            input.checked = soil.contaminants.includes(input.value);
+          });
+          assessSoil();
+        }
+        if (data.lastWater) {
+          const water = data.lastWater;
+          document.getElementById("waterPh").value = water.ph;
+          document.getElementById("waterTurbidity").value = water.turbidity;
+          document.getElementById("waterDo").value = water.dissolvedOxygen;
+          document.getElementById("waterNitrate").value = water.nitrates;
+          document.getElementById("waterColiform").value = water.coliform;
+          computeWater();
+        }
+      } catch (error) {
+        console.error("TerraOS restore failed", error);
       }
-    });
-  } else {
-    setTimeout(function() {
-      lastOutput = 'Demo mode — sample response for: "' + input.slice(0,60) + '…"\n\n{ "status": "ok", "result": "[Connect a live backend to see real output]", "epistemic": "demo" }';
-      AZAPI.showResult(out, '<pre class="code-block" style="white-space:pre-wrap;margin:0">' + lastOutput + '</pre>');
-    }, 600);
-  }
-}
+    }
 
-window.addEventListener('load', function() {
-  document.getElementById('dossierBtn').addEventListener('click', function() {
-    AZDossier.export({
-      appName: 'TerraOS — Soil &amp; Water Expert System',
-      appId: '11-terra-os', version: 'v1.0',
-      epistemic: '🔵 ADJACENT TRACK',
-      inputs:  [{ label: 'Query', value: lastInput || '(none)' }],
-      outputs: [{ label: 'Result', value: lastOutput || '(none)' }],
-      notes: 'Backend port: 8001. Connect a live instance to generate real outputs.',
-      dependencies: ['fastapi, uvicorn, numpy, scikit-learn'],
-    });
-  });
-});
-</script>
+    function exportDossier() {
+      if (!lastSoil) assessSoil();
+      if (!lastWater) computeWater();
+      AZDossier.export({
+        appName: "TerraOS — Soil & Water Expert System",
+        appId: "11-terra-os",
+        version: "v20.1",
+        epistemic: "🔵 ADJACENT TRACK",
+        inputs: [
+          { label: "Soil Texture", value: lastSoil.texture },
+          { label: "Soil pH", value: String(lastSoil.ph) },
+          { label: "Organic Matter %", value: String(lastSoil.om) },
+          { label: "CEC", value: String(lastSoil.cec) },
+          { label: "Compaction", value: lastSoil.compaction },
+          { label: "Contaminants", value: lastSoil.contaminants.join(", ") || "None" },
+          { label: "Water pH", value: String(lastWater.ph) },
+          { label: "Turbidity", value: String(lastWater.turbidity) + " NTU" },
+          { label: "Dissolved Oxygen", value: String(lastWater.dissolvedOxygen) + " mg/L" },
+          { label: "Nitrates", value: String(lastWater.nitrates) + " mg/L" },
+          { label: "Coliform", value: String(lastWater.coliform) + " CFU/100mL" }
+        ],
+        outputs: [
+          { label: "Soil Suitability", value: lastSoil.score.toFixed(1) + " · " + lastSoil.classification },
+          { label: "Soil Remediation", value: lastSoil.recommendations.join(" | ") },
+          { label: "Water Quality Index", value: lastWater.wqi.toFixed(1) },
+          { label: "Water Grade", value: lastWater.grade },
+          { label: "Dominant Water Concern", value: lastWater.concern }
+        ],
+        notes: "Soil score combines pH penalty, OM bonus, CEC bonus, compaction penalty, and contaminant penalty. Water WQI uses weighted 0–100 sub-indices.",
+        dependencies: ["Inter", "JetBrains Mono", "jsPDF", "AZDossier"]
+      });
+    }
+
+    document.getElementById("soilBtn").addEventListener("click", assessSoil);
+    document.getElementById("waterBtn").addEventListener("click", computeWater);
+    document.getElementById("exportBtn").addEventListener("click", exportDossier);
+    window.addEventListener("DOMContentLoaded", restoreState);
+  </script>
 </body>
 </html>
