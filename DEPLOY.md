@@ -4,6 +4,9 @@
 **Domain:** axiomzerospc.org  
 **Email:** cpo@axiomzerospc.org
 
+**Current public webspace release:** v22.9  
+**Public status snapshot:** 56,747 passing tests · 976 Lean4 theorems · 0 failed
+
 ---
 
 ## One-time setup
@@ -84,7 +87,8 @@ jobs:
 | URL | Page |
 |-----|------|
 | `axiomzerospc.org/` | Main landing (Unitary Manifold) |
-| `axiomzerospc.org/az-apps/` | AZ Products hub (16 apps) |
+| `axiomzerospc.org/az-apps/` | AZ Products hub (17 apps) |
+| `axiomzerospc.org/az-apps/um-image-generator.html` | UM Image Generator |
 | `axiomzerospc.org/az-apps/01-axiom-os` | AxiomOS |
 | `axiomzerospc.org/az-apps/06-omega-synthesis` | Omega Synthesis (browser JS) |
 | `axiomzerospc.org/az-apps/07-holon-zero` | Holon Zero (browser JS) |
@@ -123,7 +127,23 @@ Connect `lodge.axiomzerospc.org`, `terra.axiomzerospc.org`, etc. as subdomains.
 
 ---
 
-## axiomzerosp.org — Open Science Portal Deployment
+## UM Image Generator
+
+The public entry page for the UM Image Generator lives at:
+
+```text
+public-site/az-apps/um-image-generator.html
+```
+
+It deploys with the rest of `public-site/` on Firebase Hosting and should be listed from:
+
+- `public-site/az-apps/index.html`
+- `public-site/sitemap.xml`
+- release notes or product-index copy that summarize the AZ public webspace
+
+---
+
+## axiomzerospc.org — Open Science Portal Deployment
 
 The portal lives at `public-site/portal/` and `public-site/js/assistant.js`.
 
@@ -146,7 +166,7 @@ export BRAVE_API_KEY=<your_key>   # optional, for websearch
 uvicorn assistant_api:app --host 0.0.0.0 --port 8000
 ```
 
-Deploy on Cloud Run or Railway. Set `CFG.apiEndpoint = 'https://api.axiomzerosp.org'` in `js/assistant.js`.
+Deploy on Cloud Run or Railway. Set `CFG.apiEndpoint = 'https://api.axiomzerospc.org'` in `js/assistant.js`.
 
 ### 3. HF Spaces
 
@@ -176,17 +196,18 @@ git add . && git commit -m "Publish knowledge base" && git push
 
 Run `bot/rag_index.py` to generate the JSONL files before pushing.
 
-### 5. Domain configuration (axiomzerosp.org)
+### 5. Domain configuration (axiomzerospc.org)
 
 | Path | Content |
 |------|---------|
-| `axiomzerosp.org/portal/` | Portal home |
-| `axiomzerosp.org/portal/knowledge/` | Pillar browser |
-| `axiomzerosp.org/portal/gym/` | Gym |
-| `axiomzerosp.org/portal/engine/` | Science Engine |
-| `axiomzerosp.org/portal/library/` | Open Science Library |
-| `axiomzerosp.org/az-apps/` | 16 AZ-IP products |
-| `api.axiomzerosp.org` | Assistant API backend |
+| `axiomzerospc.org/portal/` | Portal home |
+| `axiomzerospc.org/portal/knowledge/` | Pillar browser |
+| `axiomzerospc.org/portal/gym/` | Gym |
+| `axiomzerospc.org/portal/engine/` | Science Engine |
+| `axiomzerospc.org/portal/library/` | Open Science Library |
+| `axiomzerospc.org/az-apps/` | 17 AZ-IP products |
+| `axiomzerospc.org/az-apps/um-image-generator.html` | UM Image Generator |
+| `api.axiomzerospc.org` | Assistant API backend |
 
 ### 6. Wiring HF token to assistant
 

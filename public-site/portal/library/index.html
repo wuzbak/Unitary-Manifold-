@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Open Science Library — axiomzerosp.org</title>
+  <title>Open Science Library — axiomzerospc.org</title>
   <meta name="description" content="Full open access library: 74-chapter monograph, arXiv preprint, FALLIBILITY register, BibTeX citations, and live status dashboard." />
   <meta name="theme-color" content="#050a1a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,7 +66,7 @@
 <nav class="nav">
   <a class="nav-brand" href="../index.html">
     <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
-    axiomzerosp.org
+    axiomzerospc.org
   </a>
   <ul class="nav-links">
     <li><a href="../knowledge/">Knowledge</a></li>
@@ -95,7 +95,7 @@
     <p>Real-time framework health — test counts, theorem totals, and open gap tracking. Loaded from STATUS.md.</p>
     <div class="status-cards" id="status-cards">
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-tests">56,279</div>
+        <div class="stat-num-lg" id="s-tests">56,772</div>
         <div class="stat-label">Tests Passing</div>
         <div class="stat-sub">0 failures required</div>
       </div>
@@ -105,7 +105,7 @@
         <div class="stat-sub">optional deps</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-lean">872+</div>
+        <div class="stat-num-lg" id="s-lean">976</div>
         <div class="stat-label">Lean4 Theorems</div>
         <div class="stat-sub">machine-verified</div>
       </div>
@@ -115,7 +115,7 @@
         <div class="stat-sub">core set CLOSED</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg">v22.6</div>
+        <div class="stat-num-lg">v22.10</div>
         <div class="stat-label">Framework Version</div>
         <div class="stat-sub">2026-08-20</div>
       </div>
@@ -144,6 +144,7 @@
           <a href="https://doi.org/10.5281/zenodo.19584531" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">Zenodo →</a>
           <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/6-MONOGRAPH/MCP_INGEST.md" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">MCP Summary →</a>
           <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/manuscript" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">Chapters →</a>
+          <a href="../../um-reader.html" class="doc-btn doc-btn-primary">UM Reader →</a>
         </div>
       </div>
     </div>
@@ -156,7 +157,7 @@
     <div class="doc-card">
       <div class="doc-icon">📄</div>
       <div class="doc-body">
-        <h3>arXiv Draft — v22.6</h3>
+        <h3>arXiv Draft — v22.10</h3>
         <p>LaTeX source in arxiv/main.tex · Bibliography in arxiv/references.bib · Submission in progress</p>
         <div class="doc-actions">
           <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/arxiv/main.tex" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">LaTeX Source →</a>
@@ -282,8 +283,8 @@ fetch('../../data/status.json')
   .then(function(d) {
     if (d.tests_passed)  document.getElementById('s-tests').textContent   = d.tests_passed.toLocaleString();
     if (d.tests_skipped) document.getElementById('s-skipped').textContent = d.tests_skipped;
-    if (d.lean4_theorems)document.getElementById('s-lean').textContent   = d.lean4_theorems + '+';
-    if (d.pillars)       document.getElementById('s-pillars').textContent = d.pillars + '+';
+    if (d.lean4_theorems) document.getElementById('s-lean').textContent = d.lean4_theorems.toLocaleString();
+    if (d.pillars_hardgate || d.pillars) document.getElementById('s-pillars').textContent = (d.pillars_hardgate || d.pillars).toLocaleString();
   }).catch(function(){});
 
 document.addEventListener('DOMContentLoaded', function() {

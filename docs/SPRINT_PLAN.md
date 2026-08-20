@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-08-20 (v22.8 Sprint AL COMPLETE — Pillars 774–783; NP-BC sub-gaps resolved; Gap 3 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO certified; CMB decomposed; FN 9→3; α_s all routes exhausted; Lean4 +86 → 958; ~56,568 passed · 0 failed)*
+*Last updated: 2026-08-20 (v22.9 Sprint AM COMPLETE — Pillar 784 TYPE_AB_CLASSIFICATION; Lean4 +18 → 976; ~56,747 passed · 0 failed)*
 *Purpose: Persistent continuity document for token-budget resilience. Any new agent session
 MUST read STATUS.md + mas_tracker.yml + this file as the first three operations.*
 
@@ -24,7 +24,7 @@ Then store the verified state in agent memory before proceeding.
 | Version | v22.4 |
 | Next pillar slot | **772** |
 | Lean4 theorems | **820+** |
-| Full regression | **~56,074 passed · 47 skipped · 12 deselected · 0 failed** |
+| Full regression | **~56,747 passed · 47 skipped · 12 deselected · 0 failed** |
 | Framework consistency status | All derivation chains internally self-consistent; external confirmation pending (LiteBIRD ~2032) |
 | Open named gaps | Gap 2 (ADM UV regulator, community-level); Gap 4 (FN charges, 9 free params, architecture limit); Gap 5 (CMB peak shape ~35% residual) |
 | Gap 1 status | **PROVED_BY_EXHAUSTION** (Pillar 769) — (5,7) unique braid survivor |

@@ -502,3 +502,117 @@ def test_all_submodules_importable():
     for name in ["pillar_plots", "geometry_viz", "feynman_diagrams", "cmb_skymap"]:
         mod = importlib.import_module(f"src.visualization.{name}")
         assert mod is not None
+
+
+# ===========================================================================
+# 6. New honest-accounting plots (v22.10)
+# ===========================================================================
+
+class TestTensionReductionChart:
+    @pytest.fixture(scope="class")
+    def mod(self):
+        return pytest.importorskip("src.visualization.pillar_plots")
+
+    def test_returns_figure(self, mod):
+        fig = mod.plot_tension_reduction_chart()
+        assert fig is not None
+
+    def test_has_correct_sigma_values(self, mod):
+        """The function must encode the three documented σ values."""
+        import inspect
+        src = inspect.getsource(mod.plot_tension_reduction_chart)
+        assert "2.98" in src
+        assert "1.16" in src
+        assert "1.07" in src
+
+    def test_architecture_limit_annotation(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_tension_reduction_chart)
+        assert "ARCHITECTURE_LIMIT" in src
+
+    def test_pillar_references(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_tension_reduction_chart)
+        assert "772" in src
+        assert "773" in src
+
+    def test_svg_saved(self, mod, tmp_path):
+        out = tmp_path / "tension.svg"
+        fig = mod.plot_tension_reduction_chart(out)
+        assert out.exists()
+
+
+class TestTestPillarTimeline:
+    @pytest.fixture(scope="class")
+    def mod(self):
+        return pytest.importorskip("src.visualization.pillar_plots")
+
+    def test_returns_figure(self, mod):
+        fig = mod.plot_test_pillar_timeline()
+        assert fig is not None
+
+    def test_has_v22_entries(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_test_pillar_timeline)
+        assert "v22.10" in src
+
+    def test_lean4_data_present(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_test_pillar_timeline)
+        assert "976" in src
+
+    def test_test_count_data_present(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_test_pillar_timeline)
+        assert "56.8" in src  # 56,772 tests ≈ 56.8k
+
+    def test_no_toe_score_language(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_test_pillar_timeline)
+        assert "ToE score" not in src
+        assert "toe_score" not in src.lower()
+
+    def test_svg_saved(self, mod, tmp_path):
+        out = tmp_path / "timeline.svg"
+        fig = mod.plot_test_pillar_timeline(out)
+        assert out.exists()
+
+
+class TestArchitectureLimitsSummary:
+    @pytest.fixture(scope="class")
+    def mod(self):
+        return pytest.importorskip("src.visualization.pillar_plots")
+
+    def test_returns_figure(self, mod):
+        fig = mod.plot_architecture_limits_summary()
+        assert fig is not None
+
+    def test_all_four_gaps_present(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_architecture_limits_summary)
+        assert "G1" in src
+        assert "G2" in src
+        assert "G3" in src
+        assert "G4" in src
+
+    def test_type_b_labels(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_architecture_limits_summary)
+        assert "TYPE_B_STRUCTURAL_FLOOR" in src
+        assert "TYPE_B_CANDIDATE" in src
+
+    def test_fallibility_reference(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_architecture_limits_summary)
+        assert "FALLIBILITY" in src
+
+    def test_pillar_references(self, mod):
+        import inspect
+        src = inspect.getsource(mod.plot_architecture_limits_summary)
+        assert "784" in src
+        assert "785" in src
+
+    def test_svg_saved(self, mod, tmp_path):
+        out = tmp_path / "arch_limits.svg"
+        fig = mod.plot_architecture_limits_summary(out)
+        assert out.exists()

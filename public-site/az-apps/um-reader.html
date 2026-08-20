@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>UM Reader — AxiomZero</title>
+  <meta name="description" content="Explore 300+ Unitary Manifold posts and books by topic, with elegant reading mode, math rendering, and text-to-speech." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/um-reader.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0n4qGd7DBQeYIu0YJrVN6a8GN28AL/fOHnqd7qV3CyMfCVxYjBy06" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+  <style>
+    :root {
+      --reader-bg: #0a0f1e;
+      --reader-surface: #0d1830;
+      --reader-panel: #111f3e;
+      --reader-accent: #3b8bff;
+      --reader-gold: #f4c542;
+      --reader-text: #edf3ff;
+      --reader-muted: #8fa3c7;
+      --reader-border: #1e3158;
+      --reader-shadow: 0 20px 40px rgba(0, 0, 0, 0.32);
+    }
+    body { background: var(--reader-bg); }
+    .reader-shell { padding-bottom: 3rem; }
+    .reader-layout {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      align-items: start;
+    }
+    .reader-mobile-toggle {
+      display: none;
+      margin-top: 1rem;
+      width: 100%;
+      justify-content: center;
+    }
+    .reader-sidebar {
+      background: linear-gradient(180deg, rgba(17,31,62,0.96), rgba(13,24,48,0.96));
+      border: 1px solid var(--reader-border);
+      border-radius: 18px;
+      padding: 1rem;
+      box-shadow: var(--reader-shadow);
+      position: sticky;
+      top: 84px;
+      max-height: calc(100vh - 110px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .reader-filter-grid { display: grid; gap: 0.85rem; }
+    .reader-field label {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--reader-muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    .reader-field input,
+    .reader-field select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      color: var(--reader-text);
+      border: 1px solid var(--reader-border);
+      border-radius: 10px;
+      padding: 0.7rem 0.85rem;
+      font-size: 0.94rem;
+    }
+    .reader-list-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--reader-muted);
+      font-size: 0.84rem;
+      padding-top: 0.1rem;
+    }
+    .reader-list {
+      overflow-y: auto;
+      padding-right: 0.15rem;
+      scroll-behavior: smooth;
+      display: grid;
+      gap: 0.8rem;
+    }
+    .reader-entry {
+      width: 100%;
+      text-align: left;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(59,139,255,0.14);
+      border-radius: 16px;
+      padding: 0.9rem 0.95rem;
+      color: var(--reader-text);
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+    .reader-entry:hover,
+    .reader-entry.is-active {
+      transform: translateY(-1px);
+      border-color: rgba(59,139,255,0.5);
+      background: rgba(59,139,255,0.08);
+      box-shadow: 0 0 24px rgba(59,139,255,0.14);
+    }
+    .reader-entry-topline { display: flex; gap: 0.5rem; align-items: flex-start; justify-content: space-between; }
+    .reader-entry-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      line-height: 1.35;
+      flex: 1;
+    }
+    .reader-entry-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.45rem;
+      color: var(--reader-muted);
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+    }
+    .reader-entry-preview {
+      margin-top: 0.55rem;
+      color: #cdd8ef;
+      font-size: 0.86rem;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .reader-panel {
+      min-width: 0;
+      background: linear-gradient(180deg, rgba(13,24,48,0.96), rgba(10,15,30,0.98));
+      border: 1px solid var(--reader-border);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--reader-shadow);
+    }
+    .reader-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.1rem;
+      border-bottom: 1px solid rgba(59,139,255,0.16);
+      background: linear-gradient(135deg, rgba(59,139,255,0.07), rgba(244,197,66,0.04));
+      flex-wrap: wrap;
+    }
+    .reader-toolbar-main { display: grid; gap: 0.45rem; min-width: 240px; flex: 1; }
+    .reader-toolbar-main h2 {
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+      margin: 0;
+    }
+    .reader-meta-row,
+    .reader-toolbar-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .reader-toolbar-actions {
+      justify-content: flex-end;
+      min-width: 280px;
+      flex: 1;
+    }
+    .reader-tts-group {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+    .reader-tts-group .btn { padding-inline: 0.95rem; }
+    .reader-tts-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid rgba(59,139,255,0.2);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+      flex-wrap: wrap;
+    }
+    .reader-tts-controls label {
+      font-size: 0.76rem;
+      color: var(--reader-muted);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .reader-tts-controls select,
+    .reader-tts-controls input[type="range"] {
+      max-width: 170px;
+    }
+    .reader-status-strip {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0.85rem 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: var(--reader-muted);
+      font-size: 0.85rem;
+    }
+    .reader-content-wrap {
+      min-height: 60vh;
+      position: relative;
+      padding: 1.1rem;
+    }
+    .reader-loading-slot,
+    .reader-error-slot {
+      margin-bottom: 1rem;
+    }
+    .reader-content {
+      max-width: 720px;
+      margin: 0 auto;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: #f2f5fb;
+      padding-bottom: 2rem;
+    }
+    .reader-content h1,
+    .reader-content h2,
+    .reader-content h3,
+    .reader-content h4 {
+      color: var(--reader-gold);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.25;
+      margin: 1.8rem 0 1rem;
+    }
+    .reader-content h1 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+    .reader-content h2 { font-size: clamp(1.45rem, 2.5vw, 2rem); }
+    .reader-content h3 { font-size: 1.35rem; }
+    .reader-content p,
+    .reader-content li,
+    .reader-content blockquote {
+      color: #f2f5fb;
+      margin-bottom: 1rem;
+    }
+    .reader-content ul,
+    .reader-content ol { padding-left: 1.4rem; margin-bottom: 1.1rem; }
+    .reader-content blockquote {
+      border-left: 3px solid rgba(244,197,66,0.5);
+      padding-left: 1rem;
+      color: #dfe8fa;
+      background: rgba(244,197,66,0.05);
+      border-radius: 0 12px 12px 0;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+    .reader-content hr {
+      border: 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 1.8rem 0;
+    }
+    .reader-content pre {
+      overflow-x: auto;
+      padding: 1rem;
+      border-radius: 14px;
+      background: #071123;
+      border: 1px solid rgba(59,139,255,0.16);
+      margin-bottom: 1rem;
+    }
+    .reader-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+      font-size: 0.96rem;
+    }
+    .reader-content th,
+    .reader-content td {
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.7rem;
+      text-align: left;
+    }
+    .reader-content .um-reader-math-block,
+    .reader-content .um-reader-inline-math {
+      color: #f3f7ff;
+    }
+    .reader-content .tts-active {
+      background: rgba(59,139,255,0.13);
+      outline: 1px solid rgba(59,139,255,0.24);
+      border-radius: 10px;
+      box-shadow: 0 0 0 0.35rem rgba(59,139,255,0.08);
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+    .topic-foundation { color: #85c4ff; border-color: rgba(133,196,255,0.28); background: rgba(133,196,255,0.1); }
+    .topic-particle { color: #c69bff; border-color: rgba(198,155,255,0.28); background: rgba(198,155,255,0.1); }
+    .topic-cosmology { color: #ffd98b; border-color: rgba(255,217,139,0.28); background: rgba(255,217,139,0.1); }
+    .topic-philosophy { color: #9ff3d2; border-color: rgba(159,243,210,0.28); background: rgba(159,243,210,0.1); }
+    .topic-ai { color: #f7b1d0; border-color: rgba(247,177,208,0.28); background: rgba(247,177,208,0.1); }
+    .topic-applied { color: #a3f0ff; border-color: rgba(163,240,255,0.28); background: rgba(163,240,255,0.1); }
+    .topic-math { color: #b7c6ff; border-color: rgba(183,198,255,0.28); background: rgba(183,198,255,0.1); }
+    .topic-open { color: #ffd2a8; border-color: rgba(255,210,168,0.28); background: rgba(255,210,168,0.1); }
+    .topic-books { color: #f4c542; border-color: rgba(244,197,66,0.3); background: rgba(244,197,66,0.11); }
+    .reader-empty {
+      color: var(--reader-muted);
+      padding: 1rem 0.25rem;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 980px) {
+      .reader-layout { grid-template-columns: 1fr; }
+      .reader-mobile-toggle { display: inline-flex; }
+      .reader-sidebar {
+        position: static;
+        max-height: 0;
+        padding: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
+      }
+      .reader-sidebar.is-open {
+        max-height: 80vh;
+        padding: 1rem;
+        opacity: 1;
+      }
+    }
+    @media (max-width: 720px) {
+      .reader-toolbar-actions { justify-content: flex-start; min-width: 0; }
+      .reader-content-wrap { padding: 0.85rem; }
+      .reader-content { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../about/index.html">About</a></li>
+    <li><span class="nav-badge">v22.9</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="app-page reader-shell">
+  <div class="app-hero">
+    <div class="container">
+      <div class="app-hero-inner">
+        <div class="app-icon-lg">📖</div>
+        <div class="app-meta">
+          <div class="app-id-badge">AZ Artifact · public-site/az-apps/um-reader</div>
+          <div class="app-title">UM Reader</div>
+          <div class="app-subtitle">
+            Beautiful long-form reader for Unitary Manifold books and Substack posts, organized by topic and enhanced with math rendering, keyboard navigation, and text-to-speech.
+          </div>
+          <div class="app-tags">
+            <span class="tag tag-green">🟢 Browser-native</span>
+            <span class="tag tag-physics">⚛️ 300+ artifacts</span>
+            <span class="tag tag-ai">🔊 TTS educator mode</span>
+          </div>
+        </div>
+      </div>
+      <button id="readerSidebarToggle" class="btn btn-outline reader-mobile-toggle" type="button">Browse library ☰</button>
+    </div>
+  </div>
+
+  <div class="container section-sm">
+    <div class="epistemic-box">
+      <strong>Reading mode:</strong>
+      Open science library for human review. Browse by topic, render equations with KaTeX, and listen via Web Speech API with thoughtful cadence controls.
+    </div>
+
+    <div class="reader-layout">
+      <aside id="readerSidebar" class="reader-sidebar" aria-label="Reader library sidebar">
+        <div class="panel-title">🔎 Library controls</div>
+        <div class="reader-filter-grid">
+          <div class="reader-field">
+            <label for="readerSearch">Search</label>
+            <input id="readerSearch" type="search" placeholder="Search titles or previews" />
+          </div>
+          <div class="reader-field">
+            <label for="readerTopicFilter">Topic</label>
+            <select id="readerTopicFilter"></select>
+          </div>
+          <div class="reader-field">
+            <label for="readerSeriesFilter">Series</label>
+            <select id="readerSeriesFilter"></select>
+          </div>
+          <div class="reader-field">
+            <label for="readerSort">Sort</label>
+            <select id="readerSort">
+              <option value="number">Date / Number</option>
+              <option value="title">Title (A–Z)</option>
+            </select>
+          </div>
+        </div>
+        <div class="reader-list-meta">
+          <span>📚 Collection</span>
+          <span id="readerCount">0 items</span>
+        </div>
+        <div id="readerList" class="reader-list"></div>
+      </aside>
+
+      <section class="reader-panel" aria-label="Reader content panel">
+        <div class="reader-toolbar">
+          <div class="reader-toolbar-main">
+            <h2 id="readerTitle">UM Reader</h2>
+            <div class="reader-meta-row">
+              <span id="readerTopicBadge" class="badge topic-foundation">Loading…</span>
+              <span id="readerWordCount" class="text-muted">0 words</span>
+              <span id="readerSeries" class="text-muted">General</span>
+              <a id="readerOpenLink" href="#" target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>
+            </div>
+          </div>
+          <div class="reader-toolbar-actions">
+            <div class="reader-tts-group">
+              <button id="ttsPlay" class="btn btn-primary" type="button">▶ Play</button>
+              <button id="ttsPause" class="btn btn-outline" type="button">⏸ Pause</button>
+              <button id="ttsStop" class="btn btn-outline" type="button">⏹ Stop</button>
+            </div>
+            <div class="reader-tts-controls">
+              <label for="ttsRate">Speed</label>
+              <input id="ttsRate" type="range" min="0.7" max="1.4" value="0.95" step="0.05" />
+              <span id="ttsRateValue">0.95×</span>
+              <label for="ttsVoice">Voice</label>
+              <select id="ttsVoice" aria-label="Voice selector"></select>
+            </div>
+          </div>
+        </div>
+        <div class="reader-status-strip">
+          <span>Use ← and → to move between filtered entries.</span>
+          <span>Math: KaTeX · Markdown: marked.js · Speech: Web Speech API</span>
+        </div>
+        <div class="reader-content-wrap">
+          <div id="readerLoading" class="az-loading reader-loading-slot"><span class="az-spinner"></span>Loading document…</div>
+          <div id="readerError" class="az-error-notice reader-error-slot" hidden></div>
+          <article id="readerContent" class="reader-content"></article>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 | Open science artifact for human review, use at your own liability
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-X/XCfOo3Gzdh0dX8GZFODdgNpTi27C/medfyqabuX41sJLdnOjFkWDXLI4sdAl4k" crossorigin="anonymous"></script>
+<script type="module" src="../js/um-reader.js"></script>
+</body>
+</html>

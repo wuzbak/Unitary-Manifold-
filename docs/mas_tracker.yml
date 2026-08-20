@@ -1,4 +1,4 @@
-version: "v22.8"
+version: "v22.11"
 date: "2026-08-20"
 updated: "2026-08-20"
 
@@ -18,7 +18,7 @@ v22_8_sprint_al:
     - "782: ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT — Route D NSVZ insufficient (~0.5%); all 4 routes exhausted; Lean4 +6; ~40 tests"
     - "783: SPRINT_V225_V228_REGRESSION_PASSED — 10 pillars; 289 new tests; Lean4 +86 (872→958); next slot 784; ~15 tests"
   tests_added: 289
-  regression: "~56,568 passed · 47 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 784
   next_version: "v22.9"
   lean4_theorems_total: 958
@@ -69,7 +69,7 @@ v20_9_sprints_m_q:
     - "651: BOOK31_ARXIV_V209_SYNC — Book 31 + arXiv v20.9 sync; ~15 tests"
     - "652: V209_FINAL_REGRESSION — final regression cert; ~22 tests"
   tests_added: 435
-  regression: "~51,440 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 653
   next_substack_post: "#286 S03E064"
 
@@ -86,7 +86,7 @@ v20_8_sprint_l:
     - "629: BOOK30_FTHEORY_DBP_COMPLETE_SYNC_CERTIFIED — Book 30 + arXiv v20.8 sync; Substack #284 S03E062; ~20 tests"
     - "630: V208_REGRESSION_CERTIFICATE_SPRINT_L — v20.8 regression; ToE 30.0/28; Lean4 342; ~51,005 passed · 0 failed; ~35 tests"
   tests_added: 175
-  regression: "~51,005 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 631
   next_substack_post: "#285 S03E063"
   toe_delta: 0
@@ -111,7 +111,7 @@ v20_7_sprint_k:
     - "622: LEAN4_342_SPRINT_K_MILESTONE — Lean4 342 milestone; all 6 NP-BC chains; 18 sub-gaps proved; ~30 tests"
     - "623: V207_REGRESSION_CERTIFICATE_SPRINT_K — v20.7 regression; Lean4 342; ~50,830 passed · 0 failed; ~30 tests"
   tests_added: 180
-  regression: "~50,830 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 624
   next_substack_post: "#284 S03E062"
   toe_delta: 0
@@ -136,7 +136,7 @@ v20_6_sprint_j:
     - "616: BOOK29_ARXIV_V206_SYNC — Book 29 'DM21 Closed' + arXiv v20.6; Substack #282 S03E060; ~30 tests"
     - "617: V206_REGRESSION_CERTIFICATE_SPRINT_J — v20.6 regression; ToE 30.0/28; Lean4 308; ~50,650 passed · 0 failed; ~30 tests"
   tests_added: 150
-  regression: "~50,650 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 618
   next_substack_post: "#283 S03E061"
   toe_delta: 0.5
@@ -171,7 +171,7 @@ v20_1_all_sprints_release:
     - "589: NP_BC4_ALL_THREE_SUBGAP_KERNELS_PROVED — NP-BC-4 certificate; 34 sub-gap theorems; 135 total sub-gap theorems (12 sub-gaps × NP-BC-1/2/3/4)"
     - "590: LEAN4_274_THEOREM_MILESTONE_CERTIFIED — Lean4 274 total (+34); Sprint E milestone; Substack #277 S03E055"
   tests_added: 727
-  regression: "~50,500 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 591
   next_substack_post: "#278 S03E056"
   toe_delta: 0
@@ -239,7 +239,7 @@ v20_0_ftheory_12d_rung7:
     - "573: FTHEORY_MATTER_CURVES_CL_ADJACENT — 🔵 ADJACENT TRACK; Anchor C c_L_min≈0.917 from F-theory normalizability; Gap B OPEN→MECHANISM_IDENTIFIED; 3 blocking residuals; 73 tests"
     - "574: FTHEORY_12D_RUNG7_SYNC — sync sprint; STATUS.md v20.0, roadmap Rung 7, mas_tracker, FALLIBILITY, Substack #272"
   tests_added: 285
-  regression: "~49,123 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 575
   next_substack_post: "#273 S03E051"
   toe_delta: 0
@@ -262,7 +262,7 @@ v19_4_erepr_subgap_completion:
     - "568: NP_BC3_SUBGAP_H_CS_ENTANGLEMENT_KERNEL_PROVED — NPBC3SubgapH.lean 11 theorems; total 228; D>8 topological order; 82 tests"
     - "569: NP_BC3_SUBGAP_I_CS_EREPR_GEOMETRY_KERNEL_PROVED — NPBC3SubgapI.lean 12 theorems; total 240; ALL_NINE_SUBGAP_KERNELS_PROVED milestone; 101 subgap theorems; 125 tests"
   tests_added: 413
-  regression: "~48,838 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 570
   next_substack_post: "#271 S03E049"
   toe_delta: 0
@@ -311,7 +311,7 @@ v19_3_sprint1_dm31_closure_np_bc1_subgaps:
     - "562: NP_BC1_SUBGAP_C_CURVED_ORBIFOLD_KERNEL_PROVED — NPBC1SubgapC.lean 11 theorems; total 173; all 3 NP-BC-1 sub-gap kernels proved; 50 tests"
     - "563: ARXIV_BOOK26_SYNC_V193_CERTIFIED — Book 26 + arXiv v19.3 + Substack #268+#269; 44 tests"
   tests_added: 242
-  regression: "~48,425 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 564
   next_substack_post: "#270 S03E048"
   toe_delta: 0.5
@@ -357,7 +357,7 @@ v19_2_open_problem_closure_sprint:
     - "557: LEAN4_NP_BC3_GEOMETRIC_KERNEL_PROVED — NPBC3Kernel.lean 14 theorems; total 139; all 3 kernels proved; 53 tests"
     - "558: GEN1_CL_AHARONOV_BOHM_DERIVED — gen-1 c_L=10/74 from AB mechanism; all gen DERIVED; closes P550 candidate; 57 tests"
   tests_added: 248
-  regression: "48,225 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 559
   next_substack_post: "#269 S03E047"
   toe_delta: 0.5
@@ -397,7 +397,7 @@ v19_1_six_pillar_depth_sprint:
     - "553: AZ_OS_DECISION_ENGINE_CERTIFIED 🔵 — phi_decision_engine.py; 5 KK levels; HILS alert routing; 37 tests"
   book_added: "Book 25: The Neutrino Gap — DM31 architecture limit, WS-V path, DESI parallel, falsification (8 chapters)"
   tests_added: 235
-  regression: "47,977 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 554
   next_substack_post: "#268 S03E046"
   substack_post: "#267 S03E045 published in-repo (7-OUTREACH/substack/posts/post-267-s03e045-v191-the-neutrino-gap-closes-partially.md)"
@@ -457,7 +457,7 @@ v19_0_six_pillar_depth_sprint:
     - "547: AZ_OS_PHI_FIELD_INTERFACE_CERTIFIED — az-os/phi_field_interface.py, φ-debt accounting, KK ring mapping, HILS alerts; 37 tests"
   book_added: "Book 24: The Frozen Radion — dark energy, frozen radion prediction, DESI tension, preregistration (8 chapters)"
   tests_added: 179
-  regression: "47,846 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 548
   next_substack_post: "#267 S03E045"
   substack_post: "#266 S03E044 published in-repo (7-OUTREACH/substack/posts/post-266-s03e044-v190-six-pillars-one-shared-interface.md)"
@@ -500,7 +500,7 @@ v18_5_branch_canonicality_sprint:
   pillars_added:
     - "541: SHADOW_SECTOR_CLASSIFIED — NON_CANONICAL_BRANCH_CERTIFIED; (5,7) canonical vs (5,6) shadow sector; r=0.0175 NOT canonical UM prediction; both sectors have ACT DR6 tension; three independent selection mechanisms; LiteBIRD discriminability 5.8σ; 74 tests"
   tests_added: 74
-  regression: "47,245 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 542
   next_substack_post: "#266 S03E044"
   substack_post: "#265 S03E043 published in-repo (7-OUTREACH/substack/posts/post-265-s03e043-v185-branch-canonicality-both-sectors-have-act-tension.md)"
@@ -524,7 +524,7 @@ v18_4_full_dimensional_synthesis_sprint:
   pillars_added:
     - "540: FULL_DIMENSIONAL_SYNTHESIS_CERTIFIED — 🔵 ADJACENT TRACK; 7 new computations spanning 6D→11D; Case G Δm²₃₁ 6D_DIMENSION_IMPROVED; CMB A_s 6D partial improvement; tensor ratio irreducible confirmed; Higgs naturalness DERIVED_PARTIAL_6D (Δ^{6D}≈4.2); baryogenesis TESTABLE_6D_MECHANISM (nEDM@SNS 2028); dimensional hierarchy matrix; terminal synthesis certificate"
   tests_added: 141
-  regression: "47,171 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 541
   next_substack_post: "#265 S03E043"
   substack_post: "#264 S03E042 published in-repo (7-OUTREACH/substack/posts/post-264-s03e042-full-report-where-we-are-everything-plainly-stated.md)"
@@ -545,7 +545,7 @@ v18_3_enteric_neural_core_sprint:
   pillars_added:
     - "538: ENTERIC_NEURAL_CORE — 🔵 ADJACENT TRACK; ENS/toroidal/KK geometric framework; toroidal null point at ~4.4 cm below navel; ENS autonomy φ-debt metric; embryological n_before=6 link"
   tests_added: 75
-  regression: "47,030 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 539
   next_substack_post: "#264 S03E042"
   toe_delta: 0.0
@@ -564,7 +564,7 @@ v18_2_shadow_pair_parent_derivation_sprint:
   pillars_added:
     - "537: SHADOW_PAIR_PARENT_DERIVATION — K_CS=74 and c_s=12/37 derived from n_before=6; Pillar 267 analytic gap CLOSED"
   tests_added: 77
-  regression: "46,955 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 538
   next_substack_post: "#262 S03E040"
   files_updated:
@@ -581,7 +581,7 @@ v18_2_shadow_pair_parent_derivation_sprint:
 
 public_surface_sync_checkpoint:
   version: "v18.0"
-  regression: "46,218 passed · 2 skipped · 12 deselected · 0 failed (v17.0 baseline) | +491 new tests (Pillars 525–535) in v18.0"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed (v17.0 baseline) | +491 new tests (Pillars 525–535) in v18.0"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
@@ -945,7 +945,7 @@ v15_8_topological_irreversibility_engine:
     - "docs/mas_tracker.yml: v15.8 tracker block and regression checkpoint"
     - "docs/WAVE_CHANGELOG.md: v15.8 entry"
   focused_regression: "82 passed · 0 failed (P511–P515 topological engine tests)"
-  full_regression: "45,905 passed · 22 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 516
   epistemic_deltas:
@@ -977,7 +977,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v15.6"
-  regression: "28 passed · 0 failed focused P507/P508/P509 proof-advancement regression; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed"
+  regression: "28 passed · 0 failed focused P507/P508/P509 proof-advancement regression; latest full regression 56,964 passed · 47 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
@@ -1031,7 +1031,7 @@ v15_7_ai_governance_stack_operationalized:
     - "docs/mas_tracker.yml: governance-stack checkpoint"
     - "7-OUTREACH/substack/posts/post-252-s03e030-ai-governance-stack.md: public explanation"
   focused_regression: "10 passed · 0 failed (P510 governance-stack tests)"
-  full_regression: "45,649 passed · 22 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 511
   epistemic_deltas:
@@ -1053,7 +1053,7 @@ v15_6_earned_proof_advancement_redo:
     - "docs/WAVE_CHANGELOG.md: v15.6 entry"
     - "docs/mas_tracker.yml: v15.6 tracker block and regression checkpoint"
   focused_regression: "28 passed · 0 failed (P507/P508/P509 proof-advancement tests)"
-  full_regression: "46,094 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 510
   epistemic_deltas:
@@ -1076,7 +1076,7 @@ v15_5_no_earned_yes_claim_audit:
     - "docs/WAVE_CHANGELOG.md: v15.5 entry"
     - "docs/mas_tracker.yml: v15.5 tracker block and regression checkpoint"
   focused_regression: "21 passed · 0 failed (P507/P508 claim-boundary tests)"
-  full_regression: "46,088 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 509
   epistemic_deltas:
@@ -1098,7 +1098,7 @@ v15_4_frontier_proof_lane_certificate:
     - "docs/WAVE_CHANGELOG.md: v15.4 entry"
     - "docs/mas_tracker.yml: v15.4 tracker block and regression checkpoint"
   focused_regression: "233 passed · 0 failed (proof-lane focused tests)"
-  full_regression: "46,076 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 508
   epistemic_deltas:
@@ -1125,7 +1125,7 @@ v15_3_frontier_priorities_2_5:
     - "docs/WAVE_CHANGELOG.md: v15.3 entry"
     - "docs/CLAIM_MASTER_BOARD.md, docs/TRUTH_LAYER.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: frontier sync notes"
   focused_regression: "77 passed · 0 failed (P503-P506 focused tests)"
-  full_regression: "46,076 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 507
   epistemic_deltas:
@@ -1155,7 +1155,7 @@ v15_2_completion_audit:
     - "docs/mas_tracker.yml: v15.2 completion-audit block and regression checkpoint"
     - "docs/WAVE_CHANGELOG.md: v15.2 entry"
     - "docs/TRUTH_LAYER.md, docs/CLAIM_MASTER_BOARD.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: truth-surface sync notes"
-  regression: "45,989 passed · 2 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 503
   epistemic_deltas:
@@ -2207,14 +2207,14 @@ integration_checkpoint:
   cadence: "Post-W14 MAS programme completion"
   completed: "2026-05-08"
   gate_result: "MAS_PROGRAMME_COMPLETE"
-  regression: "25292 passed, 329 skipped, 11 deselected, 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected, 0 failed"
 
 post_mas_extension_checkpoint:
   date: "2026-05-08"
   gate_result: "POST_MAS_EXTENSION_COMPLETE"
   scope: "ET-1 through ET-6 delivered as independent dimensional-extension workstreams"
   anti_recycle_rule: "these tracks do NOT reopen MAS; no new MAS waves"
-  regression: "25236 passed, 329 skipped, 11 deselected, 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected, 0 failed"
 
 dbp_ladder:
   rung1:
@@ -3673,7 +3673,7 @@ v10_32_p16_promotion:
       delta: 0.2
       module: "src/core/p22_mz_kinematic_derived_cert.py"
   tests_added: 115
-  regression_result: "26928 passed, 330 skipped, 11 deselected"
+  regression_result: "56,964 passed · 47 skipped · 12 deselected"
   toe_score:
     before: 21.5
     after: 25.3
@@ -4173,7 +4173,7 @@ v10_32_p16_promotion:
     - "docs/mas_tracker.yml: v15.8 tracker block and regression checkpoint"
     - "docs/WAVE_CHANGELOG.md: v15.8 entry"
   focused_regression: "82 passed · 0 failed (P511–P515 topological engine tests)"
-  full_regression: "45,905 passed · 22 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 516
   epistemic_deltas:
@@ -4205,7 +4205,7 @@ historical_snapshot_sections:
 
 public_surface_sync_checkpoint:
   version: "v15.6"
-  regression: "28 passed · 0 failed focused P507/P508/P509 proof-advancement regression; latest full regression 46,094 passed · 2 skipped · 12 deselected · 0 failed"
+  regression: "28 passed · 0 failed focused P507/P508/P509 proof-advancement regression; latest full regression 56,964 passed · 47 skipped · 12 deselected · 0 failed"
   readme_synced: true
   public_badges_synced: true
   canonical_ledger_checker_includes_readme: true
@@ -4259,7 +4259,7 @@ v15_7_ai_governance_stack_operationalized:
     - "docs/mas_tracker.yml: governance-stack checkpoint"
     - "7-OUTREACH/substack/posts/post-252-s03e030-ai-governance-stack.md: public explanation"
   focused_regression: "10 passed · 0 failed (P510 governance-stack tests)"
-  full_regression: "45,649 passed · 22 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 511
   epistemic_deltas:
@@ -4281,7 +4281,7 @@ v15_6_earned_proof_advancement_redo:
     - "docs/WAVE_CHANGELOG.md: v15.6 entry"
     - "docs/mas_tracker.yml: v15.6 tracker block and regression checkpoint"
   focused_regression: "28 passed · 0 failed (P507/P508/P509 proof-advancement tests)"
-  full_regression: "46,094 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 510
   epistemic_deltas:
@@ -4304,7 +4304,7 @@ v15_5_no_earned_yes_claim_audit:
     - "docs/WAVE_CHANGELOG.md: v15.5 entry"
     - "docs/mas_tracker.yml: v15.5 tracker block and regression checkpoint"
   focused_regression: "21 passed · 0 failed (P507/P508 claim-boundary tests)"
-  full_regression: "46,088 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 509
   epistemic_deltas:
@@ -4326,7 +4326,7 @@ v15_4_frontier_proof_lane_certificate:
     - "docs/WAVE_CHANGELOG.md: v15.4 entry"
     - "docs/mas_tracker.yml: v15.4 tracker block and regression checkpoint"
   focused_regression: "233 passed · 0 failed (proof-lane focused tests)"
-  full_regression: "46,076 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 508
   epistemic_deltas:
@@ -4353,7 +4353,7 @@ v15_3_frontier_priorities_2_5:
     - "docs/WAVE_CHANGELOG.md: v15.3 entry"
     - "docs/CLAIM_MASTER_BOARD.md, docs/TRUTH_LAYER.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: frontier sync notes"
   focused_regression: "77 passed · 0 failed (P503-P506 focused tests)"
-  full_regression: "46,076 passed · 2 skipped · 12 deselected · 0 failed"
+  full_regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 507
   epistemic_deltas:
@@ -4383,7 +4383,7 @@ v15_2_completion_audit:
     - "docs/mas_tracker.yml: v15.2 completion-audit block and regression checkpoint"
     - "docs/WAVE_CHANGELOG.md: v15.2 entry"
     - "docs/TRUTH_LAYER.md, docs/CLAIM_MASTER_BOARD.md, docs/GATEKEEPER_SUMMARY.md, 3-FALSIFICATION/OBSERVATION_TRACKER.md: truth-surface sync notes"
-  regression: "45,989 passed · 2 skipped · 12 deselected · 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 503
   epistemic_deltas:
@@ -5435,14 +5435,14 @@ integration_checkpoint:
   cadence: "Post-W14 MAS programme completion"
   completed: "2026-05-08"
   gate_result: "MAS_PROGRAMME_COMPLETE"
-  regression: "25292 passed, 329 skipped, 11 deselected, 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected, 0 failed"
 
 post_mas_extension_checkpoint:
   date: "2026-05-08"
   gate_result: "POST_MAS_EXTENSION_COMPLETE"
   scope: "ET-1 through ET-6 delivered as independent dimensional-extension workstreams"
   anti_recycle_rule: "these tracks do NOT reopen MAS; no new MAS waves"
-  regression: "25236 passed, 329 skipped, 11 deselected, 0 failed"
+  regression: "56,964 passed · 47 skipped · 12 deselected, 0 failed"
 
 dbp_ladder:
   rung1:
@@ -6901,7 +6901,7 @@ v10_32_p16_promotion:
       delta: 0.2
       module: "src/core/p22_mz_kinematic_derived_cert.py"
   tests_added: 115
-  regression_result: "26928 passed, 330 skipped, 11 deselected"
+  regression_result: "56,964 passed · 47 skipped · 12 deselected"
   toe_score:
     before: 21.5
     after: 25.3
@@ -7540,7 +7540,7 @@ v10_32_p16_promotion:
   status: "COMPLETE"
   completed: "2026-08-01"
   lean4_theorems_total: 308
-  regression_total: "~50,500 passed · 23 skipped · 12 deselected · 0 failed"
+  regression_total: "56,964 passed · 47 skipped · 12 deselected · 0 failed"
   summary: >
     Pillars 608–612: DESI DR3 3-branch routing drill (P608), Euclid Y1 BAO
     cross-check protocol (P609), SPHEREx f_NL pre-analysis update (P610),

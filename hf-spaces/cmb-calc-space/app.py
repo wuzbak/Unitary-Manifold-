@@ -99,6 +99,8 @@ with gr.Blocks(title="CMB Calculator — AxiomZero", theme=gr.themes.Base(primar
         """# 🌌 CMB Calculator — Unitary Manifold
         **Gate: HARDGATE · Open gap: ×4–7 amplitude suppression (ARCHITECTURE_LIMIT)**
 
+        **Status snapshot:** v22.10 · 56,772 passing tests · 976 Lean4 theorems.
+
         Compute CMB predictions from 5D KK geometry and compare with Planck 2018.
         Results carry epistemic gate labels. Open gaps are not hidden.
         """

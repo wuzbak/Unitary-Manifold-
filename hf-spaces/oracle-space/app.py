@@ -164,10 +164,12 @@ with gr.Blocks(
 ) as demo:
     gr.Markdown(
         """# 🌀 AxiomZero Ω Oracle — Grand Synthesis Engine
-        **Product 16** · 5D Kaluza-Klein physics framework · v22.6
+        **Product 16** · 5D Kaluza-Klein physics framework · v22.10
 
         > *Epistemic honesty: all outputs carry gate labels. Results include uncertainty and open gaps.
         > This engine does not claim to prove the Unitary Manifold — it computes predictions from it.*
+
+        **Status snapshot:** 56,772 passing tests · 976 Lean4 theorems.
 
         **Primary falsifier:** Birefringence β — LiteBIRD ~2032.
         **Primary open gap:** DESI w_a tension · Δm²₂₁ residual.

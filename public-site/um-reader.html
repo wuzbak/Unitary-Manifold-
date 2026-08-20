@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UM Reader — axiomzerospc.org</title>
+  <meta name="description" content="UM Reader: one public page for the Unitary Manifold monograph, arXiv draft, MCP ingest summary, and verification links." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/az-apps.css" />
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="portal/index.html">
+    <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
+    axiomzerospc.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="portal/">Portal</a></li>
+    <li><a href="portal/library/">Library</a></li>
+    <li><a href="status/">Status</a></li>
+    <li><a href="um-reader.html" class="active">UM Reader</a></li>
+    <li><span class="nav-badge">v22.10</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<main class="app-page">
+  <section class="app-hero">
+    <div class="container app-hero-inner">
+      <div class="app-icon-lg">🪶</div>
+      <div class="app-meta">
+        <div class="app-id-badge">PUBLIC READER HUB</div>
+        <h1 class="app-title">UM Reader</h1>
+        <p class="app-subtitle">One public-facing page for the monograph, arXiv draft, MCP ingest summary, and verification links. Status snapshot: v22.10 · 56,772 passing tests · 976 Lean4 theorems.</p>
+        <div class="app-tags">
+          <span class="tag tag-os">open science</span>
+          <span class="tag tag-physics">unitary manifold</span>
+          <span class="tag tag-ai">reader hub</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" style="padding: 2rem 0 3rem; display:grid; gap:1rem;">
+    <div class="panel">
+      <div class="panel-title">Core reading</div>
+      <p>Start with the monograph for the long-form derivation, then use the MCP ingest summary for a token-efficient map of the repository.</p>
+      <div class="status-links" style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+        <a class="btn" href="https://doi.org/10.5281/zenodo.19584531" target="_blank" rel="noopener">Monograph on Zenodo →</a>
+        <a class="btn" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/6-MONOGRAPH/MCP_INGEST.md" target="_blank" rel="noopener">MCP Ingest Summary →</a>
+        <a class="btn" href="portal/library/">Portal Library →</a>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Verification links</div>
+      <p>Use the honest public surfaces to inspect current counts, open tensions, and admitted limits before drawing conclusions.</p>
+      <div class="status-links" style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+        <a class="btn" href="status/">Status Dashboard →</a>
+        <a class="btn" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md" target="_blank" rel="noopener">FALLIBILITY.md →</a>
+        <a class="btn" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/CLAIM_MASTER_BOARD.md" target="_blank" rel="noopener">Claim Master Board →</a>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Preprint</div>
+      <p>The arXiv draft and bibliography remain open for inspection, citation, and comparison against the repository source tree.</p>
+      <div class="status-links" style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+        <a class="btn" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/arxiv/main.tex" target="_blank" rel="noopener">arXiv LaTeX Source →</a>
+        <a class="btn" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/arxiv/references.bib" target="_blank" rel="noopener">References →</a>
+        <a class="btn" href="portal/knowledge/">Knowledge Portal →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer style="background:#030710;border-top:1px solid #0d1628;padding:2rem 1.5rem;text-align:center;color:#4a5a7a;font-size:0.82rem;">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 · Open science artifact for human review · Use at your own liability
+</footer>
+
+<script src="js/assistant.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof AZAssistant !== 'undefined') {
+      AZAssistant.setPageContext('UM Reader — monograph, arXiv draft, MCP ingest summary, and honest verification links');
+    }
+  });
+</script>
+</body>
+</html>

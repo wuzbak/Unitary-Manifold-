@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v22.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: ~56,568 passed · 47 skipped · 12 deselected · 0 failed; **v22.8 Sprint AL** (2026-08-20): Pillars 774–783 — NP-BC sub-gaps all resolved (CLOSED or ARCHITECTURE_LIMIT); Gap 3 SU5 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO ARCHITECTURE_LIMIT_CERTIFIED; CMB 35% DECOMPOSED_V2 (known 1.4% bounded + arch-limit 33.6%); FN charges 9→3 irreducible; α_s all routes exhausted; Lean4 +86 (872→958); **v14.0 theorem-hardening sprint**: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
+*Unitary Manifold v22.11 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 56,964 passed · 47 skipped · 12 deselected · 0 failed; **v22.10 Sprint AN** (2026-08-20): Pillar 785 — Higgs-CMB Criterion 2 cross-sector audit added; Higgs gap 27.53% vs CMB irreducible gap 33.65% gives frac_diff ≈ 18.16% > 15%, so no forced upgrade; G4 candidate status remains unchanged; 25+ new tests. Earlier **v22.8 Sprint AL** (2026-08-20): Pillars 774–783 — NP-BC sub-gaps all resolved (CLOSED or ARCHITECTURE_LIMIT); Gap 3 SU5 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO ARCHITECTURE_LIMIT_CERTIFIED; CMB 35% DECOMPOSED_V2 (known 1.4% bounded + arch-limit 33.6%); FN charges 9→3 irreducible; α_s all routes exhausted; Lean4 +86 (872→958); **v14.0 theorem-hardening sprint**: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
 
 ---
 
@@ -48,7 +48,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (~51,005 passed · 23 skipped · 12 deselected · 0 failed (v20.8, 2026-08-01; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (56,964 passed · 47 skipped · 12 deselected · 0 failed (v20.8, 2026-08-01; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -4179,9 +4179,9 @@ reference for all β values), `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`
 (updated gap-zone note, v20.9), and `3-FALSIFICATION/prediction.md`.
 
 
-## XVI. Δm²₂₁ NLO Lattice Correction — Partial Closure Admission (v22.6, 2026-08-20)
+## XVI. Δm²₂₁ Lattice Correction Status — 1.07σ Certified Residual (v22.10 sync, 2026-08-20)
 
-**Admission — Δm²₂₁ tension after NLO: 1.07σ residual remains.**
+**Admission — Δm²₂₁ tension remains at 1.07σ after the full currently certified perturbative chain (Pillars 773 + 779).**
 
 Pillar 772 derived the lepton-sector Froggatt-Nielsen charge n_FN_lepton = 1
 from the NH + Dirichlet BC orbifold lattice, reducing the Δm²₂₁ PDG tension
@@ -4215,14 +4215,15 @@ The 1.07σ residual is irreducible within perturbative NLO **and NNLO** in the 5
 **Pillar 779 NNLO result (v22.8):**
 
 The NNLO braid correction was computed in `pillar779_dm21_nnlo_braid_correction.py`:
-- δ_NNLO = (n_w/k_CS)³ × [1 + 1/(4π²)] ≈ 4.6×10⁻⁶ (negligible)
+- δ_NNLO is an `O((n_w/k_CS)^4)` correction with total size ≈ `4.6×10⁻⁶` (negligible)
 - Tension shift: 1.07σ → 1.07σ (no change within precision)
-- Gate: `NNLO_CORRECTION_NEGLIGIBLE`
+- Gate: `DM21_NNLO_ARCHITECTURE_LIMIT_AT_ORDER_4`
 
 **Certified architecture limit:** The Δm²₂₁ tension is formally certified as
-`DM21_NNLO_ARCHITECTURE_LIMIT_CERTIFIED`. Sub-1σ closure within the 5D orbifold
-perturbative framework requires new field content (e.g., 2-loop seesaw or
-non-perturbative orbifold threshold).
+`DM21_NNLO_ARCHITECTURE_LIMIT_CERTIFIED`. The current honest state is therefore
+**1.07σ residual, unchanged by NNLO within precision**. Sub-1σ closure within
+the 5D orbifold perturbative framework requires new field content (e.g., 2-loop
+seesaw or non-perturbative orbifold threshold).
 
 Named residual: `DM21_NNLO_1_07SIGMA_RESIDUAL_CERTIFIED_ARCHITECTURE_LIMIT`
 Gate: `NNLO_ARCHITECTURE_LIMIT_CERTIFIED`
@@ -4266,7 +4267,9 @@ All four criteria must hold for `TYPE_B_STRUCTURAL_FLOOR` classification:
 
 G4 is `TYPE_B_CANDIDATE` because criterion 2 (cross-sector correlation) is
 only partially confirmed: G4 is ε²-dominated while G2/G3 are K_CS-dominated —
-different geometric objects.
+different geometric objects. Pillar 785 adds a supplemental Higgs-CMB
+cross-sector proxy check; that audit also stays above the 15% threshold and
+does not upgrade the candidate gate.
 
 ### §XVII.3 — TYPE_B_FALSIFICATION_CONDITIONS
 
@@ -4325,3 +4328,34 @@ n_w = 5, K_CS = 74 — not the generic idea of structural floors.
 *Code: `src/core/pillar784_type_ab_gap_classification.py` (Pillar 784),
 `lean4/UnitaryManifold/TypeABGapClassification.lean` (18 theorems),
 `tests/test_pillar784_type_ab_gap_classification.py` (179 tests).*
+
+---
+
+## §XVIII — Pillar 785 G4 Criterion 2 Higgs-CMB Audit (v22.10)
+
+**Admission — the new cross-sector check does NOT clear the 15% Criterion 2 threshold.**
+
+Pillar 785 evaluates a supplemental Criterion 2 proxy using:
+
+- **Higgs architecture-limit gap:** Pillar 733 phase-2 value
+  `(125.25 - 90.7625)/125.25 ≈ 27.53%`, with the certified floor still `≥25%`.
+- **CMB irreducible suppression gap:** Pillar 780 decomposition result
+  `R_irred ≈ 33.65%`, i.e. the architecture-limit `A_s` mismatch inside the
+  broader Pillar 738 floor analysis.
+
+Using the Pillar 784 Criterion 2 metric,
+
+`frac_diff = |gap_higgs - gap_cmb| / max(gap_higgs, gap_cmb)`,
+
+the measured value is:
+
+- `frac_diff ≈ 0.1816` (18.16%)
+- Criterion 2 threshold: `< 0.15` (15%)
+- Partial score: `≈ 0.8184`
+
+**Verdict:** Criterion 2 is **not** met by this Higgs-CMB proxy. The gate
+therefore remains `TYPE_B_CANDIDATE`, now with a quantified partial score rather
+than a qualitative statement alone. No structural-floor upgrade is claimed.
+
+*Code: `src/core/pillar785_g4_criterion2_higgs_correlation.py`,
+`tests/test_pillar785_g4_criterion2_higgs_correlation.py`.*

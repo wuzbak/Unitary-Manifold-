@@ -381,3 +381,176 @@ def plot_cmb_tt_spectrum(output_path: Optional[str | Path] = None) -> plt.Figure
 
     fig.tight_layout()
     return _save_fig(fig, output_path)
+
+
+# ---------------------------------------------------------------------------
+# New honest-accounting plots (v22.10) — replacing retired ToE score figures
+# ---------------------------------------------------------------------------
+
+def plot_tension_reduction_chart(output_path: Optional[str | Path] = None) -> plt.Figure:
+    """Plot the Δm²₂₁ tension reduction journey across Pillars 772–773.
+
+    Shows the σ-level tension at each stage: initial (2.98σ), after
+    Lepton-Jarlskog Lattice closure (1.16σ, Pillar 772), after NLO correction
+    (1.07σ, Pillar 773), with the residual certified as ARCHITECTURE_LIMIT at NNLO.
+    """
+    fig, ax = plt.subplots(figsize=(9, 5))
+
+    stages = [
+        ("Before\nPillar 772", 2.98, "Pre-closure"),
+        ("Pillar 772\n(Lepton-Jarlskog\nLattice)", 1.16, "LJL derived"),
+        ("Pillar 773\n(NLO: winding +\nKK threshold + BKT)", 1.07, "NLO partial"),
+        ("Pillar 774\n(NNLO certified)", 1.07, "NNLO limit"),
+    ]
+    x = list(range(len(stages)))
+    y = [s[1] for s in stages]
+    labels = [s[0] for s in stages]
+    colors = ["#e05252" if v >= 2 else "#e09052" if v >= 1.5 else "#52a0e0" for v in y]
+
+    bars = ax.bar(x, y, color=colors, edgecolor="white", linewidth=0.8, width=0.55)
+    ax.axhline(1.0, color="#52e08a", linestyle="--", linewidth=1.5, label="1σ target")
+    ax.axhline(2.0, color="#e05252", linestyle=":", linewidth=1.2, alpha=0.7, label="2σ threshold")
+
+    for bar, val in zip(bars, y):
+        ax.text(bar.get_x() + bar.get_width() / 2, val + 0.05,
+                f"{val:.2f}σ", ha="center", va="bottom", fontsize=11, fontweight="bold",
+                color="white")
+
+    ax.annotate("ARCHITECTURE_LIMIT\n(NNLO, certified at Pillar 774)",
+                xy=(3, 1.07), xytext=(2.3, 1.6),
+                arrowprops=dict(arrowstyle="->", color="gray"),
+                fontsize=9, color="gray", ha="center")
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, fontsize=9)
+    ax.set_ylabel("PDG tension (σ)", fontsize=12)
+    ax.set_ylim(0, 3.6)
+    ax.set_title(
+        "Unitary Manifold — Δm²₂₁ Tension Reduction Journey\n"
+        "Honest accounting: residual 1.07σ is a documented architecture limit (not a failure)",
+        fontsize=11,
+    )
+    ax.legend(fontsize=10)
+    fig.patch.set_facecolor("#0d1830")
+    ax.set_facecolor("#0a0f1e")
+    for spine in ax.spines.values():
+        spine.set_edgecolor("#2a3a5e")
+    ax.tick_params(colors="white")
+    ax.yaxis.label.set_color("white")
+    ax.title.set_color("white")
+    ax.xaxis.label.set_color("white")
+    ax.legend(facecolor="#0d1830", edgecolor="#2a3a5e", labelcolor="white")
+    fig.tight_layout()
+    return _save_fig(fig, output_path)
+
+
+def plot_test_pillar_timeline(output_path: Optional[str | Path] = None) -> plt.Figure:
+    """Plot the honest test-count and pillar-count growth timeline across versions.
+
+    Replaces the retired ToE-score timeline. Shows raw engineering progress
+    (tests and pillars) without misleading score language.
+    Data points are sourced from STATUS.md sprint history.
+    """
+    fig, ax1 = plt.subplots(figsize=(12, 5))
+    ax2 = ax1.twinx()
+
+    # Sprint history data (version, tests_k, lean4_theorems) from STATUS.md
+    versions = [
+        "v21.8", "v21.9", "v22.0", "v22.1", "v22.2", "v22.3",
+        "v22.4", "v22.5", "v22.6", "v22.7", "v22.8", "v22.9", "v22.10",
+    ]
+    tests_k = [52.6, 53.0, 53.4, 53.8, 54.2, 54.6, 56.1, 56.2, 56.3, 56.5, 56.6, 56.7, 56.8]
+    lean4 = [476, 521, 613, 697, 762, 820, 844, 859, 872, 958, 958, 976, 976]
+
+    x = list(range(len(versions)))
+
+    ax1.plot(x, tests_k, "o-", color="#3b8bff", linewidth=2, markersize=6, label="Tests (×1000)")
+    ax1.fill_between(x, tests_k, alpha=0.15, color="#3b8bff")
+    ax2.plot(x, lean4, "s--", color="#f4c542", linewidth=1.8, markersize=5, label="Lean4 theorems")
+
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(versions, rotation=35, ha="right", fontsize=8.5)
+    ax1.set_ylabel("Tests passed (×1000)", fontsize=11, color="#3b8bff")
+    ax2.set_ylabel("Lean4 theorems", fontsize=11, color="#f4c542")
+    ax1.set_ylim(50, 60)
+    ax2.set_ylim(300, 1100)
+
+    ax1.tick_params(axis="y", colors="#3b8bff")
+    ax2.tick_params(axis="y", colors="#f4c542")
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc="upper left",
+               facecolor="#0d1830", edgecolor="#2a3a5e", labelcolor="white", fontsize=10)
+
+    ax1.set_title(
+        "Unitary Manifold — Test Suite & Formal Verification Growth (v21.8 → v22.10)\n"
+        "0 test failures maintained throughout · 56,772 tests · 976 Lean4 theorems",
+        fontsize=11, color="white",
+    )
+
+    fig.patch.set_facecolor("#0d1830")
+    ax1.set_facecolor("#0a0f1e")
+    for spine in ax1.spines.values():
+        spine.set_edgecolor("#2a3a5e")
+    ax1.tick_params(axis="x", colors="white")
+    ax1.tick_params(axis="y", colors="#3b8bff")
+    ax2.tick_params(axis="y", colors="#f4c542")
+
+    ax1.annotate("", xy=(0, 0), xytext=(0, 0))  # suppress warning
+    fig.tight_layout()
+    return _save_fig(fig, output_path)
+
+
+def plot_architecture_limits_summary(output_path: Optional[str | Path] = None) -> plt.Figure:
+    """Plot a clear summary of the four primary architecture limits — honest accounting.
+
+    Shows gap name, type (A=derivation gap, B=structural floor), and
+    quantified status. This is the primary epistemic transparency figure.
+    """
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+    ax.axis("off")
+
+    limits = [
+        ("G1 — CMB Peak Suppression",  "TYPE_B_STRUCTURAL_FLOOR", "A_s mismatch 33.6%\n(KK truncation ≤1.35% bounded)"),
+        ("G2 — FN Free Parameters",    "TYPE_B_STRUCTURAL_FLOOR", "9 → 3 irreducible free params\n(SVD constraints applied)"),
+        ("G3 — α_s All Routes",        "TYPE_B_STRUCTURAL_FLOOR", "All 4 routes exhausted\nRoute D NSVZ: ~0.5% (insufficient)"),
+        ("G4 — Higgs Mass Gap",        "TYPE_B_CANDIDATE",        "GHU gap ≥25% (one-loop)\nCriterion 2: frac_diff 18.2% > 15%"),
+    ]
+
+    colors = {"TYPE_B_STRUCTURAL_FLOOR": "#3b8bff", "TYPE_B_CANDIDATE": "#f4c542"}
+    row_colors = [colors[lim[1]] for lim in limits]
+
+    for i, (name, gate, detail) in enumerate(limits):
+        y = 0.82 - i * 0.22
+        # Row background
+        rect = plt.Rectangle((0.01, y - 0.10), 0.98, 0.19,
+                              facecolor=row_colors[i], alpha=0.08, transform=ax.transAxes)
+        ax.add_patch(rect)
+        # Gate badge
+        badge_color = row_colors[i]
+        badge_rect = plt.Rectangle((0.55, y - 0.07), 0.22, 0.13,
+                                   facecolor=badge_color, alpha=0.25, transform=ax.transAxes,
+                                   linewidth=1, edgecolor=badge_color)
+        ax.add_patch(badge_rect)
+        ax.text(0.66, y, gate.replace("_", " "), transform=ax.transAxes,
+                ha="center", va="center", fontsize=8, color=badge_color, fontweight="bold")
+        ax.text(0.03, y + 0.02, name, transform=ax.transAxes,
+                ha="left", va="center", fontsize=10.5, color="white", fontweight="bold")
+        ax.text(0.03, y - 0.06, detail, transform=ax.transAxes,
+                ha="left", va="center", fontsize=8.5, color="#aac0e0")
+        ax.text(0.80, y, "✓ Pre-registered\nfalsification condition", transform=ax.transAxes,
+                ha="left", va="center", fontsize=8, color="#52e08a")
+
+    ax.set_title(
+        "Unitary Manifold — Architecture Limits: Honest Accounting (v22.10)\n"
+        "TYPE_B = structural floor from geometry, not a derivation failure",
+        fontsize=11, color="white", pad=14,
+    )
+    ax.text(0.5, 0.03, "Source: Pillars 784–785, FALLIBILITY.md §XVI–XVIII",
+            transform=ax.transAxes, ha="center", fontsize=8.5, color="gray")
+
+    fig.patch.set_facecolor("#0d1830")
+    ax.set_facecolor("#0a0f1e")
+    fig.tight_layout()
+    return _save_fig(fig, output_path)
