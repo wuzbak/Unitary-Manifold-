@@ -37,7 +37,8 @@ def test_certificate_constants():
     assert DM21_AFTER_STEP2 == pytest.approx(2.98)
     assert DM21_CURRENT_TENSION == pytest.approx(2.98)
     assert DM21_THRESHOLD_CLOSED == pytest.approx(1.0)
-    assert NAMED_RESIDUAL == "DM21_RATIO_FN_CORRECTION_NEEDED"
+    # Retired by Pillar 772 (Lepton Jarlskog-Lattice Closure)
+    assert NAMED_RESIDUAL == "DM21_LJL_1_16SIGMA_QUANTIFIED_RESIDUAL"
     assert TOE_DELTA == pytest.approx(0.0)
 
 

@@ -61,7 +61,11 @@ DM21_AFTER_STEP1: float = 3.07
 DM21_AFTER_STEP2: float = 2.98
 DM21_THRESHOLD_CLOSED: float = 1.0
 DM21_CURRENT_TENSION: float = 2.98
-NAMED_RESIDUAL: str = "DM21_RATIO_FN_CORRECTION_NEEDED"
+NAMED_RESIDUAL: str = "DM21_LJL_1_16SIGMA_QUANTIFIED_RESIDUAL"
+# ^ Retired DM21_RATIO_FN_CORRECTION_NEEDED: Pillar 772 (Lepton Jarlskog-Lattice
+#   Closure) derives the FN charge from the orbifold lattice (n_FN=1, DERIVED)
+#   and reduces the tension from 2.98σ to 1.16σ. Full sub-1σ closure is not
+#   yet achieved; the 1.16σ residual is quantified and named.
 TOE_DELTA: float = 0.0
 
 
