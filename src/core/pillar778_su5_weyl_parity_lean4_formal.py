@@ -115,7 +115,6 @@ GAP3_NEW_STATUS: str = "PROVED_LEAN4_FORMAL"
 # SU(5) group theory constants (exact integer values)
 DIM_SU5: int = 24            # dim(SU(5)) = 5² − 1 = 24
 RANK_SU5: int = 4            # rank(A₄) = 4
-N_POSITIVE_ROOTS: int = 20   # |Φ⁺(A₄)| = 4×5/2 = 10? No: n(n-1)/2 = 4*5/2=10. Actually |Phi^+(A_{n-1})| = n(n-1)/2 = 5*4/2 = 10
 N_POSITIVE_ROOTS: int = 10   # |Φ⁺(A₄)| = 5×4/2 = 10
 N_TOTAL_ROOTS: int = 2 * N_POSITIVE_ROOTS   # 20 total roots
 WEYL_ORDER: int = 120        # |W(A₄)| = 5! = 120

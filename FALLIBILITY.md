@@ -4226,3 +4226,102 @@ non-perturbative orbifold threshold).
 
 Named residual: `DM21_NNLO_1_07SIGMA_RESIDUAL_CERTIFIED_ARCHITECTURE_LIMIT`
 Gate: `NNLO_ARCHITECTURE_LIMIT_CERTIFIED`
+
+---
+
+## §XVII — Type A / Type B Gap Classification (Pillar 784, v22.9)
+
+**Pillar 784** introduces a formal discriminant between two classes of residual gap.
+
+### §XVII.1 — Definitions
+
+**Type A — Derivation gap:** The model is incomplete. More geometry or field
+content will close the residual. Label: incomplete derivation, not structural.
+
+**Type B — Structural floor:** The gap is a *necessary consequence* of the
+compactification constraint. Matter is constrained energy; the residual is the
+geometric imprint of that constraint. Cannot be closed without new free
+parameters or exiting the 5D EFT class.
+
+All four criteria must hold for `TYPE_B_STRUCTURAL_FLOOR` classification:
+
+1. **Irreducibility** — no free-parameter variation (holding n_s, r, β fixed)
+   reduces the gap below its proved lower bound.
+2. **Cross-sector correlation** — gap shares a geometric object with at least
+   one other certified Type B gap (K_CS scaling or RS1 warp class).
+3. **Symmetry character** — residual scales predictably with ε = n_w/K_CS
+   and transforms as Z₂-even under the orbifold parity.
+4. **Geometric lower bound** — gap bounded from below by a computable invariant
+   with no free parameters (strictly positive, consistent with observation).
+
+### §XVII.2 — Classification table
+
+| Gap | Name | Status | All 4 criteria |
+|-----|------|--------|---------------|
+| G1 | CMB A_s mismatch (33.6%) | `TYPE_B_STRUCTURAL_FLOOR` | ✅ |
+| G2 | α_s residual (≥40%, all routes) | `TYPE_B_STRUCTURAL_FLOOR` | ✅ |
+| G3 | Higgs mass ceiling (42.3%) | `TYPE_B_STRUCTURAL_FLOOR` | ✅ |
+| G4 | Δm²₂₁ tension (1.07σ, NNLO cert.) | `TYPE_B_CANDIDATE` | Criteria 1,3,4 only |
+| DESI wₐ | 2.75σ tension | **EXCLUDED** | Pre-registered falsifier ≥3σ live |
+
+G4 is `TYPE_B_CANDIDATE` because criterion 2 (cross-sector correlation) is
+only partially confirmed: G4 is ε²-dominated while G2/G3 are K_CS-dominated —
+different geometric objects.
+
+### §XVII.3 — TYPE_B_FALSIFICATION_CONDITIONS
+
+**This classification is NOT unfalsifiable.** Each gap has a pre-registered
+falsification condition:
+
+**G1 — CMB A_s structural floor:**
+- Observable: ΔC_ℓ/C_ℓ ℓ-mode suppression profile shape.
+- Experiment: CMB-S4 (~2029) / LiteBIRD (~2032).
+- Threshold: Observed profile disagrees with RS1 warp-suppression shape
+  at >2σ in any two of three ℓ-bins: {[200,800]}, {[800,2000]}, {[2000,5000]}.
+- Falsification implies: non-warp-factor origin → Type A.
+
+**G2 — α_s structural floor:**
+- Observable: α_s(M_KK) from NNLO lattice QCD + DGLAP without UM input.
+- Experiment: Lattice QCD NNLO (FLAG averages, ongoing).
+- Threshold: α_s(M_KK) > 0.112 from pure SM inputs.
+- Falsification implies: AdS/QCD bound is coincidental → Type A.
+
+**G3 — Higgs mass structural floor:**
+- Observable: Δλ_geometric from CY₃/CY₄ moduli in M-theory / F-theory.
+- Experiment: F-theory spectral cover completion (Pillar 781 track).
+- Threshold: Geometric quartic Δλ_geo ≥ 0.086 without new free parameter.
+- Falsification implies: 5D ceiling is truncation artefact → Type A.
+
+**G4 — Δm²₂₁ candidate floor:**
+- Observable: Δm²₂₁ from non-perturbative orbifold lattice (theory-internal).
+- Threshold: Non-perturbative NNLO achieves |tension| < 0.8σ without new
+  free parameters.
+- Falsification implies: NLO floor is perturbation artefact → Type A.
+
+### §XVII.4 — Literature context
+
+This classification formalises structure that is already known in the literature:
+
+- **Ooguri-Vafa (2007):** Swampland Distance Conjecture — KK tower as the
+  constrained-energy signature.
+- **Csaki et al. (2002):** RS1 precision EW — structural m_H ceiling, independent
+  of parameter choice (G3).
+- **Agashe-Contino-Rattazzi (2005):** GHU quartic bounded above by bulk gauge
+  coupling — structural, not accidental (G3).
+- **Weinberg structural naturalness:** Residuals protected by symmetry scale as
+  ε^n (G4 NLO floor).
+
+The novel UM content is the *specific correlation structure* predicted by
+n_w = 5, K_CS = 74 — not the generic idea of structural floors.
+
+### §XVII.5 — What this does NOT change
+
+- Every gap retains its existing honest status in this document.
+- No gap is "resolved" by the Type B label.
+- G1/G2/G3 architecture limits remain architecture limits.
+- G4 remains at 1.07σ tension, certified by NNLO (Pillar 779).
+- DESI wₐ remains a live falsification front; DR3 decides.
+
+*Code: `src/core/pillar784_type_ab_gap_classification.py` (Pillar 784),
+`lean4/UnitaryManifold/TypeABGapClassification.lean` (18 theorems),
+`tests/test_pillar784_type_ab_gap_classification.py` (179 tests).*
