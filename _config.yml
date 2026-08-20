@@ -41,7 +41,6 @@ exclude:
   - "tmp/"
   - "terrifying-theories/"
   - "12-AZ-IP/"
-  - "AxiomZero"
   - "EIGE"
   - "az-kernel"
   - "az-os"
