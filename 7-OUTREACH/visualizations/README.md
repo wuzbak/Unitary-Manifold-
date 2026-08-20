@@ -25,7 +25,7 @@ from the live repository data.
 |------|-------|-----------------|
 | [`fig01_cmb_ns_r_plane.png`](fig01_cmb_ns_r_plane.png) | CMB nₛ–r Plane — UM vs Planck 2018 & BICEP/Keck | P1, P2 |
 | [`fig02_birefringence_window.png`](fig02_birefringence_window.png) | Birefringence Falsification Window (primary falsifier) | P23, P24 |
-| [`fig03_toe_parameter_dashboard.png`](fig03_toe_parameter_dashboard.png) | All 28 SM Parameters — Derivation Residuals Dashboard | P1–P28 |
+| [`fig03_toe_parameter_dashboard.png`](fig03_toe_parameter_dashboard.png) | All 28 SM Parameters — Derivation Residuals Dashboard (see also fig21 for architecture limits) | P1–P28 |
 | [`fig13_parameter_residuals.png`](fig13_parameter_residuals.png) | 25 Confirmed Parameters — Sorted Residual Heatmap | P1–P28 |
 
 ### Repository Structure & Architecture
@@ -46,7 +46,10 @@ from the live repository data.
 | [`fig06_derivation_status_breakdown.png`](fig06_derivation_status_breakdown.png) | Epistemic Status Breakdown (DERIVED / ALGEBRAIC / PENDING) | CLAIM_MASTER_BOARD |
 | [`fig07_mas_wave_progress.png`](fig07_mas_wave_progress.png) | MAS Wave Progress W0–W14 (test growth per wave) | mas_tracker.yml |
 | [`fig08_test_suite_growth.png`](fig08_test_suite_growth.png) | Test Suite Growth Over Versions (0 failures throughout) | STATUS.md |
-| [`fig09_toe_score_timeline.png`](fig09_toe_score_timeline.png) | Theory of Everything Score Timeline (v10.0 → v10.59) | CLAIM_MASTER_BOARD |
+| [`fig09_toe_score_timeline.png`](fig09_toe_score_timeline.png) | ⚠️ RETIRED — ToE score language retired (v22.10). See fig20 for honest replacement. | — |
+| [`fig19_tension_reduction_chart.png`](fig19_tension_reduction_chart.png) | Δm²₂₁ Tension Reduction Journey (2.98σ → 1.07σ, architecture limit certified) | Pillars 772–774 |
+| [`fig20_test_pillar_timeline.png`](fig20_test_pillar_timeline.png) | Test Suite & Lean4 Theorem Growth (v21.8 → v22.10) — honest progress accounting | STATUS.md |
+| [`fig21_architecture_limits_summary.png`](fig21_architecture_limits_summary.png) | Architecture Limits — Honest Accounting: G1/G2/G3 TYPE_B_STRUCTURAL_FLOOR, G4 TYPE_B_CANDIDATE | Pillars 784–785, FALLIBILITY §XVI–XVIII |
 
 ### Theory & Geometry
 
