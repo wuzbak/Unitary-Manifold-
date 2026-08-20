@@ -149,13 +149,19 @@ class TestToEScoreIsolation:
 
     def test_claim_board_toe_denominator_is_physics_only(self):
         board = CLAIM_MASTER_BOARD.read_text(encoding="utf-8")
-        # The framework derivation coverage denominator line should reference physics parameters, not Pentad
-        toe_lines = [l for l in board.splitlines() if "ToE Score" in l or "28.0/28" in l]
-        assert toe_lines, "CLAIM_MASTER_BOARD.md must have a ToE Score line"
+        # The framework derivation coverage denominator line should reference 28 physics parameters, not Pentad
+        # Accepts either the legacy "ToE Score" branding or the current epistemic-status phrasing
+        denominator_lines = [
+            l for l in board.splitlines()
+            if "ToE Score" in l or "28.0/28" in l or "28 parameters" in l or "/28" in l
+        ]
+        assert denominator_lines, (
+            "CLAIM_MASTER_BOARD.md must have a line referencing the 28-parameter denominator"
+        )
         # None of those lines should mention Pentad
-        for line in toe_lines:
+        for line in denominator_lines:
             assert "Pentad" not in line, (
-                f"ToE Score line must not reference Pentad: {line}"
+                f"28-parameter denominator line must not reference Pentad: {line}"
             )
 
     def test_claim_board_toe_denominator_is_28(self):
