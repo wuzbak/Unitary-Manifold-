@@ -1,0 +1,624 @@
+{
+  "version": "v23.1",
+  "date": "2026-08-20",
+  "pillar_count": 791,
+  "lean4_theorems": 1036,
+  "live_values": {
+    "STABILITY_BASIN": {
+      "n_s_predicted": 0.963524,
+      "beta_deg_predicted": 0.3513,
+      "r_predicted": 0.031546,
+      "admissible_set": [
+        5
+      ],
+      "stability_margin": 1
+    },
+    "DM_KK": {
+      "m_kk_tev_central": 1.0,
+      "m_kk_tev_window": [
+        0.8,
+        1.3
+      ],
+      "sigma_si": 1.3341282215184e-63
+    }
+  },
+  "entries": [
+    {
+      "id": "CMB_NS",
+      "claim": "The CMB scalar spectral index n_s is predicted from the braided winding geometry.",
+      "pillar": [
+        2,
+        789
+      ],
+      "gate": "DERIVED",
+      "status": "PASS",
+      "prediction": "n_s ≈ 0.9635",
+      "uncertainty": "±0.005 (winding-model uncertainty)",
+      "measurement": "Planck 2018: 0.9649 ± 0.0042",
+      "tension_sigma": 0.33,
+      "experiments": [
+        "Planck 2018 (done)",
+        "CMB-S4 (2030s)"
+      ],
+      "falsification": "n_s outside [0.96, 0.97] at ≥2σ in any future CMB survey falsifies the winding inflation prediction.",
+      "timeline": "Current data: PASS. CMB-S4 will sharpen to σ(n_s) ~ 0.002.",
+      "tags": [
+        "inflation",
+        "CMB",
+        "primary"
+      ]
+    },
+    {
+      "id": "CMB_R",
+      "claim": "The tensor-to-scalar ratio r is suppressed by the braided sound speed c_s = 12/37.",
+      "pillar": [
+        2,
+        789
+      ],
+      "gate": "DERIVED",
+      "status": "PASS",
+      "prediction": "r ≈ 0.0315",
+      "uncertainty": "±0.005",
+      "measurement": "BICEP/Keck 2021: r < 0.036 (95% CL)",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "BICEP/Keck (done)",
+        "CMB-S4 (~2030)"
+      ],
+      "falsification": "r > 0.036 at 95% CL in future data falsifies the braided suppression mechanism.",
+      "timeline": "Current data: PASS. CMB-S4 will reach σ(r) ~ 0.002.",
+      "tags": [
+        "inflation",
+        "CMB",
+        "primary"
+      ]
+    },
+    {
+      "id": "BIREFRINGENCE",
+      "claim": "Cosmic birefringence β is predicted at two canonical branches from the braided CS coupling.",
+      "pillar": [
+        2,
+        787,
+        789
+      ],
+      "gate": "DERIVED",
+      "status": "AWAITING",
+      "prediction": "β ∈ {≈0.273°, ≈0.331°} canonical; {≈0.290°, ≈0.351°} derived",
+      "uncertainty": "±0.05° per branch",
+      "measurement": "Current data: β ≈ 0.35° ± 0.14° (Minami+Komatsu 2020) — consistent",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "LiteBIRD (2032)",
+        "CLASS",
+        "BICEP Array"
+      ],
+      "falsification": "Any β outside [0.22°, 0.38°] at ≥2σ, or β inside the predicted gap [0.29°, 0.31°], falsifies the braided winding mechanism. This is the primary falsifier.",
+      "timeline": "LiteBIRD 2032: σ(β) ≈ 0.03°. Decisive test expected 2032–2034.",
+      "tags": [
+        "birefringence",
+        "CMB",
+        "primary",
+        "falsifier"
+      ]
+    },
+    {
+      "id": "WINDING_STABILITY",
+      "claim": "The winding number n_w = 5 is the unique integer consistent with all three CMB constraints simultaneously.",
+      "pillar": [
+        789
+      ],
+      "gate": "DERIVED",
+      "status": "STABILITY_BASIN_QUANTIFIED",
+      "prediction": "n_w = 5; stability margin Δn_w = 1 (n_w=4 and n_w=6 excluded)",
+      "uncertainty": "Margin Δn_w = 1 (tight)",
+      "measurement": "Self-consistency check: n_w ∈ {1,...,15} scan complete",
+      "tension_sigma": null,
+      "experiments": [
+        "LiteBIRD (2032) — birefringence channel",
+        "CMB-S4 — n_s channel"
+      ],
+      "falsification": "Any β outside [0.22°, 0.38°] would remove n_w=5 from the admissible set. Equivalently, n_s outside [0.9607, 0.9691] at ≥2σ.",
+      "timeline": "LiteBIRD 2032 is the primary timeline for testing the n_w=5 selection.",
+      "tags": [
+        "winding",
+        "stability",
+        "primary"
+      ]
+    },
+    {
+      "id": "HIGGS_MASS",
+      "claim": "The Higgs mass is consistent with one-loop KK corrections to the 5D Higgs potential.",
+      "pillar": [
+        785
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "status": "ONE_LOOP_CONSISTENT",
+      "prediction": "m_H ≈ 126.2 GeV",
+      "uncertainty": "±2 GeV (one-loop)",
+      "measurement": "CMS/ATLAS: 125.20 ± 0.11 GeV",
+      "tension_sigma": 0.5,
+      "experiments": [
+        "HL-LHC Higgs couplings (2029-2035)"
+      ],
+      "falsification": "m_H outside [120, 132] GeV from a complete 5D two-loop calculation would require revising the Higgs sector architecture.",
+      "timeline": "HL-LHC will measure Higgs couplings to <1% precision by 2035.",
+      "tags": [
+        "higgs",
+        "electroweak",
+        "architecture_limit"
+      ]
+    },
+    {
+      "id": "NEUTRINO_ORDERING",
+      "claim": "Normal Hierarchy (NH) is preferred over Inverted Hierarchy (IH) by the Z₂ Dirichlet orbifold boundary conditions.",
+      "pillar": [
+        786
+      ],
+      "gate": "DERIVED",
+      "status": "NH_DERIVED_CONDITIONAL",
+      "prediction": "NH: m₁≈0, m₂≈8.6 meV, m₃≈50.9 meV; Σmν≈0.0596 eV",
+      "uncertainty": "m₂ ±0.5 meV, m₃ ±3 meV",
+      "measurement": "NuFIT 5.3: NH preferred at >3σ (current global fit)",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "JUNO (2025-2030)",
+        "KATRIN (ongoing)",
+        "DESI (baryon acoustic)"
+      ],
+      "falsification": "IH confirmed at ≥5σ by JUNO or equivalent would falsify the Z₂ Dirichlet BC selection.",
+      "timeline": "JUNO neutrino ordering measurement expected 2027-2030.",
+      "tags": [
+        "neutrino",
+        "ordering",
+        "NH"
+      ]
+    },
+    {
+      "id": "NEUTRINO_MASSES",
+      "claim": "The absolute neutrino mass scale Σmν ≈ 0.0596 eV is predicted from the KK compactification.",
+      "pillar": [
+        786
+      ],
+      "gate": "DERIVED",
+      "status": "NH_DERIVED_CONDITIONAL",
+      "prediction": "Σmν ≈ 0.0596 eV",
+      "uncertainty": "±0.005 eV",
+      "measurement": "Planck 2018 upper limit: Σmν < 0.12 eV (consistent)",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "Euclid (2025-2030)",
+        "DESI Year 3 (2026)",
+        "KATRIN"
+      ],
+      "falsification": "Σmν > 0.12 eV at ≥2σ from cosmological data would tension the NH prediction.",
+      "timeline": "DESI Year 3 and Euclid expected to reach σ(Σmν) ~ 0.02 eV.",
+      "tags": [
+        "neutrino",
+        "mass",
+        "cosmology"
+      ]
+    },
+    {
+      "id": "DM_KK_CANDIDATE",
+      "claim": "The lightest KK excitation of the 5D metric is a dark matter candidate with M_KK ≈ 1 TeV.",
+      "pillar": [
+        790
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "status": "DM_KK_CANDIDATE_QUANTIFIED",
+      "prediction": "M_KK ≈ 1.0 TeV; σ_SI ≈ 6×10⁻⁴⁷ cm²",
+      "uncertainty": "M_KK ∈ [0.8, 1.3] TeV; σ_SI at tree level only",
+      "measurement": "XENON-nT: not yet excluded at 1 TeV (σ_SI limit ≈ 8×10⁻⁴⁷ cm²)",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "XENON-nT (ongoing)",
+        "LZ (2026)",
+        "HL-LHC Run-4 (2029)"
+      ],
+      "falsification": "Direct detection of KK DM with M_KK outside [0.8, 1.3] TeV, or σ_SI > 10⁻⁴⁵ cm², would strongly tension this candidate.",
+      "timeline": "XENON-nT 1-tonne-year result expected 2026. HL-LHC KK graviton searches by 2030.",
+      "tags": [
+        "dark matter",
+        "KK tower",
+        "architecture_limit"
+      ]
+    },
+    {
+      "id": "DM21",
+      "claim": "The solar neutrino mass splitting Δm²₂₁ is derived from the KK spectrum with 1.07σ residual.",
+      "pillar": [
+        773
+      ],
+      "gate": "DERIVED",
+      "status": "DM21_LJL_1_07SIGMA_QUANTIFIED_RESIDUAL",
+      "prediction": "Δm²₂₁ = 7.42×10⁻⁵ eV² (KK prediction)",
+      "uncertainty": "1.07σ residual tension with PDG value",
+      "measurement": "PDG 2024: Δm²₂₁ = (7.53 ± 0.18)×10⁻⁵ eV²",
+      "tension_sigma": 1.07,
+      "experiments": [
+        "JUNO (2027)",
+        "SNO+ (ongoing)"
+      ],
+      "falsification": "If residual tension grows to ≥3σ after NLO corrections are included, the KK Δm²₂₁ prediction would need revision.",
+      "timeline": "JUNO expected to measure Δm²₂₁ to <0.5% precision by 2027.",
+      "tags": [
+        "neutrino",
+        "mixing",
+        "delta_m21"
+      ]
+    },
+    {
+      "id": "PMNS_SOLAR",
+      "claim": "The PMNS solar mixing angle sin²θ₁₂ is geometrically derived from the FN charge n_FN=1.",
+      "pillar": [
+        762,
+        772
+      ],
+      "gate": "DERIVED",
+      "status": "GEOMETRIC_PREDICTION",
+      "prediction": "sin²θ₁₂ ≈ 0.307",
+      "uncertainty": "< 0.1% from PDG",
+      "measurement": "PDG 2024: sin²θ₁₂ = 0.307 ± 0.013",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "JUNO (solar angle precision)",
+        "HyperK"
+      ],
+      "falsification": "sin²θ₁₂ outside [0.27, 0.34] at ≥3σ would require revising the FN charge assignment.",
+      "timeline": "Current data: PASS. JUNO and HyperK will sharpen this by 2030.",
+      "tags": [
+        "neutrino",
+        "PMNS",
+        "solar_angle"
+      ]
+    },
+    {
+      "id": "CKM_SVD",
+      "claim": "CKM matrix elements are derived from SVD of the 5D Yukawa texture.",
+      "pillar": [
+        760
+      ],
+      "gate": "DERIVED",
+      "status": "TEXTURE_SVD_EXACT",
+      "prediction": "CKM elements from 5D SVD; Jarlskog invariant J_CKM from geometry",
+      "uncertainty": "FN charges partially constrained (3 irreducible free params remain)",
+      "measurement": "PDG CKM: consistent at current precision",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "Belle II (2026-2030)",
+        "LHCb Run-3"
+      ],
+      "falsification": "Any CP-violating observable outside the geometric CKM prediction at ≥3σ.",
+      "timeline": "Belle II and LHCb Run-3 will probe CKM unitarity to new precision by 2028.",
+      "tags": [
+        "CKM",
+        "Yukawa",
+        "quark_mixing"
+      ]
+    },
+    {
+      "id": "CMB_PEAKS",
+      "claim": "The CMB acoustic peak amplitude is suppressed by ×4–7 relative to Planck data.",
+      "pillar": [
+        780
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "status": "CMB_PEAK_RESIDUAL_ARCHITECTURE_LIMIT",
+      "prediction": "A_s mismatch: 33.6% residual (Silk damping + KK truncation bound ≤1.35%)",
+      "uncertainty": "Residual is architecture limit: NP-BC corrections not yet complete",
+      "measurement": "Planck 2018 acoustic peaks: ×4–7 amplitude discrepancy",
+      "tension_sigma": null,
+      "experiments": [
+        "CMB-S4",
+        "Simons Observatory"
+      ],
+      "falsification": "This is an acknowledged gap (FALLIBILITY.md Admission 2). Resolution requires completing the NP-BC ladder beyond current scope.",
+      "timeline": "Open problem. No imminent timeline for closure.",
+      "tags": [
+        "CMB",
+        "peaks",
+        "open_gap",
+        "architecture_limit"
+      ]
+    },
+    {
+      "id": "DARK_ENERGY",
+      "claim": "Dark energy equation of state is w₀ = -1, w_a = 0 (cosmological constant) from the KK radion.",
+      "pillar": [
+        787
+      ],
+      "gate": "DERIVED",
+      "status": "TENSION",
+      "prediction": "w₀ = -1.000, w_a = 0.000",
+      "uncertainty": "±0.005 (radion mass uncertainty)",
+      "measurement": "DESI Year 2 (2025): w₀ = -0.838 ± 0.043, w_a = -0.62 ± 0.23 — 2.07σ tension",
+      "tension_sigma": 2.07,
+      "experiments": [
+        "DESI Year 3 (2026)",
+        "Euclid (2025-2030)",
+        "Vera Rubin LSST"
+      ],
+      "falsification": "w_a ≠ 0 confirmed at ≥5σ by DESI Year 3 or Euclid would falsify the KK radion dark energy prediction.",
+      "timeline": "DESI Year 3 expected 2026. Current 2.07σ tension is tracked in CLAIM_MASTER_BOARD.md.",
+      "tags": [
+        "dark energy",
+        "DESI",
+        "tension",
+        "w_a"
+      ]
+    },
+    {
+      "id": "ALPHA_S",
+      "claim": "The strong coupling constant α_s is predicted from the 5D KK gauge reduction.",
+      "pillar": [
+        782
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "status": "ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT",
+      "prediction": "All four routes (A-D) give < 1% of α_s; gap certified at NNLO",
+      "uncertainty": "Architecture limit: non-perturbative physics not captured",
+      "measurement": "PDG: α_s(M_Z) = 0.1179 ± 0.0009",
+      "tension_sigma": null,
+      "experiments": [
+        "HL-LHC precision QCD"
+      ],
+      "falsification": "Not directly falsifiable at current scope. Architecture limit acknowledged in FALLIBILITY.md.",
+      "timeline": "Open problem. No imminent timeline.",
+      "tags": [
+        "QCD",
+        "alpha_s",
+        "architecture_limit",
+        "open_gap"
+      ]
+    },
+    {
+      "id": "COLD_FUSION",
+      "claim": "φ-enhanced nuclear tunneling predicts anomalous excess heat in Pd-D systems (COP > 1).",
+      "pillar": [
+        220
+      ],
+      "gate": "ADJACENT_TRACK",
+      "status": "FALSIFIABLE_COP_PREDICTION",
+      "prediction": "COP > 1.0 in Pd-D lattice with φ-enhancement",
+      "uncertainty": "Lattice phonon model; not a hardgate claim",
+      "measurement": "No confirmed replication at required precision",
+      "tension_sigma": null,
+      "experiments": [
+        "Dedicated Pd-D calorimetry (laboratory-scale)"
+      ],
+      "falsification": "COP ≤ 1.0 in controlled Pd-D experiment with φ-enhancement geometry.",
+      "timeline": "Laboratory-scale experiment. No community timeline set.",
+      "tags": [
+        "adjacent_track",
+        "cold_fusion",
+        "LENR"
+      ]
+    },
+    {
+      "id": "CONSCIOUSNESS",
+      "claim": "A coupled brain-universe attractor describes consciousness as a φ-resonance phenomenon.",
+      "pillar": [
+        9
+      ],
+      "gate": "ADJACENT_TRACK",
+      "status": "SPECULATIVE_ADJACENT",
+      "prediction": "Ξ_c coupling constant = 35/74",
+      "uncertainty": "High — no direct experimental test proposed",
+      "measurement": "No current measurement available",
+      "tension_sigma": null,
+      "experiments": [
+        "Neuroscience: EEG/MEG φ-resonance search"
+      ],
+      "falsification": "No pre-registered falsification condition at current scope.",
+      "timeline": "Speculative. No imminent experimental timeline.",
+      "tags": [
+        "adjacent_track",
+        "consciousness",
+        "speculative"
+      ]
+    },
+    {
+      "id": "FN_CHARGES",
+      "claim": "Froggatt-Nielsen charges are constrained by SVD from 9 to 3 irreducible free parameters.",
+      "pillar": [
+        781
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "status": "FN_CHARGES_PARTIALLY_CONSTRAINED",
+      "prediction": "9 → 3 free FN parameters (irreducible geometric lower bound)",
+      "uncertainty": "3 parameters remain free; architecture limit",
+      "measurement": "CKM and PMNS phenomenology consistent at current precision",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "Belle II",
+        "LHCb Run-3"
+      ],
+      "falsification": "Demonstrating FN charges have more than 3 free parameters from first principles would require revising the SVD architecture.",
+      "timeline": "Ongoing. Full closure requires completing the Yukawa sector.",
+      "tags": [
+        "FN_charges",
+        "Yukawa",
+        "architecture_limit"
+      ]
+    },
+    {
+      "id": "BRAID_UNIQUENESS",
+      "claim": "The (5,7) braid pair is the unique survivor of all admissible braid pairs satisfying Axioms Z2 and SW.",
+      "pillar": [
+        769
+      ],
+      "gate": "DERIVED",
+      "status": "PROVED_BY_EXHAUSTION",
+      "prediction": "Only (5,7) satisfies Z2 parity + Swampland bound + CMB constraints",
+      "uncertainty": "Conditional on Axioms Z2 and SW",
+      "measurement": "Self-consistency check: exhaustive scan of admissible pairs complete",
+      "tension_sigma": null,
+      "experiments": [
+        "LiteBIRD (birefringence test of (5,7) prediction)"
+      ],
+      "falsification": "Any admissible braid pair other than (5,7) surviving all constraints would refute uniqueness.",
+      "timeline": "LiteBIRD 2032 tests the (5,7) birefringence prediction.",
+      "tags": [
+        "braid",
+        "uniqueness",
+        "proved"
+      ]
+    },
+    {
+      "id": "SU5_UNIFICATION",
+      "claim": "SU(5) unification emerges from the orbifold Weyl parity acting on the 5D gauge group.",
+      "pillar": [
+        770
+      ],
+      "gate": "DERIVED",
+      "status": "SU5_WEYL_PARITY_PROVED_LEAN4_FORMAL",
+      "prediction": "SU(5) ⊃ SU(3)×SU(2)×U(1) from orbifold BC; proton decay rate predicted",
+      "uncertainty": "Proton decay rate: τ_p ~ 10³⁴-10³⁶ yr (model-dependent)",
+      "measurement": "No proton decay observed; current limit τ_p > 10³⁴ yr (consistent)",
+      "tension_sigma": 0.0,
+      "experiments": [
+        "Hyper-Kamiokande (2030s)",
+        "JUNO"
+      ],
+      "falsification": "Proton decay below τ_p = 10³⁴ yr in p→e⁺π⁰ channel.",
+      "timeline": "Hyper-Kamiokande will probe τ_p to 10³⁵ yr in the 2030s.",
+      "tags": [
+        "unification",
+        "SU5",
+        "proton_decay"
+      ]
+    },
+    {
+      "id": "DESI_TENSION",
+      "claim": "The DESI w_a tension is the highest-priority falsification risk for the framework.",
+      "pillar": [
+        787
+      ],
+      "gate": "DERIVED",
+      "status": "TENSION_2_07_SIGMA",
+      "prediction": "w_a = 0 (KK radion); DESI sees w_a = -0.62 ± 0.23",
+      "uncertainty": "2.07σ current tension",
+      "measurement": "DESI Year 2 (2025): 2.07σ tension with KK radion prediction",
+      "tension_sigma": 2.07,
+      "experiments": [
+        "DESI Year 3 (2026)",
+        "Euclid",
+        "Vera Rubin LSST (2025+)"
+      ],
+      "falsification": "w_a ≠ 0 at ≥5σ from combined DESI+Euclid+Rubin.",
+      "timeline": "DESI Year 3 result expected 2026. Watch list: HIGH PRIORITY.",
+      "tags": [
+        "dark energy",
+        "DESI",
+        "tension",
+        "primary_risk"
+      ]
+    }
+  ],
+  "experiments": [
+    {
+      "id": "LITEBIRD",
+      "name": "LiteBIRD",
+      "description": "CMB polarization satellite. Primary test of birefringence β.",
+      "timeline": "Launch ~2032",
+      "tests_pillars": [
+        2,
+        787,
+        789
+      ],
+      "observable": "Birefringence angle β",
+      "verdict_threshold": "β outside [0.22°, 0.38°] at ≥2σ → FALSIFIED"
+    },
+    {
+      "id": "DESI",
+      "name": "DESI Year 3",
+      "description": "Baryon acoustic oscillation survey. Tests dark energy equation of state.",
+      "timeline": "2026",
+      "tests_pillars": [
+        787
+      ],
+      "observable": "w₀, w_a",
+      "verdict_threshold": "w_a ≠ 0 at ≥5σ → FALSIFIED; current 2.07σ TENSION"
+    },
+    {
+      "id": "JUNO",
+      "name": "JUNO",
+      "description": "Neutrino oscillation reactor experiment. Tests ordering and Δm²₂₁.",
+      "timeline": "2025-2030",
+      "tests_pillars": [
+        773,
+        786
+      ],
+      "observable": "Δm²₂₁, mass ordering",
+      "verdict_threshold": "IH at ≥5σ → FALSIFIED; current PASS"
+    },
+    {
+      "id": "XENON_NT",
+      "name": "XENON-nT",
+      "description": "Direct dark matter search. Tests KK DM candidate.",
+      "timeline": "Ongoing (result ~2026)",
+      "tests_pillars": [
+        790
+      ],
+      "observable": "σ_SI at M_KK ~ 1 TeV",
+      "verdict_threshold": "σ_SI > 10⁻⁴⁵ cm² at 1 TeV → strongly tensions KK DM"
+    },
+    {
+      "id": "HL_LHC",
+      "name": "HL-LHC Run-4",
+      "description": "High-luminosity LHC. Tests KK graviton/radion resonances and Higgs couplings.",
+      "timeline": "2029-2035",
+      "tests_pillars": [
+        787,
+        790
+      ],
+      "observable": "M_G* (KK graviton), Higgs couplings",
+      "verdict_threshold": "KK resonance excluded above 3 TeV → tensions DM prediction"
+    },
+    {
+      "id": "NEDM",
+      "name": "nEDM@SNS",
+      "description": "Neutron electric dipole moment. Tests CP violation from 5D sector.",
+      "timeline": "2027-2030",
+      "tests_pillars": [
+        787
+      ],
+      "observable": "d_n (neutron EDM)",
+      "verdict_threshold": "d_n > 10⁻²⁶ e·cm at ≥3σ → new CP source beyond KK prediction"
+    },
+    {
+      "id": "EUCLID",
+      "name": "Euclid",
+      "description": "Space telescope. Tests neutrino masses and dark energy.",
+      "timeline": "2025-2030",
+      "tests_pillars": [
+        786,
+        787
+      ],
+      "observable": "Σmν, w(z)",
+      "verdict_threshold": "Σmν > 0.12 eV at ≥2σ, or w_a ≠ 0 at ≥5σ → FALSIFIED"
+    }
+  ],
+  "meta": {
+    "gates": [
+      "DERIVED",
+      "FITTED",
+      "ARCHITECTURE_LIMIT",
+      "ADJACENT_TRACK"
+    ],
+    "gate_descriptions": {
+      "DERIVED": "Prediction follows from the 5D geometry with no free parameters introduced.",
+      "FITTED": "Parameter fixed by matching to one experimental input; predictions for others.",
+      "ARCHITECTURE_LIMIT": "Current derivation scope cannot close this gap; acknowledged in FALLIBILITY.md.",
+      "ADJACENT_TRACK": "Exploratory application of UM geometry; not a hardgate physics claim."
+    },
+    "status_colors": {
+      "PASS": "#22c55e",
+      "TENSION": "#f59e0b",
+      "FALSIFIED": "#ef4444",
+      "AWAITING": "#94a3b8",
+      "ARCHITECTURE_LIMIT": "#8b5cf6",
+      "ADJACENT_TRACK": "#3b82f6"
+    }
+  }
+}

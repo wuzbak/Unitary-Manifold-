@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Axiom Zero Interrogator — AxiomZero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" crossorigin>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/az-apps.css">
+  <style>
+    :root {
+      --iq-bg: #07090e;
+      --iq-panel: #0d1117;
+      --iq-border: #1a2232;
+      --iq-accent: #6366f1;
+      --iq-accent2: #38bdf8;
+      --gate-derived: #22c55e;
+      --gate-fitted: #f59e0b;
+      --gate-arch: #8b5cf6;
+      --gate-adj: #3b82f6;
+      --status-pass: #22c55e;
+      --status-tension: #f59e0b;
+      --status-falsified: #ef4444;
+      --status-awaiting: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: var(--iq-bg);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* ===== HERO ===== */
+    .iq-hero {
+      background: linear-gradient(160deg, #060811 0%, #0d1120 60%, #0a0e1c 100%);
+      border-bottom: 1px solid var(--iq-border);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+    }
+    .iq-hero h1 {
+      font-size: 2rem; font-weight: 700; color: #f8fafc;
+      margin: 0 0 0.35rem; letter-spacing: -0.02em;
+    }
+    .iq-hero .subtitle { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.2rem; }
+    .iq-hero .tag {
+      display: inline-block;
+      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3);
+      color: var(--iq-accent); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; padding: 0.18rem 0.65rem; border-radius: 4px; margin: 0 0.2rem;
+    }
+
+    /* ===== TABS ===== */
+    .iq-tabs {
+      display: flex; gap: 0; border-bottom: 1px solid var(--iq-border);
+      background: #0b0d14; overflow-x: auto;
+    }
+    .iq-tab {
+      padding: 0.85rem 1.4rem; font-size: 0.88rem; font-weight: 500;
+      color: #64748b; cursor: pointer; border: none;
+      background: transparent; border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s; white-space: nowrap;
+    }
+    .iq-tab:hover { color: #94a3b8; }
+    .iq-tab.active { color: var(--iq-accent); border-bottom-color: var(--iq-accent); }
+
+    /* ===== PANELS ===== */
+    .iq-panel { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+    .iq-panel.active { display: block; }
+
+    /* ===== SEARCH ===== */
+    .iq-search-wrap {
+      position: relative; margin-bottom: 1.5rem;
+    }
+    .iq-search {
+      width: 100%; padding: 0.9rem 1rem 0.9rem 2.8rem;
+      background: var(--iq-panel); border: 1px solid var(--iq-border);
+      border-radius: 8px; color: #f1f5f9; font-size: 1rem;
+      font-family: 'Inter', sans-serif; outline: none;
+      transition: border-color 0.2s;
+    }
+    .iq-search:focus { border-color: var(--iq-accent); }
+    .iq-search::placeholder { color: #4a5568; }
+    .search-icon {
+      position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
+      color: #4a5568; font-size: 1rem; pointer-events: none;
+    }
+
+    /* ===== CLAIM CARD ===== */
+    .claim-card {
+      background: var(--iq-panel); border: 1px solid var(--iq-border);
+      border-radius: 10px; padding: 1.25rem 1.4rem; margin-bottom: 1rem;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .claim-card:hover { border-color: var(--iq-accent); background: #0f1520; }
+    .claim-card.expanded { border-color: var(--iq-accent); }
+    .claim-header {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+    }
+    .gate-badge {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      font-weight: 700; padding: 0.18rem 0.55rem; border-radius: 4px;
+      white-space: nowrap; flex-shrink: 0; margin-top: 0.1rem;
+    }
+    .gate-DERIVED    { background: rgba(34,197,94,0.12); color: var(--gate-derived); border: 1px solid rgba(34,197,94,0.25); }
+    .gate-FITTED     { background: rgba(245,158,11,0.12); color: var(--gate-fitted); border: 1px solid rgba(245,158,11,0.25); }
+    .gate-ARCHITECTURE_LIMIT { background: rgba(139,92,246,0.12); color: var(--gate-arch); border: 1px solid rgba(139,92,246,0.25); }
+    .gate-ADJACENT_TRACK { background: rgba(59,130,246,0.12); color: var(--gate-adj); border: 1px solid rgba(59,130,246,0.25); }
+
+    .status-pill {
+      font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem;
+      border-radius: 3px; margin-left: 0.5rem;
+    }
+    .status-PASS { background: rgba(34,197,94,0.15); color: var(--status-pass); }
+    .status-TENSION { background: rgba(245,158,11,0.15); color: var(--status-tension); }
+    .status-FALSIFIED { background: rgba(239,68,68,0.15); color: var(--status-falsified); }
+    .status-AWAITING { background: rgba(148,163,184,0.12); color: var(--status-awaiting); }
+    .status-ARCHITECTURE_LIMIT { background: rgba(139,92,246,0.12); color: var(--gate-arch); }
+    .status-ADJACENT_TRACK { background: rgba(59,130,246,0.12); color: var(--gate-adj); }
+
+    .claim-text { font-size: 0.95rem; color: #e2e8f0; flex: 1; line-height: 1.5; }
+    .claim-detail {
+      display: none; margin-top: 1.1rem; padding-top: 1rem;
+      border-top: 1px solid var(--iq-border);
+    }
+    .claim-card.expanded .claim-detail { display: block; }
+
+    .detail-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem; margin-bottom: 1rem;
+    }
+    .detail-block { background: #0b0e18; border-radius: 6px; padding: 0.8rem 1rem; }
+    .detail-block label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;
+      display: block; margin-bottom: 0.3rem;
+    }
+    .detail-block span { font-size: 0.88rem; color: #cbd5e1; }
+    .detail-block .tension-val { color: var(--status-tension); font-weight: 600; }
+    .falsification-box {
+      background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.15);
+      border-radius: 6px; padding: 0.75rem 1rem; margin-top: 0.75rem;
+    }
+    .falsification-box label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      color: #ef4444; text-transform: uppercase; letter-spacing: 0.05em;
+      display: block; margin-bottom: 0.3rem;
+    }
+    .falsification-box span { font-size: 0.85rem; color: #fca5a5; }
+    .experiments-list {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem;
+    }
+    .exp-chip {
+      font-size: 0.75rem; padding: 0.18rem 0.6rem; border-radius: 3px;
+      background: rgba(56,189,248,0.1); color: var(--iq-accent2);
+      border: 1px solid rgba(56,189,248,0.2);
+    }
+
+    /* ===== EXPERIMENT MODE ===== */
+    .exp-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.1rem; margin-bottom: 1.5rem;
+    }
+    .exp-card {
+      background: var(--iq-panel); border: 1px solid var(--iq-border);
+      border-radius: 10px; padding: 1.2rem; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .exp-card:hover, .exp-card.selected { border-color: var(--iq-accent2); }
+    .exp-name { font-weight: 600; color: #f1f5f9; margin-bottom: 0.3rem; }
+    .exp-timeline {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      color: var(--iq-accent2); margin-bottom: 0.5rem;
+    }
+    .exp-desc { font-size: 0.83rem; color: #94a3b8; }
+    #exp-detail-panel {
+      background: var(--iq-panel); border: 1px solid var(--iq-border);
+      border-radius: 10px; padding: 1.4rem; display: none;
+    }
+    #exp-detail-panel.visible { display: block; }
+
+    /* ===== TENSION MAP ===== */
+    #tension-canvas-wrap {
+      position: relative; width: 100%; height: 420px;
+      background: var(--iq-panel); border: 1px solid var(--iq-border);
+      border-radius: 10px; margin-bottom: 1.2rem; overflow: hidden;
+    }
+    #tension-canvas { width: 100%; height: 100%; display: block; }
+    #tension-tooltip {
+      position: absolute; background: #0d1520;
+      border: 1px solid var(--iq-accent); border-radius: 8px;
+      padding: 0.7rem 1rem; font-size: 0.82rem; color: #e2e8f0;
+      max-width: 260px; pointer-events: none; display: none; z-index: 10;
+    }
+    .axis-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #4a5568;
+    }
+    .tension-legend {
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      font-size: 0.78rem; color: #64748b; margin-top: 0.5rem;
+    }
+    .tension-legend span { display: flex; align-items: center; gap: 0.4rem; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ===== SUMMARY BAR ===== */
+    .summary-bar {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .summary-chip {
+      padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.83rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .chip-pass { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); color: var(--status-pass); }
+    .chip-tension { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); color: var(--status-tension); }
+    .chip-awaiting { background: rgba(148,163,184,0.08); border: 1px solid rgba(148,163,184,0.15); color: #94a3b8; }
+    .chip-arch { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); color: var(--gate-arch); }
+
+    h2.section-title { font-size: 1.1rem; font-weight: 600; color: #e2e8f0; margin: 0 0 1rem; }
+    .no-results { color: #4a5568; font-size: 0.9rem; padding: 2rem; text-align: center; }
+    .pillar-ref {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      color: #475569; margin-top: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="iq-hero">
+  <h1>⚗️ Axiom Zero Interrogator</h1>
+  <p class="subtitle">Challenge any claim the Unitary Manifold makes. See what experiment would falsify it.</p>
+  <span class="tag">v23.1</span>
+  <span class="tag">offline</span>
+  <span class="tag">20 claims</span>
+  <span class="tag">7 experiments</span>
+</header>
+
+<!-- TABS -->
+<nav class="iq-tabs" id="iq-tabs">
+  <button class="iq-tab active" data-panel="challenge">Challenge Mode</button>
+  <button class="iq-tab" data-panel="experiment">Experiment Mode</button>
+  <button class="iq-tab" data-panel="tension">Tension Map</button>
+</nav>
+
+<!-- PANEL: Challenge Mode -->
+<div class="iq-panel active" id="panel-challenge">
+  <div class="iq-search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="iq-search" id="challenge-search" type="text"
+      placeholder='Try: "Higgs mass", "neutrino ordering", "birefringence", "dark matter"…'>
+  </div>
+  <div class="summary-bar" id="summary-bar"></div>
+  <h2 class="section-title">Claims Index</h2>
+  <div id="claims-list"></div>
+</div>
+
+<!-- PANEL: Experiment Mode -->
+<div class="iq-panel" id="panel-experiment">
+  <h2 class="section-title">Select an upcoming experiment</h2>
+  <div class="exp-grid" id="exp-grid"></div>
+  <div id="exp-detail-panel"></div>
+</div>
+
+<!-- PANEL: Tension Map -->
+<div class="iq-panel" id="panel-tension">
+  <h2 class="section-title">Tension Map — Current σ tensions vs. framework confidence</h2>
+  <div id="tension-canvas-wrap">
+    <canvas id="tension-canvas"></canvas>
+    <div id="tension-tooltip"></div>
+  </div>
+  <div class="tension-legend">
+    <span><span class="dot" style="background:#22c55e"></span>PASS (0–1σ)</span>
+    <span><span class="dot" style="background:#f59e0b"></span>TENSION (1–3σ)</span>
+    <span><span class="dot" style="background:#ef4444"></span>FALSIFIED (>3σ)</span>
+    <span><span class="dot" style="background:#94a3b8"></span>AWAITING</span>
+    <span><span class="dot" style="background:#8b5cf6"></span>ARCHITECTURE LIMIT</span>
+  </div>
+  <p style="color:#4a5568;font-size:0.8rem;margin-top:0.8rem;">
+    X-axis: current σ tension with data (0 = perfect agreement). Y-axis: theoretical confidence (DERIVED=high, ARCHITECTURE_LIMIT=low). Click nodes for details.
+  </p>
+</div>
+
+<script src="../js/18-interrogator.js"></script>
+</body>
+</html>
