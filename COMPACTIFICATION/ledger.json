@@ -1,0 +1,192 @@
+{
+  "_comment": "Unitary Manifold — Compactification Kernel Snapshot Manifest",
+  "_format": "1.0",
+  "framework_version": "v22.11",
+  "kernel_version": "1.0.0",
+  "fingerprint": "(5, 7, 74)",
+  "date": "2026-08-20",
+  "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531",
+  "author": "ThomasCory Walker-Pearson",
+  "organization": "AxiomZero Technologies & Consulting, SPC",
+  "ubi": "606 239 876",
+  "license_software": "AGPL-3.0-or-later",
+  "license_theory": "Defensive Public Commons v1.0",
+
+  "repository_state": {
+    "pillar_count": 785,
+    "lean4_theorem_count": 976,
+    "test_count_full_suite": 56964,
+    "test_failures": 0,
+    "next_pillar_slot": 786,
+    "status_file": "STATUS.md"
+  },
+
+  "topological_sector": {
+    "n1": 5,
+    "n2": 7,
+    "k_cs": 74,
+    "k_cs_derivation": "n1² + n2² = 5² + 7² = 74",
+    "n_w": 5,
+    "n_w_status": "PROVED (Pillar 70-D, APS theorem + Z₂ CS boundary)",
+    "n_c": 3,
+    "n_c_derivation": "n_w - 2 = 3 (QCD colours)",
+    "c_s": "12/37",
+    "c_s_decimal": 0.32432432432432434,
+    "c_s_status": "DERIVED (exact, Pythagorean braid identity)"
+  },
+
+  "cmb_predictions": {
+    "ns": {
+      "value": 0.9635,
+      "status": "PROVED_CONDITIONAL",
+      "planck_2018_central": 0.9649,
+      "planck_2018_sigma": 0.0042,
+      "pull_sigma": 0.33,
+      "result": "PASS"
+    },
+    "r_braided": {
+      "value": 0.0315,
+      "status": "PROVED_CONDITIONAL",
+      "bicep_keck_95cl_limit": 0.036,
+      "result": "PASS"
+    },
+    "beta_canonical_deg": {
+      "value": 0.331,
+      "status": "DERIVED",
+      "type": "FTUM primary"
+    },
+    "beta_gw_deg": {
+      "value": 0.351,
+      "status": "DERIVED",
+      "type": "GW-radion variant"
+    },
+    "beta_minami_hint": {
+      "center_deg": 0.35,
+      "sigma_deg": 0.14,
+      "significance": "~3σ"
+    },
+    "beta_falsification_window_deg": [0.22, 0.38],
+    "beta_predicted_gap_deg": [0.29, 0.31],
+    "primary_falsifier": "LiteBIRD (~2032)"
+  },
+
+  "gut_strong_sector": {
+    "alpha_gut": {
+      "value": 0.04054,
+      "derivation": "N_c / K_CS = 3/74",
+      "status": "DERIVED (CS quantization)",
+      "residual_to_su5_pct": 1.7
+    },
+    "lambda_qcd_gev": {
+      "geometric_primary": 0.1977,
+      "nlo_corrected": 0.209,
+      "pdg_msbar": 0.213,
+      "status": "DERIVED (geometric path, zero SM RGE)",
+      "gap": "KNOWN_SOFT_WALL_SYSTEMATIC (factor ~1.68 vs PDG MS-bar)"
+    }
+  },
+
+  "higgs_sector": {
+    "m_higgs_one_loop_gev": 126.2,
+    "m_higgs_pdg_gev": 125.09,
+    "gap_pct": 0.89,
+    "status": "ONE_LOOP_CONSISTENT",
+    "architecture_limit": "27.53% irreducible gap at 5D; ARCHITECTURE_LIMIT_CERTIFIED"
+  },
+
+  "yukawa_sector": {
+    "status": "FITTED",
+    "irreducible_fn_parameters": 3,
+    "note": "c_L localisation parameters solved against experimental masses — NOT derived top-down from (5,7) topology"
+  },
+
+  "dark_energy": {
+    "w_kk": -0.9302,
+    "w_a": 0.0,
+    "desi_dr2_sigma": 0.1,
+    "planck_bao_sigma": 3.2,
+    "status": "TENSION (Planck+BAO 3.2σ; PASS DESI DR2 0.1σ)"
+  },
+
+  "known_open_gaps": [
+    {
+      "id": "G1_CMB_AMPLITUDE",
+      "label": "CMB Peak Amplitude Suppression",
+      "status": "ARCHITECTURE_LIMIT",
+      "detail": "33.65% irreducible gap at 5D; DECOMPOSED_V2 (Pillars 57+63)"
+    },
+    {
+      "id": "G2_ADM",
+      "label": "ADM Time Synchronisation",
+      "status": "ARCHITECTURE_LIMIT",
+      "detail": "Flow parameter t and coordinate time x⁰ not formally synchronised; Pillar 41 partial correction"
+    },
+    {
+      "id": "G3_DM21",
+      "label": "Δm²₂₁ Neutrino Mass Tension",
+      "status": "ARCHITECTURE_LIMIT",
+      "detail": "Residual ~1.07σ after NLO corrections; ARCHITECTURE_LIMIT_CERTIFIED (Pillar 774)"
+    },
+    {
+      "id": "G5_YUKAWA",
+      "label": "Yukawa Top-Down Derivation",
+      "status": "ARCHITECTURE_LIMIT",
+      "detail": "c_L FITTED; 3 irreducible FN parameters remain (reduced from 9)"
+    },
+    {
+      "id": "G6_DARK_ENERGY",
+      "label": "DESI w_a Tension",
+      "status": "TENSION",
+      "detail": "DESI Year 2 w_a ≠ 0 vs KK w_a = 0; 3.2σ Planck+BAO; active tracking"
+    }
+  ],
+
+  "falsification_conditions": [
+    {
+      "observable": "CMB birefringence β",
+      "condition": "β ∉ [0.22°, 0.38°] or β ∈ [0.29°, 0.31°]",
+      "experiment": "LiteBIRD (~2032)",
+      "status": "PENDING"
+    },
+    {
+      "observable": "CMB spectral index nₛ",
+      "condition": "nₛ ∉ [0.952, 0.977]",
+      "experiment": "CMB-S4 / Simons Observatory",
+      "status": "PASS (Planck 2018, 0.33σ)"
+    },
+    {
+      "observable": "Tensor-to-scalar ratio r",
+      "condition": "r > 0.036",
+      "experiment": "BICEP Array / CMB-S4",
+      "status": "PASS (r_braided ≈ 0.0315)"
+    },
+    {
+      "observable": "Dark energy w_a",
+      "condition": "w_a significantly ≠ 0 at >5σ",
+      "experiment": "DESI Year 5 / Euclid",
+      "status": "TENSION (3.2σ Planck+BAO)"
+    },
+    {
+      "observable": "Proton decay lifetime",
+      "condition": "τ_p < 10^34 years",
+      "experiment": "Hyper-Kamiokande",
+      "status": "PENDING"
+    }
+  ],
+
+  "kernel_files": {
+    "kernel.py":      "Monolithic physics source; numpy required, scipy/sympy optional",
+    "kernel_test.py": "Standalone verification suite; 59 tests; plain python or pytest",
+    "axioms.py":      "Machine-readable axiom registry; 19 entries across 4 layers",
+    "ledger.json":    "This file — snapshot manifest",
+    "KERNEL_README.md": "One-page guide to the kernel"
+  },
+
+  "rebuild_instructions": {
+    "step_1": "pip install numpy scipy  # scipy optional but recommended",
+    "step_2": "python kernel.py         # prints full derivation report",
+    "step_3": "python kernel_test.py    # runs 59 assertions (0 failures expected)",
+    "step_4": "python axioms.py         # prints axiom registry and honesty counts",
+    "note": "All steps work without internet access.  sympy adds symbolic algebra only."
+  }
+}
