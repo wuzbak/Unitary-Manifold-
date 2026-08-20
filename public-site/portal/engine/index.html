@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Science Engine — axiomzerosp.org</title>
+  <meta name="description" content="Live computation hub: HF Spaces for Oracle, CMB calculator, VQE sandbox. All results include uncertainty and epistemic status." />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/main.css" />
+  <style>
+    .engine-card {
+      background:var(--color-card); border:1px solid var(--color-border); border-radius:14px;
+      padding:1.75rem; display:flex; gap:1.25rem; margin-bottom:1.25rem;
+      transition:border-color 0.2s;
+    }
+    .engine-card:hover { border-color:rgba(59,139,255,0.35); }
+    .engine-icon { font-size:2.5rem; flex-shrink:0; }
+    .engine-body { flex:1; }
+    .engine-body h3 { margin-bottom:0.4rem; font-size:1.1rem; }
+    .engine-body p { font-size:0.85rem; color:#7a8ba8; margin-bottom:0.85rem; }
+    .engine-tags { display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.85rem; }
+    .etag {
+      font-family:var(--font-mono); font-size:0.68rem; font-weight:700;
+      padding:0.15em 0.6em; border-radius:3px;
+    }
+    .etag-hf    { background:rgba(255,159,10,0.1); color:#ff9f0a; border:1px solid rgba(255,159,10,0.25); }
+    .etag-api   { background:rgba(59,139,255,0.1); color:#3b8bff; border:1px solid rgba(59,139,255,0.2); }
+    .etag-gate  { background:rgba(48,209,88,0.1); color:#30d158; border:1px solid rgba(48,209,88,0.2); }
+    .etag-adj   { background:rgba(124,77,255,0.1); color:#7c4dff; border:1px solid rgba(124,77,255,0.2); }
+    .engine-actions { display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .engine-actions a, .engine-actions button {
+      padding:0.45em 1.1em; border-radius:6px; font-size:0.83rem; font-weight:600;
+      cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem;
+    }
+    .btn-primary {
+      background:linear-gradient(135deg,#3b8bff,#7c4dff); border:none; color:#fff;
+    }
+    .btn-secondary {
+      background:rgba(59,139,255,0.1); border:1px solid rgba(59,139,255,0.25); color:#3b8bff;
+    }
+    .btn-secondary:hover { background:rgba(59,139,255,0.18); text-decoration:none; color:#3b8bff; }
+
+    .embed-frame {
+      width:100%; border:1px solid #1a2a4a; border-radius:10px; overflow:hidden;
+      background:#0a1228;
+    }
+    .embed-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0.65rem 1rem; background:#0d1830; border-bottom:1px solid #1a2a4a;
+      font-size:0.82rem;
+    }
+    .embed-dot { width:10px; height:10px; border-radius:50%; }
+    .embed-dot-red { background:#ff453a; }
+    .embed-dot-yellow { background:#ff9f0a; }
+    .embed-dot-green { background:#30d158; }
+
+    /* Status indicator */
+    .space-status { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.78rem; }
+    .status-dot { width:8px; height:8px; border-radius:50%; }
+    .status-live { background:#30d158; animation:pulse 2s infinite; }
+    .status-sleep { background:#ff9f0a; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
+    /* API table */
+    .api-table { width:100%; border-collapse:collapse; font-size:0.84rem; }
+    .api-table th { text-align:left; padding:0.6rem 0.75rem; background:#0d1830; border-bottom:2px solid #1a2a4a; color:#7a8ba8; font-size:0.77rem; }
+    .api-table td { padding:0.6rem 0.75rem; border-bottom:1px solid #1a2a4a; }
+    .api-table code { font-size:0.82em; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html">
+    <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
+    axiomzerosp.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="../knowledge/">Knowledge</a></li>
+    <li><a href="../../az-apps/">Apps</a></li>
+    <li><a href="../gym/">Gym</a></li>
+    <li><a href="index.html" class="active">Science Engine</a></li>
+    <li><a href="../library/">Library</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<main style="max-width:1100px;margin:0 auto;padding:2.5rem 1.5rem;">
+  <div style="margin-bottom:2.5rem;">
+    <div style="font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:#3b8bff;margin-bottom:0.4rem;">Science Engine</div>
+    <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:0.5rem;">Live Computation</h1>
+    <p style="color:#7a8ba8;max-width:620px;">
+      Hugging Face Spaces host live Gradio UIs for the Oracle, CMB calculator, VQE sandbox, and more.
+      Every result includes epistemic status and uncertainty. No claims are overstated.
+    </p>
+    <div style="background:rgba(255,159,10,0.06);border:1px solid rgba(255,159,10,0.18);border-radius:8px;padding:0.85rem 1rem;font-size:0.83rem;color:#b8a060;max-width:680px;margin-top:1rem;">
+      <strong style="color:#f0c040;">Note:</strong> HF Spaces may be in sleep mode (free tier). Click "Open Space" — they wake in ~30 seconds.
+      All spaces are open source. Epistemic gate labels appear in every output.
+    </div>
+  </div>
+
+  <!-- ── Flagship: Oracle ── -->
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;">🌀 Flagship — Ω Oracle Grand Synthesis Engine</h2>
+
+  <div class="engine-card">
+    <div class="engine-icon">🌀</div>
+    <div class="engine-body">
+      <h3>AxiomZero Ω Oracle (Product 16)</h3>
+      <div class="engine-tags">
+        <span class="etag etag-hf">🤗 HF SPACE</span>
+        <span class="etag etag-gate">HARDGATE + ADJACENT</span>
+        <span class="etag etag-api">Gradio · port 7872</span>
+      </div>
+      <p>Pentad modeler, EIGE governance audit, decision resonance, and synthesis scoring.
+         The capstone of the AZ-IP suite — runs full src/core/ computation. Results carry gate labels and uncertainty ranges.</p>
+      <div class="space-status">
+        <span class="status-dot status-live" id="oracle-status-dot"></span>
+        <span id="oracle-status-txt">Checking…</span>
+      </div>
+      <div class="engine-actions" style="margin-top:0.85rem;">
+        <a href="https://huggingface.co/spaces/axiomzero/oracle" target="_blank" rel="noopener" class="btn-primary" style="padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;font-size:0.85rem;text-decoration:none;">Open HF Space →</a>
+        <a href="../../az-apps/16-oracle.html" class="btn-secondary" style="padding:0.5em 1.2em;background:rgba(59,139,255,0.1);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-weight:600;font-size:0.85rem;text-decoration:none;">Local App →</a>
+        <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/16-oracle" target="_blank" rel="noopener" class="btn-secondary" style="padding:0.5em 1.2em;background:rgba(59,139,255,0.1);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-weight:600;font-size:0.85rem;text-decoration:none;">Source →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Other Spaces ── -->
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;margin-top:2rem;">🔭 Physics Computation Spaces</h2>
+
+  <div class="engine-card">
+    <div class="engine-icon">🌌</div>
+    <div class="engine-body">
+      <h3>CMB Calculator</h3>
+      <div class="engine-tags">
+        <span class="etag etag-hf">🤗 HF SPACE</span>
+        <span class="etag etag-gate">HARDGATE</span>
+      </div>
+      <p>Compute CMB transfer function, acoustic peak predictions, and suppression ratio η(k) from UM geometry.
+         Compare with Planck 2018 observations in real time. Open gap: ×4–7 amplitude suppression documented.</p>
+      <div class="engine-actions">
+        <a href="https://huggingface.co/spaces/axiomzero/cmb-calculator" target="_blank" rel="noopener" class="btn-primary" style="padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;font-size:0.85rem;text-decoration:none;">Open Space →</a>
+        <a href="../../apps/cmb-parameters.html" class="btn-secondary" style="padding:0.5em 1.2em;background:rgba(59,139,255,0.1);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-weight:600;font-size:0.85rem;text-decoration:none;">Local App →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="engine-card">
+    <div class="engine-icon">⚗️</div>
+    <div class="engine-body">
+      <h3>VQE Sandbox — Fermi-Hubbard &amp; KK Systems</h3>
+      <div class="engine-tags">
+        <span class="etag etag-hf">🤗 HF SPACE</span>
+        <span class="etag etag-adj">ADJACENT TRACK · Non-hardgate</span>
+      </div>
+      <p>Variational Quantum Eigensolver for Fermi-Hubbard model and Kaluza-Klein tower systems.
+         Jordan-Wigner and Bravyi-Kitaev encodings. XDiag bridge integration (non-hardgate lane).</p>
+      <div class="engine-actions">
+        <a href="https://huggingface.co/spaces/axiomzero/vqe-sandbox" target="_blank" rel="noopener" class="btn-primary" style="padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;font-size:0.85rem;text-decoration:none;">Open Space →</a>
+        <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/src/quantum" target="_blank" rel="noopener" class="btn-secondary" style="padding:0.5em 1.2em;background:rgba(59,139,255,0.1);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-weight:600;font-size:0.85rem;text-decoration:none;">Source →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="engine-card">
+    <div class="engine-icon">🤖</div>
+    <div class="engine-body">
+      <h3>RAG Assistant API</h3>
+      <div class="engine-tags">
+        <span class="etag etag-api">FastAPI</span>
+        <span class="etag etag-hf">🤗 HF Inference</span>
+      </div>
+      <p>The backend powering the persistent assistant widget on every page.
+         RAG-grounded on the full UM knowledge base — pillars, theorems, claim board, FALLIBILITY register.
+         Anti-sycophancy system prompt enforced. Websearch available for external literature alignment.</p>
+      <div class="engine-actions">
+        <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/bot/assistant_api.py" target="_blank" rel="noopener" class="btn-secondary" style="padding:0.5em 1.2em;background:rgba(59,139,255,0.1);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-weight:600;font-size:0.85rem;text-decoration:none;">Source →</a>
+        <button onclick="testAssistant()" class="btn-secondary" style="padding:0.5em 1.2em;background:rgba(59,139,255,0.1);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-weight:600;font-size:0.85rem;cursor:pointer;">Try Assistant →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HF Dataset ── -->
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;margin-top:2rem;">📊 Datasets &amp; Models</h2>
+
+  <div class="engine-card">
+    <div class="engine-icon">📦</div>
+    <div class="engine-body">
+      <h3>UM Knowledge Base Dataset</h3>
+      <div class="engine-tags">
+        <span class="etag etag-hf">🤗 HF Dataset</span>
+      </div>
+      <p>All 208+ pillar descriptions, theorem statements, claim board entries, and FALLIBILITY register —
+         chunked and embedded at pillar/section granularity for RAG retrieval. Public domain.</p>
+      <div class="engine-actions">
+        <a href="https://huggingface.co/datasets/axiomzero/unitary-manifold-knowledge" target="_blank" rel="noopener" class="btn-primary" style="padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;font-size:0.85rem;text-decoration:none;">View Dataset →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── API Reference ── -->
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;margin-top:2rem;">🔌 API Reference</h2>
+  <p style="color:#7a8ba8;font-size:0.88rem;margin-bottom:1.25rem;">All endpoints follow the same response schema: <code>{ answer, sources, epistemic_gate, uncertainty, pillar_ids }</code>.</p>
+  <div style="overflow-x:auto;">
+  <table class="api-table">
+    <thead>
+      <tr>
+        <th>Endpoint</th>
+        <th>Method</th>
+        <th>Description</th>
+        <th>Returns</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>POST /api/assistant</code></td><td>POST</td><td>RAG-grounded Q&amp;A with anti-sycophancy</td><td>answer, sources, gate</td></tr>
+      <tr><td><code>GET /api/pillars</code></td><td>GET</td><td>Full pillar index with gate labels</td><td>pillar list JSON</td></tr>
+      <tr><td><code>GET /api/pillar/{id}</code></td><td>GET</td><td>Single pillar detail</td><td>pillar JSON</td></tr>
+      <tr><td><code>GET /api/status</code></td><td>GET</td><td>Live test count, theorem count, gaps</td><td>status JSON</td></tr>
+      <tr><td><code>POST /api/kk-mass</code></td><td>POST</td><td>KK mass calculator</td><td>m_n, uncertainty</td></tr>
+      <tr><td><code>POST /api/birefringence</code></td><td>POST</td><td>β predictor from K_cs, c_s</td><td>beta, gate, window check</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="margin-top:0.75rem;font-size:0.8rem;color:#7a8ba8;">
+    Full OpenAPI spec: <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/bot/assistant_api.py" target="_blank">bot/assistant_api.py</a>
+  </p>
+
+</main>
+
+<footer style="background:#030710;border-top:1px solid #0d1628;padding:2rem 1.5rem;text-align:center;color:#4a5a7a;font-size:0.8rem;margin-top:2rem;">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 · Open science artifact for human review · Use at your own liability
+</footer>
+
+<script src="../../js/assistant.js" defer></script>
+<script>
+function testAssistant() {
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.open();
+    setTimeout(function() {
+      AZAssistant.send('Tell me about the RAG assistant API and how the anti-sycophancy system prompt works.');
+    }, 400);
+  }
+}
+
+// Lightweight HF Space status check
+function checkSpaceStatus() {
+  var dot = document.getElementById('oracle-status-dot');
+  var txt = document.getElementById('oracle-status-txt');
+  fetch('https://huggingface.co/spaces/axiomzero/oracle', { method:'HEAD', mode:'no-cors', signal:AbortSignal.timeout(4000) })
+    .then(function() {
+      dot && dot.classList.replace('status-sleep','status-live');
+      txt && (txt.textContent = 'Space reachable');
+    })
+    .catch(function() {
+      dot && dot.classList.replace('status-live','status-sleep');
+      txt && (txt.textContent = 'May be sleeping — click to wake');
+    });
+}
+checkSpaceStatus();
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.setPageContext('Science Engine — HF Spaces hub for Oracle, CMB Calculator, VQE Sandbox, and RAG assistant API');
+  }
+});
+</script>
+</body>
+</html>

@@ -191,5 +191,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+<!-- Persistent AI Assistant -->
+<script src="../js/assistant.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof AZAssistant !== 'undefined') {
+      AZAssistant.setPageContext('Status dashboard — live test counts, Lean4 theorem totals, framework version, DESI tracker');
+    }
+  });
+</script>
 </body>
 </html>

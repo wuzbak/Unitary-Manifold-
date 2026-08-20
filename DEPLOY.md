@@ -123,5 +123,80 @@ Connect `lodge.axiomzerospc.org`, `terra.axiomzerospc.org`, etc. as subdomains.
 
 ---
 
+## axiomzerosp.org — Open Science Portal Deployment
+
+The portal lives at `public-site/portal/` and `public-site/js/assistant.js`.
+
+### 1. Static site (Firebase / GitHub Pages)
+
+```bash
+# Deploy all of public-site/ to Firebase
+firebase deploy --only hosting
+
+# Or for GitHub Pages: push to main — actions handle it
+```
+
+### 2. Persistent AI Assistant API
+
+```bash
+cd bot/
+pip install fastapi uvicorn httpx numpy
+export HF_API_TOKEN=<your_token>
+export BRAVE_API_KEY=<your_key>   # optional, for websearch
+uvicorn assistant_api:app --host 0.0.0.0 --port 8000
+```
+
+Deploy on Cloud Run or Railway. Set `CFG.apiEndpoint = 'https://api.axiomzerosp.org'` in `js/assistant.js`.
+
+### 3. HF Spaces
+
+Push each space folder to Hugging Face:
+
+```bash
+# Oracle Space
+cd hf-spaces/oracle-space
+git init && git remote add origin https://huggingface.co/spaces/axiomzero/oracle
+git add . && git commit -m "Deploy Oracle" && git push
+
+# CMB Calculator
+cd hf-spaces/cmb-calc-space
+git remote add origin https://huggingface.co/spaces/axiomzero/cmb-calculator
+git add . && git commit -m "Deploy CMB Calc" && git push
+```
+
+### 4. HF Knowledge Dataset
+
+Push to Hugging Face Datasets:
+
+```bash
+cd hf-spaces/um-knowledge-dataset
+git remote add origin https://huggingface.co/datasets/axiomzero/unitary-manifold-knowledge
+git add . && git commit -m "Publish knowledge base" && git push
+```
+
+Run `bot/rag_index.py` to generate the JSONL files before pushing.
+
+### 5. Domain configuration (axiomzerosp.org)
+
+| Path | Content |
+|------|---------|
+| `axiomzerosp.org/portal/` | Portal home |
+| `axiomzerosp.org/portal/knowledge/` | Pillar browser |
+| `axiomzerosp.org/portal/gym/` | Gym |
+| `axiomzerosp.org/portal/engine/` | Science Engine |
+| `axiomzerosp.org/portal/library/` | Open Science Library |
+| `axiomzerosp.org/az-apps/` | 16 AZ-IP products |
+| `api.axiomzerosp.org` | Assistant API backend |
+
+### 6. Wiring HF token to assistant
+
+In `public-site/js/assistant.js`, set `CFG.hfToken` via:
+```html
+<script>window.AZ_HF_TOKEN = 'hf_...';</script>
+```
+Or better: proxy through your own API backend (`/api/assistant`) so the token stays server-side.
+
+---
+
 *AxiomZero Technologies & Consulting, SPC — UBI 606 239 876*  
 *Open science artifact for human review, use at your own liability.*

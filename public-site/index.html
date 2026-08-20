@@ -496,5 +496,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+<!-- ── Persistent AI Assistant ──────────────────────────────────────────── -->
+<script src="js/assistant.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof AZAssistant !== 'undefined') {
+      AZAssistant.setPageContext('Unitary Manifold home page — 5D Kaluza-Klein physics framework overview, predictions, and links to all tools');
+    }
+  });
+</script>
 </body>
 </html>

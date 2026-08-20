@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open Science Library — axiomzerosp.org</title>
+  <meta name="description" content="Full open access library: 74-chapter monograph, arXiv preprint, FALLIBILITY register, BibTeX citations, and live status dashboard." />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/main.css" />
+  <style>
+    .lib-section { margin-bottom:3rem; }
+    .lib-section h2 { font-size:1.4rem; margin-bottom:0.5rem; }
+    .lib-section > p { color:#7a8ba8; font-size:0.88rem; margin-bottom:1.25rem; }
+    .doc-card {
+      background:var(--color-card); border:1px solid var(--color-border); border-radius:12px;
+      padding:1.25rem 1.5rem; display:flex; gap:1.25rem; align-items:flex-start;
+      margin-bottom:0.85rem; transition:border-color 0.2s;
+    }
+    .doc-card:hover { border-color:rgba(59,139,255,0.35); }
+    .doc-icon { font-size:2rem; flex-shrink:0; }
+    .doc-body h3 { font-size:0.95rem; margin-bottom:0.3rem; }
+    .doc-body p  { font-size:0.82rem; color:#7a8ba8; margin:0 0 0.65rem; }
+    .doc-actions { display:flex; gap:0.4rem; flex-wrap:wrap; }
+    .doc-btn {
+      padding:0.35em 0.9em; font-size:0.78rem; font-weight:600; border-radius:5px;
+      text-decoration:none; display:inline-block;
+    }
+    .doc-btn-primary { background:rgba(59,139,255,0.12); border:1px solid rgba(59,139,255,0.25); color:#3b8bff; }
+    .doc-btn-primary:hover { background:rgba(59,139,255,0.2); text-decoration:none; color:#3b8bff; }
+
+    /* Status cards */
+    .status-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; }
+    .stat-card {
+      background:var(--color-card); border:1px solid var(--color-border); border-radius:10px;
+      padding:1.25rem; text-align:center;
+    }
+    .stat-num-lg { font-family:var(--font-mono); font-size:2rem; font-weight:700; color:#3b8bff; }
+    .stat-label  { font-size:0.78rem; color:#7a8ba8; margin-top:0.25rem; }
+    .stat-sub    { font-size:0.72rem; color:#4a5a7a; margin-top:0.2rem; font-family:var(--font-mono); }
+
+    /* BibTeX block */
+    .bibtex-block {
+      background:#0a1228; border:1px solid #1a2a4a; border-radius:8px; padding:1rem;
+      font-family:var(--font-mono); font-size:0.8rem; color:#a0b0cc;
+      white-space:pre; overflow-x:auto; position:relative;
+    }
+    .copy-btn {
+      position:absolute; top:0.5rem; right:0.5rem; padding:0.3em 0.8em;
+      background:rgba(59,139,255,0.12); border:1px solid rgba(59,139,255,0.25);
+      border-radius:5px; color:#3b8bff; font-size:0.75rem; cursor:pointer; font-family:inherit;
+    }
+
+    /* Fallibility entries */
+    .fallibility-entry {
+      background:rgba(255,69,58,0.04); border:1px solid rgba(255,69,58,0.15);
+      border-radius:10px; padding:1rem 1.25rem; margin-bottom:0.75rem;
+    }
+    .fallibility-entry .fe-id { font-family:var(--font-mono); font-size:0.75rem; color:#ff453a; font-weight:700; margin-bottom:0.3rem; }
+    .fallibility-entry h3 { font-size:0.92rem; margin-bottom:0.3rem; }
+    .fallibility-entry p  { font-size:0.82rem; color:#7a8ba8; margin:0; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html">
+    <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
+    axiomzerosp.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="../knowledge/">Knowledge</a></li>
+    <li><a href="../../az-apps/">Apps</a></li>
+    <li><a href="../gym/">Gym</a></li>
+    <li><a href="../engine/">Science Engine</a></li>
+    <li><a href="index.html" class="active">Library</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<main style="max-width:1000px;margin:0 auto;padding:2.5rem 1.5rem;">
+  <div style="margin-bottom:2.5rem;">
+    <div style="font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:#3b8bff;margin-bottom:0.4rem;">Open Science Library</div>
+    <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:0.5rem;">Full Knowledge, Open Access</h1>
+    <p style="color:#7a8ba8;max-width:620px;">
+      Everything needed to read, verify, cite, or build on the Unitary Manifold —
+      monograph, preprint, datasets, FALLIBILITY register, and live status.
+      All content is public domain under the Defensive Public Commons License v1.0.
+    </p>
+  </div>
+
+  <!-- Live Status Dashboard -->
+  <div class="lib-section" id="status">
+    <h2>📊 Live Status Dashboard</h2>
+    <p>Real-time framework health — test counts, theorem totals, and open gap tracking. Loaded from STATUS.md.</p>
+    <div class="status-cards" id="status-cards">
+      <div class="stat-card">
+        <div class="stat-num-lg" id="s-tests">56,279</div>
+        <div class="stat-label">Tests Passing</div>
+        <div class="stat-sub">0 failures required</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num-lg" id="s-skipped">47</div>
+        <div class="stat-label">Skipped</div>
+        <div class="stat-sub">optional deps</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num-lg" id="s-lean">872+</div>
+        <div class="stat-label">Lean4 Theorems</div>
+        <div class="stat-sub">machine-verified</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num-lg" id="s-pillars">208+</div>
+        <div class="stat-label">Physics Pillars</div>
+        <div class="stat-sub">core set CLOSED</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num-lg">v22.6</div>
+        <div class="stat-label">Framework Version</div>
+        <div class="stat-sub">2026-08-20</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num-lg" style="color:#ff453a;">0</div>
+        <div class="stat-label">Test Failures</div>
+        <div class="stat-sub">hard requirement</div>
+      </div>
+    </div>
+    <p style="margin-top:0.75rem;font-size:0.8rem;color:#7a8ba8;">
+      Source: <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md" target="_blank">STATUS.md</a> ·
+      <a href="../../status/" >Full Status Page</a>
+    </p>
+  </div>
+
+  <!-- Monograph -->
+  <div class="lib-section" id="monograph">
+    <h2>📚 74-Chapter Monograph</h2>
+    <p>The complete Unitary Manifold book — theory, derivations, predictions, and implications. All chapters open access.</p>
+    <div class="doc-card">
+      <div class="doc-icon">📚</div>
+      <div class="doc-body">
+        <h3>The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility</h3>
+        <p>ThomasCory Walker-Pearson · 74 chapters · v10.4 · Zenodo DOI: 10.5281/zenodo.19584531</p>
+        <div class="doc-actions">
+          <a href="https://doi.org/10.5281/zenodo.19584531" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">Zenodo →</a>
+          <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/6-MONOGRAPH/MCP_INGEST.md" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">MCP Summary →</a>
+          <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/manuscript" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">Chapters →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- arXiv -->
+  <div class="lib-section" id="arxiv">
+    <h2>📄 arXiv Preprint</h2>
+    <p>Formal LaTeX submission with full references, appendices, and reproducibility data.</p>
+    <div class="doc-card">
+      <div class="doc-icon">📄</div>
+      <div class="doc-body">
+        <h3>arXiv Draft — v22.6</h3>
+        <p>LaTeX source in arxiv/main.tex · Bibliography in arxiv/references.bib · Submission in progress</p>
+        <div class="doc-actions">
+          <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/arxiv/main.tex" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">LaTeX Source →</a>
+          <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/arxiv/references.bib" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">References →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Citation -->
+  <div class="lib-section" id="citation">
+    <h2>📌 Cite This Work</h2>
+    <p>Preferred citation (BibTeX). Attribution requested but not legally required under DPCL v1.0.</p>
+    <div style="position:relative;">
+      <pre class="bibtex-block" id="bibtex-block">@software{walker-pearson2026unitary,
+  author    = {Walker-Pearson, ThomasCory},
+  title     = {The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility},
+  year      = {2026},
+  version   = {v10.4},
+  doi       = {10.5281/zenodo.19584531},
+  url       = {https://doi.org/10.5281/zenodo.19584531},
+  note      = {Code architecture, test suites, and synthesis: GitHub Copilot (AI)},
+  license   = {Defensive Public Commons License v1.0},
+}</pre>
+      <button class="copy-btn" onclick="copyBibTeX()">Copy</button>
+    </div>
+  </div>
+
+  <!-- FALLIBILITY Register -->
+  <div class="lib-section" id="fallibility">
+    <h2>🔓 FALLIBILITY Register</h2>
+    <p>Every acknowledged gap, admitted failure, and open problem — no hiding, no wishful framing.
+       This is the honest accounting. Full file:
+       <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md" target="_blank">FALLIBILITY.md</a>
+    </p>
+
+    <div class="fallibility-entry">
+      <div class="fe-id">Admission 1</div>
+      <h3>CMB Acoustic Peak Amplitude Suppression</h3>
+      <p>Power spectrum amplitude suppressed ×4–7 at acoustic peaks vs Planck data. Architecture limit — KK extra dimension necessarily suppresses η(k)&lt;1. Addressed by Pillars 57+63. Not hidden; not resolved.</p>
+    </div>
+    <div class="fallibility-entry">
+      <div class="fe-id">Admission 2</div>
+      <h3>n_w=5 Uniqueness Not Proved From First Principles Alone</h3>
+      <p>Geometric narrowing restricts to {5,7}. Planck n_s provides the final selection. A pure first-principles proof of n_w=5 uniqueness remains an open problem. The φ₀ self-consistency gap was closed by Pillar 56.</p>
+    </div>
+    <div class="fallibility-entry">
+      <div class="fe-id">Admission 3</div>
+      <h3>DESI Year 1 w_a≠0 Tension (~2σ)</h3>
+      <p>DESI Year 1 data hints at dynamical dark energy (w_a≠0). KK geometry predicts w_a=0. DESI Year 2 data will adjudicate. If w_a≠0 is confirmed at &gt;3σ, this is a significant challenge to the framework.</p>
+    </div>
+    <div class="fallibility-entry">
+      <div class="fe-id">Admission 4</div>
+      <h3>Δm²₂₁ Sub-1σ Not Achieved</h3>
+      <p>NLO mechanisms (Pillar 773) reduce Δm²₂₁ tension from 1.16σ to 1.07σ. Gate: NLO_INSUFFICIENT_FOR_SUB_1SIGMA. The residual gap is documented and tracked.</p>
+    </div>
+    <div class="fallibility-entry">
+      <div class="fe-id">Primary Falsifier</div>
+      <h3>Birefringence β — LiteBIRD ~2032</h3>
+      <p>Predicted: β ∈ {≈0.273°, ≈0.331°}. Admissible window: [0.22°, 0.38°]. Any β outside this window, or landing in the gap [0.29°–0.31°], falsifies the braided-winding mechanism. This statement is not to be weakened.</p>
+    </div>
+
+    <p style="margin-top:1rem;font-size:0.82rem;color:#7a8ba8;">
+      Full register with all admissions: <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md" target="_blank">FALLIBILITY.md</a>
+    </p>
+  </div>
+
+  <!-- Additional Resources -->
+  <div class="lib-section">
+    <h2>🔗 Additional Resources</h2>
+    <div class="doc-card">
+      <div class="doc-icon">🗺️</div>
+      <div class="doc-body">
+        <h3>Repository Map &amp; Navigation</h3>
+        <p>Canonical structure: all directories, key files, and their purposes.</p>
+        <div class="doc-actions">
+          <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/navigation/REPOSITORY_MAP.md" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">Repository Map →</a>
+        </div>
+      </div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-icon">🤖</div>
+      <div class="doc-body">
+        <h3>AI Agents Access Policy (AGENTS.md)</h3>
+        <p>Open access policy for AI agents, LLMs, and MCP-connected systems. Preferred ingest order for token-efficient ingestion.</p>
+        <div class="doc-actions">
+          <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/AGENTS.md" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">AGENTS.md →</a>
+        </div>
+      </div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-icon">⚖️</div>
+      <div class="doc-body">
+        <h3>License — Defensive Public Commons License v1.0</h3>
+        <p>Irrevocably dedicated to the public domain. No exclusive IP. Attribution requested but not required.</p>
+        <div class="doc-actions">
+          <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/LICENSE" target="_blank" rel="noopener" class="doc-btn doc-btn-primary">License →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer style="background:#030710;border-top:1px solid #0d1628;padding:2rem 1.5rem;text-align:center;color:#4a5a7a;font-size:0.8rem;margin-top:2rem;">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 · Open science artifact for human review · Use at your own liability
+</footer>
+
+<script src="../../js/assistant.js" defer></script>
+<script>
+function copyBibTeX() {
+  var txt = document.getElementById('bibtex-block').textContent;
+  navigator.clipboard.writeText(txt).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function(){ btn.textContent = 'Copy'; }, 2000);
+  });
+}
+
+// Load live status from data/status.json
+fetch('../../data/status.json')
+  .then(function(r){ return r.json(); })
+  .then(function(d) {
+    if (d.tests_passed)  document.getElementById('s-tests').textContent   = d.tests_passed.toLocaleString();
+    if (d.tests_skipped) document.getElementById('s-skipped').textContent = d.tests_skipped;
+    if (d.lean4_theorems)document.getElementById('s-lean').textContent   = d.lean4_theorems + '+';
+    if (d.pillars)       document.getElementById('s-pillars').textContent = d.pillars + '+';
+  }).catch(function(){});
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.setPageContext('Open Science Library — monograph, arXiv preprint, FALLIBILITY register, citation metadata, and live status dashboard');
+  }
+});
+</script>
+</body>
+</html>

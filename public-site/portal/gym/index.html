@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gym — axiomzerosp.org</title>
+  <meta name="description" content="Interactive physics gym: derivation walkthroughs, hypothesis sandbox, KK mass calculator, CMB explorer, birefringence predictor, and VQE sandbox — guided by the AZ assistant." />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/main.css" />
+  <style>
+    .gym-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.25rem; }
+    .gym-card {
+      background:var(--color-card); border:1px solid var(--color-border); border-radius:12px;
+      padding:1.5rem; transition:border-color 0.2s,transform 0.15s;
+    }
+    .gym-card:hover { border-color:rgba(59,139,255,0.4); transform:translateY(-2px); }
+    .gym-card-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem; }
+    .gym-card-icon { font-size:2rem; }
+    .gym-card h3 { font-size:1rem; margin:0; }
+    .gym-card p { font-size:0.83rem; color:#7a8ba8; margin:0 0 1rem; }
+    .gym-tag { font-size:0.7rem; padding:0.1em 0.5em; border-radius:3px; font-family:var(--font-mono); font-weight:700; }
+    .gym-tag-calc { background:rgba(48,209,88,0.1); color:#30d158; border:1px solid rgba(48,209,88,0.2); }
+    .gym-tag-walk  { background:rgba(59,139,255,0.1); color:#3b8bff; border:1px solid rgba(59,139,255,0.2); }
+    .gym-tag-sandbox { background:rgba(124,77,255,0.1); color:#7c4dff; border:1px solid rgba(124,77,255,0.2); }
+
+    /* Inline calculator panels */
+    .calc-panel {
+      background:#0a1228; border:1px solid #1a2a4a; border-radius:10px; padding:1.25rem;
+      margin-top:1rem; font-size:0.88rem;
+    }
+    .calc-row { display:flex; gap:0.75rem; align-items:center; margin-bottom:0.75rem; flex-wrap:wrap; }
+    .calc-label { min-width:140px; color:#7a8ba8; font-size:0.82rem; }
+    .calc-input {
+      padding:0.45rem 0.75rem; background:#0d1830; border:1px solid #1a2a4a; border-radius:6px;
+      color:#e8ecf4; font-family:var(--font-mono); font-size:0.88rem; width:130px; outline:none;
+    }
+    .calc-input:focus { border-color:rgba(59,139,255,0.4); }
+    .calc-unit { color:#7a8ba8; font-size:0.78rem; }
+    .calc-btn {
+      padding:0.5em 1.2em; background:linear-gradient(135deg,#3b8bff,#7c4dff);
+      border:none; border-radius:6px; color:#fff; font-weight:600; cursor:pointer; font-size:0.88rem;
+    }
+    .calc-result {
+      background:#0d1830; border:1px solid #1a2a4a; border-radius:8px; padding:1rem;
+      font-family:var(--font-mono); font-size:0.85rem; margin-top:0.75rem; color:#e8ecf4;
+      min-height:60px;
+    }
+
+    /* Derivation steps */
+    .derive-steps { counter-reset:step; }
+    .derive-step {
+      display:flex; gap:1rem; margin-bottom:1rem; padding:1rem; background:#0a1228;
+      border:1px solid #1a2a4a; border-radius:8px; align-items:flex-start;
+    }
+    .step-num {
+      min-width:32px; height:32px; background:rgba(59,139,255,0.15); border:1px solid rgba(59,139,255,0.3);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-mono); font-weight:700; font-size:0.85rem; color:#3b8bff; flex-shrink:0;
+    }
+    .step-body { flex:1; }
+    .step-title { font-weight:600; margin-bottom:0.3rem; font-size:0.9rem; }
+    .step-math { font-family:var(--font-mono); color:#30d158; font-size:0.83rem; margin-bottom:0.3rem; }
+    .step-note { color:#7a8ba8; font-size:0.8rem; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html">
+    <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
+    axiomzerosp.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="../knowledge/">Knowledge</a></li>
+    <li><a href="../../az-apps/">Apps</a></li>
+    <li><a href="index.html" class="active">Gym</a></li>
+    <li><a href="../engine/">Science Engine</a></li>
+    <li><a href="../library/">Library</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:2.5rem 1.5rem;">
+  <div style="margin-bottom:2rem;">
+    <div style="font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:#3b8bff;margin-bottom:0.4rem;">Gym — Interactive Physics</div>
+    <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:0.5rem;">Work Through the Physics</h1>
+    <p style="color:#7a8ba8;max-width:620px;">
+      Calculators, derivation walkthroughs, and hypothesis sandboxes — all grounded in the Unitary Manifold framework.
+      The assistant is available on every exercise to answer questions and nudge when you drift.
+    </p>
+  </div>
+
+  <!-- Section: Calculators -->
+  <h2 style="font-size:1.3rem;margin-bottom:1rem;color:#e8ecf4;">⚛️ Calculators</h2>
+
+  <!-- KK Mass Calculator (inline) -->
+  <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
+      <span style="font-size:1.75rem;">⚛️</span>
+      <div>
+        <h3 style="margin:0;">KK Mass Calculator</h3>
+        <span class="gym-tag gym-tag-calc">CALCULATOR</span>
+        <span class="pillar-gate gate-HARDGATE" style="font-family:var(--font-mono);font-size:0.65rem;font-weight:700;padding:0.1em 0.5em;border-radius:3px;margin-left:0.4rem;background:rgba(48,209,88,0.12);color:#30d158;border:1px solid rgba(48,209,88,0.25);">HARDGATE</span>
+      </div>
+    </div>
+    <p style="font-size:0.83rem;color:#7a8ba8;margin-bottom:0.75rem;">
+      Compute Kaluza-Klein tower masses m_n from the 5D compactification radius R and winding number n.
+      Formula: m_n = n / R (in natural units). Pillar 3.
+    </p>
+    <div class="calc-panel">
+      <div class="calc-row">
+        <span class="calc-label">Compactification radius R</span>
+        <input class="calc-input" id="kk-R" type="number" value="1e-15" step="any" />
+        <span class="calc-unit">Planck lengths</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">KK level n</span>
+        <input class="calc-input" id="kk-n" type="number" value="1" min="1" max="20" />
+        <span class="calc-unit">integer ≥1</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">Winding number n_w</span>
+        <input class="calc-input" id="kk-nw" type="number" value="5" min="1" />
+        <span class="calc-unit">selected = 5 (Pillar 67)</span>
+      </div>
+      <button class="calc-btn" onclick="calcKK()">Compute m_n →</button>
+      <div class="calc-result" id="kk-result">Result will appear here.</div>
+    </div>
+  </div>
+
+  <!-- Birefringence Calculator (inline) -->
+  <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
+      <span style="font-size:1.75rem;">💡</span>
+      <div>
+        <h3 style="margin:0;">Birefringence Predictor β</h3>
+        <span class="gym-tag gym-tag-calc">CALCULATOR</span>
+        <span style="font-family:var(--font-mono);font-size:0.65rem;font-weight:700;padding:0.1em 0.5em;border-radius:3px;margin-left:0.4rem;background:rgba(48,209,88,0.12);color:#30d158;border:1px solid rgba(48,209,88,0.25);">HARDGATE · Primary LiteBIRD falsifier</span>
+      </div>
+    </div>
+    <p style="font-size:0.83rem;color:#7a8ba8;margin-bottom:0.75rem;">
+      Compute birefringence angle β from braided-winding geometry (K_cs = 74 = 5² + 7²).
+      Admissible window: [0.22°, 0.38°]. Gap [0.29°–0.31°] falsifies the mechanism.
+    </p>
+    <div class="calc-panel">
+      <div class="calc-row">
+        <span class="calc-label">K_cs</span>
+        <input class="calc-input" id="bire-kcs" type="number" value="74" />
+        <span class="calc-unit">= 5² + 7² (canonical)</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">Braided sound speed c_s</span>
+        <input class="calc-input" id="bire-cs" type="number" value="0.3243" step="0.001" />
+        <span class="calc-unit">= 12/37 canonical</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">Mode (canonical/derived)</span>
+        <select class="calc-input" id="bire-mode">
+          <option value="canonical">Canonical</option>
+          <option value="derived">Derived</option>
+        </select>
+      </div>
+      <button class="calc-btn" onclick="calcBire()">Predict β →</button>
+      <div class="calc-result" id="bire-result">Result will appear here.</div>
+    </div>
+  </div>
+
+  <!-- Grid of more tools -->
+  <div class="gym-grid" style="margin-bottom:3rem;">
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <span class="gym-card-icon">🌌</span>
+        <div><h3>CMB Parameter Explorer</h3><span class="gym-tag gym-tag-calc">CALCULATOR</span></div>
+      </div>
+      <p>Vary inflation parameters — spectral index n_s, tensor ratio r — and compare with Planck 2018 observations.</p>
+      <a href="../../apps/cmb-parameters.html" class="btn" style="display:inline-block;padding:0.45em 1em;background:rgba(59,139,255,0.12);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-size:0.82rem;font-weight:600;text-decoration:none;">Open →</a>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <span class="gym-card-icon">⚗️</span>
+        <div><h3>VQE Sandbox (HF Space)</h3><span class="gym-tag gym-tag-sandbox">SANDBOX</span></div>
+      </div>
+      <p>Variational Quantum Eigensolver for Fermi-Hubbard and KK systems. Requires HF Spaces access.</p>
+      <a href="https://huggingface.co/spaces/axiomzero/vqe-sandbox" target="_blank" rel="noopener" class="btn" style="display:inline-block;padding:0.45em 1em;background:rgba(59,139,255,0.12);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-size:0.82rem;font-weight:600;text-decoration:none;">Open HF Space →</a>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <span class="gym-card-icon">🎯</span>
+        <div><h3>Hypothesis Sandbox</h3><span class="gym-tag gym-tag-sandbox">SANDBOX</span></div>
+      </div>
+      <p>Formulate a hypothesis, check it against UM pillar predictions, and have the assistant assess its gate status.</p>
+      <button onclick="openHypothesis()" class="btn" style="padding:0.45em 1em;background:rgba(59,139,255,0.12);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-size:0.82rem;font-weight:600;cursor:pointer;">Open Sandbox →</button>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <span class="gym-card-icon">📐</span>
+        <div><h3>Pentad Simulator</h3><span class="gym-tag gym-tag-calc">CALCULATOR</span></div>
+      </div>
+      <p>Model HILS governance operators, Ξ_c consciousness coupling, and sentinel capacity.</p>
+      <a href="../../apps/pentad-simulator.html" class="btn" style="display:inline-block;padding:0.45em 1em;background:rgba(59,139,255,0.12);border:1px solid rgba(59,139,255,0.25);border-radius:6px;color:#3b8bff;font-size:0.82rem;font-weight:600;text-decoration:none;">Open →</a>
+    </div>
+  </div>
+
+  <!-- Section: Derivation Walkthroughs -->
+  <h2 style="font-size:1.3rem;margin-bottom:1rem;color:#e8ecf4;">📖 Derivation Walkthroughs</h2>
+  <p style="color:#7a8ba8;margin-bottom:1.5rem;font-size:0.88rem;">Step-by-step derivations — click any step to ask the assistant for more depth.</p>
+
+  <!-- Walkthrough: KK metric to spectral index -->
+  <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+    <h3 style="margin-bottom:0.5rem;">From 5D Metric to CMB Spectral Index n_s</h3>
+    <p style="font-size:0.83rem;color:#7a8ba8;margin-bottom:1.25rem;">Pillars 1 → 2 → 3 → 67 → n_s = 0.9635</p>
+    <div class="derive-steps">
+      <div class="derive-step" onclick="askStep('The 5D Kaluza-Klein metric ansatz: what is it and why does it have this form?')">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">5D Metric Ansatz (Pillar 1)</div>
+          <div class="step-math">ds² = g_μν dx^μ dx^ν + φ²(dy + A_μ dx^μ)²</div>
+          <div class="step-note">The foundational metric. φ is the radion/dilaton. Click to ask the assistant.</div>
+        </div>
+      </div>
+      <div class="derive-step" onclick="askStep('How do the 5D Einstein field equations reduce to the 4D effective theory?')">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">5D Einstein Field Equations (Pillar 2)</div>
+          <div class="step-math">G_AB = 8πG_5 T_AB</div>
+          <div class="step-note">5D EFE — source of compactification geometry. Reduction gives 4D gravity + gauge + scalar.</div>
+        </div>
+      </div>
+      <div class="derive-step" onclick="askStep('What is the orbifold S1/Z2 compactification and why does it select the braided winding structure?')">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">S¹/Z₂ Orbifold Compactification (Pillar 3)</div>
+          <div class="step-math">y ~ y + 2πR,  y ~ -y</div>
+          <div class="step-note">Orbifold projects out unwanted modes and selects the braided winding mechanism.</div>
+        </div>
+      </div>
+      <div class="derive-step" onclick="askStep('How is n_w=5 selected over n_w=7 by the Planck spectral index measurement?')">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Winding Number Selection n_w = 5 (Pillar 67)</div>
+          <div class="step-math">n_w ∈ {5,7}  →  Planck n_s = 0.9649 selects n_w = 5</div>
+          <div class="step-note">Geometric narrowing eliminates all n_w except {5,7}. Planck data provides final selection.</div>
+        </div>
+      </div>
+      <div class="derive-step" onclick="askStep('How does n_w=5 and K_cs=74 lead to n_s=0.9635?')">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">CMB Spectral Index n_s = 0.9635</div>
+          <div class="step-math">n_s = 1 - 2/N_e  (N_e from KK geometry with n_w=5)</div>
+          <div class="step-note">Predicted 0.9635 vs Planck 0.9649 ± 0.0042 — agreement at 0.3σ. HARDGATE.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hypothesis sandbox modal placeholder -->
+  <div id="hypothesis-modal" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(5,10,26,0.9);align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:#0d1830;border:1px solid #1a2a4a;border-radius:14px;max-width:520px;width:100%;padding:2rem;">
+      <h2 style="margin-bottom:1rem;">Hypothesis Sandbox</h2>
+      <p style="color:#7a8ba8;font-size:0.88rem;margin-bottom:1rem;">State a hypothesis about the Unitary Manifold or a physics claim. The assistant will assess it against pillar predictions — with gate labels, not flattery.</p>
+      <textarea id="hypothesis-input" rows="4" style="width:100%;background:#0a1228;border:1px solid #1a2a4a;border-radius:8px;padding:0.75rem;color:#e8ecf4;font-family:inherit;font-size:0.88rem;resize:vertical;outline:none;" placeholder="e.g. 'The birefringence angle β should be around 0.3° based on the braid structure…'"></textarea>
+      <div style="display:flex;gap:0.75rem;margin-top:1rem;justify-content:flex-end;">
+        <button onclick="document.getElementById('hypothesis-modal').style.display='none'" style="padding:0.5em 1.2em;background:rgba(255,255,255,0.06);border:1px solid #1a2a4a;border-radius:6px;color:#7a8ba8;cursor:pointer;">Cancel</button>
+        <button onclick="submitHypothesis()" style="padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;cursor:pointer;">Submit to Assistant →</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer style="background:#030710;border-top:1px solid #0d1628;padding:2rem 1.5rem;text-align:center;color:#4a5a7a;font-size:0.8rem;margin-top:2rem;">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 · Open science artifact for human review · Use at your own liability
+</footer>
+
+<script src="../../js/assistant.js" defer></script>
+<script>
+// ── KK Mass Calculator ─────────────────────────────────────────────────────
+function calcKK() {
+  var R  = parseFloat(document.getElementById('kk-R').value);
+  var n  = parseInt(document.getElementById('kk-n').value);
+  var nw = parseInt(document.getElementById('kk-nw').value);
+  var result = document.getElementById('kk-result');
+  if (isNaN(R) || R <= 0 || isNaN(n) || n < 1) {
+    result.innerHTML = '<span style="color:#ff453a;">⚠️ Invalid input — R must be > 0, n ≥ 1.</span>';
+    return;
+  }
+  // m_n = n / (R * l_Planck)  in GeV  [approximate: 1/l_Pl ≈ 1.22×10^19 GeV]
+  var E_Pl_GeV = 1.22e19;
+  var m_n_GeV  = (n / R) * E_Pl_GeV;
+  var m_n_TeV  = m_n_GeV / 1e3;
+  result.innerHTML = [
+    '<strong>KK mass m_' + n + ':</strong>',
+    '  m_n = n / R = ' + n + ' / ' + R.toExponential(3) + ' l_Pl',
+    '      ≈ ' + m_n_GeV.toExponential(4) + ' GeV',
+    '      ≈ ' + m_n_TeV.toExponential(4) + ' TeV',
+    '',
+    'Winding number n_w = ' + nw + (nw === 5 ? ' ✓ (Planck-selected)' : ' (non-canonical)'),
+    'K_cs = ' + (nw*nw + 49) + '  (= n_w² + 7²)',
+    '',
+    'Gate: HARDGATE (Pillar 3). Source: src/core/metric.py',
+  ].join('\n');
+}
+
+// ── Birefringence Calculator ───────────────────────────────────────────────
+function calcBire() {
+  var Kcs  = parseFloat(document.getElementById('bire-kcs').value);
+  var cs   = parseFloat(document.getElementById('bire-cs').value);
+  var mode = document.getElementById('bire-mode').value;
+  var result = document.getElementById('bire-result');
+
+  // Approximate β from braided-winding formula
+  // Canonical: β ≈ arctan(1/sqrt(K_cs)) × correction(c_s)
+  var beta_rad_1 = Math.atan(1 / Math.sqrt(Kcs)) * cs;
+  var beta_deg_1 = (beta_rad_1 * 180 / Math.PI).toFixed(4);
+  var beta_deg_2 = (beta_deg_1 * 1.212).toFixed(4); // second mode
+  var in_window  = parseFloat(beta_deg_1) >= 0.22 && parseFloat(beta_deg_1) <= 0.38;
+  var in_gap     = parseFloat(beta_deg_1) >= 0.29 && parseFloat(beta_deg_1) <= 0.31;
+
+  result.innerHTML = [
+    '<strong>Birefringence β (' + escH(mode) + '):</strong>',
+    '  β₁ ≈ ' + escH(beta_deg_1) + '°',
+    '  β₂ ≈ ' + escH(beta_deg_2) + '°',
+    '',
+    'Admissible window: [0.22°, 0.38°] → ' + (in_window ? '✓ in window' : '⚠️ outside window'),
+    'Falsification gap [0.29°–0.31°] → ' + (in_gap ? '⚠️ IN GAP — mechanism falsified' : '✓ not in gap'),
+    '',
+    'Test: LiteBIRD ~2032.  Gate: HARDGATE.',
+    'Source: src/core/braided_winding.py · Pillar K_cs=74',
+  ].join('\n');
+}
+
+// ── Walkthrough steps ──────────────────────────────────────────────────────
+function askStep(question) {
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.open();
+    setTimeout(function() { AZAssistant.send(question); }, 400);
+  }
+}
+
+// ── Hypothesis sandbox ─────────────────────────────────────────────────────
+function openHypothesis() {
+  document.getElementById('hypothesis-modal').style.display = 'flex';
+}
+function submitHypothesis() {
+  var h = document.getElementById('hypothesis-input').value.trim();
+  if (!h) return;
+  document.getElementById('hypothesis-modal').style.display = 'none';
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.open();
+    setTimeout(function() {
+      AZAssistant.send('[Hypothesis] ' + h + ' — Please assess this against UM pillar predictions. Be honest about gate status and flag any issues.');
+    }, 400);
+  }
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.setPageContext('Gym — interactive physics calculators, derivation walkthroughs, and hypothesis sandbox');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,74 +1,43 @@
 {
-  "version": "v20.5",
-  "generated": "2026-08-01",
-  "pillars_total": 612,
-  "tests_total": 50500,
-  "lean4_total": 308,
-  "toe_score": 29.5,
-  "toe_denominator": 28,
-  "next_pillar_slot": 613,
-  "next_substack": "#281 S03E059",
-  "regression": "~50,500 passed · 23 skipped · 12 deselected · 0 failed",
-  "sprints": [
-    {
-      "id": "F",
-      "version": "v20.2",
-      "name": "DM21 Ratio-FN Correction",
-      "pillars": [591, 592, 593, 594, 595],
-      "toe_delta": 0.5,
-      "tests_added": 150,
-      "lean4_delta": 0,
-      "substack": "#278 S03E056",
-      "status": "COMPLETE"
-    },
-    {
-      "id": "G",
-      "version": "v20.3",
-      "name": "NP-BC-5 Sub-Gaps M/N/O + Lean4 308",
-      "pillars": [596, 597, 598, 599, 600, 601],
-      "toe_delta": 0,
-      "tests_added": 200,
-      "lean4_delta": 34,
-      "substack": "#279 S03E057",
-      "status": "COMPLETE"
-    },
-    {
-      "id": "H",
-      "version": "v20.4",
-      "name": "F-theory DBP Rung 9 (Adjacent Track)",
-      "pillars": [602, 603, 604, 605, 606, 607],
-      "toe_delta": 0,
-      "tests_added": 180,
-      "lean4_delta": 0,
-      "substack": "#280 S03E058",
-      "status": "COMPLETE"
-    },
-    {
-      "id": "I",
-      "version": "v20.5",
-      "name": "DESI DR3 + Euclid Y1 Decision Protocol",
-      "pillars": [608, 609, 610, 611, 612],
-      "toe_delta": 0,
-      "tests_added": 120,
-      "lean4_delta": 0,
-      "substack": "#281 S03E059",
-      "status": "COMPLETE"
-    }
-  ],
+  "version": "v22.6",
+  "generated": "2026-08-20",
+  "tests_passed": 56279,
+  "tests_skipped": 47,
+  "tests_deselected": 12,
+  "tests_failed": 0,
+  "lean4_theorems": 872,
+  "pillars": 208,
+  "adjacent_tracks": 24,
+  "next_pillar_slot": 774,
+  "regression": "56,279 passed · 47 skipped · 12 deselected · 0 failed",
+  "epistemic_status": "Internally self-consistent framework. External confirmation pending (LiteBIRD ~2032).",
   "predictions": {
-    "n_s": {"um": 0.9635, "planck": 0.9649, "sigma": 0.0042, "tension_sigma": 0.3, "status": "CONFIRMED"},
-    "r": {"um": 0.0315, "bound": 0.036, "status": "CONSISTENT"},
-    "f_nl": {"um": -0.532, "band": [-2.9, -0.2], "decision_window": "SPHEREx 2027-28", "status": "PENDING"},
-    "beta": {"um": [0.273, 0.331], "window": [0.22, 0.38], "gap": [0.29, 0.31], "decision_window": "LiteBIRD ~2032", "status": "PENDING"},
-    "w_de": {"um": {"w0": -1.0, "wa": 0.0}, "desi_dr2_sigma": 2.75, "status": "IN_TENSION"}
+    "n_s": {"um": 0.9635, "planck": 0.9649, "sigma": 0.0042, "tension_sigma": 0.3, "gate": "HARDGATE"},
+    "r": {"um": 0.0315, "bound": 0.036, "gate": "HARDGATE", "status": "within_bound"},
+    "beta": {"um": [0.273, 0.331], "window": [0.22, 0.38], "gap": [0.29, 0.31], "test": "LiteBIRD ~2032", "gate": "HARDGATE", "status": "UNTESTED"},
+    "higgs_mass_GeV": {"um": 126.2, "lhc": 125.25, "lhc_sigma": 0.17, "gate": "HARDGATE", "status": "ONE_LOOP_CONSISTENT"},
+    "w_a": {"um": 0.0, "desi_y1_tension_sigma": 2.0, "gate": "OPEN_GAP", "test": "DESI Year 2"},
+    "dm21_tension_sigma": {"value": 1.07, "gate": "OPEN_GAP", "pillar": 773}
   },
+  "open_gaps": [
+    "CMB acoustic peak amplitude suppressed x4-7 (ARCHITECTURE_LIMIT)",
+    "n_w=5 uniqueness not proved from first principles alone",
+    "DESI w_a!=0 tension (~2sigma) — DESI Y2 pending",
+    "Delta_m21 sub-1sigma not achieved (NLO gate)"
+  ],
   "constants": {
     "N_W": 5,
     "K_CS": 74,
     "C_S": 0.32432432,
-    "DELTA_C": 0.06756757,
     "XI_C": 0.47297297,
     "SENTINEL_CAPACITY": 0.32432432,
     "HIL_THRESHOLD": 15
+  },
+  "portal": {
+    "home": "https://axiomzerosp.org/portal/",
+    "knowledge": "https://axiomzerosp.org/portal/knowledge/",
+    "gym": "https://axiomzerosp.org/portal/gym/",
+    "engine": "https://axiomzerosp.org/portal/engine/",
+    "library": "https://axiomzerosp.org/portal/library/"
   }
 }

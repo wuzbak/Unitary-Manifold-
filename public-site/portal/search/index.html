@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search — axiomzerosp.org</title>
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/main.css" />
+  <style>
+    .search-bar-wrap { display:flex; gap:0.75rem; margin-bottom:2rem; }
+    #main-search {
+      flex:1; padding:0.85rem 1.25rem; background:#0d1830; border:1px solid #1a2a4a;
+      border-radius:10px; color:#e8ecf4; font-size:1rem; font-family:inherit; outline:none;
+    }
+    #main-search:focus { border-color:rgba(59,139,255,0.45); }
+    .search-go {
+      padding:0.85rem 1.5rem; background:linear-gradient(135deg,#3b8bff,#7c4dff);
+      border:none; border-radius:10px; color:#fff; font-weight:700; font-size:1rem; cursor:pointer;
+    }
+    .result-card {
+      background:var(--color-card); border:1px solid var(--color-border); border-radius:10px;
+      padding:1rem 1.25rem; margin-bottom:0.75rem; transition:border-color 0.15s;
+    }
+    .result-card:hover { border-color:rgba(59,139,255,0.35); }
+    .result-type { font-family:var(--font-mono); font-size:0.7rem; color:#7a8ba8; margin-bottom:0.3rem; }
+    .result-title { font-weight:600; font-size:0.95rem; margin-bottom:0.3rem; }
+    .result-desc  { font-size:0.82rem; color:#7a8ba8; }
+    .result-gate  { font-family:var(--font-mono); font-size:0.7rem; font-weight:700; padding:0.1em 0.45em; border-radius:3px; margin-left:0.5rem; }
+    .gate-HARDGATE       { background:rgba(48,209,88,0.12); color:#30d158; border:1px solid rgba(48,209,88,0.2); }
+    .gate-ADJACENT_TRACK { background:rgba(59,139,255,0.1); color:#3b8bff; border:1px solid rgba(59,139,255,0.2); }
+    .gate-OPEN_GAP       { background:rgba(255,159,10,0.1); color:#ff9f0a; border:1px solid rgba(255,159,10,0.2); }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html">
+    <div class="nav-logo" style="background:linear-gradient(135deg,#3b8bff,#7c4dff);color:#fff;font-size:0.9rem;font-weight:800;">AZ</div>
+    axiomzerosp.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="../knowledge/">Knowledge</a></li>
+    <li><a href="../../az-apps/">Apps</a></li>
+    <li><a href="../gym/">Gym</a></li>
+    <li><a href="../engine/">Science Engine</a></li>
+    <li><a href="../library/">Library</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<main style="max-width:860px;margin:0 auto;padding:2.5rem 1.5rem;">
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:#3b8bff;margin-bottom:0.4rem;">Search</div>
+    <h1 style="font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:0.5rem;">Find Anything</h1>
+    <p style="color:#7a8ba8;font-size:0.88rem;">Pillars, theorems, apps, calculators, documents — all searchable. Results include epistemic gate labels.</p>
+  </div>
+
+  <div class="search-bar-wrap">
+    <input id="main-search" type="search" placeholder="Search pillars, theorems, tools, apps…" />
+    <button class="search-go" onclick="doSearch()">Search</button>
+  </div>
+
+  <div id="search-results" style="min-height:200px;"></div>
+</main>
+
+<footer style="background:#030710;border-top:1px solid #0d1628;padding:2rem 1.5rem;text-align:center;color:#4a5a7a;font-size:0.8rem;margin-top:2rem;">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 · Open science artifact · Use at your own liability
+</footer>
+
+<script src="../../js/assistant.js" defer></script>
+<script>
+// Full searchable index
+var INDEX = [
+  // Pillars
+  { type:'PILLAR', gate:'HARDGATE',       title:'Pillar 1 — 5D KK Metric Ansatz',              url:'../knowledge/?p=1',      desc:'The foundational metric. ds²=g_μν dx^μ dx^ν + φ²(dy+A_μ dx^μ)²' },
+  { type:'PILLAR', gate:'HARDGATE',       title:'Pillar 3 — Orbifold Compactification',         url:'../knowledge/?p=3',      desc:'S¹/Z₂ orbifold reduction. Braided winding mechanism.' },
+  { type:'PILLAR', gate:'HARDGATE',       title:'Pillar 4 — Holographic Entropy-Area',          url:'../knowledge/?p=4',      desc:'Bekenstein-Hawking from 5D holographic boundary.' },
+  { type:'PILLAR', gate:'HARDGATE',       title:'Pillar 67 — Winding Number n_w=5',             url:'../knowledge/?p=67',     desc:'n_w selected from {5,7} by Planck n_s data. K_cs=74.' },
+  { type:'PILLAR', gate:'ADJACENT_TRACK', title:'Pillar 9 — Consciousness Coupling',            url:'../knowledge/?p=9',      desc:'Brain-universe attractor. Xi_c=35/74. Not a hardgate claim.' },
+  { type:'PILLAR', gate:'ADJACENT_TRACK', title:'Pillar 15 — Cold Fusion COP',                  url:'../knowledge/?p=15',     desc:'φ-enhanced tunneling COP prediction. Falsifiable.' },
+  { type:'PILLAR', gate:'OPEN_GAP',       title:'Pillar 57 — CMB Suppression',                  url:'../knowledge/?p=57',     desc:'×4–7 amplitude suppression — architecture limit.' },
+  { type:'PILLAR', gate:'HARDGATE',       title:'Pillar 772 — Lepton Jarlskog Lattice',         url:'../knowledge/?p=772',    desc:'n_FN_lepton=1 derived. Δm²₂₁ tension 2.98σ→1.16σ.' },
+  { type:'PILLAR', gate:'OPEN_GAP',       title:'Pillar 773 — Δm²₂₁ NLO Correction',           url:'../knowledge/?p=773',    desc:'NLO reduces tension to 1.07σ. Sub-1σ not achieved.' },
+  // Apps
+  { type:'APP',    gate:'',               title:'Ω Oracle (Product 16)',                        url:'../../az-apps/16-oracle.html',               desc:'Grand synthesis engine: Pentad, EIGE, decision resonance.' },
+  { type:'APP',    gate:'',               title:'Axiom Journalist (Product 8)',                  url:'../../az-apps/08-axiom-journalist.html',     desc:'6-tab offline workbench. Empirical dossier output.' },
+  { type:'APP',    gate:'',               title:'Manifold Braid Chart',                          url:'../../az-apps/manifold-chart.html',          desc:'Interactive U-BCC braid chart. D3 visualization.' },
+  { type:'APP',    gate:'',               title:'EIGE (Product 3)',                              url:'../../az-apps/03-eige.html',                 desc:'Emergent Intelligence Governance Engine.' },
+  { type:'APP',    gate:'',               title:'UM SOS (Product 4)',                            url:'../../az-apps/04-um-sos.html',               desc:'UM Save-Our-Science emergency protocol.' },
+  // Calculators
+  { type:'CALC',   gate:'HARDGATE',       title:'KK Mass Calculator',                           url:'../../apps/kk-mass-calculator.html',         desc:'Kaluza-Klein tower masses from compactification radius.' },
+  { type:'CALC',   gate:'HARDGATE',       title:'CMB Parameter Explorer',                       url:'../../apps/cmb-parameters.html',             desc:'Inflation parameters vs Planck 2018.' },
+  { type:'CALC',   gate:'HARDGATE',       title:'Birefringence Predictor',                      url:'../../apps/birefringence-predictor.html',    desc:'β from braided-winding geometry. LiteBIRD ~2032.' },
+  { type:'CALC',   gate:'',               title:'Pentad Simulator',                              url:'../../apps/pentad-simulator.html',           desc:'HILS governance operators, Ξ_c coupling.' },
+  // Pages
+  { type:'PAGE',   gate:'',               title:'Knowledge Portal — Pillar Browser',            url:'../knowledge/',                              desc:'All 208+ pillars with gate labels, claim board, theorems.' },
+  { type:'PAGE',   gate:'',               title:'Gym — Interactive Physics',                    url:'../gym/',                                    desc:'Calculators, walkthroughs, hypothesis sandbox.' },
+  { type:'PAGE',   gate:'',               title:'Science Engine — HF Spaces',                   url:'../engine/',                                 desc:'Oracle, CMB Calc, VQE on HF. API reference.' },
+  { type:'PAGE',   gate:'',               title:'Open Science Library',                         url:'../library/',                                desc:'Monograph, arXiv, FALLIBILITY register, BibTeX.' },
+  // Theorems
+  { type:'THEOREM',gate:'HARDGATE',       title:'YukawaSVDClosure.lean — 30 theorems',          url:'https://github.com/wuzbak/Unitary-Manifold-/blob/main/lean4/UnitaryManifold/YukawaSVDClosure.lean', desc:'Yukawa SVD exact closure. TEXTURE_SVD_EXACT.' },
+  { type:'THEOREM',gate:'HARDGATE',       title:'SwamplandAxiom.lean — 24 theorems',            url:'https://github.com/wuzbak/Unitary-Manifold-/blob/main/lean4/UnitaryManifold/SwamplandAxiom.lean',   desc:'Axiom SW: n_w ≤ 15 as IRREDUCIBLE_POSTULATE.' },
+  { type:'THEOREM',gate:'HARDGATE',       title:'DimensionalChainClosure.lean',                 url:'https://github.com/wuzbak/Unitary-Manifold-/blob/main/lean4/UnitaryManifold/DimensionalChainClosure.lean', desc:'11D→5D chain uniqueness. 7 links CHAIN_CLOSED.' },
+];
+
+var typeColors = { PILLAR:'#7c4dff', APP:'#3b8bff', CALC:'#30d158', PAGE:'#7a8ba8', THEOREM:'#f0c040' };
+
+function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// Track last search query in a module variable — avoids embedding user input in onclick attrs
+var _lastSearchQuery = '';
+
+function doSearch() {
+  var q = document.getElementById('main-search').value.trim().toLowerCase();
+  var out = document.getElementById('search-results');
+  if (!q) { out.innerHTML = '<p style="color:#7a8ba8;">Enter a search term above.</p>'; return; }
+  _lastSearchQuery = q;
+
+  var results = INDEX.filter(function(item) {
+    return (
+      item.title.toLowerCase().includes(q) ||
+      item.desc.toLowerCase().includes(q)  ||
+      item.type.toLowerCase().includes(q)  ||
+      (item.gate && item.gate.toLowerCase().includes(q))
+    );
+  });
+
+  if (results.length === 0) {
+    out.innerHTML = [
+      '<p style="color:#7a8ba8;margin-bottom:1rem;">No local results for "<strong>' + escH(q) + '</strong>".</p>',
+      '<p style="color:#7a8ba8;font-size:0.88rem;">Try the assistant for a RAG-grounded answer:</p>',
+      '<button id="az-ask-btn" style="margin-top:0.5rem;padding:0.5em 1.2em;background:linear-gradient(135deg,#3b8bff,#7c4dff);border:none;border-radius:6px;color:#fff;font-weight:600;cursor:pointer;">Ask AI Assistant →</button>',
+    ].join('');
+    var askBtn = document.getElementById('az-ask-btn');
+    if (askBtn) askBtn.addEventListener('click', function() { askAssistantLastSearch(); });
+    return;
+  }
+
+  // Offer assistant for any search
+  out.innerHTML = '<p style="color:#7a8ba8;margin-bottom:1.25rem;">' + results.length + ' results for "<strong style="color:#e8ecf4;">' + escH(q) + '</strong>" · ' +
+    '<button id="az-ask-btn2" style="background:none;border:none;color:#3b8bff;cursor:pointer;font-size:0.88rem;padding:0;text-decoration:underline;">Ask AI Assistant →</button>' +
+    '</p>' +
+    results.map(function(r) {
+      var gateHtml = r.gate ? '<span class="result-gate gate-' + escH(r.gate) + '">' + escH(r.gate.replace('_',' ')) + '</span>' : '';
+      return [
+        '<div class="result-card">',
+          '<div class="result-type" style="color:' + escH(typeColors[r.type]||'#7a8ba8') + ';">' + escH(r.type) + gateHtml + '</div>',
+          '<div class="result-title"><a href="' + escH(r.url) + '" style="color:#e8ecf4;text-decoration:none;">' + escH(r.title) + '</a></div>',
+          '<div class="result-desc">' + escH(r.desc) + '</div>',
+        '</div>',
+      ].join('');
+    }).join('');
+  var askBtn2 = document.getElementById('az-ask-btn2');
+  if (askBtn2) askBtn2.addEventListener('click', function() { askAssistantLastSearch(); });
+}
+
+function askAssistantLastSearch() {
+  askAssistantSearch(_lastSearchQuery);
+}
+
+// Read query from URL
+window.addEventListener('DOMContentLoaded', function() {
+  var params = new URLSearchParams(window.location.search);
+  var q = params.get('q') || '';
+  if (q) {
+    document.getElementById('main-search').value = q;
+    doSearch();
+  }
+  document.getElementById('main-search').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSearch();
+  });
+
+  if (typeof AZAssistant !== 'undefined') {
+    AZAssistant.setPageContext('Search page — searching across pillars, theorems, apps, calculators, and documents');
+  }
+});
+</script>
+</body>
+</html>
