@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v22.4
+# Unitary Manifold v22.9
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -22,7 +22,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-08-19 (v22.4 — Sprint AH: Gap 1 PROVED_BY_EXHAUSTION (Pillar 769); SU5 PROVED_CONDITIONAL (Pillar 770 + su5_uniqueness_weyl_audit.py); falsification protocols pre-registered (Pillar 771); SwamplandAxiom.lean formalised; ~56,074 passed · 47 skipped · 12 deselected · 0 failed; next pillar slot 772. Gap status: Gap 1 CLOSED, Gap 3 PROVED_CONDITIONAL, Gaps 2/4/5 open/architecture-limit. Falsification windows: DESI DR3, CMB-S4, LiteBIRD.)*
+*Last updated: 2026-08-19 (v22.9 — Sprint AM: Gap 1 PROVED_BY_EXHAUSTION (Pillar 769); SU5 PROVED_CONDITIONAL (Pillar 770 + su5_uniqueness_weyl_audit.py); falsification protocols pre-registered (Pillar 771); SwamplandAxiom.lean formalised; ~56,747 passed · 47 skipped · 12 deselected · 0 failed; next pillar slot 785. Gap status: Gap 1 CLOSED, Gap 3 PROVED_CONDITIONAL, Gaps 2/4/5 open/architecture-limit. Falsification windows: DESI DR3, CMB-S4, LiteBIRD.)*
 
 > **v15.8 sync note:** Pillars 511–515 deliver the topological irreversibility engine in response to a structural critique of test_evolution.py. Four identified architectural flaws addressed: Minkowski cage replaced by factory-vs-solver architecture proof; J^0 illusion replaced by Chern-Simons-corrected topological current (k_CS=74); S-matrix fake replaced by forward-only honest irreversibility measure; KK scaffold residue replaced by live winding tracking with explicit open-work record. Pillar 516 certifies the KK backreaction architecture limit as ARCHITECTURE_LIMIT_CERTIFIED. No physics promotion, no physics label promotion, no falsifier softened.
 

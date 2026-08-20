@@ -18,7 +18,7 @@ v22_8_sprint_al:
     - "782: ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT — Route D NSVZ insufficient (~0.5%); all 4 routes exhausted; Lean4 +6; ~40 tests"
     - "783: SPRINT_V225_V228_REGRESSION_PASSED — 10 pillars; 289 new tests; Lean4 +86 (872→958); next slot 784; ~15 tests"
   tests_added: 289
-  regression: "~56,568 passed · 47 skipped · 12 deselected · 0 failed"
+  regression: "~56,747 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 784
   next_version: "v22.9"
   lean4_theorems_total: 958

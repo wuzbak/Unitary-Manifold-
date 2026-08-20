@@ -283,9 +283,9 @@ When new data arrives:
 | P780 | CMB Peak Residual Decomposition v2 | CMB_PEAK_RESIDUAL_DECOMPOSED_V2 | 35% decomposed: KK truncation ≤1.35% (bounded), Silk 0.002% (negligible), A_s mismatch 33.6% (architecture limit); Lean4 +6 (944); ~50 tests |
 | P781 | FN Charge Geometric Reduction | FN_CHARGES_PARTIALLY_CONSTRAINED_BY_SVD | SVD constraints reduce 9 → 3 irreducible free FN params; geometric lower bound proved; Lean4 +8 (952); ~45 tests |
 | P782 | α_s Route D: NSVZ KK | ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT | Route D NSVZ threshold correction +0.5% (improving but insufficient); all 4 routes exhausted; Lean4 +6 (958); ~40 tests |
-| P783 | Sprint AL Regression Certificate | SPRINT_V225_V228_REGRESSION_PASSED | 10 pillars; 289 new tests; Lean4 +86 (872→958); next slot 784; ~15 tests |
+| P783 | Sprint AL Regression Certificate | SPRINT_V225_V228_REGRESSION_PASSED | 10 pillars; 289 new tests; Lean4 976 theorems; next slot 784; ~15 tests |
 
-*Sprint AL: 10 pillars; 289 new tests; Lean4 +86 (872→958); full regression ~56,568 passed · 0 failed.*
+*Sprint AL: 10 pillars; 289 new tests; Lean4 976 theorems; full regression ~56,747 passed · 0 failed.*
 
 ---
 
