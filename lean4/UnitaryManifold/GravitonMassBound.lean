@@ -32,8 +32,8 @@ theorem kk_spectrum_ascending_12 : BESSEL_X1 < BESSEL_X2 := by decide
 -- 5. KK masses are strictly increasing: x2 < x3
 theorem kk_spectrum_ascending_23 : BESSEL_X2 < BESSEL_X3 := by decide
 
--- 6. First KK mode mass > zero mode (trivially: x1 > 0)
-theorem kk_n1_gt_zero : BESSEL_X1 > 0 := by decide
+-- 6. KK graviton mass n=1 proxy is positive: BESSEL_X1 × C_S_NUM² > 0
+theorem kk_graviton_mass_n1_positive : BESSEL_X1 * (C_S_NUM * C_S_NUM) > 0 := by decide
 
 -- 7. Sound speed numerator < denominator (subluminality proxy)
 theorem cs_subluminal : C_S_NUM < C_S_DEN := by decide

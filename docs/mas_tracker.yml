@@ -24,7 +24,7 @@ v23_2_sprint_ar:
     - "Lean4: CosmologicalConstantKK.lean +15, GravitonMassBound.lean +15"
     - "App 19: 60-card flashcard trainer, 7 categories, localStorage missed-card mode"
 
-v22_11_sprint_aq:
+v22_8_sprint_al:
   version: "v22.8"
   wave: "Sprint AL — NP-BC Tightening + SU5 Lean4 Formal + Δm²₂₁ NNLO + CMB Decomposition + FN Reduction + α_s Route D (2026-08-20): Pillars 774–783"
   date: "2026-08-20"
