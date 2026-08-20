@@ -2,13 +2,13 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-version: "v22.9"
+version: "v22.11"
 date-released: "2026-08-20"
 doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v22.9, 208 hardgated core pillars + 784 total pillar slots + Ω₀ Holon Zero + sub-pillars; next slot 785; ~56,747 passed · 47 skipped · 12 deselected · 0 failed; Lean4 976 theorems. Framework internally self-consistent; external empirical confirmation pending. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} (~2032).)"
+    description: "Zenodo DOI for the Unitary Manifold (v22.11, 208 hardgated core pillars + 785 total pillar slots + Ω₀ Holon Zero + sub-pillars; next slot 786; ~56,964 passed · 47 skipped · 12 deselected · 0 failed; Lean4 976 theorems. Framework internally self-consistent; external empirical confirmation pending. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} (~2032).)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
@@ -26,10 +26,10 @@ abstract: >
   higher-dimensional geometry. Dimensional reduction of the 5D
   Einstein-Hilbert action yields a 4D effective action whose field equations —
   the Walker-Pearson equations — show that the Second Law of Thermodynamics is
-  a geometric identity rather than a statistical postulate. As of v22.9
+  a geometric identity rather than a statistical postulate. As of v22.11
   (2026-08-20), the hardgated core comprises 208 pillars and the repository
-  tracks 784 total pillar slots, with next slot 785. Full regression stands at
-  ~56,747 passed · 47 skipped · 12 deselected · 0 failed, and the Lean4 corpus
+  tracks 785 total pillar slots, with next slot 786. Full regression stands at
+  ~56,964 passed · 47 skipped · 12 deselected · 0 failed, and the Lean4 corpus
   stands at 976 theorems. The framework is internally self-consistent at the
   repository level; external empirical confirmation remains pending. Adjacent
   research tracks (Pillars 218–232+) extend the geometric machinery to quantum

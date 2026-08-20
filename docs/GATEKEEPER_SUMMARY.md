@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v22.9
+# Unitary Manifold v22.11
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
