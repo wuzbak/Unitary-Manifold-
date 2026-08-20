@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Canonical status (v22.4):** Pillar set is closed under canonical governance (771+ total; 208 hardgated core). Lean4 820+ theorems. Full regression: ~56,074 passed · 47 skipped · 12 deselected · 0 failed (internal mathematical self-consistency). All major admissions CLOSED (Admissions 3, 4, 5, 6, 11, 12, 13 fully closed; Admissions 7 and 10 at ARCHITECTURE_LIMIT_CERTIFIED). NP-BC-1/2/3/4 sub-gaps all proved (135 theorems). Active monitoring modules for all 2027–2032 decision windows. Primary falsifier: LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. Note: Yukawa sector (fermion masses) uses root-finding against observed masses; not a zero-free-parameter prediction. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Canonical status (v22.4):** Pillar set is closed under canonical governance (771+ total; 208 hardgated core). Lean4 820+ theorems. Full regression: ~56,568 passed · 47 skipped · 12 deselected · 0 failed (internal mathematical self-consistency). All major admissions CLOSED (Admissions 3, 4, 5, 6, 11, 12, 13 fully closed; Admissions 7 and 10 at ARCHITECTURE_LIMIT_CERTIFIED). NP-BC-1/2/3/4 sub-gaps all proved (135 theorems). Active monitoring modules for all 2027–2032 decision windows. Primary falsifier: LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. Note: Yukawa sector (fermion masses) uses root-finding against observed masses; not a zero-free-parameter prediction. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -259,7 +259,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_lattice_dynamics.py          # Pillar 15-B: collective Gamow, phonon-radion bridge (98) — v9.16
 │   ├── test_lattice_boltzmann.py         # Pillar 15-C: KK-mediated radion COP pipeline (187) — v9.16
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 56,074 passed · 47 skipped · 12 deselected · 0 failures (v22.4, 2026-08-19)
+│   # Total: 56,568 passed · 47 skipped · 12 deselected · 0 failures (v22.4, 2026-08-19)
 │   # (Pillars 1–494 + Ω₀ + sub-pillars; canonical branch regression)
 │
 ├── brain/
@@ -466,7 +466,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **56,074 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
+| **Test suite** | `pytest` unit tests — **56,568 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

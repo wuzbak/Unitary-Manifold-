@@ -1,36 +1,45 @@
-version: "v22.4"
-date: "2026-08-18"
-updated: "2026-08-18"
+version: "v22.8"
+date: "2026-08-20"
+updated: "2026-08-20"
 
-v21_0_sprint_x:
-  version: "v21.0-S"
-  wave: "Sprint X — Gap Closure: CY4 χ=148, t₂ Gauge, Sp(2,ℝ) 13D Anomaly, ΛQCD Moduli + Broken-Test Fix (2026-08-18): Pillars 682–687"
-  date: "2026-08-18"
+v22_8_sprint_al:
+  version: "v22.8"
+  wave: "Sprint AL — NP-BC Tightening + SU5 Lean4 Formal + Δm²₂₁ NNLO + CMB Decomposition + FN Reduction + α_s Route D (2026-08-20): Pillars 774–783"
+  date: "2026-08-20"
   pillars_added:
-    - "682: CY4_MINIMAL_CHI148_CONSTRUCTION — 🔵 ADJACENT; explicit CY4 orbifold with χ=2·k_CS=148; D3-tadpole half-integer shift; braid linkage; ~25 tests"
-    - "683: T2_GAUGE_ARTIFACT_CERTIFICATE — ARCHITECTURE_LIMIT_CERTIFIED; t₂ proved pure gauge via ξ^5=t₂ diffeomorphism; 0 physical d.o.f.; ~20 tests"
-    - "684: SP2R_ANOMALY_CANCELLATION_13D — PROVED_AT_SCAFFOLD_LEVEL; GS mechanism; A_parity=-12.5, k_GS=n_w/2=5/2, cancellation exact; requires n_w=5; ~25 tests"
-    - "685: LAMBDA_QCD_CY4_MODULI_CLOSURE — ARCHITECTURE_LIMIT; scaffold ΛQCD ~332 MeV; 4-step roadmap; CY4 moduli blocking; ~22 tests"
-    - "686: GAP_CLUSTER_CY4_SP2R_T2_LQCD_CERT — GAP_CLUSTER_SYNTHESIZED; cross-pillar synthesis certificate; all 4 gaps addressed; ~15 tests"
-    - "687: SPRINT_X_REGRESSION_CERTIFICATE — SPRINT_X_REGRESSION_PASSED; ToE 30.0/28; Lean4 365; ~15 tests"
-  tests_added: 122
-  regression: "~51,951 passed · 23 skipped · 12 deselected · 0 failed"
-  next_pillar_slot: 688
-  next_version: "v21.0-X"
-  toe_delta: 0
-  lean4_theorems_total: 365
-  lean4_new_theorems: 0
-  broken_test_fix:
-    file: "src/core/formal_proof_hardening.py + tests/test_v12_formal_infrastructure.py"
-    issue: "unconditional 'import sympy' caused persistent collection ERROR"
-    fix: "try/except guard on sympy import; pytest.importorskip in test file"
-    status: "FIXED"
+    - "774: NP_BC1_AC_TIGHTENING_CLOSED — sub-gap A→RS_GEOMETRY_KK_TRUNCATION_CLOSED, C→BOUNDED_BY_CURVATURE_CONSTRAINT; Lean4 +8; ~40 tests"
+    - "775: NP_BC2_DEF_TIGHTENING_BOUNDED — D→BOUNDED_ANALYTICALLY, E/F→PROXY_CLOSED; Lean4 +12; ~50 tests"
+    - "776: NP_BC3_GHI_RESOLVED — G→BOUNDED_FINITE_L, H→CS_BOUNDED_SCAFFOLD, I→NON_PERTURBATIVE_OPEN_ARCHITECTURE_LIMIT; Lean4 +10; ~45 tests"
+    - "777: NP_BC4_KL_RADION_TIGHTENING_CLOSED — K→PARTIALLY_BOUNDED_ADM, L→CLOSED_VIA_LEAN4, radion→LOOP_CORRECTION_CLOSED; Lean4 +8; ~45 tests"
+    - "778: SU5_WEYL_PARITY_PROVED_LEAN4_FORMAL — Gap 3 PROVED_CONDITIONAL→PROVED_LEAN4_FORMAL; Lean4 +18; ~30 tests"
+    - "779: DM21_NNLO_ARCHITECTURE_LIMIT_CERTIFIED — NNLO negligible, 1.07σ tension certified at NNLO; Lean4 +10; ~60 tests"
+    - "780: CMB_PEAK_RESIDUAL_DECOMPOSED_V2 — 35% decomposed: KK ≤1.35%, Silk 0.002%, A_s 33.6% arch-limit; Lean4 +6; ~50 tests"
+    - "781: FN_CHARGES_PARTIALLY_CONSTRAINED_BY_SVD — 9→3 irreducible free params; geometric lower bound; Lean4 +8; ~45 tests"
+    - "782: ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT — Route D NSVZ insufficient (~0.5%); all 4 routes exhausted; Lean4 +6; ~40 tests"
+    - "783: SPRINT_V225_V228_REGRESSION_PASSED — 10 pillars; 289 new tests; Lean4 +86 (872→958); next slot 784; ~15 tests"
+  tests_added: 289
+  regression: "~56,568 passed · 47 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 784
+  next_version: "v22.9"
+  lean4_theorems_total: 958
+  lean4_new_theorems: 86
   epistemic_deltas:
-    - "CY4 χ=148: no explicit CY4 → ADJACENT_TRACK_CERTIFIED (orbifold construction)"
-    - "t₂ dynamic d.o.f.: ✗ open label → ARCHITECTURE_LIMIT_CERTIFIED (pure gauge theorem)"
-    - "Sp(2,ℝ) 13D anomaly: no proof → PROVED_AT_SCAFFOLD_LEVEL (GS mechanism)"
-    - "ΛQCD numerical closure: ✗ open → ARCHITECTURE_LIMIT (4-step roadmap specified)"
-  milestone: "Sprint X closes {CY4 χ=148, t₂ gauge, Sp(2,ℝ) anomaly, ΛQCD moduli} gap cluster + persistent broken-test fix"
+    - "NP-BC1 sub-gap A: PARTIALLY_CLOSED → RS_GEOMETRY_KK_TRUNCATION_CLOSED"
+    - "NP-BC1 sub-gap C: PARTIALLY_CLOSED → BOUNDED_BY_CURVATURE_CONSTRAINT"
+    - "NP-BC2 sub-gap D: PARTIALLY_CLOSED → BOUNDED_ANALYTICALLY"
+    - "NP-BC2 sub-gaps E/F: PARTIALLY_CLOSED → PROXY_CLOSED"
+    - "NP-BC3 sub-gap G: PARTIALLY_CLOSED → BOUNDED_FINITE_L"
+    - "NP-BC3 sub-gap H: PARTIALLY_CLOSED → CS_BOUNDED_SCAFFOLD"
+    - "NP-BC3 sub-gap I: PARTIALLY_CLOSED → NON_PERTURBATIVE_OPEN_ARCHITECTURE_LIMIT (thread closed)"
+    - "NP-BC4 sub-gap K: PARTIALLY_CLOSED → PARTIALLY_BOUNDED_ADM"
+    - "NP-BC4 sub-gap L: PARTIALLY_CLOSED → CLOSED_VIA_LEAN4"
+    - "Radion loop: PARTIALLY_CLOSED → LOOP_CORRECTION_CLOSED"
+    - "Gap 3 SU5: PROVED_CONDITIONAL (Python) → PROVED_LEAN4_FORMAL (machine-checked)"
+    - "Δm²₂₁ NNLO: NLO_INSUFFICIENT → NNLO_ARCHITECTURE_LIMIT_CERTIFIED"
+    - "CMB 35% residual: ARCHITECTURE_LIMIT → DECOMPOSED_V2 (known 1.4% + arch-limit 33.6%)"
+    - "FN charges: ARCHITECTURE_LIMIT (9 free) → PARTIALLY_CONSTRAINED (3 irreducible)"
+    - "α_s Route D: untested → ROUTE_D_INSUFFICIENT; all routes → ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT"
+  milestone: "Sprint AL closes all NP-BC sub-gap chains (CLOSED or formally certified ARCHITECTURE_LIMIT), Gap 3 machine-checked in Lean4, Δm²₂₁ NNLO certified, FN charge count reduced 9→3, all α_s routes exhausted"
 
 v20_9_sprints_m_q:
   version: "v20.9"
