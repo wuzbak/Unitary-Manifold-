@@ -1,11 +1,11 @@
-version: "v22.4"
-date: "2026-08-18"
-updated: "2026-08-18"
+version: "v22.6"
+date: "2026-08-20"
+updated: "2026-08-20"
 
 v21_0_sprint_x:
   version: "v21.0-S"
   wave: "Sprint X — Gap Closure: CY4 χ=148, t₂ Gauge, Sp(2,ℝ) 13D Anomaly, ΛQCD Moduli + Broken-Test Fix (2026-08-18): Pillars 682–687"
-  date: "2026-08-18"
+  date: "2026-08-20"
   pillars_added:
     - "682: CY4_MINIMAL_CHI148_CONSTRUCTION — 🔵 ADJACENT; explicit CY4 orbifold with χ=2·k_CS=148; D3-tadpole half-integer shift; braid linkage; ~25 tests"
     - "683: T2_GAUGE_ARTIFACT_CERTIFICATE — ARCHITECTURE_LIMIT_CERTIFIED; t₂ proved pure gauge via ξ^5=t₂ diffeomorphism; 0 physical d.o.f.; ~20 tests"
@@ -14,7 +14,7 @@ v21_0_sprint_x:
     - "686: GAP_CLUSTER_CY4_SP2R_T2_LQCD_CERT — GAP_CLUSTER_SYNTHESIZED; cross-pillar synthesis certificate; all 4 gaps addressed; ~15 tests"
     - "687: SPRINT_X_REGRESSION_CERTIFICATE — SPRINT_X_REGRESSION_PASSED; ToE 30.0/28; Lean4 365; ~15 tests"
   tests_added: 122
-  regression: "~51,951 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "~56,279 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 688
   next_version: "v21.0-X"
   toe_delta: 0
