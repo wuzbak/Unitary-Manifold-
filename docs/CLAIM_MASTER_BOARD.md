@@ -3,7 +3,7 @@
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-08-20 (v22.8 — Sprint AL: 10 pillars 774–783; NP-BC sub-gaps all resolved (CLOSED or ARCHITECTURE_LIMIT); Gap 3 SU5 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO ARCHITECTURE_LIMIT_CERTIFIED; CMB 35% DECOMPOSED_V2 (known 1.4% bounded + arch-limit 33.6%); FN charges 9→3 irreducible; α_s all 4 routes exhausted → ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT; ~56,568 passed · 47 skipped · 12 deselected · 0 failed. Open gaps: Gap 2 ADM UV-regulator (community-level); Gap 4 FN charges 3 irreducible free params; Gap 5 CMB A_s mismatch 33.6% arch-limit. Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-08-20 (v22.9 — Sprint AM: Pillar 784 Type A/B Gap Classification; G1/G2/G3 TYPE_B_STRUCTURAL_FLOOR; G4 TYPE_B_CANDIDATE; pre-registered falsification conditions; FALLIBILITY.md §XVII; Lean4 +18 (958→976); 179 tests; ~56,747 passed · 0 failed. Open gaps: Gap 2 ADM UV-regulator (community-level); Gap 4 FN charges 3 irreducible free params; Gap 5 CMB A_s mismatch 33.6% arch-limit (now classified TYPE_B_STRUCTURAL_FLOOR with falsification condition). Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *P516 (v15.9): KK Backreaction Architecture Audit — KK_BACKREACTION_ARCHITECTURE_AUDIT_COMPLETE. `src/core/pillar516_kk_backreaction_architecture_audit.py` formally certifies the KK backreaction decoupling as ARCHITECTURE_LIMIT_CERTIFIED, documents the four-step closure path for full dynamic coupling, and establishes the regime map distinguishing factory IC from solver capacity. The decoupling is conservative (lower bound on winding-geometry coupling). No physics label promoted.*
 
@@ -286,3 +286,22 @@ When new data arrives:
 | P783 | Sprint AL Regression Certificate | SPRINT_V225_V228_REGRESSION_PASSED | 10 pillars; 289 new tests; Lean4 +86 (872→958); next slot 784; ~15 tests |
 
 *Sprint AL: 10 pillars; 289 new tests; Lean4 +86 (872→958); full regression ~56,568 passed · 0 failed.*
+
+---
+
+## v22.9 Sprint AM — Type A/B Gap Classification Synthesis (Pillar 784)
+
+| Pillar | Title | Status | Tests |
+|--------|-------|--------|-------|
+| P784 | Type A/B Gap Classification (Constraint-Surface Synthesis) | TYPE_AB_CLASSIFICATION_COMPLETE | 179 |
+
+**Sprint AM highlights:**
+- G1 (CMB A_s 33.6%), G2 (α_s all routes), G3 (m_H ceiling) → `TYPE_B_STRUCTURAL_FLOOR` (all 4 criteria)
+- G4 (Δm²₂₁ 1.07σ NNLO) → `TYPE_B_CANDIDATE` (criteria 1, 3, 4; criterion 2 partial)
+- Constraint-surface Jacobian: no single free parameter closes all 4 gaps
+- G2/G3 cross-sector geometric correlation confirmed (frac_diff < 15%)
+- Pre-registered falsification conditions for each Type B label (see FALLIBILITY.md §XVII)
+- DESI wₐ (2.75σ): EXCLUDED from Type B — DR3 data decides
+- Lean4 +18 (`TypeABGapClassification.lean`, 18 proxy theorems; total 976)
+
+*Sprint AM: 1 pillar; 179 new tests; Lean4 +18 (958→976); full regression ~56,747 passed · 0 failed. Next slot: 785.*
