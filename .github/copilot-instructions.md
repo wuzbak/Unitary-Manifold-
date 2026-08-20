@@ -5,9 +5,9 @@ on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework — **v20.1** — with:
+A 5-dimensional Kaluza-Klein physics framework — **v22.11** — with:
 - **208 core physics pillars** (hardgate, formally closed)
-- **24+ adjacent research tracks** (Pillars 218–232: applied domains, non-hardgate)
+- **785 total pillar slots** (next slot 786; Pillars 218–785 are adjacent tracks)
 - **Ω₀ Holon Zero** + sub-pillars (Pillar 70-B, 70-C, 70-D)
 - **Independent HILS governance framework** (Unitary Pentad)
 - **Quantum simulation layer** (`src/quantum/`: KK VQE, Fermi–Hubbard, XDiag bridge)
@@ -62,7 +62,7 @@ src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 5-GOVERNANCE/Unitary Pentad/ ← Independent HILS governance framework
-tests/              ← 200+ test files, 56,074+ passing tests (all pillars, adjacent tracks, integrations)
+tests/              ← 200+ test files, 56,964+ passing tests (all pillars, adjacent tracks, integrations)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 5-GOVERNANCE/co-emergence/ ← HILS framework documentation
 ```

@@ -1,8 +1,8 @@
 # Theorem Registry v14
 
-> **v22.4 canonical pointer (2026-08-19):** This registry covers theorems T001–T014 from
+> **v22.11 canonical pointer (2026-08-20):** This registry covers theorems T001–T014 from
 > the v14 sprint (Pillars 447–474). It is preserved for audit traceability. The current
-> framework state is v22.4 with 771+ pillars, 820+ Lean4 theorems, and framework internally consistent.
+> framework state is v22.11 with 785+ pillars, 976 Lean4 theorems, and framework internally consistent.
 > For current formal proof status, see `lean4/UnitaryManifold/` and `docs/SPRINT_AH_CLOSURE_AUDIT.md`.
 > For current derivation status, see
 > [`DERIVATION_STATUS.md`](DERIVATION_STATUS.md). The theorem labels below remain valid;
