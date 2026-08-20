@@ -40,6 +40,15 @@ exclude:
   - "node_modules/"
   - "tmp/"
   - "terrifying-theories/"
+  - "12-AZ-IP/"
+  - "AxiomZero"
+  - "EIGE"
+  - "az-kernel"
+  - "az-os"
+  - "az_os"
+  - "10-UM-SOS"
+  - "lean4/"
+  - "hf-spaces/"
 
 # Build settings
 markdown: kramdown
