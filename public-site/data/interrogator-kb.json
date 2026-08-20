@@ -1,0 +1,576 @@
+{
+  "version": "v23.0",
+  "generated_date": "2026-08-20",
+  "description": "Axiom Zero Interrogator knowledge base. Contains all interrogable claims, their epistemic gate status, falsification conditions, and honest admissions.",
+  "total_claims": 21,
+  "gate_types": [
+    "DERIVED",
+    "EMPIRICALLY_SELECTED",
+    "FITTED",
+    "ARCHITECTURE_LIMIT",
+    "ADJACENT_TRACK",
+    "OPEN_TENSION",
+    "CLOSED",
+    "FALSIFIABLE_PREDICTION",
+    "PROVED_CONDITIONAL",
+    "ONE_LOOP_CONSISTENT",
+    "LEPTON_JARLSKOG_LATTICE_DERIVED",
+    "DM21_NLO_PARTIAL_CLOSURE",
+    "TYPE_AB_CLASSIFICATION_COMPLETE",
+    "WINDING_BASIN_CLOSED",
+    "FALSIFICATION_MAP_REGISTERED",
+    "TENSION_MONITORED"
+  ],
+  "claims": [
+    {
+      "id": "p002_ns",
+      "pillar": 2,
+      "track": "HARDGATE",
+      "claim": "The CMB spectral index n_s is predicted to be 0.9635",
+      "tags": [
+        "CMB",
+        "inflation",
+        "spectral index",
+        "n_s",
+        "prediction"
+      ],
+      "gate": "DERIVED",
+      "predicted_value": "n_s = 0.9635",
+      "observed_value": "0.9649 ± 0.0042 (Planck 2018)",
+      "tension_sigma": 0.33,
+      "falsification": "n_s < 0.950 or n_s > 0.975 at >3σ (Simons Observatory / ACTPol, ~2026)",
+      "admission": null
+    },
+    {
+      "id": "p002_r",
+      "pillar": 2,
+      "track": "HARDGATE",
+      "claim": "The tensor-to-scalar ratio r is predicted to be 0.0315",
+      "tags": [
+        "CMB",
+        "inflation",
+        "tensor",
+        "r",
+        "prediction"
+      ],
+      "gate": "DERIVED",
+      "predicted_value": "r = 0.0315",
+      "observed_value": "< 0.036 (BICEP/Keck 2021 95% UL)",
+      "tension_sigma": null,
+      "falsification": "r > 0.036 at 95% confidence (BICEP Array, ~2026–2027)",
+      "admission": null
+    },
+    {
+      "id": "p004_holographic",
+      "pillar": 4,
+      "track": "HARDGATE",
+      "claim": "Entropy is area-bounded via holographic projection of the 5D boundary",
+      "tags": [
+        "holography",
+        "entropy",
+        "area",
+        "boundary"
+      ],
+      "gate": "DERIVED",
+      "predicted_value": "S ≤ A/(4G) — exact equality on the KK boundary",
+      "observed_value": "Consistent with Bekenstein-Hawking for black holes",
+      "tension_sigma": null,
+      "falsification": "Entropy exceeding area bound in any controlled gravitational system",
+      "admission": null
+    },
+    {
+      "id": "p005_ftum",
+      "pillar": 5,
+      "track": "HARDGATE",
+      "claim": "The universe has a unique fixed-point attractor (FTUM) from KK compactification",
+      "tags": [
+        "multiverse",
+        "fixed point",
+        "attractor",
+        "FTUM",
+        "compactification"
+      ],
+      "gate": "DERIVED",
+      "predicted_value": "φ₀ self-consistent (closed by Pillar 56)",
+      "observed_value": "Internal self-consistency confirmed",
+      "tension_sigma": null,
+      "falsification": "Demonstration of two distinct stable KK vacua with the same n_w=5",
+      "admission": null
+    },
+    {
+      "id": "p009_consciousness",
+      "pillar": 9,
+      "track": "ADJACENT_TRACK",
+      "claim": "Consciousness couples to the universe via the Ξ_c = 35/74 constant",
+      "tags": [
+        "consciousness",
+        "coupling",
+        "Pentad",
+        "Ξ_c"
+      ],
+      "gate": "ADJACENT_TRACK",
+      "predicted_value": "Ξ_c = 35/74 ≈ 0.4730",
+      "observed_value": "Not directly measurable — governance framework only",
+      "tension_sigma": null,
+      "falsification": "This is NOT a hardgate physics claim. It belongs to the Pentad governance framework.",
+      "admission": "Pillar 9 is explicitly framed as a governance/HILS coupling, not a testable physics prediction."
+    },
+    {
+      "id": "p014_atomic",
+      "pillar": 14,
+      "track": "HARDGATE",
+      "claim": "Atomic orbital structure emerges from 5D KK geometry",
+      "tags": [
+        "atomic",
+        "orbitals",
+        "spectroscopy",
+        "fine structure"
+      ],
+      "gate": "DERIVED",
+      "predicted_value": "Fine structure constant α ≈ 1/137 from KK gauge projection",
+      "observed_value": "α = 1/137.036 (CODATA)",
+      "tension_sigma": null,
+      "falsification": "α deviating from 1/137 at the ppm level in precision QED tests",
+      "admission": null
+    },
+    {
+      "id": "p015_cold_fusion",
+      "pillar": 15,
+      "track": "HARDGATE",
+      "claim": "φ-enhanced tunneling raises nuclear fusion COP in Pd lattice",
+      "tags": [
+        "cold fusion",
+        "tunneling",
+        "COP",
+        "LENR",
+        "Palladium"
+      ],
+      "gate": "FALSIFIABLE_PREDICTION",
+      "predicted_value": "COP enhancement factor > 1 in specific lattice geometry",
+      "observed_value": "Not experimentally confirmed",
+      "tension_sigma": null,
+      "falsification": "COP ≤ 1 in controlled Pd-D lattice geometry (primary falsifier for LENR branch)",
+      "admission": "Pillar 15 is explicitly framed as a falsifiable COP prediction, NOT a confirmation that LENR occurs."
+    },
+    {
+      "id": "p056_phi0",
+      "pillar": 56,
+      "track": "HARDGATE",
+      "claim": "φ₀ is self-consistent — the inflation field initial condition closes",
+      "tags": [
+        "phi0",
+        "closure",
+        "self-consistency",
+        "inflation"
+      ],
+      "gate": "CLOSED",
+      "predicted_value": "φ₀ self-consistent (FTUM fixed-point convergence)",
+      "observed_value": "Internal closure — no external constraint",
+      "tension_sigma": null,
+      "falsification": "Non-convergence of the FTUM fixed-point iteration",
+      "admission": null
+    },
+    {
+      "id": "p067_nw_selection",
+      "pillar": 67,
+      "track": "HARDGATE",
+      "claim": "The winding number n_w = 5 is the unique selection from geometry + Planck data",
+      "tags": [
+        "winding number",
+        "n_w",
+        "selection",
+        "uniqueness",
+        "Planck"
+      ],
+      "gate": "EMPIRICALLY_SELECTED",
+      "predicted_value": "n_w = 5 (Steps 1–3 narrow to {5,7}; Planck n_s selects 5)",
+      "observed_value": "Consistent with Planck n_s = 0.9649",
+      "tension_sigma": 0.33,
+      "falsification": "n_s outside [0.960, 0.970] and r > 0.036 simultaneously (would open basin)",
+      "admission": "n_w = 5 uniqueness not yet proved from first principles alone. Planck data provides the final selection."
+    },
+    {
+      "id": "p700_su5",
+      "pillar": 700,
+      "track": "HARDGATE",
+      "claim": "SU(5) gauge unification is proved conditional on Weyl anomaly cancellation",
+      "tags": [
+        "SU5",
+        "unification",
+        "gauge",
+        "Weyl",
+        "anomaly"
+      ],
+      "gate": "PROVED_CONDITIONAL",
+      "predicted_value": "SU(5) ⊃ SM from 5D gauge projection",
+      "observed_value": "SM gauge group reproduced",
+      "tension_sigma": null,
+      "falsification": "Discovery of a 4th SM generation, or proton decay rate outside KK prediction",
+      "admission": "Conditional on Weyl anomaly cancellation — full proof is pending."
+    },
+    {
+      "id": "p733_higgs",
+      "pillar": 733,
+      "track": "HARDGATE",
+      "claim": "The Higgs mass ~126.2 GeV is one-loop consistent with KK geometry",
+      "tags": [
+        "Higgs",
+        "mass",
+        "one-loop",
+        "GHU",
+        "126 GeV"
+      ],
+      "gate": "ONE_LOOP_CONSISTENT",
+      "predicted_value": "m_H ≈ 126.2 GeV (one-loop GHU)",
+      "observed_value": "125.20 ± 0.11 GeV (PDG 2024)",
+      "tension_sigma": 0.71,
+      "falsification": "m_H < 120 GeV or m_H > 132 GeV confirmed at HL-LHC",
+      "admission": "Architecture limit: the 27.5% gap between predicted and observed is unresolved at tree level."
+    },
+    {
+      "id": "p772_lepton",
+      "pillar": 772,
+      "track": "HARDGATE",
+      "claim": "Lepton Jarlskog invariant derived from orbifold lattice reduces Δm²₂₁ tension",
+      "tags": [
+        "neutrino",
+        "Jarlskog",
+        "Δm21",
+        "orbifold",
+        "lepton"
+      ],
+      "gate": "LEPTON_JARLSKOG_LATTICE_DERIVED",
+      "predicted_value": "n_FN_lepton = 1 (Dirichlet BC, NH)",
+      "observed_value": "Δm²₂₁ tension reduced from 2.98σ to 1.16σ",
+      "tension_sigma": 1.16,
+      "falsification": "Δm²₂₁ tension exceeding 3σ after NuFIT Year 6 update",
+      "admission": "1.16σ residual remains — NLO corrections (Pillar 773) bring it to 1.07σ, still above 1σ."
+    },
+    {
+      "id": "p773_dm21",
+      "pillar": 773,
+      "track": "HARDGATE",
+      "claim": "Three NLO mechanisms reduce Δm²₂₁ tension from 1.16σ to 1.07σ",
+      "tags": [
+        "neutrino",
+        "Δm21",
+        "NLO",
+        "winding",
+        "KK threshold",
+        "BKT"
+      ],
+      "gate": "DM21_NLO_PARTIAL_CLOSURE",
+      "predicted_value": "Δm²₂₁ tension 1.07σ after NLO",
+      "observed_value": "1.07σ (winding + KK threshold + BKT corrections)",
+      "tension_sigma": 1.07,
+      "falsification": "NuFIT Year 6 placing Δm²₂₁ > 3σ from any KK prediction",
+      "admission": "NLO_INSUFFICIENT_FOR_SUB_1SIGMA: three mechanisms insufficient to reach <1σ."
+    },
+    {
+      "id": "p780_cmb_peaks",
+      "pillar": 780,
+      "track": "HARDGATE",
+      "claim": "CMB acoustic peak amplitudes are suppressed ×4–7 relative to observation",
+      "tags": [
+        "CMB",
+        "acoustic peaks",
+        "suppression",
+        "architecture limit",
+        "A_s"
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "predicted_value": "Suppression R_irreducible ≈ 33.65%",
+      "observed_value": "Observed peak heights exceed predictions by ×4–7",
+      "tension_sigma": null,
+      "falsification": "This IS a documented failure mode. Not a prediction.",
+      "admission": "Documented in FALLIBILITY.md Admission 2. Addressed by Pillars 57+63 but not fully resolved."
+    },
+    {
+      "id": "p784_type_ab",
+      "pillar": 784,
+      "track": "HARDGATE",
+      "claim": "Gaps G1–G3 are TYPE_B structural floors; G4 is TYPE_B candidate",
+      "tags": [
+        "gap classification",
+        "TYPE_B",
+        "structural floor",
+        "G4",
+        "G1 G2 G3"
+      ],
+      "gate": "TYPE_AB_CLASSIFICATION_COMPLETE",
+      "predicted_value": "G1/G2/G3: all 4 TYPE_B criteria met. G4: 3/4 criteria.",
+      "observed_value": "Classification is framework-internal",
+      "tension_sigma": null,
+      "falsification": "Any gap migrating from TYPE_B_STRUCTURAL_FLOOR to TYPE_A_FITTED",
+      "admission": "G4 criterion 2 partial: frac_diff = 18.16% > 15% threshold."
+    },
+    {
+      "id": "p786_basin",
+      "pillar": 786,
+      "track": "HARDGATE",
+      "claim": "n_w = 5 is the unique winding number satisfying all observational constraints",
+      "tags": [
+        "winding number",
+        "stability basin",
+        "uniqueness",
+        "n_w=5",
+        "singleton"
+      ],
+      "gate": "WINDING_BASIN_CLOSED",
+      "predicted_value": "STABILITY_BASIN = {5} — singleton in [1,15]",
+      "observed_value": "Planck n_s ✅, BICEP/Keck r ✅, birefringence β ✅ — only n_w=5 passes all three",
+      "tension_sigma": null,
+      "falsification": "n_s outside [0.9565, 0.9733] AND r > 0.036 simultaneously",
+      "admission": null
+    },
+    {
+      "id": "p787_falsmap",
+      "pillar": 787,
+      "track": "HARDGATE",
+      "claim": "The birefringence β prediction will be tested by LiteBIRD in 2032",
+      "tags": [
+        "LiteBIRD",
+        "birefringence",
+        "falsification",
+        "β",
+        "2032"
+      ],
+      "gate": "FALSIFICATION_MAP_REGISTERED",
+      "predicted_value": "β ∈ {0.273°, 0.331°} canonical / {0.290°, 0.351°} derived",
+      "observed_value": "Not yet measured (pre-launch)",
+      "tension_sigma": null,
+      "falsification": "β ∉ [0.22°, 0.38°] or β ∈ [0.29°, 0.31°] (predicted gap)",
+      "admission": "Primary falsifier. LiteBIRD launch ~2032. External confirmation pending."
+    },
+    {
+      "id": "open_cmb_amplitude",
+      "pillar": null,
+      "track": "OPEN_TENSION",
+      "claim": "The framework fully explains CMB power spectrum amplitudes",
+      "tags": [
+        "CMB",
+        "power spectrum",
+        "amplitude",
+        "acoustic peaks",
+        "open tension"
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "predicted_value": "Suppressed ×4–7 at acoustic peaks",
+      "observed_value": "Peaks significantly higher than predicted",
+      "tension_sigma": null,
+      "falsification": "N/A — this is an admitted gap, not a falsifiable prediction",
+      "admission": "FALLIBILITY.md Admission 2. Honest accounting: this gap is not resolved."
+    },
+    {
+      "id": "open_desi",
+      "pillar": null,
+      "track": "OPEN_TENSION",
+      "claim": "The framework predicts dark energy equation of state wₐ = 0",
+      "tags": [
+        "DESI",
+        "dark energy",
+        "wₐ",
+        "cosmological constant",
+        "tension"
+      ],
+      "gate": "TENSION_MONITORED",
+      "predicted_value": "wₐ = 0 (KK compactification → cosmological constant)",
+      "observed_value": "DESI Y1: wₐ ≈ -0.65 (2.1σ from 0)",
+      "tension_sigma": 2.1,
+      "falsification": "wₐ ≠ 0 confirmed > 3σ at DESI Year 3 (2026)",
+      "admission": "Tracked in CLAIM_MASTER_BOARD.md. DESI Year 3 will be decisive."
+    },
+    {
+      "id": "open_fn_charges",
+      "pillar": null,
+      "track": "OPEN_TENSION",
+      "claim": "Froggatt-Nielsen charges are derived from geometry, not fitted",
+      "tags": [
+        "FN charges",
+        "Froggatt-Nielsen",
+        "fitted",
+        "architecture limit",
+        "Yukawa"
+      ],
+      "gate": "ARCHITECTURE_LIMIT",
+      "predicted_value": "9 FN charges remain as free parameters",
+      "observed_value": "Consistent with SM fermion masses when fitted",
+      "tension_sigma": null,
+      "falsification": "N/A — architecture limit, not a falsifiable prediction",
+      "admission": "FALLIBILITY.md: FN charge geometry is an ARCHITECTURE_LIMIT. 9 free parameters remain."
+    },
+    {
+      "id": "adj_vqe",
+      "pillar": null,
+      "track": "ADJACENT_TRACK",
+      "claim": "KK-VQE quantum simulation reproduces Fermi-Hubbard physics",
+      "tags": [
+        "VQE",
+        "quantum simulation",
+        "Fermi-Hubbard",
+        "adjacent",
+        "XDiag"
+      ],
+      "gate": "ADJACENT_TRACK",
+      "predicted_value": "Fermi-Hubbard ground state reproducible via KK-VQE circuit",
+      "observed_value": "In development",
+      "tension_sigma": null,
+      "falsification": "Not a hardgate claim — quantum simulation lane is non-hardgate adjacent",
+      "admission": "Requires steward approval before any formal pillar numbering."
+    }
+  ],
+  "experiments": [
+    {
+      "id": "litebird",
+      "name": "LiteBIRD (2032)",
+      "tests_pillars": [
+        "p002_r",
+        "p787_falsmap",
+        "p786_basin"
+      ],
+      "primary": true,
+      "status": "PRE_LAUNCH",
+      "description": "Cosmic Microwave Background satellite. Primary test of birefringence β and tensor ratio r."
+    },
+    {
+      "id": "desi",
+      "name": "DESI Year 3 (2026)",
+      "tests_pillars": [
+        "open_desi"
+      ],
+      "primary": false,
+      "status": "TENSION_MONITORED",
+      "description": "Dark Energy Spectroscopic Instrument. Tests dark energy EoS wₐ = 0 prediction."
+    },
+    {
+      "id": "juno",
+      "name": "JUNO (2027)",
+      "tests_pillars": [
+        "p772_lepton",
+        "p773_dm21"
+      ],
+      "primary": false,
+      "status": "PREDICTED_CONFIRMED_PREFERRED",
+      "description": "Reactor neutrino experiment. Tests neutrino mass ordering — NH preferred by UM."
+    },
+    {
+      "id": "act",
+      "name": "ACTPol / Simons Observatory (2026)",
+      "tests_pillars": [
+        "p002_ns",
+        "p067_nw_selection"
+      ],
+      "primary": false,
+      "status": "CONSISTENT_0.33SIGMA",
+      "description": "Ground-based CMB telescope. Tests spectral index n_s = 0.9635."
+    },
+    {
+      "id": "hl_lhc",
+      "name": "HL-LHC (2027+)",
+      "tests_pillars": [
+        "p733_higgs"
+      ],
+      "primary": false,
+      "status": "ARCHITECTURE_LIMIT_CONSISTENT",
+      "description": "High-Luminosity LHC. Precision Higgs mass measurement."
+    },
+    {
+      "id": "nedm",
+      "name": "nEDM next-gen (2028)",
+      "tests_pillars": [
+        "p700_su5"
+      ],
+      "primary": false,
+      "status": "BELOW_CURRENT_BOUND",
+      "description": "Neutron electric dipole moment. Tests 5D CP phase budget."
+    },
+    {
+      "id": "xenon_nt",
+      "name": "XENON-nT (2026)",
+      "tests_pillars": [],
+      "primary": false,
+      "status": "CONSISTENT_CURRENT_BOUND",
+      "description": "Dark matter direct detection. Will test lightest KK mode DM candidate (Pillar 790 target)."
+    }
+  ],
+  "tensions": [
+    {
+      "id": "desi_wa",
+      "label": "DESI wₐ tension",
+      "sigma": 2.1,
+      "confidence": 0.55,
+      "description": "Dark energy EoS wₐ ≈ -0.65 vs UM prediction wₐ = 0",
+      "experiment": "DESI Year 3 (2026)",
+      "pillar_ids": [
+        "open_desi"
+      ]
+    },
+    {
+      "id": "dm21_residual",
+      "label": "Δm²₂₁ residual 1.07σ",
+      "sigma": 1.07,
+      "confidence": 0.8,
+      "description": "Solar neutrino mass-squared difference residual after NLO correction",
+      "experiment": "JUNO (2027)",
+      "pillar_ids": [
+        "p773_dm21"
+      ]
+    },
+    {
+      "id": "higgs_gap",
+      "label": "Higgs mass 27.5% gap",
+      "sigma": 0.71,
+      "confidence": 0.7,
+      "description": "GHU one-loop predicts 126.2 GeV vs PDG 125.20 GeV — tree-level gap unresolved",
+      "experiment": "HL-LHC (2027+)",
+      "pillar_ids": [
+        "p733_higgs"
+      ]
+    },
+    {
+      "id": "ns_minor",
+      "label": "n_s 0.33σ offset",
+      "sigma": 0.33,
+      "confidence": 0.9,
+      "description": "Predicted 0.9635 vs Planck 0.9649 — well within 2σ",
+      "experiment": "Simons Observatory (2026)",
+      "pillar_ids": [
+        "p002_ns"
+      ]
+    },
+    {
+      "id": "cmb_peaks",
+      "label": "CMB peak amplitude ×4–7 suppression",
+      "sigma": null,
+      "confidence": 0.3,
+      "description": "Architecture limit: acoustic peak amplitudes suppressed relative to observation",
+      "experiment": "Simons Observatory (ongoing)",
+      "pillar_ids": [
+        "p780_cmb_peaks",
+        "open_cmb_amplitude"
+      ]
+    },
+    {
+      "id": "fn_charges",
+      "label": "FN charges — 9 free parameters",
+      "sigma": null,
+      "confidence": 0.4,
+      "description": "Froggatt-Nielsen charges remain as architecture-limit free parameters",
+      "experiment": "HL-LHC (indirect)",
+      "pillar_ids": [
+        "open_fn_charges"
+      ]
+    },
+    {
+      "id": "birefringence",
+      "label": "β prediction — pre-launch",
+      "sigma": null,
+      "confidence": 0.65,
+      "description": "Primary falsifier: β ∈ {0.273°, 0.331°}. LiteBIRD will test in 2032.",
+      "experiment": "LiteBIRD (2032)",
+      "pillar_ids": [
+        "p787_falsmap"
+      ]
+    }
+  ]
+}

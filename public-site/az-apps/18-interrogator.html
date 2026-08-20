@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Axiom Zero Interrogator — Theory Interrogation Engine · AxiomZero</title>
+  <meta name="description" content="Challenge any claim the Unitary Manifold makes. See its epistemic status, the honest uncertainty, and the experiment that will falsify or confirm it. Fully offline." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/18-interrogator.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+
+  <style>
+    /* ── Interrogator layout ──────────────────────────────────────────────── */
+    .iq-tabs {
+      display: flex; gap: .35rem; flex-wrap: wrap;
+      margin: 1.5rem 0 0; border-bottom: 1px solid var(--color-border);
+      padding-bottom: 0;
+    }
+    .iq-tab {
+      font-size: .82rem; font-family: var(--font-mono); padding: .45rem 1.1rem;
+      cursor: pointer; border: 1px solid transparent; border-bottom: none;
+      border-radius: 6px 6px 0 0; color: var(--color-muted);
+      background: transparent; transition: .15s; white-space: nowrap;
+    }
+    .iq-tab:hover  { color: var(--color-text); border-color: var(--color-border); }
+    .iq-tab.active { color: var(--color-accent); background: var(--color-card);
+                     border-color: var(--color-border); border-bottom: 1px solid var(--color-card);
+                     margin-bottom: -1px; }
+    .iq-panel      { display: none; padding: 1.5rem 0; }
+    .iq-panel.active { display: block; }
+
+    /* ── Challenge mode ───────────────────────────────────────────────────── */
+    .iq-search-row {
+      display: flex; gap: .6rem; margin-bottom: 1.25rem; align-items: stretch;
+    }
+    .iq-search-input {
+      flex: 1; padding: .65rem 1rem; background: var(--color-card);
+      border: 1px solid var(--color-border); border-radius: var(--radius);
+      color: var(--color-text); font-family: var(--font-sans); font-size: .95rem;
+      outline: none; transition: border-color .15s;
+    }
+    .iq-search-input:focus { border-color: var(--color-accent); }
+    .iq-search-input::placeholder { color: var(--color-muted); }
+    .iq-search-btn {
+      padding: .65rem 1.4rem; background: var(--color-accent); color: #fff;
+      border: none; border-radius: var(--radius); font-family: var(--font-mono);
+      font-size: .85rem; font-weight: 700; cursor: pointer; transition: background .15s;
+    }
+    .iq-search-btn:hover { background: #5ca0ff; }
+
+    /* ── Claim card ───────────────────────────────────────────────────────── */
+    .iq-card {
+      background: var(--color-card); border: 1px solid var(--color-border);
+      border-radius: var(--radius); padding: 1.1rem 1.2rem; margin-bottom: .85rem;
+      transition: border-color .15s;
+    }
+    .iq-card:hover { border-color: var(--color-accent); }
+    .iq-card-header { margin-bottom: .7rem; }
+    .iq-badges { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .5rem; }
+    .iq-gate-badge {
+      display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+      font-weight: 700; padding: .17em .65em; border-radius: 4px; border: 1px solid;
+      letter-spacing: .03em;
+    }
+    .iq-track-badge {
+      display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+      font-weight: 700; padding: .17em .65em; border-radius: 4px; border: 1px solid;
+    }
+    .iq-pillar-badge {
+      display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+      font-weight: 700; padding: .17em .65em; border-radius: 4px;
+      background: rgba(59,139,255,.1); color: var(--color-accent);
+      border: 1px solid rgba(59,139,255,.3);
+    }
+    .iq-score {
+      display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+      color: var(--color-muted); padding: .17em .5em;
+    }
+    .iq-claim-text {
+      font-size: .97rem; font-weight: 600; line-height: 1.4;
+      color: var(--color-text);
+    }
+    .iq-card-body { font-size: .875rem; color: var(--color-muted); }
+    .iq-row { display: flex; gap: .5rem; margin-bottom: .35rem; flex-wrap: wrap; }
+    .iq-label { font-family: var(--font-mono); font-size: .78rem; color: var(--color-muted);
+                min-width: 80px; flex-shrink: 0; }
+    .iq-val   { color: var(--color-text); font-size: .875rem; }
+    .iq-tension {
+      font-family: var(--font-mono); font-size: .82rem; color: var(--color-orange);
+      margin: .3rem 0;
+    }
+    .iq-falsification {
+      background: rgba(59,139,255,.06); border-left: 3px solid var(--color-accent);
+      padding: .4rem .7rem; margin: .5rem 0 .4rem; border-radius: 0 4px 4px 0;
+      font-size: .855rem; color: var(--color-text);
+    }
+    .iq-admission {
+      background: rgba(255,159,10,.07); border-left: 3px solid var(--color-orange);
+      padding: .4rem .7rem; margin-top: .4rem; border-radius: 0 4px 4px 0;
+      font-size: .855rem; color: var(--color-orange);
+    }
+    .iq-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem; }
+    .iq-tag {
+      font-size: .7rem; font-family: var(--font-mono);
+      background: rgba(124,77,255,.08); color: var(--color-accent2);
+      border: 1px solid rgba(124,77,255,.25); padding: .1em .55em;
+      border-radius: 3px;
+    }
+
+    /* ── Experiment mode ─────────────────────────────────────────────────── */
+    .iq-exp-layout {
+      display: grid; grid-template-columns: 220px 1fr; gap: 1.5rem;
+    }
+    @media (max-width: 640px) { .iq-exp-layout { grid-template-columns: 1fr; } }
+    .iq-exp-list { display: flex; flex-direction: column; gap: .4rem; }
+    .iq-exp-item {
+      background: var(--color-card); border: 1px solid var(--color-border);
+      border-radius: var(--radius); padding: .65rem .85rem; cursor: pointer;
+      transition: border-color .15s;
+    }
+    .iq-exp-item:hover, .iq-exp-item.selected { border-color: var(--color-accent); }
+    .iq-exp-item.selected { background: rgba(59,139,255,.08); }
+    .iq-exp-name { font-size: .875rem; font-weight: 600; margin-bottom: .2rem; }
+    .iq-exp-status { font-size: .72rem; font-family: var(--font-mono); color: var(--color-muted); }
+    .iq-exp-detail-title { font-size: 1.2rem; font-weight: 700; margin-bottom: .5rem; }
+    .iq-exp-desc { color: var(--color-muted); font-size: .9rem; margin-bottom: .75rem; line-height: 1.5; }
+    .iq-detail-meta { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+    .iq-section-title {
+      font-size: .82rem; font-family: var(--font-mono); color: var(--color-muted);
+      text-transform: uppercase; letter-spacing: .06em; margin: 1rem 0 .6rem;
+      border-bottom: 1px solid var(--color-border); padding-bottom: .35rem;
+    }
+
+    /* ── Tension Map mode ────────────────────────────────────────────────── */
+    .iq-tension-layout {
+      display: grid; grid-template-columns: 1fr 360px; gap: 1.5rem;
+    }
+    @media (max-width: 840px) { .iq-tension-layout { grid-template-columns: 1fr; } }
+    #iq-tension-canvas {
+      width: 100%; height: auto; border: 1px solid var(--color-border);
+      border-radius: var(--radius); display: block; cursor: default;
+    }
+    .iq-canvas-hint {
+      font-size: .78rem; font-family: var(--font-mono); color: var(--color-muted);
+      margin-top: .45rem; text-align: center;
+    }
+    #iq-tension-detail {
+      background: var(--color-card); border: 1px solid var(--color-border);
+      border-radius: var(--radius); padding: 1rem 1.1rem; min-height: 200px;
+    }
+    .iq-empty {
+      color: var(--color-muted); font-size: .875rem; text-align: center;
+      padding: 2.5rem 1rem; line-height: 1.6;
+    }
+
+    /* ── Quick-start chips ────────────────────────────────────────────────── */
+    .iq-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.1rem; }
+    .iq-chip {
+      font-size: .78rem; font-family: var(--font-mono);
+      background: rgba(59,139,255,.08); color: var(--color-accent);
+      border: 1px solid rgba(59,139,255,.25); padding: .25em .75em;
+      border-radius: 20px; cursor: pointer; transition: background .15s;
+    }
+    .iq-chip:hover { background: rgba(59,139,255,.18); }
+
+    /* ── Stat bar ────────────────────────────────────────────────────────── */
+    .iq-statbar {
+      display: flex; flex-wrap: wrap; gap: .6rem;
+      background: var(--color-card); border: 1px solid var(--color-border);
+      border-radius: var(--radius); padding: .7rem 1rem; margin-bottom: 1.4rem;
+    }
+    .iq-stat { text-align: center; padding: 0 .75rem; }
+    .iq-stat:not(:last-child) { border-right: 1px solid var(--color-border); }
+    .iq-stat-val { font-size: 1.35rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-accent); }
+    .iq-stat-label { font-size: .7rem; color: var(--color-muted); margin-top: .1rem; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">AZ Products</a></li>
+    <li><a href="../apps/index.html">Calculators</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../lodge/index.html">Lodge</a></li>
+    <li><span class="nav-badge">v23.0</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="app-page">
+<div class="app-hero">
+  <div class="container">
+    <div class="app-hero-inner">
+      <div class="app-icon-lg">🔍</div>
+      <div class="app-meta">
+        <div class="app-id-badge">Product 19 · v23.0 · 12-AZ-IP/18-interrogator</div>
+        <div class="app-title">Axiom Zero Interrogator</div>
+        <div class="app-subtitle">
+          Challenge any claim the Unitary Manifold makes. Receive its epistemic status, the honest
+          uncertainty, and the experiment that will falsify or confirm it. Three modes: Challenge, Experiment, Tension Map.
+          Fully offline — no server, no API keys.
+        </div>
+        <div class="app-tags">
+          <span class="tag tag-green">🟢 Runs in Browser</span>
+          <span class="tag tag-physics">⚛️ Physics-grounded</span>
+          <span class="tag tag-ai">🔬 Epistemic Audit</span>
+          <span class="tag tag-dep">Offline · v23.0 · Zero dependencies</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:3rem;">
+
+  <!-- Stat bar -->
+  <div class="iq-statbar" id="iq-statbar">
+    <div class="iq-stat"><div class="iq-stat-val" id="stat-claims">—</div><div class="iq-stat-label">Interrogable Claims</div></div>
+    <div class="iq-stat"><div class="iq-stat-val" id="stat-experiments">7</div><div class="iq-stat-label">Experiments Registered</div></div>
+    <div class="iq-stat"><div class="iq-stat-val" id="stat-tensions">7</div><div class="iq-stat-label">Open Tensions</div></div>
+    <div class="iq-stat"><div class="iq-stat-val" style="color:var(--color-red)">2032</div><div class="iq-stat-label">Primary Falsifier (LiteBIRD)</div></div>
+  </div>
+
+  <!-- Mode tabs -->
+  <div class="iq-tabs">
+    <button class="iq-tab active" data-mode="challenge">🔍 Challenge Mode</button>
+    <button class="iq-tab" data-mode="experiment">🧪 Experiment Mode</button>
+    <button class="iq-tab" data-mode="tension">🗺️ Tension Map</button>
+  </div>
+
+  <!-- Challenge panel -->
+  <div class="iq-panel active" data-panel="challenge">
+    <p style="color:var(--color-muted);font-size:.9rem;margin-bottom:.9rem;line-height:1.5;">
+      Type any claim about the Unitary Manifold — the engine finds matching pillars, returns the
+      <strong>epistemic status</strong>, the honest uncertainty, and the exact falsification condition.
+      <span style="color:var(--color-orange)">No hype. Every gap is shown.</span>
+    </p>
+    <div class="iq-chips">
+      <button class="iq-chip" data-q="birefringence">birefringence</button>
+      <button class="iq-chip" data-q="n_s spectral index">spectral index</button>
+      <button class="iq-chip" data-q="Higgs mass">Higgs mass</button>
+      <button class="iq-chip" data-q="neutrino">neutrino ordering</button>
+      <button class="iq-chip" data-q="winding number">winding n_w</button>
+      <button class="iq-chip" data-q="CMB peaks">CMB peaks</button>
+      <button class="iq-chip" data-q="dark energy">dark energy wₐ</button>
+      <button class="iq-chip" data-q="FN charges">FN charges</button>
+      <button class="iq-chip" data-q="cold fusion">cold fusion</button>
+      <button class="iq-chip" data-q="consciousness">consciousness</button>
+      <button class="iq-chip" data-q="stability basin">stability basin</button>
+    </div>
+    <div class="iq-search-row">
+      <input class="iq-search-input" id="iq-challenge-input" type="text"
+             placeholder="e.g. "the Higgs mass is predicted from geometry" or "birefringence" or pillar 67…"
+             autocomplete="off" spellcheck="false"/>
+      <button class="iq-search-btn" id="iq-challenge-btn">Interrogate</button>
+    </div>
+    <div id="iq-challenge-results"></div>
+  </div>
+
+  <!-- Experiment panel -->
+  <div class="iq-panel" data-panel="experiment">
+    <p style="color:var(--color-muted);font-size:.9rem;margin-bottom:1rem;line-height:1.5;">
+      Select an upcoming experiment to see every pillar it can test, the predicted value, and
+      the verdict threshold. All thresholds are pre-registered and locked.
+    </p>
+    <div class="iq-exp-layout">
+      <div id="iq-experiment-list" class="iq-exp-list"></div>
+      <div id="iq-experiment-detail">
+        <div class="iq-empty">Select an experiment on the left to see which claims it tests.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tension Map panel -->
+  <div class="iq-panel" data-panel="tension">
+    <p style="color:var(--color-muted);font-size:.9rem;margin-bottom:1rem;line-height:1.5;">
+      Every open tension in the framework as a constellation. <strong>x-axis:</strong> current σ tension.
+      <strong>y-axis:</strong> theoretical confidence. Click any node for full detail.
+      The red dashed line at 3σ is the falsification threshold.
+    </p>
+    <div class="iq-tension-layout">
+      <div>
+        <canvas id="iq-tension-canvas" width="520" height="380"></canvas>
+        <div class="iq-canvas-hint">Click a node to inspect the tension</div>
+      </div>
+      <div id="iq-tension-detail">
+        <div class="iq-empty">Click a tension node on the canvas to see details.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /app-page -->
+
+<footer class="footer">
+  <div class="container">
+    <p>Theory &amp; framework: <strong>ThomasCory Walker-Pearson</strong> · Code: <strong>GitHub Copilot (AI)</strong></p>
+    <p style="color:var(--color-muted);font-size:.8rem;margin-top:.4rem;">
+      Axiom Zero Interrogator v23.0 · Offline · No server required ·
+      <a href="https://github.com/wuzbak/Unitary-Manifold-" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </div>
+</footer>
+
+<script type="module">
+  import { Interrogator } from "../js/18-interrogator.js";
+
+  const app = new Interrogator();
+
+  // Quick-start chips
+  document.querySelectorAll(".iq-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const input = document.getElementById("iq-challenge-input");
+      if (input) {
+        input.value = chip.dataset.q;
+        input.dispatchEvent(new Event("input"));
+        // Switch to challenge panel if not active
+        if (!document.querySelector('.iq-tab[data-mode="challenge"]').classList.contains("active")) {
+          app.setMode("challenge");
+        }
+      }
+    });
+  });
+
+  app.init().then(() => {
+    const kb = app.kb;
+    if (kb) {
+      const el = document.getElementById("stat-claims");
+      if (el) el.textContent = kb.total_claims;
+    }
+  });
+</script>
+</body>
+</html>
