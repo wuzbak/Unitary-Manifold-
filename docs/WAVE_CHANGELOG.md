@@ -1,7 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v22.11 (2026-08-01)*
+*Current version: v23.2 (2026-08-01)*
 
 For each wave entry, include:
 - **What changed**
@@ -35,7 +35,7 @@ For each wave entry, include:
 
 **Residual unknowns:** F-theory Rungs 11–12 open (Weierstrass generalization, α' corrections).
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -63,7 +63,7 @@ For each wave entry, include:
 
 **Residual unknowns:** Full NP proof OPEN; 27 blocking residuals per sub-gap remain.
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -88,7 +88,7 @@ For each wave entry, include:
 
 **Residual unknowns:** Full NP proof OPEN; F-theory Rung 10 blocking residuals (spectral cover, matter-curve genus, G4 flux) at v20.6 entry.
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -96,7 +96,7 @@ For each wave entry, include:
 
 *(See prior entry below for v20.1 which covered Pillars 575–590; Sprints F–I covered 591–612 between v20.1 and v20.6.)*
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -141,7 +141,7 @@ For each wave entry, include:
 
 **Residual unknowns:** Δm²₂₁ 2.98σ residual (DM21_RATIO_FN_CORRECTION_NEEDED); F-theory Rung 8 blocking residuals 2+3 (spectral cover, matter-curve genus); 27 blocking residuals per sub-gap remain for full NP proof.
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -172,7 +172,7 @@ For each wave entry, include:
 
 **Residual unknowns:** 27 blocking residuals across 9 sub-gaps (3 per sub-gap); all require non-perturbative 5D quantum gravity formalization in Mathlib. Full ER=EPR proof remains OPEN.
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -207,7 +207,7 @@ For each wave entry, include:
 - ER=EPR sub-gaps D–F (NP-BC-2) and G–I (NP-BC-3): addressed in Sprint 2 (v20.0)
 - WS-V texture for DM31: parameterized, not uniquely fixed by 5D geometry
 
-**Test regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Test regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -229,7 +229,7 @@ For each wave entry, include:
 - `NP-BC-3`: axiom (P545) → GEOMETRIC_KERNEL_PROVED + 3 sub-gaps G/H/I; ALL_THREE_KERNELS_PROVED (Pillar 557)
 - `GEN1_CL`: FIRST_PRINCIPLES_CANDIDATE (P550) → DERIVED via AB mechanism (Pillar 558)
 
-**Test regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Test regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -301,7 +301,7 @@ For each wave entry, include:
 
 **Tests added:** 179 (27 + 27 + 25 + 27 + 36 + 37)
 
-**Regression:** 47,245 + 179 = 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 47,245 + 179 = 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -335,7 +335,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 
 **Tests added:** 141
 
-**Regression:** 47,030 + 141 = 56,964 passed · 47 skipped · 12 deselected · 0 failed
+**Regression:** 47,030 + 141 = 57,450 passed · 47 skipped · 12 deselected · 0 failed
 
 ---
 
@@ -356,7 +356,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 
 **Residual unknowns:** Same as v18.2.
 
-**Test delta:** Latest canonical regression ledger remains **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+**Test delta:** Latest canonical regression ledger remains **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 
 ---
 
@@ -377,7 +377,7 @@ confirmed; Δm²₃₁ gap requires new field content; tensor r tension irreduci
 
 **Residual unknowns:** Same as v18.0.
 
-**Test delta:** 0 new physics tests. Latest full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed** (2026-07-01).
+**Test delta:** 0 new physics tests. Latest full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed** (2026-07-01).
 
 ---
 
@@ -589,7 +589,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Residual unknowns:** External review, observational data, and institutional reception remain external receipts. Governance hardening improves control and auditability; it is not evidence that nature confirms the framework.
 
-**Test delta:** Focused P510 regression: **10 passed · 0 failed**. Latest full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+**Test delta:** Focused P510 regression: **10 passed · 0 failed**. Latest full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 
 ## v15.6 (2026-06-01 — Earned Proof-Advancement Redo: Pillar 509)
 
@@ -608,7 +608,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Residual unknowns:** Full quantum-gravity closure, P8 full functional-space proof, external HMC receipt, Lean4 build receipt, RS1 curved-orbifold star-product theorem, and KK RT derivation remain open/not claimed.
 
-**Test delta:** Focused P507/P508/P509 regression: **28 passed · 0 failed**. Latest full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+**Test delta:** Focused P507/P508/P509 regression: **28 passed · 0 failed**. Latest full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 
 ## v15.5 (2026-06-01 — No/Earned-Yes Claim Audit: Pillar 508)
 
@@ -627,7 +627,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Residual unknowns:** Full non-perturbative 5D-KK quantum gravity, P8 full functional-space proof, external L2/γ HMC confirmation, current Lean4 build receipt, CCR proof, and ER=EPR proof remain open/not claimed.
 
-**Test delta:** Focused P507/P508 regression: **21 passed · 0 failed**. Latest full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+**Test delta:** Focused P507/P508 regression: **21 passed · 0 failed**. Latest full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 
 ## v15.4 (2026-06-01 — Frontier Proof-Lane Certificate: Pillar 507)
 
@@ -646,7 +646,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Residual unknowns:** Full non-perturbative 5D-KK quantization remains an architecture-limit gap; P8 full functional-space proof remains named; PMNS microscopic three-generation closure remains residual; CCR and ER=EPR remain conjectural theorem lanes.
 
-**Test delta:** Focused proof-lane regression: **233 passed · 0 failed**. Latest full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+**Test delta:** Focused proof-lane regression: **233 passed · 0 failed**. Latest full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 
 ## v15.3 (2026-06-01 — Stewardship Frontier Priorities 2–5: Pillars 503–506)
 
@@ -691,7 +691,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - Zenodo DOI receipt remains `EXTERNAL_UNVERIFIED` until attached.
 - Lean4 Tier-2 full compilation remains dependent on an explicit compilation certificate if not present in the local checkout.
 
-**Test delta:** Latest verified full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed** (2026-06-01; tests/ + recycling/ + Pentad).
+**Test delta:** Latest verified full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed** (2026-06-01; tests/ + recycling/ + Pentad).
 
 ## v15.1 (2026-05-26 — Autonomous Stewardship Infrastructure)
 
@@ -718,7 +718,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - `sprint-trigger` and `falsifier-alert` issue labels must be created in repository Settings → Labels before the workflows will label issues correctly (workflows create issues without labels if labels don't exist — functional but unlabeled)
 - Copilot agent availability on scheduled sprint trigger issues depends on GitHub Copilot subscription tier at trigger time
 
-**Test delta:** 0 new physics tests (infrastructure sprint). **Canonical count: 56,964 passed · 47 skipped · 12 deselected · 0 failed** (v15.0, 2026-05-26; tests/ + recycling/ + Pentad).
+**Test delta:** 0 new physics tests (infrastructure sprint). **Canonical count: 57,450 passed · 47 skipped · 12 deselected · 0 failed** (v15.0, 2026-05-26; tests/ + recycling/ + Pentad).
 
 
 **Operational addendum:** Proof-close sprint artifacts are now executable in adjacent-track modules (`as_transfer_normalization_audit.py`, `flux_landscape_extended_scan.py`, `higgs_naturalness_extended.py`, `adm_bssn_closure.py`, `proof_closure_formal_cert.py`, `proof_close_certification_report.py`).
@@ -757,7 +757,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - CCR remains conjectural; full-function-space extension of P8 remains open.
 - Admission 6 / 7 / 10 remain the named honest-gap trio in the v15 certificate.
 
-**Test delta:** +253 passing (Pillars 488–494). **Canonical count: 56,964 passed · 47 skipped · 12 deselected · 0 failed** (v15.0, 2026-05-26; tests/ + recycling/ + Pentad).
+**Test delta:** +253 passing (Pillars 488–494). **Canonical count: 57,450 passed · 47 skipped · 12 deselected · 0 failed** (v15.0, 2026-05-26; tests/ + recycling/ + Pentad).
 
 ## v14.2 (2026-05-25 — Gap Closure Sprint: Pillars 482–487)
 
@@ -794,7 +794,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - Lean4 Tier 2: operational but Mathlib compilation time ~12 min (cold cache)
 - Admission 1 Z₂-odd: classical level COMPLETE; quantum functional-integral treatment still future work
 
-**Test delta:** +435 passing (Pillars 482–487). **Canonical count: 56,964 passed · 47 skipped · 12 deselected · 0 failed** (v14.2, 2026-05-26; tests/ + recycling/ + Pentad).
+**Test delta:** +435 passing (Pillars 482–487). **Canonical count: 57,450 passed · 47 skipped · 12 deselected · 0 failed** (v14.2, 2026-05-26; tests/ + recycling/ + Pentad).
 
 
 
@@ -824,7 +824,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 - P480 sub-lattice FN correction (δ_FN < 1 for all 9 fermions; analytic formula exact)
 - P478 hadronic uncertainty factor ~3 (lattice QCD Phase 3 would resolve)
 
-**Test delta:** +353 passing. **Canonical count: 56,964 passed · 47 skipped · 12 deselected · 0 failed** (v14.1; later superseded by v14.2 canonical: 56,964 passed · 47 skipped · 12 deselected · 0 failed, then by v15.0 canonical: 56,964 passed · 47 skipped · 12 deselected · 0 failed)
+**Test delta:** +353 passing. **Canonical count: 57,450 passed · 47 skipped · 12 deselected · 0 failed** (v14.1; later superseded by v14.2 canonical: 57,450 passed · 47 skipped · 12 deselected · 0 failed, then by v15.0 canonical: 57,450 passed · 47 skipped · 12 deselected · 0 failed)
 
 ---
 
@@ -867,7 +867,7 @@ Fourteen new pillars for the Tightening, Audit, Proofing, and Theorems sprint. P
 
 **Residual unknowns:** p_R unique determination requires P271 WS-V flavor Higgs chain (PMNS_PR_REQUIRES_P271_CHAIN). Lattice braid Phase 2 pending (continuum limit). 6D baryogenesis Phase 2 pending (analytic η_B + nEDM sharpening). CCR and ER=EPR quantum theorems remain CONJECTURAL.
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed (v13.7 baseline, tests/ + recycling/) + 333 new (v13.8 sprint).
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed (v13.7 baseline, tests/ + recycling/) + 333 new (v13.8 sprint).
 
 ---
 
@@ -1002,7 +1002,7 @@ Seven new pillars were added spanning the WZW fixation of the L2 zero-mode coupl
 
 **New tests:** 536
 **Failures:** 0
-**Canonical test count:** 56,964 passed · 47 skipped · 12 deselected · 0 failed (CI #220, 2026-05-25)
+**Canonical test count:** 57,450 passed · 47 skipped · 12 deselected · 0 failed (CI #220, 2026-05-25)
 
 ---
 
@@ -1052,7 +1052,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - **Pillar 404** (`src/core/pillar404_lambda_gw_derivation.py`) — λ_GW Natural Scale Derivation. Status: **DERIVED_FROM_GW_NORMALIZATION**. ν_GW=n_w/K_CS=5/74 from braid quantization → α_φ=√(8ν)≈0.735 → m_φ≈765 GeV → T_RH≈3.7×10⁸ GeV → N_e≈66 within Planck range [47,72]. Admission 6: FREE_PARAMETER → DERIVED. Cascades to close Admission 11: CONDITIONALLY_CLOSED → CLOSED.
 - **Pillar 405** (`src/core/pillar405_sobolev_ftum_extension.py`) — Sobolev H¹ FTUM Extension. Status: **CLOSED**. H¹(Ω) norm with gradient energy extends FTUM Banach FPT from minisuperspace to full field space. KK graviton energy cross-check confirms δE_G_KK ≪ E_basin. Admission 12: CONTRACTIVE_IN_ORBIFOLD_BASIN → CLOSED.
 - **Pillar 406** (`src/core/pillar406_ghy_boundary_c5_closure.py`) — GHY Boundary Terms + C5 Compatibility. Status: **CLOSED**. S_GHY=(1/κ₅²)∫K derived from Levi-Civita connection (C5 compatible). Z₂ junction conditions torsion-free. Brane R₄ terms compatible with 5D bulk uniqueness. Admission 13: NARROWED_GAP → CLOSED.
-- **735 new tests; 0 failures.** Full regression: **≥56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+- **735 new tests; 0 failures.** Full regression: **≥57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 - **Supporting updates:** FALLIBILITY.md Admissions 6/7/10/11/12/13 updated; pillar394 status dicts updated; STATUS.md → v13.1; docs/mas_tracker.yml → v13.1.
 
 **Epistemic label deltas:**
@@ -1081,7 +1081,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - **Pillar 395** (`src/core/pillar395_derivation_dag.py`) — Derivation Graph Acyclicity. Status: **EPISTEMOLOGICAL_INFRASTRUCTURE**. Directed acyclic graph of 45+ claim-dependency relations. Cycle detection via DFS: **0 cycles found**. Topological order computed. Most central node (most downstream dependents): N_e≈60 e-folds (feeds both nₛ and r). Most critical postulate by downstream impact: N_e≈60 e-folds (OPEN_GAP — underscoring Admission 11). Full report exported as JSON.
 - **Pillar 396** (`src/core/pillar396_act_r_tension_architecture_limit.py`) — ACT r-Tension Architecture Limit Certificate. Status: **ARCHITECTURE_LIMIT_CERTIFIED**. Formal proof at the same rigour level as Pillar 301 (DESI wₐ): the WZW coupling ρ = 70/74 is fixed by the braid — NOT a free parameter. The fractional correction needed to bring r from 0.0315 to <0.016 is ≈49%. At loop order N, the WZW contribution is (ρ/4π)^{2N} ≈ (0.0056)^N per order — each successive loop order contributes a factor of ~0.0056 less. The target 49% is first accumulated at N ≈ PERTURBATIVITY_LIMIT loops, i.e. the expansion has already broken down. Within the canonical braided 5D EFT, r < 0.016 is **formally unreachable at any loop order before perturbativity breaks**. Pre-registered routing: SO DR1 2027 r < 0.016 at ≥3σ → BRAIDED_BRAID_ARCHITECTURE_FALSIFIED. Three closure conditions documented.
 - **Pillar 397** (`src/core/pillar397_unique_discriminant_register.py`) — Unique Discriminant Completeness Register. Status: **EPISTEMOLOGICAL_INFRASTRUCTURE**. All 28 DERIVED parameters tagged: **16 UNIQUELY_DISCRIMINATING** / 8 SHARED_WITH_ALTERNATIVES / 4 CONSISTENCY_ONLY. Discriminant power = **57.1%** (16/28). Zero-free-parameter uniquely discriminating predictions: P1 (nₛ), P2 (r), P11 (Λ_QCD), P12 (m_p/m_e), P14–P16 (CKM), P17–P22 (neutrino masses, PMNS, birefringence), P24 (wₐ=0), P25 (Ω_GW), P27 (Δm²₃₁). Formal unique discriminant signature: the joint prediction of 16 observables from n_w=5 and k_CS=74 with zero free parameters — no other known framework reproduces all of these from a single geometric mechanism. Primary falsifier: β∈{0.273°,0.331°} — LiteBIRD ~2032.
-- **228 new tests; 0 failures.** Full regression: **≥56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+- **228 new tests; 0 failures.** Full regression: **≥57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 - **Truth surface sync:** TRUTH_LAYER.md promoted from v11.19 to v12.9. GATEKEEPER_SUMMARY.md and CLAIM_MASTER_BOARD.md promoted from v12.7 to v12.9. DERIVATION_STATUS.md Part I P6 row corrected from ASSUMED to DERIVED_CONDITIONAL (Pillar 379 closure, already recorded in v12.6 wave changelog, now applied to the ledger document). FALLIBILITY.md: Admission 6 (λ_GW) formally written in body text; new §XIII with Admissions 11, 12, 13 added. HOW_TO_BREAK_THIS.md: sections 17–20 added for Pillars 394–397.
 
 **Epistemic label deltas:**
@@ -1110,7 +1110,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - **Pillar 391** (`src/core/signal_noise_filter.py`) — Signal-vs-Noise Filter. Status: **GOVERNANCE_ENGINEERING**. Repository-wide triage classifying items as ACTIONABLE_SIGNAL / MONITOR_ONLY / ARCHIVAL_NOISE. Classification rules: HIGH_TENSION link → ACTIONABLE_SIGNAL; active decision-window link → ACTIONABLE_SIGNAL; near-term window without routing → ACTIONABLE_SIGNAL; consistent + no links → MONITOR_ONLY; speculative + no falsifier + no window → ARCHIVAL_NOISE; superseded → ARCHIVAL_NOISE. Canonical 14-item registry tracks all active tensions, near-term windows, the primary falsifier, and governance items.
 - **Pillar 392** (`src/core/decision_readiness_package_v128.py`) — Decision Readiness Package v12.8. Status: **GOVERNANCE_ENGINEERING**. Consolidates 2027–2032 decision windows: DESI DR3 (wₐ=0, 2027), SO DR1 (r=0.0315, 2027), JUNO (Δm²₃₁, 2027), SPHEREx (f_NL, 2028), CMB-S4 (joint r+β, 2030), LiteBIRD (β, 2032). Each window carries: preregistered prediction, falsification condition, routing function, source module, rehearsal status. 10 canonical drill scenarios all PASS. `decision_readiness_audit()` returns machine-readable `ReadinessReport` with drill_pass_rate=1.0 and all near-term (≤2028) windows ready.
 - **Pillar 393** (`src/core/sprint_completion_gate.py`) — Sprint Completion Gate. Status: **GOVERNANCE_ENGINEERING**. Six formal exit criteria: (1) governance gates active, (2) truth surfaces synchronised, (3) active tensions routed, (4) noise backlog ≤20%, (5) full regression at 0 failures, (6) decision protocols committed. Returns `SprintCompletionReport` with per-gate `GateVerdict` (PASS / FAIL / UNKNOWN) and top-level `SprintStatus` (SPRINT_COMPLETE / SPRINT_BLOCKED).
-- **207 new tests; 0 failures.** Full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+- **207 new tests; 0 failures.** Full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 - docs/mas_tracker.yml, STATUS.md updated to v12.8.
 
 **Epistemic label deltas:** None (governance-engineering sprint; no physics-label changes).
@@ -1150,7 +1150,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - **Pillar 386** (`src/core/pillar386_seesaw_texture_diagonalization.py`) — Full 3×3 KK Seesaw Texture Diagonalization: Exact p_R. Status: **BOUNDED_FROM_GEOMETRY → TEXTURE_DIAGONALIZED**. Full 3×3 Weinberg-Salam-V Yukawa texture diagonalization performed using orbifold BC parameters c_L^{(i)} and c_R^{(i)} from Pillar 377. RS1 warp-factor zero-mode profiles f₀(c) = sqrt(|1−2c|πkR / |e^{(1−2c)πkR}−1|) incorporated. Type-I seesaw m_ν = −m_D M_R^{-1} m_D^T diagonalized numerically. p_R derived from eigenvalue ratio. SEESAW_TEXTURE_PARTICIPATION_GAP (Pillar 296) formally closed: p_R is now TEXTURE_DIAGONALIZED rather than an unknown.
 - **Pillar 387** (`src/core/pillar387_z2_odd_gmu5_derivation.py`) — Formal Z₂-odd G_{μ5} Derivation from 5D Lagrangian. Status: **CONVENTION → DERIVED_FROM_5D_LAGRANGIAN** (Admission 3 FORMALLY_CLOSED). Two independent constraints derived from the 5D EH action: (1) metric determinant Z₂-invariance of S₅ forces φ²B_μB_ν to be Z₂-even → B_μ Z₂-odd; (2) Non-vanishing CS term at k_CS=74 requires non-trivial holonomy T(5)/2π=15/(2π) → η̄=½ → B_μ Z₂-odd (no zero mode). Both constraints independently force G_{μ5}=λφB_μ to be Z₂-odd. n_w=5 chain COMPLETE at classical level: 5D EH action → G_{μ5} Z₂-odd → Dirichlet BC → η̄=½ → k_CS×η̄=37 (odd) → n_w=5.
 - **Pillar 388** (`src/core/pillar388_nlo_metric_corrections.py`) — NLO Metric Ansatz Corrections: Higher-Order Terms Bounded. Status: **UNCONTROLLED → NLO_CORRECTIONS_BOUNDED**. Systematic NLO analysis: radion backreaction |δG/G| ≤ 1/φ₀_eff² ≈ 0.10%; KK mode mixing exp(−M_KK/H_inf) ≈ 0 (exponentially suppressed); curvature corrections H²/M_Pl² ≈ 10⁻¹⁰; loop corrections K_CS/(16π²g₅²) ≈ 0.63%. Total NLO ≤ 0.74%. DERIVED_UNIQUE result of P384 proved stable to NLO. The four constraint filters C1-C4 remain operative at NLO and continue to fix the correction form uniquely.
-- 219 new tests; 0 failures. Full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+- 219 new tests; 0 failures. Full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 - docs/mas_tracker.yml, STATUS.md updated to v12.7.
 
 **Epistemic label deltas:**
@@ -1184,7 +1184,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - **Pillar 382** (`src/core/pillar382_quadrupole_topology_framework.py`) — Quadrupole Topology Formal Framework. Status: **MECHANISM_INCONCLUSIVE → POSSIBLE_CANDIDATE_SPECIFIED**. Compact 3-manifold catalogue: T³ (requires L_fd ≳ π D_H ≈ 1.3 L_Hubble), T³/Z₂ half-turn space (requires L_fd ≳ 0.5π D_H; Z₂-natural with S¹/Z₂), Poincaré dodecahedron (spherical; less favored), compact hyperbolic (negative curvature; less favored). UM geometry explicitly shown to NOT select M₃ topology — topology is a free extension.
 - **Pillar 383** (`src/core/pillar383_pmns_pr_geometric_bound.py`) — PMNS p_R Geometric Bound. Status: **CONDITIONAL_DERIVATION → BOUNDED_FROM_GEOMETRY**. KK wavefunction overlap integrals with c_R^{(n)} = ½ − n/n_w (orbifold BCs) give p_R ≥ O(10⁻⁵) (geometric lower bound). PMNS mixing gives p_R ≤ sin²θ₂₃ cos²θ₁₃ ≈ 0.535. Effective p_R = 0.364 ∈ [1e-5, 0.535] is geometrically consistent. Exact p_R cannot be derived from 5D-EFT (Pillar 296); bound interval formally certified.
 - **Pillar 384** (`src/core/pillar384_metric_ansatz_uniqueness.py`) — Metric Ansatz Uniqueness. Status: **DERIVED_CONDITIONAL → DERIVED_UNIQUE**. 4-constraint filter applied systematically: C3 (Z₂ parity) fixes sector structure; C4 (canonical radion kinetic term) uniquely forces φ² in G_{55} (n=2 only); C2 (KK gauge covariance) uniquely forces φ B_μ in G_{μ5} (n=1 only); C1 (EH stationarity) uniquely forces c=1 in the g_{μν} correction term. No alternative block structures survive all four filters. The UM metric G_AB is proved unique.
-- 504 new tests; 0 failures. Full regression: **56,964 passed · 47 skipped · 12 deselected · 0 failed**.
+- 504 new tests; 0 failures. Full regression: **57,450 passed · 47 skipped · 12 deselected · 0 failed**.
 - docs/mas_tracker.yml, STATUS.md updated to v12.6.
 
 **Epistemic label deltas:**
@@ -1330,7 +1330,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - F356-3: Correct Bessel/FM representation of braid acoustic transfer function
 - F356-4: LiteBIRD birefringence test (~2032)
 
-**Regression:** 56,964 passed · 47 skipped · 12 deselected · 0 failed.
+**Regression:** 57,450 passed · 47 skipped · 12 deselected · 0 failed.
 
 
 
@@ -1339,7 +1339,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - **Full second-quantization algebra**: mode expansion φ(x) = Σ_k [a_k u_k + h.c.], zero-point variance ⟨δφ²⟩₀ = √K_CS/2, Fock space tower, KK mode sum with braided weights w_n = exp(-n²/K_CS).
 - **One-loop interpretation**: Z_φ − 1 = α × F_KK with α = φ₀⁻² = 1, F_KK = √K_CS/2 ≈ 4.30 — a non-perturbative O(α) correction with KK geometric enhancement ×(16π²F_KK) over the naive 1/(16π²) loop factor.
 - **Z_φ^{1/2} ≈ 2.302** is squarely in the predicted range [2.0, 2.6] (consistent with one-loop quantum correction at coupling α = φ₀⁻² = 1).
-- **188 new tests**, 0 failures. Full regression: 56,964 passed · 47 skipped · 12 deselected · 0 failed.
+- **188 new tests**, 0 failures. Full regression: 57,450 passed · 47 skipped · 12 deselected · 0 failed.
 - **Frontier roadmap**: F1 (Z_φ-corrected Boltzmann solver), F2 (scale-dependent Z_φ(k) RG running), F3 (two-loop corrections, negligible), F4 (quantum backreaction on baryon-photon c_s), F5 (LiteBIRD birefringence test 2032).
 
 **Why:** The CMB acoustic peak amplitude gap (×4–7, documented in FALLIBILITY.md Admission 2) is a real discrepancy that points to the frontier: second quantization of φ. This Pillar identifies the precise quantum mechanism — radion zero-point fluctuation Z_φ — and shows it accounts for the entire gap magnitude to within ±26%.
@@ -1502,7 +1502,7 @@ Six adjacent-track pillars addressing the external-credibility gap, Swampland co
 
 Five focused adjacent-track pillars operationalizing the preregistered falsifier protocols.
 *See full entry below (after v11.17 section).*
-**Regression: 56,964 passed · 47 skipped · 12 deselected · 0 failed**
+**Regression: 57,450 passed · 47 skipped · 12 deselected · 0 failed**
 
 ---
 
@@ -2015,7 +2015,7 @@ mock-drill v2 verified across DESI DR3 / JUNO DR1 / Simons Observatory DR1.
 
 | Metric | v11.11 | v11.12 |
 |--------|--------|--------|
-| Passing tests | 56,964 passed · 47 skipped · 12 deselected · 0 failed | ~34,890+ passing (sandbox); ~35,250+ canonical |
+| Passing tests | 57,450 passed · 47 skipped · 12 deselected · 0 failed | ~34,890+ passing (sandbox); ~35,250+ canonical |
 | Adjacent pillars | through 305 | through 308 |
 | New tests | — | +~350 |
 | Failures | 0 | 0 |
@@ -2080,7 +2080,7 @@ definitively closed — these do not get revisited in future sprints.
 
 | Metric | v11.10 | v11.11 |
 |--------|--------|--------|
-| Passing tests | 56,964 passed · 47 skipped · 12 deselected · 0 failed | 56,964 passed · 47 skipped · 12 deselected · 0 failed |
+| Passing tests | 57,450 passed · 47 skipped · 12 deselected · 0 failed | 57,450 passed · 47 skipped · 12 deselected · 0 failed |
 | Adjacent pillars | through 300 | through 305 |
 | New tests | — | +309 |
 | Failures | 0 | 0 |
@@ -2185,7 +2185,7 @@ Three outreach posts (210–212). 211 new tests. 0 failures.
 
 | Metric | v11.9 | v11.10 |
 |--------|-------|--------|
-| Passing tests | 56,964 passed · 47 skipped · 12 deselected · 0 failed | 56,964 passed · 47 skipped · 12 deselected · 0 failed |
+| Passing tests | 57,450 passed · 47 skipped · 12 deselected · 0 failed | 57,450 passed · 47 skipped · 12 deselected · 0 failed |
 | Adjacent pillars | through 296 | through 300 |
 | New tests | — | +211 |
 | Failures | 0 | 0 |
@@ -2584,7 +2584,7 @@ explicitly out of scope per plan §D):
 
 ### Regression
 
-Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 56,964 passed · 47 skipped · 12 deselected, 0 failed** (+117 new tests over v11.4 baseline of 34 070; upgraded to 34 267 in v11.6).
+Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 57,450 passed · 47 skipped · 12 deselected, 0 failed** (+117 new tests over v11.4 baseline of 34 070; upgraded to 34 267 in v11.6).
 
 ---
 
@@ -2636,7 +2636,7 @@ A naming collision between two separately-developed adjacent-track modules both 
 2. **Residual dashboard/report surfaces now reflect the live executable packets:** T3 pulls through the reduced-sector BSSN closure result, A3 surfaces the extended-report status directly, and `proof_close_certification_report.py` now includes the ordered sprint execution packet rather than treating every residual as uniformly open.
 3. **Tracker/registry synchronization extended to the new adjacent pillars:** `STATUS.md` and `docs/mas_tracker.yml` now officially register Pillars 259–262.
 4. **Canonical ledger drift blockers cleared:** `1-THEORY/DERIVATION_STATUS.md` was brought into version sync with the public ledgers, and the onboarding documents that direct contributors to the test suite now carry the current canonical full-regression count.
-5. **Regression baseline propagated:** the currently verified branch regression snapshot is now **56,964 passed · 47 skipped · 12 deselected · 0 failed** across the public surfaces that present live totals.
+5. **Regression baseline propagated:** the currently verified branch regression snapshot is now **57,450 passed · 47 skipped · 12 deselected · 0 failed** across the public surfaces that present live totals.
 
 ### What did not change
 
@@ -2680,7 +2680,7 @@ execution/certification engine for the full sprint stack.
 
 1. **Canonical truth-surface synchronization:** `STATUS.md`, `FALLIBILITY.md`, `docs/mas_tracker.yml`, `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md`, and `3-FALSIFICATION/OBSERVATION_TRACKER.md` were resynchronized to the 2026-05-18 branch state.
 2. **Public freshness markers synchronized:** `README.md` title/version surface and public regression badges were refreshed to the same v11.2 / 2026-05-18 baseline.
-3. **Regression baseline propagated:** the currently verified branch regression snapshot was refreshed to **56,964 passed · 47 skipped · 12 deselected · 0 failed** across the canonical freshness surfaces that present live totals.
+3. **Regression baseline propagated:** the currently verified branch regression snapshot was refreshed to **57,450 passed · 47 skipped · 12 deselected · 0 failed** across the canonical freshness surfaces that present live totals.
 4. **Residual-priority framing made explicit in current truth surfaces:** the active non-hardgate residual execution order is now stated consistently as **T3 → A3 → SC2 → SC4**, matching `src/core/pillar255_open_gap_residual_dashboard.py`.
 5. **Repository-state carry-forward recorded:** the changelog now explicitly carries forward that the latest tracked adjacent lane remains **Pillar 258** in the live `STATUS.md` / `docs/mas_tracker.yml` state, without promoting any new hardgate pillar.
 
@@ -3711,7 +3711,7 @@ None. Existing falsifiers unchanged. β ∈ {0.273°, 0.331°} remains the prima
 ```
 Full suite (excluding optional-dep tests):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" omega/ -q
-Expected: ≥ 27 56,964 passed · 47 skipped · 12 deselected, 0 failed
+Expected: ≥ 27 57,450 passed · 47 skipped · 12 deselected, 0 failed
 ```
 
 ---

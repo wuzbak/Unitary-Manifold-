@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UM Physics Flashcard Trainer | Unitary Manifold</title>
+<meta name="description" content="Interactive physics flashcard trainer for the Unitary Manifold framework — constants, predictions, gates, experiments, and Lean4 theorems.">
+<style>
+  :root {
+    --bg: #0a0a12;
+    --surface: #12121e;
+    --surface2: #1a1a2e;
+    --border: #2a2a4a;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --warn: #ff6b6b;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --card-h: 340px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    padding: 1rem;
+  }
+  header {
+    text-align: center;
+    padding: 2rem 1rem 1.5rem;
+  }
+  header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  header p { color: var(--muted); margin-top: 0.4rem; font-size: 0.9rem; }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    max-width: 700px;
+  }
+  .controls select, .controls button {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .controls select:hover, .controls button:hover { border-color: var(--accent); }
+  .controls button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* Progress bar */
+  .progress-wrap { max-width: 700px; margin: 0 auto 1rem; }
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+
+  /* Stats row */
+  .stats {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .stat { text-align: center; }
+  .stat .val { font-size: 1.4rem; font-weight: 700; }
+  .stat .lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat.green .val { color: var(--accent2); }
+  .stat.red .val { color: var(--warn); }
+  .stat.blue .val { color: var(--accent); }
+
+  /* Flashcard */
+  .card-area {
+    max-width: 700px;
+    margin: 0 auto 1.2rem;
+    perspective: 1200px;
+  }
+  .card-outer {
+    position: relative;
+    height: var(--card-h);
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    cursor: pointer;
+  }
+  .card-outer.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+  }
+  .card-face.front { background: var(--surface); }
+  .card-face.back  { background: var(--surface2); transform: rotateY(180deg); }
+
+  .card-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .badge.cat { background: rgba(108,99,255,0.2); color: var(--accent); }
+  .badge.gate { background: rgba(0,212,170,0.15); color: var(--accent2); font-family: monospace; }
+  .badge.pillar { background: rgba(255,107,107,0.15); color: var(--warn); }
+
+  .card-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-q {
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .card-a {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--text);
+  }
+  .card-hint {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  /* Answer buttons */
+  .answer-btns {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    max-width: 700px;
+    margin: 0 auto 1rem;
+  }
+  .answer-btns button {
+    flex: 1;
+    max-width: 200px;
+    padding: 0.7rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .answer-btns button:active { transform: scale(0.97); }
+  .btn-wrong  { background: rgba(255,107,107,0.2); color: var(--warn); border: 1px solid rgba(255,107,107,0.4); }
+  .btn-again  { background: rgba(255,165,0,0.2); color: #ffaa44; border: 1px solid rgba(255,165,0,0.4); }
+  .btn-right  { background: rgba(0,212,170,0.2); color: var(--accent2); border: 1px solid rgba(0,212,170,0.4); }
+  .answer-btns.hidden { visibility: hidden; }
+
+  /* Done screen */
+  #done-screen {
+    display: none;
+    max-width: 700px;
+    margin: 2rem auto;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+  }
+  #done-screen h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+  #done-screen .big { font-size: 3rem; font-weight: 700; color: var(--accent2); }
+  #done-screen p { color: var(--muted); margin: 0.5rem 0; }
+
+  /* Key hint */
+  .key-hint { text-align: center; font-size: 0.75rem; color: var(--muted); margin-bottom: 1rem; }
+
+  /* Category grid */
+  .cat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cat-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 5px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cat-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(108,99,255,0.1); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>UM Physics Flashcard Trainer</h1>
+  <p>60 cards · constants · predictions · gates · experiments · Lean4 · architecture limits</p>
+</header>
+
+<div class="controls">
+  <select id="mode-select">
+    <option value="all">All Cards</option>
+    <option value="wrong">Missed Only</option>
+    <option value="random">Random Shuffle</option>
+  </select>
+  <button class="primary" id="btn-start">Start / Restart</button>
+  <button id="btn-shuffle">Shuffle</button>
+</div>
+
+<div class="cat-grid" id="cat-grid"></div>
+
+<div class="progress-wrap" id="progress-wrap">
+  <div class="progress-label">
+    <span id="prog-label">Card 0 / 0</span>
+    <span id="acc-label">Accuracy: —</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+</div>
+
+<div class="stats">
+  <div class="stat green"><div class="val" id="stat-right">0</div><div class="lbl">Correct</div></div>
+  <div class="stat red"><div class="val" id="stat-wrong">0</div><div class="lbl">Missed</div></div>
+  <div class="stat blue"><div class="val" id="stat-rem">—</div><div class="lbl">Remaining</div></div>
+</div>
+
+<div class="card-area">
+  <div class="card-outer" id="card" tabindex="0">
+    <div class="card-face front" id="card-front">
+      <div class="card-meta" id="front-meta"></div>
+      <div class="card-body"><div class="card-q" id="card-q">Press Start to begin</div></div>
+      <div class="card-hint">Click card or press Space to reveal answer</div>
+    </div>
+    <div class="card-face back" id="card-back">
+      <div class="card-meta" id="back-meta"></div>
+      <div class="card-body"><div class="card-a" id="card-a"></div></div>
+      <div class="card-hint">Rate your recall below</div>
+    </div>
+  </div>
+</div>
+
+<div class="answer-btns hidden" id="answer-btns">
+  <button class="btn-wrong" id="btn-wrong">✗ Missed</button>
+  <button class="btn-again" id="btn-again">↺ Again</button>
+  <button class="btn-right" id="btn-right">✓ Got It</button>
+</div>
+
+<div class="key-hint">Keyboard: <b>Space</b> flip · <b>1</b> missed · <b>2</b> again · <b>3</b> correct</div>
+
+<div id="done-screen">
+  <h2>Session Complete 🎉</h2>
+  <div class="big" id="done-pct">—%</div>
+  <p id="done-detail"></p>
+  <p style="margin-top:1.5rem; color: var(--muted); font-size: 0.85rem;">
+    The Unitary Manifold: a living theory that argues with itself.<br>
+    Primary falsifier: LiteBIRD ~2032.
+  </p>
+  <button class="primary" style="margin-top:1.5rem; padding:0.7rem 2rem; border:none; border-radius:8px; cursor:pointer; font-size:1rem;" id="btn-again-all">Practice Again</button>
+</div>
+
+<script src="../js/19-flashcard-trainer.js"></script>
+</body>
+</html>
