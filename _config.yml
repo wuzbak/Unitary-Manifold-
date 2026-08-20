@@ -49,6 +49,7 @@ exclude:
   - "10-UM-SOS"
   - "lean4/"
   - "hf-spaces/"
+  - "11-AZ-OS/"
 
 # Build settings
 markdown: kramdown
