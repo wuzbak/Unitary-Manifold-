@@ -2,8 +2,8 @@
 
 Public webspace for AxiomZero Technologies & Consulting, SPC — UBI 606 239 876.
 
-Current sync target: **v22.9**  
-Public status snapshot: **56,747 passing tests · 976 Lean4 theorems · 0 failed**
+Current sync target: **v22.10**  
+Public status snapshot: **56,772 passing tests · 976 Lean4 theorems · 0 failed**
 
 ## Structure
 

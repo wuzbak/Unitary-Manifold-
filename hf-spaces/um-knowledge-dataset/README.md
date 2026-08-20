@@ -20,6 +20,8 @@ size_categories:
 
 Chunked and embedded knowledge base for the **Unitary Manifold** 5D Kaluza-Klein physics framework.
 
+Status snapshot: **v22.10 · 56,772 passing tests · 976 Lean4 theorems**.
+
 Powering the persistent AI assistant at [axiomzerosp.org](https://axiomzerosp.org).
 
 ## Contents
@@ -27,7 +29,7 @@ Powering the persistent AI assistant at [axiomzerosp.org](https://axiomzerosp.or
 | File | Description |
 |------|-------------|
 | `pillars.jsonl` | All 208+ physics pillar descriptions with gate labels |
-| `theorems.jsonl` | 872+ Lean4 theorem statements and pillar mappings |
+| `theorems.jsonl` | 976 Lean4 theorem statements and pillar mappings |
 | `claims.jsonl` | Claim Master Board entries with tension values |
 | `fallibility.jsonl` | All FALLIBILITY.md admissions and open gaps |
 | `apps.jsonl` | 16 AZ-IP product descriptions |
@@ -44,7 +46,7 @@ Each record:
   "title": "...",
   "text": "...",
   "source": "path/to/file.py or lean4/...",
-  "version": "v22.6",
+  "version": "v22.10",
   "pillar_ids": [4]
 }
 ```

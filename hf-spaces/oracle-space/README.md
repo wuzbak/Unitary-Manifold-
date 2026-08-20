@@ -21,6 +21,8 @@ tags:
 
 **Product 16** of the AxiomZero IP suite. Computes predictions from the Unitary Manifold 5D Kaluza-Klein framework.
 
+Status snapshot: **v22.10 · 56,772 passing tests · 976 Lean4 theorems**.
+
 ## What this does
 
 - **Synthesis Score**: compares input observational values against UM predictions (not a proof — an alignment metric)

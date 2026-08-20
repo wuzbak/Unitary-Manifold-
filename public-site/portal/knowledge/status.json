@@ -1,0 +1,29 @@
+{
+  "version": "v22.10",
+  "date": "2026-08-20",
+  "tests_passed": 56772,
+  "lean4_theorems": 976,
+  "pillars_hardgate": 208,
+  "pillars_total": 785,
+  "next_pillar_slot": 786,
+  "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
+  "open_tensions": [
+    {
+      "name": "Δm²₂₁",
+      "sigma": 1.07,
+      "status": "NNLO_ARCHITECTURE_LIMIT"
+    },
+    {
+      "name": "CMB peak suppression",
+      "status": "ARCHITECTURE_LIMIT (33.6% irreducible A_s mismatch)"
+    },
+    {
+      "name": "G4 criterion 2",
+      "frac_diff": 0.1816,
+      "status": "TYPE_B_CANDIDATE"
+    }
+  ],
+  "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
+  "organization": "AxiomZero Technologies & Consulting, SPC",
+  "ubi": "606 239 876"
+}
