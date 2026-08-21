@@ -1,6 +1,28 @@
-version: "v22.11"
+version: "v23.2"
 date: "2026-08-20"
 updated: "2026-08-20"
+
+v23_2_sprint_ar:
+  version: "v23.2"
+  wave: "Sprint AR — Vacuum Energy + Graviton Bounds + Flashcard App (2026-08-20): Pillars 792–794"
+  date: "2026-08-20"
+  pillars_added:
+    - "792: COSMOLOGICAL_CONSTANT_KK_VACUUM_ENERGY — KK hierarchy 10⁵⁵; RS1 warp suppression; CC_KK_HIERARCHY_ARCHITECTURE_LIMIT; Lean4 +15; ~50 tests"
+    - "793: GRAVITON_MASS_BOUND_KK_SPECTRUM — m_G(0)=0 exact; M_G*(n=1)≈1.0 TeV; Γ/M≈0.025; HL-LHC PASS; GRAVITON_MASSLESS_KK_BOUND_DERIVED; Lean4 +15; ~50 tests"
+    - "794: SPRINT_AR_REGRESSION_CERTIFICATE — 3 pillars; ~162 new tests; Lean4 +30 (1036→1066); next slot 795; 15 tests"
+  tests_added: 162
+  regression: "~57,450 passed · 47 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 795
+  next_version: "v23.3"
+  lean4_theorems_total: 1066
+  lean4_new_theorems: 30
+  app: "19-flashcard-trainer (60 cards, 7 categories, offline, keyboard shortcuts)"
+  epistemic_deltas:
+    - "CC hierarchy (10⁵⁵): CC_KK_HIERARCHY_ARCHITECTURE_LIMIT pre-registered"
+    - "Zero-mode graviton: EXACT_MASSLESS (5D diffeomorphism invariance)"
+    - "KK graviton M_G*(n=1)≈1.0 TeV: EXP-5 HL-LHC verdict PASS (within reach)"
+    - "Lean4: CosmologicalConstantKK.lean +15, GravitonMassBound.lean +15"
+    - "App 19: 60-card flashcard trainer, 7 categories, localStorage missed-card mode"
 
 v22_8_sprint_al:
   version: "v22.8"

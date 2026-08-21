@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-08-20 (v22.9 Sprint AM COMPLETE — Pillar 784 TYPE_AB_CLASSIFICATION; Lean4 +18 → 976; ~56,747 passed · 0 failed)*
+*Last updated: 2026-08-20 (v23.2 Sprint AR COMPLETE — Pillars 792–794; Lean4 +30 → 1066; ~57,450 passed · 0 failed)*
 *Purpose: Persistent continuity document for token-budget resilience. Any new agent session
 MUST read STATUS.md + mas_tracker.yml + this file as the first three operations.*
 

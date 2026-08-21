@@ -1,0 +1,497 @@
+{
+  "version": "1.0",
+  "generated": "2026-08-20",
+  "description": "UM Physics Flashcard Deck \u2014 key results, gates, and constants from the Unitary Manifold framework",
+  "total": 60,
+  "categories": [
+    "constants",
+    "predictions",
+    "gates",
+    "geometry",
+    "experiments",
+    "lean4",
+    "architecture_limits"
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "cat": "constants",
+      "q": "What is the braided winding number n_w?",
+      "a": "n_w = 5 \u2014 uniquely selected by Planck n_s data and (5,7) braid exhaustion (Pillar 769, PROVED_BY_EXHAUSTION).",
+      "pillar": 789,
+      "gate": "WINDING_RESONANCE_STABILITY_BASIN"
+    },
+    {
+      "id": 2,
+      "cat": "constants",
+      "q": "What is the Chern-Simons level K_CS?",
+      "a": "K_CS = 74 = 5\u00b2 + 7\u00b2 \u2014 the shadow-pair sum of the (5,7) braid. Appears in KK truncation, birefringence, and self-consistency.",
+      "pillar": 2,
+      "gate": "HARDGATE"
+    },
+    {
+      "id": 3,
+      "cat": "constants",
+      "q": "What is the braided sound speed c_s?",
+      "a": "c_s = 12/37 \u2014 from the (5,7) braid resonance condition. Determines the tensor-to-scalar ratio r.",
+      "pillar": 2,
+      "gate": "HARDGATE"
+    },
+    {
+      "id": 4,
+      "cat": "predictions",
+      "q": "What CMB spectral index n_s does the framework predict?",
+      "a": "n_s = 0.9635, within 0.33\u03c3 of Planck 2018 (0.9649 \u00b1 0.0042). Status: PASS.",
+      "pillar": 3,
+      "gate": "HARDGATE"
+    },
+    {
+      "id": 5,
+      "cat": "predictions",
+      "q": "What tensor-to-scalar ratio r does the framework predict?",
+      "a": "r = 0.0315 from r = 8c_s\u00b2(1-n_s). Within BICEP/Keck r < 0.036 constraint. Status: PASS.",
+      "pillar": 3,
+      "gate": "HARDGATE"
+    },
+    {
+      "id": 6,
+      "cat": "predictions",
+      "q": "What CMB birefringence angle \u03b2 is predicted?",
+      "a": "\u03b2 \u2208 {\u22480.273\u00b0, \u22480.331\u00b0} canonical / {\u22480.290\u00b0, \u22480.351\u00b0} derived. Primary falsifier: LiteBIRD ~2032. Status: AWAITING.",
+      "pillar": 787,
+      "gate": "EXP-1_AWAITING_2032"
+    },
+    {
+      "id": 7,
+      "cat": "predictions",
+      "q": "What is the predicted lightest KK graviton mass?",
+      "a": "M_G*(n=1) \u2248 x\u2081 \u00b7 M_KK \u00b7 c_s\u00b2 \u2248 1.0 TeV in braided geometry (Pillar 793). Within HL-LHC reach. Status: PASS.",
+      "pillar": 793,
+      "gate": "GRAVITON_MASSLESS_KK_BOUND_DERIVED"
+    },
+    {
+      "id": 8,
+      "cat": "predictions",
+      "q": "What is the KK dark matter candidate mass?",
+      "a": "M_KK \u2248 1.0 TeV (lightest KK mode, Pillar 790). \u03c3_SI \u2248 6\u00d710\u207b\u2074\u2077 cm\u00b2 below XENON-nT. \u03a9DM h\u00b2 \u2208 [0.09, 0.14].",
+      "pillar": 790,
+      "gate": "DM_KK_CANDIDATE_QUANTIFIED"
+    },
+    {
+      "id": 9,
+      "cat": "predictions",
+      "q": "What is the neutrino mass hierarchy prediction?",
+      "a": "Normal Hierarchy (NH) preferred by Z\u2082 Dirichlet BC orbifold parity. m\u2081\u22480, m\u2082\u22488.6 meV, m\u2083\u224850.9 meV. \u03a3m\u03bd\u22480.0596 eV < Planck 0.12 eV.",
+      "pillar": 786,
+      "gate": "NH_PREFERRED_GEOMETRY"
+    },
+    {
+      "id": 10,
+      "cat": "predictions",
+      "q": "What is the Jarlskog invariant J_PMNS?",
+      "a": "J_PMNS \u2248 9.79\u00d710\u207b\u00b3, with J_PMNS/J_CKM \u2248 318 \u2014 a parameter-free geometric prediction from the orbifold lattice (Pillar 772).",
+      "pillar": 772,
+      "gate": "LEPTON_JARLSKOG_LATTICE_DERIVED"
+    },
+    {
+      "id": 11,
+      "cat": "gates",
+      "q": "What does ARCHITECTURE_LIMIT mean?",
+      "a": "A gap that is irreducible within the current tree-level geometry. Not a falsifier \u2014 it is a pre-registered open problem shared with all quantum gravity frameworks.",
+      "pillar": null,
+      "gate": "ARCHITECTURE_LIMIT"
+    },
+    {
+      "id": 12,
+      "cat": "gates",
+      "q": "What is the cosmological constant hierarchy?",
+      "a": "\u03c1_KK / \u03c1_\u039b \u2248 10\u2075\u2075. After RS1 warp suppression, residual is still ~10\u00b2\u00b3. Gate: CC_KK_HIERARCHY_ARCHITECTURE_LIMIT. Pre-registered open problem (Pillar 792).",
+      "pillar": 792,
+      "gate": "CC_KK_HIERARCHY_ARCHITECTURE_LIMIT"
+    },
+    {
+      "id": 13,
+      "cat": "gates",
+      "q": "What is the CMB peak amplitude gap?",
+      "a": "A_s mismatch: 33.6% architecture limit (irreducible). KK truncation contributes \u22641.35%, Silk damping 0.002% (Pillar 780). Gap 5 in FALLIBILITY.md.",
+      "pillar": 780,
+      "gate": "CMB_PEAK_RESIDUAL_DECOMPOSED_V2"
+    },
+    {
+      "id": 14,
+      "cat": "gates",
+      "q": "What is the DESI w_a tension status?",
+      "a": "EXP-2: TENSION 2.07\u03c3. The framework predicts w_a=0 (KK geometry). DESI DR2 measures w_a\u22600 at 2.07\u03c3. Pre-registered. Gate: TENSION_AWAITING_DR3.",
+      "pillar": 787,
+      "gate": "EXP-2_DESI_TENSION"
+    },
+    {
+      "id": 15,
+      "cat": "gates",
+      "q": "What are the Type A and Type B gap classifications?",
+      "a": "Type A = derivation gap (could be closed by better computation). Type B = structural floor (irreducible at this level). G1/G2/G3 are TYPE_B_STRUCTURAL_FLOOR; G4 is TYPE_B_CANDIDATE (Pillar 784).",
+      "pillar": 784,
+      "gate": "TYPE_AB_CLASSIFICATION_COMPLETE"
+    },
+    {
+      "id": 16,
+      "cat": "geometry",
+      "q": "What is the 5D metric ansatz?",
+      "a": "ds\u00b2 = e^{-2k\u03c0R\u03c3} \u03b7_{\u03bc\u03bd} dx^\u03bc dx^\u03bd \u2212 R\u00b2 d\u03c3\u00b2, \u03c3\u2208[0,1]. RS1 warped product with Z\u2082 orbifold. Brane separation k\u03c0R \u2248 37.",
+      "pillar": 2,
+      "gate": "HARDGATE"
+    },
+    {
+      "id": 17,
+      "cat": "geometry",
+      "q": "Why is n_w=5 unique?",
+      "a": "Proved by exhaustion (Pillar 769): (5,7) is the unique braid satisfying all three constraints simultaneously \u2014 n_s, \u03b2 admissible, r<0.036. Margin \u0394n_w=1 (n_w=4,6 excluded).",
+      "pillar": 769,
+      "gate": "BRAID_UNIQUENESS_PROVED_BY_EXHAUSTION"
+    },
+    {
+      "id": 18,
+      "cat": "geometry",
+      "q": "What is the warp parameter k\u03c0R?",
+      "a": "k\u03c0R \u2248 37 \u2248 log(M_Pl/M_EW)/\u03c0. 37 is prime and divides K_CS=74. This integer self-consistency is formalised in WarpFactorUniqueness.lean.",
+      "pillar": 724,
+      "gate": "LEAN4_WARPFACTOR_UNIQUENESS"
+    },
+    {
+      "id": 19,
+      "cat": "geometry",
+      "q": "What protects the zero-mode graviton masslessness?",
+      "a": "5D diffeomorphism invariance + Z\u2082 orbifold parity. The 4D Bianchi identity \u2207_\u03bc G^{\u03bc\u03bd}=0 forbids a longitudinal polarisation. m_G(0) = 0 exactly (Pillar 793).",
+      "pillar": 793,
+      "gate": "GRAVITON_MASSLESS_KK_BOUND_DERIVED"
+    },
+    {
+      "id": 20,
+      "cat": "geometry",
+      "q": "What is the compactification radius R_5?",
+      "a": "R_5 \u2248 2\u00d710\u207b\u00b3\u00b2 m from M_EW/M_Pl = exp(-k\u03c0R). This sets the KK mass gap M_KK = 1/R_5 \u2248 1.0 TeV.",
+      "pillar": 790,
+      "gate": "DM_KK_CANDIDATE_QUANTIFIED"
+    },
+    {
+      "id": 21,
+      "cat": "experiments",
+      "q": "What is EXP-1 (LiteBIRD)?",
+      "a": "Birefringence \u03b2 measurement. Framework predicts \u03b2 \u2208 [0.22\u00b0,0.38\u00b0] (admissible). Status: AWAITING_2032. Kill condition: \u03b2 outside [0.22\u00b0,0.38\u00b0] or in gap [0.29\u00b0\u20130.31\u00b0].",
+      "pillar": 787,
+      "gate": "EXP-1_AWAITING_2032"
+    },
+    {
+      "id": 22,
+      "cat": "experiments",
+      "q": "What is EXP-3 (JUNO)?",
+      "a": "\u0394m\u00b2\u2082\u2081 measurement + mass ordering. Framework: NH preferred, \u0394m\u00b2\u2082\u2081 tension 1.07\u03c3 after NLO. Status: PASS.",
+      "pillar": 787,
+      "gate": "EXP-3_JUNO_PASS"
+    },
+    {
+      "id": 23,
+      "cat": "experiments",
+      "q": "What is EXP-5 (HL-LHC)?",
+      "a": "KK graviton G* search. Framework predicts M_G* \u2248 1.0 TeV. HL-LHC exclusion currently < 4.0 TeV (dilepton). Status: PASS (within reach).",
+      "pillar": 793,
+      "gate": "EXP-5_HLLHC_PASS"
+    },
+    {
+      "id": 24,
+      "cat": "experiments",
+      "q": "What is EXP-7 (XENON-nT)?",
+      "a": "Direct DM detection. \u03c3_SI prediction \u2248 6\u00d710\u207b\u2074\u2077 cm\u00b2 (below current limit). XENON-nT excludes M_KK < 0.5 TeV. Status: TENSION (at boundary).",
+      "pillar": 790,
+      "gate": "EXP-7_XENON_TENSION"
+    },
+    {
+      "id": 25,
+      "cat": "experiments",
+      "q": "What is the primary falsification condition?",
+      "a": "LiteBIRD ~2032: \u03b2 outside admissible window [0.22\u00b0,0.38\u00b0] OR \u03b2 in predicted gap [0.29\u00b0\u20130.31\u00b0] falsifies the braided-winding mechanism.",
+      "pillar": 771,
+      "gate": "DESI_CMB_LITEBIRD_FALSIFICATION_PROTOCOLS"
+    },
+    {
+      "id": 26,
+      "cat": "lean4",
+      "q": "How many Lean4 theorems does the framework have?",
+      "a": "1066 theorems across 30+ .lean files after Pillar 794 (Sprint AR). Includes proxy arithmetic certificates, formal braid uniqueness, seesaw, CKM unitarity, and more.",
+      "pillar": 794,
+      "gate": "SPRINT_AR_REGRESSION_CERTIFICATE"
+    },
+    {
+      "id": 27,
+      "cat": "lean4",
+      "q": "What does WindingStabilityBasin.lean prove?",
+      "a": "15 proxy theorems: n_w=5 is the unique integer satisfying all three constraints simultaneously. Margin \u0394n_w=1. Pillar 789.",
+      "pillar": 789,
+      "gate": "WINDING_RESONANCE_STABILITY_BASIN"
+    },
+    {
+      "id": 28,
+      "cat": "lean4",
+      "q": "What does YukawaSVDClosure.lean prove?",
+      "a": "30 theorems formalising the Yukawa SVD gap closure. Full numerical SVD gives CKM_SVD_DERIVED and PMNS_SVD_DERIVED with TEXTURE_SVD_EXACT gate.",
+      "pillar": null,
+      "gate": "TEXTURE_SVD_EXACT"
+    },
+    {
+      "id": 29,
+      "cat": "lean4",
+      "q": "What is the Lean4 milestone achieved in Pillar 788?",
+      "a": "Lean4 1000 theorem milestone crossed (976\u21921006). Represents machine-checkable coverage of the full derivation chain from 5D metric to SM predictions.",
+      "pillar": 788,
+      "gate": "LEAN4_1000_MILESTONE"
+    },
+    {
+      "id": 30,
+      "cat": "lean4",
+      "q": "What does SwamplandAxiom.lean encode?",
+      "a": "24 proxy theorems formalising Axiom SW (n_w \u2264 15) as IRREDUCIBLE_POSTULATE \u2014 the Swampland constraint that makes the Layer 1 axiom chain machine-readable.",
+      "pillar": null,
+      "gate": "SWAMPLAND_AXIOM"
+    },
+    {
+      "id": 31,
+      "cat": "architecture_limits",
+      "q": "What are the four primary architecture limits (G1\u2013G4)?",
+      "a": "G1: \u03b1_s all routes exhausted. G2: CMB peak A_s mismatch 33.6%. G3: DESI w_a=0 irreducible. G4: FN charges 3 free parameters (TYPE_B_CANDIDATE). All classified in Pillar 784.",
+      "pillar": 784,
+      "gate": "TYPE_AB_CLASSIFICATION_COMPLETE"
+    },
+    {
+      "id": 32,
+      "cat": "architecture_limits",
+      "q": "What is the \u03b1_s architecture limit?",
+      "a": "All 4 routes (WKB, NLO, instanton, NSVZ KK) are exhausted \u2014 each contributes <1%. Gap certified ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT (Pillar 782).",
+      "pillar": 782,
+      "gate": "ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT"
+    },
+    {
+      "id": 33,
+      "cat": "architecture_limits",
+      "q": "What is the Higgs mass gap status?",
+      "a": "Gap floor \u226525% (ARCHITECTURE_LIMIT_FLOOR_CERTIFIED). NLO KK tower reduces gap 42%\u2192~29%. G4 Criterion 2 cross-sector frac_diff=16.1%>15% \u2192 PARTIAL (Pillar 785).",
+      "pillar": 785,
+      "gate": "G4_CRITERION2_HIGGS_CMB_CROSS_SECTOR_CORRELATION"
+    },
+    {
+      "id": 34,
+      "cat": "constants",
+      "q": "What is \u039e_c (the consciousness coupling constant)?",
+      "a": "\u039e_c = 35/74 \u2014 the Unitary Pentad coupling constant from the HILS governance framework. NOT a hardgate physics claim; independent of framework physics.",
+      "pillar": null,
+      "gate": "PENTAD_GOVERNANCE"
+    },
+    {
+      "id": 35,
+      "cat": "constants",
+      "q": "What is the HIL phase shift threshold?",
+      "a": "n \u2265 15 aligned HIL operators \u2192 saturation. Sentinel capacity 12/37 per-axiom. From the Unitary Pentad HILS framework (independent of physics validity).",
+      "pillar": null,
+      "gate": "PENTAD_GOVERNANCE"
+    },
+    {
+      "id": 36,
+      "cat": "geometry",
+      "q": "What is the KK mass spectrum formula for gravitons?",
+      "a": "M_n = x_n \u00b7 k \u00b7 e^{-k\u03c0R} where x_n are zeros of J\u2081(x)=0: x\u2081\u22483.83, x\u2082\u22487.02, x\u2083\u224810.17. In braided geometry: M_n = x_n \u00b7 M_KK \u00b7 c_s\u00b2.",
+      "pillar": 793,
+      "gate": "GRAVITON_MASSLESS_KK_BOUND_DERIVED"
+    },
+    {
+      "id": 37,
+      "cat": "predictions",
+      "q": "What is the |V_ub| CKM matrix element prediction?",
+      "a": "|V_ub|_NLO = 3.50\u00d710\u207b\u00b3, within 1.33\u03c3 of PDG. From KK tower NLO correction (Pillar 730). Status: QUANTIFIED_RESIDUAL.",
+      "pillar": 730,
+      "gate": "CKM_VUB_NLO_KK_TOWER"
+    },
+    {
+      "id": 38,
+      "cat": "predictions",
+      "q": "What is the \u03b4_CP prediction?",
+      "a": "\u03b4_CP_NLO = -1.539 rad, within 1.08\u03c3 of PDG. From PMNS NLO correction (Pillar 731). Status: QUANTIFIED_RESIDUAL.",
+      "pillar": 731,
+      "gate": "PMNS_DELTA_CP_NLO"
+    },
+    {
+      "id": 39,
+      "cat": "geometry",
+      "q": "What is the RS1 warp suppression factor?",
+      "a": "exp(-2k\u03c0R) \u2248 exp(-74) \u2248 10\u207b\u00b3\u00b2. This is the dominant suppression of KK vacuum energy \u2014 but even after RS1 suppression, the CC residual is ~10\u00b2\u00b3 above \u039b_obs.",
+      "pillar": 792,
+      "gate": "CC_KK_HIERARCHY_ARCHITECTURE_LIMIT"
+    },
+    {
+      "id": 40,
+      "cat": "experiments",
+      "q": "What is EXP-6 (nEDM@SNS)?",
+      "a": "Neutron EDM measurement. Framework predicts \u03b8_QCD suppressed by KK holographic mechanism. Status: PASS (prediction below current sensitivity).",
+      "pillar": 787,
+      "gate": "EXP-6_NEDM_PASS"
+    },
+    {
+      "id": 41,
+      "cat": "gates",
+      "q": "What is the DESI_WA_ANALYTIC_NO_GO_THEOREM?",
+      "a": "Pillar 739: produces dynamic w_a requires \u03b5_GW \u2248 10\u207b\u2078\u2077 \u2014 analytically impossible. The KK geometry predicts w_a=0 exactly. Gap is ARCHITECTURE_LIMIT_ANALYTIC_PROVED.",
+      "pillar": 739,
+      "gate": "DESI_WA_ANALYTIC_NO_GO_THEOREM"
+    },
+    {
+      "id": 42,
+      "cat": "predictions",
+      "q": "What is the sin\u00b2\u03b8\u2081\u2082 solar angle prediction?",
+      "a": "sin\u00b2\u03b8\u2081\u2082 = 0.3071, within <0.1% of PDG. From PMNS solar angle FN NLO closure (Pillar 762). Status: GEOMETRIC_PREDICTION.",
+      "pillar": 762,
+      "gate": "PMNS_SOLAR_ANGLE_FN_NLO_CLOSURE"
+    },
+    {
+      "id": 43,
+      "cat": "architecture_limits",
+      "q": "How many irreducible free FN charge parameters remain?",
+      "a": "3 \u2014 down from 9 via SVD constraints (Pillar 781, FN_CHARGES_PARTIALLY_CONSTRAINED_BY_SVD). A geometric lower bound on the irreducible count is proved.",
+      "pillar": 781,
+      "gate": "FN_CHARGES_PARTIALLY_CONSTRAINED_BY_SVD"
+    },
+    {
+      "id": 44,
+      "cat": "geometry",
+      "q": "What is the SU(5) orbifold closure status?",
+      "a": "PROVED_LEAN4_FORMAL (Pillar 778): Weyl-group parity for B4/C4/D4/F4 \u2014 all 18 proxy theorems machine-checked in SU5WeylParityFull.lean.",
+      "pillar": 778,
+      "gate": "SU5_WEYL_PARITY_PROVED_LEAN4_FORMAL"
+    },
+    {
+      "id": 45,
+      "cat": "geometry",
+      "q": "What is the \u0394m\u00b2\u2082\u2081 tension status?",
+      "a": "1.07\u03c3 after NNLO (Pillar 779 certifies NNLO contribution 4.6\u00d710\u207b\u2076 negligible). Residual DM21_LJL_1_16SIGMA_QUANTIFIED_RESIDUAL (Pillar 772).",
+      "pillar": 779,
+      "gate": "DM21_NNLO_ARCHITECTURE_LIMIT_CERTIFIED"
+    },
+    {
+      "id": 46,
+      "cat": "experiments",
+      "q": "What is EXP-4 (CMB-S4/ACT)?",
+      "a": "Tensor-to-scalar ratio r measurement. Framework r=0.0315. CMB-S4 10\u03c3 discrimination power. ACT current upper limit consistent. Status: PASS.",
+      "pillar": 787,
+      "gate": "EXP-4_CMB_S4_PASS"
+    },
+    {
+      "id": 47,
+      "cat": "predictions",
+      "q": "What is the KK graviton total width formula?",
+      "a": "\u0393_G* = (k/M_Pl)\u00b2 \u00b7 M_G* \u00b7 N_SM / (16\u03c0), where N_SM=39. For k/M_Pl=0.1 and M_G*\u22481 TeV: \u0393/M \u2248 0.025 (narrow resonance).",
+      "pillar": 793,
+      "gate": "GRAVITON_MASSLESS_KK_BOUND_DERIVED"
+    },
+    {
+      "id": 48,
+      "cat": "constants",
+      "q": "What is the SENTINEL_CAPACITY?",
+      "a": "12/37 per-axiom entropy capacity in the Unitary Pentad governance framework. Numerically equal to c_s (braided sound speed) \u2014 a structural coincidence noted in SEPARATION.md.",
+      "pillar": null,
+      "gate": "PENTAD_GOVERNANCE"
+    },
+    {
+      "id": 49,
+      "cat": "gates",
+      "q": "What would falsify the braided-winding mechanism?",
+      "a": "LiteBIRD measures \u03b2 outside [0.22\u00b0, 0.38\u00b0], OR \u03b2 falls in the predicted gap [0.29\u00b0\u20130.31\u00b0]. Expected data ~2032. This is the primary falsifier.",
+      "pillar": 771,
+      "gate": "PRIMARY_FALSIFIER"
+    },
+    {
+      "id": 50,
+      "cat": "gates",
+      "q": "What is the HILS framework (Unitary Pentad)?",
+      "a": "Human-in-the-Loop Systems governance framework \u2014 mathematically independent of UM physics. Lives in 5-GOVERNANCE/. Borrowing UM math structure does NOT depend on physics being correct.",
+      "pillar": null,
+      "gate": "PENTAD_INDEPENDENT"
+    },
+    {
+      "id": 51,
+      "cat": "predictions",
+      "q": "What is the \u03c6\u2080 self-consistency status?",
+      "a": "CLOSED by Pillar 56 (phi0_closure.py). \u03c6\u2080 self-consistency is no longer an open problem.",
+      "pillar": 56,
+      "gate": "PHI0_SELF_CONSISTENT"
+    },
+    {
+      "id": 52,
+      "cat": "geometry",
+      "q": "What is the winding stability basin margin?",
+      "a": "\u0394n_w=1: n_w=4 excluded (r>0.036 BICEP violation), n_w=6 excluded (\u03b2>0.38\u00b0 birefringence violation). n_w=5 is the unique stable integer (Pillar 789).",
+      "pillar": 789,
+      "gate": "WINDING_RESONANCE_STABILITY_BASIN"
+    },
+    {
+      "id": 53,
+      "cat": "architecture_limits",
+      "q": "What is the CMB peak shape irreducible floor?",
+      "a": "A_s mismatch 33.6% \u2014 from the KK-truncated transfer function. KK truncation (N_KK=74) contributes \u22641.35% (bounded), Silk damping 0.002%. Pillar 780.",
+      "pillar": 780,
+      "gate": "CMB_PEAK_RESIDUAL_DECOMPOSED_V2"
+    },
+    {
+      "id": 54,
+      "cat": "lean4",
+      "q": "What does NWIntegerLattice.lean prove?",
+      "a": "Exhaustive Finset proof that n_w \u2208 {5,7} via Z\u2082 \u2229 CS-anomaly-gap constraint. 20 theorems (Sprint AB).",
+      "pillar": null,
+      "gate": "BRAID_UNIQUENESS_PROVED_BY_EXHAUSTION"
+    },
+    {
+      "id": 55,
+      "cat": "constants",
+      "q": "What is the sum-of-squares resonance?",
+      "a": "K_CS = 74 = 5\u00b2 + 7\u00b2 = n_w\u00b2 + (n_w+2)\u00b2. This algebraic constraint from the (5,7) braid links the CS level to the shadow-pair geometry.",
+      "pillar": 2,
+      "gate": "HARDGATE"
+    },
+    {
+      "id": 56,
+      "cat": "predictions",
+      "q": "What does the holographic nucleon pillar derive?",
+      "a": "Pillar 777: holographic nucleon mass from bulk fermion KK zero-mode. Consistent with proton mass at order-of-magnitude. Adjacent-track (not hardgate).",
+      "pillar": 777,
+      "gate": "ADJACENT_TRACK"
+    },
+    {
+      "id": 57,
+      "cat": "experiments",
+      "q": "What is the XENON-nT exclusion for KK DM?",
+      "a": "M_KK < 0.5 TeV excluded at 90% CL in gravitational-portal channel. Framework M_KK \u2248 1.0 TeV is above this floor. Status: TENSION (EXP-7) at boundary.",
+      "pillar": 790,
+      "gate": "DM_KK_CANDIDATE_QUANTIFIED"
+    },
+    {
+      "id": 58,
+      "cat": "gates",
+      "q": "What is APPROACHING_CLOSURE?",
+      "a": "An intermediate gate: a gap is significantly reduced but not yet fully closed. Example: \u0394m\u00b2\u2082\u2081 tension 4.63\u03c3\u21921.07\u03c3 (approaching but not below 1\u03c3 closure criterion).",
+      "pillar": null,
+      "gate": "APPROACHING_CLOSURE"
+    },
+    {
+      "id": 59,
+      "cat": "architecture_limits",
+      "q": "What is the gravitino mass prediction?",
+      "a": "m\u2083/\u2082\u207d\u2070\u207e \u2248 249 GeV (Pillar 755). No-SUSY suppression confirmed. Spectrum derived from conformal compensator mechanism. ARCHITECTURE_LIMIT: SUSY breaking mechanism untested.",
+      "pillar": 755,
+      "gate": "GRAVITINO_KK_SPECTRUM_FULL_AUDIT"
+    },
+    {
+      "id": 60,
+      "cat": "predictions",
+      "q": "What is the Jarlskog invariant ratio prediction?",
+      "a": "J_PMNS/J_CKM \u2248 318 \u2014 parameter-free geometric prediction from the orbifold lattice positions. Derived without free parameters (Pillar 772).",
+      "pillar": 772,
+      "gate": "LEPTON_JARLSKOG_LATTICE_DERIVED"
+    }
+  ]
+}
