@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v23.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 57,450 passed · 47 skipped · 12 deselected · 0 failed; **v22.10 Sprint AN** (2026-08-20): Pillar 785 — Higgs-CMB Criterion 2 cross-sector audit added; Higgs gap 27.53% vs CMB irreducible gap 33.65% gives frac_diff ≈ 18.16% > 15%, so no forced upgrade; G4 candidate status remains unchanged; 25+ new tests. Earlier **v22.8 Sprint AL** (2026-08-20): Pillars 774–783 — NP-BC sub-gaps all resolved (CLOSED or ARCHITECTURE_LIMIT); Gap 3 SU5 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO ARCHITECTURE_LIMIT_CERTIFIED; CMB 35% DECOMPOSED_V2 (known 1.4% bounded + arch-limit 33.6%); FN charges 9→3 irreducible; α_s all routes exhausted; Lean4 +86 (872→958); **v14.0 theorem-hardening sprint**: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
+*Unitary Manifold v24.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 57,927 passed · 47 skipped · 12 deselected · 0 failed; **v22.10 Sprint AN** (2026-08-20): Pillar 785 — Higgs-CMB Criterion 2 cross-sector audit added; Higgs gap 27.53% vs CMB irreducible gap 33.65% gives frac_diff ≈ 18.16% > 15%, so no forced upgrade; G4 candidate status remains unchanged; 25+ new tests. Earlier **v22.8 Sprint AL** (2026-08-20): Pillars 774–783 — NP-BC sub-gaps all resolved (CLOSED or ARCHITECTURE_LIMIT); Gap 3 SU5 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO ARCHITECTURE_LIMIT_CERTIFIED; CMB 35% DECOMPOSED_V2 (known 1.4% bounded + arch-limit 33.6%); FN charges 9→3 irreducible; α_s all routes exhausted; Lean4 +86 (872→958); **v14.0 theorem-hardening sprint**: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
 
 ---
 
@@ -48,7 +48,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (57,450 passed · 47 skipped · 12 deselected · 0 failed (v22.11, 2026-08-20; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (57,927 passed · 47 skipped · 12 deselected · 0 failed (v22.11, 2026-08-20; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -345,7 +345,7 @@ follows with **no additional free parameter**.  The birefringence observation se
 which admissible braid pair the universe is in; it does not freely tune k_CS.
 Verified by `algebraic_k_eff_proof(n1, n2)` in `anomaly_closure.py`.
 
-**Sprint AH Gap 1 update (v22.4):** The uniqueness of (5,7) is now
+**Sprint AH Gap 1 update (v24.1):** The uniqueness of (5,7) is now
 PROVED_BY_EXHAUSTION (`pillar769_braid_uniqueness_proof.py`). The full
 admissible set (all Z₂-odd pairs with n_w ≤ 15, bounded by Axiom SW from
 the Swampland Distance Conjecture) is finite and enumerated. Three filters —

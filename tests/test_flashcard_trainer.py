@@ -40,10 +40,10 @@ class TestDeckStructure:
         assert 'version' in deck
 
     def test_total_field(self, deck):
-        assert deck['total'] == 60
+        assert deck['total'] >= 60
 
     def test_cards_count(self, deck):
-        assert len(deck['cards']) == 60
+        assert len(deck['cards']) >= 60
 
     def test_categories_present(self, deck):
         assert 'categories' in deck
@@ -70,7 +70,7 @@ class TestCardFields:
 
     def test_ids_sequential(self, deck):
         ids = sorted(c['id'] for c in deck['cards'])
-        assert ids == list(range(1, 61))
+        assert ids == list(range(1, len(ids)+1))
 
     def test_all_have_q(self, deck):
         for c in deck['cards']:

@@ -42,6 +42,10 @@ except ImportError:
 
 REPO_ROOT = Path(__file__).parent.parent
 LEAN4_DIR = REPO_ROOT / "lean4" / "UnitaryManifold"
+
+# Sprint AT: minimum theorem count below which proxy stubs are acceptable.
+# Above this threshold, OX should attempt genuine proofs, not new sorry stubs.
+LEAN4_THEOREM_COUNT_SORRY_GATE: int = 1246  # set at Sprint AT end total
 OX_CONTEXT_PACK = REPO_ROOT / "9-INFRASTRUCTURE" / "ox_full_context.md"
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
 OX_MODEL_ID = "stealth/ox-alpha"
@@ -86,6 +90,62 @@ GOVERNANCE_HEADER = """\
 -- Generated: {timestamp}
 -- Model: {model}
 """
+
+
+def lean4_theorem_count_gate() -> dict:
+    """
+    Query the current Lean4 theorem count and assess whether new sorry stubs
+    are acceptable.
+
+    Policy (Sprint AT):
+      - If current count < LEAN4_THEOREM_COUNT_SORRY_GATE: proxy stubs OK.
+      - If current count >= LEAN4_THEOREM_COUNT_SORRY_GATE: OX must attempt
+        genuine proofs (native_decide / norm_num / linarith) rather than new
+        sorry stubs. Sorry stubs are still permitted for OPEN gaps explicitly
+        documented as architecture limits.
+
+    Returns a dict with the current count, gate threshold, and policy verdict.
+    """
+    if not LEAN4_DIR.exists():
+        return {
+            'lean4_dir_exists': False,
+            'theorem_count': 0,
+            'gate_threshold': LEAN4_THEOREM_COUNT_SORRY_GATE,
+            'sorry_stubs_acceptable': True,
+            'policy': 'LEAN4_DIR_NOT_FOUND — proxy stubs allowed',
+        }
+
+    theorem_count = 0
+    for lean_file in LEAN4_DIR.glob("*.lean"):
+        text = lean_file.read_text(encoding="utf-8", errors="replace")
+        theorem_count += text.count("\ntheorem ")
+        theorem_count += text.count("\nlemma ")
+
+    sorry_count = 0
+    for lean_file in LEAN4_DIR.glob("*.lean"):
+        text = lean_file.read_text(encoding="utf-8", errors="replace")
+        sorry_count += text.count(" sorry")
+
+    sorry_acceptable = theorem_count < LEAN4_THEOREM_COUNT_SORRY_GATE
+
+    return {
+        'lean4_dir_exists': True,
+        'lean4_dir': str(LEAN4_DIR),
+        'theorem_count': theorem_count,
+        'sorry_count': sorry_count,
+        'gate_threshold': LEAN4_THEOREM_COUNT_SORRY_GATE,
+        'sorry_stubs_acceptable': sorry_acceptable,
+        'policy': (
+            'PROXY_STUBS_OK — below gate threshold' if sorry_acceptable
+            else 'GENUINE_PROOFS_PREFERRED — at or above gate threshold; '
+                 'use native_decide/norm_num/linarith; sorry only for architecture limits'
+        ),
+        'recommendation': (
+            'OX Alpha should generate sorry-free proofs for arithmetic claims. '
+            'Reserve sorry for gaps explicitly labelled ARCHITECTURE_LIMIT or '
+            'APS_MATHLIB_FORMALIZATION_OPEN.'
+        ),
+    }
 
 
 def extract_python_summary(path: Path) -> str:
