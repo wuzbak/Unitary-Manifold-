@@ -2584,7 +2584,7 @@ explicitly out of scope per plan §D):
 
 ### Regression
 
-Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **34 57,927 passed · 47 skipped · 12 deselected, 0 failed** (+117 new tests over v11.4 baseline of 34 070; upgraded to 34 267 in v11.6).
+Canonical: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q --tb=no` → **57,927 passed · 47 skipped · 12 deselected, 0 failed** (+117 new tests over v11.4 baseline of 34,070; upgraded to 34,267 in v11.6).
 
 ---
 
