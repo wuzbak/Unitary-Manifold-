@@ -53,8 +53,10 @@ def assistant_api_module():
 
 
 def _first_sprint_entry() -> str:
-    paragraphs = [chunk.strip() for chunk in STATUS_PATH.read_text(encoding="utf-8").split("\n\n") if chunk.strip()]
-    return next(chunk for chunk in paragraphs if chunk.startswith("*v"))
+    text = STATUS_PATH.read_text(encoding="utf-8")
+    sprint_start = text.find("*v")
+    assert sprint_start >= 0
+    return text[sprint_start:].split("\n\n", 1)[0].strip()
 
 
 def test_build_live_status_matches_headline_entry(live_status_module):
