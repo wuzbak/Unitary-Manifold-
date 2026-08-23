@@ -161,12 +161,17 @@ def compute_tension(dataset: dict) -> dict:
 
 
 def route_dataset(tension: dict) -> str:
-    """Route a dataset tension to its verdict label."""
-    t = tension['tension_wa_sigma']   # primary criterion
-    if t >= KILL_THRESHOLD_SIGMA and tension['tension_w0_sigma'] >= KILL_THRESHOLD_SIGMA:
+    """
+    Route a dataset tension to its verdict label.
+
+    The pre-registered kill condition (Pillar 787 EXP-2) is:
+      wₐ ≠ 0 at ≥3σ → FALSIFIED_CANDIDATE
+    w₀ provides supporting evidence but is not an additional gate requirement
+    (w₀ = −1 is also the ΛCDM value and therefore less discriminating).
+    """
+    t = tension['tension_wa_sigma']   # primary criterion: wₐ tension
+    if t >= KILL_THRESHOLD_SIGMA:
         return "FALSIFIED_CANDIDATE"
-    elif t >= KILL_THRESHOLD_SIGMA:
-        return "TENSION_WA_EXCEEDS_KILL_W0_BELOW"
     elif t >= TENSION_THRESHOLD_SIGMA:
         return "TENSION"
     else:

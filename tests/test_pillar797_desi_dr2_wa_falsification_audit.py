@@ -96,7 +96,7 @@ class TestRouting:
     def test_desy5_falsified_candidate(self):
         t = compute_tension(DESI_DR2_BAO_DESY5)
         v = route_dataset(t)
-        assert 'FALSIFIED' in v
+        assert v == 'FALSIFIED_CANDIDATE'
 
     def test_act_dr6_pass(self):
         t = compute_tension(ACT_DR6_WA)

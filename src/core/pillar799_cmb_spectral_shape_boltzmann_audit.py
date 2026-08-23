@@ -85,7 +85,7 @@ N_S_LCDM: float = 0.9649        # Planck 2018 ΛCDM best-fit
 N_S_SIGMA: float = 0.0042        # Planck 1σ uncertainty
 N_S_TENSION_UM: float = abs(N_S_UM - N_S_LCDM) / N_S_SIGMA
 
-A_S_UM: float = 2.100e-9        # UM A_s (after 33.6% gap to Planck best-fit 2.20e-9)
+A_S_UM: float = 2.196e-9 * (1.0 - 0.336)  # UM A_s after 33.6% warp suppression ≈ 1.458e-9
 A_S_PLANCK: float = 2.196e-9    # Planck 2018 best-fit
 A_S_GAP_FRAC: float = 1.0 - A_S_UM / A_S_PLANCK   # ≈ 33.6%
 
