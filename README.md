@@ -24,7 +24,7 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![~57,927 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~56%2C964%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
+[![~57,927 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~57%2C927%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
 [![785+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-785%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v24.1-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
@@ -57,8 +57,8 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 
 </details>
 
-> **Current status (v22.11):** Framework is internally self-consistent.
-> Full regression: **57,927 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-20, v22.11; excludes optional matplotlib visualization tests).
+> **Current status (v24.1):** Framework is internally self-consistent.
+> Full regression: **57,927 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-23, v24.1; excludes optional matplotlib visualization tests).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
