@@ -17,20 +17,20 @@ Then store the verified state in agent memory before proceeding.
 
 ---
 
-## CURRENT STATE (v22.4 — 2026-08-19)
+## CURRENT STATE (v24.1 — 2026-08-23)
 
 | Field | Value |
 |-------|-------|
-| Version | v22.4 |
-| Next pillar slot | **772** |
-| Lean4 theorems | **820+** |
-| Full regression | **~56,747 passed · 47 skipped · 12 deselected · 0 failed** |
+| Version | v24.1 |
+| Next pillar slot | **806** |
+| Lean4 theorems | **1246** |
+| Full regression | **~57,927 passed · 47 skipped · 12 deselected · 0 failed** |
 | Framework consistency status | All derivation chains internally self-consistent; external confirmation pending (LiteBIRD ~2032) |
-| Open named gaps | Gap 2 (ADM UV regulator, community-level); Gap 4 (FN charges, 9 free params, architecture limit); Gap 5 (CMB peak shape ~35% residual) |
-| Gap 1 status | **PROVED_BY_EXHAUSTION** (Pillar 769) — (5,7) unique braid survivor |
-| Gap 3 status | **PROVED_CONDITIONAL** (su5_uniqueness_weyl_audit.py + SU5OrbifoldWeylParity.lean) |
-| Architecture limits | r-tension IRREDUCIBLE (Pillar 396); wₐ=0 IRREDUCIBLE (Pillar 301); FN charges 9 free params |
-| Falsification protocols | DESI DR3 (~2026), CMB-S4 (~2028), LiteBIRD (~2032) — pre-registered (Pillar 771) |
+| Open named gaps | DESY5 raw branch 3.18σ with loop-QKK alternative reducing to 1.82σ (Pillar 801); JUNO Year 2 forward projection 2.67σ Type A audit trigger for 2027 (Pillar 802); Higgs mass architecture limit m_H≈34 GeV < 72 GeV < PDG (Pillar 803); SU(3) parity import not internally derived (Pillar 804); CMB amplitude structural floor 33.6% (Pillar 799); cosmological constant KK hierarchy 10⁵⁵ (Pillar 792) |
+| Gap 1 status | **FIRST_DETECTION_CANDIDATE** for birefringence low branch after ACT+Planck DR6; LiteBIRD/Simons remain pre-registered adjudicators (Pillar 795) |
+| Gap 3 status | **DATASET_DEPENDENT** for dark-energy wₐ routing; DESY5 raw branch is falsified-candidate while the loop-QKK route remains below 2σ pending DESI DR3 (Pillars 797, 801) |
+| Architecture limits | CC_KK_HIERARCHY_ARCHITECTURE_LIMIT; HIGGS_CW_5D_ARCHITECTURE_LIMIT; CMB_AMPLITUDE_ARCHITECTURE_LIMIT; remaining residuals documented in FALLIBILITY.md and CLAIM_MASTER_BOARD.md |
+| Falsification protocols | DESI DR3 (~2026), JUNO Year 2 (~2027), CMB-S4 (~2028), LiteBIRD (~2032) — pre-registered routing active |
 
 ---
 

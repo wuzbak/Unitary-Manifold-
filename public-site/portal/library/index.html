@@ -95,7 +95,7 @@
     <p>Real-time framework health — test counts, theorem totals, and open gap tracking. Loaded from STATUS.md.</p>
     <div class="status-cards" id="status-cards">
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-tests">56,772</div>
+        <div class="stat-num-lg" id="s-tests">57,692</div>
         <div class="stat-label">Tests Passing</div>
         <div class="stat-sub">0 failures required</div>
       </div>
@@ -105,7 +105,7 @@
         <div class="stat-sub">optional deps</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-lean">976</div>
+        <div class="stat-num-lg" id="s-lean">1,141</div>
         <div class="stat-label">Lean4 Theorems</div>
         <div class="stat-sub">machine-verified</div>
       </div>
@@ -115,12 +115,12 @@
         <div class="stat-sub">core set CLOSED</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg">v22.10</div>
+        <div class="stat-num-lg" id="s-version">v24.0</div>
         <div class="stat-label">Framework Version</div>
-        <div class="stat-sub">2026-08-20</div>
+        <div class="stat-sub" id="s-date">2026-08-23</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" style="color:#ff453a;">0</div>
+        <div class="stat-num-lg" style="color:#ff453a;" id="s-failed">0</div>
         <div class="stat-label">Test Failures</div>
         <div class="stat-sub">hard requirement</div>
       </div>
@@ -277,15 +277,36 @@ function copyBibTeX() {
   });
 }
 
-// Load live status from data/status.json
-fetch('../../data/status.json')
-  .then(function(r){ return r.json(); })
-  .then(function(d) {
-    if (d.tests_passed)  document.getElementById('s-tests').textContent   = d.tests_passed.toLocaleString();
-    if (d.tests_skipped) document.getElementById('s-skipped').textContent = d.tests_skipped;
-    if (d.lean4_theorems) document.getElementById('s-lean').textContent = d.lean4_theorems.toLocaleString();
-    if (d.pillars_hardgate || d.pillars) document.getElementById('s-pillars').textContent = (d.pillars_hardgate || d.pillars).toLocaleString();
-  }).catch(function(){});
+function loadStatusJson(url) {
+  return fetch(url).then(function(r) {
+    if (!r.ok) throw new Error('status fetch failed');
+    return r.json();
+  });
+}
+
+function applyLiveStatus(d) {
+  var testsPassed = d.tests_passed || (d.tests && d.tests.passed);
+  var testsSkipped = d.tests_skipped || (d.tests && d.tests.skipped);
+  var testsFailed = d.tests_failed || (d.tests && d.tests.failed);
+  var leanTheorems = d.lean4_theorems || (d.lean4 && d.lean4.theorem_count);
+  var hardgatePillars = d.pillars_hardgate || (d.pillars && d.pillars.hardgate_count);
+  var version = d.version || (d.meta && d.meta.version && ('v' + d.meta.version));
+  var date = d.date || (d.meta && d.meta.date);
+
+  if (typeof testsPassed === 'number') document.getElementById('s-tests').textContent = testsPassed.toLocaleString();
+  if (typeof testsSkipped === 'number') document.getElementById('s-skipped').textContent = testsSkipped;
+  if (typeof testsFailed === 'number') document.getElementById('s-failed').textContent = testsFailed;
+  if (typeof leanTheorems === 'number') document.getElementById('s-lean').textContent = leanTheorems.toLocaleString();
+  if (typeof hardgatePillars === 'number') document.getElementById('s-pillars').textContent = hardgatePillars.toLocaleString();
+  if (version) document.getElementById('s-version').textContent = version;
+  if (date) document.getElementById('s-date').textContent = date;
+}
+
+// Prefer live Base44/backend status; fall back to bundled static JSON.
+loadStatusJson('/api/status')
+  .catch(function() { return loadStatusJson('../../data/status.json'); })
+  .then(applyLiveStatus)
+  .catch(function(){});
 
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof AZAssistant !== 'undefined') {

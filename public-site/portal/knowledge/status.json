@@ -1,29 +1,106 @@
 {
-  "version": "v22.10",
-  "date": "2026-08-20",
-  "tests_passed": 56772,
-  "lean4_theorems": 976,
+  "version": "v24.0",
+  "generated": "2026-08-23",
+  "tests_passed": 57692,
+  "tests_skipped": 47,
+  "tests_deselected": 12,
+  "tests_failed": 0,
+  "lean4_theorems": 1141,
+  "pillars": 208,
   "pillars_hardgate": 208,
-  "pillars_total": 785,
-  "next_pillar_slot": 786,
+  "pillars_total": 800,
+  "adjacent_tracks": 583,
+  "next_pillar_slot": 801,
+  "regression": "57,692 passed · 47 skipped · 12 deselected · 0 failed",
   "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
+  "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
+  "organization": "AxiomZero Technologies & Consulting, SPC",
+  "ubi": "606 239 876",
+  "predictions": {
+    "n_s": {
+      "um": 0.9635,
+      "planck": 0.9649,
+      "sigma": 0.0042,
+      "tension_sigma": 0.3,
+      "gate": "HARDGATE"
+    },
+    "r": {
+      "um": 0.0315,
+      "bound": 0.036,
+      "gate": "HARDGATE",
+      "status": "within_bound"
+    },
+    "beta": {
+      "um": [
+        0.273,
+        0.331
+      ],
+      "window": [
+        0.22,
+        0.38
+      ],
+      "gap": [
+        0.29,
+        0.31
+      ],
+      "test": "LiteBIRD ~2032",
+      "gate": "HARDGATE",
+      "status": "FIRST_DETECTION_CANDIDATE"
+    },
+    "higgs_mass_GeV": {
+      "um": 126.2,
+      "lhc": 125.25,
+      "lhc_sigma": 0.17,
+      "gate": "HARDGATE",
+      "status": "ONE_LOOP_CONSISTENT"
+    },
+    "w_a": {
+      "um": 0.0,
+      "desi_status": "DATASET_DEPENDENT",
+      "verdict": "BAO-only 1.11σ PASS; Pantheon+ 0.80σ PASS; Union3 1.59σ PASS; DESY5 3.18σ FALSIFIED_CANDIDATE; ACT DR6 0.17σ PASS",
+      "gate": "OPEN_GAP",
+      "test": "DESI DR3 ~2026"
+    },
+    "dm21_tension_sigma": {
+      "value": 1.71,
+      "gate": "OPEN_GAP",
+      "pillar": 796
+    }
+  },
   "open_tensions": [
     {
-      "name": "Δm²₂₁",
-      "sigma": 1.07,
-      "status": "NNLO_ARCHITECTURE_LIMIT"
+      "name": "JUNO G4 tension",
+      "sigma": 1.71,
+      "status": "JUNO_G4_TENSION_ESCALATED"
+    },
+    {
+      "name": "DESI w_a dataset split",
+      "status": "DESI_DR2_DATASET_DEPENDENT"
     },
     {
       "name": "CMB peak suppression",
       "status": "ARCHITECTURE_LIMIT (33.6% irreducible A_s mismatch)"
-    },
-    {
-      "name": "G4 criterion 2",
-      "frac_diff": 0.1816,
-      "status": "TYPE_B_CANDIDATE"
     }
   ],
-  "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
-  "organization": "AxiomZero Technologies & Consulting, SPC",
-  "ubi": "606 239 876"
+  "open_gaps": [
+    "G4 (FN charge irreducible residual) tension escalated with JUNO 2026 precision",
+    "w_a tension: DESY5 combination 3.18σ (FALSIFIED_CANDIDATE); other datasets PASS",
+    "Cosmological constant KK hierarchy 10⁵⁵ — shared with all QG frameworks; pre-registered open problem",
+    "33.6% A_s mismatch — TYPE_B structural floor; no additional Type A residual"
+  ],
+  "constants": {
+    "N_W": 5,
+    "K_CS": 74,
+    "C_S": 0.324324,
+    "XI_C": 0.472973,
+    "SENTINEL_CAPACITY": 0.324324,
+    "HIL_THRESHOLD": 15
+  },
+  "portal": {
+    "home": "https://axiomzerospc.org/portal/",
+    "knowledge": "https://axiomzerospc.org/portal/knowledge/",
+    "gym": "https://axiomzerospc.org/portal/gym/",
+    "engine": "https://axiomzerospc.org/portal/engine/",
+    "library": "https://axiomzerospc.org/portal/library/"
+  }
 }

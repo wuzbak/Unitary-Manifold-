@@ -345,7 +345,7 @@ follows with **no additional free parameter**.  The birefringence observation se
 which admissible braid pair the universe is in; it does not freely tune k_CS.
 Verified by `algebraic_k_eff_proof(n1, n2)` in `anomaly_closure.py`.
 
-**Sprint AH Gap 1 update (v24.1):** The uniqueness of (5,7) is now
+**Sprint AH Gap 1 update (v22.4):** The uniqueness of (5,7) is now
 PROVED_BY_EXHAUSTION (`pillar769_braid_uniqueness_proof.py`). The full
 admissible set (all Z₂-odd pairs with n_w ≤ 15, bounded by Axiom SW from
 the Swampland Distance Conjecture) is finite and enumerated. Three filters —
