@@ -93,6 +93,7 @@ def test_generated_live_status_file_is_current(live_status_module):
 
 
 def test_generated_live_status_has_no_keys():
+    assert LIVE_STATUS_PATH.exists(), "um_live_status.json not found — run 9-INFRASTRUCTURE/generate_live_status.py"
     text = LIVE_STATUS_PATH.read_text(encoding="utf-8")
     assert re.search(r"\bsk-[A-Za-z0-9]{20,}", text) is None
     assert "OPENROUTER_API_KEY" not in text

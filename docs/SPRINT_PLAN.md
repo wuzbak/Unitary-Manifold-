@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-08-20 (v23.2 Sprint AR COMPLETE — Pillars 792–794; Lean4 +30 → 1066; ~57,450 passed · 0 failed)*
+*Last updated: 2026-08-23 (v24.0 Sprint AS COMPLETE — Pillars 795–800; Lean4 +75 → 1141; ~57,692 passed · 0 failed)*
 *Purpose: Persistent continuity document for token-budget resilience. Any new agent session
 MUST read STATUS.md + mas_tracker.yml + this file as the first three operations.*
 
@@ -17,20 +17,20 @@ Then store the verified state in agent memory before proceeding.
 
 ---
 
-## CURRENT STATE (v22.4 — 2026-08-19)
+## CURRENT STATE (v24.0 — 2026-08-23)
 
 | Field | Value |
 |-------|-------|
-| Version | v22.4 |
-| Next pillar slot | **772** |
-| Lean4 theorems | **820+** |
-| Full regression | **~56,747 passed · 47 skipped · 12 deselected · 0 failed** |
+| Version | v24.0 |
+| Next pillar slot | **801** |
+| Lean4 theorems | **1141** |
+| Full regression | **~57,692 passed · 47 skipped · 12 deselected · 0 failed** |
 | Framework consistency status | All derivation chains internally self-consistent; external confirmation pending (LiteBIRD ~2032) |
-| Open named gaps | Gap 2 (ADM UV regulator, community-level); Gap 4 (FN charges, 9 free params, architecture limit); Gap 5 (CMB peak shape ~35% residual) |
-| Gap 1 status | **PROVED_BY_EXHAUSTION** (Pillar 769) — (5,7) unique braid survivor |
-| Gap 3 status | **PROVED_CONDITIONAL** (su5_uniqueness_weyl_audit.py + SU5OrbifoldWeylParity.lean) |
-| Architecture limits | r-tension IRREDUCIBLE (Pillar 396); wₐ=0 IRREDUCIBLE (Pillar 301); FN charges 9 free params |
-| Falsification protocols | DESI DR3 (~2026), CMB-S4 (~2028), LiteBIRD (~2032) — pre-registered (Pillar 771) |
+| Open named gaps | JUNO G4 residual 1.71σ (Pillar 796); DESI dataset split with DESY5 3.18σ falsified-candidate branch (Pillar 797); CMB amplitude structural floor 33.6% (Pillar 799); cosmological constant KK hierarchy 10⁵⁵ (Pillar 792) |
+| Gap 1 status | **FIRST_DETECTION_CANDIDATE** for birefringence low branch after ACT+Planck DR6; LiteBIRD/Simons remain pre-registered adjudicators (Pillar 795) |
+| Gap 3 status | **DATASET_DEPENDENT** for dark-energy wₐ routing; no multi-dataset >3σ consensus yet (Pillar 797) |
+| Architecture limits | CC_KK_HIERARCHY_ARCHITECTURE_LIMIT; CMB_AMPLITUDE_ARCHITECTURE_LIMIT; remaining residuals documented in FALLIBILITY.md and CLAIM_MASTER_BOARD.md |
+| Falsification protocols | DESI DR3 (~2026), JUNO Year 2 (~2027), CMB-S4 (~2028), LiteBIRD (~2032) — pre-registered routing active |
 
 ---
 
