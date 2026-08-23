@@ -524,10 +524,13 @@ if FASTAPI_AVAILABLE:
             raise HTTPException(status_code=400, detail="query too long (max 8000 chars for OX)")
 
         context_override = None if req.use_full_context else retrieve_context(query)
-        context_source = (
-            "ox_full_context.md (full-repository pack)" if req.use_full_context and OX_CONTEXT_PACK.exists()
-            else "inline pillar knowledge (ox_full_context.md not found — run 9-INFRASTRUCTURE/ox_context_pack.py)"
-        )
+        if req.use_full_context and OX_CONTEXT_PACK.exists():
+            context_source = "ox_full_context.md (full-repository pack)"
+        elif req.use_full_context and not OX_CONTEXT_PACK.exists():
+            # Pack requested but missing — call_ox will fall back to retrieve_context internally
+            context_source = "inline pillar knowledge (ox_full_context.md not found — run 9-INFRASTRUCTURE/ox_context_pack.py)"
+        else:
+            context_source = "inline pillar knowledge (full context disabled by caller)"
 
         answer = await call_ox(
             query=query,
