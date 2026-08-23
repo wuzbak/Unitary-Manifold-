@@ -34,7 +34,7 @@ python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (takes ~130 seconds):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 57,450 passed · 47 skipped · 12 deselected · 0 failed
+# Expected: 57,927 passed · 47 skipped · 12 deselected · 0 failed
 ```
 
 ## Repository Structure
