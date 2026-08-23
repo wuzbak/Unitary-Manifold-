@@ -34,6 +34,7 @@ import json
 import time
 import hashlib
 import logging
+import importlib.util
 from pathlib import Path
 from typing import Any
 
@@ -69,6 +70,9 @@ BRAVE_SEARCH_URL = "https://api.search.brave.com/res/v1/web/search"
 REPO_ROOT = Path(__file__).parent.parent
 KNOWLEDGE_DIR = REPO_ROOT  # sources: docs/, 1-THEORY/, src/core/, FALLIBILITY.md, etc.
 OX_CONTEXT_PACK = REPO_ROOT / "9-INFRASTRUCTURE" / "ox_full_context.md"
+LIVE_STATUS_PATH = REPO_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
+LEGACY_STATUS_PATH = REPO_ROOT / "public-site" / "data" / "status.json"
+LIVE_STATUS_GENERATOR_PATH = REPO_ROOT / "9-INFRASTRUCTURE" / "generate_live_status.py"
 
 MAX_CONTEXT_CHUNKS = 5
 CHUNK_TOKEN_LIMIT  = 400   # approximate chars
@@ -76,7 +80,7 @@ CACHE_TTL_SECONDS  = 300
 
 # ── Anti-sycophancy system prompt ─────────────────────────────────────────────
 SYSTEM_PROMPT = """You are the AxiomZero Open Science Assistant, grounded in the Unitary Manifold \
-physics framework (5D Kaluza-Klein, 208+ pillars, 872+ Lean4 theorems).
+physics framework (5D Kaluza-Klein, 208+ pillars, live Lean4 theorem corpus).
 
 RULES — never break these:
 1. CITE: Always cite the relevant Pillar number and its gate status when answering a physics question.
@@ -138,6 +142,120 @@ Primary falsifier: birefringence β — LiteBIRD ~2032
 
 # Simple in-memory cache
 _cache: dict[str, tuple[float, dict]] = {}
+
+
+def _read_json_file(path: Path) -> dict[str, Any] | None:
+    try:
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        logger.warning("Failed to read JSON file %s: %s", path, exc)
+    return None
+
+
+def _build_live_status_from_generator() -> dict[str, Any] | None:
+    try:
+        spec = importlib.util.spec_from_file_location("um_live_status_generator", LIVE_STATUS_GENERATOR_PATH)
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            return module.build_live_status()
+    except Exception as exc:
+        logger.warning("Failed to build live status from generator: %s", exc)
+    return None
+
+
+def load_live_status() -> dict[str, Any]:
+    """Load canonical live status for Base44/frontends with safe fallbacks."""
+    live_status = _read_json_file(LIVE_STATUS_PATH)
+    if isinstance(live_status, dict) and "meta" in live_status and "tests" in live_status:
+        return live_status
+
+    live_status = _build_live_status_from_generator()
+    if isinstance(live_status, dict) and "meta" in live_status and "tests" in live_status:
+        return live_status
+
+    legacy = _read_json_file(LEGACY_STATUS_PATH)
+    if isinstance(legacy, dict):
+        return {
+            "meta": {
+                "version": legacy.get("version", "unknown"),
+                "date": legacy.get("date", "unknown"),
+                "source_of_truth": str(LEGACY_STATUS_PATH),
+                "generated_by": "legacy public-site/data/status.json fallback",
+            },
+            "tests": {
+                "passed": int(legacy.get("tests_passed", 0) or 0),
+                "skipped": int(legacy.get("tests_skipped", 0) or 0),
+                "deselected": int(legacy.get("tests_deselected", 0) or 0),
+                "failed": int(legacy.get("tests_failed", legacy.get("failures", 0)) or 0),
+            },
+            "lean4": {"theorem_count": int(legacy.get("lean4_theorems", 0) or 0)},
+            "pillars": {
+                "next_slot": int(legacy.get("next_pillar_slot", 0) or 0),
+                "hardgate_count": int(legacy.get("pillars_hardgate", legacy.get("pillars", 0)) or 0),
+                "total_slots": int(legacy.get("pillars_total", 0) or 0),
+            },
+            "open_gates": legacy.get("open_tensions", []),
+        }
+
+    return {
+        "meta": {
+            "version": "unknown",
+            "date": "unknown",
+            "source_of_truth": "unavailable",
+            "generated_by": "assistant_api fallback",
+        },
+        "tests": {"passed": 0, "skipped": 0, "deselected": 0, "failed": 0},
+        "lean4": {"theorem_count": 0},
+        "pillars": {"next_slot": 0, "hardgate_count": 208, "total_slots": 0},
+        "open_gates": [],
+    }
+
+
+def build_status_response() -> dict[str, Any]:
+    """Expose canonical live status plus legacy compatibility fields."""
+    live_status = load_live_status()
+    tests = live_status.get("tests", {})
+    lean4 = live_status.get("lean4", {})
+    pillars = live_status.get("pillars", {})
+    predictions = live_status.get("predictions", [])
+
+    primary_falsifier = ""
+    if predictions:
+        first_prediction = predictions[0]
+        primary_falsifier = first_prediction.get("name", "")
+        if first_prediction.get("predicted_range"):
+            primary_falsifier = f"{primary_falsifier} — {first_prediction['predicted_range']}"
+
+    version = live_status.get("meta", {}).get("version", "unknown")
+    legacy_version = version if str(version).startswith("v") else f"v{version}"
+
+    regression = (
+        f"{int(tests.get('passed', 0)):,} passed · "
+        f"{int(tests.get('skipped', 0))} skipped · "
+        f"{int(tests.get('deselected', 0))} deselected · "
+        f"{int(tests.get('failed', 0))} failed"
+    )
+
+    return {
+        **live_status,
+        "tests_passed": int(tests.get("passed", 0) or 0),
+        "tests_skipped": int(tests.get("skipped", 0) or 0),
+        "tests_deselected": int(tests.get("deselected", 0) or 0),
+        "tests_failed": int(tests.get("failed", 0) or 0),
+        "lean4_theorems": int(lean4.get("theorem_count", 0) or 0),
+        "pillars_hardgate": int(pillars.get("hardgate_count", 0) or 0),
+        "pillars_total": int(pillars.get("total_slots", 0) or 0),
+        "next_pillar_slot": int(pillars.get("next_slot", 0) or 0),
+        "version": legacy_version,
+        "date": live_status.get("meta", {}).get("date", "unknown"),
+        "regression": regression,
+        "failures": int(tests.get("failed", 0) or 0),
+        "primary_falsifier": primary_falsifier,
+        "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
+        "status_source": live_status.get("meta", {}).get("source_of_truth", str(LIVE_STATUS_PATH)),
+    }
 
 
 # ── Retrieval ──────────────────────────────────────────────────────────────────
@@ -343,17 +461,7 @@ if FASTAPI_AVAILABLE:
     @app.get("/api/status")
     async def get_status():
         """Live framework status — test count, theorem count, open gaps."""
-        status_file = REPO_ROOT / "public-site" / "data" / "status.json"
-        if status_file.exists():
-            return json.loads(status_file.read_text())
-        return {
-            "tests_passed": 56279,
-            "tests_skipped": 47,
-            "lean4_theorems": 872,
-            "pillars": 208,
-            "version": "v22.6",
-            "failures": 0,
-        }
+        return build_status_response()
 
     @app.get("/api/pillars")
     async def get_pillars():

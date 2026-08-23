@@ -180,7 +180,7 @@
     var ctx = state.pageCtx || 'this page';
     appendMessage('assistant', [
       'Hello. I\'m grounded in the Unitary Manifold knowledge base — 208+ physics pillars, ',
-      '872+ Lean4 theorems, and the full AxiomZero product suite.',
+      'the live Lean4 theorem corpus, and the full AxiomZero product suite.',
       '\n\nI\'m on <strong>' + escHtml(ctx) + '</strong>. What would you like to explore? ',
       'I\'ll cite sources and flag open gaps honestly — and I\'ll push back if something ',
       'doesn\'t hold up.',

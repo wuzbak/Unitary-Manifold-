@@ -191,20 +191,22 @@ FETCH_TARGETS = {
 def _parse_status_md() -> dict:
     """Parse the canonical values from the first sprint entry in STATUS.md."""
     text = STATUS_PATH.read_text(encoding="utf-8")
+    sprint_start = text.find("*v")
+    sprint_entry = text[sprint_start:].split("\n\n", 1)[0].strip() if sprint_start >= 0 else text
 
     # Version + sprint label
-    version_match = re.search(r"\*v([\d.]+) Sprint (\w+)", text)
+    version_match = re.search(r"\*v([\d.]+) Sprint (\w+)", sprint_entry)
     version = version_match.group(1) if version_match else "unknown"
     sprint = version_match.group(2) if version_match else "unknown"
 
     # Date
-    date_match = re.search(r"\((\d{4}-\d{2}-\d{2})\)", text)
+    date_match = re.search(r"\((\d{4}-\d{2}-\d{2})\)", sprint_entry)
     date = date_match.group(1) if date_match else "unknown"
 
     # Test counts — first occurrence
     tests_match = re.search(
         r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
-        text,
+        sprint_entry,
     )
     tests = {
         "passed": int(tests_match.group(1).replace(",", "")) if tests_match else 0,
@@ -213,12 +215,12 @@ def _parse_status_md() -> dict:
         "failed": int(tests_match.group(4)) if tests_match else 0,
     }
 
-    # Lean4 theorem count — last mention of "total NNNN" or "→NNNN"
-    lean4_matches = re.findall(r"Lean4[^)]*?(?:total\s+|→)(\d{3,5})", text)
-    lean4_count = int(lean4_matches[0]) if lean4_matches else 0
+    # Lean4 theorem count — final total reported inside the first sprint entry
+    lean4_matches = re.findall(r"Lean4[^)]*?(?:total\s+|→)(\d{3,5})", sprint_entry)
+    lean4_count = int(lean4_matches[-1]) if lean4_matches else 0
 
     # Next pillar slot
-    next_slot_match = re.search(r"next slot (\d+)", text)
+    next_slot_match = re.search(r"next slot (\d+)", sprint_entry)
     next_slot = int(next_slot_match.group(1)) if next_slot_match else 0
 
     return {

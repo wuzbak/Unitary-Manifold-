@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Status Dashboard — axiomzerospc.org</title>
-  <meta name="description" content="Public status dashboard for the Unitary Manifold: v22.10, 56,772 passing tests, 976 Lean4 theorems, open tensions, and the primary LiteBIRD falsifier." />
+  <meta name="description" content="Public status dashboard for the Unitary Manifold: v24.0, 57,692 passing tests, 1,141 Lean4 theorems, open tensions, and the primary LiteBIRD falsifier." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/main.css" />
@@ -82,7 +82,7 @@
     <li><a href="../portal/library/">Library</a></li>
     <li><a href="../portal/engine/">Science Engine</a></li>
     <li><a href="index.html" class="active">Status</a></li>
-    <li><span class="nav-badge">v22.10</span></li>
+    <li><span class="nav-badge">v24.0</span></li>
   </ul>
   <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
 </nav>
@@ -105,17 +105,17 @@
     <div class="status-grid">
       <div class="status-card">
         <div class="status-card-label">Version</div>
-        <div class="status-card-value" style="color:var(--color-gold);">v22.10</div>
-        <div class="status-card-sub">2026-08-20</div>
+        <div class="status-card-value" style="color:var(--color-gold);">v24.0</div>
+        <div class="status-card-sub">2026-08-23</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Passing Tests</div>
-        <div class="status-card-value" style="color:var(--color-green);">56,772</div>
+        <div class="status-card-value" style="color:var(--color-green);">57,692</div>
         <div class="status-card-sub">0 failures required</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Lean4 Theorems</div>
-        <div class="status-card-value" style="color:var(--color-accent);">976</div>
+        <div class="status-card-value" style="color:var(--color-accent);">1,141</div>
         <div class="status-card-sub">machine-checkable theorem registry</div>
       </div>
       <div class="status-card">
@@ -125,8 +125,8 @@
       </div>
       <div class="status-card">
         <div class="status-card-label">Total Pillars</div>
-        <div class="status-card-value">785</div>
-        <div class="status-card-sub">next pillar slot: 786</div>
+        <div class="status-card-value">800</div>
+        <div class="status-card-sub">next pillar slot: 801</div>
       </div>
     </div>
 
@@ -155,8 +155,8 @@
         <tbody>
           <tr>
             <td>Δm²₂₁</td>
-            <td class="mono">1.07σ</td>
-            <td>NNLO_ARCHITECTURE_LIMIT</td>
+            <td class="mono">1.71σ</td>
+            <td>JUNO_G4_TENSION_ESCALATED</td>
           </tr>
           <tr>
             <td>CMB peak suppression</td>
@@ -164,9 +164,9 @@
             <td>ARCHITECTURE_LIMIT</td>
           </tr>
           <tr>
-            <td>G4 criterion 2</td>
-            <td class="mono">frac diff 0.1816</td>
-            <td>TYPE_B_CANDIDATE</td>
+            <td>DESI w_a dataset split</td>
+            <td class="mono">3.18σ worst-case branch</td>
+            <td>DESI_DR2_DATASET_DEPENDENT</td>
           </tr>
         </tbody>
       </table>
@@ -188,7 +188,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof AZAssistant !== 'undefined') {
-      AZAssistant.setPageContext('Public status dashboard — v22.10, 56,772 tests, 976 Lean4 theorems, open tensions, and the LiteBIRD falsifier');
+      AZAssistant.setPageContext('Public status dashboard — v24.0, 57,692 tests, 1,141 Lean4 theorems, open tensions, and the LiteBIRD falsifier');
     }
   });
 </script>

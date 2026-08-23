@@ -163,10 +163,15 @@ cd bot/
 pip install fastapi uvicorn httpx numpy
 export HF_API_TOKEN=<your_token>
 export BRAVE_API_KEY=<your_key>   # optional, for websearch
+cd ..
+python 9-INFRASTRUCTURE/generate_live_status.py
+cd bot
 uvicorn assistant_api:app --host 0.0.0.0 --port 8000
 ```
 
 Deploy on Cloud Run or Railway. Set `CFG.apiEndpoint = 'https://api.axiomzerospc.org'` in `js/assistant.js`.
+The backend `GET /api/status` endpoint now serves the canonical `9-INFRASTRUCTURE/um_live_status.json`
+payload plus legacy compatibility fields for existing portal consumers.
 
 ### 3. HF Spaces
 
