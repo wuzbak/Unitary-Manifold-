@@ -147,15 +147,15 @@ class TestLoopQKK:
     def test_loop_wa_nonzero(self):
         r = loop_qkk_wa_effective()
         assert r['fundamental_wa'] == 0.0
-        assert r['wa_effective_lqk'] != 0.0
+        assert r['wa_effective_lqkk'] != 0.0
 
     def test_loop_wa_negative(self):
         r = loop_qkk_wa_effective()
-        assert r['wa_effective_lqk'] < 0.0
+        assert r['wa_effective_lqkk'] < 0.0
 
     def test_loop_wa_smaller_than_desy5(self):
         r = loop_qkk_wa_effective()
-        assert abs(r['wa_effective_lqk']) < abs(DESI_DR2_BAO_DESY5['wa'])
+        assert abs(r['wa_effective_lqkk']) < abs(DESI_DR2_BAO_DESY5['wa'])
 
     def test_status_hypothesis(self):
         r = loop_qkk_wa_effective()

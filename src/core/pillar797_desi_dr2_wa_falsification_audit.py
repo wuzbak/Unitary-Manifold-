@@ -234,7 +234,7 @@ def loop_qkk_wa_effective() -> dict:
 
     return {
         'fundamental_wa': WA_UM,
-        'wa_effective_lqk': float(wa_eff),
+        'wa_effective_lqkk': float(wa_eff),
         'alpha_lqg': alpha_lqg,
         'n_w_over_k_cs': n_w / K_CS,
         'omega_kk_over_lambda': omega_ratio,

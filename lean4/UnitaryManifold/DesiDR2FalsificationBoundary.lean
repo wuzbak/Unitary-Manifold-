@@ -64,7 +64,7 @@ def SIGMA_WA_ACT : Nat := 35   -- 0.35 × 100
 theorem act_wa_near_um : (6 : Nat) < SIGMA_WA_ACT := by decide
 
 -- 8. UM prediction within 1σ of ACT DR6
-theorem act_consistent_with_um : (6 : Nat) < SIGMA_WA_ACT := by decide
+theorem act_consistent_with_um : WA_ACT_DR6.natAbs < SIGMA_WA_ACT := by decide
 
 -- 9. DESY5 sigma is smallest (most constraining)
 theorem desy5_tightest : SIGMA_WA_DESY5 < SIGMA_WA_UNION3 := by decide

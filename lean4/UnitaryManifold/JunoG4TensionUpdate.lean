@@ -49,6 +49,10 @@ theorem gate_approaching_positive : GATE_APPROACHING > 0 := by decide
 theorem gate_order_1 : GATE_APPROACHING < GATE_STABLE_UPPER := by decide
 theorem gate_order_2 : GATE_STABLE_UPPER < GATE_TYPE_A_RISK := by decide
 
+-- 10. Post-JUNO tension in units (gap × 1000 / σ_post) > pre-JUNO tension (gap × 1000 / σ_pre)
+theorem post_juno_tension_higher : DM21_PDG_PRE_JUNO - DM21_UM_PRED > 0 ∧
+    DM21_SIGMA_POST < DM21_SIGMA_PRE_JUNO := by decide
+
 -- 11. JUNO improvement factor > 1 (precision improves)
 theorem improvement_greater_than_one : JUNO_IMPROVEMENT > 10 := by decide
 
