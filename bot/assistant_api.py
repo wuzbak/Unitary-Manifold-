@@ -11,10 +11,17 @@ Features:
   - Websearch integration (Brave / Serper) for external literature alignment
   - Anchor tracking metadata passthrough
   - HF Inference Endpoints as LLM backbone (configurable)
+  - OX Alpha (stealth/ox-alpha via OpenRouter) — extended-memory model for full-repo context queries
 
 Deploy:
   pip install fastapi uvicorn huggingface_hub sentence-transformers numpy httpx
   uvicorn bot.assistant_api:app --host 0.0.0.0 --port 8000
+
+Environment variables:
+  HF_API_TOKEN       — HuggingFace Inference API key
+  HF_MODEL_ID        — HF model ID (default: mistralai/Mistral-7B-Instruct-v0.3)
+  OPENROUTER_API_KEY — OpenRouter API key for OX Alpha access
+  BRAVE_API_KEY      — Brave Search API key (optional websearch)
 
 AxiomZero Technologies & Consulting, SPC — UBI 606 239 876
 Open science artifact — public domain
@@ -48,11 +55,20 @@ HF_API_TOKEN   = os.environ.get("HF_API_TOKEN", "")
 HF_MODEL_ID    = os.environ.get("HF_MODEL_ID", "mistralai/Mistral-7B-Instruct-v0.3")
 HF_ENDPOINT    = f"https://api-inference.huggingface.co/models/{HF_MODEL_ID}"
 
+# OX Alpha — extended-memory model via OpenRouter
+# Set OPENROUTER_API_KEY in environment (never in source).
+# Model: stealth/ox-alpha  — https://openrouter.ai/stealth/ox-alpha
+OPENROUTER_API_KEY  = os.environ.get("OPENROUTER_API_KEY", "")
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
+OX_MODEL_ID         = "stealth/ox-alpha"
+OX_MAX_TOKENS       = 4096   # cap per response; OX supports very large context
+
 BRAVE_API_KEY  = os.environ.get("BRAVE_API_KEY", "")
 BRAVE_SEARCH_URL = "https://api.search.brave.com/res/v1/web/search"
 
 REPO_ROOT = Path(__file__).parent.parent
 KNOWLEDGE_DIR = REPO_ROOT  # sources: docs/, 1-THEORY/, src/core/, FALLIBILITY.md, etc.
+OX_CONTEXT_PACK = REPO_ROOT / "9-INFRASTRUCTURE" / "ox_full_context.md"
 
 MAX_CONTEXT_CHUNKS = 5
 CHUNK_TOKEN_LIMIT  = 400   # approximate chars
@@ -213,6 +229,76 @@ async def call_llm(prompt: str) -> str:
     except Exception as exc:
         logger.error("LLM call failed: %s", exc)
         return f"LLM call failed: {exc}"
+
+
+async def call_ox(
+    query: str,
+    system: str = "",
+    context_override: str | None = None,
+    temperature: float = 0.2,
+) -> str:
+    """
+    Call OX Alpha (stealth/ox-alpha) via OpenRouter with extended-memory context.
+
+    OX's large context window allows the full ox_full_context.md pack to be injected
+    as the system prompt, giving it cross-pillar awareness across the entire repository.
+
+    Falls back with a clear error message if OPENROUTER_API_KEY is not set.
+    GOVERNANCE: outputs are AI suggestions — steward approval required for hardgate decisions.
+    """
+    if not OPENROUTER_API_KEY:
+        return (
+            "⚠️ OX Alpha not configured (OPENROUTER_API_KEY not set). "
+            "Set the OPENROUTER_API_KEY environment variable with your OpenRouter key. "
+            "Key obtainable at https://openrouter.ai — model: stealth/ox-alpha."
+        )
+
+    # Load full context pack if available; fall back to inline knowledge
+    if context_override is not None:
+        full_context = context_override
+    elif OX_CONTEXT_PACK.exists():
+        full_context = OX_CONTEXT_PACK.read_text(encoding="utf-8")
+    else:
+        full_context = retrieve_context(query)
+
+    sys_prompt = system or SYSTEM_PROMPT
+    sys_content = f"{sys_prompt}\n\n--- FULL REPOSITORY CONTEXT (OX Extended Memory) ---\n{full_context}"
+
+    messages = [
+        {"role": "system", "content": sys_content},
+        {"role": "user",   "content": query},
+    ]
+
+    payload = {
+        "model": OX_MODEL_ID,
+        "messages": messages,
+        "max_tokens": OX_MAX_TOKENS,
+        "temperature": temperature,
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=120) as client:
+            resp = await client.post(
+                OPENROUTER_BASE_URL,
+                headers={
+                    "Authorization": f"******",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://axiomzerosp.org",
+                    "X-Title": "AxiomZero Open Science Assistant",
+                },
+                json=payload,
+            )
+            if resp.status_code == 200:
+                data = resp.json()
+                choices = data.get("choices", [])
+                if choices:
+                    return choices[0].get("message", {}).get("content", "").strip()
+                return "OX returned empty response."
+            logger.warning("OX call HTTP %s: %s", resp.status_code, resp.text[:500])
+            return f"OX error: HTTP {resp.status_code}"
+    except Exception as exc:
+        logger.error("OX call failed: %s", exc)
+        return f"OX call failed: {exc}"
 
 
 # ── FastAPI app ───────────────────────────────────────────────────────────────
@@ -404,6 +490,79 @@ if FASTAPI_AVAILABLE:
             "gate": "HARDGATE",
             "test": "LiteBIRD ~2032",
             "note": "Any β outside [0.22°,0.38°] or in gap [0.29°–0.31°] falsifies the braided-winding mechanism.",
+        }
+
+    class OXRequest(BaseModel):
+        query: str
+        use_full_context: bool = True
+        temperature: float = 0.2
+        system: str = ""
+
+    class OXResponse(BaseModel):
+        answer: str
+        model: str
+        epistemic_note: str
+        context_source: str
+        governance_note: str
+
+    @app.post("/api/ox", response_model=OXResponse)
+    async def ox_query(req: OXRequest):
+        """
+        OX Alpha extended-memory query endpoint.
+
+        Routes to stealth/ox-alpha via OpenRouter with the full repository context pack
+        injected as the system prompt when use_full_context=True.
+
+        GOVERNANCE: All OX outputs are AI-generated suggestions.
+        Hardgate decisions, pillar numbering, and Lean4 theorem acceptance require
+        steward (human) approval per the HILS framework (SEPARATION.md).
+        """
+        query = (req.query or "").strip()
+        if not query:
+            raise HTTPException(status_code=400, detail="query must not be empty")
+        if len(query) > 8000:
+            raise HTTPException(status_code=400, detail="query too long (max 8000 chars for OX)")
+
+        context_override = None if req.use_full_context else retrieve_context(query)
+        if req.use_full_context and OX_CONTEXT_PACK.exists():
+            context_source = "ox_full_context.md (full-repository pack)"
+        elif req.use_full_context and not OX_CONTEXT_PACK.exists():
+            # Pack requested but missing — call_ox will fall back to retrieve_context internally
+            context_source = "inline pillar knowledge (ox_full_context.md not found — run 9-INFRASTRUCTURE/ox_context_pack.py)"
+        else:
+            context_source = "inline pillar knowledge (full context disabled by caller)"
+
+        answer = await call_ox(
+            query=query,
+            system=req.system,
+            context_override=context_override,
+            temperature=req.temperature,
+        )
+
+        return OXResponse(
+            answer=answer,
+            model=OX_MODEL_ID,
+            epistemic_note=(
+                "OX Alpha response grounded in UM repository context. "
+                "Gate labels: HARDGATE / ADJACENT_TRACK / OPEN_GAP. "
+                "Open gaps documented in FALLIBILITY.md."
+            ),
+            context_source=context_source,
+            governance_note=(
+                "AI-generated suggestion — steward approval required for any hardgate claim, "
+                "pillar numbering, or Lean4 theorem acceptance (HILS framework, SEPARATION.md)."
+            ),
+        )
+
+    @app.get("/api/ox/status")
+    async def ox_status():
+        """OX Alpha availability check — returns whether key is configured and context pack exists."""
+        return {
+            "ox_available": bool(OPENROUTER_API_KEY),
+            "model": OX_MODEL_ID,
+            "context_pack_exists": OX_CONTEXT_PACK.exists(),
+            "context_pack_path": str(OX_CONTEXT_PACK),
+            "governance": "OX outputs are AI suggestions. Hardgate decisions require steward approval.",
         }
 
 
