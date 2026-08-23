@@ -15,6 +15,12 @@ import math
 import numpy as np
 
 try:
+    import httpx
+    HTTPX_OK = True
+except ImportError:
+    HTTPX_OK = False
+
+try:
     import gradio as gr
     GRADIO_OK = True
 except ImportError:
@@ -33,11 +39,36 @@ R_PREDICTED           = 0.0315
 BETA_CANONICAL        = [0.2728, 0.3309]  # degrees — approximate
 BETA_ADMISSIBLE       = (0.22, 0.38)
 
+# OX Alpha — extended-memory model via OpenRouter
+# Set OPENROUTER_API_KEY environment variable (never in source).
+OPENROUTER_API_KEY  = os.environ.get("OPENROUTER_API_KEY", "")
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
+OX_MODEL_ID         = "stealth/ox-alpha"
+OX_MAX_TOKENS       = 4096
+
+# Path to the full context pack (present in this Space if uploaded alongside app.py)
+_SPACE_DIR = os.path.dirname(os.path.abspath(__file__))
+OX_CONTEXT_PACK_PATH = os.path.join(_SPACE_DIR, "ox_full_context.md")
+
 EPISTEMIC_FOOTER = (
     "\n\n---\n"
     "*Open science artifact — AxiomZero Technologies & Consulting, SPC — UBI 606 239 876*\n"
     "*Use at your own liability. Epistemic gate labels reflect formal status, not certainty.*"
 )
+
+OX_SYSTEM_PROMPT = """\
+You are the AxiomZero Open Science Assistant powered by OX Alpha (extended memory mode).
+You have access to the full Unitary Manifold repository context: 800+ pillars,
+57,450 tests, 1,066 Lean4 theorems, all open gaps and hardgate claims.
+
+RULES:
+1. Always cite pillar numbers and their gate status (HARDGATE / ADJACENT_TRACK / OPEN_GAP).
+2. Never confabulate. Say "not in my context" if uncertain.
+3. No sycophancy. Correct errors gently but firmly.
+4. Never use "ToE score" or "100% hardgate" — use plain epistemic status only.
+5. Label predictions with uncertainty ranges and test status.
+6. GOVERNANCE: You are an AI assistant. Hardgate decisions require steward (human) approval.
+"""
 
 
 # ── Oracle synthesis functions ─────────────────────────────────────────────────
@@ -158,6 +189,84 @@ def run_bire(Kcs, cs):
     return fmt(result) + EPISTEMIC_FOOTER
 
 
+def run_ox_query(query: str, use_full_context: bool, temperature: float) -> str:
+    """
+    OX Alpha extended-memory query handler for the Gradio tab.
+    Routes to stealth/ox-alpha via OpenRouter with the repository context pack.
+    Falls back with a clear message if OPENROUTER_API_KEY is not set.
+    GOVERNANCE: outputs are AI suggestions — steward approval required for hardgate decisions.
+    """
+    query = (query or "").strip()
+    if not query:
+        return "⚠️ Please enter a question."
+
+    if not OPENROUTER_API_KEY:
+        return (
+            "⚠️ OX Alpha not configured.\n\n"
+            "Set the OPENROUTER_API_KEY environment variable in your HF Space secrets.\n"
+            "Model: stealth/ox-alpha — https://openrouter.ai/stealth/ox-alpha\n\n"
+            "Once configured, OX will receive the full repository context pack "
+            "(~85k tokens) as its system prompt."
+        )
+
+    if not HTTPX_OK:
+        return "⚠️ httpx not installed. Add 'httpx' to requirements.txt."
+
+    # Load context pack
+    if use_full_context and os.path.exists(OX_CONTEXT_PACK_PATH):
+        with open(OX_CONTEXT_PACK_PATH, encoding="utf-8") as fh:
+            repo_ctx = fh.read()
+        ctx_note = "Full ox_full_context.md loaded."
+    else:
+        repo_ctx = (
+            "Full context pack not available. Core: Pillars 1–208 hardgated, "
+            "208+ adjacent tracks, 57,450 tests, 1,066 Lean4 theorems, n_w=5, K_cs=74."
+        )
+        ctx_note = "Inline stub (context pack not found — upload ox_full_context.md to Space)."
+
+    sys_content = OX_SYSTEM_PROMPT + "\n\n--- REPOSITORY CONTEXT ---\n" + repo_ctx
+    payload = {
+        "model": OX_MODEL_ID,
+        "messages": [
+            {"role": "system", "content": sys_content},
+            {"role": "user",   "content": query},
+        ],
+        "max_tokens": OX_MAX_TOKENS,
+        "temperature": float(temperature),
+    }
+
+    try:
+        import httpx as _httpx
+        with _httpx.Client(timeout=120) as client:
+            resp = client.post(
+                OPENROUTER_BASE_URL,
+                headers={
+                    "Authorization": f"******",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://axiomzerosp.org",
+                    "X-Title": "AxiomZero Ω Oracle — OX Mode",
+                },
+                json=payload,
+            )
+            if resp.status_code != 200:
+                return f"⚠️ OX HTTP {resp.status_code}: {resp.text[:400]}"
+            data = resp.json()
+            choices = data.get("choices", [])
+            if not choices:
+                return "⚠️ OX returned empty response."
+            answer = choices[0].get("message", {}).get("content", "").strip()
+    except Exception as exc:
+        return f"⚠️ OX call failed: {exc}"
+
+    gov_note = (
+        "\n\n---\n"
+        "⚖️ **Governance reminder:** OX output is AI-generated. "
+        "No hardgate claim, pillar number, or Lean4 theorem is accepted without steward approval.\n"
+        f"Context source: {ctx_note}"
+    ) + EPISTEMIC_FOOTER
+    return answer + gov_note
+
+
 with gr.Blocks(
     title="AxiomZero Ω Oracle",
     theme=gr.themes.Base(primary_hue="blue", neutral_hue="slate"),
@@ -222,6 +331,44 @@ with gr.Blocks(
             with gr.Column():
                 out_p    = gr.Textbox(label="Result", lines=15)
         btn_p.click(run_pentad, inputs=[nop_in, coup_in, phase_in], outputs=out_p)
+
+    with gr.Tab("🧠 OX Extended Memory"):
+        gr.Markdown(
+            """### OX Alpha — Extended Memory Mode
+            Ask anything about the Unitary Manifold. OX Alpha (via OpenRouter) receives the
+            full repository context pack (~85k tokens): all pillars, Lean4 theorems,
+            claims board, and admitted gaps.
+
+            **Requires** `OPENROUTER_API_KEY` in HF Space secrets.
+            Upload `9-INFRASTRUCTURE/ox_full_context.md` alongside `app.py` for full context.
+
+            ⚖️ **Governance:** OX outputs are AI suggestions. Hardgate decisions require steward approval.
+            """
+        )
+        with gr.Row():
+            with gr.Column(scale=2):
+                ox_query_in = gr.Textbox(
+                    label="Question for OX",
+                    placeholder="e.g. Which pillar closes the Δm²₂₁ tension? List all OPEN_GAP claims.",
+                    lines=4,
+                )
+                with gr.Row():
+                    ox_full_ctx_in = gr.Checkbox(
+                        label="Use full context pack (~85k tokens)",
+                        value=True,
+                    )
+                    ox_temp_in = gr.Slider(
+                        0.0, 0.8, value=0.2, step=0.1,
+                        label="Temperature (0=deterministic, 0.8=creative)",
+                    )
+                ox_btn = gr.Button("Ask OX ↗", variant="primary")
+            with gr.Column(scale=3):
+                ox_out = gr.Textbox(label="OX Response", lines=25)
+        ox_btn.click(
+            run_ox_query,
+            inputs=[ox_query_in, ox_full_ctx_in, ox_temp_in],
+            outputs=ox_out,
+        )
 
     gr.Markdown(
         """---
