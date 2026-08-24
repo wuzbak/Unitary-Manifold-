@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AxiomZero Open Science Portal — Hugging Face</title>
+  <meta name="description" content="Full AxiomZero webspace on HF: 20 products, OS environments, physics engines, IP catalog, and RAG knowledge base. v24.1 · 57,927 tests · 1,246 Lean4 theorems."/>
+  <meta property="og:title" content="AxiomZero Open Science Portal"/>
+  <meta property="og:description" content="5D Kaluza-Klein physics framework. 208 hardgate pillars. All apps, OS, engines, IP, knowledge — fully functional on HF Spaces."/>
+  <meta property="og:type" content="website"/>
+  <meta name="theme-color" content="#050a1a"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #050a1a; --bg2: #0a1228; --card: #0d1830; --border: #1a2a4a;
+      --accent: #3b8bff; --accent2: #7c4dff; --gold: #f0c040; --green: #30d158;
+      --orange: #ff9f0a; --red: #ff453a; --text: #e8ecf4; --muted: #7a8ba8;
+      --mono: 'JetBrains Mono', monospace; --sans: 'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: #7cb5ff; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    /* Nav */
+    nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(5,10,26,0.92);
+      backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+      height: 60px; display: flex; align-items: center; padding: 0 2rem; justify-content: space-between; }
+    .nav-brand { font-weight: 800; font-size: 1.1rem; color: var(--text); display: flex; align-items: center; gap: .75rem; }
+    .nav-logo { width:32px; height:32px; background: linear-gradient(135deg,var(--accent),var(--accent2));
+      border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:.85rem; }
+    .nav-links { display:flex; gap:1.5rem; list-style:none; align-items:center; }
+    .nav-links a { color:var(--muted); font-size:.9rem; font-weight:500; transition:color .2s; }
+    .nav-links a:hover { color:var(--text); }
+    .badge { background: linear-gradient(135deg,#1a3a6a,#2a1a6a); border:1px solid var(--border);
+      padding:.25rem .75rem; border-radius:20px; font-size:.75rem; color:var(--accent); font-family:var(--mono); }
+    /* Hero */
+    .hero { min-height:100vh; display:flex; align-items:center; padding-top:60px;
+      background: radial-gradient(ellipse at 50% 20%, #0a1a3a 0%, #050a1a 70%); position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse 700px 500px at 15% 70%, rgba(59,139,255,.06) 0%, transparent 70%),
+                  radial-gradient(ellipse 500px 400px at 85% 20%, rgba(124,77,255,.06) 0%, transparent 70%); }
+    .hero-inner { position:relative; z-index:2; padding: 2rem 0 3rem; }
+    .eyebrow { display:inline-flex; align-items:center; gap:.5rem; background:rgba(59,139,255,.1);
+      border:1px solid rgba(59,139,255,.3); border-radius:20px; padding:.3rem .9rem;
+      font-size:.8rem; color:var(--accent); font-family:var(--mono); margin-bottom:1.5rem; }
+    .hero h1 { font-size: clamp(2.8rem,7vw,5rem); font-weight:800; line-height:1.05;
+      background: linear-gradient(135deg,#e8ecf4 30%,#3b8bff 70%,#c4aaff 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:1.25rem; }
+    .hero-sub { font-size:1.15rem; color:var(--muted); max-width:560px; margin-bottom:2rem; }
+    .stats { display:flex; gap:2.5rem; margin:2rem 0; flex-wrap:wrap; }
+    .stat-num { font-size:1.8rem; font-weight:700; font-family:var(--mono); color:var(--gold); line-height:1; }
+    .stat-lbl { font-size:.8rem; color:var(--muted); margin-top:.2rem; }
+    .btn { display:inline-flex; align-items:center; gap:.5rem; padding:.65rem 1.4rem;
+      border-radius:8px; font-size:.9rem; font-weight:600; cursor:pointer; border:none; transition:all .2s; }
+    .btn-primary { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; box-shadow:0 0 20px rgba(59,139,255,.3); }
+    .btn-primary:hover { transform:translateY(-1px); box-shadow:0 0 30px rgba(59,139,255,.5); color:#fff; }
+    .btn-outline { background:transparent; color:var(--accent); border:1px solid rgba(59,139,255,.5); }
+    .btn-outline:hover { background:rgba(59,139,255,.1); color:var(--accent); }
+    .btns { display:flex; gap:1rem; flex-wrap:wrap; }
+    /* Sections */
+    .section { padding: 5rem 0; }
+    .section-sm { padding: 3rem 0; }
+    .section-header { text-align:center; margin-bottom:3rem; }
+    .section-eye { display:inline-block; font-size:.75rem; font-family:var(--mono); color:var(--accent);
+      text-transform:uppercase; letter-spacing:.1em; margin-bottom:.75rem; }
+    .section-title { font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; margin-bottom:.75rem; }
+    .section-desc { color:var(--muted); max-width:600px; margin:0 auto; }
+    /* Space cards */
+    .spaces-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.5rem; }
+    .space-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.75rem;
+      display:flex; flex-direction:column; gap:.75rem; transition:all .25s; }
+    .space-card:hover { border-color:rgba(59,139,255,.5); box-shadow:0 0 30px rgba(59,139,255,.15); transform:translateY(-2px); }
+    .space-card a { text-decoration:none; color:inherit; }
+    .sc-top { display:flex; align-items:flex-start; gap:1rem; }
+    .sc-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+      font-size:1.6rem; flex-shrink:0; }
+    .sc-title { font-size:1.05rem; font-weight:700; margin-bottom:.25rem; }
+    .sc-sub { font-size:.82rem; color:var(--muted); }
+    .sc-tags { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .tag { display:inline-block; padding:.18rem .6rem; border-radius:12px; font-size:.72rem; font-weight:600; font-family:var(--mono); }
+    .tag-blue { background:rgba(59,139,255,.15); color:var(--accent); border:1px solid rgba(59,139,255,.3); }
+    .tag-purple { background:rgba(124,77,255,.15); color:#a990ff; border:1px solid rgba(124,77,255,.3); }
+    .tag-green { background:rgba(48,209,88,.15); color:var(--green); border:1px solid rgba(48,209,88,.3); }
+    .tag-gold { background:rgba(240,192,64,.15); color:var(--gold); border:1px solid rgba(240,192,64,.3); }
+    .tag-orange { background:rgba(255,159,10,.15); color:var(--orange); border:1px solid rgba(255,159,10,.3); }
+    .sc-link { display:inline-flex; align-items:center; gap:.35rem; font-size:.85rem; color:var(--accent); font-weight:600; margin-top:.25rem; }
+    .sc-link:hover { color:#7cb5ff; }
+    /* Apps mini grid */
+    .apps-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
+    .app-mini { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1.1rem;
+      display:flex; align-items:center; gap:.85rem; transition:all .2s; }
+    .app-mini:hover { border-color:rgba(59,139,255,.4); }
+    .app-mini-icon { font-size:1.4rem; flex-shrink:0; }
+    .app-mini-name { font-size:.88rem; font-weight:600; }
+    .app-mini-id { font-size:.72rem; color:var(--muted); font-family:var(--mono); }
+    /* Physics strip */
+    .physics-strip { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.5rem 2rem; }
+    .physics-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; }
+    .phys-item { text-align:center; }
+    .phys-val { font-family:var(--mono); font-size:1.2rem; font-weight:700; color:var(--gold); }
+    .phys-lbl { font-size:.75rem; color:var(--muted); margin-top:.2rem; }
+    /* Knowledge dataset */
+    .dataset-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    .dataset-table th { background:var(--bg2); color:var(--muted); font-size:.72rem; text-transform:uppercase;
+      letter-spacing:.05em; padding:.6rem 1rem; text-align:left; border-bottom:1px solid var(--border); }
+    .dataset-table td { padding:.6rem 1rem; border-bottom:1px solid rgba(255,255,255,.03); }
+    .dataset-table tr:hover td { background:rgba(59,139,255,.03); }
+    /* Footer */
+    footer { background:var(--bg2); border-top:1px solid var(--border); padding:2.5rem 0 1.5rem; margin-top:4rem; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:3rem; }
+    .footer-brand { font-weight:700; margin-bottom:.5rem; }
+    .footer-desc { font-size:.82rem; color:var(--muted); }
+    .footer-head { font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:.75rem; }
+    .footer-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .footer-list a { font-size:.82rem; color:var(--muted); transition:color .2s; }
+    .footer-list a:hover { color:var(--text); }
+    .footer-bottom { margin-top:2rem; padding-top:1.25rem; border-top:1px solid var(--border);
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:.75rem; font-size:.78rem; color:var(--muted); }
+    @media(max-width:900px) { .footer-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:600px) { .footer-grid { grid-template-columns:1fr; } .nav-links { display:none; } }
+    /* Announce bar */
+    .announce { background:linear-gradient(90deg,rgba(59,139,255,.15),rgba(124,77,255,.15));
+      border-bottom:1px solid rgba(59,139,255,.3); padding:.6rem 0; text-align:center;
+      font-size:.82rem; color:var(--text); }
+    .announce strong { color:var(--gold); }
+    /* Falsifier callout */
+    .falsifier { background:linear-gradient(135deg,rgba(240,192,64,.08),rgba(59,139,255,.08));
+      border:1px solid rgba(240,192,64,.3); border-radius:12px; padding:1.5rem 2rem; }
+    .falsifier h3 { color:var(--gold); margin-bottom:.5rem; }
+  </style>
+</head>
+<body>
+
+<!-- Announcement bar -->
+<div class="announce">
+  <strong>Primary falsifier:</strong> CMB birefringence β ∈ {≈0.273°, ≈0.331°} — testable by LiteBIRD ~2032 &nbsp;|&nbsp;
+  v24.1 · 57,927 tests · 1,246 Lean4 theorems · 0 failures
+</div>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">AZ</div>
+    AxiomZero
+  </div>
+  <ul class="nav-links">
+    <li><a href="#spaces">Spaces</a></li>
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#physics">Physics</a></li>
+    <li><a href="#knowledge">Knowledge</a></li>
+    <li><a href="https://axiomzerospc.org" target="_blank">axiomzerospc.org</a></li>
+    <li><span class="badge">v24.1</span></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="eyebrow">🌌 AxiomZero Open Science Portal · HF Spaces</div>
+      <h1>The Unitary Manifold<br/>on Hugging Face</h1>
+      <p class="hero-sub">
+        5-dimensional Kaluza-Klein physics framework. 208 hardgate pillars. All 20 products,
+        OS environments, physics engines, IP catalog, and RAG knowledge base — fully functional.
+      </p>
+      <div class="stats">
+        <div><div class="stat-num">57,927</div><div class="stat-lbl">Passing tests</div></div>
+        <div><div class="stat-num">1,246</div><div class="stat-lbl">Lean4 theorems</div></div>
+        <div><div class="stat-num">208</div><div class="stat-lbl">Hardgate pillars</div></div>
+        <div><div class="stat-num">20</div><div class="stat-lbl">AZ Products</div></div>
+        <div><div class="stat-num">9</div><div class="stat-lbl">HF Spaces</div></div>
+      </div>
+      <div class="btns">
+        <a href="https://huggingface.co/spaces/axiomzero/oracle-space" class="btn btn-primary" target="_blank">
+          🌀 Launch Oracle Space
+        </a>
+        <a href="https://huggingface.co/spaces/axiomzero/axiom-apps" class="btn btn-outline" target="_blank">
+          🚀 All Products
+        </a>
+        <a href="https://axiomzerospc.org" class="btn btn-outline" target="_blank">
+          🌐 axiomzerospc.org
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Spaces -->
+<section class="section" id="spaces">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eye">HF Spaces</div>
+      <h2 class="section-title">Complete Webspace — 9 Spaces</h2>
+      <p class="section-desc">Every component of axiomzerospc.org deployed on Hugging Face. Full frontend + backend + dependencies.</p>
+    </div>
+    <div class="spaces-grid">
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#1a3a6a,#2a1a6a)">🌌</div>
+          <div>
+            <div class="sc-title">AZ Portal</div>
+            <div class="sc-sub">Full portal hub — this page. Links to all spaces, live status, physics constants, knowledge base.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Static HTML</span>
+          <span class="tag tag-green">Live</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/az-portal" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#1a3a6a,#3a1a6a)">🌀</div>
+          <div>
+            <div class="sc-title">Oracle Space</div>
+            <div class="sc-sub">Grand Synthesis Engine (Product 16) + OX Alpha AI + Birefringence + KK Mass Tower + Pentad HILS.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Gradio</span>
+          <span class="tag tag-purple">OX Alpha AI</span>
+          <span class="tag tag-green">Physics</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/oracle-space" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#1a4a2a,#0a2a1a)">📡</div>
+          <div>
+            <div class="sc-title">CMB Calc Space</div>
+            <div class="sc-sub">CMB transfer functions, birefringence predictor, Kaluza-Klein mass spectrum, DESI tracker.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Gradio</span>
+          <span class="tag tag-green">HARDGATE</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/cmb-calc-space" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#2a1a4a,#1a2a5a)">🚀</div>
+          <div>
+            <div class="sc-title">Axiom Apps</div>
+            <div class="sc-sub">Products 01–10: AxiomOS, AZ-Kernel, EIGE, UM-SOS, UOS-Kernel, Omega Synthesis, Holon Zero, Journalist, OmegaHolon, Filmer's Companion.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Gradio</span>
+          <span class="tag tag-purple">10 Products</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/axiom-apps" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#3a2a1a,#2a3a1a)">🔧</div>
+          <div>
+            <div class="sc-title">AZ Tools</div>
+            <div class="sc-sub">Products 11–20: Terra-OS, Lithos-OS, DelPhi, SDAM, Pentacorder, Oracle, Image-Gen, Reader, Falsification-Obs, Interrogator, Flashcard, OX-Navigator.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Gradio</span>
+          <span class="tag tag-gold">10 Products</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/az-tools" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#0a2a3a,#1a3a4a)">⚛️</div>
+          <div>
+            <div class="sc-title">VQE Sandbox</div>
+            <div class="sc-sub">Variational Quantum Eigensolver + Fermi–Hubbard simulation. Jordan-Wigner/Bravyi-Kitaev encodings. XDiag bridge interface.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Gradio</span>
+          <span class="tag tag-purple">Quantum</span>
+          <span class="tag tag-orange">Adjacent Track</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/vqe-sandbox" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#1a1a4a,#0a0a3a)">🖥️</div>
+          <div>
+            <div class="sc-title">AZ-OS Environment</div>
+            <div class="sc-sub">AxiomOS cognitive layer + Terra-OS soil/water expert system + Lithos-OS mineral identifier. Unified OS environment.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Gradio</span>
+          <span class="tag tag-purple">3 OS Environments</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/az-os" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#3a2a0a,#2a1a0a)">📜</div>
+          <div>
+            <div class="sc-title">AZ-IP Registry</div>
+            <div class="sc-sub">Full IP catalog browser: 20 products, engines, OS, tools, calculators. Fingerprint verification, SHA-256 manifest, license browser.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Gradio</span>
+          <span class="tag tag-gold">IP Catalog</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/spaces/axiomzero/az-ip" target="_blank">Open Space →</a>
+      </div>
+
+      <div class="space-card">
+        <div class="sc-top">
+          <div class="sc-icon" style="background:linear-gradient(135deg,#1a4a3a,#0a3a2a)">🗄️</div>
+          <div>
+            <div class="sc-title">UM Knowledge Dataset</div>
+            <div class="sc-sub">RAG knowledge base: pillars.jsonl, theorems.jsonl, claims.jsonl, fallibility.jsonl, apps.jsonl, docs.jsonl. Powers the AI assistant.</div>
+          </div>
+        </div>
+        <div class="sc-tags">
+          <span class="tag tag-blue">Dataset</span>
+          <span class="tag tag-green">RAG</span>
+        </div>
+        <a class="sc-link" href="https://huggingface.co/datasets/axiomzero/um-knowledge-dataset" target="_blank">Open Dataset →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- All 20 Products -->
+<section class="section" id="apps" style="background:var(--bg2); padding:4rem 0;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eye">AZ Products</div>
+      <h2 class="section-title">All 20 Applications</h2>
+      <p class="section-desc">Every AZ product available on HF Spaces. All frontend + backend + dependencies included.</p>
+    </div>
+    <div class="apps-grid">
+      <div class="app-mini"><div class="app-mini-icon">🧠</div><div><div class="app-mini-name">AxiomOS</div><div class="app-mini-id">Product 01 · Cognitive AI OS</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">⚙️</div><div><div class="app-mini-name">AZ-Kernel</div><div class="app-mini-id">Product 02 · Rust Core</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🗳️</div><div><div class="app-mini-name">EIGE</div><div class="app-mini-id">Product 03 · Election Audit</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🔭</div><div><div class="app-mini-name">UM-SOS</div><div class="app-mini-id">Product 04 · Science OS</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🌐</div><div><div class="app-mini-name">UOS Kernel</div><div class="app-mini-id">Product 05 · 5D OS</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">Ω</div><div><div class="app-mini-name">Omega Synthesis</div><div class="app-mini-id">Product 06 · 208+ Pillars</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">〇</div><div><div class="app-mini-name">Holon Zero</div><div class="app-mini-id">Product 07 · Ground State</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">📰</div><div><div class="app-mini-name">Journalist AI</div><div class="app-mini-id">Product 08 · Dossier Builder</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🌿</div><div><div class="app-mini-name">OmegaHolon</div><div class="app-mini-id">Product 09 · Living Systems</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🎬</div><div><div class="app-mini-name">Filmer's Companion</div><div class="app-mini-id">Product 10 · Film Production</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🌱</div><div><div class="app-mini-name">Terra-OS</div><div class="app-mini-id">Product 11 · Soil & Water</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">💎</div><div><div class="app-mini-name">Lithos-OS</div><div class="app-mini-id">Product 12 · Mineral ID</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🔮</div><div><div class="app-mini-name">DelPhi</div><div class="app-mini-id">Product 13 · Oracle Suite</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">📻</div><div><div class="app-mini-name">SDAM</div><div class="app-mini-id">Product 14 · Acoustic Modem</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">📡</div><div><div class="app-mini-name">Pentacorder</div><div class="app-mini-id">Product 15 · Field Scanner</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🌀</div><div><div class="app-mini-name">Oracle</div><div class="app-mini-id">Product 16 · Synthesis Engine</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🔭</div><div><div class="app-mini-name">Falsification Obs.</div><div class="app-mini-id">Product 17 · Experiment Tracker</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🔬</div><div><div class="app-mini-name">Interrogator</div><div class="app-mini-id">Product 18 · Physics Q&A</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🃏</div><div><div class="app-mini-name">Flashcard Trainer</div><div class="app-mini-id">Product 19 · Physics Education</div></div></div>
+      <div class="app-mini"><div class="app-mini-icon">🦉</div><div><div class="app-mini-name">OX Navigator</div><div class="app-mini-id">Product 20 · Extended AI Memory</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Physics Constants -->
+<section class="section" id="physics">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eye">Framework Constants</div>
+      <h2 class="section-title">Five Seed Constants → All Physics</h2>
+      <p class="section-desc">All 208 hardgate pillars derive from these five numbers. Gate: HARDGATE.</p>
+    </div>
+    <div class="physics-strip">
+      <div class="physics-row">
+        <div class="phys-item">
+          <div class="phys-val">n_w = 5</div>
+          <div class="phys-lbl">Winding number (Planck selected)</div>
+        </div>
+        <div class="phys-item">
+          <div class="phys-val">k_cs = 74</div>
+          <div class="phys-lbl">CS level = 5² + 7²</div>
+        </div>
+        <div class="phys-item">
+          <div class="phys-val">c_s = 12/37</div>
+          <div class="phys-lbl">Braided sound speed</div>
+        </div>
+        <div class="phys-item">
+          <div class="phys-val">n_s = 0.9635</div>
+          <div class="phys-lbl">CMB spectral index (Planck: 0.9649±0.0042 ✅)</div>
+        </div>
+        <div class="phys-item">
+          <div class="phys-val">r = 0.0315</div>
+          <div class="phys-lbl">Tensor-to-scalar (BICEP/Keck &lt;0.036 ✅)</div>
+        </div>
+        <div class="phys-item">
+          <div class="phys-val">β ≈ 0.273°, 0.331°</div>
+          <div class="phys-lbl">Birefringence prediction (LiteBIRD ~2032)</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;">
+      <div class="falsifier">
+        <h3>⚠️ Primary Falsification Condition</h3>
+        <p style="font-size:.92rem; color:var(--muted);">
+          CMB birefringence β ∈ {≈0.273°, ≈0.331°} — testable by LiteBIRD (launch ~2032).
+          Any β outside the admissible window [0.22°, 0.38°], or landing in the predicted gap [0.29°–0.31°],
+          falsifies the braided-winding mechanism. This is the primary falsifier.
+        </p>
+        <p style="margin-top:.75rem; font-size:.85rem;">
+          <strong>Open gaps:</strong>
+          CMB acoustic peak amplitude suppressed ×4–7 (ARCHITECTURE_LIMIT) ·
+          DESI Year 2 tension (wₐ≠0 vs KK prediction wₐ=0) ·
+          n_w=5 uniqueness from first principles pending full proof
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Knowledge Dataset -->
+<section class="section" id="knowledge" style="background:var(--bg2); padding:4rem 0;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eye">Knowledge Base</div>
+      <h2 class="section-title">UM Knowledge Dataset</h2>
+      <p class="section-desc">Complete RAG knowledge base powering the AI assistant and OX Alpha queries.</p>
+    </div>
+    <div class="container" style="max-width:900px;">
+      <div style="overflow-x:auto; border:1px solid var(--border); border-radius:10px;">
+        <table class="dataset-table">
+          <thead>
+            <tr><th>File</th><th>Contents</th><th>Count</th><th>Gate</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-family:var(--mono);color:var(--accent)">pillars.jsonl</td><td>All 208+ physics pillar descriptions</td><td>208+</td><td><span class="tag tag-green">HARDGATE</span></td></tr>
+            <tr><td style="font-family:var(--mono);color:var(--accent)">theorems.jsonl</td><td>1,246 Lean4 theorem statements</td><td>1,246</td><td><span class="tag tag-green">FORMAL</span></td></tr>
+            <tr><td style="font-family:var(--mono);color:var(--accent)">claims.jsonl</td><td>Claim Master Board entries with tension values</td><td>50+</td><td><span class="tag tag-blue">TRACKED</span></td></tr>
+            <tr><td style="font-family:var(--mono);color:var(--accent)">fallibility.jsonl</td><td>All FALLIBILITY.md admissions and open gaps</td><td>25+</td><td><span class="tag tag-orange">OPEN_GAP</span></td></tr>
+            <tr><td style="font-family:var(--mono);color:var(--accent)">apps.jsonl</td><td>20 AZ-IP product descriptions</td><td>20</td><td><span class="tag tag-purple">ADJACENT</span></td></tr>
+            <tr><td style="font-family:var(--mono);color:var(--accent)">docs.jsonl</td><td>Monograph chapters, arXiv sections, key docs</td><td>100+</td><td><span class="tag tag-blue">DOCS</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:1.25rem; text-align:center;">
+        <a href="https://huggingface.co/datasets/axiomzero/um-knowledge-dataset" class="btn btn-outline" target="_blank">
+          🗄️ Open Dataset on HF
+        </a>
+        &nbsp;
+        <a href="https://github.com/wuzbak/Unitary-Manifold-" class="btn btn-outline" target="_blank">
+          📦 GitHub Source
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">AxiomZero Technologies & Consulting, SPC</div>
+        <div class="footer-desc">UBI 606 239 876 · Open science artifact under Defensive Public Commons License v1.0 (2026).
+        All content public domain. No patents on core equations.</div>
+        <div style="margin-top:1rem; font-size:.78rem; color:var(--muted);">
+          Theory & scientific direction: ThomasCory Walker-Pearson.<br/>
+          Code architecture, test suites, document engineering: GitHub Copilot (AI).
+        </div>
+      </div>
+      <div>
+        <div class="footer-head">Spaces</div>
+        <ul class="footer-list">
+          <li><a href="https://huggingface.co/spaces/axiomzero/oracle-space" target="_blank">Oracle Space</a></li>
+          <li><a href="https://huggingface.co/spaces/axiomzero/cmb-calc-space" target="_blank">CMB Calculator</a></li>
+          <li><a href="https://huggingface.co/spaces/axiomzero/axiom-apps" target="_blank">Axiom Apps (01–10)</a></li>
+          <li><a href="https://huggingface.co/spaces/axiomzero/az-tools" target="_blank">AZ Tools (11–20)</a></li>
+          <li><a href="https://huggingface.co/spaces/axiomzero/vqe-sandbox" target="_blank">VQE Sandbox</a></li>
+          <li><a href="https://huggingface.co/spaces/axiomzero/az-os" target="_blank">AZ-OS Environment</a></li>
+          <li><a href="https://huggingface.co/spaces/axiomzero/az-ip" target="_blank">IP Registry</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-head">Links</div>
+        <ul class="footer-list">
+          <li><a href="https://axiomzerospc.org" target="_blank">axiomzerospc.org</a></li>
+          <li><a href="https://github.com/wuzbak/Unitary-Manifold-" target="_blank">GitHub Repository</a></li>
+          <li><a href="https://doi.org/10.5281/zenodo.19584531" target="_blank">Zenodo DOI</a></li>
+          <li><a href="https://huggingface.co/datasets/axiomzero/um-knowledge-dataset" target="_blank">Knowledge Dataset</a></li>
+          <li><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md" target="_blank">Fallibility.md</a></li>
+          <li><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md" target="_blank">Status.md</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ThomasCory Walker-Pearson · Defensive Public Commons License v1.0 · Open science</span>
+      <span>v24.1 · 57,927 tests · 1,246 Lean4 theorems · 0 failures</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Live stats from HF raw URL (graceful fallback)
+const STATUS_URL = 'https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json';
+async function loadStats() {
+  try {
+    const r = await fetch(STATUS_URL, { cache: 'force-cache' });
+    if (!r.ok) return;
+    const d = await r.json();
+    document.querySelectorAll('[data-stat="tests"]').forEach(el => {
+      el.textContent = d.tests?.passed?.toLocaleString() || el.textContent;
+    });
+    document.querySelectorAll('[data-stat="lean4"]').forEach(el => {
+      el.textContent = d.lean4?.theorem_count?.toLocaleString() || el.textContent;
+    });
+    document.querySelectorAll('[data-stat="pillars"]').forEach(el => {
+      el.textContent = d.pillars?.hardgate_count || el.textContent;
+    });
+    document.querySelectorAll('[data-stat="version"]').forEach(el => {
+      el.textContent = 'v' + (d.meta?.version || '24.1');
+    });
+  } catch(e) { /* silent fallback */ }
+}
+document.addEventListener('DOMContentLoaded', loadStats);
+</script>
+</body>
+</html>
