@@ -15,7 +15,7 @@ Send a private report via GitHub's Security Advisory feature:
 2. Click **"New draft security advisory"**.
 3. Describe the vulnerability, steps to reproduce, and potential impact.
 
-Alternatively, email **wuzbak** via the contact on the GitHub profile.
+Alternatively, email **cpo@axiomzerospc.org**.
 
 We will acknowledge receipt within **48 hours** and aim to release a fix
 within **14 days** for critical issues.

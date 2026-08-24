@@ -31,6 +31,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
+[![🌐 axiomzerosp.org](https://img.shields.io/badge/%F0%9F%8C%90-axiomzerosp.org-4a90e2)](https://axiomzerosp.org)
 
 <details>
 <summary><strong>Representative core test trace (software-verification route)</strong></summary>
