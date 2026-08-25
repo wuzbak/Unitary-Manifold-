@@ -26,6 +26,9 @@ from __future__ import annotations
 import math
 from typing import NamedTuple
 
+from src.core.pillar811_backreacted_radion_shared_kernel import (
+    LEAN4_TOTAL_AFTER as LEAN4_TOTAL_AFTER_811,
+)
 from src.core.pillar773_dm21_nlo_lattice_correction import (
     DELTA_C,
     DM21_AFTER_NLO,
@@ -52,6 +55,11 @@ __all__ = [
     "nonperturbative_orbifold_threshold",
     "g4_reclassification_summary",
 ]
+
+PILLAR_NUMBER: int = 812
+PILLAR_GATE: str = "DM21_NONPERTURBATIVE_ORBIFOLD_THRESHOLD_SUB_0P8SIGMA"
+LEAN4_THEOREM_COUNT: int = 15
+LEAN4_TOTAL_AFTER: int = LEAN4_TOTAL_AFTER_811 + LEAN4_THEOREM_COUNT
 
 
 class OrbifoldThresholdResult(NamedTuple):
@@ -103,9 +111,26 @@ def nonperturbative_orbifold_threshold() -> OrbifoldThresholdResult:
     )
 
 
-def g4_reclassification_summary() -> dict[str, float | bool | str]:
+_RESULT = nonperturbative_orbifold_threshold()
+
+NONPERTURBATIVE_OVERLAP_COEFFICIENT: float = _RESULT.overlap_coefficient
+EXACT_THRESHOLD_CORRECTION: float = _RESULT.threshold_correction
+DM21_AFTER_EXACT_THRESHOLD: float = _RESULT.dm21_after
+TENSION_AFTER_EXACT_THRESHOLD: float = _RESULT.sigma_after
+SUB_0P8SIGMA_ACHIEVED: bool = _RESULT.sub_0p8sigma_achieved
+G4_RECLASSIFICATION_GATE: str = (
+    "G4_INTERNAL_TYPE_B_CANDIDATE_RETIRED"
+    if SUB_0P8SIGMA_ACHIEVED
+    else "G4_INTERNAL_TYPE_B_CANDIDATE_REMAINS"
+)
+
+
+def g4_reclassification_summary(
+    result: OrbifoldThresholdResult | None = None,
+) -> dict[str, float | bool | str]:
     """Return the G4 reclassification verdict driven by the exact-threshold audit."""
-    result = nonperturbative_orbifold_threshold()
+    if result is None:
+        result = _RESULT
     return {
         "pillar": PILLAR_NUMBER,
         "status": PILLAR_GATE,
@@ -123,22 +148,3 @@ def g4_reclassification_summary() -> dict[str, float | bool | str]:
             "separate JUNO precision-routing audits in Pillars 796 and 802."
         ),
     }
-
-
-PILLAR_NUMBER: int = 812
-LEAN4_THEOREM_COUNT: int = 15
-LEAN4_TOTAL_AFTER: int = 1321 + LEAN4_THEOREM_COUNT
-
-_RESULT = nonperturbative_orbifold_threshold()
-
-NONPERTURBATIVE_OVERLAP_COEFFICIENT: float = _RESULT.overlap_coefficient
-EXACT_THRESHOLD_CORRECTION: float = _RESULT.threshold_correction
-DM21_AFTER_EXACT_THRESHOLD: float = _RESULT.dm21_after
-TENSION_AFTER_EXACT_THRESHOLD: float = _RESULT.sigma_after
-SUB_0P8SIGMA_ACHIEVED: bool = _RESULT.sub_0p8sigma_achieved
-PILLAR_GATE: str = _RESULT.gate
-G4_RECLASSIFICATION_GATE: str = (
-    "G4_INTERNAL_TYPE_B_CANDIDATE_RETIRED"
-    if SUB_0P8SIGMA_ACHIEVED
-    else "G4_INTERNAL_TYPE_B_CANDIDATE_REMAINS"
-)

@@ -68,6 +68,10 @@ TARGET_QCD_ORDERS: float = 7.0
 SWAMPLAND_DISTANCE_BOUND: float = 30.0
 N_MODES_DEFAULT: int = 5
 BOUNDARY_OVERLAP_THRESHOLD: float = 1.0 / K_CS
+PILLAR_NUMBER: int = 811
+PILLAR_GATE: str = "BACKREACTED_RADION_SHARED_KERNEL_CONVERGED"
+LEAN4_THEOREM_COUNT: int = 15
+LEAN4_TOTAL_AFTER: int = 1306 + LEAN4_THEOREM_COUNT
 
 
 class KKTruncationResult(NamedTuple):
@@ -284,10 +288,24 @@ def project_shared_observables(
     )
 
 
-def shared_kernel_summary() -> dict[str, float | int | bool | str]:
+_KERNEL = iterate_shared_backreaction_kernel()
+_PROJECTION = project_shared_observables(_KERNEL)
+TAIL_BOUND_CERTIFIED: float = _KERNEL.tail_bound
+DELTA_PHI_SHARED: float = _KERNEL.delta_phi_over_M5
+BOUNDARY_SHIFT_SHARED: float = _KERNEL.boundary_shift
+N_GAP_SHARED: int = _PROJECTION.n_gap
+CL_SHARED: float = _PROJECTION.cl_value
+
+
+def shared_kernel_summary(
+    kernel: SharedKernelResult | None = None,
+    projection: ProjectionResult | None = None,
+) -> dict[str, float | int | bool | str]:
     """Return the machine-readable summary for Pillar 811."""
-    kernel = iterate_shared_backreaction_kernel()
-    projection = project_shared_observables(kernel)
+    if kernel is None:
+        kernel = _KERNEL
+    if projection is None:
+        projection = _PROJECTION if kernel is _KERNEL else project_shared_observables(kernel)
     return {
         "pillar": PILLAR_NUMBER,
         "status": PILLAR_GATE,
@@ -307,19 +325,3 @@ def shared_kernel_summary() -> dict[str, float | int | bool | str]:
         "cl_value": projection.cl_value,
         "projection_gate": projection.gate,
     }
-
-
-PILLAR_NUMBER: int = 811
-LEAN4_THEOREM_COUNT: int = 15
-LEAN4_TOTAL_AFTER: int = 1306 + LEAN4_THEOREM_COUNT
-
-_TRUNCATION = controlled_kk_truncation()
-_KERNEL = iterate_shared_backreaction_kernel()
-_PROJECTION = project_shared_observables(_KERNEL)
-
-PILLAR_GATE: str = "BACKREACTED_RADION_SHARED_KERNEL_CONVERGED"
-TAIL_BOUND_CERTIFIED: float = _TRUNCATION.tail_bound
-DELTA_PHI_SHARED: float = _KERNEL.delta_phi_over_M5
-BOUNDARY_SHIFT_SHARED: float = _KERNEL.boundary_shift
-N_GAP_SHARED: int = _PROJECTION.n_gap
-CL_SHARED: float = _PROJECTION.cl_value

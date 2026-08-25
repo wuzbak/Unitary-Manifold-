@@ -3,6 +3,8 @@
 
 import math
 
+import pytest
+
 from src.core.pillar812_dm21_nonperturbative_orbifold_threshold import (
     DM21_AFTER_EXACT_THRESHOLD,
     EXACT_THRESHOLD_CORRECTION,
@@ -50,12 +52,8 @@ class TestExactOverlap:
         assert abs(NONPERTURBATIVE_OVERLAP_COEFFICIENT - SIN2_THETA12 / math.pi) < 1e-15
 
     def test_invalid_overlap_input_raises(self):
-        try:
+        with pytest.raises(ValueError):
             exact_fixed_point_overlap(-0.1)
-        except ValueError:
-            pass
-        else:
-            assert False, "expected ValueError"
 
 
 class TestThresholdAudit:

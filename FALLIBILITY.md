@@ -4342,7 +4342,7 @@ n_w = 5, K_CS = 74 — not the generic idea of structural floors.
 
 **Admission — Sprint AU is now unified by one executable kernel, but not yet a full 5D closure.**
 
-Pillar 811 (`/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/pillar811_backreacted_radion_shared_kernel.py`)
+Pillar 811 (`src/core/pillar811_backreacted_radion_shared_kernel.py`)
 consolidates the shared object behind Pillars 806–809:
 
 - controlled KK truncation with explicit warp-suppressed tail bound
@@ -4358,7 +4358,7 @@ replace the full back-reacted Boltzmann solver for the CMB lane.
 
 **Admission — the repository's own historical internal G4 falsifier is now satisfied.**
 
-Pillar 812 (`/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/pillar812_dm21_nonperturbative_orbifold_threshold.py`)
+Pillar 812 (`src/core/pillar812_dm21_nonperturbative_orbifold_threshold.py`)
 applies the exact orbifold threshold
 
 `δ_np = (n_w/K_CS) · sin²θ₁₂ / π`

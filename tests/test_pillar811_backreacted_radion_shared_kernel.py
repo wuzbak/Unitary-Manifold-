@@ -3,6 +3,8 @@
 
 import math
 
+import pytest
+
 from src.core.pillar811_backreacted_radion_shared_kernel import (
     BOUNDARY_SHIFT_SHARED,
     CL_SHARED,
@@ -65,12 +67,8 @@ class TestTruncation:
         assert 0.0 < result.suppression_ratio < 1.0
 
     def test_invalid_n_modes_raises(self):
-        try:
+        with pytest.raises(ValueError):
             controlled_kk_truncation(n_modes=0)
-        except ValueError:
-            pass
-        else:
-            assert False, "expected ValueError"
 
 
 class TestKernelMap:
