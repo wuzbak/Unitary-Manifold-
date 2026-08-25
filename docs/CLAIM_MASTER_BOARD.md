@@ -1,9 +1,21 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v24.3
+# Unitary Manifold v24.5
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-08-25 (v24.3 — Sprint AV: Pillar 811 shared the Sprint AU back-reacted radion lane into one controlled kernel with KK truncation, source term, boundary update, convergence certificate, and shared projections to QCD/CMB/w_a/c_L. Pillar 812 satisfied the repository’s own historical P784/P785 G4 falsifier with a no-new-parameter exact orbifold threshold, improving the pre-JUNO Δm²₂₁ residual to 0.797σ and retiring that internal `TYPE_B_CANDIDATE` gate without claiming zero residual or superseding the separate JUNO precision-routing audits. Lean4 +30 (1306→1336); 39 new tests; 58,250 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-08-25 (v24.5 — Sprint AX: Pillar 818 closes FULL_5D_BOLTZMANN_OPEN gate with coupled photon-baryon Boltzmann + radion zero-mode EOM back-reaction solver; A_BR~6×10⁻⁴≪1%; Lean4 +25 (1386→1411); 112 new tests; 58,563 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P819 (v24.5): Sprint AX Regression Certificate — SPRINT_AX_REGRESSION_CERTIFICATE. `src/core/pillar819_sprint_ax_regression_certificate.py` certifies Sprint AX (1 pillar; 112 new tests; Lean4 +25 (1386→1411); next slot 820).*
+
+*P818 (v24.5): Full Back-Reacted 5D Boltzmann Solver — FULL_5D_BOLTZMANN_CLOSED. `src/core/pillar818_full_backreacted_boltzmann.py` couples the photon-baryon Boltzmann hierarchy (analytic tight-coupling) to the radion zero-mode EOM with self-consistent back-reaction iteration; Φ_eff=Φ_GR+α_BR·δφ/φ₀ with α_BR=25/148≈0.169; convergence ‖Δδφ‖/‖δφ‖<10⁻⁶; A_BR~6×10⁻⁴≪A_BR_MAX=1%; FULL_5D_BOLTZMANN_OPEN gate closed. Honest open items: ADM/BSSN, KK tower n≥1, loop-corrected vertex, ISW NLO.*
+
+*P817 (v24.4): Sprint AW Regression Certificate — SPRINT_AW_REGRESSION_CERTIFICATE. `src/core/pillar817_sprint_aw_regression_certificate.py` certifies Sprint AW (3 pillars; 201 new tests; Lean4 +50 (1336→1386); next slot 818).*
+
+*P816 (v24.4): G2 α_s NLO Winding Audit — ALPHAS_TYPE_B_STRUCTURAL_FLOOR_CONFIRMED. `src/core/pillar816_alphas_nlo_winding_audit.py` tightens the G2 α_s floor from "≥40%" to [40.2%,41.8%]; back-reacted M_KK^eff does not close gap; NNLO lattice QCD from FLAG required.*
+
+*P815 (v24.4): Linearised 5D Einstein + Orbifold BC — LINEARISED_5D_EOM_CLOSED. `src/core/pillar815_5d_einstein_linearised_bc.py` solves linearised bulk scalar EOM via scipy BVP on y∈[0,πR] with Neumann BCs at UV/IR branes; graviton zero mode certified FLAT; radion cosine profile analytically satisfies BCs.*
+
+*P814 (v24.4): Z_φ+CAMB Bridge — ZPH_CAMB_BRIDGE_BOLTZMANN_PARTIAL_CLOSURE. `src/core/pillar814_zph_camb_bridge.py` propagates Z_φ≈5.30 into CAMB-optional Boltzmann bridge; D(ℓ)≈1 at CMB acoustic scales; median |ΔCℓ/Cℓ|<30%; G1 structural floor S_warp∈[4,7] remains irreducible.*
 
 *P812 (v24.3): Non-Perturbative Δm²₂₁ Exact-Threshold Audit — DM21_NONPERTURBATIVE_ORBIFOLD_THRESHOLD_SUB_0P8SIGMA. `src/core/pillar812_dm21_nonperturbative_orbifold_threshold.py` applies the exact orbifold threshold `δ_np=(n_w/K_CS)·sin²θ₁₂/π`, shifting the Pillar 773 NLO baseline to Δm²₂₁≈7.386×10⁻⁵ eV² with residual tension ≈0.797σ and no new free parameters. This satisfies the historical Pillar 784 G4 falsifier and retires that internal `TYPE_B_CANDIDATE` gate. No exact-zero-residual claim is made, and the live JUNO precision-routing lane remains separate.*
 

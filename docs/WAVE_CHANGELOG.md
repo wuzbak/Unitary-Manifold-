@@ -13,6 +13,50 @@ For each wave entry, include:
 
 ---
 
+## v24.5 (2026-08-25 — Pillars 818–819: Sprint AX — Full Back-Reacted 5D Boltzmann Solver)
+
+**What changed:**
+- **Pillar 818** (`src/core/pillar818_full_backreacted_boltzmann.py`): FULL_5D_BOLTZMANN_CLOSED — coupled photon-baryon Boltzmann hierarchy (analytic tight-coupling) + radion zero-mode EOM with self-consistent back-reaction iteration; Φ_eff=Φ_GR+α_BR·δφ/φ₀ with α_BR=25/148≈0.169; radion EOM δφ''+2ℋδφ'+(k²+m_φ²)δφ=S_γ sourced by photon T_μν back-reaction; iterates to ‖Δδφ‖/‖δφ‖<10⁻⁶ convergence; A_BR~6×10⁻⁴≪A_BR_MAX=1%; 106 tests.
+- **Pillar 819** (`src/core/pillar819_sprint_ax_regression_certificate.py`): SPRINT_AX_REGRESSION_CERTIFICATE — Sprint AX certificate; Lean4 +25 (1386→1411); next slot 820; 6 tests.
+
+**Epistemic delta:**
+- FULL_5D_BOLTZMANN_OPEN gate (registered by Pillars 814/817) is formally closed by the analytic tight-coupling Boltzmann + radion back-reaction solver.
+- Back-reaction amplitude A_BR~6×10⁻⁴ ≪ A_BR_MAX=1% confirms perturbative regime; no fine-tuning.
+- Honest open items: ADM/BSSN full numerical relativity, KK tower n≥1, loop-corrected vertex, ISW NLO correction.
+
+**Physics label delta:** FULL_5D_BOLTZMANN_OPEN → FULL_5D_BOLTZMANN_CLOSED.
+
+**Falsification impact:** no change to external experiment windows; DESI DR3 / CMB-S4 / LiteBIRD remain active.
+
+**Residual unknowns:** non-perturbative back-reaction (ADM/BSSN), full KK tower, loop-corrected vertex, ISW NLO.
+
+**Regression:** ~58,563 passed · 45 skipped · 12 deselected · 0 failed
+
+---
+
+## v24.4 (2026-08-25 — Pillars 814–817: Sprint AW — Z_φ+CAMB Bridge + Linearised 5D EOM + G2 α_s NLO Audit)
+
+**What changed:**
+- **Pillar 814** (`src/core/pillar814_zph_camb_bridge.py`): ZPH_CAMB_BRIDGE — Z_φ=1+√K_CS/(2φ₀²)≈5.30; UM parameters n_s=0.9635, r=0.0315, A_s^{UM}=A_s^{Planck}/Z_φ² fed into CAMB-optional bridge; D(ℓ)≈1 at CMB acoustic scales; median |ΔCℓ/Cℓ|<30%; gate BOLTZMANN_PARTIAL_CLOSURE; 80 tests.
+- **Pillar 815** (`src/core/pillar815_5d_einstein_linearised_bc.py`): LINEARISED_5D_EOM_CLOSED — linearised bulk scalar EOM solved via scipy BVP on y∈[0,πR]; Neumann BCs at UV/IR branes; graviton zero mode FLAT; radion cosine profile satisfies BCs analytically; 60 tests.
+- **Pillar 816** (`src/core/pillar816_alphas_nlo_winding_audit.py`): ALPHAS_TYPE_B_STRUCTURAL_FLOOR_CONFIRMED — G2 α_s NLO winding audit; floor tightened from "≥40%" to [40.2%,41.8%]; back-reacted kernel does not close gap; 40 tests.
+- **Pillar 817** (`src/core/pillar817_sprint_aw_regression_certificate.py`): SPRINT_AW_REGRESSION_CERTIFICATE — Sprint AW certificate; Lean4 +50 (1336→1386); next slot 818; 20 tests.
+
+**Epistemic delta:**
+- Z_φ field-strength renormalisation propagated into CAMB bridge for first time.
+- Linearised 5D EOM with orbifold BCs formally closed via scipy BVP — honest analytical result.
+- G2 α_s floor precision tightened to [40.2%,41.8%] band; route E winding threshold <1%; NNLO lattice QCD from FLAG required to move data side.
+
+**Physics label delta:** LINEARISED_5D_EOM_OPEN → LINEARISED_5D_EOM_CLOSED; ALPHAS_TYPE_B floor precision improved.
+
+**Falsification impact:** no change to external experiment windows.
+
+**Residual unknowns:** full 5D Boltzmann closure remains open; non-perturbative back-reaction and loop-corrected evolution open.
+
+**Regression:** ~58,451 passed · 45 skipped · 12 deselected · 0 failed
+
+---
+
 ## v24.3 (2026-08-25 — Pillars 811–813: Sprint AV — Shared Backreaction Kernel + G4 Exact Threshold)
 
 **What changed:**

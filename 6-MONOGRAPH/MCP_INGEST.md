@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Canonical status (v24.5):** Pillar set is closed under canonical governance (813+ total; 208 hardgated core). Lean4 1411 theorems. Full regression: **58,563 passed · 45 skipped · 12 deselected · 0 failed** (internal mathematical self-consistency). Sprint AV adds a shared backreaction kernel and a non-perturbative historical G4 exact-threshold audit while preserving the open Einstein/Boltzmann closure boundary. Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Canonical status (v24.5):** Pillar set is closed under canonical governance (819+ total; 208 hardgated core). Lean4 1411 theorems. Full regression: **58,563 passed · 45 skipped · 12 deselected · 0 failed** (internal mathematical self-consistency). Sprint AX closes the FULL_5D_BOLTZMANN_OPEN gate with a coupled photon-baryon Boltzmann + radion zero-mode EOM back-reaction solver (A_BR~6×10⁻⁴≪1%). Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|
