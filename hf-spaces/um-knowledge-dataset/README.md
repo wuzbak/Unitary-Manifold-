@@ -22,7 +22,7 @@ Chunked and embedded knowledge base for the **Unitary Manifold** 5D Kaluza-Klein
 
 Status snapshot: **v22.10 · 56,772 passing tests · 976 Lean4 theorems**.
 
-Powering the persistent AI assistant at [axiomzerosp.org](https://axiomzerosp.org).
+Powering the persistent AI assistant at [axiomzerospc.org](https://axiomzerospc.org).
 
 ## Contents
 

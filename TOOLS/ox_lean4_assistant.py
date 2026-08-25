@@ -225,7 +225,7 @@ def call_ox_lean4(module_summary: str, examples: str) -> str:
                 headers={
                     "Authorization": f"******",
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://axiomzerosp.org",
+                    "HTTP-Referer": "https://axiomzerospc.org",
                     "X-Title": "AxiomZero Lean4 Assistant",
                 },
                 json=payload,
