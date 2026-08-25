@@ -178,6 +178,19 @@ Pillar 682 (JARLSKOG_LAYER2_LEADING_CORRECTION_IMPLEMENTED: FN-mechanism CP-phas
 
 ## Pillar Set Status: CLOSED
 
+> ⚠️ **Pillar namespace clarity (red-team accountability note):** Pillars are divided into
+> two distinct tracks with different epistemic standing. Readers and reviewers should treat
+> them separately:
+>
+> | Track | Pillar range | Status | Description |
+> |-------|-------------|--------|-------------|
+> | **Hardgate physics** | P001–P208 + Ω₀ | CLOSED | 5D KK geometry, SM parameters, CMB predictions, falsification protocols. Peer-reviewable physics claims. |
+> | **Adjacent / applied tracks** | P218–P820+ | OPEN / ongoing | Applied domains: medicine, psychology, ecology, governance, quantum simulation. Mathematical analogies; **not** hardgate physics claims. Do not cite adjacent-track pillars as evidence for core physics. |
+>
+> Test counts include both tracks. A citation of "58,563 tests passing" covers the full
+> repository including adjacent tracks. The ~208-pillar hardgate physics core has a
+> separate test count tracked in `tests/` only.
+
 | Category | Count | Status |
 |----------|-------|--------|
 | Core physics pillars | 208 | ✅ CLOSED |

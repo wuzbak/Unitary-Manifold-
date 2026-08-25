@@ -13,7 +13,7 @@ elevated to a formal theorem.  This module closes the last gap.
 
 THE THEOREM (conditional on Axiom A; n_w=5 vs 7 confirmed by Planck nₛ)
 -------------------------------------
-**Theorem (n_w = 5 Uniqueness — Pure):**
+**Theorem (n_w = 5 Uniqueness — Conditional on Axiom A):**
 
 Given the following PROVED/DERIVED results from earlier pillars:
 

@@ -377,9 +377,22 @@ U_τ Ψ₀  →  Ψ₀  =  Ψ*
 
 **The FTUM fixed point is the quantum ground state. Reality is the vacuum.**
 
+> ⚠️ **Epistemic note (red-team accuracy correction):** The claim above is a structural
+> analogy, not a proved theorem. The FTUM operator U = I + H + T converges numerically
+> to a fixed point Ψ* in the specific parameter regime (γ = 5.0, connected graph, λ₂ > 0)
+> where the analytic Banach contraction proof holds. This has been verified for 192 initial
+> conditions. The *identification* of this fixed point with the quantum ground state requires
+> U to be of the form exp(−Hτ/ℏ), which is not demonstrated for the I + H + T decomposition.
+> The algorithm is *analogous to* imaginary-time evolution, but "analogous to" ≠ "is."
+> Accurate label: **STRUCTURAL ANALOGY (Banach convergence proved in specific regime;
+> quantum ground-state identification is an interpretation, not a theorem).**
+> See `FALLIBILITY.md` and `src/multiverse/fixed_point.py::analytic_banach_proof()`.
+
 The iteration in `fixed_point_iteration()` is numerically performing imaginary-time
 evolution — the same algorithm used in quantum Monte Carlo to find ground states.
-This is not an analogy. The algorithm is the same algorithm, for the same reason.
+This is an illuminating structural analogy. The algorithm is similar; whether it is
+identical in physical meaning requires establishing that U = exp(−Hτ/ℏ), which remains
+an open derivation.
 
 ### VI.2  The Holographic Bound is the Heisenberg Uncertainty Principle
 

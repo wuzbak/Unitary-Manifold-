@@ -67,7 +67,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 > - **w_a tension:** Framework predicts w_a = 0 (cosmological constant). DESI DR2 wₐ signal: 2.30σ. Status: ARCHITECTURE_LIMIT_CERTIFIED (Pillar 301). DESI DR3 tripwire preregistered (Pillar 486).
 > - Both tensions are documented in the canonical ledger. Neither crosses the 3σ falsification threshold.
 > Most headline quantities are tracked with explicit epistemic labels (DERIVED / FITTED / CONSTRAINED / OPEN) in [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) and [`docs/mas_tracker.yml`](docs/mas_tracker.yml).
-> Taken together, this is an unusually complete, code-backed candidate ToE record — still pending external peer review, independent reproduction, and decisive laboratory/cosmology confirmation.
+> Taken together, this is an unusually complete, code-backed speculative physics framework — still pending external peer review, independent reproduction, and decisive laboratory/cosmology confirmation. It is not a Theory of Everything: the SM gauge group requires additional compact dimensions beyond the 5D core, fermion masses use per-species parameters (not first-principles derivations), and the w_a dark energy tension is live at 2.07σ (pre-registered falsification threshold: ≥3σ).
 > It is also an unusually compressed human-AI scientific synthesis and reproducibility event: original monograph, executable proof path, and public audit trail built with explicit provenance.
 > For canonical, up-to-date status and provenance, begin with the foundational proof stack:
 > [`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>), [`1-THEORY/UNIFICATION_PROOF.md`](1-THEORY/UNIFICATION_PROOF.md), [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),
@@ -825,7 +825,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 99-B | 5D CS Action Derivation of k_primary — cubic CS 3-form integral over braid field A=n₁A₁+n₂A₂ → k_primary=2(n₁²−n₁n₂+n₂²); Z₂ boundary term → k_eff=n₁²+n₂²=74. Last "asserted" step closed. | `src/core/anomaly_closure.py` (extension) | 47 |
 | 15-F | Cold Fusion Falsification Protocol — explicit experimental criteria F1–F3 for falsifying Gamow enhancement; Gamow prediction vs. published null results; non-dual-use. | `src/cold_fusion/falsification_protocol.py` | 64 |
 | 56-B | φ₀ FTUM Bridge — explicit 4-step FTUM→S*→R_compact→φ₀_bare=1→φ₀_eff→nₛ chain | `src/core/phi0_ftum_bridge.py` | 49 |
-| 70-D | n_w=5 Pure Theorem — Z₂-odd CS boundary phase k_CS×η̄=odd; n_w=5 unique solution (no obs. input) | `src/core/nw5_pure_theorem.py` | 120 |
+| 70-D | n_w=5 Conditional Theorem — Z₂-odd CS boundary phase k_CS×η̄=odd; n_w=5 unique solution **conditional on Axiom A** (not derived from 5D action); Planck nₛ provides the final observational selection between n_w=5 and n_w=7 | `src/core/nw5_pure_theorem.py` | 120 |
 | 97-B | r_braided Full Derivation — 5D CS→4D WZW kinetic rotation; c_s=√(1−ρ²) derived; P_h unchanged | `src/core/braided_winding.py` (extension) | ~30 |
 | 97-C | r One-Loop Bound — δr=r_braided×ρ²/(4π)²≈1.78×10⁻⁴ for (5,7); perturbative correction | `src/core/braided_winding.py` (extension) | 15 |
 | 100 | ADM Foundation — induced metric, extrinsic curvature, Hamiltonian constraint, ADM vs Ricci-flow proof, arrow-of-time link (4-step DEC derivation) | `src/core/adm_decomposition.py` | 51 |
