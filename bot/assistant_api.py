@@ -1,6 +1,6 @@
 """
 bot/assistant_api.py — RAG-grounded AI Assistant Backend
-axiomzerosp.org open science portal
+axiomzerospc.org open science portal
 
 FastAPI server that powers the persistent assistant widget on every page.
 
@@ -401,7 +401,7 @@ async def call_ox(
                 headers={
                     "Authorization": f"******",
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://axiomzerosp.org",
+                    "HTTP-Referer": "https://axiomzerospc.org",
                     "X-Title": "AxiomZero Open Science Assistant",
                 },
                 json=payload,
@@ -423,13 +423,13 @@ async def call_ox(
 if FASTAPI_AVAILABLE:
     app = FastAPI(
         title="AxiomZero Open Science Assistant API",
-        description="RAG-grounded AI assistant for axiomzerosp.org — anti-sycophancy, epistemic gate labels, websearch alignment.",
+        description="RAG-grounded AI assistant for axiomzerospc.org — anti-sycophancy, epistemic gate labels, websearch alignment.",
         version="1.0.0",
     )
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["https://axiomzerosp.org", "https://wuzbak.github.io", "http://localhost:*"],
+        allow_origins=["https://axiomzerospc.org", "https://wuzbak.github.io", "http://localhost:*"],
         allow_credentials=False,
         allow_methods=["GET", "POST", "OPTIONS"],
         allow_headers=["*"],

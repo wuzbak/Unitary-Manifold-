@@ -243,7 +243,7 @@ def run_ox_query(query: str, use_full_context: bool, temperature: float) -> str:
                 headers={
                     "Authorization": f"******",
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://axiomzerosp.org",
+                    "HTTP-Referer": "https://axiomzerospc.org",
                     "X-Title": "AxiomZero Ω Oracle — OX Mode",
                 },
                 json=payload,

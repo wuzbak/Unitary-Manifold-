@@ -17,7 +17,7 @@
   'use strict';
 
   // ── Config ───────────────────────────────────────────────────────────────────
-  const API_BASE = (window.AZ_API_BASE || 'https://api.axiomzerosp.org').replace(/\/$/, '');
+  const API_BASE = (window.AZ_API_BASE || 'https://api.axiomzerospc.org').replace(/\/$/, '');
   const MAX_HISTORY = 12;
   const GATE_LABELS = ['HARDGATE', 'ADJACENT_TRACK', 'OPEN_GAP', 'ARCHITECTURE_LIMIT', 'GOVERNANCE'];
 

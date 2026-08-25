@@ -147,7 +147,7 @@ def call_ox_sync(query: str, context: str) -> dict:
                 headers={
                     "Authorization": f"******",
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://axiomzerosp.org",
+                    "HTTP-Referer": "https://axiomzerospc.org",
                     "X-Title": "AxiomZero Regression Watchdog",
                 },
                 json=payload,

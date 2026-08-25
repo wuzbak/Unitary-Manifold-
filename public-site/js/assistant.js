@@ -1,6 +1,6 @@
 /**
  * assistant.js — Persistent AI Assistant Widget
- * axiomzerosp.org open science portal
+ * axiomzerospc.org open science portal
  *
  * Features:
  *  - Floating drawer on every page (right sidebar)
@@ -109,7 +109,7 @@
           '<button id="az-a-send" aria-label="Send">↑</button>',
         '</div>',
         '<div class="az-a-footer">',
-          'Open science artifact · <a href="https://axiomzerosp.org/portal/library/" target="_blank">Knowledge base</a>',
+          'Open science artifact · <a href="https://axiomzerospc.org/portal/library/" target="_blank">Knowledge base</a>',
           ' · <a href="https://github.com/wuzbak/Unitary-Manifold-" target="_blank">Source</a>',
         '</div>',
       '</div>',
@@ -317,7 +317,7 @@
         '<a href="https://github.com/wuzbak/Unitary-Manifold-" target="_blank">the repository</a> ' +
         'or set <code>window.AZ_HF_TOKEN</code>.<br><br>' +
         '<em>Your question is noted. Explore the ' +
-        '<a href="https://axiomzerosp.org/portal/knowledge/">Knowledge Portal</a> ' +
+        '<a href="https://axiomzerospc.org/portal/knowledge/">Knowledge Portal</a> ' +
         'for pillar documentation while offline.</em>',
         'error'
       );
@@ -349,7 +349,7 @@
     } catch(e) {
       appendMessage('assistant',
         '⚠️ Both the RAG backend and HF fallback are unreachable. ' +
-        'Check your connection or visit the <a href="https://axiomzerosp.org/portal/knowledge/">Knowledge Portal</a> to browse pillars directly.',
+        'Check your connection or visit the <a href="https://axiomzerospc.org/portal/knowledge/">Knowledge Portal</a> to browse pillars directly.',
         'error'
       );
     }
@@ -358,7 +358,7 @@
   function formatAnswer(answer, sources, isWebSearch) {
     var html = escHtml(answer).replace(/\n/g, '<br>');
     // Highlight pillar references
-    html = html.replace(/Pillar\s+(\d+)/gi, '<a class="az-a-pillar" href="https://axiomzerosp.org/portal/knowledge/?p=$1" target="_blank">Pillar $1</a>');
+    html = html.replace(/Pillar\s+(\d+)/gi, '<a class="az-a-pillar" href="https://axiomzerospc.org/portal/knowledge/?p=$1" target="_blank">Pillar $1</a>');
     // Highlight gate labels
     html = html.replace(/\b(HARDGATE|ADJACENT_TRACK|OPEN_GAP|ARCHITECTURE_LIMIT|NLO_INSUFFICIENT)\b/g,
       '<span class="az-a-gate az-a-gate-$1">$1</span>');
