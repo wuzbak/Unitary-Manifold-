@@ -333,7 +333,8 @@ def run_verify() -> int:
     #   DESI finds wₐ = −0.62 ± 0.30.  The UM predicts wₐ = 0.
     #   Tension: |0 − (−0.62)| / 0.30 = 2.07σ  [live falsifier]
     #   Pre-registered threshold for falsification: ≥3σ.
-    #   DESI DR3 projected tension (if central value holds): ~4.6σ.
+    #   DESI DR3 projected tension (if central value holds): ~3.6σ (σ(wₐ) ≈ 0.17).
+    #   See docs/DESI_WA_FALSIFICATION_PROTOCOL.md for the full projection.
     #
     # Dataset tensions (all compared against w_KK ≈ −0.9302):
     #   Planck 2018 + BAO:  w = −1.03 ± 0.03  →  3.2σ  [TENSION]
