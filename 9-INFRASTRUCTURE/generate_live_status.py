@@ -216,7 +216,7 @@ def _parse_status_md() -> dict:
     }
 
     # Lean4 theorem count — final total reported inside the first sprint entry
-    lean4_matches = re.findall(r"Lean4[^)]*?(?:total\s+|→)(\d{3,5})", sprint_entry)
+    lean4_matches = re.findall(r"Lean4[^)]*?(?:total\s+|→|\u2192)(\d{3,5})", sprint_entry)
     lean4_count = int(lean4_matches[-1]) if lean4_matches else 0
 
     # Next pillar slot
