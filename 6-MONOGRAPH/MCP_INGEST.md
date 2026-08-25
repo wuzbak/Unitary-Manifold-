@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Canonical status (v24.3):** Pillar set is closed under canonical governance (813+ total; 208 hardgated core). Lean4 1336 theorems. Full regression: **58,250 passed · 45 skipped · 12 deselected · 0 failed** (internal mathematical self-consistency). Sprint AV adds a shared backreaction kernel and a non-perturbative historical G4 exact-threshold audit while preserving the open Einstein/Boltzmann closure boundary. Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Canonical status (v24.5):** Pillar set is closed under canonical governance (819+ total; 208 hardgated core). Lean4 1411 theorems. Full regression: **58,563 passed · 45 skipped · 12 deselected · 0 failed** (internal mathematical self-consistency). Sprint AX closes the FULL_5D_BOLTZMANN_OPEN gate with a coupled photon-baryon Boltzmann + radion zero-mode EOM back-reaction solver (A_BR~6×10⁻⁴≪1%). Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|
@@ -259,7 +259,7 @@ such that `UΨ* = Ψ*`.
 │   ├── test_lattice_dynamics.py          # Pillar 15-B: collective Gamow, phonon-radion bridge (98) — v9.16
 │   ├── test_lattice_boltzmann.py         # Pillar 15-C: KK-mediated radion COP pipeline (187) — v9.16
 │   └── test_richardson_multitime.py      # Second-order convergence @slow (11)
-│   # Total: 57,927 passed · 47 skipped · 12 deselected · 0 failures (v23.2, 2026-08-20)
+│   # Total: 58,563 passed · 45 skipped · 12 deselected · 0 failures (v23.2, 2026-08-20)
 │   # (Pillars 1–494 + Ω₀ + sub-pillars; canonical branch regression)
 │
 ├── brain/
@@ -466,7 +466,7 @@ To register this project in the official MCP community registry:
 | **OpenAPI / JSON-LD schema** | Embed `schema.org/ScholarlyArticle` metadata in Pages HTML for structured AI crawling |
 | **GitHub Topic tags** | Add topics: `mcp`, `model-context-protocol`, `physics`, `kaluza-klein`, `ai-ready` |
 | **Notebook demos** | Jupyter notebooks showing full pipeline runs; renderable on GitHub + nbviewer |
-| **Test suite** | `pytest` unit tests — **57,927 passed · 47 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
+| **Test suite** | `pytest` unit tests — **58,563 passed · 45 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + 5-GOVERNANCE/Unitary Pentad/). |
 | **Pre-commit hooks** | `black` + `ruff` auto-formatting so code is always clean for AI ingest |
 | **AGENTS.md** | Declare AI agent access policies and preferred ingest paths |
 

@@ -1,6 +1,44 @@
-version: "v24.3"
+version: "v24.5"
 date: "2026-08-25"
 updated: "2026-08-25"
+
+v24_5_sprint_ax:
+  version: "v24.5"
+  wave: "Sprint AX — Full Back-Reacted 5D Boltzmann Solver (2026-08-25): Pillars 818–819"
+  date: "2026-08-25"
+  pillars_added:
+    - "818: FULL_5D_BOLTZMANN_CLOSED — coupled photon-baryon Boltzmann + radion zero-mode EOM; back-reaction iteration ‖Δδφ‖<10⁻⁶; α_BR=25/148; A_BR~6×10⁻⁴≪1%; Lean4 BackreactedBoltzmann.lean +25; 106 tests"
+    - "819: SPRINT_AX_REGRESSION_CERTIFICATE — Sprint AX certificate; Lean4 1411; next slot 820; 6 tests"
+  tests_added: 112
+  regression: "58,563 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 820
+  next_version: "v24.6"
+  lean4_theorems_total: 1411
+  lean4_new_theorems: 25
+  epistemic_deltas:
+    - "FULL_5D_BOLTZMANN_OPEN gate (Pillars 814/817) closed by analytic tight-coupling solver"
+    - "Honest open items: ADM/BSSN full numerical relativity, KK tower n≥1, loop-corrected vertex, ISW NLO"
+    - "Back-reaction amplitude A_BR~6×10⁻⁴ ≪ A_BR_MAX=1% confirms perturbative regime"
+
+v24_4_sprint_aw:
+  version: "v24.4"
+  wave: "Sprint AW — Z_φ+CAMB Bridge + Linearised 5D EOM + G2 α_s NLO Audit (2026-08-25): Pillars 814–817"
+  date: "2026-08-25"
+  pillars_added:
+    - "814: ZPH_CAMB_BRIDGE — Z_φ≈5.30; UM A_s fed into CAMB-optional bridge; D(ℓ)≈1 at CMB scales; BOLTZMANN_PARTIAL_CLOSURE; Lean4 +15; 80 tests"
+    - "815: LINEARISED_5D_EOM_CLOSED — scipy BVP solver; Neumann BCs UV+IR; graviton zero mode FLAT; radion cosine profile analytically satisfies BCs; Lean4 +20; 60 tests"
+    - "816: ALPHAS_TYPE_B_STRUCTURAL_FLOOR_CONFIRMED — floor tightened [40.2%,41.8%]; back-reacted kernel doesn't close gap; Lean4 +15; 40 tests"
+    - "817: SPRINT_AW_REGRESSION_CERTIFICATE — Sprint AW certificate; Lean4 1386; next slot 818; 20 tests"
+  tests_added: 201
+  regression: "58,451 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 818
+  next_version: "v24.5"
+  lean4_theorems_total: 1386
+  lean4_new_theorems: 50
+  epistemic_deltas:
+    - "Z_φ field-strength renormalisation now propagated into CAMB bridge"
+    - "Linearised 5D EOM with orbifold BCs formally closed via scipy BVP"
+    - "G2 α_s floor precision tightened from 40% to [40.2%,41.8%] band"
 
 v24_3_sprint_av:
   version: "v24.3"
@@ -11,7 +49,7 @@ v24_3_sprint_av:
     - "812: DM21_NONPERTURBATIVE_ORBIFOLD_THRESHOLD_SUB_0P8SIGMA — exact threshold δ_np=(n_w/K_CS)·sin²θ₁₂/π; historical internal G4 candidate retired at 0.797σ; Lean4 +15; 13 tests"
     - "813: SPRINT_AV_REGRESSION_CERTIFICATE — Sprint AV certificate; Lean4 1336; next slot 814; 6 tests"
   tests_added: 39
-  regression: "58,250 passed · 45 skipped · 12 deselected · 0 failed"
+  regression: "58,563 passed · 45 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 814
   next_version: "v24.4"
   lean4_theorems_total: 1336

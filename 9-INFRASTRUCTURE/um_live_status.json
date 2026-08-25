@@ -3,25 +3,25 @@
   "_fetch_url": "https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json",
   "_cache_ttl_seconds": 3600,
   "meta": {
-    "version": "24.3",
-    "sprint": "AV",
+    "version": "24.5",
+    "sprint": "AX",
     "date": "2026-08-25",
     "source_of_truth": "https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md",
     "generated_by": "9-INFRASTRUCTURE/generate_live_status.py"
   },
   "tests": {
-    "passed": 58250,
+    "passed": 58563,
     "skipped": 45,
     "deselected": 12,
     "failed": 0
   },
   "lean4": {
-    "theorem_count": 1336
+    "theorem_count": 1411
   },
   "pillars": {
-    "next_slot": 814,
+    "next_slot": 820,
     "hardgate_count": 208,
-    "total_slots": 813
+    "total_slots": 819
   },
   "physics": {
     "winding_number_n_w": 5,
