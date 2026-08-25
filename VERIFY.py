@@ -317,21 +317,35 @@ def run_verify() -> int:
     #
     # The stabilised KK zero-mode predicts:
     #   w_KK = −1 + (2/3) c_s² ≈ −0.9302   [no free parameters]
+    #   w_a  = 0  (frozen radion — no evolution)
     #
     # CAVEAT: w_KK uses the inflationary-era braided sound speed c_s.
     # The identification with the present-day dark energy EoS is an
     # ansatz — no derivation spanning ~60 e-folds from inflation to
     # today exists (see FALLIBILITY.md §4.4).
     #
+    # IMPORTANT — CIRCULAR vs NON-CIRCULAR comparisons:
+    #   DESI DR2 w₀CDM (wₐ=0 FORCED): agreement is CIRCULAR — both
+    #   the UM and the DESI w₀CDM fitter assume wₐ=0 by construction.
+    #   This cannot validate the UM's wₐ=0 prediction.
+    #
+    #   DESI DR2 CPL (wₐ FREE) is the correct, non-circular comparison:
+    #   DESI finds wₐ = −0.62 ± 0.30.  The UM predicts wₐ = 0.
+    #   Tension: |0 − (−0.62)| / 0.30 = 2.07σ  [live falsifier]
+    #   Pre-registered threshold for falsification: ≥3σ.
+    #   DESI DR3 projected tension (if central value holds): ~3.6σ (σ(wₐ) ≈ 0.17).
+    #   See docs/DESI_WA_FALSIFICATION_PROTOCOL.md for the full projection.
+    #
     # Dataset tensions (all compared against w_KK ≈ −0.9302):
     #   Planck 2018 + BAO:  w = −1.03 ± 0.03  →  3.2σ  [TENSION]
     #   DES Y3 + Planck + BAO + SNe Ia:
     #                       w = −0.98 ± 0.04  →  1.2σ  [MARGINAL]
-    #   DESI DR2 (w₀CDM):  w = −0.92 ± 0.09  →  0.11σ [PASS]
+    #   DESI DR2 w₀CDM:     w = −0.92 ± 0.09  →  0.11σ [CIRCULAR — wₐ forced to 0]
+    #   DESI DR2 CPL w₀:    w = −0.838 ± 0.072 → ~1.28σ [correct comparison, w₀ axis]
+    #   DESI DR2 CPL wₐ:    wₐ = −0.62 ± 0.30  → 2.07σ [correct, wₐ axis — live falsifier]
+    #   DESI DR2 2D joint:  frozen-radion point → ~2.30σ [correct 2D]
     #
-    # Primary pass/fail uses the most recent published result (DESI DR2).
-    # Planck+BAO tension is the most constraining and is printed for
-    # full transparency.
+    # Primary pass/fail: DESI CPL wₐ tension < 3σ falsification threshold.
     # ------------------------------------------------------------------
     w_kk = roman_um_dark_energy_eos(5, 7)
     desi_pull = abs(w_kk - W0_DESI_DR2) / SIGMA_W0_DESI_DR2
@@ -343,18 +357,29 @@ def run_verify() -> int:
     W0_DES_Y3 = -0.98
     SIGMA_DES_Y3 = 0.04
     des_pull = abs(w_kk - W0_DES_Y3) / SIGMA_DES_Y3
-    c13 = desi_pull <= 1.0
+    # DESI DR2 CPL (non-circular — wₐ free in DESI fit)
+    WA_DESI_CPL = -0.62
+    SIGMA_WA_DESI_CPL = 0.30
+    WA_UM = 0.0  # frozen radion: no wₐ evolution
+    wa_cpl_pull = abs(WA_UM - WA_DESI_CPL) / SIGMA_WA_DESI_CPL  # 2.07σ
+    JOINT_2D_TENSION = 2.30  # documented in FALLIBILITY.md §4.4 and Pillar 428
+    # Pass/fail: wₐ tension < pre-registered 3σ falsification threshold
+    c13 = wa_cpl_pull < 3.0
     checks.append(c13)
-    ref13 = f"DESI DR2 {W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}"
-    print(_row(13, "w_KK multi-dataset",
-               f"{w_kk:.4f} (DESI: {desi_pull:.2f}σ)",
+    ref13 = f"DESI DR2 CPL wₐ: {wa_cpl_pull:.2f}σ (threshold: 3.0σ)"
+    print(_row(13, "w_KK + wₐ multi-dataset",
+               f"{w_kk:.4f} / wₐ=0",
                ref13, c13))
     print(f"      ├─ Planck2018+BAO: w={W0_PLANCK_BAO}±{SIGMA_PLANCK_BAO}  "
           f"→ {planck_pull:.1f}σ  [{_tension_label(planck_pull)}]")
     print(f"      ├─ DES Y3+Pl+BAO:  w={W0_DES_Y3}±{SIGMA_DES_Y3}  "
           f"→ {des_pull:.1f}σ  [{_tension_label(des_pull)}]")
-    print(f"      └─ DESI DR2:       w={W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}  "
-          f"→ {desi_pull:.2f}σ  [{_tension_label(desi_pull)} — primary check]")
+    print(f"      ├─ DESI DR2 w₀CDM: w={W0_DESI_DR2}±{SIGMA_W0_DESI_DR2}  "
+          f"→ {desi_pull:.2f}σ  [CIRCULAR — both assume wₐ=0; not a validation]")
+    print(f"      ├─ DESI DR2 CPL wₐ: wₐ={WA_DESI_CPL}±{SIGMA_WA_DESI_CPL}  "
+          f"→ {wa_cpl_pull:.2f}σ  [{_tension_label(wa_cpl_pull)} — LIVE FALSIFIER ⚠️]")
+    print(f"      └─ DESI DR2 CPL 2D joint tension: {JOINT_2D_TENSION:.2f}σ  "
+          f"[pre-registered falsification threshold: ≥3.0σ]")
 
     # ------------------------------------------------------------------
     # CHECK 14 — φ₀ FTUM bridge (Pillar 56-B)

@@ -655,6 +655,9 @@ data vectors; it is NOT reproduced by the 2D CPL Gaussian summary statistics alo
 - 1D wₐ tension: 2.07σ (pre-registered falsification threshold: ≥3σ)
 - 2D joint tension (frozen-radion point, CPL summary): 2.30σ
 - Falsification threshold NOT reached by CPL summary statistics alone
+- **See `docs/DESI_WA_FALSIFICATION_PROTOCOL.md` for the full pre-registered protocol.**
+- ⚠️ Note: DESI DR2 w₀CDM comparison is CIRCULAR (both UM and DESI w₀CDM assume wₐ=0);
+  the correct, non-circular comparison uses the DESI CPL fit (wₐ free).
 
 **DESI naming (Issue 5):** The dataset is correctly called "DESI Year 3 / DR2".
 DESI completed its 5-year survey in April 2026. DR3 (full Y5 analysis) expected late 2026.
@@ -2599,6 +2602,7 @@ Ratio J_geo / J_PDG ≈ 1.37 — a 37% excess.
 The CP phase δ ≈ 71.08° is 0.99σ from PDG (✅ consistent).  The 37% J excess
 comes from the mixing-angle sector (θ₁₂, θ₁₃, θ₂₃), which are fitted via RS
 c_L bulk-mass parameters (PARAMETERIZED — Pillars 174, 183).
+See **`docs/YUKAWA_PARAMETERIZATION_AUDIT.md`** for the full per-species audit table.
 
 **What is proved:** J ≠ 0 is a geometric theorem (Pillar 145 — asymmetric braid).
 **What is open:** Absolute J value requires precise quark c_L inputs.
