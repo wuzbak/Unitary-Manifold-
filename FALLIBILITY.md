@@ -4404,3 +4404,66 @@ than a qualitative statement alone. No structural-floor upgrade is claimed.
 
 *Code: `src/core/pillar785_g4_criterion2_higgs_correlation.py`,
 `tests/test_pillar785_g4_criterion2_higgs_correlation.py`.*
+
+---
+
+## §XX — Sprint AW: Z_φ×CAMB Bridge + Linearised 5D EOM + G2 NLO Audit (v24.4)
+
+### §XX.1 — Pillar 814: Z_φ×CAMB Bridge
+
+**Admission — partial Boltzmann closure, not full closure.**
+
+Pillar 814 (`src/core/pillar814_zph_camb_bridge.py`) connects UM parameters
+to CAMB (if installed) and applies the Z_φ correction (Pillar 355) and
+breathing-mode damping filter D(ℓ) (Pillar 807) to the output C_ℓ spectrum.
+
+Key results:
+- Z_φ = 1 + √K_CS/(2φ₀²) ≈ 5.30 (φ₀=1 natural units)
+- D(ℓ) ≈ 1 at CMB acoustic scales — KK breathing modes are exponentially massive
+- Combined Z_φ × D(ℓ) / S_warp correction: median |ΔCℓ/Cℓ| < 30%
+- Gate: `ZPH_CAMB_BRIDGE_BOLTZMANN_PARTIAL_CLOSURE`
+
+**What this does NOT change:**
+- G1 structural floor S_warp ∈ [4,7] remains an architecture limit (Pillar 277)
+- Full 5D back-reacted Boltzmann solver is still open
+- NLO Z_φ loop corrections are not included
+
+### §XX.2 — Pillar 815: Linearised 5D Einstein + Orbifold BC
+
+**Admission — linearised lane closed; non-perturbative remains open.**
+
+Pillar 815 (`src/core/pillar815_5d_einstein_linearised_bc.py`) solves the
+linearised bulk scalar EOM on the orbifold y ∈ [0, πR] via scipy.integrate.solve_bvp:
+
+- Graviton zero mode: φ(y) = const certified FLAT (|∂_y φ| < 1e-7 at both branes)
+- Radion cosine profile: φ(y) = φ₀ cos(n_w y/R) satisfies both Neumann BCs
+  analytically (sin(n_w π) = 0 for integer n_w) and Z₂ parity (∂_y φ(0) = 0)
+- KK mass gap m_1 ≈ 3.27 × 10⁻¹⁶ (exponentially small, RS1 hierarchy confirmed)
+- Gate: `LINEARISED_5D_EOM_CLOSED`
+
+**What remains open:**
+- Non-perturbative backreaction (full 5D Einstein EOM, ADM/BSSN)
+- Bulk fermion zero-mode BVP (separate Pillar 144 track)
+- Loop-corrected quantum gravity evolution
+
+### §XX.3 — Pillar 816: G2 α_s NLO Winding Audit
+
+**Admission — G2 structural floor confirmed; floor bounds tightened.**
+
+Pillar 816 (`src/core/pillar816_alphas_nlo_winding_audit.py`) audits all
+known routes to α_s(M_Z) with the back-reacted radion kernel (Pillar 811).
+
+New Route E (winding threshold):
+  Δα_s^{winding} = −(n_w · T_F)/(6π²) · α_s²(M_KK) · (M_KK/M_Z) < 1%
+
+Back-reacted M_KK^{eff} = M_KK⁰ · exp(−Δφ γ_V/M_5) >> M_KK⁰ changes the
+DGLAP running window but does NOT close the gap.
+
+Updated G2 floor: **[40.2%, 41.8%]** (prev: "≥40%").
+
+Gate: `ALPHAS_TYPE_B_STRUCTURAL_FLOOR_CONFIRMED`
+
+The gap requires NNLO lattice QCD from FLAG averages to move on the data side.
+
+*Code: `src/core/pillar814_zph_camb_bridge.py`, `src/core/pillar815_5d_einstein_linearised_bc.py`,
+`src/core/pillar816_alphas_nlo_winding_audit.py`, `src/core/pillar817_sprint_aw_regression_certificate.py`.*
