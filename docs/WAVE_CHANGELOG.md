@@ -1,7 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v24.1 (2026-08-20)*
+*Current version: v24.3 (2026-08-25)*
 
 For each wave entry, include:
 - **What changed**
@@ -10,6 +10,28 @@ For each wave entry, include:
 - **Physics label delta**
 - **Falsification impact**
 - **Residual unknowns**
+
+---
+
+## v24.3 (2026-08-25 — Pillars 811–813: Sprint AV — Shared Backreaction Kernel + G4 Exact Threshold)
+
+**What changed:**
+- **Pillar 811** (`src/core/pillar811_backreacted_radion_shared_kernel.py`): BACKREACTED_RADION_SHARED_KERNEL_CONVERGED — controlled KK truncation, explicit shared radion source term, orbifold-boundary update, fixed-point convergence, and shared projections to the Sprint AU QCD/CMB/w_a/c_L observables; ~20 tests.
+- **Pillar 812** (`src/core/pillar812_dm21_nonperturbative_orbifold_threshold.py`): DM21_NONPERTURBATIVE_ORBIFOLD_THRESHOLD_SUB_0P8SIGMA — exact orbifold threshold `δ_np=(n_w/K_CS)·sin²θ₁₂/π` applied to the Pillar 773 NLO baseline; historical P784/P785 internal G4 candidate falsifier satisfied at 0.797σ; ~13 tests.
+- **Pillar 813** (`src/core/pillar813_sprint_av_regression_certificate.py`): SPRINT_AV_REGRESSION_CERTIFICATE — Sprint AV certificate; Lean4 1336; next slot 814; 6 tests.
+
+**Epistemic delta:**
+- Sprint AU is now represented by one executable shared kernel rather than four disconnected reduced objects.
+- The historical internal G4 `TYPE_B_CANDIDATE` gate is retired by a no-new-parameter exact-threshold audit.
+- No exact-zero-residual claim is made; live JUNO precision-routing remains separate.
+
+**Physics label delta:** none for G1/G2/G3; G4 internal floor classification retired on the historical P784/P785 lane.
+
+**Falsification impact:** the historical G4 internal falsifier is satisfied; DESI DR3 / CMB-S4 / LiteBIRD remain the active external windows.
+
+**Residual unknowns:** full 5D Einstein + radion EOM and full back-reacted Boltzmann closure remain open.
+
+**Regression:** 58,250 passed · 45 skipped · 12 deselected · 0 failed
 
 ---
 

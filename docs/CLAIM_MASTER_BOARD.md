@@ -1,9 +1,13 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v22.11
+# Unitary Manifold v24.3
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-08-20 (v22.9 — Sprint AM: Pillar 784 Type A/B Gap Classification; G1/G2/G3 TYPE_B_STRUCTURAL_FLOOR; G4 TYPE_B_CANDIDATE; pre-registered falsification conditions; FALLIBILITY.md §XVII; Lean4 +18 (958→976); 179 tests; ~56,747 passed · 0 failed. Open gaps: Gap 2 ADM UV-regulator (community-level); Gap 4 FN charges 3 irreducible free params; Gap 5 CMB A_s mismatch 33.6% arch-limit (now classified TYPE_B_STRUCTURAL_FLOOR with falsification condition). Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-08-25 (v24.3 — Sprint AV: Pillar 811 shared the Sprint AU back-reacted radion lane into one controlled kernel with KK truncation, source term, boundary update, convergence certificate, and shared projections to QCD/CMB/w_a/c_L. Pillar 812 satisfied the repository’s own historical P784/P785 G4 falsifier with a no-new-parameter exact orbifold threshold, improving the pre-JUNO Δm²₂₁ residual to 0.797σ and retiring that internal `TYPE_B_CANDIDATE` gate without claiming zero residual or superseding the separate JUNO precision-routing audits. Lean4 +30 (1306→1336); 39 new tests; 58,250 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P812 (v24.3): Non-Perturbative Δm²₂₁ Exact-Threshold Audit — DM21_NONPERTURBATIVE_ORBIFOLD_THRESHOLD_SUB_0P8SIGMA. `src/core/pillar812_dm21_nonperturbative_orbifold_threshold.py` applies the exact orbifold threshold `δ_np=(n_w/K_CS)·sin²θ₁₂/π`, shifting the Pillar 773 NLO baseline to Δm²₂₁≈7.386×10⁻⁵ eV² with residual tension ≈0.797σ and no new free parameters. This satisfies the historical Pillar 784 G4 falsifier and retires that internal `TYPE_B_CANDIDATE` gate. No exact-zero-residual claim is made, and the live JUNO precision-routing lane remains separate.*
+
+*P811 (v24.3): Shared Back-Reacted Radion Kernel — BACKREACTED_RADION_SHARED_KERNEL_CONVERGED. `src/core/pillar811_backreacted_radion_shared_kernel.py` consolidates the common Sprint AU object: controlled KK truncation, explicit radion source term, back-reacted orbifold-boundary update, fixed-point convergence certificate, and shared projections to the QCD suppression, CMB damping, w_a, and c_L lanes. Full 5D Einstein/Boltzmann closure remains explicitly open.*
 
 *P516 (v15.9): KK Backreaction Architecture Audit — KK_BACKREACTION_ARCHITECTURE_AUDIT_COMPLETE. `src/core/pillar516_kk_backreaction_architecture_audit.py` formally certifies the KK backreaction decoupling as ARCHITECTURE_LIMIT_CERTIFIED, documents the four-step closure path for full dynamic coupling, and establishes the regime map distinguishing factory IC from solver capacity. The decoupling is conservative (lower bound on winding-geometry coupling). No physics label promoted.*
 
