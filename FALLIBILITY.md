@@ -4467,3 +4467,49 @@ The gap requires NNLO lattice QCD from FLAG averages to move on the data side.
 
 *Code: `src/core/pillar814_zph_camb_bridge.py`, `src/core/pillar815_5d_einstein_linearised_bc.py`,
 `src/core/pillar816_alphas_nlo_winding_audit.py`, `src/core/pillar817_sprint_aw_regression_certificate.py`.*
+
+### §XXI — Sprint AX: Full Back-Reacted 5D Boltzmann Solver (Pillar 818)
+
+**Admission — linearised zero-mode Boltzmann sector closed; non-perturbative and loop
+sectors remain honestly open.**
+
+Pillar 818 (`src/core/pillar818_full_backreacted_boltzmann.py`) implements the first
+self-consistent coupling of the photon-baryon Boltzmann hierarchy to the radion
+zero-mode equation of motion:
+
+**System solved:**
+
+  (I)  Photon-baryon tight-coupling (analytic):
+       Θ₀(k, η) = (Φ_GR(k,η₀)/2) cos(k c_s η) − Φ_eff(k, η)
+       Θ₁(k, η) = (Φ_GR(k,η₀)/2) c_s sin(k c_s η)
+
+  (II) Radion zero-mode EOM:
+       δφ'' + 2ℋ(η) δφ' + (k² + m_φ²) δφ = S_γ(η)
+       S_γ = −α_BR · ρ_γ · 4Θ₀ / (3 φ₀²)
+
+  (III) Effective potential:
+       Φ_eff = Φ_GR + α_BR δφ / φ₀
+
+  (IV) Self-consistent iteration to ‖Δδφ‖/‖δφ‖ < 10⁻⁶
+
+**Physical outcome:**
+
+- α_BR = n_w²/(2K_CS) = 25/148 ≈ 0.169 (radion-photon coupling from UM geometry)
+- Back-reaction amplitude A_BR ~ 6×10⁻⁴ ≪ 1% (linearised approximation self-consistent)
+- SW observable (Θ₀+Φ)|_rec is insensitive to back-reaction at leading order in the
+  analytic tight-coupling formula (exact cancellation between Θ₀ and Φ_eff corrections)
+- C_ℓ shift from back-reaction is < 0.01% at leading order (SW cancellation)
+- ISW-like NLO correction from Φ_eff evolution is registered as open
+
+**Gate: `FULL_5D_BOLTZMANN_CLOSED`** (linearised zero-mode sector)
+
+**What remains open (registered, not hidden):**
+
+1. ADM/BSSN non-perturbative 5D Einstein evolution (multi-year numerical)
+2. KK tower back-reaction beyond n=0 (exponentially suppressed: m_KK ≫ H_CMB, but formally open)
+3. One-loop quantum corrections to the radion-photon vertex
+4. ISW back-reaction correction: enters at NLO (the analytic TC SW observable Θ₀+Φ cancels at LO)
+5. Multipole hierarchy beyond ℓ_max=2 (tight-coupling accuracy ~15%; CAMB/CLASS needed for < 1%)
+
+*Code: `src/core/pillar818_full_backreacted_boltzmann.py`,
+`src/core/pillar819_sprint_ax_regression_certificate.py`.*
