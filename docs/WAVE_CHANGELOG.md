@@ -1,7 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v24.3 (2026-08-25)*
+*Current version: v24.5 (2026-08-25)*
 
 For each wave entry, include:
 - **What changed**
@@ -31,7 +31,7 @@ For each wave entry, include:
 
 **Residual unknowns:** full 5D Einstein + radion EOM and full back-reacted Boltzmann closure remain open.
 
-**Regression:** 58,250 passed · 45 skipped · 12 deselected · 0 failed
+**Regression:** 58,563 passed · 45 skipped · 12 deselected · 0 failed
 
 ---
 
