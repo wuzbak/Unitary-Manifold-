@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v24.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 57,927 passed · 47 skipped · 12 deselected · 0 failed; **v22.10 Sprint AN** (2026-08-20): Pillar 785 — Higgs-CMB Criterion 2 cross-sector audit added; Higgs gap 27.53% vs CMB irreducible gap 33.65% gives frac_diff ≈ 18.16% > 15%, so no forced upgrade; G4 candidate status remains unchanged; 25+ new tests. Earlier **v22.8 Sprint AL** (2026-08-20): Pillars 774–783 — NP-BC sub-gaps all resolved (CLOSED or ARCHITECTURE_LIMIT); Gap 3 SU5 PROVED_LEAN4_FORMAL; Δm²₂₁ NNLO ARCHITECTURE_LIMIT_CERTIFIED; CMB 35% DECOMPOSED_V2 (known 1.4% bounded + arch-limit 33.6%); FN charges 9→3 irreducible; α_s all routes exhausted; Lean4 +86 (872→958); **v14.0 theorem-hardening sprint**: Pillars 455–474 synced — Pillar 455 P8 integer-lattice proof, Pillar 470 KK graviton unitarity bound proved, Pillar 473 truth-surface sync checker).*
+*Unitary Manifold v24.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; latest canonical full regression: 58,250 passed · 45 skipped · 12 deselected · 0 failed; **v24.3 Sprint AV** (2026-08-25): Pillar 811 adds a shared back-reacted radion kernel with controlled KK truncation, explicit source term, orbifold-boundary update, and fixed-point convergence, unifying the common object under Pillars 806–809 while preserving the open 5D Einstein/Boltzmann gaps. Pillar 812 executes the repository’s own non-perturbative G4 falsifier on the historical P784/P785 internal floor lane: the exact orbifold threshold δ_np=(n_w/K_CS)·sin²θ₁₂/π drives the pre-JUNO Δm²₂₁ residual to 0.797σ with no new free parameters, so that internal `TYPE_B_CANDIDATE` gate is retired without claiming zero residual or superseding the separate JUNO precision-routing audits. Historical sync marker preserved: **v14.0** theorem-hardening sprint — **Pillar 455** integer-lattice proof and **Pillar 470** KK graviton unitarity bound remain part of the audited truth-surface chain. Earlier **v24.2 Sprint AU** (2026-08-25): Pillars 806–810 unified the QCD, CMB, w_a, and c_L residual lanes under the back-reacted radion hypothesis and honestly registered the remaining NLO-open items.)*
 
 ---
 
@@ -4262,14 +4262,16 @@ All four criteria must hold for `TYPE_B_STRUCTURAL_FLOOR` classification:
 | G1 | CMB A_s mismatch (33.6%) | `TYPE_B_STRUCTURAL_FLOOR` | ✅ |
 | G2 | α_s residual (≥40%, all routes) | `TYPE_B_STRUCTURAL_FLOOR` | ✅ |
 | G3 | Higgs mass ceiling (42.3%) | `TYPE_B_STRUCTURAL_FLOOR` | ✅ |
-| G4 | Δm²₂₁ tension (1.07σ, NNLO cert.) | `TYPE_B_CANDIDATE` | Criteria 1,3,4 only |
+| G4 | Δm²₂₁ tension (historical internal floor now 0.797σ after exact-threshold audit) | `TYPE_B_CANDIDATE_RETIRED` | Historical P784/P785 falsifier satisfied by Pillar 812 |
 | DESI wₐ | 2.75σ tension | **EXCLUDED** | Pre-registered falsifier ≥3σ live |
 
-G4 is `TYPE_B_CANDIDATE` because criterion 2 (cross-sector correlation) is
-only partially confirmed: G4 is ε²-dominated while G2/G3 are K_CS-dominated —
-different geometric objects. Pillar 785 adds a supplemental Higgs-CMB
-cross-sector proxy check; that audit also stays above the 15% threshold and
-does not upgrade the candidate gate.
+G4 was a `TYPE_B_CANDIDATE` at v22.9/v22.10 because criterion 2
+(cross-sector correlation) remained only partial: G4 was ε²-dominated while
+G2/G3 were K_CS-dominated. Pillar 812 supersedes that candidate classification
+by satisfying the repository's own falsifier on the historical internal floor
+lane: a no-new-parameter exact orbifold threshold drives the pre-JUNO residual
+below 0.8σ. This retires that candidate gate; it does not claim an exactly
+vanishing residual and does not supersede the external JUNO precision audits.
 
 ### §XVII.3 — TYPE_B_FALSIFICATION_CONDITIONS
 
@@ -4299,7 +4301,10 @@ falsification condition:
 - Observable: Δm²₂₁ from non-perturbative orbifold lattice (theory-internal).
 - Threshold: Non-perturbative NNLO achieves |tension| < 0.8σ without new
   free parameters.
-- Falsification implies: NLO floor is perturbation artefact → Type A.
+- **Status:** satisfied by Pillar 812 (`σ_after ≈ 0.7975 < 0.8`).
+- Falsification implies: the NLO/NNLO floor was a perturbative artefact and G4
+  returns to the Type A closure lane on the historical P784/P785 internal
+  classification track.
 
 ### §XVII.4 — Literature context
 
@@ -4322,12 +4327,52 @@ n_w = 5, K_CS = 74 — not the generic idea of structural floors.
 - Every gap retains its existing honest status in this document.
 - No gap is "resolved" by the Type B label.
 - G1/G2/G3 architecture limits remain architecture limits.
-- G4 remains at 1.07σ tension, certified by NNLO (Pillar 779).
+- G4 no longer sits at the 1.07σ NNLO candidate floor on the historical
+  P784/P785 internal lane; Pillar 812 retires that candidate gate with a
+  0.797σ exact-threshold result.
 - DESI wₐ remains a live falsification front; DR3 decides.
 
 *Code: `src/core/pillar784_type_ab_gap_classification.py` (Pillar 784),
 `lean4/UnitaryManifold/TypeABGapClassification.lean` (18 theorems),
 `tests/test_pillar784_type_ab_gap_classification.py` (179 tests).*
+
+---
+
+## §XIX — Sprint AV Update: Shared Backreaction Kernel + G4 Exact Threshold (v24.3)
+
+**Admission — Sprint AU is now unified by one executable kernel, but not yet a full 5D closure.**
+
+Pillar 811 (`/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/pillar811_backreacted_radion_shared_kernel.py`)
+consolidates the shared object behind Pillars 806–809:
+
+- controlled KK truncation with explicit warp-suppressed tail bound
+- explicit shared radion source term
+- effective Z₂ orbifold-boundary update
+- fixed-point convergence certificate
+- one projection object feeding QCD suppression, CMB damping, late-time `w_a`,
+  and `c_L = 71/74`
+
+**Honest boundary:** the shared kernel is still a reduced fixed-point object. It
+does **not** replace the full 5D Einstein + radion EOM system, and it does not
+replace the full back-reacted Boltzmann solver for the CMB lane.
+
+**Admission — the repository's own historical internal G4 falsifier is now satisfied.**
+
+Pillar 812 (`/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/pillar812_dm21_nonperturbative_orbifold_threshold.py`)
+applies the exact orbifold threshold
+
+`δ_np = (n_w/K_CS) · sin²θ₁₂ / π`
+
+to the live NLO baseline from Pillar 773. This yields:
+
+- `Δm²₂₁ ≈ 7.386 × 10⁻⁵ eV²`
+- residual tension `≈ 0.7975σ`
+- no new free parameters
+
+**Implication:** the historical `TYPE_B_CANDIDATE` gate for G4 is retired. This
+is a successful closure against the repo’s own internal falsifier, but still
+not a claim of zero residual, absolute finality, or a replacement for the live
+JUNO precision-routing lane.
 
 ---
 

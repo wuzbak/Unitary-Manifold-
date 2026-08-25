@@ -1,6 +1,25 @@
-version: "v24.1"
-date: "2026-08-20"
-updated: "2026-08-20"
+version: "v24.3"
+date: "2026-08-25"
+updated: "2026-08-25"
+
+v24_3_sprint_av:
+  version: "v24.3"
+  wave: "Sprint AV — Shared Backreaction Kernel + G4 Exact Threshold (2026-08-25): Pillars 811–813"
+  date: "2026-08-25"
+  pillars_added:
+    - "811: BACKREACTED_RADION_SHARED_KERNEL_CONVERGED — controlled KK truncation, explicit source term, boundary update, fixed-point convergence; shared projections to QCD/CMB/w_a/c_L; Lean4 +15; 20 tests"
+    - "812: DM21_NONPERTURBATIVE_ORBIFOLD_THRESHOLD_SUB_0P8SIGMA — exact threshold δ_np=(n_w/K_CS)·sin²θ₁₂/π; historical internal G4 candidate retired at 0.797σ; Lean4 +15; 13 tests"
+    - "813: SPRINT_AV_REGRESSION_CERTIFICATE — Sprint AV certificate; Lean4 1336; next slot 814; 6 tests"
+  tests_added: 39
+  regression: "58,250 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 814
+  next_version: "v24.4"
+  lean4_theorems_total: 1336
+  lean4_new_theorems: 30
+  epistemic_deltas:
+    - "Sprint AU shared object consolidated into one executable kernel"
+    - "Historical internal G4 Type-B candidate falsifier satisfied at 0.797σ"
+    - "No exact-zero-residual claim; JUNO precision-routing remains separate"
 
 v23_2_sprint_ar:
   version: "v23.2"
