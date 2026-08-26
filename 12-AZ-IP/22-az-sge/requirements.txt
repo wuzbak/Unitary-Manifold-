@@ -1,0 +1,3 @@
+numpy>=1.24
+# Optional: install for real AES-256-GCM and X25519 ECDH
+# cryptography>=41.0
