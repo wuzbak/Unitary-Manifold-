@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AxiomZero SGE — Security Governance Engine</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #21262d;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --yellow: #d29922;
+      --orange: #f0883e;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --font: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header h1 { font-size: 18px; color: var(--accent); letter-spacing: 1px; }
+    header .version { color: var(--text-dim); font-size: 11px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-green  { background: #1a4428; color: var(--green); }
+    .badge-yellow { background: #3d2e0a; color: var(--yellow); }
+    .badge-orange { background: #3d1c00; color: var(--orange); }
+    .badge-red    { background: #3d0d0d; color: var(--red); }
+    .badge-blue   { background: #0d2a4d; color: var(--accent); }
+    .badge-purple { background: #2a1a4d; color: var(--purple); }
+    nav {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0;
+      padding: 0 24px;
+    }
+    nav button {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 12px;
+      padding: 10px 16px;
+      transition: all 0.15s;
+    }
+    nav button:hover { color: var(--text); }
+    nav button.active { border-bottom-color: var(--accent); color: var(--accent); }
+    .pane { display: none; padding: 20px 24px; }
+    .pane.active { display: block; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .card .label { color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .card .value { font-size: 22px; font-weight: 700; }
+    .card .sub { color: var(--text-dim); font-size: 11px; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 8px 10px; color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg3); }
+    .mono { font-family: var(--font); }
+    .section-title { font-size: 13px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
+    .input-row input {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 12px;
+      padding: 7px 12px;
+      flex: 1;
+    }
+    .input-row input:focus { outline: none; border-color: var(--accent); }
+    button.btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: #0d1117;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 16px;
+    }
+    button.btn:hover { opacity: 0.85; }
+    button.btn-danger { background: var(--red); }
+    .result-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 12px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .chain-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .chain-ok { color: var(--green); font-size: 20px; }
+    .chain-fail { color: var(--red); font-size: 20px; }
+    .refresh-ts { color: var(--text-dim); font-size: 11px; margin-left: auto; }
+    #toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 18px; color: var(--text);
+      font-size: 12px; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>⚡ AxiomZero SGE</h1>
+    <div class="version">System Security Governance Engine · Product 22</div>
+  </div>
+  <span id="hdr-chain-badge" class="badge badge-blue">Chain ✓</span>
+  <span id="hdr-uptime" class="badge badge-purple">Uptime: —</span>
+  <span style="margin-left:auto;color:var(--text-dim);font-size:11px" id="hdr-ts">—</span>
+</header>
+
+<nav>
+  <button class="active" onclick="showPane('pane-overview', this)">Overview</button>
+  <button onclick="showPane('pane-events', this)">Events</button>
+  <button onclick="showPane('pane-scan', this)">Scan</button>
+  <button onclick="showPane('pane-firewall', this)">Firewall</button>
+  <button onclick="showPane('pane-quarantine', this)">Quarantine</button>
+  <button onclick="showPane('pane-threats', this)">Threat Intel</button>
+  <button onclick="showPane('pane-chain', this)">Chain</button>
+</nav>
+
+<!-- OVERVIEW -->
+<div id="pane-overview" class="pane active">
+  <div class="grid" id="overview-grid">
+    <div class="card"><div class="label">Chain Length</div><div class="value" id="ov-chain-len">—</div><div class="sub">audit events committed</div></div>
+    <div class="card"><div class="label">IDS Alerts</div><div class="value" id="ov-ids-total">—</div><div class="sub" id="ov-ids-crit">—</div></div>
+    <div class="card"><div class="label">Firewall Decisions</div><div class="value" id="ov-fw-total">—</div><div class="sub" id="ov-fw-denied">—</div></div>
+    <div class="card"><div class="label">Quarantine</div><div class="value" id="ov-q-total">—</div><div class="sub" id="ov-q-by">—</div></div>
+    <div class="card"><div class="label">Threat Indicators</div><div class="value" id="ov-ti-total">—</div><div class="sub" id="ov-ti-crit">—</div></div>
+    <div class="card"><div class="label">Tracker Blocklist</div><div class="value" id="ov-tracker">—</div><div class="sub">known tracking domains</div></div>
+    <div class="card"><div class="label">Blocked IPs</div><div class="value" id="ov-blocked-ips">—</div><div class="sub">auto-blocked by IDS</div></div>
+    <div class="card"><div class="label">Engine Uptime</div><div class="value" id="ov-uptime">—</div><div class="sub">seconds</div></div>
+  </div>
+
+  <div class="section-title">Recent Security Events</div>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Time</th><th>Type</th><th>Severity</th><th>Score</th><th>Title</th></tr></thead>
+      <tbody id="recent-events-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- EVENTS -->
+<div id="pane-events" class="pane">
+  <div class="section-title">All Security Events (latest 100)</div>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Time</th><th>Type</th><th>Severity</th><th>Score</th><th>Source</th><th>Title</th><th>Detail</th></tr></thead>
+      <tbody id="events-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SCAN -->
+<div id="pane-scan" class="pane">
+  <div class="section-title">Domain / Tracker Check</div>
+  <div class="input-row">
+    <input id="domain-input" placeholder="Enter domain (e.g. google-analytics.com)" />
+    <button class="btn" onclick="checkDomain()">Check Domain</button>
+  </div>
+  <div id="domain-result" class="result-box" style="margin-bottom:20px;min-height:40px;display:none"></div>
+
+  <div class="section-title">File Hash Lookup</div>
+  <div class="input-row">
+    <input id="hash-input" placeholder="MD5 or SHA-256 hash" />
+    <button class="btn" onclick="checkHash()">Check Hash</button>
+  </div>
+  <div id="hash-result" class="result-box" style="margin-bottom:20px;min-height:40px;display:none"></div>
+
+  <div class="section-title">CVE Lookup</div>
+  <div class="input-row">
+    <input id="cve-input" placeholder="CVE-YYYY-NNNNN" />
+    <button class="btn" onclick="checkCVE()">Lookup CVE</button>
+  </div>
+  <div id="cve-result" class="result-box" style="min-height:40px;display:none"></div>
+</div>
+
+<!-- FIREWALL -->
+<div id="pane-firewall" class="pane">
+  <div class="section-title">Firewall Policy Summary</div>
+  <div class="grid">
+    <div class="card"><div class="label">Total Decisions</div><div class="value" id="fw-total">—</div></div>
+    <div class="card"><div class="label">Allowed</div><div class="value" id="fw-allowed" style="color:var(--green)">—</div></div>
+    <div class="card"><div class="label">Denied</div><div class="value" id="fw-denied" style="color:var(--red)">—</div></div>
+  </div>
+  <div class="section-title">Audit Log (last 20 decisions)</div>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Time</th><th>Action</th><th>Rule</th><th>Src IP</th><th>Dst IP</th><th>Port</th><th>Proto</th></tr></thead>
+      <tbody id="fw-log-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- QUARANTINE -->
+<div id="pane-quarantine" class="pane">
+  <div class="section-title">Quarantine Summary</div>
+  <div id="q-summary-grid" class="grid"></div>
+  <div class="section-title">Recent Quarantine Records</div>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>ID</th><th>Time</th><th>Type</th><th>Severity</th><th>Score</th><th>Status</th><th>Description</th></tr></thead>
+      <tbody id="q-records-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- THREAT INTEL -->
+<div id="pane-threats" class="pane">
+  <div class="section-title">Threat Intelligence Summary</div>
+  <div class="grid" id="ti-grid"></div>
+</div>
+
+<!-- CHAIN -->
+<div id="pane-chain" class="pane">
+  <div class="chain-status" id="chain-status-box">
+    <span id="chain-icon" class="chain-ok">●</span>
+    <div>
+      <div style="font-weight:700" id="chain-verdict">Checking…</div>
+      <div style="color:var(--text-dim);font-size:11px" id="chain-head-display">—</div>
+    </div>
+    <div class="refresh-ts" id="chain-ts">—</div>
+  </div>
+  <div class="card">
+    <div class="label">Merkle Root</div>
+    <div class="mono" id="chain-merkle" style="word-break:break-all;font-size:11px;margin-top:6px">—</div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const API = '';
+
+function showPane(id, btn) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function severityBadge(sev) {
+  const s = (sev || '').toLowerCase();
+  if (s === 'critical') return '<span class="badge badge-red">CRITICAL</span>';
+  if (s === 'high' || s === 'high_risk') return '<span class="badge badge-orange">HIGH</span>';
+  if (s === 'medium' || s === 'suspicious') return '<span class="badge badge-yellow">MEDIUM</span>';
+  if (s === 'low') return '<span class="badge badge-blue">LOW</span>';
+  return `<span class="badge badge-blue">${sev || 'INFO'}</span>`;
+}
+
+function actionBadge(action) {
+  if (action === 'allow') return '<span class="badge badge-green">ALLOW</span>';
+  if (action === 'deny') return '<span class="badge badge-red">DENY</span>';
+  return `<span class="badge badge-yellow">${action}</span>`;
+}
+
+function fmtTime(ts) {
+  if (!ts) return '—';
+  return new Date(ts * 1000).toLocaleTimeString();
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+async function api(path, method = 'GET', body = null) {
+  const opts = { method, headers: {} };
+  if (body) { opts.body = JSON.stringify(body); opts.headers['Content-Type'] = 'application/json'; }
+  try {
+    const r = await fetch(API + path, opts);
+    return await r.json();
+  } catch (e) {
+    toast('API error: ' + e.message);
+    return null;
+  }
+}
+
+async function refreshOverview() {
+  const [status, events] = await Promise.all([api('/api/status'), api('/api/events')]);
+  if (!status) return;
+
+  document.getElementById('ov-chain-len').textContent = status.chain_length ?? '—';
+  document.getElementById('ov-ids-total').textContent = status.ids?.total_alerts ?? '—';
+  document.getElementById('ov-ids-crit').textContent = `${Object.entries(status.ids?.by_severity || {}).map(([k,v])=>`${k}:${v}`).join(' ')}`;
+  document.getElementById('ov-fw-total').textContent = status.firewall?.total ?? '—';
+  document.getElementById('ov-fw-denied').textContent = `${status.firewall?.denied ?? 0} denied`;
+  document.getElementById('ov-q-total').textContent = status.quarantine?.total_records ?? '—';
+  document.getElementById('ov-q-by').textContent = Object.entries(status.quarantine?.by_status || {}).map(([k,v])=>`${k}:${v}`).join(' ');
+  document.getElementById('ov-ti-total').textContent = status.threat_intel?.total ?? '—';
+  document.getElementById('ov-ti-crit').textContent = `${status.threat_intel?.by_severity?.critical ?? 0} critical`;
+  document.getElementById('ov-tracker').textContent = status.tracker_blocklist_size ?? '—';
+  document.getElementById('ov-blocked-ips').textContent = (status.blocked_ips || []).length;
+  const upt = Math.round(status.uptime_seconds ?? 0);
+  document.getElementById('ov-uptime').textContent = upt + 's';
+  document.getElementById('hdr-uptime').textContent = `Uptime: ${upt}s`;
+  document.getElementById('hdr-ts').textContent = new Date().toLocaleTimeString();
+
+  const chainOk = status.chain_integrity;
+  document.getElementById('hdr-chain-badge').textContent = chainOk ? 'Chain ✓' : 'Chain ✗';
+  document.getElementById('hdr-chain-badge').className = 'badge ' + (chainOk ? 'badge-green' : 'badge-red');
+
+  if (events) {
+    const evs = (events.events || []).slice(-10).reverse();
+    document.getElementById('recent-events-tbody').innerHTML = evs.map(e =>
+      `<tr><td>${fmtTime(e.timestamp)}</td><td>${e.event_type}</td><td>${severityBadge(e.severity)}</td><td>${e.score?.toFixed(0) ?? '—'}</td><td>${e.title}</td></tr>`
+    ).join('');
+    document.getElementById('events-tbody').innerHTML = (events.events || []).slice().reverse().map(e =>
+      `<tr><td>${fmtTime(e.timestamp)}</td><td>${e.event_type}</td><td>${severityBadge(e.severity)}</td><td>${e.score?.toFixed(0)??'—'}</td><td>${e.source||'—'}</td><td>${e.title}</td><td title="${e.detail}">${(e.detail||'').slice(0,80)}…</td></tr>`
+    ).join('');
+  }
+}
+
+async function refreshFirewall() {
+  const s = await api('/api/status');
+  if (!s) return;
+  const fw = s.firewall || {};
+  document.getElementById('fw-total').textContent = fw.total ?? '—';
+  document.getElementById('fw-allowed').textContent = fw.allowed ?? '—';
+  document.getElementById('fw-denied').textContent = fw.denied ?? '—';
+}
+
+async function refreshQuarantine() {
+  const data = await api('/api/quarantine');
+  if (!data) return;
+  const s = data.summary || {};
+  document.getElementById('q-summary-grid').innerHTML = Object.entries(s.by_status || {}).map(([k, v]) =>
+    `<div class="card"><div class="label">${k}</div><div class="value">${v}</div></div>`
+  ).join('') + `<div class="card"><div class="label">Blocked IPs</div><div class="value">${s.blocked_ips ?? 0}</div></div>`;
+
+  document.getElementById('q-records-tbody').innerHTML = (data.records || []).slice().reverse().map(r =>
+    `<tr><td class="mono" style="font-size:10px">${r.record_id}</td><td>${fmtTime(r.timestamp)}</td><td>${r.threat_type}</td><td>${severityBadge(r.severity)}</td><td>${r.threat_score?.toFixed(0)??'—'}</td><td>${r.status}</td><td title="${r.description}">${(r.description||'').slice(0,60)}…</td></tr>`
+  ).join('');
+}
+
+async function refreshThreatIntel() {
+  const data = await api('/api/threats');
+  if (!data) return;
+  document.getElementById('ti-grid').innerHTML = [
+    { label: 'Total Indicators', value: data.total ?? '—', sub: '' },
+    { label: 'Critical', value: data.by_severity?.critical ?? 0, sub: '', color: 'var(--red)' },
+    { label: 'High', value: data.by_severity?.high ?? 0, sub: '', color: 'var(--orange)' },
+    { label: 'Medium', value: data.by_severity?.medium ?? 0, sub: '', color: 'var(--yellow)' },
+    { label: 'Cache Age', value: Math.round(data.cache_age_seconds ?? 0) + 's', sub: 'since last refresh' },
+  ].map(c =>
+    `<div class="card"><div class="label">${c.label}</div><div class="value" style="${c.color ? 'color:'+c.color : ''}">${c.value}</div><div class="sub">${c.sub}</div></div>`
+  ).join('');
+}
+
+async function refreshChain() {
+  const data = await api('/api/chain');
+  if (!data) return;
+  const ok = data.integrity;
+  document.getElementById('chain-icon').className = ok ? 'chain-ok' : 'chain-fail';
+  document.getElementById('chain-verdict').textContent = ok ? 'Chain intact — all links verified' : `Tamper detected at link ${data.bad_index}: ${data.reason}`;
+  document.getElementById('chain-head-display').textContent = 'Head: ' + (data.head || '—');
+  document.getElementById('chain-merkle').textContent = data.merkle_root || '—';
+  document.getElementById('chain-ts').textContent = 'Verified: ' + new Date().toLocaleTimeString();
+}
+
+async function checkDomain() {
+  const d = document.getElementById('domain-input').value.trim();
+  if (!d) return;
+  const res = await api('/api/check-domain', 'POST', { domain: d });
+  const box = document.getElementById('domain-result');
+  box.style.display = 'block';
+  box.textContent = JSON.stringify(res, null, 2);
+}
+
+async function checkHash() {
+  const h = document.getElementById('hash-input').value.trim();
+  if (!h) return;
+  const res = await api('/api/check-hash', 'POST', { hash: h });
+  const box = document.getElementById('hash-result');
+  box.style.display = 'block';
+  box.textContent = JSON.stringify(res, null, 2);
+}
+
+async function checkCVE() {
+  const c = document.getElementById('cve-input').value.trim();
+  if (!c) return;
+  const res = await api('/api/check-cve', 'POST', { cve_id: c });
+  const box = document.getElementById('cve-result');
+  box.style.display = 'block';
+  box.textContent = JSON.stringify(res, null, 2);
+}
+
+// Initial load
+refreshOverview();
+refreshFirewall();
+refreshQuarantine();
+refreshThreatIntel();
+refreshChain();
+
+// Auto-refresh every 10 seconds
+setInterval(() => {
+  refreshOverview();
+  refreshFirewall();
+  refreshQuarantine();
+  refreshThreatIntel();
+}, 10000);
+</script>
+</body>
+</html>
