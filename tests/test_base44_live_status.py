@@ -62,7 +62,7 @@ def _first_sprint_entry() -> str:
 def test_build_live_status_matches_headline_entry(live_status_module):
     entry = _first_sprint_entry()
     version_match = re.search(r"\*v([\d.]+) Sprint (\w+)", entry)
-    expected_lean4 = int(re.findall(r"Lean4[^)]*?(?:total\s+|→)(\d{3,5})", entry)[-1])
+    expected_lean4 = int(re.findall(r"Lean4[^)]*?(?:total\s+|→)(\d{3,5})", entry)[0])
     expected_tests = re.search(
         r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
         entry,
