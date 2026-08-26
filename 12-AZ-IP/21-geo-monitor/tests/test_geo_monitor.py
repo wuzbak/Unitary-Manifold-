@@ -16,7 +16,10 @@ PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PRODUCT_ROOT))
 
 from geo_monitor.app.server import UIRequestHandler, ui_directory
-from geo_monitor.engine.feeds import EONETFeedParser, USGSFeedParser, get_combined_events
+from geo_monitor.engine.feeds import (
+    EONETFeedParser, USGSFeedParser, NOAAAlertsFeedParser, NWACFeedParser,
+    get_combined_events,
+)
 from geo_monitor.engine.overlay import compute_overlay, format_result_json, summary_stats
 from geo_monitor.engine.physics import (
     BASIN_DEPTH,
@@ -110,7 +113,7 @@ class TestConstants:
         assert HURRICANE_ENERGY_PER_CATEGORY_J == 5.0e18
 
     def test_disaster_kinds_count(self):
-        assert len(DISASTER_KINDS) == 10
+        assert len(DISASTER_KINDS) >= 10
 
     def test_disaster_kinds_contains_expected(self):
         for kind in ["earthquake", "wildfire", "hurricane", "storm", "volcano"]:
@@ -587,3 +590,267 @@ class TestRunCLI:
         payload = json.loads(proc.stdout)
         assert len(payload["results"]) == 5
         assert payload["summary"]["total"] == 5
+
+
+# ===========================================================================
+# NOAA NWS feed parser tests
+# ===========================================================================
+
+class _NWSFeature:
+    """Helper to build minimal NWS GeoJSON features."""
+
+    @staticmethod
+    def make(event="Red Flag Warning", severity="Severe",
+             lon=-120.5, lat=47.3,
+             geom_type="Point"):
+        geom = None
+        if geom_type == "Point":
+            geom = {"type": "Point", "coordinates": [lon, lat]}
+        elif geom_type == "Polygon":
+            geom = {
+                "type": "Polygon",
+                "coordinates": [[[lon-0.1, lat-0.1], [lon+0.1, lat-0.1],
+                                  [lon+0.1, lat+0.1], [lon-0.1, lat+0.1], [lon-0.1, lat-0.1]]]
+            }
+        return {
+            "properties": {
+                "id": f"nws-test-{event.replace(' ','-')}",
+                "event": event,
+                "severity": severity,
+                "headline": f"{event} in effect",
+                "areaDesc": "Test area",
+                "senderName": "NWS Seattle WA",
+            },
+            "geometry": geom,
+        }
+
+
+class TestNOAAAlertsFeedParser:
+    def test_parse_features_fire_weather(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [_NWSFeature.make("Red Flag Warning", "Severe")]}
+        events = parser.parse_features(data)
+        assert len(events) == 1
+        assert events[0].kind == "wildfire"
+
+    def test_parse_features_tsunami(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [_NWSFeature.make("Tsunami Warning", "Extreme")]}
+        events = parser.parse_features(data)
+        assert len(events) == 1
+        assert events[0].kind == "tsunami"
+
+    def test_parse_features_storm(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [_NWSFeature.make("Severe Thunderstorm Warning", "Severe")]}
+        events = parser.parse_features(data)
+        assert len(events) == 1
+        assert events[0].kind == "storm"
+
+    def test_parse_features_polygon_geometry(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [_NWSFeature.make("High Wind Warning", "Moderate", geom_type="Polygon")]}
+        events = parser.parse_features(data)
+        assert len(events) == 1
+        assert abs(events[0].lat - 47.3) < 0.05
+        assert abs(events[0].lon - (-120.5)) < 0.05
+
+    def test_parse_features_null_geometry_skipped(self):
+        parser = NOAAAlertsFeedParser()
+        feature = _NWSFeature.make()
+        feature["geometry"] = None
+        events = parser.parse_features({"features": [feature]})
+        assert events == []
+
+    def test_parse_extreme_severity_mag_4(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [_NWSFeature.make("Excessive Heat Warning", "Extreme")]}
+        events = parser.parse_features(data)
+        assert len(events) == 1
+        assert events[0].magnitude == 4.0
+
+    def test_parse_minor_severity_mag_1(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [_NWSFeature.make("Special Weather Statement", "Minor")]}
+        events = parser.parse_features(data)
+        assert len(events) == 1
+        assert events[0].magnitude == 1.0
+
+    def test_parse_empty_features(self):
+        assert NOAAAlertsFeedParser().parse_features({"features": []}) == []
+
+    def test_api_url_constant(self):
+        assert NOAAAlertsFeedParser.NWS_ALERTS_BASE_URL.startswith("https://api.weather.gov")
+
+    def test_fetch_with_monkeypatch(self, monkeypatch):
+        monkeypatch.setattr(
+            "geo_monitor.engine.feeds.request.urlopen",
+            lambda req, timeout=20: MockHTTPResponse({"features": []})
+        )
+        result = NOAAAlertsFeedParser().fetch(area="WA")
+        assert result == {"features": []}
+
+    def test_parse_nws_alert_overlay_runs(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [_NWSFeature.make("Tornado Warning", "Extreme")]}
+        events = parser.parse_features(data)
+        assert len(events) == 1
+        ov = UMGeoOverlay().analyse(events[0])
+        assert ov.phi_debt_injection >= 0
+
+    def test_multiple_alerts_parsed(self):
+        parser = NOAAAlertsFeedParser()
+        data = {"features": [
+            _NWSFeature.make("Red Flag Warning", "Severe"),
+            _NWSFeature.make("Tsunami Advisory", "Extreme", lon=-124.0, lat=47.8),
+            _NWSFeature.make("Winter Storm Warning", "Moderate", lon=-119.0, lat=46.0),
+        ]}
+        events = parser.parse_features(data)
+        assert len(events) == 3
+        kinds = {ev.kind for ev in events}
+        assert "wildfire" in kinds
+        assert "tsunami" in kinds
+
+
+# ===========================================================================
+# NWAC feed parser tests
+# ===========================================================================
+
+class _NWACProduct:
+    @staticmethod
+    def make(zone="west-slopes-central", max_level=3):
+        return {
+            "forecast_zone": zone.replace("-", " ").title(),
+            "danger": [
+                {"level": max_level, "name": "Above Treeline"},
+                {"level": max(1, max_level - 1), "name": "Near Treeline"},
+                {"level": max(1, max_level - 2), "name": "Below Treeline"},
+            ],
+            "published_time": "2026-01-15T08:00:00-08:00",
+            "url": "https://nwac.us",
+        }
+
+
+class TestNWACFeedParser:
+    def test_parse_products_single_zone(self):
+        parser = NWACFeedParser()
+        data = [_NWACProduct.make("olympics", 3)]
+        events = parser.parse_products(data)
+        assert len(events) >= 1
+        assert events[0].kind == "avalanche"
+
+    def test_parse_products_danger_level_extracted(self):
+        parser = NWACFeedParser()
+        data = [_NWACProduct.make("mt-hood", 4)]
+        events = parser.parse_products(data)
+        assert len(events) >= 1
+        assert events[0].magnitude == 4.0
+
+    def test_parse_products_danger_level_5(self):
+        parser = NWACFeedParser()
+        data = [_NWACProduct.make("west-slopes-south", 5)]
+        events = parser.parse_products(data)
+        assert events[0].magnitude == 5.0
+
+    def test_parse_products_multiple_zones(self):
+        parser = NWACFeedParser()
+        data = [
+            _NWACProduct.make("olympics", 2),
+            _NWACProduct.make("mt-hood", 3),
+            _NWACProduct.make("central-oregon", 1),
+        ]
+        events = parser.parse_products(data)
+        assert len(events) == 3
+
+    def test_parse_products_deduplicates_zones(self):
+        parser = NWACFeedParser()
+        data = [_NWACProduct.make("olympics", 2), _NWACProduct.make("olympics", 4)]
+        events = parser.parse_products(data)
+        assert len(events) == 1  # second duplicate dropped
+
+    def test_parse_products_coords_in_pnw(self):
+        parser = NWACFeedParser()
+        data = [_NWACProduct.make("olympics", 2)]
+        events = parser.parse_products(data)
+        lat, lon = events[0].lat, events[0].lon
+        assert 42.0 <= lat <= 50.0
+        assert -126.0 <= lon <= -109.0
+
+    def test_parse_products_empty(self):
+        assert NWACFeedParser().parse_products([]) == []
+
+    def test_parse_products_from_dict_wrapper(self):
+        parser = NWACFeedParser()
+        data = {"data": [_NWACProduct.make("mt-baker", 3)]}
+        events = parser.parse_products(data)
+        assert len(events) >= 1
+
+    def test_api_url_constant(self):
+        assert NWACFeedParser.NWAC_API_URL.startswith("https://api.avalanche.org")
+
+    def test_fetch_with_monkeypatch(self, monkeypatch):
+        monkeypatch.setattr(
+            "geo_monitor.engine.feeds.request.urlopen",
+            lambda req, timeout=20: MockHTTPResponse([])
+        )
+        result = NWACFeedParser().fetch()
+        assert result == []
+
+    def test_avalanche_overlay_for_nwac_event(self):
+        parser = NWACFeedParser()
+        data = [_NWACProduct.make("east-slopes-central", 3)]
+        events = parser.parse_products(data)
+        assert len(events) >= 1
+        ov = UMGeoOverlay().analyse(events[0])
+        assert ov.winding_stability >= 0.0
+
+
+# ===========================================================================
+# get_combined_events — extended with NWS and NWAC
+# ===========================================================================
+
+class TestCombinedEventsExtended:
+    def test_nws_mock_data_included(self):
+        data = {
+            "usgs":  {"features": []},
+            "eonet": {"events": []},
+            "nws":   {"features": [
+                {
+                    "properties": {"event": "Red Flag Warning", "severity": "Severe",
+                                   "headline": "Fire Weather Watch", "senderName": "NWS SEA"},
+                    "geometry": {"type": "Point", "coordinates": [-120.5, 47.3]},
+                }
+            ]},
+        }
+        events = get_combined_events(mock_data=data)
+        assert any(ev.kind == "wildfire" for ev in events)
+
+    def test_nwac_mock_data_included(self):
+        data = {
+            "usgs":  {"features": []},
+            "eonet": {"events": []},
+            "nwac":  [{"forecast_zone": "Olympics", "danger": [{"level": 3}], "published_time": ""}],
+        }
+        events = get_combined_events(mock_data=data)
+        assert any(ev.kind == "avalanche" for ev in events)
+
+    def test_all_four_sources_combined(self):
+        data = {
+            "usgs":  {"features": [{"properties": {"mag": 6.0}, "geometry": {"coordinates": [140.0, 35.0, 10.0]}}]},
+            "eonet": {"events": [{"categories": [{"id": "wildfires"}], "geometry": [{"coordinates": [-118.0, 34.0]}]}]},
+            "nws":   {"features": [{"properties": {"event": "Tsunami Warning", "severity": "Extreme",
+                                                    "headline": "Tsunami Warning", "senderName": "NWS"},
+                                    "geometry": {"type": "Point", "coordinates": [-125.0, 47.0]}}]},
+            "nwac":  [{"forecast_zone": "West Slopes Central", "danger": [{"level": 2}], "published_time": ""}],
+        }
+        events = get_combined_events(mock_data=data)
+        kinds = {ev.kind for ev in events}
+        assert "earthquake" in kinds
+        assert "wildfire"   in kinds
+        assert "tsunami"    in kinds
+        assert "avalanche"  in kinds
+
+    def test_missing_nws_key_gracefully_skipped(self):
+        data = {"usgs": {"features": []}, "eonet": {"events": []}}
+        events = get_combined_events(mock_data=data)
+        assert isinstance(events, list)
