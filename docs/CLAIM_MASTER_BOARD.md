@@ -3,7 +3,19 @@
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-08-25 (v24.5 — Sprint AX: Pillar 818 closes FULL_5D_BOLTZMANN_OPEN gate with coupled photon-baryon Boltzmann + radion zero-mode EOM back-reaction solver; A_BR~6×10⁻⁴≪1%; Lean4 +25 (1386→1411); 112 new tests; 58,563 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2026; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-08-26 (v24.6 — Sprint AY: Pillars 820–825. P820 ISW_NLO_PERTURBATIVE_CLOSED; P821 Z2_NGAP_NLO_CONFIRMED; P822 NW_NARROWED_TO_5_7_GEOMETRIC; P823 NGEN_5D_EFT_NOGO_PROVED; P824 DESI_DR3_PREREGISTERED; Lean4 +95 (1411→1506); 227 new tests; ~58,790 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P825 (v24.6): Sprint AY Regression Certificate — SPRINT_AY_REGRESSION_CERTIFICATE. `src/core/pillar825_sprint_ay_regression_certificate.py` certifies Sprint AY (5 pillars; 227 new tests; Lean4 +95 (1411→1506); next slot 826).*
+
+*P824 (v24.6): DESI DR3 Pre-Registration — DESI_DR3_PREREGISTERED. `src/core/pillar824_desi_dr3_preregistration.py` machine-readable wₐ=0 falsification routing: TENSION (≥2σ), HIGH_TENSION (≥3σ), FALSIFIED (≥5σ). DR2 status: 2.75σ TENSION. Lean4 DesiDR3PreRegistration.lean +15 (1491→1506).*
+
+*P823 (v24.6): N_gen=3 Honest No-Go — NGEN_5D_EFT_NOGO_PROVED. `src/core/pillar823_ngen_honest_nogo.py` formally proves 5D-EFT on S¹/Z₂ cannot derive N_gen=3 from K_CS=74: APS index=5/2 (non-integer), architecture limit confirmed. Kawamura 6D orbifold T²/Z₂ documented as viable UV extension. Lean4 NgenHonestNogo.lean +20 (1471→1491). Closes OPEN-GAP-3 as no-go.*
+
+*P822 (v24.6): n_w Geometric Narrowing — NW_NARROWED_TO_5_7_GEOMETRIC. `src/core/pillar822_nw_uniqueness_geometry.py` proves K_CS=74 has unique positive integer decomposition (5,7); both odd (APS Z₂ satisfied); geometry narrows n_w∈{5,7}. Planck nₛ still required for final 5 vs 7 selection. NW_UNIQUENESS_GEOMETRY_OPEN remains. Lean4 NWGeometricNarrowing.lean +22 (1449→1471). Partial closure of OPEN-GAP-1.*
+
+*P821 (v24.6): Z2 N_gap NLO Correction — Z2_NGAP_NLO_CONFIRMED. `src/core/pillar821_z2_ngap_nlo_correction.py` computes one-loop orbifold threshold correction to N_gap from radion quantum fluctuations; ΔN_gap~3×10⁻³, Δ(c_L)/c_L~4×10⁻⁵ ≪ 0.1% threshold; c_L=71/74 locking NLO-robust. Instanton sector open. Lean4 Z2NgapNLO.lean +18 (1431→1449). Closes Z2_CL_NLO_OPEN from P809.*
+
+*P820 (v24.6): ISW NLO Back-Reaction — ISW_NLO_PERTURBATIVE_CLOSED. `src/core/pillar820_isw_nlo_backreaction.py` computes ISW NLO correction from radion back-reaction: |δCℓ/Cℓ|_ISW_NLO<10⁻⁵ (sub-ppm), confirming perturbative regime. Peak suppression ×4–7 requires beyond-zero-mode mechanism. KK tower n≥1 ISW formally open. Lean4 ISWNLOClosure.lean +20 (1411→1431). Closes ISW_CORRECTION_OPEN from P819.*
 
 *P819 (v24.5): Sprint AX Regression Certificate — SPRINT_AX_REGRESSION_CERTIFICATE. `src/core/pillar819_sprint_ax_regression_certificate.py` certifies Sprint AX (1 pillar; 112 new tests; Lean4 +25 (1386→1411); next slot 820).*
 
