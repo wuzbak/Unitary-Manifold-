@@ -86,6 +86,7 @@ function energySI(kind, magnitude, areaHa, energyJ) {
     case 'hurricane':
     case 'storm':
     case 'tornado':
+      return UM.HURRICANE_ENERGY_PER_CAT_J * (magnitude ** 2);
     case 'nws_alert':
       return UM.HURRICANE_ENERGY_PER_CAT_J * (magnitude ** 1.5);
     case 'volcano':
