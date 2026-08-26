@@ -1,7 +1,7 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v24.5 (2026-08-25)*
+*Current version: v24.6 (2026-08-26)*
 
 For each wave entry, include:
 - **What changed**
@@ -13,7 +13,30 @@ For each wave entry, include:
 
 ---
 
-## v24.5 (2026-08-25 — Pillars 818–819: Sprint AX — Full Back-Reacted 5D Boltzmann Solver)
+## v24.6 (2026-08-26 — Pillars 820–825: Sprint AY — Hard Mathematical Closures + NLO Corrections + Falsification Infrastructure)
+
+**What changed:**
+Pillars 820–825. (1) P820: ISW NLO back-reaction correction computed and confirmed sub-ppm — closes ISW_CORRECTION_OPEN. (2) P821: one-loop orbifold threshold correction to N_gap closes Z2_CL_NLO_OPEN; c_L=71/74 NLO-robust. (3) P822: K_CS=74 has unique integer pair (5,7); geometry narrows n_w∈{5,7}; honest no-go proved for pure-geometry uniqueness — partial closure of OPEN-GAP-1. (4) P823: formal no-go theorem for N_gen=3 derivation from 5D-EFT; APS index=5/2; architecture limit confirmed; Kawamura 6D documented — closes OPEN-GAP-3 as no-go. (5) P824: machine-readable DESI DR3 wₐ=0 falsification routing pre-registered. (6) P825: Sprint AY regression certificate.
+
+**Why:**
+Closes registered open gates from Pillars 809, 819. Provides honest mathematical statements about what the framework can and cannot derive.
+
+**Epistemic label deltas:**
+- ISW NLO: OPEN → ISW_NLO_PERTURBATIVE_CLOSED
+- Z2 N_gap NLO: OPEN → Z2_NGAP_NLO_CONFIRMED
+- n_w uniqueness: OPEN-GAP-1 → NW_NARROWED_TO_5_7_GEOMETRIC (partial; full uniqueness open)
+- N_gen derivation: OPEN-GAP-3 → NGEN_5D_EFT_NOGO_PROVED
+- DESI routing: unregistered → DESI_DR3_PREREGISTERED
+
+**Physics label delta:** None — no hardgate physics claims promoted.
+
+**Falsification impact:** DESI DR3 routing formally pre-registered with machine-verifiable thresholds.
+
+**Residual unknowns:** NW_UNIQUENESS_GEOMETRY_OPEN, APS_MATHLIB_OPEN, NGEN_6D_OPEN, ADM_BSSN_OPEN, G1/G2/G3 structural floors.
+
+**Regression:** ~58,790 passed · 45 skipped · 12 deselected · 0 failed
+
+---
 
 **What changed:**
 - **Pillar 818** (`src/core/pillar818_full_backreacted_boltzmann.py`): FULL_5D_BOLTZMANN_CLOSED — coupled photon-baryon Boltzmann hierarchy (analytic tight-coupling) + radion zero-mode EOM with self-consistent back-reaction iteration; Φ_eff=Φ_GR+α_BR·δφ/φ₀ with α_BR=25/148≈0.169; radion EOM δφ''+2ℋδφ'+(k²+m_φ²)δφ=S_γ sourced by photon T_μν back-reaction; iterates to ‖Δδφ‖/‖δφ‖<10⁻⁶ convergence; A_BR~6×10⁻⁴≪A_BR_MAX=1%; 106 tests.

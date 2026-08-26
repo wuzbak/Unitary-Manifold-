@@ -1,8 +1,32 @@
-version: "v24.5"
-date: "2026-08-25"
-updated: "2026-08-25"
+version: "v24.6"
+date: "2026-08-26"
+updated: "2026-08-26"
 
-v24_5_sprint_ax:
+v24_6_sprint_ay:
+  version: "v24.6"
+  wave: "Sprint AY — Hard Mathematical Closures + NLO Corrections + Falsification Infrastructure (2026-08-26): Pillars 820–825"
+  date: "2026-08-26"
+  pillars_added:
+    - "820: ISW_NLO_PERTURBATIVE_CLOSED — ISW NLO correction sub-ppm; perturbative regime confirmed; Lean4 ISWNLOClosure.lean +20; 41 tests"
+    - "821: Z2_NGAP_NLO_CONFIRMED — c_L=71/74 NLO-robust; ΔN_gap~3e-3; Lean4 Z2NgapNLO.lean +18; 35 tests"
+    - "822: NW_NARROWED_TO_5_7_GEOMETRIC — K_CS=74 unique pair (5,7); geometry narrows n_w∈{5,7}; Lean4 NWGeometricNarrowing.lean +22; 47 tests"
+    - "823: NGEN_5D_EFT_NOGO_PROVED — 5D-EFT cannot derive N_gen=3; APS index=5/2; architecture limit; Lean4 NgenHonestNogo.lean +20; 45 tests"
+    - "824: DESI_DR3_PREREGISTERED — wₐ=0 falsification routing; 2.0σ/3.0σ/5.0σ thresholds; Lean4 DesiDR3PreRegistration.lean +15; 39 tests"
+    - "825: SPRINT_AY_REGRESSION_CERTIFICATE — Sprint AY certificate; Lean4 1506; next slot 826; 37 tests"
+  tests_added: 244
+  regression: "58,790 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 826
+  next_version: "v24.7"
+  lean4_theorems_total: 1506
+  lean4_new_theorems: 95
+  epistemic_deltas:
+    - "ISW_CORRECTION_OPEN closed: back-reaction perturbative at sub-ppm level"
+    - "Z2_CL_NLO_OPEN closed: c_L=71/74 locking NLO-robust"
+    - "OPEN-GAP-1 partial: K_CS=74 uniquely pairs (5,7); full uniqueness requires Planck nS"
+    - "OPEN-GAP-3 closed as no-go: 5D-EFT architecture limit for N_gen=3"
+    - "DESI DR3 wₐ routing pre-registered with machine-verifiable thresholds"
+
+
   version: "v24.5"
   wave: "Sprint AX — Full Back-Reacted 5D Boltzmann Solver (2026-08-25): Pillars 818–819"
   date: "2026-08-25"
