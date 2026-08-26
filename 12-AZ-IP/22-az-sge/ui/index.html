@@ -367,8 +367,6 @@ async function refreshOverview() {
 }
 
 async function refreshFirewall() {
-  const data = await api('/api/quarantine');
-  // quarantine already covers this; for firewall we use status
   const s = await api('/api/status');
   if (!s) return;
   const fw = s.firewall || {};

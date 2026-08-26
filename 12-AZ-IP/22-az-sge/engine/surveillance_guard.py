@@ -241,17 +241,9 @@ class DNSLeakAuditor:
 
     def audit(self) -> List[PrivacyAlert]:
         alerts: List[PrivacyAlert] = []
-        for domain in self.TEST_DOMAINS:
-            try:
-                addrs = socket.getaddrinfo(domain, None, socket.AF_INET, socket.SOCK_DGRAM)
-                ips = {info[4][0] for info in addrs}
-                # We cannot directly see which resolver answered; we flag if
-                # none of the resolved IPs belong to our expected set.
-                # (Full DNS leak detection requires raw resolver inspection via
-                # dnsleaktest.com API or custom UDP socket — this is the safe
-                # heuristic version.)
-            except (socket.gaierror, OSError):
-                ips = set()
+        # Full DNS leak detection requires raw resolver inspection (custom UDP socket
+        # or dnsleaktest.com API) to see which resolver answered. The /etc/resolv.conf
+        # check below is the heuristic path available without raw socket access.
 
         # Check /etc/resolv.conf for non-approved nameservers (Linux)
         try:

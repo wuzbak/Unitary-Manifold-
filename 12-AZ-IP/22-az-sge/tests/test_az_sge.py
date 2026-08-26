@@ -1188,9 +1188,7 @@ class TestSGECore:
         assert len(sge._chain) >= 1
 
     def test_sge_scan_bytes_clean(self, sge):
-        scan, qr = sge.scan_file.__func__(sge, "/nonexistent") if False else (
-            sge._malware.scan_bytes(b"hello world", "clean.txt"), None
-        )
+        scan = sge._malware.scan_bytes(b"hello world", "clean.txt")
         assert scan.risk_level == "CLEAN"
 
     def test_sge_check_domain_tracker(self, sge):
@@ -1720,16 +1718,6 @@ class TestQuarantineExtra:
         )
         d = action.to_dict()
         assert "action_type" in d and "target" in d
-
-
-def test_az_sge_all_modules_importable():
-    from engine import (
-        hash_chain, encryption, threat_intel,
-        malware_detector, zero_day, intrusion_detector,
-        firewall, surveillance_guard, vuln_scanner,
-        quarantine, sge_core,
-    )
-    assert True
 
 
 def test_az_sge_minimum_test_count():
