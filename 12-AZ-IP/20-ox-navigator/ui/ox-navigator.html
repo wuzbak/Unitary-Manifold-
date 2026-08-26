@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OX Navigator — AxiomZero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" crossorigin>
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/az-apps.css">
+  <style>
+    :root {
+      --ox-bg: #07090e;
+      --ox-panel: #0d1117;
+      --ox-border: #1a2232;
+      --ox-accent: #a78bfa;
+      --ox-accent2: #38bdf8;
+      --ox-accent3: #34d399;
+      --gate-hard: #22c55e;
+      --gate-adj: #3b82f6;
+      --gate-gap: #f59e0b;
+      --gate-gov: #a78bfa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: var(--ox-bg);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* ===== HERO ===== */
+    .ox-hero {
+      background: linear-gradient(160deg, #06040f 0%, #0d0a1f 60%, #080810 100%);
+      border-bottom: 1px solid var(--ox-border);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+    }
+    .ox-hero h1 {
+      font-size: 2rem; font-weight: 700; color: #f8fafc;
+      margin: 0 0 0.35rem; letter-spacing: -0.02em;
+    }
+    .ox-hero h1 span { color: var(--ox-accent); }
+    .ox-hero .subtitle { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.2rem; }
+    .ox-hero .tag {
+      display: inline-block;
+      background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3);
+      color: var(--ox-accent); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; padding: 0.18rem 0.65rem; border-radius: 4px; margin: 0 0.2rem;
+    }
+    .ox-hero .gov-banner {
+      display: inline-block; margin-top: 0.8rem;
+      background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2);
+      border-radius: 6px; padding: 0.4rem 1rem;
+      font-size: 0.8rem; color: #c4b5fd;
+    }
+
+    /* ===== MAIN LAYOUT ===== */
+    .ox-main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    /* ===== QUERY BOX ===== */
+    .ox-query-card {
+      background: var(--ox-panel);
+      border: 1px solid var(--ox-border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .ox-query-card label {
+      display: block; font-size: 0.82rem; font-weight: 600;
+      color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .ox-query-row {
+      display: flex; gap: 0.7rem;
+    }
+    #ox-query-input {
+      flex: 1;
+      background: #060a12; border: 1px solid var(--ox-border);
+      border-radius: 7px; color: #f1f5f9;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem;
+      padding: 0.75rem 1rem; resize: vertical; min-height: 64px;
+      outline: none;
+    }
+    #ox-query-input:focus { border-color: var(--ox-accent); }
+    #ox-query-input::placeholder { color: #475569; }
+    .ox-btn-row {
+      display: flex; gap: 0.6rem; margin-top: 0.75rem; flex-wrap: wrap;
+      align-items: center;
+    }
+    .ox-btn {
+      padding: 0.55rem 1.2rem; border: none; border-radius: 6px;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .ox-btn:hover { opacity: 0.85; }
+    .ox-btn-primary {
+      background: var(--ox-accent); color: #fff;
+    }
+    .ox-btn-secondary {
+      background: rgba(167,139,250,0.12); color: var(--ox-accent);
+      border: 1px solid rgba(167,139,250,0.3);
+    }
+    .ox-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .ox-options {
+      display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+      font-size: 0.82rem; color: #64748b; margin-top: 0.5rem;
+    }
+    .ox-options label { display: flex; align-items: center; gap: 0.35rem; cursor: pointer; color: #94a3b8; }
+    .ox-options input[type=range] { width: 80px; }
+
+    /* ===== EXAMPLE QUERIES ===== */
+    .ox-examples {
+      margin-bottom: 1.5rem;
+    }
+    .ox-examples-title {
+      font-size: 0.8rem; color: #64748b; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.5rem;
+    }
+    .ox-example-chips {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .ox-chip {
+      background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2);
+      color: var(--ox-accent2); border-radius: 20px;
+      padding: 0.3rem 0.75rem; font-size: 0.78rem; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .ox-chip:hover { background: rgba(56,189,248,0.15); }
+
+    /* ===== STATUS BAR ===== */
+    .ox-status-bar {
+      display: flex; gap: 1rem; align-items: center;
+      padding: 0.6rem 1rem; background: var(--ox-panel);
+      border: 1px solid var(--ox-border); border-radius: 7px;
+      margin-bottom: 1.5rem; font-size: 0.82rem; flex-wrap: wrap;
+    }
+    .ox-status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #ef4444; flex-shrink: 0;
+    }
+    .ox-status-dot.ok { background: #22c55e; }
+    .ox-status-dot.checking { background: #f59e0b; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .ox-status-text { color: #94a3b8; }
+    .ox-status-meta { color: #475569; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+
+    /* ===== RESPONSE ===== */
+    .ox-response-card {
+      background: var(--ox-panel);
+      border: 1px solid var(--ox-border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: none;
+    }
+    .ox-response-card.visible { display: block; }
+    .ox-response-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .ox-response-title {
+      font-size: 0.82rem; font-weight: 600; color: var(--ox-accent);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .ox-response-meta {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #475569;
+    }
+    .ox-answer {
+      color: #e2e8f0; line-height: 1.7; white-space: pre-wrap;
+      font-size: 0.93rem;
+    }
+    .ox-answer code, .ox-answer pre {
+      font-family: 'JetBrains Mono', monospace;
+      background: #060a12; border-radius: 4px; padding: 0.1em 0.4em;
+      font-size: 0.85em;
+    }
+    .ox-gate-strip {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;
+    }
+    .ox-gate-badge {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      padding: 0.15rem 0.55rem; border-radius: 4px; border: 1px solid;
+    }
+    .gate-HARDGATE { color: var(--gate-hard); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.07); }
+    .gate-ADJACENT_TRACK { color: var(--gate-adj); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.07); }
+    .gate-OPEN_GAP { color: var(--gate-gap); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.07); }
+    .gate-GOV { color: var(--gate-gov); border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.07); }
+
+    .ox-gov-note {
+      margin-top: 1rem; padding: 0.75rem 1rem;
+      background: rgba(167,139,250,0.07); border: 1px solid rgba(167,139,250,0.2);
+      border-radius: 6px; font-size: 0.8rem; color: #c4b5fd;
+    }
+    .ox-copy-btn {
+      float: right; background: none; border: 1px solid var(--ox-border);
+      color: #64748b; border-radius: 5px; padding: 0.25rem 0.6rem;
+      font-size: 0.75rem; cursor: pointer;
+    }
+    .ox-copy-btn:hover { color: #94a3b8; }
+
+    /* ===== SPINNER ===== */
+    .ox-spinner {
+      display: none; text-align: center; padding: 2rem; color: #64748b; font-size: 0.9rem;
+    }
+    .ox-spinner.active { display: block; }
+    .ox-spinner-ring {
+      display: inline-block; width: 28px; height: 28px;
+      border: 3px solid rgba(167,139,250,0.2);
+      border-top-color: var(--ox-accent);
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 0.6rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== HISTORY ===== */
+    .ox-history { margin-top: 2rem; }
+    .ox-history-title {
+      font-size: 0.8rem; color: #64748b; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.8rem;
+    }
+    .ox-history-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .ox-history-item {
+      background: #080c14; border: 1px solid var(--ox-border); border-radius: 7px;
+      padding: 0.6rem 0.9rem; cursor: pointer; transition: border-color 0.15s;
+    }
+    .ox-history-item:hover { border-color: var(--ox-accent); }
+    .ox-history-q { font-size: 0.85rem; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ox-history-ts { font-size: 0.72rem; color: #475569; font-family: 'JetBrains Mono', monospace; margin-top: 0.15rem; }
+
+    /* ===== INFO STRIP ===== */
+    .ox-info-strip {
+      margin-top: 2.5rem; padding: 1rem 1.2rem;
+      background: var(--ox-panel); border: 1px solid var(--ox-border);
+      border-radius: 8px; font-size: 0.82rem; color: #64748b; line-height: 1.6;
+    }
+    .ox-info-strip a { color: var(--ox-accent2); text-decoration: none; }
+    .ox-info-strip a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .ox-hero { padding: 1.5rem 1rem 1.2rem; }
+      .ox-hero h1 { font-size: 1.5rem; }
+      .ox-main { padding: 0 0.75rem 2rem; }
+      .ox-query-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="ox-hero">
+    <h1>🧠 <span>OX</span> Navigator</h1>
+    <p class="subtitle">Extended-memory AI · Full-repository cross-pillar awareness · Unitary Manifold v23.2</p>
+    <div>
+      <span class="tag">Product 20</span>
+      <span class="tag">stealth/ox-alpha</span>
+      <span class="tag">OpenRouter</span>
+      <span class="tag">57,450 tests</span>
+      <span class="tag">1,066 Lean4 theorems</span>
+    </div>
+    <div class="gov-banner">
+      ⚖️ HILS Governance: OX outputs are AI suggestions — hardgate decisions require steward approval
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="ox-main">
+
+    <!-- Status bar -->
+    <div class="ox-status-bar" id="ox-status-bar">
+      <div class="ox-status-dot checking" id="ox-status-dot"></div>
+      <span class="ox-status-text" id="ox-status-text">Checking OX availability…</span>
+      <span class="ox-status-meta" id="ox-status-meta"></span>
+    </div>
+
+    <!-- Example queries -->
+    <div class="ox-examples">
+      <div class="ox-examples-title">Example queries</div>
+      <div class="ox-example-chips" id="ox-chips"></div>
+    </div>
+
+    <!-- Query card -->
+    <div class="ox-query-card">
+      <label for="ox-query-input">Ask OX anything about the Unitary Manifold</label>
+      <div class="ox-query-row">
+        <textarea id="ox-query-input" placeholder="e.g. Which pillar closes the Δm²₂₁ tension? What Lean4 theorems cover winding selection? Summarise all OPEN_GAP claims." rows="3"></textarea>
+      </div>
+      <div class="ox-btn-row">
+        <button class="ox-btn ox-btn-primary" id="ox-send-btn" onclick="oxSend()">Ask OX ↗</button>
+        <button class="ox-btn ox-btn-secondary" onclick="oxClear()">Clear</button>
+        <div class="ox-options">
+          <label title="Load the full ~85k-token repository context pack (slower but more accurate)">
+            <input type="checkbox" id="ox-full-ctx" checked> Full context
+          </label>
+          <label title="Temperature (0 = deterministic, 0.5 = creative)">
+            Temp: <input type="range" id="ox-temp" min="0" max="1.0" step="0.1" value="0.3">
+            <span id="ox-temp-val">0.3</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spinner -->
+    <div class="ox-spinner" id="ox-spinner">
+      <span class="ox-spinner-ring"></span>
+      OX is thinking — extended-context queries may take up to 30 s…
+    </div>
+
+    <!-- Response -->
+    <div class="ox-response-card" id="ox-response-card">
+      <div class="ox-response-header">
+        <span class="ox-response-title">OX Response</span>
+        <span class="ox-response-meta" id="ox-response-meta"></span>
+        <button class="ox-copy-btn" onclick="oxCopy()">⎘ Copy</button>
+      </div>
+      <div class="ox-answer" id="ox-answer"></div>
+      <div class="ox-gate-strip" id="ox-gate-strip"></div>
+      <div class="ox-gov-note">
+        ⚖️ <strong>Governance reminder:</strong> This is an AI-generated suggestion from OX Alpha.
+        No hardgate claim, pillar number, or Lean4 theorem is accepted without steward approval.
+        Gate labels in the response follow HARDGATE / ADJACENT_TRACK / OPEN_GAP conventions.
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="ox-history" id="ox-history" style="display:none">
+      <div class="ox-history-title">Session history</div>
+      <div class="ox-history-list" id="ox-history-list"></div>
+    </div>
+
+    <!-- Info strip -->
+    <div class="ox-info-strip">
+      <strong>How this works:</strong> OX Navigator calls the AxiomZero Assistant API at
+      <code>/api/ox</code> with the full <code>ox_full_context.md</code> pack (~85k tokens)
+      as the system prompt, giving OX Alpha cross-pillar awareness across all 800+ pillars,
+      57,450 tests, and 1,066 Lean4 theorems.<br><br>
+      Requires <code>OPENROUTER_API_KEY</code> set on the backend (never in source).
+      Model: <a href="https://openrouter.ai/stealth/ox-alpha" target="_blank" rel="noopener">stealth/ox-alpha</a>.<br><br>
+      <em>Theory &amp; scientific direction: ThomasCory Walker-Pearson ·
+      Code &amp; engineering: GitHub Copilot (AI) ·
+      Open science artifact — public domain</em>
+    </div>
+
+  </main>
+
+  <script src="./ox-navigator.js"></script>
+</body>
+</html>

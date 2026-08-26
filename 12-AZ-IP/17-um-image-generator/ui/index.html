@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>UM Physics Image Generator — AxiomZero</title>
+  <meta name="description" content="Standalone Canvas 2D image generator for Unitary Manifold physics figures. Export browser-rendered PNGs with no server required." />
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/um-image-generator.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="stylesheet" href="./um-image-generator.css"/>
+  <style>
+    .umig-shell { padding-bottom: 3rem; }
+    .umig-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 330px) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+      margin-top: 1.75rem;
+    }
+    @media (max-width: 960px) {
+      .umig-layout { grid-template-columns: 1fr; }
+    }
+    .umig-viz-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+    }
+    .umig-viz-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      color: var(--color-text);
+      padding: 0.9rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+    .umig-viz-btn:hover {
+      border-color: rgba(59,139,255,0.45);
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(59,139,255,0.12);
+    }
+    .umig-viz-btn.active {
+      background: rgba(59,139,255,0.10);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 24px rgba(59,139,255,0.14);
+    }
+    .umig-viz-btn strong {
+      display: block;
+      font-size: 0.92rem;
+      margin-bottom: 0.28rem;
+    }
+    .umig-viz-btn span {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      line-height: 1.45;
+    }
+    .umig-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .umig-stage-bar {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      background: rgba(59,139,255,0.05);
+      border: 1px solid rgba(59,139,255,0.16);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+    }
+    .umig-stage-meta strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .umig-stage-meta p {
+      margin: 0;
+      color: var(--color-muted);
+      font-size: 0.85rem;
+      max-width: 700px;
+    }
+    .umig-canvas-wrap {
+      background: #020611;
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 24px 44px rgba(0,0,0,0.28);
+    }
+    .umig-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #020611;
+    }
+    .umig-legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+    @media (max-width: 700px) {
+      .umig-legend { grid-template-columns: 1fr; }
+    }
+    .umig-stat {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+    }
+    .umig-stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      font-family: var(--font-mono);
+      margin-bottom: 0.35rem;
+    }
+    .umig-stat-value {
+      font-size: 0.96rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="#"><div class="nav-logo">AZ</div>AxiomZero</a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">AZ Products</a></li>
+    <li><a href="#">Calculators</a></li>
+    <li><a href="#">About</a></li>
+    <li><span class="nav-badge">v22.9</span></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="app-page umig-shell">
+  <div class="app-hero">
+    <div class="container">
+      <div class="app-hero-inner">
+        <div class="app-icon-lg">🖼️</div>
+        <div class="app-meta">
+          <div class="app-id-badge">AZ Artifact · public-site/az-apps/um-image-generator</div>
+          <div class="app-title">UM Physics Image Generator</div>
+          <div class="app-subtitle">
+            Browser-native Canvas 2D generator for eight Unitary Manifold figures. Render, review, and download public-facing PNG images with no server or external API required.
+          </div>
+          <div class="app-tags">
+            <span class="tag tag-green">🟢 Browser-native</span>
+            <span class="tag tag-physics">⚛️ Physics artifact</span>
+            <span class="tag tag-ai">PNG export</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container section-sm">
+    <div class="epistemic-box">
+      <strong>Epistemic status:</strong>
+      Public visualization artifact for human review. Uses the canonical values nₛ = 0.9635, r = 0.0315, β ∈ {0.273°, 0.331°}, n<sub>w</sub> = 5, and k<sub>CS</sub> = 74.
+    </div>
+
+    <div class="umig-layout">
+      <div class="panel">
+        <div class="panel-title">🧭 Visualization selector</div>
+        <div class="umig-viz-grid" id="vizSelector"></div>
+      </div>
+
+      <div class="umig-stage">
+        <div class="umig-stage-bar">
+          <div class="umig-stage-meta">
+            <strong id="vizTitle">Loading…</strong>
+            <p id="vizSummary">Preparing Canvas renderer.</p>
+          </div>
+          <button id="downloadBtn" class="btn btn-primary">Download PNG</button>
+        </div>
+
+        <div class="umig-canvas-wrap">
+          <canvas id="umigCanvas" width="1400" height="900" aria-label="UM physics visualization canvas"></canvas>
+        </div>
+
+        <div class="umig-legend">
+          <div class="umig-stat">
+            <div class="umig-stat-label">Seed constants</div>
+            <div class="umig-stat-value">nₛ = 0.9635 · r = 0.0315 · n<sub>w</sub> = 5 · k<sub>CS</sub> = 74</div>
+          </div>
+          <div class="umig-stat">
+            <div class="umig-stat-label">Birefringence gate</div>
+            <div class="umig-stat-value">β ∈ {0.273°, 0.331°}; admissible [0.22°, 0.38°]; forbidden gap [0.29°, 0.31°]</div>
+          </div>
+          <div class="umig-stat">
+            <div class="umig-stat-label">Residual timeline</div>
+            <div class="umig-stat-value">Δm²₂₁ tension: 2.98σ → 1.16σ → 1.07σ</div>
+          </div>
+          <div class="umig-stat">
+            <div class="umig-stat-label">Verification envelope</div>
+            <div class="umig-stat-value">Lean4 total = 976 · full regression ≈ 56,747 tests</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="az-org-strip">
+  AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 | Open science artifact for human review, use at your own liability
+</div>
+
+<script type="module">
+  import {
+    VISUALIZATION_METADATA,
+    renderVisualization,
+    downloadCanvasAsPng,
+  } from "./um-image-generator.js";
+
+  const selector = document.getElementById("vizSelector");
+  const titleEl = document.getElementById("vizTitle");
+  const summaryEl = document.getElementById("vizSummary");
+  const canvas = document.getElementById("umigCanvas");
+  const downloadBtn = document.getElementById("downloadBtn");
+  const vizKeys = Object.keys(VISUALIZATION_METADATA);
+  let activeKey = vizKeys[0];
+
+  function renderSelector() {
+    selector.innerHTML = vizKeys.map((key, index) => {
+      const viz = VISUALIZATION_METADATA[key];
+      return `
+        <button class="umig-viz-btn${key === activeKey ? " active" : ""}" data-key="${key}">
+          <strong>${String(index + 1).padStart(2, "0")}. ${viz.label}</strong>
+          <span>${viz.summary}</span>
+        </button>
+      `;
+    }).join("");
+
+    selector.querySelectorAll(".umig-viz-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeKey = button.dataset.key;
+        renderActive();
+      });
+    });
+  }
+
+  function renderActive() {
+    const viz = VISUALIZATION_METADATA[activeKey];
+    titleEl.textContent = viz.label;
+    summaryEl.textContent = viz.summary;
+    renderSelector();
+    renderVisualization(activeKey, canvas, {});
+    downloadBtn.onclick = () => downloadCanvasAsPng(canvas, viz.filename);
+  }
+
+  renderActive();
+</script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+/* ============================================================
+   az-apps.css — AxiomZero AZ-IP Product Pages Stylesheet
+   Supplements main.css; always load both.
+   AxiomZero Technologies & Consulting, SPC — UBI 606 239 876
+   ============================================================ */
+
+/* ── App-page layout ─────────────────────────────────────────────────────── */
+.app-page { padding-top: 80px; }
+
+.app-hero {
+  background: linear-gradient(135deg, rgba(13,24,48,0.95) 60%, rgba(59,139,255,0.06));
+  border-bottom: 1px solid var(--color-border);
+  padding: 2.5rem 0 2rem;
+}
+
+.app-hero-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.app-icon-lg {
+  font-size: 3.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.app-meta { flex: 1; min-width: 220px; }
+
+.app-id-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: rgba(59,139,255,0.12);
+  color: var(--color-accent);
+  border: 1px solid rgba(59,139,255,0.3);
+  border-radius: 4px;
+  padding: 0.15em 0.6em;
+  margin-bottom: 0.4rem;
+}
+
+.app-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  line-height: 1.2;
+}
+
+.app-subtitle {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  max-width: 640px;
+  margin-bottom: 0.75rem;
+}
+
+.app-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+
+.tag {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 0.2em 0.65em;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.tag-physics  { color: #3b8bff; border-color: rgba(59,139,255,0.35); background: rgba(59,139,255,0.08); }
+.tag-adjacent { color: #7c4dff; border-color: rgba(124,77,255,0.35); background: rgba(124,77,255,0.08); }
+.tag-os       { color: #30d158; border-color: rgba(48,209,88,0.35);  background: rgba(48,209,88,0.08); }
+.tag-ai       { color: #f0c040; border-color: rgba(240,192,64,0.35); background: rgba(240,192,64,0.08); }
+.tag-mobile   { color: #ff9f0a; border-color: rgba(255,159,10,0.35); background: rgba(255,159,10,0.08); }
+.tag-dep      { color: var(--color-muted); border-color: var(--color-border); background: transparent; }
+.tag-green    { color: #30d158; border-color: rgba(48,209,88,0.35);  background: rgba(48,209,88,0.08); }
+
+/* ── App content layout ──────────────────────────────────────────────────── */
+.app-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.app-layout-3 {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+@media (max-width: 860px) {
+  .app-layout, .app-layout-3 { grid-template-columns: 1fr; }
+}
+
+/* ── Input / Output panels ───────────────────────────────────────────────── */
+.panel {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.panel-title {
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.output-panel {
+  border-color: rgba(48,209,88,0.2);
+  background: linear-gradient(135deg, rgba(48,209,88,0.03), var(--color-card));
+}
+
+.result-value {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-green);
+  letter-spacing: -0.02em;
+}
+
+.result-label {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-top: 0.2rem;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.result-row:last-child { border-bottom: none; }
+.result-row-label { font-size: 0.85rem; color: var(--color-muted); }
+.result-row-val   { font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-text); }
+
+/* ── Dossier export button ───────────────────────────────────────────────── */
+.dossier-bar {
+  background: rgba(240,192,64,0.06);
+  border: 1px solid rgba(240,192,64,0.2);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.dossier-bar-label {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+.btn-dossier {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.2rem;
+  background: rgba(240,192,64,0.12);
+  color: var(--color-gold);
+  border: 1px solid rgba(240,192,64,0.4);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-dossier:hover {
+  background: rgba(240,192,64,0.22);
+  box-shadow: 0 0 16px rgba(240,192,64,0.2);
+  text-decoration: none;
+  color: var(--color-gold);
+}
+
+/* ── API endpoint bar ────────────────────────────────────────────────────── */
+.api-endpoint-bar {
+  background: rgba(59,139,255,0.05);
+  border: 1px solid rgba(59,139,255,0.15);
+  border-radius: var(--radius);
+  padding: 0.75rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.api-endpoint-bar input {
+  flex: 1;
+  min-width: 200px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 0.35rem 0.7rem;
+}
+
+/* ── Loading & offline states ────────────────────────────────────────────── */
+.az-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  padding: 1.5rem;
+}
+
+@keyframes az-spin { to { transform: rotate(360deg); } }
+
+.az-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(59,139,255,0.3);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: az-spin 0.8s linear infinite;
+}
+
+.az-offline-notice {
+  background: rgba(255,159,10,0.07);
+  border: 1px solid rgba(255,159,10,0.25);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.az-offline-notice .az-offline-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+.az-offline-notice strong { display: block; color: var(--color-orange); margin-bottom: 0.4rem; }
+.az-offline-notice p { font-size: 0.85rem; color: var(--color-muted); margin: 0; }
+.az-offline-notice a { color: var(--color-accent); }
+
+.az-error-notice {
+  background: rgba(255,69,58,0.07);
+  border: 1px solid rgba(255,69,58,0.25);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  color: var(--color-red);
+  font-size: 0.88rem;
+}
+
+/* ── Code / Run-locally block ────────────────────────────────────────────── */
+.run-local {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-top: 2rem;
+}
+
+.run-local-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.run-local-header:hover { background: rgba(255,255,255,0.02); }
+
+.run-local-body {
+  padding: 0 1.25rem 1.25rem;
+  display: none;
+}
+.run-local-body.open { display: block; }
+
+.code-block {
+  background: #030815;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0.75rem 0;
+  line-height: 1.55;
+}
+
+/* ── Product grid (hub index) ────────────────────────────────────────────── */
+.az-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.az-product-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  text-decoration: none;
+  color: var(--color-text);
+}
+.az-product-card:hover {
+  border-color: rgba(59,139,255,0.45);
+  box-shadow: var(--glow-accent);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.az-product-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+.az-product-icon { font-size: 2rem; line-height: 1; }
+.az-product-name { font-weight: 700; font-size: 1rem; line-height: 1.2; }
+.az-product-desc { font-size: 0.82rem; color: var(--color-muted); line-height: 1.5; }
+.az-product-footer { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.5rem; }
+
+/* ── Filter bar ──────────────────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.filter-btn {
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: rgba(59,139,255,0.08);
+}
+
+/* ── Epistemic status box ────────────────────────────────────────────────── */
+.epistemic-box {
+  background: rgba(124,77,255,0.06);
+  border: 1px solid rgba(124,77,255,0.2);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.83rem;
+  color: var(--color-muted);
+  margin-top: 1.5rem;
+}
+.epistemic-box strong { color: #7c4dff; }
+
+/* ── Visualizer canvases ─────────────────────────────────────────────────── */
+.viz-canvas-wrap {
+  background: #030815;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+.viz-canvas-wrap canvas {
+  display: block;
+  width: 100%;
+}
+
+/* ── Org footer strip ────────────────────────────────────────────────────── */
+.az-org-strip {
+  background: #030815;
+  border-top: 1px solid var(--color-border);
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+.az-org-strip a { color: var(--color-muted); }
+.az-org-strip a:hover { color: var(--color-accent); }

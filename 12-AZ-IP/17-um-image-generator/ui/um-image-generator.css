@@ -1,0 +1,124 @@
+:root {
+  --color-bg: #050a1a;
+  --color-panel: #0b1224;
+  --color-border: rgba(145, 167, 197, 0.24);
+  --color-text: #ebf3ff;
+  --color-muted: #91a7c5;
+  --color-accent: #4ea1ff;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  --font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #0b1b36 0%, #050a1a 50%, #020611 100%);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+a { color: var(--color-text); text-decoration: none; }
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(2, 6, 17, 0.88);
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(8px);
+  z-index: 20;
+}
+.nav-brand { display: inline-flex; align-items: center; gap: 0.75rem; font-weight: 700; }
+.nav-logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(135deg, #4ea1ff, #61dafb);
+  color: #020611;
+  font-weight: 800;
+}
+.nav-links { display: flex; gap: 1rem; list-style: none; padding: 0; margin: 0; }
+.nav-links a.active { color: var(--color-accent); }
+.nav-badge, .tag {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.nav-mobile-toggle { display: none; }
+.container { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+.section-sm { padding: 1.5rem 0 2.5rem; }
+.app-page { min-height: 100vh; }
+.app-hero { padding: 2rem 0 1rem; }
+.app-hero-inner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.25rem;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  padding: 1.5rem;
+  box-shadow: 0 22px 44px rgba(0,0,0,0.24);
+}
+.app-icon-lg {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  background: rgba(78, 161, 255, 0.14);
+  border: 1px solid rgba(78, 161, 255, 0.28);
+}
+.app-id-badge, .epistemic-box {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  padding: 0.8rem 1rem;
+}
+.app-title { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; margin-top: 0.5rem; }
+.app-subtitle { color: var(--color-muted); max-width: 60rem; margin-top: 0.5rem; }
+.app-tags { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1rem; }
+.tag-green { background: rgba(50, 210, 124, 0.08); }
+.tag-physics { background: rgba(97, 218, 251, 0.08); }
+.tag-ai { background: rgba(156, 124, 255, 0.08); }
+.panel {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  padding: 1rem;
+}
+.panel-title { font-weight: 700; margin-bottom: 0.9rem; }
+.btn {
+  appearance: none;
+  border: 1px solid rgba(78, 161, 255, 0.45);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  background: rgba(78, 161, 255, 0.14);
+  color: var(--color-text);
+  cursor: pointer;
+  font: inherit;
+}
+.btn-primary:hover { background: rgba(78, 161, 255, 0.22); }
+.az-org-strip {
+  padding: 1rem;
+  text-align: center;
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-border);
+  background: rgba(2, 6, 17, 0.88);
+}
+@media (max-width: 960px) {
+  .app-hero-inner { grid-template-columns: 1fr; }
+  .nav { flex-wrap: wrap; }
+  .nav-links { width: 100%; justify-content: center; }
+}
