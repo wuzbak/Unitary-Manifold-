@@ -70,7 +70,7 @@ def main() -> int:
         limit = explicit_limits.get(directory, default_limit)
         if count > limit:
             violations.append((directory, count, limit))
-        if count >= advisory_threshold:
+        if count >= advisory_threshold and directory not in explicit_limits:
             advisories.append((directory, count))
 
     advisories.sort(key=lambda item: item[1], reverse=True)
