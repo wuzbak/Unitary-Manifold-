@@ -243,6 +243,7 @@
   <button class="iq-tab active" data-panel="challenge">Challenge Mode</button>
   <button class="iq-tab" data-panel="experiment">Experiment Mode</button>
   <button class="iq-tab" data-panel="tension">Tension Map</button>
+  <button class="iq-tab" data-panel="live-events">🌍 Live Events</button>
 </nav>
 
 <!-- PANEL: Challenge Mode -->
@@ -283,6 +284,113 @@
   </p>
 </div>
 
+<!-- PANEL: Live Events -->
+<div class="iq-panel" id="panel-live-events">
+  <h2 class="section-title">Live Natural Disaster Events — UM φ-Overlay</h2>
+  <p style="color:#475569;font-size:0.82rem;margin-bottom:1.2rem">
+    Live feeds from USGS (earthquakes) and NASA EONET (wildfires, storms, volcanoes), each annotated with Unitary Manifold geometric observables: φ-debt (P16), radion |Δφ/φ₀| (P806), winding-basin stability (P786).
+    Click the tab to load. <a href="20-geo-monitor.html" style="color:#22d3ee">→ Full globe view</a>
+  </p>
+  <div id="live-events-content">
+    <div style="color:#475569;font-size:0.8rem">Click "Live Events" tab above to fetch live data.</div>
+  </div>
+</div>
+
 <script src="../js/18-interrogator.js"></script>
+<script>
+// === Live Events panel for Interrogator ===
+(function() {
+  const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson';
+  const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=100&days=14';
+  const K_CS = 74, W = 5, PJ = 1.9561e9;
+  const RA = 32 / K_CS, BD = (W * W) / K_CS;
+
+  function umOverlay(kind, mag) {
+    let E;
+    switch (kind) {
+      case 'volcano': E = Math.pow(10, 3 * mag + 10); break;
+      case 'storm': case 'hurricane': case 'tornado':
+        E = 5.0e18 * (mag * mag); break;
+      case 'wildfire': case 'flood': case 'landslide': case 'drought':
+        E = Math.pow(10, mag - 1) * 8.0e10; break;
+      default: E = Math.pow(10, 1.5 * mag + 4.8);
+    }
+    const Ep = E / PJ;
+    const phiDebt = Ep * (1 - Math.exp(-0.15 * Math.log10(Math.max(E, 1))));
+    const radAmp = RA * Math.abs(Math.log10(Math.max(E, 1) / PJ));
+    const stab = Math.max(0, 1 - Math.min(radAmp / BD, 1));
+    return { phiDebt, radAmp, stab };
+  }
+
+  function mkCard(icon, title, sub, stab, phiDebt, radAmp, url) {
+    const col = stab > 0.8 ? '#34d399' : stab > 0.5 ? '#22d3ee' : stab > 0.3 ? '#f97316' : '#ef4444';
+    return `<div style="background:#060c14;border:1px solid #0d1a2e;border-left:3px solid ${col};border-radius:7px;padding:0.7rem 0.85rem;margin-bottom:0.5rem">
+      <div style="display:flex;align-items:flex-start;gap:0.5rem">
+        <span style="font-size:1rem">${icon}</span>
+        <div style="flex:1">
+          <div style="font-size:0.85rem;font-weight:600;color:#e2e8f0">${title}</div>
+          <div style="font-size:0.72rem;color:#64748b;margin:0.1rem 0">${sub}</div>
+          <div style="font-size:0.68rem;color:#334155">φ-debt ${phiDebt.toExponential(2)} · |Δφ/φ₀| ${radAmp.toFixed(3)} · basin stab <span style="color:${col}">${stab.toFixed(2)}</span></div>
+        </div>
+        ${url ? `<a href="${url}" target="_blank" rel="noopener" style="font-size:0.68rem;color:#3b82f6;white-space:nowrap;margin-top:0.1rem">↗</a>` : ''}
+      </div>
+    </div>`;
+  }
+
+  async function loadLiveEvents() {
+    const wrap = document.getElementById('live-events-content');
+    if (!wrap) return;
+    wrap.innerHTML = '<div style="color:#475569;padding:1rem">Fetching live feeds…</div>';
+
+    const [eqRes, eoRes] = await Promise.allSettled([
+      fetch(USGS_URL).then(r => r.json()),
+      fetch(EONET_URL).then(r => r.json()),
+    ]);
+
+    let html = '';
+
+    // Earthquakes
+    html += `<h3 style="color:#22d3ee;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin:0 0 0.7rem">⚡ Earthquakes (USGS M2.5+)</h3>`;
+    if (eqRes.status === 'fulfilled') {
+      const feats = (eqRes.value.features || [])
+        .filter(f => f.properties?.mag != null)
+        .sort((a, b) => b.properties.mag - a.properties.mag)
+        .slice(0, 15);
+      feats.forEach(f => {
+        const p = f.properties, mag = Number(p.mag);
+        const ov = umOverlay('earthquake', mag);
+        html += mkCard('⚡', `M${mag.toFixed(1)} ${p.place || ''}`, `Depth: ${(f.geometry?.coordinates[2] || 0).toFixed(1)} km`, ov.stab, ov.phiDebt, ov.radAmp, p.url);
+      });
+    } else html += '<div style="color:#ef4444;font-size:0.8rem;margin-bottom:1rem">USGS feed unavailable.</div>';
+
+    // EONET
+    html += `<h3 style="color:#f97316;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin:1rem 0 0.7rem">🌍 Wildfires, Storms, Volcanoes (EONET)</h3>`;
+    if (eoRes.status === 'fulfilled') {
+      const ICONS = { wildfires:'🔥', volcanoes:'🌋', severeStorms:'🌀', floods:'🌊', landslides:'⛰️', drought:'☀️' };
+      const KIND_MAP = { wildfires:'wildfire', volcanoes:'volcano', severeStorms:'storm', floods:'flood', landslides:'landslide', drought:'drought' };
+      const events = (eoRes.value.events || []).slice(0, 20);
+      events.forEach(ev => {
+        const cat = (ev.categories || [])[0]?.id || 'storm';
+        const icon = ICONS[cat] || '⚠️';
+        const geom = (ev.geometry || []).slice(-1)[0];
+        if (!geom) return;
+        const mag = Number(ev.magnitudeValue || 5.0);
+        const kind = KIND_MAP[cat] || 'storm';
+        const ov = umOverlay(kind, mag);
+        html += mkCard(icon, ev.title || cat, cat, ov.stab, ov.phiDebt, ov.radAmp, (ev.sources || [])[0]?.url);
+      });
+    } else html += '<div style="color:#ef4444;font-size:0.8rem">EONET feed unavailable.</div>';
+
+    html += `<p style="margin-top:1rem;font-size:0.68rem;color:#334155">🔵 <strong style="color:#3b82f6">Adjacent Track</strong> — UM overlays are geometric analogues. Not hardgate claims. P806 · P786 · P16 · <a href="20-geo-monitor.html" style="color:#22d3ee;text-decoration:none">→ Full globe view</a></p>`;
+    wrap.innerHTML = html;
+  }
+
+  // Hook into existing tab system after DOM ready
+  document.addEventListener('click', function(e) {
+    const tab = e.target.closest('[data-panel="live-events"]');
+    if (tab) loadLiveEvents();
+  });
+})();
+</script>
 </body>
 </html>
