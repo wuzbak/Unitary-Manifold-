@@ -306,7 +306,15 @@
   const RA = 32 / K_CS, BD = (W * W) / K_CS;
 
   function umOverlay(kind, mag) {
-    const E = kind === 'volcano' ? Math.pow(10, 3 * mag + 10) : Math.pow(10, 1.5 * mag + 4.8);
+    let E;
+    switch (kind) {
+      case 'volcano': E = Math.pow(10, 3 * mag + 10); break;
+      case 'storm': case 'hurricane': case 'tornado':
+        E = 5.0e18 * (mag * mag); break;
+      case 'wildfire': case 'flood': case 'landslide': case 'drought':
+        E = Math.pow(10, mag - 1) * 8.0e10; break;
+      default: E = Math.pow(10, 1.5 * mag + 4.8);
+    }
     const Ep = E / PJ;
     const phiDebt = Ep * (1 - Math.exp(-0.15 * Math.log10(Math.max(E, 1))));
     const radAmp = RA * Math.abs(Math.log10(Math.max(E, 1) / PJ));
@@ -359,6 +367,7 @@
     html += `<h3 style="color:#f97316;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin:1rem 0 0.7rem">🌍 Wildfires, Storms, Volcanoes (EONET)</h3>`;
     if (eoRes.status === 'fulfilled') {
       const ICONS = { wildfires:'🔥', volcanoes:'🌋', severeStorms:'🌀', floods:'🌊', landslides:'⛰️', drought:'☀️' };
+      const KIND_MAP = { wildfires:'wildfire', volcanoes:'volcano', severeStorms:'storm', floods:'flood', landslides:'landslide', drought:'drought' };
       const events = (eoRes.value.events || []).slice(0, 20);
       events.forEach(ev => {
         const cat = (ev.categories || [])[0]?.id || 'storm';
@@ -366,7 +375,7 @@
         const geom = (ev.geometry || []).slice(-1)[0];
         if (!geom) return;
         const mag = Number(ev.magnitudeValue || 5.0);
-        const kind = cat === 'volcanoes' ? 'volcano' : 'wildfire';
+        const kind = KIND_MAP[cat] || 'storm';
         const ov = umOverlay(kind, mag);
         html += mkCard(icon, ev.title || cat, cat, ov.stab, ov.phiDebt, ov.radAmp, (ev.sources || [])[0]?.url);
       });

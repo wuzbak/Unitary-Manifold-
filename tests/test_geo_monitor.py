@@ -8,7 +8,7 @@ Test suite for src/core/pillar_geo_monitor.py
 🔵 ADJACENT TRACK — tests validate the UM physics overlay geometry for
 natural-disaster event mapping.  These are not hardgate physics claims.
 
-Expected: 75 passed, 0 failed, 0 errors
+Expected: 78 passed, 0 failed, 0 errors
 """
 from __future__ import annotations
 

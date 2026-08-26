@@ -343,8 +343,8 @@
     function overlay(mag) {
       const E = Math.pow(10, 1.5 * mag + 4.8);
       const Ep = E / PLANCK_J;
-      const phiDebt = Ep * (1 - Math.exp(-0.15 * Math.log10(E)));
-      const radAmp = RA * Math.abs(Math.log10(E / PLANCK_J));
+      const phiDebt = Ep * (1 - Math.exp(-0.15 * Math.log10(Math.max(E, 1))));
+      const radAmp = RA * Math.abs(Math.log10(Math.max(E, 1) / PLANCK_J));
       const stab = Math.max(0, 1 - Math.min(radAmp / BASIN, 1));
       return { phiDebt, radAmp, stab };
     }
