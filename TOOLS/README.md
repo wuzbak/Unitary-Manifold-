@@ -19,6 +19,7 @@ Some stable entrypoints intentionally remain at the repository root for compatib
 |------|------|-----|
 | Audit tools | [`../AUDIT_TOOLS.py`](../AUDIT_TOOLS.py) | Repository audit helper retained at root for compatibility. |
 | Link checker | [`audit/check_internal_links.py`](audit/check_internal_links.py) | Checks Markdown file links for missing internal targets. |
+| Large-directory guard | [`checks/check_large_directories.py`](checks/check_large_directories.py) | Enforces per-directory tracked-entry limits to prevent GitHub 1,000-entry UI truncation risk from growing. |
 | Number updater | [`../9-INFRASTRUCTURE/update_numbers.sh`](../9-INFRASTRUCTURE/update_numbers.sh) | Version/count update utility. |
 | Archive creator | [`../9-INFRASTRUCTURE/scripts/create_archive.py`](../9-INFRASTRUCTURE/scripts/create_archive.py) | Archive helper script. |
 

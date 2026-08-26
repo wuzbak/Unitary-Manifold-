@@ -60,6 +60,16 @@ Open a Pull Request for:
 
 Please keep PRs focused — one logical change per PR makes review easier.
 
+### Large-directory safety
+
+GitHub directory pages truncate listings after 1,000 entries and can omit commit metadata in oversized folders.
+To reduce accidental file-loss assumptions and review misses, CI runs
+`python TOOLS/checks/check_large_directories.py` with limits from
+`TOOLS/checks/large_directory_limits.json`.
+
+- If a directory exceeds its limit, shard new files into subfolders instead of adding more files to the root of that folder.
+- `src/core/` and `tests/` are already above the UI truncation threshold; they are on explicit capped limits to prevent uncontrolled growth while sharding work proceeds.
+
 ### Extending the theory
 If you want to add a new physical module (e.g. gravitational wave extraction,
 cosmological perturbation theory), open an Issue first to discuss scope and
