@@ -16,7 +16,7 @@
   "assets": {
     "az-os/agent_core.py": {
       "sha256": "26f305aa621662cd833feeaf27a2c68544f96f19d6d777085e3616f5a0562283",
-      "description": "AZ-OS cognitive layer \u2014 7-manager \u00d7 5-sub-agent AI network",
+      "description": "AZ-OS cognitive layer — 7-manager × 5-sub-agent AI network",
       "category": "os",
       "status": "REGISTERED",
       "size_bytes": 10922,
@@ -24,7 +24,7 @@
     },
     "az-os/hils.py": {
       "sha256": "8e5adde1a074b77db89e547ed10f508d6deea1226d3d2ad2069dfbde3a229b79",
-      "description": "AZ-OS HILS framework \u2014 Human-in-the-Loop Systems integration",
+      "description": "AZ-OS HILS framework — Human-in-the-Loop Systems integration",
       "category": "os",
       "status": "REGISTERED",
       "size_bytes": 7360,
@@ -32,14 +32,14 @@
     },
     "az-os/state.py": {
       "sha256": "d92d0d48789d80fb86333368ee9ae56967564cedad7ef8e45ca8c4ae2d871aa7",
-      "description": "AZ-OS state machine \u2014 kernel-cognitive shared state",
+      "description": "AZ-OS state machine — kernel-cognitive shared state",
       "category": "os",
       "status": "REGISTERED",
       "size_bytes": 10751,
       "updated": "2026-07-01"
     },
     "az-os/phi_decision_engine.py": {
-      "description": "AZ-OS \u03c6-field decision routing engine",
+      "description": "AZ-OS φ-field decision routing engine",
       "category": "engines",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -47,7 +47,7 @@
       "size_bytes": 13574
     },
     "az-os/phi_field_interface.py": {
-      "description": "AZ-OS \u03c6-field interface \u2014 bridges cognitive layer to physics",
+      "description": "AZ-OS φ-field interface — bridges cognitive layer to physics",
       "category": "engines",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -56,7 +56,7 @@
     },
     "az-kernel/Cargo.toml": {
       "sha256": "70a28581a19bfa8bebef2f88f6614483cec66e22567bc3c42a0dab8dcb8b9ea0",
-      "description": "AZ-KERNEL Rust manifest \u2014 UEFI bare-metal kernel",
+      "description": "AZ-KERNEL Rust manifest — UEFI bare-metal kernel",
       "category": "os",
       "status": "REGISTERED",
       "size_bytes": 1139
@@ -77,14 +77,14 @@
     },
     "src/core/axiomzero_guard.py": {
       "sha256": "f02d92c6482484ce639d4ff00bb9d675691fe53b2268cb2d255f90e8784806ee",
-      "description": "AxiomZero guard \u2014 SM-seed audit, zero-parameter status",
+      "description": "AxiomZero guard — SM-seed audit, zero-parameter status",
       "category": "tools",
       "status": "REGISTERED",
       "size_bytes": 14943,
       "updated": "2026-07-01"
     },
     "src/core/evolution.py": {
-      "description": "Walker-Pearson field evolution engine \u2014 primary KK integrator",
+      "description": "Walker-Pearson field evolution engine — primary KK integrator",
       "category": "engines",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -92,7 +92,7 @@
       "size_bytes": 41966
     },
     "src/core/metric.py": {
-      "description": "KK metric & curvature engine \u2014 5D tensor computation",
+      "description": "KK metric & curvature engine — 5D tensor computation",
       "category": "engines",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -100,7 +100,7 @@
       "size_bytes": 28677
     },
     "src/multiverse/fixed_point.py": {
-      "description": "FTUM fixed-point iteration engine \u2014 multiverse landscape thermodynamics",
+      "description": "FTUM fixed-point iteration engine — multiverse landscape thermodynamics",
       "category": "engines",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -108,7 +108,7 @@
       "size_bytes": 44033
     },
     "src/holography/boundary.py": {
-      "description": "Holographic boundary engine \u2014 entropy-area, AdS/CFT projection",
+      "description": "Holographic boundary engine — entropy-area, AdS/CFT projection",
       "category": "engines",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -124,7 +124,7 @@
       "size_bytes": 6614
     },
     "src/core/symbolic_metric.py": {
-      "description": "SymPy symbolic metric bridge \u2014 LaTeX and Lean4 output",
+      "description": "SymPy symbolic metric bridge — LaTeX and Lean4 output",
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -140,7 +140,7 @@
       "size_bytes": 9600
     },
     "src/core/formal_proof_hardening.py": {
-      "description": "Lean4 formal proof bridge \u2014 exports/imports theorem certificates",
+      "description": "Lean4 formal proof bridge — exports/imports theorem certificates",
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -156,7 +156,7 @@
       "size_bytes": 6349
     },
     "AxiomZero/android/client.py": {
-      "description": "AxiomZero Android client \u2014 mobile interface to the cognitive OS",
+      "description": "AxiomZero Android client — mobile interface to the cognitive OS",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -164,7 +164,7 @@
       "size_bytes": 9389
     },
     "AxiomZero/ui/dashboard.html": {
-      "description": "AxiomZero web dashboard \u2014 7-manager network status and HILS interface",
+      "description": "AxiomZero web dashboard — 7-manager network status and HILS interface",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -172,7 +172,7 @@
       "size_bytes": 11293
     },
     "AxiomZero/api/server.py": {
-      "description": "AxiomZero REST API server \u2014 physics queries, HILS certification",
+      "description": "AxiomZero REST API server — physics queries, HILS certification",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -180,7 +180,7 @@
       "size_bytes": 11620
     },
     "AxiomZero/core/model_router.py": {
-      "description": "AxiomZero model router engine \u2014 \u03c6-weighted multi-model dispatch",
+      "description": "AxiomZero model router engine — φ-weighted multi-model dispatch",
       "category": "engines",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -188,7 +188,7 @@
       "size_bytes": 6564
     },
     "public-site/apps/kk-mass-calculator.html": {
-      "description": "KK Mass Calculator \u2014 Kaluza-Klein graviton mass vs warp factor",
+      "description": "KK Mass Calculator — Kaluza-Klein graviton mass vs warp factor",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -196,7 +196,7 @@
       "size_bytes": 9943
     },
     "public-site/apps/birefringence-predictor.html": {
-      "description": "Birefringence Predictor \u2014 CMB angle \u03b2 from braid parameters",
+      "description": "Birefringence Predictor — CMB angle β from braid parameters",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -204,7 +204,7 @@
       "size_bytes": 10010
     },
     "public-site/apps/toe-score.html": {
-      "description": "ToE Score Dashboard \u2014 live 29.0/28 theory score with all claims",
+      "description": "ToE Score Dashboard — live 29.0/28 theory score with all claims",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -212,7 +212,7 @@
       "size_bytes": 7545
     },
     "public-site/apps/cmb-parameters.html": {
-      "description": "CMB Parameters Calculator \u2014 interactive n_s, r, f_NL",
+      "description": "CMB Parameters Calculator — interactive n_s, r, f_NL",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -220,7 +220,7 @@
       "size_bytes": 7191
     },
     "public-site/apps/desi-tracker.html": {
-      "description": "DESI Tension Tracker \u2014 dark energy w0-wa visualizer",
+      "description": "DESI Tension Tracker — dark energy w0-wa visualizer",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -228,7 +228,7 @@
       "size_bytes": 9625
     },
     "public-site/apps/lean4-progress.html": {
-      "description": "Lean4 Theorem Progress Tracker \u2014 274/300 formally verified",
+      "description": "Lean4 Theorem Progress Tracker — 274/300 formally verified",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -236,7 +236,7 @@
       "size_bytes": 8691
     },
     "public-site/apps/pentad-simulator.html": {
-      "description": "Pentad Simulator \u2014 5-body HILS orbital simulation",
+      "description": "Pentad Simulator — 5-body HILS orbital simulation",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -244,7 +244,7 @@
       "size_bytes": 8117
     },
     "public-site/explore/index.html": {
-      "description": "5D Space Explorer \u2014 WebGL Kaluza-Klein geometry visualizer",
+      "description": "5D Space Explorer — WebGL Kaluza-Klein geometry visualizer",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -252,7 +252,7 @@
       "size_bytes": 7470
     },
     "public-site/pentad/index.html": {
-      "description": "HILS Governance Interface \u2014 Pentad scenario runner and certification",
+      "description": "HILS Governance Interface — Pentad scenario runner and certification",
       "category": "calculators",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -260,7 +260,7 @@
       "size_bytes": 10796
     },
     "public-site/ip/index.html": {
-      "description": "IP & Products hub page \u2014 full AxiomZero IP catalog on the public site",
+      "description": "IP & Products hub page — full AxiomZero IP catalog on the public site",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-08-18",
@@ -328,8 +328,8 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-08-18",
-      "sha256": "3d8ff509af90cb75d5428cecdfe73611630e67f3af3dee6259f9bcd7c6c7b433",
-      "size_bytes": 4348
+      "sha256": "63a309549e89806d63d8bc578f8d575ea7e43365a31046954a887dac534c3e81",
+      "size_bytes": 6887
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",
@@ -340,34 +340,44 @@
       "size_bytes": 593
     },
     "12-AZ-IP/17-um-image-generator/image_generator/engine/visualizations.py": {
-      "description": "UM Image Generator \u2014 8 visualization data functions (CMB, birefringence, KK tower, winding mode, phi-landscape, Penrose, holographic, braided speed)",
+      "description": "UM Image Generator — 8 visualization data functions (CMB, birefringence, KK tower, winding mode, phi-landscape, Penrose, holographic, braided speed)",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-26"
+      "updated": "2026-08-26",
+      "sha256": "885f7095114d5d162a728c063ec8756fc8c8c149b1b3a14576b788b05c363d99",
+      "size_bytes": 6584
     },
     "12-AZ-IP/18-um-reader/um_reader/engine/index.py": {
-      "description": "UM Reader \u2014 reader index engine (load, filter, search, validate, stats)",
+      "description": "UM Reader — reader index engine (load, filter, search, validate, stats)",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-26"
+      "updated": "2026-08-26",
+      "sha256": "92b3177c264b0f6f81592e4fe6d8d97c4487072f7ffa98d652c842e0b6f13ebd",
+      "size_bytes": 6076
     },
     "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/routing.py": {
-      "description": "Falsification Observatory \u2014 7 experiment routing functions (Python mirror of Pillar 787 JS oracle)",
+      "description": "Falsification Observatory — 7 experiment routing functions (Python mirror of Pillar 787 JS oracle)",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-26"
+      "updated": "2026-08-26",
+      "sha256": "3f35d5e220140d70d1eecdf380e35e532e382731a780dd5230091f9ae98636dc",
+      "size_bytes": 8749
     },
     "12-AZ-IP/20-ox-navigator/ox_navigator/engine/client.py": {
-      "description": "OX Navigator \u2014 OpenRouter/stealth/ox-alpha client with gate-badge extraction and session history",
+      "description": "OX Navigator — OpenRouter/stealth/ox-alpha client with gate-badge extraction and session history",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-26"
+      "updated": "2026-08-26",
+      "sha256": "6a7e7c267345bad4a12f247ec330f1480d0fecc7f11f9e2aef8e8f292061aeb9",
+      "size_bytes": 3011
     },
     "12-AZ-IP/21-geo-monitor/geo_monitor/engine/physics.py": {
-      "description": "UM Geophysical Monitor \u2014 standalone physics engine (GeoEvent, UMGeoOverlay, UMOverlayResult; copy of pillar_geo_monitor.py)",
+      "description": "UM Geophysical Monitor — standalone physics engine (GeoEvent, UMGeoOverlay, UMOverlayResult; copy of pillar_geo_monitor.py)",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-26"
+      "updated": "2026-08-26",
+      "sha256": "9567ad0fe2bb82808b7679483e066a562ce2816a0bfc4fbfe68c3b1caf29e06d",
+      "size_bytes": 14029
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -378,7 +388,7 @@
       "trl": "TRL-5",
       "port": "http://localhost:8000",
       "tests": "162",
-      "description": "Canonical merge of AxiomZero full-stack plus az-os legacy agent/\u03c6 infrastructure.",
+      "description": "Canonical merge of AxiomZero full-stack plus az-os legacy agent/φ infrastructure.",
       "link": "01-axiom-os/"
     },
     {
@@ -448,7 +458,7 @@
       "name": "AxiomZero Android Client",
       "version": "1.0.0",
       "trl": "TRL-3",
-      "port": "Thin client \u2192 API",
+      "port": "Thin client → API",
       "tests": "162 inherited",
       "description": "Android/Termux client for mobile access to the Axiom OS API and dashboard workflows.",
       "link": "01-axiom-os/android/"
@@ -508,12 +518,12 @@
       "link": "tools/"
     },
     {
-      "name": "AxiomZero \u03a9 Oracle",
+      "name": "AxiomZero Ω Oracle",
       "version": "1.0.0",
       "trl": "TRL-5",
       "port": "http://localhost:7872",
       "tests": "83",
-      "description": "Grand Synthesis Engine \u2014 applies the full AxiomZero epistemic framework (Pentad, Omega Score, governance audit, decision resonance) to any real-world system.",
+      "description": "Grand Synthesis Engine — applies the full AxiomZero epistemic framework (Pentad, Omega Score, governance audit, decision resonance) to any real-world system.",
       "link": "16-oracle/"
     },
     {
@@ -587,7 +597,7 @@
       "trl": "TRL-5",
       "port": "Browser / static",
       "tests": "121",
-      "description": "Live multi-hazard globe monitor \u2014 USGS earthquakes, NASA EONET, NOAA NWS alerts, NWAC avalanche danger; UM \u03c6-overlay (P806/P786/P16/P808)",
+      "description": "Live multi-hazard globe monitor — USGS earthquakes, NASA EONET, NOAA NWS alerts, NWAC avalanche danger; UM φ-overlay (P806/P786/P16/P808)",
       "link": "21-geo-monitor/",
       "pillar_refs": [
         "P806",
