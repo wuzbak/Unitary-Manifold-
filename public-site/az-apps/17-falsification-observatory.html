@@ -310,7 +310,88 @@
     <a href="index.html" style="color:#38bdf8;text-decoration:none;">← AZ Apps</a>
   </footer>
 
+  <!-- Live Seismic Feed Widget (USGS) -->
+  <div style="max-width:900px;margin:2rem auto 0;padding:0 1rem">
+    <div style="background:#060c14;border:1px solid #0d1a2e;border-radius:10px;padding:1.25rem">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+        <span style="font-size:1.2rem">⚡</span>
+        <div>
+          <h3 style="margin:0;font-size:0.95rem;color:#e2e8f0">Live Seismic Feed — USGS M2.5+ (Past 30 Days)</h3>
+          <p style="margin:0;font-size:0.72rem;color:#475569">Real-time data · UM φ-overlay (P806, P786, P16) · <a href="20-geo-monitor.html" style="color:#22d3ee;text-decoration:none">→ Full Globe View</a></p>
+        </div>
+        <span id="fo-eq-status" style="margin-left:auto;font-family:monospace;font-size:0.7rem;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.25);color:#67e8f9;padding:0.2rem 0.6rem;border-radius:4px">Loading…</span>
+      </div>
+      <div id="fo-eq-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0.5rem;max-height:300px;overflow-y:auto">
+        <div style="color:#475569;font-size:0.8rem;padding:0.5rem">Fetching USGS feed…</div>
+      </div>
+      <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid #0d1a2e;font-size:0.68rem;color:#334155">
+        🔵 <strong style="color:#3b82f6">Adjacent Track</strong> — UM φ-overlays are geometric analogues applied to geophysics. Not hardgate claims. Sources: Pillar 806, 786, 16.
+      </div>
+    </div>
+  </div>
+
   <script src="../js/17-falsification-observatory.js"></script>
   <script>FO.run();</script>
+  <script>
+  // Inline live seismic widget for Falsification Observatory
+  (function() {
+    const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson';
+    const K_CS = 74, WINDING = 5, PLANCK_J = 1.9561e9;
+    const RA = Math.abs(-32.0) / K_CS;           // radion coupling alpha
+    const BASIN = (WINDING * WINDING) / K_CS;    // basin depth
+
+    function overlay(mag) {
+      const E = Math.pow(10, 1.5 * mag + 4.8);
+      const Ep = E / PLANCK_J;
+      const phiDebt = Ep * (1 - Math.exp(-0.15 * Math.log10(E)));
+      const radAmp = RA * Math.abs(Math.log10(E / PLANCK_J));
+      const stab = Math.max(0, 1 - Math.min(radAmp / BASIN, 1));
+      return { phiDebt, radAmp, stab };
+    }
+
+    function stabilityColor(s) {
+      if (s > 0.8) return '#34d399';
+      if (s > 0.5) return '#22d3ee';
+      if (s > 0.3) return '#f97316';
+      return '#ef4444';
+    }
+
+    fetch(USGS_URL)
+      .then(r => r.json())
+      .then(data => {
+        const feats = (data.features || [])
+          .filter(f => f.properties && f.properties.mag != null)
+          .sort((a, b) => b.properties.mag - a.properties.mag)
+          .slice(0, 24);
+
+        document.getElementById('fo-eq-status').textContent = `${data.features?.length || 0} events`;
+
+        const list = document.getElementById('fo-eq-list');
+        if (!feats.length) {
+          list.innerHTML = '<div style="color:#475569">No significant events found.</div>';
+          return;
+        }
+        list.innerHTML = feats.map(f => {
+          const p = f.properties, c = f.geometry.coordinates;
+          const mag = Number(p.mag).toFixed(1);
+          const ov = overlay(Number(p.mag));
+          const col = stabilityColor(ov.stab);
+          return `<div style="background:#09111b;border:1px solid #0d1a2e;border-radius:6px;padding:0.55rem 0.7rem;border-left:3px solid ${col}">
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem">
+              <span style="font-size:0.82rem;font-weight:600;color:#e2e8f0">M${mag}</span>
+              <span style="font-family:monospace;font-size:0.68rem;color:${col}">stab ${ov.stab.toFixed(2)}</span>
+            </div>
+            <div style="font-size:0.72rem;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.place || '—'}</div>
+            <div style="font-size:0.68rem;color:#334155;margin-top:0.15rem">φ-debt ${ov.phiDebt.toExponential(2)} · |Δφ/φ₀| ${ov.radAmp.toFixed(3)}</div>
+          </div>`;
+        }).join('');
+      })
+      .catch(() => {
+        document.getElementById('fo-eq-status').textContent = 'Fetch failed';
+        document.getElementById('fo-eq-list').innerHTML =
+          '<div style="color:#ef4444;font-size:0.8rem">USGS feed unavailable. Try refreshing.</div>';
+      });
+  })();
+  </script>
 </body>
 </html>
