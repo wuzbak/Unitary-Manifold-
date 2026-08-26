@@ -74,8 +74,12 @@ PLANCK_ENERGY_J: float = 1.9561e9               # 1 Planck energy in Joules
 
 DISASTER_KINDS = frozenset(
     ["earthquake", "wildfire", "hurricane", "tornado", "flood",
-     "tsunami", "volcano", "drought", "landslide", "storm"]
+     "tsunami", "volcano", "drought", "landslide", "storm",
+     "avalanche", "nws_alert"]
 )
+
+# Avalanche energy conversion: danger level 1-5
+AVALANCHE_ENERGY_PER_DANGER_LEVEL_J: float = 5.0e11   # ~500 GJ at danger 5
 
 
 @dataclass
@@ -129,6 +133,10 @@ class GeoEvent:
         if kind == "volcano":
             # VEI-based: log₁₀(E) ≈ 3·VEI + 10
             return 10 ** (3 * self.magnitude + 10)
+        if kind == "avalanche":
+            return AVALANCHE_ENERGY_PER_DANGER_LEVEL_J * (self.magnitude ** 2)
+        if kind == "nws_alert":
+            return HURRICANE_ENERGY_PER_CATEGORY_J * (self.magnitude ** 1.5)
         # Default: generic energy scaling
         return 10 ** (1.5 * self.magnitude + 4.8)
 

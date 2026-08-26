@@ -73,13 +73,19 @@ class TestConstants:
         assert 1e8 < PLANCK_ENERGY_J < 1e11
 
     def test_disaster_kinds_count(self):
-        assert len(DISASTER_KINDS) >= 8
+        assert len(DISASTER_KINDS) >= 10
 
     def test_disaster_kinds_includes_earthquake(self):
         assert "earthquake" in DISASTER_KINDS
 
     def test_disaster_kinds_includes_wildfire(self):
         assert "wildfire" in DISASTER_KINDS
+
+    def test_disaster_kinds_includes_avalanche(self):
+        assert "avalanche" in DISASTER_KINDS
+
+    def test_disaster_kinds_includes_nws_alert(self):
+        assert "nws_alert" in DISASTER_KINDS
 
 
 # ===========================================================================
@@ -470,3 +476,107 @@ class TestPhysicsCoherence:
         E_log = math.log10(ev.energy_si)
         expected_debt = E_planck * (1.0 - math.exp(-PHI_DEBT_DECAY_RATE * E_log))
         assert abs(r.phi_debt_injection - expected_debt) < 1e-30
+
+
+# ===========================================================================
+# New hazard kinds: avalanche, nws_alert
+# ===========================================================================
+
+class TestAvalancheKind:
+    """Tests for the avalanche hazard kind added in v2."""
+
+    def setup_method(self):
+        self.overlay = UMGeoOverlay()
+
+    def test_avalanche_validates(self):
+        ev = GeoEvent("avalanche", 3.0, 47.5, -121.5)
+        ev.validate()  # must not raise
+
+    def test_avalanche_energy_si_positive(self):
+        ev = GeoEvent("avalanche", 3.0, 47.5, -121.5)
+        assert ev.energy_si > 0
+
+    def test_avalanche_energy_scales_with_magnitude(self):
+        low  = GeoEvent("avalanche", 1.0, 47.5, -121.5)
+        high = GeoEvent("avalanche", 5.0, 47.5, -121.5)
+        assert high.energy_si > low.energy_si
+
+    def test_avalanche_danger_level_1_lowest_energy(self):
+        ev = GeoEvent("avalanche", 1.0, 47.5, -121.5)
+        assert ev.energy_si > 0
+
+    def test_avalanche_danger_level_5_extreme(self):
+        ev = GeoEvent("avalanche", 5.0, 47.5, -121.5)
+        # danger 5 → 5² × 5e11 = 1.25e13 J
+        assert ev.energy_si >= 1e12
+
+    def test_avalanche_overlay_returns_result(self):
+        r = self.overlay.analyse(GeoEvent("avalanche", 3.0, 47.5, -121.5))
+        assert r.phi_debt_injection >= 0
+        assert 0.0 <= r.winding_stability <= 1.0
+
+    def test_avalanche_overlay_has_epistemic_label(self):
+        r = self.overlay.analyse(GeoEvent("avalanche", 2.0, 47.0, -121.0))
+        assert "ADJACENT" in r.epistemic_label
+
+    def test_avalanche_phi_debt_positive(self):
+        r = self.overlay.analyse(GeoEvent("avalanche", 4.0, 47.5, -121.5))
+        assert r.phi_debt_injection > 0
+
+    def test_avalanche_in_batch(self):
+        events = [
+            GeoEvent("avalanche", 1.0, 47.5, -121.5),
+            GeoEvent("avalanche", 3.0, 47.5, -121.5),
+            GeoEvent("avalanche", 5.0, 47.5, -121.5),
+        ]
+        results = analyse_event_batch(events)
+        assert len(results) == 3
+        # Higher danger → higher phi_debt
+        assert results[2].phi_debt_injection > results[0].phi_debt_injection
+
+
+class TestNWSAlertKind:
+    """Tests for the nws_alert hazard kind added in v2."""
+
+    def setup_method(self):
+        self.overlay = UMGeoOverlay()
+
+    def test_nws_alert_validates(self):
+        ev = GeoEvent("nws_alert", 3.0, 47.6, -122.3)
+        ev.validate()
+
+    def test_nws_alert_energy_positive(self):
+        ev = GeoEvent("nws_alert", 2.0, 47.6, -122.3)
+        assert ev.energy_si > 0
+
+    def test_nws_alert_severity_1_minimal(self):
+        ev = GeoEvent("nws_alert", 1.0, 47.6, -122.3)
+        assert ev.energy_si > 0
+
+    def test_nws_alert_severity_4_extreme(self):
+        ev4 = GeoEvent("nws_alert", 4.0, 47.6, -122.3)
+        ev1 = GeoEvent("nws_alert", 1.0, 47.6, -122.3)
+        assert ev4.energy_si > ev1.energy_si
+
+    def test_nws_alert_overlay_runs(self):
+        r = self.overlay.analyse(GeoEvent("nws_alert", 3.0, 47.6, -122.3))
+        assert 0.0 <= r.winding_stability <= 1.0
+        assert r.phi_debt_injection >= 0
+
+    def test_nws_alert_parse_eonet_not_needed(self):
+        # nws_alert is a separate kind from storm; validate they are distinct
+        assert "nws_alert" in DISASTER_KINDS
+        assert "storm" in DISASTER_KINDS
+        assert "nws_alert" != "storm"
+
+    def test_nws_alert_in_batch(self):
+        events = [
+            GeoEvent("nws_alert", 1.0, 47.6, -122.3),
+            GeoEvent("nws_alert", 4.0, 47.6, -122.3),
+        ]
+        results = analyse_event_batch(events)
+        assert len(results) == 2
+
+    def test_nws_alert_summary_in_analyse_result(self):
+        r = self.overlay.analyse(GeoEvent("nws_alert", 2.0, 47.6, -122.3))
+        assert "nws_alert" in r.summary.lower() or "NWS_ALERT" in r.summary

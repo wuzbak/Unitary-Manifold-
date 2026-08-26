@@ -19,6 +19,507 @@
       --geo-storm: #a78bfa;     /* purple — storm */
       --geo-volcano: #ef4444;   /* red — volcano */
       --geo-phi: #34d399;       /* green — φ-overlay */
+      --geo-avalanche: #60a5fa; /* blue — avalanche */
+      --geo-tsunami: #38bdf8;   /* sky — tsunami */
+      --geo-nws: #fbbf24;       /* amber — NWS alert */
+      --geo-landslide: #78716c; /* stone — landslide */
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: var(--geo-bg);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      margin: 0; min-height: 100vh;
+    }
+
+    /* === HERO === */
+    .geo-hero {
+      background: linear-gradient(160deg, #040811 0%, #091520 50%, #050d0a 100%);
+      border-bottom: 1px solid var(--geo-border);
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+    }
+    .geo-hero h1 { font-size: 1.75rem; font-weight: 700; color: #f8fafc; margin: 0 0 0.3rem; letter-spacing: -0.02em; }
+    .geo-hero h1 span { color: var(--geo-accent); }
+    .geo-hero .subtitle { color: #94a3b8; font-size: 0.88rem; margin-bottom: 0.9rem; }
+    .geo-hero .tags { display: flex; align-items: center; justify-content: center; gap: 0.4rem; flex-wrap: wrap; }
+    .tag {
+      display: inline-block; border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; padding: 0.15rem 0.6rem;
+    }
+    .tag-adj  { background: rgba(59,130,246,0.15);  border: 1px solid rgba(59,130,246,0.4);  color: #60a5fa; }
+    .tag-live { background: rgba(34,211,238,0.12);  border: 1px solid rgba(34,211,238,0.35); color: var(--geo-accent); }
+    .tag-phi  { background: rgba(52,211,153,0.12);  border: 1px solid rgba(52,211,153,0.35); color: var(--geo-phi); }
+    .tag-nws  { background: rgba(251,191,36,0.1);   border: 1px solid rgba(251,191,36,0.3);  color: #fbbf24; }
+
+    /* === LAYOUT === */
+    .geo-body {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      grid-template-rows: auto 1fr;
+      gap: 0;
+      height: calc(100vh - 152px);
+      min-height: 600px;
+    }
+    @media (max-width: 900px) {
+      .geo-body { grid-template-columns: 1fr; grid-template-rows: auto 340px auto; }
+    }
+
+    /* === SIDEBAR === */
+    .geo-sidebar {
+      background: var(--geo-panel);
+      border-right: 1px solid var(--geo-border);
+      overflow-y: auto;
+      grid-row: 1 / 3;
+      padding: 0.85rem;
+    }
+    @media (max-width: 900px) { .geo-sidebar { grid-row: auto; border-right: none; border-bottom: 1px solid var(--geo-border); } }
+
+    .sidebar-section { margin-bottom: 1.1rem; }
+    .sidebar-section h3 {
+      font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.07em; color: #64748b; margin: 0 0 0.45rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .section-collapse {
+      cursor: pointer; color: #475569; font-size: 0.7rem;
+      background: none; border: none; padding: 0;
+    }
+
+    /* === LAYER TOGGLES === */
+    .layer-row {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.55rem; border-radius: 6px;
+      cursor: pointer; margin-bottom: 0.2rem;
+      border: 1px solid transparent;
+      transition: background 0.15s;
+    }
+    .layer-row:hover { background: rgba(255,255,255,0.04); }
+    .layer-row.active { border-color: var(--layer-color); background: rgba(var(--layer-rgb), 0.07); }
+    .layer-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .layer-label { font-size: 0.82rem; color: #cbd5e1; flex: 1; }
+    .layer-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: #64748b;
+      background: rgba(255,255,255,0.06);
+      padding: 0.08rem 0.35rem; border-radius: 3px;
+    }
+    .toggle-sw {
+      width: 26px; height: 14px; border-radius: 7px;
+      background: #1e293b; border: 1px solid #334155;
+      position: relative; flex-shrink: 0; transition: background 0.2s;
+    }
+    .toggle-sw::after {
+      content: ''; position: absolute; top: 1px; left: 1px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #64748b; transition: left 0.2s, background 0.2s;
+    }
+    .layer-row.active .toggle-sw { background: rgba(var(--layer-rgb), 0.4); }
+    .layer-row.active .toggle-sw::after { left: 13px; background: var(--layer-color); }
+
+    /* === FILTER BAR === */
+    .filter-bar {
+      display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.7rem;
+    }
+    .filter-btn {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      padding: 0.18rem 0.55rem; border-radius: 4px; cursor: pointer;
+      background: rgba(255,255,255,0.04); border: 1px solid #1e293b;
+      color: #64748b; transition: all 0.15s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: rgba(34,211,238,0.12); border-color: rgba(34,211,238,0.35);
+      color: var(--geo-accent);
+    }
+    .filter-btn.pnw-btn.active {
+      background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.35);
+      color: var(--geo-phi);
+    }
+
+    /* === EVENT LIST === */
+    .event-list { max-height: 260px; overflow-y: auto; }
+    .event-item {
+      padding: 0.45rem 0.55rem; border-radius: 5px; margin-bottom: 0.22rem;
+      border: 1px solid var(--geo-border);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .event-item:hover { background: rgba(255,255,255,0.04); }
+    .event-item.selected { border-color: var(--geo-accent); background: rgba(34,211,238,0.05); }
+    .ev-header { display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.15rem; }
+    .ev-icon { font-size: 0.85rem; }
+    .ev-title { font-size: 0.78rem; font-weight: 600; color: #e2e8f0; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ev-mag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: #94a3b8; }
+    .ev-loc { font-size: 0.68rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* === MAP === */
+    #geo-map { width: 100%; height: 100%; background: #030609; }
+
+    /* === DETAIL PANEL === */
+    .geo-detail {
+      background: var(--geo-panel);
+      border-top: 1px solid var(--geo-border);
+      padding: 0.85rem 1.1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 0.6rem;
+      align-items: start;
+    }
+    .detail-metric {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--geo-border);
+      border-radius: 7px; padding: 0.55rem 0.75rem;
+    }
+    .dm-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #64748b; margin-bottom: 0.18rem; }
+    .dm-value { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: #f1f5f9; }
+    .dm-sub { font-size: 0.65rem; color: #64748b; margin-top: 0.12rem; }
+
+    /* === STATUS BAR === */
+    .geo-status-bar {
+      background: rgba(5,8,13,0.95); border-bottom: 1px solid var(--geo-border);
+      padding: 0.35rem 1rem;
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .status-pill {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.66rem;
+      padding: 0.18rem 0.55rem; border-radius: 4px;
+    }
+    .status-live { background: rgba(34,211,238,0.1); color: var(--geo-accent); border: 1px solid rgba(34,211,238,0.25); }
+    .status-adj  { background: rgba(59,130,246,0.1); color: #60a5fa;        border: 1px solid rgba(59,130,246,0.25); }
+    .status-info { color: #475569; font-size: 0.68rem; margin-left: auto; }
+    .blink { animation: blink 1.4s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* === PHI OVERLAY BADGE === */
+    .phi-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 4px; padding: 0.15rem 0.5rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--geo-phi);
+    }
+
+    /* === HAZARD NETWORKS TABLE === */
+    .hazard-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.72rem; margin-bottom: 0.5rem;
+    }
+    .hazard-table th {
+      text-align: left; color: #64748b; font-weight: 600;
+      font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 0.2rem 0.3rem; border-bottom: 1px solid var(--geo-border);
+    }
+    .hazard-table td {
+      padding: 0.28rem 0.3rem; vertical-align: top;
+      border-bottom: 1px solid rgba(22,32,48,0.6);
+      color: #94a3b8;
+    }
+    .hazard-table td:first-child { font-size: 0.75rem; }
+    .hazard-table a { color: #60a5fa; text-decoration: none; }
+    .hazard-table a:hover { text-decoration: underline; }
+    .hazard-icon { font-size: 0.9rem; margin-right: 0.25rem; }
+
+    /* === LOADING / EMPTY === */
+    .loading-spinner {
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; color: #475569; gap: 0.5rem; font-size: 0.8rem;
+    }
+    .spinner { width: 14px; height: 14px; border: 2px solid #1e293b; border-top-color: var(--geo-accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* === EPISTEMIC NOTICE === */
+    .epistemic-notice {
+      background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 5px; padding: 0.5rem 0.7rem;
+      font-size: 0.68rem; color: #93c5fd; line-height: 1.4;
+      margin-bottom: 0.7rem;
+    }
+
+    /* === OSIRIS CREDIT === */
+    .osiris-credit {
+      font-size: 0.65rem; color: #475569;
+      text-align: center; padding: 0.35rem;
+      border-top: 1px solid var(--geo-border); margin-top: 0.5rem;
+    }
+    .osiris-credit a { color: #60a5fa; text-decoration: none; }
+
+    /* === MAPLIBRE POPUPS === */
+    .maplibregl-popup-content {
+      background: #0d1117 !important;
+      border: 1px solid #162030 !important;
+      color: #e2e8f0 !important;
+      border-radius: 8px !important;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 0.78rem !important;
+      max-width: 290px !important;
+      padding: 0.75rem 0.9rem !important;
+    }
+    .maplibregl-popup-tip { display: none; }
+    .popup-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.35rem; }
+    .popup-row { display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.12rem; }
+    .popup-key { color: #64748b; }
+    .popup-val { font-family: 'JetBrains Mono', monospace; color: #94a3b8; }
+    .popup-phi { color: var(--geo-phi); font-family: 'JetBrains Mono', monospace; }
+    .popup-src { margin-top: 0.35rem; font-size: 0.62rem; color: #3b82f6; }
+    .popup-adj { margin-top: 0.3rem; font-size: 0.62rem; color: #3b82f6; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="geo-hero">
+  <h1>UM <span>Geophysical Monitor</span></h1>
+  <p class="subtitle">Live multi-hazard feeds · Pacific Northwest &amp; Global · Unitary Manifold φ-overlay</p>
+  <div class="tags">
+    <span class="tag tag-live">🌍 USGS · EONET · NOAA NWS</span>
+    <span class="tag tag-nws">❄️ NWAC Avalanche</span>
+    <span class="tag tag-adj">🔵 Adjacent Track</span>
+    <span class="tag tag-phi">φ P806 · P786 · P16 · P808</span>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="geo-status-bar">
+  <span class="status-pill status-live"><span class="blink">●</span>&nbsp;LIVE FEEDS</span>
+  <span class="status-pill status-adj">🔵 ADJACENT TRACK</span>
+  <span id="status-eq"      class="status-pill" style="background:rgba(34,211,238,0.08);color:#67e8f9;border:1px solid rgba(34,211,238,0.2)">⚡ EQ: —</span>
+  <span id="status-fire"    class="status-pill" style="background:rgba(249,115,22,0.08);color:#fb923c;border:1px solid rgba(249,115,22,0.2)">🔥 Fire: —</span>
+  <span id="status-storm"   class="status-pill" style="background:rgba(167,139,250,0.08);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2)">🌀 Storm: —</span>
+  <span id="status-nws"     class="status-pill" style="background:rgba(251,191,36,0.08);color:#fde68a;border:1px solid rgba(251,191,36,0.2)">⚠️ NWS: —</span>
+  <span id="status-avalanche" class="status-pill" style="background:rgba(96,165,250,0.08);color:#93c5fd;border:1px solid rgba(96,165,250,0.2)">❄️ Aval: —</span>
+  <span class="status-info" id="last-updated">Fetching feeds…</span>
+</div>
+
+<!-- MAIN BODY -->
+<div class="geo-body">
+
+  <!-- SIDEBAR -->
+  <div class="geo-sidebar">
+
+    <div class="epistemic-notice">
+      🔵 <strong>Adjacent Track</strong> — UM physics overlays (φ-debt, radion Δφ, winding stability) are geometric analogues applied to geophysics. Not hardgate claims. Sources: P806, P786, P16, P808.
+    </div>
+
+    <!-- FILTER CONTROLS -->
+    <div class="sidebar-section">
+      <h3>View Filters</h3>
+      <div class="filter-bar">
+        <button class="filter-btn pnw-btn" id="btn-pnw" onclick="togglePNW()">📍 PNW Focus</button>
+        <button class="filter-btn active" id="btn-24h" onclick="setTimeFilter('24h')">24h</button>
+        <button class="filter-btn" id="btn-7d"  onclick="setTimeFilter('7d')">7d</button>
+        <button class="filter-btn" id="btn-30d" onclick="setTimeFilter('30d')">30d</button>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" id="btn-mag-all" onclick="setMagFilter(0)">All M</button>
+        <button class="filter-btn" id="btn-mag-2" onclick="setMagFilter(2)">M2+</button>
+        <button class="filter-btn" id="btn-mag-4" onclick="setMagFilter(4)">M4+</button>
+        <button class="filter-btn" id="btn-mag-6" onclick="setMagFilter(6)">M6+</button>
+      </div>
+    </div>
+
+    <!-- LAYER CONTROLS -->
+    <div class="sidebar-section">
+      <h3>Live Layers</h3>
+      <div class="layer-row active" id="toggle-eq"        style="--layer-color:#22d3ee;--layer-rgb:34,211,238"   onclick="toggleLayer('eq')">
+        <span class="layer-dot" style="background:#22d3ee"></span>
+        <span class="layer-label">⚡ Earthquakes (USGS)</span>
+        <span class="layer-count" id="cnt-eq">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-fire"      style="--layer-color:#f97316;--layer-rgb:249,115,22"   onclick="toggleLayer('fire')">
+        <span class="layer-dot" style="background:#f97316"></span>
+        <span class="layer-label">🔥 Wildfires (EONET + NWS)</span>
+        <span class="layer-count" id="cnt-fire">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-storm"     style="--layer-color:#a78bfa;--layer-rgb:167,139,250"  onclick="toggleLayer('storm')">
+        <span class="layer-dot" style="background:#a78bfa"></span>
+        <span class="layer-label">🌀 Storms / Severe Wx</span>
+        <span class="layer-count" id="cnt-storm">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-volcano"   style="--layer-color:#ef4444;--layer-rgb:239,68,68"    onclick="toggleLayer('volcano')">
+        <span class="layer-dot" style="background:#ef4444"></span>
+        <span class="layer-label">🌋 Volcanoes (EONET / CVO)</span>
+        <span class="layer-count" id="cnt-volcano">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-tsunami"   style="--layer-color:#38bdf8;--layer-rgb:56,189,248"   onclick="toggleLayer('tsunami')">
+        <span class="layer-dot" style="background:#38bdf8"></span>
+        <span class="layer-label">🌊 Tsunami (NWS NTWC)</span>
+        <span class="layer-count" id="cnt-tsunami">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-avalanche" style="--layer-color:#60a5fa;--layer-rgb:96,165,250"   onclick="toggleLayer('avalanche')">
+        <span class="layer-dot" style="background:#60a5fa"></span>
+        <span class="layer-label">❄️ Avalanches (NWAC)</span>
+        <span class="layer-count" id="cnt-avalanche">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-nws"       style="--layer-color:#fbbf24;--layer-rgb:251,191,36"   onclick="toggleLayer('nws')">
+        <span class="layer-dot" style="background:#fbbf24"></span>
+        <span class="layer-label">⚠️ NWS Alerts (NOAA)</span>
+        <span class="layer-count" id="cnt-nws">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-phi"       style="--layer-color:#34d399;--layer-rgb:52,211,153"   onclick="toggleLayer('phi')">
+        <span class="layer-dot" style="background:#34d399"></span>
+        <span class="layer-label">φ UM Overlay (φ-debt)</span>
+        <span class="layer-count" id="cnt-phi">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+    </div>
+
+    <!-- UM PHYSICS SUMMARY -->
+    <div class="sidebar-section">
+      <h3>UM Overlay Summary</h3>
+      <div class="detail-metric" style="margin-bottom:0.4rem">
+        <div class="dm-label">Total φ-Debt Injected</div>
+        <div class="dm-value phi-badge" id="total-phi-debt">—</div>
+        <div class="dm-sub">Planck units · P16 analogue</div>
+      </div>
+      <div class="detail-metric" style="margin-bottom:0.4rem">
+        <div class="dm-label">Max Radion |Δφ/φ₀|</div>
+        <div class="dm-value" id="max-radion" style="color:#22d3ee">—</div>
+        <div class="dm-sub">P806 back-reaction</div>
+      </div>
+      <div class="detail-metric">
+        <div class="dm-label">Min Winding Stability</div>
+        <div class="dm-value" id="min-stability" style="color:#f97316">—</div>
+        <div class="dm-sub">P786 basin [0,1]</div>
+      </div>
+    </div>
+
+    <!-- EVENT LIST -->
+    <div class="sidebar-section">
+      <h3>Events <span id="ev-total" style="color:#64748b;font-weight:400"></span></h3>
+      <div class="event-list" id="event-list">
+        <div class="loading-spinner"><div class="spinner"></div> Fetching live data…</div>
+      </div>
+    </div>
+
+    <!-- HAZARD AUTHORITY NETWORKS -->
+    <div class="sidebar-section">
+      <h3>Hazard Authority Networks</h3>
+      <table class="hazard-table">
+        <thead>
+          <tr>
+            <th>Hazard</th>
+            <th>Network</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hazard-icon">⚡</span>Earthquakes</td>
+            <td><a href="https://pnsn.org" target="_blank" rel="noopener">PNSN</a> / <a href="https://earthquake.usgs.gov" target="_blank" rel="noopener">USGS</a></td>
+            <td>ShakeAlert, M2.5+ real-time</td>
+          </tr>
+          <tr>
+            <td><span class="hazard-icon">❄️</span>Avalanches</td>
+            <td><a href="https://nwac.us" target="_blank" rel="noopener">NWAC</a> / USFS</td>
+            <td>Daily danger ratings, zone forecasts</td>
+          </tr>
+          <tr>
+            <td><span class="hazard-icon">🌋</span>Volcanoes</td>
+            <td><a href="https://www.usgs.gov/observatories/cvo" target="_blank" rel="noopener">USGS CVO</a></td>
+            <td>Alert levels, aviation color codes, lahar warnings</td>
+          </tr>
+          <tr>
+            <td><span class="hazard-icon">🌊</span>Tsunamis</td>
+            <td><a href="https://www.tsunami.gov" target="_blank" rel="noopener">NOAA NTWC</a> / <a href="https://dnr.wa.gov/washington-geological-survey/geologic-hazards-and-environment/tsunamis" target="_blank" rel="noopener">WA DNR</a></td>
+            <td>Tsunami watches, inundation maps</td>
+          </tr>
+          <tr>
+            <td><span class="hazard-icon">⛰️</span>Landslides</td>
+            <td><a href="https://www.usgs.gov/programs/landslide-hazards" target="_blank" rel="noopener">USGS LHP</a></td>
+            <td>Slope stability maps, event catalog</td>
+          </tr>
+          <tr>
+            <td><span class="hazard-icon">🔥</span>Fire / Weather</td>
+            <td><a href="https://www.weather.gov" target="_blank" rel="noopener">NOAA NWS</a></td>
+            <td>Red Flag warnings, severe storm alerts</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="osiris-credit">
+      OSIRIS-inspired · MapLibre GL · USGS · NASA EONET · NOAA NWS · NWAC · WA DNR
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div id="geo-map"></div>
+
+</div><!-- geo-body -->
+
+<!-- DETAIL PANEL (below map) -->
+<div class="geo-detail" id="geo-detail" style="display:none">
+  <div class="detail-metric">
+    <div class="dm-label">Event</div>
+    <div class="dm-value" id="det-kind" style="color:#22d3ee">—</div>
+    <div class="dm-sub" id="det-loc">—</div>
+  </div>
+  <div class="detail-metric">
+    <div class="dm-label">Magnitude / Level</div>
+    <div class="dm-value" id="det-mag">—</div>
+    <div class="dm-sub" id="det-depth">—</div>
+  </div>
+  <div class="detail-metric">
+    <div class="dm-label">φ-Debt (P16)</div>
+    <div class="dm-value phi-badge" id="det-phi">—</div>
+    <div class="dm-sub">φ-alignment: <span id="det-align">—</span></div>
+  </div>
+  <div class="detail-metric">
+    <div class="dm-label">Radion |Δφ/φ₀| (P806)</div>
+    <div class="dm-value" id="det-radion" style="color:#22d3ee">—</div>
+    <div class="dm-sub">Suppression: <span id="det-supp">—</span></div>
+  </div>
+  <div class="detail-metric">
+    <div class="dm-label">Winding Stability (P786)</div>
+    <div class="dm-value" id="det-stab">—</div>
+    <div class="dm-sub">Basin perturbation: <span id="det-pert">—</span></div>
+  </div>
+  <div class="detail-metric">
+    <div class="dm-label">w_a local (P808)</div>
+    <div class="dm-value" id="det-wa" style="color:#a78bfa">—</div>
+    <div class="dm-sub">CPL breathing-mode analogue</div>
+  </div>
+  <div class="detail-metric">
+    <div class="dm-label">Source</div>
+    <div class="dm-value" id="det-source" style="font-size:0.78rem;color:#60a5fa">—</div>
+    <div class="dm-sub" id="det-time">—</div>
+  </div>
+  <div class="detail-metric" style="grid-column: 1/-1">
+    <div class="dm-label">Epistemic Status</div>
+    <div class="dm-value" style="font-size:0.72rem;color:#60a5fa">🔵 ADJACENT TRACK — geometric analogue, not a hardgate physics claim. Sources: P806, P786, P16, P808.</div>
+  </div>
+</div>
+
+<script src="geo-monitor.js"></script>
+</body>
+</html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UM Geophysical Monitor — AxiomZero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" crossorigin>
+  <!-- MapLibre GL -->
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" crossorigin>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" crossorigin></script>
+  <style>
+    :root {
+      --geo-bg: #05080d;
+      --geo-panel: #0b1118;
+      --geo-border: #162030;
+      --geo-accent: #22d3ee;    /* cyan — seismic */
+      --geo-fire: #f97316;      /* orange — wildfire */
+      --geo-storm: #a78bfa;     /* purple — storm */
+      --geo-volcano: #ef4444;   /* red — volcano */
+      --geo-phi: #34d399;       /* green — φ-overlay */
     }
     * { box-sizing: border-box; }
     body {
@@ -357,6 +858,6 @@
   </div>
 </div>
 
-<script src="./geo-monitor.js"></script>
+<script src="geo-monitor.js"></script>
 </body>
 </html>
