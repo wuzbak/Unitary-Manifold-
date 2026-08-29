@@ -447,8 +447,9 @@ def unitarity_buffer_factor(
     # The regulated subtraction gives B_reg = 1 + x² × ζ(-1) = 1 - x²/12
     B_regulated = max(0.0, 1.0 + x**2 * zeta_m1)
 
-    # Unitarity saturation: B_regulated = 0 → x² = 12 → E_sat = √12/R_KK
-    E_sat = math.sqrt(12.0) / R_KK if B_regulated == 0.0 else math.sqrt(12.0) / R_KK
+    # Unitarity saturation energy: B_regulated = 0 → 1 + x²×ζ(−1) = 0 → x² = 12
+    # E_sat = √12 / R_KK regardless of whether we are above or below saturation.
+    E_sat = math.sqrt(12.0) / R_KK
 
     # Convergence: compare finite sum to regulated value
     convergence_ratio = abs(B_finite - B_regulated) / (abs(B_regulated) + 1e-15)
