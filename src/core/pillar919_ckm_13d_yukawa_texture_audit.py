@@ -171,7 +171,7 @@ def _evaluate_candidate(
 
 
 def _scan() -> List[Dict[str, Any]]:
-    """Scan (alpha, beta) grid."""
+    """Scan (alpha, beta) grid (cached at module level)."""
     results: List[Dict[str, Any]] = []
     for alpha in [1.0, 2.0, 3.0, 4.0, float(N_W)]:
         for beta in [0.0, 0.5, 1.0, 2.0, float(N_W)]:
@@ -179,9 +179,13 @@ def _scan() -> List[Dict[str, Any]]:
     return results
 
 
+# Module-level cached scan (computed once at import)
+_SCAN_CACHE: List[Dict[str, Any]] = _scan()
+
+
 def ckm_13d_yukawa_audit() -> Dict[str, Any]:
     """Full audit of unified FN+Sp(2,ℝ) Yukawa texture."""
-    scan = _scan()
+    scan = _SCAN_CACHE
     best_closed: Optional[Dict[str, Any]] = next(
         (r for r in scan if r["closed"]), None
     )
@@ -246,7 +250,13 @@ def ckm_13d_summary() -> Dict[str, Any]:
 
 
 def _compute_status() -> str:
-    return ckm_13d_yukawa_audit()["status"]
+    for r in _SCAN_CACHE:
+        if r["closed"]:
+            return "CLOSED"
+    for r in _SCAN_CACHE:
+        if r["partial"]:
+            return "PARTIAL_TENSION"
+    return "IRREDUCIBLE_ARCHITECTURE_LIMIT"
 
 
 PILLAR_STATUS: str = _compute_status()

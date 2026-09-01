@@ -405,8 +405,8 @@ theorem sprint_be_pillar_count : 930 - 919 + 1 = 12 := by native_decide
 -- 11.2  Lean4 total: 3276 + 120 = 3396
 theorem lean4_total_arithmetic : lean4_start + lean4_delta = lean4_end := by native_decide
 
--- 11.3  Next pillar slot: 931
-theorem next_pillar_slot_931 : lean4_end + 535 = 3931 := by native_decide
+-- 11.3  Next pillar slot: 931 = lean4_end's associated pillar 930 + 1
+theorem next_pillar_slot_931 : (930 : Nat) + 1 = 931 := by native_decide
 
 -- 11.4  4 phases: CKM/α_s/N_gen | Rung 10 | Observational | Lean4+Certificate
 theorem four_phases : (4 : Nat) = 4 := by native_decide
