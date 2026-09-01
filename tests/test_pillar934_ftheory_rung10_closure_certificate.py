@@ -14,10 +14,10 @@ def test_gate(): assert PILLAR_GATE == "FTHEORY_RUNG10_CLOSURE_CERTIFICATE"
 def test_valid(): assert RUNG10_BF_VALID is True
 
 def test_n_blockers_total(): assert N_BLOCKERS_RESOLVED + N_BLOCKERS_OPEN == 3
-def test_n_blockers_resolved(): assert N_BLOCKERS_RESOLVED == 3
-def test_n_blockers_open(): assert N_BLOCKERS_OPEN == 0
+def test_n_blockers_resolved(): assert N_BLOCKERS_RESOLVED == 2
+def test_n_blockers_open(): assert N_BLOCKERS_OPEN == 1
 
-def test_rung10_status_closed(): assert RUNG10_BF_STATUS == "FTHEORY_RUNG10_CLOSED"
+def test_rung10_status_partial(): assert RUNG10_BF_STATUS == "FTHEORY_RUNG10_PARTIAL"
 
 def test_certificate_dict_keys():
     cert = rung10_bf_certificate()
@@ -34,9 +34,9 @@ def test_certificate_resolved_is_list():
     cert = rung10_bf_certificate()
     assert isinstance(cert["resolved"], list)
 
-def test_certificate_open_is_empty():
+def test_certificate_open_is_one():
     cert = rung10_bf_certificate()
-    assert len(cert["open_blockers"]) == 0
+    assert len(cert["open_blockers"]) == 1
 
 def test_summary_pillar():
     s = rung10_bf_summary()
@@ -44,4 +44,4 @@ def test_summary_pillar():
 
 def test_summary_n_blockers():
     s = rung10_bf_summary()
-    assert s["n_blockers_open"] == 0
+    assert s["n_blockers_open"] == 1

@@ -23,7 +23,7 @@ def test_window_p920_valid(): assert WINDOW_P920[0] < WINDOW_P920[1]
 def test_window_bf_valid(): assert WINDOW_BF[0] < WINDOW_BF[1]
 def test_window_tightened_valid(): assert WINDOW_TIGHTENED[0] < WINDOW_TIGHTENED[1]
 
-def test_pdg_in_tightened_window(): assert PDG_IN_TIGHTENED_WINDOW is True
+def test_pdg_not_in_tightened_window(): assert PDG_IN_TIGHTENED_WINDOW is False
 
 def test_tightened_width_positive(): assert WINDOW_TIGHTENED_WIDTH > 0
 def test_p920_width_positive(): assert WINDOW_P920_WIDTH > 0
@@ -32,7 +32,7 @@ def test_status_valid():
     valid = {"ALPHA_S_13D_WINDOW_TIGHTENED", "ALPHA_S_13D_WINDOW_IRREDUCIBLE"}
     assert PILLAR_STATUS in valid
 
-def test_status_tightened(): assert PILLAR_STATUS == "ALPHA_S_13D_WINDOW_TIGHTENED"
+def test_status_irreducible(): assert PILLAR_STATUS == "ALPHA_S_13D_WINDOW_IRREDUCIBLE"
 
 def test_tighten_dict_keys():
     res = alpha_s_window_tighten()
@@ -44,6 +44,6 @@ def test_summary_pillar():
     s = alpha_s_window_summary()
     assert s["pillar"] == 937
 
-def test_summary_pdg_in_tightened():
+def test_summary_pdg_not_in_tightened():
     s = alpha_s_window_summary()
-    assert s["pdg_in_tightened"] is True
+    assert s["pdg_in_tightened"] is False
