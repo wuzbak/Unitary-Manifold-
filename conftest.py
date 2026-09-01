@@ -17,6 +17,11 @@ _PENTAD_DIR = os.path.join(_REPO_ROOT, "5-GOVERNANCE", "Unitary Pentad")
 if _PENTAD_DIR not in sys.path:
     sys.path.insert(0, _PENTAD_DIR)
 
+# Mirror docs path with copied tests; canonical executable package is holon_zero/.
+collect_ignore_glob = [
+    "5-GOVERNANCE/Unitary Pentad/holon-zero/test_*.py",
+]
+
 _APP_ROOTS = [
     os.path.join(_REPO_ROOT, '12-AZ-IP', '11-terra-os'),
     os.path.join(_REPO_ROOT, '12-AZ-IP', '12-lithos-os'),
