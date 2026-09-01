@@ -50,7 +50,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (~61,440 passed · 45 skipped · 12 deselected · 0 failed (v30.0, 2026-09-01; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (~61,896 passed · 45 skipped · 12 deselected · 0 failed (v32.1, 2026-09-01; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -83,12 +83,12 @@ framework as a description of nature.  Specifically:
   Passing every test means the code faithfully executes the framework's
   equations.  It says nothing about whether those equations describe nature.
 
-The test count (currently ~61,440) is a measure of **implementation coverage
+The test count (currently ~61,896) is a measure of **implementation coverage
 and internal mathematical self-consistency**.  It is not a measure of
 empirical truth.  A physicist reading a large test count should understand
 exactly this and nothing more.
 
-When the README badge reads "~61,440 passed · 0 failed," this is a statement about
+When the README badge reads "~61,896 passed · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an
