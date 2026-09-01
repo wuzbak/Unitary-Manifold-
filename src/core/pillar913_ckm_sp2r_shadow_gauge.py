@@ -139,6 +139,19 @@ def ckm_sp2r_shadow() -> Dict[str, Any]:
             break
 
     status: str = "CKM_SP2R_SHADOW_FIXED" if best is not None else "CKM_TENSION_PERSISTS_13D"
+    if best is not None:
+        interpretation = (
+            f"Shadow gauge n_shadow={best['n_shadow']} reproduces the CKM angle ordering "
+            f"θ₁₂ > θ₂₃ > θ₁₃ and gives λ={best['lambda_pred']:.4f} (ratio {best['lambda_ratio']:.3f} "
+            f"to PDG {WOLFENSTEIN_PDG}).  The Sp(2,R) shadow-gauge choice is not fully canonical "
+            f"— a unique preferred shadow requires additional geometric input."
+        )
+    else:
+        interpretation = (
+            "No shadow gauge n_shadow ∈ {1,…,n_w} simultaneously reproduces the CKM angle "
+            "ordering AND gives λ within a factor-2 of PDG.  The CKM θ ordering tension "
+            "PERSISTS at the I-Theory level — registered as an open architecture item."
+        )
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
@@ -147,17 +160,7 @@ def ckm_sp2r_shadow() -> Dict[str, Any]:
         "wolfenstein_pdg": WOLFENSTEIN_PDG,
         "scan": scan,
         "best_shadow": best,
-        "interpretation": (
-            f"Shadow gauge n_shadow={best['n_shadow']} reproduces the CKM angle ordering "
-            f"θ₁₂ > θ₂₃ > θ₁₃ and gives λ={best['lambda_pred']:.4f} (ratio {best['lambda_ratio']:.3f} "
-            f"to PDG {WOLFENSTEIN_PDG}).  The Sp(2,R) shadow-gauge choice is not fully canonical "
-            f"— a unique preferred shadow requires additional geometric input."
-            if best is not None
-            else
-            "No shadow gauge n_shadow ∈ {1,…,n_w} simultaneously reproduces the CKM angle "
-            "ordering AND gives λ within a factor-2 of PDG.  The CKM θ ordering tension "
-            "PERSISTS at the I-Theory level — registered as an open architecture item."
-        ),
+        "interpretation": interpretation,
         "open_item": (
             "CKM_TENSION_PERSISTS_13D: the Sp(2,R) shadow-gauge freedom does not canonically "
             "fix the FN charges to reproduce all three PDG CKM angles.  Additional geometric "
