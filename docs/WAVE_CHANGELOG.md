@@ -1,7 +1,7 @@
-# Wave Changelog (Source of Truth)
+## Wave Changelog
 
 This file is the required wave-level changelog ledger.
-*Current version: v25.5 (2026-09-01)*
+*Current version: v26.0 (2026-09-01)*
 
 ---
 
