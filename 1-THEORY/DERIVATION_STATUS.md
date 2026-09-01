@@ -2,8 +2,8 @@
 
 **The Unitary Manifold v32.1 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-01 (v27.0 — Sprint BC: Pillars 887–910; FN charge assignment, CKM FN correction (TENSION_PERSISTS), Jarlskog FN audit, PMNS FN bridge, bundle/E₈ third-filter degeneracy audits (both still degeneracy=2), α_s volume pinning, TCC e-fold NLO, beyond-EFT CMB survey, fermion mass-ratio chain, Lean4 +435 (2741→3176); ~60,848 passed · 45 skipped · 12 deselected · 0 failed; next slot 911.)*
-*Latest verified full regression: 58,790 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-25).*
+*Last updated: 2026-09-01 (v32.1 — Sprint BI: Pillars 955–963; SU3 Kawamura P-matrix derived from k_CS=74 CS boundary (FALLIBILITY §XIV.2 CLOSED); n₂=7 derived from Z₂-odd BC + minimum step (FALLIBILITY §XIII.4 CLOSED); ν mass splitting tree-level computed; CMB KK transfer analytic; c_L/SL spectrum derived; Higgs mass GW bounded; KK QCD axion mass computed; Lean4 +100 (3712→3812); ~61,896 passed · 45 skipped · 12 deselected · 0 failed; next slot 964.)*
+*Latest verified full regression: 61,896 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-01).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
