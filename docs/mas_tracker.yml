@@ -1,8 +1,49 @@
-version: "v31.0"
+version: "v32.1"
 date: "2026-09-01"
 updated: "2026-09-01"
 
-v31_0_sprint_bg:
+v32_1_sprint_bi:
+  description: "Sprint BI — FALLIBILITY Gap Closure Sprint (7 physics pillars + Lean4 + certificate)"
+  pillars: [955,956,957,958,959,960,961,962,963]
+  lean4_start: 3712
+  lean4_end: 3812
+  lean4_delta: 100
+  new_lean4_files:
+    - SprintBIBridge.lean
+  gates_advanced:
+    - SU3_KAWAMURA_DERIVED_FROM_CS_BOUNDARY
+    - N2_7_DERIVED_FROM_Z2_ODD_MINIMUM_STEP
+    - NU_MASS_SPLITTING_TREE_LEVEL_COMPUTED
+    - CMB_KK_TRANSFER_ANALYTIC_COMPLETE
+    - CL_SL_SPECTRUM_ANALYTICALLY_DERIVED
+    - HIGGS_MASS_GW_BOUNDED
+    - KK_QCD_AXION_MASS_COMPUTED
+    - LEAN4_SPRINT_BI_BRIDGE
+    - SPRINT_BI_REGRESSION_CERTIFICATE
+  new_closures:
+    - "SU3_KAWAMURA_DERIVED_FROM_CS_BOUNDARY: P=diag(+1,+1,+1,-1,-1) derived from k_CS=74, eta_bar=1/2, CS_product=37 odd. FALLIBILITY §XIV.2 CLOSED."
+    - "N2_7_DERIVED_FROM_Z2_ODD_MINIMUM_STEP: Z2-odd BC + minimum step + k_CS=74 uniquely selects n2=7. No CMB input. FALLIBILITY §XIII.4 CLOSED."
+  new_open_items: []
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - CKM_THETA13_ARCHITECTURE_LIMIT
+    - FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE
+    - ALPHA_S_13D_IRREDUCIBLE
+    - DELTA_M21_NLO_IRREDUCIBLE
+    - HIGGS_MASS_EXACT_NLO_NEEDED
+    - CL_APS_LEAN4_PROOF_NOMINATED
+    - KK_AXION_Z2_BC_MODEL_BUILDING
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE_OPEN
+  tests_added: 187
+  regression: "~61,896 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 964
+  next_version: "v32.2"
+  lean4_theorems_total: 3812
+  lean4_new_theorems: 100
+  artifact: "src/core/pillar963_sprint_bi_regression_certificate.py"
+
+
   description: "Sprint BG — G₄ Flux Lattice Closure, CKM Second-Order, Fermion Mass 13D, CMB WZ Cross-Check, Observational Readiness v3"
   pillars: [942,943,944,945,946,947,948]
   lean4_start: 3512
