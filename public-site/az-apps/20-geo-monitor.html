@@ -272,7 +272,7 @@
   <h1>UM <span>Geophysical Monitor</span></h1>
   <p class="subtitle">Live multi-hazard feeds · Pacific Northwest &amp; Global · Unitary Manifold φ-overlay</p>
   <div class="tags">
-    <span class="tag tag-live">🌍 USGS · EONET · NOAA NWS</span>
+    <span class="tag tag-live">🌍 USGS · EONET · NOAA NWS · SWPC</span>
     <span class="tag tag-nws">❄️ NWAC Avalanche</span>
     <span class="tag tag-adj">🔵 Adjacent Track</span>
     <span class="tag tag-phi">φ P806 · P786 · P16 · P808</span>
@@ -288,6 +288,7 @@
   <span id="status-storm"   class="status-pill" style="background:rgba(167,139,250,0.08);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2)">🌀 Storm: —</span>
   <span id="status-nws"     class="status-pill" style="background:rgba(251,191,36,0.08);color:#fde68a;border:1px solid rgba(251,191,36,0.2)">⚠️ NWS: —</span>
   <span id="status-avalanche" class="status-pill" style="background:rgba(96,165,250,0.08);color:#93c5fd;border:1px solid rgba(96,165,250,0.2)">❄️ Aval: —</span>
+  <span id="status-kp"      class="status-pill" style="background:rgba(168,85,247,0.08);color:#d8b4fe;border:1px solid rgba(168,85,247,0.2)">🌌 Kp: —</span>
   <span class="status-info" id="last-updated">Fetching feeds…</span>
 </div>
 
@@ -369,6 +370,24 @@
         <span class="layer-count" id="cnt-phi">—</span>
         <span class="toggle-sw"></span>
       </div>
+      <div class="layer-row active" id="toggle-space"     style="--layer-color:#a855f7;--layer-rgb:168,85,247"   onclick="toggleLayer('space')">
+        <span class="layer-dot" style="background:#a855f7"></span>
+        <span class="layer-label">🌌 Space Weather (SWPC Kp)</span>
+        <span class="layer-count" id="cnt-space">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-convergence" style="--layer-color:#34d399;--layer-rgb:52,211,153" onclick="toggleLayer('convergence')">
+        <span class="layer-dot" style="background:#34d399"></span>
+        <span class="layer-label">φ Convergence Index (P807)</span>
+        <span class="layer-count" id="cnt-convergence">—</span>
+        <span class="toggle-sw"></span>
+      </div>
+      <div class="layer-row active" id="toggle-auroral"   style="--layer-color:#e879f9;--layer-rgb:232,121,249"  onclick="toggleLayer('auroral')">
+        <span class="layer-dot" style="background:#e879f9"></span>
+        <span class="layer-label">🌠 Auroral Oval (Kp ≥ 5)</span>
+        <span class="layer-count" id="cnt-auroral">—</span>
+        <span class="toggle-sw"></span>
+      </div>
     </div>
 
     <!-- UM PHYSICS SUMMARY -->
@@ -441,12 +460,17 @@
             <td><a href="https://www.weather.gov" target="_blank" rel="noopener">NOAA NWS</a></td>
             <td>Red Flag warnings, severe storm alerts</td>
           </tr>
+          <tr>
+            <td><span class="hazard-icon">🌌</span>Space Weather</td>
+            <td><a href="https://www.swpc.noaa.gov" target="_blank" rel="noopener">NOAA SWPC</a></td>
+            <td>Planetary Kp index, G-scale alerts, auroral oval</td>
+          </tr>
         </tbody>
       </table>
     </div>
 
     <div class="osiris-credit">
-      OSIRIS-inspired · MapLibre GL · USGS · NASA EONET · NOAA NWS · NWAC · WA DNR
+      OSIRIS-inspired · MapLibre GL · USGS · NASA EONET · NOAA NWS · NOAA SWPC · NWAC · WA DNR
     </div>
   </div>
 

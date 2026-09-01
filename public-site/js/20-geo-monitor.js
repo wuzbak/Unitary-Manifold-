@@ -977,15 +977,19 @@ function updateCounts() {
   const by = {};
   for (const ev of state.events) by[ev.layer] = (by[ev.layer] || 0) + 1;
 
-  const layers = ['eq','fire','storm','volcano','tsunami','avalanche','nws'];
+  const layers = ['eq','fire','storm','volcano','tsunami','avalanche','nws','space'];
   for (const l of layers) setText(`cnt-${l}`, String(by[l] || 0));
   setText('cnt-phi', String(state.events.length));
+  setText('cnt-convergence', String(state.convergenceResults ? state.convergenceResults.length : 0));
+  const kpCurrent = Number.isFinite(state.currentKp) ? state.currentKp : 0;
+  setText('cnt-auroral', kpCurrent >= 5 ? '🔴' : '—');
 
   setText('status-eq',        `⚡ EQ: ${by.eq||0}`);
   setText('status-fire',      `🔥 Fire: ${by.fire||0}`);
   setText('status-storm',     `🌀 Storm: ${by.storm||0}`);
   setText('status-nws',       `⚠️ NWS: ${by.nws||0}`);
   setText('status-avalanche', `❄️ Aval: ${by.avalanche||0}`);
+  setText('status-kp', `🌌 Kp: ${kpCurrent > 0 ? kpCurrent.toFixed(1) : '—'}`);
   setText('last-updated', `Updated ${new Date().toUTCString()}`);
 
   let totalPhi = 0, maxRadion = 0, minStab = 1;
