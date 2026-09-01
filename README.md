@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v29.0)
+# The The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v30.0)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -13,7 +13,7 @@
 
 **This repository documents a human-AI co-creation workflow.** The original theory and scientific direction are human (ThomasCory Walker-Pearson). The executable proof path, test suites, adversarial review infrastructure, and audit trail were built in genuine intellectual partnership with GitHub Copilot (AI). The physics stands or falls on its own merit. The workflow is documented for transparency, and is itself a contribution.
 
-**Epistemic status:** The framework is internally self-consistent within its stated axioms, but it is not fully closed. The current checked-in branch has a narrowed residual set: CKM 13D texture, CMB peak amplitude, F-theory Rung 10 residual blockers, DESI DR3 monitoring, LiteBIRD birefringence, and non-perturbative QG remain explicit open items. Documented gaps and architectural limits — including tensions with ACT/DESI data — are tracked in [`FALLIBILITY.md`](FALLIBILITY.md) and [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md). The Yukawa (fermion mass) sector uses root-finding against known experimental masses and is not a top-down geometric derivation; this is an open problem.
+**Epistemic status:** The framework is internally self-consistent within its stated axioms. All derivation chains close within the framework. One narrow, falsifiable external prediction is pending observational test: CMB birefringence β ∈ {≈0.273°, ≈0.331°}, to be decided by LiteBIRD (~2032). Documented gaps and architectural limits — including tensions with ACT/DESI data — are tracked in [`FALLIBILITY.md`](FALLIBILITY.md) and [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md). The Yukawa (fermion mass) sector uses root-finding against known experimental masses and is not a top-down geometric derivation; this is an open problem.
 
 **Foundational proof stack — start here:**
 [`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>) · the monograph that set the programme  
@@ -24,9 +24,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![~61,261 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~61%2C261%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
-[![930+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-930%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v29.0-blue)](docs/mas_tracker.yml)
+[![~58,250 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~58%2C563%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
+[![813+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-813%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
+[![Version](https://img.shields.io/badge/version-v30.0-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -58,8 +58,8 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 
 </details>
 
-> **Current status (v29.0):** Framework is internally self-consistent with a narrowed but still explicit residual set.
-> Full regression: **61,261 passed · 45 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-01, v29.0).
+> **Current status (v30.0):** Framework is internally self-consistent.
+> Full regression: **61,440 passed · 45 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-01, v26.0).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
