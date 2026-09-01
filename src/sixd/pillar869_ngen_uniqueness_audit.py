@@ -10,7 +10,7 @@ Two further physical filters are applied to the c₁ = 3 candidates:
     F1  Z₂ parity      — the T²/Z₂ projection keeps chiral zero modes only for
                          odd line-bundle flux m.
     F2  charge bound   — the U(1) charge must actually occur in the SU(5)
-                         branching of the E₈ adjoint, i.e. |q| ≤ 4.
+                         branching of the E₈ adjoint, i.e. 1 ≤ |q| ≤ 4.
 
 The point of this pillar is the *negative* result: the filters do not reduce
 the admissible set to a single bundle.  The residual degeneracy N is reported
