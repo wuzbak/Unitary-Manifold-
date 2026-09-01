@@ -39,6 +39,7 @@ NEXT_PILLAR_SLOT: int = 942
 
 LEAN4_PHASE4_END: int = LEAN4_END
 
+# Unresolved lanes still carried forward after Sprint BF closeout.
 REMAINING_OPEN: List[str] = [
     "B3_g4_flux: reference-CY₄ G₄ flux remains the one unresolved Rung 10 blocker.",
     "CKM_TEXTURE_13D_OPEN: Wilson-line scan → ORDERING_ONLY; magnitudes not simultaneously reproduced to 30% across all θ_WL.",
@@ -49,6 +50,8 @@ REMAINING_OPEN: List[str] = [
     "LITEBIRD_BIREFRINGENCE: primary falsifier remains external and pending (~2032).",
 ]
 
+# Audited Sprint BF outcomes that explicitly certify a limit or partial result;
+# some of these remain open precisely because the limit was established.
 ARCHITECTURE_LIMITS_CERTIFIED: List[str] = [
     "FTHEORY_RUNG10_PARTIAL: 2/3 blockers resolved — NL parity (P932 torsion) and genus (P933 suppression) closed; B3_g4_flux remains open.",
     "DELTA_M21_NLO_IRREDUCIBLE: P936 CW NLO correction overcorrects the solar splitting proxy and leaves the lane as an architecture limit.",
