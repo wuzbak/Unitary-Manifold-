@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Routing functions for the Falsification Observatory."""
+"""Routing functions and lightweight API dispatch for the Falsification Observatory."""
 
 from __future__ import annotations
+
+from dataclasses import asdict
 
 from .constants import (
     BETA_C1,
@@ -27,8 +29,9 @@ from .constants import (
     WA_PRED,
     XENON_SENS,
 )
+from .desi_tracker import DESI_DR3_PREREGISTRATION, check_desi_tension, get_falsification_status
+from .litebird_countdown import BIREFRINGENCE_PREDICTION, assess_birefringence_measurement, days_to_litebird
 from .verdict import VerdictResult
-
 
 PASS = 'PASS'
 TENSION = 'TENSION'
@@ -48,6 +51,16 @@ def _result(exp_id: str, name: str, verdict: str, prediction: str, measured, sig
         pillar_refs=pillar_refs,
         note=note,
     )
+
+
+def _coerce_float(query: dict[str, list[str]], key: str) -> float | None:
+    values = query.get(key)
+    if not values or values[0] == '':
+        return None
+    try:
+        return float(values[0])
+    except ValueError:
+        return None
 
 
 def route_litebird(beta: float | None = None, beta_sigma: float | None = None) -> VerdictResult:
@@ -174,3 +187,53 @@ def route_all(observations: dict) -> list[VerdictResult]:
         route_nedm(observations.get('d_e'), observations.get('d_e_sigma')),
         route_xenon(observations.get('sigma_cm2')),
     ]
+
+
+def api_litebird(query: dict[str, list[str]] | None = None) -> dict:
+    query = query or {}
+    beta = _coerce_float(query, 'beta')
+    beta_sigma = _coerce_float(query, 'beta_sigma')
+    response = {
+        'endpoint': '/api/litebird',
+        'countdown_days': days_to_litebird(),
+        'prediction': dict(BIREFRINGENCE_PREDICTION),
+        'observatory_status': get_falsification_status(),
+    }
+    if beta is not None:
+        response['assessment'] = assess_birefringence_measurement(beta)
+        response['route'] = asdict(route_litebird(beta, beta_sigma))
+    else:
+        response['route'] = asdict(route_litebird())
+    return response
+
+
+def api_desi(query: dict[str, list[str]] | None = None) -> dict:
+    query = query or {}
+    w0 = _coerce_float(query, 'w0')
+    wa = _coerce_float(query, 'wa')
+    wa_sigma = _coerce_float(query, 'wa_sigma')
+    response = {
+        'endpoint': '/api/desi',
+        'preregistration': dict(DESI_DR3_PREREGISTRATION),
+        'observatory_status': get_falsification_status(),
+    }
+    if wa is not None:
+        response['route'] = asdict(route_desi(wa, wa_sigma))
+    else:
+        response['route'] = asdict(route_desi())
+    if w0 is not None and wa is not None:
+        response['assessment'] = check_desi_tension(w0, wa)
+    return response
+
+
+API_ENDPOINTS = {
+    '/api/desi': api_desi,
+    '/api/litebird': api_litebird,
+}
+
+
+def dispatch_api_request(path: str, query: dict[str, list[str]] | None = None) -> dict:
+    handler = API_ENDPOINTS.get(path)
+    if handler is None:
+        raise KeyError(path)
+    return handler(query)

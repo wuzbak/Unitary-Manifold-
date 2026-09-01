@@ -15,6 +15,7 @@ from .export import (
     export_visualization,
     export_winding_mode_png,
 )
+from .dimensional_chain_vis import DIMENSIONAL_CHAIN, get_chain_json, render_chain_ascii
 from .visualizations import (
     VISUALIZATION_FUNCTIONS,
     generate_birefringence_window_data,
@@ -26,9 +27,11 @@ from .visualizations import (
     generate_phi_landscape_data,
     generate_winding_mode_data,
 )
+from .yukawa_heatmap import compute_mass_hierarchy, export_svg_heatmap, render_heatmap_ascii
 
 __all__ = [
     "EXPORTERS",
+    "DIMENSIONAL_CHAIN",
     "VISUALIZATION_FUNCTIONS",
     "export_visualization",
     "export_cmb_plane_png",
@@ -39,6 +42,11 @@ __all__ = [
     "export_penrose_entropy_png",
     "export_holographic_boundary_png",
     "export_braided_sound_speed_png",
+    "get_chain_json",
+    "render_chain_ascii",
+    "compute_mass_hierarchy",
+    "render_heatmap_ascii",
+    "export_svg_heatmap",
     "generate_cmb_plane_data",
     "generate_birefringence_window_data",
     "generate_kk_tower_data",

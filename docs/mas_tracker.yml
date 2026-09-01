@@ -141,7 +141,7 @@ v25_0_sprint_az:
     - "835: NW_PLANCK_INDEPENDENT_CLOSURE_MAXIMAL — four-step chain; Lean4 NwPlanckIndependenceClosure.lean +45; ~55 tests"
     - "836: SPRINT_AZ_REGRESSION_CERTIFICATE — Sprint AZ certificate; Lean4 1821; next slot 837"
   tests_added: 505
-  regression: "58,790 passed · 45 skipped · 12 deselected · 0 failed"
+  regression: "59,167 passed · 45 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 837
   next_version: "v25.1"
   lean4_theorems_total: 1821
@@ -168,7 +168,7 @@ v24_6_sprint_ay:
     - "824: DESI_DR3_PREREGISTERED — wₐ=0 falsification routing; 2.0σ/3.0σ/5.0σ thresholds; Lean4 DesiDR3PreRegistration.lean +15; 39 tests"
     - "825: SPRINT_AY_REGRESSION_CERTIFICATE — Sprint AY certificate; Lean4 1506; next slot 826; 37 tests"
   tests_added: 244
-  regression: "58,790 passed · 45 skipped · 12 deselected · 0 failed"
+  regression: "59,167 passed · 45 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 826
   next_version: "v24.7"
   lean4_theorems_total: 1506

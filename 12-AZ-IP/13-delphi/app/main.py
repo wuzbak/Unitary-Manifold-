@@ -83,9 +83,9 @@ def _zodiac_ui(year_str: str, question: str) -> str:
 
 
 def build_gradio_app() -> gr.Blocks:
-    with gr.Blocks(title="DelPhi Oracle", theme=gr.themes.Soft()) as demo:
-        gr.Markdown("# 🔮 DelPhi — Oracle Divination Suite")
-        gr.Markdown("*A 5-oracle divination engine powered by the Unitary Manifold.*")
+    with gr.Blocks(title="DelPhi Hypothesis Explorer", theme=gr.themes.Soft()) as demo:
+        gr.Markdown("# 🔮 DelPhi — Multi-Modal Hypothesis Explorer")
+        gr.Markdown("*A five-channel exploration surface with explicit epistemic-status boundaries.*")
 
         with gr.Tab("Tarot"):
             spread_dd = gr.Dropdown(
@@ -130,8 +130,8 @@ def create_app() -> FastAPI:
     logging.basicConfig(level=logging.INFO)
 
     app = FastAPI(
-        title="DelPhi Oracle API",
-        description="5-oracle divination engine: Tarot, Runes, Astrology, Chinese Zodiac.",
+        title="DelPhi Hypothesis Explorer API",
+        description="Multi-modal hypothesis explorer: Tarot, Runes, Astrology, Chinese Zodiac, and explicit epistemic framing.",
         version=cfg.version,
     )
 

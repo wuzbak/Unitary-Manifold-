@@ -27,9 +27,14 @@ BETA_CANONICAL    = [0.2728, 0.3309]  # degrees (approximate)
 BETA_ADMISSIBLE   = (0.22, 0.38)
 BETA_GAP          = (0.29, 0.31)
 PHI               = (1 + math.sqrt(5)) / 2
-VERSION           = "v24.1"
-TEST_COUNT        = 57927
-LEAN4_COUNT       = 1246
+# Sprint BA (2026-09-01) additions
+PHI_0             = 1.0        # partial closure P853
+K_CS_STATUS       = "FIXED_BY_9D_GS"  # P849 — k_CS=74 not free
+DIM_CHAIN_STATUS  = "CLOSED"   # P858 — 7-step 11D→4D chain
+DESI_STATUS       = "PREREGISTERED"  # P824
+VERSION           = "v25.5"
+TEST_COUNT        = 59167
+LEAN4_COUNT       = 2186
 
 FOOTER = (
     "\n\n---\n"

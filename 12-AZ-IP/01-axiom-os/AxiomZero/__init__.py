@@ -23,5 +23,14 @@ IDENTITY = {
     "theory_direction": "ThomasCory Walker-Pearson",
     "code_implementation": "GitHub Copilot (AI)",
     "framework": "Unitary Manifold (5D Kaluza-Klein)",
+    "unitary_manifold_version": "v25.5",
+    "sprint": "BA",
     "canonical_root": "12-AZ-IP/01-axiom-os",
 }
+
+from .sprint_ba_status import (
+    SPRINT_BA_STATUS,
+    get_pillar_status,
+    get_sprint_ba_status,
+    validate_sprint_ba_status,
+)

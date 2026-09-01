@@ -19,6 +19,12 @@ module makes no claims about the physics of elections; it applies the mathematic
 structure of the Unitary Manifold to election integrity verification.
 """
 
+from pathlib import Path
+
+_LOCAL_SRC = Path(__file__).resolve().parent
+_REPO_SRC = Path(__file__).resolve().parents[3] / "src"
+__path__ = [str(_LOCAL_SRC), str(_REPO_SRC)]
+
 PILLAR = "19-EIGE"
 EPISTEMIC_LABEL = "🔵 ADJACENT TRACK"
 VERSION = "21.0.0"

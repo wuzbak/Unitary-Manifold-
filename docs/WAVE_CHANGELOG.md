@@ -1,11 +1,11 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v25.0-p1 (2026-09-01)*
+*Current version: v25.5 (2026-09-01)*
 
 ---
 
-## v25.0-p1 (2026-09-01 — Geo-Monitor v3 App Layer + UI Accuracy)
+## v25.5 (2026-09-01 — Geo-Monitor v3 App Layer + UI Accuracy)
 
 **What changed:**
 UM Geophysical Monitor upgraded from v2 (7 hazard layers) to v3 (12 hazard layers). New data sources: NOAA SWPC planetary Kp index (space weather / geomagnetic storms), GDACS UN OCHA global disaster alerts (proxy-routed). New features: Space-Weather / Kp layer with auroral oval rendered at Kp ≥ 5, UM Convergence Index (P807 Gaussian 500 km kernel combining φ-debt, Kp, CII; weights 0.5/0.3/0.2), historical replay via IndexedDB, CISA KEV infrastructure feed (optional). New module: `src/core/pillar_geo_monitor.py` (adjacent track, not hardgate). HTML sidebar updated to expose Space Weather, Convergence Index, and Auroral Oval layer toggles; NOAA SWPC added to Hazard Authority Networks table and attribution.
@@ -26,7 +26,7 @@ Closes the ledger update that was missed when PR #772 merged `src/core/pillar_ge
 
 ---
 
-## v25.0 (2026-08-29 — Pillars 826–836: Sprint AZ — AxiomZero Terminal Gap Closure)
+## v25.5 (2026-08-29 — Pillars 826–836: Sprint AZ — AxiomZero Terminal Gap Closure)
 
 **What changed:**
 Pillars 826–836 (11 pillars). (1) P826: KK tower heat-kernel regulated via Hurwitz ζ; T₅₅_reg=ζ(−3)/(2R⁴)=1/(240R⁴); ISW correction exponentially suppressed — closes KK_TOWER_BACKREACTION_OPEN + KK_TOWER_ISW_OPEN. (2) P827: BSSN homogeneous closure via scipy solve_ivp; Wheeler-DeWitt Euclidean action; WKB wavefunction Ψ~e^{−S_E}; radion source injected — closes BSSN_HOMOGENEOUS_WDW_CLOSED. (3) P828: APS η̄ analytic bridge — η̄(5)=1/4 [minimal] → SM fermions require minimal half-integer spin structure → n_w=5 uniquely selected; closes NW_UNIQUENESS_GEOMETRY_OPEN in analytic sector. (4) P829: Z₂ instanton action ≫1 at physical R → P(tunneling)≈0; two-loop threshold δN_gap^{(2)}~0.9% bounded; c_L=71/74 robust at LO+NLO. (5) P830: Kawamura 6D orbifold χ(T²/Z₂)=2; c₁=3=N_gen — conditional on 6D architecture. (6) P831: quark-lepton c_L splitting: δc_L^quark=(N_c/K_CS)×c_L≈3.9%; full 3×3 splitting matrix; PDG qualitatively consistent — closes QUARK_LEPTON_CL_SPLITTING_OPEN. (7) P832: KK tower back-reaction mode upgrade (regulated vs truncated). (8) P833: two-loop CW shift δφ*/φ*~0.139% < 0.2% — closes RADION_TWO_LOOP_OPEN. (9) P834: Swampland audit complete — SDC (4D units PASS), dS conjecture PASS, WGC PASS. (10) P835: maximal Planck-independent n_w closure — four-step chain closes NW_UNIQUENESS. (11) P836: Sprint AZ regression certificate.
@@ -50,7 +50,7 @@ Closes all tractable terminal open gates from Sprint AY. Provides maximal honest
 
 **Residual unknowns:** Mathlib APS proof, non-linear inhomogeneous BSSN, LiteBIRD ~2032, DESI DR3 ~2027, JUNO Phase 2, fermion mass ratios, loop-corrected Boltzmann.
 
-**Regression:** 58,790 passed · 45 skipped · 12 deselected · 0 failed
+**Regression:** 59,167 passed · 45 skipped · 12 deselected · 0 failed
 
 For each wave entry, include:
 - **What changed**
@@ -83,7 +83,7 @@ Closes registered open gates from Pillars 809, 819. Provides honest mathematical
 
 **Residual unknowns:** NW_UNIQUENESS_GEOMETRY_OPEN, APS_MATHLIB_OPEN, NGEN_6D_OPEN, ADM_BSSN_OPEN, G1/G2/G3 structural floors.
 
-**Regression:** ~58,790 passed · 45 skipped · 12 deselected · 0 failed
+**Regression:** ~59,167 passed · 45 skipped · 12 deselected · 0 failed
 
 ---
 

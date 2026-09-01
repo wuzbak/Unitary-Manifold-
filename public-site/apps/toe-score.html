@@ -7,8 +7,8 @@
   <meta property="og:title" content="Verification Dashboard — Unitary Manifold" />
   <meta property="og:description" content="Live verification dashboard: hardgate coverage, admissions, predictions, test totals, and epistemic labels for the Unitary Manifold public webspace." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://wuzbak.github.io/Unitary-Manifold-/apps/toe-score.html" />
-  <link rel="canonical" href="https://wuzbak.github.io/Unitary-Manifold-/apps/toe-score.html" />
+  <meta property="og:url" content="https://wuzbak.github.io/Unitary-Manifold-/apps/verification-dashboard.html" />
+  <link rel="canonical" href="https://wuzbak.github.io/Unitary-Manifold-/apps/verification-dashboard.html" />
   <meta name="theme-color" content="#050a1a" />
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
@@ -33,7 +33,7 @@
     <li><a href="../pentad/index.html">Pentad</a></li>
     <li><a href="../status/index.html">Status</a></li>
     <li><a href="../ip/index.html">IP</a></li>
-    <li><span class="nav-badge">v22.9</span></li>
+    <li><span class="nav-badge">v25.5</span></li>
   </ul>
 </nav>
 
@@ -47,15 +47,15 @@
 
   <!-- Score Hero -->
   <div class="score-hero">
-    <div class="score-big" id="toe-score-big">29.0 / 28</div>
+    <div class="score-big" id="verification-dashboard-big">29.0 / 28</div>
     <div style="color:var(--color-muted);font-size:.9rem;margin-top:.5rem">
       28/28 hardgate claims · +1.0 partial conditional (DM31 + gen-1 c_L AB)
     </div>
     <div style="display:flex;justify-content:center;gap:2rem;margin-top:1.25rem;flex-wrap:wrap">
       <div><div class="text-xs text-muted">Pillars</div><div class="text-mono text-gold" style="font-size:1.3rem;font-weight:700" id="toe-pillars">590</div></div>
-      <div><div class="text-xs text-muted">Lean4 Theorems</div><div class="text-mono text-gold" style="font-size:1.3rem;font-weight:700" id="toe-lean4">976</div></div>
-      <div><div class="text-xs text-muted">Passing Tests</div><div class="text-mono text-gold" style="font-size:1.3rem;font-weight:700" id="toe-tests">56,747</div></div>
-      <div><div class="text-xs text-muted">Version</div><div class="text-mono text-gold" style="font-size:1.3rem;font-weight:700" id="toe-version">v22.9</div></div>
+      <div><div class="text-xs text-muted">Lean4 Theorems</div><div class="text-mono text-gold" style="font-size:1.3rem;font-weight:700" id="toe-lean4">2,186</div></div>
+      <div><div class="text-xs text-muted">Passing Tests</div><div class="text-mono text-gold" style="font-size:1.3rem;font-weight:700" id="toe-tests">59,167</div></div>
+      <div><div class="text-xs text-muted">Version</div><div class="text-mono text-gold" style="font-size:1.3rem;font-weight:700" id="toe-version">v25.5</div></div>
     </div>
   </div>
 
@@ -95,7 +95,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const toe = UM.toeScoreDashboard();
 
-  document.getElementById("toe-score-big").textContent = toe.toe_score + " / " + toe.toe_denominator;
+  document.getElementById("verification-dashboard-big").textContent = toe.toe_score + " / " + toe.toe_denominator;
   document.getElementById("toe-pillars").textContent  = toe.pillars_total.toLocaleString();
   document.getElementById("toe-lean4").textContent    = toe.lean4_total.toLocaleString();
   document.getElementById("toe-tests").textContent    = toe.tests_total.toLocaleString();

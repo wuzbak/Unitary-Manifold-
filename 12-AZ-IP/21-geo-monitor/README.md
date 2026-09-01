@@ -2,7 +2,7 @@
 
 ## Product 21 of the AxiomZero suite
 
-The **UM Geophysical Monitor** is a standalone globe-based disaster monitoring product that fuses live public feeds with the Unitary Manifold geophysical overlay engine.
+The **UM Geophysical Monitor v4** is a standalone globe-based disaster monitoring product that fuses live public feeds with the Unitary Manifold geophysical overlay engine.
 It visualises earthquakes, wildfire clusters, severe storms, floods, volcanoes, droughts, landslides, tsunamis, tornado analogues, and broader storm systems on a MapLibre GL globe.
 It also computes a φ-overlay grounded in the standalone copy of `pillar_geo_monitor.py`, including φ-debt injection, radion amplitude, winding stability, local `w_a` breathing-mode drift, confidence, and an explicit epistemic label.
 
@@ -144,7 +144,7 @@ The overlay exposes these core quantities:
 
 ## Live data feeds
 
-The product is intentionally built on public feeds with no API key requirement for the default runtime path.
+The product is intentionally built on public feeds with no API key requirement for the default runtime path. Version **v4** adds NASA FIRMS active-fire detections and a dedicated NOAA ionosphere/Kp status layer alongside the earlier v3 feeds.
 
 ### USGS feeds
 - Past day: `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson`
@@ -160,6 +160,8 @@ The product is intentionally built on public feeds with no API key requirement f
 
 ### Combined ingest
 - `get_combined_events()` merges parsed USGS and EONET events into one `list[GeoEvent]`.
+- `GeoMonitorV4Feeds.firms_fire_events()` adds a FIRMS wildfire layer from active-fire FRP detections.
+- `GeoMonitorV4Feeds.ionosphere_status()` adds a NOAA ionosphere layer with quiet/active/storm/severe status.
 - `mock_data` support is built in for fully offline tests.
 - Live HTTP calls are never required by the unit tests.
 
