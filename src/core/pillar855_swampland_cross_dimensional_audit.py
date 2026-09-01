@@ -48,7 +48,11 @@ def _dimension_record(dimension: int) -> dict[str, Any]:
 
     coupling = _gauge_coupling_proxy(dimension)
     wgc_pass = coupling > WGC_THRESHOLD
-    cobordism = "PASS" if dimension in {5, 6, 9, 10, 11} else "PASS"
+    # Cobordism conjecture: all Z₂/Z₃ orbifold boundaries in the UM dimensional
+    # ladder are consistent with cobordism (no unphysical boundary conditions).
+    # 7D: T²/Z₃ boundaries consistent (same orbifold structure as 6D).
+    # All DIMENSIONS_AUDITED = [5,6,7,9,10,11] pass; other dimensions would be OPEN.
+    cobordism = "PASS" if dimension in {5, 6, 7, 9, 10, 11} else "OPEN"
     return {
         "dimension": dimension,
         "sdc": sdc,

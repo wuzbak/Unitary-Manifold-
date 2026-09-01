@@ -95,7 +95,10 @@ def validate_sprint() -> dict[str, Any]:
     }
 
 
-SPRINT_VALID: bool = validate_sprint()["passed"]
+try:
+    SPRINT_VALID: bool = validate_sprint()["passed"]
+except Exception:  # pragma: no cover
+    SPRINT_VALID = False
 
 
 def sprint_ba_phase4_summary() -> dict[str, Any]:

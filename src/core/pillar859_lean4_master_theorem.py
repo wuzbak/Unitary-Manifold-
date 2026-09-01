@@ -19,6 +19,8 @@ _LEAN4_PATH = Path(__file__).resolve().parents[2] / "lean4" / "UnitaryManifold" 
 
 
 def _lean4_text() -> str:
+    if not _LEAN4_PATH.exists():
+        return ""  # Graceful fallback — file missing in shallow clones
     return _LEAN4_PATH.read_text(encoding="utf-8")
 
 
