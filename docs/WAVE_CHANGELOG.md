@@ -5,6 +5,30 @@ This file is the required wave-level changelog ledger.
 
 ---
 
+## v31.0 (2026-09-01 — Sprint BG: Pillars 942–948)
+
+**What changed:**
+Pillars 942–948 (7 pillars). Sprint BG was a closure-discipline sprint. (1) P942: G₄ flux lattice closure — Kähler primitivity (Method A) confirmed, D3 tadpole integer after c₂/2 shift (Method B) confirmed, Freed-Hopkins shifted lattice exists abstractly (Method C). B3_g4_flux bounded to explicit-representative architecture limit. (2) P943: CKM 13D second-order texture — Sp(2,ℝ)+FN+KK hybrid; θ₁₂ and θ₂₃ within 30% of PDG; θ₁₃/|V_ub| remains outside — SECOND_ORDER_PARTIAL. (3) P944: Fermion mass ratio 13D orbifold warp audit — generation-indexed warp exp(-π n_w ΔR/R₀) confirmed for hierarchy direction; magnitudes architecture-dependent without specifying R_i — 13D_IRREDUCIBLE. (4) P945: CMB amplitude WZ cross-check — WZ correction O(10⁻⁶³), negligible; all four EFT mechanisms exhausted; CMB_AMP_ARCHITECTURE_LIMIT FULLY_CONFIRMED_IRREDUCIBLE. (5) P946: Observational readiness v3 — 8-entry matrix updated with Sprint BG closure outcomes. (6) P947: Lean4 Sprint BG bridge — 100 proxy theorems across 6 sections (3512→3612). (7) P948: Sprint BG regression certificate.
+
+**Why:**
+Closure-discipline sprint: attack one real blocker (B3_g4_flux), audit fermion mass hierarchy and CKM at next order, and exhaustively close all EFT routes for CMB amplitude. Full truth-surface lockstep maintained.
+
+**Epistemic label deltas:**
+- `B3_G4_FLUX` → `PARTIAL_CONSISTENT` (Kähler primitivity + D3 tadpole integer confirmed; explicit rep architecture-dependent)
+- `CKM_TEXTURE_13D` → `SECOND_ORDER_PARTIAL` (θ₁₂, θ₂₃ within 30%; θ₁₃ architecture residual)
+- `FERMION_MASS_RATIO` → `13D_IRREDUCIBLE` (generation hierarchy direction confirmed; magnitudes UV-dependent)
+- `CMB_AMP_ARCHITECTURE_LIMIT` → `FULLY_CONFIRMED_IRREDUCIBLE` (WZ cross-check closes all EFT routes)
+- `ALPHA_S_13D_IRREDUCIBLE` — unchanged
+- `DELTA_M21_NLO_IRREDUCIBLE` — unchanged
+- `DESI_DR3_MONITORING` — unchanged
+- `LITEBIRD_BIREFRINGENCE` — unchanged
+
+**Lean4:** 3512 → 3612 (+100 proxy theorems)
+**Regression:** ~61,578 passed · 45 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 949
+
+---
+
 ## v30.0 (2026-09-01 — Sprint BF: Pillars 931–941)
 
 **What changed:**
