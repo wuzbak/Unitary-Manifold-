@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v26.0
+# Unitary Manifold v29.0
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,8 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Score-sync note (v11.13):** Parts 1–6 retain historical gatekeeper framing from
-> earlier waves, while canonical current score accounting and lane labels are synced
+> **Status-sync note (v29.0):** Parts 1–6 retain historical gatekeeper framing from
+> earlier waves, while canonical current state and lane labels are synced
 > in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
 > Adjacent governance registry is synchronized with Pillar 273 (`pillar273_autonomous_github_community_steward.py`), while Pillar 259 remains the residual geometry operator.
 > v11.13 Tightening Sprint (Pillars 309–311): FTUM contractive-regime certified; Cabibbo
@@ -22,7 +22,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-01 (v26.0 — Sprint BB: Pillars 861–886 (26 pillars); CKM 7D bulk mass spectrum derived; CKM mixing partial tension; Jarlskog invariant computed; α_s volume narrowed; N_gen 6D bundle constrained (degeneracy=2); Higgs 6D UV / KKLT NP / E₈ degeneracy / CMB peak amplitude / non-perturbative QG all certified as architecture limits; PMNS CP NLO stable; φ₀ SDC bounded; TCC tension registered; Lean4 +555 (2186→2741); ~60,196 passed · 45 skipped · 12 deselected · 0 failed; next pillar slot 887. New open: CKM_7D_ANGLE_ORDERING_OPEN, JARLSKOG_7D_MAGNITUDE_OPEN, NGEN_6D_BUNDLE_DEGENERACY_OPEN, TCC_EFOLD_TENSION_OPEN.)*
+*Last updated: 2026-09-01 (v29.0 — Sprint BE: Pillars 919–930 (12 pillars); CKM 13D Yukawa texture audited; α_s 13D NP bound computed; N_gen geometry-dependence audited on a second CY₄; F-theory Rung 10 remains partial with NL-parity and matter-curve CY₄-genus blockers still open; DESI DR3 monitor updated; PMNS ordering proxy closed at NLO stability; KK-tower ISW lane closed as Boltzmann-negligible; Lean4 +120 (3276→3396); ~61,261 passed · 45 skipped · 12 deselected · 0 failed; next pillar slot 931. Remaining open: CKM_TEXTURE_13D_OPEN, CMB_PEAK_AMPLITUDE_OPEN, RUNG10_SPECTRAL_COVER_NL_PARITY, RUNG10_MATTER_CURVE_CY4_GENUS, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE_OPEN, NON_PERTURBATIVE_QG_OPEN.)*
+
+> **Repository sync guardrail (v29.0):** The auditable checked-in truth surfaces in this branch are aligned to Sprint BE. Later Sprint BF artifacts are not present in this checkout and should not be narrated as current branch state until the underlying files land.
 
 > **v15.8 sync note:** Pillars 511–515 deliver the topological irreversibility engine in response to a structural critique of test_evolution.py. Four identified architectural flaws addressed: Minkowski cage replaced by factory-vs-solver architecture proof; J^0 illusion replaced by Chern-Simons-corrected topological current (k_CS=74); S-matrix fake replaced by forward-only honest irreversibility measure; KK scaffold residue replaced by live winding tracking with explicit open-work record. Pillar 516 certifies the KK backreaction architecture limit as ARCHITECTURE_LIMIT_CERTIFIED. No physics promotion, no physics label promotion, no falsifier softened.
 
