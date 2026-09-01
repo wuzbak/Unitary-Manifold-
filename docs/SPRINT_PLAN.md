@@ -45,7 +45,7 @@ These are the live unresolved items in the auditable local checkout:
 7. `NON_PERTURBATIVE_QG_OPEN`
 
 Related still-open internal interpretation lanes:
-- α_s 13D is improved but not fully universalized across all geometry assumptions
+- α_s 13D gate (P920) resolves to either CLOSED or NP_IRREDUCIBLE, but its interpretation is not fully universalized across all geometry assumptions
 - N_gen degeneracy has been clarified by a second CY₄ audit but is not globally finished
 
 ---
