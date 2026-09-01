@@ -1,8 +1,44 @@
-version: "v30.0"
+version: "v31.0"
 date: "2026-09-01"
 updated: "2026-09-01"
 
-v27_0_sprint_bc:
+v31_0_sprint_bg:
+  description: "Sprint BG — G₄ Flux Lattice Closure, CKM Second-Order, Fermion Mass 13D, CMB WZ Cross-Check, Observational Readiness v3"
+  pillars: [942,943,944,945,946,947,948]
+  lean4_start: 3512
+  lean4_end: 3612
+  lean4_delta: 100
+  new_lean4_files:
+    - SprintBGBridge.lean
+  gates_advanced:
+    - FTHEORY_G4_FLUX_LATTICE_CLOSURE
+    - CKM_13D_SECOND_ORDER_TEXTURE_CORRECTION
+    - FERMION_MASS_RATIO_13D_ORBIFOLD_WARP_AUDIT
+    - CMB_AMP_WZ_CROSSCHECK
+    - OBSERVATIONAL_READINESS_V3
+    - LEAN4_SPRINT_BG_BRIDGE
+    - SPRINT_BG_REGRESSION_CERTIFICATE
+  new_closures:
+    - "B3_G4_FLUX_LATTICE_PARTIAL_CONSISTENT: Kähler primitivity (Method A) CLOSED; D3 tadpole integer after c₂/2 shift (Method B) CLOSED; explicit G₄ rep architecture-dependent (Method C abstract OK)"
+  new_open_items: []
+  remaining_open:
+    - B3_G4_FLUX_EXPLICIT_REP
+    - CKM_TEXTURE_13D_THETA13_RESIDUAL
+    - FERMION_MASS_RATIO_13D_IRREDUCIBLE
+    - CMB_AMP_ARCHITECTURE_LIMIT_FULLY_CONFIRMED
+    - ALPHA_S_13D_IRREDUCIBLE
+    - DELTA_M21_NLO_IRREDUCIBLE
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE_OPEN
+  tests_added: 138
+  regression: "~61,578 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 949
+  next_version: "v31.1"
+  lean4_theorems_total: 3612
+  lean4_new_theorems: 100
+  artifact: "src/core/pillar948_sprint_bg_regression_certificate.py"
+
+
   description: "Sprint BC — Froggatt-Nielsen Hierarchy, Degeneracy Resolution and Fermion Mass Ratios Sprint"
   pillars: [887,888,889,890,891,892,893,894,895,896,897,898,899,900,901,902,903,904,905,906,907,908,909,910]
   lean4_start: 2741

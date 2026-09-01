@@ -1,11 +1,25 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v30.0
+# Unitary Manifold v31.0
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-01 (v30.0 — Sprint BF: Pillars 931–941 (11 pillars). CKM Wilson-line audit, Rung 10 closure certificate, CMB brane backreaction, Δm²₂₁ NLO, α_s tightening, DESI DR3 preregistration update, and Observational Readiness v2. Lean4 +116 (3396→3512); ~179 new tests; ~61,440 passed · 45 skipped · 12 deselected · 0 failed. RUNG10_NL_PARITY closed (P932); RUNG10_MATTER_CURVE_CY4_GENUS closed (P933). Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-01 (v31.0 — Sprint BG: Pillars 942–948 (7 pillars). B3_g4_flux → PARTIAL_CONSISTENT (Kähler primitivity + D3 tadpole integer confirmed; explicit G₄ rep architecture-dependent). CKM → SECOND_ORDER_PARTIAL (θ₁₂,θ₂₃ within 30%; θ₁₃ architecture residual). Fermion mass ratio → 13D_IRREDUCIBLE. CMB amplitude → FULLY_CONFIRMED_IRREDUCIBLE (all EFT routes exhausted). Lean4 +100 (3512→3612); ~138 new tests; ~61,578 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
-*P941 (v30.0): Sprint BF Regression Certificate — SPRINT_BF_REGRESSION_CERTIFICATE. `src/core/pillar941_sprint_bf_regression_certificate.py` certifies Sprint BF (11 pillars 931–941; ~179 new tests; Lean4 +116 (3396→3512); next slot 942; v30.0). Remaining open: B3_g4_flux, CKM_TEXTURE_13D_OPEN, CMB_AMP_ARCHITECTURE_LIMIT, DELTA_M21_NLO_IRREDUCIBLE, ALPHA_S_13D_IRREDUCIBLE, DESI_DR3_MONITORING, LiteBIRD β pending.*
+*P948 (v31.0): Sprint BG Regression Certificate — SPRINT_BG_REGRESSION_CERTIFICATE. `src/core/pillar948_sprint_bg_regression_certificate.py` certifies Sprint BG (7 pillars 942–948; ~138 new tests; Lean4 +100 (3512→3612); next slot 949; v31.0). Remaining open: B3_G4_FLUX (explicit rep), CKM_TEXTURE_13D (θ₁₃ residual), FERMION_MASS_RATIO (13D irreducible), CMB_AMP_ARCHITECTURE_LIMIT (fully confirmed), ALPHA_S_13D_IRREDUCIBLE, DELTA_M21_NLO_IRREDUCIBLE, DESI_DR3_MONITORING, LiteBIRD β pending.*
+
+*P947 (v31.0): Lean4 Sprint BG Bridge — LEAN4_SPRINT_BG_BRIDGE. `lean4/UnitaryManifold/SprintBGBridge.lean` — 100 proxy theorems across 6 sections (G₄ flux lattice, CKM 2nd-order, fermion mass warp, CMB WZ, observational readiness v3, sprint integrity). Lean4 +100 (3512→3612).*
+
+*P946 (v31.0): Observational Readiness v3 — OBSERVATIONAL_READINESS_V3_COMPLETE. `src/core/pillar946_observational_readiness_v3.py` — 8-entry matrix updated with Sprint BG outcomes. B3_g4_flux → PARTIAL_CONSISTENT; CKM → SECOND_ORDER_PARTIAL; CMB → FULLY_CONFIRMED_IRREDUCIBLE. Primary falsifier LiteBIRD ~2032 unchanged.*
+
+*P945 (v31.0): CMB Amplitude WZ Cross-Check — CMB_AMP_WZ_CROSSCHECK_ARCHITECTURE_LIMIT_CONFIRMED. `src/core/pillar945_cmb_amp_wz_crosscheck.py` — WZ term contribution O(10⁻⁶³), negligible. All four EFT mechanisms (KK, backreaction, WZ, rolling radion) exhausted. ×4–7 suppression confirmed FULLY_CONFIRMED_IRREDUCIBLE within 5D/13D EFT.*
+
+*P944 (v31.0): Fermion Mass Ratio 13D Orbifold Warp Audit — FERMION_MASS_RATIO_13D_IRREDUCIBLE. `src/core/pillar944_fermion_mass_ratio_13d_warp_audit.py` — generation-indexed warp exp(-π n_w ΔR/R₀) correctly orders generation hierarchy; magnitudes architecture-dependent without specifying R_i (not fixed by n_w=5 alone).*
+
+*P943 (v31.0): CKM 13D Second-Order Texture Correction — CKM_13D_SECOND_ORDER_PARTIAL. `src/core/pillar943_ckm_13d_second_order_texture.py` — Sp(2,ℝ)+FN+KK second-order hybrid: θ₁₂ and θ₂₃ within 30% of PDG; θ₁₃ / |V_ub| outside — architecture residual from 7D winding geometry.*
+
+*P942 (v31.0): F-theory G₄ Flux Lattice Closure — B3_G4_FLUX_LATTICE_PARTIAL_CONSISTENT. `src/core/pillar942_ftheory_g4_flux_lattice_closure.py` — Method A: Kähler primitivity CLOSED (sum_i a_i = 0). Method B: D3 tadpole integer after c₂/2 shift CLOSED (N_D3_eff = 1). Method C: Freed-Hopkins shifted lattice exists abstractly; explicit G₄ ∈ Γ̃ representative requires full CY₄ intersection ring — architecture-dependent.*
+
+
 
 *P940 (v30.0): Lean4 Sprint BF Bridge — LEAN4_SPRINT_BF_BRIDGE. `lean4/UnitaryManifold/SprintBFBridge.lean` — 116 proxy theorems across the Sprint BF closure ledger. Lean4 +116 (3396→3512).*
 

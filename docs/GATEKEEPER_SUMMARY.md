@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v30.0
+# Unitary Manifold v31.0
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,9 +8,9 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Status-sync note (v30.0):** Parts 1–6 retain historical gatekeeper framing from
-> earlier waves, while canonical current state and lane labels are synced
-> in Part 7 and in `docs/TOE_SCORE_AUDIT.md` / `docs/CLAIM_MASTER_BOARD.md`.
+> **Sprint BG (v31.0 — 2026-09-01):** 7 pillars (942–948). B3_g4_flux → PARTIAL_CONSISTENT (Kähler primitivity + tadpole integer confirmed; explicit G₄ rep architecture-dependent). CKM → SECOND_ORDER_PARTIAL (θ₁₂, θ₂₃ within 30%; θ₁₃ architecture residual). Fermion mass ratio → 13D_IRREDUCIBLE. CMB amplitude → FULLY_CONFIRMED_IRREDUCIBLE (WZ cross-check closes all EFT routes). Lean4 3512→3612 (+100). Regression ~61,578 passed · 0 failed. Next slot 949.
+>
+
 > Adjacent governance registry is synchronized with Pillar 273 (`pillar273_autonomous_github_community_steward.py`), while Pillar 259 remains the residual geometry operator.
 > v11.13 Tightening Sprint (Pillars 309–311): FTUM contractive-regime certified; Cabibbo
 > orbifold derivation PARTIAL_DERIVATION status; α_s basin volatility map produced;

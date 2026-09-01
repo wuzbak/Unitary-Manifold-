@@ -4,11 +4,14 @@
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
-*v30.0 sync note (Sprint BF — 2026-09-01):*
-*(1) Auditable checked-in branch state is Sprint BF: ~61,440 passed · 45 skipped · 12 deselected · 0 failed; Lean4 3512; next pillar slot 942.*
-*(2) Sprint BF closes the Rung 10 NL-parity blocker (P932) and the matter-curve CY₄-genus blocker (P933), but leaves the G₄-flux blocker open via the consolidated P934 partial certificate.*
-*(3) The current explicit open set in this branch is: B3_g4_flux, CKM 13D texture, CMB peak amplitude architecture limit, Δm²₂₁ NLO irreducible, α_s 13D irreducible, DESI DR3 monitoring, and LiteBIRD birefringence.*
-*(4) Canonical truth surfaces must narrate Sprint BF as current checked-in reality because the underlying BF artifacts are present in the branch.*
+*v31.0 sync note (Sprint BG — 2026-09-01):*
+*(1) Auditable checked-in branch state is Sprint BG: ~61,578 passed · 45 skipped · 12 deselected · 0 failed; Lean4 3612; next pillar slot 949.*
+*(2) Sprint BG closes the B3_g4_flux lane to PARTIAL_CONSISTENT (Kähler primitivity + D3 tadpole integer confirmed; explicit G₄ representative in Freed-Hopkins lattice Γ̃ architecture-dependent).*
+*(3) CKM second-order correction: θ₁₂ and θ₂₃ within 30% of PDG; θ₁₃ / |V_ub| remains outside — SECOND_ORDER_PARTIAL.*
+*(4) Fermion mass ratio 13D warp audit: generation hierarchy direction confirmed; magnitudes architecture-dependent without specifying R_i — 13D_IRREDUCIBLE.*
+*(5) CMB amplitude WZ cross-check: WZ correction O(10⁻⁶³), negligible; all EFT mechanisms exhausted — FULLY_CONFIRMED_IRREDUCIBLE.*
+*(6) The current explicit open set in this branch is: B3_G4_FLUX (explicit rep), CKM_TEXTURE_13D (θ₁₃ residual), FERMION_MASS_RATIO (13D irreducible), CMB_AMP_ARCHITECTURE_LIMIT (fully confirmed), ALPHA_S_13D_IRREDUCIBLE, DELTA_M21_NLO_IRREDUCIBLE, DESI_DR3_MONITORING (~2027), LITEBIRD_BIREFRINGENCE (~2032).*
+*(7) Canonical truth surfaces must narrate Sprint BG as current checked-in reality.*
 
 *v15.7 update (AI Governance Stack Operationalized — Pillar 510):*
 *(1) Pillar 510 adds a seven-layer operational AI governance overlay for autonomous stewardship: constitution, approval gates, safety protocols, audit trails, human-in-the-loop verification, brand-safety/content moderation, and runtime sandboxing.*
