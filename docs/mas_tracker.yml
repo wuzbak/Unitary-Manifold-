@@ -1,4 +1,4 @@
-version: "v27.0"
+version: "v30.0"
 date: "2026-09-01"
 updated: "2026-09-01"
 
@@ -7945,3 +7945,52 @@ v10_32_p16_promotion:
     - "PMNS_ORDERING_PROXY_OPEN: closed by Pillar 927 (NLO-stable Normal Ordering)"
     - "KK_TOWER_ISW_OPEN: closed by Pillar 928 (Boltzmann-negligible)"
   next_pillar_slot: 931
+
+# v30.0 Sprint BF — CKM Wilson-Line Audit, Rung 10 Closure Certificate, CMB Brane Backreaction, Δm²₂₁ NLO, α_s Tightening, DESI DR3 Update, Observational Readiness v2
+- sprint_id: "v30.0"
+  name: "Sprint BF — CKM Wilson-Line Audit, Rung 10 Closure, CMB Brane Backreaction, Δm²₂₁ NLO, α_s Tightening, DESI DR3 Update, Observational Readiness v2"
+  status: "COMPLETE"
+  completed: "2026-09-01"
+  lean4_theorems_total: 3512
+  regression_total: "~61,440 passed · 45 skipped · 12 deselected · 0 failed (Sprint BF tests)"
+  summary: >
+    Pillars 931–941 (11 pillars). CKM Wilson-line angle scan; Rung 10: 2/3 blockers resolved
+    (NL parity + matter-curve genus CLOSED, G₄ flux open); CMB brane-backreaction architecture
+    limit confirmed; Δm²₂₁ NLO overcorrects (irreducible); α_s window irreducible;
+    DESI DR3 preregistration locked; Observational Readiness v2 matrix complete.
+    Lean4 +116 (3396→3512); ~179 new tests; 0 failures.
+  deliverables:
+    - artifact: "src/core/pillar931_ckm_wilson_line_angle_audit.py"
+      gate: "CKM_WILSON_LINE_ANGLE_AUDIT"
+    - artifact: "src/core/pillar932_ftheory_rung10_nl_parity_resolution.py"
+      gate: "FTHEORY_RUNG10_NL_PARITY_RESOLUTION"
+    - artifact: "src/core/pillar933_ftheory_matter_curve_genus_bound.py"
+      gate: "FTHEORY_MATTER_CURVE_GENUS_BOUND"
+    - artifact: "src/core/pillar934_ftheory_rung10_closure_certificate.py"
+      gate: "FTHEORY_RUNG10_CLOSURE_CERTIFICATE"
+    - artifact: "src/core/pillar935_cmb_peak_brane_backreaction.py"
+      gate: "CMB_PEAK_BRANE_BACKREACTION"
+    - artifact: "src/core/pillar936_nu_mass_splitting_nlo.py"
+      gate: "NU_MASS_SPLITTING_NLO"
+    - artifact: "src/core/pillar937_alpha_s_13d_window_tighten.py"
+      gate: "ALPHA_S_13D_WINDOW_TIGHTEN"
+    - artifact: "src/core/pillar938_desi_dr3_preregistration_update.py"
+      gate: "DESI_DR3_PREREGISTRATION_UPDATE"
+    - artifact: "src/core/pillar939_observational_readiness_v2.py"
+      gate: "OBSERVATIONAL_READINESS_V2"
+    - artifact: "lean4/UnitaryManifold/SprintBFBridge.lean"
+      lean4_theorems: 116
+    - artifact: "src/core/pillar941_sprint_bf_regression_certificate.py"
+      gate: "SPRINT_BF_REGRESSION_CERTIFICATE"
+  open_items:
+    - "B3_g4_flux (Rung 10): G₄ flux quantization obstruction remains open"
+    - "CKM_TEXTURE_13D_OPEN: Wilson-line audit does not fully reproduce PDG CKM"
+    - "CMB_AMP_ARCHITECTURE_LIMIT: brane-backreaction confirms architecture limit unchanged"
+    - "DELTA_M21_NLO_IRREDUCIBLE: NLO correction overcorrects; architecture limit"
+    - "ALPHA_S_13D_IRREDUCIBLE: 13D window does not include PDG α_s(M_Z)=0.118"
+    - "DESI_DR3: monitoring; DR3 expected ~2027"
+    - "LiteBIRD β: primary falsifier; decision window ~2032"
+  closed_items:
+    - "RUNG10_NL_PARITY: discrete torsion twist removes n_w²≡1 (mod 2) obstruction (P932)"
+    - "RUNG10_MATTER_CURVE_CY4_GENUS: CY₄ APS genus correction vanishes (χ_fibre=0) (P933)"
+  next_pillar_slot: 942
