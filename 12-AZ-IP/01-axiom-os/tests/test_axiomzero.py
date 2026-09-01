@@ -28,9 +28,8 @@ from typing import Dict
 import pytest
 
 # Ensure AxiomZero package is importable
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
 
 
 # ===========================================================================

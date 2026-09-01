@@ -1,6 +1,6 @@
 /**
  * 18-interrogator.js — Axiom Zero Interrogator Engine
- * Pillar 791 / v23.1 — The Living Theory
+ * Pillar 791 / v25.5 — The Living Theory
  *
  * Three modes:
  *  1. Challenge Mode — search claims, see epistemic status + falsification

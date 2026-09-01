@@ -3,9 +3,9 @@
 """
 12-AZ-IP/21-geo-monitor/geo_monitor/engine/wm_feeds.py
 =======================================================
-UM Geophysical Monitor v3 — Extended Feed Parsers
+UM Geophysical Monitor v4 — Extended Feed Parsers
 
-New data domains added in v3:
+New data domains added in v4:
   - NOAA SWPC real-time Kp index (space weather / geomagnetic storms)
   - NOAA SWPC 3-day Kp forecast
   - GDACS (Global Disaster Alert and Coordination System — UN OCHA)
@@ -43,6 +43,8 @@ from typing import Any, Optional
 from urllib import request
 
 from .physics import GeoEvent, DISASTER_KINDS_MUTABLE
+from .firms_feed import fetch_firms_active_fires
+from .ionosphere_feed import get_ionospheric_status
 
 # ---------------------------------------------------------------------------
 # Namespace helpers for GDACS GeoRSS / Atom
@@ -420,22 +422,11 @@ def fetch_infrastructure_alerts() -> list[GeoEvent]:
 
 
 # ===========================================================================
-# Aggregate v3 feed loader
+# Aggregate v4 feed loader
 # ===========================================================================
 
-class GeoMonitorV3Feeds:
-    """
-    Aggregate all v3 feed parsers.
-
-    Usage
-    -----
-    feeds = GeoMonitorV3Feeds()
-    space_events = feeds.space_weather_events()   # always available
-    gdacs_events = feeds.gdacs_events()           # always available
-    cyber_events = feeds.cyber_events()           # always available
-    infra_events = feeds.infrastructure_events()  # WM_API_KEY required
-    kp           = feeds.current_kp()             # always available
-    """
+class GeoMonitorV4Feeds:
+    """Aggregate all v4 feed parsers and v4 science-monitor layers."""
 
     def __init__(self) -> None:
         self._swpc = SWPCFeedParser()
@@ -443,8 +434,15 @@ class GeoMonitorV3Feeds:
         self._cisa = CISAKEVParser()
 
     def current_kp(self) -> float:
-        """Return current planetary Kp index (0–9)."""
-        return self._swpc.get_current_kp_value()
+        """Return current planetary Kp index (0–9), with NOAA-product fallback."""
+        kp = self._swpc.get_current_kp_value()
+        if kp > 0:
+            return kp
+        return float(get_ionospheric_status().get('kp', 0.0))
+
+    def ionosphere_status(self) -> dict[str, Any]:
+        """Return the current ionosphere status summary."""
+        return get_ionospheric_status()
 
     def space_weather_events(self) -> list[GeoEvent]:
         """Return GeoEvents for active space-weather alerts."""
@@ -462,6 +460,24 @@ class GeoMonitorV3Feeds:
         except Exception:
             return []
 
+    def firms_fire_events(self, bbox: tuple = (-180, -90, 180, 90), days: int = 1) -> list[GeoEvent]:
+        """Return GeoEvents mapped from FIRMS active-fire detections."""
+        events: list[GeoEvent] = []
+        for fire in fetch_firms_active_fires(bbox=bbox, days=days):
+            try:
+                events.append(
+                    GeoEvent(
+                        kind='wildfire',
+                        magnitude=max(1.0, float(fire.get('frp', 0.0)) / 10.0),
+                        lat=float(fire.get('lat', 0.0)),
+                        lon=float(fire.get('lon', 0.0)),
+                        energy_J=float(fire.get('frp', 0.0)) * 1.0e9,
+                    )
+                )
+            except (TypeError, ValueError):
+                continue
+        return events
+
     def cyber_events(self, limit: int = 20) -> list[GeoEvent]:
         """Return GeoEvents from CISA KEV (cyber incidents)."""
         try:
@@ -476,3 +492,6 @@ class GeoMonitorV3Feeds:
     def cii_scores(self) -> dict[str, float]:
         """Return CII v8 country risk scores (empty if no WM_API_KEY)."""
         return fetch_cii_scores()
+
+
+GeoMonitorV3Feeds = GeoMonitorV4Feeds

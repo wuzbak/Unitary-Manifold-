@@ -30,3 +30,9 @@ python3 -m pytest 12-AZ-IP/02-az-kernel/tests/test_layout.py -q
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, kernel engineering, and consolidation: **GitHub Copilot** (AI).
+
+## Sprint BA integration
+
+- Aligned with **Unitary Manifold v25.5** / **Sprint BA**.
+- `SPRINT_BA_CONSTANTS.md` records the kernel-facing constants with honest status labels.
+- `az_kernel_sprint_ba.py` exports the constants as a Python dict and provides a self-testable validator.

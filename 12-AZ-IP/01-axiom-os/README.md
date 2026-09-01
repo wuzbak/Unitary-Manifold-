@@ -17,6 +17,12 @@ Unitary Manifold physics framework, and self-installs via a single bootstrap com
 dimensions enrich 4D spacetime without abolishing it, AxiomZero enriches your existing
 OS with a physics-grounded intelligence layer.
 
+## Sprint BA Integration (Unitary Manifold v25.5)
+
+- Targets **Unitary Manifold v25.5** with explicit **Sprint BA** bookkeeping.
+- Ships `AxiomZero.sprint_ba_status` for the full **P837–P860** window.
+- Uses only honest status labels: **CLOSED**, **PARTIAL**, **OPEN**.
+
 ---
 
 ## Quick Start — The Uncompactification Event

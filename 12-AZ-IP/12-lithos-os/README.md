@@ -90,3 +90,14 @@ Both are part of the AxiomZero Earth Science diagnostic loop.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## Open mineral data
+
+- `lithos_os/engine/open_mineral_data.py` provides a 30-mineral Raman reference table, best-match identification, and orbifold boundary-condition lookups.
+- The RRUFF download URL is carried as a reference pointer for open spectral workflows.
+
+## KK crystal analogy
+
+- `lithos_os/engine/crystal_symmetry.py` maps the seven crystal systems onto 5D KK orbifold boundary-condition analogies (`Z1`, `Z2`, `Z2xZ2`, `Z3`, `Z4`, `Z6`).
