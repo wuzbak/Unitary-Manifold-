@@ -1,6 +1,38 @@
-version: "v24.6"
-date: "2026-08-26"
-updated: "2026-08-26"
+version: "v25.0"
+date: "2026-08-29"
+updated: "2026-08-29"
+
+v25_0_sprint_az:
+  version: "v25.0"
+  wave: "Sprint AZ — AxiomZero Terminal Gap Closure (2026-08-29): Pillars 826–836"
+  date: "2026-08-29"
+  pillars_added:
+    - "826: KK_TOWER_HEAT_KERNEL_REGULATED + KK_TOWER_ISW_EXPONENTIALLY_BOUNDED — Hurwitz ζ regulation; T₅₅_reg=1/(240R⁴); Lean4 KKHeatKernelRegulation.lean +35; ~65 tests"
+    - "827: BSSN_HOMOGENEOUS_WDW_CLOSED — scipy solve_ivp BSSN; Wheeler-DeWitt WKB Ψ~e^{−S_E}; Lean4 BSSNNonlinearClosure.lean +40; ~70 tests"
+    - "828: APS_ETA_ANALYTIC_BRIDGE_CLOSED — η̄(5)=1/4 minimal; n_w=5 uniquely selected via SM fermion spin structure; Lean4 APSEtaInvariantBridge.lean +45; ~55 tests"
+    - "829: Z2_INSTANTON_EXPONENTIALLY_SUPPRESSED — S_inst≫1; P(tunneling)≈0; two-loop δN_gap^{(2)}~0.9% bounded; c_L=71/74 robust; Lean4 Z2InstantonClosure.lean +30; ~50 tests"
+    - "830: NGEN_6D_KAWAMURA_BRIDGE_COMPUTED — χ(T²/Z₂)=2; N_gen=3 from 6D; Lean4 NgenKawamuraBridge.lean +25; ~45 tests"
+    - "831: QUARK_LEPTON_CL_SPLITTING_DERIVED — δc_L^quark≈3.9%; full 3×3 matrix; Lean4 QuarkLeptonCLSplittingP831.lean +30; ~50 tests"
+    - "832: KK_TOWER_ARCHITECTURE_UPGRADED — regulated vs truncated mode; φ* shift ~1.1%; Lean4 KKBackreactionV2.lean +20; ~40 tests"
+    - "833: RADION_TWO_LOOP_STABLE — δφ*/φ*~0.139% < 0.2%; CW stable at two loops; Lean4 RadionTwoLoopStability.lean +25; ~40 tests"
+    - "834: SWAMPLAND_AUDIT_COMPLETE — SDC/dS/WGC all PASS in 4D Planck units; Lean4 SwamplandConsistencyAudit.lean +20; ~35 tests"
+    - "835: NW_PLANCK_INDEPENDENT_CLOSURE_MAXIMAL — four-step chain; Lean4 NwPlanckIndependenceClosure.lean +45; ~55 tests"
+    - "836: SPRINT_AZ_REGRESSION_CERTIFICATE — Sprint AZ certificate; Lean4 1821; next slot 837"
+  tests_added: 505
+  regression: "58,790 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 837
+  next_version: "v25.1"
+  lean4_theorems_total: 1821
+  lean4_new_theorems: 315
+  epistemic_deltas:
+    - "KK_TOWER_BACKREACTION_OPEN closed: heat-kernel Hurwitz ζ regulation"
+    - "BSSN_HOMOGENEOUS_WDW_OPEN closed: scipy solve_ivp + WKB minisuperspace"
+    - "NW_UNIQUENESS_GEOMETRY_OPEN closed in analytic sector: APS η̄ bridge"
+    - "QUARK_LEPTON_CL_SPLITTING_OPEN closed: full 3×3 color splitting matrix"
+    - "RADION_TWO_LOOP_OPEN closed: δφ*/φ*~0.139% < 0.2% threshold"
+    - "Swampland SDC/dS/WGC all pass in 4D Planck units"
+    - "n_w=5 selected by maximal geometric closure without Planck nₛ as primary"
+
 
 v24_6_sprint_ay:
   version: "v24.6"

@@ -20,11 +20,12 @@ automatically by pytest's tmp_path fixture.
 import importlib
 import os
 
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
 import pytest
+
+matplotlib = pytest.importorskip("matplotlib", reason="matplotlib not installed")
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 
 # ---------------------------------------------------------------------------
