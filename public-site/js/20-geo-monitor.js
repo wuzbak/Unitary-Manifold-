@@ -383,9 +383,6 @@ function parseNWAC(data) {
   return out;
 }
 
-  return out;
-}
-
 // ─── NOAA SWPC Parser (v3) ────────────────────────────────────────────────────
 function parseSWPCKp(data) {
   if (!Array.isArray(data) || !data.length) return [];

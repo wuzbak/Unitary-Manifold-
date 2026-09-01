@@ -308,7 +308,6 @@ def parse_cisa_kev(data: dict, limit: int = 20) -> list[GeoEvent]:
             # Use a nominal magnitude of 7.0 (critical exploit) unless we can
             # infer a CVSS score from the description.
             mag = 7.0
-            name = vuln.get("vulnerabilityName", "Unknown CVE")
             events.append(GeoEvent(
                 kind="cyber",
                 magnitude=mag,
