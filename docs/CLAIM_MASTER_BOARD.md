@@ -1,9 +1,33 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v24.5
+# Unitary Manifold v29.0
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-08-26 (v24.6 — Sprint AY: Pillars 820–825. P820 ISW_NLO_PERTURBATIVE_CLOSED; P821 Z2_NGAP_NLO_CONFIRMED; P822 NW_NARROWED_TO_5_7_GEOMETRIC; P823 NGEN_5D_EFT_NOGO_PROVED; P824 DESI_DR3_PREREGISTERED; Lean4 +95 (1411→1506); 227 new tests; ~58,790 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-01 (v29.0 — Sprint BE: Pillars 919–930 (12 pillars). CKM Resolution Attempt, α_s 13D Closure, F-theory Rung 10, Observational Readiness. Lean4 +120 (3276→3396); ~255 new tests; ~61,261 passed · 45 skipped · 12 deselected · 0 failed. PMNS_ORDERING_PROXY_OPEN CLOSED (P927); KK_TOWER_ISW_OPEN CLOSED (P928). Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P930 (v29.0): Sprint BE Regression Certificate — SPRINT_BE_REGRESSION_CERTIFICATE. `src/core/pillar930_sprint_be_regression_certificate.py` certifies Sprint BE (12 pillars 919–930; ~255 new tests; Lean4 +120 (3276→3396); next slot 931; v29.0).*
+
+*P929 (v29.0): Lean4 Sprint BE Bridge — LEAN4_SPRINT_BE_BRIDGE. `lean4/UnitaryManifold/SprintBEBridge.lean` — 120 proxy theorems across 11 sections covering CKM Yukawa, α_s NP, N_gen second CY₄, Rung 10 gates, DESI monitor, neutrino ordering, CMB KK tower. Lean4 +120 (3276→3396).*
+
+*P928 (v29.0): CMB KK Tower NLO — CMB_AMP_KK1_NEGLIGIBLE. `src/core/pillar928_cmb_amp_kk_tower_nlo.py` — n=1 KK mode Boltzmann-suppressed: δA_s/A_s^{n=1}≈0, architecture limit unchanged. KK_TOWER_ISW_OPEN from Pillar 820 formally CLOSED.*
+
+*P927 (v29.0): Neutrino Mass Ordering NLO Audit — PMNS_ORDERING_NO_NLO_STABLE. `src/core/pillar927_neut_mass_ordering_nlo_audit.py` — 7D monodromy NLO correction to Δm²₃₁ is sub-percent; Normal Ordering proxy NLO-stable. PMNS_ORDERING_PROXY_OPEN from Sprint BB CLOSED.*
+
+*P926 (v29.0): DESI DR3 Live Monitor Update — DESI_DR3_MONITORING. `src/core/pillar926_desi_dr3_live_monitor_update.py` — σ∈[2.30, 2.75] TENSION (below 3σ); DR3 data expected ~2027; tripwire active.*
+
+*P925 (v29.0): F-theory Rung 10 Certificate — FTHEORY_RUNG10_CERTIFICATE. `src/core/pillar925_ftheory_rung10_certificate.py` — aggregates Pillars 922–924; RUNG10_PROVED if all 3 resolved, RUNG10_PARTIAL otherwise.*
+
+*P924 (v29.0): F-theory Rung 10 G₄ Flux — FTHEORY_RUNG10_G4_FLUX_CY4. `src/core/pillar924_ftheory_rung10_g4_flux_cy4.py` — G₄ flux quantization and primitivity check on reference CY₄.*
+
+*P923 (v29.0): F-theory Rung 10 Matter-Curve Genus — RUNG10_MATTER_CURVE_OBSTRUCTION. `src/core/pillar923_ftheory_rung10_matter_curve_cy4.py` — CY₄ genus correction O(10³) from χ(CY₄)/576 — RUNG10_GENUS_CY4_OBSTRUCTION.*
+
+*P922 (v29.0): F-theory Rung 10 Spectral Cover — RUNG10_GLOBAL_OPEN. `src/core/pillar922_ftheory_rung10_spectral_cover_global.py` — NL parity obstruction: n_w²=25≡1 (mod 2) — RUNG10_NL_PARITY_OBSTRUCTION.*
+
+*P921 (v29.0): N_gen APS Index on Second CY₄ — NGEN_13D_APS_SECOND_CY4. `src/core/pillar921_ngen_13d_aps_second_cy4.py` — APS index on Schoen-type CY₄ (χ=480) tests geometry-dependence of N_gen degeneracy.*
+
+*P920 (v29.0): α_s 13D NP Bound — ALPHA_S_13D_NONPERTURBATIVE_BOUND. `src/core/pillar920_alpha_s_13d_nonperturbative_bound.py` — instanton correction to α_s window; ALPHA_S_13D_CLOSED or ALPHA_S_13D_NP_IRREDUCIBLE.*
+
+*P919 (v29.0): CKM 13D Yukawa Texture Audit — CKM_13D_YUKAWA_TEXTURE_AUDIT. `src/core/pillar919_ckm_13d_yukawa_texture_audit.py` — unified FN+Sp(2,ℝ) Yukawa texture with SVD cross-check; honest CLOSED/PARTIAL_TENSION/IRREDUCIBLE_ARCHITECTURE_LIMIT.*
 
 *P825 (v24.6): Sprint AY Regression Certificate — SPRINT_AY_REGRESSION_CERTIFICATE. `src/core/pillar825_sprint_ay_regression_certificate.py` certifies Sprint AY (5 pillars; 227 new tests; Lean4 +95 (1411→1506); next slot 826).*
 

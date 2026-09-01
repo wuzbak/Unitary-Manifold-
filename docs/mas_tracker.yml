@@ -7893,3 +7893,55 @@ v10_32_p16_promotion:
     - "LiteBIRD β: primary falsifier; decision window ~2032"
   next_pillar_slot: 613
   next_substack_post: "#282 S03E060"
+
+# v29.0 Sprint BE — CKM Resolution Attempt, α_s 13D Closure, F-theory Rung 10, and Observational Readiness
+- sprint_id: "v29.0"
+  name: "Sprint BE — CKM Resolution Attempt, α_s 13D Closure, F-theory Rung 10, and Observational Readiness"
+  status: "COMPLETE"
+  completed: "2026-09-01"
+  lean4_theorems_total: 3396
+  regression_total: "~61,261 passed · 45 skipped · 12 deselected · 0 failed"
+  summary: >
+    Pillars 919–930 (12 pillars). CKM Yukawa texture audited (unified FN+Sp(2,R));
+    α_s NP instanton bound computed; N_gen geometry-dependence audited (second CY₄);
+    F-theory Rung 10: G₄ flux addressed, spectral-cover NL parity and matter-curve CY₄
+    genus remain open; DESI DR3 monitoring updated (σ∈[2.30,2.75] TENSION);
+    neutrino ordering NLO-stable (PMNS_ORDERING_PROXY_OPEN CLOSED);
+    CMB KK tower negligible (KK_TOWER_ISW_OPEN CLOSED; architecture limit confirmed);
+    Lean4 +120 (3276→3396); ~255 new tests; 0 failures.
+  deliverables:
+    - artifact: "src/core/pillar919_ckm_13d_yukawa_texture_audit.py"
+      gate: "CKM_13D_YUKAWA_TEXTURE_AUDIT"
+    - artifact: "src/core/pillar920_alpha_s_13d_nonperturbative_bound.py"
+      gate: "ALPHA_S_13D_NONPERTURBATIVE_BOUND"
+    - artifact: "src/core/pillar921_ngen_13d_aps_second_cy4.py"
+      gate: "NGEN_13D_APS_SECOND_CY4"
+    - artifact: "src/core/pillar922_ftheory_rung10_spectral_cover_global.py"
+      gate: "FTHEORY_RUNG10_SPECTRAL_COVER_GLOBAL"
+    - artifact: "src/core/pillar923_ftheory_rung10_matter_curve_cy4.py"
+      gate: "FTHEORY_RUNG10_MATTER_CURVE_CY4"
+    - artifact: "src/core/pillar924_ftheory_rung10_g4_flux_cy4.py"
+      gate: "FTHEORY_RUNG10_G4_FLUX_CY4"
+    - artifact: "src/core/pillar925_ftheory_rung10_certificate.py"
+      gate: "FTHEORY_RUNG10_CERTIFICATE"
+    - artifact: "src/core/pillar926_desi_dr3_live_monitor_update.py"
+      gate: "DESI_DR3_LIVE_MONITOR_UPDATE"
+    - artifact: "src/core/pillar927_neut_mass_ordering_nlo_audit.py"
+      gate: "NEUT_MASS_ORDERING_NLO_AUDIT"
+    - artifact: "src/core/pillar928_cmb_amp_kk_tower_nlo.py"
+      gate: "CMB_AMP_KK_TOWER_NLO"
+    - artifact: "lean4/UnitaryManifold/SprintBEBridge.lean"
+      lean4_theorems: 120
+    - artifact: "src/core/pillar930_sprint_be_regression_certificate.py"
+      gate: "SPRINT_BE_REGRESSION_CERTIFICATE"
+  open_items:
+    - "CKM_TEXTURE_13D_OPEN: unified FN+Sp(2,R) does not fully reproduce PDG CKM"
+    - "CMB_PEAK_AMPLITUDE_OPEN: architecture limit unchanged"
+    - "RUNG10_SPECTRAL_COVER_NL_PARITY: n_w²=25≡1 (mod 2) obstruction"
+    - "RUNG10_MATTER_CURVE_CY4_GENUS: O(10³) genus correction blocks Rung 9 formula"
+    - "DESI_DR3: monitoring; σ∈[2.30,2.75]; DR3 expected ~2027"
+    - "LiteBIRD β: primary falsifier; decision window ~2032"
+  closed_items:
+    - "PMNS_ORDERING_PROXY_OPEN: closed by Pillar 927 (NLO-stable Normal Ordering)"
+    - "KK_TOWER_ISW_OPEN: closed by Pillar 928 (Boltzmann-negligible)"
+  next_pillar_slot: 931
