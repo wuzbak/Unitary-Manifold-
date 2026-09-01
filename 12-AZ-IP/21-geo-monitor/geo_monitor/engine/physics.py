@@ -58,6 +58,21 @@ BASIN_WIDTH_RAD: float = 2 * math.pi / WINDING_NUMBER    # 2π/5
 PHI_DEBT_DECAY_RATE: float = 0.15   # per characteristic time
 PHI_DEBT_ALIGNMENT_FLOOR: float = 0.30
 
+# Pillar 807 — backreacted radion CMB phase damping (spatial smoothing kernel)
+# Used as a spatial smoothing length-scale for the Convergence Index map.
+# D(ℓ) ≈ 1 at CMB scales; the geophysical analogue uses a characteristic
+# correlation radius of ~500 km (normalised to Earth radius 6371 km).
+P807_DAMPING_RADIUS_KM: float = 500.0        # correlation radius [km]
+P807_EARTH_RADIUS_KM: float = 6371.0
+P807_DAMPING_SIGMA: float = P807_DAMPING_RADIUS_KM / P807_EARTH_RADIUS_KM  # ≈ 0.0785
+
+# Convergence Index — cross-stream weights
+# Combines φ-debt (Pillar 16) + Kp space-weather + geopolitical CII stress.
+# All weights sum to 1.0; each component is normalised to [0, 1].
+CI_WEIGHT_PHI_DEBT: float = 0.50    # geophysical φ-debt contribution
+CI_WEIGHT_KP: float = 0.30          # Kp space-weather contribution
+CI_WEIGHT_CII: float = 0.20         # CII geopolitical stress contribution
+
 # Geophysical energy conversions (SI)
 JOULES_PER_RICHTER_UNIT: float = 10 ** (1.5)   # Gutenberg-Richter exponent base
 RICHTER_REF_ENERGY_J: float = 10 ** 4.8         # 1 μJ reference (Richter 0)
@@ -67,16 +82,24 @@ HURRICANE_ENERGY_PER_CATEGORY_J: float = 5.0e18  # Saffir-Simpson scale step
 # Planck energy (for normalisation to natural units)
 PLANCK_ENERGY_J: float = 1.9561e9               # 1 Planck energy in Joules
 
+# Space-weather energy scaling (Dessler-Parker-Sckopke analogue)
+KP_ENERGY_BASE: float = 10 ** 13.0              # J at Kp = 0
+KP_ENERGY_EXPONENT: float = 0.8                 # per Kp unit
+
 
 # ---------------------------------------------------------------------------
 # Data structures
 # ---------------------------------------------------------------------------
 
-DISASTER_KINDS = frozenset(
-    ["earthquake", "wildfire", "hurricane", "tornado", "flood",
-     "tsunami", "volcano", "drought", "landslide", "storm",
-     "avalanche", "nws_alert"]
-)
+# Mutable set so wm_feeds.py can extend without breaking the frozen sentinel
+DISASTER_KINDS_MUTABLE: set[str] = {
+    "earthquake", "wildfire", "hurricane", "tornado", "flood",
+    "tsunami", "volcano", "drought", "landslide", "storm",
+    "avalanche", "nws_alert",
+    # v3 extensions
+    "space_weather", "infrastructure", "cyber",
+}
+DISASTER_KINDS: frozenset[str] = frozenset(DISASTER_KINDS_MUTABLE)
 
 # Avalanche energy conversion: danger level 1-5
 AVALANCHE_ENERGY_PER_DANGER_LEVEL_J: float = 5.0e11   # ~500 GJ at danger 5
@@ -137,6 +160,16 @@ class GeoEvent:
             return AVALANCHE_ENERGY_PER_DANGER_LEVEL_J * (self.magnitude ** 2)
         if kind == "nws_alert":
             return HURRICANE_ENERGY_PER_CATEGORY_J * (self.magnitude ** 1.5)
+        # v3 extensions
+        if kind == "space_weather":
+            # Dessler-Parker-Sckopke analogue: E ≈ 10^(0.8·Kp + 13) J
+            return KP_ENERGY_BASE * (10 ** (KP_ENERGY_EXPONENT * self.magnitude))
+        if kind == "infrastructure":
+            # Severity 0–10 → energy proxy (industrial disruption scale)
+            return 10 ** (1.2 * self.magnitude + 12.0)
+        if kind == "cyber":
+            # CVSS 0–10 → energy proxy (economic disruption scale)
+            return 10 ** (1.0 * self.magnitude + 11.0)
         # Default: generic energy scaling
         return 10 ** (1.5 * self.magnitude + 4.8)
 
@@ -255,6 +288,123 @@ def analyse_event_batch(events: list[GeoEvent]) -> list[UMOverlayResult]:
     """Run UMGeoOverlay on a list of GeoEvents and return results."""
     overlay = UMGeoOverlay()
     return [overlay.analyse(ev) for ev in events]
+
+
+# ---------------------------------------------------------------------------
+# Convergence Index (v3) — cross-stream regional stress score
+# ---------------------------------------------------------------------------
+
+@dataclass
+class ConvergenceResult:
+    """
+    UM Convergence Index for a geographic point.
+
+    Combines:
+      • φ-debt component   (Pillar 16 analogue, weight 0.50)
+      • Kp space-weather   (NOAA SWPC, weight 0.30)
+      • CII geopolitical   (WorldMonitor CII v8, weight 0.20)
+
+    Spatial smoothing uses the Pillar 807 damping kernel
+    (characteristic radius ~500 km, sigma ≈ 0.0785 in Earth-normalised units).
+
+    index ∈ [0, 1]; values > 0.7 trigger the pulsing-halo alert on the map.
+
+    🔵 ADJACENT TRACK — not a hardgate physics claim.
+    """
+    lat: float
+    lon: float
+    index: float = 0.0          # [0, 1]
+    phi_component: float = 0.0  # normalised φ-debt contribution
+    kp_component: float = 0.0   # normalised Kp contribution
+    cii_component: float = 0.0  # normalised CII contribution
+    alert: bool = False         # True when index > 0.7
+    epistemic_label: str = (
+        "🔵 ADJACENT TRACK — Convergence Index is a geometric analogue. "
+        "Not a hardgate UM physics claim."
+    )
+
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle distance in km between two lat/lon points."""
+    R = P807_EARTH_RADIUS_KM
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (math.sin(dlat / 2) ** 2 +
+         math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
+         math.sin(dlon / 2) ** 2)
+    return 2 * R * math.asin(math.sqrt(a))
+
+
+def _p807_weight(dist_km: float) -> float:
+    """
+    Pillar 807 spatial smoothing kernel weight for a given distance.
+    Gaussian with σ = P807_DAMPING_RADIUS_KM.
+    """
+    return math.exp(-0.5 * (dist_km / P807_DAMPING_RADIUS_KM) ** 2)
+
+
+def compute_convergence_index(
+    lat: float,
+    lon: float,
+    overlay_results: list["UMOverlayResult"],
+    kp: float = 0.0,
+    cii_score: float = 0.0,
+) -> ConvergenceResult:
+    """
+    Compute the UM Convergence Index at (lat, lon).
+
+    Parameters
+    ----------
+    lat, lon : float
+        Geographic point of interest.
+    overlay_results : list[UMOverlayResult]
+        UM overlay results for nearby GeoEvents.
+    kp : float
+        Current planetary Kp index (0–9); from NOAA SWPC.
+    cii_score : float
+        WorldMonitor CII v8 score for the country (0–100);
+        0 if WM_API_KEY is not available.
+
+    Returns
+    -------
+    ConvergenceResult with index ∈ [0, 1].
+    """
+    result = ConvergenceResult(lat=lat, lon=lon)
+
+    # ---- φ-debt component (Pillar 16) ------------------------------------
+    # Weighted sum of nearby event φ-debt, using P807 spatial kernel.
+    weighted_phi = 0.0
+    total_weight = 0.0
+    for r in overlay_results:
+        dist = _haversine_km(lat, lon, r.event.lat, r.event.lon)
+        w = _p807_weight(dist)
+        weighted_phi += w * r.phi_debt_injection
+        total_weight += w
+    if total_weight > 0:
+        avg_phi = weighted_phi / total_weight
+    else:
+        avg_phi = 0.0
+    # Normalise: saturates at phi_debt ≈ 1e-15 (HIGH confidence threshold)
+    phi_norm = min(1.0, avg_phi / 1e-15)
+    result.phi_component = phi_norm
+
+    # ---- Kp component (space weather) ------------------------------------
+    kp_norm = min(1.0, max(0.0, kp / 9.0))
+    result.kp_component = kp_norm
+
+    # ---- CII component (geopolitical risk) --------------------------------
+    cii_norm = min(1.0, max(0.0, cii_score / 100.0))
+    result.cii_component = cii_norm
+
+    # ---- Weighted sum -----------------------------------------------------
+    index = (
+        CI_WEIGHT_PHI_DEBT * phi_norm +
+        CI_WEIGHT_KP * kp_norm +
+        CI_WEIGHT_CII * cii_norm
+    )
+    result.index = min(1.0, max(0.0, index))
+    result.alert = result.index > 0.7
+    return result
 
 
 # ---------------------------------------------------------------------------

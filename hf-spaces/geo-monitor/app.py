@@ -54,12 +54,21 @@ PLANCK_ENERGY_J              = 1.9561e9
 WILDFIRE_ENERGY_PER_HA_J     = 8.0e10
 HURRICANE_ENERGY_PER_CAT_J   = 5.0e18
 AVALANCHE_ENERGY_PER_LVL_J   = 5.0e11
+# v3 — space weather
+KP_ENERGY_BASE               = 10 ** 13.0
+KP_ENERGY_EXPONENT           = 0.8
+# v3 — Convergence Index
+P807_DAMPING_RADIUS_KM       = 500.0
+EARTH_RADIUS_KM              = 6371.0
+CI_WEIGHT_PHI                = 0.50
+CI_WEIGHT_KP                 = 0.30
+CI_WEIGHT_CII                = 0.20
 
-VERSION = "v2.0"
+VERSION = "v3.0"
 EPISTEMIC = (
     "\n\n---\n"
     "*🔵 ADJACENT TRACK — UM physics overlays are geometric analogues applied to "
-    "geophysics. Not hardgate physics claims. Sources: P806, P786, P16, P808.*\n"
+    "geophysics. Not hardgate physics claims. Sources: P806, P786, P16, P807, P808.*\n"
     f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION}*"
 )
 
@@ -68,9 +77,12 @@ USGS_EQ_URL  = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_mo
 EONET_URL    = "https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=200&days=30"
 NOAA_NWS_URL = "https://api.weather.gov/alerts/active"
 NWAC_URL     = "https://api.avalanche.org/v2/public/products?avalanche_center_id=NWAC"
+# v3 — NOAA SWPC (no API key required)
+SWPC_KP_URL     = "https://services.swpc.noaa.gov/json/planetary_k_index_1m.json"
+SWPC_ALERTS_URL = "https://services.swpc.noaa.gov/products/alerts.json"
 
 HEADERS = {
-    "User-Agent": "UM-GeoMonitor-HF/2.0 (open-science; axiomzero.com)",
+    "User-Agent": "UM-GeoMonitor-HF/3.0 (open-science; axiomzero.com)",
     "Accept": "application/geo+json, application/json",
 }
 
@@ -311,10 +323,258 @@ def _parse_nwac(data: Any) -> list[dict]:
     return rows
 
 
+# ── v3 — Space Weather / SWPC Helpers ─────────────────────────────────────────
+
+def _kp_to_energy_j(kp: float) -> float:
+    """Dessler-Parker-Sckopke analogue: E ≈ 10^(0.8·Kp + 13) J."""
+    return KP_ENERGY_BASE * (10 ** (KP_ENERGY_EXPONENT * kp))
+
+
+def _g_scale(kp: float) -> str:
+    if kp >= 9: return "G5"
+    if kp >= 8: return "G4"
+    if kp >= 7: return "G3"
+    if kp >= 6: return "G2"
+    if kp >= 5: return "G1"
+    return "Quiet"
+
+
+def _fetch_space_weather() -> dict | None:
+    """Fetch NOAA SWPC 1-minute Kp; return event dict if storm-level (Kp ≥ 4)."""
+    data = _fetch_json(SWPC_KP_URL)
+    if not data:
+        return None
+    latest = data[-1]
+    kp = float(latest.get("kp_index", 0))
+    if kp < 4.0:
+        return None
+    E_si = _kp_to_energy_j(kp)
+    overlay = _compute_overlay("space_weather", kp)
+    return {
+        "kind": "space_weather", "layer": "space",
+        "magnitude": kp, "lat": 90.0, "lon": 0.0, "depth_km": None,
+        "place": f"Geomagnetic storm — Kp {kp:.1f} ({_g_scale(kp)})",
+        "time": latest.get("time_tag", ""),
+        "url": "https://www.swpc.noaa.gov/",
+        "source": "NOAA SWPC",
+        "icon": "🌐", "color": "#c084fc",
+        **overlay,
+    }
+
+
+def get_space_weather_status() -> dict:
+    """
+    Return current space-weather status for /api/space-weather endpoint.
+    Includes Kp index, G-scale, active alerts, and UM φ-debt overlay.
+    """
+    result: dict = {
+        "kp": 0.0,
+        "g_scale": "Quiet",
+        "storm_level": False,
+        "alerts": [],
+        "um_overlay": {},
+        "epistemic": "🔵 ADJACENT TRACK — not a hardgate UM physics claim",
+    }
+    try:
+        kp_data = _fetch_json(SWPC_KP_URL)
+        if kp_data:
+            kp = float(kp_data[-1].get("kp_index", 0))
+            result["kp"] = kp
+            result["g_scale"] = _g_scale(kp)
+            result["storm_level"] = kp >= 5
+            result["um_overlay"] = _compute_overlay("space_weather", kp)
+    except Exception as e:
+        result["error_kp"] = str(e)
+
+    try:
+        alerts = _fetch_json(SWPC_ALERTS_URL)
+        G_LABELS = {5: "G1", 6: "G2", 7: "G3", 8: "G4", 9: "G5"}
+        for alert in (alerts or []):
+            msg = alert.get("message", "")
+            for kp_int, label in G_LABELS.items():
+                if label in msg or f"Kp {kp_int}" in msg:
+                    result["alerts"].append({
+                        "label": label,
+                        "message": msg[:200],
+                        "issue_time": alert.get("issue_time", ""),
+                    })
+                    break
+    except Exception as e:
+        result["error_alerts"] = str(e)
+
+    return result
+
+
+# ── v3 — Convergence Index ─────────────────────────────────────────────────────
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle distance in km."""
+    R = EARTH_RADIUS_KM
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (math.sin(dlat / 2) ** 2 +
+         math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
+         math.sin(dlon / 2) ** 2)
+    return 2 * R * math.asin(math.sqrt(max(0, a)))
+
+
+def _p807_weight(dist_km: float) -> float:
+    """Pillar 807 Gaussian spatial kernel."""
+    return math.exp(-0.5 * (dist_km / P807_DAMPING_RADIUS_KM) ** 2)
+
+
+def get_convergence_at(lat: float, lon: float,
+                       events: list[dict] | None = None,
+                       kp: float = 0.0,
+                       cii_score: float = 0.0) -> dict:
+    """
+    Compute UM Convergence Index at (lat, lon).
+
+    Parameters
+    ----------
+    lat, lon : Geographic point.
+    events   : Pre-loaded event rows; if None, loads all feeds.
+    kp       : Current Kp (auto-fetched if 0 and events is None).
+    cii_score: WorldMonitor CII v8 score 0–100 (0 = unknown).
+
+    Returns dict with index ∈ [0,1], component scores, and alert flag.
+    🔵 ADJACENT TRACK — not a hardgate UM physics claim.
+    """
+    if events is None:
+        try:
+            rows, _ = load_all_events()
+            events = rows
+        except Exception:
+            events = []
+
+    if kp == 0.0:
+        try:
+            sw = get_space_weather_status()
+            kp = sw.get("kp", 0.0)
+        except Exception:
+            kp = 0.0
+
+    # φ-debt component — P807 spatially smoothed
+    w_phi = 0.0
+    w_total = 0.0
+    for ev in events:
+        dist = _haversine_km(lat, lon, ev.get("lat", 0), ev.get("lon", 0))
+        w = _p807_weight(dist)
+        phi = ev.get("phi_debt", 0.0)
+        w_phi += w * phi
+        w_total += w
+    avg_phi = (w_phi / w_total) if w_total > 0 else 0.0
+    phi_norm = min(1.0, avg_phi / 1e-15)
+
+    kp_norm  = min(1.0, max(0.0, kp / 9.0))
+    cii_norm = min(1.0, max(0.0, cii_score / 100.0))
+
+    index = CI_WEIGHT_PHI * phi_norm + CI_WEIGHT_KP * kp_norm + CI_WEIGHT_CII * cii_norm
+    index = min(1.0, max(0.0, index))
+
+    return {
+        "lat": lat,
+        "lon": lon,
+        "index": round(index, 4),
+        "phi_component": round(phi_norm, 4),
+        "kp_component": round(kp_norm, 4),
+        "cii_component": round(cii_norm, 4),
+        "alert": index > 0.70,
+        "kp": round(kp, 2),
+        "cii_score": cii_score,
+        "epistemic": (
+            "🔵 ADJACENT TRACK — Convergence Index combines Pillar 16 φ-debt, "
+            "Kp space-weather, and CII geopolitical stress. "
+            "Not a hardgate UM physics claim."
+        ),
+    }
+
+
+# ── v3 — Infrastructure Placeholder ───────────────────────────────────────────
+
+def get_infrastructure_alerts() -> dict:
+    """
+    Return infrastructure alert summary.
+    CISA KEV count is always available; WorldMonitor data requires WM_API_KEY.
+    """
+    import os
+    result: dict = {
+        "cisa_kev_available": True,
+        "wm_api_available": bool(os.environ.get("WM_API_KEY")),
+        "alerts": [],
+        "note": (
+            "Set WM_API_KEY env var to enable WorldMonitor infrastructure feed. "
+            "CISA KEV: https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        ),
+        "epistemic": "🔵 ADJACENT TRACK — not a hardgate UM physics claim",
+    }
+    try:
+        kev = _fetch_json(
+            "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+        )
+        vulns = kev.get("vulnerabilities", [])
+        recent = sorted(vulns, key=lambda v: v.get("dateAdded", ""), reverse=True)[:5]
+        result["alerts"] = [
+            {
+                "source": "CISA KEV",
+                "name": v.get("vulnerabilityName", ""),
+                "date_added": v.get("dateAdded", ""),
+                "product": v.get("product", ""),
+            }
+            for v in recent
+        ]
+    except Exception as e:
+        result["cisa_error"] = str(e)
+    return result
+
+
+# ── Energy helper for v3 kinds ─────────────────────────────────────────────────
+
+def _energy_si_v3(kind: str, magnitude: float) -> float:
+    """Extended energy_si supporting v3 kinds."""
+    k = kind.lower()
+    if k == "space_weather":
+        return KP_ENERGY_BASE * (10 ** (KP_ENERGY_EXPONENT * magnitude))
+    if k == "infrastructure":
+        return 10 ** (1.2 * magnitude + 12.0)
+    if k == "cyber":
+        return 10 ** (1.0 * magnitude + 11.0)
+    # Delegate to existing helper
+    return _energy_si(kind, magnitude)
+
+
+# Patch _compute_overlay to delegate new kinds
+_orig_compute_overlay = _compute_overlay
+
+def _compute_overlay(kind: str, magnitude: float, depth_km: float | None = None) -> dict:
+    # For v3 kinds without existing energy branch, compute directly
+    k = kind.lower()
+    if k in ("space_weather", "infrastructure", "cyber"):
+        E_si = _energy_si_v3(k, magnitude)
+        E_planck = E_si / PLANCK_ENERGY_J
+        E_log = math.log10(max(E_si, 1.0))
+        phi_debt = E_planck * (1.0 - math.exp(-PHI_DEBT_DECAY_RATE * E_log))
+        phi_alignment = max(PHI_DEBT_ALIGNMENT_FLOOR,
+                            min(1.0, math.exp(-PHI_DEBT_DECAY_RATE * E_planck)))
+        radion_amp = RADION_COUPLING_ALPHA * abs(math.log10(max(E_si, 1.0) / PLANCK_ENERGY_J))
+        suppression = min(math.exp(RADION_COUPLING_ALPHA * radion_amp), RADION_QCD_SUPPRESSION)
+        basin_pert = radion_amp / BASIN_DEPTH
+        winding_stab = max(0.0, 1.0 - min(basin_pert, 1.0))
+        w_a_local = -radion_amp * (BRAIDED_SOUND_SPEED ** 2)
+        confidence = "LOW" if E_planck < 1e-18 else ("MEDIUM" if E_planck < 1e-15 else "HIGH")
+        return {
+            "phi_debt": phi_debt, "phi_alignment": phi_alignment,
+            "radion_amp": radion_amp, "suppression": suppression,
+            "basin_pert": basin_pert, "winding_stab": winding_stab,
+            "w_a_local": w_a_local, "confidence": confidence,
+        }
+    return _orig_compute_overlay(kind, magnitude, depth_km)
+
+
 # ── Data Loader ────────────────────────────────────────────────────────────────
 
 def load_all_events(pnw_only: bool = False) -> tuple[list[dict], str]:
-    """Fetch all feeds and return (rows, status_message)."""
+    """Fetch all feeds (v3: includes NOAA SWPC) and return (rows, status_message)."""
     errors = []
     rows: list[dict] = []
 
@@ -337,6 +597,14 @@ def load_all_events(pnw_only: bool = False) -> tuple[list[dict], str]:
         rows += _parse_nwac(_fetch_json(NWAC_URL))
     except Exception as e:
         errors.append(f"NWAC: {e}")
+
+    # v3 — space weather
+    try:
+        sw = _fetch_space_weather()
+        if sw:
+            rows.append(sw)
+    except Exception as e:
+        errors.append(f"SWPC: {e}")
 
     if pnw_only:
         rows = [r for r in rows
@@ -623,6 +891,54 @@ with gr.Blocks(title="UM Geophysical Monitor", theme=gr.themes.Base()) as demo:
 
         with gr.Tab("Hazard Networks"):
             gr.Markdown(HAZARD_NETWORKS_MD)
+
+        # ── v3 — Space Weather Tab ─────────────────────────────────────────
+        with gr.Tab("🌐 Space Weather"):
+            gr.Markdown(
+                "## NOAA SWPC Space Weather Monitor\n\n"
+                "Real-time Kp index and geomagnetic storm alerts. No API key required.\n\n"
+                "🔵 **ADJACENT TRACK** — UM φ-debt overlay is a geometric analogue; "
+                "not a hardgate physics claim."
+            )
+            sw_output = gr.JSON(label="Space Weather Status + UM Overlay")
+            sw_btn = gr.Button("Fetch Space Weather", variant="primary")
+            sw_btn.click(fn=get_space_weather_status, inputs=[], outputs=[sw_output])
+
+        # ── v3 — Convergence Index Tab ─────────────────────────────────────
+        with gr.Tab("🔄 Convergence Index"):
+            gr.Markdown(
+                "## UM Convergence Index\n\n"
+                "Cross-stream regional stress score combining:\n"
+                "- **φ-debt** (Pillar 16, spatially smoothed via Pillar 807 kernel)\n"
+                "- **Kp** space weather (NOAA SWPC)\n"
+                "- **CII** geopolitical risk (WorldMonitor v8; 0 if WM_API_KEY absent)\n\n"
+                "Index > 0.7 triggers a pulsing alert on the map.\n\n"
+                "🔵 **ADJACENT TRACK** — not a hardgate UM physics claim."
+            )
+            with gr.Row():
+                ci_lat = gr.Number(label="Latitude (°)", value=47.6)
+                ci_lon = gr.Number(label="Longitude (°)", value=-122.3)
+                ci_kp  = gr.Slider(label="Kp override (0=auto)", minimum=0, maximum=9, step=0.1, value=0)
+                ci_cii = gr.Slider(label="CII score (0–100)", minimum=0, maximum=100, step=1, value=0)
+            ci_output = gr.JSON(label="Convergence Index Result")
+            ci_btn = gr.Button("Compute Convergence Index", variant="primary")
+            ci_btn.click(
+                fn=lambda lat, lon, kp, cii: get_convergence_at(lat, lon, kp=kp, cii_score=cii),
+                inputs=[ci_lat, ci_lon, ci_kp, ci_cii],
+                outputs=[ci_output],
+            )
+
+        # ── v3 — Infrastructure / Cyber Tab ───────────────────────────────
+        with gr.Tab("🏗️ Infrastructure & Cyber"):
+            gr.Markdown(
+                "## Infrastructure & Cyber Alert Summary\n\n"
+                "CISA Known Exploited Vulnerabilities (KEV) feed — public domain, no API key.\n"
+                "WorldMonitor infrastructure alerts require `WM_API_KEY` environment variable.\n\n"
+                "🔵 **ADJACENT TRACK** — not a hardgate UM physics claim."
+            )
+            infra_output = gr.JSON(label="Infrastructure & Cyber Alerts")
+            infra_btn = gr.Button("Fetch Infrastructure Alerts", variant="primary")
+            infra_btn.click(fn=get_infrastructure_alerts, inputs=[], outputs=[infra_output])
 
     gr.Markdown(
         f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION}*\n\n"
