@@ -1,7 +1,31 @@
 ## Wave Changelog
 
 This file is the required wave-level changelog ledger.
-*Current version: v27.0 (2026-09-01)*
+*Current version: v29.0 (2026-09-01)*
+
+---
+
+## v29.0 (2026-09-01 — Pillars 919–930: Sprint BE — CKM Resolution Attempt, α_s 13D Closure, F-theory Rung 10, and Observational Readiness)
+
+**What changed:**
+Pillars 919–930 (12 pillars). (1) P919 audited a unified FN+Sp(2,ℝ) CKM texture against PDG angles and Jarlskog. (2) P920 computed the leading 13D instanton correction to the α_s window. (3) P921 checked N_gen APS sensitivity on a second reference CY₄. (4) P922–P925 advanced F-theory Rung 10, with G₄ flux addressed but NL-parity and matter-curve CY₄ genus still open. (5) P926 refreshed DESI DR3 live monitoring. (6) P927 closed the PMNS ordering proxy via NLO stability. (7) P928 closed the KK-tower ISW lane by showing the n=1 contribution is Boltzmann-negligible. (8) P929 added the Lean4 Sprint BE bridge. (9) P930 certified the sprint.
+
+**Why:**
+This wave tightened the remaining internal residual set without inventing mechanisms or overstating closure, and it kept the F-theory / flavor / observational lanes explicitly separated.
+
+**Epistemic label deltas:**
+- `PMNS_ORDERING_PROXY_OPEN` → closed by NLO stability
+- `KK_TOWER_ISW_OPEN` → closed by Boltzmann-negligible KK-tower contribution
+- F-theory Rung 10 remains `RUNG10_PARTIAL`
+- CKM 13D remains an explicit open texture problem
+
+**Physics label delta:** None — no new hardgate promotion; two residual lanes were honestly retired or narrowed.
+
+**Falsification impact:** No falsifier weakened. DESI DR3, CMB-S4, and LiteBIRD remain active external adjudicators.
+
+**Residual unknowns:** CKM 13D texture, CMB peak amplitude architecture limit, Rung 10 NL parity, Rung 10 matter-curve CY₄ genus, DESI DR3 monitoring, LiteBIRD birefringence, non-perturbative QG.
+
+**Regression:** ~61,261 passed · 45 skipped · 12 deselected · 0 failed
 
 ---
 

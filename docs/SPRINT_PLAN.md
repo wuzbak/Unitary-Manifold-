@@ -1,179 +1,142 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-08-23 (v24.1 Sprint AT COMPLETE — Pillars 801–805; Lean4 +105 → 1246; ~57,927 passed · 0 failed)*
-*Purpose: Persistent continuity document for token-budget resilience. Any new agent session
-MUST read STATUS.md + mas_tracker.yml + this file as the first three operations.*
+*Last updated: 2026-09-01 (v29.0 Sprint BE COMPLETE — Pillars 919–930; Lean4 +120 → 3396; ~61,261 passed · 45 skipped · 12 deselected · 0 failed)*
+*Purpose: Persistent continuity document for token-budget resilience. Any new agent session MUST read `docs/mas_tracker.yml` + `STATUS.md` + this file as the first three operations.*
 
 ---
 
-## SESSION BOOTSTRAP PROTOCOL (read this first)
+## SESSION BOOTSTRAP PROTOCOL
 
 When starting a new session, always read:
-1. `docs/mas_tracker.yml` — canonical version/pillar/test/Lean4 state
-2. `STATUS.md` header (first 100 lines) — current epistemic state
-3. `docs/SPRINT_PLAN.md` (this file) — sprint progress and continuity
+1. `docs/mas_tracker.yml` — canonical version / pillar / regression / Lean4 state
+2. `STATUS.md` header — current epistemic state
+3. `docs/SPRINT_PLAN.md` — current continuity and next-sprint priorities
 
-Then store the verified state in agent memory before proceeding.
+Then verify that all three agree before making any new status claim.
 
 ---
 
-## CURRENT STATE (v24.1 — 2026-08-23)
+## CURRENT AUDITABLE STATE (v29.0 — Sprint BE)
 
 | Field | Value |
 |-------|-------|
-| Version | v24.1 |
-| Next pillar slot | **806** |
-| Lean4 theorems | **1246** |
-| Full regression | **~57,927 passed · 47 skipped · 12 deselected · 0 failed** |
-| Framework consistency status | All derivation chains internally self-consistent; external confirmation pending (LiteBIRD ~2032) |
-| Open named gaps | DESY5 raw branch 3.18σ with loop-QKK alternative reducing to 1.82σ (Pillar 801); JUNO Year 2 forward projection 2.67σ Type A audit trigger for 2027 (Pillar 802); Higgs mass architecture limit m_H≈34 GeV < 72 GeV < PDG (Pillar 803); SU(3) parity import not internally derived (Pillar 804); CMB amplitude structural floor 33.6% (Pillar 799); cosmological constant KK hierarchy 10⁵⁵ (Pillar 792) |
-| Gap 1 status | **FIRST_DETECTION_CANDIDATE** for birefringence low branch after ACT+Planck DR6; LiteBIRD/Simons remain pre-registered adjudicators (Pillar 795) |
-| Gap 3 status | **DATASET_DEPENDENT** for dark-energy wₐ routing; DESY5 raw branch is falsified-candidate while the loop-QKK route remains below 2σ pending DESI DR3 (Pillars 797, 801) |
-| Architecture limits | CC_KK_HIERARCHY_ARCHITECTURE_LIMIT; HIGGS_CW_5D_ARCHITECTURE_LIMIT; CMB_AMPLITUDE_ARCHITECTURE_LIMIT; remaining residuals documented in FALLIBILITY.md and CLAIM_MASTER_BOARD.md |
-| Falsification protocols | DESI DR3 (~2026), JUNO Year 2 (~2027), CMB-S4 (~2028), LiteBIRD (~2032) — pre-registered routing active |
+| Version | **v29.0** |
+| Sprint | **Sprint BE** |
+| Pillars | **919–930** |
+| Next pillar slot | **931** |
+| Lean4 theorems | **3396** |
+| Full regression | **~61,261 passed · 45 skipped · 12 deselected · 0 failed** |
+| Closed in this sprint | **PMNS ordering proxy**, **KK-tower ISW lane** |
+| Active external windows | **DESI DR3 (~2027)**, **CMB-S4 (~2028)**, **LiteBIRD (~2032)** |
+| Framework status | **Narrowed residual set; not closed** |
 
 ---
 
-## COMPLETED SPRINTS (v20.2–v20.5)
+## CURRENT OPEN SET IN THE CHECKED-IN BRANCH
 
-### Track 1 — Physics Sprints (Hardgate + Adjacent)
+These are the live unresolved items in the auditable local checkout:
 
-#### Sprint F — v20.2: DM21 Ratio-FN Correction (Pillars 591–595)
-| Pillar | File | Status | Notes |
-|--------|------|--------|-------|
-| 591 | pillar591_dm21_ratio_fn_correction.py | COMPLETE | FN charge n_FN=1, Δc=5/74, 4.63σ→1.15σ |
-| 592 | pillar592_dm21_nlo_wsvv_correction.py | COMPLETE | NLO sub-leading, 1.15σ→0.81σ |
-| 593 | pillar593_dm21_v202_cascade_certificate.py | COMPLETE | APPROACHING_CLOSURE certificate |
-| 594 | pillar594_book28_arxiv_v201_sync.py | COMPLETE | Book 28 sync |
-| 595 | pillar595_v202_regression_certificate.py | COMPLETE | v20.2 closure + #278 S03E056 |
+1. `CKM_TEXTURE_13D_OPEN`
+2. `CMB_PEAK_AMPLITUDE_OPEN`
+3. `RUNG10_SPECTRAL_COVER_NL_PARITY`
+4. `RUNG10_MATTER_CURVE_CY4_GENUS`
+5. `DESI_DR3_MONITORING`
+6. `LITEBIRD_BIREFRINGENCE_OPEN`
+7. `NON_PERTURBATIVE_QG_OPEN`
 
-**Expected outcomes:** ToE +0.5 (DM21 APPROACHING_CLOSURE), ~150 new tests
-
-#### Sprint G — v20.3: NP-BC-5 Sub-Gaps M/N/O + Lean4 308 (Pillars 596–601)
-| Pillar | File | Status | Notes |
-|--------|------|--------|-------|
-| 596 | pillar596_np_bc5_subgap_m_wdw_full_field.py | COMPLETE | WdW full-field kernel, 11 Lean4 theorems |
-| 597 | pillar597_np_bc5_subgap_n_adm_momentum.py | COMPLETE | ADM momentum kernel, 11 Lean4 theorems |
-| 598 | pillar598_np_bc5_subgap_o_p8_spectral_gap.py | COMPLETE | P8 spectral gap, 12 Lean4 theorems |
-| 599 | pillar599_np_bc5_certificate.py | COMPLETE | NP-BC-5 certificate |
-| 600 | pillar600_lean4_308_sprint_g_milestone.py | COMPLETE | Lean4 308 total (300-barrier crossed) |
-| 601 | pillar601_v203_regression_certificate.py | COMPLETE | v20.3 closure + #279 S03E057 |
-
-**Expected outcomes:** Lean4 274→308, ~200 new tests, NP-BC-5 complete
-
-#### Sprint H — v20.4: F-theory DBP Rung 9 🔵 Adjacent (Pillars 602–607)
-| Pillar | File | Status | Notes |
-|--------|------|--------|-------|
-| 602 | pillar602_ftheory_rung9_spectral_cover.py | COMPLETE | Spectral cover resolved |
-| 603 | pillar603_ftheory_rung9_matter_curve_genus.py | COMPLETE | genus-0, blocking residual cleared |
-| 604 | pillar604_ftheory_rung9_g4_flux_quantization.py | COMPLETE | G₄ flux consistent |
-| 605 | pillar605_ftheory_rung9_certificate.py | COMPLETE | Rung 9 partial closure |
-| 606 | pillar606_ftheory_dbp_rungs_1_9_combined.py | COMPLETE | Combined Rungs 1-9 cert |
-| 607 | pillar607_v204_regression_certificate.py | COMPLETE | v20.4 closure + #280 S03E058 |
-
-**Expected outcomes:** F-theory Rung 9 partial closure, ~180 new tests
-
-#### Sprint I — v20.5: DESI DR3 + Euclid Y1 Decision Protocol (Pillars 608–612)
-| Pillar | File | Status | Notes |
-|--------|------|--------|-------|
-| 608 | pillar608_desi_dr3_routing_drill.py | COMPLETE | DR3 routing hardened |
-| 609 | pillar609_euclid_y1_cross_check.py | COMPLETE | Euclid Y1 protocol |
-| 610 | pillar610_spherex_fnl_pre_analysis.py | COMPLETE | SPHEREx f_NL updated |
-| 611 | pillar611_hyperk_proton_decay_run3.py | COMPLETE | Hyper-K Run 3 bound |
-| 612 | pillar612_v205_regression_certificate.py | COMPLETE | v20.5 closure + #281 S03E059 |
-
-**Expected outcomes:** Decision protocols hardened for 2027 windows, ~120 new tests
+Related still-open internal interpretation lanes:
+- α_s 13D is improved but not fully universalized across all geometry assumptions
+- N_gen degeneracy has been clarified by a second CY₄ audit but is not globally finished
 
 ---
 
-### Track 2 — Pentad Sprints
+## STATE-RECONCILIATION NOTE
 
-#### Sprint P-1: Stub Activation Wave
-- Activate `pentad_enterprise_bridge.py` (OrganizationPentad, EnterpriseRoutingLayer)
-- Activate `pentad_cloud_adjunct.py` (CloudPentadNode, DistributedConsensus)
-- Activate `pentad_operator_console.py` (OperatorConsole with display, alert, diagnostic)
-- Target: ~120 stubs → live tests
+Session memory may refer to **Sprint BF / v30.0** artifacts (`tests/test_pillar941_sprint_bf_regression_certificate.py`, `src/core/pillar932_*`, `src/core/pillar933_*`, `src/core/pillar934_*`, `src/core/pillar936_*`, `src/core/pillar937_*`).
 
-#### Sprint P-2: UOS Phase 3
-- Complete `UOS/network.py` (PentadNetworkNode, NetworkTopology)
-- Complete `UOS/shell.py` (PentadShell, CommandParser)
-- Complete `UOS/profiler.py` (EntropyProfiler, SentinelProfiler)
-- Add `test_uos_integration.py` (~60 tests)
+Those files are **not present in this checkout**.
 
-#### Sprint P-3: Pentad API Gateway
-- Create `pentad_api.py` (PentadAPI class, generate_static_snapshot)
-- Create `pentad_api_spec.yaml` (OpenAPI spec)
-- Create `test_pentad_api.py` (~50 tests)
-
-#### Sprint P-4: HILS Certification Protocol v1.0
-- Create `hils_certification.py` (HILSCertificationPipeline)
-- Create `test_hils_certification.py` (~50 tests)
-- Create `HILS_CERT_V1.md` (specification document)
+Therefore:
+- treat **Sprint BE / v29.0** as the canonical local branch state
+- do **not** narrate Sprint BF as current branch reality until the underlying BF artifacts are actually present
+- if BF is intended to be current, the first task is to land or fetch those artifacts before making new closure claims
 
 ---
 
-### Track 3 — Public-Facing 5D Webspace (`public-site/`)
+## WHAT IS STALE
 
-Full static website in `public-site/` on main. No build pipeline.
+The main problem is no longer only the physics residuals; it is also truth-surface drift.
 
-#### Pages
-| Page | Path | Status | Notes |
-|------|------|--------|-------|
-| Landing | public-site/index.html | COMPLETE | WebGL 5D viz, hero, navigation |
-| Apps Hub | public-site/apps/index.html | COMPLETE | 7 calculator cards |
-| KK Mass Calculator | public-site/apps/kk-mass-calculator.html | COMPLETE | Fully functional |
-| Birefringence Predictor | public-site/apps/birefringence-predictor.html | COMPLETE | Fully functional |
-| ToE Score Dashboard | public-site/apps/toe-score.html | COMPLETE | Live 29.0/28 state |
-| CMB Parameters | public-site/apps/cmb-parameters.html | COMPLETE | n_s, r, f_NL calculator |
-| DESI Tension Tracker | public-site/apps/desi-tracker.html | COMPLETE | w₀-wₐ plane visualizer |
-| Lean4 Progress | public-site/apps/lean4-progress.html | COMPLETE | Theorem counter |
-| Pentad Simulator | public-site/apps/pentad-simulator.html | COMPLETE | 5-body orbital viz |
-| HILS Governance | public-site/pentad/index.html | COMPLETE | Full governance interface |
-| Status Dashboard | public-site/status/index.html | COMPLETE | Science artifact dashboard |
-| 5D Explorer | public-site/explore/index.html | COMPLETE | WebGL KK spacetime |
-| About | public-site/about/index.html | COMPLETE | Authorship, citation, license |
+Previously stale or inconsistent surfaces:
+- `docs/mas_tracker.yml` header lagged current state
+- `docs/GATEKEEPER_SUMMARY.md` lagged at v26.0
+- `docs/TRUTH_LAYER.md` lagged at v26.0
+- `docs/WAVE_CHANGELOG.md` header lagged at v27.0
+- this file lagged at v24.1
 
-#### Assets
-- `public-site/css/main.css` — global styles
-- `public-site/css/apps.css` — calculator styles
-- `public-site/js/physics-engine.js` — all physics calculations in JS
-- `public-site/js/visualizations.js` — Three.js 5D visualizations
-- `public-site/js/pentad-engine.js` — 5-body Pentad simulator
-- `public-site/data/status.json` — machine-readable state (auto-generated)
+Rule going forward:
+- never update just one status surface
+- every sprint closeout must update all canonical status surfaces in the same change set
 
 ---
 
-## MEMORY STRATEGY (MCP vote_memory workaround)
+## SPRINT BG EXECUTION PRIORITIES
 
-Because MCP vote_memory is sometimes unavailable in runtime environments:
+Sprint BG should be a **closure-discipline sprint**, not an expansion sprint.
 
-**Primary backup**: `docs/mas_tracker.yml` — ALWAYS the authoritative state
-**Secondary backup**: This file (`docs/SPRINT_PLAN.md`) — sprint progress tracking
-**Tertiary**: `STATUS.md` header — full epistemic state
+### Priority 1 — Keep one canonical reality
+- maintain lockstep between:
+  - `STATUS.md`
+  - `docs/mas_tracker.yml`
+  - `FALLIBILITY.md`
+  - `docs/CLAIM_MASTER_BOARD.md`
+  - `docs/GATEKEEPER_SUMMARY.md`
+  - `docs/TRUTH_LAYER.md`
+  - `docs/WAVE_CHANGELOG.md`
+  - `docs/SPRINT_PLAN.md`
 
-When MCP memory tools fail:
-1. Read `docs/mas_tracker.yml` for the current numbers
-2. Read this file for sprint progress
-3. Continue from the documented state
+### Priority 2 — Resolve branch-reality drift
+- either land the BF artifacts
+- or explicitly keep the branch on BE and stop speaking as if BF is already merged
 
-At the end of each sprint, update BOTH:
-- `docs/mas_tracker.yml` (machine-readable)
-- `docs/SPRINT_PLAN.md` (this file, mark sprints COMPLETE)
+### Priority 3 — Attack one blocker only
+- if BF is not present: the sprint is a **state-reconciliation sprint**
+- if BF is present: pick exactly one live internal blocker:
+  - surviving F-theory / G₄ residual, or
+  - CKM 13D texture
+
+### Priority 4 — Separate residual types
+- **tractable internal blockers**
+- **architecture limits**
+- **external-data waits**
+
+No mixing these into one closure narrative.
+
+---
+
+## SUCCESS CRITERIA FOR THE NEXT SPRINT
+
+The next sprint counts as successful only if:
+
+1. all canonical truth surfaces agree on the current version, regression count, Lean4 total, next pillar slot, and open set
+2. no future-wave artifact is cited as current unless the file exists in-branch
+3. exactly one real blocker is reduced, closed, or more sharply bounded
+4. all tests remain green
+5. no language implies full closure unless the actual residual set is empty
 
 ---
 
 ## CONTINUATION INSTRUCTIONS
 
-If a session times out or runs out of tokens mid-sprint:
+If a session times out mid-sprint:
+1. read `docs/mas_tracker.yml`, `STATUS.md`, and this file
+2. verify the highest checked-in pillar in `src/core/`
+3. verify the latest regression certificate in `tests/`
+4. continue only from committed state
+5. do not re-open closed items without file-level evidence
+6. do not break passing tests
 
-1. Read this file + STATUS.md + mas_tracker.yml
-2. Check git log for what was last committed
-3. Continue from the last committed state
-4. The pillar numbering is sequential — check `src/core/pillar*.py` for the highest number
-5. Do NOT re-do work that's already committed
-6. Do NOT break passing tests
-
-The critical invariant: **0 test failures at all times**. Check before committing.
+The invariant remains: **0 test failures at all times**.
 
 ---
 

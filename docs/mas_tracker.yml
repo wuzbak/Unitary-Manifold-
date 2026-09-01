@@ -1,6 +1,79 @@
-version: "v27.0"
+version: "v29.0"
 date: "2026-09-01"
 updated: "2026-09-01"
+
+v29_0_sprint_be:
+  description: "Sprint BE — CKM Resolution Attempt, α_s 13D Closure, F-theory Rung 10, and Observational Readiness"
+  pillars: [919,920,921,922,923,924,925,926,927,928,929,930]
+  lean4_start: 3276
+  lean4_end: 3396
+  lean4_delta: 120
+  new_lean4_files:
+    - SprintBEBridge.lean
+  gates_advanced:
+    - CKM_13D_YUKAWA_TEXTURE_AUDIT
+    - ALPHA_S_13D_NONPERTURBATIVE_BOUND
+    - NGEN_13D_APS_SECOND_CY4
+    - FTHEORY_RUNG10_SPECTRAL_COVER_GLOBAL
+    - FTHEORY_RUNG10_MATTER_CURVE_CY4
+    - FTHEORY_RUNG10_G4_FLUX_CY4
+    - FTHEORY_RUNG10_CERTIFICATE
+    - DESI_DR3_LIVE_MONITOR_UPDATE
+    - NEUT_MASS_ORDERING_NLO_AUDIT
+    - CMB_AMP_KK_TOWER_NLO
+    - LEAN4_SPRINT_BE_BRIDGE
+    - SPRINT_BE_REGRESSION_CERTIFICATE
+  closed_items:
+    - PMNS_ORDERING_PROXY_OPEN
+    - KK_TOWER_ISW_OPEN
+  remaining_open:
+    - CKM_TEXTURE_13D_OPEN
+    - CMB_PEAK_AMPLITUDE_OPEN
+    - RUNG10_SPECTRAL_COVER_NL_PARITY
+    - RUNG10_MATTER_CURVE_CY4_GENUS
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE_OPEN
+    - NON_PERTURBATIVE_QG_OPEN
+  tests_added: 255
+  regression: "~61,261 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 931
+  next_version: "v29.1"
+  lean4_theorems_total: 3396
+  lean4_new_theorems: 120
+
+v28_0_sprint_bd:
+  description: "Sprint BD — 13D I-Theory Closure, Rung 8 DBP, Sp(2,ℝ) Constraints"
+  pillars: [911,912,913,914,915,916,917,918]
+  lean4_start: 3176
+  lean4_end: 3276
+  lean4_delta: 100
+  new_lean4_files:
+    - SprintBDITheoryBridge.lean
+  gates_advanced:
+    - SP2R_NULL_CONE_RADION_CONSISTENCY
+    - ALPHA_S_13D_GAUGE_KINETIC_PATHWAY
+    - CKM_SP2R_SHADOW_GAUGE
+    - NGEN_APS_INDEX_CY4_ITHEORY
+    - CMB_AMP_13D_ROLLING_RADION
+    - RUNG_8_DBP_MASTER_CERTIFICATE
+    - LEAN4_ITHEORY_BRIDGE_THEOREMS
+    - SPRINT_BD_REGRESSION_CERTIFICATE
+  new_open_items:
+    - CKM_TENSION_PERSISTS_13D
+    - CMB_AMP_ARCHITECTURE_LIMIT
+    - NGEN_DEGENERACY_IRREDUCIBLE_13D
+    - ALPHA_S_ARCHITECTURE_LIMIT_OPEN
+  remaining_open:
+    - CKM_TENSION_PERSISTS_13D
+    - CMB_AMP_ARCHITECTURE_LIMIT
+    - NGEN_DEGENERACY_IRREDUCIBLE_13D
+    - ALPHA_S_ARCHITECTURE_LIMIT_OPEN
+  tests_added: 158
+  regression: "~61,006 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 919
+  next_version: "v28.1"
+  lean4_theorems_total: 3276
+  lean4_new_theorems: 100
 
 v27_0_sprint_bc:
   description: "Sprint BC — Froggatt-Nielsen Hierarchy, Degeneracy Resolution and Fermion Mass Ratios Sprint"
