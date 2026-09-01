@@ -1,4 +1,4 @@
-# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v25.0)
+# The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v25.5)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -26,7 +26,7 @@
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
 [![~58,250 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~58%2C563%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
 [![813+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-813%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v25.0-blue)](docs/mas_tracker.yml)
+[![Version](https://img.shields.io/badge/version-v25.5-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -58,8 +58,8 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 
 </details>
 
-> **Current status (v25.0):** Framework is internally self-consistent.
-> Full regression: **58,790 passed · 45 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-29, v25.0).
+> **Current status (v25.5):** Framework is internally self-consistent.
+> Full regression: **59,167 passed · 45 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-08-29, v25.5).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
