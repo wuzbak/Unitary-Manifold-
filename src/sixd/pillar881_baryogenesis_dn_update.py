@@ -73,6 +73,8 @@ def dn_nlo_ecm(
     """Return the NLO-corrected neutron EDM in e·cm."""
     if d_n_lo <= 0.0:
         raise ValueError("d_n_lo must be positive")
+    if shift <= -1.0:
+        raise ValueError("shift must be greater than -1")
     return d_n_lo * (1.0 + shift)
 
 
