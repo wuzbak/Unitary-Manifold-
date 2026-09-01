@@ -1,4 +1,4 @@
-## Wave Changelog
+# Wave Changelog
 
 This file is the required wave-level changelog ledger.
 **Current version: v30.0 (2026-09-01)**
