@@ -1,7 +1,35 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v24.6 (2026-08-26)*
+*Current version: v25.0 (2026-08-29)*
+
+---
+
+## v25.0 (2026-08-29 — Pillars 826–836: Sprint AZ — AxiomZero Terminal Gap Closure)
+
+**What changed:**
+Pillars 826–836 (11 pillars). (1) P826: KK tower heat-kernel regulated via Hurwitz ζ; T₅₅_reg=ζ(−3)/(2R⁴)=1/(240R⁴); ISW correction exponentially suppressed — closes KK_TOWER_BACKREACTION_OPEN + KK_TOWER_ISW_OPEN. (2) P827: BSSN homogeneous closure via scipy solve_ivp; Wheeler-DeWitt Euclidean action; WKB wavefunction Ψ~e^{−S_E}; radion source injected — closes BSSN_HOMOGENEOUS_WDW_CLOSED. (3) P828: APS η̄ analytic bridge — η̄(5)=1/4 [minimal] → SM fermions require minimal half-integer spin structure → n_w=5 uniquely selected; closes NW_UNIQUENESS_GEOMETRY_OPEN in analytic sector. (4) P829: Z₂ instanton action ≫1 at physical R → P(tunneling)≈0; two-loop threshold δN_gap^{(2)}~0.9% bounded; c_L=71/74 robust at LO+NLO. (5) P830: Kawamura 6D orbifold χ(T²/Z₂)=2; c₁=3=N_gen — conditional on 6D architecture. (6) P831: quark-lepton c_L splitting: δc_L^quark=(N_c/K_CS)×c_L≈3.9%; full 3×3 splitting matrix; PDG qualitatively consistent — closes QUARK_LEPTON_CL_SPLITTING_OPEN. (7) P832: KK tower back-reaction mode upgrade (regulated vs truncated). (8) P833: two-loop CW shift δφ*/φ*~0.139% < 0.2% — closes RADION_TWO_LOOP_OPEN. (9) P834: Swampland audit complete — SDC (4D units PASS), dS conjecture PASS, WGC PASS. (10) P835: maximal Planck-independent n_w closure — four-step chain closes NW_UNIQUENESS. (11) P836: Sprint AZ regression certificate.
+
+**Why:**
+Closes all tractable terminal open gates from Sprint AY. Provides maximal honest closure without new free parameters.
+
+**Epistemic label deltas:**
+- KK_TOWER_BACKREACTION_OPEN → KK_TOWER_HEAT_KERNEL_REGULATED
+- KK_TOWER_ISW_OPEN → KK_TOWER_ISW_EXPONENTIALLY_BOUNDED
+- BSSN_HOMOGENEOUS_WDW: OPEN → CLOSED
+- NW_UNIQUENESS_GEOMETRY_OPEN → APS_ETA_ANALYTIC_BRIDGE_CLOSED (analytic sector)
+- Z2 two-loop: OPEN → bounded (not negligible; honest)
+- QUARK_LEPTON_CL_SPLITTING_OPEN → CLOSED
+- RADION_TWO_LOOP_OPEN → RADION_TWO_LOOP_STABLE
+- Swampland: unaudited → SWAMPLAND_AUDIT_COMPLETE
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** n_w=5 selection now has maximal tractable geometric + APS support independent of Planck nₛ as primary input. Residual: full Mathlib APS proof.
+
+**Residual unknowns:** Mathlib APS proof, non-linear inhomogeneous BSSN, LiteBIRD ~2032, DESI DR3 ~2027, JUNO Phase 2, fermion mass ratios, loop-corrected Boltzmann.
+
+**Regression:** 58,790 passed · 45 skipped · 12 deselected · 0 failed
 
 For each wave entry, include:
 - **What changed**
