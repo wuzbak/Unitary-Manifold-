@@ -444,6 +444,7 @@ specific failure mode that this condition guards against.
 | Location | Description | Status |
 |----------|-------------|--------|
 | `src/unitary_os/` | Unitary OS — independent operating system project; **ARCHIVED** (directory removed; decision 2026-05-15: scope sunset, not part of physics framework; see `docs/archived_hypotheses/`) | 🔴 ARCHIVED |
+| `src/core/pillar_geo_monitor.py` + `12-AZ-IP/21-geo-monitor/` | UM Geophysical Monitor v3 — 12 hazard layers (USGS EQ, EONET, NOAA NWS, NWAC, NOAA SWPC Kp, GDACS via proxy; WM CII optional); UM Convergence Index (P807 Gaussian 500 km kernel); 204 tests; PWA; `public-site/az-apps/20-geo-monitor.html` | 🔵 ADJACENT TRACK |
 | `src/quantum/` (Fermi–Hubbard lane) | Adjacent quantum-simulation research track (Hamiltonian, JW/BK mappings, execution, benchmarks) | 🔵 ENGINEERING_COMPLETE (non-hardgate) |
 | `src/quantum/xdiag_bridge/` | XDiag↔UM adjacent integration lane: schema contract (schema version guard, `assert_schema_version`), UM→XDiag export, XDiag→UM ingest, extended parity gate (required: ground_energy/first_gap/staggered_magnetization; optional: charge_gap/spin_gap/double_occupancy), production health check, deterministic routing | 🔵 ENGINEERING_COMPLETE (non-hardgate; steward approval granted) |
 | `src/quantum/fh_lattice.py` | Geometry-aware multi-dimensional FH lattice: 1D chain, 2D square, 3D cubic, KK-natural (5,7) braid ring — LatticeGeometry, FermiHubbardLattice, factory functions, memory estimation | 🔵 ENGINEERING_COMPLETE (non-hardgate) |

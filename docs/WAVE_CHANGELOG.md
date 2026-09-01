@@ -1,7 +1,28 @@
 # Wave Changelog (Source of Truth)
 
 This file is the required wave-level changelog ledger.
-*Current version: v25.0 (2026-08-29)*
+*Current version: v25.0-p1 (2026-09-01)*
+
+---
+
+## v25.0-p1 (2026-09-01 — Geo-Monitor v3 App Layer + UI Accuracy)
+
+**What changed:**
+UM Geophysical Monitor upgraded from v2 (7 hazard layers) to v3 (12 hazard layers). New data sources: NOAA SWPC planetary Kp index (space weather / geomagnetic storms), GDACS UN OCHA global disaster alerts (proxy-routed). New features: Space-Weather / Kp layer with auroral oval rendered at Kp ≥ 5, UM Convergence Index (P807 Gaussian 500 km kernel combining φ-debt, Kp, CII; weights 0.5/0.3/0.2), historical replay via IndexedDB, CISA KEV infrastructure feed (optional). New module: `src/core/pillar_geo_monitor.py` (adjacent track, not hardgate). HTML sidebar updated to expose Space Weather, Convergence Index, and Auroral Oval layer toggles; NOAA SWPC added to Hazard Authority Networks table and attribution.
+
+**Why:**
+Closes the ledger update that was missed when PR #772 merged `src/core/pillar_geo_monitor.py` without synchronising STATUS.md / WAVE_CHANGELOG. Ensures Staleness & Honesty Gate will pass on future pillar-adjacent PRs touching this module.
+
+**Epistemic label deltas:**
+- `pillar_geo_monitor.py` introduced: 🔵 ADJACENT TRACK — not a hardgate physics claim.
+
+**Physics label delta:** None — no hardgate physics claims.
+
+**Falsification impact:** None.
+
+**Residual unknowns:** GDACS proxy endpoint not yet live in the public-site frontend (backend engine has full parser; frontend planned for v3.1). CISA KEV feed requires opt-in.
+
+**Regression:** 204 geo-monitor tests pass · 0 failed (python -m pytest tests/test_geo_monitor.py -q)
 
 ---
 
