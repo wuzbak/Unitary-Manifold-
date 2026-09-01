@@ -5,6 +5,8 @@
 # Gate: ADJACENT_TRACK — non-hardgate, steward approval needed for pillar numbering
 #
 # AxiomZero Technologies & Consulting, SPC — UBI 606 239 876
+# Sprint BA (2026-09-01): Yukawa SVD closed; XDiag bridge in development
+# Status: ADJACENT_TRACK — non-hardgate
 
 import sys
 import math

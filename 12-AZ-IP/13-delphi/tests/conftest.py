@@ -1,9 +1,16 @@
-"""
-DelPhi — Test Fixtures (conftest.py)
-"""
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+# SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+"""DelPhi — Test Fixtures (conftest.py)."""
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import pytest
+
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+if str(PRODUCT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PRODUCT_ROOT))
 
 from delphi.app.db.schema import init_db
 from delphi.app.db.seed import seed_database

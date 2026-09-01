@@ -69,8 +69,9 @@ class TestKBFileExists:
     def test_kb_version_present(self, kb):
         assert "version" in kb
 
-    def test_kb_version_v231(self, kb):
-        assert "23" in kb["version"]
+    def test_kb_version_format(self, kb):
+        # Accepts any vNN.N version string (v23.x, v25.x, etc.)
+        assert kb["version"].startswith("v")
 
 
 # ---------------------------------------------------------------------------

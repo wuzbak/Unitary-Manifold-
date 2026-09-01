@@ -335,6 +335,8 @@ class ManifoldCipher:
         :meth:`decrypt` can recover it without out-of-band transmission.
         """
         import os
+        if not plaintext:
+            return b''
         if nonce is None:
             nonce = os.urandom(16)
         ks = self._keystream(len(plaintext), nonce)
@@ -343,6 +345,8 @@ class ManifoldCipher:
 
     def decrypt(self, blob: bytes) -> bytes:
         """Decrypt ``nonce || ciphertext`` produced by :meth:`encrypt`."""
+        if not blob:
+            return b''
         if len(blob) < 16:
             raise ValueError("Blob too short to contain a 16-byte nonce")
         nonce, ciphertext = blob[:16], blob[16:]

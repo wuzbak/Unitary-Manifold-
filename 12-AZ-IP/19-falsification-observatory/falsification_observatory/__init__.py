@@ -25,7 +25,17 @@ from .engine.constants import (
     WINDING_NUMBER,
     XENON_SENS,
 )
+from .engine.desi_tracker import DESI_DR3_PREREGISTRATION, check_desi_tension, get_falsification_status
+from .engine.litebird_countdown import (
+    BIREFRINGENCE_PREDICTION,
+    LITEBIRD_LAUNCH_YEAR,
+    assess_birefringence_measurement,
+    days_to_litebird,
+)
 from .engine.routing import (
+    api_desi,
+    api_litebird,
+    dispatch_api_request,
     route_act,
     route_all,
     route_desi,
@@ -39,6 +49,16 @@ from .engine.verdict import VerdictResult
 
 __all__ = [
     'VerdictResult',
+    'DESI_DR3_PREREGISTRATION',
+    'BIREFRINGENCE_PREDICTION',
+    'LITEBIRD_LAUNCH_YEAR',
+    'check_desi_tension',
+    'get_falsification_status',
+    'days_to_litebird',
+    'assess_birefringence_measurement',
+    'api_litebird',
+    'api_desi',
+    'dispatch_api_request',
     'route_litebird',
     'route_desi',
     'route_juno',

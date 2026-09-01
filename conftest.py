@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import sys
+import types
 from typing import Any
 
 import pytest
@@ -15,6 +16,26 @@ _PENTAD_DIR = os.path.join(_REPO_ROOT, "5-GOVERNANCE", "Unitary Pentad")
 
 if _PENTAD_DIR not in sys.path:
     sys.path.insert(0, _PENTAD_DIR)
+
+_APP_ROOTS = [
+    os.path.join(_REPO_ROOT, '12-AZ-IP', '11-terra-os'),
+    os.path.join(_REPO_ROOT, '12-AZ-IP', '12-lithos-os'),
+    os.path.join(_REPO_ROOT, '12-AZ-IP', '04-um-sos'),
+    os.path.join(_REPO_ROOT, '12-AZ-IP', '05-uos-kernel'),
+]
+
+for _app_root in _APP_ROOTS:
+    if _app_root not in sys.path:
+        sys.path.insert(0, _app_root)
+
+for _pkg_name, _pkg_root in {
+    'terra': os.path.join(_REPO_ROOT, '12-AZ-IP', '11-terra-os'),
+    'lithic': os.path.join(_REPO_ROOT, '12-AZ-IP', '12-lithos-os'),
+}.items():
+    if _pkg_name not in sys.modules:
+        _pkg = types.ModuleType(_pkg_name)
+        _pkg.__path__ = [_pkg_root]
+        sys.modules[_pkg_name] = _pkg
 
 
 def _is_pentad_item(item: Any) -> bool:

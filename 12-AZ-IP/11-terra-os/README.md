@@ -42,3 +42,12 @@ python3 -m pytest terra/tests/ -q
 - `GET /api/v1/amendments` — Amendment library
 - `POST /api/v1/remediation` — Remediation advice
 - `POST /api/v1/search` — Full-text search
+
+## Open data integration
+
+- `terra_os/engine/open_data_sources.py` adds USDA soil lookup helpers with graceful fallback behavior.
+- GeoJSON export now lets TerraOS hand field observations to downstream mapping tools.
+
+## φ-field ecology coupling
+
+- `terra_os/engine/phi_coupling.py` adds soil-carbon flux and biomass coupling proxies tied to Pillar 21 ecology coupling.
