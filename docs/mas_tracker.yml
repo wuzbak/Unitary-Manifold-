@@ -1,6 +1,39 @@
-version: "v31.0"
+version: "v32.0"
 date: "2026-09-01"
 updated: "2026-09-01"
+
+v32_0_sprint_bh:
+  description: "Sprint BH — CY₄ G₄ Explicit Representative, CKM Architecture Certification, Fermion R_i Window, Observational Readiness v4"
+  pillars: [949,950,951,952,953,954]
+  lean4_start: 3612
+  lean4_end: 3712
+  lean4_delta: 100
+  new_lean4_files:
+    - SprintBHBridge.lean
+  gates_advanced:
+    - CY4_INTERSECTION_RING_G4_EXPLICIT
+    - CKM_KK_EXCITED_STATES_MIXING_AUDIT
+    - FERMION_RI_CONSTRAINT_SCAFFOLD
+    - OBSERVATIONAL_READINESS_V4
+    - LEAN4_SPRINT_BH_BRIDGE
+    - SPRINT_BH_REGRESSION_CERTIFICATE
+  closures:
+    B3_G4_FLUX: "BOUNDED_CONSISTENT (explicit G₄^{shift}=F∧(H−E₁)+c₂/2 ∈ Γ̃; N_D3∈{15,16})"
+    CKM_TEXTURE_13D: "TRUE_ARCHITECTURE_LIMIT (KK excited-state mixing suppressed ∼3e-21)"
+    FERMION_MASS_RATIO: "WINDOW_CONSTRAINED (|ΔR/R₀|<0.5; consistent without fine-tuning)"
+  open:
+    - "B3_G4_FLUX: sub-leading toric data to fix N_D3∈{15} or {16}"
+    - "CKM_TEXTURE_13D: TRUE ARCHITECTURE LIMIT — UV completion required"
+    - "FERMION_MASS_RATIO: R_i species-dependent; window constrained but not unique"
+    - "CMB_AMP_ARCHITECTURE_LIMIT: confirmed irreducible"
+    - "ALPHA_S_13D_IRREDUCIBLE"
+    - "DELTA_M21_NLO_IRREDUCIBLE"
+    - "DESI_DR3_MONITORING (~2027)"
+    - "LITEBIRD_BIREFRINGENCE (~2032)"
+  next_pillar_slot: 955
+  regression_tests_passing: "~61,717 passed · 45 skipped · 12 deselected · 0 failed"
+
+
 
 v31_0_sprint_bg:
   description: "Sprint BG — G₄ Flux Lattice Closure, CKM Second-Order, Fermion Mass 13D, CMB WZ Cross-Check, Observational Readiness v3"

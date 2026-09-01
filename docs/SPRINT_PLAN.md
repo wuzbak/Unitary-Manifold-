@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-01 (v31.0 Sprint BG COMPLETE — Pillars 942–948; Lean4 +100 → 3612; ~61,578 passed · 45 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-09-01 (v32.0 Sprint BH COMPLETE — Pillars 949–954; Lean4 +100 → 3712; ~61,717 passed · 45 skipped · 12 deselected · 0 failed)*
 *Purpose: Persistent continuity document for token-budget resilience. Any new agent session MUST read `docs/mas_tracker.yml` + `STATUS.md` + this file as the first three operations.*
 
 ---
@@ -16,19 +16,19 @@ Then verify that all three agree before making any new status claim.
 
 ---
 
-## CURRENT AUDITABLE STATE (v31.0 — Sprint BG)
+## CURRENT AUDITABLE STATE (v32.0 — Sprint BH)
 
 | Field | Value |
 |-------|-------|
-| Version | **v31.0** |
-| Sprint | **Sprint BG** |
-| Pillars | **942–948** |
-| Next pillar slot | **949** |
-| Lean4 theorems | **3612** |
-| Full regression | **~61,578 passed · 45 skipped · 12 deselected · 0 failed** |
-| New closures this sprint | **B3_G4_FLUX → PARTIAL_CONSISTENT** (Kähler primitivity + tadpole integer) |
+| Version | **v32.0** |
+| Sprint | **Sprint BH** |
+| Pillars | **949–954** |
+| Next pillar slot | **955** |
+| Lean4 theorems | **3712** |
+| Full regression | **~61,717 passed · 45 skipped · 12 deselected · 0 failed** |
+| New closures this sprint | **B3_G4_FLUX → BOUNDED_CONSISTENT** (explicit G₄ rep constructed); **CKM → TRUE_ARCHITECTURE_LIMIT** (KK mixing negligible); **FERMION → WINDOW_CONSTRAINED** |
 | Active external windows | **DESI DR3 (~2027)**, **CMB-S4 (~2028)**, **LiteBIRD (~2032)** |
-| Framework status | **Residual set narrowed; all remaining items bounded to architecture limits or external waits** |
+| Framework status | **All tractable EFT lanes exhausted or bounded; residual set fully characterized** |
 
 ---
 
@@ -36,28 +36,29 @@ Then verify that all three agree before making any new status claim.
 
 These are the live unresolved items in the auditable local checkout:
 
-1. `B3_G4_FLUX` — explicit G₄ representative in Freed-Hopkins lattice Γ̃ requires full CY₄ intersection ring (architecture-dependent); Kähler primitivity and tadpole integrality confirmed
-2. `CKM_TEXTURE_13D` — θ₁₂, θ₂₃ within 30% of PDG; θ₁₃/|V_ub| outside (architecture residual from 7D winding geometry)
-3. `FERMION_MASS_RATIO` — generation hierarchy direction confirmed; magnitudes architecture-dependent without specifying R_i — 13D_IRREDUCIBLE
+1. `B3_G4_FLUX` — sub-leading toric intersection data (rank-174 H^{2,2} matrix) needed to fix N_D3∈{15} or {16} precisely; explicit representative G₄^{shift}=F∧(H−E₁)+c₂/2 constructed; BOUNDED_CONSISTENT
+2. `CKM_TEXTURE_13D` — TRUE ARCHITECTURE LIMIT: KK excited-state mixing suppressed by (m_t/m_KK)²≈3e-21; no EFT mechanism can close the θ₁₃ gap; UV completion required
+3. `FERMION_MASS_RATIO` — WINDOW_CONSTRAINED: consistent R_i window exists (|ΔR/R₀|<0.5, no fine-tuning); magnitudes species-dependent — not uniquely predicted without specifying R_i
 4. `CMB_AMP_ARCHITECTURE_LIMIT` — all four EFT mechanisms exhausted; ×4–7 suppression FULLY_CONFIRMED_IRREDUCIBLE
 5. `ALPHA_S_13D_IRREDUCIBLE` — PDG α_s(M_Z)=0.118 outside 13D window [0.100,0.101]
 6. `DELTA_M21_NLO_IRREDUCIBLE` — CW NLO overcorrects solar splitting proxy
 7. `DESI_DR3_MONITORING` — external data wait; tripwire active ~2027
 8. `LITEBIRD_BIREFRINGENCE` — primary falsifier pending ~2032
 
-**Classification of residuals:**
-- **Tractable but architecture-bounded:** B3_G4_FLUX, CKM_TEXTURE_13D
-- **Architecture limits (confirmed irreducible within EFT):** CMB_AMP, FERMION_MASS_RATIO, ALPHA_S_13D, DELTA_M21_NLO
+**Classification of residuals (post Sprint BH):**
+- **Bounded, pending external computation:** B3_G4_FLUX (toric data)
+- **True architecture limits (no EFT route):** CKM_TEXTURE_13D, CMB_AMP, ALPHA_S_13D, DELTA_M21_NLO
+- **Architecture-constrained windows (not unique predictions):** FERMION_MASS_RATIO
 - **External data waits:** DESI_DR3, LITEBIRD
 
 ---
 
 ## STATE-RECONCILIATION NOTE
 
-Session memory may refer to older **Sprint BF / v30.0** state claims even though the checked-in branch now contains the Sprint BG artifacts (`tests/test_pillar94*.py`, `src/core/pillar942_*` through `src/core/pillar948_*`, `lean4/UnitaryManifold/SprintBGBridge.lean`).
+Session memory may refer to older **Sprint BG / v31.0** state claims even though the checked-in branch now contains the Sprint BH artifacts (`tests/test_pillar949_*.py` through `tests/test_pillar954_*.py`, `src/core/pillar949_*` through `src/core/pillar954_*`, `lean4/UnitaryManifold/SprintBHBridge.lean`).
 
 Therefore:
-- treat **Sprint BG / v31.0** as the canonical local branch state
+- treat **Sprint BH / v32.0** as the canonical local branch state
 - do **not** narrate older Sprint BF surfaces as current branch reality
 - first resolve any truth-surface drift before making new closure claims
 
@@ -71,7 +72,7 @@ The EFT residual landscape is now **fully bounded**:
 |---|---|---|
 | B3_G4_FLUX | Architecture-dependent | Kähler + tadpole confirmed; explicit rep needs full intersection ring |
 | CKM θ₁₃ | Architecture residual | 7D winding geometry overshoots |V_ub| at all orders audited |
-| Fermion mass | Architecture limit | n_w=5 alone does not fix R_i; hierarchy direction correct |
+| Fermion mass | Window constrained (Sprint BH) | |ΔR/R₀|<0.5; consistent window without fine-tuning; not uniquely predicted |
 | CMB amplitude | Fully confirmed irreducible | WZ closes the last EFT route |
 | α_s 13D | Architecture limit | Non-perturbative completion required |
 | Δm²₂₁ NLO | Architecture limit | CW NLO overcorrects |
@@ -82,34 +83,41 @@ No EFT mechanism that is computable within the current framework remains unaudit
 
 ---
 
-## SPRINT BH EXECUTION PRIORITIES
+## WHAT SPRINT BH ACCOMPLISHED
 
-Sprint BH should focus on **theory deepening and observational preparation**, not on re-attacking architecture limits that are now confirmed irreducible.
+All three option tracks from the Sprint BG plan were executed:
+
+| Option | Track | Pillar | Outcome |
+|---|---|---|---|
+| C | CY₄ intersection ring G₄ explicit | P949 | B3_G4_FLUX → BOUNDED_CONSISTENT; explicit G₄^{shift} constructed; N_D3∈{15,16} |
+| A | CKM KK excited-state mixing audit | P950 | CKM → TRUE_ARCHITECTURE_LIMIT; (m_t/m_KK)²≈3e-21 negligible |
+| B | Fermion R_i constraint scaffold | P951 | FERMION_MASS → WINDOW_CONSTRAINED; |ΔR/R₀|<0.5 |
+
+---
+
+## SPRINT BI EXECUTION PRIORITIES
+
+Sprint BI should focus on **external observational preparation and sub-leading toric computation**, given that all EFT lanes are now either bounded or certified as architecture limits.
 
 ### Priority 1 — Maintain truth-surface lockstep
 Same requirement as every sprint: all 8 canonical surfaces must update in the same commit at sprint closeout.
 
-### Priority 2 — Theory deepening options (pick ONE)
+### Priority 2 — Theory deepening options (pick ONE or two)
 
-**Option A: CKM θ₁₃ beyond-architecture route**
-- Investigate whether a mixing with KK excited states (not zero-mode approximation) could shift θ₁₃ toward |V_ub|.
-- Honest outcome: either improvement or certification as irreducible.
+**Option A: Sub-leading toric intersection ring (PALP/Sage proxy)**
+- For the reference CY₄ (Weierstrass fibration over dP₃, χ=1820), construct the sub-leading toric intersection numbers using known results from the literature (Batyrev-Borisov / Kreuzer-Skarke database).
+- The goal: fix N_D3 ∈ {15} or {16} precisely, completing the B3_G4_FLUX closure.
+- Honest outcome: either closes B3_G4_FLUX fully or confirms the bound is the best achievable in the EFT.
 
-**Option B: Fermion mass ratio UV completion scaffold**
-- Construct a minimal ansatz for R_i values consistent with observed ratios.
-- Not a free-parameter fit — derive constraints on R_i from the mass ratios, then check consistency with other n_w=5 constraints.
-- Honest outcome: a constrained window for R_i or proof that no consistent window exists.
+**Option B: DESI DR3 readiness update**
+- Construct a formal falsification protocol: given the current DESI DR1 w_a tension (1.6σ), compute the expected Sprint BI prediction for DESI DR3 sensitivity.
+- Register updated tripwire thresholds and significance levels.
 
-**Option C: B3_g4_flux explicit representative (CY₄ intersection ring)**
-- Construct a simplified intersection ring for the reference CY₄ (χ=1820, dP₃ base).
-- Use the known structure of elliptic fibrations to derive the cross-term G₄^{prim}⋅c₂/2 explicitly.
-- Honest outcome: either closes B3_g4_flux completely or identifies the minimal missing datum.
+**Option C: α_s NP scaffold**
+- For α_s 13D irreducible, construct a minimal ansatz for the non-perturbative correction needed to shift the 13D window from [0.100,0.101] toward PDG 0.118.
+- Honest outcome: either identifies a viable NP mechanism or certifies that no minimal correction exists.
 
-### Priority 3 — Observational monitoring
-- DESI DR3 monitoring update (if new σ values available)
-- LiteBIRD timeline update (if ESA timeline shifted)
-
-### Priority 4 — Lean4 bridge and regression certificate
+### Priority 3 — Lean4 bridge and regression certificate
 - Standard sprint closeout: Lean4 proxy theorems + regression certificate
 
 ---

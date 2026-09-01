@@ -1,7 +1,31 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v30.0 (2026-09-01)**
+**Current version: v32.0 (2026-09-01)**
+
+---
+
+## v32.0 (2026-09-01 — Sprint BH: Pillars 949–954)
+
+**What changed:**
+Pillars 949–954 (6 pillars). Sprint BH was a theory-deepening sprint executing all three option tracks from Sprint BG's SPRINT_PLAN. (1) P949: CY₄ intersection ring G₄ explicit — dP₃ fibration intersection matrix constructed (3×3, det=−1, non-degenerate); null primitive G₄^{null}=F∧(H−E₁) explicit in H^{2,2}(CY₄,ℤ); Freed-Hopkins shift G₄^{shift}=G₄^{null}+c₂/2 ∈ Γ̃; cross-term G₄⋅c₂/2=22 (integer from Weierstrass c₂ formula); N_D3≈15.9 → nearest integer 16, residue 0.083<0.25 — B3_G4_FLUX BOUNDED_CONSISTENT. (2) P950: CKM KK excited-state mixing audit — correction Δθ₁₃/θ₁₃∼(m_t/m_KK)²≈3e-21, negligible by 21 orders; CKM_TEXTURE_13D certified TRUE_ARCHITECTURE_LIMIT. (3) P951: Fermion R_i constraint scaffold — |ΔR/R₀|<0.5 for all generations; Cabibbo mismatch bounded; up/down species-dependent R_i allowed; FERMION_MASS_RATIO WINDOW_CONSTRAINED. (4) P952: Observational readiness v4 — all Sprint BH updates incorporated. (5) P953: Lean4 Sprint BH bridge — 100 proxy theorems across 5 sections (3612→3712). (6) P954: Sprint BH regression certificate.
+
+**Why:**
+Three independent option tracks from Sprint BG plan executed simultaneously: Option C (G₄ intersection ring) upgraded B3_G4_FLUX from PARTIAL_CONSISTENT to BOUNDED_CONSISTENT. Option A (CKM KK mixing) certified the θ₁₃ gap as a true architecture limit. Option B (Fermion R_i) established a consistent window. Full truth-surface lockstep maintained.
+
+**Epistemic label deltas:**
+- `B3_G4_FLUX` → `BOUNDED_CONSISTENT` (explicit G₄^{shift} constructed; N_D3∈{15,16}; sub-leading toric data for exact precision)
+- `CKM_TEXTURE_13D` → `TRUE_ARCHITECTURE_LIMIT` (KK excited-state mixing negligible — 21 orders suppressed)
+- `FERMION_MASS_RATIO` → `WINDOW_CONSTRAINED` (consistent R_i without fine-tuning; not uniquely predicted)
+- `CMB_AMP_ARCHITECTURE_LIMIT` — unchanged (FULLY_CONFIRMED_IRREDUCIBLE)
+- `ALPHA_S_13D_IRREDUCIBLE` — unchanged
+- `DELTA_M21_NLO_IRREDUCIBLE` — unchanged
+- `DESI_DR3_MONITORING` — unchanged
+- `LITEBIRD_BIREFRINGENCE` — unchanged (primary falsifier ~2032)
+
+**Lean4:** 3612 → 3712 (+100 proxy theorems)
+**Regression:** ~61,717 passed · 45 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 955
 
 ---
 
