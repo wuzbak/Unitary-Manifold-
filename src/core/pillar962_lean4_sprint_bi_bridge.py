@@ -33,7 +33,7 @@ SPRINT_BI_LEAN4_SECTIONS: List[Dict[str, Any]] = [
     {
         "pillar": 955,
         "theorems": 14,
-        "title": "SU3KawamuratCS",
+        "title": "SU3KawamuraCS",
         "key_theorems": [
             "cs_boundary_product_odd",
             "kawamura_det_P",

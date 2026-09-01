@@ -43,7 +43,7 @@ v32_1_sprint_bi:
   lean4_new_theorems: 100
   artifact: "src/core/pillar963_sprint_bi_regression_certificate.py"
 
-
+v31_0_sprint_bg:
   description: "Sprint BG — G₄ Flux Lattice Closure, CKM Second-Order, Fermion Mass 13D, CMB WZ Cross-Check, Observational Readiness v3"
   pillars: [942,943,944,945,946,947,948]
   lean4_start: 3512

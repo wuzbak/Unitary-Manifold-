@@ -202,7 +202,7 @@ def derive_n2_from_geometry(n1: int = N_1) -> Dict[str, object]:
         "c_s": round(c_s, 8) if c_s else None,
         "r_eff": round(r_eff, 6) if r_eff else None,
         "r_bicep_ok": r_ok,
-        "derivation_used_cme_data": False,
+        "derivation_used_cmb_data": False,
         "derivation_constraints": [
             "Z₂-odd BC (both n odd) — PURE GEOMETRY (Pillar 39)",
             "Minimum action (minimum step n₂=n₁+2) — MINIMUM ACTION PRINCIPLE",
