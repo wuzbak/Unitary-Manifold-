@@ -39,17 +39,23 @@ NEXT_PILLAR_SLOT: int = 942
 
 LEAN4_PHASE4_END: int = LEAN4_END
 
+# Unresolved lanes still carried forward after Sprint BF closeout.
 REMAINING_OPEN: List[str] = [
+    "B3_g4_flux: reference-CY₄ G₄ flux remains the one unresolved Rung 10 blocker.",
     "CKM_TEXTURE_13D_OPEN: Wilson-line scan → ORDERING_ONLY; magnitudes not simultaneously reproduced to 30% across all θ_WL.",
     "CMB_AMP_ARCHITECTURE_LIMIT: brane-backreaction O(10⁻¹⁰) negligible; zero-mode suppression ×4–7 confirmed irreducible.",
     "DESI_DR3_MONITORING: wₐ=0 tripwire active; σ ∈ [2.30, 2.75]; DR3 expected ~2027.",
-    "NGEN_DEGENERACY: full CY₄ moduli-space scan required for definitive N_gen uniqueness.",
+    "DELTA_M21_NLO_IRREDUCIBLE: CW NLO overcorrects the solar splitting proxy; pull remains > 2σ.",
+    "ALPHA_S_13D_IRREDUCIBLE: tightened 13D window still does not include PDG α_s(M_Z)=0.1180.",
+    "LITEBIRD_BIREFRINGENCE: primary falsifier remains external and pending (~2032).",
 ]
 
+# Audited Sprint BF outcomes that explicitly certify a limit or partial result;
+# some of these remain open precisely because the limit was established.
 ARCHITECTURE_LIMITS_CERTIFIED: List[str] = [
-    "FTHEORY_RUNG10_CLOSED: all 3 blockers resolved — NL parity (P932 torsion), genus (P933 torus suppression), G₄ flux (P924). Full CY₄ moduli scan pending.",
-    "DELTA_M21_NLO_CLOSED: P20 Δm²₂₁ APPROACHING_CLOSURE item closed; NLO CW loop reduces pull from 0.81σ to < 1σ.",
-    "ALPHA_S_13D_WINDOW_TIGHTENED: P937 tightens P920 window via volume bound + threshold matching; PDG value in window.",
+    "FTHEORY_RUNG10_PARTIAL: 2/3 blockers resolved — NL parity (P932 torsion) and genus (P933 suppression) closed; B3_g4_flux remains open.",
+    "DELTA_M21_NLO_IRREDUCIBLE: P936 CW NLO correction overcorrects the solar splitting proxy and leaves the lane as an architecture limit.",
+    "ALPHA_S_13D_WINDOW_IRREDUCIBLE: P937 tightens the 13D window but PDG α_s(M_Z)=0.1180 remains outside it.",
     "CMB_BRANE_BACKREACTION_NEGLIGIBLE: ΔP_s/P_s ~ 10⁻¹⁰; architecture limit CMB_PEAK_AMPLITUDE_OPEN unchanged.",
     "DESI_DR3_THRESHOLDS_LOCKED: pre-registration updated with Sprint BE σ values and SPHEREx projection; DR3 expected ~2027.",
     "OBSERVATIONAL_MATRIX_V2: canonical 8-entry machine-readable matrix produced; LiteBIRD remains primary falsifier (~2032).",

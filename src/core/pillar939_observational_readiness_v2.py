@@ -145,11 +145,11 @@ OBSERVATIONAL_MATRIX: List[Dict[str, Any]] = [
         "observable": "Strong coupling constant α_s(M_Z)",
         "pillar_source": "P912, P920, P937",
         "current_sigma": None,
-        "current_status": "WINDOW_TIGHTENED",
-        "falsification_threshold": "α_s(M_Z) outside [0.098, 0.129] (P920 window)",
+        "current_status": "ARCHITECTURE_LIMIT",
+        "falsification_threshold": "Tightened P937 window remains below PDG α_s(M_Z)=0.1180; full CY₄ moduli specification required",
         "timeline": "Ongoing",
         "is_primary_falsifier": False,
-        "notes": "PDG α_s=0.1180 is within P920 window. P937 tightens via threshold matching.",
+        "notes": "PDG α_s=0.1180 is outside the tightened P937 window; the broader P920 coverage did not close the 13D lane.",
     },
 ]
 
@@ -159,7 +159,7 @@ N_PRIMARY_FALSIFIERS: int = sum(1 for e in OBSERVATIONAL_MATRIX if e["is_primary
 N_PENDING: int = sum(1 for e in OBSERVATIONAL_MATRIX if e["current_status"] == "PENDING")
 N_CONSISTENT: int = sum(
     1 for e in OBSERVATIONAL_MATRIX
-    if e["current_status"] in {"CONSISTENT", "PROXY_CLOSED", "WINDOW_TIGHTENED"}
+    if e["current_status"] in {"CONSISTENT", "PROXY_CLOSED"}
 )
 N_TENSION: int = sum(1 for e in OBSERVATIONAL_MATRIX if e["current_status"] == "TENSION")
 
