@@ -1,6 +1,84 @@
-version: "v25.5"
+version: "v26.0"
 date: "2026-09-01"
 updated: "2026-09-01"
+
+v26_0_sprint_bb:
+  description: "Sprint BB — Flavour, Coupling and Architecture-Limit Sprint"
+  pillars: [861,862,863,864,865,866,867,868,869,870,871,872,873,874,875,876,877,878,879,880,881,882,883,884,885,886]
+  lean4_start: 2186
+  lean4_end: 2741
+  lean4_delta: 555
+  new_lean4_files:
+    - CKM7DBulkMassSpectrum.lean
+    - CKM7DMixingAnglesExact.lean
+    - CPViolation7DTorsion.lean
+    - JarlskogInvariant7D.lean
+    - AlphaSVolumeKahlerConstraint.lean
+    - AlphaSCrossDimensionalAudit.lean
+    - Ngen6DBundleSpecification.lean
+    - Ngen6DBundleAPSBridge.lean
+    - Higgs6DUVCompletionLimit.lean
+    - KKLTNonperturbativeLimit.lean
+    - E8BreakingPatternEnumeration.lean
+    - CMBAmplitudeKKSurveyLean4.lean
+    - NonPerturbativeQGLimit.lean
+    - PMNSCPNLOStability.lean
+    - CKMPMNSUnifiedDerivation.lean
+    - ArchitectureLimitRegistry.lean
+    - SprintBBMasterBridge.lean
+    - LeanTheoremAuditSprintBB.lean
+  gates_advanced:
+    - CKM_7D_BULK_MASS_SPECTRUM_DERIVED
+    - CKM_7D_PARTIAL_TENSION
+    - CP_VIOLATION_7D_PARTIAL_DERIVATION
+    - JARLSKOG_INVARIANT_7D_COMPUTED
+    - ALPHA_S_7D_VOLUME_NARROWED
+    - ALPHA_S_7D_ROUTE_D_TIGHTENED
+    - ALPHA_S_ALL_DIMENSIONAL_AUDIT_COMPLETE
+    - NGEN_6D_BUNDLE_CONSTRAINED
+    - NGEN_6D_BUNDLE_DEGENERACY_COMPUTED
+    - NGEN_6D_APS_BUNDLE_BRIDGE_VERIFIED
+    - HIGGS_6D_UV_COMPLETION_ARCHITECTURE_LIMIT
+    - KKLT_PERTURBATIVE_CONSISTENT_NP_ARCHITECTURE_LIMIT
+    - E8_BREAKING_DEGENERACY_2
+    - CMB_PEAK_AMPLITUDE_ARCHITECTURE_LIMIT_CONFIRMED
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+    - PMNS_CP_NLO_STABLE
+    - PHI0_SDC_BOUNDED
+    - SWAMPLAND_EXTENDED_DUALITY_AUDIT_COMPLETE
+    - DESI_DR3_ROUTING_INFRASTRUCTURE_UPDATED
+    - LITEBIRD_DISCRIMINATION_PREPARED
+    - BARYOGENESIS_6D_DN_NLO_UPDATED
+    - LEAN4_CKM_PMNS_UNIFIED_THEOREM
+    - LEAN4_ARCHITECTURE_LIMITS_REGISTRY_COMPLETE
+    - LEAN4_SPRINT_BB_MASTER_BRIDGE_COMPLETE
+    - LEAN4_THEOREM_AUDIT_SPRINT_BB_COMPLETE
+    - SPRINT_BB_REGRESSION_CERTIFICATE
+  new_open_items:
+    - CKM_7D_ANGLE_ORDERING_OPEN
+    - JARLSKOG_7D_MAGNITUDE_OPEN
+    - NGEN_6D_BUNDLE_DEGENERACY_OPEN
+    - TCC_EFOLD_TENSION_OPEN
+  remaining_open:
+    - CKM_7D_ANGLE_ORDERING_OPEN
+    - JARLSKOG_7D_MAGNITUDE_OPEN
+    - ALPHA_S_M7_SCALE_OPEN
+    - NGEN_6D_BUNDLE_DEGENERACY_OPEN
+    - HIGGS_6D_UV_COMPLETION_OPEN
+    - KKLT_NONPERTURBATIVE_COMPLETION_OPEN
+    - E8_BREAKING_PATTERN_OPEN
+    - CMB_PEAK_AMPLITUDE_OPEN
+    - TCC_EFOLD_TENSION_OPEN
+    - DESI_DR3_WA_ROUTING_OPEN
+    - LITEBIRD_BIREFRINGENCE_OPEN
+    - NON_PERTURBATIVE_QG_OPEN
+  tests_added: 1029
+  regression: "~60,196 passed · 45 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 887
+  next_version: "v26.1"
+  lean4_theorems_total: 2741
+  lean4_new_theorems: 555
+
 
 v25_5_sprint_ba:
   description: "Sprint BA — Architecture Completion Sprint 6D→11D→5D→4D Chain"

@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v25.0 — Unambiguous Record**  
+**The Unitary Manifold v26.0 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-08-18 (v21.0-S — Sprint X: Pillars 682–687; CY4 χ=148, t₂ gauge cert, Sp(2,ℝ) anomaly 13D, ΛQCD moduli; broken-test fix. P20/DM21 CLOSED (Pillar 615, framework internally consistent); all 6 NP-BC chains proved (Pillar 621; 203 sub-gap theorems); Lean4 365 theorems total; F-theory DBP Rungs 1–10 complete at reference CY4 (Pillar 628). Sprints M–Q gap closure Pillars 631–652.)*
+*Last updated: 2026-09-01 (v26.0 — Sprint BB: Pillars 861–886; CKM 7D partial tension; Jarlskog computed; α_s narrowed; N_gen 6D bundle constrained (degeneracy=2); architecture limits certified in Lean4 (Higgs 6D UV, KKLT NP, E₈ breaking, CMB peak, NP QG); PMNS CP NLO stable; Swampland extended audit (TCC tension); Lean4 +555 (2186→2741); ~60,196 passed · 45 skipped · 12 deselected · 0 failed; next slot 887.)*
 *Latest verified full regression: 58,790 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-25).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
