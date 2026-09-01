@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-01 (v29.0 Sprint BE COMPLETE — Pillars 919–930; Lean4 +120 → 3396; ~61,261 passed · 45 skipped · 12 deselected · 0 failed)*
+*Last updated: 2026-09-01 (v30.0 Sprint BF COMPLETE — Pillars 931–941; Lean4 +116 → 3512; ~61,440 passed · 45 skipped · 12 deselected · 0 failed)*
 *Purpose: Persistent continuity document for token-budget resilience. Any new agent session MUST read `docs/mas_tracker.yml` + `STATUS.md` + this file as the first three operations.*
 
 ---
@@ -16,19 +16,19 @@ Then verify that all three agree before making any new status claim.
 
 ---
 
-## CURRENT AUDITABLE STATE (v29.0 — Sprint BE)
+## CURRENT AUDITABLE STATE (v30.0 — Sprint BF)
 
 | Field | Value |
 |-------|-------|
-| Version | **v29.0** |
-| Sprint | **Sprint BE** |
-| Pillars | **919–930** |
-| Next pillar slot | **931** |
-| Lean4 theorems | **3396** |
-| Full regression | **~61,261 passed · 45 skipped · 12 deselected · 0 failed** |
-| Closed in this sprint | **PMNS ordering proxy**, **KK-tower ISW lane** |
+| Version | **v30.0** |
+| Sprint | **Sprint BF** |
+| Pillars | **931–941** |
+| Next pillar slot | **942** |
+| Lean4 theorems | **3512** |
+| Full regression | **~61,440 passed · 45 skipped · 12 deselected · 0 failed** |
+| Closed in this sprint | **RUNG10_NL_PARITY**, **RUNG10_MATTER_CURVE_CY4_GENUS** |
 | Active external windows | **DESI DR3 (~2027)**, **CMB-S4 (~2028)**, **LiteBIRD (~2032)** |
-| Framework status | **Narrowed residual set; not closed** |
+| Framework status | **Residual set narrowed again; not closed** |
 
 ---
 
@@ -36,30 +36,28 @@ Then verify that all three agree before making any new status claim.
 
 These are the live unresolved items in the auditable local checkout:
 
-1. `CKM_TEXTURE_13D_OPEN`
-2. `CMB_PEAK_AMPLITUDE_OPEN`
-3. `RUNG10_SPECTRAL_COVER_NL_PARITY`
-4. `RUNG10_MATTER_CURVE_CY4_GENUS`
-5. `DESI_DR3_MONITORING`
-6. `LITEBIRD_BIREFRINGENCE_OPEN`
-7. `NON_PERTURBATIVE_QG_OPEN`
+1. `B3_g4_flux`
+2. `CKM_TEXTURE_13D_OPEN`
+3. `CMB_AMP_ARCHITECTURE_LIMIT`
+4. `DELTA_M21_NLO_IRREDUCIBLE`
+5. `ALPHA_S_13D_IRREDUCIBLE`
+6. `DESI_DR3_MONITORING`
+7. `LITEBIRD_BIREFRINGENCE_OPEN`
 
-Related still-open internal interpretation lanes:
-- α_s 13D gate (P920): P920 resolves to **NP_IRREDUCIBLE** (not CLOSED); broader interpretation across all geometry assumptions remains ongoing
-- N_gen degeneracy has been clarified by a second CY₄ audit but is not globally finished
+Related still-open interpretation lanes:
+- the Rung 10 lane is no longer blocked by NL parity or genus, only by the reference-CY₄ G₄-flux residual
+- CKM, Δm²₂₁, and α_s remain explicit internal residuals rather than external-data waits
 
 ---
 
 ## STATE-RECONCILIATION NOTE
 
-Session memory may refer to **Sprint BF / v30.0** artifacts (`tests/test_pillar941_sprint_bf_regression_certificate.py`, `src/core/pillar932_*`, `src/core/pillar933_*`, `src/core/pillar934_*`, `src/core/pillar936_*`, `src/core/pillar937_*`).
-
-Those files are **not present in this checkout**.
+Session memory may refer to older **Sprint BE / v29.0** state claims even though the checked-in branch now contains the Sprint BF artifacts (`tests/test_pillar941_sprint_bf_regression_certificate.py`, `src/core/pillar932_*`, `src/core/pillar933_*`, `src/core/pillar934_*`, `src/core/pillar936_*`, `src/core/pillar937_*`, `src/core/pillar938_*`, `src/core/pillar939_*`).
 
 Therefore:
-- treat **Sprint BE / v29.0** as the canonical local branch state
-- do **not** narrate Sprint BF as current branch reality until the underlying BF artifacts are actually present
-- if BF is intended to be current, the first task is to land or fetch those artifacts before making new closure claims
+- treat **Sprint BF / v30.0** as the canonical local branch state
+- do **not** narrate older Sprint BE surfaces as current branch reality
+- first resolve any truth-surface drift before making new closure claims
 
 ---
 
@@ -68,11 +66,11 @@ Therefore:
 The main problem is no longer only the physics residuals; it is also truth-surface drift.
 
 Previously stale or inconsistent surfaces:
-- `docs/mas_tracker.yml` header lagged current state
-- `docs/GATEKEEPER_SUMMARY.md` lagged at v26.0
-- `docs/TRUTH_LAYER.md` lagged at v26.0
-- `docs/WAVE_CHANGELOG.md` header lagged at v27.0
-- this file lagged at v24.1
+- `docs/CLAIM_MASTER_BOARD.md` lagged at Sprint BE
+- `docs/GATEKEEPER_SUMMARY.md` lagged at Sprint BE
+- `docs/TRUTH_LAYER.md` lagged at Sprint BE
+- `docs/WAVE_CHANGELOG.md` had no Sprint BF entry
+- this file incorrectly claimed BF artifacts were absent
 
 Rule going forward:
 - never update just one status surface
@@ -95,15 +93,15 @@ Sprint BG should be a **closure-discipline sprint**, not an expansion sprint.
   - `docs/WAVE_CHANGELOG.md`
   - `docs/SPRINT_PLAN.md`
 
-### Priority 2 — Resolve branch-reality drift
-- either land the BF artifacts
-- or explicitly keep the branch on BE and stop speaking as if BF is already merged
+### Priority 2 — Resolve artifact-internal drift
+- keep Sprint BF truth surfaces aligned with the tested BF pillar outcomes
+- do not let summary certificates overstate closures that the pillar tests still mark partial or irreducible
 
 ### Priority 3 — Attack one blocker only
-- if BF is not present: the sprint is a **state-reconciliation sprint**
-- if BF is present: pick exactly one live internal blocker:
+- pick exactly one live internal blocker:
   - surviving F-theory / G₄ residual, or
   - CKM 13D texture
+  - or one of the explicit BF irreducible lanes if a sharper bound is genuinely available
 
 ### Priority 4 — Separate residual types
 - **tractable internal blockers**

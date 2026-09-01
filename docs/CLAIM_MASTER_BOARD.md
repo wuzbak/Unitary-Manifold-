@@ -1,9 +1,31 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v29.0
+# Unitary Manifold v30.0
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-01 (v29.0 — Sprint BE: Pillars 919–930 (12 pillars). CKM Resolution Attempt, α_s 13D Closure, F-theory Rung 10, Observational Readiness. Lean4 +120 (3276→3396); ~255 new tests; ~61,261 passed · 45 skipped · 12 deselected · 0 failed. PMNS_ORDERING_PROXY_OPEN CLOSED (P927); KK_TOWER_ISW_OPEN CLOSED (P928). Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-01 (v30.0 — Sprint BF: Pillars 931–941 (11 pillars). CKM Wilson-line audit, Rung 10 closure certificate, CMB brane backreaction, Δm²₂₁ NLO, α_s tightening, DESI DR3 preregistration update, and Observational Readiness v2. Lean4 +116 (3396→3512); ~179 new tests; ~61,440 passed · 45 skipped · 12 deselected · 0 failed. RUNG10_NL_PARITY closed (P932); RUNG10_MATTER_CURVE_CY4_GENUS closed (P933). Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P941 (v30.0): Sprint BF Regression Certificate — SPRINT_BF_REGRESSION_CERTIFICATE. `src/core/pillar941_sprint_bf_regression_certificate.py` certifies Sprint BF (11 pillars 931–941; ~179 new tests; Lean4 +116 (3396→3512); next slot 942; v30.0). Remaining open: B3_g4_flux, CKM_TEXTURE_13D_OPEN, CMB_AMP_ARCHITECTURE_LIMIT, DELTA_M21_NLO_IRREDUCIBLE, ALPHA_S_13D_IRREDUCIBLE, DESI_DR3_MONITORING, LiteBIRD β pending.*
+
+*P940 (v30.0): Lean4 Sprint BF Bridge — LEAN4_SPRINT_BF_BRIDGE. `lean4/UnitaryManifold/SprintBFBridge.lean` — 116 proxy theorems across the Sprint BF closure ledger. Lean4 +116 (3396→3512).*
+
+*P939 (v30.0): Observational Readiness Matrix v2 — OBSERVATIONAL_MATRIX_COMPLETE. `src/core/pillar939_observational_readiness_v2.py` — canonical 8-entry machine-readable matrix of open predictions vs. experiments and timelines. LiteBIRD β remains the primary falsifier; DESI DR3 tension remains below 3σ.*
+
+*P938 (v30.0): DESI DR3 Pre-Registration Update — DESI_DR3_PREREGISTRATION_UPDATED. `src/core/pillar938_desi_dr3_preregistration_update.py` — pre-registration refreshed with Sprint BE σ range and SPHEREx extension while keeping the 2σ/3σ/5σ thresholds locked.*
+
+*P937 (v30.0): α_s 13D Window Tightening — ALPHA_S_13D_WINDOW_IRREDUCIBLE. `src/core/pillar937_alpha_s_13d_window_tighten.py` — threshold matching tightens the 13D window, but PDG α_s(M_Z)=0.1180 remains outside the tightened interval.*
+
+*P936 (v30.0): Δm²₂₁ NLO Loop Closure — DELTA_M21_NLO_IRREDUCIBLE. `src/core/pillar936_nu_mass_splitting_nlo.py` — the Coleman-Weinberg NLO correction overcorrects the solar splitting proxy and leaves the lane as an architecture limit.*
+
+*P935 (v30.0): CMB Peak Brane Backreaction — CMB_BRANE_BACKREACTION_NEGLIGIBLE. `src/core/pillar935_cmb_peak_brane_backreaction.py` — brane-backreaction contributes only O(10⁻¹⁰), so the ×4–7 peak-amplitude suppression remains an architecture limit.*
+
+*P934 (v30.0): F-theory Rung 10 Closure Certificate — FTHEORY_RUNG10_PARTIAL. `src/core/pillar934_ftheory_rung10_closure_certificate.py` — aggregates Pillars 922–924 and 932–933; NL parity and matter-curve genus are resolved, but B3_g4_flux remains open.*
+
+*P933 (v30.0): F-theory Matter-Curve Genus Bound — MATTER_CURVE_GENUS_SUPPRESSED. `src/core/pillar933_ftheory_matter_curve_genus_bound.py` — the CY₄ APS genus correction vanishes when χ_fibre=0, retiring the Sprint BE genus blocker.*
+
+*P932 (v30.0): F-theory Rung 10 NL Parity Resolution — RUNG10_NL_PARITY_RESOLVED. `src/core/pillar932_ftheory_rung10_nl_parity_resolution.py` — discrete torsion removes the n_w²≡1 (mod 2) obstruction and closes the Sprint BE NL-parity blocker.*
+
+*P931 (v30.0): CKM Wilson-Line Angle Audit — WILSON_LINE_ORDERING_ONLY. `src/core/pillar931_ckm_wilson_line_angle_audit.py` — Wilson-line scanning reproduces CKM ordering in accessible regions, but not the full PDG magnitudes within 30%.*
 
 *P930 (v29.0): Sprint BE Regression Certificate — SPRINT_BE_REGRESSION_CERTIFICATE. `src/core/pillar930_sprint_be_regression_certificate.py` certifies Sprint BE (12 pillars 919–930; ~255 new tests; Lean4 +120 (3276→3396); next slot 931; v29.0).*
 

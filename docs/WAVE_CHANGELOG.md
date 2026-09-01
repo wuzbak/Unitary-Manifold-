@@ -1,7 +1,33 @@
 ## Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v30.0 (2026-09-01)*
+**Current version: v30.0 (2026-09-01)**
+
+---
+
+## v30.0 (2026-09-01 — Sprint BF: Pillars 931–941)
+
+**What changed:**
+Pillars 931–941 (11 pillars). (1) P931: Wilson-line scan promotes the CKM 13D lane from unstructured tension to explicit ORDERING_ONLY. (2) P932: discrete torsion removes the Rung 10 NL-parity obstruction. (3) P933: the CY₄ matter-curve genus blocker is suppressed when χ_fibre=0. (4) P934: Rung 10 master certificate advances to 2/3 blockers resolved, with only B3_g4_flux left open. (5) P935: CMB brane-backreaction is negligible and does not rescue the ×4–7 peak-amplitude suppression. (6) P936: the Δm²₂₁ Coleman-Weinberg NLO correction overcorrects and is honestly retained as irreducible. (7) P937: α_s threshold matching tightens the 13D window but still misses PDG α_s(M_Z). (8) P938: DESI DR3 preregistration is refreshed with Sprint BE σ inputs and SPHEREx coupling. (9) P939: Observational Readiness v2 consolidates the live prediction/experiment matrix. (10) P940: Lean4 Sprint BF bridge adds 116 theorems. (11) P941: Sprint BF regression certificate records the sprint-level ledger.
+
+**Why:**
+Advance the branch from Sprint BE to Sprint BF while keeping the residual set explicit, machine-readable, and honest about what remains unresolved.
+
+**Epistemic label deltas:**
+- `RUNG10_SPECTRAL_COVER_NL_PARITY` → resolved by P932
+- `RUNG10_MATTER_CURVE_CY4_GENUS` → resolved by P933
+- `CKM_TEXTURE_13D_OPEN` → refined to Wilson-line `ORDERING_ONLY`
+- `DELTA_M21_NLO` → `IRREDUCIBLE`
+- `ALPHA_S_13D_WINDOW` → `IRREDUCIBLE`
+- `CMB_PEAK_AMPLITUDE_OPEN` → unchanged architecture limit after brane-backreaction audit
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** LiteBIRD β remains the primary falsifier; DESI DR3 thresholds remain locked; CMB-S4 remains an external check on the already-named amplitude residual.
+
+**Residual unknowns:** B3_g4_flux, CKM 13D full magnitude closure, CMB peak amplitude mechanism, Δm²₂₁ exact closure, α_s exact closure, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Regression:** ~61,440 passed · 45 skipped · 12 deselected · 0 failed
 
 ---
 

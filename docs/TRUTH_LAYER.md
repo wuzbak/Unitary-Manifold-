@@ -1,14 +1,14 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v29.0
+# Unitary Manifold v30.0
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
-*v29.0 sync note (Sprint BE — 2026-09-01):*
-*(1) Auditable checked-in branch state is Sprint BE: ~61,261 passed · 45 skipped · 12 deselected · 0 failed; Lean4 3396; next pillar slot 931.*
-*(2) PMNS ordering proxy is now closed at NLO stability (P927), and the KK-tower ISW lane is closed as Boltzmann-negligible (P928).*
-*(3) The current internal open set in this branch is explicit: CKM 13D texture, CMB peak amplitude architecture limit, F-theory Rung 10 NL-parity blocker, F-theory Rung 10 matter-curve CY₄-genus blocker, DESI DR3 monitoring, LiteBIRD birefringence, and non-perturbative QG.*
-*(4) Any later Sprint BF claims must remain out of the canonical state in this file until the cited BF artifacts are actually present in the checked-in branch.*
+*v30.0 sync note (Sprint BF — 2026-09-01):*
+*(1) Auditable checked-in branch state is Sprint BF: ~61,440 passed · 45 skipped · 12 deselected · 0 failed; Lean4 3512; next pillar slot 942.*
+*(2) Sprint BF closes the Rung 10 NL-parity blocker (P932) and the matter-curve CY₄-genus blocker (P933), but leaves the G₄-flux blocker open via the consolidated P934 partial certificate.*
+*(3) The current explicit open set in this branch is: B3_g4_flux, CKM 13D texture, CMB peak amplitude architecture limit, Δm²₂₁ NLO irreducible, α_s 13D irreducible, DESI DR3 monitoring, and LiteBIRD birefringence.*
+*(4) Canonical truth surfaces must narrate Sprint BF as current checked-in reality because the underlying BF artifacts are present in the branch.*
 
 *v15.7 update (AI Governance Stack Operationalized — Pillar 510):*
 *(1) Pillar 510 adds a seven-layer operational AI governance overlay for autonomous stewardship: constitution, approval gates, safety protocols, audit trails, human-in-the-loop verification, brand-safety/content moderation, and runtime sandboxing.*
