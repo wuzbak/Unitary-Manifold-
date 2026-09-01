@@ -75,6 +75,7 @@ __all__ = [
     "ROUTE_AGREEMENT_FRACTION",
     "TENSION_SIGMA",
     "TIGHTENING_ACHIEVED",
+    "PDG_INSIDE_TIGHTENED",
     "REMAINING_OPEN",
     "combine_routes",
     "interval_intersection",
