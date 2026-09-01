@@ -1,6 +1,61 @@
-version: "v26.0"
+version: "v27.0"
 date: "2026-09-01"
 updated: "2026-09-01"
+
+v27_0_sprint_bc:
+  description: "Sprint BC — Froggatt-Nielsen Hierarchy, Degeneracy Resolution and Fermion Mass Ratios Sprint"
+  pillars: [887,888,889,890,891,892,893,894,895,896,897,898,899,900,901,902,903,904,905,906,907,908,909,910]
+  lean4_start: 2741
+  lean4_end: 3176
+  lean4_delta: 435
+  new_lean4_files:
+    - FNHierarchyTheorems.lean
+    - BundleDegeneracyResolution.lean
+    - SprintBCMasterBridge.lean
+  gates_advanced:
+    - FN_CHARGE_ASSIGNMENT_FROM_7D_MONODROMY
+    - CKM_7D_FN_CORRECTION
+    - JARLSKOG_7D_NLO_FN
+    - PMNS_FN_BRIDGE
+    - NGEN_6D_BUNDLE_THIRD_FILTER
+    - E8_BREAKING_THIRD_FILTER
+    - ALPHA_S_M7_VOL_PINNING
+    - TCC_EFOLD_NLO_AUDIT
+    - CMB_AMPLITUDE_BEYOND_EFT_SURVEY
+    - QUARK_MASS_RATIOS_7D_FN
+    - LEPTON_MASS_RATIOS_7D_FN
+    - NEUTRINO_MASS_ORDERING_AUDIT
+    - YUKAWA_SVD_FN_UNIFIED
+    - FERMION_MASS_CHAIN_CERTIFICATE
+    - LEAN4_FN_HIERARCHY_THEOREMS
+    - LEAN4_BUNDLE_DEGENERACY_RESOLUTION
+    - DESI_DR3_EUCLID_JOINT_PREREGISTRATION
+    - NEDM_SNS_PREREGISTRATION
+    - LITEBIRD_DISCRIMINATION_REFINED
+    - SPRINT_BC_MASTER_BRIDGE
+    - SPRINT_BC_REGRESSION_CERTIFICATE
+  new_open_items:
+    - CKM_7D_FN_ANGLE_TENSION_OPEN
+    - JARLSKOG_FN_MAGNITUDE_OPEN
+    - NGEN_6D_BUNDLE_DEGENERACY_OPEN
+    - E8_BREAKING_PATTERN_OPEN
+    - FERMION_MASS_RATIO_OPEN
+  remaining_open:
+    - CKM_7D_FN_ANGLE_TENSION_OPEN
+    - JARLSKOG_FN_MAGNITUDE_OPEN
+    - NGEN_6D_BUNDLE_DEGENERACY_OPEN
+    - E8_BREAKING_PATTERN_OPEN
+    - CMB_PEAK_AMPLITUDE_OPEN
+    - FERMION_MASS_RATIO_OPEN
+    - DESI_DR3_WA_ROUTING_OPEN
+    - LITEBIRD_BIREFRINGENCE_OPEN
+    - NON_PERTURBATIVE_QG_OPEN
+  tests_added: 618
+  regression: "652 passed · 0 failed"
+  next_pillar_slot: 911
+  next_version: "v27.1"
+  lean4_theorems_total: 3176
+  lean4_new_theorems: 435
 
 v26_0_sprint_bb:
   description: "Sprint BB — Flavour, Coupling and Architecture-Limit Sprint"

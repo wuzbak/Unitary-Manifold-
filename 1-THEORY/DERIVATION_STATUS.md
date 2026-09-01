@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v26.0 — Unambiguous Record**  
+**The Unitary Manifold v27.0 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-01 (v26.0 — Sprint BB: Pillars 861–886; CKM 7D partial tension; Jarlskog computed; α_s narrowed; N_gen 6D bundle constrained (degeneracy=2); architecture limits certified in Lean4 (Higgs 6D UV, KKLT NP, E₈ breaking, CMB peak, NP QG); PMNS CP NLO stable; Swampland extended audit (TCC tension); Lean4 +555 (2186→2741); ~60,196 passed · 45 skipped · 12 deselected · 0 failed; next slot 887.)*
+*Last updated: 2026-09-01 (v27.0 — Sprint BC: Pillars 887–910; FN charge assignment, CKM FN correction (TENSION_PERSISTS), Jarlskog FN audit, PMNS FN bridge, bundle/E₈ third-filter degeneracy audits (both still degeneracy=2), α_s volume pinning, TCC e-fold NLO, beyond-EFT CMB survey, fermion mass-ratio chain, Lean4 +435 (2741→3176); ~60,848 passed · 45 skipped · 12 deselected · 0 failed; next slot 911.)*
 *Latest verified full regression: 58,790 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-08-25).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.

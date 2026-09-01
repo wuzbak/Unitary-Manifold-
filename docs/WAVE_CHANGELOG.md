@@ -1,7 +1,7 @@
 ## Wave Changelog
 
 This file is the required wave-level changelog ledger.
-*Current version: v26.0 (2026-09-01)*
+*Current version: v27.0 (2026-09-01)*
 
 ---
 
@@ -50,7 +50,7 @@ Closes all tractable terminal open gates from Sprint AY. Provides maximal honest
 
 **Residual unknowns:** Mathlib APS proof, non-linear inhomogeneous BSSN, LiteBIRD ~2032, DESI DR3 ~2027, JUNO Phase 2, fermion mass ratios, loop-corrected Boltzmann.
 
-**Regression:** 59,167 passed · 45 skipped · 12 deselected · 0 failed
+**Regression:** 60,848 passed · 45 skipped · 12 deselected · 0 failed
 
 For each wave entry, include:
 - **What changed**
@@ -83,7 +83,7 @@ Closes registered open gates from Pillars 809, 819. Provides honest mathematical
 
 **Residual unknowns:** NW_UNIQUENESS_GEOMETRY_OPEN, APS_MATHLIB_OPEN, NGEN_6D_OPEN, ADM_BSSN_OPEN, G1/G2/G3 structural floors.
 
-**Regression:** ~59,167 passed · 45 skipped · 12 deselected · 0 failed
+**Regression:** ~60,848 passed · 45 skipped · 12 deselected · 0 failed
 
 ---
 
