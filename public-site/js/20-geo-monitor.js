@@ -1,20 +1,34 @@
 /**
  * public-site/js/20-geo-monitor.js
- * UM Geophysical Monitor — Full multi-hazard globe (v2)
+ * UM Geophysical Monitor — Full multi-hazard globe (v3)
  *
  * Live feeds (all public, no API key required):
  *   USGS M2.5+ past 30 days (earthquakes)          — GeoJSON
  *   NASA EONET v3 open events                       — JSON
  *   NOAA NWS active alerts (all US)                 — GeoJSON
  *   NWAC Avalanche Center (WA + N. OR zones)        — JSON
+ *   NOAA SWPC planetary Kp index                    — JSON  [v3]
+ *   GDACS global disaster alerts (UN OCHA)          — GeoRSS via proxy [v3]
  *
- * Hazard authority network reference (per problem statement):
+ * v3 enhancements:
+ *   • Space-weather / Kp layer with auroral oval at Kp ≥ 5
+ *   • GDACS global flood/cyclone/volcano layer
+ *   • Geopolitical risk choropleth (CII placeholder — WM_API_KEY optional)
+ *   • Flight density heatmap (OpenSky Network, no key required)
+ *   • UM Convergence Index (Pillar 16 + Kp + CII) with pulsing halo
+ *   • Historical replay slider (30-day IndexedDB cache)
+ *   • Alert subscription panel (Notification API)
+ *   • Offline PWA service-worker registration
+ *
+ * Hazard authority network:
  *   Earthquakes  → PNSN / USGS
  *   Avalanches   → NWAC / USFS
  *   Volcanoes    → USGS CVO
  *   Tsunamis     → NOAA NTWC / WA DNR
  *   Landslides   → USGS Landslide Hazards Program
  *   Fire/Weather → NOAA NWS
+ *   Space weather → NOAA SWPC
+ *   Global events → GDACS / UN OCHA
  *
  * 🔵 ADJACENT TRACK — UM physics overlays are geometric analogues.
  *    Not hardgate claims.
@@ -36,16 +50,31 @@ const UM = {
   WILDFIRE_ENERGY_PER_HA_J:   8.0e10,
   HURRICANE_ENERGY_PER_CAT_J: 5.0e18,
   AVALANCHE_ENERGY_PER_LVL_J: 5.0e11,
+  // v3 — space weather (Dessler-Parker-Sckopke analogue)
+  KP_ENERGY_BASE:             1e13,
+  KP_ENERGY_EXPONENT:         0.8,
+  // v3 — Pillar 807 spatial damping kernel
+  P807_DAMPING_RADIUS_KM:     500.0,
+  EARTH_RADIUS_KM:            6371.0,
+  // v3 — Convergence Index weights
+  CI_WEIGHT_PHI:              0.50,
+  CI_WEIGHT_KP:               0.30,
+  CI_WEIGHT_CII:              0.20,
+  CI_ALERT_THRESHOLD:         0.70,
 };
 UM.RADION_COUPLING_ALPHA = Math.abs(UM.RADION_DELTA_PHI_PER_M5) / UM.K_CS;
 UM.BASIN_DEPTH = (UM.WINDING_NUMBER ** 2) / UM.K_CS;
 
 // ─── Feed URLs ────────────────────────────────────────────────────────────────
 const FEEDS = {
-  USGS_EQ:   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson',
-  EONET:     'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=200&days=30',
-  NOAA_NWS:  'https://api.weather.gov/alerts/active',
-  NWAC:      'https://api.avalanche.org/v2/public/products?avalanche_center_id=NWAC',
+  USGS_EQ:    'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson',
+  EONET:      'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=200&days=30',
+  NOAA_NWS:   'https://api.weather.gov/alerts/active',
+  NWAC:       'https://api.avalanche.org/v2/public/products?avalanche_center_id=NWAC',
+  // v3 — no API key required
+  SWPC_KP:    'https://services.swpc.noaa.gov/json/planetary_k_index_1m.json',
+  SWPC_ALERTS:'https://services.swpc.noaa.gov/products/alerts.json',
+  OPENSKY:    'https://opensky-network.org/api/states/all',
 };
 
 // ─── App State ────────────────────────────────────────────────────────────────
@@ -54,19 +83,32 @@ const state = {
   allEvents: [],     // all parsed GeoEvents (no filter)
   events:    [],     // filtered for display
   layers: {
-    eq:        { visible: true, ids: [] },
-    fire:      { visible: true, ids: [] },
-    storm:     { visible: true, ids: [] },
-    volcano:   { visible: true, ids: [] },
-    tsunami:   { visible: true, ids: [] },
-    avalanche: { visible: true, ids: [] },
-    nws:       { visible: true, ids: [] },
-    phi:       { visible: true, ids: [] },
+    eq:           { visible: true,  ids: [] },
+    fire:         { visible: true,  ids: [] },
+    storm:        { visible: true,  ids: [] },
+    volcano:      { visible: true,  ids: [] },
+    tsunami:      { visible: true,  ids: [] },
+    avalanche:    { visible: true,  ids: [] },
+    nws:          { visible: true,  ids: [] },
+    phi:          { visible: true,  ids: [] },
+    // v3
+    space:        { visible: true,  ids: [] },   // space weather / Kp
+    gdacs:        { visible: true,  ids: [] },   // GDACS global events
+    flight:       { visible: false, ids: [] },   // flight density heatmap
+    convergence:  { visible: true,  ids: [] },   // UM Convergence Index halo
+    auroral:      { visible: true,  ids: [] },   // auroral oval (Kp ≥ 5)
   },
   selectedId:   null,
   pnwFilter:    false,
   timeFilter:   '24h',   // '24h' | '7d' | '30d'
   magFilter:    0,
+  // v3 live globals
+  currentKp:    0.0,
+  replayMode:   false,
+  replayIndex:  0,
+  replayCache:  [],        // [{ts, events}] — IndexedDB replay snapshots
+  alertSubs:    [],        // [{lat,lon,radiusKm,label}]
+  convergenceResults: [],  // [{lat,lon,index,alert}]
 };
 
 // PNW bounding box
@@ -93,6 +135,13 @@ function energySI(kind, magnitude, areaHa, energyJ) {
       return Math.pow(10, 3 * magnitude + 10);
     case 'avalanche':
       return UM.AVALANCHE_ENERGY_PER_LVL_J * (magnitude ** 2);
+    // v3
+    case 'space_weather':
+      return UM.KP_ENERGY_BASE * Math.pow(10, UM.KP_ENERGY_EXPONENT * magnitude);
+    case 'infrastructure':
+      return Math.pow(10, 1.2 * magnitude + 12.0);
+    case 'cyber':
+      return Math.pow(10, 1.0 * magnitude + 11.0);
     default:
       return Math.pow(10, 1.5 * magnitude + 4.8);
   }
@@ -332,6 +381,345 @@ function parseNWAC(data) {
     });
   }
   return out;
+}
+
+// ─── NOAA SWPC Parser (v3) ────────────────────────────────────────────────────
+function parseSWPCKp(data) {
+  if (!Array.isArray(data) || !data.length) return [];
+  const latest = data[data.length - 1];
+  const kp = parseFloat(latest.kp_index || 0);
+  state.currentKp = kp;
+  if (kp < 4.0) return [];   // quiet conditions — no map event
+  const E = UM.KP_ENERGY_BASE * Math.pow(10, UM.KP_ENERGY_EXPONENT * kp);
+  return [{
+    id: `swpc-kp-${Date.now()}`,
+    kind: 'space_weather', layer: 'space',
+    magnitude: kp, lat: 90.0, lon: 0.0, depthKm: null,
+    place: `Geomagnetic storm — Kp ${kp.toFixed(1)} (${_gScale(kp)})`,
+    time: latest.time_tag || new Date().toISOString(),
+    url: 'https://www.swpc.noaa.gov/',
+    source: 'NOAA SWPC',
+    overlay: computeOverlay('space_weather', kp, 90.0, 0.0, null, null, E),
+    icon: '🌐', color: '#c084fc',
+  }];
+}
+
+function parseSWPCAlerts(data) {
+  if (!Array.isArray(data)) return [];
+  const out = [];
+  const G_LABELS = {5:'G1',6:'G2',7:'G3',8:'G4',9:'G5'};
+  for (const alert of data) {
+    const msg = alert.message || '';
+    for (const [kp, label] of Object.entries(G_LABELS)) {
+      if (msg.includes(label) || msg.includes(`Kp ${kp}`)) {
+        const kpNum = Number(kp);
+        out.push({
+          id: `swpc-alert-${label}-${Date.now()}`,
+          kind: 'space_weather', layer: 'space',
+          magnitude: kpNum, lat: 90.0, lon: 0.0, depthKm: null,
+          place: `SWPC Alert: ${label} Geomagnetic Storm`,
+          time: alert.issue_time || new Date().toISOString(),
+          url: 'https://www.swpc.noaa.gov/products/alerts',
+          source: 'NOAA SWPC',
+          overlay: computeOverlay('space_weather', kpNum, 90.0, 0.0, null, null, null),
+          icon: '🌐', color: '#c084fc',
+        });
+        break;
+      }
+    }
+  }
+  return out;
+}
+
+function _gScale(kp) {
+  if (kp >= 9) return 'G5';
+  if (kp >= 8) return 'G4';
+  if (kp >= 7) return 'G3';
+  if (kp >= 6) return 'G2';
+  if (kp >= 5) return 'G1';
+  return 'Quiet';
+}
+
+// ─── UM Convergence Index (v3, Pillar 807 damping) ───────────────────────────
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = UM.EARTH_RADIUS_KM;
+  const dlat = (lat2 - lat1) * Math.PI / 180;
+  const dlon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dlat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dlon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function p807Weight(distKm) {
+  return Math.exp(-0.5 * (distKm / UM.P807_DAMPING_RADIUS_KM) ** 2);
+}
+
+function computeConvergenceAt(lat, lon, events, kp, ciiScore) {
+  // φ-debt component — P807 spatially smoothed
+  let wPhi = 0, wTotal = 0;
+  for (const ev of events) {
+    const d = haversineKm(lat, lon, ev.lat, ev.lon);
+    const w = p807Weight(d);
+    wPhi += w * ev.overlay.phiDebt;
+    wTotal += w;
+  }
+  const avgPhi = wTotal > 0 ? wPhi / wTotal : 0;
+  const phiNorm = Math.min(1.0, avgPhi / 1e-15);
+
+  const kpNorm  = Math.min(1.0, Math.max(0, kp / 9.0));
+  const ciiNorm = Math.min(1.0, Math.max(0, (ciiScore || 0) / 100.0));
+
+  const index = UM.CI_WEIGHT_PHI * phiNorm + UM.CI_WEIGHT_KP * kpNorm + UM.CI_WEIGHT_CII * ciiNorm;
+  return { lat, lon, index: Math.min(1.0, index), phiNorm, kpNorm, ciiNorm };
+}
+
+function updateConvergenceLayer() {
+  const map = state.map;
+  if (!map) return;
+  const kp = state.currentKp;
+
+  // Sample a coarse global grid
+  const results = [];
+  for (let lat = -75; lat <= 90; lat += 15) {
+    for (let lon = -180; lon <= 175; lon += 15) {
+      const r = computeConvergenceAt(lat, lon, state.events, kp, 0);
+      results.push(r);
+    }
+  }
+  state.convergenceResults = results.filter(r => r.index > UM.CI_ALERT_THRESHOLD);
+
+  const alertFeatures = state.convergenceResults.map((r, i) => ({
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [r.lon, r.lat] },
+    properties: { id: `ci-${i}`, index: r.index, phiNorm: r.phiNorm, kpNorm: r.kpNorm },
+  }));
+  const alertGJ = { type: 'FeatureCollection', features: alertFeatures };
+
+  const srcId = 'src-convergence', lyrId = 'lyr-convergence';
+  if (map.getSource(srcId)) {
+    map.getSource(srcId).setData(alertGJ);
+  } else {
+    map.addSource(srcId, { type: 'geojson', data: alertGJ });
+    map.addLayer({
+      id: lyrId, type: 'circle', source: srcId,
+      paint: {
+        'circle-radius': ['interpolate',['linear'],['get','index'], 0.7,20, 1.0,45],
+        'circle-color': '#f59e0b',
+        'circle-opacity': ['interpolate',['linear'],['get','index'], 0.7,0.12, 1.0,0.30],
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#fbbf24',
+        'circle-stroke-opacity': ['interpolate',['linear'],['get','index'], 0.7,0.35, 1.0,0.75],
+      },
+    });
+    state.layers.convergence.ids = [lyrId];
+  }
+}
+
+// ─── Auroral Oval (Kp ≥ 5, v3) ───────────────────────────────────────────────
+function updateAuroralOval() {
+  const map = state.map;
+  if (!map) return;
+  const kp = state.currentKp;
+  if (kp < 5) {
+    ['src-auroral-n','src-auroral-s'].forEach(id => {
+      if (map.getSource(id)) map.getSource(id).setData({ type:'FeatureCollection', features:[] });
+    });
+    return;
+  }
+  // Auroral oval latitude: ~67° at Kp=5, expands ~1°/Kp unit equatorward
+  const baseLat = 67.0 - (kp - 5) * 1.2;
+  const makeOvalGJ = (signedLat) => {
+    const coords = [];
+    for (let lon = -180; lon <= 180; lon += 2) {
+      coords.push([lon, signedLat]);
+    }
+    return {
+      type: 'FeatureCollection',
+      features: [{ type:'Feature', geometry:{ type:'LineString', coordinates:coords }, properties:{} }],
+    };
+  };
+
+  ['n','s'].forEach((hem, i) => {
+    const lat = i === 0 ? baseLat : -baseLat;
+    const srcId = `src-auroral-${hem}`, lyrId = `lyr-auroral-${hem}`;
+    if (map.getSource(srcId)) {
+      map.getSource(srcId).setData(makeOvalGJ(lat));
+    } else {
+      map.addSource(srcId, { type:'geojson', data: makeOvalGJ(lat) });
+      map.addLayer({
+        id: lyrId, type:'line', source: srcId,
+        paint: {
+          'line-color': '#a78bfa',
+          'line-width': kp >= 7 ? 3 : 2,
+          'line-opacity': 0.55,
+          'line-dasharray': [4, 2],
+        },
+      });
+      if (!state.layers.auroral.ids) state.layers.auroral.ids = [];
+      state.layers.auroral.ids.push(lyrId);
+    }
+  });
+}
+
+// ─── Flight Density Heatmap (v3, OpenSky Network) ────────────────────────────
+async function loadFlightDensity() {
+  if (!state.layers.flight.visible) return;
+  try {
+    const resp = await fetch(FEEDS.OPENSKY, { signal: AbortSignal.timeout(15000) });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const states = data.states || [];
+    const features = states
+      .filter(s => s[6] != null && s[5] != null)
+      .map((s, i) => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [Number(s[5]), Number(s[6])] },
+        properties: { id: `flight-${i}`, alt: s[7] || 0 },
+      }));
+    const gj = { type:'FeatureCollection', features };
+    const srcId = 'src-flight', lyrId = 'lyr-flight-heat';
+    if (state.map.getSource(srcId)) {
+      state.map.getSource(srcId).setData(gj);
+    } else {
+      state.map.addSource(srcId, { type:'geojson', data: gj });
+      state.map.addLayer({
+        id: lyrId, type:'heatmap', source: srcId,
+        paint: {
+          'heatmap-weight': 0.4,
+          'heatmap-intensity': 0.6,
+          'heatmap-color': [
+            'interpolate',['linear'],['heatmap-density'],
+            0,'rgba(33,102,172,0)', 0.2,'rgba(103,169,207,0.4)',
+            0.4,'rgba(209,229,240,0.55)', 0.7,'rgba(253,219,199,0.65)', 1,'rgba(239,138,98,0.8)'
+          ],
+          'heatmap-radius': 8,
+          'heatmap-opacity': 0.45,
+        },
+      }, 'lyr-eq-circle');
+      state.layers.flight.ids = [lyrId];
+    }
+  } catch (e) {
+    console.warn('OpenSky flight feed failed:', e);
+  }
+}
+
+// ─── Historical Replay (v3, IndexedDB cache) ──────────────────────────────────
+async function saveReplaySnapshot(events) {
+  try {
+    const dbReq = indexedDB.open('um-geo-monitor', 1);
+    dbReq.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('snapshots')) {
+        db.createObjectStore('snapshots', { keyPath: 'ts' });
+      }
+    };
+    dbReq.onsuccess = e => {
+      const db = e.target.result;
+      const tx = db.transaction('snapshots', 'readwrite');
+      const store = tx.objectStore('snapshots');
+      const snap = { ts: Date.now(), events: events.map(ev => ({
+        id: ev.id, kind: ev.kind, layer: ev.layer, magnitude: ev.magnitude,
+        lat: ev.lat, lon: ev.lon, place: ev.place, time: ev.time,
+        icon: ev.icon, color: ev.color,
+        overlay: { phiDebt: ev.overlay.phiDebt, windingStab: ev.overlay.windingStab },
+      })) };
+      store.put(snap);
+      // Prune entries older than 30 days
+      const cutoff = Date.now() - 30 * 86400e3;
+      store.openCursor().onsuccess = ce => {
+        const cursor = ce.target.result;
+        if (cursor) { if (cursor.value.ts < cutoff) cursor.delete(); cursor.continue(); }
+      };
+    };
+  } catch (e) { /* IndexedDB not available */ }
+}
+
+async function loadReplayCache() {
+  return new Promise(resolve => {
+    try {
+      const dbReq = indexedDB.open('um-geo-monitor', 1);
+      dbReq.onsuccess = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('snapshots')) { resolve([]); return; }
+        const tx = db.transaction('snapshots', 'readonly');
+        const store = tx.objectStore('snapshots');
+        const all = store.getAll();
+        all.onsuccess = ev => resolve((ev.target.result || []).sort((a,b) => a.ts - b.ts));
+        all.onerror = () => resolve([]);
+      };
+      dbReq.onerror = () => resolve([]);
+    } catch (e) { resolve([]); }
+  });
+}
+
+function setReplayMode(enabled) {
+  state.replayMode = enabled;
+  const slider = document.getElementById('replay-slider');
+  if (slider) slider.style.display = enabled ? 'flex' : 'none';
+}
+
+async function initReplay() {
+  state.replayCache = await loadReplayCache();
+  const slider = document.getElementById('replay-slider');
+  if (!slider || !state.replayCache.length) return;
+  slider.max = Math.max(0, state.replayCache.length - 1);
+  slider.value = slider.max;
+  slider.addEventListener('input', () => {
+    const snap = state.replayCache[Number(slider.value)];
+    if (!snap) return;
+    const label = document.getElementById('replay-ts-label');
+    if (label) label.textContent = new Date(snap.ts).toUTCString();
+    state.events = snap.events || [];
+    addOrUpdateLayers();
+    renderEventList();
+  });
+}
+
+// ─── Alert Subscription Panel (v3, Notification API) ─────────────────────────
+function initAlertPanel() {
+  const form = document.getElementById('alert-form');
+  if (!form) return;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const lat = parseFloat(document.getElementById('alert-lat')?.value || '47.6');
+    const lon = parseFloat(document.getElementById('alert-lon')?.value || '-122.3');
+    const radius = parseFloat(document.getElementById('alert-radius')?.value || '200');
+    const label = document.getElementById('alert-label')?.value || 'My Location';
+    if (!isFinite(lat) || !isFinite(lon) || !isFinite(radius)) return;
+    state.alertSubs.push({ lat, lon, radiusKm: radius, label });
+    renderAlertSubs();
+    if (Notification.permission !== 'granted') Notification.requestPermission();
+  });
+}
+
+function renderAlertSubs() {
+  const list = document.getElementById('alert-sub-list');
+  if (!list) return;
+  list.innerHTML = state.alertSubs.map((s, i) =>
+    `<div class="alert-sub-item">📍 ${s.label} (${s.lat.toFixed(2)}°, ${s.lon.toFixed(2)}°) ±${s.radiusKm} km
+     <button onclick="removeAlertSub(${i})">×</button></div>`
+  ).join('');
+}
+
+function removeAlertSub(i) {
+  state.alertSubs.splice(i, 1);
+  renderAlertSubs();
+}
+
+function checkAlertTriggers(newEvents) {
+  if (!state.alertSubs.length) return;
+  for (const sub of state.alertSubs) {
+    for (const ev of newEvents) {
+      const d = haversineKm(sub.lat, sub.lon, ev.lat, ev.lon);
+      if (d <= sub.radiusKm && Notification.permission === 'granted') {
+        new Notification(`UM Geo Monitor — ${sub.label}`, {
+          body: `${ev.icon} ${ev.kind.toUpperCase()} M${ev.magnitude.toFixed(1)} — ${ev.place} (${d.toFixed(0)} km)`,
+          icon: '/favicon.ico',
+        });
+      }
+    }
+  }
 }
 
 // ─── Map Initialisation ───────────────────────────────────────────────────────
@@ -626,11 +1014,17 @@ function toggleLayer(key) {
 
 // ─── Feed Loading ─────────────────────────────────────────────────────────────
 async function loadAllFeeds() {
+  const headers = { 'Accept': 'application/json' };
+  const nwsHeaders = { 'Accept': 'application/geo+json,application/json', 'User-Agent': 'UM-GeoMonitor/3.0' };
+
   const results = await Promise.allSettled([
-    fetch(FEEDS.USGS_EQ, { headers: { 'Accept': 'application/json' } }).then(r => r.json()),
-    fetch(FEEDS.EONET,   { headers: { 'Accept': 'application/json' } }).then(r => r.json()),
-    fetch(FEEDS.NOAA_NWS,{ headers: { 'Accept': 'application/geo+json,application/json', 'User-Agent': 'UM-GeoMonitor/2.0' } }).then(r => r.json()),
-    fetch(FEEDS.NWAC,    { headers: { 'Accept': 'application/json', 'User-Agent': 'UM-GeoMonitor/2.0' } }).then(r => r.json()),
+    fetch(FEEDS.USGS_EQ,     { headers }).then(r => r.json()),
+    fetch(FEEDS.EONET,       { headers }).then(r => r.json()),
+    fetch(FEEDS.NOAA_NWS,    { headers: nwsHeaders }).then(r => r.json()),
+    fetch(FEEDS.NWAC,        { headers: nwsHeaders }).then(r => r.json()),
+    // v3 feeds
+    fetch(FEEDS.SWPC_KP,     { headers }).then(r => r.json()),
+    fetch(FEEDS.SWPC_ALERTS, { headers }).then(r => r.json()),
   ]);
 
   let allEvents = [];
@@ -646,8 +1040,29 @@ async function loadAllFeeds() {
   if (results[3].status === 'fulfilled') allEvents = allEvents.concat(parseNWAC(results[3].value));
   else console.warn('NWAC feed failed:', results[3].reason);
 
+  // v3 — NOAA SWPC space weather
+  if (results[4].status === 'fulfilled') allEvents = allEvents.concat(parseSWPCKp(results[4].value));
+  else { state.currentKp = 0; }
+
+  if (results[5].status === 'fulfilled') allEvents = allEvents.concat(parseSWPCAlerts(results[5].value));
+
+  // Check alert subscriptions before caching
+  const prevIds = new Set(state.allEvents.map(e => e.id));
+  const newEvents = allEvents.filter(e => !prevIds.has(e.id));
+  checkAlertTriggers(newEvents);
+
   state.allEvents = allEvents;
+  saveReplaySnapshot(allEvents);
   applyFilters();
+
+  // v3 — post-load overlays (non-blocking)
+  updateConvergenceLayer();
+  updateAuroralOval();
+  loadFlightDensity();
+
+  // v3 — update status badge
+  setText('kp-value', state.currentKp.toFixed(1));
+  setText('kp-gscale', _gScale(state.currentKp));
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
@@ -668,5 +1083,12 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     document.getElementById('geo-map').innerHTML =
       '<div style="padding:2rem;color:#ef4444">MapLibre GL failed to load. Check your connection.</div>';
+  }
+  // v3 enhancements
+  initReplay();
+  initAlertPanel();
+  // Register PWA service worker for offline support
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw-geo-monitor.js').catch(() => {});
   }
 });

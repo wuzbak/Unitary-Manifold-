@@ -75,11 +75,25 @@ PLANCK_ENERGY_J: float = 1.9561e9               # 1 Planck energy in Joules
 DISASTER_KINDS = frozenset(
     ["earthquake", "wildfire", "hurricane", "tornado", "flood",
      "tsunami", "volcano", "drought", "landslide", "storm",
-     "avalanche", "nws_alert"]
+     "avalanche", "nws_alert",
+     # v3 extensions
+     "space_weather", "infrastructure", "cyber"]
 )
 
+# Pillar 807 — CMB phase damping kernel (spatial smoothing for Convergence Index)
+P807_DAMPING_RADIUS_KM: float = 500.0
+P807_EARTH_RADIUS_KM: float = 6371.0
+
+# Convergence Index weights
+CI_WEIGHT_PHI_DEBT: float = 0.50
+CI_WEIGHT_KP: float = 0.30
+CI_WEIGHT_CII: float = 0.20
+
+# Space-weather energy scaling
+KP_ENERGY_BASE: float = 10 ** 13.0
+KP_ENERGY_EXPONENT: float = 0.8
+
 # Avalanche energy conversion: AINEVA/CAA scale — danger level 1-5
-# Estimated release energy per danger level based on typical avalanche mass
 AVALANCHE_ENERGY_PER_DANGER_LEVEL_J: float = 5.0e11   # ~500 GJ at danger 5
 
 
@@ -140,6 +154,13 @@ class GeoEvent:
         if kind == "nws_alert":
             # NWS severity proxy: 1=Minor,2=Moderate,3=Severe,4=Extreme
             return HURRICANE_ENERGY_PER_CATEGORY_J * (self.magnitude ** 1.5)
+        # v3 extensions
+        if kind == "space_weather":
+            return KP_ENERGY_BASE * (10 ** (KP_ENERGY_EXPONENT * self.magnitude))
+        if kind == "infrastructure":
+            return 10 ** (1.2 * self.magnitude + 12.0)
+        if kind == "cyber":
+            return 10 ** (1.0 * self.magnitude + 11.0)
         # Default: generic energy scaling
         return 10 ** (1.5 * self.magnitude + 4.8)
 
@@ -258,6 +279,103 @@ def analyse_event_batch(events: list[GeoEvent]) -> list[UMOverlayResult]:
     """Run UMGeoOverlay on a list of GeoEvents and return results."""
     overlay = UMGeoOverlay()
     return [overlay.analyse(ev) for ev in events]
+
+
+# ---------------------------------------------------------------------------
+# Convergence Index (v3) — cross-stream regional stress score
+# ---------------------------------------------------------------------------
+
+@dataclass
+class ConvergenceResult:
+    """
+    UM Convergence Index for a geographic point.
+
+    Combines φ-debt (P16), Kp space-weather (NOAA SWPC), and geopolitical
+    CII (WorldMonitor v8) into a single 0–1 regional stress score.
+
+    Spatial smoothing uses the Pillar 807 damping kernel (σ ≈ 500 km).
+
+    alert = True when index > 0.7 (pulsing halo on map).
+
+    🔵 ADJACENT TRACK — not a hardgate UM physics claim.
+    """
+    lat: float
+    lon: float
+    index: float = 0.0
+    phi_component: float = 0.0
+    kp_component: float = 0.0
+    cii_component: float = 0.0
+    alert: bool = False
+    epistemic_label: str = (
+        "🔵 ADJACENT TRACK — Convergence Index is a geometric analogue. "
+        "Not a hardgate UM physics claim."
+    )
+
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle distance in km."""
+    R = P807_EARTH_RADIUS_KM
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (math.sin(dlat / 2) ** 2 +
+         math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
+         math.sin(dlon / 2) ** 2)
+    return 2 * R * math.asin(math.sqrt(a))
+
+
+def _p807_weight(dist_km: float) -> float:
+    """Pillar 807 Gaussian spatial kernel weight."""
+    return math.exp(-0.5 * (dist_km / P807_DAMPING_RADIUS_KM) ** 2)
+
+
+def compute_convergence_index(
+    lat: float,
+    lon: float,
+    overlay_results: list[UMOverlayResult],
+    kp: float = 0.0,
+    cii_score: float = 0.0,
+) -> "ConvergenceResult":
+    """
+    Compute the UM Convergence Index at (lat, lon).
+
+    Parameters
+    ----------
+    lat, lon
+        Geographic point of interest.
+    overlay_results
+        UM overlay results for nearby GeoEvents.
+    kp
+        Current planetary Kp index (0–9).
+    cii_score
+        WorldMonitor CII v8 score for the country (0–100).
+    """
+    result = ConvergenceResult(lat=lat, lon=lon)
+
+    weighted_phi = 0.0
+    total_weight = 0.0
+    for r in overlay_results:
+        dist = _haversine_km(lat, lon, r.event.lat, r.event.lon)
+        w = _p807_weight(dist)
+        weighted_phi += w * r.phi_debt_injection
+        total_weight += w
+    avg_phi = (weighted_phi / total_weight) if total_weight > 0 else 0.0
+    phi_norm = min(1.0, avg_phi / 1e-15)
+    result.phi_component = phi_norm
+
+    kp_norm = min(1.0, max(0.0, kp / 9.0))
+    result.kp_component = kp_norm
+
+    cii_norm = min(1.0, max(0.0, cii_score / 100.0))
+    result.cii_component = cii_norm
+
+    index = (
+        CI_WEIGHT_PHI_DEBT * phi_norm +
+        CI_WEIGHT_KP * kp_norm +
+        CI_WEIGHT_CII * cii_norm
+    )
+    result.index = min(1.0, max(0.0, index))
+    result.alert = result.index > 0.7
+    return result
 
 
 # ---------------------------------------------------------------------------

@@ -26,6 +26,10 @@ if _IMPLICATIONS_DIR not in sys.path:
 _SAFETY_DIR = os.path.join(_REPO_ROOT, "8-SAFETY")
 if _SAFETY_DIR not in sys.path:
     sys.path.insert(0, _SAFETY_DIR)
+# v3 — geo-monitor package (wm_feeds, etc.)
+_GEO_MONITOR_DIR = os.path.join(_REPO_ROOT, "12-AZ-IP", "21-geo-monitor")
+if _GEO_MONITOR_DIR not in sys.path:
+    sys.path.insert(0, _GEO_MONITOR_DIR)
 
 from src.core.evolution import FieldState
 from src.holography.boundary import BoundaryState
