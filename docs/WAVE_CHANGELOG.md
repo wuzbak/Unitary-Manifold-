@@ -24,7 +24,7 @@ Closure-discipline sprint: attack one real blocker (B3_g4_flux), audit fermion m
 - `LITEBIRD_BIREFRINGENCE` — unchanged
 
 **Lean4:** 3512 → 3612 (+100 proxy theorems)
-**Regression:** ~61,578 passed · 45 skipped · 12 deselected · 0 failed
+**Regression:** ~61,896 passed · 45 skipped · 12 deselected · 0 failed
 **Next pillar slot:** 949
 
 ---

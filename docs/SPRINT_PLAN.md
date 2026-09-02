@@ -54,11 +54,11 @@ These are the live unresolved items in the auditable local checkout:
 
 ## STATE-RECONCILIATION NOTE
 
-Session memory may refer to older **Sprint BF / v30.0** state claims even though the checked-in branch now contains the Sprint BG artifacts (`tests/test_pillar94*.py`, `src/core/pillar942_*` through `src/core/pillar948_*`, `lean4/UnitaryManifold/SprintBGBridge.lean`).
+Session memory may refer to older **Sprint BH / v32.0** state claims even though the checked-in branch now contains the Sprint BI artifacts (`tests/test_pillar963_sprint_bi_regression_certificate.py`, `src/core/pillar955_*` through `src/core/pillar963_*`, `lean4/UnitaryManifold/SprintBIBridge.lean`).
 
 Therefore:
-- treat **Sprint BG / v31.0** as the canonical local branch state
-- do **not** narrate older Sprint BF surfaces as current branch reality
+- treat **Sprint BI / v32.1** as the canonical local branch state
+- do **not** narrate older Sprint BH surfaces as current branch reality
 - first resolve any truth-surface drift before making new closure claims
 
 ---
@@ -158,17 +158,17 @@ Then verify that all three agree before making any new status claim.
 
 ---
 
-## CURRENT AUDITABLE STATE (v30.0 — Sprint BF)
+## CURRENT AUDITABLE STATE (v32.1 — Sprint BI)
 
 | Field | Value |
 |-------|-------|
-| Version | **v30.0** |
-| Sprint | **Sprint BF** |
-| Pillars | **931–941** |
-| Next pillar slot | **942** |
-| Lean4 theorems | **3512** |
-| Full regression | **~61,440 passed · 45 skipped · 12 deselected · 0 failed** |
-| Closed in this sprint | **RUNG10_NL_PARITY**, **RUNG10_MATTER_CURVE_CY4_GENUS** |
+| Version | **v32.1** |
+| Sprint | **Sprint BI** |
+| Pillars | **955–963** |
+| Next pillar slot | **964** |
+| Lean4 theorems | **3812** |
+| Full regression | **~61,896 passed · 45 skipped · 12 deselected · 0 failed** |
+| Closed in this sprint | **SU3_KAWAMURA_DERIVED_FROM_CS_BOUNDARY**, **N2_7_DERIVED_FROM_Z2_ODD_MINIMUM_STEP** |
 | Active external windows | **DESI DR3 (~2027)**, **CMB-S4 (~2028)**, **LiteBIRD (~2032)** |
 | Framework status | **Residual set narrowed again; not closed** |
 
@@ -178,27 +178,25 @@ Then verify that all three agree before making any new status claim.
 
 These are the live unresolved items in the auditable local checkout:
 
-1. `B3_g4_flux`
-2. `CKM_TEXTURE_13D_OPEN`
-3. `CMB_AMP_ARCHITECTURE_LIMIT`
-4. `DELTA_M21_NLO_IRREDUCIBLE`
-5. `ALPHA_S_13D_IRREDUCIBLE`
-6. `DESI_DR3_MONITORING`
-7. `LITEBIRD_BIREFRINGENCE_OPEN`
+1. `CMB_AMP_CONFIRMED_IRREDUCIBLE`
+2. `CKM_THETA13_ARCHITECTURE_LIMIT`
+3. `FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE`
+4. `DESI_DR3_MONITORING`
+5. `LITEBIRD_BIREFRINGENCE_OPEN`
 
 Related still-open interpretation lanes:
-- the Rung 10 lane is no longer blocked by NL parity or genus, only by the reference-CY₄ G₄-flux residual
-- CKM, Δm²₂₁, and α_s remain explicit internal residuals rather than external-data waits
+- SU3 Kawamura gauge group and n₂=7 selection are now derived (Sprint BI closures)
+- CKM θ₁₃, fermion mass magnitudes remain explicit architecture limits
 
 ---
 
 ## STATE-RECONCILIATION NOTE
 
-Session memory may refer to older **Sprint BE / v29.0** state claims even though the checked-in branch now contains the Sprint BF artifacts (`tests/test_pillar941_sprint_bf_regression_certificate.py`, `src/core/pillar932_*`, `src/core/pillar933_*`, `src/core/pillar934_*`, `src/core/pillar936_*`, `src/core/pillar937_*`, `src/core/pillar938_*`, `src/core/pillar939_*`).
+Session memory may refer to older **Sprint BH / v32.0** state claims even though the checked-in branch now contains the Sprint BI artifacts (`tests/test_pillar963_sprint_bi_regression_certificate.py`, `src/core/pillar955_*` through `src/core/pillar963_*`, `lean4/UnitaryManifold/SprintBIBridge.lean`).
 
 Therefore:
-- treat **Sprint BF / v30.0** as the canonical local branch state
-- do **not** narrate older Sprint BE surfaces as current branch reality
+- treat **Sprint BI / v32.1** as the canonical local branch state
+- do **not** narrate older Sprint BH surfaces as current branch reality
 - first resolve any truth-surface drift before making new closure claims
 
 ---
