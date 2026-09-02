@@ -98,6 +98,26 @@ def test_route_tool_entity_schema():
     assert result['result']['data']['title'] == 'MerlinSession'
 
 
+def test_route_tool_merlin_program_blueprint():
+    result = route_tool('getMerlinProgramBlueprint', {})
+    assert result['ok'] is True
+    payload = result['result']['data']
+    assert 'charter' in payload
+    assert 'weights_and_measures' in payload
+    assert payload['current_stack_baseline']['current_limits']['tool_round_cap'] == 2
+    assert payload['current_stack_baseline']['current_limits']['orchestration_step_cap'] == 10
+    assert payload['sync_checks']['ok'] is True
+
+
+def test_route_tool_merlin_sync_checks():
+    result = route_tool('runMerlinSyncChecks', {})
+    assert result['ok'] is True
+    data = result['result']['data']
+    assert data['ok'] is True
+    assert len(data['checks']) >= 4
+    assert all(item['exists'] for item in data['checks'])
+
+
 def test_orchestrate_steps_threads_output():
     payload = orchestrate_steps([
         {'tool': 'fetchRepoContext', 'args': {}},
@@ -126,6 +146,16 @@ def test_server_merlin_endpoints():
             status = client.get('/api/merlin/status')
             assert status.status_code == 200
             assert status.json()['merlin_available'] is True
+
+            program = client.get('/api/merlin/program')
+            assert program.status_code == 200
+            assert program.json()['ok'] is True
+            assert 'charter' in program.json()['program']
+
+            sync = client.get('/api/merlin/sync-checks')
+            assert sync.status_code == 200
+            assert sync.json()['ok'] is True
+            assert sync.json()['sync_checks']['ok'] is True
 
             assistant = client.post('/api/merlin', json={'query': 'What is the birefringence prediction?'})
             assert assistant.status_code == 200
