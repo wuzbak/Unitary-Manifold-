@@ -1,34 +1,34 @@
-# OX Navigator
-## Product 20 — OX Alpha intelligence layer
+# Merlin
+## Product 20 — Quantum Cat interface (successor to OX Navigator)
 
-> "Ask the repository. Keep the gates visible. Keep the governance boundary explicit."
+> "Ask the repository. Keep the gates visible. Keep the governance boundary explicit. Merlin is the application OX was supposed to become."
 
 - **Folder:** `12-AZ-IP/20-ox-navigator/`
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
-- **Model:** `stealth/ox-alpha` via OpenRouter
-- **API endpoints:** `/api/ox`, `/api/ox/status`
-- **Session memory:** `12` turns
+- **Model transport:** `stealth/ox-alpha` via OpenRouter when live; offline RAG fallback when not
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap)
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
 
 ---
 
-## What OX Navigator is
+## What Merlin is
 
-- A standalone AI-powered physics navigator for the Unitary Manifold repository.
-- A focused Q&A surface, not a generic chat shell.
-- A gate-aware interface that keeps epistemic status visible in answers.
-- A local product folder bundling UI, Python engine, and tests.
-- A study-and-navigation layer that also includes the Interrogator and Flashcard Trainer.
+- A standalone AI-powered interface for the Unitary Manifold repository and AxiomZero platform.
+- A successor to OX Navigator with a stricter response contract and richer frontend rendering.
+- A gate-aware interface that keeps epistemic status visible in answers, follow-ups, and citations.
+- A local product folder bundling UI, Python engine, hidden machine-readable tooling endpoints, and tests.
+- A study-and-navigation layer that still includes the Interrogator and Flashcard Trainer.
 
-## How it differs from the main Oracle
+## How Merlin differs from the main Oracle
 
 - The Oracle is the capstone synthesis engine for arbitrary human systems.
-- OX Navigator is repository-specific and physics-navigation oriented.
-- The Oracle computes system analyses; OX answers questions about pillars, tests, gates, and falsifiers.
-- The Oracle foregrounds Pentad synthesis; OX foregrounds traceable retrieval-style navigation.
-- OX is narrower, faster to orient within one corpus, and explicit about gate extraction.
+- Merlin is repository-specific and physics-navigation oriented.
+- The Oracle computes system analyses; Merlin answers questions about pillars, tests, gates, falsifiers, and linked AxiomZero tools.
+- The Oracle foregrounds Pentad synthesis; Merlin foregrounds traceable retrieval-style navigation plus structured citations.
+- Merlin remains narrower than the Oracle, but broader than the old OX shell.
 
 ## OpenRouter integration
 
@@ -37,6 +37,26 @@
 - The local Python client requires `OPENROUTER_API_KEY` or an explicit constructor argument.
 - No real API key is stored in source.
 - Missing-key behavior is explicit through `OxApiKeyMissingError`.
+- When the key is missing, Merlin falls back to offline RAG responses instead of a hard failure.
+
+## Merlin response contract
+
+- Every response is normalized to:
+  - body
+  - `---`
+  - `FOLLOWUPS:`
+  - `Sources:`
+- The frontend renders follow-up chips and typed source cards from that structure.
+- If a live model response omits the structure, Merlin fills the gaps before rendering.
+- This keeps the UI deterministic even when the model is imperfect.
+
+## Hidden agent backend space
+
+- `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
+- `POST /api/agentInvoke` routes one safe tool call at a time.
+- `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
+- The standalone implementation is intentionally conservative and read-mostly.
+- Cross-device Base44 entity semantics are not fully recreated here; the schema is exposed honestly as planned-but-not-implemented.
 
 ## Gate-badge extraction
 
