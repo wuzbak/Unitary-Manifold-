@@ -15,6 +15,18 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 
 SCHEMA_SQL = """
+CREATE TABLE IF NOT EXISTS projects (
+    id               TEXT PRIMARY KEY,
+    title            TEXT NOT NULL,
+    format           TEXT DEFAULT 'feature',
+    stage            TEXT DEFAULT 'prep',
+    logline          TEXT,
+    status           TEXT DEFAULT 'active',
+    shoot_days       INTEGER DEFAULT 0,
+    target_day_hours REAL DEFAULT 10.0,
+    contingency_pct  REAL DEFAULT 12.0
+);
+
 CREATE TABLE IF NOT EXISTS scenes (
     id           TEXT PRIMARY KEY,
     project_id   TEXT NOT NULL,
@@ -96,6 +108,154 @@ CREATE TABLE IF NOT EXISTS permit_tracker (
     approved_date TEXT,
     expiry_date   TEXT,
     authority     TEXT
+);
+
+CREATE TABLE IF NOT EXISTS scripts (
+    id               TEXT PRIMARY KEY,
+    project_id       TEXT NOT NULL,
+    title            TEXT NOT NULL,
+    format           TEXT DEFAULT 'feature',
+    current_revision TEXT DEFAULT 'White',
+    content          TEXT,
+    created_at       TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS script_versions (
+    id             TEXT PRIMARY KEY,
+    script_id      TEXT NOT NULL,
+    revision_name  TEXT NOT NULL,
+    revision_color TEXT DEFAULT 'White',
+    change_summary TEXT,
+    content        TEXT,
+    created_at     TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS characters (
+    id          TEXT PRIMARY KEY,
+    project_id  TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    performer   TEXT,
+    notes       TEXT
+);
+
+CREATE TABLE IF NOT EXISTS breakdown_elements (
+    id          TEXT PRIMARY KEY,
+    project_id  TEXT NOT NULL,
+    scene_id    TEXT NOT NULL,
+    department  TEXT NOT NULL,
+    element_type TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    quantity    INTEGER DEFAULT 1,
+    status      TEXT DEFAULT 'identified',
+    notes       TEXT
+);
+
+CREATE TABLE IF NOT EXISTS storyboard_panels (
+    id           TEXT PRIMARY KEY,
+    project_id   TEXT NOT NULL,
+    scene_id     TEXT NOT NULL,
+    panel_number INTEGER NOT NULL,
+    shot_label   TEXT,
+    visual_mode  TEXT DEFAULT 'template',
+    description  TEXT,
+    lens         TEXT,
+    movement     TEXT,
+    duration_sec REAL DEFAULT 0.0,
+    notes        TEXT
+);
+
+CREATE TABLE IF NOT EXISTS schedule_days (
+    id           TEXT PRIMARY KEY,
+    project_id   TEXT NOT NULL,
+    shoot_date   TEXT NOT NULL,
+    unit_name    TEXT DEFAULT 'Main Unit',
+    general_call TEXT,
+    wrap_time    TEXT,
+    location_id  TEXT,
+    pages_planned REAL DEFAULT 0.0,
+    status       TEXT DEFAULT 'planned'
+);
+
+CREATE TABLE IF NOT EXISTS schedule_strips (
+    id              TEXT PRIMARY KEY,
+    project_id      TEXT NOT NULL,
+    schedule_day_id TEXT NOT NULL,
+    scene_id        TEXT NOT NULL,
+    strip_order     INTEGER DEFAULT 1,
+    company_move    INTEGER DEFAULT 0,
+    estimated_hours REAL DEFAULT 0.0,
+    notes           TEXT
+);
+
+CREATE TABLE IF NOT EXISTS crew_members (
+    id         TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    name       TEXT NOT NULL,
+    department TEXT NOT NULL,
+    role       TEXT NOT NULL,
+    call_time  TEXT,
+    status     TEXT DEFAULT 'confirmed',
+    contact    TEXT
+);
+
+CREATE TABLE IF NOT EXISTS tasks (
+    id             TEXT PRIMARY KEY,
+    project_id     TEXT NOT NULL,
+    department     TEXT NOT NULL,
+    title          TEXT NOT NULL,
+    owner          TEXT,
+    status         TEXT DEFAULT 'open',
+    priority       TEXT DEFAULT 'medium',
+    due_date       TEXT,
+    blocker        TEXT,
+    linked_scene_id TEXT,
+    notes          TEXT
+);
+
+CREATE TABLE IF NOT EXISTS approvals (
+    id            TEXT PRIMARY KEY,
+    project_id    TEXT NOT NULL,
+    department    TEXT NOT NULL,
+    approval_type TEXT NOT NULL,
+    item_name     TEXT NOT NULL,
+    requested_by  TEXT,
+    status        TEXT DEFAULT 'pending',
+    due_date      TEXT,
+    notes         TEXT
+);
+
+CREATE TABLE IF NOT EXISTS assets (
+    id            TEXT PRIMARY KEY,
+    project_id    TEXT NOT NULL,
+    scene_id      TEXT,
+    department    TEXT NOT NULL,
+    asset_type    TEXT NOT NULL,
+    name          TEXT NOT NULL,
+    status        TEXT DEFAULT 'pending',
+    version_label TEXT,
+    review_due    TEXT,
+    notes         TEXT
+);
+
+CREATE TABLE IF NOT EXISTS reviews (
+    id            TEXT PRIMARY KEY,
+    asset_id      TEXT NOT NULL,
+    reviewer_role TEXT NOT NULL,
+    status        TEXT DEFAULT 'pending',
+    note          TEXT,
+    timecode      TEXT,
+    created_at    TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS deliverables (
+    id         TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    category   TEXT NOT NULL,
+    name       TEXT NOT NULL,
+    status     TEXT DEFAULT 'pending',
+    due_date   TEXT,
+    recipient  TEXT,
+    notes      TEXT
 );
 """
 

@@ -1,6 +1,6 @@
 # ROADMAP.md — FilmersCompanion
 
-## v1.0 — MVP ✅ (Current)
+## v1.0 — MVP ✅
 
 - [x] 4 production modules: Cinematography, Locations, Finance, AD Suite
 - [x] FastAPI + Gradio desktop app (port 7864)
@@ -11,42 +11,43 @@
 - [x] Android MVP: Kotlin/Compose/Hilt/Room, 5 screens
 - [x] Full API docs at /docs
 
-## v1.1 — Export & Search (Q3 2026)
+## v2.0 — Unified Production Suite ✅ (Current)
 
-- [ ] PDF call sheet generation (WeasyPrint or reportlab)
-- [ ] SQLite FTS5 full-text search across all tables
-- [ ] Export budget to CSV/Excel
-- [ ] Shot list PDF with thumbnail placeholders
-- [ ] Android: network layer (Retrofit → desktop API)
+- [x] Producer / UPM unified dashboard with status, alerts, approvals, and at-risk department tracking
+- [x] Script Studio with screenplay import, revision metadata, character extraction, and scene parsing
+- [x] Breakdown engine spanning cast, camera, G&E, sound, art, wardrobe, hair/makeup, locations, VFX, editorial/post, legal/payroll, and marketing
+- [x] Schedule days, strips, DOOD reporting, one-liners, and turnaround risk detection
+- [x] Post / delivery tracking for assets, reviews, and deliverables
+- [x] Expanded production data model and seed project covering the end-to-end flow
+- [x] 105 passing desktop tests (7 test files)
 
-## v1.2 — Multi-Project (Q4 2026)
+## v2.1 — Interchange, Export, and Reporting
 
-- [ ] Multi-project support (project switcher in UI)
-- [ ] Project import/export (ZIP archive)
-- [ ] Crew management table (contact sheet)
-- [ ] Script breakdown import (CSV/FDX)
-- [ ] Android: offline-first sync with desktop
+- [ ] PDF call sheet and storyboard export
+- [ ] Budget export to CSV/Excel
+- [ ] SQLite FTS5 search across scripts, tasks, notes, and assets
+- [ ] FDX import/export and richer interchange
+- [ ] Investor / studio summary reports and daily production report packets
 
-## v1.3 — Scheduling (Q1 2027)
+## v2.2 — Collaboration, Permissions, and Sync
 
-- [ ] Strip board / shooting schedule builder
-- [ ] Day-of-days calendar view
-- [ ] Conflict detection (location/cast double-booking)
-- [ ] Production report generator (daily, weekly)
-- [ ] Android: push notifications for call time reminders
-
-## v2.0 — Streaming & Collaboration (Q2 2027)
-
-- [ ] Ollama streaming responses in Gradio
 - [ ] Real-time collaboration via WebSockets
-- [ ] Role-based access (1st AD, DP, Producer)
-- [ ] Cloud sync (optional) with SQLite over HTTPS
-- [ ] Offline Android with full sync
+- [ ] Role-based access (Producer, UPM, 1st AD, DP, Department Head)
+- [ ] Optional cloud sync with offline-first conflict handling
+- [ ] Android sync to desktop API
+- [ ] Mobile alerts for call times, approvals, and blockers
+
+## v2.3 — Advanced Planning Intelligence
+
+- [ ] AI script breakdown from PDF/FDX
+- [ ] Weather / permit API overlays for exterior planning
+- [ ] Scenario scheduling and contingency simulations
+- [ ] Richer producer forecasting for burn, overages, and pickup risk
 
 ## Stretch Goals
 
-- [ ] AI script breakdown from PDF/FDX
-- [ ] Weather API integration for exterior shots
+- [ ] OpenTimelineIO / OpenAssetIO / OpenColorIO integration surfaces
+- [ ] Blender / previs / techvis hooks
 - [ ] Permit API integration (select US cities)
 - [ ] Voice interface (production assistant)
 - [ ] LiteBIRD falsification tracker integration (Unitary Manifold)

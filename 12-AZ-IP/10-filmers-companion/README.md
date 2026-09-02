@@ -24,10 +24,15 @@
 
 ## 1. Overview
 
-FilmersCompanion is a **dual-platform** (Python desktop + Android) AI production assistant built for independent filmmakers. It provides four core production modules:
+FilmersCompanion is a **dual-platform** (Python desktop + Android) AI production assistant built for independent filmmakers. It now provides a unified end-to-end production suite:
 
 | Module | Function |
 |--------|----------|
+| 🧭 **Producer / UPM Dashboard** | Unified health, red flags, approvals, blockers, and cross-department readiness |
+| ✍️ **Script Studio** | Script import, revisions, character extraction, scene parsing, and prep artifact generation |
+| 🧩 **Breakdown + Departments** | Breakdown elements, department boards, crew, assets, and approval queues |
+| 📅 **Scheduling + DOOD** | Shoot-day planning, strips, one-liners, turnaround risk detection, and cast work/hold views |
+| 🎞️ **Post + Delivery** | Dailies/review status, assets, approvals, and delivery tracking |
 | 🎥 **Cinematography** | Coverage suggestions, lighting (inverse square law), shot-list validation |
 | 📍 **Locations** | Scout reports, permit tracking, unconfirmed location alerts |
 | 💰 **Finance** | Budget builder, ROI calculator, DOOD, burn-rate alerts |
@@ -52,7 +57,7 @@ apps/filmmakers-companion/
 │   │   ├── config.py           ← FilmConfig dataclass, FILM_* env vars
 │   │   ├── main.py             ← FastAPI app factory, CLI entry point
 │   │   ├── db/
-│   │   │   ├── schema.py       ← 8-table SQLite schema, get_conn()
+│   │   │   ├── schema.py       ← production schema (projects, scripts, schedule, post, finance)
 │   │   │   └── seed.py         ← THE OMEGA PROTOCOL seed data
 │   │   ├── kb/
 │   │   │   └── film_kb.py      ← 19 KB entries, search_kb()
@@ -63,6 +68,7 @@ apps/filmmakers-companion/
 │   │   │   ├── finance.py
 │   │   │   ├── ad_suite.py
 │   │   │   └── master.py       ← ProductionMasterAgent
+│   │   ├── production_suite/   ← unified service + router for dashboard/script/breakdown/post
 │   │   ├── cinematography/     ← FastAPI router + Gradio UI
 │   │   ├── locations/
 │   │   ├── finance/
@@ -71,14 +77,15 @@ apps/filmmakers-companion/
 │   │   ├── requirements.txt
 │   │   ├── install.sh
 │   │   └── install.py
-│   └── tests/                  ← 93 pytest tests (6 files)
+│   └── tests/                  ← 105 pytest tests (7 files)
 │       ├── conftest.py
 │       ├── test_config.py      ← 10 tests
 │       ├── test_db.py          ← 20 tests
 │       ├── test_kb.py          ← 15 tests
 │       ├── test_agents.py      ← 25 tests
 │       ├── test_finance.py     ← 15 tests
-│       └── test_cinematography.py ← 14 tests (+ 4 via test_agents)
+│       ├── test_cinematography.py ← 14 tests (+ 4 via test_agents)
+│       └── test_production_suite.py ← unified dashboard, script import, department, DOOD, post
 └── android/                    ← Kotlin/Compose/Hilt/Room Android app
     ├── app/
     │   └── src/main/
@@ -251,6 +258,36 @@ POST /api/ad-suite/dept-note            Body: {"project_id":"...", "dept":"...",
 
 ## 6. Production Modules
 
+### 🧭 Producer / UPM Dashboard
+
+- **Unified command center**: scripts, scenes, schedule, budget, approvals, blockers, reviews, and at-risk departments
+- **Axiom Omega operating logic**: protect 10-hour days, expose turnaround risks, preserve contingency, tighten information loops
+- **UPM brief**: instant text briefing for daily producer / line producer oversight
+
+### ✍️ Script Studio
+
+- **Plain-text screenplay import** with scene parsing and revision metadata
+- **Automatic character detection** and scene page estimates
+- **Prep artifact generation**: placeholder storyboard panels plus cross-department breakdown seeds
+
+### 🧩 Breakdown + Departments
+
+- **Department breakdowns**: cast, camera, G&E, sound, art, wardrobe, HMU, locations, VFX, editorial/post, legal/payroll, marketing
+- **Department boards**: crew, tasks, approvals, assets, and readiness state
+- **Producer-facing blocker visibility** for approvals, permits, vendors, and continuity dependencies
+
+### 📅 Scheduling + DOOD
+
+- **Schedule days + strips** with estimated hours and company-move tracking
+- **DOOD view** built from cast-linked breakdown elements
+- **Turnaround risk checks** between scheduled shoot days
+
+### 🎞️ Post + Delivery
+
+- **Asset registry** for dailies, assemblies, VFX plates, references, and marketing materials
+- **Review queue** with role-based notes and timecode
+- **Deliverables tracker** for editorial, legal, color, and festival/distribution outputs
+
 ### 🎥 Cinematography Advisor
 
 **Coverage suggestions** — scene type × synopsis → ordered shot list suggestions with lens, movement, and notes.
@@ -333,7 +370,7 @@ BaseAgent.resolve(question)
 
 ## 9. Database Schema
 
-8 SQLite tables, all with `TEXT PRIMARY KEY` IDs (UUID or deterministic for seed data):
+22 SQLite tables, all with `TEXT PRIMARY KEY` IDs (UUID or deterministic for seed data):
 
 | Table | Key Columns |
 |-------|-------------|
@@ -345,13 +382,23 @@ BaseAgent.resolve(question)
 | `dept_notes` | `id, project_id, dept, note, created_at` |
 | `shot_lists` | `id, scene_id, shot_number, coverage_type, lens, movement, frame_rate, notes` |
 | `permit_tracker` | `id, location_id, permit_type, status, applied_date, approved_date, expiry_date, authority` |
+| `projects` | `id, title, format, stage, status, shoot_days, target_day_hours, contingency_pct` |
+| `scripts` / `script_versions` | screenplay body, revision metadata, revision colors |
+| `characters` | `id, project_id, name, performer, notes` |
+| `breakdown_elements` | `scene_id, department, element_type, name, quantity, status` |
+| `storyboard_panels` | `scene_id, panel_number, shot_label, lens, movement, duration_sec` |
+| `schedule_days` / `schedule_strips` | shoot-date plan, strips, company moves, estimated hours |
+| `crew_members` | `department, role, call_time, status, contact` |
+| `tasks` / `approvals` | department tasks, blockers, due dates, approval queue |
+| `assets` / `reviews` / `deliverables` | dailies, post/VFX assets, review notes, delivery tracking |
 
 ### Seed Data — THE OMEGA PROTOCOL (`omega-001`)
 
 - 5 scenes (scene-001…scene-005)
 - 3 locations: rooftop (confirmed), warehouse (pending), city hall (rejected)
 - 6 budget lines totalling **$790,000**
-- 2 call sheets, 3 shot list entries
+- 2 schedule days, 3 strips, 2 call sheets, 3 shot list entries
+- scripts, revisions, characters, breakdown elements, storyboard panels, crew, tasks, approvals, assets, reviews, and deliverables
 
 ---
 
@@ -360,7 +407,7 @@ BaseAgent.resolve(question)
 ```bash
 # From apps/filmmakers-companion/
 python -m pytest desktop/tests/ -q
-# Expected: 93 passed, 0 failed
+# Expected: 105 passed, 0 failed
 
 # Verbose with coverage
 python -m pytest desktop/tests/ -v --tb=short
@@ -379,6 +426,7 @@ python -m pytest desktop/tests/test_cinematography.py -v
 | `test_agents.py` | 25 | All 6 agent classes, offline mode |
 | `test_finance.py` | 15 | Budget, ROI, DOOD, burn rate, alerts |
 | `test_cinematography.py` | 14 | Lighting math, shot list validation |
+| `test_production_suite.py` | 6 | Dashboard, script import, breakdown, DOOD, post flows |
 
 ---
 
@@ -414,10 +462,10 @@ See [`ROADMAP.md`](ROADMAP.md) for the full roadmap.
 
 | Version | Status | Highlights |
 |---------|--------|------------|
-| **1.0** | ✅ Complete | 4 modules, 93 tests, Android MVP |
-| **1.1** | Planned | PDF call sheet export, SQLite FTS search |
-| **1.2** | Planned | Multi-project support, project switcher |
-| **2.0** | Planned | Ollama streaming, real-time collaboration |
+| **1.0** | ✅ Complete | MVP modules, Android MVP |
+| **2.0** | ✅ Complete | Unified production suite, producer/UPM dashboard, script studio, breakdown, schedule, post/delivery |
+| **2.1** | Planned | PDF/CSV/Excel exports, FDX import/export, richer reports |
+| **2.2** | Planned | Real-time collaboration, permissions, sync |
 
 ---
 
