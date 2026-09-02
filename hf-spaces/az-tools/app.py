@@ -681,12 +681,12 @@ def flashcard_init():
 # ══════════════════════════════════════════════════════════════════════════════
 # PRODUCT 20 — OX Navigator: Extended AI Memory
 # ══════════════════════════════════════════════════════════════════════════════
-OX_NAV_SYSTEM = """\
+OX_NAV_SYSTEM = f"""\
 You are the OX Navigator — AxiomZero's extended-memory AI powered by OX Alpha.
 You hold the FULL Unitary Manifold repository as a single coherent thought:
 - 208 hardgate pillars with derivations and citations
-- 1,246 Lean4 theorems (formally verified)  
-- 57,927 passing tests, 0 failures
+- {LEAN4_COUNT:,} Lean4 theorems (formally verified)  
+- {TEST_COUNT:,} passing tests, 0 failures
 - All open gaps, admissions, and FALLIBILITY.md content
 - All 20 AZ products and their specifications
 - The Unitary Pentad governance framework (separate from physics)

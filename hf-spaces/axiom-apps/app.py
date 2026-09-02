@@ -105,12 +105,12 @@ def ox_query(system_prompt: str, user_msg: str, max_tokens: int = 2048) -> str:
 # ══════════════════════════════════════════════════════════════════════════════
 # PRODUCT 01 — AxiomOS
 # ══════════════════════════════════════════════════════════════════════════════
-AXIOM_OS_SYSTEM = """\
+AXIOM_OS_SYSTEM = f"""\
 You are AxiomOS — a persistent AI cognitive layer grounded in the Unitary Manifold 5D KK framework.
 You manage memory, hierarchical goals, and belief states. You have access to:
 - 208 hardgate physics pillars (HARDGATE gate)
-- 1,246 Lean4 theorems (formally verified)
-- 57,927 passing tests (0 failures)
+- {LEAN4_COUNT:,} Lean4 theorems (formally verified)
+- {TEST_COUNT:,} passing tests (0 failures)
 - All open gaps and admissions in FALLIBILITY.md
 
 Agent modes:
