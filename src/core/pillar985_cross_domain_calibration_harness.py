@@ -64,12 +64,13 @@ def cross_domain_calibration_report() -> Dict[str, Any]:
     }
 
     same_signature = len({lane["parameter_signature"] for lane in lanes.values()}) == 1
+    valid = same_signature and bool(shared)
 
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": valid,
         "shared_parameters": shared,
         "parameter_signature": signature,
         "lanes": lanes,
@@ -78,4 +79,4 @@ def cross_domain_calibration_report() -> Dict[str, Any]:
 
 
 PILLAR_STATUS: str = "CROSS_DOMAIN_CALIBRATION_HARNESS_COMPLETE"
-PILLAR_VALID: bool = cross_domain_calibration_report()["all_lanes_share_same_parameters"]
+PILLAR_VALID: bool = cross_domain_calibration_report()["valid"]

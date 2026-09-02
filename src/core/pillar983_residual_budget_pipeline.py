@@ -70,23 +70,25 @@ def residual_budget_pipeline() -> Dict[str, Any]:
     n_uv_dominant = sum(1 for row in enriched if row["dominant"] == "UV_MISSING")
     n_external = sum(1 for row in enriched if row["dominant"] == "EXTERNAL_PENDING")
     n_eft = sum(1 for row in enriched if row["dominant"] == "EFT_EXHAUSTED")
+    all_rows_normalized = all(row["normalized"] for row in enriched)
+    all_architecture_rows_linked = all(
+        row["has_registry_row"]
+        for row in enriched
+        if row["lane"] not in {"DESI_DR3", "LITEBIRD_BIREFRINGENCE"}
+    )
 
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": all_rows_normalized and all_architecture_rows_linked,
         "rows": enriched,
         "n_rows": len(enriched),
         "n_uv_dominant": n_uv_dominant,
         "n_eft_dominant": n_eft,
         "n_external_pending_dominant": n_external,
-        "all_rows_normalized": all(row["normalized"] for row in enriched),
-        "all_architecture_rows_linked": all(
-            row["has_registry_row"]
-            for row in enriched
-            if row["lane"] not in {"DESI_DR3", "LITEBIRD_BIREFRINGENCE"}
-        ),
+        "all_rows_normalized": all_rows_normalized,
+        "all_architecture_rows_linked": all_architecture_rows_linked,
     }
 
 

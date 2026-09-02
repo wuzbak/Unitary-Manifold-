@@ -114,16 +114,26 @@ def _by_boundary(entries: List[Dict[str, Any]]) -> Dict[str, int]:
 def runtime_architecture_limit_registry() -> Dict[str, Any]:
     """Return canonical runtime registry and summary statistics."""
     open_lane_ids = {entry["item"] for entry in OPEN_LANES}
-    mapped_open = sum(1 for row in RUNTIME_ARCHITECTURE_LIMIT_REGISTRY if row["lane"] in open_lane_ids)
+    lane_alias = {
+        "CKM_THETA13": "CKM_TEXTURE_13D",
+        "FERMION_MASS_MAGNITUDES": "FERMION_MASS_RATIO",
+        "ALPHA_S_TYPE_B_FLOOR": "ALPHA_S_13D",
+    }
+    mapped_open = 0
+    for row in RUNTIME_ARCHITECTURE_LIMIT_REGISTRY:
+        lane = str(row["lane"])
+        if lane in open_lane_ids or lane_alias.get(lane) in open_lane_ids:
+            mapped_open += 1
     n_rows = len(RUNTIME_ARCHITECTURE_LIMIT_REGISTRY)
     boundary_counts = _by_boundary(RUNTIME_ARCHITECTURE_LIMIT_REGISTRY)
     uv_clustered = boundary_counts.get("UV_GLOBAL_GEOMETRY", 0) + boundary_counts.get("UV_FLAVOR_STRUCTURES", 0)
+    valid = n_rows >= 6 and mapped_open >= 4
 
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": valid,
         "rows": RUNTIME_ARCHITECTURE_LIMIT_REGISTRY,
         "n_rows": n_rows,
         "open_lanes_mapped": mapped_open,
@@ -140,4 +150,4 @@ def runtime_architecture_limit_registry() -> Dict[str, Any]:
 
 
 PILLAR_STATUS: str = "RUNTIME_ARCHITECTURE_LIMIT_REGISTRY_COMPLETE"
-PILLAR_VALID: bool = runtime_architecture_limit_registry()["n_rows"] >= 6
+PILLAR_VALID: bool = runtime_architecture_limit_registry()["valid"]
